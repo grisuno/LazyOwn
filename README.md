@@ -352,6 +352,9 @@ Uso Básico
 Esto ejecuta el script en modo cliente, configurando la URL de la víctima como http://victima.com y la IP de la víctima como 192.168.1.10.
 
 ## Funciones del Script
+
+```
+Funciones del Script
 Descargar SecLists: Descarga y extrae las listas de SecLists para su uso.
 Escanear Puertos: Ejecuta un escaneo completo de puertos usando nmap.
 Escanear Puertos Específicos: Escanea puertos específicos (22, 80, 443).
@@ -377,7 +380,8 @@ Abusar de Tar: Abusa de tar para ejecutar una shell.
 Enumerar Puertos Abiertos: Enumera puertos abiertos.
 Eliminar Contenedores Docker: Elimina todos los contenedores Docker.
 Escanear Red: Escanea la red con secuencia y xargs.
-Menús Interactivos
+```
+## Menús Interactivos
 El script presenta menús interactivos para seleccionar las acciones a realizar. En modo servidor, muestra opciones relevantes para la máquina víctima, y en modo cliente, muestra opciones relevantes para la máquina atacante.
 
 Interrupción Limpia

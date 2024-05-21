@@ -326,7 +326,62 @@ if __name__ == '__main__':
     ejecutar_opciones()
 
 ```
+## Uso modo LazyAtack
+Este script de pentesting en Bash permite ejecutar una serie de pruebas de seguridad en modo servidor (máquina víctima) o en modo cliente (máquina atacante). Dependiendo del modo seleccionado, ofrece diferentes opciones y funcionalidades para llevar a cabo diversas acciones de prueba de penetración.
 
+Opciones del Script
+Modo Servidor:
+
+Ejecuta en la máquina víctima.
+Ofrece opciones como iniciar un servidor HTTP, configurar netcat para escuchar conexiones, enviar archivos mediante netcat, configurar una shell reversa, entre otros.
+Modo Cliente:
+
+Ejecuta en la máquina atacante.
+Ofrece opciones como descargar listas de SecLists, escanear puertos, enumerar servicios HTTP, verificar conectividad, monitorear procesos, ejecutar ataques LFI, entre otros.
+Ejemplos de Uso
+Uso Básico
+
+
+```sh
+./lazyatack.sh --modo servidor --ip 192.168.1.1 --atacante 192.168.1.100
+```
+
+```sh
+./lazyatack.sh --modo cliente --url http://victima.com --ip 192.168.1.10
+```
+Esto ejecuta el script en modo cliente, configurando la URL de la víctima como http://victima.com y la IP de la víctima como 192.168.1.10.
+
+## Funciones del Script
+Descargar SecLists: Descarga y extrae las listas de SecLists para su uso.
+Escanear Puertos: Ejecuta un escaneo completo de puertos usando nmap.
+Escanear Puertos Específicos: Escanea puertos específicos (22, 80, 443).
+Enumerar Servicios HTTP: Enumera servicios HTTP en la URL víctima.
+Iniciar Servidor HTTP: Inicia un servidor HTTP en el puerto 80.
+Configurar Netcat: Configura netcat para escuchar en el puerto 443.
+Enviar Archivo Mediante Netcat: Envía un archivo a una escucha netcat.
+Verificar Conectividad: Verifica la conectividad mediante ping y tcpdump.
+Verificar Conectividad con Curl: Verifica la conectividad usando curl.
+Configurar Shell Reversa: Configura una shell reversa.
+Escuchar Shell con Netcat: Escucha una shell con netcat.
+Monitorear Procesos: Monitorea los procesos en ejecución.
+Ejecutar Wfuzz: Ejecuta un ataque de enumeración de directorios web con wfuzz.
+Comprobar Permisos Sudo: Comprueba los permisos de sudo.
+Explotar LFI: Explota una vulnerabilidad de inclusión de archivos locales.
+Configurar TTY: Configura TTY para una sesión shell más estable.
+Eliminar Archivos de Forma Segura: Elimina archivos de forma segura.
+Obtener Root Shell mediante Docker: Obtiene una root shell mediante Docker.
+Enumerar Archivos con SUID: Enumera archivos con permisos SUID.
+Listar Timers de Systemd: Lista timers de systemd.
+Comprobar Rutas de Comandos: Comprueba rutas de comandos.
+Abusar de Tar: Abusa de tar para ejecutar una shell.
+Enumerar Puertos Abiertos: Enumera puertos abiertos.
+Eliminar Contenedores Docker: Elimina todos los contenedores Docker.
+Escanear Red: Escanea la red con secuencia y xargs.
+Menús Interactivos
+El script presenta menús interactivos para seleccionar las acciones a realizar. En modo servidor, muestra opciones relevantes para la máquina víctima, y en modo cliente, muestra opciones relevantes para la máquina atacante.
+
+Interrupción Limpia
+El script maneja la señal SIGINT (usualmente generada por Control + C) para salir limpiamente.
 ## Licencia
 Este proyecto está licenciado bajo la Licencia GPL v3. La información contenida en GTFOBins es propiedad de sus autores, a quienes se les agradece enormemente por la información proporcionada.
 

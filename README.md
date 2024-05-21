@@ -34,10 +34,16 @@ cd LazyOwn
 pip install requests beautifulsoup4 pandas fastparquet
 ```
 ## Uso
-El proyecto consta de tres scripts principales:
+para las busquedas 
 ```sh
- ./lazyown.py
+python3 lazysearch.py binario_a_buscar
 ```
+para ejecutar una busqueda contra la maquina a analizar 
+```sh
+./lazyown
+```
+El proyecto consta de tres scripts principales:
+
 1. search.py
 Este script extrae información de binarios y sus funciones desde GTFOBins y la guarda en un archivo CSV. ya hice el scraping así que mejor evitar y usar la db que ya tiene en formato csv, a menos que quieran actualizar la db
 

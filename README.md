@@ -1,11 +1,14 @@
 # LazyOwn
 ![License](https://img.shields.io/github/license/grisuno/LazyOwn?style=flat-square)
+
+```sh
 ██╗      █████╗ ███████╗██╗   ██╗ ██████╗ ██╗    ██╗███╗   ██╗
 ██║     ██╔══██╗╚══███╔╝╚██╗ ██╔╝██╔═══██╗██║    ██║████╗  ██║
 ██║     ███████║  ███╔╝  ╚████╔╝ ██║   ██║██║ █╗ ██║██╔██╗ ██║
 ██║     ██╔══██║ ███╔╝    ╚██╔╝  ██║   ██║██║███╗██║██║╚██╗██║
 ███████╗██║  ██║███████╗   ██║   ╚██████╔╝╚███╔███╔╝██║ ╚████║
 ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
+```
 LazyOwn es un proyecto diseñado para automatizar la búsqueda y análisis de binarios con permisos especiales en sistemas Linux y Windows. El proyecto consta de tres scripts principales que extraen información de [GTFOBins](https://gtfobins.github.io/), analizan los binarios en el sistema y generan opciones basadas en la información recopilada.
 
 ## Requisitos

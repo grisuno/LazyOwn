@@ -8,7 +8,7 @@ echo "██║     ██╔══██║ ███╔╝    ╚██╔╝ 
 echo "███████╗██║  ██║███████╗   ██║   ╚██████╔╝╚███╔███╔╝██║ ╚████║"
 echo "╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝"
 # instala los paquetes
-pip install requests beautifulsoup4 pandas
+pip install requests beautifulsoup4 pandas fastparquet
 
 echo "[*] pip install requests beautifulsoup4 pandas ..."
 # Ejecuta search.py

@@ -40,7 +40,7 @@ python3 lazysearch.py binario_a_buscar
 ```
 para ejecutar una busqueda contra la maquina a analizar 
 ```sh
-./lazyown
+./lazyown.py
 ```
 El proyecto consta de tres scripts principales:
 

@@ -31,7 +31,7 @@ cd LazyOwn
 ```
 2. Instala las dependencias de Python:
 ```sh
-pip install requests beautifulsoup4 pandas
+pip install requests beautifulsoup4 pandas fastparquet
 ```
 ## Uso
 El proyecto consta de tres scripts principales:

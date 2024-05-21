@@ -39,8 +39,16 @@ El proyecto consta de tres scripts principales:
  ./lazyown.py
 ```
 1. search.py
-Este script extrae información de binarios y sus funciones desde GTFOBins y la guarda en un archivo CSV.
-# ya hice el scraping así que mejor evitar y usar la db que ya tiene en formato csv, a menos que quieran actualizar la db
+Este script extrae información de binarios y sus funciones desde GTFOBins y la guarda en un archivo CSV. ya hice el scraping así que mejor evitar y usar la db que ya tiene en formato csv, a menos que quieran actualizar la db
+
+en el caso de querer actualizar hacemos
+
+```sh
+cd LazyOwn
+rm *.csv
+rm *.parquet
+./update_db.sh
+```
 
 ```python
 import requests

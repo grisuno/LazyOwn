@@ -1,0 +1,8 @@
+pandas
+colorama
+tabulate
+fastparquet
+beautifulsoup4 
+requests 
+platform
+argparse

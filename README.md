@@ -11,6 +11,16 @@
 ```
 LazyOwn es un proyecto diseñado para automatizar la búsqueda y análisis de binarios con permisos especiales en sistemas Linux y Windows. El proyecto consta de tres scripts principales que extraen información de [GTFOBins](https://gtfobins.github.io/), analizan los binarios en el sistema y generan opciones basadas en la información recopilada.
 
+https://www.reddit.com/r/LazyOwn/
+
+Revolutionize Your Pentesting with LazyOwn: Automate Binary Analysis on Linux and Windows
+
+https://github.com/grisuno/LazyOwn/assets/1097185/eec9dbcc-88cb-4e47-924d-6dce2d42f79a
+
+Discover LazyOwn, the ultimate solution for automating the search and analysis of binaries with special permissions on both Linux and Windows systems. Our powerful tool simplifies pentesting, making it more efficient and effective. Watch this video to learn how LazyOwn can streamline your security assessments and enhance your cybersecurity toolkit.
+
+![Captura de pantalla 2024-05-22 021136](https://github.com/grisuno/LazyOwn/assets/1097185/9a348e76-d667-4526-bdef-863159ba452d)
+
 ## Requisitos
 
 - Python 3.x

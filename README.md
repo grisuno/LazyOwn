@@ -30,7 +30,9 @@ Discover LazyOwn, the ultimate solution for automating the search and analysis o
   - `pandas`
 - `subprocess` (incluido en la biblioteca estándar de Python)
 - `platform` (incluido en la biblioteca estándar de Python)
-
+- `tkinter` (Opcional para el GUI)
+- `numpy` (Opcional para el GUI)
+- 
 ## Instalación
 
 1. Clona el repositorio:
@@ -41,21 +43,24 @@ cd LazyOwn
 ```
 2. Instala las dependencias de Python:
 ```sh
-pip install requests beautifulsoup4 pandas fastparquet
+pip install requeriments.txt
 ```
 ## Uso
 para las busquedas 
 ```sh
 python3 lazysearch.py binario_a_buscar
 ```
+para las busquedas con GUI
+```sh
+python3 LazyOwnExplorer.py
+```
+![image](https://github.com/grisuno/LazyOwn/assets/1097185/f4c506bc-c482-4430-8f90-969759e89e28)
+
 para ejecutar una busqueda contra la maquina a analizar 
 ```sh
-./lazyown.py
+python3 lazyown.py
 ```
-El proyecto consta de tres scripts principales:
 
-1. search.py
-Este script extrae información de binarios y sus funciones desde GTFOBins y la guarda en un archivo CSV. ya hice el scraping así que mejor evitar y usar la db que ya tiene en formato csv, a menos que quieran actualizar la db
 
 en el caso de querer actualizar hacemos
 
@@ -65,7 +70,10 @@ rm *.csv
 rm *.parquet
 ./update_db.sh
 ```
+El proyecto consta de tres scripts principales:
 
+1. search.py
+Este script extrae información de binarios y sus funciones desde GTFOBins y la guarda en un archivo CSV. ya hice el scraping así que mejor evitar y usar la db que ya tiene en formato csv, a menos que quieran actualizar la db
 ```python
 import requests
 from bs4 import BeautifulSoup

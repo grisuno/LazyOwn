@@ -83,7 +83,8 @@ Esta implementación puede ser intensiva en recursos, ya que recorre todo el sis
 ```sh
 python3 LazyOwnExplorer.py
 ```
-![image](https://github.com/grisuno/LazyOwn/assets/1097185/f4c506bc-c482-4430-8f90-969759e89e28)
+![image](https://github.com/grisuno/LazyOwn/assets/1097185/87c4be70-66a4-4e84-bdb6-fdfdb89a3f94)
+
 
 para ejecutar una busqueda contra la maquina a analizar 
 ```sh

@@ -50,7 +50,36 @@ para las busquedas
 ```sh
 python3 lazysearch.py binario_a_buscar
 ```
-para las busquedas con GUI
+## Busquedas con GUI
+
+Características adicionales y cambios:
+AutocompleteEntry:
+
+Se ha agregado un filtro para eliminar valores None de la lista de autocompletar.
+Nuevo Vector de Ataque:
+
+Añadido un botón "Nuevo Vector de Ataque" en la interfaz principal.
+Implementada la funcionalidad para agregar un nuevo vector de ataque y guardar los datos actualizados en los archivos Parquet.
+Exportar a CSV:
+
+Añadido un botón "Exportar a CSV" en la interfaz principal.
+Implementada la funcionalidad para exportar los datos del DataFrame a un archivo CSV seleccionado por el usuario.
+Uso:
+Agregar un nuevo vector de ataque: Hacer clic en el botón "Nuevo Vector de Ataque", llenar los campos y guardar.
+Exportar a CSV: Hacer clic en el botón "Exportar a CSV" y seleccionar la ubicación para guardar el archivo CSV.
+
+Nueva Función scan_system_for_binaries:
+
+Implementa la búsqueda de binarios en el sistema utilizando el comando file para determinar si un archivo es binario.
+Se utiliza os.walk para recorrer el sistema de archivos.
+Los resultados se muestran en una nueva ventana de la GUI.
+Botón para Buscar Binarios:
+
+Se ha añadido un botón "Buscar Binarios en el Sistema" en la interfaz principal que llama a la función scan_system_for_binaries.
+Nota:
+La función is_binary utiliza el comando file de Unix para determinar si un archivo es un ejecutable binario. Si estás en un sistema operativo diferente, necesitarás ajustar este método para que sea compatible.
+Esta implementación puede ser intensiva en recursos, ya que recorre todo el sistema de archivos. Podrías añadir opciones adicionales para limitar la búsqueda a directorios específicos o añadir un filtro para ciertos tipos de archivos.
+
 ```sh
 python3 LazyOwnExplorer.py
 ```

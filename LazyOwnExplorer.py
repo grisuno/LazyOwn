@@ -3,11 +3,12 @@ from tkinter import ttk, filedialog, messagebox, Text
 import pandas as pd
 import os
 import numpy as np
+import subprocess
 
 class AutocompleteEntry(tk.Entry):
     def __init__(self, lista, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.lista = [item for item in lista if item is not None]  # Filter out None values
+        self.lista = [item for item in lista if item is not None]
         self.var = self["textvariable"]
         if self.var == '':
             self.var = self["textvariable"] = tk.StringVar()
@@ -100,6 +101,18 @@ class LazyOwnGUI(tk.Tk):
         self.search_button = tk.Button(self, text="Buscar", command=self.search)
         self.search_button.pack(pady=10)
         
+        # Botón para agregar nuevo vector de ataque
+        self.new_attack_button = tk.Button(self, text="Nuevo Vector de Ataque", command=self.add_new_attack_vector)
+        self.new_attack_button.pack(pady=10)
+
+        # Botón para buscar binarios en el sistema
+        self.scan_button = tk.Button(self, text="Buscar Binarios en el Sistema", command=self.scan_system_for_binaries)
+        self.scan_button.pack(pady=10)
+
+        # Botón para exportar a CSV
+        self.export_button = tk.Button(self, text="Exportar a CSV", command=self.export_to_csv)
+        self.export_button.pack(pady=10)
+
         # Crear el marco para Treeview y Scrollbars
         self.result_frame = tk.Frame(self)
         self.result_frame.pack(pady=10, fill=tk.BOTH, expand=True)
@@ -198,6 +211,92 @@ class LazyOwnGUI(tk.Tk):
         example_text.grid(row=3, column=1, padx=10, pady=5)
         example_text.insert(tk.END, row[3])
         example_text.config(state=tk.DISABLED)
+
+    def add_new_attack_vector(self):
+        new_vector_window = tk.Toplevel(self)
+        new_vector_window.title("Agregar Nuevo Vector de Ataque")
+
+        tk.Label(new_vector_window, text="Binary:").grid(row=0, column=0, sticky=tk.W, padx=10, pady=5)
+        binary_entry = tk.Entry(new_vector_window)
+        binary_entry.grid(row=0, column=1, padx=10, pady=5)
+
+        tk.Label(new_vector_window, text="Function Name:").grid(row=1, column=0, sticky=tk.W, padx=10, pady=5)
+        function_name_entry = tk.Entry(new_vector_window)
+        function_name_entry.grid(row=1, column=1, padx=10, pady=5)
+
+        tk.Label(new_vector_window, text="Description:").grid(row=2, column=0, sticky=tk.W, padx=10, pady=5)
+        description_entry = Text(new_vector_window, wrap=tk.WORD, height=10, width=50)
+        description_entry.grid(row=2, column=1, padx=10, pady=5)
+
+        tk.Label(new_vector_window, text="Example:").grid(row=3, column=0, sticky=tk.W, padx=10, pady=5)
+        example_entry = Text(new_vector_window, wrap=tk.WORD, height=10, width=50)
+        example_entry.grid(row=3, column=1, padx=10, pady=5)
+
+        def save_new_vector():
+            binary = binary_entry.get()
+            function_name = function_name_entry.get()
+            description = description_entry.get("1.0", tk.END).strip()
+            example = example_entry.get("1.0", tk.END).strip()
+
+            if not binary or not function_name or not description or not example:
+                messagebox.showerror("Error", "Todos los campos son obligatorios.")
+                return
+            
+            new_data = pd.DataFrame({
+                "Binary": [binary],
+                "Function Name": [function_name],
+                "Description": [description],
+                "Example": [example]
+            })
+
+            self.dataframe = pd.concat([self.dataframe, new_data], ignore_index=True)
+
+            # Guardar los datos actualizados en los archivos Parquet
+            for file in self.parquet_files:
+                self.dataframe.to_parquet(file)
+
+            messagebox.showinfo("Éxito", "Nuevo vector de ataque agregado con éxito.")
+            new_vector_window.destroy()
+
+        tk.Button(new_vector_window, text="Guardar", command=save_new_vector).grid(row=4, column=1, padx=10, pady=10, sticky=tk.E)
+
+    def scan_system_for_binaries(self):
+        def is_binary(file_path):
+            try:
+                result = subprocess.run(['file', '--mime', file_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                return b'application/x-executable' in result.stdout
+            except Exception as e:
+                return False
+
+        binaries = []
+        for root, dirs, files in os.walk('/'):
+            for file in files:
+                file_path = os.path.join(root, file)
+                if is_binary(file_path):
+                    binaries.append(file_path)
+        
+        self.show_scan_results(binaries)
+
+    def show_scan_results(self, binaries):
+        result_window = tk.Toplevel(self)
+        result_window.title("Resultados de la Búsqueda de Binarios")
+
+        tk.Label(result_window, text="Binarios encontrados:").pack(pady=10)
+        listbox = tk.Listbox(result_window, width=100, height=20)
+        listbox.pack(pady=10)
+        
+        for binary in binaries:
+            listbox.insert(tk.END, binary)
+
+    def export_to_csv(self):
+        if self.dataframe.empty:
+            messagebox.showerror("Error", "No hay datos para exportar.")
+            return
+
+        file_path = filedialog.asksaveasfilename(defaultextension=".csv", filetypes=[("CSV files", "*.csv")])
+        if file_path:
+            self.dataframe.to_csv(file_path, index=False)
+            messagebox.showinfo("Éxito", f"Datos exportados con éxito a {file_path}")
 
 if __name__ == "__main__":
     app = LazyOwnGUI()

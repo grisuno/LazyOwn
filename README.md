@@ -376,6 +376,8 @@ if __name__ == '__main__':
 ```
 ## Uso modo LazyNmap
 El uso Lazynmap nos proporciona un script automatizado de un target en este caso 127.0.0.1 utilizando nmap el scipr requiere permisos de administración mediante sudo
+![image](https://github.com/grisuno/LazyOwn/assets/1097185/48a38836-6cf5-4676-bea8-063e0b5cf7ad)
+
 ```sh
 ./lazynmap.sh -t 127.0.0.1 
 ```

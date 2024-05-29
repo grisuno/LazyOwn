@@ -374,6 +374,12 @@ if __name__ == '__main__':
     ejecutar_opciones()
 
 ```
+## Uso modo LazyNmap
+El uso Lazynmap nos proporciona un script automatizado de un target en este caso 127.0.0.1 utilizando nmap el scipr requiere permisos de administración mediante sudo
+```sh
+./lazynmap.sh -t 127.0.0.1 
+```
+
 ## Uso modo LazyReverseShell
 primero nos ponemos en escucha con el comando 
 

@@ -9,7 +9,39 @@
 ███████╗██║  ██║███████╗   ██║   ╚██████╔╝╚███╔███╔╝██║ ╚████║
 ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
 ```
-LazyOwn es un proyecto diseñado para automatizar la búsqueda y análisis de binarios con permisos especiales en sistemas Linux y Windows. El proyecto consta de tres scripts principales que extraen información de [GTFOBins](https://gtfobins.github.io/), analizan los binarios en el sistema y generan opciones basadas en la información recopilada.
+LazyOwn Framework es un potente y versátil framework de seguridad diseñado para automatizar y simplificar tareas de pentesting y análisis de vulnerabilidades. Este entorno interactivo combina múltiples herramientas y scripts, facilitando el trabajo de los profesionales de la ciberseguridad en diversas fases del ciclo de evaluación de seguridad. Con una interfaz de línea de comandos intuitiva, LazyOwn permite a los usuarios configurar parámetros específicos, ejecutar scripts personalizados y obtener resultados en tiempo real, todo desde una única plataforma.
+
+Características Principales
+Interfaz Interactiva:
+
+Shell interactiva con comandos fáciles de usar para configurar y ejecutar scripts.
+Capacidad para mostrar y ajustar parámetros personalizados que se aplican a diferentes scripts.
+Automatización de Tareas:
+
+Automatiza tareas comunes de pentesting, como escaneo de vulnerabilidades, fuzzing de aplicaciones web, ataques de fuerza bruta y más.
+Integración con herramientas populares y scripts personalizados para una cobertura completa de pruebas.
+Salida en Tiempo Real:
+
+Visualización en tiempo real de la salida de los scripts, permitiendo a los usuarios ver los resultados instantáneamente y reaccionar rápidamente.
+Modularidad y Extensibilidad:
+
+Diseñado para ser extensible, permitiendo a los usuarios añadir y personalizar scripts fácilmente.
+Soporte para múltiples lenguajes de scripting, incluyendo Python y Bash.
+Configuración Flexible:
+
+Posibilidad de establecer parámetros específicos como direcciones IP, claves API, métodos HTTP, datos de solicitud, y más, proporcionando un control total sobre los scripts ejecutados.
+Uso Típico
+Configuración de Parámetros:
+
+Los usuarios pueden establecer parámetros necesarios usando comandos set, como set target_ip 192.168.1.1 para definir la IP del objetivo.
+Ejecución de Scripts:
+
+Ejecución de scripts predefinidos para realizar diversas tareas, por ejemplo, run lazygptcli para interactuar con GPT usando un prompt y una clave API configurados.
+Visualización de Resultados:
+
+Los resultados de los scripts se muestran en la consola en tiempo real, proporcionando feedback inmediato sobre el progreso y los hallazgos.
+
+LazyOwn es un proyecto que partio diseñado para automatizar la búsqueda y análisis de binarios con permisos especiales en sistemas Linux y Windows. El proyecto consta de tres scripts principales que extraen información de [GTFOBins](https://gtfobins.github.io/), analizan los binarios en el sistema y generan opciones basadas en la información recopilada.
 
 https://www.reddit.com/r/LazyOwn/
 
@@ -18,6 +50,16 @@ Revolutionize Your Pentesting with LazyOwn: Automate Binary Analysis on Linux an
 https://github.com/grisuno/LazyOwn/assets/1097185/eec9dbcc-88cb-4e47-924d-6dce2d42f79a
 
 Discover LazyOwn, the ultimate solution for automating the search and analysis of binaries with special permissions on both Linux and Windows systems. Our powerful tool simplifies pentesting, making it more efficient and effective. Watch this video to learn how LazyOwn can streamline your security assessments and enhance your cybersecurity toolkit.
+```sh
+LazyOwn> set target_ip 192.168.1.1
+[SET] target_ip set to 192.168.1.1
+LazyOwn> run lazynmap
+[INFO] Running Nmap scan on 192.168.1.1
+...
+```
+![image](https://github.com/grisuno/LazyOwn/assets/1097185/9f30a1a3-dfe8-4cc1-9bd7-76c21bdc64b7)
+
+LazyOwn es ideal para profesionales de la ciberseguridad que buscan una solución centralizada y automatizada para sus necesidades de pentesting, ahorrando tiempo y mejorando la eficiencia en la identificación y explotación de vulnerabilidades.
 
 ![Captura de pantalla 2024-05-22 021136](https://github.com/grisuno/LazyOwn/assets/1097185/9a348e76-d667-4526-bdef-863159ba452d)
 

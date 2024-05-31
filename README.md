@@ -46,6 +46,40 @@ cd LazyOwn
 pip install requeriments.txt
 ```
 ## Uso
+
+```sh
+python3 app.py
+```
+
+Use set <parameter> <value> to set parameters.
+Use show to display current parameter values.
+Use run <script_name> to execute a script with the set parameters.
+Use exit to exit the CLI.
+Una vez que el shell esté en funcionamiento, puedes utilizar los siguientes comandos:
+
+set <parámetro> <valor>: Establece el valor de un parámetro. Por ejemplo, set target_ip 192.168.1.1.
+show: Muestra los valores actuales de todos los parámetros.
+run <script>: Ejecuta un script específico disponible en el framework.
+Scripts disponibles
+lazysearch: Ejecuta el script de búsqueda perezosa para buscar archivos binarios en el sistema.
+lazysearch_gui: Ejecuta el script LazySearch con una interfaz gráfica.
+lazyown: Inicia un script principal de LazyOwn para realizar diversas tareas.
+update_db: Actualiza la base de datos de LazyOwn.
+lazynmap: Realiza un escaneo de puertos utilizando Nmap.
+lazygptcli: Inicia un cliente de línea de comandos para GPT-3.
+lazyburpfuzzer: Ejecuta un escáner de vulnerabilidades en una URL específica utilizando Burp Suite.
+lazyreverse_shell: Inicia un shell inverso en el sistema objetivo.
+lazyattack: Inicia un ataque utilizando varios modos.
+
+```sh
+LazyOwn> set binary_name my_binary
+LazyOwn> set target_ip 192.168.1.100
+LazyOwn> set api_key my_api_key
+LazyOwn> run lazysearch
+LazyOwn> run lazynmap
+LazyOwn> exit
+```
+
 para las busquedas 
 ```sh
 python3 lazysearch.py binario_a_buscar

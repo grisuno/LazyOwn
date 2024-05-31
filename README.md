@@ -50,7 +50,7 @@ pip install requeriments.txt
 ```sh
 python3 app.py
 ```
-
+```
 Use set <parameter> <value> to set parameters.
 Use show to display current parameter values.
 Use run <script_name> to execute a script with the set parameters.
@@ -70,7 +70,7 @@ lazygptcli: Inicia un cliente de línea de comandos para GPT-3.
 lazyburpfuzzer: Ejecuta un escáner de vulnerabilidades en una URL específica utilizando Burp Suite.
 lazyreverse_shell: Inicia un shell inverso en el sistema objetivo.
 lazyattack: Inicia un ataque utilizando varios modos.
-
+```
 ```sh
 LazyOwn> set binary_name my_binary
 LazyOwn> set target_ip 192.168.1.100
@@ -79,6 +79,8 @@ LazyOwn> run lazysearch
 LazyOwn> run lazynmap
 LazyOwn> exit
 ```
+
+![image](https://github.com/grisuno/LazyOwn/assets/1097185/6c8a0b35-cde5-42b3-be73-eb45b3f821f0)
 
 para las busquedas 
 ```sh

@@ -384,11 +384,21 @@ El uso Lazynmap nos proporciona un script automatizado de un target en este caso
 ```sh
 ./lazynmap.sh -t 127.0.0.1 
 ```
-## Uso modo Chat Generativo por Consola 
-Nuevo Modo LazyOwn GPT One Linner CLI Assistant
+## Uso modo Chat Generativo por Consola LazyOwn GPT One Liner CLI Assistant
+Manual de Uso para LazyOwn GPT One Liner CLI Assistant
+Descripción:
+LazyOwn GPT One Liner CLI Assistant es una herramienta que ayuda a generar y ejecutar comandos de línea de comandos a partir de descripciones proporcionadas por el usuario. Utiliza la API de Groq para generar estos comandos de manera inteligente.
+
+Requisitos:
+Python 3.x
+Una API key válida de Groq
+Pasos para Obtener la API Key de Groq:
+Visita Groq Console (https://console.groq.com/docs/quickstart) para registrarte y obtener una API key.
+
 
 ```sh
-python3 lazygptcli.py --prompt "using nmap discover open ports on localhost"           
+export GROQ_API_KEY=<tu_api_key>
+python3 lazygptcli.py --prompt "<tu prompt>" [--debug]          
 ```
 ![image](https://github.com/grisuno/LazyOwn/assets/1097185/90a95c2a-48d3-4b02-8055-67656c1e71c9)
 

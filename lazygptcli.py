@@ -28,10 +28,11 @@ def show_help(message):
     help_message = f"""
 {message}
 
-[?] Uso: python script.py --prompt "<tu prompt>"
+[?] Uso: python script.py --prompt "<tu prompt>" [--debug]
 
 [?] Opciones:
   --prompt    " El prompt para la tarea de programación (requerido)."
+  --debug, -d  " Habilita el modo debug para mostrar mensajes de depuración."
 
 [?] Asegúrate de configurar tu API key antes de ejecutar el script:
   export GROQ_API_KEY=<tu_api_key>
@@ -55,6 +56,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 def parse_args():
     parser = argparse.ArgumentParser(description='[+] LazyGPT Asistente de Tareas de Programación.')
     parser.add_argument('--prompt', type=str, required=True, help='El prompt para la tarea de programación/Tarea Cli')
+    parser.add_argument('--debug', '-d', action='store_true', help='Habilita el modo debug para mostrar mensajes de depuración')
     args = parser.parse_args()
     if not args.prompt:
         show_help("Error: Falta el argumento --prompt.")
@@ -92,7 +94,8 @@ def main():
                 messages=[{"role": "user", "content": complex_prompt}],
                 model="llama3-8b-8192",
             )
-            print(f"[DEBUG] : {complex_prompt}")
+            if args.debug:
+                print(f"[DEBUG] : {complex_prompt}")
             message = chat_completion.choices[0].message.content.strip()
             print(f"[R] Respuesta de Groq:\n{message}")
 

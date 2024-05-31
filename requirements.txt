@@ -7,3 +7,4 @@ requests
 platform
 argparse
 tkinter
+groq

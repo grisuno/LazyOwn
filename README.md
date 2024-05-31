@@ -384,6 +384,14 @@ El uso Lazynmap nos proporciona un script automatizado de un target en este caso
 ```sh
 ./lazynmap.sh -t 127.0.0.1 
 ```
+## Uso modo Chat Generativo por Consola 
+Nuevo Modo LazyOwn GPT One Linner CLI Assistant
+
+```sh
+python3 lazygptcli.py --prompt "using nmap discover open ports on localhost"           
+```
+![image](https://github.com/grisuno/LazyOwn/assets/1097185/90a95c2a-48d3-4b02-8055-67656c1e71c9)
+
 
 ## Uso modo LazyReverseShell
 primero nos ponemos en escucha con el comando 

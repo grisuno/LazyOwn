@@ -402,6 +402,67 @@ python3 lazygptcli.py --prompt "<tu prompt>" [--debug]
 ```
 ![image](https://github.com/grisuno/LazyOwn/assets/1097185/90a95c2a-48d3-4b02-8055-67656c1e71c9)
 
+## Uso de modo LazyBRPFUZZ
+Proporcionar los argumentos según las solicitudes del script: El script solicitará los siguientes argumentos:
+usage: lazyburp.py [-h] --url URL [--method METHOD] [--headers HEADERS] [--params PARAMS] [--data DATA] [--json_data JSON_DATA]
+                   [--proxy_port PROXY_PORT] [-w WORDLIST] [-hc HIDE_CODE]
+                   
+lazyburp.py: error: the following arguments are required: --url
+--url: La URL a la que se enviará la solicitud (obligatorio).
+--method: El método HTTP a utilizar, como GET o POST (opcional, valor predeterminado: GET).
+--headers: Los encabezados de la solicitud en formato JSON (opcional, valor predeterminado: {}).
+--params: Los parámetros de la URL en formato JSON (opcional, valor predeterminado: {}).
+--data: Los datos del formulario en formato JSON (opcional, valor predeterminado: {}).
+--json_data: Los datos JSON para la solicitud en formato JSON (opcional, valor predeterminado: {}).
+--proxy_port: El puerto del proxy interno (opcional, valor predeterminado: 8080).
+-w, --wordlist: La ruta del diccionario para el modo de fuzzing (opcional).
+-hc, --hide_code: El código de estado HTTP para ocultar en la salida (opcional).
+
+```sh
+python3 lazyburp.py --url "http://example.com" --method POST --headers '{"Content-Type": "LAZYFUZZ"}'
+```
+
+Forma 2: Uso Avanzado
+Si deseas aprovechar las características avanzadas del script, como el modo de repetición o fuzzing, sigue estos pasos:
+
+Repetición de solicitudes:
+
+Para utilizar la funcionalidad de repetición de solicitudes, proporciona los argumentos como se indicó anteriormente.
+Durante la ejecución, el script preguntará si deseas repetir la solicitud. Ingresa 's' para repetir o 'n' para finalizar el repetidor.
+Fuzzing:
+
+Para usar la funcionalidad de fuzzing, asegúrate de proporcionar un diccionario de palabras con el argumento -w o --wordlist.
+El script reemplazará la palabra LAZYFUZZ en la URL y otros datos con las palabras del diccionario proporcionado.
+Durante la ejecución, el script mostrará los resultados de cada iteración de fuzzing.
+Estas son las formas básicas y avanzadas de usar el script lazyburp.py. Dependiendo de tus necesidades, puedes elegir la forma que mejor se adapte a tu situación específica.
+
+
+```sh
+python3 lazyburp.py \                                                                                                           ─╯
+    --url "http://127.0.0.1:80/LAZYFUZZ" \
+    --method POST \
+    --headers '{"User-Agent": "LAZYFUZZ"}' \
+    --params '{"param1": "value1", "param2": "LAZYFUZZ"}' \
+    --data '{"key1": "LAZYFUZZ", "key2": "value2"}' \
+    --json_data '{"key3": "LAZYFUZZ"}' \
+    --proxy_port 8080 \
+    -w /usr/share/seclist/SecLists-master/Discovery/Variables/awesome-environment-variable-names.txt \
+    -hc 501
+```
+
+```sh
+python3 lazyburp.py \                                                                                                           ─╯
+    --url "http://127.0.0.1:80/LAZYFUZZ" \
+    --method POST \
+    --headers '{"User-Agent": "LAZYFUZZ"}' \
+    --params '{"param1": "value1", "param2": "LAZYFUZZ"}' \
+    --data '{"key1": "LAZYFUZZ", "key2": "value2"}' \
+    --json_data '{"key3": "LAZYFUZZ"}' \
+    --proxy_port 8080 \
+    -w /usr/share/seclist/SecLists-master/Discovery/Variables/awesome-environment-variable-names.txt \
+ 
+```
+![image](https://github.com/grisuno/LazyOwn/assets/1097185/dc66fdc2-cd7d-4b79-92c6-dd43d376ee0e)
 
 ## Uso modo LazyReverseShell
 primero nos ponemos en escucha con el comando 

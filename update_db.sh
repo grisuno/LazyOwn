@@ -8,9 +8,9 @@ echo "██║     ██╔══██║ ███╔╝    ╚██╔╝ 
 echo "███████╗██║  ██║███████╗   ██║   ╚██████╔╝╚███╔███╔╝██║ ╚████║"
 echo "╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝"
 # instala los paquetes
-pip install requests beautifulsoup4 pandas fastparquet
+pip install requirements.txt
 
-echo "[*] pip install requests beautifulsoup4 pandas ..."
+echo "[*] pip install requirements.txt ..."
 # Ejecuta search.py
 echo "[*] Ejecutando search.py..."
 python3 search.py

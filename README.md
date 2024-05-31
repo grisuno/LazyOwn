@@ -402,9 +402,9 @@ python3 lazygptcli.py --prompt "<tu prompt>" [--debug]
 ```
 ![image](https://github.com/grisuno/LazyOwn/assets/1097185/90a95c2a-48d3-4b02-8055-67656c1e71c9)
 
-## Uso de modo LazyBRPFUZZ
+## Uso de modo lazyown_bprfuzzer.py
 Proporcionar los argumentos según las solicitudes del script: El script solicitará los siguientes argumentos:
-usage: lazyburp.py [-h] --url URL [--method METHOD] [--headers HEADERS] [--params PARAMS] [--data DATA] [--json_data JSON_DATA]
+usage: lazyown_bprfuzzer.py [-h] --url URL [--method METHOD] [--headers HEADERS] [--params PARAMS] [--data DATA] [--json_data JSON_DATA]
                    [--proxy_port PROXY_PORT] [-w WORDLIST] [-hc HIDE_CODE]
                    
 lazyburp.py: error: the following arguments are required: --url
@@ -419,7 +419,7 @@ lazyburp.py: error: the following arguments are required: --url
 -hc, --hide_code: El código de estado HTTP para ocultar en la salida (opcional).
 
 ```sh
-python3 lazyburp.py --url "http://example.com" --method POST --headers '{"Content-Type": "LAZYFUZZ"}'
+python3 lazyown_bprfuzzer.py --url "http://example.com" --method POST --headers '{"Content-Type": "LAZYFUZZ"}'
 ```
 
 Forma 2: Uso Avanzado
@@ -438,7 +438,7 @@ Estas son las formas básicas y avanzadas de usar el script lazyburp.py. Dependi
 
 
 ```sh
-python3 lazyburp.py \                                                                                                           ─╯
+python3 lazyown_bprfuzzer.py \                                                                                                           ─╯
     --url "http://127.0.0.1:80/LAZYFUZZ" \
     --method POST \
     --headers '{"User-Agent": "LAZYFUZZ"}' \
@@ -451,7 +451,7 @@ python3 lazyburp.py \                                                           
 ```
 
 ```sh
-python3 lazyburp.py \                                                                                                           ─╯
+python3 lazyown_bprfuzzer.py \                                                                                                           ─╯
     --url "http://127.0.0.1:80/LAZYFUZZ" \
     --method POST \
     --headers '{"User-Agent": "LAZYFUZZ"}' \
@@ -463,7 +463,12 @@ python3 lazyburp.py \                                                           
  
 ```
 ![image](https://github.com/grisuno/LazyOwn/assets/1097185/dc66fdc2-cd7d-4b79-92c6-dd43d376ee0e)
-
+PD: para usar el diccionario que utilizo realizar dentro de /usr/share/seclist el siguiente comando
+```sh
+wget -c https://github.com/danielmiessler/SecLists/archive/master.zip -O SecList.zip \
+&& unzip SecList.zip \
+&& rm -f SecList.zip
+```
 ## Uso modo LazyReverseShell
 primero nos ponemos en escucha con el comando 
 

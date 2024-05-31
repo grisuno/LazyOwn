@@ -1,6 +1,5 @@
 import os
 import subprocess
-import platform
 import shlex
 from cmd import Cmd
 
@@ -148,9 +147,7 @@ class LazyOwnShell(Cmd):
         if hide_code:
             command.extend(["-hc", str(hide_code)])
 
-        result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-        print(result.stdout)
-        print(result.stderr)
+        self.run_command(command)
 
     def run_lazyreverse_shell(self):
         ip = self.params["reverse_shell_ip"]
@@ -172,9 +169,23 @@ class LazyOwnShell(Cmd):
     def run_script(self, script_name, *args):
         """ Run a script with the given arguments """
         command = ["python3", script_name] + list(args)
-        result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-        print(result.stdout)
-        print(result.stderr)
+        self.run_command(command)
+
+    def run_command(self, command):
+        """ Run a command and print output in real-time """
+        process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        try:
+            for line in iter(process.stdout.readline, ''):
+                print(line, end='')
+            for line in iter(process.stderr.readline, ''):
+                print(line, end='')
+            process.stdout.close()
+            process.stderr.close()
+            process.wait()
+        except KeyboardInterrupt:
+            process.terminate()
+            process.wait()
+            print("\n[Interrupted] Process terminated")
 
     def do_exit(self, line):
         """ Exit the LazyOwn shell """

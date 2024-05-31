@@ -66,7 +66,7 @@ lazysearch_gui: Ejecuta el script LazySearch con una interfaz gráfica.
 lazyown: Inicia un script principal de LazyOwn para realizar diversas tareas.
 update_db: Actualiza la base de datos de LazyOwn.
 lazynmap: Realiza un escaneo de puertos utilizando Nmap.
-lazygptcli: Inicia un cliente de línea de comandos para GPT-3.
+lazygptcli: Inicia un cliente de línea de comandos para groq llama model.
 lazyburpfuzzer: Ejecuta un escáner de vulnerabilidades en una URL específica utilizando Burp Suite.
 lazyreverse_shell: Inicia un shell inverso en el sistema objetivo.
 lazyattack: Inicia un ataque utilizando varios modos.

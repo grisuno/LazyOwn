@@ -463,9 +463,31 @@ El uso Lazynmap nos proporciona un script automatizado de un target en este caso
 ./lazynmap.sh -t 127.0.0.1 
 ```
 ## Uso modo Chat Generativo por Consola LazyOwn GPT One Liner CLI Assistant
-Manual de Uso para LazyOwn GPT One Liner CLI Assistant
-Descripción:
-LazyOwn GPT One Liner CLI Assistant es una herramienta que ayuda a generar y ejecutar comandos de línea de comandos a partir de descripciones proporcionadas por el usuario. Utiliza la API de Groq para generar estos comandos de manera inteligente.
+
+¡Descubre la revolución en automatización de tareas de pentesting con el LazyOwn GPT One Liner CLI Assistant! Este increíble script forma parte de la suite de herramientas LazyOwn, diseñadas para hacer tu vida como pentester más eficiente y productiva.
+
+🚀 Principales Características:
+
+Automatización Inteligente: Utiliza la potencia de Groq y modelos avanzados de lenguaje natural para generar comandos precisos y eficientes basados en tus necesidades específicas.
+Interfaz Amigable: Con un simple prompt, el asistente genera y ejecuta scripts de una línea, reduciendo drásticamente el tiempo y esfuerzo en la creación de comandos complejos.
+Mejora Continua: Transforma y optimiza continuamente su base de conocimientos para proporcionarte las mejores soluciones, adaptándose a cada situación.
+Depuración Simplificada: Habilita el modo debug para obtener información detallada de cada paso, facilitando la identificación y corrección de errores.
+Integración Perfecta: Funciona sin problemas con tu entorno de trabajo, aprovechando el poder de la API de Groq para ofrecerte respuestas rápidas y precisas.
+🔒 Seguridad y Control:
+
+Manejo Seguro de Errores: Detecta y responde inteligentemente a errores de ejecución, asegurando que siempre tengas el control total de cada comando generado.
+Ejecución Controlada: Antes de ejecutar cualquier comando, solicita tu confirmación, brindándote la tranquilidad de saber exactamente qué se está ejecutando en tu sistema.
+🌐 Configuración Sencilla:
+
+Configura tu API key en segundos y comienza a disfrutar de todas las ventajas que ofrece el LazyOwn GPT One Liner CLI Assistant.
+La guía de inicio rápido está disponible para ayudarte a configurar y sacar el máximo provecho de esta poderosa herramienta.
+🎯 Ideal para Pentesters y Desarrolladores:
+
+Optimiza tus Procesos: Simplifica y acelera la generación de comandos en tus auditorías de seguridad.
+Aprendizaje Continuo: La base de conocimientos se actualiza y mejora constantemente, proporcionándote siempre las mejores prácticas y soluciones más recientes.
+Con el LazyOwn GPT One Liner CLI Assistant, transforma tu forma de trabajar, haciéndola más rápida, eficiente y segura. ¡No pierdas más tiempo en tareas repetitivas y complejas, y enfócate en lo que realmente importa: descubrir y solucionar vulnerabilidades!
+
+¡Únete a la revolución del pentesting con LazyOwn y lleva tu productividad al siguiente nivel!
 
 [?] Uso: python lazygptcli.py --prompt "<tu prompt>" [--debug]
 

@@ -467,6 +467,17 @@ Manual de Uso para LazyOwn GPT One Liner CLI Assistant
 Descripción:
 LazyOwn GPT One Liner CLI Assistant es una herramienta que ayuda a generar y ejecutar comandos de línea de comandos a partir de descripciones proporcionadas por el usuario. Utiliza la API de Groq para generar estos comandos de manera inteligente.
 
+[?] Uso: python lazygptcli.py --prompt "<tu prompt>" [--debug]
+
+[?] Opciones:
+  --prompt    "El prompt para la tarea de programación (requerido)."
+  --debug, -d "Habilita el modo debug para mostrar mensajes de depuración."
+  --transform "Transforma la base de conocimientos original en una base mejorada usando Groq."
+
+[?] Asegúrate de configurar tu API key antes de ejecutar el script:
+  export GROQ_API_KEY=<tu_api_key>
+[->] visit: https://console.groq.com/docs/quickstart not sponsored link
+
 Requisitos:
 Python 3.x
 Una API key válida de Groq

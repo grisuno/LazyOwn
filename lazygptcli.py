@@ -21,7 +21,7 @@ BANNER = """
 HELP_MESSAGE = """
 {message}
 
-[?] Uso: python script.py --prompt "<tu prompt>" [--debug]
+[?] Uso: python lazygptcli.py --prompt "<tu prompt>" [--debug]
 
 [?] Opciones:
   --prompt    "El prompt para la tarea de programación (requerido)."

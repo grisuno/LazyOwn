@@ -1,6 +1,7 @@
 import os
 import subprocess
 import shlex
+import signal
 from cmd import Cmd
 
 BANNER = """
@@ -13,6 +14,13 @@ BANNER = """
 [*] Iniciando: Framework [;,;]
 """
 print(BANNER)
+
+def signal_handler(sig, frame):
+    global should_exit
+    print("\n [<-] para salir usar el comando exit ...")
+    should_exit = True
+
+signal.signal(signal.SIGINT, signal_handler)
 
 class LazyOwnShell(Cmd):
     prompt = "LazyOwn> "

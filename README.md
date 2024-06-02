@@ -452,6 +452,21 @@ if __name__ == '__main__':
     ejecutar_opciones()
 
 ```
+## Uso modo Lazy Meta Extract0r
+LazyMeta Extract0r es una herramienta diseñada para extraer metadata de varios tipos de archivos, incluidos PDF, DOCX, archivos OLE (como DOC y XLS), y varios formatos de imágenes (JPG, JPEG, TIFF). Esta herramienta recorrerá un directorio especificado, buscará archivos con extensiones compatibles, extraerá la metadata y la guardará en un archivo de salida.
+
+
+[*] Iniciando: LazyMeta extract0r [;,;]
+
+usage: lazyown_metaextract0r.py [-h] --path PATH
+lazyown_metaextract0r.py: error: the following arguments are required: --path
+
+```sh
+python3 lazyown_metaextract0r.py --path /home/user
+```
+![image](https://github.com/grisuno/LazyOwn/assets/1097185/9ec77c01-4bc1-48ab-8c34-7457cff2f79f)
+
+
 ## Uso modo LazyNmap
 
 El uso Lazynmap nos proporciona un script automatizado de un target en este caso 127.0.0.1 utilizando nmap el scipr requiere permisos de administración mediante sudo

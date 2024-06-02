@@ -8,3 +8,8 @@ platform
 argparse
 tkinter
 groq
+PyPDF2
+docx
+olefile
+exifread
+signal

@@ -40,6 +40,18 @@ class LazyOwnShell(Cmd):
             "reverse_shell_port": None,
             "path":"/"
         }
+        self.scripts = [
+            "lazysearch",
+            "lazysearch_gui",
+            "lazyown",
+            "update_db",
+            "lazynmap",
+            "lazygptcli",
+            "lazyburpfuzzer",
+            "lazymetaextract0r",
+            "lazyreverse_shell",
+            "lazyattack"
+        ]
 
     def do_set(self, line):
         """ Set a parameter value. Usage: set <parameter> <value> """
@@ -60,6 +72,12 @@ class LazyOwnShell(Cmd):
         for param, value in self.params.items():
             print(f"{param}: {value}")
 
+    def do_list(self, line):
+        """ List all available scripts """
+        print("Available scripts to run:")
+        for script in self.scripts:
+            print(f"- {script}")
+
     def do_run(self, line):
         """ Run a specific LazyOwn script """
         args = shlex.split(line)
@@ -68,26 +86,8 @@ class LazyOwnShell(Cmd):
             return
 
         script_name = args[0]
-        if script_name == "lazysearch":
-            self.run_lazysearch()
-        elif script_name == "lazysearch_gui":
-            self.run_lazysearch_gui()
-        elif script_name == "lazyown":
-            self.run_lazyown()
-        elif script_name == "update_db":
-            self.run_update_db()
-        elif script_name == "lazynmap":
-            self.run_lazynmap()
-        elif script_name == "lazygptcli":
-            self.run_lazygptcli()
-        elif script_name == "lazyburpfuzzer":
-            self.run_lazyburpfuzzer()
-        elif script_name == "lazymetaextract0r":
-            self.run_lazymetaextract0r()    
-        elif script_name == "lazyreverse_shell":
-            self.run_lazyreverse_shell()
-        elif script_name == "lazyattack":
-            self.run_lazyattack()
+        if script_name in self.scripts:
+            getattr(self, f"run_{script_name}")()
         else:
             print(f"Unknown script: {script_name}")
 
@@ -123,13 +123,14 @@ class LazyOwnShell(Cmd):
             return
         os.environ["GROQ_API_KEY"] = api_key
         self.run_script("lazygptcli.py", "--prompt", prompt)
+
     def run_lazymetaextract0r(self):
         path = self.params["path"]
-        if not path :
+        if not path:
             print("[?] path must be set")
             return
         self.run_script("lazyown_metaextract0r.py", "--path", path)
-        
+
     def run_lazyburpfuzzer(self):
         url = self.params["url"]
         method = self.params["method"]

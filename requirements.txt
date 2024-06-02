@@ -13,3 +13,7 @@ docx
 olefile
 exifread
 signal
+numpy
+bs4
+csv
+urllib

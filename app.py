@@ -46,6 +46,7 @@ class LazyOwnShell(Cmd):
             "lazyown",
             "update_db",
             "lazynmap",
+            "lazynmapdiscovery",
             "lazygptcli",
             "lazyburpfuzzer",
             "lazymetaextract0r",
@@ -114,6 +115,9 @@ class LazyOwnShell(Cmd):
     def run_lazynmap(self):
         target_ip = self.params["target_ip"]
         os.system(f"./lazynmap.sh -t {target_ip}")
+
+    def run_lazynmapdiscovery(self):
+        os.system(f"./lazynmap.sh -d")
 
     def run_lazygptcli(self):
         prompt = self.params["prompt"]

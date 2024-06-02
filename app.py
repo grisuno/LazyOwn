@@ -37,7 +37,8 @@ class LazyOwnShell(Cmd):
             "mode": None,
             "attacker_ip": None,
             "reverse_shell_ip": None,
-            "reverse_shell_port": None
+            "reverse_shell_port": None,
+            "path":"/"
         }
 
     def do_set(self, line):
@@ -81,6 +82,8 @@ class LazyOwnShell(Cmd):
             self.run_lazygptcli()
         elif script_name == "lazyburpfuzzer":
             self.run_lazyburpfuzzer()
+        elif script_name == "lazymetaextract0r":
+            self.run_lazymetaextract0r()    
         elif script_name == "lazyreverse_shell":
             self.run_lazyreverse_shell()
         elif script_name == "lazyattack":
@@ -120,7 +123,13 @@ class LazyOwnShell(Cmd):
             return
         os.environ["GROQ_API_KEY"] = api_key
         self.run_script("lazygptcli.py", "--prompt", prompt)
-
+    def run_lazymetaextract0r(self):
+        path = self.params["path"]
+        if not path :
+            print("[?] path must be set")
+            return
+        self.run_script("lazyown_metaextract0r.py", "--path", path)
+        
     def run_lazyburpfuzzer(self):
         url = self.params["url"]
         method = self.params["method"]

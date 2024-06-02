@@ -7,6 +7,7 @@ echo "██║     ██╔══██║ ███╔╝    ╚██╔╝ 
 echo "███████╗██║  ██║███████╗   ██║   ╚██████╔╝╚███╔███╔╝██║ ╚████║"
 echo "╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝"
 echo "LazyNmap...:::...::.::......::::....::..::::..:::..:::...:::..:"
+
 # Función para manejar señales (como Ctrl+C)
 trap ctrl_c INT
 
@@ -23,23 +24,44 @@ fi
 
 # Inicializar variables
 TARGET=""
+DISCOVER_NETWORK=false
 
 # Obtener los parámetros
-while getopts "t:" opt; do
+while getopts "t:d" opt; do
   case ${opt} in
     t )
       TARGET=$OPTARG
       ;;
+    d )
+      DISCOVER_NETWORK=true
+      ;;
     \? )
-      echo "[?] Uso: $0 -t <objetivo>"
+      echo "[?] Uso: $0 -t <objetivo> [-d]"
       exit 1
       ;;
   esac
 done
 
-if [ -z "$TARGET" ]; then
-  echo "[?] Uso: $0 -t <objetivo>"
+if [ -z "$TARGET" ] && [ "$DISCOVER_NETWORK" = false ]; then
+  echo "[?] Uso: $0 -t <objetivo> [-d]"
   exit 1
+fi
+
+# Función para descubrir la red local
+discover_network() {
+  echo "[+] Descubriendo la red local..."
+  local subnet=$(ip -o -f inet addr show | awk '/scope global/ {print $4}')
+  for net in $subnet; do
+    echo "[-] Escaneando la subred $net..."
+    sudo nmap -sn $net -oG network_discovery
+    echo "[+] Hosts activos en la red $net:"
+    grep "Up" network_discovery | awk '{print $2}'
+  done
+}
+
+if [ "$DISCOVER_NETWORK" = true ]; then
+  discover_network
+  exit 0
 fi
 
 # Medir el tiempo de inicio

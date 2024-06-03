@@ -24,7 +24,7 @@ def search_in_parquet(term, parquet_files):
 def main():
     parser = argparse.ArgumentParser(description="Buscar en archivos Parquet")
     parser.add_argument("term", help="Término de búsqueda")
-    parser.add_argument("--parquet_files", nargs='+', default=["binarios.parquet", "detalles.parquet"], help="Lista de archivos Parquet a buscar")
+    parser.add_argument("--parquet_files", nargs='+', default=["parquets/binarios.parquet", "parquets/detalles.parquet"], help="Lista de archivos Parquet a buscar")
     args = parser.parse_args()
 
     result = search_in_parquet(args.term, args.parquet_files)

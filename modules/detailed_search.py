@@ -9,10 +9,10 @@ import os
 base_url = "https://gtfobins.github.io/"
 
 # Nombre del archivo CSV de entrada
-input_csv = "bin_data.csv"
+input_csv = "csv/bin_data.csv"
 
 # Nombre del archivo de salida CSV
-output_csv = "bin_data_relevant.csv"
+output_csv = "csv/bin_data_relevant.csv"
 
 # Función para obtener la información relevante de una URL
 def obtener_informacion(url):

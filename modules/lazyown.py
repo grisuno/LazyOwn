@@ -88,7 +88,7 @@ def buscar_binarios(args):
         df_binarios_encontrados = df1[df1['Binary'].isin(binarios_encontrados)]
         
         # Generate a CSV with details of the found binaries
-        with open('resultado.csv', 'w') as f:
+        with open('csv/resultado.csv', 'w') as f:
             for binario in binarios_encontrados:
                 result = search_in_parquet(binario, args.parquet_files)
                 print(f"[**] Buscando resultados para '{binario}'")
@@ -110,12 +110,12 @@ def buscar_binarios(args):
 
 def ejecutar_opciones():
     """Execute options based on the found data."""
-    if not os.path.exists('resultado.csv'):
+    if not os.path.exists('csv/resultado.csv'):
         print("[-] No se encontró el archivo 'resultado.csv'. Asegúrese de que la búsqueda de binarios se haya realizado correctamente.")
         return
     
     print("[+] Leyendo resultado de búsqueda de binarios...")
-    df_resultado = pd.read_csv('resultado.csv', header=None, names=['Binary', 'Function Name', 'Function URL', 'Description', 'Example'])
+    df_resultado = pd.read_csv('csv/resultado.csv', header=None, names=['Binary', 'Function Name', 'Function URL', 'Description', 'Example'])
     
     for binario in df_resultado['Binary'].unique():
         print(f"[*] Binario encontrado: {binario}")
@@ -159,12 +159,12 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     # Read CSVs and create DataFrames
-    df1 = pd.read_csv('bin_data.csv')
-    df2 = pd.read_csv('bin_data_relevant.csv')
+    df1 = pd.read_csv('csv/bin_data.csv')
+    df2 = pd.read_csv('csv/bin_data_relevant.csv')
 
     # Save DataFrames as Parquet
-    df1.to_parquet('binarios.parquet')
-    df2.to_parquet('detalles.parquet')
+    df1.to_parquet('parquets/binarios.parquet')
+    df2.to_parquet('parquets/detalles.parquet')
 
     buscar_binarios(args)
     ejecutar_opciones()

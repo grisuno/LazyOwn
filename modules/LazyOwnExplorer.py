@@ -84,7 +84,7 @@ class LazyOwnGUI(tk.Tk):
         self.title("LazyOwn - Análisis de Binarios")
         self.geometry("1366x768")  # Establecer la resolución de la ventana
         
-        self.parquet_files = ["binarios.parquet", "detalles.parquet"]
+        self.parquet_files = ["parquets/binarios.parquet", "parquets/detalles.parquet"]
         self.dataframe = self.load_parquet_files()
         self.create_widgets()
 

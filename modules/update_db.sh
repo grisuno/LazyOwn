@@ -8,9 +8,9 @@ echo "██║     ██╔══██║ ███╔╝    ╚██╔╝ 
 echo "███████╗██║  ██║███████╗   ██║   ╚██████╔╝╚███╔███╔╝██║ ╚████║"
 echo "╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝"
 # instala los paquetes
-pip install -r requirements.txt
+pip install -r ../requirements.txt
 
-echo "[*] pip install -r requirements.txt ..."
+echo "[*] pip install -r ../requirements.txt ..."
 # Ejecuta search.py
 echo "[*] Ejecutando search.py..."
 python3 search.py

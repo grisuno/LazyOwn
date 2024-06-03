@@ -17,3 +17,6 @@ numpy
 bs4
 csv
 urllib
+pycryptodome
+pyautogui
+Crypto

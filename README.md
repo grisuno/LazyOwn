@@ -454,6 +454,34 @@ if __name__ == '__main__':
     ejecutar_opciones()
 
 ```
+## Uso modo LazyOwn RAT
+LazyOwn RAT es una sencilla pero potente Remote Admin Tool Cuenta con una funcion de Screenshot, el cual captura la pantalla del servidor, tiene un comando upload, el cual nos permite subir archivos a la maquina comprometida, y un modo C&C donde podran enviar comandos al servidor, cuenta con dos modos en modo cliente y modo servidor, no tiene ningun tipo de ofuscación y la rat me base en BasicRat acá su github https://github.com/awesome-security/basicRAT y en https://github.com/hash3liZer/SillyRAT aun que está ultima es mucho más completa yo solo queria sacar pantallasos subir archivos y enviar comandos, quizas más adelante agregar funcionalidad de mirar webcams, pero eso más adelante.
+
+```sh
+usage: lazyownserver.py [-h] [--host HOST] [--port PORT] --key KEY
+lazyownserver.py: error: the following arguments are required: --key
+
+usage: lazyownclient.py [-h] --host HOST --port PORT --key KEY
+lazyownclient.py: error: the following arguments are required: --host, --port, --key
+
+LazyOwn> run lazyownclient
+[?] lhost and lport and rat_key must be set
+
+LazyOwn> run lazyownserver
+[?] rhost and lport and rat_key must be set
+
+luego los comandos son:
+
+upload /path/to/file
+donwload /path/to/file
+screenshot
+sysinfo
+fix_xauth #to fix xauth xD
+```
+
+![image](https://github.com/grisuno/LazyOwn/assets/1097185/2bb7ec40-0d89-4ca6-87ff-2baa62781648)
+
+
 ## Uso modo Lazy Meta Extract0r
 LazyMeta Extract0r es una herramienta diseñada para extraer metadata de varios tipos de archivos, incluidos PDF, DOCX, archivos OLE (como DOC y XLS), y varios formatos de imágenes (JPG, JPEG, TIFF). Esta herramienta recorrerá un directorio especificado, buscará archivos con extensiones compatibles, extraerá la metadata y la guardará en un archivo de salida.
 

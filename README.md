@@ -649,6 +649,16 @@ script que nos provee una visión de rayos x en cuanto al sistema en cuestion do
 ```sh
 run lazygath
 ```
+## Uso modo LazyOwn Sniffer
+El modo sniffer nos permite capturar el trafico de red por interfaces con la opcion -i que es la opción obligatoria, dentro de muchas tras opciones no obligatorias,
+usage: lazysniff.py [-h] -i INTERFACE [-c COUNT] [-f FILTER] [-p PCAP]
+lazysniff.py: error: the following arguments are required: -i/--interface
+
+![Captura de pantalla 2024-06-05 031231](https://github.com/grisuno/LazyOwn/assets/1097185/db1e05a0-026e-414f-9ec6-0a9ef2cb06fe)
+
+```sh
+run lazysniff
+```
 ## Uso modo LazyAtack
 Este script de pentesting en Bash permite ejecutar una serie de pruebas de seguridad en modo servidor (máquina víctima) o en modo cliente (máquina atacante). Dependiendo del modo seleccionado, ofrece diferentes opciones y funcionalidades para llevar a cabo diversas acciones de prueba de penetración.
 

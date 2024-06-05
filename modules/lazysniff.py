@@ -93,40 +93,60 @@ def capture_packets(interface, count, filter, pcap_file, packets, stdscr):
     if pcap_file:
         wrpcap(pcap_file, packets)
 
-# Función principal de la interfaz ncurses
+# Función principal de la interfaz ncurses con scrolling
 def main_curses(stdscr, packets):
     idx = 0
+    start_idx = 0
+    h_offset = 0
     while True:
         stdscr.clear()
-        stdscr.addstr(0, 0, "[P] Paquetes capturados: {}".format(len(packets)))
-        if packets:
-            for i, pkt in enumerate(packets):
-                if i == idx:
-                    stdscr.addstr(i + 1, 0, "{}".format(pkt.summary()[:curses.COLS - 1]), curses.A_REVERSE)
-                else:
-                    stdscr.addstr(i + 1, 0, "{}".format(pkt.summary()[:curses.COLS - 1]))
+        max_y, max_x = stdscr.getmaxyx()
+        try:
+            stdscr.addstr(0, 0, "[P] Paquetes capturados: {}".format(len(packets)))
+            if packets:
+                display_packets = packets[start_idx:start_idx + max_y - 4]
+                for i, pkt in enumerate(display_packets):
+                    if i == idx - start_idx:
+                        stdscr.addstr(i + 1, 0, "{}".format(pkt.summary()[h_offset:h_offset + max_x - 1]), curses.A_REVERSE)
+                    else:
+                        stdscr.addstr(i + 1, 0, "{}".format(pkt.summary()[h_offset:h_offset + max_x - 1]))
 
-            details = analyze_packet(packets[idx])
-            for j, detail in enumerate(details):
-                stdscr.addstr(len(packets) + 2 + j, 0, detail[:curses.COLS - 1])
+                details = analyze_packet(packets[idx])
+                for j, detail in enumerate(details):
+                    if len(display_packets) + 2 + j >= max_y - 3:
+                        break
+                    stdscr.addstr(len(display_packets) + 2 + j, 0, detail[h_offset:h_offset + max_x - 1])
 
-            stdscr.addstr(len(packets) + 2 + len(details), 0, "[C] Contenido del paquete:")
-            hexdump_lines = hexdump(packets[idx], dump=True).split('\n')
-            for k, line in enumerate(hexdump_lines):
-                stdscr.addstr(len(packets) + 3 + len(details) + k, 0, line[:curses.COLS - 1])
-        
-        stdscr.addstr(curses.LINES - 1, 0, "[?] Usa las flechas arriba/abajo para navegar, 'q' para salir.")
-        stdscr.refresh()
+                stdscr.addstr(len(display_packets) + 2 + len(details), 0, "[C] Contenido del paquete:")
+                hexdump_lines = hexdump(packets[idx], dump=True).split('\n')
+                for k, line in enumerate(hexdump_lines):
+                    if len(display_packets) + 3 + len(details) + k >= max_y - 1:
+                        break
+                    stdscr.addstr(len(display_packets) + 3 + len(details) + k, 0, line[h_offset:h_offset + max_x - 1])
+            
+            stdscr.addstr(max_y - 1, 0, "[?] Usa las flechas arriba/abajo para navegar, izquierda/derecha para desplazamiento horizontal, 'q' para salir.")
+            stdscr.refresh()
 
-        key = stdscr.getch()
-        if key == ord('q'):
-            break
-        elif key == curses.KEY_UP:
-            if idx > 0:
-                idx -= 1
-        elif key == curses.KEY_DOWN:
-            if idx < len(packets) - 1:
-                idx += 1
+            key = stdscr.getch()
+            if key == ord('q'):
+                break
+            elif key == curses.KEY_UP:
+                if idx > 0:
+                    idx -= 1
+                if idx < start_idx:
+                    start_idx -= 1
+            elif key == curses.KEY_DOWN:
+                if idx < len(packets) - 1:
+                    idx += 1
+                if idx >= start_idx + max_y - 4:
+                    start_idx += 1
+            elif key == curses.KEY_LEFT:
+                if h_offset > 0:
+                    h_offset -= 1
+            elif key == curses.KEY_RIGHT:
+                h_offset += 1
+        except curses.error:
+            pass
 
 # Argumentos de la línea de comandos
 def parse_arguments():

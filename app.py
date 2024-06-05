@@ -2,6 +2,7 @@ import os
 import subprocess
 import shlex
 import signal
+import json
 from cmd import Cmd
 
 BANNER = """
@@ -159,7 +160,7 @@ class LazyOwnShell(Cmd):
         if not lhost or not lport or not rat_key:
             print("[?] lhost and lport and rat_key must be set")
             return
-        self.run_script("modules/lazyownclient.py", "--host", lhost, "--port", lport, "--key", rat_key)
+        self.run_script("modules/lazyownclient.py", "--host", lhost, "--port", str(lport), "--key", rat_key)
 
     def run_lazyownserver(self):
         rhost = self.params["rhost"]
@@ -168,7 +169,7 @@ class LazyOwnShell(Cmd):
         if not rhost or not rport or not rat_key:
             print("[?] rhost and lport and rat_key must be set")
             return
-        self.run_script("modules/lazyownserver.py", "--host", rhost, "--port", rport, "--key", rat_key)
+        self.run_script("modules/lazyownserver.py", "--host", rhost, "--port", str(rport), "--key", rat_key)
 
     def run_lazyburpfuzzer(self):
         url = self.params["url"]
@@ -219,7 +220,7 @@ class LazyOwnShell(Cmd):
 
     def run_script(self, script_name, *args):
         """ Run a script with the given arguments """
-        command = ["python3", script_name] + list(args)
+        command = ["python3", script_name] + [str(arg) for arg in args]
         self.run_command(command)
 
     def run_command(self, command):
@@ -237,6 +238,20 @@ class LazyOwnShell(Cmd):
             process.terminate()
             process.wait()
             print("\n[Interrupted] Process terminated")
+
+    def do_payload(self, line):
+        """ Load parameters from payload.json """
+        try:
+            with open("payload.json", "r") as f:
+                data = json.load(f)
+            for key, value in data.items():
+                if key in self.params:
+                    self.params[key] = value
+            print("[*] Parameters loaded from payload.json")
+        except FileNotFoundError:
+            print("[?] payload.json not found")
+        except json.JSONDecodeError:
+            print("[?] Error decoding payload.json")
 
     def do_exit(self, line):
         """ Exit the LazyOwn shell """

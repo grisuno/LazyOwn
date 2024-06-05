@@ -261,6 +261,9 @@ class LazyOwnShell(Cmd):
     def do_exit(self, line):
         """ Exit the LazyOwn shell """
         return True
-
+    def do_fixperm(self, line):
+        """ Exit the LazyOwn shell """
+        print("[f] Fix script perm")
+        os.system("chmod +x modules/*.sh")
 if __name__ == "__main__":
     LazyOwnShell().cmdloop()

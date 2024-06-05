@@ -41,7 +41,7 @@ for row in table_wrapper.find_all('tr'):
         data.append({'binary': bin_name_text, 'functions': functions})
 
 # Guardar la información en un archivo CSV
-csv_file = "bin_data.csv"
+csv_file = "csv/bin_data.csv"
 with open(csv_file, mode='w', newline='') as file:
     writer = csv.writer(file)
     writer.writerow(['Binary', 'Function Name', 'Function URL'])

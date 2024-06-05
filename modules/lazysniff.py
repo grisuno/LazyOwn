@@ -1,7 +1,7 @@
 import os
 import sys
 import curses
-from scapy.all import sniff, hexdump, Ether, IP, UDP, TCP
+from scapy.all import sniff, wrpcap, hexdump, Ether, IP, UDP, TCP
 import argparse
 import signal
 import threading
@@ -88,8 +88,10 @@ def analyze_packet(packet):
     return details
 
 # Función principal de captura de paquetes
-def capture_packets(interface, count, filter, packets, stdscr):
+def capture_packets(interface, count, filter, pcap_file, packets, stdscr):
     sniff(iface=interface, filter=filter, prn=lambda x: process_packet(x, packets, stdscr), count=count)
+    if pcap_file:
+        wrpcap(pcap_file, packets)
 
 # Función principal de la interfaz ncurses
 def main_curses(stdscr, packets):
@@ -132,6 +134,7 @@ def parse_arguments():
     parser.add_argument('-i', '--interface', type=str, required=True, help='Interfaz de red para la captura de paquetes')
     parser.add_argument('-c', '--count', type=int, default=0, help='Número de paquetes a capturar (0 para infinito)')
     parser.add_argument('-f', '--filter', type=str, default="", help='Filtro BPF (opcional)')
+    parser.add_argument('-p', '--pcap', type=str, default="", help='Nombre del archivo pcap para guardar')
     return parser.parse_args()
 
 # Función principal
@@ -142,7 +145,9 @@ def main():
     stdscr = setup_curses()
     try:
         show_banner(stdscr, BANNER)  # Mostrar el banner antes de empezar la captura
-        capture_thread = threading.Thread(target=capture_packets, args=(args.interface, args.count, args.filter, packets, stdscr))
+        pcap_file = os.path.join("pcaps", args.pcap if args.pcap else "capture.pcap")
+        os.makedirs("pcaps", exist_ok=True)
+        capture_thread = threading.Thread(target=capture_packets, args=(args.interface, args.count, args.filter, pcap_file, packets, stdscr))
         capture_thread.daemon = True
         capture_thread.start()
         main_curses(stdscr, packets)

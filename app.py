@@ -68,6 +68,7 @@ class LazyOwnShell(Cmd):
             "lazyattack",
             "lazyownclient",
             "lazyownserver",
+            "lazygath"
         ]
 
     def do_set(self, line):
@@ -132,6 +133,10 @@ class LazyOwnShell(Cmd):
         path = os.getcwd()
         target_ip = self.params["target_ip"]
         os.system(f"{path}/modules/lazynmap.sh -t {target_ip}")
+
+    def run_lazygath(self):
+        path = os.getcwd()
+        os.system(f"sudo {path}/modules/lazygat.sh")
 
     def run_lazynmapdiscovery(self):
         path = os.getcwd()

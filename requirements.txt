@@ -20,3 +20,5 @@ urllib
 pycryptodome
 pyautogui
 Crypto
+curses
+scapy

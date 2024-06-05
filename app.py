@@ -68,7 +68,8 @@ class LazyOwnShell(Cmd):
             "lazyattack",
             "lazyownclient",
             "lazyownserver",
-            "lazygath"
+            "lazygath",
+            "lazysniff"
         ]
 
     def do_set(self, line):
@@ -141,6 +142,9 @@ class LazyOwnShell(Cmd):
     def run_lazynmapdiscovery(self):
         path = os.getcwd()
         os.system(f"{path}/modules/lazynmap.sh -d")
+
+    def run_lazysniff(self):
+        subprocess.run(["python3", "modules/lazysniff.py", "-i", "eth0"])
 
     def run_lazygptcli(self):
         prompt = self.params["prompt"]

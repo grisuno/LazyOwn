@@ -2,7 +2,7 @@
     "binary_name": "shell",
     "target_ip": "127.0.0.1",
     "api_key": "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",
-    "prompt": "Presentate",
+    "prompt": "Presentate como Lazy OWN OneLiner assistant",
     "url": "http://127.0.0.1",
     "method": "POST",
     "headers": "{\"Content-Type\": \"application/json\"}",
@@ -23,5 +23,6 @@
     "lport": 5555,
     "rat_key": "82e672ae054aa4de6f042c888111686a",
     "startip":"192.168.1.1",
-    "endip":"192.168.1.254"
+    "endip":"192.168.1.254",
+    "device":"eth0"
 }

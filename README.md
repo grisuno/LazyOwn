@@ -500,8 +500,8 @@ python3 lazyown_metaextract0r.py --path /home/user
 
 ## Uso modo LazyNmap
 
-El uso Lazynmap nos proporciona un script automatizado de un target en este caso 127.0.0.1 utilizando nmap el scipr requiere permisos de administración mediante sudo
-
+El uso Lazynmap nos proporciona un script automatizado de un target en este caso 127.0.0.1 utilizando nmap el scipr requiere permisos de administración mediante sudo.
+tambien tiene un modulo de net discovery para saber que hay en el segmento de ip en el que te encuentras. 
 
 ![image](https://github.com/grisuno/LazyOwn/assets/1097185/48a38836-6cf5-4676-bea8-063e0b5cf7ad)
 
@@ -519,14 +519,17 @@ Interfaz Amigable: Con un simple prompt, el asistente genera y ejecuta scripts d
 Mejora Continua: Transforma y optimiza continuamente su base de conocimientos para proporcionarte las mejores soluciones, adaptándose a cada situación.
 Depuración Simplificada: Habilita el modo debug para obtener información detallada de cada paso, facilitando la identificación y corrección de errores.
 Integración Perfecta: Funciona sin problemas con tu entorno de trabajo, aprovechando el poder de la API de Groq para ofrecerte respuestas rápidas y precisas.
+
 🔒 Seguridad y Control:
 
 Manejo Seguro de Errores: Detecta y responde inteligentemente a errores de ejecución, asegurando que siempre tengas el control total de cada comando generado.
 Ejecución Controlada: Antes de ejecutar cualquier comando, solicita tu confirmación, brindándote la tranquilidad de saber exactamente qué se está ejecutando en tu sistema.
+
 🌐 Configuración Sencilla:
 
 Configura tu API key en segundos y comienza a disfrutar de todas las ventajas que ofrece el LazyOwn GPT One Liner CLI Assistant.
 La guía de inicio rápido está disponible para ayudarte a configurar y sacar el máximo provecho de esta poderosa herramienta.
+
 🎯 Ideal para Pentesters y Desarrolladores:
 
 Optimiza tus Procesos: Simplifica y acelera la generación de comandos en tus auditorías de seguridad.

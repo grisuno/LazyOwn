@@ -56,7 +56,8 @@ class LazyOwnShell(Cmd):
             "rat_key": "82e672ae054aa4de6f042c888111686a",
             "startip":"192.168.1.1",
             "endip":"192.168.1.254",
-            "spoof_ip":"185.199.110.153"
+            "spoof_ip":"185.199.110.153",
+            "device":"eth0"
         }
         self.scripts = [
             "lazysearch",
@@ -148,7 +149,8 @@ class LazyOwnShell(Cmd):
         env = os.environ.copy()
         env['LANG'] = 'en_US.UTF-8'
         env['TERM'] = 'xterm-256color'
-        subprocess.run(["python3", "modules/lazysniff.py", "-i", "eth0"], env=env, stdin=sys.stdin, stdout=sys.stdout, stderr=sys.stderr)
+        device = self.params["device"]
+        subprocess.run(["python3", "modules/lazysniff.py", "-i", device], env=env, stdin=sys.stdin, stdout=sys.stdout, stderr=sys.stderr)
 
     def run_lazynetbios(self):
         

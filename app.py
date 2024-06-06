@@ -55,7 +55,8 @@ class LazyOwnShell(Cmd):
             "lport": 1337,
             "rat_key": "82e672ae054aa4de6f042c888111686a",
             "startip":"192.168.1.1",
-            "endip":"192.168.1.254"
+            "endip":"192.168.1.254",
+            "spoof_ip":"185.199.110.153"
         }
         self.scripts = [
             "lazysearch",
@@ -128,11 +129,7 @@ class LazyOwnShell(Cmd):
         self.run_script("modules/lazyown.py")
 
     def run_update_db(self):
-        os.chdir("LazyOwn")
-        os.system("rm *.csv")
-        os.system("rm *.parquet")
         os.system("./modules/update_db.sh")
-        os.chdir("..")
 
     def run_lazynmap(self):
         path = os.getcwd()
@@ -157,7 +154,8 @@ class LazyOwnShell(Cmd):
         
         startip = self.params["startip"]
         endip = self.params["endip"]
-        subprocess.run(["python3", "modules/lazynetbios.py", startip, endip])
+        spoof_ip = self.params["spoof_ip"]
+        subprocess.run(["python3", "modules/lazynetbios.py", startip, endip, spoof_ip])
 
     def run_lazygptcli(self):
         prompt = self.params["prompt"]

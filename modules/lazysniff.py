@@ -57,13 +57,14 @@ def show_banner(stdscr, banner):
     time.sleep(3)  # Esperar 3 segundos antes de continuar
 
 # Función para procesar y mostrar cada paquete capturado
-def process_packet(packet, packets, stdscr):
+def process_packet(packet, packets, win_top, win_bottom):
     packets.append(packet)
-    stdscr.clear()
-    stdscr.addstr(0, 0, "[P] Paquetes capturados: {}".format(len(packets)))
-    for i, pkt in enumerate(packets):
-        stdscr.addstr(i + 1, 0, "{}".format(pkt.summary()[:curses.COLS - 1]))
-    stdscr.refresh()
+    win_top.clear()
+    win_top.box()
+    win_top.addstr(1, 1, "[P] Paquetes capturados: {}".format(len(packets)))
+    for i, pkt in enumerate(packets[:win_top.getmaxyx()[0] - 3]):
+        win_top.addstr(i + 2, 1, "{}".format(pkt.summary()[:win_top.getmaxyx()[1] - 2]))
+    win_top.refresh()
 
 # Función para analizar un paquete y extraer información detallada
 def analyze_packet(packet):
@@ -88,44 +89,59 @@ def analyze_packet(packet):
     return details
 
 # Función principal de captura de paquetes
-def capture_packets(interface, count, filter, pcap_file, packets, stdscr):
-    sniff(iface=interface, filter=filter, prn=lambda x: process_packet(x, packets, stdscr), count=count)
+def capture_packets(interface, count, filter, pcap_file, packets, win_top, win_bottom):
+    sniff(iface=interface, filter=filter, prn=lambda x: process_packet(x, packets, win_top, win_bottom), count=count)
     if pcap_file:
         wrpcap(pcap_file, packets)
 
 # Función principal de la interfaz ncurses con scrolling
-def main_curses(stdscr, packets):
+def main_curses(stdscr, packets, interface, count, filter, pcap_file):
     idx = 0
     start_idx = 0
     h_offset = 0
+
+    max_y, max_x = stdscr.getmaxyx()
+    win_top = curses.newwin(max_y // 2, max_x, 0, 0)
+    win_bottom = curses.newwin(max_y // 2, max_x, max_y // 2, 0)
+
+    capture_thread = threading.Thread(target=capture_packets, args=(interface, count, filter, pcap_file, packets, win_top, win_bottom))
+    capture_thread.daemon = True
+    capture_thread.start()
+
     while True:
-        stdscr.clear()
-        max_y, max_x = stdscr.getmaxyx()
+        win_top.clear()
+        win_bottom.clear()
+        win_top.box()
+        win_bottom.box()
+        
+        max_y_top, max_x_top = win_top.getmaxyx()
+        max_y_bottom, max_x_bottom = win_bottom.getmaxyx()
+
         try:
-            stdscr.addstr(0, 0, "[P] Paquetes capturados: {}".format(len(packets)))
+            win_top.addstr(1, 1, "[P] Paquetes capturados: {}".format(len(packets)))
             if packets:
-                display_packets = packets[start_idx:start_idx + max_y - 4]
+                display_packets = packets[start_idx:start_idx + max_y_top - 3]
                 for i, pkt in enumerate(display_packets):
                     if i == idx - start_idx:
-                        stdscr.addstr(i + 1, 0, "{}".format(pkt.summary()[h_offset:h_offset + max_x - 1]), curses.A_REVERSE)
+                        win_top.addstr(i + 2, 1, "{}".format(pkt.summary()[h_offset:h_offset + max_x_top - 3]), curses.A_REVERSE)
                     else:
-                        stdscr.addstr(i + 1, 0, "{}".format(pkt.summary()[h_offset:h_offset + max_x - 1]))
+                        win_top.addstr(i + 2, 1, "{}".format(pkt.summary()[h_offset:h_offset + max_x_top - 3]))
 
                 details = analyze_packet(packets[idx])
                 for j, detail in enumerate(details):
-                    if len(display_packets) + 2 + j >= max_y - 3:
+                    if j >= max_y_bottom - 3:
                         break
-                    stdscr.addstr(len(display_packets) + 2 + j, 0, detail[h_offset:h_offset + max_x - 1])
+                    win_bottom.addstr(j + 1, 1, detail[h_offset:h_offset + max_x_bottom - 2])
 
-                stdscr.addstr(len(display_packets) + 2 + len(details), 0, "[C] Contenido del paquete:")
+                win_bottom.addstr(len(details) + 1, 1, "[C] Contenido del paquete:")
                 hexdump_lines = hexdump(packets[idx], dump=True).split('\n')
                 for k, line in enumerate(hexdump_lines):
-                    if len(display_packets) + 3 + len(details) + k >= max_y - 1:
+                    if len(details) + 2 + k >= max_y_bottom - 1:
                         break
-                    stdscr.addstr(len(display_packets) + 3 + len(details) + k, 0, line[h_offset:h_offset + max_x - 1])
-            
-            stdscr.addstr(max_y - 1, 0, "[?] Usa las flechas arriba/abajo para navegar, izquierda/derecha para desplazamiento horizontal, 'q' para salir.")
-            stdscr.refresh()
+                    win_bottom.addstr(len(details) + 2 + k, 1, line[h_offset:h_offset + max_x_bottom - 2])
+
+            win_top.refresh()
+            win_bottom.refresh()
 
             key = stdscr.getch()
             if key == ord('q'):
@@ -138,7 +154,7 @@ def main_curses(stdscr, packets):
             elif key == curses.KEY_DOWN:
                 if idx < len(packets) - 1:
                     idx += 1
-                if idx >= start_idx + max_y - 4:
+                if idx >= start_idx + max_y_top - 3:
                     start_idx += 1
             elif key == curses.KEY_LEFT:
                 if h_offset > 0:
@@ -167,10 +183,7 @@ def main():
         show_banner(stdscr, BANNER)  # Mostrar el banner antes de empezar la captura
         pcap_file = os.path.join("pcaps", args.pcap if args.pcap else "capture.pcap")
         os.makedirs("pcaps", exist_ok=True)
-        capture_thread = threading.Thread(target=capture_packets, args=(args.interface, args.count, args.filter, pcap_file, packets, stdscr))
-        capture_thread.daemon = True
-        capture_thread.start()
-        main_curses(stdscr, packets)
+        main_curses(stdscr, packets, args.interface, args.count, args.filter, pcap_file)
     finally:
         restore_curses(stdscr)
 

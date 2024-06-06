@@ -1,4 +1,5 @@
 import os
+import sys
 import subprocess
 import shlex
 import signal
@@ -52,7 +53,9 @@ class LazyOwnShell(Cmd):
             "lhost": None,
             "rport": 1337,
             "lport": 1337,
-            "rat_key": "82e672ae054aa4de6f042c888111686a"
+            "rat_key": "82e672ae054aa4de6f042c888111686a",
+            "startip":"192.168.1.1",
+            "endip":"192.168.1.254"
         }
         self.scripts = [
             "lazysearch",
@@ -69,7 +72,8 @@ class LazyOwnShell(Cmd):
             "lazyownclient",
             "lazyownserver",
             "lazygath",
-            "lazysniff"
+            "lazysniff",
+            "lazynetbios"
         ]
 
     def do_set(self, line):
@@ -144,7 +148,16 @@ class LazyOwnShell(Cmd):
         os.system(f"{path}/modules/lazynmap.sh -d")
 
     def run_lazysniff(self):
-        subprocess.run(["python3", "modules/lazysniff.py", "-i", "eth0"])
+        env = os.environ.copy()
+        env['LANG'] = 'en_US.UTF-8'
+        env['TERM'] = 'xterm-256color'
+        subprocess.run(["python3", "modules/lazysniff.py", "-i", "eth0"], env=env, stdin=sys.stdin, stdout=sys.stdout, stderr=sys.stderr)
+
+    def run_lazynetbios(self):
+        
+        startip = self.params["startip"]
+        endip = self.params["endip"]
+        subprocess.run(["python3", "modules/lazynetbios.py", startip, endip])
 
     def run_lazygptcli(self):
         prompt = self.params["prompt"]

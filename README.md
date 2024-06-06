@@ -656,6 +656,7 @@ lazysniff.py: error: the following arguments are required: -i/--interface
 
 ![Captura de pantalla 2024-06-05 031231](https://github.com/grisuno/LazyOwn/assets/1097185/db1e05a0-026e-414f-9ec6-0a9ef2cb06fe)
 
+usando desde el framework se debe setear device con set device [eth0, wla0,eth1, wlan1, etc] segun sea su interface y luego: 
 ```sh
 run lazysniff
 ```

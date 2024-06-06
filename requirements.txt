@@ -22,3 +22,4 @@ pyautogui
 Crypto
 curses
 scapy
+impacket

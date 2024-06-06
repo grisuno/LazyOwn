@@ -13,19 +13,19 @@ pip install -r ../requirements.txt
 echo "[*] pip install -r ../requirements.txt ..."
 # Ejecuta search.py
 echo "[*] Ejecutando search.py..."
-python3 search.py
+python3 modules/search.py
 
 # Verifica si search.py se ejecutó correctamente
 if [ $? -eq 0 ]; then
     echo "[+] search.py ejecutado con éxito."
     echo "[*] Ejecutando detailed_search.py..."
-    python3 detailed_search.py
+    python3 modules/detailed_search.py
 
     # Verifica si detailed_search.py se ejecutó correctamente
     if [ $? -eq 0 ]; then
         echo "[+] detailed_search.py ejecutado con éxito."
         echo "[*] Ejecutando lazyown.py..."
-        python3 lazyown.py
+        python3 modules/lazyown.py
     else
         echo "[-] Error al ejecutar detailed_search.py."
         exit 1

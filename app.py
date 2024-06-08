@@ -84,7 +84,8 @@ class LazyOwnShell(Cmd):
             "lazynetbios",
             "lazybotnet",
             "lazybotcli",
-            "lazyhoneypot"
+            "lazyhoneypot",
+            "lazysearch_bot"
         ]
 
     def do_set(self, line):
@@ -175,6 +176,7 @@ class LazyOwnShell(Cmd):
         email_username = self.params["email_username"]
         email_password = self.params["email_password"]
         self.run_script("modules/lazyhoneypot.py", "--email_from", email_from, "--email_to", email_to, "--email_username", email_username, "--email_password", email_password)
+    
     def run_lazygptcli(self):
         prompt = self.params["prompt"]
         api_key = self.params["api_key"]
@@ -184,6 +186,14 @@ class LazyOwnShell(Cmd):
         os.environ["GROQ_API_KEY"] = api_key
         self.run_script("modules/lazygptcli.py", "--prompt", prompt)
 
+    def run_lazysearch_bot(self):
+        prompt = self.params["prompt"]
+        api_key = self.params["api_key"]
+        if not prompt or not api_key:
+            print("[?] prompt and api_key must be set")
+            return
+        os.environ["GROQ_API_KEY"] = api_key
+        self.run_script("modules/lazysearch_bot.py", "--prompt", prompt)
     def run_lazymetaextract0r(self):
         path = self.params["path"]
         if not path:

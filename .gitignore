@@ -7,3 +7,5 @@ network_discovery
 *.log
 *.csv
 *.nmap
+*.key
+*.pub

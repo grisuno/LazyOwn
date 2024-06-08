@@ -57,7 +57,13 @@ class LazyOwnShell(Cmd):
             "startip":"192.168.1.1",
             "endip":"192.168.1.254",
             "spoof_ip":"185.199.110.153",
-            "device":"eth0"
+            "device":"eth0",
+            "email_from":"email@gmail.com",
+            "email_to":"email@gmail.com",
+            "email_username":"email@gmail.com",
+            "email_password":"pa$$w0rd",
+            "smtp_server":"smtp.server.com",
+            "smtp_port":"587"
         }
         self.scripts = [
             "lazysearch",
@@ -71,13 +77,14 @@ class LazyOwnShell(Cmd):
             "lazymetaextract0r",
             "lazyreverse_shell",
             "lazyattack",
-            "lazyownclient",
-            "lazyownserver",
+            "lazyownratcli",
+            "lazyownrat",
             "lazygath",
             "lazysniff",
             "lazynetbios",
             "lazybotnet",
-            "lazybotcli"
+            "lazybotcli",
+            "lazyhoneypot"
         ]
 
     def do_set(self, line):
@@ -161,6 +168,13 @@ class LazyOwnShell(Cmd):
         spoof_ip = self.params["spoof_ip"]
         subprocess.run(["python3", "modules/lazynetbios.py", startip, endip, spoof_ip])
 
+    def run_lazyhoneypot(self):
+        
+        email_from = self.params["email_from"]
+        email_to = self.params["email_to"]
+        email_username = self.params["email_username"]
+        email_password = self.params["email_password"]
+        self.run_script("modules/lazyhoneypot.py", "--email_from", email_from, "--email_to", email_to, "--email_username", email_username, "--email_password", email_password)
     def run_lazygptcli(self):
         prompt = self.params["prompt"]
         api_key = self.params["api_key"]
@@ -177,7 +191,7 @@ class LazyOwnShell(Cmd):
             return
         self.run_script("modules/lazyown_metaextract0r.py", "--path", path)
 
-    def run_lazyownclient(self):
+    def run_lazyownratcli(self):
         lhost = self.params["lhost"]
         lport = self.params["lport"]
         rat_key = self.params["rat_key"]
@@ -186,7 +200,7 @@ class LazyOwnShell(Cmd):
             return
         self.run_script("modules/lazyownclient.py", "--host", lhost, "--port", str(lport), "--key", rat_key)
 
-    def run_lazyownserver(self):
+    def run_lazyownrat(self):
         rhost = self.params["rhost"]
         rport = self.params["rport"]
         rat_key = self.params["rat_key"]

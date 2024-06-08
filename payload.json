@@ -24,5 +24,11 @@
     "rat_key": "82e672ae054aa4de6f042c888111686a",
     "startip":"192.168.1.1",
     "endip":"192.168.1.254",
-    "device":"eth0"
+    "device":"eth0",
+    "email_from":"email@gmail.com",
+    "email_to":"email@gmail.com",
+    "email_username":"email@gmail.com",
+    "email_password":"pa$$w0rd",
+    "smtp_server":"smtp.server.com",
+    "smtp_port":"587"
 }

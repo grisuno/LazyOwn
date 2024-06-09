@@ -326,5 +326,51 @@ class LazyOwnShell(Cmd):
         """ Exit the LazyOwn shell """
         print("[f] Fix script perm")
         os.system("chmod +x modules/*.sh")
+    def do_encrypt(self, line):
+        """ Encrypt a file using XOR. Usage: encrypt <file_path> <key> """
+        args = shlex.split(line)
+        if len(args) != 2:
+            print("[?] Usage: encrypt <file_path> <key>")
+            return
+
+        file_path, key = args
+
+        try:
+            with open(file_path, 'rb') as f:
+                data = f.read()
+
+            encrypted_data = xor_encrypt_decrypt(data, key)
+            with open(file_path + '.enc', 'wb') as f:
+                f.write(encrypted_data)
+            print(f"[+] File encrypted: {file_path}.enc")
+        except FileNotFoundError:
+            print(f"[?] File not found: {file_path}")
+
+    def do_decrypt(self, line):
+        """ Decrypt a file using XOR. Usage: decrypt <file_path> <key> """
+        args = shlex.split(line)
+        if len(args) != 2:
+            print("[?] Usage: decrypt <file_path> <key>")
+            return
+
+        file_path, key = args
+
+        try:
+            with open(file_path, 'rb') as f:
+                data = f.read()
+
+            decrypted_data = xor_encrypt_decrypt(data, key)
+            with open(file_path.replace('.enc', ''), 'wb') as f:
+                f.write(decrypted_data)
+            print(f"[+] File decrypted: {file_path.replace('.enc', '')}")
+        except FileNotFoundError:
+            print(f"[?] File not found: {file_path}")
+
+def xor_encrypt_decrypt(data, key):
+    """ XOR Encrypt or Decrypt data with a given key """
+    key_bytes = bytes(key, 'utf-8')
+    key_length = len(key_bytes)
+    return bytearray([data[i] ^ key_bytes[i % key_length] for i in range(len(data))])
+
 if __name__ == "__main__":
     LazyOwnShell().cmdloop()

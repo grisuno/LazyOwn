@@ -497,6 +497,15 @@ python3 lazyown_metaextract0r.py --path /home/user
 ```
 ![image](https://github.com/grisuno/LazyOwn/assets/1097185/9ec77c01-4bc1-48ab-8c34-7457cff2f79f)
 
+## Uso modo decrypt encrypt
+un metodo de cifrado el cual nos permite tanto encryptar archivos como decencriptar los si se cuenta con la llave obviamente:
+
+![Captura de pantalla 2024-06-08 231900](https://github.com/grisuno/LazyOwn/assets/1097185/15158dbd-6cd6-4e20-a237-6c89983d42ce)
+
+```sh
+encrypt path/to/file key # to encrypt
+decrypt path/to/file.enc key #to decrypt
+```
 
 ## Uso modo LazyNmap
 
@@ -508,7 +517,7 @@ tambien tiene un modulo de net discovery para saber que hay en el segmento de ip
 ```sh
 ./lazynmap.sh -t 127.0.0.1 
 ```
-## Uso modo Chat Generativo por Consola LazyOwn GPT One Liner CLI Assistant
+## Uso modo Chat Generativo por Consola LazyOwn GPT One Liner CLI Assistant y researcher
 
 ¡Descubre la revolución en automatización de tareas de pentesting con el LazyOwn GPT One Liner CLI Assistant! Este increíble script forma parte de la suite de herramientas LazyOwn, diseñadas para hacer tu vida como pentester más eficiente y productiva.
 
@@ -653,6 +662,9 @@ script que nos provee una visión de rayos x en cuanto al sistema en cuestion do
 run lazygath
 ```
 ## Uso modo LazyOwn Sniffer
+
+https://www.youtube.com/watch?v=_-DDiiMrIlE
+
 El modo sniffer nos permite capturar el trafico de red por interfaces con la opcion -i que es la opción obligatoria, dentro de muchas tras opciones no obligatorias,
 usage: lazysniff.py [-h] -i INTERFACE [-c COUNT] [-f FILTER] [-p PCAP]
 lazysniff.py: error: the following arguments are required: -i/--interface
@@ -717,6 +729,31 @@ Abusar de Tar: Abusa de tar para ejecutar una shell.
 Enumerar Puertos Abiertos: Enumera puertos abiertos.
 Eliminar Contenedores Docker: Elimina todos los contenedores Docker.
 Escanear Red: Escanea la red con secuencia y xargs.
+```
+## Experimental LazyOwnWebShell en python
+Corre en http://localhost:5000 experimental, ya que aun no funciona la salida de la webshell de cara al navegador. pero los comandos si son ejecutados correctamente. por eso está en modo experimental... por no decir que aun tiene bugs xD
+
+![Captura de pantalla 2024-06-09 030335](https://github.com/grisuno/LazyOwn/assets/1097185/4bc6e25a-5c69-4dbc-a1b1-a3c455b38bfd)
+
+```sh
+python3 main.py 
+```
+# Experimental ofuscación mediante pyinstaller
+esto está en modo experimental y no funciona del todo, ya que tiene un problema de rutas. pronto ya contará con ofuscación mediante pyinstaller
+```sh
+./py2el.sh
+```
+# Experimental exploit netbios
+esto está en modo experimental ya que aun no funciona... (proximamente quizas una implementacion de eternalblue entre otras cositas...)
+```sh
+run lazynetbios
+```
+# Experimental LazyBotNet con keylogger para windows y Linux
+esto está en modo experimental y no funciona la desencriptación del log del keylogger xD
+acá vemos por primera vez en accion el comando payload el cual nos setea toda la config en nuestro payload.json así podemos precargar la config antes de arrancar con el framework
+```sh
+payload
+run lazybotnet
 ```
 ## Menús Interactivos
 El script presenta menús interactivos para seleccionar las acciones a realizar. En modo servidor, muestra opciones relevantes para la máquina víctima, y en modo cliente, muestra opciones relevantes para la máquina atacante.

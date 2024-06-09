@@ -1,5 +1,14 @@
 #!/bin/bash
 
+################################################################################
+# Nombre del script: lazygath.sh
+# Autor: Gris Iscomeback
+# Correo electrónico: grisiscomeback[at]gmail[dot]com
+# Fecha de creación: 09/06/2024
+# Descripción: Este script contiene la lógica principal de la aplicación. Lazygathering
+# Licencia: GPL v3
+################################################################################
+
 # Verifica si se está ejecutando como root
 if [ "$EUID" -ne 0 ]; then
   echo "Por favor, ejecute este script como root."

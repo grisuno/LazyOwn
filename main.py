@@ -64,4 +64,4 @@ def get_output():
     return jsonify({"output": output})  # Devolver la salida como un objeto JSON
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)

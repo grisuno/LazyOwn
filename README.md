@@ -454,6 +454,22 @@ if __name__ == '__main__':
     ejecutar_opciones()
 
 ```
+## Uso modo LazyOwn WebShells
+LazyOwn Webshell Collection es una colleccion de webshells para nuestro framework, el cual nos permite mediante distintos lenguajes establecer una webshell en la maquina donde ejecutemos lazyown webshell basicamente lo que hace es levantar un servidor web dentro del directorio modules para que así esté visible mediante el navegador así podemos tanto disponivilizar los modulos por separados mediante web como tambien podemos acceder al directorio cgi-bin en donde hay 4 shells una bash otra en perl otra en python y en asp por 
+si fuera un windwos
+
+```sh
+lazywebshell
+```
+y listo ya podemos acceder a cualquiera de estas url:
+
+http://localhost:8080/cgi-bin/lazywebshell.sh
+http://localhost:8080/cgi-bin/lazywebshell.py
+http://localhost:8080/cgi-bin/lazywebshell.asp
+http://localhost:8080/cgi-bin/lazywebshell.cgi
+
+![image](https://github.com/grisuno/LazyOwn/assets/1097185/fc0ea814-7044-4f8f-8979-02f9579e9df9)
+
 ## Uso modo LazyOwn RAT
 LazyOwn RAT es una sencilla pero potente Remote Admin Tool Cuenta con una funcion de Screenshot, el cual captura la pantalla del servidor, tiene un comando upload, el cual nos permite subir archivos a la maquina comprometida, y un modo C&C donde podran enviar comandos al servidor, cuenta con dos modos en modo cliente y modo servidor, no tiene ningun tipo de ofuscación y la rat me base en BasicRat acá su github https://github.com/awesome-security/basicRAT y en https://github.com/hash3liZer/SillyRAT aun que está ultima es mucho más completa yo solo queria sacar pantallasos subir archivos y enviar comandos, quizas más adelante agregar funcionalidad de mirar webcams, pero eso más adelante.
 

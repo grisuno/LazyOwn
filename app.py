@@ -358,6 +358,7 @@ class LazyOwnShell(Cmd):
         """ Exit the LazyOwn shell """
         print("[f] Fix script perm")
         os.system("chmod +x modules/*.sh")
+        os.system("chmod +x modules/cgi-bin/*")
 
     def do_lazywebshell(self, line):
         """ Exit the LazyOwn shell """

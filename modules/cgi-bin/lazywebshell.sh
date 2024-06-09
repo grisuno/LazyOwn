@@ -42,7 +42,8 @@ echo "</form>"
 echo "<hr>"
 
 if [ "$REQUEST_METHOD" = "GET" ]; then
-    cmd=$(echo "$QUERY_STRING" | cut -d'=' -f2 | sed "s/%20/ /g")
+    cmd=$(echo "$QUERY_STRING" | cut -d'=' -f2 | sed "s/%20/ /g"| tr '+' ' ')
+
     echo "<h2>Resultado del comando:</h2>"
     echo "<pre>"
     echo "cmd: $cmd QUERY_STRING: $QUERY_STRING"

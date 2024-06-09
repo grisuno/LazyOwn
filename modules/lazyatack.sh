@@ -1,5 +1,14 @@
 #!/bin/bash
 
+################################################################################
+# Nombre del script: lazyatack.sh
+# Autor: Gris Iscomeback
+# Correo electrónico: grisiscomeback[at]gmail[dot]com
+# Fecha de creación: 09/06/2024
+# Descripción: Este script contiene la lógica principal de la aplicación. LazyAtack
+# Licencia: GPL v3
+################################################################################
+
 # Banner
 echo "██╗      █████╗ ███████╗██╗   ██╗ ██████╗ ██╗    ██╗███╗   ██╗"
 echo "██║     ██╔══██╗╚══███╔╝╚██╗ ██╔╝██╔═══██╗██║    ██║████╗  ██║"

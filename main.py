@@ -22,7 +22,7 @@ def run_command():
         output = get_output()
         return jsonify({"result": output}), 200
     except Exception as e:
-        #return jsonify({"error": str(e)}), 500
+        return jsonify({"error": "error"}), 500
 
 @app.route('/api/set', methods=['POST'])
 def set_param():
@@ -37,7 +37,7 @@ def set_param():
         shell.do_set(f"{param} {value}")
         return jsonify({"result": f"{param} set to {value}"}), 200
     except Exception as e:
-        #return jsonify({"error": str(e)}), 500
+        return jsonify({"error": "error"}), 500
 
 @app.route('/api/show', methods=['GET'])
 def show_params():
@@ -55,7 +55,7 @@ def load_payload():
         shell.do_payload('')
         return jsonify({"result": "Payload loaded successfully"}), 200
     except Exception as e:
-        #return jsonify({"error": str(e)}), 500
+        return jsonify({"error": "error"}), 500
 
 @app.route('/api/output', methods=['GET'])
 def get_output():

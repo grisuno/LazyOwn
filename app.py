@@ -1,3 +1,22 @@
+"""
+main.py
+
+Autor: Gris Iscomeback 
+Correo electrónico: grisiscomeback[at]gmail[dot]com
+Fecha de creación: 09/06/2024
+Licencia: GPL v3
+
+Descripción: Este archivo contiene la definición de las rutas y la lógica de la aplicación de Terminal.
+LazyOwn Framework SHELL
+
+██╗      █████╗ ███████╗██╗   ██╗ ██████╗ ██╗    ██╗███╗   ██╗
+██║     ██╔══██╗╚══███╔╝╚██╗ ██╔╝██╔═══██╗██║    ██║████╗  ██║
+██║     ███████║  ███╔╝  ╚████╔╝ ██║   ██║██║ █╗ ██║██╔██╗ ██║
+██║     ██╔══██║ ███╔╝    ╚██╔╝  ██║   ██║██║███╗██║██║╚██╗██║
+███████╗██║  ██║███████╗   ██║   ╚██████╔╝╚███╔███╔╝██║ ╚████║
+╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
+
+"""
 import os
 import sys
 import subprocess

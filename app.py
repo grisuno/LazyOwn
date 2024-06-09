@@ -358,6 +358,12 @@ class LazyOwnShell(Cmd):
         """ Exit the LazyOwn shell """
         print("[f] Fix script perm")
         os.system("chmod +x modules/*.sh")
+
+    def do_lazywebshell(self, line):
+        """ Exit the LazyOwn shell """
+        print("[r] Running Server in localhost:8080/cgi-bin/lazywebshell.py")
+        os.system("cd modules && python3 -m http.server 8080 --cgi &")      
+
     def do_encrypt(self, line):
         """ Encrypt a file using XOR. Usage: encrypt <file_path> <key> """
         args = shlex.split(line)

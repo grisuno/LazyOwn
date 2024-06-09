@@ -87,6 +87,17 @@ class LazyOwnShell(Cmd):
             "lazyhoneypot",
             "lazysearch_bot"
         ]
+        self.output = ""
+
+    def one_cmd(self, command):
+        self.output = self.get_output
+        try:
+            self.onecmd(command)  # Ejecuta el comando directamente
+            self.output = "Command executed successfully."
+            return self.output
+        except Exception as e:
+            self.output = str(e)
+
 
     def do_set(self, line):
         """ Set a parameter value. Usage: set <parameter> <value> """
@@ -294,8 +305,10 @@ class LazyOwnShell(Cmd):
         process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         try:
             for line in iter(process.stdout.readline, ''):
+                self.output += line  # Agregar la salida a la variable self.output
                 print(line, end='')
             for line in iter(process.stderr.readline, ''):
+                self.output += line  # Agregar la salida de stderr también
                 print(line, end='')
             process.stdout.close()
             process.stderr.close()
@@ -365,7 +378,9 @@ class LazyOwnShell(Cmd):
             print(f"[+] File decrypted: {file_path.replace('.enc', '')}")
         except FileNotFoundError:
             print(f"[?] File not found: {file_path}")
-
+    def get_output(self):
+        """ Devuelve la salida acumulada """
+        return self.output
 def xor_encrypt_decrypt(data, key):
     """ XOR Encrypt or Decrypt data with a given key """
     key_bytes = bytes(key, 'utf-8')

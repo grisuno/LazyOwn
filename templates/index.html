@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LazyOwn Web Shell</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #output {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-top: 20px;
+            height: 300px;
+            overflow-y: auto;
+            background: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h1>LazyOwn Web Shell</h1>
+    <form id="commandForm">
+        <input type="text" id="command" placeholder="Enter command">
+        <button type="submit">Run</button>
+    </form>
+    <div id="output"></div>
+
+    <script>
+        document.getElementById('commandForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const command = document.getElementById('command').value;
+            fetch('/api/run', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ command })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const outputDiv = document.getElementById('output');
+                if (data.error) {
+                    outputDiv.innerHTML += `<p style="color: red;">${data.error}</p>`;
+                } else {
+                    outputDiv.innerHTML += `<p>${data.result}</p>`;
+                }
+                outputDiv.scrollTop = outputDiv.scrollHeight;
+            });
+        });
+
+        // Polling to update the output
+        function updateOutput() {
+            fetch('/api/output')
+            .then(response => response.text())
+            .then(data => {
+                const outputDiv = document.getElementById('output');
+                outputDiv.innerHTML = data;
+                outputDiv.scrollTop = outputDiv.scrollHeight;
+            });
+        }
+
+        setInterval(updateOutput, 1000); // Update every second
+    </script>
+</body>
+</html>

@@ -1,3 +1,21 @@
+"""
+main.py
+
+Autor: Gris Iscomeback 
+Correo electrónico: grisiscomeback[at]gmail[dot]com
+Fecha de creación: 09/06/2024
+Licencia: GPL v3
+
+Descripción: Gui to search in gtfobins db 
+
+██╗      █████╗ ███████╗██╗   ██╗ ██████╗ ██╗    ██╗███╗   ██╗
+██║     ██╔══██╗╚══███╔╝╚██╗ ██╔╝██╔═══██╗██║    ██║████╗  ██║
+██║     ███████║  ███╔╝  ╚████╔╝ ██║   ██║██║ █╗ ██║██╔██╗ ██║
+██║     ██╔══██║ ███╔╝    ╚██╔╝  ██║   ██║██║███╗██║██║╚██╗██║
+███████╗██║  ██║███████╗   ██║   ╚██████╔╝╚███╔███╔╝██║ ╚████║
+╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
+
+"""
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox, Text
 import pandas as pd

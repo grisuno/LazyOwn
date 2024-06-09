@@ -35,9 +35,9 @@ if "command" in form:
     # Ejecutar el comando y obtener la salida
     try:
         output = subprocess.check_output(command, shell=True, stderr=subprocess.STDOUT)
-        output = output.decode()  # Convertir bytes a cadena
+        output = output.decode('utf-8', errors='ignore')  # Convertir bytes a cadena
     except subprocess.CalledProcessError as e:
-        output = e.output.decode()  # Capturar la salida de error
+        output = e.output.decode('utf-8', errors='ignore')  # Capturar la salida de error
 
     # Mostrar la salida como respuesta HTML
     print("<html><body>")

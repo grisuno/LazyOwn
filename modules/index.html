@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LazyOwn Framework</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #000;
+            color: #00ff00;
+            font-family: 'VT323', monospace;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2, h3, p {
+            margin: 0 0 20px 0;
+        }
+        a {
+            color: #00ff00;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .banner {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .content {
+            background-color: #111;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #00ff00;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 10px;
+            background-color: #111;
+            border-top: 1px solid #00ff00;
+        }
+        .neon-text {
+            color: #00ff00;
+            text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 40px #00ff00;
+            animation: flicker 1.5s infinite alternate;
+        }
+        @keyframes flicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+                opacity: 1;
+            }
+            20%, 24%, 55% {
+                opacity: 0.5;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="banner">
+            <h1 class="neon-text">LazyOwn Framework [;,;]</h1>
+        </div>
+        <div class="content">
+            <h2>About</h2>
+            <p>LazyOwn Framework is a powerful Framework written in Python. It, Fuzzing, Webshellz, BotNet, Rat, Keylogger, Nmap, Pwn, and captures and analyzes network packets using the Scapy library and provides an interactive terminal interface with curses.</p>
+            <h2>Features</h2>
+            <pre class="neon-text">
+                ██▓    ▄▄▄      ▒███████▒▓██   ██▓ ▒█████   █     █░███▄    █                
+                ▓██▒   ▒████▄    ▒ ▒ ▒ ▄▀░ ▒██  ██▒▒██▒  ██▒▓█░ █ ░█░██ ▀█   █                
+                ▒██░   ▒██  ▀█▄  ░ ▒ ▄▀▒░   ▒██ ██░▒██░  ██▒▒█░ █ ░█▓██  ▀█ ██▒               
+                ▒██░   ░██▄▄▄▄██   ▄▀▒   ░  ░ ▐██▓░▒██   ██░░█░ █ ░█▓██▒  ▐▌██▒               
+                ░██████▒▓█   ▓██▒▒███████▒  ░ ██▒▓░░ ████▓▒░░░██▒██▓▒██░   ▓██░               
+                ░ ▒░▓  ░▒▒   ▓▒█░░▒▒ ▓░▒░▒   ██▒▒▒ ░ ▒░▒░▒░ ░ ▓░▒ ▒ ░ ▒░   ▒ ▒                
+                ░ ░ ▒  ░ ▒   ▒▒ ░░░▒ ▒ ░ ▒ ▓██ ░▒░   ░ ▒ ▒░   ▒ ░ ░ ░ ░░   ░ ▒░               
+                  ░ ░    ░   ▒   ░ ░ ░ ░ ░ ▒ ▒ ░░  ░ ░ ░ ▒    ░   ░    ░   ░ ░                
+                    ░  ░     ░  ░  ░ ░     ░ ░         ░ ░      ░            ░                
+                                 ░         ░ ░                                                
+                  █████▒██▀███   ▄▄▄       ███▄ ▄███▓▓█████  █     █░ ▒█████   ██▀███   ██ ▄█▀
+                ▓██   ▒▓██ ▒ ██▒▒████▄    ▓██▒▀█▀ ██▒▓█   ▀ ▓█░ █ ░█░▒██▒  ██▒▓██ ▒ ██▒ ██▄█▒ 
+                ▒████ ░▓██ ░▄█ ▒▒██  ▀█▄  ▓██    ▓██░▒███   ▒█░ █ ░█ ▒██░  ██▒▓██ ░▄█ ▒▓███▄░ 
+                ░▓█▒  ░▒██▀▀█▄  ░██▄▄▄▄██ ▒██    ▒██ ▒▓█  ▄ ░█░ █ ░█ ▒██   ██░▒██▀▀█▄  ▓██ █▄ 
+                ░▒█░   ░██▓ ▒██▒ ▓█   ▓██▒▒██▒   ░██▒░▒████▒░░██▒██▓ ░ ████▓▒░░██▓ ▒██▒▒██▒ █▄
+                 ▒ ░   ░ ▒▓ ░▒▓░ ▒▒   ▓▒█░░ ▒░   ░  ░░░ ▒░ ░░ ▓░▒ ▒  ░ ▒░▒░▒░ ░ ▒▓ ░▒▓░▒ ▒▒ ▓▒
+                 ░       ░▒ ░ ▒░  ▒   ▒▒ ░░  ░      ░ ░ ░  ░  ▒ ░ ░    ░ ▒ ▒░   ░▒ ░ ▒░░ ░▒ ▒░
+                 ░ ░     ░░   ░   ░   ▒   ░      ░      ░     ░   ░  ░ ░ ░ ▒    ░░   ░ ░ ░░ ░ 
+                          ░           ░  ░       ░      ░  ░    ░        ░ ░     ░     ░  ░   
+                                                                                              
+
+            </pre>
+            <ul>
+                <li>Real-time packet capture</li>
+                <li>Detailed packet analysis</li>
+                <li>Interactive terminal interface</li>
+                <li>Save captured packets to a file</li>
+                <li>Fuzzing</li>
+                <li>Webshellz</li>
+                <li>BotNet</li>
+                <li>Rat</li>
+                <li>Keylogger</li>
+                <li>Nmap</li>
+                <li>Pwn</li>
+            </ul>
+            <h2>Installation</h2>
+            <p>To get started with LazyOwn Framework, clone the repository and install the dependencies:</p>
+            <pre><code class="neon-text">git clone https://github.com/grisuno/LazyOwn.git
+cd LazyOwn
+pip install -r requirements.txt</code></pre>
+            <h2>Usage</h2>
+            <p>Run the  Framework with the following command:</p>
+            <pre><code class="neon-text">python app.py </code></pre>
+            <h2>Contact</h2>
+            <p>For any questions or feedback, please reach out to <a href="mailto:grisiscomeback@gmail.com">Gris Iscomeback</a>.</p>
+        </div>
+        <div class="footer">
+            <p>&copy; 2024 LazyOwn Framework. All rights GPLv3.</p>
+        </div>
+    </div>
+</body>
+</html>

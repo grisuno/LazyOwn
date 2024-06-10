@@ -270,7 +270,7 @@ class LazyOwnShell(Cmd):
         if not rhost or not rport or not rat_key:
             print("[?] rhost and lport and rat_key must be set")
             return
-        self.run_script("modules/lazybotnet.py", "--host", rhost, "--port", str(rport), "--key", rat_key, " --botnet-file botnet.txt --log-file keylog.log" )
+        self.run_script("modules/lazybotnet.py", "--host", rhost, "--port", str(rport), "--key", rat_key )
 
     def run_lazybotcli(self):
         rhost = "0.0.0.0"

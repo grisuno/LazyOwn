@@ -461,12 +461,17 @@ si fuera un windwos
 ```sh
 lazywebshell
 ```
+
 y listo ya podemos acceder a cualquiera de estas url:
 
 http://localhost:8080/cgi-bin/lazywebshell.sh
+
 http://localhost:8080/cgi-bin/lazywebshell.py
+
 http://localhost:8080/cgi-bin/lazywebshell.asp
+
 http://localhost:8080/cgi-bin/lazywebshell.cgi
+
 
 ![image](https://github.com/grisuno/LazyOwn/assets/1097185/fc0ea814-7044-4f8f-8979-02f9579e9df9)
 

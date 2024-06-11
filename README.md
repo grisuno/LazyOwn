@@ -1,6 +1,7 @@
 # LazyOwn
 ![License](https://img.shields.io/github/license/grisuno/LazyOwn?style=flat-square)
 
+
 ```sh
 ██╗      █████╗ ███████╗██╗   ██╗ ██████╗ ██╗    ██╗███╗   ██╗
 ██║     ██╔══██╗╚══███╔╝╚██╗ ██╔╝██╔═══██╗██║    ██║████╗  ██║
@@ -9,6 +10,9 @@
 ███████╗██║  ██║███████╗   ██║   ╚██████╔╝╚███╔███╔╝██║ ╚████║
 ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
 ```
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Y8Y2Z73AV)
+
 LazyOwn Framework es un potente y versátil framework de seguridad diseñado para automatizar y simplificar tareas de pentesting y análisis de vulnerabilidades. Este entorno interactivo combina múltiples herramientas y scripts, facilitando el trabajo de los profesionales de la ciberseguridad en diversas fases del ciclo de evaluación de seguridad. Con una interfaz de línea de comandos intuitiva, LazyOwn permite a los usuarios configurar parámetros específicos, ejecutar scripts personalizados y obtener resultados en tiempo real, todo desde una única plataforma.
 
 Características Principales

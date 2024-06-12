@@ -1,0 +1,1318 @@
+Binary,Function Name,Function URL
+7z,File read,/gtfobins/7z/#file-read
+7z,Sudo,/gtfobins/7z/#sudo
+aa-exec,Shell,/gtfobins/aa-exec/#shell
+aa-exec,SUID,/gtfobins/aa-exec/#suid
+aa-exec,Sudo,/gtfobins/aa-exec/#sudo
+ab,File upload,/gtfobins/ab/#file-upload
+ab,File download,/gtfobins/ab/#file-download
+ab,SUID,/gtfobins/ab/#suid
+ab,Sudo,/gtfobins/ab/#sudo
+agetty,SUID,/gtfobins/agetty/#suid
+alpine,File read,/gtfobins/alpine/#file-read
+alpine,SUID,/gtfobins/alpine/#suid
+alpine,Sudo,/gtfobins/alpine/#sudo
+ansible-playbook,Shell,/gtfobins/ansible-playbook/#shell
+ansible-playbook,Sudo,/gtfobins/ansible-playbook/#sudo
+ansible-test,Shell,/gtfobins/ansible-test/#shell
+ansible-test,Sudo,/gtfobins/ansible-test/#sudo
+aoss,Shell,/gtfobins/aoss/#shell
+aoss,Sudo,/gtfobins/aoss/#sudo
+apache2ctl,File read,/gtfobins/apache2ctl/#file-read
+apache2ctl,Sudo,/gtfobins/apache2ctl/#sudo
+apt-get,Shell,/gtfobins/apt-get/#shell
+apt-get,Sudo,/gtfobins/apt-get/#sudo
+apt,Shell,/gtfobins/apt/#shell
+apt,Sudo,/gtfobins/apt/#sudo
+ar,File read,/gtfobins/ar/#file-read
+ar,SUID,/gtfobins/ar/#suid
+ar,Sudo,/gtfobins/ar/#sudo
+aria2c,Command,/gtfobins/aria2c/#command
+aria2c,File download,/gtfobins/aria2c/#file-download
+aria2c,Sudo,/gtfobins/aria2c/#sudo
+aria2c,Limited SUID,/gtfobins/aria2c/#limited-suid
+arj,File write,/gtfobins/arj/#file-write
+arj,File read,/gtfobins/arj/#file-read
+arj,SUID,/gtfobins/arj/#suid
+arj,Sudo,/gtfobins/arj/#sudo
+arp,File read,/gtfobins/arp/#file-read
+arp,SUID,/gtfobins/arp/#suid
+arp,Sudo,/gtfobins/arp/#sudo
+as,File read,/gtfobins/as/#file-read
+as,SUID,/gtfobins/as/#suid
+as,Sudo,/gtfobins/as/#sudo
+ascii-xfr,File read,/gtfobins/ascii-xfr/#file-read
+ascii-xfr,SUID,/gtfobins/ascii-xfr/#suid
+ascii-xfr,Sudo,/gtfobins/ascii-xfr/#sudo
+ascii85,File read,/gtfobins/ascii85/#file-read
+ascii85,Sudo,/gtfobins/ascii85/#sudo
+ash,Shell,/gtfobins/ash/#shell
+ash,File write,/gtfobins/ash/#file-write
+ash,SUID,/gtfobins/ash/#suid
+ash,Sudo,/gtfobins/ash/#sudo
+aspell,File read,/gtfobins/aspell/#file-read
+aspell,SUID,/gtfobins/aspell/#suid
+aspell,Sudo,/gtfobins/aspell/#sudo
+at,Shell,/gtfobins/at/#shell
+at,Command,/gtfobins/at/#command
+at,Sudo,/gtfobins/at/#sudo
+atobm,File read,/gtfobins/atobm/#file-read
+atobm,SUID,/gtfobins/atobm/#suid
+atobm,Sudo,/gtfobins/atobm/#sudo
+awk,Shell,/gtfobins/awk/#shell
+awk,Non-interactive reverse shell,/gtfobins/awk/#non-interactive-reverse-shell
+awk,Non-interactive bind shell,/gtfobins/awk/#non-interactive-bind-shell
+awk,File write,/gtfobins/awk/#file-write
+awk,File read,/gtfobins/awk/#file-read
+awk,SUID,/gtfobins/awk/#suid
+awk,Sudo,/gtfobins/awk/#sudo
+awk,Limited SUID,/gtfobins/awk/#limited-suid
+aws,Shell,/gtfobins/aws/#shell
+aws,Sudo,/gtfobins/aws/#sudo
+base32,File read,/gtfobins/base32/#file-read
+base32,SUID,/gtfobins/base32/#suid
+base32,Sudo,/gtfobins/base32/#sudo
+base58,File read,/gtfobins/base58/#file-read
+base58,Sudo,/gtfobins/base58/#sudo
+base64,File read,/gtfobins/base64/#file-read
+base64,SUID,/gtfobins/base64/#suid
+base64,Sudo,/gtfobins/base64/#sudo
+basenc,File read,/gtfobins/basenc/#file-read
+basenc,SUID,/gtfobins/basenc/#suid
+basenc,Sudo,/gtfobins/basenc/#sudo
+basez,File read,/gtfobins/basez/#file-read
+basez,SUID,/gtfobins/basez/#suid
+basez,Sudo,/gtfobins/basez/#sudo
+bash,Shell,/gtfobins/bash/#shell
+bash,Reverse shell,/gtfobins/bash/#reverse-shell
+bash,File upload,/gtfobins/bash/#file-upload
+bash,File download,/gtfobins/bash/#file-download
+bash,File write,/gtfobins/bash/#file-write
+bash,File read,/gtfobins/bash/#file-read
+bash,Library load,/gtfobins/bash/#library-load
+bash,SUID,/gtfobins/bash/#suid
+bash,Sudo,/gtfobins/bash/#sudo
+batcat,Shell,/gtfobins/batcat/#shell
+batcat,Sudo,/gtfobins/batcat/#sudo
+batcat,Limited SUID,/gtfobins/batcat/#limited-suid
+bc,File read,/gtfobins/bc/#file-read
+bc,SUID,/gtfobins/bc/#suid
+bc,Sudo,/gtfobins/bc/#sudo
+bconsole,Shell,/gtfobins/bconsole/#shell
+bconsole,File read,/gtfobins/bconsole/#file-read
+bconsole,Sudo,/gtfobins/bconsole/#sudo
+bpftrace,Sudo,/gtfobins/bpftrace/#sudo
+bridge,File read,/gtfobins/bridge/#file-read
+bridge,SUID,/gtfobins/bridge/#suid
+bridge,Sudo,/gtfobins/bridge/#sudo
+bundle,Shell,/gtfobins/bundle/#shell
+bundle,Sudo,/gtfobins/bundle/#sudo
+bundler,Shell,/gtfobins/bundler/#shell
+bundler,Sudo,/gtfobins/bundler/#sudo
+busctl,Shell,/gtfobins/busctl/#shell
+busctl,SUID,/gtfobins/busctl/#suid
+busctl,Sudo,/gtfobins/busctl/#sudo
+busybox,Shell,/gtfobins/busybox/#shell
+busybox,Reverse shell,/gtfobins/busybox/#reverse-shell
+busybox,File upload,/gtfobins/busybox/#file-upload
+busybox,File write,/gtfobins/busybox/#file-write
+busybox,File read,/gtfobins/busybox/#file-read
+busybox,SUID,/gtfobins/busybox/#suid
+busybox,Sudo,/gtfobins/busybox/#sudo
+byebug,Shell,/gtfobins/byebug/#shell
+byebug,Sudo,/gtfobins/byebug/#sudo
+byebug,Limited SUID,/gtfobins/byebug/#limited-suid
+bzip2,File read,/gtfobins/bzip2/#file-read
+bzip2,SUID,/gtfobins/bzip2/#suid
+bzip2,Sudo,/gtfobins/bzip2/#sudo
+c89,Shell,/gtfobins/c89/#shell
+c89,File write,/gtfobins/c89/#file-write
+c89,File read,/gtfobins/c89/#file-read
+c89,Sudo,/gtfobins/c89/#sudo
+c99,Shell,/gtfobins/c99/#shell
+c99,File write,/gtfobins/c99/#file-write
+c99,File read,/gtfobins/c99/#file-read
+c99,Sudo,/gtfobins/c99/#sudo
+cabal,Shell,/gtfobins/cabal/#shell
+cabal,SUID,/gtfobins/cabal/#suid
+cabal,Sudo,/gtfobins/cabal/#sudo
+cancel,File upload,/gtfobins/cancel/#file-upload
+capsh,Shell,/gtfobins/capsh/#shell
+capsh,SUID,/gtfobins/capsh/#suid
+capsh,Sudo,/gtfobins/capsh/#sudo
+cat,File read,/gtfobins/cat/#file-read
+cat,SUID,/gtfobins/cat/#suid
+cat,Sudo,/gtfobins/cat/#sudo
+cdist,Shell,/gtfobins/cdist/#shell
+cdist,Sudo,/gtfobins/cdist/#sudo
+certbot,Shell,/gtfobins/certbot/#shell
+certbot,Sudo,/gtfobins/certbot/#sudo
+check_by_ssh,Shell,/gtfobins/check_by_ssh/#shell
+check_by_ssh,Sudo,/gtfobins/check_by_ssh/#sudo
+check_cups,File read,/gtfobins/check_cups/#file-read
+check_cups,Sudo,/gtfobins/check_cups/#sudo
+check_log,File write,/gtfobins/check_log/#file-write
+check_log,File read,/gtfobins/check_log/#file-read
+check_log,Sudo,/gtfobins/check_log/#sudo
+check_memory,File read,/gtfobins/check_memory/#file-read
+check_memory,Sudo,/gtfobins/check_memory/#sudo
+check_raid,File read,/gtfobins/check_raid/#file-read
+check_raid,Sudo,/gtfobins/check_raid/#sudo
+check_ssl_cert,Command,/gtfobins/check_ssl_cert/#command
+check_ssl_cert,Sudo,/gtfobins/check_ssl_cert/#sudo
+check_statusfile,File read,/gtfobins/check_statusfile/#file-read
+check_statusfile,Sudo,/gtfobins/check_statusfile/#sudo
+chmod,SUID,/gtfobins/chmod/#suid
+chmod,Sudo,/gtfobins/chmod/#sudo
+choom,Shell,/gtfobins/choom/#shell
+choom,SUID,/gtfobins/choom/#suid
+choom,Sudo,/gtfobins/choom/#sudo
+chown,SUID,/gtfobins/chown/#suid
+chown,Sudo,/gtfobins/chown/#sudo
+chroot,SUID,/gtfobins/chroot/#suid
+chroot,Sudo,/gtfobins/chroot/#sudo
+clamscan,File read,/gtfobins/clamscan/#file-read
+clamscan,SUID,/gtfobins/clamscan/#suid
+clamscan,Sudo,/gtfobins/clamscan/#sudo
+cmp,File read,/gtfobins/cmp/#file-read
+cmp,SUID,/gtfobins/cmp/#suid
+cmp,Sudo,/gtfobins/cmp/#sudo
+cobc,Shell,/gtfobins/cobc/#shell
+cobc,Sudo,/gtfobins/cobc/#sudo
+column,File read,/gtfobins/column/#file-read
+column,SUID,/gtfobins/column/#suid
+column,Sudo,/gtfobins/column/#sudo
+comm,File read,/gtfobins/comm/#file-read
+comm,SUID,/gtfobins/comm/#suid
+comm,Sudo,/gtfobins/comm/#sudo
+composer,Shell,/gtfobins/composer/#shell
+composer,Sudo,/gtfobins/composer/#sudo
+composer,Limited SUID,/gtfobins/composer/#limited-suid
+cowsay,Shell,/gtfobins/cowsay/#shell
+cowsay,Sudo,/gtfobins/cowsay/#sudo
+cowthink,Shell,/gtfobins/cowthink/#shell
+cowthink,Sudo,/gtfobins/cowthink/#sudo
+cp,File write,/gtfobins/cp/#file-write
+cp,File read,/gtfobins/cp/#file-read
+cp,SUID,/gtfobins/cp/#suid
+cp,Sudo,/gtfobins/cp/#sudo
+cpan,Shell,/gtfobins/cpan/#shell
+cpan,Reverse shell,/gtfobins/cpan/#reverse-shell
+cpan,File upload,/gtfobins/cpan/#file-upload
+cpan,File download,/gtfobins/cpan/#file-download
+cpan,Sudo,/gtfobins/cpan/#sudo
+cpio,Shell,/gtfobins/cpio/#shell
+cpio,File write,/gtfobins/cpio/#file-write
+cpio,File read,/gtfobins/cpio/#file-read
+cpio,SUID,/gtfobins/cpio/#suid
+cpio,Sudo,/gtfobins/cpio/#sudo
+cpulimit,Shell,/gtfobins/cpulimit/#shell
+cpulimit,SUID,/gtfobins/cpulimit/#suid
+cpulimit,Sudo,/gtfobins/cpulimit/#sudo
+crash,Shell,/gtfobins/crash/#shell
+crash,Command,/gtfobins/crash/#command
+crash,Sudo,/gtfobins/crash/#sudo
+crontab,Command,/gtfobins/crontab/#command
+crontab,Sudo,/gtfobins/crontab/#sudo
+csh,Shell,/gtfobins/csh/#shell
+csh,File write,/gtfobins/csh/#file-write
+csh,SUID,/gtfobins/csh/#suid
+csh,Sudo,/gtfobins/csh/#sudo
+csplit,File write,/gtfobins/csplit/#file-write
+csplit,File read,/gtfobins/csplit/#file-read
+csplit,SUID,/gtfobins/csplit/#suid
+csplit,Sudo,/gtfobins/csplit/#sudo
+csvtool,Shell,/gtfobins/csvtool/#shell
+csvtool,File write,/gtfobins/csvtool/#file-write
+csvtool,File read,/gtfobins/csvtool/#file-read
+csvtool,SUID,/gtfobins/csvtool/#suid
+csvtool,Sudo,/gtfobins/csvtool/#sudo
+cupsfilter,File read,/gtfobins/cupsfilter/#file-read
+cupsfilter,SUID,/gtfobins/cupsfilter/#suid
+cupsfilter,Sudo,/gtfobins/cupsfilter/#sudo
+curl,File upload,/gtfobins/curl/#file-upload
+curl,File download,/gtfobins/curl/#file-download
+curl,File write,/gtfobins/curl/#file-write
+curl,File read,/gtfobins/curl/#file-read
+curl,SUID,/gtfobins/curl/#suid
+curl,Sudo,/gtfobins/curl/#sudo
+cut,File read,/gtfobins/cut/#file-read
+cut,SUID,/gtfobins/cut/#suid
+cut,Sudo,/gtfobins/cut/#sudo
+dash,Shell,/gtfobins/dash/#shell
+dash,File write,/gtfobins/dash/#file-write
+dash,SUID,/gtfobins/dash/#suid
+dash,Sudo,/gtfobins/dash/#sudo
+date,File read,/gtfobins/date/#file-read
+date,SUID,/gtfobins/date/#suid
+date,Sudo,/gtfobins/date/#sudo
+dc,Shell,/gtfobins/dc/#shell
+dc,Sudo,/gtfobins/dc/#sudo
+dc,Limited SUID,/gtfobins/dc/#limited-suid
+dd,File write,/gtfobins/dd/#file-write
+dd,File read,/gtfobins/dd/#file-read
+dd,SUID,/gtfobins/dd/#suid
+dd,Sudo,/gtfobins/dd/#sudo
+debugfs,Shell,/gtfobins/debugfs/#shell
+debugfs,SUID,/gtfobins/debugfs/#suid
+debugfs,Sudo,/gtfobins/debugfs/#sudo
+dialog,File read,/gtfobins/dialog/#file-read
+dialog,SUID,/gtfobins/dialog/#suid
+dialog,Sudo,/gtfobins/dialog/#sudo
+diff,File read,/gtfobins/diff/#file-read
+diff,SUID,/gtfobins/diff/#suid
+diff,Sudo,/gtfobins/diff/#sudo
+dig,File read,/gtfobins/dig/#file-read
+dig,SUID,/gtfobins/dig/#suid
+dig,Sudo,/gtfobins/dig/#sudo
+distcc,Shell,/gtfobins/distcc/#shell
+distcc,SUID,/gtfobins/distcc/#suid
+distcc,Sudo,/gtfobins/distcc/#sudo
+dmesg,Shell,/gtfobins/dmesg/#shell
+dmesg,File read,/gtfobins/dmesg/#file-read
+dmesg,Sudo,/gtfobins/dmesg/#sudo
+dmidecode,Sudo,/gtfobins/dmidecode/#sudo
+dmsetup,SUID,/gtfobins/dmsetup/#suid
+dmsetup,Sudo,/gtfobins/dmsetup/#sudo
+dnf,Sudo,/gtfobins/dnf/#sudo
+docker,Shell,/gtfobins/docker/#shell
+docker,File write,/gtfobins/docker/#file-write
+docker,File read,/gtfobins/docker/#file-read
+docker,SUID,/gtfobins/docker/#suid
+docker,Sudo,/gtfobins/docker/#sudo
+dos2unix,File write,/gtfobins/dos2unix/#file-write
+dosbox,File write,/gtfobins/dosbox/#file-write
+dosbox,File read,/gtfobins/dosbox/#file-read
+dosbox,SUID,/gtfobins/dosbox/#suid
+dosbox,Sudo,/gtfobins/dosbox/#sudo
+dotnet,Shell,/gtfobins/dotnet/#shell
+dotnet,File read,/gtfobins/dotnet/#file-read
+dotnet,Sudo,/gtfobins/dotnet/#sudo
+dpkg,Shell,/gtfobins/dpkg/#shell
+dpkg,Sudo,/gtfobins/dpkg/#sudo
+dstat,Shell,/gtfobins/dstat/#shell
+dstat,Sudo,/gtfobins/dstat/#sudo
+dvips,Shell,/gtfobins/dvips/#shell
+dvips,Sudo,/gtfobins/dvips/#sudo
+dvips,Limited SUID,/gtfobins/dvips/#limited-suid
+easy_install,Shell,/gtfobins/easy_install/#shell
+easy_install,Reverse shell,/gtfobins/easy_install/#reverse-shell
+easy_install,File upload,/gtfobins/easy_install/#file-upload
+easy_install,File download,/gtfobins/easy_install/#file-download
+easy_install,File write,/gtfobins/easy_install/#file-write
+easy_install,File read,/gtfobins/easy_install/#file-read
+easy_install,Library load,/gtfobins/easy_install/#library-load
+easy_install,Sudo,/gtfobins/easy_install/#sudo
+eb,Shell,/gtfobins/eb/#shell
+eb,Sudo,/gtfobins/eb/#sudo
+ed,Shell,/gtfobins/ed/#shell
+ed,File write,/gtfobins/ed/#file-write
+ed,File read,/gtfobins/ed/#file-read
+ed,SUID,/gtfobins/ed/#suid
+ed,Sudo,/gtfobins/ed/#sudo
+ed,Limited SUID,/gtfobins/ed/#limited-suid
+efax,SUID,/gtfobins/efax/#suid
+efax,Sudo,/gtfobins/efax/#sudo
+elvish,Shell,/gtfobins/elvish/#shell
+elvish,File write,/gtfobins/elvish/#file-write
+elvish,File read,/gtfobins/elvish/#file-read
+elvish,SUID,/gtfobins/elvish/#suid
+elvish,Sudo,/gtfobins/elvish/#sudo
+emacs,Shell,/gtfobins/emacs/#shell
+emacs,File write,/gtfobins/emacs/#file-write
+emacs,File read,/gtfobins/emacs/#file-read
+emacs,SUID,/gtfobins/emacs/#suid
+emacs,Sudo,/gtfobins/emacs/#sudo
+enscript,Shell,/gtfobins/enscript/#shell
+enscript,Sudo,/gtfobins/enscript/#sudo
+env,Shell,/gtfobins/env/#shell
+env,SUID,/gtfobins/env/#suid
+env,Sudo,/gtfobins/env/#sudo
+eqn,File read,/gtfobins/eqn/#file-read
+eqn,SUID,/gtfobins/eqn/#suid
+eqn,Sudo,/gtfobins/eqn/#sudo
+espeak,File read,/gtfobins/espeak/#file-read
+espeak,SUID,/gtfobins/espeak/#suid
+espeak,Sudo,/gtfobins/espeak/#sudo
+ex,Shell,/gtfobins/ex/#shell
+ex,File write,/gtfobins/ex/#file-write
+ex,File read,/gtfobins/ex/#file-read
+ex,Sudo,/gtfobins/ex/#sudo
+exiftool,File write,/gtfobins/exiftool/#file-write
+exiftool,File read,/gtfobins/exiftool/#file-read
+exiftool,Sudo,/gtfobins/exiftool/#sudo
+expand,File read,/gtfobins/expand/#file-read
+expand,SUID,/gtfobins/expand/#suid
+expand,Sudo,/gtfobins/expand/#sudo
+expect,Shell,/gtfobins/expect/#shell
+expect,File read,/gtfobins/expect/#file-read
+expect,SUID,/gtfobins/expect/#suid
+expect,Sudo,/gtfobins/expect/#sudo
+facter,Shell,/gtfobins/facter/#shell
+facter,Sudo,/gtfobins/facter/#sudo
+file,File read,/gtfobins/file/#file-read
+file,SUID,/gtfobins/file/#suid
+file,Sudo,/gtfobins/file/#sudo
+find,Shell,/gtfobins/find/#shell
+find,File write,/gtfobins/find/#file-write
+find,SUID,/gtfobins/find/#suid
+find,Sudo,/gtfobins/find/#sudo
+finger,File upload,/gtfobins/finger/#file-upload
+finger,File download,/gtfobins/finger/#file-download
+fish,Shell,/gtfobins/fish/#shell
+fish,SUID,/gtfobins/fish/#suid
+fish,Sudo,/gtfobins/fish/#sudo
+flock,Shell,/gtfobins/flock/#shell
+flock,SUID,/gtfobins/flock/#suid
+flock,Sudo,/gtfobins/flock/#sudo
+fmt,File read,/gtfobins/fmt/#file-read
+fmt,SUID,/gtfobins/fmt/#suid
+fmt,Sudo,/gtfobins/fmt/#sudo
+fold,File read,/gtfobins/fold/#file-read
+fold,SUID,/gtfobins/fold/#suid
+fold,Sudo,/gtfobins/fold/#sudo
+fping,File read,/gtfobins/fping/#file-read
+fping,Sudo,/gtfobins/fping/#sudo
+ftp,Shell,/gtfobins/ftp/#shell
+ftp,File upload,/gtfobins/ftp/#file-upload
+ftp,File download,/gtfobins/ftp/#file-download
+ftp,Sudo,/gtfobins/ftp/#sudo
+gawk,Shell,/gtfobins/gawk/#shell
+gawk,Non-interactive reverse shell,/gtfobins/gawk/#non-interactive-reverse-shell
+gawk,Non-interactive bind shell,/gtfobins/gawk/#non-interactive-bind-shell
+gawk,File write,/gtfobins/gawk/#file-write
+gawk,File read,/gtfobins/gawk/#file-read
+gawk,SUID,/gtfobins/gawk/#suid
+gawk,Sudo,/gtfobins/gawk/#sudo
+gawk,Limited SUID,/gtfobins/gawk/#limited-suid
+gcc,Shell,/gtfobins/gcc/#shell
+gcc,File write,/gtfobins/gcc/#file-write
+gcc,File read,/gtfobins/gcc/#file-read
+gcc,Sudo,/gtfobins/gcc/#sudo
+gcloud,Shell,/gtfobins/gcloud/#shell
+gcloud,Sudo,/gtfobins/gcloud/#sudo
+gcore,File read,/gtfobins/gcore/#file-read
+gcore,SUID,/gtfobins/gcore/#suid
+gcore,Sudo,/gtfobins/gcore/#sudo
+gdb,Shell,/gtfobins/gdb/#shell
+gdb,Reverse shell,/gtfobins/gdb/#reverse-shell
+gdb,File upload,/gtfobins/gdb/#file-upload
+gdb,File download,/gtfobins/gdb/#file-download
+gdb,File write,/gtfobins/gdb/#file-write
+gdb,File read,/gtfobins/gdb/#file-read
+gdb,Library load,/gtfobins/gdb/#library-load
+gdb,SUID,/gtfobins/gdb/#suid
+gdb,Sudo,/gtfobins/gdb/#sudo
+gdb,Capabilities,/gtfobins/gdb/#capabilities
+gem,Shell,/gtfobins/gem/#shell
+gem,Sudo,/gtfobins/gem/#sudo
+genie,Shell,/gtfobins/genie/#shell
+genie,SUID,/gtfobins/genie/#suid
+genie,Sudo,/gtfobins/genie/#sudo
+genisoimage,File read,/gtfobins/genisoimage/#file-read
+genisoimage,SUID,/gtfobins/genisoimage/#suid
+genisoimage,Sudo,/gtfobins/genisoimage/#sudo
+ghc,Shell,/gtfobins/ghc/#shell
+ghc,Sudo,/gtfobins/ghc/#sudo
+ghci,Shell,/gtfobins/ghci/#shell
+ghci,Sudo,/gtfobins/ghci/#sudo
+gimp,Shell,/gtfobins/gimp/#shell
+gimp,Reverse shell,/gtfobins/gimp/#reverse-shell
+gimp,File upload,/gtfobins/gimp/#file-upload
+gimp,File download,/gtfobins/gimp/#file-download
+gimp,File write,/gtfobins/gimp/#file-write
+gimp,File read,/gtfobins/gimp/#file-read
+gimp,Library load,/gtfobins/gimp/#library-load
+gimp,SUID,/gtfobins/gimp/#suid
+gimp,Sudo,/gtfobins/gimp/#sudo
+ginsh,Shell,/gtfobins/ginsh/#shell
+ginsh,Sudo,/gtfobins/ginsh/#sudo
+ginsh,Limited SUID,/gtfobins/ginsh/#limited-suid
+git,Shell,/gtfobins/git/#shell
+git,File write,/gtfobins/git/#file-write
+git,File read,/gtfobins/git/#file-read
+git,Sudo,/gtfobins/git/#sudo
+git,Limited SUID,/gtfobins/git/#limited-suid
+grc,Shell,/gtfobins/grc/#shell
+grc,Sudo,/gtfobins/grc/#sudo
+grep,File read,/gtfobins/grep/#file-read
+grep,SUID,/gtfobins/grep/#suid
+grep,Sudo,/gtfobins/grep/#sudo
+gtester,Shell,/gtfobins/gtester/#shell
+gtester,File write,/gtfobins/gtester/#file-write
+gtester,SUID,/gtfobins/gtester/#suid
+gtester,Sudo,/gtfobins/gtester/#sudo
+gzip,File read,/gtfobins/gzip/#file-read
+gzip,SUID,/gtfobins/gzip/#suid
+gzip,Sudo,/gtfobins/gzip/#sudo
+hd,File read,/gtfobins/hd/#file-read
+hd,SUID,/gtfobins/hd/#suid
+hd,Sudo,/gtfobins/hd/#sudo
+head,File read,/gtfobins/head/#file-read
+head,SUID,/gtfobins/head/#suid
+head,Sudo,/gtfobins/head/#sudo
+hexdump,File read,/gtfobins/hexdump/#file-read
+hexdump,SUID,/gtfobins/hexdump/#suid
+hexdump,Sudo,/gtfobins/hexdump/#sudo
+highlight,File read,/gtfobins/highlight/#file-read
+highlight,SUID,/gtfobins/highlight/#suid
+highlight,Sudo,/gtfobins/highlight/#sudo
+hping3,Shell,/gtfobins/hping3/#shell
+hping3,SUID,/gtfobins/hping3/#suid
+hping3,Sudo,/gtfobins/hping3/#sudo
+iconv,File write,/gtfobins/iconv/#file-write
+iconv,File read,/gtfobins/iconv/#file-read
+iconv,SUID,/gtfobins/iconv/#suid
+iconv,Sudo,/gtfobins/iconv/#sudo
+iftop,Shell,/gtfobins/iftop/#shell
+iftop,Sudo,/gtfobins/iftop/#sudo
+iftop,Limited SUID,/gtfobins/iftop/#limited-suid
+install,SUID,/gtfobins/install/#suid
+install,Sudo,/gtfobins/install/#sudo
+ionice,Shell,/gtfobins/ionice/#shell
+ionice,SUID,/gtfobins/ionice/#suid
+ionice,Sudo,/gtfobins/ionice/#sudo
+ip,File read,/gtfobins/ip/#file-read
+ip,SUID,/gtfobins/ip/#suid
+ip,Sudo,/gtfobins/ip/#sudo
+irb,Shell,/gtfobins/irb/#shell
+irb,Reverse shell,/gtfobins/irb/#reverse-shell
+irb,File upload,/gtfobins/irb/#file-upload
+irb,File download,/gtfobins/irb/#file-download
+irb,File write,/gtfobins/irb/#file-write
+irb,File read,/gtfobins/irb/#file-read
+irb,Library load,/gtfobins/irb/#library-load
+irb,Sudo,/gtfobins/irb/#sudo
+ispell,Shell,/gtfobins/ispell/#shell
+ispell,SUID,/gtfobins/ispell/#suid
+ispell,Sudo,/gtfobins/ispell/#sudo
+jjs,Shell,/gtfobins/jjs/#shell
+jjs,Reverse shell,/gtfobins/jjs/#reverse-shell
+jjs,File download,/gtfobins/jjs/#file-download
+jjs,File write,/gtfobins/jjs/#file-write
+jjs,File read,/gtfobins/jjs/#file-read
+jjs,SUID,/gtfobins/jjs/#suid
+jjs,Sudo,/gtfobins/jjs/#sudo
+joe,Shell,/gtfobins/joe/#shell
+joe,Sudo,/gtfobins/joe/#sudo
+joe,Limited SUID,/gtfobins/joe/#limited-suid
+join,File read,/gtfobins/join/#file-read
+join,SUID,/gtfobins/join/#suid
+join,Sudo,/gtfobins/join/#sudo
+journalctl,Shell,/gtfobins/journalctl/#shell
+journalctl,Sudo,/gtfobins/journalctl/#sudo
+jq,File read,/gtfobins/jq/#file-read
+jq,SUID,/gtfobins/jq/#suid
+jq,Sudo,/gtfobins/jq/#sudo
+jrunscript,Shell,/gtfobins/jrunscript/#shell
+jrunscript,Reverse shell,/gtfobins/jrunscript/#reverse-shell
+jrunscript,File download,/gtfobins/jrunscript/#file-download
+jrunscript,File write,/gtfobins/jrunscript/#file-write
+jrunscript,File read,/gtfobins/jrunscript/#file-read
+jrunscript,SUID,/gtfobins/jrunscript/#suid
+jrunscript,Sudo,/gtfobins/jrunscript/#sudo
+jtag,Shell,/gtfobins/jtag/#shell
+jtag,Sudo,/gtfobins/jtag/#sudo
+julia,Shell,/gtfobins/julia/#shell
+julia,Reverse shell,/gtfobins/julia/#reverse-shell
+julia,File download,/gtfobins/julia/#file-download
+julia,File write,/gtfobins/julia/#file-write
+julia,File read,/gtfobins/julia/#file-read
+julia,SUID,/gtfobins/julia/#suid
+julia,Sudo,/gtfobins/julia/#sudo
+knife,Shell,/gtfobins/knife/#shell
+knife,Sudo,/gtfobins/knife/#sudo
+ksh,Shell,/gtfobins/ksh/#shell
+ksh,Reverse shell,/gtfobins/ksh/#reverse-shell
+ksh,File upload,/gtfobins/ksh/#file-upload
+ksh,File download,/gtfobins/ksh/#file-download
+ksh,File write,/gtfobins/ksh/#file-write
+ksh,File read,/gtfobins/ksh/#file-read
+ksh,SUID,/gtfobins/ksh/#suid
+ksh,Sudo,/gtfobins/ksh/#sudo
+ksshell,File read,/gtfobins/ksshell/#file-read
+ksshell,SUID,/gtfobins/ksshell/#suid
+ksshell,Sudo,/gtfobins/ksshell/#sudo
+ksu,Sudo,/gtfobins/ksu/#sudo
+kubectl,File upload,/gtfobins/kubectl/#file-upload
+kubectl,SUID,/gtfobins/kubectl/#suid
+kubectl,Sudo,/gtfobins/kubectl/#sudo
+latex,Shell,/gtfobins/latex/#shell
+latex,File read,/gtfobins/latex/#file-read
+latex,Sudo,/gtfobins/latex/#sudo
+latex,Limited SUID,/gtfobins/latex/#limited-suid
+latexmk,Shell,/gtfobins/latexmk/#shell
+latexmk,File read,/gtfobins/latexmk/#file-read
+latexmk,Sudo,/gtfobins/latexmk/#sudo
+ld.so,Shell,/gtfobins/ld.so/#shell
+ld.so,SUID,/gtfobins/ld.so/#suid
+ld.so,Sudo,/gtfobins/ld.so/#sudo
+ldconfig,Sudo,/gtfobins/ldconfig/#sudo
+ldconfig,Limited SUID,/gtfobins/ldconfig/#limited-suid
+less,Shell,/gtfobins/less/#shell
+less,File write,/gtfobins/less/#file-write
+less,File read,/gtfobins/less/#file-read
+less,SUID,/gtfobins/less/#suid
+less,Sudo,/gtfobins/less/#sudo
+lftp,Shell,/gtfobins/lftp/#shell
+lftp,Sudo,/gtfobins/lftp/#sudo
+lftp,Limited SUID,/gtfobins/lftp/#limited-suid
+links,File read,/gtfobins/links/#file-read
+links,SUID,/gtfobins/links/#suid
+links,Sudo,/gtfobins/links/#sudo
+ln,Sudo,/gtfobins/ln/#sudo
+loginctl,Shell,/gtfobins/loginctl/#shell
+loginctl,Sudo,/gtfobins/loginctl/#sudo
+logsave,Shell,/gtfobins/logsave/#shell
+logsave,SUID,/gtfobins/logsave/#suid
+logsave,Sudo,/gtfobins/logsave/#sudo
+look,File read,/gtfobins/look/#file-read
+look,SUID,/gtfobins/look/#suid
+look,Sudo,/gtfobins/look/#sudo
+lp,File upload,/gtfobins/lp/#file-upload
+ltrace,Shell,/gtfobins/ltrace/#shell
+ltrace,File write,/gtfobins/ltrace/#file-write
+ltrace,File read,/gtfobins/ltrace/#file-read
+ltrace,Sudo,/gtfobins/ltrace/#sudo
+lua,Shell,/gtfobins/lua/#shell
+lua,Non-interactive reverse shell,/gtfobins/lua/#non-interactive-reverse-shell
+lua,Non-interactive bind shell,/gtfobins/lua/#non-interactive-bind-shell
+lua,File upload,/gtfobins/lua/#file-upload
+lua,File download,/gtfobins/lua/#file-download
+lua,File write,/gtfobins/lua/#file-write
+lua,File read,/gtfobins/lua/#file-read
+lua,SUID,/gtfobins/lua/#suid
+lua,Sudo,/gtfobins/lua/#sudo
+lua,Limited SUID,/gtfobins/lua/#limited-suid
+lualatex,Shell,/gtfobins/lualatex/#shell
+lualatex,Sudo,/gtfobins/lualatex/#sudo
+lualatex,Limited SUID,/gtfobins/lualatex/#limited-suid
+luatex,Shell,/gtfobins/luatex/#shell
+luatex,Sudo,/gtfobins/luatex/#sudo
+luatex,Limited SUID,/gtfobins/luatex/#limited-suid
+lwp-download,File download,/gtfobins/lwp-download/#file-download
+lwp-download,File write,/gtfobins/lwp-download/#file-write
+lwp-download,File read,/gtfobins/lwp-download/#file-read
+lwp-download,Sudo,/gtfobins/lwp-download/#sudo
+lwp-request,File read,/gtfobins/lwp-request/#file-read
+lwp-request,Sudo,/gtfobins/lwp-request/#sudo
+mail,Shell,/gtfobins/mail/#shell
+mail,Sudo,/gtfobins/mail/#sudo
+make,Shell,/gtfobins/make/#shell
+make,File write,/gtfobins/make/#file-write
+make,SUID,/gtfobins/make/#suid
+make,Sudo,/gtfobins/make/#sudo
+man,Shell,/gtfobins/man/#shell
+man,File read,/gtfobins/man/#file-read
+man,Sudo,/gtfobins/man/#sudo
+mawk,Shell,/gtfobins/mawk/#shell
+mawk,File write,/gtfobins/mawk/#file-write
+mawk,File read,/gtfobins/mawk/#file-read
+mawk,SUID,/gtfobins/mawk/#suid
+mawk,Sudo,/gtfobins/mawk/#sudo
+mawk,Limited SUID,/gtfobins/mawk/#limited-suid
+minicom,Shell,/gtfobins/minicom/#shell
+minicom,SUID,/gtfobins/minicom/#suid
+minicom,Sudo,/gtfobins/minicom/#sudo
+more,Shell,/gtfobins/more/#shell
+more,File read,/gtfobins/more/#file-read
+more,SUID,/gtfobins/more/#suid
+more,Sudo,/gtfobins/more/#sudo
+mosquitto,File read,/gtfobins/mosquitto/#file-read
+mosquitto,SUID,/gtfobins/mosquitto/#suid
+mosquitto,Sudo,/gtfobins/mosquitto/#sudo
+mount,Sudo,/gtfobins/mount/#sudo
+msfconsole,Shell,/gtfobins/msfconsole/#shell
+msfconsole,Sudo,/gtfobins/msfconsole/#sudo
+msgattrib,File read,/gtfobins/msgattrib/#file-read
+msgattrib,SUID,/gtfobins/msgattrib/#suid
+msgattrib,Sudo,/gtfobins/msgattrib/#sudo
+msgcat,File read,/gtfobins/msgcat/#file-read
+msgcat,SUID,/gtfobins/msgcat/#suid
+msgcat,Sudo,/gtfobins/msgcat/#sudo
+msgconv,File read,/gtfobins/msgconv/#file-read
+msgconv,SUID,/gtfobins/msgconv/#suid
+msgconv,Sudo,/gtfobins/msgconv/#sudo
+msgfilter,Shell,/gtfobins/msgfilter/#shell
+msgfilter,File read,/gtfobins/msgfilter/#file-read
+msgfilter,SUID,/gtfobins/msgfilter/#suid
+msgfilter,Sudo,/gtfobins/msgfilter/#sudo
+msgmerge,File read,/gtfobins/msgmerge/#file-read
+msgmerge,SUID,/gtfobins/msgmerge/#suid
+msgmerge,Sudo,/gtfobins/msgmerge/#sudo
+msguniq,File read,/gtfobins/msguniq/#file-read
+msguniq,SUID,/gtfobins/msguniq/#suid
+msguniq,Sudo,/gtfobins/msguniq/#sudo
+mtr,File read,/gtfobins/mtr/#file-read
+mtr,Sudo,/gtfobins/mtr/#sudo
+multitime,Shell,/gtfobins/multitime/#shell
+multitime,SUID,/gtfobins/multitime/#suid
+multitime,Sudo,/gtfobins/multitime/#sudo
+mv,SUID,/gtfobins/mv/#suid
+mv,Sudo,/gtfobins/mv/#sudo
+mysql,Shell,/gtfobins/mysql/#shell
+mysql,Library load,/gtfobins/mysql/#library-load
+mysql,Sudo,/gtfobins/mysql/#sudo
+mysql,Limited SUID,/gtfobins/mysql/#limited-suid
+nano,Shell,/gtfobins/nano/#shell
+nano,File write,/gtfobins/nano/#file-write
+nano,File read,/gtfobins/nano/#file-read
+nano,Sudo,/gtfobins/nano/#sudo
+nano,Limited SUID,/gtfobins/nano/#limited-suid
+nasm,File read,/gtfobins/nasm/#file-read
+nasm,SUID,/gtfobins/nasm/#suid
+nasm,Sudo,/gtfobins/nasm/#sudo
+nawk,Shell,/gtfobins/nawk/#shell
+nawk,Non-interactive reverse shell,/gtfobins/nawk/#non-interactive-reverse-shell
+nawk,Non-interactive bind shell,/gtfobins/nawk/#non-interactive-bind-shell
+nawk,File write,/gtfobins/nawk/#file-write
+nawk,File read,/gtfobins/nawk/#file-read
+nawk,SUID,/gtfobins/nawk/#suid
+nawk,Sudo,/gtfobins/nawk/#sudo
+nawk,Limited SUID,/gtfobins/nawk/#limited-suid
+nc,Reverse shell,/gtfobins/nc/#reverse-shell
+nc,Bind shell,/gtfobins/nc/#bind-shell
+nc,File upload,/gtfobins/nc/#file-upload
+nc,File download,/gtfobins/nc/#file-download
+nc,Sudo,/gtfobins/nc/#sudo
+nc,Limited SUID,/gtfobins/nc/#limited-suid
+ncdu,Shell,/gtfobins/ncdu/#shell
+ncdu,Sudo,/gtfobins/ncdu/#sudo
+ncdu,Limited SUID,/gtfobins/ncdu/#limited-suid
+ncftp,Shell,/gtfobins/ncftp/#shell
+ncftp,SUID,/gtfobins/ncftp/#suid
+ncftp,Sudo,/gtfobins/ncftp/#sudo
+neofetch,Shell,/gtfobins/neofetch/#shell
+neofetch,File read,/gtfobins/neofetch/#file-read
+neofetch,Sudo,/gtfobins/neofetch/#sudo
+nft,File read,/gtfobins/nft/#file-read
+nft,SUID,/gtfobins/nft/#suid
+nft,Sudo,/gtfobins/nft/#sudo
+nice,Shell,/gtfobins/nice/#shell
+nice,SUID,/gtfobins/nice/#suid
+nice,Sudo,/gtfobins/nice/#sudo
+nl,File read,/gtfobins/nl/#file-read
+nl,SUID,/gtfobins/nl/#suid
+nl,Sudo,/gtfobins/nl/#sudo
+nm,File read,/gtfobins/nm/#file-read
+nm,SUID,/gtfobins/nm/#suid
+nm,Sudo,/gtfobins/nm/#sudo
+nmap,Shell,/gtfobins/nmap/#shell
+nmap,Non-interactive reverse shell,/gtfobins/nmap/#non-interactive-reverse-shell
+nmap,Non-interactive bind shell,/gtfobins/nmap/#non-interactive-bind-shell
+nmap,File upload,/gtfobins/nmap/#file-upload
+nmap,File download,/gtfobins/nmap/#file-download
+nmap,File write,/gtfobins/nmap/#file-write
+nmap,File read,/gtfobins/nmap/#file-read
+nmap,SUID,/gtfobins/nmap/#suid
+nmap,Sudo,/gtfobins/nmap/#sudo
+nmap,Limited SUID,/gtfobins/nmap/#limited-suid
+node,Shell,/gtfobins/node/#shell
+node,Reverse shell,/gtfobins/node/#reverse-shell
+node,Bind shell,/gtfobins/node/#bind-shell
+node,File upload,/gtfobins/node/#file-upload
+node,File download,/gtfobins/node/#file-download
+node,File write,/gtfobins/node/#file-write
+node,File read,/gtfobins/node/#file-read
+node,SUID,/gtfobins/node/#suid
+node,Sudo,/gtfobins/node/#sudo
+node,Capabilities,/gtfobins/node/#capabilities
+nohup,Shell,/gtfobins/nohup/#shell
+nohup,Command,/gtfobins/nohup/#command
+nohup,SUID,/gtfobins/nohup/#suid
+nohup,Sudo,/gtfobins/nohup/#sudo
+npm,Shell,/gtfobins/npm/#shell
+npm,Sudo,/gtfobins/npm/#sudo
+nroff,Shell,/gtfobins/nroff/#shell
+nroff,File read,/gtfobins/nroff/#file-read
+nroff,Sudo,/gtfobins/nroff/#sudo
+nsenter,Shell,/gtfobins/nsenter/#shell
+nsenter,Sudo,/gtfobins/nsenter/#sudo
+ntpdate,File read,/gtfobins/ntpdate/#file-read
+ntpdate,SUID,/gtfobins/ntpdate/#suid
+ntpdate,Sudo,/gtfobins/ntpdate/#sudo
+octave,Shell,/gtfobins/octave/#shell
+octave,File write,/gtfobins/octave/#file-write
+octave,File read,/gtfobins/octave/#file-read
+octave,Sudo,/gtfobins/octave/#sudo
+octave,Limited SUID,/gtfobins/octave/#limited-suid
+od,File read,/gtfobins/od/#file-read
+od,SUID,/gtfobins/od/#suid
+od,Sudo,/gtfobins/od/#sudo
+openssl,Reverse shell,/gtfobins/openssl/#reverse-shell
+openssl,File upload,/gtfobins/openssl/#file-upload
+openssl,File download,/gtfobins/openssl/#file-download
+openssl,File write,/gtfobins/openssl/#file-write
+openssl,File read,/gtfobins/openssl/#file-read
+openssl,Library load,/gtfobins/openssl/#library-load
+openssl,SUID,/gtfobins/openssl/#suid
+openssl,Sudo,/gtfobins/openssl/#sudo
+openvpn,Shell,/gtfobins/openvpn/#shell
+openvpn,File read,/gtfobins/openvpn/#file-read
+openvpn,SUID,/gtfobins/openvpn/#suid
+openvpn,Sudo,/gtfobins/openvpn/#sudo
+openvt,Sudo,/gtfobins/openvt/#sudo
+opkg,Sudo,/gtfobins/opkg/#sudo
+pandoc,Shell,/gtfobins/pandoc/#shell
+pandoc,File write,/gtfobins/pandoc/#file-write
+pandoc,File read,/gtfobins/pandoc/#file-read
+pandoc,SUID,/gtfobins/pandoc/#suid
+pandoc,Sudo,/gtfobins/pandoc/#sudo
+pandoc,Limited SUID,/gtfobins/pandoc/#limited-suid
+paste,File read,/gtfobins/paste/#file-read
+paste,SUID,/gtfobins/paste/#suid
+paste,Sudo,/gtfobins/paste/#sudo
+pax,File read,/gtfobins/pax/#file-read
+pdb,Shell,/gtfobins/pdb/#shell
+pdb,Sudo,/gtfobins/pdb/#sudo
+pdflatex,Shell,/gtfobins/pdflatex/#shell
+pdflatex,File read,/gtfobins/pdflatex/#file-read
+pdflatex,Sudo,/gtfobins/pdflatex/#sudo
+pdflatex,Limited SUID,/gtfobins/pdflatex/#limited-suid
+pdftex,Shell,/gtfobins/pdftex/#shell
+pdftex,Sudo,/gtfobins/pdftex/#sudo
+pdftex,Limited SUID,/gtfobins/pdftex/#limited-suid
+perf,Shell,/gtfobins/perf/#shell
+perf,SUID,/gtfobins/perf/#suid
+perf,Sudo,/gtfobins/perf/#sudo
+perl,Shell,/gtfobins/perl/#shell
+perl,Reverse shell,/gtfobins/perl/#reverse-shell
+perl,File read,/gtfobins/perl/#file-read
+perl,SUID,/gtfobins/perl/#suid
+perl,Sudo,/gtfobins/perl/#sudo
+perl,Capabilities,/gtfobins/perl/#capabilities
+perlbug,Shell,/gtfobins/perlbug/#shell
+perlbug,Sudo,/gtfobins/perlbug/#sudo
+pexec,Shell,/gtfobins/pexec/#shell
+pexec,SUID,/gtfobins/pexec/#suid
+pexec,Sudo,/gtfobins/pexec/#sudo
+pg,Shell,/gtfobins/pg/#shell
+pg,File read,/gtfobins/pg/#file-read
+pg,SUID,/gtfobins/pg/#suid
+pg,Sudo,/gtfobins/pg/#sudo
+php,Shell,/gtfobins/php/#shell
+php,Command,/gtfobins/php/#command
+php,Reverse shell,/gtfobins/php/#reverse-shell
+php,File upload,/gtfobins/php/#file-upload
+php,File download,/gtfobins/php/#file-download
+php,File write,/gtfobins/php/#file-write
+php,File read,/gtfobins/php/#file-read
+php,SUID,/gtfobins/php/#suid
+php,Sudo,/gtfobins/php/#sudo
+php,Capabilities,/gtfobins/php/#capabilities
+pic,Shell,/gtfobins/pic/#shell
+pic,File read,/gtfobins/pic/#file-read
+pic,Sudo,/gtfobins/pic/#sudo
+pic,Limited SUID,/gtfobins/pic/#limited-suid
+pico,Shell,/gtfobins/pico/#shell
+pico,File write,/gtfobins/pico/#file-write
+pico,File read,/gtfobins/pico/#file-read
+pico,Sudo,/gtfobins/pico/#sudo
+pico,Limited SUID,/gtfobins/pico/#limited-suid
+pidstat,Command,/gtfobins/pidstat/#command
+pidstat,SUID,/gtfobins/pidstat/#suid
+pidstat,Sudo,/gtfobins/pidstat/#sudo
+pip,Shell,/gtfobins/pip/#shell
+pip,Reverse shell,/gtfobins/pip/#reverse-shell
+pip,File upload,/gtfobins/pip/#file-upload
+pip,File download,/gtfobins/pip/#file-download
+pip,File write,/gtfobins/pip/#file-write
+pip,File read,/gtfobins/pip/#file-read
+pip,Library load,/gtfobins/pip/#library-load
+pip,Sudo,/gtfobins/pip/#sudo
+pkexec,Sudo,/gtfobins/pkexec/#sudo
+pkg,Sudo,/gtfobins/pkg/#sudo
+posh,Shell,/gtfobins/posh/#shell
+posh,Sudo,/gtfobins/posh/#sudo
+posh,Limited SUID,/gtfobins/posh/#limited-suid
+pr,File read,/gtfobins/pr/#file-read
+pr,SUID,/gtfobins/pr/#suid
+pr,Sudo,/gtfobins/pr/#sudo
+pry,Shell,/gtfobins/pry/#shell
+pry,Sudo,/gtfobins/pry/#sudo
+pry,Limited SUID,/gtfobins/pry/#limited-suid
+psftp,Shell,/gtfobins/psftp/#shell
+psftp,Sudo,/gtfobins/psftp/#sudo
+psftp,Limited SUID,/gtfobins/psftp/#limited-suid
+psql,Shell,/gtfobins/psql/#shell
+psql,Sudo,/gtfobins/psql/#sudo
+ptx,File read,/gtfobins/ptx/#file-read
+ptx,SUID,/gtfobins/ptx/#suid
+ptx,Sudo,/gtfobins/ptx/#sudo
+puppet,Shell,/gtfobins/puppet/#shell
+puppet,File write,/gtfobins/puppet/#file-write
+puppet,File read,/gtfobins/puppet/#file-read
+puppet,Sudo,/gtfobins/puppet/#sudo
+pwsh,Shell,/gtfobins/pwsh/#shell
+pwsh,File write,/gtfobins/pwsh/#file-write
+pwsh,Sudo,/gtfobins/pwsh/#sudo
+python,Shell,/gtfobins/python/#shell
+python,Reverse shell,/gtfobins/python/#reverse-shell
+python,File upload,/gtfobins/python/#file-upload
+python,File download,/gtfobins/python/#file-download
+python,File write,/gtfobins/python/#file-write
+python,File read,/gtfobins/python/#file-read
+python,Library load,/gtfobins/python/#library-load
+python,SUID,/gtfobins/python/#suid
+python,Sudo,/gtfobins/python/#sudo
+python,Capabilities,/gtfobins/python/#capabilities
+rake,Shell,/gtfobins/rake/#shell
+rake,File read,/gtfobins/rake/#file-read
+rake,Sudo,/gtfobins/rake/#sudo
+rake,Limited SUID,/gtfobins/rake/#limited-suid
+rc,Shell,/gtfobins/rc/#shell
+rc,SUID,/gtfobins/rc/#suid
+rc,Sudo,/gtfobins/rc/#sudo
+readelf,File read,/gtfobins/readelf/#file-read
+readelf,SUID,/gtfobins/readelf/#suid
+readelf,Sudo,/gtfobins/readelf/#sudo
+red,File write,/gtfobins/red/#file-write
+red,File read,/gtfobins/red/#file-read
+red,Sudo,/gtfobins/red/#sudo
+redcarpet,File read,/gtfobins/redcarpet/#file-read
+redcarpet,Sudo,/gtfobins/redcarpet/#sudo
+redis,File write,/gtfobins/redis/#file-write
+restic,File upload,/gtfobins/restic/#file-upload
+restic,SUID,/gtfobins/restic/#suid
+restic,Sudo,/gtfobins/restic/#sudo
+rev,File read,/gtfobins/rev/#file-read
+rev,SUID,/gtfobins/rev/#suid
+rev,Sudo,/gtfobins/rev/#sudo
+rlogin,File upload,/gtfobins/rlogin/#file-upload
+rlwrap,Shell,/gtfobins/rlwrap/#shell
+rlwrap,File write,/gtfobins/rlwrap/#file-write
+rlwrap,SUID,/gtfobins/rlwrap/#suid
+rlwrap,Sudo,/gtfobins/rlwrap/#sudo
+rpm,Shell,/gtfobins/rpm/#shell
+rpm,Sudo,/gtfobins/rpm/#sudo
+rpm,Limited SUID,/gtfobins/rpm/#limited-suid
+rpmdb,Shell,/gtfobins/rpmdb/#shell
+rpmdb,Sudo,/gtfobins/rpmdb/#sudo
+rpmdb,Limited SUID,/gtfobins/rpmdb/#limited-suid
+rpmquery,Shell,/gtfobins/rpmquery/#shell
+rpmquery,Sudo,/gtfobins/rpmquery/#sudo
+rpmquery,Limited SUID,/gtfobins/rpmquery/#limited-suid
+rpmverify,Shell,/gtfobins/rpmverify/#shell
+rpmverify,Sudo,/gtfobins/rpmverify/#sudo
+rpmverify,Limited SUID,/gtfobins/rpmverify/#limited-suid
+rsync,Shell,/gtfobins/rsync/#shell
+rsync,SUID,/gtfobins/rsync/#suid
+rsync,Sudo,/gtfobins/rsync/#sudo
+rtorrent,Shell,/gtfobins/rtorrent/#shell
+rtorrent,SUID,/gtfobins/rtorrent/#suid
+ruby,Shell,/gtfobins/ruby/#shell
+ruby,Reverse shell,/gtfobins/ruby/#reverse-shell
+ruby,File upload,/gtfobins/ruby/#file-upload
+ruby,File download,/gtfobins/ruby/#file-download
+ruby,File write,/gtfobins/ruby/#file-write
+ruby,File read,/gtfobins/ruby/#file-read
+ruby,Library load,/gtfobins/ruby/#library-load
+ruby,Sudo,/gtfobins/ruby/#sudo
+ruby,Capabilities,/gtfobins/ruby/#capabilities
+run-mailcap,Shell,/gtfobins/run-mailcap/#shell
+run-mailcap,File write,/gtfobins/run-mailcap/#file-write
+run-mailcap,File read,/gtfobins/run-mailcap/#file-read
+run-mailcap,Sudo,/gtfobins/run-mailcap/#sudo
+run-parts,Shell,/gtfobins/run-parts/#shell
+run-parts,SUID,/gtfobins/run-parts/#suid
+run-parts,Sudo,/gtfobins/run-parts/#sudo
+runscript,Shell,/gtfobins/runscript/#shell
+runscript,Sudo,/gtfobins/runscript/#sudo
+runscript,Limited SUID,/gtfobins/runscript/#limited-suid
+rview,Shell,/gtfobins/rview/#shell
+rview,Reverse shell,/gtfobins/rview/#reverse-shell
+rview,Non-interactive reverse shell,/gtfobins/rview/#non-interactive-reverse-shell
+rview,Non-interactive bind shell,/gtfobins/rview/#non-interactive-bind-shell
+rview,File upload,/gtfobins/rview/#file-upload
+rview,File download,/gtfobins/rview/#file-download
+rview,File write,/gtfobins/rview/#file-write
+rview,File read,/gtfobins/rview/#file-read
+rview,Library load,/gtfobins/rview/#library-load
+rview,SUID,/gtfobins/rview/#suid
+rview,Sudo,/gtfobins/rview/#sudo
+rview,Capabilities,/gtfobins/rview/#capabilities
+rview,Limited SUID,/gtfobins/rview/#limited-suid
+rvim,Shell,/gtfobins/rvim/#shell
+rvim,Reverse shell,/gtfobins/rvim/#reverse-shell
+rvim,Non-interactive reverse shell,/gtfobins/rvim/#non-interactive-reverse-shell
+rvim,Non-interactive bind shell,/gtfobins/rvim/#non-interactive-bind-shell
+rvim,File upload,/gtfobins/rvim/#file-upload
+rvim,File download,/gtfobins/rvim/#file-download
+rvim,File write,/gtfobins/rvim/#file-write
+rvim,File read,/gtfobins/rvim/#file-read
+rvim,Library load,/gtfobins/rvim/#library-load
+rvim,SUID,/gtfobins/rvim/#suid
+rvim,Sudo,/gtfobins/rvim/#sudo
+rvim,Capabilities,/gtfobins/rvim/#capabilities
+rvim,Limited SUID,/gtfobins/rvim/#limited-suid
+sash,Shell,/gtfobins/sash/#shell
+sash,SUID,/gtfobins/sash/#suid
+sash,Sudo,/gtfobins/sash/#sudo
+scanmem,Shell,/gtfobins/scanmem/#shell
+scanmem,SUID,/gtfobins/scanmem/#suid
+scanmem,Sudo,/gtfobins/scanmem/#sudo
+scp,Shell,/gtfobins/scp/#shell
+scp,File upload,/gtfobins/scp/#file-upload
+scp,File download,/gtfobins/scp/#file-download
+scp,Sudo,/gtfobins/scp/#sudo
+scp,Limited SUID,/gtfobins/scp/#limited-suid
+screen,Shell,/gtfobins/screen/#shell
+screen,File write,/gtfobins/screen/#file-write
+screen,Sudo,/gtfobins/screen/#sudo
+script,Shell,/gtfobins/script/#shell
+script,File write,/gtfobins/script/#file-write
+script,Sudo,/gtfobins/script/#sudo
+scrot,Shell,/gtfobins/scrot/#shell
+scrot,Sudo,/gtfobins/scrot/#sudo
+scrot,Limited SUID,/gtfobins/scrot/#limited-suid
+sed,Shell,/gtfobins/sed/#shell
+sed,Command,/gtfobins/sed/#command
+sed,File write,/gtfobins/sed/#file-write
+sed,File read,/gtfobins/sed/#file-read
+sed,SUID,/gtfobins/sed/#suid
+sed,Sudo,/gtfobins/sed/#sudo
+service,Shell,/gtfobins/service/#shell
+service,Sudo,/gtfobins/service/#sudo
+setarch,Shell,/gtfobins/setarch/#shell
+setarch,SUID,/gtfobins/setarch/#suid
+setarch,Sudo,/gtfobins/setarch/#sudo
+setfacl,SUID,/gtfobins/setfacl/#suid
+setfacl,Sudo,/gtfobins/setfacl/#sudo
+setlock,Shell,/gtfobins/setlock/#shell
+setlock,SUID,/gtfobins/setlock/#suid
+setlock,Sudo,/gtfobins/setlock/#sudo
+sftp,Shell,/gtfobins/sftp/#shell
+sftp,File upload,/gtfobins/sftp/#file-upload
+sftp,File download,/gtfobins/sftp/#file-download
+sftp,Sudo,/gtfobins/sftp/#sudo
+sg,Shell,/gtfobins/sg/#shell
+sg,Sudo,/gtfobins/sg/#sudo
+shuf,File write,/gtfobins/shuf/#file-write
+shuf,File read,/gtfobins/shuf/#file-read
+shuf,SUID,/gtfobins/shuf/#suid
+shuf,Sudo,/gtfobins/shuf/#sudo
+slsh,Shell,/gtfobins/slsh/#shell
+slsh,Sudo,/gtfobins/slsh/#sudo
+slsh,Limited SUID,/gtfobins/slsh/#limited-suid
+smbclient,Shell,/gtfobins/smbclient/#shell
+smbclient,File upload,/gtfobins/smbclient/#file-upload
+smbclient,File download,/gtfobins/smbclient/#file-download
+smbclient,Sudo,/gtfobins/smbclient/#sudo
+snap,Sudo,/gtfobins/snap/#sudo
+socat,Shell,/gtfobins/socat/#shell
+socat,Reverse shell,/gtfobins/socat/#reverse-shell
+socat,Bind shell,/gtfobins/socat/#bind-shell
+socat,File upload,/gtfobins/socat/#file-upload
+socat,File download,/gtfobins/socat/#file-download
+socat,File write,/gtfobins/socat/#file-write
+socat,File read,/gtfobins/socat/#file-read
+socat,Sudo,/gtfobins/socat/#sudo
+socat,Limited SUID,/gtfobins/socat/#limited-suid
+socket,Reverse shell,/gtfobins/socket/#reverse-shell
+socket,Bind shell,/gtfobins/socket/#bind-shell
+soelim,File read,/gtfobins/soelim/#file-read
+soelim,SUID,/gtfobins/soelim/#suid
+soelim,Sudo,/gtfobins/soelim/#sudo
+softlimit,Shell,/gtfobins/softlimit/#shell
+softlimit,SUID,/gtfobins/softlimit/#suid
+softlimit,Sudo,/gtfobins/softlimit/#sudo
+sort,File read,/gtfobins/sort/#file-read
+sort,SUID,/gtfobins/sort/#suid
+sort,Sudo,/gtfobins/sort/#sudo
+split,Shell,/gtfobins/split/#shell
+split,Command,/gtfobins/split/#command
+split,File write,/gtfobins/split/#file-write
+split,File read,/gtfobins/split/#file-read
+split,Sudo,/gtfobins/split/#sudo
+sqlite3,Shell,/gtfobins/sqlite3/#shell
+sqlite3,File write,/gtfobins/sqlite3/#file-write
+sqlite3,File read,/gtfobins/sqlite3/#file-read
+sqlite3,SUID,/gtfobins/sqlite3/#suid
+sqlite3,Sudo,/gtfobins/sqlite3/#sudo
+sqlite3,Limited SUID,/gtfobins/sqlite3/#limited-suid
+sqlmap,Shell,/gtfobins/sqlmap/#shell
+sqlmap,Sudo,/gtfobins/sqlmap/#sudo
+ss,File read,/gtfobins/ss/#file-read
+ss,SUID,/gtfobins/ss/#suid
+ss,Sudo,/gtfobins/ss/#sudo
+ssh-agent,Shell,/gtfobins/ssh-agent/#shell
+ssh-agent,SUID,/gtfobins/ssh-agent/#suid
+ssh-agent,Sudo,/gtfobins/ssh-agent/#sudo
+ssh-keygen,Library load,/gtfobins/ssh-keygen/#library-load
+ssh-keygen,SUID,/gtfobins/ssh-keygen/#suid
+ssh-keygen,Sudo,/gtfobins/ssh-keygen/#sudo
+ssh-keyscan,File read,/gtfobins/ssh-keyscan/#file-read
+ssh-keyscan,SUID,/gtfobins/ssh-keyscan/#suid
+ssh-keyscan,Sudo,/gtfobins/ssh-keyscan/#sudo
+ssh,Shell,/gtfobins/ssh/#shell
+ssh,File upload,/gtfobins/ssh/#file-upload
+ssh,File download,/gtfobins/ssh/#file-download
+ssh,File read,/gtfobins/ssh/#file-read
+ssh,Sudo,/gtfobins/ssh/#sudo
+sshpass,Shell,/gtfobins/sshpass/#shell
+sshpass,SUID,/gtfobins/sshpass/#suid
+sshpass,Sudo,/gtfobins/sshpass/#sudo
+start-stop-daemon,Shell,/gtfobins/start-stop-daemon/#shell
+start-stop-daemon,SUID,/gtfobins/start-stop-daemon/#suid
+start-stop-daemon,Sudo,/gtfobins/start-stop-daemon/#sudo
+stdbuf,Shell,/gtfobins/stdbuf/#shell
+stdbuf,SUID,/gtfobins/stdbuf/#suid
+stdbuf,Sudo,/gtfobins/stdbuf/#sudo
+strace,Shell,/gtfobins/strace/#shell
+strace,File write,/gtfobins/strace/#file-write
+strace,SUID,/gtfobins/strace/#suid
+strace,Sudo,/gtfobins/strace/#sudo
+strings,File read,/gtfobins/strings/#file-read
+strings,SUID,/gtfobins/strings/#suid
+strings,Sudo,/gtfobins/strings/#sudo
+su,Sudo,/gtfobins/su/#sudo
+sudo,Sudo,/gtfobins/sudo/#sudo
+sysctl,Command,/gtfobins/sysctl/#command
+sysctl,File read,/gtfobins/sysctl/#file-read
+sysctl,SUID,/gtfobins/sysctl/#suid
+sysctl,Sudo,/gtfobins/sysctl/#sudo
+systemctl,SUID,/gtfobins/systemctl/#suid
+systemctl,Sudo,/gtfobins/systemctl/#sudo
+systemd-resolve,Sudo,/gtfobins/systemd-resolve/#sudo
+tac,File read,/gtfobins/tac/#file-read
+tac,SUID,/gtfobins/tac/#suid
+tac,Sudo,/gtfobins/tac/#sudo
+tail,File read,/gtfobins/tail/#file-read
+tail,SUID,/gtfobins/tail/#suid
+tail,Sudo,/gtfobins/tail/#sudo
+tar,Shell,/gtfobins/tar/#shell
+tar,File upload,/gtfobins/tar/#file-upload
+tar,File download,/gtfobins/tar/#file-download
+tar,File write,/gtfobins/tar/#file-write
+tar,File read,/gtfobins/tar/#file-read
+tar,Sudo,/gtfobins/tar/#sudo
+tar,Limited SUID,/gtfobins/tar/#limited-suid
+task,Shell,/gtfobins/task/#shell
+task,Sudo,/gtfobins/task/#sudo
+taskset,Shell,/gtfobins/taskset/#shell
+taskset,SUID,/gtfobins/taskset/#suid
+taskset,Sudo,/gtfobins/taskset/#sudo
+tasksh,Shell,/gtfobins/tasksh/#shell
+tasksh,Sudo,/gtfobins/tasksh/#sudo
+tasksh,Limited SUID,/gtfobins/tasksh/#limited-suid
+tbl,File read,/gtfobins/tbl/#file-read
+tbl,SUID,/gtfobins/tbl/#suid
+tbl,Sudo,/gtfobins/tbl/#sudo
+tclsh,Shell,/gtfobins/tclsh/#shell
+tclsh,Non-interactive reverse shell,/gtfobins/tclsh/#non-interactive-reverse-shell
+tclsh,SUID,/gtfobins/tclsh/#suid
+tclsh,Sudo,/gtfobins/tclsh/#sudo
+tcpdump,Command,/gtfobins/tcpdump/#command
+tcpdump,Sudo,/gtfobins/tcpdump/#sudo
+tdbtool,Shell,/gtfobins/tdbtool/#shell
+tdbtool,Sudo,/gtfobins/tdbtool/#sudo
+tdbtool,Limited SUID,/gtfobins/tdbtool/#limited-suid
+tee,File write,/gtfobins/tee/#file-write
+tee,SUID,/gtfobins/tee/#suid
+tee,Sudo,/gtfobins/tee/#sudo
+telnet,Shell,/gtfobins/telnet/#shell
+telnet,Reverse shell,/gtfobins/telnet/#reverse-shell
+telnet,Sudo,/gtfobins/telnet/#sudo
+telnet,Limited SUID,/gtfobins/telnet/#limited-suid
+terraform,File read,/gtfobins/terraform/#file-read
+terraform,SUID,/gtfobins/terraform/#suid
+terraform,Sudo,/gtfobins/terraform/#sudo
+tex,Shell,/gtfobins/tex/#shell
+tex,Sudo,/gtfobins/tex/#sudo
+tex,Limited SUID,/gtfobins/tex/#limited-suid
+tftp,File upload,/gtfobins/tftp/#file-upload
+tftp,File download,/gtfobins/tftp/#file-download
+tftp,SUID,/gtfobins/tftp/#suid
+tftp,Sudo,/gtfobins/tftp/#sudo
+tic,File read,/gtfobins/tic/#file-read
+tic,SUID,/gtfobins/tic/#suid
+tic,Sudo,/gtfobins/tic/#sudo
+time,Shell,/gtfobins/time/#shell
+time,SUID,/gtfobins/time/#suid
+time,Sudo,/gtfobins/time/#sudo
+timedatectl,Shell,/gtfobins/timedatectl/#shell
+timedatectl,Sudo,/gtfobins/timedatectl/#sudo
+timeout,Shell,/gtfobins/timeout/#shell
+timeout,SUID,/gtfobins/timeout/#suid
+timeout,Sudo,/gtfobins/timeout/#sudo
+tmate,Shell,/gtfobins/tmate/#shell
+tmate,Sudo,/gtfobins/tmate/#sudo
+tmate,Limited SUID,/gtfobins/tmate/#limited-suid
+tmux,Shell,/gtfobins/tmux/#shell
+tmux,File read,/gtfobins/tmux/#file-read
+tmux,Sudo,/gtfobins/tmux/#sudo
+top,Shell,/gtfobins/top/#shell
+top,Sudo,/gtfobins/top/#sudo
+torify,Shell,/gtfobins/torify/#shell
+torify,Sudo,/gtfobins/torify/#sudo
+torsocks,Shell,/gtfobins/torsocks/#shell
+torsocks,Sudo,/gtfobins/torsocks/#sudo
+troff,File read,/gtfobins/troff/#file-read
+troff,SUID,/gtfobins/troff/#suid
+troff,Sudo,/gtfobins/troff/#sudo
+tshark,Shell,/gtfobins/tshark/#shell
+ul,File read,/gtfobins/ul/#file-read
+ul,SUID,/gtfobins/ul/#suid
+ul,Sudo,/gtfobins/ul/#sudo
+unexpand,File read,/gtfobins/unexpand/#file-read
+unexpand,SUID,/gtfobins/unexpand/#suid
+unexpand,Sudo,/gtfobins/unexpand/#sudo
+uniq,File read,/gtfobins/uniq/#file-read
+uniq,SUID,/gtfobins/uniq/#suid
+uniq,Sudo,/gtfobins/uniq/#sudo
+unshare,Shell,/gtfobins/unshare/#shell
+unshare,SUID,/gtfobins/unshare/#suid
+unshare,Sudo,/gtfobins/unshare/#sudo
+unsquashfs,SUID,/gtfobins/unsquashfs/#suid
+unsquashfs,Sudo,/gtfobins/unsquashfs/#sudo
+unzip,SUID,/gtfobins/unzip/#suid
+unzip,Sudo,/gtfobins/unzip/#sudo
+update-alternatives,SUID,/gtfobins/update-alternatives/#suid
+update-alternatives,Sudo,/gtfobins/update-alternatives/#sudo
+uudecode,File read,/gtfobins/uudecode/#file-read
+uudecode,SUID,/gtfobins/uudecode/#suid
+uudecode,Sudo,/gtfobins/uudecode/#sudo
+uuencode,File read,/gtfobins/uuencode/#file-read
+uuencode,SUID,/gtfobins/uuencode/#suid
+uuencode,Sudo,/gtfobins/uuencode/#sudo
+vagrant,Shell,/gtfobins/vagrant/#shell
+vagrant,SUID,/gtfobins/vagrant/#suid
+vagrant,Sudo,/gtfobins/vagrant/#sudo
+valgrind,Shell,/gtfobins/valgrind/#shell
+valgrind,Sudo,/gtfobins/valgrind/#sudo
+varnishncsa,SUID,/gtfobins/varnishncsa/#suid
+varnishncsa,Sudo,/gtfobins/varnishncsa/#sudo
+vi,Shell,/gtfobins/vi/#shell
+vi,File write,/gtfobins/vi/#file-write
+vi,File read,/gtfobins/vi/#file-read
+vi,Sudo,/gtfobins/vi/#sudo
+view,Shell,/gtfobins/view/#shell
+view,Reverse shell,/gtfobins/view/#reverse-shell
+view,Non-interactive reverse shell,/gtfobins/view/#non-interactive-reverse-shell
+view,Non-interactive bind shell,/gtfobins/view/#non-interactive-bind-shell
+view,File upload,/gtfobins/view/#file-upload
+view,File download,/gtfobins/view/#file-download
+view,File write,/gtfobins/view/#file-write
+view,File read,/gtfobins/view/#file-read
+view,Library load,/gtfobins/view/#library-load
+view,SUID,/gtfobins/view/#suid
+view,Sudo,/gtfobins/view/#sudo
+view,Capabilities,/gtfobins/view/#capabilities
+view,Limited SUID,/gtfobins/view/#limited-suid
+vigr,SUID,/gtfobins/vigr/#suid
+vigr,Sudo,/gtfobins/vigr/#sudo
+vim,Shell,/gtfobins/vim/#shell
+vim,Reverse shell,/gtfobins/vim/#reverse-shell
+vim,Non-interactive reverse shell,/gtfobins/vim/#non-interactive-reverse-shell
+vim,Non-interactive bind shell,/gtfobins/vim/#non-interactive-bind-shell
+vim,File upload,/gtfobins/vim/#file-upload
+vim,File download,/gtfobins/vim/#file-download
+vim,File write,/gtfobins/vim/#file-write
+vim,File read,/gtfobins/vim/#file-read
+vim,Library load,/gtfobins/vim/#library-load
+vim,SUID,/gtfobins/vim/#suid
+vim,Sudo,/gtfobins/vim/#sudo
+vim,Capabilities,/gtfobins/vim/#capabilities
+vim,Limited SUID,/gtfobins/vim/#limited-suid
+vimdiff,Shell,/gtfobins/vimdiff/#shell
+vimdiff,Reverse shell,/gtfobins/vimdiff/#reverse-shell
+vimdiff,Non-interactive reverse shell,/gtfobins/vimdiff/#non-interactive-reverse-shell
+vimdiff,Non-interactive bind shell,/gtfobins/vimdiff/#non-interactive-bind-shell
+vimdiff,File upload,/gtfobins/vimdiff/#file-upload
+vimdiff,File download,/gtfobins/vimdiff/#file-download
+vimdiff,File write,/gtfobins/vimdiff/#file-write
+vimdiff,File read,/gtfobins/vimdiff/#file-read
+vimdiff,Library load,/gtfobins/vimdiff/#library-load
+vimdiff,SUID,/gtfobins/vimdiff/#suid
+vimdiff,Sudo,/gtfobins/vimdiff/#sudo
+vimdiff,Capabilities,/gtfobins/vimdiff/#capabilities
+vimdiff,Limited SUID,/gtfobins/vimdiff/#limited-suid
+vipw,SUID,/gtfobins/vipw/#suid
+vipw,Sudo,/gtfobins/vipw/#sudo
+virsh,File write,/gtfobins/virsh/#file-write
+virsh,File read,/gtfobins/virsh/#file-read
+virsh,Sudo,/gtfobins/virsh/#sudo
+volatility,Shell,/gtfobins/volatility/#shell
+w3m,File read,/gtfobins/w3m/#file-read
+w3m,SUID,/gtfobins/w3m/#suid
+w3m,Sudo,/gtfobins/w3m/#sudo
+wall,Sudo,/gtfobins/wall/#sudo
+watch,Shell,/gtfobins/watch/#shell
+watch,SUID,/gtfobins/watch/#suid
+watch,Sudo,/gtfobins/watch/#sudo
+watch,Limited SUID,/gtfobins/watch/#limited-suid
+wc,File read,/gtfobins/wc/#file-read
+wc,SUID,/gtfobins/wc/#suid
+wc,Sudo,/gtfobins/wc/#sudo
+wget,Shell,/gtfobins/wget/#shell
+wget,File upload,/gtfobins/wget/#file-upload
+wget,File download,/gtfobins/wget/#file-download
+wget,File write,/gtfobins/wget/#file-write
+wget,File read,/gtfobins/wget/#file-read
+wget,SUID,/gtfobins/wget/#suid
+wget,Sudo,/gtfobins/wget/#sudo
+whiptail,File read,/gtfobins/whiptail/#file-read
+whiptail,SUID,/gtfobins/whiptail/#suid
+whiptail,Sudo,/gtfobins/whiptail/#sudo
+whois,File upload,/gtfobins/whois/#file-upload
+whois,File download,/gtfobins/whois/#file-download
+wireshark,Command,/gtfobins/wireshark/#command
+wireshark,Sudo,/gtfobins/wireshark/#sudo
+wish,Shell,/gtfobins/wish/#shell
+wish,Non-interactive reverse shell,/gtfobins/wish/#non-interactive-reverse-shell
+wish,Sudo,/gtfobins/wish/#sudo
+xargs,Shell,/gtfobins/xargs/#shell
+xargs,File read,/gtfobins/xargs/#file-read
+xargs,SUID,/gtfobins/xargs/#suid
+xargs,Sudo,/gtfobins/xargs/#sudo
+xdg-user-dir,Shell,/gtfobins/xdg-user-dir/#shell
+xdg-user-dir,Sudo,/gtfobins/xdg-user-dir/#sudo
+xdotool,Shell,/gtfobins/xdotool/#shell
+xdotool,SUID,/gtfobins/xdotool/#suid
+xdotool,Sudo,/gtfobins/xdotool/#sudo
+xelatex,Shell,/gtfobins/xelatex/#shell
+xelatex,File read,/gtfobins/xelatex/#file-read
+xelatex,Sudo,/gtfobins/xelatex/#sudo
+xelatex,Limited SUID,/gtfobins/xelatex/#limited-suid
+xetex,Shell,/gtfobins/xetex/#shell
+xetex,Sudo,/gtfobins/xetex/#sudo
+xetex,Limited SUID,/gtfobins/xetex/#limited-suid
+xmodmap,File read,/gtfobins/xmodmap/#file-read
+xmodmap,SUID,/gtfobins/xmodmap/#suid
+xmodmap,Sudo,/gtfobins/xmodmap/#sudo
+xmore,File read,/gtfobins/xmore/#file-read
+xmore,SUID,/gtfobins/xmore/#suid
+xmore,Sudo,/gtfobins/xmore/#sudo
+xpad,File read,/gtfobins/xpad/#file-read
+xpad,Sudo,/gtfobins/xpad/#sudo
+xxd,File write,/gtfobins/xxd/#file-write
+xxd,File read,/gtfobins/xxd/#file-read
+xxd,SUID,/gtfobins/xxd/#suid
+xxd,Sudo,/gtfobins/xxd/#sudo
+xz,File read,/gtfobins/xz/#file-read
+xz,SUID,/gtfobins/xz/#suid
+xz,Sudo,/gtfobins/xz/#sudo
+yarn,Shell,/gtfobins/yarn/#shell
+yarn,Sudo,/gtfobins/yarn/#sudo
+yash,Shell,/gtfobins/yash/#shell
+yash,SUID,/gtfobins/yash/#suid
+yash,Sudo,/gtfobins/yash/#sudo
+yelp,File read,/gtfobins/yelp/#file-read
+yum,File download,/gtfobins/yum/#file-download
+yum,Sudo,/gtfobins/yum/#sudo
+zathura,Shell,/gtfobins/zathura/#shell
+zathura,Sudo,/gtfobins/zathura/#sudo
+zip,Shell,/gtfobins/zip/#shell
+zip,File read,/gtfobins/zip/#file-read
+zip,Sudo,/gtfobins/zip/#sudo
+zip,Limited SUID,/gtfobins/zip/#limited-suid
+zsh,Shell,/gtfobins/zsh/#shell
+zsh,File write,/gtfobins/zsh/#file-write
+zsh,File read,/gtfobins/zsh/#file-read
+zsh,SUID,/gtfobins/zsh/#suid
+zsh,Sudo,/gtfobins/zsh/#sudo
+zsoelim,File read,/gtfobins/zsoelim/#file-read
+zsoelim,SUID,/gtfobins/zsoelim/#suid
+zsoelim,Sudo,/gtfobins/zsoelim/#sudo
+zypper,Shell,/gtfobins/zypper/#shell
+zypper,Sudo,/gtfobins/zypper/#sudo

@@ -1,0 +1,12 @@
+gris     pts/5        192.168.1.86     Tue Jun 11 17:15   still logged in
+gris     pts/3        192.168.1.86     Tue Jun 11 17:01   still logged in
+gris     pts/4        192.168.1.86     Tue Jun 11 16:45   still logged in
+gris     pts/3        192.168.1.86     Tue Jun 11 16:37 - 17:00  (00:22)
+gris     pts/1        192.168.1.86     Tue Jun 11 15:59 - 16:37  (00:38)
+gris     pts/2        192.168.1.86     Tue Jun 11 15:13   still logged in
+gris     pts/1        192.168.1.86     Tue Jun 11 15:04 - 15:13  (00:08)
+gris     pts/1        192.168.1.86     Tue Jun 11 15:03 - 15:04  (00:01)
+gris     tty7         :0               Tue Jun 11 14:58   still logged in
+reboot   system boot  6.5.0-13parrot1- Tue Jun 11 14:57   still running
+
+wtmp begins Tue Jun 11 14:57:36 2024

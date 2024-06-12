@@ -1,0 +1,1 @@
+Linux version 6.5.0-13parrot1-amd64 (palinuro@parrotsec.org) (gcc-12 (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40) #1 SMP PREEMPT_DYNAMIC Debian 6.5.13-1parrot1 (2023-12-19)

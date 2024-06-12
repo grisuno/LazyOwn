@@ -1,0 +1,21 @@
+Metadata-Version: 2.1
+Name: ROPGadget
+Version: 7.4
+Summary: This tool lets you search your gadgets on your binaries to facilitate your ROP exploitation.
+Home-page: https://github.com/JonathanSalwan/ROPgadget
+Author: Jonathan Salwan
+Author-email: jonathan.salwan@gmail.com
+License: BSD
+Classifier: Topic :: Security
+Classifier: Environment :: Console
+Classifier: Operating System :: OS Independent
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Intended Audience :: Developers
+License-File: LICENSE_BSD.txt
+License-File: AUTHORS
+Requires-Dist: capstone (>=5.0.1)
+
+ROPgadget supports ELF, PE, Mach-O, and Raw formats on x86, x64, ARM, ARM64, PowerPC, SPARC, MIPS, RISC-V 64, and RISC-V Compressed architectures.
+https://github.com/JonathanSalwan/ROPgadget

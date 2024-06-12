@@ -1,0 +1,3 @@
+#!/home/gris/tools/LazyOwn/env/bin/python3
+from ldapdomaindump import pretty
+pretty.main()

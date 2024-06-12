@@ -1,0 +1,109 @@
+Metadata-Version: 2.1
+Name: pwntools
+Version: 4.12.0
+Summary: Pwntools CTF framework and exploit development library.
+Author-email: "Gallopsled et al." <pwntools-users@googlegroups.com>
+License: Mostly MIT, some GPL/BSD, see LICENSE-pwntools.txt
+Project-URL: homepage, https://pwntools.com
+Project-URL: download, https://github.com/Gallopsled/pwntools/releases
+Keywords: pwntools,exploit,ctf,capture,the,flag,binary,wargame,overflow,stack,heap,defcon
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: Intended Audience :: System Administrators
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Natural Language :: English
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Security
+Classifier: Topic :: Software Development :: Assemblers
+Classifier: Topic :: Software Development :: Debuggers
+Classifier: Topic :: Software Development :: Disassemblers
+Classifier: Topic :: Software Development :: Embedded Systems
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: System :: System Shells
+Classifier: Topic :: Utilities
+Requires-Python: >=2.7
+Description-Content-Type: text/markdown
+License-File: LICENSE-pwntools.txt
+Requires-Dist: paramiko >=1.15.2
+Requires-Dist: mako >=1.0.0
+Requires-Dist: capstone >=3.0.5rc2
+Requires-Dist: ropgadget >=5.3
+Requires-Dist: pyserial >=2.7
+Requires-Dist: requests >=2.0
+Requires-Dist: pip >=6.0.8
+Requires-Dist: pygments >=2.0
+Requires-Dist: pysocks
+Requires-Dist: python-dateutil
+Requires-Dist: packaging
+Requires-Dist: psutil >=3.3.0
+Requires-Dist: intervaltree >=3.0
+Requires-Dist: sortedcontainers
+Requires-Dist: unicorn >=1.0.2rc1
+Requires-Dist: six >=1.12.0
+Requires-Dist: rpyc
+Requires-Dist: colored-traceback
+Requires-Dist: zstandard
+Requires-Dist: pyelftools <0.30,>=0.24 ; python_version < "3"
+Requires-Dist: pathlib2 ; python_version < "3.4"
+Requires-Dist: pyelftools >=0.24 ; python_version >= "3"
+Requires-Dist: unix-ar ; python_version >= "3"
+
+# pwntools - CTF toolkit
+![pwntools logo](https://github.com/Gallopsled/pwntools/blob/stable/docs/source/logo.png?raw=true)
+
+[![PyPI](https://img.shields.io/pypi/v/pwntools?style=flat)](https://pypi.python.org/pypi/pwntools/)
+[![Docs](https://readthedocs.org/projects/pwntools/badge/?version=stable)](https://docs.pwntools.com/)
+[![GitHub Workflow Status (dev)](https://img.shields.io/github/actions/workflow/status/Gallopsled/pwntools/ci.yml?branch=dev&logo=GitHub)](https://github.com/Gallopsled/pwntools/actions/workflows/ci.yml?query=branch%3Adev)
+[![Coveralls](https://img.shields.io/coveralls/github/Gallopsled/pwntools/dev?logo=coveralls)](https://coveralls.io/github/Gallopsled/pwntools?branch=dev)
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](http://choosealicense.com/licenses/mit/)
+[![Packaging status](https://img.shields.io/repology/repositories/python:pwntools)](https://repology.org/project/python:pwntools/versions)
+[![Discord](https://img.shields.io/discord/809590285687980052?label=Discord&style=plastic)](https://discord.gg/96VA2zvjCB)
+[![Twitter](https://img.shields.io/twitter/follow/Pwntools)](https://twitter.com/pwntools)
+
+Pwntools is a CTF framework and exploit development library. Written in Python, it is designed for rapid prototyping and development, and intended to make exploit writing as simple as possible.
+
+```python
+from pwn import *
+context(arch = 'i386', os = 'linux')
+
+r = remote('exploitme.example.com', 31337)
+# EXPLOIT CODE GOES HERE
+r.send(asm(shellcraft.sh()))
+r.interactive()
+```
+
+# Documentation
+
+Our documentation is available at [docs.pwntools.com](https://docs.pwntools.com/)
+
+A series of tutorials is also [available online](https://github.com/Gallopsled/pwntools-tutorial#readme)
+
+To get you started, we've provided some example solutions for past CTF challenges in our [write-ups repository](https://github.com/Gallopsled/pwntools-write-ups).
+
+# Installation
+
+Pwntools is best supported on 64-bit Ubuntu LTS releases (14.04, 16.04, 18.04, and 20.04).  Most functionality should work on any Posix-like distribution (Debian, Arch, FreeBSD, OSX, etc.).  
+
+Python3 is suggested, but Pwntools still works with Python 2.7.  Most of the functionality of pwntools is self-contained and Python-only.  You should be able to get running quickly with
+
+```sh
+apt-get update
+apt-get install python3 python3-pip python3-dev git libssl-dev libffi-dev build-essential
+python3 -m pip install --upgrade pip
+python3 -m pip install --upgrade pwntools
+```
+
+
+However, some of the features (assembling/disassembling foreign architectures) require non-Python dependencies.  For more information, see the [complete installation instructions here](https://docs.pwntools.com/en/stable/install.html).
+
+
+# Contribution
+
+See [CONTRIBUTING.md](CONTRIBUTING.md)
+
+# Contact and Community
+If you have any questions not worthy of a [bug report](https://github.com/Gallopsled/pwntools/issues), join the Discord server at https://discord.gg/96VA2zvjCB

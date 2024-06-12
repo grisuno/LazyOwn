@@ -1,0 +1,79 @@
+Metadata-Version: 2.1
+Name: rpyc
+Version: 6.0.0
+Summary: Remote Python Call (RPyC) is a transparent and symmetric distributed computing library
+Project-URL: Homepage, https://rpyc.readthedocs.org
+Project-URL: Source, https://github.com/tomerfiliba-org/rpyc
+Author-email: Tomer Filiba <tomerfiliba@gmail.com>, James Stronz <comrumino@archstrike.org>
+License: MIT License
+License-File: LICENSE
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: System Administrators
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Internet
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Software Development :: Object Brokering
+Classifier: Topic :: Software Development :: Testing
+Classifier: Topic :: System :: Clustering
+Classifier: Topic :: System :: Distributed Computing
+Classifier: Topic :: System :: Monitoring
+Classifier: Topic :: System :: Networking
+Classifier: Topic :: System :: Systems Administration
+Requires-Python: >=3.7
+Requires-Dist: plumbum
+Description-Content-Type: text/x-rst
+
+|Version| |Python| |Tests| |License|
+
+RPyC_ (pronounced like *are-pie-see*), or *Remote Python Call*, is a
+**transparent** library for **symmetrical** `remote procedure calls`_,
+clustering_, and distributed-computing_.  RPyC makes use of object-proxying_,
+a technique that employs python's dynamic nature, to overcome the physical
+boundaries between processes and computers, so that remote objects can be
+manipulated as if they were local.
+
+Documentation can be found at https://rpyc.readthedocs.io
+
+.. figure:: http://rpyc.readthedocs.org/en/latest/_images/screenshot.png
+   :align: center
+
+   A screenshot of a Windows client connecting to a Linux server.
+
+   Note that text written to the server's ``stdout`` is actually printed on
+   the server's console.
+
+
+.. References:
+
+.. _RPyC:                   https://github.com/tomerfiliba-org/rpyc
+.. _remote procedure calls: http://en.wikipedia.org/wiki/Remote_procedure_calls
+.. _clustering:             http://en.wikipedia.org/wiki/Clustering
+.. _distributed-computing:  http://en.wikipedia.org/wiki/Distributed_computing
+.. _object-proxying:        http://en.wikipedia.org/wiki/Proxy_pattern
+
+.. Badges:
+
+.. |Version| image::   https://img.shields.io/pypi/v/rpyc.svg?style=flat
+   :target:            https://pypi.python.org/pypi/rpyc
+   :alt:               Version
+
+.. |Python| image::    https://img.shields.io/pypi/pyversions/rpyc.svg?style=flat
+   :target:            https://pypi.python.org/pypi/rpyc#downloads
+   :alt:               Python Versions
+
+.. |Tests| image::     https://github.com/tomerfiliba-org/rpyc/actions/workflows/python-app.yml/badge.svg
+   :target:            https://github.com/tomerfiliba-org/rpyc/actions/workflows/python-app.yml
+   :alt:               Build Status
+
+.. |License| image::   https://img.shields.io/pypi/l/rpyc.svg?style=flat
+   :target:            https://github.com/tomerfiliba-org/rpyc/blob/master/LICENSE
+   :alt:               License: MIT

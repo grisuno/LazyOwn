@@ -1,0 +1,17 @@
+MANIFEST.in
+README.rst
+docx.py
+setup.cfg
+setup.py
+docx.egg-info/PKG-INFO
+docx.egg-info/SOURCES.txt
+docx.egg-info/dependency_links.txt
+docx.egg-info/requires.txt
+docx.egg-info/top_level.txt
+template/_rels/.rels
+template/docProps/thumbnail.jpeg
+template/word/fontTable.xml
+template/word/numbering.xml
+template/word/settings.xml
+template/word/styles.xml
+template/word/theme/theme1.xml

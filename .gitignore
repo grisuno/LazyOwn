@@ -9,3 +9,8 @@ network_discovery
 *.nmap
 *.key
 *.pub
+env/
+lib*
+pwntools/
+__pycache__/
+build/

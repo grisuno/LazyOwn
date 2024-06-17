@@ -76,7 +76,8 @@ def main():
         f"http://{args.rhost}:{args.rport}/?document=",
         f"http://{args.rhost}:{args.rport}/?layout=",
         f"http://{args.rhost}:{args.rport}/?mod=",
-        f"http://{args.rhost}:{args.rport}/?conf="
+        f"http://{args.rhost}:{args.rport}/?conf=",
+        f"http://{args.rhost}:{args.rport}/cgi-bin/lazywebshell.sh?cmd="
     ]
     if path.exists(args.wordlist):
         wordlist = open(args.wordlist, 'r')

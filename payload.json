@@ -30,5 +30,6 @@
     "email_username":"email@gmail.com",
     "email_password":"pa$$w0rd",
     "smtp_server":"smtp.server.com",
-    "smtp_port":"587"
+    "smtp_port":"587",
+    "field":"page"
 }

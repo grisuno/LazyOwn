@@ -96,7 +96,8 @@ class LazyOwnShell(Cmd):
             "email_username":"email@gmail.com",
             "email_password":"pa$$w0rd",
             "smtp_server":"smtp.server.com",
-            "smtp_port":"587"
+            "smtp_port":"587",
+            "field": "page"
         }
         self.scripts = [
             "lazysearch",
@@ -118,7 +119,8 @@ class LazyOwnShell(Cmd):
             "lazybotnet",
             "lazybotcli",
             "lazyhoneypot",
-            "lazysearch_bot"
+            "lazysearch_bot",
+            "lazylfi2rce"
         ]
         self.output = ""
 
@@ -271,6 +273,17 @@ class LazyOwnShell(Cmd):
             print("[?] rhost and lport and rat_key must be set")
             return
         self.run_script("modules/lazybotnet.py", "--host", rhost, "--port", str(rport), "--key", rat_key )
+
+    def run_lazylfi2rce(self):
+        rhost = self.params["rhost"]
+        rport = self.params["rport"]
+        lhost = self.params["lhost"]
+        lport = self.params["lport"]
+        field = self.params["field"]
+        if not rhost or not rport or not lhost or not lport or not field:
+            print("[?] rhost and rport field and lhost lport must be set")
+            return
+        self.run_script("modules/lazylfi2rce.py", "--rhost", rhost, "--rport", str(rport), "--lhost", lhost, "--lport", str(lport), "--field", field )
 
     def run_lazybotcli(self):
         rhost = "0.0.0.0"

@@ -395,7 +395,13 @@ class LazyOwnShell(Cmd):
     def do_lazypwn(self, line):
         """LazyPwn  """
         os.system("python3 modules/lazypwn.py")  
-     
+
+    def do_fixel(self, line):
+        """LazyLfi2Rce  """
+        os.system("dos2unix *")
+        os.system("dos2unix modules/*")
+        os.system("dos2unix modules/cgi-bin/*")  
+
     def do_encrypt(self, line):
         """ Encrypt a file using XOR. Usage: encrypt <file_path> <key> """
         args = shlex.split(line)

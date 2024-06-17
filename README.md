@@ -686,6 +686,15 @@ script que nos provee una visión de rayos x en cuanto al sistema en cuestion do
 ```sh
 run lazygath
 ```
+## Uso modo Lazy Own Lfi Rfi 2 Rce
+
+El modo Lfi Rfi 2 Rce es par aprobar algunos payloads más conocidos a los parametros de payload.json
+
+```sh
+payload
+run lazylfi2rce
+```
+
 ## Uso modo LazyOwn Sniffer
 
 https://www.youtube.com/watch?v=_-DDiiMrIlE

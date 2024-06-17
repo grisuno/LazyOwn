@@ -280,10 +280,12 @@ class LazyOwnShell(Cmd):
         lhost = self.params["lhost"]
         lport = self.params["lport"]
         field = self.params["field"]
-        if not rhost or not rport or not lhost or not lport or not field:
-            print("[?] rhost and rport field and lhost lport must be set")
+        wordlist = self.params["wordlist"]
+
+        if not rhost or not rport or not lhost or not lport or not field or not wordlist:
+            print("[?] rhost and rport field and lhost lport wordlist must be set")
             return
-        self.run_script("modules/lazylfi2rce.py", "--rhost", rhost, "--rport", str(rport), "--lhost", lhost, "--lport", str(lport), "--field", field )
+        self.run_script("modules/lazylfi2rce.py", "--rhost", rhost, "--rport", str(rport), "--lhost", lhost, "--lport", str(lport), "--field", field, "--wordlist" , wordlist )
 
     def run_lazybotcli(self):
         rhost = "0.0.0.0"

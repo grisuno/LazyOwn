@@ -690,6 +690,9 @@ run lazygath
 
 El modo Lfi Rfi 2 Rce es par aprobar algunos payloads más conocidos a los parametros de payload.json
 
+![image](https://github.com/grisuno/LazyOwn/assets/1097185/4259a469-8c8e-4d11-8db5-39a3bf15059c)
+
+
 ```sh
 payload
 run lazylfi2rce

@@ -78,6 +78,7 @@ def execute_exploit(cmd=None):
 
 def main():
     cmd = None
+    os.system('which pkexec | xargs ls -l')
     if len(sys.argv) > 1:
         cmd = sys.argv[1]
     execute_exploit(cmd)

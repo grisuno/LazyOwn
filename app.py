@@ -122,7 +122,8 @@ class LazyOwnShell(Cmd):
             "lazybotcli",
             "lazyhoneypot",
             "lazysearch_bot",
-            "lazylfi2rce"
+            "lazylfi2rce",
+            "lazylogpoisoning"
         ]
         self.output = ""
 
@@ -288,6 +289,15 @@ class LazyOwnShell(Cmd):
             print("[?] rhost and rport field and lhost lport wordlist must be set")
             return
         self.run_script("modules/lazylfi2rce.py", "--rhost", rhost, "--rport", str(rport), "--lhost", lhost, "--lport", str(lport), "--field", field, "--wordlist" , wordlist )
+
+    def run_lazylogpoisoning(self):
+        rhost = self.params["rhost"]
+        lhost = self.params["lhost"]
+
+        if not rhost or not lhost:
+            print("[?] rhost and lhost must be set")
+            return
+        self.run_script("modules/lazylogpisoning.py", "--rhost", rhost, "--lhost", lhost)
 
     def run_lazybotcli(self):
         rhost = "0.0.0.0"

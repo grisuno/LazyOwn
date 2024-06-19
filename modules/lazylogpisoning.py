@@ -1,5 +1,3 @@
-modules\lazylogpisoning.py
-@@ -1,113 +0,0 @@
 #!/usr/bin/env python3 
 #_*_ coding: utf8 _*_
  

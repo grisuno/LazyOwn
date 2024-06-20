@@ -1,5 +1,5 @@
 {
-    "binary_name": "shell",
+    "binary_name": "bash",
     "target_ip": "127.0.0.1",
     "api_key": "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",
     "prompt": "Presentate como Lazy OWN OneLiner assistant",

@@ -479,6 +479,18 @@ http://localhost:8080/cgi-bin/lazywebshell.cgi
 
 ![image](https://github.com/grisuno/LazyOwn/assets/1097185/fc0ea814-7044-4f8f-8979-02f9579e9df9)
 
+## Uso Lazy MSFVenom para Reverse Shell
+se crearán 3 archivos uno para windows uno para linux y uno para mac con el nombre shell.exe, shell.elf, shell.macho respectivamente y se invoca con el comando run lazymsfvenom
+
+```sh
+run lazymsfvenom
+```
+## Uso Lazy PATH Hijacking
+se crearán un archivo en /tmp con el nombre de binary_name seteado en payload inicializado con gzip en memoria y como bash en payload parasetear el payload desde el json usar el comando payload para ejecutar usar:
+
+```sh
+lazypathhijacking
+```
 ## Uso modo LazyOwn RAT
 LazyOwn RAT es una sencilla pero potente Remote Admin Tool Cuenta con una funcion de Screenshot, el cual captura la pantalla del servidor, tiene un comando upload, el cual nos permite subir archivos a la maquina comprometida, y un modo C&C donde podran enviar comandos al servidor, cuenta con dos modos en modo cliente y modo servidor, no tiene ningun tipo de ofuscación y la rat me base en BasicRat acá su github https://github.com/awesome-security/basicRAT y en https://github.com/hash3liZer/SillyRAT aun que está ultima es mucho más completa yo solo queria sacar pantallasos subir archivos y enviar comandos, quizas más adelante agregar funcionalidad de mirar webcams, pero eso más adelante.
 

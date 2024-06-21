@@ -797,17 +797,17 @@ Corre en http://localhost:5000 experimental, ya que aun no funciona la salida de
 ```sh
 python3 main.py 
 ```
-# Experimental ofuscación mediante pyinstaller
+## Experimental ofuscación mediante pyinstaller
 esto está en modo experimental y no funciona del todo, ya que tiene un problema de rutas. pronto ya contará con ofuscación mediante pyinstaller
 ```sh
 ./py2el.sh
 ```
-# Experimental exploit netbios
+## Experimental exploit netbios
 esto está en modo experimental ya que aun no funciona... (proximamente quizas una implementacion de eternalblue entre otras cositas...)
 ```sh
 run lazynetbios
 ```
-# Experimental LazyBotNet con keylogger para windows y Linux
+## Experimental LazyBotNet con keylogger para windows y Linux
 esto está en modo experimental y no funciona la desencriptación del log del keylogger xD
 acá vemos por primera vez en accion el comando payload el cual nos setea toda la config en nuestro payload.json así podemos precargar la config antes de arrancar con el framework
 ```sh

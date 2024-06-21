@@ -10,8 +10,18 @@ import struct
 import time
 import sys
 
+#If you want a debug mode turn this zero into one, ex: DEBUG = 1
 DEBUG = 0
-
+BANNER = """
+╦  ┌─┐┌─┐┬ ┬╔═╗┬ ┬┌┐┌          
+║  ├─┤┌─┘└┬┘║ ║││││││          
+╩═╝┴ ┴└─┘ ┴ ╚═╝└┴┘┘└┘          
+╔═╗╦═╗╔═╗┌┼┐┌─┐┌─┐┌─┐┌─┐┬┌┐┌┌─┐
+╠═╣╠╦╝╠═╝└┼┐├─┘│ ││ │├┤ │││││ ┬
+╩ ╩╩╚═╩  └┼┘┴  └─┘└─┘└  ┴┘└┘└─┘                                            ░░░░░░  
+[*] Iniciando: LazyOwn ARP$poofing [;,;]
+"""
+print(BANNER)
 # Verificar y relanzar con sudo si es necesario
 def check_sudo():
     if os.geteuid() != 0:

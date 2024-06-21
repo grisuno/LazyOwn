@@ -130,7 +130,8 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
             "lazylfi2rce",
             "lazylogpoisoning",
             "lazymsfvenom",
-            "lazypathhijacking"
+            "lazypathhijacking",
+            "lazyarpspoofing"
         ]
         self.output = ""
 
@@ -304,7 +305,7 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
         if not rhost or not lhost:
             print("[?] rhost and lhost must be set")
             return
-        self.run_script("modules/lazylogpisoning.py", "--rhost", rhost, "--lhost", lhost)
+        self.run_script("modules/lazylogpoisoning.py", "--rhost", rhost, "--lhost", lhost)
 
     def run_lazybotcli(self):
         rhost = "0.0.0.0"
@@ -351,6 +352,15 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
             print("[?] reverse_shell_ip and reverse_shell_port must be set")
             return
         os.system(f"{path}/modules/lazyreverse_shell.sh --ip {ip} --puerto {port}")
+
+    def run_lazyarpspoofing(self):
+        lhost = self.params["lhost"]
+        rhost = self.params["rhost"]
+        device = self.params["device"]
+        if not lhost or not rhost or not device:
+            print("[?] lhost, lhost, and device must be set")
+            return
+        os.system(f"modules/lazyarpspoofing.py --device {device} {lhost} {rhost}")
 
     def run_lazyattack(self):
         path = os.getcwd()

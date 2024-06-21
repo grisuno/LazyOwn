@@ -690,6 +690,16 @@ para luego en la maquina victima
 ```
 ![image](https://github.com/grisuno/LazyOwn/assets/1097185/b489be5d-0b53-4054-995f-6106c9c95190)
 
+## Uso modo ARPSpoofing
+el script provee de un ataque de ARPSpoofing mediante scapy en el payload debe ser seteado el lhost rhost y el device que pondràs a arpspoofear 
+
+```sh
+set rhost 192.168.1.100
+set lhost 192.168.1.1
+set device eth0
+run lazyarpspoofing
+```
+
 ## Uso modo LazyGathering
 script que nos provee una visión de rayos x en cuanto al sistema en cuestion donde estamos ejecutando la herramiente
 

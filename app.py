@@ -131,7 +131,8 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
             "lazylogpoisoning",
             "lazymsfvenom",
             "lazypathhijacking",
-            "lazyarpspoofing"
+            "lazyarpspoofing",
+            "lazyftpsniff"
         ]
         self.output = ""
 
@@ -219,6 +220,15 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
         device = self.params["device"]
         subprocess.run(["python3", "modules/lazysniff.py", "-i", device], env=env, stdin=sys.stdin, stdout=sys.stdout, stderr=sys.stderr)
 
+    def run_lazyftpsniff(self):
+        device = self.params["device"]
+        env = os.environ.copy()
+        env['LANG'] = 'en_US.UTF-8'
+        env['TERM'] = 'xterm-256color'
+        if not device:
+            print("device must be set to choice the interface")
+            return
+        subprocess.run(["python3", "modules/lazyftpsniff.py", "-i", device])
     def run_lazynetbios(self):
         
         startip = self.params["startip"]

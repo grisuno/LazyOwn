@@ -675,6 +675,18 @@ wget -c https://github.com/danielmiessler/SecLists/archive/master.zip -O SecList
 && unzip SecList.zip \
 && rm -f SecList.zip
 ```
+
+## Uso modo LazyOwn FTP Sniff 
+este modulo sirve para buscar claves en la red de servidores ftp, algunos me dirán que no se ya no se usa pero se sorprenderian en los entornos productivos en infraestructura critica que e visto maquinas con FTP's masivos corriendo en sus servidores :)
+
+```sh
+set device eth0
+run lazyftpsniff
+```
+
+![image](https://github.com/grisuno/LazyOwn/assets/1097185/d2d1c680-fc03-4f60-adc4-20248f3e3859)
+
+
 ## Uso modo LazyReverseShell
 primero nos ponemos en escucha con el comando 
 

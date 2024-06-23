@@ -569,6 +569,11 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
         os.system("dos2unix modules/*")
         os.system("dos2unix modules/cgi-bin/*")
 
+    def do_smbserver(self, line):
+        """Lazy imacket smbserver"""
+        print("[*] trying sudo impacket-smbserver smbfolder $(pwd) -smb2support ...")
+        os.system("sudo impacket-smbserver smbfolder $(pwd) -smb2support")
+
     def do_encrypt(self, line):
         """Encrypt a file using XOR. Usage: encrypt <file_path> <key>"""
         args = shlex.split(line)

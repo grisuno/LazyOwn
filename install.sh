@@ -16,3 +16,4 @@ pip3 install pandas
 pip3 install colorama
 pip3 install tabulate
 pip3 install pyarrow
+git clone --depth=1 https://github.com/grisuno/LazyOwnInfiniteStorage.git ./modules_ext/ 

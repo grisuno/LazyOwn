@@ -1,5 +1,30 @@
 #!/bin/bash
 
+################################################################################
+# Nombre del script: lazycurl.sh
+# Autor: Gris Iscomeback
+# Correo electrónico: grisiscomeback[at]gmail[dot]com
+# Fecha de creación: 09/06/2024
+# Descripción: Este script contiene la lógica principal de la aplicación. lazycurl
+# Licencia: GPL v3
+################################################################################
+# Banner
+echo "██╗      █████╗ ███████╗██╗   ██╗ ██████╗ ██╗    ██╗███╗   ██╗"
+echo "██║     ██╔══██╗╚══███╔╝╚██╗ ██╔╝██╔═══██╗██║    ██║████╗  ██║"
+echo "██║     ███████║  ███╔╝  ╚████╔╝ ██║   ██║██║ █╗ ██║██╔██╗ ██║"
+echo "██║     ██╔══██║ ███╔╝    ╚██╔╝  ██║   ██║██║███╗██║██║╚██╗██║"
+echo "███████╗██║  ██║███████╗   ██║   ╚██████╔╝╚███╔███╔╝██║ ╚████║"
+echo "╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝"
+echo "LazyCurl...:::...::.::......::::....::..::::..:::..:::...:::..:"
+
+# Función para manejar señales (como Ctrl+C)
+trap ctrl_c INT
+
+function ctrl_c() {
+  echo "[;,;] Trapped CTRL-C"
+  exit 1
+}
+
 # Función para mostrar la ayuda
 function show_help() {
 	echo "Uso: $0 [opciones]"

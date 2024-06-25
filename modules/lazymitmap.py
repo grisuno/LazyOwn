@@ -28,10 +28,7 @@ header = """
 
 
 def print_header():
-    try:
-        print(header + "             by grisUNO \n")
-    except:
-        print(header + "                            by grisUNO \n")
+    print(header + "             by grisUNO \n")
 
 
 def run_cmd_write(cmd_args, s):

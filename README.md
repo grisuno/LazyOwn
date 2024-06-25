@@ -702,6 +702,51 @@ para luego en la maquina victima
 ```
 ![image](https://github.com/grisuno/LazyOwn/assets/1097185/b489be5d-0b53-4054-995f-6106c9c95190)
 
+## Uso modo Lazy Curl to recon
+el modulo está en modules y se usa así:
+
+```sh
+chmod +x lazycurl.sh
+```
+Ejecutar el script con los parámetros deseados. Por ejemplo:
+
+```sh
+./lazycurl.sh --mode GET --url http://10.10.10.10
+```
+Ejemplos de uso
+
+Enviar una solicitud GET:
+
+```sh
+./lazycurl.sh --mode GET --url http://10.10.10.10
+```
+
+Enviar una solicitud POST:
+
+```sh
+./lazycurl.sh --mode POST --url http://10.10.10.10 --data "param1=value1&param2=value2"
+```
+
+Probar un método TRACE:
+
+```sh
+./lazycurl.sh --mode TRACE --url http://10.10.10.10
+```sh
+
+Subir un archivo:
+
+```sh
+./lazycurl.sh --mode UPLOAD --url http://10.10.10.10 --file file.txt
+```
+
+Realizar fuerza bruta con una wordlist:
+
+```sh
+./lazycurl.sh --mode BRUTE_FORCE --url http://10.10.10.10 --wordlist /usr/share/wordlists/rockyou.txt
+```
+
+Asegúrate de ajustar los parámetros según tus necesidades y de que los valores que pases a las opciones sean válidos para cada caso.
+
 ## Uso modo ARPSpoofing
 el script provee de un ataque de ARPSpoofing mediante scapy en el payload debe ser seteado el lhost rhost y el device que pondràs a arpspoofear 
 

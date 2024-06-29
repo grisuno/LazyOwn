@@ -112,7 +112,7 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
             "headers_file": None,
             "data_file": None,
             "params_file": None,
-            "json_data_file": None, 
+            "json_data_file": None,
         }
         self.scripts = [
             "lazysearch",
@@ -579,6 +579,15 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
         """try get capabilities :)"""
         print("[+] Try get capabilities")
         os.system("getcap -r / 2>/dev/null")
+
+    def do_arpscan(self, line):
+        """try arp-scan"""
+        if not self.params["device"]:
+            print("[?] device must be set")
+            return
+        device = self.params["device"]
+        print("[+] try to arp-scan sudo arp-scan -I DEVICE --localnet")
+        os.system(f"sudo arp-scan -I {device} --localnet")
 
     def do_lazypwn(self, line):
         """LazyPwn"""

@@ -10,7 +10,7 @@
     "data": "{\"key\": \"LAZYFUZZ\"}",
     "json_data": "{\"json_key\": \"json_value\"}",
     "proxy_port": 8888,
-    "wordlist": "/usr/share/seclist/SecLists-master/Discovery/Variables/awesome-environment-variable-names.txt",
+    "wordlist": "/usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt",
     "hide_code": 404,
     "mode": "attack",
     "attacker_ip": "127.0.0.1",

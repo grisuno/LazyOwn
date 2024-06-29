@@ -120,6 +120,7 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
             "lazyown",
             "update_db",
             "lazynmap",
+            "lazyaslrcheck",
             "lazynmapdiscovery",
             "lazygptcli",
             "lazyburpfuzzer",
@@ -511,6 +512,19 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
         os.system("upx modules/cgi-bin/shell.macho")
         os.system("upx modules/cgi-bin/shell.exe")
         print("[?] To run web server exec command: lazywebshell [;,;] ")
+
+    def run_lazyaslrcheck(self):
+        print(
+            "[+] Attemp to cat /proc/sys/kernel/randomize_va_space to ksnow if ASLR is active"
+        )
+        result = subprocess.getoutput("cat /proc/sys/kernel/randomize_va_space")
+        print(result)
+        if result == "0":
+            print("[+] ASLR is deactivated")
+        elif result == "1":
+            print("[+] ASLR is partial activated")
+        elif result == "2":
+            print("[+] ASLR is activated")
 
     def run_lazypathhijacking(self):
         binary_name = self.params["binary_name"]

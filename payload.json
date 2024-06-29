@@ -31,5 +31,9 @@
     "email_password":"pa$$w0rd",
     "smtp_server":"smtp.server.com",
     "smtp_port":"587",
-    "field":"page"
+    "field":"page",
+    "headers_file": "modules/headers.json",
+    "data_file": "modules/data.json",
+    "params_file": "modules/params.json",
+    "json_data_file": "modules/json_data.json"
 }

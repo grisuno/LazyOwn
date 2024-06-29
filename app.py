@@ -109,6 +109,10 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
             "smtp_server": "smtp.server.com",
             "smtp_port": "587",
             "field": "page",
+            "headers_file": None,
+            "data_file": None,
+            "params_file": None,
+            "json_data_file": None, 
         }
         self.scripts = [
             "lazysearch",
@@ -410,6 +414,10 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
         proxy_port = self.params["proxy_port"]
         wordlist = self.params["wordlist"]
         hide_code = self.params["hide_code"]
+        headers_file = self.params.get("headers_file")
+        data_file = self.params.get("data_file")
+        params_file = self.params.get("params_file")
+        json_data_file = self.params.get("json_data_file")
 
         command = [
             "python3",
@@ -418,17 +426,30 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
             url,
             "--method",
             method,
-            "--headers",
-            headers,
-            "--params",
-            params,
-            "--data",
-            data,
-            "--json_data",
-            json_data,
             "--proxy_port",
             str(proxy_port),
         ]
+
+        if headers_file:
+            command.extend(["--headers_file", headers_file])
+        else:
+            command.extend(["--headers", headers])
+
+        if data_file:
+            command.extend(["--data_file", data_file])
+        else:
+            command.extend(["--data", data])
+
+        if params_file:
+            command.extend(["--params_file", params_file])
+        else:
+            command.extend(["--params", params])
+
+        if json_data_file:
+            command.extend(["--json_data_file", json_data_file])
+        else:
+            command.extend(["--json_data", json_data])
+
         if wordlist:
             command.extend(["-w", wordlist])
         if hide_code:

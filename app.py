@@ -602,6 +602,13 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
         print("[+] Try get capabilities")
         os.system("getcap -r / 2>/dev/null")
 
+    def do_getseclist(self, line):
+        """get seclist :D"""
+        print("[+] Try to get seclist wordlist [;,;]")
+        os.system("""cd /usr/share/wordlists/ && sudo wget -c https://github.com/danielmiessler/SecLists/archive/master.zip -O SecList.zip \
+        && sudo unzip SecList.zip \
+        && sudo  rm -f SecList.zip""")
+
     def do_arpscan(self, line):
         """try arp-scan"""
         if not self.params["device"]:

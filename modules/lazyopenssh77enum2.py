@@ -68,9 +68,9 @@ logging.getLogger("paramiko.transport").addHandler(logging.NullHandler())
 parser = argparse.ArgumentParser(
     description="SSH User Enumeration by Leap Security (@LeapSecurity)"
 )
-parser.add_argument("target", help="IP address of the target system")
+parser.add_argument("-t", "--target", help="IP address of the target system")
 parser.add_argument("-p", "--port", default=22, help="Set port of SSH service")
-parser.add_argument("username", help="Username to check for validity.")
+parser.add_argument("-u", "--username", help="Username to check for validity.")
 
 if len(sys.argv) == 1:
     parser.print_help()

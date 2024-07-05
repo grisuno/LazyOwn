@@ -626,6 +626,15 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
         rhost = self.params["rhost"]
         os.system(f"impacket-psexec administrator@{rhost}")
 
+    def do_whatweb(self, line):
+        """whatweb"""
+        if not self.params["rhost"]:
+            print("[?] rhost must be set")
+            return
+        rhost = self.params["rhost"]
+        print(f"try whatweb {rhost}")
+        os.system(f"whatweb {rhost}")
+
     def do_arpscan(self, line):
         """try arp-scan"""
         if not self.params["device"]:

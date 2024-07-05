@@ -142,6 +142,7 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
             "lazypathhijacking",
             "lazyarpspoofing",
             "lazyftpsniff",
+            "lazyssh77enum",
         ]
         self.output = ""
 
@@ -404,6 +405,18 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
             "--key",
             rat_key,
         )
+
+    def run_lazyssh77enum(self):
+        wordlist = self.params["wordlist"]
+        rhost = self.params["rhost"]
+        if not wordlist or not rhost:
+            print("rhost and wordlist must be set")
+            return
+        print(
+            "[?] this may not be accurate. using a version a little bit updated from searchsploit"
+        )
+        path = os.getcwd()
+        os.system(f"{path}/modules/lazybrutesshuserenum.sh {wordlist} {rhost}")
 
     def run_lazyburpfuzzer(self):
         url = self.params["url"]

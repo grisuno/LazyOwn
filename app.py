@@ -618,6 +618,14 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
         print(f"perform this command: smbclient -N -L \\\\{rhost}\\")
         os.system(f"smbclient -N -L \\\\{rhost}\\")
 
+    def do_psexec(self, line):
+        """Lazy impacket-psexec administrator@"""
+        if not self.params["rhost"]:
+            print("[?] rhost must be set")
+            return
+        rhost = self.params["rhost"]
+        os.system(f"impacket-psexec administrator@{rhost}")
+
     def do_arpscan(self, line):
         """try arp-scan"""
         if not self.params["device"]:

@@ -1,6 +1,5 @@
 {
   "binary_name": "bash",
-  "target_ip": "10.129.118.231",
   "api_key": "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",
   "prompt": "Presentate como Lazy OWN OneLiner assistant",
   "url": "http://10.129.118.231",
@@ -15,8 +14,6 @@
   "dirworlist": "/usr/share/wordlists/SecLists-master/Discovery/Web-Content/directory-list-2.3-medium.txt",
   "hide_code": 404,
   "mode": "attack",
-  "attacker_ip": "10.10.14.78",
-  "reverse_shell_ip": "10.129.118.231",
   "reverse_shell_port": 4444,
   "path": "/example/path",
   "rhost": "10.129.118.231",
@@ -37,5 +34,6 @@
   "headers_file": "modules/headers.json",
   "data_file": "modules/data.json",
   "params_file": "modules/params.json",
-  "json_data_file": "modules/json_data.json"
+  "json_data_file": "modules/json_data.json", 
+  "file": "file_to_operate.ext"
 }

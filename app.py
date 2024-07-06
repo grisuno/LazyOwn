@@ -81,7 +81,6 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
         super().__init__()
         self.params = {
             "binary_name": "gzip",
-            "target_ip": "127.0.0.1",
             "api_key": None,
             "prompt": None,
             "url": None,
@@ -94,8 +93,6 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
             "wordlist": None,
             "hide_code": None,
             "mode": None,
-            "attacker_ip": None,
-            "reverse_shell_ip": None,
             "reverse_shell_port": None,
             "path": "/",
             "rhost": None,
@@ -218,7 +215,10 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
 
     def run_lazynmap(self):
         path = os.getcwd()
-        target_ip = self.params["target_ip"]
+        target_ip = self.params["rhost"]
+        if not target_ip:
+            print("[?] rhost must be set, help set to more info")
+            return
         os.system(f"{path}/modules/lazynmap.sh -t {target_ip}")
 
     def run_lazygath(self):
@@ -479,11 +479,11 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
         self.run_command(command)
 
     def run_lazyreverse_shell(self):
-        ip = self.params["reverse_shell_ip"]
+        ip = self.params["rhost"]
         port = self.params["reverse_shell_port"]
         path = os.getcwd()
         if not ip or not port:
-            print("[?] reverse_shell_ip and reverse_shell_port must be set")
+            print("[?] rhost and reverse_shell_port must be set, more info see, help set")
             return
         os.system(f"{path}/modules/lazyreverse_shell.sh --ip {ip} --puerto {port}")
 
@@ -499,10 +499,10 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
     def run_lazyattack(self):
         path = os.getcwd()
         mode = self.params["mode"]
-        target_ip = self.params["target_ip"]
-        attacker_ip = self.params["attacker_ip"]
+        target_ip = self.params["rhost"]
+        attacker_ip = self.params["lhost"]
         if not mode or not target_ip or not attacker_ip:
-            print("[?] mode, target_ip, and attacker_ip must be set")
+            print("[?] mode, rhost, and lhost must be set, more info see help set")
             return
         os.system(
             f"{path}/modules/lazyatack.sh --modo {mode} --ip {target_ip} --atacante {attacker_ip}"

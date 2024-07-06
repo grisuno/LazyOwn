@@ -63,6 +63,11 @@ def signal_handler(sig, frame):
 signal.signal(signal.SIGINT, signal_handler)
 
 
+def is_binary_present(binary_name):
+    result = os.system(f"which {binary_name} > /dev/null 2>&1")
+    return result == 0
+
+
 class LazyOwnShell(Cmd):
     prompt = "LazyOwn> "
     intro = """Welcome to the LazyOwn Framework [;,;] interactive shell! Type ? to list commands
@@ -675,6 +680,19 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
             f"try... gobuster dir --url http://{rhost}/ --wordlist {dirwordlist} {line}"
         )
         os.system(f"gobuster dir --url http://{rhost}/ --wordlist {dirwordlist} {line}")
+
+    def do_gospider(self, line):
+        """try gospider"""
+        rhost = self.params["rhost"]
+        if not rhost:
+            print("rhost must be set")
+            return
+        if is_binary_present("gospider"):
+            print(f"try... gospider -s http://{rhost}")
+            os.system(f"gospider -s http://{rhost}")
+        else:
+            print("gospider is not installed, installing... (control + c to cancel)")
+            os.system(f"sudo apt install gospider -y && gospider -s http://{rhost}")
 
     def do_arpscan(self, line):
         """try arp-scan"""

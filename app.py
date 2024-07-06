@@ -113,6 +113,8 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
             "data_file": None,
             "params_file": None,
             "json_data_file": None,
+            "dirwordlist": "/usr/share/wordlists/SecLists-master/Discovery/Web-Content/directory-list-2.3-medium.txt",
+            "usrwordlist": "/usr/share/wordlists/SecLists-master/Usernames/xato-net-10-million-usernames.txt",
         }
         self.scripts = [
             "lazysearch",
@@ -407,7 +409,7 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
         )
 
     def run_lazyssh77enum(self):
-        wordlist = self.params["wordlist"]
+        wordlist = self.params["usrwordlist"]
         rhost = self.params["rhost"]
         if not wordlist or not rhost:
             print("rhost and wordlist must be set")
@@ -647,6 +649,20 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
         rhost = self.params["rhost"]
         print(f"try whatweb {rhost}")
         os.system(f"whatweb {rhost}")
+
+    def do_ss(self, line):
+        """searchsploit alias"""
+        print("[+] searching in searchsploit")
+        os.system(f"searchsploit {line}")
+
+    def do_wfuzz(self, line):
+        """lazy alias to wfuzz"""
+        dirwordlist = self.params["dirwordlist"]
+        rhost = self.params["rhost"]
+        if not rhost or not dirwordlist:
+            print("dirwordlist and rhost must be set")
+            return
+        os.system(f"wfuzz -c {line} -t 200 -w {dirwordlist} http://{rhost}/FUZZ")
 
     def do_arpscan(self, line):
         """try arp-scan"""

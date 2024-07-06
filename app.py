@@ -664,6 +664,18 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
             return
         os.system(f"wfuzz -c {line} -t 200 -w {dirwordlist} http://{rhost}/FUZZ")
 
+    def do_gobuster(self, line):
+        """LAzy gobuster"""
+        dirwordlist = self.params["dirwordlist"]
+        rhost = self.params["rhost"]
+        if not rhost or not dirwordlist:
+            print("rhost and dirwordlist must be set")
+            return
+        print(
+            f"try... gobuster dir --url http://{rhost}/ --wordlist {dirwordlist} {line}"
+        )
+        os.system(f"gobuster dir --url http://{rhost}/ --wordlist {dirwordlist} {line}")
+
     def do_arpscan(self, line):
         """try arp-scan"""
         if not self.params["device"]:

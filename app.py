@@ -640,6 +640,15 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
         print(f"perform this command: smbclient -N -L \\\\{rhost}\\")
         os.system(f"smbclient -N -L \\\\{rhost}\\")
 
+    def do_smbmap(self, line):
+        """smbmap -H 10.10.10.3 -R tmp"""
+        rhost = self.params["rhost"]
+        if not rhost:
+            print("rhost must be set, see help set, ex: set rhost 10.10.10.3 ")
+            return
+        print(f"[*] try... smbmap -H {rhost} -R {line}")
+        os.system(f"smbmap -H {rhost} -R {line}")
+
     def do_psexec(self, line):
         """Lazy impacket-psexec administrator@"""
         if not self.params["rhost"]:

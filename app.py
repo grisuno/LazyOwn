@@ -678,8 +678,16 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
         if not rhost or not dirwordlist:
             print("rhost and dirwordlist must be set")
             return
+        if line == "url":
+            url = self.params["url"]
+            if not url:
+                print("[?] url must be set, ex: set url http://domain.ext")
+                return
+            print(f"[+] try gobuster dir --url {url}/ --wordlist {dirwordlist}")
+            os.system(f"gobuster dir --url {url}/ --wordlist {dirwordlist}")
+            return
         print(
-            f"try... gobuster dir --url http://{rhost}/ --wordlist {dirwordlist} {line}"
+            f"[+] try... gobuster dir --url http://{rhost}/ --wordlist {dirwordlist} {line}"
         )
         os.system(f"gobuster dir --url http://{rhost}/ --wordlist {dirwordlist} {line}")
 

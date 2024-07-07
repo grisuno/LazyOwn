@@ -483,7 +483,9 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
         port = self.params["reverse_shell_port"]
         path = os.getcwd()
         if not ip or not port:
-            print("[?] rhost and reverse_shell_port must be set, more info see, help set")
+            print(
+                "[?] rhost and reverse_shell_port must be set, more info see, help set"
+            )
             return
         os.system(f"{path}/modules/lazyreverse_shell.sh --ip {ip} --puerto {port}")
 
@@ -681,9 +683,33 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
         )
         os.system(f"gobuster dir --url http://{rhost}/ --wordlist {dirwordlist} {line}")
 
+    def do_addhosts(self, line):
+        """sudo -- sh -c -e "echo '10.10.11.23 permx.htb' >> /etc/hosts;"""
+        rhost = self.params["rhost"]
+        if not rhost or not line:
+            print(
+                "add domain and rhost must be set to more info see help set (set rhost 10.10.10.10) ex: addhost domain.ext"
+            )
+            return
+        print(f"[+] try... sudo -- sh -c -e \"echo '{rhost} {line}' >> /etc/hosts\";")
+        os.system(f"sudo -- sh -c -e \"echo '{rhost} {line}' >> /etc/hosts\";")
+        print(f"\n\n[*] Done... add {line} to /etc/hosts \n\n")
+
     def do_gospider(self, line):
         """try gospider"""
         rhost = self.params["rhost"]
+        if line == "url":
+            url = self.params["url"]
+            if not url:
+                print(
+                    "if you pass the param url, url mus be set, ex: set url http://url.ext"
+                )
+                return
+
+            print(f"try gospider -s {url}")
+            os.system(f"gospider -s {url}")
+            return
+
         if not rhost:
             print("rhost must be set")
             return

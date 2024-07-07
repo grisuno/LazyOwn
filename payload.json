@@ -2,7 +2,7 @@
   "binary_name": "bash",
   "api_key": "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",
   "prompt": "Presentate como Lazy OWN OneLiner assistant",
-  "url": "http://10.129.118.231",
+  "url": "http://permx.htb",
   "method": "POST",
   "headers": "{\"Content-Type\": \"application/json\"}",
   "params": "{\"param1\": \"LAZYFUZZ\"}",
@@ -16,8 +16,8 @@
   "mode": "attack",
   "reverse_shell_port": 4444,
   "path": "/example/path",
-  "rhost": "10.129.118.231",
-  "lhost": "10.10.14.78",
+  "rhost": "10.10.11.23",
+  "lhost": "10.10.14.15",
   "rport": 5555,
   "lport": 5555,
   "rat_key": "82e672aa4de6f042c888111686a",
@@ -34,6 +34,6 @@
   "headers_file": "modules/headers.json",
   "data_file": "modules/data.json",
   "params_file": "modules/params.json",
-  "json_data_file": "modules/json_data.json", 
+  "json_data_file": "modules/json_data.json",
   "file": "file_to_operate.ext"
 }

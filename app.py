@@ -637,6 +637,10 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
             print("[?] rhost must be set")
             return
         rhost = self.params["rhost"]
+        if line:
+            print(f"[*] Try .. smbclient -N \\\\{rhost}\\\\{line}")
+            os.system(f"smbclient -N \\\\\\\\{rhost}\\\\{line}")
+            return
         print(f"perform this command: smbclient -N -L \\\\{rhost}\\")
         os.system(f"smbclient -N -L \\\\{rhost}\\")
 
@@ -646,6 +650,7 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
         if not rhost:
             print("rhost must be set, see help set, ex: set rhost 10.10.10.3 ")
             return
+
         print(f"[*] try... smbmap -H {rhost} -R {line}")
         os.system(f"smbmap -H {rhost} -R {line}")
 

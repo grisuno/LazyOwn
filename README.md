@@ -94,7 +94,7 @@ pip install requeriments.txt
 ## Uso
 
 ```sh
-python3 app.py
+python3 lazyown # or just ./lazyown
 ```
 ```
 Use set <parameter> <value> to set parameters.

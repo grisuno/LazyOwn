@@ -58,9 +58,12 @@ def signal_handler(sig, frame):
     global should_exit
     print("\n [<-] para salir usar el comando exit ...")
     should_exit = True
+    return
 
 
 signal.signal(signal.SIGINT, signal_handler)
+
+
 
 
 def is_binary_present(binary_name):
@@ -75,7 +78,7 @@ Github: https://github.com/grisuno/LazyOwn
 Web: https://grisuno.github.io/LazyOwn/
 Reddit: https://www.reddit.com/r/LazyOwn/
 Facebook: https://web.facebook.com/profile.php?id=61560596232150
-    """
+"""
 
     def __init__(self):
         super().__init__()
@@ -179,13 +182,13 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
             print(f"{param}: {value}")
 
     def do_list(self, line):
-        """List all available scripts"""
+        """List all available scripts in modules directory, they can use apart from the framework too."""
         print("Available scripts to run:")
         for script in self.scripts:
             print(f"- {script}")
 
     def do_run(self, line):
-        """Run a specific LazyOwn script"""
+        """Run a specific LazyOwn script to see all scripts to run see: list or help list"""
         args = shlex.split(line)
         if not args:
             print("[?] Usage: run <script_name>")
@@ -765,6 +768,122 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
         """Lazy imacket smbserver"""
         print("[*] trying sudo impacket-smbserver smbfolder $(pwd) -smb2support ...")
         os.system("sudo impacket-smbserver smbfolder $(pwd) -smb2support")
+
+    def do_sqlmap(self, line):
+        """Lazy sqlmap try sqlmap -wizard if don't know how to use requests.txt file always start with req and first parameter"""
+        url = self.params["url"]
+
+        if line:
+            if line.startswith("req"):
+                parts = line.split(" ")
+                print("[?] Nùmero de parametros: " + str(len(parts)))
+
+                if len(parts) == 2:
+                    arg1 = parts[0]
+                    arg2 = parts[1]
+                    path = os.getcwd()
+                    print(path)
+                    file = path + "/sessions/" + arg1
+                    print(file)
+                    if not os.path.isfile(file) or not os.access(file, os.R_OK):
+                        print(
+                            f"Error: El archivo '{arg1}' no existe o no es legible en el directorio sessions."
+                        )
+
+                        return
+                    print(
+                        f"[*] Try... sqlmap -r {arg1} --level 5 --risk 3 -p {arg2} --batch --dbs --threads 10 --time-sec 10"
+                    )
+                    os.system(
+                        f"sqlmap -r {file} --level 5 --risk 3 -p {arg2} --batch --dbs --threads 10 --time-sec 10"
+                    )
+                if len(parts) == 3:
+                    arg1 = parts[0]
+                    arg2 = parts[1]
+                    arg3 = parts[2]
+                    path = os.getcwd()
+                    print(path)
+                    file = path + "/sessions/" + arg1
+                    print(file)
+                    if not os.path.isfile(file) or not os.access(file, os.R_OK):
+                        print(
+                            f"Error: El archivo '{arg1}' no existe o no es legible en el directorio sessions."
+                        )
+
+                        return
+                    print(
+                        f"[*] Try... sqlmap -r {arg1} --level 5 --risk 3 -p {arg2} --batch -D {arg3} --tables --dump --threads 10"
+                    )
+                    os.system(
+                        f"sqlmap -r {file} --level 5 --risk 3 -p {arg2} --batch -D {arg3} --tables --dump --threads 3"
+                    )
+            if len(parts) == 4:
+                    arg1 = parts[0]
+                    arg2 = parts[1]
+                    arg3 = parts[2]
+                    arg4 = parts[3]
+                    path = os.getcwd()
+                    print(path)
+                    file = path + "/sessions/" + arg1
+                    print(file)
+                    if not os.path.isfile(file) or not os.access(file, os.R_OK):
+                        print(
+                            f"Error: El archivo '{arg1}' no existe o no es legible en el directorio sessions."
+                        )
+
+                        return
+                    print(
+                        f"[*] Try... sqlmap -r {arg1} --level 5 --risk 3 -p {arg2} --batch -D {arg3} -T {arg4} --dump --threads 10"
+                    )
+                    os.system(
+                        f"sqlmap -r {file} --level 5 --risk 3 -p {arg2} --batch -D {arg3} -T {arg4} --dump --threads 3"
+                    )
+            elif line.startswith("-wiz"):
+                print("[*] Try... sqlmap --wizard")
+                os.system("sqlmap -wizard")
+        else:
+            if not url:
+                print(
+                    "[?] url must be set, ex: (set url http://url.com), see <help set> or <help sqlmap> to more info..."
+                )
+            return
+
+            print(f"[*] try... sqlmap -u {url} --os-shell --forms --crawl=2")
+            os.system(f"sqlmap -u {url} --os-shell --forms --crawl=2")
+        return
+
+    def do_proxy(self, line):
+        """Small proxy to modify the request on the fly..."""
+        
+        print("[*] ejecutando Lazy Proxy ...")
+        os.system(f"python3 modules/lazyproxy.py")
+        return
+
+    def do_createwebshell(self, line):
+        """Crea una webshell disfrazada de jpg en el directorio sessions/ """
+        print("creando la shell disfrazada de jpg")
+        os.system("python3 modules/lazycreate_webshell.py")
+        return
+
+    def do_createhash(self, line):
+        """Crea un archivo hash.txt en el directorio sessions"""
+        print(f"creando archivo sessions/hash.txt con el siguiente contenido {line}")
+        os.system(f"echo '{line}' > sessions/hash.txt")
+        return
+    
+    def do_john2hash(self, line):
+        """sudo john hash.txt --wordlist=/usr/share/wordlists/rockyou.txt"""
+        wordlist = self.params["wordlist"]
+        if not wordlist:
+            print("wordlist must be set use set wordlist <path_to_wordlist>")
+            return
+        if line:
+            print("sudo john hash.txt --show")
+            os.system("sudo john sessions/hash.txt --show")
+        else:
+            print("sudo john hash.txt --show")
+            os.system(f"sudo john sessions/hash.txt --wordlist={wordlist}")
+        return
 
     def do_encrypt(self, line):
         """Encrypt a file using XOR. Usage: encrypt <file_path> <key>"""

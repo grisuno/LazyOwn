@@ -67,43 +67,51 @@ def handle_request(client_socket, address):
         temp.write(request)
         temp_filename = temp.name
 
-    # Esperar a que se presione 'espacio+e' para abrir `nano`
-    print("[!] Presiona 'espacio+e' para editar la solicitud...")
-    keyboard.wait("space+e")
-
-    # Abrir nano con el archivo temporal
-    subprocess.run(["nano", temp_filename])
-
-    # Leer el contenido editado
-    with open(temp_filename, "rb") as temp:
-        modified_request = temp.read()
+    # Adquirir el lock antes de editar la solicitud
+    edit_lock.acquire()
 
     try:
-        # Crear una conexión al servidor de destino
-        server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        print(
-            f"[*] Conectando al servidor de destino en {ip}:{puerto}"
-        )  # Asegúrate de cambiar a la IP y puerto correctos
-        server_socket.connect((ip, int(puerto)))
-        server_socket.send(modified_request)
+        # Esperar a que se presione 'espacio+e' para abrir `nano`
+        print("[!] Presiona 'espacio+e' para editar la solicitud...")
+        keyboard.wait("space+e")
 
-        # Obtener la respuesta del servidor
-        response = server_socket.recv(4096)
-        server_socket.close()
+        # Abrir nano con el archivo temporal
+        subprocess.run(["nano", temp_filename])
 
-        # Enviar la respuesta de vuelta al cliente
-        client_socket.send(response)
-    except socket.gaierror as e:
-        print(f"[e] Error de conexión (gaierror): {e}")
-        client_socket.sendall(b"HTTP/1.1 502 Bad Gateway\r\n\r\n")
-    except ConnectionRefusedError as e:
-        print(f"[e] Error de conexión: {e}")
-        client_socket.sendall(b"HTTP/1.1 502 Bad Gateway\r\n\r\n")
-    except Exception as e:
-        print(f"[e] Error inesperado: {e}")
-        client_socket.sendall(b"HTTP/1.1 500 Internal Server Error\r\n\r\n")
+        # Leer el contenido editado
+        with open(temp_filename, "rb") as temp:
+            modified_request = temp.read()
+
+        try:
+            # Crear una conexión al servidor de destino
+            server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            print(
+                f"[*] Conectando al servidor de destino en {ip}:{puerto}"
+            )  # Asegúrate de cambiar a la IP y puerto correctos
+            server_socket.connect((ip, int(puerto)))
+            server_socket.send(modified_request)
+
+            # Obtener la respuesta del servidor
+            response = server_socket.recv(4096)
+            server_socket.close()
+
+            # Enviar la respuesta de vuelta al cliente
+            client_socket.send(response)
+        except socket.gaierror as e:
+            print(f"[e] Error de conexión (gaierror): {e}")
+            client_socket.sendall(b"HTTP/1.1 502 Bad Gateway\r\n\r\n")
+        except ConnectionRefusedError as e:
+            print(f"[e] Error de conexión: {e}")
+            client_socket.sendall(b"HTTP/1.1 502 Bad Gateway\r\n\r\n")
+        except Exception as e:
+            print(f"[e] Error inesperado: {e}")
+            client_socket.sendall(b"HTTP/1.1 500 Internal Server Error\r\n\r\n")
+        finally:
+            client_socket.close()
     finally:
-        client_socket.close()
+        # Liberar el lock después de editar la solicitud
+        edit_lock.release()
+
 
 
 def start_proxy():
@@ -123,5 +131,7 @@ def start_proxy():
 
 if __name__ == "__main__":
     signal.signal(signal.SIGINT, signal_handler)
+    edit_lock = threading.Lock()
+
     check_sudo()
     start_proxy()

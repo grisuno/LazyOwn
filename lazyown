@@ -76,7 +76,7 @@ Github: https://github.com/grisuno/LazyOwn
 Web: https://grisuno.github.io/LazyOwn/
 Reddit: https://www.reddit.com/r/LazyOwn/
 Facebook: https://web.facebook.com/profile.php?id=61560596232150
-https://app.hackthebox.com/teams/overview/6429
+hackTheBox: https://app.hackthebox.com/teams/overview/6429
 """
 
     def __init__(self):

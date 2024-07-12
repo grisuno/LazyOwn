@@ -899,6 +899,18 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
             os.system(f"sudo john sessions/hash.txt --wordlist={wordlist}")
         return
 
+    def do_hashcat(self, line):
+        """hashcat -a 0 -m 0 841bb5acfa6779ae432fd7a4e6600ba7 /usr/share/wordlists/rockyou.txt"""
+        wordlist = self.params["wordlist"]
+        if not wordlist or not line:
+            print(
+                "wordlist must be set and you need pass the hash in argument ex: hashcat hash"
+            )
+            return
+        print(f"hashcat -a 0 -m 0 {line} {wordlist} --show")
+        os.system(f"hashcat -a 0 -m 0 {line} {wordlist} --show")
+        return
+
     def do_encrypt(self, line):
         """Encrypt a file using XOR. Usage: encrypt <file_path> <key>"""
         args = shlex.split(line)

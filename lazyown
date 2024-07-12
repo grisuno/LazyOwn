@@ -911,6 +911,16 @@ Facebook: https://web.facebook.com/profile.php?id=61560596232150
         os.system(f"hashcat -a 0 -m 0 {line} {wordlist} --show")
         return
 
+    def do_responder(self, line):
+        """sudo responder -I tun0"""
+        device = self.params["device"]
+        if not device:
+            print("device must be set use set device <network_device_ex_tun0>")
+            return
+        print(f"sudo responder -I {device}")
+        os.system(f"sudo responder -I {device}")
+        return
+
     def do_encrypt(self, line):
         """Encrypt a file using XOR. Usage: encrypt <file_path> <key>"""
         args = shlex.split(line)

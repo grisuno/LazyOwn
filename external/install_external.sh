@@ -7,4 +7,6 @@ git clone https://github.com/MaherAzzouzi/CVE-2022-37706-LPE-exploit .exploits/C
 git clone https://github.com/Arinerron/CVE-2022-0847-DirtyPipe-Exploit.git .exploits/CVE-2022-0847
 git clone https://github.com/AlexisAhmed/CVE-2022-0847-DirtyPipe-Exploits .exploits/CVE-2022-0847-2
 git clone https://github.com/joshuavanderpoll/CVE-2021-3129.git .exploit/CVE-2021-3129
+git clone https://github.com/xaitax/CVE-2024-21413-Microsoft-Outlook-Remote-Code-Execution-Vulnerability.git .exploit/CVE-2024-21413
 git clone https://github.com/peass-ng/PEASS-ng.git .exploit/PEASS-ng
+git clone https://github.com/elweth-sec/CVE-2023-2255.git .exploit/CVE-2023-2255

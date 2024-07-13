@@ -117,7 +117,7 @@ export TARGET
 echo $PORTS | tr ',' '\n' | xargs -P 0 -I {} bash -c 'run_nmap_script "$@"' _ {}
 
 # Verificar si hay archivos "scan_*.nmap" disponibles
-SCANS=$(ls -1 scan_*.nmap 2>/dev/null)
+SCANS=$(ls -1 sessions/scan_*.nmap 2>/dev/null)
 
 # Verificar si se encontraron puertos abiertos y archivos de escaneo
 if [ -z "$PORTS" ]; then

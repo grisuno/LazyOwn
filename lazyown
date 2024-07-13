@@ -662,12 +662,15 @@ hackTheBox: https://app.hackthebox.com/teams/overview/6429
         os.system(f"smbclient -N -L \\\\{rhost}\\")
 
     def do_smbmap(self, line):
-        """smbmap -H 10.10.10.3 -R tmp"""
+        """smbmap -H 10.10.10.3 [OPTIONS] """
         rhost = self.params["rhost"]
         if not rhost:
             print("rhost must be set, see help set, ex: set rhost 10.10.10.3 ")
             return
-
+        if not line:
+            print(f"[*] try... smbmap -H {rhost} -u 'deefbeef'")
+            os.system(f"smbmap -H {rhost} -u 'deefbeef'")
+            return
         print(f"[*] try... smbmap -H {rhost} -R {line}")
         os.system(f"smbmap -H {rhost} -R {line}")
 
@@ -688,6 +691,36 @@ hackTheBox: https://app.hackthebox.com/teams/overview/6429
         print(f"try whatweb {rhost}")
         os.system(f"whatweb {rhost}")
 
+    def do_enum4linux(self, line):
+        """enum4linux -a target"""
+        if not self.params["rhost"]:
+            print("[?] rhost must be set")
+            return
+        rhost = self.params["rhost"]
+        print(f"try enum4linux -a {rhost}")
+        os.system(f"enum4linux -a {rhost}")
+        return
+
+    def do_nbtscan(self, line):
+        """sudo nbtscan -r target"""
+        if not self.params["rhost"]:
+            print("[?] rhost must be set")
+            return
+        rhost = self.params["rhost"]
+        print(f"try sudo nbtscan -r {rhost}/24")
+        os.system(f"sudo nbtscan -r {rhost}/24")
+        return
+
+    def do_rpcclient(self, line):
+        """rpcclient -U "" -N 10.10.10.10"""
+        if not self.params["rhost"]:
+            print("[?] rhost must be set")
+            return
+        rhost = self.params["rhost"]
+        print(f"try rpcclient -U '' -N {rhost}")
+        os.system(f"rpcclient -U '' -N {rhost}")
+        return
+
     def do_ss(self, line):
         """searchsploit alias"""
         print("[+] searching in searchsploit")
@@ -701,9 +734,10 @@ hackTheBox: https://app.hackthebox.com/teams/overview/6429
             print("dirwordlist and rhost must be set")
             return
         os.system(f"wfuzz -c {line} -t 200 -w {dirwordlist} http://{rhost}/FUZZ")
+        return
 
     def do_gobuster(self, line):
-        """LAzy gobuster"""
+        """Lazy gobuster"""
         dirwordlist = self.params["dirwordlist"]
         rhost = self.params["rhost"]
         if not rhost or not dirwordlist:
@@ -714,13 +748,14 @@ hackTheBox: https://app.hackthebox.com/teams/overview/6429
             if not url:
                 print("[?] url must be set, ex: set url http://domain.ext")
                 return
-            print(f"[+] try gobuster dir --url {url}/ --wordlist {dirwordlist}")
+            print(f"[+] Try gobuster dir --url {url}/ --wordlist {dirwordlist}")
             os.system(f"gobuster dir --url {url}/ --wordlist {dirwordlist}")
             return
         print(
-            f"[+] try... gobuster dir --url http://{rhost}/ --wordlist {dirwordlist} {line}"
+            f"[+] Try... gobuster dir --url http://{rhost}/ --wordlist {dirwordlist} {line}"
         )
         os.system(f"gobuster dir --url http://{rhost}/ --wordlist {dirwordlist} {line}")
+        return
 
     def do_addhosts(self, line):
         """sudo -- sh -c -e "echo '10.10.11.23 permx.htb' >> /etc/hosts;"""
@@ -730,9 +765,60 @@ hackTheBox: https://app.hackthebox.com/teams/overview/6429
                 "add domain and rhost must be set to more info see help set (set rhost 10.10.10.10) ex: addhost domain.ext"
             )
             return
-        print(f"[+] try... sudo -- sh -c -e \"echo '{rhost} {line}' >> /etc/hosts\";")
+        print(f"[+] Try... sudo -- sh -c -e \"echo '{rhost} {line}' >> /etc/hosts\";")
         os.system(f"sudo -- sh -c -e \"echo '{rhost} {line}' >> /etc/hosts\";")
-        print(f"\n\n[*] Done... add {line} to /etc/hosts \n\n")
+        print(f"[*] Done... add {line} to /etc/hosts ")
+        return
+
+    def do_cme(self, line):
+        """crackmapexec smb 10.10.11.24"""
+        rhost = self.params["rhost"]
+        if not rhost:
+            print(
+                "add domain and rhost must be set to more info see help set (set rhost 10.10.10.10) ex: addhost domain.ext"
+            )
+            return
+        print(f"[+] Try... crackmapexec smb 10.10.11.24")
+        os.system(f"crackmapexec smb {rhost}")
+        print(f"[*] Done... crackmapexec smb {rhost}")
+        return
+
+    def do_ping(self, line):
+        """ping -c 1 10.10.10.10"""
+        rhost = self.params["rhost"]
+        if not rhost:
+            print(
+                "add domain and rhost must be set to more info see help set (set rhost 10.10.10.10) ex: addhost domain.ext"
+            )
+            return
+        print(f"[+] try... ping -c 1 {rhost} ")
+        # Ejecutar el comando ping y capturar la salida
+        result = subprocess.run(['ping', '-c', '1', rhost], capture_output=True, text=True)
+
+        # Verificar la salida y determinar el sistema operativo basado en TTL
+        if result.returncode == 0:
+            # El ping fue exitoso, parsear la respuesta para obtener el TTL
+            try:
+                ttl_index = result.stdout.find("ttl=")
+                if ttl_index != -1:
+                    ttl_value = int(result.stdout[ttl_index+4:ttl_index+7])  # Obtener el valor de TTL
+                    print("[+] TTL:", ttl_value)
+
+                    # Determinar basado en el TTL
+                    if ttl_value <= 60 or ttl_value <= 64:
+                        print("[*] Probablemente es Linux")
+                    elif ttl_value <= 120 or ttl_value <= 128:
+                        print("[*] Probablemente es Windows")
+                    else:
+                        print("[-] No se puede determinar con certeza el sistema operativo")
+                else:
+                    print("[-] No se encontró el TTL en la salida del ping")
+            
+            except ValueError:
+                print("[-] No se pudo convertir el TTL a un número entero")
+        else:
+            print("[-] No se pudo realizar el ping al host")
+        print(f"[*] Done... ping -c 1 {rhost} ")
 
     def do_gospider(self, line):
         """try gospider"""

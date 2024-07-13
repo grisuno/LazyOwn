@@ -11,3 +11,5 @@ pandas
 colorama
 tabulate
 pyarrow
+keyboard
+flask-unsign

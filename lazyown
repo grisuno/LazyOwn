@@ -149,6 +149,7 @@ hackTheBox: https://app.hackthebox.com/teams/overview/6429
             "lazyarpspoofing",
             "lazyftpsniff",
             "lazyssh77enum",
+            "lazywerkzeugdebug",
         ]
         self.output = ""
 
@@ -222,6 +223,20 @@ hackTheBox: https://app.hackthebox.com/teams/overview/6429
             print("[?] rhost must be set, help set to more info")
             return
         os.system(f"{path}/modules/lazynmap.sh -t {target_ip}")
+
+    def run_lazywerkzeugdebug(self):
+        """test werkzeug in debugmode"""
+        rhost = self.params["rhost"]
+        lhost = self.params["lhost"]
+        rport = self.params["rport"]
+        lport = self.params["lport"]
+        if not rhost or not lhost or not lport or not rport:
+            print(
+                "rhost, lhost, rpor, and lport must be set, to more info see: help set"
+            )
+            return
+        self.run_script("modules/lazywerkzeug.py", rhost, rport, lhost, lport)
+        return
 
     def run_lazygath(self):
         path = os.getcwd()

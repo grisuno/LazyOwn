@@ -117,7 +117,7 @@ def handle_request(client_socket, address):
 def start_proxy():
     proxy_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     proxy_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    proxy_socket.bind(("0.0.0.0", 8888))
+    proxy_socket.bind(("127.0.0.1", 8888))
     proxy_socket.listen(5)
     print("[;,;] Servidor proxy escuchando en el puerto 8888...")
 

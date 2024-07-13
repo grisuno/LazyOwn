@@ -10,3 +10,5 @@ git clone https://github.com/joshuavanderpoll/CVE-2021-3129.git .exploit/CVE-202
 git clone https://github.com/xaitax/CVE-2024-21413-Microsoft-Outlook-Remote-Code-Execution-Vulnerability.git .exploit/CVE-2024-21413
 git clone https://github.com/peass-ng/PEASS-ng.git .exploit/PEASS-ng
 git clone https://github.com/elweth-sec/CVE-2023-2255.git .exploit/CVE-2023-2255
+git clone https://github.com/Hunt3r0x/CVE-2021-31630-HTB.git .exploit/CVE-2021-31630
+git clone https://github.com/AAlx0451/OneShot.git .exploit/WPSPixieDustAttack

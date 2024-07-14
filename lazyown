@@ -696,11 +696,16 @@ hackTheBox: https://app.hackthebox.com/teams/overview/6429
 
     def do_dig(self, line):
         """dig version.bind CHAOS TXT @DNS"""
-        if not line:
-            print("you must pass the dns argument like dig box.htb")
+        rhost = self.params["rhost"]
+        if not line or not rhost:
+            print(
+                "rhost must be set or you must pass the dns argument like dig box.htb"
+            )
             return
         print(f"[+] Try dig version.bind CHAOS TXT @{line}")
         os.system(f"dig version.bind CHAOS TXT @{line}")
+        print(f"dig any {line} @{rhost}")
+        os.system(f"dig any {line} @{rhost}")
         return
 
     def do_whatweb(self, line):

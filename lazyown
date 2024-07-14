@@ -708,6 +708,21 @@ hackTheBox: https://app.hackthebox.com/teams/overview/6429
         os.system(f"dig any {line} @{rhost}")
         return
 
+    def do_dnsenum(self, line):
+        """dnsenum --dnsserver 10.10.11.24 --enum -p 0 -s 0 -o sessions/subdomains.txt -f /usr/share/wordlists/SecLists-master/Discovery/DNS/subdomains-top1million-110000.txt ghost.htb"""
+        rhost = self.params["rhost"]
+        if not line or not rhost:
+            print("rhost must be set or you need pass the domain ")
+            return
+        print(
+            f"[+] Try ... dnsenum --dnsserver {rhost} --enum -p 0 -s 0 -o sessions/subdomains.txt -f /usr/share/wordlists/SecLists-master/Discovery/DNS/subdomains-top1million-110000.txt {line}"
+        )
+        os.system(
+            f"dnsenum --dnsserver {rhost} --enum -p 0 -s 0 -o sessions/subdomains.txt -f /usr/share/wordlists/SecLists-master/Discovery/DNS/subdomains-top1million-110000.txt {line}"
+        )
+        # TODO: add dnswordlist to payload.json
+        return
+
     def do_whatweb(self, line):
         """whatweb"""
         if not self.params["rhost"]:

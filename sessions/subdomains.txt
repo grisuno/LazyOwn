@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<magictree class="MtBranchObject"><testdata class="MtBranchObject"><host>10.10.11.24<hostname>ghost.htb</hostname></host><fqdn>ghost.htb.</fqdn><host>127.0.0.1<hostname>ghost.htb</hostname></host><fqdn>ghost.htb.</fqdn><host>10.0.0.254<hostname>ghost.htb</hostname></host><fqdn>ghost.htb.</fqdn><host>10.10.11.24<hostname>dc01.ghost.htb</hostname></host><fqdn>dc01.ghost.htb.</fqdn><host>10.0.0.254<hostname>dc01.ghost.htb</hostname></host><fqdn>dc01.ghost.htb.</fqdn>

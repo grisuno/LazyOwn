@@ -662,7 +662,7 @@ hackTheBox: https://app.hackthebox.com/teams/overview/6429
         os.system(f"smbclient -N -L \\\\{rhost}\\")
 
     def do_smbmap(self, line):
-        """smbmap -H 10.10.10.3 [OPTIONS] """
+        """smbmap -H 10.10.10.3 [OPTIONS]"""
         rhost = self.params["rhost"]
         if not rhost:
             print("rhost must be set, see help set, ex: set rhost 10.10.10.3 ")
@@ -681,6 +681,27 @@ hackTheBox: https://app.hackthebox.com/teams/overview/6429
             return
         rhost = self.params["rhost"]
         os.system(f"impacket-psexec administrator@{rhost}")
+
+    def do_rpcdump(self, line):
+        """rpcdump.py -p 135 10.10.11.24"""
+        rhost = self.params["rhost"]
+        if not rhost:
+            print("rhost must be set more info see help set, or help <TOPIC> ")
+            return
+        print(f"[+] Try... rpcdump.py -p 135 {rhost}")
+        os.system(f"rpcdump.py -p 135 {rhost}")
+        print(f"[+] Try... rpcdump.py -p 593 {rhost}")
+        os.system(f"rpcdump.py -p 593 {rhost}")
+        return
+
+    def do_dig(self, line):
+        """dig version.bind CHAOS TXT @DNS"""
+        if not line:
+            print("you must pass the dns argument like dig box.htb")
+            return
+        print(f"[+] Try dig version.bind CHAOS TXT @{line}")
+        os.system(f"dig version.bind CHAOS TXT @{line}")
+        return
 
     def do_whatweb(self, line):
         """whatweb"""
@@ -803,7 +824,9 @@ hackTheBox: https://app.hackthebox.com/teams/overview/6429
             return
         print(f"[+] try... ping -c 1 {rhost} ")
         # Ejecutar el comando ping y capturar la salida
-        result = subprocess.run(['ping', '-c', '1', rhost], capture_output=True, text=True)
+        result = subprocess.run(
+            ["ping", "-c", "1", rhost], capture_output=True, text=True
+        )
 
         # Verificar la salida y determinar el sistema operativo basado en TTL
         if result.returncode == 0:
@@ -811,7 +834,9 @@ hackTheBox: https://app.hackthebox.com/teams/overview/6429
             try:
                 ttl_index = result.stdout.find("ttl=")
                 if ttl_index != -1:
-                    ttl_value = int(result.stdout[ttl_index+4:ttl_index+7])  # Obtener el valor de TTL
+                    ttl_value = int(
+                        result.stdout[ttl_index + 4 : ttl_index + 7]
+                    )  # Obtener el valor de TTL
                     print("[+] TTL:", ttl_value)
 
                     # Determinar basado en el TTL
@@ -820,10 +845,12 @@ hackTheBox: https://app.hackthebox.com/teams/overview/6429
                     elif ttl_value <= 120 or ttl_value <= 128:
                         print("[*] Probablemente es Windows")
                     else:
-                        print("[-] No se puede determinar con certeza el sistema operativo")
+                        print(
+                            "[-] No se puede determinar con certeza el sistema operativo"
+                        )
                 else:
                     print("[-] No se encontró el TTL en la salida del ping")
-            
+
             except ValueError:
                 print("[-] No se pudo convertir el TTL a un número entero")
         else:

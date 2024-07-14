@@ -721,6 +721,16 @@ hackTheBox: https://app.hackthebox.com/teams/overview/6429
         os.system(f"rpcclient -U '' -N {rhost}")
         return
 
+    def do_nikto(self, line):
+        """nikto -h 10.10.10.10"""
+        if not self.params["rhost"]:
+            print("[?] rhost must be set")
+            return
+        rhost = self.params["rhost"]
+        print(f"try nikto -h {rhost}")
+        os.system(f"nikto -h {rhost}")
+        return
+
     def do_ss(self, line):
         """searchsploit alias"""
         print("[+] searching in searchsploit")

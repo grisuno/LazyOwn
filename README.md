@@ -108,17 +108,52 @@ set <parámetro> <valor>: Establece el valor de un parámetro. Por ejemplo, set 
 show: Muestra los valores actuales de todos los parámetros.
 run <script>: Ejecuta un script específico disponible en el framework.
 Scripts disponibles
-lazysearch: Ejecuta el script de búsqueda perezosa para buscar archivos binarios en el sistema.
-lazysearch_gui: Ejecuta el script LazySearch con una interfaz gráfica.
-lazyown: Inicia un script principal de LazyOwn para realizar diversas tareas.
-update_db: Actualiza la base de datos de LazyOwn.
-lazynmap: Realiza un escaneo de puertos utilizando Nmap.
-lazynmapdiscovery: Realiza un escaneo a toda la red utilizando Nmap.
-lazygptcli: Inicia un cliente de línea de comandos para groq llama model.
-lazyburpfuzzer: Ejecuta un escáner de vulnerabilidades en una URL específica utilizando Burp Suite.
-lazyreverse_shell: Inicia un shell inverso en el sistema objetivo.
-lazyattack: Inicia un ataque utilizando varios modos.
+Available scripts to run:
+- lazysearch
+- lazysearch_gui
+- lazyown
+- update_db
+- lazynmap
+- lazyaslrcheck
+- lazynmapdiscovery
+- lazygptcli
+- lazyburpfuzzer
+- lazymetaextract0r
+- lazyreverse_shell
+- lazyattack
+- lazyownratcli
+- lazyownrat
+- lazygath
+- lazysniff
+- lazynetbios
+- lazybotnet
+- lazybotcli
+- lazyhoneypot
+- lazysearch_bot
+- lazylfi2rce
+- lazylogpoisoning
+- lazymsfvenom
+- lazypathhijacking
+- lazyarpspoofing
+- lazyftpsniff
+- lazyssh77enum
+- lazywerkzeugdebug
+LazyOwn> ?
+
+Documented commands (type help <topic>):
+========================================
+addhosts        encrypt     gobuster      list     responder  smbserver
+arpscan         enum4linux  gospider      nbtscan  rpcclient  sqlmap
+cme             exit        hashcat       nikto    run        ss
+createhash      fixel       help          payload  set        wfuzz
+createwebshell  fixperm     john2hash     ping     show       whatweb
+decrypt         getcap      lazypwn       proxy    smbclient
+dirsearch       getseclist  lazywebshell  psexec   smbmap
+
+
+
 ```
+https://www.youtube.com/hashtag/lazyown
 ```sh
 LazyOwn> set binary_name my_binary
 LazyOwn> set target_ip 192.168.1.100

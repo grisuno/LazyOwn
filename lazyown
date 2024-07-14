@@ -1079,7 +1079,19 @@ hackTheBox: https://app.hackthebox.com/teams/overview/6429
         print(f"sudo responder -I {device}")
         os.system(f"sudo responder -I {device}")
         return
+        
+    def do_samrdump(self, line):
+        """impacket-samrdump -port 445 10.10.10.10"""
+        if not self.params["rhost"]:
+            print("[?] rhost must be set")
+            return
+        rhost = self.params["rhost"]
+        print(f"try impacket-samrdump -port 139  {rhost}")
+        os.system(f"impacket-samrdump -port 139  {rhost}")
+        print(f"try impacket-samrdump -port 445  {rhost}")
+        os.system(f"impacket-samrdump -port 445  {rhost}")
 
+        return
     def do_encrypt(self, line):
         """Encrypt a file using XOR. Usage: encrypt <file_path> <key>"""
         args = shlex.split(line)

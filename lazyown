@@ -772,6 +772,16 @@ hackTheBox: https://app.hackthebox.com/teams/overview/6429
         os.system(f"nikto -h {rhost}")
         return
 
+    def do_openssl_sclient(self, line):
+        """openssl s_client -connect  10.10.10.10"""
+        if not self.params["rhost"] or not line:
+            print("[?] rhost must be set and you need pass the port by argument ex: openssl_sckient 443")
+            return
+        rhost = self.params["rhost"]
+        print(f"try openssl s_client -connect  {rhost}:{line}")
+        os.system(f"openssl s_client -connect  {rhost}:{line}")
+        return
+
     def do_ss(self, line):
         """searchsploit alias"""
         print("[+] searching in searchsploit")

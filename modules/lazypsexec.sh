@@ -3,7 +3,7 @@
 host="10.10.11.24" # Reemplaza con el nombre de host o IP de la máquina
 user="administrator"
 domain="ghost.htb" # Reemplaza con el dominio adecuado, si aplica
-password_file="/usr/share/wordlists/rockyou.txt"
+password_file="/usr/share/wordlists/rockyou2024.txt"
 max_threads=20
 
 if [ ! -f "$password_file" ]; then

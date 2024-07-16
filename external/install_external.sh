@@ -12,3 +12,4 @@ git clone https://github.com/peass-ng/PEASS-ng.git .exploit/PEASS-ng
 git clone https://github.com/elweth-sec/CVE-2023-2255.git .exploit/CVE-2023-2255
 git clone https://github.com/Hunt3r0x/CVE-2021-31630-HTB.git .exploit/CVE-2021-31630
 git clone https://github.com/AAlx0451/OneShot.git .exploit/WPSPixieDustAttack
+git clone https://github.com/chompie1337/SMBGhost_RCE_PoC.git .exploit/CVE-2020-0796

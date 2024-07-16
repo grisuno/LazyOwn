@@ -119,6 +119,7 @@ hackTheBox: https://app.hackthebox.com/teams/overview/6429
             "json_data_file": None,
             "dirwordlist": "/usr/share/wordlists/SecLists-master/Discovery/Web-Content/directory-list-2.3-medium.txt",
             "usrwordlist": "/usr/share/wordlists/SecLists-master/Usernames/xato-net-10-million-usernames.txt",
+            "dnswordlist": "/usr/share/wordlists/SecLists-master/Discovery/DNS/subdomains-top1million-110000.txt",
         }
         self.scripts = [
             "lazysearch",
@@ -709,18 +710,33 @@ hackTheBox: https://app.hackthebox.com/teams/overview/6429
         return
 
     def do_dnsenum(self, line):
-        """dnsenum --dnsserver 10.10.11.24 --enum -p 0 -s 0 -o sessions/subdomains.txt -f /usr/share/wordlists/SecLists-master/Discovery/DNS/subdomains-top1million-110000.txt ghost.htb"""
+        """dnsenum --dnsserver 10.10.11.24 --enum -p 0 -s 0 -o sessions/subdomains.txt -f {dnswordlist} ghost.htb"""
         rhost = self.params["rhost"]
-        if not line or not rhost:
-            print("rhost must be set or you need pass the domain ")
+        dnswordlist = self.params["dnswordlist"]
+        if not line or not rhost or not dnswordlist:
+            print("rhost and dnswordlist must be set example: set rhost 10.10.10.10 or you need pass the domain ")
             return
         print(
-            f"[+] Try ... dnsenum --dnsserver {rhost} --enum -p 0 -s 0 -o sessions/subdomains.txt -f /usr/share/wordlists/SecLists-master/Discovery/DNS/subdomains-top1million-110000.txt {line}"
+            f"[+] Try ... dnsenum --dnsserver {rhost} --enum -p 0 -s 0 -o sessions/subdomains.txt -f {dnswordlist} {line}"
         )
         os.system(
-            f"dnsenum --dnsserver {rhost} --enum -p 0 -s 0 -o sessions/subdomains.txt -f /usr/share/wordlists/SecLists-master/Discovery/DNS/subdomains-top1million-110000.txt {line}"
+            f"dnsenum --dnsserver {rhost} --enum -p 0 -s 0 -o sessions/subdomains.txt -f {dnswordlist} {line}"
         )
-        # TODO: add dnswordlist to payload.json
+        return
+
+    def do_dnsmap(self, line):
+        """dnsmap --dnsserver 10.10.11.24 --enum -p 0 -s 0 -o sessions/subdomains.txt -f {dnswordlist} ghost.htb"""
+        rhost = self.params["rhost"]
+        dnswordlist = self.params["dnswordlist"]
+        if not line or not dnswordlist:
+            print("dnswordlist must be set example: set dnswordlist path/to/wordlist or you need pass the domain ")
+            return
+        print(
+            f"[+] Try ... dnsmap {line} -w {dnswordlist}"
+        )
+        os.system(
+            f"dnsmap {line} -w {dnswordlist}"
+        )
         return
 
     def do_whatweb(self, line):

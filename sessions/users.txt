@@ -1,6 +1,2 @@
-administrator@ghost.htb
-kathryn@ghost.htb
-hkathryn@ghost.htb
-hollandk@ghost.htb
-kholland@ghost.htb
-kathrynh@ghost.htb
+Administrator
+root

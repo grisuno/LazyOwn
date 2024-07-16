@@ -12,6 +12,7 @@
   "wordlist": "/usr/share/wordlists/rockyou.txt",
   "usrwordlist": "/usr/share/wordlists/SecLists-master/Usernames/xato-net-10-million-usernames.txt",
   "dirworlist": "/usr/share/wordlists/SecLists-master/Discovery/Web-Content/directory-list-2.3-medium.txt",
+  "dnswordlist": "/usr/share/wordlists/SecLists-master/Discovery/DNS/subdomains-top1million-110000.txt",
   "hide_code": 404,
   "mode": "attack",
   "reverse_shell_port": 4444,

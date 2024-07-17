@@ -117,6 +117,7 @@ hackTheBox: https://app.hackthebox.com/teams/overview/6429
             "data_file": None,
             "params_file": None,
             "json_data_file": None,
+            "exploitdb": "/usr/share/exploitdb/exploits/",
             "dirwordlist": "/usr/share/wordlists/SecLists-master/Discovery/Web-Content/directory-list-2.3-medium.txt",
             "usrwordlist": "/usr/share/wordlists/SecLists-master/Usernames/xato-net-10-million-usernames.txt",
             "dnswordlist": "/usr/share/wordlists/SecLists-master/Discovery/DNS/subdomains-top1million-110000.txt",
@@ -707,6 +708,20 @@ hackTheBox: https://app.hackthebox.com/teams/overview/6429
         os.system(f"dig version.bind CHAOS TXT @{line}")
         print(f"dig any {line} @{rhost}")
         os.system(f"dig any {line} @{rhost}")
+        return
+
+    def do_cp(self, line):
+        """cp {exploitdb}DNS"""
+        exploitdb = self.params["exploitdb"]
+        path = os.getcwd()
+        if not line or not exploitdb:
+            print(
+                "exploitdb must be set, use set exploitdb /usr/share/exploitdb/exploits/ or pass the relative directory path show in the ss alias of command searchsploit, like cp java/remote/51884.py to see the ralive path use ex: ss TeamCity -x java/remote/51884.py"
+            )
+            return
+        print(f"[+] Try cp {exploitdb}{line} {path}/sessions/")
+        os.system(f"cp {exploitdb}{line} {path}/sessions/")
+
         return
 
     def do_dnsenum(self, line):

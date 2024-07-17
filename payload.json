@@ -14,6 +14,7 @@
   "dirworlist": "/usr/share/wordlists/SecLists-master/Discovery/Web-Content/directory-list-2.3-medium.txt",
   "dnswordlist": "/usr/share/wordlists/SecLists-master/Discovery/DNS/subdomains-top1million-110000.txt",
   "hide_code": 404,
+  "exploitdb": "/usr/share/exploitdb/exploits/",
   "mode": "attack",
   "reverse_shell_port": 4444,
   "path": "/example/path",

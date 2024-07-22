@@ -14,3 +14,4 @@ git clone https://github.com/Hunt3r0x/CVE-2021-31630-HTB.git .exploit/CVE-2021-3
 git clone https://github.com/AAlx0451/OneShot.git .exploit/WPSPixieDustAttack
 git clone https://github.com/chompie1337/SMBGhost_RCE_PoC.git .exploit/CVE-2020-0796
 git clone https://github.com/BloodHoundAD/SharpHound.git .exploit/SharpHound
+git clone https://github.com/spipm/Depix.git .exploit/Despixelation

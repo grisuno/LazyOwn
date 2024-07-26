@@ -1,187 +1,324 @@
-import os
-import sys
+#!/usr/bin/env python
+#    This code is a portion of frigate Event Video Recorder (fEVR)
+#
+#    Copyright (C) 2021-2022  The Bearded Tek (http://www.beardedtek.com) William Kenny
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU AfferoGeneral Public License
+#    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+#    Scans given ports of an IPv4 Address or an IPv4 Network for RTSP Streams and
+#    adds them to or removes them from rtsp-simple-server via its API
+
+
+from os import getenv,path,system
 import subprocess
-import argparse
-import ipaddress
-from datetime import datetime
-import numpy as np
-import cv2
-from scapy.all import sniff, Raw, IP, get_if_list
-
-# Variables para almacenar datos de imágenes
-image_data = {}
-is_receiving_image = {}
-image_format = {}
-
-# Crear un directorio con la fecha actual
-date_str = datetime.now().strftime('%Y-%m-%d')
-os.makedirs(date_str, exist_ok=True)
-# Verificar y relanzar con sudo si es necesario
-def check_sudo():
-    if os.geteuid() != 0:
-        print("[S] Este script necesita permisos de superusuario. Relanzando con sudo...")
-        args = ['sudo', sys.executable] + sys.argv
-        os.execvpe('sudo', args, os.environ)
-
-check_sudo()
-def list_interfaces():
-    command = "ip a show scope global | awk '/^[0-9]+:/ { sub(/:/,\"\",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, \"/\"); print iface\" \"a[1] }'"
-    result = subprocess.run(command, shell=True, capture_output=True, text=True)
-    output = result.stdout.strip()
-
-    interfaces = []
-    if output:
-        lines = output.split('\n')
-        for line in lines:
-            iface, ip = line.split()
-            interfaces.append((iface, ip))
-
-    print("Interfaces disponibles (usando 'ip a show scope global'):")
-    for idx, iface in enumerate(interfaces):
-        print(f"{idx}: {iface[0]} - {iface[1]}")
-
-    return interfaces
-
-def choose_interface(interfaces):
-    while True:
-        try:
-            choice = int(input("Selecciona el número de la interfaz: "))
-            if 0 <= choice < len(interfaces):
-                return interfaces[choice][0]
-            else:
-                print("Número inválido. Intenta de nuevo.")
-        except ValueError:
-            print("Entrada no válida. Debe ser un número.")
-
-# Función para obtener la subred desde ip a show
-def get_subnet_from_interface(interface):
-    command = f"ip a show {interface} | awk '/inet / {{ split($2, a, \"/\"); print a[1]\"/\"a[2] }}'"
-    result = subprocess.run(command, shell=True, capture_output=True, text=True)
-    output = result.stdout.strip()
-    if output:
-        return output
-    return '0.0.0.0/0'
-
-# Argumentos de línea de comandos
-parser = argparse.ArgumentParser(description="Captura imágenes de la red")
-parser.add_argument('-D', '--daemon', action='store_true', help='Ejecutar como demonio')
-parser.add_argument('-v', '--verbose', action='store_true', help='Modo verboso')
-group = parser.add_mutually_exclusive_group(required=True)
-group.add_argument('--ip', type=str, help='IP de la cámara para capturar paquetes')
-group.add_argument('--all', action='store_true', help='Capturar paquetes de toda la red')
-args = parser.parse_args()
-
-# Listar interfaces y permitir al usuario elegir una
-show_ifaces = list_interfaces()
-iface_name = choose_interface(show_ifaces)
-
-# Filtro para capturar tráfico en la subred o IP específica
-if args.ip:
-    filter_str = f"host {args.ip}"
-elif args.all:
-    subnet = get_subnet_from_interface(iface_name)
-    filter_str = f"net {subnet}"
-
-def handle_packet(packet):
-    global image_data, is_receiving_image, image_format
-
-    if IP in packet and Raw in packet:
-        src_ip = packet[IP].src
-        payload = packet[Raw].load
-
-        if src_ip not in image_data:
-            image_data[src_ip] = b''
-            is_receiving_image[src_ip] = False
-            image_format[src_ip] = None
-
-        if is_receiving_image[src_ip]:
-            image_data[src_ip] += payload
-
-            # Detectar el final de la imagen según el formato
-            if image_format[src_ip] == 'jpeg' and b'\xff\xd9' in payload:
-                end_idx = image_data[src_ip].find(b'\xff\xd9') + 2
-                save_image(src_ip, end_idx)
-            elif image_format[src_ip] == 'png' and b'\x49\x45\x4e\x44\xae\x42\x60\x82' in payload:
-                end_idx = image_data[src_ip].find(b'\x49\x45\x4e\x44\xae\x42\x60\x82') + 8
-                save_image(src_ip, end_idx)
-            elif image_format[src_ip] == 'bmp' and len(image_data[src_ip]) >= 54:
-                file_size = int.from_bytes(image_data[src_ip][2:6], byteorder='little')
-                if len(image_data[src_ip]) >= file_size:
-                    save_image(src_ip, file_size)
-
+import requests
+import json
+from PIL import Image
+from portscan import PortScan
+    
+class RTSPScanner:
+    def __init__(self,verbose=False,wspace="-"):
+        # GET ENVIRONMENT VARIABLES
+        self.ports = getenv("RTSP_SCAN_PORTS","554,8554")
+        self.timeout=getenv("FFMPEG_TIMEOUT",10)
+        self.retries=getenv("FFMPEG_RETRIES",2)
+        self.apiaddress = getenv("RTSP_SS_ADDRESS","192.168.2.240")
+        self.apiport = getenv("RTSP_SS_PORT","9997")
+        self.apitransport = getenv("RTSP_SS_TRANSPORT","http")
+        self.mode = getenv("RTSP_MODE").lower() if getenv("RTSP_MODE") else "scan"
+        self.verbose = True if verbose or str(getenv("RTSP_VERBOSE","false")).lower() == "true" else False
+        self.whitespace = getenv("RTSP_WHITESPACE") if getenv("RTSP_WHITESPACE") else wspace
+        self.creds = self.splitCSV(getenv("RTSP_CREDS","none"))
+        self.paths = self.splitCSV(getenv("RTSP_PATHS","/Streaming/Channels/101,/live,live2"))
+        self.address = getenv("RTSP_ADDRESS","192.168.2.0/24")
+        self.cameras = []
+            
+    def run(self):
+        self.scanner()
+        if self.mode == "rem":
+            self.delCameras()
+        elif self.mode == "add":
+            if self.verbose:
+                print(f"Cameras Found: {self.cameras}")
+                print(f"Creds Used: {self.creds}")
+                print(f"Paths: {self.paths}")
+                print(f"Scanned Address(es): {self.address}")
+                print(f"Scanned Ports: {self.ports}")
+            self.addCameras()
         else:
-            if b'\xff\xd8' in payload:
-                image_format[src_ip] = 'jpeg'
-                start_idx = payload.find(b'\xff\xd8')
-                image_data[src_ip] = payload[start_idx:]
-                is_receiving_image[src_ip] = True
-            elif b'\x89\x50\x4e\x47\x0d\x0a\x1a\x0a' in payload:
-                image_format[src_ip] = 'png'
-                start_idx = payload.find(b'\x89\x50\x4e\x47\x0d\x0a\x1a\x0a')
-                image_data[src_ip] = payload[start_idx:]
-                is_receiving_image[src_ip] = True
-            elif b'\x42\x4d' in payload:
-                image_format[src_ip] = 'bmp'
-                start_idx = payload.find(b'\x42\x4d')
-                image_data[src_ip] = payload[start_idx:]
-                is_receiving_image[src_ip] = True
+            for c in range(0,len(self.cameras)):
+                self.cameras[c][0] = self.cameras[c][0].replace('.',self.whitespace)
+            
+        if not self.mode != "add":
+            return self.cameras
 
-def save_image(src_ip, end_idx):
-    global image_data, is_receiving_image, image_format
+    def resizeImg(self,img,output,height=180,ratio=1.777777778,fmt="webp"):
+        if path.exists(img):
+            # Resizes an image from the filesystem
+            if path.exists(img):
+                Image.open(img).resize((int(height*ratio),height)).save(output,fmt, quality=100,optimize=True)
+                return "OK"
+            else:
+                return "resizeImg(): Image Path Does Not Exist"
 
-    image_data[src_ip] = image_data[src_ip][:end_idx]
-    try:
-        np_arr = np.frombuffer(image_data[src_ip], np.uint8)
-        img = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
-        if img is not None:
-            if args.verbose:
-                print(f"Imagen recibida de {src_ip}")
+    def splitCSV(self,csv):
+        values = []
+        for value in csv.split(','):
+            values.append(value)
+        return values
 
-            timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-            ext = 'jpg' if image_format[src_ip] == 'jpeg' else image_format[src_ip]
-            filename = f"{date_str}/image_{src_ip}_{timestamp}.{ext}"
-            cv2.imwrite(filename, img)
+    def scanner(self):
+        self.portscan = PortScan(self.address,self.ports)
+        results = self.portscan.run()
+        with self.portscan.q.mutex:
+            unfinished = self.portscan.q.unfinished_tasks - len(self.portscan.q.queue)
+            if unfinished <= 0:
+                if unfinished < 0:
+                    raise ValueError('task_done() called too many times')
+                self.portscan.q.unfinished_tasks = unfinished
+                self.portscan.q.queue.clear()
+                self.portscan.q.not_full.notify_all()
+        #if self.verbose:
+            #print(results)
+        for result in results:
+            if result:
+                for path in self.paths:
+                    for cred in self.creds:
+                        transport = f"rtsp://{cred}@" if cred != "none" else "rtsp://"
+                        rtsp = f'{transport}{result[0]}:{result[1]}{path}'
+                        status = f"Checking {rtsp}... "
+                        if self.verbose:
+                            print(status)
+                        snapshot = f"/tmp/test.png"
+                        thumbnail = f"/tmp/test.webp"
+                        flaky = []
+                        command = ['ffmpeg', '-y', '-frames', '1', snapshot, '-rtsp_transport', 'tcp', '-i', rtsp]
+                        for x in range(0,self.retries):
+                            try:
+                                cmd = subprocess.run(command,stderr=subprocess.DEVNULL,timeout=self.timeout)
+                                break
+                            except subprocess.TimeoutExpired as e:
+                                if self.verbose:
+                                    label = f"Retry # {x}" if x > 0 else "1st Attempt"
+                                    print(f"{label}: {e}")
+                                timedout = True
+                        if self.verbose:
+                            print(f"Return Code: {cmd.returncode}")
+                        if 'timedout' in locals():
+                            if timedout:
+                                flaky.append([str(result['ip']),rtsp])
+                        if 'cmd' in locals() and cmd.returncode == 0:
+                            self.cameras.append([str(result['ip']),rtsp])
+                            status = "RTSP "
+                            #resizeImg(self,img,output,height=180,ratio=1.777777778,fmt="webp"):
+                            resize = self.resizeImg(snapshot,thumbnail)
+                            if resize == "OK":
+                                status += "VALID IMAGE"
+                            else:
+                                status += "NO IMAGE"
+                        if self.verbose:
+                            print(status)
+        self.scanResults = {"cameras":self.cameras,"flaky":flaky,"portscan":results}
 
-            if not args.daemon:
-                cv2.imshow(f"Camera Image from {src_ip}", img)
-                cv2.waitKey(1)
-    except Exception as e:
-        print(f"Error processing image from {src_ip}: {e}")
-    finally:
-        image_data[src_ip] = b''
-        is_receiving_image[src_ip] = False
-        image_format[src_ip] = None
+    def delCameras(self):
+        for cam in range(0,len(self.cameras)):
+            self.cameras[cam][0] = self.cameras[cam][0].replace(".",self.whitespace).replace(" ","_")
+            apiURL = f'{self.apitransport}://{self.apiaddress}:{self.apiport}/v1/config/paths/remove/{self.cameras[cam][0]}'
+            outputString = f"Deleting {self.cameras[cam][0]} - {self.cameras[cam][1]} | "
+            response = requests.post(apiURL)
+            outputCode = f"{response.status_code} : "
+            if response.status_code == 200:
+                outputResult = "SUCCESS"
+            else:
+                outputResult = "FAILURE"
+            print(f"{outputString}{outputCode}{outputResult}")
 
-def run():
-    if args.verbose:
-        print(f"Capturando paquetes con filtro: {filter_str}...")
-    sniff(iface=iface_name, prn=handle_packet, filter=filter_str)
+    def addCameras(self):
+        for cam in range(0,len(self.cameras)):
+            jsonPostData =  {
+                            "source": self.cameras[cam][1],
+                            "sourceProtocol": "automatic",
+                            "sourceAnyPortEnable": False,
+                            "sourceFingerprint": "",
+                            "sourceOnDemand": False,
+                            "sourceOnDemandStartTimeout": "10s",
+                            "sourceOnDemandCloseAfter": "10s",
+                            "sourceRedirect": "",
+                            "disablePublisherOverride": False,
+                            "fallback": "",
+                            "publishUser": "",
+                            "publishPass": "",
+                            "publishIPs": [],
+                            "readUser": "",
+                            "readPass": "",
+                            "readIPs": [],
+                            "runOnInit": "",
+                            "runOnInitRestart": False,
+                            "runOnDemand": "",
+                            "runOnDemandRestart": False,
+                            "runOnDemandStartTimeout": "10s",
+                            "runOnDemandCloseAfter": "10s",
+                            "runOnReady": "python3 /app/rtsp_event.py $RTSP_PATH READY",
+                            "runOnReadyRestart": False,
+                            "runOnRead": "python3 /app/rtsp_event.py $RTSP_PATH READ",
+                            "runOnReadRestart": False
+                            }
+            cameraName = self.cameras[cam][0].replace(".",self.whitespace).replace(" ","-")
+            outputString = f"Adding {self.cameras[cam][0]} - {self.cameras[cam][1]} | "
+            outputCode = ""
+            outputResult = ""
+            apiHost = f'{self.apitransport}://{self.apiaddress}:{self.apiport}'
+            apiURL = f'{apiHost}/v1/config/paths/add/{cameraName}'
+            if self.mode == "add":
+                try:
+                    response = requests.post(apiURL,json=jsonPostData)
+                except requests.ConnectionError as e:
+                    print()
+                    if self.verbose:
+                        print(e)
+                        print()
+                    print(f"Cannot reach rtsp-simple-server at {apiHost}.")
+                    print(f"Possible Causes: API not enabled")
+                    print(f"                 transport (http/https) not correct: {self.apitransport}")
+                    print(f"                 ip/fqdn not correct: {self.apiaddress}")
+                    print(f"                 port number not correct: {self.apiport}")
+                    return
+                outputCode = f"{response.status_code} : "
+                if response.status_code == 200:
+                    outputResult = "SUCCESS"
+                else:
+                    outputResult = "FAILURE"
+            else:
+                outputResult = "DISABLED"
+            print(f"{outputString}{outputCode}{outputResult}")
+            if self.verbose and outputResult != "SUCCESS":
+                print(json.dumps(jsonPostData,indent=2,sort_keys=True,ensure_ascii=True))
 
-def daemonize():
-    if os.fork():
-        sys.exit(0)  # Salir del proceso padre
-    os.setsid()
-    if os.fork():
-        sys.exit(0)  # Salir del segundo proceso padre
-    os.umask(0)
-    os.chdir('/')
-    sys.stdout.flush()
-    sys.stderr.flush()
-    with open('/dev/null', 'r') as fd:
-        os.dup2(fd.fileno(), sys.stdin.fileno())
-    with open('/dev/null', 'a+') as fd:
-        os.dup2(fd.fileno(), sys.stdout.fileno())
-        os.dup2(fd.fileno(), sys.stderr.fileno())
-    atexit.register(lambda: os.remove('/tmp/capture_images_daemon.pid'))
+if __name__ == "__main__":
 
+    def cla():
+        # Import argparse here in case we don't want to use it...
+        import argparse
+        parser = argparse.ArgumentParser(description="Scans given ports of an IPv4 Address or an IPv4 Network for RTSP streams and adds them to rtsp-simple-server")
+        parser.add_argument('-w','--whitespace',type=str,required=False,default='-',
+                            help="Whitespace Replacement can be - _ or #")
+        parser.add_argument('-a','--address',type=str,required=False,default='192.168.2.0/24',
+                            help="Single ipv4 address or ipv4 network in CIDR notation ex: 192.168.0.100 or 192.168.0/24")
+        
+        parser.add_argument('-n','--name',required=False,default=None,
+                            help="Camera Name | only used if single address given")
+        
+        parser.add_argument('-p','--ports',type=str,required=False,default='554,8554',
+                            help="csv format: 554,8554")
+        
+        parser.add_argument('-pp','--paths',type=str,required=False,default="/Streaming/Channels/101,/live,/live2",
+                            help="csv format: '/Streaming/Channels/101,/live,/live2'")
+        
+        parser.add_argument('-c','--creds',required=False,default="none",
+                            help="csv formatted user:password pairs: username:password,user:pass")
+        
+        parser.add_argument('-m','--mode',type=str,required=True,
+                            help="add - add cameras found / rem - remove cameras found")
+        
+        parser.add_argument('-A','--apiaddr',type=str,required=False,default="192.168.0.100",
+                            help="rtsp-simple-server API IP Address/FQDN")
+        
+        parser.add_argument('-P','--apiport',type=str,required=False,default="9997",
+                            help="rtsp-simple-server API Port")
+        
+        parser.add_argument('-t','--apitransport',type=str,required=False,default="http",
+                            help='rtsp-simple-server API transport (http/https)')
+        
+        parser.add_argument('-T','--timeout',type=int,required=False,default=10,
+                            help="Timeout for ffmpeg command to determine if rtsp stream exists")
+        
+        parser.add_argument('-R','--timeoutretries',type=int,required=False,default=3,
+                            help="Number of retries on timeout for ffmpeg command to determine if rtsp stream exists")
+        
+        parser.add_argument('-v','--verbose',action='store_true',default=False,
+                            help="Set verbosity to true")
+        
+        args = parser.parse_args()
+        return args
 
+    def main():
+        system('stty sane')
+        args = vars(cla())
+        #print(args)
+        scanner = RTSPScanner()
+        scanner.address = args['address']
+        scanner.ports = args['ports']
+        scanner.verbose = args['verbose']
+        scanner.whitespace = args['whitespace']
+        scanner.creds = scanner.splitCSV(args['creds'])
+        scanner.paths = scanner.splitCSV(args['paths'])
+        scanner.apiaddress = args['apiaddr']
+        scanner.apiport = args['apiport']
+        scanner.apitransport = args['apitransport']
+        scanner.timeout = args['timeout']
+        scanner.retries = args['timeoutretries']
+        args['mode'] = args['mode'].lower()
+        if args['mode'] == "rem" or args['mode'] == "add":
+            scanner.mode = args['mode']
+            scanner.run()
+        elif args['mode'] == "scan":
+            scanner.scanner()
+        else:
+            print("\nInvalid Mode")
+            print("  Valid modes are 'add' 'rem' 'scan'.\n")
+            return
+        # Print Results of the Port Scan
+        sourcesCount = 0
+        sources = ""
+        for item in scanner.scanResults['portscan']:
+            if item:
+                sourcesCount += 1
+                if item['open']:
+                    sources += f"  {item['ip']}:{item['port']}\n"
+        sourcesDisp = "Sources" if sourcesCount > 1 else "Source"
+        output = f"\n{sourcesCount} Potential RTSP {sourcesDisp}:\n" + sources
+        print(output)
 
-if __name__ == '__main__':
-    if args.daemon:
-        daemonize()
-        with open('/tmp/capture_images_daemon.pid', 'w+') as pidfile:
-            pidfile.write(f"{os.getpid()}\n")
-    run()
+        # Print Results of the RTSP Scan
 
-    if not args.daemon:
-        cv2.destroyAllWindows()
+        # Cameras Found
+        cameraCount = len(scanner.scanResults['cameras'])
+        CamDisp = "Cameras" if cameraCount > 1 else "Camera"
+        print(f"{cameraCount} {CamDisp} Found:")
+        for camera in scanner.scanResults['cameras']:
+            print(f"  {camera[0]}: {camera[1]}")
+
+        # Flaky Cameras Found
+        flakyCount = len(scanner.scanResults['flaky'])
+        if flakyCount > 0:
+            CamDisp = "Cameras" if flakyCount > 1 else "Camera"
+            print(f"\n{len(scanner.scanResults['flaky'])} Flaky {CamDisp}:")
+            print(f"Potential {CamDisp.lower()} that cannot be verfied within {scanner.timeout} second timeout.")
+            print("This can be increased using the command line option -t <seconds>")
+            for camera in scanner.scanResults['flaky']:
+                print(f"  {camera[0]}: {camera[1]}")
+
+        # Credentials Used
+        print(f"\nCredentials Used:")
+        for cred in scanner.creds:
+            print(f"  {cred}")
+
+        #Paths Used
+        print(f"\nPaths Used:")
+        for path in scanner.paths:
+            print(f"  {path}")
+        system('stty sane')
+        
+    main()
+    

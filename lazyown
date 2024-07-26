@@ -212,22 +212,38 @@ class LazyOwnShell(Cmd):
 
     def do_list(self, line):
         """List all available scripts in modules directory, they can use apart from the framework too."""
-        print("Available scripts to run:")
-        for script in self.scripts:
-            print(f"- {script}")
+        scripts = self.scripts
+        num_columns = 3
+        
+        if not scripts:
+            print(f"{RED}[-]No available scripts.{RESET}")
+            return
+        
+        # Calcular el ancho máximo para cada columna
+        max_len = max(len(script) for script in scripts)
+        column_width = max_len + 2  # Añadir un poco de espacio extra para separación
+
+        # Crear el formato de cada línea en columnas
+        rows = [scripts[i:i + num_columns] for i in range(0, len(scripts), num_columns)]
+        
+        # Mostrar los resultados en columnas
+        print(f"{GREEN}[+]{YELLOW}Available scripts to run:{RESET}\n")
+        for row in rows:
+            # Crear una fila con los elementos ajustados al ancho de columna
+            print(f"".join(f"{script.ljust(column_width)}{RESET}" for script in row))
 
     def do_run(self, line):
         """Run a specific LazyOwn script to see all scripts to run see: list or help list"""
         args = shlex.split(line)
         if not args:
-            print("[?] Usage: run <script_name>")
+            print(f"{YELLOW}[?] Usage: {GREEN} run <script_name> {RESET}")
             return
 
         script_name = args[0]
         if script_name in self.scripts:
             getattr(self, f"run_{script_name}")()
         else:
-            print(f"Unknown script: {script_name}")
+            print(f"{YELLOW}[?] Unknown script: {RED}{script_name}{RESET}")
 
     def run_lazysearch(self):
         binary_name = self.params["binary_name"]
@@ -249,7 +265,7 @@ class LazyOwnShell(Cmd):
         path = os.getcwd()
         target_ip = self.params["rhost"]
         if not target_ip:
-            print("[?] rhost must be set, help set to more info")
+            print(f"{RED}[?]{YELLOW} rhost must be set, {GREEN}help set to more info {RESET}")
             return
         os.system(f"{path}/modules/lazynmap.sh -t {target_ip}")
 

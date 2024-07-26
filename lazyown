@@ -104,6 +104,11 @@ class LazyOwnShell(Cmd):
 [+] Facebook: https://web.facebook.com/profile.php?id=61560596232150
 [+] hackTheBox: https://app.hackthebox.com/teams/overview/6429 {RESET}
 """
+    # Diccionario para almacenar alias
+    aliases = {
+        'ls': 'list',  # Alias para el comando 'list'
+        'nmap': 'run lazynmap',
+    }
     os.system("ip a show scope global | awk '/^[0-9]+:/ { sub(/:/,\"\",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, \"/\"); print \"[\033[96m\" iface\"\033[0m] \"a[1] }'")
 
     def __init__(self):
@@ -181,6 +186,16 @@ class LazyOwnShell(Cmd):
             "lazywerkzeugdebug",
         ]
         self.output = ""
+
+    def default(self, line):
+        """Handle undefined commands (including aliases)."""
+        # Si el comando es un alias, reemplázalo con el comando correspondiente
+        if line in self.aliases:
+            line = self.aliases[line]
+        
+        # Si el comando no está definido, muestra un mensaje de error
+        if not self.onecmd(line):
+            print(f"{line}: command not found")
 
     def one_cmd(self, command):
         self.output = self.get_output

@@ -52,7 +52,7 @@ BANNER = """
 [*] Iniciando: Framework [;,;]
 """
 print(BANNER)
-
+version = "v0.0.11"
 
 def signal_handler(sig, frame):
     global should_exit
@@ -71,12 +71,12 @@ def is_binary_present(binary_name):
 
 class LazyOwnShell(Cmd):
     prompt = "LazyOwn> "
-    intro = """\nWelcome to the LazyOwn Framework [;,;] interactive shell! Type ? to list commands
-Github: https://github.com/grisuno/LazyOwn
-Web: https://grisuno.github.io/LazyOwn/
-Reddit: https://www.reddit.com/r/LazyOwn/
-Facebook: https://web.facebook.com/profile.php?id=61560596232150
-hackTheBox: https://app.hackthebox.com/teams/overview/6429
+    intro = f"""\n[*] Welcome to the LazyOwn Framework [;,;] {version} interactive shell! Type ? to list commands
+[+] Github: https://github.com/grisuno/LazyOwn
+[+] Web: https://grisuno.github.io/LazyOwn/
+[+] Reddit: https://www.reddit.com/r/LazyOwn/
+[+] Facebook: https://web.facebook.com/profile.php?id=61560596232150
+[+] hackTheBox: https://app.hackthebox.com/teams/overview/6429
 """
     os.system("ip a show scope global | awk '/^[0-9]+:/ { sub(/:/,\"\",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, \"/\"); print \"[\033[96m\" iface\"\033[0m] \"a[1] }'")
 

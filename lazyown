@@ -94,6 +94,21 @@ def is_binary_present(binary_name):
     result = os.system(f"which {binary_name} > /dev/null 2>&1")
     return result == 0
 
+def activate_virtualenv(venv_path):
+    # Ejecutar el shell interactivo con el entorno virtual activado
+    process = subprocess.Popen(
+        ["bash", "-c", f"source {venv_path}/bin/activate && exec bash"],
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True
+    )
+
+    # Captura la salida del proceso hijo
+    stdout, stderr = process.communicate()
+    print(stdout)
+    print(stderr)
+    print(f"{GREEN}[+] Entorno Activado.{RESET}")
 
 class LazyOwnShell(Cmd):
     prompt = "LazyOwn> "
@@ -1315,4 +1330,6 @@ def xor_encrypt_decrypt(data, key):
 
 
 if __name__ == "__main__":
+    # Activar el entorno virtual
+    activate_virtualenv('env')
     LazyOwnShell().cmdloop()

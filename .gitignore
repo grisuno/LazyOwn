@@ -1,9 +1,7 @@
 payload.json
 network_discovery
 puertos
-scan_127.0.0.1_22.nmap
-network_discovery
-*,pcap
+*.pcap
 *.log
 *.csv
 *.nmap
@@ -18,3 +16,5 @@ build/
 .github/
 modules/env
 include/
+report
+reports

@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Ruta al entorno virtual
+VENV_PATH="env"
+
+# Ruta al script de Python
+PYTHON_SCRIPT="./lazyown"
+
+# Activar el entorno virtual
+source "$VENV_PATH/bin/activate"
+
+# Ejecutar el script de Python
+python3 "$PYTHON_SCRIPT"

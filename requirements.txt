@@ -13,3 +13,4 @@ tabulate
 pyarrow
 keyboard
 flask-unsign
+name-that-hash

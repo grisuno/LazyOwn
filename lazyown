@@ -1473,7 +1473,7 @@ class LazyOwnShell(Cmd):
         return
     def do_clean(self, line):
         """delete all from sessions"""
-        os.system("rm sessions/*.nmap sessions/revshell* sessions/*.php sessions/hash.txt reports puertos -rf")
+        os.system("rm sessions/*.nmap sessions/*.py sessions/req*  sessions/revshell* sessions/*.php sessions/hash.txt reports puertos sessions/test* -rf")
         print(f"{GREEN}[*]{YELLOW} cleanned sessions directory. {RESET}")
         return
 

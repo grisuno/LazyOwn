@@ -77,7 +77,7 @@ BG_MAGENTA = "\033[45m"
 BG_CYAN = "\033[46m"
 BG_WHITE = "\033[47m"
 
-print(f"{BG_BLACK}{RED}{BANNER}{MAGENTA}Autor: {CYAN}grisUN0{RESET}")
+print(f"{BG_BLACK}{RED}{BANNER}{MAGENTA}{BOLD}Autor: {CYAN}{BOLD}{BG_RED}grisUN0{RESET}")
 
 def signal_handler(sig, frame):
     global should_exit
@@ -160,11 +160,11 @@ def find_credentials(directory):
 class LazyOwnShell(Cmd):
     prompt = "LazyOwn> "
     intro = f"""    {YELLOW}[*] Welcome to the LazyOwn Framework [;,;] {BLUE}{version} {WHITE}interactive shell! Type ? to list commands{BLUE}
-    {GREEN}[+] Github:{BLUE} https://github.com/grisuno/LazyOwn
-    {GREEN}[+] Web:{BLUE} https://grisuno.github.io/LazyOwn/
-    {GREEN}[+] Reddit:{BLUE} https://www.reddit.com/r/LazyOwn/
-    {GREEN}[+] Facebook:{BLUE} https://web.facebook.com/profile.php?id=61560596232150
-    {GREEN}[+] hackTheBox:{BLUE} https://app.hackthebox.com/teams/overview/6429 {RESET}
+    {GREEN}[+] Github: {BLUE}{UNDERLINE}https://github.com/grisuno/LazyOwn{RESET}
+    {GREEN}[+] Web: {BLUE}{UNDERLINE}https://grisuno.github.io/LazyOwn/{RESET}
+    {GREEN}[+] Reddit: {BLUE}{UNDERLINE}https://www.reddit.com/r/LazyOwn/{RESET}
+    {GREEN}[+] Facebook: {BLUE}{UNDERLINE}https://web.facebook.com/profile.php?id=61560596232150{RESET}
+    {GREEN}[+] hackTheBox: {BLUE}{UNDERLINE}https://app.hackthebox.com/teams/overview/6429 {RESET}
     """
     # Diccionario para almacenar alias
     aliases = {
@@ -1432,7 +1432,7 @@ class LazyOwnShell(Cmd):
         os.system("sudo bash -c 'echo 0 > /proc/sys/net/ipv4/icmp_echo_ignore_all'")
         print(f"{GREEN}[+] Done.{RESET}")
         return
-        
+
     def do_clock(self, line):
         """Show the time to go sleep xD"""
         cmd = """
@@ -1446,7 +1446,9 @@ class LazyOwnShell(Cmd):
         echo "Hora actual:"
         figlet "$current_time"
         """ 
+        print(WHITE)
         os.system(cmd)
+        print(RESET)
         return
 
     def do_ports(self, line):

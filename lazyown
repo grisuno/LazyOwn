@@ -19,7 +19,7 @@ LazyOwn Framework SHELL
 ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
 
 """
-
+import re
 import os
 import sys
 import subprocess
@@ -140,6 +140,22 @@ def get_open_ports():
     udp_ports = parse_proc_net_file('/proc/net/udp')
     
     return tcp_ports, udp_ports
+def find_credentials(directory):
+    # Expresión regular para encontrar posibles credenciales
+    regex = re.compile(r'(password|passwd|secret|api_key|token)[\s:=]*[\w\d]{6,}', re.IGNORECASE)
+    
+    for root, dirs, files in os.walk(directory):
+        for file in files:
+            try:
+                with open(os.path.join(root, file), 'r') as f:
+                    content = f.read()
+                    matches = regex.findall(content)
+                    if matches:
+                        print(f"Credenciales encontradas en {os.path.join(root, file)}:")
+                        for match in matches:
+                            print(f" - {match}")
+            except Exception as e:
+                print(f"No se pudo leer el archivo {file}: {e}")
 
 class LazyOwnShell(Cmd):
     prompt = "LazyOwn> "
@@ -1459,6 +1475,58 @@ class LazyOwnShell(Cmd):
         """delete all from sessions"""
         os.system("rm sessions/*.nmap sessions/revshell* sessions/*.php sessions/hash.txt reports puertos -rf")
         print(f"{GREEN}[*]{YELLOW} cleanned sessions directory. {RESET}")
+        return
+
+    def do_msf(self, line):            
+        """automate msfconsole scan"""
+        rhost = self.params["rhost"]
+        if not rhost:
+            print(f"{YELLOW}[-] rhost must be set use set rhost <ip>{RESET}")
+            return
+        TARGET_IP = rhost
+        # Ruta del archivo temporal
+        rc_file_path = '/tmp/scan_vulnerabilities.rc'
+
+        # Crear el archivo de comandos para Metasploit
+        with open(rc_file_path, 'w') as file:
+            file.write(f"""
+        # Configurar la IP del objetivo
+        setg RHOSTS {TARGET_IP}
+
+        # Escanear puertos abiertos
+        use auxiliary/scanner/portscan/tcp
+        set THREADS 10
+        run
+
+        # Enumerar servicios y versiones
+        use auxiliary/scanner/portscan/tcp
+        set PORTS 1-65535
+        run
+
+        # Buscar vulnerabilidades conocidas
+        use auxiliary/scanner/vuln/ms17_010_eternalblue
+        set RHOSTS {TARGET_IP}
+        run
+
+        # Probar exploits y enumerar vulnerabilidades
+        use auxiliary/scanner/ftp/anonymous
+        set RHOSTS {TARGET_IP}
+        run
+
+        # Buscar módulos de explotación de vulnerabilidades
+        search ms17_010
+
+        # Terminar la sesión
+        exit
+        """)
+
+        # Ejecutar Metasploit con el archivo de comandos
+        subprocess.run(['msfconsole', '-r', rc_file_path], check=True)
+
+        # Eliminar el archivo temporal
+        os.remove(rc_file_path)
+        return
+        
     def do_encrypt(self, line):
         """Encrypt a file using XOR. Usage: encrypt <file_path> <key>"""
         args = shlex.split(line)

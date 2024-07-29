@@ -99,7 +99,7 @@ for arg in arguments:
         sys.exit(0)
 
     elif arg == '--no-banner':
-        BANNER = ""
+        #BANNER = ""
         NOBANNER = True
     else:
         print(f"Argumento no reconocido: {arg}") 
@@ -117,7 +117,7 @@ signal.signal(signal.SIGINT, signal_handler)
 
 if NOBANNER is False:
     print(f"{BG_BLACK}{RED}{BANNER}{MAGENTA}{BOLD}Autor: {CYAN}{BOLD}{BG_RED}grisUN0{RESET}")
-    time.sleep(0.5)
+    time.sleep(0.2)
 
 def is_binary_present(binary_name):
     result = os.system(f"which {binary_name} > /dev/null 2>&1")
@@ -192,7 +192,7 @@ class LazyOwnShell(Cmd):
     if NOBANNER is True:
         intro = ""
     else:    
-        intro = f"""    {YELLOW}[*] Welcome to the LazyOwn Framework [;,;] {BLUE}{version} {WHITE}interactive shell! Type ? to list commands{BLUE}
+        intro = f"""    {YELLOW}[*] Welcome to the LazyOwn Framework [;,;] {BLUE}{version} {WHITE}interactive s{RED}H{WHITE}ell! Type ? to list commands{BLUE}
     {GREEN}[+] Github: {BLUE}{UNDERLINE}https://github.com/grisuno/LazyOwn{RESET}
     {GREEN}[+] Web: {BLUE}{UNDERLINE}https://grisuno.github.io/LazyOwn/{RESET}
     {GREEN}[+] Reddit: {BLUE}{UNDERLINE}https://www.reddit.com/r/LazyOwn/{RESET}
@@ -201,15 +201,18 @@ class LazyOwnShell(Cmd):
         """
     # Diccionario para almacenar alias
     aliases = {
+        'aslr':'run lazyaslrcheck',
+        'discovery': 'run lazynmapdiscovery',
+        'ftpsniff': 'run lazyftpsniff',
         'ls': 'list',
         'nmap': 'run lazynmap',
-        'q': 'exit',
+        'now': 'clock',
         'p': 'payload',
+        'poison': 'run lazylogpoisoning',
+        'q': 'exit',
         'sniff': 'run lazysniff',
-        'ftpsniff': 'run lazyftpsniff',
+        'venom': 'run lazymsfvenom',        
         'ww':'whatweb',
-        'venom': 'run lazymsfvenom',
-        'now':'clock',
     }
 
     os.system("ip a show scope global | awk '/^[0-9]+:/ { sub(/:/,\"\",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, \"/\"); print \"    [\033[96m\" iface\"\033[0m] \"a[1] }'")
@@ -1378,7 +1381,7 @@ class LazyOwnShell(Cmd):
         """Show the banner"""
         if NOBANNER is False:
             print(f"{BG_BLACK}{RED}{BANNER}{MAGENTA}Autor: {CYAN}grisUN0{RESET}")
-            time.sleep(0.5)
+            time.sleep(0.2)
             print(LazyOwnShell().intro)
         return
 

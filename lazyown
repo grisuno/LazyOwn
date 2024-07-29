@@ -26,6 +26,7 @@ import subprocess
 import shlex
 import signal
 import json
+import time
 from cmd import Cmd
 
 BANNER = """
@@ -50,12 +51,14 @@ BANNER = """
     ░ ░     ░░   ░   ░   ▒   ░      ░      ░     ░   ░  ░ ░ ░ ▒    ░░   ░ ░ ░░ ░ 
             ░           ░  ░       ░      ░  ░    ░        ░ ░     ░     ░  ░   
     [*] Iniciando: Framework [;,;] """
-
+NOBANNER = False
 version = "v0.0.12"
 # Definimos algunos códigos de escape ANSI para colores
 RESET = "\033[0m"
 BOLD = "\033[1m"
 UNDERLINE = "\033[4m"
+INVERT = "\033[7m"
+BLINK = "\033[5m"
 
 # Colores de texto
 BLACK = "\033[30m"
@@ -77,17 +80,44 @@ BG_MAGENTA = "\033[45m"
 BG_CYAN = "\033[46m"
 BG_WHITE = "\033[47m"
 
-print(f"{BG_BLACK}{RED}{BANNER}{MAGENTA}{BOLD}Autor: {CYAN}{BOLD}{BG_RED}grisUN0{RESET}")
+# sys.argv es una lista que contiene los argumentos de la línea de comandos
+arguments = sys.argv[1:]  # Omitir el primer elemento que es el nombre del script
+
+# Procesar los argumentos
+for arg in arguments:
+    if arg == '--help':
+        print(f"{RED}[;,;]{GREEN} LazyOwn {CYAN}{version}{RESET}")
+        print(f"{GREEN}Uso: {WHITE}./run {GREEN}[opciones]{RESET}")
+        print(f"{YELLOW}Opciones:")
+        print(f"{BLUE}  --help         Muestra esta ayuda")
+        print(f"{BLUE}  -v             Muestra la version")
+        print(f"{BLUE}  --no-banner    No muestra el Banner{RESET}")
+        sys.exit(0)
+        
+    elif arg == '-v':
+        print(f"{GREEN} LazyOwn Framework: {version}{RESET}")
+        sys.exit(0)
+
+    elif arg == '--no-banner':
+        BANNER = ""
+        NOBANNER = True
+    else:
+        print(f"Argumento no reconocido: {arg}") 
+        sys.exit(2) 
+
 
 def signal_handler(sig, frame):
     global should_exit
-    print(f"\n {RED}[<-]{YELLOW} para salir usar el comando{GREEN} exit o q ...{RESET}")
+    print(f"\n {RED}[<-]{YELLOW} para salir usar el comando{GREEN} exit, q or qa ...{RESET}")
     should_exit = True
     return
 
 
 signal.signal(signal.SIGINT, signal_handler)
 
+if NOBANNER is False:
+    print(f"{BG_BLACK}{RED}{BANNER}{MAGENTA}{BOLD}Autor: {CYAN}{BOLD}{BG_RED}grisUN0{RESET}")
+    time.sleep(0.5)
 
 def is_binary_present(binary_name):
     result = os.system(f"which {binary_name} > /dev/null 2>&1")
@@ -158,14 +188,17 @@ def find_credentials(directory):
                 print(f"No se pudo leer el archivo {file}: {e}")
 
 class LazyOwnShell(Cmd):
-    prompt = "LazyOwn> "
-    intro = f"""    {YELLOW}[*] Welcome to the LazyOwn Framework [;,;] {BLUE}{version} {WHITE}interactive shell! Type ? to list commands{BLUE}
+    prompt = f"{WHITE}LazyOwn{BLINK}{GREEN}>{RESET} "
+    if NOBANNER is True:
+        intro = ""
+    else:    
+        intro = f"""    {YELLOW}[*] Welcome to the LazyOwn Framework [;,;] {BLUE}{version} {WHITE}interactive shell! Type ? to list commands{BLUE}
     {GREEN}[+] Github: {BLUE}{UNDERLINE}https://github.com/grisuno/LazyOwn{RESET}
     {GREEN}[+] Web: {BLUE}{UNDERLINE}https://grisuno.github.io/LazyOwn/{RESET}
     {GREEN}[+] Reddit: {BLUE}{UNDERLINE}https://www.reddit.com/r/LazyOwn/{RESET}
     {GREEN}[+] Facebook: {BLUE}{UNDERLINE}https://web.facebook.com/profile.php?id=61560596232150{RESET}
     {GREEN}[+] hackTheBox: {BLUE}{UNDERLINE}https://app.hackthebox.com/teams/overview/6429 {RESET}
-    """
+        """
     # Diccionario para almacenar alias
     aliases = {
         'ls': 'list',
@@ -176,8 +209,9 @@ class LazyOwnShell(Cmd):
         'ftpsniff': 'run lazyftpsniff',
         'ww':'whatweb',
         'venom': 'run lazymsfvenom',
+        'now':'clock',
     }
-    
+
     os.system("ip a show scope global | awk '/^[0-9]+:/ { sub(/:/,\"\",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, \"/\"); print \"    [\033[96m\" iface\"\033[0m] \"a[1] }'")
     
     def __init__(self):
@@ -695,16 +729,16 @@ class LazyOwnShell(Cmd):
 
     def run_lazyaslrcheck(self):
         print(
-            "[+] Attemp to cat /proc/sys/kernel/randomize_va_space to ksnow if ASLR is active"
+            f"{GREEN}[+] Attemp to cat /proc/sys/kernel/randomize_va_space to ksnow if ASLR is active{RESET}"
         )
         result = subprocess.getoutput("cat /proc/sys/kernel/randomize_va_space")
         print(result)
         if result == "0":
-            print("[+] ASLR is deactivated")
+            print(f"{GREEN}[+] ASLR is {RED}deactivated{RESET}")
         elif result == "1":
-            print("[+] ASLR is partial activated")
+            print(f"{GREEN}[+] ASLR is partial {YELLOW}activated{RESET}")
         elif result == "2":
-            print("[+] ASLR is activated")
+            print(f"{GREEN}[+] ASLR is activated{RESET}")
 
     def run_lazypathhijacking(self):
         binary_name = self.params["binary_name"]
@@ -761,8 +795,8 @@ class LazyOwnShell(Cmd):
     def do_exit(self, arg):
         """Exit the command line interface."""
         # Si deseas, puedes implementar confirmación aquí
-        confirm = input(f"{YELLOW}[?] ¿Seguro que quieres salir? {GREEN}(y/n): {RESET}").strip().lower()
-        if confirm == 'y':
+        confirm = input(f"{YELLOW}[?] ¿Seguro que quieres salir? {GREEN}(s/n): {RESET}").strip().lower()
+        if confirm == 's':
             print(f'{RED}[->] Saliendo ...{RESET}')
             sys.exit(0)
         else:
@@ -835,9 +869,9 @@ class LazyOwnShell(Cmd):
         if not rhost:
             print("rhost must be set more info see help set, or help <TOPIC> ")
             return
-        print(f"[+] Try... rpcdump.py -p 135 {rhost}")
+        print(f"{YELLOW}[+] Try... rpcdump.py -p 135 {rhost}{RESET}")
         os.system(f"rpcdump.py -p 135 {rhost}")
-        print(f"[+] Try... rpcdump.py -p 593 {rhost}")
+        print(f"{YELLOW}[+] Try... rpcdump.py -p 593 {rhost}{RESET}")
         os.system(f"rpcdump.py -p 593 {rhost}")
         return
 
@@ -849,7 +883,7 @@ class LazyOwnShell(Cmd):
                 "rhost must be set or you must pass the dns argument like dig box.htb"
             )
             return
-        print(f"[+] Try dig version.bind CHAOS TXT @{line}")
+        print(f"[+]{GREEN} Try dig version.bind CHAOS TXT @{line} {RESET}")
         os.system(f"dig version.bind CHAOS TXT @{line}")
         print(f"dig any {line} @{rhost}")
         os.system(f"dig any {line} @{rhost}")
@@ -864,7 +898,7 @@ class LazyOwnShell(Cmd):
                 "exploitdb must be set, use set exploitdb /usr/share/exploitdb/exploits/ or pass the relative directory path show in the ss alias of command searchsploit, like cp java/remote/51884.py to see the ralive path use ex: ss TeamCity -x java/remote/51884.py"
             )
             return
-        print(f"[+] Try cp {exploitdb}{line} {path}/sessions/")
+        print(f"{GREEN}[+] Try cp {exploitdb}{line} {path}/sessions/{RESET}")
         os.system(f"cp {exploitdb}{line} {path}/sessions/")
 
         return
@@ -877,7 +911,7 @@ class LazyOwnShell(Cmd):
             print("rhost and dnswordlist must be set example: set rhost 10.10.10.10 or you need pass the domain ")
             return
         print(
-            f"[+] Try ... dnsenum --dnsserver {rhost} --enum -p 0 -s 0 -o sessions/subdomains.txt -f {dnswordlist} {line}"
+            f"{GREEN}[+] Try ... dnsenum --dnsserver {rhost} --enum -p 0 -s 0 -o sessions/subdomains.txt -f {dnswordlist} {line} {RESET}"
         )
         os.system(
             f"dnsenum --dnsserver {rhost} --enum -p 0 -s 0 -o sessions/subdomains.txt -f {dnswordlist} {line}"
@@ -889,10 +923,10 @@ class LazyOwnShell(Cmd):
         rhost = self.params["rhost"]
         dnswordlist = self.params["dnswordlist"]
         if not line or not dnswordlist:
-            print("dnswordlist must be set example: set dnswordlist path/to/wordlist or you need pass the domain ")
+            print(f"{YELLOW}[?] dnswordlist must be set example: set dnswordlist path/to/wordlist or you need pass the domain {RESET}")
             return
         print(
-            f"[+] Try ... dnsmap {line} -w {dnswordlist}"
+            f"{GREEN}[+] Try ... dnsmap {line} -w {dnswordlist} {RESET}"
         )
         os.system(
             f"dnsmap {line} -w {dnswordlist}"
@@ -902,10 +936,10 @@ class LazyOwnShell(Cmd):
     def do_whatweb(self, line):
         """whatweb"""
         if not self.params["rhost"]:
-            print("[?] rhost must be set")
+            print(f"{YELLOW}[?] rhost must be set{RESET}")
             return
         rhost = self.params["rhost"]
-        print(f"try whatweb {rhost}")
+        print(f"{GREEN}[+] Try... whatweb {rhost}{RESET}")
         os.system(f"whatweb {rhost}")
 
     def do_enum4linux(self, line):
@@ -914,27 +948,27 @@ class LazyOwnShell(Cmd):
             print("[?] rhost must be set")
             return
         rhost = self.params["rhost"]
-        print(f"try enum4linux -a {rhost}")
+        print(f"{GREEN}[+] Try... enum4linux -a {rhost} {RESET}")
         os.system(f"enum4linux -a {rhost}")
         return
 
     def do_nbtscan(self, line):
         """sudo nbtscan -r target"""
         if not self.params["rhost"]:
-            print("[?] rhost must be set")
+            print(f"{YELLOW}[?] rhost must be set{RESET}")
             return
         rhost = self.params["rhost"]
-        print(f"try sudo nbtscan -r {rhost}/24")
+        print(f"{GREEN}[+] Try... sudo nbtscan -r {rhost}/24 {RESET}")
         os.system(f"sudo nbtscan -r {rhost}/24")
         return
 
     def do_rpcclient(self, line):
         """rpcclient -U "" -N 10.10.10.10"""
         if not self.params["rhost"]:
-            print("[?] rhost must be set")
+            print(f"{YELLOW}[?] rhost must be set{RESET}")
             return
         rhost = self.params["rhost"]
-        print(f"try rpcclient -U '' -N {rhost}")
+        print(f"{GREEN}[+] Try... rpcclient -U '' -N {rhost} {RESET}")
         os.system(f"rpcclient -U '' -N {rhost}")
         return
 
@@ -944,7 +978,7 @@ class LazyOwnShell(Cmd):
             print("[?] rhost must be set")
             return
         rhost = self.params["rhost"]
-        print(f"try nikto -h {rhost}")
+        print(f"{GREEN}[+] Try nikto -h {rhost} {RESET}")
         os.system(f"nikto -h {rhost}")
         return
 
@@ -954,13 +988,13 @@ class LazyOwnShell(Cmd):
             print("[?] rhost must be set and you need pass the port by argument ex: openssl_sckient 443")
             return
         rhost = self.params["rhost"]
-        print(f"try openssl s_client -connect  {rhost}:{line}")
+        print(f"{GREEN}[+] Try... openssl s_client -connect  {rhost}:{line} {RESET}")
         os.system(f"openssl s_client -connect  {rhost}:{line}")
         return
 
     def do_ss(self, line):
         """searchsploit alias"""
-        print("[+] searching in searchsploit")
+        print(f"{GREEN}[+] Searching in searchsploit{RESET}")
         os.system(f"searchsploit {line}")
 
     def do_wfuzz(self, line):
@@ -968,7 +1002,7 @@ class LazyOwnShell(Cmd):
         dirwordlist = self.params["dirwordlist"]
         rhost = self.params["rhost"]
         if not rhost or not dirwordlist:
-            print("dirwordlist and rhost must be set")
+            print(f"{YELLOW}[?] dirwordlist and rhost must be set{RESET}")
             return
         if line:
             if line.startswith("sub"):
@@ -980,10 +1014,10 @@ class LazyOwnShell(Cmd):
                     arg3 = params[2]
                 else:
                     arg3 = ""
-                print(f"[*] Try ...  wfuzz -c {arg3} -t 200 -w {dirwordlist} -H 'Host: FUZZ.{domain}' {domain}")
+                print(f"{GREEN}[*] Try ...  wfuzz -c {arg3} -t 200 -w {dirwordlist} -H 'Host: FUZZ.{domain}' {domain} {RESET}")
                 os.system(f"wfuzz -c {arg3} -t 200 -w {dirwordlist} -H 'Host: FUZZ.{domain}' {domain}")
                 return
-        print(f"[*]Try ... wfuzz -c {line} -t 200 -w {dirwordlist} http://{rhost}/FUZZ")
+        print(f"{GREEN}[+] Try ... wfuzz -c {line} -t 200 -w {dirwordlist} http://{rhost}/FUZZ {RESET}")
         os.system(f"wfuzz -c {line} -t 200 -w {dirwordlist} http://{rhost}/FUZZ")
         return
 
@@ -992,18 +1026,18 @@ class LazyOwnShell(Cmd):
         dirwordlist = self.params["dirwordlist"]
         rhost = self.params["rhost"]
         if not rhost or not dirwordlist:
-            print("rhost and dirwordlist must be set")
+            print(f"{YELLOW}[?] rhost and dirwordlist must be set {RESET}")
             return
         if line == "url":
             url = self.params["url"]
             if not url:
-                print("[?] url must be set, ex: set url http://domain.ext")
+                print(f"{YELLOW}[?]  url must be set, ex: set url http://domain.ext {RESET}")
                 return
-            print(f"[+] Try gobuster dir --url {url}/ --wordlist {dirwordlist}")
+            print(f"{GREEN}[+] Try gobuster dir --url {url}/ --wordlist {dirwordlist} {RESET}")
             os.system(f"gobuster dir --url {url}/ --wordlist {dirwordlist}")
             return
         print(
-            f"[+] Try... gobuster dir --url http://{rhost}/ --wordlist {dirwordlist} {line}"
+            f"{GREEN}[+] Try... gobuster dir --url http://{rhost}/ --wordlist {dirwordlist} {line} {RESET}"
         )
         os.system(f"gobuster dir --url http://{rhost}/ --wordlist {dirwordlist} {line}")
         return
@@ -1013,12 +1047,12 @@ class LazyOwnShell(Cmd):
         rhost = self.params["rhost"]
         if not rhost or not line:
             print(
-                "add domain and rhost must be set to more info see help set (set rhost 10.10.10.10) ex: addhost domain.ext"
+                f"{YELLOW}[+] add domain and rhost must be set to more info see help set (set rhost 10.10.10.10) ex: addhost domain.ext {RESET}"
             )
             return
-        print(f"[+] Try... sudo -- sh -c -e \"echo '{rhost} {line}' >> /etc/hosts\";")
+        print(f"{GREEN}[+]  Try... sudo -- sh -c -e \"echo '{rhost} {line}' >> /etc/hosts\"; {RESET}")
         os.system(f"sudo -- sh -c -e \"echo '{rhost} {line}' >> /etc/hosts\";")
-        print(f"[*] Done... add {line} to /etc/hosts ")
+        print(f"{GREEN}[*]  Done... add {line} to /etc/hosts {RESET}")
         return
 
     def do_cme(self, line):
@@ -1342,8 +1376,10 @@ class LazyOwnShell(Cmd):
 
     def do_banner(self,line):
         """Show the banner"""
-        print(f"{BG_BLACK}{RED}{BANNER}{MAGENTA}Autor: {CYAN}grisUN0{RESET}")
-        print(LazyOwnShell().intro)
+        if NOBANNER is False:
+            print(f"{BG_BLACK}{RED}{BANNER}{MAGENTA}Autor: {CYAN}grisUN0{RESET}")
+            time.sleep(0.5)
+            print(LazyOwnShell().intro)
         return
 
     def do_py3ttyup(self,line):
@@ -1405,6 +1441,11 @@ class LazyOwnShell(Cmd):
         print(f"{GREEN}[*] pwd directory copied to clipboard{RESET}")
         return
 
+    def do_qa(self, line):
+        """Exit fast without confirmation"""
+        print(f"{RED}Saliendo {BG_BLACK}[;,;]{RESET}")
+        sys.exit(0)
+
     def do_ignorearp(self,line):
         """echo 1 > /proc/sys/net/ipv4/conf/all/arp_ignore"""
         print(f"{GREEN}[*] Try... sudo bash -c 'echo {CYAN}1 {RED}> {GREEN}/proc/sys/net/ipv4/conf/all/arp_ignore'{RESET}")
@@ -1439,16 +1480,16 @@ class LazyOwnShell(Cmd):
         # Obtiene la fecha y hora actual en el formato deseado
         current_date=$(date +"%Y-%m-%d")
         current_time=$(date +"%H:%M:%S")
-
         # Muestra la fecha y hora con figlet
-        echo "Fecha actual:"
         figlet "$current_date"
-        echo "Hora actual:"
         figlet "$current_time"
         """ 
         print(WHITE)
         os.system(cmd)
+        print(GREEN)
+        os.system("./modules/cal.sh")
         print(RESET)
+
         return
 
     def do_ports(self, line):
@@ -1485,13 +1526,14 @@ class LazyOwnShell(Cmd):
             print(f"{RED}[-] Error: {e}{RESET}")
 
         return
+
     def do_vpn(self,line):
         """Open vpn like htb vpn"""
         print("[+] Try... sudo openvpn *.ovpn")
         os.system("sudo openvpn *.ovpn")
         return
 
-    def do_www(slf, line):
+    def do_www(self, line):
         """Start a web server with python3"""
         os.system("ip a show scope global | awk '/^[0-9]+:/ { sub(/:/,\"\",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, \"/\"); print \"[\033[96m\" iface\"\033[0m] \"a[1] }'")
         os.system("ip a show tun0 | grep 'inet ' | awk '{print $2}' | cut -d'/' -f1 | xclip -sel clip")
@@ -1499,6 +1541,12 @@ class LazyOwnShell(Cmd):
         print(f"{YELLOW}[*] {GREEN} Web server at sessions in port {RED} 80 {RESET}")
         os.system("cd sessions && sudo python3 -m http.server 80")
         print(f"{RED}[*] {YELLOW} Shutdown Web server at sessions in port {RED} 80 {RESET}")
+        return
+
+    def do_wrapper(self,line):
+        """copy to clipboard some wrapper to lfi"""
+        print(f"{GREEN}[*] Copy to clipboard: {RED} php://filter/zlib.deflate/convert.base64-encode/resource=/etc/passwd{RESET}")
+        os.system("echo 'php://filter/zlib.deflate/convert.base64-encode/resource=/etc/passwd' | xclip -sel clip")
         return
 
     def do_samrdump(self, line):
@@ -1517,6 +1565,13 @@ class LazyOwnShell(Cmd):
         """delete all from sessions"""
         os.system("rm sessions/*.ps1 sessions/*.elf sessions/*.macho sessions/*.zip sessions/*.exe sessions/*.nmap sessions/*.py sessions/req*  sessions/revshell* sessions/*.php sessions/hash.txt reports puertos sessions/test* -rf")
         print(f"{GREEN}[*]{YELLOW} cleanned sessions directory. {RESET}")
+        return
+
+    def do_alias(self, line):
+        """Imprime todos los alias configurados."""
+        aliases = LazyOwnShell().aliases
+        for alias, command in aliases.items():
+            print(f"[>]{WHITE} Alias {GREEN} {alias}{WHITE} : Full command: {CYAN}{command}{RESET} ")
         return
 
     def do_msf(self, line):
@@ -1654,6 +1709,7 @@ def xor_encrypt_decrypt(data, key):
 
 
 if __name__ == "__main__":
+              
     # Activar el entorno virtual
     activate_virtualenv('env')
     LazyOwnShell().cmdloop()

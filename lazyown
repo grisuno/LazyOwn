@@ -1717,11 +1717,13 @@ if __name__ == "__main__":
     
 
     p = LazyOwnShell()
-    if arg.startswith("-c"):
-        cmd = arguments[1]
-        p.onecmd('p')
-        p.onecmd(cmd)
-        p.cmdloop()
+   
+    if arguments:
+        if arg.startswith("-c"):
+            cmd = arguments[1]
+            p.onecmd('p')
+            p.onecmd(cmd)
+            p.cmdloop()
 
     if NOBANNER is False:
         print(f"{BG_BLACK}{RED}{BANNER}{MAGENTA}{BOLD}Autor: {CYAN}{BOLD}{BG_RED}grisUN0{RESET}")

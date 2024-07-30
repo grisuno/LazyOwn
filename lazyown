@@ -1603,6 +1603,7 @@ class LazyOwnShell(Cmd):
                 subprocess.run(command, shell=True, check=True)
             except subprocess.CalledProcessError as e:
                 print(f"    {RED}[-] Error executing command for {xml_file}: {e}{RESET}")        
+        print(f"    {GREEN}[*]{YELLOW} tha target was pwntomated 🍅. {RESET}")
         return
     def do_alias(self, line):
         """Imprime todos los alias configurados."""

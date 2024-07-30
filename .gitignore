@@ -19,3 +19,4 @@ modules/env
 include/
 report
 reports
+*.xsl

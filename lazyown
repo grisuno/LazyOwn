@@ -1581,10 +1581,29 @@ class LazyOwnShell(Cmd):
         return
     def do_clean(self, line):
         """delete all from sessions"""
-        os.system("rm sessions/*.ps1 sessions/chisel* sessions/*.xml sessions/*.elf sessions/*.macho sessions/*.zip sessions/*.exe sessions/*.nmap* sessions/*.py sessions/req*  sessions/revshell* sessions/*.php sessions/hash.txt reports puertos sessions/test* -rf")
+        os.system("rm sessions/*.ps1 sessions/chisel* sessions/*.xml sessions/*.elf sessions/*.macho sessions/*.zip sessions/*.exe sessions/*.nmap* sessions/*.py sessions/req*  sessions/revshell* sessions/*.php sessions/hash.txt reports puertos sessions/test* sessions/*.xsl *.xsl -rf")
         print(f"    {GREEN}[*]{YELLOW} cleanned sessions directory. {RESET}")
         return
 
+    def do_pyautomate(self, line):
+        """pyautomate automatization of tools to pwn a target all rights https://github.com/honze-net/pwntomate """
+        directory = 'sessions' 
+        # Obtener la lista de archivos en el directorio
+        files = os.listdir(directory)
+        
+        # Filtrar solo los archivos .xml
+        xml_files = [file for file in files if file.endswith('.xml')]
+        
+        # Para cada archivo XML, ejecutar el comando
+        for xml_file in xml_files:
+            xml_path = os.path.join(directory, xml_file)
+            command = f"python3 pwntomate.py {xml_path} -x"
+            print(f"    {GREEN}[*] Executing command: {MAGENTA}{command}{RESET}")
+            try:
+                subprocess.run(command, shell=True, check=True)
+            except subprocess.CalledProcessError as e:
+                print(f"    {RED}[-] Error executing command for {xml_file}: {e}{RESET}")        
+        return
     def do_alias(self, line):
         """Imprime todos los alias configurados."""
         aliases = LazyOwnShell().aliases

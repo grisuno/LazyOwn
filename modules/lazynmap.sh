@@ -107,7 +107,7 @@ echo "[+] Puertos abiertos encontrados: $PORTS"
 run_nmap_script() {
 	PORT=$1
 	echo "[;,;] Escaneando el puerto $PORT en el objetivo $TARGET..."
-	sudo nmap -p $PORT -sCV $TARGET -oN "sessions/scan_${TARGET}_${PORT}.nmap"
+	sudo nmap -p $PORT -sCV $TARGET -oN "sessions/scan_${TARGET}_${PORT}.nmap" -oX "sessions/scan_${TARGET}_${PORT}.nmap.xml"
 }
 
 export -f run_nmap_script
@@ -158,6 +158,26 @@ done
 
 # Imprimir el final de la tabla
 echo "+------------+--------------------------------------------------------------+"
+
+# Directorio donde están ubicados los archivos .nmap y .xml
+DIRECTORIO="./sessions"
+
+# Buscar archivos .xml en el directorio
+for xmlfile in "$DIRECTORIO"/*.xml; do
+    # Obtener el nombre base del archivo sin la extensión
+    base_name=$(basename "$xmlfile" .xml)
+    
+    # Verificar que existe el archivo .nmap correspondiente
+    nmapfile="$DIRECTORIO/$base_name"
+    if [[ -f "$nmapfile" ]]; then
+        # Ejecutar xsltproc y generar el archivo HTML
+        htmlfile="$DIRECTORIO/$base_name.html"
+        xsltproc "$xmlfile" > "$htmlfile"
+        echo "Generado reporte HTML: $htmlfile"
+    else
+        echo "Archivo .nmap no encontrado para $xmlfile"
+    fi
+done
 
 # Medir el tiempo de finalización
 END_TIME=$(date +%s)

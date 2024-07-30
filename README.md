@@ -915,4 +915,10 @@ El script maneja la señal SIGINT (usualmente generada por Control + C) para sal
 Este proyecto está licenciado bajo la Licencia GPL v3. La información contenida en GTFOBins es propiedad de sus autores, a quienes se les agradece enormemente por la información proporcionada.
 
 ## Agradecimientos
-Un agradecimiento especial a  [GTFOBins](https://gtfobins.github.io/) por la valiosa información que proporcionan y a ti por utilizar este proyecto. ¡Gracias por tu apoyo!
+Un agradecimiento especial a  [GTFOBins](https://gtfobins.github.io/) por la valiosa información que proporcionan y a ti por utilizar este proyecto. Tambien ¡Gracias por tu apoyo Tito S4vitar! quien hace una tarea extraordinarìa de divulgaciòn. por supuesto que utilizo la funcion extractPorts en mi .zshrc :D
+
+### Agradecimientos a pwntomate 🍅
+una excelente herramienta que adapte un poco para que funcione con el proyecto todos los creditos son de su autor honze-net Andreas Hontzia visiten y denle amor al proyecto https://github.com/honze-net/pwntomate
+
+## Abstract 
+LazyOwn es un marco de trabajo que agiliza el flujo del mismo y automatiza muchas tareas y pruebas mediante alias y distintas herramientas es como una navaja multiproposito con navajas multipropisitos para el hacking xD

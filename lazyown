@@ -867,6 +867,8 @@ class LazyOwnShell(Cmd):
             return
         print(f"    {GREEN}[*] perform this command: smbclient -N -L \\\\{rhost}\\ {RESET}")
         os.system(f"smbclient -N -L \\\\{rhost}\\")
+        print('    [?] exploit smb if is posible mount -t cifs "//10.10.10.10/documetns share" /mnt/smb ')
+        return
 
     def do_smbmap(self, line):
         """smbmap -H 10.10.10.3 [OPTIONS]"""
@@ -880,7 +882,15 @@ class LazyOwnShell(Cmd):
             return
         print(f"    [*] try... smbmap -H {rhost} -R {line}")
         os.system(f"smbmap -H {rhost} -R {line}")
-
+        print('    [?] exploit smb if is posible mount -t cifs "//10.10.10.10/documetns share" /mnt/smb ')
+        return
+    def do_getnpusers(self, line):        
+        """sudo impacket-GetNPUsers mist.htb/ -no-pass -usersfile sessions/users.txt"""
+        if not line:
+            print("    [-] you must pass the domain by argument ex: getnpusers domain.com more info help getnpusers")
+            return
+        os.system(f"sudo impacket-GetNPUsers {line}/ -no-pass -usersfile sessions/users.txt")
+        return
     def do_psexec(self, line):
         """Lazy impacket-psexec administrator@"""
         if not self.params["rhost"]:

@@ -4,7 +4,7 @@ puertos
 *.pcap
 *.log
 *.csv
-*.nmap
+*.nmap*
 *.key
 *.pub
 *.ovpn

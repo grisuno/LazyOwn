@@ -199,7 +199,8 @@ class LazyOwnShell(Cmd):
         """
     # Diccionario para almacenar alias
     aliases = {
-        'aslr':'run lazyaslrcheck',
+        'auto': 'pyautomate',
+        'aslr': 'run lazyaslrcheck',
         'discovery': 'run lazynmapdiscovery',
         'ftpsniff': 'run lazyftpsniff',
         'ls': 'list',

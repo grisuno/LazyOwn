@@ -1040,6 +1040,7 @@ class LazyOwnShell(Cmd):
         if not rhost or not dirwordlist:
             print(f"    {YELLOW}[?] dirwordlist and rhost must be set{RESET}")
             return
+
         if line:
             if line.startswith("sub"):
                 params = line.split(' ')
@@ -1053,6 +1054,26 @@ class LazyOwnShell(Cmd):
                 print(f"    {GREEN}[*] Try ...  wfuzz -c {arg3} -t 200 -w {dirwordlist} -H 'Host: FUZZ.{domain}' {domain} {RESET}")
                 os.system(f"wfuzz -c {arg3} -t 200 -w {dirwordlist} -H 'Host: FUZZ.{domain}' {domain}")
                 return
+
+            if line.startswith("iis"):
+                params = line.split(' ')
+                print(params)
+                count = len(params)
+                arg1 = params[0]
+                
+                dirwordlist = '/usr/share/wordlists/SecLists-master/Discovery/Web-Content/IIS.fuzz.txt'
+                if not os.path.exists(dirwordlist):
+                    print(f"    [-] you must have file {dirwordlist} use the command: getseclist")
+                    return
+                # Abre el archivo en modo de lectura                
+                if count > 1:
+                    arg3 = params[1]
+                else:
+                    arg3 = ""
+                print(f"    {GREEN}[*] Try ...  wfuzz -c {arg3} -t 200 -w {dirwordlist} http://{rhost}/FUZZ {RESET}")
+                os.system(f"wfuzz -c {arg3} -t 200 -w {dirwordlist} http://{rhost}/FUZZ")
+                return
+
         print(f"    {GREEN}[+] Try ... wfuzz -c {line} -t 200 -w {dirwordlist} http://{rhost}/FUZZ {RESET}")
         os.system(f"wfuzz -c {line} -t 200 -w {dirwordlist} http://{rhost}/FUZZ")
         return
@@ -1102,6 +1123,52 @@ class LazyOwnShell(Cmd):
         print(f"    [+] Try... crackmapexec smb {rhost}")
         os.system(f"crackmapexec smb {rhost}")
         print(f"    [*] Done... crackmapexec smb {rhost}")
+        return
+
+    def do_ldapdomaindump(self, line):
+        """ldapdomaindump -u 'domain.local\Administrator' -p 'passadmin123' 10.10.11.23"""
+        rhost = self.params["rhost"]
+        if not rhost or not line:
+            print(
+                "    [-] add domain and rhost must be set to more info see help set (set rhost 10.10.10.10) ex: addhost domain.ext"
+            )
+            return
+        path_cred = "sessions/credentials.txt"
+        if not os.path.exists(path_cred):
+            print("    [-] you must have file sessions/credentials.txt with this format: user:password")
+            return
+        # Abre el archivo en modo de lectura
+        with open(path_cred, 'r') as file:
+            # Recorre cada línea del archivo
+            for file_line in file:
+                params = file_line.split(":")
+                user = params[0]
+                passwd = params[1].replace('\n','')
+                print(f"    {GREEN}[*] Try... ldapdomaindump -u '{line}\\{user}' -p '{passwd}' {rhost}")
+                os.system(f"cd sessions && ldapdomaindump -u '{line}\\{user}' -p '{passwd}' {rhost}")
+        return
+
+    def do_bloodhound(self, line):
+        """bloodhound-python -c All -u 'usuario' -p 'password' -ns 10.10.10.10"""
+        rhost = self.params["rhost"]
+        if not rhost:
+            print(
+                "    [-] rhost must be set to more info see help set (set rhost 10.10.10.10) ex: addhost domain.ext"
+            )
+            return
+        path_cred = "sessions/credentials.txt"
+        if not os.path.exists(path_cred):
+            print("    [-] you must have file sessions/credentials.txt with this format: user:password more help createcredentials")
+            return
+        # Abre el archivo en modo de lectura
+        with open(path_cred, 'r') as file:
+            # Recorre cada línea del archivo
+            for file_line in file:
+                params = file_line.split(":")
+                user = params[0]
+                passwd = params[1].replace('\n','')
+                print(f"    {GREEN}[*] Try... bloodhound-python -c All -u '{user}' -p '{passwd}' -ns {rhost}")
+                os.system(f"cd sessions && bloodhound-python -c All -u '{user}' -p '{passwd}' -ns {rhost}")
         return
 
     def do_ping(self, line):
@@ -1352,6 +1419,16 @@ class LazyOwnShell(Cmd):
         print(f"    {GREEN}[*] Analisando sessions/hash.txt con Name-the-hash {RESET}")
         os.system(f"nth -t {line}")
        
+        return
+
+    def do_createcredentials(self, line):
+        """Crea un archivo credentials.txt en el directorio sessions el forato debe ser: user:password """
+        print(f"    {GREEN}[*] creando archivo sessions/credentials.txt con el siguiente contenido {line}{RESET}")
+        if ':' in line:
+            os.system(f"echo '{line}' > sessions/credentials.txt")
+        else:
+            print(f"    {RED}[-] el archivo debe tener este formato usuario:contraseña ej: administrator:passwordadministrator123&!  {line}{RESET}")
+            return
         return
 
     def do_download_resources(self, line):
@@ -1622,7 +1699,7 @@ class LazyOwnShell(Cmd):
         return
     def do_clean(self, line):
         """delete all from sessions"""
-        os.system("rm sessions/*.ps1 sessions/*.scf sessions/chisel* sessions/*.xml sessions/*.elf sessions/*.macho sessions/*.zip sessions/*.exe sessions/*.nmap* sessions/*.py sessions/req*  sessions/revshell* sessions/*.php sessions/hash.txt reports puertos sessions/test* sessions/*.xsl *.xsl -rf")
+        os.system("rm sessions/credentials.txt sessions/*.ps1 sessions/*.scf sessions/chisel* sessions/*.xml sessions/*.elf sessions/*.macho sessions/*.zip sessions/*.exe sessions/*.nmap* sessions/*.py sessions/req*  sessions/revshell* sessions/*.php sessions/hash.txt reports puertos sessions/test* sessions/*.xsl *.xsl -rf")
         print(f"    {GREEN}[*]{YELLOW} cleanned sessions directory. {RESET}")
         return
 

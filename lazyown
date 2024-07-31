@@ -1434,8 +1434,22 @@ class LazyOwnShell(Cmd):
     def do_download_resources(self, line):
         """download resources in sessions"""
         os.system("cd sessions && ./download_resources.sh ")
+        print(f"    {GREEN}[*] Resources downloaded now you can run command {MAGENTA}www {RESET}")
+        return
+    
+    def do_download_exploit(self, line):
+        """download exploits in external/.exploits/"""
+        os.system("cd external && ./install_external.sh ")
+        os.system("ip a show scope global | awk '/^[0-9]+:/ { sub(/:/,\"\",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, \"/\"); print \"    [\033[96m\" iface\"\033[0m] \"a[1] }'")
+        os.system("ip a show tun0 | grep 'inet ' | awk '{print $2}' | cut -d'/' -f1 | xclip -sel clip")
+        os.system('echo "    [\e[96m`pwd`\e[0m]\e[34m" && cd external/.exploit && ls && echo -en "\e[0m"')
+        print(f"    {YELLOW}[*] {GREEN} Web server at external/.exploit in port {RED} 80 {RESET}")
+        os.system("cd external/.exploit && sudo python3 -m http.server 80")
+        print(f"    {RED}[*] {YELLOW} Shutdown Web server at external/.exploit in port {RED} 80 {RESET}")
         return
 
+        return
+    
     def do_dirsearch(self, line):
         """dirsearch -u http://url.ext/ -x 403,404,400"""
         url = self.params["url"]
@@ -1699,8 +1713,8 @@ class LazyOwnShell(Cmd):
         return
     def do_clean(self, line):
         """delete all from sessions"""
-        os.system("rm sessions/credentials.txt sessions/*.ps1 sessions/*.scf sessions/chisel* sessions/*.xml sessions/*.elf sessions/*.macho sessions/*.zip sessions/*.exe sessions/*.nmap* sessions/*.py sessions/req*  sessions/revshell* sessions/*.php sessions/hash.txt reports puertos sessions/test* sessions/*.xsl *.xsl -rf")
-        print(f"    {GREEN}[*]{YELLOW} cleanned sessions directory. {RESET}")
+        os.system("rm external/.exploit sessions/credentials.txt sessions/*.ps1 sessions/*.scf sessions/chisel* sessions/*.xml sessions/*.elf sessions/*.macho sessions/*.zip sessions/*.exe sessions/*.nmap* sessions/*.py sessions/req*  sessions/revshell* sessions/*.php sessions/hash.txt reports puertos sessions/test* sessions/*.xsl *.xsl -rf")
+        print(f"    {GREEN}[*]{YELLOW} cleanned sessions & external directory. {RESET}")
         return
 
     def do_pyautomate(self, line):

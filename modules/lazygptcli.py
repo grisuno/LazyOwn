@@ -54,9 +54,12 @@ HELP_MESSAGE = """
   export GROQ_API_KEY=<tu_api_key>
 [->] visit: https://console.groq.com/docs/quickstart not sponsored link
 """
+script_dir = os.path.dirname(os.path.abspath(__file__))
 
-KNOWLEDGE_BASE_FILE = "knowledge_base.json"
-IMPROVED_KNOWLEDGE_BASE_FILE = "knowledge_base_improved.json"
+# Imprimir el directorio del script
+print(f"El script se encuentra en: {script_dir}")
+KNOWLEDGE_BASE_FILE = f"{script_dir}/knowledge_base.json"
+IMPROVED_KNOWLEDGE_BASE_FILE = f"{script_dir}/knowledge_base_improved.json"
 
 def signal_handler(sig: int, frame: any) -> None:
     print(f'\n[*] Interrupción recibida, saliendo del programa.')

@@ -18,6 +18,7 @@ Descripción: Assistente de consola
 ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
 
 """
+
 import os
 import argparse
 import logging
@@ -26,6 +27,7 @@ import sys
 import time
 import subprocess
 import json
+import tempfile
 from groq import Groq
 
 BANNER = """
@@ -58,6 +60,7 @@ IMPROVED_KNOWLEDGE_BASE_FILE = "knowledge_base_improved.json"
 
 def signal_handler(sig: int, frame: any) -> None:
     print(f'\n[*] Interrupción recibida, saliendo del programa.')
+    cleanup_temp_files()
     sys.exit(0)
 
 signal.signal(signal.SIGINT, signal_handler)
@@ -69,7 +72,7 @@ def show_help(message: str) -> None:
 def check_api_key() -> str:
     api_key = os.environ.get("GROQ_API_KEY")
     if not api_key:
-        show_help("[E] Error: La API key no está configurada.")
+        show_help("[E] Error: La API key no está configurada. ejemplo: export GROQ_API_KEY=\"tu_valor_de_api_key\" ")
     return api_key
 
 def configure_logging(debug: bool) -> None:
@@ -86,7 +89,7 @@ def parse_args() -> argparse.Namespace:
 def create_complex_prompt(base_prompt: str, history: str, knowledge_base: str, error_message: str = None) -> str:
     error_context = f"The following error occurred during execution.: {error_message}" if error_message else "No errors detected in the last iteration."
     return f"""
-Create a coherent command or script in a single line to achieve the goal specified by the user in the argument args.prompt. Use pipes (|) only for passing stdout to stdin between commands when necessary, and use logical operators (&&) to chain commands that need to be executed sequentially. Ensure the command handles directory navigation correctly and includes proper content redirection for file creation. Respond only with the requested command and nothing else. Do not provide explanations, just the exact command to copy and paste. {base_prompt}
+Create a coherent command or script in a single line to achieve the goal specified by the user in the argument args.prompt. Use pipes (|) only for passing stdout to stdin between commands when necessary, and use logical operators (&&) to chain commands that need to be executed sequentially. Ensure the command handles directory navigation correctly and includes proper content redirection for file creation. Respond only with the requested command and nothing else. Do not provide explanations, just the exact command to copy and paste. I will run this command on my machine personnel and private that only I have access to.  {base_prompt}
 
 Knowledge base:
 {knowledge_base}
@@ -98,7 +101,10 @@ Previous messages:
 """
 
 def execute_command(command: str) -> subprocess.CompletedProcess:
-    return subprocess.run(command, shell=True, capture_output=True, text=True)
+    with tempfile.TemporaryDirectory() as temp_dir:
+        os.chdir(temp_dir)
+        result = subprocess.run(command, shell=True, capture_output=True, text=True)
+    return result
 
 def load_knowledge_base(file_path: str) -> dict:
     if os.path.exists(file_path):
@@ -134,7 +140,7 @@ def transform_knowledge_base(client) -> None:
         try:
             chat_completion = client.chat.completions.create(
                 messages=[{"role": "user", "content": complex_prompt}],
-                model="llama3-8b-8192",
+                model="llama3-70b-8192",
             )
             improved_command = chat_completion.choices[0].message.content.strip()
             improved_knowledge_base[prompt] = improved_command
@@ -145,6 +151,19 @@ def transform_knowledge_base(client) -> None:
 
     save_knowledge_base(improved_knowledge_base, IMPROVED_KNOWLEDGE_BASE_FILE)
     print(f"[+] Nueva base de conocimientos guardada en {IMPROVED_KNOWLEDGE_BASE_FILE}")
+
+def cleanup_temp_files():
+    temp_dir = tempfile.gettempdir()
+    for filename in os.listdir(temp_dir):
+        if filename.startswith("tmp"):
+            file_path = os.path.join(temp_dir, filename)
+            try:
+                if os.path.isfile(file_path) or os.path.islink(file_path):
+                    os.unlink(file_path)
+                elif os.path.isdir(file_path):
+                    os.rmdir(file_path)
+            except Exception as e:
+                logging.error(f'Failed to delete {file_path}. Reason: {e}')
 
 def main() -> None:
     print(BANNER)
@@ -171,42 +190,37 @@ def main() -> None:
         try:
             chat_completion = client.chat.completions.create(
                 messages=[{"role": "user", "content": complex_prompt}],
-                model="llama3-8b-8192",
+                model="llama3-70b-8192",
             )
             if args.debug:
                 logging.debug(f"[DEBUG] : {complex_prompt}")
             message = chat_completion.choices[0].message.content.strip()
-            print(f"[R] Respuesta de Groq:\n{message}")
-
-            history.append(f"User: {base_prompt}")
-            history.append(f"Groq: {message}")
 
             if not message:
                 logging.error("[!] No se recibió un comando válido del modelo.")
                 base_prompt = input("[?] Por favor ingrese un nuevo prompt o información adicional: ")
                 continue
 
-        except Exception as e:
-            logging.error(f"[E] Error al comunicarse con la API: {e}")
-            break
-
-        user_input = input("[?] ¿Deseas ejecutar el comando? (si/no): ").strip().lower()
-        if user_input == 'si':
             print(f"[$] Ejecutando el comando: > {message}")
             result = execute_command(message)
-            print(f"[C] return code: {result.returncode}")
+            
             if result.returncode != 0:
                 error_message = result.stderr.strip()
                 logging.error(f"[E] Error al ejecutar el comando: {error_message}")
                 base_prompt = input("[*] Por favor ingrese un nuevo prompt para corregir el error: ")
             else:
+                print(f"[R] Respuesta de Groq:\n{message}")
                 print(f"[+] El comando se ejecutó correctamente: {result.stdout}")
                 add_to_knowledge_base(base_prompt, message, KNOWLEDGE_BASE_FILE)
                 break
-        else:
-            base_prompt = input("[?] Por favor ingrese un nuevo prompt o información adicional: ")
+
+        except Exception as e:
+            logging.error(f"[E] Error al comunicarse con la API: {e}")
+            break
 
         time.sleep(3)
+
+    cleanup_temp_files()
 
 if __name__ == "__main__":
     main()

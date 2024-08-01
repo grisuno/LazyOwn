@@ -22,7 +22,7 @@ tmux send-keys -t $SESSION "sleep 5 && bash -c './run -c nmap'" C-m
 tmux split-window -v
 tmux send-keys -t $SESSION "sleep 5 && bash -c '$COMMAND'" C-m
 tmux split-window -v
-tmux send-keys -t $SESSION "sleep 45 && bash -c './run -c pyautomate'" C-m
+tmux send-keys -t $SESSION "sleep 60 && bash -c './run -c pyautomate'" C-m
 # Dividir el panel izquierdo (izquierda arriba) para crear los paneles derecho arriba y derecho abajo
 tmux select-pane -t 0
 tmux split-window -h

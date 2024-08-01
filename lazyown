@@ -220,6 +220,7 @@ class LazyOwnShell(Cmd):
         'aslr': 'run lazyaslrcheck',
         'discovery': 'run lazynmapdiscovery',
         'ftpsniff': 'run lazyftpsniff',
+        'gpt':'run lazygptcli',
         'ls': 'list',
         'nmap': 'run lazynmap',
         'now': 'clock',

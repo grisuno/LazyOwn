@@ -29,86 +29,6 @@ import json
 import time
 from cmd import Cmd
 
-BANNER = """
-
-    ██▓    ▄▄▄      ▒███████▒▓██   ██▓ ▒█████   █     █░███▄    █                
-    ▓██▒   ▒████▄    ▒ ▒ ▒ ▄▀░ ▒██  ██▒▒██▒  ██▒▓█░ █ ░█░██ ▀█   █                
-    ▒██░   ▒██  ▀█▄  ░ ▒ ▄▀▒░   ▒██ ██░▒██░  ██▒▒█░ █ ░█▓██  ▀█ ██▒               
-    ▒██░   ░██▄▄▄▄██   ▄▀▒   ░  ░ ▐██▓░▒██   ██░░█░ █ ░█▓██▒  ▐▌██▒               
-    ░██████▒▓█   ▓██▒▒███████▒  ░ ██▒▓░░ ████▓▒░░░██▒██▓▒██░   ▓██░               
-    ░ ▒░▓  ░▒▒   ▓▒█░░▒▒ ▓░▒░▒   ██▒▒▒ ░ ▒░▒░▒░ ░ ▓░▒ ▒ ░ ▒░   ▒ ▒                
-    ░ ░ ▒  ░ ▒   ▒▒ ░░░▒ ▒ ░ ▒ ▓██ ░▒░   ░ ▒ ▒░   ▒ ░ ░ ░ ░░   ░ ▒░               
-    ░ ░    ░   ▒   ░ ░ ░ ░ ░ ▒ ▒ ░░  ░ ░ ░ ▒    ░   ░    ░   ░ ░                
-        ░  ░     ░  ░  ░ ░     ░ ░         ░ ░      ░            ░                
-                    ░         ░ ░                                                
-    █████▒██▀███   ▄▄▄       ███▄ ▄███▓▓█████  █     █░ ▒█████   ██▀███   ██ ▄█▀
-    ▓██   ▒▓██ ▒ ██▒▒████▄    ▓██▒▀█▀ ██▒▓█   ▀ ▓█░ █ ░█░▒██▒  ██▒▓██ ▒ ██▒ ██▄█▒ 
-    ▒████ ░▓██ ░▄█ ▒▒██  ▀█▄  ▓██    ▓██░▒███   ▒█░ █ ░█ ▒██░  ██▒▓██ ░▄█ ▒▓███▄░ 
-    ░▓█▒  ░▒██▀▀█▄  ░██▄▄▄▄██ ▒██    ▒██ ▒▓█  ▄ ░█░ █ ░█ ▒██   ██░▒██▀▀█▄  ▓██ █▄ 
-    ░▒█░   ░██▓ ▒██▒ ▓█   ▓██▒▒██▒   ░██▒░▒████▒░░██▒██▓ ░ ████▓▒░░██▓ ▒██▒▒██▒ █▄
-    ▒ ░   ░ ▒▓ ░▒▓░ ▒▒   ▓▒█░░ ▒░   ░  ░░░ ▒░ ░░ ▓░▒ ▒  ░ ▒░▒░▒░ ░ ▒▓ ░▒▓░▒ ▒▒ ▓▒
-    ░       ░▒ ░ ▒░  ▒   ▒▒ ░░  ░      ░ ░ ░  ░  ▒ ░ ░    ░ ▒ ▒░   ░▒ ░ ▒░░ ░▒ ▒░
-    ░ ░     ░░   ░   ░   ▒   ░      ░      ░     ░   ░  ░ ░ ░ ▒    ░░   ░ ░ ░░ ░ 
-            ░           ░  ░       ░      ░  ░    ░        ░ ░     ░     ░  ░   
-    [*] Iniciando: Framework [;,;] """
-NOBANNER = False
-version = "v0.0.12"
-# Definimos algunos códigos de escape ANSI para colores
-RESET = "\033[0m"
-BOLD = "\033[1m"
-UNDERLINE = "\033[4m"
-INVERT = "\033[7m"
-BLINK = "\033[5m"
-
-# Colores de texto
-BLACK = "\033[30m"
-RED = "\033[31m"
-GREEN = "\033[32m"
-YELLOW = "\033[33m"
-BLUE = "\033[34m"
-MAGENTA = "\033[35m"
-CYAN = "\033[36m"
-WHITE = "\033[37m"
-
-# Colores de fondo
-BG_BLACK = "\033[40m"
-BG_RED = "\033[41m"
-BG_GREEN = "\033[42m"
-BG_YELLOW = "\033[43m"
-BG_BLUE = "\033[44m"
-BG_MAGENTA = "\033[45m"
-BG_CYAN = "\033[46m"
-BG_WHITE = "\033[47m"
-
-# sys.argv es una lista que contiene los argumentos de la línea de comandos
-arguments = sys.argv[1:]  # Omitir el primer elemento que es el nombre del script
-
-# Procesar los argumentos
-for arg in arguments:
-    if arg == '--help':
-        print(f"    {RED}[;,;]{GREEN} LazyOwn {CYAN}{version}{RESET}")
-        print(f"    {GREEN}Uso: {WHITE}./run {GREEN}[opciones]{RESET}")
-        print(f"    {YELLOW}Opciones:")
-        print(f"    {BLUE}  --help         Muestra esta ayuda")
-        print(f"    {BLUE}  -v             Muestra la version")
-        print(f"    {BLUE}  -c             Ejecuta un comando del LazyOwn ej: ping")
-        print(f"    {BLUE}  --no-banner    No muestra el Banner{RESET}")
-        sys.exit(0)
-        
-    elif arg == '-v':
-        print(f"    {GREEN} LazyOwn Framework: {version}{RESET}")
-        sys.exit(0)
-
-    elif arg == '--no-banner':
-        NOBANNER = True
-
-    elif arg.startswith('-c'):
-        print(f"    {GREEN}[*] Ejecutando comando {arg}{RESET}")
-        break
-    else:
-        print(f"Argumento no reconocido: {arg}") 
-        sys.exit(2) 
-
 def signal_handler(sig, frame):
     global should_exit
     print(f"\n{RED}    [<-]{YELLOW} para salir usar el comando{GREEN} exit, q or qa ...{RESET}")
@@ -120,6 +40,14 @@ signal.signal(signal.SIGINT, signal_handler)
 def is_binary_present(binary_name):
     result = os.system(f"which {binary_name} > /dev/null 2>&1")
     return result == 0
+
+# Verificar y relanzar con sudo si es necesario
+def check_sudo():
+    if os.geteuid() != 0:
+        print("[S] Este script necesita permisos de superusuario. Relanzando con sudo...")
+        args = ['sudo', sys.executable] + sys.argv
+        os.execvpe('sudo', args, os.environ)
+
 
 def activate_virtualenv(venv_path):
     # Ejecutar el shell interactivo con el entorno virtual activado
@@ -184,6 +112,93 @@ def find_credentials(directory):
                             print(f"    [+] {match}")
             except Exception as e:
                 print(f"    [-] No se pudo leer el archivo {file}: {e}")
+
+
+
+BANNER = """
+
+    ██▓    ▄▄▄      ▒███████▒▓██   ██▓ ▒█████   █     █░███▄    █                
+    ▓██▒   ▒████▄    ▒ ▒ ▒ ▄▀░ ▒██  ██▒▒██▒  ██▒▓█░ █ ░█░██ ▀█   █                
+    ▒██░   ▒██  ▀█▄  ░ ▒ ▄▀▒░   ▒██ ██░▒██░  ██▒▒█░ █ ░█▓██  ▀█ ██▒               
+    ▒██░   ░██▄▄▄▄██   ▄▀▒   ░  ░ ▐██▓░▒██   ██░░█░ █ ░█▓██▒  ▐▌██▒               
+    ░██████▒▓█   ▓██▒▒███████▒  ░ ██▒▓░░ ████▓▒░░░██▒██▓▒██░   ▓██░               
+    ░ ▒░▓  ░▒▒   ▓▒█░░▒▒ ▓░▒░▒   ██▒▒▒ ░ ▒░▒░▒░ ░ ▓░▒ ▒ ░ ▒░   ▒ ▒                
+    ░ ░ ▒  ░ ▒   ▒▒ ░░░▒ ▒ ░ ▒ ▓██ ░▒░   ░ ▒ ▒░   ▒ ░ ░ ░ ░░   ░ ▒░               
+    ░ ░    ░   ▒   ░ ░ ░ ░ ░ ▒ ▒ ░░  ░ ░ ░ ▒    ░   ░    ░   ░ ░                
+        ░  ░     ░  ░  ░ ░     ░ ░         ░ ░      ░            ░                
+                    ░         ░ ░                                                
+    █████▒██▀███   ▄▄▄       ███▄ ▄███▓▓█████  █     █░ ▒█████   ██▀███   ██ ▄█▀
+    ▓██   ▒▓██ ▒ ██▒▒████▄    ▓██▒▀█▀ ██▒▓█   ▀ ▓█░ █ ░█░▒██▒  ██▒▓██ ▒ ██▒ ██▄█▒ 
+    ▒████ ░▓██ ░▄█ ▒▒██  ▀█▄  ▓██    ▓██░▒███   ▒█░ █ ░█ ▒██░  ██▒▓██ ░▄█ ▒▓███▄░ 
+    ░▓█▒  ░▒██▀▀█▄  ░██▄▄▄▄██ ▒██    ▒██ ▒▓█  ▄ ░█░ █ ░█ ▒██   ██░▒██▀▀█▄  ▓██ █▄ 
+    ░▒█░   ░██▓ ▒██▒ ▓█   ▓██▒▒██▒   ░██▒░▒████▒░░██▒██▓ ░ ████▓▒░░██▓ ▒██▒▒██▒ █▄
+    ▒ ░   ░ ▒▓ ░▒▓░ ▒▒   ▓▒█░░ ▒░   ░  ░░░ ▒░ ░░ ▓░▒ ▒  ░ ▒░▒░▒░ ░ ▒▓ ░▒▓░▒ ▒▒ ▓▒
+    ░       ░▒ ░ ▒░  ▒   ▒▒ ░░  ░      ░ ░ ░  ░  ▒ ░ ░    ░ ▒ ▒░   ░▒ ░ ▒░░ ░▒ ▒░
+    ░ ░     ░░   ░   ░   ▒   ░      ░      ░     ░   ░  ░ ░ ░ ▒    ░░   ░ ░ ░░ ░ 
+            ░           ░  ░       ░      ░  ░    ░        ░ ░     ░     ░  ░   
+    [*] Iniciando: Framework [;,;] """
+NOBANNER = False
+version = "v0.0.12"
+# Definimos algunos códigos de escape ANSI para colores
+RESET = "\033[0m"
+BOLD = "\033[1m"
+UNDERLINE = "\033[4m"
+INVERT = "\033[7m"
+BLINK = "\033[5m"
+
+# Colores de texto
+BLACK = "\033[30m"
+RED = "\033[31m"
+GREEN = "\033[32m"
+YELLOW = "\033[33m"
+BLUE = "\033[34m"
+MAGENTA = "\033[35m"
+CYAN = "\033[36m"
+WHITE = "\033[37m"
+
+# Colores de fondo
+BG_BLACK = "\033[40m"
+BG_RED = "\033[41m"
+BG_GREEN = "\033[42m"
+BG_YELLOW = "\033[43m"
+BG_BLUE = "\033[44m"
+BG_MAGENTA = "\033[45m"
+BG_CYAN = "\033[46m"
+BG_WHITE = "\033[47m"
+
+# sys.argv es una lista que contiene los argumentos de la línea de comandos
+arguments = sys.argv[1:]  # Omitir el primer elemento que es el nombre del script
+
+# Procesar los argumentos
+for arg in arguments:
+    if arg == '--help':
+        print(f"    {RED}[;,;]{GREEN} LazyOwn {CYAN}{version}{RESET}")
+        print(f"    {GREEN}Uso: {WHITE}./run {GREEN}[opciones]{RESET}")
+        print(f"    {YELLOW}Opciones:")
+        print(f"    {BLUE}  --help         Muestra esta ayuda")
+        print(f"    {BLUE}  -v             Muestra la version")
+        print(f"    {BLUE}  -c             Ejecuta un comando del LazyOwn ej: ping")
+        print(f"    {BLUE}  --no-banner    No muestra el Banner{RESET}")
+        print(f"    {BLUE}  -s             Run as r00t {RESET}")
+        sys.exit(0)
+        
+    elif arg == '-v':
+        print(f"    {GREEN} LazyOwn Framework: {version}{RESET}")
+        sys.exit(0)
+
+    elif arg == '--no-banner':
+        NOBANNER = True
+    
+    elif arg == '-s':
+        check_sudo()
+
+    elif arg.startswith('-c'):
+        print(f"    {GREEN}[*] Ejecutando comando {arg}{RESET}")
+        break
+    else:
+        print(f"Argumento no reconocido: {arg}") 
+        sys.exit(2) 
+
 
 class LazyOwnShell(Cmd):
     prompt = f"{WHITE}LazyOwn{BLINK}{GREEN}>{RESET} "
@@ -1789,7 +1804,7 @@ class LazyOwnShell(Cmd):
             cmdd = f'echo "{command}" | xclip -sel clip'
             print(f"{MAGENTA}[+] Command to copy: {GREEN}{command}{RESET}")
             os.system(cmdd)
-            os.system(f"cd sessions && gunzip -c chisel_1.9.1_linux_amd64.gz > chisel_1.9.1_linux_amd64 && gunzip -c chisel_1.9.1_windows_amd64.gz > chisel.exe  && chmod +x * && ./chisel_1.9.1_linux_amd64 server --reverse -p {lport} -v")
+            os.system(f"cd sessions && gunzip -c chisel_1.9.1_linux_amd64.gz > chisel_1.9.1_linux_amd64 && gunzip -c chisel_1.9.1_windows_amd64.gz > chisel.exe  && chmod +x chisel* && ./chisel_1.9.1_linux_amd64 server --reverse -p {lport} -v")
             print(f"    {RED}[*] {YELLOW} Shutdown chisel tunnel at sessions in port {RED} {line} {RESET}")
 
         else:
@@ -2092,14 +2107,15 @@ if __name__ == "__main__":
     if arguments:
         if arg.startswith("-c"):
             cmd = arguments[1]
+            p.onecmd('p')
             p.onecmd(cmd)
             p.cmdloop()
 
     if NOBANNER is False:
         print(f"    {BG_BLACK}{RED}{BANNER}{MAGENTA}{BOLD}Autor: {CYAN}{BOLD}{BG_RED}grisUN0{RESET}")
         time.sleep(0.2)    
-    # Activar el entorno virtual
     
+    p.onecmd('p')
     p.cmdloop()
     
     

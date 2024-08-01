@@ -25,6 +25,17 @@ function ctrl_c() {
 	exit 1
 }
 
+DIRECTORIO="./sessions"
+ARCHIVO="$DIRECTORIO/nmap-bootstrap.xsl"
+
+# Verificar si el archivo no existe
+if [ ! -f "$ARCHIVO" ]; then
+    echo "    [*] El archivo no existe. Descargando..."
+    wget https://raw.githubusercontent.com/honze-net/nmap-bootstrap-xsl/stable/nmap-bootstrap.xsl -O "$ARCHIVO"
+else
+    echo "    [+] El archivo ya existe. No se descargará de nuevo."
+fi
+
 # Verificar si se ha proporcionado el objetivo
 if [ $# -lt 1 ]; then
 	echo "    [?] Uso: $0 -t <objetivo>"
@@ -107,7 +118,7 @@ echo "    [+] Puertos abiertos encontrados: $PORTS"
 run_nmap_script() {
 	PORT=$1
 	echo "    [;,;] Escaneando el puerto $PORT en el objetivo $TARGET..."
-	sudo nmap -p $PORT -sCV $TARGET -oN "sessions/scan_${TARGET}_${PORT}.nmap" --stylesheet https://raw.githubusercontent.com/honze-net/nmap-bootstrap-xsl/stable/nmap-bootstrap.xsl -oX "sessions/scan_${TARGET}_${PORT}.nmap.xml"
+	sudo nmap -p $PORT -sCV $TARGET -oN "sessions/scan_${TARGET}_${PORT}.nmap" --stylesheet "$ARCHIVO" -oX "sessions/scan_${TARGET}_${PORT}.nmap.xml"
 }
 
 export -f run_nmap_script
@@ -159,9 +170,7 @@ done
 # Imprimir el final de la tabla
 echo "    +------------+--------------------------------------------------------------+"
 
-# Directorio donde están ubicados los archivos .nmap y .xml
-DIRECTORIO="./sessions"
-wget https://raw.githubusercontent.com/honze-net/nmap-bootstrap-xsl/stable/nmap-bootstrap.xsl -o "$DIRECTORIO/nmap-bootstrap.xsl"
+
 # Buscar archivos .xml en el directorio
 for xmlfile in "$DIRECTORIO"/*.xml; do
     # Obtener el nombre base del archivo sin la extensión
@@ -172,7 +181,7 @@ for xmlfile in "$DIRECTORIO"/*.xml; do
     if [[ -f "$nmapfile" ]]; then
         # Ejecutar xsltproc y generar el archivo HTML
         htmlfile="$DIRECTORIO/$base_name.html"
-        xsltproc -o "$htmlfile" nmap-bootstrap.xsl "$xmlfile"
+        xsltproc -o "$htmlfile" "$ARCHIVO" "$xmlfile"
         echo "    [+] Generado reporte HTML: $htmlfile"
     else
         echo "    [-] Archivo .nmap no encontrado para $xmlfile"

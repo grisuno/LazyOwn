@@ -67,6 +67,11 @@ if [ -z "$TARGET" ] && [ "$DISCOVER_NETWORK" = false ]; then
 	exit 1
 fi
 
+
+# Actualizar nmap scripts
+echo "    [+] Actualizando base de datos de Nmap NSE scripts ..."
+sudo nmap --script-updatedb
+
 # Función para descubrir la red local
 discover_network() {
 	echo "    [+] Descubriendo la red local..."

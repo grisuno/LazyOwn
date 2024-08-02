@@ -75,9 +75,23 @@ LazyOwn es ideal para profesionales de la ciberseguridad que buscan una solució
 
 - Python 3.x
 - Módulos de Python:
-  - `requests`
-  - `beautifulsoup4`
-  - `pandas`
+     - python-libnmap
+     - pwn
+     - groq
+     - PyPDF2
+     - docx
+     - python-docx
+     - olefile
+     - exifread
+     - pycryptodome
+     - impacket
+     - pandas
+     - colorama
+     - tabulate
+     - pyarrow
+     - keyboard
+     - flask-unsign
+     - name-that-hash
 - `subprocess` (incluido en la biblioteca estándar de Python)
 - `platform` (incluido en la biblioteca estándar de Python)
 - `tkinter` (Opcional para el GUI)

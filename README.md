@@ -1,5 +1,8 @@
 # LazyOwn
-![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) ![Shell Script](https://img.shields.io/badge/shell_script-%23121011.svg?style=for-the-badge&logo=gnu-bash&logoColor=white) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) ![Shell Script](https://img.shields.io/badge/shell_script-%23121011.svg?style=for-the-badge&logo=gnu-bash&logoColor=white) ![image](https://github.com/user-attachments/assets/961783c2-cd57-4cc2-ab4c-53fde581db79)
+ ![image](https://github.com/user-attachments/assets/1b5049b8-3aad-40d1-89eb-642941ff13a1) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) ![image](https://github.com/user-attachments/assets/b69f1d31-c075-4713-a44e-a40a034a7407) ![image](https://github.com/user-attachments/assets/df82a669-be0c-4a03-bd98-842a67baaef6)
+
+
 
 
 ```sh
@@ -23,8 +26,8 @@ Capacidad para mostrar y ajustar parámetros personalizados que se aplican a dif
 Automatización de Tareas:
 
 Automatiza tareas comunes de pentesting, como escaneo de vulnerabilidades, fuzzing de aplicaciones web, ataques de fuerza bruta y más.
-Integración con herramientas populares y scripts personalizados para una cobertura completa de pruebas.
-Salida en Tiempo Real:
+Integración con herramientas populares y scripts personalizados para una cobertura completa de pruebas en Parrot Sec.
+![image](https://github.com/user-attachments/assets/3234450f-dd5e-40e2-bcd8-f209ab0c4665)
 
 Visualización en tiempo real de la salida de los scripts, permitiendo a los usuarios ver los resultados instantáneamente y reaccionar rápidamente.
 Modularidad y Extensibilidad:
@@ -89,12 +92,12 @@ cd LazyOwn
 ```
 2. Instala las dependencias de Python:
 ```sh
-pip install requeriments.txt
+./install.sh
 ```
 ## Uso
 
 ```sh
-python3 lazyown # or just ./lazyown
+./run or ./fast_run_as_r00t.sh 
 ```
 ```
 Use set <parameter> <value> to set parameters.
@@ -108,47 +111,45 @@ set <parámetro> <valor>: Establece el valor de un parámetro. Por ejemplo, set 
 show: Muestra los valores actuales de todos los parámetros.
 run <script>: Ejecuta un script específico disponible en el framework.
 Scripts disponibles
-Available scripts to run:
-- lazysearch
-- lazysearch_gui
-- lazyown
-- update_db
-- lazynmap
-- lazyaslrcheck
-- lazynmapdiscovery
-- lazygptcli
-- lazyburpfuzzer
-- lazymetaextract0r
-- lazyreverse_shell
-- lazyattack
-- lazyownratcli
-- lazyownrat
-- lazygath
-- lazysniff
-- lazynetbios
-- lazybotnet
-- lazybotcli
-- lazyhoneypot
-- lazysearch_bot
-- lazylfi2rce
-- lazylogpoisoning
-- lazymsfvenom
-- lazypathhijacking
-- lazyarpspoofing
-- lazyftpsniff
-- lazyssh77enum
-- lazywerkzeugdebug
+
+LazyOwn> ls
+    [+] Available scripts to run: [👽]
+lazysearch                lazysearch_gui            lazyown
+update_db                 lazynmap                  lazyaslrcheck
+lazynmapdiscovery         lazygptcli                lazyburpfuzzer
+lazymetaextract0r         lazyreverse_shell         lazyattack
+lazyownratcli             lazyownrat                lazygath
+lazysniff                 lazynetbios               lazybotnet
+lazybotcli                lazyhoneypot              lazysearch_bot
+lazylfi2rce               lazylogpoisoning          lazymsfvenom
+lazypathhijacking         lazyarpspoofing           lazyftpsniff
+lazyssh77enum             lazywerkzeugdebug
 LazyOwn> ?
 
 Documented commands (type help <topic>):
 ========================================
-addhosts        encrypt     gobuster      list     responder  smbserver
-arpscan         enum4linux  gospider      nbtscan  rpcclient  sqlmap
-cme             exit        hashcat       nikto    run        ss
-createhash      fixel       help          payload  set        wfuzz
-createwebshell  fixperm     john2hash     ping     show       whatweb
-decrypt         getcap      lazypwn       proxy    smbclient
-dirsearch       getseclist  lazywebshell  psexec   smbmap
+acknowledgearp     dirsearch           lazywebshell     rpcdump
+acknowledgeicmp    dnsenum             ldapdomaindump   rubeus
+addhosts           dnsmap              list             run
+alias              download_exploit    msf              samrdump
+arpscan            download_resources  nbtscan          set
+asprevbase64       encrypt             nc               sh
+banner             enum4linux          nikto            show
+bloodhound         exit                nmapscripthelp   smbclient
+chisel             fixel               openssl_sclient  smbmap
+clean              fixperm             payload          smbserver
+clock              getcap              ping             snmpcheck
+cme                getnpusers          ports            socat
+conptyshell        getseclist          proxy            sqlmap
+cp                 gobuster            psexec           ss
+cports             gospider            pwd              sshd
+createcredentials  hashcat             py3ttyup         tcpdump_icmp
+createhash         help                pyautomate       vpn
+createrevshell     ignorearp           qa               wfuzz
+createwebshell     ignoreicmp          responder        whatweb
+createwinrevshell  ip                  rev              winbase64payload
+decrypt            john2hash           rhost            wrapper
+dig                lazypwn             rpcclient        www
 
 
 

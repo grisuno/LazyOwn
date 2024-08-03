@@ -37,6 +37,7 @@ download() {
         "git clone https://github.com/padovah4ck/PSByPassCLM.git .exploit/PSByPassCLM"
         "git clone https://github.com/r3motecontrol/Ghostpack-CompiledBinaries .exploit/Ghostpack-CompiledBinaries"
         "git clone https://github.com/topotam/PetitPotam.git .exploit/PetitPotam"
+        "git clone https://github.com/samratashok/nishang.git .exploit/nishang"
     )
 
     # Imprime los últimos argumentos de cada comando

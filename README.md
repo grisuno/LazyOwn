@@ -1,6 +1,7 @@
 # LazyOwn
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) ![Shell Script](https://img.shields.io/badge/shell_script-%23121011.svg?style=for-the-badge&logo=gnu-bash&logoColor=white) ![image](https://github.com/user-attachments/assets/961783c2-cd57-4cc2-ab4c-53fde581db79)
- ![image](https://github.com/user-attachments/assets/1b5049b8-3aad-40d1-89eb-642941ff13a1) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) ![image](https://github.com/user-attachments/assets/b69f1d31-c075-4713-a44e-a40a034a7407) ![image](https://github.com/user-attachments/assets/df82a669-be0c-4a03-bd98-842a67baaef6)
+ ![image](https://github.com/user-attachments/assets/79052f87-f87c-4b32-a4a2-854113ca3a4c)
+  [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) ![image](https://github.com/user-attachments/assets/b69f1d31-c075-4713-a44e-a40a034a7407) ![image](https://github.com/user-attachments/assets/df82a669-be0c-4a03-bd98-842a67baaef6)
 
 
 ![lazyown](https://github.com/user-attachments/assets/73097914-3af9-4b8f-8824-ed599dfc7e38)
@@ -172,6 +173,96 @@ dig                lazypwn             rpcclient        www
 
 ```
 https://www.youtube.com/hashtag/lazyown
+
+## Comando	Descripción
+- acknowledgearp	Reconoce y maneja paquetes ARP.
+- acknowledgeicmp	Reconoce y maneja paquetes ICMP.
+- addhosts	Añade hosts a la configuración actual.
+- alias	lista alias para comandos frecuentes.
+- arpscan	Realiza un escaneo ARP en la red.
+- asprevbase64	Convierte datos a base64 para windows para su uso en payloads de powershell.
+- banner	Muestra el banner de bienvenida.
+- bloodhound	Ejecuta la herramienta Bloodhound para enumeración de redes AD.
+- chisel	Usa chisel para crear túneles TCP/UDP a través de HTTP.
+- clean	Limpia archivos o configuraciones temporales.
+- clock	Muestra o ajusta el reloj y calendario del sistema.
+- cme	Ejecuta CrackMapExec para auditorías de red.
+- conptyshell	copia el comando para lanzar una shell conptyshell.
+- cp	Copia archivos de searchsploit al directorio sessions de trabajo.
+- cports copia comando para mostrar una lista los puertos abiertos en el sistema.
+- createcredentials	Crea archivo credentials en directorio sessions con credenciales de usuario.
+- createhash	Crea archivo hash.txt en directorio sessions con un hashe de contraseña pasado por parametro.
+- createrevshell	Crea una shell reversa para conexiones remotas Linux.
+- createwebshell	Crea una web shell para acceso remoto a servidores web.
+- createwinrevshell	Crea una shell reversa específica para Windows.
+- decrypt	Desencripta datos cifrados.
+- dig	Ejecuta la herramienta dig para consultas DNS.
+- dirsearch	Busca directorios y archivos en servidores web.
+- dnsenum	Enumera registros DNS en un dominio.
+- dnsmap	Mapea subdominios de un dominio objetivo.
+- download_exploit	Descarga exploits de la lista en el directorio external.
+- download_resources	Descarga recursos adicionales necesarios.
+- encrypt	Cifra datos para mayor seguridad.
+- enum4linux	Ejecuta enum4linux para enumeración de redes Windows.
+- exit	Sale de la sesión actual.
+- fixel	Arregla problemas los saltos de linea en sistemas linux.
+- fixperm	Arregla permisos de archivos o directorios.
+- getcap	Obtiene capacidades de archivos en Linux.
+- getnpusers	Obtiene usuarios de no privilegios en redes.
+- getseclist	Obtiene el famoso conjunto de wordlist SecList
+- gobuster	Fuerza bruta directorios y archivos en servidores web.
+- gospider	Ejecuta GoSpider para rastrear sitios web.
+- hashcat	Ejecuta Hashcat para descifrar contraseñas.
+- help	Muestra la ayuda para los comandos disponibles.
+- ignorearp	Ignora paquetes ARP específicos.
+- ignoreicmp	Ignora paquetes ICMP específicos.
+- ip	Muestra o configura las direcciones IP del sistema.
+- john2hash	Convierte resultados de John the Ripper a hashes.
+- lazypwn	Ejecuta secuencias automáticas de hacking.
+- lazywebshell	Crea una web shell.
+- ldapdomaindump	Ejecuta ldapdomaindump para volcar información LDAP.
+- list	Lista los modulos disponibles.
+- msf	Ejecuta Metasploit Framework para explotación automatizada.
+- nbtscan	Ejecuta nbtscan para escanear redes Windows.
+- nc	Ejecuta Netcat para conexiones de red.
+- nikto	Ejecuta Nikto para escanear vulnerabilidades web.
+- nmapscripthelp	Muestra ayuda sobre scripts de Nmap.
+- openssl_sclient	Ejecuta el cliente s_client de OpenSSL.
+- payload	carga el payload desde payload.json
+- ping	Envía paquetes ICMP para verificar conectividad.
+- ports	Lista los puertos abiertos en el sistema.
+- proxy	Configura y usa proxies para uso por ejemplo desde foxyproxy en tu navegador para interceptar las peticiones y poder ver o modificarlas.
+- psexec	Ejecuta comandos en sistemas remotos usando PsExec.
+- py3ttyup	copia comando shell Python 3 con PTY.
+- pyautomate	Automatiza tareas usando pwntomate.
+- qa	Sale sin confirmaciòn de la sessiòn actual
+- responder	Ejecuta Responder para envenenamiento de redes.
+- rev	Copia una shells reversa en portapapeles.
+- rhost	muestra la configuracion de hosts remotos para pruebas.
+- rpcclient	Ejecuta rpcclient para interactuar con servicios RPC.
+- rpcdump	Ejecuta rpcdump para volcar información RPC.
+- rubeus	copia el comando Rubeus para manipulación de tickets Kerberos.
+- run	Ejecuta scripts implementados de la carpeta modules.
+- samrdump	Ejecuta samrdump para volcar SAM de sistemas Windows.
+- set	Configura variables de entorno o parámetros.
+- sh	Ejecuta un commando en la shell.
+- show	Muestra configuraciones o información detallada.
+- smbclient	Ejecuta smbclient para interactuar con recursos compartidos SMB.
+- smbmap	Ejecuta smbmap para mapear recursos SMB.
+- smbserver	Configura y lanza un servidor SMB.
+- snmpcheck	Ejecuta snmpcheck para auditorías SNMP.
+- socat	Ejecuta socat para redireccionar flujos de datos.
+- sqlmap	Ejecuta sqlmap para inyección SQL automatizada.
+- ss	Muestra información sobre una busqueda en searchsploits.
+- sshd	Configura y lanza el servicio SSH.
+- tcpdump_icmp	Ejecuta tcpdump para capturar tráfico ICMP.
+- vpn	Configura y conecta a una VPN.
+- wfuzz	Ejecuta wfuzz para fuerza bruta de aplicaciones web.
+- whatweb	Ejecuta WhatWeb para identificar tecnologías web.
+- winbase64payload	Genera cargas útiles en base64 para Windows.
+- wrapper	Devuelve una mescla de wrappers de php para el uso en ataques lfi
+- www	Configura y lanza un servidor web.
+
 ```sh
 LazyOwn> set binary_name my_binary
 LazyOwn> set target_ip 192.168.1.100

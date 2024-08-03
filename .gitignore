@@ -8,6 +8,12 @@ puertos
 *.key
 *.pub
 *.ovpn
+*.xsl
+*.gz
+*.exe
+*.macho
+*.elf
+chisel*
 env/
 lib*
 pwntools/
@@ -19,4 +25,3 @@ modules/env
 include/
 report
 reports
-*.xsl

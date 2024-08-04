@@ -24,6 +24,7 @@ download() {
         "wget https://raw.githubusercontent.com/PowerShellEmpire/PowerTools/master/PowerUp/PowerUp.ps1"
         "wget https://github.com/jpillora/chisel/releases/download/v1.9.1/chisel_1.9.1_linux_amd64.gz"
         "wget https://github.com/jpillora/chisel/releases/download/v1.9.1/chisel_1.9.1_windows_amd64.gz"
+        "wget https://github.com/valorisa/socat-1.8.0.0_for_Windows/raw/main/socat-1.8.0.0.zip"
     )
 
     # Imprime los últimos argumentos de cada comando

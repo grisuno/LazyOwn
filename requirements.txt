@@ -15,3 +15,4 @@ pyarrow
 keyboard
 flask-unsign
 name-that-hash
+certipy-ad

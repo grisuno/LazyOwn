@@ -77,12 +77,126 @@ discover_network() {
 	echo "    [+] Descubriendo la red local..."
 	local subnet=$(ip -o -f inet addr show | awk '/scope global/ {print $4}')
 	for net in $subnet; do
+		net_sanitized=$(echo "$net" | tr '/' '_')
 		echo "    [-] Escaneando la subred $net..."
-		sudo nmap -sn $net -oG network_discovery
+		sudo nmap -sn $net -oG network_discovery -oN "sessions/scan_discovery_${net_sanitized}.nmap" --stylesheet "$ARCHIVO" -oX "sessions/scan_discovery_${net_sanitized}.nmap.xml"
 		echo "    [+] Hosts activos en la red $net:"
 		grep "Up" network_discovery | awk '{print $2}'
 	done
 }
+
+# Buscar archivos .xml en el directorio
+for xmlfile in "$DIRECTORIO"/*.xml; do
+    # Obtener el nombre base del archivo sin la extensión
+	echo "$xmlfile"
+    base_name=$(basename "$xmlfile" .xml)
+    echo "$base_name"
+    # Verificar que existe el archivo .nmap correspondiente
+    nmapfile="$DIRECTORIO/$base_name"
+    if [[ -f "$nmapfile" ]]; then
+        # Ejecutar xsltproc y generar el archivo HTML
+        htmlfile="$DIRECTORIO/$base_name.html"
+        xsltproc -o "$htmlfile" "$ARCHIVO" "$xmlfile"
+        echo "    [+] Generado reporte HTML: $htmlfile"
+    else
+        echo "    [-] Archivo .nmap no encontrado para $xmlfile"
+    fi
+done
+
+OUTPUT_HTML="./sessions/index2.html"
+
+# Crear el inicio del archivo HTML
+cat <<EOL > $OUTPUT_HTML
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚠ LazyOwn ⚠ Framwork 👽 WebServer ☠ [;,;] </title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+		body {
+			display: flex;
+			min-height: 100vh;
+			background-color: #2b2b2b;
+			color: #a9b7c6;
+			font-family: Arial, sans-serif;
+		}
+		.sidebar {
+			min-width: 350px;
+			max-width: 350px;
+			background-color: #3c3f41;
+			padding: 15px;
+		}
+		.content {
+			flex: 1;
+			padding: 15px;
+			background-color: #2b2b2b;
+			color: #a9b7c6;
+		}
+		.sidebar a {
+			display: block;
+			padding: 10px;
+			color: #a9b7c6;
+			text-decoration: none;
+		}
+		.sidebar a:hover {
+			background-color: #007bff;
+			color: #ffffff;
+		}
+
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Reportes Nmap 👽</h2>
+EOL
+
+# Añadir enlaces al menú lateral para archivos .html
+for file in "$DIRECTORIO"/*.html; do
+    if [[ -f "$file" ]]; then
+        file_name=$(basename "$file")
+        echo "        <a href=\"$file_name\">$file_name</a>" >> $OUTPUT_HTML
+    fi
+done
+
+# Continuar con el contenido del archivo HTML
+cat <<EOL >> $OUTPUT_HTML
+    </div>
+    <div class="content">
+        <h2>⚠ LazyOwn ⚠ Framwork 👽 WebServer ☠ [;,;] </h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Nombre del Archivo</th>
+                </tr>
+            </thead>
+            <tbody>
+EOL
+
+# Añadir filas a la tabla con la información de todos los archivos
+for file in "$DIRECTORIO"/*; do
+    if [[ -f "$file" ]]; then
+        file_name=$(basename "$file")
+
+        echo "                <tr>" >> $OUTPUT_HTML
+        echo "                    <td><a href='$file_name'>$file_name</a></td>" >> $OUTPUT_HTML
+
+        echo "                </tr>" >> $OUTPUT_HTML
+    fi
+done
+
+# Finalizar el archivo HTML
+cat <<EOL >> $OUTPUT_HTML
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+EOL
+
+echo "Archivo HTML generado: $OUTPUT_HTML"
+
 
 if [ "$DISCOVER_NETWORK" = true ]; then
 	discover_network
@@ -94,7 +208,7 @@ START_TIME=$(date +%s)
 
 # Realizar el escaneo inicial para encontrar puertos abiertos
 echo "    [-] Realizando escaneo inicial para encontrar puertos abiertos..."
-sudo nmap -p- --open -sS --min-rate 5000 -vvv -n -Pn $TARGET -oG puertos
+sudo nmap -p- --open -sS --min-rate 5000 -vvv -n -Pn $TARGET -oG puertos -oN "sessions/scan_${TARGET}.nmap" --stylesheet "$ARCHIVO" -oX "sessions/scan_${TARGET}.nmap.xml"
 
 # Extraer la información de puertos y direcciones IP del archivo de resultados de Nmap
 extract_ports_info() {
@@ -179,8 +293,9 @@ echo "    +------------+--------------------------------------------------------
 # Buscar archivos .xml en el directorio
 for xmlfile in "$DIRECTORIO"/*.xml; do
     # Obtener el nombre base del archivo sin la extensión
+	echo "$xmlfile"
     base_name=$(basename "$xmlfile" .xml)
-    
+    echo "$base_name"
     # Verificar que existe el archivo .nmap correspondiente
     nmapfile="$DIRECTORIO/$base_name"
     if [[ -f "$nmapfile" ]]; then
@@ -192,6 +307,101 @@ for xmlfile in "$DIRECTORIO"/*.xml; do
         echo "    [-] Archivo .nmap no encontrado para $xmlfile"
     fi
 done
+
+OUTPUT_HTML="./sessions/index2.html"
+
+# Crear el inicio del archivo HTML
+cat <<EOL > $OUTPUT_HTML
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚠ LazyOwn ⚠ Framwork 👽 WebServer ☠ [;,;] </title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+		body {
+			display: flex;
+			min-height: 100vh;
+			background-color: #2b2b2b;
+			color: #a9b7c6;
+			font-family: Arial, sans-serif;
+		}
+		.sidebar {
+			min-width: 350px;
+			max-width: 350px;
+			background-color: #3c3f41;
+			padding: 15px;
+		}
+		.content {
+			flex: 1;
+			padding: 15px;
+			background-color: #2b2b2b;
+			color: #a9b7c6;
+		}
+		.sidebar a {
+			display: block;
+			padding: 10px;
+			color: #a9b7c6;
+			text-decoration: none;
+		}
+		.sidebar a:hover {
+			background-color: #007bff;
+			color: #ffffff;
+		}
+
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Reportes Nmap 👽</h2>
+EOL
+
+# Añadir enlaces al menú lateral para archivos .html
+for file in "$DIRECTORIO"/*.html; do
+    if [[ -f "$file" ]]; then
+        file_name=$(basename "$file")
+        echo "        <a href=\"$file_name\">$file_name</a>" >> $OUTPUT_HTML
+    fi
+done
+
+# Continuar con el contenido del archivo HTML
+cat <<EOL >> $OUTPUT_HTML
+    </div>
+    <div class="content">
+        <h2>⚠ LazyOwn ⚠ Framwork 👽 WebServer ☠ [;,;] </h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Nombre del Archivo</th>
+                </tr>
+            </thead>
+            <tbody>
+EOL
+
+# Añadir filas a la tabla con la información de todos los archivos
+for file in "$DIRECTORIO"/*; do
+    if [[ -f "$file" ]]; then
+        file_name=$(basename "$file")
+
+        echo "                <tr>" >> $OUTPUT_HTML
+        echo "                    <td><a href='$file_name'>$file_name</a></td>" >> $OUTPUT_HTML
+
+        echo "                </tr>" >> $OUTPUT_HTML
+    fi
+done
+
+# Finalizar el archivo HTML
+cat <<EOL >> $OUTPUT_HTML
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+EOL
+
+echo "Archivo HTML generado: $OUTPUT_HTML"
+
 
 # Medir el tiempo de finalización
 END_TIME=$(date +%s)

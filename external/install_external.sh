@@ -38,8 +38,8 @@ download() {
         "git clone https://github.com/r3motecontrol/Ghostpack-CompiledBinaries .exploit/Ghostpack-CompiledBinaries"
         "git clone https://github.com/topotam/PetitPotam.git .exploit/PetitPotam"
         "git clone https://github.com/samratashok/nishang.git .exploit/nishang"
+        "git clone https://github.com/antonioCoco/RunasCs.git .exploit/runascs"
     )
-
     # Imprime los últimos argumentos de cada comando
     echo "    [+] Seleccione el número del comando que desea clonar:"
     for i in "${!commands[@]}"; do

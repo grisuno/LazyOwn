@@ -1108,6 +1108,11 @@ class LazyOwnShell(Cmd):
             if line.startswith("sub"):
                 params = line.split(' ')
                 count = len(params)
+                
+                if count == 1:
+                    print_error(f"you pust pass the dommain like argument ex:{GREEN} wfuzz sub box.htb")
+                    return
+
                 arg1 = params[0]
                 domain = params[1]
                 if count > 2:

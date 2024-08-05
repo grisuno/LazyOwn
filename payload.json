@@ -18,7 +18,7 @@
   "mode": "attack",
   "reverse_shell_port": 4444,
   "path": "/example/path",
-  "rhost": "10.10.11.17",
+  "rhost": "10.10.11.26",
   "lhost": "10.10.14.94",
   "rport": 5555,
   "lport": 5555,

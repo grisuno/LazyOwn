@@ -1772,6 +1772,25 @@ class LazyOwnShell(Cmd):
             print_msg(f"{CYAN}{ip}{YELLOW}:{RED}{port}{RESET}")    
         return
 
+    def do_ssh(self, line):
+        """Conecta a un host SSH usando credenciales desde un archivo y el puerto especificado."""
+        rhost = self.params['rhost']
+        if not check_rhost(rhost):
+            return
+
+        rport = line  # El puerto será proporcionado como argumento 'line'
+        credentials_file = "./sessions/credentials.txt"  
+        if not os.path.exists:
+            print_error("sessions/creadentials.txt must exist ex: createcredentials user:password ")
+            return
+            
+        with open(credentials_file, 'r') as file:
+            for line in file:
+                user, passwd = line.strip().split(':')
+                command = f"sshpass -p {passwd} ssh -o StrictHostKeyChecking=no -p {rport} {user}@{rhost}"
+                print_msg(command)
+                os.system(command)
+        return
     def do_cports(self, line):
         """Genera un comando para mostrar puertos TCP y UDP, y lo copia al portapapeles."""
 

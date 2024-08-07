@@ -22,7 +22,7 @@ def extract_functions_and_comments(script_path):
 
 def generate_readme(functions, output_path):
     with open(output_path, "w") as file:
-        file.write("# Documentation\n\n")
+        file.write("# Documentation by readmeneitor.py\n\n")
         for func_name, docstring in functions:
             file.write(f"## {func_name}\n")
             file.write(

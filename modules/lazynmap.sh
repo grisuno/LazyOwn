@@ -195,7 +195,7 @@ cat <<EOL >> $OUTPUT_HTML
 </html>
 EOL
 
-echo "Archivo HTML generado: $OUTPUT_HTML"
+echo "    [*] Archivo HTML generado: $OUTPUT_HTML"
 
 
 if [ "$DISCOVER_NETWORK" = true ]; then
@@ -400,7 +400,7 @@ cat <<EOL >> $OUTPUT_HTML
 </html>
 EOL
 
-echo "Archivo HTML generado: $OUTPUT_HTML"
+echo "    [*] Archivo HTML generado: $OUTPUT_HTML"
 
 
 # Medir el tiempo de finalización

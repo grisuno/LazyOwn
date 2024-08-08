@@ -32,6 +32,6 @@ def generate_readme(functions, output_path):
 
 if __name__ == "__main__":
     script_path = "/home/gris/LazyOwn/lazyown"  # Cambia esto por la ruta de tu script
-    output_path = "README1.md"
+    output_path = "COMMANDS.md"
     functions = extract_functions_and_comments(script_path)
     generate_readme(functions, output_path)

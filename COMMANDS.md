@@ -10,37 +10,37 @@ funcion para imprimir un msg
 funcion para imprimir un warn
 
 ## signal_handler
-No description available.
+signal_handler it's to handle signal  of  control + c and show a message , how to exit, using , exit, q or qa commands. 
 
 ## check_rhost
-chek if rhost is defined
+chek if rhost is defined. and show a mesage of error if not
 
 ## check_lhost
-chek if lhost is defined
+chek if lhost is defined. and show a mesage of error if not
 
 ## check_lport
-chek if lport is defined
+chek if lport is defined. and show a mesage of error if not
 
 ## is_binary_present
-No description available.
+internal function to verify if binary is presents in O.S.
 
 ## handle_multiple_rhosts
-No description available.
+internal function to implement multiples rhost to operate. 
 
 ## check_sudo
-No description available.
+chek if is sudo privileges, and if not respawn the script with sudo privileges. 
 
 ## activate_virtualenv
-No description available.
+Ejecutar el shell interactivo con el entorno virtual activado
 
 ## parse_proc_net_file
-No description available.
+internal function to parse proc/net file
 
 ## get_open_ports
-No description available.
+internal function to get open ports in the O.S.
 
 ## find_credentials
-No description available.
+Expresión regular para encontrar posibles credenciales
 
 ## xor_encrypt_decrypt
 XOR Encrypt or Decrypt data with a given key
@@ -49,13 +49,13 @@ XOR Encrypt or Decrypt data with a given key
 No description available.
 
 ## __init__
-No description available.
+Inicializador de la clase LazyOwnShell
 
 ## default
 Handle undefined commands (including aliases).
 
 ## one_cmd
-No description available.
+internal function to execute commands
 
 ## set
 Set a parameter value. Usage: set <parameter> <value>
@@ -70,91 +70,91 @@ List all available scripts in modules directory, they can use apart from the fra
 Run a specific LazyOwn script to see all scripts to run see: list or help list
 
 ## lazysearch
-No description available.
+Run internal module modules/lazysearch.py 
 
 ## lazysearch_gui
-No description available.
+Run internal module modules/LazyOwnExplorer.py
 
 ## lazyown
-No description available.
+Run internal module modules/lazyown.py
 
 ## update_db
-No description available.
+Run internal module modules/update_db.sh to update the db of binary exploitables from gtofbins
 
 ## lazynmap
-No description available.
+Run internal module modules/lazynmap.sh implements multiple scans with nmap
 
 ## lazywerkzeugdebug
-test werkzeug in debugmode
+test werkzeug in debugmode Run internal module modules/lazywerkzeug.py
 
 ## lazygath
-No description available.
+Run internal module modules/lazygat.sh
 
 ## lazynmapdiscovery
-No description available.
+Run internal module modules/lazynmap.sh implements multiple scans with nmap
 
 ## lazysniff
-No description available.
+Run internal module modules/lazysniff.py
 
 ## lazyftpsniff
-No description available.
+Run internal module modules/lazyftpsniff.py
 
 ## lazynetbios
-No description available.
+Run internal module modules/lazynetbios.py
 
 ## lazyhoneypot
-No description available.
+Run internal module modules/lazyhoneypot.py
 
 ## lazygptcli
-No description available.
+Run internal module modules/lazygptcli.py
 
 ## lazysearch_bot
-No description available.
+Run internal module modules/lazysearch_bot.py
 
 ## lazymetaextract0r
-No description available.
+Run internal module modules/lazyown_metaextract0r.py
 
 ## lazyownratcli
-No description available.
+Run internal module modules/lazyownclient.py
 
 ## lazyownrat
-No description available.
+Run internal module modules/lazyownserver.py
 
 ## lazybotnet
-No description available.
+Run internal module modules/lazybotnet.py
 
 ## lazylfi2rce
-No description available.
+Run internal module modules/lazylfi2rce.py
 
 ## lazylogpoisoning
-No description available.
+Run internal module modules/lazylogpoisoning.py
 
 ## lazybotcli
-No description available.
+Run internal module modules/lazybotcli.py
 
 ## lazyssh77enum
-No description available.
+Run internal module modules/lazybrutesshuserenum.py
 
 ## lazyburpfuzzer
-No description available.
+Run internal module modules/lazyown_burpfuzzer.py
 
 ## lazyreverse_shell
-No description available.
+Run internal module modules/lazyreverse_shell.sh
 
 ## lazyarpspoofing
-No description available.
+Run internal module modules/lazyarpspoofing.py
 
 ## lazyattack
-No description available.
+Run internal module modules/lazyatack.sh
 
 ## lazymsfvenom
-No description available.
+Run alias of msfvenom alias venom
 
 ## lazyaslrcheck
-No description available.
+Aslr check if is active 
 
 ## lazypathhijacking
-No description available.
+create a pathhijacking attack
 
 ## script
 Run a script with the given arguments
@@ -229,7 +229,7 @@ openssl s_client -connect  10.10.10.10
 searchsploit alias
 
 ## wfuzz
-lazy alias to wfuzz
+lazy alias to wfuzz parameters are sub, iis and extra options to wfuzz ex --hl=7 to hide when are 7 lines of response, etc
 
 ## gobuster
 Lazy gobuster
@@ -372,6 +372,9 @@ Genera un comando para mostrar puertos TCP y UDP, y lo copia al portapapeles.
 ## vpn
 Open vpn like htb vpn
 
+## id_rsa
+create id_rsa file, open nano sessions/id_rsa, usage like this: id_rsa username, open nano and you paste the private key, and run ssh command
+
 ## www
 Start a web server with python3
 
@@ -383,6 +386,9 @@ impacket-samrdump -port 445 10.10.10.10
 
 ## snmpcheck
 snmp-check 10.10.10.10
+
+## smtpuserenum
+sudo smtp-user-enum -M VRFY -U /usr/share/wordlists/SecLists-master/Usernames/xato-net-10-million-usernames.txt -t 10.10.10.10
 
 ## sshd
 sudo systemctl start ssh

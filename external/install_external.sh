@@ -41,11 +41,12 @@ download() {
         "git clone https://github.com/antonioCoco/RunasCs.git .exploit/runascs"
         "git clone https://github.com/l0n3m4n/CVE-2024-6387.git .exploit/CVE-2024-6387"
         "git clone https://github.com/Syzik/DockerRegistryGrabber.git .exploit/DockerRegistryGrabber"
+        "git clone https://github.com/ch4n3-yoon/django-pickleserializer-rce-poc.git .exploit/django-pickleserializer-rce-poc"
     )
     # Imprime los últimos argumentos de cada comando
     echo "    [+] Seleccione el número del comando que desea clonar:"
     for i in "${!commands[@]}"; do
-        echo "$i: ${commands[$i]##* }"
+        echo "    [º] $i: ${commands[$i]##* }"
     done
 
     # Solicita al usuario que ingrese el número del comando que desea ejecutar
@@ -64,7 +65,7 @@ download
 read -p "    [-] ¿Deseas salir del script? (s/n): " respuesta
 
 if [[ "$respuesta" == "s" || "$respuesta" == "S" ]]; then
-    echo "Saliendo del script..."
+    echo "    [-] Saliendo del script..."
     exit 0
 else
     download

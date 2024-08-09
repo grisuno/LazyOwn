@@ -305,6 +305,9 @@ class LazyOwnShell(Cmd):
     else:
         intro = f"""    {YELLOW}[*] Welcome to the LazyOwn Framework [;,;] {BLUE}{version} 
     {WHITE}[*] interactive s{RED}H{WHITE}ell! Type ? to list commands{BLUE}
+    {RED}[!] Please do not use in military or secret service organizations, 
+    {RED}[!] or for illegal purposes (this is non-binding, 
+    {RED}[!] these *** ignore laws and ethics anyway){BLUE}
     {GREEN}[+] Github: {BLUE}{UNDERLINE}https://github.com/grisuno/LazyOwn{RESET}
     {GREEN}[+] Web: {BLUE}{UNDERLINE}https://grisuno.github.io/LazyOwn/{RESET}
     {GREEN}[+] Reddit: {BLUE}{UNDERLINE}https://www.reddit.com/r/LazyOwn/{RESET}
@@ -2214,6 +2217,27 @@ class LazyOwnShell(Cmd):
         os.system(f"snmp-check {rhost}")
         return
 
+    def do_hydra(self, line):
+        """hydra -f -L sessions/users.txt -P /usr/share/wordlists/rockyou.txt 10.10.11.9 -s 5000 https-get /v2/"""
+        rhost = self.params["rhost"]
+        wordlist = self.params["wordlist"]
+        if not wordlist:
+            print_error("you need load the payload using p or payload or set wordlist /oath/to/wordlist")
+            return
+        if not check_rhost(rhost):
+            return
+        if not line:
+            print_error("you need pass the path to crack and the port example hydra /login/ 8080")
+            return
+        args = line.split(" ")
+        
+        if len(args) < 2:
+            print_error("you need pass the path to crack and the port example hydra /login/ 8080")
+            return
+        print_msg(f"Try... hydra -f -L sessions/users.txt -P {wordlist} {rhost} -s {args[1]} https-get {args[0]}")
+        os.system(f"hydra -f -L sessions/users.txt -P {wordlist} {rhost} -s {args[1]} https-get {args[0]}")
+        return
+
     def do_smtpuserenum(self, line):
         """sudo smtp-user-enum -M VRFY -U /usr/share/wordlists/SecLists-master/Usernames/xato-net-10-million-usernames.txt -t 10.10.10.10"""
         rhost = self.params["rhost"]
@@ -2244,6 +2268,19 @@ class LazyOwnShell(Cmd):
         os.system(f"nmap --script-help '{line}*'")
         print_msg(
             f"now you can run : {MAGENTA} sh sudo nmap -sCV -p <port> --script <script1,script2 <ip> {RESET}"
+        )
+        return
+
+    def do_searchhash(self, line):
+        """help to know search hashcat hash types: hashcat -h | grep -i <ARGUMENT>"""
+        if not line:
+            print_error("you must pass the hash type to find by argument.")
+            return
+
+        print_msg(f"Try... hashcat -h | grep -i {line}{RESET}")
+        os.system(f"hashcat -h | grep -i {line}")
+        print_msg(
+            f"now you can run : {MAGENTA} hashcat NNN sessions/hash.txt {RESET}"
         )
         return
 

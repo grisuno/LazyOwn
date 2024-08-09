@@ -1,3 +1,24 @@
+#!/usr/bin/env python3
+# _*_ coding: utf8 _*_
+"""
+main.py
+
+Autor: Gris Iscomeback
+Correo electrónico: grisiscomeback[at]gmail[dot]com
+Fecha de creación: 09/06/2024
+Licencia: GPL v3
+
+Descripción: Este archivo contiene la definición de las rutas y la lógica de la aplicación de readmineitor creador de documentaciòn automatizada
+
+██╗      █████╗ ███████╗██╗   ██╗ ██████╗ ██╗    ██╗███╗   ██╗
+██║     ██╔══██╗╚══███╔╝╚██╗ ██╔╝██╔═══██╗██║    ██║████╗  ██║
+██║     ███████║  ███╔╝  ╚████╔╝ ██║   ██║██║ █╗ ██║██╔██╗ ██║
+██║     ██╔══██║ ███╔╝    ╚██╔╝  ██║   ██║██║███╗██║██║╚██╗██║
+███████╗██║  ██║███████╗   ██║   ╚██████╔╝╚███╔███╔╝██║ ╚████║
+╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
+
+"""
+
 import ast
 
 

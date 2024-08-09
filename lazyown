@@ -51,6 +51,7 @@ def print_warn(warn):
 
 
 def signal_handler(sig, frame):
+    """ signal_handler it's to handle signal  of  control + c and show a message , how to exit, using , exit, q or qa commands. """
     global should_exit
     print_warn(
         f"{RED}{YELLOW} para salir usar el comando{GREEN} exit, q or qa ...{RESET}"
@@ -63,7 +64,7 @@ signal.signal(signal.SIGINT, signal_handler)
 
 
 def check_rhost(rhost):
-    """chek if rhost is defined"""
+    """chek if rhost is defined. and show a mesage of error if not"""
     if not rhost:
         print_error(
             f"rhost must be set, {GREEN}Example: set rhost 10.10.10.10, {WHITE}more info see help set, or help <TOPIC> {RESET}"
@@ -73,7 +74,7 @@ def check_rhost(rhost):
 
 
 def check_lhost(lhost):
-    """chek if lhost is defined"""
+    """chek if lhost is defined. and show a mesage of error if not"""
     if not lhost:
         print_error(
             f"lhost must be set, {GREEN}Example: set lhost 10.10.10.10, {WHITE}more info see help set, or help <TOPIC> {RESET}"
@@ -83,7 +84,7 @@ def check_lhost(lhost):
 
 
 def check_lport(lport):
-    """chek if lport is defined"""
+    """chek if lport is defined. and show a mesage of error if not"""
     if not lport:
         print_error(
             f"lport must be set, {GREEN}Example: set lport 5555, {WHITE}more info see help set, or help <TOPIC> {RESET}"
@@ -93,11 +94,13 @@ def check_lport(lport):
 
 
 def is_binary_present(binary_name):
+    """ internal function to verify if binary is presents in O.S."""
     result = os.system(f"which {binary_name} > /dev/null 2>&1")
     return result == 0
 
 
 def handle_multiple_rhosts(func):
+    """ internal function to implement multiples rhost to operate. """
     def wrapper(self, *args, **kwargs):
         rhosts = self.params["rhost"]
         if isinstance(rhosts, str):
@@ -116,6 +119,7 @@ def handle_multiple_rhosts(func):
 
 # Verificar y relanzar con sudo si es necesario
 def check_sudo():
+    """ chek if is sudo privileges, and if not respawn the script with sudo privileges. """
     if os.geteuid() != 0:
         print_warn(
             "Este script necesita permisos de superusuario. Relanzando con sudo..."
@@ -125,7 +129,7 @@ def check_sudo():
 
 
 def activate_virtualenv(venv_path):
-    # Ejecutar el shell interactivo con el entorno virtual activado
+    """Ejecutar el shell interactivo con el entorno virtual activado"""
     process = subprocess.Popen(
         ["bash", "-c", f"source {venv_path}/bin/activate && exec bash"],
         stdin=subprocess.PIPE,
@@ -140,6 +144,7 @@ def activate_virtualenv(venv_path):
 
 
 def parse_proc_net_file(file_path):
+    """internal function to parse proc/net file"""
     ports = []
     try:
         with open(file_path, "r") as f:
@@ -169,6 +174,7 @@ def parse_proc_net_file(file_path):
 
 
 def get_open_ports():
+    """internal function to get open ports in the O.S."""
     tcp_ports = parse_proc_net_file("/proc/net/tcp")
     udp_ports = parse_proc_net_file("/proc/net/udp")
 
@@ -176,7 +182,7 @@ def get_open_ports():
 
 
 def find_credentials(directory):
-    # Expresión regular para encontrar posibles credenciales
+    """Expresión regular para encontrar posibles credenciales"""
     regex = re.compile(
         r"(password|passwd|secret|api_key|token)[\s:=]*[\w\d]{6,}", re.IGNORECASE
     )
@@ -229,7 +235,7 @@ COMMAND = None
 RUN_AS_ROOT = False
 
 
-BANNER = f"""{GREEN}
+BANNER = f"""{WHITE}{BG_BLACK}
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣠⡤⠴⠶⠖⠒⠛⠛⠀⠀⠀⠒⠒⢰⠖⢠⣤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣭⠷⠞⠉⠫⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠁⠀⠈⠉⠒⠲⠤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣿⣿⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠲⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -252,7 +258,7 @@ BANNER = f"""{GREEN}
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⣿⣿⣿⣿⣿⣿⣶⣄⣀⣀⣀⡀⠀⢀⠀⠀⣠⡼⣋⣪⣾⡿⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⡟⠙⡀⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠛⡿⡁⡟⣡⢀⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⣿⣿⣿⣿⣿⣿⣿⣿⡟⠉⢛⠀⣸⠆⠈⠹⠀⠀⠀⠀⠀⠀⠀{RED}⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⣿⣿⣿⣿⣿⣿⣿⣿⡟⠉⢛⠀⣸⠆⠈⠹⠀⠀⠀⠀⠀⠀⠀{RED}{BG_BLACK}
     ██▓    ▄▄▄      ▒███████▒▓██   ██▓ ▒█████   █     █░███▄    █                
     ▓██▒   ▒████▄    ▒ ▒ ▒ ▄▀░ ▒██  ██▒▒██▒  ██▒▓█░ █ ░█░██ ▀█   █                
     ▒██░   ▒██  ▀█▄  ░ ▒ ▄▀▒░   ▒██ ██░▒██░  ██▒▒█░ █ ░█▓██  ▀█ ██▒               
@@ -316,7 +322,8 @@ class LazyOwnShell(Cmd):
     if NOBANNER:
         intro = ""
     else:
-        intro = f"""    {YELLOW}[*] Welcome to the LazyOwn Framework [;,;] {BLUE}{version} {WHITE}interactive s{RED}H{WHITE}ell! Type ? to list commands{BLUE}
+        intro = f"""    {YELLOW}[*] Welcome to the LazyOwn Framework [;,;] {BLUE}{version} 
+    {WHITE}[*] interactive s{RED}H{WHITE}ell! Type ? to list commands{BLUE}
     {GREEN}[+] Github: {BLUE}{UNDERLINE}https://github.com/grisuno/LazyOwn{RESET}
     {GREEN}[+] Web: {BLUE}{UNDERLINE}https://grisuno.github.io/LazyOwn/{RESET}
     {GREEN}[+] Reddit: {BLUE}{UNDERLINE}https://www.reddit.com/r/LazyOwn/{RESET}
@@ -344,6 +351,7 @@ class LazyOwnShell(Cmd):
     }
 
     def __init__(self):
+        """Inicializador de la clase LazyOwnShell"""
         super().__init__()
         self.params = {
             "binary_name": "gzip",
@@ -451,6 +459,7 @@ class LazyOwnShell(Cmd):
             print_error(f"{YELLOW} Not Found {BLUE}{line}{RESET}")
 
     def one_cmd(self, command):
+        """internal function to execute commands"""
         self.output = self.get_output
         try:
             self.onecmd(command)  # Ejecuta el comando directamente
@@ -520,6 +529,7 @@ class LazyOwnShell(Cmd):
             print_error(f"Unknown script: {CYAN}{script_name}{RESET}")
 
     def run_lazysearch(self):
+        """Run internal module modules/lazysearch.py """
         binary_name = self.params["binary_name"]
         if not binary_name:
             print_error("binary_name not set")
@@ -527,16 +537,22 @@ class LazyOwnShell(Cmd):
         self.run_script("modules/lazysearch.py", binary_name)
 
     def run_lazysearch_gui(self):
+        """Run internal module modules/LazyOwnExplorer.py"""
         self.run_script("modules/LazyOwnExplorer.py")
+        return
 
     def run_lazyown(self):
+        """Run internal module modules/lazyown.py"""
         self.run_script("modules/lazyown.py")
+        return
 
     def run_update_db(self):
+        """Run internal module modules/update_db.sh to update the db of binary exploitables from gtofbins"""
         os.system("./modules/update_db.sh")
         return
 
     def run_lazynmap(self):
+        """Run internal module modules/lazynmap.sh implements multiple scans with nmap"""
         path = os.getcwd()
         target_ip = self.params["rhost"]
         if not target_ip:
@@ -546,7 +562,7 @@ class LazyOwnShell(Cmd):
         return
 
     def run_lazywerkzeugdebug(self):
-        """test werkzeug in debugmode"""
+        """test werkzeug in debugmode Run internal module modules/lazywerkzeug.py"""
         rhost = self.params["rhost"]
         lhost = self.params["lhost"]
         rport = self.params["rport"]
@@ -560,14 +576,19 @@ class LazyOwnShell(Cmd):
         return
 
     def run_lazygath(self):
+        """Run internal module modules/lazygat.sh"""
         path = os.getcwd()
         os.system(f"sudo {path}/modules/lazygat.sh")
+        return
 
     def run_lazynmapdiscovery(self):
+        """Run internal module modules/lazynmap.sh implements multiple scans with nmap"""
         path = os.getcwd()
         os.system(f"{path}/modules/lazynmap.sh -d")
+        return
 
     def run_lazysniff(self):
+        """Run internal module modules/lazysniff.py"""
         env = os.environ.copy()
         env["LANG"] = "en_US.UTF-8"
         env["TERM"] = "xterm-256color"
@@ -581,6 +602,7 @@ class LazyOwnShell(Cmd):
         )
 
     def run_lazyftpsniff(self):
+        """Run internal module modules/lazyftpsniff.py"""
         device = self.params["device"]
         env = os.environ.copy()
         env["LANG"] = "en_US.UTF-8"
@@ -591,12 +613,14 @@ class LazyOwnShell(Cmd):
         subprocess.run(["python3", "modules/lazyftpsniff.py", "-i", device])
 
     def run_lazynetbios(self):
+        """Run internal module modules/lazynetbios.py"""
         startip = self.params["startip"]
         endip = self.params["endip"]
         spoof_ip = self.params["spoof_ip"]
         subprocess.run(["python3", "modules/lazynetbios.py", startip, endip, spoof_ip])
 
     def run_lazyhoneypot(self):
+        """Run internal module modules/lazyhoneypot.py"""
         email_from = self.params["email_from"]
         email_to = self.params["email_to"]
         email_username = self.params["email_username"]
@@ -614,6 +638,7 @@ class LazyOwnShell(Cmd):
         )
 
     def run_lazygptcli(self):
+        """Run internal module modules/lazygptcli.py"""
         prompt = self.params["prompt"]
         api_key = self.params["api_key"]
         if not prompt or not api_key:
@@ -623,6 +648,7 @@ class LazyOwnShell(Cmd):
         self.run_script("modules/lazygptcli.py", "--prompt", prompt)
 
     def run_lazysearch_bot(self):
+        """Run internal module modules/lazysearch_bot.py"""
         prompt = self.params["prompt"]
         api_key = self.params["api_key"]
         if not prompt or not api_key:
@@ -632,6 +658,7 @@ class LazyOwnShell(Cmd):
         self.run_script("modules/lazysearch_bot.py", "--prompt", prompt)
 
     def run_lazymetaextract0r(self):
+        """Run internal module modules/lazyown_metaextract0r.py"""
         path = self.params["path"]
         if not path:
             print_error("Path must be set")
@@ -639,6 +666,7 @@ class LazyOwnShell(Cmd):
         self.run_script("modules/lazyown_metaextract0r.py", "--path", path)
 
     def run_lazyownratcli(self):
+        """Run internal module modules/lazyownclient.py"""
         lhost = self.params["lhost"]
         lport = self.params["lport"]
         rat_key = self.params["rat_key"]
@@ -656,6 +684,7 @@ class LazyOwnShell(Cmd):
         )
 
     def run_lazyownrat(self):
+        """Run internal module modules/lazyownserver.py"""
         rhost = self.params["rhost"]
         rport = self.params["rport"]
         rat_key = self.params["rat_key"]
@@ -673,6 +702,7 @@ class LazyOwnShell(Cmd):
         )
 
     def run_lazybotnet(self):
+        """Run internal module modules/lazybotnet.py"""
         rhost = "0.0.0.0"
         rport = self.params["rport"]
         rat_key = self.params["rat_key"]
@@ -690,6 +720,7 @@ class LazyOwnShell(Cmd):
         )
 
     def run_lazylfi2rce(self):
+        """Run internal module modules/lazylfi2rce.py"""
         rhost = self.params["rhost"]
         rport = self.params["rport"]
         lhost = self.params["lhost"]
@@ -724,6 +755,7 @@ class LazyOwnShell(Cmd):
         )
 
     def run_lazylogpoisoning(self):
+        """Run internal module modules/lazylogpoisoning.py"""
         rhost = self.params["rhost"]
         lhost = self.params["lhost"]
 
@@ -735,6 +767,7 @@ class LazyOwnShell(Cmd):
         )
 
     def run_lazybotcli(self):
+        """Run internal module modules/lazybotcli.py"""
         rhost = "0.0.0.0"
         rport = self.params["rport"]
         rat_key = self.params["rat_key"]
@@ -752,6 +785,7 @@ class LazyOwnShell(Cmd):
         )
 
     def run_lazyssh77enum(self):
+        """Run internal module modules/lazybrutesshuserenum.py"""
         wordlist = self.params["usrwordlist"]
         rhost = self.params["rhost"]
         if not wordlist or not rhost:
@@ -764,6 +798,7 @@ class LazyOwnShell(Cmd):
         os.system(f"{path}/modules/lazybrutesshuserenum.sh {wordlist} {rhost}")
 
     def run_lazyburpfuzzer(self):
+        """Run internal module modules/lazyown_burpfuzzer.py"""
         url = self.params["url"]
         method = self.params["method"]
         headers = self.params["headers"]
@@ -818,6 +853,7 @@ class LazyOwnShell(Cmd):
         return
 
     def run_lazyreverse_shell(self):
+        """Run internal module modules/lazyreverse_shell.sh"""
         ip = self.params["rhost"]
         port = self.params["reverse_shell_port"]
         path = os.getcwd()
@@ -830,6 +866,7 @@ class LazyOwnShell(Cmd):
         return
 
     def run_lazyarpspoofing(self):
+        """Run internal module modules/lazyarpspoofing.py"""
         lhost = self.params["lhost"]
         rhost = self.params["rhost"]
         device = self.params["device"]
@@ -840,6 +877,7 @@ class LazyOwnShell(Cmd):
         return
 
     def run_lazyattack(self):
+        """Run internal module modules/lazyatack.sh"""
         path = os.getcwd()
         mode = self.params["mode"]
         target_ip = self.params["rhost"]
@@ -853,6 +891,7 @@ class LazyOwnShell(Cmd):
         return
 
     def run_lazymsfvenom(self):
+        """Run alias of msfvenom alias venom"""
         lhost = self.params["lhost"]
         lport = self.params["lport"]
         path = os.getcwd()
@@ -903,6 +942,7 @@ class LazyOwnShell(Cmd):
         return
 
     def run_lazyaslrcheck(self):
+        """Aslr check if is active """
         print_msg(
             f"{GREEN}Attemp to cat /proc/sys/kernel/randomize_va_space to ksnow if ASLR is active{RESET}"
         )
@@ -917,14 +957,22 @@ class LazyOwnShell(Cmd):
         return
 
     def run_lazypathhijacking(self):
+        """create a pathhijacking attack"""
         binary_name = self.params["binary_name"]
         if not binary_name:
             print_msg("binary_name must be set")
             return
+        
         os.system(f"echo {binary_name} >> modules/tmp.sh")
         os.system(f"cp modules/tmp.sh /tmp/{binary_name}")
         os.system(f"chmod +x /tmp/{binary_name}")
         os.system("export PATH=/tmp:$PATH")
+        
+        print_msg(f"echo {binary_name} >> modules/tmp.sh")
+        print_msg(f"cp modules/tmp.sh /tmp/{binary_name}")
+        print_msg(f"chmod +x /tmp/{binary_name}")
+        print_msg("export PATH=/tmp:$PATH")
+        
         print_msg(
             f"Lazy path hijacking with binary_name: {binary_name} to set u+s to /bin/bash"
         )
@@ -1202,7 +1250,7 @@ class LazyOwnShell(Cmd):
         os.system(f"searchsploit {line}")
 
     def do_wfuzz(self, line):
-        """lazy alias to wfuzz"""
+        """lazy alias to wfuzz parameters are sub, iis and extra options to wfuzz ex --hl=7 to hide when are 7 lines of response, etc"""
         dirwordlist = self.params["dirwordlist"]
         rhost = self.params["rhost"]
         if not rhost or not dirwordlist:
@@ -1213,6 +1261,10 @@ class LazyOwnShell(Cmd):
             if line.startswith("sub"):
                 params = line.split(" ")
                 count = len(params)
+                dnswordlist = self.params['dnswordlist']
+                if not dnswordlist:
+                    print_error("use payload or p to load the parameter from payload.json, or just set dnswordlist path/to/dnswordlist")
+                    return
 
                 if count == 1:
                     print_error(
@@ -1227,10 +1279,10 @@ class LazyOwnShell(Cmd):
                 else:
                     arg3 = ""
                 print_msg(
-                    f"Try ...  wfuzz -c {arg3} -t 200 -w {dirwordlist} -H 'Host: FUZZ.{domain}' {domain} {RESET}"
+                    f"Try ...  wfuzz -c {arg3} -t 200 -w {dnswordlist} -H 'Host: FUZZ.{domain}' {domain} {RESET}"
                 )
                 os.system(
-                    f"wfuzz -c {arg3} -t 200 -w {dirwordlist} -H 'Host: FUZZ.{domain}' {domain}"
+                    f"wfuzz -c {arg3} -t 200 -w {dnswordlist} -H 'Host: FUZZ.{domain}' {domain}"
                 )
                 return
 
@@ -1239,11 +1291,11 @@ class LazyOwnShell(Cmd):
                 print_msg(params)
                 count = len(params)
                 arg1 = params[0]
+                iiswordlist = "/usr/share/wordlists/SecLists-master/Discovery/Web-Content/IIS.fuzz.txt" # dont know why this line dont work ... self.params['iiswordlist']
 
-                dirwordlist = "/usr/share/wordlists/SecLists-master/Discovery/Web-Content/IIS.fuzz.txt"
-                if not os.path.exists(dirwordlist):
+                if not os.path.exists(iiswordlist):
                     print_error(
-                        f"you must have file {dirwordlist} use the command: getseclist"
+                        f"you must have file iiswordlist use the command: getseclist, use p or payload to load parameters from payload.json, or just set iiswordlist /pat/to/iiswordlist"
                     )
                     return
                 # Abre el archivo en modo de lectura
@@ -1252,10 +1304,10 @@ class LazyOwnShell(Cmd):
                 else:
                     arg3 = ""
                 print_msg(
-                    f"Try ...  wfuzz -c {arg3} -t 200 -w {dirwordlist} http://{rhost}/FUZZ {RESET}"
+                    f"Try ...  wfuzz -c {arg3} -t 200 -w {iiswordlist} http://{rhost}/FUZZ {RESET}"
                 )
                 os.system(
-                    f"wfuzz -c {arg3} -t 200 -w {dirwordlist} http://{rhost}/FUZZ"
+                    f"wfuzz -c {arg3} -t 200 -w {iiswordlist} http://{rhost}/FUZZ"
                 )
                 return
 
@@ -2099,6 +2151,22 @@ class LazyOwnShell(Cmd):
         print_msg(f"{YELLOW} Shutdown vpn {RED} [;,;] {RESET}")
         return
 
+    def do_id_rsa(self, line):
+        """create id_rsa file, open nano sessions/id_rsa, usage like this: id_rsa username, open nano and you paste the private key, and run ssh command"""
+        rhost = self.params["rhost"]
+        if not check_rhost(rhost):
+            return
+        if not line:
+            print_error(f"must pass the user by argument like:{GREEN} id_rsa username")
+            return
+        file = f"sessions/id_rsa_{line}"
+        print_msg(f"Try... nano {file}")
+        os.system(f"nano {file} && chmod 400 {file}")
+        print_msg(f"{YELLOW} Conecting to ssh {line}@{rhost} -i {file} {RED}[;,;] {RESET}")
+        os.system(f"ssh {line}@{rhost} -i {file}")
+        print_warn("ssh conection closed")
+        return
+
     def do_www(self, line):
         """Start a web server with python3"""
         os.system(
@@ -2163,6 +2231,19 @@ class LazyOwnShell(Cmd):
 
         print_msg(f"Try... snmp-check {rhost}")
         os.system(f"snmp-check {rhost}")
+        return
+
+    def do_smtpuserenum(self, line):
+        """sudo smtp-user-enum -M VRFY -U /usr/share/wordlists/SecLists-master/Usernames/xato-net-10-million-usernames.txt -t 10.10.10.10"""
+        rhost = self.params["rhost"]
+        usrwordlist = self.params['usrwordlist']
+        if not check_rhost(rhost):
+            return
+        if not usrwordlist:
+            print_error("use p or payload to load payloads parameters")
+            return
+        print_msg(f"Try... sudo smtp-user-enum -M VRFY -U {usrwordlist} -t {rhost}")
+        os.system(f"sudo smtp-user-enum -M VRFY -U {usrwordlist} -t {rhost}")
         return
 
     def do_sshd(self, line):

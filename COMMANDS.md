@@ -46,7 +46,7 @@ Expresión regular para encontrar posibles credenciales
 XOR Encrypt or Decrypt data with a given key
 
 ## wrapper
-wrapper of internal function to implement multiples rhost to operate. 
+internal wrapper of internal function to implement multiples rhost to operate. 
 
 ## __init__
 Inicializador de la clase LazyOwnShell
@@ -387,6 +387,9 @@ impacket-samrdump -port 445 10.10.10.10
 ## snmpcheck
 snmp-check 10.10.10.10
 
+## hydra
+hydra -f -L sessions/users.txt -P /usr/share/wordlists/rockyou.txt 10.10.11.9 -s 5000 https-get /v2/
+
 ## smtpuserenum
 sudo smtp-user-enum -M VRFY -U /usr/share/wordlists/SecLists-master/Usernames/xato-net-10-million-usernames.txt -t 10.10.10.10
 
@@ -395,6 +398,9 @@ sudo systemctl start ssh
 
 ## nmapscripthelp
 help to know nmap scripts: nmap --script-help 'snmp*'
+
+## searchhash
+help to know search hashcat hash types: hashcat -h | grep -i <ARGUMENT>
 
 ## clean
 delete all from sessions

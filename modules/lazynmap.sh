@@ -197,6 +197,8 @@ EOL
 
 echo "    [*] Archivo HTML generado: $OUTPUT_HTML"
 
+chown 1000:1000 sessions -R
+chmod 755 sessions -R
 
 if [ "$DISCOVER_NETWORK" = true ]; then
 	discover_network
@@ -401,7 +403,8 @@ cat <<EOL >> $OUTPUT_HTML
 EOL
 
 echo "    [*] Archivo HTML generado: $OUTPUT_HTML"
-
+chown 1000:1000 sessions -R
+chmod 755 sessions -R
 
 # Medir el tiempo de finalización
 END_TIME=$(date +%s)

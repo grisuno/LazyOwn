@@ -1045,7 +1045,7 @@ Expresión regular para encontrar posibles credenciales
 XOR Encrypt or Decrypt data with a given key
 
 ## wrapper
-No description available.
+wrapper of internal function to implement multiples rhost to operate. 
 
 ## __init__
 Inicializador de la clase LazyOwnShell

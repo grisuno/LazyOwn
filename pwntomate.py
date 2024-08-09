@@ -60,5 +60,7 @@ for host in report.hosts:
                     shellscript += '%s\n' % cmd
 if args.execute:
     subprocess.call(shellscript, shell=True)
+    os.system("chown 1000:1000 sessions -R")
+    os.system("chmod 755 sessions -R")
 else:
     print(shellscript)

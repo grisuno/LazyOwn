@@ -1375,7 +1375,7 @@ Conecta a un host SSH usando credenciales desde un archivo y el puerto especific
 Genera un comando para mostrar puertos TCP y UDP, y lo copia al portapapeles.
 
 ## vpn
-Open vpn like htb vpn
+Open VPN like HTB VPN command vpn now handle multiple ovpn files
 
 ## id_rsa
 create id_rsa file, open nano sessions/id_rsa, usage like this: id_rsa username, open nano and you paste the private key, and run ssh command
@@ -1388,6 +1388,15 @@ copy to clipboard some wrapper to lfi
 
 ## samrdump
 impacket-samrdump -port 445 10.10.10.10
+
+## urlencode
+Encode a string for URL.
+
+## urldecode
+Decode a URL-encoded string.
+
+## lynis
+sudo lynis audit system remote 10.10.10.10 more info check modules/lazylynis.sh
 
 ## snmpcheck
 snmp-check 10.10.10.10

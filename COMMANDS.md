@@ -42,6 +42,9 @@ internal function to get open ports in the O.S.
 ## find_credentials
 Expresión regular para encontrar posibles credenciales
 
+## rotate_char
+Internal function to rotate characters to command rot, more info help rot
+
 ## xor_encrypt_decrypt
 XOR Encrypt or Decrypt data with a given key
 
@@ -303,6 +306,9 @@ example: sudo john hash.txt --wordlist=/usr/share/wordlists/rockyou.txt -format=
 ## hashcat
 hashcat -a 0 -m mode hash /usr/share/wordlists/rockyou.txt
 
+## complete_hashcat
+Complete mode options and file paths for the sessions/hash.txt
+
 ## responder
 sudo responder -I tun0
 
@@ -386,6 +392,18 @@ impacket-samrdump -port 445 10.10.10.10
 
 ## snmpcheck
 snmp-check 10.10.10.10
+
+## encode
+Encodes a string with the given shift value and substitution key
+
+## decode
+Decodes a string with the given shift value and substitution key
+
+## rot
+Apply ROT13 substitution cipher to the given string.
+
+Usage:
+    rot <number> '<string>'
 
 ## hydra
 hydra -f -L sessions/users.txt -P /usr/share/wordlists/rockyou.txt 10.10.11.9 -s 5000 https-get /v2/

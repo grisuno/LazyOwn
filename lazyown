@@ -2072,6 +2072,7 @@ class LazyOwnShell(Cmd):
     def do_qa(self, line):
         """Exit fast without confirmation"""
         print_error(f"Saliendo {BG_BLACK}[;,;]{RESET}")
+        os.system("tmux kill-session -t lazyown_sessions 2>/dev/null")
         sys.exit(0)
 
     def do_ignorearp(self, line):
@@ -2188,8 +2189,7 @@ class LazyOwnShell(Cmd):
         return
 
     def do_vpn(self, line):
-        """Open VPN like HTB VPN"""
-        import os
+        """Open VPN like HTB VPN command vpn now handle multiple ovpn files"""
 
         # List all .ovpn files
         ovpn_files = sorted([f for f in os.listdir('.') if f.endswith('.ovpn')])
@@ -2211,11 +2211,10 @@ class LazyOwnShell(Cmd):
                     os.system(f"sudo openvpn {ovpn_files[choice - 1]}")
                     print_msg(f"Connecting to {ovpn_files[choice - 1]}")
                 else:
-                    print_msg("Invalid choice. Please select a number from the list.")
+                    print_error("Invalid choice. Please select a number from the list.")
             except ValueError:
-                print_msg("Invalid input. Please enter a number.")
+                print_error("Invalid input. Please enter a number.")
 
-        # Handle argument provided
         else:
             args = line.split()
             print(args)
@@ -2226,12 +2225,12 @@ class LazyOwnShell(Cmd):
                         os.system(f"sudo openvpn {ovpn_files[choice - 1]}")
                         print_msg(f"Connecting to {ovpn_files[choice - 1]}")
                     else:
-                        print_msg("Invalid number. Please select a number from the list.")
+                        print_error("Invalid number. Please select a number from the list.")
                 except ValueError:
-                    print_msg("Invalid input. Please enter a number.")
+                    print_error("Invalid input. Please enter a number.")
             else:
-                print_msg("Invalid command format. Use 'vpn' to list and select, or 'vpn <number>' to connect directly.")
-
+                print_error("Invalid command format. Use 'vpn' to list and select, or 'vpn <number>' to connect directly.")
+        return
 
     def do_id_rsa(self, line):
         """create id_rsa file, open nano sessions/id_rsa, usage like this: id_rsa username, open nano and you paste the private key, and run ssh command"""

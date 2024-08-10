@@ -211,7 +211,7 @@ START_TIME=$(date +%s)
 # Realizar el escaneo inicial para encontrar puertos abiertos
 echo "    [-] Realizando escaneo inicial para encontrar puertos abiertos..."
 sudo nmap -p- --open -sS --min-rate 5000 -vvv -n -Pn $TARGET -oG puertos -oN "sessions/scan_${TARGET}.nmap" --stylesheet "$ARCHIVO" -oX "sessions/scan_${TARGET}.nmap.xml"
-
+echo "sudo nmap -p- --open -sS --min-rate 5000 -vvv -n -Pn $TARGET -oG puertos -oN "sessions/scan_${TARGET}.nmap" --stylesheet "$ARCHIVO" -oX "sessions/scan_${TARGET}.nmap.xml""
 # Extraer la información de puertos y direcciones IP del archivo de resultados de Nmap
 extract_ports_info() {
 	local file=$1

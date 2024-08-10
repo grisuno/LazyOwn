@@ -1502,6 +1502,51 @@ class LazyOwnShell(Cmd):
         os.system(f"wfuzz -c {line} -t 200 -w {dirwordlist} http://{rhost}/FUZZ")
         return
 
+    def do_launchpad(self, line):
+        """
+        Searches for packages on Launchpad based on the provided search term and extracts codenames from the results. The distribution is extracted from the search term.
+
+        :param line: The search term to be used for querying Launchpad. The `line` parameter should be a string containing
+                    the search term, e.g., "8.2p1 Ubuntu 4ubuntu0.11".
+
+        :returns: None
+
+        Manual execution:
+        To manually execute the equivalent command, use the following steps:
+
+        1. Extract the distribution from the search term:
+        - This function assumes the distribution name is part of the search term and is used to build the URL.
+
+        2. URL encode the search term:
+        - Replace spaces with `%20` to form the encoded search query.
+
+        3. Use `curl` to perform the search and filter results:
+        curl -s "https://launchpad.net/+search?field.text=<encoded_search_term>" | grep 'href' | grep '<distribution>' | grep -oP '(?<=href="https://launchpad.net/<distribution>/)[^/"]+' | sort -u
+
+        Example:
+            If the search term is "8.2p1 Ubuntu 4ubuntu0.11", the command would be:
+            curl -s "https://launchpad.net/+search?field.text=8.2p1%20Ubuntu%204ubuntu0.11" | grep 'href' | grep 'ubuntu' | grep -oP '(?<=href="https://launchpad.net/ubuntu/)[^/"]+' | sort -u
+
+        Notes:
+            - Ensure that `curl` is installed and accessible in your environment.
+            - The extracted codenames are printed to the console.
+        """
+       
+        parts = line.split()
+        if len(parts) > 1:
+            distribution = parts[1].lower()  
+        else:
+            distribution = 'ubuntu'  
+
+        
+        encoded_line = quote(line.strip())
+        
+        
+        command = f'curl -s "https://launchpad.net/+search?field.text={encoded_line}" | grep \'href\' | grep \'{distribution}\' | grep -oP \'(?<=href="https://launchpad.net/{distribution}/)[^/"]+\' | sort -u'
+        
+        print_msg("Searches for packages on Launchpad based on the provided search, no warranties. ssh package give the best results")
+        os.system(command)
+
     def do_gobuster(self, line):
         """
         Uses `gobuster` for directory and virtual host fuzzing based on provided parameters. Supports directory enumeration and virtual host discovery.
@@ -2057,9 +2102,9 @@ class LazyOwnShell(Cmd):
         os.system(
             'echo "[\e[96m`pwd`\e[0m]\e[34m" && cd external/.exploit && ls && echo -en "\e[0m"'
         )
-        print_msg(f"Web server at external/.exploit in port {RED} 80 {RESET}")
-        os.system("cd external/.exploit && sudo python3 -m http.server 80")
-        print_msg(f"Shutdown Web server at external/.exploit in port {RED} 80 {RESET}")
+        print_msg(f"Web server at external/.exploit in port {RED} 8443 {RESET}")
+        os.system("cd external/.exploit && python3 -m http.server 8443")
+        print_msg(f"Shutdown Web server at external/.exploit in port {RED} 8443 {RESET}")
         return
 
         return
@@ -2351,6 +2396,7 @@ class LazyOwnShell(Cmd):
         """Exit fast without confirmation"""
         print_error(f"Saliendo {BG_BLACK}[;,;]{RESET}")
         os.system("tmux kill-session -t lazyown_sessions 2>/dev/null")
+        os.system("killall openvpn 2>/dev/null")
         sys.exit(0)
 
     def do_ignorearp(self, line):

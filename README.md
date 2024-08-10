@@ -4,7 +4,8 @@
  ![image](https://github.com/user-attachments/assets/79052f87-f87c-4b32-a4a2-854113ca3a4c)
   [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) ![image](https://github.com/user-attachments/assets/b69f1d31-c075-4713-a44e-a40a034a7407) ![image](https://github.com/user-attachments/assets/df82a669-be0c-4a03-bd98-842a67baaef6)
 
-![lazyown](https://github.com/user-attachments/assets/73097914-3af9-4b8f-8824-ed599dfc7e38)
+![lazyown](https://github.com/user-attachments/assets/7682df7e-dafb-4136-adea-a7d3ef972445)
+
 
 ```sh
 ██╗      █████╗ ███████╗██╗   ██╗ ██████╗ ██╗    ██╗███╗   ██╗
@@ -19,43 +20,41 @@
 
 ![LazyOwn1](https://github.com/user-attachments/assets/1debaed0-8f84-4079-ad2f-48cc4cfd9d95)
 
-LazyOwn Framework es un potente y versátil framework de seguridad diseñado para automatizar y simplificar tareas de pentesting y análisis de vulnerabilidades. Este entorno interactivo combina múltiples herramientas y scripts, facilitando el trabajo de los profesionales de la ciberseguridad en diversas fases del ciclo de evaluación de seguridad. Con una interfaz de línea de comandos intuitiva, LazyOwn permite a los usuarios configurar parámetros específicos, ejecutar scripts personalizados y obtener resultados en tiempo real, todo desde una única plataforma.
+[*] TESTED ON ParrotSec 6.9.7
 
-Características Principales
-Interfaz Interactiva:
-
-Shell interactiva con comandos fáciles de usar para configurar y ejecutar scripts.
-Capacidad para mostrar y ajustar parámetros personalizados que se aplican a diferentes scripts.
-Automatización de Tareas:
-
-Automatiza tareas comunes de pentesting, como escaneo de vulnerabilidades, fuzzing de aplicaciones web, ataques de fuerza bruta y más.
-Integración con herramientas populares y scripts personalizados para una cobertura completa de pruebas en Parrot Sec.
 ![image](https://github.com/user-attachments/assets/3234450f-dd5e-40e2-bcd8-f209ab0c4665)
 
-Visualización en tiempo real de la salida de los scripts, permitiendo a los usuarios ver los resultados instantáneamente y reaccionar rápidamente.
-Modularidad y Extensibilidad:
+# LazyOwn Framework
 
-Diseñado para ser extensible, permitiendo a los usuarios añadir y personalizar scripts fácilmente.
-Soporte para múltiples lenguajes de scripting, incluyendo Python y Bash.
-Configuración Flexible:
+The LazyOwn Framework is a comprehensive and advanced toolkit designed for professional penetration testers and security researchers. Crafted for both Linux and Windows environments, this framework integrates a wide array of functionalities to streamline and enhance the efficiency of security assessments.
 
-Posibilidad de establecer parámetros específicos como direcciones IP, claves API, métodos HTTP, datos de solicitud, y más, proporcionando un control total sobre los scripts ejecutados.
-Uso Típico
-Configuración de Parámetros:
+# Key Features:
 
-Los usuarios pueden establecer parámetros necesarios usando comandos set, como set target_ip 192.168.1.1 para definir la IP del objetivo.
-Ejecución de Scripts:
+Interactive Shell: Offers a powerful command-line interface for executing various security operations, featuring an intuitive command set for vulnerability scanning, binary analysis, and network operations.
 
-Ejecución de scripts predefinidos para realizar diversas tareas, por ejemplo, run lazygptcli para interactuar con GPT usando un prompt y una clave API configurados.
-Visualización de Resultados:
+Automation of Common Tasks: Automates repetitive tasks such as scanning, fuzzing, and brute-force attacks, significantly reducing manual effort and increasing productivity.
 
-Los resultados de los scripts se muestran en la consola en tiempo real, proporcionando feedback inmediato sobre el progreso y los hallazgos.
+Integration with Popular Tools: Seamlessly integrates with industry-standard tools and frameworks like Metasploit, Nmap, and Gobuster, allowing for a cohesive workflow and enhanced functionality.
 
-LazyOwn es un proyecto que partio diseñado para automatizar la búsqueda y análisis de binarios con permisos especiales en sistemas Linux y Windows. El proyecto consta de tres scripts principales que extraen información de [GTFOBins](https://gtfobins.github.io/), analizan los binarios en el sistema y generan opciones basadas en la información recopilada.
+Custom Scripts and Modules: Includes custom-developed scripts and modules tailored for specialized tasks, such as automated exploit setup and dynamic payload handling.
+
+Cross-Platform Compatibility: Supports both Parrot OS and Windows environments, ensuring versatility and adaptability across different systems.
+
+Enhanced Security Features: Incorporates advanced security mechanisms to safeguard the integrity of the framework and protect sensitive information during assessments.
+
+# Applications:
+
+Vulnerability Assessment: Efficiently identify and analyze vulnerabilities within systems and applications.
+
+Binary Analysis: Conduct detailed analysis of binary files to uncover potential security weaknesses and exploits.
+
+Network Security Testing: Perform comprehensive network assessments, including scanning and enumeration of services and vulnerabilities.
+
+# Objective:
+
+The primary objective of the LazyOwn Framework is to provide a robust, user-friendly toolset for ethical hackers and security professionals, enabling them to conduct thorough and effective security assessments with greater efficiency. By automating routine tasks and integrating with leading security tools, the framework empowers users to focus on critical analysis and strategic decision-making.
 
 <https://www.reddit.com/r/LazyOwn/>
-
-Revolutionize Your Pentesting with LazyOwn: Automate Binary Analysis on Linux and Windows
 
 <https://github.com/grisuno/LazyOwn/assets/1097185/eec9dbcc-88cb-4e47-924d-6dce2d42f79a>
 

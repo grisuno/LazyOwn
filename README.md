@@ -1176,11 +1176,40 @@ non-alphabetical characters unchanged.
 :return: The rotated character.
 :rtype: str
 
-## xor_encrypt_decrypt
-XOR Encrypt or Decrypt data with a given key
+## get_network_info
+No description available.
+
+## getprompt
+Generate a command prompt string with network information and user status.
+
+:param: None
+
+:returns: A string representing the command prompt with network information and user status.
+
+Manual execution:
+To manually get a prompt string with network information and user status, ensure you have `get_network_info()` implemented to return a dictionary of network interfaces and their IPs. Then use the function to create a prompt string based on the current user and network info.
+
+Example:
+If the function `get_network_info()` returns:
+    {
+        'tun0': '10.0.0.1',
+        'eth0': '192.168.1.2'
+    }
+
+And the user is root, the prompt string generated might be:
+    [LazyOwn👽10.0.0.1]# 
+If the user is not root, it would be:
+    [LazyOwn👽10.0.0.1]$ 
+
+If no 'tun' interface is found, the function will use the first available IP or fallback to '127.0.0.1'.
 
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
+
+# Documentation by readmeneitor.py
+
+## xor_encrypt_decrypt
+XOR Encrypt or Decrypt data with a given key
 
 ## __init__
 Initializer for the LazyOwnShell class.
@@ -2015,6 +2044,25 @@ sudo systemctl start ssh
 
 ## nmapscripthelp
 help to know nmap scripts: nmap --script-help 'snmp*'
+
+## apropos
+Search for commands matching the given parameter in the cmd interface and optionally extend the search using the system's `apropos` command.
+
+:param line: The search term to find matching commands.
+
+:returns: None
+
+Manual execution:
+To manually search for commands matching a term using the `apropos` command, use the following command:
+
+    apropos <search_term>
+
+Example:
+    apropos network
+
+The `apropos` command will search for commands and documentation that match the given search term.
+
+The function also searches within the available commands in the cmd interface.
 
 ## searchhash
 help to know search hashcat hash types: hashcat -h | grep -i <ARGUMENT>

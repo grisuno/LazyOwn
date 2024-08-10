@@ -270,7 +270,7 @@ BANNER = f"""{GREEN}{BG_BLACK}
     ░       ░▒ ░ ▒░  ▒   ▒▒ ░░  ░      ░ ░ ░  ░  ▒ ░ ░    ░ ▒ ▒░   ░▒ ░ ▒░░ ░▒ ▒░
     ░ ░     ░░   ░   ░   ▒   ░      ░      ░     ░   ░  ░ ░ ░ ▒    ░░   ░ ░ ░░ ░ 
             ░           ░  ░       ░      ░  ░    ░        ░ ░     ░     ░  ░   
-    [⚠] Iniciand👽: Framew☠rk [;,;] """
+    [⚠] Starting 👽 LazyOwn Framew0rk ☠ [;,;] """
 
 # sys.argv es una lista que contiene los argumentos de la línea de comandos
 arguments = sys.argv[1:]  # Omitir el primer elemento que es el nombre del script
@@ -2188,11 +2188,50 @@ class LazyOwnShell(Cmd):
         return
 
     def do_vpn(self, line):
-        """Open vpn like htb vpn"""
-        print_msg("Try... sudo openvpn *.ovpn")
-        os.system("sudo openvpn *.ovpn")
-        print_msg(f"{YELLOW} Shutdown vpn {RED} [;,;] {RESET}")
-        return
+        """Open VPN like HTB VPN"""
+        import os
+
+        # List all .ovpn files
+        ovpn_files = sorted([f for f in os.listdir('.') if f.endswith('.ovpn')])
+
+        # Handle no arguments
+        if not line.strip():
+            if not ovpn_files:
+                print_msg("No .ovpn files found.")
+                return
+            
+            print_msg("Available .ovpn files:")
+            for idx, file in enumerate(ovpn_files, start=1):
+                print_msg(f"{idx}: {file}")
+
+            choice = input("Select the number of the .ovpn file to connect to: ")
+            try:
+                choice = int(choice)
+                if 1 <= choice <= len(ovpn_files):
+                    os.system(f"sudo openvpn {ovpn_files[choice - 1]}")
+                    print_msg(f"Connecting to {ovpn_files[choice - 1]}")
+                else:
+                    print_msg("Invalid choice. Please select a number from the list.")
+            except ValueError:
+                print_msg("Invalid input. Please enter a number.")
+
+        # Handle argument provided
+        else:
+            args = line.split()
+            print(args)
+            if len(args) == 1:
+                try:
+                    choice = int(args[0])
+                    if 1 <= choice <= len(ovpn_files):
+                        os.system(f"sudo openvpn {ovpn_files[choice - 1]}")
+                        print_msg(f"Connecting to {ovpn_files[choice - 1]}")
+                    else:
+                        print_msg("Invalid number. Please select a number from the list.")
+                except ValueError:
+                    print_msg("Invalid input. Please enter a number.")
+            else:
+                print_msg("Invalid command format. Use 'vpn' to list and select, or 'vpn <number>' to connect directly.")
+
 
     def do_id_rsa(self, line):
         """create id_rsa file, open nano sessions/id_rsa, usage like this: id_rsa username, open nano and you paste the private key, and run ssh command"""

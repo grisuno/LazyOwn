@@ -460,22 +460,34 @@ def rotate_char(c, shift):
     return c
 
 def get_network_info():
-    # Ejecutar el comando y capturar la salida
+    """
+    Retrieves network interface information with their associated IP addresses.
+
+    This function executes a shell command to gather network interface details, 
+    parses the output to extract interface names and their corresponding IP addresses, 
+    and returns this information in a dictionary format. The dictionary keys are
+    interface names, and the values are IP addresses.
+
+    :return: A dictionary where the keys are network interface names and the values
+             are their associated IP addresses.
+    :rtype: dict
+    """
     command = (
         'ip a show scope global | '
         'awk \'/^[0-9]+:/ { sub(/:/,"",$2); iface=$2 } '
         '/^[[:space:]]*inet / { split($2, a, "/"); print iface " " a[1] }\''
     )
     result = subprocess.run(command, shell=True, capture_output=True, text=True)
-
-    # Procesar la salida
     output = result.stdout.strip()
     network_info = {}
-    
-    # Analizar la salida y llenar el diccionario
+
     for line in output.split('\n'):
-        iface, ip = line.split(maxsplit=1)
-        network_info[iface] = ip
+        parts = line.split(maxsplit=1)
+        if len(parts) == 2:
+            iface, ip = parts
+            network_info[iface] = ip
+        else:
+            print_error(f"Formato inesperado en la línea: '{line}'")
 
     return network_info
 

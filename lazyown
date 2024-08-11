@@ -148,20 +148,6 @@ class LazyOwnShell(Cmd):
         ]
         self.output = ""
 
-    # def postcmd(self, stop, line):
-    # Esto se ejecuta después de cada comando
-    # self.display_status()
-    # return stop
-
-    # def display_status(self):
-    # Aquí es donde puedes personalizar el string que deseas mostrar en el lado opuesto al prompt
-    # output = subprocess.getoutput(
-    #    "ip a show tun0 2>/dev/null | awk '/inet / { split($2, a, \"/\"); print \"[\\033[96mtun0\\033[0m]\" a[1] }' || ip a show scope global | awk '/^[0-9]+:/ { sub(/:/, \"\", $2); iface=$2 } /^[[:space:]]*inet / { split($2, a, \"/\"); print \"[\\033[96m\" iface \"\\033[0m] \" a[1] }'"
-    # )
-    # status_string = f"{BLINK}☠{RESET}{output}@"
-
-    # print_msg(f"{status_string}", end='', flush=True)
-
     def default(self, line):
         """
         Handles undefined commands, including aliases.

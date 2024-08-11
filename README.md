@@ -4,8 +4,7 @@
  ![image](https://github.com/user-attachments/assets/79052f87-f87c-4b32-a4a2-854113ca3a4c)
   [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) ![image](https://github.com/user-attachments/assets/b69f1d31-c075-4713-a44e-a40a034a7407) ![image](https://github.com/user-attachments/assets/df82a669-be0c-4a03-bd98-842a67baaef6)
 
-![lazyown](https://github.com/user-attachments/assets/7682df7e-dafb-4136-adea-a7d3ef972445)
-
+![lazyown](https://github.com/user-attachments/assets/73097914-3af9-4b8f-8824-ed599dfc7e38
 
 ```sh
 ██╗      █████╗ ███████╗██╗   ██╗ ██████╗ ██╗    ██╗███╗   ██╗
@@ -20,41 +19,43 @@
 
 ![LazyOwn1](https://github.com/user-attachments/assets/1debaed0-8f84-4079-ad2f-48cc4cfd9d95)
 
-[*] TESTED ON ParrotSec 6.9.7
+LazyOwn Framework es un potente y versátil framework de seguridad diseñado para automatizar y simplificar tareas de pentesting y análisis de vulnerabilidades. Este entorno interactivo combina múltiples herramientas y scripts, facilitando el trabajo de los profesionales de la ciberseguridad en diversas fases del ciclo de evaluación de seguridad. Con una interfaz de línea de comandos intuitiva, LazyOwn permite a los usuarios configurar parámetros específicos, ejecutar scripts personalizados y obtener resultados en tiempo real, todo desde una única plataforma.
 
+Características Principales
+Interfaz Interactiva:
+
+Shell interactiva con comandos fáciles de usar para configurar y ejecutar scripts.
+Capacidad para mostrar y ajustar parámetros personalizados que se aplican a diferentes scripts.
+Automatización de Tareas:
+
+Automatiza tareas comunes de pentesting, como escaneo de vulnerabilidades, fuzzing de aplicaciones web, ataques de fuerza bruta y más.
+Integración con herramientas populares y scripts personalizados para una cobertura completa de pruebas en Parrot Sec.
 ![image](https://github.com/user-attachments/assets/3234450f-dd5e-40e2-bcd8-f209ab0c4665)
 
-# LazyOwn Framework
+Visualización en tiempo real de la salida de los scripts, permitiendo a los usuarios ver los resultados instantáneamente y reaccionar rápidamente.
+Modularidad y Extensibilidad:
 
-The LazyOwn Framework is a comprehensive and advanced toolkit designed for professional penetration testers and security researchers. Crafted for both Linux and Windows environments, this framework integrates a wide array of functionalities to streamline and enhance the efficiency of security assessments.
+Diseñado para ser extensible, permitiendo a los usuarios añadir y personalizar scripts fácilmente.
+Soporte para múltiples lenguajes de scripting, incluyendo Python y Bash.
+Configuración Flexible:
 
-# Key Features:
+Posibilidad de establecer parámetros específicos como direcciones IP, claves API, métodos HTTP, datos de solicitud, y más, proporcionando un control total sobre los scripts ejecutados.
+Uso Típico
+Configuración de Parámetros:
 
-Interactive Shell: Offers a powerful command-line interface for executing various security operations, featuring an intuitive command set for vulnerability scanning, binary analysis, and network operations.
+Los usuarios pueden establecer parámetros necesarios usando comandos set, como set target_ip 192.168.1.1 para definir la IP del objetivo.
+Ejecución de Scripts:
 
-Automation of Common Tasks: Automates repetitive tasks such as scanning, fuzzing, and brute-force attacks, significantly reducing manual effort and increasing productivity.
+Ejecución de scripts predefinidos para realizar diversas tareas, por ejemplo, run lazygptcli para interactuar con GPT usando un prompt y una clave API configurados.
+Visualización de Resultados:
 
-Integration with Popular Tools: Seamlessly integrates with industry-standard tools and frameworks like Metasploit, Nmap, and Gobuster, allowing for a cohesive workflow and enhanced functionality.
+Los resultados de los scripts se muestran en la consola en tiempo real, proporcionando feedback inmediato sobre el progreso y los hallazgos.
 
-Custom Scripts and Modules: Includes custom-developed scripts and modules tailored for specialized tasks, such as automated exploit setup and dynamic payload handling.
-
-Cross-Platform Compatibility: Supports both Parrot OS and Windows environments, ensuring versatility and adaptability across different systems.
-
-Enhanced Security Features: Incorporates advanced security mechanisms to safeguard the integrity of the framework and protect sensitive information during assessments.
-
-# Applications:
-
-Vulnerability Assessment: Efficiently identify and analyze vulnerabilities within systems and applications.
-
-Binary Analysis: Conduct detailed analysis of binary files to uncover potential security weaknesses and exploits.
-
-Network Security Testing: Perform comprehensive network assessments, including scanning and enumeration of services and vulnerabilities.
-
-# Objective:
-
-The primary objective of the LazyOwn Framework is to provide a robust, user-friendly toolset for ethical hackers and security professionals, enabling them to conduct thorough and effective security assessments with greater efficiency. By automating routine tasks and integrating with leading security tools, the framework empowers users to focus on critical analysis and strategic decision-making.
+LazyOwn es un proyecto que partio diseñado para automatizar la búsqueda y análisis de binarios con permisos especiales en sistemas Linux y Windows. El proyecto consta de tres scripts principales que extraen información de [GTFOBins](https://gtfobins.github.io/), analizan los binarios en el sistema y generan opciones basadas en la información recopilada.
 
 <https://www.reddit.com/r/LazyOwn/>
+
+Revolutionize Your Pentesting with LazyOwn: Automate Binary Analysis on Linux and Windows
 
 <https://github.com/grisuno/LazyOwn/assets/1097185/eec9dbcc-88cb-4e47-924d-6dce2d42f79a>
 
@@ -994,218 +995,10 @@ una excelente herramienta que adapte un poco para que funcione con el proyecto t
 
 LazyOwn es un marco de trabajo que agiliza el flujo del mismo y automatiza muchas tareas y pruebas mediante alias y distintas herramientas es como una navaja multiproposito con navajas multipropisitos para el hacking xD
 
-# Documentation by readmeneitor.py
+# COMMANDS.md Documentation by readmeneitor.py
 
 Documentación creada automaticamente por el script readmeneitor.py creado para este proyecto, quizas algún día tenga su propio repo por ahora no lo veo necesario.
 
-# Documentation by readmeneitor.py
-
-## print_error
-Prints an error message to the console.
-
-This function takes an error message as input and prints it to the console
-with a specific format to indicate that it is an error.
-
-:param error: The error message to be printed.
-:type error: str
-:return: None
-
-## print_msg
-Prints a message to the console.
-
-This function takes a message as input and prints it to the console
-with a specific format to indicate that it is an informational message.
-
-:param msg: The message to be printed.
-:type msg: str
-:return: None
-
-## print_warn
-Prints a warning message to the console.
-
-This function takes a warning message as input and prints it to the console
-with a specific format to indicate that it is a warning.
-
-:param warn: The warning message to be printed.
-:type warn: str
-:return: None
-
-## signal_handler
-Handles signals such as Control + C and shows a message on how to exit.
-
-This function is used to handle signals like Control + C (SIGINT) and prints
-a warning message instructing the user on how to exit the program using the
-commands 'exit', 'q', or 'qa'.
-
-:param sig: The signal number.
-:type sig: int
-:param frame: The current stack frame.
-:type frame: frame
-:return: None
-
-## check_rhost
-Checks if the remote host (rhost) is defined and shows an error message if it is not.
-
-This function verifies if the `rhost` parameter is set. If it is not defined,
-an error message is printed, providing an example and directing the user to
-additional help.
-
-:param rhost: The remote host to be checked.
-:type rhost: str
-:return: True if rhost is defined, False otherwise.
-:rtype: bool
-
-## check_lhost
-Checks if the local host (lhost) is defined and shows an error message if it is not.
-
-This function verifies if the `lhost` parameter is set. If it is not defined,
-an error message is printed, providing an example and directing the user to
-additional help.
-
-:param lhost: The local host to be checked.
-:type lhost: str
-:return: True if lhost is defined, False otherwise.
-:rtype: bool
-
-## check_lport
-Checks if the local port (lport) is defined and shows an error message if it is not.
-
-This function verifies if the `lport` parameter is set. If it is not defined,
-an error message is printed, providing an example and directing the user to
-additional help.
-
-:param lport: The local port to be checked.
-:type lport: int or str
-:return: True if lport is defined, False otherwise.
-:rtype: bool
-
-## is_binary_present
-Internal function to verify if a binary is present on the operating system.
-
-This function checks if a specified binary is available in the system's PATH
-by using the `which` command. It returns True if the binary is found and False
-otherwise.
-
-:param binary_name: The name of the binary to be checked.
-:type binary_name: str
-:return: True if the binary is present, False otherwise.
-:rtype: bool
-
-## handle_multiple_rhosts
-Internal function to handle multiple remote hosts (rhost) for operations.
-
-This function is a decorator that allows an operation to be performed across
-multiple remote hosts specified in `self.params["rhost"]`. It converts a single
-remote host into a list if necessary, and then iterates over each host,
-performing the given function with each host. After the operation, it restores
-the original remote host value.
-
-:param func: The function to be decorated and executed for each remote host.
-:type func: function
-:return: The decorated function.
-:rtype: function
-
-## check_sudo
-Checks if the script is running with superuser (sudo) privileges, and if not,
-restarts the script with sudo privileges.
-
-This function verifies if the script is being executed with root privileges
-by checking the effective user ID. If the script is not running as root,
-it prints a warning message and restarts the script using sudo.
-
-:return: None
-
-## activate_virtualenv
-Activates a virtual environment and starts an interactive shell.
-
-This function activates a virtual environment located at `venv_path` and then
-launches an interactive bash shell with the virtual environment activated.
-
-:param venv_path: The path to the virtual environment directory.
-:type venv_path: str
-:return: None
-
-## parse_proc_net_file
-Internal function to parse a /proc/net file and extract network ports.
-
-This function reads a file specified by `file_path`, processes each line to
-extract local addresses and ports, and converts them from hexadecimal to decimal.
-The IP addresses are converted from hexadecimal format to standard dot-decimal
-notation. The function returns a list of tuples, each containing an IP address
-and a port number.
-
-:param file_path: The path to the /proc/net file to be parsed.
-:type file_path: str
-:return: A list of tuples, each containing an IP address and a port number.
-:rtype: list of tuple
-
-## get_open_ports
-Internal function to get open TCP and UDP ports on the operating system.
-
-This function uses the `parse_proc_net_file` function to extract open TCP and UDP
-ports from the corresponding /proc/net files. It returns two lists: one for TCP
-ports and one for UDP ports.
-
-:return: A tuple containing two lists: the first list with open TCP ports and
-        the second list with open UDP ports.
-:rtype: tuple of (list of tuple, list of tuple)
-
-## find_credentials
-Searches for potential credentials in files within the specified directory.
-
-This function uses a regular expression to find possible credentials such as
-passwords, secrets, API keys, and tokens in files within the given directory.
-It iterates through all files in the directory and prints any matches found.
-
-:param directory: The directory to search for files containing credentials.
-:type directory: str
-:return: None
-
-## rotate_char
-Internal function to rotate characters for ROT cipher.
-
-This function takes a character and a shift value, and rotates the character
-by the specified shift amount. It only affects alphabetical characters, leaving
-non-alphabetical characters unchanged.
-
-:param c: The character to be rotated.
-:type c: str
-:param shift: The number of positions to shift the character.
-:type shift: int
-:return: The rotated character.
-:rtype: str
-
-## get_network_info
-No description available.
-
-## getprompt
-Generate a command prompt string with network information and user status.
-
-:param: None
-
-:returns: A string representing the command prompt with network information and user status.
-
-Manual execution:
-To manually get a prompt string with network information and user status, ensure you have `get_network_info()` implemented to return a dictionary of network interfaces and their IPs. Then use the function to create a prompt string based on the current user and network info.
-
-Example:
-If the function `get_network_info()` returns:
-    {
-        'tun0': '10.0.0.1',
-        'eth0': '192.168.1.2'
-    }
-
-And the user is root, the prompt string generated might be:
-    [LazyOwn👽10.0.0.1]# 
-If the user is not root, it would be:
-    [LazyOwn👽10.0.0.1]$ 
-
-If no 'tun' interface is found, the function will use the first available IP or fallback to '127.0.0.1'.
-
-## wrapper
-internal wrapper of internal function to implement multiples rhost to operate. 
-
-# Documentation by readmeneitor.py
 
 ## xor_encrypt_decrypt
 XOR Encrypt or Decrypt data with a given key
@@ -1248,10 +1041,10 @@ executed successfully or an exception occurred.
 ## set
 Set a parameter value.
 
-This function takes a line of input, splits it into a parameter and a value, 
+This function takes a line of input, splits it into a parameter and a value,
 and sets the specified parameter to the given value if the parameter exists.
 
-:param line: A string containing the parameter and value to be set. 
+:param line: A string containing the parameter and value to be set.
             Expected format: '<parameter> <value>'.
 :type line: str
 :return: None
@@ -1461,7 +1254,7 @@ Interacts with SMB shares using the `smbclient` command to perform the following
 :returns: None
 
 ## smbmap
-smbmap -H 10.10.10.3 [OPTIONS] 
+smbmap -H 10.10.10.3 [OPTIONS]
 Uses the `smbmap` tool to interact with SMB shares on a remote host:
 
 1. Checks if `rhost` (remote host) and `lhost` (local host) are set; if not, an error message is displayed.
@@ -1749,6 +1542,34 @@ Example:
 Example:
     wfuzz -c --hl=7 -t 200 -w /path/to/dirwordlist http://10.10.10.10/FUZZ
 
+## launchpad
+Searches for packages on Launchpad based on the provided search term and extracts codenames from the results. The distribution is extracted from the search term.
+
+:param line: The search term to be used for querying Launchpad. The `line` parameter should be a string containing
+            the search term, e.g., "8.2p1 Ubuntu 4ubuntu0.11".
+
+:returns: None
+
+Manual execution:
+To manually execute the equivalent command, use the following steps:
+
+1. Extract the distribution from the search term:
+- This function assumes the distribution name is part of the search term and is used to build the URL.
+
+2. URL encode the search term:
+- Replace spaces with `%20` to form the encoded search query.
+
+3. Use `curl` to perform the search and filter results:
+curl -s "https://launchpad.net/+search?field.text=<encoded_search_term>" | grep 'href' | grep '<distribution>' | grep -oP '(?<=href="https://launchpad.net/<distribution>/)[^/"]+' | sort -u
+
+Example:
+    If the search term is "8.2p1 Ubuntu 4ubuntu0.11", the command would be:
+    curl -s "https://launchpad.net/+search?field.text=8.2p1%20Ubuntu%204ubuntu0.11" | grep 'href' | grep 'ubuntu' | grep -oP '(?<=href="https://launchpad.net/ubuntu/)[^/"]+' | sort -u
+
+Notes:
+    - Ensure that `curl` is installed and accessible in your environment.
+    - The extracted codenames are printed to the console.
+
 ## gobuster
 Uses `gobuster` for directory and virtual host fuzzing based on provided parameters. Supports directory enumeration and virtual host discovery.
 
@@ -2026,6 +1847,41 @@ Encodes a string with the given shift value and substitution key
 ## decode
 Decodes a string with the given shift value and substitution key
 
+## creds
+Display the credentials stored in the `credentials.txt` file and copy the password to the clipboard.
+
+This function reads the stored credentials from a file named `credentials.txt` located in the `sessions` directory.
+The file should be in the format `username:password`. If the file does not exist, an error message will be printed
+instructing the user to create the credentials file first. The function extracts the username and password from the file,
+prints them, and copies the password to the clipboard using `xclip`.
+
+:param line: A string parameter that is not used in this function. It is included for compatibility with command-line
+            interface functions.
+
+:returns: None
+
+Manual execution:
+To manually perform the equivalent actions, follow these steps:
+
+    1. Ensure the file `sessions/credentials.txt` exists and contains credentials in the format `username:password`.
+    2. Read the file and extract the username and password.
+    3. Print the username and password to the console.
+    4. Use the `xclip` tool to copy the password to the clipboard. Example command:
+
+        echo '<password>' | xclip -sel clip
+
+Example:
+If `sessions/credentials.txt` contains `admin:password123`, the function will print:
+
+    User : admin
+    Pass : password123
+
+The password `password123` will be copied to the clipboard.
+
+Note:
+Ensure `xclip` is installed on your system for copying to the clipboard. The function assumes that `xclip` is available
+and correctly configured.
+
 ## rot
 Apply ROT13 substitution cipher to the given string.
 
@@ -2034,6 +1890,28 @@ Usage:
 
 ## hydra
 hydra -f -L sessions/users.txt -P /usr/share/wordlists/rockyou.txt 10.10.11.9 -s 5000 https-get /v2/
+
+## nmapscript
+Perform an Nmap scan using a specified script and port.
+
+:param line: A string containing the Nmap script and port, separated by a space. Example: "http-enum 80".
+
+:returns: None
+
+Manual execution:
+To manually run an Nmap scan with a script and port, use the following command format:
+
+    nmap --script <script> -p <port> <target> -oN <output-file>
+
+Example:
+If you want to use the script `http-enum` on port `80` for the target `10.10.10.10`, you would run:
+
+    nmap --script http-enum -p 80 10.10.10.10 -oN sessions/webScan_10.10.10.10
+
+Ensure you have the target host (`rhost`) set in the parameters and provide the script and port as arguments. The results will be saved in the file `sessions/webScan_<rhost>`.
+
+## encoderpayload
+No description available.
 
 ## smtpuserenum
 sudo smtp-user-enum -M VRFY -U /usr/share/wordlists/SecLists-master/Usernames/xato-net-10-million-usernames.txt -t 10.10.10.10
@@ -2107,4 +1985,217 @@ Decrypt a file using XOR. Usage: decrypt <file_path> <key>
 
 ## get_output
 Devuelve la salida acumulada
+
+## double_base64_encode
+No description available.
+
+## apply_obfuscations
+No description available.
+
+# UTILS.md Documentation by readmeneitor.py
+
+## print_error
+Prints an error message to the console.
+
+This function takes an error message as input and prints it to the console
+with a specific format to indicate that it is an error.
+
+:param error: The error message to be printed.
+:type error: str
+:return: None
+
+## print_msg
+Prints a message to the console.
+
+This function takes a message as input and prints it to the console
+with a specific format to indicate that it is an informational message.
+
+:param msg: The message to be printed.
+:type msg: str
+:return: None
+
+## print_warn
+Prints a warning message to the console.
+
+This function takes a warning message as input and prints it to the console
+with a specific format to indicate that it is a warning.
+
+:param warn: The warning message to be printed.
+:type warn: str
+:return: None
+
+## signal_handler
+Handles signals such as Control + C and shows a message on how to exit.
+
+This function is used to handle signals like Control + C (SIGINT) and prints
+a warning message instructing the user on how to exit the program using the
+commands 'exit', 'q', or 'qa'.
+
+:param sig: The signal number.
+:type sig: int
+:param frame: The current stack frame.
+:type frame: frame
+:return: None
+
+## check_rhost
+Checks if the remote host (rhost) is defined and shows an error message if it is not.
+
+This function verifies if the `rhost` parameter is set. If it is not defined,
+an error message is printed, providing an example and directing the user to
+additional help.
+
+:param rhost: The remote host to be checked.
+:type rhost: str
+:return: True if rhost is defined, False otherwise.
+:rtype: bool
+
+## check_lhost
+Checks if the local host (lhost) is defined and shows an error message if it is not.
+
+This function verifies if the `lhost` parameter is set. If it is not defined,
+an error message is printed, providing an example and directing the user to
+additional help.
+
+:param lhost: The local host to be checked.
+:type lhost: str
+:return: True if lhost is defined, False otherwise.
+:rtype: bool
+
+## check_lport
+Checks if the local port (lport) is defined and shows an error message if it is not.
+
+This function verifies if the `lport` parameter is set. If it is not defined,
+an error message is printed, providing an example and directing the user to
+additional help.
+
+:param lport: The local port to be checked.
+:type lport: int or str
+:return: True if lport is defined, False otherwise.
+:rtype: bool
+
+## is_binary_present
+Internal function to verify if a binary is present on the operating system.
+
+This function checks if a specified binary is available in the system's PATH
+by using the `which` command. It returns True if the binary is found and False
+otherwise.
+
+:param binary_name: The name of the binary to be checked.
+:type binary_name: str
+:return: True if the binary is present, False otherwise.
+:rtype: bool
+
+## handle_multiple_rhosts
+Internal function to handle multiple remote hosts (rhost) for operations.
+
+This function is a decorator that allows an operation to be performed across
+multiple remote hosts specified in `self.params["rhost"]`. It converts a single
+remote host into a list if necessary, and then iterates over each host,
+performing the given function with each host. After the operation, it restores
+the original remote host value.
+
+:param func: The function to be decorated and executed for each remote host.
+:type func: function
+:return: The decorated function.
+:rtype: function
+
+## check_sudo
+Checks if the script is running with superuser (sudo) privileges, and if not,
+restarts the script with sudo privileges.
+
+This function verifies if the script is being executed with root privileges
+by checking the effective user ID. If the script is not running as root,
+it prints a warning message and restarts the script using sudo.
+
+:return: None
+
+## activate_virtualenv
+Activates a virtual environment and starts an interactive shell.
+
+This function activates a virtual environment located at `venv_path` and then
+launches an interactive bash shell with the virtual environment activated.
+
+:param venv_path: The path to the virtual environment directory.
+:type venv_path: str
+:return: None
+
+## parse_proc_net_file
+Internal function to parse a /proc/net file and extract network ports.
+
+This function reads a file specified by `file_path`, processes each line to
+extract local addresses and ports, and converts them from hexadecimal to decimal.
+The IP addresses are converted from hexadecimal format to standard dot-decimal
+notation. The function returns a list of tuples, each containing an IP address
+and a port number.
+
+:param file_path: The path to the /proc/net file to be parsed.
+:type file_path: str
+:return: A list of tuples, each containing an IP address and a port number.
+:rtype: list of tuple
+
+## get_open_ports
+Internal function to get open TCP and UDP ports on the operating system.
+
+This function uses the `parse_proc_net_file` function to extract open TCP and UDP
+ports from the corresponding /proc/net files. It returns two lists: one for TCP
+ports and one for UDP ports.
+
+:return: A tuple containing two lists: the first list with open TCP ports and
+        the second list with open UDP ports.
+:rtype: tuple of (list of tuple, list of tuple)
+
+## find_credentials
+Searches for potential credentials in files within the specified directory.
+
+This function uses a regular expression to find possible credentials such as
+passwords, secrets, API keys, and tokens in files within the given directory.
+It iterates through all files in the directory and prints any matches found.
+
+:param directory: The directory to search for files containing credentials.
+:type directory: str
+:return: None
+
+## rotate_char
+Internal function to rotate characters for ROT cipher.
+
+This function takes a character and a shift value, and rotates the character
+by the specified shift amount. It only affects alphabetical characters, leaving
+non-alphabetical characters unchanged.
+
+:param c: The character to be rotated.
+:type c: str
+:param shift: The number of positions to shift the character.
+:type shift: int
+:return: The rotated character.
+:rtype: str
+
+## get_network_info
+No description available.
+
+## getprompt
+Generate a command prompt string with network information and user status.
+
+:param: None
+
+:returns: A string representing the command prompt with network information and user status.
+
+Manual execution:
+To manually get a prompt string with network information and user status, ensure you have `get_network_info()` implemented to return a dictionary of network interfaces and their IPs. Then use the function to create a prompt string based on the current user and network info.
+
+Example:
+If the function `get_network_info()` returns:
+    {
+        'tun0': '10.0.0.1',
+        'eth0': '192.168.1.2'
+    }
+
+And the user is root, the prompt string generated might be:
+    [LazyOwn👽10.0.0.1]# 
+If the user is not root, it would be:
+    [LazyOwn👽10.0.0.1]$ 
+
+If no 'tun' interface is found, the function will use the first available IP or fallback to '127.0.0.1'.
+
+## wrapper
+internal wrapper of internal function to implement multiples rhost to operate. 
 

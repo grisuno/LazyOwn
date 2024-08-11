@@ -44,6 +44,8 @@ download() {
         "git clone https://github.com/ch4n3-yoon/django-pickleserializer-rce-poc.git .exploit/django-pickleserializer-rce-poc"
         "git clone https://github.com/xkaneiki/CVE-2023-0386 .exploit/CVE-2023-0386"
         "git clone https://github.com/7etsuo/CVE-2023-38408.git .exploit/CVE-2023-38408"
+        "git clone https://github.com/prodigiousMind/CVE-2023-41425.git .exploit/CVE-2023-41425"
+        "git clone https://github.com/whotwagner/logrotten.git .exploit/logrotten"
     )
     # Imprime los últimos argumentos de cada comando
     echo "    [+] Seleccione el número del comando que desea clonar:"

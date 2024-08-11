@@ -27,6 +27,7 @@ download() {
         "wget https://github.com/valorisa/socat-1.8.0.0_for_Windows/raw/main/socat-1.8.0.0.zip"
         "wget https://github.com/antonioCoco/RunasCs/releases/download/v1.5/RunasCs.zip"
         "wget https://github.com/peass-ng/PEASS-ng/releases/latest/download/linpeas.sh"
+        "wget https://github.com/prodigiousMind/revshell/archive/refs/heads/main.zip"
     )
 
     # Imprime los últimos argumentos de cada comando

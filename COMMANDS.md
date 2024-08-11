@@ -41,10 +41,10 @@ executed successfully or an exception occurred.
 ## set
 Set a parameter value.
 
-This function takes a line of input, splits it into a parameter and a value, 
+This function takes a line of input, splits it into a parameter and a value,
 and sets the specified parameter to the given value if the parameter exists.
 
-:param line: A string containing the parameter and value to be set. 
+:param line: A string containing the parameter and value to be set.
             Expected format: '<parameter> <value>'.
 :type line: str
 :return: None
@@ -254,7 +254,7 @@ Interacts with SMB shares using the `smbclient` command to perform the following
 :returns: None
 
 ## smbmap
-smbmap -H 10.10.10.3 [OPTIONS] 
+smbmap -H 10.10.10.3 [OPTIONS]
 Uses the `smbmap` tool to interact with SMB shares on a remote host:
 
 1. Checks if `rhost` (remote host) and `lhost` (local host) are set; if not, an error message is displayed.
@@ -542,6 +542,34 @@ Example:
 Example:
     wfuzz -c --hl=7 -t 200 -w /path/to/dirwordlist http://10.10.10.10/FUZZ
 
+## launchpad
+Searches for packages on Launchpad based on the provided search term and extracts codenames from the results. The distribution is extracted from the search term.
+
+:param line: The search term to be used for querying Launchpad. The `line` parameter should be a string containing
+            the search term, e.g., "8.2p1 Ubuntu 4ubuntu0.11".
+
+:returns: None
+
+Manual execution:
+To manually execute the equivalent command, use the following steps:
+
+1. Extract the distribution from the search term:
+- This function assumes the distribution name is part of the search term and is used to build the URL.
+
+2. URL encode the search term:
+- Replace spaces with `%20` to form the encoded search query.
+
+3. Use `curl` to perform the search and filter results:
+curl -s "https://launchpad.net/+search?field.text=<encoded_search_term>" | grep 'href' | grep '<distribution>' | grep -oP '(?<=href="https://launchpad.net/<distribution>/)[^/"]+' | sort -u
+
+Example:
+    If the search term is "8.2p1 Ubuntu 4ubuntu0.11", the command would be:
+    curl -s "https://launchpad.net/+search?field.text=8.2p1%20Ubuntu%204ubuntu0.11" | grep 'href' | grep 'ubuntu' | grep -oP '(?<=href="https://launchpad.net/ubuntu/)[^/"]+' | sort -u
+
+Notes:
+    - Ensure that `curl` is installed and accessible in your environment.
+    - The extracted codenames are printed to the console.
+
 ## gobuster
 Uses `gobuster` for directory and virtual host fuzzing based on provided parameters. Supports directory enumeration and virtual host discovery.
 
@@ -819,6 +847,41 @@ Encodes a string with the given shift value and substitution key
 ## decode
 Decodes a string with the given shift value and substitution key
 
+## creds
+Display the credentials stored in the `credentials.txt` file and copy the password to the clipboard.
+
+This function reads the stored credentials from a file named `credentials.txt` located in the `sessions` directory.
+The file should be in the format `username:password`. If the file does not exist, an error message will be printed
+instructing the user to create the credentials file first. The function extracts the username and password from the file,
+prints them, and copies the password to the clipboard using `xclip`.
+
+:param line: A string parameter that is not used in this function. It is included for compatibility with command-line
+            interface functions.
+
+:returns: None
+
+Manual execution:
+To manually perform the equivalent actions, follow these steps:
+
+    1. Ensure the file `sessions/credentials.txt` exists and contains credentials in the format `username:password`.
+    2. Read the file and extract the username and password.
+    3. Print the username and password to the console.
+    4. Use the `xclip` tool to copy the password to the clipboard. Example command:
+
+        echo '<password>' | xclip -sel clip
+
+Example:
+If `sessions/credentials.txt` contains `admin:password123`, the function will print:
+
+    User : admin
+    Pass : password123
+
+The password `password123` will be copied to the clipboard.
+
+Note:
+Ensure `xclip` is installed on your system for copying to the clipboard. The function assumes that `xclip` is available
+and correctly configured.
+
 ## rot
 Apply ROT13 substitution cipher to the given string.
 
@@ -827,6 +890,28 @@ Usage:
 
 ## hydra
 hydra -f -L sessions/users.txt -P /usr/share/wordlists/rockyou.txt 10.10.11.9 -s 5000 https-get /v2/
+
+## nmapscript
+Perform an Nmap scan using a specified script and port.
+
+:param line: A string containing the Nmap script and port, separated by a space. Example: "http-enum 80".
+
+:returns: None
+
+Manual execution:
+To manually run an Nmap scan with a script and port, use the following command format:
+
+    nmap --script <script> -p <port> <target> -oN <output-file>
+
+Example:
+If you want to use the script `http-enum` on port `80` for the target `10.10.10.10`, you would run:
+
+    nmap --script http-enum -p 80 10.10.10.10 -oN sessions/webScan_10.10.10.10
+
+Ensure you have the target host (`rhost`) set in the parameters and provide the script and port as arguments. The results will be saved in the file `sessions/webScan_<rhost>`.
+
+## encoderpayload
+No description available.
 
 ## smtpuserenum
 sudo smtp-user-enum -M VRFY -U /usr/share/wordlists/SecLists-master/Usernames/xato-net-10-million-usernames.txt -t 10.10.10.10
@@ -900,4 +985,10 @@ Decrypt a file using XOR. Usage: decrypt <file_path> <key>
 
 ## get_output
 Devuelve la salida acumulada
+
+## double_base64_encode
+No description available.
+
+## apply_obfuscations
+No description available.
 

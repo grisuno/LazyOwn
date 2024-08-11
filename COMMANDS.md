@@ -1,4 +1,4 @@
-# Documentation by readmeneitor.py
+# COMMANDS.md Documentation  by readmeneitor.py
 
 ## xor_encrypt_decrypt
 XOR Encrypt or Decrypt data with a given key

@@ -44,7 +44,7 @@ def extract_functions_and_comments(script_path):
 
 def generate_readme(functions, output_path):
     with open(output_path, "w") as file:
-        file.write("# Documentation by readmeneitor.py\n\n")
+        file.write(f"# {output_path} Documentation  by readmeneitor.py\n\n")
         for func_name, docstring in functions:
             print(f"[*] {func_name} : {docstring}")
             file.write(f"## {func_name}\n")

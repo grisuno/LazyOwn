@@ -522,7 +522,8 @@ def getprompt():
     if ip is None:
         ip = next(iter(network_info.values()), '127.0.0.1')
     prompt_char = f'{RED}#' if os.geteuid() == 0 else '$'
-    prompt = f"{YELLOW}[{RED}LazyOwn{WHITE}👽{CYAN}{ip}{YELLOW}]{BLINK}{GREEN}{prompt_char}{RESET} "
+    prompt = f"""{YELLOW}┌─{YELLOW}[{RED}LazyOwn{WHITE}👽{CYAN}{ip}{YELLOW}]
+    {YELLOW}└╼ {BLINK}{GREEN}{prompt_char}{RESET} """.replace('    ','')
 
     return prompt
 

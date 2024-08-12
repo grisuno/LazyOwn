@@ -175,7 +175,7 @@ pip install -r requirements.txt</code></pre>
             // Function to fetch the README.md file and convert it to HTML
             async function loadREADME() {
                 try {
-                    const response = await fetch('README.md');
+                    const response = await fetch('../README.md');
                     if (!response.ok) {
                         throw new Error('Failed to fetch README.md');
                     }

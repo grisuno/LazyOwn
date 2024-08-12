@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>LazyOwn Framework Doc: UTILS.md</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">LazyOwn Framework Doc: UTILS.md</h1>
+</header>
+<h1 id="utils.md-documentation-by-readmeneitor.py">UTILS.md
+Documentation by readmeneitor.py</h1>
+<h2 id="print_error">print_error</h2>
+<p>Prints an error message to the console.</p>
+<p>This function takes an error message as input and prints it to the
+console with a specific format to indicate that it is an error.</p>
+<p>:param error: The error message to be printed. :type error: str
+:return: None</p>
+<h2 id="print_msg">print_msg</h2>
+<p>Prints a message to the console.</p>
+<p>This function takes a message as input and prints it to the console
+with a specific format to indicate that it is an informational
+message.</p>
+<p>:param msg: The message to be printed. :type msg: str :return:
+None</p>
+<h2 id="print_warn">print_warn</h2>
+<p>Prints a warning message to the console.</p>
+<p>This function takes a warning message as input and prints it to the
+console with a specific format to indicate that it is a warning.</p>
+<p>:param warn: The warning message to be printed. :type warn: str
+:return: None</p>
+<h2 id="signal_handler">signal_handler</h2>
+<p>Handles signals such as Control + C and shows a message on how to
+exit.</p>
+<p>This function is used to handle signals like Control + C (SIGINT) and
+prints a warning message instructing the user on how to exit the program
+using the commands ‘exit’, ‘q’, or ‘qa’.</p>
+<p>:param sig: The signal number. :type sig: int :param frame: The
+current stack frame. :type frame: frame :return: None</p>
+<h2 id="check_rhost">check_rhost</h2>
+<p>Checks if the remote host (rhost) is defined and shows an error
+message if it is not.</p>
+<p>This function verifies if the <code>rhost</code> parameter is set. If
+it is not defined, an error message is printed, providing an example and
+directing the user to additional help.</p>
+<p>:param rhost: The remote host to be checked. :type rhost: str
+:return: True if rhost is defined, False otherwise. :rtype: bool</p>
+<h2 id="check_lhost">check_lhost</h2>
+<p>Checks if the local host (lhost) is defined and shows an error
+message if it is not.</p>
+<p>This function verifies if the <code>lhost</code> parameter is set. If
+it is not defined, an error message is printed, providing an example and
+directing the user to additional help.</p>
+<p>:param lhost: The local host to be checked. :type lhost: str :return:
+True if lhost is defined, False otherwise. :rtype: bool</p>
+<h2 id="check_lport">check_lport</h2>
+<p>Checks if the local port (lport) is defined and shows an error
+message if it is not.</p>
+<p>This function verifies if the <code>lport</code> parameter is set. If
+it is not defined, an error message is printed, providing an example and
+directing the user to additional help.</p>
+<p>:param lport: The local port to be checked. :type lport: int or str
+:return: True if lport is defined, False otherwise. :rtype: bool</p>
+<h2 id="is_binary_present">is_binary_present</h2>
+<p>Internal function to verify if a binary is present on the operating
+system.</p>
+<p>This function checks if a specified binary is available in the
+system’s PATH by using the <code>which</code> command. It returns True
+if the binary is found and False otherwise.</p>
+<p>:param binary_name: The name of the binary to be checked. :type
+binary_name: str :return: True if the binary is present, False
+otherwise. :rtype: bool</p>
+<h2 id="handle_multiple_rhosts">handle_multiple_rhosts</h2>
+<p>Internal function to handle multiple remote hosts (rhost) for
+operations.</p>
+<p>This function is a decorator that allows an operation to be performed
+across multiple remote hosts specified in
+<code>self.params["rhost"]</code>. It converts a single remote host into
+a list if necessary, and then iterates over each host, performing the
+given function with each host. After the operation, it restores the
+original remote host value.</p>
+<p>:param func: The function to be decorated and executed for each
+remote host. :type func: function :return: The decorated function.
+:rtype: function</p>
+<h2 id="check_sudo">check_sudo</h2>
+<p>Checks if the script is running with superuser (sudo) privileges, and
+if not, restarts the script with sudo privileges.</p>
+<p>This function verifies if the script is being executed with root
+privileges by checking the effective user ID. If the script is not
+running as root, it prints a warning message and restarts the script
+using sudo.</p>
+<p>:return: None</p>
+<h2 id="activate_virtualenv">activate_virtualenv</h2>
+<p>Activates a virtual environment and starts an interactive shell.</p>
+<p>This function activates a virtual environment located at
+<code>venv_path</code> and then launches an interactive bash shell with
+the virtual environment activated.</p>
+<p>:param venv_path: The path to the virtual environment directory.
+:type venv_path: str :return: None</p>
+<h2 id="parse_proc_net_file">parse_proc_net_file</h2>
+<p>Internal function to parse a /proc/net file and extract network
+ports.</p>
+<p>This function reads a file specified by <code>file_path</code>,
+processes each line to extract local addresses and ports, and converts
+them from hexadecimal to decimal. The IP addresses are converted from
+hexadecimal format to standard dot-decimal notation. The function
+returns a list of tuples, each containing an IP address and a port
+number.</p>
+<p>:param file_path: The path to the /proc/net file to be parsed. :type
+file_path: str :return: A list of tuples, each containing an IP address
+and a port number. :rtype: list of tuple</p>
+<h2 id="get_open_ports">get_open_ports</h2>
+<p>Internal function to get open TCP and UDP ports on the operating
+system.</p>
+<p>This function uses the <code>parse_proc_net_file</code> function to
+extract open TCP and UDP ports from the corresponding /proc/net files.
+It returns two lists: one for TCP ports and one for UDP ports.</p>
+<p>:return: A tuple containing two lists: the first list with open TCP
+ports and the second list with open UDP ports. :rtype: tuple of (list of
+tuple, list of tuple)</p>
+<h2 id="find_credentials">find_credentials</h2>
+<p>Searches for potential credentials in files within the specified
+directory.</p>
+<p>This function uses a regular expression to find possible credentials
+such as passwords, secrets, API keys, and tokens in files within the
+given directory. It iterates through all files in the directory and
+prints any matches found.</p>
+<p>:param directory: The directory to search for files containing
+credentials. :type directory: str :return: None</p>
+<h2 id="rotate_char">rotate_char</h2>
+<p>Internal function to rotate characters for ROT cipher.</p>
+<p>This function takes a character and a shift value, and rotates the
+character by the specified shift amount. It only affects alphabetical
+characters, leaving non-alphabetical characters unchanged.</p>
+<p>:param c: The character to be rotated. :type c: str :param shift: The
+number of positions to shift the character. :type shift: int :return:
+The rotated character. :rtype: str</p>
+<h2 id="get_network_info">get_network_info</h2>
+<p>Retrieves network interface information with their associated IP
+addresses.</p>
+<p>This function executes a shell command to gather network interface
+details, parses the output to extract interface names and their
+corresponding IP addresses, and returns this information in a dictionary
+format. The dictionary keys are interface names, and the values are IP
+addresses.</p>
+<p>:return: A dictionary where the keys are network interface names and
+the values are their associated IP addresses. :rtype: dict</p>
+<h2 id="getprompt">getprompt</h2>
+<p>Generate a command prompt string with network information and user
+status.</p>
+<p>:param: None</p>
+<p>:returns: A string representing the command prompt with network
+information and user status.</p>
+<p>Manual execution: To manually get a prompt string with network
+information and user status, ensure you have
+<code>get_network_info()</code> implemented to return a dictionary of
+network interfaces and their IPs. Then use the function to create a
+prompt string based on the current user and network info.</p>
+<p>Example: If the function <code>get_network_info()</code> returns: {
+‘tun0’: ‘10.0.0.1’, ‘eth0’: ‘192.168.1.2’ }</p>
+<p>And the user is root, the prompt string generated might be:
+[LazyOwn👽10.0.0.1]# If the user is not root, it would be:
+[LazyOwn👽10.0.0.1]$</p>
+<p>If no ‘tun’ interface is found, the function will use the first
+available IP or fallback to ‘127.0.0.1’.</p>
+<h2 id="wrapper">wrapper</h2>
+<p>internal wrapper of internal function to implement multiples rhost to
+operate.</p>
+</body>
+</html>

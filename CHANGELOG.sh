@@ -29,6 +29,9 @@ case $TYPE_OPTION in
   *) echo "Opción no válida"; exit 1 ;;
 esac
 
+# Solicitar el tipo del commit al usuario
+read -p "Introduce el tipo del commit (type): " TYPEDESC
+
 # Solicitar el mensaje del commit al usuario
 read -p "Introduce el mensaje del commit (subject): " SUBJECT
 
@@ -39,7 +42,7 @@ read -p "Introduce el cuerpo del commit (body): " BODY
 FOOTER="👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/"
 
 # Formatear el mensaje del commit
-COMMIT_MESSAGE="${TYPE}(${TYPE}): ${SUBJECT}\n\n${BODY}\n\n${FOOTER}"
+COMMIT_MESSAGE="${TYPE}(${TYPEDESC}): ${SUBJECT}\n\n${BODY}\n\n${FOOTER}"
 
 # Obtener el último tag y el commit actual
 START_COMMIT=$(git describe --tags --abbrev=0)

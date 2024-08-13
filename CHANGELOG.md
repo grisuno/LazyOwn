@@ -1,5 +1,6 @@
 # Changelog
 
+* feature(mejora CHANGELOG.sh): ahora actualiza usando readmeneitor.py\n\npronto utilizarà nuestro testmeneitor para probar que no subimos codigo con bugs\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
 * feat(mejorando el tipo): cambio en el script CHANGELOG.sh\n\nse mejora la descripcion de los tipos de commits\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
 * docs(docs): El cierre de una imagen en la documentación estaba mal :)\n\ntambien se modifico el CHANGELOG.sh que chulada de script\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
 * Nueva descripcion en el readme y probando el CHANGELOG.sh :)

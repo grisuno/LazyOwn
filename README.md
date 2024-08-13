@@ -4,7 +4,7 @@
  ![image](https://github.com/user-attachments/assets/79052f87-f87c-4b32-a4a2-854113ca3a4c)
   [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) ![image](https://github.com/user-attachments/assets/b69f1d31-c075-4713-a44e-a40a034a7407) ![image](https://github.com/user-attachments/assets/df82a669-be0c-4a03-bd98-842a67baaef6)
 
-![lazyown](https://github.com/user-attachments/assets/73097914-3af9-4b8f-8824-ed599dfc7e38
+![lazyown](https://github.com/user-attachments/assets/73097914-3af9-4b8f-8824-ed599dfc7e38)
 
 ```sh
 ██╗      █████╗ ███████╗██╗   ██╗ ██████╗ ██╗    ██╗███╗   ██╗

@@ -8,7 +8,7 @@ import time
 import signal
 
 EXCLUDED_FUNCTIONS = {'__init__', 'default', 'one_cmd', 'qa', 'getseclist'}
-TIMEOUT = 0.1  
+TIMEOUT = 0.3  
 
 def extract_functions(script_path):
     with open(script_path, "r") as file:

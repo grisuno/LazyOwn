@@ -1,5 +1,6 @@
 # Changelog
 
+* ahora el changelog a docs :D en formato html
 * HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 Ahora estamos en TryHackMe :D, nuestro QA Testmeneitor.py ya es màs inteligente ya no se le olvida cerrar las tareas que abrio xD, todos los comandos nuevos estan docuemntados en docs/COMMANDS.md y docs/UTILS.md todas las funciones nuevas como copy2clip :P, y estrenamos CHANGELOG.md y CHANGELOG.sh :D  👽
 * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 some changes in the web  pandoc README.md -f markdown -t html -s -o README.html madremia que comandazo 👽
 * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 some changes in the web  pandoc README.md -f markdown -t html -s -o README.html madremia que comandazo 👽

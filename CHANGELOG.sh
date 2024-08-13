@@ -1,5 +1,8 @@
 #!/bin/bash
 
+#TEST ME NEITOR
+python3 testmeneitor.py lazyown
+
 # Actualiza la documentación
 python3 readmeneitor.py lazyown
 python3 readmeneitor.py utils.py

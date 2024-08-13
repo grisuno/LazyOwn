@@ -6675,7 +6675,6 @@ if __name__ == "__main__":
                 'ip a show scope global | awk \'/^[0-9]+:/ { sub(/:/,"",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, "/"); print "    [\033[96m" iface"\033[0m] "a[1] }\''
             )
             p.onecmd(cmd)
-            p.onecmd('qa')
             p.cmdloop()
 
     if NOBANNER is False:

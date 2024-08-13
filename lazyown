@@ -4753,7 +4753,7 @@ class LazyOwnShell(Cmd):
 
 
         # List all .ovpn files
-        ovpn_files = sorted([f for f in os.listdir(".") if f.endswith(".ovpn")])
+        ovpn_files = sorted([f for f in os.listdir("vpn") if f.endswith(".ovpn")])
 
         # Handle no arguments
         if not line.strip():
@@ -4769,8 +4769,8 @@ class LazyOwnShell(Cmd):
             try:
                 choice = int(choice)
                 if 1 <= choice <= len(ovpn_files):
-                    os.system(f"sudo openvpn {ovpn_files[choice - 1]}")
-                    print_msg(f"Connecting to {ovpn_files[choice - 1]}")
+                    os.system(f"sudo openvpn vpn/{ovpn_files[choice - 1]}")
+                    print_msg(f"Connecting to vpn/{ovpn_files[choice - 1]}")
                 else:
                     print_error("Invalid choice. Please select a number from the list.")
             except ValueError:

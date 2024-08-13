@@ -2,7 +2,7 @@
 
 #TEST ME NEITOR
 python3 testmeneitor.py lazyown
-
+rm d2*
 # Actualiza la documentación
 python3 readmeneitor.py lazyown
 python3 readmeneitor.py utils.py

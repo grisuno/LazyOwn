@@ -4783,8 +4783,8 @@ class LazyOwnShell(Cmd):
                 try:
                     choice = int(args[0])
                     if 1 <= choice <= len(ovpn_files):
-                        os.system(f"sudo openvpn {ovpn_files[choice - 1]}")
-                        print_msg(f"Connecting to {ovpn_files[choice - 1]}")
+                        os.system(f"sudo openvpn vpn/{ovpn_files[choice - 1]}")
+                        print_msg(f"Connecting to vpn/{ovpn_files[choice - 1]}")
                     else:
                         print_error(
                             "Invalid number. Please select a number from the list."

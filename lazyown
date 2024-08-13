@@ -5583,7 +5583,7 @@ class LazyOwnShell(Cmd):
         if not check_rhost(rhost):
             return
         os.system(
-            f"rm sessions/cookie.txt sessions/{rhost} sessions/*{rhost}* sessions/aav.vbs sessions/*.html external/.exploit sessions/credentials.txt sessions/*.ps1 sessions/*.scf sessions/chisel* sessions/*.xml sessions/*.elf sessions/*.macho sessions/*.zip sessions/*.exe sessions/*.nmap* sessions/*.py sessions/req*  sessions/revshell* sessions/*.php sessions/hash.txt reports puertos sessions/test* sessions/*.xsl *.xsl -rf"
+            f"rm pcaps/* sessions/cookie.txt sessions/{rhost} sessions/*{rhost}* sessions/aav.vbs sessions/*.html external/.exploit sessions/credentials.txt sessions/*.ps1 sessions/*.scf sessions/chisel* sessions/*.xml sessions/*.elf sessions/*.macho sessions/*.zip sessions/*.exe sessions/*.nmap* sessions/*.py sessions/req*  sessions/revshell* sessions/*.php sessions/hash.txt reports puertos sessions/test* sessions/*.xsl *.xsl -rf"
         )
         print_msg(f"Cleanned sessions & external directory. {RESET}")
         return

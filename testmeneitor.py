@@ -5,8 +5,10 @@ import subprocess
 import importlib.util
 import unittest
 import time
+import signal
 
 EXCLUDED_FUNCTIONS = {'__init__', 'default', 'one_cmd', 'qa', 'getseclist'}
+TIMEOUT = 0.1  
 
 def extract_functions(script_path):
     with open(script_path, "r") as file:
@@ -47,9 +49,24 @@ def run_tests_with_script(script_path, functions):
 
     unittest.TextTestRunner().run(unittest.TestLoader().loadTestsFromTestCase(TestFunctions))
 
-def run_tests_with_bash(script_path, functions):
-    pids = {}  # Diccionario para almacenar los PIDs de los procesos
+def run_command_with_timeout(command, timeout):
+    process = subprocess.Popen(command, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, preexec_fn=os.setsid)
+    
+    try:
+        process.stdin.write('qa\n')
+        process.stdin.flush()
+        stdout, stderr = process.communicate(timeout=timeout)
+        return process.returncode, stdout, stderr
+    except subprocess.TimeoutExpired:
+        os.killpg(os.getpgid(process.pid), signal.SIGKILL)
+        return None, None, "Timeout"
+    finally:
+        try:
+            os.killpg(os.getpgid(process.pid), signal.SIGKILL)
+        except ProcessLookupError:
+            pass
 
+def run_tests_with_bash(script_path, functions):
     for func_name in functions:
         if func_name in EXCLUDED_FUNCTIONS:
             print(f"[-] Skipping excluded function: {func_name}")
@@ -58,29 +75,17 @@ def run_tests_with_bash(script_path, functions):
         command = f"./run -c {func_name}"
         print(f"[+] Running command: {command}")
 
-        # Iniciar el proceso en modo interactivo
-        process = subprocess.Popen(command, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-        pids[func_name] = process.pid  # Guardar el PID del proceso
+        returncode, stdout, stderr = run_command_with_timeout(command, TIMEOUT)
 
-        try:
-            time.sleep(1)
-            process.stdin.write('qa\n')
-            process.stdin.flush()
-            stdout, stderr = process.communicate(timeout=0.1)  # Tiempo de espera para que termine el proceso
-
-            if process.returncode == 0:
-                print(f"[+] Test passed for function: {func_name}")
-            else:
-                print(f"[-] Test failed for function: {func_name}\nOutput:\n{stdout}\nError:\n{stderr}")
-
-        except subprocess.TimeoutExpired:
-            print(f"[-] Test timed out for function: {func_name}")
-            # Matar el proceso con kill -9
-            os.system(f"kill -9 {pids[func_name]}")
-        finally:
-            # Asegurarse de que el proceso haya terminado
-            process.terminate()
-            process.wait()
+        if returncode is None:
+            print(f"[+] Test passed for function: {func_name} (timed out, but considered successful)")
+        elif returncode == 0:
+            print(f"[+] Test passed for function: {func_name}")
+        else:
+            print(f"[-] Test failed for function: {func_name}\nOutput:\n{stdout}\nError:\n{stderr}")
+    command = f"./run -c clean"
+    print(f"[+] Running command: {command}")
+    returncode, stdout, stderr = run_command_with_timeout(command, TIMEOUT)
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:

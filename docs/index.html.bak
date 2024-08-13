@@ -1476,168 +1476,6 @@ readmeneitor.py</h1>
 <p>Documentación creada automaticamente por el script readmeneitor.py
 creado para este proyecto, quizas algún día tenga su propio repo por
 ahora no lo veo necesario.</p>
-<h1 id="utils.md-documentation-by-readmeneitor.py">UTILS.md
-Documentation by readmeneitor.py</h1>
-<h2 id="print_error">print_error</h2>
-<p>Prints an error message to the console.</p>
-<p>This function takes an error message as input and prints it to the
-console with a specific format to indicate that it is an error.</p>
-<p>:param error: The error message to be printed. :type error: str
-:return: None</p>
-<h2 id="print_msg">print_msg</h2>
-<p>Prints a message to the console.</p>
-<p>This function takes a message as input and prints it to the console
-with a specific format to indicate that it is an informational
-message.</p>
-<p>:param msg: The message to be printed. :type msg: str :return:
-None</p>
-<h2 id="print_warn">print_warn</h2>
-<p>Prints a warning message to the console.</p>
-<p>This function takes a warning message as input and prints it to the
-console with a specific format to indicate that it is a warning.</p>
-<p>:param warn: The warning message to be printed. :type warn: str
-:return: None</p>
-<h2 id="signal_handler">signal_handler</h2>
-<p>Handles signals such as Control + C and shows a message on how to
-exit.</p>
-<p>This function is used to handle signals like Control + C (SIGINT) and
-prints a warning message instructing the user on how to exit the program
-using the commands ‘exit’, ‘q’, or ‘qa’.</p>
-<p>:param sig: The signal number. :type sig: int :param frame: The
-current stack frame. :type frame: frame :return: None</p>
-<h2 id="check_rhost">check_rhost</h2>
-<p>Checks if the remote host (rhost) is defined and shows an error
-message if it is not.</p>
-<p>This function verifies if the <code>rhost</code> parameter is set. If
-it is not defined, an error message is printed, providing an example and
-directing the user to additional help.</p>
-<p>:param rhost: The remote host to be checked. :type rhost: str
-:return: True if rhost is defined, False otherwise. :rtype: bool</p>
-<h2 id="check_lhost">check_lhost</h2>
-<p>Checks if the local host (lhost) is defined and shows an error
-message if it is not.</p>
-<p>This function verifies if the <code>lhost</code> parameter is set. If
-it is not defined, an error message is printed, providing an example and
-directing the user to additional help.</p>
-<p>:param lhost: The local host to be checked. :type lhost: str :return:
-True if lhost is defined, False otherwise. :rtype: bool</p>
-<h2 id="check_lport">check_lport</h2>
-<p>Checks if the local port (lport) is defined and shows an error
-message if it is not.</p>
-<p>This function verifies if the <code>lport</code> parameter is set. If
-it is not defined, an error message is printed, providing an example and
-directing the user to additional help.</p>
-<p>:param lport: The local port to be checked. :type lport: int or str
-:return: True if lport is defined, False otherwise. :rtype: bool</p>
-<h2 id="is_binary_present">is_binary_present</h2>
-<p>Internal function to verify if a binary is present on the operating
-system.</p>
-<p>This function checks if a specified binary is available in the
-system’s PATH by using the <code>which</code> command. It returns True
-if the binary is found and False otherwise.</p>
-<p>:param binary_name: The name of the binary to be checked. :type
-binary_name: str :return: True if the binary is present, False
-otherwise. :rtype: bool</p>
-<h2 id="handle_multiple_rhosts">handle_multiple_rhosts</h2>
-<p>Internal function to handle multiple remote hosts (rhost) for
-operations.</p>
-<p>This function is a decorator that allows an operation to be performed
-across multiple remote hosts specified in
-<code>self.params["rhost"]</code>. It converts a single remote host into
-a list if necessary, and then iterates over each host, performing the
-given function with each host. After the operation, it restores the
-original remote host value.</p>
-<p>:param func: The function to be decorated and executed for each
-remote host. :type func: function :return: The decorated function.
-:rtype: function</p>
-<h2 id="check_sudo">check_sudo</h2>
-<p>Checks if the script is running with superuser (sudo) privileges, and
-if not, restarts the script with sudo privileges.</p>
-<p>This function verifies if the script is being executed with root
-privileges by checking the effective user ID. If the script is not
-running as root, it prints a warning message and restarts the script
-using sudo.</p>
-<p>:return: None</p>
-<h2 id="activate_virtualenv">activate_virtualenv</h2>
-<p>Activates a virtual environment and starts an interactive shell.</p>
-<p>This function activates a virtual environment located at
-<code>venv_path</code> and then launches an interactive bash shell with
-the virtual environment activated.</p>
-<p>:param venv_path: The path to the virtual environment directory.
-:type venv_path: str :return: None</p>
-<h2 id="parse_proc_net_file">parse_proc_net_file</h2>
-<p>Internal function to parse a /proc/net file and extract network
-ports.</p>
-<p>This function reads a file specified by <code>file_path</code>,
-processes each line to extract local addresses and ports, and converts
-them from hexadecimal to decimal. The IP addresses are converted from
-hexadecimal format to standard dot-decimal notation. The function
-returns a list of tuples, each containing an IP address and a port
-number.</p>
-<p>:param file_path: The path to the /proc/net file to be parsed. :type
-file_path: str :return: A list of tuples, each containing an IP address
-and a port number. :rtype: list of tuple</p>
-<h2 id="get_open_ports">get_open_ports</h2>
-<p>Internal function to get open TCP and UDP ports on the operating
-system.</p>
-<p>This function uses the <code>parse_proc_net_file</code> function to
-extract open TCP and UDP ports from the corresponding /proc/net files.
-It returns two lists: one for TCP ports and one for UDP ports.</p>
-<p>:return: A tuple containing two lists: the first list with open TCP
-ports and the second list with open UDP ports. :rtype: tuple of (list of
-tuple, list of tuple)</p>
-<h2 id="find_credentials">find_credentials</h2>
-<p>Searches for potential credentials in files within the specified
-directory.</p>
-<p>This function uses a regular expression to find possible credentials
-such as passwords, secrets, API keys, and tokens in files within the
-given directory. It iterates through all files in the directory and
-prints any matches found.</p>
-<p>:param directory: The directory to search for files containing
-credentials. :type directory: str :return: None</p>
-<h2 id="rotate_char">rotate_char</h2>
-<p>Internal function to rotate characters for ROT cipher.</p>
-<p>This function takes a character and a shift value, and rotates the
-character by the specified shift amount. It only affects alphabetical
-characters, leaving non-alphabetical characters unchanged.</p>
-<p>:param c: The character to be rotated. :type c: str :param shift: The
-number of positions to shift the character. :type shift: int :return:
-The rotated character. :rtype: str</p>
-<h2 id="get_network_info">get_network_info</h2>
-<p>Retrieves network interface information with their associated IP
-addresses.</p>
-<p>This function executes a shell command to gather network interface
-details, parses the output to extract interface names and their
-corresponding IP addresses, and returns this information in a dictionary
-format. The dictionary keys are interface names, and the values are IP
-addresses.</p>
-<p>:return: A dictionary where the keys are network interface names and
-the values are their associated IP addresses. :rtype: dict</p>
-<h2 id="getprompt">getprompt</h2>
-<p>Generate a command prompt string with network information and user
-status.</p>
-<p>:param: None</p>
-<p>:returns: A string representing the command prompt with network
-information and user status.</p>
-<p>Manual execution: To manually get a prompt string with network
-information and user status, ensure you have
-<code>get_network_info()</code> implemented to return a dictionary of
-network interfaces and their IPs. Then use the function to create a
-prompt string based on the current user and network info.</p>
-<p>Example: If the function <code>get_network_info()</code> returns: {
-‘tun0’: ‘10.0.0.1’, ‘eth0’: ‘192.168.1.2’ }</p>
-<p>And the user is root, the prompt string generated might be:
-[LazyOwn👽10.0.0.1]# If the user is not root, it would be:
-[LazyOwn👽10.0.0.1]$</p>
-<p>If no ‘tun’ interface is found, the function will use the first
-available IP or fallback to ‘127.0.0.1’.</p>
-<h2 id="copy2clip">copy2clip</h2>
-<p>Copia el texto proporcionado al portapapeles usando xclip.</p>
-<p>Args: text (str): El texto que se desea copiar al portapapeles.</p>
-<p>Example: copy2clip(“Hello, World!”)</p>
-<h2 id="wrapper">wrapper</h2>
-<p>internal wrapper of internal function to implement multiples rhost to
-operate.</p>
 <h1 id="commands.md-documentation-by-readmeneitor.py">COMMANDS.md
 Documentation by readmeneitor.py</h1>
 <h2 id="xor_encrypt_decrypt">xor_encrypt_decrypt</h2>
@@ -1705,12 +1543,63 @@ specified path, using the <code>binary_name</code> parameter from the
 set, it prints an error message.</p>
 <p>:return: None</p>
 <h2 id="lazysearch_gui">lazysearch_gui</h2>
-<p>Run internal module modules/LazyOwnExplorer.py</p>
+<p>Run the internal module located at
+<code>modules/LazyOwnExplorer.py</code>.</p>
+<p>This method executes the <code>LazyOwnExplorer.py</code> script,
+which is used for graphical user interface (GUI) functionality within
+the LazyOwn framework.</p>
+<p>The function performs the following steps:</p>
+<ol type="1">
+<li>Calls <code>self.run_script</code> with
+<code>LazyOwnExplorer.py</code> to execute the GUI module.</li>
+</ol>
+<p>:returns: None</p>
+<p>Manual execution: 1. Ensure that the
+<code>modules/LazyOwnExplorer.py</code> script is present in the
+<code>modules</code> directory. 2. Run the script with:
+<code>python3 modules/LazyOwnExplorer.py</code></p>
+<p>Example: To run <code>LazyOwnExplorer.py</code> directly, execute:
+<code>python3 modules/LazyOwnExplorer.py</code></p>
+<p>Note: - Ensure that the script has the appropriate permissions and
+dependencies to run. - Verify that your environment supports GUI
+operations if using this script in a non-graphical environment.</p>
 <h2 id="lazyown-1">lazyown</h2>
-<p>Run internal module modules/lazyown.py</p>
+<p>Run the internal module located at
+<code>modules/lazyown.py</code>.</p>
+<p>This method executes the <code>lazyown.py</code> script, which is a
+core component of the LazyOwn framework.</p>
+<p>The function performs the following steps:</p>
+<ol type="1">
+<li>Calls <code>self.run_script</code> with <code>lazyown.py</code> to
+execute the script.</li>
+</ol>
+<p>:returns: None</p>
+<p>Manual execution: 1. Ensure that the <code>modules/lazyown.py</code>
+script is present in the <code>modules</code> directory. 2. Run the
+script with: <code>python3 modules/lazyown.py</code></p>
+<p>Example: To run <code>lazyown.py</code> directly, execute:
+<code>python3 modules/lazyown.py</code></p>
+<p>Note: - Ensure that the script has the appropriate permissions and
+dependencies to run.</p>
 <h2 id="update_db">update_db</h2>
-<p>Run internal module modules/update_db.sh to update the db of binary
-exploitables from gtofbins</p>
+<p>Run the internal module located at
+<code>modules/update_db.sh</code>.</p>
+<p>This method executes the <code>update_db.sh</code> script to update
+the database of binary exploitables from <code>gtofbins</code>.</p>
+<p>The function performs the following steps:</p>
+<ol type="1">
+<li>Executes the <code>update_db.sh</code> script located in the
+<code>modules</code> directory using <code>os.system</code>.</li>
+</ol>
+<p>:returns: None</p>
+<p>Manual execution: 1. Ensure that the
+<code>modules/update_db.sh</code> script is present in the
+<code>modules</code> directory. 2. Run the script with:
+<code>./modules/update_db.sh</code></p>
+<p>Example: To manually update the database, execute:
+<code>./modules/update_db.sh</code></p>
+<p>Note: - Ensure that the script has execute permissions. - The script
+should be run with the necessary privileges if required.</p>
 <h2 id="lazynmap">lazynmap</h2>
 <p>Runs the internal module <code>modules/lazynmap.sh</code> for
 multiple Nmap scans.</p>
@@ -1720,10 +1609,65 @@ current working directory and the <code>rhost</code> parameter from the
 <code>rhost</code> is not set, it prints an error message.</p>
 <p>:return: None</p>
 <h2 id="lazywerkzeugdebug">lazywerkzeugdebug</h2>
-<p>test werkzeug in debugmode Run internal module
-modules/lazywerkzeug.py</p>
+<p>Run the internal module located at
+<code>modules/lazywerkzeug.py</code> in debug mode.</p>
+<p>This method executes the <code>lazywerkzeug.py</code> script with the
+specified parameters for remote and local hosts and ports. It is used to
+test Werkzeug in debug mode.</p>
+<p>The function performs the following steps:</p>
+<ol type="1">
+<li>Retrieves the <code>rhost</code>, <code>lhost</code>,
+<code>rport</code>, and <code>lport</code> values from
+<code>self.params</code>.</li>
+<li>Checks if all required parameters are set. If not, prints an error
+message and returns.</li>
+<li>Calls <code>self.run_script</code> with <code>lazywerkzeug.py</code>
+and the specified parameters.</li>
+</ol>
+<p>:param rhost: The remote host address. :type rhost: str</p>
+<p>:param lhost: The local host address. :type lhost: str</p>
+<p>:param rport: The remote port number. :type rport: int</p>
+<p>:param lport: The local port number. :type lport: int</p>
+<p>:returns: None</p>
+<p>Manual execution: 1. Ensure that <code>rhost</code>,
+<code>lhost</code>, <code>rport</code>, and <code>lport</code> are set
+in <code>self.params</code>. 2. The script
+<code>modules/lazywerkzeug.py</code> should be present in the
+<code>modules</code> directory. 3. Run the script with:
+<code>python3 modules/lazywerkzeug.py &lt;rhost&gt; &lt;rport&gt; &lt;lhost&gt; &lt;lport&gt;</code></p>
+<p>Example: To run <code>lazywerkzeug.py</code> with <code>rhost</code>
+set to <code>"127.0.0.1"</code>, <code>rport</code> to
+<code>5000</code>, <code>lhost</code> to <code>"localhost"</code>, and
+<code>lport</code> to <code>8000</code>, set:
+<code>self.params["rhost"] = "127.0.0.1"</code>
+<code>self.params["rport"] = 5000</code>
+<code>self.params["lhost"] = "localhost"</code>
+<code>self.params["lport"] = 8000</code> Then call:
+<code>run_lazywerkzeugdebug()</code></p>
+<p>Note: - Ensure that <code>modules/lazywerkzeug.py</code> has the
+appropriate permissions and dependencies to run. - Verify that the
+specified hosts and ports are correct and available.</p>
 <h2 id="lazygath">lazygath</h2>
-<p>Run internal module modules/lazygat.sh</p>
+<p>Run the internal module located at <code>modules/lazygat.sh</code>.
+to gathering the sistem :)</p>
+<p>This method executes the <code>lazygat.sh</code> script located in
+the <code>modules</code> directory with <code>sudo</code>
+privileges.</p>
+<p>The function performs the following steps:</p>
+<ol type="1">
+<li>Retrieves the current working directory.</li>
+<li>Executes the <code>lazygat.sh</code> script using <code>sudo</code>
+to ensure it runs with elevated permissions.</li>
+</ol>
+<p>:returns: None</p>
+<p>Manual execution: 1. Ensure that the <code>modules/lazygat.sh</code>
+script is present in the <code>modules</code> directory. 2. Run the
+script with: <code>sudo ./modules/lazygat.sh</code></p>
+<p>Example: To manually run the script with elevated privileges,
+execute: <code>sudo ./modules/lazygat.sh</code></p>
+<p>Note: - Ensure that the script has execute permissions. - The script
+should be run with <code>sudo</code> if it requires elevated
+privileges.</p>
 <h2 id="lazynmapdiscovery">lazynmapdiscovery</h2>
 <p>Runs the internal module <code>modules/lazynmap.sh</code> with
 discovery mode.</p>
@@ -1731,47 +1675,779 @@ discovery mode.</p>
 mode. It uses the current working directory for locating the script.</p>
 <p>:return: None</p>
 <h2 id="lazysniff">lazysniff</h2>
-<p>Runs the internal module <code>modules/lazysniff.py</code>.</p>
-<p>This method executes the <code>lazysniff</code> script with the
-specified network device from the <code>device</code> parameter in
-<code>self.params</code>. It sets environment variables for language and
-terminal type and uses <code>subprocess.run</code> to handle the
-execution.</p>
-<p>:return: None</p>
+<p>Run the sniffer internal module located at
+<code>modules/lazysniff.py</code> with the specified parameters.</p>
+<p>This method executes the script with the following arguments:</p>
+<ul>
+<li><code>device</code>: The network interface to be used for sniffing,
+specified in <code>self.params</code>.</li>
+</ul>
+<p>The function performs the following steps:</p>
+<ol type="1">
+<li>Retrieves the <code>device</code> value from
+<code>self.params</code>.</li>
+<li>Sets up the environment variables <code>LANG</code> and
+<code>TERM</code> to ensure proper script execution.</li>
+<li>Uses <code>subprocess.run</code> to execute the
+<code>lazysniff.py</code> script with the <code>-i</code> option to
+specify the network interface.</li>
+</ol>
+<p>:param device: The network interface to be used for sniffing. :type
+device: str</p>
+<p>:returns: None</p>
+<p>Manual execution: 1. Ensure that <code>device</code> is set in
+<code>self.params</code>. 2. The script
+<code>modules/lazysniff.py</code> should be present in the
+<code>modules</code> directory. 3. Run the script with:
+<code>python3 modules/lazysniff.py -i &lt;device&gt;</code></p>
+<p>Example: To run <code>lazysniff</code> with <code>device</code> set
+to <code>"eth0"</code>, set: <code>self.params["device"] = "eth0"</code>
+Then call: <code>run_lazysniff()</code></p>
+<p>Note: - Ensure that <code>modules/lazysniff.py</code> has the
+appropriate permissions and dependencies to run. - Ensure that the
+network interface specified is valid and properly configured.</p>
 <h2 id="lazyftpsniff">lazyftpsniff</h2>
-<p>Run internal module modules/lazyftpsniff.py</p>
+<p>Run the sniffer ftp internal module located at
+<code>modules/lazyftpsniff.py</code> with the specified parameters.</p>
+<p>This function executes the script with the following arguments:</p>
+<ul>
+<li><code>device</code>: The network interface to be used for sniffing,
+specified in <code>self.params</code>.</li>
+</ul>
+<p>The function performs the following steps:</p>
+<ol type="1">
+<li>Retrieves the <code>device</code> value from
+<code>self.params</code>.</li>
+<li>Sets up the environment variables <code>LANG</code> and
+<code>TERM</code> to ensure proper script execution.</li>
+<li>Uses <code>subprocess.run</code> to execute the
+<code>lazyftpsniff.py</code> script with the <code>-i</code> option to
+specify the network interface.</li>
+</ol>
+<p>:param device: The network interface to be used for sniffing. :type
+device: str</p>
+<p>:returns: None</p>
+<p>Manual execution: 1. Ensure that <code>device</code> is set in
+<code>self.params</code>. 2. The script
+<code>modules/lazyftpsniff.py</code> should be present in the
+<code>modules</code> directory. 3. Run the script with:
+<code>python3 modules/lazyftpsniff.py -i &lt;device&gt;</code></p>
+<p>Example: To run <code>lazyftpsniff</code> with <code>device</code>
+set to <code>"eth0"</code>, set:
+<code>self.params["device"] = "eth0"</code> Then call:
+<code>run_lazyftpsniff()</code></p>
+<p>Note: - Ensure that <code>modules/lazyftpsniff.py</code> has the
+appropriate permissions and dependencies to run. - Ensure that the
+network interface specified is valid and properly configured.</p>
 <h2 id="lazynetbios">lazynetbios</h2>
-<p>Run internal module modules/lazynetbios.py</p>
+<p>Run the internal module to search netbios vuln victims, located at
+<code>modules/lazynetbios.py</code> with the specified parameters.</p>
+<p>This function executes the script with the following arguments:</p>
+<ul>
+<li><code>startip</code>: The starting IP address for the NetBIOS scan,
+specified in <code>self.params</code>.</li>
+<li><code>endip</code>: The ending IP address for the NetBIOS scan,
+specified in <code>self.params</code>.</li>
+<li><code>spoof_ip</code>: The IP address to be used for spoofing,
+specified in <code>self.params</code>.</li>
+</ul>
+<p>The function performs the following steps:</p>
+<ol type="1">
+<li>Retrieves the <code>startip</code>, <code>endip</code>, and
+<code>spoof_ip</code> values from <code>self.params</code>.</li>
+<li>Uses <code>subprocess.run</code> to execute the
+<code>lazynetbios.py</code> script with the specified parameters.</li>
+</ol>
+<p>:param startip: The starting IP address for the NetBIOS scan. :type
+startip: str</p>
+<p>:param endip: The ending IP address for the NetBIOS scan. :type
+endip: str</p>
+<p>:param spoof_ip: The IP address to be used for spoofing. :type
+spoof_ip: str</p>
+<p>:returns: None</p>
+<p>Manual execution: 1. Ensure that <code>startip</code>,
+<code>endip</code>, and <code>spoof_ip</code> are set in
+<code>self.params</code>. 2. The script
+<code>modules/lazynetbios.py</code> should be present in the
+<code>modules</code> directory. 3. Run the script with:
+<code>python3 modules/lazynetbios.py &lt;startip&gt; &lt;endip&gt; &lt;spoof_ip&gt;</code></p>
+<p>Example: To run <code>lazynetbios</code> with <code>startip</code>
+set to <code>"192.168.1.1"</code>, <code>endip</code> set to
+<code>"192.168.1.10"</code>, and <code>spoof_ip</code> set to
+<code>"192.168.1.100"</code>, set:
+<code>self.params["startip"] = "192.168.1.1"</code>
+<code>self.params["endip"] = "192.168.1.10"</code>
+<code>self.params["spoof_ip"] = "192.168.1.100"</code> Then call:
+<code>run_lazynetbios()</code></p>
+<p>Note: - Ensure that <code>modules/lazynetbios.py</code> has the
+appropriate permissions and dependencies to run. - Ensure that the IP
+addresses are correctly set and valid for the NetBIOS scan.</p>
 <h2 id="lazyhoneypot">lazyhoneypot</h2>
-<p>Run internal module modules/lazyhoneypot.py</p>
+<p>Run the internal module located at
+<code>modules/lazyhoneypot.py</code> with the specified parameters.</p>
+<p>This function executes the script with the following arguments:</p>
+<ul>
+<li><code>email_from</code>: The email address from which messages will
+be sent, specified in <code>self.params</code>.</li>
+<li><code>email_to</code>: The recipient email address, specified in
+<code>self.params</code>.</li>
+<li><code>email_username</code>: The username for email authentication,
+specified in <code>self.params</code>.</li>
+<li><code>email_password</code>: The password for email authentication,
+specified in <code>self.params</code>.</li>
+</ul>
+<p>The function performs the following steps:</p>
+<ol type="1">
+<li>Retrieves the <code>email_from</code>, <code>email_to</code>,
+<code>email_username</code>, and <code>email_password</code> values from
+<code>self.params</code>.</li>
+<li>Calls the <code>run_script</code> method to execute the
+<code>lazyhoneypot.py</code> script with the provided email
+parameters.</li>
+</ol>
+<p>:param email_from: The email address from which messages will be
+sent. :type email_from: str</p>
+<p>:param email_to: The recipient email address. :type email_to: str</p>
+<p>:param email_username: The username for email authentication. :type
+email_username: str</p>
+<p>:param email_password: The password for email authentication. :type
+email_password: str</p>
+<p>:returns: None</p>
+<p>Manual execution: 1. Ensure that <code>email_from</code>,
+<code>email_to</code>, <code>email_username</code>, and
+<code>email_password</code> are set in <code>self.params</code>. 2. The
+script <code>modules/lazyhoneypot.py</code> should be present in the
+<code>modules</code> directory. 3. Run the script with:
+<code>python3 modules/lazyhoneypot.py --email_from &lt;email_from&gt; --email_to &lt;email_to&gt; --email_username &lt;email_username&gt; --email_password &lt;email_password&gt;</code></p>
+<p>Example: To run <code>lazyhoneypot</code> with
+<code>email_from</code> set to <code>"sender@example.com"</code>,
+<code>email_to</code> set to <code>"recipient@example.com"</code>,
+<code>email_username</code> set to <code>"user"</code>, and
+<code>email_password</code> set to <code>"pass"</code>, set:
+<code>self.params["email_from"] = "sender@example.com"</code>
+<code>self.params["email_to"] = "recipient@example.com"</code>
+<code>self.params["email_username"] = "user"</code>
+<code>self.params["email_password"] = "pass"</code> Then call:
+<code>run_lazyhoneypot()</code></p>
+<p>Note: - Ensure that <code>modules/lazyhoneypot.py</code> has the
+appropriate permissions and dependencies to run. - Ensure that the email
+credentials are correctly set for successful authentication and
+operation.</p>
 <h2 id="lazygptcli">lazygptcli</h2>
-<p>Run internal module modules/lazygptcli.py</p>
+<p>Run the internal module to create Oneliners with Groq AI located at
+<code>modules/lazygptcli.py</code> with the specified parameters.</p>
+<p>This function executes the script with the following arguments:</p>
+<ul>
+<li><code>prompt</code>: The prompt to be used by the script, specified
+in <code>self.params</code>.</li>
+<li><code>api_key</code>: The API key to be set in the environment
+variable <code>GROQ_API_KEY</code>, specified in
+<code>self.params</code>.</li>
+</ul>
+<p>The function performs the following steps:</p>
+<ol type="1">
+<li>Retrieves the <code>prompt</code> and <code>api_key</code> values
+from <code>self.params</code>.</li>
+<li>Checks if both <code>prompt</code> and <code>api_key</code> are set.
+If either is missing, it prints an error message and returns.</li>
+<li>Sets the environment variable <code>GROQ_API_KEY</code> with the
+provided <code>api_key</code>.</li>
+<li>Calls the <code>run_script</code> method to execute the
+<code>lazygptcli.py</code> script with the <code>--prompt</code>
+argument.</li>
+</ol>
+<p>:param prompt: The prompt to be used by the script. :type prompt:
+str</p>
+<p>:param api_key: The API key for accessing the service. :type api_key:
+str</p>
+<p>:returns: None</p>
+<p>Manual execution: 1. Ensure that <code>prompt</code> and
+<code>api_key</code> are set in <code>self.params</code>. 2. The script
+<code>modules/lazygptcli.py</code> should be present in the
+<code>modules</code> directory. 3. Set the environment variable
+<code>GROQ_API_KEY</code> with the API key value. 4. Run the script
+with:
+<code>python3 modules/lazygptcli.py --prompt &lt;prompt&gt;</code></p>
+<p>Example: To run <code>lazygptcli</code> with <code>prompt</code> set
+to <code>"Your prompt"</code> and <code>api_key</code> set to
+<code>"your_api_key"</code>, set:
+<code>self.params["prompt"] = "Your prompt"</code>
+<code>self.params["api_key"] = "your_api_key"</code> Then call:
+<code>run_lazygptcli()</code></p>
+<p>Note: - Ensure that <code>modules/lazygptcli.py</code> has the
+appropriate permissions and dependencies to run. - The environment
+variable <code>GROQ_API_KEY</code> must be correctly set for the script
+to function.</p>
 <h2 id="lazysearch_bot">lazysearch_bot</h2>
-<p>Run internal module modules/lazysearch_bot.py</p>
+<p>Run the internal module GROQ AI located at
+<code>modules/lazysearch_bot.py</code> with the specified
+parameters.</p>
+<p>This function executes the script with the following arguments:</p>
+<ul>
+<li><code>prompt</code>: The prompt to be used by the script, specified
+in <code>self.params</code>.</li>
+<li><code>api_key</code>: The API key to be set in the environment
+variable <code>GROQ_API_KEY</code>, specified in
+<code>self.params</code>.</li>
+</ul>
+<p>The function performs the following steps:</p>
+<ol type="1">
+<li>Retrieves the <code>prompt</code> and <code>api_key</code> values
+from <code>self.params</code>.</li>
+<li>Checks if both <code>prompt</code> and <code>api_key</code> are set.
+If either is missing, it prints an error message and returns.</li>
+<li>Sets the environment variable <code>GROQ_API_KEY</code> with the
+provided <code>api_key</code>.</li>
+<li>Calls the <code>run_script</code> method to execute the
+<code>lazysearch_bot.py</code> script with the <code>--prompt</code>
+argument.</li>
+</ol>
+<p>:param prompt: The prompt to be used by the script. :type prompt:
+str</p>
+<p>:param api_key: The API key for accessing the service. :type api_key:
+str</p>
+<p>:returns: None</p>
+<p>Manual execution: 1. Ensure that <code>prompt</code> and
+<code>api_key</code> are set in <code>self.params</code>. 2. The script
+<code>modules/lazysearch_bot.py</code> should be present in the
+<code>modules</code> directory. 3. Set the environment variable
+<code>GROQ_API_KEY</code> with the API key value. 4. Run the script
+with:
+<code>python3 modules/lazysearch_bot.py --prompt &lt;prompt&gt;</code></p>
+<p>Example: To run <code>lazysearch_bot</code> with <code>prompt</code>
+set to <code>"Search query"</code> and <code>api_key</code> set to
+<code>"your_api_key"</code>, set:
+<code>self.params["prompt"] = "Search query"</code>
+<code>self.params["api_key"] = "your_api_key"</code> Then call:
+<code>run_lazysearch_bot()</code></p>
+<p>Note: - Ensure that <code>modules/lazysearch_bot.py</code> has the
+appropriate permissions and dependencies to run. - The environment
+variable <code>GROQ_API_KEY</code> must be correctly set for the script
+to function.</p>
 <h2 id="lazymetaextract0r">lazymetaextract0r</h2>
-<p>Run internal module modules/lazyown_metaextract0r.py</p>
+<p>Run the Metadata extractor internal module located at
+<code>modules/lazyown_metaextract0r.py</code> with the specified
+parameters.</p>
+<p>This function executes the script with the following arguments:</p>
+<ul>
+<li><code>path</code>: The file path to be processed by the script,
+specified in <code>self.params</code>.</li>
+</ul>
+<p>The function performs the following steps:</p>
+<ol type="1">
+<li>Retrieves the value for <code>path</code> from
+<code>self.params</code>.</li>
+<li>Checks if the <code>path</code> parameter is set. If not, it prints
+an error message and returns.</li>
+<li>Calls the <code>run_script</code> method to execute the
+<code>lazyown_metaextract0r.py</code> script with the appropriate
+argument.</li>
+</ol>
+<p>:param path: The file path to be processed by the script. :type path:
+str</p>
+<p>:returns: None</p>
+<p>Manual execution: 1. Ensure that <code>path</code> is set in
+<code>self.params</code>. 2. The script
+<code>modules/lazyown_metaextract0r.py</code> should be present in the
+<code>modules</code> directory. 3. Run the script with:
+<code>python3 modules/lazyown_metaextract0r.py --path &lt;path&gt;</code></p>
+<p>Example: To run <code>lazyown_metaextract0r</code> with
+<code>path</code> set to <code>/home/user/file.txt</code>, set:
+<code>self.params["path"] = "/home/user/file.txt"</code> Then call:
+<code>run_lazymetaextract0r()</code></p>
+<p>Note: - Ensure that <code>modules/lazyown_metaextract0r.py</code> has
+the appropriate permissions and dependencies to run.</p>
 <h2 id="lazyownratcli">lazyownratcli</h2>
-<p>Run internal module modules/lazyownclient.py</p>
+<p>Run the internal module located at
+<code>modules/lazyownclient.py</code> with the specified parameters.</p>
+<p>This function executes the script with the following arguments:</p>
+<ul>
+<li><code>lhost</code>: The IP address of the local host, specified in
+<code>self.params</code>.</li>
+<li><code>lport</code>: The port number of the local host, specified in
+<code>self.params</code>.</li>
+<li><code>rat_key</code>: The RAT key, specified in
+<code>self.params</code>.</li>
+</ul>
+<p>The function performs the following steps:</p>
+<ol type="1">
+<li>Retrieves the values for <code>lhost</code>, <code>lport</code>, and
+<code>rat_key</code> from <code>self.params</code>.</li>
+<li>Checks if all required parameters (<code>lhost</code>,
+<code>lport</code>, and <code>rat_key</code>) are set. If any are
+missing, it prints an error message and returns.</li>
+<li>Calls the <code>run_script</code> method to execute the
+<code>lazyownclient.py</code> script with the appropriate
+arguments.</li>
+</ol>
+<p>:param lhost: The IP address of the local host. :type lhost: str
+:param lport: The port number of the local host. :type lport: int :param
+rat_key: The RAT key. :type rat_key: str</p>
+<p>:returns: None</p>
+<p>Manual execution: 1. Ensure that <code>lhost</code>,
+<code>lport</code>, and <code>rat_key</code> are set in
+<code>self.params</code>. 2. The script
+<code>modules/lazyownclient.py</code> should be present in the
+<code>modules</code> directory. 3. Run the script with:
+<code>python3 modules/lazyownclient.py --host &lt;lhost&gt; --port &lt;lport&gt; --key &lt;rat_key&gt;</code></p>
+<p>Example: To run <code>lazyownclient</code> with <code>lhost</code>
+set to <code>192.168.1.10</code>, <code>lport</code> set to
+<code>8080</code>, and <code>rat_key</code> set to
+<code>my_secret_key</code>, set:
+<code>self.params["lhost"] = "192.168.1.10"</code>
+<code>self.params["lport"] = 8080</code>
+<code>self.params["rat_key"] = "my_secret_key"</code> Then call:
+<code>run_lazyownratcli()</code></p>
+<p>Note: - Ensure that <code>modules/lazyownclient.py</code> has the
+appropriate permissions and dependencies to run.</p>
 <h2 id="lazyownrat">lazyownrat</h2>
-<p>Run internal module modules/lazyownserver.py</p>
+<p>Run the internal module located at
+<code>modules/lazyownserver.py</code> with the specified parameters.</p>
+<p>This function executes the script with the following arguments:</p>
+<ul>
+<li><code>rhost</code>: The IP address of the remote host, specified in
+<code>self.params</code>.</li>
+<li><code>rport</code>: The port number of the remote host, specified in
+<code>self.params</code>.</li>
+<li><code>rat_key</code>: The RAT key, specified in
+<code>self.params</code>.</li>
+</ul>
+<p>The function performs the following steps:</p>
+<ol type="1">
+<li>Retrieves the values for <code>rhost</code>, <code>rport</code>, and
+<code>rat_key</code> from <code>self.params</code>.</li>
+<li>Checks if all required parameters (<code>rhost</code>,
+<code>rport</code>, and <code>rat_key</code>) are set. If any are
+missing, it prints an error message and returns.</li>
+<li>Calls the <code>run_script</code> method to execute the
+<code>lazyownserver.py</code> script with the appropriate
+arguments.</li>
+</ol>
+<p>:param rhost: The IP address of the remote host. :type rhost: str
+:param rport: The port number of the remote host. :type rport: int
+:param rat_key: The RAT key. :type rat_key: str</p>
+<p>:returns: None</p>
+<p>Manual execution: 1. Ensure that <code>rhost</code>,
+<code>rport</code>, and <code>rat_key</code> are set in
+<code>self.params</code>. 2. The script
+<code>modules/lazyownserver.py</code> should be present in the
+<code>modules</code> directory. 3. Run the script with:
+<code>python3 modules/lazyownserver.py --host &lt;rhost&gt; --port &lt;rport&gt; --key &lt;rat_key&gt;</code></p>
+<p>Example: To run <code>lazyownserver</code> with <code>rhost</code>
+set to <code>192.168.1.10</code>, <code>rport</code> set to
+<code>8080</code>, and <code>rat_key</code> set to
+<code>my_secret_key</code>, set:
+<code>self.params["rhost"] = "192.168.1.10"</code>
+<code>self.params["rport"] = 8080</code>
+<code>self.params["rat_key"] = "my_secret_key"</code> Then call:
+<code>run_lazyownrat()</code></p>
+<p>Note: - Ensure that <code>modules/lazyownserver.py</code> has the
+appropriate permissions and dependencies to run.</p>
 <h2 id="lazybotnet">lazybotnet</h2>
-<p>Run internal module modules/lazybotnet.py</p>
+<p>Run the internal module located at <code>modules/lazybotnet.py</code>
+with the specified parameters.</p>
+<p>This function executes the script with the following arguments:</p>
+<ul>
+<li><code>rhost</code>: The IP address of the remote host, hardcoded to
+“0.0.0.0”.</li>
+<li><code>rport</code>: The port number of the remote host, specified in
+<code>self.params</code>.</li>
+<li><code>rat_key</code>: The RAT key, specified in
+<code>self.params</code>.</li>
+</ul>
+<p>The function performs the following steps:</p>
+<ol type="1">
+<li>Retrieves the values for <code>rport</code> and <code>rat_key</code>
+from <code>self.params</code>. The <code>rhost</code> is hardcoded to
+“0.0.0.0”.</li>
+<li>Checks if all required parameters (<code>rport</code> and
+<code>rat_key</code>) are set. If any are missing, it prints an error
+message and returns.</li>
+<li>Calls the <code>run_script</code> method to execute the
+<code>lazybotnet.py</code> script with the appropriate arguments.</li>
+</ol>
+<p>:param rport: The port number of the remote host. :type rport: int
+:param rat_key: The RAT key. :type rat_key: str</p>
+<p>:returns: None</p>
+<p>Manual execution: 1. Ensure that <code>rport</code> and
+<code>rat_key</code> are set in <code>self.params</code>. 2. The script
+<code>modules/lazybotnet.py</code> should be present in the
+<code>modules</code> directory. 3. Run the script with:
+<code>python3 modules/lazybotnet.py --host &lt;rhost&gt; --port &lt;rport&gt; --key &lt;rat_key&gt;</code></p>
+<p>Example: To run <code>lazybotnet</code> with <code>rport</code> set
+to <code>1234</code> and <code>rat_key</code> set to
+<code>my_key</code>, set: <code>self.params["rport"] = 1234</code>
+<code>self.params["rat_key"] = "my_key"</code> Then call:
+<code>run_lazybotnet()</code></p>
+<p>Note: - Ensure that <code>modules/lazybotnet.py</code> has the
+appropriate permissions and dependencies to run.</p>
 <h2 id="lazylfi2rce">lazylfi2rce</h2>
-<p>Run internal module modules/lazylfi2rce.py</p>
+<p>Run the internal module located at
+<code>modules/lazylfi2rce.py</code> with the specified parameters.</p>
+<p>This function executes the script with the following arguments:</p>
+<ul>
+<li><code>rhost</code>: The IP address of the remote host, specified in
+<code>self.params</code>.</li>
+<li><code>rport</code>: The port number of the remote host, specified in
+<code>self.params</code>.</li>
+<li><code>lhost</code>: The IP address of the local host, specified in
+<code>self.params</code>.</li>
+<li><code>lport</code>: The port number of the local host, specified in
+<code>self.params</code>.</li>
+<li><code>field</code>: The field name for the LFI (Local File
+Inclusion) attack, specified in <code>self.params</code>.</li>
+<li><code>wordlist</code>: The path to the wordlist file used for the
+attack, specified in <code>self.params</code>.</li>
+</ul>
+<p>The function performs the following steps:</p>
+<ol type="1">
+<li>Retrieves the values for <code>rhost</code>, <code>rport</code>,
+<code>lhost</code>, <code>lport</code>, <code>field</code>, and
+<code>wordlist</code> from <code>self.params</code>.</li>
+<li>Checks if all required parameters are set. If any are missing, it
+prints an error message and returns.</li>
+<li>Calls the <code>run_script</code> method to execute the
+<code>lazylfi2rce.py</code> script with the appropriate arguments.</li>
+</ol>
+<p>:param rhost: The IP address of the remote host. :type rhost: str
+:param rport: The port number of the remote host. :type rport: int
+:param lhost: The IP address of the local host. :type lhost: str :param
+lport: The port number of the local host. :type lport: int :param field:
+The field name for the LFI attack. :type field: str :param wordlist: The
+path to the wordlist file. :type wordlist: str</p>
+<p>:returns: None</p>
+<p>Manual execution: 1. Ensure that <code>rhost</code>,
+<code>rport</code>, <code>lhost</code>, <code>lport</code>,
+<code>field</code>, and <code>wordlist</code> are set in
+<code>self.params</code>. 2. The script
+<code>modules/lazylfi2rce.py</code> should be present in the
+<code>modules</code> directory. 3. Run the script with:
+<code>python3 modules/lazylfi2rce.py --rhost &lt;rhost&gt; --rport &lt;rport&gt; --lhost &lt;lhost&gt; --lport &lt;lport&gt; --field &lt;field&gt; --wordlist &lt;wordlist&gt;</code></p>
+<p>Example: To run the lazylfi2rce with <code>rhost</code> set to
+<code>192.168.1.1</code>, <code>rport</code> set to <code>80</code>,
+<code>lhost</code> set to <code>192.168.1.2</code>, <code>lport</code>
+set to <code>8080</code>, <code>field</code> set to <code>file</code>,
+and <code>wordlist</code> set to <code>path/to/wordlist.txt</code>, set:
+<code>self.params["rhost"] = "192.168.1.1"</code>
+<code>self.params["rport"] = 80</code>
+<code>self.params["lhost"] = "192.168.1.2"</code>
+<code>self.params["lport"] = 8080</code>
+<code>self.params["field"] = "file"</code>
+<code>self.params["wordlist"] = "path/to/wordlist.txt"</code> Then call:
+<code>run_lazylfi2rce()</code></p>
+<p>Note: - Ensure that <code>modules/lazylfi2rce.py</code> has the
+appropriate permissions and dependencies to run.</p>
 <h2 id="lazylogpoisoning">lazylogpoisoning</h2>
-<p>Run internal module modules/lazylogpoisoning.py</p>
+<p>Run the internal module located at
+<code>modules/lazylogpoisoning.py</code> with the specified
+parameters.</p>
+<p>This function executes the script with the following arguments:</p>
+<ul>
+<li><code>rhost</code>: The IP address of the remote host, specified in
+<code>self.params</code>.</li>
+<li><code>lhost</code>: The IP address of the local host, specified in
+<code>self.params</code>.</li>
+</ul>
+<p>The function performs the following steps:</p>
+<ol type="1">
+<li>Retrieves the values for <code>rhost</code> and <code>lhost</code>
+from <code>self.params</code>.</li>
+<li>Checks if the required parameters <code>rhost</code> and
+<code>lhost</code> are set. If not, it prints an error message and
+returns.</li>
+<li>Calls the <code>run_script</code> method to execute the
+<code>lazylogpoisoning.py</code> script with the appropriate
+arguments.</li>
+</ol>
+<p>:param rhost: The IP address of the remote host. Must be set in
+<code>self.params</code>. :type rhost: str :param lhost: The IP address
+of the local host. Must be set in <code>self.params</code>. :type lhost:
+str</p>
+<p>:returns: None</p>
+<p>Manual execution: 1. Ensure that <code>rhost</code> and
+<code>lhost</code> are set in <code>self.params</code>. 2. The script
+<code>modules/lazylogpoisoning.py</code> should be present in the
+<code>modules</code> directory. 3. Run the script with:
+<code>python3 modules/lazylogpoisoning.py --rhost &lt;rhost&gt; --lhost &lt;lhost&gt;</code></p>
+<p>Example: To run the lazylogpoisoning with <code>rhost</code> set to
+<code>192.168.1.1</code> and <code>lhost</code> set to
+<code>192.168.1.2</code>, set:
+<code>self.params["rhost"] = "192.168.1.1"</code>
+<code>self.params["lhost"] = "192.168.1.2"</code> Then call:
+<code>run_lazylogpoisoning()</code></p>
+<p>Note: - Ensure that <code>modules/lazylogpoisoning.py</code> has the
+appropriate permissions and dependencies to run.</p>
 <h2 id="lazybotcli">lazybotcli</h2>
-<p>Run internal module modules/lazybotcli.py</p>
+<p>Run the internal module located at <code>modules/lazybotcli.py</code>
+with the specified parameters.</p>
+<p>This function executes the script with the following arguments:</p>
+<ul>
+<li><code>rhost</code>: The IP address of the remote host (default is
+<code>"0.0.0.0"</code>).</li>
+<li><code>rport</code>: The port number to be used, specified in
+<code>self.params</code>.</li>
+<li><code>rat_key</code>: The key for the Remote Access Tool (RAT),
+specified in <code>self.params</code>.</li>
+</ul>
+<p>The function performs the following steps:</p>
+<ol type="1">
+<li>Retrieves the values for <code>rport</code> and <code>rat_key</code>
+from <code>self.params</code>.</li>
+<li>Checks if the required parameters <code>rport</code> and
+<code>rat_key</code> are set. If not, it prints an error message and
+returns.</li>
+<li>Calls the <code>run_script</code> method to execute the
+<code>lazybotcli.py</code> script with the appropriate arguments.</li>
+</ol>
+<p>:param rport: The port number for the connection. Must be set in
+<code>self.params</code>. :type rport: int :param rat_key: The key for
+the RAT. Must be set in <code>self.params</code>. :type rat_key: str</p>
+<p>:returns: None</p>
+<p>Manual execution: 1. Ensure that <code>rport</code> and
+<code>rat_key</code> are set in <code>self.params</code>. 2. The script
+<code>modules/lazybotcli.py</code> should be present in the
+<code>modules</code> directory. 3. Run the script with:
+<code>python3 modules/lazybotcli.py --host 0.0.0.0 --port &lt;rport&gt; --key &lt;rat_key&gt;</code></p>
+<p>Example: To run the lazybotcli with port <code>12345</code> and key
+<code>mysecretkey</code>, set: <code>self.params["rport"] = 12345</code>
+<code>self.params["rat_key"] = "mysecretkey"</code> Then call:
+<code>run_lazybotcli()</code></p>
+<p>Note: - Ensure that <code>modules/lazybotcli.py</code> has the
+appropriate permissions and dependencies to run.</p>
 <h2 id="lazyssh77enum">lazyssh77enum</h2>
-<p>Run internal module modules/lazybrutesshuserenum.py</p>
+<p>Run the internal module located at
+<code>modules/lazybrutesshuserenum.py</code> with the specified
+parameters. ONLY valid for 7.x Version !!!</p>
+<p>The script will be executed with the following arguments:</p>
+<ul>
+<li><code>wordlist</code>: The path to the wordlist file containing
+potential usernames for SSH enumeration.</li>
+<li><code>rhost</code>: The target IP address or hostname for SSH
+enumeration.</li>
+</ul>
+<p>The function performs the following steps:</p>
+<ol type="1">
+<li>Retrieves the values for <code>wordlist</code> and
+<code>rhost</code> from <code>self.params</code>.</li>
+<li>Prints a warning message about the potential inaccuracy of the
+results.</li>
+<li>Constructs the command to run the
+<code>lazybrutesshuserenum.sh</code> script with the specified
+arguments.</li>
+<li>Executes the command using the <code>os.system</code> method.</li>
+</ol>
+<p>:param wordlist: The path to the wordlist file for username
+enumeration. Must be set in <code>self.params</code>. :type wordlist:
+str :param rhost: The target IP address or hostname for SSH enumeration.
+Must be set in <code>self.params</code>. :type rhost: str</p>
+<p>:returns: None</p>
+<p>Manual execution: 1. Ensure that <code>wordlist</code> and
+<code>rhost</code> are set in <code>self.params</code>. 2. Run the
+script <code>modules/lazybrutesshuserenum.sh</code> with the appropriate
+arguments.</p>
+<p>Dependencies: - <code>modules/lazybrutesshuserenum.sh</code> must be
+present in the <code>modules</code> directory and must be
+executable.</p>
+<p>Example: To run the SSH user enumeration with a wordlist located at
+<code>/path/to/wordlist.txt</code> and target IP
+<code>192.168.1.1</code>, set:
+<code>self.params["usrwordlist"] = "/path/to/wordlist.txt"</code>
+<code>self.params["rhost"] = "192.168.1.1"</code> Then call:
+<code>run_lazyssh77enum()</code></p>
+<p>Note: - The accuracy of the results may vary depending on the version
+of the script and the wordlist used.</p>
 <h2 id="lazyburpfuzzer">lazyburpfuzzer</h2>
-<p>Run internal module modules/lazyown_burpfuzzer.py</p>
+<p>Run the internal module located at
+<code>modules/lazyown_burpfuzzer.py</code> with the specified
+parameters.</p>
+<p>The script will be executed with the following arguments:</p>
+<ul>
+<li><code>--url</code>: The target URL for the fuzzer.</li>
+<li><code>--method</code>: The HTTP method to use (e.g., GET,
+POST).</li>
+<li><code>--proxy_port</code>: The port for the proxy server.</li>
+<li><code>--headers</code>: Optional HTTP headers to include in the
+request.</li>
+<li><code>--data</code>: Optional data to include in the request
+body.</li>
+<li><code>--params</code>: Optional URL parameters to include in the
+request.</li>
+<li><code>--json_data</code>: Optional JSON data to include in the
+request body.</li>
+<li><code>-w</code>: Optional wordlist for fuzzing.</li>
+<li><code>-hc</code>: Optional hide code for fuzzing.</li>
+</ul>
+<p>The function performs the following steps:</p>
+<ol type="1">
+<li>Retrieves the values for <code>url</code>, <code>method</code>,
+<code>headers</code>, <code>params</code>, <code>data</code>,
+<code>json_data</code>, <code>proxy_port</code>, <code>wordlist</code>,
+and <code>hide_code</code> from <code>self.params</code>.</li>
+<li>Constructs the command to run the <code>lazyown_burpfuzzer.py</code>
+script with the specified arguments.</li>
+<li>Adds optional parameters based on whether the corresponding files
+(<code>headers_file</code>, <code>data_file</code>,
+<code>params_file</code>, <code>json_data_file</code>) are
+provided.</li>
+<li>Executes the command using the <code>run_command</code> method.</li>
+</ol>
+<p>:param url: The target URL for the fuzzer. Must be set in
+<code>self.params</code>. :type url: str :param method: The HTTP method
+to use. Must be set in <code>self.params</code>. :type method: str
+:param headers: Optional HTTP headers. Must be set in
+<code>self.params</code> or provided via <code>headers_file</code>.
+:type headers: str :param params: Optional URL parameters. Must be set
+in <code>self.params</code> or provided via <code>params_file</code>.
+:type params: str :param data: Optional data for the request body. Must
+be set in <code>self.params</code> or provided via
+<code>data_file</code>. :type data: str :param json_data: Optional JSON
+data for the request body. Must be set in <code>self.params</code> or
+provided via <code>json_data_file</code>. :type json_data: str :param
+proxy_port: The port for the proxy server. Must be set in
+<code>self.params</code>. :type proxy_port: int :param wordlist:
+Optional wordlist for fuzzing. Must be set in <code>self.params</code>.
+:type wordlist: str :param hide_code: Optional code to hide. Must be set
+in <code>self.params</code>. :type hide_code: int :param headers_file:
+Optional file containing headers. :type headers_file: str, optional
+:param data_file: Optional file containing data. :type data_file: str,
+optional :param params_file: Optional file containing parameters. :type
+params_file: str, optional :param json_data_file: Optional file
+containing JSON data. :type json_data_file: str, optional</p>
+<p>:returns: None</p>
+<p>Manual execution: 1. Ensure that <code>url</code>,
+<code>method</code>, and <code>proxy_port</code> are set in
+<code>self.params</code>. 2. Provide additional parameters as needed. 3.
+Run the script <code>modules/lazyown_burpfuzzer.py</code> with the
+appropriate arguments.</p>
+<p>Dependencies: - <code>modules/lazyown_burpfuzzer.py</code> must be
+present in the <code>modules</code> directory and must be
+executable.</p>
+<p>Example: To run the fuzzer with URL <code>http://example.com</code>,
+HTTP method <code>POST</code>, and proxy port <code>8080</code>, set:
+<code>self.params["url"] = "http://example.com"</code>
+<code>self.params["method"] = "POST"</code>
+<code>self.params["proxy_port"] = 8080</code> Then call:
+<code>run_lazyburpfuzzer()</code></p>
+<p>Note: - Ensure that all required parameters are set before calling
+this function. - Parameters can also be provided via corresponding
+files.</p>
 <h2 id="lazyreverse_shell">lazyreverse_shell</h2>
-<p>Run internal module modules/lazyreverse_shell.sh</p>
+<p>Run the internal module located at
+<code>modules/lazyreverse_shell.sh</code> with the specified
+parameters.</p>
+<p>The script will be executed with the following arguments: -
+<code>--ip</code>: The IP address to use for the reverse shell. -
+<code>--puerto</code>: The port to use for the reverse shell.</p>
+<p>The function performs the following steps:</p>
+<ol type="1">
+<li>Retrieves the values for <code>rhost</code> (IP address) and
+<code>reverse_shell_port</code> (port) from
+<code>self.params</code>.</li>
+<li>Validates that <code>rhost</code> and
+<code>reverse_shell_port</code> parameters are set.</li>
+<li>Constructs the command to run the <code>lazyreverse_shell.sh</code>
+script with the specified arguments.</li>
+<li>Executes the command.</li>
+</ol>
+<p>:param ip: The IP address to use for the reverse shell. Must be set
+in <code>self.params</code>. :type ip: str :param port: The port to use
+for the reverse shell. Must be set in <code>self.params</code>. :type
+port: str</p>
+<p>:returns: None</p>
+<p>Manual execution: 1. Ensure that <code>rhost</code> and
+<code>reverse_shell_port</code> are set in <code>self.params</code>. 2.
+Run the script <code>modules/lazyreverse_shell.sh</code> with the
+appropriate arguments.</p>
+<p>Dependencies: - <code>modules/lazyreverse_shell.sh</code> must be
+present in the <code>modules</code> directory and must be
+executable.</p>
+<p>Example: To set up a reverse shell with IP <code>192.168.1.100</code>
+and port <code>4444</code>, set:
+<code>self.params["rhost"] = "192.168.1.100"</code>
+<code>self.params["reverse_shell_port"] = "4444"</code> Then call:
+<code>run_lazyreverse_shell()</code></p>
+<p>Note: - Ensure that <code>modules/lazyreverse_shell.sh</code> has the
+necessary permissions to execute. - Parameters must be set before
+calling this function.</p>
 <h2 id="lazyarpspoofing">lazyarpspoofing</h2>
-<p>Run internal module modules/lazyarpspoofing.py</p>
+<p>Run the internal module located at
+<code>modules/lazyarpspoofing.py</code> with the specified
+parameters.</p>
+<p>The script will be executed with the following arguments: -
+<code>--device</code>: The network interface to use for ARP spoofing. -
+<code>lhost</code>: The local host IP address to spoof. -
+<code>rhost</code>: The remote host IP address to spoof.</p>
+<p>The function performs the following steps:</p>
+<ol type="1">
+<li>Retrieves the values for <code>lhost</code>, <code>rhost</code>, and
+<code>device</code> from <code>self.params</code>.</li>
+<li>Validates that <code>lhost</code>, <code>rhost</code>, and
+<code>device</code> parameters are set.</li>
+<li>Constructs the command to run the <code>lazyarpspoofing.py</code>
+script with the specified arguments.</li>
+<li>Executes the command.</li>
+</ol>
+<p>:param lhost: The local host IP address to spoof. Must be set in
+<code>self.params</code>. :type lhost: str :param rhost: The remote host
+IP address to spoof. Must be set in <code>self.params</code>. :type
+rhost: str :param device: The network interface to use for ARP spoofing.
+Must be set in <code>self.params</code>. :type device: str</p>
+<p>:returns: None</p>
+<p>Manual execution: 1. Ensure that <code>lhost</code>,
+<code>rhost</code>, and <code>device</code> are set in
+<code>self.params</code>. 2. Run the script
+<code>modules/lazyarpspoofing.py</code> with the appropriate
+arguments.</p>
+<p>Dependencies: - <code>modules/lazyarpspoofing.py</code> must be
+present in the <code>modules</code> directory and must be
+executable.</p>
+<p>Example: To execute ARP spoofing with local host
+<code>192.168.1.2</code>, remote host <code>192.168.1.1</code>, and
+device <code>eth0</code>, set:
+<code>self.params["lhost"] = "192.168.1.2"</code>
+<code>self.params["rhost"] = "192.168.1.1"</code>
+<code>self.params["device"] = "eth0"</code> Then call:
+<code>run_lazyarpspoofing()</code></p>
+<p>Note: - Ensure that <code>modules/lazyarpspoofing.py</code> has the
+necessary permissions to execute. - Parameters must be set before
+calling this function.</p>
 <h2 id="lazyattack">lazyattack</h2>
-<p>Run internal module modules/lazyatack.sh</p>
+<p>Run the internal module located at <code>modules/lazyatack.sh</code>
+with the specified parameters.</p>
+<p>The script will be executed with the following arguments: -
+<code>--modo</code>: The mode of the attack. - <code>--ip</code>: The
+target IP address. - <code>--atacante</code>: The attacker IP
+address.</p>
+<p>The function performs the following steps:</p>
+<ol type="1">
+<li>Retrieves the current working directory.</li>
+<li>Validates that <code>mode</code>, <code>rhost</code>, and
+<code>lhost</code> parameters are set.</li>
+<li>Constructs the command to run the <code>lazyatack.sh</code> script
+with the specified arguments.</li>
+<li>Executes the command.</li>
+</ol>
+<p>:param mode: The mode in which the attack should be run. Must be set
+in <code>self.params</code>. :type mode: str :param target_ip: The IP
+address of the target. Must be set in <code>self.params</code>. :type
+target_ip: str :param attacker_ip: The IP address of the attacker. Must
+be set in <code>self.params</code>. :type attacker_ip: str</p>
+<p>:returns: None</p>
+<p>Manual execution: 1. Ensure that <code>mode</code>,
+<code>rhost</code>, and <code>lhost</code> are set in
+<code>self.params</code>. 2. Run the script
+<code>modules/lazyatack.sh</code> with the appropriate arguments.</p>
+<p>Dependencies: - <code>modules/lazyatack.sh</code> must be present in
+the <code>modules</code> directory and must be executable.</p>
+<p>Example: To execute the attack with mode <code>scan</code>, target IP
+<code>192.168.1.100</code>, and attacker IP <code>192.168.1.1</code>,
+set: <code>self.params["mode"] = "scan"</code>
+<code>self.params["rhost"] = "192.168.1.100"</code>
+<code>self.params["lhost"] = "192.168.1.1"</code> Then call:
+<code>run_lazyattack()</code></p>
+<p>Note: - Ensure that <code>modules/lazyatack.sh</code> has the
+necessary permissions to execute. - Parameters must be set before
+calling this function.</p>
 <h2 id="lazymsfvenom">lazymsfvenom</h2>
 <p>Runs the <code>msfvenom</code> tool to generate payloads based on
 user input.</p>
@@ -1782,14 +2458,42 @@ sets appropriate permissions. Optionally compresses the payloads using
 UPX and handles a C payload with shikata_ga_nai.</p>
 <p>:param line: Command line arguments for the script. :return: None</p>
 <h2 id="lazyaslrcheck">lazyaslrcheck</h2>
-<p>Checks the status of Address Space Layout Randomization (ASLR) on the
-system by reading the value from
-/proc/sys/kernel/randomize_va_space.</p>
-<p>The function executes the <code>cat</code> command to retrieve the
-ASLR status and prints the result. Based on the retrieved value, it
-indicates whether ASLR is fully activated, partially activated, or
-deactivated.</p>
+<p>Creates a path hijacking attack by performing the following
+steps:</p>
+<ol type="1">
+<li>Appends the value of <code>binary_name</code> to a temporary script
+located at <code>modules/tmp.sh</code>.</li>
+<li>Copies this temporary script to <code>/tmp</code> with the name
+specified by <code>binary_name</code>.</li>
+<li>Sets executable permissions on the copied script.</li>
+<li>Prepends <code>/tmp</code> to the system’s PATH environment variable
+to ensure the script is executed in preference to other binaries.</li>
+</ol>
+<p>The function then prints out each command being executed and a
+message indicating the binary name used for the path hijacking.</p>
+<p>:param binary_name: The name of the binary to be used in the path
+hijacking attack. It should be set in <code>self.params</code> before
+calling this method. :type binary_name: str</p>
 <p>:returns: None</p>
+<p>Manual execution: 1. Ensure that <code>binary_name</code> is set in
+<code>self.params</code>. 2. Append the binary name to
+<code>modules/tmp.sh</code>. 3. Copy <code>modules/tmp.sh</code> to
+<code>/tmp/{binary_name}</code>. 4. Set executable permissions on the
+copied file. 5. Update the PATH environment variable to prioritize
+<code>/tmp</code>.</p>
+<p>Dependencies: - The <code>self.params</code> dictionary must contain
+a valid <code>binary_name</code>. - Ensure that
+<code>modules/tmp.sh</code> exists and contains appropriate content for
+the attack.</p>
+<p>Example: To execute the path hijacking attack with
+<code>binary_name</code> as <code>malicious</code>, ensure
+<code>self.params["binary_name"]</code> is set to
+<code>"malicious"</code>, and then call:
+<code>run_lazypathhijacking()</code></p>
+<p>Note: - The <code>binary_name</code> parameter must be a string
+representing the name of the binary to hijack. - The method modifies the
+PATH environment variable, which may affect the execution of other
+binaries.</p>
 <h2 id="lazypathhijacking">lazypathhijacking</h2>
 <p>Creates a path hijacking attack by performing the following
 steps:</p>
@@ -1808,20 +2512,167 @@ message indicating the binary name used for the path hijacking.</p>
 hijacking attack. :returns: None</p>
 <h2 id="script">script</h2>
 <p>Run a script with the given arguments</p>
+<p>This method constructs and executes a command to run a Python script
+with the specified arguments. It uses the <code>run_command</code>
+method to execute the script and handle real-time output.</p>
+<p>:param script_name: The name of the script to be executed. :type
+script_name: str :param args: The arguments to be passed to the script.
+:type args: tuple of str</p>
+<p>:returns: None</p>
+<p>Manual execution: 1. Build the command list with “python3”, the
+script name, and the arguments. 2. Call <code>run_command</code> with
+the constructed command list.</p>
+<p>Dependencies: - <code>run_command</code> method for executing the
+constructed command and streaming output.</p>
+<p>Example: To execute a script named <code>example.py</code> with
+arguments <code>arg1</code> and <code>arg2</code>, call:
+<code>run_script("example.py", "arg1", "arg2")</code></p>
+<p>Note: - The <code>script_name</code> parameter should be a string
+representing the name of the script. - The <code>args</code> parameter
+is a variable-length argument list containing the arguments to be passed
+to the script. - Ensure that the script and arguments are properly
+specified.</p>
 <h2 id="command">command</h2>
 <p>Run a command and print output in real-time</p>
+<p>This method executes a given command using
+<code>subprocess.Popen</code> and streams both the standard output and
+standard error to the console in real-time. The output from both streams
+is appended to the <code>self.output</code> attribute. If interrupted,
+the process is terminated gracefully.</p>
+<p>:param command: The command to be executed. :type command: str</p>
+<p>:returns: None</p>
+<p>Manual execution: 1. Execute the command specified by the
+<code>command</code> parameter. 2. Stream and print the command’s
+standard output and error to the console in real-time. 3. Append all
+output to the <code>self.output</code> attribute. 4. Handle
+<code>KeyboardInterrupt</code> by terminating the process and printing
+an error message.</p>
+<p>Dependencies: - <code>subprocess</code> module for running the
+command and capturing output. - <code>print_msg</code> function for
+printing output to the console. - <code>print_error</code> function for
+printing error messages to the console.</p>
+<p>Example: To execute a command, call
+<code>run_command("ls -l")</code>.</p>
+<p>Note: - The <code>command</code> parameter should be a string
+representing the command to be executed. - <code>self.output</code> must
+be initialized before calling this method. - Ensure proper exception
+handling to manage process interruptions.</p>
 <h2 id="payload">payload</h2>
 <p>Load parameters from payload.json</p>
+<p>This function loads parameters from a JSON file named
+<code>payload.json</code> and updates the instance’s <code>params</code>
+dictionary with the values from the file. If the file does not exist or
+contains invalid JSON, it will print an appropriate error message.</p>
+<p>Usage: payload</p>
+<p>:param line: This parameter is not used in this function. :type line:
+str</p>
+<p>:returns: None</p>
+<p>Manual execution: 1. Open and read the <code>payload.json</code>
+file. 2. Update the <code>params</code> dictionary with values from the
+JSON file. 3. Print a success message if the parameters were
+successfully loaded. 4. Handle <code>FileNotFoundError</code> if the
+file does not exist. 5. Handle <code>JSONDecodeError</code> if there is
+an error decoding the JSON file.</p>
+<p>Dependencies: - <code>json</code> module for reading and parsing the
+JSON file.</p>
+<p>Example: To execute the function, simply call
+<code>payload</code>.</p>
+<p>Note: - Ensure that <code>payload.json</code> exists in the current
+directory and is properly formatted. - The confirmation message includes
+color formatting for better visibility.</p>
 <h2 id="exit">exit</h2>
 <p>Exit the command line interface.</p>
+<p>This function prompts the user to confirm whether they want to exit
+the command line interface. If confirmed, it will terminate the program.
+Otherwise, it will cancel the exit.</p>
+<p>Usage: exit</p>
+<p>:param arg: This parameter is not used in this function. :type arg:
+str</p>
+<p>:returns: None</p>
+<p>Manual execution: 1. Prompt the user with a confirmation message to
+exit the CLI. 2. If the user confirms with ‘s’, print a message and exit
+the program. 3. If the user provides any other input, print a
+cancellation message and remain in the CLI.</p>
+<p>Dependencies: - <code>sys.exit</code> function for exiting the
+program.</p>
+<p>Example: To execute the function, simply call <code>exit</code>.</p>
+<p>Note: - The confirmation prompt is in Spanish. - Ensure that
+<code>sys</code> is imported in your script.</p>
 <h2 id="fixperm">fixperm</h2>
-<p>Fix Perm LazyOwn shell</p>
+<p>Fix permissions for LazyOwn shell scripts.</p>
+<p>This function adjusts the file permissions for shell scripts and CGI
+scripts in the <code>modules</code> directory, making them
+executable.</p>
+<p>Usage: fixperm</p>
+<p>:param line: This parameter is not used in this function. :type line:
+str</p>
+<p>:returns: None</p>
+<p>Manual execution: 1. Change the permissions of all shell scripts in
+the <code>modules</code> directory to be executable. 2. Change the
+permissions of all files in the <code>modules/cgi-bin</code> directory
+to be executable.</p>
+<p>Dependencies: - <code>chmod</code> command must be available on the
+system.</p>
+<p>Example: To execute the function, simply call
+<code>fixperm</code>.</p>
+<p>Note: - Ensure you have the necessary permissions to modify file
+permissions.</p>
 <h2 id="lazywebshell">lazywebshell</h2>
-<p>LazyOwn shell</p>
+<p>Run LazyOwn webshell server.</p>
+<p>This function starts a web server that serves the
+<code>lazywebshell.py</code> script from the <code>modules</code>
+directory on port 8888. The server is run in the background.</p>
+<p>Usage: lazywebshell</p>
+<p>:param line: This parameter is not used in this function. :type line:
+str</p>
+<p>:returns: None</p>
+<p>Manual execution: 1. Start a Python HTTP server with CGI support on
+port 8888. 2. The server serves files from the <code>modules</code>
+directory.</p>
+<p>Dependencies: - Python 3.x must be installed on the system. - The
+<code>http.server</code> module should be available.</p>
+<p>Example: To execute the function, simply call
+<code>lazywebshell</code>.</p>
+<p>Note: - The server runs in the background, and the output will not be
+displayed in the terminal.</p>
 <h2 id="getcap">getcap</h2>
-<p>try get capabilities :)</p>
+<p>Retrieve and display file capabilities on the system.</p>
+<p>This function uses the <code>getcap</code> command to recursively
+list capabilities for files starting from the root directory
+(<code>/</code>). The output is filtered to suppress error messages.</p>
+<p>Usage: getcap</p>
+<p>:param line: This parameter is not used in this function. :type line:
+str</p>
+<p>:returns: None</p>
+<p>Manual execution: 1. Run the <code>getcap -r /</code> command to list
+file capabilities recursively from the root directory. 2. Redirect
+standard error to <code>/dev/null</code> to suppress error messages.</p>
+<p>Dependencies: - <code>getcap</code> must be installed on the
+system.</p>
+<p>Example: To execute the function, simply call
+<code>do_getcap</code>.</p>
+<p>Note: - The command may require elevated permissions to access
+certain directories and files.</p>
 <h2 id="getseclist">getseclist</h2>
-<p>get seclist :D</p>
+<p>Get the SecLists wordlist from GitHub.</p>
+<p>This function downloads and extracts the SecLists wordlist from
+GitHub to the <code>/usr/share/wordlists/</code> directory.</p>
+<p>Usage: getseclist</p>
+<p>:param line: This parameter is not used in this function. :type line:
+str</p>
+<p>:returns: None</p>
+<p>Manual execution: 1. Navigate to the
+<code>/usr/share/wordlists/</code> directory. 2. Download the SecLists
+repository using <code>wget</code>. 3. Extract the downloaded ZIP file.
+4. Remove the ZIP file after extraction.</p>
+<p>Dependencies: - <code>wget</code> must be installed on the system. -
+<code>unzip</code> must be installed on the system. - <code>sudo</code>
+must be available for downloading and extracting files.</p>
+<p>Example: To execute the function, simply call
+<code>getseclist</code>.</p>
+<p>Note: - Ensure that you have the necessary permissions to write to
+the <code>/usr/share/wordlists/</code> directory. - If <code>wget</code>
+or <code>unzip</code> is not installed, the function will fail.</p>
 <h2 id="smbclient">smbclient</h2>
 <p>Interacts with SMB shares using the <code>smbclient</code> command to
 perform the following operations:</p>
@@ -1900,23 +2751,29 @@ syntax: sudo impacket-GetNPUsers <domain> -no-pass -usersfile
 sessions/users.txt Replace <code>&lt;domain&gt;</code> with the actual
 domain name you want to query.</p>
 <h2 id="psexec">psexec</h2>
-<p>Executes the <code>impacket-psexec</code> command to run a remote
-command on a target machine using the <code>administrator</code>
-account.</p>
+<p>Copies the <code>rhost</code> IP address to the clipboard and updates
+the prompt with the IP address.</p>
 <ol type="1">
-<li>Retrieves the target host IP from the <code>rhost</code>
-parameter.</li>
-<li>Checks if the <code>rhost</code> parameter is valid using
-<code>check_rhost()</code>. If invalid, the function returns early.</li>
-<li>Executes the <code>impacket-psexec</code> command with the
-<code>administrator</code> account on the target host.</li>
+<li>Retrieves the <code>rhost</code> IP address from the
+<code>self.params</code> parameter.</li>
+<li>Checks if the <code>rhost</code> is valid using
+<code>check_rhost()</code>. If invalid, the function returns without
+making changes.</li>
+<li>If <code>line</code> is ‘clean’, resets the custom prompt to its
+original state.</li>
+<li>Otherwise, updates the prompt to include the <code>rhost</code> IP
+address in the specified format.</li>
+<li>Copies the <code>rhost</code> IP address to the clipboard using
+<code>xclip</code>.</li>
+<li>Prints a message confirming that the IP address has been copied to
+the clipboard.</li>
 </ol>
-<p>:param line: This parameter is not used in this command but is
-included for consistency with other methods. :returns: None</p>
+<p>:param line: This parameter determines whether the prompt should be
+reset or updated with the IP address. :type line: str :returns: None</p>
 <p>Manual execution: To manually run this command, use the following
-syntax: impacket-psexec administrator@<target_host> Replace
-<code>&lt;target_host&gt;</code> with the IP address or hostname of the
-target machine.</p>
+syntax: rhost <line> Replace <code>&lt;line&gt;</code> with ‘clean’ to
+reset the prompt, or any other string to update the prompt with the IP
+address.</p>
 <h2 id="rpcdump">rpcdump</h2>
 <p>Executes the <code>rpcdump.py</code> script to dump RPC services from
 a target host.</p>
@@ -2301,261 +3158,917 @@ around 128 typically indicate a Windows system.</p>
 <p>Ensure you have set <code>rhost</code> to the target host for the
 command to work.</p>
 <h2 id="gospider">gospider</h2>
-<p>try gospider</p>
+<p>Try gospider for web spidering.</p>
+<p>This function executes the <code>gospider</code> tool to perform web
+spidering. It can either use a URL provided as a parameter or the remote
+host defined in <code>self.params</code>.</p>
+<p>Usage: gospider url gospider</p>
+<p>:param line: Command parameter that determines the execution mode.
+Use “url” to specify a URL, or leave empty to use the remote host. :type
+line: str</p>
+<ul>
+<li>If <code>line</code> is “url”, the method uses the URL specified in
+<code>self.params["url"]</code>.</li>
+<li>If <code>line</code> is not “url”, the method uses the remote host
+specified in <code>self.params["rhost"]</code>.</li>
+</ul>
+<p>:returns: None</p>
+<p>Manual execution: 1. Ensure that the <code>gospider</code> tool is
+installed on the system. 2. Set the <code>url</code> parameter if using
+the “url” mode. 3. Run the method to perform the spidering
+operation.</p>
+<p>Dependencies: - <code>gospider</code> must be installed on the
+system. - The <code>sudo</code> command must be available for installing
+<code>gospider</code>.</p>
+<p>Examples: 1. To scan a specific URL: <code>gospider url</code> 2. To
+scan the remote host: <code>gospider</code></p>
+<p>Note: - If <code>gospider</code> is not installed, the method will
+attempt to install it. - Ensure that the network and tools are
+configured correctly for successful execution.</p>
 <h2 id="arpscan">arpscan</h2>
-<p>try arp-scan</p>
+<p>Executes an ARP scan using <code>arp-scan</code>.</p>
+<p>This function performs an ARP scan on the local network using the
+<code>arp-scan</code> tool. The network device to be used for scanning
+must be specified.</p>
+<p>Usage: arpscan</p>
+<p>:param line: Command parameters (not used in this function). :type
+line: str</p>
+<ul>
+<li>Executes the <code>arp-scan</code> command with the specified
+network device.</li>
+</ul>
+<p>:returns: None</p>
+<p>Manual execution: 1. Ensure that the network device is set using the
+appropriate parameter. 2. Run the method to perform an ARP scan.</p>
+<p>Dependencies: - <code>arp-scan</code> must be installed on the
+system. - The <code>sudo</code> command must be available for executing
+<code>arp-scan</code>.</p>
+<p>Examples: 1. Set the device parameter using
+<code>set device &lt;network_device&gt;</code>. 2. Run
+<code>arpscan</code> to perform the ARP scan.</p>
+<p>Note: - The network device must be configured and available on the
+system for the scan to work. - Ensure that <code>arp-scan</code> is
+installed and accessible from the command line.</p>
 <h2 id="lazypwn">lazypwn</h2>
-<p>LazyPwn</p>
+<p>Executes the LazyPwn script.</p>
+<p>This function runs the <code>lazypwn.py</code> script located in the
+<code>modules</code> directory. The script is typically used for
+automated exploitation or security testing tasks within the LazyOwn
+framework.</p>
+<p>Usage: lazypwn</p>
+<p>:param line: Command parameters (not used in this function). :type
+line: str</p>
+<ul>
+<li>Executes the <code>lazypwn.py</code> script with Python 3.</li>
+</ul>
+<p>:returns: None</p>
+<p>Manual execution: 1. Run the method to execute the LazyPwn
+script.</p>
+<p>Dependencies: - The <code>lazypwn.py</code> script must be present in
+the <code>modules</code> directory. - Python 3 must be installed and
+accessible from the command line.</p>
+<p>Examples: 1. Run <code>do_lazypwn</code> to execute the LazyPwn
+script.</p>
+<p>Note: - Ensure that <code>lazypwn.py</code> is configured correctly
+before running this method. - The script’s functionality depends on its
+implementation in <code>modules/lazypwn.py</code>.</p>
 <h2 id="fixel">fixel</h2>
-<p>to fix perms</p>
+<p>Fixes file permissions and line endings in the project
+directories.</p>
+<p>This function converts line endings from DOS/Windows format to Unix
+format for all files in the project directories. This helps to ensure
+consistent line endings and can prevent issues related to file format
+mismatches.</p>
+<p>Usage: fixel</p>
+<p>:param line: Command parameters (not used in this function). :type
+line: str</p>
+<ul>
+<li>Converts line endings for all files in the current directory
+(<code>*</code>).</li>
+<li>Converts line endings for all files in the <code>modules</code>
+directory (<code>modules/*</code>).</li>
+<li>Converts line endings for all files in the
+<code>modules/cgi-bin</code> directory
+(<code>modules/cgi-bin/*</code>).</li>
+</ul>
+<p>:returns: None</p>
+<p>Manual execution: 1. Run the method to fix line endings in the
+specified directories.</p>
+<p>Dependencies: - The <code>dos2unix</code> command must be installed
+and accessible from the command line.</p>
+<p>Examples: 1. Run <code>do_fixel</code> to convert line endings for
+all files in the project directories.</p>
+<p>Note: - This method only fixes line endings and does not modify file
+permissions. - Ensure that the <code>dos2unix</code> command is
+installed and functioning correctly.</p>
 <h2 id="smbserver">smbserver</h2>
-<p>Lazy imacket smbserver</p>
+<p>Sets up an SMB server using Impacket and creates an SCF file for SMB
+share access.</p>
+<p>This function configures an SMB server to serve files from the
+<code>sessions</code> directory and generates an SCF file that points to
+the SMB share. The SCF file can be used to create a shortcut to the SMB
+share on a Windows system.</p>
+<p>Usage: smbserver</p>
+<p>:param line: Command parameters (not used in this function). :type
+line: str</p>
+<ul>
+<li>Checks if <code>lhost</code> is valid using the
+<code>check_lhost</code> function.</li>
+<li>Creates an SCF file (<code>sessions/file.scf</code>) with
+configuration to access the SMB share.</li>
+<li>Copies a curl command to the clipboard for downloading the SCF file
+from the SMB share.</li>
+<li>Starts an SMB server using Impacket to serve the
+<code>sessions</code> directory.</li>
+</ul>
+<p>:returns: None</p>
+<p>Manual execution: 1. Ensure <code>lhost</code> is set to a valid IP
+address or hostname. 2. Run the method to create the SCF file and start
+the SMB server. 3. Use the copied curl command to download the SCF file
+on the target system. 4. Ensure that <code>impacket-smbserver</code> is
+installed and accessible from the command line.</p>
+<p>Dependencies: - The <code>impacket-smbserver</code> tool must be
+installed and accessible from the command line. - The
+<code>check_lhost</code> function must validate the <code>lhost</code>
+parameter.</p>
+<p>Examples: 1. Run <code>do_smbserver</code> to set up the SMB server
+and generate the SCF file. 2. Use the provided curl command to download
+the SCF file on the target system.</p>
+<p>Note: - The SCF file is used to create a shortcut to the SMB share
+and should be accessible from the target system. - Ensure that the
+<code>lhost</code> parameter is correctly set and that the SMB server is
+properly configured.</p>
 <h2 id="sqlmap">sqlmap</h2>
-<p>Lazy sqlmap try sqlmap -wizard if don’t know how to use requests.txt
-file always start with req and first parameter</p>
+<p>Uses sqlmap to perform SQL injection testing on a given URL or
+request file (you can get one with burpsuit or proxy command and
+foxyproxy plugin for browser).</p>
+<p>This function allows the execution of sqlmap commands with various
+options, including testing URL endpoints, reading from request files,
+and using sqlmap’s wizard mode for easy configuration.</p>
+Usage: sqlmap req <request_file> <parameter> sqlmap req <request_file>
+<parameter> <database> sqlmap req <request_file> <parameter> <database>
+<table>
+<p>sqlmap -wiz</p>
+<p>:param line: Command parameters for sqlmap. :type line: str</p>
+<ul>
+<li><p>If <code>line</code> starts with <code>req</code>, it expects the
+following formats:</p></li>
+<li><p><code>req &lt;request_file&gt; &lt;parameter&gt;</code>: Tests
+the specified parameter in the request file for SQL injection.</p></li>
+<li><p><code>req &lt;request_file&gt; &lt;parameter&gt; &lt;database&gt;</code>:
+Tests the specified parameter and attempts to dump tables from the
+specified database.</p></li>
+<li><p><code>req &lt;request_file&gt; &lt;parameter&gt; &lt;database&gt; &lt;table&gt;</code>:
+Tests the specified parameter and attempts to dump data from the
+specified table in the database.</p></li>
+<li><p>If <code>line</code> starts with <code>-wiz</code>, it runs
+sqlmap’s wizard mode for interactive configuration.</p></li>
+<li><p>If <code>line</code> is empty, it uses the URL specified in
+<code>self.params["url"]</code> to perform SQL injection testing with
+sqlmap.</p></li>
+</ul>
+<p>:returns: None</p>
+<p>Manual execution: 1. If using <code>req</code>, provide a valid
+request file and parameters. 2. Run sqlmap with the specified options
+for SQL injection testing. 3. To use the wizard mode, execute
+<code>sqlmap -wizard</code>. 4. For URL-based testing, ensure
+<code>url</code> is set and run sqlmap with the URL.</p>
+<p>Dependencies: - The <code>sqlmap</code> tool must be installed and
+accessible from the command line. - The request file specified in
+<code>req</code> should be located in the <code>sessions</code>
+directory.</p>
+<p>Examples: sqlmap req requests.txt id sqlmap req requests.txt id
+database_name sqlmap req requests.txt id database_name table_name sqlmap
+-wiz</p>
+<p>Note: - Ensure the request file exists and is readable before running
+sqlmap. - The URL must be set for URL-based testing. - The wizard mode
+is useful for interactive configuration if you’re unsure about the
+options.</p>
 <h2 id="proxy">proxy</h2>
-<p>Small proxy to modify the request on the fly…</p>
+<p>Runs a small proxy server to modify HTTP requests on the fly.</p>
+<p>This function starts the <code>lazyproxy.py</code> script, which acts
+as a proxy server for intercepting and modifying HTTP requests. The
+server listens on port 8888.</p>
+<p>Usage: proxy</p>
+<p>:param line: This parameter is not used in the current
+implementation. :type line: str :returns: None</p>
+<p>Manual execution: 1. Executes the <code>lazyproxy.py</code> script to
+start the proxy server. 2. The proxy server will run and modify requests
+as configured in the script.</p>
+<p>Dependencies: - The <code>lazyproxy.py</code> script must be
+available in the <code>modules</code> directory.</p>
+<p>Example: proxy</p>
+<p>Note: - Ensure that the <code>lazyproxy.py</code> script is correctly
+configured before running. - The proxy server will be accessible at
+<code>http://localhost:8888</code>. - To stop the proxy server,
+terminate the running process manually.</p>
 <h2 id="createwebshell">createwebshell</h2>
-<p>Crea una webshell disfrazada de jpg en el directorio sessions/</p>
+<p>Creates a web shell disguised as a <code>.jpg</code> file in the
+<code>sessions</code> directory.</p>
+<p>This function performs the following actions: 1. Runs a Python script
+<code>lazycreate_webshell.py</code> to create a disguised web shell. 2.
+Downloads a PHP web shell from a specified URL and saves it to the
+<code>sessions</code> directory.</p>
+<p>Usage: createwebshell</p>
+<p>:param line: This parameter is not used in the current
+implementation. :type line: str :returns: None</p>
+<p>Manual execution: 1. Executes the <code>lazycreate_webshell.py</code>
+script to create a web shell disguised as a <code>.jpg</code> file. 2.
+Downloads a PHP web shell from the GitHub repository and saves it to
+<code>sessions</code>.</p>
+<p>Dependencies: - <code>wget</code> must be installed for downloading
+the web shell. - The <code>lazycreate_webshell.py</code> script must be
+available in the <code>modules</code> directory.</p>
+<p>Example: createwebshell</p>
+<p>Note: - Ensure that the <code>lazycreate_webshell.py</code> script is
+correctly configured and accessible. - Verify the URL in the
+<code>wget</code> command to ensure it points to a valid and safe web
+shell.</p>
 <h2 id="createrevshell">createrevshell</h2>
-<p>Crea un script en el directorio sessions con una reverse shell con
-los datos en lhost y lport</p>
+<p>Creates a bash reverse shell script in the <code>sessions</code>
+directory with the specified <code>lhost</code> and <code>lport</code>
+values.</p>
+<p>This function performs the following actions: 1. Checks if
+<code>lhost</code> and <code>lport</code> are set. If not, it prints an
+error message and exits. 2. Creates a bash reverse shell script using
+the provided <code>lhost</code> and <code>lport</code> values. 3. Saves
+the script to <code>sessions/revshell.sh</code>. 4. Prints a message
+with the <code>curl</code> command to download and execute the reverse
+shell script. 5. Copies the <code>curl</code> command to the
+clipboard.</p>
+<p>Usage: createrevshell</p>
+<p>:param line: This parameter is not used in the current
+implementation. :type line: str :returns: None</p>
+<p>Manual execution: 1. Creates or overwrites the file
+<code>sessions/revshell.sh</code> with the bash reverse shell script. 2.
+Displays the command to download and execute the script via
+<code>curl</code>. 3. Copies the <code>curl</code> command to the
+clipboard for easy use.</p>
+<p>Dependencies: - Bash must be installed on the target system. -
+<code>xclip</code> must be installed for copying the command to the
+clipboard.</p>
+<p>Example: createrevshell</p>
+<p>Note: - Ensure that <code>lhost</code> and <code>lport</code> are set
+before running this command. - The script will listen for incoming
+connections on the specified <code>lport</code> and connect back to
+<code>lhost</code>. - Adjust the <code>lhost</code> and
+<code>lport</code> as needed for your specific environment.</p>
 <h2 id="createwinrevshell">createwinrevshell</h2>
-<p>Crea un script en el directorio sessions con una reverse shell con
-los datos en lhost y lport</p>
+<p>Creates a PowerShell reverse shell script in the
+<code>sessions</code> directory with the specified <code>lhost</code>
+and <code>lport</code> values.</p>
+<p>This function performs the following actions: 1. Checks if
+<code>lhost</code> and <code>lport</code> are set. If not, it prints an
+error message and exits. 2. Creates a PowerShell reverse shell script
+using the provided <code>lhost</code> and <code>lport</code> values. 3.
+Saves the script to <code>sessions/revshell.ps1</code>. 4. Prints a
+message with the command to download and execute the reverse shell
+script via <code>curl</code>. 5. Copies the <code>curl</code> command to
+the clipboard.</p>
+<p>Usage: createwinrevshell</p>
+<p>:param line: This parameter is not used in the current
+implementation. :type line: str :returns: None</p>
+<p>Manual execution: 1. Creates or overwrites the file
+<code>sessions/revshell.ps1</code> with the PowerShell reverse shell
+script. 2. Displays the command to download and execute the script via
+<code>curl</code>. 3. Copies the <code>curl</code> command to the
+clipboard for easy use.</p>
+<p>Dependencies: - PowerShell must be installed on the target system. -
+<code>xclip</code> must be installed for copying the command to the
+clipboard.</p>
+<p>Example: createwinrevshell</p>
+<p>Note: - Ensure that <code>lhost</code> and <code>lport</code> are set
+before running this command. - The script will listen for incoming
+connections on the specified <code>lport</code> and connect back to
+<code>lhost</code>. - Adjust the <code>lhost</code> and
+<code>lport</code> as needed for your specific environment.</p>
 <h2 id="createhash">createhash</h2>
-<p>Crea un archivo hash.txt en el directorio sessions</p>
+<p>Creates a <code>hash.txt</code> file in the <code>sessions</code>
+directory with the specified hash value and analyzes it using
+<code>Name-the-hash</code>.</p>
+<p>This function performs the following actions: 1. Writes the provided
+hash value to <code>sessions/hash.txt</code>. 2. Analyzes the hash value
+using <code>Name-the-hash</code>.</p>
+<p>Usage: createhash <hash></p>
+<p>:param line: The hash value to be written to <code>hash.txt</code>
+and analyzed. :type line: str :returns: None</p>
+<p>Manual execution: 1. Creates or overwrites the file
+<code>sessions/hash.txt</code> with the specified hash value. 2.
+Analyzes the hash value using the <code>nth</code> command.</p>
+<p>Dependencies: - <code>sessions/hash.txt</code> will be created in the
+<code>sessions</code> directory. - <code>Name-the-hash</code> must be
+installed and accessible via the command <code>nth</code>.</p>
+<p>Example: createhash 5f4dcc3b5aa765d61d8327deb882cf99</p>
+<p>Note: - Ensure the hash value is correct before running the analysis.
+- The hash value should be provided as a single argument without extra
+characters or spaces.</p>
 <h2 id="createcredentials">createcredentials</h2>
-<p>Crea un archivo credentials.txt en el directorio sessions el forato
-debe ser: user:password</p>
+<p>Creates a <code>credentials.txt</code> file in the
+<code>sessions</code> directory with the specified username and
+password.</p>
+<p>This function performs the following actions: 1. Validates the input
+line to ensure it contains a colon (<code>:</code>), indicating the
+presence of both a username and password. 2. Writes the valid input to
+<code>sessions/credentials.txt</code>.</p>
+<p>Usage: createcredentials user:password</p>
+<p>:param line: The input line containing the username and password in
+the format <code>user:password</code>. :type line: str :returns:
+None</p>
+<p>Manual execution: 1. Creates or overwrites the file
+<code>sessions/credentials.txt</code> with the specified username and
+password.</p>
+<p>Dependencies: - <code>sessions/credentials.txt</code> will be created
+in the <code>sessions</code> directory.</p>
+<p>Example: createcredentials
+administrator:passwordadministrator123&amp;!</p>
+<p>Note: - Ensure the input format is correct:
+<code>user:password</code>. - The credentials should be properly
+formatted with a colon separating the username and password.</p>
 <h2 id="createcookie">createcookie</h2>
-<p>Crea un archivo cookie.txt en el directorio sessions con el formato
-de una cookie válida.</p>
+<p>Creates a <code>cookie.txt</code> file in the <code>sessions</code>
+directory with the specified cookie value.</p>
+<p>This function performs the following actions: 1. Extracts the cookie
+value from the provided input line using a regular expression. 2. Writes
+the extracted cookie value to <code>sessions/cookie.txt</code>.</p>
+<p>Usage: createcookie cookie=user_data=valor_base64</p>
+<p>:param line: The input line containing the cookie value in the format
+<code>cookie=value</code>. :type line: str :returns: None</p>
+<p>Manual execution: 1. Creates or overwrites the file
+<code>sessions/cookie.txt</code> with the extracted cookie value.</p>
+<p>Dependencies: - <code>sessions/cookie.txt</code> will be created in
+the <code>sessions</code> directory.</p>
+<p>Example: createcookie cookie=user_data=valor_base64</p>
+<p>Note: - Ensure the input format is correct:
+<code>cookie=value</code>. - The cookie value should be properly encoded
+and formatted as needed.</p>
 <h2 id="download_resources">download_resources</h2>
-<p>download resources in sessions</p>
+<p>Downloads resources into the <code>sessions</code> directory.</p>
+<p>This function performs the following actions: 1. Changes to the
+<code>sessions</code> directory and executes
+<code>download_resources.sh</code> to download required resources.</p>
+<p>Usage: download_resources</p>
+<p>:param line: Not used in this function. :type line: str :returns:
+None</p>
+<p>Manual execution: 1. Runs the <code>download_resources.sh</code>
+script in the <code>sessions</code> directory to download necessary
+resources.</p>
+<p>Dependencies: - <code>download_resources.sh</code> must be present in
+the <code>sessions</code> directory.</p>
+<p>Example: download_resources</p>
+<p>Note: - Ensure that the <code>download_resources.sh</code> script is
+present in the <code>sessions</code> directory and is executable. -
+After running this command, you can use the <code>www</code> command as
+indicated by the printed message.</p>
 <h2 id="download_exploit">download_exploit</h2>
-<p>download exploits in external/.exploits/</p>
+<p>Downloads and sets up exploits in the
+<code>external/.exploits/</code> directory and starts a web server to
+serve the files.</p>
+<p>This function performs the following actions: 1. Changes to the
+<code>external</code> directory and executes
+<code>install_external.sh</code> to install necessary components or
+exploits. 2. Displays the IP addresses associated with network
+interfaces and copies the IP address of <code>tun0</code> to the
+clipboard. 3. Lists the contents of the <code>external/.exploit</code>
+directory and starts a web server on port 8443 to serve the files in
+that directory. 4. Prints a message indicating the server’s status and
+the port it’s running on.</p>
+<p>Usage: download_exploit</p>
+<p>:param line: Not used in this function. :type line: str :returns:
+None</p>
+<p>Manual execution: 1. Runs the <code>install_external.sh</code> script
+to set up necessary components or exploits. 2. Displays network
+interface IP addresses and copies the IP address of <code>tun0</code> to
+the clipboard. 3. Lists the contents of <code>external/.exploit</code>
+directory. 4. Starts a Python HTTP server on port 8443 in the
+<code>external/.exploit</code> directory to serve files.</p>
+<p>Dependencies: - <code>install_external.sh</code> must be present in
+the <code>external</code> directory. - <code>xclip</code> must be
+installed for clipboard operations. - Python 3 must be installed to run
+the HTTP server.</p>
+<p>Example: download_exploit</p>
+<p>Note: - Ensure that the <code>install_external.sh</code> script is
+correctly configured and present in the <code>external</code> directory.
+- The HTTP server will be accessible on port 8443. - The function
+assumes the presence of <code>external/.exploit</code> directory and
+serves files from there.</p>
 <h2 id="dirsearch">dirsearch</h2>
-<p>dirsearch -u http://url.ext/ -x 403,404,400</p>
+<p>Runs the <code>dirsearch</code> tool to perform directory and file
+enumeration on a specified URL.</p>
+<p>This function executes <code>dirsearch</code> to scan a given URL for
+directories and files, while excluding specific HTTP status codes from
+the results. If <code>dirsearch</code> is not installed, the function
+will attempt to install it before running the scan.</p>
+<p>Usage: dirsearch <url></p>
+<p>:param line: Not used in this function. The URL is provided via the
+<code>url</code> parameter. :type line: str :returns: None</p>
+<p>Manual execution: 1. If <code>dirsearch</code> is present, the
+command <code>dirsearch -u &lt;url&gt; -x 403,404,400</code> is
+executed. 2. If <code>dirsearch</code> is not present, the function
+installs <code>dirsearch</code> using
+<code>sudo apt install dirsearch -y</code> and then runs the
+command.</p>
+<p>Dependencies: - <code>dirsearch</code> must be installed. If not
+present, it will be installed using <code>sudo apt</code>. - Ensure the
+URL is set via the <code>url</code> parameter before calling this
+function.</p>
+<p>Example: dirsearch http://example.com/</p>
+<p>Note: - Ensure that the <code>url</code> parameter is set before
+calling this function. - The <code>-x</code> option specifies HTTP
+status codes to exclude from the results (e.g., 403, 404, 400). - The
+function will attempt to install <code>dirsearch</code> if it is not
+already installed.</p>
 <h2 id="john2hash">john2hash</h2>
-<p>example: sudo john hash.txt
-–wordlist=/usr/share/wordlists/rockyou.txt -format=Raw-SHA512</p>
+<p>Runs John the Ripper with a specified wordlist and options.</p>
+<p>This function executes John the Ripper to crack hashes using the
+specified wordlist and additional options. If no additional options are
+provided, it will attempt to display cracked hashes.</p>
+<p>Usage: john2hash <options></p>
+<p>:param line: Optional arguments to be passed to John the Ripper
+(e.g., <code>--format=Raw-SHA512</code>). If not provided, the function
+will default to showing the cracked hashes. :type line: str :returns:
+None</p>
+<p>Manual execution: 1. If <code>line</code> is provided, the command
+<code>sudo john sessions/hash.txt --wordlist=&lt;wordlist&gt; &lt;options&gt;</code>
+is executed. 2. If <code>line</code> is not provided, the command
+<code>sudo john sessions/hash.txt --wordlist=&lt;wordlist&gt;</code> is
+executed to display the cracked hashes.</p>
+<p>Dependencies: - John the Ripper must be installed and available in
+the system’s PATH. - Ensure the wordlist file exists at the specified
+path. - The <code>sessions/hash.txt</code> file must contain the hashes
+to be cracked.</p>
+<p>Example: john2hash –format=Raw-SHA512 # If <code>wordlist</code> is
+set to <code>/usr/share/wordlists/rockyou.txt</code>, the command
+executed will be
+<code>sudo john sessions/hash.txt --wordlist=/usr/share/wordlists/rockyou.txt --format=Raw-SHA512</code>.</p>
+<p>Note: - Ensure that the <code>wordlist</code> parameter is set before
+calling this function. - Provide the necessary options as a string
+argument (e.g., <code>--format=Raw-SHA512</code>) if needed. - If no
+options are provided, the function defaults to showing the cracked
+hashes.</p>
 <h2 id="hashcat">hashcat</h2>
-<p>hashcat -a 0 -m mode hash /usr/share/wordlists/rockyou.txt</p>
+<p>Runs Hashcat with specified attack mode and hash type using a
+wordlist.</p>
+<p>This function executes the Hashcat tool with the specified mode and
+wordlist file. The hash value to be cracked should be provided as an
+argument.</p>
+<p>Usage: hashcat <mode></p>
+<p>:param line: The hash type or mode to be used with Hashcat (e.g., 0
+for MD5). This is a required argument. :type line: str :returns:
+None</p>
+<p>Manual execution: 1. The command
+<code>hashcat -a 0 -m &lt;mode&gt; &lt;hash&gt; &lt;wordlist&gt;</code>
+is executed, where <code>&lt;mode&gt;</code> is the hash type,
+<code>&lt;hash&gt;</code> is the hash to be cracked, and
+<code>&lt;wordlist&gt;</code> is the path to the wordlist file.</p>
+<p>Dependencies: - Hashcat must be installed and available in the
+system’s PATH. - Ensure the wordlist file exists at the specified
+path.</p>
+<p>Example: hashcat 0 # If <code>wordlist</code> is set to
+<code>/usr/share/wordlists/rockyou.txt</code> and <code>line</code> is
+<code>0</code>, the command executed will be
+<code>hashcat -a 0 -m 0 /usr/share/wordlists/rockyou.txt</code>.</p>
+<p>Note: - Ensure that the <code>wordlist</code> parameter is set before
+calling this function. - The hash to be cracked must be passed as an
+argument when calling the function. - Replace <code>&lt;mode&gt;</code>
+with the appropriate Hashcat mode number (e.g., <code>0</code> for MD5,
+<code>1000</code> for NTLM).</p>
 <h2 id="complete_hashcat">complete_hashcat</h2>
 <p>Complete mode options and file paths for the sessions/hash.txt</p>
 <h2 id="responder">responder</h2>
-<p>sudo responder -I tun0</p>
+<p>Runs Responder on a specified network interface with elevated
+privileges.</p>
+<p>This function executes the Responder tool with <code>sudo</code> on
+the network interface provided in the <code>device</code> parameter.</p>
+<p>Usage: responder</p>
+<p>:param line: This parameter is not used in the function but is
+included for consistency with other command methods. :type line: str
+:returns: None</p>
+<p>Manual execution: 1. The command
+<code>sudo responder -I &lt;device&gt;</code> is executed, where
+<code>&lt;device&gt;</code> is the network interface specified by the
+user.</p>
+<p>Dependencies: - The function relies on <code>sudo</code> to run
+Responder with root privileges. - Ensure that Responder is installed and
+available in the system’s PATH.</p>
+<p>Example: responder # If <code>device</code> is set to
+<code>tun0</code>, the command executed will be
+<code>sudo responder -I tun0</code>.</p>
+<p>Note: - Ensure that the <code>device</code> parameter is set before
+calling this function. - Replace <code>&lt;device&gt;</code> with the
+appropriate network interface, such as <code>tun0</code>,
+<code>eth0</code>, etc. - Running Responder requires root privileges, so
+make sure the user running the command has the necessary
+permissions.</p>
 <h2 id="ip">ip</h2>
-<p>ip a show scope global | awk ’/<a href="#fn1" class="footnote-ref"
-id="fnref1" role="doc-noteref"><sup>1</sup></a>+:/ { sub(/:/,““,$2);
-iface=$2 } /<a href="#fn2" class="footnote-ref" id="fnref2"
-role="doc-noteref"><sup>2</sup></a>*inet / { split($2, a, “/”); print ”
-[[96m” iface”[0m] “a[1] }’ and copy de ip to clipboard :)</p>
+<p>Displays IP addresses of network interfaces and copies the IP address
+from the <code>tun0</code> interface to the clipboard.</p>
+<p>This function performs the following tasks: 1. Displays IP addresses
+for all network interfaces using <code>ip a show scope global</code> and
+<code>awk</code>. 2. Copies the IP address from the <code>tun0</code>
+interface to the clipboard using <code>xclip</code>.</p>
+<p>Usage: ip</p>
+<p>:param line: This parameter is not used in the function but is
+included for consistency with other command methods. :type line: str
+:returns: None</p>
+<p>Manual execution: 1. The command
+<code>ip a show scope global | awk '/^[0-9]+:/ { sub(/:/,"",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, "/"); print "    [[96m" iface"[0m] "a[1] }'</code>
+is executed to display the IP addresses of all network interfaces. 2.
+The IP address of the <code>tun0</code> interface is copied to the
+clipboard using the command
+<code>ip a show tun0 | grep 'inet ' | awk '{print $2}' | cut -d'/' -f1 | xclip -sel clip</code>.</p>
+<p>Dependencies: - The function relies on <code>awk</code>,
+<code>grep</code>, <code>cut</code>, and <code>xclip</code> to process
+and copy the IP address.</p>
+<p>Example: ip # This will display IP addresses for all network
+interfaces and copy the IP address from <code>tun0</code> to the
+clipboard.</p>
+<p>Note: Ensure that the <code>tun0</code> interface exists and has an
+IP address assigned. If <code>tun0</code> is not present or has no IP
+address, the clipboard will not be updated.</p>
 <h2 id="rhost">rhost</h2>
-<p>Copy rhost to clipboard</p>
+<p>Copies the remote host (rhost) to the clipboard and updates the
+command prompt.</p>
+<p>This function performs two tasks: 1. It copies the <code>rhost</code>
+parameter to the clipboard if it is valid. 2. It updates the command
+prompt to include the <code>rhost</code> and the current working
+directory.</p>
+<p>Usage: rhost [clean]</p>
+<p>:param line: An optional argument that determines the behavior of the
+function: - If ‘clean’, it resets the command prompt to its default
+format. - If any other value, it updates the command prompt to include
+the <code>rhost</code> and current working directory. :type line: str
+:returns: None</p>
+<p>Manual execution: 1. If <code>line</code> is ‘clean’: - The command
+prompt is reset to its default format. 2. If <code>line</code> is any
+other value: - The command prompt is updated to show the
+<code>rhost</code> and the current working directory. - The
+<code>rhost</code> is copied to the clipboard using
+<code>xclip</code>.</p>
+<p>Dependencies: - The script uses <code>xclip</code> to copy the
+<code>rhost</code> to the clipboard.</p>
+<p>Example: rhost # This will copy the current <code>rhost</code> to the
+clipboard and update the prompt.</p>
+<p>rhost clean # This will reset the command prompt to its default
+format.</p>
+<p>Note: Ensure that the <code>rhost</code> is valid by checking it with
+the <code>check_rhost</code> function before copying it to the
+clipboard.</p>
 <h2 id="banner">banner</h2>
 <p>Show the banner</p>
 <h2 id="py3ttyup">py3ttyup</h2>
-<p>copy to clipboard tipical python3 -c ’import pty; pty.spawn … bla bla
-blah…</p>
+<p>Copies a Python reverse shell command to the clipboard.</p>
+<p>This function generates a Python command that uses the
+<code>pty</code> module to spawn a new shell and copies it to the
+clipboard. This is typically used for creating a TTY shell in a reverse
+shell situation.</p>
+<p>Usage: py3ttyup</p>
+<p>:param line: This parameter is not used in the function. :type line:
+str :returns: None</p>
+<p>Manual execution: 1. The function creates a Python command with
+<code>pty.spawn</code> to open a shell. 2. The command is copied to the
+clipboard using <code>xclip</code>. 3. A message is printed to inform
+the user that the command has been copied.</p>
+<p>Dependencies: - The script uses <code>xclip</code> to copy the
+command to the clipboard.</p>
+<p>Example: py3ttyup # This will copy the Python command
+<code>python3 -c 'import pty; pty.spawn("/bin/bash")'</code> to the
+clipboard.</p>
+<p>Note: This command is often used in scenarios where you need a more
+interactive shell from a reverse shell connection.</p>
 <h2 id="rev">rev</h2>
-<p>Copy a revshell to clipboard</p>
+<p>Copies a reverse shell payload to the clipboard.</p>
+<p>This function generates a reverse shell command that connects back to
+the specified host and port, and copies it to the clipboard. It also
+provides a way to execute the payload via a PHP-based web shell.</p>
+<p>Usage: rev</p>
+<p>:param line: This parameter is not used in the function. :type line:
+str :returns: None</p>
+<p>Manual execution: 1. Ensure that <code>lhost</code>,
+<code>lport</code>, and <code>rhost</code> parameters are set. 2. The
+function generates a reverse shell command in Bash and prints
+instructions for using the payload. 3. It also provides an example URL
+and PHP code snippet that decodes and executes the base64-encoded
+payload. 4. The reverse shell command is copied to the clipboard using
+<code>xclip</code>.</p>
+<p>Dependencies: - The script uses <code>xclip</code> to copy the
+command to the clipboard. - Base64 encoding is used to obfuscate the
+payload.</p>
+<p>Example: rev # This will copy a reverse shell command to the
+clipboard and display instructions for its use.</p>
 <h2 id="img2cookie">img2cookie</h2>
-<p>Copy a malicious img tag to clipboard</p>
+<p>Copies a malicious image tag payload to the clipboard.</p>
+<p>This function crafts and copies two different image tag payloads
+designed to steal cookies from a target’s browser. The payloads use
+JavaScript to send cookies to a specified host and port. The user is
+prompted to select which payload to copy to the clipboard.</p>
+<p>Usage: img2cookie</p>
+<p>:param line: This parameter is not used in the function. :type line:
+str :returns: None</p>
+<p>Manual execution: 1. Ensure that <code>lhost</code>,
+<code>lport</code>, and <code>rhost</code> parameters are set. 2. The
+function generates two payloads: - Payload 1: A script that sends
+cookies to the specified host and port. - Payload 2: An image tag with
+an <code>onerror</code> event that fetches cookies and sends them to the
+specified host and port using Base64 encoding. 3. The user is prompted
+to choose between the two payloads, which are then copied to the
+clipboard.</p>
+<p>Dependencies: - The script uses <code>xclip</code> to copy the
+payloads to the clipboard. - Ensure that <code>lhost</code>,
+<code>lport</code>, and <code>rhost</code> parameters are set with
+appropriate values.</p>
+<p>Example: img2cookie # This will prompt you to select between two
+payloads. The chosen payload will be copied to the clipboard.</p>
 <h2 id="disableav">disableav</h2>
-<p>visual basic script to try to disable antivirus</p>
+<p>Creates a Visual Basic Script (VBS) to attempt to disable antivirus
+settings.</p>
+<p>This function generates a VBS script designed to modify Windows
+Registry settings and run PowerShell commands to disable various Windows
+Defender antivirus features.</p>
+<p>Usage: disableav</p>
+<p>:param line: This parameter is not used in the function. :type line:
+str :returns: None</p>
+<p>Manual execution: 1. The function writes a VBS script to a file named
+<code>aav.vbs</code> in the <code>sessions</code> directory. 2. The
+script: - Elevates its privileges if not already running as an
+administrator. - Modifies Windows Registry settings to disable various
+Windows Defender features. - Outputs PowerShell commands to disable
+additional Windows Defender settings.</p>
+<p>The VBS script: - Uses <code>WScript.Shell</code> to modify the
+Windows Registry for disabling Windows Defender. - Calls PowerShell
+commands to further disable antivirus features.</p>
+<p>Dependencies: - The script must be executed on a Windows system where
+you have administrative privileges. - Ensure you have appropriate
+permissions to modify Windows Registry settings.</p>
+<p>Example: disableav # This will create the <code>aav.vbs</code> file
+with the specified content in the <code>sessions</code> directory.</p>
 <h2 id="conptyshell">conptyshell</h2>
-<p>Download ConPtyShell in sessions directory and copy to clipboard the
-command :D</p>
+<p>Downloads ConPtyShell and prepares a PowerShell command for remote
+access.</p>
+<p>This function downloads the ConPtyShell PowerShell script and ZIP
+archive to the <code>sessions</code> directory and copies a PowerShell
+command to the clipboard for easy execution.</p>
+<p>Usage: conptyshell</p>
+<p>:param line: This parameter is not used in the function. The required
+host and port are retrieved from the <code>params</code> dictionary.
+:type line: str :returns: None</p>
+<p>Manual execution: 1. Ensure that the <code>lhost</code> and
+<code>lport</code> parameters are set with the local host and port for
+the reverse shell. 2. The function downloads
+<code>Invoke-ConPtyShell.ps1</code> and <code>ConPtyShell.zip</code> to
+the <code>sessions</code> directory. 3. Constructs a PowerShell command
+to run <code>Invoke-ConPtyShell.ps1</code> with the specified local IP
+and port. 4. Copies the constructed command to the clipboard using
+<code>xclip</code>.</p>
+<p>The constructed PowerShell command: - Uses
+<code>Invoke-ConPtyShell.ps1</code> to establish a reverse shell
+connection to the specified <code>lhost</code> and <code>lport</code>. -
+Sets the PowerShell execution policy to bypass and specifies the
+dimensions of the terminal window.</p>
+<p>Dependencies: - <code>wget</code>: For downloading files from the
+internet. - <code>xclip</code>: For copying commands to the clipboard. -
+Ensure <code>ConPtyShell</code> script and ZIP are compatible with your
+environment.</p>
+<p>Example: conptyshell # This will download the required files and copy
+the PowerShell command to the clipboard.</p>
 <h2 id="pwncatcs">pwncatcs</h2>
-<p>run pwncat-cs -lp <PORT> :)</p>
+<p>Runs <code>pwncat-cs</code> with the specified port for
+listening.</p>
+<p>This function starts a <code>pwncat-cs</code> listener on the
+specified local port. It can use a port defined in the
+<code>lport</code> parameter or a port provided as an argument.</p>
+<p>Usage: pwncatcs <port></p>
+<p>:param line: The port number to use for the <code>pwncat-cs</code>
+listener. If not provided, it defaults to the <code>lport</code>
+parameter. :type line: str :returns: None</p>
+<p>Manual execution: 1. Ensure that <code>pwncat-cs</code> is installed
+and accessible from your command line. 2. The port number can either be
+provided as an argument or be set in the <code>lport</code> parameter of
+the function. 3. Run the function to start <code>pwncat-cs</code> on the
+specified port.</p>
+<p>If no port is provided as an argument, the function will use the port
+specified in the <code>lport</code> parameter. If a port is provided, it
+overrides the <code>lport</code> value.</p>
+<p>After starting the listener, the function prints a message indicating
+that <code>pwncat-cs</code> is running on the specified port and another
+message when the session is closed.</p>
+<p>Dependencies: - <code>pwncat-cs</code>: A tool used for creating
+reverse shells or bind shells.</p>
 <h2 id="find">find</h2>
-<p>copy to clipboard this command always forgot :) find / -type f -perm
--4000 2&gt;/dev/null</p>
+<p>Automates command execution based on a list of aliases and
+commands.</p>
+<ol type="1">
+<li>Displays available aliases and their commands.</li>
+<li>Asks the user if they want to execute a specific command.</li>
+<li>If confirmed, displays the alias and command with a number.</li>
+<li>Executes the command and copies it to the clipboard.</li>
+</ol>
+<p>:param line: The command line input containing the list of alias and
+command pairs. :type line: str :returns: None</p>
+<p>Manual execution: To manually run these tasks, you would need to: -
+Prepare the list of alias and command pairs in the format: “alias
+command”. - Provide this list as input to the function. - Confirm the
+execution of the desired command when prompted. - Manually copy the
+command to the clipboard if needed.</p>
+<p>Note: Ensure <code>xclip</code> is installed and properly configured
+to use clipboard functionalities.</p>
 <h2 id="sh">sh</h2>
 <p>execute some command direct in shell to avoid exit LazyOwn ;)</p>
 <h2 id="pwd">pwd</h2>
-<p>‘echo -e “[[34m” &amp;&amp; ls &amp;&amp; echo -en “[0m”’</p>
-<h2 id="qa">qa</h2>
-<p>Exit fast without confirmation</p>
-<h2 id="ignorearp">ignorearp</h2>
-<p>echo 1 &gt; /proc/sys/net/ipv4/conf/all/arp_ignore</p>
-<h2 id="ignoreicmp">ignoreicmp</h2>
-<p>echo 1 &gt; /proc/sys/net/ipv4/icmp_echo_ignore_all</p>
-<h2 id="acknowledgearp">acknowledgearp</h2>
-<p>echo 0 &gt; /proc/sys/net/ipv4/conf/all/arp_ignore</p>
-<h2 id="acknowledgeicmp">acknowledgeicmp</h2>
-<p>echo 0 &gt; /proc/sys/net/ipv4/icmp_echo_ignore_all</p>
-<h2 id="clock">clock</h2>
-<p>Show the time to go sleep xD</p>
-<h2 id="ports">ports</h2>
-<p>Get all ports local</p>
-<h2 id="ssh">ssh</h2>
-<p>Conecta a un host SSH usando credenciales desde un archivo y el
-puerto especificado.</p>
-<h2 id="cports">cports</h2>
-<p>Genera un comando para mostrar puertos TCP y UDP, y lo copia al
-portapapeles.</p>
-<h2 id="vpn">vpn</h2>
-<p>Open VPN like HTB VPN command vpn now handle multiple ovpn files</p>
-<h2 id="id_rsa">id_rsa</h2>
-<p>create id_rsa file, open nano sessions/id_rsa, usage like this:
-id_rsa username, open nano and you paste the private key, and run ssh
-command</p>
-<h2 id="www">www</h2>
-<p>Start a web server with python3</p>
-<h2 id="wrapper-1">wrapper</h2>
-<p>copy to clipboard some wrapper to lfi</p>
-<h2 id="samrdump">samrdump</h2>
-<p>impacket-samrdump -port 445 10.10.10.10</p>
-<h2 id="urlencode">urlencode</h2>
-<p>Encode a string for URL.</p>
-<h2 id="urldecode">urldecode</h2>
-<p>Decode a URL-encoded string.</p>
-<h2 id="lynis">lynis</h2>
-<p>sudo lynis audit system remote 10.10.10.10 more info check
-modules/lazylynis.sh</p>
-<h2 id="snmpcheck">snmpcheck</h2>
-<p>snmp-check 10.10.10.10</p>
-<h2 id="encode">encode</h2>
-<p>Encodes a string with the given shift value and substitution key</p>
-<h2 id="decode">decode</h2>
-<p>Decodes a string with the given shift value and substitution key</p>
-<h2 id="creds">creds</h2>
-<p>Display the credentials stored in the <code>credentials.txt</code>
-file and copy the password to the clipboard.</p>
-<p>This function reads the stored credentials from a file named
-<code>credentials.txt</code> located in the <code>sessions</code>
-directory. The file should be in the format
-<code>username:password</code>. If the file does not exist, an error
-message will be printed instructing the user to create the credentials
-file first. The function extracts the username and password from the
-file, prints them, and copies the password to the clipboard using
-<code>xclip</code>.</p>
-<p>:param line: A string parameter that is not used in this function. It
-is included for compatibility with command-line interface functions.</p>
-<p>:returns: None</p>
-<p>Manual execution: To manually perform the equivalent actions, follow
-these steps:</p>
-<pre><code>1. Ensure the file `sessions/credentials.txt` exists and contains credentials in the format `username:password`.
-2. Read the file and extract the username and password.
-3. Print the username and password to the console.
-4. Use the `xclip` tool to copy the password to the clipboard. Example command:
-
-    echo &#39;&lt;password&gt;&#39; | xclip -sel clip</code></pre>
-<p>Example: If <code>sessions/credentials.txt</code> contains
-<code>admin:password123</code>, the function will print:</p>
-<pre><code>User : admin
-Pass : password123</code></pre>
-<p>The password <code>password123</code> will be copied to the
-clipboard.</p>
-<p>Note: Ensure <code>xclip</code> is installed on your system for
-copying to the clipboard. The function assumes that <code>xclip</code>
-is available and correctly configured.</p>
-<h2 id="rot">rot</h2>
-<p>Apply ROT13 substitution cipher to the given string.</p>
-<p>Usage: rot <number> ‘<string>’</p>
-<h2 id="hydra">hydra</h2>
-<p>hydra -f -L sessions/users.txt -P /usr/share/wordlists/rockyou.txt
-10.10.11.9 -s 5000 https-get /v2/</p>
-<h2 id="nmapscript">nmapscript</h2>
-<p>Perform an Nmap scan using a specified script and port.</p>
-<p>:param line: A string containing the Nmap script and port, separated
-by a space. Example: “http-enum 80”.</p>
-<p>:returns: None</p>
-<p>Manual execution: To manually run an Nmap scan with a script and
-port, use the following command format:</p>
-<pre><code>nmap --script &lt;script&gt; -p &lt;port&gt; &lt;target&gt; -oN &lt;output-file&gt;</code></pre>
-<p>Example: If you want to use the script <code>http-enum</code> on port
-<code>80</code> for the target <code>10.10.10.10</code>, you would
-run:</p>
-<pre><code>nmap --script http-enum -p 80 10.10.10.10 -oN sessions/webScan_10.10.10.10</code></pre>
-<p>Ensure you have the target host (<code>rhost</code>) set in the
-parameters and provide the script and port as arguments. The results
-will be saved in the file
-<code>sessions/webScan_&lt;rhost&gt;</code>.</p>
-<h2 id="encoderpayload">encoderpayload</h2>
-<p>No description available.</p>
-<h2 id="smtpuserenum">smtpuserenum</h2>
-<p>sudo smtp-user-enum -M VRFY -U
-/usr/share/wordlists/SecLists-master/Usernames/xato-net-10-million-usernames.txt
--t 10.10.10.10</p>
-<h2 id="sshd">sshd</h2>
-<p>sudo systemctl start ssh</p>
-<h2 id="nmapscripthelp">nmapscripthelp</h2>
-<p>help to know nmap scripts: nmap –script-help ’snmp*’</p>
-<h2 id="apropos">apropos</h2>
-<p>Search for commands matching the given parameter in the cmd interface
-and optionally extend the search using the system’s <code>apropos</code>
-command.</p>
-<p>:param line: The search term to find matching commands.</p>
-<p>:returns: None</p>
-<p>Manual execution: To manually search for commands matching a term
-using the <code>apropos</code> command, use the following command:</p>
-<pre><code>apropos &lt;search_term&gt;</code></pre>
-<p>Example: apropos network</p>
-<p>The <code>apropos</code> command will search for commands and
-documentation that match the given search term.</p>
-<p>The function also searches within the available commands in the cmd
-interface.</p>
-<h2 id="searchhash">searchhash</h2>
-<p>help to know search hashcat hash types: hashcat -h | grep -i
-<ARGUMENT></p>
-<h2 id="clean">clean</h2>
-<p>delete all from sessions</p>
-<h2 id="pyautomate">pyautomate</h2>
-<p>pyautomate automatization of tools to pwn a target all rights
-https://github.com/honze-net/pwntomate</p>
-<h2 id="alias">alias</h2>
-<p>Imprime todos los alias configurados.</p>
-<h2 id="tcpdump_icmp">tcpdump_icmp</h2>
-<p>se pone en escucha con la interfaz señalada por argumento ej:
-tcpdump_icmp tun0</p>
-<h2 id="winbase64payload">winbase64payload</h2>
-<p>Crea un payload encodeado en base64 especial para windows para
-ejecutar un ps1 desde lhost</p>
-<h2 id="revwin">revwin</h2>
-<p>Crea un payload encodeado en base64 especial para windows para
-ejecutar un ps1 desde lhost</p>
-<h2 id="asprevbase64">asprevbase64</h2>
-<p>create a base64 rev shell in asp, you need pass the base64 encodd
-payload, see help winbase64payload to create the payload base64
-encoded</p>
-<h2 id="rubeus">rubeus</h2>
-<p>copia a la clipboard la borma de descargar Rubeus</p>
-<h2 id="socat">socat</h2>
-<p>run socat in ip:port seted by argument config the port 1080 in
-/etc/proxychains.conf</p>
-<h2 id="chisel">chisel</h2>
-<p>run download_resources command to download and run chisel :D like
-./chisel_linux_amd64 server -p 3333 –reverse -v</p>
-<h2 id="msf">msf</h2>
-<p>automate msfconsole scan or rev shell</p>
-<h2 id="encrypt">encrypt</h2>
-<p>Encrypt a file using XOR. Usage: encrypt <file_path> <key></p>
-<h2 id="decrypt">decrypt</h2>
-<p>Decrypt a file using XOR. Usage: decrypt <file_path> <key></p>
-<h2 id="get_output">get_output</h2>
-<p>Devuelve la salida acumulada</p>
-<h2 id="double_base64_encode">double_base64_encode</h2>
-<p>No description available.</p>
-<h2 id="apply_obfuscations">apply_obfuscations</h2>
-<p>No description available.</p>
-<p>useradd -m -d /home/.grisun0 -s /bin/bash grisun0 &amp;&amp; echo
-‘grisun0:grisgrisgris’ | chpasswd &amp;&amp; chmod 700 /home/.grisun0
-&amp;&amp; sed -i ‘/grisun0/s/^/#/’ /etc/passwd &amp;&amp; su -
-grisun0</p>
-<section id="footnotes" class="footnotes footnotes-end-of-document"
-role="doc-endnotes">
-<hr />
-<ol>
-<li id="fn1"><p>0-9<a href="#fnref1" class="footnote-back"
-role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>[:space:]<a href="#fnref2" class="footnote-back"
-role="doc-backlink">↩︎</a></p></li>
-</ol>
-</section>
+<p>’echo -e “[`. It converts a single remote host into a list if
+necessary, and then iterates over each host, performing the given
+function with each host. After the operation, it restores the original
+remote host value.</p>
+<p>:param func: The function to be decorated and executed for each
+remote host. :type func: function :return: The decorated function.
+:rtype: function</p>
+<h2 id="check_sudo">check_sudo</h2>
+<p>Checks if the script is running with superuser (sudo) privileges, and
+if not, restarts the script with sudo privileges.</p>
+<p>This function verifies if the script is being executed with root
+privileges by checking the effective user ID. If the script is not
+running as root, it prints a warning message and restarts the script
+using sudo.</p>
+<p>:return: None</p>
+<h2 id="activate_virtualenv">activate_virtualenv</h2>
+<p>Activates a virtual environment and starts an interactive shell.</p>
+<p>This function activates a virtual environment located at
+<code>venv_path</code> and then launches an interactive bash shell with
+the virtual environment activated.</p>
+<p>:param venv_path: The path to the virtual environment directory.
+:type venv_path: str :return: None</p>
+<h2 id="parse_proc_net_file">parse_proc_net_file</h2>
+<p>Internal function to parse a /proc/net file and extract network
+ports.</p>
+<p>This function reads a file specified by <code>file_path</code>,
+processes each line to extract local addresses and ports, and converts
+them from hexadecimal to decimal. The IP addresses are converted from
+hexadecimal format to standard dot-decimal notation. The function
+returns a list of tuples, each containing an IP address and a port
+number.</p>
+<p>:param file_path: The path to the /proc/net file to be parsed. :type
+file_path: str :return: A list of tuples, each containing an IP address
+and a port number. :rtype: list of tuple</p>
+<h2 id="get_open_ports">get_open_ports</h2>
+<p>Internal function to get open TCP and UDP ports on the operating
+system.</p>
+<p>This function uses the <code>parse_proc_net_file</code> function to
+extract open TCP and UDP ports from the corresponding /proc/net files.
+It returns two lists: one for TCP ports and one for UDP ports.</p>
+<p>:return: A tuple containing two lists: the first list with open TCP
+ports and the second list with open UDP ports. :rtype: tuple of (list of
+tuple, list of tuple)</p>
+<h2 id="find_credentials">find_credentials</h2>
+<p>Searches for potential credentials in files within the specified
+directory.</p>
+<p>This function uses a regular expression to find possible credentials
+such as passwords, secrets, API keys, and tokens in files within the
+given directory. It iterates through all files in the directory and
+prints any matches found.</p>
+<p>:param directory: The directory to search for files containing
+credentials. :type directory: str :return: None</p>
+<h2 id="rotate_char">rotate_char</h2>
+<p>Internal function to rotate characters for ROT cipher.</p>
+<p>This function takes a character and a shift value, and rotates the
+character by the specified shift amount. It only affects alphabetical
+characters, leaving non-alphabetical characters unchanged.</p>
+<p>:param c: The character to be rotated. :type c: str :param shift: The
+number of positions to shift the character. :type shift: int :return:
+The rotated character. :rtype: str</p>
+<h2 id="get_network_info">get_network_info</h2>
+<p>Retrieves network interface information with their associated IP
+addresses.</p>
+<p>This function executes a shell command to gather network interface
+details, parses the output to extract interface names and their
+corresponding IP addresses, and returns this information in a dictionary
+format. The dictionary keys are interface names, and the values are IP
+addresses.</p>
+<p>:return: A dictionary where the keys are network interface names and
+the values are their associated IP addresses. :rtype: dict</p>
+<h2 id="getprompt">getprompt</h2>
+<p>Generate a command prompt string with network information and user
+status.</p>
+<p>:param: None</p>
+<p>:returns: A string representing the command prompt with network
+information and user status.</p>
+<p>Manual execution: To manually get a prompt string with network
+information and user status, ensure you have
+<code>get_network_info()</code> implemented to return a dictionary of
+network interfaces and their IPs. Then use the function to create a
+prompt string based on the current user and network info.</p>
+<p>Example: If the function <code>get_network_info()</code> returns: {
+‘tun0’: ‘10.0.0.1’, ‘eth0’: ‘192.168.1.2’ }</p>
+<p>And the user is root, the prompt string generated might be:
+[LazyOwn👽10.0.0.1]# If the user is not root, it would be:
+[LazyOwn👽10.0.0.1]$</p>
+<p>If no ‘tun’ interface is found, the function will use the first
+available IP or fallback to ‘127.0.0.1’.</p>
+<h2 id="copy2clip">copy2clip</h2>
+<p>Copia el texto proporcionado al portapapeles usando xclip.</p>
+<p>Args: text (str): El texto que se desea copiar al portapapeles.</p>
+<p>Example: copy2clip(“Hello, World!”)</p>
+<h2 id="wrapper">wrapper</h2>
+<p>internal wrapper of internal function to implement multiples rhost to
+operate.</p>
+<h1 id="changelog">Changelog</h1>
+<ul>
+<li>feature(parametrizar el despliegue): se agrega el parametro –no-test
+para despliegues que no involucren cambios en la tool:D👽 LazyOwn on
+HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽
+https://www.reddit.com/r/LazyOwn/ 👽
+https://grisuno.github.io/LazyOwn/</li>
+<li>test(troubleshooting): deleting the tmp file but i cant sleep👽
+LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽
+https://www.reddit.com/r/LazyOwn/ 👽
+https://grisuno.github.io/LazyOwn/</li>
+<li>hotfix(delete qa command to option -c): bug: dont let beggin
+scriptfast_run_as_r00t.sh, instruction was deletedline 6678👽 LazyOwn on
+HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽
+https://www.reddit.com/r/LazyOwn/ 👽
+https://grisuno.github.io/LazyOwn/</li>
+<li>test(despliegue): backup file del archivo lazyown creado en las
+pruebas TODO: eliminar el archivo al terminar las pruebas, ahora toca
+saber donde lo està creadno son muchas funciones xD, aun que creoq ue es
+mi pequeño burpfuzzer que lo hace pero ya es tardeno lo veré hoy👽
+LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽
+https://www.reddit.com/r/LazyOwn/ 👽
+https://grisuno.github.io/LazyOwn/</li>
+<li>test(despliegue): de organizaciòn de archivos ovpn dentro del
+directorio vpnse actualizo el timeout de las pruebas unitarias👽 LazyOwn
+on HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽
+https://www.reddit.com/r/LazyOwn/ 👽
+https://grisuno.github.io/LazyOwn/</li>
+<li>test(testmeneitor): probando el workflow de desplieguees el body de
+la prueba de despliegue junto a testmineitor👽 LazyOwn on HackTheBox:
+https://app.hackthebox.com/teams/overview/6429 👽
+https://www.reddit.com/r/LazyOwn/ 👽
+https://grisuno.github.io/LazyOwn/</li>
+<li>feature(nuevo creador de index.html): crea el html de manera
+automatizada con el script index.shscript realiza tareas de
+actualizaciòn de la pagina web👽 LazyOwn on HackTheBox:
+https://app.hackthebox.com/teams/overview/6429 👽
+https://www.reddit.com/r/LazyOwn/ 👽
+https://grisuno.github.io/LazyOwn/</li>
+<li>feature(mejora CHANGELOG.sh): ahora actualiza usando
+readmeneitor.pyutilizarà nuestro testmeneitor para probar que no subimos
+codigo con bugs👽 LazyOwn on HackTheBox:
+https://app.hackthebox.com/teams/overview/6429 👽
+https://www.reddit.com/r/LazyOwn/ 👽
+https://grisuno.github.io/LazyOwn/</li>
+<li>feat(mejorando el tipo): cambio en el script CHANGELOG.shmejora la
+descripcion de los tipos de commits👽 LazyOwn on HackTheBox:
+https://app.hackthebox.com/teams/overview/6429 👽
+https://www.reddit.com/r/LazyOwn/ 👽
+https://grisuno.github.io/LazyOwn/</li>
+<li>docs(docs): El cierre de una imagen en la documentación estaba mal
+:)se modifico el CHANGELOG.sh que chulada de script👽 LazyOwn on
+HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽
+https://www.reddit.com/r/LazyOwn/ 👽
+https://grisuno.github.io/LazyOwn/</li>
+<li>Nueva descripcion en el readme y probando el CHANGELOG.sh :)</li>
+<li>ahora el changelog a docs :D en formato html</li>
+<li>HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽 Ahora
+estamos en TryHackMe :D, nuestro QA Testmeneitor.py ya es màs
+inteligente ya no se le olvida cerrar las tareas que abrio xD, todos los
+comandos nuevos estan docuemntados en docs/COMMANDS.md y docs/UTILS.md
+todas las funciones nuevas como copy2clip :P, y estrenamos CHANGELOG.md
+y CHANGELOG.sh :D 👽</li>
+<li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽
+some changes in the web pandoc README.md -f markdown -t html -s -o
+README.html madremia que comandazo 👽</li>
+<li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽
+some changes in the web pandoc README.md -f markdown -t html -s -o
+README.html madremia que comandazo 👽</li>
+<li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽
+some changes in the web 👽</li>
+<li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽
+comming soon tryhackme 👽</li>
+<li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽
+testmeneitor.py my new qa it’s new doing qa so… l:P, some commands news
+base64encode, base64decode, rdp, all documented by my documentator
+readmeneitor.py :P 👽</li>
+<li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽 new
+fancy proompt :) 👽</li>
+<li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽 bug
+fixing 👽</li>
+<li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429
+👽👽</li>
+<li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽
+3ast3r366 👽</li>
+<li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽 New
+commands documented at COMMANDS.md and new ultis documented at ULTIS.md
+👽</li>
+<li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽 New
+commands documented at COMMANDS.md and new ultis documented at ULTIS.md
+👽</li>
+<li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽 New
+commands documented at COMMANDS.md and new ultis documented at ULTIS.md
+👽</li>
+<li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽 New
+command launchpad to recon Linux OS 👽</li>
+<li>Merge pull request #27 from grisuno/clcthulhu-patch-1</li>
+<li>docs(update readme description): change of the description; Update
+README.md</li>
+</ul>
 </body>
 </html>
             <!-- END README -->

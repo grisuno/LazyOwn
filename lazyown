@@ -4578,13 +4578,13 @@ class LazyOwnShell(Cmd):
         current_date=$(date +"%Y-%m-%d")
         current_time=$(date +"%H:%M:%S")
         # Muestra la fecha y hora con figlet
-        figlet "$current_date"
-        figlet "$current_time"
+        figlet "$current_date"  | lolcat
+        figlet "$current_time"  | lolcat
         """
         print_msg(WHITE)
         os.system(cmd)
         print_msg(GREEN)
-        os.system("./modules/cal.sh")
+        os.system("./modules/cal.sh | lolcat")
         print_msg(RESET)
 
         return

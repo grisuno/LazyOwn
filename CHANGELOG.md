@@ -1,5 +1,6 @@
 # Changelog
 
+* docs(se agrega el change log al readme): tambien se ejecutan pruebas del despliegue con el parametro --no-test\n\ncambios hechos solo en el archivo README.md\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
 * hotfix(fix in vpn): dont work with arguments\n\nnow works xD\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
 * feature(parametrizar el despliegue): se agrega el parametro --no-test para despliegues que no involucren cambios en la tool\n\n:D\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
 * test(troubleshooting): deleting the tmp file but i cant sleep\n\nlol\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/

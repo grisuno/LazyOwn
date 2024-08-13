@@ -527,6 +527,25 @@ def getprompt():
 
     return prompt
 
+def copy2clip(text):
+    """
+    Copia el texto proporcionado al portapapeles usando xclip.
+
+    Args:
+        text (str): El texto que se desea copiar al portapapeles.
+
+    Example:
+        copy2clip("Hello, World!")
+    """
+    try:
+        # Usa el comando xclip para copiar el texto al portapapeles
+        subprocess.run(['xclip', '-selection', 'clipboard'], input=text.encode(), check=True)
+        print_msg(f"Texto copiado al portapapeles. {text}")
+    except subprocess.CalledProcessError as e:
+        print_error(f"Error al copiar al portapapeles: {e}")
+    except FileNotFoundError:
+        print_error("xclip no está instalado. Por favor, instálalo usando `sudo apt-get install xclip`.")
+
 
 
 arguments = sys.argv[1:]  

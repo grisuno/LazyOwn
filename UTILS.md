@@ -211,6 +211,15 @@ If the user is not root, it would be:
 
 If no 'tun' interface is found, the function will use the first available IP or fallback to '127.0.0.1'.
 
+## copy2clip
+Copia el texto proporcionado al portapapeles usando xclip.
+
+Args:
+    text (str): El texto que se desea copiar al portapapeles.
+
+Example:
+    copy2clip("Hello, World!")
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 

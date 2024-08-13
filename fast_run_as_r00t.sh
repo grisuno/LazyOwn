@@ -29,7 +29,7 @@ tmux split-window -h
 
 # Agregar un delay para que la VPN tenga tiempo de conectarse
 
-tmux send-keys -t $SESSION "bash -c './run -c \"vpn 1\"'" C-m
+tmux send-keys -t $SESSION "bash -c './run -c \"vpn 2\"'" C-m
 tmux split-window -v
 
 tmux send-keys -t $SESSION "bash -c './run -c www'" C-m

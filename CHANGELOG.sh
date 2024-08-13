@@ -1,8 +1,15 @@
 #!/bin/bash
 
 #TEST ME NEITOR
-python3 testmeneitor.py lazyown
+# Revisa si el parámetro --no-test está presente
+if [[ "$1" != "--no-test" ]]; then
+    # Ejecuta el comando si --no-test no está presente
+    python3 testmeneitor.py lazyown
+fi
+
+# Ejecuta el comando para eliminar archivos que comiencen con d2
 rm d2*
+
 # Actualiza la documentación
 python3 readmeneitor.py lazyown
 python3 readmeneitor.py utils.py

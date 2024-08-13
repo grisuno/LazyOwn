@@ -1,5 +1,6 @@
 # Changelog
 
+* test(despliegue): backup file del archivo lazyown creado en las pruebas TODO: eliminar el archivo al terminar las pruebas, ahora toca saber donde lo està creadno son muchas funciones xD, aun que creoq ue es mi pequeño burpfuzzer que lo hace pero ya es tarde\n\ny no lo veré hoy\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
 * test(despliegue): de organizaciòn de archivos ovpn dentro del directorio vpn\n\ntambien se actualizo el timeout de las pruebas unitarias\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
 * test(testmeneitor): probando el workflow de despliegue\n\neste es el body de la prueba de despliegue junto a testmineitor\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
 * feature(nuevo creador de index.html): crea el html de manera automatizada con el script index.sh\n\nel script realiza tareas de actualizaciòn de la pagina web\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/

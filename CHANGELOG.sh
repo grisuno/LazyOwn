@@ -39,6 +39,10 @@ echo "Changelog actualizado en $CHANGELOG_FILE"
 # Añadir el archivo de changelog al commit
 git add $CHANGELOG_FILE
 
+pandoc $CHANGELOG_FILE -f markdown -t html -s -o CHANGELOG.html
+mv CHANGELOG.html docs/CHANGELOG.html
+git add docs/CHANGELOG.html
+
 # Realizar el commit (modificar el commit actual para incluir el changelog)
 git commit --amend --no-edit
 

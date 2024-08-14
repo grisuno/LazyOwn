@@ -83,7 +83,7 @@ read -r -p "Introduce el mensaje del commit (subject): " SUBJECT
 read -r -p "Introduce el cuerpo del commit (body): " BODY
 
 # Definir el footer fijo
-FOOTER=" LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  LazyOwn/   https://grisuno.github.io/LazyOwn/"
+FOOTER=" LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n"
 
 # Determinar el incremento de versión basado en el tipo de commit
 if [[ "$TYPE" == "feat" || "$TYPE" == "feature" ]]; then
@@ -95,7 +95,7 @@ else
 fi
 
 # Formatear el mensaje del commit
-COMMIT_MESSAGE="${TYPE}(${TYPEDESC}): ${SUBJECT}\n\nVersion: ${NEW_VERSION}\n\n${BODY}\n\n${FOOTER}"
+COMMIT_MESSAGE="${TYPE}(${TYPEDESC}): ${SUBJECT}\n\nVersion: ${NEW_VERSION}\n\n${BODY}\n\n${FOOTER}\n\nFecha: $(git log -1 --format=%ad) - Hora: $(git log -1 --format=%at)"
 
 # Obtener el último tag y el commit actual
 START_COMMIT=$(git -C . describe --tags --abbrev=0)

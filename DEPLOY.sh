@@ -105,6 +105,27 @@ END_COMMIT=$(git -C . rev-parse HEAD)
 echo "# Changelog" > $CHANGELOG_FILE
 echo "" >> $CHANGELOG_FILE
 
+awk -F: '{
+  if ($1 ~ /^#/) {
+    print "\n" $0 "\n"
+  } else {
+    split($0, a, "\n\n")
+    for (i in a) {
+      if (a[i] ~ /^test\(/) {
+        print "  * " a[i] "\n"
+      } else if (a[i] ~ /^docs\(/) {
+        print "  * " a[i] "\n"
+      } else if (a[i] ~ /^feature\(/) {
+        print "  * " a[i] "\n"
+      } else if (a[i] ~ /^hotfix\(/) {
+        print "  * " a[i] "\n"
+      } else {
+        print "  * " a[i] "\n"
+      }
+    }
+  }
+}' $CHANGELOG_FILE
+
 # Agregar los cambios al changelog
 git -C . log --format="%s" $START_COMMIT..$END_COMMIT >> $CHANGELOG_FILE
 

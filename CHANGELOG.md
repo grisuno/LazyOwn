@@ -1,5 +1,6 @@
 # Changelog
 
+test(test de index.html): testeando el despliegue automatizado del sitio web de LazyOwn\n\nVersion: release/0.0.13\n\nhttps://grisuno.github.io/LazyOwn/\n\n LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  LazyOwn/   https://grisuno.github.io/LazyOwn/
 test(test index.sh): se realizan cambios en index.sh\n\nVersion: release/0.0.13\n\nestos cambios realizan cambios en index.html con un nuevo sistema de plantillas\n\n LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  LazyOwn/   https://grisuno.github.io/LazyOwn/
 test(testing): Testeando el flujo de trabajo en los despliegues automatizados.\n\nVersion: release/0.0.13\n\nrevisando el nuevi versionamiento\n\n LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  LazyOwn/   https://grisuno.github.io/LazyOwn/
 feature(versionamiento semantico en script de deploy): mejora en DEPLOY.sh con versionamiento semantico\n\nVersion: release/0.1.0\n\nNuevo vrsionamiento semantico en el script de depsliegue\n\n LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  LazyOwn/   https://grisuno.github.io/LazyOwn/

@@ -58,7 +58,7 @@ pandoc $README_FILE -s -o README.html
 ./index.sh
 
 # Opciones de tipo de commit
-echo -e "Selecciona el tipo de commit:\n1) feat\n2) feature\n3) fix\n4) hotfix\n5) refactor\n6) docs\n7) test"
+echo -e "[?] Selecciona el tipo de commit:\n1) feat\n2) feature\n3) fix\n4) hotfix\n5) refactor\n6) docs\n7) test"
 read -r -p "Introduce el número del tipo de commit: " TYPE_OPTION
 
 # Mapeo de opciones a los tipos de commit
@@ -109,7 +109,7 @@ echo "" >> $CHANGELOG_FILE
 git -C . log --format="%s" $START_COMMIT..$END_COMMIT >> $CHANGELOG_FILE
 
 # Mensaje indicando que el changelog se ha generado
-echo "Changelog generado en $CHANGELOG_FILE"
+echo "[*] Changelog generado en $CHANGELOG_FILE"
 
 # Añadir todos los cambios
 git -C . add .
@@ -122,10 +122,10 @@ git -C . commit -a -m "$COMMIT_MESSAGE"
 echo "# Changelog" > $CHANGELOG_FILE
 echo "" >> $CHANGELOG_FILE
 git -C . log --format="%s" $START_COMMIT..$END_COMMIT >> $CHANGELOG_FILE
-echo "Changelog actualizado en $CHANGELOG_FILE"
+echo "[+] Changelog actualizado en $CHANGELOG_FILE"
 
 # formatear el change log
-
+echo "[+] Formateando el change log"
 awk -F: '{
   if ($1 ~ /^#/) {
     print "\n" $0 "\n"
@@ -165,7 +165,7 @@ awk -F: '{
 git -C . add $CHANGELOG_FILE
 
 # Convertir el changelog a HTML
-pandoc $CHANGELOG_FILE -s -o CHANGELOG.html
+pandoc $CHANGELOG_FILE -s -c docs/style.css -t docs/template.html -T "Changelog de LazyOwn" -A "Resumen del changelog" -o CHANGELOG.html
 mv CHANGELOG.html docs/CHANGELOG.html
 git -C . add docs/CHANGELOG.html
 
@@ -178,4 +178,4 @@ git -C . tag -s $NEW_VERSION -m "Version $NEW_VERSION"
 # Hacer push al repositorio remoto, incluyendo los tags
 git -C . push --follow-tags
 
-echo "Cambios enviados al repositorio remoto con la nueva versión $NEW_VERSION."
+echo "[*] Cambios enviados al repositorio remoto con la nueva versión $NEW_VERSION."

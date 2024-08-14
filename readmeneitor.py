@@ -73,7 +73,8 @@ if __name__ == "__main__":
         print(f"[+] Executing script at {script_path}")
         functions = extract_functions_and_comments(script_path)
         generate_readme(functions, output_path)
-        os.system(f"pandoc {output_path} -f markdown -t html -s -o {output_path.replace('.md','')}.html --metadata title='LazyOwn Framework Doc: {output_path}' && mv {output_path.replace('.md','')}.html docs/")
+        #pandoc $CHANGELOG_FILE -s -c docs/estilo.css -t docs/template.html -T "Changelog de LazyOwn" -A "Resumen del changelog" -o CHANGELOG.html
+        os.system(f"pandoc {output_path} -f markdown c docs/style.css -t docs/template.html -s -o {output_path.replace('.md','')}.html --metadata title='LazyOwn Framework Doc: {output_path}' && mv {output_path.replace('.md','')}.html docs/")
     else:
         print(f"[-] Script path {script_path} does not exist.")
 

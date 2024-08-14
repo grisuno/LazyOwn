@@ -95,7 +95,7 @@ else
 fi
 
 # Formatear el mensaje del commit
-COMMIT_MESSAGE="${TYPE}(${TYPEDESC}): ${SUBJECT}\n\nVersion: ${NEW_VERSION}\n\n${BODY}\n\n${FOOTER}\n\nFecha: $(git log -1 --format=%ad) - Hora: $(git log -1 --format=%at)"
+COMMIT_MESSAGE="${TYPE}(${TYPEDESC}): ${SUBJECT} \n\n Version: ${NEW_VERSION} \n\n ${BODY} \n\n ${FOOTER} \n\n Fecha: $(git log -1 --format=%ad) \n\n Hora: $(git log -1 --format=%at)"
 
 # Obtener el último tag y el commit actual
 START_COMMIT=$(git -C . describe --tags --abbrev=0)

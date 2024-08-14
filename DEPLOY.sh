@@ -138,7 +138,7 @@ awk -F: '{
       }
     }
   }
-}' $CHANGELOG_FILE
+}' $CHANGELOG_FILE | sponge $CHANGELOG_FILE
 
 # Agregar los cambios al changelog
 git -C . log --format="%s" $START_COMMIT..$END_COMMIT >> $CHANGELOG_FILE

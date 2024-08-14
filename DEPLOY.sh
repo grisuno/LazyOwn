@@ -52,7 +52,7 @@ python3 readmeneitor.py lazyown
 python3 readmeneitor.py utils.py
 
 #Actualiza el README.md con los ultimos cambios
-./readme.sh
+./dump_readme.sh
 
 # Crea el readme en html
 pandoc $README_FILE -s -o README.html

@@ -105,6 +105,27 @@ END_COMMIT=$(git -C . rev-parse HEAD)
 echo "# Changelog" > $CHANGELOG_FILE
 echo "" >> $CHANGELOG_FILE
 
+# Agregar los cambios al changelog
+git -C . log --format="%s" $START_COMMIT..$END_COMMIT >> $CHANGELOG_FILE
+
+# Mensaje indicando que el changelog se ha generado
+echo "Changelog generado en $CHANGELOG_FILE"
+
+# Añadir todos los cambios
+git -C . add .
+
+# Realizar el commit con el mensaje proporcionado
+git -C . commit -a -m "$COMMIT_MESSAGE"
+
+# Generar el changelog después del commit
+# Actualizar el archivo CHANGELOG.md
+echo "# Changelog" > $CHANGELOG_FILE
+echo "" >> $CHANGELOG_FILE
+git -C . log --format="%s" $START_COMMIT..$END_COMMIT >> $CHANGELOG_FILE
+echo "Changelog actualizado en $CHANGELOG_FILE"
+
+# formatear el change log
+
 awk -F: '{
   if ($1 ~ /^#/) {
     print "\n" $0 "\n"
@@ -139,25 +160,6 @@ awk -F: '{
     }
   }
 }' $CHANGELOG_FILE | sponge $CHANGELOG_FILE
-
-# Agregar los cambios al changelog
-git -C . log --format="%s" $START_COMMIT..$END_COMMIT >> $CHANGELOG_FILE
-
-# Mensaje indicando que el changelog se ha generado
-echo "Changelog generado en $CHANGELOG_FILE"
-
-# Añadir todos los cambios
-git -C . add .
-
-# Realizar el commit con el mensaje proporcionado
-git -C . commit -a -m "$COMMIT_MESSAGE"
-
-# Generar el changelog después del commit
-# Actualizar el archivo CHANGELOG.md
-echo "# Changelog" > $CHANGELOG_FILE
-echo "" >> $CHANGELOG_FILE
-git -C . log --format="%s" $START_COMMIT..$END_COMMIT >> $CHANGELOG_FILE
-echo "Changelog actualizado en $CHANGELOG_FILE"
 
 # Añadir el archivo de changelog al commit
 git -C . add $CHANGELOG_FILE

@@ -3,6 +3,10 @@
 
 ### Pruebas
 
+  * test(test): new styles in html of documentation \n\n Version: release/0.0.13 \n\n  \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 17:06:21 2024 -0400 \n\n Hora: 1723669581
+
+### Pruebas
+
   * test(test): testing changelog \n\n Version: release/0.0.13 \n\n  \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 17:03:41 2024 -0400 \n\n Hora: 1723669421
 
 ### Pruebas

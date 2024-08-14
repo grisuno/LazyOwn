@@ -51,9 +51,13 @@ rm d2*
 python3 readmeneitor.py lazyown
 python3 readmeneitor.py utils.py
 
+#Actualiza el README.md con los ultimos cambios
+./readme.sh
+
 # Crea el readme en html
 pandoc $README_FILE -s -o README.html
 # Este script actualiza el index.html de manera automatizada con los html generados por readmeneitor
+
 # el html generado es horrible si... es horrible, pero es automatizado... TODO mejorar el html horrible 
 ./index.sh
 

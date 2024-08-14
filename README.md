@@ -1015,7 +1015,235 @@ LazyOwn es un marco de trabajo que agiliza el flujo del mismo y automatiza mucha
 
 Documentación creada automaticamente por el script readmeneitor.py creado para este proyecto, quizas algún día tenga su propio repo por ahora no lo veo necesario.
 
+<!-- START UTILS -->
+# UTILS.md Documentation  by readmeneitor.py
 
+## print_error
+Prints an error message to the console.
+
+This function takes an error message as input and prints it to the console
+with a specific format to indicate that it is an error.
+
+:param error: The error message to be printed.
+:type error: str
+:return: None
+
+## print_msg
+Prints a message to the console.
+
+This function takes a message as input and prints it to the console
+with a specific format to indicate that it is an informational message.
+
+:param msg: The message to be printed.
+:type msg: str
+:return: None
+
+## print_warn
+Prints a warning message to the console.
+
+This function takes a warning message as input and prints it to the console
+with a specific format to indicate that it is a warning.
+
+:param warn: The warning message to be printed.
+:type warn: str
+:return: None
+
+## signal_handler
+Handles signals such as Control + C and shows a message on how to exit.
+
+This function is used to handle signals like Control + C (SIGINT) and prints
+a warning message instructing the user on how to exit the program using the
+commands 'exit', 'q', or 'qa'.
+
+:param sig: The signal number.
+:type sig: int
+:param frame: The current stack frame.
+:type frame: frame
+:return: None
+
+## check_rhost
+Checks if the remote host (rhost) is defined and shows an error message if it is not.
+
+This function verifies if the `rhost` parameter is set. If it is not defined,
+an error message is printed, providing an example and directing the user to
+additional help.
+
+:param rhost: The remote host to be checked.
+:type rhost: str
+:return: True if rhost is defined, False otherwise.
+:rtype: bool
+
+## check_lhost
+Checks if the local host (lhost) is defined and shows an error message if it is not.
+
+This function verifies if the `lhost` parameter is set. If it is not defined,
+an error message is printed, providing an example and directing the user to
+additional help.
+
+:param lhost: The local host to be checked.
+:type lhost: str
+:return: True if lhost is defined, False otherwise.
+:rtype: bool
+
+## check_lport
+Checks if the local port (lport) is defined and shows an error message if it is not.
+
+This function verifies if the `lport` parameter is set. If it is not defined,
+an error message is printed, providing an example and directing the user to
+additional help.
+
+:param lport: The local port to be checked.
+:type lport: int or str
+:return: True if lport is defined, False otherwise.
+:rtype: bool
+
+## is_binary_present
+Internal function to verify if a binary is present on the operating system.
+
+This function checks if a specified binary is available in the system's PATH
+by using the `which` command. It returns True if the binary is found and False
+otherwise.
+
+:param binary_name: The name of the binary to be checked.
+:type binary_name: str
+:return: True if the binary is present, False otherwise.
+:rtype: bool
+
+## handle_multiple_rhosts
+Internal function to handle multiple remote hosts (rhost) for operations.
+
+This function is a decorator that allows an operation to be performed across
+multiple remote hosts specified in `self.params["rhost"]`. It converts a single
+remote host into a list if necessary, and then iterates over each host,
+performing the given function with each host. After the operation, it restores
+the original remote host value.
+
+:param func: The function to be decorated and executed for each remote host.
+:type func: function
+:return: The decorated function.
+:rtype: function
+
+## check_sudo
+Checks if the script is running with superuser (sudo) privileges, and if not,
+restarts the script with sudo privileges.
+
+This function verifies if the script is being executed with root privileges
+by checking the effective user ID. If the script is not running as root,
+it prints a warning message and restarts the script using sudo.
+
+:return: None
+
+## activate_virtualenv
+Activates a virtual environment and starts an interactive shell.
+
+This function activates a virtual environment located at `venv_path` and then
+launches an interactive bash shell with the virtual environment activated.
+
+:param venv_path: The path to the virtual environment directory.
+:type venv_path: str
+:return: None
+
+## parse_proc_net_file
+Internal function to parse a /proc/net file and extract network ports.
+
+This function reads a file specified by `file_path`, processes each line to
+extract local addresses and ports, and converts them from hexadecimal to decimal.
+The IP addresses are converted from hexadecimal format to standard dot-decimal
+notation. The function returns a list of tuples, each containing an IP address
+and a port number.
+
+:param file_path: The path to the /proc/net file to be parsed.
+:type file_path: str
+:return: A list of tuples, each containing an IP address and a port number.
+:rtype: list of tuple
+
+## get_open_ports
+Internal function to get open TCP and UDP ports on the operating system.
+
+This function uses the `parse_proc_net_file` function to extract open TCP and UDP
+ports from the corresponding /proc/net files. It returns two lists: one for TCP
+ports and one for UDP ports.
+
+:return: A tuple containing two lists: the first list with open TCP ports and
+        the second list with open UDP ports.
+:rtype: tuple of (list of tuple, list of tuple)
+
+## find_credentials
+Searches for potential credentials in files within the specified directory.
+
+This function uses a regular expression to find possible credentials such as
+passwords, secrets, API keys, and tokens in files within the given directory.
+It iterates through all files in the directory and prints any matches found.
+
+:param directory: The directory to search for files containing credentials.
+:type directory: str
+:return: None
+
+## rotate_char
+Internal function to rotate characters for ROT cipher.
+
+This function takes a character and a shift value, and rotates the character
+by the specified shift amount. It only affects alphabetical characters, leaving
+non-alphabetical characters unchanged.
+
+:param c: The character to be rotated.
+:type c: str
+:param shift: The number of positions to shift the character.
+:type shift: int
+:return: The rotated character.
+:rtype: str
+
+## get_network_info
+Retrieves network interface information with their associated IP addresses.
+
+This function executes a shell command to gather network interface details, 
+parses the output to extract interface names and their corresponding IP addresses, 
+and returns this information in a dictionary format. The dictionary keys are
+interface names, and the values are IP addresses.
+
+:return: A dictionary where the keys are network interface names and the values
+         are their associated IP addresses.
+:rtype: dict
+
+## getprompt
+Generate a command prompt string with network information and user status.
+
+:param: None
+
+:returns: A string representing the command prompt with network information and user status.
+
+Manual execution:
+To manually get a prompt string with network information and user status, ensure you have `get_network_info()` implemented to return a dictionary of network interfaces and their IPs. Then use the function to create a prompt string based on the current user and network info.
+
+Example:
+If the function `get_network_info()` returns:
+    {
+        'tun0': '10.0.0.1',
+        'eth0': '192.168.1.2'
+    }
+
+And the user is root, the prompt string generated might be:
+    [LazyOwn👽10.0.0.1]# 
+If the user is not root, it would be:
+    [LazyOwn👽10.0.0.1]$ 
+
+If no 'tun' interface is found, the function will use the first available IP or fallback to '127.0.0.1'.
+
+## copy2clip
+Copia el texto proporcionado al portapapeles usando xclip.
+
+Args:
+    text (str): El texto que se desea copiar al portapapeles.
+
+Example:
+    copy2clip("Hello, World!")
+
+## wrapper
+internal wrapper of internal function to implement multiples rhost to operate. 
+
+<!-- END UTILS -->
+
+<!-- START COMMANDS -->
 # COMMANDS.md Documentation  by readmeneitor.py
 
 ## xor_encrypt_decrypt
@@ -4637,258 +4865,186 @@ No description available.
 ## apply_obfuscations
 No description available.
 
-# UTILS.md Documentation  by readmeneitor.py
+<!-- END COMMANDS -->
 
-## print_error
-Prints an error message to the console.
-
-This function takes an error message as input and prints it to the console
-with a specific format to indicate that it is an error.
-
-:param error: The error message to be printed.
-:type error: str
-:return: None
-
-## print_msg
-Prints a message to the console.
-
-This function takes a message as input and prints it to the console
-with a specific format to indicate that it is an informational message.
-
-:param msg: The message to be printed.
-:type msg: str
-:return: None
-
-## print_warn
-Prints a warning message to the console.
-
-This function takes a warning message as input and prints it to the console
-with a specific format to indicate that it is a warning.
-
-:param warn: The warning message to be printed.
-:type warn: str
-:return: None
-
-## signal_handler
-Handles signals such as Control + C and shows a message on how to exit.
-
-This function is used to handle signals like Control + C (SIGINT) and prints
-a warning message instructing the user on how to exit the program using the
-commands 'exit', 'q', or 'qa'.
-
-:param sig: The signal number.
-:type sig: int
-:param frame: The current stack frame.
-:type frame: frame
-:return: None
-
-## check_rhost
-Checks if the remote host (rhost) is defined and shows an error message if it is not.
-
-This function verifies if the `rhost` parameter is set. If it is not defined,
-an error message is printed, providing an example and directing the user to
-additional help.
-
-:param rhost: The remote host to be checked.
-:type rhost: str
-:return: True if rhost is defined, False otherwise.
-:rtype: bool
-
-## check_lhost
-Checks if the local host (lhost) is defined and shows an error message if it is not.
-
-This function verifies if the `lhost` parameter is set. If it is not defined,
-an error message is printed, providing an example and directing the user to
-additional help.
-
-:param lhost: The local host to be checked.
-:type lhost: str
-:return: True if lhost is defined, False otherwise.
-:rtype: bool
-
-## check_lport
-Checks if the local port (lport) is defined and shows an error message if it is not.
-
-This function verifies if the `lport` parameter is set. If it is not defined,
-an error message is printed, providing an example and directing the user to
-additional help.
-
-:param lport: The local port to be checked.
-:type lport: int or str
-:return: True if lport is defined, False otherwise.
-:rtype: bool
-
-## is_binary_present
-Internal function to verify if a binary is present on the operating system.
-
-This function checks if a specified binary is available in the system's PATH
-by using the `which` command. It returns True if the binary is found and False
-otherwise.
-
-:param binary_name: The name of the binary to be checked.
-:type binary_name: str
-:return: True if the binary is present, False otherwise.
-:rtype: bool
-
-## handle_multiple_rhosts
-Internal function to handle multiple remote hosts (rhost) for operations.
-
-This function is a decorator that allows an operation to be performed across
-multiple remote hosts specified in `self.params["rhost"]`. It converts a single
-remote host into a list if necessary, and then iterates over each host,
-performing the given function with each host. After the operation, it restores
-the original remote host value.
-
-:param func: The function to be decorated and executed for each remote host.
-:type func: function
-:return: The decorated function.
-:rtype: function
-
-## check_sudo
-Checks if the script is running with superuser (sudo) privileges, and if not,
-restarts the script with sudo privileges.
-
-This function verifies if the script is being executed with root privileges
-by checking the effective user ID. If the script is not running as root,
-it prints a warning message and restarts the script using sudo.
-
-:return: None
-
-## activate_virtualenv
-Activates a virtual environment and starts an interactive shell.
-
-This function activates a virtual environment located at `venv_path` and then
-launches an interactive bash shell with the virtual environment activated.
-
-:param venv_path: The path to the virtual environment directory.
-:type venv_path: str
-:return: None
-
-## parse_proc_net_file
-Internal function to parse a /proc/net file and extract network ports.
-
-This function reads a file specified by `file_path`, processes each line to
-extract local addresses and ports, and converts them from hexadecimal to decimal.
-The IP addresses are converted from hexadecimal format to standard dot-decimal
-notation. The function returns a list of tuples, each containing an IP address
-and a port number.
-
-:param file_path: The path to the /proc/net file to be parsed.
-:type file_path: str
-:return: A list of tuples, each containing an IP address and a port number.
-:rtype: list of tuple
-
-## get_open_ports
-Internal function to get open TCP and UDP ports on the operating system.
-
-This function uses the `parse_proc_net_file` function to extract open TCP and UDP
-ports from the corresponding /proc/net files. It returns two lists: one for TCP
-ports and one for UDP ports.
-
-:return: A tuple containing two lists: the first list with open TCP ports and
-        the second list with open UDP ports.
-:rtype: tuple of (list of tuple, list of tuple)
-
-## find_credentials
-Searches for potential credentials in files within the specified directory.
-
-This function uses a regular expression to find possible credentials such as
-passwords, secrets, API keys, and tokens in files within the given directory.
-It iterates through all files in the directory and prints any matches found.
-
-:param directory: The directory to search for files containing credentials.
-:type directory: str
-:return: None
-
-## rotate_char
-Internal function to rotate characters for ROT cipher.
-
-This function takes a character and a shift value, and rotates the character
-by the specified shift amount. It only affects alphabetical characters, leaving
-non-alphabetical characters unchanged.
-
-:param c: The character to be rotated.
-:type c: str
-:param shift: The number of positions to shift the character.
-:type shift: int
-:return: The rotated character.
-:rtype: str
-
-## get_network_info
-Retrieves network interface information with their associated IP addresses.
-
-This function executes a shell command to gather network interface details, 
-parses the output to extract interface names and their corresponding IP addresses, 
-and returns this information in a dictionary format. The dictionary keys are
-interface names, and the values are IP addresses.
-
-:return: A dictionary where the keys are network interface names and the values
-         are their associated IP addresses.
-:rtype: dict
-
-## getprompt
-Generate a command prompt string with network information and user status.
-
-:param: None
-
-:returns: A string representing the command prompt with network information and user status.
-
-Manual execution:
-To manually get a prompt string with network information and user status, ensure you have `get_network_info()` implemented to return a dictionary of network interfaces and their IPs. Then use the function to create a prompt string based on the current user and network info.
-
-Example:
-If the function `get_network_info()` returns:
-    {
-        'tun0': '10.0.0.1',
-        'eth0': '192.168.1.2'
-    }
-
-And the user is root, the prompt string generated might be:
-    [LazyOwn👽10.0.0.1]# 
-If the user is not root, it would be:
-    [LazyOwn👽10.0.0.1]$ 
-
-If no 'tun' interface is found, the function will use the first available IP or fallback to '127.0.0.1'.
-
-## copy2clip
-Copia el texto proporcionado al portapapeles usando xclip.
-
-Args:
-    text (str): El texto que se desea copiar al portapapeles.
-
-Example:
-    copy2clip("Hello, World!")
-
-## wrapper
-internal wrapper of internal function to implement multiples rhost to operate. 
+<!-- START CHANGELOG -->
 
 # Changelog
 
-* feature(parametrizar el despliegue): se agrega el parametro --no-test para despliegues que no involucren cambios en la tool\n\n:D\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
-* test(troubleshooting): deleting the tmp file but i cant sleep\n\nlol\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
-* hotfix(delete qa command to option -c): bug: dont let beggin scriptfast_run_as_r00t.sh, instruction was deleted\n\nat line 6678\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
-* test(despliegue): backup file del archivo lazyown creado en las pruebas TODO: eliminar el archivo al terminar las pruebas, ahora toca saber donde lo està creadno son muchas funciones xD, aun que creoq ue es mi pequeño burpfuzzer que lo hace pero ya es tarde\n\ny no lo veré hoy\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
-* test(despliegue): de organizaciòn de archivos ovpn dentro del directorio vpn\n\ntambien se actualizo el timeout de las pruebas unitarias\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
-* test(testmeneitor): probando el workflow de despliegue\n\neste es el body de la prueba de despliegue junto a testmineitor\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
-* feature(nuevo creador de index.html): crea el html de manera automatizada con el script index.sh\n\nel script realiza tareas de actualizaciòn de la pagina web\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
-* feature(mejora CHANGELOG.sh): ahora actualiza usando readmeneitor.py\n\npronto utilizarà nuestro testmeneitor para probar que no subimos codigo con bugs\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
-* feat(mejorando el tipo): cambio en el script CHANGELOG.sh\n\nse mejora la descripcion de los tipos de commits\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
-* docs(docs): El cierre de una imagen en la documentación estaba mal :)\n\ntambien se modifico el CHANGELOG.sh que chulada de script\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
-* Nueva descripcion en el readme y probando el CHANGELOG.sh :)
-* ahora el changelog a docs :D en formato html
-* HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 Ahora estamos en TryHackMe :D, nuestro QA Testmeneitor.py ya es màs inteligente ya no se le olvida cerrar las tareas que abrio xD, todos los comandos nuevos estan docuemntados en docs/COMMANDS.md y docs/UTILS.md todas las funciones nuevas como copy2clip :P, y estrenamos CHANGELOG.md y CHANGELOG.sh :D  👽
-* 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 some changes in the web  pandoc README.md -f markdown -t html -s -o README.html madremia que comandazo 👽
-* 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 some changes in the web  pandoc README.md -f markdown -t html -s -o README.html madremia que comandazo 👽
-* 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 some changes in the web  👽
-* 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 comming soon tryhackme 👽
-* 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 testmeneitor.py my new qa it's new doing qa so... l:P, some commands news base64encode, base64decode, rdp, all documented by my documentator readmeneitor.py :P 👽
-* 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 new fancy proompt :) 👽
-* 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 bug fixing 👽
-* 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽👽
-* 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 3ast3r366 👽
-* 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 New commands documented at COMMANDS.md and new ultis documented at ULTIS.md 👽
-* 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 New commands documented at COMMANDS.md and new ultis documented at ULTIS.md 👽
-* 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 New commands documented at COMMANDS.md and new ultis documented at ULTIS.md 👽
-* 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 New command launchpad to recon Linux OS 👽
-* Merge pull request #27 from grisuno/clcthulhu-patch-1
-* docs(update readme description): change of the description; Update README.md
+### Pruebas
+
+  * test(test): testing changelog \n\n Version: release/0.0.13 \n\n  \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 17:03:41 2024 -0400 \n\n Hora: 1723669421
+
+### Pruebas
+
+  * test(testing): new changelog format \n\n Version: release/0.0.13 \n\n new template \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 16:56:07 2024 -0400 \n\n Hora: 1723668967
+
+### Pruebas
+
+  * test(test):  \n\n Version: release/0.0.13 \n\n test \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 16:55:32 2024 -0400 \n\n Hora: 1723668932
+
+### Pruebas
+
+  * test(testeando): nuevo changelog \n\n Version: release/0.0.13 \n\n mejor formateado \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 16:47:49 2024 -0400 \n\n Hora: 1723668469
+
+### Pruebas
+
+  * test(test): deploy \n\n Version: release/0.0.13 \n\n changes in changelog \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 16:35:12 2024 -0400 \n\n Hora: 1723667712
+
+### Pruebas
+
+  * test(testing): changelog \n\n Version: release/0.0.13 \n\n saltos de linea \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 16:34:08 2024 -0400 \n\n Hora: 1723667648
+
+### Pruebas
+
+  * test(tesing): saltos de linea en commit \n\n Version: release/0.0.13 \n\n :) \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 16:28:47 2024 -0400 \n\n Hora: 1723667327
+
+### Documentación
+
+  * docs(class="neon-text" on ul): :)\n\nVersion: release/0.0.13\n\n:)\n\n LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n\n\nFecha: Wed Aug 14 15:57:39 2024 -0400 - Hora: 1723665459
+
+### Pruebas
+
+  * test(commits con fecha y hora :P): probando el despliegue\n\nVersion: release/0.0.13\n\ncon fechas\n\n LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n\n\nFecha: Wed Aug 14 15:52:12 2024 -0400 - Hora: 1723665132
+
+### Pruebas
+
+  * test(test de index.html): testeando el despliegue automatizado del sitio web de LazyOwn\n\nVersion: release/0.0.13\n\nhttps://grisuno.github.io/LazyOwn/\n\n LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  LazyOwn/   https://grisuno.github.io/LazyOwn/
+
+### Pruebas
+
+  * test(test index.sh): se realizan cambios en index.sh\n\nVersion: release/0.0.13\n\nestos cambios realizan cambios en index.html con un nuevo sistema de plantillas\n\n LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  LazyOwn/   https://grisuno.github.io/LazyOwn/
+
+### Pruebas
+
+  * test(testing): Testeando el flujo de trabajo en los despliegues automatizados.\n\nVersion: release/0.0.13\n\nrevisando el nuevi versionamiento\n\n LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  LazyOwn/   https://grisuno.github.io/LazyOwn/
+
+### Nuevas características
+
+  * feature(versionamiento semantico en script de deploy): mejora en DEPLOY.sh con versionamiento semantico\n\nVersion: release/0.1.0\n\nNuevo vrsionamiento semantico en el script de depsliegue\n\n LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  LazyOwn/   https://grisuno.github.io/LazyOwn/
+
+### Pruebas
+
+  * test(test of --no-test): and lolcat on clock command :P\n\nclock has now alias\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
+
+### Documentación
+
+  * docs(se agrega el change log al readme): tambien se ejecutan pruebas del despliegue con el parametro --no-test\n\ncambios hechos solo en el archivo README.md\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
+
+### Correcciones urgentes
+
+  * hotfix(fix in vpn): dont work with arguments\n\nnow works xD\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
+
+### Nuevas características
+
+  * feature(parametrizar el despliegue): se agrega el parametro --no-test para despliegues que no involucren cambios en la tool\n\n:D\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
+
+### Pruebas
+
+  * test(troubleshooting): deleting the tmp file but i cant sleep\n\nlol\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
+
+### Correcciones urgentes
+
+  * hotfix(delete qa command to option -c): bug: dont let beggin scriptfast_run_as_r00t.sh, instruction was deleted\n\nat line 6678\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
+
+### Pruebas
+
+  * test(despliegue): backup file del archivo lazyown creado en las pruebas TODO: eliminar el archivo al terminar las pruebas, ahora toca saber donde lo està creadno son muchas funciones xD, aun que creoq ue es mi pequeño burpfuzzer que lo hace pero ya es tarde\n\ny no lo veré hoy\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
+
+### Pruebas
+
+  * test(despliegue): de organizaciòn de archivos ovpn dentro del directorio vpn\n\ntambien se actualizo el timeout de las pruebas unitarias\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
+
+### Pruebas
+
+  * test(testmeneitor): probando el workflow de despliegue\n\neste es el body de la prueba de despliegue junto a testmineitor\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
+
+### Nuevas características
+
+  * feature(nuevo creador de index.html): crea el html de manera automatizada con el script index.sh\n\nel script realiza tareas de actualizaciòn de la pagina web\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
+
+### Nuevas características
+
+  * feature(mejora CHANGELOG.sh): ahora actualiza usando readmeneitor.py\n\npronto utilizarà nuestro testmeneitor para probar que no subimos codigo con bugs\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
+
+### Nuevo grupo de características
+
+  * feat(mejorando el tipo): cambio en el script CHANGELOG.sh\n\nse mejora la descripcion de los tipos de commits\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
+
+### Documentación
+
+  * docs(docs): El cierre de una imagen en la documentación estaba mal :)\n\ntambien se modifico el CHANGELOG.sh que chulada de script\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
+
+### Otros
+
+  * Nueva descripcion en el readme y probando el CHANGELOG.sh :)
+
+### Otros
+
+  * ahora el changelog a docs :D en formato html
+
+### Otros
+
+  * HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 Ahora estamos en TryHackMe :D, nuestro QA Testmeneitor.py ya es màs inteligente ya no se le olvida cerrar las tareas que abrio xD, todos los comandos nuevos estan docuemntados en docs/COMMANDS.md y docs/UTILS.md todas las funciones nuevas como copy2clip :P, y estrenamos CHANGELOG.md y CHANGELOG.sh :D  👽
+
+### Otros
+
+  * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 some changes in the web  pandoc README.md -f markdown -t html -s -o README.html madremia que comandazo 👽
+
+### Otros
+
+  * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 some changes in the web  pandoc README.md -f markdown -t html -s -o README.html madremia que comandazo 👽
+
+### Otros
+
+  * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 some changes in the web  👽
+
+### Otros
+
+  * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 comming soon tryhackme 👽
+
+### Otros
+
+  * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 testmeneitor.py my new qa it's new doing qa so... l:P, some commands news base64encode, base64decode, rdp, all documented by my documentator readmeneitor.py :P 👽
+
+### Otros
+
+  * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 new fancy proompt :) 👽
+
+### Otros
+
+  * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 bug fixing 👽
+
+### Otros
+
+  * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽👽
+
+### Otros
+
+  * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 3ast3r366 👽
+
+### Otros
+
+  * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 New commands documented at COMMANDS.md and new ultis documented at ULTIS.md 👽
+
+### Otros
+
+  * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 New commands documented at COMMANDS.md and new ultis documented at ULTIS.md 👽
+
+### Otros
+
+  * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 New commands documented at COMMANDS.md and new ultis documented at ULTIS.md 👽
+
+### Otros
+
+  * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 New command launchpad to recon Linux OS 👽
+
+### Otros
+
+  * Merge pull request #27 from grisuno/clcthulhu-patch-1
+
+### Documentación
+
+  * docs(update readme description): change of the description; Update README.md
+
+<!-- END CHANGELOG -->

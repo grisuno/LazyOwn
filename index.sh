@@ -23,7 +23,5 @@ update_section() {
 
 # Actualizar cada sección
 update_section "<!-- START README -->" "<!-- END README -->" "$README_FILE"
-update_section "<!-- START COMMANDS -->" "<!-- END COMMANDS -->" "$COMMANDS_FILE"
-update_section "<!-- START UTILS -->" "<!-- END UTILS -->" "$UTILS_FILE"
 
 echo "El archivo $INDEX_FILE ha sido actualizado con el contenido de README.html, COMMANDS.html, y UTILS.html."

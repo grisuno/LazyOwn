@@ -111,15 +111,29 @@ awk -F: '{
   } else {
     split($0, a, "\n\n")
     for (i in a) {
-      if (a[i] ~ /^test\(/) {
-        print "  * " a[i] "\n"
-      } else if (a[i] ~ /^docs\(/) {
+      if (a[i] ~ /^feat\(/) {
+        print "### Nuevo grupo de características\n"
         print "  * " a[i] "\n"
       } else if (a[i] ~ /^feature\(/) {
+        print "### Nuevas características\n"
+        print "  * " a[i] "\n"
+      } else if (a[i] ~ /^fix\(/) {
+        print "### Correcciones\n"
         print "  * " a[i] "\n"
       } else if (a[i] ~ /^hotfix\(/) {
+        print "### Correcciones urgentes\n"
+        print "  * " a[i] "\n"
+      } else if (a[i] ~ /^refactor\(/) {
+        print "### Refactorización\n"
+        print "  * " a[i] "\n"
+      } else if (a[i] ~ /^docs\(/) {
+        print "### Documentación\n"
+        print "  * " a[i] "\n"
+      } else if (a[i] ~ /^test\(/) {
+        print "### Pruebas\n"
         print "  * " a[i] "\n"
       } else {
+        print "### Otros\n"
         print "  * " a[i] "\n"
       }
     }

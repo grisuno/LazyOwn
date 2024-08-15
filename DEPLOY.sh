@@ -7,11 +7,20 @@ readonly README_FILE="README.md"
 # Función para incrementar la versión
 increment_version() {
     local version=$1
-    local major minor patch
-    IFS='.' read -r major minor patch <<< "$version"
-
     local increment_type=${2:-"patch"}  # default to patch
 
+    # Validate the version format
+    if ! [[ $version =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
+        echo "Invalid version format: $version" >&2
+        return 1
+    fi
+
+    # Extract major, minor, and patch parts from the version
+    local major="${BASH_REMATCH[1]}"
+    local minor="${BASH_REMATCH[2]}"
+    local patch="${BASH_REMATCH[3]}"
+
+    # Increment the appropriate version component
     case $increment_type in
         major)
             ((major++))
@@ -31,7 +40,8 @@ increment_version() {
             ;;
     esac
 
-    echo "$major.$minor.$patch"
+    # Ensure the version parts are zero-padded to two digits
+    printf "%d.%02d.%02d\n" "$major" "$minor" "$patch"
 }
 
 # Obtener la versión actual
@@ -55,7 +65,7 @@ python3 readmeneitor.py utils.py
 ./dump_readme.sh
 
 # Crea el readme en html
-pandoc $README_FILE -s -o README.html
+pandoc $README_FILE -s -o README.html -metadata title="README LazyOwn Framework Pentesting t00lz"
 mv README.html docs/README.html
 # Este script actualiza el index.html de manera automatizada con los html generados por readmeneitor
 
@@ -63,7 +73,7 @@ mv README.html docs/README.html
 ./index.sh
 
 # Opciones de tipo de commit
-echo -e "[?] Selecciona el tipo de commit:\n1) feat\n2) feature\n3) fix\n4) hotfix\n5) refactor\n6) docs\n7) test"
+echo -e "[?] Selecciona el tipo de commit:\n1) feat\n2) feature\n3) fix\n4) hotfix\n5) refactor\n6) docs\n7) test\n8) release \n9) patch"
 read -r -p "Introduce el número del tipo de commit: " TYPE_OPTION
 
 # Mapeo de opciones a los tipos de commit
@@ -75,6 +85,8 @@ case $TYPE_OPTION in
   "5") TYPE="refactor" ;;
   "6") TYPE="docs" ;;
   "7") TYPE="test" ;;
+  "8") TYPE="release" ;;
+  "9") TYPE="patch" ;;
   *) echo "Opción no válida"; exit 1 ;;
 esac
 
@@ -91,18 +103,20 @@ read -r -p "Introduce el cuerpo del commit (body): " BODY
 FOOTER=" LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n"
 
 # Determinar el incremento de versión basado en el tipo de commit
-if [[ "$TYPE" == "feat" || "$TYPE" == "feature" ]]; then
+if [[ "$TYPE" == "feature" || "$TYPE" == "release" ]]; then
     NEW_VERSION=$(increment_version $CURRENT_VERSION "minor")
-elif [[ "$TYPE" == "fix" || "$TYPE" == "hotfix" ]]; then
+elif [[ "$TYPE" == "feat" || "$TYPE" == "patch" ]]; then
     NEW_VERSION=$(increment_version $CURRENT_VERSION "patch")
 else
     NEW_VERSION=$CURRENT_VERSION
 fi
 
 echo "{\"version\": \"$NEW_VERSION\"}" > version.json
+git -C . add version.json
 
+LISTFILES=$(git diff --name-only $START_COMMIT $END_COMMIT | sed 's/^/- /')
 # Formatear el mensaje del commit
-COMMIT_MESSAGE="${TYPE}(${TYPEDESC}): ${SUBJECT} \n\n Version: ${NEW_VERSION} \n\n ${BODY} \n\n ${FOOTER} \n\n Fecha: $(git log -1 --format=%ad) \n\n Hora: $(git log -1 --format=%at)"
+COMMIT_MESSAGE="${TYPE}(${TYPEDESC}): ${SUBJECT} \n\n Version: ${NEW_VERSION} \n\n ${BODY} \n\n ${LISTFILES} ${FOOTER} \n\n Fecha: $(git log -1 --format=%ad) \n\n Hora: $(git log -1 --format=%at)"
 
 # Obtener el último tag y el commit actual
 START_COMMIT=$(git -C . describe --tags --abbrev=0)
@@ -172,7 +186,7 @@ awk -F: '{
 git -C . add $CHANGELOG_FILE
 
 # Convertir el changelog a HTML
-pandoc $CHANGELOG_FILE -s -c docs/style.css -t docs/template.html -T "Changelog de LazyOwn" -A "Resumen del changelog" -o CHANGELOG.html
+pandoc $CHANGELOG_FILE -s -c docs/style.css -t html -T "Changelog de LazyOwn" -A "Resumen del changelog" -o CHANGELOG.html -metadata title="CHANGELOG LazyOwn Framework Pentesting t00lz"
 mv CHANGELOG.html docs/CHANGELOG.html
 git -C . add docs/CHANGELOG.html
 

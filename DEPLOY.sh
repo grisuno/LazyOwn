@@ -179,6 +179,12 @@ awk -F: '{
       } else if (a[i] ~ /^feature\(/) {
         print "### Nuevas características\n"
         print "  * " a[i] "\n"
+      } else if (a[i] ~ /^release\(/) {
+        print "### Nuevo Release\n"
+        print "  * " a[i] "\n"
+      } else if (a[i] ~ /^patch\(/) {
+        print "### Nuevo parche\n"
+        print "  * " a[i] "\n"
       } else if (a[i] ~ /^fix\(/) {
         print "### Correcciones\n"
         print "  * " a[i] "\n"

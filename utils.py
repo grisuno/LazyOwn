@@ -31,7 +31,7 @@ import readline
 from urllib.parse import quote, unquote
 from modules.lazyencoder_decoder import encode, decode
 
-version = "v0.0.13"
+version = "release/0.0.14"
 
 # Definimos algunos códigos de escape ANSI para colores
 RESET = "\033[0m"

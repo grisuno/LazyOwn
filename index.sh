@@ -2,9 +2,7 @@
 
 # Definir los archivos HTML
 INDEX_FILE="docs/index.html"
-README_FILE="README.html"
-COMMANDS_FILE="docs/COMMANDS.html"
-UTILS_FILE="docs/UTILS.html"
+README_FILE="docs/README.html"
 
 # Crear una copia de seguridad del archivo index.html
 cp "$INDEX_FILE" "$INDEX_FILE.bak"
@@ -24,4 +22,4 @@ update_section() {
 # Actualizar cada sección
 update_section "<!-- START README -->" "<!-- END README -->" "$README_FILE"
 
-echo "El archivo $INDEX_FILE ha sido actualizado con el contenido de README.html, COMMANDS.html, y UTILS.html."
+echo "[*] El archivo $INDEX_FILE ha sido actualizado con el contenido de README.html"

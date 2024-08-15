@@ -46,7 +46,7 @@ def generate_readme(functions, output_path):
     with open(output_path, "w") as file:
         file.write(f"# {output_path} Documentation  by readmeneitor.py\n\n")
         for func_name, docstring in functions:
-            print(f"[*] {func_name} : {docstring}")
+            print(f"[*] Documented function: {func_name}")
             file.write(f"## {func_name}\n")
             file.write(
                 f"{docstring}\n\n" if docstring else "No description available.\n\n"

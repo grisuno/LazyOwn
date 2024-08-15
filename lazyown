@@ -5525,8 +5525,9 @@ class LazyOwnShell(Cmd):
         2. Validates the remote host parameter.
         3. Checks if the `line` argument is provided, which should include the path to crack and the port.
         4. If the `line` argument is valid, splits it into arguments for the path and port.
-        5. Constructs and prints the Hydra command with the provided parameters.
-        6. Executes the Hydra command using `os.system`.
+        5. Asks the user if they want to use a small dictionary from a JSON file.
+        6. Constructs and prints the Hydra command with the provided parameters.
+        7. Executes the Hydra command using `os.system`.
 
         :param line: The path to crack and port for the Hydra command, formatted as 'path port'.
         :type line: str
@@ -5536,38 +5537,65 @@ class LazyOwnShell(Cmd):
         To manually run this task, you would:
         - Provide the path to crack and the port as arguments to this function in the format 'path port'.
         - Ensure that the user list and wordlist are set correctly.
-        - hydra -f -L sessions/users.txt -P /usr/share/wordlists/rockyou.txt 10.10.11.9 -s 5000 https-get /v2/
+        - hydra -f -L sessions/users.txt -P /usr/share/wordlists/rockyou.txt 10.10.11.9 -s 5000 http-get /v2/
         Note: Ensure that the remote host and wordlist parameters are valid, and that the path and port are specified correctly in the `line` argument.
         """
 
-        rhost = self.params["rhost"]
-        wordlist = self.params["wordlist"]
+        rhost = self.params.get("rhost")
+        wordlist = self.params.get("wordlist")
+        
         if not wordlist:
             print_error(
-                "you need load the payload using p or payload or set wordlist /oath/to/wordlist"
+                "You need to load the wordlist using p or payload or set wordlist /path/to/wordlist"
             )
             return
+
         if not check_rhost(rhost):
             return
+
         if not line:
             print_error(
-                "you need pass the path to crack and the port example hydra /login/ 8080"
+                "You need to pass the path to crack and the port, e.g., hydra /login/ 8080"
             )
             return
+
         args = line.split(" ")
 
         if len(args) < 2:
             print_error(
-                "you need pass the path to crack and the port example hydra /login/ 8080"
+                "You need to pass the path to crack and the port, e.g., hydra /login/ 8080"
             )
             return
-        print_msg(
-            f"Try... hydra -f -L sessions/users.txt -P {wordlist} {rhost} -s {args[1]} http-get {args[0]}"
-        )
-        os.system(
-            f"hydra -f -L sessions/users.txt -P {wordlist} {rhost} -s {args[1]} http-get {args[0]}"
-        )
+
+        use_small_dict = input("Do you want to use the small dictionary? (yes/no): ").strip().lower()
+
+        if use_small_dict == "yes":
+            path = os.getcwd()
+            smalldic = f"{path}/modules/credentials.json"
+            with open(smalldic, 'r') as f:
+                data = json.load(f)
+            
+            # Create temporary files for users and passwords
+            with open('sessions/small_users.txt', 'w') as f:
+                for username in data["usernames"]:
+                    if username:
+                        f.write(username + '\n')
+
+            with open('sessions/small_passwords.txt', 'w') as f:
+                for password in data["passwords"]:
+                    if password:
+                        f.write(password + '\n')
+
+            # Hydra command using the small dictionary
+            command = f"hydra -f -L sessions/small_users.txt -P sessions/small_passwords.txt {rhost} -s {args[1]} http-get {args[0]}"
+        else:
+            # Hydra command using the default wordlist
+            command = f"hydra -f -L sessions/users.txt -P {wordlist} {rhost} -s {args[1]} http-get {args[0]}"
+
+        print_msg(f"Try... {command}")
+        os.system(command)
         return
+
 
     def do_nmapscript(self, line):
         """Perform an Nmap scan using a specified script and port.
@@ -5891,17 +5919,20 @@ class LazyOwnShell(Cmd):
 
     def do_clean(self, line):
         """
-        Deletes various files and directories related to the session cleanup.
+        Deletes files and directories in the `sessions` directory, excluding specified files and directories.
 
         1. Checks if the `rhost` parameter is valid:
         - Uses the `check_rhost` function to verify if `rhost` is set and valid.
         - If `rhost` is not valid, exits the function.
 
-        2. Executes a command to remove files and directories:
-        - Deletes specific files and directories within the `sessions` directory and other related locations.
-        - The command is executed using `os.system`.
+        2. Lists files and directories in the `sessions` directory:
+        - Uses `os.listdir` to list all files and directories in the `sessions` directory.
+        - Compares each item with the list of exclusions.
 
-        3. Prints a message indicating that the cleanup is complete.
+        3. Deletes files and directories not in the exclusion list:
+        - Uses `os.remove` to delete files and `shutil.rmtree` to delete directories.
+
+        4. Prints a message indicating that the cleanup is complete.
 
         :param line: This parameter is not used in the function.
         :type line: str
@@ -5910,17 +5941,40 @@ class LazyOwnShell(Cmd):
         Manual execution:
         To manually run these tasks, you would need to:
         - Ensure that you have the correct `rhost` value set.
-        - Manually execute the `rm` command to delete the specified files and directories.
+        - Manually execute commands to delete files and directories, excluding specified ones.
 
-        Note: This function performs a comprehensive cleanup by removing various files and directories associated with the current session and external resources.
+        Note: This function performs a cleanup by removing various files and directories associated with the current session, excluding specified items.
         """
         rhost = self.params["rhost"]
         if not check_rhost(rhost):
             return
-        os.system(
-            f"rm pcaps/* sessions/cookie.txt sessions/{rhost} sessions/*{rhost}* sessions/aav.vbs sessions/*.html external/.exploit sessions/credentials.txt sessions/*.ps1 sessions/*.scf sessions/chisel* sessions/*.xml sessions/*.elf sessions/*.macho sessions/*.zip sessions/*.exe sessions/*.nmap* sessions/*.py sessions/req*  sessions/revshell* sessions/*.php sessions/hash.txt reports puertos sessions/test* sessions/*.xsl *.xsl -rf"
-        )
-        print_msg(f"Cleanned sessions & external directory. {RESET}")
+
+        exclusions = [
+            'download_resources.sh',
+            'win', 
+            'users.txt'
+        ]
+
+        # Path to the sessions directory
+        sessions_dir = 'sessions'
+
+        # List all files and directories in the sessions directory
+        all_items = os.listdir(sessions_dir)
+
+        for item in all_items:
+            item_path = os.path.join(sessions_dir, item)
+            if not any(item == exclusion or item.startswith(exclusion) for exclusion in exclusions):
+                try:
+                    if os.path.isfile(item_path):
+                        print_msg(f"Deleting file ... {item_path}")
+                        os.remove(item_path)
+                    elif os.path.isdir(item_path):
+                        print_msg(f"Deleting dir ... {item_path}")
+                        os.system(f"rm -rf {item_path}")
+                except Exception as e:
+                    print_error(f"Failed to delete {item_path}: {e}")
+
+        print_msg(f"Cleaned sessions directory. {RESET}")
         return
 
     def do_pyautomate(self, line):
@@ -7002,17 +7056,20 @@ def xor_encrypt_decrypt(data, key):
 if __name__ == "__main__":
     p = LazyOwnShell()
     p.onecmd("p")
-    p.onecmd("rhost")
     if arguments:
         if arg.startswith("-c"):
-            cmd = arguments[1]
-            os.system(
-                'ip a show scope global | awk \'/^[0-9]+:/ { sub(/:/,"",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, "/"); print "    [\033[96m" iface"\033[0m] "a[1] }\''
-            )
-            p.onecmd('ip')
-            p.onecmd(cmd)
-            p.cmdloop()
-
+            if len(arguments) == 2:
+                cmd = arguments[1]
+                os.system(
+                    'ip a show scope global | awk \'/^[0-9]+:/ { sub(/:/,"",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, "/"); print "    [\033[96m" iface"\033[0m] "a[1] }\''
+                )
+                p.onecmd('ip')
+                p.onecmd("rhost")
+                p.onecmd(cmd)
+                p.cmdloop()
+            else:
+                print_error("you must pass the comand to execute ex; ./run -c ping")
+                sys.exit(2)
     if NOBANNER is False:
         print(
             f"    {BG_BLACK}{RED}{BANNER}{MAGENTA}{BOLD}Autor: {CYAN}{BOLD}{BG_RED}grisUN0{RESET}"
@@ -7022,4 +7079,5 @@ if __name__ == "__main__":
         p.onecmd("rhost clean")    
 
     p.onecmd('ip')
+    p.onecmd("rhost")
     p.cmdloop()

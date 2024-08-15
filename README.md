@@ -5163,6 +5163,10 @@ Raises:
 
 # Changelog
 
+### Pruebas
+
+  * test(deploy): testing deploy script \n\n Version: release/0.0.13 \n\n testing semantic versioning \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 01:47:24 2024 -0400 \n\n Hora: 1723700844
+
 ### Correcciones urgentes
 
   * hotfix(bug in Deploy): not updated the index.html file in deploys \n\n Version: release/0.0.14 \n\n - changed scripts index.sh and dump_readme.sh and DEPLOY.sh \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 01:31:04 2024 -0400 \n\n Hora: 1723699864

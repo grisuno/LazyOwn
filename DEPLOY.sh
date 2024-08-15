@@ -120,7 +120,7 @@ echo "[*] Changelog generado en $CHANGELOG_FILE"
 git -C . add .
 
 # Realizar el commit con el mensaje proporcionado
-git -C . commit -a -m "$COMMIT_MESSAGE"
+git -C . commit -S -a -m "$COMMIT_MESSAGE"
 
 # Generar el changelog después del commit
 # Actualizar el archivo CHANGELOG.md
@@ -175,7 +175,7 @@ mv CHANGELOG.html docs/CHANGELOG.html
 git -C . add docs/CHANGELOG.html
 
 # Realizar el commit (modificar el commit actual para incluir el changelog)
-git -C . commit --amend --no-edit
+git -C . commit  -S --amend --no-edit
 
 # Crear un nuevo tag con la nueva versión
 git -C . tag -s $NEW_VERSION -m "Version $NEW_VERSION"

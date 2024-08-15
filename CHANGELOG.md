@@ -1,6 +1,10 @@
 
 # Changelog
 
+### Otros
+
+  * release(release): tipo release \n\n Version:  \n\n probandoe l tipo release \n\n - README.md - docs/README.html - docs/index.html - docs/index.html.bak  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 03:19:32 2024 -0400 \n\n Hora: 1723706372
+
 ### Correcciones urgentes
 
   * hotfix(error en parametro): deploy en el pandocpara generar documento de changelog \n\n Version: release/0.1.0 \n\n limieza de changelog \n\n - DEPLOY.sh - README.md - docs/README.html - docs/index.html  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 03:18:04 2024 -0400 \n\n Hora: 1723706284

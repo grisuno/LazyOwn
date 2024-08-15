@@ -105,14 +105,32 @@ read -r -p "Introduce el cuerpo del commit (body): " BODY
 FOOTER=" LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n"
 
 # Determinar el incremento de versión basado en el tipo de commit
-if [[ "$TYPE" == "feature" || "$TYPE" == "release" ]]; then
-    NEW_VERSION=$(increment_version $CURRENT_VERSION "minor")
-elif [[ "$TYPE" == "feat" || "$TYPE" == "patch" ]]; then
-    NEW_VERSION=$(increment_version $CURRENT_VERSION "patch")
-else
-    NEW_VERSION=$CURRENT_VERSION
-fi
-
+case $TYPE in
+    feat|feature)
+        # Nuevas funcionalidades que añaden valor sin romper la compatibilidad hacia atrás
+        NEW_VERSION=$(increment_version $CURRENT_VERSION "patch")
+        ;;
+    fix|hotfix)
+        # Correcciones de errores que no afectan la compatibilidad con versiones anteriores
+        NEW_VERSION=$(increment_version $CURRENT_VERSION "patch")
+        ;;
+    refactor|docs|test)
+        # Cambios que no afectan la funcionalidad del software (refactorización, documentación, pruebas)
+        NEW_VERSION=$CURRENT_VERSION
+        ;;
+    release)
+        # Versión principal de lanzamiento, típicamente indica un cambio significativo o una nueva versión
+        NEW_VERSION=$(increment_version $CURRENT_VERSION "major")
+        ;;
+    patch)
+        # Correcciones menores para problemas específicos
+        NEW_VERSION=$(increment_version $CURRENT_VERSION "minor")
+        ;;
+    *)
+        echo "Invalid commit type: $TYPE" >&2
+        exit 1
+        ;;
+esac
 echo "{\"version\": \"$NEW_VERSION\"}" > version.json
 git -C . add version.json
 

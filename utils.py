@@ -27,6 +27,7 @@ import time
 import base64
 import string
 import glob
+import readline
 from urllib.parse import quote, unquote
 from modules.lazyencoder_decoder import encode, decode
 
@@ -175,6 +176,7 @@ def signal_handler(sig, frame):
         f"{RED}{YELLOW} para salir usar el comando{GREEN} exit, q or qa ...{RESET}"
     )
     should_exit = True
+    readline.set_history_length(0)
     return
 
 
@@ -547,7 +549,7 @@ def copy2clip(text):
         print_error("xclip no está instalado. Por favor, instálalo usando `sudo apt-get install xclip`.")
 
 
-
+signal.signal(signal.SIGINT, signal_handler)
 arguments = sys.argv[1:]  
 
 

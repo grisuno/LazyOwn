@@ -230,6 +230,84 @@ class LazyOwnShell(Cmd):
         except Exception as e:
             self.output = str(e)
 
+    def emptyline(self):
+        """
+        Handle the case where the user enters an empty line.
+
+        This method is called when the user submits an empty line of input in
+        the command-line interface. By default, it provides feedback indicating
+        that no command was entered.
+
+        It is useful for providing user-friendly messages or handling empty input
+        cases in a custom manner.
+
+        License: This function is part of a program released under the GNU General
+        Public License v3.0 (GPLv3). You can redistribute it and/or modify it
+        under the terms of the GPLv3, as published by the Free Software Foundation.
+
+        Note: This method is called by the cmd library when an empty line is
+        entered. You can override it in a subclass to change its behavior.
+
+        Example:
+            >>> shell = LazyOwnShell()
+            >>> shell.emptyline()
+            You didn't enter any command.
+        """        
+        print_warn("You didn't enter any command.")
+
+    def do_EOF(self, line):
+        """
+        Handle the end-of-file (EOF) condition.
+
+        This method is called when the user sends an end-of-file (EOF) signal
+        by pressing Ctrl+D. It is typically used to handle cleanup or exit
+        operations when the user terminates input.
+
+        In this implementation, it prints a farewell message and returns True
+        to indicate that the shell should exit.
+
+        License: This function is part of a program released under the GNU General
+        Public License v3.0 (GPLv3). You can redistribute it and/or modify it
+        under the terms of the GPLv3, as published by the Free Software Foundation.
+
+        Note: This method is a part of the `cmd` library's command handling
+        system. You can override it in a subclass to customize its behavior.
+
+        Example:
+            >>> shell = LazyOwnShell()
+            >>> shell.do_EOF(None)
+            LazyOwn say Goodbye!
+            (shell exits)
+        """
+        print_warn("LazyOwn say Goodbye!")
+        return True
+    
+    def postloop(self):
+        """
+        Handle operations to perform after exiting the command loop.
+
+        This method is called after the command loop terminates, typically used
+        for performing any final cleanup or displaying messages before the program
+        exits.
+
+        In this implementation, it prints a message indicating that the custom
+        shell is exiting.
+
+        License: This function is part of a program released under the GNU General
+        Public License v3.0 (GPLv3). You can redistribute it and/or modify it
+        under the terms of the GPLv3, as published by the Free Software Foundation.
+
+        Note: This method is called automatically by the `cmd` library's command
+        loop after the loop terminates. You can override it in a subclass to
+        customize its behavior.
+
+        Example:
+            >>> shell = LazyOwnShell()
+            >>> shell.cmdloop()  # Exits the command loop
+            Exiting custom LazyOwnShell.
+        """        
+        print_warn("Exiting custom LazyOwnShell.")
+
     def do_set(self, line):
         """
         Set a parameter value.
@@ -3964,7 +4042,22 @@ class LazyOwnShell(Cmd):
         os.system(
             "ip a show tun0 | grep 'inet ' | awk '{print $2}' | cut -d'/' -f1 | xclip -sel clip"
         )
-        print_msg(f"ip from tun0 copied to clipboard :) {RESET}")
+
+        try:
+            clipboard_ip = subprocess.check_output('xclip -o -sel clip', shell=True).decode().strip()
+        except subprocess.CalledProcessError:
+            clipboard_ip = ""
+
+        print_msg(f"IP from tun0 copied to clipboard :) {RESET}")
+        lhost = self.params['lhost']
+        if not check_lhost(lhost):
+            return
+        if clipboard_ip and clipboard_ip != self.params['lhost']:
+            lhost = clipboard_ip
+            p.onecmd(f"set lhost {clipboard_ip}")
+            self.custom_prompt = getprompt()
+            self.prompt = f"{self.custom_prompt}"
+            print_msg(f"Updated lhost to {clipboard_ip}")        
         return
 
     def do_rhost(self, line):
@@ -5346,9 +5439,64 @@ class LazyOwnShell(Cmd):
 
         try:
             def double_base64_encode(cmd):
+                """
+                Perform double Base64 encoding on the given command.
+
+                This helper function takes a command string, encodes it in Base64, and then performs
+                another Base64 encoding on the result. The final encoded string is returned.
+
+                Args:
+                    cmd (str): The command string to be encoded.
+
+                Returns:
+                    str: The double Base64 encoded string.
+
+                Example:
+                    >>> double_base64_encode("example")
+                    'ZWN4YW5hbWVsZQ=='
+
+                Notes:
+                    - The function first encodes the command string into bytes using UTF-8 encoding.
+                    - It then applies Base64 encoding twice and removes any leading or trailing whitespace.
+                    - The result is decoded back to a string and returned.
+
+                Raises:
+                    TypeError: If the input `cmd` is not a string.
+                """
+
                 return base64.b64encode(base64.b64encode(cmd.encode()).strip()).decode().strip()
             
             def apply_obfuscations(cmd):
+                """
+                Generate a list of obfuscated commands based on the given input command.
+
+                This function creates various obfuscated versions of the provided command string.
+                Each obfuscation method applies a different technique to disguise the command, 
+                making it less recognizable to simple static analysis.
+
+                Args:
+                    cmd (str): The command string to be obfuscated.
+
+                Returns:
+                    list of str: A list of obfuscated command strings.
+
+                Example:
+                    >>> apply_obfuscations("cat /etc/passwd")
+                    [
+                        'echo "echo $(echo \'cat /etc/passwd\' | base64 | base64)|base64 -d|base64 -d|bash" | sed \'s/ /${IFS}/g\'',
+                        'echo {double_base64_encode(cmd)}|base64 -d|base64 -d|bash',
+                        '$(tr \'\[A-Z\]\' \'\[a-z\]\' <<< \'cat /etc/passwd\')',
+                        ...
+                    ]
+
+                Notes:
+                    - Each obfuscation method aims to transform the command in a unique way.
+                    - Obfuscations include encoding, character replacement, and command substitution techniques.
+                    - Ensure that the `double_base64_encode` function is defined and available in the scope where this function is used.
+
+                Raises:
+                    TypeError: If the input `cmd` is not a string.
+                """                
                 obfuscations = [
                     f"echo \"echo $(echo '{cmd}' | base64 | base64)|base64 -d|base64 -d|bash\" | sed 's/ /${{IFS}}/g'",
                     f"echo {double_base64_encode(cmd)}|base64 -d|base64 -d|bash",
@@ -6674,6 +6822,7 @@ if __name__ == "__main__":
             os.system(
                 'ip a show scope global | awk \'/^[0-9]+:/ { sub(/:/,"",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, "/"); print "    [\033[96m" iface"\033[0m] "a[1] }\''
             )
+            p.onecmd('ip')
             p.onecmd(cmd)
             p.cmdloop()
 
@@ -6685,8 +6834,5 @@ if __name__ == "__main__":
     else:
         p.onecmd("rhost clean")    
 
-    os.system(
-        'ip a show scope global | awk \'/^[0-9]+:/ { sub(/:/,"",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, "/"); print "    [\033[96m" iface"\033[0m] "a[1] }\''
-    )
-
+    p.onecmd('ip')
     p.cmdloop()

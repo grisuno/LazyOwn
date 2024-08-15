@@ -65,7 +65,9 @@ python3 readmeneitor.py utils.py
 ./dump_readme.sh
 
 # Crea el readme en html
-pandoc $README_FILE -s -o README.html -metadata title="README LazyOwn Framework Pentesting t00lz"
+
+pandoc $README_FILE -f markdown -t html -s -o  README.html --metadata title="README LazyOwn Framework Pentesting t00lz"
+
 mv README.html docs/README.html
 # Este script actualiza el index.html de manera automatizada con los html generados por readmeneitor
 
@@ -186,7 +188,7 @@ awk -F: '{
 git -C . add $CHANGELOG_FILE
 
 # Convertir el changelog a HTML
-pandoc $CHANGELOG_FILE -s -c docs/style.css -t html -T "Changelog de LazyOwn" -A "Resumen del changelog" -o CHANGELOG.html -metadata title="CHANGELOG LazyOwn Framework Pentesting t00lz"
+pandoc $CHANGELOG_FILE -f markdown -t html -s "Changelog de LazyOwn" -A "Resumen del changelog" -o CHANGELOG.html -metadata title="CHANGELOG LazyOwn Framework Pentesting t00lz"
 mv CHANGELOG.html docs/CHANGELOG.html
 git -C . add docs/CHANGELOG.html
 

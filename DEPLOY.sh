@@ -4,23 +4,13 @@
 readonly CHANGELOG_FILE="CHANGELOG.md"
 readonly README_FILE="README.md"
 
-# Función para incrementar la versión
 increment_version() {
     local version=$1
+    local major minor patch
+    IFS='.' read -r major minor patch <<< "$version"
+
     local increment_type=${2:-"patch"}  # default to patch
 
-    # Validate the version format
-    if ! [[ $version =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
-        echo "Invalid version format: $version" >&2
-        return 1
-    fi
-
-    # Extract major, minor, and patch parts from the version
-    local major="${BASH_REMATCH[1]}"
-    local minor="${BASH_REMATCH[2]}"
-    local patch="${BASH_REMATCH[3]}"
-
-    # Increment the appropriate version component
     case $increment_type in
         major)
             ((major++))
@@ -40,8 +30,7 @@ increment_version() {
             ;;
     esac
 
-    # Ensure the version parts are zero-padded to two digits
-    printf "%d.%02d.%02d\n" "$major" "$minor" "$patch"
+    echo "$major.$minor.$patch"
 }
 
 # Obtener la versión actual
@@ -107,19 +96,19 @@ FOOTER=" LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \
 # Determinar el incremento de versión basado en el tipo de commit
 case $TYPE in
     feat|feature|fix|hotfix)
-        # Cambios menores y correcciones
+        # Incrementar el número de parche
         NEW_VERSION=$(increment_version $CURRENT_VERSION "patch")
         ;;
     refactor|docs|test)
-        # Cambios que no afectan la funcionalidad del software
+        # No cambiar la versión
         NEW_VERSION=$CURRENT_VERSION
         ;;
     release)
-        # Incrementar el número mayor y reiniciar los números menores y de parche a 0
+        # Incrementar el número mayor y reiniciar los números menor y parche a 0
         NEW_VERSION=$(increment_version $CURRENT_VERSION "major")
         ;;
     patch)
-        # Cambiar el número menor
+        # Incrementar el número menor
         NEW_VERSION=$(increment_version $CURRENT_VERSION "minor")
         ;;
     *)
@@ -127,6 +116,7 @@ case $TYPE in
         exit 1
         ;;
 esac
+
 echo "{\"version\": \"$NEW_VERSION\"}" > version.json
 git -C . add version.json
 

@@ -5163,6 +5163,10 @@ Raises:
 
 # Changelog
 
+### Nuevas características
+
+  * feature(mejoras y fixes): - se agrega un pequeño diccionario en el comando hydra, se mejroa el comando clean, se arreglan algunos bugs \n\n Version: release/0.1.0 \n\n - se agregan colorines al testmeneitor.py para ahcer check visual, mejoras en el comando vpn, en el script fast_run_as_r00t.sh, todo docuemntado en README.md \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 00:13:04 2024 -0400 \n\n Hora: 1723695184
+
 ### Nuevo grupo de características
 
   * feat(add scripts): - adding scripts on sessions/win directory a nc ps1 version \n\n Version: release/0.1.0 \n\n - 2 backdoors in ps1 i found in a machine in tryhackme xD \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 23:31:15 2024 -0400 \n\n Hora: 1723692675

@@ -31,7 +31,17 @@ import readline
 from urllib.parse import quote, unquote
 from modules.lazyencoder_decoder import encode, decode
 
-version = "release/0.0.14"
+# Cargar la versión desde el archivo version.json
+def load_version():
+    try:
+        with open('version.json', 'r') as f:
+            data = json.load(f)
+            return data.get('version', 'release/v0.0.14')
+    except FileNotFoundError:
+        return 'release/v0.0.14'
+
+# Establecer la versión del proyecto
+version = load_version()
 
 # Definimos algunos códigos de escape ANSI para colores
 RESET = "\033[0m"

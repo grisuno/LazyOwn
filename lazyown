@@ -7305,7 +7305,37 @@ class LazyOwnShell(Cmd):
     def get_output(self):
         """Devuelve la salida acumulada"""
         return self.output
+        
+    def do_lazyscript(self, line):
+        """
+        Executes commands defined in a lazyscript file.
 
+        This function reads a script file containing commands to be executed
+        sequentially. Each command is executed using the onecmd method of the 
+        cmd.Cmd class. The script file should be located in the 'lazyscripts' 
+        directory relative to the current working directory.
+
+        Args:
+            line (str): The name of the script file to execute (e.g., 'lazyscript.ls').
+
+        Example:
+            do_lazyscript('example_script.ls')
+            This would execute all commands listed in 'lazyscripts/example_script.ls'.
+
+        """
+        script_path = os.path.join(os.getcwd(), 'lazyscripts', line)
+        
+        if not os.path.isfile(script_path):
+            print_error(f"Script file not found: {script_path}")
+            return
+        with open(script_path, 'r') as file:
+            commands = file.readlines()
+        
+        for command in commands:
+            command = command.strip()
+            if command:
+                print_msg(f"Executing command: {command}")
+                self.onecmd(command)
 
 def xor_encrypt_decrypt(data, key):
     """XOR Encrypt or Decrypt data with a given key"""

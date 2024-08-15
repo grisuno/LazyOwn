@@ -69,7 +69,7 @@ def run_command_with_timeout(command, timeout):
 def run_tests_with_bash(script_path, functions):
     for func_name in functions:
         if func_name in EXCLUDED_FUNCTIONS:
-            print(f"[-] Skipping excluded function: {func_name}")
+            print(f"[-]\033[33m Skipping excluded function: {func_name} \033[0m")
             continue
 
         command = f"./run -c {func_name}"
@@ -80,9 +80,9 @@ def run_tests_with_bash(script_path, functions):
         if returncode is None:
             print(f"[+] Test passed for function: {func_name} (timed out, but considered successful)")
         elif returncode == 0:
-            print(f"[+] Test passed for function: {func_name}")
+            print(f"[+]\033[32m Test passed for function: {func_name} \033[0m")
         else:
-            print(f"[-] Test failed for function: {func_name}\nOutput:\n{stdout}\nError:\n{stderr}")
+            print(f"[-]\033[31m Test failed for function: {func_name}\nOutput:\n{stdout}\nError:\n{stderr} \033[0m")
     command = f"./run -c clean"
     print(f"[+] Running command: {command}")
     returncode, stdout, stderr = run_command_with_timeout(command, TIMEOUT)

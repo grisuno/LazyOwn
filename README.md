@@ -4467,8 +4467,9 @@ Uses Hydra to perform a brute force attack on a specified HTTP service with a us
 2. Validates the remote host parameter.
 3. Checks if the `line` argument is provided, which should include the path to crack and the port.
 4. If the `line` argument is valid, splits it into arguments for the path and port.
-5. Constructs and prints the Hydra command with the provided parameters.
-6. Executes the Hydra command using `os.system`.
+5. Asks the user if they want to use a small dictionary from a JSON file.
+6. Constructs and prints the Hydra command with the provided parameters.
+7. Executes the Hydra command using `os.system`.
 
 :param line: The path to crack and port for the Hydra command, formatted as 'path port'.
 :type line: str
@@ -4478,7 +4479,7 @@ Manual execution:
 To manually run this task, you would:
 - Provide the path to crack and the port as arguments to this function in the format 'path port'.
 - Ensure that the user list and wordlist are set correctly.
-- hydra -f -L sessions/users.txt -P /usr/share/wordlists/rockyou.txt 10.10.11.9 -s 5000 https-get /v2/
+- hydra -f -L sessions/users.txt -P /usr/share/wordlists/rockyou.txt 10.10.11.9 -s 5000 http-get /v2/
 Note: Ensure that the remote host and wordlist parameters are valid, and that the path and port are specified correctly in the `line` argument.
 
 ## nmapscript
@@ -4632,17 +4633,20 @@ To manually run these tasks, you would need to:
 Note: Ensure that `hashcat` is installed and accessible in the system's PATH.
 
 ## clean
-Deletes various files and directories related to the session cleanup.
+Deletes files and directories in the `sessions` directory, excluding specified files and directories.
 
 1. Checks if the `rhost` parameter is valid:
 - Uses the `check_rhost` function to verify if `rhost` is set and valid.
 - If `rhost` is not valid, exits the function.
 
-2. Executes a command to remove files and directories:
-- Deletes specific files and directories within the `sessions` directory and other related locations.
-- The command is executed using `os.system`.
+2. Lists files and directories in the `sessions` directory:
+- Uses `os.listdir` to list all files and directories in the `sessions` directory.
+- Compares each item with the list of exclusions.
 
-3. Prints a message indicating that the cleanup is complete.
+3. Deletes files and directories not in the exclusion list:
+- Uses `os.remove` to delete files and `shutil.rmtree` to delete directories.
+
+4. Prints a message indicating that the cleanup is complete.
 
 :param line: This parameter is not used in the function.
 :type line: str
@@ -4651,9 +4655,9 @@ Deletes various files and directories related to the session cleanup.
 Manual execution:
 To manually run these tasks, you would need to:
 - Ensure that you have the correct `rhost` value set.
-- Manually execute the `rm` command to delete the specified files and directories.
+- Manually execute commands to delete files and directories, excluding specified ones.
 
-Note: This function performs a comprehensive cleanup by removing various files and directories associated with the current session and external resources.
+Note: This function performs a cleanup by removing various files and directories associated with the current session, excluding specified items.
 
 ## pyautomate
 Automates the execution of pwntomate tools on XML configuration files.
@@ -5158,6 +5162,10 @@ Raises:
 <!-- START CHANGELOG -->
 
 # Changelog
+
+### Documentación
+
+  * docs(add README.html to anchor tag in menu of index.html): - chenges in index.html in line 162 \n\n Version: release/0.0.13 \n\n added the line in li with anchor tag \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 23:25:51 2024 -0400 \n\n Hora: 1723692351
 
 ### Documentación
 

@@ -1,6 +1,10 @@
 
 # Changelog
 
+### Nuevas características
+
+  * feature(cambios en script fast_run_as_r00t.sh): se agrega la opción --vpn <NUM> para poder elegir parametricamente que vpn se elije para la ejecucion \n\n Version: release/0.1.0 \n\n se agregan metodos de control en el flujo de los comandos como la salida de SIGNAL CONTROL + D \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 18:20:13 2024 -0400 \n\n Hora: 1723674013
+
 ### Documentación
 
   * docs(test): bad tabs in index.html \n\n Version: release/0.0.13 \n\n  \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 18:06:45 2024 -0400 \n\n Hora: 1723673205

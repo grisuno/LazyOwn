@@ -3885,9 +3885,32 @@ command to the clipboard if needed.</p>
 <p>Note: Ensure <code>xclip</code> is installed and properly configured
 to use clipboard functionalities.</p>
 <h2 id="sh">sh</h2>
-<p>execute some command direct in shell to avoid exit LazyOwn ;)</p>
+<p>Executes a shell command directly from the LazyOwn interface.</p>
+<p>This function allows the user to execute arbitrary shell commands
+without exiting the LazyOwn shell. It checks if a command is provided,
+prints a message indicating the command being executed, and then runs
+the command using <code>os.system</code>.</p>
+<p>Usage: sh <command></p>
+<p>:param line: The shell command to be executed. :type line: str
+:raises ValueError: If no command is provided, an error message is
+printed indicating that a command is required. :returns: None</p>
+<p>Example: sh ls -la # This will execute ‘ls -la’ in the shell without
+exiting LazyOwn.</p>
+<p>Note: Ensure that the command provided is safe to execute and does
+not include potentially harmful operations.</p>
 <h2 id="pwd">pwd</h2>
-<p>’echo -e “[</p>
+<p>Displays the current working directory and lists files, and copies
+the current directory path to the clipboard.</p>
+<p>This function performs the following tasks: 1. Displays the current
+working directory with <code>pwd</code> and lists files in the directory
+using <code>ls</code>. 2. Copies the current directory path to the
+clipboard using <code>xclip</code>.</p>
+<p>Usage: pwd</p>
+<p>:param line: This parameter is not used in the function but is
+included for consistency with other command methods. :type line: str
+:returns: None</p>
+<p>Manual execution: 1. The command
+<code>echo -e "[\e[96m\</code>pwd`</p>
 <p>Notes: - Each obfuscation method aims to transform the command in a
 unique way. - Obfuscations include encoding, character replacement, and
 command substitution techniques. - Ensure that the
@@ -3898,6 +3921,13 @@ the scope where this function is used.</p>
 <!-- START CHANGELOG -->
 <h1 id="changelog">Changelog</h1>
 <h3 id="documentación">Documentación</h3>
+<ul>
+<li>docs(test): bad tabs in index.html Version: release/0.0.13 LazyOwn
+on HackTheBox: https://app.hackthebox.com/teams/overview/6429 LazyOwn/
+https://grisuno.github.io/LazyOwn/ Fecha: Wed Aug 14 18:06:45 2024 -0400
+Hora: 1723673205</li>
+</ul>
+<h3 id="documentación-1">Documentación</h3>
 <ul>
 <li>docs(cambio en index.html): tabulacion incorrecta del banner
 Version: release/0.0.13 corregido :D LazyOwn on HackTheBox:
@@ -3989,7 +4019,7 @@ LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429
 LazyOwn/ https://grisuno.github.io/LazyOwn/ Fecha: Wed Aug 14 16:28:47
 2024 -0400 Hora: 1723667327</li>
 </ul>
-<h3 id="documentación-1">Documentación</h3>
+<h3 id="documentación-2">Documentación</h3>
 <ul>
 <li>docs(class=“neon-text” on ul): :): release/0.0.13:)LazyOwn on
 HackTheBox: https://app.hackthebox.com/teams/overview/6429 LazyOwn/
@@ -4042,7 +4072,7 @@ https://app.hackthebox.com/teams/overview/6429 👽
 https://www.reddit.com/r/LazyOwn/ 👽
 https://grisuno.github.io/LazyOwn/</li>
 </ul>
-<h3 id="documentación-2">Documentación</h3>
+<h3 id="documentación-3">Documentación</h3>
 <ul>
 <li>docs(se agrega el change log al readme): tambien se ejecutan pruebas
 del despliegue con el parametro –no-testhechos solo en el archivo
@@ -4134,7 +4164,7 @@ https://app.hackthebox.com/teams/overview/6429 👽
 https://www.reddit.com/r/LazyOwn/ 👽
 https://grisuno.github.io/LazyOwn/</li>
 </ul>
-<h3 id="documentación-3">Documentación</h3>
+<h3 id="documentación-4">Documentación</h3>
 <ul>
 <li>docs(docs): El cierre de una imagen en la documentación estaba mal
 :)se modifico el CHANGELOG.sh que chulada de script👽 LazyOwn on
@@ -4235,7 +4265,7 @@ command launchpad to recon Linux OS 👽</li>
 <ul>
 <li>Merge pull request #27 from grisuno/clcthulhu-patch-1</li>
 </ul>
-<h3 id="documentación-4">Documentación</h3>
+<h3 id="documentación-5">Documentación</h3>
 <ul>
 <li>docs(update readme description): change of the description; Update
 README.md</li>

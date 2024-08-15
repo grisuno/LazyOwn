@@ -3902,25 +3902,197 @@ To manually run these tasks, you would need to:
 Note: Ensure `xclip` is installed and properly configured to use clipboard functionalities.
 
 ## sh
-execute some command direct in shell to avoid exit LazyOwn ;)
+Executes a shell command directly from the LazyOwn interface.
+
+This function allows the user to execute arbitrary shell commands without exiting the LazyOwn shell. 
+It checks if a command is provided, prints a message indicating the command being executed, and then 
+runs the command using `os.system`.
+
+Usage:
+    sh <command>
+
+:param line: The shell command to be executed.
+:type line: str
+:raises ValueError: If no command is provided, an error message is printed indicating that a command is required.
+:returns: None
+
+Example:
+    sh ls -la
+    # This will execute 'ls -la' in the shell without exiting LazyOwn.
+
+Note:
+    Ensure that the command provided is safe to execute and does not include potentially harmful operations.
 
 ## pwd
-'echo -e "[\e[96m`pwd`\e[0m]\e[34m" && ls && echo -en "\e[0m"'
+Displays the current working directory and lists files, and copies the current directory path to the clipboard.
+
+This function performs the following tasks:
+1. Displays the current working directory with `pwd` and lists files in the directory using `ls`. 
+2. Copies the current directory path to the clipboard using `xclip`.
+
+Usage:
+    pwd
+
+:param line: This parameter is not used in the function but is included for consistency with other command methods.
+:type line: str
+:returns: None
+
+Manual execution:
+    1. The command `echo -e "[\e[96m\`pwd\`\e[0m]\e[34m" && ls && echo -en "\e[0m"` is executed to display the current working directory and list files in it.
+    2. The current directory path is copied to the clipboard using the command `pwd | xclip -sel clip`.
+
+Dependencies:
+    - The function relies on `echo`, `pwd`, `ls`, and `xclip` to display the directory and copy the path to the clipboard.
+
+Example:
+    pwd
+    # This will display the current working directory, list files, and copy the current directory path to the clipboard.
+
+Note:
+    Ensure that `xclip` is installed on your system for copying to the clipboard to work.
 
 ## qa
-Exit fast without confirmation
+Exits the application quickly without confirmation.
+
+This function performs the following tasks:
+1. Prints an exit message with formatting.
+2. Terminates the `tmux` session named `lazyown_sessions` if it exists.
+3. Kills all running `openvpn` processes.
+4. Exits the program with a status code of 0.
+
+Usage:
+    qa
+
+:param line: This parameter is not used in the function but is included for consistency with other command methods.
+:type line: str
+:returns: None
+
+Manual execution:
+    1. The command `tmux kill-session -t lazyown_sessions 2>/dev/null` is executed to kill the tmux session named `lazyown_sessions`, suppressing errors if the session does not exist.
+    2. The command `killall openvpn 2>/dev/null` is executed to terminate all running `openvpn` processes, suppressing errors if no such processes are found.
+    3. The program is exited with a status code of 0 using `sys.exit(0)`.
+
+Dependencies:
+    - The function relies on `tmux`, `killall`, and `sys` to perform the exit operations.
+
+Example:
+    qa
+    # This will print an exit message, terminate the tmux session and openvpn processes, and exit the program.
+
+Note:
+    Ensure that `tmux` and `openvpn` are installed and running for their respective commands to have an effect.
 
 ## ignorearp
-echo 1 > /proc/sys/net/ipv4/conf/all/arp_ignore
+Configures the system to ignore ARP requests by setting a kernel parameter.
+
+This function performs the following tasks:
+1. Prints a message indicating the command that will be executed.
+2. Executes the command `echo 1 > /proc/sys/net/ipv4/conf/all/arp_ignore` with elevated privileges using `sudo` to configure the system to ignore ARP requests.
+3. Prints a confirmation message indicating that the operation is complete.
+
+Usage:
+    ignorearp
+
+:param line: This parameter is not used in the function but is included for consistency with other command methods.
+:type line: str
+:returns: None
+
+Manual execution:
+    1. The command `sudo bash -c 'echo 1 > /proc/sys/net/ipv4/conf/all/arp_ignore'` is executed to set the `arp_ignore` parameter to `1`, which configures the system to ignore ARP requests.
+
+Dependencies:
+    - The function requires `sudo` to run the command with elevated privileges.
+
+Example:
+    ignorearp
+    # This will set the `arp_ignore` parameter to `1` to ignore ARP requests.
+
+Note:
+    Ensure that you have the necessary permissions to use `sudo` and that the `arp_ignore` parameter can be modified on your system.
 
 ## ignoreicmp
-echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all
+Configures the system to ignore ICMP echo requests by setting a kernel parameter.
+
+This function performs the following tasks:
+1. Prints a message indicating the command that will be executed.
+2. Executes the command `echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all` with elevated privileges using `sudo` to configure the system to ignore ICMP echo requests (ping).
+3. Prints a confirmation message indicating that the operation is complete.
+
+Usage:
+    ignoreicmp
+
+:param line: This parameter is not used in the function but is included for consistency with other command methods.
+:type line: str
+:returns: None
+
+Manual execution:
+    1. The command `sudo bash -c 'echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all'` is executed to set the `icmp_echo_ignore_all` parameter to `1`, which configures the system to ignore ICMP echo requests (ping).
+
+Dependencies:
+    - The function requires `sudo` to run the command with elevated privileges.
+
+Example:
+    ignoreicmp
+    # This will set the `icmp_echo_ignore_all` parameter to `1` to ignore ICMP echo requests.
+
+Note:
+    Ensure that you have the necessary permissions to use `sudo` and that the `icmp_echo_ignore_all` parameter can be modified on your system.
 
 ## acknowledgearp
-echo 0 > /proc/sys/net/ipv4/conf/all/arp_ignore
+Configures the system to acknowledge ARP requests by setting a kernel parameter.
+
+This function performs the following tasks:
+1. Prints a message indicating the command that will be executed.
+2. Executes the command `echo 0 > /proc/sys/net/ipv4/conf/all/arp_ignore` with elevated privileges using `sudo` to configure the system to acknowledge ARP requests.
+3. Prints a confirmation message indicating that the operation is complete.
+
+Usage:
+    acknowledgearp
+
+:param line: This parameter is not used in the function but is included for consistency with other command methods.
+:type line: str
+:returns: None
+
+Manual execution:
+    1. The command `sudo bash -c 'echo 0 > /proc/sys/net/ipv4/conf/all/arp_ignore'` is executed to set the `arp_ignore` parameter to `0`, which configures the system to acknowledge ARP requests.
+
+Dependencies:
+    - The function requires `sudo` to run the command with elevated privileges.
+
+Example:
+    acknowledgearp
+    # This will set the `arp_ignore` parameter to `0` to acknowledge ARP requests.
+
+Note:
+    Ensure that you have the necessary permissions to use `sudo` and that the `arp_ignore` parameter can be modified on your system.
 
 ## acknowledgeicmp
-echo 0 > /proc/sys/net/ipv4/icmp_echo_ignore_all
+Configures the system to respond to ICMP echo requests by setting a kernel parameter.
+
+This function performs the following tasks:
+1. Prints a message indicating the command that will be executed.
+2. Executes the command `echo 0 > /proc/sys/net/ipv4/icmp_echo_ignore_all` with elevated privileges using `sudo` to configure the system to respond to ICMP echo requests.
+3. Prints a confirmation message indicating that the operation is complete.
+
+Usage:
+    acknowledgeicmp
+
+:param line: This parameter is not used in the function but is included for consistency with other command methods.
+:type line: str
+:returns: None
+
+Manual execution:
+    1. The command `sudo bash -c 'echo 0 > /proc/sys/net/ipv4/icmp_echo_ignore_all'` is executed to set the `icmp_echo_ignore_all` parameter to `0`, which configures the system to respond to ICMP echo requests.
+
+Dependencies:
+    - The function requires `sudo` to run the command with elevated privileges.
+
+Example:
+    acknowledgeicmp
+    # This will set the `icmp_echo_ignore_all` parameter to `0` to allow responses to ICMP echo requests.
+
+Note:
+    Ensure that you have the necessary permissions to use `sudo` and that the `icmp_echo_ignore_all` parameter can be modified on your system.
 
 ## clock
 Displays the current date and time, and runs a custom shell script.
@@ -4986,6 +5158,10 @@ Raises:
 <!-- START CHANGELOG -->
 
 # Changelog
+
+### Documentación
+
+  * docs(test): bad tabs in index.html \n\n Version: release/0.0.13 \n\n  \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 18:06:45 2024 -0400 \n\n Hora: 1723673205
 
 ### Documentación
 

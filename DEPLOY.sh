@@ -188,7 +188,7 @@ awk -F: '{
 git -C . add $CHANGELOG_FILE
 
 # Convertir el changelog a HTML
-pandoc $CHANGELOG_FILE -f markdown -t html -s "Changelog de LazyOwn" -A "Resumen del changelog" -o CHANGELOG.html -metadata title="CHANGELOG LazyOwn Framework Pentesting t00lz"
+pandoc $CHANGELOG_FILE -f markdown -t html -s "Changelog de LazyOwn" -A "Resumen del changelog" -o CHANGELOG.html --metadata title="CHANGELOG LazyOwn Framework Pentesting t00lz"
 mv CHANGELOG.html docs/CHANGELOG.html
 git -C . add docs/CHANGELOG.html
 

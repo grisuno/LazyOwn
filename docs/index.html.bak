@@ -4135,6 +4135,16 @@ the scope where this function is used.</p>
 <!-- END COMMANDS -->
 <!-- START CHANGELOG -->
 <h1 id="changelog">Changelog</h1>
+<h3 id="nuevo-grupo-de-características">Nuevo grupo de
+características</h3>
+<ul>
+<li>feat(add scripts): - adding scripts on sessions/win directory a nc
+ps1 version Version: release/0.1.0 - 2 backdoors in ps1 i found in a
+machine in tryhackme xD LazyOwn on HackTheBox:
+https://app.hackthebox.com/teams/overview/6429 LazyOwn/
+https://grisuno.github.io/LazyOwn/ Fecha: Wed Aug 14 23:31:15 2024 -0400
+Hora: 1723692675</li>
+</ul>
 <h3 id="documentación">Documentación</h3>
 <ul>
 <li>docs(add README.html to anchor tag in menu of index.html): - chenges
@@ -4398,7 +4408,7 @@ https://app.hackthebox.com/teams/overview/6429 👽
 https://www.reddit.com/r/LazyOwn/ 👽
 https://grisuno.github.io/LazyOwn/</li>
 </ul>
-<h3 id="nuevo-grupo-de-características">Nuevo grupo de
+<h3 id="nuevo-grupo-de-características-1">Nuevo grupo de
 características</h3>
 <ul>
 <li>feat(mejorando el tipo): cambio en el script CHANGELOG.shmejora la

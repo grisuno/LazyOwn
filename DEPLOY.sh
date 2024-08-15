@@ -144,12 +144,43 @@ git -C . add .
 # Realizar el commit con el mensaje proporcionado
 git -C . commit -S -a -m "$COMMIT_MESSAGE"
 
-# Generar el changelog después del commit
-# Actualizar el archivo CHANGELOG.md
+# Función para obtener el tipo de cambio basado en el mensaje del commit
+get_commit_type() {
+  local message=$1
+  if [[ $message =~ ^feat\(.*\) ]]; then
+    echo "### Nuevas características"
+  elif [[ $message =~ ^fix\(.*\) ]]; then
+    echo "### Correcciones"
+  elif [[ $message =~ ^hotfix\(.*\) ]]; then
+    echo "### Correcciones urgentes"
+  elif [[ $message =~ ^refactor\(.*\) ]]; then
+    echo "### Refactorización"
+  elif [[ $message =~ ^docs\(.*\) ]]; then
+    echo "### Documentación"
+  elif [[ $message =~ ^test\(.*\) ]]; then
+    echo "### Pruebas"
+  elif [[ $message =~ ^release\(.*\) ]]; then
+    echo "### Nuevo Release"
+  elif [[ $message =~ ^patch\(.*\) ]]; then
+    echo "### Nuevo parche"
+  else
+    echo "### Otros"
+  fi
+}
+
+# Crear o limpiar el archivo de changelog
 echo "# Changelog" > $CHANGELOG_FILE
 echo "" >> $CHANGELOG_FILE
-git -C . log --format="%s" $START_COMMIT..$END_COMMIT >> $CHANGELOG_FILE
-echo "[+] Changelog actualizado en $CHANGELOG_FILE"
+
+# Obtener todos los commits desde el inicio en orden inverso
+git log --pretty=format:"%s" | while read -r commit_message; do
+  commit_type=$(get_commit_type "$commit_message")
+  echo "$commit_type" >> $CHANGELOG_FILE
+  echo "  * $commit_message" >> $CHANGELOG_FILE
+  echo "" >> $CHANGELOG_FILE
+done
+
+echo "[+] Changelog generado y formateado en $CHANGELOG_FILE"
 
 # formatear el change log
 echo "[+] Formateando el CHANGELOG"

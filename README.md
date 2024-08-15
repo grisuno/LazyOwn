@@ -1018,6 +1018,9 @@ Documentación creada automaticamente por el script readmeneitor.py creado para 
 <!-- START UTILS -->
 # UTILS.md Documentation  by readmeneitor.py
 
+## load_version
+No description available.
+
 ## print_error
 Prints an error message to the console.
 
@@ -5162,6 +5165,10 @@ Raises:
 <!-- START CHANGELOG -->
 
 # Changelog
+
+### Nuevas características
+
+  * feature(test): testing deploy feature and semantic versioning \n\n Version: release/0.1.0 \n\n - testing versioning to release/0.0.14 \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 01:50:07 2024 -0400 \n\n Hora: 1723701007
 
 ### Pruebas
 

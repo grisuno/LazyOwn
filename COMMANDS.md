@@ -3989,6 +3989,21 @@ Replace `<file_path>` with the path to the encrypted file and `<key>` with the d
 ## get_output
 Devuelve la salida acumulada
 
+## lazyscript
+Executes commands defined in a lazyscript file.
+
+This function reads a script file containing commands to be executed
+sequentially. Each command is executed using the onecmd method of the 
+cmd.Cmd class. The script file should be located in the 'lazyscripts' 
+directory relative to the current working directory.
+
+Args:
+    line (str): The name of the script file to execute (e.g., 'lazyscript.ls').
+
+Example:
+    do_lazyscript('example_script.ls')
+    This would execute all commands listed in 'lazyscripts/example_script.ls'.
+
 ## double_base64_encode
 Perform double Base64 encoding on the given command.
 

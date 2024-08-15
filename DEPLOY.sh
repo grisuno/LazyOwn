@@ -56,6 +56,7 @@ python3 readmeneitor.py utils.py
 
 # Crea el readme en html
 pandoc $README_FILE -s -o README.html
+mv README.html docs/README.html
 # Este script actualiza el index.html de manera automatizada con los html generados por readmeneitor
 
 # el html generado es horrible si... es horrible, pero es automatizado... TODO mejorar el html horrible 

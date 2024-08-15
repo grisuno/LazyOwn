@@ -4446,6 +4446,118 @@ Note:
 Ensure `xclip` is installed on your system for copying to the clipboard. The function assumes that `xclip` is available
 and correctly configured.
 
+## hostdiscover
+Discover active hosts in a subnet by performing a ping sweep.
+
+This method constructs and executes a bash script that performs a 
+ping sweep on the specified subnet to identify active hosts. The 
+subnet is determined from the 'rhost' parameter. For each host in 
+the subnet, a ping request is sent, and active hosts are reported.
+
+Parameters:
+- line (str): The input line argument is not used in this function.
+
+Behavior:
+- Extracts the first three octets of the 'rhost' parameter to form 
+the base IP pattern.
+- Constructs a bash script to ping each IP address in the subnet 
+(from .1 to .254) and reports active hosts.
+- The generated bash script is displayed to the user.
+- Prompts the user to confirm whether they want to execute the 
+generated command.
+- If the user confirms, executes the command using `os.system()`.
+- If the user declines, copies the command to the clipboard using 
+`copy2clip()`.
+
+Side Effects:
+- Executes system commands and may affect the system environment.
+- May modify the clipboard content if the user chooses not to execute.
+
+Notes:
+- Ensure that the 'rhost' parameter is a valid IP address and that 
+the `check_rhost()` function is implemented to validate the IP.
+- `print_msg()` is used to display the constructed command to the 
+user.
+- `copy2clip()` is used to copy the command to the clipboard if 
+not executed.
+
+Example:
+>>> do_hostdiscover("example_input")
+
+## portdiscover
+Scan all ports on a specified host to identify open ports.
+
+This method constructs and executes a bash script that performs a 
+port scan on the specified host to determine which ports are open. 
+It scans all ports from 0 to 65535 and reports any that are open.
+
+Parameters:
+- line (str): The input line argument is not used in this function.
+
+Behavior:
+- Extracts the 'rhost' parameter to determine the target IP address.
+- Constructs a bash script to scan all ports on the target IP address 
+and report open ports.
+- The generated bash script is displayed to the user.
+- Prompts the user to confirm whether they want to execute the 
+generated command.
+- If the user confirms, executes the command using `os.system()`.
+- If the user declines, copies the command to the clipboard using 
+`copy2clip()`.
+
+Side Effects:
+- Executes system commands and may affect the system environment.
+- May modify the clipboard content if the user chooses not to execute.
+
+Notes:
+- Ensure that the 'rhost' parameter is a valid IP address and that 
+the `check_rhost()` function is implemented to validate the IP.
+- `print_msg()` is used to display the constructed command to the 
+user.
+- `copy2clip()` is used to copy the command to the clipboard if 
+not executed.
+
+Example:
+>>> do_portdiscover("example_input")
+
+## portservicediscover
+Scan all ports on a specified host to identify open ports and associated services.
+
+This method constructs and executes a bash script that performs a 
+port scan on the specified host to determine which ports are open 
+and identifies any services running on those open ports. It scans 
+all ports from 0 to 65535.
+
+Parameters:
+- line (str): The input line argument is not used in this function.
+
+Behavior:
+- Extracts the 'rhost' parameter to determine the target IP address.
+- Constructs a bash script to scan all ports on the target IP address 
+and report open ports along with any associated services.
+- The generated bash script is displayed to the user.
+- Prompts the user to confirm whether they want to execute the 
+generated command.
+- If the user confirms, executes the command using `os.system()`.
+- If the user declines, copies the command to the clipboard using 
+`copy2clip()`.
+
+Side Effects:
+- Executes system commands and may affect the system environment.
+- Requires `sudo` privileges to use `lsof` for identifying services.
+- May modify the clipboard content if the user chooses not to execute.
+
+Notes:
+- Ensure that the 'rhost' parameter is a valid IP address and that 
+the `check_rhost()` function is implemented to validate the IP.
+- `print_msg()` is used to display the constructed command to the 
+user.
+- `copy2clip()` is used to copy the command to the clipboard if 
+not executed.
+
+Example:
+>>> do_portservicediscover("example_input")
+
 ## rot
 Apply a ROT (rotation) substitution cipher to the given string.
 
@@ -5185,13 +5297,5 @@ Raises:
 <!-- START CHANGELOG -->
 
 # Changelog
-
-### Documentación
-
-  * docs(changelog): reload \n\n Version: release/0.1.1 \n\n deleted \n\n - CHANGELOG.md - README.md - docs/README.html - docs/index.html - docs/index.html.bak  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 04:30:41 2024 -0400 \n\n Hora: 1723710641
-
-### Documentación
-
-  * docs(history): reload the history deleted by error holly git :P \n\n Version: release/0.1.1 \n\n  \n\n - CHANGELOG.md - README.md - docs/README.html - docs/index.html - docs/index.html.bak  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 03:54:04 2024 -0400 \n\n Hora: 1723708444
 
   * docs(update readme description): change of the description; Update README.md  * docs(update readme description): change of the description; Update README.md<!-- END CHANGELOG -->

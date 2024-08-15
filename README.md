@@ -4485,6 +4485,26 @@ To manually run this task, you would:
 - hydra -f -L sessions/users.txt -P /usr/share/wordlists/rockyou.txt 10.10.11.9 -s 5000 http-get /v2/
 Note: Ensure that the remote host and wordlist parameters are valid, and that the path and port are specified correctly in the `line` argument.
 
+## medusa
+Uses medusa to perform a brute force attack on a specified ssh service with a user and password list.
+
+1. Checks if a wordlist is provided; if not, prints an error message.
+2. Validates the remote host parameter.
+3. Asks the user if they want to use a small dictionary from a JSON file.
+4. Constructs and prints the medusa command with the provided parameters.
+5. Executes the medusa command using `os.system`.
+
+:param line: The port if is't default port.
+:type line: str
+:returns: None
+
+Manual execution:
+To manually run this task, you would:
+- Provide the path to crack and the port as arguments to this function in the format 'path port'.
+- Ensure that the user list and wordlist are set correctly.
+- medusa -h 10.10.10.10 -U sessions/users.txt -P /usr/share/wordlists/rockyou.txt -e ns -M ssh"
+Note: Ensure that the remote host and wordlist parameters are valid, and that the path and port are specified correctly in the `line` argument.
+
 ## nmapscript
 Perform an Nmap scan using a specified script and port.
 
@@ -5166,282 +5186,8 @@ Raises:
 
 # Changelog
 
-### Correcciones
-
-  * fix(fix): versionamiento \n\n Version:  \n\n  \n\n - DEPLOY.sh - README.md - docs/README.html - docs/index.html - docs/index.html.bak  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 03:44:46 2024 -0400 \n\n Hora: 1723707886
-
-### Correcciones
-
-  * fix(fix): fix en los tags \n\n Version:  \n\n  \n\n - README.md - docs/README.html - docs/index.html - docs/index.html.bak  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 03:40:26 2024 -0400 \n\n Hora: 1723707626
-
-### Correcciones
-
-  * fix(version file):  \n\n Version:  \n\n  \n\n - README.md - docs/README.html - docs/index.html - docs/index.html.bak  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 03:37:59 2024 -0400 \n\n Hora: 1723707479
-
-### Correcciones
-
-  * fix(pandoc): command \n\n Version:  \n\n bad arguments \n\n - DEPLOY.sh - README.md - docs/README.html - docs/index.html - docs/index.html.bak  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 03:36:55 2024 -0400 \n\n Hora: 1723707415
-
-### Correcciones
-
-  * fix(fix): changelog \n\n Version:  \n\n :D \n\n - DEPLOY.sh - README.md - docs/README.html - docs/index.html - docs/index.html.bak  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 03:31:11 2024 -0400 \n\n Hora: 1723707071
-
-### Correcciones
-
-  * fix(fixing): fixin bug in formating of changelog \n\n Version:  \n\n :D \n\n - DEPLOY.sh - README.md - docs/README.html - docs/index.html  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 03:26:33 2024 -0400 \n\n Hora: 1723706793
-
-### Correcciones
-
-  * fix(fixing): fixing semantic version \n\n Version:  \n\n implemented \n\n - DEPLOY.sh - README.md - docs/README.html - docs/index.html - docs/index.html.bak  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 03:20:20 2024 -0400 \n\n Hora: 1723706420
-
-### Nuevo Release
-
-  * release(release): tipo release \n\n Version:  \n\n probandoe l tipo release \n\n - README.md - docs/README.html - docs/index.html - docs/index.html.bak  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 03:19:32 2024 -0400 \n\n Hora: 1723706372
-
-### Correcciones urgentes
-
-  * hotfix(error en parametro): deploy en el pandocpara generar documento de changelog \n\n Version: release/0.1.0 \n\n limieza de changelog \n\n - DEPLOY.sh - README.md - docs/README.html - docs/index.html  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 03:18:04 2024 -0400 \n\n Hora: 1723706284
-
-### Nuevo grupo de características
-
-  * feat(cambio en el versionamiento semantico): se agregan release y patch \n\n Version:  \n\n al workflow \n\n - DEPLOY.sh - README.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - readmeneitor.py  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 02:57:20 2024 -0400 \n\n Hora: 1723705040
-
-### Nuevo parche
-
-  * patch(patching): prueba de nuevos tipos de commits \n\n Version:  \n\n en este caso patch \n\n - DEPLOY.sh - docs/index.html.bak - readmeneitor.py  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 02:34:57 2024 -0400 \n\n Hora: 1723703697
-
-### Pruebas
-
-  * test(testind): deploy \n\n Version: release/0.1.0 \n\n test \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 02:31:42 2024 -0400 \n\n Hora: 1723703502
-
-### Nuevas características
-
-  * feature(test): testing deploy feature and semantic versioning \n\n Version: release/0.1.0 \n\n - testing versioning to release/0.0.14 \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 01:50:07 2024 -0400 \n\n Hora: 1723701007
-
-### Pruebas
-
-  * test(deploy): testing deploy script \n\n Version: release/0.0.13 \n\n testing semantic versioning \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 01:47:24 2024 -0400 \n\n Hora: 1723700844
-
-### Correcciones urgentes
-
-  * hotfix(bug in Deploy): not updated the index.html file in deploys \n\n Version: release/0.0.14 \n\n - changed scripts index.sh and dump_readme.sh and DEPLOY.sh \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 01:31:04 2024 -0400 \n\n Hora: 1723699864
-
-### Nuevas características
-
-  * feature(mejoras y fixes): - se agrega un pequeño diccionario en el comando hydra, se mejroa el comando clean, se arreglan algunos bugs \n\n Version: release/0.1.0 \n\n - se agregan colorines al testmeneitor.py para ahcer check visual, mejoras en el comando vpn, en el script fast_run_as_r00t.sh, todo docuemntado en README.md \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 00:13:04 2024 -0400 \n\n Hora: 1723695184
-
-### Nuevo grupo de características
-
-  * feat(add scripts): - adding scripts on sessions/win directory a nc ps1 version \n\n Version: release/0.1.0 \n\n - 2 backdoors in ps1 i found in a machine in tryhackme xD \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 23:31:15 2024 -0400 \n\n Hora: 1723692675
-
 ### Documentación
 
-  * docs(add README.html to anchor tag in menu of index.html): - chenges in index.html in line 162 \n\n Version: release/0.0.13 \n\n added the line in li with anchor tag \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 23:25:51 2024 -0400 \n\n Hora: 1723692351
-
-### Documentación
-
-  * docs(mejora documentaciòn): se completan varios comandos con descripciones pobres \n\n Version: release/0.0.13 \n\n se mueve el archivo READEME.html que se genera automaticamente a docs/ \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 23:00:31 2024 -0400 \n\n Hora: 1723690831
-
-### Nuevas características
-
-  * feature(cambios en script fast_run_as_r00t.sh): se agrega la opción --vpn <NUM> para poder elegir parametricamente que vpn se elije para la ejecucion \n\n Version: release/0.1.0 \n\n se agregan metodos de control en el flujo de los comandos como la salida de SIGNAL CONTROL + D \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 18:20:13 2024 -0400 \n\n Hora: 1723674013
-
-### Documentación
-
-  * docs(test): bad tabs in index.html \n\n Version: release/0.0.13 \n\n  \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 18:06:45 2024 -0400 \n\n Hora: 1723673205
-
-### Documentación
-
-  * docs(cambio en index.html): tabulacion incorrecta del banner \n\n Version: release/0.0.13 \n\n corregido :D \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 18:01:05 2024 -0400 \n\n Hora: 1723672865
-
-### Refactorización
-
-  * refactor(refactor): se cambia el nombre de readme.sh a dump_readme.sh para que no moleste cuando se escriba ./run junto al tab \n\n Version: release/0.0.13 \n\n prueba de que todo quede bien \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 17:45:42 2024 -0400 \n\n Hora: 1723671942
-
-### Pruebas
-
-  * test(test): test \n\n Version: release/0.0.13 \n\n test \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 17:38:56 2024 -0400 \n\n Hora: 1723671536
-
-### Nuevas características
-
-  * feature(actualizador de readme.md): con los nuevos cambios desde los scripts que generan documentaciòn \n\n Version: release/0.1.0 \n\n y prueba de deplsiegue \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 17:27:23 2024 -0400 \n\n Hora: 1723670843
-
-### Pruebas
-
-  * test(test): new styles in html of documentation \n\n Version: release/0.0.13 \n\n  \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 17:06:21 2024 -0400 \n\n Hora: 1723669581
-
-### Pruebas
-
-  * test(test): testing changelog \n\n Version: release/0.0.13 \n\n  \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 17:03:41 2024 -0400 \n\n Hora: 1723669421
-
-### Pruebas
-
-  * test(testing): new changelog format \n\n Version: release/0.0.13 \n\n new template \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 16:56:07 2024 -0400 \n\n Hora: 1723668967
-
-### Pruebas
-
-  * test(test):  \n\n Version: release/0.0.13 \n\n test \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 16:55:32 2024 -0400 \n\n Hora: 1723668932
-
-### Pruebas
-
-  * test(testeando): nuevo changelog \n\n Version: release/0.0.13 \n\n mejor formateado \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 16:47:49 2024 -0400 \n\n Hora: 1723668469
-
-### Pruebas
-
-  * test(test): deploy \n\n Version: release/0.0.13 \n\n changes in changelog \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 16:35:12 2024 -0400 \n\n Hora: 1723667712
-
-### Pruebas
-
-  * test(testing): changelog \n\n Version: release/0.0.13 \n\n saltos de linea \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 16:34:08 2024 -0400 \n\n Hora: 1723667648
-
-### Pruebas
-
-  * test(tesing): saltos de linea en commit \n\n Version: release/0.0.13 \n\n :) \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 16:28:47 2024 -0400 \n\n Hora: 1723667327
-
-### Documentación
-
-  * docs(class="neon-text" on ul): :)\n\nVersion: release/0.0.13\n\n:)\n\n LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n\n\nFecha: Wed Aug 14 15:57:39 2024 -0400 - Hora: 1723665459
-
-### Pruebas
-
-  * test(commits con fecha y hora :P): probando el despliegue\n\nVersion: release/0.0.13\n\ncon fechas\n\n LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n\n\nFecha: Wed Aug 14 15:52:12 2024 -0400 - Hora: 1723665132
-
-### Pruebas
-
-  * test(test de index.html): testeando el despliegue automatizado del sitio web de LazyOwn\n\nVersion: release/0.0.13\n\nhttps://grisuno.github.io/LazyOwn/\n\n LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  LazyOwn/   https://grisuno.github.io/LazyOwn/
-
-### Pruebas
-
-  * test(test index.sh): se realizan cambios en index.sh\n\nVersion: release/0.0.13\n\nestos cambios realizan cambios en index.html con un nuevo sistema de plantillas\n\n LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  LazyOwn/   https://grisuno.github.io/LazyOwn/
-
-### Pruebas
-
-  * test(testing): Testeando el flujo de trabajo en los despliegues automatizados.\n\nVersion: release/0.0.13\n\nrevisando el nuevi versionamiento\n\n LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  LazyOwn/   https://grisuno.github.io/LazyOwn/
-
-### Nuevas características
-
-  * feature(versionamiento semantico en script de deploy): mejora en DEPLOY.sh con versionamiento semantico\n\nVersion: release/0.1.0\n\nNuevo vrsionamiento semantico en el script de depsliegue\n\n LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  LazyOwn/   https://grisuno.github.io/LazyOwn/
-
-### Pruebas
-
-  * test(test of --no-test): and lolcat on clock command :P\n\nclock has now alias\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
-
-### Documentación
-
-  * docs(se agrega el change log al readme): tambien se ejecutan pruebas del despliegue con el parametro --no-test\n\ncambios hechos solo en el archivo README.md\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
-
-### Correcciones urgentes
-
-  * hotfix(fix in vpn): dont work with arguments\n\nnow works xD\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
-
-### Nuevas características
-
-  * feature(parametrizar el despliegue): se agrega el parametro --no-test para despliegues que no involucren cambios en la tool\n\n:D\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
-
-### Pruebas
-
-  * test(troubleshooting): deleting the tmp file but i cant sleep\n\nlol\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
-
-### Correcciones urgentes
-
-  * hotfix(delete qa command to option -c): bug: dont let beggin scriptfast_run_as_r00t.sh, instruction was deleted\n\nat line 6678\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
-
-### Pruebas
-
-  * test(despliegue): backup file del archivo lazyown creado en las pruebas TODO: eliminar el archivo al terminar las pruebas, ahora toca saber donde lo està creadno son muchas funciones xD, aun que creoq ue es mi pequeño burpfuzzer que lo hace pero ya es tarde\n\ny no lo veré hoy\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
-
-### Pruebas
-
-  * test(despliegue): de organizaciòn de archivos ovpn dentro del directorio vpn\n\ntambien se actualizo el timeout de las pruebas unitarias\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
-
-### Pruebas
-
-  * test(testmeneitor): probando el workflow de despliegue\n\neste es el body de la prueba de despliegue junto a testmineitor\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
-
-### Nuevas características
-
-  * feature(nuevo creador de index.html): crea el html de manera automatizada con el script index.sh\n\nel script realiza tareas de actualizaciòn de la pagina web\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
-
-### Nuevas características
-
-  * feature(mejora CHANGELOG.sh): ahora actualiza usando readmeneitor.py\n\npronto utilizarà nuestro testmeneitor para probar que no subimos codigo con bugs\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
-
-### Nuevo grupo de características
-
-  * feat(mejorando el tipo): cambio en el script CHANGELOG.sh\n\nse mejora la descripcion de los tipos de commits\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
-
-### Documentación
-
-  * docs(docs): El cierre de una imagen en la documentación estaba mal :)\n\ntambien se modifico el CHANGELOG.sh que chulada de script\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
-
-### Otros
-
-  * Nueva descripcion en el readme y probando el CHANGELOG.sh :)
-
-### Otros
-
-  * ahora el changelog a docs :D en formato html
-
-### Otros
-
-  * HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 Ahora estamos en TryHackMe :D, nuestro QA Testmeneitor.py ya es màs inteligente ya no se le olvida cerrar las tareas que abrio xD, todos los comandos nuevos estan docuemntados en docs/COMMANDS.md y docs/UTILS.md todas las funciones nuevas como copy2clip :P, y estrenamos CHANGELOG.md y CHANGELOG.sh :D  👽
-
-### Otros
-
-  * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 some changes in the web  pandoc README.md -f markdown -t html -s -o README.html madremia que comandazo 👽
-
-### Otros
-
-  * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 some changes in the web  pandoc README.md -f markdown -t html -s -o README.html madremia que comandazo 👽
-
-### Otros
-
-  * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 some changes in the web  👽
-
-### Otros
-
-  * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 comming soon tryhackme 👽
-
-### Otros
-
-  * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 testmeneitor.py my new qa it's new doing qa so... l:P, some commands news base64encode, base64decode, rdp, all documented by my documentator readmeneitor.py :P 👽
-
-### Otros
-
-  * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 new fancy proompt :) 👽
-
-### Otros
-
-  * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 bug fixing 👽
-
-### Otros
-
-  * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽👽
-
-### Otros
-
-  * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 3ast3r366 👽
-
-### Otros
-
-  * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 New commands documented at COMMANDS.md and new ultis documented at ULTIS.md 👽
-
-### Otros
-
-  * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 New commands documented at COMMANDS.md and new ultis documented at ULTIS.md 👽
-
-### Otros
-
-  * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 New commands documented at COMMANDS.md and new ultis documented at ULTIS.md 👽
-
-### Otros
-
-  * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 New command launchpad to recon Linux OS 👽
-
-### Otros
-
-  * Merge pull request #27 from grisuno/clcthulhu-patch-1
-
-### Documentación
+  * docs(history): reload the history deleted by error holly git :P \n\n Version: release/0.1.1 \n\n  \n\n - CHANGELOG.md - README.md - docs/README.html - docs/index.html - docs/index.html.bak  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 03:54:04 2024 -0400 \n\n Hora: 1723708444
 
   * docs(update readme description): change of the description; Update README.md  * docs(update readme description): change of the description; Update README.md<!-- END CHANGELOG -->

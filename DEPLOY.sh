@@ -99,6 +99,8 @@ else
     NEW_VERSION=$CURRENT_VERSION
 fi
 
+echo "{\"version\": \"$NEW_VERSION\"}" > version.json
+
 # Formatear el mensaje del commit
 COMMIT_MESSAGE="${TYPE}(${TYPEDESC}): ${SUBJECT} \n\n Version: ${NEW_VERSION} \n\n ${BODY} \n\n ${FOOTER} \n\n Fecha: $(git log -1 --format=%ad) \n\n Hora: $(git log -1 --format=%at)"
 

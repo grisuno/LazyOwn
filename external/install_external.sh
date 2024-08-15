@@ -46,6 +46,8 @@ download() {
         "git clone https://github.com/7etsuo/CVE-2023-38408.git .exploit/CVE-2023-38408"
         "git clone https://github.com/prodigiousMind/CVE-2023-41425.git .exploit/CVE-2023-41425"
         "git clone https://github.com/whotwagner/logrotten.git .exploit/logrotten"
+        "git clone https://github.com/urbanadventurer/username-anarchy.git .exploit/username_anarchy"
+        "git clone https://github.com/telekom-security/tpotce.git .exploit/honeypots_tpotce"
     )
     # Imprime los últimos argumentos de cada comando
     echo "    [+] Seleccione el número del comando que desea clonar:"

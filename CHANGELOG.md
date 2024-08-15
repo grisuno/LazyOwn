@@ -3,6 +3,10 @@
 
 ### Correcciones
 
+  * fix(fix): fix en los tags \n\n Version:  \n\n  \n\n - README.md - docs/README.html - docs/index.html - docs/index.html.bak  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 03:40:26 2024 -0400 \n\n Hora: 1723707626
+
+### Correcciones
+
   * fix(version file):  \n\n Version:  \n\n  \n\n - README.md - docs/README.html - docs/index.html - docs/index.html.bak  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 03:37:59 2024 -0400 \n\n Hora: 1723707479
 
 ### Correcciones

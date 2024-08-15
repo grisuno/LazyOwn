@@ -106,24 +106,20 @@ FOOTER=" LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \
 
 # Determinar el incremento de versión basado en el tipo de commit
 case $TYPE in
-    feat|feature)
-        # Nuevas funcionalidades que añaden valor sin romper la compatibilidad hacia atrás
-        NEW_VERSION=$(increment_version $CURRENT_VERSION "patch")
-        ;;
-    fix|hotfix)
-        # Correcciones de errores que no afectan la compatibilidad con versiones anteriores
+    feat|feature|fix|hotfix)
+        # Cambios menores y correcciones
         NEW_VERSION=$(increment_version $CURRENT_VERSION "patch")
         ;;
     refactor|docs|test)
-        # Cambios que no afectan la funcionalidad del software (refactorización, documentación, pruebas)
+        # Cambios que no afectan la funcionalidad del software
         NEW_VERSION=$CURRENT_VERSION
         ;;
     release)
-        # Versión principal de lanzamiento, típicamente indica un cambio significativo o una nueva versión
+        # Incrementar el número mayor y reiniciar los números menores y de parche a 0
         NEW_VERSION=$(increment_version $CURRENT_VERSION "major")
         ;;
     patch)
-        # Correcciones menores para problemas específicos
+        # Cambiar el número menor
         NEW_VERSION=$(increment_version $CURRENT_VERSION "minor")
         ;;
     *)

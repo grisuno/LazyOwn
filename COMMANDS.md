@@ -3236,6 +3236,26 @@ To manually run this task, you would:
 - hydra -f -L sessions/users.txt -P /usr/share/wordlists/rockyou.txt 10.10.11.9 -s 5000 http-get /v2/
 Note: Ensure that the remote host and wordlist parameters are valid, and that the path and port are specified correctly in the `line` argument.
 
+## medusa
+Uses medusa to perform a brute force attack on a specified ssh service with a user and password list.
+
+1. Checks if a wordlist is provided; if not, prints an error message.
+2. Validates the remote host parameter.
+3. Asks the user if they want to use a small dictionary from a JSON file.
+4. Constructs and prints the medusa command with the provided parameters.
+5. Executes the medusa command using `os.system`.
+
+:param line: The port if is't default port.
+:type line: str
+:returns: None
+
+Manual execution:
+To manually run this task, you would:
+- Provide the path to crack and the port as arguments to this function in the format 'path port'.
+- Ensure that the user list and wordlist are set correctly.
+- medusa -h 10.10.10.10 -U sessions/users.txt -P /usr/share/wordlists/rockyou.txt -e ns -M ssh"
+Note: Ensure that the remote host and wordlist parameters are valid, and that the path and port are specified correctly in the `line` argument.
+
 ## nmapscript
 Perform an Nmap scan using a specified script and port.
 

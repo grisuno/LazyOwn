@@ -3,6 +3,10 @@
 
 ### Correcciones
 
+  * fix(pandoc): command \n\n Version:  \n\n bad arguments \n\n - DEPLOY.sh - README.md - docs/README.html - docs/index.html - docs/index.html.bak  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 03:36:55 2024 -0400 \n\n Hora: 1723707415
+
+### Correcciones
+
   * fix(fix): changelog \n\n Version:  \n\n :D \n\n - DEPLOY.sh - README.md - docs/README.html - docs/index.html - docs/index.html.bak  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 03:31:11 2024 -0400 \n\n Hora: 1723707071
 
 ### Correcciones

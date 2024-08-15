@@ -166,7 +166,7 @@ git -C . log --format="%s" $START_COMMIT..$END_COMMIT >> $CHANGELOG_FILE
 echo "[+] Changelog actualizado en $CHANGELOG_FILE"
 
 # formatear el change log
-echo "[+] Formateando el change log"
+echo "[+] Formateando el CHANGELOG"
 awk -F: '{
   if ($1 ~ /^#/) {
     print "\n" $0 "\n"
@@ -212,7 +212,7 @@ awk -F: '{
 git -C . add $CHANGELOG_FILE
 
 # Convertir el changelog a HTML
-pandoc $CHANGELOG_FILE -f markdown -t html -s "Changelog de LazyOwn" -A "Resumen del changelog" -o CHANGELOG.html --metadata title="CHANGELOG LazyOwn Framework Pentesting t00lz"
+pandoc $CHANGELOG_FILE -f markdown -t html -s "Changelog de LazyOwn" -o CHANGELOG.html --metadata title="CHANGELOG LazyOwn Framework Pentesting t00lz"
 mv CHANGELOG.html docs/CHANGELOG.html
 git -C . add docs/CHANGELOG.html
 

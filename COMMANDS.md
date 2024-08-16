@@ -4005,7 +4005,25 @@ Ejemplos:
 (Muestra en consola las conexiones SSH activas)
 
 ## sessionsshstrace
-No description available.
+Attach strace to a running process and log output to a file.
+
+This function attaches `strace` to a process specified by its PID,
+tracing system calls related to writing data. The output of `strace`
+is saved to a file named `strace.txt` in the `sessions` directory.
+
+Parameters:
+- line (str): The PID of the process to attach strace to.
+
+Raises:
+- ValueError: If the `line` parameter is empty.
+- FileNotFoundError: If `strace` is not installed.
+
+Example:
+- `sessionsshstrace 666`: Attach strace to process with PID 666.
+
+Notes:
+- Ensure the `sessions` directory exists or is created before running the command.
+- The command redirects both stdout and stderr to the `strace.txt` file.
 
 ## lazyscript
 Executes commands defined in a lazyscript file.

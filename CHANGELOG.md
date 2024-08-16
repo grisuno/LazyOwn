@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Correcciones
+
+### Otros
+
+  *   * fix(fix in vpn): new machine \n\n Version: release/0.1.7 \n\n chenges in payload.json \n\n - README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - payload.json  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 23:58:16 2024 -0400 \n\n Hora: 1723780696
+
+
 ### Pruebas
 
 ### Otros

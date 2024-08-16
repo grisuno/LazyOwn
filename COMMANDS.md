@@ -3043,6 +3043,31 @@ To manually use this function, run it and follow the prompts to select one of th
 
 Note: Ensure `xclip` is installed on your system for clipboard operations.
 
+## swaks
+Sends an email using `swaks` (Swiss Army Knife for SMTP).
+
+This method constructs and executes a `swaks` command to send an email from an attacker’s address
+to a victim’s address, with a specified message body. The command is executed using the SMTP server
+address provided in the parameters.
+
+Parameters:
+- `line`: (str) Input line that is not used in this function.
+
+Functionality:
+1. Retrieves the SMTP server address (`rhost`) from the object's parameters.
+2. Checks if the server address is valid using `check_rhost()`.
+3. Prompts the user for the sender's email address (`from_attacker`).
+4. Prompts the user for the recipient's email address (`to_victim`).
+5. Prompts the user for the message body (`body`).
+6. Constructs the `swaks` command with the provided options.
+7. Executes the command using `os.system()`.
+8. Copies the command to the clipboard using `copy2clip()`.
+
+Example usage:
+>>> do_swaks("line")
+
+swaks --from attacker@hell.com --to victim@heaven.com --body "testing" --server 127.0.0.1
+
 ## samrdump
 Run `impacket-samrdump` to dump SAM data from specified ports.
 

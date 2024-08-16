@@ -18,13 +18,13 @@ function ctrl_c() {
 download() {
     # Define la lista de comandos git clone
     commands=(
-        "git clone https://github.com/amriunix/CVE-2007-2447.git .exploits/CVE-2007-2447"
-        "git clone https://github.com/m3m0o/chamilo-lms-unauthenticated-big-upload-rce-poc.git .exploits/CVE-2023-4220"
-        "git clone https://github.com/kimusan/pkwner.git .exploits/CVE-2021-4034"
-        "git clone https://github.com/nikn0laty/Exploit-for-Dolibarr-17.0.0-CVE-2023-30253.git .exploits/CVE-2023-30253"
-        "git clone https://github.com/MaherAzzouzi/CVE-2022-37706-LPE-exploit .exploits/CVE-2022-37706"
-        "git clone https://github.com/Arinerron/CVE-2022-0847-DirtyPipe-Exploit.git .exploits/CVE-2022-0847"
-        "git clone https://github.com/AlexisAhmed/CVE-2022-0847-DirtyPipe-Exploits .exploits/CVE-2022-0847-2"
+        "git clone https://github.com/amriunix/CVE-2007-2447.git .exploit/CVE-2007-2447"
+        "git clone https://github.com/m3m0o/chamilo-lms-unauthenticated-big-upload-rce-poc.git .exploit/CVE-2023-4220"
+        "git clone https://github.com/kimusan/pkwner.git .exploit/CVE-2021-4034"
+        "git clone https://github.com/nikn0laty/Exploit-for-Dolibarr-17.0.0-CVE-2023-30253.git .exploit/CVE-2023-30253"
+        "git clone https://github.com/MaherAzzouzi/CVE-2022-37706-LPE-exploit .exploit/CVE-2022-37706"
+        "git clone https://github.com/Arinerron/CVE-2022-0847-DirtyPipe-Exploit.git .exploit/CVE-2022-0847"
+        "git clone https://github.com/AlexisAhmed/CVE-2022-0847-DirtyPipe-Exploits .exploit/CVE-2022-0847-2"
         "git clone https://github.com/joshuavanderpoll/CVE-2021-3129.git .exploit/CVE-2021-3129"
         "git clone https://github.com/xaitax/CVE-2024-21413-Microsoft-Outlook-Remote-Code-Execution-Vulnerability.git .exploit/CVE-2024-21413"
         "git clone https://github.com/peass-ng/PEASS-ng.git .exploit/PEASS-ng"
@@ -48,6 +48,13 @@ download() {
         "git clone https://github.com/whotwagner/logrotten.git .exploit/logrotten"
         "git clone https://github.com/urbanadventurer/username-anarchy.git .exploit/username_anarchy"
         "git clone https://github.com/telekom-security/tpotce.git .exploit/honeypots_tpotce"
+        "git clone https://github.com/6abd/horus.git .exploit/horus_osint"
+        "git clone https://github.com/whoamipwn/troll-a .exploit/troll_a_extract_secrets"
+        "git clone https://github.com/n0mi1k/apk2url.git .exploit/apk2url"
+        "git clone https://github.com/edoardottt/pphack.git .exploit/pphack_scan_prototipepolution"
+        "git clone https://github.com/caio-ishikawa/netscout.git .exploit/netscout_osint"
+        "git clone https://github.com/nemesida-waf/waf-bypass.git .exploit/waf_byspass"
+        "git clone https://github.com/sAjibuu/Upload_Bypass.git .exploit/upload_bypass"
     )
     # Imprime los últimos argumentos de cada comando
     echo "    [+] Seleccione el número del comando que desea clonar:"

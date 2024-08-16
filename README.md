@@ -5373,6 +5373,13 @@ Raises:
 # Changelog
 
 
+### Pruebas
+
+### Otros
+
+  *   * test(deleted files): index.sh y dump_readme.sh \n\n Version: release/0.1.6 \n\n se eliminana estos archivos para limpiar un poco de scripts el directorio principal \n\n - README.md - docs/README.html - docs/index.html - docs/index.html.bak - dump_readme.sh - index.sh  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 23:55:59 2024 -0400 \n\n Hora: 1723780559
+
+
 ### Refactorización
 
 ### Otros

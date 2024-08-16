@@ -5048,11 +5048,10 @@ class LazyOwnShell(Cmd):
         Note: Ensure you have the necessary permissions and the `openvpn` command is available on your system.
         """
 
-
         # List all .ovpn files
         ovpn_files = sorted([f for f in os.listdir("vpn") if f.endswith(".ovpn")])
 
-        # Handle no arguments
+        # Determine the file to connect to
         if not line.strip():
             if not ovpn_files:
                 print_msg("No .ovpn files found.")
@@ -5066,33 +5065,35 @@ class LazyOwnShell(Cmd):
             try:
                 choice = int(choice)
                 if 1 <= choice <= len(ovpn_files):
-                    os.system(f"sudo openvpn vpn/{ovpn_files[choice - 1]}")
-                    print_msg(f"Connecting to vpn/{ovpn_files[choice - 1]}")
+                    file_to_connect = ovpn_files[choice - 1]
                 else:
                     print_error("Invalid choice. Please select a number from the list.")
+                    return
             except ValueError:
                 print_error("Invalid input. Please enter a number.")
+                return
 
         else:
             args = line.split()
-            print(args)
             if len(args) == 1:
                 try:
                     choice = int(args[0])
                     if 1 <= choice <= len(ovpn_files):
-                        os.system(f"sudo openvpn vpn/{ovpn_files[choice - 1]}")
-                        print_msg(f"Connecting to vpn/{ovpn_files[choice - 1]}")
+                        file_to_connect = ovpn_files[choice - 1]
                     else:
-                        print_error(
-                            "Invalid number. Please select a number from the list."
-                        )
+                        print_error("Invalid number. Please select a number from the list.")
+                        return
                 except ValueError:
                     print_error("Invalid input. Please enter a number.")
+                    return
             else:
-                print_error(
-                    "Invalid command format. Use 'vpn' to list and select, or 'vpn <number>' to connect directly."
-                )
-        return
+                print_error("Invalid command format. Use 'vpn' to list and select, or 'vpn <number>' to connect directly.")
+                return
+
+        # Connect to the selected .ovpn file
+        print_msg(f"Connecting to vpn/{file_to_connect}")
+        os.system(f"openvpn vpn/{file_to_connect}")
+
 
     def do_id_rsa(self, line):
         """

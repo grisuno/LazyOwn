@@ -223,6 +223,29 @@ Args:
 Example:
     copy2clip("Hello, World!")
 
+## clean_output
+Elimina secuencias de escape de color y otros caracteres no imprimibles.
+
+## teclado_usuario
+Procesa un archivo para extraer y mostrar caracteres desde secuencias de escritura específicas.
+
+Args:
+    filename (str): El nombre del archivo a leer.
+
+Raises:
+    FileNotFoundError: Si el archivo no se encuentra.
+    Exception: Para otros errores que puedan ocurrir.
+
+## salida_strace
+Lee un archivo, extrae texto desde secuencias de escritura y muestra el contenido reconstruido.
+
+Args:
+    filename (str): El nombre del archivo a leer.
+
+Raises:
+    FileNotFoundError: Si el archivo no se encuentra.
+    Exception: Para otros errores que puedan ocurrir.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 

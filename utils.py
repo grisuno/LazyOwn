@@ -558,6 +558,90 @@ def copy2clip(text):
     except FileNotFoundError:
         print_error("xclip no está instalado. Por favor, instálalo usando `sudo apt-get install xclip`.")
 
+def clean_output(output):
+    """Elimina secuencias de escape de color y otros caracteres no imprimibles."""
+
+    output = re.sub(r'\x1b\[[0-9;]*[a-zA-Z]', '', output)
+    output = re.sub(r'(\x07|\x08|\x0A|\x0D|\x1B|\x7F|\x9B|\033\\|\033\\|\033\[|\033\]|\033\[[\d;]*[a-zA-Z])', '', output)
+    output = re.sub(r'\\(?:33\[K|10|7)', '', output)
+    output = re.sub(r' +', ' ', output)
+    output = '\n'.join(line.strip() for line in output.split('\n') if line.strip())
+    return output
+
+
+
+def teclado_usuario(filename):
+    """
+    Procesa un archivo para extraer y mostrar caracteres desde secuencias de escritura específicas.
+
+    Args:
+        filename (str): El nombre del archivo a leer.
+
+    Raises:
+        FileNotFoundError: Si el archivo no se encuentra.
+        Exception: Para otros errores que puedan ocurrir.
+    """
+    try:
+        with open(filename, 'r') as file:
+            content = file.readlines()
+
+        output = ""
+        for line in content:
+            if line.startswith('write(5,'):
+                match = re.search(r'write\(5, "(.*?)"', line)
+                if match:
+                    char = match.group(1)
+                    if char in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 -.':
+                        output += char
+                    elif char == '\\n':
+                        print(output)
+                        output = ""
+
+        if output:  # Imprimir cualquier salida restante
+            print(output)
+
+    except FileNotFoundError:
+        print(f"Archivo {filename} no encontrado.")
+    except Exception as e:
+        print(f"Error: {e}")
+
+
+
+def salida_strace(filename):
+    """
+    Lee un archivo, extrae texto desde secuencias de escritura y muestra el contenido reconstruido.
+
+    Args:
+        filename (str): El nombre del archivo a leer.
+
+    Raises:
+        FileNotFoundError: Si el archivo no se encuentra.
+        Exception: Para otros errores que puedan ocurrir.
+    """    
+    try:
+        with open(filename, 'r') as file:
+            content = file.readlines()
+
+        output = ""
+        for line in content:
+            if line.startswith('write(5,'):
+                match = re.search(r'write\(5, "(.*?)"', line)
+                if match:
+                    text = match.group(1)
+                    if len(text) > 1:  # Solo considerar textos con más de un carácter
+                        output += text
+
+        if output:
+            print("Contenido reconstruido:")
+            print(output)
+            print("Contenido despues de limpieza")
+            print(clean_output(output))
+
+    except FileNotFoundError:
+        print(f"Archivo {filename} no encontrado.")
+    except Exception as e:
+        print(f"Error: {e}")
+
 
 signal.signal(signal.SIGINT, signal_handler)
 arguments = sys.argv[1:]  

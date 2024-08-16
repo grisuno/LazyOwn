@@ -7328,20 +7328,57 @@ class LazyOwnShell(Cmd):
         copy2clip(command)
         os.system(command)
         return
+
     def do_sessionsshstrace(self, line):
-        
+        """
+        Attach strace to a running process and log output to a file.
+
+        This function attaches `strace` to a process specified by its PID,
+        tracing system calls related to writing data. The output of `strace`
+        is saved to a file named `strace.txt` in the `sessions` directory.
+
+        Parameters:
+        - line (str): The PID of the process to attach strace to.
+
+        Raises:
+        - ValueError: If the `line` parameter is empty.
+        - FileNotFoundError: If `strace` is not installed.
+
+        Example:
+        - `sessionsshstrace 666`: Attach strace to process with PID 666.
+
+        Notes:
+        - Ensure the `sessions` directory exists or is created before running the command.
+        - The command redirects both stdout and stderr to the `strace.txt` file.
+        """        
         if not line:
-            print_error("you must pass the pid proccess to attach strace ex: sessionsshstrace 666")
+            print_error("You must pass the PID of the process to attach strace, e.g., sessionsshstrace 666")
             return
         if not is_binary_present("strace"):
-            print_error(f"strace debe estar instalado use:{GREEN} apt install strace -y")
+            print_error(f"strace must be installed. Use: {GREEN} apt install strace -y")
             return
-        command = f"strace -ff -e trace=write -e write=1,2 -p {line}"
+        command = f"strace -ff -e trace=write -e write=1,2 -p {line} > sessions/strace.txt 2>&1"
         copy2clip(command)
-        print_msg("Lanzando strace...")
-        os.system(command)
-        print_warn("Stoped strace...")
-        
+        print_msg("Launching strace...")
+        try:
+            subprocess.run(command, shell=True, check=True)
+        except subprocess.CalledProcessError as e:
+            print_error(f"Command failed with return code {e.returncode}.")
+        except KeyboardInterrupt:
+            print_warn("strace was interrupted by user.")
+        except Exception as e:
+            print_error(f"An unexpected error occurred: {e}")
+
+        path = os.getcwd()
+        file = f"{path}/sessions/strace.txt" 
+
+        print_msg("\nSalida de comandos\n")
+        salida_strace(file)
+        print_msg("\nEntrada del usuario\n")
+        teclado_usuario(file)
+        print_warn("Stopped strace...")
+        return
+
     def do_lazyscript(self, line):
         """
         Executes commands defined in a lazyscript file.

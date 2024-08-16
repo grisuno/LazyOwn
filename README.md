@@ -1241,6 +1241,29 @@ Args:
 Example:
     copy2clip("Hello, World!")
 
+## clean_output
+Elimina secuencias de escape de color y otros caracteres no imprimibles.
+
+## teclado_usuario
+Procesa un archivo para extraer y mostrar caracteres desde secuencias de escritura específicas.
+
+Args:
+    filename (str): El nombre del archivo a leer.
+
+Raises:
+    FileNotFoundError: Si el archivo no se encuentra.
+    Exception: Para otros errores que puedan ocurrir.
+
+## salida_strace
+Lee un archivo, extrae texto desde secuencias de escritura y muestra el contenido reconstruido.
+
+Args:
+    filename (str): El nombre del archivo a leer.
+
+Raises:
+    FileNotFoundError: Si el archivo no se encuentra.
+    Exception: Para otros errores que puedan ocurrir.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 
@@ -5254,7 +5277,25 @@ Ejemplos:
 (Muestra en consola las conexiones SSH activas)
 
 ## sessionsshstrace
-No description available.
+Attach strace to a running process and log output to a file.
+
+This function attaches `strace` to a process specified by its PID,
+tracing system calls related to writing data. The output of `strace`
+is saved to a file named `strace.txt` in the `sessions` directory.
+
+Parameters:
+- line (str): The PID of the process to attach strace to.
+
+Raises:
+- ValueError: If the `line` parameter is empty.
+- FileNotFoundError: If `strace` is not installed.
+
+Example:
+- `sessionsshstrace 666`: Attach strace to process with PID 666.
+
+Notes:
+- Ensure the `sessions` directory exists or is created before running the command.
+- The command redirects both stdout and stderr to the `strace.txt` file.
 
 ## lazyscript
 Executes commands defined in a lazyscript file.
@@ -5330,6 +5371,13 @@ Raises:
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Otros
+
+### Otros
+
+  *   * feature(sessionssh y sessionsshstrace): nuevos comandos documentados en COMMANDS.md \n\n Version: release/0.1.6 \n\n genera un ataque de secuetro de proceso con strace permitiendo observar la session ssh commandos, y salida de los comandos \n\n - COMMANDS.md - README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 19:06:13 2024 -0400 \n\n Hora: 1723763173
 
 
 ### Pruebas

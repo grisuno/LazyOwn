@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Refactorización
+
+### Otros
+
+  *   * refactor(refactor DEPLOY, sessionstrace): se crea todo en un solo archivo deploy y se eliminaran en el proximo commit index.sh ydump_readme.sh \n\n Version: release/0.1.6 \n\n el ataque ahora es capaz de generar una salida en el directorio sessions/strace.txt y muestra una salida bastante legible, mucho mas que la primera poc \n\n - COMMANDS.md - DEPLOY.sh - README.md - UTILS.md - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - lazyown - utils.py  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 20:15:03 2024 -0400 \n\n Hora: 1723767303
+
+
 ### Otros
 
 ### Otros

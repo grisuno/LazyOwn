@@ -333,6 +333,21 @@ available IP or fallback to ‘127.0.0.1’.</p>
 <p>Copia el texto proporcionado al portapapeles usando xclip.</p>
 <p>Args: text (str): El texto que se desea copiar al portapapeles.</p>
 <p>Example: copy2clip(“Hello, World!”)</p>
+<h2 id="clean_output">clean_output</h2>
+<p>Elimina secuencias de escape de color y otros caracteres no
+imprimibles.</p>
+<h2 id="teclado_usuario">teclado_usuario</h2>
+<p>Procesa un archivo para extraer y mostrar caracteres desde secuencias
+de escritura específicas.</p>
+<p>Args: filename (str): El nombre del archivo a leer.</p>
+<p>Raises: FileNotFoundError: Si el archivo no se encuentra. Exception:
+Para otros errores que puedan ocurrir.</p>
+<h2 id="salida_strace">salida_strace</h2>
+<p>Lee un archivo, extrae texto desde secuencias de escritura y muestra
+el contenido reconstruido.</p>
+<p>Args: filename (str): El nombre del archivo a leer.</p>
+<p>Raises: FileNotFoundError: Si el archivo no se encuentra. Exception:
+Para otros errores que puedan ocurrir.</p>
 <h2 id="wrapper">wrapper</h2>
 <p>internal wrapper of internal function to implement multiples rhost to
 operate.</p>

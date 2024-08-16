@@ -3,6 +3,10 @@
 # Constantes
 readonly CHANGELOG_FILE="CHANGELOG.md"
 readonly README_FILE="README.md"
+# Definir los archivos Markdown
+
+UTILS_FILE="UTILS.md"
+COMMANDS_FILE="COMMANDS.md"
 
 increment_version() {
     local version=$1
@@ -51,7 +55,26 @@ python3 readmeneitor.py lazyown
 python3 readmeneitor.py utils.py
 
 #Actualiza el README.md con los ultimos cambios
-./dump_readme.sh
+
+
+# Función para actualizar una sección específica
+update_section() {
+    local start_comment="$1"
+    local end_comment="$2"
+    local content_file="$3"
+    
+    sed -i "/$start_comment/,/$end_comment/{
+        /$start_comment/!{/$end_comment/!d}
+        /$start_comment/r $content_file
+    }" "$README_FILE"
+}
+
+# Actualizar cada sección
+update_section "<!-- START UTILS -->" "<!-- END UTILS -->" "$UTILS_FILE"
+update_section "<!-- START COMMANDS -->" "<!-- END COMMANDS -->" "$COMMANDS_FILE"
+update_section "<!-- START CHANGELOG -->" "<!-- END CHANGELOG -->" "$CHANGELOG_FILE"
+
+echo "[*] El archivo $README_FILE ha sido actualizado con el contenido de UTILS.md, COMMANDS.md, y CHANGELOG.md."
 
 # Crea el readme en html
 
@@ -61,7 +84,29 @@ mv README.html docs/README.html
 # Este script actualiza el index.html de manera automatizada con los html generados por readmeneitor
 
 # el html generado es horrible si... es horrible, pero es automatizado... TODO mejorar el html horrible 
-./index.sh
+# Definir los archivos HTML
+INDEX_FILE="docs/index.html"
+README_FILE="docs/README.html"
+
+# Crear una copia de seguridad del archivo index.html
+cp "$INDEX_FILE" "$INDEX_FILE.bak"
+
+# Función para actualizar una sección específica
+update_section() {
+    local start_comment="$1"
+    local end_comment="$2"
+    local content_file="$3"
+    
+    sed -i "/$start_comment/,/$end_comment/{
+        /$start_comment/!{/$end_comment/!d}
+        /$start_comment/r $content_file
+    }" "$INDEX_FILE"
+}
+
+# Actualizar cada sección
+update_section "<!-- START README -->" "<!-- END README -->" "$README_FILE"
+
+echo "[*] El archivo $INDEX_FILE ha sido actualizado con el contenido de README.html"
 
 # Opciones de tipo de commit
 echo -e "[?] Selecciona el tipo de commit:\n1) feat\n2) feature\n3) fix\n4) hotfix\n5) refactor\n6) docs\n7) test\n8) release \n9) patch"

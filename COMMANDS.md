@@ -1601,6 +1601,23 @@ To manually perform a web server vulnerability scan using `nikto`, use the follo
 Replace `<target_ip>` with the IP address of the target web server. For example:
     nikto -h 10.10.10.10
 
+## finalrecon
+Runs the `finalrecon` tool to perform a web server vulnerability scan against the specified target host.
+
+1. Executes `finalrecon` with the `-h` option to specify the target host IP address.
+
+:param line: This parameter is not used in the current implementation but could be used to specify additional options or arguments if needed.
+:param rhost: The IP address of the target web server, specified in the `params` dictionary.
+
+:returns: None
+
+Manual execution:
+To manually perform a web server vulnerability scan using `finalrecon`, use the following command:
+    finalrecon --url=http://<target_ip> --full -o txt -cd <directory_reports> 
+
+Replace `<target_ip>` with the IP address of the target web server. For example:
+    finalrecon --url=http://192.168.1.92 --full -o txt -cd /home/gris/finalrecon 
+
 ## openssl_sclient
 Uses `openssl s_client` to connect to a specified host and port, allowing for testing and debugging of SSL/TLS connections.
 
@@ -3066,7 +3083,7 @@ Functionality:
 Example usage:
 >>> do_swaks("line")
 
-swaks --from attacker@hell.com --to victim@heaven.com --body "testing" --server 127.0.0.1
+swaks --from attacker@hell.com --to victim@heaven.com,victim2@heaven.com,victim3@heaven.com   --body "testing" --server 127.0.0.1
 
 ## samrdump
 Run `impacket-samrdump` to dump SAM data from specified ports.

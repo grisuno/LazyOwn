@@ -7305,6 +7305,42 @@ class LazyOwnShell(Cmd):
     def get_output(self):
         """Devuelve la salida acumulada"""
         return self.output
+
+    def do_sessionssh(self, line):
+        """
+        Ejecuta un comando para listar las conexiones SSH activas.
+
+        Este método utiliza `netstat` para mostrar las conexiones establecidas (`ESTAB`) y filtra los resultados para mostrar solo las conexiones SSH. 
+
+        Parámetros:
+        - line: Parámetro no utilizado en esta función.
+
+        Returns:
+        - None
+
+        Ejemplos:
+        >>> do_sessionssh("")
+        (Muestra en consola las conexiones SSH activas)
+        """
+
+        command = "netstat -putan |grep -i estab| grep ssh"
+        print_msg("Lanzando netstat en busqueda de sessions ssh activas")
+        copy2clip(command)
+        os.system(command)
+        return
+    def do_sessionsshstrace(self, line):
+        
+        if not line:
+            print_error("you must pass the pid proccess to attach strace ex: sessionsshstrace 666")
+            return
+        if not is_binary_present("strace"):
+            print_error(f"strace debe estar instalado use:{GREEN} apt install strace -y")
+            return
+        command = f"strace -ff -e trace=write -e write=1,2 -p {line}"
+        copy2clip(command)
+        print_msg("Lanzando strace...")
+        os.system(command)
+        print_warn("Stoped strace...")
         
     def do_lazyscript(self, line):
         """

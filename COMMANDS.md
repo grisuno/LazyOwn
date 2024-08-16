@@ -3989,6 +3989,24 @@ Replace `<file_path>` with the path to the encrypted file and `<key>` with the d
 ## get_output
 Devuelve la salida acumulada
 
+## sessionssh
+Ejecuta un comando para listar las conexiones SSH activas.
+
+Este método utiliza `netstat` para mostrar las conexiones establecidas (`ESTAB`) y filtra los resultados para mostrar solo las conexiones SSH. 
+
+Parámetros:
+- line: Parámetro no utilizado en esta función.
+
+Returns:
+- None
+
+Ejemplos:
+>>> do_sessionssh("")
+(Muestra en consola las conexiones SSH activas)
+
+## sessionsshstrace
+No description available.
+
 ## lazyscript
 Executes commands defined in a lazyscript file.
 

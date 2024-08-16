@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Otros
+
+### Otros
+
+  *   * feature(sessionssh y sessionsshstrace): nuevos comandos documentados en COMMANDS.md \n\n Version: release/0.1.6 \n\n genera un ataque de secuetro de proceso con strace permitiendo observar la session ssh commandos, y salida de los comandos \n\n - COMMANDS.md - README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 19:06:13 2024 -0400 \n\n Hora: 1723763173
+
+
 ### Pruebas
 
 ### Otros

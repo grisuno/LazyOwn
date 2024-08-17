@@ -70,6 +70,8 @@ class LazyOwnShell(Cmd):
     {GREEN}[+] Reddit: {BLUE}{UNDERLINE}https://www.reddit.com/r/LazyOwn/{RESET}
     {GREEN}[+] Facebook: {BLUE}{UNDERLINE}https://web.facebook.com/profile.php?id=61560596232150{RESET}
     {GREEN}[+] hackTheBox: {BLUE}{UNDERLINE}https://app.hackthebox.com/teams/overview/6429 {RESET}
+    {GREEN}[+] Patreon: {BLUE}{UNDERLINE}https://patreon.com/LazyOwn {RESET}
+
         """
     activate_virtualenv("env")
 
@@ -3243,10 +3245,6 @@ class LazyOwnShell(Cmd):
         :param line: Command parameters (not used in this function).
         :type line: str
 
-        - Converts line endings for all files in the current directory (`*`).
-        - Converts line endings for all files in the `modules` directory (`modules/*`).
-        - Converts line endings for all files in the `modules/cgi-bin` directory (`modules/cgi-bin/*`).
-
         :returns: None
 
         Manual execution:
@@ -4528,7 +4526,7 @@ class LazyOwnShell(Cmd):
             ("list file attributes on a Linux second extended file system", "lsattr -va"),
             ("show opened ports", "netstat -an | grep -i listen"),
             ("process status", "ps aux"),
-            ("Find", ""),
+            ("Find", "find / -type f \( -iname '*cred*' -o -iname '*pass*' -o -iname 'credentials' -o -iname 'password' \) -print -o -exec grep -i -l -e 'cred' -e 'pass' -e 'credentials' -e 'password' {} + 2>/dev/null"),
             ("find all suid files", "find / -type f -perm -04000 -ls"),
             ("find suid files in current dir", "find . -type f -perm -04000 -ls"),
             ("find all sgid files", "find / -type f -perm -02000 -ls"),

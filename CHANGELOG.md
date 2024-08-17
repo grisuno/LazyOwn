@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Otros
+
+### Otros
+
+  *   * feature(new tools): new commands, new payloads in find, new cves, new machine \n\n Version: release/0.1.10 \n\n from ping to r00t https://www.youtube.com/watch?v=v3XCNM9n534 \n\n - COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - external/install_external.sh - lazyown - payload.json - sessions/download_resources.sh  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Aug 16 16:56:04 2024 -0400 \n\n Hora: 1723841764
+
+
 ### Nuevas características
 
 ### Otros

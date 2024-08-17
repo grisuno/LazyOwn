@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Nuevas características
+
+### Otros
+
+  *   * feat(some fixes): html and new patreon :) \n\n Version: release/0.1.11 \n\n :) \n\n - README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Aug 16 21:52:15 2024 -0400 \n\n Hora: 1723859535
+
+
 ### Otros
 
 ### Otros

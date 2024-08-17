@@ -55,6 +55,10 @@ download() {
         "git clone https://github.com/caio-ishikawa/netscout.git .exploit/netscout_osint"
         "git clone https://github.com/nemesida-waf/waf-bypass.git .exploit/waf_byspass"
         "git clone https://github.com/sAjibuu/Upload_Bypass.git .exploit/upload_bypass"
+        "git clone https://github.com/justakazh/sicat .exploit/sicat_vuln_hunter"
+        "git clone https://github.com/r0oth3x49/ghauri.git .exploit/ghauri_sqli"
+        "git clone https://github.com/Mr-Robert0/Logsensor.git .exploit/logsensor_login_scanner_vuln"
+        "git clone https://github.com/mhaskar/Octopus.git .exploit/octopus_c2_powershells"
     )
     # Imprime los últimos argumentos de cada comando
     echo "    [+] Seleccione el número del comando que desea clonar:"

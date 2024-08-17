@@ -2586,7 +2586,7 @@ Usage:
 Manual execution:
 1. Run the `getcap -r /` command to list file capabilities recursively from the root directory.
 2. Redirect standard error to `/dev/null` to suppress error messages.
-
+3. Copy to clipboard the command to appy in the victim machine. 
 Dependencies:
 - `getcap` must be installed on the system.
 
@@ -4215,6 +4215,33 @@ To manually use this function:
 
 Note: Ensure `sshpass` is installed on your system for password-based SSH authentication. If `sshpass` is not available, you may need to install it or use an alternative method for SSH authentication.
 
+## ftp
+Connects to an ftp host using credentials from a file and a specified port.
+
+This function performs the following actions:
+1. Retrieves the remote host (`rhost`) from the parameters.
+2. Checks if the `rhost` is valid using the `check_rhost` function.
+3. Sets the ftp port to the value provided in the `line` parameter.
+4. Checks if the `credentials.txt` file exists in the `./sessions` directory.
+5. Reads credentials (username and password) from the `credentials.txt` file, where each line is formatted as `user:password`.
+6. Constructs and executes an ftp command using `sshpass` to handle password authentication and `ftp` to initiate the connection.
+7. Displays the ftp command being executed.
+
+Usage:
+    ftp <port>
+
+:param line: The port number to use for the ftp connection.
+:type line: str
+:returns: None
+
+Manual execution:
+To manually use this function:
+1. Ensure `sessions/credentials.txt` exists and contains valid ftp credentials in the format `user:password`.
+2. Run the function with the port number as an argument.
+3. The function will attempt to connect to the ftp host using each set of credentials and the specified port.
+
+Note: Ensure `sshpass` is installed on your system for password-based SSH authentication. If `sshpass` is not available, you may need to install it or use an alternative method for SSH authentication.
+
 ## cports
 Generates a command to display TCP and UDP ports and copies it to the clipboard.
 
@@ -5413,6 +5440,13 @@ Raises:
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(new feature): new command finalrecon docuemnted at COMMANDS.md \n\n Version: release/0.1.9 \n\n new tool file to pwntomate to perform aun automated scann \n\n - COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - external/install_external.sh - lazyown  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Aug 16 02:57:52 2024 -0400 \n\n Hora: 1723791472
 
 
 ### Nuevas características

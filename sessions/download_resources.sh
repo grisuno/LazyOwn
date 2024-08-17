@@ -28,6 +28,7 @@ download() {
         "wget https://github.com/antonioCoco/RunasCs/releases/download/v1.5/RunasCs.zip"
         "wget https://github.com/peass-ng/PEASS-ng/releases/latest/download/linpeas.sh"
         "wget https://github.com/prodigiousMind/revshell/archive/refs/heads/main.zip"
+        "wget https://raw.githubusercontent.com/ly4k/PwnKit/main/PwnKit"
     )
 
     # Imprime los últimos argumentos de cada comando

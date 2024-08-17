@@ -1264,6 +1264,24 @@ Raises:
     FileNotFoundError: Si el archivo no se encuentra.
     Exception: Para otros errores que puedan ocurrir.
 
+## exploitalert
+No description available.
+
+## packetstormsecurity
+No description available.
+
+## nvddb
+No description available.
+
+## find_ss
+No description available.
+
+## find_ea
+No description available.
+
+## find_ps
+No description available.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 
@@ -3203,10 +3221,6 @@ Usage:
 
 :param line: Command parameters (not used in this function).
 :type line: str
-
-- Converts line endings for all files in the current directory (`*`).
-- Converts line endings for all files in the `modules` directory (`modules/*`).
-- Converts line endings for all files in the `modules/cgi-bin` directory (`modules/cgi-bin/*`).
 
 :returns: None
 
@@ -5440,6 +5454,13 @@ Raises:
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(some fixes): html and new patreon :) \n\n Version: release/0.1.11 \n\n :) \n\n - README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Aug 16 21:52:15 2024 -0400 \n\n Hora: 1723859535
 
 
 ### Otros

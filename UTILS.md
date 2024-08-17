@@ -246,6 +246,24 @@ Raises:
     FileNotFoundError: Si el archivo no se encuentra.
     Exception: Para otros errores que puedan ocurrir.
 
+## exploitalert
+No description available.
+
+## packetstormsecurity
+No description available.
+
+## nvddb
+No description available.
+
+## find_ss
+No description available.
+
+## find_ea
+No description available.
+
+## find_ps
+No description available.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 

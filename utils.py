@@ -28,6 +28,7 @@ import base64
 import string
 import glob
 import readline
+import requests
 from urllib.parse import quote, unquote
 from modules.lazyencoder_decoder import encode, decode
 
@@ -641,6 +642,115 @@ def salida_strace(filename):
         print(f"Archivo {filename} no encontrado.")
     except Exception as e:
         print(f"Error: {e}")
+
+    
+def exploitalert(content):
+    try:
+        if len(content) != 0:
+            
+            print_msg(f"|{GREEN}+ ExploitAlert Result {WHITE}")
+            print_msg("|------------------------")
+
+
+            predata = []
+            for data in content:
+                print_msg(f"|{BLUE}-{WHITE} Title : {data['name']}")
+                print_msg(f"|{BLUE}-{WHITE} Link : https://www.exploitalert.com/view-details.html?id={data['id']}")
+                
+
+
+                predata.append({
+                    "title" : data['name'],
+                    "link" : f"https://www.exploitalert.com/view-details.html?id={data['id']}"
+                })
+            print_msg(f"|{BLUE}-{WHITE} Total Result : {GREEN}{len(content)}{WHITE} Exploits Found!")
+            data.append({"exploitalert" : predata})
+        else:
+            print_error(f"|{RED}- No result in ExploitAlert!{WHITE}")
+    except:
+        print_error(f"|{RED}- Internal Error - No result in ExploitAlert!{WHITE}")
+    return
+
+def packetstormsecurity(content):
+    try:
+        reg = re.findall('<dt><a class="ico text-plain" href="(.*?)" title="(.*?)">(.*?)</a></dt>', content)
+        if len(reg) != 0:
+            
+            print_msg(f"|{GREEN}+ PacketStorm Result {WHITE}")
+            print_msg("|-----------------------")
+
+            predata = []
+            for data in reg:
+                print_msg(f"|{BLUE}-{WHITE} Title : {data[2]}")
+                print_msg(f"|{BLUE}-{WHITE} Link : https://packetstormsecurity.com{data[0]}")
+            
+
+                predata.append({
+                    "title" : data[2],
+                    "link" : f"https://packetstormsecurity.com{data[0]}"
+                })
+            print_msg(f"|{BLUE}-{WHITE} Total Result : {GREEN}{len(reg)}{WHITE} Exploits Found!")
+            data.append({"packetstormsecurity" : predata})
+        else:
+            print_error(f"|{RED}- No result in PacketStorm!{WHITE}")
+    except:
+        print_error(f"|{RED}- Internal Error - No result in PacketStorm!{WHITE}")
+    return
+
+def nvddb(content):
+    try:
+        if len(content['vulnerabilities']) != 0:
+            print_msg(f"{GREEN}|-----------------------------------------------")
+            print_msg(f"{GREEN}|+ National Vulnearbility Database Result       +{WHITE}")
+            print_msg(f"{GREEN}|-----------------------------------------------")
+
+            predata = []
+            for data in content['vulnerabilities']:
+                print_msg(f"{BLUE}-{BG_YELLOW}{RED} ID : {data['cve']['id']}")
+                print_msg(f"{BLUE}-{BG_BLACK}{WHITE} Description : {data['cve']['descriptions'][0]['value']}")
+                print_msg(f"{BLUE}-{BG_BLACK}{BLUE} Link : https://nvd.nist.gov/vuln/detail/{data['cve']['id']}")
+
+                predata.append({
+                    "title" : data['cve']['id'],
+                    "description" : data['cve']['descriptions'][0]['value'],
+                    "link" : f"https://nvd.nist.gov/vuln/detail/{data['cve']['id']}"
+                })
+            print_msg(f"|{BLUE}-{RED} Total Result : {GREEN}{len(content)}{YELLOW} CVEs Found!")
+            data.append({"nvddb" : predata})
+        else:
+            print_error("|")
+            print_error(f"|{RED}- No result in National Vulnearbility Database!{WHITE}")
+    except:
+        print_error(f"|{RED}- Internal Error - No result in National Vulnearbility Database!{WHITE}")
+    return
+
+def find_ss(keyword = ""):
+    keyword = f"{keyword}"
+    keyword = keyword.replace(" ", "%20")
+    resp = requests.get(f"https://services.nvd.nist.gov/rest/json/cves/2.0?keywordSearch={keyword}")
+    if resp.status_code == 200:
+        return resp.json()
+    else:
+        return False
+
+def find_ea(keyword=""):
+    keyword = f"{keyword}"
+    try:
+        resp = requests.get(f"https://www.exploitalert.com/api/search-exploit?name={keyword}")
+        if resp.status_code == 200:
+            return resp.json()
+        else:
+            return False
+    except:
+        return False
+
+def find_ps(keyword=""):
+    keyword = f"{keyword}"
+    resp = requests.get(f"https://packetstormsecurity.com/search/?q={keyword}")
+    if resp.status_code == 200:
+        return resp.text
+    else:
+        return False
 
 
 signal.signal(signal.SIGINT, signal_handler)

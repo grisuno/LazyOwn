@@ -1932,10 +1932,6 @@ Usage:
 :param line: Command parameters (not used in this function).
 :type line: str
 
-- Converts line endings for all files in the current directory (`*`).
-- Converts line endings for all files in the `modules` directory (`modules/*`).
-- Converts line endings for all files in the `modules/cgi-bin` directory (`modules/cgi-bin/*`).
-
 :returns: None
 
 Manual execution:

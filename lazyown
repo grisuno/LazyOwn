@@ -2681,6 +2681,15 @@ class LazyOwnShell(Cmd):
 
         print_msg(f"Searching in searchsploit{RESET}")
         os.system(f"searchsploit {line}")
+        
+
+        getnvd = find_ss(line)
+        nvddb(getnvd)
+        getnvd = find_ea(line)
+        exploitalert(getnvd)
+        getnvd = find_ps(line)
+        packetstormsecurity(getnvd)
+        return
 
     def do_wfuzz(self, line):
         """

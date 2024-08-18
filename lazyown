@@ -7593,6 +7593,32 @@ class LazyOwnShell(Cmd):
                 print_msg(f"Executing command: {command}")
                 self.onecmd(command)
 
+    def do_set_proxychains(self, line):
+        """
+        Relanza la aplicación actual utilizando `proxychains` para enrutar el tráfico
+        a través de los proxies configurados.
+
+        Este comando reinicia la aplicación desde el principio utilizando un script
+        bash externo llamado `run`, que se encarga de configurar el entorno 
+        (como activar un entorno virtual) y luego ejecutar la aplicación Python. 
+        El comando `proxychains` se utiliza para asegurar que cualquier comando 
+        ejecutado dentro de la aplicación, como `nmap`, sea encaminado a través 
+        de los proxies especificados en la configuración de `proxychains`.
+
+        Pasos realizados por esta función:
+        1. Obtiene la ruta al script `run`.
+        2. Relanza el script `run` bajo `proxychains` utilizando `subprocess.run`.
+        3. Sale de la instancia actual de la aplicación para evitar duplicación.
+
+        Args:
+            line (str): No se utiliza en este comando, pero se incluye como parte 
+                        de la interfaz estándar de `cmd`.
+        """
+        print_msg("Restarting with proxychains...")
+        run_script_path = "run"
+        subprocess.run(["proxychains", "bash", run_script_path] + sys.argv[1:])
+        sys.exit()
+
 def xor_encrypt_decrypt(data, key):
     """XOR Encrypt or Decrypt data with a given key"""
     key_bytes = bytes(key, "utf-8")

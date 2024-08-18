@@ -5460,6 +5460,13 @@ Raises:
 # Changelog
 
 
+### Documentación
+
+### Otros
+
+  *   * docs(documented): agradecimientos \n\n Version: release/0.1.12 \n\n a ✌ el creador de sicat \n\n - README.md - docs/README.html - docs/index.html - docs/index.html.bak  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Aug 17 06:39:12 2024 -0400 \n\n Hora: 1723891152
+
+
 ### Nuevas características
 
 ### Otros

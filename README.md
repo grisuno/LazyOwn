@@ -5460,6 +5460,13 @@ Raises:
 # Changelog
 
 
+### Otros
+
+### Otros
+
+  *   * feature(new payload in msfvenom android): new options in msf rev android \n\n Version: release/0.1.13 \n\n bug fixing in DEPLOY.sh duplicated function \n\n - DEPLOY.sh - README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Aug 17 06:44:52 2024 -0400 \n\n Hora: 1723891492
+
+
 ### Documentación
 
 ### Otros

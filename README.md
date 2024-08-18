@@ -5399,6 +5399,26 @@ Example:
     do_lazyscript('example_script.ls')
     This would execute all commands listed in 'lazyscripts/example_script.ls'.
 
+## set_proxychains
+Relanza la aplicación actual utilizando `proxychains` para enrutar el tráfico
+a través de los proxies configurados.
+
+Este comando reinicia la aplicación desde el principio utilizando un script
+bash externo llamado `run`, que se encarga de configurar el entorno 
+(como activar un entorno virtual) y luego ejecutar la aplicación Python. 
+El comando `proxychains` se utiliza para asegurar que cualquier comando 
+ejecutado dentro de la aplicación, como `nmap`, sea encaminado a través 
+de los proxies especificados en la configuración de `proxychains`.
+
+Pasos realizados por esta función:
+1. Obtiene la ruta al script `run`.
+2. Relanza el script `run` bajo `proxychains` utilizando `subprocess.run`.
+3. Sale de la instancia actual de la aplicación para evitar duplicación.
+
+Args:
+    line (str): No se utiliza en este comando, pero se incluye como parte 
+                de la interfaz estándar de `cmd`.
+
 ## double_base64_encode
 Perform double Base64 encoding on the given command.
 
@@ -5458,6 +5478,13 @@ Raises:
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(bug fixing): bug fixing in vars of DEPLOY.sh \n\n Version: release/0.1.14 \n\n was created readme_file_html to avoid the bug \n\n - DEPLOY.sh - README.md - docs/README.html - docs/index.html - docs/index.html.bak  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Aug 18 16:37:23 2024 -0400 \n\n Hora: 1724013443
 
 
 ### Otros

@@ -58,7 +58,7 @@ python3 readmeneitor.py utils.py
 
 
 # Función para actualizar una sección específica
-update_section() {
+update_section_md() {
     local start_comment="$1"
     local end_comment="$2"
     local content_file="$3"
@@ -70,9 +70,9 @@ update_section() {
 }
 
 # Actualizar cada sección
-update_section "<!-- START UTILS -->" "<!-- END UTILS -->" "$UTILS_FILE"
-update_section "<!-- START COMMANDS -->" "<!-- END COMMANDS -->" "$COMMANDS_FILE"
-update_section "<!-- START CHANGELOG -->" "<!-- END CHANGELOG -->" "$CHANGELOG_FILE"
+update_section_md "<!-- START UTILS -->" "<!-- END UTILS -->" "$UTILS_FILE"
+update_section_md "<!-- START COMMANDS -->" "<!-- END COMMANDS -->" "$COMMANDS_FILE"
+update_section_md "<!-- START CHANGELOG -->" "<!-- END CHANGELOG -->" "$CHANGELOG_FILE"
 
 echo "[*] El archivo $README_FILE ha sido actualizado con el contenido de UTILS.md, COMMANDS.md, y CHANGELOG.md."
 
@@ -92,7 +92,7 @@ README_FILE="docs/README.html"
 cp "$INDEX_FILE" "$INDEX_FILE.bak"
 
 # Función para actualizar una sección específica
-update_section() {
+update_section_html() {
     local start_comment="$1"
     local end_comment="$2"
     local content_file="$3"
@@ -104,7 +104,7 @@ update_section() {
 }
 
 # Actualizar cada sección
-update_section "<!-- START README -->" "<!-- END README -->" "$README_FILE"
+update_section_html "<!-- START README -->" "<!-- END README -->" "$README_FILE"
 
 echo "[*] El archivo $INDEX_FILE ha sido actualizado con el contenido de README.html"
 

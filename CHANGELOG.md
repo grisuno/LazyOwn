@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Correcciones
+
+### Otros
+
+  *   * fix(bug fixing): bug fixing in vars of DEPLOY.sh \n\n Version: release/0.1.14 \n\n was created readme_file_html to avoid the bug \n\n - DEPLOY.sh - README.md - docs/README.html - docs/index.html - docs/index.html.bak  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Aug 18 16:37:23 2024 -0400 \n\n Hora: 1724013443
+
+
 ### Otros
 
 ### Otros

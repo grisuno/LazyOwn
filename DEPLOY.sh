@@ -86,7 +86,7 @@ mv README.html docs/README.html
 # el html generado es horrible si... es horrible, pero es automatizado... TODO mejorar el html horrible 
 # Definir los archivos HTML
 INDEX_FILE="docs/index.html"
-README_FILE="docs/README.html"
+README_FILE_HTML="docs/README.html"
 
 # Crear una copia de seguridad del archivo index.html
 cp "$INDEX_FILE" "$INDEX_FILE.bak"
@@ -104,7 +104,7 @@ update_section_html() {
 }
 
 # Actualizar cada sección
-update_section_html "<!-- START README -->" "<!-- END README -->" "$README_FILE"
+update_section_html "<!-- START README -->" "<!-- END README -->" "$README_FILE_HTML"
 
 echo "[*] El archivo $INDEX_FILE ha sido actualizado con el contenido de README.html"
 
@@ -288,3 +288,4 @@ git -C . tag -s $NEW_VERSION -m "Version $NEW_VERSION"
 git -C . push --follow-tags
 
 echo "[*] Cambios enviados al repositorio remoto con la nueva versión $NEW_VERSION."
+# TODO: DELETE ALL SPAGETTI CODE

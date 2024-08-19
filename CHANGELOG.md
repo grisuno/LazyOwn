@@ -6,6 +6,13 @@
 
 ### Otros
 
+  *   * feat(feat): create new command shellcode, run lazymsfvenom modified to create shellcode.sh \n\n Version: release/0.1.18 \n\n modify find command to add the one linner to more pleassure \n\n  Modified file(s): - COMMANDS.md - DEPLOY.sh - README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - utils.py  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Aug 19 00:35:53 2024 -0400 \n\n Hora: 1724042153
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(new feat): new funcionality in proxy command, hexdump on screen, capacity to edit responces from client and server :) mitm ? xD now only prints the thata before sent \n\n Version: release/0.1.17 \n\n and alien gray at the banner :P \n\n - README.md - docs/README.html - docs/index.html - docs/index.html.bak - modules/lazyproxy.py  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Aug 18 21:12:26 2024 -0400 \n\n Hora: 1724029946
 
 

@@ -4161,16 +4161,19 @@ class LazyOwnShell(Cmd):
         Note:
             Ensure that the `rhost` is valid by checking it with the `check_rhost` function before copying it to the clipboard.
         """
-
+        url   = self.params['url']
         rhost = self.params["rhost"]
         if not check_rhost(rhost):
+            return
+        if not url:
+            print_error("url must be set, use: set url http://host.ext")
             return
         cwd = os.getcwd()
         if line == 'clean':
             self.custom_prompt = getprompt()
             self.prompt = f"{self.custom_prompt}"
         else:
-            self.custom_prompt = getprompt().replace(']', f"]{YELLOW}[{MAGENTA}{rhost}{YELLOW}][{GREEN}{cwd}{YELLOW}]")
+            self.custom_prompt = getprompt().replace(']', f" ~{GREEN}{cwd}{YELLOW}]{YELLOW}[{MAGENTA}{rhost}{YELLOW}][{BLUE}{url}{YELLOW}]")
             self.prompt = f"{self.custom_prompt}"
             os.system(f"printf '{rhost}' | xclip -sel clip")
             print_msg(f"ip from payload: {rhost=}, copied to clipboard :) {RESET}")

@@ -7,61 +7,154 @@ import os
 import sys
 import signal
 
+# Definimos algunos códigos de escape ANSI para colores
+RESET = "\033[0m"
+BOLD = "\033[1m"
+UNDERLINE = "\033[4m"
+INVERT = "\033[7m"
+BLINK = "\033[5m"
+
+# Colores de texto
+BLACK = "\033[30m"
+RED = "\033[31m"
+GREEN = "\033[32m"
+YELLOW = "\033[33m"
+BLUE = "\033[34m"
+MAGENTA = "\033[35m"
+CYAN = "\033[36m"
+WHITE = "\033[37m"
+
+# Colores de fondo
+BG_BLACK = "\033[40m"
+BG_RED = "\033[41m"
+BG_GREEN = "\033[42m"
+BG_YELLOW = "\033[43m"
+BG_BLUE = "\033[44m"
+BG_MAGENTA = "\033[45m"
+BG_CYAN = "\033[46m"
+BG_WHITE = "\033[47m"
+# Variables de control
+NOBANNER = False
+COMMAND = None
+RUN_AS_ROOT = False
+
+
+BANNER = f"""{GREEN}{BG_BLACK}
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣠⡤⠴⠶⠖⠒⠛⠛⠀⠀⠀⠒⠒⢰⠖⢠⣤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣭⠷⠞⠉⠫⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠁⠀⠈⠉⠒⠲⠤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣿⣿⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠲⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⢀⣤⣾⣿⣿⣿⣷⡁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠑⢄⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⣠⡾⢋⠷⣻⣿⣟⢿⣿⠿⠆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠂⠸⣄⠀⠀⠀⠀
+⠀⠀⠀⣀⣾⣯⢶⣿⣾⣿⡟⠁⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⢦⠀⠀⠀
+⠀⠀⢠⣿⣿⣤⣽⣿⣿⣿⣃⣴⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠈⢀⣽⣿⣿⣿⣿⣿⣿⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⠠⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⢸⣿⣿⣿⣿⣿⣿⣿⣷⣶⣶⣦⣴⣆⣀⣀⣀⣀⢀⠀⠀⣐⠄⢀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠀⠀⢀⣀⠴⠶⠛⠛⠛⠛⠛⠳⠶⣶⣦⡀⠀⠀⠘
+⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠇⠀⠀⠀⠀⠀⠀⠀⠐⠤⣯⣀⡰⡋⣡⣐⣶⣽⣶⣶⣾⣿⣷⣶⣤⣝⡣⠀⠀⠀
+⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⡉⣿⣿⣿⣿⣿⣿⣿⣭⡿⣿⡋⠉⠙⢿⡦⠀⠀⠀⠀⠀⠀⠀⢀⣌⣼⡩⢻⣷⣿⣿⣿⣿⣿⣿⡏⣛⢿⣿⣿⡿⠃⢰⠀⠀
+⠀⢿⣿⣿⣿⣿⣿⣿⣛⠿⣷⣄⣙⣿⠿⠿⠟⠛⣿⣿⣜⣶⡂⡉⣿⣧⠀⠀⠀⠀⠀⠀⠀⠈⢻⣿⢻⣾⡛⠛⢿⠿⠿⠟⢻⣧⣽⣿⠿⠋⠀⠄⢸⣧⠔
+⠀⠘⢿⣿⣿⣿⣿⢿⣿⣿⣷⣾⣭⣿⣿⣟⣛⣛⣛⣛⢿⣽⣿⣧⣿⠋⠀⠀⠀⠀⠀⠀⠀⠀⠃⣿⡿⠿⠿⠿⠿⢻⣛⣛⣋⣉⣁⠤⠒⠒⠂⣠⣿⠏⠀
+⠀⠀⠈⠻⢿⣿⣿⣶⣄⣉⠉⠉⠉⠉⠉⠛⠉⠉⠁⠉⠁⢹⢻⣿⣏⢹⠀⠘⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠉⠉⠉⠉⠉⠉⠁⠀⠀⠀⠀⣀⣴⠿⠝⠁⠀
+⠀⠀⠀⠀⠀⠙⢿⣿⣿⣿⣿⣷⣶⣶⣶⣦⣴⣴⣾⢬⡤⢬⡜⠛⠀⢾⢿⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠶⣦⣤⣄⣤⣐⣢⣤⣴⣾⠟⠁⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠙⢿⣿⣿⣿⣿⣿⣿⣿⣯⣤⣄⡤⣄⣠⡤⣄⣀⠀⠀⠀⠀⡀⠀⠀⠀⡀⠀⠀⢀⣠⣤⣴⣤⣤⢹⣿⣿⣿⡿⠛⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠻⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣤⣬⣥⣤⡴⠶⠶⠖⠒⠛⠋⠉⡩⢁⣼⣿⣿⣿⠟⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡈⠙⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢻⡓⠁⠁⠀⠀⠀⠀⠀⠀⠀⠀⢠⢶⣧⣻⣿⣿⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠀⠀⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠾⠀⠀⠀⠀⠀⠀⠀⠀⣀⡜⠼⣷⣸⡿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⣿⣿⣿⣿⣿⣿⣶⣄⣀⣀⣀⡀⠀⢀⠀⠀⣠⡼⣋⣪⣾⡿⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⡟⠙⡀⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠛⡿⡁⡟⣡⢀⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⣿⣿⣿⣿⣿⣿⣿⣿⡟⠉⢛⠀⣸⠆⠈⠹⠀⠀⠀⠀⠀⠀⠀{RED}{BG_BLACK}
+    [⚠] Starting 👽 LazyOwn ☠ Proxy ☠ [;,;] {RESET}"""
+
 
 # Verificar y relanzar con sudo si es necesario
 def check_sudo():
     if os.geteuid() != 0:
-        print(
-            "[S] Este script necesita permisos de superusuario. Relanzando con sudo..."
-        )
+        print("    [S] Este script necesita permisos de superusuario. Relanzando con sudo...")
         args = ["sudo", sys.executable] + sys.argv
         os.execvpe("sudo", args, os.environ)
 
-
 # Manejar la interrupción de Ctrl+C
 def signal_handler(sig, frame):
-    print("\n [->] Captura interrumpida.")
+    print("\n    [->] Captura interrumpida.")
     sys.exit(0)
 
+# Hexdump para visualizar datos
+def hexdump(src, length=16):
+    result = []
+    for i in range(0, len(src), length):
+        s = src[i:i + length]
+        hexa = ' '.join([f"{b:02X}" for b in s])
+        text = ''.join([chr(b) if 0x20 <= b < 0x7F else '.' for b in s])
+        result.append(f"{i:04X}   {hexa:<{length * 3}}   {text}")
+    print('\n'.join(result))
 
+
+# Recibir datos del socket con un timeout
+def receive_from(connection):
+    buffer = b''
+    connection.settimeout(2)
+    try:
+        while True:
+            data = connection.recv(4096)
+            if not data:
+                break
+            buffer += data
+    except TimeoutError:
+        pass
+    return buffer
+
+# Modificar solicitudes antes de enviarlas al servidor remoto
+def request_handler(buffer):
+    print(buffer)
+    return buffer
+
+# Modificar respuestas antes de enviarlas al cliente local
+def response_handler(buffer):
+    print(buffer)
+    return buffer
+
+# Resolver una URL a su dirección IP
 def get_ip_from_url(url):
     puerto = 80
     try:
-        # Extraer el nombre de dominio de la URL
         if url.startswith("http://"):
             url = url[7:]
             puerto = 80
         elif url.startswith("https://"):
             url = url[8:]
             puerto = 443
-        # Eliminar cualquier ruta después del dominio
         url = url.split("/")[0]
-
-        # Resolver el nombre de dominio en una dirección IP
         ip_address = socket.gethostbyname(url)
         return f"{ip_address}:{puerto}"
     except socket.gaierror as e:
         print(f"Error resolviendo {url}: {e}")
         return None
 
-
+# Manejar la solicitud entrante y permitir su edición
 def handle_request(client_socket, address):
     print(f"[C->] Conexión entrante de {address}")
 
-    request = client_socket.recv(4096)
-    print(f"[R] {request}")
+    request = receive_from(client_socket)
+    print(f"[R] Solicitud recibida:")
+    hexdump(request)
     temp_req = request.decode("utf-8")
     method = temp_req.split(" ")
-    print(len(method))
     if len(method) < 1:
-        print("error")
+        print("Error en la solicitud.")
         return
+
     url = method[1]
     ipmaspuerto = get_ip_from_url(url)
-    ip = ipmaspuerto.split(":")
-    puerto = ip[1]
-    ip = ip[0]
+    if ipmaspuerto:
+        ip, puerto = ipmaspuerto.split(":")
+    else:
+        print("No se pudo resolver la IP del URL.")
+        client_socket.sendall(b"HTTP/1.1 502 Bad Gateway\r\n\r\n")
+        client_socket.close()
+        return
+
     print(f"{ip}:{puerto}")
+
     # Guardar la solicitud en un archivo temporal
     with tempfile.NamedTemporaryFile(delete=False) as temp:
         temp.write(request)
@@ -82,18 +175,22 @@ def handle_request(client_socket, address):
         with open(temp_filename, "rb") as temp:
             modified_request = temp.read()
 
+        # Aplicar el manejador de solicitudes
+        modified_request = request_handler(modified_request)
+
         try:
             # Crear una conexión al servidor de destino
             server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            print(
-                f"[*] Conectando al servidor de destino en {ip}:{puerto}"
-            )  # Asegúrate de cambiar a la IP y puerto correctos
+            print(f"[*] Conectando al servidor de destino en {ip}:{puerto}")
             server_socket.connect((ip, int(puerto)))
             server_socket.send(modified_request)
 
             # Obtener la respuesta del servidor
-            response = server_socket.recv(4096)
+            response = receive_from(server_socket)
             server_socket.close()
+
+            # Aplicar el manejador de respuestas
+            response = response_handler(response)
 
             # Enviar la respuesta de vuelta al cliente
             client_socket.send(response)
@@ -112,14 +209,13 @@ def handle_request(client_socket, address):
         # Liberar el lock después de editar la solicitud
         edit_lock.release()
 
-
-
+# Iniciar el proxy
 def start_proxy():
     proxy_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     proxy_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     proxy_socket.bind(("127.0.0.1", 8888))
     proxy_socket.listen(5)
-    print("[;,;] Servidor proxy escuchando en el puerto 8888...")
+    print(f"{YELLOW}    [;,;] Servidor proxy escuchando en el puerto 8888...")
 
     while True:
         client_socket, address = proxy_socket.accept()
@@ -128,10 +224,10 @@ def start_proxy():
         )
         client_handler.start()
 
-
 if __name__ == "__main__":
     signal.signal(signal.SIGINT, signal_handler)
     edit_lock = threading.Lock()
 
     check_sudo()
+    print(BANNER)
     start_proxy()

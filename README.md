@@ -5484,6 +5484,13 @@ Raises:
 
 ### Otros
 
+  *   * feat(feat): new prompt \n\n Version: release/0.1.16 \n\n now show the url of the target \n\n - README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Aug 18 18:46:18 2024 -0400 \n\n Hora: 1724021178
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): new command set_proxychains \n\n Version: release/0.1.15 \n\n documented at COMMANDS.md more info use help set_proxychains \n\n - COMMANDS.md - README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Aug 18 16:41:31 2024 -0400 \n\n Hora: 1724013691
 
 

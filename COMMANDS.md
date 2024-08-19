@@ -4125,6 +4125,21 @@ Args:
     line (str): No se utiliza en este comando, pero se incluye como parte 
                 de la interfaz estándar de `cmd`.
 
+## shellcode
+Generates a Python one-liner to execute shellcode from a given URL.
+
+This function:
+1. Retrieves the local host (lhost) from the parameters.
+2. Checks if the local host is valid.
+3. Verifies the existence of the `shellcode.bin` file in the expected directory.
+4. Constructs a Python one-liner command that:
+    - Fetches the shellcode from the specified URL.
+    - Decodes the base64-encoded shellcode.
+    - Creates a buffer in memory for the shellcode.
+    - Casts the buffer to a function pointer.
+    - Executes the shellcode.
+5. Copies the generated command to the clipboard for easy execution.
+
 ## double_base64_encode
 Perform double Base64 encoding on the given command.
 

@@ -165,7 +165,7 @@ esac
 echo "{\"version\": \"$NEW_VERSION\"}" > version.json
 git -C . add version.json
 
-LISTFILES=$(git diff --name-only $START_COMMIT $END_COMMIT | sed 's/^/- /')
+LISTFILES=" Modified file(s): $(git diff --name-only $START_COMMIT $END_COMMIT | sed 's/^/- /')"
 # Formatear el mensaje del commit
 COMMIT_MESSAGE="${TYPE}(${TYPEDESC}): ${SUBJECT} \n\n Version: ${NEW_VERSION} \n\n ${BODY} \n\n ${LISTFILES} ${FOOTER} \n\n Fecha: $(git log -1 --format=%ad) \n\n Hora: $(git log -1 --format=%at)"
 

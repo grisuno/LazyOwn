@@ -29,6 +29,8 @@ import string
 import glob
 import readline
 import requests
+import ctypes
+import urllib.request
 from urllib.parse import quote, unquote
 from modules.lazyencoder_decoder import encode, decode
 

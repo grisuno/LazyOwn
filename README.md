@@ -5419,6 +5419,21 @@ Args:
     line (str): No se utiliza en este comando, pero se incluye como parte 
                 de la interfaz estándar de `cmd`.
 
+## shellcode
+Generates a Python one-liner to execute shellcode from a given URL.
+
+This function:
+1. Retrieves the local host (lhost) from the parameters.
+2. Checks if the local host is valid.
+3. Verifies the existence of the `shellcode.bin` file in the expected directory.
+4. Constructs a Python one-liner command that:
+    - Fetches the shellcode from the specified URL.
+    - Decodes the base64-encoded shellcode.
+    - Creates a buffer in memory for the shellcode.
+    - Casts the buffer to a function pointer.
+    - Executes the shellcode.
+5. Copies the generated command to the clipboard for easy execution.
+
 ## double_base64_encode
 Perform double Base64 encoding on the given command.
 
@@ -5478,6 +5493,13 @@ Raises:
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(new feat): new funcionality in proxy command, hexdump on screen, capacity to edit responces from client and server :) mitm ? xD now only prints the thata before sent \n\n Version: release/0.1.17 \n\n and alien gray at the banner :P \n\n - README.md - docs/README.html - docs/index.html - docs/index.html.bak - modules/lazyproxy.py  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Aug 18 21:12:26 2024 -0400 \n\n Hora: 1724029946
 
 
 ### Nuevas características

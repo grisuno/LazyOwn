@@ -2670,6 +2670,23 @@ Must be provided by the user.</p>
 Ensure that shellcode is created beforehand using the
 <code>lazymsfvenom</code> or <code>venom</code> options 13 or 14 to
 replace in <code>sessions/rev.c</code>.</p>
+<h2 id="seo">seo</h2>
+<p>Performs a web seo fingerprinting scan using
+<code>lazyseo.py</code>.</p>
+<ol type="1">
+<li>Executes the <code>lazyseo.py</code> command to identify
+h1,h2,links,etc used by the target web application.</li>
+</ol>
+<p>:param line: This parameter is not used in the current implementation
+but could be used to pass additional options or arguments if needed.
+:param rhost: The target web host to be scanned, specified in the
+<code>params</code> dictionary.</p>
+<p>:returns: None</p>
+<p>Manual execution: To manually perform web seo fingerprinting, use the
+following command: lazyseo.py <target_host></p>
+<p>Replace <code>&lt;target_host&gt;</code> with the URL or IP address
+of the web application you want to scan.</p>
+<p>For example: lazyseo.py example.com</p>
 <h2 id="double_base64_encode">double_base64_encode</h2>
 <p>Perform double Base64 encoding on the given command.</p>
 <p>This helper function takes a command string, encodes it in Base64,

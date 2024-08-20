@@ -4185,6 +4185,25 @@ Usage:
 the `lazymsfvenom` or `venom` options 13 or 14 
 to replace in `sessions/rev.c`.
 
+## seo
+Performs a web seo fingerprinting scan using `lazyseo.py`.
+
+1. Executes the `lazyseo.py` command to identify h1,h2,links,etc used by the target web application.
+
+:param line: This parameter is not used in the current implementation but could be used to pass additional options or arguments if needed.
+:param rhost: The target web host to be scanned, specified in the `params` dictionary.
+
+:returns: None
+
+Manual execution:
+To manually perform web seo fingerprinting, use the following command:
+    lazyseo.py <target_host>
+
+Replace `<target_host>` with the URL or IP address of the web application you want to scan.
+
+For example:
+    lazyseo.py example.com
+
 ## double_base64_encode
 Perform double Base64 encoding on the given command.
 

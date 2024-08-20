@@ -2650,7 +2650,54 @@ clipboard using <code>xclip</code>.</p>
 included for consistency with other command methods. :type line: str
 :returns: None</p>
 <p>Manual execution: 1. The command
-<code>echo -e "[\e[96m\</code>pwd`</p>
+<code>echo -e "[\e[96m\</code>pwd`<code>is retrieved and used to construct the</code>skipfish<code>command. 5. If the URL is not configured and an attempt is made to use the 'url' option, an error message is printed, and the function exits. 6. The constructed</code>skipfish<code>command is displayed on the console and executed using</code>os.system`.</p>
+<p>Note: - The function assumes that the <code>skipfish</code> tool is
+installed on the system. - The output of the scan is saved in the
+directory <code>sessions/{rhost}/skipfish/</code>. - The wordlist used
+by Skipfish is specified in <code>wordlist</code>.</p>
+<h2 id="createdll">createdll</h2>
+<p>Create a Windows DLL file using MinGW-w64.</p>
+<p>This function prompts the user to select between creating a 32-bit or
+64-bit DLL. It checks if MinGW-w64 is installed, and if not, it installs
+it. The user must provide a filename for the DLL, which will be created
+from the <code>sessions/rev.c</code> source file. The function
+constructs the appropriate command to compile the DLL based on the
+user’s choice and executes it. It also opens the <code>rev.c</code> file
+in a text editor for any modifications before compilation.</p>
+<p>Parameters: - line (str): The name of the DLL file to be created.
+Must be provided by the user.</p>
+<p>Usage: - Choose “1” for 32-bit or “2” for 64-bit compilation. -
+Ensure that shellcode is created beforehand using the
+<code>lazymsfvenom</code> or <code>venom</code> options 13 or 14 to
+replace in <code>sessions/rev.c</code>.</p>
+<h2 id="double_base64_encode">double_base64_encode</h2>
+<p>Perform double Base64 encoding on the given command.</p>
+<p>This helper function takes a command string, encodes it in Base64,
+and then performs another Base64 encoding on the result. The final
+encoded string is returned.</p>
+<p>Args: cmd (str): The command string to be encoded.</p>
+<p>Returns: str: The double Base64 encoded string.</p>
+<p>Example: &gt;&gt;&gt; double_base64_encode(“example”)
+‘ZWN4YW5hbWVsZQ==’</p>
+<p>Notes: - The function first encodes the command string into bytes
+using UTF-8 encoding. - It then applies Base64 encoding twice and
+removes any leading or trailing whitespace. - The result is decoded back
+to a string and returned.</p>
+<p>Raises: TypeError: If the input <code>cmd</code> is not a string.</p>
+<h2 id="apply_obfuscations">apply_obfuscations</h2>
+<p>Generate a list of obfuscated commands based on the given input
+command.</p>
+<p>This function creates various obfuscated versions of the provided
+command string. Each obfuscation method applies a different technique to
+disguise the command, making it less recognizable to simple static
+analysis.</p>
+<p>Args: cmd (str): The command string to be obfuscated.</p>
+<p>Returns: list of str: A list of obfuscated command strings.</p>
+<p>Example: &gt;&gt;&gt; apply_obfuscations(“cat /etc/passwd”) [ ‘echo
+“echo <span class="math inline">$(echo 'cat /etc/passwd' | base64 |
+base64)|base64 -d|base64 -d|bash" | sed 's/ /$</span>{IFS}/g’‘, ’echo
+{double_base64_encode(cmd)}|base64 -d|base64 -d|bash’, ‘$(tr’[A-Z]’
+‘[a-z]’ &lt;&lt;&lt; ‘cat /etc/passwd’)’, … ]</p>
 <p>Notes: - Each obfuscation method aims to transform the command in a
 unique way. - Obfuscations include encoding, character replacement, and
 command substitution techniques. - Ensure that the

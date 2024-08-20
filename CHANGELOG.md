@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Otros
+
+### Otros
+
+  *   * feature(feat): dos comandos nuevos, skipfish y createdll, nuevo shellcode \n\n Version: release/0.1.19 \n\n nuevos recursos \n\n  Modified file(s): - .gitignore - COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - payload.json  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Aug 19 02:20:52 2024 -0400 \n\n Hora: 1724048452
+
+
 ### Nuevas características
 
 ### Otros

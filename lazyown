@@ -5250,7 +5250,7 @@ class LazyOwnShell(Cmd):
             return
         file = f"sessions/id_rsa_{line}"
         print_msg(f"Try... nano {file}")
-        os.system(f"nano {file} && chmod 400 {file}")
+        os.system(f"nano {file} && chmod 600 {file}")
         print_msg(
             f"{YELLOW} Conecting to ssh {line}@{rhost} -i {file} {RED}[;,;] {RESET}"
         )

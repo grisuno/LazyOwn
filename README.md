@@ -5559,6 +5559,13 @@ Raises:
 # Changelog
 
 
+### Refactorización
+
+### Otros
+
+  *   * refactor(refactor): se agrega la libreria colors en modules para usar colorines en los modulos \n\n Version: release/0.1.19 \n\n se agrega un script que hace seo a rhost, ademas de un poco de scraping para darnos datos sobre el host \n\n  Modified file(s): - COMMANDS.md - DEPLOY.sh - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - modules/lazyproxy.py\n  Deleted file(s): \n  Created file(s):  \n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Aug 20 02:20:17 2024 -0400 \n\n Hora: 1724134817
+
+
 ### Otros
 
 ### Otros

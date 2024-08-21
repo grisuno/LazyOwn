@@ -166,10 +166,26 @@ echo "{\"version\": \"$NEW_VERSION\"}" > version.json
 git -C . add version.json
 
 #LISTFILES=" Modified file(s): $(git diff --name-only $START_COMMIT $END_COMMIT | sed 's/^/- /')"
-LISTFILES=" Modified file(s): $(git diff --name-only $START_COMMIT $END_COMMIT | sed 's/^/- /')\n "
-LISTFILES+=" Deleted file(s): $(git diff --name-only --diff-filter=D $START_COMMIT $END_COMMIT | sed 's/^/- /')\n "
-LISTFILES+=" Created file(s): $(git diff --name-only --diff-filter=A $START_COMMIT $END_COMMIT | sed 's/^/- /') \n"
+# Capturar archivos modificados
+MODIFIED_FILES=$(git diff --name-only $START_COMMIT $END_COMMIT | sed 's/^/- /')
+# Capturar archivos eliminados
+DELETED_FILES=$(git diff --name-only --diff-filter=D $START_COMMIT $END_COMMIT | sed 's/^/- /')
+# Capturar archivos creados
+CREATED_FILES=$(git diff --name-only --diff-filter=A $START_COMMIT $END_COMMIT | sed 's/^/- /')
 
+# Crear LISTFILES incluyendo solo las secciones no vacías
+LISTFILES=""
+if [ -n "$MODIFIED_FILES" ]; then
+    LISTFILES+="Modified file(s):\n$MODIFIED_FILES\n"
+fi
+if [ -n "$DELETED_FILES" ]; then
+    LISTFILES+="Deleted file(s):\n$DELETED_FILES\n"
+fi
+if [ -n "$CREATED_FILES" ]; then
+    LISTFILES+="Created file(s):\n$CREATED_FILES\n"
+fi
+
+# Usar LISTFILES en tu mensaje de commit
 echo -e "$LISTFILES"
 
 # Formatear el mensaje del commit

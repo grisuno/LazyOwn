@@ -1193,13 +1193,19 @@ set: <code>self.params["mode"] = "scan"</code>
 necessary permissions to execute. - Parameters must be set before
 calling this function.</p>
 <h2 id="lazymsfvenom">lazymsfvenom</h2>
-<p>Runs the <code>msfvenom</code> tool to generate payloads based on
-user input.</p>
-<p>Prompts the user to select a payload type from a list and executes
-the corresponding <code>msfvenom</code> command to generate a payload.
-Moves the generated payloads to a <code>sessions</code> directory and
-sets appropriate permissions. Optionally compresses the payloads using
-UPX and handles a C payload with shikata_ga_nai.</p>
+<p>Executes the <code>msfvenom</code> tool to generate a variety of
+payloads based on user input.</p>
+<p>This function prompts the user to select a payload type from a
+predefined list and runs the corresponding <code>msfvenom</code> command
+to create the desired payload. It handles tasks such as generating
+different types of payloads for Linux, Windows, macOS, and Android
+systems, including optional encoding with Shikata Ga Nai for C
+payloads.</p>
+<p>The generated payloads are moved to a <code>sessions</code>
+directory, where appropriate permissions are set. Additionally, the
+payloads can be compressed using UPX for space efficiency. If the
+selected payload is an Android APK, the function will also sign the APK
+and perform necessary post-processing steps.</p>
 <p>:param line: Command line arguments for the script. :return: None</p>
 <h2 id="lazyaslrcheck">lazyaslrcheck</h2>
 <p>Creates a path hijacking attack by performing the following

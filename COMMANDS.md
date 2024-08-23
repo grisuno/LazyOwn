@@ -1073,12 +1073,15 @@ Note:
     - Parameters must be set before calling this function.
 
 ## lazymsfvenom
-Runs the `msfvenom` tool to generate payloads based on user input.
+Executes the `msfvenom` tool to generate a variety of payloads based on user input.
 
-Prompts the user to select a payload type from a list and executes the corresponding
-`msfvenom` command to generate a payload. Moves the generated payloads to a `sessions`
-directory and sets appropriate permissions. Optionally compresses the payloads using UPX
-and handles a C payload with shikata_ga_nai.
+This function prompts the user to select a payload type from a predefined list and runs the corresponding
+`msfvenom` command to create the desired payload. It handles tasks such as generating different types of
+payloads for Linux, Windows, macOS, and Android systems, including optional encoding with Shikata Ga Nai for C payloads.
+
+The generated payloads are moved to a `sessions` directory, where appropriate permissions are set. Additionally,
+the payloads can be compressed using UPX for space efficiency. If the selected payload is an Android APK,
+the function will also sign the APK and perform necessary post-processing steps.
 
 :param line: Command line arguments for the script.
 :return: None

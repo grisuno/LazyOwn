@@ -2698,6 +2698,22 @@ following command: lazyseo.py <target_host></p>
 <p>Replace <code>&lt;target_host&gt;</code> with the URL or IP address
 of the web application you want to scan.</p>
 <p>For example: lazyseo.py example.com</p>
+<h2 id="padbuster">padbuster</h2>
+<p>Execute the PadBuster command for padding oracle attacks.</p>
+<p>This function constructs and executes a PadBuster command to perform
+a padding oracle attack on the specified URL. It requires the user to
+provide a URL, a cookie with a hash, a plaintext value to compare, and a
+specific byte position to attack.</p>
+<p>Parameters: - line (str): The input line containing the cookie,
+plaintext, and byte position. Expected format: ‘cookie=<HASH> plaintext
+<byte_position>’.</p>
+<p>Functionality: - The function first checks if a URL is set in the
+parameters. - It then validates that the correct number of arguments is
+provided. - If the arguments are valid, it constructs the PadBuster
+command and executes it. - The command is also copied to the clipboard
+for convenience.</p>
+<p>Usage Example: - set url http://target.com - padbuster auth=<HASH>
+user=admin 8</p>
 <h2 id="double_base64_encode">double_base64_encode</h2>
 <p>Perform double Base64 encoding on the given command.</p>
 <p>This helper function takes a command string, encodes it in Base64,

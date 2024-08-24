@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Pruebas
+
+### Otros
+
+  *   * test(new machine): monitorsthree.htb \n\n Version: release/0.1.23 \n\n happyhacking \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - payload.json\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Aug 24 03:15:09 2024 -0400 \n\n Hora: 1724483709
+
+
 ### Refactorización
 
 ### Otros

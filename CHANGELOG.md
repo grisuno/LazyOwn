@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Correcciones
+
+### Otros
+
+  *   * fix(fix): blazormalware corrected now functional and armed :) \n\n Version: release/0.1.21 \n\n and lanter machine was pwned :P \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - sessions/lin/blazormalware.sh - sessions/win/lazycat.ps1 - sessions/win/rev.c\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Aug 23 15:28:03 2024 -0400 \n\n Hora: 1724441283
+
+
 ### Documentación
 
 ### Otros

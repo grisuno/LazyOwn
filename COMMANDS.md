@@ -4208,6 +4208,28 @@ Replace `<target_host>` with the URL or IP address of the web application you wa
 For example:
     lazyseo.py example.com
 
+## padbuster
+Execute the PadBuster command for padding oracle attacks.
+
+This function constructs and executes a PadBuster command to perform
+a padding oracle attack on the specified URL. It requires the user
+to provide a URL, a cookie with a hash, a plaintext value to compare, 
+and a specific byte position to attack.
+
+Parameters:
+- line (str): The input line containing the cookie, plaintext, and byte 
+            position. Expected format: 'cookie=<HASH> plaintext <byte_position>'.
+
+Functionality:
+- The function first checks if a URL is set in the parameters.
+- It then validates that the correct number of arguments is provided.
+- If the arguments are valid, it constructs the PadBuster command and executes it.
+- The command is also copied to the clipboard for convenience.
+
+Usage Example:
+- set url http://target.com
+- padbuster auth=<HASH> user=admin 8
+
 ## double_base64_encode
 Perform double Base64 encoding on the given command.
 

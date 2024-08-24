@@ -5312,6 +5312,28 @@ Replace `<target_host>` with the URL or IP address of the web application you wa
 For example:
     lazyseo.py example.com
 
+## padbuster
+Execute the PadBuster command for padding oracle attacks.
+
+This function constructs and executes a PadBuster command to perform
+a padding oracle attack on the specified URL. It requires the user
+to provide a URL, a cookie with a hash, a plaintext value to compare, 
+and a specific byte position to attack.
+
+Parameters:
+- line (str): The input line containing the cookie, plaintext, and byte 
+            position. Expected format: 'cookie=<HASH> plaintext <byte_position>'.
+
+Functionality:
+- The function first checks if a URL is set in the parameters.
+- It then validates that the correct number of arguments is provided.
+- If the arguments are valid, it constructs the PadBuster command and executes it.
+- The command is also copied to the clipboard for convenience.
+
+Usage Example:
+- set url http://target.com
+- padbuster auth=<HASH> user=admin 8
+
 ## double_base64_encode
 Perform double Base64 encoding on the given command.
 
@@ -5371,6 +5393,13 @@ Raises:
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Documentación
+
+### Otros
+
+  *   * docs(documentacion): nueva versiòn en la web reflejada en el banner \n\n Version: release/0.1.22 \n\n :) \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Aug 24 00:03:47 2024 -0400 \n\n Hora: 1724472227
 
 
 ### Documentación

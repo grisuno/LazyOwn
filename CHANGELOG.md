@@ -6,6 +6,13 @@
 
 ### Otros
 
+  *   * docs(documentacion): nueva versiòn en la web reflejada en el banner \n\n Version: release/0.1.22 \n\n :) \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Aug 24 00:03:47 2024 -0400 \n\n Hora: 1724472227
+
+
+### Documentación
+
+### Otros
+
   *   * docs(new documentation): better documentation to commands and utils \n\n Version: release/0.1.22 \n\n :) \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - lazyown - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Aug 23 23:30:32 2024 -0400 \n\n Hora: 1724470232
 
 

@@ -5286,6 +5286,13 @@ Raises:
 # Changelog
 
 
+### Documentación
+
+### Otros
+
+  *   * docs(Lang): Translate README.md to English, enhancing clarity and structure for better understanding of the project features and usage. \n\n Version: release/0.1.20 \n\n This commit translates the README.md file into English to make it accessible to a wider audience. The translation maintains the original content's intent while improving clarity and coherence. Additionally, I've structured the document to highlight key features, usage instructions, acknowledgments, and licensing information. This update aims to enhance the overall understanding of the LazyOwn project and its functionalities. \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 21 02:25:41 2024 -0400 \n\n Hora: 1724221541
+
+
 ### Nuevas características
 
 ### Otros

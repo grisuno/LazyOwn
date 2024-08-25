@@ -4230,6 +4230,57 @@ Usage Example:
 - set url http://target.com
 - padbuster auth=<HASH> user=admin 8
 
+## smbattack
+Scans for hosts with SMB service open on port 445 in the specified target network.
+
+This function performs the following actions:
+1. Scans the specified subnet for hosts with an open SMB port (445).
+2. Sets up a Metasploit handler to listen for reverse connections.
+3. Attempts to exploit the Conficker vulnerability on each identified host.
+4. Optionally conducts a brute-force attack on SMB using the provided password file.
+
+Parameters:
+line (str): The command line input for the smbattack function, 
+            though not used directly in this implementation.
+
+Returns:
+None
+
+## cacti_exploit
+Automates the exploitation of the Cacti version 1.2.26 vulnerability 
+using the multi/http/cacti_package_import_rce exploit.
+
+This function performs the following actions:
+1. Sets up a Metasploit handler to listen for reverse connections.
+2. Attempts to log in to the Cacti instance with provided credentials.
+3. Checks if the target is vulnerable and uploads the malicious payload.
+4. Triggers the payload to obtain a Meterpreter session.
+
+Parameters:
+line (str): The command line input for the cacti exploit function, 
+            though used directly in this implementation to set password.
+
+Returns:
+None
+
+## find_tgts
+No description available.
+
+## setup_handler
+No description available.
+
+## conficker_exploit
+No description available.
+
+## smb_brute
+No description available.
+
+## setup_handler
+No description available.
+
+## cacti_exploit
+No description available.
+
 ## double_base64_encode
 Perform double Base64 encoding on the given command.
 

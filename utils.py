@@ -31,6 +31,8 @@ import readline
 import requests
 import ctypes
 import urllib.request
+from libnmap.process import NmapProcess
+from libnmap.parser import NmapParser
 from urllib.parse import quote, unquote
 from modules.lazyencoder_decoder import encode, decode
 

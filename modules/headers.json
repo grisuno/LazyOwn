@@ -1,6 +1,26 @@
-{
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
-    "Accept": "application/json",
-    "Authorization": "Bearer your_token_here",
-    "Content-Type": "application/json"
-}
+[
+    {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+    },
+    {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
+    },
+    {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
+    },
+    {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Firefox/60.0"
+    },
+    {
+        "User-Agent": "Mozilla/5.0 (Linux LazyOwn; Lin64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+    },
+    {
+        "User-Agent": "Mozilla/5.0 (Linux LazyOwn; Lin64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
+    },
+    {
+        "User-Agent": "Mozilla/5.0 (Linux LazyOwn; Lin64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
+    },
+    {
+        "User-Agent": "Mozilla/5.0 (Linux LazyOwn; Lin64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Firefox/60.0"
+    }
+]

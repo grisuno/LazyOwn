@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Correcciones
+
+### Otros
+
+  *   * fix(fix auto exploit cacti rce logged): now the attack work automated \n\n Version: release/0.1.26 \n\n smoothy \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Aug 26 02:18:44 2024 -0400 \n\n Hora: 1724653124
+
+
 ### Otros
 
 ### Otros

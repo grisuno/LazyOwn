@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Otros
+
+### Otros
+
+  *   * feature(new command c2 documentad at COMMANDS.md): a little botnet over http :) \n\n Version: release/0.1.27 \n\n this is my second aproach the first is a little botnet using sockets, the new it's web :) \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Aug 26 03:07:21 2024 -0400 \n\n Hora: 1724656041
+
+
 ### Correcciones
 
 ### Otros

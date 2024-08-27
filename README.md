@@ -5462,6 +5462,34 @@ The URL is taken from line. If the URL is not provided, an error is printed.
 The limit of results is taken from self.params["limit"] if provided; otherwise, defaults to 10.
 Results are printed directly to the console.
 
+## c2
+Handles the execution of a C2 (Command and Control) server setup command.
+
+This function performs the following tasks:
+1. Retrieves and validates the local host (lhost) and local port (lport) parameters.
+2. Checks if the required file `modules/run` exists.
+3. Reads the content of the `modules/run` file, replaces placeholders with actual values (lport, line, lhost), 
+and copies the updated content to the clipboard.
+4. Prompts the user to start the C2 server, and if confirmed, executes the server command.
+5. Provides a warning about shutting down the server.
+
+Args:
+    line (str): The victim ID or command line to be used by the C2 server.
+
+Returns:
+    None
+
+Raises:
+    None
+
+Example:
+    c2 victim-1
+
+Notes:
+    - Ensure that the `lhost` and `lport` parameters are valid before calling this function.
+    - The `modules/run` file must exist and be correctly formatted.
+    - The server command is executed using `os.system`, which may require additional handling for security.
+
 ## find_tgts
 No description available.
 
@@ -5539,6 +5567,13 @@ Raises:
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(fix auto exploit cacti rce logged): now the attack work automated \n\n Version: release/0.1.26 \n\n smoothy \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Aug 26 02:18:44 2024 -0400 \n\n Hora: 1724653124
 
 
 ### Otros

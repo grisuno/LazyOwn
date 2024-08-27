@@ -2815,6 +2815,27 @@ taken from line. If the URL is not provided, an error is printed. The
 limit of results is taken from self.params[“limit”] if provided;
 otherwise, defaults to 10. Results are printed directly to the
 console.</p>
+<h2 id="c2">c2</h2>
+<p>Handles the execution of a C2 (Command and Control) server setup
+command.</p>
+<p>This function performs the following tasks: 1. Retrieves and
+validates the local host (lhost) and local port (lport) parameters. 2.
+Checks if the required file <code>modules/run</code> exists. 3. Reads
+the content of the <code>modules/run</code> file, replaces placeholders
+with actual values (lport, line, lhost), and copies the updated content
+to the clipboard. 4. Prompts the user to start the C2 server, and if
+confirmed, executes the server command. 5. Provides a warning about
+shutting down the server.</p>
+<p>Args: line (str): The victim ID or command line to be used by the C2
+server.</p>
+<p>Returns: None</p>
+<p>Raises: None</p>
+<p>Example: c2 victim-1</p>
+<p>Notes: - Ensure that the <code>lhost</code> and <code>lport</code>
+parameters are valid before calling this function. - The
+<code>modules/run</code> file must exist and be correctly formatted. -
+The server command is executed using <code>os.system</code>, which may
+require additional handling for security.</p>
 <h2 id="find_tgts">find_tgts</h2>
 <p>No description available.</p>
 <h2 id="setup_handler">setup_handler</h2>

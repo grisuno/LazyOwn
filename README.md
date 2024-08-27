@@ -746,6 +746,15 @@ Documentation automatically created by the script `readmeneitor.py` created for 
 <!-- START UTILS -->
 # UTILS.md Documentation  by readmeneitor.py
 
+## parse_ip_mac
+Usa una expresión regular para extraer IP y MAC
+
+## create_arp_packet
+Ethernet header
+
+## send_packet
+Create a raw socket
+
 ## load_version
 Load the version number from the 'version.json' file.
 
@@ -5490,6 +5499,24 @@ Notes:
     - The `modules/run` file must exist and be correctly formatted.
     - The server command is executed using `os.system`, which may require additional handling for security.
 
+## kick
+Handles the process of sending a spoofed ARP packet to a specified IP address with a given MAC address.
+
+This function performs the following steps:
+1. Executes a command to list current ARP entries and prints the IP and MAC addresses.
+2. Prompts the user to input the target IP and MAC address in a specified format.
+3. Parses the provided input to extract the IP and MAC addresses.
+4. Sets up default values for the gateway IP, local MAC address, and network interface.
+5. Creates an ARP packet with the specified target IP and MAC address.
+6. Sends the ARP packet using the specified network interface.
+7. Prints a confirmation message indicating that the spoofing packet has been sent.
+
+Args:
+    line (str): Input line for the command, which is not used directly in this function.
+
+Raises:
+    Exception: If any error occurs during the execution of the function.
+
 ## find_tgts
 No description available.
 
@@ -5567,6 +5594,13 @@ Raises:
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Otros
+
+### Otros
+
+  *   * feature(new command c2 documentad at COMMANDS.md): a little botnet over http :) \n\n Version: release/0.1.27 \n\n this is my second aproach the first is a little botnet using sockets, the new it's web :) \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Aug 26 03:07:21 2024 -0400 \n\n Hora: 1724656041
 
 
 ### Correcciones

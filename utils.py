@@ -32,11 +32,55 @@ import requests
 import ctypes
 import urllib.request
 import tempfile
+import socket
+import struct
+import binascii
+
 from libnmap.process import NmapProcess
 from libnmap.parser import NmapParser
 from urllib.parse import quote, unquote
 from modules.lazyencoder_decoder import encode, decode
 
+def parse_ip_mac(input_string):
+    """Usa una expresión regular para extraer IP y MAC"""
+    match = re.match(r"IP:\s*\(([\d.]+)\)\s*MAC:\s*([\da-f:]+)", input_string.strip())
+    if match:
+        target_ip, target_mac = match.groups()
+        return target_ip, target_mac
+    else:
+        print_error("Error: Input must be in the format 'IP: (192.168.1.222) MAC: ec:c3:02:b0:4c:96'.")
+        return None, None
+
+def create_arp_packet(src_mac, src_ip, dst_ip, dst_mac):
+    """Ethernet header"""
+    eth_header = struct.pack(
+        '!6s6sH',
+        binascii.unhexlify(dst_mac.replace(':', '')),
+        binascii.unhexlify(src_mac.replace(':', '')),
+        0x0806  # ARP protocol type
+    )
+
+    # ARP header
+    arp_header = struct.pack(
+        '!HHBBH6s4s6s4s',
+        0x0001,  # Hardware type (Ethernet)
+        0x0800,  # Protocol type (IPv4)
+        6,        # Hardware address length (MAC address length)
+        4,        # Protocol address length (IPv4 address length)
+        0x0002,   # Operation (ARP reply)
+        binascii.unhexlify(src_mac.replace(':', '')),  # Sender MAC address
+        socket.inet_aton(src_ip),  # Sender IP address
+        binascii.unhexlify(dst_mac.replace(':', '')),  # Target MAC address
+        socket.inet_aton(dst_ip)   # Target IP address
+    )
+
+    return eth_header + arp_header
+
+def send_packet(packet, iface):
+    """Create a raw socket"""
+    with socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.htons(0x0806)) as sock:
+        sock.bind((iface, 0))
+        sock.send(packet)
 
 def load_version():
     """

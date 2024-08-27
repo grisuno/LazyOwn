@@ -1,5 +1,14 @@
 # UTILS.md Documentation  by readmeneitor.py
 
+## parse_ip_mac
+Usa una expresión regular para extraer IP y MAC
+
+## create_arp_packet
+Ethernet header
+
+## send_packet
+Create a raw socket
+
 ## load_version
 Load the version number from the 'version.json' file.
 

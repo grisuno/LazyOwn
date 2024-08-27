@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LazyOwn Command and Control Center</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #000;
+            color: #00ff00;
+            font-family: 'VT323', monospace;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2, h3, p {
+            margin: 0 0 20px 0;
+        }
+        a {
+            color: #00ff00;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .banner {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .content {
+            background-color: #111;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #00ff00;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 10px;
+            background-color: #111;
+            border-top: 1px solid #00ff00;
+        }
+        .neon-text {
+            color: #00ff00;
+            text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 40px #00ff00;
+            animation: flicker 1.5s infinite alternate;
+        }
+        @keyframes flicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+                opacity: 1;
+            }
+            20%, 24%, 55% {
+                opacity: 0.5;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="banner">
+            <h1 class="neon-text">LazyOwn Command and Control Center [;,;]</h1>
+        </div>
+        <div class="content">
+            <h2>C&C</h2>
+            <p><a href="https://github.com/grisuno/LazyOwn"> LazyOwn Command and Control Center </a> is a powerful C&Cwritten in Python</p>
+            <h2>LazyOwn</h2>
+            <pre class="neon-text">
+    ██▓    ▄▄▄      ▒███████▒▓██   ██▓ ▒█████   █     █░███▄    █                
+    ▓██▒   ▒████▄    ▒ ▒ ▒ ▄▀░ ▒██  ██▒▒██▒  ██▒▓█░ █ ░█░██ ▀█   █                
+    ▒██░   ▒██  ▀█▄  ░ ▒ ▄▀▒░   ▒██ ██░▒██░  ██▒▒█░ █ ░█▓██  ▀█ ██▒               
+    ▒██░   ░██▄▄▄▄██   ▄▀▒   ░  ░ ▐██▓░▒██   ██░░█░ █ ░█▓██▒  ▐▌██▒               
+    ░██████▒▓█   ▓██▒▒███████▒  ░ ██▒▓░░ ████▓▒░░░██▒██▓▒██░   ▓██░               
+    ░ ▒░▓  ░▒▒   ▓▒█░░▒▒ ▓░▒░▒   ██▒▒▒ ░ ▒░▒░▒░ ░ ▓░▒ ▒ ░ ▒░   ▒ ▒                
+    ░ ░ ▒  ░ ▒   ▒▒ ░░░▒ ▒ ░ ▒ ▓██ ░▒░   ░ ▒ ▒░   ▒ ░ ░ ░ ░░   ░ ▒░               
+        ░ ░    ░   ▒   ░ ░ ░ ░ ░ ▒ ▒ ░░  ░ ░ ░ ▒    ░   ░    ░   ░ ░                
+        ░  ░     ░  ░  ░ ░     ░ ░         ░ ░      ░            ░                
+                        ░         ░ ░                                                
+        █████▒██▀███   ▄▄▄       ███▄ ▄███▓▓█████  █     █░ ▒█████   ██▀███   ██ ▄█▀
+    ▓██   ▒▓██ ▒ ██▒▒████▄    ▓██▒▀█▀ ██▒▓█   ▀ ▓█░ █ ░█░▒██▒  ██▒▓██ ▒ ██▒ ██▄█▒ 
+    ▒████ ░▓██ ░▄█ ▒▒██  ▀█▄  ▓██    ▓██░▒███   ▒█░ █ ░█ ▒██░  ██▒▓██ ░▄█ ▒▓███▄░ 
+    ░▓█▒  ░▒██▀▀█▄  ░██▄▄▄▄██ ▒██    ▒██ ▒▓█  ▄ ░█░ █ ░█ ▒██   ██░▒██▀▀█▄  ▓██ █▄ 
+    ░▒█░   ░██▓ ▒██▒ ▓█   ▓██▒▒██▒   ░██▒░▒████▒░░██▒██▓ ░ ████▓▒░░██▓ ▒██▒▒██▒ █▄
+        ▒ ░   ░ ▒▓ ░▒▓░ ▒▒   ▓▒█░░ ▒░   ░  ░░░ ▒░ ░░ ▓░▒ ▒  ░ ▒░▒░▒░ ░ ▒▓ ░▒▓░▒ ▒▒ ▓▒
+        ░       ░▒ ░ ▒░  ▒   ▒▒ ░░  ░      ░ ░ ░  ░  ▒ ░ ░    ░ ▒ ▒░   ░▒ ░ ▒░░ ░▒ ▒░
+        ░ ░     ░░   ░   ░   ▒   ░      ░      ░     ░   ░  ░ ░ ░ ▒    ░░   ░ ░ ░░ ░ 
+                ░           ░  ░       ░      ░  ░    ░        ░ ░     ░     ░  ░   
+                                                                                    
+    .::    .   .:::.,::::::  :::::::.    .:     ::   .: .,::::::   :::      :::     :::::::::
+    ';;,  ;;  ;;;' ;;;;''''   ;;;'';;'  ,;;;.  ,;;   ;;,;;;;''''   ;;;      ;;;     '`````;;;
+    '[[, [[, [['   [[cccc    [[[__[[\.[[,,_` ,[[[,,,[[[ [[cccc    [[[      [[[         .n[['
+        Y$c$$$c$P    $$""""    $$""""Y$$ `"""Yo"$$$"""$$$ $$""""    $$'      $$'       ,$$P"  
+        "88"888     888oo,__ _88o,,od8P Yo_,d" 888   "88o888oo,__ o88oo,.__o88oo,.__,888bo,_ 
+        "M "M"     """"YUMMM""YUMMMP"   'M'   MMM    YMM""""YUMMM""""YUMMM""""YUMMM `""*UMM 
+            </pre>
+
+            <h1>Command and Control Center</h1>
+    
+            <h2>Connected Clients</h2>
+            <ul>
+                {% for client_id in connected_clients %}
+                    <li>{{ client_id }}</li>
+                {% endfor %}
+            </ul>
+        
+            <h2>Issue Command</h2>
+            <form action="{{ url_for('issue_command') }}" method="POST">
+                <label for="client_id">Client ID:</label>
+                <input type="text" id="client_id" name="client_id" required><br><br>
+                <label for="command">Command:</label>
+                <input type="text" id="command" name="command" required><br><br>
+                <input type="submit" value="Send Command">
+            </form>
+        
+            <h2>Results</h2>
+            {% for client_id, result in results.items() %}
+                <h3>Client: {{ client_id }}</h3>
+                <pre>{{ result }}</pre>
+            {% endfor %}
+                        
+            <h2>Contact</h2>
+            <p>For any questions or feedback, please reach out to <a href="mailto:grisiscomeback[at]gmail[dot]com">Gris Iscomeback</a>.</p>
+        </div>
+        <div class="footer">
+            <p>&copy; 2024 LazyOwn Web$hellz. All rights GPLv3.</p>
+        </div>
+    </div>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T4VF6JJ095"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-T4VF6JJ095');
+</script>    
+<script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
+<script>
+  kofiWidgetOverlay.draw('grisuno', {
+    'type': 'floating-chat',
+    'floating-chat.donateButton.text': 'Support me',
+    'floating-chat.donateButton.background-color': '#5cb85c',
+    'floating-chat.donateButton.text-color': '#fff'
+  });
+</script> 
+</body>
+</html>

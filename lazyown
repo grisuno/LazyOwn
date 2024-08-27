@@ -8283,6 +8283,66 @@ class LazyOwnShell(Cmd):
 
         except requests.exceptions.RequestException as e:
             print_warn(f"Warning: Failed to fetch data from the Wayback Machine. {str(e)}")
+    
+    def do_c2(self, line):
+        """
+        Handles the execution of a C2 (Command and Control) server setup command.
+
+        This function performs the following tasks:
+        1. Retrieves and validates the local host (lhost) and local port (lport) parameters.
+        2. Checks if the required file `modules/run` exists.
+        3. Reads the content of the `modules/run` file, replaces placeholders with actual values (lport, line, lhost), 
+        and copies the updated content to the clipboard.
+        4. Prompts the user to start the C2 server, and if confirmed, executes the server command.
+        5. Provides a warning about shutting down the server.
+
+        Args:
+            line (str): The victim ID or command line to be used by the C2 server.
+
+        Returns:
+            None
+
+        Raises:
+            None
+
+        Example:
+            c2 victim-1
+
+        Notes:
+            - Ensure that the `lhost` and `lport` parameters are valid before calling this function.
+            - The `modules/run` file must exist and be correctly formatted.
+            - The server command is executed using `os.system`, which may require additional handling for security.
+        """
+        lhost = self.params["lhost"]
+        lport = self.params["lport"]
+        path = os.getcwd()
+        file = f"{path}/modules/run"
+        
+        if not check_lhost(lhost):
+            return
+
+        if not check_lport(lport):
+            return
+        
+        if not line:
+            print_error("You need to specify the victim-id, for example: c2 victim-1.")
+            return
+        
+        if not os.path.isfile(file):
+            print_error(f"Fatal error {file} is missing")
+            return
+
+        with open(file, 'r') as f:
+            content = f.read()
+
+        content = content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost)
+        server = f"cd modules && python3 lazyc2.py {lport}"
+        copy2clip(content)
+        choice = input(f"    {CYAN}[?] start C2 Server ? (yes/no): ")
+        if choice == 'yes':
+            os.system(server)
+            print_warn(f"Shutdown Server C&C at port:{RED} {lport}")
+        return
 
 def xor_encrypt_decrypt(data, key):
     """XOR Encrypt or Decrypt data with a given key"""

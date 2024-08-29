@@ -4962,7 +4962,9 @@ class LazyOwnShell(Cmd):
         print_msg(GREEN)
         os.system("./modules/cal.sh | lolcat")
         print_msg(RESET)
-
+        time.sleep(3)
+        os.system("modules/eegg.sh")
+        os.system("clear")
         return
 
     def do_ports(self, line):
@@ -8231,12 +8233,34 @@ class LazyOwnShell(Cmd):
         return
 
     def do_morse(self,line):
-        """*********************** Welcome to Morse Code Convertor 🔄️ ***********************
+        """Interactive Morse Code Converter.
 
-            		 1️⃣  to convert text to Morse code
-            		 2️⃣  to convert Morse code to text
-            		 0️⃣  to exit the program
-        *********************** End Morse Code Convertor 🔄️ ***********************                     
+        This function serves as an interface for converting text to Morse code and vice versa. 
+        It provides a menu with the following options:
+        
+        1️⃣  Convert text to Morse code.
+        2️⃣  Convert Morse code to text.
+        0️⃣  Exit the program.
+
+        When the function is called, it runs an external script (`morse.py`) that handles 
+        the conversion processes. The function also manages keyboard interruptions 
+        gracefully, allowing the user to exit the program cleanly.
+
+        Arguments:
+        line (str): This argument is reserved for future enhancements but is currently not used.
+
+        Returns:
+        None
+
+        Notes:
+        - Ensure that the `morse.py` module is located in the `modules` directory and is executable.
+        - The function captures `KeyboardInterrupt` to allow safe exit from the Morse code converter.
+
+        Example:
+        >>> do_morse("")
+
+        See Also:
+        - `morse.py`: The script that contains the logic for Morse code conversions.
         """
         try:
             os.system("python3 modules/morse.py")
@@ -8328,8 +8352,7 @@ class LazyOwnShell(Cmd):
             print_error("You need to specify the victim-id, for example: c2 victim-1.")
             return
         
-        if not os.path.isfile(file):
-            print_error(f"Fatal error {file} is missing")
+        if not is_exist(file):
             return
 
         with open(file, 'r') as f:
@@ -8368,6 +8391,7 @@ class LazyOwnShell(Cmd):
             Exception: If any error occurs during the execution of the function.
         """        
         try:
+            check_sudo()
             command="""sudo arp -a | awk '{print "IP: " $2 " MAC: " $4}'"""
             print_msg(command)
             os.system(command)
@@ -8377,20 +8401,191 @@ class LazyOwnShell(Cmd):
                 print(f"IP: {target_ip}, MAC: {target_mac}")       
             gateway_ip = "192.168.1.1" 
             my_mac = "00:11:22:33:44:55" 
-            iface = "wlp2s0" 
+            print_msg("Available Interfaces: ")
+            command = "ip link show | grep -E '^[0-9]+: ' | awk -F': ' '{print $2}'"
+            os.system(command)
+            choice = input("    [!] Enter the interface to use (Default: wlp2s0): ")
+            if not choice:
+                iface = "wlp2s0"
+            else:
+                iface = choice
+
             packet = create_arp_packet(my_mac, gateway_ip, target_ip, target_mac)
             send_packet(packet, iface)
             print(f"Sent spoofing packet to {target_ip} with MAC {target_mac}")
         
         except Exception as e:
             print(f"Error: {e}")
+    
+    def do_sqli(def_func, line):
+        """
+        Asks the user for the URL, database, table, and columns, and then executes the Python script 
+        'modules/lazybsqli.py' with the provided parameters.
 
-def xor_encrypt_decrypt(data, key):
-    """XOR Encrypt or Decrypt data with a given key"""
-    key_bytes = bytes(key, "utf-8")
-    key_length = len(key_bytes)
-    return bytearray([data[i] ^ key_bytes[i % key_length] for i in range(len(data))])
+        Parameters:
+        - def_func: Function to execute (not used in this example).
+        - line: Command line or additional input (not used in this example).
 
+        Example:
+        - do_bsqli(None, None)
+        """
+        
+        # Solicitar parámetros al usuario
+        url = input("Enter the URL (e.g., http://example.com/page.php): ")
+        db = input("Enter the name of the database: ")
+        table = input("Enter the name of the table: ")
+        col = input("Enter the column names separated by commas (e.g., username,password): ")
+
+        # Preparar el comando para ejecutar el script con los parámetros proporcionados
+        command = [
+            'python3', 'modules/lazysqli.py',
+            '--url', url,
+            '--db', db,
+            '--table', table,
+            '--col', col
+        ]
+
+        # Ejecutar el comando
+        try:
+            subprocess.run(command, check=True)
+        except subprocess.CalledProcessError as e:
+            print_error(f"Script Error : {e}")
+        except Exception as e:
+            print_error(f"Unexpected Error: {e}")
+    
+    def do_sshkey(self, line)            :
+        """
+        Generates an SSH key pair with RSA 4096-bit encryption. If no name is provided, it uses 'lazyown' by default.
+        The keys are stored in the 'sessions/' directory.
+
+        Parameters:
+        - line: The name of the key file. If empty, 'lazyown' is used as the default.
+
+        Example:
+        - do_sshkey(None)  # Generates 'lazyown' key
+        - do_sshkey("custom_key")  # Generates 'custom_key' key
+        """
+        if not line:
+            print_warn("usign lazyown by default")
+            line = "lazyown"
+
+        command = f"ssh-keygen -t rsa -b 4096 -f sessions/{line}"
+        print_msg(f"Try... {command}")
+        os.system(command)
+
+    def do_crunch(self, line):
+        """
+        Generate a custom dictionary using the `crunch` tool.
+
+        This function creates a wordlist with a specified length using the `crunch` command. 
+        It allows the user to specify a custom character pattern for the wordlist.
+
+        :param line: The length of the strings to be generated (e.g., '6' for 6-character strings).
+                    If not provided, the function will prompt an error message.
+
+        :returns: None
+
+        Example usage:
+        >>> crunch 6
+        This will generate a wordlist with all possible combinations of 6-character strings using the default pattern.
+
+        Additional notes:
+        - If no custom pattern is provided, the function uses a default pattern: "0123456789abcdefghijklmnñopqrstuvxyz,.-#$%@"
+        - The output is saved in the `sessions/` directory with the filename format `dict_<length>.txt`
+        """
+        if not is_binary_present("crunch"):
+            print_warn("Installing crunch...")
+            os.system("sudo apt install crunch -y")
+
+        if not line:
+            print_error(f"You need to pass the length as an argument. Example: {GREEN}crunch 6{reset}")
+            return
+
+        default_pattern = "0123456789abcdefghijklmnñopqrstuvxyz,.-#$%@"
+        print_msg(f"Default pattern: {default_pattern}")
+        
+        choice_patt = input(f"    [?] Press Enter to use the default pattern, or enter a custom pattern: ")
+        
+        pattern = choice_patt if choice_patt else default_pattern
+        print_msg(f"Using pattern: {pattern}")
+        
+        command = f"crunch {line} {line} {pattern} -o sessions/dict_{line}.txt"
+        os.system(command)
+        return
+
+    def do_malwarebazar(self, line):
+        file = f"sessions/{line}.json"
+        command = f'curl -o {file} -X POST -d "query=get_taginfo&tag={line}&limit=50" https://mb-api.abuse.ch/api/v1/'
+        run(command)
+
+        if not is_exist(file):
+            return
+
+        with open(file, 'r') as f:
+            data = json.load(f)
+            
+        if data.get("query_status") == "no_results":
+            print_warn("Warning: No results found.")
+            return
+
+        for file_info in data['data']:
+            print_msg(f"{BG_RED}{YELLOW}===== {MAGENTA}File Info {YELLOW}=====")
+            print_msg(f"File Name: {BLUE}{file_info.get('file_name')}")
+            print_msg(f"File Type: {BLUE}{file_info.get('file_type')}")
+            print_msg(f"File Size: {BLUE}{file_info.get('file_size')} bytes")
+            print_msg(f"{BG_YELLOW}{RED}SHA-256: {BLUE}{file_info.get('sha256_hash')}")
+            print_msg(f"SHA-1: {BLUE}{file_info.get('sha1_hash')}")
+            print_msg(f"MD5: {BLUE}{file_info.get('md5_hash')}")
+            print_msg(f"First Seen: {BLUE}{file_info.get('first_seen')}")
+            print_msg(f"Signature: {BLUE}{file_info.get('signature')}")
+            print_msg(f"Tags: {BLUE}{', '.join(file_info.get('tags', []))}")
+            
+            intelligence = file_info.get('intelligence', {})
+            clamav_results = intelligence.get('clamav', [])
+            if clamav_results:
+                print_msg(f"ClamAV Results: {', '.join(clamav_results)}")
+            print_msg(f"Downloads: {BLUE}{intelligence.get('downloads')}")
+            print_msg(f"Uploads: {BLUE}{intelligence.get('uploads')}")
+            print_msg(f"{BG_YELLOW}{RED}====================={RESET}\n")
+
+        run(f"rm {file}")
+
+    def do_download_malwarebazar(self, line):
+        """Download a malware sample from MalwareBazaar using its SHA256 hash.
+
+        This function allows the user to download a malware sample from MalwareBazaar by providing 
+        the SHA256 hash of the desired file. If the hash is not provided as an argument, the function 
+        will prompt an error message indicating the correct usage. The downloaded malware sample 
+        will be saved as a zipped file (`malware.zip`) and will be password protected.
+
+        Arguments:
+        line (str): The SHA256 hash of the malware sample to be downloaded.
+
+        Returns:
+        None
+
+        Example:
+        >>> download_malwarebazar 094fd325049b8a9cf6d3e5ef2a6d4cc6a567d7d49c35f8bb8dd9e3c6acf3d78d
+
+        Notes:
+        - Ensure that the SHA256 hash provided is correct and that it corresponds to a file available 
+        on MalwareBazaar.
+        - The downloaded file will be password protected using the password "infected".
+        - To obtain the SHA256 hash of malware samples, refer to the `help malwarebazar` command.
+
+        See Also:
+        - `run(command)`: Utility function used to execute the command for downloading the malware.
+        """
+        if not line:
+            print_error(f"You need pass the hash of malware as an argument example {GREEN}download_malwarebazar 094fd325049b8a9cf6d3e5ef2a6d4cc6a567d7d49c35f8bb8dd9e3c6acf3d78d {BLUE} To get hash of malware see {GREEN}help malwarebazar")
+            return
+        file = "sessions/malware.zip"
+        command = f'curl -X POST -d "query=get_file&sha256_hash={line}" -o {file} https://mb-api.abuse.ch/api/v1/'
+        run(command)
+        print_msg(f'Please note that any malware sample you download from MalwareBazaar will be zipped (malware.zip) and password protected using the password "infected" (without "").')
+        out = run(f"file {file}")
+        print_msg(out)
+        return
 
 if __name__ == "__main__":
     p = LazyOwnShell()

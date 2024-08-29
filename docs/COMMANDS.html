@@ -174,8 +174,6 @@
 </header>
 <h1 id="commands.md-documentation-by-readmeneitor.py">COMMANDS.md
 Documentation by readmeneitor.py</h1>
-<h2 id="xor_encrypt_decrypt">xor_encrypt_decrypt</h2>
-<p>XOR Encrypt or Decrypt data with a given key</p>
 <h2 id="init"><strong>init</strong></h2>
 <p>Initializer for the LazyOwnShell class.</p>
 <p>This method sets up the initial parameters and scripts for an
@@ -2802,13 +2800,25 @@ create the listener</p>
 <p>The function does not return any value. Example of use: curl -X POST
 http://victim:8080/ -d “Get-Process”</p>
 <h2 id="morse">morse</h2>
-<p>*********************** Welcome to Morse Code Convertor 🔄️
-***********************</p>
-<pre><code>         1️⃣  to convert text to Morse code
-             2️⃣  to convert Morse code to text
-             0️⃣  to exit the program</code></pre>
-<p>*********************** End Morse Code Convertor 🔄️
-***********************</p>
+<p>Interactive Morse Code Converter.</p>
+<p>This function serves as an interface for converting text to Morse
+code and vice versa. It provides a menu with the following options:</p>
+<p>1️⃣ Convert text to Morse code. 2️⃣ Convert Morse code to text. 0️⃣ Exit
+the program.</p>
+<p>When the function is called, it runs an external script
+(<code>morse.py</code>) that handles the conversion processes. The
+function also manages keyboard interruptions gracefully, allowing the
+user to exit the program cleanly.</p>
+<p>Arguments: line (str): This argument is reserved for future
+enhancements but is currently not used.</p>
+<p>Returns: None</p>
+<p>Notes: - Ensure that the <code>morse.py</code> module is located in
+the <code>modules</code> directory and is executable. - The function
+captures <code>KeyboardInterrupt</code> to allow safe exit from the
+Morse code converter.</p>
+<p>Example: &gt;&gt;&gt; do_morse(““)</p>
+<p>See Also: - <code>morse.py</code>: The script that contains the logic
+for Morse code conversions.</p>
 <h2 id="waybackmachine">waybackmachine</h2>
 <p>Fetch URLs from the Wayback Machine for a given website. The URL is
 taken from line. If the URL is not provided, an error is printed. The
@@ -2852,6 +2862,61 @@ packet has been sent.</p>
 directly in this function.</p>
 <p>Raises: Exception: If any error occurs during the execution of the
 function.</p>
+<h2 id="sqli">sqli</h2>
+<p>Asks the user for the URL, database, table, and columns, and then
+executes the Python script ‘modules/lazybsqli.py’ with the provided
+parameters.</p>
+<p>Parameters: - def_func: Function to execute (not used in this
+example). - line: Command line or additional input (not used in this
+example).</p>
+<p>Example: - do_bsqli(None, None)</p>
+<h2 id="sshkey">sshkey</h2>
+<p>Generates an SSH key pair with RSA 4096-bit encryption. If no name is
+provided, it uses ‘lazyown’ by default. The keys are stored in the
+‘sessions/’ directory.</p>
+<p>Parameters: - line: The name of the key file. If empty, ‘lazyown’ is
+used as the default.</p>
+<p>Example: - do_sshkey(None) # Generates ‘lazyown’ key -
+do_sshkey(“custom_key”) # Generates ‘custom_key’ key</p>
+<h2 id="crunch">crunch</h2>
+<p>Generate a custom dictionary using the <code>crunch</code> tool.</p>
+<p>This function creates a wordlist with a specified length using the
+<code>crunch</code> command. It allows the user to specify a custom
+character pattern for the wordlist.</p>
+<p>:param line: The length of the strings to be generated (e.g., ‘6’ for
+6-character strings). If not provided, the function will prompt an error
+message.</p>
+<p>:returns: None</p>
+<p>Example usage: &gt;&gt;&gt; crunch 6 This will generate a wordlist
+with all possible combinations of 6-character strings using the default
+pattern.</p>
+<p>Additional notes: - If no custom pattern is provided, the function
+uses a default pattern: “0123456789abcdefghijklmnñopqrstuvxyz,.-#$%@” -
+The output is saved in the <code>sessions/</code> directory with the
+filename format <code>dict_&lt;length&gt;.txt</code></p>
+<h2 id="malwarebazar">malwarebazar</h2>
+<p>No description available.</p>
+<h2 id="download_malwarebazar">download_malwarebazar</h2>
+<p>Download a malware sample from MalwareBazaar using its SHA256
+hash.</p>
+<p>This function allows the user to download a malware sample from
+MalwareBazaar by providing the SHA256 hash of the desired file. If the
+hash is not provided as an argument, the function will prompt an error
+message indicating the correct usage. The downloaded malware sample will
+be saved as a zipped file (<code>malware.zip</code>) and will be
+password protected.</p>
+<p>Arguments: line (str): The SHA256 hash of the malware sample to be
+downloaded.</p>
+<p>Returns: None</p>
+<p>Example: &gt;&gt;&gt; download_malwarebazar
+094fd325049b8a9cf6d3e5ef2a6d4cc6a567d7d49c35f8bb8dd9e3c6acf3d78d</p>
+<p>Notes: - Ensure that the SHA256 hash provided is correct and that it
+corresponds to a file available on MalwareBazaar. - The downloaded file
+will be password protected using the password “infected”. - To obtain
+the SHA256 hash of malware samples, refer to the
+<code>help malwarebazar</code> command.</p>
+<p>See Also: - <code>run(command)</code>: Utility function used to
+execute the command for downloading the malware.</p>
 <h2 id="find_tgts">find_tgts</h2>
 <p>No description available.</p>
 <h2 id="setup_handler">setup_handler</h2>

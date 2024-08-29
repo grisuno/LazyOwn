@@ -1,8 +1,5 @@
 # COMMANDS.md Documentation  by readmeneitor.py
 
-## xor_encrypt_decrypt
-XOR Encrypt or Decrypt data with a given key
-
 ## __init__
 Initializer for the LazyOwnShell class.
 
@@ -4345,12 +4342,34 @@ The function does not return any value.
 Example of use: curl -X POST http://victim:8080/ -d "Get-Process"
 
 ## morse
-*********************** Welcome to Morse Code Convertor 🔄️ ***********************
+Interactive Morse Code Converter.
 
-                 1️⃣  to convert text to Morse code
-                 2️⃣  to convert Morse code to text
-                 0️⃣  to exit the program
-*********************** End Morse Code Convertor 🔄️ ***********************                     
+This function serves as an interface for converting text to Morse code and vice versa. 
+It provides a menu with the following options:
+
+1️⃣  Convert text to Morse code.
+2️⃣  Convert Morse code to text.
+0️⃣  Exit the program.
+
+When the function is called, it runs an external script (`morse.py`) that handles 
+the conversion processes. The function also manages keyboard interruptions 
+gracefully, allowing the user to exit the program cleanly.
+
+Arguments:
+line (str): This argument is reserved for future enhancements but is currently not used.
+
+Returns:
+None
+
+Notes:
+- Ensure that the `morse.py` module is located in the `modules` directory and is executable.
+- The function captures `KeyboardInterrupt` to allow safe exit from the Morse code converter.
+
+Example:
+>>> do_morse("")
+
+See Also:
+- `morse.py`: The script that contains the logic for Morse code conversions.
 
 ## waybackmachine
 Fetch URLs from the Wayback Machine for a given website.
@@ -4403,6 +4422,76 @@ Args:
 
 Raises:
     Exception: If any error occurs during the execution of the function.
+
+## sqli
+Asks the user for the URL, database, table, and columns, and then executes the Python script 
+'modules/lazybsqli.py' with the provided parameters.
+
+Parameters:
+- def_func: Function to execute (not used in this example).
+- line: Command line or additional input (not used in this example).
+
+Example:
+- do_bsqli(None, None)
+
+## sshkey
+Generates an SSH key pair with RSA 4096-bit encryption. If no name is provided, it uses 'lazyown' by default.
+The keys are stored in the 'sessions/' directory.
+
+Parameters:
+- line: The name of the key file. If empty, 'lazyown' is used as the default.
+
+Example:
+- do_sshkey(None)  # Generates 'lazyown' key
+- do_sshkey("custom_key")  # Generates 'custom_key' key
+
+## crunch
+Generate a custom dictionary using the `crunch` tool.
+
+This function creates a wordlist with a specified length using the `crunch` command. 
+It allows the user to specify a custom character pattern for the wordlist.
+
+:param line: The length of the strings to be generated (e.g., '6' for 6-character strings).
+            If not provided, the function will prompt an error message.
+
+:returns: None
+
+Example usage:
+>>> crunch 6
+This will generate a wordlist with all possible combinations of 6-character strings using the default pattern.
+
+Additional notes:
+- If no custom pattern is provided, the function uses a default pattern: "0123456789abcdefghijklmnñopqrstuvxyz,.-#$%@"
+- The output is saved in the `sessions/` directory with the filename format `dict_<length>.txt`
+
+## malwarebazar
+No description available.
+
+## download_malwarebazar
+Download a malware sample from MalwareBazaar using its SHA256 hash.
+
+This function allows the user to download a malware sample from MalwareBazaar by providing 
+the SHA256 hash of the desired file. If the hash is not provided as an argument, the function 
+will prompt an error message indicating the correct usage. The downloaded malware sample 
+will be saved as a zipped file (`malware.zip`) and will be password protected.
+
+Arguments:
+line (str): The SHA256 hash of the malware sample to be downloaded.
+
+Returns:
+None
+
+Example:
+>>> download_malwarebazar 094fd325049b8a9cf6d3e5ef2a6d4cc6a567d7d49c35f8bb8dd9e3c6acf3d78d
+
+Notes:
+- Ensure that the SHA256 hash provided is correct and that it corresponds to a file available 
+on MalwareBazaar.
+- The downloaded file will be password protected using the password "infected".
+- To obtain the SHA256 hash of malware samples, refer to the `help malwarebazar` command.
+
+See Also:
+- `run(command)`: Utility function used to execute the command for downloading the malware.
 
 ## find_tgts
 No description available.

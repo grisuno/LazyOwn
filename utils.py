@@ -42,7 +42,18 @@ from urllib.parse import quote, unquote
 from modules.lazyencoder_decoder import encode, decode
 
 def parse_ip_mac(input_string):
-    """Usa una expresión regular para extraer IP y MAC"""
+    """
+    Extracts IP and MAC addresses from a formatted input string using a regular expression.
+
+    The input string is expected to be in the format: 'IP: (192.168.1.222) MAC: ec:c3:02:b0:4c:96'.
+    The function uses a regular expression to match and extract the IP address and MAC address from the input.
+
+    Args:
+        input_string (str): The formatted string containing the IP and MAC addresses.
+
+    Returns:
+        tuple: A tuple containing the extracted IP address and MAC address. If the format is incorrect, returns (None, None).
+    """
     match = re.match(r"IP:\s*\(([\d.]+)\)\s*MAC:\s*([\da-f:]+)", input_string.strip())
     if match:
         target_ip, target_mac = match.groups()
@@ -52,7 +63,20 @@ def parse_ip_mac(input_string):
         return None, None
 
 def create_arp_packet(src_mac, src_ip, dst_ip, dst_mac):
-    """Ethernet header"""
+    """
+    Constructs an ARP packet with the given source and destination IP and MAC addresses.
+
+    The function creates both Ethernet and ARP headers, combining them into a complete ARP packet.
+
+    Args:
+        src_mac (str): Source MAC address in the format 'xx:xx:xx:xx:xx:xx'.
+        src_ip (str): Source IP address in dotted decimal format (e.g., '192.168.1.1').
+        dst_ip (str): Destination IP address in dotted decimal format (e.g., '192.168.1.2').
+        dst_mac (str): Destination MAC address in the format 'xx:xx:xx:xx:xx:xx'.
+
+    Returns:
+        bytes: The constructed ARP packet containing the Ethernet and ARP headers.
+    """
     eth_header = struct.pack(
         '!6s6sH',
         binascii.unhexlify(dst_mac.replace(':', '')),
@@ -77,7 +101,18 @@ def create_arp_packet(src_mac, src_ip, dst_ip, dst_mac):
     return eth_header + arp_header
 
 def send_packet(packet, iface):
-    """Create a raw socket"""
+    """
+    Sends a raw ARP packet over the specified network interface.
+
+    The function creates a raw socket, binds it to the specified network interface, and sends the given packet.
+
+    Args:
+        packet (bytes): The ARP packet to be sent.
+        iface (str): The name of the network interface to use for sending the packet (e.g., 'eth0').
+
+    Raises:
+        OSError: If an error occurs while creating the socket or sending the packet.
+    """
     with socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.htons(0x0806)) as sock:
         sock.bind((iface, 0))
         sock.send(packet)
@@ -907,6 +942,101 @@ def find_ps(keyword=""):
         return resp.text
     else:
         return False
+
+def xor_encrypt_decrypt(data, key):
+    """
+    Encrypts or decrypts data using XOR encryption with the provided key.
+
+    Parameters:
+    data (bytes or bytearray): The input data to be encrypted or decrypted.
+    key (str): The encryption key as a string.
+
+    Returns:
+    bytearray: The result of the XOR operation, which can be either the encrypted or decrypted data.
+
+    Example:
+    encrypted_data = xor_encrypt_decrypt(b"Hello, World!", "key")
+    decrypted_data = xor_encrypt_decrypt(encrypted_data, "key")
+    print(decrypted_data.decode("utf-8"))  # Outputs: Hello, World!
+
+    Additional Notes:
+    - XOR encryption is symmetric, meaning that the same function is used for both encryption and decryption.
+    - The key is repeated cyclically to match the length of the data if necessary.
+    - This method is commonly used for simple encryption tasks, but it is not secure for protecting sensitive information.
+    """
+    key_bytes = bytes(key, "utf-8")
+    key_length = len(key_bytes)
+    return bytearray([data[i] ^ key_bytes[i % key_length] for i in range(len(data))])
+
+def run(command):
+    """
+    Executes a shell command using the subprocess module, capturing its output.
+
+    Parameters:
+    command (str): The command to execute.
+
+    Returns:
+    str: The output of the command if successful, or an error message if an exception occurs.
+
+    Exceptions:
+    - FileNotFoundError: Raised if the command is not found.
+    - subprocess.CalledProcessError: Raised if the command exits with a non-zero status.
+    - subprocess.TimeoutExpired: Raised if the command times out.
+    - Exception: Catches any other unexpected exceptions.
+
+    Example:
+    output = run("ls -la")
+    print(output)
+
+    Additional Notes:
+    The function attempts to execute the provided command, capturing its output.
+    It also handles common exceptions that may occur during command execution.
+    """
+    try:
+        print_msg(f"Attempting to execute: {command}")
+        result = subprocess.run(command, shell=True, check=True, capture_output=True, text=True)
+        print_msg(result)
+        return result.stdout.strip()
+    except FileNotFoundError as fnf_error:
+        print_error(f"Command not found: {command}")
+        return str(fnf_error)
+    except subprocess.CalledProcessError as cpe_error:
+        print_error(f"Command failed with exit code {cpe_error.returncode}: {command}")
+        return str(cpe_error)
+    except subprocess.TimeoutExpired as te_error:
+        print_error(f"Command timed out: {command}")
+        return str(te_error)
+    except Exception as e:
+        print_error(f"An unexpected error occurred: {str(e)}")
+        return str(e)
+
+def is_exist(file):
+    """Check if a file exists.
+
+    This function checks whether a given file exists on the filesystem. If the file 
+    does not exist, it prints an error message and returns False. Otherwise, it returns True.
+
+    Arguments:
+    file (str): The path to the file that needs to be checked.
+
+    Returns:
+    bool: Returns True if the file exists, False otherwise.
+
+    Example:
+    >>> is_exist('/path/to/file.txt')
+    True
+    >>> is_exist('/non/existent/file.txt')
+    False
+
+    Notes:
+    This function uses os.path.isfile to determine the existence of the file. 
+    Ensure that the provided path is correct and accessible.
+    """
+
+    if not os.path.isfile(file):
+        print_error(f"Fatal error: {file} is missing")
+        return False
+    return True
 
 
 signal.signal(signal.SIGINT, signal_handler)

@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Correcciones urgentes
+
+### Otros
+
+  *   * hotfix(hotfix): deleted the insecure chat \n\n Version: release/0.1.32 \n\n DELETED \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Aug 30 02:58:04 2024 -0400 \n\n Hora: 1725001084
+
+
 ### Otros
 
 ### Otros

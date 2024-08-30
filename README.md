@@ -5833,24 +5833,6 @@ Example usage:
 - set url http://example.com
 - do_dmitry
 
-## start_server
-Start the chat server that listens for incoming connections.
-
-## start_client
-Start the chat client and connect to the server via the ngrok link.
-
-## handle_connection
-No description available.
-
-## receive_messages
-No description available.
-
-## send_messages
-No description available.
-
-## chat
-Start chat server or client depending on the input.
-
 ## graudit
 Executes the graudit command to perform a static code analysis with the specified options.
 
@@ -5974,6 +5956,13 @@ Raises:
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Otros
+
+### Otros
+
+  *   * feature(feat): Nuevos comandos documentados en COMMANDS.md \n\n Version: release/0.1.31 \n\n parsero, nueclei, dmitry, msfrpc, graudit, cewl, sslscan \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - external/install_external.sh - lazyown - sessions/download_resources.sh - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 28 23:02:18 2024 -0400 \n\n Hora: 1724900538
 
 
 ### Otros

@@ -4614,24 +4614,6 @@ Example usage:
 - set url http://example.com
 - do_dmitry
 
-## start_server
-Start the chat server that listens for incoming connections.
-
-## start_client
-Start the chat client and connect to the server via the ngrok link.
-
-## handle_connection
-No description available.
-
-## receive_messages
-No description available.
-
-## send_messages
-No description available.
-
-## chat
-Start chat server or client depending on the input.
-
 ## graudit
 Executes the graudit command to perform a static code analysis with the specified options.
 

@@ -2442,6 +2442,34 @@ Example:
 Note:
     Ensure that the `tun0` interface exists and has an IP address assigned. If `tun0` is not present or has no IP address, the clipboard will not be updated.
 
+## ipp
+Displays IP addresses of network interfaces and prints the IP address from the `tun0` interface.
+
+This function performs the following tasks:
+1. Displays IP addresses for all network interfaces using `ip a show scope global` and `awk`.
+2. Prints the IP address from the `tun0` interface.
+
+Usage:
+    ip
+
+:param line: This parameter is not used in the function but is included for consistency with other command methods.
+:type line: str
+:returns: None
+
+Manual execution:
+1. The command `ip a show scope global | awk '/^[0-9]+:/ { sub(/:/,"",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, "/"); print "    [[96m" iface"[0m] "a[1] }'` is executed to display the IP addresses of all network interfaces.
+2. The IP address of the `tun0` interface is printed to the console using the command `ip a show tun0 | grep 'inet ' | awk '{print $2}' | cut -d'/' -f1`.
+
+Dependencies:
+- The function relies on `awk`, `grep`, `cut`, and `xclip` to process and display the IP address.
+
+Example:
+    ip
+    # This will display IP addresses for all network interfaces and print the IP address from `tun0`.
+
+Note:
+    Ensure that the `tun0` interface exists and has an IP address assigned. If `tun0` is not present or has no IP address, the address will not be displayed.
+
 ## rhost
 Copies the remote host (rhost) to the clipboard and updates the command prompt.
 
@@ -2477,6 +2505,38 @@ Example:
 
 Note:
     Ensure that the `rhost` is valid by checking it with the `check_rhost` function before copying it to the clipboard.
+
+## rrhost
+Updates the command prompt to include the remote host (rhost) and current working directory.
+
+This function performs two tasks:
+1. It updates the command prompt to include the `rhost` and the current working directory if `line` is not 'clean'.
+2. It resets the command prompt to its default format if `line` is 'clean'.
+
+Usage:
+    rhost [clean]
+
+:param line: An optional argument that determines the behavior of the function:
+    - If 'clean', it resets the command prompt to its default format.
+    - If any other value, it updates the command prompt to include the `rhost` and current working directory.
+:type line: str
+:returns: None
+
+Manual execution:
+1. If `line` is 'clean':
+- The command prompt is reset to its default format.
+2. If `line` is any other value:
+- The command prompt is updated to show the `rhost` and the current working directory.
+
+Example:
+    rhost
+    # This will update the command prompt to include the `rhost` and current working directory.
+    
+    rhost clean
+    # This will reset the command prompt to its default format.
+
+Note:
+    Ensure that the `rhost` is valid by checking it with the `check_rhost` function before updating the prompt.
 
 ## banner
 Show the banner
@@ -4492,6 +4552,131 @@ on MalwareBazaar.
 
 See Also:
 - `run(command)`: Utility function used to execute the command for downloading the malware.
+
+## sslscan
+Run an SSL scan on the specified remote host.
+
+This function initiates an SSL scan on a specified remote host (`rhost`)
+using the `sslscan-singleip.sh` script. If a specific port is provided in the
+`line` argument, the scan will target that port; otherwise, it will scan
+all available ports.
+
+Parameters:
+line (str): The port number to scan (optional). If omitted, the scan will target all ports.
+
+Internal Variables:
+rhost (str): The remote host IP address or hostname extracted from the `params` attribute.
+
+Returns:
+None
+
+Example Usage:
+- To scan all ports on the specified `rhost`: `sslscan`
+- To scan a specific port (e.g., port 443) on `rhost`: `sslscan 443`
+
+Note:
+- The `check_rhost()` function is used to validate the `rhost` before running the scan.
+- The `sslscan-singleip.sh` script must be present in the `sessions` directory.
+
+## cewl
+This function constructs and executes a command for the 'cewl' tool.
+It first checks if the 'url' parameter is set. If not, it prints an error message.
+If the 'url' is set, it extracts the domain from the URL using the get_domain function.
+Then, it constructs a 'cewl' command with the specified parameters and prepares it for execution.
+
+Scan to a depth of 2 (-d 2) and use a minimum word length of 5 (-m 5), save the words to a file (-w docswords.txt), targeting the given URL (https://example.com):
+
+Parameters:
+line (str): The command line input for this function.
+
+Expected self.params keys:
+- url (str): The URL to be used for the 'cewl' command.
+
+Example usage:
+- set url http://example.com
+- do_cewl
+
+## dmitry
+This function constructs and executes a command for the 'dmitry' tool.
+It first checks if the 'url' parameter is set. If not, it prints an error message.
+If the 'url' is set, it extracts the domain from the URL using the get_domain function.
+Then, it constructs a 'dmitry' command with the specified parameters and prepares it for execution.
+
+Run a domain whois lookup (w), an IP whois lookup (i), retrieve Netcraft info (n), search for subdomains (s), search for email addresses (e), do a TCP port scan (p), and save the output to example.txt (o) for the domain example.com:
+
+Parameters:
+line (str): The command line input for this function.
+
+Expected self.params keys:
+- url (str): The URL to be used for the 'dmitry' command.
+
+Example usage:
+- set url http://example.com
+- do_dmitry
+
+## start_server
+Start the chat server that listens for incoming connections.
+
+## start_client
+Start the chat client and connect to the server via the ngrok link.
+
+## handle_connection
+No description available.
+
+## receive_messages
+No description available.
+
+## send_messages
+No description available.
+
+## chat
+Start chat server or client depending on the input.
+
+## graudit
+Executes the graudit command to perform a static code analysis with the specified options.
+
+This function runs the 'graudit' tool with the '-A' option for an advanced scan and 
+the '-i sessions' option to include session files. The results will be displayed 
+directly in the terminal.
+
+Args:
+    line (str): Input line from the command interface. This argument is currently 
+                not used within the function but is required for the command 
+                interface structure.
+                
+Example:
+    To run this function from the command interface, simply type 'graudit' and press enter.
+    The function will execute the 'graudit -A -i sessions' command.
+
+Note:
+    Ensure that 'graudit' is installed and properly configured in your system's PATH 
+    for this function to work correctly.
+
+## msfrpc
+Connects to the msfrpcd daemon and allows remote control of Metasploit.
+
+Usage:
+    msfrpc -a <IP address> -p <port> -U <username> -P <password> [-S]
+
+This command will prompt the user for necessary information to connect to msfrpcd.
+
+## nuclei
+Executes a Nuclei scan on a specified target URL or host.
+
+Usage:
+    nuclei -u <URL> [-o <output file>] [other options]
+
+If a URL is provided as an argument, it will be used as the target for the scan.
+Otherwise, it will use the target specified in self.params["rhost"].
+
+## parsero
+Executes a parsero scan on a specified target URL or host.
+
+Usage:
+    parsero -u <URL> [-o <output file>] [other options]
+
+If a URL is provided as an argument, it will be used as the target for the scan.
+Otherwise, it will use the target specified in self.params["rhost"].
 
 ## find_tgts
 No description available.

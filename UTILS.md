@@ -453,6 +453,15 @@ Notes:
 This function uses os.path.isfile to determine the existence of the file. 
 Ensure that the provided path is correct and accessible.
 
+## get_domain
+Extracts the domain from a given URL.
+
+Parameters:
+url (str): The full URL from which to extract the domain.
+
+Returns:
+str: The extracted domain from the URL, or None if it cannot be extracted.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 

@@ -6,6 +6,13 @@
 
 ### Otros
 
+  *   * feature(feat): Nuevos comandos documentados en COMMANDS.md \n\n Version: release/0.1.31 \n\n parsero, nueclei, dmitry, msfrpc, graudit, cewl, sslscan \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - external/install_external.sh - lazyown - sessions/download_resources.sh - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 28 23:02:18 2024 -0400 \n\n Hora: 1724900538
+
+
+### Otros
+
+### Otros
+
   *   * feature(feat): Nuevos comandos documentados en COMMANDS.md \n\n Version: release/0.1.30 \n\n sqli, sshkey, crunch, malwarebazar, download_malwarebazar, and an easteregg :) \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - lazyown - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Aug 27 02:47:43 2024 -0400 \n\n Hora: 1724741263
 
 

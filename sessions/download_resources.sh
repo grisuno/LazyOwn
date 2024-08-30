@@ -30,6 +30,7 @@ download() {
         "wget https://github.com/prodigiousMind/revshell/archive/refs/heads/main.zip"
         "wget https://raw.githubusercontent.com/ly4k/PwnKit/main/PwnKit"
         "wget https://github.com/icsharpcode/AvaloniaILSpy/releases/download/v7.2-rc/Linux.x64.Release.zip"
+        "wget https://github.com/RedSiege/WMImplant/raw/master/WMImplant.ps1"
     )
 
     # Imprime los últimos argumentos de cada comando

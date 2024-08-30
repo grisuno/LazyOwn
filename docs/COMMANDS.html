@@ -2442,6 +2442,31 @@ clipboard.</p>
 <p>Note: Ensure that the <code>tun0</code> interface exists and has an
 IP address assigned. If <code>tun0</code> is not present or has no IP
 address, the clipboard will not be updated.</p>
+<h2 id="ipp">ipp</h2>
+<p>Displays IP addresses of network interfaces and prints the IP address
+from the <code>tun0</code> interface.</p>
+<p>This function performs the following tasks: 1. Displays IP addresses
+for all network interfaces using <code>ip a show scope global</code> and
+<code>awk</code>. 2. Prints the IP address from the <code>tun0</code>
+interface.</p>
+<p>Usage: ip</p>
+<p>:param line: This parameter is not used in the function but is
+included for consistency with other command methods. :type line: str
+:returns: None</p>
+<p>Manual execution: 1. The command
+<code>ip a show scope global | awk '/^[0-9]+:/ { sub(/:/,"",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, "/"); print "    [[96m" iface"[0m] "a[1] }'</code>
+is executed to display the IP addresses of all network interfaces. 2.
+The IP address of the <code>tun0</code> interface is printed to the
+console using the command
+<code>ip a show tun0 | grep 'inet ' | awk '{print $2}' | cut -d'/' -f1</code>.</p>
+<p>Dependencies: - The function relies on <code>awk</code>,
+<code>grep</code>, <code>cut</code>, and <code>xclip</code> to process
+and display the IP address.</p>
+<p>Example: ip # This will display IP addresses for all network
+interfaces and print the IP address from <code>tun0</code>.</p>
+<p>Note: Ensure that the <code>tun0</code> interface exists and has an
+IP address assigned. If <code>tun0</code> is not present or has no IP
+address, the address will not be displayed.</p>
 <h2 id="rhost">rhost</h2>
 <p>Copies the remote host (rhost) to the clipboard and updates the
 command prompt.</p>
@@ -2470,6 +2495,29 @@ format.</p>
 <p>Note: Ensure that the <code>rhost</code> is valid by checking it with
 the <code>check_rhost</code> function before copying it to the
 clipboard.</p>
+<h2 id="rrhost">rrhost</h2>
+<p>Updates the command prompt to include the remote host (rhost) and
+current working directory.</p>
+<p>This function performs two tasks: 1. It updates the command prompt to
+include the <code>rhost</code> and the current working directory if
+<code>line</code> is not ‘clean’. 2. It resets the command prompt to its
+default format if <code>line</code> is ‘clean’.</p>
+<p>Usage: rhost [clean]</p>
+<p>:param line: An optional argument that determines the behavior of the
+function: - If ‘clean’, it resets the command prompt to its default
+format. - If any other value, it updates the command prompt to include
+the <code>rhost</code> and current working directory. :type line: str
+:returns: None</p>
+<p>Manual execution: 1. If <code>line</code> is ‘clean’: - The command
+prompt is reset to its default format. 2. If <code>line</code> is any
+other value: - The command prompt is updated to show the
+<code>rhost</code> and the current working directory.</p>
+<p>Example: rhost # This will update the command prompt to include the
+<code>rhost</code> and current working directory.</p>
+<p>rhost clean # This will reset the command prompt to its default
+format.</p>
+<p>Note: Ensure that the <code>rhost</code> is valid by checking it with
+the <code>check_rhost</code> function before updating the prompt.</p>
 <h2 id="banner">banner</h2>
 <p>Show the banner</p>
 <h2 id="py3ttyup">py3ttyup</h2>
@@ -2917,6 +2965,98 @@ the SHA256 hash of malware samples, refer to the
 <code>help malwarebazar</code> command.</p>
 <p>See Also: - <code>run(command)</code>: Utility function used to
 execute the command for downloading the malware.</p>
+<h2 id="sslscan">sslscan</h2>
+<p>Run an SSL scan on the specified remote host.</p>
+<p>This function initiates an SSL scan on a specified remote host
+(<code>rhost</code>) using the <code>sslscan-singleip.sh</code> script.
+If a specific port is provided in the <code>line</code> argument, the
+scan will target that port; otherwise, it will scan all available
+ports.</p>
+<p>Parameters: line (str): The port number to scan (optional). If
+omitted, the scan will target all ports.</p>
+<p>Internal Variables: rhost (str): The remote host IP address or
+hostname extracted from the <code>params</code> attribute.</p>
+<p>Returns: None</p>
+<p>Example Usage: - To scan all ports on the specified
+<code>rhost</code>: <code>sslscan</code> - To scan a specific port
+(e.g., port 443) on <code>rhost</code>: <code>sslscan 443</code></p>
+<p>Note: - The <code>check_rhost()</code> function is used to validate
+the <code>rhost</code> before running the scan. - The
+<code>sslscan-singleip.sh</code> script must be present in the
+<code>sessions</code> directory.</p>
+<h2 id="cewl">cewl</h2>
+<p>This function constructs and executes a command for the ‘cewl’ tool.
+It first checks if the ‘url’ parameter is set. If not, it prints an
+error message. If the ‘url’ is set, it extracts the domain from the URL
+using the get_domain function. Then, it constructs a ‘cewl’ command with
+the specified parameters and prepares it for execution.</p>
+<p>Scan to a depth of 2 (-d 2) and use a minimum word length of 5 (-m
+5), save the words to a file (-w docswords.txt), targeting the given URL
+(https://example.com):</p>
+<p>Parameters: line (str): The command line input for this function.</p>
+<p>Expected self.params keys: - url (str): The URL to be used for the
+‘cewl’ command.</p>
+<p>Example usage: - set url http://example.com - do_cewl</p>
+<h2 id="dmitry">dmitry</h2>
+<p>This function constructs and executes a command for the ‘dmitry’
+tool. It first checks if the ‘url’ parameter is set. If not, it prints
+an error message. If the ‘url’ is set, it extracts the domain from the
+URL using the get_domain function. Then, it constructs a ‘dmitry’
+command with the specified parameters and prepares it for execution.</p>
+<p>Run a domain whois lookup (w), an IP whois lookup (i), retrieve
+Netcraft info (n), search for subdomains (s), search for email addresses
+(e), do a TCP port scan (p), and save the output to example.txt (o) for
+the domain example.com:</p>
+<p>Parameters: line (str): The command line input for this function.</p>
+<p>Expected self.params keys: - url (str): The URL to be used for the
+‘dmitry’ command.</p>
+<p>Example usage: - set url http://example.com - do_dmitry</p>
+<h2 id="start_server">start_server</h2>
+<p>Start the chat server that listens for incoming connections.</p>
+<h2 id="start_client">start_client</h2>
+<p>Start the chat client and connect to the server via the ngrok
+link.</p>
+<h2 id="handle_connection">handle_connection</h2>
+<p>No description available.</p>
+<h2 id="receive_messages">receive_messages</h2>
+<p>No description available.</p>
+<h2 id="send_messages">send_messages</h2>
+<p>No description available.</p>
+<h2 id="chat">chat</h2>
+<p>Start chat server or client depending on the input.</p>
+<h2 id="graudit">graudit</h2>
+<p>Executes the graudit command to perform a static code analysis with
+the specified options.</p>
+<p>This function runs the ‘graudit’ tool with the ‘-A’ option for an
+advanced scan and the ‘-i sessions’ option to include session files. The
+results will be displayed directly in the terminal.</p>
+<p>Args: line (str): Input line from the command interface. This
+argument is currently not used within the function but is required for
+the command interface structure.</p>
+<p>Example: To run this function from the command interface, simply type
+‘graudit’ and press enter. The function will execute the ‘graudit -A -i
+sessions’ command.</p>
+<p>Note: Ensure that ‘graudit’ is installed and properly configured in
+your system’s PATH for this function to work correctly.</p>
+<h2 id="msfrpc">msfrpc</h2>
+<p>Connects to the msfrpcd daemon and allows remote control of
+Metasploit.</p>
+<p>Usage: msfrpc -a <IP address> -p <port> -U <username> -P <password>
+[-S]</p>
+<p>This command will prompt the user for necessary information to
+connect to msfrpcd.</p>
+<h2 id="nuclei">nuclei</h2>
+<p>Executes a Nuclei scan on a specified target URL or host.</p>
+<p>Usage: nuclei -u <URL> [-o ] [other options]</p>
+<p>If a URL is provided as an argument, it will be used as the target
+for the scan. Otherwise, it will use the target specified in
+self.params[“rhost”].</p>
+<h2 id="parsero">parsero</h2>
+<p>Executes a parsero scan on a specified target URL or host.</p>
+<p>Usage: parsero -u <URL> [-o ] [other options]</p>
+<p>If a URL is provided as an argument, it will be used as the target
+for the scan. Otherwise, it will use the target specified in
+self.params[“rhost”].</p>
 <h2 id="find_tgts">find_tgts</h2>
 <p>No description available.</p>
 <h2 id="setup_handler">setup_handler</h2>

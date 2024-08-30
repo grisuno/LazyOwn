@@ -19,26 +19,27 @@ Descripción: Este archivo contiene la definición de la lógica de todas las fu
 import re
 import os
 import sys
-import subprocess
-import shlex
-import signal
+import ssl
 import json
 import time
+import glob
+import shlex
+import signal
 import base64
 import string
-import glob
-import readline
-import requests
 import ctypes
-import urllib.request
-import tempfile
 import socket
 import struct
 import binascii
-
-from libnmap.process import NmapProcess
+import readline
+import requests
+import tempfile
+import threading
+import subprocess
+import urllib.request
 from libnmap.parser import NmapParser
-from urllib.parse import quote, unquote
+from libnmap.process import NmapProcess
+from urllib.parse import quote, unquote, urlparse
 from modules.lazyencoder_decoder import encode, decode
 
 def parse_ip_mac(input_string):
@@ -279,7 +280,7 @@ def signal_handler(sig, frame):
 
     global should_exit
     print_warn(
-        f"{RED}{YELLOW} para salir usar el comando{GREEN} exit, q or qa ...{RESET}"
+        f"{RED}{YELLOW} To exit, use the command{GREEN} exit, q, or qa ...{RESET}"
     )
     should_exit = True
     readline.set_history_length(0)
@@ -1037,6 +1038,24 @@ def is_exist(file):
         print_error(f"Fatal error: {file} is missing")
         return False
     return True
+
+def get_domain(url):
+    """
+    Extracts the domain from a given URL.
+
+    Parameters:
+    url (str): The full URL from which to extract the domain.
+
+    Returns:
+    str: The extracted domain from the URL, or None if it cannot be extracted.
+    """
+    pattern = r'^(?:https?://)?(?:www\.)?([^/]+)'
+    match = re.search(pattern, url)
+    if match:
+        return match.group(1)
+    return None
+
+
 
 
 signal.signal(signal.SIGINT, signal_handler)

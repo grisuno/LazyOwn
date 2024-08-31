@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Otros
+
+### Otros
+
+  *   * feature(feat): nuevos comandos documentados en COMMANDS.md \n\n Version: release/0.1.33 \n\n sherlock, trufflehog, weevelygen, weevely \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - external/install_external.sh - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Aug 30 03:07:45 2024 -0400 \n\n Hora: 1725001665
+
+
 ### Correcciones urgentes
 
 ### Otros

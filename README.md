@@ -1211,6 +1211,12 @@ url (str): The full URL from which to extract the domain.
 Returns:
 str: The extracted domain from the URL, or None if it cannot be extracted.
 
+## generate_certificates
+Generates a certificate authority (CA), client certificate, and client key.
+
+Returns:
+    str: Paths to the generated CA certificate, client certificate, and client key.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 
@@ -5974,6 +5980,100 @@ Example:
 To generate a PHP backdoor protected with the password 's3cr3t', use the following command:
 $ weevelygen s3cr3t
 
+## changeme
+Executes a changeme scan on a specified target URL or host.
+
+Usage:
+    changeme [-o <output file>] --oa -t 20 rhost
+
+If a URL is provided as an argument, it will be used as the target for the scan.
+Otherwise, it will use the target specified in self.params["rhost"].
+
+## enum4linux_ng
+Performs enumeration of information from a target system using `enum4linux-ng`.
+
+1. Executes the `enum4linux-ng` command with the `-A` option to gather extensive information from the specified target.
+
+:param line: This parameter is not used in the current implementation but could be used to pass additional options or arguments if needed.
+:param rhost: The target host for enumeration, specified in the `params` dictionary.
+
+:returns: None
+
+Manual execution:
+To manually enumerate information from a system, use the following command:
+    enum4linu-ng -A <target_host>
+
+Replace `<target_host>` with the IP address or hostname of the target system.
+
+For example:
+    enum4linux-ng -A 192.168.1.10
+
+## fuzz
+Executes a web server fuzzing script with user-provided parameters.
+
+This function prompts the user for the necessary parameters to run the fuzzing script,
+including the target IP, port, HTTP method, directory, file extension, and expected status codes.
+
+Usage:
+    fuzzing
+
+Parameters:
+    line (str): The command line input for the function (not used directly in the current implementation).
+
+Returns:
+    None
+
+Example:
+    To run the fuzzing script, enter the required parameters when prompted by the function.
+
+## sharpshooter
+Executes a payload creation framework for the retrieval and execution of arbitrary CSharp source code.
+SharpShooter is capable of creating payloads in a variety of formats, including HTA, JS, VBS, and WSF.
+
+Usage:
+    sharpshooter [-o <output file>] --oa -t 20 rhost
+
+This function installs SharpShooter if it is not already installed, prompts the user for the payload type, 
+and then runs SharpShooter to create a payload based on the specified type.
+
+Parameters:
+    line (str): The command line input for the function (not used directly in the current implementation).
+
+Returns:
+    None
+
+Example:
+    To create a payload using SharpShooter, ensure you have already generated shellcode using lazymsfvenom or venom,
+    and then run this function to specify the payload type and generate the final payload file.
+
+## sliver_server
+Starts the Sliver server and generates a client configuration file for connecting clients.
+Provides options to download the Sliver client for Windows, Linux, or macOS.
+
+Usage:
+    sliver-server [flags]
+    sliver-client [command]
+
+This function installs Sliver if it is not already installed, starts the Sliver server,
+generates the necessary certificates, and creates a client configuration file. 
+It also provides options to download the client for different operating systems.
+
+Parameters:
+    line (str): The command line input for the function (not used directly in the current implementation).
+
+Returns:
+    None
+
+Example:
+    To start the Sliver server, generate the necessary certificates, and download the client,
+    run this function. Choose the appropriate client download option based on the operating system.
+
+## gencert
+Generates a certificate authority (CA), client certificate, and client key.
+
+Returns:
+    str: Paths to the generated CA certificate, client certificate, and client key.
+
 ## find_tgts
 No description available.
 
@@ -6051,6 +6151,13 @@ Raises:
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Otros
+
+### Otros
+
+  *   * feature(feat): nuevos comandos documentados en COMMANDS.md \n\n Version: release/0.1.33 \n\n sherlock, trufflehog, weevelygen, weevely \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - external/install_external.sh - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Aug 30 03:07:45 2024 -0400 \n\n Hora: 1725001665
 
 
 ### Correcciones urgentes

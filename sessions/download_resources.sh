@@ -31,6 +31,9 @@ download() {
         "wget https://raw.githubusercontent.com/ly4k/PwnKit/main/PwnKit"
         "wget https://github.com/icsharpcode/AvaloniaILSpy/releases/download/v7.2-rc/Linux.x64.Release.zip"
         "wget https://github.com/RedSiege/WMImplant/raw/master/WMImplant.ps1"
+        "wget https://github.com/BishopFox/sliver/releases/download/v1.5.42/sliver-client_linux"
+        "wget https://github.com/BishopFox/sliver/releases/download/v1.5.42/sliver-client_windows.exe"
+        "wget https://github.com/BishopFox/sliver/releases/download/v1.5.42/sliver-client_macos"
     )
 
     # Imprime los últimos argumentos de cada comando

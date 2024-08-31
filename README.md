@@ -5879,6 +5879,101 @@ Usage:
 If a URL is provided as an argument, it will be used as the target for the scan.
 Otherwise, it will use the target specified in self.params["rhost"].
 
+## sherlock
+Executes the Sherlock tool to find usernames across social networks.
+
+This function takes a username as an argument and runs the Sherlock tool 
+to check for the username's presence on various social networks. The 
+results are saved in CSV format in the `sessions` directory.
+
+Parameters:
+line (str): The username to be checked by Sherlock. If not provided, an 
+            error message is printed and the function returns.
+
+Returns:
+None
+
+Raises:
+None
+
+Example:
+>>> do_sherlock("example_user")
+Running command: sherlock example_user --local -v --csv --print-found
+
+Additional Notes:
+- The Sherlock tool must be installed and available in the system path.
+- The results are saved in the `sessions` directory as a CSV file.
+- The `--local` flag forces the use of a local `data.json` file, 
+which should be present in the appropriate directory.
+
+## trufflehog
+Executes trufflehog to search for secrets in a given Git repository URL. 
+If trufflehog is not installed, it installs the tool automatically. 
+This function navigates to the 'sessions' directory and runs trufflehog 
+with the provided Git URL, outputting the results in JSON format.
+
+Args:
+    line (str): The Git repository URL to scan for secrets.
+
+Returns:
+    None
+
+Raises:
+    None
+
+Example:
+    trufflehog https://github.com/user/repo.git
+
+Notes:
+    - Ensure that trufflehog is installed or it will be installed automatically.
+    - The output of the trufflehog scan is printed and executed in the 'sessions' directory.
+
+## weevelygen
+Generate a PHP backdoor using Weevely, protected with the given password.
+
+This function generates a PHP backdoor file using the specified password. It ensures that Weevely is installed on the system before attempting to generate the backdoor. If Weevely is not present, it will be installed automatically. 
+
+Usage:
+┌─[LazyOwn👽127.0.0.1 ~/LazyOwn][10.10.10.10][http://victim.local/]
+└╼ $ weevelygen s3cr3t
+
+Parameters:
+line (str): The password to protect the generated PHP backdoor.
+
+Returns:
+None
+
+Raises:
+print_error: If the password argument is not provided.
+print_warn: If Weevely is not installed and needs to be installed.
+
+Example:
+To generate a PHP backdoor protected with the password 's3cr3t', use the following command:
+$ weevelygen s3cr3t
+
+## weevely
+Connect to PHP backdoor using Weevely, protected with the given password.
+
+This function Connect to PHP backdoor file using the specified password. It ensures that Weevely is installed on the system before attempting to generate the backdoor. If Weevely is not present, it will be installed automatically. 
+
+Usage:
+┌─[LazyOwn👽127.0.0.1 ~/LazyOwn][10.10.10.10][http://victim.local/]
+└╼ $ weevely http://victim.local/weevely.php s3cr3t
+
+Parameters:
+line (str): the url to Weevely shell and the password to protect the generated PHP backdoor.
+
+Returns:
+None
+
+Raises:
+print_error: If the password argument is not provided.
+print_warn: If Weevely is not installed and needs to be installed.
+
+Example:
+To generate a PHP backdoor protected with the password 's3cr3t', use the following command:
+$ weevelygen s3cr3t
+
 ## find_tgts
 No description available.
 
@@ -5956,6 +6051,13 @@ Raises:
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Correcciones urgentes
+
+### Otros
+
+  *   * hotfix(hotfix): deleted the insecure chat \n\n Version: release/0.1.32 \n\n DELETED \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Aug 30 02:58:04 2024 -0400 \n\n Hora: 1725001084
 
 
 ### Otros

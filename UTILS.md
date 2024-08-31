@@ -462,6 +462,12 @@ url (str): The full URL from which to extract the domain.
 Returns:
 str: The extracted domain from the URL, or None if it cannot be extracted.
 
+## generate_certificates
+Generates a certificate authority (CA), client certificate, and client key.
+
+Returns:
+    str: Paths to the generated CA certificate, client certificate, and client key.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 

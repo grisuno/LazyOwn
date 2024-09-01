@@ -2943,7 +2943,23 @@ uses a default pattern: “0123456789abcdefghijklmnñopqrstuvxyz,.-#$%@” -
 The output is saved in the <code>sessions/</code> directory with the
 filename format <code>dict_&lt;length&gt;.txt</code></p>
 <h2 id="malwarebazar">malwarebazar</h2>
-<p>No description available.</p>
+<p>Fetches and displays malware information from the MalwareBazaar API
+based on the given tag.</p>
+<p>Args: line (str): The tag used to query the MalwareBazaar API.</p>
+<p>This function performs the following steps: 1. Constructs a URL to
+query the MalwareBazaar API with the provided tag. 2. Uses
+<code>curl</code> to send a POST request to the API and saves the
+response in a JSON file. 3. Checks if the file was successfully created
+and exists. 4. Loads the JSON data from the file. 5. Checks the
+<code>query_status</code> field to determine if there are results. - If
+<code>no_results</code>, prints a warning message and exits the
+function. 6. Iterates through the list of file information provided in
+the response. - Prints detailed information about each file, including:
+- File name - File type - File size - Hashes (SHA-256, SHA-1, MD5) -
+First seen date - Signature - Tags - ClamAV results (if any) - Downloads
+and uploads count 7. Deletes the temporary file used to store the API
+response.</p>
+<p>Returns: None</p>
 <h2 id="download_malwarebazar">download_malwarebazar</h2>
 <p>Download a malware sample from MalwareBazaar using its SHA256
 hash.</p>
@@ -3204,7 +3220,7 @@ listed in the users.txt file.</p>
 <p>This function interacts with the DACL editor to modify access control
 lists in an Active Directory environment. It allows the user to select a
 specific user from the list or execute the command for all users.
-install impacket suit to get this script in the examples Args: line
+Install impacket suit to get this script in the examples Args: line
 (str): The organizational unit (OU) in the format
 ‘OU=EXAMPLE,DC=DOMAIN,DC=EXT’. If not provided, the user is prompted to
 enter it.</p>

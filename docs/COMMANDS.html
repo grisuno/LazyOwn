@@ -3199,9 +3199,48 @@ is in your path, then run this function to perform the enumeration.</p>
 sessions/users.txt should exist and contain the list of usernames to
 enumerate.</p>
 <h2 id="dacledit">dacledit</h2>
-<p>No description available.</p>
+<p>Execute the dacledit.py command for a specific user or all users
+listed in the users.txt file.</p>
+<p>This function interacts with the DACL editor to modify access control
+lists in an Active Directory environment. It allows the user to select a
+specific user from the list or execute the command for all users.
+install impacket suit to get this script in the examples Args: line
+(str): The organizational unit (OU) in the format
+‘OU=EXAMPLE,DC=DOMAIN,DC=EXT’. If not provided, the user is prompted to
+enter it.</p>
+<p>Returns: None</p>
+<p>Workflow: 1. Extract parameters and set up paths. 2. Check the
+reachability of the remote host. 3. Prompt the user for an OU if not
+provided. 4. Check if the users.txt file exists and read the list of
+users. 5. Display the list of users and prompt the user to select a
+specific user. 6. Execute the dacledit.py command for the selected user
+or all users.</p>
+<p>Raises: FileNotFoundError: If the users.txt file does not exist.</p>
+<p>Example: To execute the command for a specific user: &gt;&gt;&gt;
+do_dacledit(“MARKETING DIGITAL”)</p>
+<p>To execute the command for all users: &gt;&gt;&gt;
+do_dacledit(““)</p>
 <h2 id="bloodyad">bloodyAD</h2>
-<p>No description available.</p>
+<p>Execute the bloodyAD.py command for a specific user or all users
+listed in the users.txt file.</p>
+<p>This function interacts with BloodyAD to add users to a group in an
+Active Directory environment. It allows the user to select a specific
+user from the list or execute the command for all users. (use
+download_external option 48 to clone the repo) Args: line (str): The
+organizational unit (OU) in the format ‘CN=EXAMPLE,DC=DOMAIN,DC=EXT’. If
+not provided, the user is prompted to enter it.</p>
+<p>Returns: None</p>
+<p>Workflow: 1. Extract parameters and set up paths. 2. Check the
+reachability of the remote host. 3. Prompt the user for a CN if not
+provided. 4. Check if the users.txt file exists and read the list of
+users. 5. Display the list of users and prompt the user to select a
+specific user. 6. Execute the bloodyAD.py command for the selected user
+or all users.</p>
+<p>Raises: FileNotFoundError: If the users.txt file does not exist.</p>
+<p>Example: To execute the command for a specific user: &gt;&gt;&gt;
+do_bloodyAD(““)</p>
+<p>To execute the command for all users: &gt;&gt;&gt;
+do_bloodyAD(““)</p>
 <h2 id="evilwinrm">evilwinrm</h2>
 <p>Executes the Evil-WinRM tool to attempt authentication against the
 specified target.</p>

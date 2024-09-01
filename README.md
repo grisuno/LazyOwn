@@ -6098,10 +6098,65 @@ Note:
 - The file sessions/users.txt should exist and contain the list of usernames to enumerate.
 
 ## dacledit
-No description available.
+Execute the dacledit.py command for a specific user or all users listed in the users.txt file.
+
+This function interacts with the DACL editor to modify access control lists in an Active Directory environment. 
+It allows the user to select a specific user from the list or execute the command for all users.
+install impacket suit to get this script in the examples
+Args:
+    line (str): The organizational unit (OU) in the format 'OU=EXAMPLE,DC=DOMAIN,DC=EXT'. If not provided, the user is prompted to enter it.
+
+Returns:
+    None
+
+Workflow:
+    1. Extract parameters and set up paths.
+    2. Check the reachability of the remote host.
+    3. Prompt the user for an OU if not provided.
+    4. Check if the users.txt file exists and read the list of users.
+    5. Display the list of users and prompt the user to select a specific user.
+    6. Execute the dacledit.py command for the selected user or all users.
+
+Raises:
+    FileNotFoundError: If the users.txt file does not exist.
+
+Example:
+    To execute the command for a specific user:
+    >>> do_dacledit("MARKETING DIGITAL")
+
+    To execute the command for all users:
+    >>> do_dacledit("")
 
 ## bloodyAD
-No description available.
+Execute the bloodyAD.py command for a specific user or all users listed in the users.txt file.
+
+This function interacts with BloodyAD to add users to a group in an Active Directory environment.
+It allows the user to select a specific user from the list or execute the command for all users.
+(use download_external option 48 to clone the repo)
+Args:
+    line (str): The organizational unit (OU) in the format 'CN=EXAMPLE,DC=DOMAIN,DC=EXT'. 
+                If not provided, the user is prompted to enter it.
+
+Returns:
+    None
+
+Workflow:
+    1. Extract parameters and set up paths.
+    2. Check the reachability of the remote host.
+    3. Prompt the user for a CN if not provided.
+    4. Check if the users.txt file exists and read the list of users.
+    5. Display the list of users and prompt the user to select a specific user.
+    6. Execute the bloodyAD.py command for the selected user or all users.
+
+Raises:
+    FileNotFoundError: If the users.txt file does not exist.
+
+Example:
+    To execute the command for a specific user:
+    >>> do_bloodyAD("")
+
+    To execute the command for all users:
+    >>> do_bloodyAD("")
 
 ## evilwinrm
 Executes the Evil-WinRM tool to attempt authentication against the specified target.
@@ -6211,6 +6266,13 @@ Raises:
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Otros
+
+### Otros
+
+  *   * feature(feat): Nuevos comandos documentados en COMMANDS.md \n\n Version: release/0.1.35 \n\n kerbrute, dacledit, bloodyAD, evilwinrm, getTGT \n\n Modified file(s):\n- .gitignore - COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - external/install_external.sh - lazyown - payload.json - sessions/php/LFI/scan-LFI.php - sessions/php/LFI/uploadshellLFI.php - sessions/php/ar-protable/arabportable.php - sessions/php/jo/bru-jo.php - sessions/php/jo/pass.txt - sessions/php/jo/site.txt - sessions/php/shell/c2.sh - sessions/php/shell/shell.php - sessions/php/user/user.php - sessions/php/wp/wp.php - sessions/users.txt\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Aug 31 06:21:44 2024 -0400 \n\n Hora: 1725099704
 
 
 ### Otros

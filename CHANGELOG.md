@@ -6,6 +6,13 @@
 
 ### Otros
 
+  *   * docs(docs): documented malwarebazar \n\n Version: release/0.1.35 \n\n Fetches and displays malware information from the MalwareBazaar API based on the given tag. \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - sessions/download_resources.sh\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Sep 1 00:21:33 2024 -0400 \n\n Hora: 1725164493
+
+
+### Documentación
+
+### Otros
+
   *   * docs(docs): documentating \n\n Version: release/0.1.35 \n\n functions dacledit and bloodyAD \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Sep 1 00:13:39 2024 -0400 \n\n Hora: 1725164019
 
 

@@ -4525,7 +4525,33 @@ Additional notes:
 - The output is saved in the `sessions/` directory with the filename format `dict_<length>.txt`
 
 ## malwarebazar
-No description available.
+Fetches and displays malware information from the MalwareBazaar API based on the given tag.
+
+Args:
+    line (str): The tag used to query the MalwareBazaar API.
+
+This function performs the following steps:
+1. Constructs a URL to query the MalwareBazaar API with the provided tag.
+2. Uses `curl` to send a POST request to the API and saves the response in a JSON file.
+3. Checks if the file was successfully created and exists.
+4. Loads the JSON data from the file.
+5. Checks the `query_status` field to determine if there are results.
+    - If `no_results`, prints a warning message and exits the function.
+6. Iterates through the list of file information provided in the response.
+    - Prints detailed information about each file, including:
+        - File name
+        - File type
+        - File size
+        - Hashes (SHA-256, SHA-1, MD5)
+        - First seen date
+        - Signature
+        - Tags
+        - ClamAV results (if any)
+        - Downloads and uploads count
+7. Deletes the temporary file used to store the API response.
+
+Returns:
+    None
 
 ## download_malwarebazar
 Download a malware sample from MalwareBazaar using its SHA256 hash.
@@ -4877,7 +4903,7 @@ Execute the dacledit.py command for a specific user or all users listed in the u
 
 This function interacts with the DACL editor to modify access control lists in an Active Directory environment. 
 It allows the user to select a specific user from the list or execute the command for all users.
-install impacket suit to get this script in the examples
+Install impacket suit to get this script in the examples
 Args:
     line (str): The organizational unit (OU) in the format 'OU=EXAMPLE,DC=DOMAIN,DC=EXT'. If not provided, the user is prompted to enter it.
 

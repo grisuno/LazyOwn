@@ -6,6 +6,13 @@
 
 ### Otros
 
+  *   * feature(feat): Nuevos comandos documentados en COMMANDS.md \n\n Version: release/0.1.35 \n\n kerbrute, dacledit, bloodyAD, evilwinrm, getTGT \n\n Modified file(s):\n- .gitignore - COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - external/install_external.sh - lazyown - payload.json - sessions/php/LFI/scan-LFI.php - sessions/php/LFI/uploadshellLFI.php - sessions/php/ar-protable/arabportable.php - sessions/php/jo/bru-jo.php - sessions/php/jo/pass.txt - sessions/php/jo/site.txt - sessions/php/shell/c2.sh - sessions/php/shell/shell.php - sessions/php/user/user.php - sessions/php/wp/wp.php - sessions/users.txt\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Aug 31 06:21:44 2024 -0400 \n\n Hora: 1725099704
+
+
+### Otros
+
+### Otros
+
   *   * feature(feat): nuevos comandos documetados en COMMANDS.md \n\n Version: release/0.1.34 \n\n changeme, enum4linux_ng, fuzz, sharpshooter, sliver_server, gencert \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - lazyown - sessions/download_resources.sh - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Aug 30 23:33:30 2024 -0400 \n\n Hora: 1725075210
 
 

@@ -6074,6 +6074,66 @@ Generates a certificate authority (CA), client certificate, and client key.
 Returns:
     str: Paths to the generated CA certificate, client certificate, and client key.
 
+## kerbrute
+Executes the Kerbrute tool to enumerate user accounts against a specified target domain controller.
+
+This function performs the following actions:
+1. Retrieves necessary parameters such as the target URL and remote host (rhost).
+2. Determines the domain based on the provided URL.
+3. Validates the remote host address.
+4. Constructs and executes the Kerbrute command to enumerate user accounts, saving the results in the sessions/users.txt file.
+
+Parameters:
+line (str): Specify 'pass' to use credentials from 'credentials.txt' for password spraying, 'brute' to brute force using 'users.txt' and the RockYou wordlist, or leave empty for default behavior.
+
+Returns:
+None
+
+Example:
+To enumerate user accounts using Kerbrute, ensure Kerbrute is in your path, 
+then run this function to perform the enumeration.
+
+Note:
+- The function assumes that the Kerbrute binary (kerbrute_linux_amd64) is present in the system's PATH.
+- The file sessions/users.txt should exist and contain the list of usernames to enumerate.
+
+## dacledit
+No description available.
+
+## bloodyAD
+No description available.
+
+## evilwinrm
+Executes the Evil-WinRM tool to attempt authentication against the specified target.
+
+This function performs the following actions:
+1. Checks if the provided target host (`rhost`) is valid.
+2. If the `line` argument is "pass", it reads credentials from the `credentials.txt` file and attempts authentication for each user-password pair using Evil-WinRM.
+3. If `line` is not "pass", it prints an error message indicating the correct usage.
+
+Parameters:
+line (str): A command argument to determine the action. 
+            If "pass", the function reads credentials from the `credentials.txt` file and attempts to authenticate.
+            If not "pass", it prints an error message with usage instructions.
+
+Returns:
+None
+
+## getTGT
+Requests a Ticket Granting Ticket (TGT) using the Impacket tool with provided credentials.
+
+This function performs the following actions:
+1. Checks if the provided target host (`rhost`) is valid.
+2. Reads credentials from the `credentials.txt` file.
+3. Uses each credential (username and password) to request a TGT with the Impacket tool.
+4. Constructs and executes the Impacket command to obtain a TGT for each set of credentials.
+
+Parameters:
+line (str): A command line argument, not used in this implementation.
+
+Returns:
+None
+
 ## find_tgts
 No description available.
 
@@ -6151,6 +6211,13 @@ Raises:
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Otros
+
+### Otros
+
+  *   * feature(feat): nuevos comandos documetados en COMMANDS.md \n\n Version: release/0.1.34 \n\n changeme, enum4linux_ng, fuzz, sharpshooter, sliver_server, gencert \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - lazyown - sessions/download_resources.sh - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Aug 30 23:33:30 2024 -0400 \n\n Hora: 1725075210
 
 
 ### Otros

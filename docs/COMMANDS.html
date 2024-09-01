@@ -3179,6 +3179,55 @@ appropriate client download option based on the operating system.</p>
 client key.</p>
 <p>Returns: str: Paths to the generated CA certificate, client
 certificate, and client key.</p>
+<h2 id="kerbrute">kerbrute</h2>
+<p>Executes the Kerbrute tool to enumerate user accounts against a
+specified target domain controller.</p>
+<p>This function performs the following actions: 1. Retrieves necessary
+parameters such as the target URL and remote host (rhost). 2. Determines
+the domain based on the provided URL. 3. Validates the remote host
+address. 4. Constructs and executes the Kerbrute command to enumerate
+user accounts, saving the results in the sessions/users.txt file.</p>
+<p>Parameters: line (str): Specify ‘pass’ to use credentials from
+‘credentials.txt’ for password spraying, ‘brute’ to brute force using
+‘users.txt’ and the RockYou wordlist, or leave empty for default
+behavior.</p>
+<p>Returns: None</p>
+<p>Example: To enumerate user accounts using Kerbrute, ensure Kerbrute
+is in your path, then run this function to perform the enumeration.</p>
+<p>Note: - The function assumes that the Kerbrute binary
+(kerbrute_linux_amd64) is present in the system’s PATH. - The file
+sessions/users.txt should exist and contain the list of usernames to
+enumerate.</p>
+<h2 id="dacledit">dacledit</h2>
+<p>No description available.</p>
+<h2 id="bloodyad">bloodyAD</h2>
+<p>No description available.</p>
+<h2 id="evilwinrm">evilwinrm</h2>
+<p>Executes the Evil-WinRM tool to attempt authentication against the
+specified target.</p>
+<p>This function performs the following actions: 1. Checks if the
+provided target host (<code>rhost</code>) is valid. 2. If the
+<code>line</code> argument is “pass”, it reads credentials from the
+<code>credentials.txt</code> file and attempts authentication for each
+user-password pair using Evil-WinRM. 3. If <code>line</code> is not
+“pass”, it prints an error message indicating the correct usage.</p>
+<p>Parameters: line (str): A command argument to determine the action.
+If “pass”, the function reads credentials from the
+<code>credentials.txt</code> file and attempts to authenticate. If not
+“pass”, it prints an error message with usage instructions.</p>
+<p>Returns: None</p>
+<h2 id="gettgt">getTGT</h2>
+<p>Requests a Ticket Granting Ticket (TGT) using the Impacket tool with
+provided credentials.</p>
+<p>This function performs the following actions: 1. Checks if the
+provided target host (<code>rhost</code>) is valid. 2. Reads credentials
+from the <code>credentials.txt</code> file. 3. Uses each credential
+(username and password) to request a TGT with the Impacket tool. 4.
+Constructs and executes the Impacket command to obtain a TGT for each
+set of credentials.</p>
+<p>Parameters: line (str): A command line argument, not used in this
+implementation.</p>
+<p>Returns: None</p>
 <h2 id="find_tgts">find_tgts</h2>
 <p>No description available.</p>
 <h2 id="setup_handler">setup_handler</h2>

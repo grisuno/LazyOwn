@@ -1100,11 +1100,12 @@ for arg in arguments:
         print(f"    {RED}[;,;]{GREEN} LazyOwn {CYAN}{version}{RESET}")
         print(f"    {GREEN}Uso: {WHITE}./run {GREEN}[opciones]{RESET}")
         print(f"    {YELLOW}Opciones:")
-        print(f"    {BLUE}  --help         Muestra esta ayuda")
-        print(f"    {BLUE}  -v             Muestra la version")
-        print(f"    {BLUE}  -c             Ejecuta un comando del LazyOwn ej: ping")
-        print(f"    {BLUE}  --no-banner    No muestra el Banner{RESET}")
-        print(f"    {BLUE}  -s             Run as r00t {RESET}")
+        print(f"    {BLUE}  --help             Muestra esta ayuda")
+        print(f"    {BLUE}  -v                 Muestra la version")
+        print(f"    {BLUE}  -p <payloadN.json> Ejecuta LazyOwn con un payload.json diferente ejemplo ./run -p payload1.json, (Especial para Red Teams)")
+        print(f"    {BLUE}  -c <comando>       Ejecuta un comando del LazyOwn ej: ping")
+        print(f"    {BLUE}  --no-banner        No muestra el Banner{RESET}")
+        print(f"    {BLUE}  -s                 Run as r00t {RESET}")
         sys.exit(0)
 
     elif arg == "-v":
@@ -1118,8 +1119,12 @@ for arg in arguments:
         RUN_AS_ROOT = True
 
     elif arg.startswith("-c"):
-        print_msg(f"Ejecutando comando {arg}")
+        print_msg(f"Ejecutando comando: opción {arg}")
         break
+    elif arg.startswith("-p"):
+        print_msg(f"Cargando Payload: opción {arg}")
+        break
+        
     else:
         print_error(f"Argumento no reconocido: {arg}")
         sys.exit(2)

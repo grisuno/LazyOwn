@@ -1306,26 +1306,26 @@ representing the command to be executed. - <code>self.output</code> must
 be initialized before calling this method. - Ensure proper exception
 handling to manage process interruptions.</p>
 <h2 id="payload">payload</h2>
-<p>Load parameters from payload.json</p>
-<p>This function loads parameters from a JSON file named
-<code>payload.json</code> and updates the instance’s <code>params</code>
-dictionary with the values from the file. If the file does not exist or
-contains invalid JSON, it will print an appropriate error message.</p>
-<p>Usage: payload</p>
-<p>:param line: This parameter is not used in this function. :type line:
-str</p>
+<p>Load parameters from a specified payload JSON file.</p>
+<p>This function loads parameters from a JSON file specified by the
+<code>line</code> argument and updates the instance’s
+<code>params</code> dictionary with the values from the file. If the
+file does not exist or contains invalid JSON, it will print an
+appropriate error message.</p>
+<p>Usage: payload <filename></p>
+<p>:param line: The name of the JSON file to load. :type line: str</p>
 <p>:returns: None</p>
-<p>Manual execution: 1. Open and read the <code>payload.json</code>
-file. 2. Update the <code>params</code> dictionary with values from the
-JSON file. 3. Print a success message if the parameters were
-successfully loaded. 4. Handle <code>FileNotFoundError</code> if the
-file does not exist. 5. Handle <code>JSONDecodeError</code> if there is
-an error decoding the JSON file.</p>
+<p>Manual execution: 1. Open and read the specified JSON file. 2. Update
+the <code>params</code> dictionary with values from the JSON file. 3.
+Print a success message if the parameters were successfully loaded. 4.
+Handle <code>FileNotFoundError</code> if the file does not exist. 5.
+Handle <code>JSONDecodeError</code> if there is an error decoding the
+JSON file.</p>
 <p>Dependencies: - <code>json</code> module for reading and parsing the
 JSON file.</p>
-<p>Example: To execute the function, simply call
-<code>payload</code>.</p>
-<p>Note: - Ensure that <code>payload.json</code> exists in the current
+<p>Example: To execute the function, call
+<code>payload payload_10.10.10.10.json</code>.</p>
+<p>Note: - Ensure that the specified JSON file exists in the current
 directory and is properly formatted. - The confirmation message includes
 color formatting for better visibility.</p>
 <h2 id="exit">exit</h2>
@@ -3283,6 +3283,26 @@ set of credentials.</p>
 <p>Parameters: line (str): A command line argument, not used in this
 implementation.</p>
 <p>Returns: None</p>
+<h2 id="apache_users">apache_users</h2>
+<p>Performs enumeration of users from a target system using
+<code>apache-users</code>.</p>
+<ol type="1">
+<li>Executes the <code>apache-users</code> command with the
+<code>-h</code> option to specified target.</li>
+</ol>
+<p>:param line: This parameter is not used in the current implementation
+but could be used to pass additional options or arguments if needed.
+:param rhost: The target host for enumeration, specified in the
+<code>params</code> dictionary.</p>
+<p>:returns: None</p>
+<p>Manual execution: To manually enumerate information from a system,
+use the following command: apache-users -h <target_host> -l <wordlist>
+-p <apache_port> -s 0 -e 403 -t 10</p>
+<p>Replace <code>&lt;target_host&gt;</code> with the IP address or
+hostname of the target system.</p>
+<p>For example: apache-users -h 192.168.1.202 -l
+/usr/share/wordlists/metasploit/unix_users.txt -p 80 -s 0 -e 403 -t
+10</p>
 <h2 id="find_tgts">find_tgts</h2>
 <p>No description available.</p>
 <h2 id="setup_handler">setup_handler</h2>

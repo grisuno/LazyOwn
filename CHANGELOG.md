@@ -6,6 +6,13 @@
 
 ### Otros
 
+  *   * feature(feat): comandos nuevos documentados en commands.md \n\n Version: release/0.1.37 \n\n davtest y backdoor_factory \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Sep 2 23:34:25 2024 -0400 \n\n Hora: 1725334465
+
+
+### Otros
+
+### Otros
+
   *   * feature(feat): new command apache_users & new options -p to use diferents payloads.json \n\n Version: release/0.1.36 \n\n now more oriented to redteams you can run multiple instances with multiple payloads \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - main.py - sessions/users.txt - sessions/win/winp.ps1 - templates/index.html - utils.py\nDeleted file(s):\n- main.py - templates/index.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Sep 1 05:45:31 2024 -0400 \n\n Hora: 1725183931
 
 

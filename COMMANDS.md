@@ -1588,6 +1588,7 @@ Replace `<target_ip>` with the IP address of the target system. For example:
 Runs the `nikto` tool to perform a web server vulnerability scan against the specified target host.
 
 1. Executes `nikto` with the `-h` option to specify the target host IP address.
+2. Installs `nikto` if it is not already installed.
 
 :param line: This parameter is not used in the current implementation but could be used to specify additional options or arguments if needed.
 :param rhost: The IP address of the target web server, specified in the `params` dictionary.
@@ -5051,6 +5052,30 @@ Replace `<url>` with the URL of the WebDAV server you want to test.
 
 For example:
     davtest --url http://example.com/webdav
+
+## msfpc
+Generates payloads using MSFvenom Payload Creator (MSFPC).
+
+This function checks if `msfpc` is installed and installs it if necessary. It then runs `msfpc`
+with the specified parameters to create a payload for penetration testing.
+
+:param line: Not used in this implementation but reserved for future use.
+
+:returns: None
+
+Manual execution:
+To manually generate a payload using MSFPC, use the following command:
+    msfpc <TYPE> <DOMAIN/IP> <PORT> <CMD/MSF> <BIND/REVERSE> <STAGED/STAGELESS> <TCP/HTTP/HTTPS/FIND_PORT> <BATCH/LOOP> <VERBOSE>
+
+Replace the placeholders with the desired values. For example:
+    msfpc windows 192.168.1.10 4444 reverse stageless tcp verbose
+
+Example usage:
+    msfpc windows 192.168.1.10        # Windows & manual IP.
+    msfpc elf bind eth0 4444          # Linux, eth0's IP & manual port.
+    msfpc stageless cmd py https      # Python, stageless command prompt.
+    msfpc verbose loop eth1           # A payload for every type, using eth1's IP.
+    msfpc msf batch wan               # All possible Meterpreter payloads, using WAN IP.
 
 ## find_tgts
 No description available.

@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Nuevas características
+
+### Otros
+
+  *   * feat(fet): msfpc \n\n Version: release/0.1.38 \n\n automation \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Sep 3 01:15:14 2024 -0400 \n\n Hora: 1725340514
+
+
 ### Otros
 
 ### Otros

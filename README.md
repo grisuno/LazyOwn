@@ -6424,6 +6424,13 @@ Raises:
 # Changelog
 
 
+### Documentación
+
+### Otros
+
+  *   * docs(docs): better docs \n\n Version: release/0.1.38 \n\n is zen now :) \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Sep 4 02:31:58 2024 -0400 \n\n Hora: 1725431518
+
+
 ### Nuevas características
 
 ### Otros

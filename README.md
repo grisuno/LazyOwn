@@ -6292,22 +6292,76 @@ Example usage:
     msfpc msf batch wan               # All possible Meterpreter payloads, using WAN IP.
 
 ## find_tgts
-No description available.
+Finds and returns a list of target hosts with port 445 open in the specified subnet.
+
+Args:
+    subnet (str): The subnet to scan, e.g., '192.168.1.0/24'.
+
+Returns:
+    list: A list of IP addresses where port 445 is open.
 
 ## setup_handler
-No description available.
+Sets up a Metasploit multi/handler configuration in the given config file.
+
+Args:
+    config_file (file-like object): The file object to write the Metasploit handler configuration to.
+    lhost (str): The local host IP address to listen for incoming connections.
+    lport (int): The local port number to listen for incoming connections.
+
+Writes:
+    - Exploit configuration for Metasploit to the provided file.
 
 ## conficker_exploit
-No description available.
+Configures and writes a Metasploit exploit for the Conficker vulnerability to the given config file.
+
+Args:
+    config_file (file-like object): The file object to write the Metasploit exploit configuration to.
+    host (str): The target host IP address to exploit.
+    lhost (str): The local host IP address to listen for incoming connections.
+    lport (int): The local port number to listen for incoming connections.
+
+Writes:
+    - Exploit configuration for the Conficker vulnerability (MS08-067) to the provided file.
 
 ## smb_brute
-No description available.
+Configures and writes a Metasploit SMB brute force exploit for the given host to the provided config file.
+
+Args:
+    config_file (file-like object): The file object to write the Metasploit exploit configuration to.
+    host (str): The target host IP address to exploit.
+    passwd_file (str): Path to a file containing a list of passwords to use for brute force.
+    lhost (str): The local host IP address to listen for incoming connections.
+    lport (int): The local port number to listen for incoming connections.
+
+Writes:
+    - Exploit configuration for SMB brute force (using the psexec module) to the provided file for each password in the passwd_file.
 
 ## setup_handler
-No description available.
+Sets up a Metasploit multi/handler exploit configuration in the provided config file.
+
+Args:
+    config_file (file-like object): The file object to write the Metasploit handler configuration to.
+    lhost (str): The local host IP address to listen for incoming connections.
+    lport (int): The local port number to listen for incoming connections.
+
+Writes:
+    - Configuration commands to the file to set up the Metasploit handler with the specified payload and options.
+    - The payload used is `php/meterpreter/reverse_tcp`.
+    - The handler is configured to listen on the provided LHOST and LPORT.
+    - Starts the exploit with the `-j -z` options.
 
 ## cacti_exploit
-No description available.
+Configures an exploit for the Cacti Package Import Remote Code Execution vulnerability in the provided config file.
+
+Args:
+    config_file (file-like object): The file object to write the Metasploit exploit configuration to.
+    host (str): The target host IP address where the Cacti service is running.
+
+Writes:
+    - Configuration commands to the file to set up the Metasploit exploit for the Cacti Package Import RCE.
+    - Sets the RHOST to the target host IP.
+    - Sets the payload options including the LHOST, USERNAME, and PASSWORD.
+    - Starts the exploit with the `-j -z` options.
 
 ## double_base64_encode
 Perform double Base64 encoding on the given command.
@@ -6368,6 +6422,13 @@ Raises:
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(fet): msfpc \n\n Version: release/0.1.38 \n\n automation \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Sep 3 01:15:14 2024 -0400 \n\n Hora: 1725340514
 
 
 ### Otros

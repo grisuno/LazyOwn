@@ -68,10 +68,10 @@ class LazyOwnShell(Cmd):
     {GREEN}[+] Web: {BLUE}{UNDERLINE}https://grisuno.github.io/LazyOwn/{RESET}
     {GREEN}[+] Reddit: {BLUE}{UNDERLINE}https://www.reddit.com/r/LazyOwn/{RESET}
     {GREEN}[+] Facebook: {BLUE}{UNDERLINE}https://web.facebook.com/profile.php?id=61560596232150{RESET}
-    {GREEN}[+] hackTheBox: {BLUE}{UNDERLINE}https://app.hackthebox.com/teams/overview/6429 {RESET}
-    {GREEN}[+] grisun0: {BLUE}{UNDERLINE}https://app.hackthebox.com/users/1998024{RESET}
+    {GREEN}[+] HackTheBox: {BLUE}{UNDERLINE}https://app.hackthebox.com/teams/overview/6429 {RESET}
+    {GREEN}[+] Grisun0: {BLUE}{UNDERLINE}https://app.hackthebox.com/users/1998024{RESET}
     {GREEN}[+] Patreon: {BLUE}{UNDERLINE}https://patreon.com/LazyOwn {RESET}
-    {GREEN}[+] Dwonload: {BLUE}{UNDERLINE}https://github.com/grisuno/LazyOwn/archive/refs/tags/{version}.tar.gz {RESET}
+    {GREEN}[↙] Download: {BLUE}{UNDERLINE}https://github.com/grisuno/LazyOwn/archive/refs/tags/{version}.tar.gz {RESET}
         """
     activate_virtualenv("env")
 

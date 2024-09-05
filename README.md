@@ -5548,23 +5548,6 @@ list (str): Not used in this function, but kept for compatibility with cmd comma
 Returns:
 None
 
-## ngrok
-Set up and run ngrok on a specified local port. If ngrok is not installed, it will
-automatically be installed. The user will be prompted to provide their ngrok
-authentication token to complete the setup.
-
-Args:
-    line (str): The input line, though it's not directly used in this function.
-
-Workflow:
-1. Check if the local port specified in `self.params["lport"]` is valid.
-2. Verify if ngrok is installed. If not, proceed with installation.
-3. After installation, prompt the user to authenticate ngrok using their token.
-4. Once authenticated, run ngrok to expose the specified local port.
-
-Note:
-    The ngrok authentication token can be obtained from the ngrok dashboard.
-
 ## wifipass
 This function generates a PowerShell script that retrieves saved Wi-Fi passwords on a Windows system.
 The script gathers the Wi-Fi profiles, extracts their passwords, and saves the information in a text file

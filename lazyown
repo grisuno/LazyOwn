@@ -8339,57 +8339,6 @@ class LazyOwnShell(Cmd):
             print_warn("Abort. smalldic")
         return
 
-    def do_ngrok(self, line):
-        """
-        Set up and run ngrok on a specified local port. If ngrok is not installed, it will
-        automatically be installed. The user will be prompted to provide their ngrok
-        authentication token to complete the setup.
-
-        Args:
-            line (str): The input line, though it's not directly used in this function.
-
-        Workflow:
-        1. Check if the local port specified in `self.params["lport"]` is valid.
-        2. Verify if ngrok is installed. If not, proceed with installation.
-        3. After installation, prompt the user to authenticate ngrok using their token.
-        4. Once authenticated, run ngrok to expose the specified local port.
-
-        Note:
-            The ngrok authentication token can be obtained from the ngrok dashboard.
-        """
-        lport = self.params["lport"]
-        if not check_lport(lport):
-            return
-        if not is_binary_present("ngrok"):
-            print_warn("Installing ngrok")
-            install = """
-            curl -sSL https://ngrok-agent.s3.amazonaws.com/ngrok.asc \                                                                       ─╯
-                | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null \
-                && echo "deb https://ngrok-agent.s3.amazonaws.com buster main" \
-                | sudo tee /etc/apt/sources.list.d/ngrok.list \
-                && sudo apt update \
-                && sudo apt install ngrok
-            """
-            print_msg(install)
-            os.system(install)
-            
-            print_msg("visit https://dashboard.ngrok.com/get-started/your-authtoken to get your token")
-            token = input("    [!] Authenticate your ngrok agent with your Token:")
-            install = "ngrok config add-authtoken"
-            command = f"{install} {token}"
-            print_msg(command)
-            choice = input("    [?] is it correct ? (yes/no)")
-            if choice == "yes":
-                os.system(command)
-                print_msg("Done")
-            else:
-                print_warn("Exiting...")
-                return
-        command = f"ngrok http http://localhost:{lport}"
-        print_msg(f"Try... {command}")
-        os.system(command)
-        return
-
     def do_wifipass(self, line):
         """
         This function generates a PowerShell script that retrieves saved Wi-Fi passwords on a Windows system.

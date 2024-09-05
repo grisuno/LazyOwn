@@ -3959,19 +3959,6 @@ files. If the user declines, the process is aborted.</p>
 <p>Parameters: list (str): Not used in this function, but kept for
 compatibility with cmd command input.</p>
 <p>Returns: None</p>
-<h2 id="ngrok">ngrok</h2>
-<p>Set up and run ngrok on a specified local port. If ngrok is not
-installed, it will automatically be installed. The user will be prompted
-to provide their ngrok authentication token to complete the setup.</p>
-<p>Args: line (str): The input line, though it’s not directly used in
-this function.</p>
-<p>Workflow: 1. Check if the local port specified in
-<code>self.params["lport"]</code> is valid. 2. Verify if ngrok is
-installed. If not, proceed with installation. 3. After installation,
-prompt the user to authenticate ngrok using their token. 4. Once
-authenticated, run ngrok to expose the specified local port.</p>
-<p>Note: The ngrok authentication token can be obtained from the ngrok
-dashboard.</p>
 <h2 id="wifipass">wifipass</h2>
 <p>This function generates a PowerShell script that retrieves saved
 Wi-Fi passwords on a Windows system. The script gathers the Wi-Fi

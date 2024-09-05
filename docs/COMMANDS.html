@@ -3362,17 +3362,62 @@ stageless cmd py https # Python, stageless command prompt. msfpc verbose
 loop eth1 # A payload for every type, using eth1’s IP. msfpc msf batch
 wan # All possible Meterpreter payloads, using WAN IP.</p>
 <h2 id="find_tgts">find_tgts</h2>
-<p>No description available.</p>
+<p>Finds and returns a list of target hosts with port 445 open in the
+specified subnet.</p>
+<p>Args: subnet (str): The subnet to scan, e.g., ‘192.168.1.0/24’.</p>
+<p>Returns: list: A list of IP addresses where port 445 is open.</p>
 <h2 id="setup_handler">setup_handler</h2>
-<p>No description available.</p>
+<p>Sets up a Metasploit multi/handler configuration in the given config
+file.</p>
+<p>Args: config_file (file-like object): The file object to write the
+Metasploit handler configuration to. lhost (str): The local host IP
+address to listen for incoming connections. lport (int): The local port
+number to listen for incoming connections.</p>
+<p>Writes: - Exploit configuration for Metasploit to the provided
+file.</p>
 <h2 id="conficker_exploit">conficker_exploit</h2>
-<p>No description available.</p>
+<p>Configures and writes a Metasploit exploit for the Conficker
+vulnerability to the given config file.</p>
+<p>Args: config_file (file-like object): The file object to write the
+Metasploit exploit configuration to. host (str): The target host IP
+address to exploit. lhost (str): The local host IP address to listen for
+incoming connections. lport (int): The local port number to listen for
+incoming connections.</p>
+<p>Writes: - Exploit configuration for the Conficker vulnerability
+(MS08-067) to the provided file.</p>
 <h2 id="smb_brute">smb_brute</h2>
-<p>No description available.</p>
+<p>Configures and writes a Metasploit SMB brute force exploit for the
+given host to the provided config file.</p>
+<p>Args: config_file (file-like object): The file object to write the
+Metasploit exploit configuration to. host (str): The target host IP
+address to exploit. passwd_file (str): Path to a file containing a list
+of passwords to use for brute force. lhost (str): The local host IP
+address to listen for incoming connections. lport (int): The local port
+number to listen for incoming connections.</p>
+<p>Writes: - Exploit configuration for SMB brute force (using the psexec
+module) to the provided file for each password in the passwd_file.</p>
 <h2 id="setup_handler-1">setup_handler</h2>
-<p>No description available.</p>
+<p>Sets up a Metasploit multi/handler exploit configuration in the
+provided config file.</p>
+<p>Args: config_file (file-like object): The file object to write the
+Metasploit handler configuration to. lhost (str): The local host IP
+address to listen for incoming connections. lport (int): The local port
+number to listen for incoming connections.</p>
+<p>Writes: - Configuration commands to the file to set up the Metasploit
+handler with the specified payload and options. - The payload used is
+<code>php/meterpreter/reverse_tcp</code>. - The handler is configured to
+listen on the provided LHOST and LPORT. - Starts the exploit with the
+<code>-j -z</code> options.</p>
 <h2 id="cacti_exploit-1">cacti_exploit</h2>
-<p>No description available.</p>
+<p>Configures an exploit for the Cacti Package Import Remote Code
+Execution vulnerability in the provided config file.</p>
+<p>Args: config_file (file-like object): The file object to write the
+Metasploit exploit configuration to. host (str): The target host IP
+address where the Cacti service is running.</p>
+<p>Writes: - Configuration commands to the file to set up the Metasploit
+exploit for the Cacti Package Import RCE. - Sets the RHOST to the target
+host IP. - Sets the payload options including the LHOST, USERNAME, and
+PASSWORD. - Starts the exploit with the <code>-j -z</code> options.</p>
 <h2 id="double_base64_encode">double_base64_encode</h2>
 <p>Perform double Base64 encoding on the given command.</p>
 <p>This helper function takes a command string, encodes it in Base64,

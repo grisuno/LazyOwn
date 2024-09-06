@@ -6,6 +6,13 @@
 
 ### Otros
 
+  *   * docs(docs): new alias \n\n Version: release/0.1.38 \n\n new alias tor documented \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - external/install_external.sh - lazyown - sessions/tor.sh\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Sep 5 01:49:22 2024 -0400 \n\n Hora: 1725515362
+
+
+### Documentación
+
+### Otros
+
   *   * docs(docs): corrections in text \n\n Version: release/0.1.38 \n\n and some capitals \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Sep 5 01:42:38 2024 -0400 \n\n Hora: 1725514958
 
 

@@ -75,7 +75,6 @@ class LazyOwnShell(Cmd):
         """
     activate_virtualenv("env")
 
-    # Diccionario para almacenar alias
     aliases = {
         "auto": "pyautomate",
         "aslr": "run lazyaslrcheck",
@@ -92,6 +91,7 @@ class LazyOwnShell(Cmd):
         "q": "exit",
         "rtpflood" : "sh sudo bash modules/lazyrtpflood.sh",
         "sniff": "run lazysniff",
+        "tor": "sh sudo bash sessions/tor.sh",
         "venom": "run lazymsfvenom",
         "wps":"sh sudo bash modules/lazywps.sh",
         "ww": "whatweb",
@@ -6624,7 +6624,8 @@ class LazyOwnShell(Cmd):
             'lin',
             'php',
             'users.txt',
-            'sslscan-singleip.sh'
+            'sslscan-singleip.sh',
+            'tor.sh'
         ]
 
         # Path to the sessions directory

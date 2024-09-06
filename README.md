@@ -6291,6 +6291,29 @@ Example usage:
     msfpc verbose loop eth1           # A payload for every type, using eth1's IP.
     msfpc msf batch wan               # All possible Meterpreter payloads, using WAN IP.
 
+## ivy
+Generates payloads using Ivy with various options.
+
+This function checks if `Ivy` is installed and installs it if necessary. It then runs `Ivy`
+with the specified parameters to create various payloads.
+
+:param line: Not used in this implementation but reserved for future use.
+
+:returns: None
+
+Manual execution:
+To manually generate a payload using Ivy, use the following command:
+    ./Ivy <OPTIONS>
+
+Replace the placeholders with the desired values. For example:
+    ./Ivy -Ix64 test64.vba -Ix86 test32.vba -P Inject -O SampleInject.js
+    ./Ivy -stageless -Ix64 stageless64.bin -Ix86 stageless32.bin -P Inject -process64 C:\windows\system32\notepad.exe -process32 C:\windows\SysWOW64\notepad.exe -O stageless.js
+
+Example usage:
+    ivy staged_inject -Ix64 test64.vba -Ix86 test32.vba -P Inject -O SampleInject.js
+    ivy stageless_local -Ix64 stageless64.bin -Ix86 stageless32.bin -P Local -O stageless.js
+    ivy one_liner -Ix64 stageless64.bin -Ix86 stageless32.bin -P Inject -O test.png -stageless
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 
@@ -6422,6 +6445,13 @@ Raises:
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Documentación
+
+### Otros
+
+  *   * docs(docs): new alias \n\n Version: release/0.1.38 \n\n new alias tor documented \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - external/install_external.sh - lazyown - sessions/tor.sh\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Sep 5 01:49:22 2024 -0400 \n\n Hora: 1725515362
 
 
 ### Documentación

@@ -3361,6 +3361,25 @@ msfpc elf bind eth0 4444 # Linux, eth0’s IP &amp; manual port. msfpc
 stageless cmd py https # Python, stageless command prompt. msfpc verbose
 loop eth1 # A payload for every type, using eth1’s IP. msfpc msf batch
 wan # All possible Meterpreter payloads, using WAN IP.</p>
+<h2 id="ivy">ivy</h2>
+<p>Generates payloads using Ivy with various options.</p>
+<p>This function checks if <code>Ivy</code> is installed and installs it
+if necessary. It then runs <code>Ivy</code> with the specified
+parameters to create various payloads.</p>
+<p>:param line: Not used in this implementation but reserved for future
+use.</p>
+<p>:returns: None</p>
+<p>Manual execution: To manually generate a payload using Ivy, use the
+following command: ./Ivy <OPTIONS></p>
+<p>Replace the placeholders with the desired values. For example: ./Ivy
+-Ix64 test64.vba -Ix86 test32.vba -P Inject -O SampleInject.js ./Ivy
+-stageless -Ix64 stageless64.bin -Ix86 stageless32.bin -P Inject
+-process64 C:.exe -process32 C:.exe -O stageless.js</p>
+<p>Example usage: ivy staged_inject -Ix64 test64.vba -Ix86 test32.vba -P
+Inject -O SampleInject.js ivy stageless_local -Ix64 stageless64.bin
+-Ix86 stageless32.bin -P Local -O stageless.js ivy one_liner -Ix64
+stageless64.bin -Ix86 stageless32.bin -P Inject -O test.png
+-stageless</p>
 <h2 id="find_tgts">find_tgts</h2>
 <p>Finds and returns a list of target hosts with port 445 open in the
 specified subnet.</p>

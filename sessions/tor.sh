@@ -6,7 +6,7 @@
 check_sudo() {
     if [ "$EUID" -ne 0 ]; then
         echo "[S] This script requires superuser permissions. Relaunching with sudo..."
-        sudo "$0" --vpn "$VPN" "${@/#--vpn*/}"
+        sudo "$0" "$1" 
         exit
     fi
 }
@@ -32,9 +32,14 @@ install_tor() {
 
 torrc_conf() {
     local filename="$1"
+    local port="$2"
     if [[ -f "$filename" ]]; then
+        sudo systemctl preset tor
+        sudo systemctl enable tor
+        sudo systemctl start tor 
         grep -qxF 'HiddenServiceDir /var/lib/tor/hidden_service/' "$filename" || echo 'HiddenServiceDir /var/lib/tor/hidden_service/' | sudo tee -a "$filename"
-        grep -qxF 'HiddenServicePort 80 127.0.0.1:80' "$filename" || echo 'HiddenServicePort 80 127.0.0.1:80' | sudo tee -a "$filename"
+        grep -qxF "HiddenServicePort $port 127.0.0.1:$port" "$filename" || echo "HiddenServicePort $port 127.0.0.1:$port" | sudo tee -a "$filename"
+        sudo systemctl status tor
     else
         echo "torrc file not present in your system"
     fi
@@ -42,9 +47,13 @@ torrc_conf() {
 
 torrc_conf_stop() {
     local filename="$1"
+    local port="$2"
     if [[ -f "$filename" ]]; then
         sudo sed -i '/HiddenServiceDir \/var\/lib\/tor\/hidden_service\//d' "$filename"
-        sudo sed -i '/HiddenServicePort 80 127.0.0.1:80/d' "$filename"
+        sudo sed -i "/HiddenServicePort $port 127.0.0.1:$port/d" "$filename"
+        sudo systemctl stop tor
+        sudo systemctl disable tor
+        sudo systemctl status tor
     else
         echo "torrc file not present in your system"
     fi
@@ -82,18 +91,19 @@ main() {
 
     local filename="/etc/tor/torrc"
     
-    torrc_conf "$filename"
-    sudo service tor start
+    torrc_conf "$filename" "$port"
+    
     
     if [[ -f "/var/lib/tor/hidden_service/hostname" ]]; then
         local url
         url=$(cat /var/lib/tor/hidden_service/hostname)
-        echo "Onion URL ::: http://$url"
+        echo "    [!] Onion URL ::: http://$url"
     else
-        echo "Hidden service hostname file not found"
+        echo "Error: Hidden service hostname file not found. Check Tor configuration."
+        exit 1
     fi
     
-    trap 'echo "Stopping..."; sudo service tor stop; torrc_conf_stop "$filename"; exit' INT
+    trap 'echo "Stopping..."; torrc_conf_stop "$filename" "$port"; exit' INT
 
     case $choice in
         1)

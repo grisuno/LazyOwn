@@ -90,8 +90,8 @@ class LazyOwnShell(Cmd):
         "pwnat": "sh pwnat -s 8080",
         "q": "exit",
         "rtpflood" : "sh sudo bash modules/lazyrtpflood.sh",
-        "sniff": "run lazysniff",
         "tor": "sh sudo bash sessions/tor.sh",
+        "sniff": "run lazysniff",
         "venom": "run lazymsfvenom",
         "wps":"sh sudo bash modules/lazywps.sh",
         "ww": "whatweb",
@@ -10184,6 +10184,40 @@ class LazyOwnShell(Cmd):
         print_msg(f"Generating payload with Ivy: {ivy_command}")
         os.system(ivy_command)
         
+        return
+
+    def do_tord(self, line):
+        """
+        Execute the tor.sh script with the specified port or default to port 80 if no port is provided.
+
+        This function constructs a command to run the `tor.sh` script with superuser privileges,
+        it defaults to port 80.
+        The command is then printed and executed.
+
+        Parameters:
+        line (str): Defaults to "80" 
+
+        Returns:
+        None
+
+        Example:
+        >>> do_tord(self, "")
+        sudo bash sessions/tor.sh
+
+        >>> do_tord(self, "")
+        sudo bash sessions/tor.sh
+
+        Note:
+        Ensure that the `tor.sh` script exists in the `sessions` directory and that you have the 
+        necessary permissions to execute scripts with `sudo`.
+        """
+        if not line:
+            line = "80"
+
+        command = f"sudo bash sessions/tor.sh {line}"
+        print_msg(command)
+        os.system(command)
+
         return
 
 if __name__ == "__main__":

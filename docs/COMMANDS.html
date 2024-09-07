@@ -3380,6 +3380,25 @@ Inject -O SampleInject.js ivy stageless_local -Ix64 stageless64.bin
 -Ix86 stageless32.bin -P Local -O stageless.js ivy one_liner -Ix64
 stageless64.bin -Ix86 stageless32.bin -P Inject -O test.png
 -stageless</p>
+<h2 id="tord">tord</h2>
+<p>Execute the tor.sh script with the specified port or default to port
+80 if no port is provided.</p>
+<p>This function constructs a command to run the <code>tor.sh</code>
+script with superuser privileges, it defaults to port 80. The command is
+then printed and executed.</p>
+<p>Parameters: line (str): Defaults to “80”</p>
+<p>Returns: None</p>
+<p>Example: &gt;&gt;&gt; do_tord(self, ““) sudo bash sessions/tor.sh</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>do_tord(self, ““) sudo bash sessions/tor.sh</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>Note: Ensure that the <code>tor.sh</code> script exists in the
+<code>sessions</code> directory and that you have the necessary
+permissions to execute scripts with <code>sudo</code>.</p>
 <h2 id="find_tgts">find_tgts</h2>
 <p>Finds and returns a list of target hosts with port 445 open in the
 specified subnet.</p>

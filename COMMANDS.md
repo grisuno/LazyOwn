@@ -5100,6 +5100,30 @@ Example usage:
     ivy stageless_local -Ix64 stageless64.bin -Ix86 stageless32.bin -P Local -O stageless.js
     ivy one_liner -Ix64 stageless64.bin -Ix86 stageless32.bin -P Inject -O test.png -stageless
 
+## tord
+Execute the tor.sh script with the specified port or default to port 80 if no port is provided.
+
+This function constructs a command to run the `tor.sh` script with superuser privileges,
+it defaults to port 80.
+The command is then printed and executed.
+
+Parameters:
+line (str): Defaults to "80" 
+
+Returns:
+None
+
+Example:
+>>> do_tord(self, "")
+sudo bash sessions/tor.sh
+
+>>> do_tord(self, "")
+sudo bash sessions/tor.sh
+
+Note:
+Ensure that the `tor.sh` script exists in the `sessions` directory and that you have the 
+necessary permissions to execute scripts with `sudo`.
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 

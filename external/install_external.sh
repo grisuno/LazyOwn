@@ -69,6 +69,8 @@ download() {
         "git clone https://github.com/CravateRouge/bloodyAD.git .exploit/bloodyAD"
         "git clone https://github.com/4w4k3/BeeLogger.git .exploit/Beelogger"
         "git clone https://github.com/optiv/Ivy.git .exploit/Ivi_shellcodes"
+        "git clone https://github.com/H454NSec/CVE-2023-42793.git .exploit/CVE-2023-42793"
+        "git clone  https://github.com/stealthcopter/deepce.git .exploit/deepce_dockerpentest"
     )
     # Imprime los últimos argumentos de cada comando
     echo "    [+] Seleccione el número del comando que desea clonar:"

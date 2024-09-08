@@ -29,6 +29,7 @@ download() {
         "wget https://github.com/peass-ng/PEASS-ng/releases/latest/download/linpeas.sh"
         "wget https://github.com/prodigiousMind/revshell/archive/refs/heads/main.zip"
         "wget https://raw.githubusercontent.com/ly4k/PwnKit/main/PwnKit"
+        "wget https://github.com/ly4k/PwnKit/raw/main/PwnKit32"
         "wget https://github.com/icsharpcode/AvaloniaILSpy/releases/download/v7.2-rc/Linux.x64.Release.zip"
         "wget https://github.com/RedSiege/WMImplant/raw/master/WMImplant.ps1"
         "wget https://github.com/BishopFox/sliver/releases/download/v1.5.42/sliver-client_linux"

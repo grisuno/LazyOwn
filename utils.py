@@ -37,6 +37,7 @@ import tempfile
 import threading
 import subprocess
 import urllib.request
+from itertools import product
 from libnmap.parser import NmapParser
 from libnmap.process import NmapProcess
 from urllib.parse import quote, unquote, urlparse

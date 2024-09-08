@@ -6292,7 +6292,7 @@ Example usage:
     msfpc msf batch wan               # All possible Meterpreter payloads, using WAN IP.
 
 ## ivy
-Generates payloads using Ivy with various options.
+Generates payloads using Ivy with various options. Ivy is a payload creation framework for the execution of arbitrary VBA (macro) source code directly in memory. Ivy’s loader does this by utilizing programmatical access in the VBA object environment to load, decrypt and execute shellcode.
 
 This function checks if `Ivy` is installed and installs it if necessary. It then runs `Ivy`
 with the specified parameters to create various payloads.
@@ -6337,6 +6337,56 @@ sudo bash sessions/tor.sh
 Note:
 Ensure that the `tor.sh` script exists in the `sessions` directory and that you have the 
 necessary permissions to execute scripts with `sudo`.
+
+## generatedic
+Generates a wordlist based on a target name and a list of characters, with various combinations.
+
+This function prompts the user for a target name and a wordlist name, then generates various combinations 
+of the target name with a given list of characters. The combinations include single, double, triple, fourth, 
+fifth, sixth, and intercalated character variations. The generated passwords are saved to the specified 
+wordlist file.
+
+:param line: Not used in this function.
+
+:returns: None
+
+Manual execution:
+To manually generate a wordlist, run the script and follow the prompts to enter the target name, 
+wordlist name, and additional characters if desired.
+
+For example:
+    Enter target name(Ex. john) ::: john
+    Enter wordlist name ::: my_wordlist.txt
+    Char List ::: 1 2 3 4 5 6 7 8 9 0 ! @ # $
+    Do you want to add more characters in char List[y/n] ::: y
+    Enter characters by commas(Ex. : ^,&,*,) ::: ^,&,*
+
+## trace
+Traces the DNS information for a given domain using the FreeDNS service. (using freedns IP Not your IP)
+
+This method performs a DNS trace lookup for the specified domain by
+sending an HTTP GET request to the FreeDNS service. If no domain is provided
+in the input parameter `line`, it defaults to using the URL specified in the
+instance's parameters.
+
+Parameters:
+line (str): The domain name to trace. If not provided, the method uses the
+            domain extracted from `self.params["url"]`.
+
+Returns:
+None: This method executes a system command and does not return a value.
+
+Example:
+>>> self.do_trace("example.com")
+Executes a DNS trace for "example.com".
+
+Notes:
+- Ensure that the `self.params["url"]` is set with a valid URL if no domain
+is provided.
+- The method uses `os.system` to execute the trace command, which may not
+be the most secure or efficient method for production code. Consider using
+a library like `requests` for HTTP operations if security and efficiency
+are concerns.
 
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
@@ -6410,6 +6460,92 @@ Writes:
     - Sets the payload options including the LHOST, USERNAME, and PASSWORD.
     - Starts the exploit with the `-j -z` options.
 
+## single_combo
+Generates single character combinations with the target name.
+
+:param name: Target name to use in the combinations.
+:param characters: List of characters to combine with the target name.
+:param file: File object to write the combinations to.
+:param total: Running total of passwords generated.
+:param flag: If True, generate combinations with the target name at both the beginning and the end of the string.
+
+:returns: Updated total of passwords generated.
+
+## double_combo
+Generates double character combinations with the target name.
+
+:param name: Target name to use in the combinations.
+:param characters: List of characters to combine with the target name.
+:param file: File object to write the combinations to.
+:param total: Running total of passwords generated.
+:param flag: If True, generate combinations with the target name at both the beginning and the end of the string.
+
+:returns: Updated total of passwords generated.
+
+## triple_combo
+Generates triple character combinations with the target name.
+
+:param name: Target name to use in the combinations.
+:param characters: List of characters to combine with the target name.
+:param file: File object to write the combinations to.
+:param total: Running total of passwords generated.
+:param flag: If True, generate combinations with the target name at both the beginning and the end of the string.
+
+:returns: Updated total of passwords generated.
+
+## fourth_combo
+Generates fourth character combinations with the target name.
+
+:param name: Target name to use in the combinations.
+:param characters: List of characters to combine with the target name.
+:param file: File object to write the combinations to.
+:param total: Running total of passwords generated.
+:param flag: If True, generate combinations with the target name at both the beginning and the end of the string.
+
+:returns: Updated total of passwords generated.
+
+## fifth_combo
+Generates fifth character combinations with the target name.
+
+:param name: Target name to use in the combinations.
+:param characters: List of characters to combine with the target name.
+:param file: File object to write the combinations to.
+:param total: Running total of passwords generated.
+:param flag: If True, generate combinations with the target name at both the beginning and the end of the string.
+
+:returns: Updated total of passwords generated.
+
+## sixth_combo
+Generates sixth character combinations with the target name, adding uppercase characters.
+
+:param name: Target name to use in the combinations.
+:param characters: List of characters to combine with the target name.
+:param file: File object to write the combinations to.
+:param total: Running total of passwords generated.
+:param flag: If True, generate combinations with the target name at both the beginning and the end of the string.
+
+:returns: Updated total of passwords generated.
+
+## intercalate_combo
+Generates combinations of the target name and character list, intercalating uppercase and lowercase characters.
+
+This function generates combinations where each character in the string alternates between uppercase and 
+lowercase. It also allows for the addition of the target name at the beginning or the end of the string.
+
+:param name: Target name to use in the combinations.
+:param characters: List of characters to intercalate with the target name.
+:param file: File object to write the combinations to.
+:param total: Running total of passwords generated.
+:param flag: If True, generate combinations with the target name at both the beginning and the end of the string.
+
+:returns: Updated total of passwords generated.
+
+## expand_regex
+Expands a regular expression into a list of characters.
+
+:param regex: Regular expression string to expand.
+:returns: List of characters matching the regular expression.
+
 ## double_base64_encode
 Perform double Base64 encoding on the given command.
 
@@ -6464,11 +6600,21 @@ Notes:
 Raises:
     TypeError: If the input `cmd` is not a string.
 
+## alternate_case
+Helper function to alternate the case of characters in a string.
+
 <!-- END COMMANDS -->
 
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test): testing new feature tord \n\n Version: release/0.1.38 \n\n documented at COMMANDS.md \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - sessions/tor.sh\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Sep 6 03:29:03 2024 -0400 \n\n Hora: 1725607743
 
 
 ### Pruebas

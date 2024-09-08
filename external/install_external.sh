@@ -71,6 +71,7 @@ download() {
         "git clone https://github.com/optiv/Ivy.git .exploit/Ivi_shellcodes"
         "git clone https://github.com/H454NSec/CVE-2023-42793.git .exploit/CVE-2023-42793"
         "git clone  https://github.com/stealthcopter/deepce.git .exploit/deepce_dockerpentest"
+        "git clone https://github.com/Veil-Framework/Veil.git .exploit/Veil"
     )
     # Imprime los últimos argumentos de cada comando
     echo "    [+] Seleccione el número del comando que desea clonar:"

@@ -7,7 +7,7 @@ pip install -r requirements.txt
 git clone https://github.com/grisuno/LazyOwnInfiniteStorage.git ./modules_ext/lazyown_infinitestorage
 chmod +x /modules_ext/lazyown_infinitestorage/install.sh
 /modules_ext/lazyown_infinitestorage/
-./install.sh
+
 # URL del archivo a descargar
 URL="https://raw.githubusercontent.com/grisuno/LazyOwnEncoderDecoder/main/lazyencoder_decoder.py"
 

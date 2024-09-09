@@ -6637,6 +6637,13 @@ Helper function to alternate the case of characters in a string.
 # Changelog
 
 
+### Correcciones urgentes
+
+### Otros
+
+  *   * hotfix(hotfix): install wa broken \n\n Version: release/0.1.40 \n\n infinite loop \n\n Modified file(s):\n- .gitignore - README.md - docs/README.html - docs/index.html - docs/index.html.bak - install.sh\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Sep 9 09:25:02 2024 -0300 \n\n Hora: 1725884702
+
+
 ### Pruebas
 
 ### Otros

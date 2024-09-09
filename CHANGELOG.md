@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Pruebas
+
+### Otros
+
+  *   * test(test): install testing \n\n Version: release/0.1.40 \n\n reported by user \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Sep 9 09:36:28 2024 -0300 \n\n Hora: 1725885388
+
+
 ### Correcciones urgentes
 
 ### Otros

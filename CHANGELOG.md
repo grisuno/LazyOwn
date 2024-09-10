@@ -6,6 +6,13 @@
 
 ### Otros
 
+  *   * feat(feat): graph \n\n Version: release/0.1.42 \n\n integrated at index2.html :D \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - modules/lazynmap.sh\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Sep 10 01:54:21 2024 -0300 \n\n Hora: 1725944061
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): 2 new commands \n\n Version: release/0.1.41 \n\n shellfire, evil_ssdp documented at COMMANDS.md \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Sep 9 20:45:20 2024 -0300 \n\n Hora: 1725925520
 
 

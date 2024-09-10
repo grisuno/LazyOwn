@@ -10803,9 +10803,74 @@ class LazyOwnShell(Cmd):
             print_error("Invalid input. Please enter a valid number.")
         return
 
+    def do_graph(self, line):
+        """
+        Generates a graph from JSON payload files containing URL, RHOST, and RPORT.
+
+        :param line: Not used in this implementation but reserved for future use.
+
+        :returns: None
+        """
+        # Buscar todos los archivos JSON que contengan la palabra 'payload'
+        json_files = glob.glob("*payload*.json")
+        
+        if not json_files:
+            print_error("No JSON payload files found.")
+            return
+
+        # Crear el contenido del grafo con un nodo padre
+        graph_content = "digraph G {\n"
+        parent_node_name = "LazyOwn"
+        parent_node_label = f"{parent_node_name}\nIP: 127.0.0.1\nPort: 5555"
+        graph_content += f'"{parent_node_name}" [label="{parent_node_label}"];\n'
+
+        child_nodes = []  # Lista para almacenar los nodos hijos
+
+        for json_file in json_files:
+            try:
+                with open(json_file, 'r') as file:
+                    data = json.load(file)
+                    url = data.get("url", "Unknown URL")
+                    rhost = data.get("rhost", "Unknown RHOST")
+                    rport = data.get("rport", "Unknown RPORT")
+
+                    # Crear un nodo para cada archivo JSON
+                    node_label = f"{url}\nRHOST: {rhost}\nRPORT: {rport}"
+                    node_name = os.path.splitext(json_file)[0]  # Nombre del nodo basado en el nombre del archivo
+                    graph_content += f'"{node_name}" [label="{node_label}"];\n'
+                    child_nodes.append(node_name)  # Agregar el nodo hijo a la lista
+
+            except json.JSONDecodeError:
+                print_error(f"Error decoding JSON in file: {json_file}")
+                continue
+            except FileNotFoundError:
+                print_error(f"File not found: {json_file}")
+                continue
+
+        # Conectar nodos hijos al nodo padre
+        for child in child_nodes:
+            graph_content += f'"{parent_node_name}" -> "{child}";\n'  # Conexión al nodo padre
+
+        # Conectar nodos hijos entre sí (ejemplo simple de conexión)
+        for i in range(len(child_nodes)):
+            for j in range(i + 1, len(child_nodes)):
+                graph_content += f'"{child_nodes[i]}" -> "{child_nodes[j]}";\n'
+
+        graph_content += "}\n"
+
+        # Escribir el contenido en graph.dot
+        with open("sessions/graph.dot", 'w') as dot_file:
+            dot_file.write(graph_content)
+
+        # Generar el gráfico en PNG usando dot
+        os.system("dot -Tpng sessions/graph.dot -o sessions/graph.png -Gbgcolor=lightgrey -Ecolor=blue")
+        print_msg("Graph generated successfully: sessions/graph.png  -Gbgcolor=lightgrey -Ecolor=blue")
+        return
+        
 if __name__ == "__main__":
     p = LazyOwnShell()
     p.onecmd("p")
+    p.onecmd("graph")
     if arguments:
         if arg.startswith("-c"):
             if len(arguments) == 2:

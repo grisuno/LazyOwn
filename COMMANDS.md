@@ -5215,6 +5215,13 @@ Runs Shellfire with various options and allows generating payloads.
 
 :returns: None
 
+## graph
+Generates a graph from JSON payload files containing URL, RHOST, and RPORT.
+
+:param line: Not used in this implementation but reserved for future use.
+
+:returns: None
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 

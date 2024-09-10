@@ -144,12 +144,39 @@ cat <<EOL > $OUTPUT_HTML
 			background-color: #007bff;
 			color: #ffffff;
 		}
+		img {
+			border-radius: 15px; /* Bordes redondeados */
+			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra */
+			border: 2px dotted #4CAF50; /* Línea punteada de delimitador */
+			padding: 5px; /* Espacio interno */
+			transition: transform 0.3s; /* Efecto de transición */
+			transform: scale(0.5); /* Reduce el tamaño a la mitad */
+		}
 
+		/* Efecto al pasar el ratón */
+		img:hover {
+			animation: bounce 0.5s; /* Animación de rebote */
+			transform: scale(1); /* Aumenta al tamaño original */
+		}
+
+		/* Definición de la animación de rebote */
+		@keyframes bounce {
+			0%, 20%, 50%, 80%, 100% {
+				transform: scale(1); /* Tamaño original */
+			}
+			40% {
+				transform: scale(1.2); /* Aumenta el tamaño */
+			}
+			60% {
+				transform: scale(1.1); /* Aumenta un poco menos */
+			}
+		}
     </style>
 </head>
 <body>
     <div class="sidebar">
         <h2>Reportes Nmap 👽</h2>
+
 EOL
 
 # Añadir enlaces al menú lateral para archivos .html
@@ -162,6 +189,7 @@ done
 
 # Continuar con el contenido del archivo HTML
 cat <<EOL >> $OUTPUT_HTML
+		<img src="graph.png" alt="graph.png">
     </div>
     <div class="content">
         <h2>⚠ LazyOwn ⚠ Framwork 👽 WebServer ☠ [;,;] </h2>
@@ -190,6 +218,7 @@ done
 cat <<EOL >> $OUTPUT_HTML
             </tbody>
         </table>
+			
     </div>
 </body>
 </html>

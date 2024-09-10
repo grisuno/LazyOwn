@@ -6429,6 +6429,13 @@ Runs Shellfire with various options and allows generating payloads.
 
 :returns: None
 
+## graph
+Generates a graph from JSON payload files containing URL, RHOST, and RPORT.
+
+:param line: Not used in this implementation but reserved for future use.
+
+:returns: None
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 
@@ -6649,6 +6656,13 @@ Helper function to alternate the case of characters in a string.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): 2 new commands \n\n Version: release/0.1.41 \n\n shellfire, evil_ssdp documented at COMMANDS.md \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Sep 9 20:45:20 2024 -0300 \n\n Hora: 1725925520
 
 
 ### Pruebas

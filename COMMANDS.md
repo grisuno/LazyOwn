@@ -5201,6 +5201,20 @@ Generates payloads using PowerShell Empire with various options.
 
 :returns: None
 
+## evil_ssdp
+Runs evil-ssdp with various options and user-selected templates.
+
+:param line: Not used in this implementation but reserved for future use.
+
+:returns: None
+
+## shellfire
+Runs Shellfire with various options and allows generating payloads.
+
+:param line: Not used in this implementation but reserved for future use.
+
+:returns: None
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 

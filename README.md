@@ -6415,6 +6415,20 @@ Generates payloads using PowerShell Empire with various options.
 
 :returns: None
 
+## evil_ssdp
+Runs evil-ssdp with various options and user-selected templates.
+
+:param line: Not used in this implementation but reserved for future use.
+
+:returns: None
+
+## shellfire
+Runs Shellfire with various options and allows generating payloads.
+
+:param line: Not used in this implementation but reserved for future use.
+
+:returns: None
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 
@@ -6635,6 +6649,13 @@ Helper function to alternate the case of characters in a string.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test): install testing \n\n Version: release/0.1.40 \n\n reported by user \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Sep 9 09:36:28 2024 -0300 \n\n Hora: 1725885388
 
 
 ### Correcciones urgentes

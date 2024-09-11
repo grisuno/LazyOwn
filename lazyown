@@ -10866,7 +10866,53 @@ class LazyOwnShell(Cmd):
         os.system("dot -Tpng sessions/graph.dot -o sessions/graph.png -Gbgcolor=lightgrey -Ecolor=blue")
         print_msg("Graph generated successfully: sessions/graph.png  -Gbgcolor=lightgrey -Ecolor=blue")
         return
-        
+
+    def do_netexec(self, line):
+        """
+        Executes netexec with various options for network protocol operations.
+
+        :param line: Not used directly but reserved for future use.
+
+        :returns: None
+        """
+        if not is_binary_present("netexec"):
+            print_warn("netexec is not installed. Installing.")
+            os.system("sudo apt install netexec -y")
+            return
+
+        print_warn("Select the protocol you want to use:")
+        protocols = ["ssh", "winrm", "smb", "rdp", "wmi", "mssql", "ldap", "ftp", "vnc"]
+        for i, protocol in enumerate(protocols, start=1):
+            print_msg(f"{i}. {protocol}")
+
+        try:
+            protocol_choice = int(input("    [!] Enter the number corresponding to the protocol: ")) - 1
+            if protocol_choice < 0 or protocol_choice >= len(protocols):
+                print_error("Invalid choice. Please select a valid number.")
+                return
+
+            protocol = protocols[protocol_choice]
+            threads = input("    [!] Enter the number of threads (default: 10): ").strip() or "10"
+            timeout = input("    [!] Enter the timeout in seconds (default: 5): ").strip() or "5"
+            jitter = input("    [!] Enter jitter interval (default: 0): ").strip() or "0"
+            verbose = input("    [!] Enable verbose mode? (yes/no, default: no): ").strip().lower() == "yes"
+            debug = input("    [!] Enable debug mode? (yes/no, default: no): ").strip().lower() == "no"
+
+            netexec_command = f"netexec {protocol} -t {threads} --timeout {timeout} --jitter {jitter}"
+
+            if verbose:
+                netexec_command += " --verbose"
+            if debug:
+                netexec_command += " --debug"
+            rhost = self.params["rhost"]
+            netexec_command += f" {rhost}"
+            print_msg(f"Running netexec with command: {netexec_command}")
+            os.system(netexec_command)
+
+        except ValueError:
+            print_error("Invalid input. Please enter a valid number.")
+        return
+
 if __name__ == "__main__":
     p = LazyOwnShell()
     p.onecmd("p")

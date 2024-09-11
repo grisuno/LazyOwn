@@ -3,10 +3,33 @@ sudo apt update
 sudo apt install ltrace
 python3 -m venv env
 source env/bin/activate
-pip install -r requirements.txt
+# pip install -r requirements.txt
+
+pip install requests 
+pip install python-libnmap 
+pip install pwncat-cs 
+pip install pwn 
+pip install groq 
+pip install PyPDF2 
+pip install docx 
+pip install python-docx 
+pip install olefile 
+pip install exifread 
+pip install pycryptodome 
+pip install impacket 
+pip install pandas 
+pip install colorama 
+pip install tabulate 
+pip install pyarrow 
+pip install keyboard 
+pip install flask-unsign 
+pip install name-that-hash 
+pip install certipy-ad 
+pip install ast 
+
 git clone https://github.com/grisuno/LazyOwnInfiniteStorage.git ./modules_ext/lazyown_infinitestorage
 chmod +x /modules_ext/lazyown_infinitestorage/install.sh
-/modules_ext/lazyown_infinitestorage/
+
 
 # URL del archivo a descargar
 URL="https://raw.githubusercontent.com/grisuno/LazyOwnEncoderDecoder/main/lazyencoder_decoder.py"

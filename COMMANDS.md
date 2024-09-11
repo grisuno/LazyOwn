@@ -5222,6 +5222,13 @@ Generates a graph from JSON payload files containing URL, RHOST, and RPORT.
 
 :returns: None
 
+## netexec
+Executes netexec with various options for network protocol operations.
+
+:param line: Not used directly but reserved for future use.
+
+:returns: None
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 

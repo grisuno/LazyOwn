@@ -5229,6 +5229,85 @@ Executes netexec with various options for network protocol operations.
 
 :returns: None
 
+## scarecrow
+Executes ScareCrow with various options for bypassing EDR solutions and executing shellcode.
+to create the shellcode.bin you need run venom or run lazymsfvenom, or run msfvenom yourself :D
+:param line: Not used directly but reserved for future use.
+:returns: None
+
+## createmail
+Generate email permutations based on a full name and domain, then save them to a file.
+
+This function prompts the user for a full name and domain, generates various email
+permutations based on that information, and saves the results in a text file located
+in the `sessions` directory.
+
+Parameters:
+line (str): used as Fullname.
+
+Internal Variables:
+full_name (str): The full name entered by the user, defaulting to 'John Doe'.
+domain (str): The domain entered by the user, defaulting to 'example.com'.
+
+Returns:
+None
+
+Example Usage:
+- To generate emails using default values: `createmail`
+- To specify a full name and domain: `createmail`
+
+Note:
+- The generated emails will be stored in a file named `emails_{full_name}_{domain}.txt`
+  within the `sessions` directory.
+
+## eyewitness
+Executes EyeWitness to capture screenshots from a list of URLs. 
+You need to provide a file containing URLs or a single URL to capture.
+:param line: Not used directly but reserved for future use.
+:returns: None
+
+## secretsdump
+Run secretsdump.py with the provided domain, username, password, and IP address.
+
+:param line: This parameter is not used in the function but can be reserved for future use.
+
+:returns: None
+
+Manual execution:
+To manually run `secretsdump.py`, use the following command:
+
+    secretsdump.py <domain>/<username>:<password>@<ip_address>
+
+This function prompts the user for domain, username, password, and IP address.
+
+## getuserspns
+Run GetUserSPNs.py with the provided domain, username, password, and IP address.
+
+:param line: This parameter is not used in the function but can be reserved for future use.
+
+:returns: None
+
+Manual execution:
+To manually run `GetUserSPNs.py`, use the following command:
+
+    GetUserSPNs.py <domain>/<username>:<password> -dc-ip <IP of DC> -request
+
+This function prompts the user for domain, username, password, and IP address.
+
+## passwordspray
+Perform password spraying using crackmapexec with the provided parameters.
+
+:param line: This parameter is not used in the function but can be reserved for future use.
+
+:returns: None
+
+Manual execution:
+To manually run `crackmapexec` for password spraying, use the following command:
+
+    crackmapexec smb <IP Address> -u <users_file> -p <password> --continue-on-success
+
+This function prompts the user for IP address, user file, and password.
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 

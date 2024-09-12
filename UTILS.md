@@ -468,6 +468,29 @@ Generates a certificate authority (CA), client certificate, and client key.
 Returns:
     str: Paths to the generated CA certificate, client certificate, and client key.
 
+## generate_emails
+Generate email permutations based on the provided full name and domain.
+
+This function takes a full name and domain as input, splits the full name into
+components, and creates a list of potential email addresses.
+
+Parameters:
+full_name (str): The full name to base the email addresses on.
+domain (str): The domain to use for the generated email addresses.
+
+Internal Variables:
+names (list): A list of the name components extracted from the full name.
+first_name (str): The first name component.
+last_name (str): The last name component.
+first_initial (str): The first initial of the first name.
+last_initial (str): The first initial of the last name.
+
+Returns:
+list: A list of generated email permutations.
+
+Note:
+- At least two parts of the name are required to generate valid email addresses.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 

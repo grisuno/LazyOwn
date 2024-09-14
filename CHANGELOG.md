@@ -6,6 +6,13 @@
 
 ### Otros
 
+  *   * feature(new commands): documented at COMMANDS.md \n\n Version: release/0.1.44 \n\n vscan, shellshock, generate_revshell, alterx, allin. \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - external/install_external.sh - lazyown - modules/lazyc2.py - sessions/download_resources.sh - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Sep 12 03:37:43 2024 -0300 \n\n Hora: 1726123063
+
+
+### Otros
+
+### Otros
+
   *   * feature(feat): new commands: scarecrow, createmail, eyewitness, secretsdump, getuserspns, passwordspray \n\n Version: release/0.1.43 \n\n documented at COMMANDS.md esporalibre.cl \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - external/install_external.sh - lazyown - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Sep 11 02:46:35 2024 -0300 \n\n Hora: 1726033595
 
 

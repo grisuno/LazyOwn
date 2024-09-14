@@ -1,9 +1,14 @@
-from flask import Flask, request, render_template, redirect, url_for, jsonify
+from flask import Flask, request, render_template, redirect, url_for, jsonify, Response
+import os
 import json
 import threading
 import sys
+from functools import wraps
 
-# Verifica si se pasó al menos un argumento
+
+USERNAME = 'LazyOwn'
+PASSWORD = 'LazyOwn'
+
 if len(sys.argv) > 1:
     lport = sys.argv[1]
     print(f"    [!] Launch C2 at: {lport}")
@@ -16,7 +21,29 @@ commands = {}
 results = {}  
 connected_clients = set() 
 
+def check_auth(username, password):
+    """Verifica si el usuario y contraseña son correctos"""
+    return username == USERNAME and password == PASSWORD
+
+def authenticate():
+    """Solitica autenticación"""
+    return Response(
+        'Invalid credentials. Please provide valid username and password.\n', 
+        401, 
+        {'WWW-Authenticate': 'Basic realm="Login Required"'}
+    )
+
+def requires_auth(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        auth = request.authorization
+        if not auth or not check_auth(auth.username, auth.password):
+            return authenticate()
+        return f(*args, **kwargs)
+    return decorated
+
 @app.route('/')
+@requires_auth
 def index():
     return render_template('index.html', connected_clients=connected_clients, results=results)
 
@@ -48,13 +75,45 @@ def receive_result(client_id):
         print(f"[ERROR] Unexpected error processing request from {client_id}: {str(e)}")
         return jsonify({"status": "error", "message": "Internal server error"}), 500
 
-
 @app.route('/issue_command', methods=['POST'])
 def issue_command():
     client_id = request.form['client_id']
     command = request.form['command']
     commands[client_id] = command
-    return redirect(url_for('index')) 
+    return redirect(url_for('index'))
+
+@app.route('/upload', methods=['GET', 'POST'])
+@requires_auth
+def upload():
+
+    if request.method == 'POST':
+        
+        if 'file' not in request.files:
+            return jsonify({"status": "error", "message": "No file part"}), 400
+        file = request.files['file']
+        if file.filename == '':
+            return jsonify({"status": "error", "message": "No selected file"}), 400
+        if file:
+            filename = file.filename
+            path = os.getcwd().replace("modules", "sessions" )
+            uploads = f"{path}/uploads"    
+            filepath = os.path.join(uploads, filename)
+            file.save(filepath)  
+            print(f"[INFO] File uploaded: {filename}")
+            return jsonify({"status": "success", "message": f"File uploaded: {filename}"}), 200
+    return '''
+    <!doctype html>
+    <title>Upload File</title>
+    <h1>Upload a File</h1>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <input type="submit" value="Upload">
+    </form>
+    '''
 
 if __name__ == '__main__':
+    path = os.getcwd().replace("modules", "sessions" )
+    uploads = f"{path}/uploads"
+    if not os.path.exists(uploads):
+        os.makedirs(uploads)  
     app.run(host='0.0.0.0', port=lport)

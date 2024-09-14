@@ -1229,6 +1229,15 @@ list: A list of generated email permutations.
 Note:
 - At least two parts of the name are required to generate valid email addresses.
 
+## clean_url
+Verifica si el último carácter es una barra y, de ser así, la elimina
+
+## random_string
+Generates a random alphanumeric string.
+
+## generate_http_req
+Generates an HTTP request with the Shellshock payload.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 
@@ -6545,6 +6554,89 @@ To manually run `crackmapexec` for password spraying, use the following command:
 
 This function prompts the user for IP address, user file, and password.
 
+## vscan
+Perform port scanning using vscan with the provided parameters.
+
+:param line: This parameter is not used in the function but can be reserved for future use.
+
+:returns: None
+
+Manual execution:
+To manually run `vscan` for port scanning, use the following command:
+
+    ./vscan -host <hosts> -p <ports>
+
+This function prompts the user for the target hosts and ports, and executes the vscan command accordingly.
+
+## shellshock
+Attempt to exploit the Shellshock vulnerability (CVE-2014-6271, CVE-2014-7169).
+
+This function generates HTTP requests with a crafted payload to detect if a target is vulnerable to Shellshock.
+
+:param line: Input parameters for the function.
+:returns: None
+
+## generate_revshell
+Generate a reverse shell in various programming languages.
+
+This function prompts the user to choose a reverse shell type (Bash, Python, NetCat, PHP, Ruby, Perl, or Telnet) 
+and then asks for the necessary parameters (IP and port). Based on the user's input, it generates the corresponding 
+reverse shell command.
+
+:param line: Not used in this implementation.
+:returns: None
+
+## alterx
+Executes the 'alterx' command for subdomain enumeration on the provided domain. If 'alterx'
+is not installed, the function automatically downloads, installs, and configures it. The result
+of the subdomain enumeration is saved in a session-specific text file.
+
+Steps performed by the function:
+
+1. **Check if 'alterx' is installed:**
+- Uses `is_binary_present("alterx")` to verify if the 'alterx' binary is available in the system.
+- If the binary is not found, the function prints a warning and proceeds to download and install 'alterx'.
+
+2. **Installation of 'alterx':**
+- Executes a system command to create a directory named 'alterx' in the user's home directory.
+- Downloads the 'alterx' version 0.0.4 (Linux 64-bit) from GitHub and extracts it into the 'alterx' directory.
+
+3. **Add 'alterx' to system PATH:**
+- Depending on the user's shell (`bash` or `zsh`), it appends the 'alterx' directory to the system PATH 
+    by modifying the appropriate shell configuration file (`~/.bashrc` or `~/.zshrc`). This ensures 'alterx' 
+    can be executed from any directory.
+
+4. **Obtain the domain:**
+- Retrieves the URL from the class parameter `self.params["url"]`.
+- Extracts the domain from the URL using `get_domain(url)`.
+- If no domain is provided as an argument in `line`, prompts the user to input a domain, defaulting to 
+    the previously extracted domain.
+
+5. **Execute 'alterx' on the domain:**
+- Executes the 'alterx' tool on the specified domain via a system command.
+- The subdomain enumeration results are saved to a file in the 'sessions' directory, with the filename 
+    `subdomain_dic_<domain>.txt`.
+
+Parameters:
+- line (str): The domain on which to run 'alterx'. If empty, the function prompts the user for input.
+
+Returns:
+- None: The function performs its operations but does not return any value.
+
+Dependencies:
+- The function relies on the external tool 'alterx' and assumes the presence of the `is_binary_present()` 
+and `get_domain()` helper functions.
+
+## allin
+Execute the AlliN.py tool with various scan modes and parameters.
+
+This function prompts the user to choose a scan type (e.g., pscan, sfscan, bakscan), 
+and then asks for the necessary parameters (host, ports, project name, etc.). 
+Based on the user's input, it generates the corresponding command and executes it.
+
+:param line: Not used in this implementation.
+:returns: None
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 
@@ -6765,6 +6857,13 @@ Helper function to alternate the case of characters in a string.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Otros
+
+### Otros
+
+  *   * feature(feat): new commands: scarecrow, createmail, eyewitness, secretsdump, getuserspns, passwordspray \n\n Version: release/0.1.43 \n\n documented at COMMANDS.md esporalibre.cl \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - external/install_external.sh - lazyown - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Sep 11 02:46:35 2024 -0300 \n\n Hora: 1726033595
 
 
 ### Pruebas

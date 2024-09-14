@@ -37,6 +37,11 @@ download() {
         "wget https://github.com/BishopFox/sliver/releases/download/v1.5.42/sliver-client_macos"
         "wget https://github.com/nicocha30/ligolo-ng/releases/download/v0.7.2-alpha/ligolo-ng_proxy_0.7.2-alpha_linux_amd64.tar.gz"
         "wget https://github.com/nicocha30/ligolo-ng/releases/download/v0.7.2-alpha/ligolo-ng_agent_0.7.2-alpha_windows_amd64.zip"
+        "wget https://github.com/dafthack/DomainPasswordSpray/raw/master/DomainPasswordSpray.ps1"
+        "wget https://github.com/DeimosC2/DeimosC2/releases/download/1.1.0/DeimosC2_linux.zip"
+        "wget https://github.com/DeimosC2/DeimosC2/releases/download/1.1.0/DeimosC2_windows.zip"
+        "wget https://github.com/Dliv3/Venom/releases/download/v1.1.0/Venom.v1.1.0.7z"
+        "wget https://github.com/P1-Team/AlliN/raw/main/AlliN.py"
     )
 
     # Imprime los últimos argumentos de cada comando

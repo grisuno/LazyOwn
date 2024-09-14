@@ -491,6 +491,15 @@ list: A list of generated email permutations.
 Note:
 - At least two parts of the name are required to generate valid email addresses.
 
+## clean_url
+Verifica si el último carácter es una barra y, de ser así, la elimina
+
+## random_string
+Generates a random alphanumeric string.
+
+## generate_http_req
+Generates an HTTP request with the Shellshock payload.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 

@@ -1,4 +1,5 @@
 from flask import Flask, request, render_template, redirect, url_for, jsonify, Response
+import re
 import os
 import json
 import threading
@@ -85,22 +86,33 @@ def issue_command():
 @app.route('/upload', methods=['GET', 'POST'])
 @requires_auth
 def upload():
+    """
+    Handle file uploads securely.
 
+    This function allows users to upload files and ensures that the uploaded filename is sanitized
+    to prevent directory traversal and other vulnerabilities. Files are saved in a specified uploads directory.
+
+    Returns:
+        JSON response indicating the status of the upload or an HTML form for file upload.
+    """
     if request.method == 'POST':
-        
         if 'file' not in request.files:
             return jsonify({"status": "error", "message": "No file part"}), 400
+        
         file = request.files['file']
+
         if file.filename == '':
             return jsonify({"status": "error", "message": "No selected file"}), 400
-        if file:
-            filename = file.filename
-            path = os.getcwd().replace("modules", "sessions" )
-            uploads = f"{path}/uploads"    
-            filepath = os.path.join(uploads, filename)
-            file.save(filepath)  
-            print(f"[INFO] File uploaded: {filename}")
-            return jsonify({"status": "success", "message": f"File uploaded: {filename}"}), 200
+        safe_filename = secure_filename(file.filename)
+        path = os.getcwd().replace("modules", "sessions")
+        uploads_dir = os.path.join(path, 'uploads')
+        os.makedirs(uploads_dir, exist_ok=True)
+        filepath = os.path.join(uploads_dir, safe_filename)
+        file.save(filepath)  
+        print(f"[INFO] File uploaded: {safe_filename}")
+        
+        return jsonify({"status": "success", "message": f"File uploaded: {safe_filename}"}), 200
+    
     return '''
     <!doctype html>
     <title>Upload File</title>
@@ -110,6 +122,16 @@ def upload():
         <input type="submit" value="Upload">
     </form>
     '''
+
+def secure_filename(filename):
+    """
+    Sanitize the filename to prevent directory traversal and unauthorized access.
+
+    :param filename: The original filename from the upload.
+    :return: A sanitized filename that is safe for storage.
+    """
+    filename = re.sub(r'[^a-zA-Z0-9_.-]', '_', filename)
+    return filename[:255]
 
 if __name__ == '__main__':
     path = os.getcwd().replace("modules", "sessions" )

@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Correcciones
+
+### Otros
+
+  *   * fix(fix): c2 insecure filename \n\n Version: release/0.1.45 \n\n resolved \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - modules/lazyc2.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Sep 14 04:42:54 2024 -0300 \n\n Hora: 1726299774
+
+
 ### Documentación
 
 ### Otros

@@ -42,6 +42,7 @@ download() {
         "wget https://github.com/DeimosC2/DeimosC2/releases/download/1.1.0/DeimosC2_windows.zip"
         "wget https://github.com/Dliv3/Venom/releases/download/v1.1.0/Venom.v1.1.0.7z"
         "wget https://github.com/P1-Team/AlliN/raw/main/AlliN.py"
+        "wget https://github.com/baiyies/PowerOneLiner/raw/main/one_liner_generator.py"
     )
 
     # Imprime los últimos argumentos de cada comando

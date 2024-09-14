@@ -5333,7 +5333,7 @@ This function generates HTTP requests with a crafted payload to detect if a targ
 ## generate_revshell
 Generate a reverse shell in various programming languages.
 
-This function prompts the user to choose a reverse shell type (Bash, Python, NetCat, PHP, Ruby, Perl, or Telnet) 
+This function prompts the user to choose a reverse shell type (Bash, Python, NetCat, PHP, Ruby, Perl, Telnet, NodeJS, Golang, PowerShell) 
 and then asks for the necessary parameters (IP and port). Based on the user's input, it generates the corresponding 
 reverse shell command.
 
@@ -5387,6 +5387,17 @@ Execute the AlliN.py tool with various scan modes and parameters.
 This function prompts the user to choose a scan type (e.g., pscan, sfscan, bakscan), 
 and then asks for the necessary parameters (host, ports, project name, etc.). 
 Based on the user's input, it generates the corresponding command and executes it.
+
+:param line: Not used in this implementation.
+:returns: None
+
+## dr0p1t
+Execute the Dr0p1t tool to create a stealthy malware dropper.
+
+This function prompts the user to input the necessary parameters for 
+generating a dropper, including the malware URL, persistence options, 
+and additional configurations. Based on the user's input, it constructs 
+the command and executes it.
 
 :param line: Not used in this implementation.
 :returns: None

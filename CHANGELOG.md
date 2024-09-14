@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Documentación
+
+### Otros
+
+  *   * docs(docs): documented resources, and externals, and one command dr0p1t \n\n Version: release/0.1.44 \n\n documented at COMMANDS.md as an Execute the Dr0p1t tool to create a stealthy malware dropper. \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - external/install_external.sh - lazyown - sessions/download_resources.sh\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Sep 14 03:10:13 2024 -0300 \n\n Hora: 1726294213
+
+
 ### Otros
 
 ### Otros

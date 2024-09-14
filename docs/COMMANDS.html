@@ -3568,9 +3568,9 @@ detect if a target is vulnerable to Shellshock.</p>
 <h2 id="generate_revshell">generate_revshell</h2>
 <p>Generate a reverse shell in various programming languages.</p>
 <p>This function prompts the user to choose a reverse shell type (Bash,
-Python, NetCat, PHP, Ruby, Perl, or Telnet) and then asks for the
-necessary parameters (IP and port). Based on the user’s input, it
-generates the corresponding reverse shell command.</p>
+Python, NetCat, PHP, Ruby, Perl, Telnet, NodeJS, Golang, PowerShell) and
+then asks for the necessary parameters (IP and port). Based on the
+user’s input, it generates the corresponding reverse shell command.</p>
 <p>:param line: Not used in this implementation. :returns: None</p>
 <h2 id="alterx">alterx</h2>
 <p>Executes the ‘alterx’ command for subdomain enumeration on the
@@ -3641,6 +3641,13 @@ assumes the presence of the <code>is_binary_present()</code> and
 sfscan, bakscan), and then asks for the necessary parameters (host,
 ports, project name, etc.). Based on the user’s input, it generates the
 corresponding command and executes it.</p>
+<p>:param line: Not used in this implementation. :returns: None</p>
+<h2 id="dr0p1t">dr0p1t</h2>
+<p>Execute the Dr0p1t tool to create a stealthy malware dropper.</p>
+<p>This function prompts the user to input the necessary parameters for
+generating a dropper, including the malware URL, persistence options,
+and additional configurations. Based on the user’s input, it constructs
+the command and executes it.</p>
 <p>:param line: Not used in this implementation. :returns: None</p>
 <h2 id="find_tgts">find_tgts</h2>
 <p>Finds and returns a list of target hosts with port 445 open in the

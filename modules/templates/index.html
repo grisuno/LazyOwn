@@ -110,9 +110,17 @@
             <h2>Issue Command</h2>
             <form action="{{ url_for('issue_command') }}" method="POST">
                 <label for="client_id">Client ID:</label>
-                <input type="text" id="client_id" name="client_id" required><br><br>
+                <select id="client_id" name="client_id" required>
+                    {% if connected_clients %}
+                        {% for client_id in connected_clients %}
+                            <option value="{{ client_id }}">{{ client_id }}</option>
+                        {% endfor %}
+                    {% else %}
+                        <option value="" disabled>No clients available</option>
+                    {% endif %}
+                </select><br><br>
                 <label for="command">Command:</label>
-                <input type="text" id="command" name="command" required><br><br>
+                <input type="textarea" id="command" name="command" required><br><br>
                 <input type="submit" value="Send Command">
             </form>
         

@@ -6843,15 +6843,6 @@ Args:
 Returns:
     list of str: A list of obfuscated command strings.
 
-Example:
-    >>> apply_obfuscations("cat /etc/passwd")
-    [
-        'echo "echo $(echo 'cat /etc/passwd' | base64 | base64)|base64 -d|base64 -d|bash" | sed 's/ /${IFS}/g'',
-        'echo {double_base64_encode(cmd)}|base64 -d|base64 -d|bash',
-        '$(tr '\[A-Z\]' '\[a-z\]' <<< 'cat /etc/passwd')',
-        ...
-    ]
-
 Notes:
     - Each obfuscation method aims to transform the command in a unique way.
     - Obfuscations include encoding, character replacement, and command substitution techniques.
@@ -6868,6 +6859,13 @@ Helper function to alternate the case of characters in a string.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(fix): c2 insecure filename \n\n Version: release/0.1.45 \n\n resolved \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - modules/lazyc2.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Sep 14 04:42:54 2024 -0300 \n\n Hora: 1726299774
 
 
 ### Documentación

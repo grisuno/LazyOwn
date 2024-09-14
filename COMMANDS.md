@@ -5597,15 +5597,6 @@ Args:
 Returns:
     list of str: A list of obfuscated command strings.
 
-Example:
-    >>> apply_obfuscations("cat /etc/passwd")
-    [
-        'echo "echo $(echo 'cat /etc/passwd' | base64 | base64)|base64 -d|base64 -d|bash" | sed 's/ /${IFS}/g'',
-        'echo {double_base64_encode(cmd)}|base64 -d|base64 -d|bash',
-        '$(tr '\[A-Z\]' '\[a-z\]' <<< 'cat /etc/passwd')',
-        ...
-    ]
-
 Notes:
     - Each obfuscation method aims to transform the command in a unique way.
     - Obfuscations include encoding, character replacement, and command substitution techniques.

@@ -5211,11 +5211,6 @@ disguise the command, making it less recognizable to simple static
 analysis.</p>
 <p>Args: cmd (str): The command string to be obfuscated.</p>
 <p>Returns: list of str: A list of obfuscated command strings.</p>
-<p>Example: &gt;&gt;&gt; apply_obfuscations(“cat /etc/passwd”) [ ‘echo
-“echo <span class="math inline">$(echo 'cat /etc/passwd' | base64 |
-base64)|base64 -d|base64 -d|bash" | sed 's/ /$</span>{IFS}/g’‘, ’echo
-{double_base64_encode(cmd)}|base64 -d|base64 -d|bash’, ‘$(tr’[A-Z]’
-‘[a-z]’ &lt;&lt;&lt; ‘cat /etc/passwd’)’, … ]</p>
 <p>Notes: - Each obfuscation method aims to transform the command in a
 unique way. - Obfuscations include encoding, character replacement, and
 command substitution techniques. - Ensure that the

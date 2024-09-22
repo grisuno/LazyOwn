@@ -1238,6 +1238,9 @@ Generates a random alphanumeric string.
 ## generate_http_req
 Generates an HTTP request with the Shellshock payload.
 
+## format_openssh_key
+No description available.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 
@@ -4331,9 +4334,10 @@ This function performs the following actions:
 2. Verifies that a username is provided as an argument.
 3. Creates an SSH private key file in the `sessions` directory with a name based on the provided username.
 4. Opens the created file in the `nano` text editor for the user to paste the private key.
-5. Sets the file permissions to read-only for the owner (400).
-6. Connects to the remote host via SSH using the created private key.
-7. Displays a warning message when the SSH connection is closed.
+5. Sets the file permissions to read-only for the owner (600).
+6. Optionally formats the key if the user chooses to.
+7. Connects to the remote host via SSH using the created private key.
+8. Displays a warning message when the SSH connection is closed.
 
 Usage:
     id_rsa <username>
@@ -6859,6 +6863,13 @@ Helper function to alternate the case of characters in a string.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(win backdoor): undetectable \n\n Version: release/0.1.46 \n\n handcrafted malware undetectable ;) to windows \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Sep 14 04:55:13 2024 -0300 \n\n Hora: 1726300513
 
 
 ### Correcciones

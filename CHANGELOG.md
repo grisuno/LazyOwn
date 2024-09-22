@@ -6,6 +6,13 @@
 
 ### Otros
 
+  *   * feat(feat): new cool stuff xD \n\n Version: release/0.1.47 \n\n parse id rsa from 4xura \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Sep 14 18:29:53 2024 -0300 \n\n Hora: 1726349393
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(win backdoor): undetectable \n\n Version: release/0.1.46 \n\n handcrafted malware undetectable ;) to windows \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Sep 14 04:55:13 2024 -0300 \n\n Hora: 1726300513
 
 

@@ -500,6 +500,9 @@ Generates a random alphanumeric string.
 ## generate_http_req
 Generates an HTTP request with the Shellshock payload.
 
+## format_openssh_key
+No description available.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 

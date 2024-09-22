@@ -3085,9 +3085,10 @@ This function performs the following actions:
 2. Verifies that a username is provided as an argument.
 3. Creates an SSH private key file in the `sessions` directory with a name based on the provided username.
 4. Opens the created file in the `nano` text editor for the user to paste the private key.
-5. Sets the file permissions to read-only for the owner (400).
-6. Connects to the remote host via SSH using the created private key.
-7. Displays a warning message when the SSH connection is closed.
+5. Sets the file permissions to read-only for the owner (600).
+6. Optionally formats the key if the user chooses to.
+7. Connects to the remote host via SSH using the created private key.
+8. Displays a warning message when the SSH connection is closed.
 
 Usage:
     id_rsa <username>

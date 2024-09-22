@@ -1186,7 +1186,25 @@ def generate_http_req(host, port, uri, custom_header=None, cmd=None):
         return response, None
     else:
         return response, random_string
-        
+
+def format_openssh_key(raw_key):
+    # Todos los derechos son de 4xura: muchas gracias por esta pieza de software :D https://github.com/4xura/ssh_key_formatter/blob/main/ssh_key_formatter.py
+    # Define the header and footer for the OpenSSH key format
+    header = "-----BEGIN OPENSSH PRIVATE KEY-----"
+    footer = "-----END OPENSSH PRIVATE KEY-----"
+    
+    # Clean input: Remove any newlines, spaces, and header/footer
+    key_content = raw_key.replace(header, "").replace(footer, "").replace("\n", "").replace(" ", "").strip()
+    
+    # Split into 64-character lines
+    formatted_key_content = "\n".join([key_content[i:i+64] for i in range(0, len(key_content), 64)])
+    
+    # Reassemble the key with the header and footer, and add necessary line breaks
+    formatted_key = f"{header}\n{formatted_key_content}\n{footer}\n"
+    
+    return formatted_key
+
+
 signal.signal(signal.SIGINT, signal_handler)
 arguments = sys.argv[1:]  
 

@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Pruebas
+
+### Otros
+
+  *   * test(testing): some test and new resources and externals scripst to download :D \n\n Version: release/0.1.47 \n\n caption and trickster was pwned :P \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - external/install_external.sh - sessions/download_resources.sh\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Sep 22 20:22:53 2024 -0300 \n\n Hora: 1727047373
+
+
 ### Nuevas características
 
 ### Otros

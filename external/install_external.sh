@@ -91,7 +91,7 @@ download() {
         "git clone https://github.com/jm33-m0/emp3r0r.git .exploit/emp3r0r"
         "git clone https://github.com/bats3c/shad0w.git .exploit/shadowC2"
         "git clone https://github.com/unix-thrust/beurk.git .exploit/beurk_rootkit"
-        
+        "git cloen https://github.com/arthaud/git-dumper.git .exploit/git-dumper"
     )
     # Imprime los últimos argumentos de cada comando
     echo "    [+] Seleccione el número del comando que desea clonar:"

@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new commands documented at COMMANDS.md \n\n Version: release/0.1.48 \n\n gitdumper, powershell_cmd_stager, shellcode_search, ligolo \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - lazyown - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Sep 22 22:12:21 2024 -0300 \n\n Hora: 1727053941
+
+
 ### Pruebas
 
 ### Otros

@@ -503,6 +503,23 @@ Generates an HTTP request with the Shellshock payload.
 ## format_openssh_key
 No description available.
 
+## is_package_installed
+Check if a Python package is installed.
+
+:param package_name: Name of the package to check.
+:returns: True if installed, False otherwise.
+
+## extract
+No description available.
+
+## clean_html
+Remove HTML tags from a string.
+
+This function uses a regular expression to strip HTML tags and return plain text.
+
+:param html_string: A string containing HTML content.
+:returns: A cleaned string with HTML tags removed.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 

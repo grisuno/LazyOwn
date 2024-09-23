@@ -1241,6 +1241,23 @@ Generates an HTTP request with the Shellshock payload.
 ## format_openssh_key
 No description available.
 
+## is_package_installed
+Check if a Python package is installed.
+
+:param package_name: Name of the package to check.
+:returns: True if installed, False otherwise.
+
+## extract
+No description available.
+
+## clean_html
+Remove HTML tags from a string.
+
+This function uses a regular expression to strip HTML tags and return plain text.
+
+:param html_string: A string containing HTML content.
+:returns: A cleaned string with HTML tags removed.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 
@@ -6652,6 +6669,44 @@ the command and executes it.
 :param line: Not used in this implementation.
 :returns: None
 
+## gitdumper
+Install and execute the git-dumper tool to download Git repository content.
+
+This function checks if git-dumper is installed, and if not, installs it using pip.
+Then, it prompts the user to input the necessary parameters to run git-dumper, constructs
+the command, and executes it.
+
+:param line: Not used in this implementation.
+:returns: None
+
+## powershell_cmd_stager
+Generate and execute a PowerShell command stager to run a .ps1 script.
+
+This function takes the name of a PowerShell script (.ps1), encodes its content in base64,
+and constructs a command to execute the script using PowerShell in a hidden and elevated manner.
+The function then prints the generated command.
+
+:param line: The name of the PowerShell script file to encode and execute.
+:returns: None
+
+## shellcode_search
+Search the shell-storm API for shellcodes using the provided keywords.
+
+This function sends a GET request to the shell-storm API with the specified keywords.
+It then prints the results.
+
+:param line: A string containing the keywords to search for.
+:returns: None
+
+## ligolo
+Automates the setup and execution of Ligolo server and client for tunneling and port forwarding.
+
+...
+
+:param line: The command line input containing the port number for Ligolo setup.
+:type line: str
+:returns: None
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 
@@ -6863,6 +6918,13 @@ Helper function to alternate the case of characters in a string.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(testing): some test and new resources and externals scripst to download :D \n\n Version: release/0.1.47 \n\n caption and trickster was pwned :P \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - external/install_external.sh - sessions/download_resources.sh\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Sep 22 20:22:53 2024 -0300 \n\n Hora: 1727047373
 
 
 ### Nuevas características

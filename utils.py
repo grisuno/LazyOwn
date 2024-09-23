@@ -37,6 +37,7 @@ import tempfile
 import threading
 import subprocess
 import urllib.request
+import importlib.util
 from itertools import product
 from libnmap.parser import NmapParser
 from libnmap.process import NmapProcess
@@ -1204,6 +1205,36 @@ def format_openssh_key(raw_key):
     
     return formatted_key
 
+def is_package_installed(package_name):
+    """
+    Check if a Python package is installed.
+
+    :param package_name: Name of the package to check.
+    :returns: True if installed, False otherwise.
+    """
+    
+    return importlib.util.find_spec(package_name) is not None
+
+def extract(string, extract_flag):
+    if extract_flag:
+        string = "".join(re.findall(r"x[a-f0-9][a-f0-9]", string))  
+        string = string.replace("x", "")  
+        return string
+    else:
+        return string  
+
+def clean_html(html_string):
+    """
+    Remove HTML tags from a string.
+
+    This function uses a regular expression to strip HTML tags and return plain text.
+
+    :param html_string: A string containing HTML content.
+    :returns: A cleaned string with HTML tags removed.
+    """
+    clean_pattern = re.compile(r'<.*?>')
+    cleaned_string = re.sub(clean_pattern, '', html_string)
+    return cleaned_string.strip()
 
 signal.signal(signal.SIGINT, signal_handler)
 arguments = sys.argv[1:]  

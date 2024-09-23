@@ -3649,6 +3649,36 @@ generating a dropper, including the malware URL, persistence options,
 and additional configurations. Based on the user’s input, it constructs
 the command and executes it.</p>
 <p>:param line: Not used in this implementation. :returns: None</p>
+<h2 id="gitdumper">gitdumper</h2>
+<p>Install and execute the git-dumper tool to download Git repository
+content.</p>
+<p>This function checks if git-dumper is installed, and if not, installs
+it using pip. Then, it prompts the user to input the necessary
+parameters to run git-dumper, constructs the command, and executes
+it.</p>
+<p>:param line: Not used in this implementation. :returns: None</p>
+<h2 id="powershell_cmd_stager">powershell_cmd_stager</h2>
+<p>Generate and execute a PowerShell command stager to run a .ps1
+script.</p>
+<p>This function takes the name of a PowerShell script (.ps1), encodes
+its content in base64, and constructs a command to execute the script
+using PowerShell in a hidden and elevated manner. The function then
+prints the generated command.</p>
+<p>:param line: The name of the PowerShell script file to encode and
+execute. :returns: None</p>
+<h2 id="shellcode_search">shellcode_search</h2>
+<p>Search the shell-storm API for shellcodes using the provided
+keywords.</p>
+<p>This function sends a GET request to the shell-storm API with the
+specified keywords. It then prints the results.</p>
+<p>:param line: A string containing the keywords to search for.
+:returns: None</p>
+<h2 id="ligolo">ligolo</h2>
+<p>Automates the setup and execution of Ligolo server and client for
+tunneling and port forwarding.</p>
+<p>…</p>
+<p>:param line: The command line input containing the port number for
+Ligolo setup. :type line: str :returns: None</p>
 <h2 id="find_tgts">find_tgts</h2>
 <p>Finds and returns a list of target hosts with port 445 open in the
 specified subnet.</p>

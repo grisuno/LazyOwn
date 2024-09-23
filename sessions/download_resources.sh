@@ -43,6 +43,7 @@ download() {
         "wget https://github.com/Dliv3/Venom/releases/download/v1.1.0/Venom.v1.1.0.7z"
         "wget https://github.com/P1-Team/AlliN/raw/main/AlliN.py"
         "wget https://github.com/baiyies/PowerOneLiner/raw/main/one_liner_generator.py"
+        "wget https://raw.githubusercontent.com/jakub-przepiora/ps-scan-Prestashop-scanner/refs/heads/main/ps-scan.py"
     )
 
     # Imprime los últimos argumentos de cada comando

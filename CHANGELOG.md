@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Otros
+
+### Otros
+
+  *   * feature(feat): now we are vip \n\n Version: release/0.1.49 \n\n  \n\n Modified file(s):\n- .gitignore - COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - external/install_external.sh - lazyown - payload.json - payload1.json\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Sep 23 02:57:23 2024 -0300 \n\n Hora: 1727071043
+
+
 ### Nuevas características
 
 ### Otros

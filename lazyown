@@ -10893,10 +10893,35 @@ class LazyOwnShell(Cmd):
 
         :returns: None
         """
-        if not is_binary_present("netexec"):
+        def install_netexec():
             print_warn("netexec is not installed. Installing.")
             os.system("sudo apt install netexec -y")
-            return
+            print_msg("Installation completed using apt.")
+            
+        def install_netexec_pipx():
+            print_warn("netexec is not installed. Installing via pipx.")
+            os.system("sudo apt install pipx git -y")
+            os.system("pipx ensurepath")
+            os.system("pipx install git+https://github.com/Pennyw0rth/NetExec")
+            print_msg("Installation completed using pipx.")
+            
+        if not is_binary_present("netexec"):
+            print_warn("netexec is not installed. Select installation method:")
+            print_msg("1. Install using apt")
+            print_msg("2. Install using pipx")
+            
+            try:
+                install_choice = int(input("    [!] Enter the number corresponding to the installation method: "))
+                if install_choice == 1:
+                    install_netexec()
+                elif install_choice == 2:
+                    install_netexec_pipx()
+                else:
+                    print_error("Invalid choice. Please select a valid number.")
+                    return
+            except ValueError:
+                print_error("Invalid input. Please enter a valid number.")
+                return
 
         print_warn("Select the protocol you want to use:")
         protocols = ["ssh", "winrm", "smb", "rdp", "wmi", "mssql", "ldap", "ftp", "vnc"]
@@ -10914,7 +10939,7 @@ class LazyOwnShell(Cmd):
             timeout = input("    [!] Enter the timeout in seconds (default: 5): ").strip() or "5"
             jitter = input("    [!] Enter jitter interval (default: 0): ").strip() or "0"
             verbose = input("    [!] Enable verbose mode? (yes/no, default: no): ").strip().lower() == "yes"
-            debug = input("    [!] Enable debug mode? (yes/no, default: no): ").strip().lower() == "no"
+            debug = input("    [!] Enable debug mode? (yes/no, default: no): ").strip().lower() == "yes"
 
             netexec_command = f"netexec {protocol} -t {threads} --timeout {timeout} --jitter {jitter}"
 
@@ -11738,15 +11763,13 @@ class LazyOwnShell(Cmd):
     def do_ligolo(self, line):
         """
         Automates the setup and execution of Ligolo server and client for tunneling and port forwarding.
-        
-        ...
 
         :param line: The command line input containing the port number for Ligolo setup.
         :type line: str
         :returns: None
         """
         
-        lhost = self.params.get("lhost")
+        lhost = self.params["lhost"]
         if not lhost:
             print_error("You must set lhost ex: set lhost 10.10.10.10 or payload (alias p)")
             return
@@ -11779,7 +11802,181 @@ class LazyOwnShell(Cmd):
 
         os.system(f"cd sessions && ./proxy -laddr \"0.0.0.0:{lport}\" -selfcert")
         print_msg(f"Ligolo server is running on port {RED}{lport}{RESET}. You can stop it by terminating the process.")
+        return
 
+    def do_addusers(self, line):
+        """
+        Opens or creates the users.txt file in the sessions directory for editing using nano.
+
+        :param line: Not used directly but reserved for future use.
+
+        :returns: None
+        """
+        users_file_path = os.path.join("sessions", "users.txt")
+
+        if not os.path.exists(users_file_path):
+            print_warn(f"{users_file_path} does not exist. Creating the file.")
+            os.makedirs(os.path.dirname(users_file_path), exist_ok=True)
+            with open(users_file_path, 'w') as f:
+                pass  # Create the file
+
+        print_msg(f"Opening {users_file_path} with nano for editing.")
+        os.system(f"nano {users_file_path}")
+
+        return
+
+    def do_windapsearch(self, line):
+        """
+        Execute the windapsearch tool to perform Active Directory Domain enumeration through LDAP queries.
+
+        This function allows the user to specify various parameters for executing different LDAP query modules
+        using windapsearch. It handles user input for domain, username, password, and other options, constructs
+        the command, and executes it.
+
+        :param line: Not used in this implementation.
+        :returns: None
+        """
+        if not is_binary_present("windapsearch"):
+            print_warn("windapsearch binary not found. Installing...")
+            print_msg("Choose installation method for windapsearch:")
+            print_msg("1. Download pre-compiled binaries (Linux amd64)")
+            print_msg("2. Compile from source")
+
+            choice = input("Enter choice (1 or 2): ").strip()
+
+            if choice == '1':
+                binary_url = "https://github.com/ropnop/go-windapsearch/releases/download/v0.3.0/windapsearch-linux-amd64"
+                binary_path = "~/bin/go-windapsearch"
+
+                if not os.path.exists(os.path.dirname(binary_path)):
+                    os.makedirs(os.path.dirname(binary_path))
+
+                os.system(f"wget -O {binary_path} {binary_url}")
+                os.system(f"chmod +x {binary_path}")
+                print_msg(f"Downloaded and made executable: {binary_path}")
+            
+            elif choice == '2':
+                repo_url = "https://github.com/ropnop/go-windapsearch.git"
+                project_dir = "~/bin/go-windapsearch"
+
+                if not os.path.exists(project_dir):
+                    os.makedirs(project_dir)
+                command = """go get -u -d github.com/magefile/mage ;
+                cd $GOPATH/src/github.com/magefile/mage ;
+                go run bootstrap.go""" 
+                os.system(command)
+                os.system(f"git clone {repo_url} {project_dir}")
+                os.system(f"cd {project_dir} && go get github.com/magefile/mage")
+                os.system(f"cd {project_dir} && mage build")
+                print_msg("Compiled windapsearch from source.")
+                os.system(f"{os.path.join(project_dir, 'windapsearch')} --version")
+            
+            else:
+                print_error("Invalid choice. Please enter 1 or 2.")
+        
+
+        domain = get_domain(self.params["url"]) or input("    [!] Enter the FQDN of the domain (e.g., 'lab.example.com'): ").strip()
+        rhost = self.params["rhost"]
+        if not domain:
+            print_error("Domain is required.")
+            return
+        choice = input("    [!] Use file credentials.txt? (y/n, default: n): ")
+        if choice == 'y':
+            path_cred = "sessions/credentials.txt"
+
+            if not os.path.exists(path_cred):
+                username = input("    [!] Enter the username with domain (e.g., 'user@domain.com'): ").strip()
+                password = input("    [!] Enter the password: ").strip()
+            else:
+                with open(path_cred, "r") as file:
+                    for file_line in file:
+                        params = file_line.split(":")
+                        if not line:
+                            username = params[0]
+                        else:
+                            username = line
+                        password = params[1].replace("\n", "")
+        else:            
+            command = f"go-windapsearch --dc {rhost} --full -m users -o sessions/{rhost}_windap -j y -v y"
+            os.system(command)
+            return
+
+        use_ntlm = input("    [!] Use NTLM auth? (y/n, default: n): ").strip().lower() or 'n'
+        ntlm_command = "--ntlm" if use_ntlm == 'y' else ""
+        
+        use_ldaps = input("    [!] Use LDAPS? (y/n, default: n): ").strip().lower() or 'n'
+        ldaps_command = "--secure" if use_ldaps == 'y' else ""
+        
+        output_file = input("    [!] Enter the output file (optional): ").strip() or f"sessions/{domain}_windap"
+        output_command = f"-o {output_file}" if output_file else ""
+        
+        json_output = input("    [!] Output in JSON format? (y/n, default: n): ").strip().lower() or 'n'
+        json_command = "-j" if json_output == 'y' else ""
+        
+        verbose = input("    [!] Enable verbose logging? (y/n, default: n): ").strip().lower() or 'n'
+        verbose_command = "-v" if verbose == 'y' else ""
+        
+        module = input("    [!] Enter the module to use (e.g., 'admin-objects' , 'computers', 'custom'   , 'dns-names', 'dns-zones', 'domain-admins', 'gpos'' , 'groups'   , 'members'  , 'metadata' , 'privileged-users , 'search'   , 'unconstrained', 'user-spns', 'users' ): ").strip() or 'users'
+        if not module:
+            print_error("Module is required.")
+            return
+        
+        module_options = input("    [!] Enter any additional options for the module (optional): ").strip()
+
+        command = (
+            f"go-windapsearch -d {domain} -u {username} -p {password} {ntlm_command} {ldaps_command} "
+            f"{output_command} {json_command} {verbose_command} -m {module} {module_options}"
+        ).strip()
+        
+        print_msg(f"Generated command: {command}")
+        os.system(command)
+        return
+
+    def do_passtightvnc(self, line):
+        """
+        Decrypts TightVNC passwords using Metasploit.
+
+        This function demonstrates how TightVNC passwords can be decrypted using the known hardcoded DES key
+        from the program and Metasploit's `Rex::Proto::RFB::Cipher.decrypt` function.
+
+        Steps:
+        - Receives the password in hexadecimal format from the command line input.
+        - Creates a Metasploit resource script that includes commands to decrypt the TightVNC password.
+        - Executes Metasploit with the created resource script and then deletes the temporary file.
+        - Prints the decrypted password.
+
+        :param line: The TightVNC password in hexadecimal format.
+        :type line: str
+        :returns: None
+
+        Manual execution:
+        To manually decrypt a TightVNC password, you would need to:
+        - Use Metasploit's `Rex::Proto::RFB::Cipher.decrypt` function with the hardcoded DES key and the hexadecimal password.
+
+        Example:
+        passtightvnc D7A514D8C556AADE
+        """
+
+        if not line:
+            print("No password provided.")
+            return
+
+        hex_password = line.strip().upper()
+        print_warn(hex_password)
+        command = f"""
+        key="\\x17\\x52\\x6b\\x06\\x23\\x4e\\x58\\x07"
+        require 'rex/proto/rfb'
+        Rex::Proto::RFB::Cipher.decrypt ["{hex_password}"].pack('H*'), key
+        """.replace("        ", '')
+        copy2clip(command)
+
+        try:
+            subprocess.run(["msfconsole", "-x", f"irb -r"], check=True)
+        except subprocess.CalledProcessError as e:
+            print_error(f"Metasploit execution failed: {e}")
+
+        print_msg("TightVNC password decryption completed.")
+        return
 
 if __name__ == "__main__":
     p = LazyOwnShell()

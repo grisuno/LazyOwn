@@ -3676,9 +3676,37 @@ specified keywords. It then prints the results.</p>
 <h2 id="ligolo">ligolo</h2>
 <p>Automates the setup and execution of Ligolo server and client for
 tunneling and port forwarding.</p>
-<p>…</p>
 <p>:param line: The command line input containing the port number for
 Ligolo setup. :type line: str :returns: None</p>
+<h2 id="addusers">addusers</h2>
+<p>Opens or creates the users.txt file in the sessions directory for
+editing using nano.</p>
+<p>:param line: Not used directly but reserved for future use.</p>
+<p>:returns: None</p>
+<h2 id="windapsearch">windapsearch</h2>
+<p>Execute the windapsearch tool to perform Active Directory Domain
+enumeration through LDAP queries.</p>
+<p>This function allows the user to specify various parameters for
+executing different LDAP query modules using windapsearch. It handles
+user input for domain, username, password, and other options, constructs
+the command, and executes it.</p>
+<p>:param line: Not used in this implementation. :returns: None</p>
+<h2 id="passtightvnc">passtightvnc</h2>
+<p>Decrypts TightVNC passwords using Metasploit.</p>
+<p>This function demonstrates how TightVNC passwords can be decrypted
+using the known hardcoded DES key from the program and Metasploit’s
+<code>Rex::Proto::RFB::Cipher.decrypt</code> function.</p>
+<p>Steps: - Receives the password in hexadecimal format from the command
+line input. - Creates a Metasploit resource script that includes
+commands to decrypt the TightVNC password. - Executes Metasploit with
+the created resource script and then deletes the temporary file. -
+Prints the decrypted password.</p>
+<p>:param line: The TightVNC password in hexadecimal format. :type line:
+str :returns: None</p>
+<p>Manual execution: To manually decrypt a TightVNC password, you would
+need to: - Use Metasploit’s <code>Rex::Proto::RFB::Cipher.decrypt</code>
+function with the hardcoded DES key and the hexadecimal password.</p>
+<p>Example: passtightvnc D7A514D8C556AADE</p>
 <h2 id="find_tgts">find_tgts</h2>
 <p>Finds and returns a list of target hosts with port 445 open in the
 specified subnet.</p>
@@ -3809,6 +3837,10 @@ the string.</p>
 <p>Expands a regular expression into a list of characters.</p>
 <p>:param regex: Regular expression string to expand. :returns: List of
 characters matching the regular expression.</p>
+<h2 id="install_netexec">install_netexec</h2>
+<p>No description available.</p>
+<h2 id="install_netexec_pipx">install_netexec_pipx</h2>
+<p>No description available.</p>
 <h2 id="double_base64_encode">double_base64_encode</h2>
 <p>Perform double Base64 encoding on the given command.</p>
 <p>This helper function takes a command string, encodes it in Base64,

@@ -6701,11 +6701,49 @@ It then prints the results.
 ## ligolo
 Automates the setup and execution of Ligolo server and client for tunneling and port forwarding.
 
-...
-
 :param line: The command line input containing the port number for Ligolo setup.
 :type line: str
 :returns: None
+
+## addusers
+Opens or creates the users.txt file in the sessions directory for editing using nano.
+
+:param line: Not used directly but reserved for future use.
+
+:returns: None
+
+## windapsearch
+Execute the windapsearch tool to perform Active Directory Domain enumeration through LDAP queries.
+
+This function allows the user to specify various parameters for executing different LDAP query modules
+using windapsearch. It handles user input for domain, username, password, and other options, constructs
+the command, and executes it.
+
+:param line: Not used in this implementation.
+:returns: None
+
+## passtightvnc
+Decrypts TightVNC passwords using Metasploit.
+
+This function demonstrates how TightVNC passwords can be decrypted using the known hardcoded DES key
+from the program and Metasploit's `Rex::Proto::RFB::Cipher.decrypt` function.
+
+Steps:
+- Receives the password in hexadecimal format from the command line input.
+- Creates a Metasploit resource script that includes commands to decrypt the TightVNC password.
+- Executes Metasploit with the created resource script and then deletes the temporary file.
+- Prints the decrypted password.
+
+:param line: The TightVNC password in hexadecimal format.
+:type line: str
+:returns: None
+
+Manual execution:
+To manually decrypt a TightVNC password, you would need to:
+- Use Metasploit's `Rex::Proto::RFB::Cipher.decrypt` function with the hardcoded DES key and the hexadecimal password.
+
+Example:
+passtightvnc D7A514D8C556AADE
 
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
@@ -6865,6 +6903,12 @@ Expands a regular expression into a list of characters.
 :param regex: Regular expression string to expand.
 :returns: List of characters matching the regular expression.
 
+## install_netexec
+No description available.
+
+## install_netexec_pipx
+No description available.
+
 ## double_base64_encode
 Perform double Base64 encoding on the given command.
 
@@ -6918,6 +6962,13 @@ Helper function to alternate the case of characters in a string.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new commands documented at COMMANDS.md \n\n Version: release/0.1.48 \n\n gitdumper, powershell_cmd_stager, shellcode_search, ligolo \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - lazyown - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Sep 22 22:12:21 2024 -0300 \n\n Hora: 1727053941
 
 
 ### Pruebas

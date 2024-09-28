@@ -3866,31 +3866,37 @@ To manually execute the command:
 Note: Ensure `xclip` is installed and available on your system.
 
 ## winbase64payload
-Creates a base64 encoded PowerShell payload specifically for Windows to execute a `.ps1` script from `lhost`.
+Creates a base64 encoded payload specifically for Windows to execute a PowerShell command or download a file using `lhost`.
 
 1. Checks if `lhost` is set:
     - Displays an error message and exits if `lhost` is not set.
 
-2. Checks if a file name is provided:
-    - Displays an error message and exits if no file name is provided.
+2. Checks if a file name or command is provided:
+    - Displays an error message and exits if no file name or command is provided.
 
-3. Constructs a PowerShell command:
-    - The command downloads and executes a `.ps1` script from `lhost` using `New-Object WebClient`.
+3. Prompts for the type of payload:
+    - '1': Constructs a PowerShell command to download and execute a `.ps1` script from `lhost`.
+    - '2': Constructs a command to download a file using `wget`.
 
-4. Encodes the PowerShell command:
+4. Prompts for the output type:
+    - '1': Outputs the base64 encoded PowerShell command.
+    - '2': Outputs the base64 encoded command in an ASP format.
+    - '3': Outputs the base64 encoded command in a PHP format.
+
+5. Encodes the command:
     - Converts the command to UTF-16LE encoding.
     - Encodes the UTF-16LE encoded command to base64.
-    - Copies the final base64 command to the clipboard using `xclip`.
+    - Copies the final base64 command to the clipboard using `copy2clip`.
 
-:param line: The name of the `.ps1` file located in the `sessions` directory.
+:param line: The name of the `.ps1` file or the command to be executed.
 :type line: str
 :returns: None
 
 Manual execution:
 To manually use the payload:
 - Ensure `lhost` is set to the correct IP address.
-- Place the `.ps1` file in the `sessions` directory.
-- Use `xclip` to copy the generated base64 command to the clipboard.
+- Place the `.ps1` file in the `sessions` directory if using the 'ps1' payload type.
+- Use `copy2clip` to copy the generated base64 command to the clipboard.
 
 Note: Ensure `iconv`, `base64`, and `xclip` are installed and available on your system.
 
@@ -5478,6 +5484,16 @@ To manually decrypt a TightVNC password, you would need to:
 
 Example:
 passtightvnc D7A514D8C556AADE
+
+## shadowsocks
+Execute the Shadowsocks tool to create a secure tunnel for network traffic.
+
+This function allows the user to specify various parameters for configuring and running the Shadowsocks client
+or server. It handles user input for server address, port, password, encryption method, and other options, 
+constructs the command, and executes it.
+
+:param line: Not used in this implementation.
+:returns: None
 
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.

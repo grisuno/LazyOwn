@@ -552,6 +552,20 @@ installed, False otherwise.</p>
 plain text.</p>
 <p>:param html_string: A string containing HTML content. :returns: A
 cleaned string with HTML tags removed.</p>
+<h2 id="command">command</h2>
+<p>Run a command, print output in real-time, and store the output in a
+variable.</p>
+<p>This method executes a given command using
+<code>subprocess.Popen</code>, streams both the standard output and
+standard error to the console in real-time, and stores the full output
+(stdout and stderr) in a variable. If interrupted, the process is
+terminated gracefully.</p>
+<p>:param command: The command to be executed as a string. :type
+command: str</p>
+<p>:returns: The full output of the command (stdout and stderr). :rtype:
+str</p>
+<p>Example: To execute a command, call
+<code>run_command("ls -l")</code>.</p>
 <h2 id="wrapper">wrapper</h2>
 <p>internal wrapper of internal function to implement multiples rhost to
 operate.</p>

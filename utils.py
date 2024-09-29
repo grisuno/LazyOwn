@@ -1236,6 +1236,53 @@ def clean_html(html_string):
     cleaned_string = re.sub(clean_pattern, '', html_string)
     return cleaned_string.strip()
 
+def run_command(command):
+    """
+    Run a command, print output in real-time, and store the output in a variable.
+
+    This method executes a given command using `subprocess.Popen`, streams both the standard 
+    output and standard error to the console in real-time, and stores the full output (stdout 
+    and stderr) in a variable. If interrupted, the process is terminated gracefully.
+
+    :param command: The command to be executed as a string.
+    :type command: str
+
+    :returns: The full output of the command (stdout and stderr).
+    :rtype: str
+
+    Example:
+        To execute a command, call `run_command("ls -l")`.
+    """
+
+    output = ""  
+    command_tokens = shlex.split(command)
+    try:
+        process = subprocess.Popen(
+            command_tokens, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
+        )
+        while True:
+            stdout_line = process.stdout.readline()
+            if stdout_line:
+                sys.stdout.write(stdout_line)  
+                output += stdout_line  
+            stderr_line = process.stderr.readline()
+            if stderr_line:
+                sys.stdout.write(stderr_line)  
+                output += stderr_line  
+            if not stdout_line and not stderr_line and process.poll() is not None:
+                break
+        stdout, stderr = process.communicate()
+        if stdout:
+            sys.stdout.write(stdout)
+            output += stdout
+        if stderr:
+            sys.stdout.write(stderr)
+            output += stderr
+    except KeyboardInterrupt:
+        process.terminate()
+        print_warn("\n[Interrupted] Process terminated")
+        process.wait()
+    return output  
 signal.signal(signal.SIGINT, signal_handler)
 arguments = sys.argv[1:]  
 

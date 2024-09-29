@@ -1448,6 +1448,33 @@ from the local host using:
 <p>:param line: The name of the SMB share to access on the remote host.
 If not provided, the function will list all available shares. :returns:
 None</p>
+<h2 id="smbclient_py">smbclient_py</h2>
+<p>Interacts with SMB shares using the <code>smbclient.py</code> command
+to perform the following operations:</p>
+<ol type="1">
+<li>Checks if <code>rhost</code> (remote host) and <code>lhost</code>
+(local host) are set; if not, an error message is displayed.</li>
+<li>If <code>line</code> (share name) is provided:</li>
+</ol>
+<ul>
+<li>Attempts to access the specified SMB share on the remote host using
+the command: <code>smbclient.py -N \\{rhost}\{line}</code></li>
+</ul>
+<ol start="3" type="1">
+<li>If <code>line</code> is not provided:</li>
+</ol>
+<ul>
+<li>Lists available SMB shares on the remote host with the command:
+<code>smbclient.py -N -L \\{rhost}</code></li>
+</ul>
+<ol start="4" type="1">
+<li>Suggests a potential SMB exploit if possible by mounting the share
+from the local host using:
+<code>mount -t cifs "//{lhost}/share" /mnt/smb</code></li>
+</ol>
+<p>:param line: The name of the SMB share to access on the remote host.
+If not provided, the function will list all available shares. :returns:
+None</p>
 <h2 id="smbmap">smbmap</h2>
 <p>smbmap -H 10.10.10.3 [OPTIONS] Uses the <code>smbmap</code> tool to
 interact with SMB shares on a remote host:</p>
@@ -2659,6 +2686,29 @@ that <code>pwncat-cs</code> is running on the specified port and another
 message when the session is closed.</p>
 <p>Dependencies: - <code>pwncat-cs</code>: A tool used for creating
 reverse shells or bind shells.</p>
+<h2 id="pwncat">pwncat</h2>
+<p>Runs <code>pwncat</code> with the specified port for listening.
+SELFINJECT</p>
+<p>This function starts a <code>pwncat</code> listener on the specified
+local port. It can use a port defined in the <code>lport</code>
+parameter or a port provided as an argument.</p>
+<p>Usage: pwncatcs <port></p>
+<p>:param line: The port number to use for the <code>pwncat-cs</code>
+listener. If not provided, it defaults to the <code>lport</code>
+parameter. :type line: str :returns: None</p>
+<p>Manual execution: 1. Ensure that <code>pwncat-cs</code> is installed
+and accessible from your command line. 2. The port number can either be
+provided as an argument or be set in the <code>lport</code> parameter of
+the function. 3. Run the function to start <code>pwncat-cs</code> on the
+specified port.</p>
+<p>If no port is provided as an argument, the function will use the port
+specified in the <code>lport</code> parameter. If a port is provided, it
+overrides the <code>lport</code> value.</p>
+<p>After starting the listener, the function prints a message indicating
+that <code>pwncat-cs</code> is running on the specified port and another
+message when the session is closed.</p>
+<p>Dependencies: - <code>pwncat-cs</code>: A tool used for creating
+reverse shells or bind shells.</p>
 <h2 id="find">find</h2>
 <p>Automates command execution based on a list of aliases and
 commands.</p>
@@ -3714,6 +3764,15 @@ traffic.</p>
 configuring and running the Shadowsocks client or server. It handles
 user input for server address, port, password, encryption method, and
 other options, constructs the command, and executes it.</p>
+<p>:param line: Not used in this implementation. :returns: None</p>
+<h2 id="kusa">kusa</h2>
+<p>Execute Kusanagi to generate payloads for command, code, or file
+injection.</p>
+<p>This function allows the user to specify various parameters for
+configuring and running Kusanagi to generate payloads for reverse/bind
+shells or injected files/code. It handles user input for target
+addresses, ports, encoding, obfuscation, badchars, and other options,
+constructs the command, and executes it.</p>
 <p>:param line: Not used in this implementation. :returns: None</p>
 <h2 id="find_tgts">find_tgts</h2>
 <p>Finds and returns a list of target hosts with port 445 open in the

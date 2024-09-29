@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Refactorización
+
+### Otros
+
+  *   * refactor(refactor): smbclient refactor, cme refactor, netexec, refactor, new command pwncat with self inyect, c2 windows client, kerbrute refactor, kussanagi generate payloads and refactor of payload.json now has domain adn subdomain \n\n Version: release/0.1.50 \n\n soon video on youtube :D now you can see https://www.youtube.com/watch?v=9_9vevmmgMg \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - external/install_external.sh - lazyown - payload.json - payload1.json - sessions/users.txt - sessions/win/lazybot.ps1 - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Sep 28 04:04:43 2024 -0300 \n\n Hora: 1727507083
+
+
 ### Nuevas características
 
 ### Otros

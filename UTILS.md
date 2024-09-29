@@ -520,6 +520,22 @@ This function uses a regular expression to strip HTML tags and return plain text
 :param html_string: A string containing HTML content.
 :returns: A cleaned string with HTML tags removed.
 
+## command
+Run a command, print output in real-time, and store the output in a variable.
+
+This method executes a given command using `subprocess.Popen`, streams both the standard 
+output and standard error to the console in real-time, and stores the full output (stdout 
+and stderr) in a variable. If interrupted, the process is terminated gracefully.
+
+:param command: The command to be executed as a string.
+:type command: str
+
+:returns: The full output of the command (stdout and stderr).
+:rtype: str
+
+Example:
+    To execute a command, call `run_command("ls -l")`.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 

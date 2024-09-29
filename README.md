@@ -1258,6 +1258,22 @@ This function uses a regular expression to strip HTML tags and return plain text
 :param html_string: A string containing HTML content.
 :returns: A cleaned string with HTML tags removed.
 
+## command
+Run a command, print output in real-time, and store the output in a variable.
+
+This method executes a given command using `subprocess.Popen`, streams both the standard 
+output and standard error to the console in real-time, and stores the full output (stdout 
+and stderr) in a variable. If interrupted, the process is terminated gracefully.
+
+:param command: The command to be executed as a string.
+:type command: str
+
+:returns: The full output of the command (stdout and stderr).
+:rtype: str
+
+Example:
+    To execute a command, call `run_command("ls -l")`.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 
@@ -2634,6 +2650,19 @@ Interacts with SMB shares using the `smbclient` command to perform the following
 :param line: The name of the SMB share to access on the remote host. If not provided, the function will list all available shares.
 :returns: None
 
+## smbclient_py
+Interacts with SMB shares using the `smbclient.py` command to perform the following operations:
+
+1. Checks if `rhost` (remote host) and `lhost` (local host) are set; if not, an error message is displayed.
+2. If `line` (share name) is provided:
+- Attempts to access the specified SMB share on the remote host using the command: `smbclient.py -N \\{rhost}\{line}`
+3. If `line` is not provided:
+- Lists available SMB shares on the remote host with the command: `smbclient.py -N -L \\{rhost}`
+4. Suggests a potential SMB exploit if possible by mounting the share from the local host using: `mount -t cifs "//{lhost}/share" /mnt/smb`
+
+:param line: The name of the SMB share to access on the remote host. If not provided, the function will list all available shares.
+:returns: None
+
 ## smbmap
 smbmap -H 10.10.10.3 [OPTIONS]
 Uses the `smbmap` tool to interact with SMB shares on a remote host:
@@ -3954,6 +3983,30 @@ Example:
 Runs `pwncat-cs` with the specified port for listening.
 
 This function starts a `pwncat-cs` listener on the specified local port. It can use a port defined in the `lport` parameter or a port provided as an argument.
+
+Usage:
+    pwncatcs <port>
+
+:param line: The port number to use for the `pwncat-cs` listener. If not provided, it defaults to the `lport` parameter.
+:type line: str
+:returns: None
+
+Manual execution:
+1. Ensure that `pwncat-cs` is installed and accessible from your command line.
+2. The port number can either be provided as an argument or be set in the `lport` parameter of the function.
+3. Run the function to start `pwncat-cs` on the specified port.
+
+If no port is provided as an argument, the function will use the port specified in the `lport` parameter. If a port is provided, it overrides the `lport` value.
+
+After starting the listener, the function prints a message indicating that `pwncat-cs` is running on the specified port and another message when the session is closed.
+
+Dependencies:
+- `pwncat-cs`: A tool used for creating reverse shells or bind shells.
+
+## pwncat
+Runs `pwncat` with the specified port for listening. SELFINJECT
+
+This function starts a `pwncat` listener on the specified local port. It can use a port defined in the `lport` parameter or a port provided as an argument.
 
 Usage:
     pwncatcs <port>
@@ -6761,6 +6814,16 @@ constructs the command, and executes it.
 :param line: Not used in this implementation.
 :returns: None
 
+## kusa
+Execute Kusanagi to generate payloads for command, code, or file injection.
+
+This function allows the user to specify various parameters for configuring and running Kusanagi to
+generate payloads for reverse/bind shells or injected files/code. It handles user input for target addresses,
+ports, encoding, obfuscation, badchars, and other options, constructs the command, and executes it.
+
+:param line: Not used in this implementation.
+:returns: None
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 
@@ -6978,6 +7041,13 @@ Helper function to alternate the case of characters in a string.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new command Shadowsocks \n\n Version: release/0.1.50 \n\n with love to the comunity :D \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - payload.json\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Sep 25 22:59:45 2024 -0300 \n\n Hora: 1727315985
 
 
 ### Otros

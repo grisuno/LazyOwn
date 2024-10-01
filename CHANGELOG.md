@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Pruebas
+
+### Otros
+
+  *   * test(test): deleting users from ctf game from repo \n\n Version: release/0.1.51 \n\n https://www.youtube.com/watch?v=H9pRwgNw9Ps \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - sessions/users.txt\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Oct 1 00:06:24 2024 -0300 \n\n Hora: 1727751984
+
+
 ### Otros
 
 ### Otros

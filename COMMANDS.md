@@ -5581,6 +5581,19 @@ This function performs the following tasks:
 
 This function is useful in penetration testing engagements where LDAP enumeration is part of the reconnaissance phase. It automates LDAP queries and extracts useful user information, which could assist in credential harvesting, password spraying, or other user-based attacks.
 
+## eternal
+Automates the EternalBlue (MS17-010) exploitation process using Metasploit.
+
+This function performs the following tasks:
+1. Selects the EternalBlue Metasploit module for Windows SMB exploitation.
+2. Displays the current options for the module.
+3. Sets the required payload options, such as `LHOST` and `RHOST`.
+4. Executes the exploit and attempts to gain access to the target machine.
+
+:param line: Command line input that provides the LHOST and RHOST.
+:type line: str
+:returns: None
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 

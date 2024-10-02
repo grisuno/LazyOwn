@@ -6863,6 +6863,19 @@ This function performs the following tasks:
 
 This function is useful in penetration testing engagements where LDAP enumeration is part of the reconnaissance phase. It automates LDAP queries and extracts useful user information, which could assist in credential harvesting, password spraying, or other user-based attacks.
 
+## eternal
+Automates the EternalBlue (MS17-010) exploitation process using Metasploit.
+
+This function performs the following tasks:
+1. Selects the EternalBlue Metasploit module for Windows SMB exploitation.
+2. Displays the current options for the module.
+3. Sets the required payload options, such as `LHOST` and `RHOST`.
+4. Executes the exploit and attempts to gain access to the target machine.
+
+:param line: Command line input that provides the LHOST and RHOST.
+:type line: str
+:returns: None
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 
@@ -7080,6 +7093,13 @@ Helper function to alternate the case of characters in a string.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test): deleting users from ctf game from repo \n\n Version: release/0.1.51 \n\n https://www.youtube.com/watch?v=H9pRwgNw9Ps \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - sessions/users.txt\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Oct 1 00:06:24 2024 -0300 \n\n Hora: 1727751984
 
 
 ### Otros

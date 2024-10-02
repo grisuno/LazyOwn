@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): eternalblue \n\n Version: release/0.1.52 \n\n and scanner in pwntomate tool alias pyautomate coomand \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Oct 1 01:42:32 2024 -0300 \n\n Hora: 1727757752
+
+
 ### Pruebas
 
 ### Otros

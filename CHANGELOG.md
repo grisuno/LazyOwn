@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Correcciones
+
+### Otros
+
+  *   * fix(fix): fix in find command \n\n Version: release/0.1.53 \n\n command find documented at commands.md \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Oct 4 00:28:05 2024 -0300 \n\n Hora: 1728012485
+
+
 ### Refactorización
 
 ### Otros

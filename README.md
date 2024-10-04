@@ -1274,6 +1274,19 @@ and stderr) in a variable. If interrupted, the process is terminated gracefully.
 Example:
     To execute a command, call `run_command("ls -l")`.
 
+## generate_random_cve_id
+No description available.
+
+## get_credentials
+Searches for credential files with the pattern 'credentials*.txt' and allows the user to select one.
+
+The function lists all matching files and prompts the user to select one. It then reads the selected file
+and returns a list of tuples with the format (username, password) for each line in the file.
+
+Returns:
+list of tuples: A list containing tuples with (username, password) for each credential found in the file.
+                If no files are found or an invalid selection is made, an empty list is returned.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 
@@ -2695,23 +2708,22 @@ To manually run this command, use the following syntax:
 Replace `<domain>` with the actual domain name you want to query.
 
 ## psexec
-Copies the `rhost` IP address to the clipboard and updates the prompt with the IP address.
+Executes the Impacket PSExec tool to attempt remote execution on the specified target.
 
-1. Retrieves the `rhost` IP address from the `self.params` parameter.
-2. Checks if the `rhost` is valid using `check_rhost()`. If invalid, the function returns without making changes.
-3. If `line` is 'clean', resets the custom prompt to its original state.
-4. Otherwise, updates the prompt to include the `rhost` IP address in the specified format.
-5. Copies the `rhost` IP address to the clipboard using `xclip`.
-6. Prints a message confirming that the IP address has been copied to the clipboard.
+This function performs the following actions:
+1. Checks if the provided target host (`rhost`) is valid.
+2. If the `line` argument is "pass", it searches for credential files with the pattern `credentials*.txt`
+and allows the user to select which file to use for executing the command.
+3. If the `line` argument is not "pass", it assumes execution without a password (using the current credentials).
+4. Copies the `rhost` IP address to the clipboard for ease of use.
 
-:param line: This parameter determines whether the prompt should be reset or updated with the IP address.
-:type line: str
-:returns: None
+Parameters:
+line (str): A command argument to determine the action.
+            If "pass", the function searches for credential files and authenticates using the selected file.
+            Otherwise, it executes PSExec without a password using the `rhost` IP.
 
-Manual execution:
-To manually run this command, use the following syntax:
-    rhost <line>
-Replace `<line>` with 'clean' to reset the prompt, or any other string to update the prompt with the IP address.
+Returns:
+None
 
 ## rpcdump
 Executes the `rpcdump.py` script to dump RPC services from a target host.
@@ -3483,7 +3495,8 @@ Creates a `credentials.txt` file in the `sessions` directory with the specified 
 
 This function performs the following actions:
 1. Validates the input line to ensure it contains a colon (`:`), indicating the presence of both a username and password.
-2. Writes the valid input to `sessions/credentials.txt`.
+2. Backs up the existing `credentials.txt` file if it exists, renaming it to `credentials_{username}.txt` based on the existing username.
+3. Writes the valid input to `sessions/credentials.txt`.
 
 Usage:
     createcredentials user:password
@@ -6291,12 +6304,13 @@ Executes the Evil-WinRM tool to attempt authentication against the specified tar
 
 This function performs the following actions:
 1. Checks if the provided target host (`rhost`) is valid.
-2. If the `line` argument is "pass", it reads credentials from the `credentials.txt` file and attempts authentication for each user-password pair using Evil-WinRM.
+2. If the `line` argument is "pass", it searches for credential files with the pattern `credentials*.txt`
+and allows the user to select which file to use for executing the command.
 3. If `line` is not "pass", it prints an error message indicating the correct usage.
 
 Parameters:
-line (str): A command argument to determine the action. 
-            If "pass", the function reads credentials from the `credentials.txt` file and attempts to authenticate.
+line (str): A command argument to determine the action.
+            If "pass", the function searches for credential files and authenticates using the selected file.
             If not "pass", it prints an error message with usage instructions.
 
 Returns:
@@ -6876,6 +6890,15 @@ This function performs the following tasks:
 :type line: str
 :returns: None
 
+## cve
+Search for a CVE using the CIRCL API.
+
+This function sends a GET request to the CIRCL API to retrieve CVE details 
+and prints relevant information to the screen.
+
+:param line: A string containing the CVE ID (optional).
+:returns: None
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 
@@ -7093,6 +7116,13 @@ Helper function to alternate the case of characters in a string.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): eternalblue \n\n Version: release/0.1.52 \n\n and scanner in pwntomate tool alias pyautomate coomand \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Oct 1 01:42:32 2024 -0300 \n\n Hora: 1727757752
 
 
 ### Pruebas

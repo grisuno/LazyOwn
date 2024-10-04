@@ -30,6 +30,7 @@ import string
 import ctypes
 import socket
 import struct
+import random
 import binascii
 import readline
 import requests
@@ -1283,6 +1284,52 @@ def run_command(command):
         print_warn("\n[Interrupted] Process terminated")
         process.wait()
     return output  
+
+def generate_random_cve_id():
+    year = random.randint(2020, 2024)
+    code = random.randint(1000, 9999)
+    return f"CVE-{year}-{code}"
+
+
+def get_credentials():
+    """
+    Searches for credential files with the pattern 'credentials*.txt' and allows the user to select one.
+    
+    The function lists all matching files and prompts the user to select one. It then reads the selected file
+    and returns a list of tuples with the format (username, password) for each line in the file.
+
+    Returns:
+    list of tuples: A list containing tuples with (username, password) for each credential found in the file.
+                    If no files are found or an invalid selection is made, an empty list is returned.
+    """
+    path = os.getcwd()
+    credential_files = glob.glob(f"{path}/sessions/credentials*.txt")
+
+    if not credential_files:
+        print_error("No credential files found. Please create one using: createcredentials admin:admin")
+        return []
+    
+    print_msg("The following credential files were found:")
+    for idx, cred_file in enumerate(credential_files, 1):
+        print_msg(f"{idx}. {cred_file}")
+
+    try:
+        file_choice = int(input("    [!] Select the credential file to use (enter the number): "))
+        selected_file = credential_files[file_choice - 1]
+    except (ValueError, IndexError):
+        print_error("Invalid selection.")
+        return []
+    
+    credentials = []
+    with open(selected_file, "r") as file:
+        for line in file:
+            params = line.strip().split(":")
+            if len(params) == 2:
+                credentials.append((params[0], params[1]))
+
+    return credentials
+
+
 signal.signal(signal.SIGINT, signal_handler)
 arguments = sys.argv[1:]  
 

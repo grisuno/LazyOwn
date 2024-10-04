@@ -5024,6 +5024,7 @@ class LazyOwnShell(Cmd):
         Note: Ensure `xclip` is installed and properly configured to use clipboard functionalities.
         """
         lhost = self.params["lhost"]
+        lport = self.params["lport"]
         if not check_lhost(lhost):
             return
 

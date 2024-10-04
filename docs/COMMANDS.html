@@ -1526,29 +1526,21 @@ syntax: sudo impacket-GetNPUsers <domain> -no-pass -usersfile
 sessions/users.txt Replace <code>&lt;domain&gt;</code> with the actual
 domain name you want to query.</p>
 <h2 id="psexec">psexec</h2>
-<p>Copies the <code>rhost</code> IP address to the clipboard and updates
-the prompt with the IP address.</p>
-<ol type="1">
-<li>Retrieves the <code>rhost</code> IP address from the
-<code>self.params</code> parameter.</li>
-<li>Checks if the <code>rhost</code> is valid using
-<code>check_rhost()</code>. If invalid, the function returns without
-making changes.</li>
-<li>If <code>line</code> is ‘clean’, resets the custom prompt to its
-original state.</li>
-<li>Otherwise, updates the prompt to include the <code>rhost</code> IP
-address in the specified format.</li>
-<li>Copies the <code>rhost</code> IP address to the clipboard using
-<code>xclip</code>.</li>
-<li>Prints a message confirming that the IP address has been copied to
-the clipboard.</li>
-</ol>
-<p>:param line: This parameter determines whether the prompt should be
-reset or updated with the IP address. :type line: str :returns: None</p>
-<p>Manual execution: To manually run this command, use the following
-syntax: rhost <line> Replace <code>&lt;line&gt;</code> with ‘clean’ to
-reset the prompt, or any other string to update the prompt with the IP
-address.</p>
+<p>Executes the Impacket PSExec tool to attempt remote execution on the
+specified target.</p>
+<p>This function performs the following actions: 1. Checks if the
+provided target host (<code>rhost</code>) is valid. 2. If the
+<code>line</code> argument is “pass”, it searches for credential files
+with the pattern <code>credentials*.txt</code> and allows the user to
+select which file to use for executing the command. 3. If the
+<code>line</code> argument is not “pass”, it assumes execution without a
+password (using the current credentials). 4. Copies the
+<code>rhost</code> IP address to the clipboard for ease of use.</p>
+<p>Parameters: line (str): A command argument to determine the action.
+If “pass”, the function searches for credential files and authenticates
+using the selected file. Otherwise, it executes PSExec without a
+password using the <code>rhost</code> IP.</p>
+<p>Returns: None</p>
 <h2 id="rpcdump">rpcdump</h2>
 <p>Executes the <code>rpcdump.py</code> script to dump RPC services from
 a target host.</p>
@@ -2253,8 +2245,10 @@ characters or spaces.</p>
 password.</p>
 <p>This function performs the following actions: 1. Validates the input
 line to ensure it contains a colon (<code>:</code>), indicating the
-presence of both a username and password. 2. Writes the valid input to
-<code>sessions/credentials.txt</code>.</p>
+presence of both a username and password. 2. Backs up the existing
+<code>credentials.txt</code> file if it exists, renaming it to
+<code>credentials_{username}.txt</code> based on the existing username.
+3. Writes the valid input to <code>sessions/credentials.txt</code>.</p>
 <p>Usage: createcredentials user:password</p>
 <p>:param line: The input line containing the username and password in
 the format <code>user:password</code>. :type line: str :returns:
@@ -3313,14 +3307,15 @@ do_bloodyAD(““)</p>
 specified target.</p>
 <p>This function performs the following actions: 1. Checks if the
 provided target host (<code>rhost</code>) is valid. 2. If the
-<code>line</code> argument is “pass”, it reads credentials from the
-<code>credentials.txt</code> file and attempts authentication for each
-user-password pair using Evil-WinRM. 3. If <code>line</code> is not
-“pass”, it prints an error message indicating the correct usage.</p>
+<code>line</code> argument is “pass”, it searches for credential files
+with the pattern <code>credentials*.txt</code> and allows the user to
+select which file to use for executing the command. 3. If
+<code>line</code> is not “pass”, it prints an error message indicating
+the correct usage.</p>
 <p>Parameters: line (str): A command argument to determine the action.
-If “pass”, the function reads credentials from the
-<code>credentials.txt</code> file and attempts to authenticate. If not
-“pass”, it prints an error message with usage instructions.</p>
+If “pass”, the function searches for credential files and authenticates
+using the selected file. If not “pass”, it prints an error message with
+usage instructions.</p>
 <p>Returns: None</p>
 <h2 id="gettgt">getTGT</h2>
 <p>Requests a Ticket Granting Ticket (TGT) using the Impacket tool with
@@ -3829,6 +3824,12 @@ options, such as <code>LHOST</code> and <code>RHOST</code>. 4. Executes
 the exploit and attempts to gain access to the target machine.</p>
 <p>:param line: Command line input that provides the LHOST and RHOST.
 :type line: str :returns: None</p>
+<h2 id="cve">cve</h2>
+<p>Search for a CVE using the CIRCL API.</p>
+<p>This function sends a GET request to the CIRCL API to retrieve CVE
+details and prints relevant information to the screen.</p>
+<p>:param line: A string containing the CVE ID (optional). :returns:
+None</p>
 <h2 id="find_tgts">find_tgts</h2>
 <p>Finds and returns a list of target hosts with port 445 open in the
 specified subnet.</p>

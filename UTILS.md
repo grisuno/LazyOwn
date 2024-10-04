@@ -536,6 +536,19 @@ and stderr) in a variable. If interrupted, the process is terminated gracefully.
 Example:
     To execute a command, call `run_command("ls -l")`.
 
+## generate_random_cve_id
+No description available.
+
+## get_credentials
+Searches for credential files with the pattern 'credentials*.txt' and allows the user to select one.
+
+The function lists all matching files and prompts the user to select one. It then reads the selected file
+and returns a list of tuples with the format (username, password) for each line in the file.
+
+Returns:
+list of tuples: A list containing tuples with (username, password) for each credential found in the file.
+                If no files are found or an invalid selection is made, an empty list is returned.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 

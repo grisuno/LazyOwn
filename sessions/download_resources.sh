@@ -44,6 +44,7 @@ download() {
         "wget https://github.com/P1-Team/AlliN/raw/main/AlliN.py"
         "wget https://github.com/baiyies/PowerOneLiner/raw/main/one_liner_generator.py"
         "wget https://raw.githubusercontent.com/jakub-przepiora/ps-scan-Prestashop-scanner/refs/heads/main/ps-scan.py"
+        "wget https://raw.githubusercontent.com/samratashok/nishang/refs/heads/master/Shells/Invoke-PowerShellTcp.ps1"
     )
 
     # Imprime los últimos argumentos de cada comando

@@ -5634,6 +5634,12 @@ Notes:
 - The lazyown_infinitestorage.py script must be present in the specified directory.
 - Ensure that the output paths for both encoding and decoding do not conflict with existing files.
 
+## rejetto_hfs_exec
+HttpFileServer version 2.3. Vulnerable using the module rejetto_hfs_exec of metasploit
+:param line: Command line input that provides the LHOST and RHOST.
+:type line: str
+:returns: None
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 

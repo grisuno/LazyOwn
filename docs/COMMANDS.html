@@ -3834,11 +3834,39 @@ details and prints relevant information to the screen.</p>
 <p>:param line: A string containing the CVE ID (optional). :returns:
 None</p>
 <h2 id="evidence">evidence</h2>
-<p>Comprime la carpeta ‘sessions’ y la codifica en un video usando
-lazyown_infinitestorage.py. Si se proporciona un nombre de archivo,
-decodifica el video en su lugar.</p>
-<p>:param line: Opcional; si se proporciona, es el nombre del video para
-decodificar. :type line: str :returns: None</p>
+<p>Compresses the ‘sessions’ folder and encodes it into a video using
+the lazyown_infinitestorage.py script. If a filename is provided as an
+argument, it decodes the specified video instead.</p>
+<p>This function operates in two modes depending on the input: 1.
+<strong>Encode Mode (default)</strong>: - Compresses the contents of the
+‘sessions’ directory into a ZIP file named ‘sessions.zip’. - Utilizes
+the lazyown_infinitestorage.py script to convert the ZIP file into a
+high-definition video file named ‘encoded_output.avi’ with a frame size
+of 1920x1080 and a frame rate of 25 FPS.</p>
+<ol start="2" type="1">
+<li><strong>Decode Mode</strong>:</li>
+</ol>
+<ul>
+<li>When the ‘line’ parameter contains the string “decode”, it lists all
+available video files in the ‘sessions’ directory (files with .mp4,
+.mkv, or .avi extensions).</li>
+<li>If there are no video files present, it prints an error message and
+exits.</li>
+<li>Prompts the user to select a video by entering its corresponding
+number.</li>
+<li>Constructs a command to decode the selected video file using the
+lazyown_infinitestorage.py script, outputting the decoded result to a
+specified directory.</li>
+</ul>
+<p>:param line: An optional parameter that, when provided, indicates
+that the user wants to decode a video. If not provided, the function
+operates in encode mode. :type line: str :returns: None</p>
+<p>Example usage: - To compress and encode: do_evidence() - To decode a
+video: do_evidence(‘decode’)</p>
+<p>Notes: - The ‘sessions’ directory must exist and contain files for
+encoding. - The lazyown_infinitestorage.py script must be present in the
+specified directory. - Ensure that the output paths for both encoding
+and decoding do not conflict with existing files.</p>
 <h2 id="find_tgts">find_tgts</h2>
 <p>Finds and returns a list of target hosts with port 445 open in the
 specified subnet.</p>

@@ -6929,6 +6929,12 @@ Notes:
 - The lazyown_infinitestorage.py script must be present in the specified directory.
 - Ensure that the output paths for both encoding and decoding do not conflict with existing files.
 
+## rejetto_hfs_exec
+HttpFileServer version 2.3. Vulnerable using the module rejetto_hfs_exec of metasploit
+:param line: Command line input that provides the LHOST and RHOST.
+:type line: str
+:returns: None
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 
@@ -7146,6 +7152,13 @@ Helper function to alternate the case of characters in a string.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test): testing DEPLOY.sh script \n\n Version: release/0.1.53 \n\n to youtube :D https://www.youtube.com/@KillerMonkyRecordz please subs!! \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Oct 5 01:41:25 2024 -0300 \n\n Hora: 1728103285
 
 
 ### Documentación

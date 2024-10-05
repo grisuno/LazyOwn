@@ -78,10 +78,12 @@ class LazyOwnShell(Cmd):
     aliases = {
         "auto": "pyautomate",
         "aslr": "run lazyaslrcheck",
+        "creds": "sh cat sessions/credentials*",
         "discovery": "run lazynmapdiscovery",
         "duckdns": "sh bash modules/duckdns.sh",
         "ftpsniff": "run lazyftpsniff",
         "gpt": "run lazygptcli",
+        "hash": "sh cat sessions/hash*",
         "ls": "list",
         "nmap": "run lazynmap",
         "now": "clock",
@@ -203,16 +205,10 @@ class LazyOwnShell(Cmd):
         :type line: str
         :return: None
         """
-
-        # Obtener el comando o alias
         command = self.aliases.get(line, line)
-
-        # Separar el comando y los argumentos si existe
         parts = command.split(maxsplit=1)
         cmd_name = parts[0]
         cmd_args = parts[1] if len(parts) > 1 else ""
-
-        # Ejecutar el comando si existe
         method_name = f"do_{cmd_name}"
         if hasattr(self, method_name):
             return getattr(self, method_name)(cmd_args)
@@ -2270,8 +2266,9 @@ class LazyOwnShell(Cmd):
             print_msg(f"Perform this command: smbclient -N -L \\\\{rhost}\\ {RESET}")
             os.system(f"smbclient -N -L \\\\{rhost}\\")
             print_msg(
-                f'Exploit smb if is posible mount -t cifs "//{lhost}/share" /mnt/smb '
+                f'Exploit smb if is posible mount -t cifs -o rw,username=guest,password= "//{rhost}/share" /mnt/smb '
             )
+            print_msg('find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \;')
 
             return
         else:
@@ -2285,8 +2282,9 @@ class LazyOwnShell(Cmd):
                     print_msg(command)
                     os.system(command)
                     print_msg(
-                        f'Exploit smb if is posible mount -t cifs "//{lhost}/share" /mnt/smb '
+                        f'Exploit smb if is posible mount -t cifs -o rw,username=guest,password= "//{rhost}/share" /mnt/smb '
                     )
+                    print_msg('find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \;')
                     return
 
     def do_smbclient_py(self, line):
@@ -2328,8 +2326,9 @@ class LazyOwnShell(Cmd):
                     print_msg(command)
                     os.system(command)
                     print_msg(
-                        f'Exploit smb if is posible mount -t cifs "//{lhost}/share" /mnt/smb '
+                        f'Exploit smb if is posible mount -t cifs -o rw,username=guest,password= "//{rhost}/share" /mnt/smb '
                     )
+                    print_msg('find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \;')
                     return
 
 
@@ -2365,8 +2364,9 @@ class LazyOwnShell(Cmd):
             print_msg(f"Try... smbmap -H {rhost} -R {line}")
             os.system(f"smbmap -H {rhost} -R {line}")
             print_msg(
-                f'exploit smb if is posible mount -t cifs "//{lhost}/documents" /mnt/smb '
+                f'exploit smb if is posible mount -t cifs -o rw,username=guest,password= "//{rhost}/documents" /mnt/smb '
             )
+            print_msg('find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \;')
             return
         else:
 
@@ -2381,8 +2381,9 @@ class LazyOwnShell(Cmd):
                         print_msg(command)
                         os.system(command)
                         print_msg(
-                            f'Exploit smb if is posible mount -t cifs "//{lhost}/share" /mnt/smb '
+                            f'Exploit smb if is posible mount -t cifs -o rw,username=guest,password= "//{rhost}/share" /mnt/smb '
                         )
+                        print_msg('find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \;')
                         return
             else:
                 with open(path_cred, "r") as file:
@@ -2395,9 +2396,9 @@ class LazyOwnShell(Cmd):
                         print_msg(command)
                         os.system(command)
                         print_msg(
-                            f'Exploit smb if is posible mount -t cifs "//{lhost}/share" /mnt/smb '
+                            f'Exploit smb if is posible mount -t cifs -o rw,username=guest,password= "//{rhost}/share" /mnt/smb '
                         )
-                
+                        print_msg('find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \;')
         return
 
     def do_getnpusers(self, line):
@@ -3989,8 +3990,10 @@ class LazyOwnShell(Cmd):
         Creates a `hash.txt` file in the `sessions` directory with the specified hash value and analyzes it using `Name-the-hash`.
 
         This function performs the following actions:
-        1. Writes the provided hash value to `sessions/hash.txt`.
-        2. Analyzes the hash value using `Name-the-hash`.
+        1. Validates the input line to ensure it is not empty.
+        2. Backs up the existing `hash.txt` file if it exists, renaming it to `hash_{timestamp}.txt` based on the current timestamp.
+        3. Writes the provided hash value to `sessions/hash.txt`.
+        4. Analyzes the hash value using `Name-the-hash`.
 
         Usage:
             createhash <hash>
@@ -4015,11 +4018,21 @@ class LazyOwnShell(Cmd):
             - The hash value should be provided as a single argument without extra characters or spaces.
         """
 
-        print_msg(
-            f"Creando archivo sessions/hash.txt con el siguiente contenido {line}{RESET}"
-        )
-        os.system(f"echo '{line}' > sessions/hash.txt")
-        print_msg(f"Analisando sessions/hash.txt con Name-the-hash {RESET}")
+        if not line.strip():
+            print_error("El valor del hash no puede estar vacío.")
+            return
+
+        print_msg(f"Creando archivo sessions/hash.txt con el siguiente contenido: {line}{RESET}")
+        hash_file_path = 'sessions/hash.txt'
+        if os.path.exists(hash_file_path):
+            backup_file_path = f'sessions/hash_{int(time.time())}.txt'
+            os.rename(hash_file_path, backup_file_path)
+            print_msg(f"Archivo existente respaldado como {backup_file_path}{RESET}")
+
+        with open(hash_file_path, 'w') as file:
+            file.write(line + '\n')
+
+        print_msg(f"Analizando sessions/hash.txt con Name-the-hash {RESET}")
         os.system(f"nth -t '{line}'")
 
         return
@@ -6112,7 +6125,7 @@ class LazyOwnShell(Cmd):
         copy2clip(decoded_string)
         return
         
-    def do_creds(self, line):
+    def do_cred(self, line):
         """
         Display the credentials stored in the `credentials.txt` file and copy the password to the clipboard.
 
@@ -6162,7 +6175,6 @@ class LazyOwnShell(Cmd):
         print_msg(f"User : {user}")
         print_msg(f"Pass : {passwd}")
         copy2clip(passwd)
-        print_msg(command)
         return
 
     def do_hostdiscover(self, line):
@@ -12685,6 +12697,103 @@ class LazyOwnShell(Cmd):
             print_error(f"Error parsing JSON response: {json_e}")
         except Exception as e:
             print_error(f"An error occurred: {e}")
+
+    def do_evidence(self, line=''):
+        """
+        Comprime la carpeta 'sessions' y la codifica en un video usando lazyown_infinitestorage.py.
+        Si se proporciona un nombre de archivo, decodifica el video en su lugar.
+
+        :param line: Opcional; si se proporciona, es el nombre del video para decodificar.
+        :type line: str
+        :returns: None
+        """
+        sessions_dir = 'sessions'
+        zip_file_path = 'sessions.zip'
+
+        
+        if line and line.startswith("decode"):  
+            video_files = [f for f in os.listdir(sessions_dir) if f.endswith(('.mp4', '.mkv', '.avi'))]  
+            if not video_files:
+                print_error("No hay videos en la carpeta 'sessions'.")
+                return
+
+            print_msg("Videos disponibles para decodificar:")
+            for idx, video in enumerate(video_files, start=1):
+                print_msg(f"{idx}: {video}")
+
+            
+            choice = input("Elige el número del video que deseas decodificar: ")
+            try:
+                choice = int(choice)
+                if 1 <= choice <= len(video_files):
+                    video_file = video_files[choice - 1]
+                else:
+                    print_error("Elección no válida.")
+            except ValueError:
+                print_error("Por favor, ingresa un número válido.")
+
+            path = os.getcwd()
+            video_full_path = f"{path}/sessions/{video_file}"
+            if not os.path.isfile(video_full_path):
+                print_error(f"Error: {video_full_path} no existe.")
+                return
+            
+            command = [
+                'python3', 'modules_ext/lazyown_infinitestorage/lazyown_infinitestorage.py',
+                '--mode', 'decode',
+                '--input', video_full_path,
+                '--output', 'sessions/decoded_output',  
+                '--frame_size', '1920', '1080',  
+                '--fps', '25'  
+            ]
+            print_msg(f"Decodificando {video_file}...")
+
+        else:  
+            
+            os.system(f'zip -r {zip_file_path} {sessions_dir}')
+            print_msg(f"Carpeta {sessions_dir} comprimida en {zip_file_path}.")
+
+            
+            command = [
+                'python3', 'modules_ext/lazyown_infinitestorage/lazyown_infinitestorage.py',
+                '--mode', 'encode',
+                '--input', zip_file_path,
+                '--output', 'sessions/encoded_output.avi',  
+                '--frame_size', '1920', '1080',  
+                '--fps', '25'  
+            ]
+            print_msg("Codificando en video...")
+
+        
+        try:
+            result = subprocess.run(command, check=True)
+            print_msg("Comando ejecutado con éxito: ".join(command))
+        except subprocess.CalledProcessError as e:
+            print_error(f"Error al ejecutar el comando: {e}")
+
+        
+        if not line:
+            video_files = [f for f in os.listdir(sessions_dir) if f.endswith(('.mp4', '.mkv', '.avi'))]  
+            if not video_files:
+                print_error("No hay videos en la carpeta 'sessions'.")
+                return
+
+            print_msg("Videos disponibles para decodificar:")
+            for idx, video in enumerate(video_files, start=1):
+                print_msg(f"{idx}: {video}")
+
+            
+            choice = input("Elige el número del video que deseas decodificar: ")
+            try:
+                choice = int(choice)
+                if 1 <= choice <= len(video_files):
+                    self.do_evidence(video_files[choice - 1])  
+                else:
+                    print_error("Elección no válida.")
+            except ValueError:
+                print_error("Por favor, ingresa un número válido.")
+
+        return
 
 if __name__ == "__main__":
     p = LazyOwnShell()

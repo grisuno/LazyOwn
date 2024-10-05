@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Documentación
+
+### Otros
+
+  *   * docs(docs): nueva documentacion comando evidence \n\n Version: release/0.1.53 \n\n ahroa en ingles y mas detallado \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Oct 5 01:18:45 2024 -0300 \n\n Hora: 1728101925
+
+
 ### Pruebas
 
 ### Otros

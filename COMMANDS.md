@@ -5607,12 +5607,32 @@ and prints relevant information to the screen.
 :returns: None
 
 ## evidence
-Comprime la carpeta 'sessions' y la codifica en un video usando lazyown_infinitestorage.py.
-Si se proporciona un nombre de archivo, decodifica el video en su lugar.
+Compresses the 'sessions' folder and encodes it into a video using the lazyown_infinitestorage.py script.
+If a filename is provided as an argument, it decodes the specified video instead.
 
-:param line: Opcional; si se proporciona, es el nombre del video para decodificar.
+This function operates in two modes depending on the input:
+1. **Encode Mode (default)**:
+- Compresses the contents of the 'sessions' directory into a ZIP file named 'sessions.zip'.
+- Utilizes the lazyown_infinitestorage.py script to convert the ZIP file into a high-definition video file named 'encoded_output.avi' with a frame size of 1920x1080 and a frame rate of 25 FPS.
+
+2. **Decode Mode**:
+- When the 'line' parameter contains the string "decode", it lists all available video files in the 'sessions' directory (files with .mp4, .mkv, or .avi extensions).
+- If there are no video files present, it prints an error message and exits.
+- Prompts the user to select a video by entering its corresponding number.
+- Constructs a command to decode the selected video file using the lazyown_infinitestorage.py script, outputting the decoded result to a specified directory.
+
+:param line: An optional parameter that, when provided, indicates that the user wants to decode a video. If not provided, the function operates in encode mode.
 :type line: str
 :returns: None
+
+Example usage:
+    - To compress and encode: do_evidence()
+    - To decode a video: do_evidence('decode')
+
+Notes:
+- The 'sessions' directory must exist and contain files for encoding.
+- The lazyown_infinitestorage.py script must be present in the specified directory.
+- Ensure that the output paths for both encoding and decoding do not conflict with existing files.
 
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.

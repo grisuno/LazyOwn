@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new attack mfscosole automated \n\n Version: release/0.1.54 \n\n httpFileServer version 2.3 CVE-2014-6287 exploit/windows/http/rejetto_hfs_exec command with the same name rejetto_hfs_exec documented at COMMANDS.md \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - payload.json\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Oct 5 01:44:12 2024 -0300 \n\n Hora: 1728103452
+
+
 ### Pruebas
 
 ### Otros

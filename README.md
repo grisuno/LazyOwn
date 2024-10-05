@@ -3465,8 +3465,10 @@ Note:
 Creates a `hash.txt` file in the `sessions` directory with the specified hash value and analyzes it using `Name-the-hash`.
 
 This function performs the following actions:
-1. Writes the provided hash value to `sessions/hash.txt`.
-2. Analyzes the hash value using `Name-the-hash`.
+1. Validates the input line to ensure it is not empty.
+2. Backs up the existing `hash.txt` file if it exists, renaming it to `hash_{timestamp}.txt` based on the current timestamp.
+3. Writes the provided hash value to `sessions/hash.txt`.
+4. Analyzes the hash value using `Name-the-hash`.
 
 Usage:
     createhash <hash>
@@ -4621,7 +4623,7 @@ To manually run this task, provide a shift value (integer), a substitution key, 
 
 Note: The function assumes the shift value is an integer. If the shift value is not an integer, it will print an error message.
 
-## creds
+## cred
 Display the credentials stored in the `credentials.txt` file and copy the password to the clipboard.
 
 This function reads the stored credentials from a file named `credentials.txt` located in the `sessions` directory.
@@ -6899,6 +6901,14 @@ and prints relevant information to the screen.
 :param line: A string containing the CVE ID (optional).
 :returns: None
 
+## evidence
+Comprime la carpeta 'sessions' y la codifica en un video usando lazyown_infinitestorage.py.
+Si se proporciona un nombre de archivo, decodifica el video en su lugar.
+
+:param line: Opcional; si se proporciona, es el nombre del video para decodificar.
+:type line: str
+:returns: None
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 
@@ -7116,6 +7126,13 @@ Helper function to alternate the case of characters in a string.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(fix): fix in find command \n\n Version: release/0.1.53 \n\n command find documented at commands.md \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Oct 4 00:28:05 2024 -0300 \n\n Hora: 1728012485
 
 
 ### Refactorización

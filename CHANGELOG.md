@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Pruebas
+
+### Otros
+
+  *   * test(test): new machine yummy.htb found a command in find to reverse shell :P \n\n Version: release/0.1.54 \n\n please subs! https://www.youtube.com/@KillerMonkyRecordz \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - modules/lazylynis.sh - payload.json - sessions/users.txt\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Oct 5 13:02:03 2024 -0300 \n\n Hora: 1728144123
+
+
 ### Nuevas características
 
 ### Otros

@@ -6935,6 +6935,19 @@ HttpFileServer version 2.3. Vulnerable using the module rejetto_hfs_exec of meta
 :type line: str
 :returns: None
 
+## ms08_067_netapi
+SMB CVE-2008-4250. Vulnerable using the module ms08_067_netapi of metasploit
+:param line: Command line input that provides the LHOST and RHOST.
+:type line: str
+:returns: None
+
+## nano
+Opens or creates the file using line in the sessions directory for editing using nano.
+
+:param line: name of the file to use in nano in session directory.
+
+:returns: None
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 
@@ -7152,6 +7165,13 @@ Helper function to alternate the case of characters in a string.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new attack mfscosole automated \n\n Version: release/0.1.54 \n\n httpFileServer version 2.3 CVE-2014-6287 exploit/windows/http/rejetto_hfs_exec command with the same name rejetto_hfs_exec documented at COMMANDS.md \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - payload.json\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Oct 5 01:44:12 2024 -0300 \n\n Hora: 1728103452
 
 
 ### Pruebas

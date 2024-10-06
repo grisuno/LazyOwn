@@ -3881,6 +3881,28 @@ editing using nano.</p>
 <p>:param line: name of the file to use in nano in session
 directory.</p>
 <p>:returns: None</p>
+<h2 id="nc">nc</h2>
+<p>Runs <code>nc</code> with the specified port for listening.</p>
+<p>This function starts a <code>nc</code> listener on the specified
+local port. It can use a port defined in the <code>lport</code>
+parameter or a port provided as an argument.</p>
+<p>Usage: pwncatcs <port></p>
+<p>:param line: The port number to use for the <code>nc</code> listener.
+If not provided, it defaults to the <code>lport</code> parameter. :type
+line: str :returns: None</p>
+<p>Manual execution: 1. Ensure that <code>nc</code> is installed and
+accessible from your command line. 2. The port number can either be
+provided as an argument or be set in the <code>lport</code> parameter of
+the function. 3. Run the function to start <code>nc</code> on the
+specified port.</p>
+<p>If no port is provided as an argument, the function will use the port
+specified in the <code>lport</code> parameter. If a port is provided, it
+overrides the <code>lport</code> value.</p>
+<p>After starting the listener, the function prints a message indicating
+that <code>nc</code> is running on the specified port and another
+message when the session is closed.</p>
+<p>Dependencies: - <code>nc</code>: A tool used for creating reverse
+shells or bind shells.</p>
 <h2 id="find_tgts">find_tgts</h2>
 <p>Finds and returns a list of target hosts with port 445 open in the
 specified subnet.</p>

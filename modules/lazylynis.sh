@@ -23,6 +23,11 @@ if [ ! -f "$CREDENTIALS_FILE" ]; then
     exit 1
 fi
 
+# Leer las credenciales
+read -r CREDENTIALS < "$CREDENTIALS_FILE"
+USER="${CREDENTIALS%%:*}"   # Obtener el usuario
+PASSWORD="${CREDENTIALS##*:}" # Obtener la contraseña
+
 # Función para verificar y relanzar con sudo si es necesario
 check_sudo() {
     if [ "$EUID" -ne 0 ]; then
@@ -38,12 +43,12 @@ check_sudo
 mkdir -p $LOCAL_DIR && tar czf $TAR_FILE --exclude=$TAR_FILE /usr/sbin/lynis
 echo "Tarball creado: $TAR_FILE"
 
-# Paso 2: Copiar tarball al destino
-scp -q $TAR_FILE $TARGET:$REMOTE_TAR_FILE
+# Paso 2: Copiar tarball al destino usando scp con autenticación
+sshpass -p "$PASSWORD" scp -o StrictHostKeyChecking=no -q $TAR_FILE "$USER@$TARGET:$REMOTE_TAR_FILE"
 echo "Tarball copiado a: $TARGET:$REMOTE_TAR_FILE"
 
-# Paso 3: Ejecutar Lynis en el sistema remoto
-ssh $TARGET <<EOF
+# Paso 3: Ejecutar Lynis en el sistema remoto usando ssh con autenticación
+sshpass -p "$PASSWORD" ssh -o StrictHostKeyChecking=no "$USER@$TARGET" <<EOF
     mkdir -p $REMOTE_DIR
     cd $REMOTE_DIR
     tar -xzf ../$REMOTE_TAR_FILE
@@ -55,14 +60,14 @@ EOF
 echo "Lynis ejecutado en: $TARGET"
 
 # Paso 4: Recuperar log y reporte
-scp -q $TARGET:$REMOTE_LOG $LOCAL_LOG
-scp -q $TARGET:$REMOTE_REPORT $LOCAL_REPORT
+sshpass -p "$PASSWORD" scp -o StrictHostKeyChecking=no -q "$USER@$TARGET:$REMOTE_LOG" "$LOCAL_LOG"
+sshpass -p "$PASSWORD" scp -o StrictHostKeyChecking=no -q "$USER@$TARGET:$REMOTE_REPORT" "$LOCAL_REPORT"
 echo "Log y reporte recuperados a: $LOCAL_LOG y $LOCAL_REPORT"
 
 # Paso 5: Limpiar archivos temporales
-ssh $TARGET "rm -f $REMOTE_LOG $REMOTE_REPORT"
+sshpass -p "$PASSWORD" ssh -o StrictHostKeyChecking=no "$USER@$TARGET" "rm -f $REMOTE_LOG $REMOTE_REPORT"
 echo "Archivos temporales limpiados en: $TARGET"
 
 # Paso 6: Eliminar directorio temporal
-ssh $TARGET "rm -rf $REMOTE_DIR"
+sshpass -p "$PASSWORD" ssh -o StrictHostKeyChecking=no "$USER@$TARGET" "rm -rf $REMOTE_DIR"
 echo "Directorio temporal eliminado en: $TARGET"

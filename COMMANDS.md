@@ -5640,6 +5640,19 @@ HttpFileServer version 2.3. Vulnerable using the module rejetto_hfs_exec of meta
 :type line: str
 :returns: None
 
+## ms08_067_netapi
+SMB CVE-2008-4250. Vulnerable using the module ms08_067_netapi of metasploit
+:param line: Command line input that provides the LHOST and RHOST.
+:type line: str
+:returns: None
+
+## nano
+Opens or creates the file using line in the sessions directory for editing using nano.
+
+:param line: name of the file to use in nano in session directory.
+
+:returns: None
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 

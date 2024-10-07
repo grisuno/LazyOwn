@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): automsf \n\n Version: release/0.1.55 \n\n new command documented at COMMAND.md AUTOMSF using a payload run an automated attack \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - payload.json\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Oct 6 03:25:28 2024 -0300 \n\n Hora: 1728195928
+
+
 ### Pruebas
 
 ### Otros

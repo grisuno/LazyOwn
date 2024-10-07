@@ -5646,6 +5646,18 @@ SMB CVE-2008-4250. Vulnerable using the module ms08_067_netapi of metasploit
 :type line: str
 :returns: None
 
+## automsf
+Try to check if Vulnerable using the module passed by argument of lazyown example automsf exploit/windows/iis/iis_webdav_upload_asp to use in metasploit
+:param line: Command line input that provides the LHOST and RHOST.
+:type line: str
+:returns: None
+
+## iis_webdav_upload_asp
+(CVE-2017-7269). Vulnerable using the module iis_webdav_upload_asp of metasploit
+:param line: Command line input that provides the LHOST and RHOST.
+:type line: str
+:returns: None
+
 ## nano
 Opens or creates the file using line in the sessions directory for editing using nano.
 

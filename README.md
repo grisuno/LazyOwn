@@ -6941,6 +6941,18 @@ SMB CVE-2008-4250. Vulnerable using the module ms08_067_netapi of metasploit
 :type line: str
 :returns: None
 
+## automsf
+Try to check if Vulnerable using the module passed by argument of lazyown example automsf exploit/windows/iis/iis_webdav_upload_asp to use in metasploit
+:param line: Command line input that provides the LHOST and RHOST.
+:type line: str
+:returns: None
+
+## iis_webdav_upload_asp
+(CVE-2017-7269). Vulnerable using the module iis_webdav_upload_asp of metasploit
+:param line: Command line input that provides the LHOST and RHOST.
+:type line: str
+:returns: None
+
 ## nano
 Opens or creates the file using line in the sessions directory for editing using nano.
 
@@ -7189,6 +7201,13 @@ Helper function to alternate the case of characters in a string.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(new machine return): is a nice machine :P \n\n Version: release/0.1.54 \n\n to go sleep nice :P \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - payload.json\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Oct 6 02:19:22 2024 -0300 \n\n Hora: 1728191962
 
 
 ### Pruebas

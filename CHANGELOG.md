@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Otros
+
+### Otros
+
+  *   * feature(feature & refactor): new commands and refactor \n\n Version: release/0.1.56 \n\n new commands documented at COMMANDS.md : createjsonmachine, xss, arjun,  and refactor of lazylogpoisoning and C2 PORT FORWARDING ;) to pivoting \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - lazyown - modules/XssPayloads.txt - modules/admin_panels.txt - modules/lazyc2.py - modules/lazylogpoisoning.py - modules/templates/index.html - payload.json - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Oct 6 21:49:45 2024 -0300 \n\n Hora: 1728262185
+
+
 ### Nuevas características
 
 ### Otros

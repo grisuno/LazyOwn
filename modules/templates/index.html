@@ -58,6 +58,29 @@
                 opacity: 0.5;
             }
         }
+        .form-container {
+            display: flex;
+            justify-content: space-between; 
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: inline-block;
+            width: 45%; 
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        input, select {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 5px;
+        }
     </style>
 </head>
 <body>
@@ -108,6 +131,7 @@
             </ul>
         
             <h2>Issue Command</h2>
+            <div class="form-container">
             <form action="{{ url_for('issue_command') }}" method="POST">
                 <label for="client_id">Client ID:</label>
                 <select id="client_id" name="client_id" required>
@@ -121,9 +145,27 @@
                 </select><br><br>
                 <label for="command">Command:</label>
                 <input type="textarea" id="command" name="command" required><br><br>
+                <br />
                 <input type="submit" value="Send Command">
             </form>
-        
+
+            <form method="POST" action="/start_bridge">
+                <label for="local_port">Local Port:</label>
+                <input type="text" name="local_port" required>
+                <br />
+                <br />
+                <label for="remote_host">Remote Host:</label>
+                <input type="text" name="remote_host" required>
+                <br />
+                <br />
+                <label for="remote_port">Remote Port:</label>
+                <input type="text" name="remote_port" required>
+                <br />
+                <br />
+                <input type="submit" value="Start Bridge">
+                <br />
+            </form>        
+            </div>
             <h2>Results</h2>
             {% for client_id, result in results.items() %}
                 <h3>Client: {{ client_id }}</h3>

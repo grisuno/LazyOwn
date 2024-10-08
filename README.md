@@ -1287,8 +1287,26 @@ Returns:
 list of tuples: A list containing tuples with (username, password) for each credential found in the file.
                 If no files are found or an invalid selection is made, an empty list is returned.
 
+## obfuscate_payload
+No description available.
+
+## read_payloads
+No description available.
+
+## inject_payloads
+No description available.
+
+## prompt
+No description available.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
+
+## send_request
+No description available.
+
+## handle_forms
+No description available.
 
 <!-- END UTILS -->
 
@@ -6984,6 +7002,68 @@ After starting the listener, the function prints a message indicating that `nc` 
 Dependencies:
 - `nc`: A tool used for creating reverse shells or bind shells.
 
+## createjsonmachine
+Create a new JSON payload file based on the template provided in payload.json.
+
+This function reads an existing JSON file named 'payload.json' and 
+allows the user to update specific fields. The following fields can 
+be modified:
+
+- 'url': The new URL to connect to, which can be entered manually 
+or automatically generated based on the input parameter 'line'.
+- 'domain': The new domain associated with the URL, similarly 
+generated or entered.
+- 'rhost': The new remote host IP address that needs to be specified 
+by the user.
+
+All other fields from the original payload are preserved in the new 
+JSON file, ensuring that no other data is lost or altered.
+
+The newly created JSON payload will be saved in a new file with the 
+format 'payload_<new_name>.json', where <new_name> is derived 
+from the domain name's subpart.
+
+Parameters:
+line (str): An optional string parameter that, if provided, is used 
+            to generate the new 'url' and 'domain'. If empty, 
+            the user will be prompted to enter values for 'url' 
+            and 'domain'.
+
+Returns:
+None
+
+## xss
+Executes the XSS (Cross-Site Scripting) vulnerability testing procedure 
+using user-defined parameters and configurations.
+
+This method guides the user through the process of setting up and 
+executing XSS payload injections against a specified target domain. 
+It prompts the user for necessary input, including the XSS payload 
+URL, the target domain, and the request timeout settings. The 
+function ensures that all required inputs are provided and valid 
+before proceeding with the injection process.
+
+Parameters:
+    line (str): A line of input that may contain additional parameters 
+                or commands (not utilized within this method).
+
+Raises:
+    ValueError: If the provided payload URL or target domain is empty, 
+                indicating that these are required for the injection 
+                process.
+
+This method leverages user input for flexibility, allowing 
+customized testing scenarios for XSS vulnerabilities.
+
+## arjun
+Executes an Arjun scan on the specified URL for parameter discovery.
+
+This function checks if Arjun is installed on the system, installs it if necessary, and then constructs
+a command to run Arjun against the provided URL with user-defined options.
+
+Parameters:
+    line (str): Input line, not currently used.
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 
@@ -7201,6 +7281,13 @@ Helper function to alternate the case of characters in a string.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): automsf \n\n Version: release/0.1.55 \n\n new command documented at COMMAND.md AUTOMSF using a payload run an automated attack \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - payload.json\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Oct 6 03:25:28 2024 -0300 \n\n Hora: 1728195928
 
 
 ### Pruebas

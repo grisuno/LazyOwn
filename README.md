@@ -7283,6 +7283,13 @@ Helper function to alternate the case of characters in a string.
 # Changelog
 
 
+### Refactorización
+
+### Otros
+
+  *   * refactor(refactor): refactor de find y nc \n\n Version: release/0.1.56 \n\n nuevos payloads en fidn y el comando nc ahora aguanta el parametro file que permite escuchar por archivos no solo por terminales \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Oct 8 02:16:54 2024 -0300 \n\n Hora: 1728364614
+
+
 ### Otros
 
 ### Otros

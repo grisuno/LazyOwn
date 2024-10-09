@@ -501,7 +501,18 @@ Generates a random alphanumeric string.
 Generates an HTTP request with the Shellshock payload.
 
 ## format_openssh_key
-No description available.
+Formats a raw OpenSSH private key string to the correct OpenSSH format.
+
+This function takes a raw OpenSSH private key string, cleans it by removing any unnecessary 
+characters (such as newlines, spaces, and headers/footers), splits the key content into lines 
+of 64 characters, and then reassembles the key with the standard OpenSSH header and footer. 
+It ensures the key follows the correct OpenSSH format.
+
+Parameters:
+    raw_key (str): The raw OpenSSH private key string to format.
+
+Returns:
+    str: The formatted OpenSSH private key with proper headers, footers, and 64-character lines.
 
 ## is_package_installed
 Check if a Python package is installed.
@@ -510,7 +521,19 @@ Check if a Python package is installed.
 :returns: True if installed, False otherwise.
 
 ## extract
-No description available.
+Extracts and processes specific hexadecimal sequences from a string based on a flag.
+
+If the `extract_flag` is set to True, the function extracts all sequences of the form 'x[a-f0-9][a-f0-9]' 
+(where 'x' is followed by two hexadecimal digits), removes the 'x' from the extracted sequences, 
+and returns the processed string. If `extract_flag` is False, the function returns the original string.
+
+Parameters:
+    string (str): The input string from which hexadecimal sequences are to be extracted.
+    extract_flag (bool): A flag indicating whether to perform the extraction (True) or not (False).
+
+Returns:
+    str: The processed string with the extracted hexadecimal sequences if `extract_flag` is True, 
+         or the original string if `extract_flag` is False.
 
 ## clean_html
 Remove HTML tags from a string.
@@ -537,7 +560,13 @@ Example:
     To execute a command, call `run_command("ls -l")`.
 
 ## generate_random_cve_id
-No description available.
+Generates a random CVE (Common Vulnerabilities and Exposures) ID.
+
+This function creates a random CVE ID by selecting a random year between 2020 and 2024,
+and a random code between 1000 and 9999. The CVE ID is returned in the format 'CVE-{year}-{code}'.
+
+Returns:
+    str: A randomly generated CVE ID in the format 'CVE-{year}-{code}'.
 
 ## get_credentials
 Searches for credential files with the pattern 'credentials*.txt' and allows the user to select one.
@@ -550,16 +579,125 @@ list of tuples: A list containing tuples with (username, password) for each cred
                 If no files are found or an invalid selection is made, an empty list is returned.
 
 ## obfuscate_payload
-No description available.
+Obfuscates a payload string by converting its characters into hexadecimal format, 
+with additional comments for every third character.
+
+For every character in the payload, the function converts it to its hexadecimal representation.
+Every third character (after the first) is enclosed in a comment `/*hex_value*/`, while the rest 
+are prefixed with `\x`.
+
+Parameters:
+    payload (str): The input string that needs to be obfuscated.
+
+Returns:
+    str: The obfuscated string where characters are replaced by their hexadecimal representations, 
+         with every third character wrapped in a comment.
 
 ## read_payloads
-No description available.
+Reads a file containing payloads and returns a list of properly formatted strings.
+
+This function opens a specified file, reads each line, and checks if the line starts with a 
+double quote. If it does not, it adds double quotes around the line. Each line is stripped 
+of leading and trailing whitespace before being added to the list.
+
+Parameters:
+    file_path (str): The path to the file containing payloads.
+
+Returns:
+    list: A list of strings, each representing a payload from the file, formatted with 
+          leading and trailing double quotes if necessary.
 
 ## inject_payloads
-No description available.
+Sends HTTP requests to a list of URLs with injected payloads for testing XSS vulnerabilities.
+
+This function reads payloads from a specified file and sends GET requests to the provided URLs,
+injecting obfuscated payloads into the query parameters or form fields to test for cross-site 
+scripting (XSS) vulnerabilities. It handles both URLs with existing query parameters and those 
+without. If forms are found in the response, it submits them with the payloads as well.
+
+Parameters:
+    urls (list): A list of URLs to test for XSS vulnerabilities.
+    payload_url (str): A placeholder string within the payloads that will be replaced with 
+                       the actual URL for testing.
+    request_timeout (int, optional): The timeout for each request in seconds. Defaults to 15.
+
+Returns:
+    None: This function does not return any value but prints the status of each request and 
+          form submission to the console.
+
+Raises:
+    requests.RequestException: Raises an exception if any HTTP request fails, which is handled
+                               by printing a warning message.
 
 ## prompt
-No description available.
+Return the prompt in the function do_xss
+
+## is_lower
+Checks if a character is lowercase.
+
+Parameters:
+    char (str): The character to check.
+
+Returns:
+    bool: True if the character is lowercase, False otherwise.
+
+## is_upper
+Checks if a character is uppercase.
+
+Parameters:
+    char (str): The character to check.
+
+Returns:
+    bool: True if the character is uppercase, False otherwise.
+
+## is_mixed
+Determines if a string contains both lowercase and uppercase characters.
+
+Parameters:
+    s (str): The string to check.
+
+Returns:
+    bool: True if the string has mixed casing, False otherwise.
+
+## add
+Adds a delimiter between string parts if it's not the first part.
+
+Parameters:
+    str_part (str): The string part to add.
+    delimiter (str): The delimiter to insert between parts.
+    i (int): The index of the part.
+
+Returns:
+    str: The string part with delimiter if applicable.
+
+## detect_delimiter
+Detects the delimiter used in the input string (e.g., "-", "_", ".").
+
+Parameters:
+    foo_bar (str): The input string.
+
+Returns:
+    str: The detected delimiter.
+
+## transform
+Transforms a list of string parts based on the chosen casing style.
+
+Parameters:
+    parts (list): List of string parts.
+    delimiter (str): Delimiter to use between parts.
+    casing (str): Casing style ('l', 'u', 'c', 'p').
+
+Returns:
+    str: The transformed string.
+
+## handle
+Splits the input string into parts based on delimiters or mixed casing.
+
+Parameters:
+    input_str (str): The input string to split.
+
+Returns:
+    list: A list of string parts.
 
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 

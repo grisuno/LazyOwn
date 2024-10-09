@@ -6,6 +6,13 @@
 
 ### Otros
 
+  *   * fix(fix): bug fixing \n\n Version: release/0.1.58 \n\n int the dunction do_ssh credentials are capture exception \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - payload.json\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Oct 8 18:37:32 2024 -0300 \n\n Hora: 1728423452
+
+
+### Correcciones
+
+### Otros
+
   *   * fix(fix): tags \n\n Version: release/0.1.57 \n\n xd \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Oct 8 18:36:20 2024 -0300 \n\n Hora: 1728423380
 
 

@@ -3315,6 +3315,7 @@ Uses sqlmap to perform SQL injection testing on a given URL or request file (you
 This function allows the execution of sqlmap commands with various options, including testing URL endpoints, reading from request files, and using sqlmap's wizard mode for easy configuration.
 
 Usage:
+    sqlmap req <request_file>
     sqlmap req <request_file> <parameter>
     sqlmap req <request_file> <parameter> <database>
     sqlmap req <request_file> <parameter> <database> <table>
@@ -7281,6 +7282,13 @@ Helper function to alternate the case of characters in a string.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(fix): tags \n\n Version: release/0.1.57 \n\n xd \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Oct 8 18:36:20 2024 -0300 \n\n Hora: 1728423380
 
 
 ### Refactorización

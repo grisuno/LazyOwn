@@ -5752,6 +5752,15 @@ a command to run Arjun against the provided URL with user-defined options.
 Parameters:
     line (str): Input line, not currently used.
 
+## transform
+Transforms the input string based on user-defined casing style.
+
+This command asks the user for a casing style (e.g., lower, upper, camel, pascal)
+and transforms the input string accordingly.
+
+Parameters:
+    line (str): Input string to be transformed.
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 

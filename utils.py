@@ -1194,6 +1194,20 @@ def generate_http_req(host, port, uri, custom_header=None, cmd=None):
         return response, random_string
 
 def format_openssh_key(raw_key):
+    """
+    Formats a raw OpenSSH private key string to the correct OpenSSH format.
+
+    This function takes a raw OpenSSH private key string, cleans it by removing any unnecessary 
+    characters (such as newlines, spaces, and headers/footers), splits the key content into lines 
+    of 64 characters, and then reassembles the key with the standard OpenSSH header and footer. 
+    It ensures the key follows the correct OpenSSH format.
+
+    Parameters:
+        raw_key (str): The raw OpenSSH private key string to format.
+
+    Returns:
+        str: The formatted OpenSSH private key with proper headers, footers, and 64-character lines.
+    """    
     # Todos los derechos son de 4xura: muchas gracias por esta pieza de software :D https://github.com/4xura/ssh_key_formatter/blob/main/ssh_key_formatter.py
     # Define the header and footer for the OpenSSH key format
     header = "-----BEGIN OPENSSH PRIVATE KEY-----"
@@ -1221,6 +1235,21 @@ def is_package_installed(package_name):
     return importlib.util.find_spec(package_name) is not None
 
 def extract(string, extract_flag):
+    """
+    Extracts and processes specific hexadecimal sequences from a string based on a flag.
+
+    If the `extract_flag` is set to True, the function extracts all sequences of the form 'x[a-f0-9][a-f0-9]' 
+    (where 'x' is followed by two hexadecimal digits), removes the 'x' from the extracted sequences, 
+    and returns the processed string. If `extract_flag` is False, the function returns the original string.
+
+    Parameters:
+        string (str): The input string from which hexadecimal sequences are to be extracted.
+        extract_flag (bool): A flag indicating whether to perform the extraction (True) or not (False).
+
+    Returns:
+        str: The processed string with the extracted hexadecimal sequences if `extract_flag` is True, 
+             or the original string if `extract_flag` is False.
+    """    
     if extract_flag:
         string = "".join(re.findall(r"x[a-f0-9][a-f0-9]", string))  
         string = string.replace("x", "")  
@@ -1290,6 +1319,15 @@ def run_command(command):
     return output  
 
 def generate_random_cve_id():
+    """
+    Generates a random CVE (Common Vulnerabilities and Exposures) ID.
+
+    This function creates a random CVE ID by selecting a random year between 2020 and 2024,
+    and a random code between 1000 and 9999. The CVE ID is returned in the format 'CVE-{year}-{code}'.
+
+    Returns:
+        str: A randomly generated CVE ID in the format 'CVE-{year}-{code}'.
+    """    
     year = random.randint(2020, 2024)
     code = random.randint(1000, 9999)
     return f"CVE-{year}-{code}"
@@ -1334,6 +1372,21 @@ def get_credentials():
     return credentials
 
 def obfuscate_payload(payload):
+    """
+    Obfuscates a payload string by converting its characters into hexadecimal format, 
+    with additional comments for every third character.
+
+    For every character in the payload, the function converts it to its hexadecimal representation.
+    Every third character (after the first) is enclosed in a comment `/*hex_value*/`, while the rest 
+    are prefixed with `\\x`.
+
+    Parameters:
+        payload (str): The input string that needs to be obfuscated.
+
+    Returns:
+        str: The obfuscated string where characters are replaced by their hexadecimal representations, 
+             with every third character wrapped in a comment.
+    """    
     obfuscated = ""
     for i, c in enumerate(payload):
         if i > 0 and i % 3 == 0:
@@ -1343,6 +1396,20 @@ def obfuscate_payload(payload):
     return obfuscated
 
 def read_payloads(file_path):
+    """
+    Reads a file containing payloads and returns a list of properly formatted strings.
+
+    This function opens a specified file, reads each line, and checks if the line starts with a 
+    double quote. If it does not, it adds double quotes around the line. Each line is stripped 
+    of leading and trailing whitespace before being added to the list.
+
+    Parameters:
+        file_path (str): The path to the file containing payloads.
+
+    Returns:
+        list: A list of strings, each representing a payload from the file, formatted with 
+              leading and trailing double quotes if necessary.
+    """    
     with open(file_path, 'r') as file:
         lines = file.readlines()
 
@@ -1350,6 +1417,28 @@ def read_payloads(file_path):
     return payloads
 
 def inject_payloads(urls, payload_url, request_timeout=15):
+    """
+    Sends HTTP requests to a list of URLs with injected payloads for testing XSS vulnerabilities.
+
+    This function reads payloads from a specified file and sends GET requests to the provided URLs,
+    injecting obfuscated payloads into the query parameters or form fields to test for cross-site 
+    scripting (XSS) vulnerabilities. It handles both URLs with existing query parameters and those 
+    without. If forms are found in the response, it submits them with the payloads as well.
+
+    Parameters:
+        urls (list): A list of URLs to test for XSS vulnerabilities.
+        payload_url (str): A placeholder string within the payloads that will be replaced with 
+                           the actual URL for testing.
+        request_timeout (int, optional): The timeout for each request in seconds. Defaults to 15.
+
+    Returns:
+        None: This function does not return any value but prints the status of each request and 
+              form submission to the console.
+
+    Raises:
+        requests.RequestException: Raises an exception if any HTTP request fails, which is handled
+                                   by printing a warning message.
+    """    
     payloads = read_payloads('modules/XssPayloads.txt')
     
     def send_request(raw_url):
@@ -1416,8 +1505,146 @@ def inject_payloads(urls, payload_url, request_timeout=15):
         executor.map(send_request, urls)
 
 def prompt(label, default=None):
+    """
+    Return the prompt in the function do_xss
+    """
     value = input(f"    {GREEN}{label}: ").strip()
     return value if value else default
+
+def is_lower(char):
+    """
+    Checks if a character is lowercase.
+
+    Parameters:
+        char (str): The character to check.
+    
+    Returns:
+        bool: True if the character is lowercase, False otherwise.
+    """
+    return char.islower()
+
+
+def is_upper(char):
+    """
+    Checks if a character is uppercase.
+
+    Parameters:
+        char (str): The character to check.
+    
+    Returns:
+        bool: True if the character is uppercase, False otherwise.
+    """
+    return char.isupper()
+
+
+def is_mixed(s):
+    """
+    Determines if a string contains both lowercase and uppercase characters.
+
+    Parameters:
+        s (str): The string to check.
+    
+    Returns:
+        bool: True if the string has mixed casing, False otherwise.
+    """
+    return any(c.islower() for c in s) and any(c.isupper() for c in s)
+
+
+def add(str_part, delimiter, i):
+    """
+    Adds a delimiter between string parts if it's not the first part.
+
+    Parameters:
+        str_part (str): The string part to add.
+        delimiter (str): The delimiter to insert between parts.
+        i (int): The index of the part.
+
+    Returns:
+        str: The string part with delimiter if applicable.
+    """
+    if i == 0:
+        return str_part
+    return delimiter + str_part
+
+
+def detect_delimiter(foo_bar):
+    """
+    Detects the delimiter used in the input string (e.g., "-", "_", ".").
+
+    Parameters:
+        foo_bar (str): The input string.
+    
+    Returns:
+        str: The detected delimiter.
+    """
+    if "-" in foo_bar:
+        return "-"
+    elif "_" in foo_bar:
+        return "_"
+    elif "." in foo_bar:
+        return "."
+    return ""
+
+
+def transform(parts, delimiter, casing):
+    """
+    Transforms a list of string parts based on the chosen casing style.
+
+    Parameters:
+        parts (list): List of string parts.
+        delimiter (str): Delimiter to use between parts.
+        casing (str): Casing style ('l', 'u', 'c', 'p').
+
+    Returns:
+        str: The transformed string.
+    """
+    result = ""
+    
+    for i, part in enumerate(parts):
+        if casing == "l":
+            result += add(part.lower(), delimiter, i)
+        elif casing == "u":
+            result += add(part.upper(), delimiter, i)
+        elif casing == "c":
+            if i == 0:
+                result += add(part.lower(), delimiter, i)
+            else:
+                result += add(part.capitalize(), delimiter, i)
+        elif casing == "p":
+            result += add(part.capitalize(), delimiter, i)
+
+    return result
+
+
+def handle(input_str):
+    """
+    Splits the input string into parts based on delimiters or mixed casing.
+
+    Parameters:
+        input_str (str): The input string to split.
+
+    Returns:
+        list: A list of string parts.
+    """
+    parts = []
+
+    if "-" in input_str:
+        parts = input_str.split("-")
+    elif "_" in input_str:
+        parts = input_str.split("_")
+    elif "." in input_str:
+        parts = input_str.split(".")
+    else:
+        temp = ""
+        for char in input_str:
+            if char.isupper() and temp:
+                parts.append(temp)
+                temp = ""
+            temp += char
+        parts.append(temp)
+
+    return parts
+
 
 signal.signal(signal.SIGINT, signal_handler)
 arguments = sys.argv[1:]  

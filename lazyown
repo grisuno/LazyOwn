@@ -2651,13 +2651,22 @@ class LazyOwnShell(Cmd):
         For example:
             whatweb example.com
         """
-
-        if not self.params["rhost"]:
-            print_error(f"rhost must be set{RESET}")
-            return
         rhost = self.params["rhost"]
-        print_msg(f"Try... whatweb {rhost}{RESET}")
-        os.system(f"whatweb {rhost}")
+        url = self.params["url"]
+        if not check_rhost(rhost):
+            return
+        
+        
+        if not line:
+            print_msg(f"Try... whatweb {rhost}{RESET}")
+            os.system(f"whatweb {rhost}")
+        else:
+            if line.startswith("ssl"):
+                print_msg(f"Try... whatweb {rhost}{RESET}")
+                os.system(f"whatweb https://{rhost}")
+            elif line.startswith("url"):
+                print_msg(f"Try... whatweb {url}{RESET}")
+                os.system(f"whatweb {url}")
 
     def do_enum4linux(self, line):
         """
@@ -3661,6 +3670,7 @@ class LazyOwnShell(Cmd):
         This function allows the execution of sqlmap commands with various options, including testing URL endpoints, reading from request files, and using sqlmap's wizard mode for easy configuration.
 
         Usage:
+            sqlmap req <request_file>
             sqlmap req <request_file> <parameter>
             sqlmap req <request_file> <parameter> <database>
             sqlmap req <request_file> <parameter> <database> <table>
@@ -3708,8 +3718,33 @@ class LazyOwnShell(Cmd):
             if line.startswith("req"):
                 parts = line.split(" ")
                 print_msg("Nùmero de parametros: " + str(len(parts)))
+                if len(parts) == 1:
+                    arg1 = parts[0]
+                    path = os.getcwd()
+                    print_msg(path)
+                    file = path + "/sessions/" + arg1
+                    print_msg(file)
+                    if not os.path.isfile(file) or not os.access(file, os.R_OK):
+                        print_error(
+                            f"El archivo '{arg1}' no existe o no es legible en el directorio sessions."
+                        )
+                        return
+                    ssl = input("    [!] Force ssl? (y/n) Deflault: y") or 'y'
+                    if ssl == 'y':
+                        param_ssl = ' --force-ssl '
+                    else:
+                        param_ssl = ''
+                    shell = input("    [!] Force shell? (y/n) Deflault: y") or 'y'
+                    if shell == 'y':
+                        param_shell = ' --os-shell '
+                    else:
+                        param_shell = ''
+                    command = f"sqlmap -r {file} --risk=3 --level=3 --batch {param_ssl} {param_shell}"
+                    print_msg(command)
+                    os.system(command)
+                    return
 
-                if len(parts) == 2:
+                elif len(parts) == 2:
                     arg1 = parts[0]
                     arg2 = parts[1]
                     path = os.getcwd()
@@ -5538,15 +5573,15 @@ class LazyOwnShell(Cmd):
         rhost = self.params["rhost"]
         if not check_rhost(rhost):
             return
-
         rport = line
-        credentials_file = "./sessions/credentials.txt"
-        if not os.path.exists:
+        path = os.getcwd()
+        credentials_file = f"{path}/sessions/credentials.txt"
+        if not os.path.exists(credentials_file):
             print_error(
                 "sessions/creadentials.txt must exist ex: createcredentials user:password "
             )
             return
-
+        
         with open(credentials_file, "r") as file:
             for line in file:
                 user, passwd = line.strip().split(":")

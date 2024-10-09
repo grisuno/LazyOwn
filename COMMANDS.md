@@ -2002,6 +2002,7 @@ Uses sqlmap to perform SQL injection testing on a given URL or request file (you
 This function allows the execution of sqlmap commands with various options, including testing URL endpoints, reading from request files, and using sqlmap's wizard mode for easy configuration.
 
 Usage:
+    sqlmap req <request_file>
     sqlmap req <request_file> <parameter>
     sqlmap req <request_file> <parameter> <database>
     sqlmap req <request_file> <parameter> <database> <table>

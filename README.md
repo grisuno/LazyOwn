@@ -4610,7 +4610,7 @@ This function performs the following actions:
 Usage:
     www
 
-:param line: This parameter is not used in the function.
+:param line: This parameter is used to pass the port as an argument by default is 80
 :type line: str
 :returns: None
 
@@ -7212,6 +7212,19 @@ and transforms the input string accordingly.
 Parameters:
     line (str): Input string to be transformed.
 
+## finger_user_enum
+Executes the `finger-user-enum` tool for enumerating users on the target host.
+
+This function checks if the `finger-user-enum` script is available locally; if not, it clones 
+it from GitHub. It then constructs a command to run the tool with the provided wordlist of 
+usernames and target host, and executes the command in the system.
+
+Parameters:
+    line (str): Input line, not currently used.
+
+Returns:
+    None: Outputs the command executed and any messages during execution.
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 
@@ -7429,6 +7442,13 @@ Helper function to alternate the case of characters in a string.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): trasnform \n\n Version: release/0.1.59 \n\n command documented at COMMANDS.md like transform \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - lazyown - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Oct 9 02:40:41 2024 -0300 \n\n Hora: 1728452441
 
 
 ### Correcciones

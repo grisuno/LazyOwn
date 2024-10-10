@@ -4344,10 +4344,10 @@ class LazyOwnShell(Cmd):
             print_error("wordlist must be set use set wordlist <path_to_wordlist>")
             return
         if line:
-            print_msg(f"Try sudo john hash.txt {line}")  # line like -format=Raw-SHA512
+            print_msg(f"Try sudo john hash.txt {line}")  
             os.system(f"sudo john sessions/hash.txt --wordlist={wordlist} {line}")
         else:
-            print_msg("Try sudo john hash.txt --show")
+            print_msg(f"Try john sessions/hash.txt --wordlist={wordlist}")
             os.system(f"sudo john sessions/hash.txt --wordlist={wordlist}")
         return
 
@@ -5572,8 +5572,13 @@ class LazyOwnShell(Cmd):
         """
 
         rhost = self.params["rhost"]
+        
         if not check_rhost(rhost):
             return
+
+        if not line:
+            print_warn("Port not provided as an argument, defaulting to 22.")
+            line = "22"
         rport = line
         path = os.getcwd()
         credentials_file = f"{path}/sessions/credentials.txt"
@@ -5583,12 +5588,15 @@ class LazyOwnShell(Cmd):
             )
             return
         
-        with open(credentials_file, "r") as file:
-            for line in file:
-                user, passwd = line.strip().split(":")
-                command = f"sshpass -p '{passwd}' ssh -o StrictHostKeyChecking=no -p {rport} {user}@{rhost}"
-                print_msg(command)
-                os.system(command)
+        credentials = get_credentials()
+        if not credentials:
+            return  
+
+        for user, passwd in credentials:
+            command = f"sshpass -p '{passwd}' ssh -o StrictHostKeyChecking=no -p {rport} {user}@{rhost}"
+            print_msg(command)
+            os.system(command)
+        
         return
 
     def do_ftp(self, line):
@@ -5624,7 +5632,7 @@ class LazyOwnShell(Cmd):
         if not check_rhost(rhost):
             return
 
-        rport = line  # El puerto será proporcionado como argumento 'line'
+        rport = line
         credentials_file = "./sessions/credentials.txt"
         if not os.path.exists(credentials_file):
             command = f"ftp anonymouse@{rhost}"
@@ -5633,12 +5641,14 @@ class LazyOwnShell(Cmd):
             print_msg(command)
             os.system(command)
         else:
-            with open(credentials_file, "r") as file:
-                for line in file:
-                    user, passwd = line.strip().split(":")
-                    command = f"sshpass -p {passwd} ftp {user}@{rhost}"
-                    print_msg(command)
-                    os.system(command)
+            credentials = get_credentials()
+            if not credentials:
+                return  
+
+            for user, passwd in credentials:
+                command = f"sshpass -p '{passwd}' ftp {user}@{rhost}"
+                print_msg(command)
+                os.system(command)
         return
 
     def do_cports(self, line):
@@ -5666,20 +5676,15 @@ class LazyOwnShell(Cmd):
         Note: Ensure `xclip` is installed on your system for copying to the clipboard. If `xclip` is not available, you may need to install it or use an alternative method for copying to the clipboard.
         """
 
-
-        # Define el comando con comillas escapadas adecuadamente
         tcp_cmd = """echo "TCP Ports:"; \
         awk 'NR>1 {split($2, a, ":"); ip=sprintf("%d.%d.%d.%d", strtonum("0x" substr(a[1], 7, 2)), strtonum("0x" substr(a[1], 5, 2)), strtonum("0x" substr(a[1], 3, 2)), strtonum("0x" substr(a[1], 1, 2))); printf "%s:%d\\n", ip, strtonum("0x" a[2])}' /proc/net/tcp; \
         echo "UDP Ports:"; \
         awk 'NR>1 {split($2, a, ":"); ip=sprintf("%d.%d.%d.%d", strtonum("0x" substr(a[1], 7, 2)), strtonum("0x" substr(a[1], 5, 2)), strtonum("0x" substr(a[1], 3, 2)), strtonum("0x" substr(a[1], 1, 2))); printf "%s:%d\\n", ip, strtonum("0x" a[2])}' /proc/net/udp
         """
 
-        # Imprimir el comando para verificar
         print_msg(f"{GREEN} {tcp_cmd} {RESET}")
 
-        # Copiar el comando al portapapeles
         try:
-            # Usamos subprocess para manejar la entrada de manera segura
             process = subprocess.Popen(
                 ["xclip", "-sel", "clip"], stdin=subprocess.PIPE, text=True
             )
@@ -5718,10 +5723,7 @@ class LazyOwnShell(Cmd):
         Note: Ensure you have the necessary permissions and the `openvpn` command is available on your system.
         """
 
-        # List all .ovpn files
         ovpn_files = sorted([f for f in os.listdir("vpn") if f.endswith(".ovpn")])
-
-        # Determine the file to connect to
         if not line.strip():
             if not ovpn_files:
                 print_msg("No .ovpn files found.")
@@ -5760,10 +5762,8 @@ class LazyOwnShell(Cmd):
                 print_error("Invalid command format. Use 'vpn' to list and select, or 'vpn <number>' to connect directly.")
                 return
 
-        # Connect to the selected .ovpn file
         print_msg(f"Connecting to vpn/{file_to_connect}")
         os.system(f"openvpn vpn/{file_to_connect}")
-
 
     def do_id_rsa(self, line):
         """
@@ -5805,8 +5805,6 @@ class LazyOwnShell(Cmd):
         file = f"sessions/id_rsa_{line}"
         print_msg(f"Try... nano {file}")
         os.system(f"nano {file} && chmod 600 {file}")
-        
-        # Ask if the user wants to format the key
         format_key = input("Do you want to format the OpenSSH key? (y/n): ").lower()
         if format_key == 'y':
             with open(file, 'r') as key_file:
@@ -5840,7 +5838,7 @@ class LazyOwnShell(Cmd):
         Usage:
             www
 
-        :param line: This parameter is not used in the function.
+        :param line: This parameter is used to pass the port as an argument by default is 80
         :type line: str
         :returns: None
 
@@ -5859,9 +5857,13 @@ class LazyOwnShell(Cmd):
         os.system(
             'echo "[\e[96m`pwd`\e[0m]\e[34m" && cd sessions && ls && echo -en "\e[0m"'
         )
-        print_msg(f"{GREEN} Web server at sessions in port {RED} 80 {RESET}")
-        os.system("cd sessions && sudo python3 -m http.server 80")
-        print_msg(f"{YELLOW} Shutdown Web server at sessions in port {RED} 80 {RESET}")
+        if not line:
+            port = 80
+        else:
+            port = line
+        print_msg(f"{GREEN} Web server at sessions in port {RED} {port} {RESET}")
+        os.system(f"cd sessions && sudo python3 -m http.server {port}")
+        print_msg(f"{YELLOW} Shutdown Web server at sessions in port {RED} {port} {RESET}")
         return
 
     def do_wrapper(self, line):
@@ -13306,6 +13308,54 @@ class LazyOwnShell(Cmd):
         copy2clip(transformed_str)
         print_msg(f"Transformed string: {transformed_str}")
         return
+
+    def do_finger_user_enum(self, line):
+        """
+        Executes the `finger-user-enum` tool for enumerating users on the target host.
+
+        This function checks if the `finger-user-enum` script is available locally; if not, it clones 
+        it from GitHub. It then constructs a command to run the tool with the provided wordlist of 
+        usernames and target host, and executes the command in the system.
+
+        Parameters:
+            line (str): Input line, not currently used.
+
+        Returns:
+            None: Outputs the command executed and any messages during execution.
+        """        
+        path = os.getcwd()
+        finger = f"{path}/modules_ext/finger-user-enum/finger-user-enum.pl"
+        rhost = self.params["rhost"]
+        usrwordlist = self.params["usrwordlist"]
+        if not os.path.exists(finger):
+            github = "git clone https://github.com/pentestmonkey/finger-user-enum.git modules_ext/finger-user-enum"
+            print_warn("finger-user-enum not found cloning...")
+            print_msg(github)
+            os.system(github)
+
+        use_small_dict = input("    [?] Do you want to use the small dictionary? (yes/no): ").strip().lower()
+
+        if use_small_dict == "yes":
+            path = os.getcwd()
+            smalldic = f"{path}/modules/credentials.json"
+            with open(smalldic, 'r') as f:
+                data = json.load(f)
+            
+
+            with open('sessions/small_users.txt', 'w') as f:
+                for username in data["usernames"]:
+                    if username:
+                        f.write(username + '\n')
+
+            command = f"{finger} -U sessions/small_users.txt -t {rhost}"
+        else:
+
+            command = f"{finger} -U {usrwordlist} -t {rhost}"
+        print_msg(command)
+        os.system(command)
+        
+        return
+
 
 if __name__ == "__main__":
     p = LazyOwnShell()

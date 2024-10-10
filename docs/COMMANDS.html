@@ -3963,6 +3963,16 @@ provided URL with user-defined options.</p>
 <p>This command asks the user for a casing style (e.g., lower, upper,
 camel, pascal) and transforms the input string accordingly.</p>
 <p>Parameters: line (str): Input string to be transformed.</p>
+<h2 id="finger_user_enum">finger_user_enum</h2>
+<p>Executes the <code>finger-user-enum</code> tool for enumerating users
+on the target host.</p>
+<p>This function checks if the <code>finger-user-enum</code> script is
+available locally; if not, it clones it from GitHub. It then constructs
+a command to run the tool with the provided wordlist of usernames and
+target host, and executes the command in the system.</p>
+<p>Parameters: line (str): Input line, not currently used.</p>
+<p>Returns: None: Outputs the command executed and any messages during
+execution.</p>
 <h2 id="find_tgts">find_tgts</h2>
 <p>Finds and returns a list of target hosts with port 445 open in the
 specified subnet.</p>

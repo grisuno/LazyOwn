@@ -3159,7 +3159,7 @@ This function performs the following actions:
 Usage:
     www
 
-:param line: This parameter is not used in the function.
+:param line: This parameter is used to pass the port as an argument by default is 80
 :type line: str
 :returns: None
 
@@ -5760,6 +5760,19 @@ and transforms the input string accordingly.
 
 Parameters:
     line (str): Input string to be transformed.
+
+## finger_user_enum
+Executes the `finger-user-enum` tool for enumerating users on the target host.
+
+This function checks if the `finger-user-enum` script is available locally; if not, it clones 
+it from GitHub. It then constructs a command to run the tool with the provided wordlist of 
+usernames and target host, and executes the command in the system.
+
+Parameters:
+    line (str): Input line, not currently used.
+
+Returns:
+    None: Outputs the command executed and any messages during execution.
 
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.

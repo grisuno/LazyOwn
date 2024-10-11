@@ -5774,6 +5774,28 @@ Parameters:
 Returns:
     None: Outputs the command executed and any messages during execution.
 
+## lazyducky_digispark
+Compiles and uploads an .ino sketch to a Digispark device using Arduino CLI and Micronucleus.
+
+This method checks if Arduino CLI and Micronucleus are installed on the system.
+If they are not available, it installs them. It then compiles a Digispark sketch 
+and uploads the generated .hex file to the Digispark device.
+
+The method performs the following actions:
+1. Checks for the presence of Arduino CLI and installs it if not available.
+2. Configures Arduino CLI for Digispark if not already configured.
+3. Generates a reverse shell payload and prepares the sketch for Digispark.
+4. Compiles the prepared Digispark sketch using Arduino CLI.
+5. Checks for the presence of Micronucleus and installs it if not available.
+6. Uploads the compiled .hex file to the Digispark device using Micronucleus.
+
+Args:
+    line (str): Command line input provided by the user, which may contain additional parameters.
+
+Returns:
+    None: The function does not return any value but may modify the state of the system
+        by executing commands.
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 

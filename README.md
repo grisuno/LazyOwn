@@ -7503,6 +7503,13 @@ Helper function to alternate the case of characters in a string.
 
 ### Otros
 
+  *   * feat(feat): New Feature Automate Arduino Attacks or AAA the command is lazy_ducky_digispark \n\n Version: release/0.1.61 \n\n documented at COMMANDS.md and README.md \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Oct 10 18:41:59 2024 -0300 \n\n Hora: 1728596519
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): finger_user_enum \n\n Version: release/0.1.60 \n\n new functionality documented at COMMANDS.md \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - modules/credentials.json - payload.json - payload_poison.htb.json\nDeleted file(s):\n- payload_poison.htb.json\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Oct 9 20:51:25 2024 -0300 \n\n Hora: 1728517885
 
 

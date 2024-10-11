@@ -1,10 +1,14 @@
 # LazyOwn
 
+![LazyOwn_Redteam_framework](https://github.com/user-attachments/assets/d713f163-5f4d-433f-befd-6776d43051da)
+
+
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) ![Shell Script](https://img.shields.io/badge/shell_script-%23121011.svg?style=for-the-badge&logo=gnu-bash&logoColor=white) ![image](https://github.com/user-attachments/assets/961783c2-cd57-4cc2-ab4c-53fde581db79)
  ![image](https://github.com/user-attachments/assets/79052f87-f87c-4b32-a4a2-854113ca3a4c)
   [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) ![image](https://github.com/user-attachments/assets/b69f1d31-c075-4713-a44e-a40a034a7407) ![image](https://github.com/user-attachments/assets/df82a669-be0c-4a03-bd98-842a67baaef6)
 
-![lazyown](https://github.com/user-attachments/assets/73097914-3af9-4b8f-8824-ed599dfc7e38)
+![Banner](https://github.com/user-attachments/assets/2e9170f3-3b9e-4ce4-8e9e-ef98f7bf386c)
+
 
 ```sh
 ██╗      █████╗ ███████╗██╗   ██╗ ██████╗ ██╗    ██╗███╗   ██╗
@@ -68,6 +72,9 @@ lazywerkzeugdebug: For testing Werkzeug in debug mode.
 Background:
 
 Originally designed to automate the search and analysis of binaries with special permissions on Linux and Windows systems, LazyOwn has evolved to encompass a broader range of functionalities. The project includes scripts that extract information from GTFOBins, analyze binaries on the system, and generate options based on the collected data.
+
+![LazyOwnGris3](https://github.com/user-attachments/assets/04f48e49-5d7f-4c3d-af6d-81d05dbdacbf)
+
 
 LazyOwn on Reddit
 
@@ -730,6 +737,32 @@ An excellent tool for CVE detection, I implemented only the keyword search as I 
 ## Abstract
 
 LazyOwn is a framework that streamlines its workflow and automates many tasks and tests through aliases and various tools, functioning like a Swiss army knife with multipurpose blades for hacking xD.
+
+## Lazyducky_digispark
+
+![LazyOwn](https://github.com/user-attachments/assets/b7e8c257-c0de-4033-bf4b-57ebc87dcb97)
+
+      Compiles and uploads an .ino sketch to a Digispark device using Arduino CLI and Micronucleus.
+
+        This method checks if Arduino CLI and Micronucleus are installed on the system.
+        If they are not available, it installs them. It then compiles a Digispark sketch 
+        and uploads the generated .hex file to the Digispark device.
+
+        The method performs the following actions:
+        1. Checks for the presence of Arduino CLI and installs it if not available.
+        2. Configures Arduino CLI for Digispark if not already configured.
+        3. Generates a reverse shell payload and prepares the sketch for Digispark.
+        4. Compiles the prepared Digispark sketch using Arduino CLI.
+        5. Checks for the presence of Micronucleus and installs it if not available.
+        6. Uploads the compiled .hex file to the Digispark device using Micronucleus.
+
+        Args:
+            line (str): Command line input provided by the user, which may contain additional parameters.
+
+        Returns:
+            None: The function does not return any value but may modify the state of the system
+                by executing commands.
+
 
 # Documentation by readmeneitor.py
 

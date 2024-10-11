@@ -7499,6 +7499,13 @@ Helper function to alternate the case of characters in a string.
 # Changelog
 
 
+### Refactorización
+
+### Otros
+
+  *   * refactor(refactor): nmap \n\n Version: release/0.1.61 \n\n nmap script was refactored, translated, and new feature, vulnerability search with nmap \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - modules/lazynmap.sh - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Oct 11 00:52:41 2024 -0300 \n\n Hora: 1728618761
+
+
 ### Nuevas características
 
 ### Otros

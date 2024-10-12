@@ -7258,14 +7258,14 @@ Parameters:
 Returns:
     None: Outputs the command executed and any messages during execution.
 
-## lazyducky_digispark
-Compiles and uploads an .ino sketch to a Digispark device using Arduino CLI and Micronucleus.
+## duckyspark
+duckyspark Compiles and uploads an .ino sketch to a Digispark device using Arduino CLI and Micronucleus.
 
-This method checks if Arduino CLI and Micronucleus are installed on the system.
+duckyspark method checks if Arduino CLI and Micronucleus are installed on the system.
 If they are not available, it installs them. It then compiles a Digispark sketch 
 and uploads the generated .hex file to the Digispark device.
 
-The method performs the following actions:
+The method duckyspark performs the following actions:
 1. Checks for the presence of Arduino CLI and installs it if not available.
 2. Configures Arduino CLI for Digispark if not already configured.
 3. Generates a reverse shell payload and prepares the sketch for Digispark.
@@ -7499,11 +7499,25 @@ Helper function to alternate the case of characters in a string.
 # Changelog
 
 
+### Documentación
+
+### Otros
+
+  *   * docs(docs): trasnlated nmap script \n\n Version: release/0.1.61 \n\n and add new feature vuln searchs \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Oct 11 03:19:10 2024 -0300 \n\n Hora: 1728627550
+
+
 ### Refactorización
 
 ### Otros
 
   *   * refactor(refactor): nmap \n\n Version: release/0.1.61 \n\n nmap script was refactored, translated, and new feature, vulnerability search with nmap \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - modules/lazynmap.sh - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Oct 11 00:52:41 2024 -0300 \n\n Hora: 1728618761
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
 
 
 ### Nuevas características

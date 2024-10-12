@@ -5774,14 +5774,14 @@ Parameters:
 Returns:
     None: Outputs the command executed and any messages during execution.
 
-## lazyducky_digispark
-Compiles and uploads an .ino sketch to a Digispark device using Arduino CLI and Micronucleus.
+## duckyspark
+duckyspark Compiles and uploads an .ino sketch to a Digispark device using Arduino CLI and Micronucleus.
 
-This method checks if Arduino CLI and Micronucleus are installed on the system.
+duckyspark method checks if Arduino CLI and Micronucleus are installed on the system.
 If they are not available, it installs them. It then compiles a Digispark sketch 
 and uploads the generated .hex file to the Digispark device.
 
-The method performs the following actions:
+The method duckyspark performs the following actions:
 1. Checks for the presence of Arduino CLI and installs it if not available.
 2. Configures Arduino CLI for Digispark if not already configured.
 3. Generates a reverse shell payload and prepares the sketch for Digispark.

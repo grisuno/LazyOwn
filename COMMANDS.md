@@ -5796,6 +5796,17 @@ Returns:
     None: The function does not return any value but may modify the state of the system
         by executing commands.
 
+## username_anarchy
+Generate usernames using the username-anarchy tool based on user input.
+
+This function prompts the user to either provide names directly or select
+options such as auto-generation based on country datasets, input files, and 
+specific username formats. It then constructs the command for `username-anarchy` 
+and executes it.
+
+:param line: is optional you can pass the name and lastname as an argument example: username_anarchy firstname lastname 
+:returns: None
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 

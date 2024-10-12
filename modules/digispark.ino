@@ -13,15 +13,13 @@ void loop() {
     DigiKeyboard.sendKeyStroke(KEY_ENTER);
     DigiKeyboard.delay(1000);
 
-    DigiKeyboard.print("setxkbmap us");
+    DigiKeyboard.print("setxkbmap es");
     DigiKeyboard.sendKeyStroke(KEY_ENTER);
 
     DigiKeyboard.print("{payload}");
     DigiKeyboard.sendKeyStroke(KEY_ENTER);
 
-    DigiKeyboard.print("setxkbmap es");
-    DigiKeyboard.sendKeyStroke(KEY_ENTER);
-    DigiKeyboard.delay(1000);
+    
     for (;;) {
         DigiKeyboard.delay(1000);
     }

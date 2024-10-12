@@ -6,6 +6,13 @@
 
 ### Otros
 
+  *   * refactor(refactor): refactor of users.txt \n\n Version: release/0.1.61 \n\n now you can choice the users dic do you watn to use, and refactor whole users.txt hardcoded, celebrate with the add of username_anarchy t00l c0mmand add to COMMANDS.md \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - lazyown - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Oct 12 02:17:48 2024 -0300 \n\n Hora: 1728710268
+
+
+### Refactorización
+
+### Otros
+
   *   * refactor(refactor): refactor lazy_ruberdigispark isnto duckyspark \n\n Version: release/0.1.61 \n\n command documented at COMMANDS.md \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - modules/digispark.ino - payload.json - sessions/download_resources.sh\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Oct 11 03:20:10 2024 -0300 \n\n Hora: 1728627610
 
 

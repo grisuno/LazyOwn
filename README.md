@@ -1470,6 +1470,11 @@ Parameters:
 Returns:
     list: A list of string parts.
 
+## get_users_dic
+List all .txt files in the 'sessions/' directory and prompt the user to select one by number.
+
+:returns: The path of the selected .txt file.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 
@@ -7280,6 +7285,17 @@ Returns:
     None: The function does not return any value but may modify the state of the system
         by executing commands.
 
+## username_anarchy
+Generate usernames using the username-anarchy tool based on user input.
+
+This function prompts the user to either provide names directly or select
+options such as auto-generation based on country datasets, input files, and 
+specific username formats. It then constructs the command for `username-anarchy` 
+and executes it.
+
+:param line: is optional you can pass the name and lastname as an argument example: username_anarchy firstname lastname 
+:returns: None
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 
@@ -7497,6 +7513,13 @@ Helper function to alternate the case of characters in a string.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Refactorización
+
+### Otros
+
+  *   * refactor(refactor): refactor lazy_ruberdigispark isnto duckyspark \n\n Version: release/0.1.61 \n\n command documented at COMMANDS.md \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - modules/digispark.ino - payload.json - sessions/download_resources.sh\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Oct 11 03:20:10 2024 -0300 \n\n Hora: 1728627610
 
 
 ### Documentación

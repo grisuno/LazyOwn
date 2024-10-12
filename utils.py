@@ -392,20 +392,20 @@ def handle_multiple_rhosts(func):
         """internal wrapper of internal function to implement multiples rhost to operate. """
         rhosts = self.params["rhost"]
         if isinstance(rhosts, str):
-            rhosts = [rhosts]  # Convertir a lista si es un solo host
+            rhosts = [rhosts]  
 
         for rhost in rhosts:
             if not check_rhost(rhost):
                 continue
             original_rhost = self.params["rhost"]
-            self.params["rhost"] = rhost  # Actualizar rhost temporalmente
+            self.params["rhost"] = rhost  
             func(self, *args, **kwargs)
-            self.params["rhost"] = original_rhost  # Restaurar rhost original
+            self.params["rhost"] = original_rhost  
 
     return wrapper
 
 
-# Verificar y relanzar con sudo si es necesario
+
 def check_sudo():
     """
     Checks if the script is running with superuser (sudo) privileges, and if not,
@@ -1645,6 +1645,37 @@ def handle(input_str):
 
     return parts
 
+def get_users_dic():
+    """
+    List all .txt files in the 'sessions/' directory and prompt the user to select one by number.
+    
+    :returns: The path of the selected .txt file.
+    """
+    path = os.path.join(os.getcwd(), 'sessions')
+    
+    
+    txt_files = [f for f in os.listdir(path) if f.endswith('.txt')]
+    
+    if not txt_files:
+        print_error("No .txt files found in 'sessions/' directory.")
+        return None
+
+    print_msg("Available .txt files:")
+    for i, file in enumerate(txt_files):
+        print_msg(f"    {i + 1}. {file}")
+    
+    
+    try:
+        choice = int(input(f"    [!] Choose a file by number (1-{len(txt_files)}): ").strip())
+        if 1 <= choice <= len(txt_files):
+            selected_file = txt_files[choice - 1]
+            return os.path.join(path, selected_file)
+        else:
+            print_warn("Invalid selection. Please choose a valid number.")
+            return None
+    except ValueError:
+        print_warn("Invalid input. Please enter a number.")
+        return None
 
 signal.signal(signal.SIGINT, signal_handler)
 arguments = sys.argv[1:]  

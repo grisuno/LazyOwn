@@ -699,6 +699,11 @@ Parameters:
 Returns:
     list: A list of string parts.
 
+## get_users_dic
+List all .txt files in the 'sessions/' directory and prompt the user to select one by number.
+
+:returns: The path of the selected .txt file.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 

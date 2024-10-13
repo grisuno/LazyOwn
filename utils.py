@@ -18,12 +18,14 @@ Descripción: Este archivo contiene la definición de la lógica de todas las fu
 """
 import re
 import os
+import csv
 import sys
 import ssl
 import json
 import time
 import glob
 import shlex
+import pickle
 import signal
 import base64
 import string
@@ -1212,6 +1214,36 @@ def format_openssh_key(raw_key):
     # Define the header and footer for the OpenSSH key format
     header = "-----BEGIN OPENSSH PRIVATE KEY-----"
     footer = "-----END OPENSSH PRIVATE KEY-----"
+    
+    # Clean input: Remove any newlines, spaces, and header/footer
+    key_content = raw_key.replace(header, "").replace(footer, "").replace("\n", "").replace(" ", "").strip()
+    
+    # Split into 64-character lines
+    formatted_key_content = "\n".join([key_content[i:i+64] for i in range(0, len(key_content), 64)])
+    
+    # Reassemble the key with the header and footer, and add necessary line breaks
+    formatted_key = f"{header}\n{formatted_key_content}\n{footer}\n"
+    
+    return formatted_key
+
+def format_rsa_key(raw_key):
+    """
+    Formats a raw RSA private key string to the correct PEM format.
+
+    This function takes a raw RSA private key string, cleans it by removing any unnecessary
+    characters (such as newlines, spaces, and headers/footers), splits the key content into lines 
+    of 64 characters, and then reassembles the key with the standard PEM header and footer. 
+    It ensures the key follows the correct RSA format.
+
+    Parameters:
+        raw_key (str): The raw RSA private key string to format.
+
+    Returns:
+        str: The formatted RSA private key with proper headers, footers, and 64-character lines.
+    """    
+    # Define the header and footer for the RSA key format
+    header = "-----BEGIN RSA PRIVATE KEY-----"
+    footer = "-----END RSA PRIVATE KEY-----"
     
     # Clean input: Remove any newlines, spaces, and header/footer
     key_content = raw_key.replace(header, "").replace(footer, "").replace("\n", "").replace(" ", "").strip()

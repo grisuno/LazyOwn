@@ -550,6 +550,17 @@ footer. It ensures the key follows the correct OpenSSH format.</p>
 format.</p>
 <p>Returns: str: The formatted OpenSSH private key with proper headers,
 footers, and 64-character lines.</p>
+<h2 id="format_rsa_key">format_rsa_key</h2>
+<p>Formats a raw RSA private key string to the correct PEM format.</p>
+<p>This function takes a raw RSA private key string, cleans it by
+removing any unnecessary characters (such as newlines, spaces, and
+headers/footers), splits the key content into lines of 64 characters,
+and then reassembles the key with the standard PEM header and footer. It
+ensures the key follows the correct RSA format.</p>
+<p>Parameters: raw_key (str): The raw RSA private key string to
+format.</p>
+<p>Returns: str: The formatted RSA private key with proper headers,
+footers, and 64-character lines.</p>
 <h2 id="is_package_installed">is_package_installed</h2>
 <p>Check if a Python package is installed.</p>
 <p>:param package_name: Name of the package to check. :returns: True if

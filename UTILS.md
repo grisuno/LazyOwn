@@ -514,6 +514,20 @@ Parameters:
 Returns:
     str: The formatted OpenSSH private key with proper headers, footers, and 64-character lines.
 
+## format_rsa_key
+Formats a raw RSA private key string to the correct PEM format.
+
+This function takes a raw RSA private key string, cleans it by removing any unnecessary
+characters (such as newlines, spaces, and headers/footers), splits the key content into lines 
+of 64 characters, and then reassembles the key with the standard PEM header and footer. 
+It ensures the key follows the correct RSA format.
+
+Parameters:
+    raw_key (str): The raw RSA private key string to format.
+
+Returns:
+    str: The formatted RSA private key with proper headers, footers, and 64-character lines.
+
 ## is_package_installed
 Check if a Python package is installed.
 

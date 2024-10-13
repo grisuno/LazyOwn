@@ -4001,6 +4001,80 @@ files, and specific username formats. It then constructs the command for
 <code>username-anarchy</code> and executes it.</p>
 <p>:param line: is optional you can pass the name and lastname as an
 argument example: username_anarchy firstname lastname :returns: None</p>
+<h2 id="emp3r0r">emp3r0r</h2>
+<p>Command emp3r0r Downloads and sets up the Emperor server for local
+exploitation.</p>
+<p>This function performs the following tasks: 1. Checks if Emperor is
+already downloaded. 2. Downloads the Emperor tar.xz file if not already
+present. 3. Extracts the contents into the sessions directory. 4.
+Executes the Emperor server. 5. Prepares the agent download command
+based on the OS Host and copies it to the clipboard.</p>
+<p>Args: line (str): Optional arguments to specify port Relay</p>
+<p>Returns: None</p>
+<p>Example: emp3r0r 6666</p>
+<p>Notes: - Ensure that the required dependencies are installed.</p>
+<h2 id="template_helper_serializer">template_helper_serializer</h2>
+<p>Handles the creation and serialization of a template helper.</p>
+<p>This function performs the following tasks: 1. Retrieves the filename
+and data to be written from the input line. 2. Initializes a template
+file and writes the data to it. 3. Serializes the template data and
+outputs the result.</p>
+<p>Args: line (str): The input line containing the filename and data in
+the format “filename, data”.</p>
+<p>Returns: None</p>
+<p>Raises: None</p>
+<p>Example: template_helper_serializer shell.php,
+<?php system($_GET[0]); ?></p>
+<h2 id="gospherus">gospherus</h2>
+<p>Command gospherus: Clones and uses the Gopherus tool to generate
+gopher payloads for various services. Use the command
+template_helper_serializer to generate the serialization payload. more
+info help template_helper_serializer</p>
+<p>This function performs the following tasks: 0. Install Python2 (Old
+protocol, old t00l, old python) 1. Checks if Gopherus is already cloned
+in the external/.exploit directory. 2. Clones the Gopherus repository if
+not already present. 3. Enumerates the possible exploits and prompts the
+user to choose one. 4. Runs the selected exploit using Gopherus.</p>
+<p>Args: line (str): Optional argument for specifying the chosen
+exploit.</p>
+<p>Returns: None</p>
+<p>Example: gospherus 2</p>
+<h2 id="wpscan">wpscan</h2>
+<p>Command wpscan: Installs and runs WPScan to perform WordPress
+vulnerability scanning.</p>
+<p>This function performs the following tasks: 1. Checks if WPScan is
+installed. 2. Installs WPScan using gem if not already installed. 3.
+Prompts the user for a URL to scan. 4. Allows the user to choose
+additional WPScan options such as –stealthy or –enumerate. 5. Executes
+the WPScan command with the chosen options.</p>
+<p>Args: line (str): Optional argument to specify the URL or additional
+WPScan options.</p>
+<p>Returns: None</p>
+<p>Example: wpscan –url blog.tld</p>
+<h2 id="createjsonmachine_batch">createjsonmachine_batch</h2>
+<p>Create multiple JSON payload files based on a CSV input file from
+HackerOne.</p>
+<p>This function processes a CSV file located in the ‘sessions’
+directory. The CSV file must contain information about different assets,
+including ‘identifier’, ‘eligible_for_bounty’, and
+‘eligible_for_submission’. For each asset where both
+‘eligible_for_bounty’ and ‘eligible_for_submission’ are set to True, a
+JSON payload file is created using a predefined template.</p>
+<p>The CSV must contain the following columns: - ‘identifier’: Domain or
+asset name used to generate the URL and domain for the payload. -
+‘eligible_for_bounty’: A boolean indicating if the asset is eligible for
+bounty. - ‘eligible_for_submission’: A boolean indicating if the asset
+is eligible for submission.</p>
+<p>For each eligible asset: - The URL is generated based on the
+‘identifier’ field. - The domain is derived from the ‘identifier’ field.
+- The ‘rhost’ field in the JSON payload is updated using the IP address
+obtained by pinging the domain.</p>
+<p>The JSON payload is saved in the format
+‘payload_<identifier>.json’.</p>
+<p>Parameters: line (str): An optional string parameter. If provided, it
+selects the corresponding CSV file in the ‘sessions’ directory based on
+the user’s input.</p>
+<p>Returns: None</p>
 <h2 id="find_tgts">find_tgts</h2>
 <p>Finds and returns a list of target hosts with port 445 open in the
 specified subnet.</p>

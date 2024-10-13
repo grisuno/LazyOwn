@@ -1285,6 +1285,20 @@ Parameters:
 Returns:
     str: The formatted OpenSSH private key with proper headers, footers, and 64-character lines.
 
+## format_rsa_key
+Formats a raw RSA private key string to the correct PEM format.
+
+This function takes a raw RSA private key string, cleans it by removing any unnecessary
+characters (such as newlines, spaces, and headers/footers), splits the key content into lines 
+of 64 characters, and then reassembles the key with the standard PEM header and footer. 
+It ensures the key follows the correct RSA format.
+
+Parameters:
+    raw_key (str): The raw RSA private key string to format.
+
+Returns:
+    str: The formatted RSA private key with proper headers, footers, and 64-character lines.
+
 ## is_package_installed
 Check if a Python package is installed.
 
@@ -7296,6 +7310,115 @@ and executes it.
 :param line: is optional you can pass the name and lastname as an argument example: username_anarchy firstname lastname 
 :returns: None
 
+## emp3r0r
+Command emp3r0r Downloads and sets up the Emperor server for local exploitation.
+
+This function performs the following tasks:
+1. Checks if Emperor is already downloaded.
+2. Downloads the Emperor tar.xz file if not already present.
+3. Extracts the contents into the sessions directory.
+4. Executes the Emperor server.
+5. Prepares the agent download command based on the OS Host and copies it to the clipboard.
+
+Args:
+    line (str): Optional arguments to specify port Relay
+
+Returns:
+    None
+
+Example:
+    emp3r0r 6666
+
+Notes:
+    - Ensure that the required dependencies are installed.
+
+## template_helper_serializer
+Handles the creation and serialization of a template helper.
+
+This function performs the following tasks:
+1. Retrieves the filename and data to be written from the input line.
+2. Initializes a template file and writes the data to it.
+3. Serializes the template data and outputs the result.
+
+Args:
+    line (str): The input line containing the filename and data in the format "filename, data".
+
+Returns:
+    None
+
+Raises:
+    None
+
+Example:
+    template_helper_serializer shell.php, <?php system($_GET[0]); ?>
+
+## gospherus
+Command gospherus: Clones and uses the Gopherus tool to generate gopher payloads for various services.
+Use the command template_helper_serializer to generate the serialization payload. more info help template_helper_serializer
+
+This function performs the following tasks:
+0. Install Python2 (Old protocol, old t00l, old python)
+1. Checks if Gopherus is already cloned in the external/.exploit directory.
+2. Clones the Gopherus repository if not already present.
+3. Enumerates the possible exploits and prompts the user to choose one.
+4. Runs the selected exploit using Gopherus.
+
+Args:
+    line (str): Optional argument for specifying the chosen exploit.
+
+Returns:
+    None
+
+Example:
+    gospherus 2
+
+## wpscan
+Command wpscan: Installs and runs WPScan to perform WordPress vulnerability scanning.
+
+This function performs the following tasks:
+1. Checks if WPScan is installed.
+2. Installs WPScan using gem if not already installed.
+3. Prompts the user for a URL to scan.
+4. Allows the user to choose additional WPScan options such as --stealthy or --enumerate.
+5. Executes the WPScan command with the chosen options.
+
+Args:
+    line (str): Optional argument to specify the URL or additional WPScan options.
+
+Returns:
+    None
+
+Example:
+    wpscan --url blog.tld
+
+## createjsonmachine_batch
+Create multiple JSON payload files based on a CSV input file from HackerOne.
+
+This function processes a CSV file located in the 'sessions' directory. The CSV file
+must contain information about different assets, including 'identifier', 
+'eligible_for_bounty', and 'eligible_for_submission'. For each asset where 
+both 'eligible_for_bounty' and 'eligible_for_submission' are set to True, 
+a JSON payload file is created using a predefined template.
+
+The CSV must contain the following columns:
+- 'identifier': Domain or asset name used to generate the URL and domain for the payload.
+- 'eligible_for_bounty': A boolean indicating if the asset is eligible for bounty.
+- 'eligible_for_submission': A boolean indicating if the asset is eligible for submission.
+
+For each eligible asset:
+- The URL is generated based on the 'identifier' field.
+- The domain is derived from the 'identifier' field.
+- The 'rhost' field in the JSON payload is updated using the IP address obtained by pinging the domain.
+
+The JSON payload is saved in the format 'payload_<identifier>.json'.
+
+Parameters:
+line (str): An optional string parameter. If provided, it selects the corresponding CSV file 
+            in the 'sessions' directory based on the user's input.
+
+Returns:
+None
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 
@@ -7513,6 +7636,13 @@ Helper function to alternate the case of characters in a string.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Refactorización
+
+### Otros
+
+  *   * refactor(refactor): refactor of users.txt \n\n Version: release/0.1.61 \n\n now you can choice the users dic do you watn to use, and refactor whole users.txt hardcoded, celebrate with the add of username_anarchy t00l c0mmand add to COMMANDS.md \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - lazyown - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Oct 12 02:17:48 2024 -0300 \n\n Hora: 1728710268
 
 
 ### Refactorización

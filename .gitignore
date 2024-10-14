@@ -34,3 +34,4 @@ external/.exploit
 modules_ext/
 vpn/
 sessions/users.txt
+payload_*.json

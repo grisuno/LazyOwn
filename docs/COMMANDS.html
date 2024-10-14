@@ -4075,6 +4075,39 @@ obtained by pinging the domain.</p>
 selects the corresponding CSV file in the ‘sessions’ directory based on
 the user’s input.</p>
 <p>Returns: None</p>
+<h2 id="ip2hex">ip2hex</h2>
+<p>Convert an IPv4 address into its hexadecimal representation.</p>
+<p>This function takes an IPv4 address in standard dotted-decimal format
+(e.g., ‘192.168.1.1’) and converts each of its four octets into a
+hexadecimal number. The resulting hexadecimal string is concatenated
+without separators, providing the full hexadecimal equivalent of the IP
+address.</p>
+<p>The input IP address is expected to be a string in the format
+‘X.X.X.X’, where X is an integer between 0 and 255.</p>
+<p>Parameters: line (str): The input string representing the IPv4
+address in dotted-decimal format.</p>
+<p>Returns: None: The hexadecimal equivalent of the IP address is
+printed to the console.</p>
+<h2 id="john2keepas">john2keepas</h2>
+<p>List all .kdbx files in the ‘sessions’ directory, let the user select
+one, and run the command
+<code>sudo keepass2john {user_file} &gt; sessions/hash.txt</code>. If
+‘sessions/hash.txt’ already exists, it will be backed up with a
+timestamp to avoid overwriting.</p>
+<p>Parameters: line (str): An optional string parameter. This can be
+used for any additional input, though it’s not needed in this specific
+command.</p>
+<p>Returns: None</p>
+<h2 id="keepass">keepass</h2>
+<p>Open a .kdbx file and print the titles and contents of all entries.
+The password can be provided through the ‘line’ parameter, via user
+input, or from a ‘credentials.txt’ file in the ‘sessions’ directory.</p>
+<p>If the file ‘credentials.txt’ exists in the ‘sessions’ directory, the
+first password from it will be used automatically.</p>
+<p>Parameters: line (str): An optional string parameter to pass the
+password. If not provided, the user will be prompted to input the
+password.</p>
+<p>Returns: None</p>
 <h2 id="find_tgts">find_tgts</h2>
 <p>Finds and returns a list of target hosts with port 445 open in the
 specified subnet.</p>

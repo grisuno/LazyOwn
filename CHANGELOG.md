@@ -6,6 +6,13 @@
 
 ### Otros
 
+  *   * feature(feat): new commands documented at COMMANDS.md \n\n Version: release/0.1.63 \n\n ip2hex, keepass, john2keepass \n\n Modified file(s):\n- .gitignore - COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - install.sh - lazyown - payload.json - sessions/win/LazyOwnEvilWMI.ps1 - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Oct 13 01:52:12 2024 -0300 \n\n Hora: 1728795132
+
+
+### Otros
+
+### Otros
+
   *   * feature(feat): new commands like emp3r0r, template_helper_serializer, gospherus, wpscan, createjsonmachine_batch this is so important, is for monetize your skills with hackerone.com \n\n Version: release/0.1.62 \n\n all commands documented at COMMANDS.md, to use createjsonmachine_batch you need download csv from hackerone of the opportunnity campaign, in scope click in Download CSV, you download in sessions directory of lazyown and the command createjsonmachine_batch will do the magic! \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - lazyown - payload.json - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Oct 12 04:07:36 2024 -0300 \n\n Hora: 1728716856
 
 

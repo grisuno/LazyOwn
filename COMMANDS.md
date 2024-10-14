@@ -5916,6 +5916,49 @@ line (str): An optional string parameter. If provided, it selects the correspond
 Returns:
 None
 
+## ip2hex
+Convert an IPv4 address into its hexadecimal representation.
+
+This function takes an IPv4 address in standard dotted-decimal format 
+(e.g., '192.168.1.1') and converts each of its four octets into a hexadecimal 
+number. The resulting hexadecimal string is concatenated without separators, 
+providing the full hexadecimal equivalent of the IP address.
+
+The input IP address is expected to be a string in the format 'X.X.X.X', 
+where X is an integer between 0 and 255.
+
+Parameters:
+line (str): The input string representing the IPv4 address in dotted-decimal format.
+
+Returns:
+None: The hexadecimal equivalent of the IP address is printed to the console.
+
+## john2keepas
+List all .kdbx files in the 'sessions' directory, let the user select one, and run the 
+command `sudo keepass2john {user_file} > sessions/hash.txt`. 
+If 'sessions/hash.txt' already exists, it will be backed up with a timestamp to avoid overwriting.
+
+Parameters:
+line (str): An optional string parameter. This can be used for any additional input, 
+            though it's not needed in this specific command.
+
+Returns:
+None
+
+## keepass
+Open a .kdbx file and print the titles and contents of all entries. The password can be provided through
+the 'line' parameter, via user input, or from a 'credentials.txt' file in the 'sessions' directory.
+
+If the file 'credentials.txt' exists in the 'sessions' directory, the first password from it
+will be used automatically.
+
+Parameters:
+line (str): An optional string parameter to pass the password. If not provided, the user will
+            be prompted to input the password.
+
+Returns:
+None
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 

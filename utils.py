@@ -44,6 +44,7 @@ import urllib.request
 import importlib.util
 from itertools import product
 from bs4 import BeautifulSoup
+from pykeepass import PyKeePass
 from libnmap.parser import NmapParser
 from libnmap.process import NmapProcess
 from concurrent.futures import ThreadPoolExecutor

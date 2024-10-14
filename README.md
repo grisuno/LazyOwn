@@ -1489,6 +1489,16 @@ List all .txt files in the 'sessions/' directory and prompt the user to select o
 
 :returns: The path of the selected .txt file.
 
+## get_hash
+Searches for hash files with the pattern 'hash*.txt' and allows the user to select one.
+
+The function lists all matching files and prompts the user to select one. It then reads the selected file
+and returns the hash content as a single string, without any newline characters or extra formatting.
+
+Returns:
+str: The hash content from the selected file as a single string. If no files are found or an invalid
+     selection is made, an empty string is returned.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 
@@ -7679,6 +7689,13 @@ Helper function to alternate the case of characters in a string.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Otros
+
+### Otros
+
+  *   * feature(feat): new commands documented at COMMANDS.md \n\n Version: release/0.1.63 \n\n ip2hex, keepass, john2keepass \n\n Modified file(s):\n- .gitignore - COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - install.sh - lazyown - payload.json - sessions/win/LazyOwnEvilWMI.ps1 - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Oct 13 01:52:12 2024 -0300 \n\n Hora: 1728795132
 
 
 ### Otros

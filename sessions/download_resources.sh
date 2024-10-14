@@ -46,6 +46,7 @@ download() {
         "wget https://raw.githubusercontent.com/jakub-przepiora/ps-scan-Prestashop-scanner/refs/heads/main/ps-scan.py"
         "wget https://raw.githubusercontent.com/samratashok/nishang/refs/heads/master/Shells/Invoke-PowerShellTcp.ps1"
         "wget https://raw.githubusercontent.com/rebootuser/LinEnum/refs/heads/master/LinEnum.sh"
+        "wget https://eternallybored.org/misc/netcat/netcat-win32-1.12.zip"
     )
 
     # Imprime los últimos argumentos de cada comando

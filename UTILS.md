@@ -718,6 +718,16 @@ List all .txt files in the 'sessions/' directory and prompt the user to select o
 
 :returns: The path of the selected .txt file.
 
+## get_hash
+Searches for hash files with the pattern 'hash*.txt' and allows the user to select one.
+
+The function lists all matching files and prompts the user to select one. It then reads the selected file
+and returns the hash content as a single string, without any newline characters or extra formatting.
+
+Returns:
+str: The hash content from the selected file as a single string. If no files are found or an invalid
+     selection is made, an empty string is returned.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 

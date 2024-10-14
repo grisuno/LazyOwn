@@ -1710,6 +1710,47 @@ def get_users_dic():
         print_warn("Invalid input. Please enter a number.")
         return None
 
+def get_hash(dir = None):
+    """
+    Searches for hash files with the pattern 'hash*.txt' and allows the user to select one.
+    
+    The function lists all matching files and prompts the user to select one. It then reads the selected file
+    and returns the hash content as a single string, without any newline characters or extra formatting.
+
+    Returns:
+    str: The hash content from the selected file as a single string. If no files are found or an invalid
+         selection is made, an empty string is returned.
+    """
+    path = os.getcwd()
+    hash_files = glob.glob(f"{path}/sessions/hash*.txt")
+
+    if not hash_files:
+        print_error("No hash files found.")
+        return ""
+    
+    print_msg("The following hash files were found:")
+    for idx, hash_file in enumerate(hash_files, 1):
+        print_msg(f"{idx}. {hash_file}")
+
+    try:
+        file_choice = int(input("    [!] Select the hash file to use (enter the number): "))
+        selected_file = hash_files[file_choice - 1]
+    except (ValueError, IndexError):
+        print_error("Invalid selection.")
+        return ""
+    
+    try:
+        if dir == True:
+            return selected_file
+        else:
+            with open(selected_file, "r") as file:
+                hash_content = file.read().strip()
+            return hash_content
+    except Exception as e:
+        print_error(f"Failed to read the hash file: {str(e)}")
+        return ""
+
+
 signal.signal(signal.SIGINT, signal_handler)
 arguments = sys.argv[1:]  
 

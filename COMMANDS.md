@@ -1,5 +1,20 @@
 # COMMANDS.md Documentation  by readmeneitor.py
 
+## secretsdump
+Executes the secretsdump.py script to extract NTLM hashes and credentials from the specified domain controller.
+
+This function retrieves the necessary parameters (domain controller IP and domain) from the instance's
+parameter dictionary. It checks for a credentials file in the 'sessions' directory. If the file exists,
+it reads the username and password combinations from it. If not, it prompts the user for input. The password
+is copied to the clipboard for convenience. A command is constructed using the secretsdump.py tool, and it is
+executed to perform the dump.
+
+Args:
+    line (str): The username input from the command line or an empty string if not provided.
+
+Returns:
+    None
+
 ## __init__
 Initializer for the LazyOwnShell class.
 
@@ -5958,6 +5973,41 @@ line (str): An optional string parameter to pass the password. If not provided, 
 
 Returns:
 None
+
+## mssqlcli
+Attempts to connect to an MSSQL server using the mssqlclient.py tool with Windows authentication.
+
+The function retrieves the necessary parameters (remote host and domain) from the 
+instance's parameter dictionary. If a credentials file exists in the 'sessions_dir', 
+it reads the file and uses the username/password combinations found there. If the file 
+does not exist, it prompts the user for a username and password. 
+
+The password is copied to the clipboard for convenience. A command is constructed using 
+the mssqlclient.py tool, and it is then executed to initiate the connection to the MSSQL 
+server.
+
+Args:
+    line (str): The password input from the command line or an empty string if not provided.
+
+Returns:
+    None
+
+## getadusers
+Executes the GetADUsers.py script to retrieve Active Directory users.
+
+The function retrieves the necessary parameters (domain controller IP and domain) from the 
+instance's parameter dictionary. If a credentials file exists in the 'sessions_dir', 
+it reads the file and uses the username/password combinations found there. If the file 
+does not exist, it prompts the user for a username and password.
+
+The password is copied to the clipboard for convenience. A command is constructed using 
+the GetADUsers.py tool, and it is then executed to enumerate Active Directory users.
+
+Args:
+    line (str): The password input from the command line or an empty string if not provided.
+
+Returns:
+    None
 
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.

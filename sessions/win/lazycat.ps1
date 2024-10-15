@@ -46,12 +46,15 @@ function client_handler {
 function server_loop {
     $listener = [System.Net.Sockets.TcpListener]::new($target, $port)
     $listener.Start()
-    Write-Host "Listening on $target:$port..."
+    Write-Host ("Listening on {0}:{1}..." -f $target, $port)
+    
     while ($true) {
         $client = $listener.AcceptTcpClient()
         Start-Job -ScriptBlock { param($c) client_handler -client $c } -ArgumentList $client
     }
 }
+
+
 
 function client_sender {
     param($buffer)

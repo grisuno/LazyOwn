@@ -1513,21 +1513,6 @@ No description available.
 <!-- START COMMANDS -->
 # COMMANDS.md Documentation  by readmeneitor.py
 
-## secretsdump
-Executes the secretsdump.py script to extract NTLM hashes and credentials from the specified domain controller.
-
-This function retrieves the necessary parameters (domain controller IP and domain) from the instance's
-parameter dictionary. It checks for a credentials file in the 'sessions' directory. If the file exists,
-it reads the username and password combinations from it. If not, it prompts the user for input. The password
-is copied to the clipboard for convenience. A command is constructed using the secretsdump.py tool, and it is
-executed to perform the dump.
-
-Args:
-    line (str): The username input from the command line or an empty string if not provided.
-
-Returns:
-    None
-
 ## __init__
 Initializer for the LazyOwnShell class.
 
@@ -7739,6 +7724,13 @@ Helper function to alternate the case of characters in a string.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test): deploy \n\n Version: release/0.1.63 \n\n  \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - payload.json - sessions/users.txt - sessions/win/LazyOwnEvilWMI.ps1 - sessions/win/lazycat.ps1\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 14 07:50:57 2024 -0300 \n\n Hora: 1728903057
 
 
 ### Refactorización

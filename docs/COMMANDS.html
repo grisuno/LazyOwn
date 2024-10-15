@@ -174,19 +174,6 @@
 </header>
 <h1 id="commands.md-documentation-by-readmeneitor.py">COMMANDS.md
 Documentation by readmeneitor.py</h1>
-<h2 id="secretsdump">secretsdump</h2>
-<p>Executes the secretsdump.py script to extract NTLM hashes and
-credentials from the specified domain controller.</p>
-<p>This function retrieves the necessary parameters (domain controller
-IP and domain) from the instance’s parameter dictionary. It checks for a
-credentials file in the ‘sessions’ directory. If the file exists, it
-reads the username and password combinations from it. If not, it prompts
-the user for input. The password is copied to the clipboard for
-convenience. A command is constructed using the secretsdump.py tool, and
-it is executed to perform the dump.</p>
-<p>Args: line (str): The username input from the command line or an
-empty string if not provided.</p>
-<p>Returns: None</p>
 <h2 id="init"><strong>init</strong></h2>
 <p>Initializer for the LazyOwnShell class.</p>
 <p>This method sets up the initial parameters and scripts for an
@@ -3576,7 +3563,7 @@ user, defaulting to ‘example.com’.</p>
 need to provide a file containing URLs or a single URL to capture.
 :param line: Not used directly but reserved for future use. :returns:
 None</p>
-<h2 id="secretsdump-1">secretsdump</h2>
+<h2 id="secretsdump">secretsdump</h2>
 <p>Run secretsdump.py with the provided domain, username, password, and
 IP address.</p>
 <p>:param line: This parameter is not used in the function but can be

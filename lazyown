@@ -14300,7 +14300,7 @@ if __name__ == "__main__":
 
     if NOBANNER is False:
         print(
-            f"    {BG_BLACK}{RED}{BANNER}{MAGENTA}{BOLD}Autor: {CYAN}{BOLD}{BG_RED}grisUN0{RESET}"
+            f"    {RED}{BANNER}{MAGENTA}{BOLD}Autor: {CYAN}{BOLD}{BG_RED}grisUN0{RESET}"
         )
 
     else:

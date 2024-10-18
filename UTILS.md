@@ -728,6 +728,30 @@ Returns:
 str: The hash content from the selected file as a single string. If no files are found or an invalid
      selection is made, an empty string is returned.
 
+## is_digit
+Check if the given character is a digit.
+
+Args:
+    the_digit (str): The character to check.
+
+Returns:
+    bool: True if the character is a digit, False otherwise.
+
+## crack_password
+Crack a Cisco Type 7 password.
+
+Args:
+    crypttext (str): The encrypted password in Type 7 format.
+
+Returns:
+    str: The cracked plaintext password or an empty string if invalid.
+
+## get_terminal_size
+No description available.
+
+## halp
+No description available.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 

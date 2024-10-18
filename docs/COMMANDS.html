@@ -4215,6 +4215,19 @@ crawling level, encoding, and other XSStrike options.</p>
 <p>Returns: None</p>
 <p>Example: xsstrike -u http://example.com/search.php?q=query –crawl -l
 3</p>
+<h2 id="penelope">penelope</h2>
+<p>Command penelope: Installs and runs Penelope for handling reverse and
+bind shells.</p>
+<p>This function performs the following tasks: 1. Checks if Penelope is
+already cloned in the external/.exploit directory. 2. Clones the
+Penelope repository if not present. 3. Prompts the user for various
+options to configure and run Penelope. 4. Executes Penelope with the
+specified options, supporting multiple features like reverse shell, bind
+shell, file server, etc.</p>
+<p>Args: line (str): Optional argument for specifying the port and other
+Penelope options.</p>
+<p>Returns: None</p>
+<p>Example: penelope 5555 -i eth0</p>
 <h2 id="find_tgts">find_tgts</h2>
 <p>Finds and returns a list of target hosts with port 445 open in the
 specified subnet.</p>

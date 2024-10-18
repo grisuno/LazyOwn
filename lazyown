@@ -12509,7 +12509,6 @@ class LazyOwnShell(Cmd):
             print_msg("1. Install using Apt")
             print_msg("2. Install using Cargo")
 
-            # Line: 12345 xD
             choice = input("Enter choice (1 or 2): ").strip()
 
             if choice == '1':
@@ -14597,6 +14596,117 @@ class LazyOwnShell(Cmd):
         command = f"python {xsstrike_dir}/xsstrike.py -u {url} {data_flag} {encode_flag} {crawl_flag} {fuzzer_flag} {path_option}"
 
         print_msg(f"Running XSStrike scan: {command}")
+        os.system(command)
+        return
+
+    def do_penelope(self, line):
+        """
+        Command penelope: Installs and runs Penelope for handling reverse and bind shells.
+
+        This function performs the following tasks:
+        1. Checks if Penelope is already cloned in the external/.exploit directory.
+        2. Clones the Penelope repository if not present.
+        3. Prompts the user for various options to configure and run Penelope.
+        4. Executes Penelope with the specified options, supporting multiple features like reverse shell, bind shell, file server, etc.
+
+        Args:
+            line (str): Optional argument for specifying the port and other Penelope options.
+
+        Returns:
+            None
+
+        Example:
+            penelope 5555 -i eth0
+        """
+        import os
+
+        path = os.getcwd()
+        exploit_dir = os.path.join(path, "external/.exploit")
+        penelope_url = "https://github.com/brightio/penelope.git"
+        penelope_dir = os.path.join(exploit_dir, "penelope")
+        default_port = self.params["lport"]
+        os.makedirs(exploit_dir, exist_ok=True)
+
+        if not os.path.exists(penelope_dir):
+            print_msg("Cloning Penelope repository...")
+            os.system(f"git clone {penelope_url} {penelope_dir}")
+        else:
+            print_msg("Penelope already cloned, skipping cloning.")
+
+        if not line:
+            port = input(f"    {GREEN}[!] Enter the port to listen/connect to (default {default_port}): ").strip() or default_port
+            interface = input("    [?] Enter the interface or IP address to listen on (optional, default is 0.0.0.0): ").strip() or "0.0.0.0"
+            connect = input("    [?] Enter the bind shell host (optional): ").strip()
+            show_payloads = input("    [?] Show sample payloads for reverse shell? (y/n): ").strip().lower() == 'y'
+            list_interfaces = input("    [?] Show the available network interfaces? (y/n): ").strip().lower() == 'y'
+            maintain_shells = input("    [?] Maintain total shells per target? Enter number (optional): ").strip()
+            serve_files = input("    [?] Serve files via HTTP? (y/n): ").strip().lower() == 'y'
+            file_server_port = input("    [?] Enter file server port (default 8000): ").strip() or "8000"
+            file_server_password = input("    [?] Enter URL prefix password (optional): ").strip()
+        else:
+            args = line.split()
+            port = args[0] if len(args) > 0 else default_port
+            interface = ""
+            connect = ""
+            show_payloads = False
+            list_interfaces = False
+            maintain_shells = ""
+            serve_files = False
+            file_server_port = "8000"
+            file_server_password = ""
+            
+            i_flag = False
+            c_flag = False
+            s_flag = False
+            
+            for i in range(1, len(args)):
+                if args[i] == '-i':
+                    i_flag = True
+                    continue
+                if args[i] == '-c':
+                    c_flag = True
+                    continue
+                if args[i] == '-s':
+                    s_flag = True
+                    continue
+                
+                if i_flag:
+                    interface = args[i]
+                    i_flag = False
+                elif c_flag:
+                    connect = args[i]
+                    c_flag = False
+                elif s_flag:
+                    file_server_port = args[i]
+                    s_flag = False
+                elif args[i] == '-a':
+                    show_payloads = True
+                elif args[i] == '-l':
+                    list_interfaces = True
+                elif args[i].startswith('-m'):
+                    maintain_shells = args[i+1]
+                elif args[i] == '-pass':
+                    file_server_password = args[i+1]
+            
+        command = f"python3 {penelope_dir}/penelope.py {port}"
+        if interface:
+            command += f" -i {interface}"
+        if connect:
+            command += f" -c {connect}"
+        if show_payloads:
+            command += " -a"
+        if list_interfaces:
+            command += " -l"
+        if maintain_shells:
+            command += f" -m {maintain_shells}"
+        if serve_files:
+            command += " -s"
+            if file_server_port:
+                command += f" -p {file_server_port}"
+            if file_server_password:
+                command += f" -pass {file_server_password}"
+        
+        print_msg(f"Running Penelope with command: {command}")
         os.system(command)
         return
 

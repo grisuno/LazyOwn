@@ -42,6 +42,7 @@ import subprocess
 import urllib.parse
 import urllib.request
 import importlib.util
+from PIL import Image
 from itertools import product
 from bs4 import BeautifulSoup
 from pykeepass import PyKeePass
@@ -77,7 +78,7 @@ COMMAND = None
 RUN_AS_ROOT = False
 os.environ['OPENSSL_CONF'] = '/usr/lib/ssl/openssl.cnf'
 global payload_url, target_domain, concurrency, request_timeout, include_subdomains
-BANNER = f"""{GREEN}
+OLD_BANNER = f"""{GREEN}
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣠⡤⠴⠶⠖⠒⠛⠛⠀⠀⠀⠒⠒⢰⠖⢠⣤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣭⠷⠞⠉⠫⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠁⠀⠈⠉⠒⠲⠤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣿⣿⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠲⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -120,8 +121,8 @@ BANNER = f"""{GREEN}
  ░       ░▒ ░ ▒░  ▒   ▒▒ ░░  ░      ░ ░ ░  ░  ▒ ░ ░    ░ ▒ ▒░   ░▒ ░ ▒░░ ░▒ ▒░
  ░ ░     ░░   ░   ░   ▒   ░      ░      ░     ░   ░  ░ ░ ░ ▒    ░░   ░ ░ ░░ ░ 
           ░           ░  ░       ░      ░  ░    ░        ░ ░     ░     ░  ░   
-    [⚠] Starting 👽 LazyOwn Framew0rk ☠ [;,;] """
-
+    [⚠] Starting 👽 LazyOwn RedTeam Framew0rk ☠ [;,;] """
+BANNER = "[⚠] Starting 👽 LazyOwn RedTeam Framew0rk ☠ [;,;] "
 def parse_ip_mac(input_string):
     """
     Extracts IP and MAC addresses from a formatted input string using a regular expression.
@@ -1366,7 +1367,7 @@ def generate_random_cve_id():
     return f"CVE-{year}-{code}"
 
 
-def get_credentials():
+def get_credentials(file = None):
     """
     Searches for credential files with the pattern 'credentials*.txt' and allows the user to select one.
     
@@ -1394,7 +1395,8 @@ def get_credentials():
     except (ValueError, IndexError):
         print_error("Invalid selection.")
         return []
-    
+    if file == True:
+        return selected_file
     credentials = []
     with open(selected_file, "r") as file:
         for line in file:
@@ -1750,6 +1752,75 @@ def get_hash(dir = None):
         print_error(f"Failed to read the hash file: {str(e)}")
         return ""
 
+def is_digit(the_digit):
+    """Check if the given character is a digit.
+
+    Args:
+        the_digit (str): The character to check.
+
+    Returns:
+        bool: True if the character is a digit, False otherwise.
+    """
+    return the_digit in '0123456789'
+
+def crack_password(crypttext):
+    """Crack a Cisco Type 7 password.
+
+    Args:
+        crypttext (str): The encrypted password in Type 7 format.
+
+    Returns:
+        str: The cracked plaintext password or an empty string if invalid.
+    """
+    crypttext = crypttext.upper()
+    plaintext = ''
+    xlat = "dsfd;kfoA,.iyewrkldJKDHSUBsgvca69834ncxv9873254k;fg87"
+    seed, val = 0, 0
+
+    if len(crypttext) % 2 != 0:
+        return ""
+
+    seed = (ord(crypttext[0]) - 0x30) * 10 + ord(crypttext[1]) - 0x30
+
+    if seed > 15 or not is_digit(crypttext[0]) or not is_digit(crypttext[1]):
+        return ""
+
+    for i in range(2, len(crypttext)):
+        val *= 16
+
+        if is_digit(crypttext[i]):
+            val += ord(crypttext[i]) - 0x30
+        elif 'A' <= crypttext[i] <= 'F':
+            val += ord(crypttext[i]) - ord('A') + 0x0A
+        else:
+            return ""
+
+        if i % 2 != 0:
+            plaintext += chr(val ^ ord(xlat[seed]))
+            seed = (seed + 1) % len(xlat)
+            val = 0
+
+    return plaintext
+
+def get_terminal_size():
+    try:
+        size = os.get_terminal_size(sys.stdout.fileno())
+        return size.lines, size.columns
+    except Exception as e:
+        print_error("Cannot get the size:", e)
+        return None, None    
+def halp():
+    print(f"    {RED}[;,;]{GREEN} LazyOwn {CYAN}{version}{RESET}")
+    print(f"    {GREEN}Usage: {WHITE}./run {GREEN}[Options]{RESET}")
+    print(f"    {YELLOW}Options:")
+    print(f"    {GREEN}  --help             Show this help panel.")
+    print(f"    {GREEN}  -v                 Show version.")
+    print(f"    {GREEN}  -p <payloadN.json> Exec with diferent payload.json example. ./run -p payload1.json, (Especial to RedTeams)")
+    print(f"    {GREEN}  -c <comando>       Exec an command LazyOwn example: ping")
+    print(f"    {GREEN}  --no-banner        No Banner{RESET}")
+    print(f"    {GREEN}  -s                 Run as r00t {RESET}")
+    print(f"    {GREEN}  --old-banner       Show old Banner{RESET}")
+    sys.exit(0)    
 
 signal.signal(signal.SIGINT, signal_handler)
 arguments = sys.argv[1:]  
@@ -1757,21 +1828,13 @@ arguments = sys.argv[1:]
 
 for arg in arguments:
     if arg == "--help":
-        print(f"    {RED}[;,;]{GREEN} LazyOwn {CYAN}{version}{RESET}")
-        print(f"    {GREEN}Uso: {WHITE}./run {GREEN}[opciones]{RESET}")
-        print(f"    {YELLOW}Opciones:")
-        print(f"    {BLUE}  --help             Muestra esta ayuda")
-        print(f"    {BLUE}  -v                 Muestra la version")
-        print(f"    {BLUE}  -p <payloadN.json> Ejecuta LazyOwn con un payload.json diferente ejemplo ./run -p payload1.json, (Especial para Red Teams)")
-        print(f"    {BLUE}  -c <comando>       Ejecuta un comando del LazyOwn ej: ping")
-        print(f"    {BLUE}  --no-banner        No muestra el Banner{RESET}")
-        print(f"    {BLUE}  -s                 Run as r00t {RESET}")
-        sys.exit(0)
+        halp()
 
     elif arg == "-v":
         print_msg(f"LazyOwn Framework: {version}")
         sys.exit(0)
-
+    elif arg == "-h":
+        halp()
     elif arg == "--no-banner":
         NOBANNER = True
 
@@ -1779,14 +1842,17 @@ for arg in arguments:
         RUN_AS_ROOT = True
 
     elif arg.startswith("-c"):
-        print_msg(f"Ejecutando comando: opción {arg}")
+        print_msg(f"Exec: option {arg}")
         break
     elif arg.startswith("-p"):
-        print_msg(f"Cargando Payload: opción {arg}")
+        print_msg(f"Load Payload: option {arg}")
         break
-        
+    elif arg.startswith("--old-banner"):
+        BANNER = OLD_BANNER
+        break
+      
     else:
-        print_error(f"Argumento no reconocido: {arg}")
+        print_error(f"Error: Wrong argument: {arg}")
         sys.exit(2)
 
 if RUN_AS_ROOT:

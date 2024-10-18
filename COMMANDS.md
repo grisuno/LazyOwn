@@ -6106,6 +6106,24 @@ Returns:
 Example:
     xsstrike -u http://example.com/search.php?q=query --crawl -l 3
 
+## penelope
+Command penelope: Installs and runs Penelope for handling reverse and bind shells.
+
+This function performs the following tasks:
+1. Checks if Penelope is already cloned in the external/.exploit directory.
+2. Clones the Penelope repository if not present.
+3. Prompts the user for various options to configure and run Penelope.
+4. Executes Penelope with the specified options, supporting multiple features like reverse shell, bind shell, file server, etc.
+
+Args:
+    line (str): Optional argument for specifying the port and other Penelope options.
+
+Returns:
+    None
+
+Example:
+    penelope 5555 -i eth0
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 

@@ -7643,6 +7643,24 @@ Returns:
 Example:
     xsstrike -u http://example.com/search.php?q=query --crawl -l 3
 
+## penelope
+Command penelope: Installs and runs Penelope for handling reverse and bind shells.
+
+This function performs the following tasks:
+1. Checks if Penelope is already cloned in the external/.exploit directory.
+2. Clones the Penelope repository if not present.
+3. Prompts the user for various options to configure and run Penelope.
+4. Executes Penelope with the specified options, supporting multiple features like reverse shell, bind shell, file server, etc.
+
+Args:
+    line (str): Optional argument for specifying the port and other Penelope options.
+
+Returns:
+    None
+
+Example:
+    penelope 5555 -i eth0
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 
@@ -7860,6 +7878,13 @@ Helper function to alternate the case of characters in a string.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Otros
+
+### Otros
+
+  *   * feature(feat): new commands documented at COMMANDS.md \n\n Version: release/0.1.64 \n\n xsstrike, breacher, parth, blazy, loxs, crack_cisco_7_password,  and new banner in colors ;) and options --old-banner to see the old banner \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - lazyown - payload.json - sessions/download_resources.sh - sessions/users.txt - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Oct 15 23:55:33 2024 -0300 \n\n Hora: 1729047333
 
 
 ### Pruebas

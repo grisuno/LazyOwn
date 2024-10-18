@@ -48,6 +48,7 @@ download() {
         "wget https://raw.githubusercontent.com/rebootuser/LinEnum/refs/heads/master/LinEnum.sh"
         "wget https://eternallybored.org/misc/netcat/netcat-win32-1.12.zip"
         "wget https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/refs/heads/dev/Recon/PowerView.ps1"
+        "wget https://download.sysinternals.com/files/Procdump.zip"
     )
 
     # Imprime los últimos argumentos de cada comando

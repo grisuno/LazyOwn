@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Otros
+
+### Otros
+
+  *   * feature(feat): new commands documented at COMMANDS.md \n\n Version: release/0.1.64 \n\n xsstrike, breacher, parth, blazy, loxs, crack_cisco_7_password,  and new banner in colors ;) and options --old-banner to see the old banner \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - lazyown - payload.json - sessions/download_resources.sh - sessions/users.txt - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Oct 15 23:55:33 2024 -0300 \n\n Hora: 1729047333
+
+
 ### Pruebas
 
 ### Otros

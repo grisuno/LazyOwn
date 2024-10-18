@@ -53,10 +53,9 @@ def main():
 
     rows, columns = get_terminal_size()
     if rows and columns:
-        if columns < 200:
-            image_res = 50
-        elif columns > 200:
-            image_res = 100
+        #Make responsive image ;) feel like frontend 
+        image_res = int(columns/2)
+       
 
     if '-i' in sys.argv or '--image' in sys.argv:
         try:

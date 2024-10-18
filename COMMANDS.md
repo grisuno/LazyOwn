@@ -5994,6 +5994,118 @@ Args:
 Returns:
     None
 
+## crack_cisco_7_password
+Crack a Cisco Type 7 password hash and display the plaintext.
+
+This command takes an encrypted Cisco Type 7 password hash as input,
+processes it to recover the original plaintext password, and prints the
+result to the console.
+
+Args:
+    line (str): The encrypted password hash in Cisco Type 7 format.
+
+Returns:
+    None: The function prints the plaintext password directly to the console.
+
+## loxs
+Command loxs: Installs and runs Loxs for multi-vulnerability web application scanning.
+
+This function performs the following tasks:
+1. Checks if Loxs is already cloned in the external/.exploit directory.
+2. Clones the Loxs repository if not present.
+3. Installs required dependencies.
+4. Prompts the user for a URL or file input, custom payload file, success criteria, and thread count.
+5. Executes Loxs for scanning vulnerabilities like LFI, OR, XSS, and SQLi.
+6. Displays real-time results and optionally saves vulnerable URLs.
+
+Args:
+    line (str): Optional argument for specifying the input URL or file, custom payload, and additional options.
+
+Returns:
+    None
+
+Example:
+    loxs --url target.com
+
+## blazy
+Command blazy: Installs and runs blazy for multi-vulnerability web application scanning.
+
+This function performs the following tasks:
+1. Checks if blazy is already cloned in the external/.exploit directory.
+2. Clones the blazy repository if not present.
+3. Installs required dependencies.
+4. Prompts the user for a URL or file input, custom payload file, success criteria, and thread count.
+5. Executes blazy for Bruteforce Login.
+6. Displays real-time results and optionally saves vulnerable URLs.
+
+Args:
+    line (str): Optional argument for specifying the input URL.
+
+Returns:
+    None
+
+Example:
+    python3 main.py -i target.com
+
+## parth
+Command parth: Installs and runs Parth for discovering vulnerable URLs and parameters.
+
+This function performs the following tasks:
+1. Checks if Parth is already cloned in the external/.exploit directory.
+2. Clones the Parth repository if not present.
+3. Installs required dependencies using pip3.
+4. Prompts the user for a URL, file input, or import option and allows for custom output such as JSON or saving parameter names.
+5. Executes Parth for scanning vulnerabilities like LFI, SSRF, SQLi, XSS, and open redirects.
+6. Displays real-time results and optionally saves output in a file.
+
+Args:
+    line (str): Optional argument for specifying the target domain, import file, or additional Parth options.
+
+Returns:
+    None
+
+Example:
+    parth -t example.com
+
+## breacher
+Command breacher: Installs and runs Breacher for finding admin login pages and EAR vulnerabilities.
+
+This function performs the following tasks:
+1. Checks if Breacher is already cloned in the external/.exploit directory.
+2. Clones the Breacher repository if not present.
+3. Installs required dependencies.
+4. Prompts the user for a target URL, file type (php, asp, html), custom paths, and thread options.
+5. Executes Breacher for scanning admin login pages and potential EAR vulnerabilities.
+6. Supports multi-threading and custom paths for enhanced scanning.
+
+Args:
+    line (str): Optional argument for specifying the target URL, file type, and additional Breacher options.
+
+Returns:
+    None
+
+Example:
+    breacher -u example.com --type php
+
+## xsstrike
+Command xsstrike: Installs and runs XSStrike for finding XSS vulnerabilities.
+
+This function performs the following tasks:
+1. Checks if XSStrike is already cloned in the external/.exploit directory.
+2. Clones the XSStrike repository if not present.
+3. Installs required dependencies.
+4. Prompts the user for a target URL, crawling level, request method, encoding, and additional XSStrike options.
+5. Executes XSStrike for testing vulnerabilities, supporting multiple features like fuzzing, blind XSS injection, crawling, and more.
+
+Args:
+    line (str): Optional argument for specifying the target URL, crawling level, encoding, and other XSStrike options.
+
+Returns:
+    None
+
+Example:
+    xsstrike -u http://example.com/search.php?q=query --crawl -l 3
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 

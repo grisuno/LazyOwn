@@ -14710,6 +14710,82 @@ class LazyOwnShell(Cmd):
         os.system(command)
         return
 
+    def do_v(self, arg):
+        """
+        Open a new window within a tmux session using the LazyOwn RedTeam Framework.
+
+        This method is designed to create a new vertical split window in an existing
+        tmux session, where the specified command will be executed. The command
+        used to open the new window is the `./run --no-banner` script, which is
+        intended for use within the LazyOwn RedTeam Framework environment.
+
+        The method first ensures that the specified tmux session is active by calling
+        the `ensure_tmux_session` function. If the session is not already running,
+        it will create a new one. After confirming that the session is active, it
+        proceeds to create a new vertical window with a specified size. The size of
+        the new window is currently set to 50% of the available terminal space.
+
+        Args:
+            arg (str): Additional arguments passed to the command, if any. This can be
+                        used to customize the behavior of the command executed in the
+                        new window. However, in the current implementation, this
+                        argument is not utilized and can be left as an empty string.
+
+        Example:
+            If this method is called within a command-line interface of the LazyOwn
+            RedTeam Framework, it will open a new vertical tmux window and execute
+            the `./run --no-banner` command within it.
+
+        Note:
+            - Ensure that tmux is installed and properly configured on the system.
+            - The method assumes that the session name is defined and accessible in
+            the scope where this method is called.
+        """
+        ensure_tmux_session(session_name) 
+        size = 50
+        print_msg(f"Open new Windows: {size}")
+        command = f"tmux split-window -v -t {session_name} -p {size} \"bash -c './run --no-banner' C-m\""
+        print_msg(command)
+        subprocess.run(command, shell=True)
+
+    def do_h(self, arg):
+        """
+        Open a new window within a tmux session using the LazyOwn RedTeam Framework.
+
+        This method is designed to create a new horizontal split window in an existing
+        tmux session, where the specified command will be executed. The command
+        used to open the new window is the `./run --no-banner` script, which is
+        intended for use within the LazyOwn RedTeam Framework environment.
+
+        The method first ensures that the specified tmux session is active by calling
+        the `ensure_tmux_session` function. If the session is not already running,
+        it will create a new one. After confirming that the session is active, it
+        proceeds to create a new horizontal window with a specified size. The size of
+        the new window is currently set to 50% of the available terminal space.
+
+        Args:
+            arg (str): Additional arguments passed to the command, if any. This can be
+                        used to customize the behavior of the command executed in the
+                        new window. However, in the current implementation, this
+                        argument is not utilized and can be left as an empty string.
+
+        Example:
+            If this method is called within a command-line interface of the LazyOwn
+            RedTeam Framework, it will open a new horizontal tmux window and execute
+            the `./run --no-banner` command within it.
+
+        Note:
+            - Ensure that tmux is installed and properly configured on the system.
+            - The method assumes that the session name is defined and accessible in
+            the scope where this method is called.
+        """
+        ensure_tmux_session(session_name) 
+        size = 50  
+        print_msg(f"Open new Windows: {size}")
+        command = f"tmux split-window -h -t {session_name} -p {size} \"bash -c './run --no-banner' C-m\""
+        print_msg(command)
+        subprocess.run(command, shell=True)
+
 if __name__ == "__main__":
     p = LazyOwnShell()
     p.onecmd("p")

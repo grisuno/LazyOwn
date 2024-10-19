@@ -1,9 +1,3 @@
-Jason
-Chase
-support
-Hazard
-WDAGUtilityAccount
-DefaultAccount
 Administrator
 root
 guest

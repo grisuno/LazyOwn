@@ -3238,17 +3238,16 @@ class LazyOwnShell(Cmd):
 
         This command will enumerate SMB shares and perform basic SMB checks against the specified target IP address.
         """
-
+        path = os.getcwd()
         rhost = self.params["rhost"]
         if check_rhost(rhost):
             if line:
                 if line.startswith("rid"):
-                    path_cred = get_credentials(True)
-
-                    if not os.path.exists(path_cred):
-                        username = input("    [!] Enter the username with domain (e.g., 'user@domain.com'): ").strip()
-                        password = input("    [!] Enter the password: ").strip()
+                    if not os.path.exists(f"{path}/sessions/credentials.txt"):
+                        username = input("    [!] Enter the username with domain (default 'Administrator'): ").strip() or 'administrator'
+                        password = input("    [!] Enter the password (default: admin): ").strip() or 'admin'
                     else:
+                        path_cred = get_credentials(True)
                         with open(path_cred, "r") as file:
                             for file_line in file:
                                 params = file_line.split(":")
@@ -11413,6 +11412,7 @@ class LazyOwnShell(Cmd):
                 print_error("Invalid input. Please enter a valid number.")
                 return
         rhost = self.params["rhost"]
+        path = os.getcwd()
         if line:
             if line.startswith("rid"):
                 command = f"netexec smb {rhost} -u guest -p '' --rid-brute > sessions/users_{rhost}.txt"
@@ -11440,6 +11440,9 @@ class LazyOwnShell(Cmd):
             verbose = input("    [!] Enable verbose mode? (yes/no, default: no): ").strip().lower() == "yes"
             debug = input("    [!] Enable debug mode? (yes/no, default: no): ").strip().lower() == "yes"
 
+            if not os.path.exists(f"{path}/sessions/credentials.txt"):
+                print_error("Not file credentials.txt in sessions direcotry to create use some like this: createcredentials admin:admin")
+                return
 
             path_cred = get_credentials(True)
 

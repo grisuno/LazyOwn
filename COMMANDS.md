@@ -6124,6 +6124,66 @@ Returns:
 Example:
     penelope 5555 -i eth0
 
+## v
+Open a new window within a tmux session using the LazyOwn RedTeam Framework.
+
+This method is designed to create a new vertical split window in an existing
+tmux session, where the specified command will be executed. The command
+used to open the new window is the `./run --no-banner` script, which is
+intended for use within the LazyOwn RedTeam Framework environment.
+
+The method first ensures that the specified tmux session is active by calling
+the `ensure_tmux_session` function. If the session is not already running,
+it will create a new one. After confirming that the session is active, it
+proceeds to create a new vertical window with a specified size. The size of
+the new window is currently set to 50% of the available terminal space.
+
+Args:
+    arg (str): Additional arguments passed to the command, if any. This can be
+                used to customize the behavior of the command executed in the
+                new window. However, in the current implementation, this
+                argument is not utilized and can be left as an empty string.
+
+Example:
+    If this method is called within a command-line interface of the LazyOwn
+    RedTeam Framework, it will open a new vertical tmux window and execute
+    the `./run --no-banner` command within it.
+
+Note:
+    - Ensure that tmux is installed and properly configured on the system.
+    - The method assumes that the session name is defined and accessible in
+    the scope where this method is called.
+
+## h
+Open a new window within a tmux session using the LazyOwn RedTeam Framework.
+
+This method is designed to create a new horizontal split window in an existing
+tmux session, where the specified command will be executed. The command
+used to open the new window is the `./run --no-banner` script, which is
+intended for use within the LazyOwn RedTeam Framework environment.
+
+The method first ensures that the specified tmux session is active by calling
+the `ensure_tmux_session` function. If the session is not already running,
+it will create a new one. After confirming that the session is active, it
+proceeds to create a new horizontal window with a specified size. The size of
+the new window is currently set to 50% of the available terminal space.
+
+Args:
+    arg (str): Additional arguments passed to the command, if any. This can be
+                used to customize the behavior of the command executed in the
+                new window. However, in the current implementation, this
+                argument is not utilized and can be left as an empty string.
+
+Example:
+    If this method is called within a command-line interface of the LazyOwn
+    RedTeam Framework, it will open a new horizontal tmux window and execute
+    the `./run --no-banner` command within it.
+
+Note:
+    - Ensure that tmux is installed and properly configured on the system.
+    - The method assumes that the session name is defined and accessible in
+    the scope where this method is called.
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 

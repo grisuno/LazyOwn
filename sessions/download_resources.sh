@@ -49,6 +49,7 @@ download() {
         "wget https://eternallybored.org/misc/netcat/netcat-win32-1.12.zip"
         "wget https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/refs/heads/dev/Recon/PowerView.ps1"
         "wget https://download.sysinternals.com/files/Procdump.zip"
+        "wget https://raw.githubusercontent.com/swisskyrepo/PayloadsAllTheThings/master/Upload%20Insecure%20Files/Extension%20PHP/extensions.lst"
     )
 
     # Imprime los últimos argumentos de cada comando

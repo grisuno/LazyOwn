@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): monteverde machine \n\n Version: release/0.1.65 \n\n ad_getpass, some refactors. \n\n Modified file(s):\n- COMMANDS.md - Invoke-PowerShellTcp.ps1 - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - external/install_external.sh - lazyown - modules/credentials.json - payload.json - sessions/download_resources.sh\nDeleted file(s):\n- Invoke-PowerShellTcp.ps1\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Oct 19 01:10:29 2024 -0300 \n\n Hora: 1729311029
+
+
 ### Pruebas
 
 ### Otros

@@ -750,7 +750,60 @@ Returns:
 No description available.
 
 ## halp
-No description available.
+Display the help panel for the LazyOwn RedTeam Framework.
+
+This function prints usage instructions, options, and descriptions for 
+running the LazyOwn framework. It provides users with an overview of 
+command-line options that can be used when executing the `./run` command.
+
+The output includes the current version of the framework and various 
+options available for users, along with a brief description of each option.
+
+Options include:
+    - `--help`: Displays the help panel.
+    - `-v`: Shows the version of the framework.
+    - `-p <payloadN.json>`: Executes the framework with a specified payload 
+      JSON file. This option is particularly useful for Red Teams.
+    - `-c <command>`: Executes a specific command using LazyOwn, for 
+      example, `ping`.
+    - `--no-banner`: Runs the framework without displaying the banner.
+    - `-s`: Runs the framework with root privileges.
+    - `--old-banner`: Displays the old banner.
+
+Example:
+    To see the help panel, call the function as follows:
+    
+    >>> halp()
+
+Note:
+    - This function exits the program after displaying the help information,
+      using `sys.exit(0)`.
+
+## ensure_tmux_session
+Ensure that a tmux session is active.
+
+This function checks whether a specified tmux session is currently running.
+If the session does not exist, it creates a new tmux session with the specified
+name and executes the command to run the LazyOwn RedTeam Framework script.
+
+The function uses the `tmux has-session` command to check for the existence
+of the session. If the session is not found (i.e., the return code is not zero),
+it will create a new tmux session in detached mode and run the command 
+`./run --no-banner` within that session.
+
+Args:
+    session_name (str): The name of the tmux session to check or create.
+
+Example:
+    To ensure that a tmux session named 'lazyown_sessions' is active,
+    call the function as follows:
+    
+    >>> ensure_tmux_session('lazyown_sessions')
+
+Note:
+    - Ensure that tmux is installed and properly configured on the system.
+    - The command executed within the tmux session must be valid and
+      accessible in the current environment.
 
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 

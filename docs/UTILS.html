@@ -725,7 +725,46 @@ invalid.</p>
 <h2 id="get_terminal_size">get_terminal_size</h2>
 <p>No description available.</p>
 <h2 id="halp">halp</h2>
-<p>No description available.</p>
+<p>Display the help panel for the LazyOwn RedTeam Framework.</p>
+<p>This function prints usage instructions, options, and descriptions
+for running the LazyOwn framework. It provides users with an overview of
+command-line options that can be used when executing the
+<code>./run</code> command.</p>
+<p>The output includes the current version of the framework and various
+options available for users, along with a brief description of each
+option.</p>
+<p>Options include: - <code>--help</code>: Displays the help panel. -
+<code>-v</code>: Shows the version of the framework. -
+<code>-p &lt;payloadN.json&gt;</code>: Executes the framework with a
+specified payload JSON file. This option is particularly useful for Red
+Teams. - <code>-c &lt;command&gt;</code>: Executes a specific command
+using LazyOwn, for example, <code>ping</code>. -
+<code>--no-banner</code>: Runs the framework without displaying the
+banner. - <code>-s</code>: Runs the framework with root privileges. -
+<code>--old-banner</code>: Displays the old banner.</p>
+<p>Example: To see the help panel, call the function as follows:</p>
+<pre><code>&gt;&gt;&gt; halp()</code></pre>
+<p>Note: - This function exits the program after displaying the help
+information, using <code>sys.exit(0)</code>.</p>
+<h2 id="ensure_tmux_session">ensure_tmux_session</h2>
+<p>Ensure that a tmux session is active.</p>
+<p>This function checks whether a specified tmux session is currently
+running. If the session does not exist, it creates a new tmux session
+with the specified name and executes the command to run the LazyOwn
+RedTeam Framework script.</p>
+<p>The function uses the <code>tmux has-session</code> command to check
+for the existence of the session. If the session is not found (i.e., the
+return code is not zero), it will create a new tmux session in detached
+mode and run the command <code>./run --no-banner</code> within that
+session.</p>
+<p>Args: session_name (str): The name of the tmux session to check or
+create.</p>
+<p>Example: To ensure that a tmux session named ‘lazyown_sessions’ is
+active, call the function as follows:</p>
+<pre><code>&gt;&gt;&gt; ensure_tmux_session(&#39;lazyown_sessions&#39;)</code></pre>
+<p>Note: - Ensure that tmux is installed and properly configured on the
+system. - The command executed within the tmux session must be valid and
+accessible in the current environment.</p>
 <h2 id="wrapper">wrapper</h2>
 <p>internal wrapper of internal function to implement multiples rhost to
 operate.</p>

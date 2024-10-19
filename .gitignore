@@ -35,3 +35,5 @@ modules_ext/
 vpn/
 sessions/users.txt
 payload_*.json
+*.dmp
+firefox.dmp

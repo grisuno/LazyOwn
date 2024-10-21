@@ -1576,6 +1576,18 @@ Note:
     - The command executed within the tmux session must be valid and
       accessible in the current environment.
 
+## get_xml
+Retrieves a list of XML files from the specified directory.
+
+Args:
+    directory (str): The directory to search for XML files.
+
+Returns:
+    list: A list of XML filenames found in the specified directory.
+
+## get_domain_from_xml
+Extrae el primer dominio o dirección IP de un archivo XML de un escaneo Nmap.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 
@@ -7791,6 +7803,77 @@ Returns:
 Example:
     adgetpass MONTEVERDE ADSync 1 1852B527-DD4F-4ECF-B541-EFCCBFF29E31 194EC2FC-F186-46CF-B44D-071EB61F49CD
 
+## openredirex
+Command openredirex: Clones, installs, and runs OpenRedirex for testing open redirection vulnerabilities.
+
+This function performs the following tasks:
+1. Clones the OpenRedirex repository if not already cloned.
+2. Installs the required dependencies using the setup script.
+3. Prompts the user for required inputs like the URL list, payloads file, keyword, and concurrency level.
+4. Executes OpenRedirex to scan the provided URLs for open redirection vulnerabilities.
+
+Args:
+    line (str): Optional argument for specifying the URL list, payload file, keyword, and concurrency level.
+
+Returns:
+    None
+
+Example:
+    openredirex list_of_urls.txt payloads.txt FUZZ 50
+
+## feroxbuster
+Command feroxbuster: Installs and runs Feroxbuster for performing forced browsing and directory brute-forcing.
+
+This function performs the following tasks:
+1. Installs Feroxbuster using a `curl` command if it's not already installed.
+2. Prompts the user for required inputs like the target URL, wordlist, file extensions, and additional options.
+3. Executes Feroxbuster for directory enumeration and brute-force attacks.
+
+Args:
+    line (str): Optional argument for specifying the target URL, wordlist, and other Feroxbuster options.
+
+Returns:
+    None
+
+Example:
+    feroxbuster -u http://example.com -w wordlist.txt -x php,html
+
+## gowitness
+Command gowitness: Installs and runs Gowitness for screenshotting web services or network CIDR blocks.
+
+This function performs the following tasks:
+1. Ensures that Gowitness is installed (if not, installs it).
+2. Allows the user to select the scan type (single, scan, nmap, report).
+3. Based on the scan type, prompts for the appropriate input (URL or XML file).
+4. Allows the user to choose additional flags based on the scan type.
+5. Executes Gowitness with the chosen parameters.
+
+Args:
+    line (str): Optional argument for specifying the URL or scan type.
+
+Returns:
+    None
+
+Example:
+    gowitness nmap -f scan_results.xml --write-db
+
+## odat
+Command odat: Runs the ODAT sidguesser module to guess Oracle SIDs on a target Oracle database.
+
+This function performs the following tasks:
+1. Ensures that ODAT is installed (checks if 'odat.py' exists).
+2. Allows the user to specify the RHOST and port.
+3. Runs ODAT's 'sidguesser' module with the specified parameters.
+
+Args:
+    line (str): Optional argument for specifying additional ODAT options.
+
+Returns:
+    None
+
+Example:
+    odat
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 
@@ -8008,6 +8091,13 @@ Helper function to alternate the case of characters in a string.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test): test \n\n Version: release/0.1.65 \n\n test \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - payload1.json\nDeleted file(s):\n- payload1.json\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Oct 19 18:24:04 2024 -0300 \n\n Hora: 1729373044
 
 
 ### Nuevas características

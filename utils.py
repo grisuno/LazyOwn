@@ -1811,7 +1811,7 @@ def get_terminal_size():
     except Exception as e:
         print_error("Cannot get the size:", e)
         return None, None    
-        
+
 def halp():
     """
     Display the help panel for the LazyOwn RedTeam Framework.
@@ -1894,6 +1894,46 @@ def ensure_tmux_session(session_name):
         print_msg(command)
         os.system(command)
 
+def get_xml(directory):
+    """
+    Retrieves a list of XML files from the specified directory.
+
+    Args:
+        directory (str): The directory to search for XML files.
+
+    Returns:
+        list: A list of XML filenames found in the specified directory.
+    """
+    return [file for file in os.listdir(directory) if file.endswith(".xml")]
+
+def get_domain_from_xml(xml_file):
+    """
+    Extrae el primer dominio o dirección IP de un archivo XML de un escaneo Nmap.
+    """
+    domain = None
+
+    if not os.path.exists(xml_file):
+        print(f"[!] The XML file '{xml_file}' does not exist.")
+        return None
+
+    with open(xml_file, 'r') as file:
+        xml_content = file.read()
+
+    ip_match = re.search(r'<address addr="([\d\.]+)"', xml_content)
+
+    domain_match = re.search(r'<hostname name="([\w\.-]+)"', xml_content)
+
+    if domain_match:
+        domain = domain_match.group(1)
+    elif ip_match:
+        domain = ip_match.group(1)
+
+    if domain:
+        print(f"[+] Domain/IP found in XML: {domain} [👽]")
+    else:
+        print("[!] No domain or IP found in the XML file. [👽]")
+
+    return domain
 signal.signal(signal.SIGINT, signal_handler)
 arguments = sys.argv[1:]  
 

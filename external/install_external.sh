@@ -98,6 +98,9 @@ download() {
         "git clone https://github.com/synacktiv/CVE-2023-35001.git .exploit/CVE-2023-35001"
         "git clone https://github.com/jakabakos/CVE-2023-36664-Ghostscript-command-injection.git .exploit/CVE-2023-36664"
         "git clone https://github.com/dirkjanm/adconnectdump.git .exploit/adconnectdump"
+        "git clone https://github.com/SafeBreach-Labs/EDRaser .exploit/EDRaser"
+        "git clone https://github.com/SafeBreach-Labs/pwndsh.git .exploit/pwndsh"
+        "git cloen https://github.com/SafeBreach-Labs/QuickShell.git .exploit/QuickShell"
     )
     # Imprime los últimos argumentos de cada comando
     echo "    [+] Seleccione el número del comando que desea clonar:"

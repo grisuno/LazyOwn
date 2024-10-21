@@ -50,6 +50,7 @@ download() {
         "wget https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/refs/heads/dev/Recon/PowerView.ps1"
         "wget https://download.sysinternals.com/files/Procdump.zip"
         "wget https://raw.githubusercontent.com/swisskyrepo/PayloadsAllTheThings/master/Upload%20Insecure%20Files/Extension%20PHP/extensions.lst"
+        "wget https://github.com/SafeBreach-Labs/PoolParty/releases/download/PoolParty/PoolParty.exe"
     )
 
     # Imprime los últimos argumentos de cada comando

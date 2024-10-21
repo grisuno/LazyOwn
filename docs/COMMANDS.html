@@ -4340,6 +4340,33 @@ specified parameters.</p>
 options.</p>
 <p>Returns: None</p>
 <p>Example: odat</p>
+<h2 id="sireprat">sireprat</h2>
+<p>Command sireprat: Automates the setup and usage of SirepRAT to
+perform various attacks on a Windows IoT Core device.</p>
+<p>This function performs the following tasks: 1. Installs required
+dependencies and sets up SirepRAT if not already installed. 2. Prompts
+the user to select from predefined attacks, including retrieving system
+information, executing commands, saving registry keys, and copying
+files. 3. Executes the selected attack on the target device, using the
+remote host IP stored in self.params[“rhost”].</p>
+<p>Args: line (str): Optional argument for specifying attack type
+directly.</p>
+<p>Returns: None</p>
+<p>Example: sireprat</p>
+<h2 id="createtargets">createtargets</h2>
+<p>Generates hosts.txt, urls.txt, domains.txt, and targets.txt from
+multiple JSON payload files.</p>
+<p>This function scans the current directory for all JSON files with the
+format ‘payload_{variable}.json’, and extracts the ‘rhost’, ‘url’,
+‘domain’, and ‘subdomain’ fields from each file. It then writes these
+values into four separate text files: ‘hosts.txt’, ‘urls.txt’,
+‘domains.txt’, and ‘targets.txt’. The ‘targets.txt’ file contains the
+domain and subdomain in the format ‘{subdomain}.{domain}’ and
+‘{subdomain}.{url}’, with domains cleaned using the ‘get_domain’
+function.</p>
+<p>Parameters: line (str): An optional argument (unused in this
+function).</p>
+<p>Returns: None</p>
 <h2 id="find_tgts">find_tgts</h2>
 <p>Finds and returns a list of target hosts with port 445 open in the
 specified subnet.</p>

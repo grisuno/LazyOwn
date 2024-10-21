@@ -3736,7 +3736,7 @@ To manually run these tasks, you would need to:
 
 Note: This function assumes that `pwntomate.py` is available in the current working directory and is executable with Python 3.
 
-## alias
+## aliass
 Prints all configured aliases and their associated commands.
 
 1. Retrieves the list of aliases from the `LazyOwnShell` instance:
@@ -6271,6 +6271,38 @@ Returns:
 
 Example:
     odat
+
+## sireprat
+Command sireprat: Automates the setup and usage of SirepRAT to perform various attacks on a Windows IoT Core device.
+
+This function performs the following tasks:
+1. Installs required dependencies and sets up SirepRAT if not already installed.
+2. Prompts the user to select from predefined attacks, including retrieving system information, executing commands, saving registry keys, and copying files.
+3. Executes the selected attack on the target device, using the remote host IP stored in self.params["rhost"].
+
+Args:
+    line (str): Optional argument for specifying attack type directly.
+
+Returns:
+    None
+
+Example:
+    sireprat
+
+## createtargets
+Generates hosts.txt, urls.txt, domains.txt, and targets.txt from multiple JSON payload files.
+
+This function scans the current directory for all JSON files with the format 'payload_{variable}.json',
+and extracts the 'rhost', 'url', 'domain', and 'subdomain' fields from each file. It then writes these values into
+four separate text files: 'hosts.txt', 'urls.txt', 'domains.txt', and 'targets.txt'. The 'targets.txt' file contains
+the domain and subdomain in the format '{subdomain}.{domain}' and '{subdomain}.{url}', with domains cleaned using
+the 'get_domain' function.
+
+Parameters:
+line (str): An optional argument (unused in this function).
+
+Returns:
+None
 
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.

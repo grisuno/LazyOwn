@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Otros
+
+### Otros
+
+  *   * feature(feat): openredirex, feroxbuster, gowitness, odat \n\n Version: release/0.1.66 \n\n all documented at COMMANDS.md and new channel https://odysee.com/@KillerMonkyRecordz:d \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - lazyown - payload.json - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Oct 20 00:47:36 2024 -0300 \n\n Hora: 1729396056
+
+
 ### Pruebas
 
 ### Otros

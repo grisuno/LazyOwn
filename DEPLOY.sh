@@ -7,56 +7,44 @@ readonly README_FILE="README.md"
 UTILS_FILE="UTILS.md"
 COMMANDS_FILE="COMMANDS.md"
 
-FORCE_VERSION=""
+increment_version() {
+    local version=$1
+    local major minor patch
+    IFS='.' read -r major minor patch <<< "$version"
 
-# Función para procesar argumentos
-process_args() {
-    while [[ $# -gt 0 ]]; do
-        case $1 in
-            --force-version)
-                FORCE_VERSION="$2"
-                shift 2
-                ;;
-            *)
-                shift
-                ;;
-        esac
-    done
+    local increment_type=${2:-"patch"}  
+
+    case $increment_type in
+        major)
+            ((major++))
+            minor=0
+            patch=0
+            ;;
+        minor)
+            ((minor++))
+            patch=0
+            ;;
+        patch)
+            ((patch++))
+            ;;
+        *)
+            echo "Invalid increment type: $increment_type" >&2
+            return 1
+            ;;
+    esac
+
+    echo "$major.$minor.$patch"
 }
 
-process_args "$@"
+
+CURRENT_VERSION= echo "0.2.0"
+
+#TEST ME NEITOR
 
 if [[ "$1" != "--no-test" ]]; then
     
     python3 testmeneitor.py lazyown
 fi
-increment_version() {
-  if [[ -n "$FORCE_VERSION" ]]; then
-      NEW_VERSION="${FORCE_VERSION#release/}"  # Extrae la versión después de 'release/'
-  else
-      CURRENT_VERSION=$(git -C . describe --tags --abbrev=0 2>/dev/null || echo "0.2.0")
-      
-      case $TYPE in
-          feat|feature|fix|hotfix)
-              NEW_VERSION=$(increment_version $CURRENT_VERSION "patch")
-              ;;
-          refactor|docs|test)
-              NEW_VERSION=$CURRENT_VERSION
-              ;;
-          release)
-              NEW_VERSION=$(increment_version $CURRENT_VERSION "major")
-              ;;
-          patch)
-              NEW_VERSION=$(increment_version $CURRENT_VERSION "minor")
-              ;;
-          *)
-              echo "Invalid commit type: $TYPE" >&2
-              exit 1
-              ;;
-      esac
-  fi
-
-}
 
 
 rm d2*
@@ -64,6 +52,10 @@ rm d2*
 
 python3 readmeneitor.py lazyown
 python3 readmeneitor.py utils.py
+
+#Actualiza el README.md con los ultimos cambios
+
+
 
 update_section_md() {
     local start_comment="$1"
@@ -123,7 +115,7 @@ case $TYPE in
         
         NEW_VERSION=$(increment_version $CURRENT_VERSION "patch")
         ;;
-    refactor|docs|test|style|chore)
+    refactor|docs|test)
         
         NEW_VERSION=$CURRENT_VERSION
         ;;
@@ -266,4 +258,5 @@ git -C . add docs/CHANGELOG.html
 git -C . commit  -S --amend --no-edit
 git -C . tag -s $NEW_VERSION -m "Version $NEW_VERSION"
 git -C . push --follow-tags
+
 echo "[*] Cambios enviados al repositorio remoto con la nueva versión $NEW_VERSION."

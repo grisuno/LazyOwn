@@ -101,6 +101,7 @@ download() {
         "git clone https://github.com/SafeBreach-Labs/EDRaser .exploit/EDRaser"
         "git clone https://github.com/SafeBreach-Labs/pwndsh.git .exploit/pwndsh"
         "git cloen https://github.com/SafeBreach-Labs/QuickShell.git .exploit/QuickShell"
+        "git clone https://github.com/MHaggis/notes.git .exploit/notes_powershellz"
     )
     # Imprime los últimos argumentos de cada comando
     echo "    [+] Seleccione el número del comando que desea clonar:"

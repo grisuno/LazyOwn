@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Nuevo Release
+
+### Otros
+
+  *   * release(release): migration from cmd to cmd2 \n\n Version: release/0.0.0 \n\n Not fully tested yet but... here go... \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - modules/duckdns.sh - modules/lazyrtpflood.sh - modules/lazywps.sh\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 20:31:30 2024 -0300 \n\n Hora: 1729553490
+
+
 ### Pruebas
 
 ### Otros

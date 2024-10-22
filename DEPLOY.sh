@@ -4,7 +4,6 @@
 readonly CHANGELOG_FILE="CHANGELOG.md"
 readonly README_FILE="README.md"
 # Definir los archivos Markdown
-
 UTILS_FILE="UTILS.md"
 COMMANDS_FILE="COMMANDS.md"
 
@@ -36,6 +35,7 @@ increment_version() {
 
     echo "$major.$minor.$patch"
 }
+
 determine_increment_type() {
     if git log -1 --pretty=%B | grep -q '^feat'; then
         echo "minor"
@@ -45,13 +45,12 @@ determine_increment_type() {
         echo "none"
     fi
 }
-# Obtener la versión actual
+
+# Obtener la versión actual, comenzando en 0.2.0 si no hay tags
 CURRENT_VERSION=$(git -C . describe --tags --abbrev=0 2>/dev/null || echo "0.2.0")
 
-#TEST ME NEITOR
 # Revisa si el parámetro --no-test está presente
 if [[ "$1" != "--no-test" ]]; then
-    # Ejecuta el comando si --no-test no está presente
     python3 testmeneitor.py lazyown
 fi
 
@@ -61,9 +60,6 @@ rm d2*
 # Actualiza la documentación
 python3 readmeneitor.py lazyown
 python3 readmeneitor.py utils.py
-
-#Actualiza el README.md con los ultimos cambios
-
 
 # Función para actualizar una sección específica
 update_section_md() {
@@ -85,21 +81,17 @@ update_section_md "<!-- START CHANGELOG -->" "<!-- END CHANGELOG -->" "$CHANGELO
 echo "[*] El archivo $README_FILE ha sido actualizado con el contenido de UTILS.md, COMMANDS.md, y CHANGELOG.md."
 
 # Crea el readme en html
-
-pandoc $README_FILE -f markdown -t html -s -o  README.html --metadata title="README LazyOwn Framework Pentesting t00lz"
-
+pandoc $README_FILE -f markdown -t html -s -o README.html --metadata title="README LazyOwn Framework Pentesting t00lz"
 mv README.html docs/README.html
-# Este script actualiza el index.html de manera automatizada con los html generados por readmeneitor
 
-# el html generado es horrible si... es horrible, pero es automatizado... TODO mejorar el html horrible 
-# Definir los archivos HTML
+# Actualizar el index.html de manera automatizada
 INDEX_FILE="docs/index.html"
 README_FILE_HTML="docs/README.html"
 
 # Crear una copia de seguridad del archivo index.html
 cp "$INDEX_FILE" "$INDEX_FILE.bak"
 
-# Función para actualizar una sección específica
+# Función para actualizar una sección específica en HTML
 update_section_html() {
     local start_comment="$1"
     local end_comment="$2"
@@ -170,45 +162,9 @@ case $TYPE in
         ;;
 esac
 
-# Uso del script
-current_version="0.2.0"  # Cambia esta línea para leer la versión actual desde un archivo si lo deseas
-increment_type=$(determine_increment_type)
-
-if [[ "$increment_type" != "none" ]]; then
-    new_version=$(increment_version "$current_version" "$increment_type")
-    echo "Nueva versión: $new_version"
-else
-    echo "No se requiere incremento de versión."
-fi
-
+# Generar el archivo version.json
 echo "{\"version\": \"$NEW_VERSION\"}" > version.json
 git -C . add version.json
-
-#LISTFILES=" Modified file(s): $(git diff --name-only $START_COMMIT $END_COMMIT | sed 's/^/- /')"
-# Capturar archivos modificados
-MODIFIED_FILES=$(git diff --name-only $START_COMMIT $END_COMMIT | sed 's/^/- /')
-# Capturar archivos eliminados
-DELETED_FILES=$(git diff --name-only --diff-filter=D $START_COMMIT $END_COMMIT | sed 's/^/- /')
-# Capturar archivos creados
-CREATED_FILES=$(git diff --name-only --diff-filter=A $START_COMMIT $END_COMMIT | sed 's/^/- /')
-
-# Crear LISTFILES incluyendo solo las secciones no vacías
-LISTFILES=""
-if [ -n "$MODIFIED_FILES" ]; then
-    LISTFILES+="Modified file(s):\n$MODIFIED_FILES\n"
-fi
-if [ -n "$DELETED_FILES" ]; then
-    LISTFILES+="Deleted file(s):\n$DELETED_FILES\n"
-fi
-if [ -n "$CREATED_FILES" ]; then
-    LISTFILES+="Created file(s):\n$CREATED_FILES\n"
-fi
-
-# Usar LISTFILES en tu mensaje de commit
-echo -e "$LISTFILES"
-
-# Formatear el mensaje del commit
-COMMIT_MESSAGE="${TYPE}(${TYPEDESC}): ${SUBJECT} \n\n Version: ${NEW_VERSION} \n\n ${BODY} \n\n ${LISTFILES} ${FOOTER} \n\n Fecha: $(git log -1 --format=%ad) \n\n Hora: $(git log -1 --format=%at)"
 
 # Obtener el último tag y el commit actual
 START_COMMIT=$(git -C . describe --tags --abbrev=0)
@@ -226,6 +182,9 @@ echo "[*] Changelog generado en $CHANGELOG_FILE"
 
 # Añadir todos los cambios
 git -C . add .
+
+# Formatear el mensaje del commit
+COMMIT_MESSAGE="${TYPE}(${TYPEDESC}): ${SUBJECT} \n\n Version: ${NEW_VERSION} \n\n ${BODY} \n\n ${FOOTER} \n\n Fecha: $(git log -1 --format=%ad) \n\n Hora: $(git log -1 --format=%at)"
 
 # Realizar el commit con el mensaje proporcionado
 git -C . commit -S -a -m "$COMMIT_MESSAGE"
@@ -254,10 +213,6 @@ get_commit_type() {
   fi
 }
 
-# Crear o limpiar el archivo de changelog
-echo "# Changelog" > $CHANGELOG_FILE
-echo "" >> $CHANGELOG_FILE
-
 # Obtener todos los commits desde el inicio en orden inverso
 git log --pretty=format:"%s" | while read -r commit_message; do
   commit_type=$(get_commit_type "$commit_message")
@@ -268,7 +223,7 @@ done
 
 echo "[+] Changelog generado y formateado en $CHANGELOG_FILE"
 
-# formatear el change log
+# Formatear el changelog
 echo "[+] Formateando el CHANGELOG"
 awk -F: '{
   if ($1 ~ /^#/) {
@@ -320,7 +275,7 @@ mv CHANGELOG.html docs/CHANGELOG.html
 git -C . add docs/CHANGELOG.html
 
 # Realizar el commit (modificar el commit actual para incluir el changelog)
-git -C . commit  -S --amend --no-edit
+git -C . commit -S --amend --no-edit
 
 # Crear un nuevo tag con la nueva versión
 git -C . tag -s $NEW_VERSION -m "Version $NEW_VERSION"
@@ -329,4 +284,3 @@ git -C . tag -s $NEW_VERSION -m "Version $NEW_VERSION"
 git -C . push --follow-tags
 
 echo "[*] Cambios enviados al repositorio remoto con la nueva versión $NEW_VERSION."
-# TODO: DELETE ALL SPAGETTI CODE

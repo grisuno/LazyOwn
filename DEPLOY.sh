@@ -39,7 +39,7 @@ increment_version() {
 }
 
 # Obtener la versión actual
-CURRENT_VERSION= echo "0.2.0"
+CURRENT_VERSION= "0.2.0"
 
 #TEST ME NEITOR
 # Revisa si el parámetro --no-test está presente

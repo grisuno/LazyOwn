@@ -36,7 +36,15 @@ increment_version() {
 
     echo "$major.$minor.$patch"
 }
-
+determine_increment_type() {
+    if git log -1 --pretty=%B | grep -q '^feat'; then
+        echo "minor"
+    elif git log -1 --pretty=%B | grep -q '^fix'; then
+        echo "patch"
+    else
+        echo "none"
+    fi
+}
 # Obtener la versión actual
 CURRENT_VERSION=$(git -C . describe --tags --abbrev=0 2>/dev/null || echo "0.2.0")
 
@@ -161,6 +169,17 @@ case $TYPE in
         exit 1
         ;;
 esac
+
+# Uso del script
+current_version="0.2.0"  # Cambia esta línea para leer la versión actual desde un archivo si lo deseas
+increment_type=$(determine_increment_type)
+
+if [[ "$increment_type" != "none" ]]; then
+    new_version=$(increment_version "$current_version" "$increment_type")
+    echo "Nueva versión: $new_version"
+else
+    echo "No se requiere incremento de versión."
+fi
 
 echo "{\"version\": \"$NEW_VERSION\"}" > version.json
 git -C . add version.json

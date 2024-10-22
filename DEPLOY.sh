@@ -145,7 +145,7 @@ case $TYPE in
         # Incrementar el número de parche
         NEW_VERSION=$(increment_version $CURRENT_VERSION "patch")
         ;;
-    refactor|docs|test)
+    refactor|docs|test|style|shore)
         # No cambiar la versión
         NEW_VERSION=$CURRENT_VERSION
         ;;

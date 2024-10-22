@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Correcciones
+
+### Otros
+
+  *   * fix(new version): new release \n\n Version: release/0.0.1 \n\n now on cmd2 \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 21:35:57 2024 -0300 \n\n Hora: 1729557357
+
+
 ### Nuevo Release
 
 ### Otros

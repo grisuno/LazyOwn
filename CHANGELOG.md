@@ -6,6 +6,13 @@
 
 ### Otros
 
+  *   * feat(t): t \n\n Version: patch..1 \n\n t \n\n Modified file(s):\n- DEPLOY.sh - README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 22:54:49 2024 -0300 \n\n Hora: 1729562089
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(t): t \n\n Version: vvvrelease/0.1.1 \n\n t \n\n Modified file(s):\n- DEPLOY.sh - README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 22:52:52 2024 -0300 \n\n Hora: 1729561972
 
 

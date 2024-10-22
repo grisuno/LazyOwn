@@ -8124,6 +8124,57 @@ Helper function to alternate the case of characters in a string.
 
 # Changelog
 
+### Nuevo Release
+
+  * release(test): test \n\n Version: release/0.0.0 \n\n test \n\n Modified file(s):\n- DEPLOY.sh - README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 21:45:43 2024 -0300 \n\n Hora: 1729557943
+
+### Nuevo parche
+
+  * patch(test): test \n\n Version: release/0.1.0 \n\n test \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 21:44:32 2024 -0300 \n\n Hora: 1729557872
+
+### Nuevo Release
+
+  * release(release): test \n\n Version: release/0.0.0 \n\n test \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 21:44:02 2024 -0300 \n\n Hora: 1729557842
+
+### Nuevo parche
+
+  * patch(test): test \n\n Version: release/0.1.0 \n\n test \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 21:43:41 2024 -0300 \n\n Hora: 1729557821
+
+### Nuevo parche
+
+  * patch(test): test \n\n Version: release/0.1.0 \n\n test \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 21:43:22 2024 -0300 \n\n Hora: 1729557802
+
+### Nuevo Release
+
+  * release(release): test \n\n Version: release/0.0.0 \n\n test \n\n Modified file(s):\n- DEPLOY.sh - README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 21:41:14 2024 -0300 \n\n Hora: 1729557674
+
+### Nuevo Release
+
+  * release(release): release \n\n Version: release/0.0.0 \n\n release \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 21:40:50 2024 -0300 \n\n Hora: 1729557650
+
+### Nuevo Release
+
+  * release(release test): test \n\n Version: release/0.0.0 \n\n test \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 21:39:11 2024 -0300 \n\n Hora: 1729557551
+
+### Nuevo parche
+
+  * patch(patch): creating new tag \n\n Version: release/0.1.0 \n\n and new release \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 21:38:41 2024 -0300 \n\n Hora: 1729557521
+
+### Nuevo parche
+
+  * patch(patch): new library \n\n Version: release/0.1.0 \n\n cmd2 \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 21:37:55 2024 -0300 \n\n Hora: 1729557475
+
+### Correcciones
+
+  * fix(new version): new release \n\n Version: release/0.0.1 \n\n now on cmd2 \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 21:35:57 2024 -0300 \n\n Hora: 1729557357
+
+
+### Nuevo Release
+
+### Otros
+
+  *   * release(test): test \n\n Version: release/0.0.0 \n\n release \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 21:50:52 2024 -0300 \n\n Hora: 1729558252
+
 
 ### Nuevo Release
 

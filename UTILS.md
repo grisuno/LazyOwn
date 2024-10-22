@@ -817,6 +817,9 @@ Returns:
 ## get_domain_from_xml
 Extrae el primer dominio o dirección IP de un archivo XML de un escaneo Nmap.
 
+## shellcode_to_sylk
+No description available.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 

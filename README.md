@@ -8125,6 +8125,13 @@ Helper function to alternate the case of characters in a string.
 # Changelog
 
 
+### Correcciones
+
+### Otros
+
+  *   * fix(fix): add cmd2 to install.sh \n\n Version: vvvrelease/0.2.1 \n\n bug fixing \n\n Modified file(s):\n- DEPLOY.sh - README.md - docs/README.html - docs/index.html - docs/index.html.bak - install.sh\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 22:58:59 2024 -0300 \n\n Hora: 1729562339
+
+
 ### Nuevo parche
 
 ### Otros

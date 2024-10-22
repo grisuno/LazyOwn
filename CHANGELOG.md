@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Refactorización
+
+### Otros
+
+  *   * refactor(refactor): new payloads in winbase64payloads \n\n Version: vvvrelease/0.2.1 \n\n with love to sec communy of LazyOwn \n\n Modified file(s):\n- DEPLOY.sh - README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 23:07:12 2024 -0300 \n\n Hora: 1729562832
+
+
 ### Correcciones
 
 ### Otros

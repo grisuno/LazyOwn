@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Nuevo Release
+
+### Otros
+
+  *   * release(tes): tes \n\n Version: vvvrelease/0.0.0 \n\n tes \n\n Modified file(s):\n- DEPLOY.sh - README.md - docs/README.html - docs/index.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 22:51:56 2024 -0300 \n\n Hora: 1729561916
+
+
 ### Nuevas características
 
 ### Otros

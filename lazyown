@@ -2376,7 +2376,10 @@ class LazyOwnShell(cmd2.Cmd):
             return
         else:
             path_cred = get_credentials(True)
-            if_execute = input(f"    {GREEN}[?] Do you wanna try exec commands (y/n)") or "n"
+            try:
+                if_execute = input(f"    {GREEN}[?] Do you wanna try exec commands (y/n)") or "n"
+            except EOFError:
+                if_execute = "n"
             if if_execute == "y":
                 execute = " -x "
                 command_try = input(f"    {GREEN}[!] Enter the command to try (default: whoami): ") or "whoami"

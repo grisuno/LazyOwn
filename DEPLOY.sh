@@ -38,7 +38,7 @@ increment_version() {
 }
 
 # Obtener la versión actual
-CURRENT_VERSION=$(git -C . describe --tags --abbrev=0 2>/dev/null || echo "0.0.0")
+CURRENT_VERSION=$(git -C . describe --tags --abbrev=0 2>/dev/null || echo "0.2.0")
 
 #TEST ME NEITOR
 # Revisa si el parámetro --no-test está presente

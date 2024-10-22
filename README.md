@@ -8121,6 +8121,7 @@ Helper function to alternate the case of characters in a string.
 <!-- END COMMANDS -->
 
 <!-- START CHANGELOG -->
+* release: test\n\nVersion: vrelease/0.0.0\n\ntest\n\nModified file(s):\n- CHANGELOG.md - DEPLOY.sh - README.md - docs/README.html - docs/index.html - docs/index.html.bak - version.json\nLazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429\nLazyOwn: https://grisuno.github.io/LazyOwn/\n\n\nFecha: lun 21 oct 2024 22:01:58 -03\n
 * release(test): test \n\n Version: release/0.0.0 \n\n test \n\n Modified file(s):\n- CHANGELOG.md - DEPLOY.sh - README.md - docs/CHANGELOG.html - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 21:57:05 2024 -0300 \n\n Hora: 1729558625
 * release(test): test \n\n Version: release/0.0.0 \n\n release \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 21:50:52 2024 -0300 \n\n Hora: 1729558252
 * release(test): test \n\n Version: release/0.0.0 \n\n test \n\n Modified file(s):\n- DEPLOY.sh - README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 21:45:43 2024 -0300 \n\n Hora: 1729557943
@@ -8719,4 +8720,4 @@ Helper function to alternate the case of characters in a string.
 * Create detailed_search.py
 * Create search.py
 * Update README.md
-* Initial commit  * docs(update readme description): change of the description; Update README.md  * docs(update readme description): change of the description; Update README.md<!-- END CHANGELOG -->
+* Initial commit* Initial commit  * docs(update readme description): change of the description; Update README.md  * docs(update readme description): change of the description; Update README.md<!-- END CHANGELOG -->

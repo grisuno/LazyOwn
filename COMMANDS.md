@@ -6304,6 +6304,34 @@ line (str): An optional argument (unused in this function).
 Returns:
 None
 
+## shellcode2sylk
+Converts shellcode to SYLK format and saves the result to a file.
+
+This function reads the provided shellcode, or retrieves it from a default
+binary source if not supplied. The shellcode is then converted to SYLK 
+format and saved in the `sessions/shellcode.sylk` file.
+
+PoC Python code to create a SYLK file with Excel4 shellcode loader.
+
+Author: Stan Hegt (@StanHacked)
+
+Just a proof of concept. Needs polishing before use in actual operations.
+Or as Adam Chester would put it: "RWX for this POC, because... yolo"
+
+Background details: https://outflank.nl/blog/2019/10/30/abusing-the-sylk-file-format/
+
+Args:
+    line (str): The input shellcode string. If empty or None, the function 
+                attempts to load shellcode from a predefined source.
+
+Returns:
+    None: The function writes the SYLK shellcode to a file and prints it 
+    out, but does not return any value.
+
+Raises:
+    FileNotFoundError: If no shellcode is found when trying to load it from 
+                    the default source.
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 

@@ -27,6 +27,7 @@ pip install name-that-hash
 pip install certipy-ad 
 pip install ast 
 pip install pykeepass
+pip install cmd2
 
 git clone https://github.com/grisuno/LazyOwnInfiniteStorage.git ./modules_ext/lazyown_infinitestorage
 chmod +x /modules_ext/lazyown_infinitestorage/install.sh

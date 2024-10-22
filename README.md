@@ -1588,6 +1588,9 @@ Returns:
 ## get_domain_from_xml
 Extrae el primer dominio o dirección IP de un archivo XML de un escaneo Nmap.
 
+## shellcode_to_sylk
+No description available.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 
@@ -7906,6 +7909,34 @@ line (str): An optional argument (unused in this function).
 Returns:
 None
 
+## shellcode2sylk
+Converts shellcode to SYLK format and saves the result to a file.
+
+This function reads the provided shellcode, or retrieves it from a default
+binary source if not supplied. The shellcode is then converted to SYLK 
+format and saved in the `sessions/shellcode.sylk` file.
+
+PoC Python code to create a SYLK file with Excel4 shellcode loader.
+
+Author: Stan Hegt (@StanHacked)
+
+Just a proof of concept. Needs polishing before use in actual operations.
+Or as Adam Chester would put it: "RWX for this POC, because... yolo"
+
+Background details: https://outflank.nl/blog/2019/10/30/abusing-the-sylk-file-format/
+
+Args:
+    line (str): The input shellcode string. If empty or None, the function 
+                attempts to load shellcode from a predefined source.
+
+Returns:
+    None: The function writes the SYLK shellcode to a file and prints it 
+    out, but does not return any value.
+
+Raises:
+    FileNotFoundError: If no shellcode is found when trying to load it from 
+                    the default source.
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 
@@ -8123,6 +8154,13 @@ Helper function to alternate the case of characters in a string.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Refactorización
+
+### Otros
+
+  *   * refactor(refactor): new payloads in winbase64payloads \n\n Version: vvvrelease/0.2.1 \n\n with love to sec communy of LazyOwn \n\n Modified file(s):\n- DEPLOY.sh - README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 23:07:12 2024 -0300 \n\n Hora: 1729562832
 
 
 ### Correcciones

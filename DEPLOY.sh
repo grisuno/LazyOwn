@@ -35,11 +35,11 @@ increment_version() {
     esac
 
     echo "$major.$minor.$patch"
-    r -p "Introduce el release: " CURRENT_VERSION
+    read -p "Introduce el release: " CURRENT_VERSION
 }
 
 # Obtener la versión actual
-CURRENT_VERSION= "0.2.0"
+CURRENT_VERSION=$(git -C . describe --tags --abbrev=0 2>/dev/null || echo "relsease/0.2.0")
 
 #TEST ME NEITOR
 # Revisa si el parámetro --no-test está presente

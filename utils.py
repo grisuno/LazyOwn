@@ -1828,7 +1828,7 @@ def get_terminal_size():
         size = os.get_terminal_size(sys.stdout.fileno())
         return size.lines, size.columns
     except Exception as e:
-        print_error("Cannot get the size:", e)
+        print_error(f"Cannot get the size: {e}")
         return None, None    
 
 def halp():

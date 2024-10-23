@@ -4388,6 +4388,34 @@ function attempts to load shellcode from a predefined source.</p>
 prints it out, but does not return any value.</p>
 <p>Raises: FileNotFoundError: If no shellcode is found when trying to
 load it from the default source.</p>
+<h2 id="magicrecon">magicrecon</h2>
+<p>Command magicrecon: Automates the setup and usage of MagicRecon to
+perform various types of reconnaissance and vulnerability scanning on
+specified targets.</p>
+<p>This function performs the following tasks: 1. Clones and installs
+MagicRecon if not already installed. 2. Prompts the user to input the
+target domain, list, or wildcard if not provided. 3. Executes MagicRecon
+with the specified options for target reconnaissance and vulnerability
+analysis. 4. Supports notifications through Discord, Telegram, or Slack
+if configured.</p>
+<p>Args: line (str): Command-line arguments specifying the target and
+recon mode. If not provided, the function prompts the user for required
+inputs.</p>
+<p>Returns: None</p>
+<p>Example: magicrecon -d example.com -a</p>
+<h2 id="cubespraying">cubespraying</h2>
+<p>Command cubespraying: Automates the installation and usage of
+CubeSpraying for performing credential spraying attacks.</p>
+<p>This function performs the following tasks: 1. Clones and installs
+CubeSpraying if not already installed. 2. Prompts the user for the
+target URL, username file, password file, and optional parameters like
+verbosity and timeout. 3. Executes CubeSpraying for credential spraying
+attacks against the target URL.</p>
+<p>Args: line (str): Optional argument for specifying the target URL,
+username file, password file, and additional CubeSpraying options.</p>
+<p>Returns: None</p>
+<p>Example: cubespraying –url http://example.com –usernames users.txt
+–passwords passwords.txt –verbose –timeout 5</p>
 <h2 id="find_tgts">find_tgts</h2>
 <p>Finds and returns a list of target hosts with port 445 open in the
 specified subnet.</p>

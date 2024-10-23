@@ -7146,13 +7146,9 @@ class LazyOwnShell(cmd2.Cmd):
         Note: This function assumes that `pwntomate.py` is available in the current working directory and is executable with Python 3.
         """
         directory = "sessions"
-        # Obtener la lista de archivos en el directorio
         files = os.listdir(directory)
-
-        # Filtrar solo los archivos .xml
         xml_files = [file for file in files if file.endswith(".xml")]
         path = os.getcwd()
-        # Para cada archivo XML, ejecutar el comando
         for xml_file in xml_files:
             xml_path = os.path.join(directory, xml_file)
             command = f"python3 pwntomate.py {xml_path} -x -b {path}/sessions"
@@ -15348,7 +15344,7 @@ class LazyOwnShell(cmd2.Cmd):
         Returns:
         None
         """
-        import glob
+        
         json_files = glob.glob("payload_*.json")
 
         hosts = []
@@ -15439,6 +15435,124 @@ class LazyOwnShell(cmd2.Cmd):
         with open(shellcode_file, 'w') as targets_file:
             targets_file.write(shellcode)
         return
+
+    def do_magicrecon(self, line):
+        """
+        Command magicrecon: Automates the setup and usage of MagicRecon to perform various types of reconnaissance and vulnerability scanning on specified targets.
+
+        This function performs the following tasks:
+        1. Clones and installs MagicRecon if not already installed.
+        2. Prompts the user to input the target domain, list, or wildcard if not provided.
+        3. Executes MagicRecon with the specified options for target reconnaissance and vulnerability analysis.
+        4. Supports notifications through Discord, Telegram, or Slack if configured.
+
+        Args:
+            line (str): Command-line arguments specifying the target and recon mode. If not provided, the function prompts the user for required inputs.
+
+        Returns:
+            None
+
+        Example:
+            magicrecon -d example.com -a
+        """
+
+        magicrecon_repo = "https://github.com/robotshell/magicRecon.git"
+        magicrecon_dir = os.path.join(os.getcwd(), "external/.exploit/magicRecon")
+        
+        url = self.params["url"]
+        url = get_domain(url)
+
+        if not os.path.exists(magicrecon_dir):
+            print_msg("Cloning MagicRecon repository...")
+            os.system(f"git clone {magicrecon_repo} {magicrecon_dir}")
+            print_msg("Installing MagicRecon...")
+            os.system(f"chmod +x {magicrecon_dir}/install.sh && {magicrecon_dir}/install.sh")
+        else:
+            print_msg("MagicRecon already installed, skipping setup.")
+
+        args = line.split()
+
+        if not args:
+            print_msg("No arguments provided. Please specify target options.")
+            target = input(f"Enter target domain default {url}: ").strip() or url
+            mode = input("Enter mode option (-a, -p, -x, -r, -v, -m): ").strip() or "-a"
+            notification = input("Enable notifications via Discord, Telegram, or Slack? (yes/no): ").strip().lower() or 'no'
+
+            if notification == "yes":
+                notify = "-n"
+            else:
+                notify = ""
+            
+            cmd = f"cd sessions && {magicrecon_dir}/magicrecon.sh -d {target} {mode} {notify}"
+        else:
+            cmd = f"cd sessions && {magicrecon_dir}/magicrecon.sh {' '.join(args)}"
+
+        print_msg(f"Running MagicRecon command: {cmd}")
+        os.system(cmd)
+        return
+
+    def do_cubespraying(self, line):
+        """
+        Command cubespraying: Automates the installation and usage of CubeSpraying for performing credential spraying attacks.
+
+        This function performs the following tasks:
+        1. Clones and installs CubeSpraying if not already installed.
+        2. Prompts the user for the target URL, username file, password file, and optional parameters like verbosity and timeout.
+        3. Executes CubeSpraying for credential spraying attacks against the target URL.
+
+        Args:
+            line (str): Optional argument for specifying the target URL, username file, password file, and additional CubeSpraying options.
+
+        Returns:
+            None
+
+        Example:
+            cubespraying --url http://example.com --usernames users.txt --passwords passwords.txt --verbose --timeout 5
+        """
+
+        cubespraying_repo = "https://github.com/robotshell/cubeSpraying.git"
+        cubespraying_dir = os.path.join(os.getcwd(), "external/.exploit/cubeSpraying")
+        url = self.params["url"]
+        wordlist = self.params["wordlist"]
+        if not os.path.exists(cubespraying_dir):
+            print_msg("Cloning CubeSpraying repository...")
+            os.system(f"git clone {cubespraying_repo} {cubespraying_dir}")
+            print_msg("Installing required dependencies...")
+            os.system(f"pip install requests")
+        else:
+            print_msg("CubeSpraying already installed, skipping setup.")
+        print_msg("Choice the usernames diccionary")
+        p.onecmd("smalldic")
+        users = get_users_dic()
+        password = get_users_dic()
+        if not line:
+            url = input(f"    [!] Enter the target URL (default {url} ): ").strip() or url
+            usernames = input(f"    [?] Enter the path to the usernames file (default {users}): ").strip() or users
+            passwords = input(f"    [?] Enter the path to the passwords file (default {password}): ").strip() or password
+            verbose = input("    [?] Enable verbose mode? (yes/no, default 'no'): ").strip().lower() or "no"
+            timeout = input("    [?] Set timeout (in seconds, default 10): ").strip() or "10"
+        else:
+            args = line.split()
+            url = args[0] if len(args) > 0 else url
+            usernames = args[1] if len(args) > 1 else users
+            passwords = args[2] if len(args) > 2 else wordlist
+            verbose = "yes" if "--verbose" in args else "no"
+            timeout = args[args.index("--timeout") + 1] if "--timeout" in args else "10"
+
+        if not url or not usernames or not passwords:
+            print_warn("Missing required arguments (URL, usernames, or passwords). Aborting...")
+            return
+
+        verbose_option = "--verbose" if verbose == "yes" else ""
+        timeout_option = f"--timeout {timeout}"
+
+        command = f"python3 {cubespraying_dir}/cubeSpraying.py --url {url} --usernames {usernames} --passwords {passwords} {verbose_option} {timeout_option}"
+
+        print_msg(f"Running CubeSpraying attack: {command}")
+        os.system(command)
+        return
+
+
 
 if __name__ == "__main__":
     p = LazyOwnShell()

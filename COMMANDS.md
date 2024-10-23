@@ -6367,6 +6367,20 @@ Returns:
 Example:
     cubespraying --url http://example.com --usernames users.txt --passwords passwords.txt --verbose --timeout 5
 
+## samdump2
+Run samdump2 with the SAM and SYSTEM file
+
+:param line: This parameter is not used in the function but can be reserved for future use.
+
+:returns: None
+
+Manual execution:
+To manually run `samdump2`, use the following command:
+
+    samdump2 sessions/SYSTEM sessions/SAM
+
+This function prompts the user for domain, username, password, and IP address.
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 

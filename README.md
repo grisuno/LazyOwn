@@ -7972,6 +7972,20 @@ Returns:
 Example:
     cubespraying --url http://example.com --usernames users.txt --passwords passwords.txt --verbose --timeout 5
 
+## samdump2
+Run samdump2 with the SAM and SYSTEM file
+
+:param line: This parameter is not used in the function but can be reserved for future use.
+
+:returns: None
+
+Manual execution:
+To manually run `samdump2`, use the following command:
+
+    samdump2 sessions/SYSTEM sessions/SAM
+
+This function prompts the user for domain, username, password, and IP address.
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 
@@ -8189,6 +8203,13 @@ Helper function to alternate the case of characters in a string.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): cubespraying & magicrecon \n\n Version: vvvrelease/0.2.3 \n\n all documented at COMMANDS.md \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - sessions/win/enablewebpowershell.bat - sessions/win/enablewebpowershell.ps1 - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Oct 22 00:53:07 2024 -0300 \n\n Hora: 1729569187
 
 
 ### Nuevas características

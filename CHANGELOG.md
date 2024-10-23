@@ -6,6 +6,13 @@
 
 ### Otros
 
+  *   * feat(feat): samdump2 \n\n Version: vvvrelease/0.2.4 \n\n new command docummented at COMMANDS.md \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Oct 22 22:52:13 2024 -0300 \n\n Hora: 1729648333
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): cubespraying & magicrecon \n\n Version: vvvrelease/0.2.3 \n\n all documented at COMMANDS.md \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - sessions/win/enablewebpowershell.bat - sessions/win/enablewebpowershell.ps1 - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Oct 22 00:53:07 2024 -0300 \n\n Hora: 1729569187
 
 

@@ -6332,6 +6332,41 @@ Raises:
     FileNotFoundError: If no shellcode is found when trying to load it from 
                     the default source.
 
+## magicrecon
+Command magicrecon: Automates the setup and usage of MagicRecon to perform various types of reconnaissance and vulnerability scanning on specified targets.
+
+This function performs the following tasks:
+1. Clones and installs MagicRecon if not already installed.
+2. Prompts the user to input the target domain, list, or wildcard if not provided.
+3. Executes MagicRecon with the specified options for target reconnaissance and vulnerability analysis.
+4. Supports notifications through Discord, Telegram, or Slack if configured.
+
+Args:
+    line (str): Command-line arguments specifying the target and recon mode. If not provided, the function prompts the user for required inputs.
+
+Returns:
+    None
+
+Example:
+    magicrecon -d example.com -a
+
+## cubespraying
+Command cubespraying: Automates the installation and usage of CubeSpraying for performing credential spraying attacks.
+
+This function performs the following tasks:
+1. Clones and installs CubeSpraying if not already installed.
+2. Prompts the user for the target URL, username file, password file, and optional parameters like verbosity and timeout.
+3. Executes CubeSpraying for credential spraying attacks against the target URL.
+
+Args:
+    line (str): Optional argument for specifying the target URL, username file, password file, and additional CubeSpraying options.
+
+Returns:
+    None
+
+Example:
+    cubespraying --url http://example.com --usernames users.txt --passwords passwords.txt --verbose --timeout 5
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 

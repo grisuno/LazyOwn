@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Pruebas
+
+### Otros
+
+  *   * test(test): test \n\n Version: vvvrelease/0.2.4 \n\n test \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Oct 24 01:58:37 2024 -0300 \n\n Hora: 1729745917
+
+
 ### Refactorización
 
 ### Otros

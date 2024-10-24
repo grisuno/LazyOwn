@@ -15771,9 +15771,9 @@ class LazyOwnShell(cmd2.Cmd):
             print_msg("Upload_Bypass already installed, skipping setup.")
 
         print_msg("Choose execution mode:")
-        print("1. Detection mode")
-        print("2. Exploitation mode")
-        print("3. Anti-Malware mode")
+        print_warn("1. Detection mode")
+        print_warn("2. Exploitation mode")
+        print_warn("3. Anti-Malware mode")
 
         mode_choice = input("Enter the number of the mode you want to use: ").strip()
         if mode_choice == "1":

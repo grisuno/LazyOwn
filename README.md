@@ -7986,6 +7986,53 @@ To manually run `samdump2`, use the following command:
 
 This function prompts the user for domain, username, password, and IP address.
 
+## stormbreaker
+Command stormbreaker: Automates the installation and usage of Storm-Breaker for performing various network attacks.
+
+This function performs the following tasks:
+1. Clones and installs Storm-Breaker if not already installed.
+2. Prompts the user for optional parameters and target configuration.
+3. Executes Storm-Breaker to perform various attacks using the target configuration.
+
+Args:
+    line (str): Optional argument for specifying additional Storm-Breaker options.
+
+Returns:
+    None
+
+Example:
+    stormbreaker --verbose
+
+## upload_bypass
+Command upload_bypass: Automates the installation and execution of Upload_Bypass for performing file upload bypass tests.
+
+This function performs the following tasks:
+1. Clones and installs Upload_Bypass if not already installed.
+2. Prompts the user for the type of execution mode (Detection, Exploitation, or Anti-Malware).
+3. Prepares and executes the chosen mode based on user input: success message, forbidden extension, upload directory, and proxy settings.
+
+Args:
+    line (str): Optional argument for specifying execution mode, request file, success message, forbidden extension, and other Upload_Bypass options.
+
+Returns:
+    None
+
+Example:
+    upload_bypass --detect --request_file test --success 'File uploaded successfully' --extension php --upload_dir /uploads --burp
+
+## hex_to_plaintext
+Converts hexadecimal data from a file to plain text.
+
+Opens a text editor for the user to paste hexadecimal data into a file.
+Then reads the file, processes the hexadecimal data, and writes the plain text to a new file.
+
+Args:
+    line (str): Name of the file containing hexadecimal data (without extension).
+                Defaults to 'request.txt' if not provided.
+
+Returns:
+    None
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 
@@ -8203,6 +8250,13 @@ Helper function to alternate the case of characters in a string.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): samdump2 \n\n Version: vvvrelease/0.2.4 \n\n new command docummented at COMMANDS.md \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Oct 22 22:52:13 2024 -0300 \n\n Hora: 1729648333
 
 
 ### Nuevas características

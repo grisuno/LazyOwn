@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Nuevas características
+
+### Otros
+
+  *   * feat(fix): fix \n\n Version: vvvrelease/0.2.5 \n\n fix \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Oct 24 01:59:38 2024 -0300 \n\n Hora: 1729745978
+
+
 ### Pruebas
 
 ### Otros

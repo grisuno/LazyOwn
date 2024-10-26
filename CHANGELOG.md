@@ -6,6 +6,13 @@
 
 ### Otros
 
+  *   * feat(feat): rpcmap_py, serveralive2, john2zip, createusers_and_hashs, pykerbrute, reg_py \n\n Version: vvvrelease/0.2.6 \n\n All documented at COMMANDS.md \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - external/install_external.sh - lazyown - payload.json - sessions/download_resources.sh - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Oct 24 02:01:08 2024 -0300 \n\n Hora: 1729746068
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(fix): fix \n\n Version: vvvrelease/0.2.5 \n\n fix \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Oct 24 01:59:38 2024 -0300 \n\n Hora: 1729745978
 
 

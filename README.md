@@ -7729,36 +7729,6 @@ Returns:
 Example:
     penelope 5555 -i eth0
 
-## v
-Open a new window within a tmux session using the LazyOwn RedTeam Framework.
-
-This method is designed to create a new vertical split window in an existing
-tmux session, where the specified command will be executed. The command
-used to open the new window is the `./run --no-banner` script, which is
-intended for use within the LazyOwn RedTeam Framework environment.
-
-The method first ensures that the specified tmux session is active by calling
-the `ensure_tmux_session` function. If the session is not already running,
-it will create a new one. After confirming that the session is active, it
-proceeds to create a new vertical window with a specified size. The size of
-the new window is currently set to 50% of the available terminal space.
-
-Args:
-    arg (str): Additional arguments passed to the command, if any. This can be
-                used to customize the behavior of the command executed in the
-                new window. However, in the current implementation, this
-                argument is not utilized and can be left as an empty string.
-
-Example:
-    If this method is called within a command-line interface of the LazyOwn
-    RedTeam Framework, it will open a new vertical tmux window and execute
-    the `./run --no-banner` command within it.
-
-Note:
-    - Ensure that tmux is installed and properly configured on the system.
-    - The method assumes that the session name is defined and accessible in
-    the scope where this method is called.
-
 ## h
 Open a new window within a tmux session using the LazyOwn RedTeam Framework.
 
@@ -7782,6 +7752,36 @@ Args:
 Example:
     If this method is called within a command-line interface of the LazyOwn
     RedTeam Framework, it will open a new horizontal tmux window and execute
+    the `./run --no-banner` command within it.
+
+Note:
+    - Ensure that tmux is installed and properly configured on the system.
+    - The method assumes that the session name is defined and accessible in
+    the scope where this method is called.
+
+## v
+Open a new window within a tmux session using the LazyOwn RedTeam Framework.
+
+This method is designed to create a new vertical split window in an existing
+tmux session, where the specified command will be executed. The command
+used to open the new window is the `./run --no-banner` script, which is
+intended for use within the LazyOwn RedTeam Framework environment.
+
+The method first ensures that the specified tmux session is active by calling
+the `ensure_tmux_session` function. If the session is not already running,
+it will create a new one. After confirming that the session is active, it
+proceeds to create a new vertical window with a specified size. The size of
+the new window is currently set to 50% of the available terminal space.
+
+Args:
+    arg (str): Additional arguments passed to the command, if any. This can be
+                used to customize the behavior of the command executed in the
+                new window. However, in the current implementation, this
+                argument is not utilized and can be left as an empty string.
+
+Example:
+    If this method is called within a command-line interface of the LazyOwn
+    RedTeam Framework, it will open a new vertical tmux window and execute
     the `./run --no-banner` command within it.
 
 Note:
@@ -8033,6 +8033,100 @@ Args:
 Returns:
     None
 
+## rpcmap_py
+Command rpcmap_py: Executes rpcmap.py commands to enumerate MSRPC interfaces.
+
+This function allows the user to:
+1. Run rpcmap.py with a specified string binding to discover MSRPC interfaces.
+2. Filter the output using grep for specific DCOM-related interfaces.
+3. Optionally run rpcmap.py with additional flags for brute-forcing opnums and adjusting the authentication level.
+
+Args:
+    line (str): Optional argument specifying the string binding or additional flags for rpcmap.py.
+
+Returns:
+    None
+
+Example:
+    rpcmap_py 'ncacn_ip_tcp:10.10.10.213'
+    rpcmap_py 'ncacn_ip_tcp:10.10.10.213' -brute-opnums -auth-level 1 -opnum-max 5
+
+## serveralive2
+Command serveralive2: Uses Impacket to connect to a remote MSRPC interface and retrieves the server bindings.
+
+This function allows the user to:
+1. Establish a connection to a remote MSRPC interface using a specified target from self.params["rhost"].
+2. Set the authentication level to none.
+3. Retrieve and print the network addresses from the server bindings using the IObjectExporter.
+
+Args:
+    line (str): Unused in this context. The target is derived from self.params["rhost"].
+
+Returns:
+    None
+
+Example:
+    serveralive2
+
+## john2zip
+List all .zip files in the 'sessions' directory, let the user select one, and run the command 
+`zip2john {selected_file} > sessions/hash.txt`. 
+Then, run John the Ripper to crack the hash using the RockYou wordlist with multiple forks.
+
+Parameters:
+line (str): An optional string parameter. This can be used for any additional input, though 
+            it's not needed in this specific command.
+
+Returns:
+None
+
+## createusers_and_hashs
+Command createusers_and_hashs: Extracts usernames and hashes from a dump file.
+
+This function opens a nano editor for the user to input the contents of a 
+file in the format:
+
+    username:UID:LM_HASH:NT_HASH:::
+
+Once the data is entered and saved, the function generates:
+1. A file named `usernames_{rhost}.txt` containing all usernames.
+2. Individual files named `hash_{username}.txt` for each user, containing 
+the user's LM and NT hash in the format `LM_HASH:NT_HASH`.
+
+Args:
+    line (str): Unused parameter, kept for consistency.
+
+Returns:
+    None
+
+## pykerbrute
+Command pykerbrute: Automates the installation and execution of PyKerbrute for bruteforcing Active Directory accounts using Kerberos pre-authentication.
+
+This function performs the following tasks:
+1. Clones and installs PyKerbrute if not already installed.
+2. Allows the user to choose between the EnumADUser.py and ADPwdSpray.py scripts.
+3. Executes the selected script with user-defined parameters, including domain, mode (TCP/UDP), and selected hash or password.
+
+Args:
+    line (str): Optional argument for specifying additional parameters for execution, such as domain controller, domain, and attack mode.
+
+Returns:
+    None
+
+## reg_py
+Run reg.py with specified parameters to query the registry.
+
+:param line: Line input for any additional parameters.
+
+:returns: None
+
+Manual execution:
+To manually run `reg.py`, use the following command:
+
+    reg.py -hashes :<hash> <domain>/<username>@<target> query -keyName <registry_key>
+
+This function prompts the user for the hash, domain, username, and registry key if they are not already provided.
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 
@@ -8250,6 +8344,13 @@ Helper function to alternate the case of characters in a string.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(fix): fix \n\n Version: vvvrelease/0.2.5 \n\n fix \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Oct 24 01:59:38 2024 -0300 \n\n Hora: 1729745978
 
 
 ### Pruebas

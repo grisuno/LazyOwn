@@ -44,14 +44,17 @@ import urllib.parse
 import urllib.request
 import importlib.util
 from PIL import Image
-from itertools import product
 from bs4 import BeautifulSoup
+from itertools import product
 from pykeepass import PyKeePass
 from libnmap.parser import NmapParser
 from libnmap.process import NmapProcess
+from impacket.dcerpc.v5 import transport
 from concurrent.futures import ThreadPoolExecutor
 from urllib.parse import quote, unquote, urlparse
+from impacket.dcerpc.v5.dcomrt import IObjectExporter
 from modules.lazyencoder_decoder import encode, decode
+from impacket.dcerpc.v5.rpcrt import RPC_C_AUTHN_LEVEL_NONE
 
 RESET = "\033[0m"
 BOLD = "\033[1m"

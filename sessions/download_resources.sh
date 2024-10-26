@@ -51,6 +51,7 @@ download() {
         "wget https://download.sysinternals.com/files/Procdump.zip"
         "wget https://raw.githubusercontent.com/swisskyrepo/PayloadsAllTheThings/master/Upload%20Insecure%20Files/Extension%20PHP/extensions.lst"
         "wget https://github.com/SafeBreach-Labs/PoolParty/releases/download/PoolParty/PoolParty.exe"
+        "wget https://github.com/antonioCoco/RoguePotato/releases/download/1.0/RoguePotato.zip"
     )
 
     # Imprime los últimos argumentos de cada comando

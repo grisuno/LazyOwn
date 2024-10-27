@@ -23,7 +23,7 @@ from utils import *
 ANSI_COLOR_TEMPLATE = "\033[48;2;{r};{g};{b}m  \033[0m"
 
 def image_to_bash(image_path, image_res):
-    
+
     img = Image.open(image_path)
     img = img.convert('RGB')  
     width, height = img.size
@@ -54,8 +54,10 @@ def main():
     rows, columns = get_terminal_size()
     if rows and columns:
         #Make responsive image ;) feel like frontend 
+        
         image_res = int(columns/2)
-       
+    else:
+        image_res = 50
 
     if '-i' in sys.argv or '--image' in sys.argv:
         try:
@@ -75,7 +77,7 @@ def main():
     if not os.path.isfile(image_path):
         print_error(f"Error: The file '{image_path}' does not exist.")
         sys.exit(1)
-    
+
     image_to_bash(image_path, image_res)
 
 if __name__ == "__main__":

@@ -1,6 +1,15 @@
+WAO
+george
+carol
+nour
+martin.rose
+nya
+steven.U
 Administrator
 root
 guest
 krbtgt
 bin
 none
+Windows
+university.htb\guest:

@@ -6522,6 +6522,32 @@ To manually run `reg.py`, use the following command:
 
 This function prompts the user for the hash, domain, username, and registry key if they are not already provided.
 
+## name_the_hash
+Identify hash type using nth after retrieving it with get_hash().
+
+:param line: Line input for any additional parameters.
+
+:returns: None
+
+Manual execution:
+To manually identify the hash, use the following command:
+
+    nth -t "{hash}"
+
+This function fetches the hash using get_hash() and identifies its type. If nth is not installed, it is automatically installed.
+
+## refill_password
+Generate a list of possible passwords by filling each asterisk in the input with user-specified characters.
+
+:param line: A string containing asterisks (e.g., WebAO***7) for generating variations.
+
+:returns: None
+
+Process:
+Prompts the user to enter characters to replace each asterisk, creates all possible combinations,
+and saves them to 'sessions/passwords_refilled.txt'. If this file exists, the previous version is
+renamed with a timestamp suffix.
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 

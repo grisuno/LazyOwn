@@ -6,6 +6,13 @@
 
 ### Otros
 
+  *   * feat(feat): new commands https://www.youtube.com/@KillerMonkyRecordz \n\n Version: vvvrelease/0.2.7 \n\n name_the_hash, refill_password docummented at COMMANDS.md \n\n Modified file(s):\n- COMMANDS.md - README.md - banner.py - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - payload.json - sessions/users.txt - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Oct 26 02:29:42 2024 -0300 \n\n Hora: 1729920582
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): rpcmap_py, serveralive2, john2zip, createusers_and_hashs, pykerbrute, reg_py \n\n Version: vvvrelease/0.2.6 \n\n All documented at COMMANDS.md \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - external/install_external.sh - lazyown - payload.json - sessions/download_resources.sh - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Oct 24 02:01:08 2024 -0300 \n\n Hora: 1729746068
 
 

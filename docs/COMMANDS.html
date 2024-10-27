@@ -4530,6 +4530,25 @@ following command:</p>
 <registry_key></p>
 <p>This function prompts the user for the hash, domain, username, and
 registry key if they are not already provided.</p>
+<h2 id="name_the_hash">name_the_hash</h2>
+<p>Identify hash type using nth after retrieving it with get_hash().</p>
+<p>:param line: Line input for any additional parameters.</p>
+<p>:returns: None</p>
+<p>Manual execution: To manually identify the hash, use the following
+command:</p>
+<p>nth -t “{hash}”</p>
+<p>This function fetches the hash using get_hash() and identifies its
+type. If nth is not installed, it is automatically installed.</p>
+<h2 id="refill_password">refill_password</h2>
+<p>Generate a list of possible passwords by filling each asterisk in the
+input with user-specified characters.</p>
+<p>:param line: A string containing asterisks (e.g., WebAO***7) for
+generating variations.</p>
+<p>:returns: None</p>
+<p>Process: Prompts the user to enter characters to replace each
+asterisk, creates all possible combinations, and saves them to
+‘sessions/passwords_refilled.txt’. If this file exists, the previous
+version is renamed with a timestamp suffix.</p>
 <h2 id="find_tgts">find_tgts</h2>
 <p>Finds and returns a list of target hosts with port 445 open in the
 specified subnet.</p>

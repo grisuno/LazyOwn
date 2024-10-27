@@ -2534,7 +2534,7 @@ class LazyOwnShell(cmd2.Cmd):
             if not hashs:
                 return
 
-            user = input("    [!] Enter Username (default: Administrator)") or 'Administrator'
+            user = input("    [!] Enter Username (default: Administrator): ") or 'Administrator'
             command = f"impacket-psexec {user}@{rhost} -hashes {hashs}"
             print_msg(command)
             os.system(command)
@@ -16196,6 +16196,73 @@ class LazyOwnShell(cmd2.Cmd):
 
         return
 
+    def do_name_the_hash(self, line):
+        """Identify hash type using nth after retrieving it with get_hash().
+
+        :param line: Line input for any additional parameters.
+
+        :returns: None
+
+        Manual execution:
+        To manually identify the hash, use the following command:
+
+            nth -t "{hash}"
+
+        This function fetches the hash using get_hash() and identifies its type. If nth is not installed, it is automatically installed.
+        """
+        if not is_binary_present("nth"):
+            print_warn("nth is not installed. Installing.")
+            os.system("pip install nth")
+            return
+        
+        hash_file_path = 'sessions/hash.txt'
+
+        if not os.path.exists(hash_file_path):
+            print_error(f"Hash not found. To create a hash use:{GREEN} createhash {RESET}")
+            return
+
+        hash_value = get_hash()
+        command = f"nth -t \"{hash_value}\""
+        
+        print_msg(f"Executing command: {command}")
+        os.system(command)
+
+        return
+
+    def do_refill_password(self, line):
+        """Generate a list of possible passwords by filling each asterisk in the input with user-specified characters.
+
+        :param line: A string containing asterisks (e.g., WebAO***7) for generating variations.
+
+        :returns: None
+
+        Process:
+        Prompts the user to enter characters to replace each asterisk, creates all possible combinations,
+        and saves them to 'sessions/passwords_refilled.txt'. If this file exists, the previous version is
+        renamed with a timestamp suffix.
+        """
+        path = os.getcwd()
+        output_dir = f"{path}/sessions"
+        output_file = os.path.join(output_dir, "passwords_refilled.txt")
+        if not os.path.exists(output_dir):
+            os.makedirs(output_dir)
+
+        if os.path.isfile(output_file):
+            timestamp = time.strftime("%Y%m%d_%H%M%S")
+            os.rename(output_file, os.path.join(output_dir, f"passwords_refilled_{timestamp}.txt"))
+
+        characters = input("    [!] Enter characters to replace '*': (default: 0123456789) ") or '0123456789'
+        password_base = list(line)
+        asterisk_positions = [i for i, char in enumerate(password_base) if char == '*']
+        
+        combinations = itertools.product(characters, repeat=len(asterisk_positions))
+        with open(output_file, "w") as f:
+            for combo in combinations:
+                for pos, char in zip(asterisk_positions, combo):
+                    password_base[pos] = char
+                f.write("".join(password_base) + "\n")
+
+        print_msg(f"Password variations saved to: {output_file}")
 
 if __name__ == "__main__":
     p = LazyOwnShell()

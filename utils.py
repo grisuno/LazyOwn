@@ -38,6 +38,7 @@ import binascii
 import readline
 import requests
 import tempfile
+import itertools
 import threading
 import subprocess
 import urllib.parse

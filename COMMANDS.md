@@ -6547,6 +6547,16 @@ Prompts the user to enter characters to replace each asterisk, creates all possi
 and saves them to 'sessions/passwords_refilled.txt'. If this file exists, the previous version is
 renamed with a timestamp suffix.
 
+## sudo
+Checks if the script is running with superuser (sudo) privileges, and if not,
+restarts the script with sudo privileges.
+
+This function verifies if the script is being executed with root privileges
+by checking the effective user ID. If the script is not running as root,
+it prints a warning message and restarts the script using sudo.
+
+:return: None
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 

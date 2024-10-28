@@ -2285,7 +2285,7 @@ class LazyOwnShell(cmd2.Cmd):
             print_msg(
                 f'Exploit smb if is posible mount -t cifs -o rw,username=guest,password= "//{rhost}/share" /mnt/smb '
             )
-            print_msg('find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \;')
+            print_msg('find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \\;')
 
             return
         else:

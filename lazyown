@@ -5279,7 +5279,6 @@ class LazyOwnShell(cmd2.Cmd):
         if not check_lhost(lhost):
             return
         commands_list = [
-            
             ("list file attributes on a Linux second extended file system", "lsattr -va"),
             ("show opened ports", "netstat -an | grep -i listen"),
             ("Find", "find / -type f \( -iname '*cred*' -o -iname '*pass*' -o -iname 'credentials' -o -iname 'password' \) -print -o -exec grep -i -l -e 'cred' -e 'pass' -e 'credentials' -e 'password' {} + 2>/dev/null"),

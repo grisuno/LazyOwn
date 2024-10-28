@@ -11,7 +11,7 @@ source "$VENV_PATH/bin/activate"
 
 # Verificar si hay argumentos
 if [[ $# -eq 0 ]]; then
-    python3 "$PYTHON_SCRIPT"
+    python3 -W ignore "$PYTHON_SCRIPT"
 else
-    python3 "$PYTHON_SCRIPT" "$@"
+    python3 -W ignore "$PYTHON_SCRIPT" "$@"
 fi

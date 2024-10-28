@@ -4361,12 +4361,11 @@ Automates command execution based on a list of aliases and commands.
 3. If confirmed, displays the alias and command with a number.
 4. Executes the command and copies it to the clipboard.
 
-:param line: The command line input containing the list of alias and command pairs.
+:param line: The command line input containing a keyword to filter the list of alias and command pairs.
 :type line: str
 :returns: None
 
 Manual execution:
-To manually run these tasks, you would need to:
 - Prepare the list of alias and command pairs in the format: "alias command".
 - Provide this list as input to the function.
 - Confirm the execution of the desired command when prompted.
@@ -8370,6 +8369,13 @@ Helper function to alternate the case of characters in a string.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new commands https://www.youtube.com/@KillerMonkyRecordz \n\n Version: vvvrelease/0.2.7 \n\n name_the_hash, refill_password docummented at COMMANDS.md \n\n Modified file(s):\n- COMMANDS.md - README.md - banner.py - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - payload.json - sessions/users.txt - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Oct 26 02:29:42 2024 -0300 \n\n Hora: 1729920582
 
 
 ### Nuevas características

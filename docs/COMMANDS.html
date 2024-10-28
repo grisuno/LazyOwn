@@ -4548,6 +4548,14 @@ generating variations.</p>
 asterisk, creates all possible combinations, and saves them to
 ‘sessions/passwords_refilled.txt’. If this file exists, the previous
 version is renamed with a timestamp suffix.</p>
+<h2 id="sudo">sudo</h2>
+<p>Checks if the script is running with superuser (sudo) privileges, and
+if not, restarts the script with sudo privileges.</p>
+<p>This function verifies if the script is being executed with root
+privileges by checking the effective user ID. If the script is not
+running as root, it prints a warning message and restarts the script
+using sudo.</p>
+<p>:return: None</p>
 <h2 id="find_tgts">find_tgts</h2>
 <p>Finds and returns a list of target hosts with port 445 open in the
 specified subnet.</p>

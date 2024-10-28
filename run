@@ -1,15 +1,9 @@
 #!/bin/bash
 
-# Ruta al entorno virtual
 VENV_PATH="env"
-
-# Ruta al script de Python
 PYTHON_SCRIPT="lazyown"
-
-# Activar el entorno virtual
 source "$VENV_PATH/bin/activate"
 
-# Verificar si hay argumentos
 if [[ $# -eq 0 ]]; then
     python3 -W ignore "$PYTHON_SCRIPT"
 else

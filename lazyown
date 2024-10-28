@@ -16270,6 +16270,19 @@ class LazyOwnShell(cmd2.Cmd):
 
         print_msg(f"Password variations saved to: {output_file}")
 
+    def do_sudo(self, line):
+        """
+        Checks if the script is running with superuser (sudo) privileges, and if not,
+        restarts the script with sudo privileges.
+
+        This function verifies if the script is being executed with root privileges
+        by checking the effective user ID. If the script is not running as root,
+        it prints a warning message and restarts the script using sudo.
+
+        :return: None
+        """
+        check_sudo()
+
 if __name__ == "__main__":
     p = LazyOwnShell()
     p.onecmd("p")

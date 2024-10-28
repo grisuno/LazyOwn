@@ -6,6 +6,13 @@
 
 ### Otros
 
+  *   * test(test):  \n\n Version: vvvrelease/0.2.7 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 28 17:09:07 2024 -0300 \n\n Hora: 1730146147
+
+
+### Pruebas
+
+### Otros
+
   *   * test(test): test \n\n Version: vvvrelease/0.2.7 \n\n test \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - payload.json - sessions/users.txt\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Oct 27 16:01:42 2024 -0300 \n\n Hora: 1730055702
 
 

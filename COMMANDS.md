@@ -2756,12 +2756,11 @@ Automates command execution based on a list of aliases and commands.
 3. If confirmed, displays the alias and command with a number.
 4. Executes the command and copies it to the clipboard.
 
-:param line: The command line input containing the list of alias and command pairs.
+:param line: The command line input containing a keyword to filter the list of alias and command pairs.
 :type line: str
 :returns: None
 
 Manual execution:
-To manually run these tasks, you would need to:
 - Prepare the list of alias and command pairs in the format: "alias command".
 - Provide this list as input to the function.
 - Confirm the execution of the desired command when prompted.

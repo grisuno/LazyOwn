@@ -8152,6 +8152,16 @@ Prompts the user to enter characters to replace each asterisk, creates all possi
 and saves them to 'sessions/passwords_refilled.txt'. If this file exists, the previous version is
 renamed with a timestamp suffix.
 
+## sudo
+Checks if the script is running with superuser (sudo) privileges, and if not,
+restarts the script with sudo privileges.
+
+This function verifies if the script is being executed with root privileges
+by checking the effective user ID. If the script is not running as root,
+it prints a warning message and restarts the script using sudo.
+
+:return: None
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 
@@ -8369,6 +8379,13 @@ Helper function to alternate the case of characters in a string.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test): test \n\n Version: vvvrelease/0.2.7 \n\n test \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - run\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 28 17:26:08 2024 -0300 \n\n Hora: 1730147168
 
 
 ### Pruebas

@@ -4707,7 +4707,7 @@ class LazyOwnShell(cmd2.Cmd):
             lhost = clipboard_ip
             p.onecmd(f"assign lhost {clipboard_ip}")
             self.custom_prompt = getprompt()
-            self.prompt = f"{self.custom_prompt}"
+    
             print_msg(f"Updated lhost to {clipboard_ip}")        
         return
 
@@ -4764,7 +4764,7 @@ class LazyOwnShell(cmd2.Cmd):
             lhost = ip_address
             # Example of how you might set the new lhost
             self.params['lhost'] = lhost
-            self.prompt = f"Updated lhost to {lhost}"
+           
             print_msg(f"Updated lhost to {lhost}")
 
         return

@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Pruebas
+
+### Otros
+
+  *   * test(tes): t \n\n Version: vvvrelease/0.2.9 \n\n test \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - lazyown - payload.json - sessions/download_resources.sh - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Oct 30 00:03:05 2024 -0300 \n\n Hora: 1730257385
+
+
 ### Nuevas características
 
 ### Otros

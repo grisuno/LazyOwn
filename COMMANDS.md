@@ -6629,6 +6629,22 @@ line (str): The port to get information.
 Returns:
 None
 
+## cron
+Schedules a command to run at a specified time.
+
+This function allows users to schedule a command to execute at a specific hour and minute.
+If the specified time has already passed for the current day, the command will be scheduled 
+to run the following day.
+
+Usage:
+    cron HH:MM command [args]
+
+Parameters:
+line (str): The input string containing the scheduled time in 'HH:MM' format followed by the command and arguments.
+
+Returns:
+None
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 
@@ -6840,4 +6856,7 @@ Raises:
 
 ## alternate_case
 Helper function to alternate the case of characters in a string.
+
+## lazyrun_command
+No description available.
 

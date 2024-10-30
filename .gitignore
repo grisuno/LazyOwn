@@ -37,3 +37,4 @@ sessions/users.txt
 payload_*.json
 *.dmp
 firefox.dmp
+.LazyOwn_history.txt

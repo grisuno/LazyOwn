@@ -245,12 +245,11 @@ Software Foundation.</p>
 library’s command loop after the loop terminates. You can override it in
 a subclass to customize its behavior.</p>
 <p>Example: &gt;&gt;&gt; shell = LazyOwnShell() &gt;&gt;&gt;
-shell.cmdloop() # Exits the command loop Exiting custom
-LazyOwnShell.</p>
-<h2 id="set">set</h2>
-<p>Set a parameter value.</p>
+shell.cmdloop() # Exits the command loop GoodBye LazyOwner</p>
+<h2 id="assign">assign</h2>
+<p>assign a parameter value.</p>
 <p>This function takes a line of input, splits it into a parameter and a
-value, and sets the specified parameter to the given value if the
+value, and assign the specified parameter to the given value if the
 parameter exists.</p>
 <p>:param line: A string containing the parameter and value to be set.
 Expected format: ‘<parameter> <value>’. :type line: str :return: None
@@ -372,13 +371,13 @@ and the specified parameters.</li>
 <p>:param lport: The local port number. :type lport: int</p>
 <p>:returns: None</p>
 <p>Manual execution: 1. Ensure that <code>rhost</code>,
-<code>lhost</code>, <code>rport</code>, and <code>lport</code> are set
-in <code>self.params</code>. 2. The script
+<code>lhost</code>, <code>rport</code>, and <code>lport</code> are
+assign in <code>self.params</code>. 2. The script
 <code>modules/lazywerkzeug.py</code> should be present in the
 <code>modules</code> directory. 3. Run the script with:
 <code>python3 modules/lazywerkzeug.py &lt;rhost&gt; &lt;rport&gt; &lt;lhost&gt; &lt;lport&gt;</code></p>
 <p>Example: To run <code>lazywerkzeug.py</code> with <code>rhost</code>
-set to <code>"127.0.0.1"</code>, <code>rport</code> to
+assign to <code>"127.0.0.1"</code>, <code>rport</code> to
 <code>5000</code>, <code>lhost</code> to <code>"localhost"</code>, and
 <code>lport</code> to <code>8000</code>, set:
 <code>self.params["rhost"] = "127.0.0.1"</code>
@@ -437,14 +436,15 @@ specify the network interface.</li>
 <p>:param device: The network interface to be used for sniffing. :type
 device: str</p>
 <p>:returns: None</p>
-<p>Manual execution: 1. Ensure that <code>device</code> is set in
+<p>Manual execution: 1. Ensure that <code>device</code> is assign in
 <code>self.params</code>. 2. The script
 <code>modules/lazysniff.py</code> should be present in the
 <code>modules</code> directory. 3. Run the script with:
 <code>python3 modules/lazysniff.py -i &lt;device&gt;</code></p>
-<p>Example: To run <code>lazysniff</code> with <code>device</code> set
-to <code>"eth0"</code>, set: <code>self.params["device"] = "eth0"</code>
-Then call: <code>run_lazysniff()</code></p>
+<p>Example: To run <code>lazysniff</code> with <code>device</code>
+assign to <code>"eth0"</code>, set:
+<code>self.params["device"] = "eth0"</code> Then call:
+<code>run_lazysniff()</code></p>
 <p>Note: - Ensure that <code>modules/lazysniff.py</code> has the
 appropriate permissions and dependencies to run. - Ensure that the
 network interface specified is valid and properly configured.</p>
@@ -469,13 +469,13 @@ specify the network interface.</li>
 <p>:param device: The network interface to be used for sniffing. :type
 device: str</p>
 <p>:returns: None</p>
-<p>Manual execution: 1. Ensure that <code>device</code> is set in
+<p>Manual execution: 1. Ensure that <code>device</code> is assign in
 <code>self.params</code>. 2. The script
 <code>modules/lazyftpsniff.py</code> should be present in the
 <code>modules</code> directory. 3. Run the script with:
 <code>python3 modules/lazyftpsniff.py -i &lt;device&gt;</code></p>
 <p>Example: To run <code>lazyftpsniff</code> with <code>device</code>
-set to <code>"eth0"</code>, set:
+assign to <code>"eth0"</code>, set:
 <code>self.params["device"] = "eth0"</code> Then call:
 <code>run_lazyftpsniff()</code></p>
 <p>Note: - Ensure that <code>modules/lazyftpsniff.py</code> has the
@@ -508,15 +508,15 @@ endip: str</p>
 spoof_ip: str</p>
 <p>:returns: None</p>
 <p>Manual execution: 1. Ensure that <code>startip</code>,
-<code>endip</code>, and <code>spoof_ip</code> are set in
+<code>endip</code>, and <code>spoof_ip</code> are assign in
 <code>self.params</code>. 2. The script
 <code>modules/lazynetbios.py</code> should be present in the
 <code>modules</code> directory. 3. Run the script with:
 <code>python3 modules/lazynetbios.py &lt;startip&gt; &lt;endip&gt; &lt;spoof_ip&gt;</code></p>
 <p>Example: To run <code>lazynetbios</code> with <code>startip</code>
-set to <code>"192.168.1.1"</code>, <code>endip</code> set to
-<code>"192.168.1.10"</code>, and <code>spoof_ip</code> set to
-<code>"192.168.1.100"</code>, set:
+assign to <code>"192.168.1.1"</code>, <code>endip</code> assign to
+<code>"192.168.1.10"</code>, and <code>spoof_ip</code> assign to
+<code>"192.168.1.100"</code>, assign:
 <code>self.params["startip"] = "192.168.1.1"</code>
 <code>self.params["endip"] = "192.168.1.10"</code>
 <code>self.params["spoof_ip"] = "192.168.1.100"</code> Then call:
@@ -557,15 +557,15 @@ email_password: str</p>
 <p>:returns: None</p>
 <p>Manual execution: 1. Ensure that <code>email_from</code>,
 <code>email_to</code>, <code>email_username</code>, and
-<code>email_password</code> are set in <code>self.params</code>. 2. The
-script <code>modules/lazyhoneypot.py</code> should be present in the
+<code>email_password</code> are assign in <code>self.params</code>. 2.
+The script <code>modules/lazyhoneypot.py</code> should be present in the
 <code>modules</code> directory. 3. Run the script with:
 <code>python3 modules/lazyhoneypot.py --email_from &lt;email_from&gt; --email_to &lt;email_to&gt; --email_username &lt;email_username&gt; --email_password &lt;email_password&gt;</code></p>
 <p>Example: To run <code>lazyhoneypot</code> with
-<code>email_from</code> set to <code>"sender@example.com"</code>,
-<code>email_to</code> set to <code>"recipient@example.com"</code>,
-<code>email_username</code> set to <code>"user"</code>, and
-<code>email_password</code> set to <code>"pass"</code>, set:
+<code>email_from</code> assign to <code>"sender@example.com"</code>,
+<code>email_to</code> assign to <code>"recipient@example.com"</code>,
+<code>email_username</code> assign to <code>"user"</code>, and
+<code>email_password</code> assign to <code>"pass"</code>, set:
 <code>self.params["email_from"] = "sender@example.com"</code>
 <code>self.params["email_to"] = "recipient@example.com"</code>
 <code>self.params["email_username"] = "user"</code>
@@ -582,7 +582,7 @@ operation.</p>
 <ul>
 <li><code>prompt</code>: The prompt to be used by the script, specified
 in <code>self.params</code>.</li>
-<li><code>api_key</code>: The API key to be set in the environment
+<li><code>api_key</code>: The API key to be assign in the environment
 variable <code>GROQ_API_KEY</code>, specified in
 <code>self.params</code>.</li>
 </ul>
@@ -590,8 +590,9 @@ variable <code>GROQ_API_KEY</code>, specified in
 <ol type="1">
 <li>Retrieves the <code>prompt</code> and <code>api_key</code> values
 from <code>self.params</code>.</li>
-<li>Checks if both <code>prompt</code> and <code>api_key</code> are set.
-If either is missing, it prints an error message and returns.</li>
+<li>Checks if both <code>prompt</code> and <code>api_key</code> are
+assign. If either is missing, it prints an error message and
+returns.</li>
 <li>Sets the environment variable <code>GROQ_API_KEY</code> with the
 provided <code>api_key</code>.</li>
 <li>Calls the <code>run_script</code> method to execute the
@@ -604,22 +605,22 @@ str</p>
 str</p>
 <p>:returns: None</p>
 <p>Manual execution: 1. Ensure that <code>prompt</code> and
-<code>api_key</code> are set in <code>self.params</code>. 2. The script
-<code>modules/lazygptcli.py</code> should be present in the
-<code>modules</code> directory. 3. Set the environment variable
+<code>api_key</code> are assign in <code>self.params</code>. 2. The
+script <code>modules/lazygptcli.py</code> should be present in the
+<code>modules</code> directory. 3. assign the environment variable
 <code>GROQ_API_KEY</code> with the API key value. 4. Run the script
 with:
 <code>python3 modules/lazygptcli.py --prompt &lt;prompt&gt;</code></p>
-<p>Example: To run <code>lazygptcli</code> with <code>prompt</code> set
-to <code>"Your prompt"</code> and <code>api_key</code> set to
+<p>Example: To run <code>lazygptcli</code> with <code>prompt</code>
+assign to <code>"Your prompt"</code> and <code>api_key</code> assign to
 <code>"your_api_key"</code>, set:
 <code>self.params["prompt"] = "Your prompt"</code>
 <code>self.params["api_key"] = "your_api_key"</code> Then call:
 <code>run_lazygptcli()</code></p>
 <p>Note: - Ensure that <code>modules/lazygptcli.py</code> has the
 appropriate permissions and dependencies to run. - The environment
-variable <code>GROQ_API_KEY</code> must be correctly set for the script
-to function.</p>
+variable <code>GROQ_API_KEY</code> must be correctly assign for the
+script to function.</p>
 <h2 id="lazysearch_bot">lazysearch_bot</h2>
 <p>Run the internal module GROQ AI located at
 <code>modules/lazysearch_bot.py</code> with the specified
@@ -628,7 +629,7 @@ parameters.</p>
 <ul>
 <li><code>prompt</code>: The prompt to be used by the script, specified
 in <code>self.params</code>.</li>
-<li><code>api_key</code>: The API key to be set in the environment
+<li><code>api_key</code>: The API key to be assign in the environment
 variable <code>GROQ_API_KEY</code>, specified in
 <code>self.params</code>.</li>
 </ul>
@@ -636,8 +637,9 @@ variable <code>GROQ_API_KEY</code>, specified in
 <ol type="1">
 <li>Retrieves the <code>prompt</code> and <code>api_key</code> values
 from <code>self.params</code>.</li>
-<li>Checks if both <code>prompt</code> and <code>api_key</code> are set.
-If either is missing, it prints an error message and returns.</li>
+<li>Checks if both <code>prompt</code> and <code>api_key</code> are
+assign. If either is missing, it prints an error message and
+returns.</li>
 <li>Sets the environment variable <code>GROQ_API_KEY</code> with the
 provided <code>api_key</code>.</li>
 <li>Calls the <code>run_script</code> method to execute the
@@ -650,22 +652,22 @@ str</p>
 str</p>
 <p>:returns: None</p>
 <p>Manual execution: 1. Ensure that <code>prompt</code> and
-<code>api_key</code> are set in <code>self.params</code>. 2. The script
-<code>modules/lazysearch_bot.py</code> should be present in the
+<code>api_key</code> are assign in <code>self.params</code>. 2. The
+script <code>modules/lazysearch_bot.py</code> should be present in the
 <code>modules</code> directory. 3. Set the environment variable
 <code>GROQ_API_KEY</code> with the API key value. 4. Run the script
 with:
 <code>python3 modules/lazysearch_bot.py --prompt &lt;prompt&gt;</code></p>
 <p>Example: To run <code>lazysearch_bot</code> with <code>prompt</code>
-set to <code>"Search query"</code> and <code>api_key</code> set to
-<code>"your_api_key"</code>, set:
+assign to <code>"Search query"</code> and <code>api_key</code> assign to
+<code>"your_api_key"</code>, assign:
 <code>self.params["prompt"] = "Search query"</code>
 <code>self.params["api_key"] = "your_api_key"</code> Then call:
 <code>run_lazysearch_bot()</code></p>
 <p>Note: - Ensure that <code>modules/lazysearch_bot.py</code> has the
 appropriate permissions and dependencies to run. - The environment
-variable <code>GROQ_API_KEY</code> must be correctly set for the script
-to function.</p>
+variable <code>GROQ_API_KEY</code> must be correctly assign for the
+script to function.</p>
 <h2 id="lazymetaextract0r">lazymetaextract0r</h2>
 <p>Run the Metadata extractor internal module located at
 <code>modules/lazyown_metaextract0r.py</code> with the specified
@@ -679,8 +681,8 @@ specified in <code>self.params</code>.</li>
 <ol type="1">
 <li>Retrieves the value for <code>path</code> from
 <code>self.params</code>.</li>
-<li>Checks if the <code>path</code> parameter is set. If not, it prints
-an error message and returns.</li>
+<li>Checks if the <code>path</code> parameter is assign. If not, it
+prints an error message and returns.</li>
 <li>Calls the <code>run_script</code> method to execute the
 <code>lazyown_metaextract0r.py</code> script with the appropriate
 argument.</li>
@@ -688,13 +690,13 @@ argument.</li>
 <p>:param path: The file path to be processed by the script. :type path:
 str</p>
 <p>:returns: None</p>
-<p>Manual execution: 1. Ensure that <code>path</code> is set in
+<p>Manual execution: 1. Ensure that <code>path</code> is assign in
 <code>self.params</code>. 2. The script
 <code>modules/lazyown_metaextract0r.py</code> should be present in the
 <code>modules</code> directory. 3. Run the script with:
 <code>python3 modules/lazyown_metaextract0r.py --path &lt;path&gt;</code></p>
 <p>Example: To run <code>lazyown_metaextract0r</code> with
-<code>path</code> set to <code>/home/user/file.txt</code>, set:
+<code>path</code> assign to <code>/home/user/file.txt</code>, set:
 <code>self.params["path"] = "/home/user/file.txt"</code> Then call:
 <code>run_lazymetaextract0r()</code></p>
 <p>Note: - Ensure that <code>modules/lazyown_metaextract0r.py</code> has
@@ -727,14 +729,14 @@ arguments.</li>
 rat_key: The RAT key. :type rat_key: str</p>
 <p>:returns: None</p>
 <p>Manual execution: 1. Ensure that <code>lhost</code>,
-<code>lport</code>, and <code>rat_key</code> are set in
+<code>lport</code>, and <code>rat_key</code> are assign in
 <code>self.params</code>. 2. The script
 <code>modules/lazyownclient.py</code> should be present in the
 <code>modules</code> directory. 3. Run the script with:
 <code>python3 modules/lazyownclient.py --host &lt;lhost&gt; --port &lt;lport&gt; --key &lt;rat_key&gt;</code></p>
 <p>Example: To run <code>lazyownclient</code> with <code>lhost</code>
-set to <code>192.168.1.10</code>, <code>lport</code> set to
-<code>8080</code>, and <code>rat_key</code> set to
+assign to <code>192.168.1.10</code>, <code>lport</code> assign to
+<code>8080</code>, and <code>rat_key</code> assign to
 <code>my_secret_key</code>, set:
 <code>self.params["lhost"] = "192.168.1.10"</code>
 <code>self.params["lport"] = 8080</code>
@@ -770,14 +772,14 @@ arguments.</li>
 :param rat_key: The RAT key. :type rat_key: str</p>
 <p>:returns: None</p>
 <p>Manual execution: 1. Ensure that <code>rhost</code>,
-<code>rport</code>, and <code>rat_key</code> are set in
+<code>rport</code>, and <code>rat_key</code> are assign in
 <code>self.params</code>. 2. The script
 <code>modules/lazyownserver.py</code> should be present in the
 <code>modules</code> directory. 3. Run the script with:
 <code>python3 modules/lazyownserver.py --host &lt;rhost&gt; --port &lt;rport&gt; --key &lt;rat_key&gt;</code></p>
 <p>Example: To run <code>lazyownserver</code> with <code>rhost</code>
-set to <code>192.168.1.10</code>, <code>rport</code> set to
-<code>8080</code>, and <code>rat_key</code> set to
+set to <code>192.168.1.10</code>, <code>rport</code> assign to
+<code>8080</code>, and <code>rat_key</code> assign to
 <code>my_secret_key</code>, set:
 <code>self.params["rhost"] = "192.168.1.10"</code>
 <code>self.params["rport"] = 8080</code>
@@ -812,13 +814,13 @@ message and returns.</li>
 :param rat_key: The RAT key. :type rat_key: str</p>
 <p>:returns: None</p>
 <p>Manual execution: 1. Ensure that <code>rport</code> and
-<code>rat_key</code> are set in <code>self.params</code>. 2. The script
-<code>modules/lazybotnet.py</code> should be present in the
+<code>rat_key</code> are assign in <code>self.params</code>. 2. The
+script <code>modules/lazybotnet.py</code> should be present in the
 <code>modules</code> directory. 3. Run the script with:
 <code>python3 modules/lazybotnet.py --host &lt;rhost&gt; --port &lt;rport&gt; --key &lt;rat_key&gt;</code></p>
-<p>Example: To run <code>lazybotnet</code> with <code>rport</code> set
-to <code>1234</code> and <code>rat_key</code> set to
-<code>my_key</code>, set: <code>self.params["rport"] = 1234</code>
+<p>Example: To run <code>lazybotnet</code> with <code>rport</code>
+assign to <code>1234</code> and <code>rat_key</code> assign to
+<code>my_key</code>, assign: <code>self.params["rport"] = 1234</code>
 <code>self.params["rat_key"] = "my_key"</code> Then call:
 <code>run_lazybotnet()</code></p>
 <p>Note: - Ensure that <code>modules/lazybotnet.py</code> has the
@@ -860,16 +862,17 @@ path to the wordlist file. :type wordlist: str</p>
 <p>:returns: None</p>
 <p>Manual execution: 1. Ensure that <code>rhost</code>,
 <code>rport</code>, <code>lhost</code>, <code>lport</code>,
-<code>field</code>, and <code>wordlist</code> are set in
+<code>field</code>, and <code>wordlist</code> are assign in
 <code>self.params</code>. 2. The script
 <code>modules/lazylfi2rce.py</code> should be present in the
 <code>modules</code> directory. 3. Run the script with:
 <code>python3 modules/lazylfi2rce.py --rhost &lt;rhost&gt; --rport &lt;rport&gt; --lhost &lt;lhost&gt; --lport &lt;lport&gt; --field &lt;field&gt; --wordlist &lt;wordlist&gt;</code></p>
-<p>Example: To run the lazylfi2rce with <code>rhost</code> set to
-<code>192.168.1.1</code>, <code>rport</code> set to <code>80</code>,
-<code>lhost</code> set to <code>192.168.1.2</code>, <code>lport</code>
-set to <code>8080</code>, <code>field</code> set to <code>file</code>,
-and <code>wordlist</code> set to <code>path/to/wordlist.txt</code>, set:
+<p>Example: To run the lazylfi2rce with <code>rhost</code> assign to
+<code>192.168.1.1</code>, <code>rport</code> assign to <code>80</code>,
+<code>lhost</code> assign to <code>192.168.1.2</code>,
+<code>lport</code> assign to <code>8080</code>, <code>field</code>
+assign to <code>file</code>, and <code>wordlist</code> assign to
+<code>path/to/wordlist.txt</code>, set:
 <code>self.params["rhost"] = "192.168.1.1"</code>
 <code>self.params["rport"] = 80</code>
 <code>self.params["lhost"] = "192.168.1.2"</code>
@@ -895,24 +898,24 @@ parameters.</p>
 <li>Retrieves the values for <code>rhost</code> and <code>lhost</code>
 from <code>self.params</code>.</li>
 <li>Checks if the required parameters <code>rhost</code> and
-<code>lhost</code> are set. If not, it prints an error message and
+<code>lhost</code> are assign. If not, it prints an error message and
 returns.</li>
 <li>Calls the <code>run_script</code> method to execute the
 <code>lazylogpoisoning.py</code> script with the appropriate
 arguments.</li>
 </ol>
-<p>:param rhost: The IP address of the remote host. Must be set in
+<p>:param rhost: The IP address of the remote host. Must be assign in
 <code>self.params</code>. :type rhost: str :param lhost: The IP address
-of the local host. Must be set in <code>self.params</code>. :type lhost:
-str</p>
+of the local host. Must be assign in <code>self.params</code>. :type
+lhost: str</p>
 <p>:returns: None</p>
 <p>Manual execution: 1. Ensure that <code>rhost</code> and
-<code>lhost</code> are set in <code>self.params</code>. 2. The script
+<code>lhost</code> are assign in <code>self.params</code>. 2. The script
 <code>modules/lazylogpoisoning.py</code> should be present in the
 <code>modules</code> directory. 3. Run the script with:
 <code>python3 modules/lazylogpoisoning.py --rhost &lt;rhost&gt; --lhost &lt;lhost&gt;</code></p>
-<p>Example: To run the lazylogpoisoning with <code>rhost</code> set to
-<code>192.168.1.1</code> and <code>lhost</code> set to
+<p>Example: To run the lazylogpoisoning with <code>rhost</code> assign
+to <code>192.168.1.1</code> and <code>lhost</code> assign to
 <code>192.168.1.2</code>, set:
 <code>self.params["rhost"] = "192.168.1.1"</code>
 <code>self.params["lhost"] = "192.168.1.2"</code> Then call:
@@ -936,18 +939,19 @@ specified in <code>self.params</code>.</li>
 <li>Retrieves the values for <code>rport</code> and <code>rat_key</code>
 from <code>self.params</code>.</li>
 <li>Checks if the required parameters <code>rport</code> and
-<code>rat_key</code> are set. If not, it prints an error message and
+<code>rat_key</code> are assign. If not, it prints an error message and
 returns.</li>
 <li>Calls the <code>run_script</code> method to execute the
 <code>lazybotcli.py</code> script with the appropriate arguments.</li>
 </ol>
-<p>:param rport: The port number for the connection. Must be set in
+<p>:param rport: The port number for the connection. Must be assign in
 <code>self.params</code>. :type rport: int :param rat_key: The key for
-the RAT. Must be set in <code>self.params</code>. :type rat_key: str</p>
+the RAT. Must be assign in <code>self.params</code>. :type rat_key:
+str</p>
 <p>:returns: None</p>
 <p>Manual execution: 1. Ensure that <code>rport</code> and
-<code>rat_key</code> are set in <code>self.params</code>. 2. The script
-<code>modules/lazybotcli.py</code> should be present in the
+<code>rat_key</code> are assign in <code>self.params</code>. 2. The
+script <code>modules/lazybotcli.py</code> should be present in the
 <code>modules</code> directory. 3. Run the script with:
 <code>python3 modules/lazybotcli.py --host 0.0.0.0 --port &lt;rport&gt; --key &lt;rat_key&gt;</code></p>
 <p>Example: To run the lazybotcli with port <code>12345</code> and key
@@ -979,12 +983,12 @@ arguments.</li>
 <li>Executes the command using the <code>os.system</code> method.</li>
 </ol>
 <p>:param wordlist: The path to the wordlist file for username
-enumeration. Must be set in <code>self.params</code>. :type wordlist:
+enumeration. Must be assign in <code>self.params</code>. :type wordlist:
 str :param rhost: The target IP address or hostname for SSH enumeration.
-Must be set in <code>self.params</code>. :type rhost: str</p>
+Must be assign in <code>self.params</code>. :type rhost: str</p>
 <p>:returns: None</p>
 <p>Manual execution: 1. Ensure that <code>wordlist</code> and
-<code>rhost</code> are set in <code>self.params</code>. 2. Run the
+<code>rhost</code> are assign in <code>self.params</code>. 2. Run the
 script <code>modules/lazybrutesshuserenum.sh</code> with the appropriate
 arguments.</p>
 <p>Dependencies: - <code>modules/lazybrutesshuserenum.sh</code> must be
@@ -1033,31 +1037,32 @@ script with the specified arguments.</li>
 provided.</li>
 <li>Executes the command using the <code>run_command</code> method.</li>
 </ol>
-<p>:param url: The target URL for the fuzzer. Must be set in
+<p>:param url: The target URL for the fuzzer. Must be assign in
 <code>self.params</code>. :type url: str :param method: The HTTP method
-to use. Must be set in <code>self.params</code>. :type method: str
-:param headers: Optional HTTP headers. Must be set in
+to use. Must be assign in <code>self.params</code>. :type method: str
+:param headers: Optional HTTP headers. Must be assign in
 <code>self.params</code> or provided via <code>headers_file</code>.
-:type headers: str :param params: Optional URL parameters. Must be set
-in <code>self.params</code> or provided via <code>params_file</code>.
-:type params: str :param data: Optional data for the request body. Must
-be set in <code>self.params</code> or provided via
-<code>data_file</code>. :type data: str :param json_data: Optional JSON
-data for the request body. Must be set in <code>self.params</code> or
-provided via <code>json_data_file</code>. :type json_data: str :param
-proxy_port: The port for the proxy server. Must be set in
-<code>self.params</code>. :type proxy_port: int :param wordlist:
-Optional wordlist for fuzzing. Must be set in <code>self.params</code>.
-:type wordlist: str :param hide_code: Optional code to hide. Must be set
-in <code>self.params</code>. :type hide_code: int :param headers_file:
-Optional file containing headers. :type headers_file: str, optional
-:param data_file: Optional file containing data. :type data_file: str,
-optional :param params_file: Optional file containing parameters. :type
-params_file: str, optional :param json_data_file: Optional file
-containing JSON data. :type json_data_file: str, optional</p>
+:type headers: str :param params: Optional URL parameters. Must be
+assign in <code>self.params</code> or provided via
+<code>params_file</code>. :type params: str :param data: Optional data
+for the request body. Must be assign in <code>self.params</code> or
+provided via <code>data_file</code>. :type data: str :param json_data:
+Optional JSON data for the request body. Must be assign in
+<code>self.params</code> or provided via <code>json_data_file</code>.
+:type json_data: str :param proxy_port: The port for the proxy server.
+Must be assign in <code>self.params</code>. :type proxy_port: int :param
+wordlist: Optional wordlist for fuzzing. Must be assign in
+<code>self.params</code>. :type wordlist: str :param hide_code: Optional
+code to hide. Must be assign in <code>self.params</code>. :type
+hide_code: int :param headers_file: Optional file containing headers.
+:type headers_file: str, optional :param data_file: Optional file
+containing data. :type data_file: str, optional :param params_file:
+Optional file containing parameters. :type params_file: str, optional
+:param json_data_file: Optional file containing JSON data. :type
+json_data_file: str, optional</p>
 <p>:returns: None</p>
 <p>Manual execution: 1. Ensure that <code>url</code>,
-<code>method</code>, and <code>proxy_port</code> are set in
+<code>method</code>, and <code>proxy_port</code> are assign in
 <code>self.params</code>. 2. Provide additional parameters as needed. 3.
 Run the script <code>modules/lazyown_burpfuzzer.py</code> with the
 appropriate arguments.</p>
@@ -1070,7 +1075,7 @@ HTTP method <code>POST</code>, and proxy port <code>8080</code>, set:
 <code>self.params["method"] = "POST"</code>
 <code>self.params["proxy_port"] = 8080</code> Then call:
 <code>run_lazyburpfuzzer()</code></p>
-<p>Note: - Ensure that all required parameters are set before calling
+<p>Note: - Ensure that all required parameters are assign before calling
 this function. - Parameters can also be provided via corresponding
 files.</p>
 <h2 id="lazyreverse_shell">lazyreverse_shell</h2>
@@ -1086,30 +1091,30 @@ parameters.</p>
 <code>reverse_shell_port</code> (port) from
 <code>self.params</code>.</li>
 <li>Validates that <code>rhost</code> and
-<code>reverse_shell_port</code> parameters are set.</li>
+<code>reverse_shell_port</code> parameters are assign.</li>
 <li>Constructs the command to run the <code>lazyreverse_shell.sh</code>
 script with the specified arguments.</li>
 <li>Executes the command.</li>
 </ol>
-<p>:param ip: The IP address to use for the reverse shell. Must be set
-in <code>self.params</code>. :type ip: str :param port: The port to use
-for the reverse shell. Must be set in <code>self.params</code>. :type
-port: str</p>
+<p>:param ip: The IP address to use for the reverse shell. Must be
+assign in <code>self.params</code>. :type ip: str :param port: The port
+to use for the reverse shell. Must be assign in
+<code>self.params</code>. :type port: str</p>
 <p>:returns: None</p>
 <p>Manual execution: 1. Ensure that <code>rhost</code> and
-<code>reverse_shell_port</code> are set in <code>self.params</code>. 2.
-Run the script <code>modules/lazyreverse_shell.sh</code> with the
+<code>reverse_shell_port</code> are assign in <code>self.params</code>.
+2. Run the script <code>modules/lazyreverse_shell.sh</code> with the
 appropriate arguments.</p>
 <p>Dependencies: - <code>modules/lazyreverse_shell.sh</code> must be
 present in the <code>modules</code> directory and must be
 executable.</p>
-<p>Example: To set up a reverse shell with IP <code>192.168.1.100</code>
-and port <code>4444</code>, set:
+<p>Example: To assign up a reverse shell with IP
+<code>192.168.1.100</code> and port <code>4444</code>, assign:
 <code>self.params["rhost"] = "192.168.1.100"</code>
 <code>self.params["reverse_shell_port"] = "4444"</code> Then call:
 <code>run_lazyreverse_shell()</code></p>
 <p>Note: - Ensure that <code>modules/lazyreverse_shell.sh</code> has the
-necessary permissions to execute. - Parameters must be set before
+necessary permissions to execute. - Parameters must be assign before
 calling this function.</p>
 <h2 id="lazyarpspoofing">lazyarpspoofing</h2>
 <p>Run the internal module located at
@@ -1124,19 +1129,19 @@ parameters.</p>
 <li>Retrieves the values for <code>lhost</code>, <code>rhost</code>, and
 <code>device</code> from <code>self.params</code>.</li>
 <li>Validates that <code>lhost</code>, <code>rhost</code>, and
-<code>device</code> parameters are set.</li>
+<code>device</code> parameters are assign.</li>
 <li>Constructs the command to run the <code>lazyarpspoofing.py</code>
 script with the specified arguments.</li>
 <li>Executes the command.</li>
 </ol>
-<p>:param lhost: The local host IP address to spoof. Must be set in
+<p>:param lhost: The local host IP address to spoof. Must be assign in
 <code>self.params</code>. :type lhost: str :param rhost: The remote host
-IP address to spoof. Must be set in <code>self.params</code>. :type
+IP address to spoof. Must be assign in <code>self.params</code>. :type
 rhost: str :param device: The network interface to use for ARP spoofing.
-Must be set in <code>self.params</code>. :type device: str</p>
+Must be assign in <code>self.params</code>. :type device: str</p>
 <p>:returns: None</p>
 <p>Manual execution: 1. Ensure that <code>lhost</code>,
-<code>rhost</code>, and <code>device</code> are set in
+<code>rhost</code>, and <code>device</code> are assign in
 <code>self.params</code>. 2. Run the script
 <code>modules/lazyarpspoofing.py</code> with the appropriate
 arguments.</p>
@@ -1151,7 +1156,7 @@ device <code>eth0</code>, set:
 <code>self.params["device"] = "eth0"</code> Then call:
 <code>run_lazyarpspoofing()</code></p>
 <p>Note: - Ensure that <code>modules/lazyarpspoofing.py</code> has the
-necessary permissions to execute. - Parameters must be set before
+necessary permissions to execute. - Parameters must be assign before
 calling this function.</p>
 <h2 id="lazyattack">lazyattack</h2>
 <p>Run the internal module located at <code>modules/lazyatack.sh</code>
@@ -1164,31 +1169,32 @@ address.</p>
 <ol type="1">
 <li>Retrieves the current working directory.</li>
 <li>Validates that <code>mode</code>, <code>rhost</code>, and
-<code>lhost</code> parameters are set.</li>
+<code>lhost</code> parameters are assign.</li>
 <li>Constructs the command to run the <code>lazyatack.sh</code> script
 with the specified arguments.</li>
 <li>Executes the command.</li>
 </ol>
-<p>:param mode: The mode in which the attack should be run. Must be set
-in <code>self.params</code>. :type mode: str :param target_ip: The IP
-address of the target. Must be set in <code>self.params</code>. :type
-target_ip: str :param attacker_ip: The IP address of the attacker. Must
-be set in <code>self.params</code>. :type attacker_ip: str</p>
+<p>:param mode: The mode in which the attack should be run. Must be
+assign in <code>self.params</code>. :type mode: str :param target_ip:
+The IP address of the target. Must be assign in
+<code>self.params</code>. :type target_ip: str :param attacker_ip: The
+IP address of the attacker. Must be assign in <code>self.params</code>.
+:type attacker_ip: str</p>
 <p>:returns: None</p>
 <p>Manual execution: 1. Ensure that <code>mode</code>,
-<code>rhost</code>, and <code>lhost</code> are set in
+<code>rhost</code>, and <code>lhost</code> are assign in
 <code>self.params</code>. 2. Run the script
 <code>modules/lazyatack.sh</code> with the appropriate arguments.</p>
 <p>Dependencies: - <code>modules/lazyatack.sh</code> must be present in
 the <code>modules</code> directory and must be executable.</p>
 <p>Example: To execute the attack with mode <code>scan</code>, target IP
 <code>192.168.1.100</code>, and attacker IP <code>192.168.1.1</code>,
-set: <code>self.params["mode"] = "scan"</code>
+assign: <code>self.params["mode"] = "scan"</code>
 <code>self.params["rhost"] = "192.168.1.100"</code>
 <code>self.params["lhost"] = "192.168.1.1"</code> Then call:
 <code>run_lazyattack()</code></p>
 <p>Note: - Ensure that <code>modules/lazyatack.sh</code> has the
-necessary permissions to execute. - Parameters must be set before
+necessary permissions to execute. - Parameters must be assign before
 calling this function.</p>
 <h2 id="lazymsfvenom">lazymsfvenom</h2>
 <p>Executes the <code>msfvenom</code> tool to generate a variety of
@@ -1200,7 +1206,7 @@ different types of payloads for Linux, Windows, macOS, and Android
 systems, including optional encoding with Shikata Ga Nai for C
 payloads.</p>
 <p>The generated payloads are moved to a <code>sessions</code>
-directory, where appropriate permissions are set. Additionally, the
+directory, where appropriate permissions are assign. Additionally, the
 payloads can be compressed using UPX for space efficiency. If the
 selected payload is an Android APK, the function will also sign the APK
 and perform necessary post-processing steps.</p>
@@ -1220,13 +1226,13 @@ to ensure the script is executed in preference to other binaries.</li>
 <p>The function then prints out each command being executed and a
 message indicating the binary name used for the path hijacking.</p>
 <p>:param binary_name: The name of the binary to be used in the path
-hijacking attack. It should be set in <code>self.params</code> before
+hijacking attack. It should be assign in <code>self.params</code> before
 calling this method. :type binary_name: str</p>
 <p>:returns: None</p>
-<p>Manual execution: 1. Ensure that <code>binary_name</code> is set in
-<code>self.params</code>. 2. Append the binary name to
+<p>Manual execution: 1. Ensure that <code>binary_name</code> is assign
+in <code>self.params</code>. 2. Append the binary name to
 <code>modules/tmp.sh</code>. 3. Copy <code>modules/tmp.sh</code> to
-<code>/tmp/{binary_name}</code>. 4. Set executable permissions on the
+<code>/tmp/{binary_name}</code>. 4. assign executable permissions on the
 copied file. 5. Update the PATH environment variable to prioritize
 <code>/tmp</code>.</p>
 <p>Dependencies: - The <code>self.params</code> dictionary must contain
@@ -1235,7 +1241,7 @@ a valid <code>binary_name</code>. - Ensure that
 the attack.</p>
 <p>Example: To execute the path hijacking attack with
 <code>binary_name</code> as <code>malicious</code>, ensure
-<code>self.params["binary_name"]</code> is set to
+<code>self.params["binary_name"]</code> is assign to
 <code>"malicious"</code>, and then call:
 <code>run_lazypathhijacking()</code></p>
 <p>Note: - The <code>binary_name</code> parameter must be a string
@@ -1426,7 +1432,7 @@ or <code>unzip</code> is not installed, the function will fail.</p>
 perform the following operations:</p>
 <ol type="1">
 <li>Checks if <code>rhost</code> (remote host) and <code>lhost</code>
-(local host) are set; if not, an error message is displayed.</li>
+(local host) are assign; if not, an error message is displayed.</li>
 <li>If <code>line</code> (share name) is provided:</li>
 </ol>
 <ul>
@@ -1453,7 +1459,7 @@ None</p>
 to perform the following operations:</p>
 <ol type="1">
 <li>Checks if <code>rhost</code> (remote host) and <code>lhost</code>
-(local host) are set; if not, an error message is displayed.</li>
+(local host) are assign; if not, an error message is displayed.</li>
 <li>If <code>line</code> (share name) is provided:</li>
 </ol>
 <ul>
@@ -1480,7 +1486,7 @@ None</p>
 interact with SMB shares on a remote host:</p>
 <ol type="1">
 <li>Checks if <code>rhost</code> (remote host) and <code>lhost</code>
-(local host) are set; if not, an error message is displayed.</li>
+(local host) are assign; if not, an error message is displayed.</li>
 <li>If no <code>line</code> (share name or options) is provided:</li>
 </ol>
 <ul>
@@ -1590,7 +1596,7 @@ from the <code>line</code> parameter.</li>
 </ol>
 <p>:param line: The relative path to the file within the ExploitDB
 directory. For example, <code>java/remote/51884.py</code>. :param
-exploitdb: The path to the ExploitDB directory. This must be set in
+exploitdb: The path to the ExploitDB directory. This must be assign in
 advance or provided directly.</p>
 <p>:returns: None</p>
 <p>Manual execution: To manually copy files, use the following syntax:
@@ -1778,9 +1784,9 @@ file fuzzing.</p>
 <p>:param line: The options and arguments for <code>wfuzz</code>. The
 <code>line</code> parameter can include the following: -
 <code>sub &lt;domain&gt;</code>: Fuzz DNS subdomains. Requires
-<code>dnswordlist</code> to be set. - <code>iis</code>: Fuzz IIS
+<code>dnswordlist</code> to be assign. - <code>iis</code>: Fuzz IIS
 directories. Uses a default wordlist if <code>iiswordlist</code> is not
-set. - Any other argument: General directory and file fuzzing.</p>
+assign. - Any other argument: General directory and file fuzzing.</p>
 <p>:returns: None</p>
 <p>Manual execution: To manually use <code>wfuzz</code> for directory
 and file fuzzing, use the following commands:</p>
@@ -1849,10 +1855,10 @@ host discovery.</p>
 <p>:param line: The options and arguments for <code>gobuster</code>. The
 <code>line</code> parameter can include the following: -
 <code>url</code>: Perform directory fuzzing on a specified URL. Requires
-<code>url</code> and <code>dirwordlist</code> to be set. -
+<code>url</code> and <code>dirwordlist</code> to be assign. -
 <code>vhost</code>: Perform virtual host discovery on a specified URL.
-Requires <code>url</code> and <code>dirwordlist</code> to be set. - Any
-other argument: General directory fuzzing with additional
+Requires <code>url</code> and <code>dirwordlist</code> to be assign. -
+Any other argument: General directory fuzzing with additional
 parameters.</p>
 <p>:returns: None</p>
 <p>Manual execution: To manually use <code>gobuster</code>, use the
@@ -1891,15 +1897,29 @@ address to a domain name.</p>
 <code>/etc/hosts</code> file, enabling local resolution of the
 domain.</p>
 <h2 id="cme">cme</h2>
-<p>Performs an SMB enumeration using <code>crackmapexec</code>.</p>
-<p>:param line: Not used in this function.</p>
-<p>:returns: None</p>
-<p>Manual execution: To manually run <code>crackmapexec</code> for SMB
-enumeration, use the following command:</p>
+<p>Execute CrackMapExec (CME) for SMB enumeration and authentication
+attempts against a target.</p>
+<p>This function provides a range of SMB operations using CME,
+including: 1. RID brute-forcing, which attempts to enumerate users via
+RID cycling. 2. Share enumeration to list SMB shares on the target. 3.
+User authentication to verify credentials against the target. 4.
+Brute-force authentication using username and password lists. 5.
+Hash-based authentication to attempt access using an NTLM hash.</p>
+<p>Parameters: line (str): Specifies the action to perform, which can be
+one of the following: - “rid”: Enumerates users by attempting RID
+brute-force. - “shares”: Lists SMB shares on the target. - “user”:
+Verifies credentials from a stored credential file or prompts for a
+username and password. - “brute”: Attempts brute-force authentication
+using a user and password dictionary. - “hash”: Attempts authentication
+using an NTLM hash file. If no valid option is provided, the function
+defaults to performing basic SMB enumeration.</p>
+<p>Returns: None</p>
+<p>Manual Execution Example: To manually run CrackMapExec for SMB
+enumeration, use:</p>
 <pre><code>crackmapexec smb &lt;target&gt;</code></pre>
 <p>Example: crackmapexec smb 10.10.11.24</p>
-<p>This command will enumerate SMB shares and perform basic SMB checks
-against the specified target IP address.</p>
+<p>This command performs basic SMB enumeration and checks against the
+specified target IP address.</p>
 <h2 id="ldapdomaindump">ldapdomaindump</h2>
 <p>Dumps LDAP information using <code>ldapdomaindump</code> with
 credentials from a file.</p>
@@ -1941,7 +1961,7 @@ system, use the following command:</p>
 <p>The TTL (Time To Live) value is used to infer the operating system: -
 TTL values around 64 typically indicate a Linux system. - TTL values
 around 128 typically indicate a Windows system.</p>
-<p>Ensure you have set <code>rhost</code> to the target host for the
+<p>Ensure you have assign <code>rhost</code> to the target host for the
 command to work.</p>
 <h2 id="gospider">gospider</h2>
 <p>Try gospider for web spidering.</p>
@@ -1960,8 +1980,8 @@ specified in <code>self.params["rhost"]</code>.</li>
 </ul>
 <p>:returns: None</p>
 <p>Manual execution: 1. Ensure that the <code>gospider</code> tool is
-installed on the system. 2. Set the <code>url</code> parameter if using
-the “url” mode. 3. Run the method to perform the spidering
+installed on the system. 2. assign the <code>url</code> parameter if
+using the “url” mode. 3. Run the method to perform the spidering
 operation.</p>
 <p>Dependencies: - <code>gospider</code> must be installed on the
 system. - The <code>sudo</code> command must be available for installing
@@ -1984,13 +2004,13 @@ line: str</p>
 network device.</li>
 </ul>
 <p>:returns: None</p>
-<p>Manual execution: 1. Ensure that the network device is set using the
-appropriate parameter. 2. Run the method to perform an ARP scan.</p>
+<p>Manual execution: 1. Ensure that the network device is assign using
+the appropriate parameter. 2. Run the method to perform an ARP scan.</p>
 <p>Dependencies: - <code>arp-scan</code> must be installed on the
 system. - The <code>sudo</code> command must be available for executing
 <code>arp-scan</code>.</p>
-<p>Examples: 1. Set the device parameter using
-<code>set device &lt;network_device&gt;</code>. 2. Run
+<p>Examples: 1. assign the device parameter using
+<code>assign device &lt;network_device&gt;</code>. 2. Run
 <code>arpscan</code> to perform the ARP scan.</p>
 <p>Note: - The network device must be configured and available on the
 system for the scan to work. - Ensure that <code>arp-scan</code> is
@@ -2059,22 +2079,23 @@ from the SMB share.</li>
 <code>sessions</code> directory.</li>
 </ul>
 <p>:returns: None</p>
-<p>Manual execution: 1. Ensure <code>lhost</code> is set to a valid IP
-address or hostname. 2. Run the method to create the SCF file and start
-the SMB server. 3. Use the copied curl command to download the SCF file
-on the target system. 4. Ensure that <code>impacket-smbserver</code> is
-installed and accessible from the command line.</p>
+<p>Manual execution: 1. Ensure <code>lhost</code> is assign to a valid
+IP address or hostname. 2. Run the method to create the SCF file and
+start the SMB server. 3. Use the copied curl command to download the SCF
+file on the target system. 4. Ensure that
+<code>impacket-smbserver</code> is installed and accessible from the
+command line.</p>
 <p>Dependencies: - The <code>impacket-smbserver</code> tool must be
 installed and accessible from the command line. - The
 <code>check_lhost</code> function must validate the <code>lhost</code>
 parameter.</p>
-<p>Examples: 1. Run <code>do_smbserver</code> to set up the SMB server
-and generate the SCF file. 2. Use the provided curl command to download
-the SCF file on the target system.</p>
+<p>Examples: 1. Run <code>do_smbserver</code> to assign up the SMB
+server and generate the SCF file. 2. Use the provided curl command to
+download the SCF file on the target system.</p>
 <p>Note: - The SCF file is used to create a shortcut to the SMB share
 and should be accessible from the target system. - Ensure that the
-<code>lhost</code> parameter is correctly set and that the SMB server is
-properly configured.</p>
+<code>lhost</code> parameter is correctly assign and that the SMB server
+is properly configured.</p>
 <h2 id="sqlmap">sqlmap</h2>
 <p>Uses sqlmap to perform SQL injection testing on a given URL or
 request file (you can get one with burpsuit or proxy command and
@@ -2110,7 +2131,7 @@ sqlmap.</p></li>
 request file and parameters. 2. Run sqlmap with the specified options
 for SQL injection testing. 3. To use the wizard mode, execute
 <code>sqlmap -wizard</code>. 4. For URL-based testing, ensure
-<code>url</code> is set and run sqlmap with the URL.</p>
+<code>url</code> is assign and run sqlmap with the URL.</p>
 <p>Dependencies: - The <code>sqlmap</code> tool must be installed and
 accessible from the command line. - The request file specified in
 <code>req</code> should be located in the <code>sessions</code>
@@ -2119,8 +2140,8 @@ directory.</p>
 database_name sqlmap req requests.txt id database_name table_name sqlmap
 -wiz</p>
 <p>Note: - Ensure the request file exists and is readable before running
-sqlmap. - The URL must be set for URL-based testing. - The wizard mode
-is useful for interactive configuration if you’re unsure about the
+sqlmap. - The URL must be assign for URL-based testing. - The wizard
+mode is useful for interactive configuration if you’re unsure about the
 options.</p>
 <h2 id="proxy">proxy</h2>
 <p>Runs a small proxy server to modify HTTP requests on the fly.</p>
@@ -2167,8 +2188,8 @@ shell.</p>
 directory with the specified <code>lhost</code> and <code>lport</code>
 values.</p>
 <p>This function performs the following actions: 1. Checks if
-<code>lhost</code> and <code>lport</code> are set. If not, it prints an
-error message and exits. 2. Creates a bash reverse shell script using
+<code>lhost</code> and <code>lport</code> are assign. If not, it prints
+an error message and exits. 2. Creates a bash reverse shell script using
 the provided <code>lhost</code> and <code>lport</code> values. 3. Saves
 the script to <code>sessions/revshell.sh</code>. 4. Prints a message
 with the <code>curl</code> command to download and execute the reverse
@@ -2186,18 +2207,18 @@ clipboard for easy use.</p>
 <code>xclip</code> must be installed for copying the command to the
 clipboard.</p>
 <p>Example: createrevshell</p>
-<p>Note: - Ensure that <code>lhost</code> and <code>lport</code> are set
-before running this command. - The script will listen for incoming
-connections on the specified <code>lport</code> and connect back to
-<code>lhost</code>. - Adjust the <code>lhost</code> and
+<p>Note: - Ensure that <code>lhost</code> and <code>lport</code> are
+assign before running this command. - The script will listen for
+incoming connections on the specified <code>lport</code> and connect
+back to <code>lhost</code>. - Adjust the <code>lhost</code> and
 <code>lport</code> as needed for your specific environment.</p>
 <h2 id="createwinrevshell">createwinrevshell</h2>
 <p>Creates a PowerShell reverse shell script in the
 <code>sessions</code> directory with the specified <code>lhost</code>
 and <code>lport</code> values.</p>
 <p>This function performs the following actions: 1. Checks if
-<code>lhost</code> and <code>lport</code> are set. If not, it prints an
-error message and exits. 2. Creates a PowerShell reverse shell script
+<code>lhost</code> and <code>lport</code> are assign. If not, it prints
+an error message and exits. 2. Creates a PowerShell reverse shell script
 using the provided <code>lhost</code> and <code>lport</code> values. 3.
 Saves the script to <code>sessions/revshell.ps1</code>. 4. Prints a
 message with the command to download and execute the reverse shell
@@ -2215,10 +2236,10 @@ clipboard for easy use.</p>
 <code>xclip</code> must be installed for copying the command to the
 clipboard.</p>
 <p>Example: createwinrevshell</p>
-<p>Note: - Ensure that <code>lhost</code> and <code>lport</code> are set
-before running this command. - The script will listen for incoming
-connections on the specified <code>lport</code> and connect back to
-<code>lhost</code>. - Adjust the <code>lhost</code> and
+<p>Note: - Ensure that <code>lhost</code> and <code>lport</code> are
+assign before running this command. - The script will listen for
+incoming connections on the specified <code>lport</code> and connect
+back to <code>lhost</code>. - Adjust the <code>lhost</code> and
 <code>lport</code> as needed for your specific environment.</p>
 <h2 id="createhash">createhash</h2>
 <p>Creates a <code>hash.txt</code> file in the <code>sessions</code>
@@ -2319,7 +2340,7 @@ the port it’s running on.</p>
 <p>:param line: Not used in this function. :type line: str :returns:
 None</p>
 <p>Manual execution: 1. Runs the <code>install_external.sh</code> script
-to set up necessary components or exploits. 2. Displays network
+to assign up necessary components or exploits. 2. Displays network
 interface IP addresses and copies the IP address of <code>tun0</code> to
 the clipboard. 3. Lists the contents of <code>external/.exploit</code>
 directory. 4. Starts a Python HTTP server on port 8443 in the
@@ -2352,10 +2373,10 @@ installs <code>dirsearch</code> using
 command.</p>
 <p>Dependencies: - <code>dirsearch</code> must be installed. If not
 present, it will be installed using <code>sudo apt</code>. - Ensure the
-URL is set via the <code>url</code> parameter before calling this
+URL is assign via the <code>url</code> parameter before calling this
 function.</p>
 <p>Example: dirsearch http://example.com/</p>
-<p>Note: - Ensure that the <code>url</code> parameter is set before
+<p>Note: - Ensure that the <code>url</code> parameter is assign before
 calling this function. - The <code>-x</code> option specifies HTTP
 status codes to exclude from the results (e.g., 403, 404, 400). - The
 function will attempt to install <code>dirsearch</code> if it is not
@@ -2380,7 +2401,7 @@ the system’s PATH. - Ensure the wordlist file exists at the specified
 path. - The <code>sessions/hash.txt</code> file must contain the hashes
 to be cracked.</p>
 <p>Example: john2hash –format=Raw-SHA512 # If <code>wordlist</code> is
-set to <code>/usr/share/wordlists/rockyou.txt</code>, the command
+assign to <code>/usr/share/wordlists/rockyou.txt</code>, the command
 executed will be
 <code>sudo john sessions/hash.txt --wordlist=/usr/share/wordlists/rockyou.txt --format=Raw-SHA512</code>.</p>
 <p>Note: - Ensure that the <code>wordlist</code> parameter is set before
@@ -2433,7 +2454,7 @@ user.</p>
 <p>Dependencies: - The function relies on <code>sudo</code> to run
 Responder with root privileges. - Ensure that Responder is installed and
 available in the system’s PATH.</p>
-<p>Example: responder # If <code>device</code> is set to
+<p>Example: responder # If <code>device</code> is assign to
 <code>tun0</code>, the command executed will be
 <code>sudo responder -I tun0</code>.</p>
 <p>Note: - Ensure that the <code>device</code> parameter is set before
@@ -2575,7 +2596,7 @@ provides a way to execute the payload via a PHP-based web shell.</p>
 <p>:param line: This parameter is not used in the function. :type line:
 str :returns: None</p>
 <p>Manual execution: 1. Ensure that <code>lhost</code>,
-<code>lport</code>, and <code>rhost</code> parameters are set. 2. The
+<code>lport</code>, and <code>rhost</code> parameters are assign. 2. The
 function generates a reverse shell command in Bash and prints
 instructions for using the payload. 3. It also provides an example URL
 and PHP code snippet that decodes and executes the base64-encoded
@@ -2596,7 +2617,7 @@ prompted to select which payload to copy to the clipboard.</p>
 <p>:param line: This parameter is not used in the function. :type line:
 str :returns: None</p>
 <p>Manual execution: 1. Ensure that <code>lhost</code>,
-<code>lport</code>, and <code>rhost</code> parameters are set. 2. The
+<code>lport</code>, and <code>rhost</code> parameters are assign. 2. The
 function generates two payloads: - Payload 1: A script that sends
 cookies to the specified host and port. - Payload 2: An image tag with
 an <code>onerror</code> event that fetches cookies and sends them to the
@@ -2605,7 +2626,7 @@ to choose between the two payloads, which are then copied to the
 clipboard.</p>
 <p>Dependencies: - The script uses <code>xclip</code> to copy the
 payloads to the clipboard. - Ensure that <code>lhost</code>,
-<code>lport</code>, and <code>rhost</code> parameters are set with
+<code>lport</code>, and <code>rhost</code> parameters are assign with
 appropriate values.</p>
 <p>Example: img2cookie # This will prompt you to select between two
 payloads. The chosen payload will be copied to the clipboard.</p>
@@ -2643,8 +2664,8 @@ command to the clipboard for easy execution.</p>
 host and port are retrieved from the <code>params</code> dictionary.
 :type line: str :returns: None</p>
 <p>Manual execution: 1. Ensure that the <code>lhost</code> and
-<code>lport</code> parameters are set with the local host and port for
-the reverse shell. 2. The function downloads
+<code>lport</code> parameters are assign with the local host and port
+for the reverse shell. 2. The function downloads
 <code>Invoke-ConPtyShell.ps1</code> and <code>ConPtyShell.zip</code> to
 the <code>sessions</code> directory. 3. Constructs a PowerShell command
 to run <code>Invoke-ConPtyShell.ps1</code> with the specified local IP
@@ -2673,9 +2694,9 @@ listener. If not provided, it defaults to the <code>lport</code>
 parameter. :type line: str :returns: None</p>
 <p>Manual execution: 1. Ensure that <code>pwncat-cs</code> is installed
 and accessible from your command line. 2. The port number can either be
-provided as an argument or be set in the <code>lport</code> parameter of
-the function. 3. Run the function to start <code>pwncat-cs</code> on the
-specified port.</p>
+provided as an argument or be assign in the <code>lport</code> parameter
+of the function. 3. Run the function to start <code>pwncat-cs</code> on
+the specified port.</p>
 <p>If no port is provided as an argument, the function will use the port
 specified in the <code>lport</code> parameter. If a port is provided, it
 overrides the <code>lport</code> value.</p>
@@ -2696,9 +2717,9 @@ listener. If not provided, it defaults to the <code>lport</code>
 parameter. :type line: str :returns: None</p>
 <p>Manual execution: 1. Ensure that <code>pwncat-cs</code> is installed
 and accessible from your command line. 2. The port number can either be
-provided as an argument or be set in the <code>lport</code> parameter of
-the function. 3. Run the function to start <code>pwncat-cs</code> on the
-specified port.</p>
+provided as an argument or be assign in the <code>lport</code> parameter
+of the function. 3. Run the function to start <code>pwncat-cs</code> on
+the specified port.</p>
 <p>If no port is provided as an argument, the function will use the port
 specified in the <code>lport</code> parameter. If a port is provided, it
 overrides the <code>lport</code> value.</p>
@@ -2801,12 +2822,12 @@ specific byte position to attack.</p>
 <p>Parameters: - line (str): The input line containing the cookie,
 plaintext, and byte position. Expected format: ‘cookie=<HASH> plaintext
 <byte_position>’.</p>
-<p>Functionality: - The function first checks if a URL is set in the
+<p>Functionality: - The function first checks if a URL is assign in the
 parameters. - It then validates that the correct number of arguments is
 provided. - If the arguments are valid, it constructs the PadBuster
 command and executes it. - The command is also copied to the clipboard
 for convenience.</p>
-<p>Usage Example: - set url http://target.com - padbuster auth=<HASH>
+<p>Usage Example: - assign url http://target.com - padbuster auth=<HASH>
 user=admin 8</p>
 <h2 id="smbattack">smbattack</h2>
 <p>Scans for hosts with SMB service open on port 445 in the specified
@@ -3060,7 +3081,7 @@ the specified parameters and prepares it for execution.</p>
 <p>Parameters: line (str): The command line input for this function.</p>
 <p>Expected self.params keys: - url (str): The URL to be used for the
 ‘cewl’ command.</p>
-<p>Example usage: - set url http://example.com - do_cewl</p>
+<p>Example usage: - assign url http://example.com - do_cewl</p>
 <h2 id="dmitry">dmitry</h2>
 <p>This function constructs and executes a command for the ‘dmitry’
 tool. It first checks if the ‘url’ parameter is set. If not, it prints
@@ -3074,7 +3095,7 @@ the domain example.com:</p>
 <p>Parameters: line (str): The command line input for this function.</p>
 <p>Expected self.params keys: - url (str): The URL to be used for the
 ‘dmitry’ command.</p>
-<p>Example usage: - set url http://example.com - do_dmitry</p>
+<p>Example usage: - assign url http://example.com - do_dmitry</p>
 <h2 id="graudit">graudit</h2>
 <p>Executes the graudit command to perform a static code analysis with
 the specified options.</p>
@@ -3273,7 +3294,7 @@ Install impacket suit to get this script in the examples Args: line
 ‘OU=EXAMPLE,DC=DOMAIN,DC=EXT’. If not provided, the user is prompted to
 enter it.</p>
 <p>Returns: None</p>
-<p>Workflow: 1. Extract parameters and set up paths. 2. Check the
+<p>Workflow: 1. Extract parameters and assign up paths. 2. Check the
 reachability of the remote host. 3. Prompt the user for an OU if not
 provided. 4. Check if the users.txt file exists and read the list of
 users. 5. Display the list of users and prompt the user to select a
@@ -3306,19 +3327,23 @@ do_bloodyAD(““)</p>
 <p>To execute the command for all users: &gt;&gt;&gt;
 do_bloodyAD(““)</p>
 <h2 id="evilwinrm">evilwinrm</h2>
-<p>Executes the Evil-WinRM tool to attempt authentication against the
-specified target.</p>
-<p>This function performs the following actions: 1. Checks if the
-provided target host (<code>rhost</code>) is valid. 2. If the
-<code>line</code> argument is “pass”, it searches for credential files
-with the pattern <code>credentials*.txt</code> and allows the user to
-select which file to use for executing the command. 3. If
-<code>line</code> is not “pass”, it prints an error message indicating
-the correct usage.</p>
-<p>Parameters: line (str): A command argument to determine the action.
-If “pass”, the function searches for credential files and authenticates
-using the selected file. If not “pass”, it prints an error message with
-usage instructions.</p>
+<p>Execute the Evil-WinRM tool for authentication attempts on a
+specified target using either password or hash.</p>
+<p>This function provides the following functionality: 1. Validates the
+specified target host (<code>rhost</code>). 2. If <code>line</code> is
+“pass”, searches for credential files with the pattern
+<code>credentials*.txt</code>, prompts the user to optionally pass a
+PowerShell script, and iterates over the credentials to attempt
+authentication. 3. If <code>line</code> is “hash”, verifies the
+existence of a hash file, prompts for the username (default is
+Administrator), and attempts authentication using the specified hash. 4.
+If <code>line</code> is neither “pass” nor “hash”, displays a usage
+error.</p>
+<p>Parameters: line (str): Command argument specifying the
+authentication method. - “pass”: Searches for credential files and
+authenticates using passwords. - “hash”: Authenticates using a hash
+file. If neither “pass” nor “hash” is provided, an error message with
+usage instructions is displayed.</p>
 <p>Returns: None</p>
 <h2 id="gettgt">getTGT</h2>
 <p>Requests a Ticket Granting Ticket (TGT) using the Impacket tool with
@@ -4556,6 +4581,49 @@ privileges by checking the effective user ID. If the script is not
 running as root, it prints a warning message and restarts the script
 using sudo.</p>
 <p>:return: None</p>
+<h2 id="netview">netview</h2>
+<p>Executes the Impacket netview tool to list network shares on a
+specified target.</p>
+<p>This function performs the following actions: 1. Checks if the target
+host is valid. 2. If the line argument is “pass”, it searches for
+credential files with the pattern <code>credentials*.txt</code> and
+allows the user to select which file to use for executing the command.
+3. If line is “hash”, it searches for a hash file and prompts the user
+for a username, then constructs and executes the command with the hash.
+4. If line does not match “pass” or “hash”, it displays an error message
+with usage instructions.</p>
+<p>Parameters: line (str): A command argument to determine the
+authentication mode. If “pass”, the function searches for credential
+files and authenticates using the selected file. If “hash”, it uses a
+hash file for authentication. If neither, it prints an error message
+with usage instructions.</p>
+<p>Returns: None</p>
+<h2 id="wmiexec">wmiexec</h2>
+<p>Executes the Impacket WMIExec tool to run commands on a target system
+using WMI.</p>
+<p>This function performs the following actions: 1. Checks if the target
+IP is valid. 2. If the line argument is “pass”, it searches for
+credential files with the pattern <code>credentials*.txt</code> and
+allows the user to select which file to use for executing the command.
+3. If line is “hash”, it searches for a hash file and prompts the user
+for a username, then constructs and executes the command with the hash.
+4. If line does not match “pass” or “hash”, it displays an error message
+with usage instructions.</p>
+<p>Parameters: line (str): A command argument to determine the
+authentication mode. If “pass”, the function searches for credential
+files and authenticates using the selected file. If “hash”, it uses a
+hash file for authentication. If neither, it prints an error message
+with usage instructions.</p>
+<p>Returns: None</p>
+<h2 id="extract_ports">extract_ports</h2>
+<p>Extracts open ports and IP address information from a specified
+file.</p>
+<p>This function performs the following actions: 1. Reads the specified
+file to find open ports. 2. If not port pass as an argument, Extracts
+the first unique IP address found in the file. 3. Prints the extracted
+information to the console.</p>
+<p>Parameters: line (str): The port to get information.</p>
+<p>Returns: None</p>
 <h2 id="find_tgts">find_tgts</h2>
 <p>Finds and returns a list of target hosts with port 445 open in the
 specified subnet.</p>

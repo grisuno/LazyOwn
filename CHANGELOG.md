@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Correcciones urgentes
+
+### Otros
+
+  *   * hotfix(hotfix): hotfix \n\n Version: vvvrelease/0.2.11 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Oct 30 20:07:32 2024 -0300 \n\n Hora: 1730329652
+
+
 ### Nuevas características
 
 ### Otros

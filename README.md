@@ -8295,6 +8295,22 @@ line (str): The port to get information.
 Returns:
 None
 
+## cron
+Schedules a command to run at a specified time.
+
+This function allows users to schedule a command to execute at a specific hour and minute.
+If the specified time has already passed for the current day, the command will be scheduled 
+to run the following day.
+
+Usage:
+    cron HH:MM command [args]
+
+Parameters:
+line (str): The input string containing the scheduled time in 'HH:MM' format followed by the command and arguments.
+
+Returns:
+None
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 
@@ -8507,11 +8523,21 @@ Raises:
 ## alternate_case
 Helper function to alternate the case of characters in a string.
 
+## lazyrun_command
+No description available.
+
 <!-- END COMMANDS -->
 
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): feat \n\n Version: vvvrelease/0.2.9 \n\n feat \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 28 20:25:27 2024 -0300 \n\n Hora: 1730157927
 
 
 ### Correcciones

@@ -52,7 +52,7 @@ Typical Use:
 
 Parameter Configuration:
 
-Users can set required parameters using commands like set target_ip 192.168.1.1 to define the target IP address.
+Users can set required parameters using commands like s rhost 192.168.1.1 to define the target IP address.
 Script Execution:
 
 Execute predefined scripts for various tasks, such as run lazygptcli to interact with GPT using a configured prompt and API key.
@@ -88,14 +88,12 @@ Revolutionize Your Pentesting with LazyOwn: Automate the intrusion on Linux, MAC
 Discover LazyOwn, the ultimate solution for automating the pentesting workflow to attack Linux, MacOSX and Windows systems. Our powerful tool simplifies pentesting, making it more efficient and effective. Watch this video to learn how LazyOwn can streamline your security assessments and enhance your cybersecurity toolkit.
 
 ```sh
-LazyOwn> set rhost 192.168.1.1
+LazyOwn> s rhost 192.168.1.1
 [SET] rhost set to 192.168.1.1
 LazyOwn> run lazynmap
 [INFO] Running Nmap scan on 192.168.1.1
 ...
 ```
-
-![image](https://github.com/grisuno/LazyOwn/assets/1097185/9f30a1a3-dfe8-4cc1-9bd7-76c21bdc64b7)
 
 LazyOwn is ideal for cybersecurity professionals seeking a centralized and automated solution for their pentesting needs, saving time and enhancing efficiency in identifying and exploiting vulnerabilities.
 
@@ -124,6 +122,8 @@ LazyOwn is ideal for cybersecurity professionals seeking a centralized and autom
   - name-that-hash
   - certipy-ad
   - ast
+  - bs4
+  - pykeepass
   
 - `subprocess` (incluido en la biblioteca estándar de Python)
 - `platform` (incluido en la biblioteca estándar de Python)
@@ -152,14 +152,17 @@ cd LazyOwn
 ./run or ./fast_run_as_r00t.sh 
 
 ./run --help
-    [;,;] LazyOwn release/0.1.20
-    Uso: ./run [opciones]
-    Opciones:
-      --help         Muestra esta ayuda
-      -v             Muestra la version
-      -c             Ejecuta un comando del LazyOwn ej: ping
-      --no-banner    No muestra el Banner
-      -s             Run as r00t 
+    [;,;] LazyOwn vvvrelease/0.2.8
+    Usage: ./run [Options]
+    Options:
+      --help             Show this help panel.
+      -v                 Show version.
+      -p <payloadN.json> Exec with different payload.json example. ./run -p payload1.json, (Special for RedTeams)
+      -c <command>       Exec a command using LazyOwn example: ping
+      --no-banner        No Banner
+      -s                 Run as root 
+      --old-banner       Show old Banner
+
 
 ./fast_run_as_r00t.sh --vpn 1 (the number id of your file in vpn directory)
 ```
@@ -194,47 +197,105 @@ Available Scripts
 ┌─[LazyOwn👽192.168.1.92 ~/home/gris/tools/LazyOwn][10.10.11.29][http://lantern.htb/]
 └╼ $ 
         
-┌─[LazyOwn👽192.168.1.92 ~/home/gris/tools/LazyOwn][10.10.11.29][http://lantern.htb/]
-└╼ $ ?
+┌─[LazyOwn👽10.10.14.2 ~/home/gris/tools/LazyOwn][10.10.11.39][http://University.htb]
+└╼ $ help
 
-Documented commands (type help <topic>):
-========================================
-EOF                dnsmap              ldapdomaindump       searchhash      
-acknowledgearp     download_exploit    list                 seo             
-acknowledgeicmp    download_resources  lynis                sessionssh      
-addhosts           encode              medusa               sessionsshstrace
-alias              encoderpayload      msf                  set             
-apropos            encrypt             nbtscan              set_proxychains 
-arpscan            enum4linux          nikto                sh              
-asprevbase64       exit                nmapscript           shellcode       
-banner             finalrecon          nmapscripthelp       show            
-base64decode       find                openssl_sclient      skipfish        
-base64encode       fixel               payload              smbclient       
-bloodhound         fixperm             ping                 smbmap          
-chisel             ftp                 portdiscover         smbserver       
-clean              getcap              ports                smtpuserenum    
-clock              getnpusers          portservicediscover  snmpcheck       
-cme                getseclist          proxy                socat           
-conptyshell        gobuster            psexec               sqlmap          
-cp                 gospider            pwd                  ss              
-cports             grisun0             pwncatcs             ssh             
-createcookie       hashcat             py3ttyup             sshd            
-createcredentials  help                pyautomate           swaks           
-createdll          hostdiscover        qa                   tcpdump_capture 
-createhash         hydra               rdp                  tcpdump_icmp    
-createrevshell     id_rsa              responder            tshark_analyze  
-createwebshell     ignorearp           rev                  urldecode       
-createwinrevshell  ignoreicmp          revwin               urlencode       
-creds              img2cookie          rhost                vpn             
-decode             ip                  rot                  wfuzz           
-decrypt            john2hash           rpcclient            whatweb         
-dig                launchpad           rpcdump              winbase64payload
-dirsearch          lazypwn             rubeus               wrapper         
-disableav          lazyscript          run                  www             
-dnsenum            lazywebshell        samrdump           
-
-┌─[LazyOwn👽192.168.1.92 ~/home/gris/tools/LazyOwn][10.10.11.29][http://lantern.htb/]
-└╼ $ 
+Documented commands (use 'help -v' for verbose/'help <topic>' for details):
+===========================================================================
+acknowledgearp           getcap                 refill_password           
+acknowledgeicmp          getnpusers             reg_py                    
+addhosts                 getseclist             rejetto_hfs_exec          
+addusers                 getTGT                 responder                 
+adgetpass                getuserspns            rev                       
+alias                    gitdumper              revwin                    
+aliass                   gobuster               rhost                     
+allin                    gospherus              rot                       
+alterx                   gospider               rpcclient                 
+apache_users             gowitness              rpcdump                   
+apropos                  graph                  rpcmap_py                 
+arjun                    graudit                rrhost                    
+arpscan                  grisun0                rubeus                    
+asprevbase64             h                      run                       
+automsf                  hashcat                run_pyscript              
+backdoor_factory         help                   run_script                
+banner                   hex_to_plaintext       s                         
+base64decode             history                samdump2                  
+base64encode             hostdiscover           samrdump                  
+blazy                    hydra                  scarecrow                 
+bloodhound               id_rsa                 searchhash                
+bloodyAD                 ignorearp              secretsdump               
+breacher                 ignoreicmp             seo                       
+c2                       iis_webdav_upload_asp  serveralive2              
+cacti_exploit            img2cookie             sessionssh                
+cewl                     ip                     sessionsshstrace          
+changeme                 ip2hex                 set                       
+chisel                   ipp                    set_proxychains           
+clean                    ivy                    sh                        
+clock                    john2hash              shadowsocks               
+cme                      john2keepas            sharpshooter              
+conptyshell              john2zip               shell                     
+cp                       keepass                shellcode                 
+cports                   kerbrute               shellcode2sylk            
+crack_cisco_7_password   kick                   shellcode_search          
+createcookie             kusa                   shellfire                 
+createcredentials        launchpad              shellshock                
+createdll                lazypwn                sherlock                  
+createhash               lazyscript             shortcuts                 
+createjsonmachine        lazywebshell           show                      
+createjsonmachine_batch  ldapdomaindump         sireprat                  
+createmail               ldapsearch             skipfish                  
+createrevshell           ligolo                 sliver_server             
+createtargets            list                   smalldic                  
+createusers_and_hashs    loxs                   smbattack                 
+createwebshell           lynis                  smbclient                 
+createwinrevshell        macro                  smbclient_py              
+cred                     magicrecon             smbmap                    
+crunch                   malwarebazar           smbserver                 
+cubespraying             medusa                 smtpuserenum              
+cve                      morse                  snmpcheck                 
+dacledit                 ms08_067_netapi        socat                     
+davtest                  msf                    sqli                      
+decode                   msfpc                  sqlmap                    
+decrypt                  msfrpc                 ss                        
+dig                      mssqlcli               ssh                       
+dirsearch                name_the_hash          sshd                      
+disableav                nano                   sshkey                    
+dmitry                   nbtscan                sslscan                   
+dnsenum                  nc                     stormbreaker              
+dnsmap                   netexec                sudo                      
+download_exploit         netview                swaks                     
+download_malwarebazar    ngrok                  tcpdump_capture           
+download_resources       nikto                  tcpdump_icmp              
+downloader               nmapscript             template_helper_serializer
+dr0p1t                   nmapscripthelp         tord                      
+duckyspark               nuclei                 trace                     
+edit                     odat                   transform                 
+emp3r0r                  openredirex            trufflehog                
+empire                   openssl_sclient        tshark_analyze            
+encode                   padbuster              upload_bypass             
+encoderpayload           parsero                urldecode                 
+encrypt                  parth                  urlencode                 
+enum4linux               passtightvnc           username_anarchy          
+enum4linux_ng            passwordspray          v                         
+EOF                      payload                veil                      
+eternal                  penelope               vpn                       
+evidence                 ping                   vscan                     
+evil_ssdp                portdiscover           waybackmachine            
+evilwinrm                ports                  weevely                   
+exit                     portservicediscover    weevelygen                
+eyewitness               powerserver            wfuzz                     
+feroxbuster              powershell_cmd_stager  whatweb                   
+finalrecon               proxy                  wifipass                  
+find                     psexec                 winbase64payload          
+finger_user_enum         pwd                    windapsearch              
+fixel                    pwncat                 windapsearchscrapeusers   
+fixperm                  pwncatcs               wmiexec                   
+ftp                      py3ttyup               wpscan                    
+fuzz                     pyautomate             wrapper                   
+gencert                  pykerbrute             www                       
+generate_revshell        qa                     xss                       
+generatedic              quit                   xsstrike                  
+getadusers               rdp                  
 
 
 
@@ -1706,13 +1767,13 @@ customize its behavior.
 Example:
     >>> shell = LazyOwnShell()
     >>> shell.cmdloop()  # Exits the command loop
-    Exiting custom LazyOwnShell.
+    GoodBye LazyOwner
 
-## set
-Set a parameter value.
+## assign
+assign a parameter value.
 
 This function takes a line of input, splits it into a parameter and a value,
-and sets the specified parameter to the given value if the parameter exists.
+and assign the specified parameter to the given value if the parameter exists.
 
 :param line: A string containing the parameter and value to be set.
             Expected format: '<parameter> <value>'.
@@ -1866,13 +1927,13 @@ The function performs the following steps:
 :returns: None
 
 Manual execution:
-1. Ensure that `rhost`, `lhost`, `rport`, and `lport` are set in `self.params`.
+1. Ensure that `rhost`, `lhost`, `rport`, and `lport` are assign in `self.params`.
 2. The script `modules/lazywerkzeug.py` should be present in the `modules` directory.
 3. Run the script with:
     `python3 modules/lazywerkzeug.py <rhost> <rport> <lhost> <lport>`
 
 Example:
-    To run `lazywerkzeug.py` with `rhost` set to `"127.0.0.1"`, `rport` to `5000`, `lhost` to `"localhost"`, and `lport` to `8000`, set:
+    To run `lazywerkzeug.py` with `rhost` assign to `"127.0.0.1"`, `rport` to `5000`, `lhost` to `"localhost"`, and `lport` to `8000`, set:
     `self.params["rhost"] = "127.0.0.1"`
     `self.params["rport"] = 5000`
     `self.params["lhost"] = "localhost"`
@@ -1936,13 +1997,13 @@ The function performs the following steps:
 :returns: None
 
 Manual execution:
-1. Ensure that `device` is set in `self.params`.
+1. Ensure that `device` is assign in `self.params`.
 2. The script `modules/lazysniff.py` should be present in the `modules` directory.
 3. Run the script with:
     `python3 modules/lazysniff.py -i <device>`
 
 Example:
-    To run `lazysniff` with `device` set to `"eth0"`, set:
+    To run `lazysniff` with `device` assign to `"eth0"`, set:
     `self.params["device"] = "eth0"`
     Then call:
     `run_lazysniff()`
@@ -1970,13 +2031,13 @@ The function performs the following steps:
 :returns: None
 
 Manual execution:
-1. Ensure that `device` is set in `self.params`.
+1. Ensure that `device` is assign in `self.params`.
 2. The script `modules/lazyftpsniff.py` should be present in the `modules` directory.
 3. Run the script with:
     `python3 modules/lazyftpsniff.py -i <device>`
 
 Example:
-    To run `lazyftpsniff` with `device` set to `"eth0"`, set:
+    To run `lazyftpsniff` with `device` assign to `"eth0"`, set:
     `self.params["device"] = "eth0"`
     Then call:
     `run_lazyftpsniff()`
@@ -2011,13 +2072,13 @@ The function performs the following steps:
 :returns: None
 
 Manual execution:
-1. Ensure that `startip`, `endip`, and `spoof_ip` are set in `self.params`.
+1. Ensure that `startip`, `endip`, and `spoof_ip` are assign in `self.params`.
 2. The script `modules/lazynetbios.py` should be present in the `modules` directory.
 3. Run the script with:
     `python3 modules/lazynetbios.py <startip> <endip> <spoof_ip>`
 
 Example:
-    To run `lazynetbios` with `startip` set to `"192.168.1.1"`, `endip` set to `"192.168.1.10"`, and `spoof_ip` set to `"192.168.1.100"`, set:
+    To run `lazynetbios` with `startip` assign to `"192.168.1.1"`, `endip` assign to `"192.168.1.10"`, and `spoof_ip` assign to `"192.168.1.100"`, assign:
     `self.params["startip"] = "192.168.1.1"`
     `self.params["endip"] = "192.168.1.10"`
     `self.params["spoof_ip"] = "192.168.1.100"`
@@ -2058,13 +2119,13 @@ The function performs the following steps:
 :returns: None
 
 Manual execution:
-1. Ensure that `email_from`, `email_to`, `email_username`, and `email_password` are set in `self.params`.
+1. Ensure that `email_from`, `email_to`, `email_username`, and `email_password` are assign in `self.params`.
 2. The script `modules/lazyhoneypot.py` should be present in the `modules` directory.
 3. Run the script with:
     `python3 modules/lazyhoneypot.py --email_from <email_from> --email_to <email_to> --email_username <email_username> --email_password <email_password>`
 
 Example:
-    To run `lazyhoneypot` with `email_from` set to `"sender@example.com"`, `email_to` set to `"recipient@example.com"`, `email_username` set to `"user"`, and `email_password` set to `"pass"`, set:
+    To run `lazyhoneypot` with `email_from` assign to `"sender@example.com"`, `email_to` assign to `"recipient@example.com"`, `email_username` assign to `"user"`, and `email_password` assign to `"pass"`, set:
     `self.params["email_from"] = "sender@example.com"`
     `self.params["email_to"] = "recipient@example.com"`
     `self.params["email_username"] = "user"`
@@ -2082,12 +2143,12 @@ Run the internal module to create Oneliners with Groq AI located at `modules/laz
 This function executes the script with the following arguments:
 
 - `prompt`: The prompt to be used by the script, specified in `self.params`.
-- `api_key`: The API key to be set in the environment variable `GROQ_API_KEY`, specified in `self.params`.
+- `api_key`: The API key to be assign in the environment variable `GROQ_API_KEY`, specified in `self.params`.
 
 The function performs the following steps:
 
 1. Retrieves the `prompt` and `api_key` values from `self.params`.
-2. Checks if both `prompt` and `api_key` are set. If either is missing, it prints an error message and returns.
+2. Checks if both `prompt` and `api_key` are assign. If either is missing, it prints an error message and returns.
 3. Sets the environment variable `GROQ_API_KEY` with the provided `api_key`.
 4. Calls the `run_script` method to execute the `lazygptcli.py` script with the `--prompt` argument.
 
@@ -2100,14 +2161,14 @@ The function performs the following steps:
 :returns: None
 
 Manual execution:
-1. Ensure that `prompt` and `api_key` are set in `self.params`.
+1. Ensure that `prompt` and `api_key` are assign in `self.params`.
 2. The script `modules/lazygptcli.py` should be present in the `modules` directory.
-3. Set the environment variable `GROQ_API_KEY` with the API key value.
+3. assign the environment variable `GROQ_API_KEY` with the API key value.
 4. Run the script with:
     `python3 modules/lazygptcli.py --prompt <prompt>`
 
 Example:
-    To run `lazygptcli` with `prompt` set to `"Your prompt"` and `api_key` set to `"your_api_key"`, set:
+    To run `lazygptcli` with `prompt` assign to `"Your prompt"` and `api_key` assign to `"your_api_key"`, set:
     `self.params["prompt"] = "Your prompt"`
     `self.params["api_key"] = "your_api_key"`
     Then call:
@@ -2115,7 +2176,7 @@ Example:
 
 Note:
     - Ensure that `modules/lazygptcli.py` has the appropriate permissions and dependencies to run.
-    - The environment variable `GROQ_API_KEY` must be correctly set for the script to function.
+    - The environment variable `GROQ_API_KEY` must be correctly assign for the script to function.
 
 ## lazysearch_bot
 Run the internal module GROQ AI located at `modules/lazysearch_bot.py` with the specified parameters.
@@ -2123,12 +2184,12 @@ Run the internal module GROQ AI located at `modules/lazysearch_bot.py` with the 
 This function executes the script with the following arguments:
 
 - `prompt`: The prompt to be used by the script, specified in `self.params`.
-- `api_key`: The API key to be set in the environment variable `GROQ_API_KEY`, specified in `self.params`.
+- `api_key`: The API key to be assign in the environment variable `GROQ_API_KEY`, specified in `self.params`.
 
 The function performs the following steps:
 
 1. Retrieves the `prompt` and `api_key` values from `self.params`.
-2. Checks if both `prompt` and `api_key` are set. If either is missing, it prints an error message and returns.
+2. Checks if both `prompt` and `api_key` are assign. If either is missing, it prints an error message and returns.
 3. Sets the environment variable `GROQ_API_KEY` with the provided `api_key`.
 4. Calls the `run_script` method to execute the `lazysearch_bot.py` script with the `--prompt` argument.
 
@@ -2141,14 +2202,14 @@ The function performs the following steps:
 :returns: None
 
 Manual execution:
-1. Ensure that `prompt` and `api_key` are set in `self.params`.
+1. Ensure that `prompt` and `api_key` are assign in `self.params`.
 2. The script `modules/lazysearch_bot.py` should be present in the `modules` directory.
 3. Set the environment variable `GROQ_API_KEY` with the API key value.
 4. Run the script with:
     `python3 modules/lazysearch_bot.py --prompt <prompt>`
 
 Example:
-    To run `lazysearch_bot` with `prompt` set to `"Search query"` and `api_key` set to `"your_api_key"`, set:
+    To run `lazysearch_bot` with `prompt` assign to `"Search query"` and `api_key` assign to `"your_api_key"`, assign:
     `self.params["prompt"] = "Search query"`
     `self.params["api_key"] = "your_api_key"`
     Then call:
@@ -2156,7 +2217,7 @@ Example:
 
 Note:
     - Ensure that `modules/lazysearch_bot.py` has the appropriate permissions and dependencies to run.
-    - The environment variable `GROQ_API_KEY` must be correctly set for the script to function.
+    - The environment variable `GROQ_API_KEY` must be correctly assign for the script to function.
 
 ## lazymetaextract0r
 Run the Metadata extractor internal module located at `modules/lazyown_metaextract0r.py` with the specified parameters.
@@ -2168,7 +2229,7 @@ This function executes the script with the following arguments:
 The function performs the following steps:
 
 1. Retrieves the value for `path` from `self.params`.
-2. Checks if the `path` parameter is set. If not, it prints an error message and returns.
+2. Checks if the `path` parameter is assign. If not, it prints an error message and returns.
 3. Calls the `run_script` method to execute the `lazyown_metaextract0r.py` script with the appropriate argument.
 
 :param path: The file path to be processed by the script.
@@ -2177,13 +2238,13 @@ The function performs the following steps:
 :returns: None
 
 Manual execution:
-1. Ensure that `path` is set in `self.params`.
+1. Ensure that `path` is assign in `self.params`.
 2. The script `modules/lazyown_metaextract0r.py` should be present in the `modules` directory.
 3. Run the script with:
     `python3 modules/lazyown_metaextract0r.py --path <path>`
 
 Example:
-    To run `lazyown_metaextract0r` with `path` set to `/home/user/file.txt`, set:
+    To run `lazyown_metaextract0r` with `path` assign to `/home/user/file.txt`, set:
     `self.params["path"] = "/home/user/file.txt"`
     Then call:
     `run_lazymetaextract0r()`
@@ -2216,13 +2277,13 @@ The function performs the following steps:
 :returns: None
 
 Manual execution:
-1. Ensure that `lhost`, `lport`, and `rat_key` are set in `self.params`.
+1. Ensure that `lhost`, `lport`, and `rat_key` are assign in `self.params`.
 2. The script `modules/lazyownclient.py` should be present in the `modules` directory.
 3. Run the script with:
     `python3 modules/lazyownclient.py --host <lhost> --port <lport> --key <rat_key>`
 
 Example:
-    To run `lazyownclient` with `lhost` set to `192.168.1.10`, `lport` set to `8080`, and `rat_key` set to `my_secret_key`, set:
+    To run `lazyownclient` with `lhost` assign to `192.168.1.10`, `lport` assign to `8080`, and `rat_key` assign to `my_secret_key`, set:
     `self.params["lhost"] = "192.168.1.10"`
     `self.params["lport"] = 8080`
     `self.params["rat_key"] = "my_secret_key"`
@@ -2257,13 +2318,13 @@ The function performs the following steps:
 :returns: None
 
 Manual execution:
-1. Ensure that `rhost`, `rport`, and `rat_key` are set in `self.params`.
+1. Ensure that `rhost`, `rport`, and `rat_key` are assign in `self.params`.
 2. The script `modules/lazyownserver.py` should be present in the `modules` directory.
 3. Run the script with:
     `python3 modules/lazyownserver.py --host <rhost> --port <rport> --key <rat_key>`
 
 Example:
-    To run `lazyownserver` with `rhost` set to `192.168.1.10`, `rport` set to `8080`, and `rat_key` set to `my_secret_key`, set:
+    To run `lazyownserver` with `rhost` set to `192.168.1.10`, `rport` assign to `8080`, and `rat_key` assign to `my_secret_key`, set:
     `self.params["rhost"] = "192.168.1.10"`
     `self.params["rport"] = 8080`
     `self.params["rat_key"] = "my_secret_key"`
@@ -2296,13 +2357,13 @@ The function performs the following steps:
 :returns: None
 
 Manual execution:
-1. Ensure that `rport` and `rat_key` are set in `self.params`.
+1. Ensure that `rport` and `rat_key` are assign in `self.params`.
 2. The script `modules/lazybotnet.py` should be present in the `modules` directory.
 3. Run the script with:
     `python3 modules/lazybotnet.py --host <rhost> --port <rport> --key <rat_key>`
 
 Example:
-    To run `lazybotnet` with `rport` set to `1234` and `rat_key` set to `my_key`, set:
+    To run `lazybotnet` with `rport` assign to `1234` and `rat_key` assign to `my_key`, assign:
     `self.params["rport"] = 1234`
     `self.params["rat_key"] = "my_key"`
     Then call:
@@ -2345,13 +2406,13 @@ The function performs the following steps:
 :returns: None
 
 Manual execution:
-1. Ensure that `rhost`, `rport`, `lhost`, `lport`, `field`, and `wordlist` are set in `self.params`.
+1. Ensure that `rhost`, `rport`, `lhost`, `lport`, `field`, and `wordlist` are assign in `self.params`.
 2. The script `modules/lazylfi2rce.py` should be present in the `modules` directory.
 3. Run the script with:
     `python3 modules/lazylfi2rce.py --rhost <rhost> --rport <rport> --lhost <lhost> --lport <lport> --field <field> --wordlist <wordlist>`
 
 Example:
-    To run the lazylfi2rce with `rhost` set to `192.168.1.1`, `rport` set to `80`, `lhost` set to `192.168.1.2`, `lport` set to `8080`, `field` set to `file`, and `wordlist` set to `path/to/wordlist.txt`, set:
+    To run the lazylfi2rce with `rhost` assign to `192.168.1.1`, `rport` assign to `80`, `lhost` assign to `192.168.1.2`, `lport` assign to `8080`, `field` assign to `file`, and `wordlist` assign to `path/to/wordlist.txt`, set:
     `self.params["rhost"] = "192.168.1.1"`
     `self.params["rport"] = 80`
     `self.params["lhost"] = "192.168.1.2"`
@@ -2375,24 +2436,24 @@ This function executes the script with the following arguments:
 The function performs the following steps:
 
 1. Retrieves the values for `rhost` and `lhost` from `self.params`.
-2. Checks if the required parameters `rhost` and `lhost` are set. If not, it prints an error message and returns.
+2. Checks if the required parameters `rhost` and `lhost` are assign. If not, it prints an error message and returns.
 3. Calls the `run_script` method to execute the `lazylogpoisoning.py` script with the appropriate arguments.
 
-:param rhost: The IP address of the remote host. Must be set in `self.params`.
+:param rhost: The IP address of the remote host. Must be assign in `self.params`.
 :type rhost: str
-:param lhost: The IP address of the local host. Must be set in `self.params`.
+:param lhost: The IP address of the local host. Must be assign in `self.params`.
 :type lhost: str
 
 :returns: None
 
 Manual execution:
-1. Ensure that `rhost` and `lhost` are set in `self.params`.
+1. Ensure that `rhost` and `lhost` are assign in `self.params`.
 2. The script `modules/lazylogpoisoning.py` should be present in the `modules` directory.
 3. Run the script with:
     `python3 modules/lazylogpoisoning.py --rhost <rhost> --lhost <lhost>`
 
 Example:
-    To run the lazylogpoisoning with `rhost` set to `192.168.1.1` and `lhost` set to `192.168.1.2`, set:
+    To run the lazylogpoisoning with `rhost` assign to `192.168.1.1` and `lhost` assign to `192.168.1.2`, set:
     `self.params["rhost"] = "192.168.1.1"`
     `self.params["lhost"] = "192.168.1.2"`
     Then call:
@@ -2413,18 +2474,18 @@ This function executes the script with the following arguments:
 The function performs the following steps:
 
 1. Retrieves the values for `rport` and `rat_key` from `self.params`.
-2. Checks if the required parameters `rport` and `rat_key` are set. If not, it prints an error message and returns.
+2. Checks if the required parameters `rport` and `rat_key` are assign. If not, it prints an error message and returns.
 3. Calls the `run_script` method to execute the `lazybotcli.py` script with the appropriate arguments.
 
-:param rport: The port number for the connection. Must be set in `self.params`.
+:param rport: The port number for the connection. Must be assign in `self.params`.
 :type rport: int
-:param rat_key: The key for the RAT. Must be set in `self.params`.
+:param rat_key: The key for the RAT. Must be assign in `self.params`.
 :type rat_key: str
 
 :returns: None
 
 Manual execution:
-1. Ensure that `rport` and `rat_key` are set in `self.params`.
+1. Ensure that `rport` and `rat_key` are assign in `self.params`.
 2. The script `modules/lazybotcli.py` should be present in the `modules` directory.
 3. Run the script with:
     `python3 modules/lazybotcli.py --host 0.0.0.0 --port <rport> --key <rat_key>`
@@ -2454,15 +2515,15 @@ The function performs the following steps:
 3. Constructs the command to run the `lazybrutesshuserenum.sh` script with the specified arguments.
 4. Executes the command using the `os.system` method.
 
-:param wordlist: The path to the wordlist file for username enumeration. Must be set in `self.params`.
+:param wordlist: The path to the wordlist file for username enumeration. Must be assign in `self.params`.
 :type wordlist: str
-:param rhost: The target IP address or hostname for SSH enumeration. Must be set in `self.params`.
+:param rhost: The target IP address or hostname for SSH enumeration. Must be assign in `self.params`.
 :type rhost: str
 
 :returns: None
 
 Manual execution:
-1. Ensure that `wordlist` and `rhost` are set in `self.params`.
+1. Ensure that `wordlist` and `rhost` are assign in `self.params`.
 2. Run the script `modules/lazybrutesshuserenum.sh` with the appropriate arguments.
 
 Dependencies:
@@ -2500,23 +2561,23 @@ The function performs the following steps:
 3. Adds optional parameters based on whether the corresponding files (`headers_file`, `data_file`, `params_file`, `json_data_file`) are provided.
 4. Executes the command using the `run_command` method.
 
-:param url: The target URL for the fuzzer. Must be set in `self.params`.
+:param url: The target URL for the fuzzer. Must be assign in `self.params`.
 :type url: str
-:param method: The HTTP method to use. Must be set in `self.params`.
+:param method: The HTTP method to use. Must be assign in `self.params`.
 :type method: str
-:param headers: Optional HTTP headers. Must be set in `self.params` or provided via `headers_file`.
+:param headers: Optional HTTP headers. Must be assign in `self.params` or provided via `headers_file`.
 :type headers: str
-:param params: Optional URL parameters. Must be set in `self.params` or provided via `params_file`.
+:param params: Optional URL parameters. Must be assign in `self.params` or provided via `params_file`.
 :type params: str
-:param data: Optional data for the request body. Must be set in `self.params` or provided via `data_file`.
+:param data: Optional data for the request body. Must be assign in `self.params` or provided via `data_file`.
 :type data: str
-:param json_data: Optional JSON data for the request body. Must be set in `self.params` or provided via `json_data_file`.
+:param json_data: Optional JSON data for the request body. Must be assign in `self.params` or provided via `json_data_file`.
 :type json_data: str
-:param proxy_port: The port for the proxy server. Must be set in `self.params`.
+:param proxy_port: The port for the proxy server. Must be assign in `self.params`.
 :type proxy_port: int
-:param wordlist: Optional wordlist for fuzzing. Must be set in `self.params`.
+:param wordlist: Optional wordlist for fuzzing. Must be assign in `self.params`.
 :type wordlist: str
-:param hide_code: Optional code to hide. Must be set in `self.params`.
+:param hide_code: Optional code to hide. Must be assign in `self.params`.
 :type hide_code: int
 :param headers_file: Optional file containing headers.
 :type headers_file: str, optional
@@ -2530,7 +2591,7 @@ The function performs the following steps:
 :returns: None
 
 Manual execution:
-1. Ensure that `url`, `method`, and `proxy_port` are set in `self.params`.
+1. Ensure that `url`, `method`, and `proxy_port` are assign in `self.params`.
 2. Provide additional parameters as needed.
 3. Run the script `modules/lazyown_burpfuzzer.py` with the appropriate arguments.
 
@@ -2546,7 +2607,7 @@ Example:
     `run_lazyburpfuzzer()`
 
 Note:
-    - Ensure that all required parameters are set before calling this function.
+    - Ensure that all required parameters are assign before calling this function.
     - Parameters can also be provided via corresponding files.
 
 ## lazyreverse_shell
@@ -2559,26 +2620,26 @@ The script will be executed with the following arguments:
 The function performs the following steps:
 
 1. Retrieves the values for `rhost` (IP address) and `reverse_shell_port` (port) from `self.params`.
-2. Validates that `rhost` and `reverse_shell_port` parameters are set.
+2. Validates that `rhost` and `reverse_shell_port` parameters are assign.
 3. Constructs the command to run the `lazyreverse_shell.sh` script with the specified arguments.
 4. Executes the command.
 
-:param ip: The IP address to use for the reverse shell. Must be set in `self.params`.
+:param ip: The IP address to use for the reverse shell. Must be assign in `self.params`.
 :type ip: str
-:param port: The port to use for the reverse shell. Must be set in `self.params`.
+:param port: The port to use for the reverse shell. Must be assign in `self.params`.
 :type port: str
 
 :returns: None
 
 Manual execution:
-1. Ensure that `rhost` and `reverse_shell_port` are set in `self.params`.
+1. Ensure that `rhost` and `reverse_shell_port` are assign in `self.params`.
 2. Run the script `modules/lazyreverse_shell.sh` with the appropriate arguments.
 
 Dependencies:
 - `modules/lazyreverse_shell.sh` must be present in the `modules` directory and must be executable.
 
 Example:
-    To set up a reverse shell with IP `192.168.1.100` and port `4444`, set:
+    To assign up a reverse shell with IP `192.168.1.100` and port `4444`, assign:
     `self.params["rhost"] = "192.168.1.100"`
     `self.params["reverse_shell_port"] = "4444"`
     Then call:
@@ -2586,7 +2647,7 @@ Example:
 
 Note:
     - Ensure that `modules/lazyreverse_shell.sh` has the necessary permissions to execute.
-    - Parameters must be set before calling this function.
+    - Parameters must be assign before calling this function.
 
 ## lazyarpspoofing
 Run the internal module located at `modules/lazyarpspoofing.py` with the specified parameters.
@@ -2599,21 +2660,21 @@ The script will be executed with the following arguments:
 The function performs the following steps:
 
 1. Retrieves the values for `lhost`, `rhost`, and `device` from `self.params`.
-2. Validates that `lhost`, `rhost`, and `device` parameters are set.
+2. Validates that `lhost`, `rhost`, and `device` parameters are assign.
 3. Constructs the command to run the `lazyarpspoofing.py` script with the specified arguments.
 4. Executes the command.
 
-:param lhost: The local host IP address to spoof. Must be set in `self.params`.
+:param lhost: The local host IP address to spoof. Must be assign in `self.params`.
 :type lhost: str
-:param rhost: The remote host IP address to spoof. Must be set in `self.params`.
+:param rhost: The remote host IP address to spoof. Must be assign in `self.params`.
 :type rhost: str
-:param device: The network interface to use for ARP spoofing. Must be set in `self.params`.
+:param device: The network interface to use for ARP spoofing. Must be assign in `self.params`.
 :type device: str
 
 :returns: None
 
 Manual execution:
-1. Ensure that `lhost`, `rhost`, and `device` are set in `self.params`.
+1. Ensure that `lhost`, `rhost`, and `device` are assign in `self.params`.
 2. Run the script `modules/lazyarpspoofing.py` with the appropriate arguments.
 
 Dependencies:
@@ -2629,7 +2690,7 @@ Example:
 
 Note:
     - Ensure that `modules/lazyarpspoofing.py` has the necessary permissions to execute.
-    - Parameters must be set before calling this function.
+    - Parameters must be assign before calling this function.
 
 ## lazyattack
 Run the internal module located at `modules/lazyatack.sh` with the specified parameters.
@@ -2642,28 +2703,28 @@ The script will be executed with the following arguments:
 The function performs the following steps:
 
 1. Retrieves the current working directory.
-2. Validates that `mode`, `rhost`, and `lhost` parameters are set.
+2. Validates that `mode`, `rhost`, and `lhost` parameters are assign.
 3. Constructs the command to run the `lazyatack.sh` script with the specified arguments.
 4. Executes the command.
 
-:param mode: The mode in which the attack should be run. Must be set in `self.params`.
+:param mode: The mode in which the attack should be run. Must be assign in `self.params`.
 :type mode: str
-:param target_ip: The IP address of the target. Must be set in `self.params`.
+:param target_ip: The IP address of the target. Must be assign in `self.params`.
 :type target_ip: str
-:param attacker_ip: The IP address of the attacker. Must be set in `self.params`.
+:param attacker_ip: The IP address of the attacker. Must be assign in `self.params`.
 :type attacker_ip: str
 
 :returns: None
 
 Manual execution:
-1. Ensure that `mode`, `rhost`, and `lhost` are set in `self.params`.
+1. Ensure that `mode`, `rhost`, and `lhost` are assign in `self.params`.
 2. Run the script `modules/lazyatack.sh` with the appropriate arguments.
 
 Dependencies:
 - `modules/lazyatack.sh` must be present in the `modules` directory and must be executable.
 
 Example:
-    To execute the attack with mode `scan`, target IP `192.168.1.100`, and attacker IP `192.168.1.1`, set:
+    To execute the attack with mode `scan`, target IP `192.168.1.100`, and attacker IP `192.168.1.1`, assign:
     `self.params["mode"] = "scan"`
     `self.params["rhost"] = "192.168.1.100"`
     `self.params["lhost"] = "192.168.1.1"`
@@ -2672,7 +2733,7 @@ Example:
 
 Note:
     - Ensure that `modules/lazyatack.sh` has the necessary permissions to execute.
-    - Parameters must be set before calling this function.
+    - Parameters must be assign before calling this function.
 
 ## lazymsfvenom
 Executes the `msfvenom` tool to generate a variety of payloads based on user input.
@@ -2681,7 +2742,7 @@ This function prompts the user to select a payload type from a predefined list a
 `msfvenom` command to create the desired payload. It handles tasks such as generating different types of
 payloads for Linux, Windows, macOS, and Android systems, including optional encoding with Shikata Ga Nai for C payloads.
 
-The generated payloads are moved to a `sessions` directory, where appropriate permissions are set. Additionally,
+The generated payloads are moved to a `sessions` directory, where appropriate permissions are assign. Additionally,
 the payloads can be compressed using UPX for space efficiency. If the selected payload is an Android APK,
 the function will also sign the APK and perform necessary post-processing steps.
 
@@ -2698,16 +2759,16 @@ Creates a path hijacking attack by performing the following steps:
 
 The function then prints out each command being executed and a message indicating the binary name used for the path hijacking.
 
-:param binary_name: The name of the binary to be used in the path hijacking attack. It should be set in `self.params` before calling this method.
+:param binary_name: The name of the binary to be used in the path hijacking attack. It should be assign in `self.params` before calling this method.
 :type binary_name: str
 
 :returns: None
 
 Manual execution:
-1. Ensure that `binary_name` is set in `self.params`.
+1. Ensure that `binary_name` is assign in `self.params`.
 2. Append the binary name to `modules/tmp.sh`.
 3. Copy `modules/tmp.sh` to `/tmp/{binary_name}`.
-4. Set executable permissions on the copied file.
+4. assign executable permissions on the copied file.
 5. Update the PATH environment variable to prioritize `/tmp`.
 
 Dependencies:
@@ -2715,7 +2776,7 @@ Dependencies:
 - Ensure that `modules/tmp.sh` exists and contains appropriate content for the attack.
 
 Example:
-    To execute the path hijacking attack with `binary_name` as `malicious`, ensure `self.params["binary_name"]` is set to `"malicious"`, and then call:
+    To execute the path hijacking attack with `binary_name` as `malicious`, ensure `self.params["binary_name"]` is assign to `"malicious"`, and then call:
     `run_lazypathhijacking()`
 
 Note:
@@ -2963,7 +3024,7 @@ Note:
 ## smbclient
 Interacts with SMB shares using the `smbclient` command to perform the following operations:
 
-1. Checks if `rhost` (remote host) and `lhost` (local host) are set; if not, an error message is displayed.
+1. Checks if `rhost` (remote host) and `lhost` (local host) are assign; if not, an error message is displayed.
 2. If `line` (share name) is provided:
 - Attempts to access the specified SMB share on the remote host using the command: `smbclient -N \\{rhost}\{line}`
 3. If `line` is not provided:
@@ -2976,7 +3037,7 @@ Interacts with SMB shares using the `smbclient` command to perform the following
 ## smbclient_py
 Interacts with SMB shares using the `smbclient.py` command to perform the following operations:
 
-1. Checks if `rhost` (remote host) and `lhost` (local host) are set; if not, an error message is displayed.
+1. Checks if `rhost` (remote host) and `lhost` (local host) are assign; if not, an error message is displayed.
 2. If `line` (share name) is provided:
 - Attempts to access the specified SMB share on the remote host using the command: `smbclient.py -N \\{rhost}\{line}`
 3. If `line` is not provided:
@@ -2990,7 +3051,7 @@ Interacts with SMB shares using the `smbclient.py` command to perform the follow
 smbmap -H 10.10.10.3 [OPTIONS]
 Uses the `smbmap` tool to interact with SMB shares on a remote host:
 
-1. Checks if `rhost` (remote host) and `lhost` (local host) are set; if not, an error message is displayed.
+1. Checks if `rhost` (remote host) and `lhost` (local host) are assign; if not, an error message is displayed.
 2. If no `line` (share name or options) is provided:
 - Attempts to access SMB shares on the remote host with a default user `deefbeef` using the command: `smbmap -H {rhost} -u 'deefbeef'`
 3. If `line` is provided:
@@ -3077,7 +3138,7 @@ Copies a file from the ExploitDB directory to the sessions directory.
 2. Copies the specified file from the ExploitDB directory to the `sessions` directory in the current working directory.
 
 :param line: The relative path to the file within the ExploitDB directory. For example, `java/remote/51884.py`.
-:param exploitdb: The path to the ExploitDB directory. This must be set in advance or provided directly.
+:param exploitdb: The path to the ExploitDB directory. This must be assign in advance or provided directly.
 
 :returns: None
 
@@ -3269,8 +3330,8 @@ Replace `<search_term>` with the term or keyword you want to search for. For exa
 Uses `wfuzz` to perform fuzzing based on provided parameters. This function supports various options for directory and file fuzzing.
 
 :param line: The options and arguments for `wfuzz`. The `line` parameter can include the following:
-    - `sub <domain>`: Fuzz DNS subdomains. Requires `dnswordlist` to be set.
-    - `iis`: Fuzz IIS directories. Uses a default wordlist if `iiswordlist` is not set.
+    - `sub <domain>`: Fuzz DNS subdomains. Requires `dnswordlist` to be assign.
+    - `iis`: Fuzz IIS directories. Uses a default wordlist if `iiswordlist` is not assign.
     - Any other argument: General directory and file fuzzing.
 
 :returns: None
@@ -3328,8 +3389,8 @@ Notes:
 Uses `gobuster` for directory and virtual host fuzzing based on provided parameters. Supports directory enumeration and virtual host discovery.
 
 :param line: The options and arguments for `gobuster`. The `line` parameter can include the following:
-    - `url`: Perform directory fuzzing on a specified URL. Requires `url` and `dirwordlist` to be set.
-    - `vhost`: Perform virtual host discovery on a specified URL. Requires `url` and `dirwordlist` to be set.
+    - `url`: Perform directory fuzzing on a specified URL. Requires `url` and `dirwordlist` to be assign.
+    - `vhost`: Perform virtual host discovery on a specified URL. Requires `url` and `dirwordlist` to be assign.
     - Any other argument: General directory fuzzing with additional parameters.
 
 :returns: None
@@ -3374,21 +3435,36 @@ Example:
 This command appends the IP address and domain name to the `/etc/hosts` file, enabling local resolution of the domain.
 
 ## cme
-Performs an SMB enumeration using `crackmapexec`.
+Execute CrackMapExec (CME) for SMB enumeration and authentication attempts against a target.
 
-:param line: Not used in this function.
+This function provides a range of SMB operations using CME, including:
+1. RID brute-forcing, which attempts to enumerate users via RID cycling.
+2. Share enumeration to list SMB shares on the target.
+3. User authentication to verify credentials against the target.
+4. Brute-force authentication using username and password lists.
+5. Hash-based authentication to attempt access using an NTLM hash.
 
-:returns: None
+Parameters:
+line (str): Specifies the action to perform, which can be one of the following:
+            - "rid": Enumerates users by attempting RID brute-force.
+            - "shares": Lists SMB shares on the target.
+            - "user": Verifies credentials from a stored credential file or prompts for a username and password.
+            - "brute": Attempts brute-force authentication using a user and password dictionary.
+            - "hash": Attempts authentication using an NTLM hash file.
+            If no valid option is provided, the function defaults to performing basic SMB enumeration.
 
-Manual execution:
-To manually run `crackmapexec` for SMB enumeration, use the following command:
+Returns:
+None
+
+Manual Execution Example:
+To manually run CrackMapExec for SMB enumeration, use:
 
     crackmapexec smb <target>
 
 Example:
     crackmapexec smb 10.10.11.24
 
-This command will enumerate SMB shares and perform basic SMB checks against the specified target IP address.
+This command performs basic SMB enumeration and checks against the specified target IP address.
 
 ## ldapdomaindump
 Dumps LDAP information using `ldapdomaindump` with credentials from a file.
@@ -3443,7 +3519,7 @@ The TTL (Time To Live) value is used to infer the operating system:
 - TTL values around 64 typically indicate a Linux system.
 - TTL values around 128 typically indicate a Windows system.
 
-Ensure you have set `rhost` to the target host for the command to work.
+Ensure you have assign `rhost` to the target host for the command to work.
 
 ## gospider
 Try gospider for web spidering.
@@ -3464,7 +3540,7 @@ Usage:
 
 Manual execution:
 1. Ensure that the `gospider` tool is installed on the system.
-2. Set the `url` parameter if using the "url" mode.
+2. assign the `url` parameter if using the "url" mode.
 3. Run the method to perform the spidering operation.
 
 Dependencies:
@@ -3495,7 +3571,7 @@ Usage:
 :returns: None
 
 Manual execution:
-1. Ensure that the network device is set using the appropriate parameter.
+1. Ensure that the network device is assign using the appropriate parameter.
 2. Run the method to perform an ARP scan.
 
 Dependencies:
@@ -3503,7 +3579,7 @@ Dependencies:
 - The `sudo` command must be available for executing `arp-scan`.
 
 Examples:
-    1. Set the device parameter using `set device <network_device>`.
+    1. assign the device parameter using `assign device <network_device>`.
     2. Run `arpscan` to perform the ARP scan.
 
 Note:
@@ -3584,7 +3660,7 @@ Usage:
 :returns: None
 
 Manual execution:
-1. Ensure `lhost` is set to a valid IP address or hostname.
+1. Ensure `lhost` is assign to a valid IP address or hostname.
 2. Run the method to create the SCF file and start the SMB server.
 3. Use the copied curl command to download the SCF file on the target system.
 4. Ensure that `impacket-smbserver` is installed and accessible from the command line.
@@ -3594,12 +3670,12 @@ Dependencies:
 - The `check_lhost` function must validate the `lhost` parameter.
 
 Examples:
-    1. Run `do_smbserver` to set up the SMB server and generate the SCF file.
+    1. Run `do_smbserver` to assign up the SMB server and generate the SCF file.
     2. Use the provided curl command to download the SCF file on the target system.
 
 Note:
     - The SCF file is used to create a shortcut to the SMB share and should be accessible from the target system.
-    - Ensure that the `lhost` parameter is correctly set and that the SMB server is properly configured.
+    - Ensure that the `lhost` parameter is correctly assign and that the SMB server is properly configured.
 
 ## sqlmap
 Uses sqlmap to perform SQL injection testing on a given URL or request file (you can get one with burpsuit or proxy command and foxyproxy plugin for browser). 
@@ -3631,7 +3707,7 @@ Manual execution:
 1. If using `req`, provide a valid request file and parameters.
 2. Run sqlmap with the specified options for SQL injection testing.
 3. To use the wizard mode, execute `sqlmap -wizard`.
-4. For URL-based testing, ensure `url` is set and run sqlmap with the URL.
+4. For URL-based testing, ensure `url` is assign and run sqlmap with the URL.
 
 Dependencies:
 - The `sqlmap` tool must be installed and accessible from the command line.
@@ -3645,7 +3721,7 @@ Examples:
 
 Note:
     - Ensure the request file exists and is readable before running sqlmap.
-    - The URL must be set for URL-based testing.
+    - The URL must be assign for URL-based testing.
     - The wizard mode is useful for interactive configuration if you're unsure about the options.
 
 ## proxy
@@ -3708,7 +3784,7 @@ Note:
 Creates a bash reverse shell script in the `sessions` directory with the specified `lhost` and `lport` values.
 
 This function performs the following actions:
-1. Checks if `lhost` and `lport` are set. If not, it prints an error message and exits.
+1. Checks if `lhost` and `lport` are assign. If not, it prints an error message and exits.
 2. Creates a bash reverse shell script using the provided `lhost` and `lport` values.
 3. Saves the script to `sessions/revshell.sh`.
 4. Prints a message with the `curl` command to download and execute the reverse shell script.
@@ -3734,7 +3810,7 @@ Example:
     createrevshell
 
 Note:
-    - Ensure that `lhost` and `lport` are set before running this command.
+    - Ensure that `lhost` and `lport` are assign before running this command.
     - The script will listen for incoming connections on the specified `lport` and connect back to `lhost`.
     - Adjust the `lhost` and `lport` as needed for your specific environment.
 
@@ -3742,7 +3818,7 @@ Note:
 Creates a PowerShell reverse shell script in the `sessions` directory with the specified `lhost` and `lport` values.
 
 This function performs the following actions:
-1. Checks if `lhost` and `lport` are set. If not, it prints an error message and exits.
+1. Checks if `lhost` and `lport` are assign. If not, it prints an error message and exits.
 2. Creates a PowerShell reverse shell script using the provided `lhost` and `lport` values.
 3. Saves the script to `sessions/revshell.ps1`.
 4. Prints a message with the command to download and execute the reverse shell script via `curl`.
@@ -3768,7 +3844,7 @@ Example:
     createwinrevshell
 
 Note:
-    - Ensure that `lhost` and `lport` are set before running this command.
+    - Ensure that `lhost` and `lport` are assign before running this command.
     - The script will listen for incoming connections on the specified `lport` and connect back to `lhost`.
     - Adjust the `lhost` and `lport` as needed for your specific environment.
 
@@ -3901,7 +3977,7 @@ Usage:
 :returns: None
 
 Manual execution:
-1. Runs the `install_external.sh` script to set up necessary components or exploits.
+1. Runs the `install_external.sh` script to assign up necessary components or exploits.
 2. Displays network interface IP addresses and copies the IP address of `tun0` to the clipboard.
 3. Lists the contents of `external/.exploit` directory.
 4. Starts a Python HTTP server on port 8443 in the `external/.exploit` directory to serve files.
@@ -3937,13 +4013,13 @@ Manual execution:
 
 Dependencies:
 - `dirsearch` must be installed. If not present, it will be installed using `sudo apt`.
-- Ensure the URL is set via the `url` parameter before calling this function.
+- Ensure the URL is assign via the `url` parameter before calling this function.
 
 Example:
     dirsearch http://example.com/
 
 Note:
-    - Ensure that the `url` parameter is set before calling this function.
+    - Ensure that the `url` parameter is assign before calling this function.
     - The `-x` option specifies HTTP status codes to exclude from the results (e.g., 403, 404, 400).
     - The function will attempt to install `dirsearch` if it is not already installed.
 
@@ -3970,7 +4046,7 @@ Dependencies:
 
 Example:
     john2hash --format=Raw-SHA512
-    # If `wordlist` is set to `/usr/share/wordlists/rockyou.txt`, the command executed will be `sudo john sessions/hash.txt --wordlist=/usr/share/wordlists/rockyou.txt --format=Raw-SHA512`.
+    # If `wordlist` is assign to `/usr/share/wordlists/rockyou.txt`, the command executed will be `sudo john sessions/hash.txt --wordlist=/usr/share/wordlists/rockyou.txt --format=Raw-SHA512`.
 
 Note:
     - Ensure that the `wordlist` parameter is set before calling this function.
@@ -4029,7 +4105,7 @@ Dependencies:
 
 Example:
     responder
-    # If `device` is set to `tun0`, the command executed will be `sudo responder -I tun0`.
+    # If `device` is assign to `tun0`, the command executed will be `sudo responder -I tun0`.
 
 Note:
     - Ensure that the `device` parameter is set before calling this function.
@@ -4203,7 +4279,7 @@ Usage:
 :returns: None
 
 Manual execution:
-1. Ensure that `lhost`, `lport`, and `rhost` parameters are set.
+1. Ensure that `lhost`, `lport`, and `rhost` parameters are assign.
 2. The function generates a reverse shell command in Bash and prints instructions for using the payload.
 3. It also provides an example URL and PHP code snippet that decodes and executes the base64-encoded payload.
 4. The reverse shell command is copied to the clipboard using `xclip`.
@@ -4229,7 +4305,7 @@ Usage:
 :returns: None
 
 Manual execution:
-1. Ensure that `lhost`, `lport`, and `rhost` parameters are set.
+1. Ensure that `lhost`, `lport`, and `rhost` parameters are assign.
 2. The function generates two payloads:
 - Payload 1: A script that sends cookies to the specified host and port.
 - Payload 2: An image tag with an `onerror` event that fetches cookies and sends them to the specified host and port using Base64 encoding.
@@ -4237,7 +4313,7 @@ Manual execution:
 
 Dependencies:
 - The script uses `xclip` to copy the payloads to the clipboard.
-- Ensure that `lhost`, `lport`, and `rhost` parameters are set with appropriate values.
+- Ensure that `lhost`, `lport`, and `rhost` parameters are assign with appropriate values.
 
 Example:
     img2cookie
@@ -4287,7 +4363,7 @@ Usage:
 :returns: None
 
 Manual execution:
-1. Ensure that the `lhost` and `lport` parameters are set with the local host and port for the reverse shell.
+1. Ensure that the `lhost` and `lport` parameters are assign with the local host and port for the reverse shell.
 2. The function downloads `Invoke-ConPtyShell.ps1` and `ConPtyShell.zip` to the `sessions` directory.
 3. Constructs a PowerShell command to run `Invoke-ConPtyShell.ps1` with the specified local IP and port.
 4. Copies the constructed command to the clipboard using `xclip`.
@@ -4319,7 +4395,7 @@ Usage:
 
 Manual execution:
 1. Ensure that `pwncat-cs` is installed and accessible from your command line.
-2. The port number can either be provided as an argument or be set in the `lport` parameter of the function.
+2. The port number can either be provided as an argument or be assign in the `lport` parameter of the function.
 3. Run the function to start `pwncat-cs` on the specified port.
 
 If no port is provided as an argument, the function will use the port specified in the `lport` parameter. If a port is provided, it overrides the `lport` value.
@@ -4343,7 +4419,7 @@ Usage:
 
 Manual execution:
 1. Ensure that `pwncat-cs` is installed and accessible from your command line.
-2. The port number can either be provided as an argument or be set in the `lport` parameter of the function.
+2. The port number can either be provided as an argument or be assign in the `lport` parameter of the function.
 3. Run the function to start `pwncat-cs` on the specified port.
 
 If no port is provided as an argument, the function will use the port specified in the `lport` parameter. If a port is provided, it overrides the `lport` value.
@@ -4470,14 +4546,14 @@ Usage:
 :returns: None
 
 Manual execution:
-    1. The command `sudo bash -c 'echo 1 > /proc/sys/net/ipv4/conf/all/arp_ignore'` is executed to set the `arp_ignore` parameter to `1`, which configures the system to ignore ARP requests.
+    1. The command `sudo bash -c 'echo 1 > /proc/sys/net/ipv4/conf/all/arp_ignore'` is executed to assign the `arp_ignore` parameter to `1`, which configures the system to ignore ARP requests.
 
 Dependencies:
     - The function requires `sudo` to run the command with elevated privileges.
 
 Example:
     ignorearp
-    # This will set the `arp_ignore` parameter to `1` to ignore ARP requests.
+    # This will assign the `arp_ignore` parameter to `1` to ignore ARP requests.
 
 Note:
     Ensure that you have the necessary permissions to use `sudo` and that the `arp_ignore` parameter can be modified on your system.
@@ -4498,14 +4574,14 @@ Usage:
 :returns: None
 
 Manual execution:
-    1. The command `sudo bash -c 'echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all'` is executed to set the `icmp_echo_ignore_all` parameter to `1`, which configures the system to ignore ICMP echo requests (ping).
+    1. The command `sudo bash -c 'echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all'` is executed to assign the `icmp_echo_ignore_all` parameter to `1`, which configures the system to ignore ICMP echo requests (ping).
 
 Dependencies:
     - The function requires `sudo` to run the command with elevated privileges.
 
 Example:
     ignoreicmp
-    # This will set the `icmp_echo_ignore_all` parameter to `1` to ignore ICMP echo requests.
+    # This will assign the `icmp_echo_ignore_all` parameter to `1` to ignore ICMP echo requests.
 
 Note:
     Ensure that you have the necessary permissions to use `sudo` and that the `icmp_echo_ignore_all` parameter can be modified on your system.
@@ -4526,14 +4602,14 @@ Usage:
 :returns: None
 
 Manual execution:
-    1. The command `sudo bash -c 'echo 0 > /proc/sys/net/ipv4/conf/all/arp_ignore'` is executed to set the `arp_ignore` parameter to `0`, which configures the system to acknowledge ARP requests.
+    1. The command `sudo bash -c 'echo 0 > /proc/sys/net/ipv4/conf/all/arp_ignore'` is executed to assign the `arp_ignore` parameter to `0`, which configures the system to acknowledge ARP requests.
 
 Dependencies:
     - The function requires `sudo` to run the command with elevated privileges.
 
 Example:
     acknowledgearp
-    # This will set the `arp_ignore` parameter to `0` to acknowledge ARP requests.
+    # This will assign the `arp_ignore` parameter to `0` to acknowledge ARP requests.
 
 Note:
     Ensure that you have the necessary permissions to use `sudo` and that the `arp_ignore` parameter can be modified on your system.
@@ -4554,14 +4630,14 @@ Usage:
 :returns: None
 
 Manual execution:
-    1. The command `sudo bash -c 'echo 0 > /proc/sys/net/ipv4/icmp_echo_ignore_all'` is executed to set the `icmp_echo_ignore_all` parameter to `0`, which configures the system to respond to ICMP echo requests.
+    1. The command `sudo bash -c 'echo 0 > /proc/sys/net/ipv4/icmp_echo_ignore_all'` is executed to assign the `icmp_echo_ignore_all` parameter to `0`, which configures the system to respond to ICMP echo requests.
 
 Dependencies:
     - The function requires `sudo` to run the command with elevated privileges.
 
 Example:
     acknowledgeicmp
-    # This will set the `icmp_echo_ignore_all` parameter to `0` to allow responses to ICMP echo requests.
+    # This will assign the `icmp_echo_ignore_all` parameter to `0` to allow responses to ICMP echo requests.
 
 Note:
     Ensure that you have the necessary permissions to use `sudo` and that the `icmp_echo_ignore_all` parameter can be modified on your system.
@@ -4640,7 +4716,7 @@ Manual execution:
 To manually use this function:
 1. Ensure `sessions/credentials.txt` exists and contains valid SSH credentials in the format `user:password`.
 2. Run the function with the port number as an argument.
-3. The function will attempt to connect to the SSH host using each set of credentials and the specified port.
+3. The function will attempt to connect to the SSH host using each assign of credentials and the specified port.
 
 Note: Ensure `sshpass` is installed on your system for password-based SSH authentication. If `sshpass` is not available, you may need to install it or use an alternative method for SSH authentication.
 
@@ -4667,7 +4743,7 @@ Manual execution:
 To manually use this function:
 1. Ensure `sessions/credentials.txt` exists and contains valid ftp credentials in the format `user:password`.
 2. Run the function with the port number as an argument.
-3. The function will attempt to connect to the ftp host using each set of credentials and the specified port.
+3. The function will attempt to connect to the ftp host using each assign of credentials and the specified port.
 
 Note: Ensure `sshpass` is installed on your system for password-based SSH authentication. If `sshpass` is not available, you may need to install it or use an alternative method for SSH authentication.
 
@@ -5115,7 +5191,7 @@ Uses Hydra to perform a brute force attack on a specified HTTP service with a us
 Manual execution:
 To manually run this task, you would:
 - Provide the path to crack and the port as arguments to this function in the format 'path port'.
-- Ensure that the user list and wordlist are set correctly.
+- Ensure that the user list and wordlist are assign correctly.
 - hydra -f -L sessions/users.txt -P /usr/share/wordlists/rockyou.txt 10.10.11.9 -s 5000 http-get /v2/
 Note: Ensure that the remote host and wordlist parameters are valid, and that the path and port are specified correctly in the `line` argument.
 
@@ -5135,7 +5211,7 @@ Uses medusa to perform a brute force attack on a specified ssh service with a us
 Manual execution:
 To manually run this task, you would:
 - Provide the path to crack and the port as arguments to this function in the format 'path port'.
-- Ensure that the user list and wordlist are set correctly.
+- Ensure that the user list and wordlist are assign correctly.
 - medusa -h 10.10.10.10 -U sessions/users.txt -P /usr/share/wordlists/rockyou.txt -e ns -M ssh"
 Note: Ensure that the remote host and wordlist parameters are valid, and that the path and port are specified correctly in the `line` argument.
 
@@ -5156,7 +5232,7 @@ If you want to use the script `http-enum` on port `80` for the target `10.10.10.
 
     nmap --script http-enum -p 80 10.10.10.10 -oN sessions/webScan_10.10.10.10
 
-Ensure you have the target host (`rhost`) set in the parameters and provide the script and port as arguments. The results will be saved in the file `sessions/webScan_<rhost>`.
+Ensure you have the target host (`rhost`) assign in the parameters and provide the script and port as arguments. The results will be saved in the file `sessions/webScan_<rhost>`.
 
 ## encoderpayload
 Applies various obfuscations to a given command line string to create multiple obfuscated versions.
@@ -5195,8 +5271,8 @@ Enumerates SMTP users using the `smtp-user-enum` tool with the VRFY method.
 
 Manual execution:
 To manually run these tasks, you would need to:
-- Ensure that the `rhost` parameter is set with the target IP address using `set rhost <IP>`.
-- Load the user wordlist using the `set usrwordlist <path>` command.
+- Ensure that the `rhost` parameter is assign with the target IP address using `set rhost <IP>`.
+- Load the user wordlist using the `assign usrwordlist <path>` command.
 - Execute the command `sudo smtp-user-enum -M VRFY -U <usrwordlist> -t <rhost>`.
 - Ex: sudo smtp-user-enum -M VRFY -U /usr/share/wordlists/SecLists-master/Usernames/xato-net-10-million-usernames.txt -t 10.10.10.10
 Note: Ensure that you have the necessary permissions to run `smtp-user-enum` with `sudo` and that the wordlist file exists at the specified path.
@@ -5293,7 +5369,7 @@ Note: Ensure that `hashcat` is installed and accessible in the system's PATH.
 Deletes files and directories in the `sessions` directory, excluding specified files and directories.
 
 1. Checks if the `rhost` parameter is valid:
-- Uses the `check_rhost` function to verify if `rhost` is set and valid.
+- Uses the `check_rhost` function to verify if `rhost` is assign and valid.
 - If `rhost` is not valid, exits the function.
 
 2. Lists files and directories in the `sessions` directory:
@@ -5401,7 +5477,7 @@ Starts packet capture using `tcpdump` on the specified interface.
 Manual execution:
 To manually run these tasks, you would need to:
 - Provide a valid network interface for capturing packets.
-- Ensure the remote host IP is set correctly.
+- Ensure the remote host IP is assign correctly.
 - Execute the `tcpdump` command manually to capture packets on the specified interface.
 
 Note: Ensure that the `pcaps` directory exists and is writable for saving the capture file.
@@ -5491,10 +5567,10 @@ To manually decode a Base64 encoded string:
 Example usage: `base64decode SGVsbG9Xb3JsZA==`
 
 ## grisun0
-Creates and copies a shell command to add a new user `grisun0`, set a password, add the user to the sudo group, and switch to the user.
+Creates and copies a shell command to add a new user `grisun0`, assign a password, add the user to the sudo group, and switch to the user.
 
 1. Displays the command:
-    - Prints the command to add the user `grisun0` with home directory `/home/.grisun0`, set the password, add the user to the `sudo` group, set the appropriate permissions, and switch to the user.
+    - Prints the command to add the user `grisun0` with home directory `/home/.grisun0`, assign the password, add the user to the `sudo` group, assign the appropriate permissions, and switch to the user.
 
 2. Copies the command to clipboard:
     - Uses `xclip` to copy the command to the clipboard for easy pasting.
@@ -5506,7 +5582,7 @@ Creates and copies a shell command to add a new user `grisun0`, set a password, 
 Manual execution:
 To manually execute the command:
 - Copy the command from the clipboard.
-- Run it in a terminal to create the user and set up the permissions as specified. useradd -m -d /home/.grisun0 -s /bin/bash grisun0 && echo 'grisun0:grisgrisgris' | chpasswd && usermod -aG sudo grisun0 && chmod 700 /home/.grisun0 && su - grisun0
+- Run it in a terminal to create the user and assign up the permissions as specified. useradd -m -d /home/.grisun0 -s /bin/bash grisun0 && echo 'grisun0:grisgrisgris' | chpasswd && usermod -aG sudo grisun0 && chmod 700 /home/.grisun0 && su - grisun0
 Note: Ensure `xclip` is installed and available on your system.
 
 ## winbase64payload
@@ -5538,7 +5614,7 @@ Creates a base64 encoded payload specifically for Windows to execute a PowerShel
 
 Manual execution:
 To manually use the payload:
-- Ensure `lhost` is set to the correct IP address.
+- Ensure `lhost` is assign to the correct IP address.
 - Place the `.ps1` file in the `sessions` directory if using the 'ps1' payload type.
 - Use `copy2clip` to copy the generated base64 command to the clipboard.
 
@@ -5547,7 +5623,7 @@ Note: Ensure `iconv`, `base64`, and `xclip` are installed and available on your 
 ## revwin
 Creates a base64 encoded PowerShell reverse shell payload specifically for Windows to execute a `.ps1` script from `lhost`.
 
-1. Checks if `lhost` and `lport` are set and valid:
+1. Checks if `lhost` and `lport` are assign and valid:
     - Uses `check_lhost(lhost)` to verify the `lhost` parameter.
     - Uses `check_lport(lport)` to verify the `lport` parameter.
     - Exits the function if either `lhost` or `lport` is invalid.
@@ -5616,7 +5692,7 @@ Copies a command to the clipboard for downloading and running Rubeus.
 
 Manual execution:
 To manually run these tasks, you would need to:
-- Ensure that `lhost` is set correctly.
+- Ensure that `lhost` is assign correctly.
 - Use `xclip` to copy the provided command to the clipboard.
 - Execute the downloaded Rubeus executable with the provided arguments.
 
@@ -5650,8 +5726,8 @@ Note: Ensure that `socat` is installed and properly configured on your system.
 ## chisel
 Automates the setup and execution of Chisel server and client for tunneling and port forwarding.
 
-1. If no `lhost` (local host IP) is set:
-    - Displays an error message indicating the need to set `lhost` using the `set` command.
+1. If no `lhost` (local host IP) is assign:
+    - Displays an error message indicating the need to assign `lhost` using the `set` command.
     - Exits the function.
 
 2. If no port argument is provided:
@@ -5674,7 +5750,7 @@ Automates the setup and execution of Chisel server and client for tunneling and 
 
 Manual execution:
 To manually run these tasks, you would need to:
-- Ensure `lhost` is set using `set lhost <IP>`.
+- Ensure `lhost` is assign using `assign lhost <IP>`.
 - Provide the port number when calling the function.
 - Run the command `download_resources` if the Chisel files are missing.
 - Manually execute the Chisel commands for Linux or Windows as copied to the clipboard.
@@ -5706,7 +5782,7 @@ Automates various Metasploit tasks including scanning for vulnerabilities, setti
 
 4. If the argument starts with "autoroute":
     - Configures parameters for setting up a Metasploit session and autorouting.
-    - Creates a Metasploit resource script (`/tmp/autoroute.rc`) to handle exploit sessions and set up autorouting.
+    - Creates a Metasploit resource script (`/tmp/autoroute.rc`) to handle exploit sessions and assign up autorouting.
     - Executes Metasploit with the resource script and starts a SOCKS proxy for routing traffic.
     - Configures proxychains to use the Metasploit SOCKS proxy and prints instructions for using proxychains with tools.
 
@@ -5721,7 +5797,7 @@ To manually run these tasks, you would need to:
 - For payload generation and shortcuts: Use `msfvenom` and create XML and PowerShell scripts as specified.
 - For autorouting: Create and run the resource script for autorouting and configure proxychains.
 
-Note: Ensure all required parameters (`lhost`, `lport`, etc.) are set before running these tasks.
+Note: Ensure all required parameters (`lhost`, `lport`, etc.) are assign before running these tasks.
 
 ## encrypt
 Encrypts a file using XOR encryption.
@@ -5930,13 +6006,13 @@ Parameters:
             position. Expected format: 'cookie=<HASH> plaintext <byte_position>'.
 
 Functionality:
-- The function first checks if a URL is set in the parameters.
+- The function first checks if a URL is assign in the parameters.
 - It then validates that the correct number of arguments is provided.
 - If the arguments are valid, it constructs the PadBuster command and executes it.
 - The command is also copied to the clipboard for convenience.
 
 Usage Example:
-- set url http://target.com
+- assign url http://target.com
 - padbuster auth=<HASH> user=admin 8
 
 ## smbattack
@@ -6271,7 +6347,7 @@ Expected self.params keys:
 - url (str): The URL to be used for the 'cewl' command.
 
 Example usage:
-- set url http://example.com
+- assign url http://example.com
 - do_cewl
 
 ## dmitry
@@ -6289,7 +6365,7 @@ Expected self.params keys:
 - url (str): The URL to be used for the 'dmitry' command.
 
 Example usage:
-- set url http://example.com
+- assign url http://example.com
 - do_dmitry
 
 ## graudit
@@ -6563,7 +6639,7 @@ Returns:
     None
 
 Workflow:
-    1. Extract parameters and set up paths.
+    1. Extract parameters and assign up paths.
     2. Check the reachability of the remote host.
     3. Prompt the user for an OU if not provided.
     4. Check if the users.txt file exists and read the list of users.
@@ -6612,18 +6688,21 @@ Example:
     >>> do_bloodyAD("")
 
 ## evilwinrm
-Executes the Evil-WinRM tool to attempt authentication against the specified target.
+Execute the Evil-WinRM tool for authentication attempts on a specified target using either password or hash.
 
-This function performs the following actions:
-1. Checks if the provided target host (`rhost`) is valid.
-2. If the `line` argument is "pass", it searches for credential files with the pattern `credentials*.txt`
-and allows the user to select which file to use for executing the command.
-3. If `line` is not "pass", it prints an error message indicating the correct usage.
+This function provides the following functionality:
+1. Validates the specified target host (`rhost`).
+2. If `line` is "pass", searches for credential files with the pattern `credentials*.txt`, prompts the user to
+   optionally pass a PowerShell script, and iterates over the credentials to attempt authentication.
+3. If `line` is "hash", verifies the existence of a hash file, prompts for the username (default is Administrator),
+   and attempts authentication using the specified hash.
+4. If `line` is neither "pass" nor "hash", displays a usage error.
 
 Parameters:
-line (str): A command argument to determine the action.
-            If "pass", the function searches for credential files and authenticates using the selected file.
-            If not "pass", it prints an error message with usage instructions.
+line (str): Command argument specifying the authentication method.
+            - "pass": Searches for credential files and authenticates using passwords.
+            - "hash": Authenticates using a hash file.
+            If neither "pass" nor "hash" is provided, an error message with usage instructions is displayed.
 
 Returns:
 None
@@ -8162,6 +8241,60 @@ it prints a warning message and restarts the script using sudo.
 
 :return: None
 
+## netview
+Executes the Impacket netview tool to list network shares on a specified target.
+
+This function performs the following actions:
+1. Checks if the target host is valid.
+2. If the line argument is "pass", it searches for credential files with the pattern `credentials*.txt`
+and allows the user to select which file to use for executing the command.
+3. If line is "hash", it searches for a hash file and prompts the user for a username, then constructs
+and executes the command with the hash.
+4. If line does not match "pass" or "hash", it displays an error message with usage instructions.
+
+Parameters:
+line (str): A command argument to determine the authentication mode.
+            If "pass", the function searches for credential files and authenticates using the selected file.
+            If "hash", it uses a hash file for authentication.
+            If neither, it prints an error message with usage instructions.
+
+Returns:
+None
+
+## wmiexec
+Executes the Impacket WMIExec tool to run commands on a target system using WMI.
+
+This function performs the following actions:
+1. Checks if the target IP is valid.
+2. If the line argument is "pass", it searches for credential files with the pattern `credentials*.txt`
+and allows the user to select which file to use for executing the command.
+3. If line is "hash", it searches for a hash file and prompts the user for a username, then constructs
+and executes the command with the hash.
+4. If line does not match "pass" or "hash", it displays an error message with usage instructions.
+
+Parameters:
+line (str): A command argument to determine the authentication mode.
+            If "pass", the function searches for credential files and authenticates using the selected file.
+            If "hash", it uses a hash file for authentication.
+            If neither, it prints an error message with usage instructions.
+
+Returns:
+None
+
+## extract_ports
+Extracts open ports and IP address information from a specified file.
+
+This function performs the following actions:
+1. Reads the specified file to find open ports.
+2. If not port pass as an argument, Extracts the first unique IP address found in the file. 
+3. Prints the extracted information to the console.
+
+Parameters:
+line (str): The port to get information.
+
+Returns:
+None
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 
@@ -8379,6 +8512,13 @@ Helper function to alternate the case of characters in a string.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(fix): some bugs xD \n\n Version: vvvrelease/0.2.8 \n\n  \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - run\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 28 20:14:42 2024 -0300 \n\n Hora: 1730157282
 
 
 ### Pruebas

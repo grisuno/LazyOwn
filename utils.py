@@ -1984,6 +1984,24 @@ def shellcode_to_sylk(shellcode_path):
 	sylk_output+=("\nC;X2;Y%s;K0;ERETURN()\nE\n" % (str(cell)))
 	return sylk_output
 
+import socket
+
+def get_banner(ip, port):
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.settimeout(2)
+        try:
+            s.connect((ip, int(port)))
+            s.sendall(b'\n')
+            banner = s.recv(1024)
+            return banner.decode().strip()
+        
+        except socket.timeout:
+            return "No banner received (timed out)"
+        except ConnectionResetError:
+            return "Connection reset by peer - no banner available"
+        except Exception as e:
+            return f"Error: {str(e)}"
+
 signal.signal(signal.SIGINT, signal_handler)
 arguments = sys.argv[1:]  
 

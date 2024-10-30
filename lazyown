@@ -16498,8 +16498,13 @@ class LazyOwnShell(cmd2.Cmd):
         print_warn("To enter use Ctrl + Clic: ")
         print_msg(f"{BLUE}{UNDERLINE}https://www.speedguide.net/ip/{ip_address}")
         for p in ports.split(","):
-            
             print_msg(f"{BLUE}{UNDERLINE}https://www.speedguide.net/port.php?port={p}")
+            banner = get_banner(ip_address, p)
+            if banner and banner not in ("No banner received (timed out)", "Connection reset by peer - no banner available"):
+                print_msg(banner)
+                self.onecmd(f"ss {banner}")
+            else: 
+                print_warn(f"Port: {p} return: {banner}")
         return
 
     def do_cron(self, line):
@@ -16549,7 +16554,6 @@ class LazyOwnShell(cmd2.Cmd):
 
 if __name__ == "__main__":
     p = LazyOwnShell()
-    p.onecmd("p")
     p.onecmd("graph")
     old = False
     if arguments:
@@ -16560,6 +16564,7 @@ if __name__ == "__main__":
                     'ip a show scope global | awk \'/^[0-9]+:/ { sub(/:/,"",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, "/"); print "    [\033[96m" iface"\033[0m] "a[1] }\''
                 )
                 p.onecmd('ipp')
+                p.onecmd("p")
                 p.onecmd(cmd)
                 p.cmdloop()
             else:
@@ -16585,6 +16590,6 @@ if __name__ == "__main__":
 
     else:
         p.onecmd("rhost clean")    
-
+    p.onecmd('p')
     p.onecmd('ipp')
     p.cmdloop()

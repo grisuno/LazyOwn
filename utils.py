@@ -18,6 +18,7 @@ Descripción: Este archivo contiene la definición de la lógica de todas las fu
 """
 import re
 import os
+import io
 import csv
 import sys
 import ssl

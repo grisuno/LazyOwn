@@ -4,7 +4,7 @@
 lazyown
 
 Author: Gris Iscomeback
-Email: grisiscomeback[at]gmail[dot]com
+Email: grisiscomeback at gmail dot com
 Creation Date: 13/08/2024
 License: GPL v3
 
@@ -9534,7 +9534,7 @@ class LazyOwnShell(cmd2.Cmd):
             os.system("sudo apt install crunch -y")
 
         if not line:
-            print_error(f"You need to pass the length as an argument. Example: {GREEN}crunch 6{reset}")
+            print_error(f"You need to pass the length as an argument. Example: {GREEN}crunch 6{RESET}")
             return
 
         default_pattern = "0123456789abcdefghijklmnñopqrstuvxyz,.-#$%@"
@@ -10213,7 +10213,7 @@ class LazyOwnShell(cmd2.Cmd):
         cmd = f"sharpshooter --stageless --payload {payload_type} --output sessions/payload_{payload_type} --dotnetver 2 --rawscfile {file}"
         try:
             os.system(cmd)
-        except e:
+        except Exception as e:
             print_error(f"Error running sharpshooter scan: {e}")
         return
 

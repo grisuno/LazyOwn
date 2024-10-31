@@ -4,7 +4,7 @@
     "prompt": "Presentate como Lazy OWN OneLiner assistant",
     "url": "http://hathor.htb",
     "domain": "hathor.htb",
-    "subdomain": "dc",
+    "subdomain": "dc0",
     "method": "POST",
     "headers": "{\"Content-Type\": \"application/json\"}",
     "params": "{\"param1\": \"LAZYFUZZ\"}",

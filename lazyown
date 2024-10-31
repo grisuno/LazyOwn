@@ -78,10 +78,11 @@ class LazyOwnShell(cmd2.Cmd):
     aliases = {
         "auto": "pyautomate",
         "aslr": "run lazyaslrcheck",
-        "asm": "sh /opt/metasploit-framework/embedded/framework/tools/exploit/nasm_shell.rb",
+        "asm": "sh /usr/share/metasploit-framework/tools/exploit/nasm_shell.rb",
         "caja": "sh caja sessions",
         "creds": "sh cat sessions/credentials*",
         "discovery": "run lazynmapdiscovery",
+        "dolphin": "sh dolphin sessions&",
         "duckdns": "sh bash modules/duckdns.sh",
         "ed":"sh nano payload.json",
         "ftpsniff": "run lazyftpsniff",
@@ -126,8 +127,15 @@ class LazyOwnShell(cmd2.Cmd):
             scripts (list): A list of script names included in the toolkit.
             output (str): An empty string to store output or results.
         """
-        super().__init__(self)
-        self.persistent_history_file = os.path.join(os.getcwd(), '/LazyOwn_history.txt')
+        #super().__init__(self)
+        super().__init__(
+            multiline_commands=['echo'],
+            persistent_history_file='LazyOwn_history.dat',
+            startup_script='lazyscripts/startup.ls',
+            include_ipy=True,
+        )
+
+        #self.persistent_history_file = os.path.join(os.getcwd(), '/LazyOwn_history.txt')
         self.completekey = 'tab' 
         self.params = {
             "binary_name": "gzip",

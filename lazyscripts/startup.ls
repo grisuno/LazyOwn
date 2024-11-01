@@ -1,1 +1,1 @@
-ping
+cve

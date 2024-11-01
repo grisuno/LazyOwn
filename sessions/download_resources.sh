@@ -53,6 +53,7 @@ download() {
         "wget https://github.com/SafeBreach-Labs/PoolParty/releases/download/PoolParty/PoolParty.exe"
         "wget https://github.com/antonioCoco/RoguePotato/releases/download/1.0/RoguePotato.zip"
         "wget https://raw.githubusercontent.com/jivoi/pentest/master/shell/insomnia_shell.aspx"
+        "wget https://download.sysinternals.com/files/AccessChk.zip"
     )
 
     # Imprime los últimos argumentos de cada comando

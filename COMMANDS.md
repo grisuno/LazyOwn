@@ -3309,6 +3309,23 @@ To manually run this task, ensure that `snmp-check` is installed and provide a t
 snmp-check 10.10.10.10
 Note: The function assumes that `rhost` is a valid host address. If `rhost` is not valid, it will print an error message.
 
+## snmpwalk
+Performs an SNMP check on the specified target host.
+
+This function executes the `snmp-check` command against the target host defined in the `rhost` parameter.
+
+Usage:
+    snmpwalk
+
+:param line: This parameter is not used in the current implementation.
+:type line: str
+:returns: None
+
+Manual execution:
+To manually run this task, ensure that `snmpwalk -v 2c -c public` is installed and provide a target host in the format `snmpcheck`.
+snmpwalk -v 2c -c public 10.10.10.10
+Note: The function assumes that `rhost` is a valid host address. If `rhost` is not valid, it will print an error message.
+
 ## encode
 Encodes a string using the specified shift value and substitution key.
 
@@ -6644,6 +6661,263 @@ line (str): The input string containing the scheduled time in 'HH:MM' format fol
 
 Returns:
 None
+
+## pezorsh
+Executes the PEzor tool to pack executables or shellcode with custom configurations.
+
+This function enables the user to construct commands for PEzor with various options.
+By default, parameters are prompted to ensure successful execution without failure due to
+missing values. It supports both executable and shellcode packing with the ability to 
+select from a range of PEzor flags to create the desired payload.
+
+Functionalities of the function include:
+1. Prompting the user to specify if they want to pack an executable or shellcode.
+2. Gathering parameters for different PEzor flags based on user choices.
+3. Building the command dynamically to execute PEzor.sh with the configured options.
+
+Example commands the function can build:
+- Pack an executable with 64-bit, debug, and anti-debug options.
+- Pack shellcode with self-injection and sleep options.
+
+Usage:
+    - Run 'PEzor <EXECUTABLE> [donut args...]' to pack an executable with donut options.
+    - Run 'PEzor <SHELLCODE>' to pack shellcode.
+
+:param line: String containing initial command-line arguments or options.
+
+## mimikatzpy
+Executes the Impacket Mimikatz tool to interact with a target system for credential-related operations.
+
+This function performs the following actions:
+1. Validates the target IP (rhost).
+2. If the line argument is "pass", it searches for credential files matching the pattern `credentials*.txt`
+and prompts the user to select a file for executing Mimikatz.
+3. If line is "hash", it searches for a hash file, prompts for a username, and constructs the command using
+the hash for authentication.
+4. If line does not match "pass" or "hash", it displays an error message with usage instructions.
+
+Parameters:
+line (str): Command argument specifying the authentication mode.
+            If "pass", the function authenticates using credentials from a selected file.
+            If "hash", it uses a hash file for authentication.
+            If neither, it displays an error message with usage instructions.
+
+Returns:
+None
+
+## rdp_check_py
+Executes the RDP check tool to verify credentials or hash-based authentication on a target system.
+
+This function performs the following actions:
+1. Validates the target IP (rhost).
+2. If the line argument is "pass", it searches for credential files with the pattern `credentials*.txt`
+and prompts the user to select one to execute the RDP check.
+3. If line is "hash", it searches for a hash file, prompts the user for a username, and constructs the command
+using the hash for authentication.
+4. If line does not match "pass" or "hash", it displays an error message with usage instructions.
+
+Parameters:
+line (str): Command argument specifying the authentication mode.
+            If "pass", the function authenticates using credentials from a selected file.
+            If "hash", it uses a hash file for authentication.
+            If neither, it displays an error message with usage instructions.
+
+Returns:
+None
+
+## mqtt_check_py
+Executes the MQTT check tool to verify credentials on a target system with optional SSL.
+
+This function performs the following actions:
+1. Validates the target IP (rhost).
+2. If the line argument is "pass", it searches for credential files matching the pattern `credentials*.txt`
+and prompts the user to select one to execute the MQTT check.
+3. If line is "ssl", it performs the MQTT check with SSL enabled using the selected credentials.
+4. If line does not match "pass" or "ssl", it displays an error message with usage instructions.
+
+Parameters:
+line (str): Command argument specifying the authentication mode.
+            If "pass", the function authenticates using credentials from a selected file.
+            If "ssl", it authenticates using SSL.
+            If neither, it displays an error message with usage instructions.
+
+Returns:
+None
+
+## lookupsid_py
+Executes the LookupSID tool to perform SID enumeration on a target system.
+
+This function performs the following actions:
+1. Validates the target IP (rhost).
+2. If the line argument is "basic", it searches for credential files with the pattern `credentials*.txt`
+and prompts the user to select one to execute the SID lookup.
+3. If line is "dc-target", it performs the SID lookup specifying domain controller and target IPs,
+using the selected credentials.
+4. If line does not match "basic" or "dc-target", it displays an error message with usage instructions.
+
+Parameters:
+line (str): Command argument specifying the lookup mode.
+            If "basic", the function performs a standard SID lookup.
+            If "dc-target", it includes `-dc-ip` and `-target-ip` arguments.
+            If neither, it displays an error message with usage instructions.
+
+Returns:
+None
+
+## scavenger
+Executes the Scavenger tool for multi-threaded post-exploitation scanning on target systems with SMB credentials.
+
+This function performs the following actions:
+1. Checks if Scavenger is installed; if not, it clones the repository and installs dependencies.
+2. If the line argument is "pass", it searches for credential files matching `credentials*.txt`,
+   prompts the user to select one, and executes Scavenger using the chosen credentials on a single target IP.
+3. If the line argument is "targets", it prompts for an IP list file (`iplist`) and uses Scavenger with 
+   credentials from a selected file on multiple target IPs with the `--overwrite` option.
+4. If line does not match "pass" or "targets", it displays an error message with usage instructions.
+
+Parameters:
+line (str): Command argument specifying the authentication mode.
+            - If "pass", authenticates with credentials from a selected file on a single target IP.
+            - If "targets", authenticates on multiple targets from a provided IP list file.
+            - If neither, displays an error message with usage instructions.
+
+Returns:
+None
+
+## binarycheck
+Performs various checks on a selected binary to gather information and protections.
+
+This function executes the following checks:
+1. Checks program protections using checksec.
+2. Displays information about the ELF binary using readelf.
+3. Retrieves the address of the system() function using objdump.
+4. Searches for a known string within the binary using objdump.
+5. Generates a cyclic pattern for padding using pwntools.
+6. Lists gadgets in the binary using ROPgadget.
+
+Parameters:
+line (str): Command argument not used in this function.
+
+Returns:
+None
+
+## lookupsid
+Executes the Impacket lookupsid tool to enumerate SIDs on a target system.
+
+This function performs the following actions:
+1. Validates the target IP (or hostname) specified in the line argument.
+2. If the line argument is "pass", it searches for credential files with the pattern credentials*.txt
+and prompts the user to select one to execute the lookupsid command.
+3. If line is "hash", it prompts the user for a username and constructs the command using the hash for authentication.
+4. If line does not match "pass" or "hash", it displays an error message with usage instructions.
+
+Parameters:
+line (str): Command argument specifying the authentication mode.
+            If "pass", the function authenticates using credentials from a selected file.
+            If "hash", it uses a hash file for authentication.
+            If neither, it displays an error message with usage instructions.
+
+Returns:
+None
+
+## certipy
+Executes the Certipy tool to interact with Active Directory Certificate Services.
+
+This function performs the following actions:
+1. Validates the target IP or hostname specified in the line argument.
+2. If line is "find", it executes the certipy find command to enumerate AD CS.
+3. If line is "shadow", it prompts for an account and executes the certipy shadow command.
+4. If line does not match "pass", "hash", "find", or "shadow", it displays an error message with usage instructions.
+
+Parameters:
+line (str): Command argument specifying the action mode.
+            If "find", it enumerates AD CS.
+            If "shadow", it abuses shadow credentials for account takeover.
+            If neither, it displays an error message with usage instructions.
+
+Returns:
+None
+
+## follina
+Executes the MSDT Follina exploit tool to create malicious documents for exploitation.
+
+This function performs the following actions:
+1. Checks if follina.py is available; if not, it clones the repository and installs dependencies.
+2. If the line argument is "default", it runs the tool with default parameters to pop calc.exe.
+3. If the line argument is "notepad", it runs the tool to pop notepad.exe.
+4. If the line argument is "reverse", it prompts for a port and runs the tool to get a reverse shell.
+5. If the line does not match any valid options, it displays an error message with usage instructions.
+
+Parameters:
+line (str): Command argument specifying the action mode.
+            - If "default", executes with default parameters.
+            - If "notepad", executes to pop notepad.exe.
+            - If "reverse", prompts for a port and executes for a reverse shell.
+            - If neither, displays an error message with usage instructions.
+
+Returns:
+None
+
+## sawks
+Executes the Swaks (Swiss Army Knife for SMTP) tool to send test emails for phishing simulations.
+
+This function performs the following actions:
+1. Checks if Swaks is available; if not, it clones the repository to the appropriate directory.
+2. Constructs the Swaks command with the specified 'to' and 'from' emails, server, and message body.
+3. Runs the command using Swaks to simulate email delivery.
+
+Parameters:
+line (str): Command argument specifying additional options or the message body.
+            - If not provided, defaults to a basic test message.
+
+Returns:
+None
+
+## ad_ldap_enum
+Executes ad-ldap-enum to enumerate Active Directory objects (users, groups, computers) 
+through LDAP, collecting extended information on group memberships and additional AD details.
+
+This function enables the enumeration of Active Directory users, groups, and computers 
+by executing LDAP queries on a specified domain controller. The command constructed allows 
+password or Pass-the-Hash authentication, supports SSL/TLS, and IPv4/IPv6 connections, 
+and outputs data into CSV files detailing domain group memberships and extended user/computer 
+information.
+
+Functionalities include:
+1. Checking for credential availability and prompting for them if not found.
+2. Constructing an LDAP enumeration command with customizable authentication and server details.
+3. Executing `ad-ldap-enum.py` to output detailed information in CSV format.
+
+The output files are saved in the current working directory with a prepend if specified.
+
+Example command the function can build:
+- `python3 ad-ldap-enum.py -d scrm.local -l 10.10.11.168 -u ksimpson -p ksimpson -v`
+
+Usage:
+    - Run `dp_ad_ldap_enum` to initiate AD object enumeration using ad-ldap-enum.
+
+:param line: String containing initial command-line arguments or options.
+
+## unzip
+Unzips a specified file from the sessions directory.
+
+This function attempts to locate and unzip a file in the sessions directory.
+If a filename is provided as `line`, it will use that; otherwise, it will attempt
+to retrieve a zip file name based on existing zip files in the user's dictionary.
+If the zip file is not found or does not exist in the sessions path, it prints 
+an error message.
+
+Steps of execution:
+1. Determines the zip file name from `line` or user dictionary.
+2. Checks if the zip file exists within the sessions path.
+3. Builds the unzip command and executes it to extract the contents of the zip file.
+
+Usage example:
+    unzip filename.zip
+
+:param line: The zip filename to be extracted. If empty, a zip file will be selected 
+            automatically if available.
+:return: None
 
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.

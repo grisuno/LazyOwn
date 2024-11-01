@@ -104,6 +104,8 @@ download() {
         "git clone https://github.com/MHaggis/notes.git .exploit/notes_powershellz"
         "git clone https://github.com/Flangvik/SharpCollection.git .exploit/SharpCollection"
         "git clone https://github.com/antonioCoco/RoguePotato.git .exploit/RougePotato"
+        "git clone https://github.com/BloodHoundAD/BloodHound.git .exploit/BloodHoud"
+        "git clone https://github.com/S3cur3Th1sSh1t/PowerSharpPack.git .exploit/PowerSharpPack"
     )
     # Imprime los últimos argumentos de cada comando
     echo "    [+] Seleccione el número del comando que desea clonar:"

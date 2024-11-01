@@ -2003,6 +2003,49 @@ def get_banner(ip, port):
         except Exception as e:
             return f"Error: {str(e)}"
 
+def list_binaries(directory='sessions'):
+    """
+    List all executable binaries in the specified directory.
+
+    Parameters:
+    directory (str): The directory to search for binaries. Defaults to 'sessions'.
+
+    Returns:
+    list: A list of paths to executable binaries.
+    """
+    binaries = []
+    for root, _, files in os.walk(directory):
+        for file in files:
+            file_path = os.path.join(root, file)
+            if os.access(file_path, os.X_OK):
+                binaries.append(file_path)
+
+    return binaries
+
+def select_binary(binaries):
+    """
+    Prompt the user to select a binary from a list.
+
+    Parameters:
+    binaries (list): A list of binary paths.
+
+    Returns:
+    str: The path of the selected binary.
+    """    
+    print_msg("Available binaries:")
+    for idx, binary in enumerate(binaries):
+        print_msg(f"{idx + 1}. {binary}")
+
+    while True:
+        try:
+            choice = int(input("    [!] Enter the number of the binary to select: ")) - 1
+            if 0 <= choice < len(binaries):
+                return binaries[choice]
+            else:
+                print_warn("Invalid choice, please select a valid number.")
+        except ValueError:
+            print_error("Please enter a number.")
+
 signal.signal(signal.SIGINT, signal_handler)
 arguments = sys.argv[1:]  
 

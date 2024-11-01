@@ -823,6 +823,24 @@ No description available.
 ## get_banner
 No description available.
 
+## list_binaries
+List all executable binaries in the specified directory.
+
+Parameters:
+directory (str): The directory to search for binaries. Defaults to 'sessions'.
+
+Returns:
+list: A list of paths to executable binaries.
+
+## select_binary
+Prompt the user to select a binary from a list.
+
+Parameters:
+binaries (list): A list of binary paths.
+
+Returns:
+str: The path of the selected binary.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 

@@ -2,6 +2,27 @@
 # Changelog
 
 
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new tag \n\n Version: release/0.2.14 \n\n  \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Nov 3 22:23:24 2024 -0300 \n\n Hora: 1730683404
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #57 from grisuno/feature/Hackback
+
+
+### Otros
+
+### Otros
+
+  *   * too many commands documented at COMMANDS.md
+
+
 ### Pruebas
 
 ### Otros

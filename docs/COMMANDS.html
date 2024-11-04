@@ -60,6 +60,10 @@
     img {
       max-width: 100%;
     }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
     h1, h2, h3, h4, h5, h6 {
       margin-top: 1.4em;
     }
@@ -4844,6 +4848,36 @@ extract the contents of the zip file.</p>
 <p>Usage example: unzip filename.zip</p>
 <p>:param line: The zip filename to be extracted. If empty, a zip file
 will be selected automatically if available. :return: None</p>
+<h2 id="regeorg">regeorg</h2>
+<p>Executes the reGeorg tool for HTTP(s) tunneling through a SOCKS
+proxy.</p>
+<p>This function performs the following actions: 1. Checks if the
+reGeorg tool is installed; if not, it clones the repository and sets up
+the environment. 2. Validates the command line arguments, specifically
+the port and URL required for the SOCKS proxy. 3. Constructs the command
+to run the reGeorg SOCKS proxy with the specified options and executes
+it. 4. Provides usage instructions in case of incorrect command line
+argument formats.</p>
+<p>Parameters: line (str): Command argument specifying the parameters
+for the reGeorg execution. - The expected format is: “<port> <url>”,
+where <port> is the listening port and <url> is the URL containing the
+tunnel script.</p>
+<p>Returns: None</p>
+<h2 id="rocky">rocky</h2>
+<p>Reduces a wordlist based on the specified password length.</p>
+<p>This function filters the provided wordlist to only include passwords
+that match the specified length. If no length is provided, it defaults
+to 4. The function constructs a grep command to achieve this and
+executes it.</p>
+<p>Usage: do_rocky(line: str)</p>
+<p>:param line: The length of the passwords to filter in the wordlist.
+This parameter should be a string representing a positive integer. If
+not provided, the function prompts the user for input. :type line: str
+:raises ValueError: If the provided length is not a valid positive
+integer.</p>
+<p>Example: do_rocky(‘8’) # Executes: grep ‘^.{8}$’
+/usr/share/wordlists/rockyou.txt &gt;
+sessions/lazypass_mini_rocky.txt</p>
 <h2 id="find_tgts">find_tgts</h2>
 <p>Finds and returns a list of target hosts with port 445 open in the
 specified subnet.</p>

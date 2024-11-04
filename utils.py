@@ -1425,7 +1425,7 @@ def get_credentials(file = None):
     credentials = []
     with open(selected_file, "r") as file:
         for line in file:
-            params = line.strip().split(":")
+            params = line.strip().split(":", 1)
             if len(params) == 2:
                 credentials.append((params[0], params[1]))
 

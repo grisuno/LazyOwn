@@ -3524,6 +3524,23 @@ To manually run this task, provide a number (rotation amount) and a string in th
 
 Note: The function assumes that the rotation number is an integer between 1 and 27. If the number is out of range or not a valid integer, it will print an error message.
 
+## rotf
+Apply a ROT (rotation) substitution cipher to the given extension.
+
+This function rotates each character in the input extension by the specified number of positions in the alphabet. It supports rotation values between 1 and 27. 
+
+Usage:
+    rot <number> '<extension>'
+
+:param line: The input extension containing the number and the text to be rotated. The format should be '<number> '<extension>' where <number> is the rotation amount and <extension> is the text to be ciphered.
+:type line: str
+:returns: None
+
+Manual execution:
+To manually run this task, provide a number (rotation amount) and a extension in the format `rot <number> '<extension>'`. Ensure the number is between 1 and 27.
+
+Note: The function assumes that the rotation number is an integer between 1 and 27. If the number is out of range or not a valid integer, it will print an error message.
+
 ## hydra
 Uses Hydra to perform a brute force attack on a specified HTTP service with a user and password list.
 
@@ -6918,6 +6935,44 @@ Usage example:
 :param line: The zip filename to be extracted. If empty, a zip file will be selected 
             automatically if available.
 :return: None
+
+## regeorg
+Executes the reGeorg tool for HTTP(s) tunneling through a SOCKS proxy.
+
+This function performs the following actions:
+1. Checks if the reGeorg tool is installed; if not, it clones the repository and sets up the environment.
+2. Validates the command line arguments, specifically the port and URL required for the SOCKS proxy.
+3. Constructs the command to run the reGeorg SOCKS proxy with the specified options and executes it.
+4. Provides usage instructions in case of incorrect command line argument formats.
+
+Parameters:
+line (str): Command argument specifying the parameters for the reGeorg execution.
+            - The expected format is: "<port> <url>", where <port> is the listening port and <url> is the URL 
+            containing the tunnel script.
+
+Returns:
+None
+
+## rocky
+Reduces a wordlist based on the specified password length.
+
+This function filters the provided wordlist to only include passwords
+that match the specified length. If no length is provided, it defaults
+to 4. The function constructs a grep command to achieve this and executes
+it.
+
+Usage:
+    do_rocky(line: str)
+
+:param line: The length of the passwords to filter in the wordlist.
+            This parameter should be a string representing a positive integer.
+            If not provided, the function prompts the user for input.
+:type line: str
+:raises ValueError: If the provided length is not a valid positive integer.
+
+Example:
+    do_rocky('8')
+    # Executes: grep '^.\{8\}$' /usr/share/wordlists/rockyou.txt > sessions/lazypass_mini_rocky.txt
 
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.

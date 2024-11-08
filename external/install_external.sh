@@ -106,6 +106,8 @@ download() {
         "git clone https://github.com/antonioCoco/RoguePotato.git .exploit/RougePotato"
         "git clone https://github.com/BloodHoundAD/BloodHound.git .exploit/BloodHoud"
         "git clone https://github.com/S3cur3Th1sSh1t/PowerSharpPack.git .exploit/PowerSharpPack"
+        "git clone https://github.com/garrettfoster13/sccmhunter.git .exploit/sccmhunter"
+        "git clone https://github.com/roughiz/Webmin-1.910-Exploit-Script.git .exploit/Webmin-1.910-Exploit"
     )
     # Imprime los últimos argumentos de cada comando
     echo "    [+] Seleccione el número del comando que desea clonar:"

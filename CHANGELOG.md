@@ -6,6 +6,27 @@
 
 ### Otros
 
+  *   * feat(feat): mani commands new \n\n Version: release/0.2.15 \n\n documented at COMMANDS.md \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Nov 8 01:42:03 2024 -0300 \n\n Hora: 1731040923
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #59 from grisuno/feature/Certified
+
+
+### Otros
+
+### Otros
+
+  *   * too many commands documented at COMMANDS.md
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): new tag \n\n Version: release/0.2.14 \n\n  \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Nov 3 22:23:24 2024 -0300 \n\n Hora: 1730683404
 
 

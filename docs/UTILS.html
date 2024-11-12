@@ -786,6 +786,23 @@ Defaults to ‘sessions’.</p>
 <p>Prompt the user to select a binary from a list.</p>
 <p>Parameters: binaries (list): A list of binary paths.</p>
 <p>Returns: str: The path of the selected binary.</p>
+<h2 id="decode">decode</h2>
+<p>Decodes base64 data received from the server output.</p>
+<p>Parameters: data (str): Encoded base64 data from the server.</p>
+<p>Returns: str: Decoded string output, or an error message if decoding
+fails.</p>
+<h2 id="get_command">get_command</h2>
+<p>Reads a command from standard input and initiates a thread to send
+the command to the target server.</p>
+<h2 id="send_command">send_command</h2>
+<p>Constructs and sends an SQL payload with xp_cmdshell and certutil for
+command execution and exfiltration.</p>
+<p>Parameters: cmd (str): Command to be executed on the remote MSSQL
+server.</p>
+<h2 id="activate_server">activate_server</h2>
+<p>Activates the HTTP server and fetches the first command from the
+user.</p>
+<p>Parameters: httpd (HTTPServer): The server instance to activate.</p>
 <h2 id="wrapper">wrapper</h2>
 <p>internal wrapper of internal function to implement multiples rhost to
 operate.</p>

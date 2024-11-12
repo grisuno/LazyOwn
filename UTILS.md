@@ -841,6 +841,30 @@ binaries (list): A list of binary paths.
 Returns:
 str: The path of the selected binary.
 
+## decode
+Decodes base64 data received from the server output.
+
+Parameters:
+data (str): Encoded base64 data from the server.
+
+Returns:
+str: Decoded string output, or an error message if decoding fails.
+
+## get_command
+Reads a command from standard input and initiates a thread to send the command to the target server.
+
+## send_command
+Constructs and sends an SQL payload with xp_cmdshell and certutil for command execution and exfiltration.
+
+Parameters:
+cmd (str): Command to be executed on the remote MSSQL server.
+
+## activate_server
+Activates the HTTP server and fetches the first command from the user.
+
+Parameters:
+httpd (HTTPServer): The server instance to activate.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 

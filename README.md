@@ -1673,6 +1673,30 @@ binaries (list): A list of binary paths.
 Returns:
 str: The path of the selected binary.
 
+## decode
+Decodes base64 data received from the server output.
+
+Parameters:
+data (str): Encoded base64 data from the server.
+
+Returns:
+str: Decoded string output, or an error message if decoding fails.
+
+## get_command
+Reads a command from standard input and initiates a thread to send the command to the target server.
+
+## send_command
+Constructs and sends an SQL payload with xp_cmdshell and certutil for command execution and exfiltration.
+
+Parameters:
+cmd (str): Command to be executed on the remote MSSQL server.
+
+## activate_server
+Activates the HTTP server and fetches the first command from the user.
+
+Parameters:
+httpd (HTTPServer): The server instance to activate.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 
@@ -8881,6 +8905,27 @@ No description available.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): mani commands new \n\n Version: release/0.2.15 \n\n documented at COMMANDS.md \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Nov 8 01:42:03 2024 -0300 \n\n Hora: 1731040923
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #59 from grisuno/feature/Certified
+
+
+### Otros
+
+### Otros
+
+  *   * too many commands documented at COMMANDS.md
 
 
 ### Nuevas características

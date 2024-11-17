@@ -72,7 +72,7 @@ discover_network() {
 		echo "    [-] Scannign subnet $net..."
 		sudo nmap -sn $net -oG network_discovery -oN "sessions/scan_discovery_${net_sanitized}.nmap" --stylesheet "$ARCHIVO" -oX "sessions/scan_discovery_${net_sanitized}.nmap.xml"
 		echo "    [+] Active Host in the network $net:"
-		grep "Up" network_discovery | awk '{print $2}'
+		grep "Up" network_discovery | awk '{print $2}' | tee "sessions/hosts_$(echo "$net" | tr '/' '_')_discovery.txt"
 	done
 }
 

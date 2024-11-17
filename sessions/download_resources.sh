@@ -55,6 +55,8 @@ download() {
         "wget https://raw.githubusercontent.com/jivoi/pentest/master/shell/insomnia_shell.aspx"
         "wget https://download.sysinternals.com/files/AccessChk.zip"
         "wget https://raw.githubusercontent.com/Alamot/code-snippets/master/winrm/winrm_shell_with_upload.rb"
+        "wget https://download.sysinternals.com/files/Strings.zip"
+        
     )
 
     # Imprime los últimos argumentos de cada comando

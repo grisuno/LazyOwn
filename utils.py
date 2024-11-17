@@ -2073,7 +2073,7 @@ def get_command(url, lhost):
     Reads a command from standard input and initiates a thread to send the command to the target server.
     """
     try:
-        cmd = input(':\> ')
+        cmd = input('    :\> ')
         threading.Thread(target=send_command, args=(cmd,url,lhost)).start()
     except:
         sys.exit(0)

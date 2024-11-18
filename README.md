@@ -1706,6 +1706,39 @@ No description available.
 ## handle_forms
 No description available.
 
+## log_request
+No description available.
+
+## log_message
+No description available.
+
+## GET
+No description available.
+
+## __init__
+No description available.
+
+## open_file
+Open and parse the IP-to-ASN file.
+
+## open_reader
+Parse the reader stream, handling both regular and gzipped files.
+
+## _parse_file
+Parse the TSV data and load it into memory.
+
+## as_of_ip
+Return the ASN associated with the given IP address.
+
+## _rec_index_has_ip
+Check if the given index contains the IP.
+
+## as_name
+Get the AS name by ASN.
+
+## as_country
+Get the country by ASN.
+
 <!-- END UTILS -->
 
 <!-- START COMMANDS -->
@@ -8905,6 +8938,27 @@ No description available.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new commands documented at COMMANDS.md \n\n Version: release/0.2.18 \n\n please subscribe xd \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Nov 17 03:12:38 2024 -0300 \n\n Hora: 1731823958
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #64 from grisuno/dev
+
+
+### Otros
+
+### Otros
+
+  *   * some utils 3 jajaja
 
 
 ### Correcciones urgentes

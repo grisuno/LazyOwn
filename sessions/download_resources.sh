@@ -56,10 +56,9 @@ download() {
         "wget https://download.sysinternals.com/files/AccessChk.zip"
         "wget https://raw.githubusercontent.com/Alamot/code-snippets/master/winrm/winrm_shell_with_upload.rb"
         "wget https://download.sysinternals.com/files/Strings.zip"
-        
+        "wget https://iptoasn.com/data/ip2asn-v4.tsv.gz"
     )
 
-    # Imprime los últimos argumentos de cada comando
     echo "    [+] Seleccione el número del comando que desea descargar:"
     for i in "${!commands[@]}"; do
         echo "$i: ${commands[$i]##* }"

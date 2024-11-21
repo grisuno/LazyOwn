@@ -874,36 +874,3 @@ No description available.
 ## handle_forms
 No description available.
 
-## log_request
-No description available.
-
-## log_message
-No description available.
-
-## GET
-No description available.
-
-## __init__
-No description available.
-
-## open_file
-Open and parse the IP-to-ASN file.
-
-## open_reader
-Parse the reader stream, handling both regular and gzipped files.
-
-## _parse_file
-Parse the TSV data and load it into memory.
-
-## as_of_ip
-Return the ASN associated with the given IP address.
-
-## _rec_index_has_ip
-Check if the given index contains the IP.
-
-## as_name
-Get the AS name by ASN.
-
-## as_country
-Get the country by ASN.
-

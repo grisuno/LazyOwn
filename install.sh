@@ -30,6 +30,7 @@ pip install pykeepass
 pip install cmd2
 pip install Pillow
 pip install netaddr
+pip install stix2
 
 git clone https://github.com/grisuno/LazyOwnInfiniteStorage.git ./modules_ext/lazyown_infinitestorage
 chmod +x /modules_ext/lazyown_infinitestorage/install.sh

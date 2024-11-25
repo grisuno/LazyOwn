@@ -18330,8 +18330,8 @@ class LazyOwnShell(cmd2.Cmd):
         """
         if not is_binary_present("autobloody"):
             os.system("pip install autobloody")
-
-        source =  input (f"    [!] Enter the source (Name property in bloodhound default {self.params["domain"]}): ") or self.params["domain"]
+        domain = self.params["domain"]
+        source =  input (f"    [!] Enter the source (Name property in bloodhound default {domain}): ") or domain
         target = input (f"    [!] Enter the target (Name property in bloodhound): ")
         credentials = get_credentials()
 

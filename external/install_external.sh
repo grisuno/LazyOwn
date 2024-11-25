@@ -115,7 +115,13 @@ download() {
         "git clone https://github.com/dafthack/MailSniper.git .exploit/mailSniper"
         "git clone https://github.com/lefayjey/linWinPwn.git .exploit/linWinPwn"
         "git clone https://github.com/Raptoratack/ADTools.git .exploit/ADT00lz"
-        "git cloen https://github.com/ticarpi/jwt_tool.git .exploit/jwt_tool"
+        "git clone https://github.com/ticarpi/jwt_tool.git .exploit/jwt_tool"
+        "git clone https://github.com/RedSiege/Chromatophore.git .exploit/Chromatophore"
+        "git clone https://github.com/RedSiege/WMIOps.git .exploit/WMIOps"
+        "git clone https://github.com/makuga01/CVE-2024-48990-PoC.git .exploit/CVE-2024-48990-PoC"
+        "git clone https://github.com/r3dcl1ff/nuclei-templates.git .exploit/nuclei-templates"
+        "git clone https://github.com/S3cur3Th1sSh1t/Creds.git .exploit/scripts_variados"
+        "git clone https://github.com/incredibleindishell/BruteShark.git .exploit/BlueShark"
     )
     
     echo "    [+] Choice the number option to clone:"

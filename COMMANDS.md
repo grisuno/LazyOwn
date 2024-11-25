@@ -7598,6 +7598,284 @@ line (str): Additional parameters for the target.
 Returns:
 None
 
+## utf
+Encode a given payload into UTF-16 escape sequences.
+
+This function takes a payload string and encodes each character into its
+UTF-16 hexadecimal representation (e.g., `A` becomes `A`). If no
+payload is provided as input, it prompts the user to input one, with a
+default value of `' or 1=1-- -`.
+
+Parameters:
+    line (str): The input payload to encode. If empty, the user is prompted
+    to provide one interactively.
+
+Returns:
+    None: The encoded payload is printed to the console.
+
+## dcomexec
+Executes the Impacket dcomexec tool to run commands on a remote system using DCOM.
+
+This function performs the following actions:
+1. Validates the target host (rhost) and domain parameters.
+2. If the line argument is "pass", it searches for credential files with the pattern `credentials*.txt`,
+allows the user to select credentials, and constructs the dcomexec command using them.
+3. If the line argument is "hash", it searches for a hash file, prompts the user for a username, and
+constructs the dcomexec command using the hash.
+4. If line does not match "pass" or "hash", it displays an error message with usage instructions.
+
+Parameters:
+line (str): A command argument to determine the authentication mode.
+            If "pass", the function searches for credential files and authenticates using the selected file.
+            If "hash", it uses a hash file for authentication.
+            If neither, it prints an error message with usage instructions.
+
+Returns:
+None
+
+## pip_repo
+Sets up a local pip repository and serves it via an HTTP server for offline installations.
+
+This function performs the following actions:
+1. Creates a directory for storing pip packages if it does not already exist.
+2. Downloads a predefined list of Python packages along with their dependencies to the repository directory.
+3. Organizes the downloaded packages into their respective directories.
+4. Starts an HTTP server to host the repository, allowing remote machines to install the packages.
+
+The repository path is created under the `sessions` directory, and the packages are served using Python's
+built-in HTTP server at port 8008.
+
+Parameters:
+line (str): Optional argument for the command. Not used in this implementation but retained for compatibility
+            with the cmd2 framework.
+
+Returns:
+None
+
+## apt_repo
+Creates a local APT repository and serves it via a web server.
+
+This function performs the following actions:
+1. Creates a directory for storing `.deb` packages.
+2. Downloads the specified APT packages and their dependencies into the repository.
+3. Generates the necessary APT repository indexes.
+4. Starts a web server to host the repository for remote clients.
+
+Parameters:
+line (str): A space-separated list of package names to include in the repository.
+
+Returns:
+None
+
+## httprobe
+Executes the httprobe tool to probe domains for working HTTP and HTTPS servers.
+
+This function performs the following actions:
+1. Verifies if httprobe is installed; if not, it installs the tool automatically.
+2. Probes domains from the input file or standard input.
+3. Simplifies the user experience by minimizing required commands and leveraging self.params for defaults.
+
+Parameters:
+line (str): Optional command arguments specifying the domain or just httprobe.
+            Example usage:
+            just provide the domain: httprobe example.com
+
+Returns:
+None
+
+## eyewitness_py
+Automates EyeWitness installation and execution without requiring user input.
+
+This function installs EyeWitness if it is not already available, uses a default input file 
+(`urls.txt`), and applies standard configurations to execute a web enumeration task 
+automatically. No arguments or manual intervention are needed from the user.
+
+Behavior:
+    - Installs EyeWitness if missing.
+    - Uses `urls.txt` as the default input file.
+    - Sets a default timeout of 60 seconds.
+    - Automatically executes EyeWitness with predefined settings.
+
+Usage:
+    witness
+
+## pup
+Processes HTML content from a specified URL using the pup utility and a default CSS selector.
+
+This function:
+    - Retrieves HTML content from the URL stored in `self.params["url"]` using curl.
+    - Filters the HTML content using the pup utility with a predefined CSS selector.
+    - Displays the filtered result in the terminal.
+
+Behavior:
+    - Requires `pup` to be installed.
+    - Uses `self.params["url"]` as the source URL.
+    - Applies the CSS selector 'table table tr:nth-last-of-type(n+2) td.title a' by default.
+
+Usage:
+    pup
+
+## recon
+Performs reconnaissance on a specified domain using crt.sh (the target must be visible on internet), pup, httprobe, and EyeWitness.
+
+This function automates the process of gathering subdomains for a given domain, verifying 
+their reachability, and generating a report using the EyeWitness tool. 
+
+Workflow:
+    1. Determines the target domain from the `line` argument or defaults to `self.params["domain"]`.
+    2. Queries the crt.sh certificate transparency logs for subdomains using `curl`.
+    3. Filters and extracts domain-related text data using `pup`.
+    4. Sorts and removes duplicate entries, then validates subdomains with `httprobe`.
+    5. Saves the results to a temporary file.
+    6. Executes EyeWitness to generate a web-based reconnaissance report for the subdomains.
+
+Requirements:
+    - `pup`: A command-line HTML parser.
+    - `httprobe`: A tool to check live HTTP/HTTPS endpoints.
+    - EyeWitness: A tool for generating web reconnaissance reports.
+
+Parameters:
+    line (str): The domain to target for reconnaissance. If omitted, the domain defaults to `self.params["domain"]`.
+
+Examples:
+    1. Specify a domain directly:
+        >>> recon domain.com
+
+    2. Use the default domain from self.params:
+        >>> recon
+Raises:
+    None. Errors in execution will be logged or printed as part of the command output.
+
+## digdug
+Executes Dig Dug to inflate the size of an executable file, leveraging pre-configured settings 
+and interactive input for minimal user effort.
+
+This function integrates with the Dig Dug tool to increase an executable's size by appending 
+dictionary words. It automates repository setup, selects the input file from user prompts or defaults, 
+and uses sensible configurations to execute the inflation process. Dig Dug is particularly useful 
+for evading AV/EDR detections by exceeding size thresholds for analysis.
+
+Behavior:
+    - Automatically clones the Dig Dug repository if not already present in `external/.exploit/DigDug`.
+    - Calls the `venom` command to prepare the necessary payloads for execution.
+    - Prompts the user to select an input executable and specify the desired size increase.
+    - Uses a default dictionary (`google-10000-english-usa-gt5.txt`) for padding.
+
+Requirements:
+    - A Python environment with required dependencies.
+    - Executable files available in the working directory or `sessions`.
+
+Usage:
+    Invoke this function to inflate the size of a generated payload or user-specified executable.
+    Interactive prompts will guide the input selection and size configuration.
+
+Examples:
+    1. Increase the size of a selected payload by 100 MB:
+        >>> digdug
+
+    2. Use the default configurations to inflate an executable:
+        No additional parameters are required. The user is prompted for size and file selection.
+
+## adsso_spray
+Performs a password spray attack on Azure Active Directory Seamless Single Sign-On (SSO) using a specified list of users.
+
+This function automates the process of spraying a given password across multiple user accounts in a target domain. It utilizes 
+a user list in the form of a text file, targeting Azure AD Seamless SSO endpoints. The results are processed and saved to 
+a specified output file, providing insights into which accounts were successful or failed during the attack.
+
+Requirements:
+    - A valid domain and URL for the target Azure AD instance. (assing url https://url.com)
+    - A user dictionary file containing usernames (without the domain) to be sprayed.
+
+Parameters:
+    line (str): Command-line input passed to the function (not currently used in the function).
+
+Behavior:
+    - Loads the domain and URL from the configuration stored in `self.params`.
+    - Reads the user list from a file specified in `get_users_dic`.
+    - Sprays the specified password to all users and processes the results.
+    - Saves the successful and failed attempts to the output file.
+
+Example:
+    - Perform a password spray attack with the password "admin" and save the results:
+        >>> adsso_spray
+    - Customize the password or user list by modifying `self.params` before invoking the function.
+
+## creds_py
+Searches for default credentials associated with a specific product or vendor, using the Default Credentials Cheat Sheet.
+
+This function automates the process of querying the Default Credentials Cheat Sheet for default credentials of various products.
+It searches for the specified product or vendor, providing relevant default credentials for pentesters during engagements.
+
+Behavior:
+    - Automatically clones the Default Credentials Cheat Sheet repository if not already present in `external/.exploit/DefaultCreds`.
+    - Executes a search command with the product/vendor specified by the user.
+    - Returns the default credentials for the requested product or vendor.
+
+Requirements:
+    - Python environment with necessary dependencies.
+    - Access to the Default Credentials Cheat Sheet repository.
+
+Usage:
+    Run this function to search for default credentials related to a product or vendor.
+    The user is prompted to enter the product/vendor for which they need credentials.
+
+Examples:
+    1. Search for default credentials of 'tomcat':
+        >>> creds search tomcat
+
+## sshexploit
+Exploits OpenSSH vulnerability CVE-2023-38408 via the PKCS#11 feature of the ssh-agent.
+
+Steps:
+1. Attacker connects via SSH to a target server.
+2. Identify and export the SSH_AUTH_SOCK environment variable.
+3. Send crafted shellcode to exploit the PKCS#11 vulnerability.
+4. Load malicious libraries via ssh-add and trigger SIGSEGV for code execution.
+
+Usage:
+    do_sshexploit
+
+Example:
+    do_sshexploit
+
+Note:
+    This function is for educational purposes only. Unauthorized exploitation is illegal.
+
+## tab
+Executes the `lazypyautogui.py` script with optional arguments.
+This open new terminal tab and then run and instance of LazyOwn strokes the keyboard with pyautogui
+
+If a `line` argument is provided, it appends the argument to the command.
+Otherwise, it runs the script without additional parameters. The constructed
+command is displayed and executed in the system shell.
+
+Parameters:
+    line (str): Optional argument to pass as input to the `lazypyautogui.py` script.
+
+Returns:
+    None
+
+## excelntdonut
+Generates an Excel 4.0 (XLM) macro from a provided C# source file using EXCELntDonut.
+
+This function:
+    - Installs EXCELntDonut dependencies if not already installed.
+    - Clones the EXCELntDonut repository if not present.
+    - Compiles the provided C# source file into shellcode.
+    - Generates the XLM macro and saves it to a specified output file.
+
+Behavior:
+    - Requires `mono-complete` and `pip3` with required Python packages installed.
+    - Accepts parameters for input file, references, sandbox checks, obfuscation, and output file.
+    - Outputs the generated macro in a `.txt` or `.csv` format.
+
+Usage:
+    excelntdonut -f <source_file.cs> -r <references> [--sandbox] [--obfuscate] [-o <output_file>]
+
+Example:
+    excelntdonut -f payload.cs -r System.Windows.Forms.dll --sandbox --obfuscate -o macro.txt
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 

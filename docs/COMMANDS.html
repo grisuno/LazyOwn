@@ -5328,6 +5328,230 @@ to exfiltrate admin tokens by abusing ‘/api/info.’ 4. Prepares for
 further exploitation using ‘/admin’ and ‘/api/json-rpc’.</p>
 <p>Parameters: line (str): Additional parameters for the target.</p>
 <p>Returns: None</p>
+<h2 id="utf">utf</h2>
+<p>Encode a given payload into UTF-16 escape sequences.</p>
+<p>This function takes a payload string and encodes each character into
+its UTF-16 hexadecimal representation (e.g., <code>A</code> becomes
+<code>A</code>). If no payload is provided as input, it prompts the user
+to input one, with a default value of <code>' or 1=1-- -</code>.</p>
+<p>Parameters: line (str): The input payload to encode. If empty, the
+user is prompted to provide one interactively.</p>
+<p>Returns: None: The encoded payload is printed to the console.</p>
+<h2 id="dcomexec">dcomexec</h2>
+<p>Executes the Impacket dcomexec tool to run commands on a remote
+system using DCOM.</p>
+<p>This function performs the following actions: 1. Validates the target
+host (rhost) and domain parameters. 2. If the line argument is “pass”,
+it searches for credential files with the pattern
+<code>credentials*.txt</code>, allows the user to select credentials,
+and constructs the dcomexec command using them. 3. If the line argument
+is “hash”, it searches for a hash file, prompts the user for a username,
+and constructs the dcomexec command using the hash. 4. If line does not
+match “pass” or “hash”, it displays an error message with usage
+instructions.</p>
+<p>Parameters: line (str): A command argument to determine the
+authentication mode. If “pass”, the function searches for credential
+files and authenticates using the selected file. If “hash”, it uses a
+hash file for authentication. If neither, it prints an error message
+with usage instructions.</p>
+<p>Returns: None</p>
+<h2 id="pip_repo">pip_repo</h2>
+<p>Sets up a local pip repository and serves it via an HTTP server for
+offline installations.</p>
+<p>This function performs the following actions: 1. Creates a directory
+for storing pip packages if it does not already exist. 2. Downloads a
+predefined list of Python packages along with their dependencies to the
+repository directory. 3. Organizes the downloaded packages into their
+respective directories. 4. Starts an HTTP server to host the repository,
+allowing remote machines to install the packages.</p>
+<p>The repository path is created under the <code>sessions</code>
+directory, and the packages are served using Python’s built-in HTTP
+server at port 8008.</p>
+<p>Parameters: line (str): Optional argument for the command. Not used
+in this implementation but retained for compatibility with the cmd2
+framework.</p>
+<p>Returns: None</p>
+<h2 id="apt_repo">apt_repo</h2>
+<p>Creates a local APT repository and serves it via a web server.</p>
+<p>This function performs the following actions: 1. Creates a directory
+for storing <code>.deb</code> packages. 2. Downloads the specified APT
+packages and their dependencies into the repository. 3. Generates the
+necessary APT repository indexes. 4. Starts a web server to host the
+repository for remote clients.</p>
+<p>Parameters: line (str): A space-separated list of package names to
+include in the repository.</p>
+<p>Returns: None</p>
+<h2 id="httprobe">httprobe</h2>
+<p>Executes the httprobe tool to probe domains for working HTTP and
+HTTPS servers.</p>
+<p>This function performs the following actions: 1. Verifies if httprobe
+is installed; if not, it installs the tool automatically. 2. Probes
+domains from the input file or standard input. 3. Simplifies the user
+experience by minimizing required commands and leveraging self.params
+for defaults.</p>
+<p>Parameters: line (str): Optional command arguments specifying the
+domain or just httprobe. Example usage: just provide the domain:
+httprobe example.com</p>
+<p>Returns: None</p>
+<h2 id="eyewitness_py">eyewitness_py</h2>
+<p>Automates EyeWitness installation and execution without requiring
+user input.</p>
+<p>This function installs EyeWitness if it is not already available,
+uses a default input file (<code>urls.txt</code>), and applies standard
+configurations to execute a web enumeration task automatically. No
+arguments or manual intervention are needed from the user.</p>
+<p>Behavior: - Installs EyeWitness if missing. - Uses
+<code>urls.txt</code> as the default input file. - Sets a default
+timeout of 60 seconds. - Automatically executes EyeWitness with
+predefined settings.</p>
+<p>Usage: witness</p>
+<h2 id="pup">pup</h2>
+<p>Processes HTML content from a specified URL using the pup utility and
+a default CSS selector.</p>
+<p>This function: - Retrieves HTML content from the URL stored in
+<code>self.params["url"]</code> using curl. - Filters the HTML content
+using the pup utility with a predefined CSS selector. - Displays the
+filtered result in the terminal.</p>
+<p>Behavior: - Requires <code>pup</code> to be installed. - Uses
+<code>self.params["url"]</code> as the source URL. - Applies the CSS
+selector ‘table table tr:nth-last-of-type(n+2) td.title a’ by
+default.</p>
+<p>Usage: pup</p>
+<h2 id="recon">recon</h2>
+<p>Performs reconnaissance on a specified domain using crt.sh (the
+target must be visible on internet), pup, httprobe, and EyeWitness.</p>
+<p>This function automates the process of gathering subdomains for a
+given domain, verifying their reachability, and generating a report
+using the EyeWitness tool.</p>
+<p>Workflow: 1. Determines the target domain from the <code>line</code>
+argument or defaults to <code>self.params["domain"]</code>. 2. Queries
+the crt.sh certificate transparency logs for subdomains using
+<code>curl</code>. 3. Filters and extracts domain-related text data
+using <code>pup</code>. 4. Sorts and removes duplicate entries, then
+validates subdomains with <code>httprobe</code>. 5. Saves the results to
+a temporary file. 6. Executes EyeWitness to generate a web-based
+reconnaissance report for the subdomains.</p>
+<p>Requirements: - <code>pup</code>: A command-line HTML parser. -
+<code>httprobe</code>: A tool to check live HTTP/HTTPS endpoints. -
+EyeWitness: A tool for generating web reconnaissance reports.</p>
+<p>Parameters: line (str): The domain to target for reconnaissance. If
+omitted, the domain defaults to <code>self.params["domain"]</code>.</p>
+<p>Examples: 1. Specify a domain directly: &gt;&gt;&gt; recon
+domain.com</p>
+<ol start="2" type="1">
+<li>Use the default domain from self.params: &gt;&gt;&gt; recon Raises:
+None. Errors in execution will be logged or printed as part of the
+command output.</li>
+</ol>
+<h2 id="digdug">digdug</h2>
+<p>Executes Dig Dug to inflate the size of an executable file,
+leveraging pre-configured settings and interactive input for minimal
+user effort.</p>
+<p>This function integrates with the Dig Dug tool to increase an
+executable’s size by appending dictionary words. It automates repository
+setup, selects the input file from user prompts or defaults, and uses
+sensible configurations to execute the inflation process. Dig Dug is
+particularly useful for evading AV/EDR detections by exceeding size
+thresholds for analysis.</p>
+<p>Behavior: - Automatically clones the Dig Dug repository if not
+already present in <code>external/.exploit/DigDug</code>. - Calls the
+<code>venom</code> command to prepare the necessary payloads for
+execution. - Prompts the user to select an input executable and specify
+the desired size increase. - Uses a default dictionary
+(<code>google-10000-english-usa-gt5.txt</code>) for padding.</p>
+<p>Requirements: - A Python environment with required dependencies. -
+Executable files available in the working directory or
+<code>sessions</code>.</p>
+<p>Usage: Invoke this function to inflate the size of a generated
+payload or user-specified executable. Interactive prompts will guide the
+input selection and size configuration.</p>
+<p>Examples: 1. Increase the size of a selected payload by 100 MB:
+&gt;&gt;&gt; digdug</p>
+<ol start="2" type="1">
+<li>Use the default configurations to inflate an executable: No
+additional parameters are required. The user is prompted for size and
+file selection.</li>
+</ol>
+<h2 id="adsso_spray">adsso_spray</h2>
+<p>Performs a password spray attack on Azure Active Directory Seamless
+Single Sign-On (SSO) using a specified list of users.</p>
+<p>This function automates the process of spraying a given password
+across multiple user accounts in a target domain. It utilizes a user
+list in the form of a text file, targeting Azure AD Seamless SSO
+endpoints. The results are processed and saved to a specified output
+file, providing insights into which accounts were successful or failed
+during the attack.</p>
+<p>Requirements: - A valid domain and URL for the target Azure AD
+instance. (assing url https://url.com) - A user dictionary file
+containing usernames (without the domain) to be sprayed.</p>
+<p>Parameters: line (str): Command-line input passed to the function
+(not currently used in the function).</p>
+<p>Behavior: - Loads the domain and URL from the configuration stored in
+<code>self.params</code>. - Reads the user list from a file specified in
+<code>get_users_dic</code>. - Sprays the specified password to all users
+and processes the results. - Saves the successful and failed attempts to
+the output file.</p>
+<p>Example: - Perform a password spray attack with the password “admin”
+and save the results: &gt;&gt;&gt; adsso_spray - Customize the password
+or user list by modifying <code>self.params</code> before invoking the
+function.</p>
+<h2 id="creds_py">creds_py</h2>
+<p>Searches for default credentials associated with a specific product
+or vendor, using the Default Credentials Cheat Sheet.</p>
+<p>This function automates the process of querying the Default
+Credentials Cheat Sheet for default credentials of various products. It
+searches for the specified product or vendor, providing relevant default
+credentials for pentesters during engagements.</p>
+<p>Behavior: - Automatically clones the Default Credentials Cheat Sheet
+repository if not already present in
+<code>external/.exploit/DefaultCreds</code>. - Executes a search command
+with the product/vendor specified by the user. - Returns the default
+credentials for the requested product or vendor.</p>
+<p>Requirements: - Python environment with necessary dependencies. -
+Access to the Default Credentials Cheat Sheet repository.</p>
+<p>Usage: Run this function to search for default credentials related to
+a product or vendor. The user is prompted to enter the product/vendor
+for which they need credentials.</p>
+<p>Examples: 1. Search for default credentials of ‘tomcat’: &gt;&gt;&gt;
+creds search tomcat</p>
+<h2 id="sshexploit">sshexploit</h2>
+<p>Exploits OpenSSH vulnerability CVE-2023-38408 via the PKCS#11 feature
+of the ssh-agent.</p>
+<p>Steps: 1. Attacker connects via SSH to a target server. 2. Identify
+and export the SSH_AUTH_SOCK environment variable. 3. Send crafted
+shellcode to exploit the PKCS#11 vulnerability. 4. Load malicious
+libraries via ssh-add and trigger SIGSEGV for code execution.</p>
+<p>Usage: do_sshexploit</p>
+<p>Example: do_sshexploit</p>
+<p>Note: This function is for educational purposes only. Unauthorized
+exploitation is illegal.</p>
+<h2 id="tab">tab</h2>
+<p>Executes the <code>lazypyautogui.py</code> script with optional
+arguments. This open new terminal tab and then run and instance of
+LazyOwn strokes the keyboard with pyautogui</p>
+<p>If a <code>line</code> argument is provided, it appends the argument
+to the command. Otherwise, it runs the script without additional
+parameters. The constructed command is displayed and executed in the
+system shell.</p>
+<p>Parameters: line (str): Optional argument to pass as input to the
+<code>lazypyautogui.py</code> script.</p>
+<p>Returns: None</p>
+<h2 id="excelntdonut">excelntdonut</h2>
+<p>Generates an Excel 4.0 (XLM) macro from a provided C# source file
+using EXCELntDonut.</p>
+<p>This function: - Installs EXCELntDonut dependencies if not already
+installed. - Clones the EXCELntDonut repository if not present. -
+Compiles the provided C# source file into shellcode. - Generates the XLM
+macro and saves it to a specified output file.</p>
+<p>Behavior: - Requires <code>mono-complete</code> and <code>pip3</code>
+with required Python packages installed. - Accepts parameters for input
+file, references, sandbox checks, obfuscation, and output file. -
+Outputs the generated macro in a <code>.txt</code> or <code>.csv</code>
+format.</p>
+<p>Usage: excelntdonut -f &lt;source_file.cs&gt; -r <references>
+[–sandbox] [–obfuscate] [-o <output_file>]</p>
+<p>Example: excelntdonut -f payload.cs -r System.Windows.Forms.dll
+–sandbox –obfuscate -o macro.txt</p>
 <h2 id="find_tgts">find_tgts</h2>
 <p>Finds and returns a list of target hosts with port 445 open in the
 specified subnet.</p>

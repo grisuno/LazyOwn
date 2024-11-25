@@ -865,6 +865,15 @@ Activates the HTTP server and fetches the first command from the user.
 Parameters:
 httpd (HTTPServer): The server instance to activate.
 
+## Spray
+No description available.
+
+## ProcessResults
+No description available.
+
+## generate_index
+No description available.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 

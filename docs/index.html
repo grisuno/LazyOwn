@@ -1937,6 +1937,12 @@ server.</p>
 <p>Activates the HTTP server and fetches the first command from the
 user.</p>
 <p>Parameters: httpd (HTTPServer): The server instance to activate.</p>
+<h2 id="spray">Spray</h2>
+<p>No description available.</p>
+<h2 id="processresults">ProcessResults</h2>
+<p>No description available.</p>
+<h2 id="generate_index">generate_index</h2>
+<p>No description available.</p>
 <h2 id="wrapper">wrapper</h2>
 <p>internal wrapper of internal function to implement multiples rhost to
 operate.</p>
@@ -7102,6 +7108,230 @@ to exfiltrate admin tokens by abusing ‘/api/info.’ 4. Prepares for
 further exploitation using ‘/admin’ and ‘/api/json-rpc’.</p>
 <p>Parameters: line (str): Additional parameters for the target.</p>
 <p>Returns: None</p>
+<h2 id="utf">utf</h2>
+<p>Encode a given payload into UTF-16 escape sequences.</p>
+<p>This function takes a payload string and encodes each character into
+its UTF-16 hexadecimal representation (e.g., <code>A</code> becomes
+<code>A</code>). If no payload is provided as input, it prompts the user
+to input one, with a default value of <code>' or 1=1-- -</code>.</p>
+<p>Parameters: line (str): The input payload to encode. If empty, the
+user is prompted to provide one interactively.</p>
+<p>Returns: None: The encoded payload is printed to the console.</p>
+<h2 id="dcomexec">dcomexec</h2>
+<p>Executes the Impacket dcomexec tool to run commands on a remote
+system using DCOM.</p>
+<p>This function performs the following actions: 1. Validates the target
+host (rhost) and domain parameters. 2. If the line argument is “pass”,
+it searches for credential files with the pattern
+<code>credentials*.txt</code>, allows the user to select credentials,
+and constructs the dcomexec command using them. 3. If the line argument
+is “hash”, it searches for a hash file, prompts the user for a username,
+and constructs the dcomexec command using the hash. 4. If line does not
+match “pass” or “hash”, it displays an error message with usage
+instructions.</p>
+<p>Parameters: line (str): A command argument to determine the
+authentication mode. If “pass”, the function searches for credential
+files and authenticates using the selected file. If “hash”, it uses a
+hash file for authentication. If neither, it prints an error message
+with usage instructions.</p>
+<p>Returns: None</p>
+<h2 id="pip_repo">pip_repo</h2>
+<p>Sets up a local pip repository and serves it via an HTTP server for
+offline installations.</p>
+<p>This function performs the following actions: 1. Creates a directory
+for storing pip packages if it does not already exist. 2. Downloads a
+predefined list of Python packages along with their dependencies to the
+repository directory. 3. Organizes the downloaded packages into their
+respective directories. 4. Starts an HTTP server to host the repository,
+allowing remote machines to install the packages.</p>
+<p>The repository path is created under the <code>sessions</code>
+directory, and the packages are served using Python’s built-in HTTP
+server at port 8008.</p>
+<p>Parameters: line (str): Optional argument for the command. Not used
+in this implementation but retained for compatibility with the cmd2
+framework.</p>
+<p>Returns: None</p>
+<h2 id="apt_repo">apt_repo</h2>
+<p>Creates a local APT repository and serves it via a web server.</p>
+<p>This function performs the following actions: 1. Creates a directory
+for storing <code>.deb</code> packages. 2. Downloads the specified APT
+packages and their dependencies into the repository. 3. Generates the
+necessary APT repository indexes. 4. Starts a web server to host the
+repository for remote clients.</p>
+<p>Parameters: line (str): A space-separated list of package names to
+include in the repository.</p>
+<p>Returns: None</p>
+<h2 id="httprobe">httprobe</h2>
+<p>Executes the httprobe tool to probe domains for working HTTP and
+HTTPS servers.</p>
+<p>This function performs the following actions: 1. Verifies if httprobe
+is installed; if not, it installs the tool automatically. 2. Probes
+domains from the input file or standard input. 3. Simplifies the user
+experience by minimizing required commands and leveraging self.params
+for defaults.</p>
+<p>Parameters: line (str): Optional command arguments specifying the
+domain or just httprobe. Example usage: just provide the domain:
+httprobe example.com</p>
+<p>Returns: None</p>
+<h2 id="eyewitness_py">eyewitness_py</h2>
+<p>Automates EyeWitness installation and execution without requiring
+user input.</p>
+<p>This function installs EyeWitness if it is not already available,
+uses a default input file (<code>urls.txt</code>), and applies standard
+configurations to execute a web enumeration task automatically. No
+arguments or manual intervention are needed from the user.</p>
+<p>Behavior: - Installs EyeWitness if missing. - Uses
+<code>urls.txt</code> as the default input file. - Sets a default
+timeout of 60 seconds. - Automatically executes EyeWitness with
+predefined settings.</p>
+<p>Usage: witness</p>
+<h2 id="pup">pup</h2>
+<p>Processes HTML content from a specified URL using the pup utility and
+a default CSS selector.</p>
+<p>This function: - Retrieves HTML content from the URL stored in
+<code>self.params["url"]</code> using curl. - Filters the HTML content
+using the pup utility with a predefined CSS selector. - Displays the
+filtered result in the terminal.</p>
+<p>Behavior: - Requires <code>pup</code> to be installed. - Uses
+<code>self.params["url"]</code> as the source URL. - Applies the CSS
+selector ‘table table tr:nth-last-of-type(n+2) td.title a’ by
+default.</p>
+<p>Usage: pup</p>
+<h2 id="recon">recon</h2>
+<p>Performs reconnaissance on a specified domain using crt.sh (the
+target must be visible on internet), pup, httprobe, and EyeWitness.</p>
+<p>This function automates the process of gathering subdomains for a
+given domain, verifying their reachability, and generating a report
+using the EyeWitness tool.</p>
+<p>Workflow: 1. Determines the target domain from the <code>line</code>
+argument or defaults to <code>self.params["domain"]</code>. 2. Queries
+the crt.sh certificate transparency logs for subdomains using
+<code>curl</code>. 3. Filters and extracts domain-related text data
+using <code>pup</code>. 4. Sorts and removes duplicate entries, then
+validates subdomains with <code>httprobe</code>. 5. Saves the results to
+a temporary file. 6. Executes EyeWitness to generate a web-based
+reconnaissance report for the subdomains.</p>
+<p>Requirements: - <code>pup</code>: A command-line HTML parser. -
+<code>httprobe</code>: A tool to check live HTTP/HTTPS endpoints. -
+EyeWitness: A tool for generating web reconnaissance reports.</p>
+<p>Parameters: line (str): The domain to target for reconnaissance. If
+omitted, the domain defaults to <code>self.params["domain"]</code>.</p>
+<p>Examples: 1. Specify a domain directly: &gt;&gt;&gt; recon
+domain.com</p>
+<ol start="2" type="1">
+<li>Use the default domain from self.params: &gt;&gt;&gt; recon Raises:
+None. Errors in execution will be logged or printed as part of the
+command output.</li>
+</ol>
+<h2 id="digdug">digdug</h2>
+<p>Executes Dig Dug to inflate the size of an executable file,
+leveraging pre-configured settings and interactive input for minimal
+user effort.</p>
+<p>This function integrates with the Dig Dug tool to increase an
+executable’s size by appending dictionary words. It automates repository
+setup, selects the input file from user prompts or defaults, and uses
+sensible configurations to execute the inflation process. Dig Dug is
+particularly useful for evading AV/EDR detections by exceeding size
+thresholds for analysis.</p>
+<p>Behavior: - Automatically clones the Dig Dug repository if not
+already present in <code>external/.exploit/DigDug</code>. - Calls the
+<code>venom</code> command to prepare the necessary payloads for
+execution. - Prompts the user to select an input executable and specify
+the desired size increase. - Uses a default dictionary
+(<code>google-10000-english-usa-gt5.txt</code>) for padding.</p>
+<p>Requirements: - A Python environment with required dependencies. -
+Executable files available in the working directory or
+<code>sessions</code>.</p>
+<p>Usage: Invoke this function to inflate the size of a generated
+payload or user-specified executable. Interactive prompts will guide the
+input selection and size configuration.</p>
+<p>Examples: 1. Increase the size of a selected payload by 100 MB:
+&gt;&gt;&gt; digdug</p>
+<ol start="2" type="1">
+<li>Use the default configurations to inflate an executable: No
+additional parameters are required. The user is prompted for size and
+file selection.</li>
+</ol>
+<h2 id="adsso_spray">adsso_spray</h2>
+<p>Performs a password spray attack on Azure Active Directory Seamless
+Single Sign-On (SSO) using a specified list of users.</p>
+<p>This function automates the process of spraying a given password
+across multiple user accounts in a target domain. It utilizes a user
+list in the form of a text file, targeting Azure AD Seamless SSO
+endpoints. The results are processed and saved to a specified output
+file, providing insights into which accounts were successful or failed
+during the attack.</p>
+<p>Requirements: - A valid domain and URL for the target Azure AD
+instance. (assing url https://url.com) - A user dictionary file
+containing usernames (without the domain) to be sprayed.</p>
+<p>Parameters: line (str): Command-line input passed to the function
+(not currently used in the function).</p>
+<p>Behavior: - Loads the domain and URL from the configuration stored in
+<code>self.params</code>. - Reads the user list from a file specified in
+<code>get_users_dic</code>. - Sprays the specified password to all users
+and processes the results. - Saves the successful and failed attempts to
+the output file.</p>
+<p>Example: - Perform a password spray attack with the password “admin”
+and save the results: &gt;&gt;&gt; adsso_spray - Customize the password
+or user list by modifying <code>self.params</code> before invoking the
+function.</p>
+<h2 id="creds_py">creds_py</h2>
+<p>Searches for default credentials associated with a specific product
+or vendor, using the Default Credentials Cheat Sheet.</p>
+<p>This function automates the process of querying the Default
+Credentials Cheat Sheet for default credentials of various products. It
+searches for the specified product or vendor, providing relevant default
+credentials for pentesters during engagements.</p>
+<p>Behavior: - Automatically clones the Default Credentials Cheat Sheet
+repository if not already present in
+<code>external/.exploit/DefaultCreds</code>. - Executes a search command
+with the product/vendor specified by the user. - Returns the default
+credentials for the requested product or vendor.</p>
+<p>Requirements: - Python environment with necessary dependencies. -
+Access to the Default Credentials Cheat Sheet repository.</p>
+<p>Usage: Run this function to search for default credentials related to
+a product or vendor. The user is prompted to enter the product/vendor
+for which they need credentials.</p>
+<p>Examples: 1. Search for default credentials of ‘tomcat’: &gt;&gt;&gt;
+creds search tomcat</p>
+<h2 id="sshexploit">sshexploit</h2>
+<p>Exploits OpenSSH vulnerability CVE-2023-38408 via the PKCS#11 feature
+of the ssh-agent.</p>
+<p>Steps: 1. Attacker connects via SSH to a target server. 2. Identify
+and export the SSH_AUTH_SOCK environment variable. 3. Send crafted
+shellcode to exploit the PKCS#11 vulnerability. 4. Load malicious
+libraries via ssh-add and trigger SIGSEGV for code execution.</p>
+<p>Usage: do_sshexploit</p>
+<p>Example: do_sshexploit</p>
+<p>Note: This function is for educational purposes only. Unauthorized
+exploitation is illegal.</p>
+<h2 id="tab">tab</h2>
+<p>Executes the <code>lazypyautogui.py</code> script with optional
+arguments. This open new terminal tab and then run and instance of
+LazyOwn strokes the keyboard with pyautogui</p>
+<p>If a <code>line</code> argument is provided, it appends the argument
+to the command. Otherwise, it runs the script without additional
+parameters. The constructed command is displayed and executed in the
+system shell.</p>
+<p>Parameters: line (str): Optional argument to pass as input to the
+<code>lazypyautogui.py</code> script.</p>
+<p>Returns: None</p>
+<h2 id="excelntdonut">excelntdonut</h2>
+<p>Generates an Excel 4.0 (XLM) macro from a provided C# source file
+using EXCELntDonut.</p>
+<p>This function: - Installs EXCELntDonut dependencies if not already
+installed. - Clones the EXCELntDonut repository if not present. -
+Compiles the provided C# source file into shellcode. - Generates the XLM
+macro and saves it to a specified output file.</p>
+<p>Behavior: - Requires <code>mono-complete</code> and <code>pip3</code>
+with required Python packages installed. - Accepts parameters for input
+file, references, sandbox checks, obfuscation, and output file. -
+Outputs the generated macro in a <code>.txt</code> or <code>.csv</code>
+format.</p>
+<p>Usage: excelntdonut -f &lt;source_file.cs&gt; -r <references>
+[–sandbox] [–obfuscate] [-o <output_file>]</p>
+<p>Example: excelntdonut -f payload.cs -r System.Windows.Forms.dll
+–sandbox –obfuscate -o macro.txt</p>
 <h2 id="find_tgts">find_tgts</h2>
 <p>Finds and returns a list of target hosts with port 445 open in the
 specified subnet.</p>
@@ -7276,6 +7506,32 @@ the scope where this function is used.</p>
 <h3 id="otros">Otros</h3>
 <ul>
 <li><ul>
+<li>feat(feat): new feats Version: release/0.2.20 documented at
+COMMANDS.md Modified file(s):- README.md - UTILS.md - docs/README.html -
+docs/UTILS.html - docs/index.html - docs/index.html.bakLazyOwn on
+HackTheBox: https://app.hackthebox.com/teams/overview/6429 LazyOwn/
+https://grisuno.github.io/LazyOwn/ Fecha: Wed Nov 20 22:44:11 2024 -0300
+Hora: 1732153451</li>
+</ul></li>
+</ul>
+<h3 id="otros-1">Otros</h3>
+<h3 id="otros-2">Otros</h3>
+<ul>
+<li><ul>
+<li>Merge pull request #67 from grisuno/dev</li>
+</ul></li>
+</ul>
+<h3 id="otros-3">Otros</h3>
+<h3 id="otros-4">Otros</h3>
+<ul>
+<li><ul>
+<li>some utils 5 jajaja?</li>
+</ul></li>
+</ul>
+<h3 id="nuevas-características-1">Nuevas características</h3>
+<h3 id="otros-5">Otros</h3>
+<ul>
+<li><ul>
 <li>feat(feat): new feats documented at COMMANDS.md Version:
 release/0.2.19 :D Modified file(s):- README.md - UTILS.md -
 docs/README.html - docs/UTILS.html - docs/index.html -
@@ -7285,22 +7541,22 @@ https://grisuno.github.io/LazyOwn/ Fecha: Mon Nov 18 08:15:15 2024 -0300
 Hora: 1731928515</li>
 </ul></li>
 </ul>
-<h3 id="otros-1">Otros</h3>
-<h3 id="otros-2">Otros</h3>
+<h3 id="otros-6">Otros</h3>
+<h3 id="otros-7">Otros</h3>
 <ul>
 <li><ul>
 <li>Merge pull request #66 from grisuno/dev</li>
 </ul></li>
 </ul>
-<h3 id="otros-3">Otros</h3>
-<h3 id="otros-4">Otros</h3>
+<h3 id="otros-8">Otros</h3>
+<h3 id="otros-9">Otros</h3>
 <ul>
 <li><ul>
 <li>some utils 4 jajaja?</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-1">Nuevas características</h3>
-<h3 id="otros-5">Otros</h3>
+<h3 id="nuevas-características-2">Nuevas características</h3>
+<h3 id="otros-10">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(feat): new commands documented at COMMANDS.md Version:
@@ -7311,22 +7567,22 @@ https://grisuno.github.io/LazyOwn/ Fecha: Sun Nov 17 03:12:38 2024 -0300
 Hora: 1731823958</li>
 </ul></li>
 </ul>
-<h3 id="otros-6">Otros</h3>
-<h3 id="otros-7">Otros</h3>
+<h3 id="otros-11">Otros</h3>
+<h3 id="otros-12">Otros</h3>
 <ul>
 <li><ul>
 <li>Merge pull request #64 from grisuno/dev</li>
 </ul></li>
 </ul>
-<h3 id="otros-8">Otros</h3>
-<h3 id="otros-9">Otros</h3>
+<h3 id="otros-13">Otros</h3>
+<h3 id="otros-14">Otros</h3>
 <ul>
 <li><ul>
 <li>some utils 3 jajaja</li>
 </ul></li>
 </ul>
 <h3 id="correcciones-urgentes">Correcciones urgentes</h3>
-<h3 id="otros-10">Otros</h3>
+<h3 id="otros-15">Otros</h3>
 <ul>
 <li><ul>
 <li>hotfix(hotfix): add option 20 of lazymsfvenom module Version:
@@ -7339,8 +7595,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Mon Nov 11 22:58:46 2024 -0300
 Hora: 1731376726</li>
 </ul></li>
 </ul>
-<h3 id="otros-11">Otros</h3>
-<h3 id="otros-12">Otros</h3>
+<h3 id="otros-16">Otros</h3>
+<h3 id="otros-17">Otros</h3>
 <ul>
 <li><ul>
 <li>feature(feat): new features Version: release/0.2.16 dicumented at
@@ -7351,36 +7607,36 @@ https://grisuno.github.io/LazyOwn/ Fecha: Mon Nov 11 22:56:13 2024 -0300
 Hora: 1731376573</li>
 </ul></li>
 </ul>
-<h3 id="otros-13">Otros</h3>
-<h3 id="otros-14">Otros</h3>
+<h3 id="otros-18">Otros</h3>
+<h3 id="otros-19">Otros</h3>
 <ul>
 <li><ul>
 <li>Merge pull request #62 from grisuno/dev</li>
 </ul></li>
 </ul>
-<h3 id="otros-15">Otros</h3>
-<h3 id="otros-16">Otros</h3>
+<h3 id="otros-20">Otros</h3>
+<h3 id="otros-21">Otros</h3>
 <ul>
 <li><ul>
 <li>some utils 2</li>
 </ul></li>
 </ul>
-<h3 id="otros-17">Otros</h3>
-<h3 id="otros-18">Otros</h3>
+<h3 id="otros-22">Otros</h3>
+<h3 id="otros-23">Otros</h3>
 <ul>
 <li><ul>
 <li>Merge pull request #61 from grisuno/dev</li>
 </ul></li>
 </ul>
-<h3 id="otros-19">Otros</h3>
-<h3 id="otros-20">Otros</h3>
+<h3 id="otros-24">Otros</h3>
+<h3 id="otros-25">Otros</h3>
 <ul>
 <li><ul>
 <li>some utils</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-2">Nuevas características</h3>
-<h3 id="otros-21">Otros</h3>
+<h3 id="nuevas-características-3">Nuevas características</h3>
+<h3 id="otros-26">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(feat): mani commands new Version: release/0.2.15 documented at
@@ -7391,22 +7647,22 @@ https://grisuno.github.io/LazyOwn/ Fecha: Fri Nov 8 01:42:03 2024 -0300
 Hora: 1731040923</li>
 </ul></li>
 </ul>
-<h3 id="otros-22">Otros</h3>
-<h3 id="otros-23">Otros</h3>
+<h3 id="otros-27">Otros</h3>
+<h3 id="otros-28">Otros</h3>
 <ul>
 <li><ul>
 <li>Merge pull request #59 from grisuno/feature/Certified</li>
 </ul></li>
 </ul>
-<h3 id="otros-24">Otros</h3>
-<h3 id="otros-25">Otros</h3>
+<h3 id="otros-29">Otros</h3>
+<h3 id="otros-30">Otros</h3>
 <ul>
 <li><ul>
 <li>too many commands documented at COMMANDS.md</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-3">Nuevas características</h3>
-<h3 id="otros-26">Otros</h3>
+<h3 id="nuevas-características-4">Nuevas características</h3>
+<h3 id="otros-31">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(feat): new tag Version: release/0.2.14 Modified file(s):-
@@ -7417,22 +7673,22 @@ https://grisuno.github.io/LazyOwn/ Fecha: Sun Nov 3 22:23:24 2024 -0300
 Hora: 1730683404</li>
 </ul></li>
 </ul>
-<h3 id="otros-27">Otros</h3>
-<h3 id="otros-28">Otros</h3>
+<h3 id="otros-32">Otros</h3>
+<h3 id="otros-33">Otros</h3>
 <ul>
 <li><ul>
 <li>Merge pull request #57 from grisuno/feature/Hackback</li>
 </ul></li>
 </ul>
-<h3 id="otros-29">Otros</h3>
-<h3 id="otros-30">Otros</h3>
+<h3 id="otros-34">Otros</h3>
+<h3 id="otros-35">Otros</h3>
 <ul>
 <li><ul>
 <li>too many commands documented at COMMANDS.md</li>
 </ul></li>
 </ul>
 <h3 id="pruebas">Pruebas</h3>
-<h3 id="otros-31">Otros</h3>
+<h3 id="otros-36">Otros</h3>
 <ul>
 <li><ul>
 <li>test(fix): Version: release/0.2.13 Modified file(s):- README.md -
@@ -7443,7 +7699,7 @@ Hora: 1730493442</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-1">Pruebas</h3>
-<h3 id="otros-32">Otros</h3>
+<h3 id="otros-37">Otros</h3>
 <ul>
 <li><ul>
 <li>test(test): Version: release/0.2.13 Modified file(s):- README.md -
@@ -7454,7 +7710,7 @@ Hora: 1730492184</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-2">Pruebas</h3>
-<h3 id="otros-33">Otros</h3>
+<h3 id="otros-38">Otros</h3>
 <ul>
 <li><ul>
 <li>test(test): Version: release/0.2.13 Modified file(s):- README.md -
@@ -7464,8 +7720,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Fri Nov 1 02:39:52 2024 -0300
 Hora: 1730439592</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-4">Nuevas características</h3>
-<h3 id="otros-34">Otros</h3>
+<h3 id="nuevas-características-5">Nuevas características</h3>
+<h3 id="otros-39">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(): Version: release/0.2.13 Modified file(s):- COMMANDS.md -
@@ -7476,57 +7732,57 @@ https://grisuno.github.io/LazyOwn/ Fecha: Fri Nov 1 02:35:38 2024 -0300
 Hora: 1730439338</li>
 </ul></li>
 </ul>
-<h3 id="otros-35">Otros</h3>
-<h3 id="otros-36">Otros</h3>
+<h3 id="otros-40">Otros</h3>
+<h3 id="otros-41">Otros</h3>
 <ul>
 <li><ul>
 <li>Merge pull request #54 from grisuno/feature/jira-3</li>
 </ul></li>
 </ul>
-<h3 id="otros-37">Otros</h3>
-<h3 id="otros-38">Otros</h3>
+<h3 id="otros-42">Otros</h3>
+<h3 id="otros-43">Otros</h3>
 <ul>
 <li><ul>
 <li>too many commands documented at COMMANDS.md</li>
 </ul></li>
 </ul>
-<h3 id="otros-39">Otros</h3>
-<h3 id="otros-40">Otros</h3>
+<h3 id="otros-44">Otros</h3>
+<h3 id="otros-45">Otros</h3>
 <ul>
 <li><ul>
 <li>Merge pull request #53 from grisuno/feature/jira-2</li>
 </ul></li>
 </ul>
-<h3 id="otros-41">Otros</h3>
-<h3 id="otros-42">Otros</h3>
+<h3 id="otros-46">Otros</h3>
+<h3 id="otros-47">Otros</h3>
 <ul>
 <li><ul>
 <li>feat History enabled, multiline commands and startup script</li>
 </ul></li>
 </ul>
-<h3 id="otros-43">Otros</h3>
-<h3 id="otros-44">Otros</h3>
+<h3 id="otros-48">Otros</h3>
+<h3 id="otros-49">Otros</h3>
 <ul>
 <li><ul>
 <li>second</li>
 </ul></li>
 </ul>
-<h3 id="otros-45">Otros</h3>
-<h3 id="otros-46">Otros</h3>
+<h3 id="otros-50">Otros</h3>
+<h3 id="otros-51">Otros</h3>
 <ul>
 <li><ul>
 <li>Merge pull request #51 from grisuno/feature/1</li>
 </ul></li>
 </ul>
-<h3 id="otros-47">Otros</h3>
-<h3 id="otros-48">Otros</h3>
+<h3 id="otros-52">Otros</h3>
+<h3 id="otros-53">Otros</h3>
 <ul>
 <li><ul>
 <li>first</li>
 </ul></li>
 </ul>
 <h3 id="correcciones-urgentes-1">Correcciones urgentes</h3>
-<h3 id="otros-49">Otros</h3>
+<h3 id="otros-54">Otros</h3>
 <ul>
 <li><ul>
 <li>hotfix(hotfix): hotfix Version: vvvrelease/0.2.11 Modified file(s):-
@@ -7537,8 +7793,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Wed Oct 30 20:07:32 2024 -0300
 Hora: 1730329652</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-5">Nuevas características</h3>
-<h3 id="otros-50">Otros</h3>
+<h3 id="nuevas-características-6">Nuevas características</h3>
+<h3 id="otros-55">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(feat): please subscribe :P Version: vvvrelease/0.2.10 ahahah
@@ -7551,7 +7807,7 @@ Hora: 1730261727</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-3">Pruebas</h3>
-<h3 id="otros-51">Otros</h3>
+<h3 id="otros-56">Otros</h3>
 <ul>
 <li><ul>
 <li>test(tes): t Version: vvvrelease/0.2.9 test Modified file(s):-
@@ -7563,8 +7819,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Wed Oct 30 00:03:05 2024 -0300
 Hora: 1730257385</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-6">Nuevas características</h3>
-<h3 id="otros-52">Otros</h3>
+<h3 id="nuevas-características-7">Nuevas características</h3>
+<h3 id="otros-57">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(feat): feat Version: vvvrelease/0.2.9 feat Modified file(s):-
@@ -7575,7 +7831,7 @@ Hora: 1730157927</li>
 </ul></li>
 </ul>
 <h3 id="correcciones">Correcciones</h3>
-<h3 id="otros-53">Otros</h3>
+<h3 id="otros-58">Otros</h3>
 <ul>
 <li><ul>
 <li>fix(fix): some bugs xD Version: vvvrelease/0.2.8 Modified file(s):-
@@ -7587,7 +7843,7 @@ Hora: 1730157282</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-4">Pruebas</h3>
-<h3 id="otros-54">Otros</h3>
+<h3 id="otros-59">Otros</h3>
 <ul>
 <li><ul>
 <li>test(test): test Version: vvvrelease/0.2.7 test Modified file(s):-
@@ -7599,7 +7855,7 @@ Hora: 1730147168</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-5">Pruebas</h3>
-<h3 id="otros-55">Otros</h3>
+<h3 id="otros-60">Otros</h3>
 <ul>
 <li><ul>
 <li>test(test): Version: vvvrelease/0.2.7 Modified file(s):- README.md -
@@ -7611,7 +7867,7 @@ Hora: 1730146922</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-6">Pruebas</h3>
-<h3 id="otros-56">Otros</h3>
+<h3 id="otros-61">Otros</h3>
 <ul>
 <li><ul>
 <li>test(test): Version: vvvrelease/0.2.7 Modified file(s):- README.md -
@@ -7622,7 +7878,7 @@ Hora: 1730146409</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-7">Pruebas</h3>
-<h3 id="otros-57">Otros</h3>
+<h3 id="otros-62">Otros</h3>
 <ul>
 <li><ul>
 <li>test(test): Version: vvvrelease/0.2.7 Modified file(s):- README.md -
@@ -7634,7 +7890,7 @@ Hora: 1730146147</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-8">Pruebas</h3>
-<h3 id="otros-58">Otros</h3>
+<h3 id="otros-63">Otros</h3>
 <ul>
 <li><ul>
 <li>test(test): test Version: vvvrelease/0.2.7 test Modified file(s):-
@@ -7646,8 +7902,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Sun Oct 27 16:01:42 2024 -0300
 Hora: 1730055702</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-7">Nuevas características</h3>
-<h3 id="otros-59">Otros</h3>
+<h3 id="nuevas-características-8">Nuevas características</h3>
+<h3 id="otros-64">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(feat): new commands https://www.youtube.com/<span
@@ -7663,8 +7919,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Sat Oct 26 02:29:42 2024 -0300
 Hora: 1729920582</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-8">Nuevas características</h3>
-<h3 id="otros-60">Otros</h3>
+<h3 id="nuevas-características-9">Nuevas características</h3>
+<h3 id="otros-65">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(feat): rpcmap_py, serveralive2, john2zip,
@@ -7678,8 +7934,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Thu Oct 24 02:01:08 2024 -0300
 Hora: 1729746068</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-9">Nuevas características</h3>
-<h3 id="otros-61">Otros</h3>
+<h3 id="nuevas-características-10">Nuevas características</h3>
+<h3 id="otros-66">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(fix): fix Version: vvvrelease/0.2.5 fix Modified file(s):-
@@ -7691,7 +7947,7 @@ Hora: 1729745978</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-9">Pruebas</h3>
-<h3 id="otros-62">Otros</h3>
+<h3 id="otros-67">Otros</h3>
 <ul>
 <li><ul>
 <li>test(test): test Version: vvvrelease/0.2.4 test Modified file(s):-
@@ -7703,7 +7959,7 @@ Hora: 1729745917</li>
 </ul></li>
 </ul>
 <h3 id="refactorización">Refactorización</h3>
-<h3 id="otros-63">Otros</h3>
+<h3 id="otros-68">Otros</h3>
 <ul>
 <li><ul>
 <li>refactor(refactor): refactor and new features Version:
@@ -7716,8 +7972,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Wed Oct 23 01:51:19 2024 -0300
 Hora: 1729659079</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-10">Nuevas características</h3>
-<h3 id="otros-64">Otros</h3>
+<h3 id="nuevas-características-11">Nuevas características</h3>
+<h3 id="otros-69">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(feat): samdump2 Version: vvvrelease/0.2.4 new command
@@ -7729,8 +7985,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Tue Oct 22 22:52:13 2024 -0300
 Hora: 1729648333</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-11">Nuevas características</h3>
-<h3 id="otros-65">Otros</h3>
+<h3 id="nuevas-características-12">Nuevas características</h3>
+<h3 id="otros-70">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(feat): cubespraying &amp; magicrecon Version: vvvrelease/0.2.3
@@ -7743,8 +7999,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Tue Oct 22 00:53:07 2024 -0300
 Hora: 1729569187</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-12">Nuevas características</h3>
-<h3 id="otros-66">Otros</h3>
+<h3 id="nuevas-características-13">Nuevas características</h3>
+<h3 id="otros-71">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(feat): shellcode2sylk Version: vvvrelease/0.2.2 and little fix
@@ -7758,7 +8014,7 @@ Hora: 1729565662</li>
 </ul></li>
 </ul>
 <h3 id="refactorización-1">Refactorización</h3>
-<h3 id="otros-67">Otros</h3>
+<h3 id="otros-72">Otros</h3>
 <ul>
 <li><ul>
 <li>refactor(refactor): new payloads in winbase64payloads Version:
@@ -7771,7 +8027,7 @@ Hora: 1729562832</li>
 </ul></li>
 </ul>
 <h3 id="correcciones-1">Correcciones</h3>
-<h3 id="otros-68">Otros</h3>
+<h3 id="otros-73">Otros</h3>
 <ul>
 <li><ul>
 <li>fix(fix): add cmd2 to install.sh Version: vvvrelease/0.2.1 bug
@@ -7783,7 +8039,7 @@ Hora: 1729562339</li>
 </ul></li>
 </ul>
 <h3 id="nuevo-parche">Nuevo parche</h3>
-<h3 id="otros-69">Otros</h3>
+<h3 id="otros-74">Otros</h3>
 <ul>
 <li><ul>
 <li>patch(t): t Version: vvvrelease/0.2.0 t Modified file(s):- README.md
@@ -7793,8 +8049,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Mon Oct 21 22:58:32 2024 -0300
 Hora: 1729562312</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-13">Nuevas características</h3>
-<h3 id="otros-70">Otros</h3>
+<h3 id="nuevas-características-14">Nuevas características</h3>
+<h3 id="otros-75">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(t): t Version: vvvrelease/0.1.2 t Modified file(s):- DEPLOY.sh
@@ -7805,8 +8061,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Mon Oct 21 22:56:31 2024 -0300
 Hora: 1729562191</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-14">Nuevas características</h3>
-<h3 id="otros-71">Otros</h3>
+<h3 id="nuevas-características-15">Nuevas características</h3>
+<h3 id="otros-76">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(tes): tes Version: patch..1 tes Modified file(s):- DEPLOY.sh -
@@ -7817,8 +8073,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Mon Oct 21 22:55:30 2024 -0300
 Hora: 1729562130</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-15">Nuevas características</h3>
-<h3 id="otros-72">Otros</h3>
+<h3 id="nuevas-características-16">Nuevas características</h3>
+<h3 id="otros-77">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(t): t Version: patch..1 t Modified file(s):- DEPLOY.sh -
@@ -7829,8 +8085,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Mon Oct 21 22:54:49 2024 -0300
 Hora: 1729562089</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-16">Nuevas características</h3>
-<h3 id="otros-73">Otros</h3>
+<h3 id="nuevas-características-17">Nuevas características</h3>
+<h3 id="otros-78">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(t): t Version: vvvrelease/0.1.1 t Modified file(s):- DEPLOY.sh
@@ -7842,7 +8098,7 @@ Hora: 1729561972</li>
 </ul></li>
 </ul>
 <h3 id="nuevo-release">Nuevo Release</h3>
-<h3 id="otros-74">Otros</h3>
+<h3 id="otros-79">Otros</h3>
 <ul>
 <li><ul>
 <li>release(tes): tes Version: vvvrelease/0.0.0 tes Modified file(s):-
@@ -7852,8 +8108,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Mon Oct 21 22:51:56 2024 -0300
 Hora: 1729561916</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-17">Nuevas características</h3>
-<h3 id="otros-75">Otros</h3>
+<h3 id="nuevas-características-18">Nuevas características</h3>
+<h3 id="otros-80">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(test): test Version: patch..1 test Modified file(s):- DEPLOY.sh
@@ -7865,7 +8121,7 @@ Hora: 1729561648</li>
 </ul></li>
 </ul>
 <h3 id="correcciones-2">Correcciones</h3>
-<h3 id="otros-76">Otros</h3>
+<h3 id="otros-81">Otros</h3>
 <ul>
 <li><ul>
 <li>fix(test): test Version: test Modified file(s):- DEPLOY.sh -
@@ -7877,7 +8133,7 @@ Hora: 1729560831</li>
 </ul></li>
 </ul>
 <h3 id="nuevo-parche-1">Nuevo parche</h3>
-<h3 id="otros-77">Otros</h3>
+<h3 id="otros-82">Otros</h3>
 <ul>
 <li><ul>
 <li>patch(test): test Version: vvvrelease/0.1.0 test Modified file(s):-
@@ -7889,7 +8145,7 @@ Hora: 1729560326</li>
 </ul></li>
 </ul>
 <h3 id="nuevo-release-1">Nuevo Release</h3>
-<h3 id="otros-78">Otros</h3>
+<h3 id="otros-83">Otros</h3>
 <ul>
 <li><ul>
 <li>release(tes): tes Version: vvvrelease/0.0.0 tes Modified file(s):-
@@ -7901,7 +8157,7 @@ Hora: 1729560197</li>
 </ul></li>
 </ul>
 <h3 id="nuevo-release-2">Nuevo Release</h3>
-<h3 id="otros-79">Otros</h3>
+<h3 id="otros-84">Otros</h3>
 <ul>
 <li><ul>
 <li>release(test): test Version: vvvrelease/0.0.0 test Modified
@@ -7913,7 +8169,7 @@ Hora: 1729559577</li>
 </ul></li>
 </ul>
 <h3 id="nuevo-release-3">Nuevo Release</h3>
-<h3 id="otros-80">Otros</h3>
+<h3 id="otros-85">Otros</h3>
 <ul>
 <li><ul>
 <li>release(release): test Version: vvrelease/0.0.0 test LazyOwn on
@@ -7922,8 +8178,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Mon Oct 21 22:01:58 2024 -0300
 Hora: 1729558918</li>
 </ul></li>
 </ul>
-<h3 id="otros-81">Otros</h3>
-<h3 id="otros-82">Otros</h3>
+<h3 id="otros-86">Otros</h3>
+<h3 id="otros-87">Otros</h3>
 <ul>
 <li><ul>
 <li>release: test: vrelease/0.0.0file(s):- CHANGELOG.md - DEPLOY.sh -
@@ -7934,7 +8190,7 @@ https://grisuno.github.io/LazyOwn/: lun 21 oct 2024 22:01:58 -03</li>
 </ul></li>
 </ul>
 <h3 id="nuevo-release-4">Nuevo Release</h3>
-<h3 id="otros-83">Otros</h3>
+<h3 id="otros-88">Otros</h3>
 <ul>
 <li><ul>
 <li>release(test): test Version: release/0.0.0 test Modified file(s):-
@@ -7946,7 +8202,7 @@ Hora: 1729558625</li>
 </ul></li>
 </ul>
 <h3 id="nuevo-release-5">Nuevo Release</h3>
-<h3 id="otros-84">Otros</h3>
+<h3 id="otros-89">Otros</h3>
 <ul>
 <li><ul>
 <li>release(test): test Version: release/0.0.0 release LazyOwn on
@@ -7956,7 +8212,7 @@ Hora: 1729558252</li>
 </ul></li>
 </ul>
 <h3 id="nuevo-release-6">Nuevo Release</h3>
-<h3 id="otros-85">Otros</h3>
+<h3 id="otros-90">Otros</h3>
 <ul>
 <li><ul>
 <li>release(test): test Version: release/0.0.0 test Modified file(s):-
@@ -7968,7 +8224,7 @@ Hora: 1729557943</li>
 </ul></li>
 </ul>
 <h3 id="nuevo-parche-2">Nuevo parche</h3>
-<h3 id="otros-86">Otros</h3>
+<h3 id="otros-91">Otros</h3>
 <ul>
 <li><ul>
 <li>patch(test): test Version: release/0.1.0 test Modified file(s):-
@@ -7980,7 +8236,7 @@ Hora: 1729557872</li>
 </ul></li>
 </ul>
 <h3 id="nuevo-release-7">Nuevo Release</h3>
-<h3 id="otros-87">Otros</h3>
+<h3 id="otros-92">Otros</h3>
 <ul>
 <li><ul>
 <li>release(release): test Version: release/0.0.0 test Modified
@@ -7992,7 +8248,7 @@ Hora: 1729557842</li>
 </ul></li>
 </ul>
 <h3 id="nuevo-parche-3">Nuevo parche</h3>
-<h3 id="otros-88">Otros</h3>
+<h3 id="otros-93">Otros</h3>
 <ul>
 <li><ul>
 <li>patch(test): test Version: release/0.1.0 test Modified file(s):-
@@ -8004,7 +8260,7 @@ Hora: 1729557821</li>
 </ul></li>
 </ul>
 <h3 id="nuevo-parche-4">Nuevo parche</h3>
-<h3 id="otros-89">Otros</h3>
+<h3 id="otros-94">Otros</h3>
 <ul>
 <li><ul>
 <li>patch(test): test Version: release/0.1.0 test Modified file(s):-
@@ -8016,7 +8272,7 @@ Hora: 1729557802</li>
 </ul></li>
 </ul>
 <h3 id="nuevo-release-8">Nuevo Release</h3>
-<h3 id="otros-90">Otros</h3>
+<h3 id="otros-95">Otros</h3>
 <ul>
 <li><ul>
 <li>release(release): test Version: release/0.0.0 test Modified
@@ -8028,7 +8284,7 @@ Hora: 1729557674</li>
 </ul></li>
 </ul>
 <h3 id="nuevo-release-9">Nuevo Release</h3>
-<h3 id="otros-91">Otros</h3>
+<h3 id="otros-96">Otros</h3>
 <ul>
 <li><ul>
 <li>release(release): release Version: release/0.0.0 release Modified
@@ -8040,7 +8296,7 @@ Hora: 1729557650</li>
 </ul></li>
 </ul>
 <h3 id="nuevo-release-10">Nuevo Release</h3>
-<h3 id="otros-92">Otros</h3>
+<h3 id="otros-97">Otros</h3>
 <ul>
 <li><ul>
 <li>release(release test): test Version: release/0.0.0 test Modified
@@ -8052,7 +8308,7 @@ Hora: 1729557551</li>
 </ul></li>
 </ul>
 <h3 id="nuevo-parche-5">Nuevo parche</h3>
-<h3 id="otros-93">Otros</h3>
+<h3 id="otros-98">Otros</h3>
 <ul>
 <li><ul>
 <li>patch(patch): creating new tag Version: release/0.1.0 and new
@@ -8064,7 +8320,7 @@ Hora: 1729557521</li>
 </ul></li>
 </ul>
 <h3 id="nuevo-parche-6">Nuevo parche</h3>
-<h3 id="otros-94">Otros</h3>
+<h3 id="otros-99">Otros</h3>
 <ul>
 <li><ul>
 <li>patch(patch): new library Version: release/0.1.0 cmd2 Modified
@@ -8076,7 +8332,7 @@ Hora: 1729557475</li>
 </ul></li>
 </ul>
 <h3 id="correcciones-3">Correcciones</h3>
-<h3 id="otros-95">Otros</h3>
+<h3 id="otros-100">Otros</h3>
 <ul>
 <li><ul>
 <li>fix(new version): new release Version: release/0.0.1 now on cmd2
@@ -8088,7 +8344,7 @@ Hora: 1729557357</li>
 </ul></li>
 </ul>
 <h3 id="nuevo-release-11">Nuevo Release</h3>
-<h3 id="otros-96">Otros</h3>
+<h3 id="otros-101">Otros</h3>
 <ul>
 <li><ul>
 <li>release(release): migration from cmd to cmd2 Version: release/0.0.0
@@ -8101,7 +8357,7 @@ Hora: 1729553490</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-10">Pruebas</h3>
-<h3 id="otros-97">Otros</h3>
+<h3 id="otros-102">Otros</h3>
 <ul>
 <li><ul>
 <li>test(test): test Version: release/0.1.66 test Modified file(s):-
@@ -8114,8 +8370,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Sun Oct 20 21:05:18 2024 -0300
 Hora: 1729469118</li>
 </ul></li>
 </ul>
-<h3 id="otros-98">Otros</h3>
-<h3 id="otros-99">Otros</h3>
+<h3 id="otros-103">Otros</h3>
+<h3 id="otros-104">Otros</h3>
 <ul>
 <li><ul>
 <li>feature(feat): openredirex, feroxbuster, gowitness, odat Version:
@@ -8131,7 +8387,7 @@ Hora: 1729396056</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-11">Pruebas</h3>
-<h3 id="otros-100">Otros</h3>
+<h3 id="otros-105">Otros</h3>
 <ul>
 <li><ul>
 <li>test(test): test Version: release/0.1.65 test Modified file(s):-
@@ -8142,8 +8398,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Sat Oct 19 18:24:04 2024 -0300
 Hora: 1729373044</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-18">Nuevas características</h3>
-<h3 id="otros-101">Otros</h3>
+<h3 id="nuevas-características-19">Nuevas características</h3>
+<h3 id="otros-106">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(feat): monteverde machine Version: release/0.1.65 ad_getpass,
@@ -8159,7 +8415,7 @@ Hora: 1729311029</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-12">Pruebas</h3>
-<h3 id="otros-102">Otros</h3>
+<h3 id="otros-107">Otros</h3>
 <ul>
 <li><ul>
 <li>test(test): test Version: release/0.1.64 test Modified file(s):-
@@ -8171,7 +8427,7 @@ Hora: 1729307885</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-13">Pruebas</h3>
-<h3 id="otros-103">Otros</h3>
+<h3 id="otros-108">Otros</h3>
 <ul>
 <li><ul>
 <li>test(test): test Version: release/0.1.64 test Modified file(s):-
@@ -8185,7 +8441,7 @@ Hora: 1729226236</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-14">Pruebas</h3>
-<h3 id="otros-104">Otros</h3>
+<h3 id="otros-109">Otros</h3>
 <ul>
 <li><ul>
 <li>test(test): test Version: release/0.1.64 image banner responsive
@@ -8197,7 +8453,7 @@ Hora: 1729225810</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-15">Pruebas</h3>
-<h3 id="otros-105">Otros</h3>
+<h3 id="otros-110">Otros</h3>
 <ul>
 <li><ul>
 <li>test(test): test Version: release/0.1.64 test Modified file(s):-
@@ -8208,8 +8464,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Thu Oct 17 23:48:09 2024 -0300
 Hora: 1729219689</li>
 </ul></li>
 </ul>
-<h3 id="otros-106">Otros</h3>
-<h3 id="otros-107">Otros</h3>
+<h3 id="otros-111">Otros</h3>
+<h3 id="otros-112">Otros</h3>
 <ul>
 <li><ul>
 <li>feature(feat): new commands documented at COMMANDS.md Version:
@@ -8226,7 +8482,7 @@ Hora: 1729047333</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-16">Pruebas</h3>
-<h3 id="otros-108">Otros</h3>
+<h3 id="otros-113">Otros</h3>
 <ul>
 <li><ul>
 <li>test(test): test Version: release/0.1.63 test Modified file(s):-
@@ -8237,7 +8493,7 @@ Hora: 1729039733</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-17">Pruebas</h3>
-<h3 id="otros-109">Otros</h3>
+<h3 id="otros-114">Otros</h3>
 <ul>
 <li><ul>
 <li>test(test): no test Version: release/0.1.63 testing Modified
@@ -8249,7 +8505,7 @@ Hora: 1729039188</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-18">Pruebas</h3>
-<h3 id="otros-110">Otros</h3>
+<h3 id="otros-115">Otros</h3>
 <ul>
 <li><ul>
 <li>test(test): test Version: release/0.1.63 test Modified file(s):-
@@ -8262,7 +8518,7 @@ Hora: 1728971840</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-19">Pruebas</h3>
-<h3 id="otros-111">Otros</h3>
+<h3 id="otros-116">Otros</h3>
 <ul>
 <li><ul>
 <li>test(test): deply Version: release/0.1.63 new Modified file(s):-
@@ -8274,7 +8530,7 @@ Hora: 1728971576</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-20">Pruebas</h3>
-<h3 id="otros-112">Otros</h3>
+<h3 id="otros-117">Otros</h3>
 <ul>
 <li><ul>
 <li>test(test): deploy Version: release/0.1.63 Modified file(s):-
@@ -8288,7 +8544,7 @@ Hora: 1728903057</li>
 </ul></li>
 </ul>
 <h3 id="refactorización-2">Refactorización</h3>
-<h3 id="otros-113">Otros</h3>
+<h3 id="otros-118">Otros</h3>
 <ul>
 <li><ul>
 <li>refactor(refactor): hashs Version: release/0.1.63 new logic of get
@@ -8301,8 +8557,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Mon Oct 14 04:27:17 2024 -0300
 Hora: 1728890837</li>
 </ul></li>
 </ul>
-<h3 id="otros-114">Otros</h3>
-<h3 id="otros-115">Otros</h3>
+<h3 id="otros-119">Otros</h3>
+<h3 id="otros-120">Otros</h3>
 <ul>
 <li><ul>
 <li>feature(feat): new commands documented at COMMANDS.md Version:
@@ -8316,8 +8572,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Sun Oct 13 01:52:12 2024 -0300
 Hora: 1728795132</li>
 </ul></li>
 </ul>
-<h3 id="otros-116">Otros</h3>
-<h3 id="otros-117">Otros</h3>
+<h3 id="otros-121">Otros</h3>
+<h3 id="otros-122">Otros</h3>
 <ul>
 <li><ul>
 <li>feature(feat): new commands like emp3r0r,
@@ -8337,7 +8593,7 @@ Hora: 1728716856</li>
 </ul></li>
 </ul>
 <h3 id="refactorización-3">Refactorización</h3>
-<h3 id="otros-118">Otros</h3>
+<h3 id="otros-123">Otros</h3>
 <ul>
 <li><ul>
 <li>refactor(refactor): refactor of users.txt Version: release/0.1.61
@@ -8352,7 +8608,7 @@ Hora: 1728710268</li>
 </ul></li>
 </ul>
 <h3 id="refactorización-4">Refactorización</h3>
-<h3 id="otros-119">Otros</h3>
+<h3 id="otros-124">Otros</h3>
 <ul>
 <li><ul>
 <li>refactor(refactor): refactor lazy_ruberdigispark isnto duckyspark
@@ -8367,7 +8623,7 @@ Hora: 1728627610</li>
 </ul></li>
 </ul>
 <h3 id="documentación">Documentación</h3>
-<h3 id="otros-120">Otros</h3>
+<h3 id="otros-125">Otros</h3>
 <ul>
 <li><ul>
 <li>docs(docs): trasnlated nmap script Version: release/0.1.61 and add
@@ -8379,7 +8635,7 @@ Hora: 1728627550</li>
 </ul></li>
 </ul>
 <h3 id="refactorización-5">Refactorización</h3>
-<h3 id="otros-121">Otros</h3>
+<h3 id="otros-126">Otros</h3>
 <ul>
 <li><ul>
 <li>refactor(refactor): nmap Version: release/0.1.61 nmap script was
@@ -8391,15 +8647,15 @@ https://grisuno.github.io/LazyOwn/ Fecha: Fri Oct 11 00:52:41 2024 -0300
 Hora: 1728618761</li>
 </ul></li>
 </ul>
-<h3 id="otros-122">Otros</h3>
-<h3 id="otros-123">Otros</h3>
+<h3 id="otros-127">Otros</h3>
+<h3 id="otros-128">Otros</h3>
 <ul>
 <li><ul>
 <li>Update README.md</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-19">Nuevas características</h3>
-<h3 id="otros-124">Otros</h3>
+<h3 id="nuevas-características-20">Nuevas características</h3>
+<h3 id="otros-129">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(feat): New Feature Automate Arduino Attacks or AAA the command
@@ -8412,8 +8668,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Thu Oct 10 18:41:59 2024 -0300
 Hora: 1728596519</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-20">Nuevas características</h3>
-<h3 id="otros-125">Otros</h3>
+<h3 id="nuevas-características-21">Nuevas características</h3>
+<h3 id="otros-130">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(feat): finger_user_enum Version: release/0.1.60 new
@@ -8426,8 +8682,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Wed Oct 9 20:51:25 2024 -0300
 Hora: 1728517885</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-21">Nuevas características</h3>
-<h3 id="otros-126">Otros</h3>
+<h3 id="nuevas-características-22">Nuevas características</h3>
+<h3 id="otros-131">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(feat): trasnform Version: release/0.1.59 command documented at
@@ -8440,7 +8696,7 @@ Hora: 1728452441</li>
 </ul></li>
 </ul>
 <h3 id="correcciones-4">Correcciones</h3>
-<h3 id="otros-127">Otros</h3>
+<h3 id="otros-132">Otros</h3>
 <ul>
 <li><ul>
 <li>fix(fix): bug fixing Version: release/0.1.58 int the dunction do_ssh
@@ -8453,7 +8709,7 @@ Hora: 1728423452</li>
 </ul></li>
 </ul>
 <h3 id="correcciones-5">Correcciones</h3>
-<h3 id="otros-128">Otros</h3>
+<h3 id="otros-133">Otros</h3>
 <ul>
 <li><ul>
 <li>fix(fix): tags Version: release/0.1.57 xd Modified file(s):-
@@ -8464,7 +8720,7 @@ Hora: 1728423380</li>
 </ul></li>
 </ul>
 <h3 id="refactorización-6">Refactorización</h3>
-<h3 id="otros-129">Otros</h3>
+<h3 id="otros-134">Otros</h3>
 <ul>
 <li><ul>
 <li>refactor(refactor): refactor de find y nc Version: release/0.1.56
@@ -8477,8 +8733,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Tue Oct 8 02:16:54 2024 -0300
 Hora: 1728364614</li>
 </ul></li>
 </ul>
-<h3 id="otros-130">Otros</h3>
-<h3 id="otros-131">Otros</h3>
+<h3 id="otros-135">Otros</h3>
+<h3 id="otros-136">Otros</h3>
 <ul>
 <li><ul>
 <li>feature(feature &amp; refactor): new commands and refactor Version:
@@ -8495,8 +8751,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Sun Oct 6 21:49:45 2024 -0300
 Hora: 1728262185</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-22">Nuevas características</h3>
-<h3 id="otros-132">Otros</h3>
+<h3 id="nuevas-características-23">Nuevas características</h3>
+<h3 id="otros-137">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(feat): automsf Version: release/0.1.55 new command documented
@@ -8510,7 +8766,7 @@ Hora: 1728195928</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-21">Pruebas</h3>
-<h3 id="otros-133">Otros</h3>
+<h3 id="otros-138">Otros</h3>
 <ul>
 <li><ul>
 <li>test(new machine return): is a nice machine :P Version:
@@ -8523,7 +8779,7 @@ Hora: 1728191962</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-22">Pruebas</h3>
-<h3 id="otros-134">Otros</h3>
+<h3 id="otros-139">Otros</h3>
 <ul>
 <li><ul>
 <li>test(test): new machine yummy.htb found a command in find to reverse
@@ -8538,8 +8794,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Sat Oct 5 13:02:03 2024 -0300
 Hora: 1728144123</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-23">Nuevas características</h3>
-<h3 id="otros-135">Otros</h3>
+<h3 id="nuevas-características-24">Nuevas características</h3>
+<h3 id="otros-140">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(feat): new attack mfscosole automated Version: release/0.1.54
@@ -8554,7 +8810,7 @@ Hora: 1728103452</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-23">Pruebas</h3>
-<h3 id="otros-136">Otros</h3>
+<h3 id="otros-141">Otros</h3>
 <ul>
 <li><ul>
 <li>test(test): testing DEPLOY.sh script Version: release/0.1.53 to
@@ -8568,7 +8824,7 @@ Hora: 1728103285</li>
 </ul></li>
 </ul>
 <h3 id="documentación-1">Documentación</h3>
-<h3 id="otros-137">Otros</h3>
+<h3 id="otros-142">Otros</h3>
 <ul>
 <li><ul>
 <li>docs(docs): nueva documentacion comando evidence Version:
@@ -8581,7 +8837,7 @@ Hora: 1728101925</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-24">Pruebas</h3>
-<h3 id="otros-138">Otros</h3>
+<h3 id="otros-143">Otros</h3>
 <ul>
 <li><ul>
 <li>test(test): lazyown infinite glitch storage Version: release/0.1.53
@@ -8594,7 +8850,7 @@ Hora: 1728016386</li>
 </ul></li>
 </ul>
 <h3 id="correcciones-6">Correcciones</h3>
-<h3 id="otros-139">Otros</h3>
+<h3 id="otros-144">Otros</h3>
 <ul>
 <li><ul>
 <li>fix(fix): fix in find command Version: release/0.1.53 command find
@@ -8606,7 +8862,7 @@ Hora: 1728012485</li>
 </ul></li>
 </ul>
 <h3 id="refactorización-7">Refactorización</h3>
-<h3 id="otros-140">Otros</h3>
+<h3 id="otros-145">Otros</h3>
 <ul>
 <li><ul>
 <li>refactor(refactor): refactor de credentials de evilwinrm de psexec,
@@ -8620,8 +8876,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Wed Oct 2 00:57:56 2024 -0300
 Hora: 1727841476</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-24">Nuevas características</h3>
-<h3 id="otros-141">Otros</h3>
+<h3 id="nuevas-características-25">Nuevas características</h3>
+<h3 id="otros-146">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(feat): eternalblue Version: release/0.1.52 and scanner in
@@ -8634,7 +8890,7 @@ Hora: 1727757752</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-25">Pruebas</h3>
-<h3 id="otros-142">Otros</h3>
+<h3 id="otros-147">Otros</h3>
 <ul>
 <li><ul>
 <li>test(test): deleting users from ctf game from repo Version:
@@ -8646,8 +8902,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Tue Oct 1 00:06:24 2024 -0300
 Hora: 1727751984</li>
 </ul></li>
 </ul>
-<h3 id="otros-143">Otros</h3>
-<h3 id="otros-144">Otros</h3>
+<h3 id="otros-148">Otros</h3>
+<h3 id="otros-149">Otros</h3>
 <ul>
 <li><ul>
 <li>feature(feat): new commands and functionalities Version:
@@ -8661,7 +8917,7 @@ Hora: 1727591718</li>
 </ul></li>
 </ul>
 <h3 id="refactorización-8">Refactorización</h3>
-<h3 id="otros-145">Otros</h3>
+<h3 id="otros-150">Otros</h3>
 <ul>
 <li><ul>
 <li>refactor(refactor): smbclient refactor, cme refactor, netexec,
@@ -8680,8 +8936,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Sat Sep 28 04:04:43 2024 -0300
 Hora: 1727507083</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-25">Nuevas características</h3>
-<h3 id="otros-146">Otros</h3>
+<h3 id="nuevas-características-26">Nuevas características</h3>
+<h3 id="otros-151">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(feat): new command Shadowsocks Version: release/0.1.50 with
@@ -8693,8 +8949,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Wed Sep 25 22:59:45 2024 -0300
 Hora: 1727315985</li>
 </ul></li>
 </ul>
-<h3 id="otros-147">Otros</h3>
-<h3 id="otros-148">Otros</h3>
+<h3 id="otros-152">Otros</h3>
+<h3 id="otros-153">Otros</h3>
 <ul>
 <li><ul>
 <li>feature(feat): now we are vip Version: release/0.1.49 Modified
@@ -8706,8 +8962,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Mon Sep 23 02:57:23 2024 -0300
 Hora: 1727071043</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-26">Nuevas características</h3>
-<h3 id="otros-149">Otros</h3>
+<h3 id="nuevas-características-27">Nuevas características</h3>
+<h3 id="otros-154">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(feat): new commands documented at COMMANDS.md Version:
@@ -8721,7 +8977,7 @@ Hora: 1727053941</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-26">Pruebas</h3>
-<h3 id="otros-150">Otros</h3>
+<h3 id="otros-155">Otros</h3>
 <ul>
 <li><ul>
 <li>test(testing): some test and new resources and externals scripst to
@@ -8734,8 +8990,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Sun Sep 22 20:22:53 2024 -0300
 Hora: 1727047373</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-27">Nuevas características</h3>
-<h3 id="otros-151">Otros</h3>
+<h3 id="nuevas-características-28">Nuevas características</h3>
+<h3 id="otros-156">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(feat): new cool stuff xD Version: release/0.1.47 parse id rsa
@@ -8747,8 +9003,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Sat Sep 14 18:29:53 2024 -0300
 Hora: 1726349393</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-28">Nuevas características</h3>
-<h3 id="otros-152">Otros</h3>
+<h3 id="nuevas-características-29">Nuevas características</h3>
+<h3 id="otros-157">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(win backdoor): undetectable Version: release/0.1.46 handcrafted
@@ -8761,7 +9017,7 @@ Hora: 1726300513</li>
 </ul></li>
 </ul>
 <h3 id="correcciones-7">Correcciones</h3>
-<h3 id="otros-153">Otros</h3>
+<h3 id="otros-158">Otros</h3>
 <ul>
 <li><ul>
 <li>fix(fix): c2 insecure filename Version: release/0.1.45 resolved
@@ -8773,7 +9029,7 @@ Hora: 1726299774</li>
 </ul></li>
 </ul>
 <h3 id="documentación-2">Documentación</h3>
-<h3 id="otros-154">Otros</h3>
+<h3 id="otros-159">Otros</h3>
 <ul>
 <li><ul>
 <li>docs(docs): documented resources, and externals, and one command
@@ -8787,8 +9043,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Sat Sep 14 03:10:13 2024 -0300
 Hora: 1726294213</li>
 </ul></li>
 </ul>
-<h3 id="otros-155">Otros</h3>
-<h3 id="otros-156">Otros</h3>
+<h3 id="otros-160">Otros</h3>
+<h3 id="otros-161">Otros</h3>
 <ul>
 <li><ul>
 <li>feature(new commands): documented at COMMANDS.md Version:
@@ -8803,8 +9059,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Thu Sep 12 03:37:43 2024 -0300
 Hora: 1726123063</li>
 </ul></li>
 </ul>
-<h3 id="otros-157">Otros</h3>
-<h3 id="otros-158">Otros</h3>
+<h3 id="otros-162">Otros</h3>
+<h3 id="otros-163">Otros</h3>
 <ul>
 <li><ul>
 <li>feature(feat): new commands: scarecrow, createmail, eyewitness,
@@ -8819,7 +9075,7 @@ Hora: 1726033595</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-27">Pruebas</h3>
-<h3 id="otros-159">Otros</h3>
+<h3 id="otros-164">Otros</h3>
 <ul>
 <li><ul>
 <li>test(test): install Version: release/0.1.42 dou you seaw [3~pip
@@ -8832,7 +9088,7 @@ Hora: 1726031410</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-28">Pruebas</h3>
-<h3 id="otros-160">Otros</h3>
+<h3 id="otros-165">Otros</h3>
 <ul>
 <li><ul>
 <li>test(test): install Version: release/0.1.42 testing… Modified
@@ -8844,8 +9100,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Tue Sep 10 02:41:23 2024 -0300
 Hora: 1725946883</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-29">Nuevas características</h3>
-<h3 id="otros-161">Otros</h3>
+<h3 id="nuevas-características-30">Nuevas características</h3>
+<h3 id="otros-166">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(feat): graph Version: release/0.1.42 integrated at index2.html
@@ -8857,8 +9113,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Tue Sep 10 01:54:21 2024 -0300
 Hora: 1725944061</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-30">Nuevas características</h3>
-<h3 id="otros-162">Otros</h3>
+<h3 id="nuevas-características-31">Nuevas características</h3>
+<h3 id="otros-167">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(feat): 2 new commands Version: release/0.1.41 shellfire,
@@ -8871,7 +9127,7 @@ Hora: 1725925520</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-29">Pruebas</h3>
-<h3 id="otros-163">Otros</h3>
+<h3 id="otros-168">Otros</h3>
 <ul>
 <li><ul>
 <li>test(test): install testing Version: release/0.1.40 reported by user
@@ -8883,7 +9139,7 @@ Hora: 1725885388</li>
 </ul></li>
 </ul>
 <h3 id="correcciones-urgentes-2">Correcciones urgentes</h3>
-<h3 id="otros-164">Otros</h3>
+<h3 id="otros-169">Otros</h3>
 <ul>
 <li><ul>
 <li>hotfix(hotfix): install wa broken Version: release/0.1.40 infinite
@@ -8895,7 +9151,7 @@ Hora: 1725884702</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-30">Pruebas</h3>
-<h3 id="otros-165">Otros</h3>
+<h3 id="otros-170">Otros</h3>
 <ul>
 <li><ul>
 <li>test(testing): emire Version: release/0.1.39 empire xD Modified
@@ -8908,7 +9164,7 @@ Hora: 1725784522</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-31">Pruebas</h3>
-<h3 id="otros-166">Otros</h3>
+<h3 id="otros-171">Otros</h3>
 <ul>
 <li><ul>
 <li>test(test): veil Version: release/0.1.39 new evasion tool testing
@@ -8920,8 +9176,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Sun Sep 8 04:46:46 2024 -0300
 Hora: 1725781606</li>
 </ul></li>
 </ul>
-<h3 id="otros-167">Otros</h3>
-<h3 id="otros-168">Otros</h3>
+<h3 id="otros-172">Otros</h3>
+<h3 id="otros-173">Otros</h3>
 <ul>
 <li><ul>
 <li>feature(feat): now tord, trace, and generatedic to generate
@@ -8936,7 +9192,7 @@ Hora: 1725687669</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-32">Pruebas</h3>
-<h3 id="otros-169">Otros</h3>
+<h3 id="otros-174">Otros</h3>
 <ul>
 <li><ul>
 <li>test(test): testing new feature tord Version: release/0.1.38
@@ -8949,7 +9205,7 @@ Hora: 1725607743</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-33">Pruebas</h3>
-<h3 id="otros-170">Otros</h3>
+<h3 id="otros-175">Otros</h3>
 <ul>
 <li><ul>
 <li>test(test): ivy shellcodes test Version: release/0.1.38 new command
@@ -8962,7 +9218,7 @@ Hora: 1725605766</li>
 </ul></li>
 </ul>
 <h3 id="documentación-3">Documentación</h3>
-<h3 id="otros-171">Otros</h3>
+<h3 id="otros-176">Otros</h3>
 <ul>
 <li><ul>
 <li>docs(docs): new alias Version: release/0.1.38 new alias tor
@@ -8975,7 +9231,7 @@ Hora: 1725515362</li>
 </ul></li>
 </ul>
 <h3 id="documentación-4">Documentación</h3>
-<h3 id="otros-172">Otros</h3>
+<h3 id="otros-177">Otros</h3>
 <ul>
 <li><ul>
 <li>docs(docs): corrections in text Version: release/0.1.38 and some
@@ -8987,7 +9243,7 @@ Hora: 1725514958</li>
 </ul></li>
 </ul>
 <h3 id="documentación-5">Documentación</h3>
-<h3 id="otros-173">Otros</h3>
+<h3 id="otros-178">Otros</h3>
 <ul>
 <li><ul>
 <li>docs(docs): new links Version: release/0.1.38 automatic download
@@ -9000,7 +9256,7 @@ Hora: 1725513720</li>
 </ul></li>
 </ul>
 <h3 id="documentación-6">Documentación</h3>
-<h3 id="otros-174">Otros</h3>
+<h3 id="otros-179">Otros</h3>
 <ul>
 <li><ul>
 <li>docs(docs): better docs Version: release/0.1.38 is zen now :)
@@ -9012,8 +9268,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Wed Sep 4 02:31:58 2024 -0400
 Hora: 1725431518</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-31">Nuevas características</h3>
-<h3 id="otros-175">Otros</h3>
+<h3 id="nuevas-características-32">Nuevas características</h3>
+<h3 id="otros-180">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(fet): msfpc Version: release/0.1.38 automation Modified
@@ -9025,8 +9281,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Tue Sep 3 01:15:14 2024 -0400
 Hora: 1725340514</li>
 </ul></li>
 </ul>
-<h3 id="otros-176">Otros</h3>
-<h3 id="otros-177">Otros</h3>
+<h3 id="otros-181">Otros</h3>
+<h3 id="otros-182">Otros</h3>
 <ul>
 <li><ul>
 <li>feature(feat): comandos nuevos documentados en commands.md Version:
@@ -9038,8 +9294,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Mon Sep 2 23:34:25 2024 -0400
 Hora: 1725334465</li>
 </ul></li>
 </ul>
-<h3 id="otros-178">Otros</h3>
-<h3 id="otros-179">Otros</h3>
+<h3 id="otros-183">Otros</h3>
+<h3 id="otros-184">Otros</h3>
 <ul>
 <li><ul>
 <li>feature(feat): new command apache_users &amp; new options -p to use
@@ -9056,7 +9312,7 @@ Hora: 1725183931</li>
 </ul></li>
 </ul>
 <h3 id="documentación-7">Documentación</h3>
-<h3 id="otros-180">Otros</h3>
+<h3 id="otros-185">Otros</h3>
 <ul>
 <li><ul>
 <li>docs(docs): documented malwarebazar Version: release/0.1.35 Fetches
@@ -9070,7 +9326,7 @@ Hora: 1725164493</li>
 </ul></li>
 </ul>
 <h3 id="documentación-8">Documentación</h3>
-<h3 id="otros-181">Otros</h3>
+<h3 id="otros-186">Otros</h3>
 <ul>
 <li><ul>
 <li>docs(docs): documentating Version: release/0.1.35 functions dacledit
@@ -9082,8 +9338,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Sun Sep 1 00:13:39 2024 -0400
 Hora: 1725164019</li>
 </ul></li>
 </ul>
-<h3 id="otros-182">Otros</h3>
-<h3 id="otros-183">Otros</h3>
+<h3 id="otros-187">Otros</h3>
+<h3 id="otros-188">Otros</h3>
 <ul>
 <li><ul>
 <li>feature(feat): Nuevos comandos documentados en COMMANDS.md Version:
@@ -9102,8 +9358,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Sat Aug 31 06:21:44 2024 -0400
 Hora: 1725099704</li>
 </ul></li>
 </ul>
-<h3 id="otros-184">Otros</h3>
-<h3 id="otros-185">Otros</h3>
+<h3 id="otros-189">Otros</h3>
+<h3 id="otros-190">Otros</h3>
 <ul>
 <li><ul>
 <li>feature(feat): nuevos comandos documetados en COMMANDS.md Version:
@@ -9117,8 +9373,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Fri Aug 30 23:33:30 2024 -0400
 Hora: 1725075210</li>
 </ul></li>
 </ul>
-<h3 id="otros-186">Otros</h3>
-<h3 id="otros-187">Otros</h3>
+<h3 id="otros-191">Otros</h3>
+<h3 id="otros-192">Otros</h3>
 <ul>
 <li><ul>
 <li>feature(feat): nuevos comandos documentados en COMMANDS.md Version:
@@ -9132,7 +9388,7 @@ Hora: 1725001665</li>
 </ul></li>
 </ul>
 <h3 id="correcciones-urgentes-3">Correcciones urgentes</h3>
-<h3 id="otros-188">Otros</h3>
+<h3 id="otros-193">Otros</h3>
 <ul>
 <li><ul>
 <li>hotfix(hotfix): deleted the insecure chat Version: release/0.1.32
@@ -9144,8 +9400,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Fri Aug 30 02:58:04 2024 -0400
 Hora: 1725001084</li>
 </ul></li>
 </ul>
-<h3 id="otros-189">Otros</h3>
-<h3 id="otros-190">Otros</h3>
+<h3 id="otros-194">Otros</h3>
+<h3 id="otros-195">Otros</h3>
 <ul>
 <li><ul>
 <li>feature(feat): Nuevos comandos documentados en COMMANDS.md Version:
@@ -9159,8 +9415,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Wed Aug 28 23:02:18 2024 -0400
 Hora: 1724900538</li>
 </ul></li>
 </ul>
-<h3 id="otros-191">Otros</h3>
-<h3 id="otros-192">Otros</h3>
+<h3 id="otros-196">Otros</h3>
+<h3 id="otros-197">Otros</h3>
 <ul>
 <li><ul>
 <li>feature(feat): Nuevos comandos documentados en COMMANDS.md Version:
@@ -9175,7 +9431,7 @@ Hora: 1724741263</li>
 </ul></li>
 </ul>
 <h3 id="correcciones-8">Correcciones</h3>
-<h3 id="otros-193">Otros</h3>
+<h3 id="otros-198">Otros</h3>
 <ul>
 <li><ul>
 <li>fix(fix): some fixes in c2 Version: release/0.1.29 now curl attack
@@ -9186,8 +9442,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Tue Aug 27 01:53:40 2024 -0400
 Hora: 1724738020</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-32">Nuevas características</h3>
-<h3 id="otros-194">Otros</h3>
+<h3 id="nuevas-características-33">Nuevas características</h3>
+<h3 id="otros-199">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(kick): to kick from net some ip Version: release/0.1.28 seend
@@ -9200,8 +9456,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Tue Aug 27 00:53:52 2024 -0400
 Hora: 1724734432</li>
 </ul></li>
 </ul>
-<h3 id="otros-195">Otros</h3>
-<h3 id="otros-196">Otros</h3>
+<h3 id="otros-200">Otros</h3>
+<h3 id="otros-201">Otros</h3>
 <ul>
 <li><ul>
 <li>feature(new command c2 documentad at COMMANDS.md): a little botnet
@@ -9215,7 +9471,7 @@ Hora: 1724656041</li>
 </ul></li>
 </ul>
 <h3 id="correcciones-9">Correcciones</h3>
-<h3 id="otros-197">Otros</h3>
+<h3 id="otros-202">Otros</h3>
 <ul>
 <li><ul>
 <li>fix(fix auto exploit cacti rce logged): now the attack work
@@ -9227,8 +9483,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Mon Aug 26 02:18:44 2024 -0400
 Hora: 1724653124</li>
 </ul></li>
 </ul>
-<h3 id="otros-198">Otros</h3>
-<h3 id="otros-199">Otros</h3>
+<h3 id="otros-203">Otros</h3>
+<h3 id="otros-204">Otros</h3>
 <ul>
 <li><ul>
 <li>feature(new commands docummented at COMMANDS.md): waybackmachine,
@@ -9242,8 +9498,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Sat Aug 24 23:28:31 2024 -0400
 Hora: 1724556511</li>
 </ul></li>
 </ul>
-<h3 id="otros-200">Otros</h3>
-<h3 id="otros-201">Otros</h3>
+<h3 id="otros-205">Otros</h3>
+<h3 id="otros-206">Otros</h3>
 <ul>
 <li><ul>
 <li>feature(2 new attacks): docummented at COMMANDS.md Version:
@@ -9256,7 +9512,7 @@ Hora: 1724527338</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-34">Pruebas</h3>
-<h3 id="otros-202">Otros</h3>
+<h3 id="otros-207">Otros</h3>
 <ul>
 <li><ul>
 <li>test(new machine): monitorsthree.htb Version: release/0.1.23
@@ -9268,7 +9524,7 @@ Hora: 1724483709</li>
 </ul></li>
 </ul>
 <h3 id="refactorización-9">Refactorización</h3>
-<h3 id="otros-203">Otros</h3>
+<h3 id="otros-208">Otros</h3>
 <ul>
 <li><ul>
 <li>refactor(new payload): in msfvenom Version: release/0.1.23 :) java
@@ -9279,8 +9535,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Sat Aug 24 01:45:02 2024 -0400
 Hora: 1724478302</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-33">Nuevas características</h3>
-<h3 id="otros-204">Otros</h3>
+<h3 id="nuevas-características-34">Nuevas características</h3>
+<h3 id="otros-209">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(new feature): padbuster Version: release/0.1.23 new command
@@ -9293,7 +9549,7 @@ Hora: 1724472682</li>
 </ul></li>
 </ul>
 <h3 id="documentación-9">Documentación</h3>
-<h3 id="otros-205">Otros</h3>
+<h3 id="otros-210">Otros</h3>
 <ul>
 <li><ul>
 <li>docs(documentacion): nueva versiòn en la web reflejada en el banner
@@ -9305,7 +9561,7 @@ Hora: 1724472227</li>
 </ul></li>
 </ul>
 <h3 id="documentación-10">Documentación</h3>
-<h3 id="otros-206">Otros</h3>
+<h3 id="otros-211">Otros</h3>
 <ul>
 <li><ul>
 <li>docs(new documentation): better documentation to commands and utils
@@ -9317,8 +9573,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Fri Aug 23 23:30:32 2024 -0400
 Hora: 1724470232</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-34">Nuevas características</h3>
-<h3 id="otros-207">Otros</h3>
+<h3 id="nuevas-características-35">Nuevas características</h3>
+<h3 id="otros-212">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(new feat in createdll): new option 3 to run automate create dll
@@ -9332,7 +9588,7 @@ Hora: 1724469194</li>
 </ul></li>
 </ul>
 <h3 id="correcciones-10">Correcciones</h3>
-<h3 id="otros-208">Otros</h3>
+<h3 id="otros-213">Otros</h3>
 <ul>
 <li><ul>
 <li>fix(fix): blazormalware corrected now functional and armed :)
@@ -9346,7 +9602,7 @@ Hora: 1724441283</li>
 </ul></li>
 </ul>
 <h3 id="documentación-11">Documentación</h3>
-<h3 id="otros-209">Otros</h3>
+<h3 id="otros-214">Otros</h3>
 <ul>
 <li><ul>
 <li>docs(Lang): Translate README.md to English, enhancing clarity and
@@ -9365,8 +9621,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Wed Aug 21 02:25:41 2024 -0400
 Hora: 1724221541</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-35">Nuevas características</h3>
-<h3 id="otros-210">Otros</h3>
+<h3 id="nuevas-características-36">Nuevas características</h3>
+<h3 id="otros-215">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(malware new): blazor malware Version: release/0.1.20 create
@@ -9379,7 +9635,7 @@ Hora: 1724138267</li>
 </ul></li>
 </ul>
 <h3 id="refactorización-10">Refactorización</h3>
-<h3 id="otros-211">Otros</h3>
+<h3 id="otros-216">Otros</h3>
 <ul>
 <li><ul>
 <li>refactor(refactor): se agrega la libreria colors en modules para
@@ -9394,8 +9650,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Tue Aug 20 02:20:17 2024 -0400
 Hora: 1724134817</li>
 </ul></li>
 </ul>
-<h3 id="otros-212">Otros</h3>
-<h3 id="otros-213">Otros</h3>
+<h3 id="otros-217">Otros</h3>
+<h3 id="otros-218">Otros</h3>
 <ul>
 <li><ul>
 <li>feature(feat): dos comandos nuevos, skipfish y createdll, nuevo
@@ -9408,8 +9664,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Mon Aug 19 02:20:52 2024 -0400
 Hora: 1724048452</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-36">Nuevas características</h3>
-<h3 id="otros-214">Otros</h3>
+<h3 id="nuevas-características-37">Nuevas características</h3>
+<h3 id="otros-219">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(feat): create new command shellcode, run lazymsfvenom modified
@@ -9422,8 +9678,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Mon Aug 19 00:35:53 2024 -0400
 Hora: 1724042153</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-37">Nuevas características</h3>
-<h3 id="otros-215">Otros</h3>
+<h3 id="nuevas-características-38">Nuevas características</h3>
+<h3 id="otros-220">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(new feat): new funcionality in proxy command, hexdump on
@@ -9436,8 +9692,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Sun Aug 18 21:12:26 2024 -0400
 Hora: 1724029946</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-38">Nuevas características</h3>
-<h3 id="otros-216">Otros</h3>
+<h3 id="nuevas-características-39">Nuevas características</h3>
+<h3 id="otros-221">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(feat): new prompt Version: release/0.1.16 now show the url of
@@ -9448,8 +9704,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Sun Aug 18 18:46:18 2024 -0400
 Hora: 1724021178</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-39">Nuevas características</h3>
-<h3 id="otros-217">Otros</h3>
+<h3 id="nuevas-características-40">Nuevas características</h3>
+<h3 id="otros-222">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(feat): new command set_proxychains Version: release/0.1.15
@@ -9462,7 +9718,7 @@ Hora: 1724013691</li>
 </ul></li>
 </ul>
 <h3 id="correcciones-11">Correcciones</h3>
-<h3 id="otros-218">Otros</h3>
+<h3 id="otros-223">Otros</h3>
 <ul>
 <li><ul>
 <li>fix(bug fixing): bug fixing in vars of DEPLOY.sh Version:
@@ -9473,8 +9729,8 @@ LazyOwn/ https://grisuno.github.io/LazyOwn/ Fecha: Sun Aug 18 16:37:23
 2024 -0400 Hora: 1724013443</li>
 </ul></li>
 </ul>
-<h3 id="otros-219">Otros</h3>
-<h3 id="otros-220">Otros</h3>
+<h3 id="otros-224">Otros</h3>
+<h3 id="otros-225">Otros</h3>
 <ul>
 <li><ul>
 <li>feature(new payload in msfvenom android): new options in msf rev
@@ -9487,7 +9743,7 @@ Hora: 1723891492</li>
 </ul></li>
 </ul>
 <h3 id="documentación-12">Documentación</h3>
-<h3 id="otros-221">Otros</h3>
+<h3 id="otros-226">Otros</h3>
 <ul>
 <li><ul>
 <li>docs(documented): agradecimientos Version: release/0.1.12 a ✌ el
@@ -9498,8 +9754,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Sat Aug 17 06:39:12 2024 -0400
 Hora: 1723891152</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-40">Nuevas características</h3>
-<h3 id="otros-222">Otros</h3>
+<h3 id="nuevas-características-41">Nuevas características</h3>
+<h3 id="otros-227">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(implement sicat libs): to ss command Version: release/0.1.12
@@ -9513,8 +9769,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Sat Aug 17 02:40:13 2024 -0400
 Hora: 1723876813</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-41">Nuevas características</h3>
-<h3 id="otros-223">Otros</h3>
+<h3 id="nuevas-características-42">Nuevas características</h3>
+<h3 id="otros-228">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(some fixes): html and new patreon :) Version: release/0.1.11 :)
@@ -9525,8 +9781,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Fri Aug 16 21:52:15 2024 -0400
 Hora: 1723859535</li>
 </ul></li>
 </ul>
-<h3 id="otros-224">Otros</h3>
-<h3 id="otros-225">Otros</h3>
+<h3 id="otros-229">Otros</h3>
+<h3 id="otros-230">Otros</h3>
 <ul>
 <li><ul>
 <li>feature(new tools): new commands, new payloads in find, new cves,
@@ -9540,8 +9796,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Fri Aug 16 16:56:04 2024 -0400
 Hora: 1723841764</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-42">Nuevas características</h3>
-<h3 id="otros-226">Otros</h3>
+<h3 id="nuevas-características-43">Nuevas características</h3>
+<h3 id="otros-231">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(new feature): new command finalrecon docuemnted at COMMANDS.md
@@ -9554,8 +9810,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Fri Aug 16 02:57:52 2024 -0400
 Hora: 1723791472</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-43">Nuevas características</h3>
-<h3 id="otros-227">Otros</h3>
+<h3 id="nuevas-características-44">Nuevas características</h3>
+<h3 id="otros-232">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(command): new commando swaks to abuse of smtp Version:
@@ -9568,7 +9824,7 @@ Hora: 1723790116</li>
 </ul></li>
 </ul>
 <h3 id="correcciones-12">Correcciones</h3>
-<h3 id="otros-228">Otros</h3>
+<h3 id="otros-233">Otros</h3>
 <ul>
 <li><ul>
 <li>fix(fix in vpn): new machine Version: release/0.1.7 chenges in
@@ -9580,7 +9836,7 @@ Hora: 1723780696</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-35">Pruebas</h3>
-<h3 id="otros-229">Otros</h3>
+<h3 id="otros-234">Otros</h3>
 <ul>
 <li><ul>
 <li>test(deleted files): index.sh y dump_readme.sh Version:
@@ -9593,7 +9849,7 @@ LazyOwn/ https://grisuno.github.io/LazyOwn/ Fecha: Thu Aug 15 23:55:59
 </ul></li>
 </ul>
 <h3 id="refactorización-11">Refactorización</h3>
-<h3 id="otros-230">Otros</h3>
+<h3 id="otros-235">Otros</h3>
 <ul>
 <li><ul>
 <li>refactor(refactor DEPLOY, sessionstrace): se crea todo en un solo
@@ -9608,8 +9864,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Thu Aug 15 20:15:03 2024 -0400
 Hora: 1723767303</li>
 </ul></li>
 </ul>
-<h3 id="otros-231">Otros</h3>
-<h3 id="otros-232">Otros</h3>
+<h3 id="otros-236">Otros</h3>
+<h3 id="otros-237">Otros</h3>
 <ul>
 <li><ul>
 <li>feature(sessionssh y sessionsshstrace): nuevos comandos documentados
@@ -9623,7 +9879,7 @@ Hora: 1723763173</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-36">Pruebas</h3>
-<h3 id="otros-233">Otros</h3>
+<h3 id="otros-238">Otros</h3>
 <ul>
 <li><ul>
 <li>test(testing Changelog): new method to create changelog Version:
@@ -9634,8 +9890,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Thu Aug 15 18:43:06 2024 -0400
 Hora: 1723761786</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-44">Nuevas características</h3>
-<h3 id="otros-234">Otros</h3>
+<h3 id="nuevas-características-45">Nuevas características</h3>
+<h3 id="otros-239">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(lazyscripts): se crea el comando y el directorio lazyscripts el
@@ -9648,8 +9904,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Thu Aug 15 18:16:02 2024 -0400
 Hora: 1723760162</li>
 </ul></li>
 </ul>
-<h3 id="otros-235">Otros</h3>
-<h3 id="otros-236">Otros</h3>
+<h3 id="otros-240">Otros</h3>
+<h3 id="otros-241">Otros</h3>
 <ul>
 <li><ul>
 <li>feature(nuevos recursos, comandos, archivos tool para pwntomate): se
@@ -9666,8 +9922,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Thu Aug 15 05:24:29 2024 -0400
 Hora: 1723713869</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-45">Nuevas características</h3>
-<h3 id="otros-237">Otros</h3>
+<h3 id="nuevas-características-46">Nuevas características</h3>
+<h3 id="otros-242">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(tool): nuevo tool a pwntomate medusa.tool Version:
@@ -9678,8 +9934,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Thu Aug 15 05:15:06 2024 -0400
 Hora: 1723713306</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-46">Nuevas características</h3>
-<h3 id="otros-238">Otros</h3>
+<h3 id="nuevas-características-47">Nuevas características</h3>
+<h3 id="otros-243">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(medusa): nueco comando Version: release/0.1.2 para crackear
@@ -9691,7 +9947,7 @@ Hora: 1723710713</li>
 </ul></li>
 </ul>
 <h3 id="documentación-13">Documentación</h3>
-<h3 id="otros-239">Otros</h3>
+<h3 id="otros-244">Otros</h3>
 <ul>
 <li><ul>
 <li>docs(changelog): reload Version: release/0.1.1 deleted -
@@ -9703,7 +9959,7 @@ Hora: 1723710641</li>
 </ul></li>
 </ul>
 <h3 id="documentación-14">Documentación</h3>
-<h3 id="otros-240">Otros</h3>
+<h3 id="otros-245">Otros</h3>
 <ul>
 <li><ul>
 <li>docs(history): reload the history deleted by error holly git :P
@@ -9715,7 +9971,7 @@ Hora: 1723708444</li>
 </ul></li>
 </ul>
 <h3 id="correcciones-13">Correcciones</h3>
-<h3 id="otros-241">Otros</h3>
+<h3 id="otros-246">Otros</h3>
 <ul>
 <li><ul>
 <li>fix(fix): fix Version: release/0.1.1 fix - DEPLOY.sh - README.md -
@@ -9726,7 +9982,7 @@ Hora: 1723708240</li>
 </ul></li>
 </ul>
 <h3 id="correcciones-14">Correcciones</h3>
-<h3 id="otros-242">Otros</h3>
+<h3 id="otros-247">Otros</h3>
 <ul>
 <li><ul>
 <li>fix(fix): versionamiento Version: - DEPLOY.sh - README.md -
@@ -9737,7 +9993,7 @@ Hora: 1723707886</li>
 </ul></li>
 </ul>
 <h3 id="correcciones-15">Correcciones</h3>
-<h3 id="otros-243">Otros</h3>
+<h3 id="otros-248">Otros</h3>
 <ul>
 <li><ul>
 <li>fix(fix): fix en los tags Version: - README.md - docs/README.html -
@@ -9748,7 +10004,7 @@ Hora: 1723707626</li>
 </ul></li>
 </ul>
 <h3 id="correcciones-16">Correcciones</h3>
-<h3 id="otros-244">Otros</h3>
+<h3 id="otros-249">Otros</h3>
 <ul>
 <li><ul>
 <li>fix(version file): Version: - README.md - docs/README.html -
@@ -9759,7 +10015,7 @@ Hora: 1723707479</li>
 </ul></li>
 </ul>
 <h3 id="correcciones-17">Correcciones</h3>
-<h3 id="otros-245">Otros</h3>
+<h3 id="otros-250">Otros</h3>
 <ul>
 <li><ul>
 <li>fix(pandoc): command Version: bad arguments - DEPLOY.sh - README.md
@@ -9770,7 +10026,7 @@ Hora: 1723707415</li>
 </ul></li>
 </ul>
 <h3 id="correcciones-18">Correcciones</h3>
-<h3 id="otros-246">Otros</h3>
+<h3 id="otros-251">Otros</h3>
 <ul>
 <li><ul>
 <li>fix(fix): changelog Version: :D - DEPLOY.sh - README.md -
@@ -9781,7 +10037,7 @@ Hora: 1723707071</li>
 </ul></li>
 </ul>
 <h3 id="correcciones-19">Correcciones</h3>
-<h3 id="otros-247">Otros</h3>
+<h3 id="otros-252">Otros</h3>
 <ul>
 <li><ul>
 <li>fix(fixing): fixin bug in formating of changelog Version: :D -
@@ -9792,7 +10048,7 @@ Hora: 1723706793</li>
 </ul></li>
 </ul>
 <h3 id="correcciones-20">Correcciones</h3>
-<h3 id="otros-248">Otros</h3>
+<h3 id="otros-253">Otros</h3>
 <ul>
 <li><ul>
 <li>fix(fixing): fixing semantic version Version: implemented -
@@ -9804,7 +10060,7 @@ Hora: 1723706420</li>
 </ul></li>
 </ul>
 <h3 id="nuevo-release-12">Nuevo Release</h3>
-<h3 id="otros-249">Otros</h3>
+<h3 id="otros-254">Otros</h3>
 <ul>
 <li><ul>
 <li>release(release): tipo release Version: probandoe l tipo release -
@@ -9815,7 +10071,7 @@ LazyOwn/ https://grisuno.github.io/LazyOwn/ Fecha: Thu Aug 15 03:19:32
 </ul></li>
 </ul>
 <h3 id="correcciones-urgentes-4">Correcciones urgentes</h3>
-<h3 id="otros-250">Otros</h3>
+<h3 id="otros-255">Otros</h3>
 <ul>
 <li><ul>
 <li>hotfix(error en parametro): deploy en el pandocpara generar
@@ -9826,8 +10082,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Thu Aug 15 03:18:04 2024 -0400
 Hora: 1723706284</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-47">Nuevas características</h3>
-<h3 id="otros-251">Otros</h3>
+<h3 id="nuevas-características-48">Nuevas características</h3>
+<h3 id="otros-256">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(cambio en el versionamiento semantico): se agregan release y
@@ -9840,7 +10096,7 @@ Hora: 1723705040</li>
 </ul></li>
 </ul>
 <h3 id="nuevo-parche-7">Nuevo parche</h3>
-<h3 id="otros-252">Otros</h3>
+<h3 id="otros-257">Otros</h3>
 <ul>
 <li><ul>
 <li>patch(patching): prueba de nuevos tipos de commits Version: en este
@@ -9851,7 +10107,7 @@ Hora: 1723703697</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-37">Pruebas</h3>
-<h3 id="otros-253">Otros</h3>
+<h3 id="otros-258">Otros</h3>
 <ul>
 <li><ul>
 <li>test(testind): deploy Version: release/0.1.0 test LazyOwn on
@@ -9860,8 +10116,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Thu Aug 15 02:31:42 2024 -0400
 Hora: 1723703502</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-48">Nuevas características</h3>
-<h3 id="otros-254">Otros</h3>
+<h3 id="nuevas-características-49">Nuevas características</h3>
+<h3 id="otros-259">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(semantic versioning): se implementa el versionamiento semantico
@@ -9874,7 +10130,7 @@ LazyOwn/ https://grisuno.github.io/LazyOwn/ Fecha: Thu Aug 15 02:01:01
 </ul></li>
 </ul>
 <h3 id="correcciones-21">Correcciones</h3>
-<h3 id="otros-255">Otros</h3>
+<h3 id="otros-260">Otros</h3>
 <ul>
 <li><ul>
 <li>fix(firma de commits con pgp): cree una firmita gpg para firmar los
@@ -9884,8 +10140,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Thu Aug 15 01:52:52 2024 -0400
 Hora: 1723701172</li>
 </ul></li>
 </ul>
-<h3 id="otros-256">Otros</h3>
-<h3 id="otros-257">Otros</h3>
+<h3 id="otros-261">Otros</h3>
+<h3 id="otros-262">Otros</h3>
 <ul>
 <li><ul>
 <li>feature(test): testing deploy feature and semantic versioning
@@ -9896,7 +10152,7 @@ Hora: 1723701007</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-38">Pruebas</h3>
-<h3 id="otros-258">Otros</h3>
+<h3 id="otros-263">Otros</h3>
 <ul>
 <li><ul>
 <li>test(deploy): testing deploy script Version: release/0.0.13 testing
@@ -9907,7 +10163,7 @@ Hora: 1723700844</li>
 </ul></li>
 </ul>
 <h3 id="correcciones-urgentes-5">Correcciones urgentes</h3>
-<h3 id="otros-259">Otros</h3>
+<h3 id="otros-264">Otros</h3>
 <ul>
 <li><ul>
 <li>hotfix(bug in Deploy): not updated the index.html file in deploys
@@ -9918,8 +10174,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Thu Aug 15 01:31:04 2024 -0400
 Hora: 1723699864</li>
 </ul></li>
 </ul>
-<h3 id="otros-260">Otros</h3>
-<h3 id="otros-261">Otros</h3>
+<h3 id="otros-265">Otros</h3>
+<h3 id="otros-266">Otros</h3>
 <ul>
 <li><ul>
 <li>feature(mejoras y fixes): - se agrega un pequeño diccionario en el
@@ -9932,8 +10188,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Thu Aug 15 00:13:04 2024 -0400
 Hora: 1723695184</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-49">Nuevas características</h3>
-<h3 id="otros-262">Otros</h3>
+<h3 id="nuevas-características-50">Nuevas características</h3>
+<h3 id="otros-267">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(add scripts): - adding scripts on sessions/win directory a nc
@@ -9945,7 +10201,7 @@ Hora: 1723692675</li>
 </ul></li>
 </ul>
 <h3 id="documentación-15">Documentación</h3>
-<h3 id="otros-263">Otros</h3>
+<h3 id="otros-268">Otros</h3>
 <ul>
 <li><ul>
 <li>docs(add README.html to anchor tag in menu of index.html): - chenges
@@ -9957,7 +10213,7 @@ Hora: 1723692351</li>
 </ul></li>
 </ul>
 <h3 id="documentación-16">Documentación</h3>
-<h3 id="otros-264">Otros</h3>
+<h3 id="otros-269">Otros</h3>
 <ul>
 <li><ul>
 <li>docs(mejora documentaciòn): se completan varios comandos con
@@ -9968,8 +10224,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Wed Aug 14 23:00:31 2024 -0400
 Hora: 1723690831</li>
 </ul></li>
 </ul>
-<h3 id="otros-265">Otros</h3>
-<h3 id="otros-266">Otros</h3>
+<h3 id="otros-270">Otros</h3>
+<h3 id="otros-271">Otros</h3>
 <ul>
 <li><ul>
 <li>feature(cambios en script fast_run_as_r00t.sh): se agrega la opción
@@ -9982,7 +10238,7 @@ Hora: 1723674013</li>
 </ul></li>
 </ul>
 <h3 id="documentación-17">Documentación</h3>
-<h3 id="otros-267">Otros</h3>
+<h3 id="otros-272">Otros</h3>
 <ul>
 <li><ul>
 <li>docs(test): bad tabs in index.html Version: release/0.0.13 LazyOwn
@@ -9992,7 +10248,7 @@ Hora: 1723673205</li>
 </ul></li>
 </ul>
 <h3 id="documentación-18">Documentación</h3>
-<h3 id="otros-268">Otros</h3>
+<h3 id="otros-273">Otros</h3>
 <ul>
 <li><ul>
 <li>docs(cambio en index.html): tabulacion incorrecta del banner
@@ -10003,7 +10259,7 @@ Hora: 1723672865</li>
 </ul></li>
 </ul>
 <h3 id="refactorización-12">Refactorización</h3>
-<h3 id="otros-269">Otros</h3>
+<h3 id="otros-274">Otros</h3>
 <ul>
 <li><ul>
 <li>refactor(refactor): se cambia el nombre de readme.sh a
@@ -10015,7 +10271,7 @@ Hora: 1723671942</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-39">Pruebas</h3>
-<h3 id="otros-270">Otros</h3>
+<h3 id="otros-275">Otros</h3>
 <ul>
 <li><ul>
 <li>test(test): test Version: release/0.0.13 test LazyOwn on HackTheBox:
@@ -10024,8 +10280,8 @@ https://grisuno.github.io/LazyOwn/ Fecha: Wed Aug 14 17:38:56 2024 -0400
 Hora: 1723671536</li>
 </ul></li>
 </ul>
-<h3 id="otros-271">Otros</h3>
-<h3 id="otros-272">Otros</h3>
+<h3 id="otros-276">Otros</h3>
+<h3 id="otros-277">Otros</h3>
 <ul>
 <li><ul>
 <li>feature(actualizador de readme.md): con los nuevos cambios desde los
@@ -10037,7 +10293,7 @@ Hora: 1723670843</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-40">Pruebas</h3>
-<h3 id="otros-273">Otros</h3>
+<h3 id="otros-278">Otros</h3>
 <ul>
 <li><ul>
 <li>test(test): new styles in html of documentation Version:
@@ -10048,7 +10304,7 @@ Hora: 1723669581</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-41">Pruebas</h3>
-<h3 id="otros-274">Otros</h3>
+<h3 id="otros-279">Otros</h3>
 <ul>
 <li><ul>
 <li>test(test): testing changelog Version: release/0.0.13 LazyOwn on
@@ -10058,7 +10314,7 @@ Hora: 1723669421</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-42">Pruebas</h3>
-<h3 id="otros-275">Otros</h3>
+<h3 id="otros-280">Otros</h3>
 <ul>
 <li><ul>
 <li>test(testing): new changelog format Version: release/0.0.13 new
@@ -10069,7 +10325,7 @@ Hora: 1723668967</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-43">Pruebas</h3>
-<h3 id="otros-276">Otros</h3>
+<h3 id="otros-281">Otros</h3>
 <ul>
 <li><ul>
 <li>test(test): Version: release/0.0.13 test LazyOwn on HackTheBox:
@@ -10079,7 +10335,7 @@ Hora: 1723668932</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-44">Pruebas</h3>
-<h3 id="otros-277">Otros</h3>
+<h3 id="otros-282">Otros</h3>
 <ul>
 <li><ul>
 <li>test(testeando): nuevo changelog Version: release/0.0.13 mejor
@@ -10090,7 +10346,7 @@ Hora: 1723668469</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-45">Pruebas</h3>
-<h3 id="otros-278">Otros</h3>
+<h3 id="otros-283">Otros</h3>
 <ul>
 <li><ul>
 <li>test(test): deploy Version: release/0.0.13 changes in changelog
@@ -10100,7 +10356,7 @@ LazyOwn/ https://grisuno.github.io/LazyOwn/ Fecha: Wed Aug 14 16:35:12
 </ul></li>
 </ul>
 <h3 id="pruebas-46">Pruebas</h3>
-<h3 id="otros-279">Otros</h3>
+<h3 id="otros-284">Otros</h3>
 <ul>
 <li><ul>
 <li>test(testing): changelog Version: release/0.0.13 saltos de linea
@@ -10110,7 +10366,7 @@ LazyOwn/ https://grisuno.github.io/LazyOwn/ Fecha: Wed Aug 14 16:34:08
 </ul></li>
 </ul>
 <h3 id="pruebas-47">Pruebas</h3>
-<h3 id="otros-280">Otros</h3>
+<h3 id="otros-285">Otros</h3>
 <ul>
 <li><ul>
 <li>test(tesing): saltos de linea en commit Version: release/0.0.13 :)
@@ -10120,7 +10376,7 @@ LazyOwn/ https://grisuno.github.io/LazyOwn/ Fecha: Wed Aug 14 16:28:47
 </ul></li>
 </ul>
 <h3 id="documentación-19">Documentación</h3>
-<h3 id="otros-281">Otros</h3>
+<h3 id="otros-286">Otros</h3>
 <ul>
 <li><ul>
 <li>docs(class=“neon-text” on ul): :): release/0.0.13:)LazyOwn on
@@ -10130,7 +10386,7 @@ Hora: 1723665459</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-48">Pruebas</h3>
-<h3 id="otros-282">Otros</h3>
+<h3 id="otros-287">Otros</h3>
 <ul>
 <li><ul>
 <li>test(commits con fecha y hora :P): probando el despliegue:
@@ -10141,7 +10397,7 @@ Hora: 1723665132</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-49">Pruebas</h3>
-<h3 id="otros-283">Otros</h3>
+<h3 id="otros-288">Otros</h3>
 <ul>
 <li><ul>
 <li>test(test de index.html): testeando el despliegue automatizado del
@@ -10151,7 +10407,7 @@ https://grisuno.github.io/LazyOwn/</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-50">Pruebas</h3>
-<h3 id="otros-284">Otros</h3>
+<h3 id="otros-289">Otros</h3>
 <ul>
 <li><ul>
 <li>test(test index.sh): se realizan cambios en index.sh:
@@ -10162,7 +10418,7 @@ https://grisuno.github.io/LazyOwn/</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-51">Pruebas</h3>
-<h3 id="otros-285">Otros</h3>
+<h3 id="otros-290">Otros</h3>
 <ul>
 <li><ul>
 <li>test(testing): Testeando el flujo de trabajo en los despliegues
@@ -10171,8 +10427,8 @@ HackTheBox: https://app.hackthebox.com/teams/overview/6429 LazyOwn/
 https://grisuno.github.io/LazyOwn/</li>
 </ul></li>
 </ul>
-<h3 id="otros-286">Otros</h3>
-<h3 id="otros-287">Otros</h3>
+<h3 id="otros-291">Otros</h3>
+<h3 id="otros-292">Otros</h3>
 <ul>
 <li><ul>
 <li>feature(versionamiento semantico en script de deploy): mejora en
@@ -10183,7 +10439,7 @@ https://grisuno.github.io/LazyOwn/</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-52">Pruebas</h3>
-<h3 id="otros-288">Otros</h3>
+<h3 id="otros-293">Otros</h3>
 <ul>
 <li><ul>
 <li>test(test of –no-test): and lolcat on clock command :Phas now
@@ -10194,7 +10450,7 @@ https://grisuno.github.io/LazyOwn/</li>
 </ul></li>
 </ul>
 <h3 id="documentación-20">Documentación</h3>
-<h3 id="otros-289">Otros</h3>
+<h3 id="otros-294">Otros</h3>
 <ul>
 <li><ul>
 <li>docs(se agrega el change log al readme): tambien se ejecutan pruebas
@@ -10206,7 +10462,7 @@ https://grisuno.github.io/LazyOwn/</li>
 </ul></li>
 </ul>
 <h3 id="correcciones-urgentes-6">Correcciones urgentes</h3>
-<h3 id="otros-290">Otros</h3>
+<h3 id="otros-295">Otros</h3>
 <ul>
 <li><ul>
 <li>hotfix(fix in vpn): dont work with argumentsworks xD👽 LazyOwn on
@@ -10215,8 +10471,8 @@ https://www.reddit.com/r/LazyOwn/ 👽
 https://grisuno.github.io/LazyOwn/</li>
 </ul></li>
 </ul>
-<h3 id="otros-291">Otros</h3>
-<h3 id="otros-292">Otros</h3>
+<h3 id="otros-296">Otros</h3>
+<h3 id="otros-297">Otros</h3>
 <ul>
 <li><ul>
 <li>feature(parametrizar el despliegue): se agrega el parametro –no-test
@@ -10227,7 +10483,7 @@ https://grisuno.github.io/LazyOwn/</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-53">Pruebas</h3>
-<h3 id="otros-293">Otros</h3>
+<h3 id="otros-298">Otros</h3>
 <ul>
 <li><ul>
 <li>test(troubleshooting): deleting the tmp file but i cant sleep👽
@@ -10237,7 +10493,7 @@ https://grisuno.github.io/LazyOwn/</li>
 </ul></li>
 </ul>
 <h3 id="correcciones-urgentes-7">Correcciones urgentes</h3>
-<h3 id="otros-294">Otros</h3>
+<h3 id="otros-299">Otros</h3>
 <ul>
 <li><ul>
 <li>hotfix(delete qa command to option -c): bug: dont let beggin
@@ -10248,7 +10504,7 @@ https://grisuno.github.io/LazyOwn/</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-54">Pruebas</h3>
-<h3 id="otros-295">Otros</h3>
+<h3 id="otros-300">Otros</h3>
 <ul>
 <li><ul>
 <li>test(despliegue): backup file del archivo lazyown creado en las
@@ -10261,7 +10517,7 @@ https://grisuno.github.io/LazyOwn/</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-55">Pruebas</h3>
-<h3 id="otros-296">Otros</h3>
+<h3 id="otros-301">Otros</h3>
 <ul>
 <li><ul>
 <li>test(despliegue): de organizaciòn de archivos ovpn dentro del
@@ -10272,7 +10528,7 @@ https://grisuno.github.io/LazyOwn/</li>
 </ul></li>
 </ul>
 <h3 id="pruebas-56">Pruebas</h3>
-<h3 id="otros-297">Otros</h3>
+<h3 id="otros-302">Otros</h3>
 <ul>
 <li><ul>
 <li>test(testmeneitor): probando el workflow de desplieguees el body de
@@ -10282,8 +10538,8 @@ https://www.reddit.com/r/LazyOwn/ 👽
 https://grisuno.github.io/LazyOwn/</li>
 </ul></li>
 </ul>
-<h3 id="otros-298">Otros</h3>
-<h3 id="otros-299">Otros</h3>
+<h3 id="otros-303">Otros</h3>
+<h3 id="otros-304">Otros</h3>
 <ul>
 <li><ul>
 <li>feature(nuevo creador de index.html): crea el html de manera
@@ -10294,8 +10550,8 @@ https://www.reddit.com/r/LazyOwn/ 👽
 https://grisuno.github.io/LazyOwn/</li>
 </ul></li>
 </ul>
-<h3 id="otros-300">Otros</h3>
-<h3 id="otros-301">Otros</h3>
+<h3 id="otros-305">Otros</h3>
+<h3 id="otros-306">Otros</h3>
 <ul>
 <li><ul>
 <li>feature(mejora CHANGELOG.sh): ahora actualiza usando
@@ -10306,8 +10562,8 @@ https://www.reddit.com/r/LazyOwn/ 👽
 https://grisuno.github.io/LazyOwn/</li>
 </ul></li>
 </ul>
-<h3 id="nuevas-características-50">Nuevas características</h3>
-<h3 id="otros-302">Otros</h3>
+<h3 id="nuevas-características-51">Nuevas características</h3>
+<h3 id="otros-307">Otros</h3>
 <ul>
 <li><ul>
 <li>feat(mejorando el tipo): cambio en el script CHANGELOG.shmejora la
@@ -10318,7 +10574,7 @@ https://grisuno.github.io/LazyOwn/</li>
 </ul></li>
 </ul>
 <h3 id="documentación-21">Documentación</h3>
-<h3 id="otros-303">Otros</h3>
+<h3 id="otros-308">Otros</h3>
 <ul>
 <li><ul>
 <li>docs(docs): El cierre de una imagen en la documentación estaba mal
@@ -10328,22 +10584,22 @@ https://www.reddit.com/r/LazyOwn/ 👽
 https://grisuno.github.io/LazyOwn/</li>
 </ul></li>
 </ul>
-<h3 id="otros-304">Otros</h3>
-<h3 id="otros-305">Otros</h3>
+<h3 id="otros-309">Otros</h3>
+<h3 id="otros-310">Otros</h3>
 <ul>
 <li><ul>
 <li>Nueva descripcion en el readme y probando el CHANGELOG.sh :)</li>
 </ul></li>
 </ul>
-<h3 id="otros-306">Otros</h3>
-<h3 id="otros-307">Otros</h3>
+<h3 id="otros-311">Otros</h3>
+<h3 id="otros-312">Otros</h3>
 <ul>
 <li><ul>
 <li>ahora el changelog a docs :D en formato html</li>
 </ul></li>
 </ul>
-<h3 id="otros-308">Otros</h3>
-<h3 id="otros-309">Otros</h3>
+<h3 id="otros-313">Otros</h3>
+<h3 id="otros-314">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽 Ahora
@@ -10354,42 +10610,42 @@ todas las funciones nuevas como copy2clip :P, y estrenamos CHANGELOG.md
 y CHANGELOG.sh :D 👽</li>
 </ul></li>
 </ul>
-<h3 id="otros-310">Otros</h3>
-<h3 id="otros-311">Otros</h3>
-<ul>
-<li><ul>
-<li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽
-some changes in the web pandoc README.md -f markdown -t html -s -o
-README.html madremia que comandazo 👽</li>
-</ul></li>
-</ul>
-<h3 id="otros-312">Otros</h3>
-<h3 id="otros-313">Otros</h3>
-<ul>
-<li><ul>
-<li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽
-some changes in the web pandoc README.md -f markdown -t html -s -o
-README.html madremia que comandazo 👽</li>
-</ul></li>
-</ul>
-<h3 id="otros-314">Otros</h3>
 <h3 id="otros-315">Otros</h3>
+<h3 id="otros-316">Otros</h3>
+<ul>
+<li><ul>
+<li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽
+some changes in the web pandoc README.md -f markdown -t html -s -o
+README.html madremia que comandazo 👽</li>
+</ul></li>
+</ul>
+<h3 id="otros-317">Otros</h3>
+<h3 id="otros-318">Otros</h3>
+<ul>
+<li><ul>
+<li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽
+some changes in the web pandoc README.md -f markdown -t html -s -o
+README.html madremia que comandazo 👽</li>
+</ul></li>
+</ul>
+<h3 id="otros-319">Otros</h3>
+<h3 id="otros-320">Otros</h3>
 <ul>
 <li><ul>
 <li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽
 some changes in the web 👽</li>
 </ul></li>
 </ul>
-<h3 id="otros-316">Otros</h3>
-<h3 id="otros-317">Otros</h3>
+<h3 id="otros-321">Otros</h3>
+<h3 id="otros-322">Otros</h3>
 <ul>
 <li><ul>
 <li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽
 comming soon tryhackme 👽</li>
 </ul></li>
 </ul>
-<h3 id="otros-318">Otros</h3>
-<h3 id="otros-319">Otros</h3>
+<h3 id="otros-323">Otros</h3>
+<h3 id="otros-324">Otros</h3>
 <ul>
 <li><ul>
 <li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽
@@ -10398,58 +10654,40 @@ base64encode, base64decode, rdp, all documented by my documentator
 readmeneitor.py :P 👽</li>
 </ul></li>
 </ul>
-<h3 id="otros-320">Otros</h3>
-<h3 id="otros-321">Otros</h3>
+<h3 id="otros-325">Otros</h3>
+<h3 id="otros-326">Otros</h3>
 <ul>
 <li><ul>
 <li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽 new
 fancy proompt :) 👽</li>
 </ul></li>
 </ul>
-<h3 id="otros-322">Otros</h3>
-<h3 id="otros-323">Otros</h3>
+<h3 id="otros-327">Otros</h3>
+<h3 id="otros-328">Otros</h3>
 <ul>
 <li><ul>
 <li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽 bug
 fixing 👽</li>
 </ul></li>
 </ul>
-<h3 id="otros-324">Otros</h3>
-<h3 id="otros-325">Otros</h3>
+<h3 id="otros-329">Otros</h3>
+<h3 id="otros-330">Otros</h3>
 <ul>
 <li><ul>
 <li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429
 👽👽</li>
 </ul></li>
 </ul>
-<h3 id="otros-326">Otros</h3>
-<h3 id="otros-327">Otros</h3>
+<h3 id="otros-331">Otros</h3>
+<h3 id="otros-332">Otros</h3>
 <ul>
 <li><ul>
 <li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽
 3ast3r366 👽</li>
 </ul></li>
 </ul>
-<h3 id="otros-328">Otros</h3>
-<h3 id="otros-329">Otros</h3>
-<ul>
-<li><ul>
-<li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽 New
-commands documented at COMMANDS.md and new ultis documented at ULTIS.md
-👽</li>
-</ul></li>
-</ul>
-<h3 id="otros-330">Otros</h3>
-<h3 id="otros-331">Otros</h3>
-<ul>
-<li><ul>
-<li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽 New
-commands documented at COMMANDS.md and new ultis documented at ULTIS.md
-👽</li>
-</ul></li>
-</ul>
-<h3 id="otros-332">Otros</h3>
 <h3 id="otros-333">Otros</h3>
+<h3 id="otros-334">Otros</h3>
 <ul>
 <li><ul>
 <li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽 New
@@ -10457,27 +10695,22 @@ commands documented at COMMANDS.md and new ultis documented at ULTIS.md
 👽</li>
 </ul></li>
 </ul>
-<h3 id="otros-334">Otros</h3>
 <h3 id="otros-335">Otros</h3>
+<h3 id="otros-336">Otros</h3>
 <ul>
 <li><ul>
 <li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽 New
-command launchpad to recon Linux OS 👽</li>
+commands documented at COMMANDS.md and new ultis documented at ULTIS.md
+👽</li>
 </ul></li>
 </ul>
-<h3 id="otros-336">Otros</h3>
 <h3 id="otros-337">Otros</h3>
-<ul>
-<li><ul>
-<li>Merge pull request #27 from grisuno/clcthulhu-patch-1</li>
-</ul></li>
-</ul>
-<h3 id="documentación-22">Documentación</h3>
 <h3 id="otros-338">Otros</h3>
 <ul>
 <li><ul>
-<li>docs(update readme description): change of the description; Update
-README.md</li>
+<li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽 New
+commands documented at COMMANDS.md and new ultis documented at ULTIS.md
+👽</li>
 </ul></li>
 </ul>
 <h3 id="otros-339">Otros</h3>
@@ -10485,44 +10718,67 @@ README.md</li>
 <ul>
 <li><ul>
 <li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽 New
-Machine, New Session, New Look, New functions, New tools, New CVEs, NEW
-VERSION 👽</li>
+command launchpad to recon Linux OS 👽</li>
 </ul></li>
 </ul>
 <h3 id="otros-341">Otros</h3>
 <h3 id="otros-342">Otros</h3>
 <ul>
 <li><ul>
+<li>Merge pull request #27 from grisuno/clcthulhu-patch-1</li>
+</ul></li>
+</ul>
+<h3 id="documentación-22">Documentación</h3>
+<h3 id="otros-343">Otros</h3>
+<ul>
+<li><ul>
+<li>docs(update readme description): change of the description; Update
+README.md</li>
+</ul></li>
+</ul>
+<h3 id="otros-344">Otros</h3>
+<h3 id="otros-345">Otros</h3>
+<ul>
+<li><ul>
+<li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽 New
+Machine, New Session, New Look, New functions, New tools, New CVEs, NEW
+VERSION 👽</li>
+</ul></li>
+</ul>
+<h3 id="otros-346">Otros</h3>
+<h3 id="otros-347">Otros</h3>
+<ul>
+<li><ul>
 <li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽
 mejorando la documentaciòn 👽</li>
 </ul></li>
 </ul>
-<h3 id="otros-343">Otros</h3>
-<h3 id="otros-344">Otros</h3>
+<h3 id="otros-348">Otros</h3>
+<h3 id="otros-349">Otros</h3>
 <ul>
 <li><ul>
 <li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽 new
 commands rulencode, urldecode, y lynis documented at COMMANDS.md 👽</li>
 </ul></li>
 </ul>
-<h3 id="otros-345">Otros</h3>
-<h3 id="otros-346">Otros</h3>
-<ul>
-<li><ul>
-<li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽
-command vpn now handle multiple ovpn files 👽</li>
-</ul></li>
-</ul>
-<h3 id="otros-347">Otros</h3>
-<h3 id="otros-348">Otros</h3>
-<ul>
-<li><ul>
-<li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽
-command vpn now handle multiple ovpn files 👽</li>
-</ul></li>
-</ul>
-<h3 id="otros-349">Otros</h3>
 <h3 id="otros-350">Otros</h3>
+<h3 id="otros-351">Otros</h3>
+<ul>
+<li><ul>
+<li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽
+command vpn now handle multiple ovpn files 👽</li>
+</ul></li>
+</ul>
+<h3 id="otros-352">Otros</h3>
+<h3 id="otros-353">Otros</h3>
+<ul>
+<li><ul>
+<li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽
+command vpn now handle multiple ovpn files 👽</li>
+</ul></li>
+</ul>
+<h3 id="otros-354">Otros</h3>
+<h3 id="otros-355">Otros</h3>
 <ul>
 <li><ul>
 <li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽 new
@@ -10530,336 +10786,336 @@ commands documented at COMMANDS.md, now implement autocomplete at
 hashcat, more soon :) 👽</li>
 </ul></li>
 </ul>
-<h3 id="otros-351">Otros</h3>
-<h3 id="otros-352">Otros</h3>
+<h3 id="otros-356">Otros</h3>
+<h3 id="otros-357">Otros</h3>
 <ul>
 <li><ul>
 <li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 new
 commands documented at COMMANDS.md</li>
 </ul></li>
 </ul>
-<h3 id="otros-353">Otros</h3>
-<h3 id="otros-354">Otros</h3>
+<h3 id="otros-358">Otros</h3>
+<h3 id="otros-359">Otros</h3>
 <ul>
 <li><ul>
 <li>👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429
 Magicgardens is so insane but pwned :)</li>
 </ul></li>
 </ul>
-<h3 id="otros-355">Otros</h3>
-<h3 id="otros-356">Otros</h3>
-<ul>
-<li><ul>
-<li>👽 new commands documented in COMMANDS.md or README.md and more
-documentation of the proyect thanks to readmineitor.py :D comming soon
-their own repo…</li>
-</ul></li>
-</ul>
-<h3 id="otros-357">Otros</h3>
-<h3 id="otros-358">Otros</h3>
-<ul>
-<li><ul>
-<li>👽 new commands documented in COMMANDS.md or README.md and more
-documentation of the proyect thanks to readmineitor.py :D comming soon
-their own repo…</li>
-</ul></li>
-</ul>
-<h3 id="otros-359">Otros</h3>
 <h3 id="otros-360">Otros</h3>
+<h3 id="otros-361">Otros</h3>
+<ul>
+<li><ul>
+<li>👽 new commands documented in COMMANDS.md or README.md and more
+documentation of the proyect thanks to readmineitor.py :D comming soon
+their own repo…</li>
+</ul></li>
+</ul>
+<h3 id="otros-362">Otros</h3>
+<h3 id="otros-363">Otros</h3>
+<ul>
+<li><ul>
+<li>👽 new commands documented in COMMANDS.md or README.md and more
+documentation of the proyect thanks to readmineitor.py :D comming soon
+their own repo…</li>
+</ul></li>
+</ul>
+<h3 id="otros-364">Otros</h3>
+<h3 id="otros-365">Otros</h3>
 <ul>
 <li><ul>
 <li>👽 new machine magic gardens insane machine because resource was
 pwned and sea not was released yet</li>
 </ul></li>
 </ul>
-<h3 id="otros-361">Otros</h3>
-<h3 id="otros-362">Otros</h3>
-<ul>
-<li><ul>
-<li>👽 bug fixing in createhash, new wrappers, chisel command updated
-now can choice the payload, img2cookie new payloads</li>
-</ul></li>
-</ul>
-<h3 id="otros-363">Otros</h3>
-<h3 id="otros-364">Otros</h3>
-<ul>
-<li><ul>
-<li>👽 bug fixing in createhash, new wrappers, chisel command updated
-now can choice the payload, img2cookie new payloads</li>
-</ul></li>
-</ul>
-<h3 id="otros-365">Otros</h3>
 <h3 id="otros-366">Otros</h3>
-<ul>
-<li><ul>
-<li>👽 some love to readme</li>
-</ul></li>
-</ul>
 <h3 id="otros-367">Otros</h3>
+<ul>
+<li><ul>
+<li>👽 bug fixing in createhash, new wrappers, chisel command updated
+now can choice the payload, img2cookie new payloads</li>
+</ul></li>
+</ul>
 <h3 id="otros-368">Otros</h3>
-<ul>
-<li><ul>
-<li>👽 some love to readme</li>
-</ul></li>
-</ul>
 <h3 id="otros-369">Otros</h3>
+<ul>
+<li><ul>
+<li>👽 bug fixing in createhash, new wrappers, chisel command updated
+now can choice the payload, img2cookie new payloads</li>
+</ul></li>
+</ul>
 <h3 id="otros-370">Otros</h3>
+<h3 id="otros-371">Otros</h3>
 <ul>
 <li><ul>
 <li>👽 some love to readme</li>
 </ul></li>
 </ul>
-<h3 id="otros-371">Otros</h3>
 <h3 id="otros-372">Otros</h3>
+<h3 id="otros-373">Otros</h3>
+<ul>
+<li><ul>
+<li>👽 some love to readme</li>
+</ul></li>
+</ul>
+<h3 id="otros-374">Otros</h3>
+<h3 id="otros-375">Otros</h3>
+<ul>
+<li><ul>
+<li>👽 some love to readme</li>
+</ul></li>
+</ul>
+<h3 id="otros-376">Otros</h3>
+<h3 id="otros-377">Otros</h3>
 <ul>
 <li><ul>
 <li>👽 new tools for pwntomate :D</li>
 </ul></li>
 </ul>
-<h3 id="otros-373">Otros</h3>
-<h3 id="otros-374">Otros</h3>
-<ul>
-<li><ul>
-<li>👽 new command img2cookie :)</li>
-</ul></li>
-</ul>
-<h3 id="otros-375">Otros</h3>
-<h3 id="otros-376">Otros</h3>
-<ul>
-<li><ul>
-<li>👽 new command img2cookie :)</li>
-</ul></li>
-</ul>
-<h3 id="otros-377">Otros</h3>
 <h3 id="otros-378">Otros</h3>
+<h3 id="otros-379">Otros</h3>
+<ul>
+<li><ul>
+<li>👽 new command img2cookie :)</li>
+</ul></li>
+</ul>
+<h3 id="otros-380">Otros</h3>
+<h3 id="otros-381">Otros</h3>
+<ul>
+<li><ul>
+<li>👽 new command img2cookie :)</li>
+</ul></li>
+</ul>
+<h3 id="otros-382">Otros</h3>
+<h3 id="otros-383">Otros</h3>
 <ul>
 <li><ul>
 <li>👽 new machine comprezzor.htb</li>
 </ul></li>
 </ul>
-<h3 id="otros-379">Otros</h3>
-<h3 id="otros-380">Otros</h3>
+<h3 id="otros-384">Otros</h3>
+<h3 id="otros-385">Otros</h3>
 <ul>
 <li><ul>
 <li>👽 new script readmeneitor req updated</li>
 </ul></li>
 </ul>
-<h3 id="otros-381">Otros</h3>
-<h3 id="otros-382">Otros</h3>
+<h3 id="otros-386">Otros</h3>
+<h3 id="otros-387">Otros</h3>
 <ul>
 <li><ul>
 <li>👽 new script readmeneitor to help me update the readme xD</li>
 </ul></li>
 </ul>
-<h3 id="otros-383">Otros</h3>
-<h3 id="otros-384">Otros</h3>
+<h3 id="otros-388">Otros</h3>
+<h3 id="otros-389">Otros</h3>
 <ul>
 <li><ul>
 <li>👽 new command ssh 22 and if u have file sessions/credentials.txt
 this will open ssh conection :)</li>
 </ul></li>
 </ul>
-<h3 id="otros-385">Otros</h3>
-<h3 id="otros-386">Otros</h3>
+<h3 id="otros-390">Otros</h3>
+<h3 id="otros-391">Otros</h3>
 <ul>
 <li><ul>
 <li>👽 bug fixing and replace command nc with pwncatcs more fancy and
 sharp :)</li>
 </ul></li>
 </ul>
-<h3 id="otros-387">Otros</h3>
-<h3 id="otros-388">Otros</h3>
+<h3 id="otros-392">Otros</h3>
+<h3 id="otros-393">Otros</h3>
 <ul>
 <li><ul>
 <li>👽 bug fixing in wfuzz sub command wen you not pass the domain</li>
 </ul></li>
 </ul>
-<h3 id="otros-389">Otros</h3>
-<h3 id="otros-390">Otros</h3>
+<h3 id="otros-394">Otros</h3>
+<h3 id="otros-395">Otros</h3>
 <ul>
 <li><ul>
 <li>👽 some changes in nmap script now discovery have template html too
 and we have a little index2.html to navigate the reports.</li>
 </ul></li>
 </ul>
-<h3 id="otros-391">Otros</h3>
-<h3 id="otros-392">Otros</h3>
+<h3 id="otros-396">Otros</h3>
+<h3 id="otros-397">Otros</h3>
 <ul>
 <li><ul>
 <li>👽 some littles changes :)</li>
 </ul></li>
 </ul>
-<h3 id="otros-393">Otros</h3>
-<h3 id="otros-394">Otros</h3>
+<h3 id="otros-398">Otros</h3>
+<h3 id="otros-399">Otros</h3>
 <ul>
 <li><ul>
 <li>👽 new machine compiled :)</li>
 </ul></li>
 </ul>
-<h3 id="otros-395">Otros</h3>
-<h3 id="otros-396">Otros</h3>
+<h3 id="otros-400">Otros</h3>
+<h3 id="otros-401">Otros</h3>
 <ul>
 <li><ul>
 <li>👽 new command disableav to create a aav.vbs to disable av if it’s
 possible :)</li>
 </ul></li>
 </ul>
-<h3 id="otros-397">Otros</h3>
-<h3 id="otros-398">Otros</h3>
+<h3 id="otros-402">Otros</h3>
+<h3 id="otros-403">Otros</h3>
 <ul>
 <li><ul>
 <li>👽 changing the command in venom :)</li>
 </ul></li>
 </ul>
-<h3 id="otros-399">Otros</h3>
-<h3 id="otros-400">Otros</h3>
+<h3 id="otros-404">Otros</h3>
+<h3 id="otros-405">Otros</h3>
 <ul>
 <li><ul>
 <li>👽 holly jissus mist.htb now pwned with my user :P its rally insane
 amount of work to pwn</li>
 </ul></li>
 </ul>
-<h3 id="otros-401">Otros</h3>
-<h3 id="otros-402">Otros</h3>
+<h3 id="otros-406">Otros</h3>
+<h3 id="otros-407">Otros</h3>
 <ul>
 <li><ul>
 <li>👽 holly jissus mist.htb machine cost to me one week and my mental
 health xD bu it’s pwned xD</li>
 </ul></li>
 </ul>
-<h3 id="otros-403">Otros</h3>
-<h3 id="otros-404">Otros</h3>
+<h3 id="otros-408">Otros</h3>
+<h3 id="otros-409">Otros</h3>
 <ul>
 <li><ul>
 <li>👽 todo readme …</li>
 </ul></li>
 </ul>
-<h3 id="otros-405">Otros</h3>
-<h3 id="otros-406">Otros</h3>
+<h3 id="otros-410">Otros</h3>
+<h3 id="otros-411">Otros</h3>
 <ul>
 <li><ul>
 <li>Update README.md</li>
 </ul></li>
 </ul>
-<h3 id="otros-407">Otros</h3>
-<h3 id="otros-408">Otros</h3>
+<h3 id="otros-412">Otros</h3>
+<h3 id="otros-413">Otros</h3>
 <ul>
 <li><ul>
 <li>👽 update gitignore …</li>
 </ul></li>
 </ul>
-<h3 id="otros-409">Otros</h3>
-<h3 id="otros-410">Otros</h3>
+<h3 id="otros-414">Otros</h3>
+<h3 id="otros-415">Otros</h3>
 <ul>
 <li><ul>
 <li>👽 chisel fix copy to clipboard commad bug …</li>
 </ul></li>
 </ul>
-<h3 id="otros-411">Otros</h3>
-<h3 id="otros-412">Otros</h3>
+<h3 id="otros-416">Otros</h3>
+<h3 id="otros-417">Otros</h3>
 <ul>
 <li><ul>
 <li>👽 command list to update the readme: todo …</li>
 </ul></li>
 </ul>
-<h3 id="otros-413">Otros</h3>
-<h3 id="otros-414">Otros</h3>
+<h3 id="otros-418">Otros</h3>
+<h3 id="otros-419">Otros</h3>
 <ul>
 <li><ul>
 <li>👽 no more prints ( 👽 we have 13 xD) now we have technologì we have
 print_msg, print_error &amp; print_warn :) so much pretty</li>
 </ul></li>
 </ul>
-<h3 id="otros-415">Otros</h3>
-<h3 id="otros-416">Otros</h3>
-<ul>
-<li><ul>
-<li>Update README.md</li>
-</ul></li>
-</ul>
-<h3 id="otros-417">Otros</h3>
-<h3 id="otros-418">Otros</h3>
-<ul>
-<li><ul>
-<li>Update README.md</li>
-</ul></li>
-</ul>
-<h3 id="otros-419">Otros</h3>
 <h3 id="otros-420">Otros</h3>
-<ul>
-<li><ul>
-<li>Update README.md</li>
-</ul></li>
-</ul>
 <h3 id="otros-421">Otros</h3>
-<h3 id="otros-422">Otros</h3>
 <ul>
 <li><ul>
 <li>Update README.md</li>
 </ul></li>
 </ul>
+<h3 id="otros-422">Otros</h3>
 <h3 id="otros-423">Otros</h3>
+<ul>
+<li><ul>
+<li>Update README.md</li>
+</ul></li>
+</ul>
 <h3 id="otros-424">Otros</h3>
+<h3 id="otros-425">Otros</h3>
+<ul>
+<li><ul>
+<li>Update README.md</li>
+</ul></li>
+</ul>
+<h3 id="otros-426">Otros</h3>
+<h3 id="otros-427">Otros</h3>
+<ul>
+<li><ul>
+<li>Update README.md</li>
+</ul></li>
+</ul>
+<h3 id="otros-428">Otros</h3>
+<h3 id="otros-429">Otros</h3>
 <ul>
 <li><ul>
 <li>👽 better prints 👽</li>
 </ul></li>
 </ul>
-<h3 id="otros-425">Otros</h3>
-<h3 id="otros-426">Otros</h3>
+<h3 id="otros-430">Otros</h3>
+<h3 id="otros-431">Otros</h3>
 <ul>
 <li><ul>
 <li>👽 conptyshell better 👽</li>
 </ul></li>
 </ul>
-<h3 id="otros-427">Otros</h3>
-<h3 id="otros-428">Otros</h3>
+<h3 id="otros-432">Otros</h3>
+<h3 id="otros-433">Otros</h3>
 <ul>
 <li><ul>
 <li>👽 new brothers commands, LazyOwn&gt; winbase64payload and
 asprevbase64 👽</li>
 </ul></li>
 </ul>
-<h3 id="otros-429">Otros</h3>
-<h3 id="otros-430">Otros</h3>
+<h3 id="otros-434">Otros</h3>
+<h3 id="otros-435">Otros</h3>
 <ul>
 <li><ul>
 <li>some roder to prints, not finished yet but the storm its cut the
 electricity so commit….</li>
 </ul></li>
 </ul>
-<h3 id="otros-431">Otros</h3>
-<h3 id="otros-432">Otros</h3>
+<h3 id="otros-436">Otros</h3>
+<h3 id="otros-437">Otros</h3>
 <ul>
 <li><ul>
 <li>feat: somo testing and alias now you can run gpt alias :D</li>
 </ul></li>
 </ul>
-<h3 id="otros-433">Otros</h3>
-<h3 id="otros-434">Otros</h3>
+<h3 id="otros-438">Otros</h3>
+<h3 id="otros-439">Otros</h3>
 <ul>
 <li><ul>
 <li>feat: Now the GPT Client use Llama 70B and now can hack :) fixing
 error path from json files :P</li>
 </ul></li>
 </ul>
-<h3 id="otros-435">Otros</h3>
-<h3 id="otros-436">Otros</h3>
+<h3 id="otros-440">Otros</h3>
+<h3 id="otros-441">Otros</h3>
 <ul>
 <li><ul>
 <li>feat: Now the GPT Client use Llama 70B and now can hack :)</li>
 </ul></li>
 </ul>
-<h3 id="otros-437">Otros</h3>
-<h3 id="otros-438">Otros</h3>
+<h3 id="otros-442">Otros</h3>
+<h3 id="otros-443">Otros</h3>
 <ul>
 <li><ul>
 <li>feat: more time to the nmap to finished and pyautomate
 autostart</li>
 </ul></li>
 </ul>
-<h3 id="otros-439">Otros</h3>
-<h3 id="otros-440">Otros</h3>
+<h3 id="otros-444">Otros</h3>
+<h3 id="otros-445">Otros</h3>
 <ul>
 <li><ul>
 <li>feat: New stylesheet for Nmap reports, making them more professional
@@ -10868,45 +11124,45 @@ and supper fast automate auto run script as fast_run_as_r00t.sh, demo
 soon</li>
 </ul></li>
 </ul>
-<h3 id="otros-441">Otros</h3>
-<h3 id="otros-442">Otros</h3>
+<h3 id="otros-446">Otros</h3>
+<h3 id="otros-447">Otros</h3>
 <ul>
 <li><ul>
 <li>Create sessions.sh</li>
 </ul></li>
 </ul>
-<h3 id="otros-443">Otros</h3>
-<h3 id="otros-444">Otros</h3>
+<h3 id="otros-448">Otros</h3>
+<h3 id="otros-449">Otros</h3>
 <ul>
 <li><ul>
 <li>some new attacks exploits and new menu to download resources and
 exploits :D new msf autoroute :D</li>
 </ul></li>
 </ul>
-<h3 id="otros-445">Otros</h3>
-<h3 id="otros-446">Otros</h3>
+<h3 id="otros-450">Otros</h3>
+<h3 id="otros-451">Otros</h3>
 <ul>
 <li><ul>
 <li>some new attacks exploits and new menu to download resources adn
 exploits :D</li>
 </ul></li>
 </ul>
-<h3 id="otros-447">Otros</h3>
-<h3 id="otros-448">Otros</h3>
+<h3 id="otros-452">Otros</h3>
+<h3 id="otros-453">Otros</h3>
 <ul>
 <li><ul>
 <li>some new attacks</li>
 </ul></li>
 </ul>
-<h3 id="otros-449">Otros</h3>
-<h3 id="otros-450">Otros</h3>
+<h3 id="otros-454">Otros</h3>
+<h3 id="otros-455">Otros</h3>
 <ul>
 <li><ul>
 <li>some ideas</li>
 </ul></li>
 </ul>
-<h3 id="otros-451">Otros</h3>
-<h3 id="otros-452">Otros</h3>
+<h3 id="otros-456">Otros</h3>
+<h3 id="otros-457">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 command
@@ -10914,48 +11170,48 @@ smbserver now create file.scf to generate a attackto the victim try to
 charge an iccon from our smbserver and the hash is ours</li>
 </ul></li>
 </ul>
-<h3 id="otros-453">Otros</h3>
-<h3 id="otros-454">Otros</h3>
+<h3 id="otros-458">Otros</h3>
+<h3 id="otros-459">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 new
 command getnpusers</li>
 </ul></li>
 </ul>
-<h3 id="otros-455">Otros</h3>
-<h3 id="otros-456">Otros</h3>
-<ul>
-<li><ul>
-<li>HackTheBox https://app.hackthebox.com/teams/overview/6429 the target
-was pwntomated 🍅 alias auto.</li>
-</ul></li>
-</ul>
-<h3 id="otros-457">Otros</h3>
-<h3 id="otros-458">Otros</h3>
-<ul>
-<li><ul>
-<li>HackTheBox https://app.hackthebox.com/teams/overview/6429 the target
-was pwntomated 🍅 alias auto.</li>
-</ul></li>
-</ul>
-<h3 id="otros-459">Otros</h3>
 <h3 id="otros-460">Otros</h3>
+<h3 id="otros-461">Otros</h3>
+<ul>
+<li><ul>
+<li>HackTheBox https://app.hackthebox.com/teams/overview/6429 the target
+was pwntomated 🍅 alias auto.</li>
+</ul></li>
+</ul>
+<h3 id="otros-462">Otros</h3>
+<h3 id="otros-463">Otros</h3>
+<ul>
+<li><ul>
+<li>HackTheBox https://app.hackthebox.com/teams/overview/6429 the target
+was pwntomated 🍅 alias auto.</li>
+</ul></li>
+</ul>
+<h3 id="otros-464">Otros</h3>
+<h3 id="otros-465">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 the target
 was pwntomated 🍅. jejejjejej</li>
 </ul></li>
 </ul>
-<h3 id="otros-461">Otros</h3>
-<h3 id="otros-462">Otros</h3>
+<h3 id="otros-466">Otros</h3>
+<h3 id="otros-467">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 now with
 pwntomate to automate with the command pyautomate</li>
 </ul></li>
 </ul>
-<h3 id="otros-463">Otros</h3>
-<h3 id="otros-464">Otros</h3>
+<h3 id="otros-468">Otros</h3>
+<h3 id="otros-469">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 now
@@ -10963,8 +11219,8 @@ command nmap or run lazynmap has a html and xml reports to more
 pleasssure. xD</li>
 </ul></li>
 </ul>
-<h3 id="otros-465">Otros</h3>
-<h3 id="otros-466">Otros</h3>
+<h3 id="otros-470">Otros</h3>
+<h3 id="otros-471">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 new
@@ -10972,8 +11228,8 @@ command chisel to run chisel as server before run download_resource
 command</li>
 </ul></li>
 </ul>
-<h3 id="otros-467">Otros</h3>
-<h3 id="otros-468">Otros</h3>
+<h3 id="otros-472">Otros</h3>
+<h3 id="otros-473">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 socat
@@ -10982,101 +11238,101 @@ command to use proxychains :D and better msf rev now with argument
 perform a malicious shortcut lnk attack with msfvenom</li>
 </ul></li>
 </ul>
-<h3 id="otros-469">Otros</h3>
-<h3 id="otros-470">Otros</h3>
+<h3 id="otros-474">Otros</h3>
+<h3 id="otros-475">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 some
 format….</li>
 </ul></li>
 </ul>
-<h3 id="otros-471">Otros</h3>
-<h3 id="otros-472">Otros</h3>
+<h3 id="otros-476">Otros</h3>
+<h3 id="otros-477">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 …</li>
 </ul></li>
 </ul>
-<h3 id="otros-473">Otros</h3>
-<h3 id="otros-474">Otros</h3>
-<ul>
-<li><ul>
-<li>HackTheBox https://app.hackthebox.com/teams/overview/6429 fix
-arguments little bug</li>
-</ul></li>
-</ul>
-<h3 id="otros-475">Otros</h3>
-<h3 id="otros-476">Otros</h3>
-<ul>
-<li><ul>
-<li>HackTheBox https://app.hackthebox.com/teams/overview/6429 fix
-arguments little bug</li>
-</ul></li>
-</ul>
-<h3 id="otros-477">Otros</h3>
 <h3 id="otros-478">Otros</h3>
+<h3 id="otros-479">Otros</h3>
+<ul>
+<li><ul>
+<li>HackTheBox https://app.hackthebox.com/teams/overview/6429 fix
+arguments little bug</li>
+</ul></li>
+</ul>
+<h3 id="otros-480">Otros</h3>
+<h3 id="otros-481">Otros</h3>
+<ul>
+<li><ul>
+<li>HackTheBox https://app.hackthebox.com/teams/overview/6429 fix
+arguments little bug</li>
+</ul></li>
+</ul>
+<h3 id="otros-482">Otros</h3>
+<h3 id="otros-483">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 new
 arguments :) -c command ex ping</li>
 </ul></li>
 </ul>
-<h3 id="otros-479">Otros</h3>
-<h3 id="otros-480">Otros</h3>
+<h3 id="otros-484">Otros</h3>
+<h3 id="otros-485">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 new
 aliases :D</li>
 </ul></li>
 </ul>
-<h3 id="otros-481">Otros</h3>
-<h3 id="otros-482">Otros</h3>
+<h3 id="otros-486">Otros</h3>
+<h3 id="otros-487">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 now
 options like –help, -v and –no-banner :)</li>
 </ul></li>
 </ul>
-<h3 id="otros-483">Otros</h3>
-<h3 id="otros-484">Otros</h3>
+<h3 id="otros-488">Otros</h3>
+<h3 id="otros-489">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 new
 command clock to see the time of the eternal now :) now in white xD</li>
 </ul></li>
 </ul>
-<h3 id="otros-485">Otros</h3>
-<h3 id="otros-486">Otros</h3>
+<h3 id="otros-490">Otros</h3>
+<h3 id="otros-491">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 new
 command clock to see the time of the eternal now :)</li>
 </ul></li>
 </ul>
-<h3 id="otros-487">Otros</h3>
-<h3 id="otros-488">Otros</h3>
-<ul>
-<li><ul>
-<li>HackTheBox https://app.hackthebox.com/teams/overview/6429</li>
-</ul></li>
-</ul>
-<h3 id="otros-489">Otros</h3>
-<h3 id="otros-490">Otros</h3>
-<ul>
-<li><ul>
-<li>HackTheBox https://app.hackthebox.com/teams/overview/6429</li>
-</ul></li>
-</ul>
-<h3 id="otros-491">Otros</h3>
 <h3 id="otros-492">Otros</h3>
+<h3 id="otros-493">Otros</h3>
+<ul>
+<li><ul>
+<li>HackTheBox https://app.hackthebox.com/teams/overview/6429</li>
+</ul></li>
+</ul>
+<h3 id="otros-494">Otros</h3>
+<h3 id="otros-495">Otros</h3>
+<ul>
+<li><ul>
+<li>HackTheBox https://app.hackthebox.com/teams/overview/6429</li>
+</ul></li>
+</ul>
+<h3 id="otros-496">Otros</h3>
+<h3 id="otros-497">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429
 newhashcat</li>
 </ul></li>
 </ul>
-<h3 id="otros-493">Otros</h3>
-<h3 id="otros-494">Otros</h3>
+<h3 id="otros-498">Otros</h3>
+<h3 id="otros-499">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 new
@@ -11084,8 +11340,8 @@ comands conptyshell better command nc noew with tty treatment createhash
 better now with recognice automate download_resource</li>
 </ul></li>
 </ul>
-<h3 id="otros-495">Otros</h3>
-<h3 id="otros-496">Otros</h3>
+<h3 id="otros-500">Otros</h3>
+<h3 id="otros-501">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 another
@@ -11094,40 +11350,40 @@ not unban so i can unlck my writeups and spoiler spoiler spoiler alert
 xD</li>
 </ul></li>
 </ul>
-<h3 id="otros-497">Otros</h3>
-<h3 id="otros-498">Otros</h3>
+<h3 id="otros-502">Otros</h3>
+<h3 id="otros-503">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 was banned
 from htb to spoiler jajjajaj xD</li>
 </ul></li>
 </ul>
-<h3 id="otros-499">Otros</h3>
-<h3 id="otros-500">Otros</h3>
+<h3 id="otros-504">Otros</h3>
+<h3 id="otros-505">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 msf
 command</li>
 </ul></li>
 </ul>
-<h3 id="otros-501">Otros</h3>
-<h3 id="otros-502">Otros</h3>
-<ul>
-<li><ul>
-<li>HackTheBox https://app.hackthebox.com/teams/overview/6429 scripts to
-try attac cammeras not work with my cammera yet xD</li>
-</ul></li>
-</ul>
-<h3 id="otros-503">Otros</h3>
-<h3 id="otros-504">Otros</h3>
-<ul>
-<li><ul>
-<li>HackTheBox https://app.hackthebox.com/teams/overview/6429 scripts to
-try attac cammeras not work with my cammera yet xD</li>
-</ul></li>
-</ul>
-<h3 id="otros-505">Otros</h3>
 <h3 id="otros-506">Otros</h3>
+<h3 id="otros-507">Otros</h3>
+<ul>
+<li><ul>
+<li>HackTheBox https://app.hackthebox.com/teams/overview/6429 scripts to
+try attac cammeras not work with my cammera yet xD</li>
+</ul></li>
+</ul>
+<h3 id="otros-508">Otros</h3>
+<h3 id="otros-509">Otros</h3>
+<ul>
+<li><ul>
+<li>HackTheBox https://app.hackthebox.com/teams/overview/6429 scripts to
+try attac cammeras not work with my cammera yet xD</li>
+</ul></li>
+</ul>
+<h3 id="otros-510">Otros</h3>
+<h3 id="otros-511">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 new
@@ -11135,24 +11391,24 @@ commands ignorearp ignoreicmp acknowledgearp acknowledgeicmp ports
 cports</li>
 </ul></li>
 </ul>
-<h3 id="otros-507">Otros</h3>
-<h3 id="otros-508">Otros</h3>
+<h3 id="otros-512">Otros</h3>
+<h3 id="otros-513">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 clean
 command to clean up the mess and pwn the next machine :)</li>
 </ul></li>
 </ul>
-<h3 id="otros-509">Otros</h3>
-<h3 id="otros-510">Otros</h3>
+<h3 id="otros-514">Otros</h3>
+<h3 id="otros-515">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 wfuzz
 commands pwd, sh</li>
 </ul></li>
 </ul>
-<h3 id="otros-511">Otros</h3>
-<h3 id="otros-512">Otros</h3>
+<h3 id="otros-516">Otros</h3>
+<h3 id="otros-517">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 wfuzz
@@ -11160,72 +11416,72 @@ command now search subdomains with wfuzz sub domain.htb new commands nc,
 vpn, rev, banner :D</li>
 </ul></li>
 </ul>
-<h3 id="otros-513">Otros</h3>
-<h3 id="otros-514">Otros</h3>
+<h3 id="otros-518">Otros</h3>
+<h3 id="otros-519">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 New Colors
 :D</li>
 </ul></li>
 </ul>
-<h3 id="otros-515">Otros</h3>
-<h3 id="otros-516">Otros</h3>
+<h3 id="otros-520">Otros</h3>
+<h3 id="otros-521">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 adding run
 script to run lazyown with virtual env activated to avoid errors</li>
 </ul></li>
 </ul>
-<h3 id="otros-517">Otros</h3>
-<h3 id="otros-518">Otros</h3>
+<h3 id="otros-522">Otros</h3>
+<h3 id="otros-523">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 adding
 alias to exit as q :)</li>
 </ul></li>
 </ul>
-<h3 id="otros-519">Otros</h3>
-<h3 id="otros-520">Otros</h3>
+<h3 id="otros-524">Otros</h3>
+<h3 id="otros-525">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 adding
 alias to commands its una shulada</li>
 </ul></li>
 </ul>
-<h3 id="otros-521">Otros</h3>
-<h3 id="otros-522">Otros</h3>
+<h3 id="otros-526">Otros</h3>
+<h3 id="otros-527">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 some love
 to list command :D</li>
 </ul></li>
 </ul>
-<h3 id="otros-523">Otros</h3>
-<h3 id="otros-524">Otros</h3>
+<h3 id="otros-528">Otros</h3>
+<h3 id="otros-529">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 some love
 in form of colored strings :D</li>
 </ul></li>
 </ul>
-<h3 id="otros-525">Otros</h3>
-<h3 id="otros-526">Otros</h3>
+<h3 id="otros-530">Otros</h3>
+<h3 id="otros-531">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 some love
 to some prints :)</li>
 </ul></li>
 </ul>
-<h3 id="otros-527">Otros</h3>
-<h3 id="otros-528">Otros</h3>
+<h3 id="otros-532">Otros</h3>
+<h3 id="otros-533">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 new
 command py3ttyup to upgrade to tty your rev shell :)</li>
 </ul></li>
 </ul>
-<h3 id="otros-529">Otros</h3>
-<h3 id="otros-530">Otros</h3>
+<h3 id="otros-534">Otros</h3>
+<h3 id="otros-535">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 new
@@ -11234,8 +11490,8 @@ where lazyown dump scripts like revertshells, webshells, etc. and some
 fixperms :)</li>
 </ul></li>
 </ul>
-<h3 id="otros-531">Otros</h3>
-<h3 id="otros-532">Otros</h3>
+<h3 id="otros-536">Otros</h3>
+<h3 id="otros-537">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 new
@@ -11243,120 +11499,120 @@ commands ip www to show ips and start webserver at sessions directory
 where lazyown dump scripts like revertshells, webshells, etc.</li>
 </ul></li>
 </ul>
-<h3 id="otros-533">Otros</h3>
-<h3 id="otros-534">Otros</h3>
+<h3 id="otros-538">Otros</h3>
+<h3 id="otros-539">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 solarlab
 pwned :D new machine MagicGardens</li>
 </ul></li>
 </ul>
-<h3 id="otros-535">Otros</h3>
-<h3 id="otros-536">Otros</h3>
+<h3 id="otros-540">Otros</h3>
+<h3 id="otros-541">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 new
 machine solarlab :D</li>
 </ul></li>
 </ul>
-<h3 id="otros-537">Otros</h3>
-<h3 id="otros-538">Otros</h3>
+<h3 id="otros-542">Otros</h3>
+<h3 id="otros-543">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 new
 revshell.c and machine powned xD axlle hard</li>
 </ul></li>
 </ul>
-<h3 id="otros-539">Otros</h3>
-<h3 id="otros-540">Otros</h3>
+<h3 id="otros-544">Otros</h3>
+<h3 id="otros-545">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 new
 commands createrevshell y createwinrevshell</li>
 </ul></li>
 </ul>
-<h3 id="otros-541">Otros</h3>
-<h3 id="otros-542">Otros</h3>
+<h3 id="otros-546">Otros</h3>
+<h3 id="otros-547">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 FormulaX
 pwned :)</li>
 </ul></li>
 </ul>
-<h3 id="otros-543">Otros</h3>
-<h3 id="otros-544">Otros</h3>
+<h3 id="otros-548">Otros</h3>
+<h3 id="otros-549">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 new
 machine Freelancer Pwned :P new new new FormulaX :)</li>
 </ul></li>
 </ul>
-<h3 id="otros-545">Otros</h3>
-<h3 id="otros-546">Otros</h3>
+<h3 id="otros-550">Otros</h3>
+<h3 id="otros-551">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 new
 machine Freelancer :)</li>
 </ul></li>
 </ul>
-<h3 id="otros-547">Otros</h3>
-<h3 id="otros-548">Otros</h3>
+<h3 id="otros-552">Otros</h3>
+<h3 id="otros-553">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 new
 machine Skyfall Linux insane machine, Blazorized was powned :D</li>
 </ul></li>
 </ul>
-<h3 id="otros-549">Otros</h3>
-<h3 id="otros-550">Otros</h3>
+<h3 id="otros-554">Otros</h3>
+<h3 id="otros-555">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 new
 machine Blazorized.htb</li>
 </ul></li>
 </ul>
-<h3 id="otros-551">Otros</h3>
-<h3 id="otros-552">Otros</h3>
+<h3 id="otros-556">Otros</h3>
+<h3 id="otros-557">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 new
 machine Greenhorn.htb pwned</li>
 </ul></li>
 </ul>
-<h3 id="otros-553">Otros</h3>
-<h3 id="otros-554">Otros</h3>
+<h3 id="otros-558">Otros</h3>
+<h3 id="otros-559">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 new
 machine Greenhorn.htb</li>
 </ul></li>
 </ul>
-<h3 id="otros-555">Otros</h3>
-<h3 id="otros-556">Otros</h3>
+<h3 id="otros-560">Otros</h3>
+<h3 id="otros-561">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 new tool
 in external :) https://github.com/BloodHoundAD/SharpHound.git :)</li>
 </ul></li>
 </ul>
-<h3 id="otros-557">Otros</h3>
-<h3 id="otros-558">Otros</h3>
+<h3 id="otros-562">Otros</h3>
+<h3 id="otros-563">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 new
 MAchine Blazorized.htb :)</li>
 </ul></li>
 </ul>
-<h3 id="otros-559">Otros</h3>
-<h3 id="otros-560">Otros</h3>
+<h3 id="otros-564">Otros</h3>
+<h3 id="otros-565">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 new
 MAchine :)</li>
 </ul></li>
 </ul>
-<h3 id="otros-561">Otros</h3>
-<h3 id="otros-562">Otros</h3>
+<h3 id="otros-566">Otros</h3>
+<h3 id="otros-567">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 New
@@ -11364,24 +11620,24 @@ command to copy the exploits from exploitdb use cp
 relative/path/show/in/searchexploit when you use the flag -x :)</li>
 </ul></li>
 </ul>
-<h3 id="otros-563">Otros</h3>
-<h3 id="otros-564">Otros</h3>
+<h3 id="otros-568">Otros</h3>
+<h3 id="otros-569">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 New
 command dsnmap :)</li>
 </ul></li>
 </ul>
-<h3 id="otros-565">Otros</h3>
-<h3 id="otros-566">Otros</h3>
+<h3 id="otros-570">Otros</h3>
+<h3 id="otros-571">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 New
 machine Runner.htb</li>
 </ul></li>
 </ul>
-<h3 id="otros-567">Otros</h3>
-<h3 id="otros-568">Otros</h3>
+<h3 id="otros-572">Otros</h3>
+<h3 id="otros-573">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 New
@@ -11389,223 +11645,223 @@ command :) new resources in sessions, new module lazypsexec bruteforce
 :)</li>
 </ul></li>
 </ul>
-<h3 id="otros-569">Otros</h3>
-<h3 id="otros-570">Otros</h3>
+<h3 id="otros-574">Otros</h3>
+<h3 id="otros-575">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 New
 command :) samrdump</li>
 </ul></li>
 </ul>
-<h3 id="otros-571">Otros</h3>
-<h3 id="otros-572">Otros</h3>
+<h3 id="otros-576">Otros</h3>
+<h3 id="otros-577">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429</li>
 </ul></li>
 </ul>
-<h3 id="otros-573">Otros</h3>
-<h3 id="otros-574">Otros</h3>
+<h3 id="otros-578">Otros</h3>
+<h3 id="otros-579">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 news
 script bruteforce on modules :) :)</li>
 </ul></li>
 </ul>
-<h3 id="otros-575">Otros</h3>
-<h3 id="otros-576">Otros</h3>
+<h3 id="otros-580">Otros</h3>
+<h3 id="otros-581">Otros</h3>
 <ul>
 <li><ul>
 <li>HackTheBox https://app.hackthebox.com/teams/overview/6429 new
 command dnsenum :)</li>
 </ul></li>
 </ul>
-<h3 id="otros-577">Otros</h3>
-<h3 id="otros-578">Otros</h3>
-<ul>
-<li><ul>
-<li>join to our team https://app.hackthebox.com/teams/overview/6429 new
-command dig</li>
-</ul></li>
-</ul>
-<h3 id="otros-579">Otros</h3>
-<h3 id="otros-580">Otros</h3>
-<ul>
-<li><ul>
-<li>join to our team https://app.hackthebox.com/teams/overview/6429 new
-command dig</li>
-</ul></li>
-</ul>
-<h3 id="otros-581">Otros</h3>
 <h3 id="otros-582">Otros</h3>
+<h3 id="otros-583">Otros</h3>
+<ul>
+<li><ul>
+<li>join to our team https://app.hackthebox.com/teams/overview/6429 new
+command dig</li>
+</ul></li>
+</ul>
+<h3 id="otros-584">Otros</h3>
+<h3 id="otros-585">Otros</h3>
+<ul>
+<li><ul>
+<li>join to our team https://app.hackthebox.com/teams/overview/6429 new
+command dig</li>
+</ul></li>
+</ul>
+<h3 id="otros-586">Otros</h3>
+<h3 id="otros-587">Otros</h3>
 <ul>
 <li><ul>
 <li>Update README.md</li>
 </ul></li>
 </ul>
-<h3 id="otros-583">Otros</h3>
-<h3 id="otros-584">Otros</h3>
+<h3 id="otros-588">Otros</h3>
+<h3 id="otros-589">Otros</h3>
 <ul>
 <li><ul>
 <li>join to our team https://app.hackthebox.com/teams/overview/6429 new
 commands :)</li>
 </ul></li>
 </ul>
-<h3 id="otros-585">Otros</h3>
-<h3 id="otros-586">Otros</h3>
+<h3 id="otros-590">Otros</h3>
+<h3 id="otros-591">Otros</h3>
 <ul>
 <li><ul>
 <li>Update lazyproxy.py</li>
 </ul></li>
 </ul>
-<h3 id="otros-587">Otros</h3>
-<h3 id="otros-588">Otros</h3>
+<h3 id="otros-592">Otros</h3>
+<h3 id="otros-593">Otros</h3>
 <ul>
 <li><ul>
 <li>join to our team https://app.hackthebox.com/teams/overview/6429 new
 commands :) to se use tab tab or ?</li>
 </ul></li>
 </ul>
-<h3 id="otros-589">Otros</h3>
-<h3 id="otros-590">Otros</h3>
+<h3 id="otros-594">Otros</h3>
+<h3 id="otros-595">Otros</h3>
 <ul>
 <li><ul>
 <li>join to our team https://app.hackthebox.com/teams/overview/6429 and
 new payloads in sessions directory :) :) :)</li>
 </ul></li>
 </ul>
-<h3 id="otros-591">Otros</h3>
-<h3 id="otros-592">Otros</h3>
+<h3 id="otros-596">Otros</h3>
+<h3 id="otros-597">Otros</h3>
 <ul>
 <li><ul>
 <li>join to our team https://app.hackthebox.com/teams/overview/6429 and
 new exploits :)</li>
 </ul></li>
 </ul>
-<h3 id="otros-593">Otros</h3>
-<h3 id="otros-594">Otros</h3>
+<h3 id="otros-598">Otros</h3>
+<h3 id="otros-599">Otros</h3>
 <ul>
 <li><ul>
 <li>join to our team https://app.hackthebox.com/teams/overview/6429 and
 new command run lazywerkzeugdebug</li>
 </ul></li>
 </ul>
-<h3 id="otros-595">Otros</h3>
-<h3 id="otros-596">Otros</h3>
-<ul>
-<li><ul>
-<li>join to our team https://app.hackthebox.com/teams/overview/6429</li>
-</ul></li>
-</ul>
-<h3 id="otros-597">Otros</h3>
-<h3 id="otros-598">Otros</h3>
-<ul>
-<li><ul>
-<li>join to our team https://app.hackthebox.com/teams/overview/6429</li>
-</ul></li>
-</ul>
-<h3 id="otros-599">Otros</h3>
 <h3 id="otros-600">Otros</h3>
+<h3 id="otros-601">Otros</h3>
+<ul>
+<li><ul>
+<li>join to our team https://app.hackthebox.com/teams/overview/6429</li>
+</ul></li>
+</ul>
+<h3 id="otros-602">Otros</h3>
+<h3 id="otros-603">Otros</h3>
+<ul>
+<li><ul>
+<li>join to our team https://app.hackthebox.com/teams/overview/6429</li>
+</ul></li>
+</ul>
+<h3 id="otros-604">Otros</h3>
+<h3 id="otros-605">Otros</h3>
 <ul>
 <li><ul>
 <li>news exploits</li>
 </ul></li>
 </ul>
-<h3 id="otros-601">Otros</h3>
-<h3 id="otros-602">Otros</h3>
+<h3 id="otros-606">Otros</h3>
+<h3 id="otros-607">Otros</h3>
 <ul>
 <li><ul>
 <li>new hashcat :D</li>
 </ul></li>
 </ul>
-<h3 id="otros-603">Otros</h3>
-<h3 id="otros-604">Otros</h3>
+<h3 id="otros-608">Otros</h3>
+<h3 id="otros-609">Otros</h3>
 <ul>
 <li><ul>
 <li>new command dirsearch :D</li>
 </ul></li>
 </ul>
-<h3 id="otros-605">Otros</h3>
-<h3 id="otros-606">Otros</h3>
+<h3 id="otros-610">Otros</h3>
+<h3 id="otros-611">Otros</h3>
 <ul>
 <li><ul>
 <li>new proxy better :D</li>
 </ul></li>
 </ul>
-<h3 id="otros-607">Otros</h3>
-<h3 id="otros-608">Otros</h3>
+<h3 id="otros-612">Otros</h3>
+<h3 id="otros-613">Otros</h3>
 <ul>
 <li><ul>
 <li>new commands createhash, createwebshell, sqlmap, proxy,
 john2hash</li>
 </ul></li>
 </ul>
-<h3 id="otros-609">Otros</h3>
-<h3 id="otros-610">Otros</h3>
+<h3 id="otros-614">Otros</h3>
+<h3 id="otros-615">Otros</h3>
 <ul>
 <li><ul>
 <li>little discover .sh</li>
 </ul></li>
 </ul>
-<h3 id="otros-611">Otros</h3>
-<h3 id="otros-612">Otros</h3>
+<h3 id="otros-616">Otros</h3>
+<h3 id="otros-617">Otros</h3>
 <ul>
 <li><ul>
 <li>Create internal_discover.sh</li>
 </ul></li>
 </ul>
-<h3 id="otros-613">Otros</h3>
-<h3 id="otros-614">Otros</h3>
+<h3 id="otros-618">Otros</h3>
+<h3 id="otros-619">Otros</h3>
 <ul>
 <li><ul>
 <li>1 new exploit</li>
 </ul></li>
 </ul>
-<h3 id="otros-615">Otros</h3>
-<h3 id="otros-616">Otros</h3>
+<h3 id="otros-620">Otros</h3>
+<h3 id="otros-621">Otros</h3>
 <ul>
 <li><ul>
 <li>Update README.md</li>
 </ul></li>
 </ul>
-<h3 id="otros-617">Otros</h3>
-<h3 id="otros-618">Otros</h3>
+<h3 id="otros-622">Otros</h3>
+<h3 id="otros-623">Otros</h3>
 <ul>
 <li><ul>
 <li>2 new exploit external :D working like a charm</li>
 </ul></li>
 </ul>
-<h3 id="otros-619">Otros</h3>
-<h3 id="otros-620">Otros</h3>
+<h3 id="otros-624">Otros</h3>
+<h3 id="otros-625">Otros</h3>
 <ul>
 <li><ul>
 <li>new exploit werkzeug in debug mode lettle retocated to run in
 python3 from searchsploit :D</li>
 </ul></li>
 </ul>
-<h3 id="otros-621">Otros</h3>
-<h3 id="otros-622">Otros</h3>
+<h3 id="otros-626">Otros</h3>
+<h3 id="otros-627">Otros</h3>
 <ul>
 <li><ul>
 <li>new command: exploits externals :D</li>
 </ul></li>
 </ul>
-<h3 id="otros-623">Otros</h3>
-<h3 id="otros-624">Otros</h3>
+<h3 id="otros-628">Otros</h3>
+<h3 id="otros-629">Otros</h3>
 <ul>
 <li><ul>
 <li>new command: smbmap whattomap ex: smbmap tmp :D</li>
 </ul></li>
 </ul>
-<h3 id="otros-625">Otros</h3>
-<h3 id="otros-626">Otros</h3>
+<h3 id="otros-630">Otros</h3>
+<h3 id="otros-631">Otros</h3>
 <ul>
 <li><ul>
 <li>go buster new parameter url to use url from payload not rhost</li>
 </ul></li>
 </ul>
-<h3 id="otros-627">Otros</h3>
-<h3 id="otros-628">Otros</h3>
+<h3 id="otros-632">Otros</h3>
+<h3 id="otros-633">Otros</h3>
 <ul>
 <li><ul>
 <li>parameter added to gospider url to use var url in payload not rhost
@@ -11613,66 +11869,66 @@ and add the command addhost host.ext to add the domain with rhost
 parameter to /etc/hosts not now to windows sistems sorry</li>
 </ul></li>
 </ul>
-<h3 id="otros-629">Otros</h3>
-<h3 id="otros-630">Otros</h3>
+<h3 id="otros-634">Otros</h3>
+<h3 id="otros-635">Otros</h3>
 <ul>
 <li><ul>
 <li>refactor global var rhost deleted other ones</li>
 </ul></li>
 </ul>
-<h3 id="otros-631">Otros</h3>
-<h3 id="otros-632">Otros</h3>
+<h3 id="otros-636">Otros</h3>
+<h3 id="otros-637">Otros</h3>
 <ul>
 <li><ul>
 <li>path hijacking add line to temp bash script</li>
 </ul></li>
 </ul>
-<h3 id="otros-633">Otros</h3>
-<h3 id="otros-634">Otros</h3>
+<h3 id="otros-638">Otros</h3>
+<h3 id="otros-639">Otros</h3>
 <ul>
 <li><ul>
 <li>new command: gospider :D</li>
 </ul></li>
 </ul>
-<h3 id="otros-635">Otros</h3>
-<h3 id="otros-636">Otros</h3>
+<h3 id="otros-640">Otros</h3>
+<h3 id="otros-641">Otros</h3>
 <ul>
 <li><ul>
 <li>new command: gobuster :D</li>
 </ul></li>
 </ul>
-<h3 id="otros-637">Otros</h3>
-<h3 id="otros-638">Otros</h3>
+<h3 id="otros-642">Otros</h3>
+<h3 id="otros-643">Otros</h3>
 <ul>
 <li><ul>
 <li>new command: wfuzz :D and you can add example a hide line option
 like # wfuzz –hl=9 to hide responses with long line to 9</li>
 </ul></li>
 </ul>
-<h3 id="otros-639">Otros</h3>
-<h3 id="otros-640">Otros</h3>
+<h3 id="otros-644">Otros</h3>
+<h3 id="otros-645">Otros</h3>
 <ul>
 <li><ul>
 <li>new command: run lazyssh77enum to enum using a wordlist and exploit
 foound searchsploit as openssh 7.7</li>
 </ul></li>
 </ul>
-<h3 id="otros-641">Otros</h3>
-<h3 id="otros-642">Otros</h3>
+<h3 id="otros-646">Otros</h3>
+<h3 id="otros-647">Otros</h3>
 <ul>
 <li><ul>
 <li>new command: whatweb :D</li>
 </ul></li>
 </ul>
-<h3 id="otros-643">Otros</h3>
-<h3 id="otros-644">Otros</h3>
+<h3 id="otros-648">Otros</h3>
+<h3 id="otros-649">Otros</h3>
 <ul>
 <li><ul>
 <li>new command: psexec :D</li>
 </ul></li>
 </ul>
-<h3 id="otros-645">Otros</h3>
-<h3 id="otros-646">Otros</h3>
+<h3 id="otros-650">Otros</h3>
+<h3 id="otros-651">Otros</h3>
 <ul>
 <li><ul>
 <li>smbclient command and exploit to enum ssh i used in a machine of
@@ -11680,269 +11936,269 @@ hackthebox to enum, i upload because i was lazy and dont deleted before
 xD</li>
 </ul></li>
 </ul>
-<h3 id="otros-647">Otros</h3>
-<h3 id="otros-648">Otros</h3>
+<h3 id="otros-652">Otros</h3>
+<h3 id="otros-653">Otros</h3>
 <ul>
 <li><ul>
 <li>Merge pull request #22 from grisuno/grisuno-patch-1</li>
 </ul></li>
 </ul>
-<h3 id="otros-649">Otros</h3>
-<h3 id="otros-650">Otros</h3>
+<h3 id="otros-654">Otros</h3>
+<h3 id="otros-655">Otros</h3>
 <ul>
 <li><ul>
 <li>Update README.md</li>
 </ul></li>
 </ul>
-<h3 id="otros-651">Otros</h3>
-<h3 id="otros-652">Otros</h3>
+<h3 id="otros-656">Otros</h3>
+<h3 id="otros-657">Otros</h3>
 <ul>
 <li><ul>
 <li>mariadb rce :)</li>
 </ul></li>
 </ul>
-<h3 id="otros-653">Otros</h3>
-<h3 id="otros-654">Otros</h3>
+<h3 id="otros-658">Otros</h3>
+<h3 id="otros-659">Otros</h3>
 <ul>
 <li><ul>
 <li>new command getseclist :D</li>
 </ul></li>
 </ul>
-<h3 id="otros-655">Otros</h3>
-<h3 id="otros-656">Otros</h3>
+<h3 id="otros-660">Otros</h3>
+<h3 id="otros-661">Otros</h3>
 <ul>
 <li><ul>
 <li>payload.json to play on hackthebox :D</li>
 </ul></li>
 </ul>
-<h3 id="otros-657">Otros</h3>
-<h3 id="otros-658">Otros</h3>
+<h3 id="otros-662">Otros</h3>
+<h3 id="otros-663">Otros</h3>
 <ul>
 <li><ul>
 <li>port a python del exploit archiconocido de meta exploit vsftpd
 3.0.3</li>
 </ul></li>
 </ul>
-<h3 id="otros-659">Otros</h3>
-<h3 id="otros-660">Otros</h3>
+<h3 id="otros-664">Otros</h3>
+<h3 id="otros-665">Otros</h3>
 <ul>
 <li><ul>
 <li>shell payload in python generated by msfvenom automated by lazyown
 framework ;)</li>
 </ul></li>
 </ul>
-<h3 id="otros-661">Otros</h3>
-<h3 id="otros-662">Otros</h3>
+<h3 id="otros-666">Otros</h3>
+<h3 id="otros-667">Otros</h3>
 <ul>
 <li><ul>
 <li>new commit to check if alsr is activated in the kernel</li>
 </ul></li>
 </ul>
-<h3 id="otros-663">Otros</h3>
-<h3 id="otros-664">Otros</h3>
+<h3 id="otros-668">Otros</h3>
+<h3 id="otros-669">Otros</h3>
 <ul>
 <li><ul>
 <li>deleted shells generated by the script</li>
 </ul></li>
 </ul>
-<h3 id="otros-665">Otros</h3>
-<h3 id="otros-666">Otros</h3>
+<h3 id="otros-670">Otros</h3>
+<h3 id="otros-671">Otros</h3>
 <ul>
 <li><ul>
 <li>upx to shells generated by msfvenom automated by lazyown framework
 ;)</li>
 </ul></li>
 </ul>
-<h3 id="otros-667">Otros</h3>
-<h3 id="otros-668">Otros</h3>
+<h3 id="otros-672">Otros</h3>
+<h3 id="otros-673">Otros</h3>
 <ul>
 <li><ul>
 <li>new comand arpscan</li>
 </ul></li>
 </ul>
-<h3 id="otros-669">Otros</h3>
-<h3 id="otros-670">Otros</h3>
+<h3 id="otros-674">Otros</h3>
+<h3 id="otros-675">Otros</h3>
 <ul>
 <li><ul>
 <li>new path to diccionary to run by default in parrot</li>
 </ul></li>
 </ul>
-<h3 id="otros-671">Otros</h3>
-<h3 id="otros-672">Otros</h3>
+<h3 id="otros-676">Otros</h3>
+<h3 id="otros-677">Otros</h3>
 <ul>
 <li><ul>
 <li>new gitignore</li>
 </ul></li>
 </ul>
-<h3 id="otros-673">Otros</h3>
-<h3 id="otros-674">Otros</h3>
+<h3 id="otros-678">Otros</h3>
+<h3 id="otros-679">Otros</h3>
 <ul>
 <li><ul>
 <li>cambios en el miniburp</li>
 </ul></li>
 </ul>
-<h3 id="otros-675">Otros</h3>
-<h3 id="otros-676">Otros</h3>
+<h3 id="otros-680">Otros</h3>
+<h3 id="otros-681">Otros</h3>
 <ul>
 <li><ul>
 <li>Update index.html</li>
 </ul></li>
 </ul>
-<h3 id="otros-677">Otros</h3>
-<h3 id="otros-678">Otros</h3>
+<h3 id="otros-682">Otros</h3>
+<h3 id="otros-683">Otros</h3>
 <ul>
 <li><ul>
 <li>Update install.sh</li>
 </ul></li>
 </ul>
-<h3 id="otros-679">Otros</h3>
-<h3 id="otros-680">Otros</h3>
-<ul>
-<li><ul>
-<li>herramienta para ofuscar payloads y es usada en lazylogpoisoner ;)
-pronto extendida al resto de payloads ;)</li>
-</ul></li>
-</ul>
-<h3 id="otros-681">Otros</h3>
-<h3 id="otros-682">Otros</h3>
-<ul>
-<li><ul>
-<li>herramienta para ofuscar payloads y es usada en lazylogpoisoner ;)
-pronto extendida al resto de payloads ;)</li>
-</ul></li>
-</ul>
-<h3 id="otros-683">Otros</h3>
 <h3 id="otros-684">Otros</h3>
-<ul>
-<li><ul>
-<li>herramienta para ofuscar payloads y es usada en lazylogpoisoner ;)
-pronto extendida al resto de payloads ;)</li>
-</ul></li>
-</ul>
 <h3 id="otros-685">Otros</h3>
+<ul>
+<li><ul>
+<li>herramienta para ofuscar payloads y es usada en lazylogpoisoner ;)
+pronto extendida al resto de payloads ;)</li>
+</ul></li>
+</ul>
 <h3 id="otros-686">Otros</h3>
-<ul>
-<li><ul>
-<li>herramienta para ofuscar payloads y es usada en lazylogpoisoner ;)
-pronto extendida al resto de payloads ;)</li>
-</ul></li>
-</ul>
 <h3 id="otros-687">Otros</h3>
-<h3 id="otros-688">Otros</h3>
 <ul>
 <li><ul>
 <li>herramienta para ofuscar payloads y es usada en lazylogpoisoner ;)
 pronto extendida al resto de payloads ;)</li>
 </ul></li>
 </ul>
+<h3 id="otros-688">Otros</h3>
 <h3 id="otros-689">Otros</h3>
+<ul>
+<li><ul>
+<li>herramienta para ofuscar payloads y es usada en lazylogpoisoner ;)
+pronto extendida al resto de payloads ;)</li>
+</ul></li>
+</ul>
 <h3 id="otros-690">Otros</h3>
-<ul>
-<li><ul>
-<li>lazymitmap.py</li>
-</ul></li>
-</ul>
 <h3 id="otros-691">Otros</h3>
+<ul>
+<li><ul>
+<li>herramienta para ofuscar payloads y es usada en lazylogpoisoner ;)
+pronto extendida al resto de payloads ;)</li>
+</ul></li>
+</ul>
 <h3 id="otros-692">Otros</h3>
-<ul>
-<li><ul>
-<li>lazymitmap.py</li>
-</ul></li>
-</ul>
 <h3 id="otros-693">Otros</h3>
+<ul>
+<li><ul>
+<li>herramienta para ofuscar payloads y es usada en lazylogpoisoner ;)
+pronto extendida al resto de payloads ;)</li>
+</ul></li>
+</ul>
 <h3 id="otros-694">Otros</h3>
+<h3 id="otros-695">Otros</h3>
 <ul>
 <li><ul>
 <li>lazymitmap.py</li>
 </ul></li>
 </ul>
-<h3 id="otros-695">Otros</h3>
 <h3 id="otros-696">Otros</h3>
+<h3 id="otros-697">Otros</h3>
+<ul>
+<li><ul>
+<li>lazymitmap.py</li>
+</ul></li>
+</ul>
+<h3 id="otros-698">Otros</h3>
+<h3 id="otros-699">Otros</h3>
+<ul>
+<li><ul>
+<li>lazymitmap.py</li>
+</ul></li>
+</ul>
+<h3 id="otros-700">Otros</h3>
+<h3 id="otros-701">Otros</h3>
 <ul>
 <li><ul>
 <li>Update lazycurl.sh</li>
 </ul></li>
 </ul>
-<h3 id="otros-697">Otros</h3>
-<h3 id="otros-698">Otros</h3>
+<h3 id="otros-702">Otros</h3>
+<h3 id="otros-703">Otros</h3>
 <ul>
 <li><ul>
 <li>Update README.md</li>
 </ul></li>
 </ul>
-<h3 id="otros-699">Otros</h3>
-<h3 id="otros-700">Otros</h3>
+<h3 id="otros-704">Otros</h3>
+<h3 id="otros-705">Otros</h3>
 <ul>
 <li><ul>
 <li>lazycurl.sh</li>
 </ul></li>
 </ul>
-<h3 id="otros-701">Otros</h3>
-<h3 id="otros-702">Otros</h3>
+<h3 id="otros-706">Otros</h3>
+<h3 id="otros-707">Otros</h3>
 <ul>
 <li><ul>
 <li>Update install.sh</li>
 </ul></li>
 </ul>
-<h3 id="otros-703">Otros</h3>
-<h3 id="otros-704">Otros</h3>
+<h3 id="otros-708">Otros</h3>
+<h3 id="otros-709">Otros</h3>
 <ul>
 <li><ul>
 <li>Update requirements.txt</li>
 </ul></li>
 </ul>
-<h3 id="otros-705">Otros</h3>
-<h3 id="otros-706">Otros</h3>
+<h3 id="otros-710">Otros</h3>
+<h3 id="otros-711">Otros</h3>
 <ul>
 <li><ul>
 <li>Merge pull request #21 from grisuno/grisuno-patch-1</li>
 </ul></li>
 </ul>
-<h3 id="otros-707">Otros</h3>
-<h3 id="otros-708">Otros</h3>
+<h3 id="otros-712">Otros</h3>
+<h3 id="otros-713">Otros</h3>
 <ul>
 <li><ul>
 <li>Update CNAME</li>
 </ul></li>
 </ul>
-<h3 id="otros-709">Otros</h3>
-<h3 id="otros-710">Otros</h3>
+<h3 id="otros-714">Otros</h3>
+<h3 id="otros-715">Otros</h3>
 <ul>
 <li><ul>
 <li>Update install.sh</li>
 </ul></li>
 </ul>
-<h3 id="otros-711">Otros</h3>
-<h3 id="otros-712">Otros</h3>
+<h3 id="otros-716">Otros</h3>
+<h3 id="otros-717">Otros</h3>
 <ul>
 <li><ul>
 <li>Create CNAME</li>
 </ul></li>
 </ul>
-<h3 id="otros-713">Otros</h3>
-<h3 id="otros-714">Otros</h3>
+<h3 id="otros-718">Otros</h3>
+<h3 id="otros-719">Otros</h3>
 <ul>
 <li><ul>
 <li>metatags to seo</li>
 </ul></li>
 </ul>
-<h3 id="otros-715">Otros</h3>
-<h3 id="otros-716">Otros</h3>
+<h3 id="otros-720">Otros</h3>
+<h3 id="otros-721">Otros</h3>
 <ul>
 <li><ul>
 <li>Lazy ntlmv2 firstaproach using in hashes.txt the ouput smbserver
 command when the conection is established</li>
 </ul></li>
 </ul>
-<h3 id="otros-717">Otros</h3>
-<h3 id="otros-718">Otros</h3>
+<h3 id="otros-722">Otros</h3>
+<h3 id="otros-723">Otros</h3>
 <ul>
 <li><ul>
 <li>Lazy .gitignore</li>
 </ul></li>
 </ul>
-<h3 id="otros-719">Otros</h3>
-<h3 id="otros-720">Otros</h3>
+<h3 id="otros-724">Otros</h3>
+<h3 id="otros-725">Otros</h3>
 <ul>
 <li><ul>
 <li>Lazy get smbserver with impacket :) and then you can sudo
@@ -11950,1354 +12206,1354 @@ impacket-smbserver smbfolder /home/gris/tools/LazyOwn -smb2support with
 simple smbserver in LazyOwn console</li>
 </ul></li>
 </ul>
-<h3 id="otros-721">Otros</h3>
-<h3 id="otros-722">Otros</h3>
+<h3 id="otros-726">Otros</h3>
+<h3 id="otros-727">Otros</h3>
 <ul>
 <li><ul>
 <li>LAzy get capabilities :P</li>
 </ul></li>
 </ul>
-<h3 id="otros-723">Otros</h3>
-<h3 id="otros-724">Otros</h3>
+<h3 id="otros-728">Otros</h3>
+<h3 id="otros-729">Otros</h3>
 <ul>
 <li><ul>
 <li>LazyOwn FTP sniff prety messages :)</li>
 </ul></li>
 </ul>
-<h3 id="otros-725">Otros</h3>
-<h3 id="otros-726">Otros</h3>
+<h3 id="otros-730">Otros</h3>
+<h3 id="otros-731">Otros</h3>
 <ul>
 <li><ul>
 <li>LazyOwn keygen to generate keys to use in payload.json to cypher the
 conections</li>
 </ul></li>
 </ul>
-<h3 id="otros-727">Otros</h3>
-<h3 id="otros-728">Otros</h3>
+<h3 id="otros-732">Otros</h3>
+<h3 id="otros-733">Otros</h3>
 <ul>
 <li><ul>
 <li>LazyOwn smbrelay</li>
 </ul></li>
 </ul>
-<h3 id="otros-729">Otros</h3>
-<h3 id="otros-730">Otros</h3>
+<h3 id="otros-734">Otros</h3>
+<h3 id="otros-735">Otros</h3>
 <ul>
 <li><ul>
 <li>LazyOwn http sniff :( not working fine yet</li>
 </ul></li>
 </ul>
-<h3 id="otros-731">Otros</h3>
-<h3 id="otros-732">Otros</h3>
+<h3 id="otros-736">Otros</h3>
+<h3 id="otros-737">Otros</h3>
 <ul>
 <li><ul>
 <li>Update README.md</li>
 </ul></li>
 </ul>
-<h3 id="otros-733">Otros</h3>
-<h3 id="otros-734">Otros</h3>
+<h3 id="otros-738">Otros</h3>
+<h3 id="otros-739">Otros</h3>
 <ul>
 <li><ul>
 <li>LazyOwn ftp sniff :)</li>
 </ul></li>
 </ul>
-<h3 id="otros-735">Otros</h3>
-<h3 id="otros-736">Otros</h3>
+<h3 id="otros-740">Otros</h3>
+<h3 id="otros-741">Otros</h3>
 <ul>
 <li><ul>
 <li>LazyOwn README</li>
 </ul></li>
 </ul>
-<h3 id="otros-737">Otros</h3>
-<h3 id="otros-738">Otros</h3>
+<h3 id="otros-742">Otros</h3>
+<h3 id="otros-743">Otros</h3>
 <ul>
 <li><ul>
 <li>LazyOwn ArpSpoofing README and banner :P [;,;]</li>
 </ul></li>
 </ul>
-<h3 id="otros-739">Otros</h3>
-<h3 id="otros-740">Otros</h3>
+<h3 id="otros-744">Otros</h3>
+<h3 id="otros-745">Otros</h3>
 <ul>
 <li><ul>
 <li>LazyOwn ArpSpoofing [;,;]</li>
 </ul></li>
 </ul>
-<h3 id="otros-741">Otros</h3>
-<h3 id="otros-742">Otros</h3>
+<h3 id="otros-746">Otros</h3>
+<h3 id="otros-747">Otros</h3>
 <ul>
 <li><ul>
 <li>Update README.md</li>
 </ul></li>
 </ul>
-<h3 id="otros-743">Otros</h3>
-<h3 id="otros-744">Otros</h3>
+<h3 id="otros-748">Otros</h3>
+<h3 id="otros-749">Otros</h3>
 <ul>
 <li><ul>
 <li>Lazy path hijacking :)</li>
 </ul></li>
 </ul>
-<h3 id="otros-745">Otros</h3>
-<h3 id="otros-746">Otros</h3>
+<h3 id="otros-750">Otros</h3>
+<h3 id="otros-751">Otros</h3>
 <ul>
 <li><ul>
 <li>Lazy msfvenom reverse :)</li>
 </ul></li>
 </ul>
-<h3 id="otros-747">Otros</h3>
-<h3 id="otros-748">Otros</h3>
+<h3 id="otros-752">Otros</h3>
+<h3 id="otros-753">Otros</h3>
 <ul>
 <li><ul>
 <li>Lazy Log more lfi list :)</li>
 </ul></li>
 </ul>
-<h3 id="otros-749">Otros</h3>
-<h3 id="otros-750">Otros</h3>
+<h3 id="otros-754">Otros</h3>
+<h3 id="otros-755">Otros</h3>
 <ul>
 <li><ul>
 <li>Lazy Log Poisonig more poison bro</li>
 </ul></li>
 </ul>
-<h3 id="otros-751">Otros</h3>
-<h3 id="otros-752">Otros</h3>
+<h3 id="otros-756">Otros</h3>
+<h3 id="otros-757">Otros</h3>
 <ul>
 <li><ul>
 <li>Lazy Log Poisonig in ssh first aproach</li>
 </ul></li>
 </ul>
-<h3 id="otros-753">Otros</h3>
-<h3 id="otros-754">Otros</h3>
-<ul>
-<li><ul>
-<li>Lazy Log Poisonig</li>
-</ul></li>
-</ul>
-<h3 id="otros-755">Otros</h3>
-<h3 id="otros-756">Otros</h3>
-<ul>
-<li><ul>
-<li>Lazy Log Poisonig</li>
-</ul></li>
-</ul>
-<h3 id="otros-757">Otros</h3>
 <h3 id="otros-758">Otros</h3>
+<h3 id="otros-759">Otros</h3>
 <ul>
 <li><ul>
 <li>Lazy Log Poisonig</li>
 </ul></li>
 </ul>
-<h3 id="otros-759">Otros</h3>
 <h3 id="otros-760">Otros</h3>
+<h3 id="otros-761">Otros</h3>
+<ul>
+<li><ul>
+<li>Lazy Log Poisonig</li>
+</ul></li>
+</ul>
+<h3 id="otros-762">Otros</h3>
+<h3 id="otros-763">Otros</h3>
+<ul>
+<li><ul>
+<li>Lazy Log Poisonig</li>
+</ul></li>
+</ul>
+<h3 id="otros-764">Otros</h3>
+<h3 id="otros-765">Otros</h3>
 <ul>
 <li><ul>
 <li>Delete lazylogpisoning.py</li>
 </ul></li>
 </ul>
-<h3 id="otros-761">Otros</h3>
-<h3 id="otros-762">Otros</h3>
+<h3 id="otros-766">Otros</h3>
+<h3 id="otros-767">Otros</h3>
 <ul>
 <li><ul>
 <li>Merge branch ‘main’ of https://github.com/grisuno/LazyOwn</li>
 </ul></li>
 </ul>
-<h3 id="otros-763">Otros</h3>
-<h3 id="otros-764">Otros</h3>
+<h3 id="otros-768">Otros</h3>
+<h3 id="otros-769">Otros</h3>
 <ul>
 <li><ul>
 <li>Update app.py</li>
 </ul></li>
 </ul>
-<h3 id="otros-765">Otros</h3>
-<h3 id="otros-766">Otros</h3>
+<h3 id="otros-770">Otros</h3>
+<h3 id="otros-771">Otros</h3>
 <ul>
 <li><ul>
 <li>Lazy Log Poisonig</li>
 </ul></li>
 </ul>
-<h3 id="otros-767">Otros</h3>
-<h3 id="otros-768">Otros</h3>
+<h3 id="otros-772">Otros</h3>
+<h3 id="otros-773">Otros</h3>
 <ul>
 <li><ul>
 <li>fix install</li>
 </ul></li>
 </ul>
-<h3 id="otros-769">Otros</h3>
-<h3 id="otros-770">Otros</h3>
+<h3 id="otros-774">Otros</h3>
+<h3 id="otros-775">Otros</h3>
 <ul>
 <li><ul>
 <li>Update lazypwnkit.py</li>
 </ul></li>
 </ul>
-<h3 id="otros-771">Otros</h3>
-<h3 id="otros-772">Otros</h3>
+<h3 id="otros-776">Otros</h3>
+<h3 id="otros-777">Otros</h3>
 <ul>
 <li><ul>
 <li>Create lazyssh.py</li>
 </ul></li>
 </ul>
-<h3 id="otros-773">Otros</h3>
-<h3 id="otros-774">Otros</h3>
+<h3 id="otros-778">Otros</h3>
+<h3 id="otros-779">Otros</h3>
 <ul>
 <li><ul>
 <li>#!/usr/bin/env python3 #_*_ coding: utf8 _*_</li>
 </ul></li>
 </ul>
-<h3 id="otros-775">Otros</h3>
-<h3 id="otros-776">Otros</h3>
+<h3 id="otros-780">Otros</h3>
+<h3 id="otros-781">Otros</h3>
 <ul>
 <li><ul>
 <li>Merge branch ‘main’ of https://github.com/grisuno/LazyOwn</li>
 </ul></li>
 </ul>
-<h3 id="otros-777">Otros</h3>
-<h3 id="otros-778">Otros</h3>
+<h3 id="otros-782">Otros</h3>
+<h3 id="otros-783">Otros</h3>
 <ul>
 <li><ul>
 <li>add #!/usr/bin/env python3 #_*_ coding: utf8 _*_</li>
 </ul></li>
 </ul>
-<h3 id="otros-779">Otros</h3>
-<h3 id="otros-780">Otros</h3>
+<h3 id="otros-784">Otros</h3>
+<h3 id="otros-785">Otros</h3>
 <ul>
 <li><ul>
 <li>Update README.md</li>
 </ul></li>
 </ul>
-<h3 id="otros-781">Otros</h3>
-<h3 id="otros-782">Otros</h3>
+<h3 id="otros-786">Otros</h3>
+<h3 id="otros-787">Otros</h3>
 <ul>
 <li><ul>
 <li>Update lazylfi2rce.py</li>
 </ul></li>
 </ul>
-<h3 id="otros-783">Otros</h3>
-<h3 id="otros-784">Otros</h3>
+<h3 id="otros-788">Otros</h3>
+<h3 id="otros-789">Otros</h3>
 <ul>
 <li><ul>
 <li>dic</li>
 </ul></li>
 </ul>
-<h3 id="otros-785">Otros</h3>
-<h3 id="otros-786">Otros</h3>
+<h3 id="otros-790">Otros</h3>
+<h3 id="otros-791">Otros</h3>
 <ul>
 <li><ul>
 <li>Update app.py</li>
 </ul></li>
 </ul>
-<h3 id="otros-787">Otros</h3>
-<h3 id="otros-788">Otros</h3>
+<h3 id="otros-792">Otros</h3>
+<h3 id="otros-793">Otros</h3>
 <ul>
 <li><ul>
 <li>dos2unix</li>
 </ul></li>
 </ul>
-<h3 id="otros-789">Otros</h3>
-<h3 id="otros-790">Otros</h3>
+<h3 id="otros-794">Otros</h3>
+<h3 id="otros-795">Otros</h3>
 <ul>
 <li><ul>
 <li>Update README.md</li>
 </ul></li>
 </ul>
-<h3 id="otros-791">Otros</h3>
-<h3 id="otros-792">Otros</h3>
+<h3 id="otros-796">Otros</h3>
+<h3 id="otros-797">Otros</h3>
 <ul>
 <li><ul>
 <li>better implementation</li>
 </ul></li>
 </ul>
-<h3 id="otros-793">Otros</h3>
-<h3 id="otros-794">Otros</h3>
+<h3 id="otros-798">Otros</h3>
+<h3 id="otros-799">Otros</h3>
 <ul>
 <li><ul>
 <li>tentativas de herramientas nuevas</li>
 </ul></li>
 </ul>
-<h3 id="otros-795">Otros</h3>
-<h3 id="otros-796">Otros</h3>
+<h3 id="otros-800">Otros</h3>
+<h3 id="otros-801">Otros</h3>
 <ul>
 <li><ul>
 <li>google analytics</li>
 </ul></li>
 </ul>
-<h3 id="otros-797">Otros</h3>
-<h3 id="otros-798">Otros</h3>
+<h3 id="otros-802">Otros</h3>
+<h3 id="otros-803">Otros</h3>
 <ul>
 <li><ul>
 <li>dos2unix</li>
 </ul></li>
 </ul>
-<h3 id="otros-799">Otros</h3>
-<h3 id="otros-800">Otros</h3>
+<h3 id="otros-804">Otros</h3>
+<h3 id="otros-805">Otros</h3>
 <ul>
 <li><ul>
 <li>Update index.html</li>
 </ul></li>
 </ul>
-<h3 id="otros-801">Otros</h3>
-<h3 id="otros-802">Otros</h3>
+<h3 id="otros-806">Otros</h3>
+<h3 id="otros-807">Otros</h3>
 <ul>
 <li><ul>
 <li>Merge branch ‘main’ of https://github.com/grisuno/LazyOwn</li>
 </ul></li>
 </ul>
-<h3 id="otros-803">Otros</h3>
-<h3 id="otros-804">Otros</h3>
+<h3 id="otros-808">Otros</h3>
+<h3 id="otros-809">Otros</h3>
 <ul>
 <li><ul>
 <li>Update .gitignore</li>
 </ul></li>
 </ul>
-<h3 id="otros-805">Otros</h3>
-<h3 id="otros-806">Otros</h3>
+<h3 id="otros-810">Otros</h3>
+<h3 id="otros-811">Otros</h3>
 <ul>
 <li><ul>
 <li>delete python librarys</li>
 </ul></li>
 </ul>
-<h3 id="otros-807">Otros</h3>
-<h3 id="otros-808">Otros</h3>
-<ul>
-<li><ul>
-<li>use of python3 env</li>
-</ul></li>
-</ul>
-<h3 id="otros-809">Otros</h3>
-<h3 id="otros-810">Otros</h3>
-<ul>
-<li><ul>
-<li>use of python3 env</li>
-</ul></li>
-</ul>
-<h3 id="otros-811">Otros</h3>
 <h3 id="otros-812">Otros</h3>
-<ul>
-<li><ul>
-<li>Update index.html</li>
-</ul></li>
-</ul>
 <h3 id="otros-813">Otros</h3>
+<ul>
+<li><ul>
+<li>use of python3 env</li>
+</ul></li>
+</ul>
 <h3 id="otros-814">Otros</h3>
-<ul>
-<li><ul>
-<li>Update index.html</li>
-</ul></li>
-</ul>
 <h3 id="otros-815">Otros</h3>
+<ul>
+<li><ul>
+<li>use of python3 env</li>
+</ul></li>
+</ul>
 <h3 id="otros-816">Otros</h3>
-<ul>
-<li><ul>
-<li>Update index.html</li>
-</ul></li>
-</ul>
 <h3 id="otros-817">Otros</h3>
+<ul>
+<li><ul>
+<li>Update index.html</li>
+</ul></li>
+</ul>
 <h3 id="otros-818">Otros</h3>
-<ul>
-<li><ul>
-<li>Update index.html</li>
-</ul></li>
-</ul>
 <h3 id="otros-819">Otros</h3>
-<h3 id="otros-820">Otros</h3>
 <ul>
 <li><ul>
 <li>Update index.html</li>
 </ul></li>
 </ul>
+<h3 id="otros-820">Otros</h3>
 <h3 id="otros-821">Otros</h3>
+<ul>
+<li><ul>
+<li>Update index.html</li>
+</ul></li>
+</ul>
 <h3 id="otros-822">Otros</h3>
+<h3 id="otros-823">Otros</h3>
+<ul>
+<li><ul>
+<li>Update index.html</li>
+</ul></li>
+</ul>
+<h3 id="otros-824">Otros</h3>
+<h3 id="otros-825">Otros</h3>
+<ul>
+<li><ul>
+<li>Update index.html</li>
+</ul></li>
+</ul>
+<h3 id="otros-826">Otros</h3>
+<h3 id="otros-827">Otros</h3>
 <ul>
 <li><ul>
 <li>Update README.md</li>
 </ul></li>
 </ul>
-<h3 id="otros-823">Otros</h3>
-<h3 id="otros-824">Otros</h3>
-<ul>
-<li><ul>
-<li>Update index.html</li>
-</ul></li>
-</ul>
-<h3 id="otros-825">Otros</h3>
-<h3 id="otros-826">Otros</h3>
-<ul>
-<li><ul>
-<li>Update index.html</li>
-</ul></li>
-</ul>
-<h3 id="otros-827">Otros</h3>
 <h3 id="otros-828">Otros</h3>
+<h3 id="otros-829">Otros</h3>
+<ul>
+<li><ul>
+<li>Update index.html</li>
+</ul></li>
+</ul>
+<h3 id="otros-830">Otros</h3>
+<h3 id="otros-831">Otros</h3>
+<ul>
+<li><ul>
+<li>Update index.html</li>
+</ul></li>
+</ul>
+<h3 id="otros-832">Otros</h3>
+<h3 id="otros-833">Otros</h3>
 <ul>
 <li><ul>
 <li>banner</li>
 </ul></li>
 </ul>
-<h3 id="otros-829">Otros</h3>
-<h3 id="otros-830">Otros</h3>
+<h3 id="otros-834">Otros</h3>
+<h3 id="otros-835">Otros</h3>
 <ul>
 <li><ul>
 <li>nueva shell zsh :)</li>
 </ul></li>
 </ul>
-<h3 id="otros-831">Otros</h3>
-<h3 id="otros-832">Otros</h3>
+<h3 id="otros-836">Otros</h3>
+<h3 id="otros-837">Otros</h3>
 <ul>
 <li><ul>
 <li>index nuevo</li>
 </ul></li>
 </ul>
-<h3 id="otros-833">Otros</h3>
-<h3 id="otros-834">Otros</h3>
+<h3 id="otros-838">Otros</h3>
+<h3 id="otros-839">Otros</h3>
 <ul>
 <li><ul>
 <li>Create index.html</li>
 </ul></li>
 </ul>
-<h3 id="otros-835">Otros</h3>
-<h3 id="otros-836">Otros</h3>
-<ul>
-<li><ul>
-<li>Update app.py</li>
-</ul></li>
-</ul>
-<h3 id="otros-837">Otros</h3>
-<h3 id="otros-838">Otros</h3>
-<ul>
-<li><ul>
-<li>Update app.py</li>
-</ul></li>
-</ul>
-<h3 id="otros-839">Otros</h3>
 <h3 id="otros-840">Otros</h3>
+<h3 id="otros-841">Otros</h3>
+<ul>
+<li><ul>
+<li>Update app.py</li>
+</ul></li>
+</ul>
+<h3 id="otros-842">Otros</h3>
+<h3 id="otros-843">Otros</h3>
+<ul>
+<li><ul>
+<li>Update app.py</li>
+</ul></li>
+</ul>
+<h3 id="otros-844">Otros</h3>
+<h3 id="otros-845">Otros</h3>
 <ul>
 <li><ul>
 <li>imlementacion de libreria pwn</li>
 </ul></li>
 </ul>
-<h3 id="otros-841">Otros</h3>
-<h3 id="otros-842">Otros</h3>
+<h3 id="otros-846">Otros</h3>
+<h3 id="otros-847">Otros</h3>
 <ul>
 <li><ul>
 <li>new tags</li>
 </ul></li>
 </ul>
-<h3 id="otros-843">Otros</h3>
-<h3 id="otros-844">Otros</h3>
+<h3 id="otros-848">Otros</h3>
+<h3 id="otros-849">Otros</h3>
 <ul>
 <li><ul>
 <li>Merge branch ‘main’ of https://github.com/grisuno/LazyOwn</li>
 </ul></li>
 </ul>
-<h3 id="otros-845">Otros</h3>
-<h3 id="otros-846">Otros</h3>
+<h3 id="otros-850">Otros</h3>
+<h3 id="otros-851">Otros</h3>
 <ul>
 <li><ul>
 <li>Create lazygalazy.py</li>
 </ul></li>
 </ul>
-<h3 id="otros-847">Otros</h3>
-<h3 id="otros-848">Otros</h3>
+<h3 id="otros-852">Otros</h3>
+<h3 id="otros-853">Otros</h3>
 <ul>
 <li><ul>
 <li>Update app.py</li>
 </ul></li>
 </ul>
-<h3 id="otros-849">Otros</h3>
-<h3 id="otros-850">Otros</h3>
+<h3 id="otros-854">Otros</h3>
+<h3 id="otros-855">Otros</h3>
 <ul>
 <li><ul>
 <li>Create lazyclonewars.sh</li>
 </ul></li>
 </ul>
-<h3 id="otros-851">Otros</h3>
-<h3 id="otros-852">Otros</h3>
+<h3 id="otros-856">Otros</h3>
+<h3 id="otros-857">Otros</h3>
 <ul>
 <li><ul>
 <li>Update README.md</li>
 </ul></li>
 </ul>
-<h3 id="otros-853">Otros</h3>
-<h3 id="otros-854">Otros</h3>
+<h3 id="otros-858">Otros</h3>
+<h3 id="otros-859">Otros</h3>
 <ul>
 <li><ul>
 <li>Merge branch ‘main’ of https://github.com/grisuno/LazyOwn</li>
 </ul></li>
 </ul>
-<h3 id="otros-855">Otros</h3>
-<h3 id="otros-856">Otros</h3>
+<h3 id="otros-860">Otros</h3>
+<h3 id="otros-861">Otros</h3>
 <ul>
 <li><ul>
 <li>Update lazywebshell.sh</li>
 </ul></li>
 </ul>
-<h3 id="otros-857">Otros</h3>
-<h3 id="otros-858">Otros</h3>
+<h3 id="otros-862">Otros</h3>
+<h3 id="otros-863">Otros</h3>
 <ul>
 <li><ul>
 <li>Update README.md</li>
 </ul></li>
 </ul>
-<h3 id="otros-859">Otros</h3>
-<h3 id="otros-860">Otros</h3>
+<h3 id="otros-864">Otros</h3>
+<h3 id="otros-865">Otros</h3>
 <ul>
 <li><ul>
 <li>Update app.py</li>
 </ul></li>
 </ul>
-<h3 id="otros-861">Otros</h3>
-<h3 id="otros-862">Otros</h3>
+<h3 id="otros-866">Otros</h3>
+<h3 id="otros-867">Otros</h3>
 <ul>
 <li><ul>
 <li>Create lazywebshell.sh</li>
 </ul></li>
 </ul>
-<h3 id="otros-863">Otros</h3>
-<h3 id="otros-864">Otros</h3>
+<h3 id="otros-868">Otros</h3>
+<h3 id="otros-869">Otros</h3>
 <ul>
 <li><ul>
 <li>mejora en la webshell de python</li>
 </ul></li>
 </ul>
-<h3 id="otros-865">Otros</h3>
-<h3 id="otros-866">Otros</h3>
+<h3 id="otros-870">Otros</h3>
+<h3 id="otros-871">Otros</h3>
 <ul>
 <li><ul>
 <li>webshells</li>
 </ul></li>
 </ul>
-<h3 id="otros-867">Otros</h3>
-<h3 id="otros-868">Otros</h3>
+<h3 id="otros-872">Otros</h3>
+<h3 id="otros-873">Otros</h3>
 <ul>
 <li><ul>
 <li>Merge branch ‘main’ of https://github.com/grisuno/LazyOwn</li>
 </ul></li>
 </ul>
-<h3 id="otros-869">Otros</h3>
-<h3 id="otros-870">Otros</h3>
+<h3 id="otros-874">Otros</h3>
+<h3 id="otros-875">Otros</h3>
 <ul>
 <li><ul>
 <li>comentarios necesarios</li>
 </ul></li>
 </ul>
-<h3 id="otros-871">Otros</h3>
-<h3 id="otros-872">Otros</h3>
+<h3 id="otros-876">Otros</h3>
+<h3 id="otros-877">Otros</h3>
 <ul>
 <li><ul>
 <li>Update README.md</li>
 </ul></li>
 </ul>
-<h3 id="otros-873">Otros</h3>
-<h3 id="otros-874">Otros</h3>
+<h3 id="otros-878">Otros</h3>
+<h3 id="otros-879">Otros</h3>
 <ul>
 <li><ul>
 <li>return jsonify({“error”: “error”}), 500</li>
 </ul></li>
 </ul>
-<h3 id="otros-875">Otros</h3>
-<h3 id="otros-876">Otros</h3>
+<h3 id="otros-880">Otros</h3>
+<h3 id="otros-881">Otros</h3>
 <ul>
 <li><ul>
 <li>Fix code scanning alert - Information exposure through an exception
 #16</li>
 </ul></li>
 </ul>
-<h3 id="otros-877">Otros</h3>
-<h3 id="otros-878">Otros</h3>
+<h3 id="otros-882">Otros</h3>
+<h3 id="otros-883">Otros</h3>
 <ul>
 <li><ul>
 <li>Fix code scanning alert - Flask app is run in debug mode #17</li>
 </ul></li>
 </ul>
-<h3 id="otros-879">Otros</h3>
-<h3 id="otros-880">Otros</h3>
+<h3 id="otros-884">Otros</h3>
+<h3 id="otros-885">Otros</h3>
 <ul>
 <li><ul>
 <li>py2elf experimental</li>
 </ul></li>
 </ul>
-<h3 id="otros-881">Otros</h3>
-<h3 id="otros-882">Otros</h3>
+<h3 id="otros-886">Otros</h3>
+<h3 id="otros-887">Otros</h3>
 <ul>
 <li><ul>
 <li>nueva interfaz web experimental</li>
 </ul></li>
 </ul>
-<h3 id="otros-883">Otros</h3>
-<h3 id="otros-884">Otros</h3>
+<h3 id="otros-888">Otros</h3>
+<h3 id="otros-889">Otros</h3>
 <ul>
 <li><ul>
 <li>Update app.py</li>
 </ul></li>
 </ul>
-<h3 id="otros-885">Otros</h3>
-<h3 id="otros-886">Otros</h3>
+<h3 id="otros-890">Otros</h3>
+<h3 id="otros-891">Otros</h3>
 <ul>
 <li><ul>
 <li>nuevo bot de investigacion</li>
 </ul></li>
 </ul>
-<h3 id="otros-887">Otros</h3>
-<h3 id="otros-888">Otros</h3>
+<h3 id="otros-892">Otros</h3>
+<h3 id="otros-893">Otros</h3>
 <ul>
 <li><ul>
 <li>remove keys xD</li>
 </ul></li>
 </ul>
-<h3 id="otros-889">Otros</h3>
-<h3 id="otros-890">Otros</h3>
+<h3 id="otros-894">Otros</h3>
+<h3 id="otros-895">Otros</h3>
 <ul>
 <li><ul>
 <li>new honeypot</li>
 </ul></li>
 </ul>
-<h3 id="otros-891">Otros</h3>
-<h3 id="otros-892">Otros</h3>
+<h3 id="otros-896">Otros</h3>
+<h3 id="otros-897">Otros</h3>
 <ul>
 <li><ul>
 <li>Merge branch ‘main’ of https://github.com/grisuno/LazyOwn</li>
 </ul></li>
 </ul>
-<h3 id="otros-893">Otros</h3>
-<h3 id="otros-894">Otros</h3>
+<h3 id="otros-898">Otros</h3>
+<h3 id="otros-899">Otros</h3>
 <ul>
 <li><ul>
 <li>New BotNet with Keylogger</li>
 </ul></li>
 </ul>
-<h3 id="otros-895">Otros</h3>
-<h3 id="otros-896">Otros</h3>
+<h3 id="otros-900">Otros</h3>
+<h3 id="otros-901">Otros</h3>
 <ul>
 <li><ul>
 <li>Merge pull request #13 from grisuno/grisuno-patch-7</li>
 </ul></li>
 </ul>
-<h3 id="otros-897">Otros</h3>
-<h3 id="otros-898">Otros</h3>
-<ul>
-<li><ul>
-<li>Update README.md</li>
-</ul></li>
-</ul>
-<h3 id="otros-899">Otros</h3>
-<h3 id="otros-900">Otros</h3>
-<ul>
-<li><ul>
-<li>Create pull_request_template.md</li>
-</ul></li>
-</ul>
-<h3 id="otros-901">Otros</h3>
 <h3 id="otros-902">Otros</h3>
+<h3 id="otros-903">Otros</h3>
 <ul>
 <li><ul>
 <li>Update README.md</li>
 </ul></li>
 </ul>
-<h3 id="otros-903">Otros</h3>
 <h3 id="otros-904">Otros</h3>
+<h3 id="otros-905">Otros</h3>
 <ul>
 <li><ul>
 <li>Create pull_request_template.md</li>
 </ul></li>
 </ul>
-<h3 id="otros-905">Otros</h3>
 <h3 id="otros-906">Otros</h3>
+<h3 id="otros-907">Otros</h3>
+<ul>
+<li><ul>
+<li>Update README.md</li>
+</ul></li>
+</ul>
+<h3 id="otros-908">Otros</h3>
+<h3 id="otros-909">Otros</h3>
+<ul>
+<li><ul>
+<li>Create pull_request_template.md</li>
+</ul></li>
+</ul>
+<h3 id="otros-910">Otros</h3>
+<h3 id="otros-911">Otros</h3>
 <ul>
 <li><ul>
 <li>device to sniff parametric</li>
 </ul></li>
 </ul>
-<h3 id="otros-907">Otros</h3>
-<h3 id="otros-908">Otros</h3>
+<h3 id="otros-912">Otros</h3>
+<h3 id="otros-913">Otros</h3>
 <ul>
 <li><ul>
 <li>netbios atack</li>
 </ul></li>
 </ul>
-<h3 id="otros-909">Otros</h3>
-<h3 id="otros-910">Otros</h3>
+<h3 id="otros-914">Otros</h3>
+<h3 id="otros-915">Otros</h3>
 <ul>
 <li><ul>
 <li>Update lazynetbios.py</li>
 </ul></li>
 </ul>
-<h3 id="otros-911">Otros</h3>
-<h3 id="otros-912">Otros</h3>
+<h3 id="otros-916">Otros</h3>
+<h3 id="otros-917">Otros</h3>
 <ul>
 <li><ul>
 <li>update req*</li>
 </ul></li>
 </ul>
-<h3 id="otros-913">Otros</h3>
-<h3 id="otros-914">Otros</h3>
+<h3 id="otros-918">Otros</h3>
+<h3 id="otros-919">Otros</h3>
 <ul>
 <li><ul>
 <li>Merge branch ‘main’ of https://github.com/grisuno/LazyOwn</li>
 </ul></li>
 </ul>
-<h3 id="otros-915">Otros</h3>
-<h3 id="otros-916">Otros</h3>
+<h3 id="otros-920">Otros</h3>
+<h3 id="otros-921">Otros</h3>
 <ul>
 <li><ul>
 <li>new netbios atack mode</li>
 </ul></li>
 </ul>
-<h3 id="otros-917">Otros</h3>
-<h3 id="otros-918">Otros</h3>
+<h3 id="otros-922">Otros</h3>
+<h3 id="otros-923">Otros</h3>
 <ul>
 <li><ul>
 <li>Update README.md</li>
 </ul></li>
 </ul>
-<h3 id="otros-919">Otros</h3>
-<h3 id="otros-920">Otros</h3>
+<h3 id="otros-924">Otros</h3>
+<h3 id="otros-925">Otros</h3>
 <ul>
 <li><ul>
 <li>del</li>
 </ul></li>
 </ul>
-<h3 id="otros-921">Otros</h3>
-<h3 id="otros-922">Otros</h3>
+<h3 id="otros-926">Otros</h3>
+<h3 id="otros-927">Otros</h3>
 <ul>
 <li><ul>
 <li>mejoras en ncurses</li>
 </ul></li>
 </ul>
-<h3 id="otros-923">Otros</h3>
-<h3 id="otros-924">Otros</h3>
+<h3 id="otros-928">Otros</h3>
+<h3 id="otros-929">Otros</h3>
 <ul>
 <li><ul>
 <li>Update lazysniff.py</li>
 </ul></li>
 </ul>
-<h3 id="otros-925">Otros</h3>
-<h3 id="otros-926">Otros</h3>
+<h3 id="otros-930">Otros</h3>
+<h3 id="otros-931">Otros</h3>
 <ul>
 <li><ul>
 <li>nuevo modulo de sniffer</li>
 </ul></li>
 </ul>
-<h3 id="otros-927">Otros</h3>
-<h3 id="otros-928">Otros</h3>
+<h3 id="otros-932">Otros</h3>
+<h3 id="otros-933">Otros</h3>
 <ul>
 <li><ul>
 <li>Update lazyownclient.py</li>
 </ul></li>
 </ul>
-<h3 id="otros-929">Otros</h3>
-<h3 id="otros-930">Otros</h3>
+<h3 id="otros-934">Otros</h3>
+<h3 id="otros-935">Otros</h3>
 <ul>
 <li><ul>
 <li>Merge branch ‘main’ of https://github.com/grisuno/LazyOwn</li>
 </ul></li>
 </ul>
-<h3 id="otros-931">Otros</h3>
-<h3 id="otros-932">Otros</h3>
+<h3 id="otros-936">Otros</h3>
+<h3 id="otros-937">Otros</h3>
 <ul>
 <li><ul>
 <li>new command fixperm</li>
 </ul></li>
 </ul>
-<h3 id="otros-933">Otros</h3>
-<h3 id="otros-934">Otros</h3>
+<h3 id="otros-938">Otros</h3>
+<h3 id="otros-939">Otros</h3>
 <ul>
 <li><ul>
 <li>Update README.md</li>
 </ul></li>
 </ul>
-<h3 id="otros-935">Otros</h3>
-<h3 id="otros-936">Otros</h3>
+<h3 id="otros-940">Otros</h3>
+<h3 id="otros-941">Otros</h3>
 <ul>
 <li><ul>
 <li>nuevo modulo de gathering</li>
 </ul></li>
 </ul>
-<h3 id="otros-937">Otros</h3>
-<h3 id="otros-938">Otros</h3>
+<h3 id="otros-942">Otros</h3>
+<h3 id="otros-943">Otros</h3>
 <ul>
 <li><ul>
 <li>Update search.py</li>
 </ul></li>
 </ul>
-<h3 id="otros-939">Otros</h3>
-<h3 id="otros-940">Otros</h3>
+<h3 id="otros-944">Otros</h3>
+<h3 id="otros-945">Otros</h3>
 <ul>
 <li><ul>
 <li>new comand payload :)</li>
 </ul></li>
 </ul>
-<h3 id="otros-941">Otros</h3>
-<h3 id="otros-942">Otros</h3>
+<h3 id="otros-946">Otros</h3>
+<h3 id="otros-947">Otros</h3>
 <ul>
 <li><ul>
 <li>nueva estructura de directorios</li>
 </ul></li>
 </ul>
-<h3 id="otros-943">Otros</h3>
-<h3 id="otros-944">Otros</h3>
+<h3 id="otros-948">Otros</h3>
+<h3 id="otros-949">Otros</h3>
 <ul>
 <li><ul>
 <li>Update app.py</li>
 </ul></li>
 </ul>
-<h3 id="otros-945">Otros</h3>
-<h3 id="otros-946">Otros</h3>
+<h3 id="otros-950">Otros</h3>
+<h3 id="otros-951">Otros</h3>
 <ul>
 <li><ul>
 <li>Update README.md</li>
 </ul></li>
 </ul>
-<h3 id="otros-947">Otros</h3>
-<h3 id="otros-948">Otros</h3>
+<h3 id="otros-952">Otros</h3>
+<h3 id="otros-953">Otros</h3>
 <ul>
 <li><ul>
 <li>Update lazyownserver.py</li>
 </ul></li>
 </ul>
-<h3 id="otros-949">Otros</h3>
-<h3 id="otros-950">Otros</h3>
+<h3 id="otros-954">Otros</h3>
+<h3 id="otros-955">Otros</h3>
 <ul>
 <li><ul>
 <li>Merge pull request #10 from grisuno/grisuno-patch-6</li>
 </ul></li>
 </ul>
-<h3 id="otros-951">Otros</h3>
-<h3 id="otros-952">Otros</h3>
+<h3 id="otros-956">Otros</h3>
+<h3 id="otros-957">Otros</h3>
 <ul>
 <li><ul>
 <li>Update lazyownclient.py</li>
 </ul></li>
 </ul>
-<h3 id="otros-953">Otros</h3>
-<h3 id="otros-954">Otros</h3>
+<h3 id="otros-958">Otros</h3>
+<h3 id="otros-959">Otros</h3>
 <ul>
 <li><ul>
 <li>Update README.md</li>
 </ul></li>
 </ul>
-<h3 id="otros-955">Otros</h3>
-<h3 id="otros-956">Otros</h3>
+<h3 id="otros-960">Otros</h3>
+<h3 id="otros-961">Otros</h3>
 <ul>
 <li><ul>
 <li>Update requirements.txt</li>
 </ul></li>
 </ul>
-<h3 id="otros-957">Otros</h3>
-<h3 id="otros-958">Otros</h3>
+<h3 id="otros-962">Otros</h3>
+<h3 id="otros-963">Otros</h3>
 <ul>
 <li><ul>
 <li>Update app.py</li>
 </ul></li>
 </ul>
-<h3 id="otros-959">Otros</h3>
-<h3 id="otros-960">Otros</h3>
+<h3 id="otros-964">Otros</h3>
+<h3 id="otros-965">Otros</h3>
 <ul>
 <li><ul>
 <li>Create lazyownclient.py</li>
 </ul></li>
 </ul>
-<h3 id="otros-961">Otros</h3>
-<h3 id="otros-962">Otros</h3>
+<h3 id="otros-966">Otros</h3>
+<h3 id="otros-967">Otros</h3>
 <ul>
 <li><ul>
 <li>Create lazyownserver.py</li>
 </ul></li>
 </ul>
-<h3 id="otros-963">Otros</h3>
-<h3 id="otros-964">Otros</h3>
+<h3 id="otros-968">Otros</h3>
+<h3 id="otros-969">Otros</h3>
 <ul>
 <li><ul>
 <li>Update app.py</li>
 </ul></li>
 </ul>
-<h3 id="otros-965">Otros</h3>
-<h3 id="otros-966">Otros</h3>
+<h3 id="otros-970">Otros</h3>
+<h3 id="otros-971">Otros</h3>
 <ul>
 <li><ul>
 <li>Update README.md</li>
 </ul></li>
 </ul>
-<h3 id="otros-967">Otros</h3>
-<h3 id="otros-968">Otros</h3>
+<h3 id="otros-972">Otros</h3>
+<h3 id="otros-973">Otros</h3>
 <ul>
 <li><ul>
 <li>Update app.py</li>
 </ul></li>
 </ul>
-<h3 id="otros-969">Otros</h3>
-<h3 id="otros-970">Otros</h3>
+<h3 id="otros-974">Otros</h3>
+<h3 id="otros-975">Otros</h3>
 <ul>
 <li><ul>
 <li>Update lazynmap.sh</li>
 </ul></li>
 </ul>
-<h3 id="otros-971">Otros</h3>
-<h3 id="otros-972">Otros</h3>
+<h3 id="otros-976">Otros</h3>
+<h3 id="otros-977">Otros</h3>
 <ul>
 <li><ul>
 <li>Update requirements.txt</li>
 </ul></li>
 </ul>
-<h3 id="otros-973">Otros</h3>
-<h3 id="otros-974">Otros</h3>
+<h3 id="otros-978">Otros</h3>
+<h3 id="otros-979">Otros</h3>
 <ul>
 <li><ul>
 <li>Update app.py</li>
 </ul></li>
 </ul>
-<h3 id="otros-975">Otros</h3>
-<h3 id="otros-976">Otros</h3>
+<h3 id="otros-980">Otros</h3>
+<h3 id="otros-981">Otros</h3>
 <ul>
 <li><ul>
 <li>Merge pull request #8 from grisuno/grisuno-patch-6</li>
 </ul></li>
 </ul>
-<h3 id="otros-977">Otros</h3>
-<h3 id="otros-978">Otros</h3>
+<h3 id="otros-982">Otros</h3>
+<h3 id="otros-983">Otros</h3>
 <ul>
 <li><ul>
 <li>Update requirements.txt</li>
 </ul></li>
 </ul>
-<h3 id="otros-979">Otros</h3>
-<h3 id="otros-980">Otros</h3>
+<h3 id="otros-984">Otros</h3>
+<h3 id="otros-985">Otros</h3>
 <ul>
 <li><ul>
 <li>Update README.md</li>
 </ul></li>
 </ul>
-<h3 id="otros-981">Otros</h3>
-<h3 id="otros-982">Otros</h3>
+<h3 id="otros-986">Otros</h3>
+<h3 id="otros-987">Otros</h3>
 <ul>
 <li><ul>
 <li>Update app.py</li>
 </ul></li>
 </ul>
-<h3 id="otros-983">Otros</h3>
-<h3 id="otros-984">Otros</h3>
+<h3 id="otros-988">Otros</h3>
+<h3 id="otros-989">Otros</h3>
 <ul>
 <li><ul>
 <li>Create lazyown_metaextract0r.py</li>
 </ul></li>
 </ul>
-<h3 id="otros-985">Otros</h3>
-<h3 id="otros-986">Otros</h3>
-<ul>
-<li><ul>
-<li>Update README.md</li>
-</ul></li>
-</ul>
-<h3 id="otros-987">Otros</h3>
-<h3 id="otros-988">Otros</h3>
-<ul>
-<li><ul>
-<li>Update lazygptcli.py</li>
-</ul></li>
-</ul>
-<h3 id="otros-989">Otros</h3>
 <h3 id="otros-990">Otros</h3>
-<ul>
-<li><ul>
-<li>Update README.md</li>
-</ul></li>
-</ul>
 <h3 id="otros-991">Otros</h3>
-<h3 id="otros-992">Otros</h3>
-<ul>
-<li><ul>
-<li>Update lazygptcli.py</li>
-</ul></li>
-</ul>
-<h3 id="otros-993">Otros</h3>
-<h3 id="otros-994">Otros</h3>
-<ul>
-<li><ul>
-<li>Update lazygptcli.py</li>
-</ul></li>
-</ul>
-<h3 id="otros-995">Otros</h3>
-<h3 id="otros-996">Otros</h3>
 <ul>
 <li><ul>
 <li>Update README.md</li>
 </ul></li>
 </ul>
+<h3 id="otros-992">Otros</h3>
+<h3 id="otros-993">Otros</h3>
+<ul>
+<li><ul>
+<li>Update lazygptcli.py</li>
+</ul></li>
+</ul>
+<h3 id="otros-994">Otros</h3>
+<h3 id="otros-995">Otros</h3>
+<ul>
+<li><ul>
+<li>Update README.md</li>
+</ul></li>
+</ul>
+<h3 id="otros-996">Otros</h3>
 <h3 id="otros-997">Otros</h3>
+<ul>
+<li><ul>
+<li>Update lazygptcli.py</li>
+</ul></li>
+</ul>
 <h3 id="otros-998">Otros</h3>
+<h3 id="otros-999">Otros</h3>
+<ul>
+<li><ul>
+<li>Update lazygptcli.py</li>
+</ul></li>
+</ul>
+<h3 id="otros-1000">Otros</h3>
+<h3 id="otros-1001">Otros</h3>
+<ul>
+<li><ul>
+<li>Update README.md</li>
+</ul></li>
+</ul>
+<h3 id="otros-1002">Otros</h3>
+<h3 id="otros-1003">Otros</h3>
 <ul>
 <li><ul>
 <li>Update app.py</li>
 </ul></li>
 </ul>
-<h3 id="otros-999">Otros</h3>
-<h3 id="otros-1000">Otros</h3>
-<ul>
-<li><ul>
-<li>Update README.md</li>
-</ul></li>
-</ul>
-<h3 id="otros-1001">Otros</h3>
-<h3 id="otros-1002">Otros</h3>
-<ul>
-<li><ul>
-<li>Update README.md</li>
-</ul></li>
-</ul>
-<h3 id="otros-1003">Otros</h3>
 <h3 id="otros-1004">Otros</h3>
+<h3 id="otros-1005">Otros</h3>
 <ul>
 <li><ul>
 <li>Update README.md</li>
 </ul></li>
 </ul>
-<h3 id="otros-1005">Otros</h3>
 <h3 id="otros-1006">Otros</h3>
+<h3 id="otros-1007">Otros</h3>
+<ul>
+<li><ul>
+<li>Update README.md</li>
+</ul></li>
+</ul>
+<h3 id="otros-1008">Otros</h3>
+<h3 id="otros-1009">Otros</h3>
+<ul>
+<li><ul>
+<li>Update README.md</li>
+</ul></li>
+</ul>
+<h3 id="otros-1010">Otros</h3>
+<h3 id="otros-1011">Otros</h3>
 <ul>
 <li><ul>
 <li>Create app.py</li>
 </ul></li>
 </ul>
-<h3 id="otros-1007">Otros</h3>
-<h3 id="otros-1008">Otros</h3>
-<ul>
-<li><ul>
-<li>Update README.md</li>
-</ul></li>
-</ul>
-<h3 id="otros-1009">Otros</h3>
-<h3 id="otros-1010">Otros</h3>
-<ul>
-<li><ul>
-<li>Update README.md</li>
-</ul></li>
-</ul>
-<h3 id="otros-1011">Otros</h3>
 <h3 id="otros-1012">Otros</h3>
+<h3 id="otros-1013">Otros</h3>
+<ul>
+<li><ul>
+<li>Update README.md</li>
+</ul></li>
+</ul>
+<h3 id="otros-1014">Otros</h3>
+<h3 id="otros-1015">Otros</h3>
+<ul>
+<li><ul>
+<li>Update README.md</li>
+</ul></li>
+</ul>
+<h3 id="otros-1016">Otros</h3>
+<h3 id="otros-1017">Otros</h3>
 <ul>
 <li><ul>
 <li>Create lazyown_bprfuzzer.py</li>
 </ul></li>
 </ul>
-<h3 id="otros-1013">Otros</h3>
-<h3 id="otros-1014">Otros</h3>
+<h3 id="otros-1018">Otros</h3>
+<h3 id="otros-1019">Otros</h3>
 <ul>
 <li><ul>
 <li>Update lazygptcli.py</li>
 </ul></li>
 </ul>
-<h3 id="otros-1015">Otros</h3>
-<h3 id="otros-1016">Otros</h3>
+<h3 id="otros-1020">Otros</h3>
+<h3 id="otros-1021">Otros</h3>
 <ul>
 <li><ul>
 <li>Merge pull request #6 from grisuno/grisuno-patch-5</li>
 </ul></li>
 </ul>
-<h3 id="otros-1017">Otros</h3>
-<h3 id="otros-1018">Otros</h3>
-<ul>
-<li><ul>
-<li>Update update_db.sh</li>
-</ul></li>
-</ul>
-<h3 id="otros-1019">Otros</h3>
-<h3 id="otros-1020">Otros</h3>
-<ul>
-<li><ul>
-<li>Update update_db.sh</li>
-</ul></li>
-</ul>
-<h3 id="otros-1021">Otros</h3>
 <h3 id="otros-1022">Otros</h3>
+<h3 id="otros-1023">Otros</h3>
+<ul>
+<li><ul>
+<li>Update update_db.sh</li>
+</ul></li>
+</ul>
+<h3 id="otros-1024">Otros</h3>
+<h3 id="otros-1025">Otros</h3>
+<ul>
+<li><ul>
+<li>Update update_db.sh</li>
+</ul></li>
+</ul>
+<h3 id="otros-1026">Otros</h3>
+<h3 id="otros-1027">Otros</h3>
 <ul>
 <li><ul>
 <li>Update requirements.txt</li>
 </ul></li>
 </ul>
-<h3 id="otros-1023">Otros</h3>
-<h3 id="otros-1024">Otros</h3>
-<ul>
-<li><ul>
-<li>Update README.md</li>
-</ul></li>
-</ul>
-<h3 id="otros-1025">Otros</h3>
-<h3 id="otros-1026">Otros</h3>
-<ul>
-<li><ul>
-<li>Update README.md</li>
-</ul></li>
-</ul>
-<h3 id="otros-1027">Otros</h3>
 <h3 id="otros-1028">Otros</h3>
+<h3 id="otros-1029">Otros</h3>
+<ul>
+<li><ul>
+<li>Update README.md</li>
+</ul></li>
+</ul>
+<h3 id="otros-1030">Otros</h3>
+<h3 id="otros-1031">Otros</h3>
+<ul>
+<li><ul>
+<li>Update README.md</li>
+</ul></li>
+</ul>
+<h3 id="otros-1032">Otros</h3>
+<h3 id="otros-1033">Otros</h3>
 <ul>
 <li><ul>
 <li>Update lazygptcli.py</li>
 </ul></li>
 </ul>
-<h3 id="otros-1029">Otros</h3>
-<h3 id="otros-1030">Otros</h3>
+<h3 id="otros-1034">Otros</h3>
+<h3 id="otros-1035">Otros</h3>
 <ul>
 <li><ul>
 <li>Create lazygptcli.py</li>
 </ul></li>
 </ul>
-<h3 id="otros-1031">Otros</h3>
-<h3 id="otros-1032">Otros</h3>
-<ul>
-<li><ul>
-<li>Update README.md</li>
-</ul></li>
-</ul>
-<h3 id="otros-1033">Otros</h3>
-<h3 id="otros-1034">Otros</h3>
-<ul>
-<li><ul>
-<li>Update README.md</li>
-</ul></li>
-</ul>
-<h3 id="otros-1035">Otros</h3>
 <h3 id="otros-1036">Otros</h3>
+<h3 id="otros-1037">Otros</h3>
 <ul>
 <li><ul>
 <li>Update README.md</li>
 </ul></li>
 </ul>
-<h3 id="otros-1037">Otros</h3>
 <h3 id="otros-1038">Otros</h3>
+<h3 id="otros-1039">Otros</h3>
+<ul>
+<li><ul>
+<li>Update README.md</li>
+</ul></li>
+</ul>
+<h3 id="otros-1040">Otros</h3>
+<h3 id="otros-1041">Otros</h3>
+<ul>
+<li><ul>
+<li>Update README.md</li>
+</ul></li>
+</ul>
+<h3 id="otros-1042">Otros</h3>
+<h3 id="otros-1043">Otros</h3>
 <ul>
 <li><ul>
 <li>Create lazynmap.sh</li>
 </ul></li>
 </ul>
-<h3 id="otros-1039">Otros</h3>
-<h3 id="otros-1040">Otros</h3>
+<h3 id="otros-1044">Otros</h3>
+<h3 id="otros-1045">Otros</h3>
 <ul>
 <li><ul>
 <li>Update lazyreverse_shell.sh</li>
 </ul></li>
 </ul>
-<h3 id="otros-1041">Otros</h3>
-<h3 id="otros-1042">Otros</h3>
+<h3 id="otros-1046">Otros</h3>
+<h3 id="otros-1047">Otros</h3>
 <ul>
 <li><ul>
 <li>Merge pull request #5 from grisuno/grisuno-patch-4</li>
 </ul></li>
 </ul>
-<h3 id="otros-1043">Otros</h3>
-<h3 id="otros-1044">Otros</h3>
-<ul>
-<li><ul>
-<li>Update README.md</li>
-</ul></li>
-</ul>
-<h3 id="otros-1045">Otros</h3>
-<h3 id="otros-1046">Otros</h3>
-<ul>
-<li><ul>
-<li>Update README.md</li>
-</ul></li>
-</ul>
-<h3 id="otros-1047">Otros</h3>
 <h3 id="otros-1048">Otros</h3>
+<h3 id="otros-1049">Otros</h3>
+<ul>
+<li><ul>
+<li>Update README.md</li>
+</ul></li>
+</ul>
+<h3 id="otros-1050">Otros</h3>
+<h3 id="otros-1051">Otros</h3>
+<ul>
+<li><ul>
+<li>Update README.md</li>
+</ul></li>
+</ul>
+<h3 id="otros-1052">Otros</h3>
+<h3 id="otros-1053">Otros</h3>
 <ul>
 <li><ul>
 <li>Create lazyreverse_shell.sh</li>
 </ul></li>
 </ul>
-<h3 id="otros-1049">Otros</h3>
-<h3 id="otros-1050">Otros</h3>
+<h3 id="otros-1054">Otros</h3>
+<h3 id="otros-1055">Otros</h3>
 <ul>
 <li><ul>
 <li>Update README.md</li>
 </ul></li>
 </ul>
-<h3 id="otros-1051">Otros</h3>
-<h3 id="otros-1052">Otros</h3>
+<h3 id="otros-1056">Otros</h3>
+<h3 id="otros-1057">Otros</h3>
 <ul>
 <li><ul>
 <li>Update requirements.txt</li>
 </ul></li>
 </ul>
-<h3 id="otros-1053">Otros</h3>
-<h3 id="otros-1054">Otros</h3>
+<h3 id="otros-1058">Otros</h3>
+<h3 id="otros-1059">Otros</h3>
 <ul>
 <li><ul>
 <li>Update README.md</li>
 </ul></li>
 </ul>
-<h3 id="otros-1055">Otros</h3>
-<h3 id="otros-1056">Otros</h3>
+<h3 id="otros-1060">Otros</h3>
+<h3 id="otros-1061">Otros</h3>
 <ul>
 <li><ul>
 <li>Update LazyOwnExplorer.py</li>
 </ul></li>
 </ul>
-<h3 id="otros-1057">Otros</h3>
-<h3 id="otros-1058">Otros</h3>
+<h3 id="otros-1062">Otros</h3>
+<h3 id="otros-1063">Otros</h3>
 <ul>
 <li><ul>
 <li>Update README.md</li>
 </ul></li>
 </ul>
-<h3 id="otros-1059">Otros</h3>
-<h3 id="otros-1060">Otros</h3>
+<h3 id="otros-1064">Otros</h3>
+<h3 id="otros-1065">Otros</h3>
 <ul>
 <li><ul>
 <li>Create LazyOwnExplorer.py</li>
 </ul></li>
 </ul>
-<h3 id="otros-1061">Otros</h3>
-<h3 id="otros-1062">Otros</h3>
+<h3 id="otros-1066">Otros</h3>
+<h3 id="otros-1067">Otros</h3>
 <ul>
 <li><ul>
 <li>Update README.md</li>
 </ul></li>
 </ul>
-<h3 id="otros-1063">Otros</h3>
-<h3 id="otros-1064">Otros</h3>
+<h3 id="otros-1068">Otros</h3>
+<h3 id="otros-1069">Otros</h3>
 <ul>
 <li><ul>
 <li>Merge pull request #4 from grisuno/grisuno-patch-3</li>
 </ul></li>
 </ul>
-<h3 id="otros-1065">Otros</h3>
-<h3 id="otros-1066">Otros</h3>
+<h3 id="otros-1070">Otros</h3>
+<h3 id="otros-1071">Otros</h3>
 <ul>
 <li><ul>
 <li>Create requirements.txt</li>
 </ul></li>
 </ul>
-<h3 id="otros-1067">Otros</h3>
-<h3 id="otros-1068">Otros</h3>
+<h3 id="otros-1072">Otros</h3>
+<h3 id="otros-1073">Otros</h3>
 <ul>
 <li><ul>
 <li>Create CODE_OF_CONDUCT.md</li>
 </ul></li>
 </ul>
-<h3 id="otros-1069">Otros</h3>
-<h3 id="otros-1070">Otros</h3>
+<h3 id="otros-1074">Otros</h3>
+<h3 id="otros-1075">Otros</h3>
 <ul>
 <li><ul>
 <li>Update issue templates</li>
 </ul></li>
 </ul>
-<h3 id="otros-1071">Otros</h3>
-<h3 id="otros-1072">Otros</h3>
+<h3 id="otros-1076">Otros</h3>
+<h3 id="otros-1077">Otros</h3>
 <ul>
 <li><ul>
 <li>Create SECURITY.md</li>
 </ul></li>
 </ul>
-<h3 id="otros-1073">Otros</h3>
-<h3 id="otros-1074">Otros</h3>
+<h3 id="otros-1078">Otros</h3>
+<h3 id="otros-1079">Otros</h3>
 <ul>
 <li><ul>
 <li>Create CONTRIBUTING.md</li>
 </ul></li>
 </ul>
-<h3 id="otros-1075">Otros</h3>
-<h3 id="otros-1076">Otros</h3>
+<h3 id="otros-1080">Otros</h3>
+<h3 id="otros-1081">Otros</h3>
 <ul>
 <li><ul>
 <li>Merge pull request #3 from grisuno/grisuno-patch-2</li>
 </ul></li>
 </ul>
-<h3 id="otros-1077">Otros</h3>
-<h3 id="otros-1078">Otros</h3>
+<h3 id="otros-1082">Otros</h3>
+<h3 id="otros-1083">Otros</h3>
 <ul>
 <li><ul>
 <li>Create LICENSE</li>
 </ul></li>
 </ul>
-<h3 id="otros-1079">Otros</h3>
-<h3 id="otros-1080">Otros</h3>
+<h3 id="otros-1084">Otros</h3>
+<h3 id="otros-1085">Otros</h3>
 <ul>
 <li><ul>
 <li>Merge pull request #1 from grisuno/grisuno-patch-1</li>
 </ul></li>
 </ul>
-<h3 id="otros-1081">Otros</h3>
-<h3 id="otros-1082">Otros</h3>
+<h3 id="otros-1086">Otros</h3>
+<h3 id="otros-1087">Otros</h3>
 <ul>
 <li><ul>
 <li>Update lazyown.py</li>
 </ul></li>
 </ul>
-<h3 id="otros-1083">Otros</h3>
-<h3 id="otros-1084">Otros</h3>
-<ul>
-<li><ul>
-<li>Update README.md</li>
-</ul></li>
-</ul>
-<h3 id="otros-1085">Otros</h3>
-<h3 id="otros-1086">Otros</h3>
-<ul>
-<li><ul>
-<li>Update README.md</li>
-</ul></li>
-</ul>
-<h3 id="otros-1087">Otros</h3>
 <h3 id="otros-1088">Otros</h3>
+<h3 id="otros-1089">Otros</h3>
+<ul>
+<li><ul>
+<li>Update README.md</li>
+</ul></li>
+</ul>
+<h3 id="otros-1090">Otros</h3>
+<h3 id="otros-1091">Otros</h3>
+<ul>
+<li><ul>
+<li>Update README.md</li>
+</ul></li>
+</ul>
+<h3 id="otros-1092">Otros</h3>
+<h3 id="otros-1093">Otros</h3>
 <ul>
 <li><ul>
 <li>Create lazyatack.sh</li>
 </ul></li>
 </ul>
-<h3 id="otros-1089">Otros</h3>
-<h3 id="otros-1090">Otros</h3>
-<ul>
-<li><ul>
-<li>Update README.md</li>
-</ul></li>
-</ul>
-<h3 id="otros-1091">Otros</h3>
-<h3 id="otros-1092">Otros</h3>
-<ul>
-<li><ul>
-<li>Update README.md</li>
-</ul></li>
-</ul>
-<h3 id="otros-1093">Otros</h3>
 <h3 id="otros-1094">Otros</h3>
+<h3 id="otros-1095">Otros</h3>
+<ul>
+<li><ul>
+<li>Update README.md</li>
+</ul></li>
+</ul>
+<h3 id="otros-1096">Otros</h3>
+<h3 id="otros-1097">Otros</h3>
+<ul>
+<li><ul>
+<li>Update README.md</li>
+</ul></li>
+</ul>
+<h3 id="otros-1098">Otros</h3>
+<h3 id="otros-1099">Otros</h3>
 <ul>
 <li><ul>
 <li>Create lazysearch.py</li>
 </ul></li>
 </ul>
-<h3 id="otros-1095">Otros</h3>
-<h3 id="otros-1096">Otros</h3>
-<ul>
-<li><ul>
-<li>Update README.md</li>
-</ul></li>
-</ul>
-<h3 id="otros-1097">Otros</h3>
-<h3 id="otros-1098">Otros</h3>
-<ul>
-<li><ul>
-<li>Update README.md</li>
-</ul></li>
-</ul>
-<h3 id="otros-1099">Otros</h3>
 <h3 id="otros-1100">Otros</h3>
-<ul>
-<li><ul>
-<li>Update update_db.sh</li>
-</ul></li>
-</ul>
 <h3 id="otros-1101">Otros</h3>
-<h3 id="otros-1102">Otros</h3>
-<ul>
-<li><ul>
-<li>Update update_db.sh</li>
-</ul></li>
-</ul>
-<h3 id="otros-1103">Otros</h3>
-<h3 id="otros-1104">Otros</h3>
 <ul>
 <li><ul>
 <li>Update README.md</li>
 </ul></li>
 </ul>
+<h3 id="otros-1102">Otros</h3>
+<h3 id="otros-1103">Otros</h3>
+<ul>
+<li><ul>
+<li>Update README.md</li>
+</ul></li>
+</ul>
+<h3 id="otros-1104">Otros</h3>
 <h3 id="otros-1105">Otros</h3>
+<ul>
+<li><ul>
+<li>Update update_db.sh</li>
+</ul></li>
+</ul>
 <h3 id="otros-1106">Otros</h3>
+<h3 id="otros-1107">Otros</h3>
+<ul>
+<li><ul>
+<li>Update update_db.sh</li>
+</ul></li>
+</ul>
+<h3 id="otros-1108">Otros</h3>
+<h3 id="otros-1109">Otros</h3>
+<ul>
+<li><ul>
+<li>Update README.md</li>
+</ul></li>
+</ul>
+<h3 id="otros-1110">Otros</h3>
+<h3 id="otros-1111">Otros</h3>
 <ul>
 <li><ul>
 <li>██╗ █████╗ ███████╗██╗ ██╗ ██████╗ ██╗ ██╗███╗ ██╗ ██║
@@ -13308,64 +13564,64 @@ conections</li>
 ╚══╝╚══╝ ╚═╝ ╚═══╝</li>
 </ul></li>
 </ul>
-<h3 id="otros-1107">Otros</h3>
-<h3 id="otros-1108">Otros</h3>
+<h3 id="otros-1112">Otros</h3>
+<h3 id="otros-1113">Otros</h3>
 <ul>
 <li><ul>
 <li>Create update_db.sh</li>
 </ul></li>
 </ul>
-<h3 id="otros-1109">Otros</h3>
-<h3 id="otros-1110">Otros</h3>
+<h3 id="otros-1114">Otros</h3>
+<h3 id="otros-1115">Otros</h3>
 <ul>
 <li><ul>
 <li>Update README.md</li>
 </ul></li>
 </ul>
-<h3 id="otros-1111">Otros</h3>
-<h3 id="otros-1112">Otros</h3>
+<h3 id="otros-1116">Otros</h3>
+<h3 id="otros-1117">Otros</h3>
 <ul>
 <li><ul>
 <li>Add files via upload</li>
 </ul></li>
 </ul>
-<h3 id="otros-1113">Otros</h3>
-<h3 id="otros-1114">Otros</h3>
+<h3 id="otros-1118">Otros</h3>
+<h3 id="otros-1119">Otros</h3>
 <ul>
 <li><ul>
 <li>Create lazyown.py</li>
 </ul></li>
 </ul>
-<h3 id="otros-1115">Otros</h3>
-<h3 id="otros-1116">Otros</h3>
+<h3 id="otros-1120">Otros</h3>
+<h3 id="otros-1121">Otros</h3>
 <ul>
 <li><ul>
 <li>Create bin_data_relevant.csv</li>
 </ul></li>
 </ul>
-<h3 id="otros-1117">Otros</h3>
-<h3 id="otros-1118">Otros</h3>
+<h3 id="otros-1122">Otros</h3>
+<h3 id="otros-1123">Otros</h3>
 <ul>
 <li><ul>
 <li>Create bin_data.csv</li>
 </ul></li>
 </ul>
-<h3 id="otros-1119">Otros</h3>
-<h3 id="otros-1120">Otros</h3>
+<h3 id="otros-1124">Otros</h3>
+<h3 id="otros-1125">Otros</h3>
 <ul>
 <li><ul>
 <li>Create detailed_search.py</li>
 </ul></li>
 </ul>
-<h3 id="otros-1121">Otros</h3>
-<h3 id="otros-1122">Otros</h3>
+<h3 id="otros-1126">Otros</h3>
+<h3 id="otros-1127">Otros</h3>
 <ul>
 <li><ul>
 <li>Create search.py</li>
 </ul></li>
 </ul>
-<h3 id="otros-1123">Otros</h3>
-<h3 id="otros-1124">Otros</h3>
+<h3 id="otros-1128">Otros</h3>
+<h3 id="otros-1129">Otros</h3>
 <ul>
 <li><ul>
 <li>Update README.md</li>

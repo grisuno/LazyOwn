@@ -57,6 +57,9 @@ download() {
         "wget https://raw.githubusercontent.com/Alamot/code-snippets/master/winrm/winrm_shell_with_upload.rb"
         "wget https://download.sysinternals.com/files/Strings.zip"
         "wget https://iptoasn.com/data/ip2asn-v4.tsv.gz"
+        "wget https://github.com/mandiant/SharPersist/releases/download/v1.0.1/SharPersist.exe"
+        "wget https://github.com/incredibleindishell/crp/raw/refs/heads/main/powershell.exe"
+        "wget https://github.com/pwntester/ysoserial.net/releases/download/v1.36/ysoserial-1dba9c4416ba6e79b6b262b758fa75e2ee9008e9.zip"
     )
 
     echo "    [+] Seleccione el número del comando que desea descargar:"

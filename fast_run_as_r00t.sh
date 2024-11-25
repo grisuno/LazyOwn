@@ -37,6 +37,8 @@ tmux split-window -v
 tmux send-keys -t $SESSION "sleep 5 && bash -c '$COMMAND'" C-m
 tmux split-window -v
 tmux send-keys -t $SESSION "sleep 60 && bash -c './run -c pyautomate'" C-m
+tmux split-window -h
+tmux send-keys -t $SESSION "sleep 5 && bash -c './run -c \"c2 no_priv\"'" C-m
 tmux select-pane -t 0
 tmux split-window -h
 tmux send-keys -t $SESSION "bash -c './run -c \"vpn $VPN\"'" C-m

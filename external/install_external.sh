@@ -122,6 +122,9 @@ download() {
         "git clone https://github.com/r3dcl1ff/nuclei-templates.git .exploit/nuclei-templates"
         "git clone https://github.com/S3cur3Th1sSh1t/Creds.git .exploit/scripts_variados"
         "git clone https://github.com/incredibleindishell/BruteShark.git .exploit/BlueShark"
+        "git clone https://github.com/Hackplayers/PsCabesha-tools.git .exploit/PsCabeshaps1"
+        "git clone https://github.com/clymb3r/PowerShell.git .exploit/PowerShell_privesc"
+        "git clone https://github.com/grisuno/binary.git .exploit/grisun0_compiled_windows_binaries"
     )
     
     echo "    [+] Choice the number option to clone:"

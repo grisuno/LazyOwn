@@ -174,29 +174,7 @@
 </header>
 <h1 id="commands.md-documentation-by-readmeneitor.py">COMMANDS.md
 Documentation by readmeneitor.py</h1>
-<h2 id="log_request">log_request</h2>
-<p>No description available.</p>
-<h2 id="log_message">log_message</h2>
-<p>No description available.</p>
-<h2 id="get">GET</h2>
-<p>No description available.</p>
 <h2 id="init"><strong>init</strong></h2>
-<p>No description available.</p>
-<h2 id="open_file">open_file</h2>
-<p>Open and parse the IP-to-ASN file.</p>
-<h2 id="open_reader">open_reader</h2>
-<p>Parse the reader stream, handling both regular and gzipped files.</p>
-<h2 id="parse_file">_parse_file</h2>
-<p>Parse the TSV data and load it into memory.</p>
-<h2 id="as_of_ip">as_of_ip</h2>
-<p>Return the ASN associated with the given IP address.</p>
-<h2 id="rec_index_has_ip">_rec_index_has_ip</h2>
-<p>Check if the given index contains the IP.</p>
-<h2 id="as_name">as_name</h2>
-<p>Get the AS name by ASN.</p>
-<h2 id="as_country">as_country</h2>
-<p>Get the country by ASN.</p>
-<h2 id="init-1"><strong>init</strong></h2>
 <p>Initializer for the LazyOwnShell class.</p>
 <p>This method sets up the initial parameters and scripts for an
 instance of the LazyOwnShell class. It initializes a dictionary of
@@ -205,6 +183,10 @@ of the LazyOwnShell toolkit.</p>
 <p>Attributes: params (dict): A dictionary of parameters with their
 default values. scripts (list): A list of script names included in the
 toolkit. output (str): An empty string to store output or results.</p>
+<h2 id="log_command">log_command</h2>
+<p>Logs the command execution details to a CSV file.</p>
+<p>:param cmd_name: The name of the command. :param cmd_args: The
+arguments of the command.</p>
 <h2 id="default">default</h2>
 <p>Handles undefined commands, including aliases.</p>
 <p>This method checks if a given command (or its alias) exists within
@@ -212,6 +194,10 @@ the class by attempting to find a corresponding method. If the command
 or alias is not found, it prints an error message.</p>
 <p>:param line: The command or alias to be handled. :type line: str
 :return: None</p>
+<h2 id="logcsv">logcsv</h2>
+<p>No description available.</p>
+<h2 id="cmd">cmd</h2>
+<p>No description available.</p>
 <h2 id="one_cmd">one_cmd</h2>
 <p>Internal function to execute commands.</p>
 <p>This method attempts to execute a given command using
@@ -4747,7 +4733,9 @@ instructions.</p>
 <p>Parameters: line (str): Command argument specifying the lookup mode.
 If “basic”, the function performs a standard SID lookup. If “dc-target”,
 it includes <code>-dc-ip</code> and <code>-target-ip</code> arguments.
-If neither, it displays an error message with usage instructions.</p>
+If “nopass”, We run lookupsid.py , using an arbitrary username prepended
+to the target’s IP address If neither, it displays an error message with
+usage instructions.</p>
 <p>Returns: None</p>
 <h2 id="scavenger">scavenger</h2>
 <p>Executes the Scavenger tool for multi-threaded post-exploitation
@@ -5278,6 +5266,16 @@ directly.</p>
 ID or additional parameters. If not provided, interactive input will be
 used.</p>
 <p>Returns: None</p>
+<h2 id="atomic_gen">atomic_gen</h2>
+<p>Generates test and cleanup scripts for a given Atomic Red Team
+technique ID.</p>
+<p>Parameters: line (str): The technique ID.</p>
+<p>Returns: None</p>
+<h2 id="atomic_agent">atomic_agent</h2>
+<p>Generates and synchronizes atomic agent scripts.</p>
+<p>Parameters: line (str): Command-line arguments (not used in this
+function).</p>
+<p>Returns: None</p>
 <h2 id="mitre_test">mitre_test</h2>
 <p>Interacts with the MITRE ATT&amp;CK framework using the STIX 2.0
 format.</p>
@@ -5356,28 +5354,28 @@ hash file for authentication. If neither, it prints an error message
 with usage instructions.</p>
 <p>Returns: None</p>
 <h2 id="pip_repo">pip_repo</h2>
-<p>Sets up a local pip repository and serves it via an HTTP server for
-offline installations.</p>
-<p>This function performs the following actions: 1. Creates a directory
-for storing pip packages if it does not already exist. 2. Downloads a
-predefined list of Python packages along with their dependencies to the
-repository directory. 3. Organizes the downloaded packages into their
-respective directories. 4. Starts an HTTP server to host the repository,
-allowing remote machines to install the packages.</p>
-<p>The repository path is created under the <code>sessions</code>
-directory, and the packages are served using Python’s built-in HTTP
-server at port 8008.</p>
-<p>Parameters: line (str): Optional argument for the command. Not used
-in this implementation but retained for compatibility with the cmd2
-framework.</p>
+<p>Sets up a local pip repository to serve Python packages for
+installation on a compromised machine without internet access.</p>
+<p>This function performs the following steps: 1. Creates necessary
+directories for the pip repository. 2. Checks for the presence of
+<code>pip-compile</code> and installs it if missing. 3. Downloads a
+predefined list of Python packages to the local repository. 4. Compiles
+the requirements for each package and downloads the compiled
+dependencies. 5. Organizes the downloaded packages into a structured
+directory format. 6. Generates an index for the pip repository. 7.
+Serves the pip repository over HTTP, allowing the compromised machine to
+install packages from this local repository.</p>
+<p>Parameters: line (str): Command line input (not used in this
+function).</p>
 <p>Returns: None</p>
+<p>Example Usage:</p>
+<pre><code>pip_repo</code></pre>
 <h2 id="apt_repo">apt_repo</h2>
-<p>Creates a local APT repository and serves it via a web server.</p>
-<p>This function performs the following actions: 1. Creates a directory
-for storing <code>.deb</code> packages. 2. Downloads the specified APT
-packages and their dependencies into the repository. 3. Generates the
-necessary APT repository indexes. 4. Starts a web server to host the
-repository for remote clients.</p>
+<p>Creates a comprehensive local APT repository with enhanced dependency
+resolution.</p>
+<p>Improvements: 1. More robust dependency and metadata handling 2.
+Better error checking and logging 3. Comprehensive package and
+dependency management</p>
 <p>Parameters: line (str): A space-separated list of package names to
 include in the repository.</p>
 <p>Returns: None</p>
@@ -5552,6 +5550,153 @@ format.</p>
 [–sandbox] [–obfuscate] [-o <output_file>]</p>
 <p>Example: excelntdonut -f payload.cs -r System.Windows.Forms.dll
 –sandbox –obfuscate -o macro.txt</p>
+<h2 id="spraykatz">spraykatz</h2>
+<p>Executes the Spraykatz tool to retrieve credentials on Windows
+machines and large Active Directory environments.</p>
+<p>This function: - Installs Spraykatz if not already installed. -
+Executes the Spraykatz command with the provided parameters. - Displays
+the result in the terminal.</p>
+<p>Behavior: - Requires <code>python3</code>, <code>python3-pip</code>,
+<code>git</code>, and <code>nmap</code> to be installed. - Uses
+parameters from <code>self.params</code> for username, password, and
+target.</p>
+<p>Usage: spraykatz</p>
+<h2 id="caldera">caldera</h2>
+<p>Installs and starts the Caldera server.</p>
+<p>This function: - Clones the Caldera repository recursively. -
+Installs the required dependencies. - Optionally installs GoLang
+(1.19+). - Starts the Caldera server with the provided parameters.</p>
+<p>Behavior: - Requires <code>git</code>, <code>python3</code>, and
+<code>pip3</code> to be installed. - Uses parameters from
+<code>self.params</code> for version/release.</p>
+<p>Usage: caldera</p>
+<h2 id="ntpdate">ntpdate</h2>
+<p>Synchronizes the system clock with a specified NTP server.</p>
+<p>This method constructs the target NTP server address using the domain
+and subdomain parameters. It then prompts the user to confirm or modify
+the target address. Finally, it executes the <code>ntpdate</code>
+command to synchronize the system clock with the specified NTP
+server.</p>
+<p>:param line: The command line input (not used in this method). :type
+line: str :return: None</p>
+<h2 id="ticketer">ticketer</h2>
+<p>Executes the Impacket ticketer tool to create a golden ticket.</p>
+<p>This function performs the following actions: 1. Checks if the target
+host is valid. 2. Prompts the user for the NTLM hash, domain SID, domain
+name, DC IP, SPN, and username. 3. Constructs and executes the Impacket
+ticketer command with the provided information.</p>
+<p>Parameters: line (str): A command argument to determine the
+authentication mode. This parameter is not used in this function.</p>
+<p>Returns: None</p>
+<h2 id="links">links</h2>
+<p>Displays a list of useful links and allows the user to select and
+copy a link to the clipboard.</p>
+<p>This function performs the following actions: 1. Defines a list of
+links with their aliases. 2. Filters the links based on the input
+<code>line</code> if provided. 3. Displays the filtered links with their
+aliases and URLs. 4. Prompts the user to select a link by entering the
+corresponding number. 5. Copies the selected link to the clipboard.</p>
+<p>Parameters: line (str, optional): A string to filter the links. If
+provided, only the links containing the string in their alias or URL
+will be displayed. Defaults to an empty string.</p>
+<p>Returns: None</p>
+<h2 id="rsync">rsync</h2>
+<p>Synchronizes the local “sessions” directory to a remote host using
+rsync, leveraging sshpass for automated authentication.</p>
+<p>Steps: 1. Verifies if the credentials file exists in the “sessions”
+directory. If not, prompts the user for a username and password. 2.
+Reads the credentials file if it exists and extracts the username and
+password. 3. Constructs an rsync command to deploy the “sessions”
+directory to the remote host. 4. Executes the rsync command using the
+system shell.</p>
+<p>Args: line (str): Input command line (not used in the current
+implementation).</p>
+<p>Dependencies: - The <code>sshpass</code> command-line tool must be
+installed on the local machine. - <code>rsync</code> must be installed
+on both the local and remote machines. - The remote host must be
+accessible via SSH.</p>
+<p>Attributes: - <code>self.params</code>: Dictionary containing the
+following keys: - <code>username</code> (str, optional): Predefined
+username. Defaults to prompting the user if not provided. -
+<code>password</code> (str, optional): Predefined password. Defaults to
+prompting the user if not provided. - <code>rhost</code> (str): Remote
+host’s IP or domain name.</p>
+<p>Raises: - KeyError: If <code>rhost</code> is not provided in
+<code>self.params</code>. - FileNotFoundError: If the “sessions”
+directory does not exist.</p>
+<p>Note: - The <code>credentials.txt</code> file, if present, should
+have credentials in the format <code>username:password</code> on the
+first line.</p>
+<p>Returns: None</p>
+<h2 id="pre2k">pre2k</h2>
+<p>Executes the pre2k tool to query the domain for pre-Windows 2000
+machine accounts or to pass a list of hostnames to test
+authentication.</p>
+<p>This function: - Installs pre2k if not already installed. - Executes
+the pre2k command with the provided parameters. - Displays the result in
+the terminal.</p>
+<p>Behavior: - Requires <code>python3</code>, <code>python3-pip</code>,
+and <code>git</code> to be installed. - Uses parameters from
+<code>self.params</code> for domain, username, password, and target.</p>
+<p>Usage: pre2k auth -u <username> -p <password> -d <domain> -dc-ip
+<dc_ip> pre2k unauth -d <domain> -dc-ip <dc_ip> -inputfile
+<inputfile></p>
+<h2 id="gmsadumper">gmsadumper</h2>
+<p>Executes the gMSADumper tool to read and parse gMSA password blobs
+accessible by the user.</p>
+<p>This function: - Installs gMSADumper if not already installed. -
+Executes the gMSADumper command with the provided parameters. - Displays
+the result in the terminal.</p>
+<p>Behavior: - Requires <code>python3</code>, <code>python3-pip</code>,
+and <code>git</code> to be installed. - Uses parameters from
+<code>self.params</code> for domain, username, password, and target.</p>
+<p>Usage: gmsadumper -u <username> -p <password> -d <domain> gmsadumper
+-u <username> -p <LM:NT hash> -d <domain> -l <ldap_server> gmsadumper -k
+-d <domain> -l <ldap_server></p>
+<h2 id="dnschef">dnschef</h2>
+<p>Executes the DNSChef tool to monitor DNS queries and intercept
+responses.</p>
+<p>This function: - Installs DNSChef if not already installed. -
+Executes the DNSChef command with the provided parameters. - Displays
+the result in the terminal.</p>
+<p>Behavior: - Requires <code>python3</code>, <code>python3-pip</code>,
+and <code>git</code> to be installed. - Uses parameters from
+<code>self.params</code> for domain, username, password, and target.</p>
+<p>Usage: dnschef</p>
+<h2 id="dploot">dploot</h2>
+<p>Executes the dploot tool to loot DPAPI related secrets from local or
+remote targets. Actions:
+backupkey,blob,browser,certificates,credentials,machinecertificates,machinecredentials,machinemasterkeys,machinevaults,masterkeys,mobaxterm,rdg,sccm,vaults,wam,wifi
+This function: - Installs dploot if not already installed. - Executes
+the dploot command with the provided parameters. - Displays the result
+in the terminal.</p>
+<p>Behavior: - Requires <code>python3</code>, <code>python3-pip</code>,
+and <code>git</code> to be installed. - Uses parameters from
+<code>self.params</code> for domain, username, password, and target.</p>
+<p>Usage: dploot <action> -d <domain> -u <username> -p <password> -t
+<target> dploot <action> -k -d <domain> -t <target></p>
+<h2 id="banners">banners</h2>
+<h2 id="createpayload">createpayload</h2>
+<p>Generates an obfuscated payload to evade AV detection using the
+payloadGenerator tool. thanks to smokeme</p>
+<p>This function: - Clones the payloadGenerator repository if not
+already cloned. - Installs .NET Framework 4.5 if not already installed.
+- Executes the generator.py script with the provided IP, port, and XOR
+key. - Displays the result in the terminal. Parameters: line (str):
+lenght of xor key Behavior: - Requires <code>git</code> and
+<code>dotnet</code> to be installed. - Uses parameters from
+<code>self.params</code> for IP, port, and XOR key.</p>
+<p>Usage: createpayload</p>
+<h2 id="bin2shellcode">bin2shellcode</h2>
+<p>Converts a binary file to a shellcode string in C or Nim format.</p>
+<p>This function: - Reads a binary file and converts its contents to a
+shellcode string. - Supports both C and Nim formats. - Displays the
+result in the terminal and saves it to a file.</p>
+<p>Behavior: - Requires the filename, width, quotes, and format
+parameters. - Uses default values if parameters are not provided. - Uses
+parameters from <code>self.params</code> for filename, width, quotes,
+and format.</p>
+<p>Usage: bin2shellcode [<filename> [<width> [<quotes> [<format>]]]]</p>
 <h2 id="find_tgts">find_tgts</h2>
 <p>Finds and returns a list of target hosts with port 445 open in the
 specified subnet.</p>
@@ -5719,5 +5864,9 @@ the scope where this function is used.</p>
 <p>Helper function to alternate the case of characters in a string.</p>
 <h2 id="lazyrun_command">lazyrun_command</h2>
 <p>No description available.</p>
+<h2
+id="resolve_and_download_dependencies">resolve_and_download_dependencies</h2>
+<p>Recursively resolve and download package dependencies with enhanced
+checks</p>
 </body>
 </html>

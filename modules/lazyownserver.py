@@ -106,6 +106,8 @@ def main():
 
     HOST = args.host
     PORT = args.port
+    print(HOST)
+    print(PORT)    
     KEY = binascii.unhexlify(args.key)
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

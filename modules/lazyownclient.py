@@ -201,11 +201,11 @@ def main():
     parser.add_argument('--port', type=int, required=True, help='Server port to connect to')
     parser.add_argument('--key', required=True, help='Encryption key (hex encoded)')
     args = parser.parse_args()
-
     HOST = args.host
     PORT = args.port
     KEY = binascii.unhexlify(args.key)
-
+    print(HOST)
+    print(PORT)
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((HOST, PORT))
     print(f'[x] Conectado a {HOST}:{PORT}')

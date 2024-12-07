@@ -872,7 +872,34 @@ No description available.
 No description available.
 
 ## generate_index
+Generates an APT repository structure and index files for proper compatibility.
+
+Parameters:
+repo_dir (str): Path to the repository directory.
+
+Returns:
+None
+
+## replace_variables
 No description available.
+
+## create_caldera_config
+Creates a Caldera configuration file with the specified content at the given file path.
+
+Parameters:
+file_path (str): The path where the configuration file will be created.
+
+Returns:
+None
+
+## extract_banners
+No description available.
+
+## generate_xor_key
+Generate key XOR long specifyed
+
+:param length: Lenght of XOR key
+:return: Key XOR in hex.
 
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
@@ -882,4 +909,37 @@ No description available.
 
 ## handle_forms
 No description available.
+
+## log_request
+No description available.
+
+## log_message
+No description available.
+
+## GET
+No description available.
+
+## __init__
+No description available.
+
+## open_file
+Open and parse the IP-to-ASN file.
+
+## open_reader
+Parse the reader stream, handling both regular and gzipped files.
+
+## _parse_file
+Parse the TSV data and load it into memory.
+
+## as_of_ip
+Return the ASN associated with the given IP address.
+
+## _rec_index_has_ip
+Check if the given index contains the IP.
+
+## as_name
+Get the AS name by ASN.
+
+## as_country
+Get the country by ASN.
 

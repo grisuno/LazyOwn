@@ -2,6 +2,27 @@
 # Changelog
 
 
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new commands documented at commands.md \n\n Version: release/0.2.22 \n\n  \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Dec 6 17:55:30 2024 -0800 \n\n Hora: 1733536530
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #71 from grisuno/dev2
+
+
+### Otros
+
+### Otros
+
+  *   * some utils 7 jajaja?
+
+
 ### Otros
 
 ### Otros

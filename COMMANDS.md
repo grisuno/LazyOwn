@@ -1,38 +1,5 @@
 # COMMANDS.md Documentation  by readmeneitor.py
 
-## log_request
-No description available.
-
-## log_message
-No description available.
-
-## GET
-No description available.
-
-## __init__
-No description available.
-
-## open_file
-Open and parse the IP-to-ASN file.
-
-## open_reader
-Parse the reader stream, handling both regular and gzipped files.
-
-## _parse_file
-Parse the TSV data and load it into memory.
-
-## as_of_ip
-Return the ASN associated with the given IP address.
-
-## _rec_index_has_ip
-Check if the given index contains the IP.
-
-## as_name
-Get the AS name by ASN.
-
-## as_country
-Get the country by ASN.
-
 ## __init__
 Initializer for the LazyOwnShell class.
 
@@ -45,6 +12,12 @@ Attributes:
     scripts (list): A list of script names included in the toolkit.
     output (str): An empty string to store output or results.
 
+## log_command
+Logs the command execution details to a CSV file.
+
+:param cmd_name: The name of the command.
+:param cmd_args: The arguments of the command.
+
 ## default
 Handles undefined commands, including aliases.
 
@@ -55,6 +28,12 @@ found, it prints an error message.
 :param line: The command or alias to be handled.
 :type line: str
 :return: None
+
+## logcsv
+No description available.
+
+## cmd
+No description available.
 
 ## one_cmd
 Internal function to execute commands.
@@ -3258,7 +3237,7 @@ Functionality:
 4. Prompts the user for the recipient's email address (`to_victim`).
 5. Prompts the user for the message body (`body`).
 6. Constructs the `swaks` command with the provided options.
-7. Executes the command using `os.system()`.
+7. Executes the command using `self.cmd()`.
 8. Copies the command to the clipboard using `copy2clip()`.
 
 Example usage:
@@ -3456,7 +3435,7 @@ the base IP pattern.
 - The generated bash script is displayed to the user.
 - Prompts the user to confirm whether they want to execute the 
 generated command.
-- If the user confirms, executes the command using `os.system()`.
+- If the user confirms, executes the command using `self.cmd()`.
 - If the user declines, copies the command to the clipboard using 
 `copy2clip()`.
 
@@ -3492,7 +3471,7 @@ and report open ports.
 - The generated bash script is displayed to the user.
 - Prompts the user to confirm whether they want to execute the 
 generated command.
-- If the user confirms, executes the command using `os.system()`.
+- If the user confirms, executes the command using `self.cmd()`.
 - If the user declines, copies the command to the clipboard using 
 `copy2clip()`.
 
@@ -3529,7 +3508,7 @@ and report open ports along with any associated services.
 - The generated bash script is displayed to the user.
 - Prompts the user to confirm whether they want to execute the 
 generated command.
-- If the user confirms, executes the command using `os.system()`.
+- If the user confirms, executes the command using `self.cmd()`.
 - If the user declines, copies the command to the clipboard using 
 `copy2clip()`.
 
@@ -3994,6 +3973,24 @@ To manually execute the command:
 - Copy the command from the clipboard.
 - Run it in a terminal to create the user and assign up the permissions as specified. useradd -m -d /home/.grisun0 -s /bin/bash grisun0 && echo 'grisun0:grisgrisgris' | chpasswd && usermod -aG sudo grisun0 && chmod 700 /home/.grisun0 && su - grisun0
 Note: Ensure `xclip` is installed and available on your system.
+
+## grisun0w
+Creates and copies a PowerShell command to add a new user `grisun0`, assign a password, add the user to the Administrators group, and switch to the user.
+
+1. Displays the command:
+    - Prints the PowerShell command to add the user `grisun0`, assign the password, add the user to the `Administrators` group, and switch to the user.
+
+2. Copies the command to clipboard:
+    - Uses `clip` to copy the command to the clipboard for easy pasting.
+
+:param line: This function does not use any arguments.
+:type line: str
+:returns: None
+
+Manual execution:
+To manually execute the command:
+- Copy the command from the clipboard.
+- Run it in a PowerShell terminal to create the user and assign the permissions as specified.
 
 ## winbase64payload
 Creates a base64 encoded payload specifically for Windows to execute a PowerShell command or download a file using `lhost`.
@@ -6818,6 +6815,7 @@ Parameters:
 line (str): Command argument specifying the lookup mode.
             If "basic", the function performs a standard SID lookup.
             If "dc-target", it includes `-dc-ip` and `-target-ip` arguments.
+            If "nopass", We run lookupsid.py , using an arbitrary username prepended to the target's IP address
             If neither, it displays an error message with usage instructions.
 
 Returns:
@@ -7519,8 +7517,26 @@ This function performs the following actions:
 4. Allows the user to select and execute a test or specify parameters directly.
 
 Parameters:
-line (str): Command-line arguments for specifying a test ID or additional parameters. 
+line (str): Command-line arguments for specifying a test ID or additional parameters.
             If not provided, interactive input will be used.
+
+Returns:
+None
+
+## atomic_gen
+Generates test and cleanup scripts for a given Atomic Red Team technique ID.
+
+Parameters:
+line (str): The technique ID.
+
+Returns:
+None
+
+## atomic_agent
+Generates and synchronizes atomic agent scripts.
+
+Parameters:
+line (str): Command-line arguments (not used in this function).
 
 Returns:
 None
@@ -7634,32 +7650,35 @@ Returns:
 None
 
 ## pip_repo
-Sets up a local pip repository and serves it via an HTTP server for offline installations.
+Sets up a local pip repository to serve Python packages for installation on a compromised machine without internet access.
 
-This function performs the following actions:
-1. Creates a directory for storing pip packages if it does not already exist.
-2. Downloads a predefined list of Python packages along with their dependencies to the repository directory.
-3. Organizes the downloaded packages into their respective directories.
-4. Starts an HTTP server to host the repository, allowing remote machines to install the packages.
-
-The repository path is created under the `sessions` directory, and the packages are served using Python's
-built-in HTTP server at port 8008.
+This function performs the following steps:
+1. Creates necessary directories for the pip repository.
+2. Checks for the presence of `pip-compile` and installs it if missing.
+3. Downloads a predefined list of Python packages to the local repository.
+4. Compiles the requirements for each package and downloads the compiled dependencies.
+5. Organizes the downloaded packages into a structured directory format.
+6. Generates an index for the pip repository.
+7. Serves the pip repository over HTTP, allowing the compromised machine to install packages from this local repository.
 
 Parameters:
-line (str): Optional argument for the command. Not used in this implementation but retained for compatibility
-            with the cmd2 framework.
+line (str): Command line input (not used in this function).
 
 Returns:
 None
 
-## apt_repo
-Creates a local APT repository and serves it via a web server.
+Example Usage:
+```
+pip_repo
+```
 
-This function performs the following actions:
-1. Creates a directory for storing `.deb` packages.
-2. Downloads the specified APT packages and their dependencies into the repository.
-3. Generates the necessary APT repository indexes.
-4. Starts a web server to host the repository for remote clients.
+## apt_repo
+Creates a comprehensive local APT repository with enhanced dependency resolution.
+
+Improvements:
+1. More robust dependency and metadata handling
+2. Better error checking and logging
+3. Comprehensive package and dependency management
 
 Parameters:
 line (str): A space-separated list of package names to include in the repository.
@@ -7876,6 +7895,216 @@ Usage:
 Example:
     excelntdonut -f payload.cs -r System.Windows.Forms.dll --sandbox --obfuscate -o macro.txt
 
+## spraykatz
+Executes the Spraykatz tool to retrieve credentials on Windows machines and large Active Directory environments.
+
+This function:
+    - Installs Spraykatz if not already installed.
+    - Executes the Spraykatz command with the provided parameters.
+    - Displays the result in the terminal.
+
+Behavior:
+    - Requires `python3`, `python3-pip`, `git`, and `nmap` to be installed.
+    - Uses parameters from `self.params` for username, password, and target.
+
+Usage:
+    spraykatz
+
+## caldera
+Installs and starts the Caldera server.
+
+This function:
+    - Clones the Caldera repository recursively.
+    - Installs the required dependencies.
+    - Optionally installs GoLang (1.19+).
+    - Starts the Caldera server with the provided parameters.
+
+Behavior:
+    - Requires `git`, `python3`, and `pip3` to be installed.
+    - Uses parameters from `self.params` for version/release.
+
+Usage:
+    caldera
+
+## ntpdate
+Synchronizes the system clock with a specified NTP server.
+
+This method constructs the target NTP server address using the domain and subdomain
+parameters. It then prompts the user to confirm or modify the target address.
+Finally, it executes the `ntpdate` command to synchronize the system clock with
+the specified NTP server.
+
+:param line: The command line input (not used in this method).
+:type line: str
+:return: None
+
+## ticketer
+Executes the Impacket ticketer tool to create a golden ticket.
+
+This function performs the following actions:
+1. Checks if the target host is valid.
+2. Prompts the user for the NTLM hash, domain SID, domain name, DC IP, SPN, and username.
+3. Constructs and executes the Impacket ticketer command with the provided information.
+
+Parameters:
+line (str): A command argument to determine the authentication mode.
+            This parameter is not used in this function.
+
+Returns:
+None
+
+## links
+Displays a list of useful links and allows the user to select and copy a link to the clipboard.
+
+This function performs the following actions:
+1. Defines a list of links with their aliases.
+2. Filters the links based on the input `line` if provided.
+3. Displays the filtered links with their aliases and URLs.
+4. Prompts the user to select a link by entering the corresponding number.
+5. Copies the selected link to the clipboard.
+
+Parameters:
+line (str, optional): A string to filter the links. If provided, only the links containing
+                    the string in their alias or URL will be displayed. Defaults to an empty string.
+
+Returns:
+None
+
+## rsync
+Synchronizes the local "sessions" directory to a remote host using rsync, leveraging sshpass for automated authentication.
+
+Steps:
+    1. Verifies if the credentials file exists in the "sessions" directory. 
+    If not, prompts the user for a username and password.
+    2. Reads the credentials file if it exists and extracts the username and password.
+    3. Constructs an rsync command to deploy the "sessions" directory to the remote host.
+    4. Executes the rsync command using the system shell.
+
+Args:
+    line (str): Input command line (not used in the current implementation).
+
+Dependencies:
+    - The `sshpass` command-line tool must be installed on the local machine.
+    - `rsync` must be installed on both the local and remote machines.
+    - The remote host must be accessible via SSH.
+
+Attributes:
+    - `self.params`: Dictionary containing the following keys:
+        - `username` (str, optional): Predefined username. Defaults to prompting the user if not provided.
+        - `password` (str, optional): Predefined password. Defaults to prompting the user if not provided.
+        - `rhost` (str): Remote host's IP or domain name.
+
+Raises:
+    - KeyError: If `rhost` is not provided in `self.params`.
+    - FileNotFoundError: If the "sessions" directory does not exist.
+
+Note:
+    - The `credentials.txt` file, if present, should have credentials in the format `username:password` 
+    on the first line.
+
+Returns:
+    None
+
+## pre2k
+Executes the pre2k tool to query the domain for pre-Windows 2000 machine accounts or to pass a list of hostnames to test authentication.
+
+This function:
+    - Installs pre2k if not already installed.
+    - Executes the pre2k command with the provided parameters.
+    - Displays the result in the terminal.
+
+Behavior:
+    - Requires `python3`, `python3-pip`, and `git` to be installed.
+    - Uses parameters from `self.params` for domain, username, password, and target.
+
+Usage:
+    pre2k auth -u <username> -p <password> -d <domain> -dc-ip <dc_ip>
+    pre2k unauth -d <domain> -dc-ip <dc_ip> -inputfile <inputfile>
+
+## gmsadumper
+Executes the gMSADumper tool to read and parse gMSA password blobs accessible by the user.
+
+This function:
+    - Installs gMSADumper if not already installed.
+    - Executes the gMSADumper command with the provided parameters.
+    - Displays the result in the terminal.
+
+Behavior:
+    - Requires `python3`, `python3-pip`, and `git` to be installed.
+    - Uses parameters from `self.params` for domain, username, password, and target.
+
+Usage:
+    gmsadumper -u <username> -p <password> -d <domain>
+    gmsadumper -u <username> -p <LM:NT hash> -d <domain> -l <ldap_server>
+    gmsadumper -k -d <domain> -l <ldap_server>
+
+## dnschef
+Executes the DNSChef tool to monitor DNS queries and intercept responses.
+
+This function:
+    - Installs DNSChef if not already installed.
+    - Executes the DNSChef command with the provided parameters.
+    - Displays the result in the terminal.
+
+Behavior:
+    - Requires `python3`, `python3-pip`, and `git` to be installed.
+    - Uses parameters from `self.params` for domain, username, password, and target.
+
+Usage:
+    dnschef
+
+## dploot
+Executes the dploot tool to loot DPAPI related secrets from local or remote targets.
+Actions: backupkey,blob,browser,certificates,credentials,machinecertificates,machinecredentials,machinemasterkeys,machinevaults,masterkeys,mobaxterm,rdg,sccm,vaults,wam,wifi
+This function:
+    - Installs dploot if not already installed.
+    - Executes the dploot command with the provided parameters.
+    - Displays the result in the terminal.
+
+Behavior:
+    - Requires `python3`, `python3-pip`, and `git` to be installed.
+    - Uses parameters from `self.params` for domain, username, password, and target.
+
+Usage:
+    dploot <action> -d <domain> -u <username> -p <password> -t <target>
+    dploot <action> -k -d <domain> -t <target>
+
+## banners
+        
+
+## createpayload
+Generates an obfuscated payload to evade AV detection using the payloadGenerator tool. thanks to smokeme
+
+This function:
+    - Clones the payloadGenerator repository if not already cloned.
+    - Installs .NET Framework 4.5 if not already installed.
+    - Executes the generator.py script with the provided IP, port, and XOR key.
+    - Displays the result in the terminal.
+Parameters:
+    line (str): lenght of xor key
+Behavior:
+    - Requires `git` and `dotnet` to be installed.
+    - Uses parameters from `self.params` for IP, port, and XOR key.
+
+Usage:
+    createpayload
+
+## bin2shellcode
+Converts a binary file to a shellcode string in C or Nim format.
+
+This function:
+    - Reads a binary file and converts its contents to a shellcode string.
+    - Supports both C and Nim formats.
+    - Displays the result in the terminal and saves it to a file.
+
+Behavior:
+    - Requires the filename, width, quotes, and format parameters.
+    - Uses default values if parameters are not provided.
+    - Uses parameters from `self.params` for filename, width, quotes, and format.
+
+Usage:
+    bin2shellcode [<filename> [<width> [<quotes> [<format>]]]]
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 
@@ -8090,4 +8319,7 @@ Helper function to alternate the case of characters in a string.
 
 ## lazyrun_command
 No description available.
+
+## resolve_and_download_dependencies
+Recursively resolve and download package dependencies with enhanced checks
 

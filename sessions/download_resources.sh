@@ -60,6 +60,7 @@ download() {
         "wget https://github.com/mandiant/SharPersist/releases/download/v1.0.1/SharPersist.exe"
         "wget https://github.com/incredibleindishell/crp/raw/refs/heads/main/powershell.exe"
         "wget https://github.com/pwntester/ysoserial.net/releases/download/v1.36/ysoserial-1dba9c4416ba6e79b6b262b758fa75e2ee9008e9.zip"
+        "wget https://github.com/PowerShell/Win32-OpenSSH/releases/download/v9.8.1.0p1-Preview/OpenSSH-Win64-v9.8.1.0.msi"
     )
 
     echo "    [+] Seleccione el número del comando que desea descargar:"

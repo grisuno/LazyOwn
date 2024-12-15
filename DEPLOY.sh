@@ -44,14 +44,14 @@ CURRENT_VERSION=$(git -C . describe --tags --abbrev=0 2>/dev/null || echo "relse
 # Revisa si el parámetro --no-test está presente
 if [[ "$1" != "--no-test" ]]; then
     # Ejecuta el comando si --no-test no está presente
-    python3 testmeneitor.py lazyown
+    python3 testmeneitor.py lazyown.py
 fi
 
 # Ejecuta el comando para eliminar archivos que comiencen con d2
 rm d2*
 
 # Actualiza la documentación
-python3 readmeneitor.py lazyown
+python3 readmeneitor.py lazyown.py
 python3 readmeneitor.py utils.py
 
 #Actualiza el README.md con los ultimos cambios
@@ -296,7 +296,7 @@ awk -F: '{
 git -C . add $CHANGELOG_FILE
 
 # Convertir el changelog a HTML
-pandoc $CHANGELOG_FILE -f markdown -t html -s -o CHANGELOG.html --metadata title="CHANGELOG LazyOwn Framework Pentesting t00lz"
+pandoc $CHANGELOG_FILE -f markdown -t html -s -o CHANGELOG.html --metadata title="CHANGELOG LazyOwn Framework RedTeaming t00lz"
 mv CHANGELOG.html docs/CHANGELOG.html
 git -C . add docs/CHANGELOG.html
 

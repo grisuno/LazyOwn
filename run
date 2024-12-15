@@ -1,7 +1,7 @@
 #!/bin/bash
 
 VENV_PATH="env"
-PYTHON_SCRIPT="lazyown"
+PYTHON_SCRIPT="lazyown.py"
 source "$VENV_PATH/bin/activate"
 
 if [[ $# -eq 0 ]]; then

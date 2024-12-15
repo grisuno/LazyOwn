@@ -39,6 +39,7 @@ import ctypes
 import socket
 import struct
 import random
+import libnmap
 import argparse
 import binascii
 import readline
@@ -48,6 +49,7 @@ import itertools
 import threading
 import subprocess
 import urllib.parse
+import pandas as pd
 import urllib.request
 import importlib.util
 from PIL import Image
@@ -98,6 +100,7 @@ window_count = 0
 session_name = "lazyown_sessions"
 NOBANNER = False
 COMMAND = None
+NOLOGS = False
 RUN_AS_ROOT = False
 os.environ['OPENSSL_CONF'] = '/usr/lib/ssl/openssl.cnf'
 global payload_url, target_domain, concurrency, request_timeout, include_subdomains
@@ -1939,6 +1942,7 @@ def halp():
     print(f"    {GREEN}  --no-banner        No Banner{RESET}")
     print(f"    {GREEN}  -s                 Run as root {RESET}")
     print(f"    {GREEN}  --old-banner       Show old Banner{RESET}")
+    print(f"    {GREEN}  --no-logs          Turn of logs of commands in sessions directory. {RESET}")
     sys.exit(0)
  
 
@@ -2045,7 +2049,6 @@ def shellcode_to_sylk(shellcode_path):
 	sylk_output+=("\nC;X2;Y%s;K0;ERETURN()\nE\n" % (str(cell)))
 	return sylk_output
 
-import socket
 
 def get_banner(ip, port):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
@@ -2289,6 +2292,26 @@ def generate_index(repo_dir):
 
 
 def replace_variables(command, variables):
+    """
+    Replace variables in a command string with their corresponding values.
+
+    This function takes a command string and a dictionary of variables and their values.
+    It replaces each occurrence of a variable in the command string with its corresponding value.
+
+    Args:
+        command (str): The command string containing variables to be replaced.
+        variables (dict): A dictionary where the keys are the variables to be replaced
+                          and the values are the corresponding values to replace them with.
+
+    Returns:
+        str: The command string with all variables replaced by their corresponding values.
+
+    Example:
+        command = "Hello, \$name! You have \$amount dollars."
+        variables = {"\$name": "Alice", "\$amount": 100}
+        result = replace_variables(command, variables)
+        print(result)  # Output: "Hello, Alice! You have 100 dollars."
+    """    
     for var, value in variables.items():
         value = str(value)
         command = command.replace(var, value)
@@ -2378,7 +2401,27 @@ users:
         print_error(f"Error creating configuration file: {e}")
 
 def extract_banners(xml_file):
-    
+    """
+    Extract banner information from an XML file.
+
+    This function parses an XML file and extracts banner information for each host and port.
+    The banner information includes the hostname, port, protocol, extra details, and service.
+
+    Args:
+        xml_file (str): The path to the XML file to be parsed.
+
+    Returns:
+        list: A list of dictionaries, where each dictionary contains banner information for a specific host and port.
+              Each dictionary has the following keys:
+                - hostname (str): The hostname of the host.
+                - port (str): The port number.
+                - protocol (str): The protocol used (e.g., tcp, udp).
+                - banner (str): Extra information about the service.
+                - service (str): The name of the service running on the port.
+
+    Example:
+        banners = extract_banners('path/to/file.xml')
+    """    
     tree = ET.parse(xml_file)
     root = tree.getroot()
     
@@ -2420,6 +2463,58 @@ def generate_xor_key(length):
     key_hex = ''.join(f'{byte:02X}' for byte in key_bytes)
 
     return key_hex
+
+def scrape_news():
+    """
+    Realiza una solicitud a la página de noticias de Hacker News y extrae los títulos, enlaces y puntuaciones de las noticias.
+
+    Returns:
+        tuple: Tres listas conteniendo los títulos, enlaces y puntuaciones de las noticias respectivamente.
+    """
+    url = "https://news.ycombinator.com/"
+    response = requests.get(url)
+    soup = BeautifulSoup(response.content, 'html.parser')
+
+    titles = []
+    links = []
+    scores = []
+    
+    for item in soup.find_all('tr', class_='athing'):
+        title_line = item.find('span', class_='titleline')
+        if title_line:
+            title = title_line.text
+            title_link = title_line.find('a')
+            link = title_link['href']
+            score = item.find_next_sibling('tr').find('span', class_='score')
+            if score:
+                score = score.text
+            else:
+                score = "None"
+            titles.append(title)
+            links.append(link)
+            scores.append(score)
+        else:
+            print_error("No se encontró un título para el elemento, se omite.")
+
+    return titles, links, scores
+
+def display_news(titles, links, scores):
+    """
+    Crea un DataFrame de pandas y lo imprime, mostrando los títulos, enlaces y puntuaciones de las noticias.
+
+    Args:
+        titles (list): Lista de títulos de las noticias.
+        links (list): Lista de enlaces de las noticias.
+        scores (list): Lista de puntuaciones de las noticias.
+    """
+    df = pd.DataFrame({
+        'Title': titles,
+        'Link': links,
+        'Score': scores
+    })
+
+    print_msg(df)
+
 class MyServer(HTTPServer):
     """
     Custom HTTP server to handle incoming connections from certutil.
@@ -2526,7 +2621,104 @@ class IP2ASN:
         """Get the country by ASN."""
         return self.as_country.get(asn, "Unknown")
 
+class VulnerabilityScanner:
+    """Escáner de vulnerabilidades que busca y muestra información sobre CVEs.
 
+    Attributes:
+        headers (dict): Cabeceras de la solicitud HTTP para simular un navegador.
+    """
+
+    def __init__(self):
+        """Inicializa el escáner con las cabeceras HTTP predefinidas."""
+        self.headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
+        }
+
+    def search_cves(self, service):
+        """Busca CVEs basados en un servicio específico.
+
+        Args:
+            service (str): El servicio para buscar vulnerabilidades relacionadas.
+
+        Returns:
+            list: Lista de diccionarios con información sobre cada CVE o mensaje de error.
+        """
+        url = f"https://services.nvd.nist.gov/rest/json/cves/2.0?keywordSearch={service}"
+        response = requests.get(url, headers=self.headers)
+
+        if response.status_code != 200:
+            return "No se pudo obtener información de las vulnerabilidades"
+        
+        data_dict = response.json()
+        cves_info = []
+
+        for vulnerability in data_dict['vulnerabilities']:
+            cve_id = vulnerability['cve']['id']
+            descriptions = vulnerability['cve']['descriptions']
+            description = next((desc['value'] for desc in descriptions if desc['lang'] == 'es'), None)
+            cves_info.append({'cve_id': cve_id, 'description': description})
+        
+        with ThreadPoolExecutor(max_workers=20) as executor:
+            executor.map(self.search_cve_details, cves_info)
+
+        return cves_info
+
+    def search_cve_details(self, cve_info):
+        """Añade detalles adicionales a la información del CVE.
+
+        Args:
+            cve_info (dict): Información básica del CVE incluyendo id y descripción.
+        """
+        cve_details_url = f"https://www.cvedetails.com/cve/{cve_info['cve_id']}/"
+        response = requests.get(cve_details_url, headers=self.headers)
+
+        if response.status_code == 200:
+            soup = BeautifulSoup(response.content, 'html.parser')
+            cvss_info = soup.find('div', {'class': 'cvssbox'})
+            cve_info['cvss'] = cvss_info.get_text().strip() if cvss_info else 'No disponible'
+            cve_info['url'] = cve_details_url
+
+    def pretty_print(self, cves_details):
+        """Imprime una tabla bonita con detalles de CVEs.
+
+        Args:
+            cves_details (list): Lista de CVEs con toda la información recopilada.
+        """
+        path = os.getcwd()
+   
+        file_path = f"{path}/sessions/vuln_report_{int(time.time())}.csv"
+        print_msg("Vulnerabilities found.")
+        csv = "CVE ID;   Description;   CVSS;  URL"
+        print_msg(csv)
+
+        
+        cves_details_sorted = sorted(
+            cves_details,
+            key=lambda x: float(x['cvss']) if x['cvss'] not in ["No disponible", None] else 0.0,
+            reverse=False
+        )
+
+        for cve in cves_details_sorted:
+            cvss_str = str(cve['cvss']) if cve['cvss'] not in ["No disponible", 0.0] else "No disponible"
+            content = f"{cve['cve_id']};    {cve['description']};   {cvss_str}; {cve['url']} \n"
+            csv += content
+            print_msg(content)
+
+        try:
+            with open(file_path, 'w') as file:
+                file.write(csv)
+            print_msg(f"Csv file created successfully at {file_path}")
+        except Exception as e:
+            print_error(f"Error creating Csv file: {e}")        
+        
+def is_port_in_use(port, host='127.0.0.1'):
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        try:
+            s.bind((host, port))
+        except socket.error:
+            return True
+        return False
+    
 signal.signal(signal.SIGINT, signal_handler)
 arguments = sys.argv[1:]  
 
@@ -2555,10 +2747,12 @@ for arg in arguments:
     elif arg.startswith("--old-banner"):
         BANNER = OLD_BANNER
         break
-      
+    elif arg.startswith("--no-logs"):
+        NOLOGS = True
+        break      
     else:
         print_error(f"Error: Wrong argument: {arg}")
-        sys.exit(2)
+       
 
 if RUN_AS_ROOT:
     check_sudo()

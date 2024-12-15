@@ -125,6 +125,9 @@ download() {
         "git clone https://github.com/Hackplayers/PsCabesha-tools.git .exploit/PsCabeshaps1"
         "git clone https://github.com/clymb3r/PowerShell.git .exploit/PowerShell_privesc"
         "git clone https://github.com/grisuno/binary.git .exploit/grisun0_compiled_windows_binaries"
+        "git clone https://github.com/Leo4j/Amnesiac.git .exploit/Amnesiac"
+        "git clone https://github.com/JoelGMSec/AutoRDPwn.git .exploit/AutoRDPwn"
+        "git clone https://github.com/JoelGMSec/Kitsune.git .exploit/Kitsune"
     )
     
     echo "    [+] Choice the number option to clone:"

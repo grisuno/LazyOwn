@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LazyOwn Command and Control Center</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/vis-network/styles/vis-network.min.css" rel="stylesheet" type="text/css" />
+    <style>
+        .neon-text {
+            color: #00ff00;
+            text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 40px #00ff00;
+            animation: flicker 1.5s infinite alternate;
+        }
+        #mynetwork {
+            width: 100%;
+            height: 768px;
+            border: 1px dotted lightgray;
+        }
+        .section {
+            display: none;
+        }
+        .section.active {
+            display: block;
+        }
+        .terminal-window {
+            background-color: #000;
+            color: #0F0;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 20px;
+            border: 2px solid rgb(94, 24, 0);
+            border-radius: 5px;
+            position: relative;
+            word-break: break-all;
+        }
+        .terminal-header {
+            background-color: #000;
+            color: #0F0;
+            padding: 5px 10px;
+            border-bottom: 2px solid #0F0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .terminal-title {
+            font-weight: bold;
+        }
+        .terminal-controls {
+            display: flex;
+            gap: 5px;
+        }
+        .terminal-control-button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .close-button {
+            background-color: #FF0000;
+        }
+        .minimize-button {
+            background-color: #FFFF00;
+        }
+        .maximize-button {
+            background-color: #00FF00;
+        }
+        .card-text {
+            color: #0F0;
+            white-space: pre-wrap;
+        }
+        .chico {
+            font-size: 12px;
+        }
+        .table-container {
+            margin-top: 20px;
+        }
+        .table-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+            padding: 15px;
+            border: 1px solid #0F0;
+            border-radius: 5px;
+            background-color: #1e1e1e;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s;
+        }
+        .table-row:hover {
+            transform: scale(1.02);
+        }
+        .table-cell {
+            flex: 1 1 auto;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        .table-cell:last-child {
+            margin-right: 0;
+        }
+        .table-cell input[type="checkbox"] {
+            transform: scale(1.5);
+            margin-right: 10px;
+        }
+
+        .btn-run-test {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #5cb85c;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .btn-run-test:hover {
+            background-color: #4cae4c;
+        }
+        .footer {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #1e1e1e;
+            border-top: 2px solid #0F0;
+        }
+        @media (max-width: 768px) {
+            .table-cell {
+                flex: 1 1 100%;
+            }
+        }
+        .check {
+            float: right;
+        }
+        .toastr {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1050;
+            width: 300px;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        .toastr.show {
+            opacity: 1;
+        }        
+    </style>
+</head>
+<body class="bg-dark text-success">
+    <div class="container mt-5">
+        <div class="text-center mb-4">
+            <h1 class="neon-text">LazyOwn Command and Control Center [;,;]</h1>
+            <pre class="neon-text chico">
+                .-==++++=-:.                                      
+            .=*%@@@@@@@@@@@@@@%+-                                  
+          =%@@%@@@@@@@@@@@@@@@%#%@#-                               
+       .*@@**%@@@@@@@@@@@@@@==#@@@@@@=                             
+      +@@*+@@@@@@@@@@@@@@@%:%@@@@@@@@@@-                           
+     %@@*+@@@@@@@@@@@@@@@@=%@@@@@@@@@@@@:                          
+    +@@@*@@@@@@@@@@@@@@@@@%@@@@@@@@@@@@%*                          
+    *@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*%                          
+    +@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@=@                          
+    :@@@@@@@@@@@@@@@@@@@@@+@@@@@@@@@@@@:@                          
+     #@#@@@@@@@@@@@@@@#**+-=@%@@@@@@@#@:@                          
+   :%%@@%@@@@@@@@%@@@%@@@@@*:#@@@@@@@+#=#                          
+   =:.:#@@%+@@+*%@@@*-.  .=%@=%@@@@@@@=@+                          
+    +%  :%@%%**@@%=       *%@-#@@@@@@@@@:                          
+    .@:   ::+#**=         %@*%+*#%@@%@@+                           
+    %**==+#*:@%#=-:      +@*@@@@@@@#**:                            
+   -@@@@@%%=:=@@@@@@@%#%%@#%@@#*=:==                               
+     .-:=#+   .=%%@@%%#@@@@@#+=.-*                                 
+         =@# -%%@@@@%++#=**==- =@+                                 
+          #@@@@@@@@@@@#%:++=*%:%@@                                 
+         -*=+#+##**#+==.  ==*@@#@+                                 
+           :=#=--::.    *=#@%@%=                                   
+            :+#-      :%##@@@#.                                    
+             ===     =%+#@@@=                                      
+              :--::+#*=%@%@:                                       
+               *###*#%%#*%.                                        
+:======-.                   
+██▓    ▄▄▄      ▒███████▒▓██   ██▓ ▒█████   █     █░███▄    █     ▄████▄   ▄████▄   ▄████▄  
+▓██▒   ▒████▄    ▒ ▒ ▒ ▄▀░ ▒██  ██▒▒██▒  ██▒▓█░ █ ░█░██ ▀█   █    ▒██▀ ▀█  ▒██▀ ▀█  ▒██▀ ▀█  
+▒██░   ▒██  ▀█▄  ░ ▒ ▄▀▒░   ▒██ ██░▒██░  ██▒▒█░ █ ░█▓██  ▀█ ██▒   ▒▓█    ▄ ▒▓█    ▄ ▒▓█    ▄ 
+▒██░   ░██▄▄▄▄██   ▄▀▒   ░  ░ ▐██▓░▒██   ██░░█░ █ ░█▓██▒  ▐▌██▒   ▒▓▓▄ ▄██▒▒▓▓▄ ▄██▒▒▓▓▄ ▄██▒
+░██████▒▓█   ▓██▒▒███████▒  ░ ██▒▓░░ ████▓▒░░░██▒██▓▒██░   ▓██░   ▒ ▓███▀ ░▒ ▓███▀ ░▒ ▓███▀ ░
+░ ▒░▓  ░▒▒   ▓▒█░░▒▒ ▓░▒░▒   ██▒▒▒ ░ ▒░▒░▒░ ░ ▓░▒ ▒ ░ ▒░   ▒ ▒    ░ ░▒ ▒  ░░ ░▒ ▒  ░░ ░▒ ▒  ░
+░ ░ ▒  ░ ▒   ▒▒ ░░░▒ ▒ ░ ▒ ▓██ ░▒░   ░ ▒ ▒░   ▒ ░ ░ ░ ░░   ░ ▒░     ░  ▒     ░  ▒     ░  ▒   
+  ░ ░    ░   ▒   ░ ░ ░ ░ ░ ▒ ▒ ░░  ░ ░ ░ ▒    ░   ░    ░   ░ ░    ░        ░        ░        
+    ░  ░     ░  ░  ░ ░     ░ ░         ░ ░      ░            ░    ░ ░      ░ ░      ░ ░      
+                 ░         ░ ░                                    ░        ░        ░        
+</pre>
+        </div>
+        <div class="card bg-secondary text-light p-4 mb-4">
+            <h1>Techniques in {{ directory }}</h1>
+            <p>
+                Disclaimer: This test is specifically targeted by payload.json within the LazyOwn Framework, not by the LazyOwn Agent. [!] Please do not use this in military or secret service organizations, or for illegal purposes. (This is non-binding, as these entities often disregard laws and ethics anyway.)
+            </p>
+            <a class="neon-text" href="{{ url_for('index') }}">Back to index.</a>
+            <form id="test-form">
+                <div class="table-container">
+                    {% for test in yaml_data %}
+                        <div class="table-row">
+                            <div class="terminal-window">
+                                <div class="terminal-controls">
+                                    <div class="terminal-control-button close-button"></div>
+                                    <div class="terminal-control-button minimize-button"></div>
+                                    <div class="terminal-control-button maximize-button"></div>
+                                </div>                            
+                                <div class="table-cell check">
+                                    <input type="checkbox" name="selected_tests" value="{{ test.auto_generated_guid }}">
+                                </div>
+                                <div class="table-cell"><div class="terminal-title">{{ test.name }}</div></div>
+                                <div class="table-cell card-body">{{ test.description }}</div>
+                                <div class="table-cell">{{ test.supported_platforms }}</div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <button type="button" class="btn-run-test" onclick="runTest()">Run Test</button>
+            </form>
+            <br>
+            <a class="neon-text" href="{{ url_for('index') }}">Back to index.</a>
+            <h2 class="mt-4">Contact</h2>
+            <p>For any questions or feedback, please reach out to <a href="mailto\:grisiscomeback[at]gmail[dot]com" class="text-success">Gris Iscomeback</a>.</p>
+        </div>
+        <div class="footer text-center mt-4 p-3 bg-secondary text-light">
+            <p>&copy; 2024 LazyOwn Web\$hellz. All rights GPLv3.</p>
+        </div>
+        <div id="toastr" class="toastr alert alert-success" role="alert">
+            Command exec successfully.
+        </div>
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-T4VF6JJ095"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-T4VF6JJ095');
+        </script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
+        <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                kofiWidgetOverlay.draw('grisuno', {
+                    'type': 'floating-chat',
+                    'floating-chat.donateButton.text': 'Support me',
+                    'floating-chat.donateButton.background-color': '#5cb85c',
+                    'floating-chat.donateButton.text-color': '#fff'
+                });
+            });
+            function toastr(command){
+                var toastr = document.getElementById('toastr');
+                toastr.classList.add('show');
+                setTimeout(function() {
+                    toastr.classList.remove('show');
+                }, 22000);
+                toastr.innerHTML += "<div class='.neon-text'> " + command + " </div>"
+            };
+            function atomicGen(id, type){
+                let command;
+
+                if (type === 'agent') {
+                    command = "atomic_agent web";
+                } else {
+                    command = "atomic_" + type + " " + id;
+                }
+                console.log(command)
+                fetch('/api/run', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ command })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const outputDiv = document.getElementById('output');
+                    if (data.error) {
+                        outputDiv.innerHTML += `<p style="color: red;">${data.error}</p>`;
+                    } else {
+                        toastr(command)
+                    }
+                });                
+            }
+            function runTest() {
+
+                const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                const valoresMarcados = [];
+                checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    atomicGen(checkbox.value, 'gen');
+                }
+                });
+                atomicGen('lol', 'agent');
+            }
+        </script>
+    </div>
+</body>
+</html>

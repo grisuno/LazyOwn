@@ -24,7 +24,7 @@ function ctrl_c() {
 
 DIRECTORIO="./sessions"
 ARCHIVO="$DIRECTORIO/nmap-bootstrap.xsl"
-
+sudo chown 1000:1000 sessions -R
 # Verificar si el archivo no existe
 if [ ! -f "$ARCHIVO" ]; then
     echo "    [*] The file don't exist. Downloading..."
@@ -162,6 +162,7 @@ cat <<EOL > $OUTPUT_HTML
 <body>
     <div class="sidebar">
         <h2>Reportes Nmap 👽</h2>
+		<h3><a href="http://127.0.0.1:4444">C&C</h3>
 
 EOL
 
@@ -176,7 +177,7 @@ cat <<EOL >> $OUTPUT_HTML
 		<img src="graph.png" alt="graph.png">
     </div>
     <div class="content">
-        <h2>⚠ LazyOwn ⚠ Framwork 👽 WebServer ☠ [;,;] </h2>
+        <h2>⚠ LazyOwn ⚠ RedTeam ☠ Framwork 👽 WebServer ☠ [;,;] </h2>
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -382,6 +383,7 @@ cat <<EOL > $OUTPUT_HTML
 <body>
     <div class="sidebar">
         <h2>Nmap Reports 👽</h2>
+		<h3><a href="http://127.0.0.1:4444">C&C</h3>
 EOL
 
 for file in "$DIRECTORIO"/*.html; do
@@ -395,7 +397,7 @@ cat <<EOL >> $OUTPUT_HTML
 	<img src="graph.png" alt="graph.png">
     </div>
     <div class="content">
-        <h2>⚠ LazyOwn ⚠ Framwork 👽 WebServer ☠ [;,;] </h2>
+        <h2>⚠ LazyOwn ⚠ RedTeam ☠ Framwork 👽 WebServer ☠ [;,;] </h2>
         <table class="table table-bordered">
             <thead>
                 <tr>

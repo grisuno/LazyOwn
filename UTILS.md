@@ -881,7 +881,24 @@ Returns:
 None
 
 ## replace_variables
-No description available.
+Replace variables in a command string with their corresponding values.
+
+This function takes a command string and a dictionary of variables and their values.
+It replaces each occurrence of a variable in the command string with its corresponding value.
+
+Args:
+    command (str): The command string containing variables to be replaced.
+    variables (dict): A dictionary where the keys are the variables to be replaced
+                      and the values are the corresponding values to replace them with.
+
+Returns:
+    str: The command string with all variables replaced by their corresponding values.
+
+Example:
+    command = "Hello, \$name! You have \$amount dollars."
+    variables = {"\$name": "Alice", "\$amount": 100}
+    result = replace_variables(command, variables)
+    print(result)  # Output: "Hello, Alice! You have 100 dollars."
 
 ## create_caldera_config
 Creates a Caldera configuration file with the specified content at the given file path.
@@ -893,13 +910,48 @@ Returns:
 None
 
 ## extract_banners
-No description available.
+Extract banner information from an XML file.
+
+This function parses an XML file and extracts banner information for each host and port.
+The banner information includes the hostname, port, protocol, extra details, and service.
+
+Args:
+    xml_file (str): The path to the XML file to be parsed.
+
+Returns:
+    list: A list of dictionaries, where each dictionary contains banner information for a specific host and port.
+          Each dictionary has the following keys:
+            - hostname (str): The hostname of the host.
+            - port (str): The port number.
+            - protocol (str): The protocol used (e.g., tcp, udp).
+            - banner (str): Extra information about the service.
+            - service (str): The name of the service running on the port.
+
+Example:
+    banners = extract_banners('path/to/file.xml')
 
 ## generate_xor_key
 Generate key XOR long specifyed
 
 :param length: Lenght of XOR key
 :return: Key XOR in hex.
+
+## scrape_news
+Realiza una solicitud a la página de noticias de Hacker News y extrae los títulos, enlaces y puntuaciones de las noticias.
+
+Returns:
+    tuple: Tres listas conteniendo los títulos, enlaces y puntuaciones de las noticias respectivamente.
+
+## display_news
+Crea un DataFrame de pandas y lo imprime, mostrando los títulos, enlaces y puntuaciones de las noticias.
+
+Args:
+    titles (list): Lista de títulos de las noticias.
+    links (list): Lista de enlaces de las noticias.
+    scores (list): Lista de puntuaciones de las noticias.
+
+## is_port_in_use
+No description available.
 
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
@@ -942,4 +994,28 @@ Get the AS name by ASN.
 
 ## as_country
 Get the country by ASN.
+
+## __init__
+Inicializa el escáner con las cabeceras HTTP predefinidas.
+
+## search_cves
+Busca CVEs basados en un servicio específico.
+
+Args:
+    service (str): El servicio para buscar vulnerabilidades relacionadas.
+
+Returns:
+    list: Lista de diccionarios con información sobre cada CVE o mensaje de error.
+
+## search_cve_details
+Añade detalles adicionales a la información del CVE.
+
+Args:
+    cve_info (dict): Información básica del CVE incluyendo id y descripción.
+
+## pretty_print
+Imprime una tabla bonita con detalles de CVEs.
+
+Args:
+    cves_details (list): Lista de CVEs con toda la información recopilada.
 

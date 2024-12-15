@@ -813,7 +813,21 @@ compatibility.</p>
 <p>Parameters: repo_dir (str): Path to the repository directory.</p>
 <p>Returns: None</p>
 <h2 id="replace_variables">replace_variables</h2>
-<p>No description available.</p>
+<p>Replace variables in a command string with their corresponding
+values.</p>
+<p>This function takes a command string and a dictionary of variables
+and their values. It replaces each occurrence of a variable in the
+command string with its corresponding value.</p>
+<p>Args: command (str): The command string containing variables to be
+replaced. variables (dict): A dictionary where the keys are the
+variables to be replaced and the values are the corresponding values to
+replace them with.</p>
+<p>Returns: str: The command string with all variables replaced by their
+corresponding values.</p>
+<p>Example: command = “Hello, $name! You have $amount dollars.”
+variables = {“$name”: “Alice”, “$amount”: 100} result =
+replace_variables(command, variables) print(result) # Output: “Hello,
+Alice! You have 100 dollars.”</p>
 <h2 id="create_caldera_config">create_caldera_config</h2>
 <p>Creates a Caldera configuration file with the specified content at
 the given file path.</p>
@@ -821,10 +835,34 @@ the given file path.</p>
 will be created.</p>
 <p>Returns: None</p>
 <h2 id="extract_banners">extract_banners</h2>
-<p>No description available.</p>
+<p>Extract banner information from an XML file.</p>
+<p>This function parses an XML file and extracts banner information for
+each host and port. The banner information includes the hostname, port,
+protocol, extra details, and service.</p>
+<p>Args: xml_file (str): The path to the XML file to be parsed.</p>
+<p>Returns: list: A list of dictionaries, where each dictionary contains
+banner information for a specific host and port. Each dictionary has the
+following keys: - hostname (str): The hostname of the host. - port
+(str): The port number. - protocol (str): The protocol used (e.g., tcp,
+udp). - banner (str): Extra information about the service. - service
+(str): The name of the service running on the port.</p>
+<p>Example: banners = extract_banners(‘path/to/file.xml’)</p>
 <h2 id="generate_xor_key">generate_xor_key</h2>
 <p>Generate key XOR long specifyed</p>
 <p>:param length: Lenght of XOR key :return: Key XOR in hex.</p>
+<h2 id="scrape_news">scrape_news</h2>
+<p>Realiza una solicitud a la página de noticias de Hacker News y extrae
+los títulos, enlaces y puntuaciones de las noticias.</p>
+<p>Returns: tuple: Tres listas conteniendo los títulos, enlaces y
+puntuaciones de las noticias respectivamente.</p>
+<h2 id="display_news">display_news</h2>
+<p>Crea un DataFrame de pandas y lo imprime, mostrando los títulos,
+enlaces y puntuaciones de las noticias.</p>
+<p>Args: titles (list): Lista de títulos de las noticias. links (list):
+Lista de enlaces de las noticias. scores (list): Lista de puntuaciones
+de las noticias.</p>
+<h2 id="is_port_in_use">is_port_in_use</h2>
+<p>No description available.</p>
 <h2 id="wrapper">wrapper</h2>
 <p>internal wrapper of internal function to implement multiples rhost to
 operate.</p>
@@ -854,5 +892,21 @@ operate.</p>
 <p>Get the AS name by ASN.</p>
 <h2 id="as_country">as_country</h2>
 <p>Get the country by ASN.</p>
+<h2 id="init-1"><strong>init</strong></h2>
+<p>Inicializa el escáner con las cabeceras HTTP predefinidas.</p>
+<h2 id="search_cves">search_cves</h2>
+<p>Busca CVEs basados en un servicio específico.</p>
+<p>Args: service (str): El servicio para buscar vulnerabilidades
+relacionadas.</p>
+<p>Returns: list: Lista de diccionarios con información sobre cada CVE o
+mensaje de error.</p>
+<h2 id="search_cve_details">search_cve_details</h2>
+<p>Añade detalles adicionales a la información del CVE.</p>
+<p>Args: cve_info (dict): Información básica del CVE incluyendo id y
+descripción.</p>
+<h2 id="pretty_print">pretty_print</h2>
+<p>Imprime una tabla bonita con detalles de CVEs.</p>
+<p>Args: cves_details (list): Lista de CVEs con toda la información
+recopilada.</p>
 </body>
 </html>

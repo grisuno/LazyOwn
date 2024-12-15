@@ -1,8 +1,11 @@
 #!/bin/bash
 
 SESSION="lazyown_sessions"
-COMMAND='./run --no-banner'
-VPN=1  
+COMMAND='./run -c "c2 no_priv"'
+VPN=1
+VENV_PATH="env"
+
+
 check_sudo() {
     if [ "$EUID" -ne 0 ]; then
         echo "[S] Este script necesita permisos de superusuario. Relanzando con sudo..."
@@ -31,14 +34,16 @@ done
 echo $VPN
 check_sudo "$@"
 echo $VPN
+chown $USER:$USER sessions -R
 tmux new-session -d -s $SESSION
 tmux send-keys -t $SESSION "sleep 5 && bash -c './run -c nmap'" C-m
 tmux split-window -v
-tmux send-keys -t $SESSION "sleep 5 && bash -c '$COMMAND'" C-m
+tmux send-keys -t $SESSION "sleep 5 && bash -c './run -c ping'" C-m
+tmux send-keys -t $SESSION "c2 no_priv" C-m
 tmux split-window -v
-tmux send-keys -t $SESSION "sleep 60 && bash -c './run -c pyautomate'" C-m
+tmux send-keys -t $SESSION "sleep 99 && bash -c './run -c pyautomate'" C-m
 tmux split-window -h
-tmux send-keys -t $SESSION "sleep 5 && bash -c './run -c \"c2 no_priv\"'" C-m
+tmux send-keys -t $SESSION "sleep 0.05 && bash -c 'source \"$VENV_PATH/bin/activate\" && python3 -W ignore lazyc2.py 4444 LazyOwn LazyOwn'" C-m
 tmux select-pane -t 0
 tmux split-window -h
 tmux send-keys -t $SESSION "bash -c './run -c \"vpn $VPN\"'" C-m

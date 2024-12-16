@@ -2,6 +2,27 @@
 # Changelog
 
 
+### Correcciones urgentes
+
+### Otros
+
+  *   * hotfix(hot fix): path \n\n Version: release/0.2.24 \n\n atomic redteam framework \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Dec 15 19:01:56 2024 -0800 \n\n Hora: 1734318116
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #75 from grisuno/dev5
+
+
+### Otros
+
+### Otros
+
+  *   * some utils 9 jajaja?
+
+
 ### Nuevas características
 
 ### Otros

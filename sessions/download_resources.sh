@@ -65,6 +65,10 @@ download() {
         "wget https://raw.githubusercontent.com/Leo4j/Amnesiac/refs/heads/main/Amnesiac_ShellReady.ps1"
         "wget https://raw.githubusercontent.com/Leo4j/Invoke-SMBRemoting/main/Invoke-SMBRemoting.ps1"
         "wget https://raw.githubusercontent.com/0xyassine/CVE-2023-40028/refs/heads/master/CVE-2023-40028.sh"
+        "wget https://github.com/lkarlslund/Adalanche/releases/download/v2024.1.11/adalanche-collector-windows-386-v2024.1.11.exe"
+        "wget https://github.com/lkarlslund/Adalanche/releases/download/v2024.1.11/adalanche-linux-x64-v2024.1.11"
+        "wget https://raw.githubusercontent.com/MatheuZSecurity/systemd-backdoor/refs/heads/main/systemd.sh"
+
     )
 
     echo "    [+] Seleccione el número del comando que desea descargar:"

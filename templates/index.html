@@ -8,99 +8,12 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://unpkg.com/vis-network/styles/vis-network.min.css" rel="stylesheet" type="text/css" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
-    <style>
-        .neon-text {
-            color: #00ff00;
-            text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 40px #00ff00;
-            animation: flicker 1.5s infinite alternate;
-        }
-        #mynetwork {
-            width: 100%;
-            height: 768px;
-            border: 1px dotted lightgray;
-        }
-        .section {
-            display: none;
-        }
-        .section.active {
-            display: block;
-        }   
-        /* styles.css */
-        .terminal-window {
-            background-color: #000;
-            color: #0F0;
-            font-family: 'Courier New', Courier, monospace;
-            padding: 20px;
-            border: 2px solid rgb(94, 24, 0);
-            border-radius: 5px;
-            position: relative;
-            word-break: break-all;
-        }
-
-        .terminal-header {
-            background-color: #000;
-            color: #0F0;
-            padding: 5px 10px;
-            border-bottom: 2px solid #0F0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .terminal-title {
-            font-weight: bold;
-        }
-
-        .terminal-controls {
-            display: flex;
-            gap: 5px;
-        }
-
-        .terminal-control-button {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-        }
-
-        .close-button {
-            background-color: #FF0000;
-        }
-
-        .minimize-button {
-            background-color: #FFFF00;
-        }
-
-        .maximize-button {
-            background-color: #00FF00;
-        }
-
-        .card-text {
-            color: #0F0;
-            white-space: pre-wrap;
-        }
-        .chico {
-            font-size: 12px;
-        }
-        .toastr {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1050;
-            width: 300px;
-            opacity: 0;
-            transition: opacity 0.5s;
-        }
-        .toastr.show {
-            opacity: 1;
-        }        
-        .custom-dropdown {
-            background-color: #f8f9fa;
-            border: 1px solid #ced4da;
-            border-radius: 0.25rem;
-        }              
-    </style>
+    <link href="/static/css/style.css" rel="stylesheet" />
 </head>
 <body class="bg-dark text-success">
+    <div class="loading-container">
+        <div class="loading-spinner"></div>
+    </div>
     <div class="container mt-5">
         <div class="text-center mb-4">
             <h1 class="neon-text">LazyOwn Command and Control Center [;,;]</h1>
@@ -131,18 +44,8 @@
                  ===     =%+#@@@=                                      
                   :--::+#*=%@%@:                                       
                    *###*#%%#*%.                                        
-:======-.                   
-██▓    ▄▄▄      ▒███████▒▓██   ██▓ ▒█████   █     █░███▄    █     ▄████▄   ▄████▄   ▄████▄  
-▓██▒   ▒████▄    ▒ ▒ ▒ ▄▀░ ▒██  ██▒▒██▒  ██▒▓█░ █ ░█░██ ▀█   █    ▒██▀ ▀█  ▒██▀ ▀█  ▒██▀ ▀█  
-▒██░   ▒██  ▀█▄  ░ ▒ ▄▀▒░   ▒██ ██░▒██░  ██▒▒█░ █ ░█▓██  ▀█ ██▒   ▒▓█    ▄ ▒▓█    ▄ ▒▓█    ▄ 
-▒██░   ░██▄▄▄▄██   ▄▀▒   ░  ░ ▐██▓░▒██   ██░░█░ █ ░█▓██▒  ▐▌██▒   ▒▓▓▄ ▄██▒▒▓▓▄ ▄██▒▒▓▓▄ ▄██▒
-░██████▒▓█   ▓██▒▒███████▒  ░ ██▒▓░░ ████▓▒░░░██▒██▓▒██░   ▓██░   ▒ ▓███▀ ░▒ ▓███▀ ░▒ ▓███▀ ░
-░ ▒░▓  ░▒▒   ▓▒█░░▒▒ ▓░▒░▒   ██▒▒▒ ░ ▒░▒░▒░ ░ ▓░▒ ▒ ░ ▒░   ▒ ▒    ░ ░▒ ▒  ░░ ░▒ ▒  ░░ ░▒ ▒  ░
-░ ░ ▒  ░ ▒   ▒▒ ░░░▒ ▒ ░ ▒ ▓██ ░▒░   ░ ▒ ▒░   ▒ ░ ░ ░ ░░   ░ ▒░     ░  ▒     ░  ▒     ░  ▒   
-  ░ ░    ░   ▒   ░ ░ ░ ░ ░ ▒ ▒ ░░  ░ ░ ░ ▒    ░   ░    ░   ░ ░    ░        ░        ░        
-    ░  ░     ░  ░  ░ ░     ░ ░         ░ ░      ░            ░    ░ ░      ░ ░      ░ ░      
-                 ░         ░ ░                                    ░        ░        ░                    
-    </pre>
+                    :======-.                                          
+</pre>
    
         </div>
         <div class="card bg-secondary text-light p-4 mb-4">
@@ -156,7 +59,7 @@
                 {% endfor %}
             </ul>
             <div id="mynetwork"></div>
-            <h2 class="mt-4">Results</h2>
+                <h2 class="mt-4">Results</h2>
                 {% for client_id, result in results.items() %}
                 <div class="card bg-dark text-light mb-3">
                     <div class="terminal-window">
@@ -175,7 +78,7 @@
                     </div>
                 </div>
             {% endfor %}         
-            <nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
+            <nav id="stickyNav" class="navbar navbar-expand-lg navbar-dark bg-secondary">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -208,6 +111,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#" data-target="post-exploit">Post Exploitation</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-target="web-server">Web Server</a>
+                        </li>
                     </ul>
                 </div>
             </nav>            
@@ -228,7 +134,7 @@
                     </div>
                     <div class="form-group">
                         <label for="command">Command:</label>
-                        <input type="text" id="command" name="command" class="form-control" required>
+                        <input type="text" placeholder="Enter Remote Command" id="command" name="command" class="form-control" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Send Command</button>
                 </form>
@@ -274,7 +180,7 @@
                     </div>
                     <div class="form-group">
                         <label for="shellcode">Shellcode: (Opcode Base64 encoded)</label>
-                        <textarea id="shellcode" name="shellcode" rows="10" class="form-control" required></textarea>
+                        <textarea id="shellcode" placeholder="Base 64 Encode Shellcode" name="shellcode" rows="10" class="form-control" required></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary">Run Shellcode</button>
                 </form>
@@ -285,15 +191,15 @@
                 <form method="POST" action="/start_bridge">
                     <div class="form-group">
                         <label for="local_port">Local Port:</label>
-                        <input type="text" name="local_port" class="form-control" required>
+                        <input type="text" placeholder="Enter Local Port" name="local_port" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label for="remote_host">Remote Host:</label>
-                        <input type="text" name="remote_host" class="form-control" required>
+                        <input type="text" name="remote_host" placeholder="Enter Remote Host" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label for="remote_port">Remote Port:</label>
-                        <input type="text" name="remote_port" class="form-control" required>
+                        <input type="text" name="remote_port" placeholder="Enter Remote Port" class="form-control" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Start Bridge</button>
                 </form>
@@ -304,7 +210,7 @@
                 <form id="commandForm">
                     <div class="form-group">
                         <label for="attack">Send command to LazyOwn:</label>
-                        <input type="text" id="attack" placeholder="Enter command" class="form-control" required>
+                        <input type="text" id="attack" placeholder="Enter Local Command" class="form-control" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Run</button>
                 </form>
@@ -324,7 +230,7 @@
                         </div>
                         <div id="collapseParams" class="collapse show" aria-labelledby="headingParams" data-parent="#accordion">
                             <div class="card-body">
-                                <pre>{{ session_data.params | tojson(indent=4) }}</pre>
+                                <pre class="card-body">{{ session_data.params | tojson(indent=4) }}</pre>
                             </div>
                         </div>
                     </div>
@@ -338,7 +244,7 @@
                         </div>
                         <div id="collapseCredentials" class="collapse" aria-labelledby="headingCredentials" data-parent="#accordion">
                             <div class="card-body">
-                                <pre>{{ session_data.credentials | tojson(indent=4) }}</pre>
+                                <pre class="card-body">{{ session_data.credentials | tojson(indent=4) }}</pre>
                             </div>
                         </div>
                     </div>
@@ -352,7 +258,7 @@
                         </div>
                         <div id="collapseHashes" class="collapse" aria-labelledby="headingHashes" data-parent="#accordion">
                             <div class="card-body">
-                                <pre>{{ session_data.hashes | tojson(indent=4) }}</pre>
+                                <pre class="card-body">{{ session_data.hashes | tojson(indent=4) }}</pre>
                             </div>
                         </div>
                     </div>
@@ -365,9 +271,19 @@
                             </h5>
                         </div>
                         <div id="collapseNotes" class="collapse" aria-labelledby="headingNotes" data-parent="#accordion">
-                            <div class="card-body">
-                                <pre>{{ session_data.notes | tojson(indent=4) }}</pre>
-                            </div>
+                            <div class="terminal-window">
+                                <div class="terminal-header">
+                                    <div class="terminal-title">Notes</div>
+                                    <div class="terminal-controls">
+                                        <div class="terminal-control-button close-button"></div>
+                                        <div class="terminal-control-button minimize-button"></div>
+                                        <div class="terminal-control-button maximize-button"></div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    {{ session_data.notes | replace('\n', '<br>') | safe }}
+                                </div>
+                            </div>                            
                         </div>
                     </div>
                     <div class="card">
@@ -379,12 +295,22 @@
                             </h5>
                         </div>
                         <div id="collapseIdrsa" class="collapse" aria-labelledby="headingIdrsa" data-parent="#accordion">
-                            <div class="card-body">
-                                <pre>{{ session_data.id_rsa | tojson(indent=4) }}</pre>
-                            </div>
+                            <div class="terminal-window">
+                                <div class="terminal-header">
+                                    <div class="terminal-title">ID RSA</div>
+                                    <div class="terminal-controls">
+                                        <div class="terminal-control-button close-button"></div>
+                                        <div class="terminal-control-button minimize-button"></div>
+                                        <div class="terminal-control-button maximize-button"></div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    {{ session_data.id_rsa | replace('\n', '<br>') | safe }}
+                                </div>
+                            </div>                            
+                        </div>                            
                         </div>
                     </div>
-                </div>
             </div>
             <div id="upload-file" class="section">
                 <h2>Download File</h2>
@@ -403,7 +329,7 @@
                     </div>
                     <div class="form-group">
                         <label for="file_path">File Path:</label>
-                        <input type="text" id="file_path" name="file_path" class="form-control" required>
+                        <input type="text" placeholder="Enter Remote File Path" id="file_path" name="file_path" class="form-control" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Download File</button>
                 </form>
@@ -413,7 +339,7 @@
                 <form action="{{ url_for('view_yaml') }}" method="post">
                     <div class="form-group">
                         <label for="directory">Select Tactic:</label>
-                        <select name="directory" id="directory" class="form-control" >
+                        <select name="directory" placeholder="Enter Tactic" id="directory" class="form-control" >
                             {% for directory in directories %}
                                 <option value="{{ directory }}">{{ directory }}</option>
                             {% endfor %}
@@ -440,6 +366,10 @@
                     <button id="grisun0" type="submit" class="btn btn-primary">Create User</button>
                 </form>
             </div>
+            <div id="web-server" class="section">
+                <h2>Web Server</h2>
+                <iframe id="lazywebserver" src="http://127.0.0.1/index2.html" width="100%" height="700"></iframe>
+            </div>            
             <h2 class="mt-4">Contact</h2>
             <p>For any questions or feedback, please reach out to <a href="mailto\:grisiscomeback[at]gmail[dot]com" class="text-success">Gris Iscomeback</a>.</p>
         </div>
@@ -466,6 +396,7 @@
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
+                document.querySelector('.loading-container').style.display = 'none';
                 $(document).ready(function() {
                     $('#directory').select2({
                         placeholder: 'Select a tactic',
@@ -474,12 +405,44 @@
                         theme: 'default'
                     });
                 });
+                var currentUrl = window.location.href;
+                var iframe = document.getElementById('lazywebserver');
+
+                iframe.src = currentUrl.replace(":4444/","/index2.html");
+
                 kofiWidgetOverlay.draw('grisuno', {
                     'type': 'floating-chat',
                     'floating-chat.donateButton.text': 'Support me',
                     'floating-chat.donateButton.background-color': '#5cb85c',
                     'floating-chat.donateButton.text-color': '#fff'
                 });
+                function stripAnsi(str) {
+                    const ansiRegex = /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g;
+                    return str.replace(ansiRegex, '');
+                }
+
+                async function fetchLog() {
+                    try {
+                        const response = await fetch('/api/output');
+
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok ' + response.statusText);
+                        }
+
+                        const data = await response.json();
+                        const outputDiv = document.getElementById('output');
+                        const outputText = data.output.replace(/\n/g, '<br>');
+                        const cleanOutputText = stripAnsi(outputText);
+
+                        outputDiv.innerHTML += `<p>${cleanOutputText}</p>`;
+
+                        console.log(data);
+                    } catch (error) {
+                        console.error('There was a problem with the fetch operation:', error);
+                    }
+                }
+
+
                 function toastr(command){
                     var toastr = document.getElementById('toastr');
                     toastr.classList.add('show');
@@ -488,6 +451,7 @@
                     }, 22000);
                     toastr.innerHTML += "<div class='.neon-text'> " + command + " </div>"
                 };
+
                 function RunCmd(command){
                     console.log(command)
                     fetch('/api/run', {
@@ -504,9 +468,11 @@
                             outputDiv.innerHTML += `<p style="color: red;">${data.error}</p>`;
                         } else {
                             toastr(command)
+                            fetchLog()
                         }
                     });                
-                }   
+                }  
+                               
                 function RunRemoteCmd(client_id, command){
                     const clientId = client_id;
                     const formData = new FormData();
@@ -626,8 +592,7 @@
                             font: {
                                 size: 16,
                                 face: 'Arial',
-                                color: '#f8f9fa',
-                                background: '#6c757d'
+                                color: '#f8f9fa'
                             }
                         },
                         edges: {
@@ -660,13 +625,8 @@
                     if (params.nodes.length > 0) {
                         var selectedNodeId = params.nodes[0];
                         console.log("Nodo seleccionado: " + selectedNodeId);
-
-
                         var selectElements = document.querySelectorAll('select');
-
-
                         selectElements.forEach(function(selectElement) {
-
                             Array.from(selectElement.options).forEach(function(option) {
 
                                 if (option.value === selectedNodeId) {
@@ -693,6 +653,21 @@
                         document.getElementById(link.getAttribute('data-target')).classList.add('active');
                     });
                 });
+
+                window.addEventListener('scroll', function() {
+                    var nav = document.getElementById('stickyNav');
+                    var scrollPosition = window.scrollY;
+                    var navOffsetTop = nav.offsetTop;
+
+                    if (scrollPosition >= 822) {
+                        console.log(scrollPosition)
+                        nav.classList.add('sticky');
+                    } else {
+                        console.log(scrollPosition)
+                        nav.classList.remove('sticky');
+                    }
+                });
+
             });
 
 

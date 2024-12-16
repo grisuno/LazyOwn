@@ -1,4 +1,4 @@
-# LazyOwn
+# LazyOwn CRIME
 
 ![LazyOwn_Redteam_framework](https://github.com/user-attachments/assets/d713f163-5f4d-433f-befd-6776d43051da)
 
@@ -11,12 +11,16 @@
 
 
 ```sh
-██╗      █████╗ ███████╗██╗   ██╗ ██████╗ ██╗    ██╗███╗   ██╗
-██║     ██╔══██╗╚══███╔╝╚██╗ ██╔╝██╔═══██╗██║    ██║████╗  ██║
-██║     ███████║  ███╔╝  ╚████╔╝ ██║   ██║██║ █╗ ██║██╔██╗ ██║
-██║     ██╔══██║ ███╔╝    ╚██╔╝  ██║   ██║██║███╗██║██║╚██╗██║
-███████╗██║  ██║███████╗   ██║   ╚██████╔╝╚███╔███╔╝██║ ╚████║
-╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
+ ██▓    ▄▄▄      ▒███████▒▓██   ██▓ ▒█████   █     █░███▄    █ 
+▓██▒   ▒████▄    ▒ ▒ ▒ ▄▀░ ▒██  ██▒▒██▒  ██▒▓█░ █ ░█░██ ▀█   █ 
+▒██░   ▒██  ▀█▄  ░ ▒ ▄▀▒░   ▒██ ██░▒██░  ██▒▒█░ █ ░█▓██  ▀█ ██▒
+▒██░   ░██▄▄▄▄██   ▄▀▒   ░  ░ ▐██▓░▒██   ██░░█░ █ ░█▓██▒  ▐▌██▒
+░██████▒▓█   ▓██▒▒███████▒  ░ ██▒▓░░ ████▓▒░░░██▒██▓▒██░   ▓██░
+░ ▒░▓  ░▒▒   ▓▒█░░▒▒ ▓░▒░▒   ██▒▒▒ ░ ▒░▒░▒░ ░ ▓░▒ ▒ ░ ▒░   ▒ ▒ 
+░ ░ ▒  ░ ▒   ▒▒ ░░░▒ ▒ ░ ▒ ▓██ ░▒░   ░ ▒ ▒░   ▒ ░ ░ ░ ░░   ░ ▒░
+  ░ ░    ░   ▒   ░ ░ ░ ░ ░ ▒ ▒ ░░  ░ ░ ░ ▒    ░   ░    ░   ░ ░ 
+    ░  ░     ░  ░  ░ ░     ░ ░         ░ ░      ░            ░ 
+                 ░         ░ ░                                 
 ```
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Y8Y2Z73AV)
@@ -26,50 +30,49 @@
 LazyOwn comes with ABSOLUTELY NO WARRANTY. This is free software, and you are  welcome to redistribute it under the terms of the GNU General Public License v3.
 See the LICENSE file for details about using this software.
 
-LazyOwn Framework is a powerful and versatile security framework designed to automate and streamline pentesting and vulnerability analysis tasks. This interactive environment combines multiple tools and scripts, making it easier for cybersecurity professionals to work through various stages of the security assessment lifecycle. With an intuitive command-line interface, LazyOwn allows users to configure specific parameters, execute custom scripts, and obtain real-time results, all from a single platform.
+ # LazyOwn: Cyber Redteam Interface Management Environment Network (CRIMEN)
 
-Key Features:
+In the shadowy realm of cybersecurity, where digital fortresses are besieged by relentless adversaries, **LazyOwn: CRIMEN** emerges as a beacon of strategic prowess and technical mastery. This advanced and comprehensive toolkit is meticulously crafted for professional red teams, penetration testers, and security researchers, offering an unparalleled arsenal of over 333 meticulously designed attacks tailored for Linux/*nix/bsd/osx and Windows environments. Additionally, **LazyOwn: CRIMEN** integrates the extensive attack library of the Atomic RedTeam Framework, exponentially increasing its offensive capabilities.
 
-Interactive Interface:
+**LazyOwn: CRIMEN** is not merely a tool; it is an ethereal manifestation of the art of cyber warfare, seamlessly integrating a myriad of functionalities to streamline and enhance the efficiency of security assessments. This interactive environment combines multiple tools and scripts, enabling cybersecurity professionals to navigate the complex labyrinth of the security assessment lifecycle with unmatched precision.
 
-Interactive shell with user-friendly commands for configuring and running scripts.
-Ability to display and adjust custom parameters applicable to different scripts.
-Task Automation:
+At the heart of **LazyOwn: CRIMEN** lies an intuitive command-line interface (CLI) powered by cmd2, complemented by a sophisticated web-based graphical user interface (GUI) developed in Flask. This dual interface allows users to configure specific parameters, execute custom scripts, and obtain real-time results, all from a single, unified platform. The framework's advanced adversary simulation capabilities enable the generation of sessions for red team operations, meticulously executed within the scope defined in the payload.json file. This not only expands its range of applications but also enhances usability and accessibility through multiple interfaces.
 
-Automates common pentesting tasks such as vulnerability scanning, web application fuzzing, brute force attacks, and more.
-Integration with popular tools and custom scripts for comprehensive testing coverage on Parrot Sec.
-Real-Time Visualization:
+One of the standout features of **LazyOwn: CRIMEN** is its ability to schedule tasks using the `cron` command, facilitating persistent and automated threat simulations. This functionality transforms **LazyOwn: CRIMEN** into a formidable Advanced Persistent Threat (APT) framework, capable of mimicking the relentless and methodical attacks of sophisticated cyber adversaries.
 
-Real-time output display of script execution, allowing users to see results instantly and react swiftly.
-Modularity and Extensibility:
+## Why CRIMEN?
 
-Designed to be extensible, enabling users to easily add and customize scripts.
-Supports multiple scripting languages, including Python and Bash.
-Flexible Configuration:
+**CRIMEN** stands for **Cyber Redteam Interface Management Environment Network**, encapsulating the essence of this powerful framework. Each letter in the acronym represents a critical component of its capabilities:
 
-Ability to set specific parameters like IP addresses, API keys, HTTP methods, request data, and more, providing complete control over executed scripts.
-Typical Use:
+- **Cyber**: Emphasizes the digital battleground where **LazyOwn: CRIMEN** operates, encompassing all aspects of cybersecurity.
+- **Redteam**: Highlights the framework's primary function as a tool for red team operations, simulating real-world cyber attacks to test and strengthen defenses.
+- **Interface**: Refers to the intuitive and user-friendly interfaces, both CLI and GUI, that facilitate seamless interaction and control.
+- **Management**: Underscores the framework's ability to manage and orchestrate complex security assessments and adversary simulations.
+- **Environment**: Denotes the comprehensive and immersive environment provided by **LazyOwn: CRIMEN**, integrating various tools and scripts for a holistic security assessment experience.
+- **Network**: Emphasizes the framework's network-centric approach, enabling persistent and automated threat simulations across diverse network environments.
 
-Parameter Configuration:
+## Key Features of LazyOwn: CRIMEN
 
-Users can set required parameters using commands like s rhost 192.168.1.1 to define the target IP address.
-Script Execution:
+1. **Comprehensive Attack Library**: Over 333 crafted attacks for various environments, each a testament to the framework's depth and versatility, augmented by the extensive attack library of the Atomic RedTeam Framework.
+2. **Interactive CLI**: Based on cmd2, offering an intuitive and efficient command-line experience.
+3. **Web GUI**: Developed in Flask, providing a user-friendly interface for seamless interaction.
+4. **Adversary Simulation**: Advanced capabilities for generating red team operation sessions, ensuring meticulous and effective simulations.
+5. **Task Scheduling**: Utilize the `cron` command to schedule and automate tasks, enabling persistent threat simulations.
+6. **Real-Time Results**: Obtain immediate feedback and results from security assessments, ensuring timely and accurate insights.
+7. **RAT and Botnet Capabilities**: Includes features for remote access and control, allowing for the management of botnets and persistent threats.
+8. **C2 Framework**: Acts as a command and control (C2) framework, enabling covert communication and control over compromised systems.
 
-Execute predefined scripts for various tasks, such as run lazygptcli to interact with GPT using a configured prompt and API key.
-Results Visualization:
+## Command Capabilities
 
-Script results are displayed in the console in real-time, providing immediate feedback on progress and findings.
-Additional Modules:
+**LazyOwn: CRIMEN** offers a rich set of commands that can be executed from both the CLI and the web interface, each designed to empower users with unparalleled control and flexibility:
 
-LazyOwn includes various specialized modules such as:
+- **list**: Enumerates all available LazyOwn Modules within the framework, providing a comprehensive overview of the toolkit's capabilities.
+- **assign <parameter> <value>**: Configures specific parameters for the operation, such as `assign rhost 192.168.1.1` to define the target IP address, ensuring precise and tailored attacks.
+- **show**: Displays the current values of all configured parameters, offering a clear and concise view of the operational setup.
+- **run <script>**: Executes specific scripts available in the framework, such as `run lazysniff` to initiate packet sniffing, enabling dynamic and responsive security assessments.
+- **cron**: Schedules tasks to run at specified intervals, ensuring persistent and automated threat simulations that mimic the relentless nature of advanced cyber adversaries.
+- **exit**: Gracefully exits the CLI, concluding the session with elegance and finality.
 
-lazyownrat and lazyownratcli: For running remote access tools with configurable parameters.
-lazyftpsniff and lazysniff: For network sniffing on specified interfaces.
-lazysearch_bot and lazygptcli: For interacting with search APIs and GPT-based tools.
-lazyhoneypot: For setting up email-based honeypots.
-lazynetbios: For NetBIOS enumeration across IP ranges.
-lazywerkzeugdebug: For testing Werkzeug in debug mode.
-Background:
 
 Originally designed to automate the search and analysis of binaries with special permissions on Linux and Windows systems, LazyOwn has evolved to encompass a broader range of functionalities. The project includes scripts that extract information from GTFOBins, analyze binaries on the system, and generate options based on the collected data.
 
@@ -88,7 +91,7 @@ Revolutionize Your Pentesting with LazyOwn: Automate the intrusion on Linux, MAC
 Discover LazyOwn, the ultimate solution for automating the pentesting workflow to attack Linux, MacOSX and Windows systems. Our powerful tool simplifies pentesting, making it more efficient and effective. Watch this video to learn how LazyOwn can streamline your security assessments and enhance your cybersecurity toolkit.
 
 ```sh
-LazyOwn> s rhost 192.168.1.1
+LazyOwn> assign rhost 192.168.1.1
 [SET] rhost set to 192.168.1.1
 LazyOwn> run lazynmap
 [INFO] Running Nmap scan on 192.168.1.1
@@ -103,27 +106,33 @@ LazyOwn is ideal for cybersecurity professionals seeking a centralized and autom
 
 - Python 3.x
 - Módulos de Python:
-  - python-libnmap
-  - pwn
-  - groq
-  - PyPDF2
-  - docx
-  - python-docx
-  - olefile
-  - exifread
-  - pycryptodome
-  - impacket
-  - pandas
-  - colorama
-  - tabulate
-  - pyarrow
-  - keyboard
-  - flask-unsign
-  - name-that-hash
-  - certipy-ad
-  - ast
-  - bs4
-  - pykeepass
+    - requests 
+    - python-libnmap 
+    - pwncat-cs 
+    - pwn 
+    - groq 
+    - PyPDF2 
+    - docx 
+    - python-docx 
+    - olefile 
+    - exifread 
+    - pycryptodome 
+    - impacket 
+    - pandas 
+    - colorama 
+    - tabulate 
+    - pyarrow 
+    - keyboard 
+    - flask-unsign 
+    - name-that-hash 
+    - certipy-ad 
+    - ast 
+    - pykeepass
+    - cmd2
+    - Pillow
+    - netaddr
+    - stix2
+    - pyautogui
   
 - `subprocess` (incluido en la biblioteca estándar de Python)
 - `platform` (incluido en la biblioteca estándar de Python)
@@ -168,7 +177,7 @@ cd LazyOwn
 ```
 
 ```
-Use set <parameter> <value> to configure parameters.
+Use assign <parameter> <value> to configure parameters.
 Use show to display the current parameter values.
 Use run <script_name> to execute a script with the set parameters.
 Use exit to exit the CLI.
@@ -176,7 +185,7 @@ Use exit to exit the CLI.
 Once the shell is running, you can use the following commands:
 
 list: Lists all LazyOwn Modules.
-set <parameter> <value>: Sets the value of a parameter. For example, set rhost 192.168.1.1.
+assign <parameter> <value>: Sets the value of a parameter. For example, assign rhost 192.168.1.1.
 show: Displays the current values of all parameters.
 run <script>: Executes a specific script available in the framework.
 Available Scripts
@@ -194,120 +203,154 @@ Available Scripts
     [+] lazylfi2rce               lazylogpoisoning          lazymsfvenom            [👽]
     [+] lazypathhijacking         lazyarpspoofing           lazyftpsniff            [👽]
     [+] lazyssh77enum             lazywerkzeugdebug       [👽]
-┌─[LazyOwn👽192.168.1.92 ~/home/gris/tools/LazyOwn][10.10.11.29][http://lantern.htb/]
-└╼ $ 
+
         
-┌─[LazyOwn👽10.10.14.2 ~/home/gris/tools/LazyOwn][10.10.11.39][http://University.htb]
 └╼ $ help
 
 Documented commands (use 'help -v' for verbose/'help <topic>' for details):
 ===========================================================================
-acknowledgearp           getcap                 refill_password           
-acknowledgeicmp          getnpusers             reg_py                    
-addhosts                 getseclist             rejetto_hfs_exec          
-addusers                 getTGT                 responder                 
-adgetpass                getuserspns            rev                       
-alias                    gitdumper              revwin                    
-aliass                   gobuster               rhost                     
-allin                    gospherus              rot                       
-alterx                   gospider               rpcclient                 
-apache_users             gowitness              rpcdump                   
-apropos                  graph                  rpcmap_py                 
-arjun                    graudit                rrhost                    
-arpscan                  grisun0                rubeus                    
-asprevbase64             h                      run                       
-automsf                  hashcat                run_pyscript              
-backdoor_factory         help                   run_script                
-banner                   hex_to_plaintext       s                         
-base64decode             history                samdump2                  
-base64encode             hostdiscover           samrdump                  
-blazy                    hydra                  scarecrow                 
-bloodhound               id_rsa                 searchhash                
-bloodyAD                 ignorearp              secretsdump               
-breacher                 ignoreicmp             seo                       
-c2                       iis_webdav_upload_asp  serveralive2              
-cacti_exploit            img2cookie             sessionssh                
-cewl                     ip                     sessionsshstrace          
-changeme                 ip2hex                 set                       
-chisel                   ipp                    set_proxychains           
-clean                    ivy                    sh                        
-clock                    john2hash              shadowsocks               
-cme                      john2keepas            sharpshooter              
-conptyshell              john2zip               shell                     
-cp                       keepass                shellcode                 
-cports                   kerbrute               shellcode2sylk            
-crack_cisco_7_password   kick                   shellcode_search          
-createcookie             kusa                   shellfire                 
-createcredentials        launchpad              shellshock                
-createdll                lazypwn                sherlock                  
-createhash               lazyscript             shortcuts                 
-createjsonmachine        lazywebshell           show                      
-createjsonmachine_batch  ldapdomaindump         sireprat                  
-createmail               ldapsearch             skipfish                  
-createrevshell           ligolo                 sliver_server             
-createtargets            list                   smalldic                  
-createusers_and_hashs    loxs                   smbattack                 
-createwebshell           lynis                  smbclient                 
-createwinrevshell        macro                  smbclient_py              
-cred                     magicrecon             smbmap                    
-crunch                   malwarebazar           smbserver                 
-cubespraying             medusa                 smtpuserenum              
-cve                      morse                  snmpcheck                 
-dacledit                 ms08_067_netapi        socat                     
-davtest                  msf                    sqli                      
-decode                   msfpc                  sqlmap                    
-decrypt                  msfrpc                 ss                        
-dig                      mssqlcli               ssh                       
-dirsearch                name_the_hash          sshd                      
-disableav                nano                   sshkey                    
-dmitry                   nbtscan                sslscan                   
-dnsenum                  nc                     stormbreaker              
-dnsmap                   netexec                sudo                      
-download_exploit         netview                swaks                     
-download_malwarebazar    ngrok                  tcpdump_capture           
-download_resources       nikto                  tcpdump_icmp              
-downloader               nmapscript             template_helper_serializer
-dr0p1t                   nmapscripthelp         tord                      
-duckyspark               nuclei                 trace                     
-edit                     odat                   transform                 
-emp3r0r                  openredirex            trufflehog                
-empire                   openssl_sclient        tshark_analyze            
-encode                   padbuster              upload_bypass             
-encoderpayload           parsero                urldecode                 
-encrypt                  parth                  urlencode                 
-enum4linux               passtightvnc           username_anarchy          
-enum4linux_ng            passwordspray          v                         
-EOF                      payload                veil                      
-eternal                  penelope               vpn                       
-evidence                 ping                   vscan                     
-evil_ssdp                portdiscover           waybackmachine            
-evilwinrm                ports                  weevely                   
-exit                     portservicediscover    weevelygen                
-eyewitness               powerserver            wfuzz                     
-feroxbuster              powershell_cmd_stager  whatweb                   
-finalrecon               proxy                  wifipass                  
-find                     psexec                 winbase64payload          
-finger_user_enum         pwd                    windapsearch              
-fixel                    pwncat                 windapsearchscrapeusers   
-fixperm                  pwncatcs               wmiexec                   
-ftp                      py3ttyup               wpscan                    
-fuzz                     pyautomate             wrapper                   
-gencert                  pykerbrute             www                       
-generate_revshell        qa                     xss                       
-generatedic              quit                   xsstrike                  
-getadusers               rdp                  
+acknowledgearp           fuzz                   pwncatcs                  
+acknowledgeicmp          gencert                py3ttyup                  
+aclpwn_py                generate_revshell      pyautomate                
+ad_ldap_enum             generatedic            pykerbrute                
+addhosts                 getadusers             pyoracle2                 
+addspn_py                getcap                 pywhisker                 
+addusers                 getnpusers             qa                        
+adgetpass                getnthash_py           quit                      
+adsso_spray              gets4uticket_py        rdp                       
+alias                    getseclist             rdp_check_py              
+aliass                   getTGT                 recon                     
+allin                    gettgtpkinit_py        refill_password           
+alterx                   getuserspns            reg_py                    
+amass                    gitdumper              regeorg                   
+apache_users             gmsadumper             rejetto_hfs_exec          
+apropos                  gobuster               responder                 
+apt_proxy                gospherus              rev                       
+apt_repo                 gospider               revwin                    
+arjun                    gowitness              rhost                     
+arpscan                  graph                  rocky                     
+asprevbase64             graudit                rot                       
+assign                   greatSCT               rotf                      
+atomic_agent             grisun0                rpcclient                 
+atomic_gen               grisun0w               rpcdump                   
+atomic_lazyown           h                      rpcmap_py                 
+atomic_tests             hashcat                rrhost                    
+autoblody                help                   rsync                     
+automsf                  hex_to_plaintext       rubeus                    
+backdoor_factory         history                run                       
+banner                   hostdiscover           run_pyscript              
+banners                  httprobe               run_script                
+base64decode             hydra                  samdump2                  
+base64encode             id_rsa                 samrdump                  
+batchnmap                ignorearp              sawks                     
+bbot                     ignoreicmp             scarecrow                 
+bin2shellcode            iis_webdav_upload_asp  scavenger                 
+binarycheck              img2cookie             scp                       
+blazy                    internet_proxy         searchhash                
+bloodhound               ip                     secretsdump               
+bloodyAD                 ip2asn                 seo                       
+breacher                 ip2hex                 serveralive2              
+c2                       ipp                    sessionssh                
+cacti_exploit            ipy                    sessionsshstrace          
+caldera                  ivy                    set                       
+certipy                  john2hash              set_proxychains           
+cewl                     john2keepas            setoolKits                
+changeme                 john2zip               sh                        
+check_update             jwt_tool               shadowsocks               
+chisel                   keepass                sharpshooter              
+clean                    kerbrute               shell                     
+clock                    kick                   shellcode                 
+cme                      krbrelayx_py           shellcode2elf             
+conptyshell              kusa                   shellcode2sylk            
+cp                       launchpad              shellcode_search          
+cports                   lazypwn                shellfire                 
+crack_cisco_7_password   lazyscript             shellshock                
+create_session_json      lazywebshell           sherlock                  
+createcookie             ldapdomaindump         shortcuts                 
+createcredentials        ldapsearch             show                      
+createdll                lfi                    sireprat                  
+createhash               ligolo                 skipfish                  
+createjsonmachine        links                  sliver_server             
+createjsonmachine_batch  list                   smalldic                  
+createmail               lol                    smbattack                 
+createpayload            lookupsid              smbclient                 
+createrevshell           lookupsid_py           smbclient_py              
+createtargets            loxs                   smbmap                    
+createusers_and_hashs    lynis                  smbserver                 
+createwebshell           macro                  smtpuserenum              
+createwinrevshell        magicrecon             snmpcheck                 
+cred                     malwarebazar           snmpwalk                  
+creds_py                 medusa                 socat                     
+cron                     metabigor              spraykatz                 
+crunch                   mimikatzpy             sqli                      
+cubespraying             mitre_test             sqli_mssql_test           
+cve                      morse                  sqlmap                    
+d3monizedshell           mqtt_check_py          sqsh                      
+dacledit                 ms08_067_netapi        ss                        
+darkarmour               msf                    ssh                       
+davtest                  msfpc                  sshd                      
+dcomexec                 msfrpc                 sshexploit                
+decode                   mssqlcli               sshkey                    
+decrypt                  name_the_hash          sslscan                   
+dig                      nano                   stormbreaker              
+digdug                   nbtscan                sudo                      
+dirsearch                nc                     swaks                     
+disableav                net_rpc_addmem         tab                       
+dmitry                   netexec                targetedKerberoas         
+dnschef                  netview                tcpdump_capture           
+dnsenum                  news                   tcpdump_icmp              
+dnsmap                   ngrok                  template_helper_serializer
+dnstool_py               nikto                  ticketer                  
+download_exploit         nmapscript             tord                      
+download_malwarebazar    nmapscripthelp         trace                     
+download_resources       ntpdate                transform                 
+downloader               nuclei                 trufflehog                
+dploot                   odat                   tshark_analyze            
+dr0p1t                   ofuscatorps1           unicode_WAFbypass         
+duckyspark               openredirex            unzip                     
+edit                     openssl_sclient        upload_bypass             
+emp3r0r                  osmedeus               upload_gofile             
+empire                   owneredit              urldecode                 
+encode                   padbuster              urlencode                 
+encoderpayload           paranoid_meterpreter   username_anarchy          
+encrypt                  parsero                utf                       
+enum4linux               parth                  v                         
+enum4linux_ng            passtightvnc           veil                      
+EOF                      passwordspray          vpn                       
+eternal                  payload                vscan                     
+evidence                 penelope               vulns                     
+evil_ssdp                pezorsh                waybackmachine            
+evilwinrm                ping                   weevely                   
+excelntdonut             pip_proxy              weevelygen                
+exe2bin                  pip_repo               wfuzz                     
+exit                     portdiscover           whatweb                   
+extract_ports            ports                  wifipass                  
+eyewitness               portservicediscover    winbase64payload          
+eyewitness_py            powerserver            windapsearch              
+feroxbuster              powershell_cmd_stager  windapsearchscrapeusers   
+filtering                pre2k                  wmiexec                   
+finalrecon               printerbug_py          wmiexecpro                
+find                     proxy                  wpscan                    
+finger_user_enum         psexec                 wrapper                   
+fixel                    pth_net                www                       
+fixperm                  pup                    xss                       
+follina                  pwd                    xsstrike                  
+ftp                      pwncat               
+
 
 
 
 ```
 ## Tag in youtube
 <https://www.youtube.com/hashtag/lazyown>
+## Podcast
+<https://www.youtube.com/watch?v=m4FtlhownvM&list=PLW9Qe5HJK5CFXyIsF9b0NB6n9EY8Am3YZ>
 
 
 ```sh
-LazyOwn> set binary_name my_binary
-LazyOwn> set rhost 192.168.1.100
-LazyOwn> set api_key my_api_key
+LazyOwn> assign binary_name my_binary
+LazyOwn> assign rhost 192.168.1.100
+LazyOwn> assign api_key my_api_key
 LazyOwn> run lazysearch
 LazyOwn> run lazynmap
 LazyOwn> exit
@@ -367,8 +410,8 @@ If you want to update, we proceed as follows:
 
 ```sh
 cd LazyOwn
-rm *.csv
-rm *.parquet
+rm parquets/*.csv
+rm parquets/*.parquet
 ./update_db.sh
 ```
 
@@ -481,7 +524,7 @@ The use of Lazynmap provides us with an automated script for a target, in this c
 ![image](https://github.com/grisuno/LazyOwn/assets/1097185/48a38836-6cf5-4676-bea8-063e0b5cf7ad)
 
 ```sh
-./lazynmap.sh -t 127.0.0.1 
+./lazynmap.sh -t 127.0.0.1 # or in the cli just nmap
 ```
 
 ## Usage of LazyOwn GPT One Liner CLI Assistant and Researcher
@@ -613,7 +656,7 @@ wget -c https://github.com/danielmiessler/SecLists/archive/master.zip -O SecList
 This module is used to search for passwords on FTP servers across the network. Some may say that FTP is no longer used, but you would be surprised at the critical infrastructure environments I've seen with massive FTP services running on their servers. :)
 
 ```sh
-set device eth0
+assign device eth0
 run lazyftpsniff
 ```
 
@@ -690,9 +733,9 @@ Make sure to adjust the parameters according to your needs and that the values y
 The script provides an ARP spoofing attack using Scapy. In the payload, you must set the lhost, rhost, and the device that you will use to perform the ARP spoofing.
 
 ```sh
-set rhost 192.168.1.100
-set lhost 192.168.1.1
-set device eth0
+assign rhost 192.168.1.100
+assign lhost 192.168.1.1
+assign device eth0
 run lazyarpspoofing
 ```
 

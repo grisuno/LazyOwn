@@ -31,8 +31,11 @@ commands = {}
 results = {}
 commands_history = {} 
 connected_clients = set() 
-atomic_framework_path = '/home/grisun0/LazyOwn/external/.exploit/atomic-red-team/atomics'
-
+path = os.getcwd()
+atomic_framework_path = f'{path}/external/.exploit/atomic-red-team/atomics'
+if not os.path.exists(atomic_framework_path):
+    shell.onecmd('atomic_tests')
+    
 def check_auth(username, password):
     """Verifica si el usuario y contraseña son correctos"""
     return username == USERNAME and password == PASSWORD
@@ -291,7 +294,7 @@ def run_command():
     if not command:
         return jsonify({"error": "No command provided"}), 400
 
-    output = shell.onecmd(command)
+    output = shell.one_cmd(command)
     print(f"[INFO]{output}")
 
     

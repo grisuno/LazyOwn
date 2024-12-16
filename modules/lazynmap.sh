@@ -157,6 +157,488 @@ cat <<EOL > $OUTPUT_HTML
 				transform: scale(1.1); /* Aumenta un poco menos */
 			}
 		}
+		/* Estilo general para el texto neón */
+		.neon-text {
+			color: #00ffff;
+			text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 40px #00ffff;
+			animation: flicker 1.5s infinite alternate;
+			font-family: 'VT323', 'Courier New', Courier, monospace;
+			white-space: pre !important;
+			transition: all 0.3s ease;
+		}
+
+		/* Animación de parpadeo para el texto neón */
+		@keyframes flicker {
+			0%, 18%, 22%, 25%, 53%, 57%, 100% {
+				opacity: 1;
+			}
+			24%, 54% {
+				opacity: 0.8;
+			}
+		}
+
+		/* Estilo para el contenedor de la red */
+		#mynetwork {
+			width: 100%;
+			height: 768px;
+			border: 1px solid #333;
+			background: linear-gradient(135deg, #1e1e1e, #2e2e2e);
+			border-radius: 10px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+			animation: fadeIn 1s ease-in-out;
+			transition: all 0.3s ease;
+		}
+
+		/* Estilo para las secciones */
+		.section {
+			display: none;
+		}
+
+		.section.active {
+			display: block;
+			animation: fadeIn 0.5s ease-in-out;
+			transition: all 0.3s ease;
+		}
+
+		@keyframes fadeIn {
+			from {
+				opacity: 0;
+			}
+			to {
+				opacity: 1;
+			}
+		}
+
+		/* Estilo para la ventana de terminal */
+		.terminal-window {
+			background-color: #1e1e1e;
+			color: #c0c0c0;
+			font-family: 'Fira Code', 'Courier New', Courier, monospace;
+			padding: 20px;
+			border: 2px solid #333;
+			border-radius: 8px;
+			position: relative;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+			word-break: break-all;
+			max-width: 800px;
+			margin: auto;
+			transition: transform 0.3s ease, box-shadow 0.3s ease;
+		}
+
+		.terminal-window:hover {
+			transform: scale(1.02);
+			box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+		}
+
+		/* Estilo para el encabezado del terminal */
+		.terminal-header {
+			background-color: #2e2e2e;
+			color: #c0c0c0;
+			padding: 10px 20px;
+			border-bottom: 2px solid #444;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			border-top-left-radius: 8px;
+			border-top-right-radius: 8px;
+		}
+
+		/* Estilo para el título del terminal */
+		.terminal-title {
+			font-weight: bold;
+			font-size: 1.2em;
+		}
+
+		/* Estilo para los controles del terminal */
+		.terminal-controls {
+			display: flex;
+			gap: 10px;
+		}
+
+		.terminal-control-button {
+			width: 14px;
+			height: 14px;
+			border-radius: 50%;
+			cursor: pointer;
+			transition: background-color 0.3s, transform 0.3s;
+		}
+
+		.close-button {
+			background-color: #e81123;
+		}
+
+		.minimize-button {
+			background-color: #f0ad4e;
+		}
+
+		.maximize-button {
+			background-color: #00ffff;
+		}
+
+		.terminal-control-button:hover {
+			opacity: 0.8;
+			transform: scale(1.2);
+		}
+
+		/* Estilo para el cuerpo del terminal */
+		.card-body {
+			background-color: #1e1e1e;
+			color: #c0c0c0;
+			padding: 20px;
+			border-radius: 0 0 8px 8px;
+			font-family: 'Fira Code', 'Courier New', Courier, monospace;
+			white-space: pre-wrap;
+		}
+
+		/* Estilo para el texto pequeño */
+		.chico {
+			font-size: 12px;
+		}
+
+		/* Estilo para las notificaciones */
+		.toastr {
+			position: fixed;
+			top: 20px;
+			right: 20px;
+			z-index: 1050;
+			width: 300px;
+			opacity: 0;
+			transition: opacity 0.5s, transform 0.5s;
+			background-color: #333;
+			color: #c0c0c0;
+			border: 1px solid #444;
+			border-radius: 8px;
+			padding: 10px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+			transform: translateY(-20px);
+		}
+
+		.toastr.show {
+			opacity: 1;
+			transform: translateY(0);
+		}
+
+		/* Estilo para el dropdown personalizado */
+		.custom-dropdown {
+			background-color: #f8f9fa;
+			border: 1px solid #ced4da;
+			border-radius: 0.25rem;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+		}
+
+		/* Estilo para el contenedor principal */
+		.container {
+			max-width: 1200px;
+			margin: 0 auto;
+			padding: 20px;
+			animation: fadeIn 1s ease-in-out;
+			transition: all 0.3s ease;
+		}
+
+		/* Estilo para el encabezado principal */
+		h1.neon-text {
+			font-size: 2.5em;
+			margin-bottom: 20px;
+			animation: slideIn 1s ease-in-out;
+			transition: all 0.3s ease;
+		}
+
+		@keyframes slideIn {
+			from {
+				opacity: 0;
+				transform: translateX(-100%);
+			}
+			to {
+				opacity: 1;
+				transform: translateX(0);
+			}
+		}
+
+		/* Estilo para el pie de página */
+		.footer {
+			background-color: #2e2e2e;
+			color: #c0c0c0;
+			padding: 20px;
+			border-top: 2px solid #444;
+			text-align: center;
+			font-size: 1em;
+			animation: fadeIn 1s ease-in-out;
+			transition: all 0.3s ease;
+		}
+
+		/* Estilo para los botones */
+		.btn {
+			background-color: #00ffff;
+			border: none;
+			color: #fff;
+			padding: 10px 20px;
+			border-radius: 8px;
+			transition: background-color 0.3s, transform 0.3s;
+		}
+
+		.btn:hover {
+			background-color: #00e6e6;
+			transform: scale(1.05);
+		}
+
+		/* Estilo para los enlaces de navegación */
+		.nav-link {
+			color: #c0c0c0;
+			transition: color 0.3s, transform 0.3s;
+		}
+
+		.nav-link:hover {
+			color: #fff;
+			transform: scale(1.1);
+		}
+
+		/* Estilo para los formularios */
+		.form-group {
+			margin-bottom: 15px;
+		}
+
+		.form-control {
+			background-color: #333;
+			color: #00ffff;
+			border: 1px solid #444;
+			border-radius: 8px;
+			padding: 10px;
+			transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
+		}
+
+		.form-control:focus {
+			background-color: #444;
+			border-color: #00ffff;
+			transform: scale(1.02);
+		}
+
+		/* Estilo para el input de tipo file */
+		.form-control-file {
+			background-color: #333;
+			color: #7a7a7a;
+			border: 1px solid #444;
+			border-radius: 8px;
+			padding: 10px;
+			transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
+		}
+
+		.form-control-file:focus {
+			background-color: #444;
+			border-color: #00ffff;
+			transform: scale(1.02);
+		}
+
+		/* Estilo para los acordeones */
+		.accordion .card {
+			background-color: #2e2e2e;
+			border: 1px solid #444;
+			border-radius: 8px;
+			margin-bottom: 10px;
+			transition: background-color 0.3s, transform 0.3s;
+		}
+
+		.accordion .card:hover {
+			background-color: #3e3e3e;
+			transform: scale(1.02);
+		}
+
+		.accordion .card-header {
+			background-color: #3e3e3e;
+			color: #535353;
+			padding: 10px 20px;
+			border-bottom: 1px solid #444;
+			cursor: pointer;
+			transition: background-color 0.3s;
+		}
+
+		.accordion .card-header:hover {
+			background-color: #4e4e4e;
+		}
+
+		.accordion .card-body {
+			background-color: #1e1e1e;
+			color: #c0c0c0;
+			padding: 20px;
+			border-radius: 0 0 8px 8px;
+		}
+
+		/* Estilo para los elementos de la lista */
+		.list-group-item {
+			background-color: #2e2e2e;
+			color: #c0c0c0;
+			border: 1px solid #444;
+			border-radius: 8px;
+			margin-bottom: 10px;
+			transition: background-color 0.3s, transform 0.3s;
+		}
+
+		.list-group-item:hover {
+			background-color: #3e3e3e;
+			transform: scale(1.02);
+		}
+
+		/* Estilo para los elementos de la lista de éxito */
+		.list-group-item-success {
+			background-color: #00ffff;
+			color: #fff;
+			transition: background-color 0.3s, transform 0.3s;
+		}
+
+		.list-group-item-success:hover {
+			background-color: #00e6e6;
+			transform: scale(1.02);
+		}
+
+		/* Estilo para los elementos de la lista de éxito al pasar el ratón */
+		.list-group-item-success:active {
+			background-color: #00b3b3;
+			transform: scale(0.98);
+		}
+
+		/* Estilo para el preformateado */
+		pre {
+			background-color: #1e1e1e;
+			color: #c0c0c0;
+			padding: 10px;
+			border-radius: 8px;
+			font-family: 'Fira Code', 'Courier New', Courier, monospace;
+			white-space: pre-wrap;
+			transition: background-color 0.3s, transform 0.3s;
+		}
+
+		pre:hover {
+			background-color: #2e2e2e;
+			transform: scale(1.02);
+		}
+
+		/* Estilo para el cuerpo de la página */
+		body.bg-dark {
+			background: linear-gradient(135deg, #1e1e1e, #2e2e2e);
+			color: #c0c0c0;
+			font-family: 'Fira Code', 'Courier New', Courier, monospace;
+			animation: fadeIn 1s ease-in-out;
+			transition: all 0.3s ease;
+		}
+
+		/* Estilo para el input cuando tiene el foco */
+		input[type="text"]:focus {
+			background-color: #ffffff;
+			color: #000000;
+			border-color: #007bff;
+			outline: none;
+		}
+
+		/* Estilo para los enlaces */
+		a {
+			color: #00ffff;
+			transition: color 0.3s, transform 0.3s;
+		}
+
+		a:hover {
+			color: #00e6e6;
+			transform: scale(1.05);
+		}
+
+		/* Animación de carga */
+		@keyframes loading {
+			0% {
+				transform: rotate(0deg);
+			}
+			100% {
+				transform: rotate(360deg);
+			}
+		}
+
+		/* Estilo para el spinner de carga */
+		.loading-spinner {
+			border: 4px solid rgba(0, 0, 0, 0.1);
+			border-top: 4px solid #00ffff;
+			border-radius: 50%;
+			width: 40px;
+			height: 40px;
+			animation: loading 1s linear infinite;
+			position: fixed;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			z-index: 10000;
+		}
+
+		/* Estilo para el contenedor de carga */
+		.loading-container {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(0, 0, 0, 0.8);
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			z-index: 9999;
+		}
+
+		/* Estilo para la barra de navegación */
+		nav {
+			background-color: #343a40;
+			color: white;
+			padding: 10px 0;
+			text-align: center;
+			transition: all 0.3s ease;
+		}
+
+		nav .nav-content {
+			max-width: 1200px;
+			margin: 0 auto;
+			display: flex;
+			justify-content: center;
+		}
+
+		nav ul {
+			list-style: none;
+			padding: 0;
+			display: flex;
+			gap: 20px;
+		}
+
+		nav ul li {
+			margin: 0;
+		}
+
+		nav ul li a {
+			color: white;
+			text-decoration: none;
+			padding: 10px 15px;
+			transition: background-color 0.3s, color 0.3s, transform 0.3s;
+		}
+
+		nav ul li a:hover {
+			background-color: #495057;
+			color: #00ffff;
+			transform: scale(1.1);
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+		}
+
+		.sticky {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			z-index: 1000;
+			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+			animation: fadeIn 0.5s ease-in-out;
+		}
+
+		/* Animación de entrada para la barra de navegación */
+		@keyframes fadeIn {
+			from {
+				opacity: 0;
+			}
+			to {
+				opacity: 1;
+			}
+		}
+
     </style>
 </head>
 <body>
@@ -378,6 +860,488 @@ cat <<EOL > $OUTPUT_HTML
 				transform: scale(1.1); /* Aumenta un poco menos */
 			}
 		}
+		/* Estilo general para el texto neón */
+		.neon-text {
+			color: #00ffff;
+			text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 40px #00ffff;
+			animation: flicker 1.5s infinite alternate;
+			font-family: 'VT323', 'Courier New', Courier, monospace;
+			white-space: pre !important;
+			transition: all 0.3s ease;
+		}
+
+		/* Animación de parpadeo para el texto neón */
+		@keyframes flicker {
+			0%, 18%, 22%, 25%, 53%, 57%, 100% {
+				opacity: 1;
+			}
+			24%, 54% {
+				opacity: 0.8;
+			}
+		}
+
+		/* Estilo para el contenedor de la red */
+		#mynetwork {
+			width: 100%;
+			height: 768px;
+			border: 1px solid #333;
+			background: linear-gradient(135deg, #1e1e1e, #2e2e2e);
+			border-radius: 10px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+			animation: fadeIn 1s ease-in-out;
+			transition: all 0.3s ease;
+		}
+
+		/* Estilo para las secciones */
+		.section {
+			display: none;
+		}
+
+		.section.active {
+			display: block;
+			animation: fadeIn 0.5s ease-in-out;
+			transition: all 0.3s ease;
+		}
+
+		@keyframes fadeIn {
+			from {
+				opacity: 0;
+			}
+			to {
+				opacity: 1;
+			}
+		}
+
+		/* Estilo para la ventana de terminal */
+		.terminal-window {
+			background-color: #1e1e1e;
+			color: #c0c0c0;
+			font-family: 'Fira Code', 'Courier New', Courier, monospace;
+			padding: 20px;
+			border: 2px solid #333;
+			border-radius: 8px;
+			position: relative;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+			word-break: break-all;
+			max-width: 800px;
+			margin: auto;
+			transition: transform 0.3s ease, box-shadow 0.3s ease;
+		}
+
+		.terminal-window:hover {
+			transform: scale(1.02);
+			box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+		}
+
+		/* Estilo para el encabezado del terminal */
+		.terminal-header {
+			background-color: #2e2e2e;
+			color: #c0c0c0;
+			padding: 10px 20px;
+			border-bottom: 2px solid #444;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			border-top-left-radius: 8px;
+			border-top-right-radius: 8px;
+		}
+
+		/* Estilo para el título del terminal */
+		.terminal-title {
+			font-weight: bold;
+			font-size: 1.2em;
+		}
+
+		/* Estilo para los controles del terminal */
+		.terminal-controls {
+			display: flex;
+			gap: 10px;
+		}
+
+		.terminal-control-button {
+			width: 14px;
+			height: 14px;
+			border-radius: 50%;
+			cursor: pointer;
+			transition: background-color 0.3s, transform 0.3s;
+		}
+
+		.close-button {
+			background-color: #e81123;
+		}
+
+		.minimize-button {
+			background-color: #f0ad4e;
+		}
+
+		.maximize-button {
+			background-color: #00ffff;
+		}
+
+		.terminal-control-button:hover {
+			opacity: 0.8;
+			transform: scale(1.2);
+		}
+
+		/* Estilo para el cuerpo del terminal */
+		.card-body {
+			background-color: #1e1e1e;
+			color: #c0c0c0;
+			padding: 20px;
+			border-radius: 0 0 8px 8px;
+			font-family: 'Fira Code', 'Courier New', Courier, monospace;
+			white-space: pre-wrap;
+		}
+
+		/* Estilo para el texto pequeño */
+		.chico {
+			font-size: 12px;
+		}
+
+		/* Estilo para las notificaciones */
+		.toastr {
+			position: fixed;
+			top: 20px;
+			right: 20px;
+			z-index: 1050;
+			width: 300px;
+			opacity: 0;
+			transition: opacity 0.5s, transform 0.5s;
+			background-color: #333;
+			color: #c0c0c0;
+			border: 1px solid #444;
+			border-radius: 8px;
+			padding: 10px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+			transform: translateY(-20px);
+		}
+
+		.toastr.show {
+			opacity: 1;
+			transform: translateY(0);
+		}
+
+		/* Estilo para el dropdown personalizado */
+		.custom-dropdown {
+			background-color: #f8f9fa;
+			border: 1px solid #ced4da;
+			border-radius: 0.25rem;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+		}
+
+		/* Estilo para el contenedor principal */
+		.container {
+			max-width: 1200px;
+			margin: 0 auto;
+			padding: 20px;
+			animation: fadeIn 1s ease-in-out;
+			transition: all 0.3s ease;
+		}
+
+		/* Estilo para el encabezado principal */
+		h1.neon-text {
+			font-size: 2.5em;
+			margin-bottom: 20px;
+			animation: slideIn 1s ease-in-out;
+			transition: all 0.3s ease;
+		}
+
+		@keyframes slideIn {
+			from {
+				opacity: 0;
+				transform: translateX(-100%);
+			}
+			to {
+				opacity: 1;
+				transform: translateX(0);
+			}
+		}
+
+		/* Estilo para el pie de página */
+		.footer {
+			background-color: #2e2e2e;
+			color: #c0c0c0;
+			padding: 20px;
+			border-top: 2px solid #444;
+			text-align: center;
+			font-size: 1em;
+			animation: fadeIn 1s ease-in-out;
+			transition: all 0.3s ease;
+		}
+
+		/* Estilo para los botones */
+		.btn {
+			background-color: #00ffff;
+			border: none;
+			color: #fff;
+			padding: 10px 20px;
+			border-radius: 8px;
+			transition: background-color 0.3s, transform 0.3s;
+		}
+
+		.btn:hover {
+			background-color: #00e6e6;
+			transform: scale(1.05);
+		}
+
+		/* Estilo para los enlaces de navegación */
+		.nav-link {
+			color: #c0c0c0;
+			transition: color 0.3s, transform 0.3s;
+		}
+
+		.nav-link:hover {
+			color: #fff;
+			transform: scale(1.1);
+		}
+
+		/* Estilo para los formularios */
+		.form-group {
+			margin-bottom: 15px;
+		}
+
+		.form-control {
+			background-color: #333;
+			color: #00ffff;
+			border: 1px solid #444;
+			border-radius: 8px;
+			padding: 10px;
+			transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
+		}
+
+		.form-control:focus {
+			background-color: #444;
+			border-color: #00ffff;
+			transform: scale(1.02);
+		}
+
+		/* Estilo para el input de tipo file */
+		.form-control-file {
+			background-color: #333;
+			color: #7a7a7a;
+			border: 1px solid #444;
+			border-radius: 8px;
+			padding: 10px;
+			transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
+		}
+
+		.form-control-file:focus {
+			background-color: #444;
+			border-color: #00ffff;
+			transform: scale(1.02);
+		}
+
+		/* Estilo para los acordeones */
+		.accordion .card {
+			background-color: #2e2e2e;
+			border: 1px solid #444;
+			border-radius: 8px;
+			margin-bottom: 10px;
+			transition: background-color 0.3s, transform 0.3s;
+		}
+
+		.accordion .card:hover {
+			background-color: #3e3e3e;
+			transform: scale(1.02);
+		}
+
+		.accordion .card-header {
+			background-color: #3e3e3e;
+			color: #535353;
+			padding: 10px 20px;
+			border-bottom: 1px solid #444;
+			cursor: pointer;
+			transition: background-color 0.3s;
+		}
+
+		.accordion .card-header:hover {
+			background-color: #4e4e4e;
+		}
+
+		.accordion .card-body {
+			background-color: #1e1e1e;
+			color: #c0c0c0;
+			padding: 20px;
+			border-radius: 0 0 8px 8px;
+		}
+
+		/* Estilo para los elementos de la lista */
+		.list-group-item {
+			background-color: #2e2e2e;
+			color: #c0c0c0;
+			border: 1px solid #444;
+			border-radius: 8px;
+			margin-bottom: 10px;
+			transition: background-color 0.3s, transform 0.3s;
+		}
+
+		.list-group-item:hover {
+			background-color: #3e3e3e;
+			transform: scale(1.02);
+		}
+
+		/* Estilo para los elementos de la lista de éxito */
+		.list-group-item-success {
+			background-color: #00ffff;
+			color: #fff;
+			transition: background-color 0.3s, transform 0.3s;
+		}
+
+		.list-group-item-success:hover {
+			background-color: #00e6e6;
+			transform: scale(1.02);
+		}
+
+		/* Estilo para los elementos de la lista de éxito al pasar el ratón */
+		.list-group-item-success:active {
+			background-color: #00b3b3;
+			transform: scale(0.98);
+		}
+
+		/* Estilo para el preformateado */
+		pre {
+			background-color: #1e1e1e;
+			color: #c0c0c0;
+			padding: 10px;
+			border-radius: 8px;
+			font-family: 'Fira Code', 'Courier New', Courier, monospace;
+			white-space: pre-wrap;
+			transition: background-color 0.3s, transform 0.3s;
+		}
+
+		pre:hover {
+			background-color: #2e2e2e;
+			transform: scale(1.02);
+		}
+
+		/* Estilo para el cuerpo de la página */
+		body.bg-dark {
+			background: linear-gradient(135deg, #1e1e1e, #2e2e2e);
+			color: #c0c0c0;
+			font-family: 'Fira Code', 'Courier New', Courier, monospace;
+			animation: fadeIn 1s ease-in-out;
+			transition: all 0.3s ease;
+		}
+
+		/* Estilo para el input cuando tiene el foco */
+		input[type="text"]:focus {
+			background-color: #ffffff;
+			color: #000000;
+			border-color: #007bff;
+			outline: none;
+		}
+
+		/* Estilo para los enlaces */
+		a {
+			color: #00ffff;
+			transition: color 0.3s, transform 0.3s;
+		}
+
+		a:hover {
+			color: #00e6e6;
+			transform: scale(1.05);
+		}
+
+		/* Animación de carga */
+		@keyframes loading {
+			0% {
+				transform: rotate(0deg);
+			}
+			100% {
+				transform: rotate(360deg);
+			}
+		}
+
+		/* Estilo para el spinner de carga */
+		.loading-spinner {
+			border: 4px solid rgba(0, 0, 0, 0.1);
+			border-top: 4px solid #00ffff;
+			border-radius: 50%;
+			width: 40px;
+			height: 40px;
+			animation: loading 1s linear infinite;
+			position: fixed;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			z-index: 10000;
+		}
+
+		/* Estilo para el contenedor de carga */
+		.loading-container {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(0, 0, 0, 0.8);
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			z-index: 9999;
+		}
+
+		/* Estilo para la barra de navegación */
+		nav {
+			background-color: #343a40;
+			color: white;
+			padding: 10px 0;
+			text-align: center;
+			transition: all 0.3s ease;
+		}
+
+		nav .nav-content {
+			max-width: 1200px;
+			margin: 0 auto;
+			display: flex;
+			justify-content: center;
+		}
+
+		nav ul {
+			list-style: none;
+			padding: 0;
+			display: flex;
+			gap: 20px;
+		}
+
+		nav ul li {
+			margin: 0;
+		}
+
+		nav ul li a {
+			color: white;
+			text-decoration: none;
+			padding: 10px 15px;
+			transition: background-color 0.3s, color 0.3s, transform 0.3s;
+		}
+
+		nav ul li a:hover {
+			background-color: #495057;
+			color: #00ffff;
+			transform: scale(1.1);
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+		}
+
+		.sticky {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			z-index: 1000;
+			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+			animation: fadeIn 0.5s ease-in-out;
+		}
+
+		/* Animación de entrada para la barra de navegación */
+		@keyframes fadeIn {
+			from {
+				opacity: 0;
+			}
+			to {
+				opacity: 1;
+			}
+		}
+
     </style>
 </head>
 <body>

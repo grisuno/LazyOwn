@@ -65,7 +65,7 @@ from netaddr import IPAddress, IPRange
 from libnmap.process import NmapProcess
 from impacket.dcerpc.v5 import transport
 from concurrent.futures import ThreadPoolExecutor
-from urllib.parse import quote, unquote, urlparse
+from urllib.parse import quote, unquote, urlparse, urljoin
 from impacket.dcerpc.v5.dcomrt import IObjectExporter
 from modules.lazyencoder_decoder import encode, decode
 from datetime import datetime, timedelta, date, timezone
@@ -300,7 +300,7 @@ def load_version():
         return 'release/v0.0.14'
 
 version = load_version()
-
+url_download = f"https://github.com/grisuno/LazyOwn/archive/refs/tags/{version}.tar.gz"
 def print_error(error):
     """
     Prints an error message to the console.
@@ -734,6 +734,7 @@ def copy2clip(text):
     try:
         subprocess.run(['xclip', '-selection', 'clipboard'], input=text.encode(), check=True)
         print_msg(f"Text copied to clipboard. {text}")
+        return text
     except subprocess.CalledProcessError as e:
         print_error(f"Error to copy to clip: {e}")
     except FileNotFoundError:
@@ -2515,6 +2516,82 @@ def display_news(titles, links, scores):
 
     print_msg(df)
 
+def htmlify(data):
+    """Wrap C2 comms in html and html2 code to make requests look more legitimate"""
+    html = "<html><head><title>http server</title></head>\n"
+    html += "<body>\n"
+    html += "<b>\n"
+    html2 = "</b>\n"
+    html2 += "</body>\n"
+    html2 += "</html>\n"
+    return(html + data + "\n" + html2)
+
+def de_htmlify(data):
+    """Cleant wrap C2 comms of html and html2 code to get the command from request"""
+    html = "<html><head><title>http server</title></head>\n"
+    html += "<body>\n"
+    html += "<b>\n"
+    html2 = "</b>\n"
+    html2 += "</body>\n"
+    html2 += "</html>\n"
+    data = data.replace(html,'').replace(html2,'')
+    return(data)
+
+def is_port_in_use(port, host='127.0.0.1'):
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        try:
+            s.bind((host, port))
+        except socket.error:
+            return True
+        return False
+    
+
+def return_creds():
+    credentials_path = os.path.join(os.getcwd(), "sessions", "credentials.txt")
+    if not os.path.exists(credentials_path):
+        username = input("    [!] Enter the username: ")
+        password = input("    [!] Enter the password: ")
+    else:
+        with open(credentials_path, "r") as f:
+            credentials = get_credentials()
+            if not credentials:
+                return
+
+            return credentials
+
+def query_arin_ip(ip):
+    """Queries ARIN whois API for organization information of an IP address.
+
+    Args:
+        ip: The IP address to query.
+
+    Returns:
+        A dictionary containing IP information or None on failure.
+    """
+    request = urllib.request.Request(f"https://whois.arin.net/rest/ip/{ip}")
+    request.add_header("Accept", "application/json")
+    try:
+        with urllib.request.urlopen(request) as response:
+            return json.loads(response.read().decode())
+    except Exception as e:
+        print_error(f"ARIN API failed: {e}")
+    return None
+
+def get_org(data):
+    """Extracts organization name from ARIN whois response data.
+
+    Args:
+        data: The JSON data from the ARIN whois API response.
+
+    Returns:
+        The organization name or "null" if not found.
+    """
+    if data.get("net") and data["net"].get("orgRef"):
+        return data["net"]["orgRef"]["@name"]
+    elif data.get("net") and data["net"].get("customerRef"):
+        return data["net"]["customerRef"]["@name"]
+    else:
+        return "null"
 class MyServer(HTTPServer):
     """
     Custom HTTP server to handle incoming connections from certutil.
@@ -2621,6 +2698,7 @@ class IP2ASN:
         """Get the country by ASN."""
         return self.as_country.get(asn, "Unknown")
 
+
 class VulnerabilityScanner:
     """Escáner de vulnerabilidades que busca y muestra información sobre CVEs.
 
@@ -2711,17 +2789,9 @@ class VulnerabilityScanner:
         except Exception as e:
             print_error(f"Error creating Csv file: {e}")        
         
-def is_port_in_use(port, host='127.0.0.1'):
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        try:
-            s.bind((host, port))
-        except socket.error:
-            return True
-        return False
-    
+
 signal.signal(signal.SIGINT, signal_handler)
 arguments = sys.argv[1:]  
-
 
 for arg in arguments:
     if arg == "--help":

@@ -68,6 +68,7 @@ download() {
         "wget https://github.com/lkarlslund/Adalanche/releases/download/v2024.1.11/adalanche-collector-windows-386-v2024.1.11.exe"
         "wget https://github.com/lkarlslund/Adalanche/releases/download/v2024.1.11/adalanche-linux-x64-v2024.1.11"
         "wget https://raw.githubusercontent.com/MatheuZSecurity/systemd-backdoor/refs/heads/main/systemd.sh"
+        "wget https://raw.githubusercontent.com/t3l3machus/gmail-ssh-log-alert/refs/heads/main/ssh-log-alert.sh"
 
     )
 

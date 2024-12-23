@@ -31,10 +31,13 @@ while [[ "$#" -gt 0 ]]; do
     esac
     shift
 done
-echo $VPN
+
 check_sudo "$@"
-echo $VPN
-chown $USER:$USER sessions -R
+
+
+chown 1000:1000 sessions -R
+chmod 777 sessions/temp_uploads -R
+chmod 777 sessions/uploads -R
 tmux new-session -d -s $SESSION
 tmux send-keys -t $SESSION "sleep 5 && bash -c './run -c nmap'" C-m
 tmux split-window -v

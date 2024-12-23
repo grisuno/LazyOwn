@@ -106,7 +106,11 @@ Previous messages:
 def execute_command(command: str) -> subprocess.CompletedProcess:
     with tempfile.TemporaryDirectory() as temp_dir:
         os.chdir(temp_dir)
-        result = subprocess.run(command, shell=True, capture_output=True, text=True)
+        choice = input(f"do you want to run: {command} (y/n)") or 'n'
+        if choice == 'y':
+            result = subprocess.run(command, shell=True, capture_output=True, text=True)
+        else:
+            result = None
     return result
 
 def load_knowledge_base(file_path: str) -> dict:

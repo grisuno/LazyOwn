@@ -59,25 +59,6 @@
                 {% endfor %}
             </ul>
             <div id="mynetwork"></div>
-                <h2 class="mt-4">Results</h2>
-                {% for client_id, result in results.items() %}
-                <div class="card bg-dark text-light mb-3">
-                    <div class="terminal-window">
-                        <div class="terminal-header">
-                            <div class="terminal-title">Client: {{ client_id }} OS: {{ result.client }}</div>
-                            <input type="hidden" name="{{ client_id }}" id="{{ client_id }}" value="{{ result.client }}">
-                            <div class="terminal-controls">
-                                <div class="terminal-control-button close-button"></div>
-                                <div class="terminal-control-button minimize-button"></div>
-                                <div class="terminal-control-button maximize-button"></div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <pre class="card-text neon-text">{{ result.output }}</pre>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}         
             <nav id="stickyNav" class="navbar navbar-expand-lg navbar-dark bg-secondary">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -89,10 +70,10 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#" data-target="download-file">Upload File</a>
-                        </li>
+                        </li><!--
                         <li class="nav-item">
                             <a class="nav-link" href="#" data-target="run-shellcode">Run Shellcode</a>
-                        </li>
+                        </li>-->
                         <li class="nav-item">
                             <a class="nav-link" href="#" data-target="port-forward">Port Forward</a>
                         </li>
@@ -116,7 +97,7 @@
                         </li>
                     </ul>
                 </div>
-            </nav>            
+            </nav>
             <div id="command-issue" class="section active">
                 <h2>Issue Command</h2>
                 <form action="{{ url_for('issue_command') }}" method="POST">
@@ -138,8 +119,32 @@
                     </div>
                     <button type="submit" class="btn btn-primary">Send Command</button>
                 </form>
+                <h2 class="mt-4">Results</h2>
+                {% for client_id, command_history in commands_history.items() %}
+                <div class="card bg-dark text-light mb-3">
+                    <div class="terminal-window">
+                        <div class="terminal-header">
+                            <div class="terminal-title">Client: {{ client_id }}</div>
+                            <input type="hidden" id="{{ client_id }}" name="{{ client_id }}" value="{{ os_data[client_id] }}"/>
+                            <div class="terminal-controls">
+                                <div class="terminal-control-button close-button"></div>
+                                <div class="terminal-control-button minimize-button"></div>
+                                <div class="terminal-control-button maximize-button"></div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-text neon-text">
+                                {% for entry in command_history %}
+                                    <div>Command:</div> {{ entry.command }}<br>
+                                    <div>Output:</div> {{ entry.output }}<br>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
             </div>
-    
+
             <div id="download-file" class="section">
                 <h2>Upload File</h2>
                 <form method="POST" action="{{ url_for('download_file') }}" enctype="multipart/form-data">
@@ -162,7 +167,7 @@
                     <button type="submit" class="btn btn-primary">Upload File</button>
                 </form>
             </div>
-    
+            <!--
             <div id="run-shellcode" class="section">
                 <h2>Run Shellcode</h2>
                 <form method="POST" action="{{ url_for('run_shellcode') }}">
@@ -185,7 +190,7 @@
                     <button type="submit" class="btn btn-primary">Run Shellcode</button>
                 </form>
             </div>
-    
+            -->
             <div id="port-forward" class="section">
                 <h2>Port Forward</h2>
                 <form method="POST" action="/start_bridge">
@@ -204,7 +209,7 @@
                     <button type="submit" class="btn btn-primary">Start Bridge</button>
                 </form>
             </div>
-    
+
             <div id="local-shell" class="section">
                 <h1>Local Shell</h1>
                 <form id="commandForm">
@@ -214,9 +219,17 @@
                     </div>
                     <button type="submit" class="btn btn-primary">Run</button>
                 </form>
-                <div id="output"></div>
+                <div class="terminal-window">
+                    <div class="terminal-controls">
+                        <div class="terminal-control-button close-button"></div>
+                        <div class="terminal-control-button minimize-button"></div>
+                        <div class="terminal-control-button maximize-button"></div>
+                    </div>
+                    <div class="table-cell"><div class="terminal-title">Results</div></div>
+                    <div class="table-cell card-body"><div id="output"></div></div>
+                </div>
             </div>
-    
+
             <div id="session-data" class="section">
                 <h1 class="text-center">Session Data</h1>
                 <div id="accordion">
@@ -283,7 +296,7 @@
                                 <div class="card-body">
                                     {{ session_data.notes | replace('\n', '<br>') | safe }}
                                 </div>
-                            </div>                            
+                            </div>
                         </div>
                     </div>
                     <div class="card">
@@ -307,10 +320,10 @@
                                 <div class="card-body">
                                     {{ session_data.id_rsa | replace('\n', '<br>') | safe }}
                                 </div>
-                            </div>                            
-                        </div>                            
+                            </div>
                         </div>
                     </div>
+                </div>
             </div>
             <div id="upload-file" class="section">
                 <h2>Download File</h2>
@@ -345,7 +358,7 @@
                             {% endfor %}
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-primary">Ver YAML</button>
+                    <button type="submit" class="btn btn-primary">View YAML</button>
                 </form>
             </div>
             <div id="post-exploit" class="section">
@@ -369,7 +382,7 @@
             <div id="web-server" class="section">
                 <h2>Web Server</h2>
                 <iframe id="lazywebserver" src="http://127.0.0.1/index2.html" width="100%" height="700"></iframe>
-            </div>            
+            </div>
             <h2 class="mt-4">Contact</h2>
             <p>For any questions or feedback, please reach out to <a href="mailto\:grisiscomeback[at]gmail[dot]com" class="text-success">Gris Iscomeback</a>.</p>
         </div>
@@ -385,7 +398,7 @@
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-    
+
             gtag('config', 'G-T4VF6JJ095');
         </script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -396,7 +409,7 @@
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
-                document.querySelector('.loading-container').style.display = 'none';
+
                 $(document).ready(function() {
                     $('#directory').select2({
                         placeholder: 'Select a tactic',
@@ -405,11 +418,7 @@
                         theme: 'default'
                     });
                 });
-                var currentUrl = window.location.href;
-                var iframe = document.getElementById('lazywebserver');
-
-                iframe.src = currentUrl.replace(":4444/","/index2.html");
-
+                
                 kofiWidgetOverlay.draw('grisuno', {
                     'type': 'floating-chat',
                     'floating-chat.donateButton.text': 'Support me',
@@ -436,12 +445,10 @@
 
                         outputDiv.innerHTML += `<p>${cleanOutputText}</p>`;
 
-                        console.log(data);
                     } catch (error) {
                         console.error('There was a problem with the fetch operation:', error);
                     }
                 }
-
 
                 function toastr(command){
                     var toastr = document.getElementById('toastr');
@@ -453,7 +460,7 @@
                 };
 
                 function RunCmd(command){
-                    console.log(command)
+        
                     fetch('/api/run', {
                         method: 'POST',
                         headers: {
@@ -470,9 +477,9 @@
                             toastr(command)
                             fetchLog()
                         }
-                    });                
-                }  
-                               
+                    });
+                }
+
                 function RunRemoteCmd(client_id, command){
                     const clientId = client_id;
                     const formData = new FormData();
@@ -497,7 +504,7 @@
                     })
                     .catch(error => {
                         console.log(`Error: ${error}`);
-                    });                    
+                    });
                 }
                 document.getElementById('post-exploit-form').addEventListener('submit', function(event) {
                     event.preventDefault();
@@ -558,16 +565,18 @@
                     var edges = new vis.DataSet();
 
                     var connectedClients = {{ connected_clients | tojson }};
-                    var results = {{ results | tojson }};
+                    var results = {{ commands_history | tojson }};
 
                     connectedClients.forEach(function(client) {
                         var label = client;
                         var image = '/static/client.png';
-                        if (results[client] && results[client].client) {
-                            label += " (OS/" + results[client].client + ")";
-                            if (results[client].client === 'Linux') {
+                        var selector = '#' + client;
+                        var client_os = $(selector).val(); 
+                        if (client_os) {
+                            label += " (OS/" + client_os + ")";
+                            if (client_os.toLowerCase() === 'linux') {
                                 image = '/static/Linux.png';
-                            } else if (results[client].client === 'Windows') {
+                            } else if (client_os.toLowerCase() === 'windows') {
                                 image = '/static/Windows.png';
                             }
                         }
@@ -639,10 +648,8 @@
                 });
                 }
 
-
                 var connectedClients = {{ connected_clients | tojson }};
                 generateGraph(connectedClients);
-    
 
                 document.querySelectorAll('.nav-link').forEach(link => {
                     link.addEventListener('click', function(event) {
@@ -660,19 +667,59 @@
                     var navOffsetTop = nav.offsetTop;
 
                     if (scrollPosition >= 822) {
-                        console.log(scrollPosition)
+                        
                         nav.classList.add('sticky');
                     } else {
-                        console.log(scrollPosition)
+                        
                         nav.classList.remove('sticky');
                     }
                 });
-
+                document.querySelector('.loading-container').style.display = 'none';
+                var currentUrl = window.location.href;
+                var iframe = document.getElementById('lazywebserver');
+                var newUrl = currentUrl.replace(":4444/", "/index2.html");
+                function checkUrlExists(url, callback) {
+                    var http = new XMLHttpRequest();
+                    http.open('HEAD', url, true);
+                    http.onreadystatechange = function() {
+                        if (http.readyState == 4) {
+                            if (http.status >= 200 && http.status < 400) {
+                                callback(true);
+                            } else {
+                                callback(false);
+                            }
+                        }
+                    };
+                    http.send();
+                }
+                checkUrlExists(newUrl, function(exists) {
+                    if (exists) {
+                        iframe.src = newUrl;
+                    } else {
+                        iframe.src = currentUrl.replace(":4444/", "/");
+                    }
+                });                      
             });
 
-
-
-
-    </script>        
+        </script>
+        <script type="module">
+            // Import the functions you need from the SDKs you need
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+            // TODO: Add SDKs for Firebase products that you want to use
+            // https://firebase.google.com/docs/web/setup#available-libraries
+          
+            // Your web app's Firebase configuration
+            const firebaseConfig = {
+              apiKey: "AIzaSyA-lTI_yhgyDqLrMX1rq6G8qSVQHGLDcio",
+              authDomain: "lazyown-ec930.firebaseapp.com",
+              projectId: "lazyown-ec930",
+              storageBucket: "lazyown-ec930.firebasestorage.app",
+              messagingSenderId: "629740909985",
+              appId: "1:629740909985:web:4b52d61c043193310787e0"
+            };
+          
+            // Initialize Firebase
+            const app = initializeApp(firebaseConfig);
+          </script>
     </body>
     </html>

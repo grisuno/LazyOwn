@@ -25,6 +25,7 @@ function ctrl_c() {
 DIRECTORIO="./sessions"
 ARCHIVO="$DIRECTORIO/nmap-bootstrap.xsl"
 sudo chown 1000:1000 sessions -R
+sudo chmod 777 sessions/temp_uploads -R
 # Verificar si el archivo no existe
 if [ ! -f "$ARCHIVO" ]; then
     echo "    [*] The file don't exist. Downloading..."

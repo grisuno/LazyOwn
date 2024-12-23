@@ -128,6 +128,12 @@ download() {
         "git clone https://github.com/Leo4j/Amnesiac.git .exploit/Amnesiac"
         "git clone https://github.com/JoelGMSec/AutoRDPwn.git .exploit/AutoRDPwn"
         "git clone https://github.com/JoelGMSec/Kitsune.git .exploit/Kitsune"
+        "git clone https://github.com/owalid/consul-rce.git .exploit/consul_rce"
+        "git clone https://github.com/t3l3machus/psudohash.git .exploit/pseudohash"
+        "git clone https://github.com/cxnturi0n/convoC2.git .exploit/teamsc2convoc2"
+        "git clone https://github.com/FuzzySecurity/Sharp-Suite.git .exploit/SharpSuit"
+        "git clone https://github.com/FuzzySecurity/DLL-Template.git .exploit/dlltemplate"
+        "git clone https://github.com/FuzzySecurity/Unix-PrivEsc.git .exploit/unixprivesc"
     )
     
     echo "    [+] Choice the number option to clone:"

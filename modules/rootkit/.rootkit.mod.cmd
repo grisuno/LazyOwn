@@ -1,0 +1,1 @@
+savedcmd_/home/grisun0/LazyOwn/modules/rootkit/rootkit.mod := printf '%s\n'   rootkit.o | awk '!x[$$0]++ { print("/home/grisun0/LazyOwn/modules/rootkit/"$$0) }' > /home/grisun0/LazyOwn/modules/rootkit/rootkit.mod

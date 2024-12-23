@@ -2,6 +2,34 @@
 # Changelog
 
 
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new commands documented at COMMANDS.md, new rootkit named LazyHyde, new malware, nad much much more \n\n Version: release/0.2.25 \n\n demo here: https://www.youtube.com/watch?v=SZuJ4Iu1HgU \n\n Modified file(s):\n- README.md - UTILS.md - docs/README.html - docs/UTILS.html - docs/index.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Dec 22 19:31:07 2024 -0800 \n\n Hora: 1734924667
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #77 from grisuno/dev6
+
+
+### Otros
+
+### Otros
+
+  *   * new ring 3 rootkit, 3 new listeners go python and c, infect pid with shellcode, new style of c2, download_c2 and upload_c2 and much much more
+
+
+### Otros
+
+### Otros
+
+  *   * new ring 3 rootkit, 3 new listeners go python and c, infect pid with shellcode, new style of c2, download_c2 and upload_c2 and much much more
+
+
 ### Correcciones urgentes
 
 ### Otros

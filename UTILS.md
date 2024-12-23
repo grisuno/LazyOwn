@@ -950,8 +950,35 @@ Args:
     links (list): Lista de enlaces de las noticias.
     scores (list): Lista de puntuaciones de las noticias.
 
+## htmlify
+Wrap C2 comms in html and html2 code to make requests look more legitimate
+
+## de_htmlify
+Cleant wrap C2 comms of html and html2 code to get the command from request
+
 ## is_port_in_use
 No description available.
+
+## return_creds
+No description available.
+
+## query_arin_ip
+Queries ARIN whois API for organization information of an IP address.
+
+Args:
+    ip: The IP address to query.
+
+Returns:
+    A dictionary containing IP information or None on failure.
+
+## get_org
+Extracts organization name from ARIN whois response data.
+
+Args:
+    data: The JSON data from the ARIN whois API response.
+
+Returns:
+    The organization name or "null" if not found.
 
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 

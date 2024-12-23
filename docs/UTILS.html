@@ -861,8 +861,26 @@ enlaces y puntuaciones de las noticias.</p>
 <p>Args: titles (list): Lista de títulos de las noticias. links (list):
 Lista de enlaces de las noticias. scores (list): Lista de puntuaciones
 de las noticias.</p>
+<h2 id="htmlify">htmlify</h2>
+<p>Wrap C2 comms in html and html2 code to make requests look more
+legitimate</p>
+<h2 id="de_htmlify">de_htmlify</h2>
+<p>Cleant wrap C2 comms of html and html2 code to get the command from
+request</p>
 <h2 id="is_port_in_use">is_port_in_use</h2>
 <p>No description available.</p>
+<h2 id="return_creds">return_creds</h2>
+<p>No description available.</p>
+<h2 id="query_arin_ip">query_arin_ip</h2>
+<p>Queries ARIN whois API for organization information of an IP
+address.</p>
+<p>Args: ip: The IP address to query.</p>
+<p>Returns: A dictionary containing IP information or None on
+failure.</p>
+<h2 id="get_org">get_org</h2>
+<p>Extracts organization name from ARIN whois response data.</p>
+<p>Args: data: The JSON data from the ARIN whois API response.</p>
+<p>Returns: The organization name or “null” if not found.</p>
 <h2 id="wrapper">wrapper</h2>
 <p>internal wrapper of internal function to implement multiples rhost to
 operate.</p>

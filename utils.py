@@ -34,6 +34,7 @@ import bisect
 import pickle
 import signal
 import base64
+import curses
 import string
 import ctypes
 import socket

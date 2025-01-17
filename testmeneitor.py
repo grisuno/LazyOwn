@@ -100,7 +100,7 @@ if __name__ == "__main__":
 
     functions = extract_functions(script_path)
 
-    if 'lazyown' in script_path:
+    if 'lazyown.py' in script_path:
         print(f"[+] Running tests using Bash script for {script_path}")
         run_tests_with_bash(script_path, functions)
     else:

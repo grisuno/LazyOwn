@@ -4,7 +4,8 @@ SESSION="lazyown_sessions"
 COMMAND='./run -c "c2 no_priv"'
 VPN=1
 VENV_PATH="env"
-
+JSON_FILE="payload.json"
+C2_PORT=$(jq -r '.c2_port' "$JSON_FILE")
 
 check_sudo() {
     if [ "$EUID" -ne 0 ]; then
@@ -46,11 +47,13 @@ tmux send-keys -t $SESSION "c2 no_priv" C-m
 tmux split-window -v
 tmux send-keys -t $SESSION "sleep 99 && bash -c './run -c pyautomate'" C-m
 tmux split-window -h
-tmux send-keys -t $SESSION "sleep 0.05 && bash -c 'source \"$VENV_PATH/bin/activate\" && python3 -W ignore lazyc2.py 4444 LazyOwn LazyOwn'" C-m
+tmux send-keys -t $SESSION "sleep 0.05 && bash -c 'source \"$VENV_PATH/bin/activate\" && python3 -W ignore lazyc2.py $C2_PORT LazyOwn LazyOwn'" C-m
+tmux send-keys -t $SESSION "LazyOwn" C-m
 tmux select-pane -t 0
 tmux split-window -h
 tmux send-keys -t $SESSION "bash -c './run -c \"vpn $VPN\"'" C-m
 tmux split-window -v
 tmux send-keys -t $SESSION "bash -c './run -c www'" C-m
+tmux send-keys -t $SESSION "LazyOwn" C-m
 tmux select-pane -t 3
 tmux attach -t $SESSION

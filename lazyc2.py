@@ -356,51 +356,83 @@ def send_command(client_id):
 def receive_result(client_id):
     try:
         data = request.json
-        if data and 'output' in data and 'command' in data:
-            output = data['output']
-            client = data['client']
-            pid = data['pid']
-            hostname = data['hostname']
-            ips = data['ips']
-            user = data['user']
-            command = data['command']
-            if command and output:
-                sanitized_client_id = os.path.basename(client_id)
-                csv_file = os.path.join(ALLOWED_DIRECTORY, f"{sanitized_client_id}.log")
-                allowed_directory_realpath = os.path.realpath(ALLOWED_DIRECTORY)
-                csv_file_realpath = os.path.realpath(csv_file)
-                if not csv_file_realpath.startswith(allowed_directory_realpath):
-                    return jsonify({"status": "error", "message": "Invalid file path"}), 403
-
-                file_exists = os.path.isfile(csv_file)
-                with open(csv_file, 'a', newline='') as f:
-                    writer = csv.writer(f)
-                    if not file_exists:
-                        writer.writerow(["client_id", "os", "pid", "hostname", "ips", "user", "command", "output"])
-                    writer.writerow([client_id, client, pid, hostname, ips, user, command, output])
-
-                results[client_id] = {
-                    "output": output,
-                    "client": client,
-                    "pid": pid,
-                    "hostname": hostname,
-                    "ips": ips,
-                    "user": user,
-                    "command": command
-                }
-
-                print(f"[INFO] Received output from {client_id}: {output} Platform: {client}")
-                return jsonify({"status": "success", "Platform": client}), 200
-            else:
-                return jsonify({"status": "empty", "Platform": client}), 200
-        else:
-            print(f"[ERROR] Invalid data received from {client_id}")
+        if not data or not all(key in data for key in ['output', 'command', 'client', 'pid', 'hostname', 'ips', 'user']):
             return jsonify({"status": "error", "message": "Invalid data format"}), 400
+
+        output = data['output']
+        client = data['client']
+        pid = data['pid']
+        hostname = data['hostname']
+        ips = data['ips']
+        user = data['user']
+        command = data['command']
+
+        if not all([command, output, client_id]):
+            return jsonify({"status": "error", "message": "Required fields cannot be empty"}), 400
+
+        if not isinstance(client_id, str):
+            return jsonify({"status": "error", "message": "Invalid client_id type"}), 400
+
+        sanitized_client_id = ''.join(c for c in client_id if c.isalnum() or c in '-_')
+        if not sanitized_client_id or sanitized_client_id != client_id:
+            return jsonify({"status": "error", "message": "Invalid client_id format"}), 400
+
+        try:
+            allowed_directory_abs = os.path.abspath(ALLOWED_DIRECTORY)
+            filename = f"{sanitized_client_id}.log"
+            csv_file = os.path.join(allowed_directory_abs, filename)
+            csv_file_abs = os.path.abspath(csv_file)
+            if not csv_file_abs.startswith(allowed_directory_abs + os.sep):
+                return jsonify({"status": "error", "message": "Invalid file path"}), 403
+
+            if not os.access(allowed_directory_abs, os.W_OK):
+                return jsonify({"status": "error", "message": "Permission denied"}), 403
+
+        except Exception as e:
+            print(f"[ERROR] Path validation error: {str(e)}")
+            return jsonify({"status": "error", "message": "Path validation error"}), 500
+
+        try:
+            file_exists = os.path.isfile(csv_file_abs)
+            with open(csv_file_abs, 'a', newline='') as f:
+                writer = csv.writer(f)
+                if not file_exists:
+                    writer.writerow(["client_id", "os", "pid", "hostname", "ips", "user", "command", "output"])
+
+                safe_data = [
+                    str(sanitized_client_id),
+                    str(client)[:100], 
+                    str(pid)[:20],
+                    str(hostname)[:100],
+                    str(ips)[:100],
+                    str(user)[:50],
+                    str(command)[:500],
+                    str(output)[:1000]
+                ]
+                writer.writerow(safe_data)
+
+            results[sanitized_client_id] = {
+                "output": output,
+                "client": client,
+                "pid": pid,
+                "hostname": hostname,
+                "ips": ips,
+                "user": user,
+                "command": command
+            }
+
+            print(f"[INFO] Received output from {sanitized_client_id}: {output[:100]} Platform: {client}")
+            return jsonify({"status": "success", "Platform": client}), 200
+
+        except IOError as e:
+            print(f"[ERROR] File operation error: {str(e)}")
+            return jsonify({"status": "error", "message": "File operation error"}), 500
+
     except json.JSONDecodeError:
         print(f"[ERROR] Invalid JSON received from {client_id}")
         return jsonify({"status": "error", "message": "Invalid JSON"}), 400
     except Exception as e:
-        print(f"[ERROR] Unexpected error processing request from {client_id}: {str(e)}")
+        print(f"[ERROR] Unexpected error: {str(e)}")
         return jsonify({"status": "error", "message": "Internal server error"}), 500
 
 @app.route('/issue_command', methods=['POST'])

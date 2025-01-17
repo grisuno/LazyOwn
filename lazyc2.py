@@ -365,9 +365,13 @@ def receive_result(client_id):
             user = data['user']
             command = data['command']
             if command and output:
-                contentr = "client_id;os;pid;hostname;ips;user;command:output\n"
-                contentr += f"{client_id};{client};{pid};{hostname};{ips};{user};{command};{output}\n"
-                csv_file = f"sessions/{client_id}.log"
+                sanitized_client_id = os.path.basename(client_id)
+                csv_file = os.path.join(ALLOWED_DIRECTORY, f"{sanitized_client_id}.log")
+                allowed_directory_realpath = os.path.realpath(ALLOWED_DIRECTORY)
+                csv_file_realpath = os.path.realpath(csv_file)
+                if not csv_file_realpath.startswith(allowed_directory_realpath):
+                    return jsonify({"status": "error", "message": "Invalid file path"}), 403
+
                 file_exists = os.path.isfile(csv_file)
                 with open(csv_file, 'a', newline='') as f:
                     writer = csv.writer(f)
@@ -685,17 +689,24 @@ def csv_to_html():
     if not file_path:
         return jsonify({"error": "No file path provided"}), 400
 
-    if not file_path.startswith(os.path.realpath(ALLOWED_DIRECTORY)):
-        return jsonify({"error": "Invalid file path"}), 403
-
+    
     sanitized_file_path = os.path.normpath(file_path)
     sanitized_file_path = os.path.realpath(sanitized_file_path)
-    sanitized_file_path = sanitized_file_path.replace("../","").replace("....//","")
-    relative_path = os.path.relpath(sanitized_file_path, ALLOWED_DIRECTORY)
-    if '..' in relative_path:
-        return jsonify({"error": str('na na naa, you need the correct passwrd')}), 403
+
+    
+    allowed_directory_realpath = os.path.realpath(ALLOWED_DIRECTORY)
+    if not sanitized_file_path.startswith(allowed_directory_realpath):
+        return jsonify({"error": "Invalid file path"}), 403
+
+    
+    relative_path = os.path.relpath(sanitized_file_path, allowed_directory_realpath)
+    if '..' in relative_path or relative_path.startswith('/'):
+        return jsonify({"error": "Invalid file path"}), 403
+
+    full_path = os.path.join(allowed_directory_realpath, relative_path)
+
     try:
-        with open(sanitized_file_path, 'r') as file:
+        with open(full_path, 'r') as file:
             reader = csv.reader(file)
             headers = next(reader)
             rows = list(reader)

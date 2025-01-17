@@ -1,0 +1,25 @@
+{% include 'header.html' %}
+<div class="container mt-5">
+    <div class="card bg-secondary text-light p-4 mb-4">
+        <h1 class="mb-4">View Note</h1>
+        <div class="mb-3">
+            <a class="neon-text" href="/" alt="home">Home</a>
+            <br><br>
+            <label for="content" class="form-label">Content</label>
+            <div id="viewer">{{ note.content | safe }}</div>
+        </div>
+        <a class="btn btn-secondary" href="{{ url_for('edit_notes') }}">Edit Note</a>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelector('.loading-container').style.display = 'none';
+        var quill = new Quill('#viewer', {
+            theme: 'snow',
+            readOnly: true
+        });
+    });
+</script>
+</body>
+</html>

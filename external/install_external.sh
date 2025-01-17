@@ -134,7 +134,16 @@ download() {
         "git clone https://github.com/FuzzySecurity/Sharp-Suite.git .exploit/SharpSuit"
         "git clone https://github.com/FuzzySecurity/DLL-Template.git .exploit/dlltemplate"
         "git clone https://github.com/FuzzySecurity/Unix-PrivEsc.git .exploit/unixprivesc"
-    )
+        "git clone https://github.com/SafeBreach-Labs/PoolParty.git .exploit/PoolParty"
+        "git clone https://github.com/SafeBreach-Labs/EDRaser.git .exploit/EDRaser"
+        "git clone https://github.com/SafeBreach-Labs/wd-pretender.git .exploit/wd_pretender"
+        "git clone https://github.com/SafeBreach-Labs/aikido_wiper.git .exploit/aikido_wiper"
+        "git clone https://github.com/SafeBreach-Labs/QuickShell.git .exploit/quickshell"
+        "git clone https://github.com/SafeBreach-Labs/pacdoor.git .exploit/pacdoor"
+        "git clone https://github.com/SafeBreach-Labs/CVE-2024-49113.git .exploit/CVE-2024-49113"
+        "git clone https://github.com/SaumyajeetDas/CVE-2023-46604-RCE-Reverse-Shell-Apache-ActiveMQ.git .exploit/CVE-2023-46604"
+        "git clone https://github.com/danielbohannon/Invoke-Obfuscation.git .exploit/Invoke-Ofuscation"
+    )   
     
     echo "    [+] Choice the number option to clone:"
     for i in "${!commands[@]}"; do

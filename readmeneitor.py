@@ -59,7 +59,7 @@ if __name__ == "__main__":
 
     path = os.getcwd()
     script_path = path + "/" + sys.argv[1]
-    if sys.argv[1] != 'lazyown':
+    if sys.argv[1] != 'lazyown.py':
         output_path = sys.argv[1].upper().replace('.PY','') + ".md"
     else:
         output_path = "COMMANDS.md"

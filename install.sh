@@ -32,7 +32,9 @@ pip install Pillow
 pip install netaddr
 pip install stix2
 pip install pyautogui
-
+pip install networkx 
+pip install pyvis
+pip install markdown
 git clone https://github.com/grisuno/LazyOwnInfiniteStorage.git ./modules_ext/lazyown_infinitestorage
 chmod +x /modules_ext/lazyown_infinitestorage/install.sh
 

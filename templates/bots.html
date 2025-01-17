@@ -1,0 +1,172 @@
+            <!-- Botón flotante para el chatbot -->
+            <button type="button" class="btn btn-primary btn-lg btn-floating" id="chatbotButton">
+                <i class="fas fa-robot"></i> Cmd Bot 
+            </button>
+
+            <!-- Modal del chatbot -->
+            <div class="modal fade" id="chatbotModal" tabindex="-1" aria-labelledby="chatbotModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="chatbotModalLabel">LazyOwn RedTeam Oneliner Assistant</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="chatbotResponse" class="mb-3">
+                                <!-- Respuestas del chatbot se mostrarán aquí -->
+                            </div>
+                            <form id="chatbotForm">
+                                <div class="form-group">
+                                    <label for="chatbotInput">Write your message to LLM (Groq): </label>
+                                    <textarea class="form-control" id="chatbotInput" rows="3" required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Send Req</button>
+                                
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+            <!-- Botón flotante para el script -->
+            <button type="button" class="btn btn-primary btn-lg btn-floating4" id="scriptButton">
+                <i class="fas fa-robot"></i> Dev Bot 
+            </button>
+
+            <!-- Modal del script -->
+            <div class="modal fade" id="scriptModal" tabindex="-1" aria-labelledby="scriptModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="scriptModalLabel">LazyOwn RedTeam Dev Assistant</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="scriptResponse" class="mb-3">
+                                <!-- Respuestas del script se mostrarán aquí -->
+                            </div>
+                            <form id="scriptForm">
+                                <div class="form-group">
+                                    <label for="scriptInput">Write your message to LLM (Groq): </label>
+                                    <textarea class="form-control" id="scriptInput" rows="3" required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Send Req</button>
+                                
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>                
+            <!-- Botón flotante para el search -->
+            <button type="button" class="btn btn-primary btn-lg btn-floating3" id="searchButton">
+                <i class="fas fa-robot"></i> I+D Bot 
+            </button>
+
+            <!-- Modal del search -->
+            <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="searchModalLabel">LazyOwn RedTeam Researcher Assistant</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="searchResponse" class="mb-3">
+                                <!-- Respuestas del search se mostrarán aquí -->
+                            </div>
+                            <form id="searchForm">
+                                <div class="form-group">
+                                    <label for="searchInput">Write your message to LLM (Groq): </label>
+                                    <textarea class="form-control" id="searchInput" rows="3" required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Send Req</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-primary btn-lg btn-floating2" id="vulnButton">
+                <i class="fas fa-robot"></i> Vuln Bot
+            </button>
+            <!-- Modal del vuln -->
+            <div class="modal fade" id="vulnModal" tabindex="-1" aria-labelledby="vulnModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="vulnModalLabel">LazyOwn RedTeam Vuln Assistant</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="vulnResponse" class="mb-3">
+                                <!-- Respuestas del vuln se mostrarán aquí -->
+                            </div>
+                            <form id="vulnForm">
+                                <div class="form-group">
+
+                                </div>
+                                <button type="submit" class="btn btn-primary">Check Vuln</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-primary btn-lg btn-floating5" id="redopButton">
+                <i class="fas fa-robot"></i> ROP Bot
+            </button>
+            <!-- Modal del redop -->
+            <div class="modal fade" id="redopModal" tabindex="-1" aria-labelledby="redopModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="redopModalLabel">LazyOwn RedTeam Operation Status</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="redopResponse" class="mb-3">
+                                <!-- Respuestas del redop se mostrarán aquí -->
+                            </div>
+                            <form id="redopForm">
+                                <div class="form-group">
+
+                                </div>
+                                <button type="submit" class="btn btn-primary">Check Status of Redteam OP</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-primary btn-lg btn-floating6" id="taskButton">
+                <i class="fas fa-robot"></i> Task Bot
+            </button>
+            <!-- Modal del task -->
+            <div class="modal fade" id="taskModal" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="taskModalLabel">LazyOwn RedTeam Task Assistant</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="taskResponse" class="mb-3">
+                                <!-- Respuestas del task se mostrarán aquí -->
+                            </div>
+                            <form id="taskFormbot" action="/taskbot" method="POST">
+                                <div class="form-group">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Check Tasks</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>

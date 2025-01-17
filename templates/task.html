@@ -1,0 +1,30 @@
+{% include 'header.html' %}
+<div class="container mt-5">
+    <div class="card bg-secondary text-light p-4 mb-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <h1 class="mb-4">{{ task.title }}</h1>
+        <h2 class="mb-3">Operator: {{ task.operator }}</h2>
+        <h2 class="mb-3">Status: {{ task.status }}</h2>
+        <div class="mb-5">
+            {{ task_description | markdown | safe }}
+        </div>
+        <a class="btn btn-primary" href="{{ url_for('index') }}">Back to Task List</a>
+        <a class="btn btn-secondary" href="{{ url_for('edit_task', task_id=task.id) }}">Edit Task</a>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelector('.loading-container').style.display = 'none';
+    });
+</script>
+</body>
+</html>

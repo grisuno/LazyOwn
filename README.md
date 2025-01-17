@@ -1959,7 +1959,16 @@ found, it prints an error message.
 No description available.
 
 ## cmd
-No description available.
+Internal function to execute commands.
+
+This method attempts to execute a given command using `os.system` and captures
+the output. It sets the `output` attribute based on whether the command was
+executed successfully or an exception occurred. And feedback the red operation report.
+
+:param command: The command to be executed.
+:type command: str
+:return: None.
+:rtype: str
 
 ## one_cmd
 Internal function to execute commands.
@@ -2418,7 +2427,7 @@ Note:
     - Ensure that `modules/lazyhoneypot.py` has the appropriate permissions and dependencies to run.
     - Ensure that the email credentials are correctly set for successful authentication and operation.
 
-## lazygptcli
+## gpt
 Run the internal module to create Oneliners with Groq AI located at `modules/lazygptcli.py` with the specified parameters.
 
 This function executes the script with the following arguments:
@@ -3360,6 +3369,24 @@ To manually run this command, use the following syntax:
 Replace `<domain>` with the actual domain name you want to query.
 
 ## psexec
+Executes the Impacket PSExec tool to attempt remote execution on the specified target.
+
+This function performs the following actions:
+1. Checks if the provided target host (`rhost`) is valid.
+2. If the `line` argument is "pass", it searches for credential files with the pattern `credentials*.txt`
+and allows the user to select which file to use for executing the command.
+3. If the `line` argument is not "pass", it assumes execution without a password (using the current credentials).
+4. Copies the `rhost` IP address to the clipboard for ease of use.
+
+Parameters:
+line (str): A command argument to determine the action.
+            If "pass", the function searches for credential files and authenticates using the selected file.
+            Otherwise, it executes PSExec without a password using the `rhost` IP.
+
+Returns:
+None
+
+## psexec_py
 Executes the Impacket PSExec tool to attempt remote execution on the specified target.
 
 This function performs the following actions:
@@ -5918,6 +5945,26 @@ To manually execute the command:
 - Copy the command from the clipboard.
 - Run it in a PowerShell terminal to create the user and assign the permissions as specified.
 
+## encodewinbase64
+Encodes a given payload into a Base64 encoded string suitable for Windows PowerShell execution.
+
+This function takes a payload as input, encodes it into UTF-16 Little Endian format,
+and then encodes the resulting bytes into a Base64 string. It then constructs PowerShell
+commands that can execute the encoded payload. The final commands are printed and
+copied to the clipboard for easy use.
+
+Args:
+    line (str): The payload to be encoded. If not provided, the function will prompt
+                the user to enter a payload, defaulting to 'whoami' if no input is given.
+
+Returns:
+    None
+
+Example:
+    >>> encoder = Encoder()
+    >>> encoder.do_encodewinbase64('Get-Process')
+    [Outputs the encoded PowerShell commands and copies the final command to the clipboard]
+
 ## winbase64payload
 Creates a base64 encoded payload specifically for Windows to execute a PowerShell command or download a file using `lhost`.
 
@@ -6504,7 +6551,7 @@ Handles the execution of a C2 (Command and Control) server setup command.
 This function performs the following tasks:
 1. Retrieves and validates the local host (lhost) and local port (lport) parameters.
 2. Checks if the required file `modules/run` exists.
-3. Reads the content of the `modules/run` file, replaces placeholders with actual values (lport, line, lhost), 
+3. Reads the content of the `modules/run` file, replaces placeholders with actual values (lport, line, lhost),
 and copies the updated content to the clipboard.
 4. Prompts the user to start the C2 server, and if confirmed, executes the server command.
 5. Provides a warning about shutting down the server.
@@ -6519,7 +6566,7 @@ Raises:
     None
 
 Example:
-    c2 victim-1
+    c2 victim 1
 
 Notes:
     - Ensure that the `lhost` and `lport` parameters are valid before calling this function.
@@ -7289,9 +7336,27 @@ Generates a graph from JSON payload files containing URL, RHOST, and RPORT.
 ## netexec
 Executes netexec with various options for network protocol operations.
 
-:param line: Not used directly but reserved for future use.
+This function handles the installation of netexec and allows the user to execute various network protocol operations with minimal input.
+It reads credentials from a specified file and constructs the necessary commands to interact with the target system.
 
+:param line: Command line input from the user. This input is used to determine the protocol and action to be executed.
 :returns: None
+
+The function performs the following steps:
+1. Checks if netexec is installed. If not, it installs it.
+2. Reads credentials from a file.
+3. Constructs and executes the netexec command based on user input.
+4. Enumerates available protocols and actions for each protocol, allowing the user to select them interactively.
+5. Enumerates available options for each action, allowing the user to select them interactively.
+
+Example usage:
+```
+do_netexec("smb target -u username -p password --shares")
+```
+
+This will execute the SMB protocol with the specified action and options.
+
+If no specific command is provided, the function will prompt the user to select a protocol and action interactively.
 
 ## scarecrow
 Executes ScareCrow with various options for bypassing EDR solutions and executing shellcode.
@@ -7688,7 +7753,31 @@ Runs `nc` with the specified port for listening.
 This function starts a `nc` listener on the specified local port. It can use a port defined in the `lport` parameter or a port provided as an argument.
 
 Usage:
-    pwncatcs <port>
+    nc <port>
+
+:param line: The port number to use for the `nc` listener. If not provided, it defaults to the `lport` parameter.
+:type line: str
+:returns: None
+
+Manual execution:
+1. Ensure that `nc` is installed and accessible from your command line.
+2. The port number can either be provided as an argument or be set in the `lport` parameter of the function.
+3. Run the function to start `nc` on the specified port.
+
+If no port is provided as an argument, the function will use the port specified in the `lport` parameter. If a port is provided, it overrides the `lport` value.
+
+After starting the listener, the function prints a message indicating that `nc` is running on the specified port and another message when the session is closed.
+
+Dependencies:
+- `nc`: A tool used for creating reverse shells or bind shells.
+
+## rnc
+Runs `nc` with rlwrap  the specified port for listening.
+
+This function starts a `nc` listener with rlwrap  on the specified local port. It can use a port defined in the `lport` parameter or a port provided as an argument.
+
+Usage:
+    rnc <port>
 
 :param line: The port number to use for the `nc` listener. If not provided, it defaults to the `lport` parameter.
 :type line: str
@@ -9996,7 +10085,20 @@ Usage:
     dploot <action> -k -d <domain> -t <target>
 
 ## banners
-        
+Extract and display banners from XML files in the 'sessions' directory.
+
+This function searches for XML files in the 'sessions' directory and extracts banner information from each file.
+The banner information includes the hostname, port, protocol, extra details, and service. If no XML files are found,
+an error message is displayed.
+
+Args:
+    line (str): Not used in this function.
+
+Returns:
+    None
+
+Example:
+    banners
 
 ## createpayload
 Generates an obfuscated payload to evade AV detection using the payloadGenerator tool. thanks to smokeme
@@ -10030,6 +10132,534 @@ Behavior:
 
 Usage:
     bin2shellcode [<filename> [<width> [<quotes> [<format>]]]]
+    bin2shellcode sessions/shellcode.bin 20 True c
+
+## news
+Show the Hacker News in the terminal.
+
+Parameters:
+    line (str): optional
+Return None
+
+## vulns
+Scan for vulnerabilities based on a provided service banner.
+
+This function initializes a vulnerability scanner and searches for CVEs (Common Vulnerabilities and Exposures)
+related to the specified service banner. If no service banner is provided, it prompts the user to enter one.
+
+Args:
+    line (str): The service banner to search for vulnerabilities. If not provided, the user will be prompted to enter one.
+
+Returns:
+    None
+
+Example:
+    do_vulns "ProFTPD 1.3.5"
+
+## exe2bin
+Trasnform file .exe into binary file.
+
+Args:
+    line (str): Ruta del archivo ejecutable .exe.
+
+Return shellcode.bin file in sessions directory    
+
+## atomic_lazyown
+Genera y ejecuta pruebas de Atomic Red Team usando el C2.
+
+Parameters:
+line (str): Lista de IDs de técnicas separadas por espacios.
+
+Returns:
+None
+
+## upload_file_to_c2
+Sube un archivo al C2.
+
+Parameters:
+file_path (str): Ruta del archivo a subir.
+
+Returns:
+None
+
+## download_file_from_c2
+Descarga un archivo desde el C2.
+
+Parameters:
+file_name (str): Nombre del archivo a descargar.
+clientid (str): Identificador del cliente (opcional).
+
+Returns:
+None
+
+## issue_command_to_c2
+Ejecuta un comando en el cliente usando el C2.
+
+Parameters:
+command (str): Comando a ejecutar.
+
+Returns:
+None
+
+## ofuscatorps1
+Obfuscates a PowerShell script using various techniques.
+by @JoelGMSec https://github.com/JoelGMSec/Invoke-Stealth/ rewite in python by grisun0
+This function:
+    - Displays a banner and help information if requested.
+    - Validates the provided parameters.
+    - Executes all obfuscation techniques on the input PowerShell script by default.
+    - Displays the result in the terminal.
+
+Behavior:
+    - Requires `python3` to be installed for certain techniques.
+    - Uses parameters from the command line for the script path and optional flags.
+
+Usage:
+    ofuscatorps1 <script_path> [-nobanner]
+
+Techniques:
+    - Chameleon: Substitute strings and concatenate variables.
+    - BetterXencrypt: Compresses and encrypts with random iterations.
+    - PyFuscation: Obfuscate functions, variables, and parameters.
+    - ReverseB64: Encode with base64 and reverse it to avoid detections.
+    - PSObfuscation: Convert content to bytes and compress with Gzip.
+    - All: Sequentially executes all techniques described above.
+
+## d3monizedshell
+Executes the D3m0n1z3dShell tool for persistence in Linux.
+
+This function:
+    - Installs D3m0n1z3dShell if not already installed.
+    - Executes the D3m0n1z3dShell command with the provided parameters.
+    - Displays the result in the terminal.
+
+Behavior:
+    - Requires `git` and `curl` to be installed.
+    - Uses a one-liner installation method for simplicity.
+
+Usage:
+    d3monizedshell
+
+## scp
+Copies the local "sessions" directory to a remote host using scp, leveraging sshpass for automated authentication.
+
+Steps:
+    1. Verifies if the credentials file exists in the "sessions" directory.
+    If not, prompts the user for a username and password.
+    2. Reads the credentials file if it exists and extracts the username and password.
+    3. Constructs an scp command to deploy the "sessions" directory to the remote host.
+    4. Executes the scp command using the system shell.
+
+Args:
+    line (str): Input command line (optional). The third parameter can be 'win' or 'lin' to specify the target OS.
+
+Dependencies:
+    - The `sshpass` command-line tool must be installed on the local machine.
+    - `scp` must be installed on both the local and remote machines.
+    - The remote host must be accessible via SSH.
+
+Attributes:
+    - `self.params`: Dictionary containing the following keys:
+        - `username` (str, optional): Predefined username. Defaults to prompting the user if not provided.
+        - `password` (str, optional): Predefined password. Defaults to prompting the user if not provided.
+        - `rhost` (str): Remote host's IP or domain name.
+
+Raises:
+    - KeyError: If `rhost` is not provided in `self.params`.
+    - FileNotFoundError: If the "sessions" directory does not exist.
+
+Note:
+    - The `credentials.txt` file, if present, should have credentials in the format `username:password`
+    on the first line.
+
+Returns:
+    None
+
+## apt_proxy
+Configures the local machine with internet access to act as an APT proxy for a machine without internet access.
+
+Steps:
+    1. Installs and configures apt-cacher-ng on the local machine.
+    2. Generates the necessary commands to configure the remote machine to use the proxy.
+    3. Copies the commands to the clipboard using the copy2clip function.
+
+Parameters:
+    line (str): The IP address of the remote machine without internet access.
+
+Returns:
+    None
+
+## pip_proxy
+Configures the local machine with internet access to act as a pip proxy for a machine without internet access.
+
+Steps:
+    1. Installs and configures squid on the local machine.
+    2. Generates the necessary commands to configure the remote machine to use the proxy.
+    3. Copies the commands to the clipboard using the copy2clip function.
+
+Parameters:
+    line (str): The IP address of the remote machine without internet access.
+
+Returns:
+    None
+
+## internet_proxy
+Configures the local machine with internet access to act as a proxy for a machine without internet access.
+
+Steps:
+    1. Installs and configures squid on the local machine.
+    2. Generates the necessary commands to configure the remote machine to use the proxy.
+    3. Copies the commands to the clipboard using the copy2clip function.
+
+Parameters:
+    line (str): The IP address of the remote machine without internet access.
+
+Returns:
+    None
+
+## check_update
+Checks for updates by comparing the local version with the remote version.
+
+This function:
+    - Fetches the remote version from a JSON file hosted on GitHub.
+    - Reads the local version from a JSON file in the script's root directory.
+    - Compares the version numbers and determines if an update is needed.
+
+Behavior:
+    - Requires `requests` library to fetch the remote version.
+    - Uses JSON parsing to extract version numbers.
+
+Usage:
+    check_update
+
+## wmiexecpro
+Executes wmiexec-pro with various options for WMI operations.
+
+This function handles the installation of wmiexec-pro and its dependencies,
+and allows the user to execute various WMI operations with minimal input.
+It reads credentials from a specified file and constructs the necessary
+commands to interact with the target system.
+
+:param line: Command line input from the user. This input is used to
+            determine the module and action to be executed.
+:returns: None
+
+The function performs the following steps:
+1. Checks if wmiexec-pro and its dependencies are installed. If not, it
+installs them in specified directories.
+2. Reads credentials from a file.
+3. Constructs and executes the wmiexec-pro command based on user input.
+4. Enumerates available modules and actions for each module, allowing the
+user to select them interactively.
+5. Enumerates available options for each action, allowing the user to select
+them interactively.
+
+Example usage:
+```
+do_wmiexecpro("enum -run")
+```
+
+This will execute the enumeration module with the `-run` action.
+
+If no specific command is provided, the function will prompt the user to
+select a module and action interactively.
+
+## create_session_json
+Generates or updates a JSON file to be used as a database.
+
+The JSON file will be named `sessionLazyOwn_{timestamp}.json` and will be stored
+in the `sessions` directory. The JSON file will contain data from `self.params`
+and additional data extracted from `credentials*.txt` and `hash*.txt` files.
+
+The structure of the JSON file will be as follows:
+- `params`: Data from `self.params`.
+- `credentials`: A list of dictionaries containing usernames and passwords extracted
+from `credentials*.txt` files.
+- `hashes`: A list of dictionaries containing the contents of `hash*.txt` files.
+- `notes`: The content of the `notes.txt` file, if it exists.
+
+Returns:
+    None
+
+## shellcode2elf
+Convert shellcode into an ELF file and infect it.
+
+This function takes an optional input line that specifies the name of the shellcode file.
+If no input line is provided, a filename is generated based on the domain. The function reads
+the shellcode and inserts it into a C source file, then compiles the source file into an ELF
+file. It also creates an infected version of the ELF file and uploads all generated files to a
+command and control (C2) server.
+
+Args:
+    line (str): An optional input line that specifies the name of the shellcode file.
+
+Returns:
+    None
+
+## ssh_cmd
+Perform Remote Execution Command trow ssh using grisun0 user, see help grisun0
+
+Parameters:
+    line (str): The command line input, is the command to execute, if not presented is whoami
+
+Returns:
+    None
+
+## clone_site
+Clone a website and serve the files in sessions/{url_cloned}.
+Args:
+    line (str): input line that url to clone
+
+Returns:
+    None
+
+## knokknok
+Send special string to trigger a reverse shell, with the command 'c2 client_name'
+create a listener shell script to drop the reverse shell in python3
+Args:
+    line (str): input line not used
+
+Returns:
+    None
+
+## listener_go
+Configures and starts a listener for a specified victim.
+
+This function takes a command line input to configure and start a listener for a specified victim.
+The input should include the victim ID, the choice of listener type, and optionally the port numbers.
+The function then constructs the appropriate command to start the listener and assigns the necessary
+parameters.
+
+Args:
+    line (str): The command line input containing the victim ID, listener type, and optional port numbers.
+
+Returns:
+    None
+
+Raises:
+    None
+
+Example:
+    >>> listener_go victim1 2 1337 7777
+
+## listener_py
+Configures and starts a listener for a specified victim.
+
+This function takes a command line input to configure and start a listener for a specified victim.
+The input should include the victim ID, the choice of listener type, and optionally the port numbers.
+The function then constructs the appropriate command to start the listener and assigns the necessary
+parameters.
+
+Args:
+    line (str): The command line input containing the victim ID, listener type, and optional port numbers.
+
+Returns:
+    None
+
+Raises:
+    None
+
+Example:
+    >>> listener_py victim1 2 1337 7777
+
+## ipinfo
+Retrieves detailed information about an IP address using the ARIN API.
+
+This function takes an IP address as input, queries the ARIN API to get detailed
+information about the IP, and then displays the organization name and the network
+range associated with the IP.
+
+Args:
+    line (str): The command line input containing the IP address to query.
+
+Returns:
+    None
+
+Raises:
+    None
+
+Example:
+    >>> ipinfo 1.1.1.1
+
+## service_ssh
+Creates a systemd service file for a specified binary and generates a script to enable and start the service.
+
+This function takes the name of a binary as input, creates a systemd service file for it, and generates a shell script
+to enable and start the service. The script is saved in the sessions directory and a command is provided to execute
+the script remotely via SSH.
+
+Args:
+    line (str): The command line input containing the name of the binary. If an absolute path is not provided,
+                a default path is used.
+
+Returns:
+    None
+
+Raises:
+    None
+
+Example:
+    >>> service my_binary_name
+
+## service
+Creates a systemd service file for a specified binary and generates a script to enable and start the service.
+
+This function takes the name of a binary as input, creates a systemd service file for it, and generates a shell script
+to enable and start the service. The script is saved in the sessions directory and a command is provided to execute
+the script remotely via SSH.
+
+Args:
+    line (str): The command line input containing the name of the binary. If an absolute path is not provided,
+                a default path is used.
+
+Returns:
+    None
+
+Raises:
+    None
+
+Example:
+    >>> service my_binary_name
+
+## toctoc
+Sends a magic packet to the Chinese malware.
+The function extracts rhost and rport from self.params["rhost"] and self.params["rport"], respectively.
+
+## upload_c2
+Upload a file to the command and control (C2) server.
+
+This function handles the uploading of a file to the C2 server. If no file is specified in the input line,
+it prompts the user to enter the file extension (defaulting to 'txt') and retrieves the file using the
+`get_users_dic` function. If a file is specified in the input line, it directly uploads that file.
+
+Args:
+    line (str): The input line containing the file path to upload. If empty, the function will prompt the user
+                to enter the file extension.
+
+Returns:
+    None
+
+## download_c2
+Download a file from the command and control (C2) server.
+
+This function handles the downloading of a file from the C2 server. It requires the remote path of the file to be specified in the input line. If the input line is empty, it prints an error message and returns.
+
+Args:
+    line (str): The input line containing the remote path of the file to download. If empty, the function will print an error message.
+
+Returns:
+    None
+
+## groq
+Execute a command to interact with the GROQ API using the provided API key.
+
+This function takes an optional input line that is used as the prompt. If no input line is
+provided, the default prompt stored in the instance is used. The function sets the GROQ_API_KEY
+environment variable and runs a Python script to interact with the GROQ API.
+
+Parameters:
+    line (str): The input line to be used as the prompt. If not provided, the default prompt is used.
+
+Returns:
+    None
+
+## c2asm
+Display C and ASM code side by side in a curses-based interface.
+
+This function sets up a curses window to display C code and its corresponding
+assembly code side by side. It allows the user to select a .c file from the
+'sessions' directory and then displays the code with scrolling capabilities
+both vertically and horizontally. A green vertical line separates the C code
+from the ASM code.
+
+Parameters:
+    stdscr (curses.window): The curses window object to draw on.
+
+Returns:
+    None
+
+## view_code
+Display C and ASM code side by side in a curses-based interface.
+
+This function sets up a curses window to display C code and its corresponding
+assembly code side by side. It allows the user to select a .c file from the
+'sessions' directory and then displays the code with scrolling capabilities
+both vertically and horizontally. A green vertical line separates the C code
+from the ASM code.
+
+Parameters:
+    stdscr (curses.window): The curses window object to draw on.
+
+Returns:
+    None
+
+## camphish
+Executes the camphish tool for Grab cam shots from target's phone front camera or PC webcam just sending a link.
+
+This function:
+    - Installs camphish if not already installed.
+    - Executes the camphish command with the provided parameters.
+    - Displays the result in the terminal.
+
+Behavior:
+    - Requires `git` and `php` to be installed.
+    - Uses a one-liner installation method for simplicity.
+
+Usage:
+    camphish
+
+## hound
+Executes the hound tool for Hound is a simple and light tool for information gathering and capture exact GPS coordinates
+
+This function:
+    - Installs hound if not already installed.
+    - Executes the hound command with the provided parameters.
+    - Displays the result in the terminal.
+
+Behavior:
+    - Requires `git` and `php` to be installed.
+    - Uses a one-liner installation method for simplicity.
+
+Usage:
+    hound
+
+## ofuscatesh
+Obfuscates a shell script by encoding it in Base64 and prepares a command to decode and execute it.
+
+This function reads the content of a shell script file, encodes it in Base64, and constructs a command
+that can be used to decode and execute the encoded script using `echo` and `base64 -d`.
+
+Args:
+    line (str): The path to the shell script file to be obfuscated. If not provided, a default
+                path is obtained from the `get_users_dic` function.
+
+Returns:
+    None
+
+Example:
+    >>> ofuscatesh /path/to/script.sh or just ofuscatesh
+    # This will read the script, encode it in Base64, and prepare a command to decode and execute it.
+
+## load_session
+Load the session from the sessionLazyOwn.json file and display the status of various parameters.
+
+This command reads the sessionLazyOwn.json file from the sessions directory and displays the status
+of parameters, credentials, hashes, notes, plan, id_rsa, implants, and redop.
+
+:param line: Additional arguments (not used in this command)
+
+## lateral_mov_lin
+Perform lateral movement by downloading and installing LazyOwn on a remote Linux machine.
+
+This function automates the process of setting up an APT and PIP proxy, downloading the LazyOwn package,
+transferring it to a remote machine, and installing it. The function ensures that all necessary directories
+are created and that the package is correctly installed on the remote machine.
+
+Parameters:
+    line (str): The command line input, which is not used in this function.
+
+Returns:
+    None
 
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
@@ -10195,6 +10825,24 @@ No description available.
 ## install_netexec_pipx
 No description available.
 
+## load_chameleon
+No description available.
+
+## load_betterxencrypt
+No description available.
+
+## load_pyfuscation
+No description available.
+
+## reverse_b64_encoder
+No description available.
+
+## load_psobfuscation
+No description available.
+
+## install_wmiexecpro
+No description available.
+
 ## double_base64_encode
 Perform double Base64 encoding on the given command.
 
@@ -10254,6 +10902,34 @@ Recursively resolve and download package dependencies with enhanced checks
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new commands documented at COMMANDS.md, new rootkit named LazyHyde, new malware, nad much much more \n\n Version: release/0.2.25 \n\n demo here: https://www.youtube.com/watch?v=SZuJ4Iu1HgU \n\n Modified file(s):\n- README.md - UTILS.md - docs/README.html - docs/UTILS.html - docs/index.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Dec 22 19:31:07 2024 -0800 \n\n Hora: 1734924667
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #77 from grisuno/dev6
+
+
+### Otros
+
+### Otros
+
+  *   * new ring 3 rootkit, 3 new listeners go python and c, infect pid with shellcode, new style of c2, download_c2 and upload_c2 and much much more
+
+
+### Otros
+
+### Otros
+
+  *   * new ring 3 rootkit, 3 new listeners go python and c, infect pid with shellcode, new style of c2, download_c2 and upload_c2 and much much more
 
 
 ### Correcciones urgentes

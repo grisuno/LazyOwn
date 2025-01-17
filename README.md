@@ -10908,6 +10908,27 @@ Recursively resolve and download package dependencies with enhanced checks
 
 ### Otros
 
+  *   * feat(feat): new C2 world class powered by AI \n\n Version: release/0.2.26 \n\n the only o ne with AI and undetectable implants multiplatform \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Jan 17 17:34:59 2025 -0300 \n\n Hora: 1737146099
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #79 from grisuno/dev7
+
+
+### Otros
+
+### Otros
+
+  *   * new C2 con todas las características...
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): new commands documented at COMMANDS.md, new rootkit named LazyHyde, new malware, nad much much more \n\n Version: release/0.2.25 \n\n demo here: https://www.youtube.com/watch?v=SZuJ4Iu1HgU \n\n Modified file(s):\n- README.md - UTILS.md - docs/README.html - docs/UTILS.html - docs/index.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Dec 22 19:31:07 2024 -0800 \n\n Hora: 1734924667
 
 

@@ -1,53 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LazyOwn Command and Control Center</title>
-    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://unpkg.com/vis-network/styles/vis-network.min.css" rel="stylesheet" type="text/css" />
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
-    <link href="/static/css/style.css" rel="stylesheet" />
-</head>
-<body class="bg-dark text-success">
-    <div class="loading-container">
-        <div class="loading-spinner"></div>
-    </div>
-    <div class="container mt-5">
-        <div class="text-center mb-4">
-            <h1 class="neon-text">LazyOwn Command and Control Center [;,;]</h1>
-            <pre class="neon-text chico">
-                    .-==++++=-:.                                      
-                .=*%@@@@@@@@@@@@@@%+-                                  
-              =%@@%@@@@@@@@@@@@@@@%#%@#-                               
-           .*@@**%@@@@@@@@@@@@@@==#@@@@@@=                             
-          +@@*+@@@@@@@@@@@@@@@%:%@@@@@@@@@@-                           
-         %@@*+@@@@@@@@@@@@@@@@=%@@@@@@@@@@@@:                          
-        +@@@*@@@@@@@@@@@@@@@@@%@@@@@@@@@@@@%*                          
-        *@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*%                          
-        +@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@=@                          
-        :@@@@@@@@@@@@@@@@@@@@@+@@@@@@@@@@@@:@                          
-         #@#@@@@@@@@@@@@@@#**+-=@%@@@@@@@#@:@                          
-       :%%@@%@@@@@@@@%@@@%@@@@@*:#@@@@@@@+#=#                          
-       =:.:#@@%+@@+*%@@@*-.  .=%@=%@@@@@@@=@+                          
-        +%  :%@%%**@@%=       *%@-#@@@@@@@@@:                          
-        .@:   ::+#**=         %@*%+*#%@@%@@+                           
-        %**==+#*:@%#=-:      +@*@@@@@@@#**:                            
-       -@@@@@%%=:=@@@@@@@%#%%@#%@@#*=:==                               
-         .-:=#+   .=%%@@%%#@@@@@#+=.-*                                 
-             =@# -%%@@@@%++#=**==- =@+                                 
-              #@@@@@@@@@@@#%:++=*%:%@@                                 
-             -*=+#+##**#+==.  ==*@@#@+                                 
-               :=#=--::.    *=#@%@%=                                   
-                :+#-      :%##@@@#.                                    
-                 ===     =%+#@@@=                                      
-                  :--::+#*=%@%@:                                       
-                   *###*#%%#*%.                                        
-                    :======-.                                          
-</pre>
-   
-        </div>
+{% include 'header.html' %}
         <div class="card bg-secondary text-light p-4 mb-4">
             <p>
                 Disclaimer: [!] Please do not use this in military or secret service organizations, or for illegal purposes. (This is non-binding, as these entities often disregard laws and ethics anyway.)
@@ -59,338 +10,15 @@
                 {% endfor %}
             </ul>
             <div id="mynetwork"></div>
-            <nav id="stickyNav" class="navbar navbar-expand-lg navbar-dark bg-secondary">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#" data-target="command-issue">Command Issue</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" data-target="download-file">Upload File</a>
-                        </li><!--
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" data-target="run-shellcode">Run Shellcode</a>
-                        </li>-->
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" data-target="port-forward">Port Forward</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" data-target="local-shell">Local Shell</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" data-target="session-data">Session Data</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" data-target="upload-file">Download File</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" data-target="atomic-test">Atomic RedTeam Test</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" data-target="post-exploit">Post Exploitation</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" data-target="web-server">Web Server</a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-            <div id="command-issue" class="section active">
-                <h2>Issue Command</h2>
-                <form action="{{ url_for('issue_command') }}" method="POST">
-                    <div class="form-group">
-                        <label for="client_id">Client ID:</label>
-                        <select id="client_id" name="client_id" class="form-control" required>
-                            {% if connected_clients %}
-                                {% for client_id in connected_clients %}
-                                    <option value="{{ client_id }}">{{ client_id }}</option>
-                                {% endfor %}
-                            {% else %}
-                                <option value="" disabled>No clients available</option>
-                            {% endif %}
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="command">Command:</label>
-                        <input type="text" placeholder="Enter Remote Command" id="command" name="command" class="form-control" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Send Command</button>
-                </form>
-                <h2 class="mt-4">Results</h2>
-                {% for client_id, command_history in commands_history.items() %}
-                <div class="card bg-dark text-light mb-3">
-                    <div class="terminal-window">
-                        <div class="terminal-header">
-                            <div class="terminal-title">Client: {{ client_id }}</div>
-                            <input type="hidden" id="{{ client_id }}" name="{{ client_id }}" value="{{ os_data[client_id] }}"/>
-                            <div class="terminal-controls">
-                                <div class="terminal-control-button close-button"></div>
-                                <div class="terminal-control-button minimize-button"></div>
-                                <div class="terminal-control-button maximize-button"></div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="card-text neon-text">
-                                {% for entry in command_history %}
-                                    <div>Command:</div> {{ entry.command }}<br>
-                                    <div>Output:</div> {{ entry.output }}<br>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-            </div>
-
-            <div id="download-file" class="section">
-                <h2>Upload File</h2>
-                <form method="POST" action="{{ url_for('download_file') }}" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <label for="client_id">Client ID:</label>
-                        <select id="client_id" name="client_id" class="form-control" required>
-                            {% if connected_clients %}
-                                {% for client_id in connected_clients %}
-                                    <option value="{{ client_id }}">{{ client_id }}</option>
-                                {% endfor %}
-                            {% else %}
-                                <option value="" disabled>No clients available</option>
-                            {% endif %}
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="file">Select File:</label>
-                        <input type="file" id="file" name="file" class="form-control" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Upload File</button>
-                </form>
-            </div>
-            <!--
-            <div id="run-shellcode" class="section">
-                <h2>Run Shellcode</h2>
-                <form method="POST" action="{{ url_for('run_shellcode') }}">
-                    <div class="form-group">
-                        <label for="client_id">Client ID:</label>
-                        <select id="client_id" name="client_id" class="form-control" required>
-                            {% if connected_clients %}
-                                {% for client_id in connected_clients %}
-                                    <option value="{{ client_id }}">{{ client_id }}</option>
-                                {% endfor %}
-                            {% else %}
-                                <option value="" disabled>No clients available</option>
-                            {% endif %}
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="shellcode">Shellcode: (Opcode Base64 encoded)</label>
-                        <textarea id="shellcode" placeholder="Base 64 Encode Shellcode" name="shellcode" rows="10" class="form-control" required></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Run Shellcode</button>
-                </form>
-            </div>
-            -->
-            <div id="port-forward" class="section">
-                <h2>Port Forward</h2>
-                <form method="POST" action="/start_bridge">
-                    <div class="form-group">
-                        <label for="local_port">Local Port:</label>
-                        <input type="text" placeholder="Enter Local Port" name="local_port" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="remote_host">Remote Host:</label>
-                        <input type="text" name="remote_host" placeholder="Enter Remote Host" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="remote_port">Remote Port:</label>
-                        <input type="text" name="remote_port" placeholder="Enter Remote Port" class="form-control" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Start Bridge</button>
-                </form>
-            </div>
-
-            <div id="local-shell" class="section">
-                <h1>Local Shell</h1>
-                <form id="commandForm">
-                    <div class="form-group">
-                        <label for="attack">Send command to LazyOwn:</label>
-                        <input type="text" id="attack" placeholder="Enter Local Command" class="form-control" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Run</button>
-                </form>
-                <div class="terminal-window">
-                    <div class="terminal-controls">
-                        <div class="terminal-control-button close-button"></div>
-                        <div class="terminal-control-button minimize-button"></div>
-                        <div class="terminal-control-button maximize-button"></div>
-                    </div>
-                    <div class="table-cell"><div class="terminal-title">Results</div></div>
-                    <div class="table-cell card-body"><div id="output"></div></div>
-                </div>
-            </div>
-
-            <div id="session-data" class="section">
-                <h1 class="text-center">Session Data</h1>
-                <div id="accordion">
-                    <div class="card">
-                        <div class="card-header" id="headingParams">
-                            <h5 class="mb-0">
-                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseParams" aria-controls="collapseParams">
-                                    Params
-                                </button>
-                            </h5>
-                        </div>
-                        <div id="collapseParams" class="collapse show" aria-labelledby="headingParams" data-parent="#accordion">
-                            <div class="card-body">
-                                <pre class="card-body">{{ session_data.params | tojson(indent=4) }}</pre>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header" id="headingCredentials">
-                            <h5 class="mb-0">
-                                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseCredentials" aria-expanded="false" aria-controls="collapseCredentials">
-                                    Credentials
-                                </button>
-                            </h5>
-                        </div>
-                        <div id="collapseCredentials" class="collapse" aria-labelledby="headingCredentials" data-parent="#accordion">
-                            <div class="card-body">
-                                <pre class="card-body">{{ session_data.credentials | tojson(indent=4) }}</pre>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header" id="headingHashes">
-                            <h5 class="mb-0">
-                                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseHashes" aria-expanded="false" aria-controls="collapseHashes">
-                                    Hashes
-                                </button>
-                            </h5>
-                        </div>
-                        <div id="collapseHashes" class="collapse" aria-labelledby="headingHashes" data-parent="#accordion">
-                            <div class="card-body">
-                                <pre class="card-body">{{ session_data.hashes | tojson(indent=4) }}</pre>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header" id="headingNotes">
-                            <h5 class="mb-0">
-                                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseNotes" aria-expanded="false" aria-controls="collapseNotes">
-                                    Notes
-                                </button>
-                            </h5>
-                        </div>
-                        <div id="collapseNotes" class="collapse" aria-labelledby="headingNotes" data-parent="#accordion">
-                            <div class="terminal-window">
-                                <div class="terminal-header">
-                                    <div class="terminal-title">Notes</div>
-                                    <div class="terminal-controls">
-                                        <div class="terminal-control-button close-button"></div>
-                                        <div class="terminal-control-button minimize-button"></div>
-                                        <div class="terminal-control-button maximize-button"></div>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    {{ session_data.notes | replace('\n', '<br>') | safe }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header" id="headingIdrsa">
-                            <h5 class="mb-0">
-                                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseIdrsa" aria-expanded="false" aria-controls="collapseIdrsa">
-                                    Idrsa
-                                </button>
-                            </h5>
-                        </div>
-                        <div id="collapseIdrsa" class="collapse" aria-labelledby="headingIdrsa" data-parent="#accordion">
-                            <div class="terminal-window">
-                                <div class="terminal-header">
-                                    <div class="terminal-title">ID RSA</div>
-                                    <div class="terminal-controls">
-                                        <div class="terminal-control-button close-button"></div>
-                                        <div class="terminal-control-button minimize-button"></div>
-                                        <div class="terminal-control-button maximize-button"></div>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    {{ session_data.id_rsa | replace('\n', '<br>') | safe }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="upload-file" class="section">
-                <h2>Download File</h2>
-                <form id="upload-file-form" method="POST" action="{{ url_for('issue_command') }}" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <label for="client_id">Client ID:</label>
-                        <select id="client_id" name="client_id" class="form-control" required>
-                            {% if connected_clients %}
-                                {% for client_id in connected_clients %}
-                                    <option value="{{ client_id }}">{{ client_id }}</option>
-                                {% endfor %}
-                            {% else %}
-                                <option value="" disabled>No clients available</option>
-                            {% endif %}
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="file_path">File Path:</label>
-                        <input type="text" placeholder="Enter Remote File Path" id="file_path" name="file_path" class="form-control" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Download File</button>
-                </form>
-            </div>
-            <div id="atomic-test" class="section">
-                <h2>Atomic RedTeam Tactics.</h2>
-                <form action="{{ url_for('view_yaml') }}" method="post">
-                    <div class="form-group">
-                        <label for="directory">Select Tactic:</label>
-                        <select name="directory" placeholder="Enter Tactic" id="directory" class="form-control" >
-                            {% for directory in directories %}
-                                <option value="{{ directory }}">{{ directory }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary">View YAML</button>
-                </form>
-            </div>
-            <div id="post-exploit" class="section">
-                <h2>Post-Exploitation</h2>
-                <form id="post-exploit-form" method="POST">
-                    <div class="form-group">
-                        <label for="client_id">Client ID:</label>
-                        <select id="client_id" name="client_id" class="form-control" required>
-                            {% if connected_clients %}
-                                {% for client_id in connected_clients %}
-                                    <option value="{{ client_id }}">{{ client_id }}</option>
-                                {% endfor %}
-                            {% else %}
-                                <option value="" disabled>No clients available</option>
-                            {% endif %}
-                        </select>
-                    </div>
-                    <button id="grisun0" type="submit" class="btn btn-primary">Create User</button>
-                </form>
-            </div>
-            <div id="web-server" class="section">
-                <h2>Web Server</h2>
-                <iframe id="lazywebserver" src="http://127.0.0.1/index2.html" width="100%" height="700"></iframe>
-            </div>
+            {% include 'nav.html' %}
+            {% include 'bots.html' %}
             <h2 class="mt-4">Contact</h2>
             <p>For any questions or feedback, please reach out to <a href="mailto\:grisiscomeback[at]gmail[dot]com" class="text-success">Gris Iscomeback</a>.</p>
         </div>
         <div class="footer text-center mt-4 p-3 bg-secondary text-light">
-            <p>&copy; 2024 LazyOwn Web\$hellz. All rights GPLv3.</p>
+            <p>&copy; 2025 LazyOwn RedTeam. All rights GPLv3.</p>
         </div>
-        <div id="toastr" class="toastr alert alert-success" role="alert">
-            Command exec successfully.
+        <div id="toastr" onclick="clearToastr();" class="toastr alert alert-success" role="alert">
         </div>
         <!-- Google tag (gtag.js) -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-T4VF6JJ095"></script>
@@ -407,9 +35,103 @@
         <script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
         <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
+        <!-- Main Quill library -->
+        <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
         <script>
-            document.addEventListener('DOMContentLoaded', function() {
+            cleanOutputText = "";
+            function closePopup(self) {
+                var popupContainer = self;
+                popupContainer.classList.remove('visible');
+            }
+            function clearToastr() {
+                    var toastr = document.getElementById('toastr');
+                    var neonTextElements = toastr.getElementsByClassName('neon-text');
+                    while (neonTextElements.length > 0) {
+                        neonTextElements[0].parentNode.removeChild(neonTextElements[0]);
+                    }
+                    toastr.classList.remove('show');
+            }
+            async function fetchCSVData(filePath, id_client) {
+                const spinner = document.getElementById('loader');
+                spinner.style.display = 'block';
+                const response = await fetch('/csv_to_html', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ file_path: filePath })
+                });
 
+                if (response.ok) {
+                    spinner.style.display = 'none';
+                    const html = await response.text();
+                    var selector = 'outputLog' + id_client;
+                    document.getElementById(selector).innerHTML = html;
+                    var popupContainer = document.getElementById('popupContainer' + id_client);
+                    popupContainer.classList.add('visible');
+                    setTimeout(closePopup, 10000);
+
+                } else {
+                    spinner.style.display = 'none';
+                    const error = await response.json();
+                    console.error('Error:', error);
+                }
+                spinner.style.display = 'none';
+            }
+            document.addEventListener('DOMContentLoaded', function() {
+                const quill = new Quill("#description", {
+                    theme: "snow",
+                });
+
+                document.getElementById('taskForm').addEventListener('submit', function(event) {
+                    event.preventDefault(); // Prevenir el envío tradicional del formulario
+
+                    // Obtener los valores de los campos del formulario
+                    const title = document.getElementById('title').value;
+                    const description = quill.root.innerHTML; // Obtener el contenido HTML del editor Quill
+                    const operator = document.getElementById('operator').value;
+                    const status = document.getElementById('status').value;
+                    // Crear un objeto FormData
+                    const formData = new FormData();
+                    formData.append('title', title);
+                    formData.append('description', description);
+                    formData.append('operator', operator);
+                    formData.append('status', status);
+                    // Enviar los datos mediante fetch como formulario
+                    fetch('/', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => {
+                        if (response.redirected) {
+                            window.location.href = response.url;
+                        } else {
+                            return response.json();
+                        }
+                    })
+                    .then(data => {
+                        console.log('Success:', data);
+                        // Aquí puedes manejar la respuesta del servidor
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                        // Aquí puedes manejar los errores
+                    });
+                });
+
+                const tooltipContainer = document.querySelector('.tooltip-container');
+                const tooltipText = document.querySelector('.tooltip-text');
+
+                tooltipContainer.addEventListener('mouseover', function() {
+                    tooltipText.style.visibility = 'visible';
+                    tooltipText.style.opacity = '1';
+                });
+
+                tooltipContainer.addEventListener('mouseout', function() {
+                    tooltipText.style.visibility = 'hidden';
+                    tooltipText.style.opacity = '0';
+                });             
                 $(document).ready(function() {
                     $('#directory').select2({
                         placeholder: 'Select a tactic',
@@ -440,27 +162,45 @@
 
                         const data = await response.json();
                         const outputDiv = document.getElementById('output');
+                        const outputAtomic = document.getElementById('outputAtomic');
                         const outputText = data.output.replace(/\n/g, '<br>');
-                        const cleanOutputText = stripAnsi(outputText);
+                        cleanOutputText = stripAnsi(outputText);
 
                         outputDiv.innerHTML += `<p>${cleanOutputText}</p>`;
-
+                        outputAtomic.innerHTML += `<p>${cleanOutputText}</p>`;
                     } catch (error) {
                         console.error('There was a problem with the fetch operation:', error);
                     }
                 }
 
-                function toastr(command){
+                function toastr(command) {
                     var toastr = document.getElementById('toastr');
                     toastr.classList.add('show');
+                    toastr.innerHTML += "<div onclick='closePopup(this);' class='neon-text'> " + command + " </div>";
                     setTimeout(function() {
-                        toastr.classList.remove('show');
+                        clearToastr();
                     }, 22000);
-                    toastr.innerHTML += "<div class='.neon-text'> " + command + " </div>"
-                };
+                }
+
+                async function fetchTasks() {
+                    try {
+                        const response = await fetch('/gettasks');
+                        const tasks = await response.json();
+                        tasks.forEach((task, index) => {
+                            setTimeout(() => {
+                                if (task.status !== "Done") {
+                                    toastr(`Task: ${task.title}, Description: ${task.description}`);
+                                }
+                            }, index * 1000); // 1 segundo de retraso entre cada notificación
+                        });
+                    } catch (error) {
+                        console.error('Error fetching tasks:', error);
+                    }
+                }
 
                 function RunCmd(command){
-        
+                    const spinner = document.getElementById('loader');
+                    spinner.style.display = 'block';
                     fetch('/api/run', {
                         method: 'POST',
                         headers: {
@@ -471,16 +211,19 @@
                     .then(response => response.json())
                     .then(data => {
                         const outputDiv = document.getElementById('output');
+                        spinner.style.display = 'none';
                         if (data.error) {
                             outputDiv.innerHTML += `<p style="color: red;">${data.error}</p>`;
                         } else {
-                            toastr(command)
+                            toastr('Command:' + command)
                             fetchLog()
                         }
                     });
                 }
 
                 function RunRemoteCmd(client_id, command){
+                    const spinner = document.getElementById('loader');
+                    spinner.style.display = 'block';                    
                     const clientId = client_id;
                     const formData = new FormData();
                     formData.append('client_id', clientId);
@@ -496,6 +239,7 @@
                         }
                     })
                     .then(data => {
+                        spinner.style.display = 'none';
                         if (data.error) {
                             console.log(`Error: ${data.error}`);
                         } else {
@@ -503,6 +247,7 @@
                         }
                     })
                     .catch(error => {
+                        spinner.style.display = 'none';
                         console.log(`Error: ${error}`);
                     });
                 }
@@ -522,12 +267,13 @@
                     event.preventDefault();
                     const clientId = document.getElementById('client_id').value;
                     const filePath = document.getElementById('file_path').value;
-
+                    const spinner = document.getElementById('loader');
+                    spinner.style.display = 'block';    
                     const formData = new FormData();
                     formData.append('client_id', clientId);
                     formData.append('command', `upload:${filePath}`);
 
-                    // Reemplaza 'username' y 'password' con las credenciales reales
+                    
                     const username = '{{ username }}';
                     const password = '{{ password }}';
                     const credentials = btoa(`${username}:${password}`);
@@ -540,6 +286,7 @@
                         }
                     })
                     .then(data => {
+                        spinner.style.display = 'none'; 
                         if (data.error) {
                             console.log(`Error: ${data.error}`);
                         } else {
@@ -548,6 +295,7 @@
                         }
                     })
                     .catch(error => {
+                        spinner.style.display = 'none'; 
                         console.log(`Error: ${error}`);
                     });
                 });
@@ -556,7 +304,36 @@
                     command = document.getElementById('attack').value;
                     RunCmd(command)
                 });
+                async function issueCommand(clientId, command) {
+                    const url = '/issue_command';
+                    const data = new URLSearchParams();
+                    data.append('client_id', clientId);
+                    data.append('command', command);
+                    const spinner = document.getElementById('loader');
+                    spinner.style.display = 'block';
+                    try {
+                        const response = await fetch(url, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded'
+                            },
+                            body: data
+                        });
 
+                        if (!response.ok) {
+                            throw new Error(`Error en la solicitud: ${response.statusText}`);
+                        }
+
+                        const result = await response.json();
+                        console.log('Respuesta del servidor:', result);
+                        spinner.style.display = 'none';
+                        return result;
+                    } catch (error) {
+                        spinner.style.display = 'none';
+                        console.error('Error al enviar el comando:', error);
+                        return { error: error.message };
+                    }
+                }
                 function generateGraph(connectedClients) {
                     var nodes = new vis.DataSet([
                         {id: 'c2', label: 'C&C LazyOwn', shape: 'image', image: '/static/c2.png', size: 100, font: { color: '#ffffff' }}
@@ -564,14 +341,18 @@
 
                     var edges = new vis.DataSet();
 
-                    var connectedClients = {{ connected_clients | tojson }};
-                    var results = {{ commands_history | tojson }};
+                    var connectedClients = {{ connected_clients | tojson | safe }};
+                    var results = {{ commands_history | tojson | safe }};
 
                     connectedClients.forEach(function(client) {
-                        var label = client;
+                        var label = "Implant ID: " +client;
                         var image = '/static/client.png';
                         var selector = '#' + client;
                         var client_os = $(selector).val(); 
+                        var ips = $(selector).data('ips');
+                        var pid = $(selector).data('pid');
+                        var user = $(selector).data('user');
+                        var hostname = $(selector).data('hostname');                        
                         if (client_os) {
                             label += " (OS/" + client_os + ")";
                             if (client_os.toLowerCase() === 'linux') {
@@ -580,7 +361,21 @@
                                 image = '/static/Windows.png';
                             }
                         }
+                        if (ips) {
+                            label += "\n (IP/" + ips + ")";
+                        }
 
+                        if (pid) {
+                            label += "\n (PID/" + pid + ")";
+                        }
+
+                        if (user) {
+                            label += "\n (User/" + user + ")";
+                        }
+
+                        if (hostname) {
+                            label += "\n (Hostname/" + hostname + ")";
+                        }
                         nodes.add({id: client, label: label, shape: 'image', image: image, size: 70, font: { color: '#ffffff' }});
                         edges.add({from: 'c2', to: client});
                     });
@@ -631,24 +426,48 @@
                     };
                     var network = new vis.Network(container, data, options);
                     network.on("selectNode", function(params) {
-                    if (params.nodes.length > 0) {
-                        var selectedNodeId = params.nodes[0];
-                        console.log("Nodo seleccionado: " + selectedNodeId);
-                        var selectElements = document.querySelectorAll('select');
-                        selectElements.forEach(function(selectElement) {
-                            Array.from(selectElement.options).forEach(function(option) {
+                        if (params.nodes.length > 0) {
+                            var selectedNodeId = params.nodes[0];
+                            console.log("Nodo seleccionado: " + selectedNodeId);
+                            var selectElements = document.querySelectorAll('select');
+                            selectElements.forEach(function(selectElement) {
+                                Array.from(selectElement.options).forEach(function(option) {
 
-                                if (option.value === selectedNodeId) {
+                                    if (option.value === selectedNodeId) {
 
-                                    selectElement.value = selectedNodeId;
-                                }
+                                        selectElement.value = selectedNodeId;
+                                    }
+                                });
                             });
-                        });
-                    }
-                });
+                        }
+                    });
                 }
+                function updateStatus() {
+                    
+                    var statusElements = document.querySelectorAll('.status');
 
-                var connectedClients = {{ connected_clients | tojson }};
+                    statusElements.forEach(function(element) {
+                        var clientId = element.id;
+                        if (connectedClients.includes(clientId)) {
+                            
+                            element.innerHTML = '<span class="status-dot" style="background-color: green;"></span> Online';
+                            element.classList.add('online');
+                            element.classList.remove('offline');
+                        } else {
+                            
+                            element.innerHTML = '<span class="status-dot" style="background-color: red;"></span> Offline';
+                            element.classList.add('offline');
+                            element.classList.remove('online');
+                        }
+                    });
+                }
+                var connectedClients = {{ connected_clients | tojson | safe }};
+             
+
+
+
+                
+                updateStatus();
                 generateGraph(connectedClients);
 
                 document.querySelectorAll('.nav-link').forEach(link => {
@@ -698,17 +517,357 @@
                     } else {
                         iframe.src = currentUrl.replace(":4444/", "/");
                     }
-                });                      
+                }); 
+                document.getElementById('LazyOsForm').addEventListener('submit', function(event) {
+                    event.preventDefault();
+
+                    var ip = document.getElementById('ipl').value;
+                    var port = document.getElementById('portl').value;
+                    var command = document.getElementById('commandl').value;
+                    const spinner = document.getElementById('loader');
+                    spinner.style.display = 'block';
+                    fetch('/lazyos/' + ip + '/' + port, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ command: command })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        spinner.style.display = 'none';
+                        document.getElementById('response').innerHTML = '<div class="alert alert-success" role="alert">' + data.response + '</div>';
+                    })
+                    .catch(error => {
+                        spinner.style.display = 'none';
+                        document.getElementById('response').innerHTML = '<div class="alert alert-danger" role="alert">' + error.message + '</div>';
+                    });
+                });     
+
+                document.getElementById('chatbotButton').addEventListener('click', function() {
+                    $('#chatbotModal').modal('show');
+                });
+                document.getElementById('sistemaOperativo').addEventListener('change', function(event) {    
+                    var sistemaOperativo = document.getElementById('sistemaOperativo').value;
+                    var user_agent_lin = '{{ lin_useragent }}';
+                    var user_agent_win = '{{ win_useragent }}';
+                    var userAgent = document.getElementById('userAgent');
+                    if (sistemaOperativo == '1'){
+                        userAgent.value = user_agent_win;
+                    } else if(sistemaOperativo == '2') {
+                        userAgent.value = user_agent_lin;
+                    } else if(sistemaOperativo == '3') {
+                        userAgent.value = user_agent_win;
+                    } else {
+                        userAgent.value = user_agent_lin;
+                    }
+                });
+                document.getElementById('AgentForm').addEventListener('submit', function(event) {    
+                    event.preventDefault();
+                    var sistemaOperativo = document.getElementById('sistemaOperativo').value;
+                    var userAgent = document.getElementById('userAgent').value;
+                    var urlMaleable = document.getElementById('urlMaleable').value;
+                    var nombreAgente = document.getElementById('nombreAgente').value;
+                    var command = 'c2 ' + nombreAgente + ' ' + sistemaOperativo
+                    RunCmd(command)
+                });
+                document.getElementById('chatbotForm').addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    var userInput = document.getElementById('chatbotInput').value;
+                    var connectedClients = {{ connected_clients | tojson | safe }};
+                    const spinner = document.getElementById('loader');
+                    spinner.style.display = 'block'; 
+                    
+                    fetch('/chatbot', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ prompt: userInput })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data['response']); 
+                        spinner.style.display = 'none'; 
+                        if (data.error) {
+                            
+                            document.getElementById('chatbotResponse').innerHTML += `<p style="color: red;">${data.error}</p>`;
+                        } else {
+                            
+                            document.getElementById('chatbotResponse').innerHTML += `<p>${data.response}</p>`;
+                            if (data.response) {
+                                const userWantsToRun = confirm('Do you want to run the command? \n' + data['response']);
+                                if (userWantsToRun) {
+                                    var connectedClients = {{ connected_clients | tojson | safe }};
+                                
+                                    let clientChoice;
+                                    if (connectedClients.length === 1) {
+                                        
+                                        clientChoice = connectedClients[0];
+                                    } else if (connectedClients.length > 1) {
+                                        alert(connectedClients);                                        
+                                        clientChoice = prompt('Choice client:');
+                                    } else {
+                                        alert('No connected clients available.');
+                                        return;
+                                    }
+                                    if (clientChoice) {
+                                        issueCommand(clientChoice, data['response']);
+                                    }
+                                }
+                                document.getElementById('chatbotResponse').innerHTML += `<pre>${data.output}</pre>`;
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        spinner.style.display = 'none'; 
+                        console.error('Error:', error);
+                        document.getElementById('chatbotResponse').innerHTML += `<p style="color: red;">Error de red: ${error.message}</p>`;
+                    });
+                    
+                    document.getElementById('chatbotInput').value = '';
+                });
+
+                document.getElementById('scriptButton').addEventListener('click', function() {
+                    $('#scriptModal').modal('show');
+                });
+                document.getElementById('scriptForm').addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    var userInput = document.getElementById('scriptInput').value;
+                    var connectedClients = {{ connected_clients | tojson | safe }};
+                    const spinner = document.getElementById('loader');
+                    spinner.style.display = 'block'; 
+                    
+                    fetch('/script', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ prompt: userInput })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        spinner.style.display = 'none';
+                        if (data.error) {
+                            
+                            document.getElementById('scriptResponse').innerHTML += `<p style="color: red;">${data.error}</p>`;
+                        } else {
+                            var converter = new showdown.Converter();
+                            var html = converter.makeHtml(data.response);
+                            document.getElementById('scriptResponse').innerHTML += `<p>${html}</p>`;
+                            if (data.response) {
+                               
+                                //document.getElementById('scriptResponse').innerHTML += `<pre>${data.output}</pre>`;
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        spinner.style.display = 'none';
+                        console.error('Error:', error);
+                        document.getElementById('scriptResponse').innerHTML += `<p style="color: red;">Error de red: ${error.message}</p>`;
+                    });
+                    
+                    document.getElementById('scriptInput').value = '';
+                });
+
+
+                document.getElementById('vulnButton').addEventListener('click', function() {
+                    $('#vulnModal').modal('show');
+                });
+                
+                document.getElementById('vulnForm').addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    var userInput = '';
+                    const spinner = document.getElementById('loader');
+                    spinner.style.display = 'block'; 
+                    fetch('/vuln', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ prompt: userInput })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data['response']); 
+                        spinner.style.display = 'none';
+                        if (data.error) {
+                            
+                            document.getElementById('vulnResponse').innerHTML += `<p style="color: red;">${data.error}</p>`;
+                        } else {
+                            
+                            var converter = new showdown.Converter();
+                            var html = converter.makeHtml(data.response);
+                            document.getElementById('vulnResponse').innerHTML += `<p>${html}</p>`;
+                            if (data.response) {
+                                console.log(data.response)
+                               // document.getElementById('vulnResponse').innerHTML += `<pre>${data.output}</pre>`;
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        spinner.style.display = 'none';
+                        console.error('Error:', error);
+                        document.getElementById('vulnResponse').innerHTML += `<p style="color: red;">Error de red: ${error.message}</p>`;
+                    });
+                    
+                    
+                });
+                document.getElementById('searchButton').addEventListener('click', function() {
+                    $('#searchModal').modal('show');
+                });
+                
+                document.getElementById('searchForm').addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    var userInput = document.getElementById('searchInput').value;
+                    const spinner = document.getElementById('loader');
+                    spinner.style.display = 'block'; 
+                    fetch('/search', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ prompt: userInput })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        spinner.style.display = 'none';
+                        console.log(data['response']); 
+                        if (data.error) {
+                            
+                            document.getElementById('searchResponse').innerHTML += `<p style="color: red;">${data.error}</p>`;
+                        } else {
+                            
+                            var converter = new showdown.Converter();
+                            var html = converter.makeHtml(data.response);
+                            document.getElementById('searchResponse').innerHTML += `<p>${html}</p>`;
+                            if (data.response) {
+                                console.log(data.response)
+                               // document.getElementById('searchResponse').innerHTML += `<pre>${data.output}</pre>`;
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        spinner.style.display = 'none';
+                        console.error('Error:', error);
+                        document.getElementById('searchResponse').innerHTML += `<p style="color: red;">Error de red: ${error.message}</p>`;
+                    });
+                    
+                    
+                });    
+                document.getElementById('redopButton').addEventListener('click', function() {
+                    $('#redopModal').modal('show');
+                });
+                
+                document.getElementById('redopForm').addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    var userInput = '';
+                    const spinner = document.getElementById('loader');
+                    spinner.style.display = 'block';
+                    fetch('/redop', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ prompt: userInput })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data['response']); 
+                        spinner.style.display = 'none';
+                        if (data.error) {
+                            
+                            document.getElementById('redopResponse').innerHTML += `<p style="color: red;">${data.error}</p>`;
+                        } else {
+                            
+                            var converter = new showdown.Converter();
+                            var html = converter.makeHtml(data.response);
+                            document.getElementById('redopResponse').innerHTML += `<p>${html}</p>`;
+                            if (data.response) {
+                                console.log(data.response)
+                                //document.getElementById('redopResponse').innerHTML += `<pre>${data.output}</pre>`;
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        spinner.style.display = 'none';
+                        console.error('Error:', error);
+                        document.getElementById('redopResponse').innerHTML += `<p style="color: red;">Error de red: ${error.message}</p>`;
+                    });
+                    
+                    
+                });       
+
+                document.getElementById('taskButton').addEventListener('click', function() {
+                    $('#taskModal').modal('show');
+                });
+                document.getElementById('taskFormbot').addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    const spinner = document.getElementById('loader');
+                    spinner.style.display = 'block';
+                    var userInput = '';
+
+                    fetch('/taskbot', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ prompt: userInput })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data['response']); 
+                        spinner.style.display = 'none';
+                        if (data.error) {
+                            document.getElementById('taskResponse').innerHTML += `<p style="color: red;">${data.error}</p>`;
+                        } else {
+                            var converter = new showdown.Converter();
+                            var html = converter.makeHtml(data.response);
+                            document.getElementById('taskResponse').innerHTML += `<p>${html}</p>`;
+                            if (data.response) {
+                                console.log(data.response)
+                                //document.getElementById('taskResponse').innerHTML += `<pre>${data.output}</pre>`;
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        spinner.style.display = 'none';
+                        console.error('Error:', error);
+                        document.getElementById('taskResponse').innerHTML += `<p style="color: red;">Error de red: ${error.message}</p>`;
+                    });
+                   
+                    fetchTasks();
+                });   
+                document.getElementById('atomic_form').addEventListener('submit', function(event) {    
+                    event.preventDefault();
+                    var id_atomic = document.getElementById('id_atomic').value;
+                    const spinner = document.getElementById('loader');
+                    spinner.style.display = 'block';
+                    var command = 'atomic_gen ' + id_atomic ;
+                    RunCmd(command)
+                    setInterval(console.log(cleanOutputText), 5000); 
+                    command = "ofuscatorps1 sessions/atomic_test_"+ id_atomic + ".ps1";
+                    RunCmd(command)
+                    setInterval(console.log(cleanOutputText), 5000); 
+                    command = "ofuscatesh sessions/atomic_test_"+ id_atomic + ".sh";
+                    RunCmd(command)
+                    setInterval(console.log(cleanOutputText), 5000); 
+                    
+                    
+                });                   
+                fetchTasks();     
+                spinner.style.display = 'none';
+                setInterval(fetchTasks, 1800000); 
             });
 
         </script>
         <script type="module">
-            // Import the functions you need from the SDKs you need
+            
             import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
-            // TODO: Add SDKs for Firebase products that you want to use
-            // https://firebase.google.com/docs/web/setup#available-libraries
+            
+            
           
-            // Your web app's Firebase configuration
+            
             const firebaseConfig = {
               apiKey: "AIzaSyA-lTI_yhgyDqLrMX1rq6G8qSVQHGLDcio",
               authDomain: "lazyown-ec930.firebaseapp.com",
@@ -718,7 +877,7 @@
               appId: "1:629740909985:web:4b52d61c043193310787e0"
             };
           
-            // Initialize Firebase
+            
             const app = initializeApp(firebaseConfig);
           </script>
     </body>

@@ -1399,3 +1399,5 @@ END_TIME=$(date +%s)
 EXECUTION_TIME=$(($END_TIME - $START_TIME))
 
 echo "    [t] The Execution time was:: $EXECUTION_TIME seconds."
+chown 1000:1000 sessions -R
+chmod 755 sessions -R

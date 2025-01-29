@@ -11,12 +11,30 @@ class SimpleHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         self.send_header('Access-Control-Allow-Headers', 'Content-Type')
         super().end_headers()
 
+def configure_ssl_context(certfile, keyfile, cafile=None, capath=None):
+    context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
+    context.load_cert_chain(certfile=certfile, keyfile=keyfile)
+
+    if cafile or capath:
+        context.verify_mode = ssl.CERT_REQUIRED
+        if cafile:
+            context.load_verify_locations(cafile=cafile)
+        if capath:
+            context.load_verify_locations(capath=capath)
+
+    context.minimum_version = ssl.TLSVersion.TLSv1_2
+    context.maximum_version = ssl.TLSVersion.TLSv1_3
+    context.options |= ssl.OP_NO_COMPRESSION
+    context.set_ciphers('HIGH:!aNULL:!eNULL:!EXPORT:!DH:!RC4')
+
+    return context
+
 def run_server(port, use_ssl=False, certfile=None, keyfile=None):
     server_address = ('', port)
     httpd = http.server.HTTPServer(server_address, SimpleHTTPRequestHandler)
+    
     if use_ssl:
-        context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-        context.load_cert_chain(certfile=certfile, keyfile=keyfile)
+        context = configure_ssl_context(certfile=certfile, keyfile=keyfile)
         httpd.socket = context.wrap_socket(httpd.socket, server_side=True)
     print(f"Starting server on port {port}")
     httpd.serve_forever()

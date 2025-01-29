@@ -1398,6 +1398,19 @@ Interacts with SMB shares using the `smbclient` command to perform the following
 :param line: The name of the SMB share to access on the remote host. If not provided, the function will list all available shares.
 :returns: None
 
+## smbclient_impacket
+Interacts with SMB shares using the `smbclient` command to perform the following operations:
+
+1. Checks if `rhost` (remote host) and `lhost` (local host) are assign; if not, an error message is displayed.
+2. If `line` (share name) is provided:
+- Attempts to access the specified SMB share on the remote host using the command: `smbclient -N \\{rhost}\{line}`
+3. If `line` is not provided:
+- Lists available SMB shares on the remote host with the command: `smbclient -N -L \\{rhost}`
+4. Suggests a potential SMB exploit if possible by mounting the share from the local host using: `mount -t cifs "//{lhost}/share" /mnt/smb`
+
+:param line: The name of the SMB share to access on the remote host. If not provided, the function will list all available shares.
+:returns: None
+
 ## smbclient_py
 Interacts with SMB shares using the `smbclient.py` command to perform the following operations:
 
@@ -8256,6 +8269,15 @@ file_path (str): Ruta del archivo a subir.
 Returns:
 None
 
+## upload_c2
+Exec command in the client using the C2.
+
+Parameters:
+command (str): client_id [optional], Command to exec.
+
+Returns:
+None
+
 ## download_file_from_c2
 Descarga un archivo desde el C2.
 
@@ -8266,11 +8288,30 @@ clientid (str): Identificador del cliente (opcional).
 Returns:
 None
 
+## download_c2
+Download a file from the C2.
+
+Parameters:
+line (str): Command input in the format "client_id file_name".
+
+Returns:
+None
+
 ## issue_command_to_c2
 Ejecuta un comando en el cliente usando el C2.
 
 Parameters:
 command (str): Comando a ejecutar.
+client_id (str): ID del cliente (opcional).
+
+Returns:
+None
+
+## issue_command_to_c2
+Exec command in the client using the C2.
+
+Parameters:
+command (str): client_id [optional], Command to exec.
 
 Returns:
 None
@@ -8598,20 +8639,6 @@ Example:
 ## toctoc
 Sends a magic packet to the Chinese malware.
 The function extracts rhost and rport from self.params["rhost"] and self.params["rport"], respectively.
-
-## upload_c2
-Upload a file to the command and control (C2) server.
-
-This function handles the uploading of a file to the C2 server. If no file is specified in the input line,
-it prompts the user to enter the file extension (defaulting to 'txt') and retrieves the file using the
-`get_users_dic` function. If a file is specified in the input line, it directly uploads that file.
-
-Args:
-    line (str): The input line containing the file path to upload. If empty, the function will prompt the user
-                to enter the file extension.
-
-Returns:
-    None
 
 ## download_c2
 Download a file from the command and control (C2) server.

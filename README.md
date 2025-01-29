@@ -1463,9 +1463,15 @@ Searches for credential files with the pattern 'credentials*.txt' and allows the
 The function lists all matching files and prompts the user to select one. It then reads the selected file
 and returns a list of tuples with the format (username, password) for each line in the file.
 
+Parameters:
+ncred (int, optional): If provided, automatically selects the credential file with the given number.
+
 Returns:
 list of tuples: A list containing tuples with (username, password) for each credential found in the file.
                 If no files are found or an invalid selection is made, an empty list is returned.
+
+## load_payload
+No description available.
 
 ## obfuscate_payload
 Obfuscates a payload string by converting its characters into hexadecimal format, 
@@ -1896,6 +1902,12 @@ Get the AS name by ASN.
 
 ## as_country
 Get the country by ASN.
+
+## __init__
+No description available.
+
+## __getitem__
+No description available.
 
 ## __init__
 Inicializa el escáner con las cabeceras HTTP predefinidas.
@@ -3312,6 +3324,19 @@ Note:
     - If `wget` or `unzip` is not installed, the function will fail.
 
 ## smbclient
+Interacts with SMB shares using the `smbclient` command to perform the following operations:
+
+1. Checks if `rhost` (remote host) and `lhost` (local host) are assign; if not, an error message is displayed.
+2. If `line` (share name) is provided:
+- Attempts to access the specified SMB share on the remote host using the command: `smbclient -N \\{rhost}\{line}`
+3. If `line` is not provided:
+- Lists available SMB shares on the remote host with the command: `smbclient -N -L \\{rhost}`
+4. Suggests a potential SMB exploit if possible by mounting the share from the local host using: `mount -t cifs "//{lhost}/share" /mnt/smb`
+
+:param line: The name of the SMB share to access on the remote host. If not provided, the function will list all available shares.
+:returns: None
+
+## smbclient_impacket
 Interacts with SMB shares using the `smbclient` command to perform the following operations:
 
 1. Checks if `rhost` (remote host) and `lhost` (local host) are assign; if not, an error message is displayed.
@@ -10182,6 +10207,15 @@ file_path (str): Ruta del archivo a subir.
 Returns:
 None
 
+## upload_c2
+Exec command in the client using the C2.
+
+Parameters:
+command (str): client_id [optional], Command to exec.
+
+Returns:
+None
+
 ## download_file_from_c2
 Descarga un archivo desde el C2.
 
@@ -10192,11 +10226,30 @@ clientid (str): Identificador del cliente (opcional).
 Returns:
 None
 
+## download_c2
+Download a file from the C2.
+
+Parameters:
+line (str): Command input in the format "client_id file_name".
+
+Returns:
+None
+
 ## issue_command_to_c2
 Ejecuta un comando en el cliente usando el C2.
 
 Parameters:
 command (str): Comando a ejecutar.
+client_id (str): ID del cliente (opcional).
+
+Returns:
+None
+
+## issue_command_to_c2
+Exec command in the client using the C2.
+
+Parameters:
+command (str): client_id [optional], Command to exec.
 
 Returns:
 None
@@ -10524,20 +10577,6 @@ Example:
 ## toctoc
 Sends a magic packet to the Chinese malware.
 The function extracts rhost and rport from self.params["rhost"] and self.params["rport"], respectively.
-
-## upload_c2
-Upload a file to the command and control (C2) server.
-
-This function handles the uploading of a file to the C2 server. If no file is specified in the input line,
-it prompts the user to enter the file extension (defaulting to 'txt') and retrieves the file using the
-`get_users_dic` function. If a file is specified in the input line, it directly uploads that file.
-
-Args:
-    line (str): The input line containing the file path to upload. If empty, the function will prompt the user
-                to enter the file extension.
-
-Returns:
-    None
 
 ## download_c2
 Download a file from the command and control (C2) server.
@@ -10902,6 +10941,27 @@ Recursively resolve and download package dependencies with enhanced checks
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Correcciones urgentes
+
+### Otros
+
+  *   * hotfix(hotfix): hotfix \n\n Version: release/0.2.27 \n\n vulnerability \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Jan 17 19:17:20 2025 -0300 \n\n Hora: 1737152240
+
+
+### Otros
+
+### Otros
+
+  *   * hotfix
+
+
+### Otros
+
+### Otros
+
+  *   * hotfix
 
 
 ### Nuevas características

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card bg-secondary text-light p-4 mb-4">
+        <h2 class="text-center mb-4">{{ title }}</h2>
+        <table class="table table-dark table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>ID</th>
+                    <th>Description</th>
+                    <th>Platforms</th>
+                    <th>Data Sources</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for technique in techniques %}
+                <tr>
+                    <td>{{ technique.name }}</td>
+                    <td>{{ technique.id }}</td>
+                    <td>{{ technique.description | markdown | safe }}</td>
+                    <td>{{ ', '.join(technique.x_mitre_platforms) }}</td>
+                    <td>{{ ', '.join(technique.x_mitre_data_sources) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                {% if page > 1 %}
+                <li class="page-item"><a class="page-link" href="{{ url_for('mitre', page=1) }}">First</a></li>
+                <li class="page-item"><a class="page-link" href="{{ url_for('mitre', page=page-1) }}">Previous</a></li>
+                {% endif %}
+
+                {% set start_page = page - 2 if page - 2 > 0 else 1 %}
+                {% set end_page = page + 2 if page + 2 < pages else pages %}
+
+                {% if start_page > 1 %}
+                <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
+                {% endif %}
+
+                {% for p in range(start_page, end_page + 1) %}
+                <li class="page-item {% if p == page %}active{% endif %}"><a class="page-link" href="{{ url_for('mitre', page=p) }}">{{ p }}</a></li>
+                {% endfor %}
+
+                {% if end_page < pages %}
+                <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
+                {% endif %}
+
+                {% if page < pages %}
+                <li class="page-item"><a class="page-link" href="{{ url_for('mitre', page=page+1) }}">Next</a></li>
+                <li class="page-item"><a class="page-link" href="{{ url_for('mitre', page=pages) }}">Last</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</div>
+{% endblock %}

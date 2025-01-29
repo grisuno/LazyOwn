@@ -23,7 +23,7 @@ import os
 import logging
 import json
 from groq import Groq
-
+from modules.colors import retModel
 BANNER = """
 [*] Iniciando: LazyOwn GPT One Liner Cli Assistant [;,;]
 """
@@ -116,7 +116,7 @@ def process_prompt_script(client, prompt: str, debug: bool) -> str:
     try:
         chat_completion = client.chat.completions.create(
             messages=[{"role": "user", "content": complex_prompt}],
-            model="llama3-70b-8192",
+            model=retModel(),
         )
         if debug:
             logging.debug(f"[DEBUG] : {complex_prompt}")

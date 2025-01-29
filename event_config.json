@@ -1,0 +1,81 @@
+{
+    "events": [
+        {
+            "name": "kerbrute",
+            "src_path": "{BASE_DIR}{rhost}/88/kerbrute/kerbrute.txt",
+            "size": 1251,
+            "description": "kerbrute attacks weak auth protocol of microsoft.",
+            "outputtype": "txt",
+            "outputtodelete": "    __             __               __     \r\n   / /_____  _____/ /_  _______  __/ /____ \r\n  / //_/ _ \\/ ___/ __ \\/ ___/ / / / __/ _ \\\r\n / ,< /  __/ /  / /_/ / /  / /_/ / /_/  __/\r\n/_/|_|\\___/_/  /_.___/_/   \\__,_/\\__/\\___/                                        \r\n\r\nVersion: dev (n/a) - 01/21/25 - Ronnie Flathers @ropnop\r\n\r\n",
+            "operator": "grisun0",
+            "prompt": " and VALID USERS KERBRUTE remember the mission, it's imperant inform the lsit of the users get in the test  ",
+            "status": "Active"
+        },
+        {
+            "name": "dig",
+            "src_path": "{BASE_DIR}{rhost}/53/dig/dig.txt",
+            "size": 700,
+            "description": "Hacking Dns",
+            "outputtype": "txt",
+            "outputtodelete": "",
+            "operator": "grisun0",
+            "prompt": " and DIG File remember the mission get all vulns ",
+            "status": "Active"
+        },
+        {
+            "name": "smbmap",
+            "src_path": "{BASE_DIR}{rhost}/445/smbmap/smbmap.txt",
+            "size": 2000,
+            "description": "hacking smb",
+            "outputtype": "txt",
+            "outputtodelete": "[\\] Checking for open ports...                                                                                 [|] Checking for open ports...                                                                                 [/] Checking for open ports...                                                                                 [-] Checking for open ports...                                                                                 \r\n[*] Detected 1 hosts serving SMB\r\n[\\] Authenticating...                                                                                          [|] Authenticating...                                                                                          [/] Authenticating...                                                                                          [-] Authenticating...                                                                                          \r\n[*] Established 1 SMB connections(s) and 1 authenticated session(s)\r\n[-] Enumerating shares...                                                                                      [\\] Enumerating shares...                                                                                      [|] Enumerating shares...                                                                                      [/] Enumerating shares...                                                                                      \r\n[/] Traversing shares...                                                                                       [-] Traversing shares...                                                                                       [\\] Traversing shares...                                                                                       [|] Traversing shares...                                                                                       \r\n[-] Closing connections..                                                                                      [\\] Closing connections..                                                                                      [|] Closing connections..                                                                                      [/] Closing connections..                                                                                      ",
+            "operator": "grisun0",
+            "prompt": " and SMBMAP File remember the mission get all vulns ",
+            "status": "Active"
+        },
+        {
+            "name": "nikto",
+            "src_path": "{BASE_DIR}{rhost}/445/nikto/nikto.html",
+            "size": 2000,
+            "description": "hacking web",
+            "outputtype": "html",
+            "outputtodelete": "",
+            "operator": "grisun0",
+            "prompt": " and NIKTO File remember the mission get all vulns ",
+            "status": "Active"
+        },
+        {
+            "name": "dirb",
+            "src_path": "{BASE_DIR}{rhost}/47001/dirb/dirb.txt",
+            "size": 100,
+            "description": "fhgty",
+            "outputtype": "txt",
+            "outputtodelete": "-----------------\r\nDIRB v2.22    \r\nBy The Dark Raver\r\n-----------------",
+            "prompt": " and VALID ROUTES DIRB remember the mission is imperant show the routes list get on the test ",
+            "operator": "None",
+            "status": "Active"
+        },
+        {
+            "name": "sshexploit",
+            "src_path": "{BASE_DIR}{rhost}/22/sshexploit/sshexploit.txt",
+            "size": 100,
+            "description": "aasd",
+            "outputtype": "txt",
+            "outputtodelete": "\u001b[92m                                                     \r\n   .aMMMb  dMMMMb  dMMMMMP dMMMMb  .dMMMb  .dMMMb  dMP dMP \r\n  dMP\"dMP dMP.dMP dMP     dMP dMP dMP\" VP dMP\" VP dMP dMP  \r\n dMP dMP dMMMMP\" dMMMP   dMP dMP  VMMMb   VMMMb  dMMMMMP   \r\ndMP.aMP dMP     dMP     dMP dMP dP .dMP dP .dMP dMP dMP    \r\nVMMMP\" dMP     dMMMMMP dMP dMP  VMMMP\"  VMMMP\" dMP dMP \r\n\r\n   ReggreSSHion CVE-2024-6387 Vulnerability Checker / Exploiter\r\n   2.0 - Optimized by @Kz\r\n    \u001b[0m",
+            "prompt": " and VALID Vulnerability in SSH remember the mission is imperant show the vulns list get on the test ",
+            "operator": "None",
+            "status": "Active"
+        },
+        {
+            "name": "havoc",
+            "src_path": "{BASE_DIR}{rhost}/8000/havoc/havoc.txt",
+            "size": 10,
+            "description": "havoc",
+            "outputtype": "txt",
+            "outputtodelete": "[***] ...\r\n[***] ...",
+            "prompt": " and VALID Havoc exploit successfully, remember the mission is imperant show the users list get on the test ",
+            "operator": null,
+            "status": "Active"
+        }
+    ]
+}

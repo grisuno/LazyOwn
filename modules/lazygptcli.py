@@ -29,7 +29,7 @@ import subprocess
 import json
 import tempfile
 from groq import Groq
-
+from modules.colors import retModel
 BANNER = """
 ██╗      █████╗ ███████╗██╗   ██╗ ██████╗ ██╗    ██╗███╗   ██╗
 ██║     ██╔══██╗╚══███╔╝╚██╗ ██╔╝██╔═══██╗██║    ██║████╗  ██║
@@ -147,7 +147,7 @@ def transform_knowledge_base(client) -> None:
         try:
             chat_completion = client.chat.completions.create(
                 messages=[{"role": "user", "content": complex_prompt}],
-                model="llama3-70b-8192",
+                model=retModel(),
             )
             improved_command = chat_completion.choices[0].message.content.strip()
             improved_knowledge_base[prompt] = improved_command
@@ -197,7 +197,7 @@ def main() -> None:
         try:
             chat_completion = client.chat.completions.create(
                 messages=[{"role": "user", "content": complex_prompt}],
-                model="llama3-70b-8192",
+                model=retModel(),
             )
             if args.debug:
                 logging.debug(f"[DEBUG] : {complex_prompt}")

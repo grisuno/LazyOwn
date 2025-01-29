@@ -1,9 +1,12 @@
-{% include 'header.html' %}
-        <style>
-            input[type="checkbox"] {
-                float: right;
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    input[type="checkbox"] {
+        float: right;
             }
-        </style>
+            </style>
         <div class="card bg-secondary text-light p-4 mb-4">
             <h1>Techniques in {{ directory }}</h1>
             <p>
@@ -13,21 +16,21 @@
             <form id="test-form">
                 <div class="table-container">
                     {% for test in yaml_data %}
-                        <div class="table-row">
-                            <div class="terminal-window">
-                                <div class="terminal-controls">
-                                    <div class="terminal-control-button close-button"></div>
-                                    <div class="terminal-control-button minimize-button"></div>
-                                    <div class="terminal-control-button maximize-button"></div>
-                                </div>                            
-                                <div class="table-cell check">
-                                    <input type="checkbox" name="selected_tests" value="{{ test.auto_generated_guid }}">
-                                </div>
-                                <div class="table-cell"><div class="terminal-title">{{ test.name | safe }}</div></div>
-                                <div class="table-cell card-body">{{ test.description  | safe }}</div>
-                                <div class="table-cell">{{ test.supported_platforms | safe }}</div>
+                    <div class="table-row">
+                        <div class="terminal-window">
+                            <div class="terminal-controls">
+                                <div class="terminal-control-button close-button"></div>
+                                <div class="terminal-control-button minimize-button"></div>
+                                <div class="terminal-control-button maximize-button"></div>
+                            </div>                            
+                            <div class="table-cell check">
+                                <input type="checkbox" name="selected_tests" value="{{ test.auto_generated_guid }}">
                             </div>
+                            <div class="table-cell"><div class="terminal-title">{{ test.name | safe }}</div></div>
+                            <div class="table-cell card-body">{{ test.description  | safe }}</div>
+                            <div class="table-cell">{{ test.supported_platforms | safe }}</div>
                         </div>
+                    </div>
                     {% endfor %}
                 </div>
                 <button type="button" class="btn-run-test" onclick="runTest()">Run Test</button>
@@ -43,12 +46,7 @@
             </div>            
             <br>
             <a class="neon-text" href="{{ url_for('index') }}">Back to index.</a>
-
-            <!-- Botón flotante para el chatbot -->
-            <button type="button" class="btn btn-primary btn-lg btn-floating" id="chatbotButton">
-                <i class="fas fa-robot"></i> Adv Bot 
-            </button>
-
+            
             <!-- Modal del chatbot -->
             <div class="modal fade" id="chatbotModal" tabindex="-1" aria-labelledby="chatbotModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
@@ -75,13 +73,22 @@
                     </div>
                 </div>
             </div>    
-
+            
             <h2 class="mt-4">Contact</h2>
             <p>For any questions or feedback, please reach out to <a href="mailto\:grisiscomeback[at]gmail[dot]com" class="text-success">Gris Iscomeback</a>.</p>
         </div>
-        <div class="footer text-center mt-4 p-3 bg-secondary text-light">
-            <p>&copy; 2024 LazyOwn Web\$hellz. All rights GPLv3.</p>
-        </div>
+        <div id="dock-container">
+            <div id="dock">
+                <ul>
+                    <li id="chatbotButton">
+                        <span>Adv Bot</span>
+                        <a href="#"><img src="/static/Linux.png"/></a>
+                    </li>                     
+                </ul>
+                <p class="neon-text">&copy; 2025 LazyOwn RedTeam. All rights GPLv3.</p>
+            </div>
+        </div>        
+        
         <div id="toastr" class="toastr alert alert-success" role="alert">
             Command exec successfully.
         </div>
@@ -92,7 +99,7 @@
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
             gtag('config', 'G-T4VF6JJ095');
-        </script>
+            </script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -111,18 +118,18 @@
                 var directory = "{{ directory | e }}";
                 var yamlData = [
                     {% for test in yaml_data %}
-                        {
-                            name: "{{ test.name | e }}",
-                            description: "{{ test.description | e }}",
-                            supported_platforms: "{{ test.supported_platforms | e }}"
-                        }
-                        {% if not loop.last %},{% endif %}
+                    {
+                        name: "{{ test.name | e }}",
+                        description: "{{ test.description | e }}",
+                        supported_platforms: "{{ test.supported_platforms | e }}"
+                    }
+                    {% if not loop.last %},{% endif %}
                     {% endfor %}
                 ];
                 document.getElementById('chatbotButton').addEventListener('click', function() {
                     $('#chatbotModal').modal('show');
                 });
- 
+                
                 document.getElementById('chatbotForm').addEventListener('submit', function(event) {
                     event.preventDefault();
                     var userInput = document.getElementById('chatbotInput').value;
@@ -163,79 +170,81 @@
                     
                     document.getElementById('chatbotInput').value = '';
                 });
-
+                
             });
             async function fetchLog() {
-                    try {
-                        const response = await fetch('/api/output');
-
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok ' + response.statusText);
-                        }
-
-                        const data = await response.json();
-                        const outputDiv = document.getElementById('output');
+                try {
+                    const response = await fetch('/api/output');
+                    
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    
+                    const data = await response.json();
+                    const outputDiv = document.getElementById('output');
                         const outputText = data.output.replace(/\n/g, '<br>');
                         const cleanOutputText = stripAnsi(outputText);
-
+                        
                         outputDiv.innerHTML += `<p>${cleanOutputText}</p>`;
-
+                        
                         console.log(data);
                     } catch (error) {
                         console.error('There was a problem with the fetch operation:', error);
                     }
                 }            
-            function toastr(command){
-                var toastr = document.getElementById('toastr');
-                toastr.classList.add('show');
-                setTimeout(function() {
-                    toastr.classList.remove('show');
-                }, 22000);
-                toastr.innerHTML += "<div class='.neon-text'> " + command + " </div>"
-                fetchLog()
-            };
-            function atomicGen(id, type){
-                let command;
-                const spinner = document.getElementById('loader');
-                spinner.style.display = 'block';
-                if (type === 'agent') {
-                    command = "atomic_agent web";
-                } else {
-                    command = "atomic_" + type + " " + id;
-                }
-                console.log(command)
-                fetch('/api/run', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ command })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    spinner.style.display = 'none';
-                    const outputDiv = document.getElementById('output');
-                    if (data.error) {
-                        outputDiv.innerHTML += `<p style="color: red;">${data.error}</p>`;
+                function toastr(command){
+                    var toastr = document.getElementById('toastr');
+                    toastr.classList.add('show');
+                    setTimeout(function() {
+                        toastr.classList.remove('show');
+                    }, 22000);
+                    toastr.innerHTML += "<div class='.neon-text'> " + command + " </div>"
+                    fetchLog()
+                };
+                function atomicGen(id, type){
+                    let command;
+                    const spinner = document.getElementById('loader');
+                    spinner.style.display = 'block';
+                    if (type === 'agent') {
+                        command = "atomic_agent web";
                     } else {
-                        toastr(command)
+                        command = "atomic_" + type + " " + id;
                     }
-                });                
-            }
-            function runTest() {
-                const spinner = document.getElementById('loader');
-                spinner.style.display = 'block';
-                const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-                const valoresMarcados = [];
-                checkboxes.forEach(checkbox => {
-                if (checkbox.checked) {
-                    atomicGen(checkbox.value, 'gen');
+                    console.log(command)
+                    fetch('/api/run', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ command })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        spinner.style.display = 'none';
+                        const outputDiv = document.getElementById('output');
+                        if (data.error) {
+                            outputDiv.innerHTML += `<p style="color: red;">${data.error}</p>`;
+                        } else {
+                            toastr(command)
+                        }
+                    });                
                 }
-                });
-                atomicGen('lol', 'agent');
-                spinner.style.display = 'none';
-            }
-        </script>
+                function runTest() {
+                    const spinner = document.getElementById('loader');
+                    spinner.style.display = 'block';
+                    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                    const valoresMarcados = [];
+                    checkboxes.forEach(checkbox => {
+                        if (checkbox.checked) {
+                            atomicGen(checkbox.value, 'gen');
+                        }
+                    });
+                    atomicGen('lol', 'agent');
+                    spinner.style.display = 'none';
+                }
+                </script>
     </div>
 </body>
 </html>
+
+{% endblock %}

@@ -72,7 +72,8 @@ discover_network() {
 		net_sanitized=$(echo "$net" | tr '/' '_')
 		echo "    [-] Scannign subnet $net..."
 		sudo nmap -sn $net -oG network_discovery -oN "sessions/scan_discovery_${net_sanitized}.nmap" --stylesheet "$ARCHIVO" -oX "sessions/scan_discovery_${net_sanitized}.nmap.xml"
-		echo "    [+] Active Host in the network $net:"
+		python3 modules/nmap2csv.py -i "sessions/scan_discovery_${net_sanitized}.nmap" -o "sessions/scan_discovery_${net_sanitized}.csv"
+		echo "    [+] Active Host in the network $net:" 
 		grep "Up" network_discovery | awk '{print $2}' | tee "sessions/hosts_$(echo "$net" | tr '/' '_')_discovery.txt"
 	done
 }
@@ -706,8 +707,10 @@ START_TIME=$(date +%s)
 echo "    [-] Starting Recon LazyOwn RedTeam Framework Nmap Script..."
 sudo nmap -p- --open -sS --min-rate 5000 -vvv -n -Pn $TARGET -oG puertos -oN "sessions/scan_${TARGET}.nmap" --stylesheet "$ARCHIVO" -oX "sessions/scan_${TARGET}.nmap.xml"
 echo "sudo nmap -p- --open -sS --min-rate 5000 -vvv -n -Pn $TARGET -oG puertos -oN "sessions/scan_${TARGET}.nmap" --stylesheet "$ARCHIVO" -oX "sessions/scan_${TARGET}.nmap.xml""
+python3 modules/nmap2csv.py -i "sessions/scan_${TARGET}.nmap" -o "sessions/scan_${TARGET}.csv"
 echo "sudo nmap -sTV -A --script=vulners.nse $TARGET -oN 'sessions/vulns_${TARGET}.nmap' --stylesheet '$ARCHIVO' -oX 'sessions/vulns_${TARGET}.nmap.xml'"
 sudo nmap -sTV -A --script=vulners.nse $TARGET -oN "sessions/vulns_${TARGET}.nmap" --stylesheet "$ARCHIVO" -oX "sessions/vulns_${TARGET}.nmap.xml"
+python3 modules/nmap2csv.py -i "sessions/vulns_${TARGET}.nmap" -o "sessions/vulns_${TARGET}.csv"
 
 extract_ports_info() {
 	local file=$1
@@ -733,6 +736,7 @@ run_nmap_script() {
 	PORT=$1
 	echo "    [;,;] Scanning port: $PORT at the target: $TARGET..."
 	sudo nmap -p $PORT -sCV $TARGET -oN "sessions/scan_${TARGET}_${PORT}.nmap" --stylesheet "$ARCHIVO" -oX "sessions/scan_${TARGET}_${PORT}.nmap.xml"
+	python3 modules/nmap2csv.py -i "sessions/scan_${TARGET}_${PORT}.nmap" -o "sessions/scan_${TARGET}_${PORT}.csv" 
 }
 
 export -f run_nmap_script
@@ -1392,8 +1396,7 @@ cat <<EOL >> $OUTPUT_HTML
 EOL
 
 echo "    [*] File HTML Generated: $OUTPUT_HTML"
-chown 1000:1000 sessions -R
-chmod 755 sessions -R
+
 
 END_TIME=$(date +%s)
 EXECUTION_TIME=$(($END_TIME - $START_TIME))

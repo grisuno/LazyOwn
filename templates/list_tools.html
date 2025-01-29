@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card bg-secondary text-light p-4 mb-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <h1>Tools</h1>
+        <a href="{{ url_for('create_tool') }}" class="btn btn-primary">Create Tool</a>
+        <ul class="list-group">
+            {% for tool in tools %}
+                <li class="list-group-item">
+                    <a href="{{ url_for('view_tool', toolname=tool.replace('.tool', '')) }}">{{ tool.replace('.tool', '') }}</a>
+                    <a href="{{ url_for('update_tool', toolname=tool.replace('.tool', '')) }}" class="btn btn-primary">Edit</a>
+                    <form action="{{ url_for('delete_tool', toolname=tool.replace('.tool', '')) }}" method="post" style="display:inline;">
+                        
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+
+        document.querySelector('.loading-container').style.display = 'none';
+
+
+    });
+</script>
+</body>
+</html>
+{% endblock %}

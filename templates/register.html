@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card bg-secondary text-light p-4 mb-4">
+        <h2 class="text-center mb-4">Operator register</h2>
+        <form method="POST">
+
+            <div class="mb-3">
+                <label for="username" class="form-label">Operator:</label>
+                <input type="text" id="username" name="username" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password:</label>
+                <input type="password" id="password" name="password" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Operator register</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

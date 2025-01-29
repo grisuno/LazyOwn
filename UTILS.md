@@ -588,9 +588,15 @@ Searches for credential files with the pattern 'credentials*.txt' and allows the
 The function lists all matching files and prompts the user to select one. It then reads the selected file
 and returns a list of tuples with the format (username, password) for each line in the file.
 
+Parameters:
+ncred (int, optional): If provided, automatically selects the credential file with the given number.
+
 Returns:
 list of tuples: A list containing tuples with (username, password) for each credential found in the file.
                 If no files are found or an invalid selection is made, an empty list is returned.
+
+## load_payload
+No description available.
 
 ## obfuscate_payload
 Obfuscates a payload string by converting its characters into hexadecimal format, 
@@ -1021,6 +1027,12 @@ Get the AS name by ASN.
 
 ## as_country
 Get the country by ASN.
+
+## __init__
+No description available.
+
+## __getitem__
+No description available.
 
 ## __init__
 Inicializa el escáner con las cabeceras HTTP predefinidas.

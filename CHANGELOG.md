@@ -2,6 +2,55 @@
 # Changelog
 
 
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new fetures \n\n Version: release/0.2.28 \n\n new telegram bot, new features in c2, some fixes in framework, hot fixes, and new commands in commands.md \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Jan 28 21:58:15 2025 -0300 \n\n Hora: 1738112295
+
+
+### Otros
+
+### Otros
+
+  *   * hotfix
+
+
+### Otros
+
+### Otros
+
+  *   * hotfix
+
+
+### Otros
+
+### Otros
+
+  *   * hotfix
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #82 from grisuno/grisuno-patch-3
+
+
+### Otros
+
+### Otros
+
+  *   * Create FUNDING.yml
+
+
+### Otros
+
+### Otros
+
+  *   * telegram bot
+
+
 ### Correcciones urgentes
 
 ### Otros

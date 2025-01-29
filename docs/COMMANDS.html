@@ -1477,6 +1477,33 @@ from the local host using:
 <p>:param line: The name of the SMB share to access on the remote host.
 If not provided, the function will list all available shares. :returns:
 None</p>
+<h2 id="smbclient_impacket">smbclient_impacket</h2>
+<p>Interacts with SMB shares using the <code>smbclient</code> command to
+perform the following operations:</p>
+<ol type="1">
+<li>Checks if <code>rhost</code> (remote host) and <code>lhost</code>
+(local host) are assign; if not, an error message is displayed.</li>
+<li>If <code>line</code> (share name) is provided:</li>
+</ol>
+<ul>
+<li>Attempts to access the specified SMB share on the remote host using
+the command: <code>smbclient -N \\{rhost}\{line}</code></li>
+</ul>
+<ol start="3" type="1">
+<li>If <code>line</code> is not provided:</li>
+</ol>
+<ul>
+<li>Lists available SMB shares on the remote host with the command:
+<code>smbclient -N -L \\{rhost}</code></li>
+</ul>
+<ol start="4" type="1">
+<li>Suggests a potential SMB exploit if possible by mounting the share
+from the local host using:
+<code>mount -t cifs "//{lhost}/share" /mnt/smb</code></li>
+</ol>
+<p>:param line: The name of the SMB share to access on the remote host.
+If not provided, the function will list all available shares. :returns:
+None</p>
 <h2 id="smbclient_py">smbclient_py</h2>
 <p>Interacts with SMB shares using the <code>smbclient.py</code> command
 to perform the following operations:</p>
@@ -6212,14 +6239,28 @@ espacios.</p>
 <p>Sube un archivo al C2.</p>
 <p>Parameters: file_path (str): Ruta del archivo a subir.</p>
 <p>Returns: None</p>
+<h2 id="upload_c2">upload_c2</h2>
+<p>Exec command in the client using the C2.</p>
+<p>Parameters: command (str): client_id [optional], Command to exec.</p>
+<p>Returns: None</p>
 <h2 id="download_file_from_c2">download_file_from_c2</h2>
 <p>Descarga un archivo desde el C2.</p>
 <p>Parameters: file_name (str): Nombre del archivo a descargar. clientid
 (str): Identificador del cliente (opcional).</p>
 <p>Returns: None</p>
+<h2 id="download_c2">download_c2</h2>
+<p>Download a file from the C2.</p>
+<p>Parameters: line (str): Command input in the format “client_id
+file_name”.</p>
+<p>Returns: None</p>
 <h2 id="issue_command_to_c2">issue_command_to_c2</h2>
 <p>Ejecuta un comando en el cliente usando el C2.</p>
-<p>Parameters: command (str): Comando a ejecutar.</p>
+<p>Parameters: command (str): Comando a ejecutar. client_id (str): ID
+del cliente (opcional).</p>
+<p>Returns: None</p>
+<h2 id="issue_command_to_c2-1">issue_command_to_c2</h2>
+<p>Exec command in the client using the C2.</p>
+<p>Parameters: command (str): client_id [optional], Command to exec.</p>
 <p>Returns: None</p>
 <h2 id="ofuscatorps1">ofuscatorps1</h2>
 <p>Obfuscates a PowerShell script using various techniques. by <span
@@ -6440,18 +6481,7 @@ binary. If an absolute path is not provided, a default path is used.</p>
 <p>Sends a magic packet to the Chinese malware. The function extracts
 rhost and rport from self.params[“rhost”] and self.params[“rport”],
 respectively.</p>
-<h2 id="upload_c2">upload_c2</h2>
-<p>Upload a file to the command and control (C2) server.</p>
-<p>This function handles the uploading of a file to the C2 server. If no
-file is specified in the input line, it prompts the user to enter the
-file extension (defaulting to ‘txt’) and retrieves the file using the
-<code>get_users_dic</code> function. If a file is specified in the input
-line, it directly uploads that file.</p>
-<p>Args: line (str): The input line containing the file path to upload.
-If empty, the function will prompt the user to enter the file
-extension.</p>
-<p>Returns: None</p>
-<h2 id="download_c2">download_c2</h2>
+<h2 id="download_c2-1">download_c2</h2>
 <p>Download a file from the command and control (C2) server.</p>
 <p>This function handles the downloading of a file from the C2 server.
 It requires the remote path of the file to be specified in the input

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="card bg-secondary text-light p-4 mb-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <h1 class="mb-4">Task Manager</h1>
+        <form id="taskForm"  method="POST" class="mb-5">
+            <div class="form-group mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="title" name="title" required>
+            </div>
+            <div class="form-group mb-3">
+                <label for="description" class="form-label">Description</label>
+                <div id="description">
+
+                </div>
+            </div>
+            <div class="form-group mb-3">
+                <label for="operator" class="form-label">Operator</label>
+                <input type="text" class="form-control" id="operator" name="operator" required>
+            </div>
+            <select id="status" name="status" class="form-control" required>
+                <option value="New">New</option>
+                <option value="Refined">Refined</option>
+                <option value="Started">Started</option>
+                <option value="Review">Review</option>
+                <option value="Qa">Qa</option>
+                <option value="Done">Done</option>
+                <option value="Bloqued">Bloqued</option>
+            </select>
+            <button type="submit" class="btn btn-primary">Create Task</button>
+        </form>
+        <hr class="my-5">
+        <h2 class="mb-3">Tasks</h2>
+        <ul class="list-group">
+            {% for task in tasks %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <a href="{{ url_for('task', task_id=task.id) }}">{{ task.title }}</a>
+                    <a class="badge bg-secondary" href="{{ url_for('task', task_id=task.id) }}">View Task</a>
+                    <a class="badge bg-secondary" href="{{ url_for('edit_task', task_id=task.id) }}">Edit Task</a>
+                    <span class="badge bg-secondary">{{ task.operator }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelector('.loading-container').style.display = 'none';
+    });
+</script>
+</body>
+</html>
+
+{% endblock %}

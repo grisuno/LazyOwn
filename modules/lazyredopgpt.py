@@ -20,11 +20,12 @@ Descripción: Asistente de consola
 """
 
 import os
-import logging
-import json
-from groq import Groq
-import argparse
 import sys
+import json
+import logging
+import argparse
+from groq import Groq
+from modules.colors import retModel
 
 BANNER = """
 [*] Iniciando: LazyOwn GPT One Liner Cli Assistant [;,;]
@@ -108,7 +109,8 @@ def process_prompt_redop(client, prompt: str, debug: bool) -> str:
     try:
         chat_completion = client.chat.completions.create(
             messages=[{"role": "user", "content": complex_prompt}],
-            model="llama-3.3-70b-versatile",
+            #model="llama-3.3-70b-versatile",
+            model=retModel(),
         )
         if debug:
             logging.debug(f"[DEBUG] : {complex_prompt}")

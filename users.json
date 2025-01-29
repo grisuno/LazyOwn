@@ -1,0 +1,14 @@
+[
+    {
+        "id": 1,
+        "username": "grisun0",
+        "password_hash": "scrypt:32768:8:1$wHYUgnMa18u8Cxit$3d0fb06c44a1558ddcf42f0f82cc3600839a6f1e7ae507ed44896d9616d89b968afcb400dddd3697404c80503425bcc242a94592fc880ca3dc736d375c3dcecd",
+        "elo": 1400
+    },
+    {
+        "id": 2,
+        "username": "grisun1",
+        "password_hash": "scrypt:32768:8:1$HdITXwpSPGyTiCZI$f75ee1462caed8515703eec78e6cc08735b74702b26e0572ea8d5dae8e0bf615ebcd229fc41ead2776e668bf0481e47d91a292147dd926c3e5c8e8bab79f5aad",
+        "elo": 400
+    }
+]

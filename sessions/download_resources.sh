@@ -73,6 +73,11 @@ download() {
         "wget https://github.com/taviso/cefdebug/releases/download/v0.2/cefdebug.zip"
         "wget https://github.com/samratashok/ADModule/raw/refs/heads/master/Microsoft.ActiveDirectory.Management.dll"
         "wget https://raw.githubusercontent.com/PowershellMafia/Powersploit/refs/heads/master/Exfiltration/Invoke-Mimikatz.ps1"
+        "wget https://thc.org/hs"
+        "wget https://thc.org/ws"
+        "wget https://raw.githubusercontent.com/ambionics/wrapwrap/refs/heads/main/wrapwrap.py"
+        "wget https://raw.githubusercontent.com/The-Z-Labs/linux-exploit-suggester/refs/heads/master/linux-exploit-suggester.sh"
+        "wget https://github.com/hackerschoice/ttyinject/blob/main/ttyinject.c"
     )
 
     echo "    [+] Seleccione el número del comando que desea descargar:"

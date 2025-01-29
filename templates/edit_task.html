@@ -1,19 +1,23 @@
-{% include 'header.html' %}
+{% extends "base.html" %}
+
+{% block content %}
+
 <div class="container mt-5">
     <div class="card bg-secondary text-light p-4 mb-4">
         {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-                        {{ message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                {% endfor %}
-            {% endif %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
         {% endwith %}
         <h1 class="mb-4">Edit Task</h1>
         <a class="neon-text" href="/" alt="home">Home</a>
         <form id="editTaskForm">
+            
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
                 <input type="text" class="form-control" id="title" name="title" value="{{ task.title }}" required>
@@ -51,12 +55,12 @@
         var quill = new Quill('#editor', {
             theme: 'snow'
         });
-
+        
         document.querySelector('.loading-container').style.display = 'none';
-
+        
         document.getElementById('editTaskForm').addEventListener('submit', function(event) {
             event.preventDefault();
-
+            
             const title = document.getElementById('title').value;
             const description = quill.root.innerHTML;
             const operator = document.getElementById('operator').value;
@@ -68,7 +72,7 @@
             formData.append('description', description);
             formData.append('operator', operator);
             formData.append('status', status);
-
+            
             fetch('/task/{{ task.id }}/edit', {
                 method: 'POST',
                 body: formData
@@ -94,3 +98,5 @@
 </script>
 </body>
 </html>
+
+{% endblock %}

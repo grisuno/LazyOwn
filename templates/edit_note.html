@@ -1,18 +1,22 @@
-{% include 'header.html' %}
+{% extends "base.html" %}
+
+{% block content %}
+
 <div class="container mt-5">
     <div class="card bg-secondary text-light p-4 mb-4">
         {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-                        {{ message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                {% endfor %}
-            {% endif %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
         {% endwith %}
         <h1 class="mb-4">Edit Note</h1>
         <form id="editNoteForm">
+            
             <div class="mb-3">
                 <a class="neon-text" href="/" alt="home">Home</a>
                 <br><br>
@@ -31,18 +35,18 @@
         var quill = new Quill('#editor', {
             theme: 'snow'
         });
-
+        
         document.querySelector('.loading-container').style.display = 'none';
-
+        
         document.getElementById('editNoteForm').addEventListener('submit', function(event) {
             event.preventDefault();
             const spinner = document.getElementById('loader');
             spinner.style.display = 'block';
             const content = quill.root.innerHTML;
-
+            
             const formData = new FormData();
             formData.append('content', content);
-
+            
             fetch('/notes', {
                 method: 'POST',
                 body: formData
@@ -68,3 +72,5 @@
 </script>
 </body>
 </html>
+
+{% endblock %}

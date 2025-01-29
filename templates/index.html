@@ -1,4 +1,8 @@
-{% include 'header.html' %}
+{% extends "base.html" %}
+
+{% block content %}
+
+
         <div class="card bg-secondary text-light p-4 mb-4">
             <p>
                 Disclaimer: [!] Please do not use this in military or secret service organizations, or for illegal purposes. (This is non-binding, as these entities often disregard laws and ethics anyway.)
@@ -14,9 +18,45 @@
             {% include 'bots.html' %}
             <h2 class="mt-4">Contact</h2>
             <p>For any questions or feedback, please reach out to <a href="mailto\:grisiscomeback[at]gmail[dot]com" class="text-success">Gris Iscomeback</a>.</p>
+            <br><br><br><br>
         </div>
-        <div class="footer text-center mt-4 p-3 bg-secondary text-light">
-            <p>&copy; 2025 LazyOwn RedTeam. All rights GPLv3.</p>
+        <br><br><br><br>
+        <div id="dock-container">
+            <div id="dock">
+                <ul id="uldocker" >
+                    <li id="generalButton">
+                        <span>Gen Bot</span>
+                        <a href="#"><img src="/static/Mac-icon.png"/></a>
+                    </li>                     
+                    <li id="taskButton">
+                        <span>Task Bot</span>
+                        <a href="#"><img src="/static/Mac-icon.png"/></a>
+                    </li>                      
+                    <li id="redopButton">
+                        <span>ROP Bot</span>
+                        <a href="#"><img src="/static/Mac-icon.png"/></a>
+                    </li>                    
+                    <li id="vulnButton">
+                        <span>Vuln Bot</span>
+                        <a href="#"><img src="/static/Mac-icon.png"/></a>
+                    </li>
+                    <li id="searchButton">
+                        <span>I+D Bot</span>
+                        <a href="#"><img src="/static/Mac-icon.png"/></a>
+                    </li>
+                    <li id="scriptButton">
+                        <span>Dev Bot</span>
+                        <a href="#"><img src="/static/Mac-icon.png"/></a>
+                    </li>
+                    <li id="chatbotButton" >
+                        <span>Cmd Bot</span>
+                        <a href="#"><img src="/static/Mac-icon.png"/></a>
+                    </li>
+                </ul>
+                
+                <p class="neon-text">&copy; 2025 LazyOwn RedTeam. All rights GPLv3.</p>
+                
+            </div>
         </div>
         <div id="toastr" onclick="clearToastr();" class="toastr alert alert-success" role="alert">
         </div>
@@ -36,22 +76,197 @@
         <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
-        <!-- Main Quill library -->
+        <script src="https://unpkg.com/tippy.js@6"></script>
         <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+        <script src="/static/js/xterm.js"></script>
+
         <script>
+            
+
+
             cleanOutputText = "";
+            bot = '{{ bot | markdown |  replace("\'", "\\\'") | safe }}';
+            event_config = {{ event_config  | tojson | safe  }};
+            elo = '{{ elo }}';
+            username = '{{ current_user.username }}'; 
+            user_id = '{{ current_user_id }}';
+            karma = '{{ karma_name }}';
+            prompt_cmd = '{{ prompt | safe }}';
+            const eventStates = {};
+            var menu = $('.menu');
+            var barra_busqueda = $('.search_bar');
+            var bar = $('#bar');
+            var icono = $('.icon-search');
+            
+            barra_busqueda.focusin(function(){
+                barra_busqueda.css('width', '20%');
+                menu.css('width', '100%');
+                icono.css('color', '#000');
+                bar.css('color', '#000');
+            });
+
+            barra_busqueda.focusout(function(){
+                barra_busqueda.css('width', '15%');
+                menu.css('width', '99%');
+                icono.css('color', '#fff');
+                bar.css('color', '#fff');
+            });
+            event_config.events.forEach(event => {
+                eventStates[`not_${event.name}`] = true;
+            });
+            events_json = {};
+            async function sendNotification(htmlContent) {
+                const url = '/push_notification';
+                const formData = new FormData();
+                formData.append('html', htmlContent);
+
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+
+                    const data = await response.json();
+                    console.log('Success:', data);
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            }            
+            function vulnForm(event){
+           
+                var userInput = '';
+                const spinner = document.getElementById('loader');
+                spinner.style.display = 'block'; 
+
+                fetch('/vuln', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ prompt: userInput, event_view:event})
+                })
+                .then(response => response.json())
+                .then(data => {
+         
+                    spinner.style.display = 'none';
+                    if (data.error) {
+                        
+                        document.getElementById('vulnResponse').innerHTML += `<p style="color: red;">${data.error}</p>`;
+                    } else {
+                        
+                        var converter = new showdown.Converter();
+                        var html = converter.makeHtml(data.response);
+                        document.getElementById('vulnResponse').innerHTML += `<p>${html}</p>`;
+                        if (data.response) {
+                            console.log(data.response)
+                            
+                        }
+                    }
+                })
+                .catch(error => {
+                    spinner.style.display = 'none';
+                    console.error('Error:', error);
+                    document.getElementById('vulnResponse').innerHTML += `<p style="color: red;">Error de red: ${error.message}</p>`;
+                });
+            }
             function closePopup(self) {
                 var popupContainer = self;
                 popupContainer.classList.remove('visible');
             }
             function clearToastr() {
                     var toastr = document.getElementById('toastr');
-                    var neonTextElements = toastr.getElementsByClassName('neon-text');
+                    var neonTextElements = toastr.children;
+                    
                     while (neonTextElements.length > 0) {
                         neonTextElements[0].parentNode.removeChild(neonTextElements[0]);
                     }
                     toastr.classList.remove('show');
             }
+            async function fetchEvents() {
+                try {
+                    const response = await fetch('/events');
+
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    const events = await response.json();
+                    let events_json = {};
+                    for (const event of event_config.events) {
+                        const eventName = event.name;
+                        const eventKey = eventName.charAt(0).toUpperCase() + eventName.slice(1);
+                        if (events[eventName] && events[eventName].exist && eventStates[`not_${eventName}`]) {
+                            eventStates[`not_${eventName}`] = false;
+                            console.log(`${eventKey} events found:`, events[eventName]);
+                            toastr(`<h1>${eventKey}</h1> <h2> events found !!!</h2>`);
+                            aumentarElo(user_id, 50, eventKey);
+                            document.getElementById('vulnButton').click();
+                            events_json[eventName] = true;
+                            vulnForm(eventName);
+                        }
+                    }
+                    if (Object.keys(events_json).length === 0) {
+                        console.log("No events found.");
+                    }
+                } catch (error) {
+                    console.error('Error fetching events:', error);
+                }
+            }
+            function toastr(command) {
+                    var toastr = document.getElementById('toastr');
+                    toastr.classList.add('show');
+                    toastr.innerHTML += "<div onclick='closePopup(this);' class='neon-text'> " + command + " </div><br><hr>";
+                    sendNotification(command)
+                    setTimeout(function() {
+                        clearToastr();
+                    }, 22000);
+            }
+            function formGeneral_bot(prompt = ""){
+                const spinner = document.getElementById('loader');
+                    spinner.style.display = 'block';
+                    var userInput = "";
+                    if (prompt){
+                        userInput = prompt;
+                    } else {
+                        userInput = document.getElementById('generalInput').value;
+                    }
+                    fetch('/generalbot', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ prompt: userInput })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data['response']); 
+                        spinner.style.display = 'none';
+                        if (data.error) {
+                            document.getElementById('generalResponse').innerHTML += `<p style="color: red;">${data.error}</p>`;
+                        } else {
+                            var converter = new showdown.Converter();
+                            var html = converter.makeHtml(data.response);
+                            document.getElementById('generalResponse').innerHTML += `<p>${html}</p>`;
+                            document.getElementById('outputIA').innerHTML += `<p>${html}</p>`;
+                            
+
+                            if (data.response) {
+                                console.log(data.response)
+                                //document.getElementById('generalResponse').innerHTML += `<pre>${data.output}</pre>`;
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        spinner.style.display = 'none';
+                        console.error('Error:', error);
+                        document.getElementById('generalResponse').innerHTML += `<p style="color: red;">Error de red: ${error.message}</p>`;
+                    });
+            }
+            toastr(bot)  
+            fetchEvents();
             async function fetchCSVData(filePath, id_client) {
                 const spinner = document.getElementById('loader');
                 spinner.style.display = 'block';
@@ -79,26 +294,53 @@
                 }
                 spinner.style.display = 'none';
             }
+            async function aumentarElo(userId, cantidad, eventy) {
+                try {
+                    const response = await fetch(`/aumentar_elo/${userId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ cantidad: cantidad }),  // Enviar la cantidad en el cuerpo
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`Error: ${response.statusText}`);
+                    }
+                    const data = await response.json();
+                    toastr(`<h1>New ${eventy} achievement unlocked. </h1><h2> ${data.message} </h2>`);
+                } catch (error) {
+                    console.error('Error al aumentar el Elo:', error);
+                }
+            }            
             document.addEventListener('DOMContentLoaded', function() {
+                setInterval(fetchEvents, 60000);
+                $("#dock-container").on('mouseleave', function() {
+                    $(this).css('bottom', '-100px');
+                });
+
+                $("#dock-container").on('mouseenter', function() {
+                    $(this).css('bottom', '0px');
+                });
                 const quill = new Quill("#description", {
                     theme: "snow",
                 });
 
                 document.getElementById('taskForm').addEventListener('submit', function(event) {
-                    event.preventDefault(); // Prevenir el envío tradicional del formulario
+                    event.preventDefault(); 
 
-                    // Obtener los valores de los campos del formulario
+                    
                     const title = document.getElementById('title').value;
-                    const description = quill.root.innerHTML; // Obtener el contenido HTML del editor Quill
+                    const description = quill.root.innerHTML; 
                     const operator = document.getElementById('operator').value;
                     const status = document.getElementById('status').value;
-                    // Crear un objeto FormData
+                    
                     const formData = new FormData();
                     formData.append('title', title);
                     formData.append('description', description);
                     formData.append('operator', operator);
                     formData.append('status', status);
-                    // Enviar los datos mediante fetch como formulario
+  
                     fetch('/', {
                         method: 'POST',
                         body: formData
@@ -112,26 +354,30 @@
                     })
                     .then(data => {
                         console.log('Success:', data);
-                        // Aquí puedes manejar la respuesta del servidor
+                        
                     })
                     .catch((error) => {
                         console.error('Error:', error);
-                        // Aquí puedes manejar los errores
+                        
                     });
                 });
 
                 const tooltipContainer = document.querySelector('.tooltip-container');
                 const tooltipText = document.querySelector('.tooltip-text');
 
-                tooltipContainer.addEventListener('mouseover', function() {
-                    tooltipText.style.visibility = 'visible';
-                    tooltipText.style.opacity = '1';
-                });
+                if (tooltipContainer && tooltipText) {
+                    tooltipContainer.addEventListener('mouseover', function() {
+                        tooltipText.style.visibility = 'visible';
+                        tooltipText.style.opacity = '1';
+                    });
 
-                tooltipContainer.addEventListener('mouseout', function() {
-                    tooltipText.style.visibility = 'hidden';
-                    tooltipText.style.opacity = '0';
-                });             
+                    tooltipContainer.addEventListener('mouseout', function() {
+                        tooltipText.style.visibility = 'hidden';
+                        tooltipText.style.opacity = '0';
+                    });
+                } else {
+                    console.warn('Tooltip container or text not found.');
+                }
                 $(document).ready(function() {
                     $('#directory').select2({
                         placeholder: 'Select a tactic',
@@ -151,8 +397,10 @@
                     const ansiRegex = /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g;
                     return str.replace(ansiRegex, '');
                 }
-
-                async function fetchLog() {
+                function leftTrim(str) {
+                    return str.replace(/^\s+/, '').trim();
+                }
+                async function fetchLog(isChecked) {
                     try {
                         const response = await fetch('/api/output');
 
@@ -164,23 +412,28 @@
                         const outputDiv = document.getElementById('output');
                         const outputAtomic = document.getElementById('outputAtomic');
                         const outputText = data.output.replace(/\n/g, '<br>');
+                        var output = data.output.replace(/\t/g, '    ').replace(/\n/g, '\r\n');
+                        var term = new Terminal();
+                        term.open(document.getElementById('terminal'));
+                        term.write('\x1b[2J\x1b[3J\x1b[H');
+                        prompt_cmd = prompt_cmd.replace(/<br>/g, '\n')
+                        let lines = prompt_cmd.split('\n');
+                        lines.forEach(function(line) {
+                            term.write(line);
+                        });
+                        term.write(output);
                         cleanOutputText = stripAnsi(outputText);
-
-                        outputDiv.innerHTML += `<p>${cleanOutputText}</p>`;
+                        if (isChecked){
+                            formGeneral_bot(cleanOutputText);
+                        }
+                        //outputDiv.innerHTML += `<p>${cleanOutputText}</p>`;
                         outputAtomic.innerHTML += `<p>${cleanOutputText}</p>`;
                     } catch (error) {
                         console.error('There was a problem with the fetch operation:', error);
                     }
                 }
 
-                function toastr(command) {
-                    var toastr = document.getElementById('toastr');
-                    toastr.classList.add('show');
-                    toastr.innerHTML += "<div onclick='closePopup(this);' class='neon-text'> " + command + " </div>";
-                    setTimeout(function() {
-                        clearToastr();
-                    }, 22000);
-                }
+
 
                 async function fetchTasks() {
                     try {
@@ -189,9 +442,9 @@
                         tasks.forEach((task, index) => {
                             setTimeout(() => {
                                 if (task.status !== "Done") {
-                                    toastr(`Task: ${task.title}, Description: ${task.description}`);
+                                    toastr(`<h1>Task: ${task.title},</h1> Description: ${task.description}`);
                                 }
-                            }, index * 1000); // 1 segundo de retraso entre cada notificación
+                            }, index * 1000); 
                         });
                     } catch (error) {
                         console.error('Error fetching tasks:', error);
@@ -200,6 +453,18 @@
 
                 function RunCmd(command){
                     const spinner = document.getElementById('loader');
+                    var check = document.getElementById('check_local_shell');
+                    var isChecked = false;
+                    if (check) {
+                        isChecked = check.checked
+                        if (isChecked) {
+                            console.log('Local Shell Bot enabled');
+                        } else {
+                            console.log('Local Shell Bot disabled');
+                        }
+                    } else {
+                        console.log('does\'nt exist');
+                    }
                     spinner.style.display = 'block';
                     fetch('/api/run', {
                         method: 'POST',
@@ -215,8 +480,8 @@
                         if (data.error) {
                             outputDiv.innerHTML += `<p style="color: red;">${data.error}</p>`;
                         } else {
-                            toastr('Command:' + command)
-                            fetchLog()
+                            toastr('<h1>Command:' + command + "</h1>")
+                            fetchLog(isChecked)
                         }
                     });
                 }
@@ -243,7 +508,8 @@
                         if (data.error) {
                             console.log(`Error: ${data.error}`);
                         } else {
-                            toastr(command)
+                            var msg = "<h1>Command:" + command + " <h1>";
+                            toastr(msg)
                         }
                     })
                     .catch(error => {
@@ -290,7 +556,7 @@
                         if (data.error) {
                             console.log(`Error: ${data.error}`);
                         } else {
-                            command = "Upload File Successfully."
+                            command = "<h1>Upload File Successfully.</h1>"
                             toastr(command)
                         }
                     })
@@ -325,24 +591,50 @@
                         }
 
                         const result = await response.json();
-                        console.log('Respuesta del servidor:', result);
+                        console.log('Response:', result);
                         spinner.style.display = 'none';
                         return result;
                     } catch (error) {
                         spinner.style.display = 'none';
-                        console.error('Error al enviar el comando:', error);
+                        console.error('Error command:', error);
                         return { error: error.message };
                     }
                 }
+                function htmlTitle(html) {
+                    const container = document.createElement("div");
+                    container.innerHTML = html;
+                    return container;
+                }
                 function generateGraph(connectedClients) {
+                    
                     var nodes = new vis.DataSet([
-                        {id: 'c2', label: 'C&C LazyOwn', shape: 'image', image: '/static/c2.png', size: 100, font: { color: '#ffffff' }}
+                        {
+                            id: 'c2', 
+                            label: 'C&C LazyOwn ', 
+                            title: htmlTitle(bot),
+                            shape: 'image', 
+                            image: '/static/c2.png', 
+                            size: 100, 
+                            font: { color: '#ffffff' }
+                        }
                     ]);
 
                     var edges = new vis.DataSet();
 
                     var connectedClients = {{ connected_clients | tojson | safe }};
                     var results = {{ commands_history | tojson | safe }};
+                    
+                    fetch('/aicmd?arg=1')
+                        .then(response => response.json())
+                        .then(data => {
+                            var converter = new showdown.Converter();
+                            var html = converter.makeHtml(data);
+                            var newTitle = html;
+                            var newLabel = "C&C LazyOwn[AI]TeamServer >_ ";
+                            toastr(html)
+                            nodes.update({ id: 'c2', label: newLabel, title: htmlTitle(newTitle) });
+                        })
+                        .catch(error => console.error('Error fetching data:', error));
 
                     connectedClients.forEach(function(client) {
                         var label = "Implant ID: " +client;
@@ -376,7 +668,7 @@
                         if (hostname) {
                             label += "\n (Hostname/" + hostname + ")";
                         }
-                        nodes.add({id: client, label: label, shape: 'image', image: image, size: 70, font: { color: '#ffffff' }});
+                        nodes.add({id: client, title: label, label: label, shape: 'image', image: image, size: 70, font: { color: '#ffffff' }});
                         edges.add({from: 'c2', to: client});
                     });
 
@@ -428,7 +720,7 @@
                     network.on("selectNode", function(params) {
                         if (params.nodes.length > 0) {
                             var selectedNodeId = params.nodes[0];
-                            console.log("Nodo seleccionado: " + selectedNodeId);
+                            console.log("Node selected: " + selectedNodeId);
                             var selectElements = document.querySelectorAll('select');
                             selectElements.forEach(function(selectElement) {
                                 Array.from(selectElement.options).forEach(function(option) {
@@ -441,6 +733,7 @@
                             });
                         }
                     });
+
                 }
                 function updateStatus() {
                     
@@ -509,6 +802,9 @@
                             }
                         }
                     };
+                    http.onerror = function() {
+                        callback(false);
+                    };
                     http.send();
                 }
                 checkUrlExists(newUrl, function(exists) {
@@ -569,6 +865,8 @@
                     var urlMaleable = document.getElementById('urlMaleable').value;
                     var nombreAgente = document.getElementById('nombreAgente').value;
                     var command = 'c2 ' + nombreAgente + ' ' + sistemaOperativo
+                    RunCmd(command)
+                    command = 'create_session_json'
                     RunCmd(command)
                 });
                 document.getElementById('chatbotForm').addEventListener('submit', function(event) {
@@ -677,39 +975,8 @@
                 
                 document.getElementById('vulnForm').addEventListener('submit', function(event) {
                     event.preventDefault();
-                    var userInput = '';
-                    const spinner = document.getElementById('loader');
-                    spinner.style.display = 'block'; 
-                    fetch('/vuln', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ prompt: userInput })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data['response']); 
-                        spinner.style.display = 'none';
-                        if (data.error) {
-                            
-                            document.getElementById('vulnResponse').innerHTML += `<p style="color: red;">${data.error}</p>`;
-                        } else {
-                            
-                            var converter = new showdown.Converter();
-                            var html = converter.makeHtml(data.response);
-                            document.getElementById('vulnResponse').innerHTML += `<p>${html}</p>`;
-                            if (data.response) {
-                                console.log(data.response)
-                               // document.getElementById('vulnResponse').innerHTML += `<pre>${data.output}</pre>`;
-                            }
-                        }
-                    })
-                    .catch(error => {
-                        spinner.style.display = 'none';
-                        console.error('Error:', error);
-                        document.getElementById('vulnResponse').innerHTML += `<p style="color: red;">Error de red: ${error.message}</p>`;
-                    });
+                    
+                    vulnForm();
                     
                     
                 });
@@ -743,7 +1010,7 @@
                             document.getElementById('searchResponse').innerHTML += `<p>${html}</p>`;
                             if (data.response) {
                                 console.log(data.response)
-                               // document.getElementById('searchResponse').innerHTML += `<pre>${data.output}</pre>`;
+                               
                             }
                         }
                     })
@@ -838,6 +1105,15 @@
                    
                     fetchTasks();
                 });   
+                document.getElementById('generalButton').addEventListener('click', function() {
+                    $('#generalModal').modal('show');
+                });
+
+                document.getElementById('generalFormbot').addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    formGeneral_bot();
+                });   
+
                 document.getElementById('atomic_form').addEventListener('submit', function(event) {    
                     event.preventDefault();
                     var id_atomic = document.getElementById('id_atomic').value;
@@ -846,17 +1122,17 @@
                     var command = 'atomic_gen ' + id_atomic ;
                     RunCmd(command)
                     setInterval(console.log(cleanOutputText), 5000); 
-                    command = "ofuscatorps1 sessions/atomic_test_"+ id_atomic + ".ps1";
-                    RunCmd(command)
+                    //command = "ofuscatorps1 sessions/atomic_test_"+ id_atomic + ".ps1";
+                    //RunCmd(command)
                     setInterval(console.log(cleanOutputText), 5000); 
                     command = "ofuscatesh sessions/atomic_test_"+ id_atomic + ".sh";
                     RunCmd(command)
                     setInterval(console.log(cleanOutputText), 5000); 
-                    
+                    spinner.style.display = 'none';
                     
                 });                   
                 fetchTasks();     
-                spinner.style.display = 'none';
+                
                 setInterval(fetchTasks, 1800000); 
             });
 
@@ -882,3 +1158,4 @@
           </script>
     </body>
     </html>
+    {% endblock %}

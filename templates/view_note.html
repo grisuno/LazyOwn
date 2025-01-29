@@ -1,4 +1,7 @@
-{% include 'header.html' %}
+{% extends "base.html" %}
+
+{% block content %}
+
 <div class="container mt-5">
     <div class="card bg-secondary text-light p-4 mb-4">
         <h1 class="mb-4">View Note</h1>
@@ -23,3 +26,5 @@
 </script>
 </body>
 </html>
+
+{% endblock %}

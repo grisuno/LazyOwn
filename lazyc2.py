@@ -32,7 +32,7 @@ from modules.lazygptcli5 import process_prompt_general
 from dnslib import DNSRecord, DNSHeader, RR, QTYPE, A, TXT, CNAME, MX, NS, SOA, CAA, TLSA, SSHFP
 from dnslib.server import DNSServer, BaseResolver, DNSLogger
 from dnslib.dns import RR, QTYPE, A, NS, SOA, TXT, CNAME, MX, AAAA, PTR, SRV, NAPTR, CAA, TLSA, SSHFP
-from flask import Flask, request, render_template, redirect, url_for, jsonify, Response, send_from_directory, render_template_string, flash
+from flask import Flask, request, render_template, redirect, url_for, jsonify, Response, send_from_directory, render_template_string, flash, abort
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from utils import getprompt
@@ -1583,9 +1583,34 @@ def update_tool(toolname):
 def delete_tool(toolname):
     response = decoy()
     if response:
-        return response    
-    tool_path = os.path.join(TOOLS_DIR, f'{toolname}.tool')
-    os.remove(tool_path)
+        return response
+
+    tools = []
+    for filename in os.listdir(TOOLS_DIR):
+        if filename.endswith('.tool'):
+            tool_path_safe = os.path.join(TOOLS_DIR, filename)
+            with open(tool_path_safe, 'r') as file:
+                tool_data = json.load(file)
+                tool_data['filename'] = filename  # Agregar el nombre del archivo al diccionario
+                tools.append(tool_data)
+
+    valid_tool = None
+    for tool in tools:
+        if toolname == tool['filename'].replace('.tool', ''):
+            valid_tool = tool
+            break
+
+    if not valid_tool:
+        abort(404, description="Herramienta no encontrada o no válida")
+
+   
+    tool_path = os.path.join(TOOLS_DIR, valid_tool['filename'])
+
+    try:
+        os.remove(tool_path)
+    except OSError as e:
+        return f"Error al eliminar el archivo: {e}", 500
+
     return redirect(url_for('list_tools'))
 
 @app.route('/register', methods=['GET', 'POST'])

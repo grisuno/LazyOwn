@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class="container mt-5">
+    <div class="card bg-secondary text-light p-4 mb-4">
+        <h1 class="mb-4">Edit Event: {{ event.name }}</h1>
+        <form method="POST">
+            
+            <div class="form-group mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="title" name="title" value="{{ event.name }}" required>
+            </div>
+            <div class="form-group mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea class="form-control" id="description" name="description" required>{{ event.description }}</textarea>
+            </div>
+            <div class="form-group mb-3">
+                <label for="src_path" class="form-label">Source Path</label>
+                <input type="text" class="form-control" id="src_path" name="src_path" value="{{ event.src_path }}" required>
+            </div>
+            <div class="form-group mb-3">
+                <label for="size" class="form-label">Size</label>
+                <input type="number" class="form-control" id="size" name="size" value="{{ event.size }}" required>
+            </div>
+            <div class="form-group mb-3">
+                <label for="outputtype" class="form-label">Output type text/html</label>
+                <input type="input" class="form-control" id="outputtype" name="outputtype" value="{{ event.outputtype }}" required>
+            </div> 
+            
+            <div class="form-group mb-3">
+                <label for="outputtodelete" class="form-label">Output to delete (multi line)</label>
+                <textarea class="form-control" id="outputtodelete" name="outputtodelete" required>{{ event.outputtodelete }}</textarea>
+            </div>      
+            <div class="form-group mb-3">
+                <label for="prompt" class="form-label">Prompt to Add to Vuln Bot's prompt </label>
+                <input type="input" class="form-control" id="prompt" name="prompt" value="{{ event.prompt }}" required>
+            </div>                   
+            <div class="form-group mb-3">
+                <label for="operator" class="form-label">Operator</label>
+                <input type="text" class="form-control" id="operator" name="operator" value="{{ event.operator }}" required>
+            </div>
+            <div class="form-group mb-3">
+                <label for="status" class="form-label">Status</label>
+                <select id="status" name="status" class="form-control" required>
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var quill = new Quill('#description', {
+            theme: 'snow'
+        });        
+        document.querySelector('.loading-container').style.display = 'none';
+    });
+</script>
+    {% endblock %}

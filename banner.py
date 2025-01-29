@@ -46,7 +46,6 @@ def list_png_files():
         sys.exit(1)
     
     selected_image = random.choice(png_files)
-    print_msg(f"Randomly selected image: {selected_image}")
     return os.path.join('banners', selected_image)
 
 def main():

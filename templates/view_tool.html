@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    .draggable {
+        cursor: move;
+        padding: 5px;
+        margin: 5px;
+        color: #8bf;
+        background-color: #444;
+        border: 1px solid #00ffff;
+    }
+</style>
+<div class="container mt-5">
+    <div class="card bg-secondary text-light p-4 mb-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <h1>View Tool</h1>
+        <div class="form-group">
+            <label for="command">Command</label>
+            <textarea class="form-control" id="command" rows="5" readonly>{{ tool.command }}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="trigger">Trigger</label>
+            <select class="form-control" id="trigger" multiple disabled>
+                <option value="ftp" {% if 'ftp' in tool.trigger %}selected{% endif %}>ftp</option>
+                <option value="ssh" {% if 'ssh' in tool.trigger %}selected{% endif %}>ssh</option>
+                <option value="telnet" {% if 'telnet' in tool.trigger %}selected{% endif %}>telnet</option>
+                <option value="http" {% if 'http' in tool.trigger %}selected{% endif %}>http</option>
+                <option value="https" {% if 'https' in tool.trigger %}selected{% endif %}>https</option>
+                <option value="smtp" {% if 'smtp' in tool.trigger %}selected{% endif %}>smtp</option>
+                <option value="pop3" {% if 'pop3' in tool.trigger %}selected{% endif %}>pop3</option>
+                <option value="imap" {% if 'imap' in tool.trigger %}selected{% endif %}>imap</option>
+                <option value="dns" {% if 'dns' in tool.trigger %}selected{% endif %}>dns</option>
+                <option value="dhcp" {% if 'dhcp' in tool.trigger %}selected{% endif %}>dhcp</option>
+                <option value="ntp" {% if 'ntp' in tool.trigger %}selected{% endif %}>ntp</option>
+                <option value="snmp" {% if 'snmp' in tool.trigger %}selected{% endif %}>snmp</option>
+                <option value="ldap" {% if 'ldap' in tool.trigger %}selected{% endif %}>ldap</option>
+                <option value="rpc" {% if 'rpc' in tool.trigger %}selected{% endif %}>rpc</option>
+                <option value="nfs" {% if 'nfs' in tool.trigger %}selected{% endif %}>nfs</option>
+                <option value="smb" {% if 'smb' in tool.trigger %}selected{% endif %}>smb</option>
+                <option value="afp" {% if 'afp' in tool.trigger %}selected{% endif %}>afp</option>
+                <option value="irc" {% if 'irc' in tool.trigger %}selected{% endif %}>irc</option>
+                <option value="xmpp" {% if 'xmpp' in tool.trigger %}selected{% endif %}>xmpp</option>
+                <option value="rtsp" {% if 'rtsp' in tool.trigger %}selected{% endif %}>rtsp</option>
+                <option value="sip" {% if 'sip' in tool.trigger %}selected{% endif %}>sip</option>
+                <option value="rtp" {% if 'rtp' in tool.trigger %}selected{% endif %}>rtp</option>
+                <option value="mysql" {% if 'mysql' in tool.trigger %}selected{% endif %}>mysql</option>
+                <option value="mssql" {% if 'mssql' in tool.trigger %}selected{% endif %}>mssql</option>
+                <option value="postgresql" {% if 'postgresql' in tool.trigger %}selected{% endif %}>postgresql</option>
+                <option value="oracle" {% if 'oracle' in tool.trigger %}selected{% endif %}>oracle</option>
+                <option value="mongodb" {% if 'mongodb' in tool.trigger %}selected{% endif %}>mongodb</option>
+                <option value="redis" {% if 'redis' in tool.trigger %}selected{% endif %}>redis</option>
+                <option value="memcached" {% if 'memcached' in tool.trigger %}selected{% endif %}>memcached</option>
+                <option value="cassandra" {% if 'cassandra' in tool.trigger %}selected{% endif %}>cassandra</option>
+                <option value="elasticsearch" {% if 'elasticsearch' in tool.trigger %}selected{% endif %}>elasticsearch</option>
+                <option value="kafka" {% if 'kafka' in tool.trigger %}selected{% endif %}>kafka</option>
+                <option value="zookeeper" {% if 'zookeeper' in tool.trigger %}selected{% endif %}>zookeeper</option>
+                <option value="rabbitmq" {% if 'rabbitmq' in tool.trigger %}selected{% endif %}>rabbitmq</option>
+                <option value="activemq" {% if 'activemq' in tool.trigger %}selected{% endif %}>activemq</option>
+                <option value="mqtt" {% if 'mqtt' in tool.trigger %}selected{% endif %}>mqtt</option>
+                <option value="amqp" {% if 'amqp' in tool.trigger %}selected{% endif %}>amqp</option>
+                <option value="stomp" {% if 'stomp' in tool.trigger %}selected{% endif %}>stomp</option>
+                <option value="coap" {% if 'coap' in tool.trigger %}selected{% endif %}>coap</option>
+                <option value="modbus" {% if 'modbus' in tool.trigger %}selected{% endif %}>modbus</option>
+                <option value="bacnet" {% if 'bacnet' in tool.trigger %}selected{% endif %}>bacnet</option>
+                <option value="microsoft-ds" {% if 'microsoft-ds' in tool.trigger %}selected{% endif %}>microsoft-ds</option>
+                <option value="rdp" {% if 'rdp' in tool.trigger %}selected{% endif %}>rdp</option>
+                <option value="smb" {% if 'smb' in tool.trigger %}selected{% endif %}>smb</option>
+                <option value="nfs_acl" {% if 'nfs_acl' in tool.trigger %}selected{% endif %}>nfs_acl</option>
+                <option value="nfs" {% if 'nfs' in tool.trigger %}selected{% endif %}>nfs</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="active">Active</label>
+            <select class="form-control" id="active" disabled>
+                <option value="true" {% if tool.active %}selected{% endif %}>True</option>
+                <option value="false" {% if not tool.active %}selected{% endif %}>False</option>
+            </select>
+            <a href="{{ url_for('update_tool', toolname=tool.toolname) }}" class="btn btn-primary">Edit</a>
+        </div>
+        <div class="mt-4">
+            <h2>Parameters</h2>
+            <div id="parameters">
+                {% for key, value in config.items() %}
+                <div class="draggable badge badge-secondary" draggable="true">{{ '{' + key + '}' }}</div>
+                {% endfor %}
+                <div class="draggable badge badge-secondary" draggable="true">{ip}</div>
+                <div class="draggable badge badge-secondary" draggable="true">{port}</div>
+                <div class="draggable badge badge-secondary" draggable="true">{toolname}</div>
+                <div class="draggable badge badge-secondary" draggable="true">{outputdir}</div>
+                <div class="draggable badge badge-secondary" draggable="true">{s}</div>
+                <div class="draggable badge badge-secondary" draggable="true">{ext}</div>
+                <div class="draggable badge badge-secondary" draggable="true">{nameserver}</div>
+                <div class="draggable badge badge-secondary" draggable="true">{baseoutputdir}</div>
+                <div class="draggable badge badge-secondary" draggable="true">{username}</div>
+                <div class="draggable badge badge-secondary" draggable="true">{password}</div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        document.querySelector('.loading-container').style.display = 'none';
+        
+    });
+</script>
+</body>
+</html>
+
+{% endblock %}

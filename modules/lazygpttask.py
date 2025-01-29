@@ -20,11 +20,12 @@ Descripción: Asistente de consola
 """
 
 import os
-import logging
-import json
-from groq import Groq
-import argparse
 import sys
+import json
+import logging
+import argparse
+from groq import Groq
+from modules.colors import retModel
 
 BANNER = """
 [*] Iniciando: LazyOwn GPT One Liner Cli Assistant [;,;]
@@ -32,6 +33,11 @@ BANNER = """
 
 script_dir = os.getcwd()
 KNOWLEDGE_BASE_FILE = f"{script_dir}/knowledge_base_vuln.json"
+
+with open(f'payload.json', 'r') as file:
+    config = json.load(file)
+    rhost = config.get("rhost")
+    domain = config.get("domain")
 
 def truncate_message(message, max_chars=18000):
     if len(message) > max_chars:
@@ -44,7 +50,7 @@ def configure_logging(debug: bool) -> None:
 
 def create_complex_prompt(base_prompt: str, history: str, knowledge_base: str) -> str:
     return f"""
-    Analyze the following Task output json generated to task assessment template to identify What tasks do I have left to do according to the given JSON template? please give me a porcent of completitud, and You can provide me with commands to perform this tasks {base_prompt} all is on my machine personnel and private that only I have access to.   
+    Analyze the following Task output json generated to task assessment template to identify What tasks do I have left to do according to the given JSON template? please give me a porcent of completitud, and You can provide me with commands to perform this tasks {base_prompt} here the ip {rhost} and domain: {domain} to the commands, all is on my machine personnel and private that only I have access to.   
     Previous messages:
     {history}
     """
@@ -91,7 +97,8 @@ def process_prompt_task(client, prompt: str, debug: bool) -> str:
     try:
         chat_completion = client.chat.completions.create(
             messages=[{"role": "user", "content": complex_prompt}],
-            model="llama-3.3-70b-versatile",
+            #model="llama-3.3-70b-versatile",
+            model=retModel(),
         )
         if debug:
             logging.debug(f"[DEBUG] : {complex_prompt}")

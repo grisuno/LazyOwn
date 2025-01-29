@@ -18,7 +18,8 @@ greeter = '''[31m
              ░           ░            ░ ░        ░        ░  ░         ░  ░
 [0m'''
 
-version = "0.0.3#beta" 
+cred_path = 'sessions/credentials.txt'
+version = "0.0.33#beta" 
 
 parser = argparse.ArgumentParser(description="pwntomate version " + version + "\nhttps://github.com/honze-net/pwntomate", epilog="This software must not be used by military or secret service organisations.", formatter_class=argparse.RawDescriptionHelpFormatter)
 parser.add_argument("xml", help="path to Nmap XML file")
@@ -41,12 +42,32 @@ shellscript = '''#!/bin/bash
 # https://github.com/honze-net/pwntomate
 ''' % version
 
+with open('payload.json', 'r') as file:
+    config = json.load(file)
+    rhost = config.get("rhost")
+    domain = config.get("domain")
+
+if os.path.exists(cred_path):
+    with open(cred_path, 'r') as file:
+        text_cred = file.read().strip()
+        array_cred = text_cred.split(":")
+        username = array_cred[0]
+        password = f" -p '{array_cred[1]}' "
+else:
+    username = "deefbeef"
+    password = ''
+
+adomain = domain.split(".")
+ext = adomain[1]
+nameserver = adomain[0]
+
 for host in report.hosts:
     for service in host.services:
         for filename in glob.glob(args.tooldir+"/*.tool"):
             tool = json.load(open(filename, 'r'))
             if tool["active"] and (service.service in tool["trigger"] or 'all' in tool["trigger"]):
                 cmd = tool["command"]
+           
                 if service.tunnel == 'ssl':
                     cmd = cmd.replace("{s}", "s")
                 else:
@@ -54,8 +75,14 @@ for host in report.hosts:
                     cmd = cmd.replace("{outputdir}", "{baseoutputdir}/{ip}/{port}/{toolname}") # make this configurable
                     cmd = cmd.replace("{ip}", host.address)
                     cmd = cmd.replace("{port}", str(service.port))
+                    cmd = cmd.replace("{domain}", domain)
+                    cmd = cmd.replace("{ext}", ext)
+                    cmd = cmd.replace("{nameserver}", nameserver)
                     cmd = cmd.replace("{baseoutputdir}", args.basedir.replace(" ", "\ "))
                     cmd = cmd.replace("{toolname}", tool["toolname"].replace(" ", "\ "))
+                    cmd = cmd.replace("{username}", username)
+                    cmd = cmd.replace("{password}", password)
+                    print(cmd)
                     shellscript += 'mkdir -p %s/%s/%s/%s\n' % (args.basedir.replace(" ", "\ "), host.address, service.port, tool["toolname"].replace(" ", "\ ")) # TODO remove double configuration of {baseoutputdir}/{ip}/{port}/{toolname}. things can go wrong.
                     shellscript += '%s\n' % cmd
 if args.execute:

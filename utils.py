@@ -45,6 +45,7 @@ import argparse
 import binascii
 import readline
 import requests
+
 import tempfile
 import itertools
 import threading
@@ -66,12 +67,13 @@ from netaddr import IPAddress, IPRange
 from libnmap.process import NmapProcess
 from impacket.dcerpc.v5 import transport
 from concurrent.futures import ThreadPoolExecutor
-from urllib.parse import quote, unquote, urlparse, urljoin
 from impacket.dcerpc.v5.dcomrt import IObjectExporter
 from modules.lazyencoder_decoder import encode, decode
 from datetime import datetime, timedelta, date, timezone
-from impacket.dcerpc.v5.rpcrt import RPC_C_AUTHN_LEVEL_NONE
 from http.server import BaseHTTPRequestHandler, HTTPServer
+from urllib.parse import quote, unquote, urlparse, urljoin
+from impacket.dcerpc.v5.rpcrt import RPC_C_AUTHN_LEVEL_NONE
+from requests.exceptions import ConnectionError, RequestException
 
 
 
@@ -97,6 +99,28 @@ BG_BLUE = "\033[44m"
 BG_MAGENTA = "\033[45m"
 BG_CYAN = "\033[46m"
 BG_WHITE = "\033[47m"
+BRIGHT_BLACK = "\033[90m"
+BRIGHT_RED = "\033[91m"
+BRIGHT_GREEN = "\033[92m"
+BRIGHT_YELLOW = "\033[93m"
+BRIGHT_BLUE = "\033[94m"
+BRIGHT_MAGENTA = "\033[95m"
+BRIGHT_CYAN = "\033[96m"
+BRIGHT_WHITE = "\033[97m"
+BG_BRIGHT_BLACK = "\033[100m"
+BG_BRIGHT_RED = "\033[101m"
+BG_BRIGHT_GREEN = "\033[102m"
+BG_BRIGHT_YELLOW = "\033[103m"
+BG_BRIGHT_BLUE = "\033[104m"
+BG_BRIGHT_MAGENTA = "\033[105m"
+BG_BRIGHT_CYAN = "\033[106m"
+BG_BRIGHT_WHITE = "\033[107m"
+
+COLOR_256 = "\033[38;5;{}m"
+BG_COLOR_256 = "\033[48;5;{}m"
+TRUE_COLOR = "\033[38;2;{};{};{}m"
+BG_TRUE_COLOR = "\033[48;2;{};{};{}m"
+
 window_count = 0
 session_name = "lazyown_sessions"
 NOBANNER = False
@@ -713,12 +737,16 @@ def getprompt():
 
     network_info = get_network_info()
     ip = next((ip for iface, ip in network_info.items() if 'tun' in iface), None)
-
+    hostname = socket.gethostname()
     if ip is None:
         ip = next(iter(network_info.values()), '127.0.0.1')
     prompt_char = f'{RED}#' if os.geteuid() == 0 else '$'
-    prompt = f"""{YELLOW}┌─{YELLOW}[{RED}LazyOwn{WHITE}👽{CYAN}{ip}{YELLOW}]
-    {YELLOW}└╼ {BLINK}{GREEN}{prompt_char}{RESET} """.replace('    ','')
+    random_color = random.randint(0, 255)
+    random_r = random.randint(0, 255)
+    random_g = random.randint(0, 255)
+    random_b = random.randint(0, 255)    
+    prompt = f"""{YELLOW}┌─{YELLOW}[{TRUE_COLOR.format(random_r, random_g, random_b)}LazyOwn{WHITE}👽{CYAN}{ip}{BRIGHT_CYAN}/{BRIGHT_MAGENTA}{hostname}{YELLOW}]{COLOR_256.format(random_color)}
+    {YELLOW}└╼ {BLINK}{BRIGHT_GREEN}{prompt_char}{RESET} """.replace('    ','')
 
     return prompt
 
@@ -1450,12 +1478,15 @@ def generate_random_cve_id():
     return f"CVE-{year}-{code}"
 
 
-def get_credentials(file = None):
+def get_credentials(file=None, ncred=None):
     """
     Searches for credential files with the pattern 'credentials*.txt' and allows the user to select one.
-    
+
     The function lists all matching files and prompts the user to select one. It then reads the selected file
     and returns a list of tuples with the format (username, password) for each line in the file.
+
+    Parameters:
+    ncred (int, optional): If provided, automatically selects the credential file with the given number.
 
     Returns:
     list of tuples: A list containing tuples with (username, password) for each credential found in the file.
@@ -1467,19 +1498,30 @@ def get_credentials(file = None):
     if not credential_files:
         print_error(f"No credential files found ({credential_files}). Please create one using: createcredentials admin:admin")
         return []
-    
-    print_msg("The following credential files were found:")
-    for idx, cred_file in enumerate(credential_files, 1):
-        print_msg(f"{idx}. {cred_file}")
 
-    try:
-        file_choice = int(input("    [!] Select the credential file to use (enter the number): "))
-        selected_file = credential_files[file_choice - 1]
-    except (ValueError, IndexError):
-        print_error("Invalid selection.")
-        return []
+    if ncred is not None:
+        if 1 <= ncred <= len(credential_files):
+            selected_file = credential_files[ncred - 1]
+        else:
+            print_error(f"Invalid ncred value: {ncred}. It should be between 1 and {len(credential_files)}.")
+            return []
+    else:
+        print_msg("The following credential files were found:")
+        for idx, cred_file in enumerate(credential_files, 1):
+            print_msg(f"{idx}. {cred_file}")
+        if idx == 1:
+            selected_file = credential_files[idx - 1]
+        else:
+            try:
+                file_choice = int(input("    [!] Select the credential file to use (enter the number): "))
+                selected_file = credential_files[file_choice - 1]
+            except (ValueError, IndexError):
+                print_error("Invalid selection.")
+                return []
+
     if file == True:
         return selected_file
+
     credentials = []
     with open(selected_file, "r") as file:
         for line in file:
@@ -1488,6 +1530,11 @@ def get_credentials(file = None):
                 credentials.append((params[0], params[1]))
 
     return credentials
+
+def load_payload():
+    with open('payload.json', 'r') as file:
+        config = json.load(file)
+    return config
 
 def obfuscate_payload(payload):
     """
@@ -2699,6 +2746,14 @@ class IP2ASN:
         """Get the country by ASN."""
         return self.as_country.get(asn, "Unknown")
 
+class Config:
+    def __init__(self, config_dict):
+        self.config = config_dict
+        for key, value in self.config.items():
+            setattr(self, key, value)
+
+    def __getitem__(self, key):
+        return getattr(self, key, None)
 
 class VulnerabilityScanner:
     """Escáner de vulnerabilidades que busca y muestra información sobre CVEs.

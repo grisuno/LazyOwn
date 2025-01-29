@@ -38,3 +38,4 @@ payload_*.json
 *.dmp
 firefox.dmp
 LazyOwn_history.dat
+*/__pycache__

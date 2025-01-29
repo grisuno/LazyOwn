@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card bg-secondary text-light p-4 mb-4">
+        <h2 class="text-center mb-4">Profile operator: {{ user.username }}</h2>
+        <div>
+            <p><h3>ELO:</h3> {{ user.elo }}</p>
+            <p><h3>KARMA:</h3> {{ karma_name }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

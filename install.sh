@@ -4,7 +4,9 @@ sudo apt install ltrace python3-xyzservices python3-venv
 python3 -m venv env
 source env/bin/activate
 # pip install -r requirements.txt
-
+mkdir vpn
+mkdir banners
+mkdir -p sessions/logs
 pip install requests 
 pip install python-libnmap 
 pip install pwncat-cs 
@@ -35,6 +37,17 @@ pip install pyautogui
 pip install networkx 
 pip install pyvis
 pip install markdown
+pip install scapy
+pip install watchdog
+pip install flask-login 
+pip instal flask-wtf 
+pip install bcrypt
+pip install pyyaml
+pip install bs4
+pip install dnslib
+pip python-telegram-bot 
+pip install nest_asyncio
+
 git clone https://github.com/grisuno/LazyOwnInfiniteStorage.git ./modules_ext/lazyown_infinitestorage
 chmod +x /modules_ext/lazyown_infinitestorage/install.sh
 

@@ -1,0 +1,246 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    .draggable {
+        cursor: move;
+        padding: 5px;
+        margin: 5px;
+        border: 1px solid #ccc;
+    }
+</style>
+<div class="container mt-5">
+    <div class="card bg-secondary text-light p-4 mb-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <h1>Create Tool</h1>
+        <form action="{{ url_for('create_tool') }}" method="post" onsubmit="submitForm();">
+            
+            <div class="form-group">
+                <label for="toolname">Tool Name</label>
+                <input type="text" class="form-control" id="toolname" name="toolname" required>
+            </div>
+            <div class="form-group">
+                <label for="command">Command</label>
+                <textarea class="form-control" id="command" name="command" rows="5" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="trigger">Trigger</label>
+                <select class="form-control" id="trigger" name="trigger" multiple>
+                    <option value="ftp">ftp</option>
+                    <option value="ssh">ssh</option>
+                    <option value="telnet">telnet</option>
+                    <option value="http">http</option>
+                    <option value="https">https</option>
+                    <option value="smtp">smtp</option>
+                    <option value="pop3">pop3</option>
+                    <option value="imap">imap</option>
+                    <option value="dns">dns</option>
+                    <option value="dhcp">dhcp</option>
+                    <option value="ntp">ntp</option>
+                    <option value="snmp">snmp</option>
+                    <option value="ldap">ldap</option>
+                    <option value="rpc">rpc</option>
+                    <option value="nfs">nfs</option>
+                    <option value="smb">smb</option>
+                    <option value="afp">afp</option>
+                    <option value="irc">irc</option>
+                    <option value="xmpp">xmpp</option>
+                    <option value="rtsp">rtsp</option>
+                    <option value="sip">sip</option>
+                    <option value="rtp">rtp</option>
+                    <option value="mysql">mysql</option>
+                    <option value="mssql">mssql</option>
+                    <option value="postgresql">postgresql</option>
+                    <option value="oracle">oracle</option>
+                    <option value="mongodb">mongodb</option>
+                    <option value="redis">redis</option>
+                    <option value="memcached">memcached</option>
+                    <option value="cassandra">cassandra</option>
+                    <option value="elasticsearch">elasticsearch</option>
+                    <option value="kafka">kafka</option>
+                    <option value="zookeeper">zookeeper</option>
+                    <option value="rabbitmq">rabbitmq</option>
+                    <option value="activemq">activemq</option>
+                    <option value="mqtt">mqtt</option>
+                    <option value="amqp">amqp</option>
+                    <option value="stomp">stomp</option>
+                    <option value="coap">coap</option>
+                    <option value="modbus">modbus</option>
+                    <option value="bacnet">bacnet</option>
+                    <option value="microsoft-ds"endif %}>microsoft-ds</option>
+                    <option value="rdp">rdp</option>
+                    <option value="smb">smb</option>
+                    <option value="nfs_acl">nfs_acl</option>
+                    <option value="nfs">nfs</option>
+                    <option value="otro">otro</option>
+                </select>
+                <input type="text" id="customTrigger" class="form-control mt-2" placeholder="Enter the protocol" style="display: none;">
+            </div>
+            <div class="form-group">
+                <label for="active">Active</label>
+                <select class="form-control" id="active" name="active">
+                    <option value="true">True</option>
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Create</button>
+        </form>
+        <div class="mt-4">
+            <h2>Parameters</h2>
+            <div id="parameters">
+                {% for key, value in config.items() %}
+                <div class="draggable badge badge-primary" draggable="true">{{ '{' + key + '}' }}</div>
+                {% endfor %}
+                <div class="draggable badge badge-primary" draggable="true">{ip}</div>
+                <div class="draggable badge badge-primary" draggable="true">{port}</div>
+                <div class="draggable badge badge-primary" draggable="true">{toolname}</div>
+                <div class="draggable badge badge-primary" draggable="true">{outputdir}</div>
+                <div class="draggable badge badge-primary" draggable="true">{s}</div>
+                <div class="draggable badge badge-primary" draggable="true">{ext}</div>
+                <div class="draggable badge badge-primary" draggable="true">{nameserver}</div>
+                <div class="draggable badge badge-primary" draggable="true">{baseoutputdir}</div>
+                <div class="draggable badge badge-primary" draggable="true">{username}</div>
+                <div class="draggable badge badge-primary" draggable="true">{password}</div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+<script>
+    function submitForm() {
+        const form = document.getElementById('createToolForm');
+        const formData = new FormData(form);
+        const url = '/tools/create';
+        const toolname = formData.get('toolname');
+        const command = formData.get('command');
+        const trigger = formData.get('trigger');
+        const active = formData.get('active');
+        operator = '{{ current_user.username }}'; 
+        fetch(url, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+            src_path = '{BASE_DIR}{rhost}/{port}/' + toolname + '/' + toolname + '.txt';
+            size = '222';
+            outputtype = 'txt';
+            outputtodelete = '  ';
+            prompt = '  and VALID '+ toolname +' remember the mission, it\'s imperant inform the lsit of the vulns of  '+ toolname +'  get in the test  ';
+            submitEventConfigForm(
+                toolname,
+                src_path, 
+                size, 
+                description, 
+                outputtype,
+                outputtodelete,
+                prompt,
+                operator,
+                active
+            )
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            // Handle error (e.g., show an error message)
+        });
+    }
+    function submitEventConfigForm(
+        title,
+        src_path, 
+        size, 
+        description, 
+        outputtype,
+        outputtodelete,
+        prompt,
+        operator,
+        status
+    ) {
+        const url = '/event_config_view';
+
+       
+        const formData = new FormData();
+        formData.append('title', title); 
+        formData.append('src_path', src_path);
+        formData.append('size', size);
+        formData.append('description', description);
+        formData.append('outputtype', outputtype);
+        formData.append('outputtodelete', outputtodelete);
+        formData.append('prompt', prompt);
+        formData.append('operator', operator);
+        formData.append('status', status);
+
+        fetch(url, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelector('.loading-container').style.display = 'none';
+        
+        const draggables = document.querySelectorAll('.draggable');
+        const commandInput = document.getElementById('command');
+        
+        draggables.forEach(draggable => {
+            draggable.addEventListener('dragstart', (event) => {
+                event.dataTransfer.setData('text/plain', draggable.textContent);
+                console.log(draggable)
+            });
+        });
+        
+        commandInput.addEventListener('dragover', (event) => {
+            event.preventDefault();
+            console.log(draggable)
+        });
+        
+        commandInput.addEventListener('drop', (event) => {
+            event.preventDefault();
+            const data = event.dataTransfer.getData('text/plain');
+            console.log(data)
+            
+            const cursorPosition = commandInput.selectionStart;
+            console.log(cursorPosition)
+            const currentValue = commandInput.value;
+            console.log(currentValue)
+            const newValue = currentValue.substring(0, cursorPosition) + data + currentValue.substring(cursorPosition);
+            console.log(newValue)
+            commandInput.value = newValue;
+            console.log(draggable)
+            // Set the cursor position after the inserted text
+            commandInput.selectionStart = cursorPosition + data.length;
+            console.log(commandInput.selectionStart)
+            commandInput.selectionEnd = cursorPosition + data.length;
+            console.log(commandInput.selectionEnd)
+            commandInput.focus();
+        });
+        triggerSelect.addEventListener('change', function() {
+            if (triggerSelect.value === 'otro') {
+                customTriggerInput.style.display = 'block';
+            } else {
+                customTriggerInput.style.display = 'none';
+            }
+        });
+        
+    });
+</script>
+</body>
+</html>
+
+{% endblock %}

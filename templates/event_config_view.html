@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="card bg-secondary text-light p-4 mb-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <h1 class="mb-4">Event Manager</h1>
+        <form id="EventForm" method="POST" class="mb-5">
+            <div class="form-group mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="title" name="title" required>
+            </div>
+            <div class="form-group mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea class="form-control" id="description" name="description" required></textarea>
+            </div>
+            <div class="form-group mb-3">
+                <label for="src_path" class="form-label">Source Path</label>
+                <input type="text" class="form-control" id="src_path" name="src_path" required>
+            </div>
+            <div class="form-group mb-3">
+                <label for="size" class="form-label">Size</label>
+                <input type="number" class="form-control" id="size" name="size" required>
+            </div>
+            <div class="form-group mb-3">
+                <label for="outputtype" class="form-label">Output type text/html</label>
+                <input type="input" class="form-control" id="outputtype" name="outputtype" value="" required>
+            </div>      
+            <div class="form-group mb-3">
+                <label for="outputtodelete" class="form-label">Output to delete (multi line)</label>
+                <textarea class="form-control" id="outputtodelete" name="outputtodelete" required></textarea>
+            </div>   
+            <div class="form-group mb-3">
+                <label for="prompt" class="form-label">Prompt to Add to Vuln Bot's prompt </label>
+                <input type="input" class="form-control" id="prompt" name="prompt" value="" required>
+            </div>                               
+            <div class="form-group mb-3">
+                <label for="status" class="form-label">Status</label>
+                <select id="status" name="status" class="form-control" required>
+                    
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                    
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Create Event</button>
+        </form>
+        <hr class="my-5">
+        <h2 class="mb-3">Events</h2>
+        <ul class="list-group">
+            {% for event in event_config.events %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <a href="{{ url_for('edit_event', event_name=event.name) }}">{{ event.name }}</a>
+                <a class="badge bg-secondary" href="{{ url_for('edit_event', event_name=event.name) }}">Edit Event</a>
+                <span class="badge bg-secondary">Size: {{ event.size }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var quill = new Quill('#description', {
+            theme: 'snow'
+        });
+        document.querySelector('.loading-container').style.display = 'none';
+    });
+</script>
+    {% endblock %}

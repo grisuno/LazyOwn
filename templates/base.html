@@ -1,0 +1,82 @@
+{% include 'header.html' %}
+<script>
+    particlesJS.load('particles-js', '/static/js/particles.json', function() {
+        console.log('callback - particles.js config loaded');
+    });
+</script>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{ url_for('index') }}">LazyOwn RedTeam Framework</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    {% if current_user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="window.location.href = '{{ url_for('index') }}';">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="window.location.href = '{{ url_for('profile') }}';">Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="window.location.href = '{{ url_for('edit_notes') }}';">Notes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="window.location.href = '{{ url_for('get_event_config_view') }}';">Events</a>
+                        </li>     
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="window.location.href = '{{ url_for('list_tools') }}';">Tools</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="window.location.href = '{{ url_for('tasks') }}';">Tasks</a>
+                        </li> 
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="window.location.href = '{{ url_for('banners') }}';">Target</a>
+                        </li>         
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="window.location.href = '{{ url_for('mitre') }}';">Mitre</a>
+                        </li>                                                                  
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="window.location.href = '{{ url_for('graph') }}';">Atomic</a>
+                        </li>                                                                  
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="window.location.href = '{{ url_for('logout') }}';">Logout</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="window.location.href = '{{ url_for('login') }}';">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="window.location.href = '{{ url_for('register') }}';">Register</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container my-5">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('.loading-container').style.display = 'none';
+
+        });
+    </script>
+</body>
+</html>

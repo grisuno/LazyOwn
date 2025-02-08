@@ -6,6 +6,20 @@
 
 ### Otros
 
+  *   * feat(feat): new version, new bots, new c2, new ai \n\n Version: release/0.2.29 \n\n new look and feel \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Feb 8 16:18:13 2025 -0300 \n\n Hora: 1739042293
+
+
+### Otros
+
+### Otros
+
+  *   * LazyOwn RedTeam Framework: Command & Control, Reimagined. Now with Telegram & Discord C2 Bots.
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): new fetures \n\n Version: release/0.2.28 \n\n new telegram bot, new features in c2, some fixes in framework, hot fixes, and new commands in commands.md \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Jan 28 21:58:15 2025 -0300 \n\n Hora: 1738112295
 
 

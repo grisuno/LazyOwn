@@ -1,1 +1,0 @@
-savedcmd_/home/grisun0/LazyOwn/modules/rootkit/Module.symvers :=  scripts/mod/modpost -M -m       -o /home/grisun0/LazyOwn/modules/rootkit/Module.symvers -T /home/grisun0/LazyOwn/modules/rootkit/modules.order -i Module.symvers -e 

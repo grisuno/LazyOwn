@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card bg-secondary text-light p-4 mb-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <h1 class="mb-4">CVE Manager</h1>
+        <form id="editCveForm" method="POST" class="mb-5">
+            <div class="form-group mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="title" name="title" required>
+            </div>
+            <div class="form-group mb-3">
+                <label for="description" class="form-label">Description</label>
+                <div id="description"></div>
+            </div>
+            <div class="form-group mb-3">
+                <label for="operator" class="form-label">Operator</label>
+                <input type="text" class="form-control" id="operator" name="operator" required>
+            </div>
+            <label for="risk" class="form-label">Vulnerability Risk</label>
+            <select id="risk" name="risk" class="form-control" required>
+                <option value="CRITICAL">CRITICAL</option>
+                <option value="HIGH">HIGH</option>
+                <option value="MEDIUM">MEDIUM</option>
+                <option value="LOW">LOW</option>
+                <option value="INFORMATIONAL">INFORMATIONAL</option>
+            </select>
+            <button type="submit" class="btn btn-primary">Create CVE</button>
+            <div id="loader" style="display: none;">Loading...</div>
+        </form>
+        <hr class="my-5">
+        <h2 class="mb-3">CVEs</h2>
+        <ul class="list-group">
+            {% for cve in cves %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <a href="{{ url_for('cve', cve_id=cve.id) }}">{{ cve.title }}</a>
+                    <a class="badge bg-secondary" href="{{ url_for('cve', cve_id=cve.id) }}">View CVE</a>
+                    <a class="badge bg-secondary" href="{{ url_for('edit_cve', cve_id=cve.id) }}">Edit CVE</a>
+                    <span class="badge bg-secondary">{{ cve.operator }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var quill = new Quill('#description', {
+            theme: 'snow'
+        });
+
+        document.getElementById('editCveForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const title = document.getElementById('title').value;
+            const description = quill.root.innerHTML;
+            const operator = document.getElementById('operator').value;
+            const risk = document.getElementById('risk').value;
+            const spinner = document.getElementById('loader');
+            spinner.style.display = 'block';
+            const formData = new FormData();
+            formData.append('title', title);
+            formData.append('description', description);
+            formData.append('operator', operator);
+            formData.append('risk', risk);
+
+            fetch('/cves', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                spinner.style.display = 'none';
+                if (response.redirected) {
+                    window.location.href = response.url;
+                } else {
+                    return response.json();
+                }
+            })
+            .then(data => {
+                spinner.style.display = 'none';
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                spinner.style.display = 'none';
+                console.error('Error:', error);
+            });
+        });
+    });
+</script>
+{% endblock %}

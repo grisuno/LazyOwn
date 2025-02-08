@@ -1,6 +1,6 @@
 #!/bin/bash
 sudo apt update
-sudo apt install ltrace python3-xyzservices python3-venv
+sudo apt install ltrace python3-xyzservices python3-venv nmap xsltproc
 python3 -m venv env
 source env/bin/activate
 # pip install -r requirements.txt
@@ -47,6 +47,9 @@ pip install bs4
 pip install dnslib
 pip python-telegram-bot 
 pip install nest_asyncio
+pip install rich
+
+curl -fsSL https://ollama.com/install.sh | sh
 
 git clone https://github.com/grisuno/LazyOwnInfiniteStorage.git ./modules_ext/lazyown_infinitestorage
 chmod +x /modules_ext/lazyown_infinitestorage/install.sh

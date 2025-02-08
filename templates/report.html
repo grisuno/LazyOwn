@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="card bg-secondary text-light p-4 mb-4" id="content">
+        <div class="card bg-secondary text-light">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+    
+            <h1 class="mb-4">LazyOwn RedTeam Report</h1>
+
+            <div class="card mb-3">
+                <div class="card-header">Assessment Information</div>
+                <div class="card-body">
+                    {{ report_data.assessment_information | replace('\n', '<br>') | markdown | safe }}
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header">Engagement Overview</div>
+                <div class="card-body">
+                    {{ report_data.engagement_overview | replace('\n', '<br>') | markdown | safe }}
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header">Service Description</div>
+                <div class="card-body">
+                    {{ report_data.service_description | replace('\n', '<br>') | markdown | safe }}
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header">Campaign Objectives</div>
+                <div class="card-body">
+                    {{ report_data.campaign_objectives | replace('\n', '<br>') | markdown | safe }}
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header">Process and Methodology</div>
+                <div class="card-body">
+                    {{ report_data.process_and_methodology | replace('\n', '<br>') | markdown | safe }}
+
+                    <ul class="list-group">
+                        {% for task in tasks %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <a href="{{ url_for('task', task_id=task.id) }}">{{ task.title }}</a>
+                                <span class="badge bg-secondary">{{ task.operator }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>                
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header">Scoping and Rules of Engagement</div>
+                <div class="card-body">
+                    {{ report_data.scoping_and_rules | replace('\n', '<br>') | markdown | safe }}
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Key</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for key, value in session_data.params.items() %}
+                            <tr>
+                                <td>{{ key }}</td>
+                                <td>{{ value }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>                    
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header">Executive Summary of Findings</div>
+                <div class="card-body">
+                    {{ report_data.executive_summary_findings | replace('\n', '<br>') | markdown | safe }}
+                    <center><img src="/static/heatmap.png" alt="heatmap" /></center>
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header">Executive Summary Narrative</div>
+                <div class="card-body">
+                    {{ report_data.executive_summary_narrative | replace('\n', '<br>') | markdown | safe }}
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header">Summary Vulnerability Overview</div>
+                <div class="card-body">
+                    {{ report_data.summary_vulnerability_overview | replace('\n', '<br>') | markdown | safe }}
+                
+                    <div class="flex-container">
+                        {% for cve in cves %}
+                            <p class="d-flex justify-content-between align-items-center">
+                                <a href="{{ url_for('cve', cve_id=cve.id) }}"> {{ cve.title }} </a>
+                                <span class="badge bg-secondary"> {{ cve.risk }} </span>
+                            </p>
+                        {% endfor %}
+                    </div>   
+                </div>   
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header">Security Labs Toolkit</div>
+                <div class="card-body">
+                    {{ report_data.security_labs_toolkit | replace('\n', '<br>') | markdown | safe }}
+                    <div class="flex-container">
+                    {% for tool in tools %}
+                        <p>{{ tool.toolname }}</p>
+                    {% endfor %}                
+                    </div>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Implant</th>
+                                <th>Content</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for implant in session_data.implants %}
+                            <tr>
+                                <td>{{ implant.implant }}</td>
+                                <td>{{ implant.content }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>                    
+                </div>
+
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header">Appendix A: Changes to Environment</div>
+                <div class="card-body">
+                    {{ report_data.appendix_a_changes | replace('\n', '<br>') | markdown | safe }}
+                </div>
+            </div>
+        </div>
+        <button type="button" onclick="window.location.href = '/teamserver';" class="btn btn-primary">Update</button>
+        <button  type="button" id="downloadPdf" class="btn btn-primary">Download PDF</button>
+   </div>     
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelector('.loading-container').style.display = 'none';
+        document.getElementById('downloadPdf').addEventListener('click', function() {
+            let element = document.getElementById('content');
+            element.innerHTML = element.innerHTML.replace(
+            '<button type="button" onclick="window.location.href = \'/teamserver\';" class="btn btn-primary">Update</button>',
+            ""
+            );
+            element.innerHTML = element.innerHTML.replace(
+            '<button type="button" id="downloadPdf" class="btn btn-primary">Download PDF</button>',
+            ""
+            );
+            html2pdf().from(element).save('report.pdf');
+        });        
+    });
+</script>
+</body>
+</html>
+
+{% endblock %}

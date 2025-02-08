@@ -2866,6 +2866,28 @@ Example:
 Note:
     Ensure that the command provided is safe to execute and does not include potentially harmful operations.
 
+## sys
+Executes a shell command directly from the LazyOwn interface.
+
+This function allows the user to execute arbitrary shell commands without exiting the LazyOwn shell. 
+It checks if a command is provided, prints a message indicating the command being executed, and then 
+runs the command using `os.system`.
+
+Usage:
+    sh <command>
+
+:param line: The shell command to be executed.
+:type line: str
+:raises ValueError: If no command is provided, an error message is printed indicating that a command is required.
+:returns: None
+
+Example:
+    sh ls -la
+    # This will execute 'ls -la' in the shell without exiting LazyOwn.
+
+Note:
+    Ensure that the command provided is safe to execute and does not include potentially harmful operations.
+
 ## pwd
 Displays the current working directory and lists files, and copies the current directory path to the clipboard.
 
@@ -8755,6 +8777,30 @@ Perform lateral movement by downloading and installing LazyOwn on a remote Linux
 This function automates the process of setting up an APT and PIP proxy, downloading the LazyOwn package,
 transferring it to a remote machine, and installing it. The function ensures that all necessary directories
 are created and that the package is correctly installed on the remote machine.
+
+Parameters:
+    line (str): The command line input, which is not used in this function.
+
+Returns:
+    None
+
+## commix
+Executes the Commix tool for detecting and exploiting command injection vulnerabilities.
+
+This function:
+    - Installs Commix if not already installed.
+    - Executes the Commix command with the provided parameters.
+    - Displays the result in the terminal.
+
+Behavior:
+    - Requires `git` and `python` to be installed.
+    - Uses a one-liner installation method for simplicity.
+
+Usage:
+    commix {url} {field} {value}
+
+## addcli
+Add a client to execute c2 commands
 
 Parameters:
     line (str): The command line input, which is not used in this function.

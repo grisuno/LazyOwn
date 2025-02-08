@@ -99,7 +99,32 @@
                     </div>
                 </div>
             </div>
+            <!-- Modal del lazy -->
+            <div class="modal fade" id="lazyModal" tabindex="-1" aria-labelledby="lazyModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="lazyModalLabel">LazyOwn RedTeam lazy Assistant</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="lazyResponse" class="mb-3">
+                                <!-- Respuestas del lazy se mostrarán aquí -->
+                            </div>
+                            <form id="lazyForm">
+                                <div class="form-group">
+                                    <label for="lazyprompt">Write your message to LLM (Groq): </label>
+                                    <textarea class="form-control" id="lazyprompt" name="lazyprompt" rows="3" required></textarea>
 
+                                </div>
+                                <button type="submit" class="btn btn-primary">Check lazy</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- Modal del redop -->
             <div class="modal fade" id="redopModal" tabindex="-1" aria-labelledby="redopModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
@@ -124,7 +149,30 @@
                     </div>
                 </div>
             </div>
-
+            <!-- Modal del report -->
+            <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="reportModalLabel">LazyOwn RedTeam Report Assistant</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="reportResponse" class="mb-3">
+                                <!-- Respuestas del report se mostrarán aquí -->
+                            </div>
+                            <form id="reportFormbot" method="POST">
+                                <div class="form-group">
+                                    <textarea class="form-control" id="reportprompt" name="reportprompt" rows="3" required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Check Report</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- Modal del task -->
             <div class="modal fade" id="taskModal" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">

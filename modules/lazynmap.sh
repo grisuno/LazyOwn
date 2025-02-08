@@ -61,7 +61,20 @@ if [ -z "$TARGET" ] && [ "$DISCOVER_NETWORK" = false ]; then
 	echo "    [?] Use: $0 -t <target> [-d]"
 	exit 1
 fi
+nmaptest() {
+  
+  test -f /usr/bin/nmap
+  if [ "$(echo $?)" -ne 0 ]; then
+    sudo apt-get install nmap -y > /dev/null 2>&1
+    if [ "$(echo $?)" -ne 0 ]; then
+      sudo dnf install nmap -y > /dev/null 2>&1
+    elif [ "$(echo $?)" -ne 0 ]; then
+      sudo pacman -S nmap -y > /dev/null 2>&1
+    fi
+  fi
 
+}
+nmaptest
 echo "    [+] Updating Nmap NSE Scripts DataBase..."
 sudo nmap --script-updatedb
 
@@ -77,6 +90,7 @@ discover_network() {
 		grep "Up" network_discovery | awk '{print $2}' | tee "sessions/hosts_$(echo "$net" | tr '/' '_')_discovery.txt"
 	done
 }
+
 
 for xmlfile in "$DIRECTORIO"/*.xml; do
 	echo "$xmlfile"

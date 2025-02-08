@@ -40,6 +40,10 @@
                         <span>Vuln Bot</span>
                         <a href="#"><img src="/static/Mac-icon.png"/></a>
                     </li>
+                    <li id="lazyButton">
+                        <span>Lazy Bot</span>
+                        <a href="#"><img src="/static/Mac-icon.png"/></a>
+                    </li>                    
                     <li id="searchButton">
                         <span>I+D Bot</span>
                         <a href="#"><img src="/static/Mac-icon.png"/></a>
@@ -52,6 +56,10 @@
                         <span>Cmd Bot</span>
                         <a href="#"><img src="/static/Mac-icon.png"/></a>
                     </li>
+                    <li id="reportButton" >
+                        <span>Rep Bot</span>
+                        <a href="#"><img src="/static/Mac-icon.png"/></a>
+                    </li>
                 </ul>
                 
                 <p class="neon-text">&copy; 2025 LazyOwn RedTeam. All rights GPLv3.</p>
@@ -60,15 +68,6 @@
         </div>
         <div id="toastr" onclick="clearToastr();" class="toastr alert alert-success" role="alert">
         </div>
-        <!-- Google tag (gtag.js) -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-T4VF6JJ095"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-
-            gtag('config', 'G-T4VF6JJ095');
-        </script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -79,11 +78,7 @@
         <script src="https://unpkg.com/tippy.js@6"></script>
         <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
         <script src="/static/js/xterm.js"></script>
-
         <script>
-            
-
-
             cleanOutputText = "";
             bot = '{{ bot | markdown |  replace("\'", "\\\'") | safe }}';
             event_config = {{ event_config  | tojson | safe  }};
@@ -104,7 +99,54 @@
                 icono.css('color', '#000');
                 bar.css('color', '#000');
             });
+            function consoleText(words, id, colors) {
+                if (colors === undefined) colors = ['#fff'];
+                    var visible = true;
+                    var con = document.getElementById('console');
+                    var letterCount = 1;
+                    var x = 1;
+                    var waiting = false;
+                    var target = document.getElementById(id)
+                    target.setAttribute('style', 'color:' + colors[0])
+                    window.setInterval(function() {
 
+                    if (letterCount === 0 && waiting === false) {
+                        waiting = true;
+                        target.innerHTML = words[0].substring(0, letterCount)
+                        window.setTimeout(function() {
+                            var usedColor = colors.shift();
+                            colors.push(usedColor);
+                            var usedWord = words.shift();
+                            words.push(usedWord);
+                            x = 1;
+                            target.setAttribute('style', 'color:' + colors[0])
+                            letterCount += x;
+                            waiting = false;
+                        }, 1000)
+                        } else if (letterCount === words[0].length + 1 && waiting === false) {
+                        waiting = true;
+                        window.setTimeout(function() {
+                            x = -1;
+                            letterCount += x;
+                            waiting = false;
+                        }, 1000)
+                        } else if (waiting === false) {
+                        target.innerHTML = words[0].substring(0, letterCount)
+                        letterCount += x;
+                        }
+                    }, 120)
+                window.setInterval(function() {
+                    if (visible === true) {
+                    con.className = 'console-underscore hidden'
+                    visible = false;
+
+                    } else {
+                    con.className = 'console-underscore'
+
+                    visible = true;
+                    }
+                }, 400)
+            }
             barra_busqueda.focusout(function(){
                 barra_busqueda.css('width', '15%');
                 menu.css('width', '99%');
@@ -115,6 +157,119 @@
                 eventStates[`not_${event.name}`] = true;
             });
             events_json = {};
+
+            async function lazyForm(prompt, id) {
+                const responseDiv = document.getElementById(id);
+                responseDiv.innerHTML = ''; 
+                
+                try {
+                    const response = await fetch('/lazybot', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ prompt })
+                    });
+
+                    const reader = response.body.getReader();
+                    const decoder = new TextDecoder();
+                    let buffer = '';
+
+                    while (true) {
+                        const { done, value } = await reader.read();
+                        if (done) break;
+                        
+                        buffer += decoder.decode(value, { stream: true });
+                        
+                        let boundary = buffer.lastIndexOf('\n');
+                        if (boundary === -1) continue;
+                        
+                        const chunks = buffer.substring(0, boundary).split('\n');
+                        buffer = buffer.substring(boundary + 1);
+                        
+                        for (const chunk of chunks) {
+                            try {
+                                const data = JSON.parse(chunk);
+                                if (data.response) {
+                                    responseDiv.innerHTML +=  data.response;
+                                }
+                            } catch (e) {
+                                console.error('Error parsing chunk:', e);
+                            }
+                        }
+                    }
+                    
+                    // Procesar cualquier dato restante
+                    if (buffer) {
+                        try {
+                            const data = JSON.parse(buffer);
+                            if (data.response) {
+                                responseDiv.innerHTML += data.response;
+                            }
+                        } catch (e) {
+                            console.error('Error parsing final chunk:', e);
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            }
+            async function reportForm(prompt, id) {
+                const responseDiv = document.getElementById(id);
+                responseDiv.innerHTML = ''; 
+                
+                try {
+                    const response = await fetch('/lazyreport', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ prompt })
+                    });
+
+                    const reader = response.body.getReader();
+                    const decoder = new TextDecoder();
+                    let buffer = '';
+
+                    while (true) {
+                        const { done, value } = await reader.read();
+                        if (done) break;
+                        
+                        buffer += decoder.decode(value, { stream: true });
+                        
+                        let boundary = buffer.lastIndexOf('\n');
+                        if (boundary === -1) continue;
+                        
+                        const chunks = buffer.substring(0, boundary).split('\n');
+                        buffer = buffer.substring(boundary + 1);
+                        
+                        for (const chunk of chunks) {
+                            try {
+                                const data = JSON.parse(chunk);
+                                if (data.response) {
+                                    responseDiv.innerHTML +=  data.response;
+                                }
+                            } catch (e) {
+                                console.error('Error parsing chunk:', e);
+                            }
+                        }
+                    }
+                    
+                    // Procesar cualquier dato restante
+                    if (buffer) {
+                        try {
+                            const data = JSON.parse(buffer);
+                            if (data.response) {
+                                responseDiv.innerHTML += data.response;
+                            }
+                        } catch (e) {
+                            console.error('Error parsing final chunk:', e);
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            }
             async function sendNotification(htmlContent) {
                 const url = '/push_notification';
                 const formData = new FormData();
@@ -155,7 +310,8 @@
                     spinner.style.display = 'none';
                     if (data.error) {
                         
-                        document.getElementById('vulnResponse').innerHTML += `<p style="color: red;">${data.error}</p>`;
+                        document.getElementById('vulnResponse').innerHTML += `<p style="color: red;">Groq has trouble.</p>`;
+                        
                     } else {
                         
                         var converter = new showdown.Converter();
@@ -245,7 +401,15 @@
                         console.log(data['response']); 
                         spinner.style.display = 'none';
                         if (data.error) {
-                            document.getElementById('generalResponse').innerHTML += `<p style="color: red;">${data.error}</p>`;
+                            document.getElementById('generalResponse').innerHTML += `<p style="color: red;">Groq has trouble, trying with deepseek, please await.</p>`;
+                            var lazyprompt = document.getElementById('generalInput').value;
+                            lazyForm(lazyprompt, 'generalInput').then(function() {
+                                var converter = new showdown.Converter();
+                                var responseDiv = document.getElementById('generalResponse');
+                                if (responseDiv) {
+                                    responseDiv.innerHTML = converter.makeHtml(responseDiv.textContent);
+                                }
+                            });
                         } else {
                             var converter = new showdown.Converter();
                             var html = converter.makeHtml(data.response);
@@ -314,6 +478,7 @@
                 }
             }            
             document.addEventListener('DOMContentLoaded', function() {
+                consoleText(['LazyOwn RedTeam Framework', 'LazyOwn Comand & Conquer IA Center', 'Mr Hyde Rootkit/Implants Made with Love'], 'text',['tomato','rebeccapurple','lightblue']);
                 setInterval(fetchEvents, 60000);
                 $("#dock-container").on('mouseleave', function() {
                     $(this).css('bottom', '-100px');
@@ -399,7 +564,7 @@
                 }
                 function leftTrim(str) {
                     return str.replace(/^\s+/, '').trim();
-                }
+                }               
                 async function fetchLog(isChecked) {
                     try {
                         const response = await fetch('/api/output');
@@ -843,6 +1008,20 @@
                 document.getElementById('chatbotButton').addEventListener('click', function() {
                     $('#chatbotModal').modal('show');
                 });
+                document.getElementById('reportButton').addEventListener('click', function() {
+                    $('#reportModal').modal('show');
+                }); 
+                document.getElementById('reportFormbot').addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    var reportprompt = document.getElementById('reportprompt').value;
+                    reportForm(reportprompt, 'reportResponse').then(function() {
+                        var converter = new showdown.Converter();
+                        var responseDiv = document.getElementById('reportResponse');
+                        if (responseDiv) {
+                            responseDiv.innerHTML = converter.makeHtml(responseDiv.textContent);
+                        }
+                    });
+                });                   
                 document.getElementById('sistemaOperativo').addEventListener('change', function(event) {    
                     var sistemaOperativo = document.getElementById('sistemaOperativo').value;
                     var user_agent_lin = '{{ lin_useragent }}';
@@ -972,7 +1151,6 @@
                 document.getElementById('vulnButton').addEventListener('click', function() {
                     $('#vulnModal').modal('show');
                 });
-                
                 document.getElementById('vulnForm').addEventListener('submit', function(event) {
                     event.preventDefault();
                     
@@ -980,6 +1158,20 @@
                     
                     
                 });
+                document.getElementById('lazyButton').addEventListener('click', function() {
+                    $('#lazyModal').modal('show');
+                });     
+                document.getElementById('lazyForm').addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    var lazyprompt = document.getElementById('lazyprompt').value;
+                    lazyForm(lazyprompt, 'lazyResponse').then(function() {
+                        var converter = new showdown.Converter();
+                        var responseDiv = document.getElementById('lazyResponse');
+                        if (responseDiv) {
+                            responseDiv.innerHTML = converter.makeHtml(responseDiv.textContent);
+                        }
+                    });
+                });                      
                 document.getElementById('searchButton').addEventListener('click', function() {
                     $('#searchModal').modal('show');
                 });

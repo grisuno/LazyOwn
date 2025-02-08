@@ -2825,6 +2825,20 @@ printed indicating that a command is required. :returns: None</p>
 exiting LazyOwn.</p>
 <p>Note: Ensure that the command provided is safe to execute and does
 not include potentially harmful operations.</p>
+<h2 id="sys">sys</h2>
+<p>Executes a shell command directly from the LazyOwn interface.</p>
+<p>This function allows the user to execute arbitrary shell commands
+without exiting the LazyOwn shell. It checks if a command is provided,
+prints a message indicating the command being executed, and then runs
+the command using <code>os.system</code>.</p>
+<p>Usage: sh <command></p>
+<p>:param line: The shell command to be executed. :type line: str
+:raises ValueError: If no command is provided, an error message is
+printed indicating that a command is required. :returns: None</p>
+<p>Example: sh ls -la # This will execute ‘ls -la’ in the shell without
+exiting LazyOwn.</p>
+<p>Note: Ensure that the command provided is safe to execute and does
+not include potentially harmful operations.</p>
 <h2 id="pwd">pwd</h2>
 <p>Displays the current working directory and lists files, and copies
 the current directory path to the clipboard.</p>
@@ -6568,6 +6582,20 @@ proxy, downloading the LazyOwn package, transferring it to a remote
 machine, and installing it. The function ensures that all necessary
 directories are created and that the package is correctly installed on
 the remote machine.</p>
+<p>Parameters: line (str): The command line input, which is not used in
+this function.</p>
+<p>Returns: None</p>
+<h2 id="commix">commix</h2>
+<p>Executes the Commix tool for detecting and exploiting command
+injection vulnerabilities.</p>
+<p>This function: - Installs Commix if not already installed. - Executes
+the Commix command with the provided parameters. - Displays the result
+in the terminal.</p>
+<p>Behavior: - Requires <code>git</code> and <code>python</code> to be
+installed. - Uses a one-liner installation method for simplicity.</p>
+<p>Usage: commix {url} {field} {value}</p>
+<h2 id="addcli">addcli</h2>
+<p>Add a client to execute c2 commands</p>
 <p>Parameters: line (str): The command line input, which is not used in
 this function.</p>
 <p>Returns: None</p>

@@ -4804,6 +4804,28 @@ Example:
 Note:
     Ensure that the command provided is safe to execute and does not include potentially harmful operations.
 
+## sys
+Executes a shell command directly from the LazyOwn interface.
+
+This function allows the user to execute arbitrary shell commands without exiting the LazyOwn shell. 
+It checks if a command is provided, prints a message indicating the command being executed, and then 
+runs the command using `os.system`.
+
+Usage:
+    sh <command>
+
+:param line: The shell command to be executed.
+:type line: str
+:raises ValueError: If no command is provided, an error message is printed indicating that a command is required.
+:returns: None
+
+Example:
+    sh ls -la
+    # This will execute 'ls -la' in the shell without exiting LazyOwn.
+
+Note:
+    Ensure that the command provided is safe to execute and does not include potentially harmful operations.
+
 ## pwd
 Displays the current working directory and lists files, and copies the current directory path to the clipboard.
 
@@ -10700,6 +10722,30 @@ Parameters:
 Returns:
     None
 
+## commix
+Executes the Commix tool for detecting and exploiting command injection vulnerabilities.
+
+This function:
+    - Installs Commix if not already installed.
+    - Executes the Commix command with the provided parameters.
+    - Displays the result in the terminal.
+
+Behavior:
+    - Requires `git` and `python` to be installed.
+    - Uses a one-liner installation method for simplicity.
+
+Usage:
+    commix {url} {field} {value}
+
+## addcli
+Add a client to execute c2 commands
+
+Parameters:
+    line (str): The command line input, which is not used in this function.
+
+Returns:
+    None
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 
@@ -10941,6 +10987,55 @@ Recursively resolve and download package dependencies with enhanced checks
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new fetures \n\n Version: release/0.2.28 \n\n new telegram bot, new features in c2, some fixes in framework, hot fixes, and new commands in commands.md \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Jan 28 21:58:15 2025 -0300 \n\n Hora: 1738112295
+
+
+### Otros
+
+### Otros
+
+  *   * hotfix
+
+
+### Otros
+
+### Otros
+
+  *   * hotfix
+
+
+### Otros
+
+### Otros
+
+  *   * hotfix
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #82 from grisuno/grisuno-patch-3
+
+
+### Otros
+
+### Otros
+
+  *   * Create FUNDING.yml
+
+
+### Otros
+
+### Otros
+
+  *   * telegram bot
 
 
 ### Correcciones urgentes

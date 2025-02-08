@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="card bg-secondary text-light p-4 mb-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <h1 class="mb-4">Edit Cve</h1>
+        <a class="neon-text" href="/" alt="home">Home</a>
+        <form id="editCveForm">
+            
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="title" name="title" value="{{ cve.title }}" required>
+                
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <div id="editor">{{ cve_description | safe }}</div>
+                <input type="hidden" id="description" name="description">
+            </div>
+            <div class="mb-3">
+                <label for="operator" class="form-label">Operator</label>
+                <input type="text" class="form-control" id="operator" name="operator" value="{{ cve.operator }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="risk" class="form-label">Vulnerability Risk</label>
+                <select id="risk" name="risk" class="form-control" required>
+                    <option value="CRITICAL" {% if cve.risk == 'CRITICAL' %}selected{% endif %}>CRITICAL</option>
+                    <option value="CRITICAL" {% if cve.risk == 'CRITICAL' %}selected{% endif %}>CRITICAL</option>
+                    <option value="MEDIUM" {% if cve.risk == 'MEDIUM' %}selected{% endif %}>MEDIUM</option>
+                    <option value="LOW" {% if cve.risk == 'LOW' %}selected{% endif %}>LOW</option>
+                    <option value="INFORMATIONAL" {% if cve.risk == 'INFORMATIONAL' %}selected{% endif %}>INFORMATIONAL</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <a class="btn btn-secondary" href="{{ url_for('cve', cve_id=cve.id) }}">Cancel</a>
+        </form>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var quill = new Quill('#editor', {
+            theme: 'snow'
+        });
+        
+        document.querySelector('.loading-container').style.display = 'none';
+        
+        document.getElementById('editCveForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const title = document.getElementById('title').value;
+            const description = quill.root.innerHTML;
+            const operator = document.getElementById('operator').value;
+            const risk = document.getElementById('risk').value;
+            const spinner = document.getElementById('loader');
+            spinner.style.display = 'block';
+            const formData = new FormData();
+            formData.append('title', title);
+            formData.append('description', description);
+            formData.append('operator', operator);
+            formData.append('risk', risk);
+            
+            fetch('/cve/{{ cve.id }}/edit', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                spinner.style.display = 'none';
+                if (response.redirected) {
+                    window.location.href = response.url;
+                } else {
+                    return response.json();
+                }
+            })
+            .then(data => {
+                spinner.style.display = 'none';
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                spinner.style.display = 'none';
+                console.error('Error:', error);
+            });
+        });
+    });
+</script>
+</body>
+</html>
+
+{% endblock %}

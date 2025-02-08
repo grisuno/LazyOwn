@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="card bg-secondary text-light p-4 mb-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <h1 class="mb-4">Reverse Shell Interface</h1>
+
+        <input type="text" id="command" placeholder="Enter command">
+        <button id="sendbutton">Send</button>
+        <textarea id="output" rows="20" cols="80" readonly></textarea>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
+<script src="/static/js/xterm.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelector('.loading-container').style.display = 'none';
+
+        var socket = io.connect('https://' + document.domain + ':' + location.port + '/listener');
+
+        socket.on('connect', function() {
+            console.log('Connected to server');
+        });
+
+        socket.on('response', function(data) {
+            var outputArea = document.getElementById('output');
+            var term = new Terminal();
+            term.open(document.getElementById('output'));
+            term.write('\x1b[2J\x1b[3J\x1b[H');
+            term.write(output);
+            outputArea.value += data.output;
+        });
+
+        document.getElementById('sendbutton').onclick = function() {
+            var command = document.getElementById('command').value;
+            socket.emit('command', command);
+            document.getElementById('command').value = '';
+        };
+       
+    });
+</script>
+</body>
+</html>
+
+{% endblock %}

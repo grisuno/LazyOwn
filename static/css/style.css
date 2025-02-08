@@ -438,6 +438,14 @@ h1.neon-text {
     transition: background-color 0.3s;
 }
 
+.card-header {
+    background-color: #3a3a3a;
+    color: #e0e0e0;
+    padding: 10px 20px;
+    border-bottom: 1px solid #555;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
 
 .accordion .card-header:hover {
     background-color: #4a4a4a;
@@ -731,6 +739,7 @@ a:hover {
     color: #e0e0e0;
     border: none;
     border-radius: 8px;
+    z-index: 20000 !important;
 }
 
 #chatbotModal .modal-header {
@@ -775,6 +784,7 @@ a:hover {
     color: #e0e0e0;
     border: none;
     border-radius: 8px;
+    z-index: 20000 !important;
 }
 
 #vulnModal .modal-header {
@@ -814,12 +824,103 @@ a:hover {
     background-color: #6ad;
 }
 
+#reportModal .modal-content {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+    border: none;
+    border-radius: 8px;
+    z-index: 20000 !important;
+}
+
+#reportModal .modal-header {
+    background-color: #2a2a2a;
+    border-bottom: none;
+}
+
+#reportModal .modal-title {
+    color: #e0e0e0;
+}
+
+#reportModal .close {
+    color: #e0e0e0;
+    opacity: 1;
+}
+
+#reportModal .modal-body {
+    background-color: #1a1a1a;
+}
+
+#reportModal .form-group label {
+    color: #e0e0e0;
+}
+
+#reportModal .form-control {
+    background-color: #444;
+    color: #e0e0e0;
+    border: 1px solid #555;
+}
+
+#reportModal .btn-primary {
+    background-color: #8bf;
+    border: none;
+}
+
+#reportModal .btn-primary:hover {
+    background-color: #6ad;
+}
+
+#lazyModal .modal-content {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+    border: none;
+    border-radius: 8px;
+    z-index: 20000 !important;
+}
+
+#lazyModal .modal-header {
+    background-color: #2a2a2a;
+    border-bottom: none;
+}
+
+#lazyModal .modal-title {
+    color: #e0e0e0;
+}
+
+#lazyModal .close {
+    color: #e0e0e0;
+    opacity: 1;
+}
+
+#lazyModal .modal-body {
+    background-color: #1a1a1a;
+}
+
+#lazyModal .form-group label {
+    color: #e0e0e0;
+}
+
+#lazyModal .form-control {
+    background-color: #444;
+    color: #e0e0e0;
+    border: 1px solid #555;
+}
+
+#lazyModal .btn-primary {
+    background-color: #8bf;
+    border: none;
+}
+
+#lazyModal .btn-primary:hover {
+    background-color: #6ad;
+}
+
 
 #taskModal .modal-content {
     background-color: #1a1a1a;
     color: #e0e0e0;
     border: none;
     border-radius: 8px;
+    z-index: 20000 !important;
 }
 
 #taskModal .modal-header {
@@ -864,6 +965,7 @@ a:hover {
     color: #e0e0e0;
     border: none;
     border-radius: 8px;
+    z-index: 20000 !important;
 }
 
 #searchModal .modal-header {
@@ -908,6 +1010,7 @@ a:hover {
     color: #e0e0e0;
     border: none;
     border-radius: 8px;
+    z-index: 20000 !important;
 }
 
 #scriptModal .modal-header {
@@ -952,6 +1055,7 @@ a:hover {
     color: #e0e0e0;
     border: none;
     border-radius: 8px;
+    z-index: 20000 !important;
 }
 
 #redopModal .modal-header {
@@ -996,6 +1100,7 @@ a:hover {
     color: #e0e0e0;
     border: none;
     border-radius: 8px;
+    z-index: 20000 !important;
 }
 
 #generalModal .modal-header {
@@ -1465,4 +1570,58 @@ nav {
 	left:15px;
 	color:#858585;
 	text-decoration:none;
+}
+
+.hidden {
+    opacity:0;
+  }
+  .console-container {
+   
+    font-family:Khula;
+    font: size 1.5em;
+    text-align:center;
+    height:50px;
+    width:600px;
+    display:block;
+    position:absolute;
+    color:white;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    margin:auto;
+    z-index: 500;
+  }
+  .console-underscore {
+    display:inline-block;
+    position:relative;
+    top:-0.14em;
+    left:10px;
+    z-index: 10009;
+  }
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; 
+}
+.flex-container p {
+    margin: 0; 
+    padding: 5px; 
+    background-color: #1b1b1b; 
+    border: 1px solid #838383; 
+    border-radius: 4px; 
+}
+
+.page-link {
+    position: relative;
+    display: block;
+    padding: .5rem .75rem;
+    margin-left: -1px;
+    line-height: 1.25;
+    color: #13E8E9;
+    background: linear-gradient(rgb(139, 139, 139) 0%, rgb(106, 106, 106) 50%, rgb(94, 94, 94) 51%, rgb(113, 113, 113) 100%);
+    border: 1px solid #dee2e6;
+}
+.card {
+    background-color: #6c757d !important;
 }

@@ -11,6 +11,11 @@ from discord.ext import commands
 from lazyown import LazyOwnShell
 from modules.lazygptcli5 import process_prompt_general, Groq
 
+"""
+1333654599785119746 id
+
+public key d722e294d9be364b65c8e88321015a4c7327a27458c80d11b1dd45ad5b45f210
+"""
 intents = discord.Intents.default()
 intents.message_content = True
 
@@ -133,10 +138,11 @@ async def exce_cmd(ctx, *, command: str):
     global client_id
     print(f"Command : {command}")
     if user_id not in user_games:
-        await ctx.send("Usage !start <secret> to beggin LazyOwn RedTeam Bot.")
+        await ctx.send("Usage !start <secret> to begin LazyOwn RedTeam Bot.")
         return
 
     try:
+        output2 = ""  # Initialize output2 to avoid UnboundLocalError
         if command.startswith("c2"):
             cmd = f"issue_command_to_c2 "
             commands_history = {}
@@ -181,7 +187,7 @@ async def exce_cmd(ctx, *, command: str):
 
         else:
             output = shell.one_cmd(command)
-            output2 = ""
+
         output = strip_ansi(output)
         if ENTABLEIA:
             response = process_prompt_general(client, output, False)
@@ -193,10 +199,10 @@ async def exce_cmd(ctx, *, command: str):
         await ctx.send("Criptic Error")
 
 @bot.command()
-async def add_cli(ctx, client_id: str):
+async def add_cli(ctx, new_client_id: str):
     user_id = ctx.author.id
     global client_id
-    client_id = client_id
+    client_id = new_client_id
     await ctx.send(f"Client ID '{client_id}' Configuring the target...")
     print(client_id)
     print(user_id)
@@ -253,6 +259,19 @@ async def send_connected_clients(ctx):
         await ctx.send(message)
     except Exception as e:
         await ctx.send(f"Error: {str(e)}")
+
+# Register missing commands
+@bot.command()
+async def clients(ctx):
+    await send_connected_clients(ctx)
+
+@bot.command()
+async def addcli(ctx, new_client_id: str):
+    await add_cli(ctx, new_client_id)
+
+@bot.command()
+async def c2(ctx, *, command: str):
+    await exce_cmd(ctx, command=command)
 
 config = Config(load_payload())
 telegram_token = config.telegram_token

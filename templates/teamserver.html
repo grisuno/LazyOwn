@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="card bg-secondary text-light p-4 mb-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        <h1 class="mt-5">Team Server Form</h1>
+        <form method="POST" action="/teamserver">
+            <div class="form-group">
+                <label for="assessment_information">ASSESSMENT INFORMATION</label>
+                <textarea class="form-control" id="assessment_information" name="assessment_information" rows="3">{{ form_data.assessment_information }}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="engagement_overview">ENGAGEMENT OVERVIEW</label>
+                <textarea class="form-control" id="engagement_overview" name="engagement_overview" rows="3">{{ form_data.engagement_overview }}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="service_description">SERVICE DESCRIPTION</label>
+                <textarea class="form-control" id="service_description" name="service_description" rows="3">{{ form_data.service_description }}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="campaign_objectives">CAMPAIGN OBJECTIVES</label>
+                <textarea class="form-control" id="campaign_objectives" name="campaign_objectives" rows="3">{{ form_data.campaign_objectives }}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="process_and_methodology">PROCESS AND METHODOLOGY</label>
+                <textarea class="form-control" id="process_and_methodology" name="process_and_methodology" rows="3">{{ form_data.process_and_methodology }}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="scoping_and_rules">SCOPING AND RULES OF ENGAGEMENT</label>
+                <textarea class="form-control" id="scoping_and_rules" name="scoping_and_rules" rows="3">{{ form_data.scoping_and_rules }}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="executive_summary_findings">EXECUTIVE SUMMARY OF FINDINGS</label>
+                <textarea class="form-control" id="executive_summary_findings" name="executive_summary_findings" rows="3">{{ form_data.executive_summary_findings }}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="executive_summary_narrative">EXECUTIVE SUMMARY NARRATIVE</label>
+                <textarea class="form-control" id="executive_summary_narrative" name="executive_summary_narrative" rows="3">{{ form_data.executive_summary_narrative }}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="summary_vulnerability_overview">SUMMARY VULNERABILITY OVERVIEW</label>
+                <textarea class="form-control" id="summary_vulnerability_overview" name="summary_vulnerability_overview" rows="3">{{ form_data.summary_vulnerability_overview }}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="security_labs_toolkit">SECURITY LABS TOOLKIT</label>
+                <textarea class="form-control" id="security_labs_toolkit" name="security_labs_toolkit" rows="3">{{ form_data.security_labs_toolkit }}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="appendix_a_changes">APPENDIX A: CHANGES TO ENVIRONMENT</label>
+                <textarea class="form-control" id="appendix_a_changes" name="appendix_a_changes" rows="3">{{ form_data.appendix_a_changes }}</textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Update</button>
+        </form>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelector('.loading-container').style.display = 'none';
+    });
+</script>
+</body>
+</html>
+
+{% endblock %}

@@ -34,6 +34,7 @@ external/.exploit
 modules_ext/
 vpn/
 sessions/users.txt
+payload.json
 payload_*.json
 *.dmp
 firefox.dmp

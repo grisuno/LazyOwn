@@ -41,6 +41,32 @@ def configure_logging(debug: bool) -> None:
     level = logging.DEBUG if debug else logging.INFO
     logging.basicConfig(level=level, format='%(asctime)s - %(levelname)s - %(message)s')
 
+def process_prompt_deepseek(prompt: str) -> str:
+    """
+    Envía el prompt al modelo de DeepSeek y devuelve la respuesta.
+    
+    :param prompt: El prompt que se enviará al modelo de DeepSeek.
+    :return: La respuesta del modelo de DeepSeek.
+    """
+    try:
+        response = requests.post(
+            "http://localhost:11434/api/generate",
+            json={
+                "model": "deepseek-r1:1.5b",
+                "prompt": prompt,
+                "stream": False
+            }
+        )
+
+        if response.status_code == 200:
+            response_data = response.json()
+            return response_data.get("response", "No se recibió una respuesta válida de DeepSeek.")
+        else:
+            return f"Error en la solicitud a DeepSeek: {response.status_code}"
+
+    except Exception as e:
+        return f"Error al comunicarse con DeepSeek: {e}"
+
 def create_complex_prompt(base_prompt: str, history: str, knowledge_base: str) -> str:
     with open('payload.json', 'r') as file:
         config = json.load(file)
@@ -156,12 +182,11 @@ def process_prompt_general(client, prompt: str, debug: bool) -> str:
         return message
 
     except Exception as ex:
-        e = ex 
-        if e:
-            return f"Error API: {e}"
-        else:
-            return "Unknown Error."
-
+        logging.error(f"[E] Error en Groq: {ex}")
+        # En caso de error, enviar el prompt a DeepSeek
+        deepseek_response = process_prompt_deepseek(complex_prompt)
+        return f"Error en Groq. Respuesta de DeepSeek: {deepseek_response}"
+    
 if __name__ == "__main__":
     import argparse
     import sys

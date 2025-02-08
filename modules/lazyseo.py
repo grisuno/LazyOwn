@@ -6,7 +6,22 @@ import random
 from colors import *
 from bs4 import BeautifulSoup
 import re
+import argparse
 from time import sleep
+
+class Config:
+    def __init__(self, config_dict):
+        self.config = config_dict
+        for key, value in self.config.items():
+            setattr(self, key, value)
+
+    def __getitem__(self, key):
+        return getattr(self, key, None)
+
+def load_payload():
+    with open('payload.json', 'r') as file:
+        config = json.load(file)
+    return config
 
 def make_request(url, retries=3, timeout=30):
     with open('modules/headers.json') as f:
@@ -28,6 +43,32 @@ def make_request(url, retries=3, timeout=30):
             return None
     print(f"{RED}Max retries exceeded for {url}.")
     return None
+
+def results(file):
+    content=open(file,'r').readlines()
+    for line in content:
+        data=json.loads(line.strip())
+        urls=[]
+    for url in data['results']:
+        urls.append(url['url'])
+    return urls
+def crawl(url):
+    r = requests.get(url)
+    soup = BeautifulSoup(r.text,'lxml')
+    links = soup.findAll('a',href=True)
+    for link in links:
+        link=link['href']
+        if link and link!='#':
+            print('[+] {} : {}'.format(url,link))
+
+def ffuf():
+    config = Config(load_payload())
+    rhost = config.rhost
+    path = os.getcwd()
+    filename = f"{path}/sessions/{rhost}/80/ffuf/ffuf.txt"
+    urls=results(filename)
+    for url in urls:
+        crawl(url)
 
 def analyze_seo(url):
     print(f"{GREEN}URL: {url}")
@@ -198,6 +239,7 @@ if __name__ == "__main__":
     print(BANNER)
     website_url = sys.argv[1] if len(sys.argv) > 1 else input("   [?] Enter the URL of the website to analyze (including http/https): ")
     try:
+        ffuf()
         analyze_seo(website_url)
     except KeyboardInterrupt:
         print(f"{RED} Exiting...👽 LazyOwn ☠ 530 ☠ [;,;] {RESET}") 

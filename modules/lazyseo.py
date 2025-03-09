@@ -66,6 +66,7 @@ def ffuf():
     rhost = config.rhost
     path = os.getcwd()
     filename = f"{path}/sessions/{rhost}/80/ffuf/ffuf.txt"
+    print(f"reading {filename}")
     urls=results(filename)
     for url in urls:
         crawl(url)

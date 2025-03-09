@@ -18,6 +18,14 @@ ENABLE_DEEPSEEK=$(jq -r '.enable_deepseek' "$JSON_FILE")
 ENABLE_NC=$(jq -r '.enable_nc' "$JSON_FILE")
 CERTPASS="LazyOwn"
 CURRENT=$PWD
+
+for cmd in tmux jq go; do
+    if ! command -v $cmd &> /dev/null; then
+        echo "Error: $cmd is required but not installed."
+        exit 1
+    fi
+done
+
 check_sudo() {
     if [ "$EUID" -ne 0 ]; then
         echo "[S] This script will reload as r00t ..."

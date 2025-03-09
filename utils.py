@@ -45,7 +45,6 @@ import argparse
 import binascii
 import readline
 import requests
-
 import tempfile
 import itertools
 import threading
@@ -2640,6 +2639,32 @@ def get_org(data):
         return data["net"]["customerRef"]["@name"]
     else:
         return "null"
+
+
+def load_payload():
+    with open('payload.json', 'r') as file:
+        config = json.load(file)
+    return config
+
+def load_adversary():
+    with open('adversary.json', 'r') as file:
+        config_list = json.load(file)
+    return [Config(config) for config in config_list]
+
+def replace_placeholders(template, replacements):
+    """
+    Replace placeholders in a template string with values from a dictionary.
+
+    Parameters:
+        template (str): The template string containing placeholders.
+        replacements (dict): A dictionary where keys are placeholders and values are replacements.
+
+    Returns:
+        str: The template string with placeholders replaced.
+    """
+    for key, value in replacements.items():
+        template = template.replace(f"{{{key}}}", str(value))
+    return template    
 class MyServer(HTTPServer):
     """
     Custom HTTP server to handle incoming connections from certutil.
@@ -2844,7 +2869,15 @@ class VulnerabilityScanner:
             print_msg(f"Csv file created successfully at {file_path}")
         except Exception as e:
             print_error(f"Error creating Csv file: {e}")        
-        
+
+class Config:
+    def __init__(self, config_dict):
+        self.config = config_dict
+        for key, value in self.config.items():
+            setattr(self, key, value)
+
+    def __getitem__(self, key):
+        return getattr(self, key, None)       
 
 signal.signal(signal.SIGINT, signal_handler)
 arguments = sys.argv[1:]  

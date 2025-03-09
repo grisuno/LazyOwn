@@ -7,7 +7,7 @@
 #include <unistd.h>
 #include <stdint.h>
 
-const char *SHELLCODE = {shellcode};
+const char *SHELLCODE = "{shellcode}";
 
 void inject(pid_t pid) {
     struct user_regs_struct old_regs, regs;

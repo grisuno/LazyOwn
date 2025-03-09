@@ -15,7 +15,6 @@ import threading
 import subprocess
 import pandas as pd
 from math import ceil
-from utils import getprompt
 from functools import wraps
 from datetime import datetime
 from lazyown import LazyOwnShell
@@ -24,6 +23,7 @@ from watchdog.observers import Observer
 from dnslib.server import DNSServer, DNSLogger
 from flask_socketio import SocketIO, send, emit
 from jinja2 import Environment, FileSystemLoader
+from utils import getprompt, Config, load_payload
 from watchdog.events import FileSystemEventHandler
 from modules.lazygptcli2 import process_prompt, Groq
 from modules.lazygptvulns import process_prompt_vuln
@@ -71,14 +71,6 @@ class Handler(FileSystemEventHandler):
                     events = events[:1000]
         except Exception as e:
             print(f"Error watchdog: {e}")
-class Config:
-    def __init__(self, config_dict):
-        self.config = config_dict
-        for key, value in self.config.items():
-            setattr(self, key, value)
-
-    def __getitem__(self, key):
-        return getattr(self, key, None)
 
 def get_karma_name(elo):
     if elo < 100:
@@ -99,10 +91,6 @@ def get_karma_name(elo):
 def fromjson(value):
     return json.loads(value)
 
-def load_payload():
-    with open('payload.json', 'r') as file:
-        config = json.load(file)
-    return config
 
 def load_banners():
     with open('sessions/banners.json', 'r') as file:

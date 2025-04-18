@@ -60,10 +60,10 @@ def encode(data, shift, key):
         if all(isinstance(item, str) for item in data):
             return [encode_string(item, shift, key) for item in data]
         else:
-            raise TypeError("All items in the list must be strings. Found: {}".format(data))
-
+            raise TypeError(f"All items in the list must be strings. Found: {data}")
     else:
-        pass
+        raise TypeError(f"Data must be a string or a list of strings. Found: {data}")
+
 def encode_string(data, shift, key):
     base64_encoded = base64_encode(data)
     caesar_encoded = caesar_cipher(base64_encoded, shift)
@@ -77,9 +77,9 @@ def decode(data, shift, key):
         if all(isinstance(item, str) for item in data):
             return [decode_string(item, shift, key) for item in data]
         else:
-            raise TypeError("All items in the list must be strings. Found: {}".format(data))
+            raise TypeError(f"All items in the list must be strings. Found: {data}")
     else:
-        raise TypeError("All items in the list must be strings. Found: {}".format(data))
+        raise TypeError(f"Data must be a string or a list of strings. Found: {data}")
 
 def decode_string(data, shift, key):
     key_decoded = key_substitution_reverse(data, key)

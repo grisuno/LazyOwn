@@ -67,9 +67,9 @@ One of the standout features of **LazyOwn: CRIMEN** is its ability to schedule t
 **LazyOwn: CRIMEN** offers a rich set of commands that can be executed from both the CLI and the web interface, each designed to empower users with unparalleled control and flexibility:
 
 - **list**: Enumerates all available LazyOwn Modules within the framework, providing a comprehensive overview of the toolkit's capabilities.
-- **assign <parameter> <value>**: Configures specific parameters for the operation, such as `assign rhost 192.168.1.1` to define the target IP address, ensuring precise and tailored attacks.
+- **assign **: Configures specific parameters for the operation, such as `assign rhost 192.168.1.1` to define the target IP address, ensuring precise and tailored attacks.
 - **show**: Displays the current values of all configured parameters, offering a clear and concise view of the operational setup.
-- **run <script>**: Executes specific scripts available in the framework, such as `run lazysniff` to initiate packet sniffing, enabling dynamic and responsive security assessments.
+- **run : Executes specific scripts available in the framework, such as `run lazysniff` to initiate packet sniffing, enabling dynamic and responsive security assessments.
 - **cron**: Schedules tasks to run at specified intervals, ensuring persistent and automated threat simulations that mimic the relentless nature of advanced cyber adversaries.
 - **exit**: Gracefully exits the CLI, concluding the session with elegance and finality.
 

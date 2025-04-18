@@ -3,52 +3,52 @@ sudo apt update
 sudo apt install ltrace python3-xyzservices python3-venv nmap xsltproc
 python3 -m venv env
 source env/bin/activate
-# pip install -r requirements.txt
+# pip3 install -r requirements.txt
 mkdir vpn
 mkdir banners
 mkdir -p sessions/logs
-pip install requests 
-pip install python-libnmap 
-pip install pwncat-cs 
-pip install pwn 
-pip install groq 
-pip install PyPDF2 
-pip install docx 
-pip install python-docx 
-pip install olefile 
-pip install exifread 
-pip install pycryptodome 
-pip install impacket 
-pip install pandas 
-pip install colorama 
-pip install tabulate 
-pip install pyarrow 
-pip install keyboard 
-pip install flask-unsign 
-pip install name-that-hash 
-pip install certipy-ad 
-pip install ast 
-pip install pykeepass
-pip install cmd2
-pip install Pillow
-pip install netaddr
-pip install stix2
-pip install pyautogui
-pip install networkx 
-pip install pyvis
-pip install markdown
-pip install scapy
-pip install watchdog
-pip install flask-login 
-pip instal flask-wtf 
-pip install bcrypt
-pip install pyyaml
-pip install bs4
-pip install dnslib
-pip python-telegram-bot 
-pip install nest_asyncio
-pip install rich
-
+pip3 install requests 
+pip3 install python-libnmap 
+pip3 install pwncat-cs 
+pip3 install pwn 
+pip3 install groq 
+pip3 install PyPDF2 
+pip3 install docx 
+pip3 install python-docx 
+pip3 install olefile 
+pip3 install exifread 
+pip3 install pycryptodome 
+pip3 install impacket 
+pip3 install pandas 
+pip3 install colorama 
+pip3 install tabulate 
+pip3 install pyarrow 
+pip3 install keyboard 
+pip3 install flask-unsign 
+pip3 install name-that-hash 
+pip3 install certipy-ad 
+pip3 install ast 
+pip3 install pykeepass
+pip3 install cmd2
+pip3 install Pillow
+pip3 install netaddr
+pip3 install stix2
+pip3 install pyautogui
+pip3 install networkx 
+pip3 install pyvis
+pip3 install markdown
+pip3 install scapy
+pip3 install watchdog
+pip3 install flask-login 
+pip3 instal flask-wtf 
+pip3 install bcrypt
+pip3 install pyyaml
+pip3 install bs4
+pip3 install dnslib
+pip3 python-telegram-bot 
+pip3 install nest_asyncio
+pip3 install rich
+pip3 install flask_socketio
 curl -fsSL https://ollama.com/install.sh | sh
 
 git clone https://github.com/grisuno/LazyOwnInfiniteStorage.git ./modules_ext/lazyown_infinitestorage

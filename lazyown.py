@@ -10082,6 +10082,7 @@ class LazyOwnShell(cmd2.Cmd):
         base64_encoded = base64.b64encode(random_bytes)
         user_agent_win = self.params["user_agent_win"]
         user_agent_lin = self.params["user_agent_lin"]
+        stealth = "True"
         random_string = base64_encoded.decode('utf-8')[:12]
         working_dir = f"{path}/sessions/"
         if not choice:
@@ -10234,7 +10235,7 @@ class LazyOwnShell(cmd2.Cmd):
             monrevlin_content = f.read()
 
         AES_KEY_hex = AES_KEY.hex()
-        content = content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", platform).replace("{sleep}", sleep).replace("{maleable}",maleable).replace("{useragent}",user_agent).replace('{key}', AES_KEY_hex)
+        content = content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", platform).replace("{sleep}", sleep).replace("{maleable}",maleable).replace("{useragent}",user_agent).replace('{key}', AES_KEY_hex).replace('{stealth}', stealth)
         monrevlin_content = monrevlin_content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", platform).replace("{sleep}", sleep).replace("{maleable}",maleable).replace("{useragent}",user_agent).replace('{key}', AES_KEY_hex)
         lateral_content = lateral_content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", platform).replace("{sleep}", sleep).replace("{maleable}",maleable).replace("{useragent}",user_agent).replace('{key}', AES_KEY_hex)
         lcontent = lcontent.replace("{lport}", str(rport)).replace("{lhost}", lhost).replace("{listener}", listener)
@@ -15622,7 +15623,7 @@ class LazyOwnShell(cmd2.Cmd):
             with open(csv_path, mode='r') as file:
                 reader = csv.DictReader(file)
                 for row in reader:
-                    identifier = row['identifier']
+                    identifier = row['identifier'].replace("*.","")
                     eligible_for_bounty = row['eligible_for_bounty'].lower() == 'true'
                     eligible_for_submission = row['eligible_for_submission'].lower() == 'true'
 
@@ -24476,6 +24477,7 @@ class LazyOwnShell(cmd2.Cmd):
         Returns:
             None
         """
+        # TODO crear parte que hace upload de la data y la parte que hace exfiltracion de lso datos por ejemplo las banderas de hackthebox
         print(len(line))
         c2_port = self.params["c2_port"]
         lhost = self.params["lhost"]
@@ -24655,6 +24657,108 @@ class LazyOwnShell(cmd2.Cmd):
         actions = self.get_available_actions()
         print_msg(actions)
 
+    def do_path2hex(self, line: str) -> None:
+        """
+        Convert a binary path to x64 little-endian hex code for shellcode injection.
+        
+        Generates an 8-byte aligned hex string padded with '/' for direct use in 
+        x64 assembly syscall examples. Output format mimics: 0x68732f2f6e69622f ('/bin/sh').
+
+        License: GPL v3 (https://www.gnu.org/licenses/gpl-3.0.html)
+
+        Args:
+            line: Input path (e.g., '/bin/ls')
+        
+        Technical Process:
+            1. Null-terminate input
+            2. Pad with '/' to 8 bytes
+            3. Convert to little-endian 64-bit hex
+            4. Validate ASCII-only characters
+        
+        Examples:
+            Input:  '/bin/sh'
+            Output: 0x68732f2f6e69622f
+        """
+        if not line:
+            self.poutput("Error: No path provided. Usage: path2hex </path/to/bin>")
+            return
+
+        try:
+            path = line.encode('ascii') + b'\x00'
+            total_len = len(path)
+            padded_len = ((total_len + 7) // 8) * 8  # Alinear a múltiplo de 8
+            padded = path.ljust(padded_len, b'/')
+
+            chunks = [padded[i:i+8] for i in range(0, padded_len, 8)]
+            chunks.reverse()  # Apilar en orden inverso
+
+            asm_code = []
+            for chunk in chunks:
+                hex_val = '0x' + chunk[::-1].hex()
+                asm_code.append(f"mov  rax, {hex_val}")
+                asm_code.append("push rax")
+
+            self.poutput("\n".join(asm_code))
+
+        except UnicodeEncodeError:
+            self.poutput("Error: Solo caracteres ASCII permitidos")
+
+    def do_hex2shellcode(self, line: str) -> None:
+        """
+        Convert raw hex payload from msfvenom into NASM-compatible shellcode format.
+        
+        Transforms a continuous hex string (e.g., msfvenom output) into a properly formatted
+        assembly data section with line-wrapped db directives. Handles byte alignment and
+        validation.
+
+        License: GPL v3 (https://www.gnu.org/licenses/gpl-3.0.html)
+
+        Args:
+            line: Raw hex string from msfvenom (e.g., "4831c94881e9f6...")
+
+        Technical Process:
+            1. Validate hex format and remove non-hex characters
+            2. Split into byte pairs (xx) -> 0xXX format
+            3. Wrap into db lines (16 bytes per line)
+            4. Generate length calculation via shellcode_len
+
+        Examples:
+            Input: 4831c94881e9f6
+            Output:
+                db 0x48,0x31,0xc9,0x48,0x81,0xe9,0xf6
+        """
+        if not line:
+            self.poutput("Error: No hex input. Usage: hex2shellcode <HEX_STRING>")
+            return
+
+        try:
+            # Clean input: remove non-hex chars and validate
+            clean_hex = "".join([c for c in line.strip() if c in "0123456789abcdefABCDEF"])
+            if len(clean_hex) % 2 != 0:
+                raise ValueError("Invalid hex string length (odd number of characters)")
+
+            # Split into byte array
+            byte_list = [f"0x{clean_hex[i:i+2]}" for i in range(0, len(clean_hex), 2)]
+            
+            # NASM formatting
+            output = ["section .data"]
+            output.append("shellcode:")
+            
+            # Split into chunks of 16 bytes
+            for i in range(0, len(byte_list), 16):
+                chunk = byte_list[i:i+16]
+                output.append(f"    db {','.join(chunk)}")
+            
+            # Add length calculation
+            output.append(f"shellcode_len equ $ - shellcode\n")
+            
+            self.poutput("\n".join(output))
+
+        except ValueError as ve:
+            self.poutput(f"Hex conversion error: {str(ve)}")
+        except Exception as e:
+            self.poutput(f"Critical error: {str(e)}")
+            
 if __name__ == "__main__":
     p = LazyOwnShell()
     p.onecmd("check_update")

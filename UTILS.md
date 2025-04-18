@@ -986,6 +986,22 @@ Args:
 Returns:
     The organization name or "null" if not found.
 
+## load_payload
+No description available.
+
+## load_adversary
+No description available.
+
+## replace_placeholders
+Replace placeholders in a template string with values from a dictionary.
+
+Parameters:
+    template (str): The template string containing placeholders.
+    replacements (dict): A dictionary where keys are placeholders and values are replacements.
+
+Returns:
+    str: The template string with placeholders replaced.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 
@@ -1057,4 +1073,10 @@ Imprime una tabla bonita con detalles de CVEs.
 
 Args:
     cves_details (list): Lista de CVEs con toda la información recopilada.
+
+## __init__
+No description available.
+
+## __getitem__
+No description available.
 

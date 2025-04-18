@@ -6599,6 +6599,48 @@ installed. - Uses a one-liner installation method for simplicity.</p>
 <p>Parameters: line (str): The command line input, which is not used in
 this function.</p>
 <p>Returns: None</p>
+<h2 id="adversary">adversary</h2>
+<p>LazyOwn RedTeam Adversary Emulator, you can configure your own
+adversaries in adversary.json</p>
+<p>Parameters: line (str): The command line input, first argument
+optional is the id of Adversary, the second optional argument is if the
+adversary run locally (l), remote (r), or doesn’t run (n)</p>
+<p>Example: adversary 1 r</p>
+<p>Returns: None</p>
+<h2 id="ofuscate_string">ofuscate_string</h2>
+<p>Ofuscate a string into Go code.</p>
+<h2 id="get_available_actions">get_available_actions</h2>
+<p>Devuelve una lista de acciones disponibles usando introspección de
+cmd2.</p>
+<h2 id="get_avaible_actions">get_avaible_actions</h2>
+<p>Get list de supported acctions.</p>
+<h2 id="path2hex">path2hex</h2>
+<p>Convert a binary path to x64 little-endian hex code for shellcode
+injection.</p>
+<p>Generates an 8-byte aligned hex string padded with ‘/’ for direct use
+in x64 assembly syscall examples. Output format mimics:
+0x68732f2f6e69622f (‘/bin/sh’).</p>
+<p>License: GPL v3 (https://www.gnu.org/licenses/gpl-3.0.html)</p>
+<p>Args: line: Input path (e.g., ‘/bin/ls’)</p>
+<p>Technical Process: 1. Null-terminate input 2. Pad with ‘/’ to 8 bytes
+3. Convert to little-endian 64-bit hex 4. Validate ASCII-only
+characters</p>
+<p>Examples: Input: ‘/bin/sh’ Output: 0x68732f2f6e69622f</p>
+<h2 id="hex2shellcode">hex2shellcode</h2>
+<p>Convert raw hex payload from msfvenom into NASM-compatible shellcode
+format.</p>
+<p>Transforms a continuous hex string (e.g., msfvenom output) into a
+properly formatted assembly data section with line-wrapped db
+directives. Handles byte alignment and validation.</p>
+<p>License: GPL v3 (https://www.gnu.org/licenses/gpl-3.0.html)</p>
+<p>Args: line: Raw hex string from msfvenom (e.g.,
+“4831c94881e9f6…”)</p>
+<p>Technical Process: 1. Validate hex format and remove non-hex
+characters 2. Split into byte pairs (xx) -&gt; 0xXX format 3. Wrap into
+db lines (16 bytes per line) 4. Generate length calculation via
+shellcode_len</p>
+<p>Examples: Input: 4831c94881e9f6 Output: db
+0x48,0x31,0xc9,0x48,0x81,0xe9,0xf6</p>
 <h2 id="find_tgts">find_tgts</h2>
 <p>Finds and returns a list of target hosts with port 445 open in the
 specified subnet.</p>

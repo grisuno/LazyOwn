@@ -1861,6 +1861,22 @@ Args:
 Returns:
     The organization name or "null" if not found.
 
+## load_payload
+No description available.
+
+## load_adversary
+No description available.
+
+## replace_placeholders
+Replace placeholders in a template string with values from a dictionary.
+
+Parameters:
+    template (str): The template string containing placeholders.
+    replacements (dict): A dictionary where keys are placeholders and values are replacements.
+
+Returns:
+    str: The template string with placeholders replaced.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 
@@ -1932,6 +1948,12 @@ Imprime una tabla bonita con detalles de CVEs.
 
 Args:
     cves_details (list): Lista de CVEs con toda la información recopilada.
+
+## __init__
+No description available.
+
+## __getitem__
+No description available.
 
 <!-- END UTILS -->
 
@@ -10746,6 +10768,72 @@ Parameters:
 Returns:
     None
 
+## adversary
+LazyOwn RedTeam Adversary Emulator, you can configure your own adversaries in adversary.json
+
+Parameters:
+    line (str): The command line input, 
+    first argument optional is the id of Adversary, 
+    the second optional argument is if the adversary run locally (l), remote (r), or doesn't run (n)
+
+Example: adversary 1 r
+
+Returns:
+    None
+
+## ofuscate_string
+Ofuscate a string into Go code.
+
+## get_available_actions
+Devuelve una lista de acciones disponibles usando introspección de cmd2.
+
+## get_avaible_actions
+Get list de supported acctions.
+
+## path2hex
+Convert a binary path to x64 little-endian hex code for shellcode injection.
+
+Generates an 8-byte aligned hex string padded with '/' for direct use in 
+x64 assembly syscall examples. Output format mimics: 0x68732f2f6e69622f ('/bin/sh').
+
+License: GPL v3 (https://www.gnu.org/licenses/gpl-3.0.html)
+
+Args:
+    line: Input path (e.g., '/bin/ls')
+
+Technical Process:
+    1. Null-terminate input
+    2. Pad with '/' to 8 bytes
+    3. Convert to little-endian 64-bit hex
+    4. Validate ASCII-only characters
+
+Examples:
+    Input:  '/bin/sh'
+    Output: 0x68732f2f6e69622f
+
+## hex2shellcode
+Convert raw hex payload from msfvenom into NASM-compatible shellcode format.
+
+Transforms a continuous hex string (e.g., msfvenom output) into a properly formatted
+assembly data section with line-wrapped db directives. Handles byte alignment and
+validation.
+
+License: GPL v3 (https://www.gnu.org/licenses/gpl-3.0.html)
+
+Args:
+    line: Raw hex string from msfvenom (e.g., "4831c94881e9f6...")
+
+Technical Process:
+    1. Validate hex format and remove non-hex characters
+    2. Split into byte pairs (xx) -> 0xXX format
+    3. Wrap into db lines (16 bytes per line)
+    4. Generate length calculation via shellcode_len
+
+Examples:
+    Input: 4831c94881e9f6
+    Output:
+        db 0x48,0x31,0xc9,0x48,0x81,0xe9,0xf6
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 
@@ -10987,6 +11075,20 @@ Recursively resolve and download package dependencies with enhanced checks
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new version, new bots, new c2, new ai \n\n Version: release/0.2.29 \n\n new look and feel \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Feb 8 16:18:13 2025 -0300 \n\n Hora: 1739042293
+
+
+### Otros
+
+### Otros
+
+  *   * LazyOwn RedTeam Framework: Command & Control, Reimagined. Now with Telegram & Discord C2 Bots.
 
 
 ### Nuevas características

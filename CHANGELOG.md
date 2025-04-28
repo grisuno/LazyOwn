@@ -6,6 +6,20 @@
 
 ### Otros
 
+  *   * feat(feat): new plugin system and addons system \n\n Version: release/0.2.31 \n\n to extend without touch the code \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Apr 28 09:40:58 2025 -0400 \n\n Hora: 1745847658
+
+
+### Otros
+
+### Otros
+
+  *   * new system plugins and addons
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): new ideas \n\n Version: release/0.2.30 \n\n with love to the comunity \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Apr 17 23:06:38 2025 -0400 \n\n Hora: 1744945598
 
 

@@ -1,0 +1,37 @@
+name: generate_cleanup_commands
+description: >
+  Generates cleanup commands for Windows or Linux systems based on user-specified arguments.
+  It can clean event logs, temporary files, shell histories, or perform full system cleanup.
+  Supports optional customization like targeting specific log files or user histories.
+author: "LazyOwn RedTeam"
+version: "1.0"
+enabled: true
+tags:
+  - cleanup
+  - post-exploitation
+  - system-maintenance
+  - logs
+params:
+  - name: os
+    type: string
+    required: true
+    description: Target operating system for cleanup. Must be either 'windows' or 'linux'.
+  - name: type
+    type: string
+    required: true
+    description: Type of cleanup to perform. Options are 'logs', 'temp', 'history', or 'all'.
+  - name: log_name
+    type: string
+    required: false
+    description: Specific log name(s) to target. Useful when cleaning particular event logs or Linux log files.
+  - name: user
+    type: string
+    required: false
+    description: Specific user whose shell history should be cleaned (only applicable for Linux 'history' cleanup).
+permissions:
+  - needs_file_write
+  - needs_sudo_optional
+requires_root: false
+dependencies: []
+outputs:
+  - text: cleanup commands ready to be executed manually or automatically

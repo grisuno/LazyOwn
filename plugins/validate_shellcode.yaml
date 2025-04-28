@@ -1,0 +1,39 @@
+name: validate_shellcode
+description: >
+  Validates shellcode data by checking for bad bytes and ensuring the payload does not exceed a maximum allowed length.
+  Supports multiple input formats, including reading from files, raw hex strings, and escaped hex string representations.
+author: "LazyOwn RedTeam"
+version: "1.0"
+enabled: true
+tags:
+  - shellcode
+  - validation
+  - bad_bytes
+  - security
+params:
+  - name: file
+    type: string
+    required: false
+    description: Path to a binary file containing shellcode. Example shellcode.bin
+  - name: hex_string
+    type: string
+    required: false
+    description: Raw hexadecimal string input without any escape characters. Example 4831C04831FF...
+  - name: esc_hex_string
+    type: string
+    required: false
+    description: Escaped hex string input with \\x notation. Example "\\x48\\x31\\xc0\\x48\\x31\\xff..."
+  - name: bad_bytes
+    type: string
+    required: false
+    description: Comma-separated list of hex bad bytes to check for. Example 00,0a,ff
+  - name: max_len
+    type: integer
+    required: false
+    description: Maximum allowed shellcode length in bytes. Default 512
+permissions:
+  - needs_file_read
+requires_root: false
+dependencies: []
+outputs:
+  - console_output

@@ -1,0 +1,17 @@
+name: commix2
+description: >
+  Detecta y explota vulnerabilidades de inyección de comandos.
+author: "LazyOwn RedTeam"
+version: "1.0"
+enabled: true
+params:
+  - name: url
+    type: string
+    required: true
+    description: URL objetivo.
+tool:
+  name: commix
+  repo_url: https://github.com/commixproject/commix.git
+  install_path: external/.exploit/commix
+  execute_command: |
+    python3 commix.py -u {{ url }}

@@ -1,0 +1,26 @@
+name: your_plugin_name_here
+description: >
+  Briefly explain what your plugin does.
+  Mention if it generates files, executes payloads, connects to a network, etc.
+author: "LazyOwn RedTeam"
+version: "1.0"
+enabled: true
+tags:
+  - category1
+  - category2
+params:
+  - name: parameter_name
+    type: string|integer|boolean
+    required: true|false
+    description: What is this parameter for? (Example values if necessary)
+permissions: 
+  - needs_network
+  - needs_file_write
+  - needs_compiler
+requires_root: true|false
+dependencies: 
+  - dependency1
+  - dependency2
+outputs:
+  - file: path/to/generated_file
+  - binary: path/to/generated_binary

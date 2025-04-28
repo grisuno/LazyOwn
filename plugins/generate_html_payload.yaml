@@ -1,0 +1,33 @@
+name: generate_html_payload
+description: >
+  Generates an HTML file that delivers a hidden payload file using various encoding or obfuscation methods.
+  Supports base64, hexadecimal, XOR encryption with a random key, and CSS data embedding.
+  The generated HTML automatically triggers a download of the reconstructed payload when opened.
+author: "LazyOwn RedTeam"
+version: "1.0"
+enabled: true
+tags:
+  - payload
+  - obfuscation
+  - delivery
+  - phishing
+  - html
+params:
+  - name: file_path
+    type: string
+    required: true
+    description: Path to the payload file that will be embedded and delivered via HTML.
+  - name: method
+    type: string
+    required: true
+    description: >
+      Encoding or encryption method to apply.
+      Options: 'base64', 'hex', 'xor', or 'css'.
+permissions:
+  - needs_file_read
+  - needs_file_write
+requires_root: false
+dependencies:
+  - ngx_lua  # (for ngx.encode_base64 / decode_base64 if running inside OpenResty/Nginx Lua module)
+outputs:
+  - text: HTML file generated with embedded payload ready for download

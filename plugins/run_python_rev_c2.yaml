@@ -1,0 +1,24 @@
+name: run_python_rev_c2
+description: >
+  Executes a Python reverse shell payload that connects back to a specified LHOST and LPORT.
+  It does not create files or compile anything; it returns the raw payload as a string.
+author: "LazyOwn RedTeam"
+version: "1.0"
+enabled: true
+tags:
+  - reverse_shell
+  - python
+  - payload
+params:
+  - name: lhost
+    type: string
+    required: true
+    description: IP address to connect back to. Example 192.168.1.10
+  - name: lport
+    type: integer
+    required: true
+    description: Port to connect back to. Example 4444
+permissions: []
+requires_root: false
+dependencies: []
+outputs: []

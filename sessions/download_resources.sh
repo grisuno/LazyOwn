@@ -80,6 +80,7 @@ download() {
         "wget https://github.com/hackerschoice/ttyinject/blob/main/ttyinject.c"
         "wget https://raw.githubusercontent.com/FisMatHack/BackDropScan/refs/heads/main/BackDropScan.py"
         "wget https://raw.githubusercontent.com/Maalfer/Sudo_BruteForce/refs/heads/main/Linux-Su-Force.sh"
+        "wget https://raw.githubusercontent.com/b3rito/yodo/refs/heads/master/yodo.sh"
     )
 
     echo "    [+] Seleccione el número del comando que desea descargar:"

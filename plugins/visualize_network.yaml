@@ -1,0 +1,23 @@
+name: visualize_network
+description: >
+  Reads a list of IP addresses from a file, generates a simple node graph visualization using vis-network.js,
+  and saves it as an HTML file for easy viewing.
+author: "LazyOwn RedTeam"
+version: "1.0"
+enabled: true
+tags:
+  - network
+  - visualization
+  - graph
+  - discovery
+params: []
+permissions:
+  - needs_file_read
+  - needs_file_write
+requires_root: false
+dependencies: []
+outputs:
+  - file_output
+notes: >
+  The input file is currently hardcoded as 'network_discovery'. 
+  The output is generated at 'sessions/network_visualization.html'.

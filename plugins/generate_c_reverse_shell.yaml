@@ -1,0 +1,32 @@
+name: generate_c_reverse_shell
+description: >
+  Generates a reverse shell payload written in C, embedding dynamically crafted shellcode 
+  based on the provided lhost (IP address) and lport (port). Automatically compiles the 
+  generated C code into an executable binary ready for offensive use.
+author: "LazyOwn RedTeam"
+version: "1.0"
+enabled: true
+tags:
+  - reverse-shell
+  - exploitation
+  - payload
+  - shellcode
+params:
+  - name: lhost
+    type: string
+    required: true
+    description: IP address of the attacker's machine that will receive the reverse connection (e.g., 192.168.1.10).
+  - name: lport
+    type: integer
+    required: true
+    description: Listening port that the reverse shell will connect to (e.g., 4444).
+permissions: 
+  - needs_network
+  - needs_file_write
+  - needs_compiler
+requires_root: false
+dependencies: 
+  - gcc
+outputs:
+  - file: sessions/reverse_shell.c
+  - binary: sessions/reverse_shell

@@ -1,0 +1,31 @@
+name: kerberos_harvest
+description: >
+  Harvests Kerberos tickets by querying for Service Principal Names (SPNs) and requesting tickets using Impacket tools.
+  It saves the harvested tickets into a file for later analysis.
+author: "LazyOwn RedTeam"
+version: "1.0"
+enabled: true
+tags:
+  - kerberos
+  - spn
+  - ldap
+  - impacket
+params:
+  - name: domain
+    type: string
+    required: true
+    description: The target domain to search for SPNs. Example example.com
+  - name: rhost
+    type: string
+    required: true
+    description: The IP address of the Domain Controller (DC). Example 192.168.1.5
+permissions:
+  - needs_network
+  - needs_file_write
+  - needs_compiler
+requires_root: false
+dependencies:
+  - ldapsearch
+  - impacket
+outputs:
+  - file: /tmp/kerberos_tickets.txt

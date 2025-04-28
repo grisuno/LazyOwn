@@ -1,0 +1,31 @@
+name: generate_linux_asm_reverse_shell
+description: >
+  Genera código ensamblador NASM para una reverse shell en Linux basada en syscalls.
+  Guarda el código en un archivo .asm, lo compila a binario y guarda el ejecutable.
+author: "LazyOwn RedTeam"
+version: "1.0"
+enabled: true
+tags:
+  - shellcode
+  - reverse_shell
+  - linux
+  - asm
+params:
+  - name: lhost
+    type: string
+    required: true
+    description: Dirección IP (LHOST) para la conexión inversa. Ejemplo 192.168.1.10
+  - name: lport
+    type: integer
+    required: true
+    description: Puerto (LPORT) para la conexión inversa. Ejemplo 4444
+permissions: 
+  - needs_file_write
+  - needs_compiler
+requires_root: false
+dependencies: 
+  - nasm
+  - ld
+outputs:
+  - file: sessions/reverseshell.asm
+  - binary: sessions/reverseshell

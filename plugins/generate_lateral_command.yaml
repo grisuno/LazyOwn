@@ -1,0 +1,60 @@
+name: generate_lateral_command
+description: >
+  Genera comandos de movimiento lateral usando diferentes técnicas (psexec, smbexec, wmi, winrm, ssh, nc).
+  Puede generar comandos para ejecución remota o escaneo de puertos usando netcat.
+author: "LazyOwn RedTeam"
+version: "1.0"
+enabled: true
+tags:
+  - lateral_movement
+  - command_generation
+  - impacket
+params:
+  - name: method
+    type: string
+    required: true
+    description: Método de movimiento lateral a usar. Opciones psexec, smbexec, wmi, winrm, ssh, nc.
+  - name: command
+    type: string
+    required: false
+    description: Comando a ejecutar remotamente. No requerido para método 'nc'.
+  - name: target
+    type: string
+    required: false
+    description: IP o hostname del objetivo. Usa app.params.rhost si no se especifica.
+  - name: user
+    type: string
+    required: false
+    description: Usuario para autenticación. Usa app.params.start_user si no se especifica.
+  - name: password
+    type: string
+    required: false
+    description: Contraseña para autenticación. Usa app.params.start_pass si no se especifica.
+  - name: domain
+    type: string
+    required: false
+    description: Dominio del usuario. Usa app.params.domain si no se especifica.
+  - name: protocol
+    type: string
+    required: false
+    description: Protocolo opcional para métodos smbexec o winrm. Ejemplos smb, https.
+  - name: port
+    type: integer
+    required: false
+    description: Puerto para conexiones nc. Usa app.params.rport si no se especifica.
+  - name: check
+    type: string
+    required: false
+    description: En nc, usar check=port para hacer escaneo de puertos (modo -zv).
+  - name: tool_path
+    type: string
+    required: false
+    description: Ruta personalizada del binario o script que se quiere usar en vez del predeterminado.
+permissions: 
+  - needs_network
+requires_root: false
+dependencies: 
+  - impacket
+  - nc
+outputs:
+  - command: genera comandos para ejecución remota o escaneo de puertos

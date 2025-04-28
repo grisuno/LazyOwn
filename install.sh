@@ -49,6 +49,7 @@ pip3 python-telegram-bot
 pip3 install nest_asyncio
 pip3 install rich
 pip3 install flask_socketio
+pip3 install autobloody
 curl -fsSL https://ollama.com/install.sh | sh
 
 git clone https://github.com/grisuno/LazyOwnInfiniteStorage.git ./modules_ext/lazyown_infinitestorage

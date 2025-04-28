@@ -54,6 +54,7 @@ import pandas as pd
 import urllib.request
 import importlib.util
 from PIL import Image
+from lupa import LuaRuntime
 from threading import Timer
 from bs4 import BeautifulSoup
 from itertools import product
@@ -2665,6 +2666,31 @@ def replace_placeholders(template, replacements):
     for key, value in replacements.items():
         template = template.replace(f"{{{key}}}", str(value))
     return template    
+
+def replace_command_placeholders(command, params):
+    """
+    Replace placeholders in a command string with values from a params dictionary,
+    handling spaces within placeholders.
+
+    The function looks for placeholders in curly braces (e.g., {url} or { url }) within
+    the command string and replaces them with corresponding values from the params dictionary,
+    ignoring any spaces inside the curly braces.
+
+    Args:
+        command (str): The command string containing placeholders.
+        params (dict): A dictionary containing key-value pairs for replacement.
+
+    Returns:
+        str: The command string with placeholders replaced by their corresponding values.
+    """
+    import re
+    
+    def replace_match(match):
+        key = match.group(1).strip()  # Remove any spaces from the captured key
+        return str(params.get(key, match.group(0)))  # Return replacement or original if not found
+    
+    return re.sub(r'\{([^}]+)\}', replace_match, command)
+    
 class MyServer(HTTPServer):
     """
     Custom HTTP server to handle incoming connections from certutil.

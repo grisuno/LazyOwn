@@ -229,6 +229,20 @@ Software Foundation.</p>
 entered. You can override it in a subclass to change its behavior.</p>
 <p>Example: &gt;&gt;&gt; shell = LazyOwnShell() &gt;&gt;&gt;
 shell.emptyline() You didn’t enter any command.</p>
+<h2 id="list_files_in_directory">list_files_in_directory</h2>
+<p>Lista todos los archivos en un directorio dado.</p>
+<h2 id="register_lua_command">_register_lua_command</h2>
+<p>Registra un comando nuevo desde Lua.</p>
+<h2 id="load_plugins">load_plugins</h2>
+<p>Carga todos los plugins Lua desde el directorio ‘plugins/’.</p>
+<h2 id="load_yaml_plugins">load_yaml_plugins</h2>
+<p>Loads all YAML plugins from the ‘lazyaddons/’ directory.</p>
+<p>This method scans the ‘lazyaddons/’ directory, reads each YAML file,
+and registers enabled plugins as new commands.</p>
+<h2 id="register_yaml_plugin">register_yaml_plugin</h2>
+<p>Registers a YAML plugin as a new command.</p>
+<p>This method creates a dynamic command based on the plugin’s
+configuration and assigns it to the application.</p>
 <h2 id="eof">EOF</h2>
 <p>Handle the end-of-file (EOF) condition.</p>
 <p>This method is called when the user sends an end-of-file (EOF) signal
@@ -6641,6 +6655,10 @@ db lines (16 bytes per line) 4. Generate length calculation via
 shellcode_len</p>
 <p>Examples: Input: 4831c94881e9f6 Output: db
 0x48,0x31,0xc9,0x48,0x81,0xe9,0xf6</p>
+<h2 id="wrapper">wrapper</h2>
+<p>No description available.</p>
+<h2 id="wrapper_yaml">wrapper_yaml</h2>
+<p>No description available.</p>
 <h2 id="find_tgts">find_tgts</h2>
 <p>Finds and returns a list of target hosts with port 445 open in the
 specified subnet.</p>

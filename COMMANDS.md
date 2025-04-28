@@ -78,6 +78,27 @@ Example:
     >>> shell.emptyline()
     You didn't enter any command.
 
+## list_files_in_directory
+Lista todos los archivos en un directorio dado.
+
+## _register_lua_command
+Registra un comando nuevo desde Lua.
+
+## load_plugins
+Carga todos los plugins Lua desde el directorio 'plugins/'.
+
+## load_yaml_plugins
+Loads all YAML plugins from the 'lazyaddons/' directory.
+
+This method scans the 'lazyaddons/' directory, reads each YAML file,
+and registers enabled plugins as new commands.
+
+## register_yaml_plugin
+Registers a YAML plugin as a new command.
+
+This method creates a dynamic command based on the plugin's configuration
+and assigns it to the application.
+
 ## EOF
 Handle the end-of-file (EOF) condition.
 
@@ -8873,6 +8894,12 @@ Examples:
     Input: 4831c94881e9f6
     Output:
         db 0x48,0x31,0xc9,0x48,0x81,0xe9,0xf6
+
+## wrapper
+No description available.
+
+## wrapper_yaml
+No description available.
 
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.

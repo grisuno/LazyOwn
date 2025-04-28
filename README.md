@@ -11081,6 +11081,34 @@ Recursively resolve and download package dependencies with enhanced checks
 
 ### Otros
 
+  *   * feat(feat): new ideas \n\n Version: release/0.2.30 \n\n with love to the comunity \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Apr 17 23:06:38 2025 -0400 \n\n Hora: 1744945598
+
+
+### Otros
+
+### Otros
+
+  *   * bug on readme...
+
+
+### Otros
+
+### Otros
+
+  *   * some new ideas
+
+
+### Otros
+
+### Otros
+
+  *   * some things
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): new version, new bots, new c2, new ai \n\n Version: release/0.2.29 \n\n new look and feel \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Feb 8 16:18:13 2025 -0300 \n\n Hora: 1739042293
 
 

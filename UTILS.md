@@ -1002,6 +1002,21 @@ Parameters:
 Returns:
     str: The template string with placeholders replaced.
 
+## replace_command_placeholders
+Replace placeholders in a command string with values from a params dictionary,
+handling spaces within placeholders.
+
+The function looks for placeholders in curly braces (e.g., {url} or { url }) within
+the command string and replaces them with corresponding values from the params dictionary,
+ignoring any spaces inside the curly braces.
+
+Args:
+    command (str): The command string containing placeholders.
+    params (dict): A dictionary containing key-value pairs for replacement.
+
+Returns:
+    str: The command string with placeholders replaced by their corresponding values.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 
@@ -1009,6 +1024,9 @@ internal wrapper of internal function to implement multiples rhost to operate.
 No description available.
 
 ## handle_forms
+No description available.
+
+## replace_match
 No description available.
 
 ## log_request

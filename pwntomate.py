@@ -46,6 +46,7 @@ with open('payload.json', 'r') as file:
     config = json.load(file)
     rhost = config.get("rhost")
     domain = config.get("domain")
+    dirworlist = config.get("dirworlist")
 
 if os.path.exists(cred_path):
     with open(cred_path, 'r') as file:

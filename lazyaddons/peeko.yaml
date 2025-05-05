@@ -44,7 +44,7 @@ params:
     type: string
     required: true
     description: "IP/Domain of C2 server (e.g., 192.168.1.100)"
-
+install_type: "git" 
 tool:
   name: "peeko"
   repo_url: "https://github.com/b3rito/peeko.git"

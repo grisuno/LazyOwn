@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+<style>
+    body {
+        margin: 0;
+        background-color: #000;
+        color: #0f0;
+        font-family: monospace;
+    }
+    #terminal {
+        width: 100vw;
+        height: 100vh;
+    }
+</style>
+{% block content %}
+
+<div class="container mt-5">
+    <div class="card bg-secondary text-light p-4 mb-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <h1 class="mb-4">Reverse Shell Interface</h1>
+
+
+
+        <div id="terminal"></div>
+        
+    </div>
+</div>
+<link rel="stylesheet" href="https://unpkg.com/xterm@4.18.1/css/xterm.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
+<script src="/static/js/xterm.js"></script>
+<script src="https://unpkg.com/xterm-addon-fit@0.7.0/lib/xterm-addon-fit.js"></script>
+<script src="https://unpkg.com/xterm-addon-web-links@0.5.0/lib/xterm-addon-web-links.js"></script>
+<script>
+    function stripAnsi(str) {
+        const ansiRegex = /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g;
+        return str.replace(ansiRegex, '');
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelector('.loading-container').style.display = 'none';
+        // Crear terminal
+        const term = new Terminal({
+            cursorBlink: true,
+            fontFamily: 'monospace',
+            theme: {
+                background: '#000000',
+                foreground: '#00FF00'
+            }
+        });
+
+        const fitAddon = new FitAddon.FitAddon();
+        term.loadAddon(fitAddon);
+        term.open(document.getElementById('terminal'));
+        fitAddon.fit();
+
+        // Conectar WebSocket
+        const socket = io("/terminal");
+
+        // Recibir salida del shell
+        socket.on("output", (data) => {
+            term.write(data.data);
+        });
+
+        // Enviar entrada al shell
+        term.onData((data) => {
+            socket.emit("input", { value: data });
+        });
+
+        // Redimensionamiento
+        window.addEventListener('resize', () => {
+            fitAddon.fit();
+            socket.emit("resize", {
+                rows: term.rows,
+                cols: term.cols
+            });
+        });
+       
+    });
+</script>
+</body>
+</html>
+
+{% endblock %}

@@ -1,0 +1,19 @@
+name: run_nuclei_on_nmap_files
+description: |
+  Ejecuta nuclei utilizando direcciones IP extraídas de archivos NMAP .xml
+  almacenados en la carpeta 'sessions'. Usa xq (jq para XML) para parsearlos.
+author: "LazyOwn RedTeam"
+version: "1.0"
+enabled: true
+tags:
+  - nmap
+  - nuclei
+  - automation
+params: []
+permissions: []
+requires_root: false
+dependencies:
+  - xq
+  - nuclei
+  - luafilesystem
+outputs: []

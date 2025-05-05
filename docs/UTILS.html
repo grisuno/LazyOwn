@@ -896,12 +896,26 @@ dictionary.</p>
 placeholders. replacements (dict): A dictionary where keys are
 placeholders and values are replacements.</p>
 <p>Returns: str: The template string with placeholders replaced.</p>
+<h2 id="replace_command_placeholders">replace_command_placeholders</h2>
+<p>Replace placeholders in a command string with values from a params
+dictionary, handling spaces within placeholders.</p>
+<p>The function looks for placeholders in curly braces (e.g., {url} or {
+url }) within the command string and replaces them with corresponding
+values from the params dictionary, ignoring any spaces inside the curly
+braces.</p>
+<p>Args: command (str): The command string containing placeholders.
+params (dict): A dictionary containing key-value pairs for
+replacement.</p>
+<p>Returns: str: The command string with placeholders replaced by their
+corresponding values.</p>
 <h2 id="wrapper">wrapper</h2>
 <p>internal wrapper of internal function to implement multiples rhost to
 operate.</p>
 <h2 id="send_request">send_request</h2>
 <p>No description available.</p>
 <h2 id="handle_forms">handle_forms</h2>
+<p>No description available.</p>
+<h2 id="replace_match">replace_match</h2>
 <p>No description available.</p>
 <h2 id="log_request">log_request</h2>
 <p>No description available.</p>

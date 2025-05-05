@@ -78,6 +78,9 @@
         <script src="https://unpkg.com/tippy.js@6"></script>
         <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
         <script src="/static/js/xterm.js"></script>
+        <script src="https://unpkg.com/xterm-addon-fit@0.7.0/lib/xterm-addon-fit.js"></script>
+        <script src="https://unpkg.com/xterm-addon-web-links@0.5.0/lib/xterm-addon-web-links.js"></script>
+        <script src="https://cdn.socket.io/4.3.2/socket.io.min.js"></script>
         <script>
             cleanOutputText = "";
             bot = '{{ bot | markdown |  replace("\'", "\\\'") | safe }}';
@@ -92,13 +95,202 @@
             var barra_busqueda = $('.search_bar');
             var bar = $('#bar');
             var icono = $('.icon-search');
-            
+            const term = new Terminal({
+                cursorBlink: true,
+                fontFamily: 'monospace',
+                theme: {
+                    background: '#000000',
+                    foreground: '#00FF00'
+                }
+            });
+            term.open(document.getElementById('terminal'));
+            term.writeln("Welcome to LazyOwn RedTeam Framework: CRIMEN 👋");
+            const fitAddon = new FitAddon.FitAddon();
+            term.loadAddon(fitAddon);
+            term.open(document.getElementById('terminal'));
+            fitAddon.fit();
+
+            // WebSocket
+            const socket = io.connect("/pty");
+
+            // Estado de conexión
+            socket.on("connect", () => {
+                document.getElementById('status').innerHTML = 
+                    '<span style="background-color: #00ff0066;">Conectado</span>';
+                fitAddon.fit();
+                socket.emit("resize", { rows: term.rows, cols: term.cols });
+            });
+
+            socket.on("disconnect", () => {
+                document.getElementById('status').innerHTML = 
+                    '<span style="background-color: #ff000066;">Desconectado</span>';
+            });
+
+            // Manejo de redimensionamiento
+            window.addEventListener('resize', () => {
+                fitAddon.fit();
+                socket.emit("resize", { rows: term.rows, cols: term.cols });
+            });
+
+            // Recepción de salida del terminal
+            socket.on("pty-output", (data) => {
+                term.write(data.output);
+            });
+
+            // Enviar entrada al terminal
+            term.onData((data) => {
+                socket.emit("pty-input", { input: data });
+            });
+
+            // Manejo de copiar/pegar mejorado
+            document.addEventListener('keydown', (e) => {
+                if (e.ctrlKey && e.shiftKey && e.code === 'KeyV') {
+                    navigator.clipboard.readText().then(text => {
+                        term.write(text);
+                    });
+                    e.preventDefault();
+                }
+            });            
+            term.prompt = () => {
+                term.write('\r\n$ ');
+            };
+
+            term.prompt();    
+            // WebSocket client
+            fitAddon.fit();
+            socket.emit("resize", { rows: term.rows, cols: term.cols });
             barra_busqueda.focusin(function(){
                 barra_busqueda.css('width', '20%');
                 menu.css('width', '100%');
                 icono.css('color', '#000');
                 bar.css('color', '#000');
             });
+            function RunCmd(command){
+                const spinner = document.getElementById('loader');
+                var check = document.getElementById('check_local_shell');
+                var isChecked = false;
+                if (check) {
+                    isChecked = check.checked
+                    if (isChecked) {
+                        console.log('Local Shell Bot enabled');
+                    } else {
+                        console.log('Local Shell Bot disabled');
+                    }
+                } else {
+                    console.log('does\'nt exist');
+                }
+                spinner.style.display = 'block';
+                fetch('/api/run', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ command })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const outputDiv = document.getElementById('output');
+                    spinner.style.display = 'none';
+                    if (data.error) {
+                        outputDiv.innerHTML += `<p style="color: red;">${data.error}</p>`;
+                        term.write('\r\n' + '\x1b[31m' + data.error + '\x1b[0m');
+                    } else {
+                        toastr('<h1>Command:' + command + "</h1>")
+                        fetchLog(isChecked)
+                        term.write('\r\n' + data.result);
+                    }
+                    term.prompt();
+                });
+            }
+            function stripAnsi(str) {
+                const ansiRegex = /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g;
+                return str.replace(ansiRegex, '');
+            }
+            function leftTrim(str) {
+                return str.replace(/^\s+/, '').trim();
+            }               
+            async function fetchLog(isChecked) {
+                try {
+                    const response = await fetch('/api/output');
+
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+
+                    const data = await response.json();
+                    const outputDiv = document.getElementById('output');
+                    const outputAtomic = document.getElementById('outputAtomic');
+                    const outputText = data.output.replace(/\n/g, '<br>');
+                    var output = data.output.replace(/\t/g, '    ').replace(/\n/g, '\r\n');
+                    var term = new Terminal();
+                    term.open(document.getElementById('terminal'));
+                    term.write('\x1b[2J\x1b[3J\x1b[H');
+                    prompt_cmd = prompt_cmd.replace(/<br>/g, '\n')
+                    let lines = prompt_cmd.split('\n');
+                    lines.forEach(function(line) {
+                        term.write(line);
+                    });
+                    term.write(output);
+                    cleanOutputText = stripAnsi(outputText);
+                    if (isChecked){
+                        formGeneral_bot(cleanOutputText);
+                    }
+                    //outputDiv.innerHTML += `<p>${cleanOutputText}</p>`;
+                    outputAtomic.innerHTML += `<p>${cleanOutputText}</p>`;
+                } catch (error) {
+                    console.error('There was a problem with the fetch operation:', error);
+                }
+            }
+
+
+
+            async function fetchTasks() {
+                try {
+                    const response = await fetch('/gettasks');
+                    const tasks = await response.json();
+                    tasks.forEach((task, index) => {
+                        setTimeout(() => {
+                            if (task.status !== "Done") {
+                                toastr(`<h1>Task: ${task.title},</h1> Description: ${task.description}`);
+                            }
+                        }, index * 1000); 
+                    });
+                } catch (error) {
+                    console.error('Error fetching tasks:', error);
+                }
+            }
+
+            function RunRemoteCmd(client_id, command){
+                const spinner = document.getElementById('loader');
+                spinner.style.display = 'block';                    
+                const clientId = client_id;
+                const formData = new FormData();
+                formData.append('client_id', clientId);
+                formData.append('command', command);
+                const username = '{{ username }}';
+                const password = '{{ password }}';
+                const credentials = btoa(`${username}:${password}`);
+                fetch('/issue_command', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Authorization': `Basic ${credentials}`
+                    }
+                })
+                .then(data => {
+                    spinner.style.display = 'none';
+                    if (data.error) {
+                        console.log(`Error: ${data.error}`);
+                    } else {
+                        var msg = "<h1>Command:" + command + " <h1>";
+                        toastr(msg)
+                    }
+                })
+                .catch(error => {
+                    spinner.style.display = 'none';
+                    console.log(`Error: ${error}`);
+                });
+            }            
             function consoleText(words, id, colors) {
                 if (colors === undefined) colors = ['#fff'];
                     var visible = true;
@@ -558,130 +750,7 @@
                     'floating-chat.donateButton.background-color': '#5cb85c',
                     'floating-chat.donateButton.text-color': '#fff'
                 });
-                function stripAnsi(str) {
-                    const ansiRegex = /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g;
-                    return str.replace(ansiRegex, '');
-                }
-                function leftTrim(str) {
-                    return str.replace(/^\s+/, '').trim();
-                }               
-                async function fetchLog(isChecked) {
-                    try {
-                        const response = await fetch('/api/output');
-
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok ' + response.statusText);
-                        }
-
-                        const data = await response.json();
-                        const outputDiv = document.getElementById('output');
-                        const outputAtomic = document.getElementById('outputAtomic');
-                        const outputText = data.output.replace(/\n/g, '<br>');
-                        var output = data.output.replace(/\t/g, '    ').replace(/\n/g, '\r\n');
-                        var term = new Terminal();
-                        term.open(document.getElementById('terminal'));
-                        term.write('\x1b[2J\x1b[3J\x1b[H');
-                        prompt_cmd = prompt_cmd.replace(/<br>/g, '\n')
-                        let lines = prompt_cmd.split('\n');
-                        lines.forEach(function(line) {
-                            term.write(line);
-                        });
-                        term.write(output);
-                        cleanOutputText = stripAnsi(outputText);
-                        if (isChecked){
-                            formGeneral_bot(cleanOutputText);
-                        }
-                        //outputDiv.innerHTML += `<p>${cleanOutputText}</p>`;
-                        outputAtomic.innerHTML += `<p>${cleanOutputText}</p>`;
-                    } catch (error) {
-                        console.error('There was a problem with the fetch operation:', error);
-                    }
-                }
-
-
-
-                async function fetchTasks() {
-                    try {
-                        const response = await fetch('/gettasks');
-                        const tasks = await response.json();
-                        tasks.forEach((task, index) => {
-                            setTimeout(() => {
-                                if (task.status !== "Done") {
-                                    toastr(`<h1>Task: ${task.title},</h1> Description: ${task.description}`);
-                                }
-                            }, index * 1000); 
-                        });
-                    } catch (error) {
-                        console.error('Error fetching tasks:', error);
-                    }
-                }
-
-                function RunCmd(command){
-                    const spinner = document.getElementById('loader');
-                    var check = document.getElementById('check_local_shell');
-                    var isChecked = false;
-                    if (check) {
-                        isChecked = check.checked
-                        if (isChecked) {
-                            console.log('Local Shell Bot enabled');
-                        } else {
-                            console.log('Local Shell Bot disabled');
-                        }
-                    } else {
-                        console.log('does\'nt exist');
-                    }
-                    spinner.style.display = 'block';
-                    fetch('/api/run', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ command })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        const outputDiv = document.getElementById('output');
-                        spinner.style.display = 'none';
-                        if (data.error) {
-                            outputDiv.innerHTML += `<p style="color: red;">${data.error}</p>`;
-                        } else {
-                            toastr('<h1>Command:' + command + "</h1>")
-                            fetchLog(isChecked)
-                        }
-                    });
-                }
-
-                function RunRemoteCmd(client_id, command){
-                    const spinner = document.getElementById('loader');
-                    spinner.style.display = 'block';                    
-                    const clientId = client_id;
-                    const formData = new FormData();
-                    formData.append('client_id', clientId);
-                    formData.append('command', command);
-                    const username = '{{ username }}';
-                    const password = '{{ password }}';
-                    const credentials = btoa(`${username}:${password}`);
-                    fetch('/issue_command', {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'Authorization': `Basic ${credentials}`
-                        }
-                    })
-                    .then(data => {
-                        spinner.style.display = 'none';
-                        if (data.error) {
-                            console.log(`Error: ${data.error}`);
-                        } else {
-                            var msg = "<h1>Command:" + command + " <h1>";
-                            toastr(msg)
-                        }
-                    })
-                    .catch(error => {
-                        spinner.style.display = 'none';
-                        console.log(`Error: ${error}`);
-                    });
-                }
+                
                 document.getElementById('post-exploit-form').addEventListener('submit', function(event) {
                     event.preventDefault();
                     const clientId = document.getElementById('client_id').value;

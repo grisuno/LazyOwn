@@ -28,6 +28,7 @@ from datetime import datetime
 from lazyown import LazyOwnShell
 from modules.colors import retModel
 from watchdog.observers import Observer
+from werkzeug.utils import secure_filename
 from dnslib.server import DNSServer, DNSLogger
 from flask_socketio import SocketIO, send, emit
 from jinja2 import Environment, FileSystemLoader
@@ -578,15 +579,6 @@ def search_database(term, data_path="parquets/techniques.parquet"):
 
     return md_content
 
-def secure_filename(filename):
-    """
-    Sanitize the filename to prevent directory traversal and unauthorized access.
-
-    :param filename: The original filename from the upload.
-    :return: A sanitized filename that is safe for storage.
-    """
-    filename = re.sub(r'[^a-zA-Z0-9_.-]', '_', filename)
-    return filename[:255]
 
 def execute_command(command):
     try:
@@ -737,14 +729,17 @@ def encrypt_data(data):
     combined = iv + encrypted_data 
     return base64.b64encode(combined).decode('utf-8')  
 
-def decrypt_data(encrypted_data):
+def decrypt_data(encrypted_data, is_file = False):
     encrypted_data = base64.b64decode(encrypted_data)
     iv = encrypted_data[:16]
     encrypted_data = encrypted_data[16:]
     cipher = Cipher(algorithms.AES(AES_KEY), modes.CFB(iv), backend=default_backend())
     decryptor = cipher.decryptor()
     decrypted_data = decryptor.update(encrypted_data) + decryptor.finalize()
-    return decrypted_data.decode('utf-8')
+    if is_file:
+        return decrypted_data
+    else:
+        return decrypted_data.decode('utf-8')
 
 def set_winsize(fd, row, col, xpix=0, ypix=0):
     """Configura el tamaño de la terminal"""
@@ -819,7 +814,7 @@ with open(f"{path}/sessions/key.aes", 'rb') as f:
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 config = Config(load_payload())
-
+UPLOAD_FOLDER = os.path.join(os.getcwd(), 'sessions', 'uploads')
 api_key = config.api_key
 route_maleable = config.c2_maleable_route
 win_useragent_maleable = config.user_agent_win
@@ -1138,43 +1133,48 @@ def issue_command():
     return redirect(url_for('index'))
 
 @app.route('/upload', methods=['GET', 'POST'])
-@app.route(f'{route_maleable}upload', methods=['GET', 'POST'])
+@app.route(f'{route_maleable}/upload', methods=['GET', 'POST'])
 def upload():
-    """
-    Handle file uploads securely.
-
-    This function allows users to upload files and ensures that the uploaded filename is sanitized
-    to prevent directory traversal and other vulnerabilities. Files are saved in a specified uploads directory.
-
-    Returns:
-        JSON response indicating the status of the upload or an HTML form for file upload.
-    """
     if request.method == 'POST':
-        encrypted_data = request.get_data()
-        decrypted_data = decrypt_data(encrypted_data)
-        
-        filename = request.headers.get('X-Filename')
-        if not filename:
-            return jsonify({"status": "error", "message": "Filename header is required"}), 400
-        
-        safe_filename = secure_filename(filename)
-        uploads_dir = os.path.join(os.getcwd(), 'sessions', 'uploads')
-        os.makedirs(uploads_dir, exist_ok=True)
-        filepath = os.path.join(uploads_dir, safe_filename)
-        
-        with open(filepath, 'wb') as f:
-            f.write(decrypted_data)
-    
+        # Opción 1: Subida normal con formulario HTML
+        if 'file' in request.files:
+            file = request.files['file']
+            if file.filename == '':
+                return jsonify({"status": "error", "message": "Empty filename"}), 400
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(UPLOAD_FOLDER, filename))
+            return jsonify({"status": "success", "message": f"File {filename} uploaded"}), 200
+
+        # Opción 2: Datos binarios (por ejemplo, archivo cifrado)
+        else:
+            encrypted_data = request.get_data()
+            if not encrypted_data:
+                return jsonify({"status": "error", "message": "No data received"}), 400
+
+            # Usa un nombre genérico si no hay X-Filename
+            filename = secure_filename("archivo_recibido.bin")
+
+            decrypted_data = decrypt_data(encrypted_data, True)
+
+            with open(os.path.join(UPLOAD_FOLDER, filename), 'wb') as f:
+                f.write(decrypted_data)
+
+            return jsonify({
+                "status": "success",
+                "message": "File uploaded without header",
+                "filename": filename
+            }), 200
+
+    # Formulario básico para pruebas
     return '''
     <!doctype html>
     <title>Upload File</title>
     <h1>Upload a File</h1>
     <form method="POST" enctype="multipart/form-data">
-        <input type="file" name="file">
-        <input type="submit" value="Upload">
+      <input type="file" name="file">
+      <input type="submit" value="Upload">
     </form>
     '''
-
 
 @app.route('/download_file', methods=['POST'])
 @app.route(f'{route_maleable}download_file', methods=['POST'])
@@ -1192,16 +1192,29 @@ def download_file():
     else:
         return jsonify({"status": "error", "message": "No file selected"}), 400
 
+import os
+from flask import Flask, Response, jsonify
+
 @app.route('/download/<path:file_path>', methods=['GET'])
 @app.route(f'{route_maleable}download/<path:file_path>', methods=['GET'])
 def serve_file(file_path):
     temp_dir = os.path.join(os.getcwd(), 'sessions/temp_uploads')
-    full_file_path = os.path.join(temp_dir, file_path)
-    if os.path.exists(full_file_path):
+    
+    # Construir la ruta completa del archivo solicitado
+    requested_path = os.path.join(temp_dir, file_path)
+    
+    # Normalizar las rutas para evitar intentos de path traversal
+    normalized_temp_dir = os.path.normpath(temp_dir)
+    normalized_requested_path = os.path.normpath(requested_path)
+
+    # Verificar que la ruta solicitada esté dentro del directorio permitido
+    if not normalized_requested_path.startswith(normalized_temp_dir + os.sep):
+        return jsonify({"status": "error", "message": "Access denied"}), 403
+
+    if os.path.exists(normalized_requested_path):
         try:
-            with open(full_file_path, 'rb') as f:
+            with open(normalized_requested_path, 'rb') as f:
                 file_data = f.read()
-            # Cifrar archivo antes de enviar
             encrypted_data = encrypt_data(file_data)
             return Response(
                 encrypted_data,

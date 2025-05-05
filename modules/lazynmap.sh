@@ -100,6 +100,7 @@ for xmlfile in "$DIRECTORIO"/*.xml; do
     if [[ -f "$nmapfile" ]]; then
         htmlfile="$DIRECTORIO/$base_name.html"
         xsltproc -o "$htmlfile" "$ARCHIVO" "$xmlfile"
+		searchsploit --nmap "$xmlfile" | tee "$xmlfile"_searchsploit.log
         echo "    [+] Report generated HTML: $htmlfile"
     else
         echo "    [-] File .nmap Notfound to: $xmlfile"
@@ -806,6 +807,7 @@ for xmlfile in "$DIRECTORIO"/*.xml; do
 
         htmlfile="$DIRECTORIO/$base_name.html"
         xsltproc -o "$htmlfile" "$ARCHIVO" "$xmlfile"
+		searchsploit --nmap "$xmlfile" | tee "$xmlfile"_searchsploit.log
         echo "    [+] Rport generating HTML: $htmlfile"
     else
         echo "    [-] File .nmap not found to $xmlfile"

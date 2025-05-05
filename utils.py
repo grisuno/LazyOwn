@@ -54,6 +54,7 @@ import pandas as pd
 import urllib.request
 import importlib.util
 from PIL import Image
+from io import StringIO
 from lupa import LuaRuntime
 from threading import Timer
 from bs4 import BeautifulSoup
@@ -2690,7 +2691,8 @@ def replace_command_placeholders(command, params):
         return str(params.get(key, match.group(0)))  # Return replacement or original if not found
     
     return re.sub(r'\{([^}]+)\}', replace_match, command)
-    
+
+
 class MyServer(HTTPServer):
     """
     Custom HTTP server to handle incoming connections from certutil.

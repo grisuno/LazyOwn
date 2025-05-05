@@ -1974,6 +1974,21 @@ Parameters:
 Returns:
     str: The template string with placeholders replaced.
 
+## replace_command_placeholders
+Replace placeholders in a command string with values from a params dictionary,
+handling spaces within placeholders.
+
+The function looks for placeholders in curly braces (e.g., {url} or { url }) within
+the command string and replaces them with corresponding values from the params dictionary,
+ignoring any spaces inside the curly braces.
+
+Args:
+    command (str): The command string containing placeholders.
+    params (dict): A dictionary containing key-value pairs for replacement.
+
+Returns:
+    str: The command string with placeholders replaced by their corresponding values.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 
@@ -1981,6 +1996,9 @@ internal wrapper of internal function to implement multiples rhost to operate.
 No description available.
 
 ## handle_forms
+No description available.
+
+## replace_match
 No description available.
 
 ## log_request
@@ -2134,6 +2152,27 @@ Example:
     >>> shell = LazyOwnShell()
     >>> shell.emptyline()
     You didn't enter any command.
+
+## list_files_in_directory
+Lista todos los archivos en un directorio dado.
+
+## _register_lua_command
+Registra un comando nuevo desde Lua.
+
+## load_plugins
+Carga todos los plugins Lua desde el directorio 'plugins/'.
+
+## load_yaml_plugins
+Loads all YAML plugins from the 'lazyaddons/' directory.
+
+This method scans the 'lazyaddons/' directory, reads each YAML file,
+and registers enabled plugins as new commands.
+
+## register_yaml_plugin
+Registers a YAML plugin as a new command.
+
+This method creates a dynamic command based on the plugin's configuration
+and assigns it to the application.
 
 ## EOF
 Handle the end-of-file (EOF) condition.
@@ -10931,6 +10970,12 @@ Examples:
     Output:
         db 0x48,0x31,0xc9,0x48,0x81,0xe9,0xf6
 
+## wrapper
+No description available.
+
+## wrapper_yaml
+No description available.
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 
@@ -11172,6 +11217,20 @@ Recursively resolve and download package dependencies with enhanced checks
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new plugin system and addons system \n\n Version: release/0.2.31 \n\n to extend without touch the code \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Apr 28 09:40:58 2025 -0400 \n\n Hora: 1745847658
+
+
+### Otros
+
+### Otros
+
+  *   * new system plugins and addons
 
 
 ### Nuevas características

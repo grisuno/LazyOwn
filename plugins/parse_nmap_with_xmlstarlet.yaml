@@ -1,0 +1,24 @@
+name: parse_nmap_with_xmlstarlet
+description: |
+  Usa xmlstarlet para extraer información útil de archivos NMAP (.xml):
+   - IPs activas
+   - Servidores HTTP(S)
+   - Puertos abiertos
+
+  Los resultados se almacenan en carpetas separadas por archivo dentro de `output/nmap_parsed/`.
+author: "LazyOwn RedTeam"
+version: "1.0"
+enabled: true
+tags:
+  - nmap
+  - parsing
+  - xml
+  - automation
+params: []
+permissions: []
+requires_root: false
+dependencies:
+  - xmlstarlet
+outputs:
+  - dir: output/nmap_parsed/
+    description: Resultados organizados por archivo

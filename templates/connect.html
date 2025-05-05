@@ -19,11 +19,18 @@
         <input type="text" id="command" placeholder="Enter command">
         <button id="sendbutton">Send</button>
         <textarea id="output" rows="20" cols="80" readonly></textarea>
+        
     </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
 <script src="/static/js/xterm.js"></script>
+<script src="https://unpkg.com/xterm-addon-fit@0.7.0/lib/xterm-addon-fit.js"></script>
+<script src="https://unpkg.com/xterm-addon-web-links@0.5.0/lib/xterm-addon-web-links.js"></script>
 <script>
+    function stripAnsi(str) {
+        const ansiRegex = /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g;
+        return str.replace(ansiRegex, '');
+    }
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelector('.loading-container').style.display = 'none';
 
@@ -35,11 +42,25 @@
 
         socket.on('response', function(data) {
             var outputArea = document.getElementById('output');
-            var term = new Terminal();
+            var term = new Terminal({
+                cursorBlink: true,
+                fontFamily: 'monospace',
+                theme: {
+                    background: '#000000',
+                    foreground: '#00FF00'
+                }
+            });
             term.open(document.getElementById('output'));
+            term.writeln("Welcome to LazyOwn RedTeam Framework: CRIMEN 👋");
+            const fitAddon = new FitAddon.FitAddon();
+            term.loadAddon(fitAddon);
+            term.open(document.getElementById('output'));
+            fitAddon.fit();
+            
             term.write('\x1b[2J\x1b[3J\x1b[H');
             term.write(output);
-            outputArea.value += data.output;
+            clean_output = stripAnsi(data.output);
+            outputArea.value += clean_output;
         });
 
         document.getElementById('sendbutton').onclick = function() {

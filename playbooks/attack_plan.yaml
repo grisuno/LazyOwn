@@ -1,0 +1,5 @@
+apt_name: "LazyAPT01"
+description: "Simulación de mimikatz y rubeus"
+steps:
+  - atomic_id: "ec1d0b37-f659-4186-869f-31a554891611" # mimikatz
+  - atomic_id: "29094950-2c96-4cbd-b5e4-f7c65079678f" # Rubeus

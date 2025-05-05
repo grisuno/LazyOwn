@@ -1,13 +1,19 @@
 import re
 import os
 import csv
+import pty
 import sys
 import json
 import yaml
 import glob
 import time
+import fcntl
+import shlex
 import socket
 import base64
+import select
+import struct
+import termios
 import logging
 import requests
 import markdown
@@ -15,7 +21,9 @@ import threading
 import subprocess
 import pandas as pd
 from math import ceil
+from io import StringIO 
 from functools import wraps
+from threading import Thread
 from datetime import datetime
 from lazyown import LazyOwnShell
 from modules.colors import retModel
@@ -73,17 +81,17 @@ class Handler(FileSystemEventHandler):
             print(f"Error watchdog: {e}")
 
 def get_karma_name(elo):
-    if elo < 100:
+    if elo < 1000:
         return "Noob"
-    elif elo < 200:
+    elif elo < 2000:
         return "Rookie"
-    elif elo < 300:
+    elif elo < 3000:
         return "Skidy"
-    elif elo < 400:
+    elif elo < 4000:
         return "Hacker"
-    elif elo < 500:
+    elif elo < 5000:
         return "Pro"
-    elif elo < 600:
+    elif elo < 6000:
         return "Elite"
     else:
         return "Godlike"
@@ -91,6 +99,14 @@ def get_karma_name(elo):
 def fromjson(value):
     return json.loads(value)
 
+def run_shell():
+    while True:
+        try:
+            # Simular bucle interactivo
+            shell.cmdloop()
+        except Exception as e:
+            print(f"[ERROR] Shell loop crashed: {e}")
+            break
 
 def load_banners():
     with open('sessions/banners.json', 'r') as file:
@@ -572,6 +588,20 @@ def secure_filename(filename):
     filename = re.sub(r'[^a-zA-Z0-9_.-]', '_', filename)
     return filename[:255]
 
+def execute_command(command):
+    try:
+        result = subprocess.run(
+            command,
+            shell=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            timeout=10
+        )
+        return result.stdout + result.stderr
+    except Exception as e:
+        return str(e)
+
 class CustomDNSResolver(BaseResolver):
     def resolve(self, request, handler):
         reply = request.reply()
@@ -716,6 +746,38 @@ def decrypt_data(encrypted_data):
     decrypted_data = decryptor.update(encrypted_data) + decryptor.finalize()
     return decrypted_data.decode('utf-8')
 
+def set_winsize(fd, row, col, xpix=0, ypix=0):
+    """Configura el tamaño de la terminal"""
+    winsize = struct.pack("HHHH", row, col, xpix, ypix)
+    fcntl.ioctl(fd, termios.TIOCSWINSZ, winsize)
+
+def read_and_forward_pty_output():
+    """Lectura continua del PTY y envío por WebSocket"""
+    max_read_bytes = 1024 * 20
+    while True:
+        socketio.sleep(0.01)
+        if app.config["fd"]:
+            try:
+                timeout_sec = 0
+                (data_ready, _, _) = select.select([app.config["fd"]], [], [], timeout_sec)
+                if data_ready:
+                    output = os.read(app.config["fd"], max_read_bytes)
+                    if output:
+                        socketio.emit("pty-output", {"output": output.decode(errors="replace")}, namespace="/pty")
+            except Exception as e:
+                logger.error(f"Error leyendo salida: {e}")
+                
+def read_and_forward_pty_output_c2():
+    max_read_bytes = 1024 * 20
+    while True:
+        socketio.sleep(0.01)
+        if app.config["fd"]:
+            timeout_sec = 0
+            (data_ready, _, _) = select.select([app.config["fd"]], [], [], timeout_sec)
+            if data_ready:
+                output = os.read(app.config["fd"], max_read_bytes).decode(errors="replace")
+                socketio.emit('output', {'data': output}, namespace='/terminal')
+         
 app = Flask(__name__, static_folder='static')
 app.secret_key = 'GrisIsComebackSayKnokKnokSecretlyxDjajajja'
 app.config['SECRET_KEY'] = app.secret_key
@@ -723,6 +785,8 @@ app.config['SESSION_COOKIE_SECURE'] = True  # Solo enviar cookies sobre HTTPS
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['REMEMBER_COOKIE_SECURE'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
+app.config["fd"] = None
+app.config["child_pid"] = None
 app.jinja_env.filters['fromjson'] = fromjson
 app.jinja_env.filters['markdown'] = markdown_to_html
 BASE_DIR = os.getcwd()
@@ -731,6 +795,7 @@ BASE_DIR += "/sessions/"
 ALLOWED_DIRECTORY = BASE_DIR
 MODEL = retModel()
 shell = LazyOwnShell()
+shell.stdout = StringIO() 
 shell.onecmd('p')
 shell.onecmd('create_session_json')
 JSON_FILE_PATH_REPORT = 'static/body_report.json'
@@ -2174,10 +2239,79 @@ def listener():
 @socketio.on('connect', namespace='/listener')
 def handle_connect():
     print('Client connected to /listener')
+    emit('output', 'Welcome to LazyOwn RedTeam Framework: CRIMEN 👋\r\n$ ')
 
 @socketio.on('disconnect', namespace='/listener')
 def handle_disconnect():
     print('Client disconnected from /listener')
+
+@socketio.on("pty-input", namespace="/pty")
+def pty_input(data):
+    """Recibe entrada del terminal web y la escribe al PTY"""
+    if app.config["fd"]:
+        try:
+            os.write(app.config["fd"], data["input"].encode())
+        except Exception as e:
+            logger.error(f"Error escribiendo entrada: {e}")
+
+@socketio.on("resize", namespace="/pty")
+def resize(data):
+    """Maneja el redimensionamiento de la terminal"""
+    if app.config["fd"]:
+        logger.info(f"Redimensionando terminal a {data['rows']}x{data['cols']}")
+        set_winsize(app.config["fd"], data["rows"], data["cols"])
+
+@socketio.on("connect", namespace="/pty")
+def connect():
+    """Maneja nueva conexión de cliente"""
+    logger.info("Nuevo cliente conectado")
+    
+    if app.config["child_pid"]:
+        return  # Ya hay una sesión activa
+
+    try:
+        # Crear proceso hijo con PTY
+        (child_pid, fd) = pty.fork()
+        
+        if child_pid == 0:
+            # Proceso hijo - ejecuta LazyOwnShell
+            subprocess.run([
+                "python3", "lazyown.py"
+            ], check=True)
+        else:
+            # Proceso padre - configuración inicial
+            app.config["fd"] = fd
+            app.config["child_pid"] = child_pid
+            
+            # Tamaño inicial de la terminal
+            set_winsize(fd, 80, 140)
+            
+            # Iniciar tarea de lectura de salida
+            socketio.start_background_task(read_and_forward_pty_output)
+            logger.info(f"Proceso hijo iniciado con PID {child_pid}")
+            
+    except Exception as e:
+        logger.error(f"Error iniciando shell: {e}")
+
+@socketio.on('input')
+def handle_input(data):
+    command = data.get('value')
+    if not command:
+        return
+    
+    print(f'[CMD] Received: {command}')
+    
+    # Inyectar entrada al shell (simula input())
+    shell.stdin.write(command + '\n')
+    command_out = shell.one_cmd(command)
+    shell.stdin.seek(0)
+    
+    # Procesar salida acumulada
+    output = shell.stdout.getvalue()
+    shell.stdout.truncate(0)
+    shell.stdout.seek(0)
+    
+    emit('output', command_out + '$ ')
 
 @socketio.on('command', namespace='/listener')
 def handle_command(msg):
@@ -2187,6 +2321,46 @@ def handle_command(msg):
         reverse_shell_socket.sendall((msg + "\n").encode())
     except Exception as e:
         emit('response', {'output': str(e)}, namespace='/listener')
+
+# Ruta nueva
+@app.route('/terminal')
+def terminal():
+    return render_template('terminal.html')
+
+# WebSocket nuevo espacio: /terminal
+@socketio.on('connect', namespace='/terminal')
+def handle_connect():
+    logger.info("Cliente conectado a /terminal")
+
+
+@socketio.on('disconnect', namespace='/terminal')
+def handle_disconnect():
+    logger.info("Cliente desconectado de /terminal")
+
+@socketio.on('input', namespace='/terminal')
+def handle_input(data):
+    command = data.get("command")
+    client_id = data.get("client_id")
+    if command and client_id:
+        output = execute_command(command)
+        socketio.emit('output', {
+            'client_id': client_id,
+            'output': output
+        }, namespace='/terminal')
+
+@socketio.on('command', namespace='/terminal')
+def handle_command(data):
+    cmd = data.get('cmd')
+    if not cmd:
+        return
+    print(f"Ejecutando comando: {cmd}")
+    output = execute_command(cmd)
+    emit('response', {'output': output})
+    
+@socketio.on('resize', namespace='/terminal')
+def handle_resize(data):
+    if app.config["fd"]:
+        set_winsize(app.config["fd"], data["rows"], data["cols"])
 
 def start_reverse_shell():
     global reverse_shell_socket
@@ -2232,7 +2406,9 @@ def internal_server_error(e):
         return response    
     return render_template('500.html'), 500
 
-
+thread = Thread(target=run_shell)
+thread.daemon = True
+thread.start()
 
 if __name__ == '__main__':
     path = os.getcwd().replace("modules", "sessions" )
@@ -2241,12 +2417,14 @@ if __name__ == '__main__':
     dns_thread.start()
     watching_thread = threading.Thread(target=start_watching, daemon=True)
     watching_thread.start()
+    
     if not os.path.exists(uploads):
         os.makedirs(uploads)
 
     if ENV == 'PROD':
         threading.Thread(target=start_reverse_shell).start()
         app.run(host='0.0.0.0', port=lport, ssl_context=('cert.pem', 'key.pem'))
+        socketio.run(app, host='0.0.0.0', port=5000, certfile='cert.pem', keyfile='key.pem')
     else:
         app.run(host='0.0.0.0', port=lport )
 

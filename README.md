@@ -11223,6 +11223,27 @@ Recursively resolve and download package dependencies with enhanced checks
 
 ### Otros
 
+  *   * feat(feat): fully tty in local shell in web cli \n\n Version: release/0.2.33 \n\n pty and xterm.js \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun May 4 21:44:55 2025 -0400 \n\n Hora: 1746409495
+
+
+### Otros
+
+### Otros
+
+  *   * Merge branch 'main' of https://github.com/grisuno/LazyOwn
+
+
+### Otros
+
+### Otros
+
+  *   * fully tty local shell implementation in web cli
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): new system of plugins and addons \n\n Version: release/0.2.32 \n\n  \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Apr 28 09:50:20 2025 -0400 \n\n Hora: 1745848220
 
 

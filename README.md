@@ -34,6 +34,11 @@ See the LICENSE file for details about using this software.
 
 In the shadowy realm of cybersecurity, where digital fortresses are besieged by relentless adversaries, **LazyOwn: CRIMEN** emerges as a beacon of strategic prowess and technical mastery. This advanced and comprehensive toolkit is meticulously crafted for professional red teams, penetration testers, and security researchers, offering an unparalleled arsenal of over 333 meticulously designed attacks tailored for Linux/*nix/bsd/osx and Windows environments. Additionally, **LazyOwn: CRIMEN** integrates the extensive attack library of the Atomic RedTeam Framework, exponentially increasing its offensive capabilities.
 
+# Core Architecture
+LazyOwn is built around a modular, command-driven architecture that provides flexibility and extensibility for security testing workflows.
+
+![diagrama_lazyown](https://github.com/user-attachments/assets/90aca8cd-cc74-48c1-888c-a897e8a46198)
+
 **LazyOwn: CRIMEN** is not merely a tool; it is an ethereal manifestation of the art of cyber warfare, seamlessly integrating a myriad of functionalities to streamline and enhance the efficiency of security assessments. This interactive environment combines multiple tools and scripts, enabling cybersecurity professionals to navigate the complex labyrinth of the security assessment lifecycle with unmatched precision.
 
 At the heart of **LazyOwn: CRIMEN** lies an intuitive command-line interface (CLI) powered by cmd2, complemented by a sophisticated web-based graphical user interface (GUI) developed in Flask. This dual interface allows users to configure specific parameters, execute custom scripts, and obtain real-time results, all from a single, unified platform. The framework's advanced adversary simulation capabilities enable the generation of sessions for red team operations, meticulously executed within the scope defined in the payload.json file. This not only expands its range of applications but also enhances usability and accessibility through multiple interfaces.
@@ -79,6 +84,8 @@ Originally designed to automate the search and analysis of binaries with special
 # Extending LazyOwnShell with Lua Plugins
 
 This document explains how to use Lua scripting to extend the functionality of the `LazyOwnShell` application, which is built on top of the `cmd2` framework in Python. Lua allows you to write custom plugins that can add new commands, modify existing behavior, or access application data.
+
+![image](https://github.com/user-attachments/assets/aff3eba8-ea3a-408c-9de5-6f09d6c30a93)
 
 ---
 
@@ -550,6 +557,11 @@ y listo ya podemos acceder a cualquiera de estas url:
 ```sh
 run lazymsfvenom or venom
 ```
+## Command & Control System
+The Command & Control (C2) system enables remote operations through a server-client architecture with encrypted communications.
+
+![image](https://github.com/user-attachments/assets/fe1bd558-8589-4d86-9d4b-c07118d2f119)
+
 
 ## Use Lazy PATH Hijacking
 
@@ -925,7 +937,7 @@ This project is licensed under the GPL v3 License. The information contained in 
 
 ## Acknowledgments ✌
 
-A special thanks to [GTFOBins](https://gtfobins.github.io/) for the valuable information they provide and to you for using this project. Also, thanks for your support Tito S4vitar! who does an extraordinary job of outreach. Of course, I use the `extractPorts` function in my `.zshrc` :D
+A special thanks to [GTFOBins](https://gtfobins.github.io/) for the valuable information they provide and to you for using this project. Also, thanks for your support Tito S4vitar! who does an extraordinary job of outreach. Of course, I use the `extractPorts` function in my `.zshrc` :D, thanks to deepwiki to help us with doc. ( https://deepwiki.com/grisuno/LazyOwn/ )
 
 ### Thanks to pwntomate 🍅
 

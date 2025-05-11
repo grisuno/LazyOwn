@@ -55,6 +55,10 @@ pip3 install tinydb
 pip3 install msldap
 pip3 install prettytable
 pip3 install fire
+pip3 install wget
+pip3 install pypykatz
+pip3 install donut
+
 curl -fsSL https://ollama.com/install.sh | sh
 
 git clone https://github.com/grisuno/LazyOwnInfiniteStorage.git ./modules_ext/lazyown_infinitestorage

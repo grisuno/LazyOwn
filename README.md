@@ -2001,6 +2001,37 @@ Args:
 Returns:
     str: The command string with placeholders replaced by their corresponding values.
 
+## parse_nmap_csv
+No description available.
+
+## query_ollama
+Envía consulta a Ollama y retorna respuesta del modelo
+
+## preprocess_llm_response
+Pre-process LLM response to handle common issues before YAML parsing
+
+## manual_yaml_extraction
+Fallback method to manually extract YAML data from malformed content
+
+## create_synthetic_yaml
+Create a basic synthetic YAML playbook when all else fails
+
+## parse_yaml_response
+Improved function to extract and parse YAML content from LLM response
+with better error handling and recovery attempts
+
+## fix_common_yaml_issues
+Fixes common YAML formatting issues
+
+## aggressive_yaml_fix
+More aggressive YAML fixing for recovery attempts
+
+## save_playbook
+Guarda el playbook generado en disco
+
+## load_knowledge_base
+Carga la base de conocimientos personalizada.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 
@@ -11229,6 +11260,20 @@ Recursively resolve and download package dependencies with enhanced checks
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Correcciones urgentes
+
+### Otros
+
+  *   * hotfix(hotfix): file path traversal and some othstuff \n\n Version: release/0.2.34 \n\n hotfix \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun May 4 23:39:25 2025 -0400 \n\n Hora: 1746416365
+
+
+### Otros
+
+### Otros
+
+  *   * hotfix
 
 
 ### Nuevas características

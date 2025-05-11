@@ -2,6 +2,34 @@
 # Changelog
 
 
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new categoried help and others things \n\n Version: release/0.2.35 \n\n with love \n\n Modified file(s):\n- README.md - UTILS.md - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun May 11 19:45:16 2025 -0400 \n\n Hora: 1747007116
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #90 from grisuno/grisuno-patch-1
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * commands categorized
+
+
 ### Correcciones urgentes
 
 ### Otros

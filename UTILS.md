@@ -1017,6 +1017,37 @@ Args:
 Returns:
     str: The command string with placeholders replaced by their corresponding values.
 
+## parse_nmap_csv
+No description available.
+
+## query_ollama
+Envía consulta a Ollama y retorna respuesta del modelo
+
+## preprocess_llm_response
+Pre-process LLM response to handle common issues before YAML parsing
+
+## manual_yaml_extraction
+Fallback method to manually extract YAML data from malformed content
+
+## create_synthetic_yaml
+Create a basic synthetic YAML playbook when all else fails
+
+## parse_yaml_response
+Improved function to extract and parse YAML content from LLM response
+with better error handling and recovery attempts
+
+## fix_common_yaml_issues
+Fixes common YAML formatting issues
+
+## aggressive_yaml_fix
+More aggressive YAML fixing for recovery attempts
+
+## save_playbook
+Guarda el playbook generado en disco
+
+## load_knowledge_base
+Carga la base de conocimientos personalizada.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 

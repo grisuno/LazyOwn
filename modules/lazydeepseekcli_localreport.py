@@ -212,4 +212,4 @@ if __name__ == "__main__":
     if args.transform:
         transform_knowledge_base()
     else:
-        process_prompt_local(args.prompt, args.debug, args.mode)
+        process_prompt_localreport(args.prompt, args.debug, args.mode)

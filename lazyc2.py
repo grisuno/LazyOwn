@@ -717,7 +717,8 @@ def handle_client(client_socket, remote_host, remote_port):
 
 def decoy():
     client_ip = request.remote_addr
-    if client_ip != lhost:
+    logging.info(f"[INFO]: IP {client_ip}")
+    if (client_ip != lhost) and (client_ip != '127.0.0.1'):
         return render_template('decoy.html')
     return None
 

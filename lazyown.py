@@ -116,6 +116,7 @@ class LazyOwnShell(cmd2.Cmd):
         "chown": "sh sudo -s chown 1000:1000 . -R",
         "control_dynamic_debug": "sh sudo cat /sys/kernel/debug/dynamic_debug/control", 
         "creds": "sh cat sessions/credentials*",
+        "cloudflare_tunnel": f"sh bash modules/mkcloudflaretunnel.sh {c2_port}",
         "disable_ftrace": "sh sudo sysctl kernel.ftrace_enabled=0",
         "disable_ftrace_proc": "sh sudo echo 1 > /proc/sys/kernel/ftrace_enabled",
         "disable_aslr": "sh echo 0 | sudo tee /proc/sys/kernel/randomize_va_space",
@@ -280,6 +281,7 @@ class LazyOwnShell(cmd2.Cmd):
             "data_file": None,
             "params_file": None,
             "json_data_file": None,
+            "enable_cloudflare": True,
             "exploitdb": "/usr/share/exploitdb/exploits/",
             "dirwordlist": "/usr/share/wordlists/SecLists-master/Discovery/Web-Content/directory-list-2.3-medium.txt",
             "usrwordlist": "/usr/share/wordlists/SecLists-master/Usernames/xato-net-10-million-usernames.txt",
@@ -648,7 +650,7 @@ class LazyOwnShell(cmd2.Cmd):
         params = plugin_data.get('params', [])
         description = plugin_data.get('description', [])
         execute_command = tool.get('execute_command', '')
-
+      
         @cmd2.with_category("14. Yaml Addon.")
         def wrapper_yaml(arg):
             try:
@@ -751,19 +753,6 @@ class LazyOwnShell(cmd2.Cmd):
             GoodBye LazyOwner
         """        
         print_warn("GoodBye LazyOwner")
-
-    recon_category = "01. Reconnaissance"
-    scanning_category = "02. Scanning & Enumeration"
-    exploitation_category = "03. Exploitation"
-    post_exploitation_category = "04. Post-Exploitation"
-    persistence_category = "05. Persistence"
-    privilege_escalation_category = "06. Privilege Escalation"
-    credential_access_category = "07. Credential Access"
-    lateral_movement_category = "08. Lateral Movement"
-    exfiltration_category = "09. Data Exfiltration"
-    command_and_control_category = "10. Command & Control"
-    reporting_category = "11. Reporting"
-    miscellaneous_category = "12. Miscellaneous"
 
     @cmd2.with_category(miscellaneous_category)
     def do_assign(self, line):
@@ -10158,15 +10147,10 @@ class LazyOwnShell(cmd2.Cmd):
         if not is_binary_present("ngrok"):
             print_warn("Installing ngrok")
             install = """
-            curl -sSL https://ngrok-agent.s3.amazonaws.com/ngrok.asc \                                                                       ─╯
-                | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null \
-                && echo "deb https://ngrok-agent.s3.amazonaws.com buster main" \
-                | sudo tee /etc/apt/sources.list.d/ngrok.list \
-                && sudo apt update \
-                && sudo apt install ngrok
+            curl -sSL https://ngrok-agent.s3.amazonaws.com/ngrok.asc  | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null && echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list  && sudo apt update && sudo apt install ngrok
             """
             print_msg(install)
-            self.cmd(install)
+            os.system(install)
             
             print_msg("visit https://dashboard.ngrok.com/get-started/your-authtoken to get your token")
             token = input("    [!] Authenticate your ngrok agent with your Token: ")
@@ -10432,6 +10416,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         Args:
             line (str): The victim ID or command line to be used by the C2 server.
+                         Optional: You can append '1' to use a Cloudflare tunnel, e.g., 'victim-1 1'.
 
         Returns:
             None
@@ -10440,7 +10425,8 @@ class LazyOwnShell(cmd2.Cmd):
             None
 
         Example:
-            c2 victim 1
+            c2 victim-1
+            c2 victim-2 1
 
         Notes:
             - Ensure that the `lhost` and `lport` parameters are valid before calling this function.
@@ -10448,25 +10434,57 @@ class LazyOwnShell(cmd2.Cmd):
             - The server command is executed using `os.system`, which may require additional handling for security.
         """
 
+        use_tunnel = False
         if line:
             args = line.split()
-            print(len(args))
-            if len(args) == 1:
+            num_args = len(args)
+            if num_args >= 1:
                 line = args[0]
                 choice = None
-            elif len(args) == 2:
-                line = args[0]
-                choice = args[1]
+                if num_args == 2:
+                    potential_choice = args[1]
+                    if potential_choice in ['1', '2', '3', '4', '5', '6', '7']:
+                        choice = potential_choice
+                    elif potential_choice == '1':
+                        use_tunnel = True
+                    elif potential_choice == '0':
+                        use_tunnel = False
+                    else:
+                        print_error("Invalid option. Use '1' for tunnel, or target choice [1-7].")
+                        return
+                elif num_args == 3:
+                    line = args[0]
+                    choice = args[1]
+                    if args[2] == '1':
+                        use_tunnel = True
+                    elif args[2] == '0':
+                        use_tunnel = False
+                    else:
+                        print_error("Invalid tunnel option. Use '1' or '0'.")
+                        return
+
             else:
                 print_error("You need to specify the victim-id, for example: c2 victim-1. [1 win ps1 | 2 linux | 3 win bat] ")
                 return
         else:
             print_error("You need to specify the victim-id, for example: c2 victim-1. [1 win ps1 | 2 linux | 3 win bat] ")
             return
-        
+
         rhost = self.params["rhost"]
-        lhost = self.params["lhost"]
-        lport = str(self.params["c2_port"])
+        lport_param = str(self.params["c2_port"])
+
+        if use_tunnel:
+            cmd = """
+            link=$(grep -o 'https://[-0-9a-z]*\.trycloudflare.com' "cf.log")
+            echo "Cloudflare Tunnel URL: $link"
+            """.replace("            ", "")
+            os.system(cmd)
+            lhost = input("Enter your Cloudflare tunnel subdomain (e.g., yoursubdomain.trycloudflare.com): ").strip()
+            lport = "443"
+        else:
+            lhost = self.params["lhost"]
+            lport = lport_param
+
         rport = str(self.params["rport"])
         listener = str(self.params["listener"])
         sleep = str(self.params["sleep"])
@@ -13982,7 +14000,7 @@ class LazyOwnShell(cmd2.Cmd):
             fi
             '
             """.replace("            ", "")
-            self.cmd(command)
+            os.system(command)
 
         url = self.params["url"]
         domain = get_domain(url)

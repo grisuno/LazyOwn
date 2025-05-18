@@ -16,9 +16,13 @@ ENABLE_TELEGRAM_C2=$(jq -r '.enable_telegram_c2' "$JSON_FILE")
 ENABLE_DISCORD_C2=$(jq -r '.enable_discord_c2' "$JSON_FILE")
 ENABLE_DEEPSEEK=$(jq -r '.enable_deepseek' "$JSON_FILE")
 ENABLE_NC=$(jq -r '.enable_nc' "$JSON_FILE")
+ENABLE_CF=$(jq -r '.enable_cloudflare' "$JSON_FILE")
 CERTPASS="LazyOwn"
 CURRENT=$PWD
-
+TUNNEL=""
+if [ "$ENABLE_CF" == true ]; then
+    TUNNEL="1"
+fi
 for cmd in tmux jq go; do
     if ! command -v $cmd &> /dev/null; then
         echo "Error: $cmd is required but not installed."
@@ -57,6 +61,7 @@ tmux new-session -d -s $SESSION
 tmux send-keys -t $SESSION "sleep 5 && bash -c './run'" C-m
 tmux send-keys -t $SESSION "nmap" C-m
 tmux split-window -v
+
 tmux send-keys -t $SESSION "sleep 5 && bash -c './run -c ping'" C-m
 tmux send-keys -t $SESSION "addhosts $DOMAIN" C-m
 if [ "$ENABLE_DEEPSEEK"  == true ]; then
@@ -70,7 +75,7 @@ fi
 tmux split-window -v
 tmux send-keys -t $SESSION "sleep 5 && bash -c './run'" C-m
 tmux send-keys -t $SESSION "createcredentials" C-m
-tmux send-keys -t $SESSION "$(printf 'c2 no_priv %s' $OS_ID)" C-m
+tmux send-keys -t $SESSION "$(printf 'c2 no_priv %s' $OS_ID) $TUNNEL" C-m
 tmux split-window -h
 tmux send-keys -t $SESSION "sleep $SLEEP_START && bash -c './run'" C-m
 tmux send-keys -t $SESSION "auto" C-m
@@ -97,6 +102,11 @@ fi
 if [ "$ENABLE_TELEGRAM_C2"  == true ]; then
     tmux split-window -v
     tmux send-keys -t $SESSION "sleep 5 && sudo -u \#1000 bash -c  'source \"$VENV_PATH/bin/activate\" && python3 -W ignore telegram_c2.py'" C-m
+fi
+if [ "$ENABLE_CF"  == true ]; then
+    tmux split-window -v
+    tmux send-keys -t $SESSION "sleep 5 && sudo -u \#1000 bash -c './run'" C-m
+    tmux send-keys -t $SESSION "cloudflare_tunnel" C-m
 fi
 tmux select-pane -t 5
 tmux attach -t $SESSION

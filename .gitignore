@@ -40,3 +40,4 @@ payload_*.json
 firefox.dmp
 LazyOwn_history.dat
 */__pycache__
+cloudflared

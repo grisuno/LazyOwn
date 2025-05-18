@@ -58,6 +58,8 @@ pip3 install fire
 pip3 install wget
 pip3 install pypykatz
 pip3 install donut
+pip3 install uro
+pip3 install lupa
 
 curl -fsSL https://ollama.com/install.sh | sh
 

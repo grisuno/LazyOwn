@@ -6,6 +6,27 @@
 
 ### Otros
 
+  *   * feat(feat): new offuscated implants go more maleable more undetectable, new command rev to automated get a revshell, cloudflare tunnel to get certified subdomain to the infra for free \n\n Version: release/0.2.37 \n\n host discovery cappabilities to map in the c2 more addons , newver was more easy extend the framework functionality \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu May 22 00:29:10 2025 -0400 \n\n Hora: 1747888150
+
+
+### Otros
+
+### Otros
+
+  *   * deleting large files ....
+
+
+### Otros
+
+### Otros
+
+  *   * New addons, implant ofuscated by garble, tunnel cloudflare, host_discover at C2 diagram show the entire network , implant more maleable, some new ideas to ia and rag or cag
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): lazyownbt y cloudflare_tunnel \n\n Version: release/0.2.36 \n\n documented at aliass command for alias customs \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun May 18 17:36:49 2025 -0400 \n\n Hora: 1747604209
 
 

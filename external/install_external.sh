@@ -195,7 +195,7 @@ download() {
         "git clone https://github.com/BishopFox/cloudfox.git .exploit/cloudfox"
         "git clone https://github.com/BishopFox/sj.git .exploit/swaggerjagger"
         "git clone https://github.com/BishopFox/asminject.git .exploit/asminject"
-        #"git clone .exploit/"
+        "git clone https://github.com/outflanknl/Scripts.git .exploit/scripts_outflank"
         #"git clone .exploit/"     
         #"git clone .exploit/"
         #"git clone .exploit/"      

@@ -58,25 +58,31 @@ One of the standout features of **LazyOwn: CRIMEN** is its ability to schedule t
 
 ## Key Features of LazyOwn: CRIMEN
 
-1. **Comprehensive Attack Library**: Over 333 crafted attacks for various environments, each a testament to the framework's depth and versatility, augmented by the extensive attack library of the Atomic RedTeam Framework.
+1. **Comprehensive Attack Library**: Over 500 crafted attacks for various environments, each a testament to the framework's depth and versatility, augmented by the extensive attack library of the Atomic RedTeam Framework.
 2. **Interactive CLI**: Based on cmd2, offering an intuitive and efficient command-line experience.
-3. **Web GUI**: Developed in Flask, providing a user-friendly interface for seamless interaction.
+3. **Decoy**: if the ip addres not match with 127.0.0.1 or lhost flask will show a decoy website
 4. **Adversary Simulation**: Advanced capabilities for generating red team operation sessions, ensuring meticulous and effective simulations.
 5. **Task Scheduling**: Utilize the `cron` command to schedule and automate tasks, enabling persistent threat simulations.
 6. **Real-Time Results**: Obtain immediate feedback and results from security assessments, ensuring timely and accurate insights.
 7. **RAT and Botnet Capabilities**: Includes features for remote access and control, allowing for the management of botnets and persistent threats.
-8. **C2 Framework**: Acts as a command and control (C2) framework, enabling covert communication and control over compromised systems.
+8. **C2 Framework IA Powered**: Acts as a command and control (C2) framework, enabling covert communication and control over compromised systems. and many IA bots to improve your opsec, Developed in Flask, providing a user-friendly interface for seamless interaction.
+9. **Undetectable, Obfuscated, and Malleable Implants**: The Go beacon is multi-platform, undetectable, obfuscated, malleable, exhibits polymorphism, operates stealthily, secures communication through an encrypted channel, simulates real network traffic, and detects if it is running within a virtual machine or if it is being debugged and it's tiny. 
+10. **Rootkit**: Linux rootkit and Windows Malware to ensure persistence and undetectable.
 
 ## Command Capabilities
 
 **LazyOwn: CRIMEN** offers a rich set of commands that can be executed from both the CLI and the web interface, each designed to empower users with unparalleled control and flexibility:
 
+- **addhosts**: Add the domain and rhost to /etc/hosts file to route the attacks.
 - **list**: Enumerates all available LazyOwn Modules within the framework, providing a comprehensive overview of the toolkit's capabilities.
-- **assign **: Configures specific parameters for the operation, such as `assign rhost 192.168.1.1` to define the target IP address, ensuring precise and tailored attacks.
+- **assign**: Configures specific parameters for the operation, such as `assign rhost 192.168.1.1` to define the target IP address, ensuring precise and tailored attacks.
+- **createcredentials**: Add credentials exfiltrated to be used in the attacks or tests. `createcredentials admin:adminpassword`
 - **show**: Displays the current values of all configured parameters, offering a clear and concise view of the operational setup.
-- **run : Executes specific scripts available in the framework, such as `run lazysniff` to initiate packet sniffing, enabling dynamic and responsive security assessments.
+- **run** : Executes specific scripts available in the framework, such as `run lazysniff` to initiate packet sniffing, enabling dynamic and responsive security assessments.
 - **cron**: Schedules tasks to run at specified intervals, ensuring persistent and automated threat simulations that mimic the relentless nature of advanced cyber adversaries.
 - **exit**: Gracefully exits the CLI, concluding the session with elegance and finality.
+- **auto**: Execute all tools files enabled in the tool directory that are relevant to the Nmap scan report.
+- **help**: Documented commands (use 'help -v' for verbose/'help <topic>' for details)
 
 
 Originally designed to automate the search and analysis of binaries with special permissions on Linux and Windows systems, LazyOwn has evolved to encompass a broader range of functionalities. The project includes scripts that extract information from GTFOBins, analyze binaries on the system, and generate options based on the collected data.
@@ -179,6 +185,113 @@ Now, you can run the hello command in the shell:
 - Handle Errors Gracefully : Use pcall to handle errors in Lua plugins and prevent crashes.    
 
 By leveraging Lua scripting, you can extend the functionality of LazyOwnShell without modifying the core Python code. This allows for greater flexibility and customization, enabling users to write their own plugins to meet specific needs. Happy coding!
+
+# LazyAddons YAML System
+
+Extending the LazyOwn RedTeam Framework's capabilities has never been so easy, even for non-programmers, thanks to the LazyAddons system that allows for extending functionalities using YAML files.
+
+Declarative command creation through YAML configuration files.
+
+## 📂 File Structure
+lazyaddons/
+├── addon1.yaml
+├── addon2.yaml
+└── example.yaml
+
+
+## 🛠️ Addon Definition
+
+### Minimal Example
+```yaml
+name: "shortname"  # CLI command (do_shortname)
+enabled: true
+description: "Tool description for help system"
+
+tool:
+  name: "Full Tool Name"
+  repo_url: "https://github.com/user/repo"
+  install_path: "tools/toolname"
+  execute_command: "python tool.py -u {url}"
+```  
+Advanced Configuration
+```yaml
+params:
+  - name: "url"
+    required: true
+    description: "Target URL"
+    default: "http://localhost"
+  
+  - name: "threads"
+    required: false
+    default: 4
+```    
+✨ Features
+Auto-Installation
+Tools clone from Git when missing:
+
+```bash
+git clone <repo_url> <install_path>
+```
+Parameter Substitution
+Replaces {param} in commands with values from:
+
+- Command arguments
+
+- Default values
+
+- self.params
+
+- Help Integration
+
+help <command> displays the YAML description.
+
+🧩 Template
+
+```yaml
+name: ""
+enabled: true
+description: ""
+
+tool:
+  name: ""
+  repo_url: ""
+  install_path: ""
+  install_command: ""  # Optional
+  execute_command: ""
+
+params:
+  - name: ""
+    required: true/false
+    default: ""
+    description: ""
+```
+▶️ Usage
+Place YAML files in lazyaddons/
+
+Start your CLI application
+
+Execute registered commands:
+
+```bash
+(Cmd) help your_command
+(Cmd) your_command -args
+```
+🚨 Troubleshooting
+Missing parameters: Verify required fields in YAML
+
+Install failures: Check network/git access
+
+Command errors: Validate execute_command syntax
+
+
+Key features:
+- Clean GitHub-flavored markdown
+- Focused only on YAML addons
+- Includes ready-to-use templates
+- Documents the parameter substitution system
+- Provides troubleshooting tips
+
+Would you like me to add any specific examples or usage scenarios?
 
 ![LazyOwnGris3](https://github.com/user-attachments/assets/04f48e49-5d7f-4c3d-af6d-81d05dbdacbf)
 
@@ -462,22 +575,34 @@ generate_msfvenom_loader          visualize_network
 
 14. Yaml Addon.
 ===============
-commix2  peeko
+commix2  laps  lazymapd  lazyownbt  orpheus  peeko  ridenum  spoonmap  unicorn
 
 Uncategorized
 =============
-alias  ffuf_enumeration  help     macro           rrhost        shell    
-edit   gobuster_dns      history  nikto_host      run_pyscript  shortcuts
-EOF    gobuster_http     ipp      nuclei_ad_http  run_script    subwfuzz 
-ffuf   gobuster_web      ipy      quit            set         
-
+alias              EOF                    nc_ldap_interact  shell         
+asrep_roast        getNPUsers_tool        nuclei_ad_http    shortcuts     
+bloodhound-python  help                   nxc_idap_tool     showmount_nfs 
+crackmapexec_ldap  history                nxc_ldap          showmount_tool
+crackmapexec_smb   ipp                    nxc_null_session  smb_ghost     
+dig_any            ipy                    nxc_pass_policy   smb_map       
+dig_reverse        kerberoasting_tool     nxc_rid           smbclient_list
+dns_enum_tool      kerbrute_tool          quit              smbclient_tool
+dnsrecon_axfr      kerbrute_tool_user     rpcclient_tool    smbmap_tool   
+edit               ldap_domain_dump_tool  rrhost            smbserver_tool
+enum4linux_tool    ldapsearch_anon        run_pyscript      userEnum_tool 
+enum_rpcbind       ldapsearch_tool        run_script      
+enum_smb           macro                  set        
 
 
 ```
 ## Tag in youtube
 <https://www.youtube.com/hashtag/lazyown>
+
 ## Podcast
 <https://www.youtube.com/watch?v=m4FtlhownvM&list=PLW9Qe5HJK5CFXyIsF9b0NB6n9EY8Am3YZ>
+
+## DeepWiki
+<https://deepwiki.com/grisuno/LazyOwn/>
 
 
 ```sh

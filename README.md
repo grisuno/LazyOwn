@@ -11420,6 +11420,20 @@ Recursively resolve and download package dependencies with enhanced checks
 
 ### Otros
 
+  *   * feat(feat): lazyownbt y cloudflare_tunnel \n\n Version: release/0.2.36 \n\n documented at aliass command for alias customs \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun May 18 17:36:49 2025 -0400 \n\n Hora: 1747604209
+
+
+### Otros
+
+### Otros
+
+  *   * new commadn lazyownbt for blueteams, and cloudflare tunnel to c2 over inet
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): new categoried help and others things \n\n Version: release/0.2.35 \n\n with love \n\n Modified file(s):\n- README.md - UTILS.md - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun May 11 19:45:16 2025 -0400 \n\n Hora: 1747007116
 
 

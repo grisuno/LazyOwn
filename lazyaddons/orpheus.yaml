@@ -1,0 +1,13 @@
+name: orpheus
+description: >
+ Bypassing Kerberoast Detections with Modified KDC Options and Encryption Types
+author: "TrustedSec"
+version: "0.1"
+enabled: true
+
+tool:
+  name: orpheus
+  repo_url: https://github.com/trustedsec/orpheus.git
+  install_path: external/.exploit/orpheus
+  execute_command: |
+    python3 orpheus.py

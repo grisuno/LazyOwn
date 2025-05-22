@@ -839,16 +839,16 @@
                     container.innerHTML = html;
                     return container;
                 }
-                function generateGraph(connectedClients) {
-                    
+                function generateGraph(connectedClients, connectedHosts) {
+                    var local_ips = {{ local_ips | tojson | safe }};
                     var nodes = new vis.DataSet([
                         {
-                            id: 'c2', 
-                            label: 'C&C LazyOwn ', 
+                            id: 'c2',
+                            label: 'C&C LazyOwn '+ " \n" + local_ips,
                             title: htmlTitle(bot),
-                            shape: 'image', 
-                            image: '/static/c2.png', 
-                            size: 100, 
+                            shape: 'image',
+                            image: '/static/c2.png',
+                            size: 100,
                             font: { color: '#ffffff' }
                         }
                     ]);
@@ -856,15 +856,16 @@
                     var edges = new vis.DataSet();
 
                     var connectedClients = {{ connected_clients | tojson | safe }};
-                    var results = {{ commands_history | tojson | safe }};
                     
+                    var results = {{ commands_history | tojson | safe }};
+
                     fetch('/aicmd?arg=1')
                         .then(response => response.json())
                         .then(data => {
                             var converter = new showdown.Converter();
                             var html = converter.makeHtml(data);
                             var newTitle = html;
-                            var newLabel = "C&C LazyOwn[AI]TeamServer >_ ";
+                            var newLabel = "C&C LazyOwn[AI]TeamServer >_ "+ " \n" + local_ips;
                             toastr(html)
                             nodes.update({ id: 'c2', label: newLabel, title: htmlTitle(newTitle) });
                         })
@@ -874,11 +875,11 @@
                         var label = "Implant ID: " +client;
                         var image = '/static/client.png';
                         var selector = '#' + client;
-                        var client_os = $(selector).val(); 
+                        var client_os = $(selector).val();
                         var ips = $(selector).data('ips');
                         var pid = $(selector).data('pid');
                         var user = $(selector).data('user');
-                        var hostname = $(selector).data('hostname');                        
+                        var hostname = $(selector).data('hostname');
                         if (client_os) {
                             label += " (OS/" + client_os + ")";
                             if (client_os.toLowerCase() === 'linux') {
@@ -902,9 +903,35 @@
                         if (hostname) {
                             label += "\n (Hostname/" + hostname + ")";
                         }
-                        nodes.add({id: client, title: label, label: label, shape: 'image', image: image, size: 70, font: { color: '#ffffff' }});
+                        nodes.add({
+                            id: client,
+                            title: label,
+                            label: label,
+                            shape: 'image',
+                            image: image,
+                            size: 50, // Increased size for clients
+                            font: { color: '#ff0000' },
+                            group: 'clients' // Assign to the 'clients' group
+                        });
                         edges.add({from: 'c2', to: client});
                     });
+
+                    if (connectedHosts && Array.isArray(connectedHosts)) {
+                        connectedHosts.forEach(function(host) {
+                            const hostId = 'host-' + host.replace(/\./g, '-'); // Sanitize IP for ID
+                            nodes.add({
+                                id: hostId,
+                                title: host,
+                                label: host,
+                                shape: 'circularImage',
+                                image: '/static/host.png',
+                                size: 25,
+                                font: { color: '#ffffff' },
+                                group: 'hosts' // Assign to the 'hosts' group
+                            });
+                            edges.add({from: 'c2', to: hostId});
+                        });
+                    }
 
                     var container = document.getElementById('mynetwork');
                     var data = {
@@ -914,8 +941,8 @@
                     var options = {
                         nodes: {
                             shape: 'image',
-                            size: 70,
-                            color: '#5cb85c',
+                            // Default styles will be overridden by group styles
+                            color: '#8bf',
                             borderWidth: 2,
                             borderWidthSelected: 4,
                             shadow: true,
@@ -927,7 +954,7 @@
                         },
                         edges: {
                             width: 2,
-                            color: '#5cb85c',
+                            color: '#8bf',
                             arrows: {
                                 to: {enabled: true, scaleFactor: 1},
                                 from: {enabled: false},
@@ -948,6 +975,18 @@
                             solver: 'repulsion',
                             timestep: 0.22,
                             stabilization: {iterations: 150}
+                        },
+                        groups: {
+                            clients: {
+                                size: 50, // Make client nodes larger (already set in node creation)
+                                // You can add more styles here if needed, e.g.,
+                                // color: { background: 'lightblue', border: 'blue' },
+                                // borderWidth: 3
+                            },
+                            hosts: {
+                                size: 25 // Make host nodes smaller (already set in node creation)
+                                // Add styles if you want to further customize hosts
+                            }
                         }
                     };
                     var network = new vis.Network(container, data, options);
@@ -989,13 +1028,13 @@
                     });
                 }
                 var connectedClients = {{ connected_clients | tojson | safe }};
-             
+                var connectedHosts = {{ connected_hosts | tojson | safe }};
 
 
 
                 
                 updateStatus();
-                generateGraph(connectedClients);
+                generateGraph(connectedClients, connectedHosts);
 
                 document.querySelectorAll('.nav-link').forEach(link => {
                     link.addEventListener('click', function(event) {

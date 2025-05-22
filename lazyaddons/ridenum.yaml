@@ -1,0 +1,25 @@
+name: ridenum
+description: >
+ Bypassing Kerberoast Detections with Modified KDC Options and Encryption Types
+author: "TrustedSec"
+version: "0.1"
+enabled: true
+params:
+  - name: rhost
+    type: string
+    required: true
+    description: Remote host.
+  - name: usrwordlist
+    type: string
+    required: true
+    description: Remote host.    
+  - name: wordlist
+    type: string
+    required: true
+    description: Remote host.    
+tool:
+  name: ridenum
+  repo_url: https://github.com/trustedsec/ridenum.git
+  install_path: external/.exploit/ridenum
+  execute_command: |
+    ./ridenum.py {rhost} 500 50000 {wordlist} {usrwordlist}

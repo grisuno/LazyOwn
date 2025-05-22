@@ -1,0 +1,18 @@
+name: lazymapd
+description: >
+ LAzyOwn RedTeam Framework, Detecta puertos abiertos y es capaz de guardar en un archivo lo encontrado.
+author: "LazyOwn RedTeam"
+version: "1.0"
+enabled: true
+params:
+  - name: rhost
+    type: string
+    required: true
+    description: Remote host.
+tool:
+  name: lazymapd
+  repo_url: https://github.com/grisuno/Lazymapd.git
+  install_path: external/.exploit/Lazymapd
+  install_command: "chmod +x install.sh ; ./install.sh"
+  execute_command: |
+    ./lazymapd/target/release/lazymapd -A -s  {rhost} --spoof-source 1.1.1.1 -t 1000 -o sessions/lazymapd_{rhost}.csv 

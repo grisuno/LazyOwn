@@ -774,6 +774,57 @@ def read_and_forward_pty_output_c2():
                 output = os.read(app.config["fd"], max_read_bytes).decode(errors="replace")
                 socketio.emit('output', {'data': output}, namespace='/terminal')
          
+def get_discovered_hosts():
+    """
+    Reads the sessions/hostsdiscovery.txt file and returns a list of discovered hosts.
+    """
+    hosts_file_path = os.path.join('sessions', 'hostsdiscovery.txt')
+    discovered_hosts = []
+    local_ips = get_local_ip_addresses()
+    try:
+        with open(hosts_file_path, 'r') as f:
+            for line in f:
+                ip_address = line.strip()
+                if ip_address and ip_address not in local_ips:
+                    discovered_hosts.append(ip_address)
+    except FileNotFoundError:
+        print(f"Error: File not found at {hosts_file_path}")
+        return []
+    return discovered_hosts
+
+def get_local_ip_addresses():
+    try:
+        # Ejecuta el comando para obtener la información de la dirección IP
+        process = subprocess.run(['ip', 'addr'], capture_output=True, text=True, check=True)
+        output = process.stdout
+
+        # Analiza la salida para encontrar tu dirección IP (ejemplo para una interfaz llamada 'eth0' o 'wlan0')
+        for line in output.splitlines():
+            if 'inet ' in line and ('eth0' in line or 'wlan0' in line):
+                ip_address = line.split()[1].split('/')[0]
+                if ip_address != "127.0.0.1":
+                    return ip_address
+            elif 'inet ' in line and 'tun0' in line:  # Considerar la interfaz tun0 si está presente
+                ip_address = line.split()[1].split('/')[0]
+                return ip_address
+            elif 'inet ' in line and 'br-' in line: # Considerar interfaces bridge (Docker)
+                ip_address = line.split()[1].split('/')[0]
+                return ip_address
+            # Agrega más condiciones 'elif' si necesitas buscar en otras interfaces específicas
+
+        # Si no se encuentra en las interfaces comunes, intenta encontrar alguna IP no loopback
+        for line in output.splitlines():
+            if 'inet ' in line and 'lo' not in line:
+                ip_address = line.split()[1].split('/')[0]
+                return ip_address
+
+        return "No se pudo obtener la IP del servidor desde el sistema operativo."
+
+    except subprocess.CalledProcessError as e:
+        return f"Error al ejecutar el comando: {e}"
+    except FileNotFoundError:
+        return "El comando 'ip' no se encontró en el sistema."
+    
 app = Flask(__name__, static_folder='static')
 app.secret_key = 'GrisIsComebackSayKnokKnokSecretlyxDjajajja'
 app.config['SECRET_KEY'] = app.secret_key
@@ -830,11 +881,13 @@ env.filters['markdown'] = markdown_to_html
 print(f"[DEBUG] Clave AES (hex): {AES_KEY.hex()}")
 implants_check()
 create_report()
+local_ips = get_local_ip_addresses()
 
 if len(sys.argv) > 3:
     lport = sys.argv[1]
     USERNAME = sys.argv[2]
     PASSWORD = sys.argv[3]
+    print(f"    [!] Launch C2 at: {local_ips}")
     print(f"    [!] Launch C2 at: {lport}")
 else:
     print("    [!] Need pass the port, user & pass as argument")
@@ -980,9 +1033,12 @@ def index():
                 tools.append(tool_data)
     
     karma_name = get_karma_name(current_user.elo)
+    connected_hosts = get_discovered_hosts()
+
     return render_template(
         'index.html',
         connected_clients=connected_clients_list,
+        connected_hosts=connected_hosts,
         results=results,
         session_data=session_data,
         commands_history=commands_history,
@@ -1007,7 +1063,8 @@ def index():
         karma_name=karma_name,
         current_user_id = current_user.id,
         elo=current_user.elo,
-        prompt = prompt
+        prompt = prompt,
+        local_ips= local_ips
     )
 
 @app.route('/command/<client_id>', methods=['GET'])

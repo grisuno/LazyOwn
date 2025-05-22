@@ -1,0 +1,29 @@
+name: laps
+description: >
+ Dumping LAPS from Python
+author: "n00py"
+version: "0.1"
+enabled: true
+params:
+  - name: rhost
+    type: string
+    required: true
+    description: Remote host.
+  - name: domain
+    type: string
+    required: true
+    description: domain name.
+  - name: start_user
+    type: string
+    required: true
+    description: username to start with.
+  - name: start_pass
+    type: string
+    required: true
+    description: password to start with.
+tool:
+  name: laps
+  repo_url: https://github.com/n00py/LAPSDumper.git
+  install_path: external/.exploit/laps
+  execute_command: |
+    python3 laps.py -u {start_user} -p {start_pass} -l {rhost} -d {domain} -o ../../../sessions/laps_{rhost}_

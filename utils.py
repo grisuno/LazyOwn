@@ -3282,7 +3282,14 @@ for arg in arguments:
         break      
     else:
         print_error(f"Error: Wrong argument: {arg}")
-       
+
+if sys.version_info <= (3, 0):
+    sys.stdout.write("Sorry, requires Python 3.x, not Python 2.x\n")
+    sys.exit(1)
+
+if os.name == 'nt':
+    print("WINDOWS as Host OS Not currently supported - exiting")
+    sys.exit() 
 
 if RUN_AS_ROOT:
     check_sudo()

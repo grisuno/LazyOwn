@@ -20,6 +20,7 @@ ENABLE_CF=$(jq -r '.enable_cloudflare' "$JSON_FILE")
 CERTPASS="LazyOwn"
 CURRENT=$PWD
 TUNNEL=""
+./modules/hostdiscover.sh 2> /dev/null &
 if [ "$ENABLE_CF" == true ]; then
     TUNNEL="1"
 fi

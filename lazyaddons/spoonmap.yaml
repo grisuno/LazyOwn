@@ -1,0 +1,13 @@
+name: spoonmap
+description: >
+ This script is simply a wrapper for NMAP and Masscan. Install them from your favorite package manager, or install from source.
+author: "TrustedSec"
+version: "0.1"
+enabled: true
+
+tool:
+  name: spoonmap
+  repo_url: https://github.com/trustedsec/spoonmap.git
+  install_path: external/.exploit/spoonmap
+  execute_command: |
+    ./spoonmap.py 

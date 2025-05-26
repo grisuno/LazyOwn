@@ -8,6 +8,34 @@
                 Disclaimer: [!] Please do not use this in military or secret service organizations, or for illegal purposes. (This is non-binding, as these entities often disregard laws and ethics anyway.)
             </p>
             <h2>Connected Clients</h2>
+            <div class="container mt-3">
+                <div class="form-inline">
+                    <div class="form-check mr-2">
+                        <input type="checkbox" class="form-check-input" id="filter-clients" checked>
+                        <label class="form-check-label mr-2" for="filter-clients">Clients</label>
+                    </div>
+                    <div class="form-check mr-2">
+                        <input type="checkbox" class="form-check-input" id="filter-hosts" checked>
+                        <label class="form-check-label mr-2" for="filter-hosts">Hosts</label>
+                    </div>
+                    <div class="form-group mr-2">
+                        <label class="mr-2" for="os-filter">Filter OS:</label>
+                        <select class="form-control form-control-sm mr-2" id="os-filter">
+                            <option value="">All</option>
+                            <option value="linux">Linux</option>
+                            <option value="windows">Windows</option>
+                        </select>
+                    </div>
+                    <div class="form-check mr-2">
+                        <input type="checkbox" class="form-check-input" id="filter-discovered" checked>
+                        <label class="form-check-label mr-2" for="filter-discovered">Discovered</label>
+                    </div>
+                    <div class="form-group">
+                        <label class="mr-2" for="search-label">Search:</label>
+                        <input type="text" class="form-control form-control-sm" id="search-label">
+                    </div>
+                </div>
+            </div>         
             <ul class="list-group">
                 {% for client_id in connected_clients %}
                     <li class="list-group-item list-group-item-success">{{ client_id }}</li>
@@ -109,11 +137,10 @@
             term.loadAddon(fitAddon);
             term.open(document.getElementById('terminal'));
             fitAddon.fit();
-
-            // WebSocket
+            var nodes = new vis.DataSet([]);
+            var edges = new vis.DataSet([]);
+            var network;
             const socket = io.connect("/pty");
-
-            // Estado de conexión
             socket.on("connect", () => {
                 document.getElementById('status').innerHTML = 
                     '<span style="background-color: #00ff0066;">Conectado</span>';
@@ -165,6 +192,70 @@
                 icono.css('color', '#000');
                 bar.css('color', '#000');
             });
+            function applyFilters() {
+                var filterClients = document.getElementById('filter-clients').checked;
+                var filterHosts = document.getElementById('filter-hosts').checked;
+                var osFilter = document.getElementById('os-filter').value.toLowerCase();
+                var filterDiscovered = document.getElementById('filter-discovered').checked;
+                var searchLabel = document.getElementById('search-label').value.toLowerCase();
+
+                var filteredNodes = new vis.DataSet();
+                var filteredEdges = new vis.DataSet();
+
+                // Filtrar nodos
+                nodes.forEach(function(node) {
+                    var includeNode = true;
+
+                    if (node.group === 'clients') {
+                        if (!filterClients) {
+                            includeNode = false;
+                        } else if (osFilter && !node.label.toLowerCase().includes('(os/' + osFilter + ')')) {
+                            includeNode = false;
+                        }
+                    } else if (node.group === 'hosts') {
+                        if (!filterHosts) {
+                            includeNode = false;
+                        }
+                    }
+
+                    if (searchLabel && !node.label.toLowerCase().includes(searchLabel)) {
+                        includeNode = false;
+                    }
+
+                    if (includeNode) {
+                        filteredNodes.add(node);
+                    }
+                });
+
+                // Filtrar aristas
+                edges.forEach(function(edge) {
+                    var fromNodeVisible = filteredNodes.get(edge.from) !== null;
+                    var toNodeVisible = filteredNodes.get(edge.to) !== null;
+
+                    if (fromNodeVisible && toNodeVisible) {
+                        // Aquí podrías agregar lógica adicional para filtrar aristas basadas en otros criterios
+                        // como si el host fue descubierto o no.
+                        if (edge.to && edge.to.startsWith('host-') && !filterDiscovered && edges.get(edge.to).from === 'no_priv') {
+                            // Si no se deben mostrar los hosts descubiertos y esta arista viene de 'no_priv'
+                            let hostNode = nodes.get(edge.to);
+                            if (hostNode && hostNode.group === 'hosts') {
+                                if (!edges.getIds({ filter: e => e.to === edge.to && e.from === 'c2' }).length > 0) {
+                                    // Solo ocultar si no hay una conexión directa desde C2
+                                    return; // Skip adding this edge
+                                }
+                            }
+                        }
+                        filteredEdges.add(edge);
+                    }
+                });
+
+                // Actualizar el gráfico con los nodos y aristas filtrados
+                var data = {
+                    nodes: filteredNodes,
+                    edges: filteredEdges
+                };
+                network.setData(data);
+            }            
             function RunCmd(command){
                 const spinner = document.getElementById('loader');
                 var check = document.getElementById('check_local_shell');
@@ -172,12 +263,12 @@
                 if (check) {
                     isChecked = check.checked
                     if (isChecked) {
-                        console.log('Local Shell Bot enabled');
+
                     } else {
-                        console.log('Local Shell Bot disabled');
+
                     }
                 } else {
-                    console.log('does\'nt exist');
+
                 }
                 spinner.style.display = 'block';
                 fetch('/api/run', {
@@ -238,7 +329,7 @@
                     //outputDiv.innerHTML += `<p>${cleanOutputText}</p>`;
                     outputAtomic.innerHTML += `<p>${cleanOutputText}</p>`;
                 } catch (error) {
-                    console.error('There was a problem with the fetch operation:', error);
+
                 }
             }
 
@@ -256,7 +347,7 @@
                         }, index * 1000); 
                     });
                 } catch (error) {
-                    console.error('Error fetching tasks:', error);
+
                 }
             }
 
@@ -280,7 +371,7 @@
                 .then(data => {
                     spinner.style.display = 'none';
                     if (data.error) {
-                        console.log(`Error: ${data.error}`);
+
                     } else {
                         var msg = "<h1>Command:" + command + " <h1>";
                         toastr(msg)
@@ -288,7 +379,7 @@
                 })
                 .catch(error => {
                     spinner.style.display = 'none';
-                    console.log(`Error: ${error}`);
+
                 });
             }            
             function consoleText(words, id, colors) {
@@ -386,7 +477,7 @@
                                     responseDiv.innerHTML +=  data.response;
                                 }
                             } catch (e) {
-                                console.error('Error parsing chunk:', e);
+
                             }
                         }
                     }
@@ -399,11 +490,11 @@
                                 responseDiv.innerHTML += data.response;
                             }
                         } catch (e) {
-                            console.error('Error parsing final chunk:', e);
+
                         }
                     }
                 } catch (error) {
-                    console.error('Error:', error);
+
                 }
             }
             async function reportForm(prompt, id) {
@@ -442,7 +533,7 @@
                                     responseDiv.innerHTML +=  data.response;
                                 }
                             } catch (e) {
-                                console.error('Error parsing chunk:', e);
+
                             }
                         }
                     }
@@ -455,11 +546,11 @@
                                 responseDiv.innerHTML += data.response;
                             }
                         } catch (e) {
-                            console.error('Error parsing final chunk:', e);
+
                         }
                     }
                 } catch (error) {
-                    console.error('Error:', error);
+
                 }
             }
             async function sendNotification(htmlContent) {
@@ -478,9 +569,9 @@
                     }
 
                     const data = await response.json();
-                    console.log('Success:', data);
+
                 } catch (error) {
-                    console.error('Error:', error);
+
                 }
             }            
             function vulnForm(event){
@@ -510,14 +601,14 @@
                         var html = converter.makeHtml(data.response);
                         document.getElementById('vulnResponse').innerHTML += `<p>${html}</p>`;
                         if (data.response) {
-                            console.log(data.response)
+
                             
                         }
                     }
                 })
                 .catch(error => {
                     spinner.style.display = 'none';
-                    console.error('Error:', error);
+
                     document.getElementById('vulnResponse').innerHTML += `<p style="color: red;">Error de red: ${error.message}</p>`;
                 });
             }
@@ -548,7 +639,7 @@
                         const eventKey = eventName.charAt(0).toUpperCase() + eventName.slice(1);
                         if (events[eventName] && events[eventName].exist && eventStates[`not_${eventName}`]) {
                             eventStates[`not_${eventName}`] = false;
-                            console.log(`${eventKey} events found:`, events[eventName]);
+
                             toastr(`<h1>${eventKey}</h1> <h2> events found !!!</h2>`);
                             aumentarElo(user_id, 50, eventKey);
                             document.getElementById('vulnButton').click();
@@ -557,10 +648,10 @@
                         }
                     }
                     if (Object.keys(events_json).length === 0) {
-                        console.log("No events found.");
+
                     }
                 } catch (error) {
-                    console.error('Error fetching events:', error);
+
                 }
             }
             function toastr(command) {
@@ -590,7 +681,7 @@
                     })
                     .then(response => response.json())
                     .then(data => {
-                        console.log(data['response']); 
+
                         spinner.style.display = 'none';
                         if (data.error) {
                             document.getElementById('generalResponse').innerHTML += `<p style="color: red;">Groq has trouble, trying with deepseek, please await.</p>`;
@@ -610,14 +701,14 @@
                             
 
                             if (data.response) {
-                                console.log(data.response)
+
                                 //document.getElementById('generalResponse').innerHTML += `<pre>${data.output}</pre>`;
                             }
                         }
                     })
                     .catch(error => {
                         spinner.style.display = 'none';
-                        console.error('Error:', error);
+
                         document.getElementById('generalResponse').innerHTML += `<p style="color: red;">Error de red: ${error.message}</p>`;
                     });
             }
@@ -646,7 +737,7 @@
                 } else {
                     spinner.style.display = 'none';
                     const error = await response.json();
-                    console.error('Error:', error);
+
                 }
                 spinner.style.display = 'none';
             }
@@ -666,7 +757,7 @@
                     const data = await response.json();
                     toastr(`<h1>New ${eventy} achievement unlocked. </h1><h2> ${data.message} </h2>`);
                 } catch (error) {
-                    console.error('Error al aumentar el Elo:', error);
+
                 }
             }            
             document.addEventListener('DOMContentLoaded', function() {
@@ -682,7 +773,11 @@
                 const quill = new Quill("#description", {
                     theme: "snow",
                 });
-
+                document.getElementById('filter-clients').addEventListener('change', applyFilters);
+                document.getElementById('filter-hosts').addEventListener('change', applyFilters);
+                document.getElementById('os-filter').addEventListener('change', applyFilters);
+                document.getElementById('filter-discovered').addEventListener('change', applyFilters);
+                document.getElementById('search-label').addEventListener('input', applyFilters);
                 document.getElementById('taskForm').addEventListener('submit', function(event) {
                     event.preventDefault(); 
 
@@ -710,11 +805,11 @@
                         }
                     })
                     .then(data => {
-                        console.log('Success:', data);
+
                         
                     })
                     .catch((error) => {
-                        console.error('Error:', error);
+
                         
                     });
                 });
@@ -733,7 +828,7 @@
                         tooltipText.style.opacity = '0';
                     });
                 } else {
-                    console.warn('Tooltip container or text not found.');
+
                 }
                 $(document).ready(function() {
                     $('#directory').select2({
@@ -788,7 +883,7 @@
                     .then(data => {
                         spinner.style.display = 'none'; 
                         if (data.error) {
-                            console.log(`Error: ${data.error}`);
+
                         } else {
                             command = "<h1>Upload File Successfully.</h1>"
                             toastr(command)
@@ -796,7 +891,7 @@
                     })
                     .catch(error => {
                         spinner.style.display = 'none'; 
-                        console.log(`Error: ${error}`);
+
                     });
                 });
                 document.getElementById('commandForm').addEventListener('submit', function(event) {
@@ -825,12 +920,12 @@
                         }
 
                         const result = await response.json();
-                        console.log('Response:', result);
+
                         spinner.style.display = 'none';
                         return result;
                     } catch (error) {
                         spinner.style.display = 'none';
-                        console.error('Error command:', error);
+
                         return { error: error.message };
                     }
                 }
@@ -841,7 +936,9 @@
                 }
                 function generateGraph(connectedClients, connectedHosts) {
                     var local_ips = {{ local_ips | tojson | safe }};
-                    var nodes = new vis.DataSet([
+                    nodes.clear();
+                    edges.clear();
+                    nodes.add(
                         {
                             id: 'c2',
                             label: 'C&C LazyOwn '+ " \n" + local_ips,
@@ -851,13 +948,15 @@
                             size: 100,
                             font: { color: '#ffffff' }
                         }
-                    ]);
-
-                    var edges = new vis.DataSet();
+                    );
 
                     var connectedClients = {{ connected_clients | tojson | safe }};
                     
                     var results = {{ commands_history | tojson | safe }};
+                    
+                    var discovered_ips = {{ discovered_ips | tojson | safe }};
+
+                    var result_portscan = {{ result_portscan | tojson | safe }};
 
                     fetch('/aicmd?arg=1')
                         .then(response => response.json())
@@ -869,7 +968,7 @@
                             toastr(html)
                             nodes.update({ id: 'c2', label: newLabel, title: htmlTitle(newTitle) });
                         })
-                        .catch(error => console.error('Error fetching data:', error));
+
 
                     connectedClients.forEach(function(client) {
                         var label = "Implant ID: " +client;
@@ -880,6 +979,9 @@
                         var pid = $(selector).data('pid');
                         var user = $(selector).data('user');
                         var hostname = $(selector).data('hostname');
+                        var discovered_ips = $(selector).data('discovered_ips');
+                        var result_portscan = $(selector).data('result_portscan');
+
                         if (client_os) {
                             label += " (OS/" + client_os + ")";
                             if (client_os.toLowerCase() === 'linux') {
@@ -905,20 +1007,34 @@
                         }
                         nodes.add({
                             id: client,
-                            title: label,
+                            title: label + discovered_ips + " - " + result_portscan,
                             label: label,
                             shape: 'image',
                             image: image,
-                            size: 50, // Increased size for clients
+                            size: 50, 
                             font: { color: '#ff0000' },
-                            group: 'clients' // Assign to the 'clients' group
+                            group: 'clients',
+                            mass: 2
                         });
                         edges.add({from: 'c2', to: client});
                     });
 
                     if (connectedHosts && Array.isArray(connectedHosts)) {
+                        connectedHosts = [...new Set(connectedHosts)];
                         connectedHosts.forEach(function(host) {
-                            const hostId = 'host-' + host.replace(/\./g, '-'); // Sanitize IP for ID
+                            const hostId = 'host-' + host.replace(/\./g, '-'); 
+                            let foundInDiscovered = false;
+                            for (const key in discovered_ips) {
+                                if (discovered_ips.hasOwnProperty(key)) {
+                                    const ips = discovered_ips[key].split(',').map(ip => ip.trim());
+
+                                    if (ips.includes(host)) {
+                                        foundInDiscovered = true;
+                                        break;
+                                    }
+                                }
+                            }
+
                             nodes.add({
                                 id: hostId,
                                 title: host,
@@ -927,9 +1043,15 @@
                                 image: '/static/host.png',
                                 size: 25,
                                 font: { color: '#ffffff' },
-                                group: 'hosts' // Assign to the 'hosts' group
+                                group: 'hosts',
+                                mass: 1
                             });
-                            edges.add({from: 'c2', to: hostId});
+
+                            if (foundInDiscovered) {
+                                edges.add({from: 'no_priv', to: hostId});
+                            } else {
+                                edges.add({from: 'c2', to: hostId});
+                            }
                         });
                     }
 
@@ -941,7 +1063,6 @@
                     var options = {
                         nodes: {
                             shape: 'image',
-                            // Default styles will be overridden by group styles
                             color: '#8bf',
                             borderWidth: 2,
                             borderWidthSelected: 4,
@@ -989,11 +1110,11 @@
                             }
                         }
                     };
-                    var network = new vis.Network(container, data, options);
+                    network = new vis.Network(container, data, options);
                     network.on("selectNode", function(params) {
                         if (params.nodes.length > 0) {
                             var selectedNodeId = params.nodes[0];
-                            console.log("Node selected: " + selectedNodeId);
+                            console.log(selectedNodeId)
                             var selectElements = document.querySelectorAll('select');
                             selectElements.forEach(function(selectElement) {
                                 Array.from(selectElement.options).forEach(function(option) {
@@ -1172,7 +1293,7 @@
                     })
                     .then(response => response.json())
                     .then(data => {
-                        console.log(data['response']); 
+                        
                         spinner.style.display = 'none'; 
                         if (data.error) {
                             
@@ -1206,7 +1327,7 @@
                     })
                     .catch(error => {
                         spinner.style.display = 'none'; 
-                        console.error('Error:', error);
+                        
                         document.getElementById('chatbotResponse').innerHTML += `<p style="color: red;">Error de red: ${error.message}</p>`;
                     });
                     
@@ -1248,7 +1369,7 @@
                     })
                     .catch(error => {
                         spinner.style.display = 'none';
-                        console.error('Error:', error);
+                        
                         document.getElementById('scriptResponse').innerHTML += `<p style="color: red;">Error de red: ${error.message}</p>`;
                     });
                     
@@ -1299,7 +1420,7 @@
                     .then(response => response.json())
                     .then(data => {
                         spinner.style.display = 'none';
-                        console.log(data['response']); 
+                        
                         if (data.error) {
                             
                             document.getElementById('searchResponse').innerHTML += `<p style="color: red;">${data.error}</p>`;
@@ -1309,14 +1430,14 @@
                             var html = converter.makeHtml(data.response);
                             document.getElementById('searchResponse').innerHTML += `<p>${html}</p>`;
                             if (data.response) {
-                                console.log(data.response)
+                                
                                
                             }
                         }
                     })
                     .catch(error => {
                         spinner.style.display = 'none';
-                        console.error('Error:', error);
+                        
                         document.getElementById('searchResponse').innerHTML += `<p style="color: red;">Error de red: ${error.message}</p>`;
                     });
                     
@@ -1340,7 +1461,7 @@
                     })
                     .then(response => response.json())
                     .then(data => {
-                        console.log(data['response']); 
+                        
                         spinner.style.display = 'none';
                         if (data.error) {
                             
@@ -1351,14 +1472,14 @@
                             var html = converter.makeHtml(data.response);
                             document.getElementById('redopResponse').innerHTML += `<p>${html}</p>`;
                             if (data.response) {
-                                console.log(data.response)
+                                
                                 //document.getElementById('redopResponse').innerHTML += `<pre>${data.output}</pre>`;
                             }
                         }
                     })
                     .catch(error => {
                         spinner.style.display = 'none';
-                        console.error('Error:', error);
+                        
                         document.getElementById('redopResponse').innerHTML += `<p style="color: red;">Error de red: ${error.message}</p>`;
                     });
                     
@@ -1383,7 +1504,7 @@
                     })
                     .then(response => response.json())
                     .then(data => {
-                        console.log(data['response']); 
+                        
                         spinner.style.display = 'none';
                         if (data.error) {
                             document.getElementById('taskResponse').innerHTML += `<p style="color: red;">${data.error}</p>`;
@@ -1392,14 +1513,14 @@
                             var html = converter.makeHtml(data.response);
                             document.getElementById('taskResponse').innerHTML += `<p>${html}</p>`;
                             if (data.response) {
-                                console.log(data.response)
+                                
                                 //document.getElementById('taskResponse').innerHTML += `<pre>${data.output}</pre>`;
                             }
                         }
                     })
                     .catch(error => {
                         spinner.style.display = 'none';
-                        console.error('Error:', error);
+                        
                         document.getElementById('taskResponse').innerHTML += `<p style="color: red;">Error de red: ${error.message}</p>`;
                     });
                    
@@ -1421,13 +1542,13 @@
                     spinner.style.display = 'block';
                     var command = 'atomic_gen ' + id_atomic ;
                     RunCmd(command)
-                    setInterval(console.log(cleanOutputText), 5000); 
+
                     //command = "ofuscatorps1 sessions/atomic_test_"+ id_atomic + ".ps1";
                     //RunCmd(command)
-                    setInterval(console.log(cleanOutputText), 5000); 
+
                     command = "ofuscatesh sessions/atomic_test_"+ id_atomic + ".sh";
                     RunCmd(command)
-                    setInterval(console.log(cleanOutputText), 5000); 
+
                     spinner.style.display = 'none';
                     
                 });                   

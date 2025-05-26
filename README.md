@@ -65,8 +65,19 @@ One of the standout features of **LazyOwn: CRIMEN** is its ability to schedule t
 5. **Task Scheduling**: Utilize the `cron` command to schedule and automate tasks, enabling persistent threat simulations.
 6. **Real-Time Results**: Obtain immediate feedback and results from security assessments, ensuring timely and accurate insights.
 7. **RAT and Botnet Capabilities**: Includes features for remote access and control, allowing for the management of botnets and persistent threats.
-8. **C2 Framework IA Powered**: Acts as a command and control (C2) framework, enabling covert communication and control over compromised systems. and many IA bots to improve your opsec, Developed in Flask, providing a user-friendly interface for seamless interaction.
-9. **Undetectable, Obfuscated, and Malleable Implants**: The Go beacon is multi-platform, undetectable, obfuscated, malleable, exhibits polymorphism, operates stealthily, secures communication through an encrypted channel, simulates real network traffic, and detects if it is running within a virtual machine or if it is being debugged and it's tiny. 
+8. **C2 Framework IA Powered**: Acts as a command and control (C2) framework, enabling covert communication and control over compromised systems. and many IA bots to improve your opsec, Developed in Flask, providing a user-friendly interface for seamless interaction. Now with network discovery capabilities, allowing us to see the attack surface on our client map clearly and intuitively with filters and a search panel. New functionalities are coming soon.
+9. **Undetectable, Obfuscated, and Malleable GO Implants**: The Go beacon is multi-platform, undetectable, obfuscated, malleable, exhibits polymorphism, operates stealthily, secures communication through an encrypted channel, simulates real network traffic, and detects if it is running within a virtual machine or if it is being debugged and it's tiny. Now the implant has network discovery capabilities and can perform port scanning on newly acquired targets, and it has the ability to exfiltrate private keys among other sensitive data. Go vet has been adopted into the workflow for code health.
+- **Available beacon commands**:
+ - **stealth_off** stop being stealthy
+ - **stealth_on** enter ninja mode
+ - **download:** download data from the victim
+ - **upload:** upload files to the victim machine
+ - **rev:** establish a reverse shell with the C2
+ - **exfil:** exfiltrate sensitive data
+ - **download_exec:** download and execute binary on Linux clients
+ - **discover:** discover the network
+ - **portscan:** scan ports on the discovered network
+ - **terminate:** terminate the session with the implant or beacon
 10. **Rootkit**: Linux rootkit and Windows Malware to ensure persistence and undetectable.
 
 ## Command Capabilities

@@ -6,6 +6,20 @@
 
 ### Otros
 
+  *   * feat(feat): new functionalities to discover in c2 and implant and exfiltration cap, portscanning, etc \n\n Version: release/0.2.38 \n\n with love \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon May 26 01:31:14 2025 -0400 \n\n Hora: 1748237474
+
+
+### Otros
+
+### Otros
+
+  *   * new cappabilities to the c2 to discovered the net surface and the implant can improve a network discover, portscan the discovered hosts, search for a files and exfiltrate and others
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): new offuscated implants go more maleable more undetectable, new command rev to automated get a revshell, cloudflare tunnel to get certified subdomain to the infra for free \n\n Version: release/0.2.37 \n\n host discovery cappabilities to map in the c2 more addons , newver was more easy extend the framework functionality \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu May 22 00:29:10 2025 -0400 \n\n Hora: 1747888150
 
 

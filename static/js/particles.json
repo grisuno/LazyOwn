@@ -1,7 +1,7 @@
 {
   "particles": {
     "number": {
-      "value": 66,
+      "value": 11,
       "density": {
         "enable": true,
         "value_area": 800

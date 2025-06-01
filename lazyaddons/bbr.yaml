@@ -1,0 +1,29 @@
+name: bbr
+description: >
+  An open source tool to aid in command line driven generation of bug bounty reports based on user provided templates. Useful for piping reporting from one application to another (such as an automatic submission tool).
+author: "codingo Michael Skelton"
+version: "1.0"
+enabled: true
+params:
+  - name: url
+    type: string
+    required: true
+    description: URL objetivo.
+  - name: domain
+    type: string
+    required: true
+    description: Domain objetivo.    
+  - name: start_user
+    type: string
+    required: true
+    description: start_user objetivo.    
+  - name: c2_user
+    type: string
+    required: true
+    description: c2_user objetivo.          
+tool:
+  name: bbr
+  repo_url: https://github.com/codingo/bbr.git
+  install_path: external/.exploit/bbr
+  execute_command: |
+    go run bbr.go -t {{ domain }} -url {{ url }} -p {{ domain }} -u {{ start_user }} -re {{ c2_user }} -r ./template.txt | tee  

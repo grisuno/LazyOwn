@@ -1,0 +1,15 @@
+name: hooka_linux_amd64
+description: >
+ Shellcode loader generator with multiples features
+author: "D3Ext"
+version: "0.0.1"
+enabled: true
+
+tool:
+  name: hooka_linux_amd64
+  repo_url: https://github.com/D3Ext/Hooka.git
+  install_path: external/.exploit/hooka_linux_amd64
+  install_command: |
+    make
+  execute_command: |
+    ./build/hooka_linux_amd64 -i ../../sessions/shellcode.bin -o ../../sessions/lazyloader.exe --exec ProcessHollowing --sgn --strings --blockdlls

@@ -243,6 +243,16 @@ xml_body = string.Template("""<?xml version="1.0" encoding="UTF-8"?>
     </trust:RequestSecurityToken>
   </s:Body>
 </s:Envelope>""")
+def check_go_tool_installed(tool_name):
+    try:
+        process = subprocess.run([tool_name, "help"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
+        if process.returncode == 0:
+            return True
+        else:
+            return False
+    except FileNotFoundError:
+        return False
+    
 def parse_ip_mac(input_string):
     """
     Extracts IP and MAC addresses from a formatted input string using a regular expression.

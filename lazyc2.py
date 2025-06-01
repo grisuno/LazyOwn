@@ -1123,7 +1123,8 @@ def index():
         prompt = prompt,
         local_ips= local_ips,
         discovered_ips=discovered_ips,
-        result_portscan=result_portscan
+        result_portscan=result_portscan,
+        c2_port=lport
     )
 
 @app.route('/command/<client_id>', methods=['GET'])

@@ -66,18 +66,27 @@ One of the standout features of **LazyOwn: CRIMEN** is its ability to schedule t
 6. **Real-Time Results**: Obtain immediate feedback and results from security assessments, ensuring timely and accurate insights.
 7. **RAT and Botnet Capabilities**: Includes features for remote access and control, allowing for the management of botnets and persistent threats.
 8. **C2 Framework IA Powered**: Acts as a command and control (C2) framework, enabling covert communication and control over compromised systems. and many IA bots to improve your opsec, Developed in Flask, providing a user-friendly interface for seamless interaction. Now with network discovery capabilities, allowing us to see the attack surface on our client map clearly and intuitively with filters and a search panel. New functionalities are coming soon.
-9. **Undetectable, Obfuscated, and Malleable GO Implants**: The Go beacon is multi-platform, undetectable, obfuscated, malleable, exhibits polymorphism, operates stealthily, secures communication through an encrypted channel, simulates real network traffic, and detects if it is running within a virtual machine or if it is being debugged and it's tiny. Now the implant has network discovery capabilities and can perform port scanning on newly acquired targets, and it has the ability to exfiltrate private keys among other sensitive data. Go vet has been adopted into the workflow for code health.
+9. **Undetectable, Obfuscated, and Malleable GO Implants**: The Go beacon is a multi-platform, undetectable, and highly obfuscated implant tailored for advanced red teaming operations. It features polymorphism, operates in a configurable stealth mode, and secures communications with AES-256 encrypted channels. The beacon blends into environments by simulating legitimate network traffic and evades detection by identifying virtual machines, sandboxes, containers, and debuggers, dynamically adjusting its behavior. With a minimal footprint, it supports robust network discovery through ping-based host enumeration and port scanning of configured targets. The implant excels at exfiltrating sensitive data, including private keys, AWS credentials, browser credentials, and system logs. It offers dynamic TCP proxying for traffic redirection, privilege escalation attempts, and system log cleaning. Persistence is achieved across Windows, Linux, and macOS via scheduled tasks, systemd, crontab, and LaunchAgents. Additional capabilities include adversary emulation (MITRE ATT&CK), file timestamp obfuscation, and directory compression for exfiltration. Built with Go vet for code health, the implant integrates seamlessly with Dockerized environments and AWS Firecracker microVMs, making it a cornerstone of modern red team infrastructure, Built with Go vet for code integrity, the implant leverages Cloudflare for traffic obfuscation, routing communications through secure, high-performance redirectors to conceal C2 infrastructure. The Go binary is hardened with Garble obfuscation, thwarting reverse engineering and signature-based detection. On Windows, the implant employs extension camouflage to masquerade as benign files (e.g., `.pdfx`) and embeds custom icons via `rsrc` for convincing social engineering. 
 - **Available beacon commands**:
- - **stealth_off** stop being stealthy
- - **stealth_on** enter ninja mode
- - **download:** download data from the victim
- - **upload:** upload files to the victim machine
- - **rev:** establish a reverse shell with the C2
- - **exfil:** exfiltrate sensitive data
- - **download_exec:** download and execute binary on Linux clients
- - **discover:** discover the network
- - **portscan:** scan ports on the discovered network
- - **terminate:** terminate the session with the implant or beacon
+ - **stealth_off** stop being stealthy, Disables stealth mode, allowing normal operations.
+ - **stealth_on** enter ninja mode, Enables stealth mode, minimizing activity to avoid detection.
+ - **download:** download:[filename] Downloads a file from the C2 to the compromised host.
+ - **upload:** [filename]: Uploads a file from the compromised host to the C2.
+ - **rev:** Establishes a reverse shell to the C2 using the configured port.
+ - **exfil:** Exfiltrates sensitive data (e.g., SSH keys, AWS credentials, command histories).
+ - **download_exec:** download_exec:[url]: Downloads and executes a binary from a URL (Linux only, stored in /dev/shm).
+ - **obfuscate:** [filename]: Obfuscates file timestamps to hinder forensic analysis.
+ - **cleanlogs:** Clears system logs (e.g., /var/log/syslog on Linux, event logs on Windows).
+ - **discover:** Performs network discovery, identifying live hosts via ping.
+ - **adversary:**[id_atomic]: Executes an adversary emulation test (MITRE ATT&CK) using downloaded atomic redteam framework scripts.
+ - **softenum:** Enumerates useful software on the host (e.g., docker, nc, python).
+ - **netconfig:** Captures and exfiltrates network configuration (e.g., ipconfig on Windows, ifconfig on Linux).
+ - **escalatelin:** Attempts privilege escalation on Linux (e.g., via sudo -n or SUID binaries).
+ - **proxy:**[listenip]:[listenport]:[targetip]:[targetport] Starts a TCP proxy redirecting traffic from listenAddr to targetAddr.
+ - **stop_proxy:**[listenaddr] Stops a TCP proxy on the specified address.
+ - **portscan:** Scans ports on discovered hosts and the configured rhost.
+ - **compressdir:**[directory]: Compresses a directory into a .tar.gz file and exfiltrates it.
+ - **terminate:** Terminates the implant or beacon, removing files and persistence mechanisms.
 10. **Rootkit**: Linux rootkit and Windows Malware to ensure persistence and undetectable.
 
 ## Command Capabilities

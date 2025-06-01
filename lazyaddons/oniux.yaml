@@ -1,0 +1,24 @@
+name: oniux
+description: >
+  oniux is a tool that utilizes various Linux namespaces(7) in order to isolate an arbitrary application over the Tor network.  To achieve this, it makes heavy use of the onionmasq, which offers a TUN device to send Tor traffic through.
+author: "torproject"
+version: "1.0"
+enabled: true
+params:
+  - name: url
+    type: string
+    required: true
+    description: URL target.
+  - name: binary_name
+    type: string
+    required: true
+    description: Binary name to operate.    
+       
+tool:
+  name: oniux
+  repo_url: https://gitlab.torproject.org/tpo/core/oniux.git
+  install_path: external/.exploit/oniux
+  install_command: |
+    cargo build
+  execute_command: |
+    ./target/debug/oniux {{ binary_name }} {{ url }}

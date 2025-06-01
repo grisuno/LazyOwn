@@ -1,0 +1,15 @@
+name: GoPEInjection
+description: >
+ Golang PE injection on windows
+author: "malware-unicorn"
+version: "0.0.1"
+enabled: true
+
+tool:
+  name: GoPEInjection
+  repo_url: https://github.com/malware-unicorn/GoPEInjection.git
+  install_path: external/.exploit/GoPEInjection
+  install_command: |
+    go mod download golang.org/x/sys ; GOOS=windows GOARCH=386 go build .
+  execute_command: |
+    GOOS=windows GOARCH=386 go build .

@@ -18,6 +18,10 @@
                         <input type="checkbox" class="form-check-input" id="filter-hosts" checked>
                         <label class="form-check-label mr-2" for="filter-hosts">Hosts</label>
                     </div>
+                    <div class="form-check mr-2">
+                        <input type="checkbox" class="form-check-input" id="filter-ports" checked> <!-- Nuevo -->
+                        <label class="form-check-label mr-2" for="filter-ports">Ports</label>
+                    </div>
                     <div class="form-group mr-2">
                         <label class="mr-2" for="os-filter">Filter OS:</label>
                         <select class="form-control form-control-sm mr-2" id="os-filter">
@@ -35,7 +39,7 @@
                         <input type="text" class="form-control form-control-sm" id="search-label">
                     </div>
                 </div>
-            </div>         
+            </div>    
             <ul class="list-group">
                 {% for client_id in connected_clients %}
                     <li class="list-group-item list-group-item-success">{{ client_id }}</li>
@@ -44,6 +48,15 @@
             <div id="mynetwork"></div>
             {% include 'nav.html' %}
             {% include 'bots.html' %}
+            <div class="terminal-window">
+                <div class="terminal-controls">
+                    <div class="terminal-control-button close-button"><span aria-hidden="true">×</span></div>
+                    <div class="terminal-control-button minimize-button"><span aria-hidden="true">-</span></div>
+                    <div class="terminal-control-button maximize-button"><span aria-hidden="true">¬</span></div>
+                </div>
+                <div class="table-cell"><div class="terminal-title">Results</div></div>
+                <div class="table-cell card-body"><div id="outputAtomic"></div></div>
+            </div>
             <h2 class="mt-4">Contact</h2>
             <p>For any questions or feedback, please reach out to <a href="mailto\:grisiscomeback[at]gmail[dot]com" class="text-success">Gris Iscomeback</a>.</p>
             <br><br><br><br>
@@ -131,16 +144,19 @@
                     foreground: '#00FF00'
                 }
             });
+            var c2_port = '{{ c2_port }}';
             term.open(document.getElementById('terminal'));
             term.writeln("Welcome to LazyOwn RedTeam Framework: CRIMEN 👋");
             const fitAddon = new FitAddon.FitAddon();
             term.loadAddon(fitAddon);
-            term.open(document.getElementById('terminal'));
+    
             fitAddon.fit();
             var nodes = new vis.DataSet([]);
             var edges = new vis.DataSet([]);
             var network;
             const socket = io.connect("/pty");
+        
+
             socket.on("connect", () => {
                 document.getElementById('status').innerHTML = 
                     '<span style="background-color: #00ff0066;">Conectado</span>';
@@ -153,23 +169,15 @@
                     '<span style="background-color: #ff000066;">Desconectado</span>';
             });
 
-            // Manejo de redimensionamiento
             window.addEventListener('resize', () => {
                 fitAddon.fit();
                 socket.emit("resize", { rows: term.rows, cols: term.cols });
             });
 
-            // Recepción de salida del terminal
             socket.on("pty-output", (data) => {
                 term.write(data.output);
             });
 
-            // Enviar entrada al terminal
-            term.onData((data) => {
-                socket.emit("pty-input", { input: data });
-            });
-
-            // Manejo de copiar/pegar mejorado
             document.addEventListener('keydown', (e) => {
                 if (e.ctrlKey && e.shiftKey && e.code === 'KeyV') {
                     navigator.clipboard.readText().then(text => {
@@ -192,9 +200,39 @@
                 icono.css('color', '#000');
                 bar.css('color', '#000');
             });
+            
+            let commandBuffer = '';
+            term.onData((data) => {
+                switch (data) {
+                    case '\r':
+                    case '\n':
+                        if (commandBuffer.trim() !== '') {
+                            term.write('\r\n');
+                            socket.emit("pty-input", { input: commandBuffer.trim() + '\n' }); // Enviar comando completo
+                            commandBuffer = '';
+                        }
+                        break;
+                    case '\u007F':
+                        if (commandBuffer.length > 0) {
+                            commandBuffer = commandBuffer.slice(0, -1);
+                            term.write('\b \b');
+                        }
+                        break;
+                    default:
+                        commandBuffer += data;
+                        term.write(data);
+                }
+            });
+
+            
+            function sendCommand(cmd) {
+                term.write(cmd);
+                commandBuffer = cmd;
+            }            
             function applyFilters() {
                 var filterClients = document.getElementById('filter-clients').checked;
                 var filterHosts = document.getElementById('filter-hosts').checked;
+                var filterPorts = document.getElementById('filter-ports').checked; // Nuevo
                 var osFilter = document.getElementById('os-filter').value.toLowerCase();
                 var filterDiscovered = document.getElementById('filter-discovered').checked;
                 var searchLabel = document.getElementById('search-label').value.toLowerCase();
@@ -216,6 +254,10 @@
                         if (!filterHosts) {
                             includeNode = false;
                         }
+                    } else if (node.group === 'ports') { // Nuevo
+                        if (!filterPorts) {
+                            includeNode = false;
+                        }
                     }
 
                     if (searchLabel && !node.label.toLowerCase().includes(searchLabel)) {
@@ -233,14 +275,10 @@
                     var toNodeVisible = filteredNodes.get(edge.to) !== null;
 
                     if (fromNodeVisible && toNodeVisible) {
-                        // Aquí podrías agregar lógica adicional para filtrar aristas basadas en otros criterios
-                        // como si el host fue descubierto o no.
                         if (edge.to && edge.to.startsWith('host-') && !filterDiscovered && edges.get(edge.to).from === 'no_priv') {
-                            // Si no se deben mostrar los hosts descubiertos y esta arista viene de 'no_priv'
                             let hostNode = nodes.get(edge.to);
                             if (hostNode && hostNode.group === 'hosts') {
                                 if (!edges.getIds({ filter: e => e.to === edge.to && e.from === 'c2' }).length > 0) {
-                                    // Solo ocultar si no hay una conexión directa desde C2
                                     return; // Skip adding this edge
                                 }
                             }
@@ -280,7 +318,7 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-                    const outputDiv = document.getElementById('output');
+                   
                     spinner.style.display = 'none';
                     if (data.error) {
                         outputDiv.innerHTML += `<p style="color: red;">${data.error}</p>`;
@@ -288,7 +326,7 @@
                     } else {
                         toastr('<h1>Command:' + command + "</h1>")
                         fetchLog(isChecked)
-                        term.write('\r\n' + data.result);
+
                     }
                     term.prompt();
                 });
@@ -313,8 +351,8 @@
                     const outputAtomic = document.getElementById('outputAtomic');
                     const outputText = data.output.replace(/\n/g, '<br>');
                     var output = data.output.replace(/\t/g, '    ').replace(/\n/g, '\r\n');
-                    var term = new Terminal();
-                    term.open(document.getElementById('terminal'));
+                    
+          
                     term.write('\x1b[2J\x1b[3J\x1b[H');
                     prompt_cmd = prompt_cmd.replace(/<br>/g, '\n')
                     let lines = prompt_cmd.split('\n');
@@ -775,6 +813,7 @@
                 });
                 document.getElementById('filter-clients').addEventListener('change', applyFilters);
                 document.getElementById('filter-hosts').addEventListener('change', applyFilters);
+                document.getElementById('filter-ports').addEventListener('change', applyFilters);
                 document.getElementById('os-filter').addEventListener('change', applyFilters);
                 document.getElementById('filter-discovered').addEventListener('change', applyFilters);
                 document.getElementById('search-label').addEventListener('input', applyFilters);
@@ -1054,7 +1093,43 @@
                             }
                         });
                     }
+                    for (const client in result_portscan) {
+                        if (result_portscan.hasOwnProperty(client)) {
+                            // Limpiar el string reemplazando comillas simples por dobles
+                            let portData;
+                            try {
+                                const cleanedData = result_portscan[client].replace(/'/g, '"');
+                                portData = JSON.parse(cleanedData);
+                            } catch (e) {
+                                console.error("[ERROR] No se pudo parsear result_portscan para", client, ":", e);
+                                continue;
+                            }
 
+                            for (const ip in portData) {
+                                if (portData.hasOwnProperty(ip)) {
+                                    // Eliminar puertos duplicados usando Set
+                                    const ports = [...new Set(portData[ip])];
+                                    const hostId = 'host-' + ip.replace(/\./g, '-');
+                                    ports.forEach(port => {
+                                        const portId = `port-${ip.replace(/\./g, '-')}-${port}`;
+                                        nodes.add({
+                                            id: portId,
+                                            title: `Puerto ${port} en ${ip}`,
+                                            label: `${port}`,
+                                            shape: 'circularImage',
+                                            image: '/static/port.png',
+                                            size: 15,
+                                            font: { color: '#ffffff' },
+                                            group: 'ports',
+                                            mass: 1
+                                        });
+                                        // Conectar el puerto al host correspondiente
+                                        edges.add({ from: hostId, to: portId });
+                                    });
+                                }
+                            }
+                        }
+                    }
                     var container = document.getElementById('mynetwork');
                     var data = {
                         nodes: nodes,
@@ -1114,8 +1189,14 @@
                     network.on("selectNode", function(params) {
                         if (params.nodes.length > 0) {
                             var selectedNodeId = params.nodes[0];
-                            console.log(selectedNodeId)
                             var selectElements = document.querySelectorAll('select');
+                            if (selectedNodeId.startsWith("host")) {
+                                var host = selectedNodeId.replace('host-', '').replace(/-/g, '.');
+                                cmd = "lazynmap " + host;
+                                sendCommand(cmd);
+                            }
+                            
+                            console.log(selectedNodeId)
                             selectElements.forEach(function(selectElement) {
                                 Array.from(selectElement.options).forEach(function(option) {
 
@@ -1183,7 +1264,8 @@
                 document.querySelector('.loading-container').style.display = 'none';
                 var currentUrl = window.location.href;
                 var iframe = document.getElementById('lazywebserver');
-                var newUrl = currentUrl.replace(":4444/", "/index2.html");
+                var port = ":"+c2_port+"/";
+                var newUrl = currentUrl.replace(port, "/index2.html");
                 function checkUrlExists(url, callback) {
                     var http = new XMLHttpRequest();
                     http.open('HEAD', url, true);
@@ -1205,7 +1287,8 @@
                     if (exists) {
                         iframe.src = newUrl;
                     } else {
-                        iframe.src = currentUrl.replace(":4444/", "/");
+                        var port = ":"+c2_port+"/";
+                        iframe.src = currentUrl.replace(port, "/");
                     }
                 }); 
                 document.getElementById('LazyOsForm').addEventListener('submit', function(event) {
@@ -1541,12 +1624,6 @@
                     const spinner = document.getElementById('loader');
                     spinner.style.display = 'block';
                     var command = 'atomic_gen ' + id_atomic ;
-                    RunCmd(command)
-
-                    //command = "ofuscatorps1 sessions/atomic_test_"+ id_atomic + ".ps1";
-                    //RunCmd(command)
-
-                    command = "ofuscatesh sessions/atomic_test_"+ id_atomic + ".sh";
                     RunCmd(command)
 
                     spinner.style.display = 'none';

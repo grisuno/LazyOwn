@@ -6,6 +6,20 @@
 
 ### Otros
 
+  *   * feat(feat): new beacon cappabilities documented at readme.md and some new surpices and layaddons and some bug fixing. \n\n Version: release/0.2.39 \n\n with love \n\n Modified file(s):\n- README.md - UTILS.md - docs/README.html - docs/UTILS.html - docs/index.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Jun 1 17:02:42 2025 -0400 \n\n Hora: 1748811762
+
+
+### Otros
+
+### Otros
+
+  *   * new cappabilities to the beacon documented at readme and some new surprices
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): new functionalities to discover in c2 and implant and exfiltration cap, portscanning, etc \n\n Version: release/0.2.38 \n\n with love \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon May 26 01:31:14 2025 -0400 \n\n Hora: 1748237474
 
 

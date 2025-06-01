@@ -1158,6 +1158,9 @@ Documentation automatically created by the script `readmeneitor.py` created for 
 <!-- START UTILS -->
 # UTILS.md Documentation  by readmeneitor.py
 
+## check_go_tool_installed
+No description available.
+
 ## parse_ip_mac
 Extracts IP and MAC addresses from a formatted input string using a regular expression.
 
@@ -11434,6 +11437,20 @@ Recursively resolve and download package dependencies with enhanced checks
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new functionalities to discover in c2 and implant and exfiltration cap, portscanning, etc \n\n Version: release/0.2.38 \n\n with love \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon May 26 01:31:14 2025 -0400 \n\n Hora: 1748237474
+
+
+### Otros
+
+### Otros
+
+  *   * new cappabilities to the c2 to discovered the net surface and the implant can improve a network discover, portscan the discovered hosts, search for a files and exfiltrate and others
 
 
 ### Nuevas características

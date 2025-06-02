@@ -6,6 +6,20 @@
 
 ### Otros
 
+  *   * feat(feat): new image \n\n Version: release/0.2.40 \n\n new fixes \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Jun 2 01:28:19 2025 -0400 \n\n Hora: 1748842099
+
+
+### Otros
+
+### Otros
+
+  *   * some neww ideas
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): new beacon cappabilities documented at readme.md and some new surpices and layaddons and some bug fixing. \n\n Version: release/0.2.39 \n\n with love \n\n Modified file(s):\n- README.md - UTILS.md - docs/README.html - docs/UTILS.html - docs/index.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Jun 1 17:02:42 2025 -0400 \n\n Hora: 1748811762
 
 

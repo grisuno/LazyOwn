@@ -1625,7 +1625,9 @@
                     spinner.style.display = 'block';
                     var command = 'atomic_gen ' + id_atomic ;
                     RunCmd(command)
-
+                    const clientId = document.getElementById('client_id').value;
+                    command = "adversary:" + id_atomic;
+                    RunRemoteCmd(clientId,command);
                     spinner.style.display = 'none';
                     
                 });                   

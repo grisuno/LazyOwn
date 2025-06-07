@@ -7,7 +7,7 @@
  ![image](https://github.com/user-attachments/assets/79052f87-f87c-4b32-a4a2-854113ca3a4c)
   [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) ![image](https://github.com/user-attachments/assets/b69f1d31-c075-4713-a44e-a40a034a7407) ![image](https://github.com/user-attachments/assets/df82a669-be0c-4a03-bd98-842a67baaef6)
 
-![Banner](https://github.com/user-attachments/assets/2e9170f3-3b9e-4ce4-8e9e-ef98f7bf386c)
+![image](https://github.com/user-attachments/assets/2e95d6e7-c072-4a16-9c65-29a8548a549b)
 
 
 ```sh
@@ -25,7 +25,6 @@
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Y8Y2Z73AV)
 
-![LazyOwn1](https://github.com/user-attachments/assets/1debaed0-8f84-4079-ad2f-48cc4cfd9d95)
 
 LazyOwn comes with ABSOLUTELY NO WARRANTY. This is free software, and you are  welcome to redistribute it under the terms of the GNU General Public License v3.
 See the LICENSE file for details about using this software.
@@ -56,16 +55,26 @@ One of the standout features of **LazyOwn: CRIMEN** is its ability to schedule t
 - **Environment**: Denotes the comprehensive and immersive environment provided by **LazyOwn: CRIMEN**, integrating various tools and scripts for a holistic security assessment experience.
 - **Network**: Emphasizes the framework's network-centric approach, enabling persistent and automated threat simulations across diverse network environments.
 
+![image](https://github.com/user-attachments/assets/5ee8be8b-b3be-4e6e-9a96-9e6a546fb047)
+
+
 ## Key Features of LazyOwn: CRIMEN
 
 1. **Comprehensive Attack Library**: Over 500 crafted attacks for various environments, each a testament to the framework's depth and versatility, augmented by the extensive attack library of the Atomic RedTeam Framework.
 2. **Interactive CLI**: Based on cmd2, offering an intuitive and efficient command-line experience.
 3. **Decoy**: if the ip addres not match with 127.0.0.1 or lhost flask will show a decoy website this decoy site will record a video with audio and take pictures from the intruder (sessions/captured_images) like a small versión of storm breaker to know who is the blueteam operator
 4. **Adversary Simulation**: Advanced capabilities for generating red team operation sessions, ensuring meticulous and effective simulations.
+
+![adversay emulator](https://github.com/user-attachments/assets/dc6e3ca2-c70d-46c5-9240-488bbea409ce)
+ 
 5. **Task Scheduling**: Utilize the `cron` command to schedule and automate tasks, enabling persistent threat simulations.
 6. **Real-Time Results**: Obtain immediate feedback and results from security assessments, ensuring timely and accurate insights.
 7. **RAT and Botnet Capabilities**: Includes features for remote access and control, allowing for the management of botnets and persistent threats.
 8. **C2 Framework IA Powered**: Acts as a command and control (C2) framework, enabling covert communication and control over compromised systems. and many IA bots to improve your opsec, Developed in Flask, providing a user-friendly interface for seamless interaction. Now with network discovery capabilities, allowing us to see the attack surface on our client map clearly and intuitively with filters and a search panel. New functionalities are coming soon.
+
+![vulnbot](https://github.com/user-attachments/assets/86ae6384-f61b-41be-8b87-222399bf2b77)
+
+   
 9. **Undetectable, Obfuscated, and Malleable GO Implants**: The Go beacon is a multi-platform, undetectable, and highly obfuscated implant tailored for advanced red teaming operations. It features polymorphism, operates in a configurable stealth mode, and secures communications with AES-256 encrypted channels. The beacon blends into environments by simulating legitimate network traffic and evades detection by identifying virtual machines, sandboxes, containers, and debuggers, dynamically adjusting its behavior. With a minimal footprint, it supports robust network discovery through ping-based host enumeration and port scanning of configured targets. The implant excels at exfiltrating sensitive data, including private keys, AWS credentials, browser credentials, and system logs. It offers dynamic TCP proxying for traffic redirection, privilege escalation attempts, and system log cleaning. Persistence is achieved across Windows, Linux, and macOS via scheduled tasks, systemd, crontab, and LaunchAgents. Additional capabilities include adversary emulation (MITRE ATT&CK), file timestamp obfuscation, and directory compression for exfiltration. Built with Go vet for code health, the implant integrates seamlessly with Dockerized environments and AWS Firecracker microVMs, making it a cornerstone of modern red team infrastructure, Built with Go vet for code integrity, the implant leverages Cloudflare for traffic obfuscation, routing communications through secure, high-performance redirectors to conceal C2 infrastructure. The Go binary is hardened with Garble obfuscation, thwarting reverse engineering and signature-based detection. On Windows, the implant employs extension camouflage to masquerade as benign files (e.g., `.pdfx`) and embeds custom icons via `rsrc` for convincing social engineering. 
 - **Available beacon commands**:
  - **stealth_off** stop being stealthy, Disables stealth mode, allowing normal operations.
@@ -87,8 +96,15 @@ One of the standout features of **LazyOwn: CRIMEN** is its ability to schedule t
  - **portscan:** Scans ports on discovered hosts and the configured rhost.
  - **compressdir:**[directory]: Compresses a directory into a .tar.gz file and exfiltrates it.
  - **terminate:** Terminates the implant or beacon, removing files and persistence mechanisms.
+   
+![winimp](https://github.com/user-attachments/assets/4d892bfa-f067-483d-b087-0afea628c00c)
+
+   
 10. **Rootkit**: Linux rootkit and Windows Malware to ensure persistence and undetectable.
 11. **Surface attack**: We are pleased to document the new surface attack functionality. This feature allows the operator to upload a ZIP archive of Bloodhound capture data (validated with bloodhound.py) at any time via the main page. Upon upload, the system will render the complete attack surface, augmented with identified machines discovered through automated methods or system commands such as **lazynmap** (At WebCli can you click at the Host Icon and will paste the command to discover that host.), **nmap**, **discovery**, and **run lazynmapdiscovery**. These supplementary data sources will enrich the graphical representation, populating nodes within the attack surface. The interface will provide integrated controls for searching, filtering, enumerating, and correlating the various attack vectors. It is crucial to note that this feature is not intended as a replacement for Bloodhound. Its scope is limited to providing a rapid overview and efficient filtering of collected information to facilitate attack phase planning. For detailed attack guidance and exploitation, the operator is directed to the established Bloodhound toolset.
+
+![image](https://github.com/user-attachments/assets/747773c6-4eb0-4dba-a51d-113cdffca959)
+
 
 ## Command Capabilities
 

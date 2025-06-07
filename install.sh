@@ -60,6 +60,7 @@ pip3 install pypykatz
 pip3 install donut
 pip3 install uro
 pip3 install lupa
+pip3 install flask_sock
 
 curl -fsSL https://ollama.com/install.sh | sh
 

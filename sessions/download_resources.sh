@@ -81,6 +81,8 @@ download() {
         "wget https://raw.githubusercontent.com/FisMatHack/BackDropScan/refs/heads/main/BackDropScan.py"
         "wget https://raw.githubusercontent.com/Maalfer/Sudo_BruteForce/refs/heads/main/Linux-Su-Force.sh"
         "wget https://raw.githubusercontent.com/b3rito/yodo/refs/heads/master/yodo.sh"
+        "wget https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/master/WinPwn.ps1"
+        "wget https://raw.githubusercontent.com/juliourena/ActiveDirectoryScripts/refs/heads/main/Python/addusertogroup.py"
     )
 
     echo "    [+] Seleccione el número del comando que desea descargar:"

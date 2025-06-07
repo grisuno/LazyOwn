@@ -48,16 +48,35 @@
             <div id="mynetwork"></div>
             {% include 'nav.html' %}
             {% include 'bots.html' %}
-            <div class="terminal-window">
-                <div class="terminal-controls">
-                    <div class="terminal-control-button close-button"><span aria-hidden="true">×</span></div>
-                    <div class="terminal-control-button minimize-button"><span aria-hidden="true">-</span></div>
-                    <div class="terminal-control-button maximize-button"><span aria-hidden="true">¬</span></div>
+            <div class="container mt-4">
+                <div class="row">
+                    <!-- Ventana de terminal -->
+                    <div class="col-md-6">
+                    <div class="terminal-window">
+                        <div class="terminal-controls">
+                        <div class="terminal-control-button close-button"><span aria-hidden="true">×</span></div>
+                        <div class="terminal-control-button minimize-button"><span aria-hidden="true">-</span></div>
+                        <div class="terminal-control-button maximize-button"><span aria-hidden="true">¬</span></div>
+                        </div>
+                        <div class="terminal-title">Results</div>
+                        <div class="card-body">
+                        <div id="outputAtomic"></div>
+                        </div>
+                    </div>
+                    </div>
+                    <!-- Formulario de subida -->
+                    <div class="col-md-6">
+                    <section class="upload-section">
+                        <h3>Upload BloodHound ZIP File</h3>
+                        <form method="POST" action="/upload_zip" enctype="multipart/form-data">
+                        <input type="file" name="file" class="form-control form-control-sm" required>
+                        <input type="submit" class="btn mt-2" value="Upload">
+                        </form>
+                    </section>
+                    </div>
                 </div>
-                <div class="table-cell"><div class="terminal-title">Results</div></div>
-                <div class="table-cell card-body"><div id="outputAtomic"></div></div>
             </div>
-            <h2 class="mt-4">Contact</h2>
+            <h3 class="mt-4">Contact</h3>
             <p>For any questions or feedback, please reach out to <a href="mailto\:grisiscomeback[at]gmail[dot]com" class="text-success">Gris Iscomeback</a>.</p>
             <br><br><br><br>
         </div>

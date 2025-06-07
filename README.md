@@ -60,7 +60,7 @@ One of the standout features of **LazyOwn: CRIMEN** is its ability to schedule t
 
 1. **Comprehensive Attack Library**: Over 500 crafted attacks for various environments, each a testament to the framework's depth and versatility, augmented by the extensive attack library of the Atomic RedTeam Framework.
 2. **Interactive CLI**: Based on cmd2, offering an intuitive and efficient command-line experience.
-3. **Decoy**: if the ip addres not match with 127.0.0.1 or lhost flask will show a decoy website
+3. **Decoy**: if the ip addres not match with 127.0.0.1 or lhost flask will show a decoy website this decoy site will record a video with audio and take pictures from the intruder (sessions/captured_images) like a small versión of storm breaker to know who is the blueteam operator
 4. **Adversary Simulation**: Advanced capabilities for generating red team operation sessions, ensuring meticulous and effective simulations.
 5. **Task Scheduling**: Utilize the `cron` command to schedule and automate tasks, enabling persistent threat simulations.
 6. **Real-Time Results**: Obtain immediate feedback and results from security assessments, ensuring timely and accurate insights.
@@ -88,12 +88,14 @@ One of the standout features of **LazyOwn: CRIMEN** is its ability to schedule t
  - **compressdir:**[directory]: Compresses a directory into a .tar.gz file and exfiltrates it.
  - **terminate:** Terminates the implant or beacon, removing files and persistence mechanisms.
 10. **Rootkit**: Linux rootkit and Windows Malware to ensure persistence and undetectable.
+11. **Surface attack**: We are pleased to document the new surface attack functionality. This feature allows the operator to upload a ZIP archive of Bloodhound capture data (validated with bloodhound.py) at any time via the main page. Upon upload, the system will render the complete attack surface, augmented with identified machines discovered through automated methods or system commands such as **lazynmap** (At WebCli can you click at the Host Icon and will paste the command to discover that host.), **nmap**, **discovery**, and **run lazynmapdiscovery**. These supplementary data sources will enrich the graphical representation, populating nodes within the attack surface. The interface will provide integrated controls for searching, filtering, enumerating, and correlating the various attack vectors. It is crucial to note that this feature is not intended as a replacement for Bloodhound. Its scope is limited to providing a rapid overview and efficient filtering of collected information to facilitate attack phase planning. For detailed attack guidance and exploitation, the operator is directed to the established Bloodhound toolset.
 
 ## Command Capabilities
 
 **LazyOwn: CRIMEN** offers a rich set of commands that can be executed from both the CLI and the web interface, each designed to empower users with unparalleled control and flexibility:
 
 - **addhosts**: Add the domain and rhost to /etc/hosts file to route the attacks.
+- **aliass**: Show all documented commands alias (use 'help -v' for verbose/'help <topic>' for details or use aliass)
 - **list**: Enumerates all available LazyOwn Modules within the framework, providing a comprehensive overview of the toolkit's capabilities.
 - **assign**: Configures specific parameters for the operation, such as `assign rhost 192.168.1.1` to define the target IP address, ensuring precise and tailored attacks.
 - **createcredentials**: Add credentials exfiltrated to be used in the attacks or tests. `createcredentials admin:adminpassword`
@@ -103,7 +105,9 @@ One of the standout features of **LazyOwn: CRIMEN** is its ability to schedule t
 - **exit**: Gracefully exits the CLI, concluding the session with elegance and finality.
 - **auto**: Execute all tools files enabled in the tool directory that are relevant to the Nmap scan report.
 - **help**: Documented commands (use 'help -v' for verbose/'help <topic>' for details)
-
+- **history**: show the history of the commands in the cli.
+- **edit**: An vim to edit files
+- **ipy**: An Ipython3 interpreter
 
 Originally designed to automate the search and analysis of binaries with special permissions on Linux and Windows systems, LazyOwn has evolved to encompass a broader range of functionalities. The project includes scripts that extract information from GTFOBins, analyze binaries on the system, and generate options based on the collected data.
 
@@ -441,8 +445,7 @@ Available Scripts
     [+] lazypathhijacking         lazyarpspoofing           lazyftpsniff            [👽]
     [+] lazyssh77enum             lazywerkzeugdebug       [👽]
 
-        
-┌─[LazyOwn👽10.10.14.16/khali ~/home/grisun0/LazyOwn][10.10.11.52][http://bigbang.htb/]
+ ┌─[LazyOwn👽10.10.14.92/khali ~/home/grisun0/LazyOwn][10.10.11.69][http://fluffy.htb]
 └╼ $ ?
 
 Documented commands (use 'help -v' for verbose/'help <topic>' for details):
@@ -461,24 +464,25 @@ dnstool_py    openssl_sclient  tcpdump_icmp
 
 02. Scanning & Enumeration
 ==========================
-ad_ldap_enum   evil_ssdp         net_rpc_addmem       rpcmap_py         
-allin          feroxbuster       netexec              samrdump          
-amass          finger_user_enum  netview              sawks             
-arjun          fuzz              nikto                sessionssh        
-arpscan        getnpusers        nmapscript           skipfish          
-batchnmap      gobuster          nuclei               smbattack         
-bbot           hostdiscover      odat                 smbclient         
-blazy          hound             openredirex          smbclient_impacket
-bloodhound     kerbrute          osmedeus             smbclient_py      
-breacher       ldapdomaindump    parsero              smbmap            
-certipy        ldapsearch        parth                smtpuserenum      
-changeme       lookupsid         portdiscover         snmpcheck         
-cme            lookupsid_py      portservicediscover  snmpwalk          
-davtest        loxs              pre2k                swaks             
-dirsearch      lynis             pykerbrute           vscan             
-dmitry         magicrecon        rdp_check_py         wfuzz             
-enum4linux     mqtt_check_py     rpcclient            windapsearch      
-enum4linux_ng  nbtscan           rpcdump              wpscan            
+ad_ldap_enum   feroxbuster       netexec              sawks             
+allin          finger_user_enum  netview              sessionssh        
+amass          fuzz              nikto                skipfish          
+arjun          getnpusers        nmapscript           smbattack         
+arpscan        gobuster          nuclei               smbclient         
+batchnmap      hostdiscover      odat                 smbclient_impacket
+bbot           hound             openredirex          smbclient_py      
+blazy          kerbrute          osmedeus             smbmap            
+bloodhound     lazynmap          parsero              smtpuserenum      
+breacher       ldapdomaindump    parth                snmpcheck         
+certipy        ldapsearch        portdiscover         snmpwalk          
+changeme       lookupsid         portservicediscover  swaks             
+cme            lookupsid_py      pre2k                vscan             
+davtest        loxs              pykerbrute           wfuzz             
+dirsearch      lynis             rdp_check_py         windapsearch      
+dmitry         magicrecon        rpcclient            wpscan            
+enum4linux     mqtt_check_py     rpcdump            
+enum4linux_ng  nbtscan           rpcmap_py          
+evil_ssdp      net_rpc_addmem    samrdump           
 
 03. Exploitation
 ================
@@ -500,16 +504,20 @@ gets4uticket_py   printerbug_py    sqli_mssql_test
 
 04. Post-Exploitation
 =====================
-adversary         disableav            ofuscate_string        scp             
-ai_playbook       exe2bin              ofuscatesh             service_ssh     
-apt_proxy         extract_yaml         ofuscatorps1           sessionsshstrace
-apt_repo          find                 path2hex               shellcode       
-atomic_lazyown    follina              pezorsh                shellcode2elf   
-bin2shellcode     hex2shellcode        pip_proxy              shellcode2sylk  
-cports            internet_proxy       pip_repo               shellcode_search
-create_synthetic  issue_command_to_c2  powershell_cmd_stager  ssh_cmd         
-createpayload     lazywebshell         rubeus               
-d3monizedshell    mimikatzpy           scavenger            
+adversary                    extract_yaml         pip_repo             
+adversary_yaml               find                 powershell_cmd_stager
+ai_playbook                  follina              rubeus               
+apt_proxy                    hex2shellcode        scavenger            
+apt_repo                     internet_proxy       scp                  
+atomic_lazyown               issue_command_to_c2  service_ssh          
+bin2shellcode                lazywebshell         sessionsshstrace     
+convert_remcomsvc_from_file  mimikatzpy           shellcode            
+cports                       ofuscate_string      shellcode2elf        
+create_synthetic             ofuscatesh           shellcode2sylk       
+createpayload                ofuscatorps1         shellcode_search     
+d3monizedshell               path2hex             ssh_cmd              
+disableav                    pezorsh            
+exe2bin                      pip_proxy          
 
 05. Persistence
 ===============
@@ -561,13 +569,13 @@ attack_plan   duckyspark  iis_webdav_upload_asp  my_playbook
 
 11. Reporting
 =============
-apropos                  createtargets          gpt             pup  
-banners                  download_malwarebazar  groq            vulns
-c2asm                    extract_ports          malwarebazar  
-camphish                 eyewitness             morse         
-create_session_json      eyewitness_py          name_the_hash 
-createjsonmachine        get_avaible_actions    nmapscripthelp
-createjsonmachine_batch  gowitness              pth_net       
+apropos                  createtargets          gpt             process_scans
+banners                  download_malwarebazar  groq            pth_net      
+c2asm                    extract_ports          img2vid         pup          
+camphish                 eyewitness             malwarebazar    vulns        
+create_session_json      eyewitness_py          morse         
+createjsonmachine        get_avaible_actions    name_the_hash 
+createjsonmachine_batch  gowitness              nmapscripthelp
 
 12. Miscellaneous
 =================
@@ -595,25 +603,28 @@ generate_msfvenom_loader          visualize_network
 
 14. Yaml Addon.
 ===============
-commix2  laps  lazymapd  lazyownbt  orpheus  peeko  ridenum  spoonmap  unicorn
+bbr      GoPEInjection      laps       oniux    PTMultiTools       spoonmap
+commix2  hack_browser_data  lazymapd   orpheus  PTMultiTools_scan  unicorn 
+gcr      hooka_linux_amd64  lazyownbt  peeko    ridenum            upxdump 
+
+15. Adversary YAML.
+===================
+implant_crypt_go
 
 Uncategorized
 =============
-alias              EOF                    nc_ldap_interact  shell         
-asrep_roast        getNPUsers_tool        nuclei_ad_http    shortcuts     
-bloodhound-python  help                   nxc_idap_tool     showmount_nfs 
-crackmapexec_ldap  history                nxc_ldap          showmount_tool
-crackmapexec_smb   ipp                    nxc_null_session  smb_ghost     
-dig_any            ipy                    nxc_pass_policy   smb_map       
-dig_reverse        kerberoasting_tool     nxc_rid           smbclient_list
-dns_enum_tool      kerbrute_tool          quit              smbclient_tool
-dnsrecon_axfr      kerbrute_tool_user     rpcclient_tool    smbmap_tool   
-edit               ldap_domain_dump_tool  rrhost            smbserver_tool
-enum4linux_tool    ldapsearch_anon        run_pyscript      userEnum_tool 
-enum_rpcbind       ldapsearch_tool        run_script      
-enum_smb           macro                  set        
-
-
+alias              EOF                    ldapsearch_tool   run_script    
+asrep_roast        getNPUsers_tool        macro             set           
+bloodhound-python  GetUserSPNs.py         nc_ldap_interact  shell         
+crackmapexec_ldap  help                   nuclei_ad_http    shortcuts     
+crackmapexec_smb   history                nxc_idap_tool     smb_ghost     
+dig_any            ipp                    nxc_ldap          smb_map       
+dig_reverse        ipy                    nxc_null_session  smbclient_list
+dns_enum_tool      kerberoasting_tool     nxc_pass_policy   smbclient_tool
+dnsrecon_axfr      kerbrute_tool          nxc_rid           smbmap_tool   
+edit               kerbrute_tool_user     quit              smbserver_tool
+enum4linux_tool    ldap_domain_dump_tool  rrhost            userEnum_tool 
+enum_smb           ldapsearch_anon        run_pyscript    
 ```
 ## Tag in youtube
 <https://www.youtube.com/hashtag/lazyown>
@@ -1111,7 +1122,7 @@ This project is licensed under the GPL v3 License. The information contained in 
 
 ## Acknowledgments ✌
 
-A special thanks to [GTFOBins](https://gtfobins.github.io/) for the valuable information they provide and to you for using this project. Also, thanks for your support Tito S4vitar! who does an extraordinary job of outreach. Of course, I use the `extractPorts` function in my `.zshrc` :D, thanks to deepwiki to help us with doc. ( https://deepwiki.com/grisuno/LazyOwn/ )
+A special thanks to [GTFOBins](https://gtfobins.github.io/) for the valuable information they provide and to you for using this project. Also, thanks for your support Tito S4vitar! who does an extraordinary job of outreach. Of course, I use the `extractPorts` function in my `.zshrc` :D, thanks to deepwiki to help us with doc. ( https://deepwiki.com/grisuno/LazyOwn/ ), thanks to plaintext who does an extraordinary job of outreach and we adopted PTMultiTools it's very impresive
 
 ### Thanks to pwntomate 🍅
 
@@ -1154,6 +1165,9 @@ LazyOwn is a framework that streamlines its workflow and automates many tasks an
 # Documentation by readmeneitor.py
 
 Documentation automatically created by the script `readmeneitor.py` created for this project; maybe one day it will have its own repo, but for now, I don't see it as necessary.
+
+# Legal disclaimer:
+Usage of LazyOwn RedTeam Framework for attacking targets without prior mutual consent is illegal. It's the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program. Only use for educational purposes.
 
 <!-- START UTILS -->
 # UTILS.md Documentation  by readmeneitor.py

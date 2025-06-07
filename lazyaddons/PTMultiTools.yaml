@@ -1,0 +1,25 @@
+name: PTMultiTools
+description: >
+  This repository my public tools that I use in CTF's and real world engagements.
+author: "juliourena"
+version: "1.0"
+enabled: true
+params:
+  - name: domain
+    type: string
+    required: true
+    description: Domain objetive.
+  - name: subdomain
+    type: string
+    required: true
+    description: subdomain objetive.
+  - name: rhost
+    type: string
+    required: true
+    description: rhost objetive.
+tool:
+  name: PTMultiTools
+  repo_url: https://github.com/juliourena/PTMultiTools.git
+  install_path: external/.exploit/PTMultiTools
+  execute_command: |
+    sudo bash bash/set-dns.sh -c -d {{ rhost }} {{ subdomain }}.{{ domain }} 

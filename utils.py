@@ -141,6 +141,11 @@ COMMAND = None
 NOLOGS = False
 RUN_AS_ROOT = False
 os.environ['OPENSSL_CONF'] = '/usr/lib/ssl/openssl.cnf'
+REQUIRED_KEYS = [
+    "id", "name", "description", "technique_name", "target_os", "binary",
+    "lang", "output_path", "path_src", "target_path", "command", "payload",
+    "clean_cmd", "compile", "droper", "replace_command", "copy_command", "sleep"
+]
 global payload_url, target_domain, concurrency, request_timeout, include_subdomains
 OLD_BANNER = f"""{GREEN}
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣠⡤⠴⠶⠖⠒⠛⠛⠀⠀⠀⠒⠒⢰⠖⢠⣤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀

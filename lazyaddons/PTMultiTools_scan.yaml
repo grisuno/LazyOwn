@@ -1,0 +1,17 @@
+name: PTMultiTools_scan
+description: >
+  This repository my public tools that I use in CTF's and real world engagements.
+author: "juliourena"
+version: "1.0"
+enabled: true
+params:
+  - name: rhost
+    type: string
+    required: true
+    description: rhost objetive.
+tool:
+  name: PTMultiTools_scan
+  repo_url: https://github.com/juliourena/PTMultiTools.git
+  install_path: external/.exploit/PTMultiTools
+  execute_command: |
+    sudo bash bash/escanear.sh {{ rhost }}

@@ -1,0 +1,13 @@
+name: CVE_2025_24071_PoC
+description: >
+ CVE-2025-24071: NTLM Hash Leak via RAR/ZIP Extraction and .library-ms File. Windows Explorer automatically initiates an SMB authentication request when a .library-ms file is extracted from a .rar archive, leading to NTLM hash disclosure. The user does not need to open or execute the file—simply extracting it is enough to trigger the leak. https://cti.monster/blog/2025/03/18/CVE-2025-24071.html
+author: "0x6rss"
+version: "1.0"
+enabled: true
+
+tool:
+  name: CVE_2025_24071_PoC
+  repo_url: https://github.com/0x6rss/CVE-2025-24071_PoC.git
+  install_path: external/.exploit/CVE_2025_24071_PoC
+  execute_command: |
+    python3 poc.py

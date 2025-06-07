@@ -1625,3 +1625,44 @@ nav {
 .card {
     background-color: #6c757d !important;
 }
+
+  #outputAtomic {
+    min-height: 150px;
+    max-height: 300px;
+    overflow-y: auto;
+    font-family: 'Courier New', monospace;
+    white-space: pre-wrap;
+  }
+  .upload-section {
+    background: #1a1a1a;
+    border: 1px solid #444;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    margin-bottom: 20px;
+  }
+  .upload-section h3 {
+    color: #eee;
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+  }
+  .upload-section .form-control {
+    background: #333;
+    border: 1px solid #555;
+    color: #eee;
+  }
+  .upload-section .form-control:focus {
+    background: #333;
+    color: #eee;
+    border-color: #13E8E9;
+    box-shadow: none;
+  }
+  .upload-section .btn {
+    background: #8bf;
+    border: none;
+    color: #fff;
+    padding: 8px 20px;
+  }
+  .upload-section .btn:hover {
+    background: #13E8E9;
+  }

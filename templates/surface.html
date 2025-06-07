@@ -1,0 +1,1023 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main-container">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h4 class="text-center mb-3">LazyOwn RedTeam</h4>
+    <a href="/" class="d-block text-center mb-3">Upload Another File</a>
+    <!-- Botones de enfoque -->
+    <button class="focus-btn" onclick="focusHighValue()">High Value</button>
+    <button class="focus-btn" onclick="focusC2()">C&C</button>
+    <button class="focus-btn" onclick="focusVulnerable()">Vulnerable</button>
+    <!-- Panel de control -->
+    <div class="control-panel">
+      <div class="mb-2 position-relative">
+        <label for="search-input">Buscar:</label>
+        <input type="text" id="search-input" class="form-control" placeholder="Nombre, IP, puerto, servicio...">
+        <div id="autocomplete-suggestions" class="autocomplete-suggestions"></div>
+      </div>
+      <div class="mb-2">
+        <label for="node-type-filter">Tipo de Nodo:</label>
+        <select id="node-type-filter" class="form-control" multiple>
+          <option value="users" selected>Users</option>
+          <option value="groups" selected>Groups</option>
+          <option value="computers" selected>Computers</option>
+          <option value="domains" selected>Domains</option>
+          <option value="gpos" selected>GPOs</option>
+          <option value="ous" selected>OUs</option>
+          <option value="containers" selected>Containers</option>
+          <option value="c2" selected>C&C</option>
+          <option value="hosts" selected>Hosts</option>
+          <option value="ports" selected>Ports</option>
+        </select>
+      </div>
+      <div class="mb-2">
+        <label for="edge-type-filter">Tipo de Relación:</label>
+        <select id="edge-type-filter" class="form-control" multiple>
+          <option value="Owns" selected>Owns</option>
+          <option value="GenericAll" selected>GenericAll</option>
+          <option value="MemberOf" selected>MemberOf</option>
+          <option value="WriteOwner" selected>WriteOwner</option>
+          <option value="WriteDacl" selected>WriteDacl</option>
+          <option value="AllExtendedRights" selected>AllExtendedRights</option>
+        </select>
+      </div>
+      <div class="mb-2">
+        <label for="depth-filter">Profundidad:</label>
+        <input type="range" id="depth-filter" class="form-control-range" min="1" max="5" value="5">
+        <span id="depth-value">5</span>
+      </div>
+      <div class="form-check mb-2">
+        <input type="checkbox" class="form-check-input" id="highvalue-filter">
+        <label class="form-check-label" for="highvalue-filter">High Value</label>
+      </div>
+      <div class="form-check mb-2">
+        <input type="checkbox" class="form-check-input" id="cluster-by-type">
+        <label class="form-check-label" for="cluster-by-type">Cluster por Tipo</label>
+      </div>
+      <button class="btn btn-primary btn-sm w-100" onclick="resetFilters()">Resetear Filtros</button>
+    </div>
+    <!-- Estadísticas -->
+    <div class="stats-panel">
+      <div class="stat-item"><span>Nodos:</span><span id="stats-nodes">0</span></div>
+      <div class="stat-item"><span>Edges:</span><span id="stats-edges">0</span></div>
+      <div class="stat-item"><span>High Value:</span><span id="stats-highvalue">0</span></div>
+      <div class="stat-item"><span>Vulnerables:</span><span id="stats-vulnerable">0</span></div>
+    </div>
+    <!-- Lista de nodos -->
+    <div class="node-list" id="node-list"></div>
+  </div>
+  <!-- Área principal -->
+  <div class="network-container">
+    <!-- Migas de pan -->
+    <div class="breadcrumb-nav" id="breadcrumb-nav">
+      <span class="breadcrumb-item" onclick="resetView()">Todos los nodos</span>
+    </div>
+    <div id="mynetwork"></div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel">Detalles</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary" onclick="highlightRelated()">Resaltar Relacionados</button>
+        <button type="button" class="btn btn-primary" onclick="showShortestPath()">Camino Más Corto</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<link href="https://unpkg.com/vis-network@9.1.2/dist/vis-network.min.css" rel="stylesheet">
+<script src="https://unpkg.com/vis-network@9.1.2/dist/vis-network.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  var nodes_data = {{ nodes | tojson | safe }};
+  var edges_data = {{ edges | tojson | safe }};
+  console.log("Initial nodes:", nodes_data);
+  console.log("Initial edges:", edges_data);
+  const nodeIcons = {
+    'c2': { image: '/static/c2.png', color: '#ff6666', size: 80 },
+    'hosts': { image: '/static/host.png', color: '#00ccff', size: 40 },
+    'ports': { image: '/static/port.png', color: '#888', size: 20 },
+    'users': { image: '/static/user.png', color: '#90EE90', size: 30 },
+    'groups': { image: '/static/group.png', color: '#FFD700', size: 35 },
+    'computers': { image: '/static/computer.png', color: '#FF6347', size: 40 },
+    'domains': { image: '/static/domain.png', color: '#9370DB', size: 50 },
+    'gpos': { image: '/static/gpo.png', color: '#20B2AA', size: 30 },
+    'ous': { image: '/static/ou.png', color: '#F0E68C', size: 25 },
+    'containers': { image: '/static/box.png', color: '#DDA0DD', size: 25 }
+  };
+  var nodes = new vis.DataSet(nodes_data.map(node => {
+  const nodeType = node.type || 'unknown';
+  const iconConfig = nodeIcons[nodeType] || {
+    image: '/static/box.png',
+    color: '#fff',
+    size: 30
+    };
+    return {
+      ...node,
+      shape: 'image',
+      image: iconConfig.image,
+      size: iconConfig.size,
+      font: { color: iconConfig.color, size: 14, background: 'rgba(0, 0, 0, 0.5)' },
+      color: { border: iconConfig.color, background: '#333' },
+      type: nodeType
+    };
+  }));
+  var edges = new vis.DataSet(edges_data);
+  var container = document.getElementById('mynetwork');
+  var data = { nodes: nodes, edges: edges };
+  var selectedNode = null;
+  var breadcrumbPath = [];
+  var network;
+
+
+
+  var options = {
+    nodes: {
+      borderWidth: 2,
+      shape: 'image',
+      color: { border: '#aaa', background: '#333' },
+      font: { color: '#fff', size: 14, background: 'rgba(0, 0, 0, 0.5)' },
+      scaling: { label: { enabled: true, min: 8, max: 20 } }
+    },
+    edges: {
+      color: '#888',
+      smooth: { type: 'cubicBezier', forceDirection: 'vertical', roundness: 0.4 },
+      arrows: { to: { enabled: true, scaleFactor: 0.5 } }
+    },
+    physics: {
+      enabled: true,
+      barnesHut: {
+        gravitationalConstant: -8000,
+        springLength: 250,
+        springConstant: 0.001,
+        damping: 0.09
+      }
+    },
+    interaction: {
+      hover: true,
+      tooltipDelay: 100,
+      zoomView: true,
+      selectConnectedEdges: true
+    }
+  };
+
+  network = new vis.Network(container, data, options);
+
+  function findService(ip, port) {
+    if (!window.globalData || !Array.isArray(window.globalData.services)) return null;
+    return window.globalData.services.find(svc => svc.ip === ip && svc.port === port) || null;
+  }
+
+  function renderHostInfo(host) {
+    if (!host) return '<p>No se encontraron datos para este host.</p>';
+    let html = `<p><strong>IP:</strong> ${host.ip || 'N/A'}</p>`;
+    html += `<p><strong>Hostnames:</strong> ${Array.isArray(host.hostnames) && host.hostnames.length > 0 ? host.hostnames.join(', ') : 'Ninguno'}</p>`;
+    html += `<p><strong>Puertos abiertos:</strong></p><ul>`;
+    if (Array.isArray(host.ports) && host.ports.length > 0) {
+      host.ports.forEach(port => {
+        html += `<li><button class="btn btn-sm btn-link p-0" onclick="onPortClick('${host.ip}', ${port})">${port}</button></li>`;
+      });
+    } else {
+      html += `<li><em>No se encontraron puertos abiertos.</em></li>`;
+    }
+    html += `</ul>`;
+    return html;
+  }
+
+  function renderPortInfo(ip, port) {
+    const service = findService(ip, port);
+    if (!service) return `<p>No se encontró información para el puerto ${port} en ${ip}.</p>`;
+    let html = `<p><strong>IP:</strong> ${service.ip || 'N/A'}</p>`;
+    html += `<p><strong>Puerto:</strong> ${service.port || 'N/A'}</p>`;
+    html += `<p><strong>Protocolo:</strong> ${service.protocol || 'N/A'}</p>`;
+    html += `<p><strong>Servicio:</strong> ${service.service || 'N/A'}</p>`;
+    html += `<p><strong>Versión:</strong> ${service.version || 'N/A'}</p>`;
+    if (Array.isArray(service.vulnerabilities) && service.vulnerabilities.length > 0) {
+      html += `<h5>Vulnerabilidades:</h5><ul>`;
+      service.vulnerabilities.forEach(vuln => {
+        html += `<li><strong>${vuln.id || 'N/A'}:</strong> ${vuln.description || 'Sin descripción'}</li>`;
+      });
+      html += `</ul>`;
+    } else {
+      html += `<p><em>No se detectaron vulnerabilidades.</em></p>`;
+    }
+    return html;
+  }
+
+  async function onHostClick(ip) {
+    try {
+      const response = await fetch('/data');
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      const data = await response.json();
+      window.globalData = data || {};
+      const host = data.hosts ? data.hosts.find(h => h.ip === ip) : null;
+      const html = renderHostInfo(host);
+      showModal(`Detalles del host: ${ip}`, html);
+      selectedNode = `host-${ip.replace(/\./g, '-')}`;
+      updateBreadcrumb();
+      updateNodeList();
+    } catch (err) {
+      console.error("[ERROR] Fallo al obtener datos del host:", err);
+      showModal(`Error`, `<p>No se pudieron cargar los datos del host: ${err.message}</p>`);
+    }
+  }
+
+  function onPortClick(ip, port) {
+    try {
+      const html = renderPortInfo(ip, port);
+      showModal(`Detalles del puerto ${port} en ${ip}`, html);
+      selectedNode = `port-${ip.replace(/\./g, '-')}-${port}`;
+      updateBreadcrumb();
+      updateNodeList();
+    } catch (err) {
+      console.error("[ERROR] Fallo al mostrar detalles del puerto:", err);
+      showModal(`Error`, `<p>No se pudieron cargar los datos del puerto: ${err.message}</p>`);
+    }
+  }
+
+  async function renderHosts() {
+    try {
+      const response = await fetch('/data');
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      const data = await response.json();
+      window.globalData = data || {};
+      updateNodeList();
+    } catch (err) {
+      console.error("[ERROR] Fallo al renderizar hosts:", err);
+    }
+  }
+
+  function showModal(title, htmlContent) {
+    const modalLabel = document.getElementById('modalLabel');
+    const modalBody = document.getElementById('modalBody');
+    if (modalLabel && modalBody) {
+      modalLabel.textContent = title || 'Detalles';
+      modalBody.innerHTML = htmlContent || '<p>No hay datos disponibles.</p>';
+      const modal = new bootstrap.Modal(document.getElementById('infoModal'));
+      modal.show();
+    }
+  }
+
+  async function loadData() {
+    try {
+      const response = await fetch('/data');
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      const data = await response.json();
+      window.globalData = data;
+
+      const existingNodeIds = nodes.getIds();
+      const existingEdgeIds = edges.getIds();
+
+      if (!existingNodeIds.includes('c2')) {
+        nodes.add({
+          id: 'c2',
+          label: `C&C LazyOwn\n${data.local_ips || "0.0.0.0"}`,
+          shape: 'image',
+          image: '/static/c2.png',
+          size: 80,
+          font: { color: '#ff6666', size: 18, multi: 'html' },
+          color: { border: '#ff4444', background: '#440000' },
+          type: 'c2'
+        });
+      }
+
+      if (Array.isArray(data.hosts)) {
+        data.hosts.forEach(ip => {
+          const hostId = `host-${ip.replace(/\./g, '-')}`;
+          if (!existingNodeIds.includes(hostId)) {
+            nodes.add({
+              id: hostId,
+              label: ip,
+              shape: 'image',
+              image: '/static/host.png',
+              size: 40,
+              font: { color: '#00ccff' },
+              color: { border: '#00ccff', background: '#003344' },
+              type: 'hosts'
+            });
+            if (!existingEdgeIds.some(id => edges.get(id).from === 'c2' && edges.get(id).to === hostId)) {
+              edges.add({ from: 'c2', to: hostId, color: { color: '#00ccff' } });
+            }
+          }
+        });
+      }
+
+      if (Array.isArray(data.services)) {
+        data.services.forEach(svc => {
+          const ip = svc.ip;
+          const port = svc.port;
+          if (!ip || !port) return;
+
+          const hostId = `host-${ip.replace(/\./g, '-')}`;
+          const portId = `port-${ip.replace(/\./g, '-')}-${port}`;
+          if (!existingNodeIds.includes(portId)) {
+            let title = `Port: ${port}\nHost: ${ip}`;
+            if (svc.protocol) title += `\nProtocol: ${svc.protocol}`;
+            if (svc.service) title += `\nService: ${svc.service}`;
+            if (svc.version) title += `\nVersion: ${svc.version}`;
+
+            nodes.add({
+              id: portId,
+              label: `${port}`,
+              title: title,
+              shape: 'image',
+              image: '/static/port.png',
+              size: 20,
+              font: { color: '#eee', size: 12 },
+              color: { border: '#555', background: '#222' },
+              type: 'ports'
+            });
+
+            if (!existingEdgeIds.some(id => edges.get(id).from === hostId && edges.get(id).to === portId)) {
+              edges.add({ from: hostId, to: portId, color: { color: '#888' } });
+            }
+          }
+        });
+      }
+
+      // Actualizar el grafo después de añadir nodos
+      network.setData({ nodes: nodes, edges: edges });
+    } catch (err) {
+      console.error("[ERROR] Fallo al obtener datos del servidor:", err);
+    }
+  }
+
+  function applyFilters() {
+    const nodeTypeFilter = document.getElementById('node-type-filter');
+    const edgeTypeFilter = document.getElementById('edge-type-filter');
+    const searchInput = document.getElementById('search-input');
+    const highValueFilter = document.getElementById('highvalue-filter');
+    const depthFilter = document.getElementById('depth-filter');
+    const clusterByType = document.getElementById('cluster-by-type');
+
+    if (!nodeTypeFilter || !edgeTypeFilter || !searchInput || !highValueFilter || !depthFilter || !clusterByType) return;
+
+    const nodeTypes = Array.from(nodeTypeFilter.selectedOptions).map(opt => opt.value);
+    const edgeTypes = Array.from(edgeTypeFilter.selectedOptions).map(opt => opt.value);
+    const searchQuery = searchInput.value.toLowerCase();
+    const highValueChecked = highValueFilter.checked;
+    const depth = parseInt(depthFilter.value);
+    const clusterChecked = clusterByType.checked;
+
+    let filteredNodes = new vis.DataSet();
+    let filteredEdges = new vis.DataSet();
+
+    nodes.forEach(node => {
+      let includeNode = true;
+
+      if (nodeTypes.length > 0 && !nodeTypes.includes(node.type)) {
+        includeNode = false;
+      }
+
+      if (highValueChecked && node.type !== 'c2' && !['hosts', 'ports'].includes(node.type)) {
+        try {
+          const props = JSON.parse(node.title || '{}');
+          if (!props.highvalue) includeNode = false;
+        } catch {
+          includeNode = false;
+        }
+      }
+
+      if (searchQuery) {
+        let match = false;
+        if (node.label.toLowerCase().includes(searchQuery)) match = true;
+        else if (node.type === 'hosts' && node.label.toLowerCase().includes(searchQuery)) match = true;
+        else if (node.type === 'ports' && node.label.toLowerCase().includes(searchQuery)) match = true;
+        else {
+          try {
+            const props = JSON.parse(node.title || '{}');
+            if (props.name?.toLowerCase().includes(searchQuery) ||
+                props.samaccountname?.toLowerCase().includes(searchQuery) ||
+                props.distinguishedname?.toLowerCase().includes(searchQuery) ||
+                props.service?.toLowerCase().includes(searchQuery) ||
+                props.vulnerabilities?.some(v => v.id.toLowerCase().includes(searchQuery) || v.description.toLowerCase().includes(searchQuery))) {
+              match = true;
+            }
+          } catch {}
+        }
+        if (!match) includeNode = false;
+      }
+
+      if (includeNode) filteredNodes.add(node);
+    });
+
+    edges.forEach(edge => {
+      const fromNode = filteredNodes.get(edge.from);
+      const toNode = filteredNodes.get(edge.to);
+      if (fromNode && toNode && (edgeTypes.length === 0 || edgeTypes.includes(edge.label))) {
+        filteredEdges.add(edge);
+      }
+    });
+
+    if (selectedNode && depth < 5) {
+      const reachableNodes = getReachableNodes(selectedNode, depth);
+      const finalNodes = new vis.DataSet();
+      const finalEdges = new vis.DataSet();
+      filteredNodes.forEach(node => {
+        if (reachableNodes.includes(node.id)) finalNodes.add(node);
+      });
+      filteredEdges.forEach(edge => {
+        if (reachableNodes.includes(edge.from) && reachableNodes.includes(edge.to)) finalEdges.add(edge);
+      });
+      filteredNodes = finalNodes;
+      filteredEdges = finalEdges;
+    }
+
+    network.setData({ nodes: filteredNodes, edges: filteredEdges });
+
+    if (clusterChecked) {
+      clusterNodesByType();
+    } else {
+      network.clustering?.closeAllClusters?.();
+    }
+
+    updateNodeList();
+    updateStats();
+  }
+
+  function clusterNodesByType() {
+    const nodeTypes = [...new Set(nodes.get().map(n => n.type))];
+    nodeTypes.forEach(type => {
+      const clusterOptions = {
+        joinCondition: nodeInfo => nodeInfo.type === type,
+        clusterNodeProperties: {
+          id: `cluster-${type}`,
+          label: `${type} (${nodes.get().filter(n => n.type === type).length})`,
+          shape: 'image',
+          image: nodeIcons[type]?.image || '/static/box.png',
+          size: (nodeIcons[type]?.size || 30) * 1.5,
+          font: { color: nodeIcons[type]?.color || '#fff', size: 16 },
+          color: { border: nodeIcons[type]?.color || '#aaa' }
+        }
+      };
+      network.clustering.cluster(clusterOptions);
+    });
+  }
+
+  function getReachableNodes(startNodeId, maxDepth) {
+    if (!startNodeId || !nodes.get(startNodeId)) return [];
+    const reachable = new Set([startNodeId]);
+    let queue = [{ id: startNodeId, depth: 0 }];
+    while (queue.length > 0) {
+      const { id, depth } = queue.shift();
+      if (depth >= maxDepth) continue;
+      edges.forEach(edge => {
+        if (edge.from === id && !reachable.has(edge.to)) {
+          reachable.add(edge.to);
+          queue.push({ id: edge.to, depth: depth + 1 });
+        }
+        if (edge.to === id && !reachable.has(edge.from)) {
+          reachable.add(edge.from);
+          queue.push({ id: edge.from, depth: depth + 1 });
+        }
+      });
+    }
+    return Array.from(reachable);
+  }
+
+  function highlightRelated() {
+    if (!selectedNode || !nodes.get(selectedNode)) return;
+    const relatedNodes = getReachableNodes(selectedNode, 1);
+    const filteredNodes = new vis.DataSet();
+    const filteredEdges = new vis.DataSet();
+    nodes.forEach(node => {
+      if (relatedNodes.includes(node.id)) {
+        filteredNodes.add({ ...node, color: { border: '#ff0', background: node.color?.background || '#333' } });
+      }
+    });
+    edges.forEach(edge => {
+      if (relatedNodes.includes(edge.from) && relatedNodes.includes(edge.to)) {
+        filteredEdges.add({ ...edge, color: { color: '#ff0' } });
+      }
+    });
+    network.setData({ nodes: filteredNodes, edges: filteredEdges });
+    updateNodeList();
+    updateStats();
+  }
+
+  function showShortestPath() {
+    if (!selectedNode || !nodes.get(selectedNode)) return;
+    const target = prompt("Ingrese el ID del nodo destino (ej: S-1-5-21-... o host-<ip>):");
+    if (!target || !nodes.get(target)) {
+      alert("Nodo destino inválido.");
+      return;
+    }
+    const path = findShortestPath(selectedNode, target);
+    if (!path) {
+      alert("No se encontró un camino entre los nodos.");
+      return;
+    }
+    const filteredNodes = new vis.DataSet();
+    const filteredEdges = new vis.DataSet();
+    path.nodes.forEach(nodeId => {
+      const node = nodes.get(nodeId);
+      filteredNodes.add({ ...node, color: { border: '#ff0', background: node.color?.background || '#333' } });
+    });
+    path.edges.forEach(edgeId => {
+      const edge = edges.get(edgeId);
+      filteredEdges.add({ ...edge, color: { color: '#ff0' } });
+    });
+    network.setData({ nodes: filteredNodes, edges: filteredEdges });
+    network.fit({ nodes: path.nodes });
+    updateNodeList();
+    updateStats();
+  }
+
+  function findShortestPath(start, end) {
+    if (!start || !end || !nodes.get(start) || !nodes.get(end)) return null;
+    const queue = [start];
+    const visited = new Set([start]);
+    const parent = {};
+    const edgeParent = {};
+    while (queue.length > 0) {
+      const node = queue.shift();
+      if (node === end) {
+        const pathNodes = [end];
+        const pathEdges = [];
+        let current = end;
+        while (current !== start) {
+          pathNodes.unshift(parent[current]);
+          if (edgeParent[current]) pathEdges.unshift(edgeParent[current]);
+          current = parent[current];
+        }
+        return { nodes: pathNodes, edges: pathEdges };
+      }
+      edges.forEach(edge => {
+        if (edge.from === node && !visited.has(edge.to)) {
+          visited.add(edge.to);
+          queue.push(edge.to);
+          parent[edge.to] = node;
+          edgeParent[edge.to] = edge.id;
+        }
+        if (edge.to === node && !visited.has(edge.from)) {
+          visited.add(edge.from);
+          queue.push(edge.from);
+          parent[edge.from] = node;
+          edgeParent[edge.from] = edge.id;
+        }
+      });
+    }
+    return null;
+  }
+
+  function updateAutocomplete() {
+    const searchInput = document.getElementById('search-input');
+    const suggestionsDiv = document.getElementById('autocomplete-suggestions');
+    if (!searchInput || !suggestionsDiv) return;
+
+    const query = searchInput.value.toLowerCase();
+    suggestionsDiv.innerHTML = '';
+    if (!query) return;
+
+    const suggestions = [];
+    nodes.forEach(node => {
+      let match = false;
+      if (node.label.toLowerCase().includes(query)) match = true;
+      else if (node.type === 'hosts' && node.label.toLowerCase().includes(query)) match = true;
+      else if (node.type === 'ports' && node.label.toLowerCase().includes(query)) match = true;
+      else {
+        try {
+          const props = JSON.parse(node.title || '{}');
+          if (props.name?.toLowerCase().includes(query) ||
+              props.samaccountname?.toLowerCase().includes(query) ||
+              props.distinguishedname?.toLowerCase().includes(query) ||
+              props.service?.toLowerCase().includes(query) ||
+              props.vulnerabilities?.some(v => v.id.toLowerCase().includes(query) || v.description.toLowerCase().includes(query))) {
+            match = true;
+          }
+        } catch {}
+      }
+      if (match) suggestions.push({ id: node.id, label: node.label, type: node.type });
+    });
+
+    suggestions.slice(0, 5).forEach(suggestion => {
+      const div = document.createElement('div');
+      div.className = 'autocomplete-suggestion';
+      div.innerHTML = `<strong>${suggestion.label}</strong> (${suggestion.type})`;
+      div.onclick = () => {
+        selectNodeFromList(suggestion.id);
+        searchInput.value = '';
+        suggestionsDiv.innerHTML = '';
+      };
+      suggestionsDiv.appendChild(div);
+    });
+  }
+
+function updateNodeList() {
+  const nodeList = document.getElementById('node-list');
+  if (!nodeList) return;
+
+  // Obtener los nodos visibles (ajusta según tu lógica)
+  const visibleNodes = network.body.nodes
+    ? Object.values(network.body.nodes).map(n => nodes.get(n.id)).filter(n => n)
+    : nodes.get();
+
+  // Generar el HTML con una función auxiliar y unir todo
+  nodeList.innerHTML = visibleNodes
+    .sort((a, b) => {
+      const aPriority = a.type === 'c2' ? 3 : a.highvalue ? 2 : 0;
+      const bPriority = b.type === 'c2' ? 3 : b.highvalue ? 2 : 0;
+      return bPriority - aPriority || a.label.localeCompare(b.label);
+    })
+    .map(generateNodeHTML)
+    .join('');
+}
+
+// Función auxiliar para generar HTML de un nodo
+function generateNodeHTML(node) {
+  // Valores por defecto para evitar errores
+  const isSelected = node.id === selectedNode ? ' selected' : '';
+  const image = node.image || '/static/box.png';
+  const label = node.label || 'Sin etiqueta';
+  const type = node.type || 'Desconocido';
+  const borderColor = node.color?.border || '#666';
+
+  // Retornar el HTML bien formado
+  return `
+    <div class="node-item${isSelected}" onclick="selectNodeFromList('${node.id}')">
+      <div class="node-icon" style="background-image: url('${image}')"></div>
+      <span>${label}</span>
+      <span class="node-type-badge" style="background-color: ${borderColor}">${type}</span>
+    </div>
+  `;
+}
+
+  function selectNodeFromList(nodeId) {
+    if (!nodeId || !nodes.get(nodeId)) return;
+    selectedNode = nodeId;
+    network.selectNodes([nodeId]);
+    network.focus(nodeId, { scale: 1.5 });
+    updateNodeList();
+    updateBreadcrumb();
+    const node = nodes.get(nodeId);
+    let title = node.label;
+    let html = `<p><strong>ID:</strong> ${node.id}</p><p><strong>Tipo:</strong> ${node.type}</p>`;
+    try {
+      const props = JSON.parse(node.title || '{}');
+      html += `<p><strong>Propiedades:</strong><pre>${JSON.stringify(props, null, 2)}</pre></p>`;
+    } catch {}
+    if (node.type === 'hosts') {
+      onHostClick(node.label);
+    } else if (node.type === 'ports') {
+      const [_, ip, port] = node.id.match(/port-(.+)-(\d+)/) || [];
+      if (ip && port) onPortClick(ip.replace(/-/g, '.'), parseInt(port));
+    } else {
+      showModal(`Detalles del nodo: ${node.label}`, html);
+    }
+  }
+
+  function updateBreadcrumb() {
+    const breadcrumbNav = document.getElementById('breadcrumb-nav');
+    if (!breadcrumbNav) return;
+
+    if (!selectedNode) {
+      breadcrumbNav.innerHTML = `<span class="breadcrumb-item" onclick="resetView()">Todos los nodos</span>`;
+      return;
+    }
+
+    const node = nodes.get(selectedNode);
+    if (!node) return;
+    breadcrumbPath = breadcrumbPath.filter(p => nodes.get(p));
+    if (!breadcrumbPath.includes(selectedNode)) breadcrumbPath.push(selectedNode);
+    breadcrumbNav.innerHTML = `
+      <span class="breadcrumb-item" onclick="resetView()">Todos los nodos</span>
+      ${breadcrumbPath.map(id => {
+        const n = nodes.get(id);
+        return n ? ` > <span class="breadcrumb-item" onclick="selectNodeFromList('${id}')">${n.type}: ${n.label}</span>` : '';
+      }).join('')}
+    `;
+  }
+
+  function resetView() {
+    selectedNode = null;
+    breadcrumbPath = [];
+    resetFilters();
+    network.fit();
+    updateBreadcrumb();
+  }
+
+  function updateStats() {
+    const statsNodes = document.getElementById('stats-nodes');
+    const statsEdges = document.getElementById('stats-edges');
+    const statsHighValue = document.getElementById('stats-highvalue');
+    const statsVulnerable = document.getElementById('stats-vulnerable');
+    if (!statsNodes || !statsEdges || !statsHighValue || !statsVulnerable) return;
+
+    const visibleNodes = network.body.nodes ? Object.values(network.body.nodes).map(n => nodes.get(n.id)).filter(n => n) : nodes.get();
+    statsNodes.textContent = visibleNodes.length;
+    statsEdges.textContent = network.body.edges ? Object.keys(network.body.edges).length : edges.length;
+    statsHighValue.textContent = visibleNodes.filter(n => {
+      try {
+        const props = JSON.parse(n.title || '{}');
+        return props.highvalue || n.type === 'c2';
+      } catch {
+        return n.type === 'c2';
+      }
+    }).length;
+    statsVulnerable.textContent = visibleNodes.filter(n => {
+      if (n.type === 'ports') {
+        try {
+          const props = JSON.parse(n.title || '{}');
+          return props.vulnerabilities?.length > 0;
+        } catch {
+          return false;
+        }
+      }
+      return false;
+    }).length;
+  }
+
+  function focusHighValue() {
+    const highValueNodes = nodes.get().filter(n => {
+      try {
+        const props = JSON.parse(n.title || '{}');
+        return props.highvalue || n.type === 'c2';
+      } catch {
+        return n.type === 'c2';
+      }
+    });
+    focusOnNodes(highValueNodes);
+  }
+
+  function focusC2() {
+    const c2Nodes = nodes.get().filter(n => n.type === 'c2');
+    focusOnNodes(c2Nodes);
+  }
+
+  function focusVulnerable() {
+    const vulnerableNodes = nodes.get().filter(n => {
+      if (n.type === 'ports') {
+        try {
+          const props = JSON.parse(n.title || '{}');
+          return props.vulnerabilities?.length > 0;
+        } catch {
+          return false;
+        }
+      }
+      return false;
+    });
+    focusOnNodes(vulnerableNodes);
+  }
+
+  function focusOnNodes(nodeList) {
+    if (!nodeList || nodeList.length === 0) return;
+    const nodeIds = nodeList.map(n => n.id);
+    const filteredNodes = nodes.get().filter(n => nodeIds.includes(n.id));
+    const filteredEdges = edges.get().filter(e => nodeIds.includes(e.from) && nodeIds.includes(e.to));
+    network.setData({ nodes: new vis.DataSet(filteredNodes), edges: new vis.DataSet(filteredEdges) });
+    updateNodeList();
+    updateStats();
+    if (nodeIds.length > 0) network.fit({ nodes: nodeIds });
+  }
+
+  function resetFilters() {
+    const nodeTypeFilter = document.getElementById('node-type-filter');
+    const edgeTypeFilter = document.getElementById('edge-type-filter');
+    const searchInput = document.getElementById('search-input');
+    const highValueFilter = document.getElementById('highvalue-filter');
+    const depthFilter = document.getElementById('depth-filter');
+    const depthValue = document.getElementById('depth-value');
+    const suggestionsDiv = document.getElementById('autocomplete-suggestions');
+    if (!nodeTypeFilter || !edgeTypeFilter || !searchInput || !highValueFilter || !depthFilter || !depthValue || !suggestionsDiv) return;
+
+    nodeTypeFilter.selectedIndex = -1;
+    edgeTypeFilter.selectedIndex = -1;
+    searchInput.value = '';
+    highValueFilter.checked = false;
+    depthFilter.value = 5;
+    depthValue.textContent = 5;
+    suggestionsDiv.innerHTML = '';
+    selectedNode = null;
+
+    Array.from(nodeTypeFilter.options).forEach(option => option.selected = true);
+    Array.from(edgeTypeFilter.options).forEach(option => option.selected = true);
+
+    applyFilters();
+  }
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    const nodeTypeFilter = document.getElementById('node-type-filter');
+    const edgeTypeFilter = document.getElementById('edge-type-filter');
+    const highValueFilter = document.getElementById('highvalue-filter');
+    const depthFilter = document.getElementById('depth-filter');
+    const searchInput = document.getElementById('search-input');
+    const clusterByType = document.getElementById('cluster-by-type');
+
+    if (nodeTypeFilter) nodeTypeFilter.addEventListener('change', applyFilters);
+    if (edgeTypeFilter) edgeTypeFilter.addEventListener('change', applyFilters);
+    if (highValueFilter) highValueFilter.addEventListener('change', applyFilters);
+    if (depthFilter) depthFilter.addEventListener('input', () => {
+      const depthValue = document.getElementById('depth-value');
+      if (depthValue) depthValue.textContent = depthFilter.value;
+      applyFilters();
+    });
+    if (searchInput) searchInput.addEventListener('input', () => {
+      updateAutocomplete();
+      applyFilters();
+    });
+    if (clusterByType) clusterByType.addEventListener('change', applyFilters);
+
+    network.on('click', params => {
+      if (params.nodes.length > 0) {
+        selectedNode = params.nodes[0];
+        const node = nodes.get(selectedNode);
+        if (!node) return;
+        let title = node.label;
+        let html = `<p><strong>ID:</strong> ${node.id}</p><p><strong>Tipo:</strong> ${node.type}</p>`;
+        try {
+          const props = JSON.parse(node.title || '{}');
+          html += `<p><strong>Propiedades:</strong><pre>${JSON.stringify(props, null, 2)}</pre></p>`;
+        } catch {}
+        if (node.type === 'hosts') {
+          onHostClick(node.label);
+        } else if (node.type === 'ports') {
+          const [_, ip, port] = node.id.match(/port-(.+)-(\d+)/) || [];
+          if (ip && port) onPortClick(ip.replace(/-/g, '.'), parseInt(port));
+        } else {
+          showModal(`Detalles del nodo: ${node.label}`, html);
+        }
+      }
+    });
+
+    window.onPortClick = onPortClick;
+    window.onHostClick = onHostClick;
+    await loadData();
+    await renderHosts();
+    resetFilters();
+  });
+</script>
+<style>
+  body {
+    padding: 20px;
+    background: #1a1a1a;
+    color: #fff;
+    font-family: Arial, sans-serif;
+  }
+  .main-container {
+    display: flex;
+    height: 100vh;
+    position: relative;
+    z-index: 10;
+  }
+  .sidebar {
+    width: 300px;
+    background: #2a2a2a;
+    border-right: 1px solid #555;
+    padding: 10px;
+    overflow-y: auto;
+    z-index: 11;
+  }
+  .network-container {
+    flex: 1;
+    position: relative;
+  }
+  #mynetwork {
+    height: calc(100vh - 40px);
+    border: 1px solid #555;
+    background: #1a1a1a;
+  }
+  .control-panel {
+    background: #2a2a2a;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  .focus-btn {
+    display: block;
+    width: 100%;
+    margin: 5px 0;
+    padding: 5px;
+    background: #007bff;
+    border: none;
+    color: #fff;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  .focus-btn:hover {
+    background: #0056b3;
+  }
+  .autocomplete-suggestions {
+    position: absolute;
+    background: #333;
+    border: 1px solid #555;
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 1000;
+    width: 100%;
+  }
+  .autocomplete-suggestion {
+    padding: 5px;
+    cursor: pointer;
+  }
+  .autocomplete-suggestion:hover {
+    background: #444;
+  }
+  .breadcrumb-nav {
+    background: #333;
+    padding: 8px 15px;
+    border-bottom: 1px solid #555;
+    font-size: 14px;
+  }
+  .breadcrumb-item {
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: underline;
+    margin-right: 5px;
+  }
+  .node-list {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #555;
+    background: #2d2d2d;
+    margin-top: 10px;
+  }
+  .node-item {
+    padding: 8px;
+    border-bottom: 1px solid #444;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  .node-item:hover {
+    background: #3a3a3a;
+  }
+  .node-item.selected {
+    background: #4a4a4a;
+    border-left: 4px solid #007bff;
+  }
+  .node-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    background-size: cover;
+  }
+  .node-type-badge {
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 10px;
+    margin-left: auto;
+    background: #555;
+  }
+  .stats-panel {
+    margin: 10px 0;
+    font-size: 12px;
+  }
+  .stat-item {
+    display: flex;
+    justify-content: space-between;
+  }
+  .vis-network .vis-label {
+    position: relative;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    pointer-events: none;
+    font-weight: bold;
+  }
+  #particles-js {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1000 !important;
+  }
+  ::-webkit-scrollbar {
+    width: 8px; /* Ancho de la barra de desplazamiento */
+    height: 8px; /* Alto de la barra de desplazamiento (para scroll horizontal) */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.5); /* Negro semi-transparente */
+    border-radius: 10px; /* Bordes redondeados */
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent; /* Fondo del carril transparente */
+}
+
+/* Estilo para Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.5) transparent; /* thumb track */
+}
+.viz-tooltip {
+  background-color: rgba(0, 0, 0, 0.7); /* Fondo negro con 70% de opacidad */
+  color: white; /* Adjust text color as needed */
+  /* Keep other existing styles or add new ones */
+}
+</style>
+{% endblock %}

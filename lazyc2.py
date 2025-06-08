@@ -7,6 +7,7 @@ import json
 import yaml
 import glob
 import time
+import uuid
 import fcntl
 import shlex
 import socket
@@ -696,7 +697,7 @@ def execute_command(command):
         )
         return result.stdout + result.stderr
     except Exception as e:
-        return str(e)
+        return str("audio")
 
 class CustomDNSResolver(BaseResolver):
     def resolve(self, request, handler):
@@ -1486,7 +1487,7 @@ def serve_file(file_path):
                 headers={'Content-Disposition': f'attachment; filename="{file_path}"'}
             )
         except Exception as e:
-            return str(e), 500
+            return str("audio"), 500
     else:
         return jsonify({"status": "error", "message": "File not found"}), 404
 
@@ -1607,7 +1608,7 @@ def send_lcommand(ip, port):
 
         return jsonify({"response": response})
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"error": str("audio")}), 500
 
 @app.route('/chatbot', methods=['POST'])
 def chatbot():
@@ -1777,7 +1778,7 @@ def csv_to_html():
             return html
 
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"error": str("audio")}), 500
 
 @app.route('/search_results', methods=['POST'])
 def search_results():
@@ -2607,7 +2608,7 @@ def handle_command(msg):
      
         reverse_shell_socket.sendall((msg + "\n").encode())
     except Exception as e:
-        emit('response', {'output': str(e)}, namespace='/listener')
+        emit('response', {'output': str("audio")}, namespace='/listener')
 
 
 @app.route('/terminal')
@@ -2742,8 +2743,8 @@ def capture_image():
         logging.info(f"Imagen guardada: {filename}")
         return jsonify({"status": "success", "message": "Imagen recibida y guardada"}), 200
     except Exception as e:
-        logging.error(f"Error procesando imagen: {str(e)}")
-        return jsonify({"error": str(e)}), 500
+        logging.error(f"Error procesando imagen")
+        return jsonify({"error": str("audio")}), 500
 
 @app.route('/audio', methods=['POST'])
 def capture_audio():
@@ -2758,8 +2759,8 @@ def capture_audio():
         logging.info(f"Audio guardado: {filename}")
         return jsonify({"status": "success", "message": "Audio recibido y guardado"}), 200
     except Exception as e:
-        logging.error(f"Error procesando audio: {str(e)}")
-        return jsonify({"error": str(e)}), 500
+        logging.error(f"Error procesando audio")
+        return jsonify({"error": str("audio")}), 500
 
 @app.route('/surface')
 def surface():
@@ -2781,24 +2782,61 @@ def upload_zip_file():
     file = request.files['file']
     if file.filename == '':
         return render_template('index.html', error="No selected file")
-    if file:
-        os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
-        filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+    
+    
+    if not file.filename.lower().endswith('.zip'):
+        return render_template('index.html', error="Only ZIP files are allowed")
+
+    
+    os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+
+    
+    unique_filename = f"{uuid.uuid4().hex}.zip"
+    filepath = os.path.join(app.config['UPLOAD_FOLDER'], unique_filename)
+
+    
+    abs_upload_folder = os.path.abspath(app.config['UPLOAD_FOLDER'])
+    abs_filepath = os.path.abspath(filepath)
+    if not abs_filepath.startswith(abs_upload_folder):
+        return render_template('index.html', error="Invalid file path")
+
+    try:
+        
         file.save(filepath)
+        
+        
         nodes, edges, error_message = process_bloodhound_zip(filepath)
-        os.remove(filepath)
+
+        
+        try:
+            os.remove(filepath)
+        except Exception as e:
+            if config.enable_c2_debug:
+                logger.info(f"Error removing file: {str(e)}")
 
         if error_message:
-            if config.enable_c2_debug == True:
+            if config.enable_c2_debug:
                 logger.info(f"Error during processing: {error_message}")
             return render_template('index.html', error=error_message)
 
         if not nodes and not edges:
             return render_template('index.html', error="No valid data extracted from the ZIP")
-        if config.enable_c2_debug == True:
+        
+        if config.enable_c2_debug:
             logger.info(f"Nodes extracted: {len(nodes)}")
             logger.info(f"Edges extracted: {len(edges)}")
         return render_template('surface.html', nodes=nodes, edges=edges)
+
+    except Exception as e:
+        
+        if os.path.exists(filepath):
+            try:
+                os.remove(filepath)
+            except Exception as cleanup_error:
+                if config.enable_c2_debug:
+                    logger.info(f"Error removing file during cleanup: {str(cleanup_error)}")
+        return render_template('index.html', error=f"Error processing file: {str(e)}")
+
     return render_template('index.html', error="Something went wrong")
     
 

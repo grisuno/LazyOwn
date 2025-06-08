@@ -1,0 +1,10 @@
+bloodyAD pass
+certipy_ad shadow
+certipy_ad vuln
+certipy_ad user
+certipy_ad account
+certipy_ad account
+certipy_ad shadow
+certipy_ad req
+certipy_ad account
+certipy_ad auth

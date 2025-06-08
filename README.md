@@ -11489,6 +11489,27 @@ Recursively resolve and download package dependencies with enhanced checks
 
 ### Otros
 
+  *   * feat(feat): new surface attack like bloodhound and decoy malicius try to share webcam, mic and screen \n\n Version: release/0.2.41 \n\n and some others surprices \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Jun 7 05:44:36 2025 -0400 \n\n Hora: 1749289476
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * decoy more agresive take snapshots of screen and video of webcam and bloodhound zip surface attack
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): new image \n\n Version: release/0.2.40 \n\n new fixes \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Jun 2 01:28:19 2025 -0400 \n\n Hora: 1748842099
 
 

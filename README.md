@@ -44,6 +44,9 @@ At the heart of **LazyOwn: CRIMEN** lies an intuitive command-line interface (CL
 
 One of the standout features of **LazyOwn: CRIMEN** is its ability to schedule tasks using the `cron` command, facilitating persistent and automated threat simulations. This functionality transforms **LazyOwn: CRIMEN** into a formidable Advanced Persistent Threat (APT) framework, capable of mimicking the relentless and methodical attacks of sophisticated cyber adversaries.
 
+![image](https://github.com/user-attachments/assets/112dc7ef-2aa8-4255-911b-47f252eea7ab)
+
+
 ## Why CRIMEN?
 
 **CRIMEN** stands for **Cyber Redteam Interface Management Environment Network**, encapsulating the essence of this powerful framework. Each letter in the acronym represents a critical component of its capabilities:
@@ -61,7 +64,10 @@ One of the standout features of **LazyOwn: CRIMEN** is its ability to schedule t
 ## Key Features of LazyOwn: CRIMEN
 
 1. **Comprehensive Attack Library**: Over 500 crafted attacks for various environments, each a testament to the framework's depth and versatility, augmented by the extensive attack library of the Atomic RedTeam Framework.
-2. **Interactive CLI**: Based on cmd2, offering an intuitive and efficient command-line experience.
+2. **Interactive CLI**: Based on cmd2, offering an intuitive and efficient command-line experience. 
+
+![image](https://github.com/user-attachments/assets/bac38447-1ab9-40f0-babb-7afa3cbe6a25)
+
 3. **Decoy**: if the ip addres not match with 127.0.0.1 or lhost flask will show a decoy website this decoy site will record a video with audio and take pictures from the intruder (sessions/captured_images) like a small versión of storm breaker to know who is the blueteam operator
 4. **Adversary Simulation**: Advanced capabilities for generating red team operation sessions, ensuring meticulous and effective simulations.
 
@@ -71,6 +77,7 @@ One of the standout features of **LazyOwn: CRIMEN** is its ability to schedule t
 6. **Real-Time Results**: Obtain immediate feedback and results from security assessments, ensuring timely and accurate insights.
 7. **RAT and Botnet Capabilities**: Includes features for remote access and control, allowing for the management of botnets and persistent threats.
 8. **C2 Framework IA Powered**: Acts as a command and control (C2) framework, enabling covert communication and control over compromised systems. and many IA bots to improve your opsec, Developed in Flask, providing a user-friendly interface for seamless interaction. Now with network discovery capabilities, allowing us to see the attack surface on our client map clearly and intuitively with filters and a search panel. New functionalities are coming soon.
+![image](https://github.com/user-attachments/assets/f0b61d32-a67d-4036-809e-1d6f5e872057)
 
 ![vulnbot](https://github.com/user-attachments/assets/86ae6384-f61b-41be-8b87-222399bf2b77)
 
@@ -413,6 +420,9 @@ cd LazyOwn
 ```
 
 ## Uso
+
+![image](https://github.com/user-attachments/assets/6ce124bf-035e-489a-9393-d2b0712b808c)
+
 
 ```sh
 ./run or ./fast_run_as_r00t.sh 
@@ -774,6 +784,9 @@ lazypathhijacking
 
 ## Use mode LazyOwn RAT
 
+![image](https://github.com/user-attachments/assets/b0653dd9-6a4f-42b5-b565-0ec4943acd69)
+
+
 LazyOwn RAT is a simple yet powerful Remote Administration Tool. It features a screenshot function that captures the server's screen, an upload command that allows us to upload files to the compromised machine, and a C&C mode where commands can be sent to the server. It operates in two modes: client mode and server mode. There is no obfuscation, and the RAT is based on BasicRat. You can find it on GitHub at https://github.com/awesome-security/basicRAT and at https://github.com/hash3liZer/SillyRAT. Although the latter is much more comprehensive, I just wanted to implement screenshot capture, file uploads, and command sending. Perhaps in the future, I will add webcam viewing functionality, but that will come later.
 
 ```sh
@@ -828,6 +841,9 @@ decrypt path/to/file.enc key #to decrypt
 ```
 
 ## Uso modo LazyNmap
+
+![image](https://github.com/user-attachments/assets/89965c9e-836e-4402-9d0b-cb9d13bb9a26)
+
 
 The use of Lazynmap provides us with an automated script for a target, in this case, 127.0.0.1, using Nmap. The script requires administrative permissions via sudo. It also includes a network discovery module to identify what is present in the IP segment you are in. Additionally, the script can now be called without parameters using the alias nmap or with the command run lazynmap.
 

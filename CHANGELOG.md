@@ -2,6 +2,48 @@
 # Changelog
 
 
+### Correcciones urgentes
+
+### Otros
+
+  *   * hotfix(hotfix): bugfixing \n\n Version: release/0.2.42 \n\n withlove \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Jun 7 21:27:26 2025 -0400 \n\n Hora: 1749346046
+
+
+### Otros
+
+### Otros
+
+  *   * Merge branch 'main' of https://github.com/grisuno/LazyOwn
+
+
+### Otros
+
+### Otros
+
+  *   * bugfixing
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * bugfixing
+
+
+### Otros
+
+### Otros
+
+  *   * bugfixing and certipy_ad new options
+
+
 ### Nuevas características
 
 ### Otros

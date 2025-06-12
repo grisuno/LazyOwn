@@ -3051,6 +3051,14 @@ def load_knowledge_base(knowledge_file="my_techniques.json"):
             return json.load(f)
     return []
 
+def anti_debug():
+    if os.path.exists("/proc/self/status"):
+        with open("/proc/self/status") as f:
+            for line in f:
+                if line.startswith("TracerPid:") and int(line.split()[1]) != 0:
+                    print_error("DEBUG DETECTED. EXITING!.")
+                    os.kill(os.getpid(), signal.SIGTERM)
+
 class MyServer(HTTPServer):
     """
     Custom HTTP server to handle incoming connections from certutil.
@@ -3267,7 +3275,7 @@ class Config:
 
 signal.signal(signal.SIGINT, signal_handler)
 arguments = sys.argv[1:]  
-
+anti_debug()
 for arg in arguments:
     if arg == "--help":
         halp()

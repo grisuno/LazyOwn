@@ -61,6 +61,11 @@ pip3 install donut
 pip3 install uro
 pip3 install lupa
 pip3 install flask_sock
+pip3 install donut-shellcode
+pip3 install flask_limiter
+pip3 install aiosmtpd
+pip3 install yagmail
+pip3 install validators
 
 curl -fsSL https://ollama.com/install.sh | sh
 

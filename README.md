@@ -2262,6 +2262,9 @@ Guarda el playbook generado en disco
 ## load_knowledge_base
 Carga la base de conocimientos personalizada.
 
+## anti_debug
+No description available.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 
@@ -11490,6 +11493,48 @@ Recursively resolve and download package dependencies with enhanced checks
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Correcciones urgentes
+
+### Otros
+
+  *   * hotfix(hotfix): bugfixing \n\n Version: release/0.2.42 \n\n withlove \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Jun 7 21:27:26 2025 -0400 \n\n Hora: 1749346046
+
+
+### Otros
+
+### Otros
+
+  *   * Merge branch 'main' of https://github.com/grisuno/LazyOwn
+
+
+### Otros
+
+### Otros
+
+  *   * bugfixing
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * bugfixing
+
+
+### Otros
+
+### Otros
+
+  *   * bugfixing and certipy_ad new options
 
 
 ### Nuevas características

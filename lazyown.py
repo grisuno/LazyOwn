@@ -191,6 +191,7 @@ class LazyOwnShell(cmd2.Cmd):
         "start_ollama": "sh sudo systemctl start ollama",
         "start_ntp": "sh sudo timedatectl set-ntp true",
         "stop_ollama": "sh sudo systemctl stop ollama",
+        "stop_tor": "sh sudo systemctl stop tor",
         "stop_apt": "sh sudo systemctl stop apt-cacher-ng",
         "start_apt": "sh sudo systemctl start apt-cacher-ng",
         "update": "sh git pull origin main",
@@ -279,6 +280,7 @@ class LazyOwnShell(cmd2.Cmd):
             "rport": 1337,
             "lport": 1337,
             "sleep": 6,
+            "file": "file.ext",
             "sleep_start": 207,
             "c2_maleable_route": "/gmail/v1/users/",
             "user_agent_win": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
@@ -2738,7 +2740,7 @@ class LazyOwnShell(cmd2.Cmd):
         """
 
         print_msg("Running Server in localhost:8888/cgi-bin/lazywebshell.py")
-        self.cmd("cd modules && python3 -m http.server 8888 --cgi &")
+        os.system("cd modules && python3 -m http.server 8888 --cgi &")
         return
     
     @cmd2.with_category(recon_category) 

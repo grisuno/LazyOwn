@@ -1,0 +1,27 @@
+name: vulnhuntr
+description: >
+  Vulnhuntr leverages the power of LLMs to automatically create and analyze entire code call chains starting from remote user input and ending at server output for detection of complex, multi-step, security-bypassing vulnerabilities that go far beyond what traditional static code analysis tools are capable of performing. See all the details including the Vulnhuntr output for all the 0-days here: Protect AI Vulnhuntr Blog https://github.com/protectai/vulnhuntr
+author: "protectai"
+version: "1.0"
+enabled: true
+params:
+   - name: path
+     type: string
+     required: false
+     description: path to use in the script
+   - name: file
+     type: string
+     required: false
+     description: file to use in the script
+#   - name: api_key
+#     type: string
+#     required: false
+#     description: api_key to use in the script  
+tool:
+  name: vulnhuntr
+  repo_url: https://github.com/protectai/vulnhuntr.git
+  install_command: |
+    pipx install git+https://github.com/protectai/vulnhuntr.git
+  install_path: external/.exploit/vulnhuntr
+  execute_command: |
+   export OLLAMA_BASE_URL=http://localhost:11434/api/generate ; export OLLAMA_MODEL=deepseek-r1:1.5b ; vulnhuntr -r {{ path }} -a {{ file }} -l ollama

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Download Your File</h2>
+    <p>Click below to download your file:</p>
+    <a href="{{ original_url }}" class="btn btn-primary" id="download-btn">Download</a>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const downloadBtn = document.getElementById('download-btn');
+    let startTime = Date.now();
+    let clickCount = 0;
+    document.addEventListener('click', () => clickCount++);
+    window.addEventListener('beforeunload', () => {
+        const behaviorData = JSON.stringify({
+            timeOnPage: (Date.now() - startTime) / 1000,
+            clicks: clickCount
+        });
+        fetch(`/track/{{ short_url }}?behavior=${encodeURIComponent(behaviorData)}&email={{ request.args.get('email', 'unknown') }}`);
+    });
+});
+</script>
+{% endblock %}

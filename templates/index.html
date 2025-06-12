@@ -76,6 +76,70 @@
                     </div>
                 </div>
             </div>
+            <div class="container mx-auto p-4">
+                <h1 class="text-2xl font-bold mb-4">Short URL Manager</h1>
+                
+                <!-- Create Short URL Form -->
+                <div class="mb-6">
+                    <h2 class="text-xl mb-2">Create Short URL</h2>
+                    <form id="create-url-form" class="space-y-4">
+                        <div>
+                            <label for="original_url" class="block">Original URL:</label>
+                            <input type="url" id="original_url" name="original_url" 
+                                class="form-control form-control-sm w-full p-2 border rounded" required>
+                        </div>
+                        <div>
+                            <label for="custom_short_url" class="block">Custom Short URL (optional):</label>
+                            <input type="text" id="custom_short_url" name="custom_short_url" 
+                                class="form-control form-control-sm w-full p-2 border rounded" 
+                                placeholder="Leave blank for random">
+                        </div>
+                        <button type="submit" 
+                                class="btn mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                            Create Short URL
+                        </button>
+                    </form>
+                    <p id="create-message" class="mt-2"></p>
+                </div>
+
+                <!-- URL List -->
+                <div>
+                    <h2 class="text-xl mb-2">Existing Short URLs</h2>
+                    <table class="w-full border-collapse border">
+                        <thead>
+                            <tr class="bg-gray-100">
+                                <th class="border p-2">Short URL</th>
+                                <th class="border p-2">Original URL</th>
+                                <th class="border p-2">Status</th>
+                                <th class="border p-2">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="url-table-body">
+                            {% for short_url, data in short_urls.items() %}
+                            <tr>
+                                <td class="border p-2">{{ short_url }}</td>
+                                <td class="border p-2">
+                                    <input type="url" value="{{ data.original_url }}" 
+                                        class="w-full p-1 border original-url-input" 
+                                        data-short-url="{{ short_url }}">
+                                </td>
+                                <td class="border p-2">
+                                    <input type="checkbox" class="active-checkbox" 
+                                        data-short-url="{{ short_url }}"
+                                        {% if data.active %}checked{% endif %}>
+                                </td>
+                                <td class="border p-2">
+                                    <button class="btn mt-2 update-btn bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600" 
+                                            data-short-url="{{ short_url }}">
+                                        Update
+                                    </button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>            
             <h3 class="mt-4">Contact</h3>
             <p>For any questions or feedback, please reach out to <a href="mailto\:grisiscomeback[at]gmail[dot]com" class="text-success">Gris Iscomeback</a>.</p>
             <br><br><br><br>
@@ -1653,6 +1717,59 @@
                 fetchTasks();     
                 
                 setInterval(fetchTasks, 1800000); 
+                document.getElementById('create-url-form').addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const originalUrl = document.getElementById('original_url').value;
+                    const customShortUrl = document.getElementById('custom_short_url').value;
+                    const messageEl = document.getElementById('create-message');
+
+                    try {
+                        const response = await fetch('/create_short_url', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ original_url: originalUrl, custom_short_url: customShortUrl })
+                        });
+                        const data = await response.json();
+
+                        if (response.ok) {
+                            messageEl.textContent = `Short URL created: ${data.short_url}`;
+                            messageEl.className = 'text-green-600';
+                            setTimeout(() => location.reload(), 1000);
+                        } else {
+                            messageEl.textContent = data.error;
+                            messageEl.className = 'text-red-600';
+                        }
+                    } catch (error) {
+                        messageEl.textContent = 'Error creating short URL';
+                        messageEl.className = 'text-red-600';
+                    }
+                });
+
+                document.querySelectorAll('.update-btn').forEach(button => {
+                    button.addEventListener('click', async () => {
+                        const shortUrl = button.dataset.shortUrl;
+                        const row = button.closest('tr');
+                        const originalUrl = row.querySelector('.original-url-input').value;
+                        const active = row.querySelector('.active-checkbox').checked;
+
+                        try {
+                            const response = await fetch(`/update_short_url/${shortUrl}`, {
+                                method: 'PUT',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ original_url: originalUrl, active })
+                            });
+                            const data = await response.json();
+
+                            if (response.ok) {
+                                alert('Updated successfully');
+                            } else {
+                                alert(data.error);
+                            }
+                        } catch (error) {
+                            alert('Error updating short URL');
+                        }
+                    });
+                });
             });
 
         </script>

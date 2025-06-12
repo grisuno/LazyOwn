@@ -1,0 +1,17 @@
+
+
+```yaml
+subject: Urgent: Verify Your Transit Account
+
+body: |
+  <!DOCTYPE html>
+  <html>
+  <body>
+    <p>Hello {name},</p>
+    <p>We have detected a suspicious activity in your transit account due to recent data breaches. Please ensure your account is verified by clicking the link below:</p>
+    <p><a href="{beacon_url}">Verify Transit Account</a></p>
+    <p>Note: If the link does not work, copy and paste it into a new tab.</p>
+    <p>Thank you,<br>Security Team</p>
+    {tracking_pixel}
+  </body>
+  </html>

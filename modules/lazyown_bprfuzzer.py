@@ -94,7 +94,7 @@ class ProxyHandler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(response.content)
         except requests.RequestException as e:
-            self.send_error(500, f'[e] Proxy Error: {e}')
+            self.send_error(500, f'[e] Proxy Error:')
 
 def run_proxy(port):
     server_address = ('', port)

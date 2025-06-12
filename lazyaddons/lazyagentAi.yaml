@@ -1,0 +1,21 @@
+name: lazyagentAi
+description: >
+  Ejecuta el script lazyagentAi.py que se encuentra en la carpeta modules.
+author: "LazyOwn RedTeam"
+version: "1.0"
+enabled: true
+params:
+   - name: file
+     type: string
+     required: false
+     description: file to use in the script
+   - name: api_key
+     type: string
+     required: false
+     description: api_key to use in the script  
+tool:
+  name: lazyagentAi.py
+  repo_url: https://github.com/grisuno/LazyOwn.git  # No es necesario, ya que el script está localmente
+  install_path: modules/  # Asegúrate de que esta ruta sea correcta
+  execute_command: |
+   export GROQ_API_KEY="{{ api_key }}" ; python3 lazyagentAi.py --file {{ file }}

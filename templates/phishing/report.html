@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Reporte de Campaña: {{ campaign.name }}</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Estadísticas</h4>
+            <ul class="list-group">
+                <li class="list-group-item">Enviados: {{ stats.sent | default(0) }}</li>
+                <li class="list-group-item">Abiertos: {{ stats.opened | default(0) }}</li>
+                <li class="list-group-item">Interacciones: {{ stats.interactions | default(0) }}</li>
+                <li class="list-group-item">Descargados: {{ stats.downloaded | default(0) }}</li>
+                <li class="list-group-item">Ejecutados: {{ stats.executed | default(0) }}</li>
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <h4>Información de la Campaña</h4>
+            <ul class="list-group">
+                <li class="list-group-item">Beacon URL: {{ campaign.beacon_url | default('N/A') }}</li>
+                {% if download_events %}
+                <li class="list-group-item">Original URL: {{ download_events[0].original_url }}</li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    <h4 class="mt-4">Eventos de Seguimiento</h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Evento</th>
+                <th>IP</th>
+                <th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for event in events %}
+            <tr>
+                <td>{{ event.email }}</td>
+                <td>{{ event.event }}</td>
+                <td>{{ event.ip }}</td>
+                <td>{{ event.timestamp }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h4 class="mt-4">Eventos de Interacción</h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Evento</th>
+                <th>IP</th>
+                <th>User Agent</th>
+                <th>Behavior Data</th>
+                <th>Risk Score</th>
+                <th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for event in behavioral_analysis %}
+            <tr>
+                <td>{{ event.email }}</td>
+                <td>{{ event.event_type }}</td>
+                <td>{{ event.ip }}</td>
+                <td>{{ event.user_agent }}</td>
+                <td>{{ event.behavior_data }}</td>
+                <td>{{ event.risk_score }}</td>
+                <td>{{ event.timestamp }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h4 class="mt-4">Eventos de Descarga (Beacon URL)</h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Short URL</th>
+                <th>Original URL</th>
+                <th>IP</th>
+                <th>User Agent</th>
+                <th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for event in download_events %}
+            <tr>
+                <td>{{ event.short_url }}</td>
+                <td>{{ event.original_url }}</td>
+                <td>{{ event.ip }}</td>
+                <td>{{ event.user_agent }}</td>
+                <td>{{ event.timestamp }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h4 class="mt-4">Eventos de Ejecución (Implante)</h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Client ID</th>
+                <th>OS</th>
+                <th>PID</th>
+                <th>Hostname</th>
+                <th>IPs</th>
+                <th>User</th>
+                <th>Command</th>
+                <th>Output</th>
+                <th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for event in execution_events %}
+            <tr>
+                <td>{{ event.client_id }}</td>
+                <td>{{ event.os }}</td>
+                <td>{{ event.pid }}</td>
+                <td>{{ event.hostname }}</td>
+                <td>{{ event.ips }}</td>
+                <td>{{ event.user }}</td>
+                <td>{{ event.command }}</td>
+                <td>{{ event.output }}</td>
+                <td>{{ event.timestamp }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h4 class="mt-4">Análisis de Riesgo</h4>
+    <canvas id="riskChart"></canvas>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const ctx = document.getElementById('riskChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [{% for event in behavioral_analysis %}'{{ event.email }}',{% endfor %}],
+                datasets: [{
+                    label: 'Risk Score',
+                    data: [{% for event in behavioral_analysis %}{{ event.risk_score }},{% endfor %}],
+                    backgroundColor: ['#007bff', '#28a745', '#dc3545', '#ffc107'],
+                    borderColor: ['#0056b3', '#218838', '#c82333', '#e0a800'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: { beginAtZero: true, max: 100 }
+                }
+            }
+        });
+    });
+    </script>
+    <a href="{{ url_for('phishing.list_campaigns') }}" class="btn btn-secondary">Volver</a>
+</div>
+{% endblock %}

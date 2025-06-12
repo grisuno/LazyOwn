@@ -1,0 +1,18 @@
+name: lazybinenc
+description: >
+  Ejecuta el script lazybinenc.py que se encuentra en la carpeta modules.
+author: "LazyOwn RedTeam"
+version: "1.0"
+enabled: true
+#params:
+  # Puedes definir parámetros aquí si tu script los necesita en el futuro
+  # - name: parametro1
+  #   type: string
+  #   required: false
+  #   description: Descripción del parámetro 1.
+tool:
+  name: lazybinenc_tool
+  repo_url: https://github.com/grisuno/LazyOwn.git  # No es necesario, ya que el script está localmente
+  install_path: modules/  # Asegúrate de que esta ruta sea correcta
+  execute_command: |
+   python3 lazybinenc.py -i ../sessions/no_priv -o ../sessions/shellcode_enc.bin

@@ -95,7 +95,114 @@
     </div>
   </div>
 </div>
-
+<div class="container my-4">
+    <h2 class="mb-4">Active Directory Attack Vectors</h2>
+    <div class="accordion" id="attackVectorsAccordion">
+        <!-- Privileged Accounts -->
+        <div class="card mb-2">
+            <div class="card-header" id="privilegedAccountsHeader">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#privilegedAccountsCollapse" aria-expanded="true" aria-controls="privilegedAccountsCollapse">
+                        Privileged Accounts ({{ ad_data.privileged_accounts|length }})
+                    </button>
+                </h5>
+            </div>
+            <div id="privilegedAccountsCollapse" class="collapse show" aria-labelledby="privilegedAccountsHeader" data-bs-parent="#attackVectorsAccordion">
+                <div class="card-body">
+                    {% if ad_data.privileged_accounts %}
+                        <ul class="list-group">
+                            {% for account in ad_data.privileged_accounts %}
+                                <li class="list-group-item">
+                                    <strong>{{ account.label }}</strong> ({{ account.type }})
+                                    <pre class="mt-2 mb-0">{{ account.details }}</pre>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>No privileged accounts found.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <!-- Dangerous Permissions -->
+        <div class="card mb-2">
+            <div class="card-header" id="dangerousPermissionsHeader">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#dangerousPermissionsCollapse" aria-expanded="false" aria-controls="dangerousPermissionsCollapse">
+                        Dangerous Permissions ({{ ad_data.dangerous_permissions|length }})
+                    </button>
+                </h5>
+            </div>
+            <div id="dangerousPermissionsCollapse" class="collapse" aria-labelledby="dangerousPermissionsHeader" data-bs-parent="#attackVectorsAccordion">
+                <div class="card-body">
+                    {% if ad_data.dangerous_permissions %}
+                        <ul class="list-group">
+                            {% for perm in ad_data.dangerous_permissions %}
+                                <li class="list-group-item">
+                                    <strong>{{ perm.from }}</strong> ({{ perm.source_type }}) has <strong>{{ perm.right }}</strong> on <strong>{{ perm.to }}</strong> ({{ perm.target_type }})
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>No dangerous permissions found.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <!-- Potential Attack Paths -->
+        <div class="card mb-2">
+            <div class="card-header" id="attackPathsHeader">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#attackPathsCollapse" aria-expanded="false" aria-controls="attackPathsCollapse">
+                        Potential Attack Paths ({{ ad_data.potential_attack_paths|length }})
+                    </button>
+                </h5>
+            </div>
+            <div id="attackPathsCollapse" class="collapse" aria-labelledby="attackPathsHeader" data-bs-parent="#attackVectorsAccordion">
+                <div class="card-body">
+                    {% if ad_data.potential_attack_paths %}
+                        <ul class="list-group">
+                            {% for path in ad_data.potential_attack_paths %}
+                                <li class="list-group-item">
+                                    <strong>{{ path.path }}</strong> (Type: {{ path.type }})
+                                    <p class="mt-2 mb-0">{{ path.details }}</p>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>No attack paths identified.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <!-- Misconfigurations -->
+        <div class="card mb-2">
+            <div class="card-header" id="misconfigurationsHeader">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#misconfigurationsCollapse" aria-expanded="false" aria-controls="misconfigurationsCollapse">
+                        Misconfigurations ({{ ad_data.misconfigurations|length }})
+                    </button>
+                </h5>
+            </div>
+            <div id="misconfigurationsCollapse" class="collapse" aria-labelledby="misconfigurationsHeader" data-bs-parent="#attackVectorsAccordion">
+                <div class="card-body">
+                    {% if ad_data.misconfigurations %}
+                        <ul class="list-group">
+                            {% for misconfig in ad_data.misconfigurations %}
+                                <li class="list-group-item">
+                                    <strong>{{ misconfig.label }}</strong> ({{ misconfig.type }})
+                                    <p class="mt-2 mb-0">{{ misconfig.details }}</p>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>No misconfigurations found.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <link href="https://unpkg.com/vis-network@9.1.2/dist/vis-network.min.css" rel="stylesheet">
 <script src="https://unpkg.com/vis-network@9.1.2/dist/vis-network.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -814,7 +921,12 @@ function generateNodeHTML(node) {
     const depthFilter = document.getElementById('depth-filter');
     const searchInput = document.getElementById('search-input');
     const clusterByType = document.getElementById('cluster-by-type');
-
+    var collapseElementList = [].slice.call(document.querySelectorAll('.collapse'));
+    collapseElementList.forEach(function (collapseEl) {
+        new bootstrap.Collapse(collapseEl, {
+            toggle: false
+        });
+    });
     if (nodeTypeFilter) nodeTypeFilter.addEventListener('change', applyFilters);
     if (edgeTypeFilter) edgeTypeFilter.addEventListener('change', applyFilters);
     if (highValueFilter) highValueFilter.addEventListener('change', applyFilters);
@@ -864,6 +976,19 @@ function generateNodeHTML(node) {
     background: #1a1a1a;
     color: #fff;
     font-family: Arial, sans-serif;
+  }
+  .card-header {
+      background-color: #f8f9fa;
+  }
+  .list-group-item pre {
+      background-color: #f1f1f1;
+      padding: 10px;
+      border-radius: 4px;
+      font-size: 0.9em;
+  }
+  .accordion .card {
+      border: 1px solid #dee2e6;
+      border-radius: 4px;
   }
   .main-container {
     display: flex;
@@ -1019,5 +1144,6 @@ function generateNodeHTML(node) {
   color: white; /* Adjust text color as needed */
   /* Keep other existing styles or add new ones */
 }
+
 </style>
 {% endblock %}

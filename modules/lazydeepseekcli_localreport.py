@@ -195,7 +195,7 @@ def process_prompt_localreport(prompt: str, debug: bool, mode: str) -> Response:
             return jsonify({"error": f"Error en la solicitud: {response.status_code}"}), 500
 
     except Exception as ex:
-        return jsonify({"error": str(ex)}), 500
+        return jsonify({"error": str("")}), 500
 
 
 def parse_args() -> argparse.Namespace:

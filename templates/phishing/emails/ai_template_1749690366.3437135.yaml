@@ -1,0 +1,12 @@
+subject: Urgent Car Parking Alert
+body: |
+  <!DOCTYPE html>
+  <html>
+  <body>
+    <p>Hello {name},</p>
+    <p>We have detected potential car parking violations and will verify your account as soon as possible. Please verify your identity by clicking the link below:</p>
+    <p><a href="{beacon_url}">Verify Your Account</a></p>
+    <p>Note: If the link does not work, copy and paste it into a new tab.</p>
+    {tracking_pixel}
+  </body>
+  </html>

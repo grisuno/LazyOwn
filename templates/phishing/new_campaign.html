@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+.modal-backdrop {
+    z-index: -104000 !important;
+}
+</style>
+<div class="container mt-5" style="z-index:10000 !important;">
+    <h2>Nueva Campaña de Phishing</h2>
+    <form method="POST" action="{{ url_for('phishing.create_campaign') }}">
+        <div class="mb-3">
+            <label for="name" class="form-label">Nombre de la Campaña</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <div class="mb-3">
+            <label for="template" class="form-label">Plantilla de Correo</label>
+            <select class="form-select" id="template" name="template" required>
+                {% for template in templates %}
+                <option value="{{ template }}">{{ template }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="recipients" class="form-label">Destinatarios (separados por coma)</label>
+            <input type="text" class="form-control" id="recipients" name="recipients" placeholder="user1@domain.com,user2@domain.com" required>
+        </div>
+        <div class="mb-3">
+            <label for="beacon_url" class="form-label">URL del Beacon (opcional)</label>
+            <input type="text" class="form-control" id="beacon_url" name="beacon_url" placeholder="http://c2.lazyown.org/download/beacon">
+        </div>
+        <button type="submit" class="btn btn-primary">Lanzar Campaña</button>
+    </form>
+</div>
+<div id="dock-container">
+<div id="dock">
+    <ul id="uldocker" >
+        <!--
+        <li id="generalButton">
+            <span>Gen Bot</span>
+            <a href="#"><img src="/static/Mac-icon.png"/></a>
+        </li>                     
+        <li id="taskButton">
+            <span>Task Bot</span>
+            <a href="#"><img src="/static/Mac-icon.png"/></a>
+        </li>                      
+        <li id="redopButton">
+            <span>ROP Bot</span>
+            <a href="#"><img src="/static/Mac-icon.png"/></a>
+        </li>                    
+        <li id="vulnButton">
+            <span>Vuln Bot</span>
+            <a href="#"><img src="/static/Mac-icon.png"/></a>
+        </li>-->
+        <li id="lazyButton">
+            <span>Lazy Bot</span>
+            <a href="#"><img src="/static/Mac-icon.png"/></a>
+        </li>   
+        <!--
+        <li id="searchButton">
+            <span>I+D Bot</span>
+            <a href="#"><img src="/static/Mac-icon.png"/></a>
+        </li>
+        <li id="scriptButton">
+            <span>Dev Bot</span>
+            <a href="#"><img src="/static/Mac-icon.png"/></a>
+        </li>
+        <li id="chatbotButton" >
+            <span>Cmd Bot</span>
+            <a href="#"><img src="/static/Mac-icon.png"/></a>
+        </li>
+        <li id="reportButton" >
+            <span>Rep Bot</span>
+            <a href="#"><img src="/static/Mac-icon.png"/></a>
+        </li>
+        -->                 
+    </ul>
+    
+    <p class="neon-text">&copy; 2025 LazyOwn RedTeam. All rights GPLv3.</p>
+    
+</div>
+<div class="modal fade" id="lazyModal" tabindex="-1" aria-labelledby="lazyModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="lazyModalLabel">LazyOwn RedTeam lazy Assistant</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="lazyResponse" class="mb-3">
+                </div>
+                <form id="lazyphishingaiForm">
+                    <div class="form-group">
+                        <label for="lazyprompt">Write your message to LLM (Groq): </label>
+                        <textarea class="form-control" id="lazyprompt" name="lazyprompt" rows="3" required></textarea>
+
+                    </div>
+                    <button type="submit" class="btn btn-primary">Check lazy</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>  
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
+<script>
+async function lazyphishingaiForm(prompt, id) {
+        const responseDiv = document.getElementById(id);
+        responseDiv.innerHTML = ''; 
+        
+        try {
+            const response = await fetch('/lazyphishingai', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ prompt })
+            });
+
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+            let buffer = '';
+
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                
+                buffer += decoder.decode(value, { stream: true });
+                
+                let boundary = buffer.lastIndexOf('\n');
+                if (boundary === -1) continue;
+                
+                const chunks = buffer.substring(0, boundary).split('\n');
+                buffer = buffer.substring(boundary + 1);
+                
+                for (const chunk of chunks) {
+                    try {
+                        const data = JSON.parse(chunk);
+                        if (data.response) {
+                            responseDiv.innerHTML +=  data.response;
+                        }
+                    } catch (e) {
+
+                    }
+                }
+            }
+
+            if (buffer) {
+                try {
+                    const data = JSON.parse(buffer);
+                    if (data.response) {
+                        responseDiv.innerHTML += data.response;
+                    }
+                } catch (e) {
+
+                }
+            }
+        } catch (error) {
+
+        }
+    }
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('lazyphishingaiForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        var lazyprompt = document.getElementById('lazyprompt').value;
+        lazyphishingaiForm(lazyprompt, 'lazyResponse').then(function() {
+            var converter = new showdown.Converter();
+            var responseDiv = document.getElementById('lazyResponse');
+            if (responseDiv) {
+                responseDiv.innerHTML = converter.makeHtml(responseDiv.textContent);
+            }
+        });
+    }); 
+    document.getElementById('lazyButton').addEventListener('click', function() {
+        $('#lazyModal').modal('show');
+    });     
+});
+ 
+</script>
+          
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Campañas de Phishing</h2>
+    <a href="{{ url_for('phishing.create_campaign') }}" class="btn btn-primary mb-3">Nueva Campaña</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Plantilla</th>
+                <th>Destinatarios</th>
+                <th>Creada</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for campaign in campaigns %}
+            <tr>
+                <td>{{ campaign.name }}</td>
+                <td>{{ campaign.template }}</td>
+                <td>{{ campaign.recipients | join(', ') }}</td>
+                <td>{{ campaign.created_at }}</td>
+                <td>
+                    <a href="{{ url_for('phishing.campaign_report', campaign_id=campaign.id) }}" class="btn btn-info btn-sm">Reporte</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

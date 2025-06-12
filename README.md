@@ -112,6 +112,13 @@ One of the standout features of **LazyOwn: CRIMEN** is its ability to schedule t
 
 ![image](https://github.com/user-attachments/assets/747773c6-4eb0-4dba-a51d-113cdffca959)
 
+12. **Phishing campaigns**: The phishing module in the LazyOwn RedTeam Framework is a sophisticated component designed for simulating advanced phishing campaigns in ethical red teaming and security awareness training. It integrates artificial intelligence (AI), dynamic URL generation, comprehensive tracking, and behavioral analysis to create realistic and evasive phishing simulations. The module is built on a Flask-based backend with a Jinja2 frontend, leveraging SQLite for data persistence, YAML for configuration, and Groq AI for content generation and analysis. Below is a detailed enumeration of its features, technical implementation, and usage instructions.
+- **Description**: The module uses the Groq AI (e.g., Mixtral-8x7b model) to generate context-aware phishing email templates tailored to specific campaigns. Templates are dynamically created based on user-defined parameters, such as target audience, theme (e.g., corporate, financial), and desired tone (e.g., urgent, professional).
+- **Technical Implementation**: Templates are generated via Bot (Local Deepseek) and API calls to Groq (Remote), with prompts specifying template structure, language, and embedded placeholders (e.g., {name}, {beacon_url} and {tracking_pixel}).
+- Generated templates are stored as HTML or plain text in the templates directory with unique identifiers (e.g., ai_template_1749691010.0413928).
+- Integration with the campaign configuration allows embedding obfuscated URLs and tracking beacons.
+
+
 
 ## Command Capabilities
 

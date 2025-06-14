@@ -99,46 +99,38 @@ def clean_json(texto):
 def load_yaml_safely(file_path):
     """Load a YAML file safely with error handling and default values."""
     try:
-
-        path = Path(file_path)
-        
-
-        if '..' in path.parts:
-            logger.error(f"Path traversal attempt detected: {file_path}")
+        if not file_path or not isinstance(file_path, str):
+            logger.error("Invalid file_path: must be a non-empty string")
             return None
             
+        clean_path = os.path.normpath(file_path.strip())
 
-        resolved_path = path.resolve()
-        
- 
-        if resolved_path.suffix.lower() not in ['.yml', '.yaml']:
+        if '..' in clean_path:
+            logger.error(f"Path traversal detected: {file_path}")
+            return None
+            
+        if not (clean_path.lower().endswith('.yml') or clean_path.lower().endswith('.yaml')):
             logger.error(f"Invalid file extension: {file_path}")
             return None
             
-
-        if not resolved_path.exists():
-            logger.error(f"YAML file not found: {resolved_path}")
+        if not os.path.exists(clean_path):
+            logger.error(f"YAML file not found: {clean_path}")
             return None
             
-        if not resolved_path.is_file():
-            logger.error(f"Path is not a regular file: {resolved_path}")
-            return None
- 
-        if not os.access(resolved_path, os.R_OK):
-            logger.error(f"No read permission for file: {resolved_path}")
+        if not os.path.isfile(clean_path):
+            logger.error(f"Path is not a regular file: {clean_path}")
             return None
             
-        file_size = resolved_path.stat().st_size
-        max_size = 10 * 1024 * 1024
-        if file_size > max_size:
-            logger.error(f"File too large ({file_size} bytes): {resolved_path}")
+        file_size = os.path.getsize(clean_path)
+        if file_size > 10 * 1024 * 1024:  # 10MB
+            logger.error(f"File too large ({file_size} bytes): {clean_path}")
             return None
 
-        with open(resolved_path, 'r', encoding='utf-8') as f:
+        with open(clean_path, 'r', encoding='utf-8') as f:
             data = yaml.safe_load(f)
             
             if not data:
-                logger.error(f"Empty YAML file: {resolved_path}")
+                logger.error(f"Empty YAML file: {clean_path}")
                 return None
 
             data.setdefault('beacon_url', '')

@@ -122,6 +122,7 @@ One of the standout features of **LazyOwn: CRIMEN** is its ability to schedule t
 - **Technical Implementation**: Templates are generated via Bot (Local Deepseek) and API calls to Groq (Remote), with prompts specifying template structure, language, and embedded placeholders (e.g., {name}, {beacon_url} and {tracking_pixel}).
 - Generated templates are stored as HTML or plain text in the templates directory with unique identifiers (e.g., ai_template_1749691010.0413928).
 - Integration with the campaign configuration allows embedding obfuscated URLs and tracking beacons.
+- Automated creation of a short url for every beacon created 
 
 
 

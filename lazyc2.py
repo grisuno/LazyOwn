@@ -30,6 +30,7 @@ import subprocess
 import pandas as pd
 from math import ceil
 from io import StringIO 
+from pathlib import Path
 from functools import wraps
 from threading import Thread
 from lazyown import LazyOwnShell
@@ -98,15 +99,52 @@ def clean_json(texto):
 def load_yaml_safely(file_path):
     """Load a YAML file safely with error handling and default values."""
     try:
-        with open(file_path, 'r') as f:
+
+        path = Path(file_path)
+        
+
+        if '..' in path.parts:
+            logger.error(f"Path traversal attempt detected: {file_path}")
+            return None
+            
+
+        resolved_path = path.resolve()
+        
+ 
+        if resolved_path.suffix.lower() not in ['.yml', '.yaml']:
+            logger.error(f"Invalid file extension: {file_path}")
+            return None
+            
+
+        if not resolved_path.exists():
+            logger.error(f"YAML file not found: {resolved_path}")
+            return None
+            
+        if not resolved_path.is_file():
+            logger.error(f"Path is not a regular file: {resolved_path}")
+            return None
+ 
+        if not os.access(resolved_path, os.R_OK):
+            logger.error(f"No read permission for file: {resolved_path}")
+            return None
+            
+        file_size = resolved_path.stat().st_size
+        max_size = 10 * 1024 * 1024
+        if file_size > max_size:
+            logger.error(f"File too large ({file_size} bytes): {resolved_path}")
+            return None
+
+        with open(resolved_path, 'r', encoding='utf-8') as f:
             data = yaml.safe_load(f)
+            
             if not data:
-                logger.error(f"Empty YAML file: {file_path}")
+                logger.error(f"Empty YAML file: {resolved_path}")
                 return None
 
             data.setdefault('beacon_url', '')
             data.setdefault('created_at', datetime.now(timezone.utc).isoformat())
             return data
+            
     except yaml.YAMLError as e:
         logger.error(f"Invalid YAML in {file_path}: {e}")
         return None
@@ -1263,7 +1301,7 @@ def is_valid_url(url):
     if parsed_url.scheme == 'file' or not parsed_url.scheme:
         file_path = parsed_url.path if parsed_url.scheme == 'file' else url
         file_path = os.path.abspath(file_path)
-        if os.path.exists(file_path) and os.path.isfile(file_path):
+        if os.path.exists(file_path) and os.path.isfile(file_path): #TODO BUGFIX
             logging.info(f"Valid local file: {file_path}")
             return True
         logging.warning(f"Local file does not exist or is not a file: {file_path}")

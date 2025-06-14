@@ -66,6 +66,7 @@ pip3 install flask_limiter
 pip3 install aiosmtpd
 pip3 install yagmail
 pip3 install validators
+pip3 install ua_parser
 
 curl -fsSL https://ollama.com/install.sh | sh
 

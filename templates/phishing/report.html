@@ -125,6 +125,29 @@
             {% endfor %}
         </tbody>
     </table>
+    <h4 class="mt-4">Multi-Vector Events</h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Vector</th>
+                <th>IP</th>
+                <th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for event in multivector_events %}
+            <tr>
+                <td>{{ event.email }}</td>
+                <td>{{ event.event_type }}</td>
+                <td>{{ event.ip }}</td>
+                <td>{{ event.timestamp }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h4 class="mt-4">Attack Timeline</h4>
+    <canvas id="timelineChart"></canvas>
     <h4 class="mt-4">Análisis de Riesgo</h4>
     <canvas id="riskChart"></canvas>
     <script>
@@ -148,7 +171,27 @@
                 }
             }
         });
+        const ctx2 = document.getElementById('timelineChart').getContext('2d');
+        new Chart(ctx2, {
+            type: 'line',
+            data: {
+                labels: [{% for event in multivector_events %}'{{ event.timestamp }}',{% endfor %}],
+                datasets: [{
+                    label: 'Interactions by Vector',
+                    data: [{% for event in multivector_events %}1,{% endfor %}],
+                    borderColor: '#007bff',
+                    fill: false
+                }]
+            },
+            options: {
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });            
     });
+
+
     </script>
     <a href="{{ url_for('phishing.list_campaigns') }}" class="btn btn-secondary">Volver</a>
 </div>

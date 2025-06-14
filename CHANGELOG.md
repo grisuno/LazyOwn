@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Correcciones urgentes
+
+### Otros
+
+  *   * hotfix(hotfix): hotfix \n\n Version: release/0.2.44 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Jun 12 01:02:27 2025 -0400 \n\n Hora: 1749704547
+
+
 ### Otros
 
 ### Otros

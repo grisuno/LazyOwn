@@ -1060,24 +1060,19 @@
                     var local_ips = {{ local_ips | tojson | safe }};
                     nodes.clear();
                     edges.clear();
-                    nodes.add(
-                        {
-                            id: 'c2',
-                            label: 'C&C LazyOwn '+ " \n" + local_ips,
-                            title: htmlTitle(bot),
-                            shape: 'image',
-                            image: '/static/c2.png',
-                            size: 100,
-                            font: { color: '#ffffff' }
-                        }
-                    );
+                    nodes.add({
+                        id: 'c2',
+                        label: 'C&C LazyOwn \n' + local_ips.join(', '),
+                        title: htmlTitle(bot),
+                        shape: 'image',
+                        image: '/static/c2.png',
+                        size: 100,
+                        font: { color: '#ffffff' }
+                    });
 
                     var connectedClients = {{ connected_clients | tojson | safe }};
-                    
                     var results = {{ commands_history | tojson | safe }};
-                    
                     var discovered_ips = {{ discovered_ips | tojson | safe }};
-
                     var result_portscan = {{ result_portscan | tojson | safe }};
 
                     fetch('/aicmd?arg=1')
@@ -1086,23 +1081,24 @@
                             var converter = new showdown.Converter();
                             var html = converter.makeHtml(data);
                             var newTitle = html;
-                            var newLabel = "C&C LazyOwn[AI]TeamServer >_ "+ " \n" + local_ips;
-                            toastr(html)
+                            var newLabel = "C&C LazyOwn[AI]TeamServer >_ \n" + local_ips.join(', ');
+                            toastr(html);
                             nodes.update({ id: 'c2', label: newLabel, title: htmlTitle(newTitle) });
-                        })
-
+                        });
 
                     connectedClients.forEach(function(client) {
-                        var label = "Implant ID: " +client;
+                        var clientData = results[client] ? results[client][0] : null;
+                        if (!clientData) return;
+
+                        var label = "Implant ID: " + client;
                         var image = '/static/client.png';
-                        var selector = '#' + client;
-                        var client_os = $(selector).val();
-                        var ips = $(selector).data('ips');
-                        var pid = $(selector).data('pid');
-                        var user = $(selector).data('user');
-                        var hostname = $(selector).data('hostname');
-                        var discovered_ips = $(selector).data('discovered_ips');
-                        var result_portscan = $(selector).data('result_portscan');
+                        var client_os = clientData.os;
+                        var ips = clientData.ips;
+                        var pid = clientData.pid;
+                        var user = clientData.user;
+                        var hostname = clientData.hostname;
+                        var client_discovered_ips = clientData.discovered_ips;
+                        var client_result_portscan = clientData.result_portscan;
 
                         if (client_os) {
                             label += " (OS/" + client_os + ")";
@@ -1115,48 +1111,43 @@
                         if (ips) {
                             label += "\n (IP/" + ips + ")";
                         }
-
                         if (pid) {
                             label += "\n (PID/" + pid + ")";
                         }
-
                         if (user) {
                             label += "\n (User/" + user + ")";
                         }
-
                         if (hostname) {
                             label += "\n (Hostname/" + hostname + ")";
                         }
                         nodes.add({
                             id: client,
-                            title: label + discovered_ips + " - " + result_portscan,
+                            title: label + (client_discovered_ips || "") + " - " + (client_result_portscan || "None"),
                             label: label,
                             shape: 'image',
                             image: image,
-                            size: 50, 
+                            size: 50,
                             font: { color: '#ff0000' },
                             group: 'clients',
                             mass: 2
                         });
-                        edges.add({from: 'c2', to: client});
+                        edges.add({ from: 'c2', to: client });
                     });
 
                     if (connectedHosts && Array.isArray(connectedHosts)) {
                         connectedHosts = [...new Set(connectedHosts)];
                         connectedHosts.forEach(function(host) {
-                            const hostId = 'host-' + host.replace(/\./g, '-'); 
+                            const hostId = 'host-' + host.replace(/\./g, '-');
                             let foundInDiscovered = false;
                             for (const key in discovered_ips) {
                                 if (discovered_ips.hasOwnProperty(key)) {
                                     const ips = discovered_ips[key].split(',').map(ip => ip.trim());
-
                                     if (ips.includes(host)) {
                                         foundInDiscovered = true;
                                         break;
                                     }
                                 }
                             }
-
                             nodes.add({
                                 id: hostId,
                                 title: host,
@@ -1168,51 +1159,61 @@
                                 group: 'hosts',
                                 mass: 1
                             });
-
                             if (foundInDiscovered) {
-                                edges.add({from: 'no_priv', to: hostId});
+                                edges.add({ from: 'no_priv', to: hostId });
                             } else {
-                                edges.add({from: 'c2', to: hostId});
+                                edges.add({ from: 'c2', to: hostId });
                             }
                         });
                     }
+
                     for (const client in result_portscan) {
                         if (result_portscan.hasOwnProperty(client)) {
-                            // Limpiar el string reemplazando comillas simples por dobles
-                            let portData;
-                            try {
-                                const cleanedData = result_portscan[client].replace(/'/g, '"');
-                                portData = JSON.parse(cleanedData);
-                            } catch (e) {
-                                console.error("[ERROR] No se pudo parsear result_portscan para", client, ":", e);
-                                continue;
+                            let portData = null;
+                            if (result_portscan[client] && result_portscan[client] !== "None") {
+                                try {
+                                    const cleanedData = result_portscan[client].replace(/'/g, '"');
+                                    portData = JSON.parse(cleanedData);
+                                } catch (e) {
+                                    console.error("[ERROR] No se pudo parsear result_portscan para", client, ":", e);
+                                    continue;
+                                }
                             }
-
-                            for (const ip in portData) {
-                                if (portData.hasOwnProperty(ip)) {
-                                    // Eliminar puertos duplicados usando Set
-                                    const ports = [...new Set(portData[ip])];
-                                    const hostId = 'host-' + ip.replace(/\./g, '-');
-                                    ports.forEach(port => {
-                                        const portId = `port-${ip.replace(/\./g, '-')}-${port}`;
-                                        nodes.add({
-                                            id: portId,
-                                            title: `Puerto ${port} en ${ip}`,
-                                            label: `${port}`,
-                                            shape: 'circularImage',
-                                            image: '/static/port.png',
-                                            size: 15,
-                                            font: { color: '#ffffff' },
-                                            group: 'ports',
-                                            mass: 1
+                            if (portData) {
+                                for (const ip in portData) {
+                                    if (portData.hasOwnProperty(ip)) {
+                                        const ports = [...new Set(portData[ip])];
+                                        const hostId = 'host-' + ip.replace(/\./g, '-');
+                                        ports.forEach(port => {
+                                            const portId = `port-${client}-${ip.replace(/\./g, '-')}-${port}`;
+                                            nodes.add({
+                                                id: portId,
+                                                title: `Puerto ${port} en ${ip} (Implant: ${client})`,
+                                                label: `${port}`,
+                                                shape: 'circularImage',
+                                                image: '/static/port.png',
+                                                size: 15,
+                                                font: { color: '#ffffff' },
+                                                group: 'ports',
+                                                mass: 1
+                                            });
+                                            edges.add({ from: hostId, to: portId });
                                         });
-                                        // Conectar el puerto al host correspondiente
-                                        edges.add({ from: hostId, to: portId });
+                                    }
+                                }
+                            } else if (client === 'no_priv' && result_portscan[client] === "None") {
+                                // Para "no_priv" con "None", intenta usar discovered_ips si existen
+                                const ips = discovered_ips[client].split(',').map(ip => ip.trim()).filter(ip => ip);
+                                if (ips.length > 0) {
+                                    ips.forEach(ip => {
+                                        const hostId = 'host-' + ip.replace(/\./g, '-');
+                                        edges.add({ from: 'no_priv', to: hostId });
                                     });
                                 }
                             }
                         }
                     }
+
                     var container = document.getElementById('mynetwork');
                     var data = {
                         nodes: nodes,
@@ -1235,9 +1236,9 @@
                             width: 2,
                             color: '#8bf',
                             arrows: {
-                                to: {enabled: true, scaleFactor: 1},
-                                from: {enabled: false},
-                                middle: {enabled: false}
+                                to: { enabled: true, scaleFactor: 1 },
+                                from: { enabled: false },
+                                middle: { enabled: false }
                             },
                             dashes: false,
                             smooth: true
@@ -1253,19 +1254,11 @@
                             maxVelocity: 146,
                             solver: 'repulsion',
                             timestep: 0.22,
-                            stabilization: {iterations: 150}
+                            stabilization: { iterations: 150 }
                         },
                         groups: {
-                            clients: {
-                                size: 50, // Make client nodes larger (already set in node creation)
-                                // You can add more styles here if needed, e.g.,
-                                // color: { background: 'lightblue', border: 'blue' },
-                                // borderWidth: 3
-                            },
-                            hosts: {
-                                size: 25 // Make host nodes smaller (already set in node creation)
-                                // Add styles if you want to further customize hosts
-                            }
+                            clients: { size: 50 },
+                            hosts: { size: 25 }
                         }
                     };
                     network = new vis.Network(container, data, options);
@@ -1278,20 +1271,16 @@
                                 cmd = "lazynmap " + host;
                                 sendCommand(cmd);
                             }
-                            
-                            console.log(selectedNodeId)
+                            console.log(selectedNodeId);
                             selectElements.forEach(function(selectElement) {
                                 Array.from(selectElement.options).forEach(function(option) {
-
                                     if (option.value === selectedNodeId) {
-
                                         selectElement.value = selectedNodeId;
                                     }
                                 });
                             });
                         }
                     });
-
                 }
                 function updateStatus() {
                     

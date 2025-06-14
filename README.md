@@ -123,6 +123,7 @@ One of the standout features of **LazyOwn: CRIMEN** is its ability to schedule t
 - Generated templates are stored as HTML or plain text in the templates directory with unique identifiers (e.g., ai_template_1749691010.0413928).
 - Integration with the campaign configuration allows embedding obfuscated URLs and tracking beacons.
 - Automated creation of a short url for every beacon created 
+![image](https://github.com/user-attachments/assets/6b9c576e-182a-4d0d-8b70-f11109be005f)
 
 
 

@@ -102,6 +102,11 @@ One of the standout features of **LazyOwn: CRIMEN** is its ability to schedule t
  - **stop_proxy:**[listenaddr] Stops a TCP proxy on the specified address.
  - **portscan:** Scans ports on discovered hosts and the configured rhost.
  - **compressdir:**[directory]: Compresses a directory into a .tar.gz file and exfiltrates it.
+ - **sandbox:** Get info about the system if it's a sandbox or not.
+ - **isvm:** Get info about the system if it's a virtual machine or not.
+ - **debug:** Get info about the system if the target is debugged or not.
+ - **persist:** Try to persist mechanism in the target system.
+ - **simulate:** Execute a simulation of a legit web page like youtube.
  - **terminate:** Terminates the implant or beacon, removing files and persistence mechanisms.
    
 ![winimp](https://github.com/user-attachments/assets/4d892bfa-f067-483d-b087-0afea628c00c)

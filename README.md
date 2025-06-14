@@ -11495,6 +11495,27 @@ Recursively resolve and download package dependencies with enhanced checks
 # Changelog
 
 
+### Otros
+
+### Otros
+
+  *   * feature(feature): new phishing module \n\n Version: release/0.2.43 \n\n and bug fixing \n\n Modified file(s):\n- README.md - UTILS.md - docs/README.html - docs/UTILS.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Jun 12 01:00:43 2025 -0400 \n\n Hora: 1749704443
+
+
+### Otros
+
+### Otros
+
+  *   * bugfixing and new phishing module :D
+
+
+### Otros
+
+### Otros
+
+  *   * bugfixing and new phishing module :D
+
+
 ### Correcciones urgentes
 
 ### Otros

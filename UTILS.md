@@ -239,29 +239,14 @@ interface names, and the values are IP addresses.
          are their associated IP addresses.
 :rtype: dict
 
+## get_git_info
+No description available.
+
+## get_venv_info
+No description available.
+
 ## getprompt
-Generate a command prompt string with network information and user status.
-
-:param: None
-
-:returns: A string representing the command prompt with network information and user status.
-
-Manual execution:
-To manually get a prompt string with network information and user status, ensure you have `get_network_info()` implemented to return a dictionary of network interfaces and their IPs. Then use the function to create a prompt string based on the current user and network info.
-
-Example:
-If the function `get_network_info()` returns:
-    {
-        'tun0': '10.0.0.1',
-        'eth0': '192.168.1.2'
-    }
-
-And the user is root, the prompt string generated might be:
-    [LazyOwn👽10.0.0.1]# 
-If the user is not root, it would be:
-    [LazyOwn👽10.0.0.1]$ 
-
-If no 'tun' interface is found, the function will use the first available IP or fallback to '127.0.0.1'.
+Generate a command prompt string with network information, user status, and icons.
 
 ## copy2clip
 Copia el texto proporcionado al portapapeles usando xclip.

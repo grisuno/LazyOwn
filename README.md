@@ -1457,29 +1457,14 @@ interface names, and the values are IP addresses.
          are their associated IP addresses.
 :rtype: dict
 
+## get_git_info
+No description available.
+
+## get_venv_info
+No description available.
+
 ## getprompt
-Generate a command prompt string with network information and user status.
-
-:param: None
-
-:returns: A string representing the command prompt with network information and user status.
-
-Manual execution:
-To manually get a prompt string with network information and user status, ensure you have `get_network_info()` implemented to return a dictionary of network interfaces and their IPs. Then use the function to create a prompt string based on the current user and network info.
-
-Example:
-If the function `get_network_info()` returns:
-    {
-        'tun0': '10.0.0.1',
-        'eth0': '192.168.1.2'
-    }
-
-And the user is root, the prompt string generated might be:
-    [LazyOwn👽10.0.0.1]# 
-If the user is not root, it would be:
-    [LazyOwn👽10.0.0.1]$ 
-
-If no 'tun' interface is found, the function will use the first available IP or fallback to '127.0.0.1'.
+Generate a command prompt string with network information, user status, and icons.
 
 ## copy2clip
 Copia el texto proporcionado al portapapeles usando xclip.
@@ -11506,7 +11491,63 @@ Recursively resolve and download package dependencies with enhanced checks
 
 ### Otros
 
+  *   * hotfix(hotfix):  \n\n Version: release/0.2.44 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Jun 14 03:02:35 2025 -0400 \n\n Hora: 1749884555
+
+
+### Correcciones urgentes
+
+### Otros
+
   *   * hotfix(hotfix): hotfix \n\n Version: release/0.2.44 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Jun 12 01:02:27 2025 -0400 \n\n Hora: 1749704547
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * hotfix
+
+
+### Otros
+
+### Otros
+
+  *   * hotfix
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * some ideas
+
+
+### Otros
+
+### Otros
+
+  *   * bugfixing and new phishing module :D
 
 
 ### Otros

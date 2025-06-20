@@ -1,0 +1,15 @@
+name: evilginx2
+description: >
+ Standalone man-in-the-middle attack framework used for phishing login credentials along with session cookies, allowing for the bypass of 2-factor authentication
+author: "kgretzky"
+version: "3.3.0"
+enabled: true
+
+tool:
+  name: evilginx2
+  repo_url: https://github.com/kgretzky/evilginx2.git
+  install_path: external/.exploit/evilginx2
+  install_command: |
+   go build .
+  execute_command: |
+    go run .

@@ -55,11 +55,14 @@ import urllib.request
 import importlib.util
 from PIL import Image
 from io import StringIO
+from rich.text import Text
 from lupa import LuaRuntime
 from threading import Timer
+from rich.panel import Panel
 from bs4 import BeautifulSoup
 from itertools import product
 from pykeepass import PyKeePass
+from rich.console import Console
 import xml.etree.ElementTree as ET
 from html.parser import HTMLParser
 from stix2 import MemoryStore, Filter
@@ -738,30 +741,28 @@ def get_network_info():
 
     return network_info
 
+def get_git_info():
+    try:
+        branch = subprocess.check_output(['git', 'rev-parse', '--abbrev-ref', 'HEAD'], stderr=subprocess.DEVNULL).decode('utf-8').strip()
+        modified = subprocess.call(['git', 'diff', '--quiet'], stderr=subprocess.DEVNULL) != 0
+        staged = subprocess.call(['git', 'diff', '--staged', '--quiet'], stderr=subprocess.DEVNULL) != 0
+        if modified or staged:
+            return f" {BRIGHT_RED}✗{RESET} {BRIGHT_YELLOW}{branch}{RESET}"
+        else:
+            return f" {BRIGHT_GREEN}✔{RESET} {BRIGHT_YELLOW}{branch}{RESET}"
+    except FileNotFoundError:
+        return ""
+    except subprocess.CalledProcessError:
+        return ""
+
+def get_venv_info():
+    if 'VIRTUAL_ENV' in os.environ:
+        venv_name = os.path.basename(os.environ['VIRTUAL_ENV'])
+        return f" ({BRIGHT_BLUE}🐍{venv_name}{RESET})"
+    return ""
+
 def getprompt():
-    """Generate a command prompt string with network information and user status.
-
-    :param: None
-
-    :returns: A string representing the command prompt with network information and user status.
-
-    Manual execution:
-    To manually get a prompt string with network information and user status, ensure you have `get_network_info()` implemented to return a dictionary of network interfaces and their IPs. Then use the function to create a prompt string based on the current user and network info.
-
-    Example:
-    If the function `get_network_info()` returns:
-        {
-            'tun0': '10.0.0.1',
-            'eth0': '192.168.1.2'
-        }
-
-    And the user is root, the prompt string generated might be:
-        [LazyOwn👽10.0.0.1]# 
-    If the user is not root, it would be:
-        [LazyOwn👽10.0.0.1]$ 
-
-    If no 'tun' interface is found, the function will use the first available IP or fallback to '127.0.0.1'.
-    """
+    """Generate a command prompt string with network information, user status, and icons."""
 
     network_info = get_network_info()
     ip = next((ip for iface, ip in network_info.items() if 'tun' in iface), None)
@@ -769,11 +770,14 @@ def getprompt():
     if ip is None:
         ip = next(iter(network_info.values()), '127.0.0.1')
     prompt_char = f'{RED}#' if os.geteuid() == 0 else '$'
-    random_color = random.randint(0, 255)
     random_r = random.randint(0, 255)
     random_g = random.randint(0, 255)
-    random_b = random.randint(0, 255)    
-    prompt = f"""{YELLOW}┌─{YELLOW}[{TRUE_COLOR.format(random_r, random_g, random_b)}LazyOwn{WHITE}👽{CYAN}{ip}{BRIGHT_CYAN}/{BRIGHT_MAGENTA}{hostname}{YELLOW}]{COLOR_256.format(random_color)}
+    random_b = random.randint(0, 255)
+    user = "root" if os.geteuid() == 0 else os.getenv("USER")
+    git_info = get_git_info()
+    venv_info = get_venv_info()
+
+    prompt = f"""{YELLOW}┌─{YELLOW}[{TRUE_COLOR.format(random_r, random_g, random_b)}👤{user} (LazyOwn{WHITE}👽{CYAN}{hostname}){YELLOW}]{RESET} {CYAN}🌐{ip}{RESET}{git_info}{venv_info}
     {YELLOW}└╼ {BLINK}{BRIGHT_GREEN}{prompt_char}{RESET} """.replace('    ','')
 
     return prompt

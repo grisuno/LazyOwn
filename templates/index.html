@@ -306,8 +306,81 @@
                         term.write(data);
                 }
             });
-
+            function connectNodes(nodeFromId, nodeToId) {
+                edges.add({
+                    from: nodeFromId,
+                    to: nodeToId
+                });
+                if (network) {
+                    network.setData({ nodes: nodes, edges: edges });
+                }
+            }
             
+            function connectOrphanNodes(connectedClients, results, discovered_ips, result_portscan) {
+                connectedClients.forEach(function(client) {
+                    var clientData = results[client] ? results[client][0] : null;
+                    if (!clientData) return;
+
+                    var clientDiscoveredIps = (discovered_ips[client] || '').split(',').map(ip => ip.trim()).filter(ip => ip);
+                    var clientPortscanIps = [];
+                    if (result_portscan[client] && result_portscan[client] !== "None") {
+                        try {
+                            const cleanedData = result_portscan[client].replace(/'/g, '"');
+                            const portData = JSON.parse(cleanedData);
+                            clientPortscanIps = Object.keys(portData).filter(ip => ip.trim());
+
+                            Object.values(portData).forEach(function(ports) {
+                                ports.forEach(function(port) {
+                                    const portId = `port-${client}--${port}`;
+                                    connectNodes(client, portId);
+                                });
+                            });
+                        } catch (e) {
+                            console.error("[ERROR] No se pudo parsear result_portscan para", client, ":", e);
+                        }
+                    }
+                    var allClientIps = [...new Set([...clientDiscoveredIps, ...clientPortscanIps])];
+
+                    allClientIps.forEach(function(ip) {
+                        if (ip) {
+                            const hostId = 'host-' + ip.replace(/\./g, '-');
+                            connectNodes(hostId, client);
+                        }
+                    });
+
+                    if (result_portscan[client] && result_portscan[client] !== "None") {
+                        try {
+                            const cleanedData = result_portscan[client].replace(/'/g, '"');
+                            const portData = JSON.parse(cleanedData);
+                            Object.keys(portData).forEach(function(ip) {
+                                if (ip && !clientDiscoveredIps.includes(ip)) {
+                                    const hostId = 'host-' + ip.replace(/\./g, '-');
+                                    connectNodes(hostId, client);
+                                }
+                            });
+                        } catch (e) {
+                            console.error("[ERROR] Error procesando ports para", client, ":", e);
+                        }
+                    }
+                });
+
+                var allHosts = Object.values(result_portscan).flatMap(data => {
+                    try {
+                        const cleanedData = data.replace(/'/g, '"');
+                        const portData = JSON.parse(cleanedData);
+                        return Object.keys(portData);
+                    } catch (e) {
+                        return [];
+                    }
+                }).concat(Object.values(discovered_ips).flatMap(ips => ips.split(',').map(ip => ip.trim()).filter(ip => ip)));
+                allHosts = [...new Set(allHosts)].filter(ip => ip);
+                allHosts.forEach(function(ip) {
+                    const hostId = 'host-' + ip.replace(/\./g, '-');
+                    if (!edges.get().some(edge => edge.to === hostId)) {
+                        connectNodes(hostId, 'c2');
+                    }
+                });
+            }
             function sendCommand(cmd) {
                 term.write(cmd);
                 commandBuffer = cmd;
@@ -322,8 +395,6 @@
 
                 var filteredNodes = new vis.DataSet();
                 var filteredEdges = new vis.DataSet();
-
-                // Filtrar nodos
                 nodes.forEach(function(node) {
                     var includeNode = true;
 
@@ -351,8 +422,6 @@
                         filteredNodes.add(node);
                     }
                 });
-
-                // Filtrar aristas
                 edges.forEach(function(edge) {
                     var fromNodeVisible = filteredNodes.get(edge.from) !== null;
                     var toNodeVisible = filteredNodes.get(edge.to) !== null;
@@ -362,15 +431,13 @@
                             let hostNode = nodes.get(edge.to);
                             if (hostNode && hostNode.group === 'hosts') {
                                 if (!edges.getIds({ filter: e => e.to === edge.to && e.from === 'c2' }).length > 0) {
-                                    return; // Skip adding this edge
+                                    return;
                                 }
                             }
                         }
                         filteredEdges.add(edge);
                     }
                 });
-
-                // Actualizar el gráfico con los nodos y aristas filtrados
                 var data = {
                     nodes: filteredNodes,
                     edges: filteredEdges
@@ -1074,7 +1141,7 @@
                     var results = {{ commands_history | tojson | safe }};
                     var discovered_ips = {{ discovered_ips | tojson | safe }};
                     var result_portscan = {{ result_portscan | tojson | safe }};
-
+                    connectOrphanNodes(connectedClients, results, result_portscan, result_portscan);
                     fetch('/aicmd?arg=1')
                         .then(response => response.json())
                         .then(data => {

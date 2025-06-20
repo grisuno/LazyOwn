@@ -1,0 +1,17 @@
+name: watchguard
+description: >
+  Client Implementation for the WatchGuard SSO Agent Protocol used for Security Research (CVE-2024-6592, CVE-2024-6593, CVE-2024-6594)
+author: "RedTeamPentesting"
+version: "1.0"
+enabled: true
+params:
+   - name: domain
+     type: string
+     required: false
+     description: domain interface to use in the script
+tool:
+  name: watchguard
+  repo_url: https://github.com/RedTeamPentesting/watchguard-sso-client.git
+  install_path: external/.exploit/watchguard
+  execute_command: |
+   ./wgclient.py command --host '{{ domain }}' 'get user a'

@@ -352,24 +352,13 @@ format. The dictionary keys are interface names, and the values are IP
 addresses.</p>
 <p>:return: A dictionary where the keys are network interface names and
 the values are their associated IP addresses. :rtype: dict</p>
+<h2 id="get_git_info">get_git_info</h2>
+<p>No description available.</p>
+<h2 id="get_venv_info">get_venv_info</h2>
+<p>No description available.</p>
 <h2 id="getprompt">getprompt</h2>
-<p>Generate a command prompt string with network information and user
-status.</p>
-<p>:param: None</p>
-<p>:returns: A string representing the command prompt with network
-information and user status.</p>
-<p>Manual execution: To manually get a prompt string with network
-information and user status, ensure you have
-<code>get_network_info()</code> implemented to return a dictionary of
-network interfaces and their IPs. Then use the function to create a
-prompt string based on the current user and network info.</p>
-<p>Example: If the function <code>get_network_info()</code> returns: {
-‘tun0’: ‘10.0.0.1’, ‘eth0’: ‘192.168.1.2’ }</p>
-<p>And the user is root, the prompt string generated might be:
-[LazyOwn👽10.0.0.1]# If the user is not root, it would be:
-[LazyOwn👽10.0.0.1]$</p>
-<p>If no ‘tun’ interface is found, the function will use the first
-available IP or fallback to ‘127.0.0.1’.</p>
+<p>Generate a command prompt string with network information, user
+status, and icons.</p>
 <h2 id="copy2clip">copy2clip</h2>
 <p>Copia el texto proporcionado al portapapeles usando xclip.</p>
 <p>Args: text (str): El texto que se desea copiar al portapapeles.</p>

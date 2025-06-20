@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card bg-secondary text-light p-4 mb-4">
+        <div class="text-center">
+            <h1 class="display-1">Upload PDF to Mark</h1>
+            <p class="lead">Add a mark a pdf file to create campaigns of exfiltration of sensible data.</p>
+            <p>only pdf</p>
+            <form method="post"  class="form-control form-control-sm" enctype="multipart/form-data">
+                <input type="file" name="file" accept=".pdf">
+                <input class="btn mt-2" type="submit" value="Upload and mark">
+            </form>
+            <a href="{{ url_for('index') }}" class="btn btn-primary">Go Back Home</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

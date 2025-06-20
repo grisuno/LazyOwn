@@ -148,6 +148,7 @@ class LazyOwnShell(cmd2.Cmd):
         "loot": "sh ls /home/$USER/.msf4/loot/ && cp /home/$USER/.msf4/loot/* ./sessions/ -r",
         "ls": "list",
         "lsof": "sh sudo lsof -i -P -n | grep LISTEN",
+        "mitre_update":"sh cd external/.exploit/mitre && git pull",
         "moo": "sh cowthink -bdgpstwy LazyOwn RedTeam Framework. The best OpSec T00l",
         "nf": f"sh ./modules/nf -d {rhost} -o sessions/{rhost}_nuclerfuzzer",
         "nmap_ldap_rootdse": f"sh sudo nmap -Pn --script ldap-rootdse.nse {rhost}",
@@ -249,6 +250,7 @@ class LazyOwnShell(cmd2.Cmd):
         self.version = version
         self.sessions_dir = f"{self.path}/sessions"
         self.captured_images_dir = os.path.join(self.sessions_dir, 'captured_images')        
+        self.console = Console()
         self.params = {
             "binary_name": "gzip",
             "api_key": None,
@@ -397,7 +399,7 @@ class LazyOwnShell(cmd2.Cmd):
         """
         command = self.aliases.get(line.raw, line.raw)
         parts = command.split(maxsplit=1)
-        cmd_name = parts[0]
+        cmd_name = parts[0].strip()
         cmd_args = parts[1] if len(parts) > 1 else ""
         method_name = f"do_{cmd_name}"
        
@@ -406,7 +408,7 @@ class LazyOwnShell(cmd2.Cmd):
         if callable(method):
             return method(cmd_args)
         else:
-            print_error(f"{YELLOW} Not Found {BLUE}{line}{RESET}")
+            self.display_toastr(f"Not Found {line}", type="warning")
             
     def logcsv(self, line):
         command = line
@@ -435,7 +437,7 @@ class LazyOwnShell(cmd2.Cmd):
         cmd_name = parts[0]
         cmd_args = parts[1] if len(parts) > 1 else ""
         domain = self.params["domain"]
-        print_msg(f"Executing... {command}")
+        self.display_toastr(f"Executing... {command}")
         if NOLOGS:
             os.system(f" {command}")
         else:
@@ -512,82 +514,86 @@ class LazyOwnShell(cmd2.Cmd):
         tool_dir = "tools"
         config = Config(load_payload())
 
-
         if not os.path.exists(tool_dir):
             print_error(f"[!] Folder '{tool_dir}' not found.")
             return
+        else:
+            for tool_file in glob.glob(os.path.join(tool_dir, "*.tool")):
+                try:
+                    with open(tool_file, 'r') as f:
+                        tool_data = json.load(f)
 
-        for tool_file in glob.glob(os.path.join(tool_dir, "*.tool")):
-            try:
-                with open(tool_file, 'r') as f:
-                    tool_data = json.load(f)
+                    tool_name = tool_data.get("toolname")
+                    command_template = tool_data.get("command")
+                    triggers = tool_data.get("trigger", [])
+                    active = tool_data.get("active", False)
 
-                tool_name = tool_data.get("toolname")
-                command_template = tool_data.get("command")
-                triggers = tool_data.get("trigger", [])
-                active = tool_data.get("active", False)
+                    if not active or not tool_name or not command_template:
+                        continue
 
-                if not active or not tool_name or not command_template:
-                    continue
+                    xmmll = f"sessions/scan_{rhost}.nmap.xml"
+                    if not os.path.exists(xmmll):
+                        print_error("Not scan file please run nmap before")
+                        continue
 
-                xmmll = f"sessions/scan_{rhost}.nmap.xml"
-                report = NmapParser.parse_fromfile(xmmll)
-                
-                for host in report.hosts:
-                    for service in host.services:
-                        if service.service in triggers or "all" in triggers:
- 
-                            cmd_params = {
-                                "ip": host.address,
-                                "port": str(service.port),
-                                "domain": domain,
-                                "dnswordlist": dnswordlist,
-                                "service": service.service,
-                                "proto": service.protocol,
-                                "username": start_user,
-                                "password": start_pass,
-                                "outputdir": os.path.join(
-                                    f"sessions/{rhost}/{tool_name}/{tool_name}.txt",
-                                    host.address,
-                                    str(service.port),
-                                    tool_name
-                                ),
-                                "tunnel": "s" if service.tunnel == "ssl" else "",
-                   
-                            }
+                    report = NmapParser.parse_fromfile(xmmll)
+                    
 
-                            os.makedirs(cmd_params["outputdir"], exist_ok=True)
+                    
+                    for host in report.hosts:
+                        for service in host.services:
+                            if service.service in triggers or "all" in triggers:
+    
+                                cmd_params = {
+                                    "ip": host.address,
+                                    "port": str(service.port),
+                                    "domain": domain,
+                                    "dnswordlist": dnswordlist,
+                                    "service": service.service,
+                                    "proto": service.protocol,
+                                    "username": start_user,
+                                    "password": start_pass,
+                                    "outputdir": os.path.join(
+                                        f"sessions/{rhost}/{tool_name}/{tool_name}.txt",
+                                        host.address,
+                                        str(service.port),
+                                        tool_name
+                                    ),
+                                    "tunnel": "s" if service.tunnel == "ssl" else "",
+                    
+                                }
 
-                            final_command = replace_command_placeholders(command_template, cmd_params)
+                                os.makedirs(cmd_params["outputdir"], exist_ok=True)
 
-                            def tool_wrapper(*args, final_cmd=final_command):
-                                self.cmd(final_cmd)
-                            docstring = f"Tool:\n  {tool_name}\n\n"
-                            docstring += f"Example:\n  {final_command}\n\n"
-                            docstring += f"Triggered with:\n  {service.service}\n\n"
-                            docstring += f"protocol:\n  {service.protocol}\n\n"
-                            docstring += f"port:\n  {service.port}\n\n"
-                            docstring += f"ip:\n  {host.address}\n\n"
-                            docstring += f"logs:\n  {cmd_params["outputdir"]}\n"
-                            tool_wrapper.__doc__ = docstring
+                                final_command = replace_command_placeholders(command_template, cmd_params)
 
-                            setattr(self.__class__, f"do_{tool_name}", tool_wrapper)
-                            print_msg(f"Command '{tool_name}' register {service.service}) from tools")
+                                def tool_wrapper(*args, final_cmd=final_command):
+                                    self.cmd(final_cmd)
+                                docstring = f"Tool:\n  {tool_name}\n\n"
+                                docstring += f"Example:\n  {final_command}\n\n"
+                                docstring += f"Triggered with:\n  {service.service}\n\n"
+                                docstring += f"protocol:\n  {service.protocol}\n\n"
+                                docstring += f"port:\n  {service.port}\n\n"
+                                docstring += f"ip:\n  {host.address}\n\n"
+                                docstring += f"logs:\n  {cmd_params["outputdir"]}\n"
+                                tool_wrapper.__doc__ = docstring
 
-            except Exception as e:
-                print_error(f"[ERROR] Fallo al cargar plugin {tool_file}: {e}")
+                                setattr(self.__class__, f"do_{tool_name}", tool_wrapper)
+                                print_msg(f"Command '{tool_name}' register {service.service}) from tools")
+
+                except Exception as e:
+                    print_error(f"[ERROR] Fallo al cargar plugin {tool_file}: {e}")
 
     def _register_lua_command(self, command_name, lua_function):
         """Registra un comando nuevo desde Lua."""
         @cmd2.with_category("13. Lua Plugin")
         def wrapper(arg):
             try:
-                # Llama a la función Lua y obtén el resultado
                 result = lua_function(arg)
                 if result is not None:
-                    print(result)  # Imprime el resultado si no es None
+                    print(result)
             except Exception as e:
-                print(f"Error en el comando Lua {command_name}: {e}")
+                self.display_toastr(f"Error en el comando Lua {command_name}: {e}", type="error")
         yaml_file = os.path.join(self.plugins_dir, f"{command_name}.yaml")
         description = ""
         
@@ -597,7 +603,7 @@ class LazyOwnShell(cmd2.Cmd):
                     yaml_data = yaml.safe_load(file)
                     description = yaml_data.get('description', "")
             except Exception as e:
-                print_error(f"Error al leer YAML para {command_name}: {e}")
+                self.display_toastr(f"Error reading YAML  {command_name}: {e}", type="error")
 
         wrapper.__doc__ = description if description else f"Ejecuta el comando Lua '{command_name}'."
         setattr(self, f'do_{command_name}', wrapper)
@@ -680,7 +686,7 @@ class LazyOwnShell(cmd2.Cmd):
                     param_name = param['name']
 
                     if param.get('required', False) and param_name not in self.params:
-                        print_warn(f"Error: Parameter '{param_name}' is required but not found in self.params.")
+                        self.display_toastr(f"Error: Parameter '{param_name}' is required but not found in self.params.", type='warning')
                         return
 
                     if param_name in self.params:
@@ -688,13 +694,13 @@ class LazyOwnShell(cmd2.Cmd):
                     elif 'default' in param:
                         param_values[param_name] = param['default']
                     else:
-                        print_warn(f"Error: Parameter '{param_name}' is missing and no default value is provided.")
+                        self.display_toastr(f"Error: Parameter '{param_name}' is missing and no default value is provided.", type='warning')
                         return
 
                 install_path = os.path.join(os.getcwd(), tool['install_path'])
 
                 if not os.path.exists(install_path):
-                    print_warn(f"{tool['name']} is not installed. Installing...")
+                    self.display_toastr(f"{tool['name']} is not installed. Installing...", type='warning')
                     self.cmd(f"git clone {tool['repo_url']} {install_path}")
                     if 'install_command' in tool:
                         cmd = f"cd {install_path} && {tool['install_command']}"
@@ -707,14 +713,13 @@ class LazyOwnShell(cmd2.Cmd):
                
                     final_command = f"cd {install_path} && {command_replaced}"
                 except KeyError as e:
-                    print_error(f"Error: Missing parameter '{e}' in the plugin configuration.")
+                    self.display_toastr(f"Error: Missing parameter '{e}' in the plugin configuration.", type='error')
                     return
 
-  
                 self.cmd(final_command)
 
             except Exception as e:
-                print_error(f"Error in plugin '{name}': {e}")
+                self.display_toastr(f"Error in plugin '{name}': {e}", type='error')
         wrapper_yaml.__doc__  = description
         setattr(self, f'do_{name}', wrapper_yaml)
         print_msg(f"Command '{name}' registered from YAML.")
@@ -747,6 +752,95 @@ class LazyOwnShell(cmd2.Cmd):
         cmd_wrapper.__doc__ = description
         setattr(self, f'do_{name}', cmd_wrapper)
         print_msg(f"Command '{name}' registered for adversary ID {adv['id']}")
+
+    def display_toastr(self, message, type="info"):
+        """Display a toastr-like notification in the terminal with adaptive sizing."""
+        
+        styles = {
+            "success": {"border_style": "green", "text_style": "bold green"},
+            "error": {"border_style": "red", "text_style": "bold red"},
+            "warning": {"border_style": "yellow", "text_style": "bold yellow"},
+            "info": {"border_style": "blue", "text_style": "bold blue"}
+        }
+        style = styles.get(type.lower(), styles["info"])
+        terminal_size = self.console.size
+        terminal_width = terminal_size.width
+        clean_message = message.strip()
+        if not clean_message:
+            clean_message = "Mensaje vacío"
+        
+        lines = clean_message.split('\n')
+        max_line_length = max(len(line) for line in lines)
+        min_width = max(20, len(type.upper()) + 8)
+        max_width = min(100, int(terminal_width * 0.9))
+        content_based_width = max_line_length + 8
+        optimal_width = max(min_width, min(content_based_width, max_width))
+
+        if max_line_length > optimal_width - 8:
+            import textwrap
+            wrapped_lines = []
+            for line in lines:
+                if len(line) <= optimal_width - 8:
+                    wrapped_lines.append(line)
+                else:
+                    wrapped = textwrap.fill(line, width=optimal_width - 8, break_long_words=False, break_on_hyphens=False)
+                    wrapped_lines.extend(wrapped.split('\n'))
+            
+            final_message = '\n'.join(wrapped_lines)
+            num_lines = len(wrapped_lines)
+        else:
+            final_message = clean_message
+            num_lines = len(lines)
+        
+        optimal_height = num_lines + 2
+        
+        panel = Panel(
+            Text(final_message, style=style["text_style"], justify="left"),
+            border_style=style["border_style"],
+            width=optimal_width,
+            padding=(0, 2),
+            title=f"[bold]{type.upper()}[/bold]",
+            title_align="center"
+        )
+        
+        def show_toastr():
+            self.console.print(panel, justify="center")
+        
+        threading.Thread(target=show_toastr, daemon=True).start()
+
+    def _wrap_text(self, text, max_width):
+        """Helper method to wrap text to fit within specified width."""
+        import textwrap
+        
+        lines = text.split('\n')
+        wrapped_lines = []
+        
+        for line in lines:
+            if len(line) <= max_width:
+                wrapped_lines.append(line)
+            else:
+                wrapped = textwrap.fill(line, width=max_width, break_long_words=True)
+                wrapped_lines.extend(wrapped.split('\n'))
+        
+        return '\n'.join(wrapped_lines)
+
+    def do_notify(self, arg):
+        """Command to trigger a toastr-like notification.
+        Usage: notify <type> <message>
+        Example: notify success Implant checked in!
+        """
+        try:
+            args = arg.split(maxsplit=1)
+            if len(args) < 2:
+                print_warn("Usage: notify <type> <message>")
+                return
+            type, message = args[0], args[1]
+            if type.lower() not in ["success", "error", "warning", "info"]:
+                print_error("Invalid type. Use: success, error, warning, info")
+                return
+            self.display_toastr(message, type=type)
+        except Exception as e:
+            print_error("Error:")
 
 
     def do_EOF(self, line):

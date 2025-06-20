@@ -1,0 +1,23 @@
+name: pretender
+description: >
+  Your MitM sidekick for relaying attacks featuring DHCPv6 DNS takeover as well as mDNS, LLMNR and NetBIOS-NS spoofing.
+author: "RedTeamPentesting"
+version: "1.0"
+enabled: true
+params:
+   - name: device
+     type: string
+     required: false
+     description: device interface to use in the script
+   - name: lhost
+     type: string
+     required: false
+     description: lhost interface to use in the script     
+tool:
+  name: pretender
+  repo_url: https://github.com/RedTeamPentesting/pretender.git
+  install_path: external/.exploit/pretender
+  install_command: |
+   go build
+  execute_command: |
+   ./pretender -i {{ device }} --spoof "google.com" --dont-spoof-for "{{ lhost }},host1.corp,fe80::f" --ignore-nofqdn

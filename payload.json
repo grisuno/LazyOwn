@@ -65,7 +65,7 @@
     "email_from": "email@gmail.com",
     "email_to": "email@gmail.com",
     "email_username": "user@gmail.com",
-    "email_password": "pass word $$$$ 1111",
+    "email_password": "pass",
     "smtp_server": "smtp.server.com",
     "smtp_port": "587",
     "field": "page",

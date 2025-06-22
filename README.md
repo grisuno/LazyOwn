@@ -69,6 +69,10 @@ One of the standout features of **LazyOwn: CRIMEN** is its ability to schedule t
 ![image](https://github.com/user-attachments/assets/bac38447-1ab9-40f0-babb-7afa3cbe6a25)
 
 3. **Decoy**: if the ip addres not match with 127.0.0.1 or lhost flask will show a decoy website this decoy site will record a video with audio and take pictures from the intruder (sessions/captured_images) like a small versión of storm breaker to know who is the blueteam operator
+
+![image](https://github.com/user-attachments/assets/17f36120-3a17-4ee3-9358-8f4f6caa07bf)
+
+
 4. **Adversary Simulation**: Advanced capabilities for generating red team operation sessions, ensuring meticulous and effective simulations.
 
 ![adversay emulator](https://github.com/user-attachments/assets/dc6e3ca2-c70d-46c5-9240-488bbea409ce)
@@ -122,7 +126,8 @@ One of the standout features of **LazyOwn: CRIMEN** is its ability to schedule t
 - **Technical Implementation**: Templates are generated via Bot (Local Deepseek) and API calls to Groq (Remote), with prompts specifying template structure, language, and embedded placeholders (e.g., {name}, {beacon_url} and {tracking_pixel}).
 - Generated templates are stored as HTML or plain text in the templates directory with unique identifiers (e.g., ai_template_1749691010.0413928).
 - Integration with the campaign configuration allows embedding obfuscated URLs and tracking beacons.
-- Automated creation of a short url for every beacon created 
+- Automated creation of a short url for every beacon created
+![image](https://github.com/user-attachments/assets/fdc0e32a-be7d-4c98-a5e5-c80cbbf79f93)
 ![image](https://github.com/user-attachments/assets/6b9c576e-182a-4d0d-8b70-f11109be005f)
 ![image](https://github.com/user-attachments/assets/1065efbd-6c72-4eba-b7be-a188f1ec8dbb)
 

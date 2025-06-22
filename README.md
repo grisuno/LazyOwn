@@ -124,6 +124,7 @@ One of the standout features of **LazyOwn: CRIMEN** is its ability to schedule t
 - Integration with the campaign configuration allows embedding obfuscated URLs and tracking beacons.
 - Automated creation of a short url for every beacon created 
 ![image](https://github.com/user-attachments/assets/6b9c576e-182a-4d0d-8b70-f11109be005f)
+![image](https://github.com/user-attachments/assets/1065efbd-6c72-4eba-b7be-a188f1ec8dbb)
 
 
 
@@ -1207,6 +1208,16 @@ LazyOwn is a framework that streamlines its workflow and automates many tasks an
             None: The function does not return any value but may modify the state of the system
                 by executing commands.
 
+
+## Star History
+
+<a href="https://www.star-history.com/#grisuno/LazyOwn&Date">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=grisuno/LazyOwn&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=grisuno/LazyOwn&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=grisuno/LazyOwn&type=Date" />
+ </picture>
+</a>
 
 # Documentation by readmeneitor.py
 

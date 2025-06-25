@@ -1917,6 +1917,115 @@ def log(data):
     except Exception as e:
         return jsonify({'error': str("")}), 500
 
+@app.route('/api/data')
+@requires_auth
+def api_data():
+    path = os.getcwd()
+    prompt = getprompt()
+    short_urls = load_short_urls()
+    prompt = prompt.replace('\n','<br>')
+    sessions_dir = f'{path}/sessions'
+    json_files = [f for f in os.listdir(sessions_dir) if f.endswith('.json')]
+    implants_check()
+    if not json_files:
+        return jsonify({"error": "No JSON files found in the sessions directory."}), 404
+    tasks = load_tasks()
+
+    latest_json_file = max(json_files, key=lambda x: os.path.getctime(os.path.join(sessions_dir, x)))
+    json_path = os.path.join(sessions_dir, latest_json_file)
+
+    with open(json_path, 'r') as f:
+        session_data = json.load(f)
+
+    if isinstance(session_data, list):
+        session_data = session_data[0] if session_data else {}
+
+    session_data['params'] = make_serializable(session_data.get('params', {}))
+    session_data['params']['api_key'] = 'Hidden conntent'
+    connected_clients_list = list(connected_clients)
+    directories = [d for d in os.listdir(atomic_framework_path) if os.path.isdir(os.path.join(atomic_framework_path, d))]
+
+    commands_history = {}
+    os_data = {}
+    pid = {}
+    hostname = {}
+    ips = {}
+    user = {}
+    discovered_ips = {}
+    result_portscan = {}
+    for client_id in connected_clients_list:
+        csv_file = f"sessions/{client_id}.log"
+        try:
+            if os.path.isfile(csv_file):
+                with open(csv_file, 'r') as f:
+                    reader = csv.DictReader(f)
+                    rows = list(reader)
+                    if rows:
+                        commands_history[client_id] = [rows[-1]]
+                        os_data[client_id] = rows[-1]['os']
+                        pid[client_id] = rows[-1]['pid']
+                        hostname[client_id] = rows[-1]['hostname']
+                        ips[client_id] = rows[-1]['ips']
+                        user[client_id] = rows[-1]['user']
+                        discovered_ips[client_id] = rows[-1]['discovered_ips']
+                        result_portscan[client_id] = rows[-1]['result_portscan']
+
+        except Exception as e:
+            if config.enable_c2_debug == True:
+                logger.info("[Error] implant logs corrupted.")
+
+    event_config = load_event_config()
+    response_bot = "<p><h3>LazyOwn RedTeam Framework</h3> The <b>First GPL Ai Powered C&C</b> of the <b>World</b></p>"
+    tools = []
+    for filename in os.listdir(TOOLS_DIR):
+        if filename.endswith('.tool'):
+            tool_path = os.path.join(TOOLS_DIR, filename)
+            with open(tool_path, 'r') as file:
+                tool_data = json.load(file)
+                tool_data['filename'] = filename
+                tools.append(tool_data)
+
+    karma_name = get_karma_name(current_user.elo)
+    connected_hosts = get_discovered_hosts()
+
+    return jsonify({
+        'connected_clients': connected_clients_list,
+        'connected_hosts': connected_hosts,
+        'results': results,
+        'session_data': session_data,
+        'commands_history': commands_history,
+        'os_data': os_data,
+        'pid': pid,
+        'hostname': hostname,
+        'ips': ips,
+        'user': user,
+        'username': USERNAME,
+        'password': PASSWORD,
+        'c2_route': route_maleable,
+        'win_useragent': win_useragent_maleable,
+        'lin_useragent': lin_useragent_maleable,
+        'implants': implants,
+        'directories': directories,
+        'tasks': tasks,
+        'bot': response_bot,
+        'event_config': event_config,
+        'config': {
+            'enable_c2_debug': config.enable_c2_debug
+        },
+        'tools': tools,
+        'current_user_id': current_user.id,
+        'elo': current_user.elo,
+        'prompt': prompt,
+        'local_ips': local_ips,
+        'discovered_ips': discovered_ips,
+        'result_portscan': result_portscan,
+        'short_urls': short_urls,
+        'c2_port': lport,
+        'karma_name': karma_name,
+        'is_authenticated': current_user.is_authenticated,
+        'current_user_username': current_user.username
+    })
+
 @app.route('/create_short_url', methods=['POST'])
 @requires_auth
 def create_short_url():

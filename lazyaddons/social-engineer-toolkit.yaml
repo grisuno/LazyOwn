@@ -1,11 +1,11 @@
-name: set
+name: setoolkit
 description: >
   The Social-Engineer Toolkit (SET) repository from TrustedSec - All new versions of SET will be deployed here.
 author: "trustedsec"
 version: "1.0"
 enabled: true
 tool:
-  name: set
+  name: setoolkit
   repo_url: https://github.com/trustedsec/social-engineer-toolkit.git
   install_path: external/.exploit/social_engineer_toolkit
   install_command: |

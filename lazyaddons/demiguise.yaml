@@ -1,0 +1,12 @@
+name: demiguise
+description: >
+  HTA encryption tool for RedTeams
+author: "nccgroup"
+version: "1.0"
+enabled: true
+tool:
+  name: demiguise
+  repo_url: https://github.com/nccgroup/demiguise.git
+  install_path: external/.exploit/demiguise
+  execute_command: |
+    python demiguise.py -k hello -c "notepad.exe" -p Outlook.Application -o test.hta

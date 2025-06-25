@@ -1,0 +1,13 @@
+name: gemini-cli
+description: >
+ An open-source AI agent that brings the power of Gemini directly into your terminal.
+author: "google"
+version: "1.0"
+enabled: true
+tool:
+  name: gemini-cli
+  repo_url: https://github.com/google-gemini/gemini-cli.git
+  install_path: external/.exploit/gemini-cli
+  install_command: sudo npm install -g @google/gemini-cli
+  execute_command: |
+    cd ../../../sessions && gemini

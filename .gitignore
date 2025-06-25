@@ -13,6 +13,7 @@ puertos
 *.exe
 *.macho
 *.elf
+*.db
 chisel*
 env/
 lib*

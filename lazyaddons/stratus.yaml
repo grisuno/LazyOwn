@@ -1,0 +1,14 @@
+name: stratus_list
+description: >
+  ☁️ ⚡ Granular, Actionable Adversary Emulation for the Cloud
+author: "nccgroup"
+version: "1.0"
+enabled: true
+tool:
+  name: stratus_list
+  repo_url: https://github.com/DataDog/stratus-red-team.git
+  install_path: external/.exploit/stratus
+  install_command: |
+    go install -v github.com/datadog/stratus-red-team/v2/cmd/stratus@latest
+  execute_command: |
+    stratus list

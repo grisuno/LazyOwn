@@ -6,6 +6,62 @@
 
 ### Otros
 
+  *   * feat(feat): new addons sphinx to documentations, etc \n\n Version: release/0.2.44 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Jun 25 19:51:06 2025 -0400 \n\n Hora: 1750895466
+
+
+### Otros
+
+### Otros
+
+  *   * sphinx to docs, new addons, and new indeas to adversaries
+
+
+### Otros
+
+### Otros
+
+  *   * sphinx to docs, new addons, and new indeas to adversaries
+
+
+### Otros
+
+### Otros
+
+  *   * sphinx to docs, new addons, and new indeas to adversaries
+
+
+### Otros
+
+### Otros
+
+  *   * Update .readthedocs.yaml
+
+
+### Otros
+
+### Otros
+
+  *   * Create .readthedocs.yaml
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): new ideas \n\n Version: release/0.2.44 \n\n with love \n\n Modified file(s):\n- README.md - UTILS.md - docs/README.html - docs/UTILS.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Jun 20 01:27:41 2025 -0400 \n\n Hora: 1750397261
 
 

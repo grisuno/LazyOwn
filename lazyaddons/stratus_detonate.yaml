@@ -1,14 +1,14 @@
-name: stratus_list
+name: stratus_detonate
 description: >
-  ☁️ ⚡ Granular, Actionable Adversary Emulation for the Cloud
-author: "nccgroup"
+  ☁️ ⚡ Granular, Actionable Adversary Emulation for the Cloud. Need an attack like an argument use `stratus_list` to see available attacks
+author: "DataDog"
 version: "1.0"
 enabled: true
 tool:
-  name: stratus_list
+  name: stratus_detonate
   repo_url: https://github.com/DataDog/stratus-red-team.git
   install_path: external/.exploit/stratus
   install_command: |
     go install -v github.com/datadog/stratus-red-team/v2/cmd/stratus@latest
   execute_command: |
-    stratus list
+    stratus detonate 

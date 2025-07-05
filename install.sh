@@ -67,6 +67,8 @@ pip3 install aiosmtpd
 pip3 install yagmail
 pip3 install validators
 pip3 install ua_parser
+pip3 install pdf2image
+pip3 install python-magic
 
 curl -fsSL https://ollama.com/install.sh | sh
 

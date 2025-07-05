@@ -6,6 +6,34 @@
 
 ### Otros
 
+  *   * feat(feat): cloud support \n\n Version: release/0.2.44 \n\n and some love \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Jul 4 22:40:01 2025 -0400 \n\n Hora: 1751683201
+
+
+### Otros
+
+### Otros
+
+  *   * Merge branch 'main' of https://github.com/grisuno/LazyOwn
+
+
+### Otros
+
+### Otros
+
+  *   * some ideas and cloud support with stratus
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): new addons sphinx to documentations, etc \n\n Version: release/0.2.44 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Jun 25 19:51:06 2025 -0400 \n\n Hora: 1750895466
 
 

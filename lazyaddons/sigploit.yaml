@@ -1,0 +1,12 @@
+name: SigPloit
+description: >
+  SigPloit a signaling security testing framework dedicated to Telecom Security professionals and reasearchers to pentest and exploit vulnerabilites in the signaling protocols used in mobile operators regardless of the geneartion being in use. SigPloit aims to cover all used protocols used in the operators interconnects SS7, GTP (3G), Diameter (4G) or even SIP for IMS and VoLTE infrastructures used in the access layer and SS7 message encapsulation into SIP-T. Recommendations for each vulnerability will be provided to guide the tester and the operator the steps that should be done to enhance their security posture
+author: "SigPloiter"
+version: "1.0"
+enabled: true
+tool:
+  name: sigploit
+  repo_url: https://github.com/SigPloiter/SigPloit.git
+  install_path: external/.exploit/SigPloit
+  install_command: pip2 install -r requirements.txt
+  execute_command: python2 sigploit.py

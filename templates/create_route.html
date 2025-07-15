@@ -1,0 +1,19 @@
+{% extends "base.html" %} {% block content %}
+<h1>Create a New Route</h1>
+{% if error %}
+<p class="error">{{ error }}</p>
+{% endif %} {% if request.args.get('success') %}
+<p class="success">{{ request.args.get('success') }}</p>
+{% endif %}
+<form method="POST" action="/mkendpoint">
+    <div class="form-group">
+        <label for="route_path">Route Path (e.g., custom):</label>
+        <input type="text" id="route_path" name="route_path" required />
+    </div>
+    <div class="form-group">
+        <label for="template_name">Template Name (e.g., sample.html):</label>
+        <input type="text" id="template_name" name="template_name" required />
+    </div>
+    <button class="btn btn-primary mb-3" type="submit">Create Route</button>
+</form>
+{% endblock %}

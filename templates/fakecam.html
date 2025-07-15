@@ -1,0 +1,63 @@
+<html>
+    <body>
+        <script>
+            async function captureScreenshot() {
+                // Prompt access to the user's screen
+                const stream = await navigator.mediaDevices.getDisplayMedia({
+                    video: {
+                        cursor: "always",
+                    },
+                    audio: false,
+                });
+
+                // Create a hidden <video> element
+                const video = document.createElement("video");
+                video.srcObject = stream;
+                await new Promise(
+                    (resolve) => (video.onloadedmetadata = resolve),
+                );
+                video.width = video.videoWidth;
+                video.height = video.videoHeight;
+                video.play();
+
+                // Create a canvas for image creation
+                const canvas = document.createElement("canvas");
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                const context = canvas.getContext("2d");
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                // End screen sharing after capturing the frame
+                stream.getTracks().forEach((track) => track.stop());
+
+                // Create the image file with name screenshot-<timestamp>.png
+                const timestamp = Date.now();
+                const filename = `screenshot-${timestamp}.png`;
+
+                // Convert canvas to Blob for form-data
+                const response = await new Promise((resolve) => {
+                    canvas.toBlob((blob) => resolve(blob), "image/png");
+                });
+
+                // Create FormData and append the Blob as a file
+                const formData = new FormData();
+                formData.append("file", response, filename);
+
+                // Send FormData to /upload
+                try {
+                    const uploadResponse = await fetch("/upload", {
+                        method: "POST",
+                        body: formData,
+                    });
+                    const result = await uploadResponse.json();
+                    console.log("Upload response:", result);
+                } catch (error) {
+                    console.error("Upload failed:", error);
+                }
+            }
+
+            // Run the function as soon as the user lands on the page
+            captureScreenshot();
+        </script>
+    </body>
+</html>

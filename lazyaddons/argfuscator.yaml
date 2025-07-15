@@ -1,0 +1,12 @@
+name: argfuscator
+description: >
+  ArgFuscator is an open-source, stand-alone web application that helps generate obfuscated command lines for common system-native executables. 👉 Use the interactive version of ArgFuscator on ArgFuscator.net 🚀
+author: "wietze"
+version: "1.0"
+enabled: true
+tool:
+  name: argfuscator
+  repo_url: https://github.com/wietze/ArgFuscator.net.git
+  install_path: external/.exploit/argfuscator
+  install_command: sudo apt update ; sudo apt install nodejs npm ; sudo npm install -g typescript ; tsc -w --project src/ --outfile gui/assets/js/main.js ; cp -r models/ gui/assets/ ; python3 -m pip3 install pyyaml ; python3 .github/workflows/json-transform.py
+  execute_command: cd gui ; jekyll serve

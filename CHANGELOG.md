@@ -6,6 +6,20 @@
 
 ### Otros
 
+  *   * feat(feat): new yamls and some fix \n\n Version: release/0.2.46 \n\n new template phishing route \n\n Modified file(s):\n- README.md - UTILS.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Jul 15 19:53:44 2025 -0400 \n\n Hora: 1752623624
+
+
+### Otros
+
+### Otros
+
+  *   * some ideas
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): cloud support \n\n Version: release/0.2.44 \n\n and some love \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Jul 4 22:40:01 2025 -0400 \n\n Hora: 1751683201
 
 

@@ -44,9 +44,9 @@ Raises:
 ## load_version
 Load the version number from the 'version.json' file.
 
-This function attempts to open the 'version.json' file and load its contents. 
-If the file is found, it retrieves the version number from the JSON data. 
-If the version key does not exist, it returns a default version 'release/v0.0.14'. 
+This function attempts to open the 'version.json' file and load its contents.
+If the file is found, it retrieves the version number from the JSON data.
+If the version key does not exist, it returns a default version 'release/v0.0.14'.
 If the file is not found, it also returns the default version.
 
 Returns:
@@ -230,8 +230,8 @@ non-alphabetical characters unchanged.
 ## get_network_info
 Retrieves network interface information with their associated IP addresses.
 
-This function executes a shell command to gather network interface details, 
-parses the output to extract interface names and their corresponding IP addresses, 
+This function executes a shell command to gather network interface details,
+parses the output to extract interface names and their corresponding IP addresses,
 and returns this information in a dictionary format. The dictionary keys are
 interface names, and the values are IP addresses.
 
@@ -283,9 +283,9 @@ Raises:
 ## exploitalert
 Process and display results from ExploitAlert.
 
-This function checks if the provided content contains any results. 
-If results are present, it prints the title and link for each exploit found, 
-and appends the results to a predata list. If no results are found, 
+This function checks if the provided content contains any results.
+If results are present, it prints the title and link for each exploit found,
+and appends the results to a predata list. If no results are found,
 it prints an error message.
 
 Parameters:
@@ -299,9 +299,9 @@ An excellent tool for CVE detection, I implemented only the keyword search as I 
 ## packetstormsecurity
 Process and display results from PacketStorm Security.
 
-This function extracts exploit data from the provided content using regex. 
-If any results are found, it prints the title and link for each exploit, 
-and appends the results to a predata list. If no results are found, 
+This function extracts exploit data from the provided content using regex.
+If any results are found, it prints the title and link for each exploit,
+and appends the results to a predata list. If no results are found,
 it prints an error message.
 
 Parameters:
@@ -315,9 +315,9 @@ An excellent tool for CVE detection, I implemented only the keyword search as I 
 ## nvddb
 Process and display results from the National Vulnerability Database.
 
-This function checks if there are any vulnerabilities in the provided content. 
-If vulnerabilities are present, it prints the ID, description, and link 
-for each CVE found, and appends the results to a predata list. 
+This function checks if there are any vulnerabilities in the provided content.
+If vulnerabilities are present, it prints the ID, description, and link
+for each CVE found, and appends the results to a predata list.
 If no results are found, it prints an error message.
 
 Parameters:
@@ -331,9 +331,9 @@ An excellent tool for CVE detection, I implemented only the keyword search as I 
 ## find_ss
 Find CVEs in the National Vulnerability Database based on a keyword.
 
-This function takes a keyword, formats it for the API request, 
-and sends a GET request to the NVD API. If the request is successful, 
-it returns the JSON response containing CVE data; otherwise, 
+This function takes a keyword, formats it for the API request,
+and sends a GET request to the NVD API. If the request is successful,
+it returns the JSON response containing CVE data; otherwise,
 it returns False.
 
 Parameters:
@@ -347,9 +347,9 @@ An excellent tool for CVE detection, I implemented only the keyword search as I 
 ## find_ea
 Find exploits in ExploitAlert based on a keyword.
 
-This function takes a keyword, formats it for the API request, 
-and sends a GET request to the ExploitAlert API. If the request is successful, 
-it returns the JSON response containing exploit data; otherwise, 
+This function takes a keyword, formats it for the API request,
+and sends a GET request to the ExploitAlert API. If the request is successful,
+it returns the JSON response containing exploit data; otherwise,
 it returns False.
 
 Parameters:
@@ -363,9 +363,9 @@ An excellent tool for CVE detection, I implemented only the keyword search as I 
 ## find_ps
 Find exploits in PacketStorm Security based on a keyword.
 
-This function takes a keyword, formats it for the search request, 
-and sends a GET request to the PacketStorm Security website. 
-If the request is successful, it returns the HTML response; otherwise, 
+This function takes a keyword, formats it for the search request,
+and sends a GET request to the PacketStorm Security website.
+If the request is successful, it returns the HTML response; otherwise,
 it returns False.
 
 Parameters:
@@ -422,7 +422,7 @@ It also handles common exceptions that may occur during command execution.
 ## is_exist
 Check if a file exists.
 
-This function checks whether a given file exists on the filesystem. If the file 
+This function checks whether a given file exists on the filesystem. If the file
 does not exist, it prints an error message and returns False. Otherwise, it returns True.
 
 Arguments:
@@ -438,7 +438,7 @@ True
 False
 
 Notes:
-This function uses os.path.isfile to determine the existence of the file. 
+This function uses os.path.isfile to determine the existence of the file.
 Ensure that the provided path is correct and accessible.
 
 ## get_domain
@@ -491,9 +491,9 @@ Generates an HTTP request with the Shellshock payload.
 ## format_openssh_key
 Formats a raw OpenSSH private key string to the correct OpenSSH format.
 
-This function takes a raw OpenSSH private key string, cleans it by removing any unnecessary 
-characters (such as newlines, spaces, and headers/footers), splits the key content into lines 
-of 64 characters, and then reassembles the key with the standard OpenSSH header and footer. 
+This function takes a raw OpenSSH private key string, cleans it by removing any unnecessary
+characters (such as newlines, spaces, and headers/footers), splits the key content into lines
+of 64 characters, and then reassembles the key with the standard OpenSSH header and footer.
 It ensures the key follows the correct OpenSSH format.
 
 Parameters:
@@ -506,8 +506,8 @@ Returns:
 Formats a raw RSA private key string to the correct PEM format.
 
 This function takes a raw RSA private key string, cleans it by removing any unnecessary
-characters (such as newlines, spaces, and headers/footers), splits the key content into lines 
-of 64 characters, and then reassembles the key with the standard PEM header and footer. 
+characters (such as newlines, spaces, and headers/footers), splits the key content into lines
+of 64 characters, and then reassembles the key with the standard PEM header and footer.
 It ensures the key follows the correct RSA format.
 
 Parameters:
@@ -525,8 +525,8 @@ Check if a Python package is installed.
 ## extract
 Extracts and processes specific hexadecimal sequences from a string based on a flag.
 
-If the `extract_flag` is set to True, the function extracts all sequences of the form 'x[a-f0-9][a-f0-9]' 
-(where 'x' is followed by two hexadecimal digits), removes the 'x' from the extracted sequences, 
+If the `extract_flag` is set to True, the function extracts all sequences of the form 'x[a-f0-9][a-f0-9]'
+(where 'x' is followed by two hexadecimal digits), removes the 'x' from the extracted sequences,
 and returns the processed string. If `extract_flag` is False, the function returns the original string.
 
 Parameters:
@@ -534,7 +534,7 @@ Parameters:
     extract_flag (bool): A flag indicating whether to perform the extraction (True) or not (False).
 
 Returns:
-    str: The processed string with the extracted hexadecimal sequences if `extract_flag` is True, 
+    str: The processed string with the extracted hexadecimal sequences if `extract_flag` is True,
          or the original string if `extract_flag` is False.
 
 ## clean_html
@@ -548,8 +548,8 @@ This function uses a regular expression to strip HTML tags and return plain text
 ## command
 Run a command, print output in real-time, and store the output in a variable.
 
-This method executes a given command using `subprocess.Popen`, streams both the standard 
-output and standard error to the console in real-time, and stores the full output (stdout 
+This method executes a given command using `subprocess.Popen`, streams both the standard
+output and standard error to the console in real-time, and stores the full output (stdout
 and stderr) in a variable. If interrupted, the process is terminated gracefully.
 
 :param command: The command to be executed as a string.
@@ -587,50 +587,50 @@ list of tuples: A list containing tuples with (username, password) for each cred
 No description available.
 
 ## obfuscate_payload
-Obfuscates a payload string by converting its characters into hexadecimal format, 
+Obfuscates a payload string by converting its characters into hexadecimal format,
 with additional comments for every third character.
 
 For every character in the payload, the function converts it to its hexadecimal representation.
-Every third character (after the first) is enclosed in a comment `/*hex_value*/`, while the rest 
+Every third character (after the first) is enclosed in a comment `/*hex_value*/`, while the rest
 are prefixed with `\x`.
 
 Parameters:
     payload (str): The input string that needs to be obfuscated.
 
 Returns:
-    str: The obfuscated string where characters are replaced by their hexadecimal representations, 
+    str: The obfuscated string where characters are replaced by their hexadecimal representations,
          with every third character wrapped in a comment.
 
 ## read_payloads
 Reads a file containing payloads and returns a list of properly formatted strings.
 
-This function opens a specified file, reads each line, and checks if the line starts with a 
-double quote. If it does not, it adds double quotes around the line. Each line is stripped 
+This function opens a specified file, reads each line, and checks if the line starts with a
+double quote. If it does not, it adds double quotes around the line. Each line is stripped
 of leading and trailing whitespace before being added to the list.
 
 Parameters:
     file_path (str): The path to the file containing payloads.
 
 Returns:
-    list: A list of strings, each representing a payload from the file, formatted with 
+    list: A list of strings, each representing a payload from the file, formatted with
           leading and trailing double quotes if necessary.
 
 ## inject_payloads
 Sends HTTP requests to a list of URLs with injected payloads for testing XSS vulnerabilities.
 
 This function reads payloads from a specified file and sends GET requests to the provided URLs,
-injecting obfuscated payloads into the query parameters or form fields to test for cross-site 
-scripting (XSS) vulnerabilities. It handles both URLs with existing query parameters and those 
+injecting obfuscated payloads into the query parameters or form fields to test for cross-site
+scripting (XSS) vulnerabilities. It handles both URLs with existing query parameters and those
 without. If forms are found in the response, it submits them with the payloads as well.
 
 Parameters:
     urls (list): A list of URLs to test for XSS vulnerabilities.
-    payload_url (str): A placeholder string within the payloads that will be replaced with 
+    payload_url (str): A placeholder string within the payloads that will be replaced with
                        the actual URL for testing.
     request_timeout (int, optional): The timeout for each request in seconds. Defaults to 15.
 
 Returns:
-    None: This function does not return any value but prints the status of each request and 
+    None: This function does not return any value but prints the status of each request and
           form submission to the console.
 
 Raises:
@@ -746,19 +746,19 @@ No description available.
 ## halp
 Display the help panel for the LazyOwn RedTeam Framework.
 
-This function prints usage instructions, options, and descriptions for 
-running the LazyOwn framework. It provides users with an overview of 
+This function prints usage instructions, options, and descriptions for
+running the LazyOwn framework. It provides users with an overview of
 command-line options that can be used when executing the `./run` command.
 
-The output includes the current version of the framework and various 
+The output includes the current version of the framework and various
 options available for users, along with a brief description of each option.
 
 Options include:
     - `--help`: Displays the help panel.
     - `-v`: Shows the version of the framework.
-    - `-p <payloadN.json>`: Executes the framework with a specified payload 
+    - `-p <payloadN.json>`: Executes the framework with a specified payload
       JSON file. This option is particularly useful for Red Teams.
-    - `-c <command>`: Executes a specific command using LazyOwn, for 
+    - `-c <command>`: Executes a specific command using LazyOwn, for
       example, `ping`.
     - `--no-banner`: Runs the framework without displaying the banner.
     - `-s`: Runs the framework with root privileges.
@@ -766,7 +766,7 @@ Options include:
 
 Example:
     To see the help panel, call the function as follows:
-    
+
     >>> halp()
 
 Note:
@@ -782,7 +782,7 @@ name and executes the command to run the LazyOwn RedTeam Framework script.
 
 The function uses the `tmux has-session` command to check for the existence
 of the session. If the session is not found (i.e., the return code is not zero),
-it will create a new tmux session in detached mode and run the command 
+it will create a new tmux session in detached mode and run the command
 `./run --no-banner` within that session.
 
 Args:
@@ -791,7 +791,7 @@ Args:
 Example:
     To ensure that a tmux session named 'lazyown_sessions' is active,
     call the function as follows:
-    
+
     >>> ensure_tmux_session('lazyown_sessions')
 
 Note:

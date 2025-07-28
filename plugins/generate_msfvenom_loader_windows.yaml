@@ -1,0 +1,25 @@
+name: generate_msfvenom_loader_win
+description: >
+  Genera shellcode en formato hex para una msfvenom reverse shell TCP en Windows.
+  Crea archivos, construye el shellcode en formato hexadecimal escapado listo para usar. crea un loader en asm y lo compila
+author: "LazyOwn RedTeam"
+version: "1.0"
+enabled: true
+tags:
+  - shellcode
+  - reverse_shell
+  - windows
+  - hex
+params:
+  - name: lhost
+    type: string
+    required: true
+    description: Dirección IP (LHOST) para el shellcode. Ejemplo 192.168.1.10
+  - name: lport
+    type: integer
+    required: true
+    description: Puerto (LPORT) para el shellcode. Ejemplo 4444
+permissions: []
+requires_root: false
+dependencies: []
+outputs: []

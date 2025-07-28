@@ -176,6 +176,7 @@ class LazyOwnShell(cmd2.Cmd):
         "pwnat": "sh pwnat -s 8080",
         "q": "exit",
         "qq": "run_script \"/home/grisun0/LazyOwn/lazyscripts/lazyquit.ls\"",
+        "report":"sh python3 report.py",
         "rtpflood" : "sh sudo bash modules/lazyrtpflood.sh",
         "randomuser": "sh curl 'https://randomuser.me/api/' -H 'Accept: application/json' | jq",
         "rustrevmakerwin": f"sh cd sessions ; bash ../modules_ext/rustrevmaker/RustRevMaker.sh windows {lhost} {lport}",

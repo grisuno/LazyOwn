@@ -184,21 +184,56 @@ def clean_json(texto):
 
 def load_yaml_safely(file_path):
     """Load a YAML file safely with error handling and default values."""
+
     try:
         if not file_path or not isinstance(file_path, str):
             logger.error("Invalid file_path: must be a non-empty string")
             return None
 
+        # Definir directorios base permitidos
+        ALLOWED_BASE_DIRS = [
+            os.path.abspath("./templates"),
+            os.path.abspath("./sessions"),
+            os.path.abspath("./config")
+        ]
+
+        # Normalizar y limpiar la ruta
         clean_path = os.path.normpath(file_path.strip())
 
-        if '..' in clean_path:
+        # Convertir a ruta absoluta
+        if not os.path.isabs(clean_path):
+            clean_path = os.path.abspath(clean_path)
+
+        # Verificación de seguridad: ¿está dentro de alguno de los directorios permitidos?
+        def is_safe_path(allowed_dirs, path):
+            try:
+                real_path = os.path.realpath(path)
+                for basedir in allowed_dirs:
+                    try:
+                        if os.path.commonpath([basedir, real_path]) == basedir:
+                            return True
+                    except ValueError:
+                        continue
+                return False
+            except Exception:
+                return False
+
+        if not is_safe_path(ALLOWED_BASE_DIRS, clean_path):
+            logger.error(f"Access denied: {file_path} is outside allowed directories.")
+            return None
+
+        # Verificar path traversal (doble seguridad)
+        parts = clean_path.split(os.sep)
+        if '..' in parts:
             logger.error(f"Path traversal detected: {file_path}")
             return None
 
+        # Verificar extensión válida
         if not (clean_path.lower().endswith('.yml') or clean_path.lower().endswith('.yaml')):
             logger.error(f"Invalid file extension: {file_path}")
             return None
 
+        # Verificar existencia y tipo de archivo
         if not os.path.exists(clean_path):
             logger.error(f"YAML file not found: {clean_path}")
             return None
@@ -207,16 +242,27 @@ def load_yaml_safely(file_path):
             logger.error(f"Path is not a regular file: {clean_path}")
             return None
 
+        # Verificar tamaño máximo
         file_size = os.path.getsize(clean_path)
         if file_size > 10 * 1024 * 1024:  # 10MB
             logger.error(f"File too large ({file_size} bytes): {clean_path}")
             return None
 
+        # Verificar permisos (opcional pero recomendable)
+        if not os.access(clean_path, os.R_OK):
+            logger.error(f"No read permission for file: {clean_path}")
+            return None
+
         with open(clean_path, 'r', encoding='utf-8') as f:
             data = yaml.safe_load(f)
 
-            if not data:
-                logger.error(f"Empty YAML file: {clean_path}")
+            if data is None:  # yaml.safe_load devuelve None para archivos vacíos
+                logger.warning(f"Empty YAML file: {clean_path}")
+                data = {}  # Devolver diccionario vacío en lugar de None
+
+            # Asegurar que data sea un diccionario
+            if not isinstance(data, dict):
+                logger.error(f"YAML file must contain a dictionary: {clean_path}")
                 return None
 
             data.setdefault('beacon_url', '')
@@ -232,6 +278,7 @@ def load_yaml_safely(file_path):
     except Exception as e:
         logger.error(f"Error loading YAML {file_path}: {e}")
         return None
+
 class Handler(FileSystemEventHandler):
     @staticmethod
     def on_any_event(event):
@@ -1384,6 +1431,14 @@ def save_short_urls(data):
 
 def is_valid_url(url):
     """Validate if the input is a valid URL or existing local file path."""
+    ALLOWED_BASE_DIR = os.path.abspath("./sessions")  # o cualquier directorio seguro
+    def is_safe_path(basedir, path):
+        """Check if the path is within the basedir (to prevent directory traversal)."""
+        try:
+            real_path = os.path.realpath(path)
+            return os.path.commonpath([basedir, real_path]) == basedir
+        except ValueError:
+            return False
     if validators.url(url):
         logging.info(f"Valid web URL: {url}")
         return True
@@ -1391,10 +1446,14 @@ def is_valid_url(url):
     if parsed_url.scheme == 'file' or not parsed_url.scheme:
         file_path = parsed_url.path if parsed_url.scheme == 'file' else url
         file_path = os.path.abspath(file_path)
-        if os.path.exists(file_path) and os.path.isfile(file_path): #TODO BUGFIX
+        if not is_safe_path(ALLOWED_BASE_DIR, file_path):
+            logging.warning(f"Access denied: {file_path} is outside allowed directory.")
+            return False
+        if os.path.exists(file_path) and os.path.isfile(file_path):
             logging.info(f"Valid local file: {file_path}")
             return True
         logging.warning(f"Local file does not exist or is not a file: {file_path}")
+
     logging.warning(f"Invalid URL or file path: {url}")
     return False
 
@@ -2010,50 +2069,187 @@ def serve_file(file_path):
 @login_required
 def create_route():
     """Handle creation of dynamic routes via form submission."""
+    import os
+    import re
+    from flask import request, render_template, redirect, url_for
+    import logging as logger
+
+    def is_safe_path(basedir, path):
+        """Check if the path is within the basedir (to prevent directory traversal)."""
+        try:
+            # Resolver la ruta real (evitar symlinks maliciosos)
+            real_path = os.path.realpath(path)
+            real_basedir = os.path.realpath(basedir)
+            # Verificar que la ruta esté dentro del directorio base
+            return os.path.commonpath([real_basedir, real_path]) == real_basedir
+        except ValueError:
+            return False
+        except Exception:
+            return False
+
+    def validate_route_path(route_path):
+        """Validate route path - only alphanumeric, hyphens, underscores, slashes."""
+        if not route_path:
+            return False
+        # No permitir rutas que comiencen con . o /
+        if route_path.startswith('.') or route_path.startswith('/'):
+            return False
+        # Validar caracteres permitidos
+        if not re.match(r'^[a-zA-Z0-9/_\-]+$', route_path):
+            return False
+        # No permitir path traversal
+        if '..' in route_path:
+            return False
+        return True
+
+    def validate_template_name(template_name):
+        """Validate template name - only alphanumeric, hyphens, underscores, .html extension."""
+        if not template_name:
+            return False
+        # Validar formato y extensión
+        if not re.match(r'^[a-zA-Z0-9_.\-]+$', template_name):
+            return False
+        # Verificar que tenga extensión .html
+        if not template_name.endswith('.html'):
+            return False
+        # No permitir path traversal en el nombre
+        if '..' in template_name or '/' in template_name or '\\' in template_name:
+            return False
+        return True
+
+    def is_safe_template_path(template_path, template_name):
+        """Ensure template is within the templates folder."""
+        # Verificar que esté dentro del directorio de templates
+        if not is_safe_path(app.template_folder, template_path):
+            return False
+        # Verificar que el nombre del template sea seguro
+        if not validate_template_name(template_name):
+            return False
+        return True
+
     if request.method == 'POST':
         route_path = request.form.get('route_path', '').strip('/')
         template_name = request.form.get('template_name', '')
 
         logger.debug(f"Creating route: {route_path} with template: {template_name}")
 
+        # Validar ruta
         if not validate_route_path(route_path):
             logger.warning(f"Invalid route path: {route_path}")
-            return render_template('create_route.html', error='Invalid route path. Use alphanumeric characters, hyphens, or underscores.')
+            return render_template('create_route.html', error='Invalid route path. Use alphanumeric characters, hyphens, underscores, and slashes only.')
 
+        # Validar nombre de template
         if not validate_template_name(template_name):
             logger.warning(f"Invalid template name: {template_name}")
             return render_template('create_route.html', error='Invalid template name. Use alphanumeric characters, hyphens, underscores, and .html extension.')
 
-        template_path = os.path.join(app.template_folder, template_name)
-        if not os.path.exists(template_path) or not is_safe_template_path(template_path, template_name):
+        # Construir ruta del template de forma segura
+        try:
+            template_path = os.path.join(app.template_folder, template_name)
+            # Normalizar la ruta
+            template_path = os.path.normpath(template_path)
+        except Exception as e:
+            logger.error(f"Error constructing template path: {e}")
+            return render_template('create_route.html', error='Invalid template path.')
+
+        # Verificar que el template existe y está en ubicación segura
+        if not os.path.exists(template_path):
+            logger.error(f"Template {template_name} does not exist")
+            return render_template('create_route.html', error=f'Template {template_name} does not exist.')
+
+        if not is_safe_template_path(template_path, template_name):
             logger.error(f"Template {template_name} is invalid or outside templates folder")
             return render_template('create_route.html', error=f'Template {template_name} is invalid or outside templates folder.')
 
-        DYNAMIC_ROUTES = load_routes()
-        if route_path in DYNAMIC_ROUTES:
-            logger.warning(f"Route /{route_path} already exists")
-            return render_template('create_route.html', error=f'Route /{route_path} already exists.')
+        # Cargar y guardar rutas dinámicas
+        try:
+            DYNAMIC_ROUTES = load_routes()
 
-        DYNAMIC_ROUTES[route_path] = template_name
-        save_routes(DYNAMIC_ROUTES)
-        logger.info(f"Route /{route_path}/log/<data> created with template {template_name}")
+            # Verificar que la ruta no exista
+            if route_path in DYNAMIC_ROUTES:
+                logger.warning(f"Route /{route_path} already exists")
+                return render_template('create_route.html', error=f'Route /{route_path} already exists.')
 
-        return redirect(url_for('create_route', success=f'Route /{route_path}/log/<data> created with template {template_name}.'))
+            # Guardar la nueva ruta
+            DYNAMIC_ROUTES[route_path] = template_name
+            save_routes(DYNAMIC_ROUTES)
+            logger.info(f"Route /{route_path}/log/<data> created with template {template_name}")
+
+            return redirect(url_for('create_route', success=f'Route /{route_path}/log/<data> created with template {template_name}.'))
+
+        except Exception as e:
+            logger.error(f"Error saving routes: {e}")
+            return render_template('create_route.html', error='Error saving route configuration.')
 
     return render_template('create_route.html')
 
 @app.route('/<path:route_path>/log/<path:data>', methods=['GET', 'POST'])
 def dynamic_route(route_path, data):
     """Handle dynamic routes based on stored route-to-template mappings."""
+    import html
+    import re
+    from flask import request, render_template, jsonify
+    import logging as logger
+
+    def sanitize_input(input_str):
+        """Sanitize input to prevent XSS attacks."""
+        if not isinstance(input_str, str):
+            return ""
+        # Limitar longitud
+        if len(input_str) > 1000:  # Ajusta según necesidades
+            input_str = input_str[:1000]
+        # Escapar caracteres HTML peligrosos
+        return html.escape(input_str)
+
+    def is_valid_route_path(route_path):
+        """Validate route path format."""
+        if not route_path or not isinstance(route_path, str):
+            return False
+        # Solo caracteres seguros
+        return re.match(r'^[a-zA-Z0-9/_\-]+$', route_path) is not None
+
+    def is_valid_data(data):
+        """Validate data parameter."""
+        if not data or not isinstance(data, str):
+            return False
+        # Limitar longitud y caracteres
+        if len(data) > 2000:  # Ajusta según necesidades
+            return False
+        # Solo caracteres seguros
+        return re.match(r'^[a-zA-Z0-9/_\-\.@%=+\[\]{}:;, ]*$', data) is not None
+
+    def is_valid_template_name(template_name):
+        """Validate template name."""
+        if not template_name or not isinstance(template_name, str):
+            return False
+        # Solo nombres de template seguros
+        return re.match(r'^[a-zA-Z0-9_.\-]+\.html$', template_name) is not None
+
+    # Sanitizar entradas
+    sanitized_route_path = sanitize_input(route_path)
+    sanitized_data = sanitize_input(data)
+
+    # Validar formatos
+    if not is_valid_route_path(route_path):
+        logger.warning(f"Invalid route path format: {route_path}")
+        return jsonify({'error': 'Invalid route path format'}), 400
+
+    if not is_valid_data(data):
+        logger.warning(f"Invalid data format: {data}")
+        return jsonify({'error': 'Invalid data format'}), 400
+
     DYNAMIC_ROUTES = load_routes()
-    logger.debug(f"Handling dynamic route: {route_path}/log/{data}")
+    logger.debug(f"Handling dynamic route: {sanitized_route_path}/log/{sanitized_data}")
+
     if route_path not in DYNAMIC_ROUTES:
-        logger.warning(f"Short URL not found or inactive: {route_path}")
-        return jsonify({'error': f'Short URL /{route_path} not found or inactive'}), 404
+        logger.warning(f"Short URL not found or inactive: {sanitized_route_path}")
+        # No reflejar la entrada del usuario en el error
+        return jsonify({'error': 'Short URL not found or inactive'}), 404
 
     try:
         request_details = get_request_details()
-        request_details['data'] = data
+        request_details['data'] = sanitized_data  # Usar versión sanitizada
+
         response = save_to_log(request_details)
 
         if response is None:
@@ -2061,15 +2257,27 @@ def dynamic_route(route_path, data):
             return jsonify({'error': 'Internal server error: Log save failed'}), 500
 
         if isinstance(response, tuple):
-            logger.error(f"Log save failed: {response[0]['error']}")
+            logger.error(f"Log save failed: {response[0].get('error', 'Unknown error')}")
             return jsonify(response[0]), response[1]
 
         template_name = DYNAMIC_ROUTES[route_path]
+
+        # Validar nombre del template
+        if not is_valid_template_name(template_name):
+            logger.error(f"Invalid template name: {template_name}")
+            return jsonify({'error': 'Invalid template configuration'}), 500
+
         logger.debug(f"Rendering template: {template_name}")
-        return render_template(template_name, data=data, session_id=response['id'])
+
+        # Pasar datos sanitizados al template
+        return render_template(template_name,
+                             data=sanitized_data,
+                             session_id=html.escape(str(response.get('id', ''))))
+
     except Exception as e:
         logger.error(f"Error in dynamic_route: {e}")
-        return jsonify({'error': str(e)}), 500
+        # No exponer detalles del error al usuario
+        return jsonify({'error': 'Internal server error'}), 500
 
 @app.route('/log/<path:data>', methods=['GET', 'POST'])
 def log(data):

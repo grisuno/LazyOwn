@@ -3,5 +3,7 @@
   "cam": "fakecam.html",
   "file": "fakefile.html",
   "sample": "sample.html",
-  "form": "fakeform.html"
+  "form": "fakeform.html",
+  "lazy": "sample.html",
+  "lazy2": "sample.html"
 }

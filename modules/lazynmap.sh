@@ -8,6 +8,15 @@
 # Licencia: GPL v3
 ################################################################################
 
+if command -v gum &> /dev/null; then
+    gum spin --spinner dot --title "Gum is installed..." -- sleep 0.1
+else
+    sudo mkdir -p /etc/apt/keyrings
+    curl -fsSL https://repo.charm.sh/apt/gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/charm.gpg
+    echo "deb [signed-by=/etc/apt/keyrings/charm.gpg] https://repo.charm.sh/apt/ * *" | sudo tee /etc/apt/sources.list.d/charm.list
+    sudo apt update && sudo apt install gum
+fi
+
 echo "    ██╗      █████╗ ███████╗██╗   ██╗ ██████╗ ██╗    ██╗███╗   ██╗"
 echo "    ██║     ██╔══██╗╚══███╔╝╚██╗ ██╔╝██╔═══██╗██║    ██║████╗  ██║"
 echo "    ██║     ███████║  ███╔╝  ╚████╔╝ ██║   ██║██║ █╗ ██║██╔██╗ ██║"
@@ -18,24 +27,31 @@ echo "    LazyNmap...:::...::.::......::::....::..::::..:::..:::...:::..:"
 trap ctrl_c INT
 
 function ctrl_c() {
-	echo "    [;,;] Trapped CTRL-C"
+    gum style \
+	--foreground 212 --border-foreground 212 --border double \
+	--align center --width 50 --margin "1 2" --padding "2 4" \
+	"    [;,;] Trapped CTRL-C"
 	exit 1
 }
 
 DIRECTORIO="./sessions"
 ARCHIVO="$DIRECTORIO/nmap-bootstrap.xsl"
-sudo chown 1000:1000 sessions -R
-sudo chmod 777 sessions/temp_uploads -R
+gum log --time rfc822 --level info "Start LazyNmap"
+gum spin --spinner dot --title "Chown 1000 ..." -- sudo chown 1000:1000 sessions -R
+gum spin --spinner dot --title "Chmod 775 in sessions ..." --  sudo chmod 777 sessions/temp_uploads -R
 # Verificar si el archivo no existe
 if [ ! -f "$ARCHIVO" ]; then
-    echo "    [*] The file don't exist. Downloading..."
+    gum log --time rfc822 --level info "    [*] The file don't exist. Downloading..."
     wget https://raw.githubusercontent.com/honze-net/nmap-bootstrap-xsl/stable/nmap-bootstrap.xsl -O "$ARCHIVO"
 else
-    echo "    [+] The file exist. Don't download again."
+    gum log --time rfc822 --level info "    [+] The file exist. Don't download again."
 fi
 
 if [ $# -lt 1 ]; then
-	echo "    [?] use: $0 -t <target>"
+    gum style \
+	--foreground 212 --border-foreground 212 --border double \
+	--align center --width 50 --margin "1 2" --padding "2 4" \
+	"    [?] use: $0 -t <target>"
 	exit 1
 fi
 
@@ -51,18 +67,24 @@ while getopts "t:d" opt; do
 		DISCOVER_NETWORK=true
 		;;
 	\?)
-		echo "    [?] Use: $0 -t <target> [-d]"
+        gum style \
+        --foreground 212 --border-foreground 212 --border double \
+        --align center --width 50 --margin "1 2" --padding "2 4" \
+        "    [?] Use: $0 -t <target> [-d]"
 		exit 1
 		;;
 	esac
 done
 
 if [ -z "$TARGET" ] && [ "$DISCOVER_NETWORK" = false ]; then
-	echo "    [?] Use: $0 -t <target> [-d]"
+    gum style \
+	--foreground 212 --border-foreground 212 --border double \
+	--align center --width 50 --margin "1 2" --padding "2 4" \
+	"    [?] Use: $0 -t <target> [-d]"
 	exit 1
 fi
 nmaptest() {
-  
+
   test -f /usr/bin/nmap
   if [ "$(echo $?)" -ne 0 ]; then
     sudo apt-get install nmap -y > /dev/null 2>&1
@@ -74,24 +96,27 @@ nmaptest() {
   fi
 
 }
-nmaptest
-echo "    [+] Updating Nmap NSE Scripts DataBase..."
-sudo nmap --script-updatedb
+gum spin --spinner dot --title "Nmap Test..." -- nmaptest
+gum style \
+	--foreground 212 --border-foreground 212 --border double \
+	--align center --width 50 --margin "1 2" --padding "2 4" \
+ '    [+] Updating Nmap NSE Scripts DataBase...'
+gum spin --spinner dot --title "nmap updatedb..." -- sudo nmap --script-updatedb
 
 discover_network() {
-	echo "    [+] Discovering local network..."
+	gum log --time rfc822 --level info "    [+] Discovering local network..."
 	local subnet=$(ip -o -f inet addr show | awk '/scope global/ {print $4}')
 	for net in $subnet; do
 		net_sanitized=$(echo "$net" | tr '/' '_')
-		echo "    [-] Scannign subnet $net..."
-		sudo nmap -sn $net -oG network_discovery -oN "sessions/scan_discovery_${net_sanitized}.nmap" --stylesheet "$ARCHIVO" -oX "sessions/scan_discovery_${net_sanitized}.nmap.xml"
+		gum log --time rfc822 --level info "    [-] Scannign subnet $net..."
+		gum spin --spinner dot --title "Nmap Discovering..." -- sudo nmap -sn $net -oG network_discovery -oN "sessions/scan_discovery_${net_sanitized}.nmap" --stylesheet "$ARCHIVO" -oX "sessions/scan_discovery_${net_sanitized}.nmap.xml"
 		python3 modules/nmap2csv.py -i "sessions/scan_discovery_${net_sanitized}.nmap" -o "sessions/scan_discovery_${net_sanitized}.csv"
-		echo "    [+] Active Host in the network $net:" 
+		gum log --time rfc822 --level info "    [+] Active Host in the network $net:"
 		grep "Up" network_discovery | awk '{print $2}' | tee "sessions/hosts_$(echo "$net" | tr '/' '_')_discovery.txt"
 	done
 }
 
-
+gum log --time rfc822 --level info "Creating html files"
 for xmlfile in "$DIRECTORIO"/*.xml; do
 	echo "$xmlfile"
     base_name=$(basename "$xmlfile" .xml)
@@ -100,10 +125,16 @@ for xmlfile in "$DIRECTORIO"/*.xml; do
     if [[ -f "$nmapfile" ]]; then
         htmlfile="$DIRECTORIO/$base_name.html"
         xsltproc -o "$htmlfile" "$ARCHIVO" "$xmlfile"
-		searchsploit --nmap "$xmlfile" | tee "$xmlfile"_searchsploit.log
-        echo "    [+] Report generated HTML: $htmlfile"
+		gum spin --spinner dot --title "Searchsploit is searching..." -- searchsploit --nmap "$xmlfile" | tee "$xmlfile"_searchsploit.log
+		gum style \
+			--foreground 212 --border-foreground 212 --border double \
+			--align center --width 50 --margin "1 2" --padding "2 4" \
+		 "    [+] Report generated HTML: $htmlfile"
     else
-        echo "    [-] File .nmap Notfound to: $xmlfile"
+        gum style \
+       	--foreground 212 --border-foreground 212 --border double \
+       	--align center --width 50 --margin "1 2" --padding "2 4" \
+        "    [-] File .nmap Notfound to: $xmlfile"
     fi
 done
 
@@ -665,6 +696,8 @@ cat <<EOL > $OUTPUT_HTML
 
 EOL
 
+gum log --time rfc822 --level info "Automatic update html file"
+
 for file in "$DIRECTORIO"/*.html; do
     if [[ -f "$file" ]]; then
         file_name=$(basename "$file")
@@ -701,16 +734,19 @@ done
 cat <<EOL >> $OUTPUT_HTML
             </tbody>
         </table>
-			
+
     </div>
 </body>
 </html>
 EOL
 
-echo "    [*] File generated: $OUTPUT_HTML"
+gum style \
+	--foreground 212 --border-foreground 212 --border double \
+	--align center --width 50 --margin "1 2" --padding "2 4" \
+ "    [*] File generated: $OUTPUT_HTML"
 
-chown 1000:1000 sessions -R
-chmod 755 sessions -R
+gum spin --spinner dot --title "Chown files to 1000..." -- chown 1000:1000 sessions -R
+gum spin --spinner dot --title "Chmod 755 on sessions..." -- chmod 755 sessions -R
 
 if [ "$DISCOVER_NETWORK" = true ]; then
 	discover_network
@@ -719,21 +755,30 @@ fi
 
 START_TIME=$(date +%s)
 
-echo "    [-] Starting Recon LazyOwn RedTeam Framework Nmap Script..."
-sudo nmap -p- --open -sS --min-rate 5000 -vvv -n -Pn $TARGET -oG puertos -oN "sessions/scan_${TARGET}.nmap" --stylesheet "$ARCHIVO" -oX "sessions/scan_${TARGET}.nmap.xml"
-echo "sudo nmap -p- --open -sS --min-rate 5000 -vvv -n -Pn $TARGET -oG puertos -oN "sessions/scan_${TARGET}.nmap" --stylesheet "$ARCHIVO" -oX "sessions/scan_${TARGET}.nmap.xml""
+gum style \
+	--foreground 212 --border-foreground 212 --border double \
+	--align center --width 50 --margin "1 2" --padding "2 4" \
+    "    [-] Starting Recon LazyOwn RedTeam Framework Nmap Script..."
+gum spin --spinner dot --title "Nmap is doing the magic ..." -- sudo nmap -p- --open -sS --min-rate 5000 -vvv -n -Pn $TARGET -oG puertos -oN "sessions/scan_${TARGET}.nmap" --stylesheet "$ARCHIVO" -oX "sessions/scan_${TARGET}.nmap.xml"
+gum style \
+	--foreground 212 --border-foreground 212 --border double \
+	--align center --width 50 --margin "1 2" --padding "2 4" \
+	"sudo nmap -p- --open -sS --min-rate 5000 -vvv -n -Pn $TARGET -oG puertos -oN "sessions/scan_${TARGET}.nmap" --stylesheet "$ARCHIVO" -oX "sessions/scan_${TARGET}.nmap.xml""
 python3 modules/nmap2csv.py -i "sessions/scan_${TARGET}.nmap" -o "sessions/scan_${TARGET}.csv"
-echo "sudo nmap -sTV -A --script=vulners.nse $TARGET -oN 'sessions/vulns_${TARGET}.nmap' --stylesheet '$ARCHIVO' -oX 'sessions/vulns_${TARGET}.nmap.xml'"
-sudo nmap -sTV -A --script=vulners.nse $TARGET -oN "sessions/vulns_${TARGET}.nmap" --stylesheet "$ARCHIVO" -oX "sessions/vulns_${TARGET}.nmap.xml"
+gum style \
+	--foreground 212 --border-foreground 212 --border double \
+	--align center --width 50 --margin "1 2" --padding "2 4" \
+	"sudo nmap -sTV -A --script=vulners.nse $TARGET -oN 'sessions/vulns_${TARGET}.nmap' --stylesheet '$ARCHIVO' -oX 'sessions/vulns_${TARGET}.nmap.xml'"
+gum spin --spinner dot --title "Nmap vulns script is doing the magic ..." -- sudo nmap -sTV -A --script=vulners.nse $TARGET -oN "sessions/vulns_${TARGET}.nmap" --stylesheet "$ARCHIVO" -oX "sessions/vulns_${TARGET}.nmap.xml"
 python3 modules/nmap2csv.py -i "sessions/vulns_${TARGET}.nmap" -o "sessions/vulns_${TARGET}.csv"
 
 extract_ports_info() {
 	local file=$1
 	ports=$(grep -oP '\d{1,5}/open' $file | awk '{print $1}' FS='/' | xargs | tr ' ' ',')
 	ip_address=$(grep -oP '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}' $file | sort -u | head -n 1)
-	echo -e "\n    [*] Extrcting info...\n"
-	echo -e "\t    [*] IP Address: $ip_address"
-	echo -e "\t    [*] Open Ports: $ports\n"
+	gum log --time rfc822 --level info "\n    [*] Extrcting info...\n"
+	gum log --time rfc822 --level info "\t    [*] IP Address: $ip_address"
+	gum log --time rfc822 --level info "\t    [*] Open Ports: $ports\n"
 }
 
 extract_ports_info "puertos"
@@ -741,17 +786,26 @@ extract_ports_info "puertos"
 PORTS=$(grep -oP '\d{1,5}/open/tcp' puertos | awk -F/ '{print $1}' | tr '\n' ',' | sed 's/,$//')
 
 if [ -z "$PORTS" ]; then
-	echo "    [!] Not open ports found in the target: $TARGET"
+    gum style \
+			--foreground 212 --border-foreground 212 --border double \
+			--align center --width 50 --margin "1 2" --padding "2 4" \
+		    "    [!] Not open ports found in the target: $TARGET"
 	exit 1
 fi
 
-echo "    [+] Open Ports found:: $PORTS"
+gum style \
+	--foreground 212 --border-foreground 212 --border double \
+	--align center --width 50 --margin "1 2" --padding "2 4" \
+	"    [+] Open Ports found:: $PORTS"
 
 run_nmap_script() {
 	PORT=$1
-	echo "    [;,;] Scanning port: $PORT at the target: $TARGET..."
-	sudo nmap -p $PORT -sCV $TARGET -oN "sessions/scan_${TARGET}_${PORT}.nmap" --stylesheet "$ARCHIVO" -oX "sessions/scan_${TARGET}_${PORT}.nmap.xml"
-	python3 modules/nmap2csv.py -i "sessions/scan_${TARGET}_${PORT}.nmap" -o "sessions/scan_${TARGET}_${PORT}.csv" 
+	gum style \
+		--foreground 212 --border-foreground 212 --border double \
+		--align center --width 50 --margin "1 2" --padding "2 4" \
+	    "    [;,;] Scanning port: $PORT at the target: $TARGET..."
+	gum spin --spinner dot --title "Nmap is doing the magic ..." -- sudo nmap -p $PORT -sCV $TARGET -oN "sessions/scan_${TARGET}_${PORT}.nmap" --stylesheet "$ARCHIVO" -oX "sessions/scan_${TARGET}_${PORT}.nmap.xml"
+	python3 modules/nmap2csv.py -i "sessions/scan_${TARGET}_${PORT}.nmap" -o "sessions/scan_${TARGET}_${PORT}.csv"
 }
 
 export -f run_nmap_script
@@ -762,12 +816,18 @@ echo $PORTS | tr ',' '\n' | xargs -P 0 -I {} bash -c 'run_nmap_script "$@"' _ {}
 SCANS=$(ls -1 sessions/scan_*.nmap 2>/dev/null)
 
 if [ -z "$PORTS" ]; then
-	echo "    [-] Not found open ports at file 'puertos'"
+    gum style \
+	--foreground 212 --border-foreground 212 --border double \
+	--align center --width 50 --margin "1 2" --padding "2 4" \
+	"    [-] Not found open ports at file 'puertos'"
 	exit 1
 fi
 
 if [ -z "$SCANS" ]; then
-	echo "    [-] Not found open scan files (scan_*.nmap)"
+    gum style \
+	--foreground 212 --border-foreground 212 --border double \
+	--align center --width 50 --margin "1 2" --padding "2 4" \
+	"    [-] Not found open scan files (scan_*.nmap)"
 	exit 1
 fi
 
@@ -791,7 +851,7 @@ for PORT in $(echo $PORTS |     tr ',' ' '); do
 		fi
 	done
 
-	print_row "$PORT" "$INFO"
+	gum table < "$PORT" "$INFO"
 done
 
 echo "    +------------+--------------------------------------------------------------+"
@@ -807,10 +867,16 @@ for xmlfile in "$DIRECTORIO"/*.xml; do
 
         htmlfile="$DIRECTORIO/$base_name.html"
         xsltproc -o "$htmlfile" "$ARCHIVO" "$xmlfile"
-		searchsploit --nmap "$xmlfile" | tee "$xmlfile"_searchsploit.log
-        echo "    [+] Rport generating HTML: $htmlfile"
+		gum spin --spinner dot --title "Searchsploit is searching..." -- searchsploit --nmap "$xmlfile" | tee "$xmlfile"_searchsploit.log
+		gum style \
+			--foreground 212 --border-foreground 212 --border double \
+			--align center --width 50 --margin "1 2" --padding "2 4" \
+		    "    [+] Rport generating HTML: $htmlfile"
     else
-        echo "    [-] File .nmap not found to $xmlfile"
+        gum style \
+        --foreground 212 --border-foreground 212 --border double \
+        --align center --width 50 --margin "1 2" --padding "2 4" \
+        "    [-] File .nmap not found to $xmlfile"
     fi
 done
 
@@ -1411,12 +1477,20 @@ cat <<EOL >> $OUTPUT_HTML
 </html>
 EOL
 
-echo "    [*] File HTML Generated: $OUTPUT_HTML"
+gum style \
+	--foreground 212 --border-foreground 212 --border double \
+	--align center --width 50 --margin "1 2" --padding "2 4" \
+	"    [*] File HTML Generated: $OUTPUT_HTML"
 
 
 END_TIME=$(date +%s)
 EXECUTION_TIME=$(($END_TIME - $START_TIME))
-
-echo "    [t] The Execution time was:: $EXECUTION_TIME seconds."
-chown 1000:1000 sessions -R
-chmod 755 sessions -R
+gum log --time rfc822 --level info $END_TIME
+gum log --time rfc822 --level info $EXECUTION_TIME
+gum style \
+	--foreground 212 --border-foreground 212 --border double \
+	--align center --width 50 --margin "1 2" --padding "2 4" \
+	"    [t] The Execution time was:: $EXECUTION_TIME seconds."
+gum spin --spinner dot --title "Chown files to user 1000..." -- chown 1000:1000 sessions -R
+gum spin --spinner dot --title "Chmod 755 on sessions..." -- chmod 755 sessions -R
+gum log --time rfc822 --level info "The End"

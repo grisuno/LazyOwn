@@ -1,0 +1,12 @@
+name: AdaptixC2
+description: >
+  Adaptix is an extensible post-exploitation and adversarial emulation framework made for penetration testers. The Adaptix server is written in Golang and to allow operator flexibility. The GUI Client is written in C++ QT, allowing it to be used on Linux, Windows, and MacOS operating systems.
+author: "Adaptix-Framework"
+version: "v0.6"
+enabled: true
+tool:
+  name: AdaptixC2
+  repo_url: https://github.com/Adaptix-Framework/AdaptixC2.git
+  install_path: external/.exploit/AdaptixC2
+  install_command: sudo apt install mingw-w64 make ; sudo apt install gcc g++ build-essential make cmake libssl-dev qt6-base-dev qt6-websockets-dev qt6-declarative-dev ; make server ; make extenders ; openssl req -x509 -nodes -newkey rsa:2048 -keyout server.rsa.key -out server.rsa.crt -days 3650
+  execute_command: ./dist/adaptixserver -profile ../../../sessions/profile.json

@@ -6,6 +6,20 @@
 
 ### Otros
 
+  *   * feat(feat): some bug fixing \n\n Version: release/0.2.47 \n\n and using gum in shell scripting \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Jul 28 01:19:41 2025 -0400 \n\n Hora: 1753679981
+
+
+### Otros
+
+### Otros
+
+  *   * usign gum in shell scripting and new custom loader to windows for msf payload in c and asm
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): new yamls and some fix \n\n Version: release/0.2.46 \n\n new template phishing route \n\n Modified file(s):\n- README.md - UTILS.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Jul 15 19:53:44 2025 -0400 \n\n Hora: 1752623624
 
 

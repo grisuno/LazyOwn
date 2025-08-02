@@ -6,6 +6,20 @@
 
 ### Otros
 
+  *   * feat(feat): New LazyAddons cgoblin and gomulti_loader remote code execution in LazyAddons and much much more xd \n\n Version: release/0.2.48 \n\n ind love \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Aug 2 16:17:30 2025 -0400 \n\n Hora: 1754165850
+
+
+### Otros
+
+### Otros
+
+  *   * new LazyAddons to the family gmulti_loader and CGOblin, remote code execution from LazyAddons and much more
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): some bug fixing \n\n Version: release/0.2.47 \n\n and using gum in shell scripting \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Jul 28 01:19:41 2025 -0400 \n\n Hora: 1753679981
 
 

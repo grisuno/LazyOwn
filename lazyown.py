@@ -416,6 +416,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         method = getattr(self, method_name, None)
         self.onecmd("rrhost")
+
         if callable(method):
             return method(cmd_args)
         else:
@@ -708,31 +709,45 @@ class LazyOwnShell(cmd2.Cmd):
                         self.display_toastr(f"Error: Parameter '{param_name}' is missing and no default value is provided.", type='warning')
                         return
 
-                install_path = os.path.join(os.getcwd(), tool['install_path'])
-
-                if not os.path.exists(install_path):
-                    self.display_toastr(f"{tool['name']} is not installed. Installing...", type='warning')
-                    self.cmd(f"git clone {tool['repo_url']} {install_path}")
-                    if 'install_command' in tool:
-                        cmd = f"cd {install_path} && {tool['install_command']}"
-                        self.cmd(cmd)
-
                 try:
+                    install_path = os.path.join(os.getcwd(), tool['install_path'])
+                    if not os.path.exists(install_path):
+                        self.display_toastr(f"{tool['name']} is not installed. Installing...", type='warning')
+                        self.cmd(f"git clone {tool['repo_url']} {install_path}")
+                        if 'install_command' in tool:
+                            cmdinstall = replace_command_placeholders(tool['install_command'], self.params)
+                            cmd = f"cd {install_path} && {cmdinstall}"
+                            self.cmd(cmd)
 
-                    command = execute_command.format(**param_values)
-                    command_replaced = replace_command_placeholders(command, self.params)
-                    if args:
-                        final_command = f"cd {install_path} && {command_replaced} {' '.join(args)}"
-                    else:
-                        final_command = f"cd {install_path} && {command_replaced}"
+                    if 'execute_command' in tool:
+                        command = execute_command.format(**param_values)
+                        command_replaced = replace_command_placeholders(command, self.params)
+                        if args:
+                            final_command = f"cd {install_path} && {command_replaced} {' '.join(args)}"
+                        else:
+                            final_command = f"cd {install_path} && {command_replaced}"
+                        self.cmd(final_command)
+
+                    if 'upload_file' in tool:
+                        remotecmd = replace_command_placeholders(tool['upload_file'], self.params)
+                        cmd_remotecmd = f"upload_c2 {remotecmd}"
+                        self.display_toastr(f"Remote command executing: {remotecmd}", type='info')
+                        self.onecmd(cmd_remotecmd)
+
+                    if 'remote_command' in tool:
+                        remotecmd = replace_command_placeholders(tool['remote_command'], self.params)
+                        cmd_remotecmd = f"issue_command_to_c2 {remotecmd}"
+                        self.display_toastr(f"Remote command executing: {remotecmd}", type='info')
+                        self.onecmd(cmd_remotecmd)
                 except KeyError as e:
                     self.display_toastr(f"Error: Missing parameter '{e}' in the plugin configuration.", type='error')
                     return
 
-                self.cmd(final_command)
 
             except Exception as e:
                 self.display_toastr(f"Error in plugin '{name}': {e}", type='error')
+                return
+
         wrapper_yaml.__doc__  = description
         setattr(self, f'do_{name}', wrapper_yaml)
         print_msg(f"Command '{name}' registered from YAML.")
@@ -3862,6 +3877,10 @@ class LazyOwnShell(cmd2.Cmd):
         packetstormsecurity(getnvd)
         self.cmd(f"msfconsole -q -x \"search {line}; exit\"")
         line = line.replace(" ","+")
+        if not is_binary_present("pompem"):
+            self.display_toastr("Not Found pompem, installing", type="warning")
+            self.cmd("sudo apt install pompem -y")
+        self.cmd(f"cd sessions && pompem -s {line} --txt")
         self.onecmd(f"creds_py '{line}'")
         print_msg(f"To open use Ctrl + Click: {BLUE}{UNDERLINE}https://sploitus.com/?query={line}#exploits")
         print_msg(f"To open use Ctrl + Click: {BLUE}{UNDERLINE}https://exploits.shodan.io/?q={line}")
@@ -5786,6 +5805,7 @@ class LazyOwnShell(cmd2.Cmd):
         else:
             self.custom_prompt = getprompt().replace(']', f" ~{GREEN}{cwd}{YELLOW}]{BRIGHT_YELLOW}[{MAGENTA}{rhost}{BRIGHT_YELLOW}][{BRIGHT_BLUE}{url}{BRIGHT_YELLOW}]")
             self.prompt = f"{self.custom_prompt}"
+
         return
 
     @cmd2.with_category(miscellaneous_category)
@@ -23963,7 +23983,7 @@ class LazyOwnShell(cmd2.Cmd):
     @cmd2.with_category(lateral_movement_category)
     def do_upload_c2(self, line):
         """
-        Exec command in the client using the C2.
+        upload command in the client using the C2 to upload a file
 
         Parameters:
         command (str): client_id [optional], Command to exec.
@@ -26798,6 +26818,13 @@ class LazyOwnShell(cmd2.Cmd):
                 print_msg(f"Command copied: {cmd}")
             print_warn("Execution cancelled.")
 
+    def do_pop(self, line):
+        if not line:
+            input("    [!] Enter command: ")
+
+        cmd = f"tmux display-popup -E '{line} ; read -p \"    [!] Press enter to continue...\"'"
+        self.cmd(cmd)
+        return
 if __name__ == "__main__":
     p = LazyOwnShell()
     p.load_yaml_plugins()

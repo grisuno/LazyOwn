@@ -1,0 +1,12 @@
+name: NullGate
+description: >
+  Library that eases the use of indirect syscalls. Quite interesting AV/EDR bypass as PoC.
+author: "0xsch1zo"
+version: "1.2.0"
+enabled: true
+tool:
+  name: NullGate
+  repo_url: https://github.com/0xsch1zo/NullGate.git
+  install_path: external/.exploit/NullGate
+  install_command: sudo apt update && sudo apt install mingw-w64 -y ; cmake . -B build  -DNULLGATE_BUILD_SAMPLE=ON  -DNULLGATE_CROSSCOMPILE=ON  -DCMAKE_C_COMPILER=x86_64-w64-mingw32-gcc   -DCMAKE_CXX_COMPILER=x86_64-w64-mingw32-g++ -DCMAKE_SYSTEM_NAME=Windows ; cmake --build build/
+  execute_command: file build/sample.exe

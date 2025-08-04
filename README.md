@@ -2311,6 +2311,9 @@ Carga la base de conocimientos personalizada.
 ## anti_debug
 No description available.
 
+## create_msfshellcoder_parser
+No description available.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 
@@ -11539,6 +11542,20 @@ Recursively resolve and download package dependencies with enhanced checks
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): New LazyAddons cgoblin and gomulti_loader remote code execution in LazyAddons and much much more xd \n\n Version: release/0.2.48 \n\n ind love \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Aug 2 16:17:30 2025 -0400 \n\n Hora: 1754165850
+
+
+### Otros
+
+### Otros
+
+  *   * new LazyAddons to the family gmulti_loader and CGOblin, remote code execution from LazyAddons and much more
 
 
 ### Nuevas características

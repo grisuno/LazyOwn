@@ -515,104 +515,89 @@ show: Displays the current values of all parameters.
 run <script>: Executes a specific script available in the framework.
 Available Scripts
 
-┌─[LazyOwn👽192.168.1.92 ~/home/gris/tools/LazyOwn][10.10.11.29][http://lantern.htb/]
-└╼ $ ls
-    [+] Available scripts to run: [👽]
-    [+] lazysearch                lazysearch_gui            lazyown                 [👽]
-    [+] update_db                 lazynmap                  lazyaslrcheck           [👽]
-    [+] lazynmapdiscovery         lazygptcli                lazyburpfuzzer          [👽]
-    [+] lazymetaextract0r         lazyreverse_shell         lazyattack              [👽]
-    [+] lazyownratcli             lazyownrat                lazygath                [👽]
-    [+] lazysniff                 lazynetbios               lazybotnet              [👽]
-    [+] lazybotcli                lazyhoneypot              lazysearch_bot          [👽]
-    [+] lazylfi2rce               lazylogpoisoning          lazymsfvenom            [👽]
-    [+] lazypathhijacking         lazyarpspoofing           lazyftpsniff            [👽]
-    [+] lazyssh77enum             lazywerkzeugdebug       [👽]
-
- ┌─[LazyOwn👽10.10.14.92/khali ~/home/grisun0/LazyOwn][10.10.11.69][http://fluffy.htb]
+┌─[👤grisun0 (LazyOwn👽khali) ~/home/grisun0/LazyOwn][10.10.11.78][http://Mirage.htb] 🌐10.10.14.11 ✗ main (🐍env)
 └╼ $ ?
 
 Documented commands (use 'help -v' for verbose/'help <topic>' for details):
 
 01. Reconnaissance
 ==================
-alterx        finalrecon       ping             trace
-apache_users  getcap           ports            trufflehog
-binarycheck   gospider         proxy            tshark_analyze
-cve           graudit          recon            waybackmachine
-dig           httprobe         serveralive2     whatweb
+alterx        finalrecon       ping             trace                  
+apache_users  getcap           ports            trufflehog             
+binarycheck   gospider         proxy            tshark_analyze         
+cve           graudit          recon            waybackmachine         
+dig           httprobe         serveralive2     whatweb                
 dnschef       ipinfo           sherlock         windapsearchscrapeusers
-dnsenum       launchpad        sslscan
+dnsenum       launchpad        sslscan        
 dnsmap        metabigor        tcpdump_capture
-dnstool_py    openssl_sclient  tcpdump_icmp
+dnstool_py    openssl_sclient  tcpdump_icmp   
 
 02. Scanning & Enumeration
 ==========================
-ad_ldap_enum   feroxbuster       netexec              sawks
-allin          finger_user_enum  netview              sessionssh
-amass          fuzz              nikto                skipfish
-arjun          getnpusers        nmapscript           smbattack
-arpscan        gobuster          nuclei               smbclient
-batchnmap      hostdiscover      odat                 smbclient_impacket
-bbot           hound             openredirex          smbclient_py
-blazy          kerbrute          osmedeus             smbmap
-bloodhound     lazynmap          parsero              smtpuserenum
-breacher       ldapdomaindump    parth                snmpcheck
-certipy        ldapsearch        portdiscover         snmpwalk
-changeme       lookupsid         portservicediscover  swaks
-cme            lookupsid_py      pre2k                vscan
-davtest        loxs              pykerbrute           wfuzz
-dirsearch      lynis             rdp_check_py         windapsearch
-dmitry         magicrecon        rpcclient            wpscan
-enum4linux     mqtt_check_py     rpcdump
-enum4linux_ng  nbtscan           rpcmap_py
-evil_ssdp      net_rpc_addmem    samrdump
+ad_ldap_enum  enum4linux_ng     nbtscan              rpcdump             wpscan
+allin         evil_ssdp         net_rpc_addmem       rpcmap_py         
+amass         feroxbuster       netexec              samrdump          
+arjun         finger_user_enum  netview              sawks             
+arpscan       fuzz              nikto                sessionssh        
+batchnmap     getnpusers        nmapscript           skipfish          
+bbot          gobuster          nuclei               smbattack         
+blazy         hound             odat                 smbclient         
+bloodhound    kerbrute          openredirex          smbclient_impacket
+breacher      lazynmap          osmedeus             smbclient_py      
+certipy       ldapdomaindump    parsero              smbmap            
+certipy_ad    ldapsearch        parth                smtpuserenum      
+changeme      lookupsid         portdiscover         snmpcheck         
+cme           lookupsid_py      portservicediscover  snmpwalk          
+davtest       loxs              pre2k                swaks             
+dirsearch     lynis             pykerbrute           vscan             
+dmitry        magicrecon        rdp_check_py         wfuzz             
+enum4linux    mqtt_check_py     rpcclient            windapsearch      
 
 03. Exploitation
 ================
-aclpwn_py         gettgtpkinit_py  psexec            sqlmap
-addspn_py         greatSCT         psexec_py         sqsh
-autoblody         img2cookie       py3ttyup          ss
-cacti_exploit     jwt_tool         pyautomate        sshexploit
+aclpwn_py         gettgtpkinit_py  psexec            sqlmap                    
+addspn_py         greatSCT         psexec_py         sqsh                      
+autoblody         img2cookie       py3ttyup          ss                        
+cacti_exploit     jwt_tool         pyautomate        sshexploit                
 commix            krbrelayx_py     pyoracle2         template_helper_serializer
-cp                kusa             pywhisker         ticketer
-createcookie      lazypwn          rejetto_hfs_exec  unicode_WAFbypass
-createdll         lfi              rev               upload_bypass
-digdug            lol              seo               utf
-download_exploit  ms08_067_netapi  sharpshooter      winbase64payload
-downloader        ntpdate          shellfire         wrapper
-eternal           owneredit        shellshock        www
-excelntdonut      padbuster        sireprat          xss
-filtering         powerserver      sqli              xsstrike
-gets4uticket_py   printerbug_py    sqli_mssql_test
+cp                kusa             pywhisker         ticketer                  
+createcookie      lazypwn          rejetto_hfs_exec  unicode_WAFbypass         
+createdll         lfi              rev               upload_bypass             
+digdug            lol              seo               utf                       
+download_exploit  ms08_067_netapi  sharpshooter      winbase64payload          
+downloader        ntpdate          shellfire         wrapper                   
+eternal           owneredit        shellshock        www                       
+excelntdonut      padbuster        sireprat          xss                       
+filtering         powerserver      sqli              xsstrike                  
+gets4uticket_py   printerbug_py    sqli_mssql_test 
 
 04. Post-Exploitation
 =====================
-adversary                    extract_yaml         pip_repo
-adversary_yaml               find                 powershell_cmd_stager
-ai_playbook                  follina              rubeus
-apt_proxy                    hex2shellcode        scavenger
-apt_repo                     internet_proxy       scp
-atomic_lazyown               issue_command_to_c2  service_ssh
-bin2shellcode                lazywebshell         sessionsshstrace
-convert_remcomsvc_from_file  mimikatzpy           shellcode
-cports                       ofuscate_string      shellcode2elf
-create_synthetic             ofuscatesh           shellcode2sylk
-createpayload                ofuscatorps1         shellcode_search
-d3monizedshell               path2hex             ssh_cmd
-disableav                    pezorsh
-exe2bin                      pip_proxy
+adversary                    extract_yaml         pip_proxy            
+adversary_yaml               find                 pip_repo             
+ai_playbook                  follina              powershell_cmd_stager
+apt_proxy                    hex2shellcode        rubeus               
+apt_repo                     internet_proxy       scavenger            
+atomic_lazyown               issue_command_to_c2  scp                  
+bin2shellcode                lazywebshell         service_ssh          
+convert_remcomsvc_from_file  mimikatzpy           sessionsshstrace     
+cports                       msfshellcoder        shellcode            
+create_synthetic             ofuscate_string      shellcode2elf        
+createpayload                ofuscatesh           shellcode2sylk       
+d3monizedshell               ofuscatorps1         shellcode_search     
+disableav                    path2hex             ssh_cmd              
+exe2bin                      pezorsh            
 
 05. Persistence
 ===============
 asprevbase64       ftp                msfpc                 setoolKits
-backdoor_factory   generate_revshell  paranoid_meterpreter  ssh
-conptyshell        grisun0            pwncat                toctoc
-createrevshell     grisun0w           pwncatcs              veil
-createwebshell     ivy                rdp                   weevely
+backdoor_factory   generate_revshell  paranoid_meterpreter  ssh       
+conptyshell        grisun0            pwncat                toctoc    
+createrevshell     grisun0w           pwncatcs              veil      
+createwebshell     ivy                rdp                   weevely   
 createwinrevshell  knokknok           revwin                weevelygen
-darkarmour         listener_go        scarecrow
-dr0p1t             listener_py        service
+darkarmour         listener_go        scarecrow           
+dr0p1t             listener_py        service             
 
 06. Privilege Escalation
 ========================
@@ -620,95 +605,110 @@ responder  smbserver
 
 07. Credential Access
 =====================
-addusers                cred          john2hash        rocky
-adsso_spray             creds_py      john2keepas      searchhash
-cewl                    crunch        john2zip         smalldic
-crack_cisco_7_password  cubespraying  keepass          spraykatz
-createcredentials       dacledit      medusa           sshkey
-createhash              generatedic   passtightvnc     sudo
-createmail              hashcat       passwordspray    transform
+addusers                cred          john2hash        rocky           
+adsso_spray             creds_py      john2keepas      searchhash      
+cewl                    crunch        john2zip         smalldic        
+crack_cisco_7_password  cubespraying  keepass          spraykatz       
+createcredentials       dacledit      medusa           sshkey          
+createhash              generatedic   passtightvnc     sudo            
+createmail              hashcat       passwordspray    transform       
 createusers_and_hashs   hydra         refill_password  username_anarchy
 
 08. Lateral Movement
 ====================
-addcli     id_rsa           penelope         sshd               wifipass
-bloodyAD   lateral_mov_lin  regeorg          stormbreaker       wmiexec
+addcli     id_rsa           penelope         sshd               wifipass  
+bloodyAD   lateral_mov_lin  regeorg          stormbreaker       wmiexec   
 chisel     ligolo           rnc              targetedKerberoas  wmiexecpro
-dcomexec   mssqlcli         set_proxychains  tord
-getTGT     nc               shadowsocks      upload_c2
-gospherus  ngrok            socat            vpn
+dcomexec   mssqlcli         set_proxychains  tord             
+getTGT     nc               shadowsocks      upload_c2        
+gospherus  ngrok            socat            vpn              
 
 09. Data Exfiltration
 =====================
-adgetpass    dploot    evilwinrm     getuserspns  reg_py    secretsdump
-decrypt      encrypt   getadusers    gitdumper    rsync     unzip
+adgetpass    dploot    evilwinrm     getuserspns  reg_py    secretsdump  
+decrypt      encrypt   getadusers    gitdumper    rsync     unzip        
 download_c2  evidence  getnthash_py  gmsadumper   samdump2  upload_gofile
 
 10. Command & Control
 =====================
 atomic_agent  automsf     emp3r0r                mitre_test   sliver_server
-atomic_gen    c2          empire                 msf
-atomic_tests  caldera     generate_playbook      msfrpc
+atomic_gen    c2          empire                 msf        
+atomic_tests  caldera     generate_playbook      msfrpc     
 attack_plan   duckyspark  iis_webdav_upload_asp  my_playbook
 
 11. Reporting
 =============
 apropos                  createtargets          gpt             process_scans
-banners                  download_malwarebazar  groq            pth_net
-c2asm                    extract_ports          img2vid         pup
-camphish                 eyewitness             malwarebazar    vulns
-create_session_json      eyewitness_py          morse
-createjsonmachine        get_avaible_actions    name_the_hash
+banners                  download_malwarebazar  groq            pth_net      
+c2asm                    extract_ports          img2vid         pup          
+camphish                 eyewitness             malwarebazar    vulns        
+create_session_json      eyewitness_py          morse         
+createjsonmachine        get_avaible_actions    name_the_hash 
 createjsonmachine_batch  gowitness              nmapscripthelp
 
 12. Miscellaneous
 =================
-acknowledgearp   clone_site          getseclist        links         run
-acknowledgeicmp  cron                graph             list          sh
-addhosts         decode              h                 load_session  show
-aliass           download_resources  hex_to_plaintext  nano          sys
-assign           encode              ignorearp         news          tab
+acknowledgearp   clone_site          getseclist        links         run      
+acknowledgeicmp  cron                graph             list          sh       
+addhosts         decode              h                 load_session  show     
+aliass           download_resources  hex_to_plaintext  nano          sys      
+assign           encode              ignorearp         news          tab      
 banner           encoderpayload      ignoreicmp        payload       urldecode
 base64decode     encodewinbase64     ip                pwd           urlencode
-base64encode     exit                ip2asn            qa            v
-check_update     fixel               ip2hex            rhost
-clean            fixperm             kick              rot
-clock            gencert             lazyscript        rotf
+base64encode     exit                ip2asn            qa            v        
+check_update     fixel               ip2hex            rhost       
+clean            fixperm             kick              rot         
+clock            gencert             lazyscript        rotf        
 
 13. Lua Plugin
 ==============
-generate_c_reverse_shell          generate_reverse_shell
-generate_cleanup_commands         kerberos_harvest
+generate_c_reverse_shell          generate_reverse_shell    
+generate_cleanup_commands         kerberos_harvest          
 generate_html_payload             parse_nmap_with_xmlstarlet
-generate_lateral_command          run_nuclei_on_nmap_files
-generate_linux_asm_reverse_shell  run_python_rev_c2
-generate_linux_raw_shellcode      validate_shellcode
-generate_msfvenom_loader          visualize_network
+generate_lateral_command          run_nuclei_on_nmap_files  
+generate_linux_asm_reverse_shell  run_python_rev_c2         
+generate_linux_raw_shellcode      validate_shellcode        
+generate_msfvenom_loader          visualize_network         
+generate_msfvenom_loader_windows
 
 14. Yaml Addon.
 ===============
-bbr      GoPEInjection      laps       oniux    PTMultiTools       spoonmap
-commix2  hack_browser_data  lazymapd   orpheus  PTMultiTools_scan  unicorn
-gcr      hooka_linux_amd64  lazyownbt  peeko    ridenum            upxdump
+AdaptixC2           gcr                     lazymapd           ShadowLink      
+agentzero           gemini-cli              lazyownbt          SigPloit        
+argfuscator         gomulti_loader_linux    LazyOwnExplorer    spoonmap        
+ATTPwn              gomulti_loader_windows  NullGate           stratus_detonate
+AuroraPatch         GoPEInjection           oniux              stratus_list    
+banner_tool         hack_browser_data       orpheus            unicorn         
+bbr                 hooka_linux_amd64       peeko              upxdump         
+cgoblin_windows     hostdiscover            pretender          vulnhuntr       
+Clematis            kivi_revshell           PTMultiTools       watchguard      
+commix2             laps                    PTMultiTools_scan  wspcoerce       
+CVE_2025_24071_PoC  lazyagentAi             PyinMemoryPE     
+demiguise           lazybinenc              ridenum          
+evilginx2           lazyftpsniff            setoolkit        
 
 15. Adversary YAML.
 ===================
-implant_crypt_go
+amsi_c            implant_nim_nim  infect_c     pid_c  
+implant_crypt_go  implant_rust_rs  persist_ps1  shell_c
 
 Uncategorized
 =============
-alias              EOF                    ldapsearch_tool   run_script
-asrep_roast        getNPUsers_tool        macro             set
-bloodhound-python  GetUserSPNs.py         nc_ldap_interact  shell
-crackmapexec_ldap  help                   nuclei_ad_http    shortcuts
-crackmapexec_smb   history                nxc_idap_tool     smb_ghost
-dig_any            ipp                    nxc_ldap          smb_map
-dig_reverse        ipy                    nxc_null_session  smbclient_list
-dns_enum_tool      kerberoasting_tool     nxc_pass_policy   smbclient_tool
-dnsrecon_axfr      kerbrute_tool          nxc_rid           smbmap_tool
-edit               kerbrute_tool_user     quit              smbserver_tool
-enum4linux_tool    ldap_domain_dump_tool  rrhost            userEnum_tool
-enum_smb           ldapsearch_anon        run_pyscript
+alias              evil_winrm_tool        nc_ldap_interact  run_script    
+asrep_roast        getNPUsers_tool        notify            set           
+bloodhound-python  GetUserSPNs.py         nuclei_ad_http    shell         
+crackmapexec_ldap  help                   nxc_idap_tool     shortcuts     
+crackmapexec_smb   history                nxc_ldap          showmount_nfs 
+dig_any            ipp                    nxc_null_session  showmount_tool
+dig_reverse        ipy                    nxc_pass_policy   smb_ghost     
+dns_enum_tool      kerberoasting_tool     nxc_rid           smb_map       
+dnsrecon_axfr      kerbrute_tool          nxc_winrm         smbclient_list
+edit               kerbrute_tool_user     pop               smbclient_tool
+enum4linux_tool    ldap_domain_dump_tool  quit              smbmap_tool   
+enum_rpcbind       ldapsearch_anon        rpcclient_tool    smbserver_tool
+enum_smb           ldapsearch_tool        rrhost            userEnum_tool 
+EOF                macro                  run_pyscript    
+
 ```
 ## Tag in youtube
 <https://www.youtube.com/hashtag/lazyown>

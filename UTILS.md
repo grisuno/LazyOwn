@@ -1039,6 +1039,9 @@ Carga la base de conocimientos personalizada.
 ## anti_debug
 No description available.
 
+## create_msfshellcoder_parser
+No description available.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 

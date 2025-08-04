@@ -14,7 +14,7 @@ function ctrl_c() {
 	echo "    [;,;] Trapped CTRL-C Saliendo ..."
 	exit 1
 }
-#Wgets 
+#Wgets
 download() {
 
     # Define la lista de comandos wget
@@ -83,6 +83,7 @@ download() {
         "wget https://raw.githubusercontent.com/b3rito/yodo/refs/heads/master/yodo.sh"
         "wget https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/master/WinPwn.ps1"
         "wget https://raw.githubusercontent.com/juliourena/ActiveDirectoryScripts/refs/heads/main/Python/addusertogroup.py"
+        "wget https://www.python.org/ftp/python/3.14.0/python-3.14.0rc1-embed-amd64.zip"
     )
 
     echo "    [+] Seleccione el número del comando que desea descargar:"
@@ -110,7 +111,7 @@ if [[ "$respuesta" == "s" || "$respuesta" == "S" ]]; then
     exit 0
 else
     download
-    
+
 fi
 
 # git clone https://github.com/honze-net/pwntomate.git ./pyautomate its great but dont work on python3 so i change to work in python3, so i add permanent to sessions directory if you want can clone the original proyect here.

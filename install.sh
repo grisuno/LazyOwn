@@ -138,3 +138,5 @@ else
     "Error al descargar el archivo."
 	exit 1
 fi
+
+./gen_cert.sh

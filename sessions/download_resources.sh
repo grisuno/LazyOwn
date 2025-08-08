@@ -84,6 +84,7 @@ download() {
         "wget https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/master/WinPwn.ps1"
         "wget https://raw.githubusercontent.com/juliourena/ActiveDirectoryScripts/refs/heads/main/Python/addusertogroup.py"
         "wget https://www.python.org/ftp/python/3.14.0/python-3.14.0rc1-embed-amd64.zip"
+        "wget https://raw.githubusercontent.com/TAM-K592/CVE-2024-53677-S2-067/refs/heads/ALOK/shell.jsp"
     )
 
     echo "    [+] Seleccione el número del comando que desea descargar:"

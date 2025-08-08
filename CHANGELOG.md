@@ -6,6 +6,27 @@
 
 ### Otros
 
+  *   * feat(feat): some new addons \n\n Version: release/0.2.50 \n\n and some bug fix \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Aug 8 08:59:50 2025 -0400 \n\n Hora: 1754657990
+
+
+### Otros
+
+### Otros
+
+  *   * new LazyAddons and some stuffs :) and bug fix
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): new addons \n\n Version: release/0.2.49 \n\n and love \n\n Modified file(s):\n- README.md - UTILS.md - docs/README.html - docs/UTILS.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Aug 4 05:56:06 2025 -0400 \n\n Hora: 1754301366
 
 

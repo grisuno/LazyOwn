@@ -88,6 +88,7 @@ class LazyOwnShell(cmd2.Cmd):
     {RED}[!] or for illegal purposes (this is non-binding,
     {RED}[!] these *** ignore laws and ethics anyway){BLUE}
     {GREEN}[+] Github: {BRIGHT_BLUE}{UNDERLINE}https://github.com/grisuno/LazyOwn{RESET}
+    {GREEN}[+] Discord: {BRIGHT_BLUE}{UNDERLINE}https://discord.gg/V3usU8yH{RESET}
     {GREEN}[+] Web: {BRIGHT_BLUE}{UNDERLINE}https://grisuno.github.io/LazyOwn/{RESET}
     {GREEN}[+] Reddit: {BRIGHT_BLUE}{UNDERLINE}https://www.reddit.com/r/LazyOwn/{RESET}
     {GREEN}[+] Facebook: {BRIGHT_BLUE}{UNDERLINE}https://web.facebook.com/profile.php?id=61560596232150{RESET}
@@ -12424,6 +12425,7 @@ class LazyOwnShell(cmd2.Cmd):
         hash_txt = f"{path}/sessions/hash.txt"
         url = self.params["url"]
         domain = self.params["domain"]
+        subdomain = self.params["subdomain"]
 
         if not check_rhost(rhost):
             return
@@ -12474,8 +12476,14 @@ class LazyOwnShell(cmd2.Cmd):
             print_msg(command)
             self.cmd(command)
             return
+        elif line.startswith("nopass"):
+
+            command = f"evil-winrm -i {subdomain}.{domain} -r {domain}"
+            print_msg(command)
+            self.cmd(command)
+            return
         else:
-            print_error("Uso incorrecto. Usa 'pass' para autenticar o 'hash' para usar hashes.")
+            print_error("Uso incorrecto. Usa 'pass' para autenticar o 'hash' para usar hashes. o nopass para no usar password")
             return
 
     @cmd2.with_category(lateral_movement_category)

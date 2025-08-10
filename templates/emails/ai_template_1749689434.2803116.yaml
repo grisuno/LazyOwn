@@ -1,0 +1,12 @@
+subject: Transit Alert: {link}
+body: |
+  <!DOCTYPE html>
+  <html>
+  <body>
+    <p>Hello {name},</p>
+    <p>We are warning you about a potential security threat related to your transit accounts. {link} may be affected and could cause financial losses within the next 24 hours. Please review this link carefully before proceeding with your transaction.</p>
+    <p>For additional safety, if this link doesn't work, copy it to a new tab or bookmark it for future reference. Thank you for your cooperation.<br>
+    Security Team</p>
+    {tracking_pixel}
+  </body>
+  </html>

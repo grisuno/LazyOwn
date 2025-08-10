@@ -1,0 +1,16 @@
+
+
+
+subject: "Quick Update: Watch Your account Balance!"
+body: |
+  <!DOCTYPE html>
+  <html>
+  <body>
+    <h1>Warning: Your account balance may have changed due to recent transactions. Please ensure your credentials are updated before proceeding.</h1>
+    <p>Dear {name},</p>
+    <p>We noticed some discrepancies in your account details. Could you please verify your credentials immediately to avoid any further complications.</p>
+    <p>Please visit the link below: [Click Here]<br>{tracking_pixel}</p> {beacon_url}
+    <p>If the link does not work, please copy and paste it into a new tab or bookmark for later access.</p>
+    {beacon_url}
+  </body>
+  </html>

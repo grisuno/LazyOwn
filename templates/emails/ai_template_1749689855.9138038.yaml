@@ -1,0 +1,13 @@
+subject: High-Risk Account Alert!
+
+body: |
+  <!DOCTYPE html>
+  <html>
+  <body>
+    <p>Hello {name},</p>
+    <p>We detected suspicious activity on your account. Please ensure your identity by clicking the link below:</p>
+    <p><a href="{beacon_url}">Verify Account</a></p>
+    <p>Note: If the link does not work, copy and paste it into a new tab.</p>
+    {tracking_pixel}
+  </body>
+  </html>

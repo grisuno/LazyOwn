@@ -1,0 +1,20 @@
+name: vulnbot_groq
+description: >
+  Ejecuta el script vuln_bot_cli.py que se encuentra en la carpeta modules.
+author: "LazyOwn RedTeam"
+version: "1.0"
+enabled: true
+params:
+  - name: rhost
+    type: string
+    required: false
+    description: rhost to use in the script
+  - name: api_key
+    type: string
+    required: false
+    description: api_key to use in the script
+tool:
+  name: vulnbot_groq
+  repo_url: https://github.com/grisuno/LazyOwn.git
+  install_path: modules/
+  execute_command: export GROQ_API_KEY="{{ api_key }}" && python3 vuln_bot_cli.py --file ../sessions/vulns_{rhost}.nmap --provider groq --mode console | gum format

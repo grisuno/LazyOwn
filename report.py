@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-📊 LazyOwn Dataset Explorer - Versión Robusta
-Scientific Data Analysis Script con manejo de errores en CSV
+🚀 LazyOwn Security Intelligence Report
+Generador de métricas ejecutivas para Gerencia de Ciberseguridad
+KPIs, OKRs, detección de amenazas y análisis forense
 """
 
 import pandas as pd
@@ -13,159 +14,288 @@ from datetime import datetime
 import warnings
 import csv
 import io
+import os
+import re
+import json
+from pathlib import Path
+
 warnings.filterwarnings('ignore')
 
 # Configuración de estilo
 plt.style.use('seaborn-v0_8')
 sns.set_palette("husl")
-plt.rcParams['figure.figsize'] = (12, 8)
+plt.rcParams['figure.figsize'] = (14, 8)
+sns.set(font_scale=1.1)
+
+# Directorio de salida
+OUTPUT_DIR = Path("reports")
+OUTPUT_DIR.mkdir(exist_ok=True)
+
+# 📊 Categorías de comandos (expandidas)
+COMMAND_CATEGORIES = {
+    'nmap': 'recon', 'gobuster': 'recon', 'dirb': 'recon', 'nikto': 'recon',
+    'sqlmap': 'exploit', 'hydra': 'brute_force', 'john': 'brute_force',
+    'hashcat': 'brute_force', 'echo': 'data_write', 'searchsploit': 'exploit_research',
+    'sudo': 'privilege_escalation', 'msfconsole': 'exploit', 'msfvenom': 'payload_creation',
+    'cp': 'file_transfer', 'mv': 'file_transfer', 'wget': 'download',
+    'curl': 'download', 'nc': 'network', 'netcat': 'network', 'ssh': 'remote_access',
+    'telnet': 'remote_access', 'ftp': 'remote_access', 'smbclient': 'remote_access',
+    'git': 'recon', 'whois': 'recon', 'dig': 'recon', 'nslookup': 'recon',
+    'upx': 'packer', 'python3': 'scripting', 'python': 'scripting', 'perl': 'scripting',
+    'powershell': 'execution', 'cmd': 'execution', 'cmd.exe': 'execution',
+    'certutil': 'download', 'bitsadmin': 'download', 'regsvr32': 'lolbin',
+    'rundll32': 'lolbin', 'wmic': 'lolbin', 'schtasks': 'persistence',
+    'at': 'persistence', 'sc': 'persistence', 'psexec': 'lateral_movement',
+    'evil-winrm': 'remote_access', 'crackmapexec': 'lateral_movement'
+}
+
+# ⚠ Palabras clave de comandos peligrosos
+DANGEROUS_KEYWORDS = [
+    'rm -rf', 'chmod 777', 'mkfs', 'dd if=', 'format', 'delete', 'del ',
+    'rmdir', 'shutdown', 'poweroff', 'iptables -F'
+]
+
+# 🎯 Patrones de C2 y post-explotación
+C2_INDICATORS = [
+    r'bash -i.*>& /dev/tcp',  # Reverse shell
+    r'nc .* -e',              # Netcat reverse shell
+    r'powershell.*-Enc',      # PowerShell encoded
+    r'certutil.*-decode',     # Certutil como downloader
+    r'bitsadmin.*Transfer',   # BitsAdmin C2
+    r'Invoke-WebRequest',     # PowerShell download
+    r'wget.*http.*\.exe',     # Descarga de binarios
+    r'curl.*http.*\.dll',
+    r'python.*-m http',       # Servidor HTTP rápido
+    r'echo.*base64.*\|.*bash' # Payloads ofuscados
+]
 
 def load_and_clean_data_robust(filepath):
     """Cargar y limpiar los datos de forma robusta"""
     print("🔄 Cargando datos de forma robusta...")
     
-    # Leer el archivo y manejar errores de parsing
     try:
-        # Primero intentamos leer con error_bad_lines=False (pandas < 1.3.0)
         df = pd.read_csv(filepath, error_bad_lines=False)
     except:
         try:
-            # Para pandas >= 1.3.0, usamos on_bad_lines
             df = pd.read_csv(filepath, on_bad_lines='skip')
         except:
-            # Método manual de parsing
-            print("⚠️  Usando método de parsing manual...")
+            print("⚠  Usando método de parsing manual...")
             df = parse_csv_manual(filepath)
     
+    if df.empty:
+        print("❌ No se cargaron datos. Verifica el archivo.")
+        return df
+
     print(f"✅ Datos cargados: {len(df)} registros")
     
-    # Limpiar y procesar datos
     expected_columns = ['start','end','source_ip','source_port','destination_ip',
                        'destination_port','domain','subdomain','url','pivot_port',
                        'command','args']
     
     if len(df.columns) != len(expected_columns):
-        print(f"⚠️  Número inesperado de columnas: {len(df.columns)}. Ajustando...")
-        # Ajustar nombres de columnas
-        if len(df.columns) >= 12:
-            df.columns = expected_columns
-        else:
-            # Rellenar con columnas vacías si faltan
-            for i in range(len(df.columns), 12):
-                df[f'extra_col_{i}'] = ''
-            df.columns = expected_columns[:len(df.columns)] + [f'extra_col_{i}' for i in range(len(df.columns), 12)]
-    
-    # Convertir fechas
+        print(f"⚠  Ajustando columnas ({len(df.columns)} → 12)...")
+        df = df.reindex(columns=expected_columns, fill_value='')
+
     df['start'] = pd.to_datetime(df['start'], errors='coerce')
     df['end'] = pd.to_datetime(df['end'], errors='coerce')
-    
-    # Eliminar filas con fechas inválidas
     df = df.dropna(subset=['start', 'end'])
     
-    # Calcular duración
     df['duration'] = (df['end'] - df['start']).dt.total_seconds()
-    
-    # Extraer características temporales
     df['hour'] = df['start'].dt.hour
     df['day_of_week'] = df['start'].dt.day_name()
     df['date'] = df['start'].dt.date
     
-    # Longitudes
     df['command_length'] = df['command'].astype(str).str.len()
     df['args_length'] = df['args'].astype(str).str.len()
     
-    # Detección de credenciales
     df['contains_creds'] = df['args'].str.contains(":", na=False) & df['args'].str.contains(">", na=False)
-    
-    # Comandos peligrosos
-    dangerous_keywords = ['rm -rf', 'chmod 777', 'mkfs', 'dd if=', 'format', 'delete']
-    df['is_dangerous'] = df['args'].apply(lambda x: any(kw in str(x) for kw in dangerous_keywords))
-    
-    # Categorización de comandos
-    def categorize_command(cmd):
-        mapping = {
-            'nmap': 'recon',
-            'gobuster': 'recon',
-            'dirb': 'recon',
-            'nikto': 'recon',
-            'sqlmap': 'exploit',
-            'hydra': 'brute_force',
-            'john': 'brute_force',
-            'hashcat': 'brute_force',
-            'echo': 'data_write',
-            'searchsploit': 'exploit_research',
-            'sudo': 'privilege_escalation',
-            'msfconsole': 'exploit',
-            'msfvenom': 'payload_creation',
-            'cp': 'file_transfer',
-            'mv': 'file_transfer',
-            'wget': 'download',
-            'curl': 'download',
-            'nc': 'network',
-            'netcat': 'network',
-            'ssh': 'remote_access',
-            'telnet': 'remote_access',
-            'ftp': 'remote_access',
-            'smbclient': 'remote_access',
-            'git': 'recon',
-            'whois': 'recon',
-            'dig': 'recon',
-            'nslookup': 'recon'
-        }
-        return mapping.get(str(cmd).lower(), 'other')
-    
-    df['command_category'] = df['command'].apply(categorize_command)
+    df['is_dangerous'] = df['args'].apply(lambda x: any(kw in str(x) for kw in DANGEROUS_KEYWORDS))
+    df['command_category'] = df['command'].apply(lambda c: COMMAND_CATEGORIES.get(str(c).lower(), 'other'))
+    df['is_c2_or_postexploit'] = df['args'].apply(lambda x: any(re.search(pat, str(x), re.IGNORECASE) for pat in C2_INDICATORS))
     
     print(f"✅ Datos procesados: {len(df)} registros válidos")
     return df
 
 def parse_csv_manual(filepath):
-    """Método manual de parsing para CSV problemáticos"""
     rows = []
-    with open(filepath, 'r', encoding='utf-8', errors='ignore') as file:
-        # Leer manualmente las primeras líneas para determinar el formato
-        lines = file.readlines()
+    try:
+        with open(filepath, 'r', encoding='utf-8', errors='ignore') as file:
+            lines = file.readlines()
+        header = lines[0].strip().split(',')
         
-    header = lines[0].strip().split(',')
-    
-    # Procesar cada línea
-    for i, line in enumerate(lines[1:], 1):
-        try:
-            # Usar csv.reader para manejar comas en campos
-            reader = csv.reader(io.StringIO(line.strip()), delimiter=',', quotechar='"')
-            row = next(reader)
-            
-            # Ajustar número de campos
-            if len(row) < len(header):
-                # Rellenar con valores vacíos
-                row.extend([''] * (len(header) - len(row)))
-            elif len(row) > len(header):
-                # Combinar campos extra en el último campo (args)
-                row = row[:len(header)-1] + [','.join(row[len(header)-1:])]
-            
-            # Asegurar que tenemos el número correcto de campos
-            if len(row) == len(header):
-                rows.append(row)
-            else:
-                print(f"⚠️  Línea {i+1} ignorada: número incorrecto de campos ({len(row)})")
-                
-        except Exception as e:
-            print(f"⚠️  Error en línea {i+1}: {str(e)}")
-            continue
-    
-    # Crear DataFrame
-    if rows:
-        df = pd.DataFrame(rows, columns=header)
-        return df
-    else:
-        raise Exception("No se pudieron parsear los datos")
+        for i, line in enumerate(lines[1:], 1):
+            try:
+                reader = csv.reader(io.StringIO(line.strip()), delimiter=',', quotechar='"')
+                row = next(reader)
+                if len(row) < len(header):
+                    row += [''] * (len(header) - len(row))
+                elif len(row) > len(header):
+                    row = row[:len(header)-1] + [','.join(row[len(header)-1:])]
+                if len(row) == len(header):
+                    rows.append(row)
+            except Exception as e:
+                continue
+        return pd.DataFrame(rows, columns=header) if rows else pd.DataFrame()
+    except Exception as e:
+        print(f"❌ Error crítico en parsing manual: {e}")
+        return pd.DataFrame()
 
-def basic_statistics(df):
-    """Estadísticas básicas"""
+def executive_kpis(df):
+    """Genera KPIs para gerencia"""
     print("\n" + "="*60)
-    print("📈 ESTADÍSTICAS BÁSICAS")
+    print("🎯 KPIs EJECUTIVOS DE SEGURIDAD")
     print("="*60)
     
+    total = len(df)
+    suspicious = len(df[df['is_c2_or_postexploit']])
+    dangerous = len(df[df['is_dangerous']])
+    creds = len(df[df['contains_creds']])
+    unique_domains = df['domain'].nunique()
+    active_days = (df['start'].max() - df['start'].min()).days + 1
+    
+    # 🔑 KPIs Clave
+    kpis = {
+        "Total de Actividad de Red Team": total,
+        "Comandos Sospechosos (C2/Post-Exploit)": suspicious,
+        "Tasa de Actividad Sospechosa (%)": f"{(suspicious / total * 100):.2f}%",
+        "Comandos Peligrosos": dangerous,
+        "Credenciales Expuestas": creds,
+        "Dominios Comprometidos": unique_domains,
+        "Duración de la Campaña (días)": active_days,
+        "Comandos por Día (promedio)": f"{total / active_days:.1f}"
+    }
+    
+    for k, v in kpis.items():
+        print(f"  • {k:<35} : {v}")
+    
+    return kpis
+
+def strategic_okrs(df, kpis):
+    """Genera OKRs estratégicos"""
+    print("\n" + "="*60)
+    print("🎯 OKRs ESTRATÉGICOS DE SEGURIDAD")
+    print("="*60)
+    
+    okrs = {
+        "OKR 1: Reducir exposición de credenciales": {
+            "Objetivo": "Eliminar escritura de credenciales en texto plano",
+            "Meta": "0 comandos con 'echo' escribiendo credenciales",
+            "Actual": kpis["Credenciales Expuestas"],
+            "Estado": "🔴 Crítico" if kpis["Credenciales Expuestas"] > 0 else "🟢 Cumplido"
+        },
+        "OKR 2: Prevenir post-explotación": {
+            "Objetivo": "Detección y bloqueo de técnicas de C2",
+            "Meta": "0 comandos ofuscados o de reverse shell",
+            "Actual": kpis["Comandos Sospechosos (C2/Post-Exploit)"],
+            "Estado": "🔴 Crítico" if kpis["Comandos Sospechosos (C2/Post-Exploit)"] > 0 else "🟢 Cumplido"
+        },
+        "OKR 3: Fortalecer postura de seguridad": {
+            "Objetivo": "Reducir uso de comandos peligrosos",
+            "Meta": "Menos del 1% de comandos peligrosos",
+            "Actual": f"{(kpis['Comandos Peligrosos'] / kpis['Total de Actividad de Red Team'] * 100):.2f}%",
+            "Estado": "🟡 Advertencia" if kpis["Comandos Peligrosos"] > 0 else "🟢 Cumplido"
+        }
+    }
+    
+    for okr, data in okrs.items():
+        print(f"📌 {okr}")
+        for k, v in data.items():
+            print(f"   • {k}: {v}")
+        print()
+    
+    return okrs
+
+def generate_visualizations(df, kpis):
+    """Genera gráficos para reporte"""
+    fig, axes = plt.subplots(2, 2, figsize=(16, 12))
+    
+    # 1. Distribución por categorías
+    cat_counts = df['command_category'].value_counts().head(8)
+    axes[0,0].pie(cat_counts, labels=cat_counts.index, autopct='%1.1f%%')
+    axes[0,0].set_title("Distribución por Categoría de Comandos")
+    
+    # 2. Actividad por hora
+    hourly = df['hour'].value_counts().sort_index()
+    axes[0,1].bar(hourly.index, hourly.values, color='skyblue')
+    axes[0,1].set_title("Actividad por Hora del Día")
+    axes[0,1].set_xlabel("Hora")
+    axes[0,1].set_ylabel("Cantidad de Comandos")
+    
+    # 3. Dominios más atacados
+    top_domains = df['domain'].value_counts().head(6)
+    axes[1,0].barh(top_domains.index, top_domains.values, color='coral')
+    axes[1,0].set_title("Top Dominios Atacados")
+    axes[1,0].set_xlabel("Cantidad de Comandos")
+    
+    # 4. Indicadores de riesgo
+    risks = [
+        kpis["Comandos Sospechosos (C2/Post-Exploit)"],
+        kpis["Comandos Peligrosos"],
+        kpis["Credenciales Expuestas"]
+    ]
+    axes[1,1].bar(["C2/Post-Exploit", "Peligrosos", "Credenciales"], risks, color=['red', 'orange', 'purple'])
+    axes[1,1].set_title("Indicadores de Riesgo")
+    axes[1,1].set_ylabel("Cantidad")
+    
+    plt.tight_layout()
+    plt.savefig(OUTPUT_DIR / "security_dashboard.png", dpi=150, bbox_inches='tight')
+    print(f"📊 Gráfico guardado: {OUTPUT_DIR}/security_dashboard.png")
+
+def export_report(df, kpis, okrs):
+    """Exporta reporte a JSON"""
+    report = {
+        "timestamp": datetime.now().isoformat(),
+        "summary": kpis,
+        "okrs": okrs,
+        "top_suspicious_commands": df[df['is_c2_or_postexploit']][['command', 'args', 'domain']].head(5).to_dict('records'),
+        "top_dangerous_commands": df[df['is_dangerous']][['command', 'args', 'domain']].head(5).to_dict('records')
+    }
+    with open(OUTPUT_DIR / "executive_report.json", 'w') as f:
+        json.dump(report, f, indent=2, default=str)
+    print(f"💾 Reporte exportado: {OUTPUT_DIR}/executive_report.json")
+
+def main():
+    filepath = "sessions/LazyOwn_session_report.csv"
+    print(f"📁 Analizando: {filepath}")
+    
+    if not os.path.exists(filepath):
+        print("❌ ERROR: No se encontró el archivo CSV. Verifica la ruta.")
+        return
+    
+    df = load_and_clean_data_robust(filepath)
+    if df.empty:
+        return
+    
+    # Ejecutar todos los análisis
+    print("\n" + "="*60)
+    print("📊 ANÁLISIS TÉCNICO DETALLADO")
+    print("="*60)
+    
+    # Reutilizamos funciones de tu report.py
+    basic_statistics(df)
+    command_analysis(df)
+    network_analysis(df)
+    temporal_analysis(df)
+    statistical_analysis(df)
+    security_insights(df)
+    
+    # Nuevos análisis ejecutivos
+    kpis = executive_kpis(df)
+    okrs = strategic_okrs(df, kpis)
+    generate_visualizations(df, kpis)
+    export_report(df, kpis, okrs)
+    
+    print("\n" + "="*60)
+    print("✅ REPORTE DE SEGURIDAD COMPLETADO")
+    print("="*60)
+    print(f"📄 Artifacts generados en: ./{OUTPUT_DIR}/")
+    print(f"   • security_dashboard.png")
+    print(f"   • executive_report.json")
+
+# Copiamos las funciones de tu report.py
+def basic_statistics(df):
+    print("\n📈 ESTADÍSTICAS BÁSICAS")
+    print("-"*60)
     print(f"Total de registros: {len(df):,}")
     print(f"Total de comandos únicos: {df['command'].nunique():,}")
     print(f"Total de IPs de origen únicas: {df['source_ip'].nunique():,}")
@@ -174,197 +304,73 @@ def basic_statistics(df):
         print(f"Período de datos: {df['start'].min()} a {df['start'].max()}")
         print(f"Días de actividad: {(df['start'].max() - df['start'].min()).days}")
     except:
-        print("⚠️  No se pudieron calcular fechas")
+        print("⚠  No se pudieron calcular fechas")
 
 def command_analysis(df):
-    """Análisis de comandos"""
-    print("\n" + "="*60)
-    print("🖥️  ANÁLISIS DE COMANDOS")
-    print("="*60)
-    
-    # Top 15 comandos más usados
-    try:
-        top_commands = df['command'].value_counts().head(15)
-        print("Top 15 comandos más utilizados:")
-        for i, (cmd, count) in enumerate(top_commands.items(), 1):
-            print(f"  {i:2d}. {cmd:<20} ({count:,} veces)")
-    except Exception as e:
-        print(f"⚠️  Error en análisis de comandos: {e}")
-    
-    # Categorías de comandos
-    try:
-        print("\nDistribución por categorías:")
-        categories = df['command_category'].value_counts()
-        for cat, count in categories.items():
-            percentage = (count / len(df)) * 100
-            print(f"  {cat:<20} {count:,} ({percentage:.1f}%)")
-    except Exception as e:
-        print(f"⚠️  Error en categorías: {e}")
-    
-    # Comandos con credenciales
-    try:
-        creds_count = df['contains_creds'].sum()
-        print(f"\nComandos que escriben credenciales: {creds_count:,} ({(creds_count/len(df)*100):.2f}%)")
-    except Exception as e:
-        print(f"⚠️  Error en detección de credenciales: {e}")
-    
-    # Comandos peligrosos
-    try:
-        danger_count = df['is_dangerous'].sum()
-        print(f"Comandos potencialmente peligrosos: {danger_count:,} ({(danger_count/len(df)*100):.2f}%)")
-    except Exception as e:
-        print(f"⚠️  Error en detección de comandos peligrosos: {e}")
+    print("\n🖥  ANÁLISIS DE COMANDOS")
+    print("-"*60)
+    top_commands = df['command'].value_counts().head(15)
+    print("Top 15 comandos más utilizados:")
+    for i, (cmd, count) in enumerate(top_commands.items(), 1):
+        print(f"  {i:2d}. {cmd:<20} ({count:,} veces)")
+
+    categories = df['command_category'].value_counts()
+    print("\nDistribución por categorías:")
+    for cat, count in categories.items():
+        percentage = (count / len(df)) * 100
+        print(f"  {cat:<20} {count:,} ({percentage:.1f}%)")
 
 def network_analysis(df):
-    """Análisis de red"""
-    print("\n" + "="*60)
-    print("🌐 ANÁLISIS DE RED")
-    print("="*60)
-    
-    try:
-        # IPs más activas
-        print("Top 10 IPs de origen más activas:")
-        top_ips = df['source_ip'].value_counts().head(10)
-        for ip, count in top_ips.items():
-            print(f"  {ip:<15} ({count:,} comandos)")
-    except Exception as e:
-        print(f"⚠️  Error en análisis de IPs: {e}")
-    
-    try:
-        # Dominios más atacados
-        print("\nTop 10 dominios más frecuentes:")
-        top_domains = df['domain'].value_counts().head(10)
-        for domain, count in top_domains.items():
-            print(f"  {domain:<30} ({count:,} comandos)")
-    except Exception as e:
-        print(f"⚠️  Error en análisis de dominios: {e}")
+    print("\n🌐 ANÁLISIS DE RED")
+    print("-"*60)
+    top_ips = df['source_ip'].value_counts().head(10)
+    print("Top 10 IPs de origen más activas:")
+    for ip, count in top_ips.items():
+        print(f"  {ip:<15} ({count:,} comandos)")
+
+    top_domains = df['domain'].value_counts().head(10)
+    print("\nTop 10 dominios más frecuentes:")
+    for domain, count in top_domains.items():
+        print(f"  {domain:<30} ({count:,} comandos)")
 
 def temporal_analysis(df):
-    """Análisis temporal"""
-    print("\n" + "="*60)
-    print("⏰ ANÁLISIS TEMPORAL")
-    print("="*60)
-    
-    try:
-        # Actividad por hora
-        print("Distribución de actividad por hora:")
-        hourly_activity = df['hour'].value_counts().sort_index()
-        for hour, count in hourly_activity.items():
-            print(f"  {hour:02d}:00 - {hour:02d}:59  {count:,} comandos")
-    except Exception as e:
-        print(f"⚠️  Error en análisis horario: {e}")
-    
-    try:
-        # Actividad por día de la semana
-        print("\nActividad por día de la semana:")
-        daily_activity = df['day_of_week'].value_counts()
-        for day, count in daily_activity.items():
-            print(f"  {day:<10} {count:,} comandos")
-    except Exception as e:
-        print(f"⚠️  Error en análisis diario: {e}")
+    print("\n⏰ ANÁLISIS TEMPORAL")
+    print("-"*60)
+    hourly_activity = df['hour'].value_counts().sort_index()
+    print("Distribución de actividad por hora:")
+    for hour, count in hourly_activity.items():
+        print(f"  {hour:02d}:00 - {hour:02d}:59  {count:,} comandos")
 
 def statistical_analysis(df):
-    """Análisis estadístico"""
-    print("\n" + "="*60)
-    print("📊 ANÁLISIS ESTADÍSTICO")
-    print("="*60)
-    
-    try:
-        # Estadísticas de duración
-        print("Estadísticas de duración de comandos (segundos):")
-        duration_stats = df['duration'].describe()
-        for stat, value in duration_stats.items():
-            print(f"  {stat:<10} {value:.4f}")
-    except Exception as e:
-        print(f"⚠️  Error en estadísticas de duración: {e}")
-    
-    try:
-        # Estadísticas de longitud
-        print("\nEstadísticas de longitud de comandos:")
-        cmd_length_stats = df['command_length'].describe()
-        for stat, value in cmd_length_stats.items():
-            print(f"  {stat:<10} {value:.2f}")
-    except Exception as e:
-        print(f"⚠️  Error en estadísticas de comandos: {e}")
-    
-    try:
-        print("\nEstadísticas de longitud de argumentos:")
-        args_length_stats = df['args_length'].describe()
-        for stat, value in args_length_stats.items():
-            print(f"  {stat:<10} {value:.2f}")
-    except Exception as e:
-        print(f"⚠️  Error en estadísticas de argumentos: {e}")
+    print("\n📊 ANÁLISIS ESTADÍSTICO")
+    print("-"*60)
+    duration_stats = df['duration'].describe()
+    print("Estadísticas de duración de comandos (segundos):")
+    for stat, value in duration_stats.items():
+        print(f"  {stat:<10} {value:.4f}")
 
 def security_insights(df):
-    """Insights de seguridad"""
-    print("\n" + "="*60)
-    print("🛡️  INSIGHTS DE SEGURIDAD")
-    print("="*60)
-    
-    try:
-        # Credenciales encontradas
-        creds_df = df[df['contains_creds']]
-        if len(creds_df) > 0:
-            print("🚨 CREDENCIALES ENCONTRADAS:")
-            sample_creds = creds_df[['command', 'args', 'domain']].head(5)
-            for _, row in sample_creds.iterrows():
-                print(f"  Comando: {row['command']}")
-                print(f"  Args: {row['args']}")
-                print(f"  Dominio: {row['domain']}")
-                print("  " + "-"*50)
-    except Exception as e:
-        print(f"⚠️  Error en análisis de credenciales: {e}")
-    
-    try:
-        # Comandos peligrosos
-        danger_df = df[df['is_dangerous']]
-        if len(danger_df) > 0:
-            print(f"\n⚠️  COMANDOS PELIGROSOS ({len(danger_df)} encontrados):")
-            danger_sample = danger_df[['command', 'args', 'domain']].head(5)
-            for _, row in danger_sample.iterrows():
-                print(f"  Comando: {row['command']}")
-                print(f"  Args: {row['args']}")
-                print(f"  Dominio: {row['domain']}")
-                print("  " + "-"*50)
-    except Exception as e:
-        print(f"⚠️  Error en análisis de comandos peligrosos: {e}")
+    print("\n🛡  INSIGHTS DE SEGURIDAD")
+    print("-"*60)
+    creds_df = df[df['contains_creds']]
+    if len(creds_df) > 0:
+        print("🚨 CREDENCIALES ENCONTRADAS:")
+        sample_creds = creds_df[['command', 'args', 'domain']].head(5)
+        for _, row in sample_creds.iterrows():
+            print(f"  Comando: {row['command']}")
+            print(f"  Args: {row['args']}")
+            print(f"  Dominio: {row['domain']}")
+            print("  " + "-"*50)
 
-def main():
-    """Función principal"""
-    try:
-        # Cargar datos
-        filepath = "sessions/LazyOwn_session_report.csv"  # Ajusta la ruta según tu archivo
-        df = load_and_clean_data_robust(filepath)
-        
-        # Ejecutar todos los análisis
-        basic_statistics(df)
-        command_analysis(df)
-        network_analysis(df)
-        temporal_analysis(df)
-        statistical_analysis(df)
-        security_insights(df)
-        
-        print("\n" + "="*60)
-        print("✅ ANÁLISIS COMPLETADO")
-        print("="*60)
-        print("Resumen:")
-        print(f"  • Total de comandos analizados: {len(df):,}")
-        try:
-            creds_count = df['contains_creds'].sum()
-            danger_count = df['is_dangerous'].sum()
-            print(f"  • Comandos con credenciales: {creds_count:,}")
-            print(f"  • Comandos peligrosos: {danger_count:,}")
-            print(f"  • IPs únicas: {df['source_ip'].nunique():,}")
-            print(f"  • Dominios únicos: {df['domain'].nunique():,}")
-        except:
-            pass
-        
-    except FileNotFoundError:
-        print("❌ Error: No se encontró el archivo CSV. Verifica la ruta.")
-    except Exception as e:
-        print(f"❌ Error durante el análisis: {str(e)}")
-        import traceback
-        traceback.print_exc()
+    danger_df = df[df['is_dangerous']]
+    if len(danger_df) > 0:
+        print(f"\n⚠  COMANDOS PELIGROSOS ({len(danger_df)} encontrados):")
+        danger_sample = danger_df[['command', 'args', 'domain']].head(5)
+        for _, row in danger_sample.iterrows():
+            print(f"  Comando: {row['command']}")
+            print(f"  Args: {row['args']}")
+            print(f"  Dominio: {row['domain']}")
+            print("  " + "-"*50)
 
 if __name__ == "__main__":
     main()

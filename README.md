@@ -515,7 +515,7 @@ show: Displays the current values of all parameters.
 run <script>: Executes a specific script available in the framework.
 Available Scripts
 
-┌─[👤grisun0 (LazyOwn👽khali) ~/home/grisun0/LazyOwn][10.10.11.78][http://Mirage.htb] 🌐10.10.14.11 ✗ main (🐍env)
+┌─[👤grisun0 (LazyOwn👽khali) ~/home/grisun0/LazyOwn][10.10.11.78][http://Mirage.htb] 🌐10.10.14.10 ✗ main (🐍env)
 └╼ $ ?
 
 Documented commands (use 'help -v' for verbose/'help <topic>' for details):
@@ -675,16 +675,17 @@ generate_msfvenom_loader_windows
 ===============
 AdaptixC2           gcr                     lazymapd           ShadowLink      
 agentzero           gemini-cli              lazyownbt          SigPloit        
-argfuscator         gomulti_loader_linux    LazyOwnExplorer    spoonmap        
-ATTPwn              gomulti_loader_windows  NullGate           stratus_detonate
-AuroraPatch         GoPEInjection           oniux              stratus_list    
-banner_tool         hack_browser_data       orpheus            unicorn         
-bbr                 hooka_linux_amd64       peeko              upxdump         
-cgoblin_windows     hostdiscover            pretender          vulnhuntr       
-Clematis            kivi_revshell           PTMultiTools       watchguard      
-commix2             laps                    PTMultiTools_scan  wspcoerce       
-CVE_2025_24071_PoC  lazyagentAi             PyinMemoryPE     
-demiguise           lazybinenc              ridenum          
+argfuscator         githubot                LazyOwnExplorer    spoonmap        
+ATTPwn              gomulti_loader_linux    NullGate           stratus_detonate
+AuroraPatch         gomulti_loader_windows  oniux              stratus_list    
+banner_tool         GoPEInjection           orpheus            unicorn         
+bbr                 hack_browser_data       OverRide           upxdump         
+cgoblin_windows     hooka_linux_amd64       peeko              vulnbot         
+Clematis            hostdiscover            pretender          vulnbot_groq    
+commix2             kivi_revshell           PTMultiTools       vulnhuntr       
+CVE_2025_24071_PoC  laps                    PTMultiTools_scan  watchguard      
+demiguise           lazyagentAi             PyinMemoryPE       wspcoerce       
+ebird3              lazybinenc              ridenum          
 evilginx2           lazyftpsniff            setoolkit        
 
 15. Adversary YAML.
@@ -708,6 +709,7 @@ enum4linux_tool    ldap_domain_dump_tool  quit              smbmap_tool
 enum_rpcbind       ldapsearch_anon        rpcclient_tool    smbserver_tool
 enum_smb           ldapsearch_tool        rrhost            userEnum_tool 
 EOF                macro                  run_pyscript    
+
 
 ```
 ## Tag in youtube

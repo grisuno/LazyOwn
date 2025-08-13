@@ -11550,6 +11550,20 @@ Recursively resolve and download package dependencies with enhanced checks
 
 ### Otros
 
+  *   * feat(feat): new addons and new addon creator and new vulnbot \n\n Version: release/0.2.51 \n\n and ia_model to iteract with the models more clean \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Aug 10 11:17:11 2025 -0400 \n\n Hora: 1754839031
+
+
+### Otros
+
+### Otros
+
+  *   * new LazyAddons and some stuffs :) new vuln bot and lazyaddons ia generated
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): some new addons \n\n Version: release/0.2.50 \n\n and some bug fix \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Aug 8 08:59:50 2025 -0400 \n\n Hora: 1754657990
 
 

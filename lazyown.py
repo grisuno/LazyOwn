@@ -1315,6 +1315,7 @@ class LazyOwnShell(cmd2.Cmd):
             line = self.params["rhost"]
         path = os.getcwd()
         self.cmd(f"{path}/modules/lazynmap.sh -t {line}")
+        self.onecmd("vulnbot_groq")
         return
 
     @cmd2.with_category(scanning_category)
@@ -8423,6 +8424,7 @@ class LazyOwnShell(cmd2.Cmd):
             'logs',
             'nmap-bootstrap.xsl',
             'php',
+            'phishing',
             'payloads.txt',
             'routes_to_templates.json',
             'sslscan-singleip.sh',

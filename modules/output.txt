@@ -1,0 +1,240 @@
+1. ArkTV (@AeolusUX)
+   🌐 https://github.com/AeolusUX/ArkTV
+   📝 IPTV for ArkOS
+   💻 Lang: Shell
+   ⭐ Stars: 5 | 🔄 Forks: 2
+   📅 Created: 2025-08-12 | 📦 Tamaño: 305 KB
+   📄 Licence: MIT License
+------------------------------------------------------------
+2. pack (@elrondforwin)
+   🌐 https://github.com/elrondforwin/pack
+   📝 fzf powered TUI package manager for Arch Linux.
+   💻 Lang: Shell
+   ⭐ Stars: 3 | 🔄 Forks: 1
+   📅 Created: 2025-08-12 | 📦 Tamaño: 17 KB
+   📄 Licence: no licence
+------------------------------------------------------------
+3. claude-code-voice-notifications (@ZeldOcarina)
+   🌐 https://github.com/ZeldOcarina/claude-code-voice-notifications
+   📝 🔊 Intelligent voice notifications for Claude Code using ElevenLabs TTS
+   💻 Lang: Shell
+   ⭐ Stars: 3 | 🔄 Forks: 0
+   📅 Created: 2025-08-12 | 📦 Tamaño: 33 KB
+   📄 Licence: MIT License
+------------------------------------------------------------
+4. dots-niri (@jR4dh3y)
+   🌐 https://github.com/jR4dh3y/dots-niri
+   📝 dotfiles for niri window manager
+   💻 Lang: Shell
+   ⭐ Stars: 2 | 🔄 Forks: 0
+   📅 Created: 2025-08-12 | 📦 Tamaño: 109763 KB
+   📄 Licence: no licence
+------------------------------------------------------------
+5. cursor-install (@hananf11)
+   🌐 https://github.com/hananf11/cursor-install
+   📝 One-command installer for Cursor (AI code editor) on Linux. Supports system-wide and user installations with automatic updates and clean uninstallation.
+   💻 Lang: Shell
+   ⭐ Stars: 1 | 🔄 Forks: 0
+   📅 Created: 2025-08-12 | 📦 Tamaño: 10 KB
+   📄 Licence: no licence
+------------------------------------------------------------
+6. setup-archlinux (@Bangkah)
+   🌐 https://github.com/Bangkah/setup-archlinux
+   📝 No description
+   💻 Lang: Shell
+   ⭐ Stars: 1 | 🔄 Forks: 0
+   📅 Created: 2025-08-12 | 📦 Tamaño: 14 KB
+   📄 Licence: MIT License
+------------------------------------------------------------
+7. dotfiles (@p4bl0vx)
+   🌐 https://github.com/p4bl0vx/dotfiles
+   📝 My dotfiles & a setup script
+   💻 Lang: Shell
+   ⭐ Stars: 1 | 🔄 Forks: 0
+   📅 Created: 2025-08-12 | 📦 Tamaño: 798 KB
+   📄 Licence: no licence
+------------------------------------------------------------
+8. Apple-Silicon-x86-Ubuntu-for-PWN (@mattadome)
+   🌐 https://github.com/mattadome/Apple-Silicon-x86-Ubuntu-for-PWN
+   📝 A simple guide to set up Vagrant with an installation of x86_64 Ubuntu 22.04 containing GDB and Pwntools on Apple Silicon devices
+   💻 Lang: Shell
+   ⭐ Stars: 1 | 🔄 Forks: 0
+   📅 Created: 2025-08-12 | 📦 Tamaño: 9 KB
+   📄 Licence: no licence
+------------------------------------------------------------
+9. WhatsApp-Web-JS (@justfsl50)
+   🌐 https://github.com/justfsl50/WhatsApp-Web-JS
+   📝 No description
+   💻 Lang: Shell
+   ⭐ Stars: 1 | 🔄 Forks: 0
+   📅 Created: 2025-08-12 | 📦 Tamaño: 24 KB
+   📄 Licence: no licence
+------------------------------------------------------------
+10. robot-web-controller (@Landreau)
+   🌐 https://github.com/Landreau/robot-web-controller
+   📝 No description
+   💻 Lang: Shell
+   ⭐ Stars: 1 | 🔄 Forks: 0
+   📅 Created: 2025-08-12 | 📦 Tamaño: 7 KB
+   📄 Licence: no licence
+------------------------------------------------------------
+11. 5274368t-op-repo (@setiaman-tp)
+   🌐 https://github.com/setiaman-tp/5274368t-op-repo
+   📝 Repository for CWF Operate and Monitor
+   💻 Lang: Shell
+   ⭐ Stars: 1 | 🔄 Forks: 0
+   📅 Created: 2025-08-12 | 📦 Tamaño: 1 KB
+   📄 Licence: no licence
+------------------------------------------------------------
+12. qsub_shell (@tatsukamijo)
+   🌐 https://github.com/tatsukamijo/qsub_shell
+   📝 A convenient CLI tool for launching interactive shell sessions on ABCI HPC system using the PBS job scheduler
+   💻 Lang: Shell
+   ⭐ Stars: 1 | 🔄 Forks: 0
+   📅 Created: 2025-08-12 | 📦 Tamaño: 4 KB
+   📄 Licence: MIT License
+------------------------------------------------------------
+13. docker-cleanup (@naigueldev)
+   🌐 https://github.com/naigueldev/docker-cleanup
+   📝 docker-cleanup
+   💻 Lang: Shell
+   ⭐ Stars: 1 | 🔄 Forks: 0
+   📅 Created: 2025-08-12 | 📦 Tamaño: 1 KB
+   📄 Licence: no licence
+------------------------------------------------------------
+14. NEBRU (@Zhygvin)
+   🌐 https://github.com/Zhygvin/NEBRU
+   📝 Perpetual Engine Patent
+   💻 Lang: Shell
+   ⭐ Stars: 1 | 🔄 Forks: 0
+   📅 Created: 2025-08-12 | 📦 Tamaño: 13 KB
+   📄 Licence: MIT License
+------------------------------------------------------------
+15. aws-scripts (@Thomastienn)
+   🌐 https://github.com/Thomastienn/aws-scripts
+   📝 No description
+   💻 Lang: Shell
+   ⭐ Stars: 1 | 🔄 Forks: 0
+   📅 Created: 2025-08-12 | 📦 Tamaño: 4 KB
+   📄 Licence: no licence
+------------------------------------------------------------
+16. k8s-addon (@williamkoller)
+   🌐 https://github.com/williamkoller/k8s-addon
+   📝 Kubernetes AddOn with Golang
+   💻 Lang: Shell
+   ⭐ Stars: 1 | 🔄 Forks: 0
+   📅 Created: 2025-08-12 | 📦 Tamaño: 24262 KB
+   📄 Licence: no licence
+------------------------------------------------------------
+17. zk_ecdsa (@ayushn2)
+   🌐 https://github.com/ayushn2/zk_ecdsa
+   📝 ECDSA signature verification in Noir
+   💻 Lang: Shell
+   ⭐ Stars: 1 | 🔄 Forks: 0
+   📅 Created: 2025-08-12 | 📦 Tamaño: 29 KB
+   📄 Licence: no licence
+------------------------------------------------------------
+18. github-export (@sigio)
+   🌐 https://github.com/sigio/github-export
+   📝 Make exports of your github repositories
+   💻 Lang: Shell
+   ⭐ Stars: 1 | 🔄 Forks: 0
+   📅 Created: 2025-08-12 | 📦 Tamaño: 9 KB
+   📄 Licence: European Union Public License 1.2
+------------------------------------------------------------
+19. mtls_cert_generator (@RlyehDoom)
+   🌐 https://github.com/RlyehDoom/mtls_cert_generator
+   📝 Generate easy mTLS standard all purpose certs
+   💻 Lang: Shell
+   ⭐ Stars: 1 | 🔄 Forks: 0
+   📅 Created: 2025-08-12 | 📦 Tamaño: 28 KB
+   📄 Licence: no licence
+------------------------------------------------------------
+20. CommitTypeStats (@BZLZHH)
+   🌐 https://github.com/BZLZHH/CommitTypeStats
+   📝 A script that analyzes git commits and shows categorized stats.
+   💻 Lang: Shell
+   ⭐ Stars: 1 | 🔄 Forks: 0
+   📅 Created: 2025-08-12 | 📦 Tamaño: 5 KB
+   📄 Licence: no licence
+------------------------------------------------------------
+21. PGN-Sim (@sagikan)
+   🌐 https://github.com/sagikan/PGN-Sim
+   📝 CLI Chess Games Simulator
+   💻 Lang: Shell
+   ⭐ Stars: 1 | 🔄 Forks: 0
+   📅 Created: 2025-08-12 | 📦 Tamaño: 11 KB
+   📄 Licence: MIT License
+------------------------------------------------------------
+22. NTP (@arynishere)
+   🌐 https://github.com/arynishere/NTP
+   📝 Installation NTP - Iran Iburst 
+   💻 Lang: Shell
+   ⭐ Stars: 1 | 🔄 Forks: 0
+   📅 Created: 2025-08-12 | 📦 Tamaño: 12 KB
+   📄 Licence: no licence
+------------------------------------------------------------
+23. Tomcat-Deployer (@yarliganfatih)
+   🌐 https://github.com/yarliganfatih/Tomcat-Deployer
+   📝 Transfer only your changed files from your local to remote with a single command
+   💻 Lang: Shell
+   ⭐ Stars: 1 | 🔄 Forks: 0
+   📅 Created: 2025-08-12 | 📦 Tamaño: 3 KB
+   📄 Licence: no licence
+------------------------------------------------------------
+24. Projeto-Service-Nginx (@ana-bia07)
+   🌐 https://github.com/ana-bia07/Projeto-Service-Nginx
+   📝 No description
+   💻 Lang: Shell
+   ⭐ Stars: 1 | 🔄 Forks: 0
+   📅 Created: 2025-08-12 | 📦 Tamaño: 115 KB
+   📄 Licence: no licence
+------------------------------------------------------------
+25. multirepos-to-monorepo (@helpmatteo)
+   🌐 https://github.com/helpmatteo/multirepos-to-monorepo
+   📝 Merge multiple Git repositories into a monorepo with history, tags, and LFS using git-filter-repo. Automates imports, tag prefixing, empty-repo handling, and GitHub pushes.
+   💻 Lang: Shell
+   ⭐ Stars: 1 | 🔄 Forks: 0
+   📅 Created: 2025-08-12 | 📦 Tamaño: 17 KB
+   📄 Licence: MIT License
+------------------------------------------------------------
+26. blog (@hackersonsteroids)
+   🌐 https://github.com/hackersonsteroids/blog
+   📝 Ready to Inject?
+   💻 Lang: Shell
+   ⭐ Stars: 1 | 🔄 Forks: 0
+   📅 Created: 2025-08-12 | 📦 Tamaño: 34 KB
+   📄 Licence: MIT License
+------------------------------------------------------------
+27. Jamf-Pro-Site-Assignment (@yourejuanito)
+   🌐 https://github.com/yourejuanito/Jamf-Pro-Site-Assignment
+   📝 Updating Sites just got easier. Using swift dialog this script will allow you to update a computer with a new site from the OS. Great for multi-site organizations with one ABM instance.
+   💻 Lang: Shell
+   ⭐ Stars: 1 | 🔄 Forks: 0
+   📅 Created: 2025-08-12 | 📦 Tamaño: 328 KB
+   📄 Licence: no licence
+------------------------------------------------------------
+28. hyprland-dots (@izen67)
+   🌐 https://github.com/izen67/hyprland-dots
+   📝 my dots for hyprland (end-4)
+   💻 Lang: Shell
+   ⭐ Stars: 1 | 🔄 Forks: 0
+   📅 Created: 2025-08-12 | 📦 Tamaño: 19 KB
+   📄 Licence: no licence
+------------------------------------------------------------
+29. plymouth-theme-debian-red (@maddsua)
+   🌐 https://github.com/maddsua/plymouth-theme-debian-red
+   📝 A minimalistic plymouth theme with Debian logo in red
+   💻 Lang: Shell
+   ⭐ Stars: 1 | 🔄 Forks: 0
+   📅 Created: 2025-08-12 | 📦 Tamaño: 23 KB
+   📄 Licence: GNU General Public License v3.0
+------------------------------------------------------------
+30. linux-stress-test-tool (@JustInCache)
+   🌐 https://github.com/JustInCache/linux-stress-test-tool
+   📝 This is a interactive tool to perform CPU, memory, and combined stress tests on any Linux server.
+   💻 Lang: Shell
+   ⭐ Stars: 1 | 🔄 Forks: 1
+   📅 Created: 2025-08-12 | 📦 Tamaño: 158 KB
+   📄 Licence: MIT License
+------------------------------------------------------------

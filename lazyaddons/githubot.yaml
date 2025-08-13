@@ -1,0 +1,12 @@
+name: githubot
+description: >
+  Ejecuta el script bot.py que se encuentra en la carpeta modules. creando un reporte de 100 repositorios creados en e ldía por elnguaje si no pasas argumetnos usa python por defecto
+author: "LazyOwn RedTeam"
+version: "1.0"
+enabled: true
+
+tool:
+  name: githubot
+  repo_url: https://github.com/grisuno/LazyOwn.git
+  install_path: modules/
+  execute_command: python3 bot.py

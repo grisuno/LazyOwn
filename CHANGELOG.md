@@ -2,6 +2,34 @@
 # Changelog
 
 
+### Otros
+
+### Otros
+
+  *   * feature(feat): new addons and new reports and bots, new injection technique earli bird apc in pure c call ebird3 \n\n Version: release/0.2.52 \n\n with love \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 13 02:53:49 2025 -0400 \n\n Hora: 1755068029
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * new LazyAddons and some stuffs :) new github bot and reporting
+
+
+### Otros
+
+### Otros
+
+  *   * new LazyAddons and some stuffs :) new github bot and reporting
+
+
 ### Nuevas características
 
 ### Otros

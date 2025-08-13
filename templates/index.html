@@ -39,7 +39,7 @@
                         <input type="text" class="form-control form-control-sm" id="search-label">
                     </div>
                 </div>
-            </div>    
+            </div>
             <ul class="list-group">
                 {% for client_id in connected_clients %}
                     <li class="list-group-item list-group-item-success">{{ client_id }}</li>
@@ -78,23 +78,23 @@
             </div>
             <div class="container mx-auto p-4">
                 <h1 class="text-2xl font-bold mb-4">Short URL Manager</h1>
-                
+
                 <!-- Create Short URL Form -->
                 <div class="mb-6">
                     <h2 class="text-xl mb-2">Create Short URL</h2>
                     <form id="create-url-form" class="space-y-4">
                         <div>
                             <label for="original_url" class="block">Original URL:</label>
-                            <input type="url" id="original_url" name="original_url" 
+                            <input type="url" id="original_url" name="original_url"
                                 class="form-control form-control-sm w-full p-2 border rounded" required>
                         </div>
                         <div>
                             <label for="custom_short_url" class="block">Custom Short URL (optional):</label>
-                            <input type="text" id="custom_short_url" name="custom_short_url" 
-                                class="form-control form-control-sm w-full p-2 border rounded" 
+                            <input type="text" id="custom_short_url" name="custom_short_url"
+                                class="form-control form-control-sm w-full p-2 border rounded"
                                 placeholder="Leave blank for random">
                         </div>
-                        <button type="submit" 
+                        <button type="submit"
                                 class="btn mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
                             Create Short URL
                         </button>
@@ -119,17 +119,17 @@
                             <tr>
                                 <td class="border p-2">{{ short_url }}</td>
                                 <td class="border p-2">
-                                    <input type="url" value="{{ data.original_url }}" 
-                                        class="w-full p-1 border original-url-input" 
+                                    <input type="url" value="{{ data.original_url }}"
+                                        class="w-full p-1 border original-url-input"
                                         data-short-url="{{ short_url }}">
                                 </td>
                                 <td class="border p-2">
-                                    <input type="checkbox" class="active-checkbox" 
+                                    <input type="checkbox" class="active-checkbox"
                                         data-short-url="{{ short_url }}"
                                         {% if data.active %}checked{% endif %}>
                                 </td>
                                 <td class="border p-2">
-                                    <button class="btn mt-2 update-btn bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600" 
+                                    <button class="btn mt-2 update-btn bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600"
                                             data-short-url="{{ short_url }}">
                                         Update
                                     </button>
@@ -139,7 +139,7 @@
                         </tbody>
                     </table>
                 </div>
-            </div>            
+            </div>
             <h3 class="mt-4">Contact</h3>
             <p>For any questions or feedback, please reach out to <a href="mailto\:grisiscomeback[at]gmail[dot]com" class="text-success">Gris Iscomeback</a>.</p>
             <br><br><br><br>
@@ -151,15 +151,15 @@
                     <li id="generalButton">
                         <span>Gen Bot</span>
                         <a href="#"><img src="/static/Mac-icon.png"/></a>
-                    </li>                     
+                    </li>
                     <li id="taskButton">
                         <span>Task Bot</span>
                         <a href="#"><img src="/static/Mac-icon.png"/></a>
-                    </li>                      
+                    </li>
                     <li id="redopButton">
                         <span>ROP Bot</span>
                         <a href="#"><img src="/static/Mac-icon.png"/></a>
-                    </li>                    
+                    </li>
                     <li id="vulnButton">
                         <span>Vuln Bot</span>
                         <a href="#"><img src="/static/Mac-icon.png"/></a>
@@ -167,7 +167,7 @@
                     <li id="lazyButton">
                         <span>Lazy Bot</span>
                         <a href="#"><img src="/static/Mac-icon.png"/></a>
-                    </li>                    
+                    </li>
                     <li id="searchButton">
                         <span>I+D Bot</span>
                         <a href="#"><img src="/static/Mac-icon.png"/></a>
@@ -185,9 +185,9 @@
                         <a href="#"><img src="/static/Mac-icon.png"/></a>
                     </li>
                 </ul>
-                
+
                 <p class="neon-text">&copy; 2025 LazyOwn RedTeam. All rights GPLv3.</p>
-                
+
             </div>
         </div>
         <div id="toastr" onclick="clearToastr();" class="toastr alert alert-success" role="alert">
@@ -210,7 +210,7 @@
             bot = '{{ bot | markdown |  replace("\'", "\\\'") | safe }}';
             event_config = {{ event_config  | tojson | safe  }};
             elo = '{{ elo }}';
-            username = '{{ current_user.username }}'; 
+            username = '{{ current_user.username }}';
             user_id = '{{ current_user_id }}';
             karma = '{{ karma_name }}';
             prompt_cmd = '{{ prompt | safe }}';
@@ -232,80 +232,12 @@
             term.writeln("Welcome to LazyOwn RedTeam Framework: CRIMEN 👋");
             const fitAddon = new FitAddon.FitAddon();
             term.loadAddon(fitAddon);
-    
+
             fitAddon.fit();
             var nodes = new vis.DataSet([]);
             var edges = new vis.DataSet([]);
             var network;
-            const socket = io.connect("/pty");
-        
 
-            socket.on("connect", () => {
-                document.getElementById('status').innerHTML = 
-                    '<span style="background-color: #00ff0066;">Conectado</span>';
-                fitAddon.fit();
-                socket.emit("resize", { rows: term.rows, cols: term.cols });
-            });
-
-            socket.on("disconnect", () => {
-                document.getElementById('status').innerHTML = 
-                    '<span style="background-color: #ff000066;">Desconectado</span>';
-            });
-
-            window.addEventListener('resize', () => {
-                fitAddon.fit();
-                socket.emit("resize", { rows: term.rows, cols: term.cols });
-            });
-
-            socket.on("pty-output", (data) => {
-                term.write(data.output);
-            });
-
-            document.addEventListener('keydown', (e) => {
-                if (e.ctrlKey && e.shiftKey && e.code === 'KeyV') {
-                    navigator.clipboard.readText().then(text => {
-                        term.write(text);
-                    });
-                    e.preventDefault();
-                }
-            });            
-            term.prompt = () => {
-                term.write('\r\n$ ');
-            };
-
-            term.prompt();    
-            // WebSocket client
-            fitAddon.fit();
-            socket.emit("resize", { rows: term.rows, cols: term.cols });
-            barra_busqueda.focusin(function(){
-                barra_busqueda.css('width', '20%');
-                menu.css('width', '100%');
-                icono.css('color', '#000');
-                bar.css('color', '#000');
-            });
-            
-            let commandBuffer = '';
-            term.onData((data) => {
-                switch (data) {
-                    case '\r':
-                    case '\n':
-                        if (commandBuffer.trim() !== '') {
-                            term.write('\r\n');
-                            socket.emit("pty-input", { input: commandBuffer.trim() + '\n' }); // Enviar comando completo
-                            commandBuffer = '';
-                        }
-                        break;
-                    case '\u007F':
-                        if (commandBuffer.length > 0) {
-                            commandBuffer = commandBuffer.slice(0, -1);
-                            term.write('\b \b');
-                        }
-                        break;
-                    default:
-                        commandBuffer += data;
-                        term.write(data);
-                }
-            });
             function connectNodes(nodeFromId, nodeToId) {
                 edges.add({
                     from: nodeFromId,
@@ -315,7 +247,7 @@
                     network.setData({ nodes: nodes, edges: edges });
                 }
             }
-            
+
             function connectOrphanNodes(connectedClients, results, discovered_ips, result_portscan) {
                 connectedClients.forEach(function(client) {
                     var clientData = results[client] ? results[client][0] : null;
@@ -384,7 +316,7 @@
             function sendCommand(cmd) {
                 term.write(cmd);
                 commandBuffer = cmd;
-            }            
+            }
             function applyFilters() {
                 var filterClients = document.getElementById('filter-clients').checked;
                 var filterHosts = document.getElementById('filter-hosts').checked;
@@ -443,7 +375,7 @@
                     edges: filteredEdges
                 };
                 network.setData(data);
-            }            
+            }
             function RunCmd(command){
                 const spinner = document.getElementById('loader');
                 var check = document.getElementById('check_local_shell');
@@ -468,7 +400,7 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-                   
+
                     spinner.style.display = 'none';
                     if (data.error) {
                         outputDiv.innerHTML += `<p style="color: red;">${data.error}</p>`;
@@ -487,7 +419,7 @@
             }
             function leftTrim(str) {
                 return str.replace(/^\s+/, '').trim();
-            }               
+            }
             async function fetchLog(isChecked) {
                 try {
                     const response = await fetch('/api/output');
@@ -501,8 +433,8 @@
                     const outputAtomic = document.getElementById('outputAtomic');
                     const outputText = data.output.replace(/\n/g, '<br>');
                     var output = data.output.replace(/\t/g, '    ').replace(/\n/g, '\r\n');
-                    
-          
+
+
                     term.write('\x1b[2J\x1b[3J\x1b[H');
                     prompt_cmd = prompt_cmd.replace(/<br>/g, '\n')
                     let lines = prompt_cmd.split('\n');
@@ -532,7 +464,7 @@
                             if (task.status !== "Done") {
                                 toastr(`<h1>Task: ${task.title},</h1> Description: ${task.description}`);
                             }
-                        }, index * 1000); 
+                        }, index * 1000);
                     });
                 } catch (error) {
 
@@ -541,7 +473,7 @@
 
             function RunRemoteCmd(client_id, command){
                 const spinner = document.getElementById('loader');
-                spinner.style.display = 'block';                    
+                spinner.style.display = 'block';
                 const clientId = client_id;
                 const formData = new FormData();
                 formData.append('client_id', clientId);
@@ -569,7 +501,7 @@
                     spinner.style.display = 'none';
 
                 });
-            }            
+            }
             function consoleText(words, id, colors) {
                 if (colors === undefined) colors = ['#fff'];
                     var visible = true;
@@ -631,8 +563,8 @@
 
             async function lazyForm(prompt, id) {
                 const responseDiv = document.getElementById(id);
-                responseDiv.innerHTML = ''; 
-                
+                responseDiv.innerHTML = '';
+
                 try {
                     const response = await fetch('/lazybot', {
                         method: 'POST',
@@ -649,15 +581,15 @@
                     while (true) {
                         const { done, value } = await reader.read();
                         if (done) break;
-                        
+
                         buffer += decoder.decode(value, { stream: true });
-                        
+
                         let boundary = buffer.lastIndexOf('\n');
                         if (boundary === -1) continue;
-                        
+
                         const chunks = buffer.substring(0, boundary).split('\n');
                         buffer = buffer.substring(boundary + 1);
-                        
+
                         for (const chunk of chunks) {
                             try {
                                 const data = JSON.parse(chunk);
@@ -669,7 +601,7 @@
                             }
                         }
                     }
-                    
+
                     // Procesar cualquier dato restante
                     if (buffer) {
                         try {
@@ -687,8 +619,8 @@
             }
             async function reportForm(prompt, id) {
                 const responseDiv = document.getElementById(id);
-                responseDiv.innerHTML = ''; 
-                
+                responseDiv.innerHTML = '';
+
                 try {
                     const response = await fetch('/lazyreport', {
                         method: 'POST',
@@ -705,15 +637,15 @@
                     while (true) {
                         const { done, value } = await reader.read();
                         if (done) break;
-                        
+
                         buffer += decoder.decode(value, { stream: true });
-                        
+
                         let boundary = buffer.lastIndexOf('\n');
                         if (boundary === -1) continue;
-                        
+
                         const chunks = buffer.substring(0, boundary).split('\n');
                         buffer = buffer.substring(boundary + 1);
-                        
+
                         for (const chunk of chunks) {
                             try {
                                 const data = JSON.parse(chunk);
@@ -725,7 +657,7 @@
                             }
                         }
                     }
-                    
+
                     // Procesar cualquier dato restante
                     if (buffer) {
                         try {
@@ -761,12 +693,12 @@
                 } catch (error) {
 
                 }
-            }            
+            }
             function vulnForm(event){
-           
+
                 var userInput = '';
                 const spinner = document.getElementById('loader');
-                spinner.style.display = 'block'; 
+                spinner.style.display = 'block';
 
                 fetch('/vuln', {
                     method: 'POST',
@@ -777,20 +709,20 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-         
+
                     spinner.style.display = 'none';
                     if (data.error) {
-                        
+
                         document.getElementById('vulnResponse').innerHTML += `<p style="color: red;">Groq has trouble.</p>`;
-                        
+
                     } else {
-                        
+
                         var converter = new showdown.Converter();
                         var html = converter.makeHtml(data.response);
                         document.getElementById('vulnResponse').innerHTML += `<p>${html}</p>`;
                         if (data.response) {
 
-                            
+
                         }
                     }
                 })
@@ -807,7 +739,7 @@
             function clearToastr() {
                     var toastr = document.getElementById('toastr');
                     var neonTextElements = toastr.children;
-                    
+
                     while (neonTextElements.length > 0) {
                         neonTextElements[0].parentNode.removeChild(neonTextElements[0]);
                     }
@@ -886,7 +818,7 @@
                             var html = converter.makeHtml(data.response);
                             document.getElementById('generalResponse').innerHTML += `<p>${html}</p>`;
                             document.getElementById('outputIA').innerHTML += `<p>${html}</p>`;
-                            
+
 
                             if (data.response) {
 
@@ -900,7 +832,7 @@
                         document.getElementById('generalResponse').innerHTML += `<p style="color: red;">Error de red: ${error.message}</p>`;
                     });
             }
-            toastr(bot)  
+            toastr(bot)
             fetchEvents();
             async function fetchCSVData(filePath, id_client) {
                 const spinner = document.getElementById('loader');
@@ -947,7 +879,7 @@
                 } catch (error) {
 
                 }
-            }            
+            }
             document.addEventListener('DOMContentLoaded', function() {
                 consoleText(['LazyOwn RedTeam Framework', 'LazyOwn Comand & Conquer IA Center', 'Mr Hyde Rootkit/Implants Made with Love'], 'text',['tomato','rebeccapurple','lightblue']);
                 setInterval(fetchEvents, 60000);
@@ -968,20 +900,20 @@
                 document.getElementById('filter-discovered').addEventListener('change', applyFilters);
                 document.getElementById('search-label').addEventListener('input', applyFilters);
                 document.getElementById('taskForm').addEventListener('submit', function(event) {
-                    event.preventDefault(); 
+                    event.preventDefault();
 
-                    
+
                     const title = document.getElementById('title').value;
-                    const description = quill.root.innerHTML; 
+                    const description = quill.root.innerHTML;
                     const operator = document.getElementById('operator').value;
                     const status = document.getElementById('status').value;
-                    
+
                     const formData = new FormData();
                     formData.append('title', title);
                     formData.append('description', description);
                     formData.append('operator', operator);
                     formData.append('status', status);
-  
+
                     fetch('/', {
                         method: 'POST',
                         body: formData
@@ -995,11 +927,11 @@
                     })
                     .then(data => {
 
-                        
+
                     })
                     .catch((error) => {
 
-                        
+
                     });
                 });
 
@@ -1027,14 +959,14 @@
                         theme: 'default'
                     });
                 });
-                
+
                 kofiWidgetOverlay.draw('grisuno', {
                     'type': 'floating-chat',
                     'floating-chat.donateButton.text': 'Support me',
                     'floating-chat.donateButton.background-color': '#5cb85c',
                     'floating-chat.donateButton.text-color': '#fff'
                 });
-                
+
                 document.getElementById('post-exploit-form').addEventListener('submit', function(event) {
                     event.preventDefault();
                     const clientId = document.getElementById('client_id').value;
@@ -1052,12 +984,12 @@
                     const clientId = document.getElementById('client_id').value;
                     const filePath = document.getElementById('file_path').value;
                     const spinner = document.getElementById('loader');
-                    spinner.style.display = 'block';    
+                    spinner.style.display = 'block';
                     const formData = new FormData();
                     formData.append('client_id', clientId);
                     formData.append('command', `upload:${filePath}`);
 
-                    
+
                     const username = '{{ username }}';
                     const password = '{{ password }}';
                     const credentials = btoa(`${username}:${password}`);
@@ -1070,7 +1002,7 @@
                         }
                     })
                     .then(data => {
-                        spinner.style.display = 'none'; 
+                        spinner.style.display = 'none';
                         if (data.error) {
 
                         } else {
@@ -1079,7 +1011,7 @@
                         }
                     })
                     .catch(error => {
-                        spinner.style.display = 'none'; 
+                        spinner.style.display = 'none';
 
                     });
                 });
@@ -1350,18 +1282,18 @@
                     });
                 }
                 function updateStatus() {
-                    
+
                     var statusElements = document.querySelectorAll('.status');
 
                     statusElements.forEach(function(element) {
                         var clientId = element.id;
                         if (connectedClients.includes(clientId)) {
-                            
+
                             element.innerHTML = '<span class="status-dot" style="background-color: green;"></span> Online';
                             element.classList.add('online');
                             element.classList.remove('offline');
                         } else {
-                            
+
                             element.innerHTML = '<span class="status-dot" style="background-color: red;"></span> Offline';
                             element.classList.add('offline');
                             element.classList.remove('online');
@@ -1373,7 +1305,7 @@
 
 
 
-                
+
                 updateStatus();
                 generateGraph(connectedClients, connectedHosts);
 
@@ -1393,10 +1325,10 @@
                     var navOffsetTop = nav.offsetTop;
 
                     if (scrollPosition >= 822) {
-                        
+
                         nav.classList.add('sticky');
                     } else {
-                        
+
                         nav.classList.remove('sticky');
                     }
                 });
@@ -1429,7 +1361,7 @@
                         var port = ":"+c2_port+"/";
                         iframe.src = currentUrl.replace(port, "/");
                     }
-                }); 
+                });
                 document.getElementById('LazyOsForm').addEventListener('submit', function(event) {
                     event.preventDefault();
 
@@ -1454,14 +1386,14 @@
                         spinner.style.display = 'none';
                         document.getElementById('response').innerHTML = '<div class="alert alert-danger" role="alert">' + error.message + '</div>';
                     });
-                });     
+                });
 
                 document.getElementById('chatbotButton').addEventListener('click', function() {
                     $('#chatbotModal').modal('show');
                 });
                 document.getElementById('reportButton').addEventListener('click', function() {
                     $('#reportModal').modal('show');
-                }); 
+                });
                 document.getElementById('reportFormbot').addEventListener('submit', function(event) {
                     event.preventDefault();
                     var reportprompt = document.getElementById('reportprompt').value;
@@ -1472,8 +1404,8 @@
                             responseDiv.innerHTML = converter.makeHtml(responseDiv.textContent);
                         }
                     });
-                });                   
-                document.getElementById('sistemaOperativo').addEventListener('change', function(event) {    
+                });
+                document.getElementById('sistemaOperativo').addEventListener('change', function(event) {
                     var sistemaOperativo = document.getElementById('sistemaOperativo').value;
                     var user_agent_lin = '{{ lin_useragent }}';
                     var user_agent_win = '{{ win_useragent }}';
@@ -1488,7 +1420,7 @@
                         userAgent.value = user_agent_lin;
                     }
                 });
-                document.getElementById('AgentForm').addEventListener('submit', function(event) {    
+                document.getElementById('AgentForm').addEventListener('submit', function(event) {
                     event.preventDefault();
                     var sistemaOperativo = document.getElementById('sistemaOperativo').value;
                     var userAgent = document.getElementById('userAgent').value;
@@ -1504,8 +1436,8 @@
                     var userInput = document.getElementById('chatbotInput').value;
                     var connectedClients = {{ connected_clients | tojson | safe }};
                     const spinner = document.getElementById('loader');
-                    spinner.style.display = 'block'; 
-                    
+                    spinner.style.display = 'block';
+
                     fetch('/chatbot', {
                         method: 'POST',
                         headers: {
@@ -1515,25 +1447,25 @@
                     })
                     .then(response => response.json())
                     .then(data => {
-                        
-                        spinner.style.display = 'none'; 
+
+                        spinner.style.display = 'none';
                         if (data.error) {
-                            
+
                             document.getElementById('chatbotResponse').innerHTML += `<p style="color: red;">${data.error}</p>`;
                         } else {
-                            
+
                             document.getElementById('chatbotResponse').innerHTML += `<p>${data.response}</p>`;
                             if (data.response) {
                                 const userWantsToRun = confirm('Do you want to run the command? \n' + data['response']);
                                 if (userWantsToRun) {
                                     var connectedClients = {{ connected_clients | tojson | safe }};
-                                
+
                                     let clientChoice;
                                     if (connectedClients.length === 1) {
-                                        
+
                                         clientChoice = connectedClients[0];
                                     } else if (connectedClients.length > 1) {
-                                        alert(connectedClients);                                        
+                                        alert(connectedClients);
                                         clientChoice = prompt('Choice client:');
                                     } else {
                                         alert('No connected clients available.');
@@ -1548,11 +1480,11 @@
                         }
                     })
                     .catch(error => {
-                        spinner.style.display = 'none'; 
-                        
+                        spinner.style.display = 'none';
+
                         document.getElementById('chatbotResponse').innerHTML += `<p style="color: red;">Error de red: ${error.message}</p>`;
                     });
-                    
+
                     document.getElementById('chatbotInput').value = '';
                 });
 
@@ -1564,8 +1496,8 @@
                     var userInput = document.getElementById('scriptInput').value;
                     var connectedClients = {{ connected_clients | tojson | safe }};
                     const spinner = document.getElementById('loader');
-                    spinner.style.display = 'block'; 
-                    
+                    spinner.style.display = 'block';
+
                     fetch('/script', {
                         method: 'POST',
                         headers: {
@@ -1577,24 +1509,24 @@
                     .then(data => {
                         spinner.style.display = 'none';
                         if (data.error) {
-                            
+
                             document.getElementById('scriptResponse').innerHTML += `<p style="color: red;">${data.error}</p>`;
                         } else {
                             var converter = new showdown.Converter();
                             var html = converter.makeHtml(data.response);
                             document.getElementById('scriptResponse').innerHTML += `<p>${html}</p>`;
                             if (data.response) {
-                               
+
                                 //document.getElementById('scriptResponse').innerHTML += `<pre>${data.output}</pre>`;
                             }
                         }
                     })
                     .catch(error => {
                         spinner.style.display = 'none';
-                        
+
                         document.getElementById('scriptResponse').innerHTML += `<p style="color: red;">Error de red: ${error.message}</p>`;
                     });
-                    
+
                     document.getElementById('scriptInput').value = '';
                 });
 
@@ -1604,14 +1536,14 @@
                 });
                 document.getElementById('vulnForm').addEventListener('submit', function(event) {
                     event.preventDefault();
-                    
+
                     vulnForm();
-                    
-                    
+
+
                 });
                 document.getElementById('lazyButton').addEventListener('click', function() {
                     $('#lazyModal').modal('show');
-                });     
+                });
                 document.getElementById('lazyForm').addEventListener('submit', function(event) {
                     event.preventDefault();
                     var lazyprompt = document.getElementById('lazyprompt').value;
@@ -1622,16 +1554,16 @@
                             responseDiv.innerHTML = converter.makeHtml(responseDiv.textContent);
                         }
                     });
-                });                      
+                });
                 document.getElementById('searchButton').addEventListener('click', function() {
                     $('#searchModal').modal('show');
                 });
-                
+
                 document.getElementById('searchForm').addEventListener('submit', function(event) {
                     event.preventDefault();
                     var userInput = document.getElementById('searchInput').value;
                     const spinner = document.getElementById('loader');
-                    spinner.style.display = 'block'; 
+                    spinner.style.display = 'block';
                     fetch('/search', {
                         method: 'POST',
                         headers: {
@@ -1642,33 +1574,33 @@
                     .then(response => response.json())
                     .then(data => {
                         spinner.style.display = 'none';
-                        
+
                         if (data.error) {
-                            
+
                             document.getElementById('searchResponse').innerHTML += `<p style="color: red;">${data.error}</p>`;
                         } else {
-                            
+
                             var converter = new showdown.Converter();
                             var html = converter.makeHtml(data.response);
                             document.getElementById('searchResponse').innerHTML += `<p>${html}</p>`;
                             if (data.response) {
-                                
-                               
+
+
                             }
                         }
                     })
                     .catch(error => {
                         spinner.style.display = 'none';
-                        
+
                         document.getElementById('searchResponse').innerHTML += `<p style="color: red;">Error de red: ${error.message}</p>`;
                     });
-                    
-                    
-                });    
+
+
+                });
                 document.getElementById('redopButton').addEventListener('click', function() {
                     $('#redopModal').modal('show');
                 });
-                
+
                 document.getElementById('redopForm').addEventListener('submit', function(event) {
                     event.preventDefault();
                     var userInput = '';
@@ -1683,30 +1615,30 @@
                     })
                     .then(response => response.json())
                     .then(data => {
-                        
+
                         spinner.style.display = 'none';
                         if (data.error) {
-                            
+
                             document.getElementById('redopResponse').innerHTML += `<p style="color: red;">${data.error}</p>`;
                         } else {
-                            
+
                             var converter = new showdown.Converter();
                             var html = converter.makeHtml(data.response);
                             document.getElementById('redopResponse').innerHTML += `<p>${html}</p>`;
                             if (data.response) {
-                                
+
                                 //document.getElementById('redopResponse').innerHTML += `<pre>${data.output}</pre>`;
                             }
                         }
                     })
                     .catch(error => {
                         spinner.style.display = 'none';
-                        
+
                         document.getElementById('redopResponse').innerHTML += `<p style="color: red;">Error de red: ${error.message}</p>`;
                     });
-                    
-                    
-                });       
+
+
+                });
 
                 document.getElementById('taskButton').addEventListener('click', function() {
                     $('#taskModal').modal('show');
@@ -1726,7 +1658,7 @@
                     })
                     .then(response => response.json())
                     .then(data => {
-                        
+
                         spinner.style.display = 'none';
                         if (data.error) {
                             document.getElementById('taskResponse').innerHTML += `<p style="color: red;">${data.error}</p>`;
@@ -1735,19 +1667,19 @@
                             var html = converter.makeHtml(data.response);
                             document.getElementById('taskResponse').innerHTML += `<p>${html}</p>`;
                             if (data.response) {
-                                
+
                                 //document.getElementById('taskResponse').innerHTML += `<pre>${data.output}</pre>`;
                             }
                         }
                     })
                     .catch(error => {
                         spinner.style.display = 'none';
-                        
+
                         document.getElementById('taskResponse').innerHTML += `<p style="color: red;">Error de red: ${error.message}</p>`;
                     });
-                   
+
                     fetchTasks();
-                });   
+                });
                 document.getElementById('generalButton').addEventListener('click', function() {
                     $('#generalModal').modal('show');
                 });
@@ -1755,9 +1687,9 @@
                 document.getElementById('generalFormbot').addEventListener('submit', function(event) {
                     event.preventDefault();
                     formGeneral_bot();
-                });   
+                });
 
-                document.getElementById('atomic_form').addEventListener('submit', function(event) {    
+                document.getElementById('atomic_form').addEventListener('submit', function(event) {
                     event.preventDefault();
                     var id_atomic = document.getElementById('id_atomic').value;
                     const spinner = document.getElementById('loader');
@@ -1768,11 +1700,11 @@
                     command = "adversary:" + id_atomic;
                     RunRemoteCmd(clientId,command);
                     spinner.style.display = 'none';
-                    
-                });                   
-                fetchTasks();     
-                
-                setInterval(fetchTasks, 1800000); 
+
+                });
+                fetchTasks();
+
+                setInterval(fetchTasks, 1800000);
                 document.getElementById('create-url-form').addEventListener('submit', async (e) => {
                     e.preventDefault();
                     const originalUrl = document.getElementById('original_url').value;
@@ -1830,12 +1762,12 @@
 
         </script>
         <script type="module">
-            
+
             import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
-            
-            
-          
-            
+
+
+
+
             const firebaseConfig = {
               apiKey: "",
               authDomain: "lazyown-ec930.firebaseapp.com",
@@ -1844,8 +1776,8 @@
               messagingSenderId: "629740909985",
               appId: "1:629740909985:web:4b52d61c043193310787e0"
             };
-          
-            
+
+
             const app = initializeApp(firebaseConfig);
           </script>
     </body>

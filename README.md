@@ -114,6 +114,9 @@ One of the standout features of **LazyOwn: CRIMEN** is its ability to schedule t
  - **debug:** Get info about the system if the target is debugged or not.
  - **persist:** Try to persist mechanism in the target system.
  - **simulate:** Execute a simulation of a legit web page like youtube.
+ - **migrate:** Inject a payload into a suspended process and resume it. If no payload is specified, the current process is injected (self-migration).
+ - **shellcode:** Download and execute a shellcode in memory. Supports multiple operative systems and formats msfvenom friendly.
+ - **amsi:** Bypass AMSI (Anti-Malware Scan Interface) on Windows systems to evade detection by PowerShell, WMI, and other scripting engines.
  - **terminate:** Terminates the implant or beacon, removing files and persistence mechanisms.
 
 ![winimp](https://github.com/user-attachments/assets/4d892bfa-f067-483d-b087-0afea628c00c)

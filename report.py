@@ -18,7 +18,7 @@ import os
 import re
 import json
 from pathlib import Path
-
+import os
 warnings.filterwarnings('ignore')
 
 # Configuración de estilo
@@ -28,7 +28,8 @@ plt.rcParams['figure.figsize'] = (14, 8)
 sns.set(font_scale=1.1)
 
 # Directorio de salida
-OUTPUT_DIR = Path("reports")
+OUTPUT_DIR = Path("sessions/reports")
+STATIC = Path("static")
 OUTPUT_DIR.mkdir(exist_ok=True)
 
 # 📊 Categorías de comandos (expandidas)
@@ -239,20 +240,82 @@ def generate_visualizations(df, kpis):
     
     plt.tight_layout()
     plt.savefig(OUTPUT_DIR / "security_dashboard.png", dpi=150, bbox_inches='tight')
+    plt.savefig(STATIC / "security_dashboard.png", dpi=150, bbox_inches='tight')
     print(f"📊 Gráfico guardado: {OUTPUT_DIR}/security_dashboard.png")
 
 def export_report(df, kpis, okrs):
-    """Exporta reporte a JSON"""
+    """Exporta reporte completo a JSON, incluyendo todo lo mostrado por pantalla"""
+    
+    # 🔹 Estadísticas básicas
+    basic_stats = {
+        "total_records": len(df),
+        "unique_commands": df['command'].nunique(),
+        "unique_source_ips": df['source_ip'].nunique(),
+        "unique_domains": df['domain'].nunique(),
+        "period_start": df['start'].min().isoformat() if not df.empty else None,
+        "period_end": df['start'].max().isoformat() if not df.empty else None,
+        "active_days": (df['start'].max() - df['start'].min()).days + 1 if not df.empty else 0
+    }
+
+    # 🔹 Top comandos
+    top_commands = df['command'].value_counts().head(15).to_dict()
+
+    # 🔹 Distribución por categorías
+    category_distribution = df['command_category'].value_counts().to_dict()
+
+    # 🔹 Top IPs
+    top_ips = df['source_ip'].value_counts().head(10).to_dict()
+
+    # 🔹 Top dominios
+    top_domains = df['domain'].value_counts().head(10).to_dict()
+
+    # 🔹 Actividad por hora
+    hourly_activity = df['hour'].value_counts().sort_index().to_dict()
+
+    # 🔹 Estadísticas de duración
+    duration_stats = df['duration'].describe().to_dict()
+
+    # 🔹 Credenciales expuestas
+    creds_df = df[df['contains_creds']]
+    exposed_creds = creds_df[['command', 'args', 'domain', 'start']].head(10).to_dict('records') if len(creds_df) > 0 else []
+
+    # 🔹 Comandos peligrosos
+    danger_df = df[df['is_dangerous']]
+    dangerous_commands = danger_df[['command', 'args', 'domain', 'start']].head(10).to_dict('records') if len(danger_df) > 0 else []
+
+    # 🔹 Comandos sospechosos de C2/post-exploit
+    c2_df = df[df['is_c2_or_postexploit']]
+    c2_commands = c2_df[['command', 'args', 'domain', 'start']].head(10).to_dict('records') if len(c2_df) > 0 else []
+
+    # 🔹 Resumen completo
     report = {
         "timestamp": datetime.now().isoformat(),
-        "summary": kpis,
-        "okrs": okrs,
-        "top_suspicious_commands": df[df['is_c2_or_postexploit']][['command', 'args', 'domain']].head(5).to_dict('records'),
-        "top_dangerous_commands": df[df['is_dangerous']][['command', 'args', 'domain']].head(5).to_dict('records')
+        "summary": {
+            "kpis": kpis,
+            "okrs": okrs
+        },
+        "detailed_analysis": {
+            "basic_statistics": basic_stats,
+            "top_commands": [{"command": k, "count": v} for k, v in top_commands.items()],
+            "command_category_distribution": [{"category": k, "count": v} for k, v in category_distribution.items()],
+            "top_source_ips": [{"ip": k, "count": v} for k, v in top_ips.items()],
+            "top_domains": [{"domain": k, "count": v} for k, v in top_domains.items()],
+            "hourly_activity": [{"hour": int(k), "count": v} for k, v in hourly_activity.items()],
+            "command_duration_stats_seconds": duration_stats,
+            "exposed_credentials": exposed_creds,
+            "dangerous_commands": dangerous_commands,
+            "c2_postexploitation_commands": c2_commands
+        },
+        "raw_data_sample": df[['start', 'command', 'args', 'source_ip', 'domain', 'command_category', 'is_c2_or_postexploit', 'is_dangerous']].head(50).to_dict('records')
     }
-    with open(OUTPUT_DIR / "executive_report.json", 'w') as f:
-        json.dump(report, f, indent=2, default=str)
-    print(f"💾 Reporte exportado: {OUTPUT_DIR}/executive_report.json")
+
+    # Guardar JSON
+    output_path = OUTPUT_DIR / "executive_report.json"
+    with open(output_path, 'w', encoding='utf-8') as f:
+        json.dump(report, f, indent=2, default=str)  # default=str maneja fechas y tipos no serializables
+
+    print(f"💾 Reporte JSON completo exportado: {output_path}")
+    os.system(f"python3 modules/vuln_bot_cli.py --file {output_path} --provider groq --mode console | gum format")
 
 def main():
     filepath = "sessions/LazyOwn_session_report.csv"

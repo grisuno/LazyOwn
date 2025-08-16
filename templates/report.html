@@ -49,6 +49,7 @@
             <div class="card mb-3">
                 <div class="card-header">Process and Methodology</div>
                 <div class="card-body">
+                    <div class="card mb-3"><img src="/static/security_dashboard.png" alt="heatmap" widht="100%" /></div>
                     {{ report_data.process_and_methodology | replace('\n', '<br>') | markdown | safe }}
 
                     <ul class="list-group">

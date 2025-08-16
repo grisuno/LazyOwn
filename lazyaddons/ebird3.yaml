@@ -9,10 +9,6 @@ params:
     type: string
     required: true
     description: lhost target.
-  - name: lport
-    type: string
-    required: true
-    description: lport to operate.
 tool:
   name: ebird3
   repo_url: https://github.com/grisuno/ebird3.git

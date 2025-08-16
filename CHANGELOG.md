@@ -2,6 +2,41 @@
 # Changelog
 
 
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): shellcode execute, amsi bypass and process hollowing varian Process Overwrite \n\n Version: release/0.2.53 \n\n in the beacon \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Aug 16 03:04:21 2025 -0400 \n\n Hora: 1755327861
+
+
+### Otros
+
+### Otros
+
+  *   * Merge branch 'main' of https://github.com/grisuno/LazyOwn
+
+
+### Otros
+
+### Otros
+
+  *   * new amsi bypass, exeute multiplatform shellcode from url, OverWrite Process Hollowing variant from the baecon
+
+
+### Otros
+
+### Otros
+
+  *   * new amsi bypass, exeute multiplatform shellcode from url, OverWrite Process Hollowing variant from the baecon
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
 ### Otros
 
 ### Otros

@@ -211,7 +211,7 @@ download() {
         "git clone https://github.com/S3cur3Th1sSh1t/OffensiveVBA.git .exploit/OffensiveVBA"
         "git clone https://github.com/byt3bl33d3r/pyMalleableC2.git .exploit/pyMalleableC2"     
         "git clone https://github.com/byt3bl33d3r/SILENTTRINITY.git .exploit/SILENTTRINITY"
-        #"git clone .exploit/"      
+        "git clone https://github.com/vari-sh/RedTeamGrimoire.git .exploit/RedTeamGrimoire"
         #"git clone .exploit/"
         #"git clone .exploit/"    
         #"git clone .exploit/"     

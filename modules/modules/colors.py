@@ -49,7 +49,8 @@ def retModel():
             "2": "llama-3.1-8b-instant",
             "3": "llama3-70b-8192",
             "4": "llama3-8b-8192",
-            "5": "mixtral-8x7b-32768"
+            "5": "mixtral-8x7b-32768",
+            "6": "meta-llama/llama-guard-4-12b"
         }
     ]
     nrand = random.randint(1, 5)

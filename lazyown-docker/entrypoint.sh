@@ -9,9 +9,8 @@ set -e
 SESSION="lazyown_sessions"
 VENV_PATH="env"
 JSON_FILE="/home/lazyown/payload.json"
-OS_FILE="sessions/os.json"
-CERTPASS="${CERTPASS:-LazyOwn}" # Default password, override via env
-VPN="${VPN:-1}" # Default VPN mode
+CERTPASS="${CERTPASS:-LazyOwn}"
+VPN="${VPN:-1}"
 
 # Validate dependencies
 for cmd in tmux jq; do

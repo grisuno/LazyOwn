@@ -1,0 +1,43 @@
+version: '3.8'
+services:
+  lazyown:
+    build:
+      context: .
+      dockerfile: Dockerfile.dockerfile
+      args:
+        REPO_URL: https://github.com/grisuno/LazyOwn.git
+        REPO_COMMIT: main
+    container_name: lazyown-container
+    cap_add:
+      - NET_ADMIN
+    security_opt:
+      - no-new-privileges:false
+    tmpfs:
+      - /tmp
+      - /var/log
+    ports:
+      - "80:80"
+      - "443:443"
+      - "4444:4444"
+      - "5555:5555"
+      - "6666:6666"
+      - "7777:7777"
+      - "8888:8888"
+    volumes:
+      - ./payload.json:/home/lazyown/payload.json:ro
+    environment:
+      - C2_PORT=4444
+      - RHOST=10.10.11.69
+      - DOMAIN=fluffy.htb
+      - C2_USER=LazyOwn
+      - C2_PASS=LazyOwn
+      - SLEEP_START=333
+      - OS_ID=2
+      - ENABLE_TELEGRAM_C2=false
+      - ENABLE_DISCORD_C2=false
+      - ENABLE_DEEPSEEK=false
+      - ENABLE_NC=false
+      - ENABLE_CF=false
+    stdin_open: true
+    tty: true
+    command: ["/home/lazyown/entrypoint.sh", "--vpn", "1"]

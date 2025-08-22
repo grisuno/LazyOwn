@@ -9,10 +9,10 @@ set -e
 IMAGE_NAME="lazyown"
 CONTAINER_NAME="lazyown-container"
 REPO_URL="https://github.com/grisuno/LazyOwn.git"
-REPO_COMMIT="abcdef123456" # Replace with specific commit hash
+REPO_COMMIT="main"  # Cambia a un commit específico si lo prefieres
 CURRENT_DIR=$(pwd)
 PAYLOAD_JSON="${CURRENT_DIR}/payload.json"
-DOCKERFILE="${CURRENT_DIR}/Dockerfile.dockerfile"
+DOCKERFILE="${CURRENT_DIR}/Dockerfile"
 LOG_FILE="${CURRENT_DIR}/lazyown_docker.log"
 
 # Default ports (fallback if payload.json ports are missing)
@@ -52,17 +52,6 @@ check_file() {
     fi
 }
 
-# Validate payload.json
-validate_payload() {
-    check_file "$PAYLOAD_JSON"
-    required_fields=("c2_port" "rhost" "domain" "c2_user" "c2_pass" "sleep_start" "os_id" "enable_telegram_c2" "enable_discord_c2" "enable_deepseek" "enable_nc" "enable_cloudflare")
-    for field in "${required_fields[@]}"; do
-        if ! jq -e ".${field}" "$PAYLOAD_JSON" >/dev/null 2>&1; then
-            log "Error: Missing or invalid field '${field}' in payload.json."
-            exit 1
-        fi
-    done
-}
 
 # Check if container exists
 container_exists() {
@@ -103,8 +92,10 @@ get_ports() {
 build_image() {
     log "Building LazyOwn Docker image..."
     check_file "$DOCKERFILE"
-    validate_payload
-    docker build -t "$IMAGE_NAME" --build-arg REPO_URL="$REPO_URL" --build-arg REPO_COMMIT="$REPO_COMMIT" -f "$DOCKERFILE" .
+    docker build -t "$IMAGE_NAME" \
+        --build-arg REPO_URL="$REPO_URL" \
+        --build-arg REPO_COMMIT="$REPO_COMMIT" \
+        -f "$DOCKERFILE" .
     if [ $? -eq 0 ]; then
         log "Image '$IMAGE_NAME' built successfully."
     else
@@ -147,18 +138,18 @@ run_container() {
     if container_exists "$CONTAINER_NAME"; then
         log "Container '$CONTAINER_NAME' already exists. Starting it..."
         docker start "$CONTAINER_NAME"
-        docker exec -it "$CONTAINER_NAME" bash -c "/home/lazyown/entrypoint.sh --vpn $vpn_mode"
+        docker exec -it "$CONTAINER_NAME" /home/lazyown/entrypoint.sh --vpn "$vpn_mode"
     else
         if ! image_exists "$IMAGE_NAME"; then
             build_image
         fi
         log "Creating and running container '$CONTAINER_NAME'..."
         docker run -d --name "$CONTAINER_NAME" \
-            --cap-drop=ALL \
-            --security-opt=no-new-privileges \
-            --read-only \
+            --cap-add=NET_ADMIN \
+            --security-opt=no-new-privileges=false \
             --tmpfs /tmp \
             --tmpfs /var/log \
+            --tmpfs /run \
             $PORT_MAPPINGS \
             -v "$CURRENT_DIR/payload.json:/home/lazyown/payload.json:ro" \
             -e C2_PORT="$C2_PORT" \
@@ -174,7 +165,7 @@ run_container() {
             -e ENABLE_NC="$ENABLE_NC" \
             -e ENABLE_CF="$ENABLE_CF" \
             "$IMAGE_NAME"
-        docker exec -it "$CONTAINER_NAME" bash -c "/home/lazyown/entrypoint.sh --vpn $vpn_mode"
+        docker exec -it "$CONTAINER_NAME" /home/lazyown/entrypoint.sh --vpn "$vpn_mode"
     fi
 }
 

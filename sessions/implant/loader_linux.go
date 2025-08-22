@@ -97,3 +97,13 @@ func readShellcodeFromURL(url string) ([]byte, error) {
 
 	return shellcode, nil
 }
+
+func overWrite(targetPath, payloadPath string) error {
+	fmt.Println("Overwriting not implemented in linux")
+	return nil
+}
+
+func patchAMSI() error {
+    fmt.Println("patchAMSI not implemented in Linux")
+    return nil
+}

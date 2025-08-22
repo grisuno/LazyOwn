@@ -24062,6 +24062,36 @@ class LazyOwnShell(cmd2.Cmd):
             line = input ("    [!] Enter the path: ") or 'puertos'
             self.upload_file_to_c2(line)
 
+
+    def complete_upload_c2(self, text, line, begidx, endidx):
+        """Autocomplete implant names from implant_config_*.json files in sessions/ directory"""
+   
+        config_dir = self.sessions_dir
+        pattern = os.path.join(config_dir, "implant_config_*.json")
+        
+        implant_names = []
+
+        config_files = glob.glob(pattern)
+        
+        for file_path in config_files:
+            try:
+                with open(file_path, 'r') as f:
+                    data = json.load(f)
+                    name = data.get("name")
+                    if name:
+                        implant_names.append(name)
+            except (json.JSONDecodeError, IOError) as e:
+
+                continue
+
+   
+        implant_names.sort()
+
+        if not text:
+            return implant_names
+
+        return [name for name in implant_names if name.startswith(text)]
+
     @cmd2.with_category(exfiltration_category)
     def download_file_from_c2(self, file_name, clientid=""):
         """
@@ -24122,6 +24152,36 @@ class LazyOwnShell(cmd2.Cmd):
             clientid = input(f"    [!] Enter the client id (default {self.c2_clientid}): ") or self.c2_clientid
             self.download_file_from_c2(file_name, clientid)
 
+    def complete_download_c2(self, text, line, begidx, endidx):
+        """Autocomplete implant names from implant_config_*.json files in sessions/ directory"""
+   
+        config_dir = self.sessions_dir
+        pattern = os.path.join(config_dir, "implant_config_*.json")
+        
+        implant_names = []
+
+        config_files = glob.glob(pattern)
+        
+        for file_path in config_files:
+            try:
+                with open(file_path, 'r') as f:
+                    data = json.load(f)
+                    name = data.get("name")
+                    if name:
+                        implant_names.append(name)
+            except (json.JSONDecodeError, IOError) as e:
+
+                continue
+
+   
+        implant_names.sort()
+
+        if not text:
+            return implant_names
+
+        return [name for name in implant_names if name.startswith(text)]
+
+
     @cmd2.with_category(post_exploitation_category)
     def issue_command_to_c2(self, command, client_id=""):
         """
@@ -24180,6 +24240,72 @@ class LazyOwnShell(cmd2.Cmd):
         else:
             line = input ("    [!] Enter the command: ") or 'whoami'
             self.issue_command_to_c2(line)
+
+    def complete_issue_command_to_c2(self, text, line, begidx, endidx):
+        """Autocomplete: 1st arg = implant name, 2nd arg = beacon command (with : if needed)"""
+        parts = line.split()
+
+        commands = [
+            "stealth_off",
+            "stealth_on",
+            "download:",
+            "upload:",
+            "rev:",
+            "exfil:",
+            "download_exec:",
+            "obfuscate:",
+            "cleanlogs:",
+            "discover:",
+            "adversary:",
+            "softenum:",
+            "netconfig:",
+            "escalatelin:",
+            "proxy:",
+            "stop_proxy:",
+            "portscan:",
+            "compressdir:",
+            "sandbox:",
+            "isvm:",
+            "debug:",
+            "persist:",
+            "simulate:",
+            "migrate:",
+            "shellcode:",
+            "amsi:",
+            "terminate:"
+        ]
+
+        config_dir = self.sessions_dir
+        pattern = os.path.join(config_dir, "implant_config_*.json")
+        implant_names = []
+
+        for file_path in glob.glob(pattern):
+            try:
+                with open(file_path, 'r') as f:
+                    data = json.load(f)
+                    name = data.get("name")
+                    if name:
+                        implant_names.append(name)
+            except (json.JSONDecodeError, IOError):
+                continue
+
+        implant_names.sort()
+
+        parts = line[:begidx].split()  
+        current_word = text  
+
+        if len(parts) == 1:
+            suggestions = [name for name in implant_names if name.startswith(current_word)]
+            return suggestions
+        elif len(parts) == 2:
+            first_arg = parts[1]
+            if first_arg in implant_names:
+                return [cmd for cmd in commands if cmd.startswith(current_word)]
+            else:
+                return [name for name in implant_names if name.startswith(current_word)]
+        else:
+            return [cmd for cmd in commands if cmd.startswith(current_word)]
+
 
     @cmd2.with_category(post_exploitation_category)
     def do_ofuscatorps1(self, line):

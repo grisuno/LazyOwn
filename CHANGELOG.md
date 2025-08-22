@@ -6,6 +6,20 @@
 
 ### Otros
 
+  *   * feat(feat): autocomplete in c2 \n\n Version: release/0.2.55 \n\n and some ideas \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Aug 22 00:03:23 2025 -0400 \n\n Hora: 1755835403
+
+
+### Otros
+
+### Otros
+
+  *   * some new ideas auto complete in c2 commands like upload_c2 donwload_cd and issue_commad_to_c2
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): new injection technique in windows beacon \n\n Version: release/0.2.54 \n\n early bird apc injection, the soul of our proyect ebird3 \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Aug 19 23:45:47 2025 -0400 \n\n Hora: 1755661547
 
 

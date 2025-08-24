@@ -6,6 +6,41 @@
 
 ### Otros
 
+  *   * feat(feat): new stubs to windows and linux, new stub in lolbas, and some new ideas \n\n Version: release/0.2.56 \n\n with love \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Aug 24 19:15:19 2025 -0400 \n\n Hora: 1756077319
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * deleting files...
+
+
+### Otros
+
+### Otros
+
+  *   * files...
+
+
+### Otros
+
+### Otros
+
+  *   * new stub to more silent execution in fases, new plugins lolbird using lolbas and stub in lolbas
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): autocomplete in c2 \n\n Version: release/0.2.55 \n\n and some ideas \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Aug 22 00:03:23 2025 -0400 \n\n Hora: 1755835403
 
 

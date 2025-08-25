@@ -1,0 +1,27 @@
+name: generate_stub
+description: >
+  generate stub xored using the key 0x33 and craft a oneliner with 2 phases attack using LOLBAS in modern windows.
+  The oneliner will download and execute a powershell script that will download, decode and execute the xor encoded beacon.
+  The powershell script will also delete itself and the stub
+author: "LazyOwn RedTeam"
+version: "1.0"
+enabled: true
+tags:
+  - shellcode
+  - reverse_shell
+  - windows
+  - hex
+params:
+  - name: lhost
+    type: string
+    required: true
+    description: IP (LHOST). Ex 192.168.1.10
+  - name: lport
+    type: integer
+    required: true
+    description: Port (LPORT). Ex 4444
+     
+permissions: []
+requires_root: false
+dependencies: []
+outputs: []

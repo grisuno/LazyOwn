@@ -1,0 +1,27 @@
+name: generate_lolbird
+description: >
+  generate shellcode xored using the key 0x33 and craft a oneliner with 3 phases attack using lolbass and early bird APC Injection in modern windows.
+  The oneliner will download and execute a powershell script that will download, decode and execute the xor encoded shellcode.
+  The powershell script will also delete itself and the lolbird
+author: "LazyOwn RedTeam"
+version: "1.0"
+enabled: true
+tags:
+  - shellcode
+  - reverse_shell
+  - windows
+  - hex
+params:
+  - name: lhost
+    type: string
+    required: true
+    description: Dirección IP (LHOST) para el shellcode. Ejemplo 192.168.1.10
+  - name: lport
+    type: integer
+    required: true
+    description: Puerto (LPORT) para el shellcode. Ejemplo 4444
+     
+permissions: []
+requires_root: false
+dependencies: []
+outputs: []

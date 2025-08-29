@@ -6,6 +6,20 @@
 
 ### Otros
 
+  *   * feat(feat): new lolbass, new stub more stealth, new gui code name black basalt \n\n Version: release/0.2.57 \n\n with love \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Aug 30 00:12:18 2025 -0400 \n\n Hora: 1756527138
+
+
+### Otros
+
+### Otros
+
+  *   * new ideas, plugins lua, stubs more stealth, installers, lolbas integration, and new gui in tkinter nombre codigo black basalt o por su comando gui
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): new stubs to windows and linux, new stub in lolbas, and some new ideas \n\n Version: release/0.2.56 \n\n with love \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Aug 24 19:15:19 2025 -0400 \n\n Hora: 1756077319
 
 

@@ -1,0 +1,13 @@
+name: lolbas_certutil_exe
+description: Descarga y ejecuta EXE con certutil
+author: LazyOwn
+version: "1.0"
+tags: [lolbas, certutil, execution]
+enabled: true
+params:
+  - name: lhost
+    type: string
+    required: true
+  - name: lport
+    type: integer
+    required: true

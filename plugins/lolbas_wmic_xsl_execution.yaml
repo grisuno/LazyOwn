@@ -1,0 +1,27 @@
+name: lolbas_wmic_xsl_execution
+description: >
+  Usa wmic + archivo XSL remoto para ejecutar comandos. Técnica T1220.
+  Requiere servidor HTTP. Muy sigiloso en entornos con EDR.
+author: "LazyOwn RedTeam"
+version: "1.0"
+enabled: true
+tags:
+  - lolbas
+  - wmic
+  - xsl
+  - execution
+  - edr_bypass
+params:
+  - name: lhost
+    type: string
+    required: true
+    description: IP del atacante (LHOST)
+  - name: command
+    type: string
+    required: false
+    default: calc.exe
+    description: Comando a ejecutar (default: calc.exe)
+permissions: []
+requires_root: false
+dependencies: []
+outputs: []

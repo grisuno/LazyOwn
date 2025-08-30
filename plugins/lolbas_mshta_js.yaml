@@ -1,0 +1,13 @@
+name: lolbas_mshta_js.lua
+description: Descarga y ejecuta js con mshta
+author: LazyOwn
+version: "1.0"
+tags: [lolbas, mshta, execution]
+enabled: true
+params:
+  - name: lhost
+    type: string
+    required: true
+  - name: lport
+    type: integer
+    required: true

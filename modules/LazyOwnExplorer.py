@@ -26,9 +26,9 @@ import numpy as np
 import subprocess
 
 class AutocompleteEntry(tk.Entry):
-    def __init__(self, lista, *args, **kwargs):
+    def __init__(self, get_suggestions_func, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.lista = [item for item in lista if item is not None]
+        self.get_suggestions = get_suggestions_func  # Función que devuelve sugerencias
         self.var = self["textvariable"]
         if self.var == '':
             self.var = self["textvariable"] = tk.StringVar()
@@ -46,7 +46,7 @@ class AutocompleteEntry(tk.Entry):
                 self.lb.destroy()
                 self.lb_up = False
         else:
-            words = self.comparison()
+            words = self.get_suggestions(self.var.get())  # Llama a la función dinámica
             if words:
                 if not self.lb_up:
                     self.lb = tk.Listbox(width=self["width"])
@@ -94,17 +94,21 @@ class AutocompleteEntry(tk.Entry):
                 self.lb.selection_set(first=index)
                 self.lb.activate(index)
 
-    def comparison(self):
-        pattern = self.var.get()
-        return [w for w in self.lista if w.lower().startswith(pattern.lower())]
-
+    def comparison(self, pattern):
+        # Método auxiliar para filtrar
+        return [w for w in self.get_suggestions(pattern) if w.lower().startswith(pattern.lower())]
 class LazyOwnGUI(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("LazyOwn - Análisis de Binarios")
         self.geometry("1366x768")  # Establecer la resolución de la ventana
         
-        self.parquet_files = ["../parquets/binarios.parquet", "../parquets/detalles.parquet"]
+        self.parquet_files = [
+            "../parquets/binarios.parquet",           # GTFOBins - lista básica
+            "../parquets/detalles.parquet",          # GTFOBins - detalles
+            "../parquets/lolbas_index.parquet",      # LOLBAS - índice (puede no tener ejemplo)
+            "../parquets/lolbas_details.parquet"     # LOLBAS - detalles con ejemplos
+        ]
         self.dataframe = self.load_parquet_files()
         self.create_widgets()
 
@@ -112,9 +116,14 @@ class LazyOwnGUI(tk.Tk):
         self.label = tk.Label(self, text="Término de búsqueda:")
         self.label.pack(pady=10)
 
-        # Crear AutocompleteEntry
-        unique_values = self.get_unique_values()
-        self.search_term_entry = AutocompleteEntry(unique_values, self)
+        # Función que devuelve sugerencias basadas en el término actual
+        def get_suggestions(term):
+            if not term:
+                return []
+            binaries = self.dataframe['Binary'].dropna().astype(str).unique()
+            return [b for b in binaries if b != 'None' and term.lower() in b.lower()]
+
+        self.search_term_entry = AutocompleteEntry(get_suggestions, self)
         self.search_term_entry.pack(pady=10)
         self.search_term_entry.bind("<Return>", lambda event: self.search())  # Búsqueda al presionar Enter
 
@@ -164,20 +173,70 @@ class LazyOwnGUI(tk.Tk):
         self.result_tree.bind("<Double-1>", self.on_row_double_click)
 
     def load_parquet_files(self):
-        dataframes = [pd.read_parquet(file) for file in self.parquet_files if os.path.exists(file)]
+        dataframes = []
+        for file in self.parquet_files:
+            if not os.path.exists(file):
+                print(f"[!] Archivo no encontrado: {file}")
+                continue
+            try:
+                df = pd.read_parquet(file)
+                df = df.replace({np.nan: None})  # Limpiar NaN
+
+                # Mapeo unificado de columnas
+                if 'Function URL' in df.columns and 'Description' not in df.columns:
+                    # Es GTFOBins binarios (binarios.parquet)
+                    df = df.rename(columns={'Function Name': 'Function Name'})
+                    df['Description'] = ""
+                    df['Example'] = ""
+
+                elif 'Function Name' in df.columns and 'Example' in df.columns:
+                    # Es GTFOBins detalles (detalles.parquet) o LOLBAS bien formateado
+                    pass  # Ya tiene las columnas clave
+
+                elif 'General Description' in df.columns:
+                    # Es LOLBAS details
+                    df['Description'] = df['General Description'].fillna("") + "\n" + \
+                                    df['Description'].astype(str).replace('None', '')
+                    df['Binary'] = df['Binary'].str.replace(r'\.exe$', '', case=False, regex=True)
+
+                elif 'URL' in df.columns and 'Functions' in df.columns:
+                    # Es lolbas_index.parquet (sin detalles)
+                    continue  # Ya está cubierto por lolbas_details
+
+                # Asegurarnos de tener las columnas clave
+                required_cols = ['Binary', 'Function Name', 'Description', 'Example']
+                for col in required_cols:
+                    if col not in df.columns:
+                        df[col] = ""
+
+                df = df[required_cols]
+                dataframes.append(df)
+
+            except Exception as e:
+                print(f"[!] Error leyendo {file}: {e}")
+
         if not dataframes:
-            messagebox.showerror("Error", "No se encontraron archivos Parquet.")
+            messagebox.showerror("Error", "No se pudo cargar ningún archivo Parquet.")
             return pd.DataFrame()
 
+        # Concatenar todo
         df = pd.concat(dataframes, ignore_index=True)
-        df = df.replace({np.nan: None})  # Reemplazar NaN por None para manejar mejor los datos
+
+        # Limpiar: quitar filas sin 'Example' útil
+        df = df.dropna(subset=['Example']).reset_index(drop=True)
+        df = df[df['Example'].astype(str).str.strip() != ""].reset_index(drop=True)
+
+        # Unificar nombres de binarios (sin .exe)
+        df['Binary'] = df['Binary'].astype(str).str.replace(r'\.exe$', '', case=False, regex=True)
+
         return df
 
     def get_unique_values(self):
         if self.dataframe.empty:
             return []
-        unique_values = pd.concat([self.dataframe[col] for col in self.dataframe.columns]).unique()
-        return unique_values.tolist()
+        # Solo tomar los binarios únicos
+        binaries = self.dataframe['Binary'].dropna().unique()
+        return [b for b in binaries if b and b != 'None']
 
     def search(self):
         search_term = self.search_term_entry.get()

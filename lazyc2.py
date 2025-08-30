@@ -947,44 +947,50 @@ def aicmd(cmd):
 
 def search_database(term, data_path="parquets/techniques.parquet"):
     """
-    Busca un término en un DataFrame, manejando listas y structs correctamente.
-
-    Args:
-        term (str): El término de búsqueda.
-        data_path (str, optional): Ruta al archivo Parquet.
-
-    Returns:
-        str: Contenido Markdown de los resultados, o mensaje de error.
+    Busca un término en un DataFrame, manejando listas, dicts y distintas estructuras.
     """
     try:
         df = pd.read_parquet(data_path)
-    except FileNotFoundError:
-        return f"Error: File not found"
-    except ValueError as e:
-        return f"Error reading Parquet"
+    except Exception as e:
+        return f"\n# Error\n- **File**: `{data_path}`\n- **Error**: `{str(e)}`\n"
 
+    # Normalizar nombres de binarios (quitar .exe, espacios, etc.)
+    if 'Binary' in df.columns:
+        df['Binary'] = df['Binary'].astype(str).str.replace(r'\.exe$', '', case=False, regex=True).str.strip()
+
+    # Aplanar listas
     for col in df.columns:
         if df[col].apply(lambda x: isinstance(x, list)).any():
             df[col] = df[col].apply(lambda x: ', '.join(map(str, x)) if isinstance(x, list) else x)
 
-    struct_cols_to_drop = []
-    for col in df.columns:
-        if df[col].apply(lambda x: isinstance(x, dict)).any():
-            struct_cols_to_drop.append(col)
-            df = pd.concat([df.drop(columns=[col]), df[col].apply(pd.Series).add_prefix(f"{col}.")], axis=1)
+    # Aplanar diccionarios (structs)
+    struct_cols = [col for col in df.columns if df[col].apply(lambda x: isinstance(x, dict)).any()]
+    for col in struct_cols:
+        expanded = df[col].apply(pd.Series).add_prefix(f"{col}.")
+        df = pd.concat([df.drop(columns=[col]), expanded], axis=1)
 
+    # Búsqueda insensible a mayúsculas
     term_lower = term.lower()
-    results = df[df.apply(lambda row: row.astype(str).str.lower().str.contains(term_lower).any(), axis=1)]
+    mask = df.apply(lambda row: row.astype(str).str.lower().str.contains(term_lower).any(), axis=1)
+    results = df[mask]
 
     md_content = ""
     if not results.empty:
         for _, row in results.iterrows():
-            md_content += f"# Result {_ + 1}\n"
+            # Intentar usar nombres comunes
+            binary = row.get('Binary', 'Unknown')
+            func_name = row.get('Function Name', row.get('function-name', 'N/A'))
+            example = row.get('Example', row.get('example', 'Not available'))
+
+            md_content += f"\n## {binary} - {func_name}\n"
+            md_content += f"- **Source**: `{data_path.split('/')[-1]}`\n"
             for key, value in row.items():
-                md_content += f"- **{key}**: {value}\n"
-            md_content += "\n"
+                if pd.isna(value) or value == "" or key in ['Binary', 'Function Name', 'Example']:
+                    continue
+                md_content += f"- **{key}**: `{value}`\n"
+            md_content += f"\n**Example**:\n```\n{example}\n```\n\n---\n"
     else:
-        md_content = f"No Results for: '{term}'\n"
+        md_content = f"\n<!-- No match in {data_path} -->\n"
 
     return md_content
 
@@ -2828,17 +2834,45 @@ def search_results():
     response = decoy()
     if response:
         return response
+
     term = request.form.get('input')
-    md_content = search_database(term,"parquets/techniques.parquet")
-    html_content = markdown.markdown(md_content)
-    md_content_d = search_database(term,"parquets/detalles.parquet")
-    html_content2 = markdown.markdown(md_content_d)
-    md_content_b = search_database(term,"parquets/binarios.parquet")
-    html_content3 = markdown.markdown(md_content_b)
+    if not term:
+        return render_template_string(
+            render_template('header2.html') + 
+            "# Error\n- **Please enter a search term.**\n" +
+            render_template('footer.html')
+        )
+
+    # Lista de todos los archivos Parquet a buscar
+    data_paths = [
+        "parquets/techniques.parquet",
+        "parquets/detalles.parquet",
+        "parquets/binarios.parquet",
+        "parquets/lolbas_index.parquet",
+        "parquets/lolbas_details.parquet"
+    ]
+
+    # Búsqueda en todos los archivos
+    combined_md_content = ""
+    for path in data_paths:
+        try:
+            result_md = search_database(term, path)
+            if "No Results for" not in result_md and "Error:" not in result_md:
+                combined_md_content += result_md
+        except Exception as e:
+            print(f"[!] Error searching {path}: {e}")
+
+    if not combined_md_content.strip():
+        combined_md_content = f"No Results found for: '{term}'\n"
+
+    # Convertir a HTML
+    html_content = markdown.markdown(combined_md_content)
+
+    # Renderizar plantillas
     headers_content = render_template('header2.html')
     footer = render_template('footer.html')
-    return render_template_string(headers_content + html_content+html_content2+html_content3+footer )
 
+    return render_template_string(headers_content + html_content + footer)
 @app.route('/graph')
 def graph():
     response = decoy()

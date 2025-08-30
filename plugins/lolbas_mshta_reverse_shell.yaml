@@ -1,0 +1,26 @@
+name: lolbas_mshta_reverse_shell
+description: >
+  Genera un one-liner con mshta que ejecuta una reverse shell en JavaScript.
+  No requiere archivos en disco. Ideal para bypass de AppLocker.
+author: "LazyOwn RedTeam"
+version: "1.0"
+enabled: true
+tags:
+  - lolbas
+  - mshta
+  - reverse_shell
+  - javascript
+  - evasion
+params:
+  - name: lhost
+    type: string
+    required: true
+    description: IP del atacante (LHOST)
+  - name: lport
+    type: integer
+    required: true
+    description: Puerto de escucha (LPORT)
+permissions: []
+requires_root: false
+dependencies: []
+outputs: []

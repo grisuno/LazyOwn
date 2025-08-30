@@ -2,11 +2,21 @@
   "no_priv": {
     "original_url": "https://10.10.14.91/s/no_priv.exe",
     "active": true,
-    "created_at": "2025-08-21T06:11:00.281775"
+    "created_at": "2025-08-27T15:34:13.146857"
   },
   "grisun0": {
     "original_url": "https://10.10.14.12/s/grisun0.exe",
     "active": true,
     "created_at": "2025-08-15T09:53:46.014792"
+  },
+  "linux": {
+    "original_url": "https://10.10.14.91/s/linux",
+    "active": true,
+    "created_at": "2025-08-28T05:44:17.644194"
+  },
+  "windows": {
+    "original_url": "https://10.10.14.91/s/windows.exe",
+    "active": true,
+    "created_at": "2025-08-29T06:26:19.914588"
   }
 }

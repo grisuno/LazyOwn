@@ -27204,7 +27204,7 @@ class LazyOwnShell(cmd2.Cmd):
         self.cmd(cmd)
         return
 
-if __name__ == "__main__":
+def main():
     p = LazyOwnShell()
     p.load_yaml_plugins()
     try:
@@ -27253,3 +27253,7 @@ if __name__ == "__main__":
     p.onecmd('ipp')
     p.onecmd("createcredentials")
     p.cmdloop()
+
+
+if __name__ == "__main__":
+    main()

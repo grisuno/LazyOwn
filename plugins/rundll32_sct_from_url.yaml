@@ -1,0 +1,27 @@
+name: rundll32_sct_from_url
+description: >
+  Craft a one-liner using rundll32.exe to execute a remote SCT payload via JavaScript.
+  The SCT file contains base64-encoded shellcode that is decoded and executed in-memory.
+  Uses LOLBAS T1218.011 (Rundll32) and T1216 (System Script Proxy Execution).
+  Ideal for bypassing PowerShell restrictions and AMSI.
+author: "LazyOwn RedTeam"
+version: "1.0"
+enabled: true
+tags:
+  - execution
+  - sct
+  - javascript
+  - amsi_bypass
+  - applocker_bypass
+  - in_memory
+  - lolbas
+  - no_powershell
+params:
+  - name: lhost
+    type: string
+    required: true
+    description: IP (LHOST). Ex 192.168.1.10
+  - name: lport
+    type: integer
+    required: true
+    description: Port (LPORT). Ex 4444

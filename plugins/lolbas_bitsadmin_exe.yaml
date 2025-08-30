@@ -1,0 +1,13 @@
+name: lolbas_bitsadmin_exe
+description: Usa bitsadmin para descargar y ejecutar EXE
+enabled: true
+author: LazyOwn
+version: "1.0"
+tags: [lolbas, certutil, execution]
+params:
+  - name: lhost
+    type: string
+    required: true
+  - name: lport
+    type: integer
+    required: true

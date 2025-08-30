@@ -1,0 +1,21 @@
+name: lolbas_certutil_download_exec
+description: >
+  Usa certutil para descargar una DLL ofuscada con XOR, la decodifica y ejecuta con rundll32.
+  Ideal para evadir AV en entornos sin PowerShell.
+author: "LazyOwn RedTeam"
+version: "1.0"
+enabled: true
+tags:
+  - lolbas
+  - windows
+  - execution
+  - evasion
+params:
+  - name: lhost
+    type: string
+    required: true
+    description: IP del atacante (LHOST). Ej: 192.168.1.10
+permissions: []
+requires_root: false
+dependencies: []
+outputs: []

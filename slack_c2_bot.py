@@ -13,9 +13,9 @@ import io
 import sys
 
 # === CONFIG (ajusta según tus variables) ===
-SLACK_BOT_TOKEN = "xoxb-tu-bot-token-aqui"  # xoxb-... (Bot User OAuth Token)
-SLACK_APP_TOKEN = "xapp-tu-app-token-aqui"  # xapp-... (App-Level Token, desde Socket Mode)
-SLACK_SIGNING_SECRET = "31338abaa532d73b469d490a8a40f3af"
+SLACK_BOT_TOKEN = "xoxb-tu-bot-token-aqui"  
+SLACK_APP_TOKEN = "xapp-tu-app-token-aqui" 
+SLACK_SIGNING_SECRET = "tu-app-token-aqui"
 
 # === INICIALIZACIÓN ===
 config = Config(load_payload())

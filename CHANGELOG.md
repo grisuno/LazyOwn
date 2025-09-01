@@ -6,6 +6,41 @@
 
 ### Otros
 
+  *   * feat(feat): new bug fixing new plugins, and hellbird, log live to hellbird \n\n Version: release/0.2.58 \n\n fixing some cves \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Sep 1 03:26:19 2025 -0400 \n\n Hora: 1756711579
+
+
+### Otros
+
+### Otros
+
+  *   * new shellcode reverse shell custom no msfvenom, some bug fixing, fix some cve, fix bugs in lolbass commands, new test to testing implants, and the king hellbird was released.
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #113 from grisuno/grisuno-patch-1
+
+
+### Otros
+
+### Otros
+
+  *   * Update slack_c2_bot.py
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): new lolbass, new stub more stealth, new gui code name black basalt \n\n Version: release/0.2.57 \n\n with love \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Aug 30 00:12:18 2025 -0400 \n\n Hora: 1756527138
 
 

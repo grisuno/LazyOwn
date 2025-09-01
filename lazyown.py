@@ -107,6 +107,7 @@ class LazyOwnShell(cmd2.Cmd):
     c2_port = config.c2_port
     device = config.device
     api_key = config.api_key
+    domain = config.domain
 
     aliases = {
         "available_filter_functions": "sh sudo cat /sys/kernel/tracing/available_filter_functions",
@@ -146,6 +147,7 @@ class LazyOwnShell(cmd2.Cmd):
         "ftpd": "sh cd sessions && python3 -m pyftpdlib -p 2121 -w",
         "ftpsniff": "run lazyftpsniff",
         "gdb": "set debug true",
+        "get_all_domains": "sh curl -s \"https://crt.sh/?q=%.{domain}&output=json\" | jq -r '.[].name_value' | sed 's/\\*\\.//g' | sort -u > sessions/{domain}_all_domains.txt && cat sessions/{domain}_all_domains.txt".replace('{domain}', domain),
         "halt": "sh sudo shutdown -h now",
         "hash": "sh cat sessions/hash*",
         "hosts": "sh sudo nano /etc/hosts",

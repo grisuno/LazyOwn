@@ -20,7 +20,7 @@ params:
     type: string
     required: false
     default: calc.exe
-    description: Comando a ejecutar (default: calc.exe)
+    description: Comando a ejecutar (default calc.exe)
 permissions: []
 requires_root: false
 dependencies: []

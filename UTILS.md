@@ -1042,6 +1042,9 @@ No description available.
 ## create_msfshellcoder_parser
 No description available.
 
+## load_user_aliases
+Carga los aliases del archivo JSON si existe.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 

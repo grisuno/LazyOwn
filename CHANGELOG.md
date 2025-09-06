@@ -6,6 +6,20 @@
 
 ### Otros
 
+  *   * feat(feat): new gui blackbasatl, new beacon, with load_modules from memory and one module a simple rev shell, hellsgate in inyection of new black basalt beacon bbb, new alias \n\n Version: release/0.2.59 \n\n  \n\n Modified file(s):\n- README.md - UTILS.md - docs/README.html - docs/UTILS.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Sep 6 11:06:08 2025 -0400 \n\n Hora: 1757171168
+
+
+### Otros
+
+### Otros
+
+  *   * new windows beacon Stealthy and Lightweight CODENAME BlackBasalt, new gui condename BlackBasalt, new ML model to detect bad commands, integrated in LazyOwnBT, stub more stealthy, and new aliases defined by user without touch the codebase
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): new bug fixing new plugins, and hellbird, log live to hellbird \n\n Version: release/0.2.58 \n\n fixing some cves \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Sep 1 03:26:19 2025 -0400 \n\n Hora: 1756711579
 
 

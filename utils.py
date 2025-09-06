@@ -144,6 +144,8 @@ NOBANNER = False
 COMMAND = None
 NOLOGS = False
 RUN_AS_ROOT = False
+USER_ALIASES_FILE = "user_aliases.json"
+
 os.environ['OPENSSL_CONF'] = '/usr/lib/ssl/openssl.cnf'
 REQUIRED_KEYS = [
     "id", "name", "description", "technique_name", "target_os", "binary",
@@ -3082,6 +3084,17 @@ Examples:
     parser.add_argument("-o", "--os", choices=["windows", "linux", "win", "lin"], help="Target OS")
     parser.add_argument("--arch", choices=["x86", "x64"], default="x64", help="Architecture (default: x64)")
     return parser
+
+def load_user_aliases():
+    """Carga los aliases del archivo JSON si existe."""
+    if os.path.exists(USER_ALIASES_FILE):
+        try:
+            with open(USER_ALIASES_FILE, 'r') as f:
+                return json.load(f)
+        except (json.JSONDecodeError, PermissionError) as e:
+            print_error(f"[!] Error al cargar {USER_ALIASES_FILE}: {e}")
+            return {}
+    return {}
 
 class MyServer(HTTPServer):
     """

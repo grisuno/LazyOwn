@@ -2319,6 +2319,9 @@ No description available.
 ## create_msfshellcoder_parser
 No description available.
 
+## load_user_aliases
+Carga los aliases del archivo JSON si existe.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 
@@ -11547,6 +11550,41 @@ Recursively resolve and download package dependencies with enhanced checks
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new bug fixing new plugins, and hellbird, log live to hellbird \n\n Version: release/0.2.58 \n\n fixing some cves \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Sep 1 03:26:19 2025 -0400 \n\n Hora: 1756711579
+
+
+### Otros
+
+### Otros
+
+  *   * new shellcode reverse shell custom no msfvenom, some bug fixing, fix some cve, fix bugs in lolbass commands, new test to testing implants, and the king hellbird was released.
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #113 from grisuno/grisuno-patch-1
+
+
+### Otros
+
+### Otros
+
+  *   * Update slack_c2_bot.py
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
 
 
 ### Nuevas características

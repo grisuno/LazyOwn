@@ -240,7 +240,11 @@ class ModernTreeview(ttk.Frame):
 class ModernConsole(ttk.Frame):
     def __init__(self, parent, client_id=None):
         super().__init__(parent, style="Modern.TFrame")
-        
+        self.client_id = client_id
+        self.command_history = []  # Lista de comandos históricos
+        self.history_index = -1    # Índice actual en el historial (-1 = escribiendo un nuevo comando)
+        self.load_command_history() # Cargar historial desde el archivo .log
+
         # Output area con mejor formato
         self.output = scrolledtext.ScrolledText(
             self, 
@@ -254,55 +258,116 @@ class ModernConsole(ttk.Frame):
             borderwidth=0
         )
         self.output.pack(fill=tk.BOTH, expand=True, padx=5, pady=(5, 0))
-        
+
         # Input frame con mejor diseño
         input_frame = ttk.Frame(self, style="Modern.TFrame")
         input_frame.pack(fill=tk.X, padx=5, pady=5)
-        
+
         # Prompt label
         prompt_label = ttk.Label(input_frame, text=f"[{client_id or 'GLOBAL'}]>", 
                                 style="Modern.TLabel", foreground=COLORS['accent_green'])
         prompt_label.pack(side=tk.LEFT, padx=(0, 5))
-        
+
         # Entry
         self.entry = ttk.Entry(input_frame, font=('JetBrains Mono', 10), style="Modern.TEntry")
         self.entry.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=(0, 5))
-        
+
         # Send button
         self.send_btn = ttk.Button(input_frame, text="Enviar", 
                                   style="Primary.TButton",
                                   command=lambda: self.send_command(client_id))
         self.send_btn.pack(side=tk.RIGHT)
-        
+
         # Bind Enter key
         self.entry.bind('<Return>', lambda e: self.send_command(client_id))
-        
-        self.client_id = client_id
-        
+
+        # Bind Up/Down arrow keys for command history
+        self.entry.bind('<Up>', self.navigate_history_up)
+        self.entry.bind('<Down>', self.navigate_history_down)
+
         # Configurar tags para colores
         self.output.tag_config("command", foreground=COLORS['accent_blue'])
         self.output.tag_config("response", foreground=COLORS['text_success'])
         self.output.tag_config("error", foreground=COLORS['text_error'])
         self.output.tag_config("warning", foreground=COLORS['text_warning'])
-    
+
+    def load_command_history(self):
+        """Carga el historial de comandos desde el archivo .log del cliente"""
+        if not self.client_id:
+            return
+
+        log_file_path = os.path.join(LOG_DIR, f"{self.client_id}.log")
+        if not os.path.exists(log_file_path):
+            return
+
+        try:
+            with open(log_file_path, 'r', encoding='utf-8') as f:
+                reader = csv.reader(f)
+                next(reader, None)  # Saltar la cabecera
+                for row in reader:
+                    if len(row) > 9:  # Asegurarse de que la columna 'command' existe (índice 9)
+                        command = row[9].strip()
+                        if command and command.lower() not in ['none', 'null', '']:
+                            # Evitar duplicados consecutivos
+                            if not self.command_history or self.command_history[-1] != command:
+                                self.command_history.append(command)
+        except Exception as e:
+            print(f"Error loading command history for {self.client_id}: {e}")
+
     def send_command(self, client_id):
         cmd = self.entry.get().strip()
         if not cmd: 
             return
-        
+
+        # Agregar el comando al historial si no es un duplicado del último
+        if not self.command_history or self.command_history[-1] != cmd:
+            self.command_history.append(cmd)
+        self.history_index = len(self.command_history)  # Resetear índice al final
+
         try:
-            # Mostrar comando
+            # Mostrar comando en la consola
             self.add_text(f"> {cmd}", "command")
-            
+
+            # Enviar comando al servidor
             if client_id != "GLOBAL":
                 requests.post(f"{API_BASE}/issue_command", 
                             data={"client_id": client_id, "command": cmd}, verify=False)
-            
+
+            # Limpiar el campo de entrada
             self.entry.delete(0, tk.END)
-            
+
         except Exception as e:
             self.add_text(f"[ERROR] {str(e)}", "error")
-    
+
+    def navigate_history_up(self, event):
+        """Navegar hacia arriba en el historial de comandos"""
+        if not self.command_history:
+            return "break"  # Evitar que la tecla haga algo más
+
+        if self.history_index <= 0:
+            self.history_index = 0
+            return "break"
+
+        self.history_index -= 1
+        self.entry.delete(0, tk.END)
+        self.entry.insert(0, self.command_history[self.history_index])
+        return "break"  # Prevenir el comportamiento por defecto de la tecla
+
+    def navigate_history_down(self, event):
+        """Navegar hacia abajo en el historial de comandos"""
+        if not self.command_history:
+            return "break"
+
+        if self.history_index >= len(self.command_history) - 1:
+            self.history_index = len(self.command_history)
+            self.entry.delete(0, tk.END)  # Limpiar para escribir un nuevo comando
+            return "break"
+
+        self.history_index += 1
+        self.entry.delete(0, tk.END)
+        self.entry.insert(0, self.command_history[self.history_index])
+        return "break"
+
     def add_text(self, text, tag=None):
         self.output.insert(tk.END, f"{text}\n", tag)
         self.output.see(tk.END)
@@ -312,68 +377,156 @@ class ImplantCard(ttk.Frame):
         super().__init__(parent, style="Card.TFrame")
         self.client_id = client_id
         self.on_select = on_select
-        
+        self.latest_info = {}  # Almacenar la última info conocida
+
+        # Cargar la última información del log
+        self.load_latest_client_info()
+
         # Main content
         content_frame = ttk.Frame(self, style="Modern.TFrame")
         content_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
         
-        # Icon y nombre
+        # --- Header con icono y nombre ---
         header_frame = ttk.Frame(content_frame, style="Modern.TFrame")
         header_frame.pack(fill=tk.X, pady=(0, 5))
         
         os_image = self.load_os_image(client_id)
-
         if os_image:
-            print("Usando imagen")
             icon_label = ttk.Label(header_frame, image=os_image)
-            icon_label.image = os_image  # Mantener referencia
+            icon_label.image = os_image
         else:
-            print("Usando emoji fallback")
-            # Fallback a emoji si no hay imagen
             os_icon = "🖥️" if "windows" in client_id.lower() else "🐧" if "linux" in client_id.lower() else "🍎"
             icon_label = ttk.Label(header_frame, text=os_icon, font=('Segoe UI', 16))
-
         icon_label.pack(side=tk.LEFT, padx=(0, 10))
-
         
         name_label = ttk.Label(header_frame, text=client_id, 
                               style="Title.TLabel", font=('Segoe UI', 10, 'bold'))
         name_label.pack(side=tk.LEFT, fill=tk.X, expand=True)
-        
+
         # Status indicator
         self.status_canvas = tk.Canvas(header_frame, width=12, height=12, 
                                       bg=COLORS['bg_secondary'], highlightthickness=0)
         self.status_canvas.pack(side=tk.RIGHT)
-        self.status_canvas.create_oval(2, 2, 10, 10, fill=COLORS['accent_green'], outline=COLORS['accent_green'])
-        
-        # Info adicional
+        self.update_status_indicator()
+
+        # --- Información Detallada (NUEVO) ---
         info_frame = ttk.Frame(content_frame, style="Modern.TFrame")
-        info_frame.pack(fill=tk.X, pady=(0, 10))
-        
-        ttk.Label(info_frame, text="Estado: Activo", 
-                 style="Status.TLabel", foreground=COLORS['text_success']).pack(anchor=tk.W)
-        
-        ttk.Label(info_frame, text=f"Última actividad: {datetime.now().strftime('%H:%M:%S')}", 
-                 style="Status.TLabel").pack(anchor=tk.W)
-        
-        # Botones de acción
+        info_frame.pack(fill=tk.X, pady=(5, 10))
+
+        # Hostname
+        hostname = self.latest_info.get('hostname', 'N/A')
+        ttk.Label(info_frame, text=f"💻 Host: {hostname}", 
+                 style="Status.TLabel", foreground=COLORS['text_secondary']).pack(anchor=tk.W)
+
+        # IP y Usuario en la misma línea
+        ip_user_frame = ttk.Frame(info_frame, style="Modern.TFrame")
+        ip_user_frame.pack(fill=tk.X)
+        ip = self.latest_info.get('ips', 'N/A')
+        user = self.latest_info.get('user', 'N/A')
+        ttk.Label(ip_user_frame, text=f"🌐 IP: {ip}", 
+                 style="Status.TLabel", foreground=COLORS['text_secondary']).pack(side=tk.LEFT)
+        ttk.Label(ip_user_frame, text=f"👤 User: {user}", 
+                 style="Status.TLabel", foreground=COLORS['text_secondary']).pack(side=tk.LEFT, padx=(10, 0))
+
+        # PID y Directorio de Trabajo
+        pid = self.latest_info.get('pid', 'N/A')
+        pwd = self.latest_info.get('result_pwd', 'N/A')
+        ttk.Label(info_frame, text=f"🆔 PID: {pid}", 
+                 style="Status.TLabel", foreground=COLORS['text_secondary']).pack(anchor=tk.W)
+        ttk.Label(info_frame, text=f"📁 PWD: {pwd}", 
+                 style="Status.TLabel", foreground=COLORS['accent_green']).pack(anchor=tk.W)
+
+        # --- Última Actividad ---
+        last_activity = self.latest_info.get('last_activity', 'Desconocido')
+        ttk.Label(info_frame, text=f"⏱️ Última actividad: {last_activity}", 
+                 style="Status.TLabel", foreground=COLORS['text_warning']).pack(anchor=tk.W)
+        # --- Información del Implant (desde JSON) ---
+        implant_id = self.latest_info.get('implant_id', 'N/A')
+        created = self.latest_info.get('created', 'N/A')
+        ttk.Label(info_frame, text=f"🆔 ID Implant: {implant_id}", 
+                style="Status.TLabel", foreground=COLORS['text_secondary']).pack(anchor=tk.W)
+        ttk.Label(info_frame, text=f"📅 Creado: {created}", 
+         style="Status.TLabel", foreground=COLORS['text_secondary']).pack(anchor=tk.W)
+        # --- Botones de acción ---
         button_frame = ttk.Frame(content_frame, style="Modern.TFrame")
         button_frame.pack(fill=tk.X)
-        
         ttk.Button(button_frame, text="Consola", style="Primary.TButton",
                   command=self.open_console).pack(side=tk.LEFT, padx=(0, 5))
-        
         ttk.Button(button_frame, text="Archivos", style="Modern.TButton",
                   command=self.open_files).pack(side=tk.LEFT, padx=(0, 5))
-        
         ttk.Button(button_frame, text="Procesos", style="Modern.TButton",
                   command=self.open_processes).pack(side=tk.LEFT)
-        
+
         # Click en toda la card
         self.bind("<Button-1>", self.on_card_click)
         content_frame.bind("<Button-1>", self.on_card_click)
         for child in content_frame.winfo_children():
             child.bind("<Button-1>", self.on_card_click)
+
+    def load_latest_client_info(self):
+        """Carga la información más reciente del cliente desde su archivo .log Y su archivo .json de configuración."""
+        self.latest_info = {}  # Reiniciar
+
+        # --- Primero, cargar info del .log (como antes) ---
+        log_file_path = os.path.join(LOG_DIR, f"{self.client_id}.log")
+        if os.path.exists(log_file_path):
+            try:
+                with open(log_file_path, 'r', encoding='utf-8') as f:
+                    lines = f.readlines()
+                    if len(lines) >= 2:
+                        last_line = lines[-1].strip()
+                        if last_line:
+                            reader = csv.reader([last_line])
+                            row = next(reader)
+                            if len(row) >= 9:
+                                self.latest_info.update({
+                                    'os': row[1] if len(row) > 1 else 'N/A',
+                                    'pid': row[2] if len(row) > 2 else 'N/A',
+                                    'hostname': row[3] if len(row) > 3 else 'N/A',
+                                    'ips': row[4] if len(row) > 4 else 'N/A',
+                                    'user': row[5] if len(row) > 5 else 'N/A',
+                                    'discovered_ips': row[6] if len(row) > 6 else '',
+                                    'result_portscan': row[7] if len(row) > 7 else '',
+                                    'result_pwd': row[8] if len(row) > 8 else 'N/A',
+                                    'last_activity': datetime.fromtimestamp(os.path.getmtime(log_file_path)).strftime('%H:%M:%S')
+                                })
+            except Exception as e:
+                print(f"Error loading latest info from .log for {self.client_id}: {e}")
+
+        # --- SEGUNDO, cargar info del archivo JSON de configuración ---
+        config_file_path = os.path.join(LOG_DIR, f"implant_config_{self.client_id}.json")
+        if os.path.exists(config_file_path):
+            try:
+                with open(config_file_path, 'r', encoding='utf-8') as f:
+                    config_data = json.load(f)
+                    # Combinar con la info del log, priorizando el JSON si hay conflicto
+                    self.latest_info.update({
+                        'implant_id': config_data.get('id', 'N/A'),
+                        'binary_path': config_data.get('binary', 'N/A'),
+                        'url_binary': config_data.get('url_binary', 'N/A'),
+                        'rhost': config_data.get('rhost', 'N/A'),
+                        'user_agent': config_data.get('user_agent', 'N/A'),
+                        'created': config_data.get('created', 'N/A'),
+                        'sleep': config_data.get('sleep', 'N/A'),
+                        'maleable_route': config_data.get('maleable_route', 'N/A')
+                    })
+            except Exception as e:
+                print(f"Error loading config from JSON for {self.client_id}: {e}")
+
+    def update_status_indicator(self):
+        """Actualiza el indicador de estado basado en la última actividad"""
+        # Lógica simple: si el archivo se modificó en los últimos 60 segundos, está activo
+        log_file_path = os.path.join(LOG_DIR, f"{self.client_id}.log")
+        if os.path.exists(log_file_path):
+            last_modified = os.path.getmtime(log_file_path)
+            is_active = (time.time() - last_modified) < 60
+            color = COLORS['accent_green'] if is_active else COLORS['accent_yellow']
+        else:
+            color = COLORS['accent_red']
+
+        self.status_canvas.delete("all")
+        self.status_canvas.create_oval(2, 2, 10, 10, fill=color, outline=color)
+
     
     def on_card_click(self, event):
         if self.on_select:
@@ -464,23 +617,50 @@ def refresh_clients():
     try:
         resp = requests.get(f"{API_BASE}/get_connected_clients", verify=False, timeout=5)
         data = resp.json()
-        clients = data.get("connected_clients", [])
-        
+        current_clients = set(data.get("connected_clients", []))  # Clientes reportados por el servidor
+        existing_clients = set(beacon_tabs.keys())  # Clientes ya presentes en la GUI
+
+        # --- NUEVA LÓGICA: Determinar beacons "recién conectados" ---
+        # Definimos un umbral de tiempo (ej. 30 segundos)
+        RECENT_THRESHOLD_SECONDS = 30
+        current_time = time.time()
+        truly_new_beacons = set()
+
+        for client_id in current_clients:
+            log_file_path = os.path.join(LOG_DIR, f"{client_id}.log")
+            if os.path.exists(log_file_path):
+                # Obtener el tiempo de la última modificación del archivo .log
+                last_modified_time = os.path.getmtime(log_file_path)
+                # Si el archivo se modificó hace menos del umbral, es un beacon "recién activo"
+                if (current_time - last_modified_time) <= RECENT_THRESHOLD_SECONDS:
+                    # Solo lo consideramos "nuevo" si no estaba ya en la GUI
+                    if client_id not in existing_clients:
+                        truly_new_beacons.add(client_id)
+            else:
+                # Si el archivo de log no existe, lo tratamos como nuevo (primera conexión)
+                if client_id not in existing_clients:
+                    truly_new_beacons.add(client_id)
+
         # Limpiar contenedor de implants
         for widget in implants_container.winfo_children():
             widget.destroy()
-        
+
         # Crear cards para cada cliente
-        for i, client in enumerate(clients):
+        for i, client in enumerate(current_clients):
             card = ImplantCard(implants_container, client, select_client)
             card.grid(row=i//2, column=i%2, padx=5, pady=5, sticky="ew")
-        
+
         # Configurar columnas
         implants_container.columnconfigure(0, weight=1)
         implants_container.columnconfigure(1, weight=1)
-        
-        show_notification(f"✓ {len(clients)} implantes activos", "success")
-        
+
+        # Mostrar notificación de éxito general
+        show_notification(f"✓ {len(current_clients)} implantes activos", "success")
+
+        # Mostrar notificación SOLO para beacons verdaderamente nuevos/recién activos
+        for beacon in truly_new_beacons:
+            show_notification(f"✨ ¡Nuevo beacon conectado: {beacon}!", "success")
+
     except Exception as e:
         show_notification(f"✗ Error actualizando clientes: {str(e)}", "error")
 
@@ -496,15 +676,269 @@ def select_client(client_id):
     show_notification(f"→ Beacon seleccionado: {client_id}", "info")
 
 def create_beacon_tab(client_id):
+    """Crea una nueva pestaña para un beacon, con subpestañas de Consola e Intel."""
     frame = ttk.Frame(console_notebook, style="Modern.TFrame")
     console_notebook.add(frame, text=f"🔗 {client_id}")
-    beacon_tabs[client_id] = frame
-    
-    console = ModernConsole(frame, client_id)
+
+    # Crear un notebook interno para este beacon específico
+    beacon_inner_notebook = ttk.Notebook(frame, style="Modern.TNotebook")
+    beacon_inner_notebook.pack(fill=tk.BOTH, expand=True)
+
+    # Pestaña 1: Consola
+    console_frame = ttk.Frame(beacon_inner_notebook, style="Modern.TFrame")
+    console = ModernConsole(console_frame, client_id)
     console.pack(fill=tk.BOTH, expand=True)
-    
-    # Guardar referencia a la consola
-    frame.console = console
+    beacon_inner_notebook.add(console_frame, text="💬 Consola")
+
+    # Pestaña 2: Intel (¡NUEVO!)
+    intel_frame = ttk.Frame(beacon_inner_notebook, style="Modern.TFrame")
+    create_intel_tab(intel_frame, client_id)
+    beacon_inner_notebook.add(intel_frame, text="🔍 Intel")
+
+    # Guardar referencias
+    beacon_tabs[client_id] = frame
+    frame.console = console  # Mantener referencia a la consola
+    frame.intel_frame = intel_frame  # Referencia a la pestaña de intel (opcional)
+
+    return frame
+
+def load_implant_config(client_id):
+    """Carga la configuración del implant desde el archivo JSON."""
+    config_file_path = os.path.join(LOG_DIR, f"implant_config_{client_id}.json")
+    if not os.path.exists(config_file_path):
+        return None
+
+    try:
+        with open(config_file_path, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except Exception as e:
+        print(f"Error loading implant config for {client_id}: {e}")
+        return None
+        
+def create_intel_tab(parent, client_id):
+    """Crea la pestaña de Inteligencia/Recon para un beacon específico."""
+    # Frame principal con scroll
+    canvas = tk.Canvas(parent, bg=COLORS['bg_primary'], highlightthickness=0)
+    scrollbar = ttk.Scrollbar(parent, orient="vertical", command=canvas.yview)
+    scrollable_frame = ttk.Frame(canvas, style="Modern.TFrame")
+
+    scrollable_frame.bind(
+        "<Configure>",
+        lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
+    )
+
+    canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+    canvas.configure(yscrollcommand=scrollbar.set)
+
+    canvas.pack(side="left", fill="both", expand=True)
+    scrollbar.pack(side="right", fill="y")
+
+    # Cargar datos del log
+    intel_data = load_intel_data(client_id)
+
+    # Sección: Hosts Descubiertos
+    if intel_data.get('discovered_ips'):
+        create_section_header(scrollable_frame, "🌐 Hosts Descubiertos")
+        for ip in intel_data['discovered_ips']:
+            ttk.Label(scrollable_frame, text=f"• {ip}", style="Modern.TLabel").pack(anchor=tk.W, padx=20, pady=2)
+
+    # Sección: Escaneo de Puertos
+    if intel_data.get('portscan_results'):
+        create_section_header(scrollable_frame, "🚪 Puertos Abiertos")
+        for host, ports in intel_data['portscan_results'].items():
+            ttk.Label(scrollable_frame, text=f"{host}:", style="Title.TLabel", font=('Segoe UI', 10, 'bold')).pack(anchor=tk.W, padx=20, pady=(5, 0))
+            for port, status in ports.items():
+                color = COLORS['text_success'] if status == 'open' else COLORS['text_error']
+                ttk.Label(scrollable_frame, text=f"  • {port}: {status}", foreground=color, style="Modern.TLabel").pack(anchor=tk.W, padx=40)
+
+    # Sección: Software Útil
+    if intel_data.get('useful_software'):
+        create_section_header(scrollable_frame, "🛠️ Software Detectado")
+        for sw in intel_data['useful_software']:
+            ttk.Label(scrollable_frame, text=f"• {sw}", style="Modern.TLabel").pack(anchor=tk.W, padx=20, pady=2)
+
+    # Sección: Configuración de Red
+    if intel_data.get('netconfig'):
+        create_section_header(scrollable_frame, "📡 Configuración de Red")
+        net_text = scrolledtext.ScrolledText(scrollable_frame, bg=COLORS['bg_secondary'], fg=COLORS['text_primary'], font=('Consolas', 9), height=10, wrap=tk.NONE)
+        net_text.insert(tk.END, intel_data['netconfig'])
+        net_text.config(state=tk.DISABLED)
+        net_text.pack(fill=tk.BOTH, expand=True, padx=20, pady=5)
+    # Sección: Configuración del Implant (desde JSON)
+    config_data = load_implant_config(client_id)  # <-- NUEVA FUNCIÓN QUE DEFINIREMOS
+    if config_data:
+        create_section_header(scrollable_frame, "⚙️ Configuración del Implant")
+        details_frame = ttk.Frame(scrollable_frame, style="Modern.TFrame")
+        details_frame.pack(fill=tk.X, padx=20, pady=5)
+
+        # Crear una grilla de 2 columnas para los pares clave-valor
+        row = 0
+        col = 0
+        max_cols = 2  # Número de columnas
+        for key, value in config_data.items():
+            if key in ['binary', 'url_binary', 'user_agent', 'payload']:  # Campos largos
+                ttk.Label(details_frame, text=f"{key}:", style="Modern.TLabel", font=('Segoe UI', 9, 'bold')).grid(row=row, column=col, sticky=tk.W, padx=(0, 5), pady=2)
+                col += 1
+                text_widget = tk.Text(details_frame, height=2, width=40, bg=COLORS['bg_secondary'], fg=COLORS['text_primary'], font=('Consolas', 9), wrap=tk.WORD)
+                text_widget.insert(tk.END, str(value))
+                text_widget.config(state=tk.DISABLED, relief='flat', borderwidth=0)
+                text_widget.grid(row=row, column=col, sticky=tk.EW, padx=(0, 10), pady=2)
+                row += 1
+                col = 0
+            else:
+                ttk.Label(details_frame, text=f"{key}:", style="Modern.TLabel", font=('Segoe UI', 9, 'bold')).grid(row=row, column=col, sticky=tk.W, padx=(0, 5), pady=2)
+                ttk.Label(details_frame, text=str(value), style="Modern.TLabel").grid(row=row, column=col+1, sticky=tk.W, padx=(0, 10), pady=2)
+                col += 2
+                if col >= max_cols * 2:
+                    col = 0
+                    row += 1
+
+        # Hacer que las columnares se expandan
+        for i in range(max_cols * 2):
+            details_frame.columnconfigure(i, weight=1 if i % 2 == 1 else 0)
+def create_section_header(parent, title):
+    """Crea un encabezado de sección para la pestaña de Intel."""
+    frame = ttk.Frame(parent, style="Modern.TFrame")
+    frame.pack(fill=tk.X, pady=(15, 5))
+    ttk.Label(frame, text=title, style="Title.TLabel", font=('Segoe UI', 11, 'bold')).pack(side=tk.LEFT)
+    ttk.Separator(frame, orient='horizontal').pack(side=tk.LEFT, fill=tk.X, expand=True, padx=(10, 0))
+
+def load_intel_data(client_id):
+    """Extrae y parsea datos de inteligencia del archivo .log del cliente."""
+    data = {
+        'discovered_ips': set(),
+        'portscan_results': {},
+        'useful_software': set(),
+        'netconfig': ''
+    }
+
+    log_file_path = os.path.join(LOG_DIR, f"{client_id}.log")
+    if not os.path.exists(log_file_path):
+        return data
+
+    try:
+        with open(log_file_path, 'r', encoding='utf-8') as f:
+            reader = csv.reader(f)
+            next(reader, None)  # Saltar cabecera
+
+            for row in reader:
+                if len(row) < 11:
+                    continue
+
+                command = row[9].strip().lower()
+                output = row[10].strip()
+
+                # Parsear discovered_ips (del campo row[6])
+                if len(row) > 6 and row[6]:
+                    ips = [ip.strip() for ip in row[6].split(',')]
+                    data['discovered_ips'].update(ips)
+
+                # Parsear result_portscan (del campo row[7])
+                if len(row) > 7 and row[7]:
+                    # Suponiendo formato "port:status" o "ip:port:status"
+                    entries = row[7].split(',')
+                    for entry in entries:
+                        if ':' in entry:
+                            parts = entry.split(':')
+                            if len(parts) >= 2:
+                                # Asignar al host actual (row[4]) o a 'localhost'
+                                host = row[4] if len(row) > 4 and row[4] else 'localhost'
+                                port = parts[0]
+                                status = parts[1] if len(parts) > 1 else 'unknown'
+                                if host not in data['portscan_results']:
+                                    data['portscan_results'][host] = {}
+                                data['portscan_results'][host][port] = status
+
+                # Detectar software útil desde el comando 'softenum'
+                if command == 'softenum:' and 'Useful software:' in output:
+                    software_list = output.split('Useful software: ')[-1]
+                    sw_items = [sw.strip() for sw in software_list.split(',')]
+                    data['useful_software'].update(sw_items)
+
+                # Guardar la última configuración de red
+                if command == 'netconfig:':
+                    data['netconfig'] = output
+
+    except Exception as e:
+        print(f"Error loading intel data for {client_id}: {e}")
+
+    # Convertir sets a listas ordenadas para la UI
+    data['discovered_ips'] = sorted(list(data['discovered_ips']))
+    data['useful_software'] = sorted(list(data['useful_software']))
+
+    return data
+
+def create_section_header(parent, title):
+    """Crea un encabezado de sección para la pestaña de Intel."""
+    frame = ttk.Frame(parent, style="Modern.TFrame")
+    frame.pack(fill=tk.X, pady=(15, 5))
+    ttk.Label(frame, text=title, style="Title.TLabel", font=('Segoe UI', 11, 'bold')).pack(side=tk.LEFT)
+    ttk.Separator(frame, orient='horizontal').pack(side=tk.LEFT, fill=tk.X, expand=True, padx=(10, 0))
+
+def load_intel_data(client_id):
+    """Extrae y parsea datos de inteligencia del archivo .log del cliente."""
+    data = {
+        'discovered_ips': set(),
+        'portscan_results': {},
+        'useful_software': set(),
+        'netconfig': ''
+    }
+
+    log_file_path = os.path.join(LOG_DIR, f"{client_id}.log")
+    if not os.path.exists(log_file_path):
+        return data
+
+    try:
+        with open(log_file_path, 'r', encoding='utf-8') as f:
+            reader = csv.reader(f)
+            next(reader, None)  # Saltar cabecera
+
+            for row in reader:
+                if len(row) < 11:
+                    continue
+
+                command = row[9].strip().lower()
+                output = row[10].strip()
+
+                # Parsear discovered_ips (del campo row[6])
+                if len(row) > 6 and row[6]:
+                    ips = [ip.strip() for ip in row[6].split(',')]
+                    data['discovered_ips'].update(ips)
+
+                # Parsear result_portscan (del campo row[7])
+                if len(row) > 7 and row[7]:
+                    # Suponiendo formato "ip:port:status" o "port:status"
+                    entries = row[7].split(',')
+                    for entry in entries:
+                        if ':' in entry:
+                            parts = entry.split(':')
+                            if len(parts) >= 2:
+                                port = parts[0]
+                                status = parts[1]
+                                # Asignar al host actual (row[4]) o a 'localhost'
+                                host = row[4] if len(row) > 4 else 'localhost'
+                                if host not in data['portscan_results']:
+                                    data['portscan_results'][host] = {}
+                                data['portscan_results'][host][port] = status
+
+                # Detectar software útil desde el comando 'softenum'
+                if command == 'softenum:' and 'Useful software:' in output:
+                    software_list = output.split('Useful software: ')[-1]
+                    sw_items = [sw.strip() for sw in software_list.split(',')]
+                    data['useful_software'].update(sw_items)
+
+                # Guardar la última configuración de red
+                if command == 'netconfig:':
+                    data['netconfig'] = output
+
+    except Exception as e:
+        print(f"Error loading intel data for {client_id}: {e}")
+
+    # Convertir sets a listas ordenadas para la UI
+    data['discovered_ips'] = sorted(list(data['discovered_ips']))
+    data['useful_software'] = sorted(list(data['useful_software']))
+
+    return data
 
 # === HANDLERS DE ARCHIVOS ===
 class LogHandler(FileSystemEventHandler):
@@ -538,14 +972,12 @@ class LogHandler(FileSystemEventHandler):
                 for row in reader:
                     if len(row) > 10:
                         output = row[10].strip()
-                        command = row[0].strip()
-                        
-                        if not output or output.lower() in ['none', 'null', ''] or output == command:
-                            continue
-
+                        command = row[9].strip() if len(row) > 9 else "N/A"
+                        # ... (condición para evitar outputs vacíos)
                         event_queue.put({
                             'type': 'command_output',
                             'client_id': client_id,
+                            'command': row[9].strip() if len(row) > 9 else "N/A",  # <-- AÑADIR ESTA LÍNEA
                             'output': output
                         })
 
@@ -563,7 +995,7 @@ def process_queue():
         
         if event['type'] == 'command_output':
             # Mostrar en Event Log
-            show_notification(f"[{event['client_id']}] << {event['output']}", "info")
+            show_notification(f"[{event['client_id']}] << {event['command']} -> {event['output']}", "info")
             
             # Mostrar en pestaña del beacon
             if event['client_id'] in beacon_tabs:
@@ -688,7 +1120,7 @@ def create_modern_ui():
     canvas_frame.pack(fill=tk.X, padx=10, pady=10)
 
     implants_canvas = tk.Canvas(canvas_frame, bg=COLORS['bg_primary'], 
-                               highlightthickness=0, height=200)
+                               highlightthickness=0, height=250)
     implants_scrollbar = ttk.Scrollbar(canvas_frame, orient="horizontal", 
                                       command=implants_canvas.xview)
     implants_canvas.configure(xscrollcommand=implants_scrollbar.set)
@@ -756,7 +1188,7 @@ def create_modern_ui():
     main_notebook.add(tools_frame, text="🛠️ Herramientas")
 
     tools_container = ttk.Frame(tools_frame, style="Modern.TFrame")
-    tools_container.pack(fill=tk.BOTH, expand=True, padx=20, pady=20)
+    tools_container.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
 
     # Grid de herramientas
     create_tools_grid(tools_container)
@@ -956,7 +1388,7 @@ def manage_payloads():
     
     # Contenido
     main_frame = ttk.Frame(payload_window, style="Modern.TFrame")
-    main_frame.pack(fill=tk.BOTH, expand=True, padx=20, pady=20)
+    main_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
     
     title_label = ttk.Label(main_frame, text="🗂️ Gestión de Payloads", style="Title.TLabel")
     title_label.pack(pady=(0, 20))
@@ -994,7 +1426,7 @@ def show_statistics():
     stats_window.grab_set()
     
     main_frame = ttk.Frame(stats_window, style="Modern.TFrame")
-    main_frame.pack(fill=tk.BOTH, expand=True, padx=20, pady=20)
+    main_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
     
     title_label = ttk.Label(main_frame, text="📊 Estadísticas del Sistema", style="Title.TLabel")
     title_label.pack(pady=(0, 20))
@@ -1004,7 +1436,7 @@ def show_statistics():
     stats_frame.pack(fill=tk.BOTH, expand=True)
     
     content_frame = ttk.Frame(stats_frame, style="Modern.TFrame")
-    content_frame.pack(fill=tk.BOTH, expand=True, padx=20, pady=20)
+    content_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
     
     # Calcular estadísticas
     total_beacons = len(beacon_tabs)
@@ -1036,7 +1468,7 @@ def show_settings():
     settings_window.grab_set()
     
     main_frame = ttk.Frame(settings_window, style="Modern.TFrame")
-    main_frame.pack(fill=tk.BOTH, expand=True, padx=20, pady=20)
+    main_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
     
     title_label = ttk.Label(main_frame, text="🔧 Configuración", style="Title.TLabel")
     title_label.pack(pady=(0, 20))
@@ -1046,7 +1478,7 @@ def show_settings():
     config_frame.pack(fill=tk.BOTH, expand=True)
     
     content_frame = ttk.Frame(config_frame, style="Modern.TFrame")
-    content_frame.pack(fill=tk.BOTH, expand=True, padx=20, pady=20)
+    content_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
     
     # Servidor C2
     ttk.Label(content_frame, text="Servidor C2:", style="Modern.TLabel").grid(row=0, column=0, sticky=tk.W, pady=5)
@@ -1089,7 +1521,7 @@ def show_help():
     help_window.grab_set()
     
     main_frame = ttk.Frame(help_window, style="Modern.TFrame")
-    main_frame.pack(fill=tk.BOTH, expand=True, padx=20, pady=20)
+    main_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
     
     title_label = ttk.Label(main_frame, text="📖 Manual de Usuario", style="Title.TLabel")
     title_label.pack(pady=(0, 20))

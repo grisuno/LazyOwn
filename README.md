@@ -11556,6 +11556,20 @@ Recursively resolve and download package dependencies with enhanced checks
 
 ### Otros
 
+  *   * feat(feat): some love in the beacon, bug fixing, better gui, and much more \n\n Version: release/0.2.60 \n\n with love \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Sep 8 08:13:11 2025 -0300 \n\n Hora: 1757329991
+
+
+### Otros
+
+### Otros
+
+  *   * more love to new beacon, some love in the cli, and better gui, and some litte commands like cc beef_payload and new find instance to the beef payload
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): new gui blackbasatl, new beacon, with load_modules from memory and one module a simple rev shell, hellsgate in inyection of new black basalt beacon bbb, new alias \n\n Version: release/0.2.59 \n\n  \n\n Modified file(s):\n- README.md - UTILS.md - docs/README.html - docs/UTILS.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Sep 6 11:06:08 2025 -0400 \n\n Hora: 1757171168
 
 

@@ -1,0 +1,6 @@
+[
+    [
+        "LIN My Secret Recon",
+        "find / -name \"secret*\" 2>/dev/null"
+    ]
+]

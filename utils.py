@@ -41,6 +41,7 @@ import socket
 import struct
 import random
 import libnmap
+import hashlib
 import argparse
 import binascii
 import readline
@@ -54,6 +55,7 @@ import pandas as pd
 import urllib.request
 import importlib.util
 from PIL import Image
+from os import urandom
 from io import StringIO
 from pathlib import Path
 from rich.text import Text
@@ -62,10 +64,12 @@ from threading import Timer
 from rich.panel import Panel
 from bs4 import BeautifulSoup
 from itertools import product
+from Crypto.Cipher import AES
 from pykeepass import PyKeePass
 from rich.console import Console
 import xml.etree.ElementTree as ET
 from html.parser import HTMLParser
+from Crypto.Util.Padding import pad
 from stix2 import MemoryStore, Filter
 from libnmap.parser import NmapParser
 from netaddr import IPAddress, IPRange
@@ -3095,6 +3099,24 @@ def load_user_aliases():
             print_error(f"[!] Error al cargar {USER_ALIASES_FILE}: {e}")
             return {}
     return {}
+
+def AESencrypt(plaintext, key):
+    k = hashlib.sha256(key).digest()
+    iv = 16 * b'\x00'
+    plaintext = pad(plaintext, AES.block_size)
+    cipher = AES.new(k, AES.MODE_CBC, iv)
+    ciphertext = cipher.encrypt(plaintext)
+    return ciphertext,key
+  
+def dropFile(key, ciphertext):
+  with open("sessions/cipher.bin", "wb") as fc:
+    fc.write(ciphertext)
+  with open("sessions/key.bin", "wb") as fk:
+    fk.write(key)
+  #print('char AESkey[] = { 0x' + ', 0x'.join(hex(x)[2:] for x in KEY) + ' };')
+  #print('unsigned char AESshellcode[] = { 0x' + ', 0x'.join(hex(x)[2:] for x in ciphertext) + ' };')
+ 
+
 
 class MyServer(HTTPServer):
     """

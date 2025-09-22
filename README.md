@@ -2322,6 +2322,12 @@ No description available.
 ## load_user_aliases
 Carga los aliases del archivo JSON si existe.
 
+## AESencrypt
+No description available.
+
+## dropFile
+No description available.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 
@@ -11550,6 +11556,20 @@ Recursively resolve and download package dependencies with enhanced checks
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(test): new black basalt beacon, bof coff execution in memory in windows new beacon experimental, new commands and, some bug fix \n\n Version: release/0.2.61 \n\n with love \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Sep 13 08:26:57 2025 -0300 \n\n Hora: 1757762817
+
+
+### Otros
+
+### Otros
+
+  *   * more love to new beacon, now with bof in memory from an url, new Windows escalate privileges with a self-made exploit, and now you can add alias with add2find and addalias, enjoy
 
 
 ### Nuevas características

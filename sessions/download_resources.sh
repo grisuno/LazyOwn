@@ -86,6 +86,7 @@ download() {
         "wget https://www.python.org/ftp/python/3.14.0/python-3.14.0rc1-embed-amd64.zip"
         "wget https://raw.githubusercontent.com/TAM-K592/CVE-2024-53677-S2-067/refs/heads/ALOK/shell.jsp"
         "wget https://raw.githubusercontent.com/MalwareTech/CVE-2024-47176-Scanner/refs/heads/master/cups_scanner.py"
+        "wget https://raw.githubusercontent.com/Offensive-Panda/Exfiltration/refs/heads/main/FTP.ps1"
     )
 
     echo "    [+] Seleccione el número del comando que desea descargar:"

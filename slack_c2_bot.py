@@ -12,10 +12,10 @@ from utils import Config, load_payload
 import io
 import sys
 
-# === CONFIG (ajusta según tus variables) ===
-SLACK_BOT_TOKEN = "xoxb-tu-bot-token-aqui"  
-SLACK_APP_TOKEN = "xapp-tu-app-token-aqui" 
-SLACK_SIGNING_SECRET = "tu-app-token-aqui"
+# === CONFIG ===
+SLACK_BOT_TOKEN = "xoxb-bot-token-aqui"  
+SLACK_APP_TOKEN = "xapp-app-token-aqui" 
+SLACK_SIGNING_SECRET = "app-token-aqui"
 
 # === INICIALIZACIÓN ===
 config = Config(load_payload())

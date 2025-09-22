@@ -1045,6 +1045,12 @@ No description available.
 ## load_user_aliases
 Carga los aliases del archivo JSON si existe.
 
+## AESencrypt
+No description available.
+
+## dropFile
+No description available.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 

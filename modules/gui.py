@@ -35,7 +35,11 @@ events_text = None
 processes_tree = None
 status_label = None
 connection_status = False
-
+# === NUEVAS VARIABLES PARA VISTA TABLA ===
+global_view_mode = "card"  # 'card' o 'table'
+toggle_view_btn = None
+implants_frame = None
+main_container = None 
 # === COLORES Y TEMA ===
 COLORS = {
     'bg_primary': '#1a1a1a',
@@ -378,6 +382,8 @@ class ImplantCard(ttk.Frame):
         self.client_id = client_id
         self.on_select = on_select
         self.latest_info = {}  # Almacenar la última info conocida
+        self.card_content = ttk.Frame(self, style="Modern.TFrame")
+        self.card_content.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
 
         # Cargar la última información del log
         self.load_latest_client_info()
@@ -456,7 +462,12 @@ class ImplantCard(ttk.Frame):
                   command=self.open_files).pack(side=tk.LEFT, padx=(0, 5))
         ttk.Button(button_frame, text="Procesos", style="Modern.TButton",
                   command=self.open_processes).pack(side=tk.LEFT)
-
+        self.view_mode = "card"  # inicialmente en modo tarjeta
+        self.toggle_btn = ttk.Button(button_frame, text="📋 Tabla",
+                                    style="Modern.TButton",
+                                    command=self.toggle_view)
+        print(f"[DEBUG] Toggle view: {self.view_mode} -> {'table' if self.view_mode == 'card' else 'card'}")
+        self.toggle_btn.pack(side=tk.RIGHT)
         # Click en toda la card
         self.bind("<Button-1>", self.on_card_click)
         content_frame.bind("<Button-1>", self.on_card_click)
@@ -574,6 +585,67 @@ class ImplantCard(ttk.Frame):
         except Exception as e:
             print(f"Error cargando imagen: {e}")
             return None
+
+    def toggle_view(self):
+        if self.view_mode == "card":
+            self.show_table_view()
+            self.view_mode = "table"
+            self.toggle_btn.config(text="🖼️ Tarjeta")
+        else:
+            self.show_card_view()
+            self.view_mode = "card"
+            self.toggle_btn.config(text="📋 Tabla")
+
+    def show_table_view(self):
+        # 1. Ocultar tarjeta
+        self.card_content.pack_forget()
+
+        # 2. Crear tabla solo una vez
+        if not hasattr(self, 'table_frame'):
+            self.table_frame = ttk.Frame(self, style="Card.TFrame")
+            self.tree = ttk.Treeview(
+                self.table_frame,
+                columns=("Host", "IP", "User", "Url", "Rhost", "Created"),
+                show="headings",
+                height=1
+            )
+            self.tree.heading("Host", text="Host")
+            self.tree.heading("IP", text="IP")
+            self.tree.heading("User", text="User")
+            self.tree.heading("Url", text="Url")
+            self.tree.heading("Rhost", text="Rhost")
+            self.tree.heading("Created", text="Created")
+            # Colores visibles
+            style = ttk.Style()
+            style.configure("Table.Treeview",
+                            background=COLORS['bg_secondary'],
+                            foreground=COLORS['text_primary'],
+                            fieldbackground=COLORS['bg_secondary'])
+            self.tree.config(style="Table.Treeview")
+
+            self.tree.pack(fill=tk.X, padx=10, pady=10)
+
+        # 3. Limpiar e insertar fila
+        for item in self.tree.get_children():
+            self.tree.delete(item)
+        self.tree.insert("", tk.END, values=(
+            self.latest_info.get('hostname', 'N/A'),
+            self.latest_info.get('ips', 'N/A'),
+            self.latest_info.get('user', 'N/A'),
+            self.latest_info.get('url_binary', 'N/A'),
+            self.latest_info.get('rhost', 'N/A'),
+            self.latest_info.get('created', 'N/A')
+        ))
+
+        # 4. ¡Mostrar frame!
+        self.table_frame.pack(fill=tk.X)
+        self.table_frame.update()  # <- fuerza renderizado
+
+    def show_card_view(self):
+        if hasattr(self, 'table_frame'):
+            self.table_frame.pack_forget()
+        self.card_content.pack(fill=tk.BOTH, expand=True)
+
 # === FUNCIONES DE API MEJORADAS ===
 def login():
     global connection_status, status_bar
@@ -613,53 +685,20 @@ def show_notification(message, type="info"):
         events_text.see(tk.END)
 
 def refresh_clients():
-    global implants_container
+    # Limpiar solo el contenido
+    for widget in implants_frame.winfo_children():
+        widget.destroy()
+
     try:
         resp = requests.get(f"{API_BASE}/get_connected_clients", verify=False, timeout=5)
         data = resp.json()
-        current_clients = set(data.get("connected_clients", []))  # Clientes reportados por el servidor
-        existing_clients = set(beacon_tabs.keys())  # Clientes ya presentes en la GUI
+        clients = data.get("connected_clients", [])
 
-        # --- NUEVA LÓGICA: Determinar beacons "recién conectados" ---
-        # Definimos un umbral de tiempo (ej. 30 segundos)
-        RECENT_THRESHOLD_SECONDS = 30
-        current_time = time.time()
-        truly_new_beacons = set()
+        for client in clients:
+            card = ImplantCard(implants_frame, client, select_client)
+            card.pack(fill=tk.X, padx=5, pady=5)
 
-        for client_id in current_clients:
-            log_file_path = os.path.join(LOG_DIR, f"{client_id}.log")
-            if os.path.exists(log_file_path):
-                # Obtener el tiempo de la última modificación del archivo .log
-                last_modified_time = os.path.getmtime(log_file_path)
-                # Si el archivo se modificó hace menos del umbral, es un beacon "recién activo"
-                if (current_time - last_modified_time) <= RECENT_THRESHOLD_SECONDS:
-                    # Solo lo consideramos "nuevo" si no estaba ya en la GUI
-                    if client_id not in existing_clients:
-                        truly_new_beacons.add(client_id)
-            else:
-                # Si el archivo de log no existe, lo tratamos como nuevo (primera conexión)
-                if client_id not in existing_clients:
-                    truly_new_beacons.add(client_id)
-
-        # Limpiar contenedor de implants
-        for widget in implants_container.winfo_children():
-            widget.destroy()
-
-        # Crear cards para cada cliente
-        for i, client in enumerate(current_clients):
-            card = ImplantCard(implants_container, client, select_client)
-            card.grid(row=i//2, column=i%2, padx=5, pady=5, sticky="ew")
-
-        # Configurar columnas
-        implants_container.columnconfigure(0, weight=1)
-        implants_container.columnconfigure(1, weight=1)
-
-        # Mostrar notificación de éxito general
-        show_notification(f"✓ {len(current_clients)} implantes activos", "success")
-
-        # Mostrar notificación SOLO para beacons verdaderamente nuevos/recién activos
-        for beacon in truly_new_beacons:
-            show_notification(f"✨ ¡Nuevo beacon conectado: {beacon}!", "success")
+        show_notification(f"✓ {len(clients)} implantes activos", "success")
 
     except Exception as e:
         show_notification(f"✗ Error actualizando clientes: {str(e)}", "error")
@@ -868,6 +907,126 @@ def load_intel_data(client_id):
 
     return data
 
+def is_client_active(client_id):
+    log_path = os.path.join(LOG_DIR, f"{client_id}.log")
+    if not os.path.exists(log_path):
+        return False
+    return (time.time() - os.path.getmtime(log_path)) < 60
+
+def load_latest_client_info_dict(client_id):
+    info = {}
+    log_path = os.path.join(LOG_DIR, f"{client_id}.log")
+    json_path = os.path.join(LOG_DIR, f"implant_config_{client_id}.json")
+
+    if os.path.exists(log_path):
+        try:
+            with open(log_path, 'r', encoding='utf-8') as f:
+                last_line = f.readlines()[-1].strip()
+                reader = csv.reader([last_line])
+                row = next(reader)
+                if len(row) >= 9:
+                    info.update({
+                        'hostname': row[3],
+                        'ips': row[4],
+                        'user': row[5],
+                        'pid': row[2],
+                        'result_pwd': row[8],
+                    })
+        except:
+            pass
+
+    if os.path.exists(json_path):
+        try:
+            with open(json_path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                info.update({
+                    'url_binary': data.get('url_binary', 'N/A'),
+                    'created': data.get('created', 'N/A'),
+                })
+        except:
+            pass
+
+    return info
+
+def refresh_table_view(tree):
+    for item in tree.get_children():
+        tree.delete(item)
+
+    try:
+        resp = requests.get(f"{API_BASE}/get_connected_clients", verify=False, timeout=5)
+        data = resp.json()
+        clients = data.get("connected_clients", [])
+
+        for client_id in clients:
+            info = load_latest_client_info_dict(client_id)
+            status = "🟢 Activo" if is_client_active(client_id) else "🟡 Inactivo"
+            tree.insert("", tk.END, values=(
+                info.get('hostname', 'N/A'),
+                info.get('ips', 'N/A'),
+                info.get('user', 'N/A'),
+                info.get('pid', 'N/A'),
+                info.get('url_binary', 'N/A'),
+                info.get('created', 'N/A'),
+                status
+            ))
+    except Exception as e:
+        show_notification(f"Error actualizando tabla: {str(e)}", "error")
+
+def create_table_view_frame(parent):
+    # Crear frame fresco CADA vez
+    frame = ttk.Frame(parent, style="Card.TFrame")
+    frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+
+    columns = ("Hostname", "IP", "User", "PID", "URL", "Created", "Status")
+    tree = ttk.Treeview(frame, columns=columns, show="headings", selectmode="browse")
+
+    for col in columns:
+        tree.heading(col, text=col)
+        tree.column(col, width=120, anchor=tk.W)
+
+    style = ttk.Style()
+    style.configure("Table.Treeview",
+                    background=COLORS['bg_secondary'],
+                    foreground=COLORS['text_primary'],
+                    fieldbackground=COLORS['bg_secondary'],
+                    rowheight=25)
+
+    tree.config(style="Table.Treeview")
+    tree.pack(fill=tk.BOTH, expand=True)
+
+    refresh_table_view(tree)
+
+    def on_table_select(event):
+        selected = tree.selection()
+        if selected:
+            item = tree.item(selected[0])
+            client_id = item['values'][0]  # hostname = client_id
+            select_client(client_id)
+
+    tree.bind("<<TreeviewSelect>>", on_table_select)
+
+
+def toggle_global_view():
+    global global_view_mode
+
+    # Limpiar TODO el contenido de implants_frame (sin destruir el frame)
+    for widget in implants_frame.winfo_children():
+        widget.destroy()
+
+    if global_view_mode == "card":
+        # → Cambiar a vista tabla
+        create_table_view_frame(implants_frame)  # Crear tabla fresca
+        if toggle_view_btn and toggle_view_btn.winfo_exists():
+            toggle_view_btn.config(text="🖼️ Vista Tarjetas")
+        global_view_mode = "table"
+
+    else:
+        # → Cambiar a vista tarjetas
+        refresh_clients()  # Recrea las tarjetas
+        if toggle_view_btn and toggle_view_btn.winfo_exists():
+            toggle_view_btn.config(text="📋 Vista Tabla")
+        global_view_mode = "card"
+
 def create_section_header(parent, title):
     """Crea un encabezado de sección para la pestaña de Intel."""
     frame = ttk.Frame(parent, style="Modern.TFrame")
@@ -1025,7 +1184,7 @@ def stop_polling():
 
 def auto_refresh_clients():
     while polling:
-        time.sleep(10)  # Refresh cada 10 segundos
+        time.sleep(60)  # Refresh cada 10 segundos
         if root.winfo_exists():
             root.after(0, refresh_clients)
         else:
@@ -1093,6 +1252,8 @@ def upload_file():
 # === INTERFAZ PRINCIPAL MEJORADA ===
 def create_modern_ui():
     global root, console_notebook, events_text, status_bar, implants_container, beacon_tabs
+    global implants_frame, toggle_view_btn, main_container  # <- AGREGADO
+
 
     root = tk.Tk()
     root.title("LazyOwn C2 - Modern Interface")
@@ -1106,21 +1267,56 @@ def create_modern_ui():
     # === BARRA DE ESTADO ===
     status_bar = StatusBar(root)
 
-    # === CONTENEDOR PRINCIPAL ===
-    main_container = ttk.Frame(root, style="Modern.TFrame")
-    main_container.pack(fill=tk.BOTH, expand=True, padx=10, pady=(10, 0))
+    # === CONTENEDOR PRINCIPAL CON SCROLL VERTICAL ===
+    main_canvas = tk.Canvas(root, bg=COLORS['bg_primary'], highlightthickness=0)
+    main_scrollbar = ttk.Scrollbar(root, orient="vertical", command=main_canvas.yview)
+    main_container = ttk.Frame(main_canvas, style="Modern.TFrame")
 
-    # === PANEL SUPERIOR - IMPLANTES ===
-    implants_frame = ttk.LabelFrame(main_container, text=" 🎯 Implantes Activos ", 
-                                   style="Modern.TFrame")
-    implants_frame.pack(fill=tk.X, pady=(0, 10))
+    main_container.bind(
+        "<Configure>",
+        lambda e: main_canvas.configure(scrollregion=main_canvas.bbox("all"))
+    )
 
+    def configure_canvas_width(event):
+        main_canvas.itemconfig(canvas_window, width=event.width)
+
+    canvas_window = main_canvas.create_window((0, 0), window=main_container, anchor="nw")
+    main_canvas.bind("<Configure>", configure_canvas_width)
+    main_canvas.configure(yscrollcommand=main_scrollbar.set)
+
+    main_canvas.pack(side="left", fill="both", expand=True)
+    main_scrollbar.pack(side="right", fill="y")
+    # Scroll con el mouse
+    main_canvas.bind_all("<MouseWheel>", lambda e: main_canvas.yview_scroll(int(-1*(e.delta/120)), "units"))    
+    # === HEADER SUPERIOR (título + botón) ===
+    header_frame = ttk.Frame(main_container, style="Modern.TFrame")
+    header_frame.pack(fill=tk.X, pady=(0, 5))
+
+    title_label = ttk.Label(header_frame, text="🎯 Implantes Activos", style="Title.TLabel")
+    title_label.pack(side=tk.LEFT)
+
+    toggle_view_btn = ttk.Button(header_frame, text="📋 Vista Tabla",
+                            style="Modern.TButton",
+                            command=toggle_global_view)
+    toggle_view_btn.pack(side=tk.RIGHT, padx=(0, 10))
+    # Contenedor fijo para implantes (siempre arriba)
+    implants_frame = ttk.Frame(main_container, style="Card.TFrame")
+    implants_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=False, pady=(0, 10))
+
+    # Contenedor fijo para la consola (siempre abajo)
+    console_frame = ttk.Frame(main_container, style="Modern.TFrame")
+    console_frame.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
+    # Botón para alternar vista global
+    toggle_view_btn = ttk.Button(implants_frame, text="📋 Vista Tabla",
+                                style="Modern.TButton",
+                                command=toggle_global_view)
+    toggle_view_btn.pack(side=tk.RIGHT, padx=(0, 10))
     # Scrollable frame para implantes
     canvas_frame = ttk.Frame(implants_frame, style="Modern.TFrame")
     canvas_frame.pack(fill=tk.X, padx=10, pady=10)
 
     implants_canvas = tk.Canvas(canvas_frame, bg=COLORS['bg_primary'], 
-                               highlightthickness=0, height=250)
+                               highlightthickness=0, height=300)
     implants_scrollbar = ttk.Scrollbar(canvas_frame, orient="horizontal", 
                                       command=implants_canvas.xview)
     implants_canvas.configure(xscrollcommand=implants_scrollbar.set)

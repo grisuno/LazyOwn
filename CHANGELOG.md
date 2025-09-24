@@ -6,6 +6,20 @@
 
 ### Otros
 
+  *   * feat(feat): some love to the beacon, new bofs, bug fixing, new module of telemetry not invasive \n\n Version: release/0.2.63 \n\n check our youtube sorts https://www.youtube.com/shorts/A23o35TXVkg \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Sep 24 07:36:16 2025 -0300 \n\n Hora: 1758710176
+
+
+### Otros
+
+### Otros
+
+  *   * more love to new beacon, a little telemetry not invasive in module tel, some bug fixing
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): new bofs, new commands, new loader, and much much more \n\n Version: release/0.2.62 \n\n new look \n\n Modified file(s):\n- README.md - UTILS.md - docs/README.html - docs/UTILS.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Sep 22 07:20:19 2025 -0300 \n\n Hora: 1758536419
 
 

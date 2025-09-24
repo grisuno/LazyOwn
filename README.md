@@ -11562,6 +11562,20 @@ Recursively resolve and download package dependencies with enhanced checks
 
 ### Otros
 
+  *   * feat(feat): new bofs, new commands, new loader, and much much more \n\n Version: release/0.2.62 \n\n new look \n\n Modified file(s):\n- README.md - UTILS.md - docs/README.html - docs/UTILS.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Sep 22 07:20:19 2025 -0300 \n\n Hora: 1758536419
+
+
+### Otros
+
+### Otros
+
+  *   * more love to new beacon, much more bofs, new loader, new gui, new command aes_pe to encript a exe with aes, to use in LazyLoader to load for example Black Basalt Beacon
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(test): new black basalt beacon, bof coff execution in memory in windows new beacon experimental, new commands and, some bug fix \n\n Version: release/0.2.61 \n\n with love \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Sep 13 08:26:57 2025 -0300 \n\n Hora: 1757762817
 
 

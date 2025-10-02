@@ -518,7 +518,7 @@ show: Displays the current values of all parameters.
 run <script>: Executes a specific script available in the framework.
 Available Scripts
 
-┌─[👤grisun0 (LazyOwn👽khali) ~/home/grisun0/LazyOwn][10.10.11.78][http://Mirage.htb] 🌐10.10.14.10 ✗ main (🐍env)
+┌─[👤grisun0 (LazyOwn👽khali) ~/home/grisun0/LazyOwn][10.10.11.78][http://Mirage.htb] 🌐10.10.14.105 ✗ main (🐍env)
 └╼ $ ?
 
 Documented commands (use 'help -v' for verbose/'help <topic>' for details):
@@ -576,9 +576,11 @@ gets4uticket_py   printerbug_py    sqli_mssql_test
 
 04. Post-Exploitation
 =====================
-adversary                    extract_yaml         pip_proxy            
-adversary_yaml               find                 pip_repo             
-ai_playbook                  follina              powershell_cmd_stager
+add2find                     exe2bin              pezorsh              
+adversary                    exe2donutbin         pip_proxy            
+adversary_yaml               extract_yaml         pip_repo             
+aes_pe                       find                 powershell_cmd_stager
+ai_playbook                  follina              rmfromfind           
 apt_proxy                    hex2shellcode        rubeus               
 apt_repo                     internet_proxy       scavenger            
 atomic_lazyown               issue_command_to_c2  scp                  
@@ -589,7 +591,6 @@ create_synthetic             ofuscate_string      shellcode2elf
 createpayload                ofuscatesh           shellcode2sylk       
 d3monizedshell               ofuscatorps1         shellcode_search     
 disableav                    path2hex             ssh_cmd              
-exe2bin                      pezorsh            
 
 05. Persistence
 ===============
@@ -665,56 +666,75 @@ clock            gencert             lazyscript        rotf
 
 13. Lua Plugin
 ==============
-generate_c_reverse_shell          generate_reverse_shell    
-generate_cleanup_commands         kerberos_harvest          
-generate_html_payload             parse_nmap_with_xmlstarlet
-generate_lateral_command          run_nuclei_on_nmap_files  
-generate_linux_asm_reverse_shell  run_python_rev_c2         
-generate_linux_raw_shellcode      validate_shellcode        
-generate_msfvenom_loader          visualize_network         
-generate_msfvenom_loader_windows
+generate_c_reverse_shell          lolbas_certutil_download_exec
+generate_cleanup_commands         lolbas_certutil_exe          
+generate_html_payload             lolbas_mshta_js              
+generate_lateral_command          lolbas_mshta_reverse_shell   
+generate_linux_asm_reverse_shell  lolbas_rundll32_dll          
+generate_linux_raw_shellcode      lolbas_wmic_xsl_execution    
+generate_lolbird                  parse_nmap_with_xmlstarlet   
+generate_msfvenom_loader          run_nuclei_on_nmap_files     
+generate_msfvenom_loader_windows  run_python_rev_c2            
+generate_reverse_shell            rundll32_sct_from_url        
+generate_stub                     validate_shellcode           
+kerberos_harvest                  visualize_network            
+lolbas_bitsadmin_exe            
 
 14. Yaml Addon.
 ===============
-AdaptixC2           gcr                     lazymapd           ShadowLink      
-agentzero           gemini-cli              lazyownbt          SigPloit        
-argfuscator         githubot                LazyOwnExplorer    spoonmap        
-ATTPwn              gomulti_loader_linux    NullGate           stratus_detonate
-AuroraPatch         gomulti_loader_windows  oniux              stratus_list    
-banner_tool         GoPEInjection           orpheus            unicorn         
-bbr                 hack_browser_data       OverRide           upxdump         
-cgoblin_windows     hooka_linux_amd64       peeko              vulnbot         
-Clematis            hostdiscover            pretender          vulnbot_groq    
-commix2             kivi_revshell           PTMultiTools       vulnhuntr       
-CVE_2025_24071_PoC  laps                    PTMultiTools_scan  watchguard      
-demiguise           lazyagentAi             PyinMemoryPE       wspcoerce       
-ebird3              lazybinenc              ridenum          
-evilginx2           lazyftpsniff            setoolkit        
+AdaptixC2               GoPEInjection      PTMultiTools_scan                 
+agentzero               gosearch           PyinMemoryPE                      
+argfuscator             gui                raven                             
+ATTPwn                  hack_browser_data  ridenum                           
+AuroraPatch             hellbird           setoolkit                         
+banner_tool             hooka_linux_amd64  ShadowLink                        
+bbr                     hostdiscover       shellcode_custom_win_rev_tcp_xored
+beacon                  kivi_revshell      SigPloit                          
+cgoblin_windows         laps               spoonmap                          
+Clematis                lazyagentAi        stratus_detonate                  
+commix2                 lazybinenc         stratus_list                      
+CVE-2022-22077          lazyftpsniff       unicorn                           
+CVE_2025_24071_PoC      LazyLoader         upxdump                           
+demiguise               lazymapd           vulnbot                           
+ebird3                  lazyownbt          vulnbot_groq                      
+evilginx2               LazyOwnExplorer    vulnhuntr                         
+gcr                     NullGate           watchguard                        
+gemini-cli              oniux              wspcoerce                         
+gen_dll_rev             orpheus          
+Get_ReverseShell        OverRide         
+githubot                peeko            
+gomulti_loader_linux    pretender        
+gomulti_loader_windows  PTMultiTools     
 
 15. Adversary YAML.
 ===================
 amsi_c            implant_nim_nim  infect_c     pid_c  
 implant_crypt_go  implant_rust_rs  persist_ps1  shell_c
 
+16. Artificial Intelligence
+===========================
+ai_toggle
+
 Uncategorized
 =============
-alias              evil_winrm_tool        nc_ldap_interact  run_script    
-asrep_roast        getNPUsers_tool        notify            set           
-bloodhound-python  GetUserSPNs.py         nuclei_ad_http    shell         
-crackmapexec_ldap  help                   nxc_idap_tool     shortcuts     
-crackmapexec_smb   history                nxc_ldap          showmount_nfs 
-dig_any            ipp                    nxc_null_session  showmount_tool
-dig_reverse        ipy                    nxc_pass_policy   smb_ghost     
-dns_enum_tool      kerberoasting_tool     nxc_rid           smb_map       
-dnsrecon_axfr      kerbrute_tool          nxc_winrm         smbclient_list
-edit               kerbrute_tool_user     pop               smbclient_tool
-enum4linux_tool    ldap_domain_dump_tool  quit              smbmap_tool   
-enum_rpcbind       ldapsearch_anon        rpcclient_tool    smbserver_tool
-enum_smb           ldapsearch_tool        rrhost            userEnum_tool 
-EOF                macro                  run_pyscript    
-
+addalias           evil_winrm_tool        nc_ldap_interact  set           
+alias              getNPUsers_tool        notify            shell         
+asrep_roast        GetUserSPNs.py         nuclei_ad_http    shortcuts     
+bloodhound-python  help                   nxc_idap_tool     showmount_nfs 
+crackmapexec_ldap  history                nxc_ldap          showmount_tool
+crackmapexec_smb   ipp                    nxc_null_session  smb_ghost     
+dig_any            ipy                    nxc_pass_policy   smb_map       
+dig_reverse        kerberoasting_tool     nxc_rid           smbclient_list
+dns_enum_tool      kerbrute_tool          nxc_winrm         smbclient_tool
+dnsrecon_axfr      kerbrute_tool_user     pop               smbmap_tool   
+edit               ldap_domain_dump_tool  quit              smbserver_tool
+enum4linux_tool    ldapsearch_anon        rpcclient_tool    userEnum_tool 
+enum_rpcbind       ldapsearch_tool        rrhost          
+enum_smb           listaliases            run_pyscript    
+EOF                macro                  run_script      
 
 ```
+
 ## Tag in youtube
 <https://www.youtube.com/hashtag/lazyown>
 

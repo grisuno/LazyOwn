@@ -15,6 +15,9 @@ Args:
 Returns:
     tuple: A tuple containing the extracted IP address and MAC address. If the format is incorrect, returns (None, None).
 
+## strip_ansi
+No description available.
+
 ## create_arp_packet
 Constructs an ARP packet with the given source and destination IP and MAC addresses.
 
@@ -887,12 +890,6 @@ Args:
 
 Returns:
     str: The command string with all variables replaced by their corresponding values.
-
-Example:
-    command = "Hello, \$name! You have \$amount dollars."
-    variables = {"\$name": "Alice", "\$amount": 100}
-    result = replace_variables(command, variables)
-    print(result)  # Output: "Hello, Alice! You have 100 dollars."
 
 ## create_caldera_config
 Creates a Caldera configuration file with the specified content at the given file path.

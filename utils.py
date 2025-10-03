@@ -28,6 +28,7 @@ import time
 import yaml
 import uuid
 import glob
+import donut
 import shlex
 import shutil
 import bisect
@@ -142,6 +143,7 @@ exfiltration_category = "09. Data Exfiltration"
 command_and_control_category = "10. Command & Control"
 reporting_category = "11. Reporting"
 miscellaneous_category = "12. Miscellaneous"
+ai = "16. Artificial Intelligence"
 window_count = 0
 session_name = "lazyown_sessions"
 NOBANNER = False
@@ -289,6 +291,11 @@ def parse_ip_mac(input_string):
         print_error("Error: Input must be in the format 'IP: (192.168.1.222) MAC: ec:c3:02:b0:4c:96'.")
         return None, None
 
+def strip_ansi(self, text: str) -> str:
+    import re
+    ansi_escape = re.compile(r'\x1B[@-_][0-?]*[ -/]*[@-~]')
+    return ansi_escape.sub('', text)
+
 def create_arp_packet(src_mac, src_ip, dst_ip, dst_mac):
     """
     Constructs an ARP packet with the given source and destination IP and MAC addresses.
@@ -378,7 +385,8 @@ def print_error(error):
     print(f"    {YELLOW}[-]{RED} {error}{RESET} [☠]")
     return
 
-
+SURROGATE_CHARS = dict.fromkeys(range(0xD800, 0xE000))
+TRANSLATION_TABLE = str.maketrans(SURROGATE_CHARS)
 def print_msg(msg):
     """
     Prints a message to the console.
@@ -390,8 +398,8 @@ def print_msg(msg):
     :type msg: str
     :return: None
     """
-
-    print(f"    {GREEN}[+]{WHITE} {msg}{RESET} [👽]")
+    sanitized_msg = msg.translate(TRANSLATION_TABLE)
+    print(f"    {GREEN}[+]{WHITE} {sanitized_msg}{RESET} [👽]")
     return
 
 
@@ -2219,7 +2227,7 @@ def get_command(url, lhost):
     Reads a command from standard input and initiates a thread to send the command to the target server.
     """
     try:
-        cmd = input('    :\> ')
+        cmd = input('    :\\> ')
         threading.Thread(target=send_command, args=(cmd,url,lhost)).start()
     except:
         sys.exit(0)
@@ -2393,12 +2401,6 @@ def replace_variables(command, variables):
 
     Returns:
         str: The command string with all variables replaced by their corresponding values.
-
-    Example:
-        command = "Hello, \$name! You have \$amount dollars."
-        variables = {"\$name": "Alice", "\$amount": 100}
-        result = replace_variables(command, variables)
-        print(result)  # Output: "Hello, Alice! You have 100 dollars."
     """
     for var, value in variables.items():
         value = str(value)

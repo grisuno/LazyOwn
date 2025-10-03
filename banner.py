@@ -23,20 +23,25 @@ from utils import print_error, Image, os, sys, random, get_terminal_size
 ANSI_COLOR_TEMPLATE = "\033[48;2;{r};{g};{b}m  \033[0m"
 
 def image_to_bash(image_path, image_res):
-
+    from PIL import Image
     img = Image.open(image_path)
-    img = img.convert('RGB')  
+    img = img.convert('RGB')
     width, height = img.size
     aspect_ratio = height / width
     new_width = image_res
-    new_height = int(aspect_ratio * new_width * 0.55)  
+    new_height = int(aspect_ratio * new_width * 0.5)  # ajustado a 0.5
     img = img.resize((new_width, new_height))
-    
-    for y in range(img.height):
+
+    # Hacer altura par
+    if img.height % 2 == 1:
+        img = img.crop((0, 0, img.width, img.height - 1))
+
+    for y in range(0, img.height, 2):
         line = ""
         for x in range(img.width):
-            r, g, b = img.getpixel((x, y))
-            line += ANSI_COLOR_TEMPLATE.format(r=r, g=g, b=b)
+            r1, g1, b1 = img.getpixel((x, y))
+            r2, g2, b2 = img.getpixel((x, y + 1))
+            line += f"\033[38;2;{r1};{g1};{b1};48;2;{r2};{g2};{b2}m▀\033[0m"
         print(line)
 
 def list_png_files():
@@ -54,7 +59,7 @@ def main():
     if rows and columns:
         #Make responsive image ;) feel like frontend 
         
-        image_res = int(columns/2)
+        image_res = int(columns)
     else:
         image_res = 50
 

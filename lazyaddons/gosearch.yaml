@@ -1,0 +1,17 @@
+name: gosearch
+description: >
+  gosearch is a Search anyone's digital footprint across 300+ websites
+author: "ibnaleem"
+version: "1.0"
+enabled: true
+params:
+  - name: lhost
+    type: string
+    required: true
+    description: lhost target.
+tool:
+  name: gosearch
+  repo_url: https://github.com/ibnaleem/gosearch.git
+  install_path: external/.exploit/gosearch
+  install_command: git restore . ; git pull ; go install github.com/ibnaleem/gosearch@latest
+  execute_command: gosearch -u

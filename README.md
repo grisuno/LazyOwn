@@ -1312,6 +1312,9 @@ Args:
 Returns:
     tuple: A tuple containing the extracted IP address and MAC address. If the format is incorrect, returns (None, None).
 
+## strip_ansi
+No description available.
+
 ## create_arp_packet
 Constructs an ARP packet with the given source and destination IP and MAC addresses.
 
@@ -2184,12 +2187,6 @@ Args:
 
 Returns:
     str: The command string with all variables replaced by their corresponding values.
-
-Example:
-    command = "Hello, \$name! You have \$amount dollars."
-    variables = {"\$name": "Alice", "\$amount": 100}
-    result = replace_variables(command, variables)
-    print(result)  # Output: "Hello, Alice! You have 100 dollars."
 
 ## create_caldera_config
 Creates a Caldera configuration file with the specified content at the given file path.
@@ -11576,6 +11573,20 @@ Recursively resolve and download package dependencies with enhanced checks
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): some love to the beacon, new bofs, bug fixing, new module of telemetry not invasive \n\n Version: release/0.2.63 \n\n check our youtube sorts https://www.youtube.com/shorts/A23o35TXVkg \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Sep 24 07:36:16 2025 -0300 \n\n Hora: 1758710176
+
+
+### Otros
+
+### Otros
+
+  *   * more love to new beacon, a little telemetry not invasive in module tel, some bug fixing
 
 
 ### Nuevas características

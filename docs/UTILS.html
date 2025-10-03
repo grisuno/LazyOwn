@@ -187,6 +187,8 @@ input.</p>
 MAC addresses.</p>
 <p>Returns: tuple: A tuple containing the extracted IP address and MAC
 address. If the format is incorrect, returns (None, None).</p>
+<h2 id="strip_ansi">strip_ansi</h2>
+<p>No description available.</p>
 <h2 id="create_arp_packet">create_arp_packet</h2>
 <p>Constructs an ARP packet with the given source and destination IP and
 MAC addresses.</p>
@@ -819,10 +821,6 @@ variables to be replaced and the values are the corresponding values to
 replace them with.</p>
 <p>Returns: str: The command string with all variables replaced by their
 corresponding values.</p>
-<p>Example: command = “Hello, $name! You have $amount dollars.”
-variables = {“$name”: “Alice”, “$amount”: 100} result =
-replace_variables(command, variables) print(result) # Output: “Hello,
-Alice! You have 100 dollars.”</p>
 <h2 id="create_caldera_config">create_caldera_config</h2>
 <p>Creates a Caldera configuration file with the specified content at
 the given file path.</p>

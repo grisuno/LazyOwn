@@ -6,6 +6,41 @@
 
 ### Otros
 
+  *   * feat(feat): new commands, new bofs, newbug fixing, etc \n\n Version: release/0.2.64 \n\n with love \n\n Modified file(s):\n- README.md - UTILS.md - docs/README.html - docs/UTILS.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Oct 3 03:24:41 2025 -0300 \n\n Hora: 1759472681
+
+
+### Otros
+
+### Otros
+
+  *   * Merge branch 'main' of https://github.com/grisuno/LazyOwn
+
+
+### Otros
+
+### Otros
+
+  *   * more love to new beacon in https://github.com/grisuno/beacon, new commands LazyAddons, some bug fixing, now you can pass more than one commands in lazycommnds of lazyaddons comma separated
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #119 from grisuno/grisuno-patch-1
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): some love to the beacon, new bofs, bug fixing, new module of telemetry not invasive \n\n Version: release/0.2.63 \n\n check our youtube sorts https://www.youtube.com/shorts/A23o35TXVkg \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Sep 24 07:36:16 2025 -0300 \n\n Hora: 1758710176
 
 

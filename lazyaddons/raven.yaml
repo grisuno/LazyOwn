@@ -1,0 +1,25 @@
+name: raven
+description: >
+  raven is a project that stems from the Invoke-PSObfuscation framework, with the sole purpose of producing obfuscated reverse shells for PowerShell.
+author: "gh0x0st"
+version: "1.0"
+enabled: true
+params:
+  - name: lhost
+    type: string
+    required: true
+    description: lhost target.
+  - name: lport
+    type: string
+    required: true
+    description: lport target.
+  - name: rhost
+    type: string
+    required: true
+    description: rhost target.       
+tool:
+  name: raven
+  repo_url: https://github.com/gh0x0st/raven.git
+  install_path: external/.exploit/raven
+  install_command: cowthink -bdgpstwy Try Black Basalt Beacon The brandnew beacon in C to windows with Fileless BOF loader
+  execute_command: python3 raven.py {lhost} {lport} --allowed-ip {rhost} --upload-dir ../../../sessions/tmp --organize-uploads

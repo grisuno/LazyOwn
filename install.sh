@@ -12,7 +12,8 @@ fi
 gum log --time rfc822 --level info "    [+] Start the installing."
 
 sudo apt update
-sudo apt install ltrace python3-xyzservices python3-venv nmap xsltproc
+sudo apt install ltrace python3-xyzservices python3-venv nmap xsltproc moreutils golang
+
 python3 -m venv env
 source env/bin/activate
 # pip3 install -r requirements.txt

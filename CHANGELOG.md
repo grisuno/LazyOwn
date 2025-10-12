@@ -6,6 +6,20 @@
 
 ### Otros
 
+  *   * feat():  \n\n Version: release/0.2.67 \n\n  \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Oct 12 00:53:57 2025 -0300 \n\n Hora: 1760241237
+
+
+### Correcciones urgentes
+
+### Otros
+
+  *   * hotfix(install, key) some bug fixing and testing new keys to deploy
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): new commands, new bofs, newbug fixing, etc \n\n Version: release/0.2.64 \n\n with love \n\n Modified file(s):\n- README.md - UTILS.md - docs/README.html - docs/UTILS.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Oct 3 03:24:41 2025 -0300 \n\n Hora: 1759472681
 
 

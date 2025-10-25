@@ -717,13 +717,14 @@ class LazyOwnShell(cmd2.Cmd):
 
                                 def tool_wrapper(*args, final_cmd=final_command):
                                     self.cmd(final_cmd)
+                                outputdir = cmd_params["outputdir"]
                                 docstring = f"Tool:\n  {tool_name}\n\n"
                                 docstring += f"Example:\n  {final_command}\n\n"
                                 docstring += f"Triggered with:\n  {service.service}\n\n"
                                 docstring += f"protocol:\n  {service.protocol}\n\n"
                                 docstring += f"port:\n  {service.port}\n\n"
                                 docstring += f"ip:\n  {host.address}\n\n"
-                                docstring += f"logs:\n  {cmd_params["outputdir"]}\n"
+                                docstring += f"logs:\n  {outputdir}\n"
                                 tool_wrapper.__doc__ = docstring
 
                                 setattr(self.__class__, f"do_{tool_name}", tool_wrapper)

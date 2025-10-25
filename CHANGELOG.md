@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Correcciones urgentes
+
+### Otros
+
+  *   * hotfix():  \n\n Version: release/0.2.68 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html - payload.json - sessions/phishing/campaigns/short_urls.json\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Oct 12 01:30:04 2025 -0300 \n\n Hora: 1760243404
+
+
 ### Nuevas características
 
 ### Otros

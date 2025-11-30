@@ -83,6 +83,7 @@ pip3 install ua_parser
 pip3 install pdf2image
 pip3 install python-magic
 pip3 install packaging
+pip3 install seaborn
 curl -fsSL https://ollama.com/install.sh | sh
 
 git clone https://github.com/grisuno/LazyOwnInfiniteStorage.git ./modules_ext/lazyown_infinitestorage

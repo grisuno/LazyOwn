@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new agent LazyOwn it's very dumb now but we work on it. \n\n Version: release/0.2.74 \n\n new agent and some magics more. \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Oct 25 14:34:19 2025 -0300 \n\n Hora: 1761413659
+
+
 ### Correcciones urgentes
 
 ### Otros

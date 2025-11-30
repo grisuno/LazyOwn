@@ -27544,7 +27544,7 @@ def main():
     p = LazyOwnShell()
     p.load_yaml_plugins()
     try:
-        p.onecmd("check_update")
+        #p.onecmd("check_update")
         p.onecmd("graph")
     except Exception as e:
         print_error(f"Error: {e}")

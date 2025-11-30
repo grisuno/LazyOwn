@@ -116,12 +116,13 @@ def train_ai_model(df):
     X_vec = vectorizer.fit_transform(X)
 
     # División train/test
-    print("SplitOptions train/test (80%/20%)...")
+    print("Dividiendo train/test (80%/20%)...")
     X_train, X_test, y_train, y_test = train_test_split(
         X_vec, y, test_size=0.2, random_state=42, stratify=y
     )
-    print(f"   • Entrenamiento: {len(X_train)} comandos")
-    print(f"   • Prueba: {len(X_test)} comandos")
+    # CORRECCIÓN: Usar .shape[0] en lugar de len() para matrices dispersas
+    print(f"   • Entrenamiento: {X_train.shape[0]} comandos")
+    print(f"   • Prueba: {X_test.shape[0]} comandos")
 
     # Entrenamiento
     print("\n🧠 Entrenando modelo Random Forest...")

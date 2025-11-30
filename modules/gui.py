@@ -15,8 +15,8 @@ from watchdog.events import FileSystemEventHandler
 
 # === CONFIGURACIÓN ===
 API_BASE = "https://127.0.0.1:4444"
-USERNAME = "LazyOwn"
-PASSWORD = "LazyOwn"
+USERNAME = "grisun0@lazyown.rt"
+PASSWORD = "grisgrisgris"
 SESSIONS_DIR = "/home/grisun0/LazyOwn/sessions"
 LOG_DIR = SESSIONS_DIR
 

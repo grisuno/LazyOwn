@@ -11873,49 +11873,7 @@ No description available.
 
 ### Otros
 
-  *   * hotfix():  \n\n Version: release/0.2.73 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Oct 25 14:18:01 2025 -0300 \n\n Hora: 1761412681
-
-
-### Correcciones
-
-### Otros
-
-  *   * fix():  \n\n Version: release/0.2.72 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Oct 25 14:14:10 2025 -0300 \n\n Hora: 1761412450
-
-
-### Correcciones urgentes
-
-### Otros
-
-  *   * hotfix():  \n\n Version: release/0.2.71 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Oct 25 14:12:55 2025 -0300 \n\n Hora: 1761412375
-
-
-### Correcciones urgentes
-
-### Otros
-
-  *   * hotfix():  \n\n Version: release/0.2.70 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Oct 25 14:11:26 2025 -0300 \n\n Hora: 1761412286
-
-
-### Correcciones urgentes
-
-### Otros
-
-  *   * hotfix(fix): fix \n\n Version: release/0.2.69 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Oct 25 14:06:57 2025 -0300 \n\n Hora: 1761412017
-
-
-### Correcciones urgentes
-
-### Otros
-
-  *   * hotfix(hotfix): some little changes \n\n Version: release/0.2.68 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html - payload.json - sessions/phishing/campaigns/short_urls.json\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Oct 25 14:04:53 2025 -0300 \n\n Hora: 1761411893
-
-
-### Correcciones urgentes
-
-### Otros
-
-  *   * hotfix(install, key) some bug fixing and testing new keys to deploy
+  *   * hotfix():  \n\n Version: release/0.2.68 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html - payload.json - sessions/phishing/campaigns/short_urls.json\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Oct 12 01:30:04 2025 -0300 \n\n Hora: 1760243404
 
 
 ### Nuevas características

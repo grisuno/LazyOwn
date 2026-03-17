@@ -11951,6 +11951,13 @@ No description available.
 
 ### Otros
 
+  *   * feat(feat): new utils into mcp \n\n Version: release/0.2.76 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html - payload.json - skills/heartbeat.py - skills/lazyown.md - skills/lazyown_mcp.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Mar 17 01:22:38 2026 -0300 \n\n Hora: 1773721358
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): readme \n\n Version: release/0.2.75 \n\n :D \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Mar 17 01:20:56 2026 -0300 \n\n Hora: 1773721256
 
 

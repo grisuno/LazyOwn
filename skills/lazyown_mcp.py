@@ -255,6 +255,80 @@ async def list_tools() -> list[types.Tool]:
             description="Check if the LazyOwn C2 server is reachable and return dashboard data.",
             inputSchema={"type": "object", "properties": {}},
         ),
+        types.Tool(
+            name="lazyown_create_addon",
+            description=(
+                "Create a new YAML addon in lazyaddons/ to integrate ANY GitHub tool into LazyOwn. "
+                "The addon becomes an immediately available shell command (do_<name>). "
+                "LazyOwn auto-clones the repo on first run and substitutes {param} placeholders "
+                "in execute_command with values from payload.json. "
+                "Example: create an addon for 'ffuf' that runs fuzzing with {rhost} and {wordlist}."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Command name (no spaces). Becomes do_<name> in the shell.",
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Human-readable description shown in help.",
+                    },
+                    "repo_url": {
+                        "type": "string",
+                        "description": "GitHub repo URL to clone (e.g. https://github.com/user/tool.git).",
+                    },
+                    "install_path": {
+                        "type": "string",
+                        "description": "Local path for the clone (e.g. external/.exploit/toolname). Defaults to external/.exploit/<name>.",
+                    },
+                    "install_command": {
+                        "type": "string",
+                        "description": "Optional setup command run once after clone (e.g. 'pip install -r requirements.txt').",
+                        "default": "",
+                    },
+                    "execute_command": {
+                        "type": "string",
+                        "description": "Command to run. Use {param_name} for substitution from payload.json (e.g. '{rhost}', '{lhost}', '{wordlist}').",
+                    },
+                    "params": {
+                        "type": "array",
+                        "description": "List of parameter definitions. Each item: {name, required, description}.",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "name": {"type": "string"},
+                                "required": {"type": "boolean"},
+                                "description": {"type": "string"},
+                            },
+                        },
+                        "default": [],
+                    },
+                    "author": {
+                        "type": "string",
+                        "description": "Author name (default: LazyOwn RedTeam).",
+                        "default": "LazyOwn RedTeam",
+                    },
+                    "enabled": {
+                        "type": "boolean",
+                        "description": "Whether the addon is active immediately (default: true).",
+                        "default": True,
+                    },
+                },
+                "required": ["name", "description", "repo_url", "execute_command"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_list_addons",
+            description="List all YAML addons in lazyaddons/ with their name, enabled status, description, and repo URL.",
+            inputSchema={"type": "object", "properties": {}},
+        ),
+        types.Tool(
+            name="lazyown_list_plugins",
+            description="List all Lua plugins in plugins/ with their name, enabled status, and description.",
+            inputSchema={"type": "object", "properties": {}},
+        ),
     ]
 
 
@@ -372,6 +446,111 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             None, lambda: _c2_request("/api/data")
         )
         return text(json.dumps(result, indent=2))
+
+    # ── create_addon ──────────────────────────────────────────────────────────
+    elif name == "lazyown_create_addon":
+        addon_name = arguments["name"].strip().replace(" ", "_")
+        description = arguments["description"]
+        repo_url = arguments["repo_url"]
+        install_path = arguments.get("install_path", f"external/.exploit/{addon_name}")
+        install_command = arguments.get("install_command", "")
+        execute_command = arguments["execute_command"]
+        params = arguments.get("params", [])
+        author = arguments.get("author", "LazyOwn RedTeam")
+        enabled = arguments.get("enabled", True)
+
+        # Build YAML content manually to preserve readable formatting
+        lines = [
+            f"name: {addon_name}",
+            f"description: >",
+            f"  {description}",
+            f"author: \"{author}\"",
+            f"version: \"1.0\"",
+            f"enabled: {'true' if enabled else 'false'}",
+        ]
+
+        if params:
+            lines.append("params:")
+            for p in params:
+                lines.append(f"  - name: {p.get('name', '')}")
+                lines.append(f"    type: string")
+                lines.append(f"    required: {'true' if p.get('required', False) else 'false'}")
+                if p.get("description"):
+                    lines.append(f"    description: {p['description']}")
+
+        lines.append("tool:")
+        lines.append(f"  name: {addon_name}")
+        lines.append(f"  repo_url: {repo_url}")
+        lines.append(f"  install_path: {install_path}")
+        if install_command:
+            lines.append(f"  install_command: {install_command}")
+        lines.append(f"  execute_command: {execute_command}")
+
+        yaml_content = "\n".join(lines) + "\n"
+
+        addon_file = LAZYOWN_DIR / "lazyaddons" / f"{addon_name}.yaml"
+        try:
+            addon_file.write_text(yaml_content)
+            return text(
+                f"Addon '{addon_name}' created at lazyaddons/{addon_name}.yaml\n"
+                f"Restart LazyOwn shell or run 'reload' to activate it.\n\n"
+                f"--- Preview ---\n{yaml_content}"
+            )
+        except Exception as e:
+            return text(f"error writing addon: {e}")
+
+    # ── list_addons ────────────────────────────────────────────────────────────
+    elif name == "lazyown_list_addons":
+        addons_dir = LAZYOWN_DIR / "lazyaddons"
+        try:
+            import yaml as _yaml
+        except ImportError:
+            _yaml = None
+
+        lines = []
+        for f in sorted(addons_dir.glob("*.yaml")):
+            if f.name == "README.md":
+                continue
+            try:
+                content = f.read_text()
+                if _yaml:
+                    data = _yaml.safe_load(content)
+                    enabled_flag = "✓" if data.get("enabled", False) else "✗"
+                    desc = (data.get("description") or "").strip().replace("\n", " ")[:60]
+                    repo = (data.get("tool") or {}).get("repo_url", "")
+                    lines.append(f"[{enabled_flag}] {data.get('name', f.stem):<30} {desc}")
+                    if repo:
+                        lines.append(f"      repo: {repo}")
+                else:
+                    lines.append(f.name)
+            except Exception:
+                lines.append(f"{f.name}  (parse error)")
+
+        return text(f"Addons ({len(lines)}):\n" + "\n".join(lines) if lines else "No addons found.")
+
+    # ── list_plugins ───────────────────────────────────────────────────────────
+    elif name == "lazyown_list_plugins":
+        plugins_dir = LAZYOWN_DIR / "plugins"
+        try:
+            import yaml as _yaml
+        except ImportError:
+            _yaml = None
+
+        lines = []
+        for f in sorted(plugins_dir.glob("*.lua")):
+            meta_file = f.with_suffix(".yaml")
+            enabled_flag = "?"
+            desc = ""
+            if meta_file.exists() and _yaml:
+                try:
+                    data = _yaml.safe_load(meta_file.read_text())
+                    enabled_flag = "✓" if data.get("enabled", False) else "✗"
+                    desc = (data.get("description") or "").strip().replace("\n", " ")[:60]
+                except Exception:
+                    pass
+            lines.append(f"[{enabled_flag}] {f.stem:<35} {desc}")
+
+        return text(f"Lua plugins ({len(lines)}):\n" + "\n".join(lines) if lines else "No plugins found.")
 
     return [types.TextContent(type="text", text=f"Unknown tool: {name}")]
 

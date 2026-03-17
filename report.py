@@ -26,6 +26,136 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 
 warnings.filterwarnings('ignore')
+import pandas as pd
+import numpy as np
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+from sklearn.feature_extraction.text import TfidfVectorizer
+import os
+import re
+import json
+from datetime import datetime
+from pathlib import Path
+
+# --- OPTIMIZACIÓN DE HARDWARE (Tiger Lake i3) ---
+torch.set_num_threads(4)
+os.environ["KMP_BLOCKTIME"] = "1"
+
+# =============================================================================
+# 1. MOTOR GEOMÉTRICO RESMA (EL CEREBRO)
+# =============================================================================
+class RESMAEngine(nn.Module):
+    def __init__(self, input_dim):
+        super().__init__()
+        self.lattice = nn.Sequential(
+            nn.Linear(input_dim, 256),
+            nn.GELU(),
+            nn.Linear(256, 64)
+        )
+        self.ricci_metric = nn.Linear(64, 32)
+        self.output = nn.Linear(32, 1)
+
+    def forward(self, x):
+        z = self.lattice(x)
+        curvature = torch.tanh(self.ricci_metric(z))
+        energy = torch.norm(curvature, p=2, dim=1, keepdim=True)
+        return torch.sigmoid(self.output(curvature) + 0.1 * energy), energy
+
+# =============================================================================
+# 2. INTEGRACIÓN EN TU SISTEMA DE REPORTING
+# =============================================================================
+
+def apply_resma_intelligence(df):
+    """
+    Inyecta la IA RESMA en el flujo de datos de LazyOwn.
+    Aprende de tus reglas y descubre lo que ellas no ven.
+    """
+    print("\n[*] Entrenando Motor de Inteligencia RESMA 5.2...")
+    
+    # Feature Engineering (Usando tus columnas)
+    df['full_payload'] = df['command'].astype(str) + " " + df['args'].fillna('').astype(str)
+    
+    vectorizer = TfidfVectorizer(max_features=512, ngram_range=(1, 2))
+    X_vec = vectorizer.fit_transform(df['full_payload']).toarray()
+    X_tensor = torch.tensor(X_vec, dtype=torch.float32)
+
+    # Ground Truth basado en TUS reglas
+    y_reglas = (df['is_c2_or_postexploit'] | df['is_dangerous'] | df['contains_creds']).astype(float)
+    y_tensor = torch.tensor(y_reglas.values, dtype=torch.float32).reshape(-1, 1)
+
+    model = RESMAEngine(X_vec.shape[1])
+    optimizer = torch.optim.AdamW(model.parameters(), lr=1e-3)
+
+    # Entrenamiento rápido para capturar la 'forma' de tus ataques
+    model.train()
+    for _ in range(40):
+        optimizer.zero_grad()
+        probs, _ = model(X_tensor)
+        loss = F.binary_cross_entropy(probs, y_tensor)
+        loss.backward()
+        optimizer.step()
+
+    # Inferencia: Buscando Amenazas Sombra
+    model.eval()
+    with torch.no_grad():
+        final_probs, energy = model(X_tensor)
+        df['ia_risk_score'] = final_probs.numpy()
+        df['ia_energy'] = energy.numpy()
+
+    # Umbral de anomalía geométrica (Percentil 97)
+    threshold = np.percentile(df['ia_energy'], 97)
+    df['is_shadow_threat'] = ((df['ia_energy'] > threshold) & (y_reglas == 0)).astype(int)
+    
+    return df
+
+# =============================================================================
+# 3. REPORTE FINAL (RESUMEN DE INTELIGENCIA)
+# =============================================================================
+
+def final_resma_report(df):
+    shadows = df[df['is_shadow_threat'] == 1]
+    
+    print("\n" + "="*60)
+    print("🔍 ANÁLISIS DE AMENAZAS RESMA 5.2")
+    print("="*60)
+    print(f"✅ Total Eventos:          {len(df)}")
+    print(f"🚨 Detectados por Reglas:  {int((df['is_c2_or_postexploit'] | df['is_dangerous'] | df['contains_creds']).sum())}")
+    print(f"🌀 Amenazas Sombra (IA):   {len(shadows)}")
+    
+    if len(shadows) > 0:
+        print("\n[!] DESCUBRIMIENTOS SOMBRA (Alta Energía Estructural):")
+        # Mostramos los comandos que la IA considera raros y tus reglas no pillaron
+        for _, row in shadows.sort_values('ia_energy', ascending=False).head(5).iterrows():
+            print(f"  • {row['command']} {row['args'][:60]}... (Energy: {row['ia_energy']:.4f})")
+    
+    return len(shadows)
+
+# =============================================================================
+# FLUJO PRINCIPAL
+# =============================================================================
+
+# Aquí es donde el script se ejecuta de verdad
+def lol():
+    filepath = "sessions/LazyOwn_session_report.csv"
+    
+    if os.path.exists(filepath):
+        # 1. Cargar y limpiar (como tú lo haces)
+        df = pd.read_csv(filepath)
+        
+        # Simulo tus flags para que el código funcione standalone
+        # En tu script real, estas columnas ya existen
+        df['is_dangerous'] = df['args'].str.contains('rm -rf|export', na=False)
+        df['is_c2_or_postexploit'] = df['args'].str.contains('nc |powershell', na=False)
+        df['contains_creds'] = df['args'].str.contains(':', na=False)
+
+        # 2. Inyectar inteligencia
+        df = apply_resma_intelligence(df)
+
+        # 3. Mostrar reporte
+        final_resma_report(df)
+    else:
+        print(f"❌ No se encontró el archivo {filepath}")
 
 # Configuración de estilo
 plt.style.use('seaborn-v0_8')
@@ -575,6 +705,6 @@ def main():
     print(f"   • security_dashboard.png")
     print(f"   • confusion_matrix.png")
     print(f"   • executive_report.json")
-
+    lol()
 if __name__ == "__main__":
     main()

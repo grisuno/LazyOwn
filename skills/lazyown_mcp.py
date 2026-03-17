@@ -25,12 +25,32 @@ import ssl
 from pathlib import Path
 from typing import Any
 
+# Event engine (optional — only if modules/ is importable)
+sys.path.insert(0, str(Path(__file__).parent.parent / "modules"))
+try:
+    from event_engine import (
+        process_new_rows, read_events, ack_event,
+        add_rule, load_rules, is_running as _hb_is_running,
+    )
+    _ENGINE_AVAILABLE = True
+except ImportError:
+    _ENGINE_AVAILABLE = False
+
+# Agent bridge (Groq / Ollama delegation)
+try:
+    from mcp_agent_bridge import (
+        start_agent, get_agent_status, get_agent_result, list_agents,
+    )
+    _BRIDGE_AVAILABLE = True
+except ImportError:
+    _BRIDGE_AVAILABLE = False
+
 from mcp.server import Server
 from mcp.server.stdio import stdio_server
 from mcp import types
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
-SKILLS_DIR = Path(__file__).parent
+SKILLS_DIR   = Path(__file__).parent
 LAZYOWN_DIR = Path(os.environ.get("LAZYOWN_DIR", str(SKILLS_DIR.parent)))
 PAYLOAD_FILE = LAZYOWN_DIR / "payload.json"
 SESSIONS_DIR = LAZYOWN_DIR / "sessions"
@@ -329,6 +349,266 @@ async def list_tools() -> list[types.Tool]:
             description="List all Lua plugins in plugins/ with their name, enabled status, and description.",
             inputSchema={"type": "object", "properties": {}},
         ),
+        types.Tool(
+            name="lazyown_poll_events",
+            description=(
+                "Read events emitted by the LazyOwn Event Engine. "
+                "Events are generated automatically when LazyOwn commands match detection rules "
+                "(e.g. new beacon, port found, credentials captured, vuln scan complete). "
+                "Poll this regularly to act proactively without waiting for user input."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "limit": {
+                        "type": "integer",
+                        "description": "Max events to return (default 20).",
+                        "default": 20,
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "Filter by status: 'pending' (default), 'processed', or 'all'.",
+                        "enum": ["pending", "processed", "all"],
+                        "default": "pending",
+                    },
+                },
+            },
+        ),
+        types.Tool(
+            name="lazyown_ack_event",
+            description="Mark a specific event as processed so it won't appear in future pending polls.",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "event_id": {
+                        "type": "string",
+                        "description": "The 8-char event ID returned by lazyown_poll_events.",
+                    }
+                },
+                "required": ["event_id"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_add_rule",
+            description=(
+                "Add or update an event detection rule. Rules define what LazyOwn command patterns "
+                "trigger which events. Use this to teach the event engine to detect new conditions. "
+                "Trigger fields: 'command' (exact), 'command_contains', 'args_contains', 'output_contains'."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "id":          {"type": "string", "description": "Unique rule ID (snake_case)."},
+                    "description": {"type": "string", "description": "What this rule detects."},
+                    "trigger":     {
+                        "type": "object",
+                        "description": "Match conditions. Keys: command, command_contains, args_contains, output_contains.",
+                    },
+                    "event_type":  {"type": "string", "description": "Event type emitted (e.g. CREDS_FOUND)."},
+                    "severity":    {
+                        "type": "string",
+                        "enum": ["info", "high", "critical"],
+                        "default": "info",
+                    },
+                    "suggest":     {"type": "string", "description": "Action suggestion shown in the event."},
+                },
+                "required": ["id", "description", "trigger", "event_type"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_heartbeat_status",
+            description="Check whether the LazyOwn Heartbeat process is running. Returns PID and event counts.",
+            inputSchema={"type": "object", "properties": {}},
+        ),
+        types.Tool(
+            name="lazyown_discover_commands",
+            description=(
+                "Discover ALL commands available in the LazyOwn shell — including built-in commands, "
+                "Lua plugins, YAML addons, and adversary modules — by running 'help'. "
+                "Use this before operating autonomously so you know every tool available. "
+                "Returns commands grouped by category with their one-line description."
+            ),
+            inputSchema={"type": "object", "properties": {}},
+        ),
+        types.Tool(
+            name="lazyown_command_help",
+            description=(
+                "Get the full documentation for any LazyOwn command by running 'help <command>'. "
+                "Returns parameters, description, and usage examples. "
+                "Use this to understand a command before running it."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "command": {
+                        "type": "string",
+                        "description": "The LazyOwn command name to get help for (e.g. 'lazynmap', 'venom', 'c2').",
+                    }
+                },
+                "required": ["command"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_add_target",
+            description=(
+                "Add or update a target in payload.json's 'targets' list. "
+                "Use this to track multiple hosts, their discovered ports, status, and notes. "
+                "The active target (rhost/domain) is set separately via lazyown_set_config. "
+                "Targets persist across sessions and can be iterated autonomously."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "ip":     {"type": "string", "description": "Target IP address."},
+                    "domain": {"type": "string", "description": "Target hostname or domain (optional)."},
+                    "ports":  {
+                        "type": "array",
+                        "items": {"type": "integer"},
+                        "description": "Open ports discovered (optional).",
+                        "default": [],
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "Current status of this target.",
+                        "enum": ["pending", "in_progress", "owned", "blocked", "done"],
+                        "default": "pending",
+                    },
+                    "notes":  {"type": "string", "description": "Free-text notes about this target.", "default": ""},
+                    "tags":   {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "Labels like ['AD', 'web', 'linux'] for filtering.",
+                        "default": [],
+                    },
+                },
+                "required": ["ip"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_list_targets",
+            description=(
+                "List all targets stored in payload.json. "
+                "Shows IP, domain, ports, status, tags, and notes for each target. "
+                "Use this to decide which target to attack next."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "status_filter": {
+                        "type": "string",
+                        "description": "Filter by status: pending, in_progress, owned, blocked, done, or 'all' (default).",
+                        "default": "all",
+                    }
+                },
+            },
+        ),
+        types.Tool(
+            name="lazyown_run_agent",
+            description=(
+                "Delegate a goal to an autonomous AI sub-agent (Groq or Ollama) that runs "
+                "LazyOwn commands independently until it completes the goal or hits the iteration limit. "
+                "Returns an agent_id immediately — use lazyown_agent_status to poll progress "
+                "and lazyown_agent_result to read the final answer.\n\n"
+                "Use 'groq' for complex reasoning tasks (requires GROQ_API_KEY in payload.json). "
+                "Use 'ollama' for local/offline tasks — currently running: qwen3.5:0.8b.\n\n"
+                "Example goals: 'Enumerate SMB shares on rhost', "
+                "'Find open ports and identify web services', "
+                "'Run LDAP enumeration against the domain'."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "goal": {
+                        "type": "string",
+                        "description": "Natural language task for the agent to complete autonomously.",
+                    },
+                    "backend": {
+                        "type": "string",
+                        "description": "AI backend: 'groq' (cloud, powerful) or 'ollama' (local, private).",
+                        "enum": ["groq", "ollama"],
+                        "default": "ollama",
+                    },
+                    "max_iterations": {
+                        "type": "integer",
+                        "description": "Max tool-call steps before forcing a summary (default 8).",
+                        "default": 8,
+                    },
+                },
+                "required": ["goal"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_agent_status",
+            description=(
+                "Check the current status of a running or completed sub-agent. "
+                "Returns: status (running/completed/failed), iterations completed, "
+                "last tool called, and the final answer if done."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "agent_id": {
+                        "type": "string",
+                        "description": "The 8-char agent ID returned by lazyown_run_agent.",
+                    }
+                },
+                "required": ["agent_id"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_agent_result",
+            description=(
+                "Read the full result of a completed sub-agent: final answer plus "
+                "the complete action log (every tool call and its output)."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "agent_id": {
+                        "type": "string",
+                        "description": "The 8-char agent ID returned by lazyown_run_agent.",
+                    }
+                },
+                "required": ["agent_id"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_list_agents",
+            description="List recent sub-agents with their status, goal, backend, and iteration count.",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "limit": {
+                        "type": "integer",
+                        "description": "Max agents to return (default 10).",
+                        "default": 10,
+                    }
+                },
+            },
+        ),
+        types.Tool(
+            name="lazyown_set_active_target",
+            description=(
+                "Set a target from the targets list as the active one — updates rhost, domain, "
+                "and related fields in payload.json so all subsequent LazyOwn commands use it. "
+                "Optionally updates the target's status."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "ip": {
+                        "type": "string",
+                        "description": "IP of the target to activate (must exist in targets list).",
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "Optionally update target status when activating.",
+                        "enum": ["pending", "in_progress", "owned", "blocked", "done"],
+                    },
+                },
+                "required": ["ip"],
+            },
+        ),
     ]
 
 
@@ -551,6 +831,354 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             lines.append(f"[{enabled_flag}] {f.stem:<35} {desc}")
 
         return text(f"Lua plugins ({len(lines)}):\n" + "\n".join(lines) if lines else "No plugins found.")
+
+    # ── run_agent ─────────────────────────────────────────────────────────────
+    elif name == "lazyown_run_agent":
+        if not _BRIDGE_AVAILABLE:
+            return text("Agent bridge not available — check modules/mcp_agent_bridge.py")
+
+        goal           = arguments["goal"]
+        backend        = arguments.get("backend", "ollama")
+        max_iterations = int(arguments.get("max_iterations", 8))
+
+        # Inject GROQ_API_KEY from payload.json if not in env
+        if backend == "groq" and not os.environ.get("GROQ_API_KEY"):
+            cfg = _load_payload()
+            key = cfg.get("api_key", "")
+            if key:
+                os.environ["GROQ_API_KEY"] = key
+
+        def _runner(cmd: str) -> str:
+            return _run_lazyown_command(cmd, timeout=60)
+
+        try:
+            agent_id = await asyncio.get_event_loop().run_in_executor(
+                None, lambda: start_agent(goal, backend, _runner, max_iterations)
+            )
+            return text(
+                f"Agent started.\n"
+                f"  id:      {agent_id}\n"
+                f"  goal:    {goal}\n"
+                f"  backend: {backend} (max {max_iterations} steps)\n\n"
+                f"Poll with: lazyown_agent_status('{agent_id}')\n"
+                f"Results:   lazyown_agent_result('{agent_id}')"
+            )
+        except Exception as e:
+            return text(f"Failed to start agent: {e}")
+
+    # ── agent_status ──────────────────────────────────────────────────────────
+    elif name == "lazyown_agent_status":
+        if not _BRIDGE_AVAILABLE:
+            return text("Agent bridge not available.")
+        agent_id = arguments["agent_id"]
+        status   = await asyncio.get_event_loop().run_in_executor(
+            None, lambda: get_agent_status(agent_id)
+        )
+        if "error" in status:
+            return text(status["error"])
+
+        icon = {"completed": "✅", "running": "🔄", "failed": "❌"}.get(status["status"], "❓")
+        lines = [
+            f"{icon} Agent {agent_id}  [{status['status']}]",
+            f"  goal:     {status['goal']}",
+            f"  backend:  {status['backend']} / {status['model']}",
+            f"  steps:    {status['iterations']}",
+            f"  started:  {status.get('started_at', '')[:19]}",
+        ]
+        if status.get("last_action"):
+            lines.append(f"  last:     {status['last_action']}")
+        if status.get("finished_at"):
+            lines.append(f"  finished: {status['finished_at'][:19]}")
+        if status.get("answer"):
+            lines.append(f"\nAnswer:\n{status['answer'][:800]}")
+        return text("\n".join(lines))
+
+    # ── agent_result ──────────────────────────────────────────────────────────
+    elif name == "lazyown_agent_result":
+        if not _BRIDGE_AVAILABLE:
+            return text("Agent bridge not available.")
+        agent_id = arguments["agent_id"]
+        result   = await asyncio.get_event_loop().run_in_executor(
+            None, lambda: get_agent_result(agent_id)
+        )
+        if "error" in result:
+            return text(result["error"])
+
+        lines = [
+            f"Agent {agent_id} — {result['status']}",
+            f"Goal: {result['goal']}",
+            f"Backend: {result['backend']} / {result['model']}",
+            f"Steps: {result['iterations']}",
+            "",
+            "── Action Log ──",
+        ]
+        for action in result.get("action_log", []):
+            lines.append(f"\n[step {action['step']}] {action['tool']}({action['args']})")
+            if action.get("output"):
+                out = action["output"][:400]
+                lines.append(f"  → {out}")
+        if result.get("answer"):
+            lines.append(f"\n── Final Answer ──\n{result['answer']}")
+        return text("\n".join(lines))
+
+    # ── list_agents ───────────────────────────────────────────────────────────
+    elif name == "lazyown_list_agents":
+        if not _BRIDGE_AVAILABLE:
+            return text("Agent bridge not available.")
+        limit   = int(arguments.get("limit", 10))
+        agents  = await asyncio.get_event_loop().run_in_executor(
+            None, lambda: list_agents(limit=limit)
+        )
+        if not agents:
+            return text("No agents found.")
+        icon = {"completed": "✅", "running": "🔄", "failed": "❌"}
+        lines = [f"Recent agents ({len(agents)}):\n"]
+        for a in agents:
+            lines.append(
+                f"{icon.get(a['status'], '❓')} {a['agent_id']}  "
+                f"[{a['backend']}]  {a['status']:<12}  steps={a['iterations']}"
+            )
+            lines.append(f"   goal: {a['goal'][:70]}")
+        return text("\n".join(lines))
+
+    # ── discover_commands ─────────────────────────────────────────────────────
+    elif name == "lazyown_discover_commands":
+        raw = await asyncio.get_event_loop().run_in_executor(
+            None, lambda: _run_lazyown_command("help", timeout=30)
+        )
+        # cmd2 help format: category header line, then === underline, then
+        # commands as space-separated tokens across multiple columns.
+        import re as _re
+        lines = raw.splitlines()
+        groups: dict[str, list[str]] = {}
+        current_group = "General"
+        # Skip banner/startup noise — only parse after "Documented commands" header
+        start_idx = next(
+            (i for i, l in enumerate(lines) if "Documented commands" in l), 0
+        )
+        lines = lines[start_idx:]
+        i = 0
+        while i < len(lines):
+            line = lines[i]
+            # Detect category: next line is all '=' and at least 3 chars
+            if (i + 1 < len(lines)
+                    and _re.match(r"^=+$", lines[i + 1].strip())
+                    and len(lines[i + 1].strip()) >= 3):
+                current_group = line.strip()
+                groups.setdefault(current_group, [])
+                i += 2   # skip the === line
+                continue
+            # Collect command tokens from content lines (non-header, non-empty)
+            stripped = line.strip()
+            if stripped and not stripped.startswith("Documented") and not _re.match(r"^=+$", stripped):
+                tokens = stripped.split()
+                for tok in tokens:
+                    if _re.match(r"^\w[\w_-]+$", tok):
+                        groups.setdefault(current_group, []).append(tok)
+            i += 1
+
+        if not any(groups.values()):
+            return text(raw[:4000])
+
+        total = sum(len(v) for v in groups.values())
+        out = [f"LazyOwn commands ({total} total):\n"]
+        for group, cmds in groups.items():
+            if cmds:
+                out.append(f"── {group} ({len(cmds)}) ──")
+                # 3-column display
+                for j in range(0, len(cmds), 3):
+                    out.append("  " + "  ".join(f"{c:<30}" for c in cmds[j:j+3]))
+                out.append("")
+        out.append("Tip: use lazyown_command_help(command) for full docs on any command.")
+        return text("\n".join(out))
+
+    # ── command_help ──────────────────────────────────────────────────────────
+    elif name == "lazyown_command_help":
+        cmd  = arguments["command"].strip()
+        raw  = await asyncio.get_event_loop().run_in_executor(
+            None, lambda: _run_lazyown_command(f"help {cmd}", timeout=20)
+        )
+        return text(raw[:6000] if raw else f"No help found for '{cmd}'")
+
+    # ── add_target ────────────────────────────────────────────────────────────
+    elif name == "lazyown_add_target":
+        from datetime import datetime as _dt
+        cfg = _load_payload()
+        if "_error" in cfg:
+            return text(f"Cannot load payload.json: {cfg['_error']}")
+
+        targets = cfg.get("targets", [])
+        ip = arguments["ip"].strip()
+
+        # Find existing or create new
+        existing = next((t for t in targets if t.get("ip") == ip), None)
+        if existing:
+            if "domain" in arguments: existing["domain"]  = arguments["domain"]
+            if "ports"  in arguments: existing["ports"]   = arguments["ports"]
+            if "status" in arguments: existing["status"]  = arguments["status"]
+            if "notes"  in arguments: existing["notes"]   = arguments["notes"]
+            if "tags"   in arguments: existing["tags"]    = arguments["tags"]
+            existing["updated_at"] = _dt.now().isoformat()
+            action = "updated"
+        else:
+            new_target = {
+                "ip":         ip,
+                "domain":     arguments.get("domain", ""),
+                "ports":      arguments.get("ports", []),
+                "status":     arguments.get("status", "pending"),
+                "notes":      arguments.get("notes", ""),
+                "tags":       arguments.get("tags", []),
+                "added_at":   _dt.now().isoformat(),
+                "updated_at": _dt.now().isoformat(),
+            }
+            targets.append(new_target)
+            action = "added"
+
+        cfg["targets"] = targets
+        _save_payload(cfg)
+        return text(f"Target {ip} {action}. Total targets: {len(targets)}")
+
+    # ── list_targets ──────────────────────────────────────────────────────────
+    elif name == "lazyown_list_targets":
+        cfg = _load_payload()
+        targets = cfg.get("targets", [])
+        status_filter = arguments.get("status_filter", "all")
+
+        if status_filter != "all":
+            targets = [t for t in targets if t.get("status") == status_filter]
+
+        if not targets:
+            return text(f"No targets{' with status=' + status_filter if status_filter != 'all' else ''}.")
+
+        status_icon = {"pending": "⏳", "in_progress": "🔄", "owned": "✅", "blocked": "🚫", "done": "☑️"}
+        lines = [f"Targets ({len(targets)}):\n"]
+        for t in targets:
+            icon = status_icon.get(t.get("status", ""), "❓")
+            ports_str = ",".join(str(p) for p in t.get("ports", [])) or "unknown"
+            lines.append(
+                f"{icon} {t['ip']:<18} {t.get('domain', ''):<25} ports:[{ports_str}]  "
+                f"tags:{t.get('tags', [])}  status:{t.get('status','?')}"
+            )
+            if t.get("notes"):
+                lines.append(f"   notes: {t['notes']}")
+        return text("\n".join(lines))
+
+    # ── set_active_target ─────────────────────────────────────────────────────
+    elif name == "lazyown_set_active_target":
+        from datetime import datetime as _dt
+        cfg = _load_payload()
+        ip  = arguments["ip"].strip()
+        targets = cfg.get("targets", [])
+        target = next((t for t in targets if t.get("ip") == ip), None)
+
+        if not target:
+            return text(
+                f"Target {ip} not found in targets list. "
+                f"Add it first with lazyown_add_target."
+            )
+
+        # Update active params
+        cfg["rhost"] = ip
+        if target.get("domain"):
+            cfg["domain"] = target["domain"]
+
+        # Optionally update status
+        if "status" in arguments:
+            target["status"]     = arguments["status"]
+            target["updated_at"] = _dt.now().isoformat()
+            cfg["targets"] = targets
+
+        _save_payload(cfg)
+
+        summary = (
+            f"Active target set to {ip}"
+            + (f" ({target['domain']})" if target.get("domain") else "")
+            + f"\nrhost and domain updated in payload.json."
+            + (f"\nStatus → {arguments['status']}" if "status" in arguments else "")
+            + f"\nKnown ports: {target.get('ports', [])}"
+            + (f"\nNotes: {target['notes']}" if target.get("notes") else "")
+        )
+        return text(summary)
+
+    # ── poll_events ───────────────────────────────────────────────────────────
+    elif name == "lazyown_poll_events":
+        if not _ENGINE_AVAILABLE:
+            return text("Event engine not available — check modules/event_engine.py")
+        limit  = int(arguments.get("limit", 20))
+        status = arguments.get("status", "pending")
+        events = await asyncio.get_event_loop().run_in_executor(
+            None, lambda: read_events(limit=limit, status=status)
+        )
+        if not events:
+            return text(f"No {status} events.")
+        lines = [f"{len(events)} {status} event(s):\n"]
+        for ev in events:
+            lines.append(
+                f"[{ev['id']}] {ev['timestamp'][:19]}  "
+                f"{'🔴' if ev['severity']=='critical' else '🟡' if ev['severity']=='high' else '🔵'} "
+                f"{ev['type']}  (rule: {ev['rule_id']})\n"
+                f"  command: {ev['source']['command']}  target: {ev['source']['target']}\n"
+                f"  suggest: {ev['suggest']}\n"
+            )
+        return text("\n".join(lines))
+
+    # ── ack_event ──────────────────────────────────────────────────────────────
+    elif name == "lazyown_ack_event":
+        if not _ENGINE_AVAILABLE:
+            return text("Event engine not available.")
+        event_id = arguments["event_id"]
+        found = await asyncio.get_event_loop().run_in_executor(
+            None, lambda: ack_event(event_id)
+        )
+        return text(f"Event {event_id} marked as processed." if found else f"Event {event_id} not found.")
+
+    # ── add_rule ───────────────────────────────────────────────────────────────
+    elif name == "lazyown_add_rule":
+        if not _ENGINE_AVAILABLE:
+            return text("Event engine not available.")
+        rule = {
+            "id":          arguments["id"],
+            "description": arguments["description"],
+            "trigger":     arguments["trigger"],
+            "event_type":  arguments["event_type"],
+            "severity":    arguments.get("severity", "info"),
+            "suggest":     arguments.get("suggest", ""),
+        }
+        result = await asyncio.get_event_loop().run_in_executor(
+            None, lambda: add_rule(rule)
+        )
+        return text(f"Rule '{rule['id']}' {result}. Total rules: {len(load_rules())}")
+
+    # ── heartbeat_status ──────────────────────────────────────────────────────
+    elif name == "lazyown_heartbeat_status":
+        if not _ENGINE_AVAILABLE:
+            return text("Event engine not available.")
+        running, pid = await asyncio.get_event_loop().run_in_executor(
+            None, _hb_is_running
+        )
+        pid_file = SESSIONS_DIR / "heartbeat.pid"
+        events_file = SESSIONS_DIR / "events.jsonl"
+
+        pending_count = 0
+        total_count = 0
+        if events_file.exists():
+            for line in events_file.read_text().splitlines():
+                if line.strip():
+                    try:
+                        ev = json.loads(line)
+                        total_count += 1
+                        if ev.get("status") == "pending":
+                            pending_count += 1
+                    except Exception:
+                        pass
+
+        status_lines = [
+            f"Heartbeat: {'RUNNING (pid=' + str(pid) + ')' if running else 'STOPPED'}",
+            f"Events total: {total_count}  |  pending: {pending_count}",
+            f"Rules loaded: {len(load_rules())}",
+            f"To start: python3 skills/heartbeat.py --interval 5 &",
+        ]
+        return text("\n".join(status_lines))
 
     return [types.TextContent(type="text", text=f"Unknown tool: {name}")]
 

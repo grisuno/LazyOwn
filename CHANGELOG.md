@@ -6,6 +6,13 @@
 
 ### Otros
 
+  *   * feat(feat): new readme \n\n Version: release/0.2.75 \n\n :D \n\n Modified file(s):\n- README.md - docs/README.html - skills/README.md\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Mar 17 01:04:09 2026 -0300 \n\n Hora: 1773720249
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): new full mcp to interact with claude code with independent agents flow \n\n Version: release/0.2.75 \n\n with love has been a long time \n\n Modified file(s):\n- README.md - docs/README.html - payload.json\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Mar 16 23:43:48 2026 -0300 \n\n Hora: 1773715428
 
 

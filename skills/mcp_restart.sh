@@ -1,38 +1,31 @@
 #!/usr/bin/env bash
-# LazyOwn MCP restart helper
-# Kills the running lazyown_mcp.py process so Claude Code restarts it automatically.
+# LazyOwn MCP reload helper
+# Sends SIGHUP so the server re-execs itself with new code WITHOUT dropping
+# the stdio connection to Claude Code — no /mcp needed.
 # Usage: bash skills/mcp_restart.sh
+#
+# Falls back to SIGTERM (full restart) only if the process doesn't come back.
 
 set -euo pipefail
 
 MCP_SCRIPT="skills/lazyown_mcp.py"
-LAZYOWN_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-MCP_FULL="$LAZYOWN_DIR/$MCP_SCRIPT"
 
 pids=$(pgrep -f "python3.*$MCP_SCRIPT" 2>/dev/null || true)
 
 if [ -z "$pids" ]; then
-    echo "[mcp_restart] MCP server is not running."
-    echo "[mcp_restart] Claude Code will start it automatically on the next tool call."
+    echo "[mcp] Server is not running — Claude Code will start it on the next tool call."
     exit 0
 fi
 
-echo "[mcp_restart] Stopping MCP server (pid(s): $pids)..."
-kill $pids
+echo "[mcp] Reloading server (pid $pids) via SIGHUP..."
+kill -HUP $pids
 
-# Wait up to 3 s for clean exit
-for i in 1 2 3; do
-    sleep 1
-    remaining=$(pgrep -f "python3.*$MCP_SCRIPT" 2>/dev/null || true)
-    if [ -z "$remaining" ]; then
-        echo "[mcp_restart] Stopped cleanly."
-        break
-    fi
-    if [ $i -eq 3 ]; then
-        echo "[mcp_restart] Force-killing..."
-        kill -9 $remaining 2>/dev/null || true
-    fi
-done
+# Give it 2 s to re-exec
+sleep 2
 
-echo "[mcp_restart] Done. Claude Code will restart the MCP server on the next tool call."
-echo "[mcp_restart] You can also run /mcp in the Claude Code prompt to reconnect immediately."
+new_pids=$(pgrep -f "python3.*$MCP_SCRIPT" 2>/dev/null || true)
+if [ -n "$new_pids" ]; then
+    echo "[mcp] Reloaded OK (pid $new_pids). No /mcp needed."
+else
+    echo "[mcp] Process did not come back — Claude Code will restart it on next tool call."
+fi

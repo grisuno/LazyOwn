@@ -20,9 +20,9 @@ Add this to `~/.claude/claude_desktop_config.json` (or `~/.config/claude/claude_
   "mcpServers": {
     "lazyown": {
       "command": "python3",
-      "args": ["/home/grisun0/LazyOwn/skills/lazyown_mcp.py"],
+      "args": ["~/LazyOwn/skills/lazyown_mcp.py"],
       "env": {
-        "LAZYOWN_DIR": "/home/grisun0/LazyOwn"
+        "LAZYOWN_DIR": "~/LazyOwn"
       }
     }
   }

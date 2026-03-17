@@ -6,6 +6,13 @@
 
 ### Otros
 
+  *   * feat(feat): new full mcp to interact with claude code with independent agents flow \n\n Version: release/0.2.75 \n\n with love has been a long time \n\n Modified file(s):\n- README.md - docs/README.html - payload.json\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Mar 16 23:43:48 2026 -0300 \n\n Hora: 1773715428
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): new feature to create new features :P \n\n Version: release/0.2.75 \n\n using claud code and skills to using their mcp to create lazyaddons \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Mar 16 23:42:36 2026 -0300 \n\n Hora: 1773715356
 
 

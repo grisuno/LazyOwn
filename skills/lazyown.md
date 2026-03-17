@@ -17,6 +17,9 @@ LazyOwn is a penetration testing / C2 framework located at `/home/grisun0/LazyOw
 | `lazyown_list_sessions` | Browse the sessions/ directory |
 | `lazyown_read_session_file` | Read a file from sessions/ |
 | `lazyown_c2_status` | Check C2 health and dashboard data |
+| `lazyown_create_addon` | Create a YAML addon to integrate any GitHub tool |
+| `lazyown_list_addons` | List all addons with status and repo |
+| `lazyown_list_plugins` | List all Lua plugins with status |
 
 ## Workflow
 
@@ -67,6 +70,29 @@ report                   — generate HTML/PDF report via AI
 adversary <id>           — emulate MITRE ATT&CK technique
 tools list               — list custom tools
 ```
+
+### 6. Integrate any GitHub tool on the fly
+
+```
+# Check what's already installed
+lazyown_list_addons()
+lazyown_list_plugins()
+
+# Add a new tool from GitHub — no Python code needed
+lazyown_create_addon(
+    name="subfinder",
+    description="Fast passive subdomain enumeration tool",
+    repo_url="https://github.com/projectdiscovery/subfinder.git",
+    install_path="external/.exploit/subfinder",
+    install_command="go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest",
+    execute_command="subfinder -d {rhost}",
+    params=[{"name": "rhost", "required": true, "description": "Target domain"}]
+)
+# The command 'subfinder' is now available in the LazyOwn shell
+```
+
+**Key rule for execute_command:** use `{param_name}` to substitute values from payload.json.
+Common params: `{rhost}`, `{lhost}`, `{lport}`, `{rport}`, `{wordlist}`, `{domain}`, `{api_key}`.
 
 ## Notes
 - The LazyOwn shell is cmd2-based; commands are fed via stdin.

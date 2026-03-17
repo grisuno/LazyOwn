@@ -11951,6 +11951,13 @@ No description available.
 
 ### Otros
 
+  *   * feat(feat): readme \n\n Version: release/0.2.75 \n\n :D \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Mar 17 01:20:56 2026 -0300 \n\n Hora: 1773721256
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): readme \n\n Version: release/0.2.75 \n\n :D \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Mar 17 01:19:55 2026 -0300 \n\n Hora: 1773721195
 
 
@@ -11959,6 +11966,27 @@ No description available.
 ### Otros
 
   *   * feat(feat): new readme \n\n Version: release/0.2.75 \n\n :D \n\n Modified file(s):\n- README.md - docs/README.html - skills/README.md\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Mar 17 01:04:09 2026 -0300 \n\n Hora: 1773720249
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #123 from grisuno/grisuno-patch-1
+
+
+### Otros
+
+### Otros
+
+  *   * Add LazyOwn MCP integration details to README
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
 
 
 ### Nuevas características

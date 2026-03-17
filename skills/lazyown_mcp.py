@@ -45,6 +45,27 @@ try:
 except ImportError:
     _BRIDGE_AVAILABLE = False
 
+# Session state aggregator
+try:
+    from session_state import load as _state_load, refresh as _state_refresh
+    _STATE_AVAILABLE = True
+except ImportError:
+    _STATE_AVAILABLE = False
+
+# Smart recommender
+try:
+    from recommender import recommend_and_save as _recommend
+    _RECOMMENDER_AVAILABLE = True
+except ImportError:
+    _RECOMMENDER_AVAILABLE = False
+
+# Timeline narrator
+try:
+    from timeline_narrator import narrate as _narrate, load_timeline as _load_timeline
+    _NARRATOR_AVAILABLE = True
+except ImportError:
+    _NARRATOR_AVAILABLE = False
+
 from mcp.server import Server
 from mcp.server.stdio import stdio_server
 from mcp import types
@@ -609,6 +630,146 @@ async def list_tools() -> list[types.Tool]:
                 "required": ["ip"],
             },
         ),
+        # ── Session intelligence ──────────────────────────────────────────────
+        types.Tool(
+            name="lazyown_session_state",
+            description=(
+                "Return the current aggregated session state: active phase, "
+                "discovered hosts, open ports, captured credentials, last commands run, "
+                "and pending unactioned events. "
+                "Use this to understand the full picture before deciding what to do next."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "refresh": {
+                        "type": "boolean",
+                        "description": "Force rebuild from raw data even if cached state is fresh (default false).",
+                        "default": False,
+                    }
+                },
+            },
+        ),
+        types.Tool(
+            name="lazyown_recommend_next",
+            description=(
+                "Ask the AI (Groq) to recommend the best 3-5 LazyOwn commands to run next, "
+                "ranked by confidence, based on the current session state (phase, findings, creds). "
+                "Returns command names, optional args, confidence score, and one-line reasoning. "
+                "Requires api_key set in payload.json."
+            ),
+            inputSchema={"type": "object", "properties": {}},
+        ),
+        types.Tool(
+            name="lazyown_timeline",
+            description=(
+                "Generate or return the AI-written red-team timeline narrative. "
+                "Groq reads all session events and produces a prose summary "
+                "suitable for an executive report. Written to sessions/timeline.md. "
+                "Cached for 5 minutes; pass force=true to regenerate immediately."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "force": {
+                        "type": "boolean",
+                        "description": "Regenerate even if cached (default false).",
+                        "default": False,
+                    }
+                },
+            },
+        ),
+        # ── C2 AI endpoints ───────────────────────────────────────────────────
+        types.Tool(
+            name="lazyown_c2_vuln_analysis",
+            description=(
+                "Ask the LazyOwn C2 AI (Groq) to analyse a vulnerability or CVE. "
+                "Requires the C2 server to be running. "
+                "Example: 'Analyse CVE-2024-1234 and suggest exploitation steps'."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "query": {
+                        "type": "string",
+                        "description": "Vulnerability description or CVE to analyse.",
+                    }
+                },
+                "required": ["query"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_c2_redop",
+            description=(
+                "Ask the LazyOwn C2 AI (Groq) to plan a red team operation. "
+                "Requires the C2 server to be running. "
+                "Returns a structured attack plan based on the scenario."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "scenario": {
+                        "type": "string",
+                        "description": "Red team scenario or objective to plan.",
+                    }
+                },
+                "required": ["scenario"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_c2_search_agent",
+            description=(
+                "Delegate a research query to the LazyOwn C2 AI search agent (Groq). "
+                "Requires the C2 server to be running. "
+                "Use for OSINT queries, technique lookups, or tooling research."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "query": {
+                        "type": "string",
+                        "description": "Research query or OSINT question.",
+                    }
+                },
+                "required": ["query"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_c2_script",
+            description=(
+                "Ask the LazyOwn C2 AI (Groq) to generate an exploit or pentest script. "
+                "Requires the C2 server to be running. "
+                "Returns generated code ready to use."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "request": {
+                        "type": "string",
+                        "description": "Script request — describe what the script should do.",
+                    }
+                },
+                "required": ["request"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_c2_adversary",
+            description=(
+                "Emulate a MITRE ATT&CK adversary or technique via the LazyOwn C2 AI (Groq). "
+                "Requires the C2 server to be running. "
+                "Pass a technique ID (e.g. T1059) or adversary group name."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "technique": {
+                        "type": "string",
+                        "description": "MITRE ATT&CK technique ID or adversary name (e.g. 'T1059', 'APT29').",
+                    }
+                },
+                "required": ["technique"],
+            },
+        ),
     ]
 
 
@@ -624,8 +785,20 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
     if name == "lazyown_run_command":
         command = arguments["command"]
         timeout = int(arguments.get("timeout", 30))
+
+        # Prefer stateful C2 shell (/api/run) when C2 is reachable
+        def _run_with_fallback(cmd: str, to: int) -> str:
+            c2_result = _c2_request("/api/run", method="POST", body={"command": cmd})
+            # Fall back if: urllib error (_error key), C2 body error (error key), or no useful output
+            if "_error" in c2_result or "error" in c2_result:
+                return f"[via subprocess]\n{_run_lazyown_command(cmd, to)}"
+            output = c2_result.get("output", c2_result.get("result", ""))
+            if not output:
+                return f"[via subprocess]\n{_run_lazyown_command(cmd, to)}"
+            return f"[via C2 /api/run]\n{output}"
+
         output = await asyncio.get_event_loop().run_in_executor(
-            None, lambda: _run_lazyown_command(command, timeout)
+            None, lambda: _run_with_fallback(command, timeout)
         )
         return text(output)
 
@@ -1179,6 +1352,146 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             f"To start: python3 skills/heartbeat.py --interval 5 &",
         ]
         return text("\n".join(status_lines))
+
+    # ── session_state ─────────────────────────────────────────────────────────
+    elif name == "lazyown_session_state":
+        if not _STATE_AVAILABLE:
+            return text("session_state module not available — check modules/session_state.py")
+        force = arguments.get("refresh", False)
+        state = await asyncio.get_event_loop().run_in_executor(
+            None, lambda: _state_refresh() if force else _state_load()
+        )
+        # Pretty-print key sections
+        hosts_lines = []
+        for ip, info in state.get("hosts", {}).items():
+            ports  = info.get("ports", [])
+            domain = info.get("domain", "")
+            active = " ◄ active" if info.get("is_active") else ""
+            hosts_lines.append(
+                f"  {ip}" + (f" ({domain})" if domain else "") +
+                (f"  ports:{ports}" if ports else "") + active
+            )
+        pending = state.get("pending_events", [])
+        ev_lines = [
+            f"  [{e['severity'].upper()}] {e['type']}  — {e['suggest'][:70]}"
+            for e in pending
+        ]
+        output = "\n".join([
+            f"Phase:          {state['phase']}",
+            f"Active target:  {state['active_target']}  (os: {state['os_target']})",
+            f"Domain:         {state['domain'] or 'unknown'}",
+            f"Lhost:          {state['lhost']}",
+            f"",
+            f"Hosts ({len(state['hosts'])}):",
+        ] + (hosts_lines or ["  (none)"]) + [
+            f"",
+            f"Credentials:    {state['credentials'] or ['none']}",
+            f"Last commands:  {', '.join(state['last_commands'][-6:]) or 'none'}",
+            f"",
+            f"Pending events ({state['open_event_count']}):",
+        ] + (ev_lines or ["  (none)"]) + [
+            f"",
+            f"Generated: {state['generated_at'][:19]}",
+        ])
+        return text(output)
+
+    # ── recommend_next ────────────────────────────────────────────────────────
+    elif name == "lazyown_recommend_next":
+        if not _RECOMMENDER_AVAILABLE:
+            return text("Recommender not available — check modules/recommender.py")
+        cfg     = _load_payload()
+        api_key = cfg.get("api_key", "") or os.environ.get("GROQ_API_KEY", "")
+        # api_key may be empty — ai_fallback will try Ollama or return help msg
+        recs = await asyncio.get_event_loop().run_in_executor(
+            None, lambda: _recommend(api_key)
+        )
+        if not recs:
+            return text("No recommendations returned.")
+        # Check if the single result is an error/help message
+        if len(recs) == 1 and recs[0].get("command") in ("_error", "_unavailable"):
+            return text(recs[0]["reason"])
+        via = recs[0].get("_via", "")
+        header = "Recommended next actions"
+        if via:
+            header += f" (via local model: {via})"
+        header += ":\n"
+        lines = [header]
+        for i, r in enumerate(recs, 1):
+            bar  = "█" * int(r["confidence"] * 10)
+            cmd  = r["command"]
+            args = f" {r['args']}" if r.get("args") else ""
+            lines.append(f"  {i}. [{bar:<10}] {r['confidence']:.0%}  {cmd}{args}")
+            lines.append(f"       {r['reason']}")
+        lines.append("\nSaved to: sessions/recommendations/next_actions.json")
+        return text("\n".join(lines))
+
+    # ── timeline ──────────────────────────────────────────────────────────────
+    elif name == "lazyown_timeline":
+        if not _NARRATOR_AVAILABLE:
+            return text("Timeline narrator not available — check modules/timeline_narrator.py")
+        force   = arguments.get("force", False)
+        cfg     = _load_payload()
+        api_key = cfg.get("api_key", "") or os.environ.get("GROQ_API_KEY", "")
+        # No api_key and not force → try cache first
+        if not api_key and not force:
+            cached = await asyncio.get_event_loop().run_in_executor(None, _load_timeline)
+            if cached:
+                return text(cached)
+        # ai_fallback handles missing key / quota / Ollama fallback internally
+        result = await asyncio.get_event_loop().run_in_executor(
+            None, lambda: _narrate(api_key=api_key, force=force)
+        )
+        return text(result)
+
+    # ── c2_vuln_analysis ──────────────────────────────────────────────────────
+    elif name == "lazyown_c2_vuln_analysis":
+        query = arguments["query"]
+        result = await asyncio.get_event_loop().run_in_executor(
+            None, lambda: _c2_request("/vuln", method="POST", body={"query": query})
+        )
+        if "_error" in result:
+            return text(f"C2 unreachable or error: {result['_error']}")
+        return text(result.get("result", result.get("response", json.dumps(result))))
+
+    # ── c2_redop ──────────────────────────────────────────────────────────────
+    elif name == "lazyown_c2_redop":
+        scenario = arguments["scenario"]
+        result = await asyncio.get_event_loop().run_in_executor(
+            None, lambda: _c2_request("/redop", method="POST", body={"scenario": scenario})
+        )
+        if "_error" in result:
+            return text(f"C2 unreachable or error: {result['_error']}")
+        return text(result.get("result", result.get("response", json.dumps(result))))
+
+    # ── c2_search_agent ───────────────────────────────────────────────────────
+    elif name == "lazyown_c2_search_agent":
+        query = arguments["query"]
+        result = await asyncio.get_event_loop().run_in_executor(
+            None, lambda: _c2_request("/search", method="POST", body={"query": query})
+        )
+        if "_error" in result:
+            return text(f"C2 unreachable or error: {result['_error']}")
+        return text(result.get("result", result.get("response", json.dumps(result))))
+
+    # ── c2_script ─────────────────────────────────────────────────────────────
+    elif name == "lazyown_c2_script":
+        request = arguments["request"]
+        result = await asyncio.get_event_loop().run_in_executor(
+            None, lambda: _c2_request("/script", method="POST", body={"request": request})
+        )
+        if "_error" in result:
+            return text(f"C2 unreachable or error: {result['_error']}")
+        return text(result.get("result", result.get("response", json.dumps(result))))
+
+    # ── c2_adversary ──────────────────────────────────────────────────────────
+    elif name == "lazyown_c2_adversary":
+        technique = arguments["technique"]
+        result = await asyncio.get_event_loop().run_in_executor(
+            None, lambda: _c2_request("/adversary", method="POST", body={"technique": technique})
+        )
+        if "_error" in result:
+            return text(f"C2 unreachable or error: {result['_error']}")
+        return text(result.get("result", result.get("response", json.dumps(result))))
 
     return [types.TextContent(type="text", text=f"Unknown tool: {name}")]
 

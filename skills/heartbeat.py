@@ -27,6 +27,22 @@ sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
 
 from event_engine import process_new_rows, read_events
 
+try:
+    from session_state import refresh as _state_refresh
+    _STATE_OK = True
+except ImportError:
+    _STATE_OK = False
+
+try:
+    from timeline_narrator import narrate as _narrate
+    _NARRATOR_OK = True
+except ImportError:
+    _NARRATOR_OK = False
+
+# Refresh session state every N heartbeat cycles (1 cycle = interval seconds)
+_STATE_EVERY   = 3    # refresh state every 3 cycles
+_NARRATE_EVERY = 12   # regenerate timeline every 12 cycles (~1 min at 5s interval)
+
 PID_FILE = LAZYOWN_DIR / "sessions" / "heartbeat.pid"
 
 
@@ -54,14 +70,17 @@ def is_running() -> tuple[bool, int]:
 def run_loop(interval: int, once: bool = False):
     write_pid()
     print(f"[heartbeat] started (pid={os.getpid()}, interval={interval}s)", flush=True)
+    cycle = 0
 
     try:
         while True:
+            cycle += 1
+
+            # ── Event engine ──────────────────────────────────────────────
             try:
                 n = process_new_rows()
                 if n:
                     print(f"[heartbeat] {n} new event(s) emitted", flush=True)
-                    # Print a brief digest of what fired
                     for ev in read_events(limit=n):
                         print(
                             f"  [{ev['severity'].upper()}] {ev['type']}"
@@ -70,6 +89,26 @@ def run_loop(interval: int, once: bool = False):
                         )
             except Exception as e:
                 print(f"[heartbeat] error in engine: {e}", flush=True)
+
+            # ── Session state refresh ─────────────────────────────────────
+            if _STATE_OK and (cycle % _STATE_EVERY == 0):
+                try:
+                    state = _state_refresh()
+                    print(
+                        f"[heartbeat] state refreshed — phase={state['phase']} "
+                        f"hosts={len(state['hosts'])} pending={state['open_event_count']}",
+                        flush=True
+                    )
+                except Exception as e:
+                    print(f"[heartbeat] state refresh error: {e}", flush=True)
+
+            # ── Timeline narrator (background, no-force — respects 5-min cache) ──
+            if _NARRATOR_OK and (cycle % _NARRATE_EVERY == 0):
+                try:
+                    _narrate(force=False)
+                    print("[heartbeat] timeline updated", flush=True)
+                except Exception as e:
+                    print(f"[heartbeat] narrator error: {e}", flush=True)
 
             if once:
                 break

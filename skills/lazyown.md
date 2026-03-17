@@ -29,6 +29,14 @@ LazyOwn is a penetration testing / C2 framework located at `/home/grisun0/LazyOw
 | `lazyown_add_target` | Add/update a target with IP, domain, ports, status, notes |
 | `lazyown_list_targets` | List all targets with status filter |
 | `lazyown_set_active_target` | Activate a target → updates rhost/domain in payload.json |
+| `lazyown_session_state` | Current aggregated state: phase, hosts, ports, creds, pending events |
+| `lazyown_recommend_next` | AI (Groq) recommends best 3-5 next commands ranked by confidence |
+| `lazyown_timeline` | AI-generated prose red-team timeline narrative (cached 5 min) |
+| `lazyown_c2_vuln_analysis` | Ask C2 AI (Groq) to analyse a vulnerability / CVE |
+| `lazyown_c2_redop` | Ask C2 AI to plan a red team operation |
+| `lazyown_c2_search_agent` | Delegate an OSINT / research query to the C2 AI |
+| `lazyown_c2_script` | Ask C2 AI to generate an exploit or pentest script |
+| `lazyown_c2_adversary` | Emulate a MITRE ATT&CK technique via the C2 AI |
 
 ## Workflow
 

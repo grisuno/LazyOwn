@@ -140,16 +140,32 @@ def _run_lazyown_command(command: str, timeout: int = 30) -> str:
     """
     Execute one or more LazyOwn shell commands non-interactively.
     Multiple commands separated by newlines are all sent to stdin.
+
+    start_new_session=True calls os.setsid() so the child process has no
+    controlling terminal.  When sudo needs a password it tries to open
+    /dev/tty — without a controlling terminal that fails immediately with
+    "sudo: no terminal present" instead of blocking Claude Code forever.
+    The proper fix on the system side is sudoers NOPASSWD (see README).
     """
     cmd_input = command.strip() + "\nexit\n"
+
+    # Prefer ./run (activates the virtualenv) over calling python3 directly.
+    # Fall back to python3 lazyown.py if ./run is not present or not executable.
+    run_script = LAZYOWN_DIR / "run"
+    if run_script.is_file():
+        argv = ["bash", str(run_script)]
+    else:
+        argv = [sys.executable, "-W", "ignore", str(LAZYOWN_DIR / "lazyown.py")]
+
     try:
         result = subprocess.run(
-            [sys.executable, str(LAZYOWN_DIR / "lazyown.py")],
+            argv,
             input=cmd_input,
             capture_output=True,
             text=True,
             timeout=timeout,
             cwd=str(LAZYOWN_DIR),
+            start_new_session=True,   # no controlling TTY → sudo fails fast
         )
         output = result.stdout + result.stderr
         # Strip ANSI escape codes for readability
@@ -198,19 +214,23 @@ async def list_tools() -> list[types.Tool]:
         types.Tool(
             name="lazyown_set_config",
             description=(
-                "Update one or more values in LazyOwn's payload.json configuration. "
-                "Pass a dict of key-value pairs to update. "
-                "Example: {\"lhost\": \"10.10.14.5\", \"rhost\": \"10.10.11.78\"}."
+                "Set a single key-value pair in LazyOwn's payload.json. "
+                "Call multiple times to update several keys. "
+                "Common keys: lhost, rhost, lport, rport, domain, wordlist, api_key."
             ),
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "updates": {
-                        "type": "object",
-                        "description": "Key-value pairs to set in payload.json.",
-                    }
+                    "key": {
+                        "type": "string",
+                        "description": "The payload.json key to update (e.g. 'rhost', 'lhost', 'lport').",
+                    },
+                    "value": {
+                        "type": "string",
+                        "description": "The value to set (always pass as string; numbers are auto-converted).",
+                    },
                 },
-                "required": ["updates"],
+                "required": ["key", "value"],
             },
         ),
         types.Tool(
@@ -809,14 +829,30 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
     # ── set_config ───────────────────────────────────────────────────────────
     elif name == "lazyown_set_config":
-        updates: dict = arguments["updates"]
+        key = arguments["key"].strip()
+        raw_value = arguments["value"]
+        # Auto-convert numeric strings and booleans
+        value: Any = raw_value
+        if isinstance(raw_value, str):
+            if raw_value.lower() == "true":
+                value = True
+            elif raw_value.lower() == "false":
+                value = False
+            else:
+                try:
+                    value = int(raw_value)
+                except ValueError:
+                    try:
+                        value = float(raw_value)
+                    except ValueError:
+                        value = raw_value
         cfg = _load_payload()
         if "_error" in cfg:
             return text(f"Cannot load payload.json: {cfg['_error']}")
-        cfg.update(updates)
+        cfg[key] = value
         result = _save_payload(cfg)
         if result == "ok":
-            return text(f"Updated {len(updates)} key(s): {', '.join(updates.keys())}")
+            return text(f"Set {key} = {value!r}")
         return text(result)
 
     # ── list_modules ─────────────────────────────────────────────────────────
@@ -1494,6 +1530,19 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         return text(result.get("result", result.get("response", json.dumps(result))))
 
     return [types.TextContent(type="text", text=f"Unknown tool: {name}")]
+
+
+# ── Hot-reload via SIGHUP ─────────────────────────────────────────────────────
+# Sending SIGHUP re-execs the process in-place keeping the same PID visible
+# to Claude Code — no reconnect needed.
+
+import signal
+
+def _handle_sighup(signum, frame):
+    """Re-exec this script so code changes take effect without disconnecting."""
+    os.execv(sys.executable, [sys.executable] + sys.argv)
+
+signal.signal(signal.SIGHUP, _handle_sighup)
 
 
 # ── Entry point ───────────────────────────────────────────────────────────────

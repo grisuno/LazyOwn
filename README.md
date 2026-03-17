@@ -11873,6 +11873,34 @@ No description available.
 
 ### Otros
 
+  *   * feat(feat): new claud code mcp to create new lazyaddons it's is brutal \n\n Version: release/0.2.75 \n\n with love \n\n Modified file(s):\n- README.md - docs/README.html - payload.json - static/security_dashboard.png\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Mar 16 23:39:02 2026 -0300 \n\n Hora: 1773715142
+
+
+### Otros
+
+### Otros
+
+  *   * mcp server to claude code like an apt xD now claud code can create new lazyaddons
+
+
+### Otros
+
+### Otros
+
+  *   * mcp server to claude code like an apt xD
+
+
+### Otros
+
+### Otros
+
+  *   * mcp server to claude code like an apt xD
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): new agent LazyOwn it's very dumb now but we work on it. \n\n Version: release/0.2.74 \n\n new agent and some magics more. \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Oct 25 14:34:19 2025 -0300 \n\n Hora: 1761413659
 
 

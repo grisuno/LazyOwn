@@ -6,6 +6,13 @@
 
 ### Otros
 
+  *   * feat(feat): a little changes in mcp \n\n Version: release/0.2.78 \n\n with love \n\n Modified file(s):\n- README.md - docs/README.html - skills/lazyown_mcp.py - skills/mcp_restart.sh\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Mar 17 18:58:51 2026 -0300 \n\n Hora: 1773784731
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): some love to mcp \n\n Version: release/0.2.77 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html - skills/lazyown_mcp.py - skills/mcp_restart.sh - static/security_dashboard.png\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Mar 17 17:00:07 2026 -0300 \n\n Hora: 1773777607
 
 

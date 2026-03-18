@@ -15,10 +15,16 @@ Configuration via environment variables:
 """
 
 import asyncio
+import fcntl
 import json
 import os
+import pty
+import select
+import struct
 import subprocess
 import sys
+import termios
+import time
 import urllib.request
 import urllib.error
 import ssl
@@ -139,43 +145,99 @@ def _c2_request(path: str, method: str = "GET", body: dict | None = None) -> dic
 def _run_lazyown_command(command: str, timeout: int = 30) -> str:
     """
     Execute one or more LazyOwn shell commands non-interactively.
-    Multiple commands separated by newlines are all sent to stdin.
 
-    start_new_session=True calls os.setsid() so the child process has no
-    controlling terminal.  When sudo needs a password it tries to open
-    /dev/tty — without a controlling terminal that fails immediately with
-    "sudo: no terminal present" instead of blocking Claude Code forever.
-    The proper fix on the system side is sudoers NOPASSWD (see README).
+    Uses a PTY (pseudo-terminal) for stdout/stderr so that LazyOwn's
+    os.get_terminal_size(stdout.fileno()) succeeds without the ioctl error.
+    stdin is kept as a pipe so we can send commands programmatically.
+    start_new_session=True keeps the child in its own session — sudo can't
+    reach /dev/tty for password prompts (use sudoers NOPASSWD via setup.sh).
     """
-    cmd_input = command.strip() + "\nexit\n"
+    import re
+    cmd_input = (command.strip() + "\nexit\n").encode()
 
-    # Prefer ./run (activates the virtualenv) over calling python3 directly.
-    # Fall back to python3 lazyown.py if ./run is not present or not executable.
     run_script = LAZYOWN_DIR / "run"
     if run_script.is_file():
         argv = ["bash", str(run_script)]
     else:
         argv = [sys.executable, "-W", "ignore", str(LAZYOWN_DIR / "lazyown.py")]
 
+    env = os.environ.copy()
+    env["TERM"] = "xterm-256color"
+
+    # Allocate a PTY so os.get_terminal_size(stdout.fileno()) doesn't fail
+    master_fd, slave_fd = pty.openpty()
+    # Tell the PTY its size (rows=50, cols=220)
+    winsize = struct.pack("HHHH", 50, 220, 0, 0)
+    fcntl.ioctl(slave_fd, termios.TIOCSWINSZ, winsize)
+
     try:
-        result = subprocess.run(
+        proc = subprocess.Popen(
             argv,
-            input=cmd_input,
-            capture_output=True,
-            text=True,
-            timeout=timeout,
+            stdin=subprocess.PIPE,
+            stdout=slave_fd,
+            stderr=slave_fd,
+            env=env,
             cwd=str(LAZYOWN_DIR),
-            start_new_session=True,   # no controlling TTY → sudo fails fast
+            start_new_session=True,
         )
-        output = result.stdout + result.stderr
-        # Strip ANSI escape codes for readability
-        import re
-        ansi_escape = re.compile(r"\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])")
-        return ansi_escape.sub("", output).strip()
-    except subprocess.TimeoutExpired:
-        return f"[timeout] Command exceeded {timeout}s"
-    except Exception as e:
-        return f"[error] {e}"
+        os.close(slave_fd)  # parent doesn't need the slave end
+
+        # Send all commands then close stdin
+        try:
+            proc.stdin.write(cmd_input)
+            proc.stdin.close()
+        except BrokenPipeError:
+            pass
+
+        # Drain master_fd with timeout
+        output_chunks: list[str] = []
+        deadline = time.monotonic() + timeout
+
+        while True:
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                proc.kill()
+                os.close(master_fd)
+                return f"[timeout] Command exceeded {timeout}s"
+
+            r, _, _ = select.select([master_fd], [], [], min(remaining, 0.5))
+            if r:
+                try:
+                    data = os.read(master_fd, 4096)
+                    if data:
+                        output_chunks.append(data.decode("utf-8", errors="replace"))
+                except OSError:
+                    break  # EIO — child closed its PTY end (normal exit)
+            else:
+                if proc.poll() is not None:
+                    # Drain remaining bytes
+                    try:
+                        while True:
+                            r2, _, _ = select.select([master_fd], [], [], 0.1)
+                            if not r2:
+                                break
+                            data = os.read(master_fd, 4096)
+                            if not data:
+                                break
+                            output_chunks.append(data.decode("utf-8", errors="replace"))
+                    except OSError:
+                        pass
+                    break
+
+        try:
+            proc.wait(timeout=5)
+        except subprocess.TimeoutExpired:
+            proc.kill()
+
+    finally:
+        try:
+            os.close(master_fd)
+        except OSError:
+            pass
+
+    output = "".join(output_chunks)
+    ansi_escape = re.compile(r"\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])")
+    return ansi_escape.sub("", output).strip()
 
 
 # ── Tool definitions ──────────────────────────────────────────────────────────
@@ -1539,8 +1601,8 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 import signal
 
 def _handle_sighup(signum, frame):
-    """Re-exec this script so code changes take effect without disconnecting."""
-    os.execv(sys.executable, [sys.executable] + sys.argv)
+    """Clean exit on SIGHUP — Claude Code will restart the server automatically."""
+    sys.exit(0)
 
 signal.signal(signal.SIGHUP, _handle_sighup)
 

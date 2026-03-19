@@ -72,6 +72,18 @@ try:
 except ImportError:
     _NARRATOR_AVAILABLE = False
 
+# Policy engine — reward-based transition learning and classification
+try:
+    _skills_path = str(Path(__file__).parent)
+    if _skills_path not in sys.path:
+        sys.path.insert(0, _skills_path)
+    from lazyown_policy import LazyOwnPolicyIntegration as _PolicyIntegration
+    _policy = _PolicyIntegration()
+    _POLICY_AVAILABLE = True
+except Exception:
+    _POLICY_AVAILABLE = False
+    _policy = None
+
 from mcp.server import Server
 from mcp.server.stdio import stdio_server
 from mcp import types
@@ -81,6 +93,35 @@ SKILLS_DIR   = Path(__file__).parent
 LAZYOWN_DIR = Path(os.environ.get("LAZYOWN_DIR", str(SKILLS_DIR.parent)))
 PAYLOAD_FILE = LAZYOWN_DIR / "payload.json"
 SESSIONS_DIR = LAZYOWN_DIR / "sessions"
+
+# ── Category → default LazyOwn command (auto-loop fallback when LLM unavailable) ──
+# Keys match ActionCategory values from lazyown_policy.py.
+# Override by placing a policy_command_map.json in sessions/.
+_CATEGORY_COMMAND_MAP: dict = {
+    "recon":       "lazynmap",
+    "enum":        "enum_smb",
+    "brute_force": "crackmapexec",
+    "exploit":     "searchsploit",
+    "intrusion":   "evil-winrm",
+    "privesc":     "linpeas",
+    "credential":  "secretsdump",
+    "lateral":     "crackmapexec",
+    "payload":     "generate_reverse_shell",
+    "other":       "list",
+}
+
+def _load_category_command_map() -> dict:
+    """Return the category→command map, merging any user overrides from sessions/."""
+    override_path = SESSIONS_DIR / "policy_command_map.json"
+    if override_path.exists():
+        try:
+            with override_path.open() as fh:
+                overrides = json.load(fh)
+            return {**_CATEGORY_COMMAND_MAP, **overrides}
+        except (json.JSONDecodeError, OSError):
+            pass
+    return _CATEGORY_COMMAND_MAP
+
 
 # ── MCP server ────────────────────────────────────────────────────────────────
 server = Server("lazyown")
@@ -852,6 +893,65 @@ async def list_tools() -> list[types.Tool]:
                 "required": ["technique"],
             },
         ),
+        types.Tool(
+            name="lazyown_policy_status",
+            description=(
+                "Show the policy engine episode summary and next-action recommendations for a target. "
+                "Displays total accumulated reward, number of steps, last observed state, and "
+                "ranked recommended categories derived from learned transition frequencies and "
+                "hand-coded override rules. Use after bootstrap or after executing commands."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "target": {
+                        "type": "string",
+                        "description": "Target IP or hostname. Defaults to rhost from payload.json.",
+                    }
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_auto_loop",
+            description=(
+                "Autonomous attack loop guided by the policy engine. "
+                "Repeats: get policy recommendation → resolve to a LazyOwn command → execute → "
+                "record outcome → update policy. Stops when max_steps is reached or a "
+                "high-value success (intrusion, privesc, credential) is observed. "
+                "Enables maximum unattended operation: the loop self-directs using accumulated "
+                "session history and learned transition patterns."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "target": {
+                        "type": "string",
+                        "description": "Target IP or hostname. Defaults to rhost from payload.json.",
+                    },
+                    "max_steps": {
+                        "type": "integer",
+                        "description": "Maximum number of execution steps (default 5, max 20).",
+                    },
+                    "stop_on_high_value_success": {
+                        "type": "boolean",
+                        "description": (
+                            "Halt the loop when intrusion, privesc, or credential success is "
+                            "achieved (default true)."
+                        ),
+                    },
+                    "step_timeout_s": {
+                        "type": "integer",
+                        "description": "Per-step execution timeout in seconds (default 60).",
+                    },
+                    "step_delay_s": {
+                        "type": "integer",
+                        "description": "Seconds to pause between steps (default 3).",
+                    },
+                },
+                "required": [],
+            },
+        ),
     ]
 
 
@@ -882,6 +982,24 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         output = await asyncio.get_event_loop().run_in_executor(
             None, lambda: _run_with_fallback(command, timeout)
         )
+
+        # Feed every executed command into the policy engine asynchronously
+        if _POLICY_AVAILABLE and _policy is not None:
+            _cfg = _load_payload()
+            _target = _cfg.get("rhost", "") or _cfg.get("lhost", "127.0.0.1")
+            _parts = command.strip().split(None, 1)
+            _cmd_name = _parts[0] if _parts else command
+            _cmd_args = _parts[1] if len(_parts) > 1 else ""
+            try:
+                await asyncio.get_event_loop().run_in_executor(
+                    None,
+                    lambda: _policy.on_command_complete(
+                        _target, _cmd_name, _cmd_args, output, None
+                    ),
+                )
+            except Exception:
+                pass  # policy errors must never affect command execution
+
         return text(output)
 
     # ── get_config ───────────────────────────────────────────────────────────
@@ -1495,32 +1613,50 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
     # ── recommend_next ────────────────────────────────────────────────────────
     elif name == "lazyown_recommend_next":
-        if not _RECOMMENDER_AVAILABLE:
-            return text("Recommender not available — check modules/recommender.py")
-        cfg     = _load_payload()
-        api_key = cfg.get("api_key", "") or os.environ.get("GROQ_API_KEY", "")
-        # api_key may be empty — ai_fallback will try Ollama or return help msg
-        recs = await asyncio.get_event_loop().run_in_executor(
-            None, lambda: _recommend(api_key)
-        )
-        if not recs:
-            return text("No recommendations returned.")
-        # Check if the single result is an error/help message
-        if len(recs) == 1 and recs[0].get("command") in ("_error", "_unavailable"):
-            return text(recs[0]["reason"])
-        via = recs[0].get("_via", "")
-        header = "Recommended next actions"
-        if via:
-            header += f" (via local model: {via})"
-        header += ":\n"
-        lines = [header]
-        for i, r in enumerate(recs, 1):
-            bar  = "█" * int(r["confidence"] * 10)
-            cmd  = r["command"]
-            args = f" {r['args']}" if r.get("args") else ""
-            lines.append(f"  {i}. [{bar:<10}] {r['confidence']:.0%}  {cmd}{args}")
-            lines.append(f"       {r['reason']}")
-        lines.append("\nSaved to: sessions/recommendations/next_actions.json")
+        cfg    = _load_payload()
+        target = cfg.get("rhost", "") or cfg.get("lhost", "127.0.0.1")
+        lines: list[str] = []
+
+        # Layer 1 — policy engine: strategic category recommendations from learned transitions
+        if _POLICY_AVAILABLE and _policy is not None:
+            policy_recs = await asyncio.get_event_loop().run_in_executor(
+                None, lambda: _policy.get_recommendations(target)
+            )
+            if policy_recs:
+                lines.append(f"[Policy] Strategic recommendations for {target}:")
+                for i, r in enumerate(policy_recs, 1):
+                    bar = "█" * int(r["confidence"] * 10)
+                    lines.append(
+                        f"  {i}. [{bar:<10}] {r['confidence']:.0%}  "
+                        f"category={r['category']}  [{r['source']}]"
+                    )
+                    lines.append(f"       {r['reason']}")
+                lines.append("")
+
+        # Layer 2 — LLM recommender: specific commands with arguments
+        if _RECOMMENDER_AVAILABLE:
+            api_key = cfg.get("api_key", "") or os.environ.get("GROQ_API_KEY", "")
+            llm_recs = await asyncio.get_event_loop().run_in_executor(
+                None, lambda: _recommend(api_key)
+            )
+            if llm_recs and not (
+                len(llm_recs) == 1 and llm_recs[0].get("command") in ("_error", "_unavailable")
+            ):
+                via = llm_recs[0].get("_via", "")
+                header = "[LLM] Specific commands"
+                if via:
+                    header += f" (via {via})"
+                lines.append(header + ":")
+                for i, r in enumerate(llm_recs, 1):
+                    bar  = "█" * int(r["confidence"] * 10)
+                    cmd  = r["command"]
+                    args = f" {r['args']}" if r.get("args") else ""
+                    lines.append(f"  {i}. [{bar:<10}] {r['confidence']:.0%}  {cmd}{args}")
+                    lines.append(f"       {r['reason']}")
+                lines.append("\nSaved to: sessions/recommendations/next_actions.json")
+
+        if not lines:
+            return text("No recommendations available — run bootstrap first or install recommender module.")
         return text("\n".join(lines))
 
     # ── timeline ──────────────────────────────────────────────────────────────
@@ -1590,6 +1726,158 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         if "_error" in result:
             return text(f"C2 unreachable or error: {result['_error']}")
         return text(result.get("result", result.get("response", json.dumps(result))))
+
+    # ── policy_status ─────────────────────────────────────────────────────────
+    elif name == "lazyown_policy_status":
+        if not _POLICY_AVAILABLE or _policy is None:
+            return text(
+                "Policy engine unavailable. "
+                "Run: python3 skills/lazyown_policy.py bootstrap"
+            )
+        cfg    = _load_payload()
+        target = arguments.get("target") or cfg.get("rhost", "") or "127.0.0.1"
+        summary = await asyncio.get_event_loop().run_in_executor(
+            None, lambda: _policy._advisor.episode_summary(target)
+        )
+        recs = await asyncio.get_event_loop().run_in_executor(
+            None, lambda: _policy.get_recommendations(target)
+        )
+        lines: list[str] = []
+        if summary:
+            lines.append(
+                f"Episode  target={summary['target']}  "
+                f"steps={summary['steps']}  "
+                f"total_reward={summary['total_reward']:+d}  "
+                f"last_state={summary['last_state']}"
+            )
+        else:
+            lines.append(
+                f"No episode data for {target}. "
+                "Run bootstrap or execute commands first."
+            )
+        lines.append("\nRecommendations:")
+        for i, r in enumerate(recs, 1):
+            bar = "█" * int(r["confidence"] * 10)
+            lines.append(
+                f"  {i}. [{bar:<10}] {r['confidence']:.0%}  "
+                f"category={r['category']}  [{r['source']}]"
+            )
+            lines.append(f"       {r['reason']}")
+        return text("\n".join(lines))
+
+    # ── auto_loop ─────────────────────────────────────────────────────────────
+    elif name == "lazyown_auto_loop":
+        if not _POLICY_AVAILABLE or _policy is None:
+            return text(
+                "Policy engine unavailable. "
+                "Run: python3 skills/lazyown_policy.py bootstrap"
+            )
+        cfg              = _load_payload()
+        target           = arguments.get("target") or cfg.get("rhost", "") or "127.0.0.1"
+        max_steps        = min(int(arguments.get("max_steps", 5)), 20)
+        stop_on_high     = bool(arguments.get("stop_on_high_value_success", True))
+        step_timeout     = int(arguments.get("step_timeout_s", 60))
+        step_delay       = int(arguments.get("step_delay_s", 3))
+        cat_map          = _load_category_command_map()
+        high_value_cats  = {"intrusion", "privesc", "credential"}
+
+        execution_log: list[dict] = []
+
+        def _execute_step() -> dict:
+            recs = _policy.get_recommendations(target)
+            if not recs:
+                return {"stop": True, "reason": "No policy recommendations available."}
+            top_rec = recs[0]
+            category = top_rec["category"]
+
+            # Resolve category to a specific command.
+            # Prefer the LLM recommender if available and its top result matches the policy category.
+            resolved_cmd = ""
+            resolved_args = ""
+            if _RECOMMENDER_AVAILABLE:
+                api_key = cfg.get("api_key", "") or os.environ.get("GROQ_API_KEY", "")
+                try:
+                    llm_recs = _recommend(api_key)
+                    for lr in (llm_recs or []):
+                        if lr.get("command") not in ("_error", "_unavailable"):
+                            resolved_cmd  = lr.get("command", "")
+                            resolved_args = lr.get("args", "")
+                            break
+                except Exception:
+                    pass
+            if not resolved_cmd:
+                resolved_cmd = cat_map.get(category, "list")
+
+            full_command = f"{resolved_cmd} {resolved_args}".strip()
+
+            # Execute
+            c2_result = _c2_request("/api/run", method="POST", body={"command": full_command})
+            if "_error" in c2_result or "error" in c2_result:
+                output = _run_lazyown_command(full_command, step_timeout)
+                via = "subprocess"
+            else:
+                output = c2_result.get("output", c2_result.get("result", ""))
+                if not output:
+                    output = _run_lazyown_command(full_command, step_timeout)
+                    via = "subprocess"
+                else:
+                    via = "c2"
+
+            # Record outcome in policy engine
+            step = _policy.on_command_complete(
+                target, resolved_cmd, resolved_args, output, None
+            )
+
+            should_stop = (
+                stop_on_high
+                and step.outcome == "success"
+                and step.category in high_value_cats
+            )
+            return {
+                "stop": should_stop,
+                "step": {
+                    "command":    full_command,
+                    "category":   step.category,
+                    "outcome":    step.outcome,
+                    "reward":     step.reward,
+                    "confidence": step.confidence,
+                    "via":        via,
+                    "policy_rec": top_rec["reason"],
+                    "source":     top_rec["source"],
+                },
+            }
+
+        for i in range(max_steps):
+            result = await asyncio.get_event_loop().run_in_executor(None, _execute_step)
+            if "step" in result:
+                execution_log.append(result["step"])
+            if result.get("stop"):
+                break
+            if i < max_steps - 1:
+                await asyncio.sleep(step_delay)
+
+        # Format report
+        total_reward = sum(s["reward"] for s in execution_log)
+        lines = [
+            f"Auto-loop complete — {len(execution_log)} step(s) for target {target}",
+            "",
+        ]
+        for i, s in enumerate(execution_log, 1):
+            r_str = f"{s['reward']:+d}"
+            lines.append(
+                f"  Step {i}: [{s['via']}] {s['command']}"
+                f"  ->  {s['category']}:{s['outcome']}"
+                f"  (reward={r_str}, conf={s['confidence']:.0%})"
+            )
+            lines.append(f"           {s['policy_rec']}")
+        lines.append(f"\nTotal reward: {total_reward:+d}")
+        if execution_log:
+            last = execution_log[-1]
+            if last["outcome"] == "success" and last["category"] in high_value_cats:
+                lines.append(
+                    f"STOPPED: high-value success ({last['category']}) achieved."
+                )
+        return text("\n".join(lines))
 
     return [types.TextContent(type="text", text=f"Unknown tool: {name}")]
 

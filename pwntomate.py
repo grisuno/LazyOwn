@@ -4,6 +4,7 @@
 # License: TODO
 
 import os, sys, argparse, json, glob, subprocess
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from libnmap.parser import NmapParser
 
 greeter = '''[31m
@@ -62,13 +63,14 @@ adomain = domain.split(".")
 ext = adomain[1]
 nameserver = adomain[0]
 
+cmds = []
 for host in report.hosts:
     for service in host.services:
         for filename in glob.glob(args.tooldir+"/*.tool"):
             tool = json.load(open(filename, 'r'))
             if tool["active"] and (service.service in tool["trigger"] or 'all' in tool["trigger"]):
                 cmd = tool["command"]
-           
+
                 if service.tunnel == 'ssl':
                     cmd = cmd.replace("{s}", "s")
                 else:
@@ -84,10 +86,18 @@ for host in report.hosts:
                     cmd = cmd.replace("{username}", username)
                     cmd = cmd.replace("{password}", password)
                     print(cmd)
-                    shellscript += 'mkdir -p %s/%s/%s/%s\n' % (args.basedir.replace(" ", "\ "), host.address, service.port, tool["toolname"].replace(" ", "\ ")) # TODO remove double configuration of {baseoutputdir}/{ip}/{port}/{toolname}. things can go wrong.
+                    mkdir_cmd = 'mkdir -p %s/%s/%s/%s' % (args.basedir.replace(" ", "\ "), host.address, service.port, tool["toolname"].replace(" ", "\ ")) # TODO remove double configuration of {baseoutputdir}/{ip}/{port}/{toolname}. things can go wrong.
+                    shellscript += mkdir_cmd + '\n'
                     shellscript += '%s\n' % cmd
+                    cmds.append('%s && %s' % (mkdir_cmd, cmd))
 if args.execute:
-    subprocess.call(shellscript, shell=True)
+    def _run_tool(cmd):
+        return subprocess.run(cmd, shell=True, capture_output=True, text=True)
+
+    with ThreadPoolExecutor(max_workers=4) as executor:
+        futures = {executor.submit(_run_tool, cmd): cmd for cmd in cmds}
+        for future in as_completed(futures):
+            result = future.result()
     os.system("chown 1000:1000 sessions -R")
     os.system("chmod 755 sessions -R")
 else:

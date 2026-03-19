@@ -715,6 +715,13 @@ def make_serializable(data):
     else:
         return to_serializable(data)
 
+def _sanitize_csv_field(value: str, maxlen: int = 1000) -> str:
+    """Prevent CSV injection by prefixing formula-starting values."""
+    value = str(value)[:maxlen]
+    if value and value[0] in ('=', '+', '-', '@', '\t', '\r', '\n'):
+        value = "'" + value
+    return value
+
 def escape_js_string(value):
     """Escape special characters in a string for JavaScript."""
     if isinstance(value, str):
@@ -1608,6 +1615,14 @@ limiter = Limiter(
     default_limits=[config.c2_daily_limit, config.c2_hour_limit]
 )
 
+@app.after_request
+def _add_security_headers(response):
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['X-Frame-Options'] = 'SAMEORIGIN'
+    response.headers['X-XSS-Protection'] = '1; mode=block'
+    response.headers['Referrer-Policy'] = 'strict-origin-when-cross-origin'
+    return response
+
 SESSION_ID = str(uuid.uuid4())
 
 app.secret_key = 'GrisIsComebackSayKnokKnokSecretlyxDjajajja' + SESSION_ID
@@ -1967,6 +1982,16 @@ def send_command(client_id):
 @app.route('/command/<client_id>', methods=['POST'])
 @app.route(f'{route_maleable}<client_id>', methods=['POST'])
 def receive_result(client_id):
+    # HMAC validation (optional — validates if X-Signature header is present)
+    _sig_header = request.headers.get('X-Signature', '')
+    if _sig_header:
+        import hmac as _hmac_mod, hashlib as _hashlib_mod
+        _rat_key = getattr(config, 'rat_key', '') or ''
+        if _rat_key:
+            _body = request.get_data()
+            _expected = _hmac_mod.new(_rat_key.encode(), _body, _hashlib_mod.sha256).hexdigest()
+            if not _hmac_mod.compare_digest(_sig_header, _expected):
+                return jsonify({"status": "error", "message": "Invalid signature"}), 403
     try:
         logging.info(f"Receiving result from client {client_id}")
         encrypted_data = request.get_data()
@@ -2030,17 +2055,17 @@ def receive_result(client_id):
                     writer.writerow(["client_id", "os", "pid", "hostname", "ips", "user","discovered_ips", "result_portscan", "result_pwd", "command", "output"])
 
                 safe_data = [
-                    str(sanitized_client_id),
-                    str(client)[:100],
-                    str(pid)[:20],
-                    str(hostname)[:100],
-                    str(ips)[:100],
-                    str(user)[:50],
-                    str(discovered_ips)[:1000],
-                    str(result_portscan)[:1000],
-                    str(result_pwd)[:1000],
-                    str(command)[:500],
-                    str(output)[:1000]
+                    _sanitize_csv_field(sanitized_client_id),
+                    _sanitize_csv_field(client, maxlen=100),
+                    _sanitize_csv_field(pid, maxlen=20),
+                    _sanitize_csv_field(hostname, maxlen=100),
+                    _sanitize_csv_field(ips, maxlen=100),
+                    _sanitize_csv_field(user, maxlen=50),
+                    _sanitize_csv_field(discovered_ips, maxlen=1000),
+                    _sanitize_csv_field(result_portscan, maxlen=1000),
+                    _sanitize_csv_field(result_pwd, maxlen=1000),
+                    _sanitize_csv_field(command, maxlen=500),
+                    _sanitize_csv_field(output, maxlen=1000)
                 ]
                 writer.writerow(safe_data)
 
@@ -2141,6 +2166,8 @@ def receive_result(client_id):
 
 
 @app.route('/issue_command', methods=['POST'])
+@requires_auth
+@limiter.limit("20 per minute")
 def issue_command():
     client_id = request.form['client_id']
     command = request.form['command']
@@ -2204,9 +2231,12 @@ def download_file():
     if file:
         temp_dir = os.path.join(os.getcwd(), 'sessions/temp_uploads')
         os.makedirs(temp_dir, exist_ok=True)
-        file_path = os.path.join(temp_dir, file.filename)
+        safe_fname = secure_filename(file.filename) if file.filename else ''
+        if not safe_fname:
+            return jsonify({"status": "error", "message": "Invalid filename"}), 400
+        file_path = os.path.join(temp_dir, safe_fname)
         file.save(file_path)
-        commands[client_id] = f"download:{file.filename}"
+        commands[client_id] = f"download:{safe_fname}"
 
         return redirect(url_for('index'))
     else:
@@ -2236,10 +2266,11 @@ def serve_file(file_path):
             with open(normalized_requested_path, 'rb') as f:
                 file_data = f.read()
             encrypted_data = encrypt_data(file_data)
+            safe_dl_name = os.path.basename(file_path).replace('"', '').replace('\n', '').replace('\r', '')
             return Response(
                 encrypted_data,
                 mimetype='application/octet-stream',
-                headers={'Content-Disposition': f'attachment; filename="{file_path}"'}
+                headers={'Content-Disposition': f'attachment; filename="{safe_dl_name}"'}
             )
         except Exception as e:
             return str("audio"), 500
@@ -2752,9 +2783,16 @@ def view_yaml():
     if not selected_directory:
         return redirect(url_for('index'))
 
-    yaml_data = []
+    # Prevent path traversal
+    if not selected_directory or '..' in selected_directory or selected_directory.startswith('/'):
+        return jsonify({'error': 'Invalid directory'}), 400
+    selected_path = os.path.normpath(os.path.join(atomic_framework_path, selected_directory))
+    atomic_abs = os.path.normpath(os.path.abspath(str(atomic_framework_path)))
+    selected_abs = os.path.normpath(os.path.abspath(str(selected_path)))
+    if not selected_abs.startswith(atomic_abs + os.sep) and selected_abs != atomic_abs:
+        return jsonify({'error': 'Access denied'}), 403
 
-    selected_path = os.path.join(atomic_framework_path, selected_directory)
+    yaml_data = []
 
     for root, dirs, files in os.walk(selected_path):
         for file in files:
@@ -2776,6 +2814,7 @@ def view_yaml():
 
 @app.route('/api/run', methods=['POST'])
 @requires_auth
+@limiter.limit("30 per minute")
 def run_command():
 
     data = request.json
@@ -2806,6 +2845,7 @@ def run_command():
     return jsonify({"result": serializable_output}), 200
 
 @app.route('/api/output', methods=['GET'])
+@requires_auth
 def get_output():
     global shell
     output = shell.output
@@ -2841,7 +2881,19 @@ def get_results():
     return jsonify(results)
 
 @app.route('/lazyos/<ip>/<port>', methods=['POST'])
+@requires_auth
 def send_lcommand(ip, port):
+    import ipaddress as _ipaddress
+    try:
+        _ipaddress.ip_address(ip)
+    except ValueError:
+        return jsonify({"error": "Invalid IP address"}), 400
+    try:
+        _port_num = int(port)
+        if not (1 <= _port_num <= 65535):
+            raise ValueError
+    except (ValueError, TypeError):
+        return jsonify({"error": "Invalid port"}), 400
     try:
         command = request.json.get('command')
         password = "grisiscomebacksayknokknok"

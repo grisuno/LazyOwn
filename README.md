@@ -11947,6 +11947,20 @@ No description available.
 # Changelog
 
 
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new commands in mcp \n\n Version: release/0.2.84 \n\n  \n\n Modified file(s):\n- DEPLOY.sh - README.md - docs/README.html - fast_run_as_r00t.sh - lazyc2.py - modules/backdoor/keylogger.h - payload.json - pwntomate.py - sessions/phishing/campaigns/short_urls.json - static/security_dashboard.png\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Mar 19 16:36:16 2026 -0300 \n\n Hora: 1773948976
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test): test \n\n Version: release/0.2.83 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Mar 19 16:35:31 2026 -0300 \n\n Hora: 1773948931
+
+
 ### Pruebas
 
 ### Otros

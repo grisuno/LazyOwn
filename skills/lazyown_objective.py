@@ -38,8 +38,10 @@ from __future__ import annotations
 
 import argparse
 import datetime
+import hashlib
 import json
 import os
+import re
 import secrets
 import sys
 from dataclasses import asdict, dataclass, field
@@ -57,6 +59,15 @@ SOUL_FILE       = SESSIONS_DIR / "soul.md"
 PRIORITY_ORDER  = {"critical": 0, "high": 1, "medium": 2, "low": 3}
 VALID_STATUSES  = {"pending", "in_progress", "done", "blocked", "skipped"}
 VALID_PRIORITIES = set(PRIORITY_ORDER.keys())
+
+# TTL in hours for pending objectives before they are auto-expired.
+# None = never expire.
+OBJECTIVE_TTL_HOURS: Dict[str, Optional[float]] = {
+    "critical": None,
+    "high":     None,
+    "medium":   72.0,
+    "low":      24.0,
+}
 
 DEFAULT_SOUL = """\
 # LazyOwn Agent Soul
@@ -147,6 +158,41 @@ class ObjectiveStore:
         tmp.write_text("\n".join(json.dumps(asdict(o)) for o in objs) + "\n")
         tmp.replace(self._path)
 
+    @staticmethod
+    def _text_hash(text: str) -> str:
+        """8-char hex fingerprint of objective text for deduplication."""
+        return hashlib.sha256(text.strip().lower().encode()).hexdigest()[:8]
+
+    def cleanup(self) -> int:
+        """
+        Expire pending objectives whose TTL has passed.
+        Returns the number of objectives marked skipped.
+        """
+        objs = self._load_all()
+        now = datetime.datetime.now(datetime.timezone.utc)
+        expired = 0
+        for o in objs:
+            if o.status != "pending":
+                continue
+            ttl = OBJECTIVE_TTL_HOURS.get(o.priority)
+            if ttl is None:
+                continue
+            try:
+                created = datetime.datetime.fromisoformat(o.created_at)
+                if created.tzinfo is None:
+                    created = created.replace(tzinfo=datetime.timezone.utc)
+                age_h = (now - created).total_seconds() / 3600
+                if age_h > ttl:
+                    o.status = "skipped"
+                    o.updated_at = now.isoformat()
+                    o.notes = f"auto-expired after {age_h:.1f}h (ttl={ttl}h)"
+                    expired += 1
+            except (ValueError, TypeError):
+                pass
+        if expired:
+            self._save_all(objs)
+        return expired
+
     def inject(
         self,
         text: str,
@@ -157,6 +203,16 @@ class ObjectiveStore:
     ) -> Objective:
         if priority not in VALID_PRIORITIES:
             priority = "medium"
+
+        # Expire stale objectives before adding new ones
+        self.cleanup()
+
+        # Deduplication: reject if a pending objective with same text hash exists
+        text_hash = self._text_hash(text)
+        for o in self._load_all():
+            if o.status == "pending" and self._text_hash(o.text) == text_hash:
+                return o  # already queued — return existing without re-inserting
+
         now = self._now()
         obj = Objective(
             id=secrets.token_hex(4),
@@ -272,6 +328,130 @@ def full_context_for_claude(target: Optional[str] = None) -> Dict:
             for o in pending
         ],
     }
+
+
+# ─── SoulUpdater ──────────────────────────────────────────────────────────────
+
+
+class SoulUpdater:
+    """
+    Smart section-level patcher for sessions/soul.md.
+
+    Instead of rewriting the whole file, it patches only the relevant
+    ## section when new intelligence arrives (new credential, OS detected,
+    access level achieved, vulnerability found).
+
+    Each ## section is delimited by the next ## header or end-of-file.
+    If a section doesn't exist yet it is appended.
+
+    Usage (called by sessions_watcher after parsing):
+        su = SoulUpdater()
+        su.update_credentials([{"username": "admin", "password": "P@ss"}])
+        su.update_phase("exploit")
+        su.update_os("Windows Server 2019", "10.10.11.78")
+        su.update_access("admin", "10.10.11.78", method="evil-winrm")
+        su.update_vulnerabilities([{"vuln_id": "CVE-2021-34527", "severity": "critical", ...}])
+    """
+
+    def __init__(self) -> None:
+        self._path = SOUL_FILE
+
+    # ── internals ─────────────────────────────────────────────────────────────
+
+    def _read(self) -> str:
+        if not self._path.exists():
+            write_soul(DEFAULT_SOUL)
+        return self._path.read_text(errors="replace")
+
+    def _patch_section(self, header: str, new_body: str) -> None:
+        """Replace the body of ## header section; append if missing."""
+        text = self._read()
+        pattern = re.compile(
+            rf"(## {re.escape(header)}\n)(.*?)(?=\n## |\Z)",
+            re.DOTALL,
+        )
+        replacement = f"## {header}\n{new_body.rstrip()}\n"
+        if pattern.search(text):
+            new_text = pattern.sub(replacement, text)
+        else:
+            new_text = text.rstrip() + f"\n\n## {header}\n{new_body.rstrip()}\n"
+        self._path.write_text(new_text)
+
+    def _patch_line(self, key: str, value: str) -> None:
+        """Replace `key: <old>` with `key: value` anywhere in the file."""
+        text = self._read()
+        pattern = re.compile(rf"^({re.escape(key)}:\s*).*$", re.MULTILINE)
+        if pattern.search(text):
+            new_text = pattern.sub(rf"\g<1>{value}", text)
+        else:
+            new_text = text.rstrip() + f"\n{key}: {value}\n"
+        self._path.write_text(new_text)
+
+    # ── public API ────────────────────────────────────────────────────────────
+
+    def update_phase(self, phase: str) -> None:
+        """Update the `Phase:` line inside ## Current Focus."""
+        self._patch_line("Phase", phase)
+
+    def update_target(self, target: str) -> None:
+        """Update the `Target:` line inside ## Current Focus."""
+        self._patch_line("Target", target)
+
+    def update_os(self, os_name: str, target: str) -> None:
+        """Record detected operating system for a target."""
+        self._patch_section(
+            "Detected OS",
+            f"- {target}: {os_name}",
+        )
+
+    def update_credentials(self, creds: List[dict]) -> None:
+        """
+        Replace the ## Known Credentials section with discovered credentials.
+        Accepts list of dicts with keys: username, password, hash_value (optional).
+        """
+        if not creds:
+            return
+        seen: set = set()
+        lines: List[str] = []
+        for c in creds[:15]:
+            user   = (c.get("username") or "").strip()
+            passwd = (c.get("password") or "").strip()
+            hv     = (c.get("hash_value") or "").strip()
+            if not user:
+                continue
+            if user in seen:
+                continue
+            seen.add(user)
+            if passwd:
+                lines.append(f"- {user}:{passwd}")
+            elif hv:
+                lines.append(f"- {user}:{hv[:16]}… (NTLM)")
+            else:
+                lines.append(f"- {user} (username only)")
+        if lines:
+            self._patch_section("Known Credentials", "\n".join(lines))
+
+    def update_access(self, level: str, target: str, method: str = "") -> None:
+        """Update achieved access level for a target."""
+        note = f"- {target}: {level}"
+        if method:
+            note += f" via {method}"
+        self._patch_section("Achieved Access", note)
+
+    def update_vulnerabilities(self, vulns: List[dict]) -> None:
+        """Replace ## Key Vulnerabilities with the most severe findings."""
+        if not vulns:
+            return
+        sev_order = {"critical": 0, "high": 1, "medium": 2, "low": 3, "info": 4}
+        sorted_v = sorted(vulns, key=lambda v: sev_order.get(v.get("severity", "info"), 5))
+        lines: List[str] = []
+        for v in sorted_v[:15]:
+            sev = (v.get("severity") or "info").upper()
+            vid = v.get("vuln_id") or "?"
+            title = (v.get("title") or "")[:80]
+            lines.append(f"- [{sev}] {vid}: {title}")
+        if lines:
+            self._patch_section("Key Vulnerabilities", "\n".join(lines))
 
 
 # ─── CLI ─────────────────────────────────────────────────────────────────────

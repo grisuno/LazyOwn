@@ -43,3 +43,4 @@ LazyOwn_history.dat
 */__pycache__
 cloudflared
 lazysentinel.db
+parquets/session_knowledge.parquet

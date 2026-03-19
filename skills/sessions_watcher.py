@@ -65,10 +65,12 @@ if str(SKILLS_DIR) not in sys.path:
     sys.path.insert(0, str(SKILLS_DIR))
 
 try:
-    from lazyown_objective import ObjectiveStore, PLAN_FILE
+    from lazyown_objective import ObjectiveStore, PLAN_FILE, SoulUpdater
     _OBJECTIVES_AVAILABLE = True
+    _soul = SoulUpdater()
 except ImportError:
     _OBJECTIVES_AVAILABLE = False
+    _soul = None  # type: ignore[assignment]
 
 try:
     from lazyown_facts import FactStore
@@ -223,6 +225,19 @@ def _handle_nmap_xml(path: Path) -> None:
         n = _facts.ingest_xml(path)
         _facts.save()
         log.info(f"FactStore: ingested {n} service facts from {path.name}")
+
+        # Update soul.md with detected OS if nmap found one
+        if _soul is not None:
+            target = _extract_target_from_filename(path.name)
+            hf = _facts.get_host(target)
+            if hf and hf.os_hint:
+                try:
+                    _soul.update_os(hf.os_hint, target)
+                    _soul.update_target(target)
+                    log.info(f"soul.md updated: OS={hf.os_hint} target={target}")
+                except Exception as exc:
+                    log.debug(f"soul update failed: {exc}")
+
     target = _extract_target_from_filename(path.name)
     _emit(
         event_type="SCAN_XML_READY",
@@ -250,6 +265,31 @@ def _handle_tool_output(path: Path) -> None:
             if n:
                 _facts.save()
                 log.info(f"FactStore: {n} facts from {path.name}")
+
+                # Update soul.md with newly discovered credentials and access
+                if _soul is not None:
+                    hf = _facts.get_host(ip)
+                    if hf:
+                        try:
+                            cred_dicts = [
+                                {"username": c.username, "password": c.password,
+                                 "hash_value": c.hash_value}
+                                for c in hf.credentials
+                            ]
+                            _soul.update_credentials(cred_dicts)
+                            if hf.access:
+                                best = hf.highest_access()
+                                method = hf.access[-1].method if hf.access else ""
+                                _soul.update_access(best, ip, method)
+                            if hf.vulnerabilities:
+                                vuln_dicts = [
+                                    {"vuln_id": v.vuln_id, "severity": v.severity,
+                                     "title": v.title}
+                                    for v in hf.vulnerabilities
+                                ]
+                                _soul.update_vulnerabilities(vuln_dicts)
+                        except Exception as exc:
+                            log.debug(f"soul update failed: {exc}")
         except Exception as exc:
             log.warning(f"FactStore ingest failed: {exc}")
 

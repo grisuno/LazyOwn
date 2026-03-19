@@ -60,7 +60,7 @@ else:
     password = ''
 
 adomain = domain.split(".")
-ext = adomain[1]
+ext = adomain[1] if len(adomain) > 1 else adomain[0]
 nameserver = adomain[0]
 
 cmds = []

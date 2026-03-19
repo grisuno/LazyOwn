@@ -303,8 +303,12 @@ git -C . add docs/CHANGELOG.html
 # Realizar el commit (modificar el commit actual para incluir el changelog)
 git -C . commit  -S --amend --no-edit
 
-# Crear un nuevo tag con la nueva versión
-git -C . tag -s $NEW_VERSION -m "Version $NEW_VERSION"
+# Crear un nuevo tag con la nueva versión (sólo si no existe ya)
+if git -C . rev-parse "$NEW_VERSION" >/dev/null 2>&1; then
+    echo "[!] Tag '$NEW_VERSION' ya existe — se omite la creación del tag."
+else
+    git -C . tag -s "$NEW_VERSION" -m "Version $NEW_VERSION"
+fi
 
 # Hacer push al repositorio remoto, incluyendo los tags
 git -C . push --follow-tags

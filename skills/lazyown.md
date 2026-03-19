@@ -37,6 +37,10 @@ LazyOwn is a penetration testing / C2 framework located at `/home/grisun0/LazyOw
 | `lazyown_c2_search_agent` | Delegate an OSINT / research query to the C2 AI |
 | `lazyown_c2_script` | Ask C2 AI to generate an exploit or pentest script |
 | `lazyown_c2_adversary` | Emulate a MITRE ATT&CK technique via the C2 AI |
+| `lazyown_policy_status` | Policy engine episode summary + next-action recommendations for a target |
+| `lazyown_auto_loop` | Autonomous attack loop: policy → command → execute → learn (max 20 steps) |
+| `lazyown_create_tool` | Create a new pwntomate `.tool` file for uncovered services at runtime |
+| `lazyown_facts_show` | Show structured facts (ports, services, creds, shares, access) per target |
 
 ## Workflow
 
@@ -151,6 +155,51 @@ lazyown_set_active_target(ip="10.10.11.78", status="owned")
 lazyown_set_active_target(ip="10.10.11.89", status="in_progress")
 ```
 
+### 9. Full autonomous attack cycle (policy engine + FactStore)
+
+```
+# Bootstrap policy from historical session data (run once)
+# python3 skills/lazyown_policy.py bootstrap
+
+# Check what the policy recommends for the current target
+lazyown_policy_status(target="10.10.11.78")
+
+# Show structured facts already known about a target
+lazyown_facts_show(target="10.10.11.78")
+# → ports, services, credentials, shares, access level
+
+# Launch unattended loop: policy → command → pwntomate → facts → loop
+lazyown_auto_loop(
+    target="10.10.11.78",
+    max_steps=10,
+    stop_on_high_value_success=True,
+    step_timeout_s=60,   # per LazyOwn command, NOT for lazynmap/pwntomate
+    step_delay_s=5,
+)
+# After a lazynmap step succeeds, auto_loop:
+#   1. Detects sessions/scan_<target>.nmap.xml
+#   2. Launches pwntomate in background (parallel tools, NO timeout)
+#   3. Refreshes FactStore — next commands are parameterised with real data
+
+# Create a tool file when a service has no existing coverage
+lazyown_create_tool(
+    toolname="redis_enum",
+    command="redis-cli -h {ip} -p {port} info > {outputdir}/redis_info.txt",
+    trigger=["redis"],
+)
+# → tools/redis_enum.tool  — active on next pwntomate run
+```
+
+**Cycle summary:**
+```
+set rhost → auto_loop →
+  lazynmap (recon, background, NO timeout) →
+  pwntomate (parallel tools, background, NO timeout) →
+  FactStore ingests sessions/*.txt → context-aware commands →
+  if service uncovered → create_tool → next iteration uses it →
+  policy learns every transition → rewards drive next recommendation
+```
+
 ### 8. Integrate any GitHub tool on the fly
 
 ```
@@ -205,3 +254,45 @@ lazyown_list_agents()               # all past agents
 - The C2 REST API runs on `https://<lhost>:<c2_port>` (self-signed TLS).
 - Configuration lives in `payload.json` — always call `lazyown_get_config` first.
 - Session data (logs, exfil, screenshots) is stored under `sessions/`.
+
+## IMPORTANT — Long-running scripts (NO TIMEOUT)
+
+### `lazynmap` / `modules/lazynmap.sh`
+- Runs a **full TCP scan** (`-p- --open -sS --min-rate 5000`) plus per-port `-sV` scans
+  and NSE scripts in parallel with `xargs -P 0`.
+- On a real target this takes **5–30 minutes** depending on host responsiveness and
+  number of open ports.
+- **NEVER kill lazynmap early** — let it run to completion.
+- Do NOT set a timeout on `lazyown_run_command("lazynmap")`.  If MCP times out, the
+  scan continues in the background; check `sessions/scan_<rhost>.nmap` for results.
+- **Warn the user** before launching: "lazynmap performs a full scan and may take
+  20+ minutes. It runs in the background — check sessions/ when done."
+
+### `pwntomate.py`
+- Reads the nmap XML and launches **every matching tool in parallel**.
+- On a target with HTTP/HTTPS ports, tools like `ffuf`, `gobuster`, `wfuzz`, `nikto`
+  will enumerate directories against SecLists wordlists — each can take **20–60 minutes**
+  per port, longer if the target is slow.
+- **NEVER set a timeout** on pwntomate calls.  Run it detached or in a background task
+  and poll `sessions/<ip>/` for individual tool outputs as they arrive.
+- **Warn the user** before launching: "pwntomate will run all matching tools in parallel.
+  With HTTP services this can take 20–60 minutes per port."
+
+### Recommended pattern when using both
+```python
+# 1. Run lazynmap — do NOT kill early, poll sessions/ for results
+lazyown_run_command("lazynmap")   # inform user this is long-running
+
+# 2. Once scan_<rhost>.nmap.xml exists, run pwntomate detached
+#    python3 pwntomate.py sessions/scan_<rhost>.nmap.xml -x -b sessions/ -t tools/
+
+# 3. While tools run, use facts_show with refresh=True to see incremental results
+lazyown_facts_show(target="<rhost>", refresh=True)
+```
+
+### `auto_loop` pwntomate integration
+- `auto_loop` triggers pwntomate automatically after a successful `lazynmap` step.
+- The step_timeout_s applies to individual LazyOwn commands, **not** to pwntomate.
+- pwntomate is launched as a background subprocess — its output lands in
+  `sessions/<ip>/<port>/<toolname>/` and is ingested by FactStore on the next
+  `facts_show(refresh=True)` or next auto_loop iteration.

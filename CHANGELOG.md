@@ -6,6 +6,13 @@
 
 ### Otros
 
+  *   * test(test): testing deployment and up the versioning semantic \n\n Version: release/0.2.80 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Mar 19 16:34:29 2026 -0300 \n\n Hora: 1773948869
+
+
+### Pruebas
+
+### Otros
+
   *   * test(test): testing deplyment \n\n Version: release/0.2.80 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Mar 19 16:33:22 2026 -0300 \n\n Hora: 1773948802
 
 

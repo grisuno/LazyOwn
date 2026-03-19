@@ -84,6 +84,34 @@ except Exception:
     _POLICY_AVAILABLE = False
     _policy = None
 
+# Fact store — structured extraction from nmap XML and tool output
+try:
+    from lazyown_facts import FactStore as _FactStore, create_tool_file as _create_tool_file
+    _facts = _FactStore()
+    _FACTS_AVAILABLE = True
+except Exception:
+    _FACTS_AVAILABLE = False
+    _facts = None  # type: ignore[assignment]
+    def _create_tool_file(*_a, **_kw):  # type: ignore[misc]
+        raise RuntimeError("lazyown_facts not available")
+
+# Objective store — priority queue for high-level attack goals
+# Claude Code (frontier model) is the primary writer/reasoner; sub-systems inject
+# automatically from sessions_watcher when new scan/tool output appears.
+try:
+    from lazyown_objective import (
+        ObjectiveStore as _ObjectiveStore,
+        read_soul as _read_soul,
+        write_soul as _write_soul,
+        current_plan as _current_plan,
+        full_context_for_claude as _full_context_for_claude,
+    )
+    _objectives = _ObjectiveStore()
+    _OBJECTIVES_AVAILABLE = True
+except Exception:
+    _OBJECTIVES_AVAILABLE = False
+    _objectives = None  # type: ignore[assignment]
+
 from mcp.server import Server
 from mcp.server.stdio import stdio_server
 from mcp import types
@@ -952,6 +980,149 @@ async def list_tools() -> list[types.Tool]:
                 "required": [],
             },
         ),
+        types.Tool(
+            name="lazyown_create_tool",
+            description=(
+                "Create a new pwntomate .tool file so that future runs of pwntomate "
+                "automatically apply it to matching services discovered by nmap. "
+                "Each .tool file defines a command template with placeholders "
+                "{ip} {port} {domain} {username} {password} {outputdir} {s} (ssl). "
+                "The file is written to tools/ and takes effect on the next pwntomate run. "
+                "Use this when you discover a service that has no existing tool coverage."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "toolname": {
+                        "type": "string",
+                        "description": "Unique name for the tool (e.g. 'redis_enum').",
+                    },
+                    "command": {
+                        "type": "string",
+                        "description": (
+                            "Shell command template. Use {ip}, {port}, {domain}, "
+                            "{username}, {password}, {outputdir}, {s} as placeholders."
+                        ),
+                    },
+                    "trigger": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": (
+                            "List of nmap service names that activate this tool "
+                            "(e.g. ['http', 'https']). Use ['all'] to run on every port."
+                        ),
+                    },
+                    "active": {
+                        "type": "boolean",
+                        "description": "Whether the tool is active (default true).",
+                        "default": True,
+                    },
+                },
+                "required": ["toolname", "command", "trigger"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_inject_objective",
+            description=(
+                "Inject a new high-level attack objective into the objective queue. "
+                "USE THIS as the frontier-model reasoning entry point: after reading "
+                "plan.txt, facts, or events, formulate specific next-step objectives "
+                "and inject them here so the autonomous loop can execute them. "
+                "Example objectives: "
+                "'Enumerate SMB shares on 10.10.11.78 port 445 — use crackmapexec', "
+                "'Kerberoast service accounts found in LDAP enum', "
+                "'Run linPEAS on beacon abc123 — privesc phase'. "
+                "Injected objectives are picked up by auto_loop and next_objective."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "text": {
+                        "type": "string",
+                        "description": "Objective text — be specific: include target, tool, port.",
+                    },
+                    "priority": {
+                        "type": "string",
+                        "description": "Priority: critical / high / medium / low (default: high).",
+                        "enum": ["critical", "high", "medium", "low"],
+                        "default": "high",
+                    },
+                    "notes": {
+                        "type": "string",
+                        "description": "Optional reasoning notes — why this objective, what evidence.",
+                        "default": "",
+                    },
+                },
+                "required": ["text"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_next_objective",
+            description=(
+                "Return the full frontier-model context needed to reason about the next action: "
+                "• soul.md — agent persona, priorities, hard stops\n"
+                "• sessions/plan.txt — current VulnBot-generated attack plan\n"
+                "• Next pending objective from the queue\n"
+                "• Count of remaining pending objectives\n"
+                "• Top 5 pending objectives preview\n\n"
+                "USE THIS at the start of each reasoning cycle before deciding what to do. "
+                "After reading this, inject new objectives or run auto_loop."
+            ),
+            inputSchema={"type": "object", "properties": {}},
+        ),
+        types.Tool(
+            name="lazyown_soul",
+            description=(
+                "Read or update the agent soul (sessions/soul.md). "
+                "The soul defines: campaign objective, priority order, hard stops, "
+                "guardrails, and current focus. "
+                "Reading the soul before reasoning gives the frontier model its "
+                "operating mandate. Writing it lets the operator change the campaign "
+                "objective or add constraints mid-operation."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "action": {
+                        "type": "string",
+                        "description": "'read' to get current soul, 'write' to replace it.",
+                        "enum": ["read", "write"],
+                        "default": "read",
+                    },
+                    "content": {
+                        "type": "string",
+                        "description": "New soul content (only required when action='write').",
+                        "default": "",
+                    },
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_facts_show",
+            description=(
+                "Show all structured facts extracted from nmap scans and tool output. "
+                "Facts include: open ports, detected services, discovered credentials, "
+                "accessible shares, and achieved access level per target. "
+                "Optionally re-parse all sessions/ files before displaying. "
+                "These facts drive context-aware command selection in auto_loop."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "target": {
+                        "type": "string",
+                        "description": "Filter to a specific target IP (default: all targets).",
+                    },
+                    "refresh": {
+                        "type": "boolean",
+                        "description": "Re-parse sessions/ before displaying (default false).",
+                        "default": False,
+                    },
+                },
+                "required": [],
+            },
+        ),
     ]
 
 
@@ -1783,6 +1954,80 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
         execution_log: list[dict] = []
 
+        def _run_pwntomate_if_xml_ready(tgt: str) -> str:
+            """
+            After lazynmap runs, try to find the generated XML file and pass it
+            to pwntomate for parallel, service-aware tool execution.
+            Returns a short status string for logging.
+            """
+            xml_pattern = SESSIONS_DIR / f"scan_{tgt}.nmap.xml"
+            if not xml_pattern.exists():
+                import glob as _glob
+                matches = _glob.glob(str(SESSIONS_DIR / f"scan_*{tgt}*.nmap.xml"))
+                if not matches:
+                    return "no xml found for pwntomate"
+                xml_pattern = Path(matches[0])
+            try:
+                import subprocess as _sp
+                result = _sp.run(
+                    [
+                        sys.executable, "-W", "ignore",
+                        str(LAZYOWN_DIR / "pwntomate.py"),
+                        str(xml_pattern),
+                        "-x",
+                        "-b", str(SESSIONS_DIR),
+                        "-t", str(LAZYOWN_DIR / "tools"),
+                    ],
+                    capture_output=True,
+                    text=True,
+                    timeout=step_timeout,
+                    cwd=str(LAZYOWN_DIR),
+                )
+                return f"pwntomate ran on {xml_pattern.name} (exit {result.returncode})"
+            except Exception as exc:
+                return f"pwntomate error: {exc}"
+
+        def _refresh_facts(tgt: str) -> None:
+            """Re-ingest sessions/ into the fact store after pwntomate runs."""
+            if _FACTS_AVAILABLE and _facts is not None:
+                try:
+                    _facts.parse_all(target=tgt)
+                except Exception:
+                    pass
+
+        def _build_command_from_facts(
+            category: str,
+            resolved_cmd: str,
+            resolved_args: str,
+            tgt: str,
+        ) -> tuple[str, str]:
+            """
+            Use FactStore context to substitute concrete values into the command.
+            Returns (cmd, args) possibly augmented with known port/creds.
+            """
+            if not (_FACTS_AVAILABLE and _facts is not None):
+                return resolved_cmd, resolved_args
+            ctx = _facts.context_for_command(tgt, category)
+            if not ctx:
+                return resolved_cmd, resolved_args
+
+            # Build enriched args only when the generic fallback command is used
+            # (LLM-generated commands already contain explicit args).
+            if resolved_args:
+                return resolved_cmd, resolved_args
+
+            parts: list[str] = []
+            port = ctx.get("port")
+            username = ctx.get("username", "")
+            password = ctx.get("password", "")
+            if port:
+                parts.append(f"-p {port}")
+            if username:
+                parts.append(f"-u {username}")
+            if password:
+                parts.append(f"-p '{password}'")
+            return resolved_cmd, " ".join(parts)
+
         def _execute_step() -> dict:
             recs = _policy.get_recommendations(target)
             if not recs:
@@ -1808,6 +2053,11 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             if not resolved_cmd:
                 resolved_cmd = cat_map.get(category, "list")
 
+            # Enrich args with FactStore context when no explicit args were given
+            resolved_cmd, resolved_args = _build_command_from_facts(
+                category, resolved_cmd, resolved_args, target
+            )
+
             full_command = f"{resolved_cmd} {resolved_args}".strip()
 
             # Execute
@@ -1828,24 +2078,30 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 target, resolved_cmd, resolved_args, output, None
             )
 
+            # If recon just succeeded, trigger pwntomate and refresh facts
+            pwntomate_note = ""
+            if resolved_cmd in ("lazynmap", "nmap") and step.outcome == "success":
+                pwntomate_note = _run_pwntomate_if_xml_ready(target)
+                _refresh_facts(target)
+
             should_stop = (
                 stop_on_high
                 and step.outcome == "success"
                 and step.category in high_value_cats
             )
-            return {
-                "stop": should_stop,
-                "step": {
-                    "command":    full_command,
-                    "category":   step.category,
-                    "outcome":    step.outcome,
-                    "reward":     step.reward,
-                    "confidence": step.confidence,
-                    "via":        via,
-                    "policy_rec": top_rec["reason"],
-                    "source":     top_rec["source"],
-                },
+            step_dict = {
+                "command":    full_command,
+                "category":   step.category,
+                "outcome":    step.outcome,
+                "reward":     step.reward,
+                "confidence": step.confidence,
+                "via":        via,
+                "policy_rec": top_rec["reason"],
+                "source":     top_rec["source"],
             }
+            if pwntomate_note:
+                step_dict["pwntomate"] = pwntomate_note
+            return {"stop": should_stop, "step": step_dict}
 
         for i in range(max_steps):
             result = await asyncio.get_event_loop().run_in_executor(None, _execute_step)
@@ -1870,6 +2126,8 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 f"  (reward={r_str}, conf={s['confidence']:.0%})"
             )
             lines.append(f"           {s['policy_rec']}")
+            if s.get("pwntomate"):
+                lines.append(f"           [pwntomate] {s['pwntomate']}")
         lines.append(f"\nTotal reward: {total_reward:+d}")
         if execution_log:
             last = execution_log[-1]
@@ -1878,6 +2136,112 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                     f"STOPPED: high-value success ({last['category']}) achieved."
                 )
         return text("\n".join(lines))
+
+    # ── inject_objective ──────────────────────────────────────────────────────
+    elif name == "lazyown_inject_objective":
+        if not _OBJECTIVES_AVAILABLE or _objectives is None:
+            return text("Objective store unavailable. Check skills/lazyown_objective.py.")
+        obj_text = arguments["text"]
+        priority = arguments.get("priority", "high")
+        notes    = arguments.get("notes", "")
+        obj = await asyncio.get_event_loop().run_in_executor(
+            None,
+            lambda: _objectives.inject(obj_text, priority=priority, source="claude", notes=notes),
+        )
+        return text(
+            f"Objective injected [{obj.id}] priority={obj.priority}\n"
+            f"  {obj.text}\n\n"
+            f"Queue now has {len(_objectives.list_pending(limit=100))} pending objective(s).\n"
+            f"Use lazyown_auto_loop or lazyown_run_command to act on it."
+        )
+
+    # ── next_objective ────────────────────────────────────────────────────────
+    elif name == "lazyown_next_objective":
+        if not _OBJECTIVES_AVAILABLE:
+            return text("Objective store unavailable.")
+        ctx = await asyncio.get_event_loop().run_in_executor(
+            None, lambda: _full_context_for_claude()
+        )
+        parts = []
+        parts.append("=== SOUL ===")
+        parts.append(ctx.get("soul", "(none)"))
+        parts.append("\n=== CURRENT ATTACK PLAN ===")
+        parts.append(ctx.get("plan", "(none)"))
+        parts.append(f"\n=== OBJECTIVES ({ctx.get('pending_count', 0)} pending) ===")
+        next_obj = ctx.get("next_objective")
+        if next_obj:
+            parts.append(
+                f"NEXT [{next_obj['priority']}] [{next_obj['id']}]\n  {next_obj['text']}"
+            )
+            if next_obj.get("notes"):
+                parts.append(f"  Notes: {next_obj['notes']}")
+            if next_obj.get("context"):
+                parts.append(f"  Context: {json.dumps(next_obj['context'])}")
+        else:
+            parts.append("No pending objectives. Inject one with lazyown_inject_objective.")
+        if ctx.get("pending_preview"):
+            parts.append("\nFull queue:")
+            for o in ctx["pending_preview"]:
+                parts.append(f"  [{o['priority']:8s}] [{o['id']}] {o['text'][:80]}")
+        return text("\n".join(parts))
+
+    # ── soul ──────────────────────────────────────────────────────────────────
+    elif name == "lazyown_soul":
+        action  = arguments.get("action", "read")
+        if action == "write":
+            content = arguments.get("content", "")
+            if not content.strip():
+                return text("content must not be empty when action='write'.")
+            await asyncio.get_event_loop().run_in_executor(
+                None, lambda: _write_soul(content)
+            )
+            return text("soul.md updated.")
+        else:
+            soul = await asyncio.get_event_loop().run_in_executor(None, _read_soul)
+            return text(soul)
+
+    # ── create_tool ───────────────────────────────────────────────────────────
+    elif name == "lazyown_create_tool":
+        toolname  = arguments["toolname"]
+        command   = arguments["command"]
+        trigger   = arguments["trigger"]
+        active    = bool(arguments.get("active", True))
+        try:
+            tools_dir = LAZYOWN_DIR / "tools"
+            written = await asyncio.get_event_loop().run_in_executor(
+                None,
+                lambda: _create_tool_file(toolname, command, trigger, active, tools_dir),
+            )
+            return text(
+                f"Tool file created: {written}\n"
+                f"  toolname: {toolname}\n"
+                f"  trigger:  {trigger}\n"
+                f"  active:   {active}\n"
+                f"  command:  {command}\n\n"
+                "Run 'pwntomate <nmap.xml> -x' or the pwntomate LazyOwn command "
+                "to apply it to the current scan."
+            )
+        except Exception as exc:
+            return text(f"Failed to create tool file: {exc}")
+
+    # ── facts_show ────────────────────────────────────────────────────────────
+    elif name == "lazyown_facts_show":
+        if not _FACTS_AVAILABLE or _facts is None:
+            return text(
+                "FactStore unavailable. "
+                "Run: python3 skills/lazyown_facts.py parse"
+            )
+        cfg    = _load_payload()
+        target = arguments.get("target") or cfg.get("rhost") or None
+        refresh = bool(arguments.get("refresh", False))
+
+        def _do_facts() -> str:
+            if refresh:
+                _facts.parse_all(target=target)
+            return _facts.summary(target)
+
+        summary = await asyncio.get_event_loop().run_in_executor(None, _do_facts)
+        return text(summary or "No facts found. Run with refresh=true to ingest sessions/ files.")
 
     return [types.TextContent(type="text", text=f"Unknown tool: {name}")]
 

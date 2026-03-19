@@ -11951,6 +11951,13 @@ No description available.
 
 ### Otros
 
+  *   * feat(feat): the mcp can now anotate the succes or failure and the clasification of commands, so the sessions db can feed deeplearning models to improve or ai models \n\n Version: release/0.2.79 \n\n with love \n\n Modified file(s):\n- README.md - docs/README.html - skills/lazyown_mcp.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Mar 17 23:07:52 2026 -0300 \n\n Hora: 1773799672
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): a little changes in mcp \n\n Version: release/0.2.78 \n\n with love \n\n Modified file(s):\n- README.md - docs/README.html - skills/lazyown_mcp.py - skills/mcp_restart.sh\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Mar 17 18:58:51 2026 -0300 \n\n Hora: 1773784731
 
 

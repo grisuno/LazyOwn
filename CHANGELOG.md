@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Refactorización
+
+### Otros
+
+  *   * refactor(refactor): some improves and refactors in the lazyown env \n\n Version: release/0.2.81 \n\n with love \n\n Modified file(s):\n- README.md - docs/README.html - lazyc2.py - pwntomate.py - sessions/phishing/campaigns/short_urls.json - skills/sessions_watcher.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Mar 19 14:39:49 2026 -0300 \n\n Hora: 1773941989
+
+
 ### Nuevas características
 
 ### Otros

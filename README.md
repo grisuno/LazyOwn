@@ -11951,6 +11951,20 @@ No description available.
 
 ### Otros
 
+  *   * feat(feat): mcp \n\n Version: release/0.2.82 \n\n  \n\n Modified file(s):\n- .gitignore - README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Mar 19 01:13:21 2026 -0300 \n\n Hora: 1773893601
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): algunos retoques \n\n Version: release/0.2.81 \n\n con amor \n\n Modified file(s):\n- README.md - docs/README.html - skills/lazyown_mcp.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Mar 19 00:51:51 2026 -0300 \n\n Hora: 1773892311
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): lazyown finally has soul \n\n Version: release/0.2.80 \n\n it's a live xD naa, it's a jocke but has agetic cappabillities now \n\n Modified file(s):\n- README.md - docs/README.html - skills/lazyown.md - skills/lazyown_mcp.py - static/security_dashboard.png\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Mar 18 23:27:55 2026 -0300 \n\n Hora: 1773887275
 
 

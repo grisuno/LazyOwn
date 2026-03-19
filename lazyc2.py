@@ -2060,6 +2060,69 @@ def receive_result(client_id):
             logging.info(f"Received output from {sanitized_client_id}: {output[:100]} Platform: {client}")
             connected_clients.add(sanitized_client_id)
             logging.info(f"Client {sanitized_client_id} registered as connected")
+
+            # ── C2 Bidirectionality: feed beacon output back into knowledge pipeline ──
+            # This runs in a background thread so it never delays the beacon response.
+            try:
+                import threading as _thr, sys as _sys
+                _skills = os.path.join(BASE_DIR, "skills")
+                _mods   = os.path.join(BASE_DIR, "modules")
+
+                def _ingest_beacon(
+                    _ips=str(ips), _host=str(hostname), _cmd=str(command),
+                    _out=str(output), _user=str(user)
+                ):
+                    try:
+                        if _skills not in _sys.path:
+                            _sys.path.insert(0, _skills)
+                        if _mods not in _sys.path:
+                            _sys.path.insert(0, _mods)
+
+                        # Determine primary IP
+                        primary_ip = _ips.split(",")[0].strip().strip("[]'\"")
+                        if not primary_ip:
+                            primary_ip = _host
+
+                        # Write output to sessions/<ip>/c2/<cmd_hash>/beacon.txt
+                        import hashlib as _hl
+                        cmd_slug = _hl.sha256(_cmd.encode()).hexdigest()[:8]
+                        out_dir = os.path.join(
+                            SESSIONS_DIR, primary_ip, "c2", cmd_slug
+                        )
+                        os.makedirs(out_dir, exist_ok=True)
+                        beacon_file = os.path.join(out_dir, "beacon.txt")
+                        with open(beacon_file, "a") as _bf:
+                            _bf.write(f"# cmd: {_cmd}\n# user: {_user}\n{_out}\n")
+
+                        # Ingest into FactStore
+                        from lazyown_facts import FactStore as _FS
+                        from pathlib import Path as _P
+                        _fs = _FS()
+                        n = _fs.ingest_text(_P(beacon_file), host_hint=primary_ip)
+                        if n:
+                            _fs.save()
+                            logging.info(f"[c2-bidir] FactStore: {n} facts from beacon {primary_ip}")
+
+                        # Emit event via event_engine
+                        from event_engine import _append_event as _ae
+                        import uuid as _uu, datetime as _dtt
+                        _ae({
+                            "id":        _uu.uuid4().hex[:8],
+                            "timestamp": _dtt.datetime.now(_dtt.timezone.utc).isoformat(),
+                            "type":      "BEACON_OUTPUT",
+                            "severity":  "info",
+                            "rule_id":   "c2_beacon",
+                            "source":    {"ip": primary_ip, "cmd": _cmd[:80], "user": _user},
+                            "suggest":   f"New beacon output from {primary_ip}. Run facts_show(refresh=True).",
+                            "status":    "pending",
+                        })
+                    except Exception as _exc:
+                        logging.debug(f"[c2-bidir] ingest failed: {_exc}")
+
+                _thr.Thread(target=_ingest_beacon, daemon=True, name="c2-bidir").start()
+            except Exception:
+                pass  # bidirectionality must never affect beacon response
+
             return jsonify({"status": "success", "Platform": client}), 200
 
         except IOError as e:
@@ -4445,6 +4508,67 @@ def serve_landing_page(campaign_id, short_url):
     conn.commit()
     conn.close()
     return render_template(f'phishing/landing_pages/{template_name}.html', beacon_url=short_urls[short_url]['original_url'])
+
+@app.route('/api/dashboard', methods=['GET'])
+@requires_auth
+def api_dashboard():
+    """Aggregated JSON dashboard: beacons, campaign, events, facts summary."""
+    import pathlib
+
+    sessions_path = pathlib.Path(SESSIONS_DIR)
+    events_file   = sessions_path / "events.jsonl"
+    campaign_file = sessions_path / "campaign.json"
+    facts_file    = sessions_path / "policy_facts.json"
+
+    # ── Recent events (last 20) ───────────────────────────────────────────────
+    recent_events: list = []
+    if events_file.exists():
+        try:
+            lines = events_file.read_text(errors="replace").splitlines()
+            for line in lines[-20:]:
+                try:
+                    recent_events.append(json.loads(line))
+                except Exception:
+                    pass
+        except Exception:
+            pass
+
+    # ── Campaign summary ──────────────────────────────────────────────────────
+    campaign_summary: dict = {}
+    if campaign_file.exists():
+        try:
+            campaign_summary = json.loads(campaign_file.read_text(errors="replace"))
+        except Exception:
+            pass
+
+    # ── Facts summary ─────────────────────────────────────────────────────────
+    facts_summary: dict = {}
+    if facts_file.exists():
+        try:
+            raw_facts = json.loads(facts_file.read_text(errors="replace"))
+            for host, hdata in raw_facts.items():
+                facts_summary[host] = {
+                    "services":       len(hdata.get("services", {})),
+                    "credentials":    len(hdata.get("credentials", [])),
+                    "vulnerabilities": len(hdata.get("vulnerabilities", [])),
+                    "paths":          len(hdata.get("paths", [])),
+                    "os_hint":        hdata.get("os_hint", ""),
+                }
+        except Exception:
+            pass
+
+    # ── Active beacons ────────────────────────────────────────────────────────
+    beacon_count = len([k for k, v in results.items() if isinstance(v, dict)])
+
+    payload = {
+        "beacon_count":    beacon_count,
+        "active_beacons":  list(results.keys()),
+        "recent_events":   recent_events,
+        "campaign":        campaign_summary,
+        "facts_by_host":   facts_summary,
+    }
+    return jsonify(payload)
+
 
 thread = Thread(target=run_shell)
 thread.daemon = False

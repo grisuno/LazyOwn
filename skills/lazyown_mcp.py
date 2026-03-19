@@ -119,6 +119,24 @@ try:
 except Exception:
     _LLM_AVAILABLE = False
 
+# Auto-mapper — discovers lazyaddons/, tools/*.tool, plugins/ at startup and
+# exposes each as a dynamic MCP tool (lazyown_addon_*, lazyown_tool_*, lazyown_plugin_*)
+try:
+    from lazyown_automapper import AutoMapper as _AutoMapper
+    _AUTOMAPPER_AVAILABLE = True
+except Exception:
+    _AUTOMAPPER_AVAILABLE = False
+    _AutoMapper = None  # type: ignore[assignment,misc]
+
+# Parquet knowledge base — session history enriched with id/category/success
+# + generic knowledge queries over all parquets/ (GTFOBins, LOLBAS, techniques)
+try:
+    from lazyown_parquet_db import ParquetDB as _ParquetDB, get_pdb as _get_pdb
+    _PDB_AVAILABLE = True
+except Exception:
+    _PDB_AVAILABLE = False
+    _get_pdb = lambda _=None: None  # type: ignore[misc]
+
 from mcp.server import Server
 from mcp.server.stdio import stdio_server
 from mcp import types
@@ -160,6 +178,32 @@ def _load_category_command_map() -> dict:
 
 # ── MCP server ────────────────────────────────────────────────────────────────
 server = Server("lazyown")
+
+# ── ParquetDB — initialise after LAZYOWN_DIR is set ───────────────────────────
+_pdb = None
+if _PDB_AVAILABLE:
+    try:
+        _pdb = _get_pdb(LAZYOWN_DIR)
+        # Auto-sync CSV on startup (fast — only new rows are ingested)
+        if _pdb is not None:
+            import threading as _threading
+            _threading.Thread(
+                target=lambda: _pdb.sync(), daemon=True, name="pdb-sync"
+            ).start()
+    except Exception as _pdb_err:
+        import logging as _logging
+        _logging.getLogger("lazyown_mcp").warning(f"ParquetDB init failed: {_pdb_err}")
+
+# ── Auto-mapper — initialise after LAZYOWN_DIR is set ─────────────────────────
+_automapper = None
+if _AUTOMAPPER_AVAILABLE and _AutoMapper is not None:
+    try:
+        _automapper = _AutoMapper(LAZYOWN_DIR)
+        # Regenerate skills/lazyown.md with discovered tools table
+        _automapper.update_skills_md(SKILLS_DIR / "lazyown.md")
+    except Exception as _ae:
+        import logging as _logging
+        _logging.getLogger("lazyown_mcp").warning(f"automapper init failed: {_ae}")
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
@@ -1182,7 +1226,167 @@ async def list_tools() -> list[types.Tool]:
                 "required": [],
             },
         ),
-    ]
+        types.Tool(
+            name="lazyown_parquet_query",
+            description=(
+                "Query the LazyOwn Parquet knowledge base. "
+                "Two modes:\n"
+                "  1. Session knowledge: filter by phase (recon/scanning/exploit/privesc/"
+                "credential/lateral/persistence/exfil/c2/reporting/other) and target IP "
+                "to see what commands succeeded or failed in the past.\n"
+                "  2. Keyword search: find relevant entries across ALL parquets "
+                "(GTFOBins, LOLBAS, MITRE ATT&CK techniques, session history).\n"
+                "Use 'context' mode to get a full phase-aware briefing that combines "
+                "session history + GTFOBins + MITRE techniques for planning."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "mode": {
+                        "type": "string",
+                        "enum": ["session", "keyword", "context", "stats", "list"],
+                        "description": (
+                            "Query mode: "
+                            "'session' = filter session_knowledge by phase/target; "
+                            "'keyword' = search all parquets for a keyword; "
+                            "'context' = full phase briefing (session+GTFOBins+MITRE); "
+                            "'stats' = show session_knowledge statistics; "
+                            "'list' = list available parquets."
+                        ),
+                        "default": "context",
+                    },
+                    "phase": {
+                        "type": "string",
+                        "description": (
+                            "Attack phase filter. One of: recon, scanning, exploit, "
+                            "post_exploit, privesc, credential, lateral, persistence, "
+                            "exfil, c2, reporting, other. Required for 'session' and 'context' modes."
+                        ),
+                    },
+                    "target": {
+                        "type": "string",
+                        "description": "Target IP to filter by (default: rhost from config).",
+                    },
+                    "keyword": {
+                        "type": "string",
+                        "description": "Search keyword for 'keyword' mode (e.g. 'smb', 'kerberos', 'sudo').",
+                    },
+                    "parquet": {
+                        "type": "string",
+                        "description": (
+                            "Restrict keyword search to one parquet. "
+                            "Options: binarios, detalles, lolbas_index, lolbas_details, "
+                            "techniques, session_knowledge. Default: all."
+                        ),
+                    },
+                    "success_only": {
+                        "type": "boolean",
+                        "description": "In session mode: only return rows where success=True.",
+                        "default": False,
+                    },
+                    "limit": {
+                        "type": "integer",
+                        "description": "Max rows per result set.",
+                        "default": 15,
+                    },
+                    "sync": {
+                        "type": "boolean",
+                        "description": "Re-ingest CSV before querying (default false).",
+                        "default": False,
+                    },
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_parquet_annotate",
+            description=(
+                "Annotate a session row in session_knowledge.parquet with the actual "
+                "outcome of a command after it has executed. "
+                "Use the row 'id' from lazyown_parquet_query results. "
+                "This is how the knowledge base learns: MCP runs a command, observes "
+                "the output, then calls annotate to record whether it succeeded. "
+                "Over time this builds a high-quality training dataset."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "row_id": {
+                        "type": "string",
+                        "description": "The 16-char hex id from session_knowledge.parquet.",
+                    },
+                    "success": {
+                        "type": "boolean",
+                        "description": "Whether the command succeeded.",
+                    },
+                    "category": {
+                        "type": "string",
+                        "description": (
+                            "Override the attack category. One of: recon, scanning, exploit, "
+                            "post_exploit, privesc, credential, lateral, persistence, exfil, "
+                            "c2, reporting, other."
+                        ),
+                    },
+                    "outcome": {
+                        "type": "string",
+                        "description": "Detailed outcome string (e.g. 'success', 'failure', 'partial').",
+                    },
+                },
+                "required": ["row_id"],
+            },
+        ),
+        # ── Campaign management ───────────────────────────────────────────────
+        types.Tool(
+            name="lazyown_campaign",
+            description=(
+                "Manage a pentest campaign: group multiple targets under a named engagement "
+                "with CIDR scope, per-host phase tracking, and milestones. "
+                "Actions: new, status, phase, milestone, complete, add_scope."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "action": {
+                        "type": "string",
+                        "enum": ["new", "status", "phase", "milestone", "complete", "add_scope"],
+                        "description": "Campaign action to perform.",
+                    },
+                    "name": {"type": "string", "description": "Campaign name (for 'new')."},
+                    "scope": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "List of IPs or CIDRs in scope (for 'new').",
+                    },
+                    "host": {"type": "string", "description": "Target host IP (for 'phase')."},
+                    "phase": {"type": "string", "description": "Phase name (for 'phase')."},
+                    "title": {"type": "string", "description": "Milestone title (for 'milestone')."},
+                    "notes": {"type": "string", "description": "Notes (for 'milestone'/'complete'/'new')."},
+                    "ip_or_cidr": {"type": "string", "description": "IP or CIDR to add to scope (for 'add_scope')."},
+                },
+                "required": ["action"],
+            },
+        ),
+        # ── Unified daemon management ─────────────────────────────────────────
+        types.Tool(
+            name="lazyown_daemon",
+            description=(
+                "Manage the LazyOwn unified background daemon that combines the file watcher, "
+                "event engine, and heartbeat into a single asyncio process. "
+                "Actions: start, stop, status."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "action": {
+                        "type": "string",
+                        "enum": ["start", "stop", "status"],
+                        "description": "Daemon action.",
+                    },
+                },
+                "required": ["action"],
+            },
+        ),
+    ] + (_automapper.mcp_tools() if _automapper is not None else [])
 
 
 # ── Tool handlers ─────────────────────────────────────────────────────────────
@@ -2012,6 +2216,28 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         high_value_cats  = {"intrusion", "privesc", "credential"}
 
         execution_log: list[dict] = []
+        # Track commands that failed this session per (target, category)
+        _fail_counts: dict[str, int] = {}
+
+        def _parquet_candidates(category: str, tgt: str) -> list[str]:
+            """
+            Query session_knowledge for commands that succeeded in `category`
+            against `tgt` in the past.  Returns a list ordered by frequency.
+            """
+            if _pdb is None:
+                return []
+            try:
+                rows = _pdb.query_session(
+                    phase=category, target=tgt, success_only=True, limit=50
+                )
+                freq: dict[str, int] = {}
+                for r in rows:
+                    cmd = (r.get("command") or "").strip()
+                    if cmd and not cmd.startswith("/") and not cmd.startswith("echo"):
+                        freq[cmd] = freq.get(cmd, 0) + 1
+                return sorted(freq, key=lambda c: -freq[c])
+            except Exception:
+                return []
 
         def _run_pwntomate_if_xml_ready(tgt: str) -> str:
             """
@@ -2094,23 +2320,43 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             top_rec = recs[0]
             category = top_rec["category"]
 
-            # Resolve category to a specific command.
-            # Prefer the LLM recommender if available and its top result matches the policy category.
+            # ── Adaptive command selection ────────────────────────────────────
+            # Priority: parquet historical successes > LLM recommender > cat_map
             resolved_cmd = ""
             resolved_args = ""
-            if _RECOMMENDER_AVAILABLE:
+
+            # 1. Parquet: commands proven to work for this category+target
+            hist_candidates = _parquet_candidates(category, target)
+            for cand in hist_candidates:
+                fail_key = f"{target}:{category}:{cand}"
+                if _fail_counts.get(fail_key, 0) >= 2:
+                    continue  # blocked: failed twice this session
+                resolved_cmd = cand
+                break
+
+            # 2. LLM recommender as fallback
+            if not resolved_cmd and _RECOMMENDER_AVAILABLE:
                 api_key = cfg.get("api_key", "") or os.environ.get("GROQ_API_KEY", "")
                 try:
                     llm_recs = _recommend(api_key)
                     for lr in (llm_recs or []):
-                        if lr.get("command") not in ("_error", "_unavailable"):
-                            resolved_cmd  = lr.get("command", "")
+                        cmd_cand = lr.get("command", "")
+                        fail_key = f"{target}:{category}:{cmd_cand}"
+                        if cmd_cand not in ("_error", "_unavailable") and \
+                                _fail_counts.get(fail_key, 0) < 2:
+                            resolved_cmd  = cmd_cand
                             resolved_args = lr.get("args", "")
                             break
                 except Exception:
                     pass
+
+            # 3. Static category map as last resort
             if not resolved_cmd:
-                resolved_cmd = cat_map.get(category, "list")
+                fallback = cat_map.get(category, "list")
+                fail_key = f"{target}:{category}:{fallback}"
+                resolved_cmd = (
+                    fallback if _fail_counts.get(fail_key, 0) < 2 else "list"
+                )
 
             # Enrich args with FactStore context when no explicit args were given
             resolved_cmd, resolved_args = _build_command_from_facts(
@@ -2118,6 +2364,14 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             )
 
             full_command = f"{resolved_cmd} {resolved_args}".strip()
+
+            # Log classifier success prediction (informational — does not gate execution)
+            _pred_prob: float | None = None
+            if _pdb is not None:
+                try:
+                    _pred_prob = _pdb.predict_success(resolved_cmd, category)
+                except Exception:
+                    pass
 
             # Execute
             c2_result = _c2_request("/api/run", method="POST", body={"command": full_command})
@@ -2136,6 +2390,49 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             step = _policy.on_command_complete(
                 target, resolved_cmd, resolved_args, output, None
             )
+
+            # Annotate parquet knowledge base with the real outcome (rich version)
+            if _pdb is not None:
+                try:
+                    import hashlib as _hl
+                    from datetime import datetime as _dt
+                    _ts = _dt.now().strftime("%Y-%m-%d %H:%M:%S")
+                    _rid = _hl.sha256(
+                        f"{_ts}|{resolved_cmd}|{resolved_args}|{target}".encode()
+                    ).hexdigest()[:16]
+                    # Get campaign_id if available
+                    _camp_id = ""
+                    try:
+                        from lazyown_campaign import CampaignStore as _CS
+                        _camp = _CS().load()
+                        if _camp:
+                            _camp_id = _camp.campaign_id
+                    except Exception:
+                        pass
+                    _pdb.annotate_rich(
+                        _rid,
+                        output=output,
+                        success=(step.outcome == "success"),
+                        category=step.category,
+                        outcome=step.outcome,
+                        campaign_id=_camp_id,
+                    )
+                except Exception:
+                    pass  # parquet annotation must never affect the loop
+
+            # Track failures for adaptive selection
+            fail_key = f"{target}:{step.category}:{resolved_cmd}"
+            if step.outcome != "success":
+                _fail_counts[fail_key] = _fail_counts.get(fail_key, 0) + 1
+
+            # Update soul.md phase on high-value success
+            if step.outcome == "success" and step.category in high_value_cats:
+                if _OBJECTIVES_AVAILABLE:
+                    try:
+                        from lazyown_objective import SoulUpdater as _SoulUpdater
+                        _SoulUpdater().update_phase(step.category)
+                    except Exception:
+                        pass
 
             # If recon just succeeded, trigger pwntomate and refresh facts
             pwntomate_note = ""
@@ -2158,6 +2455,8 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 "policy_rec": top_rec["reason"],
                 "source":     top_rec["source"],
             }
+            if _pred_prob is not None:
+                step_dict["predicted_success_prob"] = round(_pred_prob, 3)
             if pwntomate_note:
                 step_dict["pwntomate"] = pwntomate_note
             return {"stop": should_stop, "step": step_dict}
@@ -2335,6 +2634,195 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
         summary = await asyncio.get_event_loop().run_in_executor(None, _do_facts)
         return text(summary or "No facts found. Run with refresh=true to ingest sessions/ files.")
+
+    # ── parquet_query ─────────────────────────────────────────────────────────
+    elif name == "lazyown_parquet_query":
+        if not _PDB_AVAILABLE or _pdb is None:
+            return text("ParquetDB unavailable. Run: pip install pandas pyarrow")
+
+        mode        = arguments.get("mode", "context")
+        cfg         = _load_payload()
+        target      = arguments.get("target") or cfg.get("rhost") or None
+        phase       = arguments.get("phase", "recon")
+        keyword     = arguments.get("keyword", "")
+        parquet_name = arguments.get("parquet")
+        success_only = bool(arguments.get("success_only", False))
+        limit       = int(arguments.get("limit", 15))
+        do_sync     = bool(arguments.get("sync", False))
+
+        def _run_parquet_query() -> str:
+            if do_sync:
+                _pdb.sync()
+
+            if mode == "stats":
+                return _pdb.stats()
+
+            if mode == "list":
+                return "Available parquets:\n" + "\n".join(f"  • {p}" for p in _pdb.list_parquets())
+
+            if mode == "keyword":
+                if not keyword:
+                    return "keyword mode requires 'keyword' argument."
+                results = _pdb.query_knowledge(keyword, parquet_name, limit=limit)
+                if not results:
+                    return f"No results for keyword '{keyword}'."
+                out_parts: list = []
+                for stem, rows in results.items():
+                    out_parts.append(f"\n── {stem} ({len(rows)} matches) ──")
+                    for r in rows[:5]:
+                        out_parts.append(
+                            json.dumps({k: str(v)[:100] for k, v in r.items()}, ensure_ascii=False)
+                        )
+                return "\n".join(out_parts)
+
+            if mode == "session":
+                rows = _pdb.query_session(
+                    phase=phase, target=target,
+                    success_only=success_only, limit=limit,
+                )
+                if not rows:
+                    return f"No session rows for phase='{phase}' target='{target}'."
+                return json.dumps(rows, indent=2, default=str)
+
+            # mode == "context" (default)
+            ctx = _pdb.context_for_phase(phase, target, limit=limit)
+            return json.dumps(ctx, indent=2, default=str)
+
+        result = await asyncio.get_event_loop().run_in_executor(None, _run_parquet_query)
+        return text(result)
+
+    # ── parquet_annotate ──────────────────────────────────────────────────────
+    elif name == "lazyown_parquet_annotate":
+        if not _PDB_AVAILABLE or _pdb is None:
+            return text("ParquetDB unavailable. Run: pip install pandas pyarrow")
+
+        row_id   = arguments.get("row_id", "")
+        success  = arguments.get("success")   # may be None
+        category = arguments.get("category")
+        outcome  = arguments.get("outcome")
+
+        if not row_id:
+            return text("row_id is required.")
+
+        ok = await asyncio.get_event_loop().run_in_executor(
+            None,
+            lambda: _pdb.annotate(row_id, success=success, category=category, outcome=outcome),
+        )
+        if ok:
+            return text(f"Annotated row {row_id}: success={success} category={category} outcome={outcome}")
+        return text(f"Row id not found: {row_id}. Run lazyown_parquet_query(mode='session') to list ids.")
+
+    # ── campaign ──────────────────────────────────────────────────────────────
+    elif name == "lazyown_campaign":
+        action = arguments.get("action", "status")
+
+        def _run_campaign() -> str:
+            try:
+                from lazyown_campaign import CampaignStore
+                cs = CampaignStore()
+            except ImportError:
+                return "lazyown_campaign.py not found in SKILLS_DIR."
+
+            if action == "new":
+                camp_name  = arguments.get("name", "default")
+                scope      = arguments.get("scope", [])
+                notes      = arguments.get("notes", "")
+                camp = cs.create(camp_name, scope, notes=notes)
+                return f"Campaign '{camp.name}' created. ID: {camp.campaign_id}"
+
+            elif action == "status":
+                return cs.summary()
+
+            elif action == "phase":
+                host  = arguments.get("host", "")
+                phase = arguments.get("phase", "")
+                if not host or not phase:
+                    return "host and phase are required for action='phase'."
+                cs.update_phase(host, phase)
+                return f"Phase for {host} set to '{phase}'."
+
+            elif action == "milestone":
+                title = arguments.get("title", "")
+                notes = arguments.get("notes", "")
+                if not title:
+                    return "title is required for action='milestone'."
+                cs.add_milestone(title=title, notes=notes)
+                return f"Milestone '{title}' added."
+
+            elif action == "complete":
+                notes = arguments.get("notes", "")
+                cs.complete(notes=notes)
+                return "Campaign marked complete."
+
+            elif action == "add_scope":
+                ip_or_cidr = arguments.get("ip_or_cidr", "")
+                if not ip_or_cidr:
+                    return "ip_or_cidr is required for action='add_scope'."
+                cs.add_to_scope(ip_or_cidr)
+                return f"Added '{ip_or_cidr}' to campaign scope."
+
+            return f"Unknown campaign action: {action}"
+
+        result = await asyncio.get_event_loop().run_in_executor(None, _run_campaign)
+        return text(result)
+
+    # ── daemon ────────────────────────────────────────────────────────────────
+    elif name == "lazyown_daemon":
+        action = arguments.get("action", "status")
+
+        def _run_daemon() -> str:
+            import subprocess, sys
+            daemon_script = str(SKILLS_DIR / "lazyown_daemon.py")
+
+            if action == "start":
+                try:
+                    proc = subprocess.Popen(
+                        [sys.executable, daemon_script, "start"],
+                        stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                    )
+                    out, err = proc.communicate(timeout=10)
+                    return (out + err).decode(errors="replace").strip() or "Daemon start requested."
+                except Exception as exc:
+                    return f"Failed to start daemon: {exc}"
+
+            elif action == "stop":
+                try:
+                    proc = subprocess.run(
+                        [sys.executable, daemon_script, "stop"],
+                        capture_output=True, timeout=10,
+                    )
+                    return proc.stdout.decode(errors="replace").strip() or "Daemon stop requested."
+                except Exception as exc:
+                    return f"Failed to stop daemon: {exc}"
+
+            elif action == "status":
+                try:
+                    proc = subprocess.run(
+                        [sys.executable, daemon_script, "status"],
+                        capture_output=True, timeout=10,
+                    )
+                    return proc.stdout.decode(errors="replace").strip() or "No daemon status available."
+                except Exception as exc:
+                    return f"Daemon status error: {exc}"
+
+            return f"Unknown daemon action: {action}"
+
+        result = await asyncio.get_event_loop().run_in_executor(None, _run_daemon)
+        return text(result)
+
+    # ── dynamic tools (lazyown_addon_*, lazyown_tool_*, lazyown_plugin_*) ────
+    if _automapper is not None and (
+        name.startswith("lazyown_addon_")
+        or name.startswith("lazyown_tool_")
+        or name.startswith("lazyown_plugin_")
+    ):
+        cfg = _load_payload()
+        dyn_result = await asyncio.get_event_loop().run_in_executor(
+            None,
+            lambda: _automapper.dispatch(name, arguments, cfg, _run_lazyown_command),
+        )
+        if dyn_result is not None:
+            return text(dyn_result)
 
     return [types.TextContent(type="text", text=f"Unknown tool: {name}")]
 

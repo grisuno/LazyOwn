@@ -296,3 +296,155 @@ lazyown_facts_show(target="<rhost>", refresh=True)
 - pwntomate is launched as a background subprocess — its output lands in
   `sessions/<ip>/<port>/<toolname>/` and is ingested by FactStore on the next
   `facts_show(refresh=True)` or next auto_loop iteration.
+
+
+## Auto-discovered tools
+
+Discovered at server startup. Run `mcp restart` to refresh.
+
+| MCP Tool Name | Source | Description |
+|---|---|---|
+| `lazyown_addon_adaptixc2` | addon | Adaptix is an extensible post-exploitation and adversarial emulation framework m |
+| `lazyown_addon_agentzero` | addon | A personal, organic agentic framework that grows and learns with you Agent Zero  |
+| `lazyown_addon_argfuscator` | addon | ArgFuscator is an open-source, stand-alone web application that helps generate o |
+| `lazyown_addon_attpwn` | addon | ATTPwn is a computer security tool designed to emulate adversaries. The tool aim |
+| `lazyown_addon_aurorapatch` | addon | AuroraPatch is a lightweight, offensive Go tool that bypasses Windows AMSI (Anti |
+| `lazyown_addon_banner_tool` | addon | Ejecuta el script banner.py que se encuentra en la carpeta modules. |
+| `lazyown_addon_bbr` | addon | An open source tool to aid in command line driven generation of bug bounty repor |
+| `lazyown_addon_beacon` | addon | beacon is a next-generation, automated framework for generating, obfuscating, an |
+| `lazyown_addon_cgoblin_windows` | addon | cgoblin shellcode in windows and windows from an url |
+| `lazyown_addon_clematis` | addon | 🛠️ A powerful tool for converting PE files (EXE/DLL) into position-independent s |
+| `lazyown_addon_commix2` | addon | Detecta y explota vulnerabilidades de inyección de comandos. |
+| `lazyown_addon_cve-2022-22077` | addon | CVE-2022-22077 is a high-severity vulnerability (CVSS score 7.8) affecting the R |
+| `lazyown_addon_cve_2025_24071_poc` | addon | CVE-2025-24071: NTLM Hash Leak via RAR/ZIP Extraction and .library-ms File. Wind |
+| `lazyown_addon_demiguise` | addon | HTA encryption tool for RedTeams |
+| `lazyown_addon_ebird3` | addon | ebird3 is a next-generation, automated framework for generating, obfuscating, an |
+| `lazyown_addon_evilginx2` | addon | Standalone man-in-the-middle attack framework used for phishing login credential |
+| `lazyown_addon_gcr` | addon | Google Calendar RAT is a PoC of Command&Control over Google Calendar Events |
+| `lazyown_addon_gemini-cli` | addon | An open-source AI agent that brings the power of Gemini directly into your termi |
+| `lazyown_addon_gen_dll_rev` | addon | gen_dll_rev is a next-generation, automated framework for generating, obfuscatin |
+| `lazyown_addon_get_reverseshell` | addon | Get-ReverseShell is a project that stems from the Invoke-PSObfuscation framework |
+| `lazyown_addon_githubot` | addon | Ejecuta el script bot.py que se encuentra en la carpeta modules. creando un repo |
+| `lazyown_addon_gomulti_loader_linux` | addon | gomulti_loader shellcode in windows and linux |
+| `lazyown_addon_gomulti_loader_windows` | addon | gomulti_loader shellcode in windows and windows |
+| `lazyown_addon_gopeinjection` | addon | Golang PE injection on windows |
+| `lazyown_addon_gosearch` | addon | gosearch is a Search anyone's digital footprint across 300+ websites |
+| `lazyown_addon_gui` | addon | Start the GUI of our C2 |
+| `lazyown_addon_hack_browser_data` | addon | Extract and decrypt browser data, supporting multiple data types, runnable on va |
+| `lazyown_addon_hellbird` | addon | hellbird is a next-generation, automated framework for generating, obfuscating,  |
+| `lazyown_addon_hooka_linux_amd64` | addon | Shellcode loader generator with multiples features |
+| `lazyown_addon_hostdiscover` | addon | Ejecuta el script hostdiscover.sh que se encuentra en la carpeta modules. |
+| `lazyown_addon_kivi_revshell` | addon | Ejecuta el script kivi.py que se encuentra en la carpeta modules. para Reverse s |
+| `lazyown_addon_laps` | addon | Dumping LAPS from Python |
+| `lazyown_addon_lazyagentai` | addon | Ejecuta el script lazyagentAi.py que se encuentra en la carpeta modules. |
+| `lazyown_addon_lazybinenc` | addon | Ejecuta el script lazybinenc.py que se encuentra en la carpeta modules. |
+| `lazyown_addon_lazyftpsniff` | addon | Ejecuta el script lazyftpsniff.py que se encuentra en la carpeta modules. |
+| `lazyown_addon_lazyloader` | addon | LazyLoader is A stealthy LazyLoader Windows PE loader designed to fetch, decrypt |
+| `lazyown_addon_lazymapd` | addon | LAzyOwn RedTeam Framework, Detecta puertos abiertos y es capaz de guardar en un  |
+| `lazyown_addon_lazyownbt` | addon | LAzyOwn BlueTeam Framework, Detecta y reacciona a ataques, haredenización, integ |
+| `lazyown_addon_lazyownexplorer` | addon | Ejecuta el script LazyOwnExplorer.py que se encuentra en la carpeta modules. |
+| `lazyown_addon_nullgate` | addon | Library that eases the use of indirect syscalls. Quite interesting AV/EDR bypass |
+| `lazyown_addon_oniux` | addon | oniux is a tool that utilizes various Linux namespaces(7) in order to isolate an |
+| `lazyown_addon_orpheus` | addon | Bypassing Kerberoast Detections with Modified KDC Options and Encryption Types |
+| `lazyown_addon_override` | addon | This project provides a proof-of-concept implementation of the "Process Overwrit |
+| `lazyown_addon_peeko` | addon | Browser-based XSS C2 tool that turns compromised browsers into internal network  |
+| `lazyown_addon_pretender` | addon | Your MitM sidekick for relaying attacks featuring DHCPv6 DNS takeover as well as |
+| `lazyown_addon_ptmultitools` | addon | This repository my public tools that I use in CTF's and real world engagements. |
+| `lazyown_addon_ptmultitools_scan` | addon | This repository my public tools that I use in CTF's and real world engagements. |
+| `lazyown_addon_pyinmemorype` | addon | 🛠️ Execute any PE (dll,exe) in memory filelessly usage pymemory.py < url> < TYPe |
+| `lazyown_addon_pyrit` | addon | Python Risk Identification Tool for generative AI (PyRIT) by Microsoft/Azure. Em |
+| `lazyown_addon_raven` | addon | raven is a project that stems from the Invoke-PSObfuscation framework, with the  |
+| `lazyown_addon_ridenum` | addon | Bypassing Kerberoast Detections with Modified KDC Options and Encryption Types |
+| `lazyown_addon_setoolkit` | addon | The Social-Engineer Toolkit (SET) repository from TrustedSec - All new versions  |
+| `lazyown_addon_shadowlink` | addon | ShadowLink is a next-generation, automated framework for generating, obfuscating |
+| `lazyown_addon_shellcode_custom_win_rev_tcp_xored` | addon | win_shellcode shellcode in windows custom (no msfvenom) and xored |
+| `lazyown_addon_sigploit` | addon | SigPloit a signaling security testing framework dedicated to Telecom Security pr |
+| `lazyown_addon_spoonmap` | addon | This script is simply a wrapper for NMAP and Masscan. Install them from your fav |
+| `lazyown_addon_stratus_detonate` | addon | ☁️ ⚡ Granular, Actionable Adversary Emulation for the Cloud. Need an attack like |
+| `lazyown_addon_stratus_list` | addon | ☁️ ⚡ Granular, Actionable Adversary Emulation for the Cloud |
+| `lazyown_addon_unicorn` | addon | Unicorn is a simple tool for using a PowerShell downgrade attack and inject shel |
+| `lazyown_addon_upxdump` | addon | Some C code to repair corrupt p_info header on UPX! packed malware. It fixes two |
+| `lazyown_addon_vulnbot` | addon | Ejecuta el script vuln_bot_cli.py que se encuentra en la carpeta modules. |
+| `lazyown_addon_vulnbot_groq` | addon | Ejecuta el script vuln_bot_cli.py que se encuentra en la carpeta modules. |
+| `lazyown_addon_vulnhuntr` | addon | Vulnhuntr leverages the power of LLMs to automatically create and analyze entire |
+| `lazyown_addon_watchguard` | addon | Client Implementation for the WatchGuard SSO Agent Protocol used for Security Re |
+| `lazyown_addon_wspcoerce` | addon | wspcoerce coerces a Windows computer account via SMB to an arbitrary target usin |
+| `lazyown_plugin_generate_c_reverse_shell` | plugin | Generates a reverse shell payload written in C, embedding dynamically crafted sh |
+| `lazyown_plugin_generate_cleanup_commands` | plugin | Generates cleanup commands for Windows or Linux systems based on user-specified  |
+| `lazyown_plugin_generate_html_payload` | plugin | Generates an HTML file that delivers a hidden payload file using various encodin |
+| `lazyown_plugin_generate_lateral_command` | plugin | Genera comandos de movimiento lateral usando diferentes técnicas (psexec, smbexe |
+| `lazyown_plugin_generate_linux_asm_reverse_shell` | plugin | Genera código ensamblador NASM para una reverse shell en Linux basada en syscall |
+| `lazyown_plugin_generate_linux_raw_shellcode` | plugin | Genera shellcode en formato raw para una reverse shell TCP en Linux. No crea arc |
+| `lazyown_plugin_generate_lolbird` | plugin | generate shellcode xored using the key 0x33 and craft a oneliner with 3 phases a |
+| `lazyown_plugin_generate_msfvenom_loader` | plugin | Genera shellcode en formato hex para una msfvenom reverse shell TCP en Linux. Cr |
+| `lazyown_plugin_generate_msfvenom_loader_win` | plugin | Genera shellcode en formato hex para una msfvenom reverse shell TCP en Windows.  |
+| `lazyown_plugin_generate_reverse_shell` | plugin | Generates a Python reverse shell payload that connects back to a specified LHOST |
+| `lazyown_plugin_generate_stub` | plugin | generate stub xored using the key 0x33 and craft a oneliner with 2 phases attack |
+| `lazyown_plugin_kerberos_harvest` | plugin | Harvests Kerberos tickets by querying for Service Principal Names (SPNs) and req |
+| `lazyown_plugin_lolbas_bitsadmin_exe` | plugin | Usa bitsadmin para descargar y ejecutar EXE |
+| `lazyown_plugin_lolbas_certutil_download_exec` | plugin | Usa certutil para descargar una DLL ofuscada con XOR, la decodifica y ejecuta co |
+| `lazyown_plugin_lolbas_certutil_exe` | plugin | Descarga y ejecuta EXE con certutil |
+| `lazyown_plugin_lolbas_mshta_js_lua` | plugin | Descarga y ejecuta js con mshta |
+| `lazyown_plugin_lolbas_mshta_reverse_shell` | plugin | Genera un one-liner con mshta que ejecuta una reverse shell en JavaScript. No re |
+| `lazyown_plugin_lolbas_rundll32_dll` | plugin | Genera un one-liner con mshta que ejecuta una reverse shell en JavaScript. No re |
+| `lazyown_plugin_lolbas_wmic_xsl_execution` | plugin | Usa wmic + archivo XSL remoto para ejecutar comandos. Técnica T1220. Requiere se |
+| `lazyown_plugin_parse_nmap_with_xmlstarlet` | plugin | Usa xmlstarlet para extraer información útil de archivos NMAP (.xml):
+ - IPs act |
+| `lazyown_plugin_run_nuclei_on_nmap_files` | plugin | Ejecuta nuclei utilizando direcciones IP extraídas de archivos NMAP .xml
+almacen |
+| `lazyown_plugin_run_python_rev_c2` | plugin | Executes a Python reverse shell payload that connects back to a specified LHOST  |
+| `lazyown_plugin_rundll32_sct_from_url` | plugin | Craft a one-liner using rundll32.exe to execute a remote SCT payload via JavaScr |
+| `lazyown_plugin_validate_shellcode` | plugin | Validates shellcode data by checking for bad bytes and ensuring the payload does |
+| `lazyown_plugin_visualize_network` | plugin | Reads a list of IP addresses from a file, generates a simple node graph visualiz |
+| `lazyown_tool_asrep_roast` | tool | Run asrep_roast against a target. Triggers on services: ldap, kerberos-sec. Comm |
+| `lazyown_tool_bloodhound-python` | tool | Run bloodhound-python against a target. Triggers on services: ldap, kerberos-sec |
+| `lazyown_tool_crackmapexec_ldap` | tool | Run crackmapexec_ldap against a target. Triggers on services: ldap, ldaps. Comma |
+| `lazyown_tool_crackmapexec_smb` | tool | Run crackmapexec_smb against a target. Triggers on services: microsoft-ds, netbi |
+| `lazyown_tool_dig_any` | tool | Run dig_any against a target. Triggers on services: domain. Command template: di |
+| `lazyown_tool_dig_reverse` | tool | Run dig_reverse against a target. Triggers on services: domain. Command template |
+| `lazyown_tool_dns_enum_tool` | tool | Run dns_enum_tool against a target. Triggers on services: domain. Command templa |
+| `lazyown_tool_dnsrecon_axfr` | tool | Run dnsrecon_axfr against a target. Triggers on services: domain. Command templa |
+| `lazyown_tool_enum4linux_tool` | tool | Run enum4linux_tool against a target. Triggers on services: microsoft-ds, netbio |
+| `lazyown_tool_enum_rpcbind` | tool | Run enum_rpcbind against a target. Triggers on services: rpcbind. Command templa |
+| `lazyown_tool_enum_smb` | tool | Run enum_smb against a target. Triggers on services: microsoft-ds. Command templ |
+| `lazyown_tool_evil_winrm_tool` | tool | Run evil_winrm_tool against a target. Triggers on services: winrm. Command templ |
+| `lazyown_tool_ffuf_enumeration` | tool | Run ffuf_enumeration against a target. Triggers on services: http, https. Comman |
+| `lazyown_tool_ffuf_tool` | tool | Run ffuf_tool against a target. Triggers on services: http, https, http-mgmt, ht |
+| `lazyown_tool_getnpusers_tool` | tool | Run getNPUsers_tool against a target. Triggers on services: kerberos-sec. Comman |
+| `lazyown_tool_getuserspns_py` | tool | Run GetUserSPNs.py against a target. Triggers on services: kerberos-sec. Command |
+| `lazyown_tool_gobuster_dns` | tool | Run gobuster_dns against a target. Triggers on services: http, https. Command te |
+| `lazyown_tool_gobuster_http` | tool | Run gobuster_http against a target. Triggers on services: http, http-proxy, http |
+| `lazyown_tool_gobuster_web` | tool | Run gobuster_web against a target. Triggers on services: http, https. Command te |
+| `lazyown_tool_hydrardp_tool` | tool | Run hydrardp_tool against a target. Triggers on services: rdp. Command template: |
+| `lazyown_tool_hydrasmb` | tool | Run hydrasmb against a target. Triggers on services: smb. Command template: hydr |
+| `lazyown_tool_kerberoasting_tool` | tool | Run kerberoasting_tool against a target. Triggers on services: kerberos-sec. Com |
+| `lazyown_tool_kerbrute_tool` | tool | Run kerbrute_tool against a target. Triggers on services: kerberos-sec. Command  |
+| `lazyown_tool_kerbrute_tool_user` | tool | Run kerbrute_tool_user against a target. Triggers on services: kerberos-sec. Com |
+| `lazyown_tool_ldap_domain_dump_tool` | tool | Run ldap_domain_dump_tool against a target. Triggers on services: ldap. Command  |
+| `lazyown_tool_ldapsearch_anon` | tool | Run ldapsearch_anon against a target. Triggers on services: ldap. Command templa |
+| `lazyown_tool_ldapsearch_tool` | tool | Run ldapsearch_tool against a target. Triggers on services: ldap. Command templa |
+| `lazyown_tool_nc_ldap_interact` | tool | Run nc_ldap_interact against a target. Triggers on services: ldap. Command templ |
+| `lazyown_tool_nikto_host` | tool | Run nikto_host against a target. Triggers on services: http, https. Command temp |
+| `lazyown_tool_nuclei_ad_http` | tool | Run nuclei_ad_http against a target. Triggers on services: http, https, http-rpc |
+| `lazyown_tool_nxc_idap_tool` | tool | Run nxc_idap_tool against a target. Triggers on services: ldap, ldaps. Command t |
+| `lazyown_tool_nxc_ldap` | tool | Run nxc_ldap against a target. Triggers on services: ldap. Command template: nxc |
+| `lazyown_tool_nxc_null_session` | tool | Run nxc_null_session against a target. Triggers on services: microsoft-ds. Comma |
+| `lazyown_tool_nxc_pass_policy` | tool | Run nxc_pass_policy against a target. Triggers on services: microsoft-ds. Comman |
+| `lazyown_tool_nxc_rid` | tool | Run nxc_rid against a target. Triggers on services: microsoft-ds. Command templa |
+| `lazyown_tool_nxc_winrm` | tool | Run nxc_winrm against a target. Triggers on services: winrm. Command template: n |
+| `lazyown_tool_ollama_enum` | tool | Run ollama_enum against a target. Triggers on services: http, https. Command tem |
+| `lazyown_tool_rpcclient_tool` | tool | Run rpcclient_tool against a target. Triggers on services: msrpc. Command templa |
+| `lazyown_tool_showmount_nfs` | tool | Run showmount_nfs against a target. Triggers on services: nfs. Command template: |
+| `lazyown_tool_showmount_tool` | tool | Run showmount_tool against a target. Triggers on services: nfs_acl, nfs. Command |
+| `lazyown_tool_smb_ghost` | tool | Run smb_ghost against a target. Triggers on services: microsoft-ds. Command temp |
+| `lazyown_tool_smb_map` | tool | Run smb_map against a target. Triggers on services: microsoft-ds. Command templa |
+| `lazyown_tool_smbclient_list` | tool | Run smbclient_list against a target. Triggers on services: microsoft-ds. Command |
+| `lazyown_tool_smbclient_tool` | tool | Run smbclient_tool against a target. Triggers on services: microsoft-ds, netbios |
+| `lazyown_tool_smbmap_tool` | tool | Run smbmap_tool against a target. Triggers on services: microsoft-ds. Command te |
+| `lazyown_tool_smbserver_tool` | tool | Run smbserver_tool against a target. Triggers on services: microsoft-ds. Command |
+| `lazyown_tool_subwfuzz_tool` | tool | Run subwfuzz_tool against a target. Triggers on services: http, https, http-mgmt |
+| `lazyown_tool_swaks_smtp_test` | tool | Run swaks_smtp_test against a target. Triggers on services: smtp. Command templa |
+| `lazyown_tool_userenum_tool` | tool | Run userEnum_tool against a target. Triggers on services: microsoft-ds. Command  |
+| `lazyown_tool_vncviewer_connect` | tool | Run vncviewer_connect against a target. Triggers on services: vnc. Command templ |
+
+<!-- end auto-discovered -->

@@ -107,6 +107,29 @@ class AccessFact:
 
 
 @dataclass
+class VulnerabilityFact:
+    """A vulnerability or weakness found on a host."""
+    host: str
+    vuln_id: str        # CVE-XXXX-XXXX or OSVDB-XXXX or template-id
+    severity: str       # critical / high / medium / low / info
+    title: str
+    url: str
+    source_tool: str
+    source_file: str
+
+
+@dataclass
+class DiscoveredPath:
+    """A web path found by directory enumeration."""
+    host: str
+    port: int
+    path: str
+    status_code: int
+    size: int
+    source_file: str
+
+
+@dataclass
 class HostFacts:
     """All known facts for a single target IP."""
 
@@ -116,6 +139,9 @@ class HostFacts:
     shares: List[ShareFact] = field(default_factory=list)
     access: List[AccessFact] = field(default_factory=list)
     raw_files: List[str] = field(default_factory=list)
+    vulnerabilities: List[VulnerabilityFact] = field(default_factory=list)
+    paths: List[DiscoveredPath] = field(default_factory=list)
+    os_hint: str = ""
 
     def highest_access(self) -> str:
         if not self.access:
@@ -199,6 +225,17 @@ class ITextOutputParser:
         source_file: str,
     ) -> tuple[List[CredentialFact], List[ShareFact], List[AccessFact]]:
         raise NotImplementedError
+
+    def parse_extended(
+        self,
+        host: str,
+        content: str,
+        source_file: str,
+        port: int = 80,
+    ) -> "tuple[List[CredentialFact], List[ShareFact], List[AccessFact], List[VulnerabilityFact], List[DiscoveredPath]]":
+        """Extended parse including vulnerabilities and web paths. Override in subclasses."""
+        creds, shares, access = self.parse(host, content, source_file)
+        return creds, shares, access, [], []
 
 
 class CrackMapExecParser(ITextOutputParser):
@@ -356,6 +393,226 @@ class LdapParser(ITextOutputParser):
         return creds, shares, access
 
 
+class KerbruteParser(ITextOutputParser):
+    """Parse kerbrute user enumeration output."""
+
+    TOOL_NAME = "kerbrute"
+
+    _VALID_RE  = re.compile(r"VALID\s+USERNAME:\s*(\S+?)@\S+", re.IGNORECASE)
+    _VALID2_RE = re.compile(r"\[\+\]\s+(\S+)\s+is valid", re.IGNORECASE)
+
+    def can_parse(self, filename: str, content: str) -> bool:
+        return "kerbrute" in filename.lower() or "VALID USERNAME" in content
+
+    def parse(self, host: str, content: str, source_file: str):
+        creds: List[CredentialFact] = []
+        for m in self._VALID_RE.finditer(content):
+            creds.append(CredentialFact(
+                host=host, username=m.group(1), password="", source_file=source_file
+            ))
+        for m in self._VALID2_RE.finditer(content):
+            creds.append(CredentialFact(
+                host=host, username=m.group(1), password="", source_file=source_file
+            ))
+        access = (
+            [AccessFact(host=host, level="read", method="kerbrute", source_file=source_file)]
+            if creds else []
+        )
+        return creds, [], access
+
+
+class RpcclientParser(ITextOutputParser):
+    """Parse rpcclient / enum_rpcbind output."""
+
+    TOOL_NAME = "rpcclient"
+
+    _USER_RE  = re.compile(r"user:\[([^\]]+)\]\s+rid:\[0x[\da-fA-F]+\]")
+    _GROUP_RE = re.compile(r"group:\[([^\]]+)\]\s+rid:\[0x[\da-fA-F]+\]")
+
+    def can_parse(self, filename: str, content: str) -> bool:
+        return "rpcclient" in filename.lower() or "enumdomusers" in content
+
+    def parse(self, host: str, content: str, source_file: str):
+        creds: List[CredentialFact] = []
+        for m in self._USER_RE.finditer(content):
+            creds.append(CredentialFact(
+                host=host, username=m.group(1).strip(), password="", source_file=source_file
+            ))
+        access = (
+            [AccessFact(host=host, level="read", method="rpcclient", source_file=source_file)]
+            if creds else []
+        )
+        return creds, [], access
+
+
+class GobusterFfufParser(ITextOutputParser):
+    """Parse gobuster / ffuf / dirb / dirsearch web directory scan output."""
+
+    TOOL_NAME = "gobuster"
+
+    # gobuster: /admin                (Status: 200) [Size: 1234]
+    _GB_RE   = re.compile(r"^(/\S+)\s+\(Status:\s*(\d+)\)\s+\[Size:\s*(\d+)\]", re.MULTILINE)
+    # ffuf:      admin               [Status: 200, Size: 1234,
+    _FFUF_RE = re.compile(r"^(\S+)\s+\[Status:\s*(\d+),\s*Size:\s*(\d+)", re.MULTILINE)
+    # dirb:  + http://host/admin (CODE:200|SIZE:1234)
+    _DIRB_RE = re.compile(r"\+\s+\S+?(/\S+)\s+\(CODE:(\d+)\|SIZE:(\d+)\)")
+
+    def can_parse(self, filename: str, content: str) -> bool:
+        return any(
+            k in filename.lower()
+            for k in ("gobuster", "ffuf", "dirb", "wfuzz", "dirsearch", "ferox")
+        )
+
+    def parse(self, host: str, content: str, source_file: str):
+        return [], [], []
+
+    def parse_extended(self, host: str, content: str, source_file: str, port: int = 80):
+        paths: List[DiscoveredPath] = []
+        for m in self._GB_RE.finditer(content):
+            paths.append(DiscoveredPath(
+                host=host, port=port, path=m.group(1),
+                status_code=int(m.group(2)), size=int(m.group(3)),
+                source_file=source_file,
+            ))
+        for m in self._FFUF_RE.finditer(content):
+            path = m.group(1)
+            if not path.startswith("/"):
+                path = "/" + path
+            paths.append(DiscoveredPath(
+                host=host, port=port, path=path,
+                status_code=int(m.group(2)), size=int(m.group(3)),
+                source_file=source_file,
+            ))
+        for m in self._DIRB_RE.finditer(content):
+            paths.append(DiscoveredPath(
+                host=host, port=port, path=m.group(1),
+                status_code=int(m.group(2)), size=int(m.group(3)),
+                source_file=source_file,
+            ))
+        return [], [], [], [], paths
+
+
+class NiktoParser(ITextOutputParser):
+    """Parse nikto web scanner output."""
+
+    TOOL_NAME = "nikto"
+
+    _VULN_RE = re.compile(
+        r"\+\s+(OSVDB-\d+|CVE-[\d-]+):\s*(/[^:]*)?:\s*(.+)"
+    )
+    _PATH_RE = re.compile(r"\+\s+(/\S+):\s+.+\(CODE:(\d+)\|SIZE:(\d+)\)")
+
+    def can_parse(self, filename: str, content: str) -> bool:
+        return "nikto" in filename.lower() or "- Nikto v" in content
+
+    def parse(self, host: str, content: str, source_file: str):
+        return [], [], []
+
+    def parse_extended(self, host: str, content: str, source_file: str, port: int = 80):
+        vulns: List[VulnerabilityFact] = []
+        paths: List[DiscoveredPath] = []
+        for m in self._VULN_RE.finditer(content):
+            vulns.append(VulnerabilityFact(
+                host=host,
+                vuln_id=m.group(1),
+                severity="medium",
+                title=m.group(3).strip()[:200],
+                url=m.group(2) or "/",
+                source_tool="nikto",
+                source_file=source_file,
+            ))
+        for m in self._PATH_RE.finditer(content):
+            paths.append(DiscoveredPath(
+                host=host, port=port, path=m.group(1),
+                status_code=int(m.group(2)), size=int(m.group(3)),
+                source_file=source_file,
+            ))
+        return [], [], [], vulns, paths
+
+
+class NucleiParser(ITextOutputParser):
+    """Parse nuclei scanner output."""
+
+    TOOL_NAME = "nuclei"
+
+    # [severity] [template-id] [protocol] target
+    _RE = re.compile(r"\[(\w+)\]\s+\[([^\]]+)\]\s+\[(\w+)\]\s+(\S+)")
+
+    def can_parse(self, filename: str, content: str) -> bool:
+        return "nuclei" in filename.lower() or bool(
+            re.search(r"\[\w+\]\s+\[\S+\]\s+\[\w+\]\s+https?://", content)
+        )
+
+    def parse(self, host: str, content: str, source_file: str):
+        return [], [], []
+
+    def parse_extended(self, host: str, content: str, source_file: str, port: int = 80):
+        vulns: List[VulnerabilityFact] = []
+        sev_order = {"critical": 0, "high": 1, "medium": 2, "low": 3, "info": 4}
+        for m in self._RE.finditer(content):
+            severity, tmpl_id, proto, target = m.groups()
+            sev = severity.lower()
+            if sev not in sev_order:
+                sev = "info"
+            vulns.append(VulnerabilityFact(
+                host=host,
+                vuln_id=tmpl_id,
+                severity=sev,
+                title=f"{tmpl_id} ({proto})",
+                url=target,
+                source_tool="nuclei",
+                source_file=source_file,
+            ))
+        return [], [], [], vulns, []
+
+
+class SslscanParser(ITextOutputParser):
+    """Parse sslscan / sslyze SSL/TLS analysis output."""
+
+    TOOL_NAME = "sslscan"
+
+    _WEAK_TLS_RE = re.compile(r"(SSLv\d|TLSv1\.0|TLSv1\.1)\s+enabled", re.IGNORECASE)
+    _EXPIRED_RE  = re.compile(r"Not valid after:\s+\S+\s+(\d{4})")
+
+    def can_parse(self, filename: str, content: str) -> bool:
+        return any(k in filename.lower() for k in ("sslscan", "sslyze", "ssl_audit", "sslscan"))
+
+    def parse(self, host: str, content: str, source_file: str):
+        return [], [], []
+
+    def parse_extended(self, host: str, content: str, source_file: str, port: int = 443):
+        vulns: List[VulnerabilityFact] = []
+        seen: set = set()
+        for m in self._WEAK_TLS_RE.finditer(content):
+            proto = m.group(1)
+            key = (host, proto)
+            if key not in seen:
+                seen.add(key)
+                vulns.append(VulnerabilityFact(
+                    host=host,
+                    vuln_id="WEAK-TLS",
+                    severity="medium",
+                    title=f"Weak protocol enabled: {proto}",
+                    url=f"https://{host}:{port}/",
+                    source_tool="sslscan",
+                    source_file=source_file,
+                ))
+        for m in self._EXPIRED_RE.finditer(content):
+            year = int(m.group(1))
+            import datetime as _dt
+            if year < _dt.datetime.now().year:
+                vulns.append(VulnerabilityFact(
+                    host=host,
+                    vuln_id="EXPIRED-CERT",
+                    severity="medium",
+                    title=f"Expired SSL certificate (year {year})",
+                    url=f"https://{host}:{port}/",
+                    source_tool="sslscan",
+                    source_file=source_file,
+                ))
+        return [], [], [], vulns, []
+
+
 class GenericOutputParser(ITextOutputParser):
     """Catch-all: mine any text for credential-like patterns."""
 
@@ -420,6 +677,12 @@ class FactStore:
             Enum4linuxParser(),
             SecretsdumpParser(),
             LdapParser(),
+            KerbruteParser(),
+            RpcclientParser(),
+            GobusterFfufParser(),
+            NiktoParser(),
+            NucleiParser(),
+            SslscanParser(),
             GenericOutputParser(),
         ]
         self._data: Dict[str, HostFacts] = {}
@@ -445,17 +708,25 @@ class FactStore:
                 hf.shares.append(ShareFact(**sh))
             for a in blob.get("access", []):
                 hf.access.append(AccessFact(**a))
+            for v in blob.get("vulnerabilities", []):
+                hf.vulnerabilities.append(VulnerabilityFact(**v))
+            for p in blob.get("paths", []):
+                hf.paths.append(DiscoveredPath(**p))
+            hf.os_hint = blob.get("os_hint", "")
             self._data[host] = hf
 
     def save(self) -> None:
         out: Dict[str, dict] = {}
         for host, hf in self._data.items():
             out[host] = {
-                "services":    [asdict(s) for s in hf.services],
-                "credentials": [asdict(c) for c in hf.credentials],
-                "shares":      [asdict(sh) for sh in hf.shares],
-                "access":      [asdict(a) for a in hf.access],
-                "raw_files":   hf.raw_files,
+                "services":        [asdict(s) for s in hf.services],
+                "credentials":     [asdict(c) for c in hf.credentials],
+                "shares":          [asdict(sh) for sh in hf.shares],
+                "access":          [asdict(a) for a in hf.access],
+                "raw_files":       hf.raw_files,
+                "vulnerabilities": [asdict(v) for v in hf.vulnerabilities],
+                "paths":           [asdict(p) for p in hf.paths],
+                "os_hint":         hf.os_hint,
             }
         self._cfg.facts_file.write_text(json.dumps(out, indent=2))
 
@@ -486,6 +757,26 @@ class FactStore:
                 unique.append(c)
         hf.credentials = unique
 
+    def _dedup_vulns(self, hf: HostFacts) -> None:
+        seen: set = set()
+        unique: List[VulnerabilityFact] = []
+        for v in hf.vulnerabilities:
+            key = (v.host, v.vuln_id, v.url)
+            if key not in seen:
+                seen.add(key)
+                unique.append(v)
+        hf.vulnerabilities = unique
+
+    def _dedup_paths(self, hf: HostFacts) -> None:
+        seen: set = set()
+        unique: List[DiscoveredPath] = []
+        for p in hf.paths:
+            key = (p.host, p.port, p.path, p.status_code)
+            if key not in seen:
+                seen.add(key)
+                unique.append(p)
+        hf.paths = unique
+
     # ── parsers ───────────────────────────────────────────────────────────────
 
     def ingest_xml(self, xml_path: Path) -> int:
@@ -515,19 +806,26 @@ class FactStore:
             return 0
 
         count = 0
+        port = self._guess_port_from_path(txt_path)
         for parser in self._text_parsers:
             if parser.can_parse(filename, content):
-                creds, shares, access = parser.parse(host, content, str(txt_path))
+                creds, shares, access, vulns, paths = parser.parse_extended(
+                    host, content, source_file=str(txt_path), port=port
+                )
                 hf = self._host(host)
                 if str(txt_path) not in hf.raw_files:
                     hf.raw_files.append(str(txt_path))
                 hf.credentials.extend(creds)
                 hf.shares.extend(shares)
                 hf.access.extend(access)
+                hf.vulnerabilities.extend(vulns)
+                hf.paths.extend(paths)
                 self._dedup_creds(hf)
-                count += len(creds) + len(shares) + len(access)
+                self._dedup_vulns(hf)
+                self._dedup_paths(hf)
+                count += len(creds) + len(shares) + len(access) + len(vulns) + len(paths)
                 if parser.TOOL_NAME != "generic":
-                    break  # Specific parser matched — don't apply generic on top
+                    break
         return count
 
     @staticmethod
@@ -535,6 +833,17 @@ class FactStore:
         """Try to extract an IP from a filename like 10.10.11.78_enum_smb.txt."""
         m = re.search(r"(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})", filename)
         return m.group(1) if m else ""
+
+    @staticmethod
+    def _guess_port_from_path(txt_path: Path) -> int:
+        """Extract port from sessions/<ip>/<port>/<tool>/ directory structure."""
+        parts = txt_path.parts
+        try:
+            sessions_idx = next(i for i, p in enumerate(parts) if p == "sessions")
+            port_candidate = parts[sessions_idx + 2]
+            return int(port_candidate)
+        except (StopIteration, IndexError, ValueError):
+            return 80
 
     # ── full scan ─────────────────────────────────────────────────────────────
 
@@ -640,6 +949,32 @@ class FactStore:
         ctx["access_level"] = hf.highest_access()
         ctx["open_ports"] = hf.open_ports()
 
+        # Vulnerabilities — most severe first
+        if hf.vulnerabilities:
+            sev_order = {"critical": 0, "high": 1, "medium": 2, "low": 3, "info": 4}
+            sorted_vulns = sorted(
+                hf.vulnerabilities,
+                key=lambda v: sev_order.get(v.severity, 5),
+            )
+            ctx["top_vuln"] = {
+                "id":       sorted_vulns[0].vuln_id,
+                "severity": sorted_vulns[0].severity,
+                "title":    sorted_vulns[0].title,
+            }
+            ctx["vuln_count"] = len(hf.vulnerabilities)
+        else:
+            ctx["top_vuln"] = None
+            ctx["vuln_count"] = 0
+
+        # Discovered web paths
+        if hf.paths:
+            ctx["interesting_paths"] = [
+                p.path for p in hf.paths
+                if p.status_code in (200, 201, 301, 302, 401, 403)
+            ][:5]
+        else:
+            ctx["interesting_paths"] = []
+
         return ctx
 
     def summary(self, host: Optional[str] = None) -> str:
@@ -658,9 +993,12 @@ class FactStore:
             cred_count = len([c for c in hf.credentials if c.username])
             share_count = len(hf.shares)
             access = hf.highest_access()
+            vuln_count = len(hf.vulnerabilities)
+            path_count = len(hf.paths)
             lines.append(
                 f"{h}  ports={ports}  services=[{svcs}]  "
-                f"creds={cred_count}  shares={share_count}  access={access}"
+                f"creds={cred_count}  shares={share_count}  "
+                f"vulns={vuln_count}  paths={path_count}  access={access}"
             )
         return "\n".join(lines)
 

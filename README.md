@@ -11951,7 +11951,7 @@ No description available.
 
 ### Otros
 
-  *   * feat(feat): mcp \n\n Version: release/0.2.82 \n\n  \n\n Modified file(s):\n- .gitignore - README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Mar 19 01:13:21 2026 -0300 \n\n Hora: 1773893601
+  *   * feat(feat): mcp \n\n Version: release/0.2.82 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html - parquets/session_knowledge.parquet\nDeleted file(s):\n- parquets/session_knowledge.parquet\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Mar 19 01:13:21 2026 -0300 \n\n Hora: 1773893601
 
 
 ### Nuevas características

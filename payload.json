@@ -17,7 +17,7 @@
   "c2_login_limit": "5 per minute",
   "prompt": "Presentate como Lazy OWN OneLiner assistant",
   "url": "http://Mirage.htb",
-  "domain": "Mirage.htb",
+  "domain": "localhost",
   "subdomain": "dc01",
   "os_id": "1",
   "method": "POST",
@@ -82,5 +82,21 @@
   "data_file": "modules/data.json",
   "params_file": "modules/params.json",
   "json_data_file": "modules/json_data.json",
-  "file": "file_to_operate.ext"
+  "file": "file_to_operate.ext",
+  "targets": [
+    {
+      "ip": "127.0.0.1",
+      "domain": "localhost",
+      "ports": [],
+      "status": "in_progress",
+      "notes": "Ciclo completo de prueba local \u2014 todos los servicios",
+      "tags": [
+        "linux",
+        "local",
+        "test"
+      ],
+      "added_at": "2026-03-19T12:28:45.576446",
+      "updated_at": "2026-03-19T12:35:37.588473"
+    }
+  ]
 }

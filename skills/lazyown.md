@@ -298,6 +298,8 @@ lazyown_facts_show(target="<rhost>", refresh=True)
   `facts_show(refresh=True)` or next auto_loop iteration.
 
 
+
+
 ## Auto-discovered tools
 
 Discovered at server startup. Run `mcp restart` to refresh.

@@ -331,19 +331,19 @@ def _extract_target_from_filename(name: str) -> str:
 
 # ── Watchdog handler ─────────────────────────────────────────────────────────
 
-_SEEN: set = set()  # debounce — avoid double-firing on same path
+from collections import OrderedDict as _OrderedDict
+_SEEN: _OrderedDict = _OrderedDict()  # debounce LRU — max 500 entries
+_SEEN_MAX = 500
 
 
 def _dispatch(path: Path) -> None:
     key = (str(path), path.stat().st_size if path.exists() else 0)
     if key in _SEEN:
+        _SEEN.move_to_end(key)  # refresh LRU position
         return
-    _SEEN.add(key)
-    if len(_SEEN) > 2000:
-        # prune oldest half to avoid unbounded growth
-        pruned = list(_SEEN)[1000:]
-        _SEEN.clear()
-        _SEEN.update(pruned)
+    _SEEN[key] = True
+    if len(_SEEN) > _SEEN_MAX:
+        _SEEN.popitem(last=False)  # evict oldest O(1)
 
     name = path.name
     strpath = str(path)

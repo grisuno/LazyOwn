@@ -533,6 +533,59 @@ class ParquetDB:
 
         return results
 
+    # ── Atomic Red Team structured search ─────────────────────────────────────
+
+    def query_atomic(
+        self,
+        keyword: str = "",
+        mitre_id: str = "",
+        platform: str = "",
+        scope: str = "",
+        has_prereqs: Optional[bool] = None,
+        complexity: str = "",
+        limit: int = 10,
+        include_command: bool = False,
+    ) -> List[Dict]:
+        """
+        Structured query over the enriched Atomic Red Team catalogue
+        (parquets/techniques_enriched.parquet).
+
+        Falls back to query_knowledge("techniques", keyword) if the enriched
+        parquet is not yet built.
+
+        Parameters
+        ----------
+        keyword      : free-text search over name + description + keyword_tags
+        mitre_id     : exact or prefix (T1059 matches T1059, T1059.001, …)
+        platform     : linux | windows | macos | freebsd | cloud
+        scope        : local | remote | elevated | any
+        has_prereqs  : True → only tests needing prereqs; False → no prereqs
+        complexity   : low | medium | high
+        limit        : max results (default 10)
+        include_command : add command_preview to each result
+        """
+        if not _PANDAS_OK:
+            return [{"error": "pandas not installed"}]
+        try:
+            sys.path.insert(0, str(self._root / "modules"))
+            from atomic_enricher import query_atomic as _qa
+            return _qa(
+                keyword=keyword,
+                mitre_id=mitre_id,
+                platform=platform,
+                scope=scope,
+                has_prereqs=has_prereqs,
+                complexity=complexity,
+                limit=limit,
+                include_command=include_command,
+            )
+        except Exception as exc:
+            log.warning("query_atomic fallback to keyword search: %s", exc)
+            if keyword:
+                res = self.query_knowledge(keyword, "techniques", limit=limit)
+                return res.get("techniques", [])
+            return []
+
     # ── Context for current operation phase ───────────────────────────────────
 
     def context_for_phase(

@@ -4662,6 +4662,14 @@ if __name__ == '__main__':
     except Exception as _dbp_err:
         print(f"[dashboard] Blueprint not loaded: {_dbp_err}")
 
+    try:
+        sys.path.insert(0, os.path.join(os.path.dirname(__file__), "modules"))
+        from collab_bp import collab_bp
+        app.register_blueprint(collab_bp, url_prefix="/collab")
+        print("[collab] Multi-operator collaboration active at /collab/")
+    except Exception as _cbp_err:
+        print(f"[collab] Blueprint not loaded: {_cbp_err}")
+
     if ENV == 'PROD':
         threading.Thread(target=start_reverse_shell).start()
         app.run(host='0.0.0.0', port=lport, ssl_context=('cert.pem', 'key.pem'))

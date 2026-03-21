@@ -11951,7 +11951,14 @@ No description available.
 
 ### Otros
 
-  *   * feat(feat): new commands in mcp \n\n Version: release/0.2.84 \n\n  \n\n Modified file(s):\n- DEPLOY.sh - README.md - docs/README.html - fast_run_as_r00t.sh - lazyc2.py - modules/backdoor/keylogger.h - payload.json - pwntomate.py - sessions/phishing/campaigns/short_urls.json - static/security_dashboard.png\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Mar 19 16:36:16 2026 -0300 \n\n Hora: 1773948976
+  *   * feat(feat): new world modelt to mcp \n\n Version: release/0.2.84 \n\n :d \n\n Modified file(s):\n- DEPLOY.sh - README.md - docs/README.html - knowledge_base_vuln.json - lazyc2.py - modules/agent_runner.py - modules/knowledge_base_vuln.json - payload.json - sessions/phishing/campaigns/short_urls.json - skills/lazyown.md - skills/lazyown_mcp.py - static/security_dashboard.png\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Mar 19 17:40:43 2026 -0300 \n\n Hora: 1773952843
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat):  \n\n Version: release/0.2.84 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html - payload.json\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Mar 19 16:36:16 2026 -0300 \n\n Hora: 1773948976
 
 
 ### Pruebas

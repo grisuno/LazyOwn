@@ -1202,6 +1202,124 @@ async def list_tools() -> list[types.Tool]:
             },
         ),
         types.Tool(
+            name="lazyown_generate_report",
+            description=(
+                "Auto-generate a structured Markdown penetration test report "
+                "from session artefacts (facts, events, credentials, objectives, plan). "
+                "The report is written to sessions/report_<timestamp>.md and the path is returned."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "output": {
+                        "type": "string",
+                        "description": "Optional output file path. Defaults to sessions/report_<ts>.md.",
+                        "default": "",
+                    },
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_cve_search",
+            description=(
+                "Search the NVD database for CVEs matching a product and optional version. "
+                "Results are cached on disk. Returns id, CVSS score, severity, description, published date. "
+                "Use this after discovering a service version to find known vulnerabilities."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "product": {
+                        "type": "string",
+                        "description": "Product name (e.g. 'openssh', 'apache httpd', 'vsftpd').",
+                    },
+                    "version": {
+                        "type": "string",
+                        "description": "Version string (e.g. '8.4', '2.4.49'). Optional.",
+                        "default": "",
+                    },
+                    "max_results": {
+                        "type": "string",
+                        "description": "Maximum number of CVEs to return (default 10).",
+                        "default": "10",
+                    },
+                },
+                "required": ["product"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_playbook_generate",
+            description=(
+                "Generate a MITRE ATT&CK-grounded playbook for a target using STIX2 "
+                "technique data and Atomic Red Team tests. The playbook is derived "
+                "from the current engagement phase in the WorldModel and saved as YAML. "
+                "Returns the saved path and a step summary."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "target": {
+                        "type": "string",
+                        "description": "Target IP or hostname to derive the playbook for.",
+                    },
+                    "phase": {
+                        "type": "string",
+                        "description": (
+                            "Engagement phase override. One of: recon, scanning, "
+                            "enumeration, exploitation, post_exploitation. "
+                            "If omitted, derived from WorldModel."
+                        ),
+                        "default": "",
+                    },
+                    "platform": {
+                        "type": "string",
+                        "description": "Target platform: linux, windows, macos. Default: linux.",
+                        "default": "linux",
+                    },
+                    "top_n": {
+                        "type": "string",
+                        "description": "Maximum number of steps to include (default 5).",
+                        "default": "5",
+                    },
+                },
+                "required": ["target"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_playbook_run",
+            description=(
+                "Execute a previously generated playbook YAML against the target. "
+                "Each step is dispatched as a LazyOwn MCP command. "
+                "Tool output is parsed by ObsParser and ingested into WorldModel. "
+                "Returns a result summary with per-step success/failure and findings."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "path": {
+                        "type": "string",
+                        "description": "Path to the playbook YAML file.",
+                        "default": "",
+                    },
+                    "target": {
+                        "type": "string",
+                        "description": (
+                            "Target IP used for command substitution. "
+                            "If omitted, uses the active target from payload.json."
+                        ),
+                        "default": "",
+                    },
+                    "dry_run": {
+                        "type": "boolean",
+                        "description": "If true, log steps without executing them.",
+                        "default": False,
+                    },
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
             name="lazyown_soul",
             description=(
                 "Read or update the agent soul (sessions/soul.md). "
@@ -2245,6 +2363,18 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         cat_map          = _load_category_command_map()
         high_value_cats  = {"intrusion", "privesc", "credential"}
 
+        # --- OpenClaw-style world model + observation parser ---
+        _wm = None
+        _obs_parser = None
+        try:
+            sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
+            from world_model import WorldModel, EngagementPhase
+            from obs_parser import ObsParser
+            _wm = WorldModel()
+            _obs_parser = ObsParser()
+        except Exception:
+            pass
+
         execution_log: list[dict] = []
         # Track commands that failed this session per (target, category)
         _fail_counts: dict[str, int] = {}
@@ -2393,6 +2523,43 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 category, resolved_cmd, resolved_args, target
             )
 
+            # --- Structured thought (OpenClaw-style reason-before-act) ---
+            _thought = ""
+            _mitre_tactic = ""
+            _api_key = cfg.get("api_key", "") or os.environ.get("GROQ_API_KEY", "")
+            if _api_key:
+                try:
+                    _wm_context = _wm.to_context_string() if _wm is not None else "No world model available."
+                    _thought_prompt = (
+                        f"You are an autonomous penetration tester.\n"
+                        f"Target: {target}\n"
+                        f"Current phase: {_wm.get_phase().value if _wm else 'unknown'}\n"
+                        f"World model:\n{_wm_context}\n\n"
+                        f"About to execute: {resolved_cmd} {resolved_args}\n"
+                        f"Category: {category}\n\n"
+                        f"Respond with a single JSON object (no markdown):\n"
+                        f'{{"thought": "one sentence reasoning", '
+                        f'"expected": "what success looks like", '
+                        f'"mitre_tactic": "T-number or empty string", '
+                        f'"confidence": 0.0}}'
+                    )
+                    from modules.llm_client import LLMClient as _LLMC
+                    _llm = _LLMC(api_key=_api_key)
+                    _raw_thought = _llm.ask(
+                        _thought_prompt,
+                        provider="groq",
+                        system="You are a penetration testing reasoning engine. Reply only with valid JSON.",
+                        temperature=0.1,
+                    )
+                    import re as _re
+                    _jm = _re.search(r'\{.*\}', _raw_thought, _re.DOTALL)
+                    if _jm:
+                        _tj = json.loads(_jm.group())
+                        _thought = _tj.get("thought", "")
+                        _mitre_tactic = _tj.get("mitre_tactic", "")
+                except Exception:
+                    pass
+
             full_command = f"{resolved_cmd} {resolved_args}".strip()
 
             # Log classifier success prediction (informational — does not gate execution)
@@ -2415,6 +2582,30 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                     via = "subprocess"
                 else:
                     via = "c2"
+
+            # --- Observation parsing + world model update ---
+            if _obs_parser is not None and _wm is not None:
+                try:
+                    obs = _obs_parser.parse(output, host=target, tool=resolved_cmd)
+                    _wm.update_from_findings(obs.findings)
+                    # Auto-complete objectives satisfied by findings
+                    if _OBJECTIVES_AVAILABLE and obs.findings:
+                        try:
+                            from lazyown_objective import ObjectiveStore as _OS
+                            _ostore = _OS()
+                            _pending = _ostore.peek()
+                            if _pending:
+                                _obj_text = _pending.get("title", _pending.get("description", ""))
+                                _satisfied = any(
+                                    f.value and len(f.value) > 3 and f.value.lower() in _obj_text.lower()
+                                    for f in obs.findings
+                                )
+                                if _satisfied:
+                                    _ostore.complete_current()
+                        except Exception:
+                            pass
+                except Exception:
+                    pass
 
             # Record outcome in policy engine
             step = _policy.on_command_complete(
@@ -2485,6 +2676,12 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 "policy_rec": top_rec["reason"],
                 "source":     top_rec["source"],
             }
+            if _thought:
+                step_dict["thought"] = _thought
+            if _mitre_tactic:
+                step_dict["mitre_tactic"] = _mitre_tactic
+            if _wm is not None:
+                step_dict["phase"] = _wm.get_phase().value
             if _pred_prob is not None:
                 step_dict["predicted_success_prob"] = round(_pred_prob, 3)
             if pwntomate_note:
@@ -2640,6 +2837,138 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
         result = await asyncio.get_event_loop().run_in_executor(None, _read_prompt)
         return text(result)
+
+    elif name == "lazyown_generate_report":
+        output_path = arguments.get("output", "").strip() or None
+        try:
+            sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
+            from report_generator import ReportGenerator
+            rg   = ReportGenerator(sessions_dir=LAZYOWN_DIR / "sessions")
+            path = rg.generate(output_path=output_path)
+            return text(f"Report generated: {path}")
+        except Exception as exc:
+            return text(f"[report error] {exc}")
+
+    elif name == "lazyown_cve_search":
+        product     = arguments.get("product", "").strip()
+        version     = arguments.get("version", "").strip()
+        max_results = int(arguments.get("max_results", "10") or "10")
+        if not product:
+            return text("[cve_search error] 'product' is required.")
+        try:
+            sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
+            from cve_matcher import CVEMatcher
+            matcher = CVEMatcher()
+            results = await asyncio.get_event_loop().run_in_executor(
+                None, lambda: matcher.search(product, version, max_results=max_results)
+            )
+            if not results:
+                return text(f"No CVEs found for '{product} {version}'.".strip())
+            lines = [f"CVEs for {product} {version}:".strip(), ""]
+            for r in results:
+                lines.append(f"[{r.severity:8s}] {r.id}  CVSS {r.cvss:.1f}  {r.published}")
+                lines.append(f"  {r.description[:120]}")
+                for ref in r.references:
+                    lines.append(f"  -> {ref}")
+                lines.append("")
+            return text("\n".join(lines))
+        except Exception as exc:
+            return text(f"[cve_search error] {exc}")
+
+    elif name == "lazyown_playbook_generate":
+        pb_target   = arguments.get("target", "").strip()
+        pb_phase    = arguments.get("phase", "").strip() or None
+        pb_platform = arguments.get("platform", "linux").strip() or "linux"
+        pb_top_n    = int(arguments.get("top_n", "5") or "5")
+        if not pb_target:
+            return text("[playbook_generate] 'target' is required.")
+        try:
+            sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
+            from playbook_engine import PlaybookEngine
+            engine   = PlaybookEngine(top_n=pb_top_n)
+            playbook = await asyncio.get_event_loop().run_in_executor(
+                None,
+                lambda: engine.derive(pb_target, phase=pb_phase, platform=pb_platform),
+            )
+            saved_path = await asyncio.get_event_loop().run_in_executor(
+                None, lambda: engine.save(playbook)
+            )
+            lines = [
+                f"Playbook generated: {saved_path}",
+                f"Target: {playbook.target}  Phase: {playbook.phase}  "
+                f"Platform: {pb_platform}  Steps: {len(playbook.steps)}",
+                "",
+            ]
+            for i, step in enumerate(playbook.steps, 1):
+                atomic_id = step.atomic_id or "no atomic"
+                lines.append(
+                    f"  Step {i}: [{step.technique_id}] {step.name[:60]} "
+                    f"({atomic_id})"
+                )
+            return text("\n".join(lines))
+        except Exception as exc:
+            return text(f"[playbook_generate error] {exc}")
+
+    elif name == "lazyown_playbook_run":
+        pb_path    = arguments.get("path", "").strip()
+        pb_target  = arguments.get("target", "").strip()
+        pb_dry_run = bool(arguments.get("dry_run", False))
+        try:
+            sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
+            from playbook_engine import PlaybookEngine
+            engine = PlaybookEngine()
+
+            # Resolve playbook path
+            if pb_path:
+                pb_file = Path(pb_path)
+            else:
+                # Fall back to most recently modified playbook in sessions/
+                sessions_pb = sorted(
+                    (LAZYOWN_DIR / "sessions").glob("playbook_*.yaml"),
+                    key=lambda p: p.stat().st_mtime,
+                    reverse=True,
+                )
+                if not sessions_pb:
+                    return text("[playbook_run] No playbook found. Run lazyown_playbook_generate first.")
+                pb_file = sessions_pb[0]
+
+            playbook = await asyncio.get_event_loop().run_in_executor(
+                None, lambda: engine.load(pb_file)
+            )
+
+            # Resolve target
+            effective_target = pb_target or playbook.target
+            if not effective_target:
+                cfg = _load_payload()
+                effective_target = cfg.get("rhost", "") or cfg.get("target_ip", "")
+
+            # Executor: runs each step command via subprocess
+            # Signature: (command, target) matching PlaybookEngine.execute() contract
+            def _mcp_executor(command: str, target: str = "") -> str:
+                import subprocess
+                cmd = command.replace("{target}", target) if target else command
+                result = subprocess.run(
+                    cmd,
+                    shell=True,
+                    capture_output=True,
+                    text=True,
+                    timeout=120,
+                    cwd=str(LAZYOWN_DIR),
+                )
+                return (result.stdout + result.stderr).strip()
+
+            pb_result = await asyncio.get_event_loop().run_in_executor(
+                None,
+                lambda: engine.execute(
+                    playbook,
+                    executor=_mcp_executor,
+                    dry_run=pb_dry_run,
+                ),
+            )
+            summary = engine.result_summary(pb_result)
+            return text(summary)
+        except Exception as exc:
+            return text(f"[playbook_run error] {exc}")
 
     elif name == "lazyown_soul":
         action  = arguments.get("action", "read")

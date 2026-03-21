@@ -197,6 +197,24 @@ class AgentRunner:
 
     def register_tool(self, tool: AgentTool):
         self.tools[tool.name] = tool
+
+    def register_tool_from_instance(self, func: Callable):
+        """Wrap a plain function as an AgentTool using its signature and docstring."""
+        sig = inspect.signature(func)
+        parameters = {}
+        required = []
+        for pname, param in sig.parameters.items():
+            parameters[pname] = {"type": "string", "description": f"Parameter {pname}"}
+            if param.default is inspect.Parameter.empty:
+                required.append(pname)
+        tool = AgentTool(
+            name=func.__name__,
+            description=(func.__doc__ or func.__name__).strip(),
+            func=func,
+            parameters=parameters,
+            required=required,
+        )
+        self.register_tool(tool)
     
     def register_tools_from_metadata(self, commands: List[CommandMetadata], executor: Callable[[str], str]):
         # (Esta parte se mantiene igual que en tu código anterior)

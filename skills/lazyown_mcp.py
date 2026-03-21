@@ -1320,6 +1320,276 @@ async def list_tools() -> list[types.Tool]:
             },
         ),
         types.Tool(
+            name="lazyown_memory_recall",
+            description=(
+                "Query the episodic memory store for past command executions. "
+                "Returns the most relevant past sessions matching the query — including "
+                "what command was run, against which host, what findings were produced, "
+                "and whether it succeeded. Use this before choosing a tool to avoid "
+                "repeating failed approaches and to reuse proven techniques."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "query": {
+                        "type": "string",
+                        "description": "Free-text query: service name, CVE, technique, host IP.",
+                    },
+                    "host": {
+                        "type": "string",
+                        "description": "Filter results to a specific host IP.",
+                        "default": "",
+                    },
+                    "top_k": {
+                        "type": "string",
+                        "description": "Number of results to return (default 5).",
+                        "default": "5",
+                    },
+                },
+                "required": ["query"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_memory_store",
+            description=(
+                "Explicitly save a command execution to episodic memory. "
+                "The auto_loop saves automatically, but use this tool to manually "
+                "record important findings that should be recalled in future sessions."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "host":    {"type": "string", "description": "Target host IP."},
+                    "tool":    {"type": "string", "description": "Tool or technique name."},
+                    "command": {"type": "string", "description": "Command that was executed."},
+                    "output":  {"type": "string", "description": "Command output (will be trimmed to 2000 chars)."},
+                    "success": {"type": "boolean", "description": "Whether it succeeded.", "default": True},
+                },
+                "required": ["host", "tool", "command", "output"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_searchsploit",
+            description=(
+                "Search for public exploits matching a CVE ID or service name/version. "
+                "Uses searchsploit CLI if available, falls back to ExploitDB. "
+                "Returns exploit title, type, platform, and path."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "cve": {
+                        "type": "string",
+                        "description": "CVE identifier (e.g. CVE-2021-41773).",
+                        "default": "",
+                    },
+                    "service": {
+                        "type": "string",
+                        "description": "Service name (e.g. 'apache', 'vsftpd').",
+                        "default": "",
+                    },
+                    "version": {
+                        "type": "string",
+                        "description": "Service version (e.g. '2.4.49').",
+                        "default": "",
+                    },
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_misp_export",
+            description=(
+                "Export current session findings as a MISP-compatible event JSON. "
+                "Converts WorldModel hosts, services, credentials, and CVEs into "
+                "typed MISP attributes. Saves to sessions/misp_event.json."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "target": {
+                        "type": "string",
+                        "description": "Filter to a specific target (default: all).",
+                        "default": "",
+                    },
+                    "output": {
+                        "type": "string",
+                        "description": "Output file path (default: sessions/misp_event.json).",
+                        "default": "",
+                    },
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_eval_quality",
+            description=(
+                "Show LLM decision quality report: success rate, top/worst MITRE tactics, "
+                "confidence calibration. Helps identify where the auto_loop makes poor choices. "
+                "Optionally export a fine-tuning dataset from successful decisions."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "session_id": {
+                        "type": "string",
+                        "description": "Filter to a specific session (default: all sessions).",
+                        "default": "",
+                    },
+                    "export_dataset": {
+                        "type": "boolean",
+                        "description": "Export fine-tuning JSONL to sessions/finetuning_dataset.jsonl.",
+                        "default": False,
+                    },
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_collab_publish",
+            description=(
+                "Broadcast a structured event to all connected operators via SSE. "
+                "Use this to share findings, alerts, or status updates in real time. "
+                "Operators connected to /collab/stream will receive the event immediately."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "description": "Event type: 'finding', 'command', 'phase_change', 'alert', 'chat'.",
+                    },
+                    "payload": {
+                        "type": "string",
+                        "description": "JSON string with event payload data.",
+                    },
+                    "operator": {
+                        "type": "string",
+                        "description": "Operator name (default: 'agent').",
+                        "default": "agent",
+                    },
+                },
+                "required": ["type", "payload"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_c2_profile",
+            description=(
+                "Show, set or list malleable C2 profiles. "
+                "Profiles control beacon sleep interval, jitter, HTTP headers, "
+                "URI paths, and user-agent — affecting how detectable C2 traffic is. "
+                "Built-in profiles: default, stealth, aggressive, debug."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "action": {
+                        "type": "string",
+                        "description": "'list' to show available profiles, 'show' to display one, 'set' to activate.",
+                        "enum": ["list", "show", "set"],
+                        "default": "list",
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Profile name (required for show/set).",
+                        "default": "",
+                    },
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_bridge_suggest",
+            description=(
+                "Query the full LazyOwn command catalog (347 commands, 11 phases) "
+                "for the best command to run given engagement phase, services, "
+                "credential state, and OS target. "
+                "Args are auto-filled from the WorldModel (target IP, open port, creds). "
+                "Catalog phases: recon (35), enum (71), exploit (61), postexp (40), "
+                "cred (32), lateral (28), privesc (2), persist (30), exfil (19), "
+                "c2 (14), report (15). "
+                "Also accepts WorldModel phases: scanning, enumeration, exploitation, "
+                "post_exploitation, lateral_movement, exfiltration. "
+                "Use list_all=true to see every command for a phase. "
+                "Use sequence=true to get the next 5 commands in priority order. "
+                "Use tag_hint for technique-specific filtering: 'kerberos', 'smb', "
+                "'web', 'ad', 'impacket', 'ldap', 'bruteforce', 'tunnel', 'av_bypass'."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "phase": {
+                        "type": "string",
+                        "description": (
+                            "Engagement phase: recon, scanning, enum, enumeration, "
+                            "exploit, exploitation, postexp, post_exploitation, "
+                            "cred, credential_access, lateral, lateral_movement, "
+                            "privesc, privilege_escalation, persist, persistence, "
+                            "exfil, exfiltration, c2, command_and_control, report, reporting."
+                        ),
+                        "default": "recon",
+                    },
+                    "target": {
+                        "type": "string",
+                        "description": "Target IP or hostname (used for arg substitution).",
+                        "default": "",
+                    },
+                    "services": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": (
+                            "Discovered services (e.g. ['http:80','ssh:22','smb:445',"
+                            "'ldap:389','kerberos:88','winrm:5985']). "
+                            "Filters catalog to commands relevant to those services."
+                        ),
+                        "default": [],
+                    },
+                    "excluded": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "Command names to skip.",
+                        "default": [],
+                    },
+                    "mitre_hint": {
+                        "type": "string",
+                        "description": "Prefer commands matching this MITRE technique (e.g. 'T1046', 'T1110').",
+                        "default": "",
+                    },
+                    "tag_hint": {
+                        "type": "string",
+                        "description": (
+                            "Filter by technique tag: 'kerberos', 'ad', 'smb', 'web', "
+                            "'ldap', 'impacket', 'bruteforce', 'spray', 'tunnel', "
+                            "'webshell', 'av_bypass', 'osint', 'dns', 'snmp', 'ssh'."
+                        ),
+                        "default": "",
+                    },
+                    "os_hint": {
+                        "type": "string",
+                        "description": "Target OS: 'linux', 'windows', or 'any' (default).",
+                        "enum": ["any", "linux", "windows"],
+                        "default": "any",
+                    },
+                    "list_all": {
+                        "type": "boolean",
+                        "description": "List ALL commands for the phase (sorted by priority).",
+                        "default": False,
+                    },
+                    "sequence": {
+                        "type": "boolean",
+                        "description": "Return next 5 commands in kill-chain order.",
+                        "default": False,
+                    },
+                    "catalog_summary": {
+                        "type": "boolean",
+                        "description": "Show full catalog summary (all phases + command counts).",
+                        "default": False,
+                    },
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
             name="lazyown_soul",
             description=(
                 "Read or update the agent soul (sessions/soul.md). "
@@ -1341,6 +1611,363 @@ async def list_tools() -> list[types.Tool]:
                     "content": {
                         "type": "string",
                         "description": "New soul content (only required when action='write').",
+                        "default": "",
+                    },
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_groq_agent",
+            description=(
+                "Spawn an autonomous Groq or Ollama agent pre-loaded with 21 LazyOwn tools: "
+                "run_command, bridge_suggest, bridge_catalog, parquet_context, facts_show, "
+                "cve_lookup, memory_search, session_status, read_session_file, list_sessions, "
+                "c2_status, c2_command, task_list, task_add, inject_objective, "
+                "reactive_suggest, searchsploit, command_help, rag_query, threat_model, "
+                "atomic_search. "
+                "Groq uses native tool calling; Ollama uses ReAct prompt engineering. "
+                "async_mode=False (default) blocks and returns the final answer. "
+                "async_mode=True fires-and-forgets and returns an agent_id to poll with "
+                "lazyown_agent_status / lazyown_agent_result."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "goal": {
+                        "type": "string",
+                        "description": "Autonomous goal for the agent to pursue.",
+                    },
+                    "tools_filter": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": (
+                            "Restrict the agent to a subset of the 18 tools. "
+                            "Default: all tools. Example: ['run_command','bridge_suggest','facts_show']"
+                        ),
+                        "default": [],
+                    },
+                    "backend": {
+                        "type": "string",
+                        "enum": ["groq", "ollama"],
+                        "description": "'groq' for native tool calling, 'ollama' for local ReAct.",
+                        "default": "groq",
+                    },
+                    "max_iterations": {
+                        "type": "integer",
+                        "description": "Max tool-call iterations before the agent returns a Final Answer.",
+                        "default": 8,
+                    },
+                    "async_mode": {
+                        "type": "boolean",
+                        "description": "True = fire-and-forget (returns agent_id); False = block until done.",
+                        "default": False,
+                    },
+                    "system_prompt": {
+                        "type": "string",
+                        "description": "Override the default agent system prompt (optional).",
+                        "default": "",
+                    },
+                },
+                "required": ["goal"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_rag_index",
+            description=(
+                "Incrementally index all sessions/ artefacts (*.log, *.txt, *.csv, *.xml, "
+                "*.json, *.nmap, *.md) into the ChromaDB semantic store. "
+                "Only new or changed files are processed — safe to call from cron. "
+                "mode='incremental' (default) indexes only new/changed files. "
+                "mode='full' rebuilds the entire index from scratch. "
+                "Returns: {files: N, chunks: N} counts."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "mode": {
+                        "type": "string",
+                        "enum": ["incremental", "full"],
+                        "description": "Indexing mode.",
+                        "default": "incremental",
+                    },
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_rag_query",
+            description=(
+                "Semantic search over indexed sessions/ artefacts. "
+                "Returns the top-n most relevant chunks from logs, scan results, "
+                "credential files, and other session data. "
+                "Falls back to keyword search when ChromaDB is not available. "
+                "Install ChromaDB for full semantic search: pip install chromadb"
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "query": {
+                        "type": "string",
+                        "description": "Natural language query.",
+                    },
+                    "n": {
+                        "type": "integer",
+                        "description": "Number of results to return.",
+                        "default": 5,
+                    },
+                },
+                "required": ["query"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_threat_model",
+            description=(
+                "Build or load the blue team threat model from LazyOwn session data. "
+                "Reads LazyOwn_session_report.csv, maps commands to MITRE ATT&CK techniques, "
+                "and produces assets with risk scores, TTP catalogue, IOC registry, "
+                "and Sigma-lite detection rules. "
+                "Output saved to sessions/reports/threat_model.json. "
+                "action='build' (re)generates the model. "
+                "action='load' returns the last saved model. "
+                "action='ttps' returns only the TTP list. "
+                "action='rules' returns only detection rules. "
+                "action='iocs' returns only the IOC registry. "
+                "action='purple' returns the full purple team mapping (red TTP + blue detection side-by-side). "
+                "action='gaps' returns TTPs with no detection rule (coverage gaps)."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "action": {
+                        "type": "string",
+                        "enum": ["build", "load", "ttps", "rules", "iocs", "purple", "gaps"],
+                        "description": "What to return.",
+                        "default": "build",
+                    },
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_atomic_search",
+            description=(
+                "Structured search over the 1690 Atomic Red Team technique tests "
+                "(parquets/techniques_enriched.parquet). "
+                "Supports simultaneous filtering by keyword, MITRE ID/prefix, platform, "
+                "scope, prerequisites, and complexity. "
+                "Returns id, name, mitre_id, platform_list, scope, complexity, "
+                "has_prereqs, keyword_tags, description_preview — and optionally command_preview. "
+                "Examples: keyword='bypass amsi' platform='windows'; "
+                "mitre_id='T1548' platform='linux' complexity='low'; "
+                "keyword='kerberos' no_prereqs=true."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "keyword": {
+                        "type": "string",
+                        "description": "Free-text search over name, description, tags.",
+                        "default": "",
+                    },
+                    "mitre_id": {
+                        "type": "string",
+                        "description": "MITRE technique ID or prefix (T1059, T1059.001, T1548.002).",
+                        "default": "",
+                    },
+                    "platform": {
+                        "type": "string",
+                        "description": "Target platform: linux | windows | macos | freebsd | cloud.",
+                        "default": "",
+                    },
+                    "scope": {
+                        "type": "string",
+                        "enum": ["", "local", "remote", "elevated", "any"],
+                        "description": "Execution scope.",
+                        "default": "",
+                    },
+                    "complexity": {
+                        "type": "string",
+                        "enum": ["", "low", "medium", "high"],
+                        "description": "Command complexity based on line count.",
+                        "default": "",
+                    },
+                    "has_prereqs": {
+                        "type": "boolean",
+                        "description": "true = only tests with prerequisites; false = no prereqs needed.",
+                    },
+                    "limit": {
+                        "type": "integer",
+                        "description": "Max results to return (default 10).",
+                        "default": 10,
+                    },
+                    "include_command": {
+                        "type": "boolean",
+                        "description": "Include command_preview (first 300 chars) in results.",
+                        "default": False,
+                    },
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_session_status",
+            description=(
+                "Show live C2 session state: active implants, their OS/user/hostname/IPs, "
+                "privileged vs unprivileged status, discovered hosts, and open campaign tasks. "
+                "Reads sessions/{client_id}.log CSV files, sessions/hostsdiscovery.txt, "
+                "and sessions/tasks.json without touching lazyc2.py."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "client_id": {
+                        "type": "string",
+                        "description": "Filter to a specific client_id (default: all).",
+                        "default": "",
+                    },
+                    "show_tasks": {
+                        "type": "boolean",
+                        "description": "Include campaign task board (default true).",
+                        "default": True,
+                    },
+                    "show_outputs": {
+                        "type": "boolean",
+                        "description": "Include latest command outputs per implant (default false).",
+                        "default": False,
+                    },
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_reactive_suggest",
+            description=(
+                "Parse raw command output and return prioritised reactive decisions. "
+                "Detects: AV/EDR blocks (evasion via amsi.yaml/darkarmour), "
+                "privesc hints (SUID/sudo/polkit → adversary_yaml/lazypwn), "
+                "credentials found, new hosts discovered, service versions, "
+                "and shell errors (switch-tool recommendations). "
+                "Priority 1-2 decisions are auto-injected into the next auto_loop step."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "output": {
+                        "type": "string",
+                        "description": "Raw command output to analyse.",
+                    },
+                    "command": {
+                        "type": "string",
+                        "description": "The command that produced the output.",
+                        "default": "",
+                    },
+                    "platform": {
+                        "type": "string",
+                        "description": "Target platform: 'linux', 'windows', or 'unknown'.",
+                        "enum": ["linux", "windows", "unknown"],
+                        "default": "unknown",
+                    },
+                    "max_decisions": {
+                        "type": "integer",
+                        "description": "Maximum decisions to return (default 5).",
+                        "default": 5,
+                    },
+                },
+                "required": ["output"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_campaign_tasks",
+            description=(
+                "Manage campaign tasks in sessions/tasks.json. "
+                "Statuses: New -> Refined -> Started -> Review -> Qa -> Done | Blocked. "
+                "Use for campaign reporting beyond vulnbot's markdown — full task board "
+                "with operator assignments and status tracking."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "action": {
+                        "type": "string",
+                        "enum": ["list", "add", "update"],
+                        "description": (
+                            "'list' = show all tasks; "
+                            "'add' = create a new task; "
+                            "'update' = change a task's status."
+                        ),
+                        "default": "list",
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "Task title (required for action='add').",
+                        "default": "",
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Task description (used for action='add').",
+                        "default": "",
+                    },
+                    "operator": {
+                        "type": "string",
+                        "description": "Operator assigned to the task (default: 'agent').",
+                        "default": "agent",
+                    },
+                    "task_id": {
+                        "type": "integer",
+                        "description": "Task ID (required for action='update').",
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": ["New", "Refined", "Started", "Review", "Qa", "Done", "Blocked"],
+                        "description": "New status (required for action='update').",
+                        "default": "New",
+                    },
+                    "filter_status": {
+                        "type": "string",
+                        "description": "Filter listed tasks by status (default: all).",
+                        "default": "",
+                    },
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_cron_schedule",
+            description=(
+                "Schedule a LazyOwn command to run at a specific time using the built-in "
+                "cron system. LazyOwn's cron acts as a time-motor for autonomous activities: "
+                "schedule recon at intervals, privesc attempts, lateral movement, or any "
+                "command from the bridge catalog. Format: HH:MM. "
+                "List scheduled crons or remove one by ID."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "action": {
+                        "type": "string",
+                        "enum": ["add", "list", "remove"],
+                        "description": "'add' schedules a command; 'list' shows all; 'remove' deletes by ID.",
+                        "default": "list",
+                    },
+                    "time": {
+                        "type": "string",
+                        "description": "Execution time as HH:MM (required for action='add').",
+                        "default": "",
+                    },
+                    "command": {
+                        "type": "string",
+                        "description": "LazyOwn command to schedule (required for action='add').",
+                        "default": "",
+                    },
+                    "args": {
+                        "type": "string",
+                        "description": "Optional arguments for the command.",
+                        "default": "",
+                    },
+                    "cron_id": {
+                        "type": "string",
+                        "description": "Cron entry ID to remove (required for action='remove').",
                         "default": "",
                     },
                 },
@@ -1532,6 +2159,39 @@ async def list_tools() -> list[types.Tool]:
                     },
                 },
                 "required": ["action"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_fast_run",
+            description=(
+                "Launch the LazyOwn full-stack HackTheBox orchestrator "
+                "(fast_run_as_r00t.sh). Opens a tmux session with: nmap recon, "
+                "ping sweep, C2 implant, auto-loop, Flask C2 server, HTTP file "
+                "server, and VPN pane. Optional panes controlled by payload.json "
+                "flags: DeepSeek/Ollama, Discord C2, Telegram C2, Cloudflare "
+                "tunnel, NC reverse shell. "
+                "IMPORTANT: requires root — will prompt for sudo password via a "
+                "GUI dialog (ssh-askpass/zenity/yad). "
+                "Call with confirm=false first to see the plan without launching."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "confirm": {
+                        "type": "boolean",
+                        "description": (
+                            "Set to true to actually launch the stack. "
+                            "Defaults to false (dry-run: shows the plan without executing)."
+                        ),
+                        "default": False,
+                    },
+                    "vpn": {
+                        "type": "integer",
+                        "description": "VPN interface index passed to --vpn (default 1).",
+                        "default": 1,
+                    },
+                },
+                "required": [],
             },
         ),
     ] + (_automapper.mcp_tools() if _automapper is not None else [])
@@ -2378,6 +3038,8 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         execution_log: list[dict] = []
         # Track commands that failed this session per (target, category)
         _fail_counts: dict[str, int] = {}
+        # Reactive engine — carries the highest-priority decision across steps
+        _reactive_state: dict[str, str] = {}   # keys: "cmd", "args", "reason", "mitre"
 
         def _parquet_candidates(category: str, tgt: str) -> list[str]:
             """
@@ -2481,9 +3143,16 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             category = top_rec["category"]
 
             # ── Adaptive command selection ────────────────────────────────────
-            # Priority: parquet historical successes > LLM recommender > cat_map
+            # Priority: reactive > parquet > bridge catalog > LLM recommender > cat_map
             resolved_cmd = ""
             resolved_args = ""
+
+            # 0. Reactive engine: consume the top decision injected by the previous step
+            if _reactive_state.get("cmd"):
+                _r_parts = _reactive_state["cmd"].split(None, 1)
+                resolved_cmd  = _r_parts[0]
+                resolved_args = _r_parts[1] if len(_r_parts) > 1 else _reactive_state.get("args", "")
+                _reactive_state.clear()
 
             # 1. Parquet: commands proven to work for this category+target
             hist_candidates = _parquet_candidates(category, target)
@@ -2493,6 +3162,44 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                     continue  # blocked: failed twice this session
                 resolved_cmd = cand
                 break
+
+            # 1.5. Bridge catalog: phase-aware, service-matched recommendation
+            if not resolved_cmd:
+                try:
+                    from lazyown_bridge import get_dispatcher as _get_bridge
+                    _bridge = _get_bridge()
+                    _phase_val = _wm.get_phase().value if _wm is not None else category
+                    _services: list[str] = []
+                    _has_creds_wm = False
+                    _wm_snap = None
+                    if _wm is not None:
+                        _wm_snap = _wm.snapshot()
+                        _host_info = _wm_snap.get("hosts", {}).get(target, {})
+                        _svcs = _host_info.get("services", {})
+                        _services = [
+                            f"{v.get('name','')}" for v in _svcs.values()
+                            if isinstance(v, dict)
+                        ]
+                        _has_creds_wm = bool(_wm_snap.get("credentials"))
+                    _excl_set = {
+                        k.split(":")[-1] for k, v in _fail_counts.items()
+                        if k.startswith(f"{target}:") and v >= 2
+                    }
+                    _bridge_result = _bridge.suggest(
+                        phase=_phase_val,
+                        target=target,
+                        services=_services,
+                        has_creds=_has_creds_wm,
+                        excluded=_excl_set,
+                        world_snapshot=_wm_snap,
+                    )
+                    if _bridge_result is not None:
+                        _bridge_cmd, _bridge_entry = _bridge_result
+                        _bridge_parts = _bridge_cmd.split(None, 1)
+                        resolved_cmd  = _bridge_parts[0]
+                        resolved_args = _bridge_parts[1] if len(_bridge_parts) > 1 else ""
+                except Exception:
+                    pass
 
             # 2. LLM recommender as fallback
             if not resolved_cmd and _RECOMMENDER_AVAILABLE:
@@ -2523,6 +3230,22 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 category, resolved_cmd, resolved_args, target
             )
 
+            # --- RAG context injection (OpenClaw style) ---
+            _rag_context = ""
+            try:
+                sys.path.insert(0, str(MODULES_DIR))
+                from session_rag import get_rag as _get_rag_auto
+                _rag_auto = _get_rag_auto()
+                _rag_auto.index_new()   # incremental — fast, no-op if nothing changed
+                _rag_context = _rag_auto.context_for_step(
+                    phase=_wm.get_phase().value if _wm is not None else category,
+                    target=target,
+                    cmd=resolved_cmd,
+                    n=3,
+                )
+            except Exception:
+                pass
+
             # --- Structured thought (OpenClaw-style reason-before-act) ---
             _thought = ""
             _mitre_tactic = ""
@@ -2535,7 +3258,8 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                         f"Target: {target}\n"
                         f"Current phase: {_wm.get_phase().value if _wm else 'unknown'}\n"
                         f"World model:\n{_wm_context}\n\n"
-                        f"About to execute: {resolved_cmd} {resolved_args}\n"
+                        + (f"{_rag_context}\n\n" if _rag_context else "")
+                        + f"About to execute: {resolved_cmd} {resolved_args}\n"
                         f"Category: {category}\n\n"
                         f"Respond with a single JSON object (no markdown):\n"
                         f'{{"thought": "one sentence reasoning", '
@@ -2583,6 +3307,20 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 else:
                     via = "c2"
 
+            # --- Persist output for future RAG iterations ---
+            if output and output.strip():
+                try:
+                    import re as _re_rag
+                    _safe_cmd = _re_rag.sub(r"[^a-zA-Z0-9_-]", "_", resolved_cmd)[:40]
+                    _out_dir  = SESSIONS_DIR / "auto_loop_outputs"
+                    _out_dir.mkdir(parents=True, exist_ok=True)
+                    _out_ts   = int(time.time())
+                    (_out_dir / f"{_out_ts}_{_safe_cmd}.txt").write_text(
+                        output[:8000], errors="replace"
+                    )
+                except Exception:
+                    pass
+
             # --- Observation parsing + world model update ---
             if _obs_parser is not None and _wm is not None:
                 try:
@@ -2606,6 +3344,37 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                             pass
                 except Exception:
                     pass
+
+            # --- Reactive engine: analyse output, inject top decision next step ---
+            _reactive_decision_note = ""
+            try:
+                from reactive_engine import get_engine as _get_reactive
+                _re_engine  = _get_reactive()
+                _re_platform = "unknown"
+                if _wm is not None:
+                    try:
+                        _re_platform = _wm.snapshot().get("hosts", {}).get(
+                            target, {}
+                        ).get("platform", "unknown")
+                    except Exception:
+                        pass
+                _re_decisions = _re_engine.analyse(
+                    output=output,
+                    command=resolved_cmd,
+                    platform=_re_platform,
+                )
+                if _re_decisions:
+                    top_d = _re_decisions[0]
+                    if top_d.priority <= 2 and not _reactive_state.get("cmd"):
+                        _reactive_state["cmd"]   = top_d.command
+                        _reactive_state["args"]  = ""
+                        _reactive_state["reason"] = top_d.reason
+                        _reactive_state["mitre"] = top_d.mitre_tactic
+                        _reactive_decision_note = (
+                            f"reactive:{top_d.action}:{top_d.command}"
+                        )
+            except Exception:
+                pass
 
             # Record outcome in policy engine
             step = _policy.on_command_complete(
@@ -2686,6 +3455,8 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 step_dict["predicted_success_prob"] = round(_pred_prob, 3)
             if pwntomate_note:
                 step_dict["pwntomate"] = pwntomate_note
+            if _reactive_decision_note:
+                step_dict["reactive"] = _reactive_decision_note
             return {"stop": should_stop, "step": step_dict}
 
         for i in range(max_steps):
@@ -2970,6 +3741,847 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         except Exception as exc:
             return text(f"[playbook_run error] {exc}")
 
+    # ── memory_recall ──────────────────────────────────────────────────────────
+    elif name == "lazyown_memory_recall":
+        query  = arguments.get("query", "").strip()
+        host   = arguments.get("host", "").strip()
+        top_k  = int(arguments.get("top_k", "5") or "5")
+        if not query and not host:
+            return text("[memory_recall] 'query' or 'host' is required.")
+        try:
+            sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
+            from memory_store import get_memory_store
+            ms = get_memory_store()
+            entries = ms.recall_by_host(host, top_k=top_k) if (host and not query) \
+                      else ms.recall(query, top_k=top_k)
+            if not entries:
+                return text("No matching memories found.")
+            lines = [f"Memory recall: {len(entries)} results for '{query or host}'", ""]
+            for e in entries:
+                status = "OK" if e.success else "FAIL"
+                lines.append(f"[{status}] host={e.host} tool={e.tool}")
+                lines.append(f"  cmd: {e.command[:100]}")
+                lines.append(f"  out: {e.output_snippet[:120]}")
+                if e.findings_json and e.findings_json != "[]":
+                    lines.append(f"  findings: {e.findings_json[:120]}")
+                lines.append("")
+            return text("\n".join(lines))
+        except Exception as exc:
+            return text(f"[memory_recall error] {exc}")
+
+    elif name == "lazyown_memory_store":
+        m_host    = arguments.get("host", "").strip()
+        m_tool    = arguments.get("tool", "").strip()
+        m_command = arguments.get("command", "").strip()
+        m_output  = arguments.get("output", "").strip()
+        m_success = bool(arguments.get("success", True))
+        if not all([m_host, m_tool, m_command]):
+            return text("[memory_store] host, tool, command are required.")
+        try:
+            sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
+            from memory_store import get_memory_store
+            import uuid as _uuid
+            ms = get_memory_store()
+            ms.remember(
+                session_id=_uuid.uuid4().hex[:8],
+                host=m_host, tool=m_tool,
+                command=m_command, output=m_output,
+                findings=[], success=m_success,
+            )
+            stats = ms.stats()
+            return text(f"Stored. Memory total: {stats.get('total', '?')} entries.")
+        except Exception as exc:
+            return text(f"[memory_store error] {exc}")
+
+    # ── searchsploit ───────────────────────────────────────────────────────────
+    elif name == "lazyown_searchsploit":
+        sp_cve     = arguments.get("cve", "").strip()
+        sp_service = arguments.get("service", "").strip()
+        sp_version = arguments.get("version", "").strip()
+        if not sp_cve and not sp_service:
+            return text("[searchsploit] 'cve' or 'service' is required.")
+        try:
+            sys.path.insert(0, str(LAZYOWN_DIR / "modules" / "integrations"))
+            sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
+            from integrations.searchsploit import get_client as _sp_get
+            client = _sp_get()
+            results = await asyncio.get_event_loop().run_in_executor(
+                None,
+                lambda: client.search_cve(sp_cve) if sp_cve else client.search_service(sp_service, sp_version)
+            )
+            if not results:
+                return text(f"No exploits found for '{sp_cve or sp_service}'.")
+            lines = [f"Exploits for {sp_cve or (sp_service + ' ' + sp_version).strip()}:", ""]
+            for r in results:
+                lines.append(f"  [{r.type:10s}] [{r.platform:8s}] {r.title[:70]}")
+                if r.cve:
+                    lines.append(f"    CVE: {r.cve}")
+                lines.append(f"    Path: {r.path}")
+            return text("\n".join(lines))
+        except Exception as exc:
+            return text(f"[searchsploit error] {exc}")
+
+    # ── misp_export ────────────────────────────────────────────────────────────
+    elif name == "lazyown_misp_export":
+        misp_target = arguments.get("target", "").strip() or None
+        misp_output = arguments.get("output", "").strip() or None
+        try:
+            sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
+            from integrations.misp_export import get_exporter as _misp_get
+            exporter = _misp_get()
+            event = await asyncio.get_event_loop().run_in_executor(
+                None,
+                lambda: exporter.export_session(LAZYOWN_DIR / "sessions", target=misp_target)
+            )
+            out_path = misp_output or str(LAZYOWN_DIR / "sessions" / "misp_event.json")
+            saved = await asyncio.get_event_loop().run_in_executor(
+                None, lambda: exporter.save(event, out_path)
+            )
+            return text(
+                f"MISP event saved: {saved}\n"
+                f"Attributes: {len(event.attributes)}  "
+                f"Threat level: {event.threat_level_id}  "
+                f"Tags: {', '.join(event.tags) or 'none'}"
+            )
+        except Exception as exc:
+            return text(f"[misp_export error] {exc}")
+
+    # ── eval_quality ───────────────────────────────────────────────────────────
+    elif name == "lazyown_eval_quality":
+        eq_session  = arguments.get("session_id", "").strip() or None
+        eq_export   = bool(arguments.get("export_dataset", False))
+        try:
+            sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
+            from llm_evaluator import get_evaluator
+            ev      = get_evaluator()
+            report  = ev.quality_report(session_id=eq_session)
+            if eq_export:
+                out_path = LAZYOWN_DIR / "sessions" / "finetuning_dataset.jsonl"
+                exported = await asyncio.get_event_loop().run_in_executor(
+                    None, lambda: ev.export_finetuning_dataset(out_path)
+                )
+                report += f"\n\nFine-tuning dataset exported: {exported}"
+            return text(report)
+        except Exception as exc:
+            return text(f"[eval_quality error] {exc}")
+
+    # ── collab_publish ─────────────────────────────────────────────────────────
+    elif name == "lazyown_collab_publish":
+        cp_type     = arguments.get("type", "generic").strip()
+        cp_payload  = arguments.get("payload", "{}").strip()
+        cp_operator = arguments.get("operator", "agent").strip()
+        try:
+            payload_dict = json.loads(cp_payload) if cp_payload else {}
+        except Exception:
+            payload_dict = {"raw": cp_payload}
+        try:
+            sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
+            from collab_bp import publish_event
+            publish_event(type=cp_type, payload=payload_dict, operator=cp_operator)
+            return text(f"Event '{cp_type}' published to {cp_operator} channel.")
+        except Exception as exc:
+            return text(f"[collab_publish error] {exc}")
+
+    # ── c2_profile ─────────────────────────────────────────────────────────────
+    elif name == "lazyown_c2_profile":
+        cp_action = arguments.get("action", "list").strip()
+        cp_name   = arguments.get("name", "").strip()
+        try:
+            sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
+            from c2_profile import get_registry
+            registry = get_registry()
+            if cp_action == "list":
+                names = registry.list_names()
+                lines = ["Available C2 profiles:", ""]
+                for n in names:
+                    p = registry.get(n)
+                    lines.append(f"  {n:12s}  sleep={p.sleep.interval_ms}ms  "
+                                 f"jitter={p.sleep.jitter_pct}%  "
+                                 f"ua={p.http_get.user_agent[:40]}")
+                return text("\n".join(lines))
+            elif cp_action in ("show", "set"):
+                if not cp_name:
+                    return text(f"[c2_profile] 'name' is required for action='{cp_action}'.")
+                profile = registry.get(cp_name)
+                if profile is None:
+                    return text(f"[c2_profile] Unknown profile '{cp_name}'. "
+                                f"Available: {registry.list_names()}")
+                if cp_action == "set":
+                    cfg = _load_payload()
+                    cfg["c2_profile"] = cp_name
+                    try:
+                        payload_path = LAZYOWN_DIR / "payload.json"
+                        import json as _json
+                        payload_path.write_text(_json.dumps(cfg, indent=2))
+                    except Exception:
+                        pass
+                lines = [
+                    f"Profile: {profile.name}",
+                    f"  {profile.description}",
+                    f"  Sleep:   {profile.sleep.interval_ms}ms  Jitter: {profile.sleep.jitter_pct}%",
+                    f"  GET UA:  {profile.http_get.user_agent}",
+                    f"  GET URI: {profile.http_get.uri_paths}",
+                    f"  POST URI:{profile.http_post.uri_paths}",
+                    f"  Headers: {dict(list(profile.http_get.headers.items())[:3])}",
+                ]
+                if cp_action == "set":
+                    lines.append(f"  Active profile set to '{cp_name}' in payload.json.")
+                return text("\n".join(lines))
+            else:
+                return text(f"[c2_profile] Unknown action '{cp_action}'. Use: list, show, set.")
+        except Exception as exc:
+            return text(f"[c2_profile error] {exc}")
+
+    # ── bridge_suggest ──────────────────────────────────────────────────────────
+    elif name == "lazyown_bridge_suggest":
+        bs_phase       = arguments.get("phase", "recon").strip() or "recon"
+        bs_target      = arguments.get("target", "").strip()
+        bs_services    = arguments.get("services", [])
+        bs_excluded    = set(arguments.get("excluded", []))
+        bs_mitre       = arguments.get("mitre_hint", "").strip()
+        bs_tag         = arguments.get("tag_hint", "").strip()
+        bs_os          = arguments.get("os_hint", "any").strip() or "any"
+        bs_list_all    = bool(arguments.get("list_all", False))
+        bs_sequence    = bool(arguments.get("sequence", False))
+        bs_cat_summary = bool(arguments.get("catalog_summary", False))
+        try:
+            sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
+            from lazyown_bridge import get_dispatcher as _bridge_dispatcher
+
+            dispatcher = _bridge_dispatcher()
+
+            # ── catalog_summary mode ──────────────────────────────────────
+            if bs_cat_summary:
+                summary = dispatcher.catalog_summary()
+                lines = [
+                    f"LazyOwn Bridge Catalog — {dispatcher.catalog_count()} commands",
+                    f"Kill chain order: {' -> '.join(dispatcher.phase_kill_chain())}",
+                    "",
+                ]
+                for phase, cmds in summary.items():
+                    lines.append(f"  {phase:12s} ({len(cmds):3d}): {', '.join(cmds[:8])}"
+                                 + (" ..." if len(cmds) > 8 else ""))
+                return text("\n".join(lines))
+
+            # ── list_all mode ─────────────────────────────────────────────
+            if bs_list_all:
+                entries = dispatcher.list_phase(bs_phase)
+                if not entries:
+                    return text(f"[bridge_suggest] No commands catalogued for phase '{bs_phase}'.")
+                lines = [
+                    f"Commands for phase '{bs_phase}' ({len(entries)} total):",
+                    f"  Catalog total: {dispatcher.catalog_count()} commands",
+                    "",
+                ]
+                for e in entries:
+                    cred_tag = " [creds]" if e.requires_creds else ""
+                    svc_tag  = f" [{','.join(e.services[:3])}]" if e.services else ""
+                    os_tag   = f" [{e.os_target}]" if e.os_target != "any" else ""
+                    tag_str  = f" #{','.join(e.tags[:2])}" if e.tags else ""
+                    lines.append(
+                        f"  {e.priority}. {e.command:30s}{cred_tag}{svc_tag}{os_tag}{tag_str}"
+                        f"  {e.mitre_tactic}"
+                    )
+                    lines.append(f"       {e.description}")
+                return text("\n".join(lines))
+
+            # ── Load WorldModel snapshot for arg enrichment ───────────────
+            _wm_snapshot = None
+            try:
+                from world_model import WorldModel
+                _wm_snapshot = WorldModel().snapshot()
+                if not bs_target and _wm_snapshot:
+                    _hosts = list(_wm_snapshot.get("hosts", {}).keys())
+                    if _hosts:
+                        bs_target = _wm_snapshot.get("primary_target") or _hosts[0]
+            except Exception:
+                pass
+
+            _has_creds = bool(_wm_snapshot.get("credentials")) if _wm_snapshot else False
+            _eff_target = bs_target or _load_payload().get("rhost", "")
+
+            # ── sequence mode ─────────────────────────────────────────────
+            if bs_sequence:
+                seq = dispatcher.suggest_sequence(
+                    phase=bs_phase,
+                    target=_eff_target,
+                    services=bs_services,
+                    has_creds=_has_creds,
+                    excluded=bs_excluded,
+                    world_snapshot=_wm_snapshot,
+                    limit=5,
+                )
+                if not seq:
+                    return text(f"[bridge_suggest] No sequence found for phase='{bs_phase}'.")
+                lines = [f"Next {len(seq)} commands for phase '{bs_phase}':", ""]
+                for i, (cmd_s, ent) in enumerate(seq, 1):
+                    lines.append(f"  {i}. {cmd_s}")
+                    lines.append(f"       [{ent.mitre_tactic}] {ent.description}")
+                return text("\n".join(lines))
+
+            # ── single suggest mode ───────────────────────────────────────
+            result = dispatcher.suggest(
+                phase=bs_phase,
+                target=_eff_target,
+                services=bs_services,
+                has_creds=_has_creds,
+                excluded=bs_excluded,
+                world_snapshot=_wm_snapshot,
+                mitre_hint=bs_mitre,
+                tag_hint=bs_tag,
+                os_hint=bs_os,
+            )
+            if result is None:
+                return text(
+                    f"[bridge_suggest] No suitable command for phase='{bs_phase}' "
+                    f"services={bs_services} tag='{bs_tag}' os='{bs_os}'. "
+                    f"Try list_all=true or catalog_summary=true."
+                )
+            cmd_str, entry = result
+            tag_str = f" #{', #'.join(entry.tags)}" if entry.tags else ""
+            os_str  = f" [{entry.os_target}]" if entry.os_target != "any" else ""
+            lines = [
+                f"Suggested: {cmd_str}",
+                f"  Phase:       {entry.phase}",
+                f"  MITRE:       {entry.mitre_tactic}",
+                f"  Description: {entry.description}",
+                f"  Priority:    {entry.priority}{os_str}{tag_str}",
+            ]
+            if entry.services:
+                lines.append(f"  Services:    {', '.join(entry.services)}")
+            if entry.requires_creds:
+                lines.append("  Note: requires credentials in WorldModel")
+            lines.append("")
+            lines.append(f"Run: lazyown_run_command  command='{cmd_str}'")
+            return text("\n".join(lines))
+        except Exception as exc:
+            return text(f"[bridge_suggest error] {exc}")
+
+    # ── atomic_search ────────────────────────────────────────────────────────
+    elif name == "lazyown_atomic_search":
+        as_keyword      = arguments.get("keyword", "").strip()
+        as_mitre        = arguments.get("mitre_id", "").strip()
+        as_platform     = arguments.get("platform", "").strip()
+        as_scope        = arguments.get("scope", "").strip()
+        as_complexity   = arguments.get("complexity", "").strip()
+        as_has_prereqs  = arguments.get("has_prereqs")   # None | True | False
+        as_limit        = int(arguments.get("limit", 10))
+        as_incl_cmd     = bool(arguments.get("include_command", False))
+        if as_has_prereqs is not None:
+            as_has_prereqs = bool(as_has_prereqs)
+        if not any([as_keyword, as_mitre, as_platform, as_scope, as_complexity,
+                    as_has_prereqs is not None]):
+            return text(
+                "[atomic_search] Provide at least one filter: keyword, mitre_id, "
+                "platform, scope, complexity, or has_prereqs."
+            )
+        try:
+            sys.path.insert(0, str(MODULES_DIR))
+            from atomic_enricher import query_atomic as _qa, enrich as _enrich_atomic
+            # Build enriched parquet on first use
+            _enrich_atomic()
+            rows = _qa(
+                keyword=as_keyword,
+                mitre_id=as_mitre,
+                platform=as_platform,
+                scope=as_scope,
+                has_prereqs=as_has_prereqs,
+                complexity=as_complexity,
+                limit=as_limit,
+                include_command=as_incl_cmd,
+            )
+            if not rows:
+                return text(
+                    f"[atomic_search] No results for: keyword='{as_keyword}' "
+                    f"mitre='{as_mitre}' platform='{as_platform}' scope='{as_scope}' "
+                    f"complexity='{as_complexity}'. Try broader filters."
+                )
+            lines = [f"Atomic Red Team search: {len(rows)} results\n"]
+            for r in rows:
+                plat_str  = ", ".join(r["platform_list"]) or "any"
+                lines.append(
+                    f"{r['mitre_id']:12s}  [{r['complexity']:6s}] [{r['scope']:8s}]  "
+                    f"{r['name']}"
+                )
+                lines.append(
+                    f"  platforms: {plat_str}   prereqs: {r['has_prereqs']}"
+                )
+                lines.append(f"  tags: {', '.join(r['keyword_tags'][:6])}")
+                if as_incl_cmd and r.get("command_preview"):
+                    lines.append(f"  command: {r['command_preview'][:120]}")
+                lines.append("")
+            return text("\n".join(lines))
+        except Exception as exc:
+            return text(f"[atomic_search error] {exc}")
+
+    # ── rag_index ─────────────────────────────────────────────────────────────
+    elif name == "lazyown_rag_index":
+        rag_mode = arguments.get("mode", "incremental")
+        try:
+            sys.path.insert(0, str(MODULES_DIR))
+            from session_rag import get_rag as _get_rag
+            _rag = _get_rag()
+            if rag_mode == "full":
+                result_counts = await asyncio.get_event_loop().run_in_executor(
+                    None, _rag.index_all
+                )
+            else:
+                result_counts = await asyncio.get_event_loop().run_in_executor(
+                    None, _rag.index_new
+                )
+            # Also index knowledge-base parquets (techniques, binarios, lolbas)
+            pq_counts = await asyncio.get_event_loop().run_in_executor(
+                None, lambda: _rag.index_parquet_sources(force=(rag_mode == "full"))
+            )
+            stats = _rag.stats()
+            lines = [
+                f"RAG index ({rag_mode}): {result_counts['files']} session files, "
+                f"{result_counts['chunks']} new chunks",
+                f"  + parquets:     {pq_counts['files']} KB files, "
+                f"{pq_counts['chunks']} new chunks",
+                f"Backend:        {stats['backend']}",
+                f"Indexed files:  {stats['indexed_files']}",
+                f"Total chunks:   {stats['total_chunks']}",
+            ]
+            if not stats["chroma_ok"]:
+                lines.append("Note: chromadb not installed — using keyword fallback. "
+                             "For semantic search: pip install chromadb")
+            return text("\n".join(lines))
+        except Exception as exc:
+            return text(f"[rag_index error] {exc}")
+
+    # ── rag_query ─────────────────────────────────────────────────────────────
+    elif name == "lazyown_rag_query":
+        rq_query = arguments.get("query", "").strip()
+        rq_n     = int(arguments.get("n", 5))
+        if not rq_query:
+            return text("[rag_query] 'query' is required.")
+        try:
+            sys.path.insert(0, str(MODULES_DIR))
+            from session_rag import get_rag as _get_rag
+            _rag = _get_rag()
+            # Trigger incremental index first so newly created files are visible
+            await asyncio.get_event_loop().run_in_executor(None, _rag.index_new)
+            hits = await asyncio.get_event_loop().run_in_executor(
+                None, lambda: _rag.query(rq_query, rq_n)
+            )
+            if not hits:
+                return text("No results found. Run lazyown_rag_index first.")
+            lines = [f"RAG query: '{rq_query}'  ({len(hits)} hits)\n"]
+            for i, h in enumerate(hits, 1):
+                score_str = f"  score={h['score']:.3f}" if h["score"] is not None else ""
+                lines.append(f"{i}. [{h['source']}]{score_str}")
+                lines.append(h["text"].strip()[:300])
+                lines.append("")
+            return text("\n".join(lines))
+        except Exception as exc:
+            return text(f"[rag_query error] {exc}")
+
+    # ── threat_model ──────────────────────────────────────────────────────────
+    elif name == "lazyown_threat_model":
+        tm_action = arguments.get("action", "build")
+        try:
+            sys.path.insert(0, str(MODULES_DIR))
+            from threat_model import get_builder as _get_tm_builder
+            _tmb = _get_tm_builder()
+            if tm_action == "load":
+                model = _tmb.load()
+                if model is None:
+                    return text("No threat model found — run with action='build' first.")
+            else:
+                model = await asyncio.get_event_loop().run_in_executor(None, _tmb.build)
+
+            if tm_action in ("build", "load"):
+                s = model.get("summary", {})
+                lines = [
+                    f"Threat Model  generated_at={model.get('generated_at','')}",
+                    f"  Assets:          {len(model.get('assets', []))}  (highest risk: {s.get('highest_risk_asset','')})",
+                    f"  TTPs:            {len(model.get('ttps', []))}  (dominant tactic: {s.get('dominant_tactic','')})",
+                    f"  IOCs:            {len(model.get('ioc_registry', []))}",
+                    f"  Detection rules: {len(model.get('detection_rules', []))}",
+                    f"  Total events:    {s.get('total_events',0)}",
+                    "",
+                    "Top 5 TTPs:",
+                ]
+                for t in model.get("ttps", [])[:5]:
+                    lines.append(
+                        f"  {t['technique_id']:12s} [{t['severity']:8s}] {t['tactic']:28s} "
+                        f"{t['technique_name']}  (x{t['occurrences']})"
+                    )
+                lines.append("")
+                lines.append(f"Full model: sessions/reports/threat_model.json")
+                return text("\n".join(lines))
+            elif tm_action == "ttps":
+                ttps = model.get("ttps", [])
+                lines = [f"TTPs ({len(ttps)}):"]
+                for t in ttps:
+                    lines.append(
+                        f"  {t['technique_id']:12s} [{t['severity']:8s}]  "
+                        f"{t['technique_name']}  (x{t['occurrences']})"
+                    )
+                return text("\n".join(lines))
+            elif tm_action == "rules":
+                rules = model.get("detection_rules", [])
+                lines = [f"Detection Rules ({len(rules)}):"]
+                for r in rules:
+                    lines.append(
+                        f"  {r['rule_id']}  [{r['severity']:8s}]  {r['name']}"
+                    )
+                    lines.append(f"    log_source: {r['log_source']}  |  condition: {r['condition']}")
+                    lines.append(f"    response: {r['response']}")
+                return text("\n".join(lines))
+            elif tm_action == "iocs":
+                iocs = model.get("ioc_registry", [])
+                lines = [f"IOC Registry ({len(iocs)}):"]
+                for ioc in iocs[:50]:
+                    lines.append(f"  {ioc['type']:12s}  {ioc['value']}")
+                if len(iocs) > 50:
+                    lines.append(f"  ... and {len(iocs) - 50} more")
+                return text("\n".join(lines))
+            elif tm_action == "purple":
+                purple = model.get("purple_team", [])
+                lines = [f"Purple Team Mapping ({len(purple)} TTPs)\n"]
+                for p in purple:
+                    gap_str = "  [COVERAGE GAP]" if p["gap"] else ""
+                    lines.append(
+                        f"{p['technique_id']:12s} [{p['severity']:8s}]  "
+                        f"{p['technique_name']}{gap_str}"
+                    )
+                    r = p["red"]
+                    lines.append(
+                        f"  RED : {', '.join(r['commands'])}  "
+                        f"(x{r['occurrences']}  {r['first_seen'][:10]} – {r['last_seen'][:10]})"
+                    )
+                    b = p["blue"]
+                    if b:
+                        lines.append(f"  BLUE: {b['rule_id']} {b['name']}")
+                        lines.append(f"        {b['response']}")
+                    else:
+                        lines.append("  BLUE: no detection rule")
+                    lines.append("")
+                return text("\n".join(lines))
+            elif tm_action == "gaps":
+                purple = model.get("purple_team", [])
+                gaps   = [p for p in purple if p["gap"]]
+                covered = len(purple) - len(gaps)
+                pct     = round(covered / len(purple) * 100) if purple else 0
+                lines = [
+                    f"Detection Coverage: {covered}/{len(purple)} TTPs covered ({pct}%)",
+                    f"Coverage gaps: {len(gaps)}\n",
+                ]
+                for p in gaps:
+                    lines.append(
+                        f"  {p['technique_id']:12s} [{p['severity']:8s}]  {p['technique_name']}"
+                    )
+                    lines.append(
+                        f"    Commands: {', '.join(p['red']['commands'])}"
+                    )
+                if not gaps:
+                    lines.append("  All detected TTPs have a detection rule.")
+                return text("\n".join(lines))
+            return text(json.dumps(model, indent=2, default=str))
+        except Exception as exc:
+            return text(f"[threat_model error] {exc}")
+
+    # ── groq_agent ───────────────────────────────────────────────────────────
+    elif name == "lazyown_groq_agent":
+        ga_goal       = arguments.get("goal", "").strip()
+        if not ga_goal:
+            return text("[groq_agent] 'goal' is required.")
+        ga_tools      = arguments.get("tools_filter") or None
+        ga_backend    = arguments.get("backend", "groq")
+        ga_max_iter   = int(arguments.get("max_iterations", 8))
+        ga_async      = bool(arguments.get("async_mode", False))
+        ga_sys_prompt = arguments.get("system_prompt", "")
+        try:
+            sys.path.insert(0, str(SKILLS_DIR))
+            from lazyown_groq_agents import get_pool as _groq_pool
+            cfg     = _load_payload()
+            api_key = cfg.get("api_key", "") or os.environ.get("GROQ_API_KEY", "")
+            pool    = _groq_pool()
+
+            if ga_async:
+                agent_id = pool.spawn(
+                    goal=ga_goal, tools_filter=ga_tools,
+                    api_key=api_key, backend=ga_backend,
+                    max_iterations=ga_max_iter,
+                    system_prompt=ga_sys_prompt,
+                    block=False,
+                )
+                return text(
+                    f"Agent spawned: {agent_id}\n"
+                    f"Backend  : {ga_backend}\n"
+                    f"Tools    : {len(ga_tools) if ga_tools else 18}\n"
+                    f"Max iter : {ga_max_iter}\n\n"
+                    f"Poll: lazyown_agent_status(agent_id='{agent_id}')\n"
+                    f"Read: lazyown_agent_result(agent_id='{agent_id}')"
+                )
+
+            # Synchronous mode — run in thread executor so we don't block the
+            # MCP async event loop while the agent iterates.
+            def _blocking_run() -> str:
+                aid = pool.spawn(
+                    goal=ga_goal, tools_filter=ga_tools,
+                    api_key=api_key, backend=ga_backend,
+                    max_iterations=ga_max_iter,
+                    system_prompt=ga_sys_prompt,
+                    block=True,
+                )
+                return pool.result(aid)
+
+            answer = await asyncio.get_event_loop().run_in_executor(
+                None, _blocking_run
+            )
+            return text(answer)
+
+        except Exception as exc:
+            return text(f"[groq_agent error] {exc}")
+
+    # ── session_status ────────────────────────────────────────────────────────
+    elif name == "lazyown_session_status":
+        filter_id    = arguments.get("client_id", "").strip()
+        show_tasks   = bool(arguments.get("show_tasks", True))
+        show_outputs = bool(arguments.get("show_outputs", False))
+        try:
+            sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
+            from session_reader import get_aggregator as _get_session_agg
+            summary = _get_session_agg().aggregate(SESSIONS_DIR)
+
+            lines: list[str] = []
+
+            # -- Active implants --
+            client_ids = summary.active_client_ids
+            if filter_id:
+                client_ids = [c for c in client_ids if filter_id in c]
+            lines.append(f"Active implants: {len(client_ids)}")
+            for cid in client_ids:
+                rec = summary.latest_for(cid)
+                if rec is None:
+                    continue
+                priv = "PRIVILEGED" if rec.is_privileged else "user"
+                lines.append(
+                    f"  [{priv}] {cid} | {rec.hostname} | {rec.platform} | "
+                    f"user={rec.user} | ips={rec.ips}"
+                )
+                if rec.result_portscan:
+                    lines.append(f"    portscan: {rec.result_portscan[:120]}")
+                if show_outputs and rec.output:
+                    lines.append(f"    last output: {rec.output[:200]}")
+
+            # -- Privileged vs unprivileged summary --
+            priv_count   = len(summary.privileged_sessions)
+            unpriv_count = len(summary.unprivileged_sessions)
+            lines.append("")
+            lines.append(f"Privileged sessions: {priv_count} | Unprivileged: {unpriv_count}")
+
+            # -- Discovered hosts --
+            if summary.discovered_hosts:
+                lines.append("")
+                lines.append(f"Discovered hosts ({len(summary.discovered_hosts)}):")
+                for h in summary.discovered_hosts[:30]:
+                    lines.append(f"  {h}")
+
+            # -- Command outputs --
+            if show_outputs and summary.command_outputs:
+                lines.append("")
+                lines.append(f"Recent command outputs ({len(summary.command_outputs)} files):")
+                for stem, content in list(summary.command_outputs.items())[-5:]:
+                    lines.append(f"  [{stem}] {content[:150]}")
+
+            # -- Campaign tasks --
+            if show_tasks and summary.tasks:
+                lines.append("")
+                lines.append(f"Campaign tasks ({len(summary.tasks)}):")
+                for t in summary.tasks:
+                    lines.append(f"  [{t.status:8s}] #{t.id} {t.title} (op={t.operator})")
+
+            if not lines or (len(client_ids) == 0 and not summary.discovered_hosts):
+                lines.append("No active sessions found. Start lazyc2.py and wait for implants.")
+
+            return text("\n".join(lines))
+        except Exception as exc:
+            return text(f"[session_status error] {exc}")
+
+    # ── reactive_suggest ──────────────────────────────────────────────────────
+    elif name == "lazyown_reactive_suggest":
+        raw_output    = arguments.get("output", "")
+        command       = arguments.get("command", "")
+        platform      = arguments.get("platform", "unknown")
+        max_decisions = int(arguments.get("max_decisions", 5))
+        if not raw_output.strip():
+            return text("[reactive_suggest] 'output' field is required.")
+        try:
+            sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
+            from reactive_engine import get_engine as _get_react_engine
+            engine    = _get_react_engine()
+            decisions = engine.analyse(
+                output=raw_output,
+                command=command,
+                platform=platform,
+            )
+            if not decisions:
+                return text("No reactive signals detected in the provided output.")
+            lines = [
+                f"Reactive analysis — {len(decisions)} decision(s) found:",
+                "",
+            ]
+            for i, d in enumerate(decisions[:max_decisions], 1):
+                sigs = ", ".join(f"{s.kind}({s.value[:30]})" for s in d.signals[:3])
+                lines.append(f"  {i}. [{d.action:12s}] priority={d.priority}")
+                lines.append(f"       Command : {d.command}")
+                lines.append(f"       Reason  : {d.reason}")
+                lines.append(f"       MITRE   : {d.mitre_tactic}")
+                lines.append(f"       Signals : {sigs}")
+                lines.append("")
+            if decisions and decisions[0].priority <= 2:
+                lines.append(
+                    f"AUTO-INJECT: top decision (priority {decisions[0].priority}) "
+                    f"will be used as next auto_loop step."
+                )
+            return text("\n".join(lines))
+        except Exception as exc:
+            return text(f"[reactive_suggest error] {exc}")
+
+    # ── campaign_tasks ────────────────────────────────────────────────────────
+    elif name == "lazyown_campaign_tasks":
+        action        = arguments.get("action", "list")
+        filter_status = arguments.get("filter_status", "").strip()
+        try:
+            sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
+            from session_reader import TaskReader as _TaskReader, TaskWriter as _TaskWriter
+
+            if action == "list":
+                tasks = _TaskReader().read(SESSIONS_DIR)
+                if filter_status:
+                    tasks = [t for t in tasks if t.status.lower() == filter_status.lower()]
+                if not tasks:
+                    return text(
+                        f"No tasks found{' with status=' + filter_status if filter_status else ''}."
+                        " Use action='add' to create one."
+                    )
+                lines = [f"Campaign tasks ({len(tasks)}):"]
+                for t in tasks:
+                    lines.append(
+                        f"  #{t.id:3d} [{t.status:8s}] {t.title} (op={t.operator})"
+                    )
+                    if t.description:
+                        lines.append(f"         {t.description[:100]}")
+                return text("\n".join(lines))
+
+            elif action == "add":
+                title = arguments.get("title", "").strip()
+                if not title:
+                    return text("[campaign_tasks] 'title' is required for action='add'.")
+                desc     = arguments.get("description", "")
+                operator = arguments.get("operator", "agent")
+                status   = arguments.get("status", "New")
+                writer   = _TaskWriter(SESSIONS_DIR)
+                task     = writer.append(
+                    title=title, description=desc,
+                    operator=operator, status=status,
+                )
+                return text(
+                    f"Task #{task.id} created: [{task.status}] {task.title} (op={task.operator})"
+                )
+
+            elif action == "update":
+                task_id = arguments.get("task_id")
+                if task_id is None:
+                    return text("[campaign_tasks] 'task_id' is required for action='update'.")
+                status  = arguments.get("status", "")
+                if not status:
+                    return text("[campaign_tasks] 'status' is required for action='update'.")
+                writer  = _TaskWriter(SESSIONS_DIR)
+                ok      = writer.update_status(int(task_id), status)
+                if ok:
+                    return text(f"Task #{task_id} updated to status '{status}'.")
+                return text(f"Task #{task_id} not found.")
+            else:
+                return text(f"[campaign_tasks] Unknown action '{action}'. Use: list, add, update.")
+        except Exception as exc:
+            return text(f"[campaign_tasks error] {exc}")
+
+    # ── cron_schedule ─────────────────────────────────────────────────────────
+    elif name == "lazyown_cron_schedule":
+        action   = arguments.get("action", "list")
+        cron_dir = SESSIONS_DIR / "crons"
+
+        def _load_crons() -> list[dict]:
+            path = cron_dir / "scheduled.json"
+            if not path.exists():
+                return []
+            try:
+                import json as _json
+                return _json.loads(path.read_text(encoding="utf-8"))
+            except Exception:
+                return []
+
+        def _save_crons(entries: list[dict]) -> None:
+            cron_dir.mkdir(parents=True, exist_ok=True)
+            path = cron_dir / "scheduled.json"
+            import json as _json
+            tmp = str(path) + ".tmp"
+            Path(tmp).write_text(_json.dumps(entries, indent=2), encoding="utf-8")
+            import os as _os
+            _os.replace(tmp, str(path))
+
+        if action == "list":
+            entries = _load_crons()
+            if not entries:
+                return text(
+                    "No cron entries scheduled. Use action='add' time='HH:MM' command='...' "
+                    "to schedule a command. LazyOwn cron: cron HH:MM <command> [args]"
+                )
+            lines = [f"Scheduled crons ({len(entries)}):"]
+            for e in entries:
+                lines.append(
+                    f"  [{e.get('id','?')}] {e.get('time','?')} -> "
+                    f"{e.get('command','')} {e.get('args','')}"
+                )
+            return text("\n".join(lines))
+
+        elif action == "add":
+            cron_time = arguments.get("time", "").strip()
+            command   = arguments.get("command", "").strip()
+            if not cron_time or not command:
+                return text("[cron_schedule] 'time' (HH:MM) and 'command' are required.")
+            import re as _re
+            if not _re.match(r"^\d{2}:\d{2}$", cron_time):
+                return text(f"[cron_schedule] Invalid time format '{cron_time}'. Use HH:MM.")
+            cron_args = arguments.get("args", "").strip()
+            entries   = _load_crons()
+            import uuid as _uuid
+            new_id    = str(_uuid.uuid4())[:8]
+            entries.append({
+                "id": new_id, "time": cron_time,
+                "command": command, "args": cron_args,
+            })
+            _save_crons(entries)
+            # Also run via LazyOwn cron system
+            full_cron_cmd = f"cron {cron_time} {command}"
+            if cron_args:
+                full_cron_cmd += f" {cron_args}"
+            _run_lazyown_command(full_cron_cmd, timeout=10)
+            return text(
+                f"Cron #{new_id} added: {cron_time} -> {command} {cron_args}\n"
+                f"LazyOwn cron registered: {full_cron_cmd}"
+            )
+
+        elif action == "remove":
+            cron_id = arguments.get("cron_id", "").strip()
+            if not cron_id:
+                return text("[cron_schedule] 'cron_id' is required for action='remove'.")
+            entries = _load_crons()
+            before  = len(entries)
+            entries = [e for e in entries if e.get("id") != cron_id]
+            if len(entries) == before:
+                return text(f"Cron ID '{cron_id}' not found.")
+            _save_crons(entries)
+            return text(f"Cron #{cron_id} removed.")
+        else:
+            return text(f"[cron_schedule] Unknown action '{action}'. Use: add, list, remove.")
+
+    # ── soul ────────────────────────────────────────────────────────────────────
     elif name == "lazyown_soul":
         action  = arguments.get("action", "read")
         if action == "write":
@@ -3215,6 +4827,119 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             return f"Unknown daemon action: {action}"
 
         result = await asyncio.get_event_loop().run_in_executor(None, _run_daemon)
+        return text(result)
+
+    # ── fast_run ──────────────────────────────────────────────────────────────
+    elif name == "lazyown_fast_run":
+        confirm = bool(arguments.get("confirm", False))
+        vpn     = int(arguments.get("vpn", 1))
+
+        cfg     = _load_payload()
+        rhost   = cfg.get("rhost", "<not set>")
+        domain  = cfg.get("domain", "<not set>")
+
+        plan_lines = [
+            "LazyOwn fast_run_as_r00t.sh — launch plan",
+            "==========================================",
+            f"  Primary target  : rhost={rhost}",
+            f"  Domain          : {domain}",
+            f"  VPN interface   : {vpn}",
+            "",
+            "Panes that will open in tmux session 'lazyown_sessions':",
+            "  [0] Recon        — lazynmap full scan",
+            "  [1] Network      — addhosts + ping sweep",
+            "  [2] C2 implant   — createcredentials + c2 launch",
+            "  [3] Auto-loop    — autonomous loop",
+            "  [4] lazyc2       — Flask C2 server (unprivileged)",
+            "  [5] www          — HTTP file server + certs",
+            "  [6] VPN          — tun interface",
+            "",
+            "Optional panes (driven by payload.json flags):",
+            "  DeepSeek/Ollama, Discord C2, Telegram C2, Cloudflare tunnel, NC revshell",
+            "",
+            "sudo password will be requested via GUI dialog (ssh-askpass/zenity/yad).",
+            "A display (DISPLAY/WAYLAND_DISPLAY) must be available.",
+        ]
+
+        if not confirm:
+            plan_lines += [
+                "",
+                "DRY RUN — nothing launched.",
+                "Call with confirm=true to start the stack.",
+            ]
+            return text("\n".join(plan_lines))
+
+        def _launch() -> str:
+            import subprocess, os, shutil, time
+
+            askpass_script = str(LAZYOWN_DIR / "modules" / "gui_askpass.sh")
+            fast_run       = str(LAZYOWN_DIR / "fast_run_as_r00t.sh")
+
+            if not os.path.isfile(askpass_script):
+                return f"[fast_run] SUDO_ASKPASS helper not found: {askpass_script}"
+            if not os.path.isfile(fast_run):
+                return f"[fast_run] Script not found: {fast_run}"
+
+            # Ensure gui_askpass.sh is executable
+            os.chmod(askpass_script, 0o755)
+
+            env = os.environ.copy()
+            env["SUDO_ASKPASS"] = askpass_script
+
+            try:
+                proc = subprocess.Popen(
+                    ["sudo", "-A", "./fast_run_as_r00t.sh",
+                     "--no-attach", "--vpn", str(vpn)],
+                    cwd=str(LAZYOWN_DIR),
+                    env=env,
+                    stdin=subprocess.DEVNULL,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    start_new_session=True,
+                )
+            except Exception as exc:
+                return f"[fast_run] Failed to launch: {exc}"
+
+            # Wait for tmux session to initialise (up to 15 s)
+            session_up = False
+            for _ in range(15):
+                time.sleep(1)
+                try:
+                    r = subprocess.run(
+                        ["tmux", "has-session", "-t", "lazyown_sessions"],
+                        capture_output=True,
+                    )
+                    if r.returncode == 0:
+                        session_up = True
+                        break
+                except Exception:
+                    pass
+
+            # Collect any early output / errors (non-blocking)
+            try:
+                out, err = proc.communicate(timeout=0.1)
+            except subprocess.TimeoutExpired:
+                out, err = b"", b""
+
+            lines = ["\n".join(plan_lines), ""]
+            if session_up:
+                lines.append("tmux session 'lazyown_sessions' is UP.")
+                lines.append("Attach manually:  tmux attach -t lazyown_sessions")
+            else:
+                lines.append(
+                    "WARNING: tmux session 'lazyown_sessions' not detected after 15 s. "
+                    "The script may still be initialising."
+                )
+                lines.append(
+                    "Check manually:  tmux ls  |  tmux attach -t lazyown_sessions"
+                )
+            if err:
+                lines.append("")
+                lines.append("stderr (first 500 chars):")
+                lines.append(err.decode(errors="replace")[:500])
+            return "\n".join(lines)
+
+        result = await asyncio.get_event_loop().run_in_executor(None, _launch)
         return text(result)
 
     # ── dynamic tools (lazyown_addon_*, lazyown_tool_*, lazyown_plugin_*) ────

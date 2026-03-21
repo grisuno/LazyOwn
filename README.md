@@ -11951,7 +11951,14 @@ No description available.
 
 ### Otros
 
-  *   * feat(feat): new world modelt to mcp \n\n Version: release/0.2.84 \n\n :d \n\n Modified file(s):\n- DEPLOY.sh - README.md - docs/README.html - knowledge_base_vuln.json - lazyc2.py - modules/agent_runner.py - modules/knowledge_base_vuln.json - payload.json - sessions/phishing/campaigns/short_urls.json - skills/lazyown.md - skills/lazyown_mcp.py - static/security_dashboard.png\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Mar 19 17:40:43 2026 -0300 \n\n Hora: 1773952843
+  *   * feat(feat): mucho cariño al mcp, ya tiene mas de 200 tools expuestas del api interna en el mcp junto con una metodología semiautomatizada es el priemr aproach así que esperen mejoras en el futuro por que esto recien comienza. \n\n Version: release/0.2.87 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html - fast_run_as_r00t.sh - knowledge_base_vuln.json - lazyc2.py - modules/knowledge_base_vuln.json - modules/report_generator.py - payload.json - sessions/phishing/campaigns/short_urls.json - skills/README.md - skills/lazyown.md - skills/lazyown_mcp.py - skills/lazyown_parquet_db.py - static/security_dashboard.png\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Mar 21 01:45:48 2026 -0300 \n\n Hora: 1774068348
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): some love \n\n Version: release/0.2.84 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html - payload.json\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Mar 19 17:40:43 2026 -0300 \n\n Hora: 1773952843
 
 
 ### Nuevas características

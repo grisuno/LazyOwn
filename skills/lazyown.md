@@ -300,6 +300,10 @@ lazyown_facts_show(target="<rhost>", refresh=True)
 
 
 
+
+
+
+
 ## Auto-discovered tools
 
 Discovered at server startup. Run `mcp restart` to refresh.

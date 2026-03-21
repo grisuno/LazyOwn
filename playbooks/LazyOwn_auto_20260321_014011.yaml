@@ -1,0 +1,6 @@
+apt_name: LazyOwn_auto
+description: Auto-derived playbook for 10.129.10.44 at phase=scanning (linux)
+target: 10.129.10.44
+phase: scanning
+generated_at: '2026-03-21T01:40:11.613008'
+steps: []

@@ -19,6 +19,7 @@ SESSION="lazyown_sessions"
 VPN=1
 VENV_PATH="env"
 JSON_FILE="payload.json"
+NO_ATTACH=0   # set to 1 by --no-attach (MCP mode — skip tmux attach at the end)
 CERTPASS="LazyOwn"
 
 # ── Read payload.json ─────────────────────────────────────────────────────────
@@ -69,7 +70,9 @@ check_deps() {
 check_sudo() {
     [[ "$EUID" -eq 0 ]] && return
     err_box "[S] This script will reload as r00t ..."
-    exec sudo "$0" --vpn "$VPN"
+    local extra_flags=""
+    [[ "$NO_ATTACH" -eq 1 ]] && extra_flags="--no-attach"
+    exec sudo "$0" --vpn "$VPN" $extra_flags
 }
 
 # ── CLI argument parsing ──────────────────────────────────────────────────────
@@ -80,6 +83,8 @@ parse_args() {
                 [[ "$2" =~ ^[0-9]+$ ]] \
                     || { err_box "Error: --vpn must be an integer."; exit 1; }
                 VPN=$2; shift ;;
+            --no-attach)
+                NO_ATTACH=1 ;;   # MCP/automation mode: skip blocking tmux attach
             *) err_box "Error: Unknown option: $1"; exit 1 ;;
         esac
         shift
@@ -192,5 +197,10 @@ if [[ "$ENABLE_CF" == "true" ]]; then
 fi
 
 tmux select-pane -t 5
-log "Stop the session."
-tmux attach -t "$SESSION"
+log "Session ready."
+if [[ "$NO_ATTACH" -eq 1 ]]; then
+    log "MCP mode: tmux session '$SESSION' is running — attach manually: tmux attach -t $SESSION"
+else
+    log "Attaching to session..."
+    tmux attach -t "$SESSION"
+fi

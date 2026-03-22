@@ -131,16 +131,22 @@ def _t_parquet_context(phase: str, target: str = "") -> str:
         pdb = get_pdb()
         if pdb is None:
             return "ParquetDB unavailable."
-        try:
-            return pdb.context_brief(phase=phase, target=target or None)
-        except AttributeError:
-            rows = pdb.query_session(phase=phase, target=target or None, limit=10)
-            if not rows:
+        # context_for_phase returns a rich dict; fall back to query_session if unavailable
+        if hasattr(pdb, "context_for_phase"):
+            ctx = pdb.context_for_phase(phase, target or None)
+            if not ctx:
                 return f"No session data for phase={phase}."
-            lines = [f"Phase: {phase} — {len(rows)} record(s)"]
-            for r in rows[:5]:
-                lines.append(f"  {r.get('command', '?'):30s} -> {r.get('outcome', '?')}")
+            lines = [f"Phase: {phase}"]
+            for k, v in ctx.items():
+                lines.append(f"  {k}: {str(v)[:120]}")
             return "\n".join(lines)
+        rows = pdb.query_session(phase=phase, target=target or None, limit=10)
+        if not rows:
+            return f"No session data for phase={phase}."
+        lines = [f"Phase: {phase} — {len(rows)} record(s)"]
+        for r in rows[:5]:
+            lines.append(f"  {r.get('command', '?'):30s} -> {r.get('outcome', '?')}")
+        return "\n".join(lines)
     except Exception as exc:
         return f"[parquet_context error] {exc}"
 
@@ -182,11 +188,20 @@ def _t_memory_search(query: str) -> str:
         pdb = get_pdb()
         if pdb is None:
             return "Memory unavailable."
-        rows = pdb.query_session(phase=None, target=None, keyword=query, limit=5)
+        # query_session has no keyword param — use query_knowledge for text search
+        if hasattr(pdb, "query_knowledge"):
+            rows = pdb.query_knowledge(keyword=query, limit=5)
+        else:
+            rows = pdb.query_session(limit=20)
+            q_low = query.lower()
+            rows = [r for r in rows
+                    if q_low in str(r.get("command", "")).lower()
+                    or q_low in str(r.get("outcome", "")).lower()][:5]
         if not rows:
             return f"No memory matches for '{query}'."
         return "\n".join(
-            f"[{r.get('phase','?')}] {r.get('command','?'):30s} -> {r.get('outcome','?')}"
+            f"[{r.get('phase', r.get('category','?'))}] "
+            f"{str(r.get('command','?'))[:30]} -> {r.get('outcome','?')}"
             for r in rows
         )
     except Exception as exc:
@@ -278,11 +293,10 @@ def _t_inject_objective(title: str, description: str = "") -> str:
     try:
         from lazyown_objective import ObjectiveStore  # noqa: PLC0415
         store = ObjectiveStore()
-        try:
-            store.add(title=title, description=description)
-        except TypeError:
-            store.add(title, description)
-        return f"Objective injected: {title}"
+        # inject(text, priority, source, notes) — title maps to text, description to notes
+        text = f"{title}: {description}".strip(": ") if description else title
+        obj = store.inject(text=text, source="groq_agent", notes=description)
+        return f"Objective injected: [{obj.id}] {obj.text[:80]}"
     except Exception as exc:
         return f"[inject_objective error] {exc}"
 
@@ -770,12 +784,15 @@ class GroqAgentPool:
 # ── Singleton + public API ────────────────────────────────────────────────────
 
 _pool: Optional[GroqAgentPool] = None
+_pool_lock = threading.Lock()
 
 
 def get_pool() -> GroqAgentPool:
     global _pool
     if _pool is None:
-        _pool = GroqAgentPool()
+        with _pool_lock:
+            if _pool is None:
+                _pool = GroqAgentPool()
     return _pool
 
 

@@ -11951,7 +11951,21 @@ No description available.
 
 ### Otros
 
-  *   * feat(feat): mucho cariño al mcp, ya tiene mas de 200 tools expuestas del api interna en el mcp junto con una metodología semiautomatizada es el priemr aproach así que esperen mejoras en el futuro por que esto recien comienza. \n\n Version: release/0.2.87 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html - fast_run_as_r00t.sh - knowledge_base_vuln.json - lazyc2.py - modules/knowledge_base_vuln.json - modules/report_generator.py - payload.json - sessions/phishing/campaigns/short_urls.json - skills/README.md - skills/lazyown.md - skills/lazyown_mcp.py - skills/lazyown_parquet_db.py - static/security_dashboard.png\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Mar 21 01:45:48 2026 -0300 \n\n Hora: 1774068348
+  *   * feat(feat): some ideas from openclaw and satelite agents \n\n Version: release/0.2.89 \n\n colmena borg with love \n\n Modified file(s):\n- &1 - README.md - docs/README.html - payload.json - sessions/phishing/campaigns/short_urls.json - skills/lazyown_groq_agents.py - skills/lazyown_mcp.py - static/security_dashboard.png\nDeleted file(s):\n- &1\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Mar 21 04:54:43 2026 -0300 \n\n Hora: 1774079683
+
+
+### Otros
+
+### Otros
+
+  *   * Add Codacy security scan workflow
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test): test \n\n Version: release/0.2.86 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html - payload.json\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Mar 21 01:45:48 2026 -0300 \n\n Hora: 1774068348
 
 
 ### Nuevas características

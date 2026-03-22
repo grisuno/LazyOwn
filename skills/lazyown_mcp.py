@@ -31,142 +31,259 @@ import ssl
 from pathlib import Path
 from typing import Any
 
-# Event engine (optional — only if modules/ is importable)
-sys.path.insert(0, str(Path(__file__).parent.parent / "modules"))
-try:
-    from event_engine import (
-        process_new_rows, read_events, ack_event,
-        add_rule, load_rules, is_running as _hb_is_running,
-    )
-    _ENGINE_AVAILABLE = True
-except ImportError:
-    _ENGINE_AVAILABLE = False
-
-# Agent bridge (Groq / Ollama delegation)
-try:
-    from mcp_agent_bridge import (
-        start_agent, get_agent_status, get_agent_result, list_agents,
-    )
-    _BRIDGE_AVAILABLE = True
-except ImportError:
-    _BRIDGE_AVAILABLE = False
-
-# Session state aggregator
-try:
-    from session_state import load as _state_load, refresh as _state_refresh
-    _STATE_AVAILABLE = True
-except ImportError:
-    _STATE_AVAILABLE = False
-
-# Smart recommender
-try:
-    from recommender import recommend_and_save as _recommend
-    _RECOMMENDER_AVAILABLE = True
-except ImportError:
-    _RECOMMENDER_AVAILABLE = False
-
-# Timeline narrator
-try:
-    from timeline_narrator import narrate as _narrate, load_timeline as _load_timeline
-    _NARRATOR_AVAILABLE = True
-except ImportError:
-    _NARRATOR_AVAILABLE = False
-
-# Policy engine — reward-based transition learning and classification
-try:
-    _skills_path = str(Path(__file__).parent)
-    if _skills_path not in sys.path:
-        sys.path.insert(0, _skills_path)
-    from lazyown_policy import LazyOwnPolicyIntegration as _PolicyIntegration
-    _policy = _PolicyIntegration()
-    _POLICY_AVAILABLE = True
-except Exception:
-    _POLICY_AVAILABLE = False
-    _policy = None
-
-# Fact store — structured extraction from nmap XML and tool output
-try:
-    from lazyown_facts import FactStore as _FactStore, create_tool_file as _create_tool_file
-    _facts = _FactStore()
-    _FACTS_AVAILABLE = True
-except Exception:
-    _FACTS_AVAILABLE = False
-    _facts = None  # type: ignore[assignment]
-    def _create_tool_file(*_a, **_kw):  # type: ignore[misc]
-        raise RuntimeError("lazyown_facts not available")
-
-# Objective store — priority queue for high-level attack goals
-# Claude Code (frontier model) is the primary writer/reasoner; sub-systems inject
-# automatically from sessions_watcher when new scan/tool output appears.
-try:
-    from lazyown_objective import (
-        ObjectiveStore as _ObjectiveStore,
-        read_soul as _read_soul,
-        write_soul as _write_soul,
-        current_plan as _current_plan,
-        full_context_for_claude as _full_context_for_claude,
-    )
-    _objectives = _ObjectiveStore()
-    _OBJECTIVES_AVAILABLE = True
-except Exception:
-    _OBJECTIVES_AVAILABLE = False
-    _objectives = None  # type: ignore[assignment]
-
-# LLM Bridge — satellite model (Groq native tool calling + Ollama ReAct)
-try:
-    from lazyown_llm import llm_ask as _llm_ask, build_bridge as _build_bridge
-    _LLM_AVAILABLE = True
-except Exception:
-    _LLM_AVAILABLE = False
-
-# Auto-mapper — discovers lazyaddons/, tools/*.tool, plugins/ at startup and
-# exposes each as a dynamic MCP tool (lazyown_addon_*, lazyown_tool_*, lazyown_plugin_*)
-try:
-    from lazyown_automapper import AutoMapper as _AutoMapper
-    _AUTOMAPPER_AVAILABLE = True
-except Exception:
-    _AUTOMAPPER_AVAILABLE = False
-    _AutoMapper = None  # type: ignore[assignment,misc]
-
-# Parquet knowledge base — session history enriched with id/category/success
-# + generic knowledge queries over all parquets/ (GTFOBins, LOLBAS, techniques)
-try:
-    from lazyown_parquet_db import ParquetDB as _ParquetDB, get_pdb as _get_pdb
-    _PDB_AVAILABLE = True
-except Exception:
-    _PDB_AVAILABLE = False
-    _get_pdb = lambda _=None: None  # type: ignore[misc]
-
-# Hive Mind — multi-agent cognitive system (queen + drones + ChromaDB memory)
-try:
-    from hive_mind import (
-        get_hive as _get_hive,
-        mcp_hive_spawn as _hive_spawn,
-        mcp_hive_status as _hive_status,
-        mcp_hive_recall as _hive_recall,
-        mcp_hive_plan as _hive_plan,
-        mcp_hive_result as _hive_result,
-        mcp_hive_collect as _hive_collect,
-        mcp_hive_forget as _hive_forget,
-    )
-    _HIVE_AVAILABLE = True
-except Exception:
-    _HIVE_AVAILABLE = False
-
-# Autonomous Daemon — fully autonomous execution loop (no Claude between objectives)
-try:
-    from autonomous_daemon import (
-        mcp_autonomous_start   as _auto_start,
-        mcp_autonomous_stop    as _auto_stop,
-        mcp_autonomous_status  as _auto_status,
-        mcp_autonomous_inject  as _auto_inject,
-        mcp_autonomous_events  as _auto_events,
-    )
-    _AUTO_AVAILABLE = True
-except Exception:
-    _AUTO_AVAILABLE = False
-
+# ── MCP server import first — this is the only blocking requirement ───────────
 from mcp.server import Server
+
+# ── All optional skill imports are lazy (deferred to first handler call) ──────
+# This keeps the MCP startup handshake fast (<3.5s).
+# Each _*_AVAILABLE flag starts as None (unchecked) and is set True/False
+# on first use by the _ensure_* helpers below.
+
+sys.path.insert(0, str(Path(__file__).parent.parent / "modules"))
+_skills_path = str(Path(__file__).parent)
+if _skills_path not in sys.path:
+    sys.path.insert(0, _skills_path)
+
+_ENGINE_AVAILABLE     = None
+_BRIDGE_AVAILABLE     = None
+_STATE_AVAILABLE      = None
+_RECOMMENDER_AVAILABLE= None
+_NARRATOR_AVAILABLE   = None
+_POLICY_AVAILABLE     = None
+_FACTS_AVAILABLE      = None
+_OBJECTIVES_AVAILABLE = None
+_LLM_AVAILABLE        = None
+_AUTOMAPPER_AVAILABLE = None
+_PDB_AVAILABLE        = None
+_HIVE_AVAILABLE       = None
+_AUTO_AVAILABLE       = None
+
+# Lazy singletons (populated on first use)
+_policy    = None
+_facts     = None
+_objectives= None
+_AutoMapper= None
+
+
+def _ensure_engine():
+    global _ENGINE_AVAILABLE
+    if _ENGINE_AVAILABLE is not None:
+        return _ENGINE_AVAILABLE
+    try:
+        global process_new_rows, read_events, ack_event, add_rule, load_rules, _hb_is_running
+        from event_engine import (
+            process_new_rows, read_events, ack_event,
+            add_rule, load_rules, is_running as _hb_is_running,
+        )
+        _ENGINE_AVAILABLE = True
+    except ImportError:
+        _ENGINE_AVAILABLE = False
+    return _ENGINE_AVAILABLE
+
+
+def _ensure_bridge():
+    global _BRIDGE_AVAILABLE
+    if _BRIDGE_AVAILABLE is not None:
+        return _BRIDGE_AVAILABLE
+    try:
+        global start_agent, get_agent_status, get_agent_result, list_agents
+        from mcp_agent_bridge import (
+            start_agent, get_agent_status, get_agent_result, list_agents,
+        )
+        _BRIDGE_AVAILABLE = True
+    except ImportError:
+        _BRIDGE_AVAILABLE = False
+    return _BRIDGE_AVAILABLE
+
+
+def _ensure_state():
+    global _STATE_AVAILABLE
+    if _STATE_AVAILABLE is not None:
+        return _STATE_AVAILABLE
+    try:
+        global _state_load, _state_refresh
+        from session_state import load as _state_load, refresh as _state_refresh
+        _STATE_AVAILABLE = True
+    except ImportError:
+        _STATE_AVAILABLE = False
+    return _STATE_AVAILABLE
+
+
+def _ensure_recommender():
+    global _RECOMMENDER_AVAILABLE
+    if _RECOMMENDER_AVAILABLE is not None:
+        return _RECOMMENDER_AVAILABLE
+    try:
+        global _recommend
+        from recommender import recommend_and_save as _recommend
+        _RECOMMENDER_AVAILABLE = True
+    except ImportError:
+        _RECOMMENDER_AVAILABLE = False
+    return _RECOMMENDER_AVAILABLE
+
+
+def _ensure_narrator():
+    global _NARRATOR_AVAILABLE
+    if _NARRATOR_AVAILABLE is not None:
+        return _NARRATOR_AVAILABLE
+    try:
+        global _narrate, _load_timeline
+        from timeline_narrator import narrate as _narrate, load_timeline as _load_timeline
+        _NARRATOR_AVAILABLE = True
+    except ImportError:
+        _NARRATOR_AVAILABLE = False
+    return _NARRATOR_AVAILABLE
+
+
+def _ensure_policy():
+    global _POLICY_AVAILABLE, _policy
+    if _POLICY_AVAILABLE is not None:
+        return _POLICY_AVAILABLE
+    try:
+        from lazyown_policy import LazyOwnPolicyIntegration as _PI
+        _policy = _PI()
+        _POLICY_AVAILABLE = True
+    except Exception:
+        _POLICY_AVAILABLE = False
+    return _POLICY_AVAILABLE
+
+
+def _ensure_facts():
+    global _FACTS_AVAILABLE, _facts
+    if _FACTS_AVAILABLE is not None:
+        return _FACTS_AVAILABLE
+    try:
+        from lazyown_facts import FactStore as _FS, create_tool_file as _ctf
+        global _create_tool_file
+        _facts = _FS()
+        _create_tool_file = _ctf
+        _FACTS_AVAILABLE = True
+    except Exception:
+        _FACTS_AVAILABLE = False
+        def _create_tool_file(*_a, **_kw):
+            raise RuntimeError("lazyown_facts not available")
+    return _FACTS_AVAILABLE
+
+
+def _ensure_objectives():
+    global _OBJECTIVES_AVAILABLE, _objectives
+    if _OBJECTIVES_AVAILABLE is not None:
+        return _OBJECTIVES_AVAILABLE
+    try:
+        from lazyown_objective import (
+            ObjectiveStore as _OS,
+            read_soul as _rs, write_soul as _ws,
+            current_plan as _cp,
+            full_context_for_claude as _fc,
+        )
+        global _read_soul, _write_soul, _current_plan, _full_context_for_claude
+        _objectives       = _OS()
+        _read_soul        = _rs
+        _write_soul       = _ws
+        _current_plan     = _cp
+        _full_context_for_claude = _fc
+        _OBJECTIVES_AVAILABLE = True
+    except Exception:
+        _OBJECTIVES_AVAILABLE = False
+    return _OBJECTIVES_AVAILABLE
+
+
+def _ensure_llm():
+    global _LLM_AVAILABLE
+    if _LLM_AVAILABLE is not None:
+        return _LLM_AVAILABLE
+    try:
+        global _llm_ask, _build_bridge
+        from lazyown_llm import llm_ask as _llm_ask, build_bridge as _build_bridge
+        _LLM_AVAILABLE = True
+    except Exception:
+        _LLM_AVAILABLE = False
+    return _LLM_AVAILABLE
+
+
+def _ensure_automapper():
+    global _AUTOMAPPER_AVAILABLE, _AutoMapper
+    if _AUTOMAPPER_AVAILABLE is not None:
+        return _AUTOMAPPER_AVAILABLE
+    try:
+        from lazyown_automapper import AutoMapper as _AM
+        _AutoMapper = _AM
+        _AUTOMAPPER_AVAILABLE = True
+    except Exception:
+        _AUTOMAPPER_AVAILABLE = False
+    return _AUTOMAPPER_AVAILABLE
+
+
+def _ensure_pdb():
+    global _PDB_AVAILABLE, _get_pdb
+    if _PDB_AVAILABLE is not None:
+        return _PDB_AVAILABLE
+    try:
+        from lazyown_parquet_db import ParquetDB as _ParquetDB, get_pdb as _gpdb
+        _get_pdb = _gpdb
+        _PDB_AVAILABLE = True
+    except Exception:
+        _PDB_AVAILABLE = False
+        _get_pdb = lambda _=None: None
+    return _PDB_AVAILABLE
+
+
+def _ensure_hive():
+    global _HIVE_AVAILABLE
+    if _HIVE_AVAILABLE is not None:
+        return _HIVE_AVAILABLE
+    try:
+        global _get_hive, _hive_spawn, _hive_status, _hive_recall
+        global _hive_plan, _hive_result, _hive_collect, _hive_forget, _hive_recover
+        from hive_mind import (
+            get_hive as _get_hive,
+            mcp_hive_spawn    as _hive_spawn,
+            mcp_hive_status   as _hive_status,
+            mcp_hive_recall   as _hive_recall,
+            mcp_hive_plan     as _hive_plan,
+            mcp_hive_result   as _hive_result,
+            mcp_hive_collect  as _hive_collect,
+            mcp_hive_forget   as _hive_forget,
+            mcp_hive_recover  as _hive_recover,
+        )
+        _HIVE_AVAILABLE = True
+    except Exception:
+        _HIVE_AVAILABLE = False
+    return _HIVE_AVAILABLE
+
+
+def _ensure_auto():
+    global _AUTO_AVAILABLE
+    if _AUTO_AVAILABLE is not None:
+        return _AUTO_AVAILABLE
+    try:
+        global _auto_start, _auto_stop, _auto_status, _auto_inject, _auto_events
+        from autonomous_daemon import (
+            mcp_autonomous_start   as _auto_start,
+            mcp_autonomous_stop    as _auto_stop,
+            mcp_autonomous_status  as _auto_status,
+            mcp_autonomous_inject  as _auto_inject,
+            mcp_autonomous_events  as _auto_events,
+        )
+        _AUTO_AVAILABLE = True
+    except Exception:
+        _AUTO_AVAILABLE = False
+    return _AUTO_AVAILABLE
+
+
+# Stubs for names referenced before lazy init (avoid NameError at parse time)
+_state_load = _state_refresh = None
+_recommend = None
+_narrate = _load_timeline = None
+_create_tool_file = None
+_read_soul = _write_soul = _current_plan = _full_context_for_claude = None
+_llm_ask = _build_bridge = None
+_get_pdb = lambda _=None: None
+_get_hive = _hive_spawn = _hive_status = _hive_recall = None
+_hive_plan = _hive_result = _hive_collect = _hive_forget = _hive_recover = None
+_auto_start = _auto_stop = _auto_status = _auto_inject = _auto_events = None
+process_new_rows = read_events = ack_event = add_rule = load_rules = _hb_is_running = None
+start_agent = get_agent_status = get_agent_result = list_agents = None
 from mcp.server.stdio import stdio_server
 from mcp import types
 
@@ -1801,6 +1918,24 @@ async def list_tools() -> list[types.Tool]:
                 "required": [],
             },
         ),
+        types.Tool(
+            name="lazyown_hive_recover",
+            description=(
+                "Re-queue all hive drones that were interrupted by a previous process crash or "
+                "restart. On startup the hive marks any in-flight (queued/running) drones as "
+                "'interrupted'. Call this tool to re-spawn them so no work is lost after a "
+                "daemon restart or context loss."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "backend":        {"type": "string",  "default": "groq"},
+                    "api_key":        {"type": "string",  "default": ""},
+                    "max_iterations": {"type": "integer", "default": 10},
+                },
+                "required": [],
+            },
+        ),
         # ── END Hive Mind tools ────────────────────────────────────────────────
 
         # ── Autonomous Daemon tools ─────────────────────────────────────────
@@ -2672,7 +2807,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
     # ── run_agent ─────────────────────────────────────────────────────────────
     elif name == "lazyown_run_agent":
-        if not _BRIDGE_AVAILABLE:
+        if not _ensure_bridge():
             return text("Agent bridge not available — check modules/mcp_agent_bridge.py")
 
         goal           = arguments["goal"]
@@ -2706,7 +2841,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
     # ── agent_status ──────────────────────────────────────────────────────────
     elif name == "lazyown_agent_status":
-        if not _BRIDGE_AVAILABLE:
+        if not _ensure_bridge():
             return text("Agent bridge not available.")
         agent_id = arguments["agent_id"]
         status   = await asyncio.get_event_loop().run_in_executor(
@@ -2733,7 +2868,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
     # ── agent_result ──────────────────────────────────────────────────────────
     elif name == "lazyown_agent_result":
-        if not _BRIDGE_AVAILABLE:
+        if not _ensure_bridge():
             return text("Agent bridge not available.")
         agent_id = arguments["agent_id"]
         result   = await asyncio.get_event_loop().run_in_executor(
@@ -2761,7 +2896,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
     # ── list_agents ───────────────────────────────────────────────────────────
     elif name == "lazyown_list_agents":
-        if not _BRIDGE_AVAILABLE:
+        if not _ensure_bridge():
             return text("Agent bridge not available.")
         limit   = int(arguments.get("limit", 10))
         agents  = await asyncio.get_event_loop().run_in_executor(
@@ -2940,7 +3075,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
     # ── poll_events ───────────────────────────────────────────────────────────
     elif name == "lazyown_poll_events":
-        if not _ENGINE_AVAILABLE:
+        if not _ensure_engine():
             return text("Event engine not available — check modules/event_engine.py")
         limit  = int(arguments.get("limit", 20))
         status = arguments.get("status", "pending")
@@ -2962,7 +3097,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
     # ── ack_event ──────────────────────────────────────────────────────────────
     elif name == "lazyown_ack_event":
-        if not _ENGINE_AVAILABLE:
+        if not _ensure_engine():
             return text("Event engine not available.")
         event_id = arguments["event_id"]
         found = await asyncio.get_event_loop().run_in_executor(
@@ -2972,7 +3107,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
     # ── add_rule ───────────────────────────────────────────────────────────────
     elif name == "lazyown_add_rule":
-        if not _ENGINE_AVAILABLE:
+        if not _ensure_engine():
             return text("Event engine not available.")
         rule = {
             "id":          arguments["id"],
@@ -2989,7 +3124,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
     # ── heartbeat_status ──────────────────────────────────────────────────────
     elif name == "lazyown_heartbeat_status":
-        if not _ENGINE_AVAILABLE:
+        if not _ensure_engine():
             return text("Event engine not available.")
         running, pid = await asyncio.get_event_loop().run_in_executor(
             None, _hb_is_running
@@ -3020,7 +3155,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
     # ── session_state ─────────────────────────────────────────────────────────
     elif name == "lazyown_session_state":
-        if not _STATE_AVAILABLE:
+        if not _ensure_state():
             return text("session_state module not available — check modules/session_state.py")
         force = arguments.get("refresh", False)
         state = await asyncio.get_event_loop().run_in_executor(
@@ -3110,7 +3245,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
     # ── timeline ──────────────────────────────────────────────────────────────
     elif name == "lazyown_timeline":
-        if not _NARRATOR_AVAILABLE:
+        if not _ensure_narrator():
             return text("Timeline narrator not available — check modules/timeline_narrator.py")
         force   = arguments.get("force", False)
         cfg     = _load_payload()
@@ -3178,6 +3313,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
     # ── policy_status ─────────────────────────────────────────────────────────
     elif name == "lazyown_policy_status":
+        _ensure_policy()
         if not _POLICY_AVAILABLE or _policy is None:
             return text(
                 "Policy engine unavailable. "
@@ -3216,6 +3352,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
     # ── auto_loop ─────────────────────────────────────────────────────────────
     elif name == "lazyown_auto_loop":
+        _ensure_policy()
         if not _POLICY_AVAILABLE or _policy is None:
             return text(
                 "Policy engine unavailable. "
@@ -3702,7 +3839,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
     # ── llm_ask ───────────────────────────────────────────────────────────────
     elif name == "lazyown_llm_ask":
-        if not _LLM_AVAILABLE:
+        if not _ensure_llm():
             return text("LLM bridge unavailable. Check skills/lazyown_llm.py.")
         goal           = arguments["goal"]
         context        = arguments.get("context", "")
@@ -3754,7 +3891,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
     # ── next_objective ────────────────────────────────────────────────────────
     elif name == "lazyown_next_objective":
-        if not _OBJECTIVES_AVAILABLE:
+        if not _ensure_objectives():
             return text("Objective store unavailable.")
         ctx = await asyncio.get_event_loop().run_in_executor(
             None, lambda: _full_context_for_claude()
@@ -4546,7 +4683,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
     # ── Hive Mind handlers ────────────────────────────────────────────────────
     elif name == "lazyown_hive_spawn":
-        if not _HIVE_AVAILABLE:
+        if not _ensure_hive():
             return text("[hive] hive_mind.py not importable — check skills/hive_mind.py")
         try:
             result = _hive_spawn(
@@ -4562,7 +4699,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             return text(f"[hive_spawn error] {exc}")
 
     elif name == "lazyown_hive_status":
-        if not _HIVE_AVAILABLE:
+        if not _ensure_hive():
             return text("[hive] hive_mind.py not importable")
         try:
             return text(_hive_status())
@@ -4570,7 +4707,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             return text(f"[hive_status error] {exc}")
 
     elif name == "lazyown_hive_recall":
-        if not _HIVE_AVAILABLE:
+        if not _ensure_hive():
             return text("[hive] hive_mind.py not importable")
         try:
             return text(_hive_recall(
@@ -4581,7 +4718,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             return text(f"[hive_recall error] {exc}")
 
     elif name == "lazyown_hive_plan":
-        if not _HIVE_AVAILABLE:
+        if not _ensure_hive():
             return text("[hive] hive_mind.py not importable")
         try:
             return text(_hive_plan(
@@ -4592,7 +4729,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             return text(f"[hive_plan error] {exc}")
 
     elif name == "lazyown_hive_result":
-        if not _HIVE_AVAILABLE:
+        if not _ensure_hive():
             return text("[hive] hive_mind.py not importable")
         try:
             return text(_hive_result(arguments.get("drone_id", "")))
@@ -4600,7 +4737,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             return text(f"[hive_result error] {exc}")
 
     elif name == "lazyown_hive_collect":
-        if not _HIVE_AVAILABLE:
+        if not _ensure_hive():
             return text("[hive] hive_mind.py not importable")
         try:
             return text(_hive_collect(
@@ -4611,7 +4748,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             return text(f"[hive_collect error] {exc}")
 
     elif name == "lazyown_hive_forget":
-        if not _HIVE_AVAILABLE:
+        if not _ensure_hive():
             return text("[hive] hive_mind.py not importable")
         try:
             return text(_hive_forget(
@@ -4621,9 +4758,21 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         except Exception as exc:
             return text(f"[hive_forget error] {exc}")
 
+    elif name == "lazyown_hive_recover":
+        if not _ensure_hive():
+            return text("[hive] hive_mind.py not importable")
+        try:
+            return text(_hive_recover(
+                backend=arguments.get("backend", "groq"),
+                api_key=arguments.get("api_key", ""),
+                max_iterations=int(arguments.get("max_iterations", 10)),
+            ))
+        except Exception as exc:
+            return text(f"[hive_recover error] {exc}")
+
     # ── Autonomous Daemon handlers ────────────────────────────────────────────
     elif name == "lazyown_autonomous_start":
-        if not _AUTO_AVAILABLE:
+        if not _ensure_auto():
             return text("[auto] autonomous_daemon.py no importable — verifica skills/autonomous_daemon.py")
         try:
             return text(_auto_start(
@@ -4634,7 +4783,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             return text(f"[autonomous_start error] {exc}")
 
     elif name == "lazyown_autonomous_stop":
-        if not _AUTO_AVAILABLE:
+        if not _ensure_auto():
             return text("[auto] autonomous_daemon.py no importable")
         try:
             return text(_auto_stop())
@@ -4642,7 +4791,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             return text(f"[autonomous_stop error] {exc}")
 
     elif name == "lazyown_autonomous_status":
-        if not _AUTO_AVAILABLE:
+        if not _ensure_auto():
             return text("[auto] autonomous_daemon.py no importable")
         try:
             return text(_auto_status())
@@ -4650,7 +4799,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             return text(f"[autonomous_status error] {exc}")
 
     elif name == "lazyown_autonomous_inject":
-        if not _AUTO_AVAILABLE:
+        if not _ensure_auto():
             return text("[auto] autonomous_daemon.py no importable")
         try:
             return text(_auto_inject(
@@ -4662,7 +4811,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             return text(f"[autonomous_inject error] {exc}")
 
     elif name == "lazyown_autonomous_events":
-        if not _AUTO_AVAILABLE:
+        if not _ensure_auto():
             return text("[auto] autonomous_daemon.py no importable")
         try:
             return text(_auto_events(last_n=int(arguments.get("last_n", 20))))

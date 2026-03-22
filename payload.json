@@ -97,6 +97,36 @@
       ],
       "added_at": "2026-03-19T12:28:45.576446",
       "updated_at": "2026-03-19T12:35:37.588473"
+    },
+    {
+      "ip": "10.129.11.48",
+      "domain": "VariaType.htb",
+      "ports": [
+        22,
+        80,
+        88,
+        139,
+        389,
+        443,
+        445,
+        464,
+        593,
+        636,
+        3268,
+        3269,
+        5985
+      ],
+      "status": "in_progress",
+      "notes": "Domain Controller VariaType.htb / dc01. Creds: j.fleischman:J0elTHEM4n1990! \u2014 inicial. Atacar con flujo AD completo: enum \u2192 kerberoast \u2192 lateral \u2192 DA",
+      "tags": [
+        "AD",
+        "windows",
+        "dc01",
+        "kerberos",
+        "htb"
+      ],
+      "added_at": "2026-03-22T13:49:51.937287",
+      "updated_at": "2026-03-22T13:50:08.615299"
     }
   ]
 }

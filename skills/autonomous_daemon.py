@@ -2,44 +2,44 @@
 """
 skills/autonomous_daemon.py — LazyOwn Autonomous Execution Daemon
 ==================================================================
-Cierra la brecha entre LazyOwn (orquestador asistido por Claude) y un sistema
-OpenClaw/OpenHands completamente autónomo.
+Bridges LazyOwn (Claude-assisted orchestrator) and a fully autonomous
+OpenClaw/OpenHands-style system.
 
-El daemon corre como proceso independiente y NO necesita a Claude Code para
-operar entre objetivos. Claude sigue siendo la Reina Borg para inyectar
-objetivos de alto nivel, pero el daemon los ejecuta sin intervención.
+The daemon runs as an independent process and does NOT need Claude Code
+to operate between objectives. Claude remains the Borg Queen for injecting
+high-level objectives, but the daemon executes them without intervention.
 
-Arquitectura (4 roles asyncio concurrentes)
---------------------------------------------
-  Role 1 — ObjectiveLoop    : Observa objectives.jsonl → cuando aparece uno
-                              pending, lo toma, planifica y ejecuta.
-  Role 2 — ExecutionEngine  : Loop de ejecución por pasos (equivalente al
-                              auto_loop del MCP pero sin MCP). Usa la misma
-                              cascada de selección de comandos:
-                              reactive → parquet → bridge → LLM → fallback
-  Role 3 — WorldModelWatcher: Observa world_model.json. Cuando cambia la fase
-                              (recon→enum→exploit…) o aparecen nuevos hosts/
-                              credenciales, inyecta objetivos derivados y
-                              notifica a los drones del hive.
-  Role 4 — DroneCoordinator : Puente hive-mind. Cuando recon descubre un host,
-                              lanza drones exploit/analyze en paralelo.
-                              Cuando un drone termina, escribe el resultado al
-                              stream y actualiza el objetivo.
+Architecture (4 concurrent asyncio roles)
+------------------------------------------
+  Role 1 — ObjectiveLoop    : Watches objectives.jsonl. When a pending
+                              objective appears, takes it, plans, executes.
+  Role 2 — ExecutionEngine  : Per-step execution loop (equivalent to
+                              auto_loop in MCP but without MCP). Uses the
+                              same command selection cascade:
+                              reactive -> parquet -> bridge -> LLM -> fallback
+  Role 3 — WorldModelWatcher: Watches world_model.json. When the phase
+                              changes (recon->enum->exploit...) or new
+                              hosts/credentials appear, injects derived
+                              objectives and notifies hive drones.
+  Role 4 — DroneCoordinator : Hive-mind bridge. When recon discovers a
+                              host, launches exploit/analyze drones in
+                              parallel. When a drone finishes, writes the
+                              result to the stream and updates the objective.
 
-Streams de eventos (push, no polling)
---------------------------------------
-  sessions/autonomous_events.jsonl  — cada acción, hallazgo, decisión
-  sessions/autonomous_status.json   — estado en tiempo real del daemon
+Event streams (push, no polling)
+----------------------------------
+  sessions/autonomous_events.jsonl  — every action, finding, decision
+  sessions/autonomous_status.json   — real-time daemon state
 
-Gestión
---------
-  python3 skills/autonomous_daemon.py start   # fork y detach
-  python3 skills/autonomous_daemon.py stop    # terminar por PID
+Management
+-----------
+  python3 skills/autonomous_daemon.py start   # fork and detach
+  python3 skills/autonomous_daemon.py stop    # terminate by PID
   python3 skills/autonomous_daemon.py run     # foreground (debug)
-  python3 skills/autonomous_daemon.py status  # leer estado
-  python3 skills/autonomous_daemon.py inject "Objetivo" [--priority high]
+  python3 skills/autonomous_daemon.py status  # read state
+  python3 skills/autonomous_daemon.py inject "Objective" [--priority high]
 
-Integración MCP
+MCP integration
 ----------------
   lazyown_autonomous_start(max_steps_per_objective=10, backend="groq")
   lazyown_autonomous_stop()
@@ -60,6 +60,7 @@ import sys
 import threading
 import time
 import uuid
+from abc import ABC, abstractmethod
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
@@ -76,7 +77,7 @@ for _p in (str(SKILLS_DIR), str(MODULES_DIR)):
     if _p not in sys.path:
         sys.path.insert(0, _p)
 
-# ── Archivos de estado ─────────────────────────────────────────────────────────
+# ── State files ────────────────────────────────────────────────────────────────
 
 PID_FILE    = SESSIONS_DIR / "autonomous_daemon.pid"
 STATUS_FILE = SESSIONS_DIR / "autonomous_status.json"
@@ -105,7 +106,7 @@ HIVE_MAX_ITER       = int(os.environ.get("AUTO_HIVE_MAX_ITER",   "8"))
 HEARTBEAT_S         = float(os.environ.get("AUTO_HEARTBEAT",     "30"))
 BLOCKED_ESCALATE_N  = int(os.environ.get("AUTO_BLOCKED_ESCALATE","2"))
 
-# ── Imports opcionales ────────────────────────────────────────────────────────
+# ── Optional imports ──────────────────────────────────────────────────────────
 
 def _try_import(module: str, attr: str = ""):
     try:
@@ -134,25 +135,25 @@ except Exception as _e:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# SECCIÓN 1 — Event Stream (push de eventos en tiempo real)
+# SECTION 1 — Event Stream (real-time push)
 # ─────────────────────────────────────────────────────────────────────────────
 
 _stream_lock = threading.Lock()
+_tasks_lock  = threading.Lock()
 
-_tasks_lock = threading.Lock()
 
 def _update_task_status(title: str, new_status: str) -> bool:
-    """Actualiza el status de la primera task cuyo título coincida. Thread-safe."""
+    """Update the status of the first task whose title matches. Thread-safe."""
     with _tasks_lock:
         try:
             if not TASKS_FILE.exists():
                 return False
-            tasks = json.loads(TASKS_FILE.read_text(encoding="utf-8"))
+            tasks   = json.loads(TASKS_FILE.read_text(encoding="utf-8"))
             changed = False
             for t in tasks:
                 if t.get("title", "")[:80] == title[:80]:
                     t["status"] = new_status
-                    changed = True
+                    changed     = True
                     break
             if changed:
                 TASKS_FILE.write_text(
@@ -171,8 +172,8 @@ def _inject_to_tasks_json(
     status: str = "New",
 ) -> int:
     """
-    Escribe directamente en sessions/tasks.json con el formato del C2 (lazyc2.py).
-    Devuelve el id asignado. Thread-safe.
+    Write directly to sessions/tasks.json using the C2 format (lazyc2.py).
+    Returns the assigned id. Thread-safe.
     """
     with _tasks_lock:
         try:
@@ -206,13 +207,13 @@ def _inject_to_tasks_json(
 
 
 def _emit(event_type: str, payload: Dict[str, Any], severity: str = "info") -> None:
-    """Escribe un evento al stream JSONL. Thread-safe."""
+    """Write an event to the JSONL stream. Thread-safe."""
     event = {
-        "id":        uuid.uuid4().hex[:8],
-        "ts":        datetime.datetime.now(datetime.timezone.utc).isoformat(),
-        "type":      event_type,
-        "severity":  severity,
-        "payload":   payload,
+        "id":       uuid.uuid4().hex[:8],
+        "ts":       datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        "type":     event_type,
+        "severity": severity,
+        "payload":  payload,
     }
     line = json.dumps(event, ensure_ascii=False, default=str)
     with _stream_lock:
@@ -225,100 +226,178 @@ def _emit(event_type: str, payload: Dict[str, Any], severity: str = "info") -> N
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# SECCIÓN 2 — Ejecución de comandos LazyOwn
+# SECTION 2 — ICommandRunner + concrete implementations
+#             (S — Single Responsibility, D — Dependency Inversion)
 # ─────────────────────────────────────────────────────────────────────────────
 
-def _load_payload() -> Dict:
-    try:
-        return json.loads(PAYLOAD_FILE.read_text())
-    except Exception:
-        return {}
+class ICommandRunner(ABC):
+    """Contract for executing a LazyOwn shell command."""
+
+    @abstractmethod
+    def run(self, command: str, timeout: int) -> str:
+        """Execute command within timeout seconds. Return text output."""
+
+    @property
+    @abstractmethod
+    def name(self) -> str:
+        """Human-readable identifier for this runner."""
+
+
+class MCPCommandRunner(ICommandRunner):
+    """
+    Delegates to lazyown_mcp._run_lazyown_command when available.
+    Single Responsibility: MCP import + delegation only.
+    """
+
+    @property
+    def name(self) -> str:
+        return "mcp"
+
+    def run(self, command: str, timeout: int = STEP_TIMEOUT_S) -> str:
+        """Try to import and call the MCP runner. Raises ImportError on failure."""
+        from lazyown_mcp import _run_lazyown_command
+        return _run_lazyown_command(command, timeout)
+
+
+class PTYCommandRunner(ICommandRunner):
+    """
+    Full PTY-based command execution that mirrors _run_lazyown_command in the MCP
+    but has no dependency on lazyown_mcp.
+    Single Responsibility: PTY subprocess management only.
+    """
+
+    @property
+    def name(self) -> str:
+        return "pty"
+
+    def run(self, command: str, timeout: int = STEP_TIMEOUT_S) -> str:
+        """Execute command via PTY. Returns cleaned text output."""
+        import fcntl
+        import pty
+        import re
+        import select
+        import struct
+        import termios
+
+        cmd_input   = (command.strip() + "\nexit\n").encode()
+        run_script  = LAZYOWN_DIR / "run"
+        argv = (
+            ["bash", str(run_script)]
+            if run_script.is_file()
+            else [sys.executable, "-W", "ignore", str(LAZYOWN_DIR / "lazyown.py")]
+        )
+
+        env       = os.environ.copy()
+        env["TERM"] = "xterm-256color"
+
+        master_fd, slave_fd = pty.openpty()
+        winsize = struct.pack("HHHH", 50, 220, 0, 0)
+        fcntl.ioctl(slave_fd, termios.TIOCSWINSZ, winsize)
+
+        try:
+            proc = subprocess.Popen(
+                argv,
+                stdin=subprocess.PIPE,
+                stdout=slave_fd,
+                stderr=slave_fd,
+                env=env,
+                cwd=str(LAZYOWN_DIR),
+                start_new_session=True,
+            )
+            os.close(slave_fd)
+            try:
+                proc.stdin.write(cmd_input)
+                proc.stdin.close()
+            except BrokenPipeError:
+                pass
+
+            chunks: list = []
+            deadline = time.monotonic() + timeout
+            while True:
+                remaining = deadline - time.monotonic()
+                if remaining <= 0:
+                    proc.kill()
+                    os.close(master_fd)
+                    return f"[timeout] {command} exceeded {timeout}s"
+                r, _, _ = select.select([master_fd], [], [], min(remaining, 0.5))
+                if r:
+                    try:
+                        data = os.read(master_fd, 4096)
+                        if data:
+                            chunks.append(data.decode("utf-8", errors="replace"))
+                        else:
+                            break
+                    except OSError:
+                        break
+                if proc.poll() is not None and not r:
+                    break
+
+            proc.wait(timeout=2)
+            try:
+                os.close(master_fd)
+            except OSError:
+                pass
+
+            raw = "".join(chunks)
+            return re.sub(r"\x1b\[[0-9;]*[mGKH]", "", raw).strip()
+
+        except Exception as exc:
+            return f"[run error] {exc}"
+
+
+class CommandRunnerChain(ICommandRunner):
+    """
+    Tries each runner in order and returns the first successful result.
+    Falls back to the next runner on any exception.
+
+    Chain of Responsibility pattern.
+    Open/Closed: add new runners without modifying this class.
+    """
+
+    def __init__(self, runners: List[ICommandRunner]) -> None:
+        if not runners:
+            raise ValueError("CommandRunnerChain requires at least one runner")
+        self._runners = runners
+
+    @property
+    def name(self) -> str:
+        return "chain[" + ",".join(r.name for r in self._runners) + "]"
+
+    def run(self, command: str, timeout: int = STEP_TIMEOUT_S) -> str:
+        """Try each runner in sequence. Return first successful output."""
+        last_exc: Optional[Exception] = None
+        for runner in self._runners:
+            try:
+                return runner.run(command, timeout)
+            except Exception as exc:
+                log.debug("runner %s failed: %s", runner.name, exc)
+                last_exc = exc
+        raise RuntimeError(f"All runners failed. Last: {last_exc}") from last_exc
+
+
+def _build_default_runner() -> ICommandRunner:
+    """Return the default CommandRunnerChain (MCP -> PTY fallback)."""
+    return CommandRunnerChain([MCPCommandRunner(), PTYCommandRunner()])
+
+
+# Module-level runner instance used by StrategyEngine / ExecutionEngine
+_default_runner: ICommandRunner = _build_default_runner()
 
 
 def _run_lazyown(command: str, timeout: int = STEP_TIMEOUT_S) -> str:
     """
-    Ejecuta un comando LazyOwn usando PTY (igual que _run_lazyown_command del MCP).
-    Intenta primero importar la función del MCP; si falla, replica la lógica con PTY.
+    Execute a LazyOwn command using the default runner chain.
+    Preserved as a module-level function for backward compatibility.
     """
-    # Opción 1: reusar la función del MCP directamente (evita duplicar lógica)
-    try:
-        from lazyown_mcp import _run_lazyown_command
-        return _run_lazyown_command(command, timeout)
-    except ImportError:
-        pass
-
-    # Opción 2: PTY propio (réplica de _run_lazyown_command sin dependencia del MCP)
-    import fcntl, pty, select, struct, termios
-    cmd_input = (command.strip() + "\nexit\n").encode()
-
-    run_script = LAZYOWN_DIR / "run"
-    argv = (["bash", str(run_script)] if run_script.is_file()
-            else [sys.executable, "-W", "ignore", str(LAZYOWN_DIR / "lazyown.py")])
-
-    env = os.environ.copy()
-    env["TERM"] = "xterm-256color"
-
-    master_fd, slave_fd = pty.openpty()
-    winsize = struct.pack("HHHH", 50, 220, 0, 0)
-    fcntl.ioctl(slave_fd, termios.TIOCSWINSZ, winsize)
-
-    try:
-        proc = subprocess.Popen(
-            argv,
-            stdin=subprocess.PIPE,
-            stdout=slave_fd,
-            stderr=slave_fd,
-            env=env,
-            cwd=str(LAZYOWN_DIR),
-            start_new_session=True,
-        )
-        os.close(slave_fd)
-        try:
-            proc.stdin.write(cmd_input)
-            proc.stdin.close()
-        except BrokenPipeError:
-            pass
-
-        chunks: list = []
-        deadline = time.monotonic() + timeout
-        while True:
-            remaining = deadline - time.monotonic()
-            if remaining <= 0:
-                proc.kill()
-                os.close(master_fd)
-                return f"[timeout] {command} exceeded {timeout}s"
-            r, _, _ = select.select([master_fd], [], [], min(remaining, 0.5))
-            if r:
-                try:
-                    data = os.read(master_fd, 4096)
-                    if data:
-                        chunks.append(data.decode("utf-8", errors="replace"))
-                    else:
-                        break
-                except OSError:
-                    break
-            if proc.poll() is not None and not r:
-                break
-
-        proc.wait(timeout=2)
-        try:
-            os.close(master_fd)
-        except OSError:
-            pass
-
-        import re
-        raw = "".join(chunks)
-        return re.sub(r"\x1b\[[0-9;]*[mGKH]", "", raw).strip()
-
-    except Exception as exc:
-        return f"[run error] {exc}"
+    return _default_runner.run(command, timeout)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# SECCIÓN 3 — StrategyEngine (selección de comando con cascada)
+# SECTION 3 — ICommandSelector + implementations
+#             (S — Single Responsibility, Chain of Responsibility)
 # ─────────────────────────────────────────────────────────────────────────────
 
-# Mapa estático de categoría → comando fallback
+# Static fallback map: category -> command name
 _FALLBACK_MAP: Dict[str, str] = {
     "recon":       "lazynmap",
     "enum":        "enum_smb",
@@ -331,7 +410,7 @@ _FALLBACK_MAP: Dict[str, str] = {
     "other":       "list",
 }
 
-# Fase → categorías que aplican en orden
+# Phase -> applicable categories in priority order
 _PHASE_CATEGORIES: Dict[str, List[str]] = {
     "recon":   ["recon"],
     "enum":    ["enum", "recon"],
@@ -344,6 +423,7 @@ _PHASE_CATEGORIES: Dict[str, List[str]] = {
 
 @dataclass
 class CommandDecision:
+    """Result of a command selection."""
     command:  str
     args:     str = ""
     source:   str = "fallback"   # reactive|parquet|bridge|llm|fallback
@@ -352,46 +432,46 @@ class CommandDecision:
     priority: int = 5
 
 
-class StrategyEngine:
+class ICommandSelector(ABC):
+    """Contract for command selection strategies."""
+
+    @abstractmethod
+    def select(
+        self,
+        target: str,
+        phase: str,
+        context: Dict,
+    ) -> Optional[CommandDecision]:
+        """Return a CommandDecision or None if this selector has no suggestion."""
+
+
+class ReactiveSelector(ICommandSelector):
     """
-    Decide el próximo comando para un (target, phase) dado.
-    Cascada idéntica a lazyown_mcp.py auto_loop:
-      1. Reactive engine (si hay decisión pendiente de alta prioridad)
-      2. Parquet (comandos exitosos en sesiones anteriores)
-      3. Bridge catalog (comandos del catálogo para la fase/servicios)
-      4. LLM (Groq/Ollama si disponible)
-      5. Fallback estático
+    Returns a pending reactive engine decision if one is available.
+    Single Responsibility: reactive engine integration only.
     """
 
-    def __init__(self) -> None:
-        self._pdb        = _get_pdb() if _get_pdb else None
-        self._dispatcher = _get_dispatcher() if _get_dispatcher else None
-        self._reactive   = _ReactEngine() if _ReactEngine else None
-        self._fail_counts: Dict[str, int] = {}
-        self._reactive_pending: Optional[CommandDecision] = None
+    def __init__(self, reactive_engine: Any) -> None:
+        self._engine  = reactive_engine
+        self._pending: Optional[CommandDecision] = None
 
     def register_output(
         self,
         output: str,
         command: str,
         platform: str = "linux",
-        success: bool = True,
     ) -> None:
-        """Alimenta el reactive engine con el output del último comando."""
-        if not success:
-            key = command.split()[0] if command else command
-            self._fail_counts[key] = self._fail_counts.get(key, 0) + 1
-
-        if self._reactive is None:
+        """Feed reactive engine with last command output to generate new decisions."""
+        if self._engine is None:
             return
         try:
-            decisions = self._reactive.analyse(
+            decisions = self._engine.analyse(
                 output=output, command=command, platform=platform,
             )
             if decisions:
                 top = decisions[0]
                 if top.priority <= 2:
-                    self._reactive_pending = CommandDecision(
+                    self._pending = CommandDecision(
                         command=top.command,
                         source="reactive",
                         reason=top.reason,
@@ -400,44 +480,37 @@ class StrategyEngine:
         except Exception as exc:
             log.debug("reactive engine error: %s", exc)
 
-    def next_command(
-        self,
-        target: str,
-        phase: str,
-        services: Optional[List[str]] = None,
-    ) -> CommandDecision:
-        categories = _PHASE_CATEGORIES.get(phase, ["other"])
-
-        # 1. Reactive engine
-        if self._reactive_pending:
-            dec = self._reactive_pending
-            self._reactive_pending = None
+    def select(self, target: str, phase: str, context: Dict) -> Optional[CommandDecision]:
+        """Pop and return the pending reactive decision if present."""
+        if self._pending:
+            dec           = self._pending
+            self._pending = None
             return dec
+        return None
 
-        # 2. Parquet — comandos exitosos del pasado
+
+class ParquetSelector(ICommandSelector):
+    """
+    Queries Parquet DB for commands that succeeded in past sessions.
+    Single Responsibility: Parquet history lookup only.
+    """
+
+    def __init__(self, pdb: Any, fail_counts: Dict[str, int]) -> None:
+        self._pdb         = pdb
+        self._fail_counts = fail_counts
+
+    def select(self, target: str, phase: str, context: Dict) -> Optional[CommandDecision]:
+        """Return the most-frequent successful command for this phase."""
+        categories = _PHASE_CATEGORIES.get(phase, ["other"])
         for cat in categories:
             cand = self._parquet_candidate(cat, target)
             if cand:
-                return CommandDecision(command=cand, source="parquet",
-                                       reason=f"past success in {cat}")
-
-        # 3. Bridge catalog
-        for cat in categories:
-            cand = self._bridge_candidate(phase, services or [], cat)
-            if cand:
-                return cand
-
-        # 4. LLM (skip para mantener el daemon sin API calls costosos por defecto)
-        # (se puede habilitar con AUTO_USE_LLM=1)
-        if os.environ.get("AUTO_USE_LLM", "0") == "1":
-            cand = self._llm_candidate(target, phase)
-            if cand:
-                return cand
-
-        # 5. Fallback estático
-        cmd = _FALLBACK_MAP.get(categories[0], "list")
-        return CommandDecision(command=cmd, source="fallback",
-                               reason=f"static map for {categories[0]}")
+                return CommandDecision(
+                    command=cand,
+                    source="parquet",
+                    reason=f"past success in {cat}",
+                )
+        return None
 
     def _parquet_candidate(self, category: str, target: str) -> Optional[str]:
         if self._pdb is None:
@@ -450,12 +523,32 @@ class StrategyEngine:
             for r in rows:
                 cmd = (r.get("command") or "").strip().split()[0]
                 if cmd and not cmd.startswith("/") and not cmd.startswith("echo"):
-                    fail_n = self._fail_counts.get(cmd, 0)
-                    if fail_n < MAX_FAILS_PER_CMD:
+                    if self._fail_counts.get(cmd, 0) < MAX_FAILS_PER_CMD:
                         freq[cmd] = freq.get(cmd, 0) + 1
             return max(freq, key=lambda c: freq[c]) if freq else None
         except Exception:
             return None
+
+
+class BridgeSelector(ICommandSelector):
+    """
+    Queries the lazyown_bridge catalog for phase/service-appropriate commands.
+    Single Responsibility: bridge catalog lookup only.
+    """
+
+    def __init__(self, dispatcher: Any, fail_counts: Dict[str, int]) -> None:
+        self._dispatcher  = dispatcher
+        self._fail_counts = fail_counts
+
+    def select(self, target: str, phase: str, context: Dict) -> Optional[CommandDecision]:
+        """Return a bridge catalog suggestion for this phase."""
+        categories = _PHASE_CATEGORIES.get(phase, ["other"])
+        services   = context.get("services", [])
+        for cat in categories:
+            cand = self._bridge_candidate(phase, services, cat)
+            if cand:
+                return cand
+        return None
 
     def _bridge_candidate(
         self, phase: str, services: List[str], tag: str = ""
@@ -482,11 +575,25 @@ class StrategyEngine:
         except Exception:
             return None
 
+
+class LLMSelector(ICommandSelector):
+    """
+    Queries Groq/Ollama for a command suggestion.
+    Only active when AUTO_USE_LLM=1.
+    Single Responsibility: LLM command recommendation only.
+    """
+
+    def select(self, target: str, phase: str, context: Dict) -> Optional[CommandDecision]:
+        """Return an LLM-suggested command, or None if disabled or unavailable."""
+        if os.environ.get("AUTO_USE_LLM", "0") != "1":
+            return None
+        return self._llm_candidate(target, phase)
+
     def _llm_candidate(self, target: str, phase: str) -> Optional[CommandDecision]:
         try:
             from lazyown_llm import LLMBridge
-            payload  = _load_payload()
-            api_key  = payload.get("api_key", "") or os.environ.get("GROQ_API_KEY", "")
+            payload = _load_payload()
+            api_key = payload.get("api_key", "") or os.environ.get("GROQ_API_KEY", "")
             if not api_key:
                 return None
             bridge = LLMBridge(backend="groq", api_key=api_key)
@@ -500,19 +607,135 @@ class StrategyEngine:
             )
             cmd = answer.strip().split()[0] if answer.strip() else None
             if cmd:
-                return CommandDecision(command=cmd, source="llm",
-                                       reason="LLM recommendation", priority=4)
+                return CommandDecision(
+                    command=cmd, source="llm",
+                    reason="LLM recommendation", priority=4,
+                )
         except Exception as exc:
             log.debug("LLM candidate error: %s", exc)
         return None
 
 
+class FallbackSelector(ICommandSelector):
+    """
+    Static map fallback — always returns a CommandDecision, never None.
+    Single Responsibility: static fallback map only.
+    """
+
+    def select(self, target: str, phase: str, context: Dict) -> Optional[CommandDecision]:
+        """Return the static fallback command for this phase. Never returns None."""
+        categories = _PHASE_CATEGORIES.get(phase, ["other"])
+        cmd        = _FALLBACK_MAP.get(categories[0], "list")
+        return CommandDecision(
+            command=cmd, source="fallback",
+            reason=f"static map for {categories[0]}",
+        )
+
+
+class CascadeStrategy:
+    """
+    Chains selectors in order and returns the first non-None result.
+
+    Open/Closed: extend by adding selectors without modifying existing ones.
+    """
+
+    def __init__(self, selectors: List[ICommandSelector]) -> None:
+        self._selectors = selectors
+
+    def next_command(
+        self,
+        target: str,
+        phase: str,
+        context: Optional[Dict] = None,
+    ) -> CommandDecision:
+        """Try each selector in order. The FallbackSelector ensures a result."""
+        ctx = context or {}
+        for selector in self._selectors:
+            result = selector.select(target, phase, ctx)
+            if result is not None:
+                return result
+        # Should never reach here if FallbackSelector is last in the chain
+        return CommandDecision(command="list", source="fallback", reason="emergency fallback")
+
+
 # ─────────────────────────────────────────────────────────────────────────────
-# SECCIÓN 4 — ExecutionEngine (loop de pasos para un objetivo)
+# SECTION 4 — StrategyEngine  (D — injects runner + selectors)
+# ─────────────────────────────────────────────────────────────────────────────
+
+
+class StrategyEngine:
+    """
+    Decides the next command for a (target, phase) pair.
+
+    Cascade identical to lazyown_mcp.py auto_loop:
+      1. Reactive engine (if a high-priority decision is pending)
+      2. Parquet (successful commands from previous sessions)
+      3. Bridge catalog (commands for the phase/services)
+      4. LLM (Groq/Ollama if AUTO_USE_LLM=1)
+      5. Static fallback
+
+    Dependency Inversion: runner and selectors are injected.
+    """
+
+    def __init__(
+        self,
+        runner: ICommandRunner,
+        selectors: Optional[List[ICommandSelector]] = None,
+    ) -> None:
+        self._runner      = runner
+        self._fail_counts: Dict[str, int] = {}
+        self._reactive_sel: Optional[ReactiveSelector] = None
+
+        if selectors is None:
+            pdb        = _get_pdb() if _get_pdb else None
+            dispatcher = _get_dispatcher() if _get_dispatcher else None
+            reactive   = _ReactEngine() if _ReactEngine else None
+            reactive_sel = ReactiveSelector(reactive)
+            self._reactive_sel = reactive_sel
+            selectors = [
+                reactive_sel,
+                ParquetSelector(pdb, self._fail_counts),
+                BridgeSelector(dispatcher, self._fail_counts),
+                LLMSelector(),
+                FallbackSelector(),
+            ]
+
+        self._cascade = CascadeStrategy(selectors)
+
+    def register_output(
+        self,
+        output: str,
+        command: str,
+        platform: str = "linux",
+        success: bool = True,
+    ) -> None:
+        """Feed the reactive selector with the last command output."""
+        if not success:
+            key = command.split()[0] if command else command
+            self._fail_counts[key] = self._fail_counts.get(key, 0) + 1
+        if self._reactive_sel is not None:
+            self._reactive_sel.register_output(output, command, platform)
+
+    def next_command(
+        self,
+        target: str,
+        phase: str,
+        services: Optional[List[str]] = None,
+    ) -> CommandDecision:
+        """Select the next command for target/phase using the cascade."""
+        return self._cascade.next_command(
+            target, phase, context={"services": services or []}
+        )
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SECTION 5 — IObjectiveHandler + ExecutionEngine
+#             (O — Open/Closed via protocol)
 # ─────────────────────────────────────────────────────────────────────────────
 
 @dataclass
 class StepResult:
+    """Result of a single execution step."""
     step:     int
     command:  str
     output:   str
@@ -522,30 +745,160 @@ class StepResult:
     phase:    str = ""
 
 
+class IObjectiveHandler(ABC):
+    """Contract for running an objective to completion."""
+
+    @abstractmethod
+    def handle(
+        self,
+        objective_id: str,
+        objective_text: str,
+        target: str,
+        context: Dict,
+    ) -> List[StepResult]:
+        """Execute objective and return a list of step results."""
+
+
+class ExecutionEngine(IObjectiveHandler):
+    """
+    Implements the per-objective execution loop.
+
+    Selects commands, runs them, parses output, updates world model,
+    emits events. Equivalent to the former _run_objective coroutine but
+    encapsulated as a class to satisfy Open/Closed (subclass to override
+    step logic without modifying this class).
+
+    Dependency Inversion: strategy (which wraps runner) is injected.
+    """
+
+    def __init__(
+        self,
+        strategy: StrategyEngine,
+        max_steps: int = MAX_STEPS_DEFAULT,
+        world_model: Any = None,
+        obs_parser: Any = None,
+        facts: Any = None,
+        loop: Optional[asyncio.AbstractEventLoop] = None,
+    ) -> None:
+        self._strategy    = strategy
+        self._max_steps   = max_steps
+        self._world_model = world_model
+        self._obs_parser  = obs_parser
+        self._facts       = facts
+        self._loop        = loop
+
+    def handle(
+        self,
+        objective_id: str,
+        objective_text: str,
+        target: str,
+        context: Optional[Dict] = None,  # type: ignore[override]
+    ) -> List[StepResult]:
+        """Synchronous entry point. Delegates to _run_sync."""
+        return self._run_sync(objective_id, objective_text, target)
+
+    async def run_async(
+        self,
+        objective_id: str,
+        objective_text: str,
+        target: str,
+    ) -> List[StepResult]:
+        """Asyncio entry point used by objective_loop."""
+        loop = self._loop or asyncio.get_event_loop()
+        return await _run_objective(
+            objective_id=objective_id,
+            objective_text=objective_text,
+            target=target,
+            max_steps=self._max_steps,
+            strategy=self._strategy,
+            world_model=self._world_model,
+            obs_parser=self._obs_parser,
+            facts=self._facts,
+            loop=loop,
+        )
+
+    def _run_sync(
+        self,
+        objective_id: str,
+        objective_text: str,
+        target: str,
+    ) -> List[StepResult]:
+        """Run the async coroutine synchronously (for testing / non-async callers)."""
+        try:
+            loop = asyncio.get_event_loop()
+            if loop.is_running():
+                import concurrent.futures
+                with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
+                    fut = pool.submit(
+                        asyncio.run,
+                        _run_objective(
+                            objective_id=objective_id,
+                            objective_text=objective_text,
+                            target=target,
+                            max_steps=self._max_steps,
+                            strategy=self._strategy,
+                            world_model=self._world_model,
+                            obs_parser=self._obs_parser,
+                            facts=self._facts,
+                            loop=asyncio.new_event_loop(),
+                        ),
+                    )
+                    return fut.result()
+            else:
+                return loop.run_until_complete(
+                    _run_objective(
+                        objective_id=objective_id,
+                        objective_text=objective_text,
+                        target=target,
+                        max_steps=self._max_steps,
+                        strategy=self._strategy,
+                        world_model=self._world_model,
+                        obs_parser=self._obs_parser,
+                        facts=self._facts,
+                        loop=loop,
+                    )
+                )
+        except Exception as exc:
+            log.error("ExecutionEngine._run_sync error: %s", exc)
+            return []
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SECTION 6 — _run_objective coroutine (kept as module-level for asyncio.gather)
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _load_payload() -> Dict:
+    """Load payload.json, returning empty dict on any error."""
+    try:
+        return json.loads(PAYLOAD_FILE.read_text())
+    except Exception:
+        return {}
+
+
 async def _run_objective(
     objective_id: str,
     objective_text: str,
     target: str,
     max_steps: int,
     strategy: StrategyEngine,
-    world_model: Any,           # WorldModel instance or None
-    obs_parser: Any,            # ObsParser instance or None
-    facts: Any,                 # FactStore instance or None
+    world_model: Any,
+    obs_parser: Any,
+    facts: Any,
     loop: asyncio.AbstractEventLoop,
 ) -> List[StepResult]:
     """
-    Ejecuta un objetivo autónomamente: selecciona comandos, los ejecuta,
-    parsea el output, actualiza el world model, y emite eventos.
-    Devuelve la lista de StepResult al completar.
+    Execute an objective autonomously: select commands, run them,
+    parse output, update world model, and emit events.
+    Returns the list of StepResult on completion.
     """
-    log.info("▶  [%s] inicio: %s", objective_id, objective_text[:80])
+    log.info("[%s] start: %s", objective_id, objective_text[:80])
     _emit("OBJECTIVE_START", {
         "id": objective_id, "text": objective_text[:200], "target": target,
     })
 
     results: List[StepResult] = []
-    phase   = "recon"
-    services: List[str] = []
+    phase:   str              = "recon"
+    services: List[str]       = []
 
     if world_model is not None:
         try:
@@ -554,46 +907,41 @@ async def _run_objective(
             pass
 
     for step_n in range(1, max_steps + 1):
-        # Seleccionar próximo comando
         decision = strategy.next_command(target, phase, services)
-        # Sustituir placeholder de IP
         command  = decision.command.replace("{rhost}", target).replace("TARGET", target)
         full_cmd = f"set rhost {target}\n{command}"
 
         log.info("  step %d/%d [%s] %s", step_n, max_steps, decision.source, command)
         _emit("STEP_START", {
             "objective_id": objective_id,
-            "step": step_n, "command": command,
-            "source": decision.source, "reason": decision.reason,
+            "step":    step_n,
+            "command": command,
+            "source":  decision.source,
+            "reason":  decision.reason,
         })
 
-        # Ejecutar en executor para no bloquear el loop asyncio
         output = await loop.run_in_executor(
             None, _run_lazyown, full_cmd, STEP_TIMEOUT_S,
         )
 
-        # Detectar éxito heurístico
-        low = output.lower()
+        low    = output.lower()
         failed = any(k in low for k in (
             "error", "failed", "no such", "command not found",
             "traceback", "refused", "timeout",
         )) and not any(k in low for k in ("found", "success", "open", "hash"))
         success = not failed
 
-        # Parsear hallazgos
         findings: List[Dict] = []
         if obs_parser is not None:
             try:
                 obs = obs_parser.parse(output, host=target, tool=command.split()[0])
                 findings = [asdict(f) for f in obs.findings] if obs.findings else []
-                # Actualizar world model y persistir a disco
                 if world_model is not None:
                     world_model.update_from_findings(obs.findings)
                     try:
                         phase = world_model.get_phase().value
                     except Exception:
                         pass
-                    # Guardar snapshot a world_model.json para que WorldModelWatcher lo vea
                     try:
                         wm_file = SESSIONS_DIR / "world_model.json"
                         wm_file.write_text(
@@ -602,7 +950,6 @@ async def _run_objective(
                         )
                     except Exception as wm_err:
                         log.debug("world_model.json write error: %s", wm_err)
-                # Extraer servicios descubiertos
                 for f in obs.findings:
                     svc = getattr(f, "service", None)
                     if svc and svc not in services:
@@ -610,18 +957,18 @@ async def _run_objective(
             except Exception as exc:
                 log.debug("obs_parser error: %s", exc)
 
-        # Actualizar facts
         if facts is not None and success:
             try:
                 facts.ingest_text(output, source=command, target=target)
             except Exception:
                 pass
 
-        # Registrar en strategy engine para adaptar decisiones futuras
         strategy.register_output(
             output, command,
-            platform=("windows" if world_model is None else
-                      world_model.snapshot().get("hosts", {}).get(target, {}).get("os", "linux")),
+            platform=(
+                "windows" if world_model is None
+                else world_model.snapshot().get("hosts", {}).get(target, {}).get("os", "linux")
+            ),
             success=success,
         )
 
@@ -633,56 +980,59 @@ async def _run_objective(
         results.append(sr)
 
         _emit("STEP_DONE", {
-            "objective_id": objective_id,
-            "step": step_n, "command": command,
-            "success": success, "phase": phase,
+            "objective_id":   objective_id,
+            "step":           step_n,
+            "command":        command,
+            "success":        success,
+            "phase":          phase,
             "findings_count": len(findings),
             "output_snippet": output[:300],
         }, severity="warning" if not success else "info")
 
-        # Condición de parada: hallazgos de alto valor
         high_value = any(
             getattr(f, "type", "") in ("credential", "hash", "root_shell", "privesc")
-            for f in (obs_parser.parse(output, host=target, tool=command).findings
-                      if obs_parser else [])
+            for f in (
+                obs_parser.parse(output, host=target, tool=command).findings
+                if obs_parser else []
+            )
         )
         if high_value:
-            log.info("  ★  High-value finding — deteniendo loop temprano")
+            log.info("  High-value finding — stopping loop early")
             _emit("HIGH_VALUE", {
                 "objective_id": objective_id,
-                "step": step_n, "command": command,
+                "step":         step_n,
+                "command":      command,
             }, severity="critical")
             break
 
-        # Pausa entre pasos
         await asyncio.sleep(STEP_DELAY_S)
 
     _emit("OBJECTIVE_DONE", {
-        "id": objective_id,
-        "steps_run": len(results),
-        "final_phase": phase,
+        "id":             objective_id,
+        "steps_run":      len(results),
+        "final_phase":    phase,
         "findings_total": sum(len(r.findings) for r in results),
     })
     return results
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# SECCIÓN 5 — DroneCoordinator (hive mind integration en tiempo real)
+# SECTION 7 — DroneCoordinator
 # ─────────────────────────────────────────────────────────────────────────────
 
 class DroneCoordinator:
     """
-    Observa los resultados del execution engine y lanza drones Groq/Ollama
-    cuando detecta eventos que merecen análisis paralelo:
-      - Nuevo host descubierto → drone recon
-      - Servicio explotable detectado → drone exploit
-      - Hash/credencial encontrada → drone cred
+    Watches ExecutionEngine results and launches hive drones when events
+    worth parallel analysis are detected:
+      - New host discovered  -> recon drone
+      - Exploitable service  -> exploit drone
+      - Hash/credential      -> cred drone
     """
 
     def __init__(self) -> None:
-        self._hive   = _get_hive() if _get_hive else None
+        self._hive        = _get_hive() if _get_hive else None
         self._seen_hosts: set = set()
-        self._lock   = threading.Lock()
+        self._lock        = threading.Lock()
 
     def process_findings(
         self,
@@ -691,7 +1041,7 @@ class DroneCoordinator:
         objective_id: str,
         payload_key: str = "",
     ) -> List[str]:
-        """Lanza drones para hallazgos relevantes. Devuelve lista de drone_ids."""
+        """Launch drones for relevant findings. Returns list of drone_ids."""
         if self._hive is None:
             return []
 
@@ -702,81 +1052,87 @@ class DroneCoordinator:
             value   = f.get("value", "")
             service = f.get("service", "")
 
-            # Nuevo host/IP → drone recon (FindingType.IP = 'ip')
             if ftype in ("host", "ip") and value not in self._seen_hosts:
                 with self._lock:
                     if value not in self._seen_hosts:
                         self._seen_hosts.add(value)
                 goal = f"Enumerate new host {value} discovered during {objective_id}"
-                did  = self._hive.spawn(goal=goal, role="recon",
-                                        backend=HIVE_BACKEND,
-                                        max_iterations=HIVE_MAX_ITER)
+                did  = self._hive.spawn(
+                    goal=goal, role="recon",
+                    backend=HIVE_BACKEND, max_iterations=HIVE_MAX_ITER,
+                )
                 drone_ids.append(did)
                 _emit("DRONE_SPAWNED", {
-                    "drone_id": did, "role": "recon",
-                    "trigger": "new_host", "host": value,
+                    "drone_id":     did,
+                    "role":         "recon",
+                    "trigger":      "new_host",
+                    "host":         value,
                     "objective_id": objective_id,
                 })
-                log.info("  🤖 drone recon spawned for new host %s → %s", value, did)
 
-            # Servicio explotable → drone exploit
             elif ftype in ("service_version", "cve") and service:
-                fail_key = f"exploit:{service}:{target}"
-                goal = (f"Exploit {service} on {target} "
-                        f"(context: {objective_id}, finding: {value[:60]})")
-                did  = self._hive.spawn(goal=goal, role="exploit",
-                                        backend=HIVE_BACKEND,
-                                        max_iterations=HIVE_MAX_ITER)
+                goal = (
+                    f"Exploit {service} on {target} "
+                    f"(context: {objective_id}, finding: {value[:60]})"
+                )
+                did  = self._hive.spawn(
+                    goal=goal, role="exploit",
+                    backend=HIVE_BACKEND, max_iterations=HIVE_MAX_ITER,
+                )
                 drone_ids.append(did)
                 _emit("DRONE_SPAWNED", {
-                    "drone_id": did, "role": "exploit",
-                    "trigger": ftype, "service": service, "value": str(value)[:80],
+                    "drone_id":     did,
+                    "role":         "exploit",
+                    "trigger":      ftype,
+                    "service":      service,
+                    "value":        str(value)[:80],
                     "objective_id": objective_id,
                 })
-                log.info("  🤖 drone exploit spawned for %s → %s", service, did)
 
-            # Credencial/hash → drone cred
             elif ftype in ("credential", "hash"):
-                goal = (f"Crack and use credential found on {target}: {str(value)[:80]} "
-                        f"(context: {objective_id})")
-                did  = self._hive.spawn(goal=goal, role="cred",
-                                        backend=HIVE_BACKEND,
-                                        max_iterations=HIVE_MAX_ITER)
+                goal = (
+                    f"Crack and use credential found on {target}: {str(value)[:80]} "
+                    f"(context: {objective_id})"
+                )
+                did  = self._hive.spawn(
+                    goal=goal, role="cred",
+                    backend=HIVE_BACKEND, max_iterations=HIVE_MAX_ITER,
+                )
                 drone_ids.append(did)
                 _emit("DRONE_SPAWNED", {
-                    "drone_id": did, "role": "cred",
-                    "trigger": ftype, "value": str(value)[:40],
+                    "drone_id":     did,
+                    "role":         "cred",
+                    "trigger":      ftype,
+                    "value":        str(value)[:40],
                     "objective_id": objective_id,
                 })
-                log.info("  🤖 drone cred spawned → %s", did)
 
         return drone_ids
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# SECCIÓN 6 — Roles asyncio
+# SECTION 8 — Asyncio roles
 # ─────────────────────────────────────────────────────────────────────────────
 
-# Estado global del daemon
 _daemon_stats: Dict[str, Any] = {
-    "started_at":       None,
-    "objectives_done":  0,
-    "objectives_failed":0,
-    "steps_run":        0,
-    "drones_spawned":   0,
-    "events_emitted":   0,
-    "current_objective":None,
-    "current_phase":    "idle",
-    "last_objective_ts":None,
+    "started_at":        None,
+    "objectives_done":   0,
+    "objectives_failed": 0,
+    "steps_run":         0,
+    "drones_spawned":    0,
+    "events_emitted":    0,
+    "current_objective": None,
+    "current_phase":     "idle",
+    "last_objective_ts": None,
 }
 _should_stop = threading.Event()
 
 
 def _write_status() -> None:
+    """Persist current daemon stats to STATUS_FILE."""
     try:
         STATUS_FILE.write_text(
-            json.dumps({**_daemon_stats, "pid": os.getpid()},
-                       indent=2, default=str)
+            json.dumps({**_daemon_stats, "pid": os.getpid()}, indent=2, default=str)
         )
     except Exception:
         pass
@@ -789,22 +1145,33 @@ async def objective_loop(
     loop: asyncio.AbstractEventLoop,
 ) -> None:
     """
-    Loop raíz autónomo: toma objetivos pending de objectives.jsonl y los ejecuta.
-    Sin esperar input de Claude entre objetivos.
+    Root autonomous loop: takes pending objectives from objectives.jsonl
+    and executes them without waiting for Claude input between objectives.
     """
     if _ObjectiveStore is None:
-        log.error("ObjectiveStore no disponible — objective_loop deshabilitado")
+        log.error("ObjectiveStore not available — objective_loop disabled")
         return
 
-    store     = _ObjectiveStore()
-    strategy  = StrategyEngine()
-    coord     = DroneCoordinator()
+    store    = _ObjectiveStore()
+    runner   = _build_default_runner()
+    strategy = StrategyEngine(runner=runner)
+    coord    = DroneCoordinator()
+
     world_model = _WorldModel() if _WorldModel else None
     obs_parser  = _ObsParser()  if _ObsParser  else None
     facts       = _FactStore()  if _FactStore   else None
-    blocked_counts: Dict[str, int] = {}   # objective_id → veces bloqueado
+    blocked_counts: Dict[str, int] = {}
 
-    log.info("objective_loop iniciado (poll=%.1fs, max_steps=%d)", OBJ_POLL_S, max_steps)
+    engine = ExecutionEngine(
+        strategy=strategy,
+        max_steps=max_steps,
+        world_model=world_model,
+        obs_parser=obs_parser,
+        facts=facts,
+        loop=loop,
+    )
+
+    log.info("objective_loop started (poll=%.1fs, max_steps=%d)", OBJ_POLL_S, max_steps)
 
     while not _should_stop.is_set():
         await asyncio.sleep(OBJ_POLL_S)
@@ -818,7 +1185,6 @@ async def objective_loop(
         if obj is None:
             continue
 
-        # Extraer target del objetivo o del payload
         payload = _load_payload()
         target  = (
             obj.context.get("target", "")
@@ -840,19 +1206,13 @@ async def objective_loop(
         _update_task_status(obj.text, "Started")
 
         try:
-            results = await _run_objective(
+            results = await engine.run_async(
                 objective_id=obj.id,
                 objective_text=obj.text,
                 target=target,
-                max_steps=max_steps,
-                strategy=strategy,
-                world_model=world_model,
-                obs_parser=obs_parser,
-                facts=facts,
-                loop=loop,
             )
         except Exception as exc:
-            log.error("objective %s falló: %s", obj.id, exc)
+            log.error("objective %s failed: %s", obj.id, exc)
             _emit("OBJECTIVE_ERROR", {"id": obj.id, "error": str(exc)}, severity="error")
             try:
                 store.block(obj.id, reason=str(exc))
@@ -860,22 +1220,20 @@ async def objective_loop(
                 pass
             _update_task_status(obj.text, "Blocked")
             _daemon_stats["objectives_failed"] += 1
-            _daemon_stats["current_objective"] = None
-            _daemon_stats["current_phase"]     = "idle"
+            _daemon_stats["current_objective"]  = None
+            _daemon_stats["current_phase"]      = "idle"
             _write_status()
             continue
 
-        # Lanzar drones para todos los hallazgos acumulados
         all_findings = [f for r in results for f in r.findings]
-        drone_ids = coord.process_findings(
+        drone_ids    = coord.process_findings(
             all_findings, target, obj.id,
             payload_key=payload.get("api_key", ""),
         )
 
-        # Guardar resultado en hive memory
         if _get_hive:
             try:
-                hive = _get_hive()
+                hive    = _get_hive()
                 summary = (
                     f"[AUTONOMOUS] objective={obj.text[:100]} target={target} "
                     f"steps={len(results)} findings={len(all_findings)}"
@@ -889,21 +1247,20 @@ async def objective_loop(
             except Exception as exc:
                 log.debug("hive store error: %s", exc)
 
-        # Marcar objetivo completado
         try:
             store.complete(obj.id)
         except Exception:
             pass
         _update_task_status(obj.text, "Done")
 
-        _daemon_stats["objectives_done"] += 1
-        _daemon_stats["steps_run"]       += len(results)
-        _daemon_stats["drones_spawned"]  += len(drone_ids)
+        _daemon_stats["objectives_done"]  += 1
+        _daemon_stats["steps_run"]        += len(results)
+        _daemon_stats["drones_spawned"]   += len(drone_ids)
         _daemon_stats["current_objective"] = None
         _daemon_stats["current_phase"]     = "idle"
         _write_status()
 
-        log.info("✓  [%s] completado — %d pasos, %d hallazgos, %d drones",
+        log.info("[%s] completed — %d steps, %d findings, %d drones",
                  obj.id, len(results), len(all_findings), len(drone_ids))
 
 
@@ -911,8 +1268,8 @@ async def objective_loop(
 
 async def world_model_watcher(loop: asyncio.AbstractEventLoop) -> None:
     """
-    Observa world_model.json. Cuando cambia la fase o aparecen nuevos hosts,
-    inyecta objetivos derivados automáticamente.
+    Watch world_model.json. When the phase changes or new hosts appear,
+    auto-inject derived objectives.
     """
     wm_file   = SESSIONS_DIR / "world_model.json"
     last_snap: Dict = {}
@@ -921,7 +1278,7 @@ async def world_model_watcher(loop: asyncio.AbstractEventLoop) -> None:
         return
 
     store = _ObjectiveStore()
-    log.info("world_model_watcher iniciado (poll=%.1fs)", WM_POLL_S)
+    log.info("world_model_watcher started (poll=%.1fs)", WM_POLL_S)
 
     while not _should_stop.is_set():
         await asyncio.sleep(WM_POLL_S)
@@ -937,30 +1294,29 @@ async def world_model_watcher(loop: asyncio.AbstractEventLoop) -> None:
         if snap == last_snap:
             continue
 
-        # Detectar nuevos hosts
         prev_hosts = set(last_snap.get("hosts", {}).keys())
         curr_hosts = set(snap.get("hosts", {}).keys())
         new_hosts  = curr_hosts - prev_hosts
         for host in new_hosts:
             text = f"Enumerate newly discovered host {host}"
             try:
-                obj = store.inject(text=text, priority="high",
-                                   source="world_model_watcher",
-                                   context={"target": host})
+                obj = store.inject(
+                    text=text, priority="high",
+                    source="world_model_watcher",
+                    context={"target": host},
+                )
                 task_id = _inject_to_tasks_json(
                     title=text,
-                    description=f"Auto-inyectado por WorldModelWatcher | objective_id={obj.id}",
+                    description=f"Auto-injected by WorldModelWatcher | objective_id={obj.id}",
                     operator="world_model_watcher",
                     status="New",
                 )
                 _emit("OBJECTIVE_AUTO_INJECTED", {
                     "text": text, "trigger": "new_host", "host": host, "task_id": task_id,
                 })
-                log.info("  🎯 nuevo objetivo auto-inyectado: %s (task_id=%d)", text, task_id)
             except Exception as exc:
                 log.debug("inject error: %s", exc)
 
-        # Detectar nuevas credenciales
         prev_creds = len(last_snap.get("credentials", []))
         curr_creds = len(snap.get("credentials", []))
         if curr_creds > prev_creds:
@@ -968,62 +1324,58 @@ async def world_model_watcher(loop: asyncio.AbstractEventLoop) -> None:
             creds     = snap.get("credentials", [])[-new_count:]
             for cred in creds:
                 cred_str = json.dumps(cred)[:80]
-                text = f"Leverage new credential: {cred_str}"
+                text     = f"Leverage new credential: {cred_str}"
                 try:
-                    obj = store.inject(text=text, priority="critical",
-                                       source="world_model_watcher",
-                                       context={"credential": cred})
+                    obj = store.inject(
+                        text=text, priority="critical",
+                        source="world_model_watcher",
+                        context={"credential": cred},
+                    )
                     task_id = _inject_to_tasks_json(
                         title=text,
-                        description=f"Credencial detectada automáticamente | objective_id={obj.id}",
+                        description=f"Credential detected automatically | objective_id={obj.id}",
                         operator="world_model_watcher",
                         status="New",
                     )
                     _emit("OBJECTIVE_AUTO_INJECTED", {
                         "text": text, "trigger": "new_credential", "task_id": task_id,
                     }, severity="warning")
-                    log.info("  🎯 credencial detectada → task_id=%d", task_id)
                 except Exception:
                     pass
 
-        # Detectar cambio de fase
         prev_phase = last_snap.get("phase", "")
         curr_phase = snap.get("phase", "")
         if curr_phase and curr_phase != prev_phase:
-            _emit("PHASE_CHANGE", {
-                "from": prev_phase, "to": curr_phase,
-            })
+            _emit("PHASE_CHANGE", {"from": prev_phase, "to": curr_phase})
             _daemon_stats["current_phase"] = curr_phase
-            log.info("  📍 fase: %s → %s", prev_phase, curr_phase)
 
         last_snap = snap
-        _write_status()
 
 
 # ── Role 3 — Heartbeat ────────────────────────────────────────────────────────
 
 async def heartbeat_loop() -> None:
-    """Emite heartbeat y escribe status cada HEARTBEAT_S segundos."""
+    """Emit heartbeat and write status every HEARTBEAT_S seconds."""
     while not _should_stop.is_set():
         await asyncio.sleep(HEARTBEAT_S)
         _daemon_stats["events_emitted"] += 1
         _emit("HEARTBEAT", {
-            "pid":              os.getpid(),
-            "objectives_done":  _daemon_stats["objectives_done"],
-            "steps_run":        _daemon_stats["steps_run"],
-            "drones_spawned":   _daemon_stats["drones_spawned"],
-            "current_phase":    _daemon_stats["current_phase"],
-            "current_objective":_daemon_stats["current_objective"],
+            "pid":               os.getpid(),
+            "objectives_done":   _daemon_stats["objectives_done"],
+            "steps_run":         _daemon_stats["steps_run"],
+            "drones_spawned":    _daemon_stats["drones_spawned"],
+            "current_phase":     _daemon_stats["current_phase"],
+            "current_objective": _daemon_stats["current_objective"],
         })
         _write_status()
-        log.info("♥  heartbeat — done=%d steps=%d drones=%d",
+        log.info("heartbeat — done=%d steps=%d drones=%d",
                  _daemon_stats["objectives_done"],
                  _daemon_stats["steps_run"],
                  _daemon_stats["drones_spawned"])
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# SECCIÓN 7 — Main asyncio entrypoint
+# SECTION 9 — Main asyncio entry point
 # ─────────────────────────────────────────────────────────────────────────────
 
 async def _main_async(max_steps: int = MAX_STEPS_DEFAULT) -> None:
@@ -1036,24 +1388,18 @@ async def _main_async(max_steps: int = MAX_STEPS_DEFAULT) -> None:
     loop = asyncio.get_event_loop()
 
     _emit("DAEMON_START", {
-        "pid": os.getpid(),
-        "max_steps": max_steps,
+        "pid":         os.getpid(),
+        "max_steps":   max_steps,
         "hive_backend": HIVE_BACKEND,
     })
 
     tasks = [
-        asyncio.create_task(
-            objective_loop(max_steps, loop), name="objective_loop"
-        ),
-        asyncio.create_task(
-            world_model_watcher(loop), name="world_model_watcher"
-        ),
-        asyncio.create_task(
-            heartbeat_loop(), name="heartbeat"
-        ),
+        asyncio.create_task(objective_loop(max_steps, loop),   name="objective_loop"),
+        asyncio.create_task(world_model_watcher(loop),         name="world_model_watcher"),
+        asyncio.create_task(heartbeat_loop(),                  name="heartbeat"),
     ]
 
-    log.info("LazyOwn autonomous daemon iniciado (pid=%d max_steps=%d)",
+    log.info("LazyOwn autonomous daemon started (pid=%d max_steps=%d)",
              os.getpid(), max_steps)
 
     ev_loop = asyncio.get_event_loop()
@@ -1065,7 +1411,7 @@ async def _main_async(max_steps: int = MAX_STEPS_DEFAULT) -> None:
     try:
         await asyncio.gather(*tasks)
     except asyncio.CancelledError:
-        log.info("daemon detenido")
+        log.info("daemon stopped")
     finally:
         _emit("DAEMON_STOP", {"pid": os.getpid()})
         STATUS_FILE.write_text(
@@ -1075,7 +1421,7 @@ async def _main_async(max_steps: int = MAX_STEPS_DEFAULT) -> None:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# SECCIÓN 8 — PID management + CLI
+# SECTION 10 — PID management + CLI
 # ─────────────────────────────────────────────────────────────────────────────
 
 def _write_pid() -> None:
@@ -1107,6 +1453,7 @@ def _is_running() -> Tuple[bool, int]:
 
 
 def cmd_run(max_steps: int = MAX_STEPS_DEFAULT) -> None:
+    """Run daemon in foreground (debug mode)."""
     _write_pid()
     try:
         asyncio.run(_main_async(max_steps))
@@ -1115,14 +1462,15 @@ def cmd_run(max_steps: int = MAX_STEPS_DEFAULT) -> None:
 
 
 def cmd_start(max_steps: int = MAX_STEPS_DEFAULT) -> None:
+    """Fork, detach, and run daemon in background."""
     running, pid = _is_running()
     if running:
-        print(f"[auto] ya corriendo (pid={pid})")
+        print(f"[auto] already running (pid={pid})")
         sys.exit(1)
 
     child = os.fork()
     if child > 0:
-        print(f"[auto] iniciado en background (pid={child})")
+        print(f"[auto] started in background (pid={child})")
         sys.exit(0)
 
     os.setsid()
@@ -1144,24 +1492,26 @@ def cmd_start(max_steps: int = MAX_STEPS_DEFAULT) -> None:
 
 
 def cmd_stop() -> None:
+    """Send SIGTERM to the running daemon."""
     running, pid = _is_running()
     if not running:
-        print("[auto] no está corriendo")
+        print("[auto] not running")
         sys.exit(1)
     os.kill(pid, signal.SIGTERM)
-    print(f"[auto] SIGTERM enviado a pid={pid}")
+    print(f"[auto] SIGTERM sent to pid={pid}")
     for _ in range(50):
         time.sleep(0.1)
         alive, _ = _is_running()
         if not alive:
-            print("[auto] detenido")
+            print("[auto] stopped")
             return
-    print("[auto] sigue corriendo después de 5s — usa SIGKILL manualmente")
+    print("[auto] still running after 5s — use SIGKILL manually")
 
 
 def cmd_status() -> None:
+    """Print current daemon status to stdout."""
     running, pid = _is_running()
-    state = "corriendo" if running else "detenido"
+    state = "running" if running else "stopped"
     print(f"[auto] {state}" + (f" (pid={pid})" if running else ""))
     if STATUS_FILE.exists():
         try:
@@ -1169,29 +1519,30 @@ def cmd_status() -> None:
             for k, v in data.items():
                 print(f"  {k}: {v}")
         except Exception:
-            print("  (status file ilegible)")
+            print("  (status file unreadable)")
     else:
-        print("  (sin status aún)")
+        print("  (no status yet)")
 
 
 def cmd_inject(text: str, priority: str = "high") -> None:
+    """Inject an objective from the CLI."""
     if _ObjectiveStore is None:
-        print("[auto] ObjectiveStore no disponible")
+        print("[auto] ObjectiveStore not available")
         sys.exit(1)
     store   = _ObjectiveStore()
     obj     = store.inject(text=text, priority=priority, source="cli")
     task_id = _inject_to_tasks_json(
         title=text,
-        description=f"Inyectado por CLI | objective_id={obj.id}",
+        description=f"Injected by CLI | objective_id={obj.id}",
         operator="cli",
         status="New",
     )
-    print(f"[auto] objetivo inyectado: [{obj.id}] {obj.text[:80]}")
-    print(f"[auto] task.json id={task_id} — visible en /tasks del C2")
+    print(f"[auto] objective injected: [{obj.id}] {obj.text[:80]}")
+    print(f"[auto] task.json id={task_id} — visible in /tasks on the C2")
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# SECCIÓN 9 — API pública para lazyown_mcp.py
+# SECTION 11 — Public API for lazyown_mcp.py
 # ─────────────────────────────────────────────────────────────────────────────
 
 _daemon_thread: Optional[threading.Thread] = None
@@ -1202,12 +1553,12 @@ def mcp_autonomous_start(
     max_steps: int = MAX_STEPS_DEFAULT,
     backend: str = HIVE_BACKEND,
 ) -> str:
-    """Inicia el daemon autónomo en un thread de background (para llamada desde MCP)."""
+    """Start the autonomous daemon in a background thread (for MCP calls)."""
     global _daemon_thread, _daemon_loop, HIVE_BACKEND
 
     if _daemon_thread and _daemon_thread.is_alive():
         return json.dumps({"status": "already_running",
-                           "message": "El daemon autónomo ya está activo"})
+                           "message": "The autonomous daemon is already active"})
 
     HIVE_BACKEND = backend
     _should_stop.clear()
@@ -1231,15 +1582,15 @@ def mcp_autonomous_start(
         "max_steps": max_steps,
         "backend":   backend,
         "message":   (
-            "Daemon autónomo activo. Inyecta objetivos con lazyown_autonomous_inject. "
-            "Monitorea con lazyown_autonomous_status. "
-            "Lee eventos en sessions/autonomous_events.jsonl"
+            "Autonomous daemon active. Inject objectives with lazyown_autonomous_inject. "
+            "Monitor with lazyown_autonomous_status. "
+            "Read events in sessions/autonomous_events.jsonl"
         ),
     }, indent=2)
 
 
 def mcp_autonomous_stop() -> str:
-    """Detiene el daemon autónomo."""
+    """Stop the autonomous daemon."""
     global _daemon_thread
     _should_stop.set()
 
@@ -1250,12 +1601,12 @@ def mcp_autonomous_stop() -> str:
     if _daemon_thread:
         _daemon_thread.join(timeout=5.0)
 
-    _emit("DAEMON_STOP_MCP", {"message": "Detenido via MCP"})
-    return json.dumps({"status": "stopped", "message": "Daemon autónomo detenido"})
+    _emit("DAEMON_STOP_MCP", {"message": "Stopped via MCP"})
+    return json.dumps({"status": "stopped", "message": "Autonomous daemon stopped"})
 
 
 def mcp_autonomous_status() -> str:
-    """Estado actual del daemon: objetivos, pasos, drones, fase."""
+    """Current daemon state: objectives, steps, drones, phase."""
     alive = bool(_daemon_thread and _daemon_thread.is_alive())
     data  = {**_daemon_stats, "running": alive}
     if STATUS_FILE.exists():
@@ -1267,21 +1618,22 @@ def mcp_autonomous_status() -> str:
     return json.dumps(data, indent=2, default=str)
 
 
-def mcp_autonomous_inject(text: str, priority: str = "high",
-                           target: str = "") -> str:
-    """Inyecta un objetivo en la cola del daemon autónomo y en sessions/tasks.json."""
+def mcp_autonomous_inject(
+    text: str,
+    priority: str = "high",
+    target: str = "",
+) -> str:
+    """Inject an objective into the daemon queue and into sessions/tasks.json."""
     if _ObjectiveStore is None:
-        return "[auto] ObjectiveStore no disponible"
+        return "[auto] ObjectiveStore not available"
     store = _ObjectiveStore()
     ctx   = {"target": target} if target else {}
-    obj   = store.inject(text=text, priority=priority,
-                         source="mcp_claude", context=ctx)
+    obj   = store.inject(text=text, priority=priority, source="mcp_claude", context=ctx)
 
-    # Escribir también en tasks.json (visible en el dashboard C2)
     task_id = _inject_to_tasks_json(
         title=text,
         description=(
-            f"Objetivo autónomo — priority={priority}"
+            f"Autonomous objective — priority={priority}"
             + (f" target={target}" if target else "")
             + f" | objective_id={obj.id}"
         ),
@@ -1302,12 +1654,12 @@ def mcp_autonomous_inject(text: str, priority: str = "high",
 
 
 def mcp_autonomous_events(last_n: int = 20) -> str:
-    """Lee los últimos N eventos del stream autonomous_events.jsonl."""
+    """Read the last N events from autonomous_events.jsonl."""
     if not EVENTS_FILE.exists():
-        return "Sin eventos aún. Inicia el daemon con lazyown_autonomous_start."
+        return "No events yet. Start the daemon with lazyown_autonomous_start."
     try:
-        lines = EVENTS_FILE.read_text(encoding="utf-8", errors="replace").splitlines()
-        last  = lines[-last_n:]
+        lines  = EVENTS_FILE.read_text(encoding="utf-8", errors="replace").splitlines()
+        last   = lines[-last_n:]
         events = []
         for line in last:
             try:
@@ -1315,7 +1667,7 @@ def mcp_autonomous_events(last_n: int = 20) -> str:
             except Exception:
                 pass
         if not events:
-            return "Sin eventos legibles."
+            return "No readable events."
         out = []
         for e in events:
             ts  = e.get("ts", "")[:19]
@@ -1328,7 +1680,7 @@ def mcp_autonomous_events(last_n: int = 20) -> str:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# SECCIÓN 10 — CLI entry point
+# SECTION 12 — CLI entry point
 # ─────────────────────────────────────────────────────────────────────────────
 
 _COMMANDS = {
@@ -1351,18 +1703,18 @@ if __name__ == "__main__":
     for _cmd in ("run", "start"):
         p = sub.add_parser(_cmd)
         p.add_argument("--max-steps", default=MAX_STEPS_DEFAULT,
-                       help="Pasos máximos por objetivo")
+                       help="Maximum steps per objective")
 
     sub.add_parser("stop")
     sub.add_parser("status")
 
-    p_inj = sub.add_parser("inject", help="Inyectar objetivo")
-    p_inj.add_argument("text", help="Texto del objetivo")
+    p_inj = sub.add_parser("inject")
+    p_inj.add_argument("text")
     p_inj.add_argument("--priority", default="high",
-                       choices=["critical", "high", "medium", "low"])
+                       choices=["low", "medium", "high", "critical"])
 
-    args = parser.parse_args()
-    if args.cmd not in _COMMANDS:
+    parsed = parser.parse_args()
+    if parsed.cmd in _COMMANDS:
+        _COMMANDS[parsed.cmd](parsed)
+    else:
         parser.print_help()
-        sys.exit(1)
-    _COMMANDS[args.cmd](args)

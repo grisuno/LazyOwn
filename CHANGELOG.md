@@ -2,6 +2,20 @@
 # Changelog
 
 
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): some ideas from openclaw \n\n Version: release/0.2.89 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html - payload.json\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Mar 21 04:54:43 2026 -0300 \n\n Hora: 1774079683
+
+
+### Otros
+
+### Otros
+
+  *   * Add Codacy security scan workflow
+
+
 ### Pruebas
 
 ### Otros

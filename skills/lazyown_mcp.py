@@ -137,6 +137,35 @@ except Exception:
     _PDB_AVAILABLE = False
     _get_pdb = lambda _=None: None  # type: ignore[misc]
 
+# Hive Mind — multi-agent cognitive system (queen + drones + ChromaDB memory)
+try:
+    from hive_mind import (
+        get_hive as _get_hive,
+        mcp_hive_spawn as _hive_spawn,
+        mcp_hive_status as _hive_status,
+        mcp_hive_recall as _hive_recall,
+        mcp_hive_plan as _hive_plan,
+        mcp_hive_result as _hive_result,
+        mcp_hive_collect as _hive_collect,
+        mcp_hive_forget as _hive_forget,
+    )
+    _HIVE_AVAILABLE = True
+except Exception:
+    _HIVE_AVAILABLE = False
+
+# Autonomous Daemon — fully autonomous execution loop (no Claude between objectives)
+try:
+    from autonomous_daemon import (
+        mcp_autonomous_start   as _auto_start,
+        mcp_autonomous_stop    as _auto_stop,
+        mcp_autonomous_status  as _auto_status,
+        mcp_autonomous_inject  as _auto_inject,
+        mcp_autonomous_events  as _auto_events,
+    )
+    _AUTO_AVAILABLE = True
+except Exception:
+    _AUTO_AVAILABLE = False
+
 from mcp.server import Server
 from mcp.server.stdio import stdio_server
 from mcp import types
@@ -1672,6 +1701,184 @@ async def list_tools() -> list[types.Tool]:
                 "required": ["goal"],
             },
         ),
+        # ── Hive Mind tools ────────────────────────────────────────────────────
+        types.Tool(
+            name="lazyown_hive_spawn",
+            description=(
+                "Spawn one or more hive-mind drones (Groq/Ollama) in PARALLEL for a goal. "
+                "When n_drones>1 or role='auto', the Queen decomposes the goal into specialised "
+                "tasks (recon, exploit, analyze, cred, lateral, report) and fires them all at once. "
+                "All drones share a unified ChromaDB+SQLite+Parquet memory. "
+                "Returns drone_ids to poll with lazyown_hive_result / lazyown_hive_collect."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "goal":           {"type": "string",  "description": "High-level objective"},
+                    "role":           {"type": "string",
+                                       "description": "Drone role: auto|recon|exploit|analyze|cred|lateral|report|generic",
+                                       "default": "auto"},
+                    "n_drones":       {"type": "integer", "description": "Drones to spawn (0=template)", "default": 0},
+                    "backend":        {"type": "string",  "enum": ["groq", "ollama"], "default": "groq"},
+                    "max_iterations": {"type": "integer", "default": 10},
+                    "api_key":        {"type": "string",  "default": ""},
+                },
+                "required": ["goal"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_hive_status",
+            description=(
+                "Full hive-mind status: all active drones with role/status/duration, "
+                "ChromaDB vector count, episodic memory events, queen mailbox depth."
+            ),
+            inputSchema={"type": "object", "properties": {}, "required": []},
+        ),
+        types.Tool(
+            name="lazyown_hive_recall",
+            description=(
+                "Semantic + episodic + long-term memory recall from the unified hive ChromaDB. "
+                "Searches across ALL drone results, LazyOwn session history, and Parquet knowledge. "
+                "Use this instead of lazyown_rag_query for cross-agent queries."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "query": {"type": "string", "description": "Natural language search"},
+                    "top_k": {"type": "integer", "default": 10},
+                },
+                "required": ["query"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_hive_plan",
+            description=(
+                "Queen generates a task decomposition plan for a goal WITHOUT spawning drones. "
+                "Shows the role → sub-goal breakdown that would be dispatched."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "goal":    {"type": "string"},
+                    "n_drones":{"type": "integer", "default": 0},
+                },
+                "required": ["goal"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_hive_result",
+            description="Get the result of a specific hive drone by drone_id.",
+            inputSchema={
+                "type": "object",
+                "properties": {"drone_id": {"type": "string"}},
+                "required": ["drone_id"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_hive_collect",
+            description=(
+                "Wait for a set of drones to finish and return the Queen's synthesized summary. "
+                "drone_ids_csv: comma-separated drone IDs returned by lazyown_hive_spawn."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "drone_ids_csv": {"type": "string", "description": "Comma-separated drone IDs"},
+                    "goal":          {"type": "string", "description": "Original goal (for synthesis context)", "default": ""},
+                },
+                "required": ["drone_ids_csv"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_hive_forget",
+            description="Prune hive episodic memory. Remove entries older than N hours, optionally filtered by topic.",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "older_than_hours": {"type": "number", "default": 24.0},
+                    "topic":            {"type": "string",  "default": ""},
+                },
+                "required": [],
+            },
+        ),
+        # ── END Hive Mind tools ────────────────────────────────────────────────
+
+        # ── Autonomous Daemon tools ─────────────────────────────────────────
+        types.Tool(
+            name="lazyown_autonomous_start",
+            description=(
+                "Inicia el daemon autónomo de LazyOwn — loop raíz que ejecuta objetivos "
+                "SIN esperar a Claude entre pasos. Cierra la brecha OpenClaw: "
+                "observa objectives.jsonl, ejecuta comandos, actualiza WorldModel, "
+                "lanza drones Hive en paralelo, inyecta nuevos objetivos derivados. "
+                "Claude solo necesita inyectar el objetivo inicial."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "max_steps": {
+                        "type": "integer",
+                        "description": "Pasos máximos por objetivo (default 10)",
+                        "default": 10,
+                    },
+                    "backend": {
+                        "type": "string",
+                        "enum": ["groq", "ollama"],
+                        "description": "Backend para drones Hive",
+                        "default": "groq",
+                    },
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_autonomous_stop",
+            description="Detiene el daemon autónomo. Los objetivos en curso terminan su paso actual.",
+            inputSchema={"type": "object", "properties": {}, "required": []},
+        ),
+        types.Tool(
+            name="lazyown_autonomous_status",
+            description=(
+                "Estado en tiempo real del daemon: fase actual, objetivo activo, "
+                "pasos ejecutados, drones spawneados, eventos emitidos."
+            ),
+            inputSchema={"type": "object", "properties": {}, "required": []},
+        ),
+        types.Tool(
+            name="lazyown_autonomous_inject",
+            description=(
+                "Inyecta un objetivo de alto nivel en la cola del daemon autónomo. "
+                "El daemon lo tomará en el próximo ciclo y lo ejecutará sin intervención. "
+                "Claude solo necesita llamar esto UNA VEZ por objetivo."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "text":     {"type": "string",  "description": "Texto del objetivo"},
+                    "priority": {"type": "string",  "enum": ["critical","high","medium","low"], "default": "high"},
+                    "target":   {"type": "string",  "description": "IP target (opcional, default: payload.json rhost)", "default": ""},
+                },
+                "required": ["text"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_autonomous_events",
+            description=(
+                "Lee los últimos N eventos del stream autónomo (autonomous_events.jsonl): "
+                "STEP_START, STEP_DONE, HIGH_VALUE, DRONE_SPAWNED, PHASE_CHANGE, "
+                "OBJECTIVE_AUTO_INJECTED, HEARTBEAT."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "last_n": {"type": "integer", "default": 20,
+                               "description": "Número de eventos a leer"},
+                },
+                "required": [],
+            },
+        ),
+        # ── END Autonomous Daemon tools ─────────────────────────────────────
+
         types.Tool(
             name="lazyown_rag_index",
             description=(
@@ -4336,6 +4543,131 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
         except Exception as exc:
             return text(f"[groq_agent error] {exc}")
+
+    # ── Hive Mind handlers ────────────────────────────────────────────────────
+    elif name == "lazyown_hive_spawn":
+        if not _HIVE_AVAILABLE:
+            return text("[hive] hive_mind.py not importable — check skills/hive_mind.py")
+        try:
+            result = _hive_spawn(
+                goal=arguments.get("goal", ""),
+                role=arguments.get("role", "auto"),
+                n_drones=int(arguments.get("n_drones", 0)),
+                backend=arguments.get("backend", "groq"),
+                max_iterations=int(arguments.get("max_iterations", 10)),
+                api_key=arguments.get("api_key", ""),
+            )
+            return text(result)
+        except Exception as exc:
+            return text(f"[hive_spawn error] {exc}")
+
+    elif name == "lazyown_hive_status":
+        if not _HIVE_AVAILABLE:
+            return text("[hive] hive_mind.py not importable")
+        try:
+            return text(_hive_status())
+        except Exception as exc:
+            return text(f"[hive_status error] {exc}")
+
+    elif name == "lazyown_hive_recall":
+        if not _HIVE_AVAILABLE:
+            return text("[hive] hive_mind.py not importable")
+        try:
+            return text(_hive_recall(
+                query=arguments.get("query", ""),
+                top_k=int(arguments.get("top_k", 10)),
+            ))
+        except Exception as exc:
+            return text(f"[hive_recall error] {exc}")
+
+    elif name == "lazyown_hive_plan":
+        if not _HIVE_AVAILABLE:
+            return text("[hive] hive_mind.py not importable")
+        try:
+            return text(_hive_plan(
+                goal=arguments.get("goal", ""),
+                n_drones=int(arguments.get("n_drones", 0)),
+            ))
+        except Exception as exc:
+            return text(f"[hive_plan error] {exc}")
+
+    elif name == "lazyown_hive_result":
+        if not _HIVE_AVAILABLE:
+            return text("[hive] hive_mind.py not importable")
+        try:
+            return text(_hive_result(arguments.get("drone_id", "")))
+        except Exception as exc:
+            return text(f"[hive_result error] {exc}")
+
+    elif name == "lazyown_hive_collect":
+        if not _HIVE_AVAILABLE:
+            return text("[hive] hive_mind.py not importable")
+        try:
+            return text(_hive_collect(
+                drone_ids_csv=arguments.get("drone_ids_csv", ""),
+                goal=arguments.get("goal", ""),
+            ))
+        except Exception as exc:
+            return text(f"[hive_collect error] {exc}")
+
+    elif name == "lazyown_hive_forget":
+        if not _HIVE_AVAILABLE:
+            return text("[hive] hive_mind.py not importable")
+        try:
+            return text(_hive_forget(
+                older_than_hours=float(arguments.get("older_than_hours", 24.0)),
+                topic=arguments.get("topic", ""),
+            ))
+        except Exception as exc:
+            return text(f"[hive_forget error] {exc}")
+
+    # ── Autonomous Daemon handlers ────────────────────────────────────────────
+    elif name == "lazyown_autonomous_start":
+        if not _AUTO_AVAILABLE:
+            return text("[auto] autonomous_daemon.py no importable — verifica skills/autonomous_daemon.py")
+        try:
+            return text(_auto_start(
+                max_steps=int(arguments.get("max_steps", 10)),
+                backend=arguments.get("backend", "groq"),
+            ))
+        except Exception as exc:
+            return text(f"[autonomous_start error] {exc}")
+
+    elif name == "lazyown_autonomous_stop":
+        if not _AUTO_AVAILABLE:
+            return text("[auto] autonomous_daemon.py no importable")
+        try:
+            return text(_auto_stop())
+        except Exception as exc:
+            return text(f"[autonomous_stop error] {exc}")
+
+    elif name == "lazyown_autonomous_status":
+        if not _AUTO_AVAILABLE:
+            return text("[auto] autonomous_daemon.py no importable")
+        try:
+            return text(_auto_status())
+        except Exception as exc:
+            return text(f"[autonomous_status error] {exc}")
+
+    elif name == "lazyown_autonomous_inject":
+        if not _AUTO_AVAILABLE:
+            return text("[auto] autonomous_daemon.py no importable")
+        try:
+            return text(_auto_inject(
+                text=arguments.get("text", ""),
+                priority=arguments.get("priority", "high"),
+                target=arguments.get("target", ""),
+            ))
+        except Exception as exc:
+            return text(f"[autonomous_inject error] {exc}")
+
+    elif name == "lazyown_autonomous_events":
+        if not _AUTO_AVAILABLE:
+            return text("[auto] autonomous_daemon.py no importable")
+        try:
+            return text(_auto_events(last_n=int(arguments.get("last_n", 20))))
+        except Exception as exc:
+            return text(f"[autonomous_events error] {exc}")
 
     # ── session_status ────────────────────────────────────────────────────────
     elif name == "lazyown_session_status":

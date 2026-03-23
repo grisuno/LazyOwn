@@ -744,13 +744,35 @@ class HiveBus:
 
 # Role -> system prompt focus
 _ROLE_FOCUS: Dict[str, str] = {
-    "recon":   "You specialise in host discovery, port scanning, and service fingerprinting.",
-    "exploit": "You specialise in vulnerability analysis, CVE research, and exploitation.",
-    "analyze": "You specialise in log analysis, output parsing, and pattern detection.",
-    "cred":    "You specialise in credential hunting, hash cracking, and auth bypass.",
-    "lateral": "You specialise in lateral movement, pivoting, and network traversal.",
-    "report":  "You specialise in synthesising findings into structured, actionable reports.",
-    "generic": "You are a general-purpose red-team assistant.",
+    "recon":             "You specialise in host discovery, port scanning, and service fingerprinting.",
+    "exploit":           "You specialise in vulnerability analysis, CVE research, and exploitation.",
+    "analyze":           "You specialise in log analysis, output parsing, and pattern detection.",
+    "cred":              "You specialise in credential hunting, hash cracking, and auth bypass.",
+    "lateral":           "You specialise in lateral movement, pivoting, and network traversal.",
+    "report":            "You specialise in synthesising findings into structured, actionable reports.",
+    "generic":           "You are a general-purpose red-team assistant.",
+    # ── Specialised swarm roles ───────────────────────────────────────────────
+    "stealth_specialist": (
+        "You are the Stealth Specialist. Your primary concern is remaining undetected. "
+        "Before recommending any command, query threat_model and reactive_suggest to "
+        "estimate detection probability. If a technique carries high EDR/AV risk, "
+        "propose a lower-noise alternative (LOLBas, living-off-the-land, AMSI bypass). "
+        "Annotate every recommendation with its predicted log-source signature."
+    ),
+    "privesc_hunter": (
+        "You are the Privilege Escalation Hunter. Your goal is to identify and exploit "
+        "the fastest local privilege escalation path on the target. Check SUID binaries, "
+        "sudo misconfigurations, writable cron jobs, service binary hijacking, and known "
+        "kernel CVEs. Use linpeas/winpeas output analysis and GTFOBins lookups. "
+        "Report the PoC command and required preconditions for each path found."
+    ),
+    "architect": (
+        "You are the Architect. You maintain the engagement soul.md and the world model. "
+        "After each phase, update the strategic picture: which hosts are owned, what "
+        "credentials are available, and what the optimal next objective is. "
+        "Generate a pivot graph narrative showing the highest-centrality nodes. "
+        "Write lessons learned to hive memory after every significant finding."
+    ),
 }
 
 # Role -> preferred tool subset
@@ -768,7 +790,182 @@ _ROLE_TOOLS: Dict[str, List[str]] = {
     "report":  ["run_command", "rag_query", "threat_model", "facts_show",
                 "parquet_context", "task_list", "memory_search"],
     "generic": [],   # all tools
+    # ── Specialised swarm roles ───────────────────────────────────────────────
+    "stealth_specialist": [
+        "run_command", "reactive_suggest", "threat_model", "rag_query",
+        "bridge_suggest", "parquet_context", "memory_search",
+    ],
+    "privesc_hunter": [
+        "run_command", "bridge_suggest", "atomic_search", "parquet_context",
+        "reactive_suggest", "facts_show", "cve_lookup", "searchsploit",
+    ],
+    "architect": [
+        "rag_query", "memory_search", "facts_show", "threat_model",
+        "session_status", "hive_recall", "parquet_context", "task_list",
+    ],
 }
+
+# Roles that require consensus approval before dispatch (high operational impact)
+_HIGH_RISK_ROLES: frozenset = frozenset({"exploit", "lateral", "cred", "privesc_hunter"})
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SECTION 3B — ConsensusProtocol  (S — voting logic only)
+# ─────────────────────────────────────────────────────────────────────────────
+
+
+@dataclass
+class ConsensusVote:
+    """A single vote cast by a drone role during consensus evaluation."""
+    voter_role:  str
+    approved:    bool
+    risk_score:  float   # estimated detection/operational risk in [0.0, 1.0]
+    rationale:   str
+
+
+class ConsensusProtocol:
+    """
+    Multi-drone voting gate for high-risk actions.
+
+    Before a high-risk task (exploit, lateral, credential dump) is dispatched,
+    the queen polls a panel of virtual voters — one per specialised role — and
+    only proceeds when the weighted approval meets the required quorum.
+
+    Voting model
+    ------------
+    - stealth_specialist : votes based on detection risk (approves if risk < threshold)
+    - privesc_hunter     : votes based on whether current access level justifies the move
+    - architect          : votes based on strategic alignment with current phase
+
+    The detection risk estimate uses DetectionRiskAssessor when available,
+    falling back to a static heuristic table.
+
+    Design
+    ------
+    - Single Responsibility : voting logic only; no drone spawning
+    - Open/Closed           : new voter roles added without modifying existing code
+    - Dependency Inversion  : DetectionRiskAssessor injected, not constructed here
+    """
+
+    _DETECTION_RISK_BY_ROLE: Dict[str, float] = {
+        "exploit":        0.82,
+        "lateral":        0.75,
+        "cred":           0.88,
+        "privesc_hunter": 0.65,
+    }
+    _APPROVAL_QUORUM: float = 0.51   # fraction of weighted votes required
+
+    def __init__(self, risk_assessor: Optional[Any] = None) -> None:
+        self._risk_assessor = risk_assessor  # Optional DetectionRiskAssessor
+
+    def evaluate(self, role: str, goal: str) -> Tuple[bool, List[ConsensusVote], str]:
+        """
+        Run the consensus vote for the given (role, goal) pair.
+
+        Returns
+        -------
+        (approved: bool, votes: List[ConsensusVote], summary: str)
+        """
+        if role not in _HIGH_RISK_ROLES:
+            return True, [], "role not subject to consensus review"
+
+        detection_risk = self._estimate_detection_risk(role, goal)
+        votes = [
+            self._stealth_vote(detection_risk),
+            self._privesc_hunter_vote(role, goal),
+            self._architect_vote(role, goal),
+        ]
+        weighted_score = self._weighted_approval(votes)
+        approved       = weighted_score >= self._APPROVAL_QUORUM
+        summary        = (
+            f"Consensus {'APPROVED' if approved else 'REJECTED'} "
+            f"(weighted approval {weighted_score:.0%}, "
+            f"detection_risk={detection_risk:.0%}). "
+            + " | ".join(f"{v.voter_role}: {'YES' if v.approved else 'NO'}" for v in votes)
+        )
+        return approved, votes, summary
+
+    # Voters ------------------------------------------------------------------
+
+    def _stealth_vote(self, detection_risk: float) -> ConsensusVote:
+        threshold = 0.70
+        approved  = detection_risk < threshold
+        return ConsensusVote(
+            voter_role="stealth_specialist",
+            approved=approved,
+            risk_score=detection_risk,
+            rationale=(
+                f"Detection risk {detection_risk:.0%} is {'below' if approved else 'at or above'} "
+                f"the {threshold:.0%} stealth threshold."
+            ),
+        )
+
+    @staticmethod
+    def _privesc_hunter_vote(role: str, goal: str) -> ConsensusVote:
+        # Approves exploit/credential/lateral moves — these are its specialty
+        approved = role in {"exploit", "lateral", "cred", "privesc_hunter"}
+        return ConsensusVote(
+            voter_role="privesc_hunter",
+            approved=approved,
+            risk_score=0.5,
+            rationale=(
+                "Exploitation path aligns with privilege escalation strategy."
+                if approved
+                else f"Role '{role}' is outside the privesc hunter's mandate."
+            ),
+        )
+
+    @staticmethod
+    def _architect_vote(role: str, goal: str) -> ConsensusVote:
+        # Approves when the goal contains strategic keywords
+        strategic_keywords = (
+            "shell", "root", "admin", "system", "lateral", "cred",
+            "pivot", "domain", "dc", "secretsdump", "hash",
+        )
+        goal_lower  = goal.lower()
+        is_strategic = any(kw in goal_lower for kw in strategic_keywords)
+        return ConsensusVote(
+            voter_role="architect",
+            approved=is_strategic,
+            risk_score=0.4,
+            rationale=(
+                "Goal aligns with a defined strategic phase objective."
+                if is_strategic
+                else "Goal does not clearly advance the engagement phase."
+            ),
+        )
+
+    def _estimate_detection_risk(self, role: str, goal: str) -> float:
+        if self._risk_assessor is not None:
+            try:
+                return self._risk_assessor.assess_probability(goal, "", role)
+            except Exception:
+                pass
+        return self._DETECTION_RISK_BY_ROLE.get(role, 0.50)
+
+    @staticmethod
+    def _weighted_approval(votes: List[ConsensusVote]) -> float:
+        """
+        Weight votes by role importance:
+          stealth_specialist : 0.40 (detection risk is paramount)
+          privesc_hunter     : 0.30 (operational expertise)
+          architect          : 0.30 (strategic alignment)
+        """
+        weights = {
+            "stealth_specialist": 0.40,
+            "privesc_hunter":     0.30,
+            "architect":          0.30,
+        }
+        total_weight  = 0.0
+        approval_weight = 0.0
+        for vote in votes:
+            w = weights.get(vote.voter_role, 0.0)
+            total_weight += w
+            if vote.approved:
+                approval_weight += w
+        if total_weight == 0.0:
+            return 0.0
+        return approval_weight / total_weight
 
 
 @dataclass
@@ -1010,10 +1207,12 @@ class QueenBrain:
         memory: HiveMemory,
         bus: HiveBus,
         pool: "DronePool",
+        consensus: Optional["ConsensusProtocol"] = None,
     ) -> None:
-        self._memory = memory
-        self._bus    = bus
-        self._pool   = pool
+        self._memory    = memory
+        self._bus       = bus
+        self._pool      = pool
+        self._consensus = consensus or ConsensusProtocol()
 
     def plan(self, goal: str, n_drones: int = 0) -> List[Dict]:
         """
@@ -1041,24 +1240,70 @@ class QueenBrain:
         api_key: Optional[str] = None,
         max_iterations: int = 10,
     ) -> List[str]:
-        """Spawn one drone per task in parallel. Returns list of drone_ids."""
-        drone_ids = []
+        """
+        Spawn one drone per task in parallel.
+
+        High-risk roles (exploit, lateral, cred, privesc_hunter) are gated
+        through the ConsensusProtocol before dispatch.  Tasks that fail
+        consensus are recorded in hive memory but not spawned.
+
+        Returns list of drone_ids for approved and spawned drones.
+        """
+        drone_ids: List[str] = []
+        blocked:   List[str] = []
+
         for task in tasks:
+            role = task.get("role", "generic")
+            goal = task["goal"]
+
+            if role in _HIGH_RISK_ROLES:
+                approved, votes, summary = self._consensus.evaluate(role, goal)
+                self._memory.store(
+                    content=f"[CONSENSUS] role={role} goal={goal[:100]}\n{summary}",
+                    agent_id="queen",
+                    event_type="consensus",
+                    meta={
+                        "role": role,
+                        "approved": approved,
+                        "votes": [
+                            {
+                                "voter": v.voter_role,
+                                "approved": v.approved,
+                                "risk": v.risk_score,
+                                "rationale": v.rationale,
+                            }
+                            for v in votes
+                        ],
+                    },
+                )
+                if not approved:
+                    log.warning("Consensus BLOCKED task role=%s: %s", role, summary)
+                    blocked.append(goal[:80])
+                    continue
+
             drone_id = self._pool.spawn(
-                role=task.get("role", "generic"),
-                goal=task["goal"],
+                role=role,
+                goal=goal,
                 backend=backend,
                 api_key=api_key,
                 max_iterations=max_iterations,
             )
             drone_ids.append(drone_id)
 
-        self._memory.store(
-            content=f"[QUEEN] Dispatched {len(drone_ids)} drones for: {tasks[0]['goal'][:120]}",
-            agent_id="queen",
-            event_type="dispatch",
-            meta={"drone_ids": drone_ids, "task_count": len(tasks)},
-        )
+        if tasks:
+            self._memory.store(
+                content=(
+                    f"[QUEEN] Dispatched {len(drone_ids)}/{len(tasks)} drones"
+                    f" (blocked={len(blocked)}) for: {tasks[0]['goal'][:120]}"
+                ),
+                agent_id="queen",
+                event_type="dispatch",
+                meta={
+                    "drone_ids":  drone_ids,
+                    "task_count": len(tasks),
+                    "blocked":    blocked,
+                },
+            )
         return drone_ids
 
     def plan_and_dispatch(

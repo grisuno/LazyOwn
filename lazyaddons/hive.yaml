@@ -1,0 +1,40 @@
+name: hive
+description: >
+  Invokes Claude Code CLI with the LazyOwn MCP server and executes an autonomous
+  or hive-mind operation based on the given prompt.
+
+  Claude Code receives the prompt and uses lazyown MCP tools to fulfil it:
+    - lazyown_hive_spawn    : spawn parallel drones for complex investigations
+    - lazyown_autonomous_start : start the fully autonomous execution daemon
+    - lazyown_run_command   : execute any LazyOwn shell command
+    - lazyown_rag_query     : query past session intelligence
+    - lazyown_facts_show    : retrieve structured target facts
+    - lazyown_threat_model  : generate a MITRE ATT&CK threat model
+    - lazyown_recommend_next: get the next recommended action
+
+  Usage:
+    hive <prompt>
+    hive --interactive <prompt>
+    hive --effort max <prompt>
+
+  Examples:
+    hive spawn 3 drones to enumerate SMB on 10.10.11.78
+    hive start autonomous mode targeting 10.10.11.78
+    hive what credentials and hosts have been captured so far
+    hive analyze the latest session and recommend next steps
+    hive --interactive enumerate Active Directory domain controller at 10.10.11.78
+    hive --effort max perform a full red team operation on 10.10.11.0/24
+
+  Flags (prepend before the prompt):
+    --interactive / -i     Open Claude in interactive REPL instead of print mode
+    --effort LEVEL / -e    Set effort level: low | medium | high (default) | max
+
+author: "LazyOwn RedTeam"
+version: "1.0"
+enabled: true
+
+tool:
+  name: hive
+  repo_url: https://github.com/grisuno/LazyOwn.git
+  install_path: .
+  execute_command: python3 modules/hive_invoke.py

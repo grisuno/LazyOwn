@@ -108,6 +108,148 @@ class VulnerabilityEntry:
 
 
 @dataclass
+class NetworkRelation:
+    """A directed, typed relationship between two network nodes.
+
+    Node naming convention:
+        host:<ip>          — a discovered host
+        user:<username>    — a user account
+        service:<name>     — a running service (e.g. service:smb)
+        cred:<hash>        — a captured credential (first 12 chars)
+    """
+    source:     str
+    target:     str
+    relation:   str             # e.g. has_session, runs_service, shares_cred_with
+    weight:     float = 1.0
+    attributes: Dict[str, str] = field(default_factory=dict)
+
+
+# ---------------------------------------------------------------------------
+# Network graph (Graph-based reasoning layer)
+# ---------------------------------------------------------------------------
+
+
+class NetworkGraph:
+    """
+    Lightweight directed graph for network topology and lateral movement reasoning.
+
+    Tracks typed relationships between hosts, users, services, and credentials
+    and exposes degree-centrality analysis to identify pivot points without
+    requiring an external graph library.
+
+    Design
+    ------
+    - Single Responsibility : graph structure + centrality only; no I/O
+    - Open/Closed           : new relation types added as data, not code
+    - Thread-safe           : caller (WorldModel) holds its own RLock
+
+    Centrality algorithm
+    --------------------
+    Normalized degree centrality:
+        C(v) = (in_degree(v) + out_degree(v)) / (2 * (N - 1))
+
+    A node with high centrality is reachable by and can reach many others —
+    an ideal pivot candidate for lateral movement.
+    """
+
+    def __init__(self) -> None:
+        # adjacency[source][target] = [NetworkRelation, ...]
+        self._adjacency: Dict[str, Dict[str, List[NetworkRelation]]] = {}
+        self._nodes: set = set()
+
+    # ── Mutations ─────────────────────────────────────────────────────────────
+
+    def add_relation(self, relation: NetworkRelation) -> None:
+        """Add a directed edge. Duplicate edges accumulate (multi-graph)."""
+        self._nodes.add(relation.source)
+        self._nodes.add(relation.target)
+        self._adjacency \
+            .setdefault(relation.source, {}) \
+            .setdefault(relation.target, []) \
+            .append(relation)
+
+    # ── Queries ───────────────────────────────────────────────────────────────
+
+    def neighbors(self, node: str) -> List[str]:
+        """Return nodes reachable from *node* in one outbound hop."""
+        return list(self._adjacency.get(node, {}).keys())
+
+    def in_degree(self, node: str) -> int:
+        """Count edges pointing INTO *node*."""
+        return sum(
+            1 for targets in self._adjacency.values() if node in targets
+        )
+
+    def out_degree(self, node: str) -> int:
+        """Count edges leaving *node*."""
+        return len(self._adjacency.get(node, {}))
+
+    def degree_centrality(self) -> List[tuple]:
+        """
+        Return (node, centrality_score) pairs sorted descending by score.
+        Score is normalized to [0.0, 1.0] over all discovered nodes.
+        """
+        n = len(self._nodes)
+        if n <= 1:
+            return [(node, 0.0) for node in self._nodes]
+        denominator = 2.0 * (n - 1)
+        scores: Dict[str, float] = {}
+        for node in self._nodes:
+            total = self.in_degree(node) + self.out_degree(node)
+            scores[node] = round(total / denominator, 4)
+        return sorted(scores.items(), key=lambda kv: -kv[1])
+
+    def pivot_candidates(self, top_k: int = 5) -> List[Dict]:
+        """
+        Return the *top_k* highest-centrality nodes as pivot candidates.
+        The returned list is suitable for injection into an LLM prompt as
+        strategic network context.
+        """
+        centrality = dict(self.degree_centrality())
+        candidates: List[Dict] = []
+        for node, score in sorted(
+            centrality.items(), key=lambda kv: -kv[1]
+        )[:top_k]:
+            candidates.append({
+                "node":       node,
+                "centrality": score,
+                "out_degree": self.out_degree(node),
+                "in_degree":  self.in_degree(node),
+                "neighbors":  self.neighbors(node)[:8],
+            })
+        return candidates
+
+    # ── Serialization ─────────────────────────────────────────────────────────
+
+    def to_dict(self) -> dict:
+        relations: List[dict] = []
+        for src, targets in self._adjacency.items():
+            for tgt, rels in targets.items():
+                for r in rels:
+                    relations.append({
+                        "source":     r.source,
+                        "target":     r.target,
+                        "relation":   r.relation,
+                        "weight":     r.weight,
+                        "attributes": r.attributes,
+                    })
+        return {"nodes": list(self._nodes), "relations": relations}
+
+    @classmethod
+    def from_dict(cls, data: dict) -> "NetworkGraph":
+        g = cls()
+        for r in data.get("relations", []):
+            g.add_relation(NetworkRelation(
+                source=r["source"],
+                target=r["target"],
+                relation=r["relation"],
+                weight=r.get("weight", 1.0),
+                attributes=r.get("attributes", {}),
+            ))
+        return g
+
+
+@dataclass
 class HostEntry:
     ip:              str
     state:           HostState              = HostState.UNSCANNED
@@ -239,6 +381,7 @@ class WorldModel:
         self._hosts:   Dict[str, HostEntry]       = {}
         self._creds:   List[CredentialEntry]      = []
         self._vulns:   List[VulnerabilityEntry]   = []
+        self._graph:   NetworkGraph               = NetworkGraph()
         self._deriver: _PhaseDeriver              = _PhaseDeriver()
         self._load()
 
@@ -268,6 +411,13 @@ class WorldModel:
             host.add_service(ServiceInfo(port=port, name=name, version=version, protocol=protocol))
             if host.state == HostState.UNSCANNED:
                 host.advance(HostState.SCANNED)
+            if name:
+                self._graph.add_relation(NetworkRelation(
+                    source=f"host:{ip}",
+                    target=f"service:{name}",
+                    relation="runs_service",
+                    attributes={"port": str(port), "version": version},
+                ))
             self._save()
 
     def add_note(self, ip: str, note: str) -> None:
@@ -284,6 +434,23 @@ class WorldModel:
             if not any(c.value == value for c in self._creds):
                 self._creds.append(CredentialEntry(value=value, host=host, service=service))
                 log.info("WorldModel: credential captured for %s", host or "unknown")
+                cred_node = f"cred:{value[:12]}"
+                if host:
+                    self._graph.add_relation(NetworkRelation(
+                        source=f"host:{host}",
+                        target=cred_node,
+                        relation="exposes_credential",
+                        attributes={"service": service},
+                    ))
+                    # Credential potentially grants access to other hosts
+                    for other_ip in self._hosts:
+                        if other_ip != host:
+                            self._graph.add_relation(NetworkRelation(
+                                source=cred_node,
+                                target=f"host:{other_ip}",
+                                relation="may_authenticate_to",
+                                weight=0.5,
+                            ))
                 self._save()
 
     def add_vulnerability(self, description: str, host: str = "",
@@ -330,6 +497,40 @@ class WorldModel:
             except Exception as exc:
                 log.debug("WorldModel.update_from_findings: %s", exc)
 
+    # ── Network graph ─────────────────────────────────────────────────────────
+
+    def add_relation(
+        self,
+        source: str,
+        target: str,
+        relation: str,
+        weight: float = 1.0,
+        **attributes: str,
+    ) -> None:
+        """Add an arbitrary directed relationship to the network graph."""
+        with self._lock:
+            self._graph.add_relation(NetworkRelation(
+                source=source,
+                target=target,
+                relation=relation,
+                weight=weight,
+                attributes=dict(attributes),
+            ))
+            self._save()
+
+    def pivot_candidates(self, top_k: int = 5) -> List[Dict]:
+        """
+        Return the top_k highest-centrality nodes as pivot candidates.
+        Uses normalized degree centrality over the full network graph.
+        """
+        with self._lock:
+            return self._graph.pivot_candidates(top_k=top_k)
+
+    def graph_snapshot(self) -> dict:
+        """Return the full network graph as a serialisable dict."""
+        with self._lock:
+            return self._graph.to_dict()
+
     # ── Phase and context ─────────────────────────────────────────────────────
 
     def get_phase(self) -> EngagementPhase:
@@ -374,6 +575,16 @@ class WorldModel:
 
             lines.append(f"\nSuggested tools for {phase.value}: "
                          + ", ".join(self.get_suggested_tools()[:5] or ["(any)"]))
+
+            pivots = self._graph.pivot_candidates(top_k=3)
+            if pivots:
+                lines.append("\nTop pivot candidates (by network centrality):")
+                for p in pivots:
+                    lines.append(
+                        f"  {p['node']}  centrality={p['centrality']:.3f}  "
+                        f"out={p['out_degree']} in={p['in_degree']}"
+                    )
+
             return "\n".join(lines)
 
     # ── Serialization ─────────────────────────────────────────────────────────
@@ -387,6 +598,7 @@ class WorldModel:
                 "hosts":           {ip: h.to_dict() for ip, h in self._hosts.items()},
                 "credentials":     [vars(c) for c in self._creds],
                 "vulnerabilities": [vars(v) for v in self._vulns],
+                "network_graph":   self._graph.to_dict(),
                 "saved_at":        datetime.now().isoformat(),
             }
             tmp.write_text(json.dumps(data, indent=2), encoding="utf-8")
@@ -404,6 +616,8 @@ class WorldModel:
             self._hosts = {ip: HostEntry.from_dict(h) for ip, h in data.get("hosts", {}).items()}
             self._creds = [CredentialEntry(**c) for c in data.get("credentials", [])]
             self._vulns = [VulnerabilityEntry(**v) for v in data.get("vulnerabilities", [])]
+            if "network_graph" in data:
+                self._graph = NetworkGraph.from_dict(data["network_graph"])
             log.info("WorldModel: loaded %d hosts, %d creds from %s",
                      len(self._hosts), len(self._creds), self._path)
         except Exception as exc:
@@ -428,6 +642,7 @@ class WorldModel:
                 "hosts":           {ip: h.to_dict() for ip, h in self._hosts.items()},
                 "credentials":     [vars(c) for c in self._creds],
                 "vulnerabilities": [vars(v) for v in self._vulns],
+                "pivot_candidates": self._graph.pivot_candidates(top_k=5),
             }
 
 

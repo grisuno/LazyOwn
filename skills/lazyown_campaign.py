@@ -35,7 +35,7 @@ import sys
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 
 # ─── Logging ──────────────────────────────────────────────────────────────────
 
@@ -168,6 +168,193 @@ class Campaign:
         )
 
 
+# ─── Episode reflection ───────────────────────────────────────────────────────
+
+
+@dataclass
+class LessonLearned:
+    """A single distilled lesson extracted from a completed campaign.
+
+    Stored in hive memory (ChromaDB) so future campaigns can retrieve
+    relevant lessons via semantic search.
+    """
+
+    campaign_id:   str
+    campaign_name: str
+    topic:         str   # e.g. "privesc", "lateral_movement", "detection_evasion"
+    lesson:        str   # the actionable insight
+    context:       str   # brief context that produced this lesson
+    derived_at:    str   = field(default_factory=_now_iso)
+
+    def to_dict(self) -> dict:
+        return asdict(self)
+
+
+class EpisodeReflectionEngine:
+    """
+    Post-campaign reflection engine.
+
+    After a campaign completes, analyses milestones and notes to produce
+    a set of LessonLearned records and persists them to:
+      1. sessions/campaign_lessons.jsonl  — local flat file for offline review
+      2. hive_memory (ChromaDB / SQLite)  — for semantic retrieval in future campaigns
+
+    Design
+    ------
+    - Single Responsibility : reflection + lesson extraction only
+    - Open/Closed           : lesson extractors added as _EXTRACTORS entries
+    - Dependency Inversion  : hive memory injected (or None for offline mode)
+
+    The lesson extraction is intentionally heuristic and conservative — it
+    only produces lessons from concrete observed milestones, not from
+    speculative reasoning.
+    """
+
+    _LESSONS_FILE = BASE_DIR / "sessions" / "campaign_lessons.jsonl"
+
+    # Maps milestone type to a lesson topic and template function
+    _MILESTONE_LESSONS: Dict[str, tuple] = {
+        "initial_foothold": (
+            "intrusion",
+            lambda m: (
+                f"Initial foothold on {m['host']} achieved at {m['timestamp']}. "
+                f"Method: {m.get('notes', 'not recorded')}. "
+                "Capture the exact service version and auth mechanism for future reference."
+            ),
+        ),
+        "priv_esc": (
+            "privesc",
+            lambda m: (
+                f"Privilege escalation on {m['host']}: {m.get('notes', 'method not recorded')}. "
+                "Verify whether the same path exists on other hosts in the same subnet."
+            ),
+        ),
+        "lateral_movement": (
+            "lateral_movement",
+            lambda m: (
+                f"Lateral movement to {m['host']}: {m.get('notes', 'not recorded')}. "
+                "Record which credential enabled this move for future pass-the-hash attempts."
+            ),
+        ),
+        "data_exfil": (
+            "exfiltration",
+            lambda m: (
+                f"Data exfiltration from {m['host']}: {m.get('notes', 'not recorded')}. "
+                "Note the channel used and whether it triggered any IDS alert."
+            ),
+        ),
+        "credential_dump": (
+            "credential_access",
+            lambda m: (
+                f"Credential dump on {m['host']}: {m.get('notes', 'not recorded')}. "
+                "Store hashes in sessions/ for offline cracking; "
+                "attempt pass-the-hash before cracking."
+            ),
+        ),
+    }
+
+    def __init__(self, hive_memory: Optional[Any] = None) -> None:
+        """
+        Parameters
+        ----------
+        hive_memory:
+            Optional HiveMemory instance for semantic storage.
+            When None, lessons are only written to the flat JSONL file.
+        """
+        self._hive_memory = hive_memory
+        self._lessons_file = self._LESSONS_FILE
+        self._lessons_file.parent.mkdir(parents=True, exist_ok=True)
+
+    def reflect(self, campaign: "Campaign") -> List[LessonLearned]:
+        """
+        Extract lessons from *campaign* and persist them.
+
+        Returns the list of LessonLearned records produced.
+        """
+        lessons: List[LessonLearned] = []
+
+        # Lesson per concrete milestone
+        for milestone in campaign.milestones:
+            mtype = milestone.get("type", "")
+            if mtype in self._MILESTONE_LESSONS:
+                topic, template_fn = self._MILESTONE_LESSONS[mtype]
+                try:
+                    lesson_text = template_fn(milestone)
+                except Exception:
+                    lesson_text = f"Milestone '{mtype}' achieved on {milestone.get('host', '?')}."
+                lessons.append(LessonLearned(
+                    campaign_id=campaign.campaign_id,
+                    campaign_name=campaign.name,
+                    topic=topic,
+                    lesson=lesson_text,
+                    context=f"milestone:{mtype} host:{milestone.get('host', '?')}",
+                ))
+
+        # Aggregate lesson: scope coverage
+        completed_hosts = [
+            h for h, phase in campaign.phase_per_host.items()
+            if phase == "complete"
+        ]
+        if completed_hosts:
+            lessons.append(LessonLearned(
+                campaign_id=campaign.campaign_id,
+                campaign_name=campaign.name,
+                topic="scope_coverage",
+                lesson=(
+                    f"Campaign '{campaign.name}' fully pwned "
+                    f"{len(completed_hosts)}/{len(campaign.scope)} scoped targets: "
+                    f"{', '.join(completed_hosts)}. "
+                    "Review which hosts were never exploited and why."
+                ),
+                context="aggregate:scope_coverage",
+            ))
+
+        # Duration lesson
+        if campaign.started_at and campaign.ended_at:
+            lessons.append(LessonLearned(
+                campaign_id=campaign.campaign_id,
+                campaign_name=campaign.name,
+                topic="campaign_duration",
+                lesson=(
+                    f"Campaign ran from {campaign.started_at} to {campaign.ended_at}. "
+                    f"Total milestones: {len(campaign.milestones)}. "
+                    "Review timeline gaps to identify enumeration bottlenecks."
+                ),
+                context="aggregate:duration",
+            ))
+
+        self._persist_lessons(lessons)
+        return lessons
+
+    def _persist_lessons(self, lessons: List[LessonLearned]) -> None:
+        """Write lessons to the flat JSONL file and to hive memory."""
+        with self._lessons_file.open("a", encoding="utf-8") as fh:
+            for lesson in lessons:
+                fh.write(json.dumps(lesson.to_dict()) + "\n")
+        log.info("EpisodeReflectionEngine: %d lessons written to %s",
+                 len(lessons), self._lessons_file)
+
+        if self._hive_memory is not None:
+            for lesson in lessons:
+                try:
+                    self._hive_memory.store(
+                        content=(
+                            f"[LESSON] campaign={lesson.campaign_name} "
+                            f"topic={lesson.topic}\n{lesson.lesson}"
+                        ),
+                        agent_id="reflection_engine",
+                        role="architect",
+                        event_type="lesson_learned",
+                        meta={
+                            "campaign_id":   lesson.campaign_id,
+                            "campaign_name": lesson.campaign_name,
+                            "topic":         lesson.topic,
+                        },
+                    )
+                except Exception as exc:
+                    log.debug("EpisodeReflectionEngine: hive store error: %s", exc)
+
+
 # ─── Store ────────────────────────────────────────────────────────────────────
 
 
@@ -241,13 +428,29 @@ class CampaignStore:
         log.info("Campaign '%s' created  [id=%s]", name, campaign.campaign_id)
         return campaign
 
-    def complete(self, notes: str = "") -> None:
-        """Mark the active campaign as completed.
+    def complete(
+        self,
+        notes: str = "",
+        run_reflection: bool = True,
+        hive_memory: Optional[Any] = None,
+    ) -> List[LessonLearned]:
+        """Mark the active campaign as completed and optionally run reflection.
 
         Parameters
         ----------
         notes:
             Optional closing notes to append to the campaign's notes field.
+        run_reflection:
+            When True (default), run EpisodeReflectionEngine after marking
+            completion to extract and persist lessons learned.
+        hive_memory:
+            Optional HiveMemory instance for semantic lesson storage.
+            Only used when run_reflection=True.
+
+        Returns
+        -------
+        List[LessonLearned]
+            The lessons extracted (empty list when run_reflection=False).
 
         Raises
         ------
@@ -265,6 +468,18 @@ class CampaignStore:
             campaign.notes += sep + notes
         self._save(campaign)
         log.info("Campaign '%s' completed at %s", campaign.name, campaign.ended_at)
+
+        if run_reflection:
+            engine = EpisodeReflectionEngine(hive_memory=hive_memory)
+            lessons = engine.reflect(campaign)
+            log.info(
+                "Episode reflection: %d lessons extracted for campaign '%s'",
+                len(lessons),
+                campaign.name,
+            )
+            return lessons
+
+        return []
 
     # ── Mutations ────────────────────────────────────────────────────────────
 
@@ -463,8 +678,13 @@ def main(argv: Optional[List[str]] = None) -> int:
             print(f"Milestone '{args.type}' recorded for {args.host}")
 
         elif args.command == "complete":
-            store.complete(notes=args.notes)
+            lessons = store.complete(notes=args.notes, run_reflection=True)
             print("Campaign marked as completed.")
+            if lessons:
+                print(f"\nEpisode reflection: {len(lessons)} lesson(s) extracted.")
+                for ls in lessons:
+                    print(f"  [{ls.topic}] {ls.lesson[:120]}")
+                print(f"\nFull lessons saved to: {EpisodeReflectionEngine._LESSONS_FILE}")
 
         elif args.command == "add-scope":
             store.add_to_scope(args.ip_or_cidr)

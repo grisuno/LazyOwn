@@ -2128,6 +2128,62 @@ def receive_result(client_id):
                             _fs.save()
                             logging.info(f"[c2-bidir] FactStore: {n} facts from beacon {primary_ip}")
 
+                        # Write OS back to sessions/os.json and world_model.json.
+                        # The beacon's 'client' field is the definitive OS signal:
+                        # it comes from the implant running on the actual target.
+                        # TTL-based heuristics are probabilistic; this is ground truth.
+                        _client_os = _user  # 'client' is mapped to _user above
+                        # Re-read the actual client field from data dict
+                        _raw_os = str(data.get("client", "")).lower()
+                        if "windows" in _raw_os:
+                            _os_id, _os_name = "1", "Windows"
+                        elif "linux" in _raw_os or "unix" in _raw_os:
+                            _os_id, _os_name = "2", "Linux"
+                        else:
+                            _os_id, _os_name = "4", "Unknown"
+
+                        if _os_id != "4":
+                            import json as _j
+                            _os_json_path = os.path.join(
+                                SESSIONS_DIR, "os.json"
+                            )
+                            try:
+                                _os_entry = [{
+                                    "id":    _os_id,
+                                    "os":    _os_name,
+                                    "ttl":   64 if _os_id == "2" else 128,
+                                    "state": "active",
+                                    "source": "beacon",
+                                }]
+                                with open(_os_json_path, "w") as _ojf:
+                                    _j.dump(_os_entry, _ojf, indent=4)
+                                logging.info(
+                                    f"[c2-bidir] sessions/os.json updated: "
+                                    f"os={_os_name} host={primary_ip} (beacon ground truth)"
+                                )
+                            except Exception as _oje:
+                                logging.debug(f"[c2-bidir] os.json write error: {_oje}")
+
+                            # Update world_model.json os_hint for this host.
+                            _wm_path = os.path.join(SESSIONS_DIR, "world_model.json")
+                            try:
+                                _wm = {}
+                                if os.path.isfile(_wm_path):
+                                    with open(_wm_path) as _wmf:
+                                        _wm = _j.load(_wmf)
+                                _hosts = _wm.setdefault("hosts", {})
+                                _h = _hosts.setdefault(primary_ip, {})
+                                if not _h.get("os_hint"):
+                                    _h["os_hint"] = _os_name.lower()
+                                    with open(_wm_path, "w") as _wmf:
+                                        _j.dump(_wm, _wmf, indent=2)
+                                    logging.info(
+                                        f"[c2-bidir] world_model.json os_hint={_os_name.lower()} "
+                                        f"host={primary_ip}"
+                                    )
+                            except Exception as _wme:
+                                logging.debug(f"[c2-bidir] world_model update error: {_wme}")
+
                         # Emit event via event_engine
                         from event_engine import _append_event as _ae
                         import uuid as _uu, datetime as _dtt

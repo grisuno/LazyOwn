@@ -6,6 +6,13 @@
 
 ### Otros
 
+  *   * feat(feat): some improves in the cicle \n\n Version: release/0.2.92 \n\n autonomous \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - lazyc2.py - lazyown.py - skills/README.md - skills/autonomous_daemon.py - skills/lazyown.md\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Mar 22 14:55:19 2026 -0300 \n\n Hora: 1774202119
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): autonomous lop is closed now \n\n Version: release/0.2.91 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html - payload.json - skills/autonomous_daemon.py - skills/hive_mind.py - skills/lazyown.md - skills/lazyown_mcp.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Mar 22 02:49:40 2026 -0300 \n\n Hora: 1774158580
 
 

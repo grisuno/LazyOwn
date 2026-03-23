@@ -1,4 +1,4 @@
-# LazyOwn CRIME
+# LazyOwn
 
 ![LazyOwn_Redteam_framework](https://github.com/user-attachments/assets/d713f163-5f4d-433f-befd-6776d43051da)
 
@@ -29,75 +29,63 @@
 LazyOwn comes with ABSOLUTELY NO WARRANTY. This is free software, and you are  welcome to redistribute it under the terms of the GNU General Public License v3.
 See the LICENSE file for details about using this software.
 
- # LazyOwn: Cyber Redteam Interface Management Environment Network (CRIMEN)
+ # LazyOwn
 
-In the shadowy realm of cybersecurity, where digital fortresses are besieged by relentless adversaries, **LazyOwn: CRIMEN** emerges as a beacon of strategic prowess and technical mastery. This advanced and comprehensive toolkit is meticulously crafted for professional red teams, penetration testers, and security researchers, offering an unparalleled arsenal of over 333 meticulously designed attacks tailored for Linux/*nix/bsd/osx and Windows environments. Additionally, **LazyOwn: CRIMEN** integrates the extensive attack library of the Atomic RedTeam Framework, exponentially increasing its offensive capabilities.
+LazyOwn is a professional red team framework for penetration testers and security researchers. It provides over 333 attack techniques for Linux, Unix, BSD, macOS, and Windows environments, and integrates the Atomic Red Team attack library.
 
 # Core Architecture
 LazyOwn is built around a modular, command-driven architecture that provides flexibility and extensibility for security testing workflows.
 
 ![diagrama_lazyown](https://github.com/user-attachments/assets/90aca8cd-cc74-48c1-888c-a897e8a46198)
 
-**LazyOwn: CRIMEN** is not merely a tool; it is an ethereal manifestation of the art of cyber warfare, seamlessly integrating a myriad of functionalities to streamline and enhance the efficiency of security assessments. This interactive environment combines multiple tools and scripts, enabling cybersecurity professionals to navigate the complex labyrinth of the security assessment lifecycle with unmatched precision.
-
-At the heart of **LazyOwn: CRIMEN** lies an intuitive command-line interface (CLI) powered by cmd2, complemented by a sophisticated web-based graphical user interface (GUI) developed in Flask. This dual interface allows users to configure specific parameters, execute custom scripts, and obtain real-time results, all from a single, unified platform. The framework's advanced adversary simulation capabilities enable the generation of sessions for red team operations, meticulously executed within the scope defined in the payload.json file. This not only expands its range of applications but also enhances usability and accessibility through multiple interfaces.
-
-One of the standout features of **LazyOwn: CRIMEN** is its ability to schedule tasks using the `cron` command, facilitating persistent and automated threat simulations. This functionality transforms **LazyOwn: CRIMEN** into a formidable Advanced Persistent Threat (APT) framework, capable of mimicking the relentless and methodical attacks of sophisticated cyber adversaries.
+LazyOwn integrates a command-line interface (CLI) built on cmd2 and a web-based GUI built on Flask. Parameters are scoped to `payload.json`, enabling consistent configuration across tools. The framework supports adversary simulation, task scheduling via the `cron` command, and persistent automated threat simulation workflows.
 
 ![image](https://github.com/user-attachments/assets/112dc7ef-2aa8-4255-911b-47f252eea7ab)
 
-
-## Why CRIMEN?
-
-**CRIMEN** stands for **Cyber Redteam Interface Management Environment Network**, encapsulating the essence of this powerful framework. Each letter in the acronym represents a critical component of its capabilities:
-
-- **Cyber**: Emphasizes the digital battleground where **LazyOwn: CRIMEN** operates, encompassing all aspects of cybersecurity.
-- **Redteam**: Highlights the framework's primary function as a tool for red team operations, simulating real-world cyber attacks to test and strengthen defenses.
-- **Interface**: Refers to the intuitive and user-friendly interfaces, both CLI and GUI, that facilitate seamless interaction and control.
-- **Management**: Underscores the framework's ability to manage and orchestrate complex security assessments and adversary simulations.
-- **Environment**: Denotes the comprehensive and immersive environment provided by **LazyOwn: CRIMEN**, integrating various tools and scripts for a holistic security assessment experience.
-- **Network**: Emphasizes the framework's network-centric approach, enabling persistent and automated threat simulations across diverse network environments.
 
 ![image](https://github.com/user-attachments/assets/5ee8be8b-b3be-4e6e-9a96-9e6a546fb047)
 
 # LazyOwn Skills — MCP Integration
 
-Connect Claude Code (and Claude web) to the LazyOwn framework.
+Connect Claude Code to the LazyOwn framework via the Model Context Protocol (MCP). The MCP server exposes 67 tools covering the full engagement lifecycle.
 
 ## Files
 
 | File | Purpose |
 |------|---------|
-| `lazyown_mcp.py` | MCP server — exposes LazyOwn as 10 Claude tools |
-| `lazyown.md` | Claude Code skill / slash-command documentation |
+| `skills/lazyown_mcp.py` | MCP server — exposes 67 LazyOwn tools to Claude |
+| `skills/lazyown.md` | Claude Code skill / slash-command documentation |
+| `skills/autonomous_daemon.py` | Autonomous execution daemon (objective-driven, no Claude required between steps) |
+| `skills/hive_mind.py` | Multi-agent queen + drone system with ChromaDB memory |
+| `skills/lazyown_policy.py` | Reward-based policy engine for the auto_loop |
+| `skills/lazyown_facts.py` | Structured fact extraction from nmap XML and tool output |
+| `skills/lazyown_parquet_db.py` | Parquet knowledge base: session history, GTFOBins, LOLBas, ATT&CK |
 
 ## Quick Start
 
-### 1. Register the MCP server in Claude Code
+### 1. Register the MCP server
 
-Add this to `~/.claude/claude_desktop_config.json` (or `~/.config/claude/claude_desktop_config.json`):
+```bash
+claude mcp add lazyown python3 /home/grisun0/LazyOwn/skills/lazyown_mcp.py
+```
+
+Or add manually to `~/.claude/claude_desktop_config.json`:
 
 ```json
 {
   "mcpServers": {
     "lazyown": {
       "command": "python3",
-      "args": ["~/LazyOwn/skills/lazyown_mcp.py"],
+      "args": ["/home/grisun0/LazyOwn/skills/lazyown_mcp.py"],
       "env": {
-        "LAZYOWN_DIR": "~/LazyOwn"
+        "LAZYOWN_DIR": "/home/grisun0/LazyOwn"
       }
     }
   }
 }
 ```
 
-Or register via the CLI:
-
-```bash
-claude mcp add lazyown python3 /home/grisun0/LazyOwn/skills/lazyown_mcp.py
-```
-
-### 2. Install the skill (optional, for /lazyown slash command)
+### 2. Install the slash command (optional)
 
 ```bash
 cp skills/lazyown.md ~/.claude/commands/lazyown.md
@@ -105,43 +93,48 @@ cp skills/lazyown.md ~/.claude/commands/lazyown.md
 
 ### 3. Use from Claude Code
 
-After restarting Claude Code, the `lazyown_*` tools are available automatically.
-Type `/lazyown` to load the skill prompt.
+After restarting Claude Code, all `lazyown_*` tools are available.
 
 ```
-You: set the target to 10.10.11.78 and run an nmap scan
-Claude: [calls lazyown_set_config then lazyown_run_command("lazynmap")]
+You: set target to 10.10.11.78 and start the autonomous loop
+Claude: [calls lazyown_set_config -> lazyown_auto_loop]
 ```
 
 ## Environment Variables
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `LAZYOWN_DIR` | parent of skills/ | LazyOwn root directory |
-| `LAZYOWN_C2_HOST` | payload.json `lhost` | C2 server address |
-| `LAZYOWN_C2_PORT` | payload.json `c2_port` | C2 server port |
-| `LAZYOWN_C2_USER` | payload.json `c2_user` | C2 username |
-| `LAZYOWN_C2_PASS` | payload.json `c2_pass` | C2 password |
+| `LAZYOWN_DIR` | parent of `skills/` | LazyOwn root directory |
+| `LAZYOWN_C2_HOST` | `payload.json lhost` | C2 server address |
+| `LAZYOWN_C2_PORT` | `payload.json c2_port` | C2 server port |
+| `LAZYOWN_C2_USER` | `payload.json c2_user` | C2 username |
+| `LAZYOWN_C2_PASS` | `payload.json c2_pass` | C2 password |
 
-## Exposed Tools
+## MCP Tool Groups (67 tools)
 
-| MCP Tool | Description |
-|----------|-------------|
-| `lazyown_run_command` | Run any LazyOwn shell command |
-| `lazyown_get_config` | Read payload.json |
-| `lazyown_set_config` | Write payload.json |
-| `lazyown_list_modules` | List modules/ contents |
-| `lazyown_get_beacons` | List connected C2 beacons |
-| `lazyown_c2_command` | Task a beacon |
-| `lazyown_run_api` | Execute command via C2 REST API |
-| `lazyown_list_sessions` | Browse sessions/ directory |
-| `lazyown_read_session_file` | Read a session file |
-| `lazyown_c2_status` | C2 health check + dashboard data |
+| Group | Tools | Description |
+|-------|-------|-------------|
+| Core Execution | 6 | run_command, get/set_config, list_modules, discover_commands, command_help |
+| Target Management | 3 | add_target, list_targets, set_active_target |
+| C2 / Implant Control | 10 | c2_command, c2_status, get_beacons, run_api, c2_profile, c2_vuln_analysis, c2_redop, c2_search_agent, c2_script, c2_adversary |
+| Session Awareness | 4 | session_status, session_state, list_sessions, read_session_file |
+| Autonomous Loop | 3 | auto_loop, policy_status, recommend_next |
+| Reactive Intelligence | 2 | reactive_suggest, bridge_suggest |
+| Objectives & Planning | 4 | inject_objective, next_objective, soul, read_prompt |
+| Knowledge Bases | 9 | parquet_query/annotate, facts_show, cve_search, searchsploit, rag_index/query, threat_model |
+| Memory & Learning | 3 | memory_recall/store, eval_quality |
+| Campaign & Reporting | 7 | campaign, campaign_tasks, generate_report, misp_export, collab_publish, timeline |
+| Playbooks | 2 | playbook_generate, playbook_run |
+| Addons, Tools & Plugins | 3 | list_addons/plugins, create_addon/tool |
+| Scheduling | 2 | cron_schedule, daemon |
+| AI Agents | 5 | run_agent, agent_status/result, list_agents, llm_ask |
+| Event Engine | 4 | poll_events, ack_event, add_rule, heartbeat_status |
 
+Full documentation: `skills/README.md` and `skills/lazyown.md`.
 
-## Key Features of LazyOwn: CRIMEN
+## Key Features
 
-1. **Comprehensive Attack Library**: Over 500 crafted attacks for various environments, each a testament to the framework's depth and versatility, augmented by the extensive attack library of the Atomic RedTeam Framework.
+1. **Comprehensive Attack Library**: Over 500 attack techniques for Linux, Unix, BSD, macOS, and Windows environments, augmented by the Atomic Red Team Framework library.
 2. **Interactive CLI**: Based on cmd2, offering an intuitive and efficient command-line experience.
 
 ![image](https://github.com/user-attachments/assets/bac38447-1ab9-40f0-babb-7afa3cbe6a25)
@@ -254,7 +247,7 @@ This feature streamlines the testing process and provides a convenient way to qu
 
 ## Command Capabilities
 
-**LazyOwn: CRIMEN** offers a rich set of commands that can be executed from both the CLI and the web interface, each designed to empower users with unparalleled control and flexibility:
+LazyOwn provides a rich set of commands available from both the CLI and web interface:
 
 - **addhosts**: Add the domain and rhost to /etc/hosts file to route the attacks.
 - **aliass**: Show all documented commands alias (use 'help -v' for verbose/'help <topic>' for details or use aliass)
@@ -2814,6 +2807,11 @@ Note:
 ## lazynmap
 Runs the internal module `modules/lazynmap.sh` for multiple Nmap scans.
 
+OS detection (via ping TTL) is performed automatically before scanning
+when the target OS is not yet known. This ensures the correct tool chain
+is selected for subsequent enumeration: SMB/Kerberos/AD for Windows,
+SSH/web for Linux/Unix.
+
 This method executes the `lazynmap` script, using the current working directory
 and the `rhost` parameter from the `self.params` dictionary as the target IP.
 If `rhost` is not set, it prints an error message.
@@ -2909,10 +2907,11 @@ working directory for locating the script.
 ## lazynmap
 Runs the internal module `modules/lazynmap.sh` with target mode.
 
-This method executes the `lazynmap` script in target mode. It uses the current
-working directory for locating the script.
+OS detection (via ping TTL) is performed automatically before scanning
+when the target OS is not yet known, so that tool selectors downstream
+have a valid platform context.
 
-:param line: The network ip to be used for scanning.
+:param line: The network IP to scan. Defaults to rhost from params.
 :type line: str
 
 :return: None
@@ -11945,6 +11944,13 @@ No description available.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): autonomous lop is closed now \n\n Version: release/0.2.91 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html - payload.json - skills/autonomous_daemon.py - skills/hive_mind.py - skills/lazyown.md - skills/lazyown_mcp.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Mar 22 02:49:40 2026 -0300 \n\n Hora: 1774158580
 
 
 ### Nuevas características

@@ -229,11 +229,13 @@ Claude (frontier model)
        v
 lazyown_mcp.py  ──────────────────────────────────────────────────────┐
   auto_loop                                                            │
+    ├── OS detection gate (ping TTL -> os_id -> payload.json)         │
+    │     linux: TTL<=64  |  windows: TTL<=128  |  unknown: skip      │
     ├── policy engine (lazyown_policy.py)                             │
     ├── reactive engine (modules/reactive_engine.py)                  │
     │     detects AV/EDR, privesc hints, creds, new hosts             │
     ├── bridge catalog (modules/lazyown_bridge.py)                    │
-    │     347 commands × 11 phases × MITRE mapping                    │
+    │     347 commands × 11 phases × MITRE mapping × os_hint filter   │
     ├── parquet knowledge (lazyown_parquet_db.py)                     │
     │     session history + GTFOBins + LOLBas + ATT&CK techniques     │
     ├── LLM recommender (lazyown_llm.py — Groq / Ollama)             │
@@ -241,19 +243,43 @@ lazyown_mcp.py  ─────────────────────�
           reads sessions/{client_id}.log CSVs from lazyc2.py          │
                                                                        │
 LazyOwn framework ─────────────────────────────────────────────────────┘
-  lazyown.py (shell)       pwntomate.py (parallel service exploitation)
-  lazyc2.py (C2 server)    lazynmap (recon — never killed/timed-out)
+  lazyown.py (shell)         pwntomate.py (parallel service exploitation)
+    do_ping -> sessions/os.json -> self.params["os_id"]               │
+    run_lazynmap -> gates on sessions/os.json, runs ping if unknown   │
+  lazyc2.py (C2 server)                                               │
+    beacon POST -> client (OS string) -> sessions/os.json             │
+                                      -> sessions/world_model.json    │
+  autonomous_daemon.py                                                 │
+    _detect_target_os() -> payload.json os_id                         │
+                        -> sessions/os.json (same format as do_ping)  │
+                        -> world_model.os_hint                        │
   lazyaddons/ (YAML tools)  lazyadversaries/ (privesc YAML)
   plugins/ (Lua)            modules/ (Python modules)
   parquets/ (techniques, binarios, lolbas_index)
-  sessions/ (implant CSVs, task board, discovered hosts)
+  sessions/ (implant CSVs, task board, discovered hosts, os.json)
 ```
 
 ### Kill-chain phase order (bridge catalog)
 
 ```
-recon → enum → exploit → postexp → cred → lateral → privesc → persist → exfil → c2 → report
+os_detect → recon → enum → exploit → postexp → cred → lateral → privesc → persist → exfil → c2 → report
 ```
+
+### OS detection (pre-recon)
+
+The autonomous daemon probes the target with a single ICMP packet before any tool
+selection occurs. The TTL value determines the platform:
+
+| TTL range | Inferred OS |
+|-----------|-------------|
+| <= 64 | Linux / Unix / macOS |
+| 65 – 128 | Windows |
+| > 128 | Unknown / network device |
+
+The result is written to `world_model.json` as `os_hint` and propagated to the
+bridge catalog (`os_hint` filter), fallback selector (OS-specific tool map), and
+reactive engine (platform argument). Commands such as `winpeas`, `evil-winrm`,
+and Kerberos tooling are never dispatched against Linux targets, and vice-versa.
 
 ### Reactive decision priority
 

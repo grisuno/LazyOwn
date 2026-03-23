@@ -1303,18 +1303,44 @@ class LazyOwnShell(cmd2.Cmd):
         """
         Runs the internal module `modules/lazynmap.sh` for multiple Nmap scans.
 
+        OS detection (via ping TTL) is performed automatically before scanning
+        when the target OS is not yet known. This ensures the correct tool chain
+        is selected for subsequent enumeration: SMB/Kerberos/AD for Windows,
+        SSH/web for Linux/Unix.
+
         This method executes the `lazynmap` script, using the current working directory
         and the `rhost` parameter from the `self.params` dictionary as the target IP.
         If `rhost` is not set, it prints an error message.
 
         :return: None
         """
-
         path = os.getcwd()
         target_ip = self.params["rhost"]
         if not target_ip:
             print_error(f"rhost must be assign, {GREEN}help assign to more info {RESET}")
             return
+
+        # Gate: ensure OS is identified before scanning.
+        # Read sessions/os.json; if absent or empty, run ping first so that
+        # tool selectors downstream have a valid os_id to work with.
+        os_json_path = "sessions/os.json"
+        os_known = False
+        try:
+            if os.path.isfile(os_json_path):
+                with open(os_json_path) as _f:
+                    _data = json.load(_f)
+                    if _data and _data[0].get("state") == "active":
+                        os_known = True
+        except Exception:
+            pass
+
+        if not os_known:
+            print_msg(
+                "OS not yet identified — running ping before nmap "
+                "to select the correct tool chain."
+            )
+            self.onecmd("ping")
+
         self.cmd(f"{path}/modules/lazynmap.sh -t {target_ip}")
         self.onecmd("vulnbot_groq")
         self.onecmd("report")
@@ -1459,10 +1485,11 @@ class LazyOwnShell(cmd2.Cmd):
         """
         Runs the internal module `modules/lazynmap.sh` with target mode.
 
-        This method executes the `lazynmap` script in target mode. It uses the current
-        working directory for locating the script.
+        OS detection (via ping TTL) is performed automatically before scanning
+        when the target OS is not yet known, so that tool selectors downstream
+        have a valid platform context.
 
-        :param line: The network ip to be used for scanning.
+        :param line: The network IP to scan. Defaults to rhost from params.
         :type line: str
 
         :return: None
@@ -1470,6 +1497,32 @@ class LazyOwnShell(cmd2.Cmd):
         if not line:
             line = self.params["rhost"]
         path = os.getcwd()
+
+        # Gate: run ping first if OS has not been identified yet.
+        os_json_path = "sessions/os.json"
+        os_known = False
+        try:
+            if os.path.isfile(os_json_path):
+                with open(os_json_path) as _f:
+                    _data = json.load(_f)
+                    if _data and _data[0].get("state") == "active":
+                        os_known = True
+        except Exception:
+            pass
+
+        if not os_known:
+            print_msg(
+                "OS not yet identified — running ping before nmap "
+                "to select the correct tool chain."
+            )
+            # Temporarily override rhost to the explicit target if different
+            _prev_rhost = self.params.get("rhost")
+            if line and line != _prev_rhost:
+                self.params["rhost"] = line
+            self.onecmd("ping")
+            if line and line != _prev_rhost:
+                self.params["rhost"] = _prev_rhost
+
         self.cmd(f"{path}/modules/lazynmap.sh -t {line}")
         self.onecmd("vulnbot_groq")
         self.onecmd("report")
@@ -4614,6 +4667,17 @@ class LazyOwnShell(cmd2.Cmd):
             print_msg(f"Done... ping -c 1 {rhost} ")
             with open('sessions/os.json', 'w') as json_file:
                 json.dump(os_json, json_file, indent=4)
+
+            # Persist the detected OS into the live shell params so every
+            # subsequent command in this session uses the correct platform.
+            # The autonomous loop and tool selectors read os_id from params.
+            if os_json:
+                detected_os_id = os_json[0].get("id", "4")
+                self.params["os_id"] = detected_os_id
+                print_msg(
+                    f"os_id updated to {detected_os_id} "
+                    f"({os_json[0].get('os', 'Unknown')})"
+                )
         return
 
     @cmd2.with_category(recon_category)

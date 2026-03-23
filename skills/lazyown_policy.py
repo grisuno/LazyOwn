@@ -294,6 +294,7 @@ class StepRecord:
     confidence: float
     tier: str
     reason: str
+    detection_prob: float = 0.0  # probability of detection at execution time
 
 
 @dataclass
@@ -652,26 +653,97 @@ class CascadeClassifier:
         return best
 
 
+# ─── Detection risk assessor ──────────────────────────────────────────────────
+
+
+class DetectionRiskAssessor:
+    """
+    Wraps the DetectionOracle to provide detection probability for a command.
+
+    Lazily imports modules.detection_oracle so that the oracle's sigma rule
+    catalog does not load unless this class is instantiated.  This preserves
+    the fast startup behaviour of lazyown_mcp.py.
+
+    Single Responsibility: detection probability query only.
+    Dependency Inversion: callers receive this via constructor injection.
+    """
+
+    _DETECTION_THRESHOLD: float = 0.70
+
+    def __init__(self) -> None:
+        self._oracle = None  # lazy-loaded on first call
+
+    def _get_oracle(self):
+        if self._oracle is None:
+            try:
+                import sys as _sys
+                _base = Path(__file__).parent.parent
+                if str(_base) not in _sys.path:
+                    _sys.path.insert(0, str(_base))
+                from modules.detection_oracle import get_oracle  # noqa: PLC0415
+                self._oracle = get_oracle()
+            except Exception:
+                self._oracle = None
+        return self._oracle
+
+    def assess_probability(self, command: str, args: str, category: str) -> float:
+        """
+        Return detection probability in [0.0, 1.0].
+        Returns 0.0 when the oracle is unavailable (fail-open for rewards).
+        """
+        oracle = self._get_oracle()
+        if oracle is None:
+            return 0.0
+        try:
+            return oracle.probability(command, args, category)
+        except Exception:
+            return 0.0
+
+    def is_high_risk(self, command: str, args: str, category: str) -> bool:
+        """Return True when detection probability meets or exceeds the threshold."""
+        return self.assess_probability(command, args, category) >= self._DETECTION_THRESHOLD
+
+
 # ─── Reward calculator ────────────────────────────────────────────────────────
 
 
 class RewardCalculator:
     """
-    Converts (ActionCategory, OutcomeType) pairs to scalar reward values
-    using the reward table defined in Config.
+    Converts (ActionCategory, OutcomeType) pairs to scalar reward values,
+    optionally applying a detection-risk penalty when a DetectionRiskAssessor
+    is provided.
+
+    Detection penalty rule
+    ----------------------
+    When detection probability >= 0.70 (high risk), the reward for a successful
+    action is zeroed out.  This forces the policy engine to prefer lower-noise
+    paths over high-value but high-visibility actions.
+
+    Failure rewards are unaffected by detection probability — the agent must
+    still learn that failed actions carry a negative signal.
     """
 
     _HIGH_VALUE_CATEGORIES = frozenset(
         {ActionCategory.INTRUSION, ActionCategory.PRIVESC, ActionCategory.CREDENTIAL}
     )
+    _DETECTION_ZERO_THRESHOLD: float = 0.70
 
-    def __init__(self, cfg: Config) -> None:
-        self._table = cfg.reward_table
-        self._fail_reward = self._table["any:fail"]
+    def __init__(
+        self,
+        cfg: Config,
+        risk_assessor: Optional[DetectionRiskAssessor] = None,
+    ) -> None:
+        self._table                = cfg.reward_table
+        self._fail_reward          = self._table["any:fail"]
         self._critical_fail_reward = self._table["critical:fail"]
+        self._risk_assessor        = risk_assessor
 
     def calculate(self, category: ActionCategory, outcome: OutcomeType) -> int:
-        """Return the reward integer for the given (category, outcome) pair."""
+        """
+        Return the reward integer for the given (category, outcome) pair.
+        Detection risk is NOT applied here — use calculate_with_detection()
+        when command context is available.
+        """
         if outcome is OutcomeType.SUCCESS:
             key = f"{category.value}:success"
             return self._table.get(key, self._table.get("other:success", 1))
@@ -680,6 +752,49 @@ class RewardCalculator:
                 return self._critical_fail_reward
             return self._fail_reward
         return 0
+
+    def calculate_with_detection(
+        self,
+        category: ActionCategory,
+        outcome: OutcomeType,
+        command: str,
+        args: str,
+    ) -> Tuple[int, float]:
+        """
+        Return (reward, detection_probability) for the given execution.
+
+        When detection_probability >= 0.70 and outcome is SUCCESS, the reward
+        is forced to zero to discourage noisy techniques.  This implements the
+        detection-aware reward shaping described in the architecture.
+
+        Parameters
+        ----------
+        category:   ActionCategory of the command
+        outcome:    OutcomeType of the execution
+        command:    The command name (for detection oracle lookup)
+        args:       Command arguments (for detection oracle lookup)
+
+        Returns
+        -------
+        (reward: int, detection_prob: float)
+        """
+        base_reward = self.calculate(category, outcome)
+        detection_prob = 0.0
+
+        if self._risk_assessor is not None and outcome is OutcomeType.SUCCESS:
+            detection_prob = self._risk_assessor.assess_probability(
+                command, args, category.value
+            )
+            if detection_prob >= self._DETECTION_ZERO_THRESHOLD:
+                logging.getLogger(__name__).info(
+                    "Detection risk %.0f%% for %s — zeroing reward (was %+d)",
+                    detection_prob * 100,
+                    command,
+                    base_reward,
+                )
+                base_reward = 0
+
+        return base_reward, detection_prob
 
 
 # ─── CSV session reader ───────────────────────────────────────────────────────
@@ -1051,11 +1166,12 @@ class SessionClassificationPipeline:
     """
 
     def __init__(self, cfg: Config, interactive: bool = False) -> None:
-        self._classifier = CascadeClassifier(cfg, interactive=interactive)
-        self._reward_calc = RewardCalculator(cfg)
-        self._store = JSONLEpisodeStore(cfg)
+        self._classifier  = CascadeClassifier(cfg, interactive=interactive)
+        risk_assessor     = DetectionRiskAssessor()
+        self._reward_calc = RewardCalculator(cfg, risk_assessor=risk_assessor)
+        self._store       = JSONLEpisodeStore(cfg)
         self._transitions = TransitionTable(cfg)
-        self._logger = logging.getLogger(self.__class__.__name__)
+        self._logger      = logging.getLogger(self.__class__.__name__)
 
     def process(
         self,
@@ -1068,7 +1184,9 @@ class SessionClassificationPipeline:
     ) -> StepRecord:
         """Classify, reward, store, and return a StepRecord for the given execution."""
         result = self._classifier.classify(command, args, output, exit_code)
-        reward = self._reward_calc.calculate(result.category, result.outcome)
+        reward, detection_prob = self._reward_calc.calculate_with_detection(
+            result.category, result.outcome, command, args
+        )
         step = StepRecord(
             timestamp=timestamp or datetime.datetime.now(datetime.timezone.utc).isoformat(),
             target=target,
@@ -1080,6 +1198,7 @@ class SessionClassificationPipeline:
             confidence=result.confidence,
             tier=result.tier,
             reason=result.reason,
+            detection_prob=detection_prob,
         )
         existing = self._store.get_episode(target)
         prev_state: Optional[str] = None
@@ -1090,7 +1209,7 @@ class SessionClassificationPipeline:
         if prev_state:
             self._transitions.record(prev_state, step.category, step.outcome)
         self._logger.info(
-            "Classified %s %s -> %s/%s (reward=%+d conf=%.2f tier=%s)",
+            "Classified %s %s -> %s/%s (reward=%+d conf=%.2f tier=%s detect=%.0f%%)",
             command,
             args[:40],
             result.category.value,
@@ -1098,6 +1217,7 @@ class SessionClassificationPipeline:
             reward,
             result.confidence,
             result.tier,
+            detection_prob * 100,
         )
         return step
 

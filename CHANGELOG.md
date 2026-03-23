@@ -6,6 +6,13 @@
 
 ### Otros
 
+  *   * feat(feat): hive command now from cli now \n\n Version: release/0.2.93 \n\n with love \n\n Modified file(s):\n- README.md - docs/README.html - modules/world_model.py - skills/hive_mind.py - skills/lazyown_campaign.py - skills/lazyown_policy.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Mar 23 02:43:29 2026 -0300 \n\n Hora: 1774244609
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): some improves in the cicle \n\n Version: release/0.2.92 \n\n autonomous \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - lazyc2.py - lazyown.py - skills/README.md - skills/autonomous_daemon.py - skills/lazyown.md\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Mar 22 14:55:19 2026 -0300 \n\n Hora: 1774202119
 
 

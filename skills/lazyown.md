@@ -152,72 +152,89 @@ LazyOwn is a penetration testing / C2 framework located at `/home/grisun0/LazyOw
 
 ---
 
-## METODOLOGÍA OBLIGATORIA — Leer ANTES de cualquier acción
+## Required Methodology — Read Before Any Action
 
-### REGLA 0 — Siempre leer sessions/ primero
+### Rule 0 — Always read sessions/ first
 
-**Antes de lanzar cualquier herramienta**, revisar si el resultado ya existe:
+**Before launching any tool**, check whether the result already exists:
 
 ```
-lazyown_list_sessions()                          # inventario completo de sessions/
-lazyown_read_session_file("scan_<rhost>.nmap")   # leer nmap previo si existe
+lazyown_list_sessions()                          # full inventory of sessions/
+lazyown_read_session_file("scan_<rhost>.nmap")   # read prior nmap if present
 lazyown_read_session_file("vulns_<rhost>.nmap")
 lazyown_read_session_file("<rhost>/<port>/<tool>/<output>.txt")
 lazyown_read_session_file("logs/command_<tool>output<domain>.txt")
 ```
 
-Los scripts generan logs para que el agente los analice.
-Si el archivo tiene contenido — leerlo y razonar sobre él ANTES de correr el mismo comando otra vez.
-La carpeta `sessions/` es la fuente de verdad del estado de la campaña.
+Scripts emit logs for the agent to analyse.
+If a file has content, read and reason over it **before** repeating the same command.
+The `sessions/` directory is the authoritative source of campaign state.
 
-### REGLA 1 — Identificar el OS antes de enumerar
+### Rule 1 — Identify the target OS before enumeration
 
-Siempre usar `ping` como primer paso para detectar el OS por TTL:
+Always run `ping` as the first step to detect the OS from the ICMP TTL:
 
 ```
-lazyown_run_command("ping")   # TTL ≈ 64 → Linux/Unix | TTL ≈ 128 → Windows
+lazyown_run_command("ping")   # TTL ~64 -> Linux/Unix | TTL ~128 -> Windows
 ```
 
-Esto define qué herramientas lanzar (SMB/Kerberos/AD vs SSH/web).
-**No lanzar enum AD contra una máquina Linux ni SSH brute contra Windows.**
+This determines which tool chain to follow (SMB/Kerberos/AD vs SSH/web).
+**Do not run AD enumeration against a Linux target. Do not run SSH brute-force against Windows.**
 
-### REGLA 2 — fast_run_as_r00t.sh en segundo plano, sin timeout
+OS detection propagates through the full stack in this order:
 
-`fast_run_as_r00t.sh` tarda **mínimo 333 segundos** solo en arrancar el auto-loop
-(`sleep_start` en payload.json). El proceso completo puede durar horas.
+1. **Autonomous daemon** (`autonomous_daemon.py`): `_detect_target_os()` probes the target
+   via ICMP before the first step. Result is written to `payload.json` (`os_id`) and
+   `sessions/os.json` so every fresh LazyOwn shell spawned by the runner picks it up.
+2. **LazyOwn shell** (`lazyown.py`): `do_ping` now updates `self.params["os_id"]` in
+   memory after writing `sessions/os.json`, so the detection persists in the running session.
+   `run_lazynmap` / `do_lazynmap` check `sessions/os.json` before scanning — if OS is
+   unknown, they call `ping` automatically.
+3. **C2 beacon feedback** (`lazyc2.py`): when a beacon responds, the `client` field (OS
+   string from the implant) is written to `sessions/os.json` and `sessions/world_model.json`
+   as ground truth, overriding TTL-based heuristics.
+4. **Bridge catalog**: `BridgeSelector` passes `os_hint` to `dispatcher.suggest()` so only
+   OS-appropriate commands are returned from the 347-command catalog.
+5. **Fallback selector**: `_FALLBACK_MAP_LINUX` and `_FALLBACK_MAP_WINDOWS` ensure that
+   `linpeas` is never dispatched against Windows, and `winpeas`/`evil-winrm` never against Linux.
 
-**Forma correcta de lanzarlo desde el MCP:**
+### Rule 2 — fast_run_as_r00t.sh runs in the background, no timeout
+
+`fast_run_as_r00t.sh` takes **at least 333 seconds** just to start the auto-loop
+(`sleep_start` in payload.json). The full run can take hours.
+
+**Correct way to launch from the MCP:**
 
 ```bash
-# Lanzar en background — no bloquear, no poner timeout corto
+# Background launch — do not block, do not set a short timeout
 shell nohup sudo -n bash fast_run_as_r00t.sh --no-attach --vpn 1 \
     > /tmp/fast_run.log 2>&1 &
 ```
 
-- `--no-attach` evita que `tmux attach` bloquee el proceso
-- El proceso queda corriendo en la sesión tmux `lazyown_sessions`
-- Verificar con: `tmux ls` o `tmux has-session -t lazyown_sessions`
-- Adjuntar manualmente: `tmux attach -t lazyown_sessions`
+- `--no-attach` prevents `tmux attach` from blocking the process
+- The process runs in the tmux session `lazyown_sessions`
+- Verify with: `tmux ls` or `tmux has-session -t lazyown_sessions`
+- Attach manually: `tmux attach -t lazyown_sessions`
 
-**NUNCA** lanzar `fast_run_as_r00t.sh` con timeout ≤ 60 segundos.
-**NUNCA** esperar su salida de forma bloqueante desde el MCP.
+**Never** launch `fast_run_as_r00t.sh` with a timeout of 60 seconds or less.
+**Never** wait for its output in a blocking call from the MCP.
 
-### REGLA 3 — Leer los logs generados por pwntomate y auto_loop
+### Rule 3 — Read logs generated by pwntomate and auto_loop
 
-Mientras `fast_run_as_r00t.sh` corre en background, los scripts van generando:
+While `fast_run_as_r00t.sh` runs in the background, scripts produce:
 
-- `sessions/scan_<ip>.nmap` — escaneo TCP completo
-- `sessions/scan_<ip>.nmap.xml` — XML parseable
-- `sessions/vulns_<ip>.nmap` — scripts de vulnerabilidades
-- `sessions/<ip>/<port>/<tool>/*.txt` — salidas de pwntomate por puerto
-- `sessions/logs/command_<tool>output<domain>.txt` — logs de comandos LazyOwn
-- `sessions/LazyOwn_session_report.csv` — resumen de la campaña
+- `sessions/scan_<ip>.nmap` — full TCP scan
+- `sessions/scan_<ip>.nmap.xml` — parseable XML
+- `sessions/vulns_<ip>.nmap` — vulnerability scripts
+- `sessions/<ip>/<port>/<tool>/*.txt` — pwntomate output per port
+- `sessions/logs/command_<tool>output<domain>.txt` — LazyOwn command logs
+- `sessions/LazyOwn_session_report.csv` — campaign summary
 
-**Ciclo correcto:**
-1. `lazyown_list_sessions()` → identificar qué archivos tienen contenido (> 0 bytes)
-2. `lazyown_read_session_file(filepath)` → leer cada uno relevante
-3. Razonar sobre los resultados → decidir qué comando lanzar a continuación
-4. Si los resultados ya responden la pregunta → no repetir el escaneo
+**Correct cycle:**
+1. `lazyown_list_sessions()` — identify files with content (> 0 bytes)
+2. `lazyown_read_session_file(filepath)` — read each relevant file
+3. Reason over the results — decide the next command
+4. If results already answer the question — do not repeat the scan
 
 ---
 
@@ -233,11 +250,23 @@ lazyown_set_config(key="lport", value="4444")
 
 ### 2. Recon
 
+OS detection must precede service scanning. The ping TTL identifies the platform
+so that subsequent tool selection uses the correct OS-specific chain.
+
 ```
-lazyown_run_command("lazynmap")       # full TCP scan — DO NOT kill early, 5-30 min
+# Step 1 — OS detection (always first)
+lazyown_run_command("ping")           # TTL ~64 -> Linux | TTL ~128 -> Windows
+
+# Step 2 — Network scan (do not kill early, 5-30 min)
+lazyown_run_command("lazynmap")       # full TCP scan
 lazyown_run_command("hosts_discover")
+
+# Step 3 — Parse findings
 lazyown_facts_show(target="10.10.11.78", refresh=True)
 ```
+
+The autonomous daemon performs OS detection automatically before the first
+command selection step and propagates `os_hint` to all selectors.
 
 ### 3. Generate a payload
 

@@ -305,6 +305,11 @@ Note:
 ## lazynmap
 Runs the internal module `modules/lazynmap.sh` for multiple Nmap scans.
 
+OS detection (via ping TTL) is performed automatically before scanning
+when the target OS is not yet known. This ensures the correct tool chain
+is selected for subsequent enumeration: SMB/Kerberos/AD for Windows,
+SSH/web for Linux/Unix.
+
 This method executes the `lazynmap` script, using the current working directory
 and the `rhost` parameter from the `self.params` dictionary as the target IP.
 If `rhost` is not set, it prints an error message.
@@ -400,10 +405,11 @@ working directory for locating the script.
 ## lazynmap
 Runs the internal module `modules/lazynmap.sh` with target mode.
 
-This method executes the `lazynmap` script in target mode. It uses the current
-working directory for locating the script.
+OS detection (via ping TTL) is performed automatically before scanning
+when the target OS is not yet known, so that tool selectors downstream
+have a valid platform context.
 
-:param line: The network ip to be used for scanning.
+:param line: The network IP to scan. Defaults to rhost from params.
 :type line: str
 
 :return: None

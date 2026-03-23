@@ -399,6 +399,10 @@ should be run with the necessary privileges if required.</p>
 <h2 id="lazynmap">lazynmap</h2>
 <p>Runs the internal module <code>modules/lazynmap.sh</code> for
 multiple Nmap scans.</p>
+<p>OS detection (via ping TTL) is performed automatically before
+scanning when the target OS is not yet known. This ensures the correct
+tool chain is selected for subsequent enumeration: SMB/Kerberos/AD for
+Windows, SSH/web for Linux/Unix.</p>
 <p>This method executes the <code>lazynmap</code> script, using the
 current working directory and the <code>rhost</code> parameter from the
 <code>self.params</code> dictionary as the target IP. If
@@ -481,10 +485,11 @@ mode. It uses the current working directory for locating the script.</p>
 <h2 id="lazynmap-1">lazynmap</h2>
 <p>Runs the internal module <code>modules/lazynmap.sh</code> with target
 mode.</p>
-<p>This method executes the <code>lazynmap</code> script in target mode.
-It uses the current working directory for locating the script.</p>
-<p>:param line: The network ip to be used for scanning. :type line:
-str</p>
+<p>OS detection (via ping TTL) is performed automatically before
+scanning when the target OS is not yet known, so that tool selectors
+downstream have a valid platform context.</p>
+<p>:param line: The network IP to scan. Defaults to rhost from params.
+:type line: str</p>
 <p>:return: None</p>
 <h2 id="lazysniff">lazysniff</h2>
 <p>Run the sniffer internal module located at

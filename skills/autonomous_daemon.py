@@ -54,6 +54,7 @@ import datetime
 import json
 import logging
 import os
+import re
 import signal
 import subprocess
 import sys
@@ -397,7 +398,8 @@ def _run_lazyown(command: str, timeout: int = STEP_TIMEOUT_S) -> str:
 #             (S — Single Responsibility, Chain of Responsibility)
 # ─────────────────────────────────────────────────────────────────────────────
 
-# Static fallback map: category -> command name
+# Static fallback maps: category -> command name, split by OS platform.
+# The OS-specific maps are consulted first; _FALLBACK_MAP is the baseline.
 _FALLBACK_MAP: Dict[str, str] = {
     "recon":       "lazynmap",
     "enum":        "enum_smb",
@@ -408,6 +410,19 @@ _FALLBACK_MAP: Dict[str, str] = {
     "credential":  "secretsdump",
     "lateral":     "crackmapexec",
     "other":       "list",
+}
+
+_FALLBACK_MAP_LINUX: Dict[str, str] = {
+    "privesc":    "linpeas",
+    "intrusion":  "ssh",
+    "credential": "secretsdump",
+}
+
+_FALLBACK_MAP_WINDOWS: Dict[str, str] = {
+    "privesc":    "winpeas",
+    "intrusion":  "evil-winrm",
+    "credential": "secretsdump",
+    "enum":       "enum_smb",
 }
 
 # Phase -> applicable categories in priority order
@@ -544,20 +559,21 @@ class BridgeSelector(ICommandSelector):
         """Return a bridge catalog suggestion for this phase."""
         categories = _PHASE_CATEGORIES.get(phase, ["other"])
         services   = context.get("services", [])
+        os_hint    = context.get("os_hint", "any")
         for cat in categories:
-            cand = self._bridge_candidate(phase, services, cat)
+            cand = self._bridge_candidate(phase, services, cat, os_hint=os_hint)
             if cand:
                 return cand
         return None
 
     def _bridge_candidate(
-        self, phase: str, services: List[str], tag: str = ""
+        self, phase: str, services: List[str], tag: str = "", os_hint: str = "any"
     ) -> Optional[CommandDecision]:
         if self._dispatcher is None:
             return None
         try:
             result = self._dispatcher.suggest(
-                phase=phase, services=services, tag_hint=tag, os_hint="any",
+                phase=phase, services=services, tag_hint=tag, os_hint=os_hint,
             )
             if result is None:
                 return None
@@ -619,16 +635,26 @@ class LLMSelector(ICommandSelector):
 class FallbackSelector(ICommandSelector):
     """
     Static map fallback — always returns a CommandDecision, never None.
+    Selects OS-appropriate commands when the OS is known.
     Single Responsibility: static fallback map only.
     """
 
     def select(self, target: str, phase: str, context: Dict) -> Optional[CommandDecision]:
         """Return the static fallback command for this phase. Never returns None."""
         categories = _PHASE_CATEGORIES.get(phase, ["other"])
-        cmd        = _FALLBACK_MAP.get(categories[0], "list")
+        category   = categories[0]
+        os_hint    = context.get("os_hint", "unknown")
+
+        os_map = (
+            _FALLBACK_MAP_WINDOWS if os_hint == "windows"
+            else _FALLBACK_MAP_LINUX if os_hint == "linux"
+            else {}
+        )
+        cmd = os_map.get(category) or _FALLBACK_MAP.get(category, "list")
+
         return CommandDecision(
             command=cmd, source="fallback",
-            reason=f"static map for {categories[0]}",
+            reason=f"static map for {category} (os={os_hint})",
         )
 
 
@@ -721,10 +747,11 @@ class StrategyEngine:
         target: str,
         phase: str,
         services: Optional[List[str]] = None,
+        os_hint: str = "unknown",
     ) -> CommandDecision:
         """Select the next command for target/phase using the cascade."""
         return self._cascade.next_command(
-            target, phase, context={"services": services or []}
+            target, phase, context={"services": services or [], "os_hint": os_hint}
         )
 
 
@@ -875,6 +902,53 @@ def _load_payload() -> Dict:
         return {}
 
 
+async def _detect_target_os(
+    target: str,
+    loop: asyncio.AbstractEventLoop,
+) -> str:
+    """
+    Infer the target OS from ICMP TTL via a single ping probe.
+
+    TTL heuristics (accounting for up to ~20 router hops consumed):
+      TTL <= 64   -> Linux / Unix / macOS (default initial TTL = 64)
+      TTL <= 128  -> Windows             (default initial TTL = 128)
+      TTL > 128   -> Unknown / network device
+
+    Returns one of: 'linux', 'windows', 'unknown'.
+    An unreachable host returns 'unknown' — callers must treat unknown as a
+    signal to skip OS-specific tooling rather than defaulting to any platform.
+    """
+    try:
+        proc = await asyncio.wait_for(
+            loop.run_in_executor(
+                None,
+                lambda: subprocess.run(
+                    ["ping", "-c", "1", "-W", "2", target],
+                    capture_output=True,
+                    text=True,
+                ),
+            ),
+            timeout=6.0,
+        )
+        output = proc.stdout + proc.stderr
+        match = re.search(r"ttl=(\d+)", output, re.IGNORECASE)
+        if not match:
+            log.debug("OS detection: no TTL in ping output for %s", target)
+            return "unknown"
+        ttl = int(match.group(1))
+        if ttl <= 64:
+            return "linux"
+        if ttl <= 128:
+            return "windows"
+        return "unknown"
+    except asyncio.TimeoutError:
+        log.debug("OS detection: ping timed out for %s", target)
+        return "unknown"
+    except Exception as exc:
+        log.debug("OS detection error for %s: %s", target, exc)
+        return "unknown"
+
+
 async def _run_objective(
     objective_id: str,
     objective_text: str,
@@ -906,10 +980,72 @@ async def _run_objective(
         except Exception:
             pass
 
+    # ── OS detection (pre-recon) ──────────────────────────────────────────────
+    # Probe the target with a single ICMP packet to infer the operating system
+    # from TTL before any tool selection occurs.  This prevents dispatching
+    # Windows-specific tooling (evil-winrm, secretsdump, etc.) against Linux
+    # targets and vice-versa.  The probe runs in parallel with the first
+    # objective log emission so it adds no meaningful latency to the loop.
+    detected_os = await _detect_target_os(target, loop)
+    log.info("[%s] OS detection: target=%s os=%s", objective_id, target, detected_os)
+    _emit("OS_DETECTED", {
+        "objective_id": objective_id,
+        "target":       target,
+        "os":           detected_os,
+    })
+
+    if world_model is not None and detected_os != "unknown":
+        try:
+            snapshot = world_model.snapshot()
+            host_entry = snapshot.get("hosts", {}).get(target, {})
+            if not host_entry.get("os_hint"):
+                world_model.update_host(target, os_hint=detected_os)
+        except Exception as wm_exc:
+            log.debug("world_model OS update error: %s", wm_exc)
+
+    # Persist the detected OS into payload.json so every fresh LazyOwn shell
+    # process spawned by _run_lazyown_command inherits the correct os_id.
+    # LazyOwn's do_ping uses os_id "1"=Windows, "2"=Linux, "4"=Unknown.
+    _OS_ID_MAP = {"linux": "2", "windows": "1", "unknown": "4"}
+    _detected_os_id = _OS_ID_MAP.get(detected_os, "4")
+    if detected_os != "unknown":
+        try:
+            _pl = _load_payload()
+            if _pl.get("os_id") != _detected_os_id:
+                _pl["os_id"] = _detected_os_id
+                PAYLOAD_FILE.write_text(
+                    json.dumps(_pl, indent=2, ensure_ascii=False), encoding="utf-8"
+                )
+                log.info(
+                    "[%s] payload.json os_id updated: %s (%s)",
+                    objective_id, _detected_os_id, detected_os,
+                )
+        except Exception as _pe:
+            log.debug("payload.json os_id update error: %s", _pe)
+
+    # Write sessions/os.json in the same format that do_ping uses so that
+    # run_lazynmap's OS-gate reads it and skips the redundant ping probe.
+    try:
+        _os_entry = [{
+            "id":    _detected_os_id,
+            "os":    detected_os.capitalize(),
+            "ttl":   64 if detected_os == "linux" else (128 if detected_os == "windows" else "NULL"),
+            "state": "active" if detected_os != "unknown" else "unknown",
+        }]
+        _os_json_path = SESSIONS_DIR / "os.json"
+        _os_json_path.write_text(
+            json.dumps(_os_entry, indent=4, ensure_ascii=False), encoding="utf-8"
+        )
+    except Exception as _oe:
+        log.debug("sessions/os.json write error: %s", _oe)
+
     for step_n in range(1, max_steps + 1):
-        decision = strategy.next_command(target, phase, services)
+        decision = strategy.next_command(target, phase, services, os_hint=detected_os)
         command  = decision.command.replace("{rhost}", target).replace("TARGET", target)
-        full_cmd = f"set rhost {target}\n{command}"
+        # Use 'assign' (the LazyOwn shell command) to set params including
+        # rhost and os_id. Both _run_lazyown_command and PTYCommandRunner
+        # accept multi-line input; each line is one shell command.
+        full_cmd = f"assign rhost {target}\nassign os_id {_detected_os_id}\n{command}"
 
         log.info("  step %d/%d [%s] %s", step_n, max_steps, decision.source, command)
         _emit("STEP_START", {
@@ -963,14 +1099,24 @@ async def _run_objective(
             except Exception:
                 pass
 
-        strategy.register_output(
-            output, command,
-            platform=(
-                "windows" if world_model is None
-                else world_model.snapshot().get("hosts", {}).get(target, {}).get("os", "linux")
-            ),
-            success=success,
-        )
+        # Determine platform for reactive engine: prefer world_model, then
+        # the TTL-based detection result, and finally fall back to "linux"
+        # (never hard-code "windows" as the unknown-platform default).
+        if world_model is not None:
+            try:
+                wm_os = (
+                    world_model.snapshot()
+                    .get("hosts", {})
+                    .get(target, {})
+                    .get("os_hint", "")
+                    or detected_os
+                )
+            except Exception:
+                wm_os = detected_os
+        else:
+            wm_os = detected_os if detected_os != "unknown" else "linux"
+
+        strategy.register_output(output, command, platform=wm_os, success=success)
 
         sr = StepResult(
             step=step_n, command=command, output=output,

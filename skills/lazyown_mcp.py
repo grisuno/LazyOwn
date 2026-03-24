@@ -2536,6 +2536,107 @@ async def list_tools() -> list[types.Tool]:
                 "required": [],
             },
         ),
+        types.Tool(
+            name="lazyown_swan_run",
+            description=(
+                "Route a task to the best expert using the MoE+RL (SWAN) system and execute it. "
+                "The Mixture-of-Experts router selects the optimal LLM expert (groq_fast, "
+                "groq_powerful, groq_deepseek_r1, ollama_reason, groq_gemma) based on learned "
+                "Q-values for the (task_type, engagement_phase) state. "
+                "Returns the expert's output along with routing metadata: expert chosen, "
+                "detection probability, and RL reward signal. "
+                "task_type examples: recon, exploit, privesc, lateral, cred, analyze, report. "
+                "phase examples: reconnaissance, exploitation, post_exploitation, lateral_movement."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "task_type": {
+                        "type": "string",
+                        "description": "Category of the task (recon, exploit, privesc, lateral, cred, analyze, report).",
+                    },
+                    "goal": {
+                        "type": "string",
+                        "description": "Natural language description of what the expert should accomplish.",
+                    },
+                    "phase": {
+                        "type": "string",
+                        "description": "Current engagement phase (default: exploitation).",
+                        "default": "exploitation",
+                    },
+                },
+                "required": ["task_type", "goal"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_swan_ensemble",
+            description=(
+                "Run a task with multiple top experts in parallel and synthesize their outputs. "
+                "Spawns N experts simultaneously via ThreadPoolExecutor, then aggregates results "
+                "using weighted text synthesis and consensus confidence scoring. "
+                "Higher consensus_pct means experts agreed on the approach. "
+                "Use this for high-stakes decisions where corroboration improves confidence: "
+                "exploit path selection, privilege escalation strategy, lateral movement planning."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "task_type": {
+                        "type": "string",
+                        "description": "Category of the task (recon, exploit, privesc, lateral, cred, analyze, report).",
+                    },
+                    "goal": {
+                        "type": "string",
+                        "description": "Natural language description of what the experts should accomplish.",
+                    },
+                    "n_experts": {
+                        "type": "integer",
+                        "description": "Number of experts to consult in parallel (default 3, max 5).",
+                        "default": 3,
+                    },
+                    "phase": {
+                        "type": "string",
+                        "description": "Current engagement phase (default: exploitation).",
+                        "default": "exploitation",
+                    },
+                },
+                "required": ["task_type", "goal"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_swan_status",
+            description=(
+                "Show current SWAN system status: MoE expert weights, RL epsilon (exploration rate), "
+                "per-expert performance EMA, total routing calls, and temperature. "
+                "Useful for understanding which experts are currently preferred and how "
+                "much exploration is still happening."
+            ),
+            inputSchema={"type": "object", "properties": {}},
+        ),
+        types.Tool(
+            name="lazyown_swan_route",
+            description=(
+                "Preview expert routing for a task without executing it. "
+                "Returns the top-4 candidates with base_weight, adjusted_weight (after RL performance bonus), "
+                "backend, model, and estimated latency. "
+                "Use this to understand and explain routing decisions before committing resources."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "task_type": {
+                        "type": "string",
+                        "description": "Category of the task (recon, exploit, privesc, lateral, cred, analyze, report).",
+                    },
+                    "goal": {
+                        "type": "string",
+                        "description": "Optional goal text for context (first 100 chars used).",
+                        "default": "",
+                    },
+                },
+                "required": ["task_type"],
+            },
+        ),
     ] + (_automapper.mcp_tools() if _automapper is not None else [])
 
 
@@ -5422,6 +5523,52 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
         result = await asyncio.get_event_loop().run_in_executor(None, _launch)
         return text(result)
+
+    # ── SWAN MoE+RL tools ─────────────────────────────────────────────────────
+    elif name == "lazyown_swan_run":
+        task_type = arguments.get("task_type", "analyze")
+        goal      = arguments.get("goal", "")
+        phase     = arguments.get("phase", "exploitation")
+        if not goal.strip():
+            return text("[swan_run] 'goal' parameter is required.")
+        try:
+            sys.path.insert(0, str(LAZYOWN_DIR / "skills"))
+            from swan_agent import mcp_swan_run as _swan_run
+            return text(_swan_run(task_type, goal, phase))
+        except Exception as exc:
+            return text(f"[swan_run error] {exc}")
+
+    elif name == "lazyown_swan_ensemble":
+        task_type = arguments.get("task_type", "analyze")
+        goal      = arguments.get("goal", "")
+        n_experts = int(arguments.get("n_experts", 3))
+        phase     = arguments.get("phase", "exploitation")
+        if not goal.strip():
+            return text("[swan_ensemble] 'goal' parameter is required.")
+        try:
+            sys.path.insert(0, str(LAZYOWN_DIR / "skills"))
+            from swan_agent import mcp_swan_ensemble as _swan_ensemble
+            return text(_swan_ensemble(task_type, goal, n_experts, phase))
+        except Exception as exc:
+            return text(f"[swan_ensemble error] {exc}")
+
+    elif name == "lazyown_swan_status":
+        try:
+            sys.path.insert(0, str(LAZYOWN_DIR / "skills"))
+            from swan_agent import mcp_swan_status as _swan_status
+            return text(_swan_status())
+        except Exception as exc:
+            return text(f"[swan_status error] {exc}")
+
+    elif name == "lazyown_swan_route":
+        task_type = arguments.get("task_type", "analyze")
+        goal      = arguments.get("goal", "")
+        try:
+            sys.path.insert(0, str(LAZYOWN_DIR / "skills"))
+            from swan_agent import mcp_swan_route as _swan_route
+            return text(_swan_route(task_type, goal))
+        except Exception as exc:
+            return text(f"[swan_route error] {exc}")
 
     # ── dynamic tools (lazyown_addon_*, lazyown_tool_*, lazyown_plugin_*) ────
     if _automapper is not None and (

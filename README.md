@@ -110,7 +110,7 @@ Claude: [calls lazyown_set_config -> lazyown_auto_loop]
 | `LAZYOWN_C2_USER` | `payload.json c2_user` | C2 username |
 | `LAZYOWN_C2_PASS` | `payload.json c2_pass` | C2 password |
 
-## MCP Tool Groups (67 tools)
+## MCP Tool Groups (71 tools)
 
 | Group | Tools | Description |
 |-------|-------|-------------|
@@ -129,8 +129,82 @@ Claude: [calls lazyown_set_config -> lazyown_auto_loop]
 | Scheduling | 2 | cron_schedule, daemon |
 | AI Agents | 5 | run_agent, agent_status/result, list_agents, llm_ask |
 | Event Engine | 4 | poll_events, ack_event, add_rule, heartbeat_status |
+| SWAN MoE+RL | 4 | swan_run, swan_ensemble, swan_status, swan_route |
 
 Full documentation: `skills/README.md` and `skills/lazyown.md`.
+
+## Advanced AI Architecture (MoE + RL + SWAN + Hive Mind)
+
+LazyOwn integrates a world-class multi-agent AI stack that adapts and improves through every engagement:
+
+### Mixture of Experts (MoE) — `modules/moe_router.py`
+
+Five LLM experts are registered with capability tags, base weights, and cost tiers:
+
+| Expert | Backend | Strengths |
+|--------|---------|-----------|
+| `groq_fast` | Groq llama-3.1-8b-instant | Recon, enumeration, rapid decisions |
+| `groq_powerful` | Groq llama-3.3-70b-versatile | Exploitation, post-ex, complex reasoning |
+| `groq_deepseek_r1` | Groq deepseek-r1-distill-llama-70b | Privilege escalation, step-by-step reasoning |
+| `ollama_reason` | Ollama deepseek-r1:1.5b | Offline, privacy-safe, detailed analysis |
+| `groq_gemma` | Groq gemma2-9b-it | Lateral movement, credential analysis |
+
+Routing uses temperature-scaled softmax (`T = max(0.5, 1.5/(1+calls/50))`) over adjusted weights. Weights self-adjust via exponential moving average of per-expert reward over time.
+
+### Reinforcement Learning from Models (RLM) — `modules/rl_trainer.py`
+
+Tabular Q-learning trains the routing policy over engagement sessions:
+
+```
+State:  (task_type, engagement_phase, recent_reward_bucket)
+Action: expert_id
+Reward: r_raw - λ * detection_prob * |r_raw|    (λ=0.5)
+Update: Q(s,a) ← Q(s,a) + α * [r + γ * max_a' Q(s',a') - Q(s,a)]
+```
+
+Hyperparameters: α=0.10, γ=0.90, ε_start=0.20, ε_min=0.05, ε_decay=0.995. Epsilon-greedy exploration decays per update. Q-values persist to `sessions/expert_qvalues.json` across sessions.
+
+### SWAN Orchestrator — `skills/swan_agent.py`
+
+The top-level integration layer wires MoE + RL + Detection Oracle + Hive Memory:
+
+- `swan_run`: single-expert execution with RL-guided routing and post-execution Q-update
+- `swan_ensemble`: N experts in parallel via ThreadPoolExecutor, synthesised by `WeightedTextAggregator`
+- `OutcomeEvaluator`: reward = 0 when detection probability ≥ 70% (detection-aware reward shaping)
+- Every result stored in Hive Memory (ChromaDB) for cross-session learning
+
+### Detection Oracle (Blue Team Mirror) — `modules/detection_oracle.py`
+
+Predicts detection probability **before** execution using 17 Sigma-lite rules covering:
+credential access (LSASS, SAM, DCSync), lateral movement (PsExec, WMI, evil-winrm), privilege escalation (token impersonation, named pipes), exploitation, recon, C2, and brute force.
+
+Probability aggregation: `P(detect) = 1 - ∏(1 - P_i)` across all triggered rules.
+
+### Hive Mind — `skills/hive_mind.py`
+
+Multi-agent queen+drone architecture with shared memory:
+- **QueenBrain** (Claude): high-level orchestration + ConsensusProtocol for high-risk actions
+- **DronePool** (Groq/Ollama): parallel execution of recon/exploit/cred/lateral/privesc tasks
+- **HiveMemory**: ChromaDB semantic + SQLite episodic + Parquet long-term storage
+- **EpisodeReflectionEngine**: post-campaign lesson extraction stored as `sessions/campaign_lessons.jsonl`
+
+### Autonomous Daemon — `skills/autonomous_daemon.py`
+
+Four asyncio roles in a single process — no Claude required between steps:
+
+```
+Role 1 — ObjectiveLoop      : watches objectives.jsonl, takes + executes
+Role 2 — ExecutionEngine    : 6-layer cascade per step, RL Q-table feedback
+  Reactive → Parquet → Bridge → SWAN(MoE+RL) → LLM → Fallback
+Role 3 — WorldModelWatcher  : graph centrality + pivot candidate tracking
+Role 4 — DroneCoordinator   : hive drone spawning on recon/cred/service findings
+```
+
+Enable SWAN in the daemon: `export AUTO_USE_SWAN=1` before starting.
+
+### Graph-Based Reasoning — `modules/world_model.py`
+
+NetworkGraph tracks all discovered relationships (hosts, services, credentials, trust paths) and computes normalized degree centrality to surface pivot candidates. The top-3 candidates are injected into every `to_context_string()` call, ensuring the autonomous loop always knows the highest-value lateral movement targets.
 
 ## Key Features
 
@@ -11944,6 +12018,13 @@ No description available.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): hive command now from cli now \n\n Version: release/0.2.93 \n\n with love \n\n Modified file(s):\n- README.md - docs/README.html - modules/world_model.py - skills/hive_mind.py - skills/lazyown_campaign.py - skills/lazyown_policy.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Mar 23 02:43:29 2026 -0300 \n\n Hora: 1774244609
 
 
 ### Nuevas características

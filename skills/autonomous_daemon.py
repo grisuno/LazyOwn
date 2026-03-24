@@ -632,6 +632,76 @@ class LLMSelector(ICommandSelector):
         return None
 
 
+class SWANSelector(ICommandSelector):
+    """
+    SWAN (Scalable Weighted Adaptive Network) command selector.
+
+    Routes the command-recommendation query to the best MoE expert via
+    Q-learning-guided routing.  Only active when AUTO_USE_SWAN=1.
+
+    Single Responsibility : MoE/RL expert routing only — no direct execution.
+    Open/Closed           : Extend SwanOrchestrator subclasses; this selector
+                            never changes to support new experts.
+    Dependency Inversion  : depends on ICommandSelector interface; imports
+                            swan_agent lazily so the daemon starts even without
+                            GROQ_API_KEY present.
+    """
+
+    # Mapping from LazyOwn daemon phase names → SWAN task_type strings
+    _PHASE_TO_TASK: Dict[str, str] = {
+        "recon":          "recon",
+        "enum":           "recon",
+        "exploit":        "exploit",
+        "postexp":        "privesc",
+        "post_exploit":   "privesc",
+        "cred":           "cred",
+        "lateral":        "lateral",
+        "privesc":        "privesc",
+        "persist":        "lateral",
+        "exfil":          "cred",
+        "c2":             "analyze",
+        "report":         "analyze",
+    }
+
+    def select(self, target: str, phase: str, context: Dict) -> Optional[CommandDecision]:
+        """Ask the best MoE expert for a command recommendation. Returns None if disabled."""
+        if os.environ.get("AUTO_USE_SWAN", "0") != "1":
+            return None
+        return self._swan_candidate(target, phase, context)
+
+    def _swan_candidate(
+        self, target: str, phase: str, context: Dict
+    ) -> Optional[CommandDecision]:
+        try:
+            from swan_agent import mcp_swan_run as _swan_run  # lazy import
+            services  = context.get("services", [])
+            task_type = self._PHASE_TO_TASK.get(phase, "analyze")
+            goal = (
+                f"Suggest ONE LazyOwn shell command for "
+                f"phase='{phase}' target='{target}' "
+                f"services={services[:5]}. "
+                "Reply with ONLY the command name, no arguments, no explanation."
+            )
+            raw  = _swan_run(task_type, goal, phase=phase)
+            data = json.loads(raw)
+            output = data.get("output", "").strip()
+            # Extract first word (command name) from the expert output
+            cmd = output.split()[0] if output.split() else None
+            if cmd and len(cmd) < 50 and "\n" not in cmd:
+                return CommandDecision(
+                    command=cmd,
+                    source="swan",
+                    reason=(
+                        f"SWAN expert={data.get('expert_id','?')} "
+                        f"detect={data.get('detection_pct',0):.0f}%"
+                    ),
+                    priority=3,
+                )
+        except Exception as exc:
+            log.debug("SWANSelector error: %s", exc)
+        return None
+
+
 class FallbackSelector(ICommandSelector):
     """
     Static map fallback — always returns a CommandDecision, never None.
@@ -722,6 +792,7 @@ class StrategyEngine:
                 reactive_sel,
                 ParquetSelector(pdb, self._fail_counts),
                 BridgeSelector(dispatcher, self._fail_counts),
+                SWANSelector(),
                 LLMSelector(),
                 FallbackSelector(),
             ]
@@ -1117,6 +1188,37 @@ async def _run_objective(
             wm_os = detected_os if detected_os != "unknown" else "linux"
 
         strategy.register_output(output, command, platform=wm_os, success=success)
+
+        # ── RL feedback — update Q-table after every step ─────────────────────
+        # The RLTrainer learns which sources (reactive/parquet/bridge/swan/llm)
+        # produce successful outcomes per (phase, findings_quality) state.
+        # This runs silently; failures never block execution.
+        try:
+            from rl_trainer import get_trainer as _get_rl_trainer
+            _rl = _get_rl_trainer()
+            _detect_prob = 0.0
+            try:
+                from detection_oracle import get_oracle as _get_oracle
+                _detect_prob = _get_oracle().probability(command)
+            except Exception:
+                pass
+            _reward_ema  = 5.0 if success else 0.0
+            _rl_state    = _rl.encode_state(phase, phase, _reward_ema)
+            _rl_next     = _rl.encode_state(phase, phase, _reward_ema)
+            _raw_reward  = 5.0 if success else -2.0
+            if findings:
+                _raw_reward += min(len(findings) * 1.0, 5.0)
+            _rl.update(
+                state=_rl_state,
+                action=decision.source,
+                reward=_raw_reward,
+                next_state=_rl_next,
+                candidates=["reactive", "parquet", "bridge", "swan", "llm", "fallback"],
+                detection_prob=_detect_prob,
+            )
+            _rl.save()
+        except Exception as _rl_exc:
+            log.debug("RL update error: %s", _rl_exc)
 
         sr = StepResult(
             step=step_n, command=command, output=output,

@@ -6,15 +6,18 @@ Connect Claude Code (and Claude web) to the full LazyOwn framework via the Model
 
 | File | Purpose |
 |------|---------|
-| `lazyown_mcp.py` | MCP server — exposes 67 LazyOwn tools to Claude |
+| `lazyown_mcp.py` | MCP server — exposes 71 LazyOwn tools to Claude |
 | `lazyown.md` | Claude Code skill / slash-command documentation |
-| `lazyown_policy.py` | Reward-based policy engine for the auto_loop |
+| `lazyown_policy.py` | Reward-based policy engine for the auto_loop; detection-aware reward shaping |
 | `lazyown_facts.py` | Structured fact extraction from nmap XML and tool output |
 | `lazyown_objective.py` | Objective queue + soul.md management |
 | `lazyown_llm.py` | LLM bridge: Groq native tool-call + Ollama ReAct |
 | `lazyown_automapper.py` | Auto-discovery of addons/tools/plugins as dynamic MCP tools |
 | `lazyown_parquet_db.py` | Parquet knowledge base: session history + GTFOBins + LOLBas + ATT&CK |
-| `lazyown_campaign.py` | Campaign store: multi-target engagement tracking |
+| `lazyown_campaign.py` | Campaign store: episode reflection + lesson extraction |
+| `autonomous_daemon.py` | 4-role asyncio daemon: objective loop, execution engine, world model watcher, drone coordinator |
+| `hive_mind.py` | Queen (Claude) + Drone (Groq/Ollama) multi-agent system with ChromaDB memory |
+| `swan_agent.py` | SWAN orchestrator: MoE routing + RL Q-learning + ensemble synthesis + detection oracle feedback |
 | `mcp_restart.sh` | Restart helper for the MCP server process |
 
 ---
@@ -73,7 +76,7 @@ Claude: [calls lazyown_set_config → lazyown_auto_loop]
 
 ---
 
-## All MCP Tools (67)
+## All MCP Tools (71)
 
 Tools are grouped by function. All names are prefixed `lazyown_`.
 
@@ -209,6 +212,15 @@ Tools are grouped by function. All names are prefixed `lazyown_`.
 | `list_agents` | List recent sub-agents with status, goal, backend, and iteration count |
 | `llm_ask` | Ask a satellite LLM (Groq or local deepseek-r1:1.5b) to reason about a goal using LazyOwn tools |
 
+### SWAN — MoE + RL Adaptive Routing
+
+| Tool | Description |
+|------|-------------|
+| `swan_run` | Route a task to the best expert via MoE+RL selection and execute it. Returns expert output + routing metadata (expert chosen, detection %, RL reward) |
+| `swan_ensemble` | Run N experts in parallel, synthesize their outputs via weighted aggregation. Reports consensus confidence and best expert |
+| `swan_status` | Show SWAN system state: expert weights, RL epsilon (exploration rate), per-expert performance EMA, temperature, total routing calls |
+| `swan_route` | Preview which expert would be selected for a task without executing. Returns top-4 candidates with adjusted weights and latency |
+
 ### Event Engine
 
 | Tool | Description |
@@ -223,40 +235,55 @@ Tools are grouped by function. All names are prefixed `lazyown_`.
 ## Architecture
 
 ```
-Claude (frontier model)
+Claude (frontier model / Borg Queen)
        |
-       | MCP protocol
+       | MCP protocol (71 tools)
        v
 lazyown_mcp.py  ──────────────────────────────────────────────────────┐
   auto_loop                                                            │
     ├── OS detection gate (ping TTL -> os_id -> payload.json)         │
     │     linux: TTL<=64  |  windows: TTL<=128  |  unknown: skip      │
     ├── policy engine (lazyown_policy.py)                             │
+    │     detection-aware reward shaping: reward→0 when detect≥70%   │
     ├── reactive engine (modules/reactive_engine.py)                  │
     │     detects AV/EDR, privesc hints, creds, new hosts             │
     ├── bridge catalog (modules/lazyown_bridge.py)                    │
     │     347 commands × 11 phases × MITRE mapping × os_hint filter   │
     ├── parquet knowledge (lazyown_parquet_db.py)                     │
     │     session history + GTFOBins + LOLBas + ATT&CK techniques     │
+    ├── SWAN MoE+RL router (skills/swan_agent.py)               NEW   │
+    │     MoERouter: softmax expert selection with temperature anneal  │
+    │     RLTrainer: Q-learning Q(s,a) update per step                 │
+    │     DetectionOracle: sigma-lite rule pre-execution check         │
+    │     EnsembleMode: N experts in parallel → synthesised output     │
     ├── LLM recommender (lazyown_llm.py — Groq / Ollama)             │
     └── session reader (modules/session_reader.py)                    │
-          reads sessions/{client_id}.log CSVs from lazyc2.py          │
+                                                                       │
+autonomous_daemon.py ────────────────────────────────────────────────  │
+  Role 1: ObjectiveLoop   — watches objectives.jsonl                  │
+  Role 2: ExecutionEngine — command cascade + RL feedback per step    │
+    ├── ReactiveSelector  (priority 1)                                │
+    ├── ParquetSelector   (priority 2 — past successes)              │
+    ├── BridgeSelector    (priority 3 — catalog + MITRE)             │
+    ├── SWANSelector      (priority 4 — MoE+RL best expert)    NEW   │
+    ├── LLMSelector       (priority 5 — Groq/Ollama fallback)        │
+    └── FallbackSelector  (priority 6 — static OS map)               │
+  Role 3: WorldModelWatcher — graph centrality + pivot candidates     │
+  Role 4: DroneCoordinator — hive drone spawning on findings          │
+                                                                       │
+hive_mind.py — Multi-Agent Hive Mind ───────────────────────────────  │
+  QueenBrain (Claude)                                                  │
+    └── ConsensusProtocol — weighted voting for high-risk actions      │
+  DronePool (Groq/Ollama agents — parallel execution)                 │
+  HiveMemory — ChromaDB (semantic) + SQLite (episodic) + Parquet      │
+  EpisodeReflectionEngine — post-campaign lesson extraction           │
                                                                        │
 LazyOwn framework ─────────────────────────────────────────────────────┘
   lazyown.py (shell)         pwntomate.py (parallel service exploitation)
-    do_ping -> sessions/os.json -> self.params["os_id"]               │
-    run_lazynmap -> gates on sessions/os.json, runs ping if unknown   │
-  lazyc2.py (C2 server)                                               │
-    beacon POST -> client (OS string) -> sessions/os.json             │
-                                      -> sessions/world_model.json    │
-  autonomous_daemon.py                                                 │
-    _detect_target_os() -> payload.json os_id                         │
-                        -> sessions/os.json (same format as do_ping)  │
-                        -> world_model.os_hint                        │
-  lazyaddons/ (YAML tools)  lazyadversaries/ (privesc YAML)
-  plugins/ (Lua)            modules/ (Python modules)
-  parquets/ (techniques, binarios, lolbas_index)
-  sessions/ (implant CSVs, task board, discovered hosts, os.json)
+  lazyc2.py (C2 server)      modules/ (Python modules)
+  lazyaddons/ (YAML tools)   lazyadversaries/ (privesc YAML)
+  plugins/ (Lua)             parquets/ (techniques, GTFOBins, LOLBas)
+  sessions/ (implant CSVs, world_model.json, RL Q-table, hive memory)
 ```
 
 ### Kill-chain phase order (bridge catalog)
@@ -298,22 +325,32 @@ and Kerberos tooling are never dispatched against Linux targets, and vice-versa.
 | Module | Role |
 |--------|------|
 | `obs_parser.py` | Parse tool output into typed findings (SERVICE_VERSION, CVE, PATH, CRED, ERROR) |
-| `world_model.py` | Track engagement state: hosts, services, credentials, phase |
+| `world_model.py` | Track engagement state: hosts, services, credentials, phase, network graph + pivot candidates |
 | `reactive_engine.py` | Signal detection + reactive decision generation |
 | `session_reader.py` | Read C2 implant CSVs, task board, discovered hosts |
-| `lazyown_bridge.py` | Full command catalog with phase/service/OS/tag/MITRE metadata |
+| `lazyown_bridge.py` | Full command catalog with phase/service/OS/tag/MITRE metadata (347 commands, 11 phases) |
 | `event_engine.py` | Rule-based event detection over LazyOwn command output |
 | `recommender.py` | Groq/Ollama command recommendation |
 | `timeline_narrator.py` | AI-written timeline narration |
 | `session_state.py` | Aggregated session state snapshot |
-| `session_rag.py` | ChromaDB/keyword RAG over sessions/ artefacts — incremental indexing, semantic search, auto_loop context injection |
+| `session_rag.py` | ChromaDB/keyword RAG over sessions/ — incremental indexing, semantic search, auto_loop context injection |
 | `threat_model.py` | Blue team threat model builder: assets × risk scores, MITRE TTPs, IOC registry, Sigma-lite detection rules |
+| `detection_oracle.py` | Blue Team Mirror: predicts detection probability before execution using 17 Sigma-lite rules. Enables detection-aware reward shaping in the policy engine and SWAN |
+| `moe_router.py` | Mixture-of-Experts router: temperature-scaled softmax selection across groq_fast, groq_powerful, groq_deepseek_r1, ollama_reason, groq_gemma. Performance EMA per (expert, task_type) pair |
+| `rl_trainer.py` | Q-learning trainer for expert routing: tabular Q(s,a) updates per execution step, epsilon-greedy exploration with decay, detection penalty λ=0.5, persists to sessions/expert_qvalues.json |
 
 ---
 
 ## Running Tests
 
 ```bash
+# Core framework tests (60 tests)
 python3 -m pytest tests/test_core_modules.py -v
-# Expected: 60 tests passing
+
+# MoE + RL + SWAN + Detection Oracle tests (48 tests)
+python3 -m pytest tests/test_moe_rl_swan.py -v
+
+# Full suite
+python3 -m pytest tests/ -v
+# Expected: 108+ tests passing
 ```

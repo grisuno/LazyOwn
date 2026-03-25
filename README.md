@@ -12024,6 +12024,13 @@ No description available.
 
 ### Otros
 
+  *   * feat(feat): ReactiveSelector  → pattern-matched decisions (AV/EDR, privesc hints, creds) \n\n Version: release/0.2.94 \n\n ParquetSelector   → past successful commands from session history \n\n Modified file(s):\n- README.md - docs/README.html - skills/README.md - skills/autonomous_daemon.py - skills/lazyown_mcp.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Mar 23 14:51:05 2026 -0300 \n\n Hora: 1774288265
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): hive command now from cli now \n\n Version: release/0.2.93 \n\n with love \n\n Modified file(s):\n- README.md - docs/README.html - modules/world_model.py - skills/hive_mind.py - skills/lazyown_campaign.py - skills/lazyown_policy.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Mar 23 02:43:29 2026 -0300 \n\n Hora: 1774244609
 
 

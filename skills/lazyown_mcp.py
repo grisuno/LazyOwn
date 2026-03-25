@@ -790,14 +790,55 @@ async def list_tools() -> list[types.Tool]:
             inputSchema={"type": "object", "properties": {}},
         ),
         types.Tool(
-            name="lazyown_discover_commands",
+            name="lazyown_session_init",
             description=(
-                "Discover ALL commands available in the LazyOwn shell — including built-in commands, "
-                "Lua plugins, YAML addons, and adversary modules — by running 'help'. "
-                "Use this before operating autonomously so you know every tool available. "
-                "Returns commands grouped by category with their one-line description."
+                "SITREP — Call this FIRST in every new session. "
+                "Returns a full situation report: "
+                "(1) active config: rhost, domain, lhost, lport, os_id. "
+                "(2) OS cross-reference: compares payload.json os_id vs OS detected in nmap scan — "
+                "flags conflicts so you know whether to trust the config or update it. "
+                "(3) Nmap evidence: checks if sessions/scan_{rhost}.nmap and "
+                "sessions/vulns_{rhost}.nmap already exist — lists open ports from them. "
+                "(4) Pwntomate evidence: checks sessions/{rhost}/{port}/{tool}/ dirs. "
+                "If scans already exist DO NOT re-run them — read the files instead. "
+                "(5) Tasks from sessions/tasks.json — pending vs done. "
+                "(6) Active objectives from sessions/objectives.jsonl. "
+                "(7) World model state for rhost: services, credentials, vulnerabilities. "
+                "(8) Engagement phase + top commands for current phase. "
+                "(9) Gap analysis: what's missing and recommended next steps. "
+                "COMMAND ABSTRACTION: LazyOwn commands auto-inject payload.json fields — "
+                "never write raw nmap/gobuster/bloodhound commands, use the abstract name. "
+                "Example: 'nmap' → lazynmap with rhost; 'ww' → whatweb with domain; "
+                "'pyautomate' → pwntomate from latest XML."
             ),
             inputSchema={"type": "object", "properties": {}},
+        ),
+        types.Tool(
+            name="lazyown_discover_commands",
+            description=(
+                "Discover LazyOwn commands. "
+                "With phase parameter: returns bridge catalog entries for that pentest phase "
+                "(recon/enum/exploit/postexp/persist/privesc/cred/lateral/exfil/c2/report) "
+                "with MITRE tactic, description, and service tags — use this during a pentest "
+                "to know which commands are relevant for the current step. "
+                "Without phase: discovers ALL commands from the shell (builtins, Lua, YAML, adversaries)."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "phase": {
+                        "type": "string",
+                        "description": (
+                            "Pentest phase to list commands for. "
+                            "One of: recon, enum, exploit, postexp, persist, privesc, "
+                            "cred, lateral, exfil, c2, report. "
+                            "If omitted, runs 'help' and returns all shell commands."
+                        ),
+                        "enum": ["recon","enum","exploit","postexp","persist","privesc",
+                                 "cred","lateral","exfil","c2","report"],
+                    }
+                },
+            },
         ),
         types.Tool(
             name="lazyown_command_help",
@@ -1517,27 +1558,64 @@ async def list_tools() -> list[types.Tool]:
         types.Tool(
             name="lazyown_searchsploit",
             description=(
-                "Search for public exploits matching a CVE ID or service name/version. "
-                "Uses searchsploit CLI if available, falls back to ExploitDB. "
-                "Returns exploit title, type, platform, and path."
+                "Multi-source vulnerability and exploit search — wraps the LazyOwn 'ss' command. "
+                "Searches ALL of the following sources in parallel: "
+                "(1) searchsploit / ExploitDB — local offline exploit database; "
+                "(2) NVD (National Vulnerability Database) — CVE details + CVSS scores via API; "
+                "(3) ExploitAlert — community exploit repository API; "
+                "(4) PacketStorm Security — exploit archive search; "
+                "(5) Metasploit Framework — 'search' across all msf modules (if include_msf=true); "
+                "(6) Pompem — multi-database exploit finder (saved to sessions/); "
+                "(7) Reference URLs: sploitus.com and exploits.shodan.io for manual follow-up. "
+                "Use this IMMEDIATELY after discovering a service version from nmap/pwntomate. "
+                "Typical triggers: service banner in nmap output, pwntomate tool results, "
+                "whatweb fingerprint, wappalyzer output, or any identified software version. "
+                "Examples: "
+                "  ss 'apache 2.4.49'        → search all sources for Apache 2.4.49; "
+                "  ss 'CVE-2021-41773'        → full multi-source CVE research; "
+                "  ss 'vsftpd 2.3.4'          → backdoor and exploit search; "
+                "  ss 'smb ms17-010'           → EternalBlue across all sources; "
+                "  ss 'php 8.1.0-dev'          → specific version vulnerabilities; "
+                "  ss 'IIS 10.0'               → IIS-specific exploits; "
+                "  ss 'openssl 1.0.1'          → Heartbleed and other OpenSSL CVEs. "
+                "The query should be 'service version' or a CVE ID. "
+                "Delegates to the LazyOwn 'ss' command (do_ss) which runs all sources natively. "
+                "Timeout: ~120s (msfconsole + network requests)."
             ),
             inputSchema={
                 "type": "object",
                 "properties": {
+                    "query": {
+                        "type": "string",
+                        "description": (
+                            "Free-form search query: service+version ('apache 2.4.49'), "
+                            "CVE ID ('CVE-2021-41773'), product name ('vsftpd'), "
+                            "or technique ('ms17-010'). "
+                            "This is the primary parameter — build it from nmap/pwntomate output."
+                        ),
+                    },
                     "cve": {
                         "type": "string",
-                        "description": "CVE identifier (e.g. CVE-2021-41773).",
+                        "description": "CVE identifier — alternative to query (e.g. CVE-2021-41773).",
                         "default": "",
                     },
                     "service": {
                         "type": "string",
-                        "description": "Service name (e.g. 'apache', 'vsftpd').",
+                        "description": "Service name — combined with version if provided (e.g. 'apache').",
                         "default": "",
                     },
                     "version": {
                         "type": "string",
-                        "description": "Service version (e.g. '2.4.49').",
+                        "description": "Service version — combined with service (e.g. '2.4.49').",
                         "default": "",
+                    },
+                    "include_msf": {
+                        "type": "boolean",
+                        "description": (
+                            "Include Metasploit Framework module search (msfconsole -q -x 'search ...'). "
+                            "Slower (~30s) but surfaces ready-to-use msf modules. Default: false."
+                        ),
+                        "default": False,
                     },
                 },
                 "required": [],
@@ -3015,8 +3093,341 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             lines.append(f"   goal: {a['goal'][:70]}")
         return text("\n".join(lines))
 
+    # ── session_init ──────────────────────────────────────────────────────────
+    elif name == "lazyown_session_init":
+        import json as _json
+        import glob as _glob
+        from pathlib import Path as _Path
+
+        # ── 1. Payload config ────────────────────────────────────────────────
+        cfg      = _load_payload()
+        rhost    = cfg.get("rhost", "")
+        domain   = cfg.get("domain", "")
+        lhost    = cfg.get("lhost", "")
+        lport    = str(cfg.get("lport", ""))
+        os_id_cfg = cfg.get("os_id", "unknown")  # what payload.json says
+
+        # ── 2. World model ───────────────────────────────────────────────────
+        wm_path = LAZYOWN_DIR / "sessions" / "world_model.json"
+        phase   = "recon"
+        wm_host_state = "unscanned"
+        wm_services: list[str] = []
+        wm_creds: list[str]    = []
+        wm_vulns: list[str]    = []
+        try:
+            if wm_path.exists():
+                wm = _json.loads(wm_path.read_text())
+                phase   = wm.get("current_phase", "recon")
+                h       = wm.get("hosts", {}).get(rhost, {})
+                wm_host_state = h.get("state", "unscanned")
+                for svc in h.get("services", {}).values():
+                    wm_services.append(
+                        f"    {svc.get('port','?')}/{svc.get('protocol','tcp')} "
+                        f"{svc.get('name','?')} {svc.get('version','')}"
+                    )
+                for c in wm.get("credentials", [])[:5]:
+                    wm_creds.append(f"    {c.get('username','?')}:{c.get('secret','?')[:20]} ({c.get('type','?')})")
+                for v in wm.get("vulnerabilities", [])[:5]:
+                    wm_vulns.append(f"    {v.get('cve','?')} {v.get('severity','?')} — {v.get('description','')[:60]}")
+        except Exception:
+            pass
+
+        # ── 3. Nmap scan evidence ────────────────────────────────────────────
+        # lazynmap.sh creates: sessions/scan_{TARGET}.nmap + sessions/vulns_{TARGET}.nmap
+        scan_files: list[str] = []
+        open_ports: list[str] = []
+        os_from_nmap = ""
+        nmap_done  = False
+        vulns_done = False
+
+        if rhost:
+            nmap_scan  = LAZYOWN_DIR / "sessions" / f"scan_{rhost}.nmap"
+            nmap_xml   = LAZYOWN_DIR / "sessions" / f"scan_{rhost}.nmap.xml"
+            nmap_vulns = LAZYOWN_DIR / "sessions" / f"vulns_{rhost}.nmap"
+
+            nmap_done  = nmap_scan.exists()  and nmap_scan.stat().st_size  > 100
+            vulns_done = nmap_vulns.exists() and nmap_vulns.stat().st_size > 100
+
+            if nmap_done:
+                scan_files.append(
+                    f"  [OK] scan_{rhost}.nmap   ({nmap_scan.stat().st_size:,} bytes)"
+                )
+                # Parse open ports + OS hint
+                try:
+                    for line in nmap_scan.read_text(errors="replace").splitlines():
+                        stripped = line.strip()
+                        if "/tcp" in stripped and "open" in stripped:
+                            open_ports.append(f"      {stripped}")
+                        if not os_from_nmap:
+                            low = stripped.lower()
+                            if "os details:" in low or "running:" in low or "aggressive os guesses:" in low:
+                                os_from_nmap = stripped
+                            # Banner-based fallback
+                            elif "microsoft" in low or "windows" in low and any(
+                                    x in low for x in ("smb", "iis", "rdp", "winrm")):
+                                os_from_nmap = f"Windows (service banner: {stripped[:80]})"
+                except Exception:
+                    pass
+
+            if vulns_done:
+                scan_files.append(
+                    f"  [OK] vulns_{rhost}.nmap  ({nmap_vulns.stat().st_size:,} bytes)"
+                )
+            if nmap_xml.exists() and nmap_xml.stat().st_size > 100:
+                scan_files.append(
+                    f"  [OK] scan_{rhost}.nmap.xml ({nmap_xml.stat().st_size:,} bytes)"
+                )
+
+        # ── 4. OS cross-reference ────────────────────────────────────────────
+        os_verdict   = os_id_cfg
+        os_conflict  = ""
+        os_evidence  = ""
+        if os_from_nmap:
+            low = os_from_nmap.lower()
+            nmap_says_win = "windows" in low or "microsoft" in low
+            nmap_says_lnx = "linux" in low or "unix" in low
+            if nmap_says_win and os_id_cfg in ("linux", "unknown", ""):
+                os_conflict = (
+                    f"  [CONFLICT] payload.json os_id='{os_id_cfg}' "
+                    f"but nmap suggests Windows → update: "
+                    f"lazyown_set_config(key='os_id', value='windows')"
+                )
+                os_verdict = "windows"
+            elif nmap_says_lnx and os_id_cfg in ("windows", "unknown", ""):
+                os_conflict = (
+                    f"  [CONFLICT] payload.json os_id='{os_id_cfg}' "
+                    f"but nmap suggests Linux → update: "
+                    f"lazyown_set_config(key='os_id', value='linux')"
+                )
+                os_verdict = "linux"
+            os_evidence = f"  os_nmap : {os_from_nmap[:120]}"
+
+        # ── 5. Pwntomate output evidence ─────────────────────────────────────
+        # pwntomate writes to {basedir}/{ip}/{port}/{toolname}/
+        # LazyOwn uses sessions/{ip}/ and ~/.pwntomate/{ip}/
+        pwntomate_lines: list[str] = []
+        if rhost:
+            for base in [
+                LAZYOWN_DIR / "sessions" / rhost,
+                _Path.home() / ".pwntomate" / rhost,
+            ]:
+                if base.exists() and base.is_dir():
+                    for port_dir in sorted(base.iterdir()):
+                        if port_dir.is_dir():
+                            for tool_dir in sorted(port_dir.iterdir()):
+                                if tool_dir.is_dir():
+                                    fcount = len(list(tool_dir.rglob("*")))
+                                    if fcount:
+                                        pwntomate_lines.append(
+                                            f"  [OK] {rhost}/{port_dir.name}/{tool_dir.name}/ ({fcount} files)"
+                                        )
+
+        # ── 6. Tasks ─────────────────────────────────────────────────────────
+        tasks_path    = LAZYOWN_DIR / "sessions" / "tasks.json"
+        tasks_pending: list[str] = []
+        tasks_done:    list[str] = []
+        try:
+            if tasks_path.exists():
+                for t in _json.loads(tasks_path.read_text()):
+                    s     = t.get("status", "New")
+                    title = t.get("title", "")[:80]
+                    tid   = t.get("id", "?")
+                    if s in ("Done", "Qa"):
+                        tasks_done.append(f"  [#{tid} {s}] {title}")
+                    else:
+                        tasks_pending.append(f"  [#{tid} {s:8s}] {title}")
+        except Exception:
+            pass
+
+        # ── 7. Active objectives ─────────────────────────────────────────────
+        obj_path   = LAZYOWN_DIR / "sessions" / "objectives.jsonl"
+        objectives: list[str] = []
+        try:
+            if obj_path.exists():
+                for line in obj_path.read_text().splitlines()[-10:]:
+                    try:
+                        o = _json.loads(line)
+                        if o.get("status") == "pending":
+                            objectives.append(
+                                f"  [{o.get('priority','normal'):8s}] {o.get('text','')[:80]}"
+                            )
+                    except Exception:
+                        pass
+        except Exception:
+            pass
+
+        # ── 8. Phase commands from bridge catalog ────────────────────────────
+        phase_commands: list[str] = []
+        kill_chain: list[str]     = [
+            "recon","enum","exploit","postexp","persist",
+            "privesc","cred","lateral","exfil","c2","report"
+        ]
+        try:
+            sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
+            from lazyown_bridge import get_dispatcher as _bd_si
+            _disp_si   = _bd_si()
+            kill_chain = _disp_si.phase_kill_chain()
+            for e in _disp_si.list_phase(phase)[:10]:
+                svc  = ",".join(e.services[:3]) if getattr(e, "services", None) else "any"
+                desc = getattr(e, "description", "") or ""
+                mit  = getattr(e, "mitre_tactic",  "") or ""
+                phase_commands.append(f"  {e.command:<22} [{mit:<7}] {svc:<14} {desc[:50]}")
+        except Exception as _ex_bridge:
+            phase_commands = [f"  (bridge unavailable: {_ex_bridge})"]
+
+        # ── 9. What's missing / next steps ──────────────────────────────────
+        missing:    list[str] = []
+        next_steps: list[str] = []
+
+        if not rhost:
+            missing.append("  [!] rhost not set in payload.json")
+            next_steps.append("  A. lazyown_set_config(key='rhost', value='<target_ip>')")
+        else:
+            if not nmap_done:
+                missing.append(f"  [!] sessions/scan_{rhost}.nmap not found — lazynmap not run yet")
+                next_steps.append(f"  A. lazyown_run_command('nmap')   → builds sessions/scan_{rhost}.nmap")
+            else:
+                if not vulns_done:
+                    missing.append(f"  [-] sessions/vulns_{rhost}.nmap not found — vuln scan pending")
+                if not pwntomate_lines:
+                    missing.append(f"  [-] No pwntomate output for {rhost} — run after nmap finishes")
+                    next_steps.append("  B. lazyown_run_command('pyautomate')  → pwntomate from latest XML")
+                if os_conflict:
+                    next_steps.append(f"  C. {os_conflict.strip()}")
+
+            if tasks_pending:
+                next_steps.append(f"  D. {len(tasks_pending)} pending task(s) in tasks.json — review and execute")
+            if objectives:
+                next_steps.append(f"  E. {len(objectives)} pending objective(s) — lazyown_auto_loop() to execute")
+
+        if not missing:
+            missing = ["  [OK] Scan evidence present — proceed to analysis and exploitation"]
+            if not next_steps:
+                next_steps = [
+                    f"  A. lazyown_read_session_file('scan_{rhost}.nmap')    — analyse scan",
+                    f"  B. lazyown_discover_commands(phase='{phase}')         — phase commands",
+                    f"  C. lazyown_facts_show()                               — structured findings",
+                    f"  D. lazyown_auto_loop(objective='exploit {rhost}')     — autonomous run",
+                ]
+
+        # ── 10. Build output ─────────────────────────────────────────────────
+        out = [
+            "╔══════════════════════════════════════════════════════════════╗",
+            "║   LazyOwn — SITREP (Situation Report)  call once/session    ║",
+            "╚══════════════════════════════════════════════════════════════╝",
+            "",
+            "## ACTIVE CONFIG",
+            f"  rhost        : {rhost  or '(not set)'}",
+            f"  domain       : {domain or '(not set)'}",
+            f"  lhost/lport  : {lhost or '?'}:{lport or '?'}",
+            f"  os_id(cfg)   : {os_id_cfg}",
+        ]
+        if os_evidence:
+            out.append(os_evidence)
+        if os_conflict:
+            out.append(os_conflict)
+        out.append(f"  os_verdict   : {os_verdict}  (use this for tool selection)")
+
+        out += [
+            f"  wm_state     : {wm_host_state}",
+            "",
+            f"## ENGAGEMENT PHASE: {phase.upper()}",
+            f"  Kill chain: {' → '.join(kill_chain)}",
+            "",
+            "## NMAP SCAN EVIDENCE",
+        ]
+        out += scan_files or [f"  [--] No nmap files found for '{rhost or 'rhost not set'}'"]
+
+        if open_ports:
+            out.append(f"\n  Open ports ({len(open_ports)}):")
+            out += open_ports[:20]
+
+        if wm_services:
+            out.append(f"\n  World-model services ({len(wm_services)}):")
+            out += wm_services[:15]
+
+        out.append("\n## PWNTOMATE OUTPUT")
+        out += pwntomate_lines or [f"  [--] No pwntomate output for '{rhost or 'rhost not set'}'"]
+
+        out.append("\n## TASKS (sessions/tasks.json)")
+        if tasks_pending:
+            out.append("  Pending:")
+            out += tasks_pending[:8]
+        if tasks_done:
+            out.append(f"  Done: {len(tasks_done)} task(s) completed already")
+        if not tasks_pending and not tasks_done:
+            out.append("  (empty)")
+
+        if wm_creds:
+            out.append("\n## CREDENTIALS (world model)")
+            out += wm_creds
+        if wm_vulns:
+            out.append("\n## VULNERABILITIES (world model)")
+            out += wm_vulns
+
+        out.append("\n## ACTIVE OBJECTIVES (objectives.jsonl)")
+        out += objectives or ["  (none pending)"]
+
+        out += ["", "## WHAT'S MISSING / GAPS"]
+        out += missing
+
+        out += [
+            "",
+            "## COMMAND ABSTRACTION (never write raw tool commands)",
+            "  nmap       → lazynmap  → sessions/scan_{rhost}.nmap (full aggressive scan)",
+            "  vulns      → nmap vulns→ sessions/vulns_{rhost}.nmap",
+            "  pyautomate → pwntomate → sessions/{rhost}/{port}/{tool}/ (all services)",
+            "  ww         → whatweb   using domain from payload.json",
+            "  gobuster   → gobuster  using rhost+wordlist from payload.json",
+            "  evil       → evil-winrm using rhost+creds from payload.json",
+            "  bh         → bloodhound using domain+creds from payload.json",
+            "  psexec     → impacket-psexec using rhost+creds",
+            "",
+            f"## TOP COMMANDS FOR PHASE: {phase.upper()}",
+            f"  {'Command':<22} {'MITRE':<9} {'Services':<14} Description",
+            f"  {'-'*22} {'-'*9} {'-'*14} {'-'*50}",
+        ] + phase_commands + [
+            f"  → lazyown_discover_commands(phase='{phase}') for full phase list",
+            "",
+            "## RECOMMENDED NEXT STEPS",
+        ] + (next_steps or [f"  lazyown_discover_commands(phase='{phase}')"])
+
+        return text("\n".join(out))
+
     # ── discover_commands ─────────────────────────────────────────────────────
     elif name == "lazyown_discover_commands":
+        phase_filter = arguments.get("phase", "").strip().lower()
+
+        # Phase-specific mode: use bridge catalog (pentest-phase organized)
+        if phase_filter:
+            try:
+                sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
+                from lazyown_bridge import get_dispatcher as _bd_dc
+                _disp_dc = _bd_dc()
+                entries = _disp_dc.list_phase(phase_filter)
+                if not entries:
+                    return text(
+                        f"[discover_commands] No commands in bridge catalog for phase '{phase_filter}'.\n"
+                        f"Valid phases: recon, enum, exploit, postexp, persist, privesc, cred, lateral, exfil, c2, report"
+                    )
+                out = [
+                    f"LazyOwn commands for phase: {phase_filter.upper()} ({len(entries)} commands)",
+                    f"",
+                    f"  {'Command':<22} {'MITRE':<9} {'OS':<8} {'Services':<16} Description",
+                    f"  {'-'*22} {'-'*9} {'-'*8} {'-'*16} {'-'*40}",
+                ]
+                for e in entries:
+                    svc  = ",".join(e.services[:4]) if hasattr(e,"services") and e.services else "any"
+                    os_t = getattr(e, "os_target", "any") or "any"
+                    mit  = getattr(e, "mitre_tactic", "") or ""
+                    desc = getattr(e, "description", "") or ""
+                    out.append(f"  {e.command:<22} [{mit:<7}] {os_t:<8} {svc:<16} {desc[:50]}")
+                out.append(f"\nUse lazyown_command_help(command='<name>') for full docs.")
+                return text("\n".join(out))
+            except Exception as _ex_dc:
+                return text(f"[discover_commands] Bridge error: {_ex_dc}\nFalling back to shell help...")
+
+        # No-phase mode: run shell 'help' and parse cmd2 categories
         raw = await asyncio.get_event_loop().run_in_executor(
             None, lambda: _run_lazyown_command("help", timeout=30)
         )
@@ -3055,7 +3466,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             return text(raw[:4000])
 
         total = sum(len(v) for v in groups.values())
-        out = [f"LazyOwn commands ({total} total):\n"]
+        out = [f"LazyOwn shell commands ({total} total):\n"]
         for group, cmds in groups.items():
             if cmds:
                 out.append(f"── {group} ({len(cmds)}) ──")
@@ -3063,16 +3474,102 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 for j in range(0, len(cmds), 3):
                     out.append("  " + "  ".join(f"{c:<30}" for c in cmds[j:j+3]))
                 out.append("")
+        out.append("Tip: use lazyown_discover_commands(phase='recon') for phase-organized commands.")
         out.append("Tip: use lazyown_command_help(command) for full docs on any command.")
         return text("\n".join(out))
 
     # ── command_help ──────────────────────────────────────────────────────────
     elif name == "lazyown_command_help":
-        cmd  = arguments["command"].strip()
-        raw  = await asyncio.get_event_loop().run_in_executor(
-            None, lambda: _run_lazyown_command(f"help {cmd}", timeout=20)
-        )
-        return text(raw[:6000] if raw else f"No help found for '{cmd}'")
+        import ast as _ast_help, textwrap as _tw, warnings as _warn
+        _warn.filterwarnings("ignore")
+        cmd = arguments["command"].strip()
+        if cmd.startswith("do_"):
+            cmd = cmd[3:]
+
+        def _read_docstring(cmd_name: str) -> str:
+            """Extract do_<cmd> docstring from lazyown.py via AST — no shell spawn, no noise."""
+            lo_path = LAZYOWN_DIR / "lazyown.py"
+            try:
+                src  = lo_path.read_text(errors="replace")
+                tree = _ast_help.parse(src)
+            except Exception as _e:
+                return f"Could not parse lazyown.py: {_e}"
+
+            # ── Step 1: resolve aliases ──────────────────────────────────
+            # The aliases dict is assigned at module level inside main() as:
+            #   aliases = { "ww": "whatweb", "bh": "bloodhound", ... }
+            # We extract it by scanning all Dict literals assigned to 'aliases'.
+            alias_map: dict[str, str] = {}
+            for node in _ast_help.walk(tree):
+                if isinstance(node, _ast_help.Assign):
+                    for t in node.targets:
+                        if isinstance(t, _ast_help.Name) and t.id == "aliases":
+                            if isinstance(node.value, _ast_help.Dict):
+                                for k, v in zip(node.value.keys, node.value.values):
+                                    if isinstance(k, _ast_help.Constant) and isinstance(v, _ast_help.Constant):
+                                        alias_map[str(k.value)] = str(v.value)
+
+            resolved = cmd_name
+            alias_target = ""
+            if cmd_name in alias_map:
+                alias_target = alias_map[cmd_name]
+                # alias value may be "whatweb" or "sh sudo ..." — extract first word
+                resolved = alias_target.split()[0]
+                if resolved in ("sh", "run", "run_script"):
+                    # shell alias — no do_ function, return the alias value directly
+                    return (
+                        f"Alias: {cmd_name}\n"
+                        f"Expands to: {alias_target}\n\n"
+                        f"This is a shell shortcut — it runs the above command directly.\n"
+                        f"No separate do_{cmd_name} function exists."
+                    )
+
+            # ── Step 2: find do_<resolved> docstring ─────────────────────
+            target = f"do_{resolved}"
+            for node in _ast_help.walk(tree):
+                if isinstance(node, (_ast_help.FunctionDef, _ast_help.AsyncFunctionDef)):
+                    if node.name == target:
+                        doc = _ast_help.get_docstring(node)
+                        prefix = ""
+                        if alias_target:
+                            prefix = f"Alias '{cmd_name}' → '{resolved}'\n\n"
+                        if doc:
+                            return prefix + _tw.dedent(doc).strip()
+                        return f"{prefix}'{target}' exists but has no docstring."
+
+            # ── Step 3: YAML addons ───────────────────────────────────────
+            addon_dir = LAZYOWN_DIR / "lazyaddons"
+            if addon_dir.exists():
+                for f in sorted(addon_dir.glob("*.yaml")):
+                    try:
+                        import yaml as _yaml
+                        data = _yaml.safe_load(f.read_text())
+                        if isinstance(data, dict):
+                            nm = (data.get("name","") or
+                                  (data.get("tool") or {}).get("name",""))
+                            if nm.lower() == cmd_name.lower():
+                                desc    = data.get("description","")
+                                repo    = (data.get("tool") or {}).get("repo_url","")
+                                install = (data.get("tool") or {}).get("install_command","")
+                                execute = (data.get("tool") or {}).get("execute_command","")
+                                return (
+                                    f"YAML Addon: {nm}\n"
+                                    f"Description: {desc}\n"
+                                    f"Repo: {repo}\n"
+                                    f"Install: {install}\n"
+                                    f"Execute: {execute}"
+                                )
+                    except Exception:
+                        pass
+
+            extra = f" (alias target: '{resolved}')" if alias_target else ""
+            return (
+                f"Command '{cmd_name}'{extra} not found as do_{resolved}.\n"
+                f"Use lazyown_discover_commands() to list all available commands."
+            )
+
+        result = await asyncio.get_event_loop().run_in_executor(None, _read_docstring, cmd)
+        return text(result[:6000])
 
     # ── add_target ────────────────────────────────────────────────────────────
     elif name == "lazyown_add_target":
@@ -4240,31 +4737,37 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
     # ── searchsploit ───────────────────────────────────────────────────────────
     elif name == "lazyown_searchsploit":
+        sp_query   = arguments.get("query", "").strip()
         sp_cve     = arguments.get("cve", "").strip()
         sp_service = arguments.get("service", "").strip()
         sp_version = arguments.get("version", "").strip()
-        if not sp_cve and not sp_service:
-            return text("[searchsploit] 'cve' or 'service' is required.")
-        try:
-            sys.path.insert(0, str(LAZYOWN_DIR / "modules" / "integrations"))
-            sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
-            from integrations.searchsploit import get_client as _sp_get
-            client = _sp_get()
-            results = await asyncio.get_event_loop().run_in_executor(
-                None,
-                lambda: client.search_cve(sp_cve) if sp_cve else client.search_service(sp_service, sp_version)
+        sp_msf     = bool(arguments.get("include_msf", False))
+
+        # Build search term: query > cve > service+version
+        if sp_query:
+            search_term = sp_query
+        elif sp_cve:
+            search_term = sp_cve
+        elif sp_service:
+            search_term = f"{sp_service} {sp_version}".strip()
+        else:
+            return text(
+                "[searchsploit] Provide 'query', 'cve', or 'service'. "
+                "Example: query='apache 2.4.49' or cve='CVE-2021-41773'"
             )
-            if not results:
-                return text(f"No exploits found for '{sp_cve or sp_service}'.")
-            lines = [f"Exploits for {sp_cve or (sp_service + ' ' + sp_version).strip()}:", ""]
-            for r in results:
-                lines.append(f"  [{r.type:10s}] [{r.platform:8s}] {r.title[:70]}")
-                if r.cve:
-                    lines.append(f"    CVE: {r.cve}")
-                lines.append(f"    Path: {r.path}")
-            return text("\n".join(lines))
-        except Exception as exc:
-            return text(f"[searchsploit error] {exc}")
+
+        # Delegate entirely to do_ss in lazyown.py — it already handles all sources:
+        # searchsploit, NVD (find_ss/nvddb), ExploitAlert (find_ea/exploitalert),
+        # PacketStorm (find_ps/packetstormsecurity), msfconsole search, pompem,
+        # creds_py, and prints sploitus + shodan reference URLs.
+        # include_msf is handled natively by do_ss (always calls msfconsole).
+        ss_cmd = f"ss {search_term}"
+        raw = await asyncio.get_event_loop().run_in_executor(
+            None, lambda: _run_lazyown_command(ss_cmd, timeout=120)
+        )
+        if not raw or not raw.strip():
+            return text(f"[ss] No output for query '{search_term}'. Check that searchsploit is installed.")
+        return text(raw[:8000])
 
     # ── misp_export ────────────────────────────────────────────────────────────
     elif name == "lazyown_misp_export":

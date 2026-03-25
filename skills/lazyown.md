@@ -5,7 +5,59 @@ LazyOwn is a penetration testing / C2 framework located at `/home/grisun0/LazyOw
 
 ---
 
-## Core MCP Tools (64)
+## MANDATORY: Call `lazyown_session_init` FIRST
+
+**At the start of every session**, call `lazyown_session_init()` before anything else.
+It returns a full **SITREP** (situation report):
+- Active config (rhost, domain, lhost, os_id)
+- OS cross-reference: what payload.json says vs what nmap actually found — flags conflicts
+- Nmap scan evidence: checks `sessions/scan_{rhost}.nmap` and `sessions/vulns_{rhost}.nmap` already exist
+- Pwntomate output: checks `sessions/{rhost}/{port}/{tool}/` dirs already exist
+- Tasks from `sessions/tasks.json` — what's pending vs done
+- Active objectives from `sessions/objectives.jsonl`
+- Engagement phase from `world_model.json`
+- Phase-relevant commands from bridge catalog
+
+**Do not re-run nmap or pwntomate if the files already exist** — read them instead.
+
+---
+
+## Command Abstraction Model — Critical Understanding
+
+LazyOwn CLI commands are **high-level abstractions** over real security tools.
+They **automatically inject** values from `payload.json` — you NEVER write raw tool commands.
+
+```
+payload.json  ──► LazyOwn CLI command ──► real underlying tool + full optimized flags
+     rhost              nmap               nmap -sC -sV -p- -T4 --script vuln 10.10.11.5
+     domain             ww                 whatweb http://target.htb -a 3
+     domain             dig                dig @10.10.11.5 target.htb axfr
+     rhost+wordlist     gobuster           gobuster dir -u http://10.10.11.5 -w /path/wordlist
+     rhost+creds        psexec             impacket-psexec user:pass@10.10.11.5
+     domain+creds       bh                 bloodhound-python -d target.htb -u user ...
+     rhost+creds        evil               evil-winrm -i 10.10.11.5 -u user -p pass
+```
+
+**Workflow:**
+1. Set config: `lazyown_set_config(key='rhost', value='10.10.11.5')`
+2. Discover commands for your phase: `lazyown_discover_commands(phase='recon')`
+3. Get docs for a command: `lazyown_command_help(command='lazynmap')`
+4. Run the abstract command: `lazyown_run_command('nmap')`
+
+**Kill chain (11 phases):**
+`recon → enum → exploit → postexp → persist → privesc → cred → lateral → exfil → c2 → report`
+
+Only use commands from the CURRENT phase. Don't run post-exploitation tools during recon.
+
+---
+
+## Core MCP Tools (65)
+
+### Session Init (call FIRST)
+
+| Tool | Purpose |
+|------|---------|
+| `lazyown_session_init` | **CALL FIRST** — returns phase, config, phase commands, objectives, abstraction cheatsheet |
 
 ### Execution & Configuration
 
@@ -15,7 +67,7 @@ LazyOwn is a penetration testing / C2 framework located at `/home/grisun0/LazyOw
 | `lazyown_get_config` | Read current payload.json settings |
 | `lazyown_set_config` | Write a key-value pair to payload.json |
 | `lazyown_list_modules` | List modules/ contents |
-| `lazyown_discover_commands` | Discover ALL commands (builtins, Lua, YAML, adversaries) grouped by category |
+| `lazyown_discover_commands` | List commands by pentest phase (use `phase='recon'`/`'enum'`/etc) OR all shell commands |
 | `lazyown_command_help` | Get full docs for any command: `help <command>` |
 
 ### Target Management
@@ -82,7 +134,7 @@ LazyOwn is a penetration testing / C2 framework located at `/home/grisun0/LazyOw
 | `lazyown_parquet_annotate` | Annotate a session row in `session_knowledge.parquet` with actual outcome |
 | `lazyown_facts_show` | Structured facts from nmap + tool output: ports, services, creds, shares, access level |
 | `lazyown_cve_search` | Search NVD for CVEs matching product + optional version (cached on disk) |
-| `lazyown_searchsploit` | Search public exploits by CVE or service/version (searchsploit CLI or ExploitDB API) |
+| `lazyown_searchsploit` | **Multi-source vuln search** wrapping `ss` command: searchsploit+NVD+ExploitAlert+PacketStorm+Pompem+Metasploit(opt). Use after ANY service version is discovered. |
 | `lazyown_rag_index` | Incrementally index all sessions/ artefacts into ChromaDB (or keyword fallback). mode: `incremental` (default) / `full`. Persists between process restarts. Install: `pip install chromadb` |
 | `lazyown_rag_query` | Semantic search over indexed sessions/ (logs, scans, creds, XML, etc.). Falls back to keyword search. Used automatically by auto_loop on every step |
 | `lazyown_threat_model` | Build/load the blue team threat model: assets + risk scores, MITRE TTPs, IOC registry, Sigma-lite rules, purple team mapping. actions: `build`, `load`, `ttps`, `rules`, `iocs`, `purple`, `gaps` |
@@ -268,7 +320,66 @@ lazyown_facts_show(target="10.10.11.78", refresh=True)
 The autonomous daemon performs OS detection automatically before the first
 command selection step and propagates `os_hint` to all selectors.
 
-### 3. Generate a payload
+### 3. Vulnerability Research — MANDATORY after service discovery
+
+**Trigger**: Any time you identify a service version (from nmap, pwntomate, whatweb, wappalyzer, banner grab).
+**Never skip this step.** A known CVE may give you direct RCE without further enumeration.
+
+The `lazyown_searchsploit` tool wraps the full `ss` command and queries **7 sources simultaneously**:
+
+| # | Source | What it finds |
+|---|--------|--------------|
+| 1 | ExploitDB / searchsploit | Offline local exploit database (PoC scripts, shellcode) |
+| 2 | NVD (NIST) | CVE details, CVSS scores, affected versions |
+| 3 | ExploitAlert | Community exploit repository |
+| 4 | PacketStorm Security | Exploit archive (advisories + code) |
+| 5 | Pompem | Multi-DB exploit finder, output saved to sessions/ |
+| 6 | Metasploit | Ready-to-use msf modules (set include_msf=True) |
+| 7 | Reference URLs | sploitus.com + exploits.shodan.io for follow-up |
+
+**Usage pattern — call immediately after seeing a version:**
+
+```python
+# After nmap shows: 80/tcp open http Apache httpd 2.4.49
+lazyown_searchsploit(query="apache 2.4.49")
+
+# After nmap shows: 21/tcp open ftp vsftpd 2.3.4
+lazyown_searchsploit(query="vsftpd 2.3.4")
+
+# SMB service with potential EternalBlue
+lazyown_searchsploit(query="smb ms17-010", include_msf=True)
+
+# CVE from vulns scan
+lazyown_searchsploit(cve="CVE-2021-41773")
+
+# Web app from whatweb
+lazyown_searchsploit(query="Drupal 7.54")
+
+# After whatweb finds PHP version
+lazyown_searchsploit(query="php 8.1.0-dev")
+
+# IIS server
+lazyown_searchsploit(query="IIS 10.0", include_msf=True)
+
+# OpenSSL version
+lazyown_searchsploit(query="openssl 1.0.1")
+
+# AD/Kerberos: after SMB enum finds Windows Server version
+lazyown_searchsploit(query="Windows Server 2019 kerberos")
+```
+
+**After getting results → decide next step:**
+- ExploitDB path found → `lazyown_run_command("ss <term>")` to get full output with file paths
+- Metasploit module found → `lazyown_run_command("msfconsole")` then use the module
+- CVE confirmed → `lazyown_cve_search(product="...", version="...")` for CVSS + patch info
+- No public exploit → continue enumeration, deeper web app testing
+
+**Integration into auto_loop:**
+The auto_loop's `BridgeSelector` and `ReactiveSelector` know to call `ss` when service versions
+are detected. But when operating manually or when the output is ambiguous, always call
+`lazyown_searchsploit` yourself.
+
+### 4. Generate a payload
 
 ```
 lazyown_run_command("venom")

@@ -5,6 +5,19 @@ LazyOwn is a penetration testing / C2 framework located at `/home/grisun0/LazyOw
 
 ---
 
+## STEP 0 — At the start of EVERY operator shift: Campaign SITREP
+
+```python
+lazyown_campaign_sitrep()
+```
+
+This single call reads **all 10 campaign state files** and returns a structured briefing:
+`WORLD MODEL → SESSION JSON (creds/implants) → CRED FILES → TASKS → OBJECTIVES → CAMPAIGN → LESSONS → DAEMON → AUTO EVENTS → CSV STATS`
+
+Use this before any decision. Never fly blind.
+
+---
+
 ## MANDATORY: Call `lazyown_session_init` FIRST
 
 **At the start of every session**, call `lazyown_session_init()` before anything else.
@@ -51,7 +64,17 @@ Only use commands from the CURRENT phase. Don't run post-exploitation tools duri
 
 ---
 
-## Core MCP Tools (65)
+## Core MCP Tools (92)
+
+### Campaign Intelligence (call at shift start)
+
+| Tool | Purpose |
+|------|---------|
+| `lazyown_campaign_sitrep` | **MASTER SITREP** — aggregates world_model + tasks + objectives + creds + lessons + daemon into one briefing |
+| `lazyown_credentials` | All captured creds from credentials*.txt + sessionLazyOwn.json + world_model — deduped table |
+| `lazyown_c2_notes` | Read/append/clear operational notes in sessionLazyOwn.json — shift handoff commentary |
+| `lazyown_report_update` | Read or update PDF report fields in static/body_report.json; `auto_fill` generates exec summary from session data |
+| `lazyown_campaign_lessons` | Read tactical lessons derived from campaign milestones — avoid repeating mistakes |
 
 ### Session Init (call FIRST)
 
@@ -106,7 +129,7 @@ Only use commands from the CURRENT phase. Don't run post-exploitation tools duri
 
 | Tool | Purpose |
 |------|---------|
-| `lazyown_auto_loop` | Autonomous attack loop: reactive → parquet → bridge → LLM → execute → learn (max 20 steps) |
+| `lazyown_auto_loop` | Autonomous attack loop: reactive → parquet → bridge → SWAN → LLM → fallback → execute → learn (max 20 steps) |
 | `lazyown_policy_status` | Policy engine episode summary + next-action recommendations per target |
 | `lazyown_recommend_next` | Ask Groq to recommend the best 3-5 next commands ranked by confidence |
 
@@ -198,7 +221,47 @@ Only use commands from the CURRENT phase. Don't run post-exploitation tools duri
 | `lazyown_poll_events` | Read events from the LazyOwn Event Engine (triggered by command pattern rules) |
 | `lazyown_ack_event` | Mark an event as processed so it won't appear in future polls |
 | `lazyown_add_rule` | Add or update an event detection rule |
+| `lazyown_list_event_rules` | **List all active detection rules** — id, trigger, severity, suggest. Audit before adding new rules. |
 | `lazyown_heartbeat_status` | Check whether the Heartbeat process is running (PID + event counts) |
+
+### Hive Mind — Multi-Agent Parallel Execution
+
+| Tool | Purpose |
+|------|---------|
+| `lazyown_hive_spawn` | Spawn N drones (Groq/Ollama) IN PARALLEL for a goal. Roles: recon, exploit, analyze, cred, lateral, report, generic |
+| `lazyown_hive_status` | Full hive status: active drones, ChromaDB vector count, episodic memory entries |
+| `lazyown_hive_recall` | Semantic + episodic + long-term memory recall from unified hive ChromaDB |
+| `lazyown_hive_plan` | Queen generates task decomposition plan WITHOUT spawning drones — use for previewing |
+| `lazyown_hive_result` | Get the full result of a specific hive drone by drone_id |
+| `lazyown_hive_collect` | Wait for all drones to finish, return Queen's synthesized summary |
+| `lazyown_hive_forget` | Prune hive episodic memory (older than N hours, optional topic filter) |
+
+### SWAN — Mixture of Experts + Reinforcement Learning
+
+| Tool | Purpose |
+|------|---------|
+| `lazyown_swan_run` | Route a task to the best expert using MoE+RL (Q-learning). Returns expert output + routing metadata |
+| `lazyown_swan_route` | **Preview** expert routing WITHOUT executing — shows which expert would be chosen and why |
+| `lazyown_swan_ensemble` | Run task with MULTIPLE experts in parallel then synthesize results (highest-confidence answer) |
+| `lazyown_swan_status` | MoE expert weights, RL epsilon, per-expert performance EMA and history |
+
+### Autonomous Daemon — Fully Independent Execution
+
+| Tool | Purpose |
+|------|---------|
+| `lazyown_autonomous_start` | Launch the daemon: 4 asyncio roles (ObjectiveLoop, ExecutionEngine, WorldModelWatcher, DroneCoordinator) |
+| `lazyown_autonomous_stop` | Terminate daemon by PID |
+| `lazyown_autonomous_status` | Real-time daemon state: phase, current objective, steps completed, active drones |
+| `lazyown_autonomous_inject` | Inject a new objective into the queue — daemon picks it up on the next cycle (no restart needed) |
+| `lazyown_autonomous_events` | Read last N events from the `autonomous_events.jsonl` stream (STEP_START/DONE, HIGH_VALUE, PHASE_CHANGE) |
+
+### Groq Agent + Atomic Red Team
+
+| Tool | Purpose |
+|------|---------|
+| `lazyown_groq_agent` | Spawn autonomous Groq/Ollama agent with **21 native LazyOwn tools** — full ReAct loop |
+| `lazyown_atomic_search` | Structured search over **1690 Atomic Red Team tests** (techniques_enriched.parquet). Filter by keyword, MITRE ID, platform, complexity |
+| `lazyown_fast_run` | Launch LazyOwn full-stack HackTheBox orchestrator: nmap + C2 + auto_loop + Flask + HTTP server + VPN |
 
 ---
 
@@ -325,7 +388,7 @@ command selection step and propagates `os_hint` to all selectors.
 **Trigger**: Any time you identify a service version (from nmap, pwntomate, whatweb, wappalyzer, banner grab).
 **Never skip this step.** A known CVE may give you direct RCE without further enumeration.
 
-The `lazyown_searchsploit` tool wraps the full `ss` command and queries **7 sources simultaneously**:
+The `lazyown_searchsploit` tool wraps the full `ss` command and queries **9 sources simultaneously**:
 
 | # | Source | What it finds |
 |---|--------|--------------|
@@ -333,9 +396,11 @@ The `lazyown_searchsploit` tool wraps the full `ss` command and queries **7 sour
 | 2 | NVD (NIST) | CVE details, CVSS scores, affected versions |
 | 3 | ExploitAlert | Community exploit repository |
 | 4 | PacketStorm Security | Exploit archive (advisories + code) |
-| 5 | Pompem | Multi-DB exploit finder, output saved to sessions/ |
-| 6 | Metasploit | Ready-to-use msf modules (set include_msf=True) |
-| 7 | Reference URLs | sploitus.com + exploits.shodan.io for follow-up |
+| 5 | Metasploit | Ready-to-use msf modules (set include_msf=True) |
+| 6 | Pompem | Multi-DB exploit finder, output saved to sessions/ |
+| 7 | Default Credentials (creds_py) | Default vendor credentials via DefaultCredsCheatSheet |
+| 8 | Sploitus | Reference URL — community CVE/exploit aggregator |
+| 9 | exploits.shodan.io | Reference URL — Shodan exploit database |
 
 **Usage pattern — call immediately after seeing a version:**
 
@@ -591,7 +656,13 @@ lazyown_next_objective()
 # Check policy recommendations
 lazyown_policy_status(target="10.10.11.78")
 
-# Launch unattended loop: reactive(0) → parquet(1) → bridge(1.5) → LLM(2) → cat_map(3) → execute → learn
+# Launch unattended loop — 6-selector cascade per step:
+#   1. ReactiveSelector  — last output patterns (AV, privesc, creds, new hosts)
+#   2. ParquetSelector   — session_knowledge.parquet proven commands
+#   3. BridgeSelector    — 347-command catalog (MITRE-mapped, OS-filtered)
+#   4. SWANSelector      — MoE+RL expert routing (AUTO_USE_SWAN=1)
+#   5. LLMSelector       — Groq/Ollama recommendation (AUTO_USE_LLM=1)
+#   6. FallbackSelector  — static OS-aware maps (always returns a result)
 lazyown_auto_loop(
     target="10.10.11.78",
     max_steps=10,
@@ -604,6 +675,11 @@ lazyown_auto_loop(
 #   2. Launches pwntomate in background (parallel tools, NO timeout)
 #   3. Refreshes FactStore — next commands are parameterised with real data
 #   4. Runs reactive_engine on each output — injects evasion/privesc decisions
+
+# For fully autonomous (no Claude needed between objectives):
+lazyown_autonomous_start(max_steps_per_objective=15, backend="groq")
+lazyown_autonomous_inject(text="Initial recon and foothold on 10.10.11.78", priority="high")
+lazyown_autonomous_events(last_n=20)   # monitor progress
 ```
 
 ### 13. Agentic event loop
@@ -644,18 +720,48 @@ lazyown_agent_result("a1b2c3d4")   # full log + final answer
 lazyown_list_agents()               # all past agents
 ```
 
-### 15. Report generation
+### 15. Report generation — full pipeline
 
-```
-# Auto-generate full Markdown pentest report
+```python
+# Step 1 — Get the complete campaign picture first
+lazyown_campaign_sitrep()
+
+# Step 2 — Verify all credentials captured
+lazyown_credentials()
+
+# Step 3 — Read campaign lessons for narrative
+lazyown_campaign_lessons()
+
+# Step 4 — Auto-generate Markdown report from session artefacts
 lazyown_generate_report(target="10.10.11.78", include_timeline=True)
 
-# Export findings to MISP for threat intel sharing
-lazyown_misp_export()
+# Step 5 — Auto-fill executive summary in PDF report body
+lazyown_report_update(action="auto_fill")
 
-# Campaign task board for the report narrative
-lazyown_campaign_tasks(action="list")
+# Step 6 — Update specific report sections with findings
+lazyown_report_update(
+    action="write",
+    key="executive_summary_findings",
+    value="Critical: AD domain compromised via Kerberoasting. Domain Admin hash cracked. Full DA access achieved."
+)
+lazyown_report_update(
+    action="write",
+    key="appendix_a_changes",
+    value="1) Created user 'backdoor_svc' on DC01 (removed after test)\n2) Modified ACL on AdminSDHolder (reverted)"
+)
+
+# Step 7 — Read what's currently in the report
+lazyown_report_update(action="read")
+
+# Step 8 — Export to MISP for threat intel sharing
+lazyown_misp_export()
 ```
+
+**PDF report data is at `static/body_report.json`** — fields rendered into the PDF template:
+- `assessment_information` — company/team contact details
+- `executive_summary_findings` — risk level, key compromises (auto-fill from session)
+- `summary_vulnerability_overview` — vulnerability table with severity badges
+- `appendix_a_changes` — environment changes made during test
 
 ### 16. Multi-target campaign
 
@@ -669,7 +775,148 @@ lazyown_set_active_target(ip="10.10.11.78", status="owned")
 lazyown_set_active_target(ip="10.10.11.89", status="in_progress")
 ```
 
-### 17. Integrate any GitHub tool on the fly
+### 17. Operator shift handoff — zero-gap continuity
+
+This workflow allows the **next operator (human or AI) to pick up exactly where the last left off** with zero manual briefing:
+
+```python
+# Outgoing operator — before ending shift:
+# 1. Document what was found and what's next
+lazyown_c2_notes(action="append", note="Kerberoasting complete — 3 hashes dumped. WinRM working on 10.10.11.78 as j.fleischman. Next: BloodHound to find DA path.")
+# 2. Update task statuses
+lazyown_campaign_tasks(action="update", task_id=2, status="Done")
+lazyown_campaign_tasks(action="add", title="Run BloodHound for DA path", description="Use j.fleischman:J0elTHEM4n1990!", operator="claude_agent")
+# 3. Pre-fill report executive summary
+lazyown_report_update(action="auto_fill")
+# 4. Inject next objectives for the autonomous daemon
+lazyown_autonomous_inject(text="BloodHound collect on VariaType.htb to find DA path", priority="high")
+
+# Incoming operator — start of shift:
+lazyown_campaign_sitrep()          # full picture in one call
+lazyown_c2_notes(action="read")   # read handoff notes
+lazyown_campaign_lessons()         # learned patterns
+lazyown_credentials()              # know what you have
+lazyown_session_state()            # live phase + last commands
+```
+
+**The autonomous daemon continues working between shifts** — inject objectives and let it run.
+
+### 17b. Hive Mind — massively parallel multi-agent analysis
+
+```python
+# 1. Let the Queen decompose a complex goal (dry-run first)
+lazyown_hive_plan(goal="Fully compromise darkzero.htb Active Directory")
+# → decomposition: [recon drone, exploit drone, cred drone, lateral drone]
+
+# 2. Spawn 4 specialized drones in PARALLEL
+lazyown_hive_spawn(
+    goal="Enumerate all AD users and find Kerberoastable accounts on darkzero.htb",
+    n_drones=4,
+    roles=["recon", "exploit", "cred", "lateral"],
+    backend="groq",
+    wait=False       # non-blocking — returns drone IDs
+)
+
+# 3. Poll status
+lazyown_hive_status()
+
+# 4. Wait for synthesis (Queen aggregates drone results)
+lazyown_hive_collect(goal="Enumerate AD users", timeout_s=120)
+
+# 5. Semantic recall from unified ChromaDB + episodic SQLite + Parquet long-term
+lazyown_hive_recall(query="kerberoast SPN hash", n=5)
+
+# 6. Prune stale memory
+lazyown_hive_forget(older_than_hours=48, topic="recon")
+```
+
+**Memory layers:**
+- **Working memory**: current task context (shared via HiveBus)
+- **Episodic memory**: SQLite FTS5 (`sessions/hive/episodic.db`) — events, commands, outcomes
+- **Semantic memory**: ChromaDB vectors (`sessions/hive/chromadb/`) — similarity search
+- **Long-term memory**: Parquet (`parquets/`) — GTFOBins, LOLBas, MITRE ATT&CK
+
+### 17b. SWAN — Mixture of Experts with Reinforcement Learning
+
+```python
+# Route a task to the best expert (Q-learning decides which expert)
+lazyown_swan_run(task_type="exploit", task="Suggest best exploit for SMB ms17-010", phase="exploit")
+
+# Preview routing without executing
+lazyown_swan_route(task_type="privesc", task="Linux privesc with sudo -l output")
+# → expert_id=exploit_specialist, weight=0.72, rl_epsilon=0.12
+
+# Ensemble: run ALL experts in parallel and synthesize
+lazyown_swan_ensemble(task_type="cred", task="Enumerate credentials after BloodHound recon", phase="cred")
+
+# See MoE health and learning state
+lazyown_swan_status()
+# → experts: [recon(0.68), exploit(0.72), privesc(0.65), cred(0.71), lateral(0.69)]
+# → RL epsilon: 0.12 (exploitation-dominant)
+```
+
+**When to use SWAN vs Hive:**
+- **SWAN**: single best expert for a specific tactical decision (fast, low overhead)
+- **Hive**: N specialized agents for a complex multi-stage goal (slower, parallel, synthesized)
+
+### 17c. Autonomous Daemon — fire-and-forget autonomous loop
+
+```python
+# Start the daemon (4 asyncio roles, runs independently of Claude)
+lazyown_autonomous_start(max_steps_per_objective=15, backend="groq")
+
+# Inject objectives — daemon picks them up in real-time
+lazyown_autonomous_inject(text="Gain initial foothold via SMB on 10.10.11.78", priority="high")
+lazyown_autonomous_inject(text="Escalate privileges once on host", priority="normal")
+
+# Monitor execution in real-time
+lazyown_autonomous_status()
+# → phase=exploit, objective="Gain initial foothold", step=4/15, drones=2
+
+# Read the event stream (STEP_START, STEP_DONE, HIGH_VALUE, PHASE_CHANGE, DRONE_SPAWNED)
+lazyown_autonomous_events(last_n=20)
+
+# Stop when done
+lazyown_autonomous_stop()
+```
+
+**Autonomous daemon 6-selector cascade (in order):**
+1. **ReactiveSelector** — parses last output for AV/EDR evasion, privesc hints, creds, new hosts. Priority ≤2 auto-injected.
+2. **ParquetSelector** — queries `session_knowledge.parquet` for commands that succeeded in past sessions for this phase+target
+3. **BridgeSelector** — queries the 347-command catalog (11 phases, MITRE-mapped) with OS + service hints
+4. **SWANSelector** — routes to best MoE expert via Q-learning (enabled with `AUTO_USE_SWAN=1`)
+5. **LLMSelector** — calls Groq/Ollama for intelligent suggestion (enabled with `AUTO_USE_LLM=1`)
+6. **FallbackSelector** — OS-aware static maps (`_FALLBACK_MAP_LINUX` / `_FALLBACK_MAP_WINDOWS`)
+
+**Env vars to enable full cascade:**
+```bash
+export AUTO_USE_SWAN=1      # activate SWAN expert routing
+export AUTO_USE_LLM=1       # activate Groq/Ollama LLM selector
+export AUTO_MAX_STEPS=20    # steps per objective (default 10)
+export AUTO_STEP_TIMEOUT=90 # per-step timeout in seconds
+export AUTO_HIVE_BACKEND=groq
+```
+
+### 17d. Atomic Red Team search
+
+```python
+# Search by keyword
+lazyown_atomic_search(keyword="kerberoast")
+
+# Search by MITRE technique
+lazyown_atomic_search(mitre_id="T1558")
+
+# Filter by platform and complexity
+lazyown_atomic_search(keyword="credential", platform="windows", complexity="low")
+
+# All tests for a MITRE tactic prefix
+lazyown_atomic_search(mitre_id="T1547")   # all T1547.xxx subtechniques
+```
+
+Returns: technique id, name, MITRE ID, platform list, scope, complexity, prerequisites.
+Source: `parquets/techniques_enriched.parquet` (1690 tests from Atomic Red Team project).
+
+### 18. Integrate any GitHub tool on the fly
 
 ```
 lazyown_list_addons()
@@ -682,6 +929,81 @@ lazyown_create_addon(
     params=[{"name": "rhost", "required": true, "description": "Target domain"}]
 )
 # 'subfinder' is now available in the LazyOwn shell
+```
+
+---
+
+## Complete Data Sources Reference (26 sources)
+
+LazyOwn aggregates **26 data sources** across 4 layers. When performing lateral thinking on a problem, consult multiple layers:
+
+### Layer 1 — Parquet Knowledge Bases (7 sources)
+Access via `lazyown_parquet_query` and `lazyown_atomic_search`
+
+| # | Source | Parquet file | Query mode |
+|---|--------|-------------|-----------|
+| 1 | Session history | `session_knowledge.parquet` | `mode=session` — proven commands per phase/target |
+| 2 | GTFOBins | `binarios.parquet` | `mode=keyword` — living-off-the-land Unix binaries |
+| 3 | GTFOBins detail | `detalles.parquet` | `mode=keyword` — full command flags and context |
+| 4 | LOLBAS index | `lolbas_index.parquet` | `mode=keyword` — Windows LOLBins index |
+| 5 | LOLBAS detail | `lolbas_details.parquet` | `mode=keyword` — full Windows LOLBin commands |
+| 6 | MITRE ATT&CK | `techniques.parquet` | `mode=context` — tactic/technique mapping |
+| 7 | Atomic Red Team | `techniques_enriched.parquet` | `lazyown_atomic_search` — 1690 test cases |
+
+### Layer 2 — Exploit Intelligence (9 sources)
+Access via `lazyown_searchsploit` and `lazyown_cve_search`
+
+| # | Source | Tool | Type |
+|---|--------|------|------|
+| 8 | ExploitDB / searchsploit | `lazyown_searchsploit` | Offline PoC database |
+| 9 | NVD (NIST) | `lazyown_searchsploit`, `lazyown_cve_search` | CVE + CVSS scores |
+| 10 | ExploitAlert | `lazyown_searchsploit` | Community exploits API |
+| 11 | PacketStorm Security | `lazyown_searchsploit` | Exploit archive |
+| 12 | Metasploit Framework | `lazyown_searchsploit` | Ready-to-use msf modules |
+| 13 | Pompem | `lazyown_searchsploit` | Multi-DB exploit finder |
+| 14 | Default Credentials | `lazyown_searchsploit` | DefaultCredsCheatSheet via creds_py |
+| 15 | Sploitus | `lazyown_searchsploit` | Reference URL (community aggregator) |
+| 16 | exploits.shodan.io | `lazyown_searchsploit` | Reference URL (Shodan exploit DB) |
+
+### Layer 3 — Session Intelligence (8 sources)
+Access via `lazyown_rag_query`, `lazyown_hive_recall`, `lazyown_facts_show`, `lazyown_campaign_sitrep`
+
+| # | Source | Tool | Content |
+|---|--------|------|---------|
+| 17 | ChromaDB RAG | `lazyown_rag_query`, `lazyown_hive_recall` | Semantic search over all sessions/ artefacts |
+| 18 | SQLite episodic memory | `lazyown_hive_recall`, `lazyown_memory_recall` | Per-session events, commands, outcomes (FTS5) |
+| 19 | FactStore | `lazyown_facts_show` | Structured facts: ports, services, creds, shares, access level |
+| 20 | sessionLazyOwn.json | `lazyown_campaign_sitrep`, `lazyown_c2_notes`, `lazyown_credentials` | Full operator session: params, creds, hashes, implants, notes, plan |
+| 21 | tasks.json | `lazyown_campaign_tasks`, `lazyown_campaign_sitrep` | Task board: all objectives + status workflow |
+| 22 | campaign_lessons.jsonl | `lazyown_campaign_lessons`, `lazyown_campaign_sitrep` | Derived tactical lessons from milestones |
+| 23 | LazyOwn_session_report.csv | `lazyown_threat_model`, `lazyown_timeline`, `lazyown_campaign_sitrep` | Full command history with timestamps |
+| 24 | body_report.json | `lazyown_report_update` | PDF report template fields (executive summary, findings, etc.) |
+
+### Layer 4 — Adversarial Intelligence (2 sources)
+Access via `lazyown_playbook_generate`, `lazyown_threat_model`
+
+| # | Source | Tool | Content |
+|---|--------|------|---------|
+| 20 | STIX2 | `lazyown_playbook_generate` | MITRE ATT&CK STIX2 objects for playbook grounding |
+| 21 | WorldModel | `lazyown_session_state`, `lazyown_autonomous_status` | Live host state machine + engagement phase |
+
+### Lateral thinking query pattern — use ALL layers before deciding
+```python
+# START: complete campaign picture
+lazyown_campaign_sitrep()                                                # L3 - all 10 state files
+lazyown_credentials()                                                    # L3 - know what you have
+
+# KNOWLEDGE: query all knowledge layers
+lazyown_parquet_query(mode="context", phase="privesc", target=rhost)   # L1 - past + GTFOBins + MITRE
+lazyown_searchsploit(query="<service> <version>")                       # L2 - all 9 exploit sources
+lazyown_rag_query(query="<goal or technique>", n=5)                    # L3 - semantic session recall
+lazyown_hive_recall(query="<credential type or technique>", n=5)       # L3 - episodic hive memory
+lazyown_atomic_search(keyword="<technique>", platform="linux")         # L1 - 1690 Atomic Red Team tests
+lazyown_bridge_suggest(phase="privesc", os_hint="linux", sequence=True) # catalog - next 5 commands
+lazyown_campaign_lessons(topic="privesc")                               # L3 - learned patterns
+
+# SYNTHESIZE with experts
+lazyown_swan_ensemble(task_type="privesc", task="Best privesc path given: <context>", phase="privesc")
 ```
 
 ---
@@ -935,6 +1257,13 @@ ollama pull mistral        # excellent for pentesting
 - Session data (logs, exfil, screenshots) is stored under `sessions/`.
 - `lazyown_addon_*`, `lazyown_plugin_*`, `lazyown_tool_*` are auto-discovered at startup. Run `mcp restart` to pick up new ones.
 - **Never kill or timeout `lazynmap` or `pwntomate`** — they are intentionally long-running.
+- Autonomous daemon env vars: `AUTO_USE_SWAN=1`, `AUTO_USE_LLM=1`, `AUTO_MAX_STEPS=N`, `AUTO_STEP_TIMEOUT=N`, `AUTO_HIVE_BACKEND=groq|ollama`
+- Hive Mind requires ChromaDB for semantic search: `pip install chromadb`
+- SWAN+LLM selectors disabled by default in auto_loop — set env vars to enable full 6-selector cascade
+- 26 total data sources: 7 Parquets + 9 exploit sources + 8 session intelligence + 2 adversarial intelligence
+- PDF report body at `static/body_report.json` — use `lazyown_report_update` to read/write fields
+- Operator shift handoff: `lazyown_c2_notes(action="append")` then `lazyown_campaign_sitrep()` for incoming operator
+- Session state files: sessionLazyOwn.json (creds+implants), tasks.json, campaign_lessons.jsonl, campaign.json
 
 
 

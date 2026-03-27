@@ -785,6 +785,17 @@ async def list_tools() -> list[types.Tool]:
             },
         ),
         types.Tool(
+            name="lazyown_list_event_rules",
+            description=(
+                "List all active event detection rules in the LazyOwn Event Engine. "
+                "Returns id, description, trigger conditions, event_type, severity, and suggest action "
+                "for every rule currently registered in sessions/event_rules.json. "
+                "Use this to audit what patterns are being monitored, identify gaps, "
+                "and avoid duplicating existing rules before calling lazyown_add_rule."
+            ),
+            inputSchema={"type": "object", "properties": {}},
+        ),
+        types.Tool(
             name="lazyown_heartbeat_status",
             description="Check whether the LazyOwn Heartbeat process is running. Returns PID and event counts.",
             inputSchema={"type": "object", "properties": {}},
@@ -1017,6 +1028,124 @@ async def list_tools() -> list[types.Tool]:
                     },
                 },
                 "required": ["ip"],
+            },
+        ),
+        # ── Master campaign SITREP ────────────────────────────────────────────
+        types.Tool(
+            name="lazyown_campaign_sitrep",
+            description=(
+                "MASTER CAMPAIGN SITUATION REPORT — single call that aggregates ALL campaign state files "
+                "into one concise operator briefing. Reads and synthesizes: "
+                "(1) world_model.json — host states, services, credentials, phase; "
+                "(2) sessions/tasks.json — task board (New/Started/Done/Blocked); "
+                "(3) sessions/objectives.jsonl — active objectives queue; "
+                "(4) sessions/sessionLazyOwn.json — operator credentials, hashes, implants, notes; "
+                "(5) sessions/credentials*.txt — captured credential files; "
+                "(6) sessions/campaign.json — campaign scope, milestones; "
+                "(7) sessions/campaign_lessons.jsonl — derived lessons from completed objectives; "
+                "(8) sessions/autonomous_status.json — daemon phase and step counter; "
+                "(9) sessions/autonomous_events.jsonl — last 10 autonomous actions; "
+                "(10) sessions/LazyOwn_session_report.csv — command count and success rate summary. "
+                "Returns a structured SITREP: PHASE / HOSTS / CREDS / TASKS / OBJECTIVES / LESSONS / DAEMON. "
+                "Use this at the start of every operator shift and before any strategic decision."
+            ),
+            inputSchema={"type": "object", "properties": {}},
+        ),
+        types.Tool(
+            name="lazyown_c2_notes",
+            description=(
+                "Read, append, or clear the operational notes stored in sessions/sessionLazyOwn.json. "
+                "Notes are the operator's running commentary — tactical observations, context, "
+                "pivot ideas, and handoff messages for the next shift. "
+                "actions: 'read' (default) | 'append' (adds a timestamped note) | 'clear'"
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "action": {
+                        "type": "string",
+                        "enum": ["read", "append", "clear"],
+                        "default": "read",
+                    },
+                    "note": {
+                        "type": "string",
+                        "description": "Note text to append (required for action=append).",
+                    },
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_credentials",
+            description=(
+                "Aggregate ALL captured credentials from every source in the session: "
+                "(1) sessions/credentials*.txt — raw cred files; "
+                "(2) sessions/sessionLazyOwn.json credentials + hashes arrays; "
+                "(3) sessions/world_model.json credentials list; "
+                "(4) sessions/facts_store.json (if present). "
+                "Returns a deduped, formatted table: user, password/hash, host, source, confirmed. "
+                "Also returns id_rsa keys found in sessionLazyOwn.json. "
+                "Call this before any lateral movement or privilege escalation attempt."
+            ),
+            inputSchema={"type": "object", "properties": {}},
+        ),
+        types.Tool(
+            name="lazyown_report_update",
+            description=(
+                "Read or update the PDF/HTML pentest report data in static/body_report.json. "
+                "Fields: assessment_information, engagement_overview, service_description, "
+                "campaign_objectives, process_and_methodology, scoping_and_rules, "
+                "executive_summary_findings, executive_summary_narrative, "
+                "summary_vulnerability_overview, security_labs_toolkit, appendix_a_changes. "
+                "action='read' — returns all current field values. "
+                "action='write' — updates a single field by key+value. "
+                "action='auto_fill' — uses session facts/timeline to auto-generate executive_summary_findings "
+                "and summary_vulnerability_overview from the current session data."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "action": {
+                        "type": "string",
+                        "enum": ["read", "write", "auto_fill"],
+                        "default": "read",
+                    },
+                    "key": {
+                        "type": "string",
+                        "description": "Report field key to update (required for action=write).",
+                    },
+                    "value": {
+                        "type": "string",
+                        "description": "New content for the field (required for action=write).",
+                    },
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_campaign_lessons",
+            description=(
+                "Read campaign lessons derived from completed objectives. "
+                "Lessons are tactical insights written to sessions/campaign_lessons.jsonl "
+                "at each milestone. Each lesson has: campaign_id, topic, lesson text, context, timestamp. "
+                "topics: intrusion, privesc, lateral, cred, scope_coverage, campaign_duration, other. "
+                "Use these to avoid repeating mistakes and carry forward winning techniques."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "topic": {
+                        "type": "string",
+                        "description": "Filter by topic (optional). Leave empty for all lessons.",
+                        "default": "",
+                    },
+                    "last_n": {
+                        "type": "integer",
+                        "description": "Return only the last N lessons (default 20).",
+                        "default": 20,
+                    },
+                },
+                "required": [],
             },
         ),
         # ── Session intelligence ──────────────────────────────────────────────
@@ -3720,6 +3849,24 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         )
         return text(f"Rule '{rule['id']}' {result}. Total rules: {len(load_rules())}")
 
+    # ── list_event_rules ───────────────────────────────────────────────────────
+    elif name == "lazyown_list_event_rules":
+        if not _ensure_engine():
+            return text("Event engine not available.")
+        rules = await asyncio.get_event_loop().run_in_executor(None, load_rules)
+        if not rules:
+            return text("No event detection rules registered.")
+        lines = [f"Active event detection rules ({len(rules)} total):\n"]
+        for r in rules:
+            trigger_parts = [f"{k}={v!r}" for k, v in r.get("trigger", {}).items()]
+            lines.append(
+                f"[{r['id']}] {r.get('event_type','?')} ({r.get('severity','info')})\n"
+                f"  Desc   : {r.get('description','')}\n"
+                f"  Trigger: {', '.join(trigger_parts) or '(none)'}\n"
+                f"  Suggest: {r.get('suggest','')}\n"
+            )
+        return text("\n".join(lines))
+
     # ── heartbeat_status ──────────────────────────────────────────────────────
     elif name == "lazyown_heartbeat_status":
         if not _ensure_engine():
@@ -3750,6 +3897,343 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             f"To start: python3 skills/heartbeat.py --interval 5 &",
         ]
         return text("\n".join(status_lines))
+
+    # ── campaign_sitrep ───────────────────────────────────────────────────────
+    elif name == "lazyown_campaign_sitrep":
+        import csv as _csv
+        lines = ["=" * 60, "CAMPAIGN SITREP", "=" * 60]
+
+        # 1. World model
+        wm_file = SESSIONS_DIR / "world_model.json"
+        if wm_file.exists():
+            try:
+                wm = json.loads(wm_file.read_text())
+                hosts = wm.get("hosts", {})
+                creds_wm = wm.get("credentials", [])
+                phase_counts: dict = {}
+                for h in hosts.values():
+                    s = h.get("state", "unscanned")
+                    phase_counts[s] = phase_counts.get(s, 0) + 1
+                lines.append(f"\n[WORLD MODEL] hosts={len(hosts)} | states={phase_counts}")
+                for ip, h in list(hosts.items())[:10]:
+                    svcs = ", ".join(f"{p}/{v.get('name','?')}" for p, v in h.get("services", {}).items())
+                    lines.append(f"  {ip} [{h.get('state','?')}] os={h.get('os_hint','?')} svc={svcs or '(none)'}")
+                if creds_wm:
+                    lines.append(f"  Credentials in world model: {len(creds_wm)}")
+                    for c in creds_wm[:5]:
+                        lines.append(f"    {c.get('value','?')} on {c.get('host','?')} ({c.get('service','?')})")
+            except Exception as e:
+                lines.append(f"[WORLD MODEL] error: {e}")
+        else:
+            lines.append("[WORLD MODEL] not found")
+
+        # 2. Session JSON (credentials, hashes, implants, notes)
+        sj_file = SESSIONS_DIR / "sessionLazyOwn.json"
+        if sj_file.exists():
+            try:
+                sj = json.loads(sj_file.read_text())
+                creds_sj = sj.get("credentials", [])
+                hashes_sj = sj.get("hashes", [])
+                implants = sj.get("implants", [])
+                notes_sj = sj.get("notes") or ""
+                plan_sj = sj.get("plan") or ""
+                id_rsas = sj.get("id_rsa", [])
+                lines.append(f"\n[SESSION JSON] ts={sj.get('timestamp','?')} creds={len(creds_sj)} hashes={len(hashes_sj)} implants={len(implants)} id_rsa={len(id_rsas)}")
+                for c in creds_sj[:5]:
+                    lines.append(f"  cred: {c.get('username','?')}:{c.get('contraseña','?')}")
+                for h in hashes_sj[:3]:
+                    lines.append(f"  hash: {h}")
+                if notes_sj:
+                    lines.append(f"  notes: {str(notes_sj)[:200]}")
+                if plan_sj:
+                    lines.append(f"  plan: {str(plan_sj)[:200]}")
+            except Exception as e:
+                lines.append(f"[SESSION JSON] error: {e}")
+
+        # 3. Credentials files
+        import glob as _glob
+        cred_files = _glob.glob(str(SESSIONS_DIR / "credentials*.txt"))
+        if cred_files:
+            lines.append(f"\n[CRED FILES] {len(cred_files)} files")
+            for cf in cred_files[:5]:
+                try:
+                    content = Path(cf).read_text().strip()
+                    lines.append(f"  {Path(cf).name}: {content[:120]}")
+                except Exception:
+                    pass
+
+        # 4. Tasks
+        tasks_file = SESSIONS_DIR / "tasks.json"
+        if tasks_file.exists():
+            try:
+                tasks = json.loads(tasks_file.read_text())
+                by_status: dict = {}
+                for t in tasks:
+                    s = t.get("status", "?")
+                    by_status[s] = by_status.get(s, 0) + 1
+                lines.append(f"\n[TASKS] total={len(tasks)} {by_status}")
+                for t in tasks:
+                    if t.get("status") not in ("Done",):
+                        lines.append(f"  [{t.get('status','?')}] #{t.get('id','?')}: {t.get('title','')[:80]}")
+            except Exception as e:
+                lines.append(f"[TASKS] error: {e}")
+
+        # 5. Objectives
+        obj_file = SESSIONS_DIR / "objectives.jsonl"
+        if obj_file.exists():
+            try:
+                objs = [json.loads(l) for l in obj_file.read_text().splitlines() if l.strip()]
+                pending = [o for o in objs if o.get("status") == "pending"]
+                done = [o for o in objs if o.get("status") == "done"]
+                lines.append(f"\n[OBJECTIVES] total={len(objs)} pending={len(pending)} done={len(done)}")
+                for o in pending[:5]:
+                    lines.append(f"  [pending] {o.get('title','?')[:80]} (p={o.get('priority','?')})")
+            except Exception as e:
+                lines.append(f"[OBJECTIVES] error: {e}")
+
+        # 6. Campaign
+        camp_file = SESSIONS_DIR / "campaign.json"
+        if camp_file.exists():
+            try:
+                camp = json.loads(camp_file.read_text())
+                lines.append(f"\n[CAMPAIGN] name={camp.get('name','?')} scope={camp.get('scope',[])} status={camp.get('status','?')}")
+                for hdata in camp.get("hosts", {}).values():
+                    lines.append(f"  {hdata.get('ip','?')} phase={hdata.get('phase','?')} milestones={len(hdata.get('milestones',[]))}")
+            except Exception as e:
+                lines.append(f"[CAMPAIGN] error: {e}")
+
+        # 7. Campaign lessons
+        lessons_file = SESSIONS_DIR / "campaign_lessons.jsonl"
+        if lessons_file.exists():
+            try:
+                lessons = [json.loads(l) for l in lessons_file.read_text().splitlines() if l.strip()]
+                lines.append(f"\n[LESSONS] {len(lessons)} lessons from {len(set(l.get('campaign_id') for l in lessons))} campaigns")
+                for les in lessons[-3:]:
+                    lines.append(f"  [{les.get('topic','?')}] {les.get('lesson','')[:120]}")
+            except Exception as e:
+                lines.append(f"[LESSONS] error: {e}")
+
+        # 8. Autonomous daemon status
+        aut_status = SESSIONS_DIR / "autonomous_status.json"
+        if aut_status.exists():
+            try:
+                st = json.loads(aut_status.read_text())
+                lines.append(f"\n[DAEMON] running={st.get('running')} phase={st.get('phase')} step={st.get('steps_done')}/{st.get('max_steps')} obj={str(st.get('current_objective',''))[:60]}")
+            except Exception as e:
+                lines.append(f"[DAEMON] error: {e}")
+
+        # 9. Last 5 autonomous events
+        aut_events = SESSIONS_DIR / "autonomous_events.jsonl"
+        if aut_events.exists():
+            try:
+                evts = [json.loads(l) for l in aut_events.read_text().splitlines() if l.strip()]
+                lines.append(f"\n[AUTO EVENTS] last {min(5, len(evts))}")
+                for ev in evts[-5:]:
+                    p = ev.get("payload", {})
+                    lines.append(f"  [{ev.get('type','?')}] {str(p.get('command') or p.get('objective') or p.get('phase') or '')[:60]}")
+            except Exception as e:
+                lines.append(f"[AUTO EVENTS] error: {e}")
+
+        # 10. CSV summary
+        csv_file = SESSIONS_DIR / "LazyOwn_session_report.csv"
+        if csv_file.exists():
+            try:
+                with open(str(csv_file), newline="", errors="replace") as f:
+                    rows = list(_csv.DictReader(f))
+                total = len(rows)
+                cmds = set(r.get("command","") for r in rows)
+                lines.append(f"\n[SESSION CSV] {total} command rows, {len(cmds)} unique commands")
+            except Exception as e:
+                lines.append(f"[SESSION CSV] error: {e}")
+
+        lines.append("\n" + "=" * 60)
+        return text("\n".join(lines))
+
+    # ── c2_notes ──────────────────────────────────────────────────────────────
+    elif name == "lazyown_c2_notes":
+        action = arguments.get("action", "read")
+        sj_file = SESSIONS_DIR / "sessionLazyOwn.json"
+        try:
+            sj = json.loads(sj_file.read_text()) if sj_file.exists() else {}
+        except Exception:
+            sj = {}
+        if action == "read":
+            notes = sj.get("notes") or "(no notes)"
+            return text(f"Operational notes:\n{notes}")
+        elif action == "append":
+            note_text = arguments.get("note", "").strip()
+            if not note_text:
+                return text("note parameter required for action=append")
+            ts = __import__("datetime").datetime.now().isoformat(timespec="seconds")
+            existing = sj.get("notes") or ""
+            sj["notes"] = (existing + f"\n[{ts}] {note_text}").strip()
+            SESSIONS_DIR.mkdir(parents=True, exist_ok=True)
+            sj_file.write_text(json.dumps(sj, indent=4, ensure_ascii=False))
+            return text(f"Note appended at {ts}.")
+        elif action == "clear":
+            sj["notes"] = ""
+            sj_file.write_text(json.dumps(sj, indent=4, ensure_ascii=False))
+            return text("Notes cleared.")
+        return text(f"Unknown action: {action}")
+
+    # ── credentials ───────────────────────────────────────────────────────────
+    elif name == "lazyown_credentials":
+        import glob as _glob
+        rows = []
+        seen: set = set()
+
+        def _add(user: str, secret: str, host: str, source: str, confirmed: bool = False):
+            key = f"{user}:{secret}:{host}"
+            if key not in seen:
+                seen.add(key)
+                rows.append({"user": user, "secret": secret, "host": host, "source": source, "confirmed": confirmed})
+
+        # 1. credential txt files
+        for cf in _glob.glob(str(SESSIONS_DIR / "credentials*.txt")):
+            try:
+                for line in Path(cf).read_text().splitlines():
+                    line = line.strip()
+                    if ":" in line:
+                        u, _, p = line.partition(":")
+                        _add(u.strip(), p.strip(), "?", Path(cf).name, True)
+            except Exception:
+                pass
+
+        # 2. sessionLazyOwn.json
+        sj_file = SESSIONS_DIR / "sessionLazyOwn.json"
+        if sj_file.exists():
+            try:
+                sj = json.loads(sj_file.read_text())
+                for c in sj.get("credentials", []):
+                    _add(c.get("username","?"), c.get("contraseña","?"), "?", "session_json", True)
+                for h in sj.get("hashes", []):
+                    _add("?", str(h), "?", "session_json_hash", False)
+                for k in sj.get("id_rsa", []):
+                    _add("id_rsa", str(k)[:40], "?", "session_json_key", True)
+            except Exception:
+                pass
+
+        # 3. world_model credentials
+        wm_file = SESSIONS_DIR / "world_model.json"
+        if wm_file.exists():
+            try:
+                wm = json.loads(wm_file.read_text())
+                for c in wm.get("credentials", []):
+                    val = c.get("value","?")
+                    if ":" in val:
+                        u, _, p = val.partition(":")
+                        _add(u, p, c.get("host","?"), "world_model", c.get("confirmed", False))
+                    else:
+                        _add("?", val, c.get("host","?"), "world_model_hash", False)
+            except Exception:
+                pass
+
+        if not rows:
+            return text("No credentials found in session files.")
+        lines = [f"Captured credentials ({len(rows)} unique):", ""]
+        for r in rows:
+            conf = "[✓]" if r["confirmed"] else "[?]"
+            lines.append(f"{conf} {r['user']}:{r['secret']}  host={r['host']}  src={r['source']}")
+        return text("\n".join(lines))
+
+    # ── report_update ─────────────────────────────────────────────────────────
+    elif name == "lazyown_report_update":
+        report_file = LAZYOWN_DIR / "static" / "body_report.json"
+        action = arguments.get("action", "read")
+        REPORT_FIELDS = [
+            "assessment_information", "engagement_overview", "service_description",
+            "campaign_objectives", "process_and_methodology", "scoping_and_rules",
+            "executive_summary_findings", "executive_summary_narrative",
+            "summary_vulnerability_overview", "security_labs_toolkit", "appendix_a_changes",
+        ]
+        try:
+            body = json.loads(report_file.read_text()) if report_file.exists() else {}
+        except Exception as e:
+            body = {}
+
+        if action == "read":
+            lines = ["Report fields in static/body_report.json:", ""]
+            for k in REPORT_FIELDS:
+                v = str(body.get(k, "(empty)"))[:200]
+                lines.append(f"[{k}]\n  {v}\n")
+            return text("\n".join(lines))
+
+        elif action == "write":
+            key = arguments.get("key", "")
+            value = arguments.get("value", "")
+            if not key:
+                return text("key parameter required for action=write")
+            body[key] = value
+            report_file.parent.mkdir(parents=True, exist_ok=True)
+            report_file.write_text(json.dumps(body, indent=4, ensure_ascii=False))
+            return text(f"Report field '{key}' updated ({len(value)} chars).")
+
+        elif action == "auto_fill":
+            # Auto-generate executive summary from session facts and world model
+            summary_parts = []
+            wm_file = SESSIONS_DIR / "world_model.json"
+            if wm_file.exists():
+                try:
+                    wm = json.loads(wm_file.read_text())
+                    hosts = wm.get("hosts", {})
+                    owned = [ip for ip, h in hosts.items() if h.get("state") in ("exploited", "owned")]
+                    scanned = [ip for ip, h in hosts.items() if h.get("state") == "scanned"]
+                    creds = wm.get("credentials", [])
+                    summary_parts.append(f"Hosts discovered: {len(hosts)} | Compromised: {len(owned)} | Scanned only: {len(scanned)}")
+                    if owned:
+                        summary_parts.append(f"Compromised hosts: {', '.join(owned)}")
+                    if creds:
+                        summary_parts.append(f"Credentials captured: {len(creds)}")
+                except Exception:
+                    pass
+            obj_file = SESSIONS_DIR / "objectives.jsonl"
+            if obj_file.exists():
+                try:
+                    objs = [json.loads(l) for l in obj_file.read_text().splitlines() if l.strip()]
+                    done = [o for o in objs if o.get("status") == "done"]
+                    summary_parts.append(f"Objectives completed: {len(done)}/{len(objs)}")
+                except Exception:
+                    pass
+            lessons_file = SESSIONS_DIR / "campaign_lessons.jsonl"
+            if lessons_file.exists():
+                try:
+                    lessons = [json.loads(l) for l in lessons_file.read_text().splitlines() if l.strip()]
+                    for les in lessons[-5:]:
+                        summary_parts.append(f"- [{les.get('topic','?')}] {les.get('lesson','')[:100]}")
+                except Exception:
+                    pass
+            auto_text = "\n".join(summary_parts) or "(insufficient session data)"
+            body["executive_summary_findings"] = auto_text
+            report_file.parent.mkdir(parents=True, exist_ok=True)
+            report_file.write_text(json.dumps(body, indent=4, ensure_ascii=False))
+            return text(f"executive_summary_findings auto-filled:\n{auto_text}")
+
+        return text(f"Unknown action: {action}")
+
+    # ── campaign_lessons ──────────────────────────────────────────────────────
+    elif name == "lazyown_campaign_lessons":
+        topic_filter = arguments.get("topic", "").strip()
+        last_n = int(arguments.get("last_n", 20))
+        lessons_file = SESSIONS_DIR / "campaign_lessons.jsonl"
+        if not lessons_file.exists():
+            return text("No campaign lessons found. Run a campaign with milestones to generate lessons.")
+        try:
+            lessons = [json.loads(l) for l in lessons_file.read_text().splitlines() if l.strip()]
+        except Exception as e:
+            return text(f"Error reading lessons: {e}")
+        if topic_filter:
+            lessons = [l for l in lessons if l.get("topic","") == topic_filter]
+        lessons = lessons[-last_n:]
+        if not lessons:
+            return text(f"No lessons found{' for topic=' + topic_filter if topic_filter else ''}.")
+        lines = [f"Campaign lessons ({len(lessons)} entries):", ""]
+        for les in lessons:
+            lines.append(
+                f"[{les.get('campaign_name','?')}] [{les.get('topic','?')}] {les.get('derived_at','')[:10]}\n"
+                f"  {les.get('lesson','')}\n"
+                f"  ctx: {les.get('context','')}\n"
+            )
+        return text("\n".join(lines))
 
     # ── session_state ─────────────────────────────────────────────────────────
     elif name == "lazyown_session_state":

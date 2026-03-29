@@ -1081,6 +1081,7 @@ async def _run_objective(
     phase:   str              = "recon"
     services: List[str]       = []
     _consecutive_list: int    = 0   # stuck-loop counter
+    _last_command: str        = ""  # tracks repeated command detection
 
     if world_model is not None:
         try:
@@ -1300,20 +1301,22 @@ async def _run_objective(
                 log.debug("obs_parser error: %s", exc)
 
         # ── Stuck-loop recovery ───────────────────────────────────────────────
-        # If the cascade falls back to "list" more than 3 consecutive times,
-        # the loop is stuck. Inject a lateral-thinking objective via Hive Mind
-        # or escalate the phase to break out of the spin.
-        if command.strip() == "list":
+        # Detect ANY repeated command (not just "list") — if the same command
+        # runs 3x in a row with unknown/zero reward, escalate the phase.
+        _cmd_base = command.strip().split()[0] if command.strip() else "list"
+        if _cmd_base == _last_command:
             _consecutive_list += 1
         else:
             _consecutive_list = 0
+            _last_command = _cmd_base
 
         if _consecutive_list >= 3:
-            log.warning("[%s] stuck loop detected (%d× list) — escalating phase", objective_id, _consecutive_list)
+            log.warning("[%s] stuck loop detected (%d× '%s') — escalating phase", objective_id, _consecutive_list, _last_command)
             _emit("STUCK_LOOP", {
                 "objective_id": objective_id,
                 "phase": phase,
-                "consecutive_list": _consecutive_list,
+                "repeated_command": _last_command,
+                "consecutive_count": _consecutive_list,
             })
             # Try to advance phase via world_model, otherwise hard-advance
             _phase_order = ["recon", "enum", "exploit", "postexp", "persist", "privesc",

@@ -852,6 +852,45 @@ async def list_tools() -> list[types.Tool]:
             },
         ),
         types.Tool(
+            name="lazyown_phase_guide",
+            description=(
+                "COMPLETE OPERATOR GUIDE for a specific pentest phase. "
+                "Returns everything needed to operate autonomously in that phase: "
+                "(1) ALL commands available from the bridge catalog for this phase — "
+                "    name, description, MITRE tactic, OS target, required services, needs-creds flag; "
+                "(2) Payload.json keys that must be set for each command (rhost/domain/wordlist/creds); "
+                "(3) Key aliases for the phase (e.g. 'ww' = whatweb, 'nmap' = lazynmap); "
+                "(4) Phase-specific kill-chain order (which commands to run first vs last); "
+                "(5) Current payload.json state — which keys are set vs empty; "
+                "(6) Abstraction reminder: commands auto-inject all params from payload.json — "
+                "    NEVER write raw tool flags, just the command name. "
+                "Use this at the START of each phase and whenever the autonomous loop needs context."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "phase": {
+                        "type": "string",
+                        "description": "Pentest phase to get guide for.",
+                        "enum": ["recon","enum","exploit","postexp","persist","privesc",
+                                 "cred","lateral","exfil","c2","report"],
+                    },
+                    "os_hint": {
+                        "type": "string",
+                        "description": "Filter commands by OS: 'linux', 'windows', or 'any' (default).",
+                        "default": "any",
+                    },
+                    "services": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "Discovered services to filter commands (e.g. ['http', 'smb', 'ldap']).",
+                        "default": [],
+                    },
+                },
+                "required": ["phase"],
+            },
+        ),
+        types.Tool(
             name="lazyown_command_help",
             description=(
                 "Get the full documentation for any LazyOwn command by running 'help <command>'. "
@@ -1143,6 +1182,32 @@ async def list_tools() -> list[types.Tool]:
                         "type": "integer",
                         "description": "Return only the last N lessons (default 20).",
                         "default": 20,
+                    },
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_auto_populate",
+            description=(
+                "Parse the latest nmap XML scan file for a target and auto-populate payload.json "
+                "with discovered domain, OS, open services, and additional hosts. "
+                "Call this immediately after any nmap/lazynmap/rustscan command completes to ensure "
+                "subsequent commands have correct target context without manual operator intervention. "
+                "Also reads sessions/credentials.txt and auto-fills start_user/start_pass if not set."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "target": {
+                        "type": "string",
+                        "description": "Target IP or hostname to load XML for (default: reads rhost from payload.json).",
+                        "default": "",
+                    },
+                    "force": {
+                        "type": "boolean",
+                        "description": "Overwrite existing payload fields even if already set (default false).",
+                        "default": False,
                     },
                 },
                 "required": [],
@@ -3500,27 +3565,183 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         out += ["", "## WHAT'S MISSING / GAPS"]
         out += missing
 
+        # Build inline phase guide for current phase
+        _phase_aliases_si = {
+            "recon":   "nmap=lazynmap | hosts_discover=sweep | arpscan=arp-scan | ping=OS-detect(TTL)",
+            "enum":    "ww=whatweb | gobuster=dirbust | ffuf=fuzz | ss=exploit-search | dig=DNS | enum4linux=SMB",
+            "exploit": "sqlmap=SQLi | ss=searchsploit+NVD+8src | msf=msf-handler | venom=msfvenom",
+            "postexp": "creds=cat-creds | hash=cat-hashes | loot=copy-msf-loot | ssh_cmd=SSH-exec",
+            "privesc": "linpeas=linux-enum | winpeas=win-enum | getcap=capabilities | lazypwn=LazyPwn",
+            "cred":    "secretsdump=dump-hashes | hashcat=GPU-crack | john2hash=john | unshadow=shadow-prep",
+            "lateral": "evil=evil-winrm | cme=crackmapexec | psexec=impacket-psexec | bloodhound=AD-graph",
+            "exfil":   "loot=copy-loot | scp=SCP-transfer | ftpd=python-ftp-server",
+            "c2":      "cc=open-dashboard | msf=handler | venom=payload | download_c2=implant",
+            "report":  "report=AI-report | lazyreport=C2-report | man=README",
+        }
         out += [
             "",
-            "## COMMAND ABSTRACTION (never write raw tool commands)",
-            "  nmap       → lazynmap  → sessions/scan_{rhost}.nmap (full aggressive scan)",
-            "  vulns      → nmap vulns→ sessions/vulns_{rhost}.nmap",
-            "  pyautomate → pwntomate → sessions/{rhost}/{port}/{tool}/ (all services)",
-            "  ww         → whatweb   using domain from payload.json",
-            "  gobuster   → gobuster  using rhost+wordlist from payload.json",
-            "  evil       → evil-winrm using rhost+creds from payload.json",
-            "  bh         → bloodhound using domain+creds from payload.json",
-            "  psexec     → impacket-psexec using rhost+creds",
+            "## ABSTRACTION MODEL — never write raw tool commands",
+            "  Every LazyOwn command is a high-level abstraction.",
+            "  payload.json auto-injects ALL parameters (rhost, domain, wordlist, creds, etc.)",
+            "  You only need the command name. Examples:",
+            "    lazynmap      → nmap -sC -sV -p- -T4 -Pn --script vuln {rhost}",
+            "    ww            → whatweb http://{domain} -a 3",
+            "    gobuster      → gobuster dir -u http://{rhost} -w {dirwordlist} -t 30",
+            "    evil          → evil-winrm -i {rhost} -u {user} -p {pass}",
+            "    bloodhound    → bloodhound-python -d {domain} -u {user} -p {pass} -c All",
+            "    dig           → dig @{rhost} {domain} axfr",
+            "    secretsdump   → impacket-secretsdump {domain}/{user}:{pass}@{rhost}",
+            "    ss <term>     → searchsploit+NVD+ExploitAlert+PacketStorm+MSF+Pompem+creds_py",
+            "",
+            f"## PHASE ALIASES — {phase.upper()}",
+            f"  {_phase_aliases_si.get(phase, '(see lazyown_phase_guide)')}",
             "",
             f"## TOP COMMANDS FOR PHASE: {phase.upper()}",
-            f"  {'Command':<22} {'MITRE':<9} {'Services':<14} Description",
-            f"  {'-'*22} {'-'*9} {'-'*14} {'-'*50}",
+            f"  {'Command':<24} {'MITRE':<10} {'Creds?':<7} {'Services':<18} Description",
+            f"  {'-'*24} {'-'*10} {'-'*7} {'-'*18} {'-'*40}",
         ] + phase_commands + [
-            f"  → lazyown_discover_commands(phase='{phase}') for full phase list",
+            f"  → lazyown_phase_guide(phase='{phase}') for FULL guide with payload keys",
+            f"  → lazyown_discover_commands(phase='{phase}') for plain command list",
             "",
             "## RECOMMENDED NEXT STEPS",
-        ] + (next_steps or [f"  lazyown_discover_commands(phase='{phase}')"])
+        ] + (next_steps or [f"  lazyown_phase_guide(phase='{phase}')"])
 
+        return text("\n".join(out))
+
+    # ── phase_guide ───────────────────────────────────────────────────────────
+    elif name == "lazyown_phase_guide":
+        pg_phase    = arguments.get("phase", "recon").strip().lower()
+        pg_os       = arguments.get("os_hint", "any").strip().lower()
+        pg_services = arguments.get("services", [])
+
+        # Key aliases per phase (subset of the full aliases dict — most useful ones)
+        _PHASE_ALIASES: dict = {
+            "recon":   {"nmap":"lazynmap (full TCP scan)", "hosts_discover":"hostdiscover.sh sweep",
+                        "arpscan":"arp-scan -l", "ping":"TTL-based OS detection"},
+            "enum":    {"ww":"whatweb domain fingerprint", "gobuster":"dir brute-force",
+                        "ffuf":"fast web fuzzer", "ss":"multi-source exploit search",
+                        "dig":"DNS zone transfer/records", "enum4linux":"SMB/LDAP enum",
+                        "nxcridbrute":"RID cycling via nxc", "ntlmrelayx":"NTLM relay"},
+            "exploit": {"sqlmap":"SQL injection", "ss":"searchsploit+NVD+8 sources",
+                        "msf":"metasploit listener", "venom":"msfvenom payload"},
+            "postexp": {"creds":"cat all sessions/credentials*", "hash":"cat all sessions/hash*",
+                        "loot":"copy msf loot to sessions/", "ssh_cmd":"SSH command exec"},
+            "privesc": {"linpeas":"linpeas.sh enum", "winpeas":"winpeas.exe enum",
+                        "getcap":"find capabilities", "lazypwn":"LazyPwn script"},
+            "cred":    {"secretsdump":"impacket secretsdump", "hashcat":"GPU cracking",
+                        "john2hash":"john + hash format", "unshadow":"combine passwd+shadow"},
+            "lateral": {"evil":"evil-winrm -i rhost -u user -p pass",
+                        "cme":"crackmapexec smb/winrm", "psexec":"impacket psexec",
+                        "bloodhound":"bloodhound-python collector"},
+            "exfil":   {"loot":"copy loot to sessions/", "scp":"scp from remote host",
+                        "ftpd":"python ftpd server on 2121"},
+            "c2":      {"cc":"open C2 dashboard", "msf":"metasploit handler",
+                        "venom":"generate payload", "download_c2":"pull implant"},
+            "report":  {"report":"generate AI report via report.py",
+                        "lazyreport":"POST to C2 /lazyreport", "man":"README.md in gum"},
+        }
+        # Payload keys needed per command category
+        _PAYLOAD_KEYS = {
+            "recon":   ["rhost", "lhost", "device"],
+            "enum":    ["rhost", "domain", "wordlist", "dirwordlist", "dnswordlist"],
+            "exploit": ["rhost", "lhost", "lport", "start_user", "start_pass"],
+            "postexp": ["rhost", "lhost", "start_user", "start_pass"],
+            "privesc": ["rhost", "lhost", "start_user", "start_pass"],
+            "cred":    ["rhost", "start_user", "start_pass", "wordlist"],
+            "lateral": ["rhost", "domain", "start_user", "start_pass", "lhost"],
+            "exfil":   ["rhost", "lhost", "lport", "start_user", "start_pass"],
+            "c2":      ["lhost", "c2_port", "c2_user", "c2_pass"],
+            "report":  ["api_key", "rhost", "domain"],
+        }
+
+        try:
+            sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
+            from lazyown_bridge import get_dispatcher as _bd_pg
+            _disp_pg = _bd_pg()
+            all_entries  = _disp_pg.list_phase(pg_phase)
+        except Exception as e:
+            return text(f"Bridge catalog unavailable: {e}")
+
+        # Filter by OS and services if requested
+        if pg_os != "any":
+            all_entries = [e for e in all_entries if e.os_target in (pg_os, "any")]
+        if pg_services:
+            svc_set = set(s.lower() for s in pg_services)
+            filtered = [e for e in all_entries if not e.services or
+                        any(s.lower() in svc_set for s in e.services)]
+            if filtered:
+                all_entries = filtered  # only filter if results remain
+
+        # Current payload state
+        try:
+            payload_now = json.loads((LAZYOWN_DIR / "payload.json").read_text())
+        except Exception:
+            payload_now = {}
+
+        needed_keys = _PAYLOAD_KEYS.get(pg_phase, [])
+        key_status = []
+        for k in needed_keys:
+            v = payload_now.get(k, "")
+            status = f"✓ {k}={str(v)[:30]}" if v else f"✗ {k}=(not set)"
+            key_status.append(status)
+
+        out = [
+            f"{'='*60}",
+            f"PHASE GUIDE: {pg_phase.upper()}  (OS: {pg_os}  Services: {pg_services or 'any'})",
+            f"{'='*60}",
+            f"",
+            f"▶ ABSTRACTION MODEL",
+            f"  LazyOwn commands are HIGH-LEVEL ABSTRACTIONS over real tools.",
+            f"  payload.json auto-injects ALL parameters — NEVER write raw flags.",
+            f"  Examples:",
+            f"    lazynmap          → nmap -sC -sV -p- -T4 -Pn --script vuln {{rhost}}",
+            f"    gobuster          → gobuster dir -u http://{{rhost}} -w {{dirwordlist}} ...",
+            f"    bloodhound        → bloodhound-python -d {{domain}} -u {{user}} -p {{pass}} -c All",
+            f"    evil              → evil-winrm -i {{rhost}} -u {{user}} -p {{pass}}",
+            f"    ww                → whatweb http://{{domain}} -a 3",
+            f"    dig               → dig @{{rhost}} {{domain}} axfr",
+            f"",
+            f"▶ PAYLOAD.JSON KEYS FOR THIS PHASE",
+        ] + [f"  {s}" for s in key_status] + [
+            f"",
+            f"▶ KEY ALIASES FOR PHASE '{pg_phase}'",
+        ] + [f"  {k:<20} → {v}" for k, v in _PHASE_ALIASES.get(pg_phase, {}).items()] + [
+            f"",
+            f"▶ AVAILABLE COMMANDS ({len(all_entries)} from bridge catalog)",
+            f"  {'Command':<24} {'MITRE':<10} {'OS':<8} {'Creds?':<7} {'Services':<18} Description",
+            f"  {'-'*24} {'-'*10} {'-'*8} {'-'*7} {'-'*18} {'-'*40}",
+        ]
+        for e in all_entries:
+            svc  = ",".join((e.services or [])[:3]) or "any"
+            os_t = (e.os_target or "any")
+            mit  = (e.mitre_tactic or "")
+            cred = "yes" if e.requires_creds else "no"
+            desc = (e.description or "")[:50]
+            out.append(f"  {e.command:<24} [{mit:<8}] {os_t:<8} {cred:<7} {svc:<18} {desc}")
+
+        # Kill-chain tip
+        try:
+            kc = _disp_pg.phase_kill_chain()
+            idx = kc.index(pg_phase) if pg_phase in kc else -1
+            next_phase = kc[idx+1] if idx >= 0 and idx+1 < len(kc) else "(end)"
+            out += [
+                f"",
+                f"▶ KILL-CHAIN POSITION",
+                f"  Current: {pg_phase}  →  Next: {next_phase}",
+                f"  Full chain: {' → '.join(kc)}",
+            ]
+        except Exception:
+            pass
+
+        out += [
+            f"",
+            f"▶ QUICK START FOR THIS PHASE",
+            f"  1. Verify payload keys above are set (lazyown_get_config / lazyown_set_config)",
+            f"  2. Run first command: lazyown_run_command('<command_name>')",
+            f"  3. Parse output: lazyown_reactive_suggest(output=..., command=...)",
+            f"  4. Loop: lazyown_auto_loop(target=rhost, max_steps=10)",
+            f"{'='*60}",
+        ]
         return text("\n".join(out))
 
     # ── discover_commands ─────────────────────────────────────────────────────
@@ -4233,6 +4454,92 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 f"  {les.get('lesson','')}\n"
                 f"  ctx: {les.get('context','')}\n"
             )
+        return text("\n".join(lines))
+
+    # ── auto_populate ─────────────────────────────────────────────────────────
+    elif name == "lazyown_auto_populate":
+        import xml.etree.ElementTree as _ET
+        force_overwrite = bool(arguments.get("force", False))
+        payload_file = LAZYOWN_DIR / "payload.json"
+        try:
+            pl = json.loads(payload_file.read_text())
+        except Exception:
+            pl = {}
+        ap_target = (arguments.get("target") or "").strip() or pl.get("rhost", "")
+        if not ap_target:
+            return text("No target specified and rhost not set in payload.json.")
+        changed: list = []
+        # ── Parse nmap XML ─────────────────────────────────────────────────────
+        xml_path = SESSIONS_DIR / f"scan_{ap_target}.nmap.xml"
+        services_found: list = []
+        if xml_path.exists():
+            try:
+                tree = _ET.parse(str(xml_path))
+                root = tree.getroot()
+                # Domain from hostnames
+                for hn in root.iter("hostname"):
+                    hn_name = hn.get("name", "")
+                    if hn_name and "." in hn_name:
+                        if force_overwrite or not pl.get("domain"):
+                            pl["domain"] = hn_name
+                            changed.append(f"domain={hn_name}")
+                        break
+                # Open services
+                for port_el in root.iter("port"):
+                    state_el = port_el.find("state")
+                    if state_el is not None and state_el.get("state") == "open":
+                        portid = port_el.get("portid", "")
+                        svc_el = port_el.find("service")
+                        svc_name = svc_el.get("name", "") if svc_el is not None else ""
+                        if svc_name:
+                            services_found.append(f"{portid}/{svc_name}")
+                # OS match
+                for osmatch in root.iter("osmatch"):
+                    os_name = osmatch.get("name", "").lower()
+                    if os_name:
+                        os_id = "2" if "windows" in os_name else "1"
+                        if force_overwrite or not pl.get("os_id"):
+                            pl["os_id"] = os_id
+                            changed.append(f"os_id={os_id} ({os_name[:40]})")
+                        break
+                # Additional hosts
+                for addr_el in root.iter("address"):
+                    if addr_el.get("addrtype") == "ipv4":
+                        extra_ip = addr_el.get("addr", "")
+                        if extra_ip and extra_ip != ap_target:
+                            changed.append(f"discovered_host={extra_ip}")
+            except Exception as xml_err:
+                changed.append(f"XML parse error: {xml_err}")
+        else:
+            changed.append(f"No XML at {xml_path} — run lazynmap first")
+        # ── Load credentials from credentials.txt ─────────────────────────────
+        cred_file = SESSIONS_DIR / "credentials.txt"
+        if cred_file.exists():
+            for line in cred_file.read_text(errors="replace").splitlines():
+                line = line.split("#")[0].strip()
+                if ":" in line:
+                    parts = line.split(":", 1)
+                    if len(parts) == 2 and parts[0] and parts[1]:
+                        if force_overwrite or not pl.get("start_user"):
+                            pl["start_user"] = parts[0].strip()
+                            pl["start_pass"] = parts[1].strip()
+                            changed.append(f"start_user={parts[0].strip()}")
+                        break
+        # ── Write back ────────────────────────────────────────────────────────
+        if changed:
+            try:
+                payload_file.write_text(json.dumps(pl, indent=2, ensure_ascii=False), encoding="utf-8")
+            except Exception as we:
+                return text(f"Error writing payload.json: {we}")
+        lines = [f"AUTO-POPULATE for target={ap_target}", ""]
+        if services_found:
+            lines.append("Services: " + ", ".join(services_found[:20]))
+        if changed:
+            lines.append("payload.json updated:")
+            for c in changed:
+                lines.append(f"  + {c}")
+        else:
+            lines.append("No changes — payload.json already populated.")
         return text("\n".join(lines))
 
     # ── session_state ─────────────────────────────────────────────────────────

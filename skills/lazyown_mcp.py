@@ -5105,7 +5105,11 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 )
                 if _re_decisions:
                     top_d = _re_decisions[0]
-                    if top_d.priority <= 2 and not _reactive_state.get("cmd"):
+                    _top_base = top_d.command.strip().split()[0]
+                    if (top_d.priority <= 2
+                            and not _reactive_state.get("cmd")
+                            and _top_base not in _blocked_cmds
+                            and _top_base != resolved_cmd):  # don't re-inject what just ran
                         _reactive_state["cmd"]   = top_d.command
                         _reactive_state["args"]  = ""
                         _reactive_state["reason"] = top_d.reason

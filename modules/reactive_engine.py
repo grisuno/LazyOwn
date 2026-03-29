@@ -341,8 +341,16 @@ class EvasionAdvisor:
         ("default",     "ofuscatesh",                  "T1027", "Obfuscate shell script"),
     ]
 
+    # ACL-only signals (kernel permission errors, not AV) — never trigger evasion
+    _ACL_ONLY_KINDS: frozenset = frozenset({"linux_acl", "windows_acl"})
+
     def suggest(self, signals: List[Signal], platform: str) -> List[ReactiveDecision]:
-        av_signals = [s for s in signals if s.kind == "av_blocked"]
+        # Only real AV/EDR blocks trigger evasion — not generic kernel ACL errors
+        # ("operation not permitted" / "access is denied" are normal scan noise)
+        av_signals = [
+            s for s in signals
+            if s.kind == "av_blocked" and s.value not in self._ACL_ONLY_KINDS
+        ]
         if not av_signals:
             return []
 

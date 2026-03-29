@@ -592,6 +592,25 @@ class BridgeSelector(ICommandSelector):
             return None
 
 
+def _get_phase_command_catalog(phase: str) -> str:
+    """
+    Return a compact string listing available LazyOwn commands for the given phase.
+    Used to inject command context into LLM/SWAN prompts so they pick valid abstractions.
+    """
+    try:
+        _disp = _get_dispatcher() if _get_dispatcher else None
+        if _disp is None:
+            return ""
+        dispatcher = _disp()
+        entries = dispatcher.list_phase(phase)
+        if not entries:
+            return ""
+        names = [e.command for e in entries[:40]]          # cap at 40
+        return ", ".join(names)
+    except Exception:
+        return ""
+
+
 class LLMSelector(ICommandSelector):
     """
     Queries Groq/Ollama for a command suggestion.
@@ -600,12 +619,12 @@ class LLMSelector(ICommandSelector):
     """
 
     def select(self, target: str, phase: str, context: Dict) -> Optional[CommandDecision]:
-        """Return an LLM-suggested command, or None if disabled or unavailable."""
+        """Return an LLM-suggested command with catalog context, or None if disabled."""
         if os.environ.get("AUTO_USE_LLM", "0") != "1":
             return None
-        return self._llm_candidate(target, phase)
+        return self._llm_candidate(target, phase, context)
 
-    def _llm_candidate(self, target: str, phase: str) -> Optional[CommandDecision]:
+    def _llm_candidate(self, target: str, phase: str, context: Dict) -> Optional[CommandDecision]:
         try:
             from lazyown_llm import LLMBridge
             payload = _load_payload()
@@ -613,19 +632,29 @@ class LLMSelector(ICommandSelector):
             if not api_key:
                 return None
             bridge = LLMBridge(backend="groq", api_key=api_key)
-            answer = bridge.ask(
-                goal=(
-                    f"Suggest ONE LazyOwn shell command for phase='{phase}' "
-                    f"target='{target}'. Reply with ONLY the command name, "
-                    "no explanation."
-                ),
-                max_iterations=1,
+            # Build context-rich prompt so the LLM picks a valid LazyOwn abstraction
+            catalog = _get_phase_command_catalog(phase)
+            services = context.get("services", [])
+            os_hint  = context.get("os_hint", "unknown")
+            has_creds = bool(payload.get("start_pass") or payload.get("start_user"))
+            catalog_line = (
+                f"Available LazyOwn commands for phase '{phase}': {catalog}\n"
+                if catalog else ""
             )
+            goal = (
+                f"{catalog_line}"
+                f"CRITICAL: These are HIGH-LEVEL ABSTRACTIONS. payload.json auto-injects rhost/domain/creds/wordlist. "
+                f"Never write raw tool flags — just the command name.\n"
+                f"Target: {target} | OS: {os_hint} | Services: {services[:5]} | Has-creds: {has_creds}\n"
+                f"Suggest the BEST SINGLE command for phase='{phase}'. "
+                f"Reply with ONLY the command name (one word). No explanation."
+            )
+            answer = bridge.ask(goal=goal, max_iterations=1)
             cmd = answer.strip().split()[0] if answer.strip() else None
-            if cmd:
+            if cmd and len(cmd) < 50:
                 return CommandDecision(
                     command=cmd, source="llm",
-                    reason="LLM recommendation", priority=4,
+                    reason=f"LLM recommendation (catalog={bool(catalog)})", priority=4,
                 )
         except Exception as exc:
             log.debug("LLM candidate error: %s", exc)
@@ -675,12 +704,19 @@ class SWANSelector(ICommandSelector):
         try:
             from swan_agent import mcp_swan_run as _swan_run  # lazy import
             services  = context.get("services", [])
+            os_hint   = context.get("os_hint", "unknown")
             task_type = self._PHASE_TO_TASK.get(phase, "analyze")
+            catalog   = _get_phase_command_catalog(phase)
+            catalog_line = (
+                f"Available LazyOwn commands for phase '{phase}': {catalog}\n"
+                if catalog else ""
+            )
             goal = (
-                f"Suggest ONE LazyOwn shell command for "
-                f"phase='{phase}' target='{target}' "
-                f"services={services[:5]}. "
-                "Reply with ONLY the command name, no arguments, no explanation."
+                f"{catalog_line}"
+                f"IMPORTANT: These are HIGH-LEVEL ABSTRACTIONS — payload.json auto-injects all parameters. "
+                f"Reply with ONLY the command name.\n"
+                f"Suggest the best command for phase='{phase}' target='{target}' "
+                f"os={os_hint} services={services[:5]}."
             )
             raw  = _swan_run(task_type, goal, phase=phase)
             data = json.loads(raw)
@@ -1044,6 +1080,7 @@ async def _run_objective(
     results: List[StepResult] = []
     phase:   str              = "recon"
     services: List[str]       = []
+    _consecutive_list: int    = 0   # stuck-loop counter
 
     if world_model is not None:
         try:
@@ -1161,8 +1198,136 @@ async def _run_objective(
                     svc = getattr(f, "service", None)
                     if svc and svc not in services:
                         services.append(svc)
+
+                # ── Auto-inject discovered credentials into payload.json ──────
+                # When ObsParser finds a CREDENTIAL (user:pass), write it back
+                # so every subsequent command that needs auth has it available.
+                try:
+                    from modules.obs_parser import FindingType as _FT
+                    cred_findings = obs.by_type(_FT.CREDENTIAL)
+                    hash_findings = obs.by_type(_FT.HASH)
+                    user_findings = obs.by_type(_FT.USERNAME)
+                    domain_findings = obs.by_type(_FT.DOMAIN)
+                    if cred_findings or hash_findings or user_findings or domain_findings:
+                        _pl = _load_payload()
+                        _changed = False
+                        if cred_findings:
+                            top = cred_findings[0]
+                            parts = top.value.split(":", 1)
+                            if len(parts) == 2 and not _pl.get("start_user"):
+                                _pl["start_user"] = parts[0]
+                                _pl["start_pass"] = parts[1]
+                                _changed = True
+                                log.info("[%s] AUTO-CRED: start_user=%s", objective_id, parts[0])
+                                # also append to credentials file
+                                try:
+                                    _cred_file = SESSIONS_DIR / "credentials.txt"
+                                    with _cred_file.open("a", encoding="utf-8") as _cf:
+                                        _cf.write(f"{top.value}  # host={target} cmd={command}\n")
+                                except Exception:
+                                    pass
+                                _emit("CREDENTIAL_FOUND", {
+                                    "objective_id": objective_id,
+                                    "user": parts[0],
+                                    "host": target,
+                                    "source": command,
+                                })
+                        if hash_findings and not _pl.get("hash"):
+                            _pl["hash"] = hash_findings[0].value
+                            _changed = True
+                            log.info("[%s] AUTO-HASH: %s", objective_id, hash_findings[0].value[:30])
+                        if user_findings and not _pl.get("start_user"):
+                            _pl["start_user"] = user_findings[0].value
+                            _changed = True
+                        if domain_findings and not _pl.get("domain"):
+                            _pl["domain"] = domain_findings[0].value
+                            _changed = True
+                            log.info("[%s] AUTO-DOMAIN: %s", objective_id, domain_findings[0].value)
+                        if _changed:
+                            PAYLOAD_FILE.write_text(
+                                json.dumps(_pl, indent=2, ensure_ascii=False),
+                                encoding="utf-8",
+                            )
+                except Exception as _cred_exc:
+                    log.debug("credential auto-inject error: %s", _cred_exc)
+
+                # ── nmap XML auto-populate ────────────────────────────────────
+                # After any nmap-style command, parse the XML output and update
+                # payload.json with domain, services, and additional hosts.
+                if command.split()[0] in ("lazynmap", "nmap", "rustscan", "masscan"):
+                    try:
+                        import xml.etree.ElementTree as _ET
+                        _xml_path = SESSIONS_DIR / f"scan_{target}.nmap.xml"
+                        if _xml_path.exists():
+                            _tree = _ET.parse(str(_xml_path))
+                            _root = _tree.getroot()
+                            _pl2 = _load_payload()
+                            _ch2 = False
+                            # Extract domain from hostnames
+                            for _hn in _root.iter("hostname"):
+                                _name = _hn.get("name", "")
+                                if _name and "." in _name and not _pl2.get("domain"):
+                                    _pl2["domain"] = _name
+                                    _ch2 = True
+                                    log.info("[%s] AUTO-DOMAIN(nmap): %s", objective_id, _name)
+                                    break
+                            # Extract open services
+                            for _port in _root.iter("port"):
+                                _state = _port.find("state")
+                                if _state is not None and _state.get("state") == "open":
+                                    _svc_el = _port.find("service")
+                                    if _svc_el is not None:
+                                        _svc_name = _svc_el.get("name", "")
+                                        if _svc_name and _svc_name not in services:
+                                            services.append(_svc_name)
+                            # Extract OS match
+                            for _osmatch in _root.iter("osmatch"):
+                                _os_name = _osmatch.get("name", "").lower()
+                                if _os_name and not _pl2.get("os_id"):
+                                    _os_id = "2" if "windows" in _os_name else "1"
+                                    _pl2["os_id"] = _os_id
+                                    _ch2 = True
+                                    break
+                            if _ch2:
+                                PAYLOAD_FILE.write_text(
+                                    json.dumps(_pl2, indent=2, ensure_ascii=False),
+                                    encoding="utf-8",
+                                )
+                    except Exception as _xml_exc:
+                        log.debug("nmap XML auto-populate error: %s", _xml_exc)
+
             except Exception as exc:
                 log.debug("obs_parser error: %s", exc)
+
+        # ── Stuck-loop recovery ───────────────────────────────────────────────
+        # If the cascade falls back to "list" more than 3 consecutive times,
+        # the loop is stuck. Inject a lateral-thinking objective via Hive Mind
+        # or escalate the phase to break out of the spin.
+        if command.strip() == "list":
+            _consecutive_list += 1
+        else:
+            _consecutive_list = 0
+
+        if _consecutive_list >= 3:
+            log.warning("[%s] stuck loop detected (%d× list) — escalating phase", objective_id, _consecutive_list)
+            _emit("STUCK_LOOP", {
+                "objective_id": objective_id,
+                "phase": phase,
+                "consecutive_list": _consecutive_list,
+            })
+            # Try to advance phase via world_model, otherwise hard-advance
+            _phase_order = ["recon", "enum", "exploit", "postexp", "persist", "privesc",
+                            "cred", "lateral", "exfil", "c2", "report"]
+            try:
+                _cur_idx = _phase_order.index(phase)
+                if _cur_idx + 1 < len(_phase_order):
+                    phase = _phase_order[_cur_idx + 1]
+                    log.info("[%s] phase advanced to %s (stuck recovery)", objective_id, phase)
+                    _consecutive_list = 0
+            except ValueError:
+                pass
+            # Reset fail counts to give new phase commands a fresh start
+            strategy._fail_counts.clear()
 
         if facts is not None and success:
             try:

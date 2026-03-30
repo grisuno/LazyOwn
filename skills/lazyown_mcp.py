@@ -5205,8 +5205,19 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
         _loop_last_cmd: str = ""
         _loop_consecutive: int = 0
+        _loop_history: list[str] = []   # sliding window for oscillation detection
         _PHASE_ORDER = ["recon", "enum", "exploit", "postexp", "persist", "privesc",
                         "cred", "lateral", "exfil", "c2", "report"]
+
+        def _advance_phase_wm() -> None:
+            if _wm is not None:
+                try:
+                    _cur_phase = _wm.get_phase().value
+                    _cur_idx = _PHASE_ORDER.index(_cur_phase)
+                    if _cur_idx + 1 < len(_PHASE_ORDER):
+                        _wm.advance_phase()
+                except Exception:
+                    pass
 
         for i in range(max_steps):
             result = await asyncio.get_event_loop().run_in_executor(None, _execute_step)
@@ -5214,10 +5225,12 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 s = result["step"]
                 execution_log.append(s)
 
-                # ── Stuck-loop recovery ───────────────────────────────────────
-                # If the same command runs 2x in a row with non-success outcome,
-                # force-block it and advance the phase so selectors move forward.
                 _cmd_base = s["command"].strip().split()[0] if s["command"].strip() else ""
+                _loop_history.append(_cmd_base)
+                if len(_loop_history) > 6:
+                    _loop_history.pop(0)
+
+                # ── Stuck-loop: AAAA — same command repeated with non-success ─
                 if _cmd_base == _loop_last_cmd and s["outcome"] != "success":
                     _loop_consecutive += 1
                 else:
@@ -5225,20 +5238,33 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                     _loop_last_cmd = _cmd_base
 
                 if _loop_consecutive >= 2:
-                    # Block this command name for ALL subsequent steps
                     _blocked_cmds.add(_cmd_base)
-                    log.info("auto_loop: stuck on '%s' — blocked + advancing phase", _cmd_base)
-                    # Advance world model phase so bridge/parquet pick phase-appropriate commands
-                    if _wm is not None:
-                        try:
-                            _cur_phase = _wm.get_phase().value
-                            _cur_idx = _PHASE_ORDER.index(_cur_phase)
-                            if _cur_idx + 1 < len(_PHASE_ORDER):
-                                _wm.advance_phase()
-                        except Exception:
-                            pass
+                    log.info("auto_loop: AAAA stuck on '%s' — blocked + phase advance", _cmd_base)
+                    _advance_phase_wm()
                     _loop_consecutive = 0
                     _loop_last_cmd = ""
+
+                # ── Stuck-loop: ABABAB — alternating pair oscillation ─────────
+                # Detect last 6 commands forming 3 repeated pairs (A,B,A,B,A,B)
+                if len(_loop_history) >= 6:
+                    h = _loop_history
+                    if (h[-6] == h[-4] == h[-2] and
+                            h[-5] == h[-3] == h[-1] and
+                            h[-6] != h[-5]):
+                        _osc_a, _osc_b = h[-6], h[-5]
+                        # Block whichever of the pair produces non-success
+                        if s["outcome"] != "success":
+                            _blocked_cmds.add(_cmd_base)
+                        else:
+                            _blocked_cmds.add(_osc_a if _osc_a != _cmd_base else _osc_b)
+                        log.info(
+                            "auto_loop: ABABAB oscillation ('%s'↔'%s') — blocked '%s' + phase advance",
+                            _osc_a, _osc_b, _blocked_cmds & {_osc_a, _osc_b},
+                        )
+                        _advance_phase_wm()
+                        _loop_history.clear()
+                        _loop_last_cmd = ""
+                        _loop_consecutive = 0
 
             if result.get("stop"):
                 break

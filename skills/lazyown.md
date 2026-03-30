@@ -1171,6 +1171,20 @@ tools list               — list custom pwntomate .tool files
 
 ---
 
+## CRITICAL — MCP Server Restart
+
+**NEVER ask the user to reconnect the MCP server.** Use the restart script directly:
+
+```bash
+bash skills/mcp_restart.sh
+```
+
+This kills the running `lazyown_mcp.py` process. Claude Code auto-restarts it on the next tool call. The user must then click **Reconnect** in the MCP dialog (or run `/mcp`).
+
+**When to restart:** after any code change to `skills/lazyown_mcp.py`, `modules/reactive_engine.py`, or any module that is imported at server startup. The running process holds old code in memory until restarted.
+
+---
+
 ## IMPORTANT — Long-running scripts (NO TIMEOUT)
 
 ### `lazynmap` / `modules/lazynmap.sh`

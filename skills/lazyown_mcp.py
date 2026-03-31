@@ -6967,8 +6967,40 @@ signal.signal(signal.SIGHUP, _handle_sighup)
 # ── Entry point ───────────────────────────────────────────────────────────────
 
 async def main():
-    async with stdio_server() as (read_stream, write_stream):
-        await server.run(read_stream, write_stream, server.create_initialization_options())
+    import sys as _sys
+    # --sse [PORT]  → run as HTTP/SSE daemon (default port 9871)
+    # default       → stdio (Claude Code subprocess model)
+    if "--sse" in _sys.argv:
+        try:
+            _idx = _sys.argv.index("--sse")
+            _port = int(_sys.argv[_idx + 1]) if _idx + 1 < len(_sys.argv) else 9871
+        except (ValueError, IndexError):
+            _port = 9871
+        from mcp.server.sse import SseServerTransport
+        from starlette.applications import Starlette
+        from starlette.routing import Route, Mount
+        import uvicorn
+
+        _sse_transport = SseServerTransport("/messages/")
+
+        async def _handle_sse(request):
+            async with _sse_transport.connect_sse(
+                request.scope, request.receive, request._send
+            ) as streams:
+                await server.run(streams[0], streams[1], server.create_initialization_options())
+
+        async def _handle_messages(scope, receive, send):
+            await _sse_transport.handle_post_message(scope, receive, send)
+
+        _app = Starlette(routes=[
+            Route("/sse", endpoint=_handle_sse),
+            Mount("/messages/", app=_handle_messages),
+        ])
+        print(f"[mcp] SSE server on http://127.0.0.1:{_port}/sse", flush=True)
+        await uvicorn.Server(uvicorn.Config(_app, host="127.0.0.1", port=_port, log_level="warning")).serve()
+    else:
+        async with stdio_server() as (read_stream, write_stream):
+            await server.run(read_stream, write_stream, server.create_initialization_options())
 
 
 if __name__ == "__main__":

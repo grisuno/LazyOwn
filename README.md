@@ -12024,6 +12024,13 @@ No description available.
 
 ### Otros
 
+  *   * feat(feat): a new way to search vulns in the context of mcp \n\n Version: release/0.2.95 \n\n and some of love in the autonomous loop \n\n Modified file(s):\n- README.md - docs/README.html - skills/lazyown.md - skills/lazyown_mcp.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Mar 24 02:24:54 2026 -0300 \n\n Hora: 1774329894
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): ReactiveSelector  → pattern-matched decisions (AV/EDR, privesc hints, creds) \n\n Version: release/0.2.94 \n\n ParquetSelector   → past successful commands from session history \n\n Modified file(s):\n- README.md - docs/README.html - skills/README.md - skills/autonomous_daemon.py - skills/lazyown_mcp.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Mar 23 14:51:05 2026 -0300 \n\n Hora: 1774288265
 
 

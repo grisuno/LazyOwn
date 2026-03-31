@@ -71,16 +71,30 @@ class AVBlockedMatcher(AbstractSignalMatcher):
         (r"access\s+is\s+denied", "windows_acl"),
         (r"operation\s+not\s+permitted", "linux_acl"),
         (r"virus\s+detected|malware\s+detected|threat\s+detected", "av_alert"),
-        (r"windows\s+defender|microsoft\s+antivirus", "defender"),
-        (r"crowdstrike|carbonblack|sentinelone|cylance|symantec|mcafee|kaspersky", "edr"),
-        (r"(amsi|antimalware\s+scan|amsi\.dll)", "amsi"),
+        (r"windows\s+defender\s+(blocked|detected|prevented|quarantine)|microsoft\s+antivirus", "defender"),
+        (r"(crowdstrike|carbonblack|sentinelone|cylance|symantec|mcafee|kaspersky)\s+(blocked|detected|prevented|alert)", "edr"),
+        (r"amsi\.dll|amsi\s+bypass\s+blocked|antimalware\s+scan\s+interface\s+(blocked|detected)", "amsi"),
         (r"execution\s+policy|cannot\s+be\s+loaded\s+because\s+running\s+scripts",
          "powershell_policy"),
         (r"quarantine|blocked\s+by\s+security|security\s+alert", "quarantine"),
     ]
 
+    # Lines containing these substrings are LazyOwn framework noise — skip them
+    _NOISE_PATTERNS = (
+        "registered from yaml",
+        "register from lua",
+        "registered from lua",
+        "environment activated",
+        "[+] command '",
+    )
+
     def match(self, output: str, context: Dict) -> List[Signal]:
-        lower = output.lower()
+        # Strip LazyOwn framework registration noise before matching
+        clean_lines = [
+            ln for ln in output.splitlines()
+            if not any(np in ln.lower() for np in self._NOISE_PATTERNS)
+        ]
+        lower = "\n".join(clean_lines).lower()
         signals: List[Signal] = []
         for pattern, kind in self._PATTERNS:
             m = re.search(pattern, lower)

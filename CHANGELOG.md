@@ -6,6 +6,55 @@
 
 ### Otros
 
+  *   * feat(feat):  \n\n Version: release/0.2.96 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html - modules/reactive_engine.py - payload.json - skills/lazyown_mcp.py - skills/lazyown_policy.py - skills/mcp_restart.sh - static/security_dashboard.png\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Mar 30 23:34:47 2026 -0300 \n\n Hora: 1774924487
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(mcp): SSE daemon transport + reliable restart script
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(loop): detect ABABAB oscillation + rebalance policy transitions
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(reactive): ACL errors no longer trigger evasion advisor; stuck-loop blocks by base name
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(autonomy): stuck-loop recovery covers any repeated command, not just 'list'
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(autonomy): self-healing autonomous loop — credential/domain auto-injection, nmap XML parse, stuck-loop recovery
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(mcp): world-class MCP expansion — 92 tools, 26 data sources, zero-gap operator autonomy
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): a new way to search vulns in the context of mcp \n\n Version: release/0.2.95 \n\n and some of love in the autonomous loop \n\n Modified file(s):\n- README.md - docs/README.html - skills/lazyown.md - skills/lazyown_mcp.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Mar 24 02:24:54 2026 -0300 \n\n Hora: 1774329894
 
 

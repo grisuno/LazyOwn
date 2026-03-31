@@ -4874,8 +4874,16 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             recs = _policy.get_recommendations(target)
             if not recs:
                 return {"stop": True, "reason": "No policy recommendations available."}
+            # If top recommended category's default command is blocked, walk down
+            # the recommendation list until we find a category whose command isn't blocked
             top_rec = recs[0]
             category = top_rec["category"]
+            for _rec in recs:
+                _default_for_cat = _CATEGORY_COMMAND_MAP.get(_rec["category"], "list")
+                if _default_for_cat not in _blocked_cmds:
+                    top_rec = _rec
+                    category = _rec["category"]
+                    break
 
             # ── Adaptive command selection ────────────────────────────────────
             # Priority: reactive > parquet > bridge catalog > LLM recommender > cat_map
@@ -4906,7 +4914,10 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 try:
                     from lazyown_bridge import get_dispatcher as _get_bridge
                     _bridge = _get_bridge()
-                    _phase_val = _wm.get_phase().value if _wm is not None else category
+                    # Use policy-recommended category for bridge lookup.
+                    # WorldModel phase lags behind (stays at 'scanning' until
+                    # findings update it), so always prefer the policy category.
+                    _phase_val = category
                     _services: list[str] = []
                     _has_creds_wm = False
                     _wm_snap = None
@@ -5230,16 +5241,19 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 if len(_loop_history) > 6:
                     _loop_history.pop(0)
 
-                # ── Stuck-loop: AAAA — same command repeated with non-success ─
-                if _cmd_base == _loop_last_cmd and s["outcome"] != "success":
+                # ── Stuck-loop: AAAA — same command repeated ─────────────────
+                # Triggers on non-success after 2 repeats, OR on any outcome
+                # after 3 repeats (prevents successful loops like gobuster×15).
+                if _cmd_base == _loop_last_cmd:
                     _loop_consecutive += 1
                 else:
                     _loop_consecutive = 0
                     _loop_last_cmd = _cmd_base
 
-                if _loop_consecutive >= 2:
+                _stuck_threshold = 2 if s["outcome"] != "success" else 3
+                if _loop_consecutive >= _stuck_threshold:
                     _blocked_cmds.add(_cmd_base)
-                    log.info("auto_loop: AAAA stuck on '%s' — blocked + phase advance", _cmd_base)
+                    print(f"[auto_loop] AAAA stuck on '{_cmd_base}' ({s['outcome']}) — blocked + phase advance", flush=True)
                     _advance_phase_wm()
                     _loop_consecutive = 0
                     _loop_last_cmd = ""
@@ -5252,15 +5266,11 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                             h[-5] == h[-3] == h[-1] and
                             h[-6] != h[-5]):
                         _osc_a, _osc_b = h[-6], h[-5]
-                        # Block whichever of the pair produces non-success
                         if s["outcome"] != "success":
                             _blocked_cmds.add(_cmd_base)
                         else:
                             _blocked_cmds.add(_osc_a if _osc_a != _cmd_base else _osc_b)
-                        log.info(
-                            "auto_loop: ABABAB oscillation ('%s'↔'%s') — blocked '%s' + phase advance",
-                            _osc_a, _osc_b, _blocked_cmds & {_osc_a, _osc_b},
-                        )
+                        print(f"[auto_loop] ABABAB oscillation ('{_osc_a}'↔'{_osc_b}') — blocked + phase advance", flush=True)
                         _advance_phase_wm()
                         _loop_history.clear()
                         _loop_last_cmd = ""

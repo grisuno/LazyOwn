@@ -965,7 +965,11 @@ class TransitionTable:
         Return (next_category, success_rate, total_count) tuples for the given
         from_state, filtered by min_transition_count and sorted by success rate
         descending.
+
+        Always reloads from disk so that external edits (policy_transitions.json)
+        and concurrent writes from pipeline._transitions take effect immediately.
         """
+        self._load()
         if from_state not in self._data:
             return []
         results: List[Tuple[str, float, int]] = []

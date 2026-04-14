@@ -256,6 +256,7 @@ class HostEntry:
     os_hint:         str                    = ""
     services:        Dict[int, ServiceInfo] = field(default_factory=dict)
     notes:           List[str]              = field(default_factory=list)
+    cloud_metadata:  Dict[str, str]         = field(default_factory=dict)
     last_updated:    str                    = field(default_factory=lambda: datetime.now().isoformat())
 
     def add_service(self, svc: ServiceInfo) -> None:
@@ -272,22 +273,24 @@ class HostEntry:
 
     def to_dict(self) -> dict:
         return {
-            "ip":           self.ip,
-            "state":        self.state.value,
-            "os_hint":      self.os_hint,
-            "services":     {str(p): vars(s) for p, s in self.services.items()},
-            "notes":        self.notes,
-            "last_updated": self.last_updated,
+            "ip":             self.ip,
+            "state":          self.state.value,
+            "os_hint":        self.os_hint,
+            "services":       {str(p): vars(s) for p, s in self.services.items()},
+            "notes":          self.notes,
+            "cloud_metadata": self.cloud_metadata,
+            "last_updated":   self.last_updated,
         }
 
     @classmethod
     def from_dict(cls, d: dict) -> "HostEntry":
         h = cls(
-            ip       = d["ip"],
-            state    = HostState(d.get("state", HostState.UNSCANNED.value)),
-            os_hint  = d.get("os_hint", ""),
-            notes    = d.get("notes", []),
-            last_updated = d.get("last_updated", ""),
+            ip             = d["ip"],
+            state          = HostState(d.get("state", HostState.UNSCANNED.value)),
+            os_hint        = d.get("os_hint", ""),
+            notes          = d.get("notes", []),
+            cloud_metadata = d.get("cloud_metadata", {}),
+            last_updated   = d.get("last_updated", ""),
         )
         for port_str, svc in d.get("services", {}).items():
             h.services[int(port_str)] = ServiceInfo(**svc)
@@ -453,6 +456,25 @@ class WorldModel:
                             ))
                 self._save()
 
+    def link_credential_to_success(self, value: str, host: str) -> None:
+        """
+        Mark a credential as working for a specific host in the graph.
+        """
+        with self._lock:
+            cred_node = f"cred:{value[:12]}"
+            host_node = f"host:{host}"
+            self._graph.add_relation(NetworkRelation(
+                source=cred_node,
+                target=host_node,
+                relation="authenticates_to",
+                weight=1.0,
+            ))
+            # Also find the CredentialEntry and mark as confirmed
+            for c in self._creds:
+                if c.value == value:
+                    c.confirmed = True
+            self._save()
+
     def add_vulnerability(self, description: str, host: str = "",
                            cve: str = "", severity: str = "UNKNOWN") -> None:
         with self._lock:
@@ -494,6 +516,19 @@ class WorldModel:
                 elif ftype == "username":
                     if host:
                         self.add_note(host, f"user: {value}")
+                elif ftype == "cloud_role":
+                    if host:
+                        h = self._hosts.get(host) or self.add_host(host)
+                        h.cloud_metadata["iam_role"] = value
+                        self._graph.add_relation(NetworkRelation(
+                            source=f"host:{host}",
+                            target=f"cloud:{value}",
+                            relation="has_role",
+                        ))
+                elif ftype == "k8s_resource":
+                    if host:
+                        h = self._hosts.get(host) or self.add_host(host)
+                        h.cloud_metadata["k8s_resource"] = value
             except Exception as exc:
                 log.debug("WorldModel.update_from_findings: %s", exc)
 

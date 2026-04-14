@@ -9,5 +9,19 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "rules": {}
+  "rules": {},
+  "ignorePatterns": [
+    "banners/",
+    "docs/",
+    "modules/rootkit/",
+    "parquets/",
+    "persistent_chroma_db/",
+    "sessions/",
+    "static/",
+    "*.png",
+    "*.ico",
+    "*.ttf",
+    "*.so",
+    "*.o"
+  ]
 }

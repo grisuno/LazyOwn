@@ -1,0 +1,25 @@
+{
+  "exclude_paths": [
+    "banners/**",
+    "docs/**",
+    "modules/rootkit/**",
+    "parquets/**",
+    "persistent_chroma_db/**",
+    "sessions/**",
+    "static/**",
+    "test/**",
+    "external/**",
+    "**/*.png",
+    "**/*.ico",
+    "**/*.ttf",
+    "**/*.so",
+    "**/*.o",
+    "**/*.pyc",
+    "**/*.db",
+    "**/*.bin",
+    "**/*.exe",
+    "**/*.elf",
+    "**/*.macho",
+    "**/*.gz"
+  ]
+}

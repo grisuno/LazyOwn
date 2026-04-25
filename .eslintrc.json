@@ -1,0 +1,27 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
+  },
+  "extends": "eslint:recommended",
+  "parserOptions": {
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "rules": {},
+  "ignorePatterns": [
+    "banners/",
+    "docs/",
+    "modules/rootkit/",
+    "parquets/",
+    "persistent_chroma_db/",
+    "sessions/",
+    "static/",
+    "*.png",
+    "*.ico",
+    "*.ttf",
+    "*.so",
+    "*.o"
+  ]
+}

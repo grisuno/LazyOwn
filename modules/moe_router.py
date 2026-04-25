@@ -198,6 +198,26 @@ _DEFAULT_EXPERTS: List[ExpertProfile] = [
             "Gemma 2 9B for output analysis, log parsing, and report synthesis."
         ),
     ),
+    ExpertProfile(
+        expert_id="groq_cloud",
+        backend="groq",
+        model="llama-3.3-70b-versatile",
+        capabilities=["cloud_enum", "cloud_exploit", "iam_analysis"],
+        base_weight=0.75,
+        cost_tier=2,
+        latency_ms=2000,
+        description="Specialized expert for AWS/Azure/GCP enumeration and IAM exploitation.",
+    ),
+    ExpertProfile(
+        expert_id="groq_container",
+        backend="groq",
+        model="llama-3.3-70b-versatile",
+        capabilities=["container_escape", "k8s_enum", "docker_audit"],
+        base_weight=0.75,
+        cost_tier=2,
+        latency_ms=2000,
+        description="Specialized expert for Kubernetes, Docker, and container escape techniques.",
+    ),
 ]
 
 

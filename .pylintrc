@@ -1,0 +1,3 @@
+[MASTER]
+ignore=banners,docs,modules/rootkit,parquets,persistent_chroma_db,sessions,static,test,external
+ignore-patterns=.*\.png,.*\.ico,.*\.ttf,.*\.so,.*\.o,.*\.pyc,.*\.db,.*\.bin,.*\.exe,.*\.elf,.*\.macho,.*\.gz

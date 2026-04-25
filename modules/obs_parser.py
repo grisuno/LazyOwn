@@ -56,6 +56,8 @@ class FindingType(str, Enum):
     DOMAIN          = "domain"
     EMAIL           = "email"
     ERROR           = "error"
+    CLOUD_ROLE      = "cloud_role"
+    K8S_RESOURCE    = "k8s_resource"
 
 
 @dataclass
@@ -315,6 +317,38 @@ class _ErrorExtractor(Extractor):
         return results
 
 
+class _CloudIdentityExtractor(Extractor):
+    """Extracts IAM roles, ARNs, and K8s resources from cloud tool output."""
+    _PATTERNS = [
+        # AWS ARN
+        re.compile(r'arn:aws:iam::\d{12}:[a-zA-Z0-9:/._-]+'),
+        # Azure Resource ID
+        re.compile(r'/subscriptions/[a-f0-9-]{36}/resourceGroups/[a-zA-Z0-9._-]+'),
+        # K8s resources
+        re.compile(r'\b(pod|deployment|service|namespace|secret)/[a-z0-9-]{1,63}\b'),
+    ]
+
+    def extract(self, text: str, host: str) -> List[Finding]:
+        seen: set = set()
+        results: List[Finding] = []
+        for pat in self._PATTERNS:
+            for m in pat.finditer(text):
+                val = m.group()
+                if val not in seen:
+                    seen.add(val)
+                    ftype = FindingType.CLOUD_ROLE
+                    if "arn:aws" in val or "/subscriptions/" in val:
+                        ftype = FindingType.CLOUD_ROLE
+                    else:
+                        ftype = FindingType.K8S_RESOURCE
+
+                    results.append(Finding(
+                        ftype, val,
+                        host=host, confidence=0.95, raw=m.group()
+                    ))
+        return results
+
+
 # ---------------------------------------------------------------------------
 # Success heuristic
 # ---------------------------------------------------------------------------
@@ -372,6 +406,7 @@ class ObsParser:
             _UsernameExtractor(),
             _DomainExtractor(),
             _ErrorExtractor(),
+            _CloudIdentityExtractor(),
         ]:
             self._registry.register(ext)
 

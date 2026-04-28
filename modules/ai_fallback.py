@@ -199,6 +199,32 @@ def _groq_call(
 
 # ── Public API ────────────────────────────────────────────────────────────────
 
+def _toposwarm_call(prompt: str, system: str) -> Optional["AIResult"]:
+    """
+    Try TopoSwarm local brain as a last-resort fallback.
+    Returns an AIResult if TopoSwarm is available, else None.
+    """
+    try:
+        import sys
+        from pathlib import Path
+        sys.path.insert(0, str(Path(__file__).parent))
+        from toposwarm_bridge import get_bridge
+        bridge = get_bridge()
+        if not bridge.available:
+            return None
+        # Use the orchestrator subprocess for full routing + execution
+        full_prompt = f"{system}\n\n{prompt}" if system else prompt
+        text = bridge.execute_via_orchestrator(full_prompt, no_model=not bridge.model_loaded)
+        return AIResult(
+            text    = f"[TopoSwarm local brain]\n\n{text}",
+            backend = "toposwarm",
+            model   = "toposwarm-2M" + ("-neural" if bridge.model_loaded else "-keyword"),
+            error   = "",
+        )
+    except Exception as exc:
+        return None
+
+
 def call(
     prompt:      str,
     system:      str  = "",
@@ -207,7 +233,7 @@ def call(
     temperature: float = 0.3,
 ) -> AIResult:
     """
-    Call Groq → fallback to Ollama → fallback to helpful error message.
+    Call Groq → fallback to Ollama → fallback to TopoSwarm local brain → error.
     Returns an AIResult with .text, .backend, .model, .error.
     """
     groq_error = ""
@@ -244,12 +270,17 @@ def call(
                 )
             except Exception as exc:
                 ollama_error = str(exc)
-                # Fall through to help message
+                # ── 3. Try TopoSwarm local brain ───────────────────────────
+                ts_result = _toposwarm_call(prompt, system)
+                if ts_result:
+                    ts_result.error = f"groq:{groq_error or 'n/a'} ollama:{ollama_error}"
+                    return ts_result
                 return AIResult(
                     text = (
-                        f"⚠️  Both AI backends failed.\n\n"
-                        f"Groq error:  {groq_error or '(not configured)'}\n"
-                        f"Ollama error: {ollama_error}\n\n"
+                        f"⚠️  All AI backends failed (Groq, Ollama, TopoSwarm).\n\n"
+                        f"Groq error:      {groq_error or '(not configured)'}\n"
+                        f"Ollama error:    {ollama_error}\n"
+                        f"TopoSwarm:       not available\n\n"
                         + _HELP_MESSAGE
                     ),
                     backend = "error",

@@ -318,6 +318,66 @@ async def heartbeat_loop() -> None:
                  f"events={_stats['events_emitted']}")
 
 
+# ── Role 4 — TopoSwarm keepalive ──────────────────────────────────────────────
+
+_TOPOSWARM_DIR = BASE_DIR.parent / "py" / "toposwarm"
+_TOPOSWARM_PID_FILE = SESSIONS_DIR / "toposwarm.pid"
+_toposwarm_proc: Optional[asyncio.subprocess.Process] = None
+
+
+async def toposwarm_keepalive_loop() -> None:
+    """
+    Keeps the TopoSwarm MCP server alive as a subprocess.
+
+    Starts toposwarm_lazyown_orchestrator.py --mcp in stdio mode so LazyOwn
+    can use it as a local brain without cloud APIs.  If it crashes, restarts
+    after 10 s with exponential backoff up to 120 s.
+    """
+    global _toposwarm_proc
+    orchestrator = _TOPOSWARM_DIR / "toposwarm_lazyown_orchestrator.py"
+    if not orchestrator.exists():
+        log.info("TopoSwarm keepalive: orchestrator not found at %s — skipping", orchestrator)
+        return
+
+    backoff = 5
+    log.info("TopoSwarm keepalive starting (orchestrator=%s)", orchestrator)
+
+    while True:
+        try:
+            _toposwarm_proc = await asyncio.create_subprocess_exec(
+                sys.executable, str(orchestrator), "--mcp",
+                stdin=asyncio.subprocess.PIPE,
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.PIPE,
+                cwd=str(_TOPOSWARM_DIR),
+            )
+            _TOPOSWARM_PID_FILE.write_text(str(_toposwarm_proc.pid))
+            log.info("TopoSwarm process started (pid=%d)", _toposwarm_proc.pid)
+
+            # Update daemon status with TopoSwarm pid
+            try:
+                status = json.loads(STATUS_FILE.read_text()) if STATUS_FILE.exists() else {}
+                status["toposwarm_pid"] = _toposwarm_proc.pid
+                status["toposwarm_backend"] = "mcp"
+                STATUS_FILE.write_text(json.dumps(status, indent=2))
+            except Exception:
+                pass
+
+            await _toposwarm_proc.wait()
+            rc = _toposwarm_proc.returncode
+            log.warning("TopoSwarm process exited (rc=%s) — restarting in %ds", rc, backoff)
+
+        except asyncio.CancelledError:
+            if _toposwarm_proc:
+                _toposwarm_proc.terminate()
+            return
+        except Exception as exc:
+            log.error("TopoSwarm keepalive error: %s — restarting in %ds", exc, backoff)
+
+        await asyncio.sleep(backoff)
+        backoff = min(backoff * 2, 120)
+
+
 # ── Main asyncio entrypoint ───────────────────────────────────────────────────
 
 async def _main_async() -> None:
@@ -327,10 +387,11 @@ async def _main_async() -> None:
     queue: asyncio.Queue = asyncio.Queue()
 
     tasks = [
-        asyncio.create_task(file_watcher_loop(queue),    name="file_watcher"),
-        asyncio.create_task(file_event_consumer(queue),  name="file_consumer"),
-        asyncio.create_task(event_engine_loop(),          name="event_engine"),
-        asyncio.create_task(heartbeat_loop(),             name="heartbeat"),
+        asyncio.create_task(file_watcher_loop(queue),       name="file_watcher"),
+        asyncio.create_task(file_event_consumer(queue),     name="file_consumer"),
+        asyncio.create_task(event_engine_loop(),             name="event_engine"),
+        asyncio.create_task(heartbeat_loop(),                name="heartbeat"),
+        asyncio.create_task(toposwarm_keepalive_loop(),      name="toposwarm_keepalive"),
     ]
 
     log.info(f"LazyOwn daemon started (pid={os.getpid()})")

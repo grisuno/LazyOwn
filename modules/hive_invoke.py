@@ -42,6 +42,21 @@ import subprocess
 import sys
 from pathlib import Path
 
+# TopoSwarm fallback — imported lazily so this module loads fine without it
+_toposwarm_bridge = None
+
+
+def _get_toposwarm():
+    global _toposwarm_bridge
+    if _toposwarm_bridge is None:
+        try:
+            sys.path.insert(0, str(Path(__file__).parent))
+            from toposwarm_bridge import get_bridge
+            _toposwarm_bridge = get_bridge()
+        except ImportError:
+            _toposwarm_bridge = False
+    return _toposwarm_bridge if _toposwarm_bridge else None
+
 # ---------------------------------------------------------------------------
 # Paths
 # ---------------------------------------------------------------------------
@@ -168,6 +183,60 @@ def _run_interactive_mode(prompt: str, effort: str, claude_bin: str) -> int:
 
 
 # ---------------------------------------------------------------------------
+# TopoSwarm fallback mode — runs when Claude Code is not available
+# ---------------------------------------------------------------------------
+
+_TOPOSWARM_TOOLS_THAT_RUN_COMMANDS = {
+    "lazyown_run_command", "lazyown_run_api", "lazyown_c2_command",
+    "lazyown_auto_loop", "lazyown_autonomous_start",
+}
+
+
+def _run_toposwarm_mode(prompt: str, effort: str, bridge) -> int:
+    """
+    Autonomous loop powered by TopoSwarm when Claude Code is unavailable.
+
+    Runs the prompt through the TopoSwarm orchestrator, which:
+    1. Routes NL → LazyOwn tool (neural model or keyword matching)
+    2. Executes the tool via the LazyOwn PTY bridge
+    3. Returns the result
+
+    For simple routing tasks this is one shot; for agentic goals (effort=high)
+    it loops up to 5 iterations, feeding each output back as context.
+    """
+    print("[hive:toposwarm] Claude Code not found — using TopoSwarm local brain")
+    print(f"[hive:toposwarm] model_loaded={bridge.model_loaded}  "
+          f"backend={'neural' if bridge.model_loaded else 'keyword'}")
+    print(f"[hive:toposwarm] Prompt: {prompt[:120]}{'...' if len(prompt)>120 else ''}")
+    print("-" * 72)
+
+    max_iters = {"low": 1, "medium": 3, "high": 5, "max": 8}.get(effort, 3)
+
+    context = prompt
+    for i in range(max_iters):
+        print(f"\n[hive:toposwarm] step {i+1}/{max_iters}")
+        output = bridge.execute_via_orchestrator(context, no_model=not bridge.model_loaded)
+        print(output)
+
+        # After first iteration, stop unless output signals more work needed
+        if i == 0 and max_iters == 1:
+            break
+        # Heuristic: if output contains "next step" or "recommend" signals, continue
+        low_out = output.lower()
+        if any(sig in low_out for sig in ("error", "not found", "failed", "no output")):
+            print("[hive:toposwarm] Stopping: error signal detected")
+            break
+        if not any(sig in low_out for sig in ("done", "complete", "success", "found", "captured")):
+            # No clear completion signal — keep going
+            context = f"Previous result: {output[:300]}\n\nOriginal goal: {prompt}"
+        else:
+            print("[hive:toposwarm] Goal appears complete.")
+            break
+
+    return 0
+
+
+# ---------------------------------------------------------------------------
 # Entry point
 # ---------------------------------------------------------------------------
 
@@ -190,9 +259,14 @@ def main(argv: list[str] | None = None) -> int:
 
     claude_bin = _find_claude()
     if claude_bin is None:
+        bridge = _get_toposwarm()
+        if bridge and bridge.available:
+            return _run_toposwarm_mode(prompt, effort, bridge)
         print(
-            "[hive] Error: 'claude' binary not found in PATH.\n"
-            "Install Claude Code with: npm install -g @anthropic-ai/claude-code",
+            "[hive] Claude Code not found and TopoSwarm not available.\n"
+            "Options:\n"
+            "  1. Install Claude Code: npm install -g @anthropic-ai/claude-code\n"
+            "  2. Set up TopoSwarm:    python toposwarm_lazyown_orchestrator.py --finetune",
             file=sys.stderr,
         )
         return 1

@@ -218,6 +218,25 @@ _DEFAULT_EXPERTS: List[ExpertProfile] = [
         latency_ms=2000,
         description="Specialized expert for Kubernetes, Docker, and container escape techniques.",
     ),
+    # ── TopoSwarm local brain (always available, no network needed) ────────────
+    ExpertProfile(
+        expert_id="toposwarm_local",
+        backend="toposwarm",
+        model="toposwarm-2M-quaternionic",
+        capabilities=[
+            "recon", "enum", "exploit", "credential", "lateral", "privesc",
+            "brute_force", "payload", "analyze", "report", "other",
+        ],
+        base_weight=0.35,      # lower prior — used as fallback when cloud unavailable
+        cost_tier=0,           # free: runs locally with no external calls
+        latency_ms=200,        # fast: 2M params, CPU-only inference
+        description=(
+            "TopoSwarm 2M-param quaternionic toroidal router trained on LazyOwn "
+            "tool traces.  Zero-dependency local brain — works without Groq, "
+            "Ollama, or Claude Code.  Routes operator NL prompts to LazyOwn tools "
+            "via neural routing head or keyword fallback."
+        ),
+    ),
 ]
 
 
@@ -447,6 +466,18 @@ class ExpertAvailabilityChecker:
                 return True
             except Exception:
                 return False
+        if expert.backend == "toposwarm":
+            # TopoSwarm is available if its orchestrator file exists
+            try:
+                from toposwarm_bridge import get_bridge
+                return get_bridge().available
+            except ImportError:
+                import pathlib, os
+                ts_dir = pathlib.Path(os.environ.get(
+                    "TOPOSWARM_DIR",
+                    pathlib.Path(__file__).parent.parent.parent / "py" / "toposwarm"
+                ))
+                return (ts_dir / "toposwarm_lazyown_orchestrator.py").exists()
         return False
 
 

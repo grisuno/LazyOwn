@@ -1,117 +1,61 @@
 name: toposwarm
 description: >
-  TopoSwarm — Quaternionic Toroidal Swarm AI Router for LazyOwn MCP.
+  TopoSwarm Autonomous Red Team Agent — drives LazyOwn through a full
+  pentest kill-chain using TopoSwarm as the local AI router with ZERO
+  dependency on Groq, Ollama, or Claude Code.
 
-  A micro-scale (~2M params) swarm agent trained on ToolBench in 3 epochs
-  (low loss) that acts as the AI brain for LazyOwn's full pentesting MCP.
-  Routes natural-language security goals to the correct LazyOwn tool
-  automatically using a trained quaternionic swarm model with Berry-phase
-  agent specialisation.
+  TopoSwarm is a 2M-parameter quaternionic toroidal model trained specifically
+  on LazyOwn tool traces. It routes operator goals to the correct LazyOwn tool
+  using a neural routing head (d_model→80 classes) or keyword fallback.
 
-  Architecture:
-    User prompt (NL)
-        → TopoSwarm Router (quaternionic torus, spectral AE, HRM, ACT halt)
-        → LazyOwn tool (50+ tools: nmap, C2, vuln analysis, creds, AI agents)
-        → Final answer
+  Attack phases (automated end-to-end):
+    0. INIT    — session init, configure rhost/lhost from payload.json
+    1. RECON   — port scan, OS fingerprint, service detection
+    2. ENUM    — service-specific enumeration (SMB, LDAP, web, FTP, ...
+    3. VULN    — searchsploit + CVE analysis on discovered services
+    4. EXPLOIT — attempt exploitation of best candidate vulnerability
+    5. POST    — credential dump, privilege escalation, persistence
+    6. LATERAL — move laterally using captured credentials
+    7. REPORT  — generate final pentest report + MISP export
 
-  Modes:
-    toposwarm                       → sitrep of current campaign
-    toposwarm <prompt>              → route prompt to LazyOwn tool (fast, no GPU)
-    toposwarm --mcp                 → start as MCP stdio server
-    toposwarm --model <prompt>      → full model inference (requires checkpoint)
-    toposwarm --finetune            → fine-tune router on LazyOwn traces (1 epoch)
-    toposwarm --gen-dataset         → generate ToolBench-format fine-tune JSONL
+  Usage inside LazyOwn shell:
+    toposwarm                          # full run from payload.json
+    toposwarm --effort max             # maximum aggression, more steps/phase
+    toposwarm --no-model               # keyword-only mode (no GPU needed)
+    toposwarm --phase 2                # resume from ENUM phase
+    toposwarm --max-phases 4           # stop after VULN phase
+    toposwarm --verbose                # print full tool output
 
-  Routing examples:
-    scan for open ports on 10.10.11.78  → lazyown_run_command(set rhost; lazynmap)
-    analyze vulnerabilities on target   → lazyown_c2_vuln_analysis
-    show collected credentials          → lazyown_credentials
-    what should be the next step?       → lazyown_recommend_next
-    generate a sitrep                   → lazyown_campaign_sitrep
-    search for SMB exploitation         → lazyown_c2_search_agent
+  The agent reads rhost, lhost, domain from payload.json automatically.
+  Results saved to: sessions/toposwarm_state_{rhost}.json
 
-  Requires:
-    Python 3.10+, torch, safetensors, tiktoken, numpy, mcp
-    GPU optional (keyword router works CPU-only with --no-model)
+  Requirements:
+    TopoSwarm cloned at ../py/toposwarm/ or TOPOSWARM_DIR env var set.
 
-author: "Gris Iscomeback <grisiscomeback@gmail.com>"
+author: "LazyOwn RedTeam / grisuno"
 version: "1.0"
 enabled: true
 
 params:
-  - name: prompt
-    type: string
-    required: false
-    default: "generate a campaign sitrep"
-    description: >
-      Natural-language pentesting goal routed by the TopoSwarm AI.
-      Examples: "scan 10.10.11.78", "show credentials", "recommend next step".
-
   - name: rhost
     type: string
     required: false
-    description: >
-      Target host IP. When set and no explicit prompt given, auto-builds:
-      "scan for open ports on {rhost}".
-
-  - name: mode
+    description: Target IP address (pulled from payload.json if not set)
+  - name: lhost
     type: string
     required: false
-    default: "query"
-    description: >
-      Execution mode: query (default, no GPU), mcp (stdio server),
-      model (full inference), finetune, dataset.
+    description: Listener/attacker IP (pulled from payload.json if not set)
+  - name: domain
+    type: string
+    required: false
+    description: Target domain name (optional)
 
 tool:
   name: toposwarm
-  repo_url: https://github.com/grisuno/toposwarm.git
-  install_path: external/.exploit/toposwarm
-
-  install_command: |
-    set -e
-    TOPOSWARM_DIR="$(pwd)/external/.exploit/toposwarm"
-    LAZYOWN_DIR="$(pwd)"
-    echo "[toposwarm] Installing Python dependencies..."
-    pip install torch safetensors tiktoken numpy mcp --quiet --break-system-packages 2>/dev/null || pip install torch safetensors tiktoken numpy mcp --quiet
-    echo "[toposwarm] Registering MCP server with Claude Code..."
-    if command -v claude >/dev/null 2>&1; then
-      claude mcp add toposwarm-lazyown python3 "${TOPOSWARM_DIR}/toposwarm_lazyown_orchestrator.py" -- --mcp --lazyown-dir "${LAZYOWN_DIR}" 2>/dev/null && echo "[toposwarm] MCP registered as toposwarm-lazyown" || echo "[toposwarm] MCP already registered"
-    else
-      echo "[toposwarm] claude CLI not found — skipping mcp add"
-    fi
-    mkdir -p "${LAZYOWN_DIR}/.claude"
-    SETTINGS="${LAZYOWN_DIR}/.claude/settings.json"
-    test -f "${SETTINGS}" || echo '{}' > "${SETTINGS}"
-    python3 -c "import json,pathlib; p=pathlib.Path('${SETTINGS}'); d=json.loads(p.read_text()); d.setdefault('mcpServers',{})['toposwarm-lazyown']={'command':'python3','args':['${TOPOSWARM_DIR}/toposwarm_lazyown_orchestrator.py','--mcp','--lazyown-dir','${LAZYOWN_DIR}'],'env':{'LAZYOWN_DIR':'${LAZYOWN_DIR}'}}; p.write_text(json.dumps(d,indent=2)); print('[toposwarm] settings.json updated')"
-    echo "[toposwarm] Install complete. Use: toposwarm scan 10.10.11.78"
-
-  execute_command: |
-    TOPOSWARM_DIR="$(pwd)/external/.exploit/toposwarm"
-    LAZYOWN_DIR="$(pwd)"
-    ORCHESTRATOR="${TOPOSWARM_DIR}/toposwarm_lazyown_orchestrator.py"
-    RESOLVED_PROMPT="{prompt}"
-    if [ -n "{rhost}" ] && [ "{prompt}" = "generate a campaign sitrep" ]; then
-      RESOLVED_PROMPT="scan for open ports on {rhost}"
-    fi
-    case "{mode}" in
-      mcp)
-        mkdir -p "${LAZYOWN_DIR}/sessions"
-        nohup python3 "${ORCHESTRATOR}" --mcp --lazyown-dir "${LAZYOWN_DIR}" > "${LAZYOWN_DIR}/sessions/toposwarm_mcp.log" 2>&1 &
-        echo "[toposwarm] MCP server PID=$! — log: sessions/toposwarm_mcp.log"
-        ;;
-      finetune)
-        mkdir -p "${LAZYOWN_DIR}/sessions"
-        python3 "${ORCHESTRATOR}" --gen-dataset --dataset-out "${LAZYOWN_DIR}/sessions/lazyown_traces.jsonl" --lazyown-dir "${LAZYOWN_DIR}"
-        python3 "${ORCHESTRATOR}" --finetune --dataset-out "${LAZYOWN_DIR}/sessions/lazyown_traces.jsonl" --checkpoint "${TOPOSWARM_DIR}/checkpoints_toposwarm" --lazyown-dir "${LAZYOWN_DIR}"
-        ;;
-      dataset)
-        mkdir -p "${LAZYOWN_DIR}/sessions"
-        python3 "${ORCHESTRATOR}" --gen-dataset --dataset-out "${LAZYOWN_DIR}/sessions/lazyown_traces.jsonl" --lazyown-dir "${LAZYOWN_DIR}"
-        ;;
-      model)
-        python3 "${ORCHESTRATOR}" --prompt "${RESOLVED_PROMPT}" --checkpoint "${TOPOSWARM_DIR}/checkpoints_toposwarm" --lazyown-dir "${LAZYOWN_DIR}"
-        ;;
-      *)
-        python3 "${ORCHESTRATOR}" --prompt "${RESOLVED_PROMPT}" --no-model --lazyown-dir "${LAZYOWN_DIR}"
-        ;;
-    esac
+  repo_url: https://github.com/grisuno/LazyOwn.git
+  install_path: .
+  execute_command: >-
+    python3 skills/toposwarm_autonomous.py
+    --rhost {rhost}
+    --lhost {lhost}
+    --domain {domain}

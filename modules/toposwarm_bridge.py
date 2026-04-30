@@ -42,9 +42,11 @@ import logging
 import os
 import subprocess
 import sys
+import uuid
+from collections import deque
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Optional
+from typing import Any, Dict, Optional
 
 log = logging.getLogger("toposwarm_bridge")
 
@@ -70,6 +72,7 @@ class RoutedCall:
     confidence: float
     backend:    str          # "toposwarm_model" | "toposwarm_keyword" | "error"
     raw_prompt: str = ""
+    result_id:  str = field(default_factory=lambda: uuid.uuid4().hex[:8])
 
     def lazyown_command(self) -> str:
         """Return the LazyOwn shell command string to execute this tool call."""
@@ -255,6 +258,156 @@ def _load_toposwarm_modules():
     )
 
 
+# ── Online Feedback Loop ───────────────────────────────────────────────────────
+
+_FEEDBACK_FILE = _LAZYOWN_DIR / "sessions" / "toposwarm_feedback.jsonl"
+
+
+class OnlineFeedbackLoop:
+    """
+    Collects user feedback on routing decisions and applies it immediately.
+
+    Positive feedback:
+      → Hebbian update on routing_head.liquid.W_fast (instant, no backprop)
+      → Stored as a positive example for the next --finetune run
+
+    Negative feedback:
+      → Stored as a hard-negative for the next --finetune run
+      → No model update (we don't want to reinforce the wrong decision)
+
+    Non-blocking: feedback() is fire-and-forget. If the user doesn't call it,
+    the flow continues unchanged. Feedback persists to disk so it survives
+    across sessions and is automatically picked up by --finetune.
+
+    Usage:
+        result = bridge.route("scan 10.10.11.78")
+        # ... execute tool ...
+        bridge.feedback(result.result_id, good=True,  comment="correct tool")
+        bridge.feedback(result.result_id, good=False, comment="wrong, should be hive_spawn")
+    """
+
+    def __init__(self, maxsize: int = 1000) -> None:
+        self._pending:   Dict[str, Dict[str, Any]] = {}   # result_id → pending entry
+        self._positives: deque = deque(maxlen=maxsize)
+        self._negatives: deque = deque(maxlen=maxsize)
+        self._feedback_file = _FEEDBACK_FILE
+        self._feedback_file.parent.mkdir(parents=True, exist_ok=True)
+
+    def register(
+        self,
+        result:      RoutedCall,
+        hidden:      Optional[Any] = None,   # torch.Tensor hidden state (optional)
+    ) -> None:
+        """Register a routing result as pending feedback."""
+        self._pending[result.result_id] = {
+            "result_id":  result.result_id,
+            "prompt":     result.raw_prompt,
+            "tool_name":  result.tool_name,
+            "confidence": result.confidence,
+            "backend":    result.backend,
+            "hidden":     hidden,           # kept in-memory only (not serialised)
+        }
+
+    def feedback(
+        self,
+        result_id:    str,
+        good:         bool,
+        comment:      str  = "",
+        routing_head: Any  = None,    # RoutingHead instance for Hebbian update
+    ) -> bool:
+        """
+        Apply feedback for a routing decision.
+
+        Returns True if the result_id was found, False otherwise.
+        Never raises — this is fire-and-forget.
+        """
+        entry = self._pending.pop(result_id, None)
+        if entry is None:
+            log.debug("feedback: result_id %s not found (already consumed or expired)",
+                      result_id)
+            return False
+
+        record = {
+            "result_id":  result_id,
+            "prompt":     entry["prompt"],
+            "tool_name":  entry["tool_name"],
+            "confidence": entry["confidence"],
+            "good":       good,
+            "comment":    comment,
+        }
+
+        if good:
+            self._positives.append(record)
+            # Immediate Hebbian update: strengthen hidden → tool association
+            hidden = entry.get("hidden")
+            if hidden is not None and routing_head is not None:
+                try:
+                    import torch
+                    liq = getattr(routing_head, "liquid", None)
+                    if liq is not None and hasattr(liq, "hebbian_update"):
+                        label = routing_head.label(entry["tool_name"])
+                        if label >= 0:
+                            liq.hebbian_update(
+                                hidden.unsqueeze(0),
+                                torch.tensor([label], dtype=torch.long,
+                                             device=hidden.device),
+                            )
+                            log.debug("Hebbian update applied: %s → %s",
+                                      entry["prompt"][:50], entry["tool_name"])
+                except Exception as e:
+                    log.debug("Hebbian update failed: %s", e)
+        else:
+            self._negatives.append(record)
+            log.debug("Negative feedback stored: %s → %s (comment: %s)",
+                      entry["prompt"][:50], entry["tool_name"], comment)
+
+        # Persist to disk for --finetune pickup
+        try:
+            with self._feedback_file.open("a", encoding="utf-8") as f:
+                f.write(json.dumps(record, ensure_ascii=False) + "\n")
+        except Exception as e:
+            log.debug("Feedback write failed: %s", e)
+
+        return True
+
+    def pending_count(self) -> int:
+        return len(self._pending)
+
+    def stats(self) -> Dict[str, int]:
+        return {
+            "pending":   len(self._pending),
+            "positives": len(self._positives),
+            "negatives": len(self._negatives),
+        }
+
+    def load_feedback_for_training(self) -> tuple:
+        """
+        Load persisted feedback for --finetune.
+        Returns (positive_records, negative_records) as ToolBench-format dicts.
+        """
+        positives, negatives = [], []
+        if not self._feedback_file.exists():
+            return positives, negatives
+        for line in self._feedback_file.read_text(encoding="utf-8").splitlines():
+            try:
+                entry = json.loads(line)
+                record = {
+                    "instruction": entry["prompt"],
+                    "api_list": [{"tool_name": entry["tool_name"],
+                                  "api_name":  entry["tool_name"] + "_endpoint",
+                                  "api_description": entry["tool_name"],
+                                  "required_parameters": [{"name": "arg", "type": "STRING"}],
+                                  "optional_parameters": []}],
+                    "answer":  f"[TOOL_CALL: {entry['tool_name']}()] [user feedback]",
+                    "domain":  "Security/Feedback",
+                    "_good":   entry["good"],
+                }
+                (positives if entry["good"] else negatives).append(record)
+            except Exception:
+                pass
+        return positives, negatives
+
+
 # ── Bridge class ───────────────────────────────────────────────────────────────
 
 class TopoSwarmBridge:
@@ -274,6 +427,7 @@ class TopoSwarmBridge:
         self._ct_mod      = None
         self._loaded      = False
         self._load_failed = False
+        self.feedback_loop = OnlineFeedbackLoop()
 
     @property
     def available(self) -> bool:
@@ -344,19 +498,23 @@ class TopoSwarmBridge:
                     self._model(ids, berry_phase=0.0)
                 h.remove()
                 if captured:
-                    rlogits = self._head(captured[0].unsqueeze(0))[0]
+                    hidden     = captured[0]       # [d_model] — saved for Hebbian
+                    rlogits    = self._head(hidden.unsqueeze(0))[0]
                     import torch.nn.functional as F
                     probs      = F.softmax(rlogits, dim=-1)
                     top_prob, top_idx = probs.max(dim=-1)
                     tool_name  = self._head.tool_names[top_idx.item()]
                     confidence = top_prob.item()
-                    return RoutedCall(
+                    result = RoutedCall(
                         tool_name=tool_name,
                         arg="",
                         confidence=confidence,
                         backend="toposwarm_model",
                         raw_prompt=prompt,
                     )
+                    # Register for potential feedback (hidden state saved)
+                    self.feedback_loop.register(result, hidden=hidden)
+                    return result
             # Fallback: LM head token prediction
             logits = out["logits"][0, -1,
                      self._cfg.TOOL_TOKEN_OFFSET:
@@ -383,12 +541,37 @@ class TopoSwarmBridge:
             log.debug("Neural routing failed: %s", exc)
             return None
 
+    def feedback(self, result_id: str, good: bool, comment: str = "") -> bool:
+        """
+        Optional user feedback on a routing decision.
+
+        Non-blocking — safe to call in a fire-and-forget fashion.
+        Positive feedback → immediate Hebbian update on routing head.
+        Negative feedback → stored as hard-negative for next --finetune.
+
+        Returns True if the result_id was found, False if expired/unknown.
+
+        Example:
+            result = bridge.route("scan 10.10.11.78")
+            # ... execute, check output ...
+            bridge.feedback(result.result_id, good=True)
+            bridge.feedback(result.result_id, good=False,
+                            comment="should have been hive_spawn")
+        """
+        return self.feedback_loop.feedback(
+            result_id    = result_id,
+            good         = good,
+            comment      = comment,
+            routing_head = self._head,
+        )
+
     def route(self, prompt: str) -> RoutedCall:
         """
         Route an operator prompt to a LazyOwn tool call.
 
         Tries neural routing first (if model loaded), then keyword routing.
         Always returns a RoutedCall — never raises.
+        Each result has a `result_id` you can pass to bridge.feedback().
         """
         # 1. Try neural routing
         result = self._neural_route(prompt)
@@ -397,6 +580,8 @@ class TopoSwarmBridge:
         # 2. Keyword routing
         kw = _keyword_route(prompt)
         if kw:
+            # Register keyword results too (no hidden state for Hebbian)
+            self.feedback_loop.register(kw)
             return kw
         # 3. Default: run_command with prompt as-is
         return RoutedCall(

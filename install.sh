@@ -1,5 +1,7 @@
 #!/bin/bash
 
+sudo apt update
+sudo apt install golang -y
 
 if command -v gum &> /dev/null; then
     gum spin --spinner dot --title "Gum is installed..." -- sleep 0.1
@@ -11,7 +13,6 @@ else
 fi
 gum log --time rfc822 --level info "    [+] Start the installing."
 
-sudo apt update
 sudo apt install ltrace python3-xyzservices python3-venv nmap xsltproc moreutils golang
 
 python3 -m venv env
@@ -53,12 +54,12 @@ pip3 install markdown
 pip3 install scapy
 pip3 install watchdog
 pip3 install flask-login
-pip3 instal flask-wtf
+pip3 install flask-wtf
 pip3 install bcrypt
 pip3 install pyyaml
 pip3 install bs4
 pip3 install dnslib
-pip3 python-telegram-bot
+pip3 install python-telegram-bot
 pip3 install nest_asyncio
 pip3 install rich
 pip3 install flask_socketio
@@ -84,6 +85,10 @@ pip3 install pdf2image
 pip3 install python-magic
 pip3 install packaging
 pip3 install seaborn
+pip3 install joblib
+pip3 install scikit-learn
+pip3 install torch torchvision torchaudio
+
 curl -fsSL https://ollama.com/install.sh | sh
 
 git clone https://github.com/grisuno/LazyOwnInfiniteStorage.git ./modules_ext/lazyown_infinitestorage

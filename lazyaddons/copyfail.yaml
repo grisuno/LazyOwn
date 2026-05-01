@@ -1,0 +1,18 @@
+name: copy-fail-CVE-2026-31431
+description: >
+  copy-fail-CVE-2026-31431 is a next-generation dirty pipe.
+author: "theori-io"
+version: "1.0"
+enabled: true
+params:
+  - name: lhost
+    type: string
+    required: true
+    description: lhost target.
+tool:
+  name: copy-fail-CVE-2026-31431
+  repo_url: https://github.com/theori-io/copy-fail-CVE-2026-31431.git
+  install_path: external/.exploit/copy-fail-CVE-2026-31431
+  install_command: git pull
+  execute_command: chmod +x *.py && python3 copy_fail_exp.py
+  

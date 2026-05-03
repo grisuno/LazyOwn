@@ -1,0 +1,62 @@
+name: opencode_adapter
+description: >
+  LazyOwn OpenCode Adapter — OpenAI-compatible function calling bridge
+  for the LazyOwn pentesting framework.
+
+  Exposes all 95+ LazyOwn MCP tools as REST endpoints that OpenCode,
+  Kimi, and any OpenAI-compatible client can call natively.
+
+  Architecture:
+    OpenCode / Kimi / OpenAI Client
+            |
+            | HTTP JSON (OpenAI function format)
+            v
+      LazyOwn OpenCode Adapter (FastAPI)
+            |
+            | stdio MCP protocol
+            v
+      LazyOwn MCP Server (lazyown_mcp.py)
+            |
+            | Python imports + subprocess
+            v
+      LazyOwn Framework
+
+  Endpoints provided by the adapter:
+    GET  /health       — Health check
+    GET  /tools        — List all LazyOwn tools in OpenAI function format
+    POST /call         — Execute a tool by name with arguments
+    GET  /config       — Show adapter configuration
+
+  Usage inside LazyOwn shell:
+    opencode_adapter                    # start adapter on default 127.0.0.1:9872
+    opencode_adapter --host 0.0.0.0     # bind on all interfaces
+    opencode_adapter --port 8080        # custom port
+
+  The adapter auto-detects the LazyOwn directory by walking up from its
+  own installation path, so no manual path configuration is required.
+
+  Requirements:
+    Python 3.10+, venv support, pip.
+
+  Source: https://github.com/grisuno/LazyOwnOpenCodeAdapter
+
+author: "LazyOwn RedTeam"
+version: "1.0"
+enabled: true
+
+params:
+  - name: lhost
+    type: string
+    required: false
+    description: Host to bind the adapter server (default 127.0.0.1)
+  - name: lport
+    type: string
+    required: false
+    description: Port to bind the adapter server (default 9872)
+
+tool:
+  name: opencode_adapter
+  repo_url: https://github.com/grisuno/LazyOwnOpenCodeAdapter.git
+  install_path: external/.exploit/LazyOwnOpenCodeAdapter
+  install_command: rm -rf venv && python3 -m venv venv && ./venv/bin/python3 -m pip install --upgrade pip && ./venv/bin/python3 -m pip install -r requirements.txt
+  execute_command: ./venv/bin/python3 adapter.py --host "{lhost}" --port "{lport}" --log-level "info"

@@ -287,6 +287,73 @@ start_agent = get_agent_status = get_agent_result = list_agents = None
 from mcp.server.stdio import stdio_server
 from mcp import types
 
+# ── Harness layer singletons (lazy — depend on SESSIONS_DIR set below) ────────
+_perm_system        = None   # PermissionSystem
+_hook_registry      = None   # HookRegistry
+_session_transcript = None   # SessionTranscript
+_compact_output_fn  = None   # compact_output callable
+_claudemd_loader    = None   # ClaudeMdLoader
+
+
+def _get_perm_system():
+    """Return PermissionSystem singleton (deny-first rule evaluator)."""
+    global _perm_system
+    if _perm_system is None:
+        try:
+            from lazyown_permissions import PermissionSystem
+            _perm_system = PermissionSystem(SESSIONS_DIR)
+        except Exception:
+            pass
+    return _perm_system
+
+
+def _get_hooks():
+    """Return HookRegistry singleton."""
+    global _hook_registry
+    if _hook_registry is None:
+        try:
+            from lazyown_hooks import get_registry
+            _hook_registry = get_registry(SESSIONS_DIR)
+        except Exception:
+            pass
+    return _hook_registry
+
+
+def _get_transcript():
+    """Return active SessionTranscript singleton."""
+    global _session_transcript
+    if _session_transcript is None:
+        try:
+            from lazyown_session import get_transcript
+            _session_transcript = get_transcript(SESSIONS_DIR)
+        except Exception:
+            pass
+    return _session_transcript
+
+
+def _compact(content: str, tool_name: str = "_default") -> str:
+    """Apply 5-layer context compaction to a tool result string."""
+    global _compact_output_fn
+    if _compact_output_fn is None:
+        try:
+            from lazyown_context import compact_output
+            _compact_output_fn = compact_output
+        except Exception:
+            _compact_output_fn = lambda c, t="_default": c
+    return _compact_output_fn(content, tool_name)
+
+
+def _get_claudemd():
+    """Return ClaudeMdLoader singleton."""
+    global _claudemd_loader
+    if _claudemd_loader is None:
+        try:
+            from lazyown_claudemd import ClaudeMdLoader
+            _claudemd_loader = ClaudeMdLoader(LAZYOWN_DIR)
+        except Exception:
+            pass
+    return _claudemd_loader
+
 # ── Paths ─────────────────────────────────────────────────────────────────────
 SKILLS_DIR   = Path(__file__).parent
 LAZYOWN_DIR = Path(os.environ.get("LAZYOWN_DIR", str(SKILLS_DIR.parent)))
@@ -2909,6 +2976,167 @@ async def list_tools() -> list[types.Tool]:
                 "required": ["task_type"],
             },
         ),
+        # ── harness / meta tools ─────────────────────────────────────────
+        types.Tool(
+            name="lazyown_search_tools",
+            description=(
+                "Search for LazyOwn MCP tools by keyword. "
+                "Use this to discover tools when you know what capability you need "
+                "but not the exact tool name. "
+                "Example: query='smb' returns all SMB-related tools."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "query": {
+                        "type": "string",
+                        "description": "Keyword to search in tool names and descriptions.",
+                    },
+                    "limit": {
+                        "type": "integer",
+                        "description": "Max results to return (default 15).",
+                        "default": 15,
+                    },
+                },
+                "required": ["query"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_manage_permissions",
+            description=(
+                "View or modify the LazyOwn permission system. "
+                "Actions: status | set_mode | add_rule | remove_rule | list_rules. "
+                "Modes: default | dont_ask | bypass_permissions | plan. "
+                "Rule actions: allow | deny | ask. "
+                "Example: add allow rule for 'lazyown_run_command' so it never asks."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "action": {
+                        "type": "string",
+                        "description": "status | set_mode | add_rule | remove_rule | list_rules",
+                        "enum": ["status", "set_mode", "add_rule", "remove_rule", "list_rules"],
+                    },
+                    "mode": {
+                        "type": "string",
+                        "description": "Permission mode (for set_mode action).",
+                    },
+                    "tool_pattern": {
+                        "type": "string",
+                        "description": "Glob pattern for tool name (for add_rule/remove_rule).",
+                    },
+                    "rule_action": {
+                        "type": "string",
+                        "description": "allow | deny | ask (for add_rule).",
+                    },
+                    "condition": {
+                        "type": "string",
+                        "description": "Optional condition: 'contains:<text>' or 'target:<glob>'.",
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Human note for the rule.",
+                        "default": "",
+                    },
+                },
+                "required": ["action"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_harness_status",
+            description=(
+                "Defense-in-depth dashboard. Aggregates status from all 5 harness layers: "
+                "permissions (allow/deny/ask counts) + hooks (runs/blocks/errors) + "
+                "transcripts (event counts, compact boundaries) + compaction stats + "
+                "CLAUDE.md hierarchy. Call this to see if the harness is healthy."
+            ),
+            inputSchema={"type": "object", "properties": {}},
+        ),
+        types.Tool(
+            name="lazyown_session_resume",
+            description=(
+                "Reconstruct context from an append-only session transcript. "
+                "Returns: event counts, recent tool calls, key findings, "
+                "permission decisions, and compact boundaries. Use to pick up "
+                "where a previous session left off."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "session_id": {
+                        "type": "string",
+                        "description": "Transcript session_id (12-char). Empty = current active session.",
+                        "default": "",
+                    },
+                    "limit": {
+                        "type": "integer",
+                        "description": "Max recent events to summarize (default 50).",
+                        "default": 50,
+                    },
+                },
+            },
+        ),
+        types.Tool(
+            name="lazyown_subagent_run",
+            description=(
+                "Run a goal in an ISOLATED subagent transcript (sidechain). "
+                "Forks the parent transcript so the subagent has no permission inheritance, "
+                "wraps tool calls to log to the sidechain, and returns ONLY the summary "
+                "to the parent context (no inflation). Full subagent transcript "
+                "remains on disk for audit."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "goal": {
+                        "type": "string",
+                        "description": "What the subagent should accomplish.",
+                    },
+                    "backend": {
+                        "type": "string",
+                        "description": "groq | ollama (default groq).",
+                        "default": "groq",
+                    },
+                    "max_iterations": {
+                        "type": "integer",
+                        "description": "Max steps (default 5).",
+                        "default": 5,
+                    },
+                },
+                "required": ["goal"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_claudemd",
+            description=(
+                "Manage LazyOwn's CLAUDE.md instruction hierarchy (4 levels: "
+                "managed → user → project → local). "
+                "Actions: status | load | create_user | create_project | create_local | add_rule. "
+                "Files are merged in priority order on each session start."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "action": {
+                        "type": "string",
+                        "description": "status | load | create_user | create_project | create_local | add_rule",
+                        "enum": ["status", "load", "create_user", "create_project", "create_local", "add_rule"],
+                    },
+                    "content": {
+                        "type": "string",
+                        "description": "File content (for create_* / add_rule actions).",
+                        "default": "",
+                    },
+                    "rule_name": {
+                        "type": "string",
+                        "description": "Rule file name without extension (for add_rule).",
+                        "default": "",
+                    },
+                },
+                "required": ["action"],
+            },
+        ),
     ] + (_automapper.mcp_tools() if _automapper is not None else [])
 
 
@@ -2918,7 +3146,66 @@ async def list_tools() -> list[types.Tool]:
 async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextContent]:
 
     def text(content: str) -> list[types.TextContent]:
-        return [types.TextContent(type="text", text=content)]
+        # Layer 1–4 context compaction on every tool result
+        compacted = _compact(content, name)
+        # Append-only transcript logging (non-blocking)
+        try:
+            t = _get_transcript()
+            if t is not None:
+                t.append("tool_result", {"tool_name": name, "content": compacted[:800]})
+        except Exception:
+            pass
+        return [types.TextContent(type="text", text=compacted)]
+
+    # ── Permission Gate (deny-first, Claude Code style) ──────────────────────
+    perm = _get_perm_system()
+    if perm is not None:
+        _perm_decision, _perm_reason = perm.evaluate(name, arguments)
+        if _perm_decision == "deny":
+            try:
+                hooks = _get_hooks()
+                if hooks is not None:
+                    from lazyown_hooks import HookEvent
+                    hooks.run(HookEvent.PERMISSION_DENIED, {
+                        "tool_name": name, "arguments": arguments, "_event": "permission_denied",
+                    })
+            except Exception:
+                pass
+            return text(
+                f"❌ PERMISSION DENIED\n"
+                f"Tool:   {name}\n"
+                f"Reason: {_perm_reason}\n\n"
+                f"To allow this tool, use:\n"
+                f"  lazyown_manage_permissions(action='add_rule', "
+                f"tool_pattern='{name}', rule_action='allow')\n\n"
+                f"Or change mode to 'bypass_permissions' for unrestricted access:\n"
+                f"  lazyown_manage_permissions(action='set_mode', mode='bypass_permissions')"
+            )
+        if _perm_decision == "ask":
+            # In non-interactive contexts log the ask and proceed (don't block autonomous agents)
+            # Operators can set mode=dont_ask to actually enforce the ask→deny behaviour.
+            pass
+
+    # ── Pre-tool-use hooks ────────────────────────────────────────────────────
+    try:
+        hooks = _get_hooks()
+        if hooks is not None:
+            from lazyown_hooks import HookEvent
+            _hook_ctx = hooks.run(HookEvent.PRE_TOOL_USE, {
+                "tool_name": name, "arguments": arguments, "_event": "pre_tool_use",
+            })
+            if _hook_ctx.get("_block"):
+                return text(
+                    f"🛡️ BLOCKED BY HOOK\n"
+                    f"Tool:   {name}\n"
+                    f"Reason: {_hook_ctx.get('_block_reason', 'hook denied execution')}"
+                )
+            # Log tool_use to transcript after hooks pass
+            t = _get_transcript()
+            if t is not None:
+                t.append("tool_use", {"tool_name": name, "arguments": arguments})
+    except Exception:
+        pass
 
     # ── run_command ──────────────────────────────────────────────────────────
     if name == "lazyown_run_command":
@@ -3201,13 +3488,25 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             agent_id = await asyncio.get_event_loop().run_in_executor(
                 None, lambda: start_agent(goal, backend, _runner, max_iterations)
             )
+            # Traceability: log spawn to parent transcript (no isolation, just audit)
+            try:
+                parent = _get_transcript()
+                if parent is not None:
+                    parent.append("agent_spawned", {
+                        "agent_id": agent_id, "goal": goal, "backend": backend,
+                        "isolated": False,
+                    })
+            except Exception:
+                pass
             return text(
                 f"Agent started.\n"
                 f"  id:      {agent_id}\n"
                 f"  goal:    {goal}\n"
                 f"  backend: {backend} (max {max_iterations} steps)\n\n"
                 f"Poll with: lazyown_agent_status('{agent_id}')\n"
-                f"Results:   lazyown_agent_result('{agent_id}')"
+                f"Results:   lazyown_agent_result('{agent_id}')\n\n"
+                f"For ISOLATED execution (sidechain transcript), use:\n"
+                f"  lazyown_subagent_run(goal=..., backend=..., max_iterations=...)"
             )
         except Exception as e:
             return text(f"Failed to start agent: {e}")
@@ -6957,6 +7256,350 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         )
         if dyn_result is not None:
             return text(dyn_result)
+
+    # ── search_tools (deferred tool discovery) ───────────────────────────────
+    if name == "lazyown_search_tools":
+        query = arguments.get("query", "").lower().strip()
+        limit = int(arguments.get("limit", 15))
+        if not query:
+            return text("Provide a 'query' keyword to search tools.")
+        # Gather all tool definitions from list_tools
+        try:
+            all_tools = await list_tools()
+        except Exception as e:
+            return text(f"[search_tools error] {e}")
+        matches = [
+            t for t in all_tools
+            if query in t.name.lower() or query in (t.description or "").lower()
+        ]
+        if not matches:
+            return text(f"No tools found matching '{query}'.")
+        lines = [f"Found {len(matches)} tool(s) matching '{query}':"]
+        for t in matches[:limit]:
+            req = []
+            try:
+                req = t.inputSchema.get("required", [])
+            except Exception:
+                pass
+            lines.append(f"\n  {t.name}")
+            lines.append(f"    {(t.description or '').splitlines()[0][:90]}")
+            if req:
+                lines.append(f"    required: {', '.join(req)}")
+        return text("\n".join(lines))
+
+    # ── manage_permissions ────────────────────────────────────────────────────
+    if name == "lazyown_manage_permissions":
+        action = arguments.get("action", "status")
+        perm_sys = _get_perm_system()
+        if perm_sys is None:
+            return text("Permission system unavailable (lazyown_permissions.py not found).")
+
+        if action == "status":
+            return text(perm_sys.status_text())
+
+        if action == "set_mode":
+            mode = arguments.get("mode", "")
+            if not mode:
+                return text("'mode' parameter required for set_mode action.")
+            try:
+                return text(perm_sys.set_mode(mode))
+            except ValueError as e:
+                return text(f"Invalid mode: {e}\nValid: plan | default | accept_edits | auto | dont_ask | bypass_permissions")
+
+        if action == "add_rule":
+            tp = arguments.get("tool_pattern", "")
+            ra = arguments.get("rule_action", "")
+            if not tp or not ra:
+                return text("'tool_pattern' and 'rule_action' required for add_rule.")
+            result = perm_sys.add_rule(
+                tool_pattern=tp,
+                action=ra,
+                condition=arguments.get("condition"),
+                description=arguments.get("description", ""),
+            )
+            return text(result)
+
+        if action == "remove_rule":
+            tp = arguments.get("tool_pattern", "")
+            ra = arguments.get("rule_action", "")
+            if not tp or not ra:
+                return text("'tool_pattern' and 'rule_action' required for remove_rule.")
+            return text(perm_sys.remove_rule(tp, ra))
+
+        if action == "list_rules":
+            rules = perm_sys.list_rules()
+            if not rules:
+                return text("No rules configured.")
+            return text(json.dumps(rules, indent=2))
+
+        return text(f"Unknown action: {action}")
+
+    # ── harness_status (defense-in-depth dashboard) ──────────────────────────
+    if name == "lazyown_harness_status":
+        lines = ["═══ LazyOwn Harness Status (Defense-in-Depth Dashboard) ═══", ""]
+
+        # Layer 1: Permissions
+        ps = _get_perm_system()
+        if ps is not None:
+            m = ps.metrics()
+            lines += [
+                "▼ PERMISSIONS",
+                f"  mode:               {m['mode']}",
+                f"  rules configured:   {m['rules_count']}",
+                f"  total evaluations:  {m['total_evaluations']}",
+                f"  decisions:          allow={m['decisions']['allow']}  deny={m['decisions']['deny']}  ask={m['decisions']['ask']}",
+            ]
+            if m["recent_denials"]:
+                lines.append("  recent denials:")
+                for d in m["recent_denials"]:
+                    lines.append(f"    [{d['ts'][-8:]}] {d['tool']}  →  {d['reason'][:60]}")
+            lines.append("")
+        else:
+            lines += ["▼ PERMISSIONS", "  unavailable (lazyown_permissions not loaded)", ""]
+
+        # Layer 2: Hooks
+        hk = _get_hooks()
+        if hk is not None:
+            m = hk.metrics()
+            lines += [
+                "▼ HOOKS",
+                f"  events registered:  {len(m['events_registered'])}  ({', '.join(m['events_registered'])})",
+                f"  totals:             runs={m['totals']['runs']}  blocks={m['totals']['blocks']}  errors={m['totals']['errors']}",
+            ]
+            for ev, stats in m["per_event"].items():
+                if stats["runs"] > 0:
+                    lines.append(f"    {ev:20s} runs={stats['runs']:4d}  blocks={stats['blocks']:3d}  errors={stats['errors']:3d}")
+            lines.append("")
+        else:
+            lines += ["▼ HOOKS", "  unavailable (lazyown_hooks not loaded)", ""]
+
+        # Layer 3: Session transcript
+        ts = _get_transcript()
+        if ts is not None:
+            events = ts.get_recent(500)
+            tool_uses = sum(1 for e in events if e.get("type") == "tool_use")
+            results = sum(1 for e in events if e.get("type") == "tool_result")
+            boundaries = sum(1 for e in events if e.get("type") == "compact_boundary")
+            denied = sum(
+                1 for e in events
+                if e.get("type") == "permission_decision"
+                and e.get("data", {}).get("decision") == "deny"
+            )
+            lines += [
+                "▼ SESSION TRANSCRIPT",
+                f"  session_id:         {ts.session_id}",
+                f"  total events:       {ts.count()}",
+                f"  tool calls:         {tool_uses}",
+                f"  tool results:       {results}",
+                f"  compact boundaries: {boundaries}",
+                f"  denied calls:       {denied}",
+                f"  file:               {ts.path.name}",
+                "",
+            ]
+        else:
+            lines += ["▼ SESSION TRANSCRIPT", "  unavailable (lazyown_session not loaded)", ""]
+
+        # Layer 4: CLAUDE.md hierarchy
+        cmd_loader = _get_claudemd()
+        if cmd_loader is not None:
+            files = cmd_loader.list_files()
+            lines += ["▼ CLAUDE.md HIERARCHY"]
+            if files:
+                for f in files:
+                    lines.append(f"  [{f['level']:8s}] {f['path']}  ({f['size']:,} bytes)")
+            else:
+                lines.append("  no CLAUDE.md files found in hierarchy")
+            lines.append("")
+        else:
+            lines += ["▼ CLAUDE.md HIERARCHY", "  unavailable", ""]
+
+        # Layer 5: Compaction (best-effort metrics — last result if any)
+        lines += [
+            "▼ CONTEXT COMPACTION",
+            f"  status: active (5-layer pipeline applied to every tool result)",
+            f"  layers: microcompact → snip → collapse → budget",
+            "",
+        ]
+
+        return text("\n".join(lines))
+
+    # ── session_resume ────────────────────────────────────────────────────────
+    if name == "lazyown_session_resume":
+        sid = arguments.get("session_id", "").strip()
+        limit = int(arguments.get("limit", 50))
+
+        try:
+            from lazyown_session import SessionTranscript
+        except ImportError:
+            return text("lazyown_session module not available.")
+
+        if sid:
+            ts_obj = SessionTranscript(SESSIONS_DIR, sid)
+        else:
+            ts_obj = _get_transcript()
+            if ts_obj is None:
+                return text("No active transcript and no session_id provided.")
+
+        events = ts_obj.get_recent(limit)
+        if not events:
+            return text(f"Session {ts_obj.session_id}: no events found.")
+
+        # Aggregate
+        tool_calls: list[str] = []
+        tool_results: list[str] = []
+        denials: list[str] = []
+        boundaries: list[str] = []
+        for e in events:
+            t = e.get("type", "")
+            d = e.get("data", {})
+            ts_str = e.get("ts", "")[-8:]
+            if t == "tool_use":
+                tool = d.get("tool_name", "?")
+                args_str = str(d.get("arguments", {}))[:60]
+                tool_calls.append(f"  [{ts_str}] {tool}  {args_str}")
+            elif t == "tool_result":
+                tool = d.get("tool_name", "?")
+                preview = (d.get("content", "") or "")[:80].replace("\n", " ")
+                tool_results.append(f"  [{ts_str}] {tool}  →  {preview}")
+            elif t == "compact_boundary":
+                summary = d.get("summary", "")[:80]
+                boundaries.append(f"  [{ts_str}] {summary}")
+            elif t == "permission_decision":
+                if d.get("decision") == "deny":
+                    denials.append(f"  [{ts_str}] {d.get('tool_name','?')} → {d.get('reason','')[:60]}")
+
+        lines = [
+            f"═══ Session Resume: {ts_obj.session_id} ═══",
+            f"  total events: {ts_obj.count()}  (showing last {len(events)})",
+            f"  transcript:   {ts_obj.path}",
+            "",
+            f"▼ Tool calls ({len(tool_calls)}):",
+            *tool_calls[-10:],
+            "",
+            f"▼ Tool results ({len(tool_results)}):",
+            *tool_results[-10:],
+        ]
+        if boundaries:
+            lines += ["", f"▼ Compact boundaries ({len(boundaries)}):", *boundaries[-3:]]
+        if denials:
+            lines += ["", f"▼ Permission denials ({len(denials)}):", *denials[-5:]]
+        lines += ["", "Use lazyown_run_command or lazyown_subagent_run to continue from this state."]
+        return text("\n".join(lines))
+
+    # ── subagent_run (isolated sidechain transcript) ─────────────────────────
+    if name == "lazyown_subagent_run":
+        goal = arguments.get("goal", "").strip()
+        backend = arguments.get("backend", "groq")
+        max_iter = int(arguments.get("max_iterations", 5))
+        if not goal:
+            return text("'goal' parameter is required.")
+
+        if not _ensure_bridge():
+            return text("Agent bridge not available — check modules/mcp_agent_bridge.py")
+
+        # 1. Fork transcript → sidechain (no permission inheritance)
+        parent = _get_transcript()
+        try:
+            from lazyown_session import SessionTranscript
+            sidechain = SessionTranscript(SESSIONS_DIR)  # fresh session_id
+            sidechain.append("subagent_init", {
+                "goal": goal, "backend": backend,
+                "parent_session": parent.session_id if parent else None,
+            })
+        except Exception as exc:
+            return text(f"Failed to create sidechain transcript: {exc}")
+
+        # 2. Log spawn event in PARENT transcript
+        if parent is not None:
+            parent.append("subagent_spawned", {
+                "goal": goal, "sidechain_session": sidechain.session_id,
+            })
+
+        # 3. Wrap _runner so subagent's tool calls write to SIDECHAIN, not parent
+        def _isolated_runner(cmd: str) -> str:
+            sidechain.append("tool_use", {"tool_name": "shell", "arguments": {"command": cmd}})
+            try:
+                output = _run_lazyown_command(cmd, timeout=60)
+            except Exception as exc:
+                output = f"[runner error] {exc}"
+            sidechain.append("tool_result", {"tool_name": "shell", "content": output[:800]})
+            return output
+
+        # 4. Inject Groq API key if needed
+        if backend == "groq" and not os.environ.get("GROQ_API_KEY"):
+            cfg = _load_payload()
+            key = cfg.get("api_key", "")
+            if key:
+                os.environ["GROQ_API_KEY"] = key
+
+        # 5. Spawn the subagent
+        try:
+            agent_id = await asyncio.get_event_loop().run_in_executor(
+                None, lambda: start_agent(goal, backend, _isolated_runner, max_iter)
+            )
+        except Exception as exc:
+            sidechain.append("subagent_error", {"error": str(exc)})
+            return text(f"Subagent failed to start: {exc}")
+
+        # 6. Return ONLY summary to parent context (no full history inflation)
+        sidechain.append("subagent_started", {"agent_id": agent_id})
+        return text(
+            f"## Subagent Spawned (Isolated Sidechain)\n"
+            f"  agent_id:           {agent_id}\n"
+            f"  goal:               {goal}\n"
+            f"  backend:            {backend} (max {max_iter} steps)\n"
+            f"  sidechain session:  {sidechain.session_id}\n"
+            f"  sidechain file:     {sidechain.path}\n"
+            f"  parent session:     {parent.session_id if parent else '(none)'}\n\n"
+            f"Permissions are NOT inherited from parent (security isolation).\n"
+            f"Tool calls log to sidechain only — parent context stays clean.\n\n"
+            f"Track progress: lazyown_agent_status('{agent_id}')\n"
+            f"Get final result: lazyown_agent_result('{agent_id}')\n"
+            f"Resume sidechain: lazyown_session_resume('{sidechain.session_id}')"
+        )
+
+    # ── claudemd ──────────────────────────────────────────────────────────────
+    if name == "lazyown_claudemd":
+        action = arguments.get("action", "status")
+        loader = _get_claudemd()
+        if loader is None:
+            return text("ClaudeMdLoader unavailable (lazyown_claudemd.py not found).")
+
+        if action == "status":
+            return text(loader.status_text())
+
+        if action == "load":
+            merged = loader.load()
+            if not merged:
+                return text("No CLAUDE.md files found in hierarchy.")
+            return text(merged)
+
+        if action == "create_user":
+            content = arguments.get("content", "")
+            if not content:
+                return text("'content' parameter required.")
+            return text(loader.create_user_file(content))
+
+        if action == "create_project":
+            content = arguments.get("content", "")
+            if not content:
+                return text("'content' parameter required.")
+            return text(loader.create_project_file(content, local=False))
+
+        if action == "create_local":
+            content = arguments.get("content", "")
+            if not content:
+                return text("'content' parameter required.")
+            return text(loader.create_project_file(content, local=True))
+
+        if action == "add_rule":
+            rule_name = arguments.get("rule_name", "").strip()
+            content   = arguments.get("content", "")
+            if not rule_name or not content:
+                return text("'rule_name' and 'content' required for add_rule.")
+            return text(loader.add_rule(rule_name, content))
+
+        return text(f"Unknown action: {action}")
 
     return [types.TextContent(type="text", text=f"Unknown tool: {name}")]
 

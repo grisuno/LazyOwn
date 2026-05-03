@@ -258,6 +258,14 @@ class EpisodicStore(IMemoryStore):
 
     # IReadableMemory ---------------------------------------------------------
 
+    @staticmethod
+    def _sanitize_fts(query: str) -> str:
+        """Strip FTS5 special chars (dots, colons, brackets, etc.) that cause syntax errors."""
+        import re
+        cleaned = re.sub(r'[^\w\s]', ' ', query)
+        cleaned = re.sub(r'\s+', ' ', cleaned).strip()
+        return cleaned or "unknown"
+
     def recall(
         self,
         query: str,
@@ -269,7 +277,7 @@ class EpisodicStore(IMemoryStore):
         with self._lock:
             try:
                 extra_filters: List[str] = []
-                params: List[Any] = [query]
+                params: List[Any] = [self._sanitize_fts(query)]
                 if role:
                     extra_filters.append("e.role = ?")
                     params.append(role)

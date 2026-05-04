@@ -234,6 +234,27 @@
             term.loadAddon(fitAddon);
 
             fitAddon.fit();
+
+            const termSocket = io("/pty", { transports: ["websocket"] });
+            termSocket.on("connect", () => {
+                term.writeln("\r\n\x1b[32m[ws] connected to /pty (id=" + termSocket.id + ")\x1b[0m");
+            });
+            termSocket.on("connect_error", (err) => {
+                term.writeln("\r\n\x1b[31m[ws] connect_error: " + err.message + "\x1b[0m");
+            });
+            termSocket.on("disconnect", (reason) => {
+                term.writeln("\r\n\x1b[33m[ws] disconnect: " + reason + "\x1b[0m");
+            });
+            termSocket.on("pty-output", (data) => {
+                term.write(data.output);
+            });
+            term.onData((data) => {
+                termSocket.emit("pty-input", { input: data });
+            });
+            window.addEventListener('resize', () => {
+                fitAddon.fit();
+                termSocket.emit("resize", { rows: term.rows, cols: term.cols });
+            });
             var nodes = new vis.DataSet([]);
             var edges = new vis.DataSet([]);
             var network;

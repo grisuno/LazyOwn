@@ -1625,7 +1625,7 @@ def _add_security_headers(response):
 
 SESSION_ID = str(uuid.uuid4())
 
-app.secret_key = 'GrisIsComebackSayKnokKnokSecretlyxDjajajja' + SESSION_ID
+app.secret_key = os.environ.get('LAZYOWN_SECRET_KEY', 'GrisIsComebackSayKnokKnokSecretlyxDjajajja') + SESSION_ID
 app.config['SECRET_KEY'] = app.secret_key
 app.config['SESSION_COOKIE_SECURE'] = True
 app.config['SESSION_COOKIE_HTTPONLY'] = True

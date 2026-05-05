@@ -1,6 +1,6 @@
 {
   "binary_name": "curl",
-  "api_key": "",
+  "api_key": "api_key",
   "telegram_token": "",
   "discord_token": "",
   "enable_telegram_c2": false,
@@ -19,7 +19,7 @@
   "url": "http://VariaType.htb",
   "domain": "VariaType.htb",
   "subdomain": "dc01",
-  "os_id": "1",
+  "os_id": "2",
   "method": "POST",
   "headers": "{\"Content-Type\": \"application/json\"}",
   "params": "{\"param1\": \"LAZYFUZZ\"}",
@@ -89,7 +89,7 @@
       "domain": "localhost",
       "ports": [],
       "status": "in_progress",
-      "notes": "Ciclo completo de prueba local \u2014 todos los servicios",
+      "notes": "Ciclo completo de prueba local — todos los servicios",
       "tags": [
         "linux",
         "local",
@@ -117,7 +117,7 @@
         5985
       ],
       "status": "in_progress",
-      "notes": "Domain Controller VariaType.htb / dc01. Creds: j.fleischman:J0elTHEM4n1990! \u2014 inicial. Atacar con flujo AD completo: enum \u2192 kerberoast \u2192 lateral \u2192 DA",
+      "notes": "Domain Controller VariaType.htb / dc01. Creds: j.fleischman:J0elTHEM4n1990! — inicial. Atacar con flujo AD completo: enum → kerberoast → lateral → DA",
       "tags": [
         "AD",
         "windows",

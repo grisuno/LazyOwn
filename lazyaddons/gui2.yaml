@@ -1,0 +1,15 @@
+name: gui2
+description: >
+  Start the next-generation PySide6 Operator Console for LazyOwn. Boots the
+  modular `lazygui` package (SOLID architecture, six built-in themes, local
+  PTY backend or remote teamserver via /api/data, /api/run, /issue_command).
+  Bridges PySide6 from the qtcreator venv via PYTHONPATH so the heavy Qt
+  binaries do not need to be duplicated inside LazyOwn/env.
+author: "LazyOwn RedTeam"
+version: "1.0"
+enabled: true
+tool:
+  name: gui2
+  repo_url: https://github.com/grisuno/LazyOwn.git
+  install_path: modules/
+  execute_command: cd .. && PYTHONPATH=/home/grisun0/src_note/qt/lazyown/.qtcreator/Python_3_13_7venv/lib/python3.13/site-packages:$PYTHONPATH python3 -W ignore -m lazygui

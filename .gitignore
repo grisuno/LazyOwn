@@ -3,6 +3,11 @@ network_discovery
 puertos
 *.pcap
 *.log
+*.pem
+*.bkp
+.env
+.env.*
+!.env.example
 *.csv
 *.nmap*
 *.key

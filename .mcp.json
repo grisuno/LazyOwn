@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "lazyown": {
+      "command": "python3",
+      "args": ["/home/grisun0/LazyOwn/skills/lazyown_mcp.py"],
+      "env": {
+        "LAZYOWN_DIR": "/home/grisun0/LazyOwn"
+      }
+    }
+  }
+}

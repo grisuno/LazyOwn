@@ -127,11 +127,41 @@ Claude: [calls lazyown_set_config -> lazyown_auto_loop]
 | Playbooks | 2 | playbook_generate, playbook_run |
 | Addons, Tools & Plugins | 3 | list_addons/plugins, create_addon/tool |
 | Scheduling | 2 | cron_schedule, daemon |
-| AI Agents | 5 | run_agent, agent_status/result, list_agents, llm_ask |
+| AI Agents | 5 | run_agent, agent_status/result, list_agents, llm_ask, llm |
 | Event Engine | 4 | poll_events, ack_event, add_rule, heartbeat_status |
 | SWAN MoE+RL | 4 | swan_run, swan_ensemble, swan_status, swan_route |
 
 Full documentation: `skills/README.md` and `skills/lazyown.md`.
+
+## LazyOwn LLM Chat Assistant (`modules/lazyllmchat.py`)
+
+Interactive AI chatbot inside LazyOwn that analyzes command outputs and suggests next tactical steps. Uses session context from `sessions/LazyOwn_session_report.csv` and the same LLM backend as the rest of the framework (Groq via `payload.json` api_key, or Ollama local fallback).
+
+### Usage
+
+```bash
+llm                    # enter interactive LLM chat mode
+llm how to enum SMB?   # direct query + enter chat mode
+```
+
+### Inside chat
+
+| Input | Behavior |
+|-------|----------|
+| `llm <query>` | Ask the AI directly using session context |
+| `<command>` | Run a native LazyOwn cmd2 command; output is sent to LLM for analysis |
+| `sh <command>` | Run a raw shell command; output is sent to LLM for analysis |
+| `exit` | Return to LazyOwn shell |
+
+### Architecture
+
+- `LazyOwnShellBridge` — dynamic `LazyOwnShell` loader with stdout capture
+- `SessionContextProvider` — reads the last 10 lines of the session CSV
+- `PromptBuilder` — tactical prompt construction with history
+- `LLMEngine` — Groq / Ollama abstraction with prompt history
+- `LazyOwnPromptRenderer` — colored prompt matching LazyOwn style
+
+No changes to `lazyown.py` required; loaded as a `lazyaddon` YAML plugin.
 
 ## Advanced AI Architecture (MoE + RL + SWAN + Hive Mind)
 

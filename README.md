@@ -663,13 +663,11 @@ show: Displays the current values of all parameters.
 run <script>: Executes a specific script available in the framework.
 Available Scripts
 
-┌─[👤grisun0 (LazyOwn👽khali) ~/home/grisun0/LazyOwn][10.10.11.78][http://Mirage.htb] 🌐10.10.14.105 ✗ main (🐍env)
-└╼ $ ?
-
-Documented commands (use 'help -v' for verbose/'help <topic>' for details):
+┌─[👤grisun0 (LazyOwn👽kali) ~/home/grisun0/LazyOwn][127.0.0.1][http://VariaType.htb] 🌐192.168.1.120 ✗ feature/lazyllmchat-assistant (🐍env)
+└╼ $ help
 
 01. Reconnaissance
-==================
+──────────────────
 alterx        finalrecon       ping             trace                  
 apache_users  getcap           ports            trufflehog             
 binarycheck   gospider         proxy            tshark_analyze         
@@ -681,7 +679,7 @@ dnsmap        metabigor        tcpdump_capture
 dnstool_py    openssl_sclient  tcpdump_icmp   
 
 02. Scanning & Enumeration
-==========================
+──────────────────────────
 ad_ldap_enum  enum4linux_ng     nbtscan              rpcdump             wpscan
 allin         evil_ssdp         net_rpc_addmem       rpcmap_py         
 amass         feroxbuster       netexec              samrdump          
@@ -702,7 +700,7 @@ dmitry        magicrecon        rdp_check_py         wfuzz
 enum4linux    mqtt_check_py     rpcclient            windapsearch      
 
 03. Exploitation
-================
+────────────────
 aclpwn_py         gettgtpkinit_py  psexec            sqlmap                    
 addspn_py         greatSCT         psexec_py         sqsh                      
 autoblody         img2cookie       py3ttyup          ss                        
@@ -720,7 +718,7 @@ filtering         powerserver      sqli              xsstrike
 gets4uticket_py   printerbug_py    sqli_mssql_test 
 
 04. Post-Exploitation
-=====================
+─────────────────────
 add2find                     exe2bin              pezorsh              
 adversary                    exe2donutbin         pip_proxy            
 adversary_yaml               extract_yaml         pip_repo             
@@ -738,7 +736,7 @@ d3monizedshell               ofuscatorps1         shellcode_search
 disableav                    path2hex             ssh_cmd              
 
 05. Persistence
-===============
+───────────────
 asprevbase64       ftp                msfpc                 setoolKits
 backdoor_factory   generate_revshell  paranoid_meterpreter  ssh       
 conptyshell        grisun0            pwncat                toctoc    
@@ -749,11 +747,11 @@ darkarmour         listener_go        scarecrow
 dr0p1t             listener_py        service             
 
 06. Privilege Escalation
-========================
+────────────────────────
 responder  smbserver
 
 07. Credential Access
-=====================
+─────────────────────
 addusers                cred          john2hash        rocky           
 adsso_spray             creds_py      john2keepas      searchhash      
 cewl                    crunch        john2zip         smalldic        
@@ -764,7 +762,7 @@ createmail              hashcat       passwordspray    transform
 createusers_and_hashs   hydra         refill_password  username_anarchy
 
 08. Lateral Movement
-====================
+────────────────────
 addcli     id_rsa           penelope         sshd               wifipass  
 bloodyAD   lateral_mov_lin  regeorg          stormbreaker       wmiexec   
 chisel     ligolo           rnc              targetedKerberoas  wmiexecpro
@@ -773,20 +771,20 @@ getTGT     nc               shadowsocks      upload_c2
 gospherus  ngrok            socat            vpn              
 
 09. Data Exfiltration
-=====================
+─────────────────────
 adgetpass    dploot    evilwinrm     getuserspns  reg_py    secretsdump  
 decrypt      encrypt   getadusers    gitdumper    rsync     unzip        
 download_c2  evidence  getnthash_py  gmsadumper   samdump2  upload_gofile
 
 10. Command & Control
-=====================
+─────────────────────
 atomic_agent  automsf     emp3r0r                mitre_test   sliver_server
 atomic_gen    c2          empire                 msf        
 atomic_tests  caldera     generate_playbook      msfrpc     
 attack_plan   duckyspark  iis_webdav_upload_asp  my_playbook
 
 11. Reporting
-=============
+─────────────
 apropos                  createtargets          gpt             process_scans
 banners                  download_malwarebazar  groq            pth_net      
 c2asm                    extract_ports          img2vid         pup          
@@ -796,7 +794,7 @@ createjsonmachine        get_avaible_actions    name_the_hash
 createjsonmachine_batch  gowitness              nmapscripthelp
 
 12. Miscellaneous
-=================
+─────────────────
 acknowledgearp   clone_site          getseclist        links         run      
 acknowledgeicmp  cron                graph             list          sh       
 addhosts         decode              h                 load_session  show     
@@ -810,7 +808,7 @@ clean            fixperm             kick              rot
 clock            gencert             lazyscript        rotf        
 
 13. Lua Plugin
-==============
+──────────────
 generate_c_reverse_shell          lolbas_certutil_download_exec
 generate_cleanup_commands         lolbas_certutil_exe          
 generate_html_payload             lolbas_mshta_js              
@@ -826,57 +824,53 @@ kerberos_harvest                  visualize_network
 lolbas_bitsadmin_exe            
 
 14. Yaml Addon.
-===============
-AdaptixC2               GoPEInjection      PTMultiTools_scan                 
-agentzero               gosearch           PyinMemoryPE                      
-argfuscator             gui                raven                             
-ATTPwn                  hack_browser_data  ridenum                           
-AuroraPatch             hellbird           setoolkit                         
-banner_tool             hooka_linux_amd64  ShadowLink                        
-bbr                     hostdiscover       shellcode_custom_win_rev_tcp_xored
-beacon                  kivi_revshell      SigPloit                          
-cgoblin_windows         laps               spoonmap                          
-Clematis                lazyagentAi        stratus_detonate                  
-commix2                 lazybinenc         stratus_list                      
-CVE-2022-22077          lazyftpsniff       unicorn                           
-CVE_2025_24071_PoC      LazyLoader         upxdump                           
-demiguise               lazymapd           vulnbot                           
-ebird3                  lazyownbt          vulnbot_groq                      
-evilginx2               LazyOwnExplorer    vulnhuntr                         
-gcr                     NullGate           watchguard                        
-gemini-cli              oniux              wspcoerce                         
-gen_dll_rev             orpheus          
-Get_ReverseShell        OverRide         
-githubot                peeko            
-gomulti_loader_linux    pretender        
-gomulti_loader_windows  PTMultiTools     
+───────────────
+AdaptixC2                 GoPEInjection      OverRide                          
+agentzero                 gosearch           peeko                             
+argfuscator               gui                pretender                         
+ATTPwn                    gui2               PTMultiTools                      
+AuroraPatch               hack_browser_data  PTMultiTools_scan                 
+banner_tool               hellbird           PyinMemoryPE                      
+bbr                       hive               pyrit                             
+beacon                    hooka_linux_amd64  raven                             
+cgoblin_windows           hostdiscover       ridenum                           
+Clematis                  kivi_revshell      setoolkit                         
+commix2                   laps               ShadowLink                        
+copy-fail-CVE-2026-31431  lazyaddon_creator  shellcode_custom_win_rev_tcp_xored
+CVE-2022-22077            lazyagentAi        SigPloit                          
+CVE_2025_24071_PoC        lazybinenc         spoonmap                          
+demiguise                 lazyftpsniff       stratus_detonate                  
+ebird3                    LazyLoader         stratus_list                      
+evilginx2                 lazymapd           toposwarm                         
+gcr                       lazyownbt          unicorn                           
+gemini-cli                LazyOwnExplorer    upxdump                           
+gen_dll_rev               llm                vulnbot                           
+Get_ReverseShell          NullGate           vulnbot_groq                      
+githubot                  oniux              vulnhuntr                         
+gomulti_loader_linux      opencode_adapter   watchguard                        
+gomulti_loader_windows    orpheus            wspcoerce                         
 
 15. Adversary YAML.
-===================
+───────────────────
 amsi_c            implant_nim_nim  infect_c     pid_c  
 implant_crypt_go  implant_rust_rs  persist_ps1  shell_c
 
 16. Artificial Intelligence
-===========================
+───────────────────────────
 ai_toggle
 
-Uncategorized
-=============
-addalias           evil_winrm_tool        nc_ldap_interact  set           
-alias              getNPUsers_tool        notify            shell         
-asrep_roast        GetUserSPNs.py         nuclei_ad_http    shortcuts     
-bloodhound-python  help                   nxc_idap_tool     showmount_nfs 
-crackmapexec_ldap  history                nxc_ldap          showmount_tool
-crackmapexec_smb   ipp                    nxc_null_session  smb_ghost     
-dig_any            ipy                    nxc_pass_policy   smb_map       
-dig_reverse        kerberoasting_tool     nxc_rid           smbclient_list
-dns_enum_tool      kerbrute_tool          nxc_winrm         smbclient_tool
-dnsrecon_axfr      kerbrute_tool_user     pop               smbmap_tool   
-edit               ldap_domain_dump_tool  quit              smbserver_tool
-enum4linux_tool    ldapsearch_anon        rpcclient_tool    userEnum_tool 
-enum_rpcbind       ldapsearch_tool        rrhost          
-enum_smb           listaliases            run_pyscript    
-EOF                macro                  run_script      
+Uncategorized Commands
+──────────────────────
+addalias          gobuster_dns   ipy             ollama_enum   set          
+alias             gobuster_http  listaliases     pop           shell        
+edit              gobuster_web   macro           quit          shortcuts    
+EOF               help           nikto_host      rrhost        subwfuzz_tool
+ffuf_enumeration  history        notify          run_pyscript
+ffuf_tool         ipp            nuclei_ad_http  run_script  
+
+┌─[👤grisun0 (LazyOwn👽kali) ~/home/grisun0/LazyOwn][127.0.0.1][http://VariaType.htb] 🌐192.168.1.120 ✗ feature/lazyllmchat-assistant (🐍env)
+└╼ $ 
+
 
 ```
 

@@ -6,6 +6,209 @@
 
 ### Otros
 
+  *   * feat(feat): new features llm new bug fixing and new refactoring \n\n Version: release/0.2.97 \n\n with love \n\n Modified file(s):\n- .codacyrc - .env.example - .eslintignore - .eslintrc.json - .gitignore - .mcp.json - .pylintrc - CLAUDE.md - DEPLOY.sh - README.md - cert.pem - cert.pem.bkp - docs/SECURITY_PLAN.md - graphify-out/.graphify_detect.json - graphify-out/.graphify_python - install.sh - key.pem - key.pem.bkp - knowledge_base_vuln.json - lazyaddons/copyfail.yaml - lazyaddons/gui2.yaml - lazyaddons/lazyaddon_creator.yaml - lazyaddons/lazyllmchat.yaml - lazyaddons/opencode_adapter.yaml - lazyaddons/toposwarm.yaml - lazyc2.py - lazyc2/__init__.py - lazyc2/security/__init__.py - lazyc2/security/constants.py - lazyc2/security/services.py - lazyc2/security/validators.py - lazygui/__init__.py - lazygui/__main__.py - lazygui/app.py - lazygui/config/__init__.py - lazygui/config/constants.py - lazygui/config/paths.py - lazygui/config/settings.py - lazygui/panels/__init__.py - lazygui/panels/base.py - lazygui/panels/event_log_panel.py - lazygui/panels/listeners_panel.py - lazygui/panels/registry.py - lazygui/panels/sessions_panel.py - lazygui/panels/terminal_panel.py - lazygui/services/__init__.py - lazygui/services/backend.py - lazygui/services/event_log.py - lazygui/services/factory.py - lazygui/services/local_backend.py - lazygui/services/models.py - lazygui/services/teamserver_backend.py - lazygui/theme/__init__.py - lazygui/theme/manager.py - lazygui/theme/palettes/__init__.py - lazygui/theme/palettes/catppuccin_mocha.py - lazygui/theme/palettes/cobalt_clone.py - lazygui/theme/palettes/gruvbox_dark.py - lazygui/theme/palettes/solarized_light.py - lazygui/theme/palettes/tactical_green.py - lazygui/theme/palettes/tokyo_night.py - lazygui/theme/qss_builder.py - lazygui/theme/tokens.py - lazygui/version.py - lazygui/widgets/__init__.py - lazygui/widgets/command_palette_list.py - lazygui/widgets/event_log_view.py - lazygui/widgets/filter_bar.py - lazygui/widgets/status_badge.py - lazygui/widgets/terminal_view.py - lazygui/windows/__init__.py - lazygui/windows/command_palette_window.py - lazygui/windows/connect_dialog.py - lazygui/windows/main_window.py - modules/ai_fallback.py - modules/hive_invoke.py - modules/knowledge_base_vuln.json - modules/lazyaddon_creator.py - modules/lazyllmchat.py - modules/moe_router.py - modules/obs_parser.py - modules/session_rag.py - modules/toposwarm_bridge.py - modules/world_model.py - payload.json - sessions/implant/implant_crypt.go - skills/hive_mind.py - skills/lazyown_claudemd.py - skills/lazyown_context.py - skills/lazyown_daemon.py - skills/lazyown_hooks.py - skills/lazyown_mcp.py - skills/lazyown_permissions.py - skills/lazyown_session.py - skills/tests/test_harness_e2e.py - skills/toposwarm_autonomous.py - static/security_dashboard.png - templates/index.html - tests/integration_autonomous_flow.py - tests/test_security_lazyc2.py\nDeleted file(s):\n- cert.pem - cert.pem.bkp - key.pem - key.pem.bkp\nCreated file(s):\n- .codacyrc - .env.example - .eslintignore - .eslintrc.json - .mcp.json - .pylintrc - CLAUDE.md - docs/SECURITY_PLAN.md - graphify-out/.graphify_detect.json - graphify-out/.graphify_python - lazyaddons/copyfail.yaml - lazyaddons/gui2.yaml - lazyaddons/lazyaddon_creator.yaml - lazyaddons/lazyllmchat.yaml - lazyaddons/opencode_adapter.yaml - lazyaddons/toposwarm.yaml - lazyc2/__init__.py - lazyc2/security/__init__.py - lazyc2/security/constants.py - lazyc2/security/services.py - lazyc2/security/validators.py - lazygui/__init__.py - lazygui/__main__.py - lazygui/app.py - lazygui/config/__init__.py - lazygui/config/constants.py - lazygui/config/paths.py - lazygui/config/settings.py - lazygui/panels/__init__.py - lazygui/panels/base.py - lazygui/panels/event_log_panel.py - lazygui/panels/listeners_panel.py - lazygui/panels/registry.py - lazygui/panels/sessions_panel.py - lazygui/panels/terminal_panel.py - lazygui/services/__init__.py - lazygui/services/backend.py - lazygui/services/event_log.py - lazygui/services/factory.py - lazygui/services/local_backend.py - lazygui/services/models.py - lazygui/services/teamserver_backend.py - lazygui/theme/__init__.py - lazygui/theme/manager.py - lazygui/theme/palettes/__init__.py - lazygui/theme/palettes/catppuccin_mocha.py - lazygui/theme/palettes/cobalt_clone.py - lazygui/theme/palettes/gruvbox_dark.py - lazygui/theme/palettes/solarized_light.py - lazygui/theme/palettes/tactical_green.py - lazygui/theme/palettes/tokyo_night.py - lazygui/theme/qss_builder.py - lazygui/theme/tokens.py - lazygui/version.py - lazygui/widgets/__init__.py - lazygui/widgets/command_palette_list.py - lazygui/widgets/event_log_view.py - lazygui/widgets/filter_bar.py - lazygui/widgets/status_badge.py - lazygui/widgets/terminal_view.py - lazygui/windows/__init__.py - lazygui/windows/command_palette_window.py - lazygui/windows/connect_dialog.py - lazygui/windows/main_window.py - modules/lazyaddon_creator.py - modules/lazyllmchat.py - modules/toposwarm_bridge.py - skills/lazyown_claudemd.py - skills/lazyown_context.py - skills/lazyown_hooks.py - skills/lazyown_permissions.py - skills/lazyown_session.py - skills/tests/test_harness_e2e.py - skills/toposwarm_autonomous.py - tests/integration_autonomous_flow.py - tests/test_security_lazyc2.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: mié 06 may 2026 10:53:02 -04 \n\n Hora: 1778079182
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(deploy): corrige DEPLOY.sh para GPG opcional, gh releases y orden de variables
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #139 from grisuno/feature/lazyc2-security-plan
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(security): add lazyc2 security layer with validators, services, and pytest tests
+
+
+### Otros
+
+### Otros
+
+  *   * new CLAUDE md FILE
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #138 from grisuno/feature/lazyllmchat-assistant
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(lazyllmchat): add interactive LLM chatbot module and addon
+
+
+### Otros
+
+### Otros
+
+  *   * new features
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(webcli): wire local-shell xterm to /pty namespace with websocket transport
+
+
+### Otros
+
+### Otros
+
+  *   * feat: Claude Code-style harness layer for LazyOwn MCP
+
+
+### Otros
+
+### Otros
+
+  *   * Add files via upload
+
+
+### Otros
+
+### Otros
+
+  *   * Update install.sh for package installations and fixes
+
+
+### Otros
+
+### Otros
+
+  *   * Add files via upload
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #137 from grisuno/feat/toposwarm-addon
+
+
+### Otros
+
+### Otros
+
+  *   * feat: online feedback loop for TopoSwarm routing (RL from user signal)
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #136 from grisuno/feat/toposwarm-addon
+
+
+### Otros
+
+### Otros
+
+  *   * feat: toposwarm lazyaddon — autonomous red team agent driven by TopoSwarm
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #135 from grisuno/feat/toposwarm-addon
+
+
+### Otros
+
+### Otros
+
+  *   * feat: TopoSwarm local brain — fallback when Claude Code / cloud APIs unavailable
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #134 from grisuno/feat/toposwarm-addon
+
+
+### Otros
+
+### Otros
+
+  *   * Add files via upload
+
+
+### Otros
+
+### Otros
+
+  *   * feat: add TopoSwarm AI router addon for LazyOwn MCP
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #133 from grisuno/feature/expand-cloud-rag-stealth-2106303999655273923
+
+
+### Otros
+
+### Otros
+
+  *   * Expand capabilities (Cloud/K8s/RAG) and fix CI
+
+
+### Otros
+
+### Otros
+
+  *   * Expand LazyOwn capabilities and fix CI
+
+
+### Otros
+
+### Otros
+
+  *   * Final submission: Expand LazyOwn capabilities for Cloud/K8s and Multi-Index RAG
+
+
+### Otros
+
+### Otros
+
+  *   * Expand LazyOwn capabilities with Cloud/K8s support and Multi-Index RAG
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat):  \n\n Version: release/0.2.96 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html - modules/reactive_engine.py - payload.json - skills/lazyown_mcp.py - skills/lazyown_policy.py - skills/mcp_restart.sh - static/security_dashboard.png\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Mar 30 23:34:47 2026 -0300 \n\n Hora: 1774924487
 
 

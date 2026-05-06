@@ -31,7 +31,7 @@ See the LICENSE file for details about using this software.
 
  # LazyOwn
 
-LazyOwn is a professional red team framework for penetration testers and security researchers. It provides over 333 attack techniques for Linux, Unix, BSD, macOS, and Windows environments, and integrates the Atomic Red Team attack library.
+LazyOwn is a professional red team framework for penetration testers and security researchers. It provides over 666 attack techniques for Linux, Unix, BSD, macOS, and Windows environments, and integrates the Atomic Red Team attack library.
 
 # Core Architecture
 LazyOwn is built around a modular, command-driven architecture that provides flexibility and extensibility for security testing workflows.

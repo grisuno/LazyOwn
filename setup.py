@@ -1,5 +1,7 @@
 # setup.py
-from setuptools import setup, find_packages
+import os
+
+from setuptools import setup
 
 setup(
     name="lazyown",
@@ -40,7 +42,6 @@ setup(
         "flask-unsign",
         "name-that-hash",
         "certipy-ad",
-        "ast",
         "pykeepass",
         "Pillow",
         "netaddr",
@@ -52,7 +53,7 @@ setup(
         "scapy",
         "watchdog",
         "flask-login",
-        "instal flask-wtf",
+        "flask-wtf",
         "bcrypt",
         "pyyaml",
         "bs4",

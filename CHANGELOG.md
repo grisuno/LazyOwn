@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Refactorización
+
+### Otros
+
+  *   * refactor(refactor): some bug fixing and refactors \n\n Version: release/0.2.97 \n\n with love \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: mié 06 may 2026 10:56:21 -04 \n\n Hora: 1778079381
+
+
 ### Nuevas características
 
 ### Otros

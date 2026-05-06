@@ -320,10 +320,27 @@ git -C . push origin main --follow-tags
 # Crear release en GitHub usando gh CLI
 if command -v gh >/dev/null 2>&1; then
     echo "[*] Creando release en GitHub con gh..."
+
+    # GitHub API limita el body de release a 125000 caracteres
+    # Si el changelog es muy largo, truncarlo para la release
+    MAX_RELEASE_CHARS=120000
+    RELEASE_NOTES_FILE="$CHANGELOG_FILE"
+    if [ "$(wc -c < "$CHANGELOG_FILE")" -gt "$MAX_RELEASE_CHARS" ]; then
+        RELEASE_NOTES_FILE="/tmp/lazyown_release_notes_$$.md"
+        head -c "$MAX_RELEASE_CHARS" "$CHANGELOG_FILE" > "$RELEASE_NOTES_FILE"
+        echo -e "\n\n... *(Notas truncadas por limite de GitHub. Ver CHANGELOG.md completo en el repo)*" >> "$RELEASE_NOTES_FILE"
+        echo "[!] CHANGELOG.md excede limite de GitHub (${MAX_RELEASE_CHARS} chars) — se trunco para la release."
+    fi
+
     gh release create "$NEW_VERSION" \
         --title "LazyOwn $NEW_VERSION" \
-        --notes-file "$CHANGELOG_FILE" \
-        --target main || echo "[!] No se pudo crear la release con gh. ¿Estás autenticado? (gh auth status)"
+        --notes-file "$RELEASE_NOTES_FILE" \
+        --target main || echo "[!] No se pudo crear la release con gh. ¿Estas autenticado? (gh auth status)"
+
+    # Limpiar temp si se creo
+    if [ "${RELEASE_NOTES_FILE:-}" != "$CHANGELOG_FILE" ] && [ -f "${RELEASE_NOTES_FILE:-}" ]; then
+        rm -f "$RELEASE_NOTES_FILE"
+    fi
 else
     echo "[!] gh CLI no encontrado. Sube la release manualmente o instala gh."
 fi

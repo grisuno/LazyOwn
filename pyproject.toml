@@ -33,7 +33,6 @@ dependencies = [
     "flask-unsign",
     "name-that-hash",
     "certipy-ad",
-    "ast",
     "pykeepass",
     "Pillow",
     "netaddr",
@@ -45,7 +44,7 @@ dependencies = [
     "scapy",
     "watchdog",
     "flask-login",
-    "instal flask-wtf",
+    "flask-wtf",
     "bcrypt",
     "pyyaml",
     "bs4",
@@ -85,3 +84,124 @@ lazyown = "lazyown:main"
 Homepage = "https://github.com/grisuno/LazyOwn"
 Repository = "https://github.com/grisuno/LazyOwn"
 Documentation = "https://grisuno.github.io/LazyOwn/"
+
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.6.0",
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "mypy>=1.10",
+    "bandit>=1.7",
+    "detect-secrets>=1.5",
+    "pip-audit>=2.7",
+]
+
+[tool.setuptools]
+py-modules = ["lazyown", "lazyc2", "utils"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py38"
+extend-exclude = [
+    "env",
+    "build",
+    "external",
+    "modules_ext",
+    "graphify-out",
+    "sessions",
+    "parquets",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "S"]
+ignore = [
+    "E501",
+    "S101",
+    "S105",
+    "S106",
+    "S107",
+    "S108",
+    "S110",
+    "S112",
+    "S113",
+    "S301",
+    "S307",
+    "S310",
+    "S311",
+    "S324",
+    "S404",
+    "S602",
+    "S603",
+    "S605",
+    "S607",
+    "B008",
+    "B904",
+    "B905",
+    "UP007",
+    "UP008",
+    "UP015",
+    "UP032",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S", "B"]
+"lazyown.py" = ["E", "F", "W", "B", "UP", "I", "S"]
+"lazyc2.py" = ["E", "F", "W", "B", "UP", "I", "S"]
+"utils.py" = ["E", "F", "W", "B", "UP", "I", "S"]
+"modules/*" = ["E", "F", "W", "B", "UP", "I", "S"]
+"skills/*" = ["E", "F", "W", "B", "UP", "I", "S"]
+"plugins/*" = ["E", "F", "W", "B", "UP", "I", "S"]
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "-ra",
+    "--strict-markers",
+    "--strict-config",
+]
+markers = [
+    "integration: integration tests touching real services or sessions/ fixtures",
+    "slow: tests that take more than a few seconds",
+]
+
+[tool.mypy]
+python_version = "3.8"
+ignore_missing_imports = true
+warn_unused_configs = true
+warn_redundant_casts = true
+follow_imports = "silent"
+exclude = [
+    "env/",
+    "build/",
+    "external/",
+    "modules_ext/",
+    "graphify-out/",
+    "sessions/",
+    "parquets/",
+    "lazyown.py",
+    "lazyc2.py",
+    "utils.py",
+]
+
+[tool.bandit]
+exclude_dirs = [
+    "env",
+    "build",
+    "external",
+    "modules_ext",
+    "graphify-out",
+    "sessions",
+    "tests",
+]
+skips = [
+    "B101",
+    "B404",
+    "B602",
+    "B603",
+    "B605",
+    "B607",
+]

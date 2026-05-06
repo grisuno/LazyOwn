@@ -85,51 +85,22 @@ from urllib.parse import quote, unquote, urlparse, urljoin
 from impacket.dcerpc.v5.rpcrt import RPC_C_AUTHN_LEVEL_NONE
 from requests.exceptions import ConnectionError, RequestException
 
+from core.config import Config, PAYLOAD_FILENAME, PAYLOAD_PATH, load_payload, save_payload
+from core.console import (
+    BG_BLACK, BG_BLUE, BG_BRIGHT_BLACK, BG_BRIGHT_BLUE, BG_BRIGHT_CYAN,
+    BG_BRIGHT_GREEN, BG_BRIGHT_MAGENTA, BG_BRIGHT_RED, BG_BRIGHT_WHITE,
+    BG_BRIGHT_YELLOW, BG_COLOR_256, BG_CYAN, BG_GREEN, BG_MAGENTA, BG_RED,
+    BG_TRUE_COLOR, BG_WHITE, BG_YELLOW, BLACK, BLINK, BLUE, BOLD,
+    BRIGHT_BLACK, BRIGHT_BLUE, BRIGHT_CYAN, BRIGHT_GREEN, BRIGHT_MAGENTA,
+    BRIGHT_RED, BRIGHT_WHITE, BRIGHT_YELLOW, COLOR_256, CYAN, GREEN, INVERT,
+    MAGENTA, RED, RESET, SURROGATE_CHARS, TRANSLATION_TABLE, TRUE_COLOR,
+    UNDERLINE, WHITE, YELLOW, print_error, print_msg, print_succ, print_warn,
+)
+from core.crypto import xor_encrypt_decrypt
+from core.validators import check_lhost, check_lport, check_port, check_rhost
 
 
 query_id = 0
-RESET = "\033[0m"
-BOLD = "\033[1m"
-UNDERLINE = "\033[4m"
-INVERT = "\033[7m"
-BLINK = "\033[5m"
-BLACK = "\033[30m"
-RED = "\033[31m"
-GREEN = "\033[32m"
-YELLOW = "\033[33m"
-BLUE = "\033[34m"
-MAGENTA = "\033[35m"
-CYAN = "\033[36m"
-WHITE = "\033[37m"
-BG_BLACK = "\033[40m"
-BG_RED = "\033[41m"
-BG_GREEN = "\033[42m"
-BG_YELLOW = "\033[43m"
-BG_BLUE = "\033[44m"
-BG_MAGENTA = "\033[45m"
-BG_CYAN = "\033[46m"
-BG_WHITE = "\033[47m"
-BRIGHT_BLACK = "\033[90m"
-BRIGHT_RED = "\033[91m"
-BRIGHT_GREEN = "\033[92m"
-BRIGHT_YELLOW = "\033[93m"
-BRIGHT_BLUE = "\033[94m"
-BRIGHT_MAGENTA = "\033[95m"
-BRIGHT_CYAN = "\033[96m"
-BRIGHT_WHITE = "\033[97m"
-BG_BRIGHT_BLACK = "\033[100m"
-BG_BRIGHT_RED = "\033[101m"
-BG_BRIGHT_GREEN = "\033[102m"
-BG_BRIGHT_YELLOW = "\033[103m"
-BG_BRIGHT_BLUE = "\033[104m"
-BG_BRIGHT_MAGENTA = "\033[105m"
-BG_BRIGHT_CYAN = "\033[106m"
-BG_BRIGHT_WHITE = "\033[107m"
-
-COLOR_256 = "\033[38;5;{}m"
-BG_COLOR_256 = "\033[48;5;{}m"
-TRUE_COLOR = "\033[38;2;{};{};{}m"
-BG_TRUE_COLOR = "\033[48;2;{};{};{}m"
 
 recon_category = "01. Reconnaissance"
 scanning_category = "02. Scanning & Enumeration"
@@ -371,54 +342,6 @@ def load_version():
 
 version = load_version()
 url_download = f"https://github.com/grisuno/LazyOwn/archive/refs/tags/{version}.tar.gz"
-def print_error(error):
-    """
-    Prints an error message to the console.
-
-    This function takes an error message as input and prints it to the console
-    with a specific format to indicate that it is an error.
-
-    :param error: The error message to be printed.
-    :type error: str
-    :return: None
-    """
-    print(f"    {YELLOW}[-]{RED} {error}{RESET} [☠]")
-    return
-
-SURROGATE_CHARS = dict.fromkeys(range(0xD800, 0xE000))
-TRANSLATION_TABLE = str.maketrans(SURROGATE_CHARS)
-def print_msg(msg):
-    """
-    Prints a message to the console.
-
-    This function takes a message as input and prints it to the console
-    with a specific format to indicate that it is an informational message.
-
-    :param msg: The message to be printed.
-    :type msg: str
-    :return: None
-    """
-    sanitized_msg = msg.translate(TRANSLATION_TABLE)
-    print(f"    {GREEN}[+]{WHITE} {sanitized_msg}{RESET} [👽]")
-    return
-
-
-def print_warn(warn):
-    """
-    Prints a warning message to the console.
-
-    This function takes a warning message as input and prints it to the console
-    with a specific format to indicate that it is a warning.
-
-    :param warn: The warning message to be printed.
-    :type warn: str
-    :return: None
-    """
-
-    print(f"    {MAGENTA}[~]{YELLOW} {warn}{RESET} [⚠]")
-    return
-
-
 def signal_handler(sig, frame):
     """
     Handles signals such as Control + C and shows a message on how to exit.
@@ -444,72 +367,6 @@ def signal_handler(sig, frame):
 
 
 signal.signal(signal.SIGINT, signal_handler)
-
-
-def check_rhost(rhost):
-    """
-    Checks if the remote host (rhost) is defined and shows an error message if it is not.
-
-    This function verifies if the `rhost` parameter is set. If it is not defined,
-    an error message is printed, providing an example and directing the user to
-    additional help.
-
-    :param rhost: The remote host to be checked.
-    :type rhost: str
-    :return: True if rhost is defined, False otherwise.
-    :rtype: bool
-    """
-
-    if not rhost:
-        print_error(
-            f"rhost must be set, {GREEN}Example: set rhost 10.10.10.10, {WHITE}more info see help set, or help <TOPIC> {RESET}"
-        )
-        return False
-    return True
-
-
-def check_lhost(lhost):
-    """
-    Checks if the local host (lhost) is defined and shows an error message if it is not.
-
-    This function verifies if the `lhost` parameter is set. If it is not defined,
-    an error message is printed, providing an example and directing the user to
-    additional help.
-
-    :param lhost: The local host to be checked.
-    :type lhost: str
-    :return: True if lhost is defined, False otherwise.
-    :rtype: bool
-    """
-
-    if not lhost:
-        print_error(
-            f"lhost must be set, {GREEN}Example: set lhost 10.10.10.10, {WHITE}more info see help set, or help <TOPIC> {RESET}"
-        )
-        return False
-    return True
-
-
-def check_lport(lport):
-    """
-    Checks if the local port (lport) is defined and shows an error message if it is not.
-
-    This function verifies if the `lport` parameter is set. If it is not defined,
-    an error message is printed, providing an example and directing the user to
-    additional help.
-
-    :param lport: The local port to be checked.
-    :type lport: int or str
-    :return: True if lport is defined, False otherwise.
-    :rtype: bool
-    """
-
-    if not lport:
-        print_error(
-            f"lport must be set, {GREEN}Example: set lport 5555, {WHITE}more info see help set, or help <TOPIC> {RESET}"
-        )
-        return False
-    return True
 
 
 def is_binary_present(binary_name):
@@ -1105,31 +962,6 @@ def find_ps(keyword=""):
     else:
         return False
 
-def xor_encrypt_decrypt(data, key):
-    """
-    Encrypts or decrypts data using XOR encryption with the provided key.
-
-    Parameters:
-    data (bytes or bytearray): The input data to be encrypted or decrypted.
-    key (str): The encryption key as a string.
-
-    Returns:
-    bytearray: The result of the XOR operation, which can be either the encrypted or decrypted data.
-
-    Example:
-    encrypted_data = xor_encrypt_decrypt(b"Hello, World!", "key")
-    decrypted_data = xor_encrypt_decrypt(encrypted_data, "key")
-    print(decrypted_data.decode("utf-8"))  # Outputs: Hello, World!
-
-    Additional Notes:
-    - XOR encryption is symmetric, meaning that the same function is used for both encryption and decryption.
-    - The key is repeated cyclically to match the length of the data if necessary.
-    - This method is commonly used for simple encryption tasks, but it is not secure for protecting sensitive information.
-    """
-    key_bytes = bytes(key, "utf-8")
-    key_length = len(key_bytes)
-    return bytearray([data[i] ^ key_bytes[i % key_length] for i in range(len(data))])
-
 def run(command):
     """
     Executes a shell command using the subprocess module, capturing its output.
@@ -1577,11 +1409,6 @@ def get_credentials(file=None, ncred=None):
                 credentials.append((params[0], params[1]))
 
     return credentials
-
-def load_payload():
-    with open('payload.json', 'r') as file:
-        config = json.load(file)
-    return config
 
 def obfuscate_payload(payload):
     """
@@ -2683,11 +2510,6 @@ def get_org(data):
         return "null"
 
 
-def load_payload():
-    with open('payload.json', 'r') as file:
-        config = json.load(file)
-    return config
-
 def load_adversary():
     with open('adversary.json', 'r') as file:
         config_list = json.load(file)
@@ -3226,15 +3048,6 @@ class IP2ASN:
         """Get the country by ASN."""
         return self.as_country.get(asn, "Unknown")
 
-class Config:
-    def __init__(self, config_dict):
-        self.config = config_dict
-        for key, value in self.config.items():
-            setattr(self, key, value)
-
-    def __getitem__(self, key):
-        return getattr(self, key, None)
-
 class VulnerabilityScanner:
     """Escáner de vulnerabilidades que busca y muestra información sobre CVEs.
 
@@ -3324,15 +3137,6 @@ class VulnerabilityScanner:
             print_msg(f"Csv file created successfully at {file_path}")
         except Exception as e:
             print_error(f"Error creating Csv file: {e}")
-
-class Config:
-    def __init__(self, config_dict):
-        self.config = config_dict
-        for key, value in self.config.items():
-            setattr(self, key, value)
-
-    def __getitem__(self, key):
-        return getattr(self, key, None)
 
 signal.signal(signal.SIGINT, signal_handler)
 arguments = sys.argv[1:]

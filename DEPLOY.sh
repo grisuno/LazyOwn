@@ -1,19 +1,27 @@
 #!/bin/bash
+set -euo pipefail
 
 # Constantes
 readonly CHANGELOG_FILE="CHANGELOG.md"
 readonly README_FILE="README.md"
-# Definir los archivos Markdown
+readonly UTILS_FILE="UTILS.md"
+readonly COMMANDS_FILE="COMMANDS.md"
 
-UTILS_FILE="UTILS.md"
-COMMANDS_FILE="COMMANDS.md"
+# Detectar si GPG signing esta disponible
+GPG_SIGN=""
+if git config --get user.signingkey >/dev/null 2>&1 && gpg --list-secret-keys "$(git config --get user.signingkey)" >/dev/null 2>&1; then
+    GPG_SIGN="-S"
+    echo "[*] GPG signing habilitado."
+else
+    echo "[!] GPG signing no disponible (sin user.signingkey o clave secreta). Commits/tags se crearan sin firma."
+fi
 
 increment_version() {
     local version=$1
     local major minor patch
     IFS='.' read -r major minor patch <<< "$version"
 
-    local increment_type=${2:-"patch"}  # default to patch
+    local increment_type=${2:-"patch"}
 
     case $increment_type in
         major)
@@ -38,31 +46,30 @@ increment_version() {
 }
 
 # Obtener la versión actual
-CURRENT_VERSION=$(git -C . describe --tags --abbrev=0 2>/dev/null || echo "relsease/0.2.0")
+CURRENT_VERSION=$(git -C . describe --tags --abbrev=0 2>/dev/null || echo "release/0.2.0")
+
+# Obtener commits de referencia ANTES de usarlos
+START_COMMIT=$(git -C . describe --tags --abbrev=0)
+END_COMMIT=$(git -C . rev-parse HEAD)
 
 #TEST ME NEITOR
-# Revisa si el parámetro --no-test está presente
-if [[ "$1" != "--no-test" ]]; then
-    # Ejecuta el comando si --no-test no está presente
+if [[ "${1:-}" != "--no-test" ]]; then
     python3 testmeneitor.py lazyown.py
 fi
 
-# Ejecuta el comando para eliminar archivos que comiencen con d2
-rm d2*
+# Ejecuta el comando para eliminar archivos que comiencen con d2 (ignora error si no hay coincidencias)
+rm -f d2* || true
 
 # Actualiza la documentación
 python3 readmeneitor.py lazyown.py
 python3 readmeneitor.py utils.py
-
-#Actualiza el README.md con los ultimos cambios
-
 
 # Función para actualizar una sección específica
 update_section_md() {
     local start_comment="$1"
     local end_comment="$2"
     local content_file="$3"
-    
+
     sed -i "/$start_comment/,/$end_comment/{
         /$start_comment/!{/$end_comment/!d}
         /$start_comment/r $content_file
@@ -77,14 +84,10 @@ update_section_md "<!-- START CHANGELOG -->" "<!-- END CHANGELOG -->" "$CHANGELO
 echo "[*] El archivo $README_FILE ha sido actualizado con el contenido de UTILS.md, COMMANDS.md, y CHANGELOG.md."
 
 # Crea el readme en html
-
-pandoc $README_FILE -f markdown -t html -s -o  README.html --metadata title="README LazyOwn Framework Pentesting t00lz"
-
+pandoc "$README_FILE" -f markdown -t html -s -o README.html --metadata title="README LazyOwn Framework Pentesting t00lz"
 mv README.html docs/README.html
-# Este script actualiza el index.html de manera automatizada con los html generados por readmeneitor
 
-# el html generado es horrible si... es horrible, pero es automatizado... TODO mejorar el html horrible 
-# Definir los archivos HTML
+# Este script actualiza el index.html de manera automatizada con los html generados por readmeneitor
 INDEX_FILE="docs/index.html"
 README_FILE_HTML="docs/README.html"
 
@@ -96,7 +99,7 @@ update_section_html() {
     local start_comment="$1"
     local end_comment="$2"
     local content_file="$3"
-    
+
     sed -i "/$start_comment/,/$end_comment/{
         /$start_comment/!{/$end_comment/!d}
         /$start_comment/r $content_file
@@ -126,13 +129,9 @@ case $TYPE_OPTION in
   *) echo "Opción no válida"; exit 1 ;;
 esac
 
-# Solicitar el tipo del commit al usuario
+# Solicitar datos del commit
 read -r -p "Introduce el tipo del commit (type): " TYPEDESC
-
-# Solicitar el mensaje del commit al usuario
 read -r -p "Introduce el mensaje del commit (subject): " SUBJECT
-
-# Solicitar el cuerpo del commit
 read -r -p "Introduce el cuerpo del commit (body): " BODY
 
 # Definir el footer fijo
@@ -141,20 +140,16 @@ FOOTER=" LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \
 # Determinar el incremento de versión basado en el tipo de commit
 case $TYPE in
     feat|feature|fix|hotfix)
-        # Incrementar el número de parche
-        NEW_VERSION=$(increment_version $CURRENT_VERSION "patch")
+        NEW_VERSION=$(increment_version "$CURRENT_VERSION" "patch")
         ;;
     refactor|docs|test|style|shore)
-        # No cambiar la versión
         NEW_VERSION=$CURRENT_VERSION
         ;;
     release)
-        # Incrementar el número mayor y reiniciar los números menor y parche a 0
-        NEW_VERSION=$(increment_version $CURRENT_VERSION "major")
+        NEW_VERSION=$(increment_version "$CURRENT_VERSION" "major")
         ;;
     patch)
-        # Incrementar el número menor
-        NEW_VERSION=$(increment_version $CURRENT_VERSION "minor")
+        NEW_VERSION=$(increment_version "$CURRENT_VERSION" "minor")
         ;;
     *)
         echo "Invalid commit type: $TYPE" >&2
@@ -165,13 +160,10 @@ esac
 echo "{\"version\": \"$NEW_VERSION\"}" > version.json
 git -C . add version.json
 
-#LISTFILES=" Modified file(s): $(git diff --name-only $START_COMMIT $END_COMMIT | sed 's/^/- /')"
-# Capturar archivos modificados
-MODIFIED_FILES=$(git diff --name-only $START_COMMIT $END_COMMIT | sed 's/^/- /')
-# Capturar archivos eliminados
-DELETED_FILES=$(git diff --name-only --diff-filter=D $START_COMMIT $END_COMMIT | sed 's/^/- /')
-# Capturar archivos creados
-CREATED_FILES=$(git diff --name-only --diff-filter=A $START_COMMIT $END_COMMIT | sed 's/^/- /')
+# Capturar archivos modificados/eliminados/creados
+MODIFIED_FILES=$(git diff --name-only "$START_COMMIT" "$END_COMMIT" | sed 's/^/- /' || true)
+DELETED_FILES=$(git diff --name-only --diff-filter=D "$START_COMMIT" "$END_COMMIT" | sed 's/^/- /' || true)
+CREATED_FILES=$(git diff --name-only --diff-filter=A "$START_COMMIT" "$END_COMMIT" | sed 's/^/- /' || true)
 
 # Crear LISTFILES incluyendo solo las secciones no vacías
 LISTFILES=""
@@ -185,31 +177,26 @@ if [ -n "$CREATED_FILES" ]; then
     LISTFILES+="Created file(s):\n$CREATED_FILES\n"
 fi
 
-# Usar LISTFILES en tu mensaje de commit
 echo -e "$LISTFILES"
 
 # Formatear el mensaje del commit
-COMMIT_MESSAGE="${TYPE}(${TYPEDESC}): ${SUBJECT} \n\n Version: ${NEW_VERSION} \n\n ${BODY} \n\n ${LISTFILES} ${FOOTER} \n\n Fecha: $(git log -1 --format=%ad) \n\n Hora: $(git log -1 --format=%at)"
-
-# Obtener el último tag y el commit actual
-START_COMMIT=$(git -C . describe --tags --abbrev=0)
-END_COMMIT=$(git -C . rev-parse HEAD)
+COMMIT_MESSAGE="${TYPE}(${TYPEDESC}): ${SUBJECT} \n\n Version: ${NEW_VERSION} \n\n ${BODY} \n\n ${LISTFILES} ${FOOTER} \n\n Fecha: $(date) \n\n Hora: $(date +%s)"
 
 # Crear o limpiar el archivo de changelog
-echo "# Changelog" > $CHANGELOG_FILE
-echo "" >> $CHANGELOG_FILE
+echo "# Changelog" > "$CHANGELOG_FILE"
+echo "" >> "$CHANGELOG_FILE"
 
 # Agregar los cambios al changelog
-git -C . log --format="%s" $START_COMMIT..$END_COMMIT >> $CHANGELOG_FILE
+git -C . log --format="%s" "$START_COMMIT".."$END_COMMIT" >> "$CHANGELOG_FILE" || true
 
-# Mensaje indicando que el changelog se ha generado
 echo "[*] Changelog generado en $CHANGELOG_FILE"
 
 # Añadir todos los cambios
 git -C . add .
 
-# Realizar el commit con el mensaje proporcionado
-git -C . commit -S -a -m "$COMMIT_MESSAGE"
+# Realizar el commit (con o sin firma GPG)
+# shellcheck disable=SC2086
+git -C . commit $GPG_SIGN -a -m "$COMMIT_MESSAGE"
 
 # Función para obtener el tipo de cambio basado en el mensaje del commit
 get_commit_type() {
@@ -236,20 +223,20 @@ get_commit_type() {
 }
 
 # Crear o limpiar el archivo de changelog
-echo "# Changelog" > $CHANGELOG_FILE
-echo "" >> $CHANGELOG_FILE
+echo "# Changelog" > "$CHANGELOG_FILE"
+echo "" >> "$CHANGELOG_FILE"
 
 # Obtener todos los commits desde el inicio en orden inverso
 git log --pretty=format:"%s" | while read -r commit_message; do
   commit_type=$(get_commit_type "$commit_message")
-  echo "$commit_type" >> $CHANGELOG_FILE
-  echo "  * $commit_message" >> $CHANGELOG_FILE
-  echo "" >> $CHANGELOG_FILE
+  echo "$commit_type" >> "$CHANGELOG_FILE"
+  echo "  * $commit_message" >> "$CHANGELOG_FILE"
+  echo "" >> "$CHANGELOG_FILE"
 done
 
 echo "[+] Changelog generado y formateado en $CHANGELOG_FILE"
 
-# formatear el change log
+# Formatear el CHANGELOG usando sponge
 echo "[+] Formateando el CHANGELOG"
 awk -F: '{
   if ($1 ~ /^#/) {
@@ -290,37 +277,56 @@ awk -F: '{
       }
     }
   }
-}' $CHANGELOG_FILE | sponge $CHANGELOG_FILE
+}' "$CHANGELOG_FILE" | sponge "$CHANGELOG_FILE"
 
 # Añadir el archivo de changelog al commit
-git -C . add $CHANGELOG_FILE
+git -C . add "$CHANGELOG_FILE"
 
 # Convertir el changelog a HTML
-pandoc $CHANGELOG_FILE -f markdown -t html -s -o CHANGELOG.html --metadata title="CHANGELOG LazyOwn Framework RedTeaming t00lz"
+pandoc "$CHANGELOG_FILE" -f markdown -t html -s -o CHANGELOG.html --metadata title="CHANGELOG LazyOwn Framework RedTeaming t00lz"
 mv CHANGELOG.html docs/CHANGELOG.html
 git -C . add docs/CHANGELOG.html
 
-# Realizar el commit (modificar el commit actual para incluir el changelog)
-git -C . commit  -S --amend --no-edit
+# Modificar el commit actual para incluir el changelog
+# shellcheck disable=SC2086
+git -C . commit $GPG_SIGN --amend --no-edit
 
 # Crear un nuevo tag con la nueva versión
-# Si el tag ya existe, incrementar el parche hasta encontrar uno libre
+# Si el tag ya existe localmente, eliminarlo primero para evitar conflictos
 FINAL_VERSION="$NEW_VERSION"
 while git -C . rev-parse "$FINAL_VERSION" >/dev/null 2>&1; do
-    echo "[!] Tag '$FINAL_VERSION' ya existe — incrementando parche..."
+    echo "[!] Tag '$FINAL_VERSION' ya existe localmente — eliminando tag local huérfano..."
+    git -C . tag -d "$FINAL_VERSION" || true
+    echo "[*] Reintentando con parche incrementado..."
     FINAL_VERSION=$(increment_version "$FINAL_VERSION" "patch")
 done
+
 if [ "$FINAL_VERSION" != "$NEW_VERSION" ]; then
     echo "[*] Versión final ajustada: $FINAL_VERSION"
     NEW_VERSION="$FINAL_VERSION"
     echo "{\"version\": \"$NEW_VERSION\"}" > version.json
     git -C . add version.json
-    git -C . commit -S --amend --no-edit
+    # shellcheck disable=SC2086
+    git -C . commit $GPG_SIGN --amend --no-edit
 fi
-git -C . tag -s "$NEW_VERSION" -m "Version $NEW_VERSION"
 
-# Hacer push al repositorio remoto, incluyendo los tags
-git -C . push --follow-tags
+# Crear el tag (con o sin firma GPG)
+# shellcheck disable=SC2086
+git -C . tag $GPG_SIGN "$NEW_VERSION" -m "Version $NEW_VERSION"
+
+# Push al remoto (con tags)
+git -C . push origin main --follow-tags
+
+# Crear release en GitHub usando gh CLI
+if command -v gh >/dev/null 2>&1; then
+    echo "[*] Creando release en GitHub con gh..."
+    gh release create "$NEW_VERSION" \
+        --title "LazyOwn $NEW_VERSION" \
+        --notes-file "$CHANGELOG_FILE" \
+        --target main || echo "[!] No se pudo crear la release con gh. ¿Estás autenticado? (gh auth status)"
+else
+    echo "[!] gh CLI no encontrado. Sube la release manualmente o instala gh."
+fi
 
 echo "[*] Cambios enviados al repositorio remoto con la nueva versión $NEW_VERSION."
 # TODO: DELETE ALL SPAGETTI CODE

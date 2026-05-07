@@ -305,20 +305,26 @@ a subclass to customize its behavior.</p>
 <p>Example: &gt;&gt;&gt; shell = LazyOwnShell() &gt;&gt;&gt;
 shell.cmdloop() # Exits the command loop GoodBye LazyOwner</p>
 <h2 id="assign">assign</h2>
-<p>assign a parameter value.</p>
-<p>This function takes a line of input, splits it into a parameter and a
-value, and assign the specified parameter to the given value if the
-parameter exists.</p>
-<p>:param line: A string containing the parameter and value to be set.
-Expected format: ‘<parameter> <value>’. :type line: str :return: None
-:raises: ValueError if the input line does not contain exactly two
-elements.</p>
+<p>assign a parameter value, persist to payload.json and refresh
+aliases.</p>
+<p>The mutation is delegated to
+:func:<code>cli.assign.apply_assign</code> which writes
+<code>payload.json</code> atomically through
+:func:<code>core.config.save_payload</code> when the parameter is known.
+After a successful update, aliases are re-rendered so commands like
+<code>backdoor</code> or <code>coerce_plus</code> immediately reflect
+the new value without a shell restart.</p>
+<p>:param line: ‘<parameter> <value>’. :type line: str :return: None</p>
+<h2 id="complete_assign">complete_assign</h2>
+<p>Tab-complete the parameter name from the live payload keys.</p>
+<p>Driven entirely by <code>self.params</code> so the framework never
+has to maintain a parallel list of completion targets — adding a new key
+to <code>payload.json</code> makes it tab-completable for free.</p>
 <h2 id="show">show</h2>
-<p>Show the current parameter values.</p>
-<p>This function iterates through the current parameters and their
-values, printing each parameter and its associated value.</p>
-<p>:param line: This parameter is not used in the function. :type line:
-str :return: None</p>
+<p>Show the current parameter values, sorted and aligned.</p>
+<p>Rendering is delegated to :func:<code>cli.show.format_payload</code>
+so the same formatter can be reused by reports, the dashboard or
+shift-handoff artefacts.</p>
 <h2 id="list">list</h2>
 <p>Lists all available scripts in the modules directory.</p>
 <p>This method prints a list of available scripts in a formatted manner,

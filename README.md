@@ -2646,26 +2646,31 @@ Example:
     GoodBye LazyOwner
 
 ## assign
-assign a parameter value.
+assign a parameter value, persist to payload.json and refresh aliases.
 
-This function takes a line of input, splits it into a parameter and a value,
-and assign the specified parameter to the given value if the parameter exists.
+The mutation is delegated to :func:`cli.assign.apply_assign` which
+writes ``payload.json`` atomically through :func:`core.config.save_payload`
+when the parameter is known. After a successful update, aliases are
+re-rendered so commands like ``backdoor`` or ``coerce_plus`` immediately
+reflect the new value without a shell restart.
 
-:param line: A string containing the parameter and value to be set.
-            Expected format: '<parameter> <value>'.
+:param line: '<parameter> <value>'.
 :type line: str
 :return: None
-:raises: ValueError if the input line does not contain exactly two elements.
+
+## complete_assign
+Tab-complete the parameter name from the live payload keys.
+
+Driven entirely by ``self.params`` so the framework never has to
+maintain a parallel list of completion targets — adding a new key to
+``payload.json`` makes it tab-completable for free.
 
 ## show
-Show the current parameter values.
+Show the current parameter values, sorted and aligned.
 
-This function iterates through the current parameters and their values,
-printing each parameter and its associated value.
-
-:param line: This parameter is not used in the function.
-:type line: str
-:return: None
+Rendering is delegated to :func:`cli.show.format_payload` so the same
+formatter can be reused by reports, the dashboard or shift-handoff
+artefacts.
 
 ## list
 Lists all available scripts in the modules directory.
@@ -11908,6 +11913,13 @@ No description available.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Refactorización
+
+### Otros
+
+  *   * refactor(refactor): some bug fixing and refactors \n\n Version: release/0.2.97 \n\n with love \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: mié 06 may 2026 10:56:21 -04 \n\n Hora: 1778079381
 
 
 ### Nuevas características

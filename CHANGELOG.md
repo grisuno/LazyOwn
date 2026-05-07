@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Otros
+
+### Otros
+
+  *   * feature(feature): assign command with tabs \n\n Version: release/0.2.99 \n\n with love \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: jue 07 may 2026 00:53:57 -04 \n\n Hora: 1778129637
+
+
 ### Refactorización
 
 ### Otros

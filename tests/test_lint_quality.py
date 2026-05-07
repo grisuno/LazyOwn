@@ -28,17 +28,23 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 LINT_TARGETS: list[str] = [
     "setup.py",
     "core",
+    "cli",
     "utils.py",
     "tests/test_tier0_foundation.py",
     "tests/test_tier1_core.py",
+    "tests/test_tier2_cli.py",
+    "tests/test_tier2_5_assign_show.py",
     "tests/test_lint_quality.py",
 ]
 
 FORMAT_TARGETS: list[str] = [
     "setup.py",
     "core",
+    "cli",
     "tests/test_tier0_foundation.py",
     "tests/test_tier1_core.py",
+    "tests/test_tier2_cli.py",
+    "tests/test_tier2_5_assign_show.py",
     "tests/test_lint_quality.py",
 ]
 

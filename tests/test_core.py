@@ -1,8 +1,8 @@
-"""Tier 1 core extraction tests.
+"""``core`` package and ``utils`` re-export tests.
 
-Validate the new ``core/`` package and confirm ``utils.py`` continues to
-re-export every public name (backwards compatibility for ~280 CLI commands and
-~80 C2 routes that import from ``utils``).
+Validate the ``core/`` package layout and confirm ``utils.py`` continues to
+re-export every public name so the CLI commands and the C2 routes that import
+from ``utils`` keep working.
 """
 
 from __future__ import annotations
@@ -35,7 +35,7 @@ def _run_in_subprocess(snippet: str) -> str:
 
 
 class TestCorePackageStructure:
-    """Each Tier 1 module must exist and parse cleanly."""
+    """Each ``core`` module must exist and parse cleanly."""
 
     @pytest.mark.parametrize(
         "module",
@@ -253,7 +253,7 @@ class TestCoreProtocols:
 
 
 class TestUtilsBackwardsCompat:
-    """utils.py must still expose every public symbol Tier 1 extracted."""
+    """utils.py must still expose every public symbol the ``core`` package owns."""
 
     @pytest.mark.parametrize(
         "name",
@@ -291,7 +291,7 @@ class TestUtilsBackwardsCompat:
         out = _run_in_subprocess(
             f"import sys; sys.argv=['utils_compat']; import utils; print(hasattr(utils, {name!r}))"
         )
-        assert out == "True", f"utils.{name} missing after Tier 1 refactor"
+        assert out == "True", f"utils.{name} missing — broken core re-export"
 
     def test_utils_no_inline_config_class(self):
         """utils.py must not redefine Config — it must come from core."""

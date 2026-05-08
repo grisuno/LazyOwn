@@ -1,8 +1,8 @@
-"""Tier 2 CLI declarativeness tests.
+"""``cli`` package declarativeness and ``CommandSet`` registration tests.
 
-Validate the new ``cli/`` package and confirm ``lazyown.py`` no longer carries
-the inline aliases dict, while preserving every legacy alias name and
-substitution behaviour.
+Validate the ``cli/`` package layout, the YAML-driven aliases loader and the
+``CommandSet`` registry so ``lazyown.py`` no longer needs an inline aliases
+dict yet preserves every legacy alias name and substitution.
 """
 
 from __future__ import annotations
@@ -32,11 +32,11 @@ def _load_yaml() -> dict[str, str]:
 
 
 def _legacy_alias_keys_from_lazyown() -> set[str]:
-    """Extract the historical aliases dict keys from the *original* class body.
+    """Snapshot of the historical aliases dict keys.
 
-    Tier 2 replaced the inline dict with a stub, but git history retains the
-    legacy keys. We use a recorded snapshot embedded below so the test does
-    not depend on git or the previous file revision.
+    The inline dict in ``lazyown.py`` was replaced by a YAML-driven loader.
+    This snapshot is embedded so the test does not depend on git or the
+    previous file revision.
     """
     return {
         "amnesiac",

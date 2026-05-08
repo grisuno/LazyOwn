@@ -1,12 +1,13 @@
-"""Tier 0 foundation tests.
+"""Packaging and project-foundation tests.
 
-Verify the changes applied during the foundation tier:
-- Config class deduplicated in utils.py
-- pyproject.toml / setup.py packaging metadata fixed and extended
-- requirements-dev.txt present with expected tooling
-- pre-commit config valid
-- CI workflows present and valid
-- gitignore protects sensitive material
+Verify the project's foundation:
+
+- ``Config`` class deduplicated in ``utils.py``.
+- ``pyproject.toml`` / ``setup.py`` packaging metadata correct and complete.
+- ``requirements-dev.txt`` present with expected tooling.
+- pre-commit config valid.
+- GitHub Actions workflows present and valid.
+- ``.gitignore`` protects sensitive material.
 """
 
 import ast
@@ -41,8 +42,8 @@ def _load_yaml(path: Path) -> dict:
 class TestConfigDeduplication:
     """The Config class must be defined exactly once across the framework.
 
-    After Tier 1 the canonical location is ``core/config.py``; ``utils.py``
-    re-exports it for backwards compatibility but must not redefine it.
+    The canonical location is ``core/config.py``; ``utils.py`` re-exports it
+    for backwards compatibility but must not redefine it.
     """
 
     def test_config_class_defined_exactly_once_in_core(self):
@@ -217,7 +218,7 @@ class TestPreCommitConfig:
 
 
 class TestCIWorkflows:
-    """All Tier 0 GitHub Actions workflows must parse and define expected jobs."""
+    """All GitHub Actions workflows must parse and define expected jobs."""
 
     @pytest.fixture(scope="class")
     def lint_wf(self) -> dict:
@@ -278,7 +279,7 @@ class TestGitIgnore:
 
 
 class TestSourceFilesParse:
-    """Top-level source files must still parse after Tier 0 edits."""
+    """Top-level source files must parse cleanly."""
 
     @pytest.mark.parametrize("filename", ["lazyown.py", "lazyc2.py", "utils.py", "setup.py"])
     def test_parses(self, filename):

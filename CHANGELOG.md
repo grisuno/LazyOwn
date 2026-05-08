@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): some love to autocomplete commands. \n\n Version: release/0.2.100 \n\n with love \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: jue 07 may 2026 23:59:11 -04 \n\n Hora: 1778212751
+
+
 ### Otros
 
 ### Otros

@@ -1,6 +1,6 @@
-"""Tier 2.5 assign + show tests.
+"""``do_assign`` / ``do_show`` behaviour and shell wiring tests.
 
-Covers the small but operator-visible behaviours added in Tier 2.5:
+Covers operator-visible behaviour of the ``assign`` and ``show`` commands:
 
 - :func:`cli.assign.apply_assign` validates, mutates and persists.
 - :func:`cli.show.format_payload` renders deterministic output.

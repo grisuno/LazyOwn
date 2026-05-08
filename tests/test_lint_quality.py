@@ -5,12 +5,19 @@ the active tier has touched, and fails the test suite if any violation appears.
 This prevents Tier-N regressions from shipping to ``main`` even if a developer
 forgets to run pre-commit.
 
-The strict set grows as we refactor:
+The strict set covers:
 
-- Tier 0: ``setup.py``, ``tests/test_tier0_foundation.py``
-- Tier 1: ``core/``, ``tests/test_tier1_core.py``, ``utils.py`` (legacy rules
-  whitelisted in ``pyproject.toml`` per-file-ignores)
-- Tier N: append the files that tier touches when it lands.
+- Project packaging (``setup.py``, ``tests/test_packaging.py``).
+- The ``core/`` package and ``utils.py`` re-exports
+  (``tests/test_core.py``).
+- The ``cli/`` package, the YAML aliases, the ``CommandSet`` registry, the
+  ``do_assign``/``do_show`` helpers and the operator command palette
+  (``tests/test_cli_command_sets.py``, ``tests/test_cli_assign.py``,
+  ``tests/test_command_palette.py``).
+- The maintenance scripts under ``scripts/``.
+
+New files added by future feature work must be appended to both lists
+below.
 
 Tests are parametrized so a failure points at the exact file.
 """
@@ -29,11 +36,13 @@ LINT_TARGETS: list[str] = [
     "setup.py",
     "core",
     "cli",
+    "scripts",
     "utils.py",
-    "tests/test_tier0_foundation.py",
-    "tests/test_tier1_core.py",
-    "tests/test_tier2_cli.py",
-    "tests/test_tier2_5_assign_show.py",
+    "tests/test_packaging.py",
+    "tests/test_core.py",
+    "tests/test_cli_command_sets.py",
+    "tests/test_cli_assign.py",
+    "tests/test_command_palette.py",
     "tests/test_lint_quality.py",
 ]
 
@@ -41,10 +50,12 @@ FORMAT_TARGETS: list[str] = [
     "setup.py",
     "core",
     "cli",
-    "tests/test_tier0_foundation.py",
-    "tests/test_tier1_core.py",
-    "tests/test_tier2_cli.py",
-    "tests/test_tier2_5_assign_show.py",
+    "scripts",
+    "tests/test_packaging.py",
+    "tests/test_core.py",
+    "tests/test_cli_command_sets.py",
+    "tests/test_cli_assign.py",
+    "tests/test_command_palette.py",
     "tests/test_lint_quality.py",
 ]
 

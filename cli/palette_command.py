@@ -64,6 +64,9 @@ class PaletteRenderConfig:
     detail_label_summary: str = "summary"
     detail_label_calls: str = "calls"
     detail_label_related: str = "related"
+    detail_label_runs: str = "runs"
+    detail_label_last_seen: str = "last seen"
+    detail_label_runs_after: str = "runs after"
     detail_value_unset: str = "(none)"
     detail_neighbour_separator: str = ", "
     detail_neighbour_max: int = 8
@@ -342,6 +345,15 @@ class PaletteRenderer:
         related = entry.get("related")
         if related:
             labels.append((cfg.detail_label_related, self._format_neighbours(related)))
+        runs = entry.get("runs")
+        if isinstance(runs, int) and runs > 0:
+            labels.append((cfg.detail_label_runs, str(runs)))
+            last_seen = entry.get("last_seen")
+            if isinstance(last_seen, str) and last_seen:
+                labels.append((cfg.detail_label_last_seen, last_seen))
+        runs_after = entry.get("runs_after")
+        if runs_after:
+            labels.append((cfg.detail_label_runs_after, self._format_neighbours(runs_after)))
         width = max(cfg.name_column_min_width, max(len(label) for label, _ in labels))
         lines = [f"{label.ljust(width)}{cfg.column_separator}{value}" for label, value in labels]
         return cfg.line_separator.join(lines)
@@ -393,20 +405,41 @@ def _filter_phase_rows(rows: Sequence[Mapping[str, Any]], query: str | None) -> 
 
 
 def _enrich_detail_entry(entry: Mapping[str, Any] | None) -> Mapping[str, Any] | None:
-    """Best-effort graph enrichment for a single detail entry.
+    """Best-effort graph and telemetry enrichment for a single detail entry.
 
-    Imports :mod:`cli.palette_graph` lazily so the palette stays usable on
-    hosts that have never run graphify — a missing or malformed graph file
-    silently degrades to no neighbour data.
+    Imports :mod:`cli.palette_graph` and :mod:`cli.palette_telemetry` lazily
+    so the palette stays usable on hosts that have never run graphify or
+    invoked any command yet — every missing artefact silently degrades to
+    no enrichment without breaking the renderer contract.
     """
     if entry is None:
         return None
+    enriched: Mapping[str, Any] = entry
     try:
-        from cli.palette_graph import enrich_detail, safe_load_graph
+        from cli.palette_graph import enrich_detail as graph_enrich
+        from cli.palette_graph import safe_load_graph
     except Exception:
-        return entry
-    graph = safe_load_graph()
-    return enrich_detail(graph, entry)
+        graph_enrich = None  # type: ignore[assignment]
+        safe_load_graph = None  # type: ignore[assignment]
+    if graph_enrich is not None and safe_load_graph is not None:
+        try:
+            graph = safe_load_graph()
+        except Exception:
+            graph = None
+        graph_result = graph_enrich(graph, enriched)
+        if graph_result is not None:
+            enriched = graph_result
+    try:
+        from cli.palette_telemetry import enrich_detail as telemetry_enrich
+        from cli.palette_telemetry import safe_load_telemetry
+    except Exception:
+        return enriched
+    try:
+        telemetry = safe_load_telemetry()
+    except Exception:
+        telemetry = None
+    telemetry_result = telemetry_enrich(telemetry, enriched)
+    return telemetry_result if telemetry_result is not None else enriched
 
 
 def render(
@@ -619,6 +652,7 @@ def build_palette_view(
         "next_flag": cfg.next_flag,
         "phases": phases,
         "commands": enriched,
+        "recents": _load_recent_commands(),
         "totals": {
             "commands": len(enriched),
             "phases": len(phases),
@@ -627,20 +661,45 @@ def build_palette_view(
 
 
 def _enrich_commands_for_view(rows: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
-    """Best-effort graph enrichment for a list of view rows.
+    """Best-effort graph and telemetry enrichment for a list of view rows.
 
     Behaves identically to :func:`_enrich_detail_entry` but in batch — and
-    silently degrades to a copy of the input when graphify data is absent so
-    the C2 view never blocks on a missing artefact.
+    silently degrades to a copy of the input when graphify or telemetry data
+    is absent so the C2 view never blocks on a missing artefact.
     """
     try:
-        from cli.palette_graph import enrich_commands, safe_load_graph
+        from cli.palette_graph import enrich_commands as graph_enrich_commands
+        from cli.palette_graph import safe_load_graph
     except Exception:
-        return [dict(row) for row in rows]
-    graph = safe_load_graph()
-    if graph is None:
-        return [dict(row) for row in rows]
-    return enrich_commands(graph, rows)
+        enriched: list[dict[str, Any]] = [dict(row) for row in rows]
+    else:
+        graph = safe_load_graph()
+        enriched = (
+            graph_enrich_commands(graph, rows) if graph is not None else [dict(row) for row in rows]
+        )
+    try:
+        from cli.palette_telemetry import enrich_commands as telemetry_enrich_commands
+        from cli.palette_telemetry import safe_load_telemetry
+    except Exception:
+        return enriched
+    telemetry = safe_load_telemetry()
+    return telemetry_enrich_commands(telemetry, enriched)
+
+
+def _load_recent_commands() -> list[str]:
+    """Return the most-recently invoked commands or an empty list on failure.
+
+    Used by :func:`build_palette_view` to populate the Cmd+K overlay's
+    "Recent" section without tying the function to the telemetry import.
+    """
+    try:
+        from cli.palette_telemetry import recents, safe_load_telemetry
+    except Exception:
+        return []
+    telemetry = safe_load_telemetry()
+    if telemetry is None:
+        return []
+    return recents(telemetry)
 
 
 def _ordered_phase_ids(config: PaletteRenderConfig, phase_counts: Mapping[str, int]) -> list[str]:

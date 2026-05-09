@@ -2220,9 +2220,8 @@ def receive_result(client_id):
             logger.info(f"[ERROR] Invalid JSON received")
         return jsonify({"status": "error", "message": "Invalid JSON"}), 400
     except Exception as e:
-        if config.enable_c2_debug == True:
-            logger.info(f"[ERROR] Unexpected error")
-        return jsonify({"status": "error", "message": f"Internal server error {e}"}), 500
+        logger.exception("Unexpected error in handler")
+        return jsonify({"status": "error", "message": "Internal server error"}), 500
 
 
 @app.route('/issue_command', methods=['POST'])
@@ -2526,7 +2525,7 @@ def dynamic_route(route_path, data):
 
         if isinstance(response, tuple):
             logger.error(f"Log save failed: {response[0].get('error', 'Unknown error')}")
-            return jsonify(response[0]), response[1]
+            return jsonify({'error': 'Internal server error: Log save failed'}), response[1]
 
         template_name = DYNAMIC_ROUTES[route_path]
 
@@ -2556,12 +2555,12 @@ def log(data):
         response = save_to_log(request_details)
         if isinstance(response, tuple):
             logger.error(f"Log save failed: {response[0]['error']}")
-            return jsonify(response[0]), response[1]
+            return jsonify({'error': 'Internal server error: Log save failed'}), response[1]
         logger.debug(f"Logged request with id: {response['id']}")
         return jsonify({'status': 'logged', 'id': response['id']}), 200
     except Exception as e:
-        logger.error(f"Error in log: {e}")
-        return jsonify({'error': str(e)}), 500
+        logger.exception("Error in log handler")
+        return jsonify({'error': 'Internal server error'}), 500
 
 @app.route('/favicon.ico')
 def favicon():
@@ -2595,8 +2594,12 @@ def palette_view():
     )
 
 
+_PALETTE_API_RATE_LIMIT = getattr(config, 'c2_palette_limit', '60 per minute')
+
+
 @app.route('/api/palette', methods=['GET'])
 @requires_auth
+@limiter.limit(_PALETTE_API_RATE_LIMIT)
 def palette_api():
     """JSON catalogue feed for the global Cmd+K / Ctrl+K overlay.
 
@@ -2604,12 +2607,15 @@ def palette_api():
     template injects a small client-side overlay that fetches this endpoint
     once on first open and renders results locally so navigation between
     pages stays cheap. A missing command index returns 503 with a JSON error
-    so the overlay can fall back to a hint instead of breaking the page.
+    so the overlay can fall back to a hint instead of breaking the page. The
+    handler is rate-limited via ``c2_palette_limit`` (default ``60 per minute``)
+    so a runaway browser tab cannot drown the operator session.
     """
     try:
         palette_index = _palette_load_index()
     except _PaletteIndexError as exc:
-        return jsonify({'error': str(exc)}), 503
+        logger.error(f"palette_api: command index unavailable: {exc}")
+        return jsonify({'error': 'Command index unavailable'}), 503
     return jsonify(_palette_build_view(palette_index))
 
 

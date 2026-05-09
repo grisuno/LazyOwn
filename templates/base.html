@@ -126,6 +126,9 @@
       .lazyown-cmdk-list .cmd-phase { color: #50fa7b; font-size: 0.75rem; margin-left: 8px; }
       .lazyown-cmdk-list .cmd-summary { display: block; color: #cfd2da; font-size: 0.82rem; margin-top: 2px; }
       .lazyown-cmdk-list .cmd-related { display: block; color: #ffb86c; font-size: 0.72rem; margin-top: 2px; }
+      .lazyown-cmdk-list .cmd-runs { display: inline-block; color: #f1fa8c; font-size: 0.72rem; margin-left: 8px; }
+      .lazyown-cmdk-list .cmd-runs-after { display: block; color: #ff79c6; font-size: 0.72rem; margin-top: 2px; }
+      .lazyown-cmdk-list .cmdk-section { padding: 6px 18px; font-size: 0.7rem; color: #6272a4; text-transform: uppercase; letter-spacing: 0.08em; background: #181b22; border-bottom: 1px solid #20232c; }
       .lazyown-cmdk-footer { display: flex; gap: 14px; padding: 10px 18px; font-size: 0.72rem; color: #8c92a3; background: #15171c; border-top: 1px solid #2c313c; }
       .lazyown-cmdk-footer kbd { background: #2c313c; color: #e6e6e6; border-radius: 3px; padding: 1px 6px; margin-right: 2px; }
       .lazyown-cmdk-link { color: #bd93f9; margin-left: auto; text-decoration: none; }
@@ -139,8 +142,11 @@
         var status = document.getElementById('lazyown-cmdk-status');
         var loaded = false;
         var commands = [];
+        var commandIndex = {};
+        var recents = [];
         var visible = [];
         var activeIndex = 0;
+        var maxResults = 50;
 
         function escapeHtml(text) {
           if (text === undefined || text === null) { return ''; }
@@ -152,6 +158,38 @@
             .replace(/'/g, '&#39;');
         }
 
+        function scoreCommand(c, q) {
+          if (!q) { return 0; }
+          var name = (c.name || '').toLowerCase();
+          var summary = (c.summary || '').toLowerCase();
+          var phase = (c.phase || '').toLowerCase();
+          var score = 0;
+          if (name === q) { score += 20; }
+          if (name.indexOf(q) === 0 || name.indexOf('do_' + q) === 0) { score += 8; }
+          if (name.indexOf(q) !== -1) { score += 4; }
+          if (summary.indexOf(q) !== -1) { score += 2; }
+          if (phase.indexOf(q) !== -1) { score += 1; }
+          var runs = (c.runs && typeof c.runs === 'number') ? c.runs : 0;
+          if (runs > 0 && score > 0) { score += Math.min(runs, 10) * 0.1; }
+          return score;
+        }
+
+        function renderRow(c, index, isActive) {
+          var related = (c.related || []).slice(0, 4).join(', ');
+          var relatedHtml = related ? '<span class="cmd-related">related: ' + escapeHtml(related) + '</span>' : '';
+          var runsAfter = (c.runs_after || []).slice(0, 3).join(', ');
+          var runsAfterHtml = runsAfter ? '<span class="cmd-runs-after">next: ' + escapeHtml(runsAfter) + '</span>' : '';
+          var runsHtml = (c.runs && c.runs > 0) ? '<span class="cmd-runs">runs: ' + escapeHtml(String(c.runs)) + '</span>' : '';
+          return '<li role="option" data-index="' + index + (isActive ? '" class="is-active"' : '"') + '>' +
+                   '<span class="cmd-name">' + escapeHtml(c.name) + '</span>' +
+                   '<span class="cmd-phase">' + escapeHtml(c.phase) + '</span>' +
+                   runsHtml +
+                   '<span class="cmd-summary">' + escapeHtml(c.summary || '') + '</span>' +
+                   relatedHtml +
+                   runsAfterHtml +
+                 '</li>';
+        }
+
         function renderList() {
           if (!visible.length) {
             list.innerHTML = '';
@@ -159,17 +197,11 @@
             return;
           }
           status.textContent = visible.length + ' of ' + commands.length + ' commands';
-          var html = '';
+          var hasQuery = (input.value || '').trim().length > 0;
+          var sectionLabel = hasQuery ? 'matches' : (recents.length ? 'recent' : 'catalogue');
+          var html = '<li class="cmdk-section">' + escapeHtml(sectionLabel) + '</li>';
           for (var i = 0; i < visible.length; i++) {
-            var c = visible[i];
-            var related = (c.related || []).slice(0, 4).join(', ');
-            var relatedHtml = related ? '<span class="cmd-related">related: ' + escapeHtml(related) + '</span>' : '';
-            html += '<li role="option" data-index="' + i + (i === activeIndex ? '" class="is-active"' : '"') + '>' +
-                      '<span class="cmd-name">' + escapeHtml(c.name) + '</span>' +
-                      '<span class="cmd-phase">' + escapeHtml(c.phase) + '</span>' +
-                      '<span class="cmd-summary">' + escapeHtml(c.summary || '') + '</span>' +
-                      relatedHtml +
-                    '</li>';
+            html += renderRow(visible[i], i, i === activeIndex);
           }
           list.innerHTML = html;
         }
@@ -177,18 +209,23 @@
         function applyFilter() {
           var q = (input.value || '').trim().toLowerCase();
           if (!q) {
-            visible = commands.slice(0, 50);
-          } else {
-            var hits = [];
-            for (var i = 0; i < commands.length && hits.length < 50; i++) {
-              var c = commands[i];
-              if ((c.name || '').toLowerCase().indexOf(q) !== -1 ||
-                  (c.summary || '').toLowerCase().indexOf(q) !== -1 ||
-                  (c.phase || '').toLowerCase().indexOf(q) !== -1) {
-                hits.push(c);
-              }
+            var rows = [];
+            for (var i = 0; i < recents.length; i++) {
+              var entry = commandIndex[recents[i]];
+              if (entry) { rows.push(entry); }
             }
-            visible = hits;
+            for (var j = 0; j < commands.length && rows.length < maxResults; j++) {
+              if (rows.indexOf(commands[j]) === -1) { rows.push(commands[j]); }
+            }
+            visible = rows.slice(0, maxResults);
+          } else {
+            var scored = [];
+            for (var k = 0; k < commands.length; k++) {
+              var s = scoreCommand(commands[k], q);
+              if (s > 0) { scored.push({ command: commands[k], score: s }); }
+            }
+            scored.sort(function (a, b) { return b.score - a.score || a.command.name.localeCompare(b.command.name); });
+            visible = scored.slice(0, maxResults).map(function (entry) { return entry.command; });
           }
           activeIndex = 0;
           renderList();
@@ -201,6 +238,9 @@
             .then(function (resp) { return resp.json(); })
             .then(function (payload) {
               commands = payload.commands || [];
+              recents = payload.recents || [];
+              commandIndex = {};
+              for (var i = 0; i < commands.length; i++) { commandIndex[commands[i].name] = commands[i]; }
               loaded = true;
               callback();
             })

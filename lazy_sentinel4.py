@@ -48,7 +48,7 @@ def sanitize_content(text: str) -> str:
     text = re.sub(r'```.*?```', lambda m: m.group(0), text, flags=re.DOTALL)
     text = re.sub(r'`.*?`', lambda m: m.group(0), text)
     text = re.sub(r'(\[.*?\]\(.*?\))', lambda m: m.group(0), text)
-    text = re.sub(r'[^\x20-\x7E\n\t#*+-_`[]()|]', ' ', text)
+    text = re.sub(r'[^\x20-\x7E\n\t]', ' ', text)
     text = re.sub(r'\s+', ' ', text).strip()
     return text
 

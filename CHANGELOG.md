@@ -6,6 +6,13 @@
 
 ### Otros
 
+  *   * feat(feat): reasdme updates \n\n Version: release/0.2.101 \n\n  \n\n Modified file(s):\n- CHANGELOG.md - README.md - cli/palette_command.py - cli/palette_graph.py - docs/CHANGELOG.html - docs/README.html - lazyaddons/dirtyfrag.yaml - lazyc2.py - skills/lazyown_mcp.py - templates/base.html - templates/palette.html - tests/test_command_palette.py - version.json\nCreated file(s):\n- cli/palette_graph.py - lazyaddons/dirtyfrag.yaml - templates/palette.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: sáb 09 may 2026 01:59:51 -04 \n\n Hora: 1778306391
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): readme updates \n\n Version: release/0.2.102 \n\n  \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: sáb 09 may 2026 01:58:03 -04 \n\n Hora: 1778306283
 
 
@@ -14,6 +21,13 @@
 ### Otros
 
   *   * feature(feat): new features, and readme update \n\n Version: release/0.2.101 \n\n with love \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: sáb 09 may 2026 01:57:18 -04 \n\n Hora: 1778306238
+
+
+### Otros
+
+### Otros
+
+  *   * Add files via upload
 
 
 ### Nuevas características

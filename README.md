@@ -12026,6 +12026,13 @@ No description available.
 # Changelog
 
 
+### Otros
+
+### Otros
+
+  *   * feature(feat): new features, and readme update \n\n Version: release/0.2.101 \n\n with love \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: sáb 09 may 2026 01:57:18 -04 \n\n Hora: 1778306238
+
+
 ### Nuevas características
 
 ### Otros

@@ -72,6 +72,10 @@ from dnslib.dns import RR, QTYPE, A, NS, SOA, TXT, CNAME, MX, AAAA, PTR, SRV, NA
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from flask import Flask, request, render_template, redirect, url_for, jsonify, Response, send_from_directory, render_template_string, flash, abort, jsonify, Response, stream_with_context, Blueprint, send_file, current_app
 
+from cli.palette import CommandIndexError as _PaletteIndexError
+from cli.palette import load_index as _palette_load_index
+from cli.palette_command import build_palette_view as _palette_build_view
+
 
 anti_debug()
 logger = logging.getLogger(__name__)
@@ -2567,6 +2571,47 @@ def favicon():
     except FileNotFoundError:
         logger.warning("Favicon not found")
         return jsonify({'error': 'Favicon not found'}), 404
+
+@app.route('/palette', methods=['GET'])
+@requires_auth
+def palette_view():
+    """Render the operator command palette browser.
+
+    Reads ``cli/command_index.json`` via :func:`cli.palette.load_index`, builds
+    a flat template context with :func:`cli.palette_command.build_palette_view`
+    and serves :file:`templates/palette.html`. The full payload is embedded in
+    the page so the client-side JavaScript can filter without round-trips.
+    """
+    try:
+        palette_index = _palette_load_index()
+    except _PaletteIndexError as exc:
+        return render_template('palette.html', error=str(exc), context=None), 503
+    context = _palette_build_view(palette_index)
+    return render_template(
+        'palette.html',
+        error=None,
+        context=context,
+        context_json=json.dumps(context, ensure_ascii=False),
+    )
+
+
+@app.route('/api/palette', methods=['GET'])
+@requires_auth
+def palette_api():
+    """JSON catalogue feed for the global Cmd+K / Ctrl+K overlay.
+
+    Same payload as :func:`palette_view` but without HTML chrome — every C2
+    template injects a small client-side overlay that fetches this endpoint
+    once on first open and renders results locally so navigation between
+    pages stays cheap. A missing command index returns 503 with a JSON error
+    so the overlay can fall back to a hint instead of breaking the page.
+    """
+    try:
+        palette_index = _palette_load_index()
+    except _PaletteIndexError as exc:
+        return jsonify({'error': str(exc)}), 503
+    return jsonify(_palette_build_view(palette_index))
+
 
 @app.route('/api/data')
 @requires_auth

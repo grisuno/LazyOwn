@@ -91,5 +91,178 @@
 
         });
     </script>
+
+    {% if current_user.is_authenticated %}
+    <div id="lazyown-cmdk-overlay" class="lazyown-cmdk-overlay" role="dialog" aria-hidden="true" aria-label="Command palette">
+      <div class="lazyown-cmdk-modal" role="document">
+        <input
+          id="lazyown-cmdk-input"
+          type="search"
+          autocomplete="off"
+          spellcheck="false"
+          placeholder="Search commands... (Esc to close)"
+          aria-label="Search commands"
+        >
+        <div id="lazyown-cmdk-status" class="lazyown-cmdk-status">Press Ctrl+K or Cmd+K to open from any page.</div>
+        <ul id="lazyown-cmdk-list" class="lazyown-cmdk-list" role="listbox"></ul>
+        <div class="lazyown-cmdk-footer">
+          <span><kbd>↑</kbd><kbd>↓</kbd> navigate</span>
+          <span><kbd>Enter</kbd> open detail</span>
+          <span><kbd>Esc</kbd> close</span>
+          <a href="{{ url_for('palette_view') }}" class="lazyown-cmdk-link">full palette →</a>
+        </div>
+      </div>
+    </div>
+    <style>
+      .lazyown-cmdk-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.55); display: none; align-items: flex-start; justify-content: center; padding-top: 10vh; z-index: 2050; }
+      .lazyown-cmdk-overlay.is-open { display: flex; }
+      .lazyown-cmdk-modal { background: #1a1d24; color: #e6e6e6; border-radius: 8px; width: min(720px, 90vw); box-shadow: 0 20px 60px rgba(0,0,0,0.6); overflow: hidden; font-family: ui-monospace, Menlo, monospace; }
+      .lazyown-cmdk-modal input { width: 100%; box-sizing: border-box; padding: 14px 18px; font-size: 1rem; background: transparent; color: inherit; border: 0; border-bottom: 1px solid #2c313c; outline: none; }
+      .lazyown-cmdk-status { padding: 10px 18px; font-size: 0.78rem; color: #8c92a3; }
+      .lazyown-cmdk-list { list-style: none; margin: 0; padding: 0; max-height: 50vh; overflow-y: auto; }
+      .lazyown-cmdk-list li { padding: 10px 18px; cursor: pointer; border-bottom: 1px solid #20232c; }
+      .lazyown-cmdk-list li.is-active, .lazyown-cmdk-list li:hover { background: #262b36; }
+      .lazyown-cmdk-list .cmd-name { color: #8be9fd; font-weight: 600; }
+      .lazyown-cmdk-list .cmd-phase { color: #50fa7b; font-size: 0.75rem; margin-left: 8px; }
+      .lazyown-cmdk-list .cmd-summary { display: block; color: #cfd2da; font-size: 0.82rem; margin-top: 2px; }
+      .lazyown-cmdk-list .cmd-related { display: block; color: #ffb86c; font-size: 0.72rem; margin-top: 2px; }
+      .lazyown-cmdk-footer { display: flex; gap: 14px; padding: 10px 18px; font-size: 0.72rem; color: #8c92a3; background: #15171c; border-top: 1px solid #2c313c; }
+      .lazyown-cmdk-footer kbd { background: #2c313c; color: #e6e6e6; border-radius: 3px; padding: 1px 6px; margin-right: 2px; }
+      .lazyown-cmdk-link { color: #bd93f9; margin-left: auto; text-decoration: none; }
+    </style>
+    <script>
+      (function () {
+        var overlay = document.getElementById('lazyown-cmdk-overlay');
+        if (!overlay) { return; }
+        var input = document.getElementById('lazyown-cmdk-input');
+        var list = document.getElementById('lazyown-cmdk-list');
+        var status = document.getElementById('lazyown-cmdk-status');
+        var loaded = false;
+        var commands = [];
+        var visible = [];
+        var activeIndex = 0;
+
+        function escapeHtml(text) {
+          if (text === undefined || text === null) { return ''; }
+          return String(text)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+        }
+
+        function renderList() {
+          if (!visible.length) {
+            list.innerHTML = '';
+            status.textContent = commands.length ? 'No commands match.' : 'Type to search the catalogue.';
+            return;
+          }
+          status.textContent = visible.length + ' of ' + commands.length + ' commands';
+          var html = '';
+          for (var i = 0; i < visible.length; i++) {
+            var c = visible[i];
+            var related = (c.related || []).slice(0, 4).join(', ');
+            var relatedHtml = related ? '<span class="cmd-related">related: ' + escapeHtml(related) + '</span>' : '';
+            html += '<li role="option" data-index="' + i + (i === activeIndex ? '" class="is-active"' : '"') + '>' +
+                      '<span class="cmd-name">' + escapeHtml(c.name) + '</span>' +
+                      '<span class="cmd-phase">' + escapeHtml(c.phase) + '</span>' +
+                      '<span class="cmd-summary">' + escapeHtml(c.summary || '') + '</span>' +
+                      relatedHtml +
+                    '</li>';
+          }
+          list.innerHTML = html;
+        }
+
+        function applyFilter() {
+          var q = (input.value || '').trim().toLowerCase();
+          if (!q) {
+            visible = commands.slice(0, 50);
+          } else {
+            var hits = [];
+            for (var i = 0; i < commands.length && hits.length < 50; i++) {
+              var c = commands[i];
+              if ((c.name || '').toLowerCase().indexOf(q) !== -1 ||
+                  (c.summary || '').toLowerCase().indexOf(q) !== -1 ||
+                  (c.phase || '').toLowerCase().indexOf(q) !== -1) {
+                hits.push(c);
+              }
+            }
+            visible = hits;
+          }
+          activeIndex = 0;
+          renderList();
+        }
+
+        function ensureLoaded(callback) {
+          if (loaded) { callback(); return; }
+          status.textContent = 'Loading catalogue...';
+          fetch('/api/palette', { credentials: 'same-origin' })
+            .then(function (resp) { return resp.json(); })
+            .then(function (payload) {
+              commands = payload.commands || [];
+              loaded = true;
+              callback();
+            })
+            .catch(function () {
+              status.textContent = 'Catalogue unavailable. Check /api/palette.';
+            });
+        }
+
+        function openOverlay() {
+          overlay.classList.add('is-open');
+          overlay.setAttribute('aria-hidden', 'false');
+          ensureLoaded(function () { applyFilter(); input.focus(); input.select(); });
+        }
+
+        function closeOverlay() {
+          overlay.classList.remove('is-open');
+          overlay.setAttribute('aria-hidden', 'true');
+        }
+
+        function jumpDetail() {
+          if (!visible.length) { return; }
+          var target = visible[activeIndex];
+          if (!target) { return; }
+          window.location.href = '/palette#' + encodeURIComponent(target.name);
+        }
+
+        document.addEventListener('keydown', function (event) {
+          var combo = (event.ctrlKey || event.metaKey) && (event.key === 'k' || event.key === 'K');
+          if (combo) { event.preventDefault(); openOverlay(); return; }
+          if (event.key === 'Escape' && overlay.classList.contains('is-open')) {
+            event.preventDefault(); closeOverlay();
+          }
+        });
+
+        input.addEventListener('input', applyFilter);
+        input.addEventListener('keydown', function (event) {
+          if (event.key === 'ArrowDown') {
+            event.preventDefault();
+            activeIndex = Math.min(activeIndex + 1, Math.max(visible.length - 1, 0));
+            renderList();
+          } else if (event.key === 'ArrowUp') {
+            event.preventDefault();
+            activeIndex = Math.max(activeIndex - 1, 0);
+            renderList();
+          } else if (event.key === 'Enter') {
+            event.preventDefault();
+            jumpDetail();
+          }
+        });
+
+        list.addEventListener('click', function (event) {
+          var li = event.target.closest('li[data-index]');
+          if (!li) { return; }
+          activeIndex = parseInt(li.getAttribute('data-index'), 10) || 0;
+          jumpDetail();
+        });
+
+        overlay.addEventListener('click', function (event) {
+          if (event.target === overlay) { closeOverlay(); }
+        });
+      })();
+    </script>
+    {% endif %}
 </body>
 </html>

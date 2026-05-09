@@ -186,8 +186,8 @@ def process_prompt_local_yaml(prompt: str, debug: bool, mode: str, output_file: 
             return jsonify({"error": f"Request error: {response.status_code}"}), 500
 
     except requests.RequestException as ex:
-        logging.error(f"API communication error: {ex}")
-        return jsonify({"error": str(ex)}), 500
+        logging.exception("API communication error")
+        return jsonify({"error": "Upstream API communication error"}), 500
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description='Phishing YAML Template Generator')

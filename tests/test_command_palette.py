@@ -130,8 +130,16 @@ class PaletteSuiteConfig:
         "fetch('/api/palette'",
         "event.key === 'k' || event.key === 'K'",
     )
+    base_template_telemetry_markers: tuple[str, ...] = (
+        "function scoreCommand(",
+        "payload.recents",
+        "cmd-runs",
+        "cmdk-section",
+    )
     api_palette_route_decorator: str = "@app.route('/api/palette', methods=['GET'])"
     api_palette_route_function: str = "palette_api"
+    api_palette_rate_limit_marker: str = "@limiter.limit(_PALETTE_API_RATE_LIMIT)"
+    api_palette_rate_limit_constant: str = "_PALETTE_API_RATE_LIMIT"
     json_required_keys: frozenset[str] = frozenset({"mode", "phase", "query", "target", "results", "phase_counts"})
     view_required_keys: frozenset[str] = frozenset(
         {
@@ -1921,3 +1929,312 @@ class TestMcpPaletteDescription:
         """The tool description advertises the new neighbour fields."""
         assert "calls" in src
         assert "related" in src
+
+
+def _write_synthetic_csv(target: Path) -> None:
+    """Materialise a deterministic session-report CSV used by telemetry tests.
+
+    The shape mirrors the real artefact written by
+    :meth:`LazyOwnShell.log_command_to_csv` — a single header row followed by
+    a chronological sequence of invocations. The fixture covers:
+
+    - repeated invocations (``do_lazynmap`` × 3) for run-count assertions,
+    - co-occurrence within the default window (``do_lazynmap`` → ``do_smbclient``),
+    - mixed prefixed/non-prefixed forms in the ``command`` column,
+    - excluded sentinel verbs (``exit``, blank rows) that must be ignored.
+    """
+    lines = [
+        "start,end,source_ip,source_port,destination_ip,destination_port,domain,subdomain,url,pivot_port,command,args",
+        "2026-05-09 09:00:00,2026-05-09 09:00:01,127.0.0.1,1,1.1.1.1,80,t.htb,d,http://t,1:80,lazynmap,",
+        "2026-05-09 09:01:00,2026-05-09 09:01:01,127.0.0.1,1,1.1.1.1,80,t.htb,d,http://t,1:80,smbclient,",
+        "2026-05-09 09:02:00,2026-05-09 09:02:01,127.0.0.1,1,1.1.1.1,80,t.htb,d,http://t,1:80,lazynmap,",
+        "2026-05-09 09:03:00,2026-05-09 09:03:01,127.0.0.1,1,1.1.1.1,80,t.htb,d,http://t,1:80,smbclient,",
+        "2026-05-09 09:04:00,2026-05-09 09:04:01,127.0.0.1,1,1.1.1.1,80,t.htb,d,http://t,1:80,enum4linux,",
+        "2026-05-09 09:05:00,2026-05-09 09:05:01,127.0.0.1,1,1.1.1.1,80,t.htb,d,http://t,1:80,do_lazynmap,",
+        "2026-05-09 09:06:00,2026-05-09 09:06:01,127.0.0.1,1,1.1.1.1,80,t.htb,d,http://t,1:80,exit,",
+        "2026-05-09 09:07:00,2026-05-09 09:07:01,127.0.0.1,1,1.1.1.1,80,t.htb,d,http://t,1:80,,",
+        "2026-05-09 09:08:00,2026-05-09 09:08:01,127.0.0.1,1,1.1.1.1,80,t.htb,d,http://t,1:80,assign,rhost=1.2.3.4",
+    ]
+    target.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+@pytest.fixture
+def synthetic_telemetry_path(tmp_path: Path) -> Path:
+    """Yield a path to a freshly-written synthetic telemetry CSV."""
+    target = tmp_path / "session.csv"
+    _write_synthetic_csv(target)
+    return target
+
+
+@pytest.fixture(autouse=True)
+def _reset_telemetry_cache() -> None:
+    """Reset the lru_cache so every telemetry test sees its own CSV."""
+    try:
+        from cli.palette_telemetry import load_telemetry
+    except Exception:
+        return
+    load_telemetry.cache_clear()
+
+
+class TestPaletteTelemetryLoader:
+    """Behavioural CSV parser, recents and co-occurrence."""
+
+    def test_safe_load_returns_empty_index_when_csv_missing(self, tmp_path: Path) -> None:
+        """A non-existent CSV degrades to an empty index, never raises."""
+        from cli.palette_telemetry import safe_load_telemetry
+
+        result = safe_load_telemetry(str(tmp_path / "nope.csv"))
+        assert result is not None
+        assert dict(result.stats_by_command) == {}
+        assert result.recent_order == ()
+        assert dict(result.cooccurrence) == {}
+
+    def test_load_telemetry_counts_invocations(self, synthetic_telemetry_path: Path) -> None:
+        """The loader aggregates per-command run counts from the CSV."""
+        from cli.palette_telemetry import load_telemetry
+
+        index = load_telemetry(str(synthetic_telemetry_path))
+        assert "do_lazynmap" in index.stats_by_command
+        assert index.stats_by_command["do_lazynmap"].runs == 3
+        assert index.stats_by_command["do_smbclient"].runs == 2
+
+    def test_load_telemetry_normalises_prefix(self, synthetic_telemetry_path: Path) -> None:
+        """Both prefixed and non-prefixed CSV entries collapse onto ``do_<verb>``."""
+        from cli.palette_telemetry import load_telemetry
+
+        index = load_telemetry(str(synthetic_telemetry_path))
+        assert "lazynmap" not in index.stats_by_command
+        assert "do_lazynmap" in index.stats_by_command
+
+    def test_load_telemetry_skips_excluded_commands(self, synthetic_telemetry_path: Path) -> None:
+        """Sentinel rows (``exit``, blanks) never make it into the index."""
+        from cli.palette_telemetry import load_telemetry
+
+        index = load_telemetry(str(synthetic_telemetry_path))
+        assert "do_exit" not in index.stats_by_command
+        assert "do_" not in index.stats_by_command
+
+    def test_load_telemetry_records_last_seen(self, synthetic_telemetry_path: Path) -> None:
+        """``last_seen`` is the most recent timestamp seen for that command."""
+        from cli.palette_telemetry import load_telemetry
+
+        index = load_telemetry(str(synthetic_telemetry_path))
+        assert index.stats_by_command["do_lazynmap"].last_seen == "2026-05-09 09:05:00"
+
+    def test_recent_order_is_most_recent_first_and_unique(self, synthetic_telemetry_path: Path) -> None:
+        """Recents are deduplicated and ordered most-recent-first."""
+        from cli.palette_telemetry import load_telemetry, recents
+
+        index = load_telemetry(str(synthetic_telemetry_path))
+        names = recents(index)
+        assert names[0] == "do_assign"
+        assert len(names) == len(set(names))
+        assert "do_lazynmap" in names
+
+    def test_cooccurrence_emits_top_followers(self, synthetic_telemetry_path: Path) -> None:
+        """Commands following ``do_lazynmap`` within the window are ranked."""
+        from cli.palette_telemetry import load_telemetry, runs_after
+
+        index = load_telemetry(str(synthetic_telemetry_path))
+        followers = runs_after(index, "do_lazynmap")
+        assert "do_smbclient" in followers
+        assert followers.index("do_smbclient") <= 1
+
+    def test_cooccurrence_respects_min_count(self, tmp_path: Path) -> None:
+        """A pair seen only once never makes it into the result."""
+        from cli.palette_telemetry import load_telemetry, runs_after
+
+        target = tmp_path / "session.csv"
+        target.write_text(
+            "start,command,args\n"
+            "2026-05-09 09:00:00,lazynmap,\n"
+            "2026-05-09 09:01:00,smbclient,\n",
+            encoding="utf-8",
+        )
+        load_telemetry.cache_clear()
+        index = load_telemetry(str(target))
+        assert runs_after(index, "do_lazynmap") == []
+
+    def test_command_stats_normalises_lookup_prefix(self, synthetic_telemetry_path: Path) -> None:
+        """``command_stats`` accepts both ``do_x`` and ``x`` forms."""
+        from cli.palette_telemetry import command_stats, load_telemetry
+
+        index = load_telemetry(str(synthetic_telemetry_path))
+        with_prefix = command_stats(index, "do_lazynmap")
+        without_prefix = command_stats(index, "lazynmap")
+        assert with_prefix is not None
+        assert with_prefix == without_prefix
+
+    def test_runs_after_handles_none_telemetry(self) -> None:
+        """A ``None`` telemetry index degrades to empty results."""
+        from cli.palette_telemetry import command_stats, recents, runs_after
+
+        assert runs_after(None, "do_x") == []
+        assert command_stats(None, "do_x") is None
+        assert recents(None) == []
+
+    def test_enrich_detail_attaches_runs_and_runs_after(self, synthetic_telemetry_path: Path) -> None:
+        """The enrichment helper carries telemetry into a detail entry."""
+        from cli.palette_telemetry import enrich_detail, load_telemetry
+
+        index = load_telemetry(str(synthetic_telemetry_path))
+        entry = {"name": "do_lazynmap", "phase": "recon", "summary": ""}
+        enriched = enrich_detail(index, entry)
+        assert enriched is not None
+        assert enriched["runs"] == 3
+        assert enriched["last_seen"] == "2026-05-09 09:05:00"
+        assert "do_smbclient" in enriched["runs_after"]
+        assert entry == {"name": "do_lazynmap", "phase": "recon", "summary": ""}
+
+    def test_enrich_detail_passes_through_none(self) -> None:
+        """``None`` input remains ``None`` so the renderer can show its message."""
+        from cli.palette_telemetry import enrich_detail
+
+        assert enrich_detail(None, None) is None
+
+    def test_load_telemetry_raises_on_unreadable_path(self, tmp_path: Path) -> None:
+        """A directory in the CSV slot raises a typed error."""
+        from cli.palette_telemetry import TelemetryIndexError, load_telemetry
+
+        target = tmp_path / "session.csv"
+        target.mkdir()
+        load_telemetry.cache_clear()
+        with pytest.raises(TelemetryIndexError):
+            load_telemetry(str(target))
+
+
+class TestPaletteDetailTelemetryRendering:
+    """The detail renderer surfaces telemetry rows when available."""
+
+    def test_render_detail_shows_runs_and_runs_after(self) -> None:
+        """Run count, last seen and runs-after rows render when populated."""
+        from cli.palette_command import PaletteRenderConfig, PaletteRenderer
+
+        cfg = PaletteRenderConfig()
+        renderer = PaletteRenderer(cfg)
+        entry = {
+            "name": "do_lazynmap",
+            "phase": "recon",
+            "category": "01. Reconnaissance",
+            "source_file": "lazyown.py",
+            "line": 42,
+            "summary": "Run nmap.",
+            "runs": 7,
+            "last_seen": "2026-05-09 09:05:00",
+            "runs_after": ["do_smbclient", "do_enum4linux"],
+        }
+        out = renderer.render_detail(entry)
+        assert cfg.detail_label_runs in out
+        assert "7" in out
+        assert cfg.detail_label_last_seen in out
+        assert "2026-05-09 09:05:00" in out
+        assert cfg.detail_label_runs_after in out
+        assert "do_smbclient" in out
+
+    def test_render_detail_skips_telemetry_rows_when_zero(self) -> None:
+        """A command with zero runs hides the telemetry rows entirely."""
+        from cli.palette_command import PaletteRenderConfig, PaletteRenderer
+
+        cfg = PaletteRenderConfig()
+        renderer = PaletteRenderer(cfg)
+        entry = {
+            "name": "do_x",
+            "phase": "recon",
+            "category": "01. Reconnaissance",
+            "source_file": "lazyown.py",
+            "line": 1,
+            "summary": "",
+            "runs": 0,
+            "last_seen": "",
+            "runs_after": [],
+        }
+        out = renderer.render_detail(entry)
+        assert cfg.detail_label_runs not in out.split(cfg.line_separator)
+        assert cfg.detail_label_runs_after not in out
+
+    def test_build_palette_view_includes_recents_key(self, synthetic_index: dict[str, Any]) -> None:
+        """The view payload exposes a ``recents`` field for the overlay."""
+        from cli.palette_command import build_palette_view
+
+        view = build_palette_view(synthetic_index)
+        assert "recents" in view
+        assert isinstance(view["recents"], list)
+
+
+class TestC2PaletteApiRateLimit:
+    """The JSON catalogue endpoint must be rate-limited."""
+
+    @pytest.fixture(scope="class")
+    def src(self, suite_config: PaletteSuiteConfig) -> str:
+        """The full text of ``lazyc2.py``."""
+        return suite_config.lazyc2_path.read_text(encoding="utf-8")
+
+    def test_rate_limit_decorator_present(self, src: str, suite_config: PaletteSuiteConfig) -> None:
+        """The handler is decorated with ``@limiter.limit(...)``."""
+        assert suite_config.api_palette_rate_limit_marker in src
+
+    def test_rate_limit_constant_defined(self, src: str, suite_config: PaletteSuiteConfig) -> None:
+        """The rate-limit value is defined as a module-level constant."""
+        constant = suite_config.api_palette_rate_limit_constant
+        pattern = rf"{re.escape(constant)}\s*="
+        assert re.search(pattern, src) is not None, f"missing constant: {constant}"
+
+    def test_rate_limit_falls_back_to_default(self, src: str, suite_config: PaletteSuiteConfig) -> None:
+        """The fallback default (``60 per minute``) is wired into the constant."""
+        constant = suite_config.api_palette_rate_limit_constant
+        idx = src.find(constant)
+        assert idx >= 0
+        line_end = src.find("\n", idx)
+        assert "60 per minute" in src[idx:line_end]
+
+
+class TestBaseTemplateOverlayTelemetry:
+    """The Cmd+K overlay surfaces telemetry without breaking existing markers."""
+
+    @pytest.fixture(scope="class")
+    def base_src(self, suite_config: PaletteSuiteConfig) -> str:
+        """The full text of ``templates/base.html``."""
+        return suite_config.base_template_path.read_text(encoding="utf-8")
+
+    def test_telemetry_markers_present(self, base_src: str, suite_config: PaletteSuiteConfig) -> None:
+        """Every required telemetry marker is in the overlay markup."""
+        for marker in suite_config.base_template_telemetry_markers:
+            assert marker in base_src, f"missing telemetry marker: {marker}"
+
+    def test_score_function_uses_runs_signal(self, base_src: str) -> None:
+        """The fuzzy ranker incorporates run counts as a tiebreaker."""
+        assert "c.runs" in base_src
+        assert "Math.min" in base_src
+
+    def test_recents_section_renders_when_input_empty(self, base_src: str) -> None:
+        """The renderer emits a ``recent`` section when no query is typed."""
+        assert "recents.length" in base_src
+        assert "recent" in base_src.lower()
+
+
+class TestPaletteEnrichmentBlend:
+    """``_enrich_detail_entry`` blends graph and telemetry data."""
+
+    def test_enrichment_returns_entry_when_both_modules_missing(self, monkeypatch) -> None:
+        """A double-import failure still returns the original entry untouched."""
+        import builtins
+
+        from cli import palette_command
+
+        original_import = builtins.__import__
+
+        def blocking_import(name, *args, **kwargs):
+            if name in {"cli.palette_graph", "cli.palette_telemetry"}:
+                raise ImportError(f"blocked: {name}")
+            return original_import(name, *args, **kwargs)
+
+        monkeypatch.setattr(builtins, "__import__", blocking_import)
+        entry = {"name": "do_x", "phase": "recon", "summary": ""}
+        result = palette_command._enrich_detail_entry(entry)
+        assert result == entry
+
+    def test_enrichment_passes_through_none(self) -> None:
+        """``None`` continues to mean "command not found" downstream."""
+        from cli import palette_command
+
+        assert palette_command._enrich_detail_entry(None) is None

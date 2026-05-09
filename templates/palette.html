@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-4">
+  {% if error %}
+    <div class="alert alert-danger" role="alert">
+      <strong>Palette unavailable:</strong> {{ error }}
+    </div>
+    <p class="text-muted">
+      Run <code>python3 scripts/build_command_index.py</code> on the operator
+      host to generate the command index, then reload this page.
+    </p>
+  {% else %}
+    <header class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-3">
+      <div>
+        <h1 class="h3 mb-1">{{ context.page_title }}</h1>
+        <p class="text-muted mb-0">{{ context.page_subtitle }}</p>
+      </div>
+      <div class="text-md-end mt-3 mt-md-0">
+        <span class="badge bg-secondary me-1" id="palette-total-commands">
+          {{ context.totals.commands }} commands
+        </span>
+        <span class="badge bg-secondary" id="palette-total-phases">
+          {{ context.totals.phases }} phases
+        </span>
+      </div>
+    </header>
+
+    <div class="row g-2 align-items-center mb-3">
+      <div class="col-12 col-md-8">
+        <input
+          type="search"
+          class="form-control"
+          id="palette-search"
+          placeholder="{{ context.search_placeholder }}"
+          autocomplete="off"
+          spellcheck="false"
+          aria-label="{{ context.search_placeholder }}"
+        >
+      </div>
+      <div class="col-12 col-md-4">
+        <select class="form-select" id="palette-phase-filter" aria-label="Filter by phase">
+          <option value="">{{ context.phase_filter_all_label }}</option>
+          {% for phase in context.phases %}
+            <option value="{{ phase.id }}">{{ phase.label }} ({{ phase.count }})</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-sm table-hover align-middle" id="palette-table">
+        <thead>
+          <tr>
+            <th scope="col" style="width: 22%;">Command</th>
+            <th scope="col" style="width: 12%;">Phase</th>
+            <th scope="col" style="width: 16%;">Category</th>
+            <th scope="col">Summary</th>
+            <th scope="col" style="width: 18%;">Source</th>
+          </tr>
+        </thead>
+        <tbody id="palette-tbody"></tbody>
+      </table>
+      <p class="text-muted small d-none" id="palette-empty">{{ context.empty_results_message }}</p>
+    </div>
+
+    <script id="palette-data" type="application/json">{{ context_json | safe }}</script>
+    <script>
+      (function () {
+        var dataElement = document.getElementById('palette-data');
+        var payload = JSON.parse(dataElement.textContent || '{}');
+        var commands = payload.commands || [];
+        var tbody = document.getElementById('palette-tbody');
+        var emptyHint = document.getElementById('palette-empty');
+        var searchBox = document.getElementById('palette-search');
+        var phaseFilter = document.getElementById('palette-phase-filter');
+
+        function escape(text) {
+          if (text === undefined || text === null) {
+            return '';
+          }
+          return String(text)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+        }
+
+        function renderRow(command) {
+          var source = (command.source_file || '') + ':' + (command.line || '');
+          return (
+            '<tr>' +
+              '<td><code>' + escape(command.name) + '</code></td>' +
+              '<td><span class="badge bg-info text-dark">' + escape(command.phase) + '</span></td>' +
+              '<td class="small text-muted">' + escape(command.category || '') + '</td>' +
+              '<td>' + escape(command.summary || '') + '</td>' +
+              '<td class="small text-muted">' + escape(source) + '</td>' +
+            '</tr>'
+          );
+        }
+
+        function applyFilter() {
+          var query = (searchBox.value || '').trim().toLowerCase();
+          var phase = phaseFilter.value || '';
+          var rows = [];
+          for (var i = 0; i < commands.length; i++) {
+            var command = commands[i];
+            if (phase && command.phase !== phase) {
+              continue;
+            }
+            if (query) {
+              var name = (command.name || '').toLowerCase();
+              var summary = (command.summary || '').toLowerCase();
+              if (name.indexOf(query) === -1 && summary.indexOf(query) === -1) {
+                continue;
+              }
+            }
+            rows.push(renderRow(command));
+          }
+          tbody.innerHTML = rows.join('');
+          if (rows.length === 0) {
+            emptyHint.classList.remove('d-none');
+          } else {
+            emptyHint.classList.add('d-none');
+          }
+        }
+
+        searchBox.addEventListener('input', applyFilter);
+        phaseFilter.addEventListener('change', applyFilter);
+        applyFilter();
+      })();
+    </script>
+  {% endif %}
+</div>
+{% endblock %}

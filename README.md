@@ -110,11 +110,12 @@ Claude: [calls lazyown_set_config -> lazyown_auto_loop]
 | `LAZYOWN_C2_USER` | `payload.json c2_user` | C2 username |
 | `LAZYOWN_C2_PASS` | `payload.json c2_pass` | C2 password |
 
-## MCP Tool Groups (72 tools)
+## MCP Tool Groups (78 tools)
 
 | Group | Tools | Description |
 |-------|-------|-------------|
-| Core Execution | 7 | run_command, get/set_config, list_modules, discover_commands, command_help, palette |
+| Core Execution | 7 | run_command (now with dry_run + confirm), get/set_config, list_modules, discover_commands, command_help, palette |
+| Audit & Context | 6 | target_context, tasks_cleanup, evidence_grep, session_diff, run_command_async, job_status |
 | Target Management | 3 | add_target, list_targets, set_active_target |
 | C2 / Implant Control | 10 | c2_command, c2_status, get_beacons, run_api, c2_profile, c2_vuln_analysis, c2_redop, c2_search_agent, c2_script, c2_adversary |
 | Session Awareness | 4 | session_status, session_state, list_sessions, read_session_file |
@@ -132,6 +133,26 @@ Claude: [calls lazyown_set_config -> lazyown_auto_loop]
 | SWAN MoE+RL | 4 | swan_run, swan_ensemble, swan_status, swan_route |
 
 Full documentation: `skills/README.md` and `skills/lazyown.md`.
+
+### Audit-mode MCP improvements
+
+Added in `skills/lazyown_mcp_helpers.py` to make autonomous audits more
+efficient and less error-prone. Logic lives in a pure-function module so it
+is unit-testable in isolation (`tests/test_mcp_improvements.py`).
+
+| Tool / Param | What it does | Why it matters |
+|--------------|--------------|----------------|
+| `lazyown_session_init(format='json', include_recommend=true)` | Returns the SITREP as a structured dict instead of a banner; optionally embeds the top-3 ranked recommended actions. | Saves ~5KB of decorated text per call; agents can filter before consuming. |
+| `lazyown_campaign_sitrep(format='json')` | Same JSON option for the master shift report. | Consistent format across both situation tools. |
+| `lazyown_target_context(host, port=N)` | Aggregates open ports, world-model credentials (with provenance + confidence), vulnerabilities, pwntomate evidence freshness, and nmap freshness for one (host, port) tuple. | Replaces 4-5 separate lookups when deciding the next action on a target. |
+| `lazyown_tasks_cleanup(dry_run=true, min_confidence=0.5)` | Audits `sessions/tasks.json` and flags entries where the embedded credential is actually a timestamp / URL / IP / duplicate. Pass `dry_run=false` to rewrite the file (a `.bak` is written first). | The watcher commonly turns log timestamps into "credentials"; on a real campaign this drops 100+ noise tasks. |
+| `lazyown_evidence_grep(pattern, scope='all|loot|nmap|http|logs')` | Regex search across `sessions/` artefacts with binary-skip and size caps. Returns `path:line` matches. | Avoids dropping out to the shell for cross-evidence queries. |
+| `lazyown_run_command(command, dry_run=true)` | Pre-flight: returns base command, binary path, OS-required vs OS-current, would-duplicate artefacts, missing payload keys — without executing. | Stops repeat-runs of 30-min scans by mistake; flags Windows-only tools against a Linux target before launch. |
+| `lazyown_run_command_async(command, timeout)` + `lazyown_job_status(job_id)` | Background-job pattern for long commands (lazynmap, pwntomate, auto_loop). Returns a `job_id` immediately. | Frees the agent from blocking on commands documented as ≥30 min. |
+| `lazyown_session_diff(take=true)` | Reports added / modified / removed files in `sessions/` plus new credentials / task IDs since the last snapshot. | Makes shift handoffs explicit; works well as the first call of every new session. |
+| Confirmation gate (`confirm=true`) | `lazyown_c2_command`, `lazyown_c2_redop`, `lazyown_c2_adversary`, and any `run_command` whose body matches `rm -rf` / `exfil` / `wipe` / `encrypt-file` now require an explicit `confirm=true` argument. | Prevents accidental destructive actions from autonomous loops. |
+| Provenance + confidence on credentials | Each credential exposed via `target_context` includes `is_likely_credential`, `confidence`, `classification`, and a `provenance` block (`source_file`, `line_no`, `captured_at`) when found. | Required for chain-of-custody in pentest reports. |
+| Freshness annotations | Every evidence file in the JSON SITREP and `target_context` carries `age_seconds`, `age_human`, and `stale=true` once it exceeds `freshness_threshold_seconds` (default 7 days; configurable per-call). | Stops the agent from exploiting on top of stale recon evidence. |
 
 ### Command palette and graph-aware discovery
 
@@ -12024,6 +12045,13 @@ No description available.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): some patchs \n\n Version: release/0.2.104 \n\n with love \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: sáb 09 may 2026 18:46:20 -04 \n\n Hora: 1778366780
 
 
 ### Nuevas características

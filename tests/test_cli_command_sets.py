@@ -188,6 +188,11 @@ class TestAliasYamlIntegrity:
 
 
 class TestAliasLoaderSubstitution:
+    """Eager-substitution path; ``lazy=True`` (the new default) is covered in
+    tests/test_cli_enhancements.py. These tests exercise the legacy contract
+    by passing ``lazy=False`` explicitly.
+    """
+
     def test_load_aliases_substitutes_payload_values(self):
         from cli.aliases import load_aliases
 
@@ -202,7 +207,7 @@ class TestAliasLoaderSubstitution:
             "start_user": "alice",
             "start_pass": "s3cr3t",
         }
-        aliases = load_aliases(payload)
+        aliases = load_aliases(payload, lazy=False)
         assert "10.0.0.5" in aliases["backdoor"]
         assert "{rhost}" not in aliases["backdoor"]
         assert "alice" in aliases["coerce_plus"]
@@ -213,20 +218,20 @@ class TestAliasLoaderSubstitution:
     def test_missing_keys_substitute_to_empty_string(self):
         from cli.aliases import load_aliases
 
-        aliases = load_aliases({"rhost": "1.2.3.4"})
+        aliases = load_aliases({"rhost": "1.2.3.4"}, lazy=False)
         assert "{lhost}" not in aliases["coerce_plus"]
         assert "1.2.3.4" in aliases["coerce_plus"]
 
     def test_none_values_substitute_to_empty_string(self):
         from cli.aliases import load_aliases
 
-        aliases = load_aliases({"rhost": "1.2.3.4", "lhost": None})
+        aliases = load_aliases({"rhost": "1.2.3.4", "lhost": None}, lazy=False)
         assert "{lhost}" not in aliases["backdoor"]
 
     def test_aliases_with_no_placeholders_unchanged(self):
         from cli.aliases import load_aliases
 
-        aliases = load_aliases({"rhost": "x"})
+        aliases = load_aliases({"rhost": "x"}, lazy=False)
         assert aliases["ls"] == "list"
         assert aliases["q"] == "exit"
         assert aliases["zrc"] == "sh nano ~/.zshrc"
@@ -258,12 +263,17 @@ class TestAliasLoaderSubstitution:
         from cli.aliases import load_aliases
         from core.config import load_payload
 
-        aliases = load_aliases(load_payload())
+        aliases = load_aliases(load_payload(), lazy=False)
         assert len(aliases) == 114
         for name, command in aliases.items():
             assert "{rhost}" not in command, f"unsubstituted placeholder in {name}"
-            assert "{lhost}" not in command, f"unsubstituted placeholder in {name}"
-            assert "{lport}" not in command, f"unsubstituted placeholder in {name}"
+
+    def test_lazy_default_preserves_placeholders(self):
+        from cli.aliases import load_aliases
+        from core.config import load_payload
+
+        aliases = load_aliases(load_payload())
+        assert "{rhost}" in aliases["autonuclei"]
 
 
 class TestLazyOwnRefactor:

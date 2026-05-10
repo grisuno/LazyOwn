@@ -149,7 +149,7 @@ class LazyOwnShell(cmd2.Cmd):
             include_ipy=True,
         )
         try:
-            self.aliases.update(_load_aliases(load_payload()))
+            self.aliases.update(_load_aliases(load_payload(), lazy=True))
         except Exception as exc:
             print_warn(f"failed to load cli/aliases.yaml: {exc}")
         try:
@@ -433,10 +433,10 @@ class LazyOwnShell(cmd2.Cmd):
             }
 
             try:
-                expanded_command = raw_command.format(**context)
-            except KeyError as e:
-                self.perror(f"[!] Placeholder desconocido en alias '{cmd_name}': {e}")
-                return True
+                from cli.cli_enhancements import DictPayloadProvider, DynamicAliasResolver
+                expanded_command = DynamicAliasResolver().expand(
+                    cmd_name, raw_command, DictPayloadProvider(context),
+                )
             except Exception as e:
                 self.perror(f"[!] Error al expandir alias '{cmd_name}': {e}")
                 return True
@@ -969,6 +969,34 @@ class LazyOwnShell(cmd2.Cmd):
         """
         print_warn("LazyOwn say Goodbye!")
         return True
+
+    def completedefault(self, text, line, begidx, endidx):
+        """Fall through to the payload-aware completer for unhandled commands."""
+        try:
+            from cli.cli_enhancements import DictPayloadProvider, PayloadAwareCompleter
+        except ImportError:
+            return []
+        try:
+            tokens = line[:endidx].split()
+            cmd = tokens[0] if tokens else ""
+            partial = text or ""
+            payload = DictPayloadProvider(getattr(self, "params", {}) or {})
+            completer = PayloadAwareCompleter(
+                payload,
+                addon_lister=lambda: [
+                    p.stem for p in __import__("pathlib").Path(
+                        getattr(self, "lazyaddons_dir", "lazyaddons")
+                    ).glob("*.yaml")
+                ],
+                plugin_lister=lambda: [
+                    p.stem for p in __import__("pathlib").Path(
+                        getattr(self, "plugins_dir", "plugins")
+                    ).glob("*.lua")
+                ],
+            )
+            return [s.text for s in completer.complete(cmd, partial)]
+        except Exception:
+            return []
 
     def postloop(self):
         """

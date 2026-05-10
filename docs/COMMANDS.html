@@ -288,6 +288,9 @@ handling system. You can override it in a subclass to customize its
 behavior.</p>
 <p>Example: &gt;&gt;&gt; shell = LazyOwnShell() &gt;&gt;&gt;
 shell.do_EOF(None) LazyOwn say Goodbye! (shell exits)</p>
+<h2 id="completedefault">completedefault</h2>
+<p>Fall through to the payload-aware completer for unhandled
+commands.</p>
 <h2 id="postloop">postloop</h2>
 <p>Handle operations to perform after exiting the command loop.</p>
 <p>This method is called after the command loop terminates, typically

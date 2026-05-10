@@ -50,14 +50,24 @@ def _substitute(template: str, payload: dict[str, Any]) -> str:
         return template
 
 
-def load_aliases(payload: dict[str, Any] | None = None, path: Path = ALIASES_PATH) -> dict[str, str]:
-    """Return the resolved cmd2 alias map.
+def load_aliases(
+    payload: dict[str, Any] | None = None,
+    path: Path = ALIASES_PATH,
+    lazy: bool = True,
+) -> dict[str, str]:
+    """Return the cmd2 alias map.
 
     Args:
-        payload: Configuration dict for placeholder substitution. If ``None``
-            the function reads ``payload.json`` lazily so callers don't have
-            to import :mod:`core.config` themselves.
+        payload: Configuration dict for placeholder substitution. Used only
+            when ``lazy=False``. If ``None`` the function reads
+            ``payload.json`` lazily so callers don't have to import
+            :mod:`core.config` themselves.
         path: Override the YAML location (used by tests).
+        lazy: When ``True`` (default), preserve ``{name}`` placeholders so
+            ``LazyOwnShell.onecmd_plus_hooks`` can re-render them against the
+            *current* params at execution time — meaning ``set rhost X``
+            instantly updates every alias that references ``{rhost}``. Pass
+            ``lazy=False`` for the legacy snapshot behaviour.
 
     Returns:
         Flat ``{name: command}`` dict suitable for ``self.aliases.update(...)``.
@@ -68,7 +78,7 @@ def load_aliases(payload: dict[str, Any] | None = None, path: Path = ALIASES_PAT
         TypeError: top-level YAML is not a mapping.
         ValueError: a key or value has the wrong type.
     """
-    if payload is None:
+    if payload is None and not lazy:
         from core.config import load_payload
 
         payload = load_payload()
@@ -85,7 +95,7 @@ def load_aliases(payload: dict[str, Any] | None = None, path: Path = ALIASES_PAT
             raise ValueError(f"alias name must be string, got {type(name).__name__}: {name!r}")
         if not isinstance(template, str):
             raise ValueError(f"alias '{name}' value must be string, got {type(template).__name__}")
-        resolved[name] = _substitute(template, payload)
+        resolved[name] = template if lazy else _substitute(template, payload or {})
     return resolved
 
 

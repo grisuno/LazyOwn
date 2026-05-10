@@ -156,6 +156,9 @@ Example:
     LazyOwn say Goodbye!
     (shell exits)
 
+## completedefault
+Fall through to the payload-aware completer for unhandled commands.
+
 ## postloop
 Handle operations to perform after exiting the command loop.
 

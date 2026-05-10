@@ -154,6 +154,28 @@ is unit-testable in isolation (`tests/test_mcp_improvements.py`).
 | Provenance + confidence on credentials | Each credential exposed via `target_context` includes `is_likely_credential`, `confidence`, `classification`, and a `provenance` block (`source_file`, `line_no`, `captured_at`) when found. | Required for chain-of-custody in pentest reports. |
 | Freshness annotations | Every evidence file in the JSON SITREP and `target_context` carries `age_seconds`, `age_human`, and `stale=true` once it exceeds `freshness_threshold_seconds` (default 7 days; configurable per-call). | Stops the agent from exploiting on top of stale recon evidence. |
 
+### Audit-mode CLI enhancements
+
+A SOLID extension layer in `cli/cli_enhancements.py` plugs into the cmd2 shell
+via the existing CommandSet auto-discovery (`cli/commands/audit.py`). No
+edits to the 27k-line `lazyown.py` core were required beyond two small hooks
+(lazy alias loading, `completedefault` fallback).
+
+| Command / hook | What it does | Backed by |
+|----------------|--------------|-----------|
+| `fz [query]` | Fuzzy command finder over every `do_*`, alias, plugin and addon. Scores exact > prefix > substring > sequence-similarity. | `FuzzyCommandIndex` |
+| `form <command>` | Walks the operator through an interactive parameter form for commands with many flags (currently `phishing`, `venom`, `evil`). Validates required fields and `options` enums; falls back to defaults under non-interactive IO. | `InteractiveForm`, `FormSpec` |
+| `status_tail [target]` | Parses the latest `sessions/scan_<target>.partial`/`.nmap` and prints open ports, percent complete and last line so the operator can monitor a long scan without leaving the shell. | `LiveStatusTail` |
+| `grep_log <pattern> [--cmd <name>]` | Regex search across the recent transcript of executed commands and their outputs. Persists across restarts (`sessions/_cli_transcript.jsonl`). | `TranscriptStore` |
+| `reload_addons` | Polls `lazyaddons/` and `plugins/` and re-registers anything that changed since the last sweep, without restarting the shell. | `AddonHotReloader` |
+| `audit_complete_keys <command> [partial]` | Surfaces what the payload-aware completer would suggest for a given command. Useful to verify completion behaviour. | `PayloadAwareCompleter` |
+| `completedefault` (Tab) | Cmd2 hook now falls through to a payload-aware completer that suggests payload keys for `set`/`assign`, IP values for `target`, wordlist keys for `gobuster`/`ffuf`, addon names for `run`, plugin names for `plugin`, and captured credentials for `evil`/`cme`/`secretsdump`. | `PayloadAwareCompleter` |
+| Dynamic alias resolution | `cli/aliases.py` now defaults to `lazy=True`: alias templates keep their `{rhost}`/`{lhost}`/etc. placeholders and are rendered against `self.params` at execution time. `set rhost X` propagates to every alias on the next keystroke (no shell restart). Pre-substitution is still available with `lazy=False`. | `DynamicAliasResolver`, `cli/aliases.py` |
+
+The primitives are framework-agnostic and depend on small `typing.Protocol`
+interfaces (`PayloadProvider`, `CommandLister`, `TerminalIO`) so they can be
+unit-tested in isolation. See `tests/test_cli_enhancements.py` (36 tests).
+
 ### Command palette and graph-aware discovery
 
 The `lazyown_palette` MCP tool (also reachable as the `palette` CLI command
@@ -2728,6 +2750,9 @@ Example:
     >>> shell.do_EOF(None)
     LazyOwn say Goodbye!
     (shell exits)
+
+## completedefault
+Fall through to the payload-aware completer for unhandled commands.
 
 ## postloop
 Handle operations to perform after exiting the command loop.
@@ -12045,6 +12070,13 @@ No description available.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Refactorización
+
+### Otros
+
+  *   * refactor(refactor): refactor to mcp \n\n Version: release/0.2.104 \n\n with love \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: sáb 09 may 2026 23:12:52 -04 \n\n Hora: 1778382772
 
 
 ### Nuevas características

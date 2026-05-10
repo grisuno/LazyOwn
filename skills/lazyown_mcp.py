@@ -360,6 +360,23 @@ LAZYOWN_DIR = Path(os.environ.get("LAZYOWN_DIR", str(SKILLS_DIR.parent)))
 PAYLOAD_FILE = LAZYOWN_DIR / "payload.json"
 SESSIONS_DIR = LAZYOWN_DIR / "sessions"
 
+# ── Helper module (pure-function logic for new high-impact tools) ─────────────
+from lazyown_mcp_helpers import (
+    audit_tasks,
+    build_target_context,
+    diff_snapshot,
+    evidence_freshness,
+    evidence_grep,
+    is_likely_credential,
+    JobStore,
+    needs_confirmation,
+    preflight_command,
+    take_snapshot,
+    DEFAULT_FRESHNESS_THRESHOLD_SECONDS,
+)
+
+_job_store = JobStore()
+
 # ── Category → default LazyOwn command (auto-loop fallback when LLM unavailable) ──
 # Keys match ActionCategory values from lazyown_policy.py.
 # Override by placing a policy_command_map.json in sessions/.
@@ -583,7 +600,9 @@ async def list_tools() -> list[types.Tool]:
             description=(
                 "Execute one or more commands in the LazyOwn interactive shell. "
                 "Separate multiple commands with newlines. "
-                "Examples: 'list', 'set rhost 10.10.11.78', 'lazynmap'."
+                "Examples: 'list', 'set rhost 10.10.11.78', 'lazynmap'. "
+                "Pass dry_run=true to get a pre-flight report (binary present, OS match, "
+                "would-duplicate, missing payload keys) without executing."
             ),
             inputSchema={
                 "type": "object",
@@ -596,6 +615,16 @@ async def list_tools() -> list[types.Tool]:
                         "type": "integer",
                         "description": "Max seconds to wait for output (default 30).",
                         "default": 30,
+                    },
+                    "dry_run": {
+                        "type": "boolean",
+                        "description": "Pre-flight only: validate without executing.",
+                        "default": False,
+                    },
+                    "confirm": {
+                        "type": "boolean",
+                        "description": "Required for destructive commands (rm -rf, exfil, wipe).",
+                        "default": False,
                     },
                 },
                 "required": ["command"],
@@ -912,12 +941,174 @@ async def list_tools() -> list[types.Tool]:
                 "(7) World model state for rhost: services, credentials, vulnerabilities. "
                 "(8) Engagement phase + top commands for current phase. "
                 "(9) Gap analysis: what's missing and recommended next steps. "
-                "COMMAND ABSTRACTION: LazyOwn commands auto-inject payload.json fields — "
-                "never write raw nmap/gobuster/bloodhound commands, use the abstract name. "
-                "Example: 'nmap' → lazynmap with rhost; 'ww' → whatweb with domain; "
-                "'pyautomate' → pwntomate from latest XML."
+                "Pass format='json' to get structured output (preferred for agents). "
+                "Pass include_recommend=true to embed top-3 ranked next-step suggestions."
             ),
-            inputSchema={"type": "object", "properties": {}},
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "format": {
+                        "type": "string",
+                        "description": "Output format: 'pretty' (human banner, default) or 'json' (structured dict).",
+                        "enum": ["pretty", "json"],
+                        "default": "pretty",
+                    },
+                    "include_recommend": {
+                        "type": "boolean",
+                        "description": "Embed top-3 ranked next-step suggestions from the recommender.",
+                        "default": False,
+                    },
+                    "freshness_threshold_seconds": {
+                        "type": "integer",
+                        "description": "Mark scan/pwntomate evidence as stale beyond this age (default 7d).",
+                        "default": DEFAULT_FRESHNESS_THRESHOLD_SECONDS,
+                    },
+                },
+            },
+        ),
+        types.Tool(
+            name="lazyown_target_context",
+            description=(
+                "Aggregate everything known about a target (host[, port]) into one structured "
+                "JSON response: open ports from nmap, world-model credentials with provenance and "
+                "confidence scores, vulnerabilities, pwntomate evidence directories with freshness, "
+                "nmap scan freshness. Replaces 4-5 separate lookups when deciding next steps."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "host": {
+                        "type": "string",
+                        "description": "Target IP/hostname. Defaults to payload.json rhost.",
+                        "default": "",
+                    },
+                    "port": {
+                        "type": "integer",
+                        "description": "Optional port filter (return only data scoped to this port).",
+                    },
+                },
+            },
+        ),
+        types.Tool(
+            name="lazyown_tasks_cleanup",
+            description=(
+                "Audit sessions/tasks.json: detect bogus task entries (timestamps misclassified "
+                "as credentials, URLs as credentials, IP-only values, duplicates) and optionally "
+                "remove them. Always returns the audit; pass dry_run=false to actually rewrite tasks.json."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "dry_run": {
+                        "type": "boolean",
+                        "description": "If true (default) only reports what would be removed; no write.",
+                        "default": True,
+                    },
+                    "min_confidence": {
+                        "type": "number",
+                        "description": "Minimum credential-likelihood score to keep (0.0..1.0, default 0.5).",
+                        "default": 0.5,
+                    },
+                },
+            },
+        ),
+        types.Tool(
+            name="lazyown_evidence_grep",
+            description=(
+                "Grep across sessions/ artefacts with scope filters (loot|nmap|http|logs|all). "
+                "Skips binaries and oversized dumps. Returns file:line matches capped for context."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "pattern": {
+                        "type": "string",
+                        "description": "Regex pattern (Python flavour). Case-insensitive by default.",
+                    },
+                    "scope": {
+                        "type": "string",
+                        "description": "Filter the search to a class of artefacts.",
+                        "enum": ["all", "loot", "nmap", "http", "logs"],
+                        "default": "all",
+                    },
+                    "max_matches": {
+                        "type": "integer",
+                        "description": "Cap on returned matches (default 200).",
+                        "default": 200,
+                    },
+                    "case_sensitive": {
+                        "type": "boolean",
+                        "description": "Match case-sensitively (default false).",
+                        "default": False,
+                    },
+                },
+                "required": ["pattern"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_session_diff",
+            description=(
+                "Diff between sessions: returns added/modified/removed files in sessions/, "
+                "new credentials, new tasks since the last snapshot. Pass take=true to overwrite "
+                "the snapshot after diffing (e.g. at the start of a new shift)."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "take": {
+                        "type": "boolean",
+                        "description": "Overwrite the snapshot after diffing (default false).",
+                        "default": False,
+                    },
+                },
+            },
+        ),
+        types.Tool(
+            name="lazyown_run_command_async",
+            description=(
+                "Submit a long-running LazyOwn command to a background job. Returns a job_id "
+                "immediately. Poll with lazyown_job_status. Use this for lazynmap, pwntomate, "
+                "auto_loop and anything documented as ≥30min. The synchronous run_command tool "
+                "blocks the agent; this one frees it to work on something else."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "command": {
+                        "type": "string",
+                        "description": "LazyOwn shell command(s) to execute, newline-separated.",
+                    },
+                    "timeout": {
+                        "type": "integer",
+                        "description": "Max seconds before the job is killed (default 1800).",
+                        "default": 1800,
+                    },
+                },
+                "required": ["command"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_job_status",
+            description=(
+                "Inspect background jobs created by lazyown_run_command_async. "
+                "Without job_id returns a list of recent jobs; with job_id returns full record "
+                "including stdout once the job finishes."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "job_id": {
+                        "type": "string",
+                        "description": "Job identifier from lazyown_run_command_async.",
+                        "default": "",
+                    },
+                    "limit": {
+                        "type": "integer",
+                        "description": "List size when job_id is omitted (default 20).",
+                        "default": 20,
+                    },
+                },
+            },
         ),
         types.Tool(
             name="lazyown_discover_commands",
@@ -1181,9 +1372,20 @@ async def list_tools() -> list[types.Tool]:
                 "(9) sessions/autonomous_events.jsonl — last 10 autonomous actions; "
                 "(10) sessions/LazyOwn_session_report.csv — command count and success rate summary. "
                 "Returns a structured SITREP: PHASE / HOSTS / CREDS / TASKS / OBJECTIVES / LESSONS / DAEMON. "
-                "Use this at the start of every operator shift and before any strategic decision."
+                "Use this at the start of every operator shift and before any strategic decision. "
+                "Pass format='json' to get structured output (preferred for agents)."
             ),
-            inputSchema={"type": "object", "properties": {}},
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "format": {
+                        "type": "string",
+                        "description": "Output format: 'pretty' (banner, default) or 'json' (structured dict).",
+                        "enum": ["pretty", "json"],
+                        "default": "pretty",
+                    },
+                },
+            },
         ),
         types.Tool(
             name="lazyown_c2_notes",
@@ -3239,6 +3441,18 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
     if name == "lazyown_run_command":
         command = arguments["command"]
         timeout = int(arguments.get("timeout", 30))
+        dry_run = bool(arguments.get("dry_run", False))
+
+        if dry_run:
+            preflight = preflight_command(command, _load_payload(), SESSIONS_DIR)
+            return text(json.dumps(preflight, indent=2))
+
+        if needs_confirmation(name, arguments):
+            return text(
+                f"CONFIRMATION REQUIRED for command: {command}\n"
+                f"Re-call with confirm=true to execute. "
+                f"This command appears destructive (rm -rf, exfil, wipe, encrypt-file)."
+            )
 
         # Prefer stateful C2 shell (/api/run) when C2 is reachable
         def _run_with_fallback(cmd: str, to: int) -> str:
@@ -3634,6 +3848,12 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         import glob as _glob
         from pathlib import Path as _Path
 
+        out_format = (arguments.get("format") or "pretty").lower()
+        include_recommend = bool(arguments.get("include_recommend", False))
+        freshness_threshold = int(arguments.get(
+            "freshness_threshold_seconds", DEFAULT_FRESHNESS_THRESHOLD_SECONDS,
+        ))
+
         # ── 1. Payload config ────────────────────────────────────────────────
         cfg      = _load_payload()
         rhost    = cfg.get("rhost", "")
@@ -3947,7 +4167,233 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             "## RECOMMENDED NEXT STEPS",
         ] + (next_steps or [f"  lazyown_phase_guide(phase='{phase}')"])
 
+        # ── Optional recommender embedding ───────────────────────────────────
+        recommend_top: list[dict[str, Any]] = []
+        if include_recommend:
+            try:
+                _ensure_recommender()
+                if _recommend is not None and rhost:
+                    rec_blob = _recommend(rhost) or {}
+                    for item in (rec_blob.get("commands") or rec_blob.get("recommendations") or [])[:3]:
+                        recommend_top.append({
+                            "command": item.get("command") or item.get("name", ""),
+                            "score": item.get("score", 0.0),
+                            "reasoning": item.get("reasoning") or item.get("reason", ""),
+                        })
+            except Exception as _rec_err:
+                recommend_top = [{"error": str(_rec_err)}]
+            if recommend_top and not any("error" in r for r in recommend_top):
+                out.append("\n## TOP-3 RECOMMENDED ACTIONS")
+                for i, r in enumerate(recommend_top, 1):
+                    out.append(
+                        f"  {i}. {r['command']:<24} score={r['score']:.2f} — "
+                        f"{(r['reasoning'] or '')[:80]}"
+                    )
+
+        if out_format == "json":
+            sitrep_dict: dict[str, Any] = {
+                "config": {
+                    "rhost": rhost, "domain": domain, "lhost": lhost,
+                    "lport": lport, "os_id": os_id_cfg, "os_verdict": os_verdict,
+                },
+                "engagement": {
+                    "phase": phase,
+                    "kill_chain": kill_chain,
+                    "host_state": wm_host_state,
+                },
+                "evidence": {
+                    "scan": evidence_freshness(
+                        LAZYOWN_DIR / "sessions" / f"scan_{rhost}.nmap",
+                        threshold_seconds=freshness_threshold,
+                    ) if rhost else {},
+                    "vulns": evidence_freshness(
+                        LAZYOWN_DIR / "sessions" / f"vulns_{rhost}.nmap",
+                        threshold_seconds=freshness_threshold,
+                    ) if rhost else {},
+                    "xml": evidence_freshness(
+                        LAZYOWN_DIR / "sessions" / f"scan_{rhost}.nmap.xml",
+                        threshold_seconds=freshness_threshold,
+                    ) if rhost else {},
+                    "open_ports": [s.strip() for s in open_ports[:50]],
+                    "pwntomate": [s.strip() for s in pwntomate_lines],
+                },
+                "tasks": {
+                    "pending_count": len(tasks_pending),
+                    "done_count": len(tasks_done),
+                    "pending_preview": [s.strip() for s in tasks_pending[:8]],
+                },
+                "objectives": [s.strip() for s in objectives],
+                "world_model": {
+                    "services": [s.strip() for s in wm_services],
+                    "credentials": [s.strip() for s in wm_creds],
+                    "vulnerabilities": [s.strip() for s in wm_vulns],
+                },
+                "missing": [s.strip() for s in missing],
+                "next_steps": [s.strip() for s in next_steps],
+                "recommend_top": recommend_top,
+            }
+            try:
+                take_snapshot(SESSIONS_DIR, cfg, locals().get("wm") or {},
+                              _json.loads((LAZYOWN_DIR / "sessions" / "tasks.json").read_text())
+                              if (LAZYOWN_DIR / "sessions" / "tasks.json").exists() else [])
+            except Exception:
+                pass
+            return text(_json.dumps(sitrep_dict, indent=2, default=str))
+
         return text("\n".join(out))
+
+    # ── target_context ────────────────────────────────────────────────────────
+    elif name == "lazyown_target_context":
+        cfg_tc = _load_payload()
+        host_tc = (arguments.get("host") or cfg_tc.get("rhost") or "").strip()
+        if not host_tc:
+            return text(json.dumps({"error": "host not provided and rhost is empty"}))
+        port_tc = arguments.get("port")
+        wm_path_tc = SESSIONS_DIR / "world_model.json"
+        wm_data: dict = {}
+        if wm_path_tc.exists():
+            try:
+                wm_data = json.loads(wm_path_tc.read_text())
+            except (OSError, json.JSONDecodeError):
+                wm_data = {}
+        ctx = build_target_context(
+            host=host_tc,
+            port=int(port_tc) if port_tc not in (None, "") else None,
+            sessions_dir=SESSIONS_DIR,
+            payload=cfg_tc,
+            world_model=wm_data,
+        )
+        return text(json.dumps(ctx, indent=2, default=str))
+
+    # ── tasks_cleanup ─────────────────────────────────────────────────────────
+    elif name == "lazyown_tasks_cleanup":
+        dry_run_tc = arguments.get("dry_run", True)
+        if isinstance(dry_run_tc, str):
+            dry_run_tc = dry_run_tc.lower() != "false"
+        else:
+            dry_run_tc = bool(dry_run_tc)
+        min_conf = float(arguments.get("min_confidence", 0.5))
+        tasks_path_tc = SESSIONS_DIR / "tasks.json"
+        if not tasks_path_tc.exists():
+            return text(json.dumps({"error": "sessions/tasks.json not found"}))
+        try:
+            current_tasks = json.loads(tasks_path_tc.read_text())
+        except (OSError, json.JSONDecodeError) as exc:
+            return text(json.dumps({"error": f"cannot parse tasks.json: {exc}"}))
+
+        audits = audit_tasks(current_tasks, min_confidence=min_conf)
+        keep_ids = {a.task_id for a in audits if a.keep}
+        kept = [t for t in current_tasks if t.get("id") in keep_ids]
+        dropped = [
+            {
+                "id": a.task_id,
+                "status": a.status,
+                "reason": a.reason,
+                "confidence": a.confidence,
+                "title": a.title[:120],
+                "parsed_value": a.parsed_value,
+            }
+            for a in audits if not a.keep
+        ]
+
+        result = {
+            "dry_run": dry_run_tc,
+            "total_before": len(current_tasks),
+            "total_after": len(kept),
+            "dropped_count": len(dropped),
+            "dropped": dropped[:50],
+            "min_confidence": min_conf,
+        }
+        if not dry_run_tc and dropped:
+            backup = SESSIONS_DIR / "tasks.json.bak"
+            try:
+                backup.write_text(json.dumps(current_tasks, indent=2))
+                tasks_path_tc.write_text(json.dumps(kept, indent=2))
+                result["backup_written"] = str(backup)
+            except OSError as exc:
+                result["error"] = f"write failed: {exc}"
+        return text(json.dumps(result, indent=2, default=str))
+
+    # ── evidence_grep ─────────────────────────────────────────────────────────
+    elif name == "lazyown_evidence_grep":
+        pat = arguments.get("pattern", "").strip()
+        if not pat:
+            return text(json.dumps({"error": "pattern is required"}))
+        scope_eg = arguments.get("scope", "all")
+        max_m = int(arguments.get("max_matches", 200))
+        case_sens = bool(arguments.get("case_sensitive", False))
+        result = evidence_grep(
+            pattern=pat,
+            sessions_dir=SESSIONS_DIR,
+            scope=scope_eg,
+            max_matches=max_m,
+            case_insensitive=not case_sens,
+        )
+        return text(json.dumps(result, indent=2, default=str))
+
+    # ── session_diff ──────────────────────────────────────────────────────────
+    elif name == "lazyown_session_diff":
+        take_snap = bool(arguments.get("take", False))
+        wm_path_sd = SESSIONS_DIR / "world_model.json"
+        wm_data_sd: dict = {}
+        if wm_path_sd.exists():
+            try:
+                wm_data_sd = json.loads(wm_path_sd.read_text())
+            except (OSError, json.JSONDecodeError):
+                wm_data_sd = {}
+        tasks_path_sd = SESSIONS_DIR / "tasks.json"
+        tasks_data_sd: list = []
+        if tasks_path_sd.exists():
+            try:
+                tasks_data_sd = json.loads(tasks_path_sd.read_text())
+            except (OSError, json.JSONDecodeError):
+                tasks_data_sd = []
+        diff_result = diff_snapshot(
+            sessions_dir=SESSIONS_DIR,
+            payload=_load_payload(),
+            world_model=wm_data_sd,
+            tasks=tasks_data_sd,
+        )
+        if take_snap:
+            take_snapshot(SESSIONS_DIR, _load_payload(), wm_data_sd, tasks_data_sd)
+            diff_result["snapshot_overwritten"] = True
+        return text(json.dumps(diff_result, indent=2, default=str))
+
+    # ── run_command_async ─────────────────────────────────────────────────────
+    elif name == "lazyown_run_command_async":
+        cmd_async = arguments.get("command", "").strip()
+        if not cmd_async:
+            return text(json.dumps({"error": "command is required"}))
+        timeout_async = int(arguments.get("timeout", 1800))
+        if needs_confirmation(name, arguments):
+            return text(json.dumps({
+                "error": "confirmation_required",
+                "message": "Re-call with confirm=true for destructive commands.",
+            }))
+        job_id = _job_store.submit(
+            cmd_async,
+            runner=_run_lazyown_command,
+            timeout=timeout_async,
+        )
+        return text(json.dumps({
+            "job_id": job_id,
+            "command": cmd_async,
+            "timeout": timeout_async,
+            "poll_with": f"lazyown_job_status(job_id='{job_id}')",
+        }, indent=2))
+
+    # ── job_status ────────────────────────────────────────────────────────────
+    elif name == "lazyown_job_status":
+        jid = (arguments.get("job_id") or "").strip()
+        if jid:
+            status_rec = _job_store.status(jid)
+            if status_rec is None:
+                return text(json.dumps({"error": f"unknown job_id: {jid}"}))
+            return text(json.dumps(status_rec, indent=2, default=str))
+        limit_js = int(arguments.get("limit", 20))
+        return text(json.dumps({
+            "jobs": _job_store.list(limit=limit_js),
+        }, indent=2, default=str))
 
     # ── phase_guide ───────────────────────────────────────────────────────────
     elif name == "lazyown_phase_guide":
@@ -4463,6 +4909,19 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
     # ── campaign_sitrep ───────────────────────────────────────────────────────
     elif name == "lazyown_campaign_sitrep":
         import csv as _csv
+        sitrep_format = (arguments.get("format") or "pretty").lower()
+        sitrep_struct: dict[str, Any] = {
+            "world_model": None,
+            "session_json": None,
+            "credentials_files": [],
+            "tasks": None,
+            "objectives": None,
+            "campaign": None,
+            "lessons": None,
+            "daemon": None,
+            "auto_events": [],
+            "session_csv": None,
+        }
         lines = ["=" * 60, "CAMPAIGN SITREP", "=" * 60]
 
         # 1. World model
@@ -4609,6 +5068,119 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 lines.append(f"[SESSION CSV] error: {e}")
 
         lines.append("\n" + "=" * 60)
+
+        if sitrep_format == "json":
+            wm_file = SESSIONS_DIR / "world_model.json"
+            if wm_file.exists():
+                try:
+                    wm = json.loads(wm_file.read_text())
+                    sitrep_struct["world_model"] = {
+                        "phase": wm.get("current_phase"),
+                        "host_count": len(wm.get("hosts", {})),
+                        "credentials": [
+                            {**c,
+                             "is_likely_credential": is_likely_credential(str(c.get("value", "")))[0],
+                             "confidence": is_likely_credential(str(c.get("value", "")))[1]}
+                            for c in wm.get("credentials", [])[:50]
+                        ],
+                        "hosts": wm.get("hosts", {}),
+                    }
+                except Exception as exc:
+                    sitrep_struct["world_model"] = {"error": str(exc)}
+
+            sj_file = SESSIONS_DIR / "sessionLazyOwn.json"
+            if sj_file.exists():
+                try:
+                    sitrep_struct["session_json"] = json.loads(sj_file.read_text())
+                except Exception as exc:
+                    sitrep_struct["session_json"] = {"error": str(exc)}
+
+            cred_paths = sorted(SESSIONS_DIR.glob("credentials*.txt"))
+            for cp in cred_paths[:10]:
+                try:
+                    sitrep_struct["credentials_files"].append({
+                        "name": cp.name,
+                        "preview": cp.read_text(errors="replace")[:240],
+                        "freshness": evidence_freshness(cp),
+                    })
+                except OSError:
+                    pass
+
+            tasks_file = SESSIONS_DIR / "tasks.json"
+            if tasks_file.exists():
+                try:
+                    tdata = json.loads(tasks_file.read_text())
+                    by_status: dict = {}
+                    for t in tdata:
+                        by_status[t.get("status", "?")] = by_status.get(t.get("status", "?"), 0) + 1
+                    sitrep_struct["tasks"] = {
+                        "total": len(tdata),
+                        "by_status": by_status,
+                        "pending_preview": [
+                            {"id": t.get("id"), "status": t.get("status"),
+                             "title": t.get("title", "")[:140]}
+                            for t in tdata if t.get("status") != "Done"
+                        ][:20],
+                    }
+                except Exception as exc:
+                    sitrep_struct["tasks"] = {"error": str(exc)}
+
+            obj_file = SESSIONS_DIR / "objectives.jsonl"
+            if obj_file.exists():
+                try:
+                    objs = [json.loads(l) for l in obj_file.read_text().splitlines() if l.strip()]
+                    sitrep_struct["objectives"] = {
+                        "total": len(objs),
+                        "pending": [o for o in objs if o.get("status") == "pending"][:10],
+                    }
+                except Exception as exc:
+                    sitrep_struct["objectives"] = {"error": str(exc)}
+
+            camp_file = SESSIONS_DIR / "campaign.json"
+            if camp_file.exists():
+                try:
+                    sitrep_struct["campaign"] = json.loads(camp_file.read_text())
+                except Exception as exc:
+                    sitrep_struct["campaign"] = {"error": str(exc)}
+
+            lessons_file = SESSIONS_DIR / "campaign_lessons.jsonl"
+            if lessons_file.exists():
+                try:
+                    sitrep_struct["lessons"] = [
+                        json.loads(l) for l in lessons_file.read_text().splitlines() if l.strip()
+                    ][-10:]
+                except Exception as exc:
+                    sitrep_struct["lessons"] = {"error": str(exc)}
+
+            aut_status = SESSIONS_DIR / "autonomous_status.json"
+            if aut_status.exists():
+                try:
+                    sitrep_struct["daemon"] = json.loads(aut_status.read_text())
+                except Exception as exc:
+                    sitrep_struct["daemon"] = {"error": str(exc)}
+
+            aut_events = SESSIONS_DIR / "autonomous_events.jsonl"
+            if aut_events.exists():
+                try:
+                    evts = [json.loads(l) for l in aut_events.read_text().splitlines() if l.strip()]
+                    sitrep_struct["auto_events"] = evts[-10:]
+                except Exception as exc:
+                    sitrep_struct["auto_events"] = [{"error": str(exc)}]
+
+            csv_file = SESSIONS_DIR / "LazyOwn_session_report.csv"
+            if csv_file.exists():
+                try:
+                    with open(str(csv_file), newline="", errors="replace") as f:
+                        rows = list(_csv.DictReader(f))
+                    sitrep_struct["session_csv"] = {
+                        "rows": len(rows),
+                        "unique_commands": len(set(r.get("command", "") for r in rows)),
+                    }
+                except Exception as exc:
+                    sitrep_struct["session_csv"] = {"error": str(exc)}
+
+            return text(json.dumps(sitrep_struct, indent=2, default=str))
+
         return text("\n".join(lines))
 
     # ── c2_notes ──────────────────────────────────────────────────────────────

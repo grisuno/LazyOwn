@@ -6,7 +6,6 @@ from PySide6.QtWidgets import QLabel, QWidget
 
 from lazygui.services.backend import BackendStatus
 
-
 _STATUS_TO_OBJECT_NAME: dict[BackendStatus, str] = {
     BackendStatus.DISCONNECTED: "InfoLabel",
     BackendStatus.CONNECTING: "WarningLabel",

@@ -20,7 +20,6 @@ from PySide6.QtWidgets import QPlainTextEdit, QWidget
 
 from lazygui.config.constants import AppConstants
 
-
 _ANSI_CSI_PATTERN = re.compile(r"\x1b\[[0-9;?]*[ -/]*[@-~]")
 _ANSI_OSC_PATTERN = re.compile(r"\x1b\][^\x07\x1b]*(?:\x07|\x1b\\)")
 _BACKSPACE_PATTERN = re.compile(r"[^\b]\b")

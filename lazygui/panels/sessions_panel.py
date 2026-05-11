@@ -19,7 +19,6 @@ from lazygui.services.backend import Backend
 from lazygui.services.models import Session
 from lazygui.widgets.filter_bar import FilterBar
 
-
 _SESSION_HEADERS: tuple[str, ...] = (
     "ID",
     "Hostname",

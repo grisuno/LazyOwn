@@ -199,6 +199,16 @@ the class by attempting to find a corresponding method. If the command
 or alias is not found, it prints an error message.</p>
 <p>:param line: The command or alias to be handled. :type line: str
 :return: None</p>
+<h2 id="inline_hint_hook">_inline_hint_hook</h2>
+<p>Post-command hook that prints a dim next-step hint line.</p>
+<p>Registered via <code>register_postcmd_hook</code> during
+<code>__init__</code>. Reads the <code>enable_inline_hints</code> flag
+from <code>self.params</code> (default True) so the operator can disable
+hints with <code>set enable_inline_hints false</code> without restarting
+the shell.</p>
+<p>Args: data: cmd2 PostcommandData containing the executed
+statement.</p>
+<p>Returns: data unchanged — the hook must return PostcommandData.</p>
 <h2 id="did_you_mean">_did_you_mean</h2>
 <p>Return up to <code>limit</code> close-matching command names.</p>
 <p>Combines the local <code>do_*</code> index with the graphify
@@ -382,6 +392,26 @@ space-separated command names to override the recent history
 (<code>suggest_next lazynmap do_ping 7</code>).</p>
 <p>:param line: optional list of seed commands, optionally followed by a
 numeric limit. :type line: str :return: None</p>
+<h2 id="dashboard">dashboard</h2>
+<p>Launch the full-screen LazyOwn operator dashboard (Textual TUI).</p>
+<p>Opens an auto-refreshing terminal dashboard showing the active
+target, kill chain progress, recent commands, objectives, credentials,
+beacons and graph-driven next-step hints. Press Q or Ctrl-C to close and
+return to the shell.</p>
+<p>Usage: <code>dashboard</code></p>
+<p>The dashboard reads from: - <code>payload.json</code> — target /
+attacker config and feature flags. -
+<code>sessions/world_model.json</code> — current phase and objectives. -
+<code>sessions/tasks.json</code> — active task list. -
+<code>sessions/LazyOwn_session_report.csv</code> — recent commands. -
+<code>sessions/credentials*.txt</code> / <code>sessions/hash*.txt</code>
+— credential counts. - <code>graphify-out/graph_lazyown.json</code> —
+next-step hints (requires <code>/graphify .</code>).</p>
+<p>The <code>textual</code> package must be installed
+(<code>pip install textual</code>). When the package is missing the
+command prints an install hint and returns.</p>
+<p>:param line: Unused. Reserved for future flags. :type line: str
+:return: None</p>
 <h2 id="complete_palette">complete_palette</h2>
 <p>Tab-complete the palette command using the live command index.</p>
 <p>Position 1 yields phase identifiers and the <code>--search</code> /

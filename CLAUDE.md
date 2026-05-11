@@ -642,6 +642,69 @@ restarting the shell or the MCP server.
 
 ---
 
+## 15b. Operator UX — inline hints + TUI dashboard
+
+### Inline reactive hints — `cli/reactive_hints.py`
+
+A `register_postcmd_hook` callback fires after every `do_*` command and
+prints a single dim line of next-step suggestions before the next prompt:
+
+```
+  ↳ do_gobuster · do_enum4linux · do_ffuf
+```
+
+Rules:
+
+- Suggestions come from `GraphAdvisor.suggest_next()` — structurally grounded,
+  not a generic list.
+- Commands on `SKIP_COMMANDS` (help, exit, dashboard, set, palette, …) never
+  produce hints.
+- Controlled by `enable_inline_hints` in `payload.json` (default `true`).
+  Operators disable with `set enable_inline_hints false`.
+- When the graph is absent the hook is a no-op — no error, no output.
+- Never adds latency beyond graph lookup time (< 1 ms after first load).
+
+Implementation notes for contributors:
+
+- `render_inline_hints(advisor, last_command, limit, enabled)` is the only
+  public surface. The caller owns the advisor instance.
+- Output goes through `rich.console.Console` so ANSI colours are handled
+  correctly on all terminals and piped output.
+- The hook must return `data` unchanged — cmd2 passes `PostcommandData` by
+  reference through the chain.
+
+### Operator TUI dashboard — `cli/dashboard_tui.py`
+
+`dashboard` (CLI command) launches a full-screen Textual application that
+blocks the shell while open (like `htop` or `lazygit`). Press **Q** to quit
+and return to the cmd2 prompt.
+
+Architecture:
+
+- `LazyOwnDashboard(App)` — the Textual root; accepts `payload_path` and
+  `sessions_dir` so tests and alternate configs work cleanly.
+- Widget hierarchy: `TargetPanel` → `KillChainPanel` + `ConfigPanel` →
+  `CommandsPanel` → `OpsPanel` → `HintBar`.
+- `_do_refresh()` is called on mount and every `REFRESH_INTERVAL` (5s) via
+  `set_interval`. Each widget receives typed data dicts — no widget touches
+  the filesystem directly.
+- `launch(payload_path, sessions_dir)` is the only public entry point.
+  `do_dashboard` in `lazyown.py` calls it after a try/import guard.
+
+Data helpers (all pure, tested independently):
+
+| Helper | Source |
+|--------|--------|
+| `_read_json(path)` | Any JSON file; returns `{}` on error |
+| `_read_recent_commands(limit)` | `sessions/LazyOwn_session_report.csv` |
+| `_count_lines_in_glob(pattern)` | `sessions/credentials*.txt` etc. |
+| `_beacon_count()` | `sessions/beacons.json` |
+| `_graph_hints(limit)` | `graphify-out/graph_lazyown.json` via `GraphAdvisor` |
+
+Requires `pip install textual` (added to `install.sh` and `requirements`).
+
+---
+
 ## 16. Read these next
 
 - `README.md` — public-facing feature list (long, marketing-flavoured).

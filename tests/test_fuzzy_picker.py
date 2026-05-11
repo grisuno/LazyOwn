@@ -254,12 +254,14 @@ def test_lazyown_source_has_no_invalid_escape_warning():
 
 def test_getprompt_renders_three_lines_and_includes_payload_segments():
     import re
+    from cli.banner_config import GlyphRegistry
     from utils import getprompt
     raw = getprompt()
     plain = re.sub(r"\x1b\[[0-9;]*[a-zA-Z]", "", raw)
     lines = plain.splitlines()
     assert len(lines) == 3, plain
-    assert lines[0].startswith("╔"), plain
-    assert lines[1].startswith("║"), plain
-    assert lines[2].startswith("╚"), plain
+    registry = GlyphRegistry()
+    assert any(lines[0].startswith(c) for c in registry.choices("top_left")), plain
+    assert any(lines[1].startswith(c) for c in registry.choices("vertical")), plain
+    assert any(lines[2].startswith(c) for c in registry.choices("bottom_left")), plain
     assert "@" in lines[0]

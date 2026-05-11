@@ -128,5 +128,45 @@
       "added_at": "2026-03-22T13:49:51.937287",
       "updated_at": "2026-03-22T13:50:08.615299"
     }
-  ]
+  ],
+  "banner": {
+    "enabled": [
+      "domain",
+      "rhost",
+      "time",
+      "user_host"
+    ],
+    "colors": {
+      "user_host": "bright_magenta",
+      "iface": "green",
+      "lhost": "bright_cyan",
+      "rhost": "bright_red",
+      "domain": "bright_yellow",
+      "public_ip": "bright_magenta",
+      "cwd": "bright_green",
+      "git": "bright_yellow",
+      "venv": "bright_blue",
+      "time": "bright_cyan",
+      "kernel": "bright_white",
+      "version": "bright_blue",
+      "battery_load": "bright_yellow"
+    },
+    "glyphs": {
+      "top_left": "┏",
+      "bottom_left": "┗",
+      "vertical": "│",
+      "horizontal": "─",
+      "segment_open": "─[",
+      "segment_close": "]",
+      "segment_filler": "──",
+      "bottom_filler": "─────",
+      "bullet_primary": "★",
+      "bullet_secondary": "❖",
+      "middle_pointer": "➤",
+      "middle_bullet": "◉",
+      "arrow": "❱",
+      "prompt_char_user": "❯",
+      "prompt_char_root": "⚡"
+    }
+  }
 }

@@ -590,6 +590,58 @@ lazyown_misp_export()
 
 ---
 
+## 15a. Graph-aware navigation — `graphify` + `cli/graph_advisor.py`
+
+LazyOwn ships a knowledge graph of itself, built by the `/graphify` skill and
+stored under `graphify-out/graph_lazyown.json` (~1500 nodes, ~2900 edges,
+14 communities). The graph is consumed at runtime by
+`cli/graph_advisor.py` (SOLID, single file, fully tested in
+`tests/test_graph_advisor.py`) and surfaced in three places so neither
+humans nor agents have to re-read the JSON.
+
+**CLI**
+
+```
+graph_search <query> [limit]           # fuzzy rank nodes by label/id/source
+neighbors <node> [depth] [limit]       # walk the graph outward from one node
+god_nodes [N]                          # most-connected nodes (core abstractions)
+suggest_next [seeds...] [N]            # next-command recommendation; reads
+                                       # sessions/LazyOwn_session_report.csv
+                                       # when no seeds are passed
+```
+
+The shell's `default()` hook now uses the same advisor to surface
+"did you mean…?" suggestions when an unknown `do_*` is typed.
+
+**MCP**
+
+```
+lazyown_graph_summary()                # node/edge/community counts; sanity check
+lazyown_graph_search(query, limit)     # fuzzy node search, budget_tokens aware
+lazyown_graph_neighbors(node, depth)   # layered adjacency walk with edge metadata
+lazyown_graph_suggest_next(recent)     # next-step recommendation from recent
+                                       # activity (or pass an explicit seed list)
+```
+
+Every MCP graph tool accepts `budget_tokens` (default 1500) and trims its
+JSON response in-place so list-of-results responses never blow an agent's
+context window. When the graph is missing, every tool returns
+`{"available": false, "reason": "..."}` so callers can react cleanly.
+
+**Refreshing the graph**
+
+```
+/graphify .                            # full build (LLM-backed semantic
+                                       # extraction for docs/papers, AST for code)
+/graphify . --update                   # incremental; code-only edits skip the LLM
+```
+
+The advisor caches by `(path, mtime)` so a fresh `/graphify` rebuild is
+picked up automatically on the next CLI command or MCP call without
+restarting the shell or the MCP server.
+
+---
+
 ## 16. Read these next
 
 - `README.md` — public-facing feature list (long, marketing-flavoured).

@@ -325,19 +325,14 @@ renderer.</p>
 parameters, so direct attribute access on the shell would race. Reading
 the file each time keeps the prompt in sync with operator-driven updates
 without coupling the renderer to the shell’s lifecycle.</p>
-<h2 id="select_local_ip">_select_local_ip</h2>
-<p>Pick the most relevant local IP from a network-info mapping.</p>
-<h2 id="format_segment">_format_segment</h2>
-<p>Render one bracketed prompt segment with a colored bullet and
-label.</p>
 <h2 id="getprompt">getprompt</h2>
-<p>Render the Neon Box prompt with user, LHOST/tun, RHOST, cwd and
-git.</p>
+<p>Render the configurable Neon Box prompt for the cmd2 shell.</p>
+<p>Delegates to :func:<code>cli.banner_config.render_prompt</code> so
+the entire segment registry, color palette, and toggling logic live in a
+single self-contained module. Failure to import the renderer falls back
+to a minimal single-line prompt so the shell stays usable.</p>
 <p>Returns: str: The fully styled multi-line prompt string ready for
 cmd2.</p>
-<p>The renderer is data-driven by :class:<code>_PromptStyle</code>; no
-constant is inlined into the f-strings. Missing payload values cause
-their segments to be omitted instead of rendered as empty brackets.</p>
 <h2 id="copy2clip">copy2clip</h2>
 <p>Copia el texto proporcionado al portapapeles usando xclip.</p>
 <p>Args: text (str): El texto que se desea copiar al portapapeles.</p>
@@ -888,6 +883,8 @@ with better error handling and recovery attempts</p>
 <p>No description available.</p>
 <h2 id="dropfile">dropFile</h2>
 <p>No description available.</p>
+<h2 id="build_startup_parser">_build_startup_parser</h2>
+<p>Build the CLI argument parser for LazyOwn startup flags.</p>
 <h2 id="wrapper">wrapper</h2>
 <p>internal wrapper of internal function to implement multiples rhost to
 operate.</p>

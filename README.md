@@ -196,6 +196,93 @@ fast operator. Geometry, colors and glyphs are driven by `PickerConfig`,
 and an optional `fuzzy_picker` block in `payload.json` can override any of
 its fields (e.g. `"max_visible_rows": 8`) without touching code.
 
+### Configurable Neon Box prompt — `config_banner`
+
+The cmd2 shell renders a three-line *Neon Box* prompt assembled from a
+canonical set of segments (`user_host`, `iface`, `lhost`, `rhost`,
+`domain`, `public_ip`, `cwd`, `git`, `venv`, `time`, `kernel`, `version`,
+`battery_load`). The renderer is implemented in `cli/banner_config.py` as
+a small SOLID stack: one `SegmentRenderer` per piece of information, a
+`SegmentRegistry`, a `BannerSettings` value object, and a `BannerRenderer`
+that emits ANSI-colored output. Public IP, kernel release and the LazyOwn
+version are TTL-cached so the prompt stays sub-millisecond after the first
+render.
+
+The `config_banner` shell command opens a **Powerlevel10k-style curses
+wizard** with three tabs — **Segments**, **Colors**, **Glyphs** — and a
+live preview of the resulting prompt anchored at the bottom of the panel.
+**Tab / Shift+Tab** cycle tabs; **↑ / ↓** move within the active tab;
+**Enter** saves to `payload.json` under the `banner` block; **Escape**
+cancels. Per-tab bindings:
+
+| Tab | Action keys |
+|-----|-------------|
+| **Segments** | `Space` toggles a segment on/off; `a` enables every segment; `n` disables every segment; `d` restores factory defaults. |
+| **Colors** | `Space` / `→` cycles to the next named color (`bright_green`, `bright_cyan`, `bright_magenta`, …); `←` cycles back; `d` restores that segment's default color. |
+| **Glyphs** | `Space` / `→` cycles to the next character for the focused slot (`top_left`, `vertical`, `bullet_primary`, `arrow`, `prompt_char_user`, …); `←` cycles back; `d` restores that slot's default glyph. |
+
+The shell prompt refreshes immediately after save — no restart needed.
+Operators with no TTY (CI, scripts) can still drive the system with
+`config_banner show` and `config_banner reset`, or hand-edit the payload:
+
+```json
+"banner": {
+  "enabled": ["user_host", "iface", "rhost", "domain", "cwd", "git", "venv", "time"],
+  "colors":  {"user_host": "bright_green", "rhost": "bright_red", "domain": "bright_yellow"},
+  "glyphs":  {"top_left": "┌", "bottom_left": "└", "horizontal": "─", "vertical": "│",
+              "bullet_primary": "❯", "arrow": "→"}
+}
+```
+
+Color names are validated against `ColorRegistry` and glyph characters
+against `GlyphRegistry`; anything unknown silently falls back to the
+factory default so a malformed payload never breaks the prompt.
+
+### Graph-aware navigation — operator + agent UX from graphify
+
+`cli/graph_advisor.py` loads the knowledge graph produced by
+[`/graphify`](https://graphify.dev) over the LazyOwn source tree
+(`graphify-out/graph_lazyown.json` — ~1500 nodes, ~2900 edges, 14
+communities) and exposes it to both the cmd2 shell and the MCP server. The
+advisor is a single-file SOLID stack — `GraphLoader` (mtime-cached file
+IO), `GraphIndex` (in-memory adjacency / degree / community indexes),
+`GraphScorer` (pure ranking primitive), `GraphAdvisor` (orchestrator) —
+with every constant kept on the `GraphAdvisorConfig` dataclass.
+
+**Operator commands (cmd2 shell)**
+
+| Command | Purpose |
+|---------|---------|
+| `graph_search <query> [limit]` | Fuzzy search nodes by label, id or source file. |
+| `neighbors <node> [depth] [limit]` | Walk the graph outward from a node with edge relation / confidence. |
+| `god_nodes [N]` | Show the most-connected nodes — the framework's core abstractions. |
+| `suggest_next [seeds…] [N]` | Recommend the next commands by walking outward from recent activity. With no seeds it reads `sessions/LazyOwn_session_report.csv` and seeds from there. |
+
+The shell's `default()` hook now feeds unknown `do_*` commands through the
+same advisor + the existing `FuzzyCommandIndex` so an operator who types
+`ddo_lazynmap` instantly sees *"Did you mean: do_lazynmap, do_lazynmap_quick, …?"*
+before the toast.
+
+**MCP tools (Claude Code, Claude web, any MCP agent)**
+
+| Tool | Purpose |
+|------|---------|
+| `lazyown_graph_summary` | Node / edge / community counts and the resolved graph path. |
+| `lazyown_graph_search` | Fuzzy node search with a `budget_tokens` cap so the JSON response never blows the agent's context window. |
+| `lazyown_graph_neighbors` | Layered adjacency walk with edge relation and confidence — the canonical "what does X depend on?" query. |
+| `lazyown_graph_suggest_next` | Next-step recommendation; takes an explicit `recent` list or reads the session transcript. |
+
+Every MCP graph tool trims list fields in place to fit `budget_tokens`
+(default 1500). When the graph is missing, every tool returns
+`{"available": false, "reason": "..."}` instead of crashing — the operator
+is told to run `/graphify .` once and everything starts working.
+
+The advisor caches by `(path, mtime)` so a fresh `/graphify` rebuild is
+picked up automatically on the next CLI command or MCP call without
+restarting the shell or the MCP server. See
+`tests/test_graph_advisor.py` for the 20 unit tests covering loader,
+index, scorer and the full advisor API.
+
 ### Command palette and graph-aware discovery
 
 The `lazyown_palette` MCP tool (also reachable as the `palette` CLI command
@@ -1775,21 +1862,16 @@ so direct attribute access on the shell would race. Reading the file
 each time keeps the prompt in sync with operator-driven updates without
 coupling the renderer to the shell's lifecycle.
 
-## _select_local_ip
-Pick the most relevant local IP from a network-info mapping.
-
-## _format_segment
-Render one bracketed prompt segment with a colored bullet and label.
-
 ## getprompt
-Render the Neon Box prompt with user, LHOST/tun, RHOST, cwd and git.
+Render the configurable Neon Box prompt for the cmd2 shell.
+
+Delegates to :func:`cli.banner_config.render_prompt` so the entire
+segment registry, color palette, and toggling logic live in a single
+self-contained module. Failure to import the renderer falls back to a
+minimal single-line prompt so the shell stays usable.
 
 Returns:
     str: The fully styled multi-line prompt string ready for cmd2.
-
-The renderer is data-driven by :class:`_PromptStyle`; no constant is
-inlined into the f-strings. Missing payload values cause their segments
-to be omitted instead of rendered as empty brackets.
 
 ## copy2clip
 Copia el texto proporcionado al portapapeles usando xclip.
@@ -2562,6 +2644,9 @@ No description available.
 ## dropFile
 No description available.
 
+## _build_startup_parser
+Build the CLI argument parser for LazyOwn startup flags.
+
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 
 
@@ -2667,6 +2752,14 @@ found, it prints an error message.
 :param line: The command or alias to be handled.
 :type line: str
 :return: None
+
+## _did_you_mean
+Return up to ``limit`` close-matching command names.
+
+Combines the local ``do_*`` index with the graphify knowledge graph
+(when available) so an unknown command is recovered by both lexical
+similarity and graph proximity. Empty result means no suggestion is
+confident enough to surface.
 
 ## logcsv
 No description available.
@@ -2859,6 +2952,55 @@ Usage:
     ``palette <phase> <query>``     filter that listing
     ``palette --search <query>``    fuzzy search across all phases
     ``palette --info <name>``       full detail for a single command
+
+## graph_search
+Fuzzy search the graphify knowledge graph for nodes by label.
+
+Usage: ``graph_search <query> [limit]``. Returns ranked nodes from
+``graphify-out/graph_lazyown.json`` with degree, community and
+source location. Run ``/graphify .`` from the project root once if
+the graph is missing.
+
+:param line: free-text query, optionally followed by a numeric limit.
+:type line: str
+:return: None
+
+## neighbors
+Show graph neighbors of a node or command from the graphify graph.
+
+Usage: ``neighbors <node_or_command> [depth] [limit]``. Resolves
+the closest matching node (by id or label) and walks the graph
+outward. Useful for the question *"if I just ran X, what is it
+connected to?"*.
+
+:param line: node id or label, optional integer depth, optional
+    integer limit.
+:type line: str
+:return: None
+
+## god_nodes
+Show the most-connected nodes ("god nodes") from the graph.
+
+Usage: ``god_nodes [N]``. These are the core abstractions of the
+codebase by degree centrality. Useful as orientation when you've
+just started a campaign and want a map of the framework.
+
+:param line: optional numeric limit (default from the advisor config).
+:type line: str
+:return: None
+
+## suggest_next
+Suggest next commands by walking the graph from recent activity.
+
+Usage: ``suggest_next [N]``. Reads ``sessions/LazyOwn_session_report.csv``
+to find recent commands and recommends graph neighbours weighted by
+inverse distance. Pass space-separated command names to override the
+recent history (``suggest_next lazynmap do_ping 7``).
+
+:param line: optional list of seed commands, optionally followed by
+    a numeric limit.
+:type line: str
+:return: None
 
 ## complete_palette
 Tab-complete the palette command using the live command index.
@@ -5374,6 +5516,21 @@ Note:
 
 ## banner
 Show the banner
+
+## config_banner
+Open a Powerlevel10k-style wizard to toggle prompt segments.
+
+Arrow keys move, Space toggles, Enter saves to ``payload.json`` under
+the ``banner`` block, Escape cancels. ``d`` resets to factory
+defaults; ``a`` enables every segment; ``n`` disables every segment.
+The shell prompt refreshes immediately after a save without
+requiring a restart.
+
+:param line: optional sub-action. ``show`` prints the current
+    enabled segments without opening the wizard. ``reset`` writes
+    the factory-default segment selection back to payload.json.
+:type line: str
+:return: None
 
 ## py3ttyup
 Copies a Python reverse shell command to the clipboard.
@@ -12111,6 +12268,13 @@ No description available.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Otros
+
+### Otros
+
+  *   * feature(fuzzy tab): with love \n\n Version: release/0.2.107 \n\n  \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: dom 10 may 2026 21:41:31 -04 \n\n Hora: 1778463691
 
 
 ### Refactorización

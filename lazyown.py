@@ -26,7 +26,14 @@ from utils import *
 from modules.ai_model import OllamaModel
 from cli.aliases import load_aliases as _load_aliases
 from cli.assign import apply_assign as _apply_assign
+from cli.banner_config import banner_summary as _banner_summary
+from cli.banner_config import configure_banner_interactive as _configure_banner_interactive
 from cli.fuzzy_picker import install_fuzzy_completion as _install_fuzzy_completion
+from cli.graph_advisor import GraphAdvisor as _GraphAdvisor
+from cli.graph_advisor import format_god_nodes as _format_god_nodes
+from cli.graph_advisor import format_neighbors as _format_neighbors
+from cli.graph_advisor import format_search_table as _format_search_table
+from cli.graph_advisor import format_suggestions as _format_suggestions
 from cli.palette import CommandIndexError as _CommandIndexError
 from cli.palette import load_index as _load_command_index
 from cli.palette_command import PaletteCompleter as _PaletteCompleter
@@ -354,8 +361,52 @@ class LazyOwnShell(cmd2.Cmd):
 
         if callable(method):
             return method(cmd_args)
-        else:
-            self.display_toastr(f"Not Found {line}", type="warning")
+        suggestions = self._did_you_mean(cmd_name)
+        if suggestions:
+            print_warn(
+                f"unknown command '{cmd_name}'. Did you mean: {', '.join(suggestions)} ?"
+            )
+        self.display_toastr(f"Not Found {line}", type="warning")
+
+    def _did_you_mean(self, query, limit=3):
+        """Return up to ``limit`` close-matching command names.
+
+        Combines the local ``do_*`` index with the graphify knowledge graph
+        (when available) so an unknown command is recovered by both lexical
+        similarity and graph proximity. Empty result means no suggestion is
+        confident enough to surface.
+        """
+        candidates = []
+        seen = set()
+        try:
+            from cli.cli_enhancements import (
+                FuzzyCommandIndex,
+                commands_from_cmd2_shell,
+                StaticCommandLister,
+            )
+            index = FuzzyCommandIndex(StaticCommandLister(commands_from_cmd2_shell(self)))
+            for match in index.search(query, limit=limit * 2):
+                name = (match.info.name or "").strip()
+                if name and name not in seen:
+                    seen.add(name)
+                    candidates.append(name)
+                if len(candidates) >= limit:
+                    return candidates
+        except Exception:
+            pass
+        try:
+            advisor = _GraphAdvisor.from_path()
+            if advisor.is_available():
+                for hint in advisor.did_you_mean(query, limit=limit):
+                    name = hint.strip().lstrip(".").rstrip("()")
+                    if name and name not in seen:
+                        seen.add(name)
+                        candidates.append(name)
+                    if len(candidates) >= limit:
+                        break
+        except Exception:
+            pass
+        return candidates[:limit]
 
     def logcsv(self, line):
         command = line
@@ -1113,6 +1164,108 @@ class LazyOwnShell(cmd2.Cmd):
         rendered = _render_palette(index, line, config=_PALETTE_RENDER_CONFIG)
         if rendered:
             print_msg(rendered)
+
+    @cmd2.with_category(miscellaneous_category)
+    def do_graph_search(self, line):
+        """Fuzzy search the graphify knowledge graph for nodes by label.
+
+        Usage: ``graph_search <query> [limit]``. Returns ranked nodes from
+        ``graphify-out/graph_lazyown.json`` with degree, community and
+        source location. Run ``/graphify .`` from the project root once if
+        the graph is missing.
+
+        :param line: free-text query, optionally followed by a numeric limit.
+        :type line: str
+        :return: None
+        """
+        parts = (line or "").rsplit(maxsplit=1)
+        if len(parts) == 2 and parts[1].isdigit():
+            query, limit = parts[0], int(parts[1])
+        else:
+            query, limit = line, None
+        advisor = _GraphAdvisor.from_path()
+        if not advisor.is_available():
+            print_warn(advisor.summary().get("reason", "graph unavailable"))
+            return
+        if not (query or "").strip():
+            print_error("usage: graph_search <query> [limit]")
+            return
+        results = advisor.search(query, limit=limit)
+        print_msg(_format_search_table(results))
+
+    @cmd2.with_category(miscellaneous_category)
+    def do_neighbors(self, line):
+        """Show graph neighbors of a node or command from the graphify graph.
+
+        Usage: ``neighbors <node_or_command> [depth] [limit]``. Resolves
+        the closest matching node (by id or label) and walks the graph
+        outward. Useful for the question *"if I just ran X, what is it
+        connected to?"*.
+
+        :param line: node id or label, optional integer depth, optional
+            integer limit.
+        :type line: str
+        :return: None
+        """
+        tokens = (line or "").split()
+        if not tokens:
+            print_error("usage: neighbors <node> [depth] [limit]")
+            return
+        query = tokens[0]
+        depth = int(tokens[1]) if len(tokens) >= 2 and tokens[1].isdigit() else None
+        limit = int(tokens[2]) if len(tokens) >= 3 and tokens[2].isdigit() else None
+        advisor = _GraphAdvisor.from_path()
+        if not advisor.is_available():
+            print_warn(advisor.summary().get("reason", "graph unavailable"))
+            return
+        print_msg(_format_neighbors(advisor.neighbors(query, depth=depth, limit=limit)))
+
+    @cmd2.with_category(miscellaneous_category)
+    def do_god_nodes(self, line):
+        """Show the most-connected nodes ("god nodes") from the graph.
+
+        Usage: ``god_nodes [N]``. These are the core abstractions of the
+        codebase by degree centrality. Useful as orientation when you've
+        just started a campaign and want a map of the framework.
+
+        :param line: optional numeric limit (default from the advisor config).
+        :type line: str
+        :return: None
+        """
+        bound = int(line) if (line or "").strip().isdigit() else None
+        advisor = _GraphAdvisor.from_path()
+        if not advisor.is_available():
+            print_warn(advisor.summary().get("reason", "graph unavailable"))
+            return
+        print_msg(_format_god_nodes(advisor.god_nodes(limit=bound)))
+
+    @cmd2.with_category(miscellaneous_category)
+    def do_suggest_next(self, line):
+        """Suggest next commands by walking the graph from recent activity.
+
+        Usage: ``suggest_next [N]``. Reads ``sessions/LazyOwn_session_report.csv``
+        to find recent commands and recommends graph neighbours weighted by
+        inverse distance. Pass space-separated command names to override the
+        recent history (``suggest_next lazynmap do_ping 7``).
+
+        :param line: optional list of seed commands, optionally followed by
+            a numeric limit.
+        :type line: str
+        :return: None
+        """
+        tokens = (line or "").split()
+        if tokens and tokens[-1].isdigit():
+            limit = int(tokens[-1])
+            seeds = tokens[:-1]
+        else:
+            limit = None
+            seeds = tokens
+        advisor = _GraphAdvisor.from_path()
+        if not advisor.is_available():
+            print_warn(advisor.summary().get("reason", "graph unavailable"))
+            return
+        recent = seeds if seeds else advisor.read_recent_commands()
+        print_msg(_format_suggestions(advisor.suggest_next(recent, limit=limit)))
 
     def complete_palette(self, text, line, begidx, endidx):
         """Tab-complete the palette command using the live command index.
@@ -6055,6 +6208,50 @@ class LazyOwnShell(cmd2.Cmd):
 
             print_msg(LazyOwnShell().intro)
         return
+
+    @cmd2.with_category(miscellaneous_category)
+    def do_config_banner(self, line):
+        """Open a Powerlevel10k-style wizard to toggle prompt segments.
+
+        Arrow keys move, Space toggles, Enter saves to ``payload.json`` under
+        the ``banner`` block, Escape cancels. ``d`` resets to factory
+        defaults; ``a`` enables every segment; ``n`` disables every segment.
+        The shell prompt refreshes immediately after a save without
+        requiring a restart.
+
+        :param line: optional sub-action. ``show`` prints the current
+            enabled segments without opening the wizard. ``reset`` writes
+            the factory-default segment selection back to payload.json.
+        :type line: str
+        :return: None
+        """
+        action = (line or "").strip().lower()
+        payload = load_payload()
+        if action in {"show", "list", "status"}:
+            from cli.banner_config import BannerSettings, build_default_registry
+            registry = build_default_registry()
+            settings = BannerSettings.from_payload(registry, payload, "banner")
+            print_msg(f"banner segments enabled: {_banner_summary(settings, registry)}")
+            return
+        if action in {"reset", "defaults"}:
+            from cli.banner_config import BannerSettings, build_default_registry
+            registry = build_default_registry()
+            settings = BannerSettings.defaults(registry)
+            payload["banner"] = settings.to_payload_block()
+            _save_payload(payload)
+            self.custom_prompt = getprompt()
+            self.prompt = self.custom_prompt
+            print_msg(f"banner reset to defaults: {_banner_summary(settings, registry)}")
+            return
+        result = _configure_banner_interactive(payload)
+        if result is None:
+            print_warn("banner configuration cancelled, payload unchanged")
+            return
+        payload["banner"] = result.to_payload_block()
+        _save_payload(payload)
+        self.custom_prompt = getprompt()
+        self.prompt = self.custom_prompt
+        print_msg(f"banner saved: {_banner_summary(result)}")
 
     @cmd2.with_category(exploitation_category)
     def do_py3ttyup(self, line):
@@ -27618,31 +27815,23 @@ def main():
 
     subprocess.Popen(['python3', 'modules/tel.py'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
-    old = False
-    if arguments:
-        if arg.startswith("-c"):
-            if len(arguments) == 2:
-                cmd = arguments[1]
-                os.system(
-                    'ip a show scope global | awk \'/^[0-9]+:/ { sub(/:/,"",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, "/"); print "    [\033[96m" iface"\033[0m] "a[1] }\''
-                )
-                p.onecmd('ipp')
-                p.onecmd("p")
-                p.onecmd(cmd)
-                p.cmdloop()
-            else:
-                print_error("you must pass the comand to execute ex; ./run -c ping")
-                sys.exit(2)
-        if arg.startswith("-p"):
-            if len(arguments) == 2:
-                payload = arguments[1]
-                os.system(
-                    'ip a show scope global | awk \'/^[0-9]+:/ { sub(/:/,"",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, "/"); print "    [\033[96m" iface"\033[0m] "a[1] }\''
-                )
-                p.onecmd(f'payload {payload}')
-                p.onecmd('ipp')
-        if arg.startswith("--old-banner"):
-            old = True
+    old = startup_ns.old_banner
+    if startup_ns.command:
+        cmd = startup_ns.command
+        os.system(
+            'ip a show scope global | awk \'/^[0-9]+:/ { sub(/:/,"",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, "/"); print "    [\033[96m" iface"\033[0m] "a[1] }\''
+        )
+        p.onecmd('ipp')
+        p.onecmd("p")
+        p.onecmd(cmd)
+        p.cmdloop()
+    elif startup_ns.payload:
+        payload = startup_ns.payload
+        os.system(
+            'ip a show scope global | awk \'/^[0-9]+:/ { sub(/:/,"",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, "/"); print "    [\033[96m" iface"\033[0m] "a[1] }\''
+        )
+        p.onecmd(f'payload {payload}')
+        p.onecmd('ipp')
 
     if NOBANNER is False:
         if not old:

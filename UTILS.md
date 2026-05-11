@@ -190,21 +190,16 @@ so direct attribute access on the shell would race. Reading the file
 each time keeps the prompt in sync with operator-driven updates without
 coupling the renderer to the shell's lifecycle.
 
-## _select_local_ip
-Pick the most relevant local IP from a network-info mapping.
-
-## _format_segment
-Render one bracketed prompt segment with a colored bullet and label.
-
 ## getprompt
-Render the Neon Box prompt with user, LHOST/tun, RHOST, cwd and git.
+Render the configurable Neon Box prompt for the cmd2 shell.
+
+Delegates to :func:`cli.banner_config.render_prompt` so the entire
+segment registry, color palette, and toggling logic live in a single
+self-contained module. Failure to import the renderer falls back to a
+minimal single-line prompt so the shell stays usable.
 
 Returns:
     str: The fully styled multi-line prompt string ready for cmd2.
-
-The renderer is data-driven by :class:`_PromptStyle`; no constant is
-inlined into the f-strings. Missing payload values cause their segments
-to be omitted instead of rendered as empty brackets.
 
 ## copy2clip
 Copia el texto proporcionado al portapapeles usando xclip.
@@ -976,6 +971,9 @@ No description available.
 
 ## dropFile
 No description available.
+
+## _build_startup_parser
+Build the CLI argument parser for LazyOwn startup flags.
 
 ## wrapper
 internal wrapper of internal function to implement multiples rhost to operate. 

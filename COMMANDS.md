@@ -32,6 +32,20 @@ found, it prints an error message.
 :type line: str
 :return: None
 
+## _inline_hint_hook
+Post-command hook that prints a dim next-step hint line.
+
+Registered via ``register_postcmd_hook`` during ``__init__``. Reads the
+``enable_inline_hints`` flag from ``self.params`` (default True) so the
+operator can disable hints with ``set enable_inline_hints false`` without
+restarting the shell.
+
+Args:
+    data: cmd2 PostcommandData containing the executed statement.
+
+Returns:
+    data unchanged — the hook must return PostcommandData.
+
 ## _did_you_mean
 Return up to ``limit`` close-matching command names.
 
@@ -278,6 +292,31 @@ recent history (``suggest_next lazynmap do_ping 7``).
 
 :param line: optional list of seed commands, optionally followed by
     a numeric limit.
+:type line: str
+:return: None
+
+## dashboard
+Launch the full-screen LazyOwn operator dashboard (Textual TUI).
+
+Opens an auto-refreshing terminal dashboard showing the active target,
+kill chain progress, recent commands, objectives, credentials, beacons
+and graph-driven next-step hints. Press Q or Ctrl-C to close and return
+to the shell.
+
+Usage: ``dashboard``
+
+The dashboard reads from:
+- ``payload.json`` — target / attacker config and feature flags.
+- ``sessions/world_model.json`` — current phase and objectives.
+- ``sessions/tasks.json`` — active task list.
+- ``sessions/LazyOwn_session_report.csv`` — recent commands.
+- ``sessions/credentials*.txt`` / ``sessions/hash*.txt`` — credential counts.
+- ``graphify-out/graph_lazyown.json`` — next-step hints (requires ``/graphify .``).
+
+The ``textual`` package must be installed (``pip install textual``). When
+the package is missing the command prints an install hint and returns.
+
+:param line: Unused. Reserved for future flags.
 :type line: str
 :return: None
 

@@ -12,6 +12,7 @@
   "run_in_memory": true,
   "enable_c2_implant_debug": "True",
   "enable_c2_debug": true,
+  "enable_inline_hints": true,
   "c2_daily_limit": "20000 per day",
   "c2_hour_limit": "5000 per hour",
   "c2_login_limit": "5 per minute",

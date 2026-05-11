@@ -34,6 +34,7 @@ from cli.graph_advisor import format_god_nodes as _format_god_nodes
 from cli.graph_advisor import format_neighbors as _format_neighbors
 from cli.graph_advisor import format_search_table as _format_search_table
 from cli.graph_advisor import format_suggestions as _format_suggestions
+from cli.reactive_hints import render_inline_hints as _render_inline_hints
 from cli.palette import CommandIndexError as _CommandIndexError
 from cli.palette import load_index as _load_command_index
 from cli.palette_command import PaletteCompleter as _PaletteCompleter
@@ -182,6 +183,10 @@ class LazyOwnShell(cmd2.Cmd):
             _install_fuzzy_completion(self, payload=load_payload())
         except Exception as exc:
             print_warn(f"fuzzy completion not installed: {exc}")
+        try:
+            self.register_postcmd_hook(self._inline_hint_hook)
+        except Exception as exc:
+            print_warn(f"inline hints hook not registered: {exc}")
         self.output = ""
         self.custom_prompt = getprompt()
         self.c2_url = f"https://{lhost}:{c2_port}"
@@ -367,6 +372,31 @@ class LazyOwnShell(cmd2.Cmd):
                 f"unknown command '{cmd_name}'. Did you mean: {', '.join(suggestions)} ?"
             )
         self.display_toastr(f"Not Found {line}", type="warning")
+
+    def _inline_hint_hook(self, data):
+        """Post-command hook that prints a dim next-step hint line.
+
+        Registered via ``register_postcmd_hook`` during ``__init__``. Reads the
+        ``enable_inline_hints`` flag from ``self.params`` (default True) so the
+        operator can disable hints with ``set enable_inline_hints false`` without
+        restarting the shell.
+
+        Args:
+            data: cmd2 PostcommandData containing the executed statement.
+
+        Returns:
+            data unchanged — the hook must return PostcommandData.
+        """
+        try:
+            enabled = str(self.params.get("enable_inline_hints", True)).lower() not in ("false", "0", "no")
+            if enabled:
+                advisor = _GraphAdvisor.from_path()
+                if advisor.is_available():
+                    cmd_str = str(getattr(data, "statement", "") or "")
+                    _render_inline_hints(advisor, cmd_str, limit=3, enabled=True)
+        except Exception:
+            pass
+        return data
 
     def _did_you_mean(self, query, limit=3):
         """Return up to ``limit`` close-matching command names.
@@ -1266,6 +1296,43 @@ class LazyOwnShell(cmd2.Cmd):
             return
         recent = seeds if seeds else advisor.read_recent_commands()
         print_msg(_format_suggestions(advisor.suggest_next(recent, limit=limit)))
+
+    @cmd2.with_category(miscellaneous_category)
+    def do_dashboard(self, line):
+        """Launch the full-screen LazyOwn operator dashboard (Textual TUI).
+
+        Opens an auto-refreshing terminal dashboard showing the active target,
+        kill chain progress, recent commands, objectives, credentials, beacons
+        and graph-driven next-step hints. Press Q or Ctrl-C to close and return
+        to the shell.
+
+        Usage: ``dashboard``
+
+        The dashboard reads from:
+        - ``payload.json`` — target / attacker config and feature flags.
+        - ``sessions/world_model.json`` — current phase and objectives.
+        - ``sessions/tasks.json`` — active task list.
+        - ``sessions/LazyOwn_session_report.csv`` — recent commands.
+        - ``sessions/credentials*.txt`` / ``sessions/hash*.txt`` — credential counts.
+        - ``graphify-out/graph_lazyown.json`` — next-step hints (requires ``/graphify .``).
+
+        The ``textual`` package must be installed (``pip install textual``). When
+        the package is missing the command prints an install hint and returns.
+
+        :param line: Unused. Reserved for future flags.
+        :type line: str
+        :return: None
+        """
+        try:
+            from cli.dashboard_tui import launch as _launch_dashboard
+        except ImportError:
+            print_error(
+                "textual is not installed. Run: pip install textual"
+            )
+            return
+        payload_path = "payload.json"
+        sessions_dir = getattr(self, "sessions_dir", "sessions") or "sessions"
+        _launch_dashboard(payload_path=payload_path, sessions_dir=sessions_dir)
 
     def complete_palette(self, text, line, begidx, endidx):
         """Tab-complete the palette command using the live command index.

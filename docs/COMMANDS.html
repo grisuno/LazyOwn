@@ -199,6 +199,12 @@ the class by attempting to find a corresponding method. If the command
 or alias is not found, it prints an error message.</p>
 <p>:param line: The command or alias to be handled. :type line: str
 :return: None</p>
+<h2 id="did_you_mean">_did_you_mean</h2>
+<p>Return up to <code>limit</code> close-matching command names.</p>
+<p>Combines the local <code>do_*</code> index with the graphify
+knowledge graph (when available) so an unknown command is recovered by
+both lexical similarity and graph proximity. Empty result means no
+suggestion is confident enough to surface.</p>
 <h2 id="logcsv">logcsv</h2>
 <p>No description available.</p>
 <h2 id="cmd">cmd</h2>
@@ -342,6 +348,40 @@ logic powers the C2 <code>/palette</code> endpoint and the MCP
 <code>palette --search &lt;query&gt;</code> fuzzy search across all
 phases <code>palette --info &lt;name&gt;</code> full detail for a single
 command</p>
+<h2 id="graph_search">graph_search</h2>
+<p>Fuzzy search the graphify knowledge graph for nodes by label.</p>
+<p>Usage: <code>graph_search &lt;query&gt; [limit]</code>. Returns
+ranked nodes from <code>graphify-out/graph_lazyown.json</code> with
+degree, community and source location. Run <code>/graphify .</code> from
+the project root once if the graph is missing.</p>
+<p>:param line: free-text query, optionally followed by a numeric limit.
+:type line: str :return: None</p>
+<h2 id="neighbors">neighbors</h2>
+<p>Show graph neighbors of a node or command from the graphify
+graph.</p>
+<p>Usage:
+<code>neighbors &lt;node_or_command&gt; [depth] [limit]</code>. Resolves
+the closest matching node (by id or label) and walks the graph outward.
+Useful for the question <em>“if I just ran X, what is it connected
+to?”</em>.</p>
+<p>:param line: node id or label, optional integer depth, optional
+integer limit. :type line: str :return: None</p>
+<h2 id="god_nodes">god_nodes</h2>
+<p>Show the most-connected nodes (“god nodes”) from the graph.</p>
+<p>Usage: <code>god_nodes [N]</code>. These are the core abstractions of
+the codebase by degree centrality. Useful as orientation when you’ve
+just started a campaign and want a map of the framework.</p>
+<p>:param line: optional numeric limit (default from the advisor
+config). :type line: str :return: None</p>
+<h2 id="suggest_next">suggest_next</h2>
+<p>Suggest next commands by walking the graph from recent activity.</p>
+<p>Usage: <code>suggest_next [N]</code>. Reads
+<code>sessions/LazyOwn_session_report.csv</code> to find recent commands
+and recommends graph neighbours weighted by inverse distance. Pass
+space-separated command names to override the recent history
+(<code>suggest_next lazynmap do_ping 7</code>).</p>
+<p>:param line: optional list of seed commands, optionally followed by a
+numeric limit. :type line: str :return: None</p>
 <h2 id="complete_palette">complete_palette</h2>
 <p>Tab-complete the palette command using the live command index.</p>
 <p>Position 1 yields phase identifiers and the <code>--search</code> /
@@ -2720,6 +2760,18 @@ format.</p>
 the <code>check_rhost</code> function before updating the prompt.</p>
 <h2 id="banner">banner</h2>
 <p>Show the banner</p>
+<h2 id="config_banner">config_banner</h2>
+<p>Open a Powerlevel10k-style wizard to toggle prompt segments.</p>
+<p>Arrow keys move, Space toggles, Enter saves to
+<code>payload.json</code> under the <code>banner</code> block, Escape
+cancels. <code>d</code> resets to factory defaults; <code>a</code>
+enables every segment; <code>n</code> disables every segment. The shell
+prompt refreshes immediately after a save without requiring a
+restart.</p>
+<p>:param line: optional sub-action. <code>show</code> prints the
+current enabled segments without opening the wizard. <code>reset</code>
+writes the factory-default segment selection back to payload.json. :type
+line: str :return: None</p>
 <h2 id="py3ttyup">py3ttyup</h2>
 <p>Copies a Python reverse shell command to the clipboard.</p>
 <p>This function generates a Python command that uses the

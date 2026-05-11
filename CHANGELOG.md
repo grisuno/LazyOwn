@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Refactorización
+
+### Otros
+
+  *   * refactor(alto refactor con nuevo configurador, eliminacion de bugfixing de linter, nuevo prompt configurable): co namor para la comunidad \n\n Version: release/0.2.107 \n\n jajajja re loco va a quedar esto \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: lun 11 may 2026 00:14:40 -04 \n\n Hora: 1778472880
+
+
 ### Otros
 
 ### Otros

@@ -1,3 +1,47 @@
+# Graph Report — LazyOwn (graphify)
+
+## How to use this graph
+
+The graph data in `graph_lazyown.json` is consumed by `cli/graph_advisor.py`
+and surfaced through three integration points so both human operators and
+MCP agents can query it without re-reading the JSON.
+
+### CLI (cmd2 shell)
+
+| Command | Purpose |
+|---------|---------|
+| `graph_search <query> [limit]` | Fuzzy-rank nodes by label/id/source file. |
+| `neighbors <node> [depth] [limit]` | Walk the graph outward from a node. |
+| `god_nodes [N]` | Show the top-N most connected nodes (core abstractions). |
+| `suggest_next [seeds...] [N]` | Recommend the next commands by walking outward from recent activity (reads `sessions/LazyOwn_session_report.csv` when no seeds are given). |
+| *did-you-mean recovery* | An unknown `do_*` command now prints up to three closest matches sourced from the graph + the fuzzy command index. |
+
+### MCP (Claude Code, Claude web, any MCP-compatible agent)
+
+| Tool | Purpose |
+|------|---------|
+| `lazyown_graph_summary` | Node/edge/community counts + the resolved graph path. Call once per session. |
+| `lazyown_graph_search` | Fuzzy node search with a `budget_tokens` cap so the response never blows context. |
+| `lazyown_graph_neighbors` | Layered adjacency walk with edge relation/confidence; agents use it to chain commands intelligently. |
+| `lazyown_graph_suggest_next` | Next-step recommendation from recent activity, scored by inverse graph distance with exponential decay. |
+
+All four tools degrade gracefully when the graph is missing: they return a
+JSON object with `"available": false` and a `reason` instructing the
+operator to run `/graphify .` to rebuild.
+
+### Refresh the graph
+
+```bash
+/graphify .                   # full rebuild
+/graphify . --update           # incremental, code-only changes go through AST
+```
+
+The advisor caches the loaded graph by `(path, mtime)` so a fresh
+`/graphify` rebuild is picked up automatically on the next CLI command or
+MCP tool call without restarting any process.
+
+---
+
 # Graph Report - /tmp/lazyown-graphify-input  (2026-05-06)
 
 ## Corpus Check

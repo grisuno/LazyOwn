@@ -633,38 +633,6 @@ def get_venv_info():
         return f" ({BRIGHT_BLUE}🐍{venv_name}{RESET})"
     return ""
 
-class _PromptStyle:
-    """Centralised glyphs and color picks for the Neon Box prompt renderer.
-
-    Kept inside :mod:`utils` so no other module needs to import it. Every
-    rendering constant lives here; the renderer body is data-driven by these
-    fields so operators can tweak the look without touching the algorithm.
-    """
-
-    glyph_top_left = "╔"
-    glyph_top_join = "═"
-    glyph_segment_left = "═["
-    glyph_segment_right = "]"
-    glyph_segment_filler = "══"
-    glyph_segment_bullet_primary = "▸"
-    glyph_segment_bullet_secondary = "◆"
-    glyph_middle_left = "║"
-    glyph_middle_pointer = "▸"
-    glyph_middle_bullet = "◆"
-    glyph_bottom_left = "╚"
-    glyph_bottom_filler = "═════"
-    glyph_bottom_arrow = "➜"
-
-    default_fallback_ip = "127.0.0.1"
-    payload_filename = PAYLOAD_FILENAME
-    interface_match_token = "tun"
-    rhost_label = "RHOST"
-    git_clean_glyph = "✔"
-    git_dirty_glyph = "✗"
-    git_label = "git"
-    env_label = "env"
-
-
 def _load_prompt_payload() -> dict:
     """Read ``payload.json`` defensively for the prompt renderer.
 
@@ -674,92 +642,27 @@ def _load_prompt_payload() -> dict:
     coupling the renderer to the shell's lifecycle.
     """
     try:
-        return load_payload(_PromptStyle.payload_filename)
+        return load_payload(PAYLOAD_FILENAME)
     except (FileNotFoundError, json.JSONDecodeError, OSError):
         return {}
 
 
-def _select_local_ip(network_info: dict, preferred_token: str, fallback: str) -> str:
-    """Pick the most relevant local IP from a network-info mapping."""
-    for iface, addr in network_info.items():
-        if preferred_token in iface:
-            return addr
-    return next(iter(network_info.values()), fallback)
-
-
-def _format_segment(bullet: str, label: str, value: str) -> str:
-    """Render one bracketed prompt segment with a colored bullet and label."""
-    style = _PromptStyle
-    label_part = f"{label} " if label else ""
-    return (
-        f"{BRIGHT_CYAN}{style.glyph_segment_left}{RESET} "
-        f"{BRIGHT_MAGENTA}{bullet}{RESET} "
-        f"{BRIGHT_WHITE}{label_part}{BRIGHT_GREEN}{value}{RESET} "
-        f"{BRIGHT_CYAN}{style.glyph_segment_right}{RESET}"
-    )
-
-
 def getprompt():
-    """Render the Neon Box prompt with user, LHOST/tun, RHOST, cwd and git.
+    """Render the configurable Neon Box prompt for the cmd2 shell.
+
+    Delegates to :func:`cli.banner_config.render_prompt` so the entire
+    segment registry, color palette, and toggling logic live in a single
+    self-contained module. Failure to import the renderer falls back to a
+    minimal single-line prompt so the shell stays usable.
 
     Returns:
         str: The fully styled multi-line prompt string ready for cmd2.
-
-    The renderer is data-driven by :class:`_PromptStyle`; no constant is
-    inlined into the f-strings. Missing payload values cause their segments
-    to be omitted instead of rendered as empty brackets.
     """
-    style = _PromptStyle
-    network_info = get_network_info()
-    payload = _load_prompt_payload()
-    hostname = socket.gethostname()
-    user = "root" if os.geteuid() == 0 else (os.getenv("USER") or "user")
-    lhost = payload.get("lhost") or _select_local_ip(network_info, style.interface_match_token, style.default_fallback_ip)
-    rhost = payload.get("rhost") or ""
-    domain = payload.get("domain") or ""
-    cwd = os.getcwd()
-    git_info = get_git_info().strip()
-    venv_name = ""
-    if "VIRTUAL_ENV" in os.environ:
-        venv_name = os.path.basename(os.environ["VIRTUAL_ENV"])
-    prompt_char = f"{BRIGHT_RED}#" if os.geteuid() == 0 else f"{BRIGHT_GREEN}$"
-
-    top_segments = [
-        _format_segment(style.glyph_segment_bullet_primary, "", f"{user}@{hostname}"),
-    ]
-    iface_ip = _select_local_ip(network_info, style.interface_match_token, "")
-    if iface_ip:
-        top_segments.append(_format_segment(style.glyph_segment_bullet_secondary, style.interface_match_token + "0", iface_ip))
-    elif lhost:
-        top_segments.append(_format_segment(style.glyph_segment_bullet_secondary, "LHOST", lhost))
-    if rhost:
-        top_segments.append(_format_segment(style.glyph_segment_bullet_secondary, style.rhost_label, rhost))
-    if domain:
-        top_segments.append(_format_segment(style.glyph_segment_bullet_secondary, "", domain))
-
-    middle_segments = [
-        f"{BRIGHT_MAGENTA}{style.glyph_middle_pointer}{RESET} {BRIGHT_GREEN}{cwd}{RESET}",
-    ]
-    if git_info:
-        middle_segments.append(f"{BRIGHT_MAGENTA}{style.glyph_middle_bullet}{RESET} {BRIGHT_YELLOW}{style.git_label}:{git_info}{RESET}")
-    if venv_name:
-        middle_segments.append(f"{BRIGHT_MAGENTA}{style.glyph_middle_bullet}{RESET} {BRIGHT_BLUE}{style.env_label}:{venv_name}{RESET}")
-    middle_segments.append(f"{BRIGHT_MAGENTA}{style.glyph_middle_bullet}{RESET} {BRIGHT_CYAN}{time.strftime('%H:%M:%S')}{RESET}")
-
-    top_line = (
-        f"{BRIGHT_CYAN}{style.glyph_top_left}{style.glyph_top_join}{RESET}"
-        + f"{BRIGHT_CYAN}{style.glyph_segment_filler}{RESET}".join(top_segments)
-    )
-    middle_line = (
-        f"{BRIGHT_CYAN}{style.glyph_middle_left}{RESET}  "
-        + f"   ".join(middle_segments)
-    )
-    bottom_line = (
-        f"{BRIGHT_CYAN}{style.glyph_bottom_left}{style.glyph_bottom_filler}{RESET}"
-        f"{BRIGHT_MAGENTA}{style.glyph_bottom_arrow}{RESET} {prompt_char}{RESET} "
-    )
-
-    return f"{top_line}\n{middle_line}\n{bottom_line}"
+    try:
+        from cli.banner_config import render_prompt
+    except ImportError:
+        return f"{BRIGHT_CYAN}$ {RESET}"
+    return render_prompt(_load_prompt_payload())
 
 def copy2clip(text):
     """
@@ -3245,38 +3148,49 @@ class VulnerabilityScanner:
         except Exception as e:
             print_error(f"Error creating Csv file: {e}")
 
-signal.signal(signal.SIGINT, signal_handler)
+def _build_startup_parser() -> argparse.ArgumentParser:
+    """Build the CLI argument parser for LazyOwn startup flags."""
+    parser = argparse.ArgumentParser(
+        prog="./run",
+        add_help=False,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    parser.add_argument("-h", "--help", action="store_true", default=False)
+    parser.add_argument("-v", "--version", action="store_true", default=False)
+    parser.add_argument("-p", "--payload", metavar="payloadN.json", default=None)
+    parser.add_argument("-c", "--command", metavar="command", default=None)
+    parser.add_argument("--no-banner", action="store_true", dest="no_banner", default=False)
+    parser.add_argument("-s", "--sudo", action="store_true", default=False)
+    parser.add_argument("--old-banner", action="store_true", dest="old_banner", default=False)
+    parser.add_argument("--no-logs", action="store_true", dest="no_logs", default=False)
+    return parser
+
+
 arguments = sys.argv[1:]
 anti_debug()
-for arg in arguments:
-    if arg == "--help":
-        halp()
 
-    elif arg == "-v":
-        print_msg(f"LazyOwn Framework: {version}")
-        sys.exit(0)
-    elif arg == "-h":
-        halp()
-    elif arg == "--no-banner":
-        NOBANNER = True
+startup_ns, unknown_args = _build_startup_parser().parse_known_args(arguments)
 
-    elif arg == "-s":
-        RUN_AS_ROOT = True
-
-    elif arg.startswith("-c"):
-        print_msg(f"Exec: option {arg}")
-        break
-    elif arg.startswith("-p"):
-        print_msg(f"Load Payload: option {arg}")
-        break
-    elif arg.startswith("--old-banner"):
-        BANNER = OLD_BANNER
-        break
-    elif arg.startswith("--no-logs"):
-        NOLOGS = True
-        break
-    else:
-        print_error(f"Error: Wrong argument: {arg}")
+if startup_ns.help:
+    halp()
+if startup_ns.version:
+    print_msg(f"LazyOwn Framework: {version}")
+    sys.exit(0)
+if startup_ns.no_banner:
+    NOBANNER = True
+if startup_ns.sudo:
+    RUN_AS_ROOT = True
+if startup_ns.no_logs:
+    NOLOGS = True
+if startup_ns.old_banner:
+    BANNER = OLD_BANNER
+if startup_ns.command:
+    print_msg(f"Exec: option -c {startup_ns.command}")
+if startup_ns.payload:
+    print_msg(f"Load Payload: option -p {startup_ns.payload}")
+for u_arg in unknown_args:
+    if u_arg.startswith("-"):
+        print_error(f"Error: Wrong argument: {u_arg}")
 
 if sys.version_info <= (3, 0):
     sys.stdout.write("Sorry, requires Python 3.x, not Python 2.x\n")

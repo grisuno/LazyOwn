@@ -691,6 +691,83 @@ async def list_tools() -> list[types.Tool]:
             },
         ),
         types.Tool(
+            name="lazyown_graph_summary",
+            description=(
+                "Summarise the graphify knowledge graph over the LazyOwn codebase. "
+                "Returns node / edge / community counts and the resolved graph file path. "
+                "Use this once at the start of a session to know whether richer graph "
+                "tools (lazyown_graph_search, lazyown_graph_neighbors, lazyown_graph_suggest_next) "
+                "have data to work with. If 'available' is false, the operator must run "
+                "'/graphify .' in the project root first to build the graph."
+            ),
+            inputSchema={"type": "object", "properties": {}},
+        ),
+        types.Tool(
+            name="lazyown_graph_search",
+            description=(
+                "Fuzzy-search the graphify knowledge graph for nodes matching a query. "
+                "Returns ranked nodes (label, id, degree, community, source file) so agents can "
+                "locate a command, class or concept without scanning the full palette. "
+                "Use this before lazyown_run_command when you only have a vague description "
+                "('AD enumeration', 'kerberoast', 'shellcode loader')."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "query": {"type": "string", "description": "Free-text query."},
+                    "limit": {"type": "integer", "description": "Max results (default 10).", "default": 10},
+                    "budget_tokens": {
+                        "type": "integer",
+                        "description": "Soft cap on response size in tokens (default 1500).",
+                        "default": 1500,
+                    },
+                },
+                "required": ["query"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_graph_neighbors",
+            description=(
+                "Return graph neighbours of a node or command from the graphify graph. "
+                "Resolves the closest matching node by id or label and walks the graph "
+                "outward up to the requested depth. Use this to answer 'what does X depend "
+                "on / what is X connected to?' before chaining commands. Returns one entry "
+                "per neighbour with the connecting edge relation and confidence."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "node": {"type": "string", "description": "Node id or fuzzy label."},
+                    "depth": {"type": "integer", "description": "Hop count (default 1).", "default": 1},
+                    "limit": {"type": "integer", "description": "Max neighbours (default 25).", "default": 25},
+                    "budget_tokens": {"type": "integer", "default": 1500},
+                },
+                "required": ["node"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_graph_suggest_next",
+            description=(
+                "Suggest the next commands to run by walking the graphify graph outward from "
+                "recent activity. If 'recent' is omitted, reads sessions/LazyOwn_session_report.csv. "
+                "Suggestions are scored by inverse graph distance from the recent seeds with "
+                "exponential decay, so closely connected commands rank higher. Useful as the "
+                "agent equivalent of 'what should I try next?' during an autonomous loop."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "recent": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "Optional list of recent command names (overrides the CSV).",
+                    },
+                    "limit": {"type": "integer", "description": "Max suggestions (default 5).", "default": 5},
+                    "budget_tokens": {"type": "integer", "default": 1500},
+                },
+            },
+        ),
+        types.Tool(
             name="lazyown_get_beacons",
             description="Query the LazyOwn C2 server for currently connected beacons/implants.",
             inputSchema={"type": "object", "properties": {}},
@@ -3549,6 +3626,70 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             return text(json.dumps({"error": str(exc)}, indent=2))
         result = _palette_render_json(palette_index, line)
         return text(json.dumps(result, indent=2))
+
+    # ── graph_summary ────────────────────────────────────────────────────────
+    elif name == "lazyown_graph_summary":
+        from cli.graph_advisor import GraphAdvisor as _GraphAdvisor
+
+        advisor = _GraphAdvisor.from_path()
+        payload = advisor.summary()
+        return text(json.dumps(payload, indent=2))
+
+    # ── graph_search ─────────────────────────────────────────────────────────
+    elif name == "lazyown_graph_search":
+        from cli.graph_advisor import GraphAdvisor as _GraphAdvisor
+
+        query = str(arguments.get("query") or "").strip()
+        if not query:
+            return text(json.dumps({"error": "query is required"}, indent=2))
+        limit = int(arguments.get("limit") or 10)
+        budget = int(arguments.get("budget_tokens") or 1500)
+        advisor = _GraphAdvisor.from_path()
+        if not advisor.is_available():
+            return text(json.dumps(advisor.summary(), indent=2))
+        payload = {"query": query, "results": advisor.search(query, limit=limit)}
+        payload = advisor.truncate_to_budget(payload, budget)
+        return text(json.dumps(payload, indent=2))
+
+    # ── graph_neighbors ──────────────────────────────────────────────────────
+    elif name == "lazyown_graph_neighbors":
+        from cli.graph_advisor import GraphAdvisor as _GraphAdvisor
+
+        node = str(arguments.get("node") or "").strip()
+        if not node:
+            return text(json.dumps({"error": "node is required"}, indent=2))
+        depth = int(arguments.get("depth") or 1)
+        limit = int(arguments.get("limit") or 25)
+        budget = int(arguments.get("budget_tokens") or 1500)
+        advisor = _GraphAdvisor.from_path()
+        if not advisor.is_available():
+            return text(json.dumps(advisor.summary(), indent=2))
+        result = advisor.neighbors(node, depth=depth, limit=limit)
+        result = advisor.truncate_to_budget(result, budget)
+        return text(json.dumps(result, indent=2))
+
+    # ── graph_suggest_next ───────────────────────────────────────────────────
+    elif name == "lazyown_graph_suggest_next":
+        from cli.graph_advisor import GraphAdvisor as _GraphAdvisor
+
+        recent = arguments.get("recent") or []
+        if not isinstance(recent, list):
+            recent = []
+        limit = int(arguments.get("limit") or 5)
+        budget = int(arguments.get("budget_tokens") or 1500)
+        advisor = _GraphAdvisor.from_path()
+        if not advisor.is_available():
+            return text(json.dumps(advisor.summary(), indent=2))
+        suggestions = advisor.suggest_next(
+            [str(item) for item in recent] if recent else None,
+            limit=limit,
+        )
+        payload = {
+            "recent": [str(item) for item in recent] or advisor.read_recent_commands(),
+            "suggestions": suggestions,
+        }
+        payload = advisor.truncate_to_budget(payload, budget)
+        return text(json.dumps(payload, indent=2))
 
     # ── get_beacons ──────────────────────────────────────────────────────────
     elif name == "lazyown_get_beacons":

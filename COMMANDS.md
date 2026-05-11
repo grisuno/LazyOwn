@@ -32,6 +32,14 @@ found, it prints an error message.
 :type line: str
 :return: None
 
+## _did_you_mean
+Return up to ``limit`` close-matching command names.
+
+Combines the local ``do_*`` index with the graphify knowledge graph
+(when available) so an unknown command is recovered by both lexical
+similarity and graph proximity. Empty result means no suggestion is
+confident enough to surface.
+
 ## logcsv
 No description available.
 
@@ -223,6 +231,55 @@ Usage:
     ``palette <phase> <query>``     filter that listing
     ``palette --search <query>``    fuzzy search across all phases
     ``palette --info <name>``       full detail for a single command
+
+## graph_search
+Fuzzy search the graphify knowledge graph for nodes by label.
+
+Usage: ``graph_search <query> [limit]``. Returns ranked nodes from
+``graphify-out/graph_lazyown.json`` with degree, community and
+source location. Run ``/graphify .`` from the project root once if
+the graph is missing.
+
+:param line: free-text query, optionally followed by a numeric limit.
+:type line: str
+:return: None
+
+## neighbors
+Show graph neighbors of a node or command from the graphify graph.
+
+Usage: ``neighbors <node_or_command> [depth] [limit]``. Resolves
+the closest matching node (by id or label) and walks the graph
+outward. Useful for the question *"if I just ran X, what is it
+connected to?"*.
+
+:param line: node id or label, optional integer depth, optional
+    integer limit.
+:type line: str
+:return: None
+
+## god_nodes
+Show the most-connected nodes ("god nodes") from the graph.
+
+Usage: ``god_nodes [N]``. These are the core abstractions of the
+codebase by degree centrality. Useful as orientation when you've
+just started a campaign and want a map of the framework.
+
+:param line: optional numeric limit (default from the advisor config).
+:type line: str
+:return: None
+
+## suggest_next
+Suggest next commands by walking the graph from recent activity.
+
+Usage: ``suggest_next [N]``. Reads ``sessions/LazyOwn_session_report.csv``
+to find recent commands and recommends graph neighbours weighted by
+inverse distance. Pass space-separated command names to override the
+recent history (``suggest_next lazynmap do_ping 7``).
+
+:param line: optional list of seed commands, optionally followed by
+    a numeric limit.
+:type line: str
+:return: None
 
 ## complete_palette
 Tab-complete the palette command using the live command index.
@@ -2738,6 +2795,21 @@ Note:
 
 ## banner
 Show the banner
+
+## config_banner
+Open a Powerlevel10k-style wizard to toggle prompt segments.
+
+Arrow keys move, Space toggles, Enter saves to ``payload.json`` under
+the ``banner`` block, Escape cancels. ``d`` resets to factory
+defaults; ``a`` enables every segment; ``n`` disables every segment.
+The shell prompt refreshes immediately after a save without
+requiring a restart.
+
+:param line: optional sub-action. ``show`` prints the current
+    enabled segments without opening the wizard. ``reset`` writes
+    the factory-default segment selection back to payload.json.
+:type line: str
+:return: None
 
 ## py3ttyup
 Copies a Python reverse shell command to the clipboard.

@@ -283,6 +283,83 @@ restarting the shell or the MCP server. See
 `tests/test_graph_advisor.py` for the 20 unit tests covering loader,
 index, scorer and the full advisor API.
 
+### Inline reactive hints — non-blocking next-step suggestions
+
+`cli/reactive_hints.py` hooks into the cmd2 post-command pipeline via
+`register_postcmd_hook` and prints a single dim line below every command
+output, before the next prompt appears:
+
+```
+  ↳ do_gobuster · do_enum4linux · do_ffuf
+```
+
+The suggestion comes from the graphify knowledge graph (same `GraphAdvisor`
+used by `suggest_next`), so it is structurally grounded — not a generic list.
+The hook is fully non-blocking: it returns before cmd2 renders the prompt, so
+the operator can start typing the next command immediately.
+
+**Control**
+
+| Action | How |
+|--------|-----|
+| Disable hints for the session | `set enable_inline_hints false` |
+| Re-enable | `set enable_inline_hints true` |
+| Persist permanently | `set enable_inline_hints false` then `save` |
+
+Commands on the skip list (`help`, `?`, `exit`, `set`, `show`, `palette`,
+`dashboard`, `suggest_next`, `graph_search`, `neighbors`, `god_nodes`) never
+produce a hint line — they are meta-commands where a suggestion adds noise.
+
+When the graphify graph is absent the hook returns silently. Run
+`/graphify .` once to build the graph and hints start appearing on the very
+next command.
+
+### Operator TUI dashboard — `dashboard`
+
+`cli/dashboard_tui.py` is a full-screen [Textual](https://textual.textualize.io)
+dashboard launched from the shell with:
+
+```
+dashboard
+```
+
+It blocks the shell while open (like `htop` or `lazygit`). Press **Q** or
+Ctrl-C to close and return to the cmd2 prompt.
+
+**Layout**
+
+```
+┌─ LazyOwn RedTeam Dashboard ─────────────────────────────────────────────────┐
+│ TARGET 10.10.11.5  ATTACKER 10.10.14.5  DOMAIN target.htb  PHASE RECON  OS  │
+├─────────────────────┬─────────────────────────────────┬─────────────────────┤
+│  Kill Chain         │  Recent Commands                │  Ops                │
+│  ✔ Recon            │  ● lazynmap        2026-05-11   │  Objective:         │
+│  ▶ Enum             │  ● ping            2026-05-11   │  Initial Access     │
+│  ○ Exploit          │  ● gobuster        2026-05-11   │                     │
+│  ○ PrivEsc          │                                 │  Credentials: 0     │
+│  ○ Lateral          │                                 │  Hashes: 0          │
+│  ○ Exfil            │  Config                         │  Beacons: 0         │
+│  ○ Report           │  Target: 10.10.11.5             │                     │
+│                     │  C2 Port: 4444                  │                     │
+├─────────────────────┴─────────────────────────────────┴─────────────────────┤
+│  ↳ next: do_gobuster · do_enum4linux · do_ffuf · do_nikto                   │
+└──────────────────────────────────── [Q] Quit  [R] Refresh  [?] Help ────────┘
+```
+
+**Data sources** (auto-refreshed every 5 seconds)
+
+| Panel | Source |
+|-------|--------|
+| Target / phase / OS | `payload.json`, `sessions/world_model.json` |
+| Kill chain progress | `sessions/world_model.json` → `completed_phases` |
+| Recent commands | `sessions/LazyOwn_session_report.csv` |
+| Objective | `sessions/world_model.json`, `sessions/tasks.json` |
+| Credentials / hashes | `sessions/credentials*.txt`, `sessions/hash*.txt` |
+| Beacons | `sessions/beacons.json` |
+| Graph hints | `graphify-out/graph_lazyown.json` |
+
+Requires `pip install textual` (added to `install.sh`).
+
 ### Command palette and graph-aware discovery
 
 The `lazyown_palette` MCP tool (also reachable as the `palette` CLI command
@@ -2753,6 +2830,20 @@ found, it prints an error message.
 :type line: str
 :return: None
 
+## _inline_hint_hook
+Post-command hook that prints a dim next-step hint line.
+
+Registered via ``register_postcmd_hook`` during ``__init__``. Reads the
+``enable_inline_hints`` flag from ``self.params`` (default True) so the
+operator can disable hints with ``set enable_inline_hints false`` without
+restarting the shell.
+
+Args:
+    data: cmd2 PostcommandData containing the executed statement.
+
+Returns:
+    data unchanged — the hook must return PostcommandData.
+
 ## _did_you_mean
 Return up to ``limit`` close-matching command names.
 
@@ -2999,6 +3090,31 @@ recent history (``suggest_next lazynmap do_ping 7``).
 
 :param line: optional list of seed commands, optionally followed by
     a numeric limit.
+:type line: str
+:return: None
+
+## dashboard
+Launch the full-screen LazyOwn operator dashboard (Textual TUI).
+
+Opens an auto-refreshing terminal dashboard showing the active target,
+kill chain progress, recent commands, objectives, credentials, beacons
+and graph-driven next-step hints. Press Q or Ctrl-C to close and return
+to the shell.
+
+Usage: ``dashboard``
+
+The dashboard reads from:
+- ``payload.json`` — target / attacker config and feature flags.
+- ``sessions/world_model.json`` — current phase and objectives.
+- ``sessions/tasks.json`` — active task list.
+- ``sessions/LazyOwn_session_report.csv`` — recent commands.
+- ``sessions/credentials*.txt`` / ``sessions/hash*.txt`` — credential counts.
+- ``graphify-out/graph_lazyown.json`` — next-step hints (requires ``/graphify .``).
+
+The ``textual`` package must be installed (``pip install textual``). When
+the package is missing the command prints an install hint and returns.
+
+:param line: Unused. Reserved for future flags.
 :type line: str
 :return: None
 
@@ -12268,6 +12384,13 @@ No description available.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Refactorización
+
+### Otros
+
+  *   * refactor(alto refactor con nuevo configurador, eliminacion de bugfixing de linter, nuevo prompt configurable): co namor para la comunidad \n\n Version: release/0.2.107 \n\n jajajja re loco va a quedar esto \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: lun 11 may 2026 00:14:40 -04 \n\n Hora: 1778472880
 
 
 ### Otros

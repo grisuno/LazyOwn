@@ -62,6 +62,7 @@ pip3 install dnslib
 pip3 install python-telegram-bot
 pip3 install nest_asyncio
 pip3 install rich
+pip3 install textual
 pip3 install flask_socketio
 pip3 install autobloody
 pip3 install minikerberos

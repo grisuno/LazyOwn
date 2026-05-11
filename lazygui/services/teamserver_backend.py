@@ -23,7 +23,7 @@ from lazygui.services.backend import Backend, BackendDescriptor, BackendStatus
 from lazygui.services.models import EventLevel, EventRecord, Listener, Operator, Session
 
 if TYPE_CHECKING:  # pragma: no cover
-    import requests as _requests_module
+    pass
 
 
 _logger = logging.getLogger(__name__)

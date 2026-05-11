@@ -23,7 +23,7 @@ from PySide6.QtWidgets import (
 from lazygui.config.constants import AppConstants
 from lazygui.config.settings import AppSettings
 from lazygui.panels.registry import PanelRegistry
-from lazygui.services.backend import Backend, BackendStatus
+from lazygui.services.backend import Backend
 from lazygui.services.event_log import EventLog
 from lazygui.services.models import EventLevel, EventRecord, Operator
 from lazygui.theme.manager import ThemeManager
@@ -264,7 +264,7 @@ class MainWindow(QMainWindow):
             )
         return tuple(actions)
 
-    def _make_panel_toggle(self, panel) -> "callable":
+    def _make_panel_toggle(self, panel) -> callable:
         """Closure that toggles the visibility of ``panel``."""
 
         def _toggle() -> None:
@@ -275,7 +275,7 @@ class MainWindow(QMainWindow):
 
         return _toggle
 
-    def _make_theme_apply(self, identifier: str) -> "callable":
+    def _make_theme_apply(self, identifier: str) -> callable:
         """Closure that applies the theme with ``identifier``."""
 
         def _apply() -> None:

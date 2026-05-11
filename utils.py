@@ -633,26 +633,133 @@ def get_venv_info():
         return f" ({BRIGHT_BLUE}🐍{venv_name}{RESET})"
     return ""
 
+class _PromptStyle:
+    """Centralised glyphs and color picks for the Neon Box prompt renderer.
+
+    Kept inside :mod:`utils` so no other module needs to import it. Every
+    rendering constant lives here; the renderer body is data-driven by these
+    fields so operators can tweak the look without touching the algorithm.
+    """
+
+    glyph_top_left = "╔"
+    glyph_top_join = "═"
+    glyph_segment_left = "═["
+    glyph_segment_right = "]"
+    glyph_segment_filler = "══"
+    glyph_segment_bullet_primary = "▸"
+    glyph_segment_bullet_secondary = "◆"
+    glyph_middle_left = "║"
+    glyph_middle_pointer = "▸"
+    glyph_middle_bullet = "◆"
+    glyph_bottom_left = "╚"
+    glyph_bottom_filler = "═════"
+    glyph_bottom_arrow = "➜"
+
+    default_fallback_ip = "127.0.0.1"
+    payload_filename = PAYLOAD_FILENAME
+    interface_match_token = "tun"
+    rhost_label = "RHOST"
+    git_clean_glyph = "✔"
+    git_dirty_glyph = "✗"
+    git_label = "git"
+    env_label = "env"
+
+
+def _load_prompt_payload() -> dict:
+    """Read ``payload.json`` defensively for the prompt renderer.
+
+    The prompt is rendered before the shell finishes wiring its parameters,
+    so direct attribute access on the shell would race. Reading the file
+    each time keeps the prompt in sync with operator-driven updates without
+    coupling the renderer to the shell's lifecycle.
+    """
+    try:
+        return load_payload(_PromptStyle.payload_filename)
+    except (FileNotFoundError, json.JSONDecodeError, OSError):
+        return {}
+
+
+def _select_local_ip(network_info: dict, preferred_token: str, fallback: str) -> str:
+    """Pick the most relevant local IP from a network-info mapping."""
+    for iface, addr in network_info.items():
+        if preferred_token in iface:
+            return addr
+    return next(iter(network_info.values()), fallback)
+
+
+def _format_segment(bullet: str, label: str, value: str) -> str:
+    """Render one bracketed prompt segment with a colored bullet and label."""
+    style = _PromptStyle
+    label_part = f"{label} " if label else ""
+    return (
+        f"{BRIGHT_CYAN}{style.glyph_segment_left}{RESET} "
+        f"{BRIGHT_MAGENTA}{bullet}{RESET} "
+        f"{BRIGHT_WHITE}{label_part}{BRIGHT_GREEN}{value}{RESET} "
+        f"{BRIGHT_CYAN}{style.glyph_segment_right}{RESET}"
+    )
+
+
 def getprompt():
-    """Generate a command prompt string with network information, user status, and icons."""
+    """Render the Neon Box prompt with user, LHOST/tun, RHOST, cwd and git.
 
+    Returns:
+        str: The fully styled multi-line prompt string ready for cmd2.
+
+    The renderer is data-driven by :class:`_PromptStyle`; no constant is
+    inlined into the f-strings. Missing payload values cause their segments
+    to be omitted instead of rendered as empty brackets.
+    """
+    style = _PromptStyle
     network_info = get_network_info()
-    ip = next((ip for iface, ip in network_info.items() if 'tun' in iface), None)
+    payload = _load_prompt_payload()
     hostname = socket.gethostname()
-    if ip is None:
-        ip = next(iter(network_info.values()), '127.0.0.1')
-    prompt_char = f'{RED}#' if os.geteuid() == 0 else '$'
-    random_r = random.randint(0, 255)
-    random_g = random.randint(0, 255)
-    random_b = random.randint(0, 255)
-    user = "root" if os.geteuid() == 0 else os.getenv("USER")
-    git_info = get_git_info()
-    venv_info = get_venv_info()
+    user = "root" if os.geteuid() == 0 else (os.getenv("USER") or "user")
+    lhost = payload.get("lhost") or _select_local_ip(network_info, style.interface_match_token, style.default_fallback_ip)
+    rhost = payload.get("rhost") or ""
+    domain = payload.get("domain") or ""
+    cwd = os.getcwd()
+    git_info = get_git_info().strip()
+    venv_name = ""
+    if "VIRTUAL_ENV" in os.environ:
+        venv_name = os.path.basename(os.environ["VIRTUAL_ENV"])
+    prompt_char = f"{BRIGHT_RED}#" if os.geteuid() == 0 else f"{BRIGHT_GREEN}$"
 
-    prompt = f"""{YELLOW}┌─{YELLOW}[{TRUE_COLOR.format(random_r, random_g, random_b)}👤{user} (LazyOwn{WHITE}👽{CYAN}{hostname}){YELLOW}]{RESET} {CYAN}🌐{ip}{RESET}{git_info}{venv_info}
-    {YELLOW}└╼ {BLINK}{BRIGHT_GREEN}{prompt_char}{RESET} """.replace('    ','')
+    top_segments = [
+        _format_segment(style.glyph_segment_bullet_primary, "", f"{user}@{hostname}"),
+    ]
+    iface_ip = _select_local_ip(network_info, style.interface_match_token, "")
+    if iface_ip:
+        top_segments.append(_format_segment(style.glyph_segment_bullet_secondary, style.interface_match_token + "0", iface_ip))
+    elif lhost:
+        top_segments.append(_format_segment(style.glyph_segment_bullet_secondary, "LHOST", lhost))
+    if rhost:
+        top_segments.append(_format_segment(style.glyph_segment_bullet_secondary, style.rhost_label, rhost))
+    if domain:
+        top_segments.append(_format_segment(style.glyph_segment_bullet_secondary, "", domain))
 
-    return prompt
+    middle_segments = [
+        f"{BRIGHT_MAGENTA}{style.glyph_middle_pointer}{RESET} {BRIGHT_GREEN}{cwd}{RESET}",
+    ]
+    if git_info:
+        middle_segments.append(f"{BRIGHT_MAGENTA}{style.glyph_middle_bullet}{RESET} {BRIGHT_YELLOW}{style.git_label}:{git_info}{RESET}")
+    if venv_name:
+        middle_segments.append(f"{BRIGHT_MAGENTA}{style.glyph_middle_bullet}{RESET} {BRIGHT_BLUE}{style.env_label}:{venv_name}{RESET}")
+    middle_segments.append(f"{BRIGHT_MAGENTA}{style.glyph_middle_bullet}{RESET} {BRIGHT_CYAN}{time.strftime('%H:%M:%S')}{RESET}")
+
+    top_line = (
+        f"{BRIGHT_CYAN}{style.glyph_top_left}{style.glyph_top_join}{RESET}"
+        + f"{BRIGHT_CYAN}{style.glyph_segment_filler}{RESET}".join(top_segments)
+    )
+    middle_line = (
+        f"{BRIGHT_CYAN}{style.glyph_middle_left}{RESET}  "
+        + f"   ".join(middle_segments)
+    )
+    bottom_line = (
+        f"{BRIGHT_CYAN}{style.glyph_bottom_left}{style.glyph_bottom_filler}{RESET}"
+        f"{BRIGHT_MAGENTA}{style.glyph_bottom_arrow}{RESET} {prompt_char}{RESET} "
+    )
+
+    return f"{top_line}\n{middle_line}\n{bottom_line}"
 
 def copy2clip(text):
     """

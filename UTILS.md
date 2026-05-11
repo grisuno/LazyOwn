@@ -182,8 +182,29 @@ No description available.
 ## get_venv_info
 No description available.
 
+## _load_prompt_payload
+Read ``payload.json`` defensively for the prompt renderer.
+
+The prompt is rendered before the shell finishes wiring its parameters,
+so direct attribute access on the shell would race. Reading the file
+each time keeps the prompt in sync with operator-driven updates without
+coupling the renderer to the shell's lifecycle.
+
+## _select_local_ip
+Pick the most relevant local IP from a network-info mapping.
+
+## _format_segment
+Render one bracketed prompt segment with a colored bullet and label.
+
 ## getprompt
-Generate a command prompt string with network information, user status, and icons.
+Render the Neon Box prompt with user, LHOST/tun, RHOST, cwd and git.
+
+Returns:
+    str: The fully styled multi-line prompt string ready for cmd2.
+
+The renderer is data-driven by :class:`_PromptStyle`; no constant is
+inlined into the f-strings. Missing payload values cause their segments
+to be omitted instead of rendered as empty brackets.
 
 ## copy2clip
 Copia el texto proporcionado al portapapeles usando xclip.

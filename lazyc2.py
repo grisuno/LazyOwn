@@ -597,7 +597,7 @@ def process_bloodhound_zip(zip_filepath):
         logger.info(error_message)
         ad_data = {}
     except Exception as e:
-        error_message = f"An unexpected error occurred: {str("")}"
+        error_message = f"An unexpected error occurred: {str('')}"
         logger.info(error_message)
         ad_data = {}
 
@@ -1418,7 +1418,7 @@ def parse_access_log_for_short_url(short_url):
     except FileNotFoundError:
         logging.error("access.log not found")
     except Exception as e:
-        logging.error(f"Error parsing access.log: {str("")}")
+        logging.error(f"Error parsing access.log: {str('')}")
     return download_events
 
 def parse_execution_log(implante):
@@ -1460,16 +1460,16 @@ def load_short_urls():
             with open(SHORT_URLS_FILE, 'w') as f:
                 json.dump({}, f)
         except Exception as e:
-            logging.error(f"Failed to create short_urls.json: {str("")}")
+            logging.error(f"Failed to create short_urls.json: {str('')}")
             raise
     try:
         with open(SHORT_URLS_FILE, 'r') as f:
             return json.load(f)
     except json.JSONDecodeError as e:
-        logging.error(f"Failed to parse short_urls.json: {str("")}")
+        logging.error(f"Failed to parse short_urls.json: {str('')}")
         return {}
     except Exception as e:
-        logging.error(f"Error reading short_urls.json: {str("")}")
+        logging.error(f"Error reading short_urls.json: {str('')}")
         raise
 
 
@@ -1479,7 +1479,7 @@ def save_short_urls(data):
         with open(SHORT_URLS_FILE, 'w') as f:
             json.dump(data, f, indent=2)
     except Exception as e:
-        logging.error(f"Failed to save short_urls.json: {str("")}")
+        logging.error(f"Failed to save short_urls.json: {str('')}")
         raise
 
 def is_valid_url(url):
@@ -2807,8 +2807,8 @@ def update_short_url(short_url):
         logging.info(f"Updated short URL: {short_url}")
         return jsonify({'message': 'Updated successfully'})
     except Exception as e:
-        logging.error(f"Error in update_short_url: {str("")}")
-        return jsonify({'error': f'Internal server error: {str("")}'}), 500
+        logging.error(f"Error in update_short_url: {str('')}")
+        return jsonify({'error': f"Internal server error: {str('')}"}), 500
 
 @app.route('/<short_url>')
 def redirect_to_file(short_url):
@@ -2832,8 +2832,8 @@ def redirect_to_file(short_url):
                 abort(404)
         return redirect(original_url)
     except Exception as e:
-        logging.error(f"Error in redirect_to_file: {str("")}")
-        return jsonify({'error': f'Internal server error: {str("")}'}), 500
+        logging.error(f"Error in redirect_to_file: {str('')}")
+        return jsonify({'error': f"Internal server error: {str('')}"}), 500
 
 @app.route('/s/<filename>')
 def download_files(filename):
@@ -4260,7 +4260,7 @@ def upload_zip_file():
             os.remove(filepath)
         except Exception as e:
             if config.enable_c2_debug:
-                logger.info(f"Error removing file: {str("")}")
+                logger.info(f"Error removing file: {str('')}")
 
         if error_message:
             if config.enable_c2_debug:
@@ -4282,8 +4282,8 @@ def upload_zip_file():
                 os.remove(filepath)
             except Exception as cleanup_error:
                 if config.enable_c2_debug:
-                    logger.info(f"Error removing file during cleanup: {str("")}")
-        return render_template('index.html', error=f"Error processing file: {str("")}")
+                    logger.info(f"Error removing file during cleanup: {str('')}")
+        return render_template('index.html', error=f"Error processing file: {str('')}")
 
 @phishing_bp.route('/phishing/campaigns', methods=['GET'])
 @login_required

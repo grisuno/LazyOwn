@@ -13,7 +13,6 @@ from lazygui.services.backend import Backend
 from lazygui.services.models import Listener
 from lazygui.widgets.filter_bar import FilterBar
 
-
 _LISTENER_HEADERS: tuple[str, ...] = ("ID", "Kind", "Address", "Port", "Secure", "Description")
 _PORT_COLUMN: int = 3
 _SECURE_COLUMN: int = 4

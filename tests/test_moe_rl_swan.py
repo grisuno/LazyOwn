@@ -20,10 +20,7 @@ from __future__ import annotations
 import json
 import os
 import sys
-import threading
 from pathlib import Path
-
-import pytest
 
 _ROOT = Path(__file__).parent.parent
 for _p in (str(_ROOT / "modules"), str(_ROOT / "skills")):
@@ -122,7 +119,7 @@ class TestMoERouter:
 
     def test_route_returns_expert_or_raises_gracefully(self):
         """route() must return a valid ExpertProfile or raise RuntimeError (no keys)."""
-        from moe_router import get_router, ExpertProfile
+        from moe_router import ExpertProfile, get_router
         router = get_router()
         try:
             expert = router.route("recon", "enumerate SMB shares")
@@ -134,7 +131,7 @@ class TestMoERouter:
 
     def test_ensemble_returns_available_candidates(self):
         """ensemble() must return a list (may be fewer than N when few experts available)."""
-        from moe_router import get_router, ExpertProfile
+        from moe_router import ExpertProfile, get_router
         router = get_router()
         candidates = router.ensemble("exploit", "exploit apache", n=3)
         assert isinstance(candidates, list)
@@ -179,8 +176,9 @@ class TestMoERouter:
 
     def test_softmax_deterministic_picks_highest_weight(self):
         """In deterministic mode, SoftmaxSelector.select() returns the argmax expert."""
-        from moe_router import SoftmaxSelector, ExpertProfile, ExpertPerformanceStore
         import tempfile
+
+        from moe_router import ExpertPerformanceStore, ExpertProfile, SoftmaxSelector
 
         def _ep(eid, w):
             return ExpertProfile(
@@ -205,7 +203,7 @@ class TestRLTrainer:
 
     def test_encode_state_format(self):
         """encode_state must return 'task:phase:bucket' string."""
-        from rl_trainer import RLTrainer, RLConfig
+        from rl_trainer import RLConfig, RLTrainer
         trainer = RLTrainer(config=RLConfig())
         state = trainer.encode_state("recon", "exploitation", 0.0)
         parts = state.split(":")
@@ -216,7 +214,7 @@ class TestRLTrainer:
 
     def test_select_action_returns_valid_candidate(self):
         """select_action must return one of the provided candidates."""
-        from rl_trainer import RLTrainer, RLConfig
+        from rl_trainer import RLConfig, RLTrainer
         trainer = RLTrainer(config=RLConfig())
         candidates = ["groq_fast", "groq_powerful", "ollama_reason"]
         state  = trainer.encode_state("exploit", "exploitation")
@@ -225,7 +223,7 @@ class TestRLTrainer:
 
     def test_update_changes_qvalue(self, tmp_path):
         """After update(), Q(state, action) must differ from the initial value."""
-        from rl_trainer import RLTrainer, RLConfig, QValueStore, EpsilonTracker
+        from rl_trainer import EpsilonTracker, QValueStore, RLConfig, RLTrainer
         q_store = QValueStore(path=tmp_path / "qvals.json", optimistic_init=1.0)
         eps     = EpsilonTracker(start=0.20, minimum=0.05, decay=0.995,
                                  path=tmp_path / "eps.json")
@@ -248,7 +246,7 @@ class TestRLTrainer:
 
     def test_epsilon_decays_after_update(self, tmp_path):
         """epsilon must be strictly smaller after calling update()."""
-        from rl_trainer import RLTrainer, RLConfig, QValueStore, EpsilonTracker
+        from rl_trainer import EpsilonTracker, QValueStore, RLConfig, RLTrainer
         q_store = QValueStore(path=tmp_path / "qvals2.json")
         eps     = EpsilonTracker(start=0.20, minimum=0.05, decay=0.995,
                                  path=tmp_path / "eps2.json")
@@ -260,7 +258,7 @@ class TestRLTrainer:
 
     def test_detection_penalty_lowers_effective_reward(self, tmp_path):
         """Same raw reward but high detection_prob must yield a lower Q-update."""
-        from rl_trainer import RLTrainer, RLConfig, QValueStore, EpsilonTracker
+        from rl_trainer import EpsilonTracker, QValueStore, RLConfig, RLTrainer
 
         def _make_trainer(suffix):
             return RLTrainer(
@@ -299,7 +297,7 @@ class TestRLTrainer:
 
     def test_save_and_reload_persistence(self, tmp_path):
         """Q-values saved to disk must be recoverable after re-instantiation."""
-        from rl_trainer import RLTrainer, RLConfig, QValueStore, EpsilonTracker
+        from rl_trainer import EpsilonTracker, QValueStore, RLConfig, RLTrainer
         path = tmp_path / "persist.json"
         q1  = QValueStore(path=path, optimistic_init=0.0)
         e1  = EpsilonTracker(start=0.1, minimum=0.05, decay=1.0,
@@ -465,14 +463,14 @@ class TestAutonomousDaemonSWAN:
 
     def test_cascade_strategy_contains_swan_selector(self):
         """The default StrategyEngine cascade must include a SWANSelector."""
-        from autonomous_daemon import StrategyEngine, PTYCommandRunner, SWANSelector
+        from autonomous_daemon import PTYCommandRunner, StrategyEngine
         engine = StrategyEngine(runner=PTYCommandRunner())
         types  = [type(s).__name__ for s in engine._cascade._selectors]
         assert "SWANSelector" in types
 
     def test_cascade_strategy_order(self):
         """SWANSelector must appear before FallbackSelector in the cascade."""
-        from autonomous_daemon import StrategyEngine, PTYCommandRunner
+        from autonomous_daemon import PTYCommandRunner, StrategyEngine
         engine = StrategyEngine(runner=PTYCommandRunner())
         names  = [type(s).__name__ for s in engine._cascade._selectors]
         assert names.index("SWANSelector") < names.index("FallbackSelector")
@@ -511,8 +509,7 @@ class TestPolicyDetectionAware:
 
     def test_detection_above_threshold_zeroes_reward(self):
         """calculate_with_detection: reward must be 0 when detect >= 0.70."""
-        from lazyown_policy import RewardCalculator, DetectionRiskAssessor, Config
-        from lazyown_policy import ActionCategory, OutcomeType
+        from lazyown_policy import ActionCategory, Config, DetectionRiskAssessor, OutcomeType, RewardCalculator
         assessor = DetectionRiskAssessor()
         calc     = RewardCalculator(cfg=Config.default(), risk_assessor=assessor)
         reward, detect = calc.calculate_with_detection(
@@ -529,8 +526,7 @@ class TestPolicyDetectionAware:
 
     def test_low_detection_preserves_positive_reward(self):
         """Low-detection success should keep a positive reward value."""
-        from lazyown_policy import RewardCalculator, DetectionRiskAssessor, Config
-        from lazyown_policy import ActionCategory, OutcomeType
+        from lazyown_policy import ActionCategory, Config, DetectionRiskAssessor, OutcomeType, RewardCalculator
         assessor = DetectionRiskAssessor()
         calc     = RewardCalculator(cfg=Config.default(), risk_assessor=assessor)
         reward, detect = calc.calculate_with_detection(
@@ -546,7 +542,7 @@ class TestPolicyDetectionAware:
 
     def test_failed_outcome_gives_negative_reward(self):
         """Failed recon action must produce a negative reward regardless of detection."""
-        from lazyown_policy import RewardCalculator, Config, ActionCategory, OutcomeType
+        from lazyown_policy import ActionCategory, Config, OutcomeType, RewardCalculator
         calc = RewardCalculator(cfg=Config.default())
         reward = calc.calculate(ActionCategory.RECON, OutcomeType.FAIL)
         assert reward < 0, f"Expected negative reward for FAIL, got {reward}"
@@ -617,15 +613,8 @@ class TestMCPRegistration:
 
     def test_swan_tools_registered_in_mcp(self):
         """The four SWAN tools must appear in lazyown_mcp list_tools names."""
-        import asyncio
         sys.path.insert(0, str(_ROOT / "skills"))
 
-        # Import names without running the server
-        import importlib.util
-        spec = importlib.util.spec_from_file_location(
-            "lazyown_mcp_check",
-            str(_ROOT / "skills" / "lazyown_mcp.py"),
-        )
         # We cannot easily run the async list_tools, so grep for the names
         src = (_ROOT / "skills" / "lazyown_mcp.py").read_text()
         for tool in ("lazyown_swan_run", "lazyown_swan_ensemble",

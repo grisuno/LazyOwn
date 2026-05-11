@@ -5,23 +5,18 @@ primitive types. They return ``(bool, str)`` tuples to enable
 detailed error messages without raising exceptions.
 """
 
-import os
-import re
 from pathlib import Path
 
 from lazyc2.security.constants import (
+    AES_KEY_SIZE_BYTES,
+    MAX_REQUEST_DATA_LENGTH,
+    MAX_ROUTE_PATH_LENGTH,
+    MAX_TEMPLATE_NAME_LENGTH,
+    MAX_UPLOAD_SIZE_BYTES,
+    MINIMUM_PASSWORD_LENGTH,
     ROUTE_PATH_PATTERN,
     TEMPLATE_NAME_PATTERN,
     YAML_FILENAME_PATTERN,
-    MAX_ROUTE_PATH_LENGTH,
-    MAX_TEMPLATE_NAME_LENGTH,
-    MAX_REQUEST_DATA_LENGTH,
-    MAX_UPLOAD_SIZE_BYTES,
-    AES_KEY_SIZE_BYTES,
-    MINIMUM_PASSWORD_LENGTH,
-    MAX_YAML_FILE_SIZE_BYTES,
-    SESSIONS_DIR_NAME,
-    TEMPLATES_DIR_NAME,
 )
 
 

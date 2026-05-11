@@ -44,7 +44,6 @@ from cli.cli_enhancements import (
 )
 from cli.commands._base import LazyOwnCommandSet
 
-
 _FORM_SPECS: dict[str, FormSpec] = {
     "phishing": FormSpec(
         command="phishing",

@@ -1,20 +1,20 @@
 # slack_c2_bot_socket.py
-import os
+import io
 import re
+import sys
 import time
-import json
+
 import requests
 from slack_bolt import App
 from slack_bolt.adapter.socket_mode import SocketModeHandler
+
 from lazyown import LazyOwnShell
-from modules.lazygptcli5 import process_prompt_general, Groq
+from modules.lazygptcli5 import Groq, process_prompt_general
 from utils import Config, load_payload
-import io
-import sys
 
 # === CONFIG ===
-SLACK_BOT_TOKEN = "xoxb-bot-token-aqui"  
-SLACK_APP_TOKEN = "xapp-app-token-aqui" 
+SLACK_BOT_TOKEN = "xoxb-bot-token-aqui"
+SLACK_APP_TOKEN = "xapp-app-token-aqui"
 SLACK_SIGNING_SECRET = "app-token-aqui"
 
 # === INICIALIZACIÓN ===
@@ -116,7 +116,6 @@ app = App(token=SLACK_BOT_TOKEN, signing_secret=SLACK_SIGNING_SECRET)
 @app.event("message")
 def handle_message(event, say, logger):
     user_id = event["user"]
-    channel_id = event["channel"]
     text = event.get("text", "").strip()
 
     # Ignorar mensajes del bot
@@ -197,7 +196,7 @@ def cmd_addcli(ack, respond, command):
 def cmd_clients(ack, respond, command):
     ack()
     try:
-        response = requests.get(f"https://{config.lhost}:{config.c2_port}/get_connected_clients", verify=False)
+        response = requests.get(f"https://{config.lhost}:{config.c2_port}/get_connected_clients", verify=False)  # noqa: S501
         if response.status_code == 200:
             clients = "\n".join(response.json().get("connected_clients", []))
             respond(f"🟢 Implants Online:\n{clients}")

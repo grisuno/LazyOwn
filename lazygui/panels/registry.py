@@ -42,7 +42,7 @@ class PanelRegistry:
         backend: Backend,
         event_log: EventLog,
         parent: QWidget | None = None,
-    ) -> "PanelRegistry":
+    ) -> PanelRegistry:
         """Construct every dock panel and return them as a registry."""
         return cls(
             constants=constants,

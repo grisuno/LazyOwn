@@ -318,9 +318,26 @@ the values are their associated IP addresses. :rtype: dict</p>
 <p>No description available.</p>
 <h2 id="get_venv_info">get_venv_info</h2>
 <p>No description available.</p>
+<h2 id="load_prompt_payload">_load_prompt_payload</h2>
+<p>Read <code>payload.json</code> defensively for the prompt
+renderer.</p>
+<p>The prompt is rendered before the shell finishes wiring its
+parameters, so direct attribute access on the shell would race. Reading
+the file each time keeps the prompt in sync with operator-driven updates
+without coupling the renderer to the shell’s lifecycle.</p>
+<h2 id="select_local_ip">_select_local_ip</h2>
+<p>Pick the most relevant local IP from a network-info mapping.</p>
+<h2 id="format_segment">_format_segment</h2>
+<p>Render one bracketed prompt segment with a colored bullet and
+label.</p>
 <h2 id="getprompt">getprompt</h2>
-<p>Generate a command prompt string with network information, user
-status, and icons.</p>
+<p>Render the Neon Box prompt with user, LHOST/tun, RHOST, cwd and
+git.</p>
+<p>Returns: str: The fully styled multi-line prompt string ready for
+cmd2.</p>
+<p>The renderer is data-driven by :class:<code>_PromptStyle</code>; no
+constant is inlined into the f-strings. Missing payload values cause
+their segments to be omitted instead of rendered as empty brackets.</p>
 <h2 id="copy2clip">copy2clip</h2>
 <p>Copia el texto proporcionado al portapapeles usando xclip.</p>
 <p>Args: text (str): El texto que se desea copiar al portapapeles.</p>

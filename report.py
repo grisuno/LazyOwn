@@ -1,42 +1,33 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 🚀 LazyOwn Security Intelligence Report
 Generador de métricas ejecutivas para Gerencia de Ciberseguridad
 KPIs, OKRs, detección de amenazas y análisis forense
 """
 
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-from datetime import datetime
-import warnings
 import csv
 import io
+import json
 import os
 import re
-import json
-from pathlib import Path
-import joblib
-
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
-
-warnings.filterwarnings('ignore')
-import pandas as pd
-import numpy as np
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
-from sklearn.feature_extraction.text import TfidfVectorizer
-import os
-import re
-import json
+import warnings
 from datetime import datetime
 from pathlib import Path
+
+import joblib
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import seaborn as sns
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+from sklearn.model_selection import train_test_split
+
+warnings.filterwarnings('ignore')
+import torch  # noqa: E402
+import torch.nn as nn  # noqa: E402
+import torch.nn.functional as F  # noqa: E402
 
 # --- OPTIMIZACIÓN DE HARDWARE (Tiger Lake i3) ---
 torch.set_num_threads(4)
@@ -72,10 +63,10 @@ def apply_resma_intelligence(df):
     Aprende de tus reglas y descubre lo que ellas no ven.
     """
     print("\n[*] Entrenando Motor de Inteligencia RESMA 5.2...")
-    
+
     # Feature Engineering (Usando tus columnas)
     df['full_payload'] = df['command'].astype(str) + " " + df['args'].fillna('').astype(str)
-    
+
     vectorizer = TfidfVectorizer(max_features=512, ngram_range=(1, 2))
     X_vec = vectorizer.fit_transform(df['full_payload']).toarray()
     X_tensor = torch.tensor(X_vec, dtype=torch.float32)
@@ -106,7 +97,7 @@ def apply_resma_intelligence(df):
     # Umbral de anomalía geométrica (Percentil 97)
     threshold = np.percentile(df['ia_energy'], 97)
     df['is_shadow_threat'] = ((df['ia_energy'] > threshold) & (y_reglas == 0)).astype(int)
-    
+
     return df
 
 # =============================================================================
@@ -115,20 +106,20 @@ def apply_resma_intelligence(df):
 
 def final_resma_report(df):
     shadows = df[df['is_shadow_threat'] == 1]
-    
+
     print("\n" + "="*60)
     print("🔍 ANÁLISIS DE AMENAZAS RESMA 5.2")
     print("="*60)
     print(f"✅ Total Eventos:          {len(df)}")
     print(f"🚨 Detectados por Reglas:  {int((df['is_c2_or_postexploit'] | df['is_dangerous'] | df['contains_creds']).sum())}")
     print(f"🌀 Amenazas Sombra (IA):   {len(shadows)}")
-    
+
     if len(shadows) > 0:
         print("\n[!] DESCUBRIMIENTOS SOMBRA (Alta Energía Estructural):")
         # Mostramos los comandos que la IA considera raros y tus reglas no pillaron
         for _, row in shadows.sort_values('ia_energy', ascending=False).head(5).iterrows():
             print(f"  • {row['command']} {row['args'][:60]}... (Energy: {row['ia_energy']:.4f})")
-    
+
     return len(shadows)
 
 # =============================================================================
@@ -138,11 +129,11 @@ def final_resma_report(df):
 # Aquí es donde el script se ejecuta de verdad
 def lol():
     filepath = "sessions/LazyOwn_session_report.csv"
-    
+
     if os.path.exists(filepath):
         # 1. Cargar y limpiar (como tú lo haces)
         df = pd.read_csv(filepath)
-        
+
         # Simulo tus flags para que el código funcione standalone
         # En tu script real, estas columnas ya existen
         df['is_dangerous'] = df['args'].str.contains('rm -rf|export', na=False)
@@ -214,7 +205,7 @@ def train_ai_model(df):
     print("\n" + "="*60)
     print("🤖 ENTRENANDO MODELO DE INTELIGENCIA ARTIFICIAL DESDE CERO")
     print("="*60)
-    
+
     # Crear etiqueta combinada
     df['es_malicioso'] = (
         df['is_c2_or_postexploit'] |
@@ -332,20 +323,6 @@ def apply_ai_predictions(df, model, vectorizer):
     df['ia_prediccion'].fillna(0, inplace=True)
     return df
 
-def apply_ai_predictions(df, model, vectorizer):
-    """Aplica predicciones del modelo al DataFrame"""
-    df_text = df[['command', 'args']].copy().dropna()
-    df_text['texto'] = df_text['command'].astype(str) + " " + df_text['args'].astype(str)
-    X_vec = vectorizer.transform(df_text['texto'])
-
-    df_text['ia_malicious_score'] = model.predict_proba(X_vec)[:, 1]
-    df_text['ia_prediccion'] = model.predict(X_vec)
-
-    df = df.join(df_text[['ia_malicious_score', 'ia_prediccion']])
-    df['ia_malicious_score'].fillna(0.0, inplace=True)
-    df['ia_prediccion'].fillna(0, inplace=True)
-    return df
-
 def analyze_ia_vs_rules(df):
     """Analiza discrepancias entre reglas y modelo IA"""
     print("\n" + "="*60)
@@ -382,42 +359,42 @@ def analyze_ia_vs_rules(df):
 def load_and_clean_data_robust(filepath):
     """Cargar y limpiar los datos de forma robusta"""
     print("🔄 Cargando datos de forma robusta...")
-    
+
     try:
         df = pd.read_csv(filepath, on_bad_lines='skip')
-    except:
+    except Exception:
         df = parse_csv_manual(filepath)
-    
+
     if df.empty:
         print("❌ No se cargaron datos.")
         return df
 
     print(f"✅ Datos cargados: {len(df)} registros")
-    
+
     expected_columns = ['start','end','source_ip','source_port','destination_ip',
                        'destination_port','domain','subdomain','url','pivot_port',
                        'command','args']
-    
+
     if len(df.columns) != len(expected_columns):
         df = df.reindex(columns=expected_columns, fill_value='')
 
     df['start'] = pd.to_datetime(df['start'], errors='coerce')
     df['end'] = pd.to_datetime(df['end'], errors='coerce')
     df = df.dropna(subset=['start', 'end'])
-    
+
     df['duration'] = (df['end'] - df['start']).dt.total_seconds()
     df['hour'] = df['start'].dt.hour
     df['day_of_week'] = df['start'].dt.day_name()
     df['date'] = df['start'].dt.date
-    
+
     df['command_length'] = df['command'].astype(str).str.len()
     df['args_length'] = df['args'].astype(str).str.len()
-    
+
     df['contains_creds'] = df['args'].str.contains(":", na=False) & df['args'].str.contains(">", na=False)
     df['is_dangerous'] = df['args'].apply(lambda x: any(kw in str(x) for kw in DANGEROUS_KEYWORDS))
     df['command_category'] = df['command'].apply(lambda c: COMMAND_CATEGORIES.get(str(c).lower(), 'other'))
     df['is_c2_or_postexploit'] = df['args'].apply(lambda x: any(re.search(pat, str(x), re.IGNORECASE) for pat in C2_INDICATORS))
-    
+
     print(f"✅ Datos procesados: {len(df)} registros válidos")
     return df
 
@@ -437,7 +414,7 @@ def parse_csv_manual(filepath):
                     row = row[:len(header)-1] + [','.join(row[len(header)-1:])]
                 if len(row) == len(header):
                     rows.append(row)
-            except:
+            except Exception:
                 continue
         return pd.DataFrame(rows, columns=header) if rows else pd.DataFrame()
     except Exception as e:
@@ -462,13 +439,13 @@ def executive_kpis(df):
         "Duración de la Campaña (días)": active_days,
         "Comandos por Día (promedio)": f"{total / active_days:.1f}"
     }
-    
+
     print("\n" + "="*60)
     print("🎯 KPIs EJECUTIVOS DE SEGURIDAD")
     print("="*60)
     for k, v in kpis.items():
         print(f"  • {k:<35} : {v}")
-    
+
     return kpis
 
 def strategic_okrs(df, kpis):
@@ -492,7 +469,7 @@ def strategic_okrs(df, kpis):
             "Estado": "🟡 Advertencia" if kpis["Comandos Peligrosos"] > 0 else "🟢 Cumplido"
         }
     }
-    
+
     print("\n" + "="*60)
     print("🎯 OKRs ESTRATÉGICOS DE SEGURIDAD")
     print("="*60)
@@ -501,27 +478,27 @@ def strategic_okrs(df, kpis):
         for k, v in data.items():
             print(f"   • {k}: {v}")
         print()
-    
+
     return okrs
 
 def generate_visualizations(df, kpis):
     fig, axes = plt.subplots(2, 2, figsize=(16, 12))
-    
+
     cat_counts = df['command_category'].value_counts().head(8)
     axes[0,0].pie(cat_counts, labels=cat_counts.index, autopct='%1.1f%%')
     axes[0,0].set_title("Distribución por Categoría de Comandos")
-    
+
     hourly = df['hour'].value_counts().sort_index()
     axes[0,1].bar(hourly.index, hourly.values, color='skyblue')
     axes[0,1].set_title("Actividad por Hora del Día")
     axes[0,1].set_xlabel("Hora")
     axes[0,1].set_ylabel("Cantidad de Comandos")
-    
+
     top_domains = df['domain'].value_counts().head(6)
     axes[1,0].barh(top_domains.index, top_domains.values, color='coral')
     axes[1,0].set_title("Top Dominios Atacados")
     axes[1,0].set_xlabel("Cantidad de Comandos")
-    
+
     risks = [
         kpis["Comandos Sospechosos (C2/Post-Exploit)"],
         kpis["Comandos Peligrosos"],
@@ -530,7 +507,7 @@ def generate_visualizations(df, kpis):
     axes[1,1].bar(["C2/Post-Exploit", "Peligrosos", "Credenciales"], risks, color=['red', 'orange', 'purple'])
     axes[1,1].set_title("Indicadores de Riesgo")
     axes[1,1].set_ylabel("Cantidad")
-    
+
     plt.tight_layout()
     plt.savefig(OUTPUT_DIR / "security_dashboard.png", dpi=150, bbox_inches='tight')
     plt.savefig(STATIC / "security_dashboard.png", dpi=150, bbox_inches='tight')
@@ -562,11 +539,11 @@ def export_report(df, kpis, okrs, ia_analysis):
             "exposed_credentials": df[df['contains_creds']].head(10)[['command','args','domain','start']].to_dict('records'),
             "c2_commands": df[df['is_c2_or_postexploit']].head(10)[['command','args','domain','start']].to_dict('records'),
             "nuevos_hallazgos_ia": df[
-                ~(df['is_c2_or_postexploit'] | df['is_dangerous'] | df['contains_creds']) & 
+                ~(df['is_c2_or_postexploit'] | df['is_dangerous'] | df['contains_creds']) &
                 (df['ia_prediccion'] == 1)
             ].head(10)[['command','args','domain','ia_malicious_score']].to_dict('records'),
             "falsos_negativos_ia": df[
-                (df['is_c2_or_postexploit'] | df['is_dangerous'] | df['contains_creds']) & 
+                (df['is_c2_or_postexploit'] | df['is_dangerous'] | df['contains_creds']) &
                 (df['ia_prediccion'] == 0)
             ].head(10)[['command','args','domain']].to_dict('records')
         }
@@ -578,7 +555,7 @@ def export_report(df, kpis, okrs, ia_analysis):
     print(f"💾 Reporte JSON exportado: {output_path}")
     os.system(f"python3 modules/vuln_bot_cli.py --file {output_path} --provider groq --mode console | gum format")
 
-    
+
 
 # Funciones de análisis (mantenidas igual)
 def basic_statistics(df):
@@ -591,7 +568,7 @@ def basic_statistics(df):
     try:
         print(f"Período de datos: {df['start'].min()} a {df['start'].max()}")
         print(f"Días de actividad: {(df['start'].max() - df['start'].min()).days}")
-    except:
+    except Exception:
         print("⚠  No se pudieron calcular fechas")
 
 def command_analysis(df):
@@ -656,15 +633,15 @@ def security_insights(df):
             print(f"  Args: {row['args']}")
             print(f"  Dominio: {row['domain']}")
             print("  " + "-"*50)
-            
+
 def main():
     filepath = "sessions/LazyOwn_session_report.csv"
     print(f"📁 Analizando: {filepath}")
-    
+
     if not os.path.exists(filepath):
         print("❌ ERROR: No se encontró el archivo CSV.")
         return
-    
+
     df = load_and_clean_data_robust(filepath)
     if df.empty:
         return
@@ -702,9 +679,9 @@ def main():
     print("✅ REPORTE DE SEGURIDAD COMPLETADO")
     print("="*60)
     print(f"📄 Artifacts generados en: ./{OUTPUT_DIR}/")
-    print(f"   • security_dashboard.png")
-    print(f"   • confusion_matrix.png")
-    print(f"   • executive_report.json")
+    print("   • security_dashboard.png")
+    print("   • confusion_matrix.png")
+    print("   • executive_report.json")
     lol()
 if __name__ == "__main__":
     main()

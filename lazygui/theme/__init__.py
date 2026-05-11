@@ -7,8 +7,8 @@ Themes are described by :class:`ThemeTokens` instances. The
 widgets can react.
 """
 
-from lazygui.theme.tokens import ThemeTokens
-from lazygui.theme.qss_builder import QssBuilder
 from lazygui.theme.manager import ThemeManager
+from lazygui.theme.qss_builder import QssBuilder
+from lazygui.theme.tokens import ThemeTokens
 
 __all__ = ["ThemeTokens", "QssBuilder", "ThemeManager"]

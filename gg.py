@@ -1,9 +1,11 @@
-import os
 import glob
-import yaml
+import os
+
 import networkx as nx
 import polars as pl
+import yaml
 from pyvis.network import Network
+
 
 def generate_graphs():
     atomic_path = os.path.join("external", ".exploit", "atomic-red-team", "atomics")

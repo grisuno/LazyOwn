@@ -1,14 +1,16 @@
-import pytest
 import sys
 from pathlib import Path
+
+import pytest
 
 _ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(_ROOT / "modules"))
 
-from moe_router import get_router
-from world_model import get_world_model, HostState
-from session_rag import get_rag
-from obs_parser import get_parser
+from moe_router import get_router  # noqa: E402
+from obs_parser import get_parser  # noqa: E402
+from session_rag import get_rag  # noqa: E402
+from world_model import get_world_model  # noqa: E402
+
 
 def test_autonomous_flow_integration():
     """

@@ -1,5 +1,6 @@
-import pandas as pd
 import markdown
+import pandas as pd
+
 
 def search_database(term, data_path="tests.parquet"):
     """

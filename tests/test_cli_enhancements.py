@@ -6,10 +6,7 @@ spinning up cmd2 except where strictly required (audit CommandSet wiring).
 
 from __future__ import annotations
 
-import io
-import json
 import sys
-import time
 from pathlib import Path
 from textwrap import dedent
 
@@ -18,11 +15,10 @@ import pytest
 _ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(_ROOT))
 
-from cli.aliases import load_aliases
-from cli.cli_enhancements import (
+from cli.aliases import load_aliases  # noqa: E402
+from cli.cli_enhancements import (  # noqa: E402
     AddonHotReloader,
     CommandInfo,
-    CompletionResult,
     DictPayloadProvider,
     DynamicAliasResolver,
     FormField,
@@ -35,7 +31,6 @@ from cli.cli_enhancements import (
     TranscriptStore,
     commands_from_cmd2_shell,
 )
-
 
 # ── Fuzzy index ─────────────────────────────────────────────────────────────
 

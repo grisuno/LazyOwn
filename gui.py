@@ -1,11 +1,11 @@
 # terminal_tkinter_pty.py
-import tkinter as tk
-from tkinter import scrolledtext
-import threading
 import os
 import pty
-import subprocess
 import select
+import threading
+import tkinter as tk
+from tkinter import scrolledtext
+
 
 class TerminalEmulator:
     def __init__(self, root):
@@ -32,7 +32,7 @@ class TerminalEmulator:
         pid, fd = pty.fork()
         if pid == 0:
             # Proceso hijo: ejecutar tu app cmd2
-            os.execv("/usr/bin/bash", ["bash", "run"])
+            os.execv("/usr/bin/bash", ["bash", "run"])  # noqa: S606
         else:
             # Proceso padre: leer desde el PTY
             self.pty_fd = fd

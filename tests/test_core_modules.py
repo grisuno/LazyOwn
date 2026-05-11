@@ -2,9 +2,9 @@
 tests/test_core_modules.py
 Integration test suite for LazyOwn core modules.
 """
-import json, sys, time
+import json
+import sys
 from pathlib import Path
-import pytest
 
 _ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(_ROOT / "modules"))
@@ -12,7 +12,7 @@ sys.path.insert(0, str(_ROOT / "modules" / "integrations"))
 
 # obs_parser
 def test_obs_parser_nmap():
-    from obs_parser import ObsParser, FindingType
+    from obs_parser import FindingType, ObsParser
     obs = ObsParser().parse(
         "22/tcp open ssh OpenSSH 8.4p1\n80/tcp open http Apache 2.4.49\n"
         "CVE-2021-41773\nFound /admin/ Status: 200\n",
@@ -30,13 +30,13 @@ def test_obs_parser_empty():
     assert obs.findings == []
 
 def test_obs_parser_error():
-    from obs_parser import ObsParser, FindingType
+    from obs_parser import FindingType, ObsParser
     obs = ObsParser().parse("connection refused", host="10.0.0.1")
     assert any(f.type == FindingType.ERROR for f in obs.findings)
 
 # world_model
 def test_world_model_basic():
-    from world_model import WorldModel, EngagementPhase
+    from world_model import EngagementPhase, WorldModel
     wm = WorldModel()
     wm.add_host("10.0.0.1")
     wm.add_service("10.0.0.1", 22, "ssh", "OpenSSH 8.4")
@@ -53,8 +53,8 @@ def test_world_model_persistence(tmp_path):
     assert "192.168.1.1" in wm2.snapshot()["hosts"]
 
 def test_world_model_from_findings():
-    from world_model import WorldModel
     from obs_parser import ObsParser
+    from world_model import WorldModel
     wm = WorldModel()
     obs = ObsParser().parse("22/tcp open ssh\n", host="10.1.1.1")
     wm.update_from_findings(obs.findings)
@@ -71,7 +71,7 @@ def test_playbook_engine_derive_save_load(tmp_path):
     assert loaded.target == pb.target
 
 def test_playbook_engine_execute():
-    from playbook_engine import PlaybookEngine, Playbook, PlaybookStep
+    from playbook_engine import Playbook, PlaybookEngine, PlaybookStep
     engine = PlaybookEngine()
     pb = Playbook(apt_name="t", description="t", target="127.0.0.1", phase="scanning",
                   steps=[PlaybookStep(atomic_id="T1046-1", technique_id="T1046",
@@ -108,7 +108,8 @@ def test_cvss_from_nvd():
 
 def test_report_with_data(tmp_path):
     from report_generator import ReportGenerator
-    sess = tmp_path / "sessions"; sess.mkdir()
+    sess = tmp_path / "sessions"
+    sess.mkdir()
     (sess / "policy_facts.json").write_text(json.dumps({"hosts": {"10.10.11.78": {
         "services": {"22": {"name": "ssh", "version": "OpenSSH 8.4"}},
         "vulnerabilities": [{"id": "CVE-2021-41773", "cvss": 9.8, "desc": "path traversal"}]
@@ -119,7 +120,8 @@ def test_report_with_data(tmp_path):
 
 def test_report_empty(tmp_path):
     from report_generator import ReportGenerator
-    sess = tmp_path / "sessions"; sess.mkdir()
+    sess = tmp_path / "sessions"
+    sess.mkdir()
     path = ReportGenerator(sessions_dir=sess).generate(str(tmp_path / "r.md"))
     assert path.exists()
 
@@ -147,14 +149,14 @@ def test_memory_export(tmp_path):
     out = tmp_path / "ft.jsonl"
     ms.export_finetuning_dataset(out)
     assert out.exists()
-    lines = [l for l in out.read_text().splitlines() if l.strip()]
+    lines = [ln for ln in out.read_text().splitlines() if ln.strip()]
     assert len(lines) >= 1
     for line in lines:
         assert "prompt" in json.loads(line) or "messages" in json.loads(line)
 
 # llm_evaluator
 def test_llm_evaluator(tmp_path):
-    from llm_evaluator import LLMEvaluator, JSONLRecorder
+    from llm_evaluator import JSONLRecorder, LLMEvaluator
     ev = LLMEvaluator(recorder=JSONLRecorder(path=tmp_path / "d.jsonl"))
     did = ev.record_decision("s1","thought","action","recon","expected",0.8)
     ev.record_outcome(did, "found ssh", 2, True)
@@ -163,7 +165,7 @@ def test_llm_evaluator(tmp_path):
     assert m.success_rate == 1.0
 
 def test_llm_evaluator_report(tmp_path):
-    from llm_evaluator import LLMEvaluator, JSONLRecorder
+    from llm_evaluator import JSONLRecorder, LLMEvaluator
     ev = LLMEvaluator(recorder=JSONLRecorder(path=tmp_path / "d.jsonl"))
     d1 = ev.record_decision("s1","t1","a1","recon","e1",0.9)
     d2 = ev.record_decision("s1","t2","a2","execution","e2",0.5)
@@ -173,7 +175,7 @@ def test_llm_evaluator_report(tmp_path):
     assert len(report) > 10
 
 def test_llm_evaluator_empty(tmp_path):
-    from llm_evaluator import LLMEvaluator, JSONLRecorder
+    from llm_evaluator import JSONLRecorder, LLMEvaluator
     ev = LLMEvaluator(recorder=JSONLRecorder(path=tmp_path / "d.jsonl"))
     assert ev.compute_metrics().total_decisions == 0
 
@@ -192,7 +194,8 @@ def test_searchsploit_client():
 # misp_export
 def test_misp_export(tmp_path):
     from integrations.misp_export import MISPExporter
-    sess = tmp_path / "sessions"; sess.mkdir()
+    sess = tmp_path / "sessions"
+    sess.mkdir()
     (sess / "policy_facts.json").write_text(json.dumps({"hosts": {"10.10.11.78": {
         "services": {"22": {"name": "ssh"}},
         "vulnerabilities": [{"id": "CVE-2021-41773", "cvss": 9.8, "desc": "test"}]
@@ -210,7 +213,8 @@ def test_misp_export(tmp_path):
 def test_dashboard_endpoints():
     from dashboard_bp import dashboard_bp
     from flask import Flask
-    app = Flask(__name__); app.config["TESTING"] = True
+    app = Flask(__name__)
+    app.config["TESTING"] = True
     app.register_blueprint(dashboard_bp, url_prefix="/dashboard")
     c = app.test_client()
     assert c.get("/dashboard/").status_code == 200
@@ -222,7 +226,8 @@ def test_dashboard_endpoints():
 def test_collab_endpoints():
     from collab_bp import collab_bp, get_lock_manager
     from flask import Flask
-    app = Flask(__name__); app.config["TESTING"] = True
+    app = Flask(__name__)
+    app.config["TESTING"] = True
     app.register_blueprint(collab_bp, url_prefix="/collab")
     get_lock_manager().reset()
     c = app.test_client()
@@ -254,7 +259,7 @@ def test_c2_profile_jitter():
     assert all(d > 0 for d in delays)
 
 def test_c2_profile_save_load(tmp_path):
-    from c2_profile import get_registry, ProfileLoader
+    from c2_profile import ProfileLoader, get_registry
     p = get_registry().get("stealth")
     loader = ProfileLoader()
     saved = loader.save(p, tmp_path / "stealth.yaml")
@@ -267,14 +272,18 @@ def test_config_store(tmp_path):
     p = tmp_path / "payload.json"
     p.write_text(json.dumps({"rhost": "10.0.0.1", "lport": 4444}))
     old_path, old_data = config_store._payload_path, dict(config_store._data)
-    config_store._payload_path = p; config_store._data = {}; config_store._last_mtime = 0.0
+    config_store._payload_path = p
+    config_store._data = {}
+    config_store._last_mtime = 0.0
     try:
         assert config_store.get_config("rhost") == "10.0.0.1"
         config_store.set_config(rhost="10.99.99.99")
         assert config_store.get_config("rhost") == "10.99.99.99"
         assert json.loads(p.read_text())["rhost"] == "10.99.99.99"
     finally:
-        config_store._payload_path = old_path; config_store._data = old_data; config_store._last_mtime = 0.0
+        config_store._payload_path = old_path
+        config_store._data = old_data
+        config_store._last_mtime = 0.0
 
 # MCP registration
 def test_mcp_tools_registered():
@@ -472,7 +481,7 @@ def test_session_reader_empty(tmp_path):
 
 
 def test_session_reader_implant_csv(tmp_path):
-    from session_reader import SessionAggregator, ImplantRecord
+    from session_reader import SessionAggregator
     csv_content = (
         "client_id,os,pid,hostname,ips,user,discovered_ips,"
         "result_portscan,result_pwd,command,output\n"
@@ -511,7 +520,7 @@ def test_session_reader_tasks(tmp_path):
     from session_reader import TaskReader, TaskWriter
     writer = TaskWriter(tmp_path)
     t1 = writer.append("Recon target", "Run nmap", operator="op1")
-    t2 = writer.append("Exploit SMB", "ms17-010", operator="op2", status="Started")
+    writer.append("Exploit SMB", "ms17-010", operator="op2", status="Started")
     tasks = TaskReader().read(tmp_path)
     assert len(tasks) == 2
     assert tasks[0].title == "Recon target"
@@ -616,7 +625,7 @@ def test_reactive_engine_priority_ordering():
 
 # ── session_rag ───────────────────────────────────────────────────────────────
 def test_session_rag_init():
-    from session_rag import get_rag, SessionRAG
+    from session_rag import SessionRAG, get_rag
     rag = get_rag()
     assert isinstance(rag, SessionRAG)
 
@@ -672,7 +681,7 @@ def test_session_rag_context_for_step():
 
 # ── threat_model ─────────────────────────────────────────────────────────────
 def test_threat_model_builder_init():
-    from threat_model import get_builder, ThreatModelBuilder
+    from threat_model import ThreatModelBuilder, get_builder
     b = get_builder()
     assert isinstance(b, ThreatModelBuilder)
 
@@ -845,8 +854,9 @@ def test_threat_model_purple_coverage_field():
 
 # ── atomic_enricher ───────────────────────────────────────────────────────────
 def test_atomic_enricher_builds():
-    import sys; sys.path.insert(0, str(_ROOT / "modules"))
-    from atomic_enricher import enrich, DST_PARQUET
+    import sys
+    sys.path.insert(0, str(_ROOT / "modules"))
+    from atomic_enricher import DST_PARQUET, enrich
     df = enrich()
     assert len(df) == 1690
     assert "platform_list" in df.columns
@@ -859,21 +869,24 @@ def test_atomic_enricher_builds():
 
 
 def test_atomic_enricher_complexity_values():
-    import sys; sys.path.insert(0, str(_ROOT / "modules"))
+    import sys
+    sys.path.insert(0, str(_ROOT / "modules"))
     from atomic_enricher import load_enriched
     df = load_enriched()
     assert set(df["complexity"].unique()).issubset({"low", "medium", "high"})
 
 
 def test_atomic_enricher_scope_values():
-    import sys; sys.path.insert(0, str(_ROOT / "modules"))
+    import sys
+    sys.path.insert(0, str(_ROOT / "modules"))
     from atomic_enricher import load_enriched
     df = load_enriched()
     assert set(df["scope"].unique()).issubset({"local", "remote", "elevated", "any"})
 
 
 def test_atomic_query_keyword():
-    import sys; sys.path.insert(0, str(_ROOT / "modules"))
+    import sys
+    sys.path.insert(0, str(_ROOT / "modules"))
     from atomic_enricher import query_atomic
     rows = query_atomic(keyword="amsi bypass", limit=5)
     assert isinstance(rows, list)
@@ -886,7 +899,8 @@ def test_atomic_query_keyword():
 
 
 def test_atomic_query_mitre_prefix():
-    import sys; sys.path.insert(0, str(_ROOT / "modules"))
+    import sys
+    sys.path.insert(0, str(_ROOT / "modules"))
     from atomic_enricher import query_atomic
     rows = query_atomic(mitre_id="T1548", limit=10)
     assert all(r["mitre_id"].startswith("T1548") for r in rows)
@@ -894,7 +908,8 @@ def test_atomic_query_mitre_prefix():
 
 
 def test_atomic_query_platform_filter():
-    import sys; sys.path.insert(0, str(_ROOT / "modules"))
+    import sys
+    sys.path.insert(0, str(_ROOT / "modules"))
     from atomic_enricher import query_atomic
     rows = query_atomic(platform="linux", complexity="low", limit=10)
     for r in rows:
@@ -903,7 +918,8 @@ def test_atomic_query_platform_filter():
 
 
 def test_atomic_query_no_prereqs():
-    import sys; sys.path.insert(0, str(_ROOT / "modules"))
+    import sys
+    sys.path.insert(0, str(_ROOT / "modules"))
     from atomic_enricher import query_atomic
     rows = query_atomic(platform="windows", has_prereqs=False, limit=10)
     for r in rows:
@@ -911,7 +927,8 @@ def test_atomic_query_no_prereqs():
 
 
 def test_atomic_query_include_command():
-    import sys; sys.path.insert(0, str(_ROOT / "modules"))
+    import sys
+    sys.path.insert(0, str(_ROOT / "modules"))
     from atomic_enricher import query_atomic
     rows = query_atomic(keyword="dump memory", include_command=True, limit=3)
     for r in rows:
@@ -921,7 +938,8 @@ def test_atomic_query_include_command():
 
 def test_atomic_query_empty_returns_list():
     """Impossible filter combination returns empty list gracefully."""
-    import sys; sys.path.insert(0, str(_ROOT / "modules"))
+    import sys
+    sys.path.insert(0, str(_ROOT / "modules"))
     from atomic_enricher import query_atomic
     rows = query_atomic(keyword="xyzzy_impossible_keyword_123", limit=5)
     assert isinstance(rows, list)
@@ -929,7 +947,8 @@ def test_atomic_query_empty_returns_list():
 
 
 def test_parquet_db_query_atomic():
-    import sys; sys.path.insert(0, str(_ROOT / "skills"))
+    import sys
+    sys.path.insert(0, str(_ROOT / "skills"))
     from lazyown_parquet_db import ParquetDB
     db = ParquetDB(_ROOT)
     rows = db.query_atomic(keyword="mimikatz", platform="windows", limit=5)
@@ -937,7 +956,8 @@ def test_parquet_db_query_atomic():
 
 
 def test_session_rag_index_parquet_sources():
-    import sys; sys.path.insert(0, str(_ROOT / "modules"))
+    import sys
+    sys.path.insert(0, str(_ROOT / "modules"))
     from session_rag import get_rag
     rag = get_rag()
     result = rag.index_parquet_sources()

@@ -92,6 +92,6 @@ class EventRecord:
     message: str
 
     @classmethod
-    def now(cls, level: EventLevel, source: str, message: str) -> "EventRecord":
+    def now(cls, level: EventLevel, source: str, message: str) -> EventRecord:
         """Construct a record stamped with the current UTC time."""
         return cls(timestamp=datetime.now(tz=timezone.utc), level=level, source=source, message=message)

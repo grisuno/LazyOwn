@@ -176,6 +176,26 @@ The primitives are framework-agnostic and depend on small `typing.Protocol`
 interfaces (`PayloadProvider`, `CommandLister`, `TerminalIO`) so they can be
 unit-tested in isolation. See `tests/test_cli_enhancements.py` (36 tests).
 
+### Fuzzy dropdown autocomplete
+
+The cmd2 shell installs a curses-driven fuzzy picker on top of GNU readline
+(`cli/fuzzy_picker.py`). On a single **Tab** press, when two or more
+completions are available, the picker opens a bordered dropdown anchored at
+the bottom of the terminal showing every match alongside its description.
+The scorer favours exact, prefix and subsequence matches over substring and
+similarity (the same ranking the standalone `fz` command uses), and the
+matched characters of the query are highlighted in each row so the operator
+can see *why* a candidate is in the list.
+
+Navigation: **↑ / ↓** to move, **Page Up / Page Down** to jump, **Home /
+End** to seek, **Backspace** to edit the query in place, **Tab** or
+**Enter** to insert the highlighted command into the prompt, **Esc** or
+**Ctrl-C** to cancel. When only one candidate matches, readline's normal
+auto-insert behaviour is preserved so the picker never gets in the way of a
+fast operator. Geometry, colors and glyphs are driven by `PickerConfig`,
+and an optional `fuzzy_picker` block in `payload.json` can override any of
+its fields (e.g. `"max_visible_rows": 8`) without touching code.
+
 ### Command palette and graph-aware discovery
 
 The `lazyown_palette` MCP tool (also reachable as the `palette` CLI command
@@ -1747,8 +1767,29 @@ No description available.
 ## get_venv_info
 No description available.
 
+## _load_prompt_payload
+Read ``payload.json`` defensively for the prompt renderer.
+
+The prompt is rendered before the shell finishes wiring its parameters,
+so direct attribute access on the shell would race. Reading the file
+each time keeps the prompt in sync with operator-driven updates without
+coupling the renderer to the shell's lifecycle.
+
+## _select_local_ip
+Pick the most relevant local IP from a network-info mapping.
+
+## _format_segment
+Render one bracketed prompt segment with a colored bullet and label.
+
 ## getprompt
-Generate a command prompt string with network information, user status, and icons.
+Render the Neon Box prompt with user, LHOST/tun, RHOST, cwd and git.
+
+Returns:
+    str: The fully styled multi-line prompt string ready for cmd2.
+
+The renderer is data-driven by :class:`_PromptStyle`; no constant is
+inlined into the f-strings. Missing payload values cause their segments
+to be omitted instead of rendered as empty brackets.
 
 ## copy2clip
 Copia el texto proporcionado al portapapeles usando xclip.
@@ -12070,6 +12111,13 @@ No description available.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Refactorización
+
+### Otros
+
+  *   * refactor(refactor): some love \n\n Version: release/0.2.105 \n\n in refactors varios \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: dom 10 may 2026 16:46:01 -04 \n\n Hora: 1778445961
 
 
 ### Refactorización

@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# _*_ coding: utf8 _*_
 """
 main.py
 
@@ -18,9 +17,9 @@ Descripción: Este archivo contiene la definición de las rutas y la lógica de 
 ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
 
 """
-import sys
-import os
 import ast
+import os
+import sys
 
 
 def extract_functions_and_comments(script_path):
@@ -64,10 +63,10 @@ if __name__ == "__main__":
     else:
         output_path = "COMMANDS.md"
 
-    
+
     print(f"[+] Script path provided: {script_path}")
-    
-    
+
+
     if os.path.exists(script_path):
         print(f"[+] Executing script at {script_path}")
         functions = extract_functions_and_comments(script_path)

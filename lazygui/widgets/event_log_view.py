@@ -10,7 +10,6 @@ from lazygui.config.constants import AppConstants
 from lazygui.services.event_log import EventLog
 from lazygui.services.models import EventLevel, EventRecord
 
-
 _LEVEL_COLUMN: int = 0
 _TIME_COLUMN: int = 1
 _SOURCE_COLUMN: int = 2

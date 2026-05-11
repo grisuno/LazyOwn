@@ -31,7 +31,7 @@ class AppSettings:
     _document: dict[str, Any]
 
     @classmethod
-    def load(cls, constants: AppConstants, paths: AppPaths) -> "AppSettings":
+    def load(cls, constants: AppConstants, paths: AppPaths) -> AppSettings:
         """Load settings from disk, returning empty defaults if absent."""
         document: dict[str, Any] = {}
         target = paths.settings_file

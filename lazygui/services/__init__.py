@@ -8,6 +8,10 @@ The :class:`Backend` Protocol is the only contract the UI knows about. New
 backend implementations only need to satisfy that contract to be plugged in.
 """
 
+from lazygui.services.backend import Backend, BackendStatus
+from lazygui.services.event_log import EventLog
+from lazygui.services.factory import BackendFactory
+from lazygui.services.local_backend import LocalPtyBackend
 from lazygui.services.models import (
     BackendKind,
     EventLevel,
@@ -16,11 +20,7 @@ from lazygui.services.models import (
     Operator,
     Session,
 )
-from lazygui.services.backend import Backend, BackendStatus
-from lazygui.services.local_backend import LocalPtyBackend
 from lazygui.services.teamserver_backend import TeamserverBackend
-from lazygui.services.event_log import EventLog
-from lazygui.services.factory import BackendFactory
 
 __all__ = [
     "Backend",

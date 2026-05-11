@@ -1,10 +1,12 @@
-import os
 import argparse
-import getpass
-from cryptography.fernet import Fernet, InvalidToken
-from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
-from cryptography.hazmat.primitives import hashes
 import base64
+import getpass
+import os
+
+from cryptography.fernet import Fernet, InvalidToken
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+
 
 def derive_key(password: str, salt: bytes = b'lazyown_salt') -> bytes:
     """
@@ -102,7 +104,7 @@ def main():
         print(f"Error: {args.directory} is not a valid directory")
         exit(1)
 
-    exclude_files = [os.path.abspath(__file__)] 
+    exclude_files = [os.path.abspath(__file__)]
     if args.key_file:
         exclude_files.append(os.path.abspath(args.key_file))
 

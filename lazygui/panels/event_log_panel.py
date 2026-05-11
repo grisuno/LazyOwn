@@ -12,7 +12,6 @@ from lazygui.services.event_log import EventLog
 from lazygui.services.models import EventLevel
 from lazygui.widgets.event_log_view import EventLogView
 
-
 _LEVEL_LABELS: dict[EventLevel, str] = {
     EventLevel.DEBUG: "Debug",
     EventLevel.INFO: "Info",

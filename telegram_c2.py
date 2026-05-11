@@ -1,16 +1,19 @@
-import re
-import os
+import asyncio
 import csv
 import json
-import time
+import os
 import random
-import asyncio
-import requests
+import re
+import time
+
 import nest_asyncio
+import requests
 from telegram import Update
+from telegram.ext import Application, CallbackContext, CommandHandler, MessageHandler, filters
+
 from lazyown import LazyOwnShell
-from modules.lazygptcli5 import process_prompt_general, Groq
-from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext
+from modules.lazygptcli5 import Groq, process_prompt_general
+
 
 def strip_ansi(s):
     ansi_regex = re.compile(r'[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]')
@@ -21,54 +24,54 @@ class SecureSessionManager:
         self.sessions = {}
         self.failed_attempts = {}
         self.command_timestamps = {}
-    
+
     def register_failed_attempt(self, user_id: int):
         if user_id not in self.failed_attempts:
             self.failed_attempts[user_id] = {'count': 1, 'timestamp': time.time()}
         else:
             self.failed_attempts[user_id]['count'] += 1
             self.failed_attempts[user_id]['timestamp'] = time.time()
-    
+
     def check_lockout(self, user_id: int) -> bool:
         attempt = self.failed_attempts.get(user_id)
         if attempt and attempt['count'] >= MAX_FAILED_ATTEMPTS:
-            if (time.time() - attempt['timestamp']) < 3600: 
+            if (time.time() - attempt['timestamp']) < 3600:
                 return True
             else:
-                del self.failed_attempts[user_id] 
+                del self.failed_attempts[user_id]
         return False
-    
+
     def check_rate_limit(self, user_id: int) -> bool:
         now = time.time()
         if user_id not in self.command_timestamps:
             self.command_timestamps[user_id] = []
-        
+
         self.command_timestamps[user_id] = [t for t in self.command_timestamps[user_id] if now - t < 60]
-        
+
         if len(self.command_timestamps[user_id]) >= RATE_LIMIT:
             return False
-        
+
         self.command_timestamps[user_id].append(now)
         return True
-    
+
     def create_session(self, user_id: int, client_id: str):
         self.sessions[user_id] = {
             'user_id': user_id,
             'client_id': client_id,
             'session_start': time.time(),
             'last_activity': time.time()
-            
+
         }
-    
+
     def validate_session(self, user_id: int) -> bool:
         session = self.sessions.get(user_id)
         if not session:
             return False
-        
+
         if (time.time() - session['last_activity']) > SESSION_TIMEOUT:
             del self.sessions[user_id]
             return False
-        
+
         session['last_activity'] = time.time()
         return True
 
@@ -95,10 +98,10 @@ async def start(update: Update, context: CallbackContext) -> None:
     if session_manager.check_lockout(user_id):
         await update.message.reply_text("🔒 Account Blocked by try brute force, na na naaa")
         return
-        
+
     if not context.args:
         await update.message.reply_text("Enter the secret, Usage: /start <secret>")
-        return    
+        return
 
     if context.args[0] == c2_pass:
         session_manager.create_session(user_id, client_id=None)
@@ -111,20 +114,20 @@ async def start(update: Update, context: CallbackContext) -> None:
 
     else:
         await update.message.reply_text("Enter the secret, Usage: /start <secret>")
-        return  
+        return
 
 async def exce_cmd(update: Update, context: CallbackContext) -> None:
     user_id = update.message.from_user.id
     user_guess = update.message.text
-    
+
     if not session_manager.validate_session(user_id):
         await update.message.reply_text("⚠️ Invalid Session")
         return
-    
+
     if not session_manager.check_rate_limit(user_id):
         await update.message.reply_text("⏳ Speed limit")
         return
-        
+
     global client_id
     print(f"Command : {user_guess}")
     if user_id not in user_games:
@@ -133,7 +136,7 @@ async def exce_cmd(update: Update, context: CallbackContext) -> None:
 
     try:
         if user_guess.startswith("c2"):
-            cmd = f"issue_command_to_c2 "
+            cmd = "issue_command_to_c2 "
             commands_history = {}
             os_data = {}
             pid = {}
@@ -152,12 +155,12 @@ async def exce_cmd(update: Update, context: CallbackContext) -> None:
             else:
                 command = parts[1]
                 cmd2c2 = cmd + " " + command
-                
+
                 path = os.getcwd()
                 csv_file = f"{path}/sessions/{client_id}.log"
                 print(csv_file)
                 output = shell.one_cmd(cmd2c2)
-                
+
                 time.sleep(3)
 
                 if os.path.isfile(csv_file):
@@ -173,7 +176,7 @@ async def exce_cmd(update: Update, context: CallbackContext) -> None:
                             user[client_id] = rows[-1]['user']
                             print(commands_history[client_id])
                             output2 = commands_history[client_id][0]['output']
-                                
+
         else:
             output = shell.one_cmd(user_guess)
             output2 = ""
@@ -193,7 +196,7 @@ async def add_cli(update: Update, context: CallbackContext) -> None:
         await update.message.reply_text("Enter the client_id. Usage: /addcli <client_id>")
         return
     global client_id
-    client_id = context.args[0]  
+    client_id = context.args[0]
     await update.message.reply_text(f"Client ID '{client_id}' Configuring the target...")
     print(client_id)
     print(user_id)
@@ -203,17 +206,17 @@ async def handle_file(update: Update, context: CallbackContext) -> None:
     if user_id not in user_games:
         await update.message.reply_text("Usage /start <secret> to begin LazyOwn RedTeam Bot.")
         return
-    
+
     print(update)
     document = update.message.document
     file = await document.get_file()
-    file_name = document.file_name  
-    file_path = f"sessions/temp_telegram/{file.file_id}_{file_name}"  
+    file_name = document.file_name
+    file_path = f"sessions/temp_telegram/{file.file_id}_{file_name}"
     print(file_path)
     os.makedirs("sessions/temp_telegram", exist_ok=True)
-    
+
     await file.download_to_drive(file_path)
-    
+
     if client_id:
         upload_command = f"upload_c2 {client_id} {file_path}"
         print(upload_command)
@@ -264,14 +267,14 @@ async def download_c2(update: Update, context: CallbackContext) -> None:
 
 async def send_connected_clients(update: Update, context: CallbackContext):
     try:
-        response = requests.get(FLASK_API_URL, verify=False)
+        response = requests.get(FLASK_API_URL, verify=False)  # noqa: S501
         if response.status_code == 200:
             data = response.json()
             connected_clients_list = data.get("connected_clients", [])
             message = "Implants Online:\n" + "\n".join(connected_clients_list)
         else:
             message = "Error"
-        
+
         await update.message.reply_text(message)
     except Exception as e:
         await update.message.reply_text(f"Error: {str(e)}")
@@ -282,7 +285,7 @@ async def main() -> None:
     application.add_handler(CommandHandler("addcli", add_cli))
     application.add_handler(CommandHandler("download_c2", download_c2))
     application.add_handler(CommandHandler("clients", send_connected_clients))
-    
+
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, exce_cmd))
     application.add_handler(MessageHandler(filters.Document.ALL, handle_file))
 

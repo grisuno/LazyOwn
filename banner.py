@@ -1,12 +1,12 @@
 """
 banner.py
 
-Autor: Gris Iscomeback 
+Autor: Gris Iscomeback
 Correo electrónico: grisiscomeback[at]gmail[dot]com
 Fecha de creación: 09/06/2024
 Licencia: GPL v3
 
-Descripción: Este archivo contiene la definición 
+Descripción: Este archivo contiene la definición
 de la lógica banners de la aplicaciòn LazyOwn RedTeam Framework
 
 ██╗      █████╗ ███████╗██╗   ██╗ ██████╗ ██╗    ██╗███╗   ██╗
@@ -18,7 +18,7 @@ de la lógica banners de la aplicaciòn LazyOwn RedTeam Framework
 
 """
 
-from utils import print_error, Image, os, sys, random, get_terminal_size
+from utils import get_terminal_size, os, print_error, random, sys
 
 ANSI_COLOR_TEMPLATE = "\033[48;2;{r};{g};{b}m  \033[0m"
 
@@ -49,7 +49,7 @@ def list_png_files():
     if not png_files:
         print_error("No PNG files found in the 'banners' directory.")
         sys.exit(1)
-    
+
     selected_image = random.choice(png_files)
     return os.path.join('banners', selected_image)
 
@@ -57,8 +57,8 @@ def main():
 
     rows, columns = get_terminal_size()
     if rows and columns:
-        #Make responsive image ;) feel like frontend 
-        
+        #Make responsive image ;) feel like frontend
+
         image_res = int(columns)
     else:
         image_res = 50
@@ -75,7 +75,7 @@ def main():
     elif '-h' in sys.argv or '--half' in sys.argv:
         image_res = 50
     else:
-        
+
         image_path = list_png_files()
 
     if not os.path.isfile(image_path):
@@ -85,5 +85,5 @@ def main():
     image_to_bash(image_path, image_res)
 
 if __name__ == "__main__":
-    
+
     main()

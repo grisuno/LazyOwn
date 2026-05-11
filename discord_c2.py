@@ -1,15 +1,16 @@
-import re
-import os
 import csv
 import json
-import time
+import os
 import random
-import asyncio
-import requests
+import re
+import time
+
 import discord
+import requests
 from discord.ext import commands
+
 from lazyown import LazyOwnShell
-from modules.lazygptcli5 import process_prompt_general, Groq
+from modules.lazygptcli5 import Groq, process_prompt_general
 
 """
 1333654599785119746 id
@@ -144,7 +145,7 @@ async def exce_cmd(ctx, *, command: str):
     try:
         output2 = ""  # Initialize output2 to avoid UnboundLocalError
         if command.startswith("c2"):
-            cmd = f"issue_command_to_c2 "
+            cmd = "issue_command_to_c2 "
             commands_history = {}
             os_data = {}
             pid = {}
@@ -248,7 +249,7 @@ async def download_c2(ctx, client_id: str, file_name: str):
 @bot.command()
 async def send_connected_clients(ctx):
     try:
-        response = requests.get(FLASK_API_URL, verify=False)
+        response = requests.get(FLASK_API_URL, verify=False)  # noqa: S501
         if response.status_code == 200:
             data = response.json()
             connected_clients_list = data.get("connected_clients", [])

@@ -26,7 +26,6 @@ from lazygui.theme.manager import ThemeManager
 from lazygui.windows.connect_dialog import ConnectDialog, ConnectionRequest
 from lazygui.windows.main_window import MainWindow
 
-
 _logger = logging.getLogger(__name__)
 
 

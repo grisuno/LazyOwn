@@ -1,14 +1,13 @@
-import sys
-import os
 import ast
-import subprocess
 import importlib.util
-import unittest
-import time
+import os
 import signal
+import subprocess
+import sys
+import unittest
 
 EXCLUDED_FUNCTIONS = {'__init__', 'default', 'one_cmd', 'qa', 'getseclist'}
-TIMEOUT = 0.1  
+TIMEOUT = 0.1
 
 def extract_functions(script_path):
     with open(script_path, "r") as file:
@@ -44,14 +43,14 @@ def run_tests_with_script(script_path, functions):
             setattr(
                 TestFunctions,
                 f'test_{func_name}',
-                lambda self, func=func: self.assertIsNotNone(func(), f"Function {func_name} failed.")
+                lambda self, func=func, name=func_name: self.assertIsNotNone(func(), f"Function {name} failed.")
             )
 
     unittest.TextTestRunner().run(unittest.TestLoader().loadTestsFromTestCase(TestFunctions))
 
 def run_command_with_timeout(command, timeout):
     process = subprocess.Popen(command, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, preexec_fn=os.setsid)
-    
+
     try:
         process.stdin.write('qa\n')
         process.stdin.flush()
@@ -83,7 +82,7 @@ def run_tests_with_bash(script_path, functions):
             print(f"[+]\033[32m Test passed for function: {func_name} \033[0m")
         else:
             print(f"[-]\033[31m Test failed for function: {func_name}\nOutput:\n{stdout}\nError:\n{stderr} \033[0m")
-    command = f"./run -c clean"
+    command = "./run -c clean"
     print(f"[+] Running command: {command}")
     returncode, stdout, stderr = run_command_with_timeout(command, TIMEOUT)
 

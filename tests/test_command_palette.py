@@ -1559,7 +1559,7 @@ class TestPaletteGraphLoader:
 
     def test_related_commands_uses_shared_helpers(self, synthetic_graph: dict[str, Any], tmp_path: Path) -> None:
         """Two commands sharing helpers appear as related; the third does not."""
-        from cli.palette_graph import related_commands, load_graph
+        from cli.palette_graph import load_graph, related_commands
 
         path = tmp_path / "g.json"
         path.write_text(json.dumps(synthetic_graph), encoding="utf-8")

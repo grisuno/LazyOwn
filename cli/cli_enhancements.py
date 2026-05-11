@@ -24,16 +24,14 @@ Design notes
 from __future__ import annotations
 
 import json
-import os
 import re
 import threading
 import time
 from abc import ABC, abstractmethod
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from difflib import SequenceMatcher
 from pathlib import Path
 from typing import Any, Callable, Iterable, Protocol, Sequence
-
 
 # ── Protocols (Interface Segregation) ────────────────────────────────────────
 
@@ -47,7 +45,7 @@ class PayloadProvider(Protocol):
 class CommandLister(Protocol):
     """Source of command metadata for indexing / fuzzy matching."""
 
-    def commands(self) -> list["CommandInfo"]: ...
+    def commands(self) -> list[CommandInfo]: ...
 
 
 class TerminalIO(Protocol):

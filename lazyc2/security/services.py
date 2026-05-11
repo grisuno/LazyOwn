@@ -11,11 +11,9 @@ from pathlib import Path
 from lazyc2.security.constants import (
     AES_KEY_SIZE_BYTES,
     FILE_PERMISSION_OWNER_RW,
-    DIR_PERMISSION_OWNER_RWX,
-    SESSIONS_DIR_NAME,
     MAX_UPLOAD_SIZE_BYTES,
 )
-from lazyc2.security.validators import validate_file_path_within_base, validate_aes_key
+from lazyc2.security.validators import validate_aes_key, validate_file_path_within_base
 
 
 class SecretKeyManager:

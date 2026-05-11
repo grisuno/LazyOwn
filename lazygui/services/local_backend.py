@@ -148,7 +148,7 @@ class LocalPtyBackend(Backend):
         """Replace the forked child with ``run`` inside the project root."""
         try:
             os.chdir(self._paths.project_root)
-            os.execvp(self._constants.pty.spawn_executable, list(self._constants.pty.spawn_argv))
+            os.execvp(self._constants.pty.spawn_executable, list(self._constants.pty.spawn_argv))  # noqa: S606
         except OSError as exc:
             os.write(2, f"Failed to spawn LazyOwn console: {exc}\n".encode())
             os._exit(127)

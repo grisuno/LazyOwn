@@ -29,7 +29,7 @@ import pytest
 _ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(_ROOT / "skills"))
 
-from lazyown_mcp_helpers import (
+from lazyown_mcp_helpers import (  # noqa: E402
     DEFAULT_FRESHNESS_THRESHOLD_SECONDS,
     JobStore,
     audit_tasks,
@@ -43,7 +43,6 @@ from lazyown_mcp_helpers import (
     preflight_command,
     take_snapshot,
 )
-
 
 # ── is_likely_credential ─────────────────────────────────────────────────────
 

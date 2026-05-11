@@ -1,35 +1,36 @@
-import os
-import time
-import cmd2
-import logging
-import json
-import requests
-import sqlite3
 import datetime
-import re
-import queue
-import tempfile
 import hashlib
-from watchdog.observers import Observer
-from watchdog.events import FileSystemEventHandler
+import json
+import logging
+import os
+import queue
+import re
+import sqlite3
+import time
 from pathlib import Path
-from typing import List, Dict, Optional, Tuple
+from typing import Dict, List, Optional, Tuple
+
+import cmd2
+import requests
 from cachetools import LRUCache
-from rich.console import Console
-from rich.panel import Panel
-from rich.text import Text
-from rich.live import Live
+from langchain_chroma import Chroma
 
 # RAG imports
 from langchain_community.document_loaders import PyMuPDFLoader, TextLoader
-from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_chroma import Chroma
 from langchain_ollama import OllamaEmbeddings
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from rich.console import Console
+from rich.live import Live
+from rich.panel import Panel
+from rich.text import Text
+from watchdog.events import FileSystemEventHandler
+from watchdog.observers import Observer
+
 try:
+    import cachetools  # noqa: F401
+    import chromadb  # noqa: F401
     import ollama
-    import chromadb
-    import cachetools
-    import rich
+    import rich  # noqa: F401
 except ImportError as e:
     print(f"Error: Missing required library: {e}")
     print("Please install with: pip install langchain langchain-community chromadb ollama cachetools rich")
@@ -54,7 +55,7 @@ def sanitize_content(text: str) -> str:
 
 class RAGManager:
     """Manages RAG functionality with CAG caching for document processing and querying."""
-    
+
     def __init__(self, model_name: str = DEEPSEEK_MODEL, cache_size: int = 1000):
         self.model_name = model_name
         self.embeddings = OllamaEmbeddings(model=model_name)
@@ -66,7 +67,7 @@ class RAGManager:
         self.db = Database("lazysentinel.db")
         self.load_existing_vectorstore()
         self.initialize_cache_table()
-    
+
     def initialize_cache_table(self):
         query = """
             CREATE TABLE IF NOT EXISTS rag_cache (
@@ -78,10 +79,10 @@ class RAGManager:
         """
         self.db.execute(query)
         logging.info("Initialized RAG cache table")
-    
+
     def get_cache_key(self, content: str) -> str:
         return hashlib.sha256(content.encode('utf-8')).hexdigest()
-    
+
     def load_existing_vectorstore(self):
         try:
             if os.path.exists(self.persist_dir):
@@ -94,7 +95,7 @@ class RAGManager:
             logging.error(f"Error loading vectorstore: {e}")
             self.vectorstore = None
             self.retriever = None
-    
+
     def ollama_llm(self, question: str, context: str) -> str:
         formatted_prompt = f"Question: {question}\n\nContext: {context}"
         try:
@@ -108,7 +109,7 @@ class RAGManager:
         except Exception as e:
             logging.error(f"Error querying Ollama: {e}")
             return f"Error querying LLM: {str(e)}"
-    
+
     def process_file_to_rag(self, file_path: Path) -> bool:
         try:
             file_extension = file_path.suffix.lower()
@@ -142,8 +143,8 @@ class RAGManager:
                     ))
             if self.vectorstore is None:
                 self.vectorstore = Chroma.from_documents(
-                    documents=chunks, 
-                    embedding=self.embeddings, 
+                    documents=chunks,
+                    embedding=self.embeddings,
                     persist_directory=self.persist_dir
                 )
                 self.retriever = self.vectorstore.as_retriever()
@@ -155,7 +156,7 @@ class RAGManager:
         except Exception as e:
             logging.error(f"Error processing file for RAG: {e}")
             return False
-    
+
     def query_rag(self, question: str) -> str:
         if self.retriever is None:
             return "No knowledge base available. Please process some files first."
@@ -182,7 +183,7 @@ class RAGManager:
         except Exception as e:
             logging.error(f"Error querying RAG: {e}")
             return f"Error querying knowledge base: {str(e)}"
-    
+
     def invalidate_cache(self, file_path: Path):
         try:
             with file_path.open('r', encoding='utf-8') as f:
@@ -198,7 +199,7 @@ class RAGManager:
             logging.info(f"Invalidated cache for {file_path}")
         except Exception as e:
             logging.error(f"Error invalidating cache for {file_path}: {e}")
-    
+
     def get_knowledge_base_stats(self) -> Dict:
         if self.vectorstore is None:
             return {
@@ -273,13 +274,13 @@ class Database:
             logging.error(f"Error al insertar datos: {e}, Query: {query}, Params: {params}")
             try:
                 conn.rollback()
-            except:
+            except Exception:
                 pass
             return None
 
 class Alert:
     SEVERITY_LEVELS = ["info", "low", "medium", "high", "critical"]
-    
+
     def __init__(self, alert_type: str, details: Dict, severity: str = "medium"):
         self.alert_type = alert_type
         self.details = details
@@ -318,7 +319,7 @@ class LazySentinelHandler(FileSystemEventHandler):
         try:
             with file_path.open('rb') as f:
                 return b'\x00' not in f.read(1024)
-        except:
+        except Exception:
             return False
 
     def on_created(self, event):

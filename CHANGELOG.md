@@ -6,6 +6,13 @@
 
 ### Otros
 
+  *   * feat(feat): some improvements in autonomous loop \n\n Version: release/0.2.110 \n\n with love \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: lun 11 may 2026 01:45:03 -04 \n\n Hora: 1778478303
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): dashboards \n\n Version: release/0.2.109 \n\n new dashboard \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: lun 11 may 2026 00:44:42 -04 \n\n Hora: 1778474682
 
 

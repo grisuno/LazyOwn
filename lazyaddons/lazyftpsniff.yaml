@@ -1,17 +1,18 @@
 name: lazyftpsniff
-description: >
-  Ejecuta el script lazyftpsniff.py que se encuentra en la carpeta modules.
-author: "LazyOwn RedTeam"
-version: "1.0"
+description: 'Ejecuta el script lazyftpsniff.py que se encuentra en la carpeta modules.
+
+  '
+author: LazyOwn RedTeam
+version: '1.0'
 enabled: true
 params:
-   - name: device
-     type: string
-     required: false
-     description: device interface to use in the script
+- name: device
+  type: string
+  required: false
+  description: device interface to use in the script
 tool:
   name: lazyftpsniff
-  repo_url: https://github.com/grisuno/LazyOwn.git  # No es necesario, ya que el script está localmente
-  install_path: modules/  # Asegúrate de que esta ruta sea correcta
-  execute_command: |
-   python3  lazyftpsniff.py -i {{ device }}
+  repo_url: https://github.com/grisuno/LazyOwn.git
+  install_path: modules/
+  execute_command: python3  lazyftpsniff.py -i {{ device }}
+category: 12. Miscellaneous

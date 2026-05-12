@@ -272,9 +272,14 @@ etc.</p>
 <p>This method scans the ‘lazyaddons/’ directory, reads each YAML file,
 and registers enabled plugins as new commands.</p>
 <h2 id="register_yaml_plugin">register_yaml_plugin</h2>
-<p>Registers a YAML plugin as a new command.</p>
-<p>This method creates a dynamic command based on the plugin’s
-configuration and assigns it to the application.</p>
+<p>Register a YAML addon as a shell command.</p>
+<p>Reads the optional <code>category</code> field from the addon YAML
+(falls back to <code>"14. Yaml Addon."</code> when absent) and sets the
+cmd2 category attribute on the wrapper so the command appears in the
+correct palette section without any hardcoded string in this method.</p>
+<p>Also reads the optional <code>tags</code> list for future palette
+filtering, and performs a lightweight dependency check before first
+execution.</p>
 <h2
 id="register_all_adversary_commands">register_all_adversary_commands</h2>
 <p>No description available.</p>
@@ -307,6 +312,8 @@ shell.do_EOF(None) LazyOwn say Goodbye! (shell exits)</p>
 <h2 id="completedefault">completedefault</h2>
 <p>Fall through to the payload-aware completer for unhandled
 commands.</p>
+<h2 id="preloop">preloop</h2>
+<p>Print a session-start pro tip after the banner, once per session.</p>
 <h2 id="postloop">postloop</h2>
 <p>Handle operations to perform after exiting the command loop.</p>
 <p>This method is called after the command loop terminates, typically
@@ -323,6 +330,101 @@ library’s command loop after the loop terminates. You can override it in
 a subclass to customize its behavior.</p>
 <p>Example: &gt;&gt;&gt; shell = LazyOwnShell() &gt;&gt;&gt;
 shell.cmdloop() # Exits the command loop GoodBye LazyOwner</p>
+<h2 id="wizard">wizard</h2>
+<p>Guided first-run setup wizard — configure rhost, lhost, domain,
+wordlists and more.</p>
+<p>Walks the operator through the seven essential configuration values
+with auto-detection (lhost from routing table, wordlist paths from
+SecLists), live ping validation for rhost, and a readiness summary at
+the end.</p>
+<p>Usage: <code>wizard</code> — start interactive setup
+<code>wizard --check</code> — show readiness summary only, no
+prompts</p>
+<p>Both novice and experienced operators can use this: - Novices:
+step-by-step prompts with clear descriptions. - Experts: press Enter to
+accept auto-detected values; Ctrl-C to abort.</p>
+<h2 id="ctx">ctx</h2>
+<p>Print a single-line operator context: rhost, lhost, domain, phase,
+os, creds.</p>
+<p>No arguments. Reads payload.json and sessions/world_model.json. Fast
+— suitable to run between every command for situational awareness.</p>
+<p>Usage: <code>ctx</code></p>
+<h2 id="tgrep">tgrep</h2>
+<p>Search across all previous command outputs and session logs.</p>
+<p>Searches in: sessions/_cli_transcript.jsonl (full outputs),
+sessions/LazyOwn_session_report.csv (command list), and
+sessions/logs/*.txt (tool output files). Useful for recalling
+credentials, open ports, or any string from earlier in the session.</p>
+<p>Usage: <code>tgrep &lt;pattern&gt;</code> <code>tgrep password</code>
+<code>tgrep '10\.10\.11'</code> <code>tgrep Administrator</code></p>
+<h2 id="phase">phase</h2>
+<p>Get or set the current kill-chain phase.</p>
+<p>When called without arguments, shows the current phase and the full
+kill-chain progress bar. When called with a phase name, updates
+sessions/world_model.json — the dashboard reflects the change on its
+next refresh (within 5 s).</p>
+<p>Valid phases: recon scan enum exploit privesc lateral exfil
+report</p>
+<p>Usage: <code>phase</code> — show current phase and progress bar
+<code>phase exploit</code> — move to exploit phase
+<code>phase privesc</code> — advance to privilege escalation</p>
+<p>The phase drives the inline hints and the kill-chain panel in the
+operator dashboard. Advancing a phase also marks the previous one as
+completed in the dashboard progress bar.</p>
+<h2 id="complete_phase">complete_phase</h2>
+<p>Tab-complete phase names.</p>
+<h2 id="note">note</h2>
+<p>Capture a quick operator note attached to the current target and
+phase.</p>
+<p>Notes land in sessions/notes.jsonl with timestamp, rhost, and phase
+so they survive session restarts and show up in reports.</p>
+<p>Usage: <code>note</code> — list recent notes for current rhost
+<code>note &lt;text&gt;</code> — save a note for current rhost/phase
+<code>note -a</code> — list all notes (all targets)
+<code>note Found admin creds in /etc/shadow</code>
+<code>note SMB signing disabled on DC01</code></p>
+<h2 id="l00t">l00t</h2>
+<p>Show a unified table of all captured credentials and hashes.</p>
+<p>Reads every credentials<em>.txt and hash</em>.txt in sessions/ and
+displays them in a single deduplicated table. Duplicates across files
+are shown dimmed. Cleartext passwords in green, hashes in red.</p>
+<p>Usage: <code>l00t</code></p>
+<h2 id="pivot">pivot</h2>
+<p>Record a newly discovered pivot target or show the pivot chain.</p>
+<p>When you compromise a host and discover a new reachable network/IP,
+record it here. The pivot chain is stored in sessions/pivots.jsonl and
+survives session restarts.</p>
+<p>Usage: <code>pivot</code> — show full pivot chain
+<code>pivot &lt;new-ip&gt;</code> — record pivot via current rhost
+<code>pivot &lt;new-ip&gt; &lt;note&gt;</code> — record with a free-form
+note <code>pivot 10.10.10.50</code>
+<code>pivot 10.10.10.50 SMB open, admin share accessible</code></p>
+<h2 id="tasks">tasks</h2>
+<p>View and manage the task queue from sessions/tasks.json.</p>
+<p>Tasks are created automatically by world_model_watcher and the
+autonomous daemon, and can also be added manually. Each task has an id,
+title, status (New/Started/Done/Blocked), and operator.</p>
+<p>Usage: <code>tasks</code> — show active tasks (New + Started)
+<code>tasks --all</code> — show all tasks including Done
+<code>tasks add &lt;text&gt;</code> — create a new task
+<code>tasks done &lt;id&gt;</code> — mark task as Done
+<code>tasks start &lt;id&gt;</code> — mark task as Started</p>
+<h2 id="scans">scans</h2>
+<p>List nmap scan files in sessions/ with age, size, and open ports.</p>
+<p>Without arguments shows all scan files. With an IP filters to scans
+for that target only.</p>
+<p>Usage: <code>scans</code> — all scan files
+<code>scans 10.10.11.5</code> — scans for that host only
+<code>scans rhost</code> — shortcut for current rhost</p>
+<h2 id="sitrep">sitrep</h2>
+<p>Print a unified operational situation report.</p>
+<p>Aggregates in one view: target/attacker/domain, current phase and OS,
+nmap scans found for the active target, captured credentials and hashes,
+tasks backlog (New/Started/Done), operator notes, pivot chain, and world
+model host/vuln/cred counts.</p>
+<p>Run this at the start of a shift, after pivoting to a new target, or
+whenever you need a quick ‘where are we?’ during the engagement.</p>
+<p>Usage: <code>sitrep</code></p>
 <h2 id="assign">assign</h2>
 <p>assign a parameter value, persist to payload.json and refresh
 aliases.</p>
@@ -1990,16 +2092,18 @@ command: openssl s_client -connect <target_ip>:<port></p>
 hostname of the target server and <code>&lt;port&gt;</code> with the
 port number. For example: openssl s_client -connect 10.10.10.10:443</p>
 <h2 id="ss">ss</h2>
-<p>Uses <code>searchsploit</code> to search for exploits in the Exploit
-Database based on the provided search term.</p>
-<p>:param line: The search term or query to find relevant exploits. This
-must be provided as an argument.</p>
-<p>:returns: None</p>
-<p>Manual execution: To manually search for exploits using
-<code>searchsploit</code>, use the following command: searchsploit
-<search_term></p>
-<p>Replace <code>&lt;search_term&gt;</code> with the term or keyword you
-want to search for. For example: searchsploit kernel</p>
+<p>Search all exploit sources and map findings to the next LazyOwn
+command.</p>
+<p>Without arguments: reads the nmap XML for the current rhost, extracts
+every open service+version, searches all sources for each one, saves
+structured results to sessions/ss_results_<rhost>.json, creates tasks
+for services with hits, and prints a ‘what to try next’ table.</p>
+<p>With a manual query: runs the full multi-source search (searchsploit,
+NVD, ExploitAlert, PacketStorm, MSF, Sploitus) for that term and shows
+recommended commands for the matching service.</p>
+<p>Usage: <code>ss</code> — auto-scan from nmap XML for current rhost
+<code>ss apache 2.4.49</code> — manual query <code>ss OpenSSH 8.4</code>
+— manual query</p>
 <h2 id="wfuzz">wfuzz</h2>
 <p>Uses <code>wfuzz</code> to perform fuzzing based on provided
 parameters. This function supports various options for directory and
@@ -5290,6 +5394,64 @@ privileges by checking the effective user ID. If the script is not
 running as root, it prints a warning message and restarts the script
 using sudo.</p>
 <p>:return: None</p>
+<h2 id="linpeas">linpeas</h2>
+<p>Serve linpeas.sh via HTTP and print the one-liner to run on the
+target.</p>
+<p>Looks for linpeas.sh in /usr/share/peass/linpeas/ and the external/
+directory. Starts a background HTTP server on lhost:lport, then prints
+the exact curl/wget command to paste on the compromised host.</p>
+<p>Usage: <code>linpeas</code> — serve linpeas.sh (full)
+<code>linpeas small</code> — serve linpeas_small.sh</p>
+<h2 id="winpeas">winpeas</h2>
+<p>Serve winPEAS via HTTP and print the one-liner to run on the
+target.</p>
+<p>Looks for winPEAS executables in /usr/share/peass/winpeas/. Starts a
+background HTTP server on lhost:lport so the target can download and run
+the binary.</p>
+<p>Usage: <code>winpeas</code> — serve winPEASx64.exe
+<code>winpeas x86</code> — serve winPEASx86.exe <code>winpeas bat</code>
+— serve winPEAS.bat (no AV evasion) <code>winpeas ps1</code> — serve
+winPEAS.ps1</p>
+<h2 id="les">les</h2>
+<p>Run Linux Exploit Suggester against the current target’s kernel
+info.</p>
+<p>Reads the kernel version from sessions/os.json or prompts for it,
+then runs les.sh locally to suggest kernel exploits.</p>
+<p>Usage: <code>les</code> — auto-read kernel from sessions/os.json
+<code>les 5.15.0-91-generic</code> — specify kernel version manually</p>
+<h2 id="suid_check">suid_check</h2>
+<p>Print SUID/SGID enumeration commands for the current target OS.</p>
+<p>Outputs ready-to-paste shell one-liners for finding SUID binaries.
+After running them on the target, use ‘gtfo <binary>’ to look up
+GTFOBins for each result.</p>
+<p>Usage: <code>suid_check</code></p>
+<h2 id="pspy">pspy</h2>
+<p>Serve pspy (process spy without root) via HTTP for the target to
+download.</p>
+<p>pspy monitors processes without requiring root. Useful for catching
+cron jobs, scripts run by root, and credential leaks in process
+args.</p>
+<p>Usage: <code>pspy</code> — serve pspy64 (default)
+<code>pspy 32</code> — serve pspy32</p>
+<h2 id="gtfo">gtfo</h2>
+<p>Look up a binary in GTFOBins / LOLBas and show exploitation
+techniques.</p>
+<p>Uses the local parquet knowledge bases (parquets/detalles.parquet for
+GTFOBins, parquets/lolbas_details.parquet for LOLBas) so results are
+instant and work offline.</p>
+<p>Usage: <code>gtfo sudo</code> <code>gtfo find</code>
+<code>gtfo python3</code> <code>gtfo certutil</code> (LOLBas —
+Windows)</p>
+<h2 id="ask">ask</h2>
+<p>Ask the AI a question with current session context pre-loaded.</p>
+<p>Injects rhost, lhost, phase, OS, latest scan summary, and recent
+commands into the prompt so the AI can give targeted advice without you
+having to copy-paste context manually.</p>
+<p>Requires api_key to be set (assign api_key <groq-key>).</p>
+<p>Usage:
+<code>ask what are the best privesc paths for this Linux host?</code>
+<code>ask what services look exploitable on this target?</code>
+<code>ask how do I exploit SMB signing disabled?</code></p>
 <h2 id="netview">netview</h2>
 <p>Executes the Impacket netview tool to list network shares on a
 specified target.</p>
@@ -6994,6 +7156,10 @@ immediately and persist across the web server.</p>
 <h2 id="cmd_wrapper">cmd_wrapper</h2>
 <p>No description available.</p>
 <h2 id="show_toastr">show_toastr</h2>
+<p>No description available.</p>
+<h2 id="save">_save</h2>
+<p>No description available.</p>
+<h2 id="run_single_search">_run_single_search</h2>
 <p>No description available.</p>
 <h2 id="find_tgts">find_tgts</h2>
 <p>Finds and returns a list of target hosts with port 445 open in the

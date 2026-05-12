@@ -1,32 +1,25 @@
 name: lazyaddon_creator
-description: >
-  Genera automáticamente un addon YAML de LazyOwn a partir de una URL de GitHub.
-  Obtiene metadata del repo via GitHub API, parsea el README y la estructura de
-  archivos, consulta un LLM (Groq/Ollama) para inferir comandos de instalacion y
-  ejecucion, y vuelca el resultado como un nuevo archivo .yaml en lazyaddons/.
-  Si no hay LLM disponible, usa heuristicas locales como fallback.
-
-  Uso dentro de LazyOwn:
-    lazyaddon_creator https://github.com/user/repo
-    lazyaddon_creator https://github.com/user/repo --dry-run
-    lazyaddon_creator https://github.com/user/repo --mock
-    lazyaddon_creator https://github.com/user/repo --provider groq
-
-  Los flags (--dry-run, --mock, --provider) se pasan como argumentos libres despues
-  de la URL.
-
-author: "LazyOwn RedTeam"
-version: "1.0"
+description: "Genera automáticamente un addon YAML de LazyOwn a partir de una URL\
+  \ de GitHub. Obtiene metadata del repo via GitHub API, parsea el README y la estructura\
+  \ de archivos, consulta un LLM (Groq/Ollama) para inferir comandos de instalacion\
+  \ y ejecucion, y vuelca el resultado como un nuevo archivo .yaml en lazyaddons/.\
+  \ Si no hay LLM disponible, usa heuristicas locales como fallback.\nUso dentro de\
+  \ LazyOwn:\n  lazyaddon_creator https://github.com/user/repo\n  lazyaddon_creator\
+  \ https://github.com/user/repo --dry-run\n  lazyaddon_creator https://github.com/user/repo\
+  \ --mock\n  lazyaddon_creator https://github.com/user/repo --provider groq\n\nLos\
+  \ flags (--dry-run, --mock, --provider) se pasan como argumentos libres despues\
+  \ de la URL.\n"
+author: LazyOwn RedTeam
+version: '1.0'
 enabled: true
-
 params:
-  - name: url
-    type: string
-    required: true
-    description: URL del repositorio GitHub a analizar
-
+- name: url
+  type: string
+  required: true
+  description: URL del repositorio GitHub a analizar
 tool:
   name: lazyaddon_creator
   repo_url: https://github.com/grisuno/LazyOwn.git
   install_path: .
   execute_command: python3 modules/lazyaddon_creator.py "{url}"
+category: 11. Reporting

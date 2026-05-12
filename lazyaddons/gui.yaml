@@ -1,12 +1,13 @@
 name: gui
-description: >
-  Start the GUI of our C2
-author: "LazyOwn RedTeam"
-version: "1.0"
+description: 'Start the GUI of our C2
+
+  '
+author: LazyOwn RedTeam
+version: '1.0'
 enabled: true
 tool:
   name: gui
-  repo_url: https://github.com/grisuno/LazyOwn.git 
+  repo_url: https://github.com/grisuno/LazyOwn.git
   install_path: modules/
-  execute_command: |
-   python3 -W ignore gui.py
+  execute_command: python3 -W ignore gui.py
+category: 12. Miscellaneous

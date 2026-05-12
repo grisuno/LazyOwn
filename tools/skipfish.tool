@@ -1,6 +1,13 @@
 {
-    "toolname": "skipfish_tool",
-    "command": "skipfish -o {outputdir} -S /usr/share/skipfish/dictionaries/complete.wl http{s}://{ip}:{port}",
-    "trigger": ["http", "https", "http-mgmt", "http-alt"],
-    "active": false
+  "toolname": "skipfish_tool",
+  "command": "skipfish -o {outputdir} -S /usr/share/skipfish/dictionaries/complete.wl http{s}://{ip}:{port}",
+  "trigger": [
+    "http",
+    "https",
+    "http-mgmt",
+    "http-alt"
+  ],
+  "active": false,
+  "category": "02. Scanning & Enumeration",
+  "description": "Pwntomate tool: skipfish_tool \u2014 triggers on ['http', 'https', 'http-mgmt', 'http-alt']"
 }

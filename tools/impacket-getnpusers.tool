@@ -1,6 +1,10 @@
 {
-    "toolname": "getNPUsers_tool",
-    "command": "GetNPUsers.py {domain}/{username}:{password} -dc-ip {ip} -request > {outputdir}/getNPUsers.txt",
-    "trigger": ["kerberos-sec"],
-    "active": true
+  "toolname": "getNPUsers_tool",
+  "command": "GetNPUsers.py {domain}/{username}:{password} -dc-ip {ip} -request > {outputdir}/getNPUsers.txt",
+  "trigger": [
+    "kerberos-sec"
+  ],
+  "active": true,
+  "category": "07. Credential Access",
+  "description": "Pwntomate tool: getNPUsers_tool \u2014 triggers on ['kerberos-sec']"
 }

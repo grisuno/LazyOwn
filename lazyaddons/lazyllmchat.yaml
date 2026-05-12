@@ -1,20 +1,17 @@
 name: llm
-description: >
-  LazyOwn LLM Chat Assistant. Activates an interactive AI chatbot
-  inside LazyOwn that analyzes command outputs, reads session context,
-  and suggests next steps. Usage:
-    llm                    Start interactive LLM chat
-    llm how do I enum SMB?  Direct query and enter chat mode
-  Inside chat:
-    llm <query>            Ask the AI directly
-    <command>              Run LazyOwn or shell command and get AI analysis
-    sh <command>           Run raw shell command and get AI analysis
-    exit                   Return to LazyOwn shell
-author: "LazyOwn RedTeam"
-version: "1.0"
+description: "LazyOwn LLM Chat Assistant. Activates an interactive AI chatbot inside\
+  \ LazyOwn that analyzes command outputs, reads session context, and suggests next\
+  \ steps. Usage:\n  llm                    Start interactive LLM chat\n  llm how\
+  \ do I enum SMB?  Direct query and enter chat mode\nInside chat:\n  llm <query>\
+  \            Ask the AI directly\n  <command>              Run LazyOwn or shell\
+  \ command and get AI analysis\n  sh <command>           Run raw shell command and\
+  \ get AI analysis\n  exit                   Return to LazyOwn shell\n"
+author: LazyOwn RedTeam
+version: '1.0'
 enabled: true
 tool:
   name: lazyllmchat
   repo_url: https://github.com/grisuno/LazyOwn.git
   install_path: modules/
   execute_command: python3 lazyllmchat.py
+category: 02. Scanning & Enumeration

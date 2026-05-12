@@ -2931,10 +2931,15 @@ This method scans the 'lazyaddons/' directory, reads each YAML file,
 and registers enabled plugins as new commands.
 
 ## register_yaml_plugin
-Registers a YAML plugin as a new command.
+Register a YAML addon as a shell command.
 
-This method creates a dynamic command based on the plugin's configuration
-and assigns it to the application.
+Reads the optional ``category`` field from the addon YAML (falls back
+to ``"14. Yaml Addon."`` when absent) and sets the cmd2 category
+attribute on the wrapper so the command appears in the correct palette
+section without any hardcoded string in this method.
+
+Also reads the optional ``tags`` list for future palette filtering, and
+performs a lightweight dependency check before first execution.
 
 ## register_all_adversary_commands
 No description available.
@@ -2979,6 +2984,9 @@ Example:
 ## completedefault
 Fall through to the payload-aware completer for unhandled commands.
 
+## preloop
+Print a session-start pro tip after the banner, once per session.
+
 ## postloop
 Handle operations to perform after exiting the command loop.
 
@@ -3001,6 +3009,142 @@ Example:
     >>> shell = LazyOwnShell()
     >>> shell.cmdloop()  # Exits the command loop
     GoodBye LazyOwner
+
+## wizard
+Guided first-run setup wizard — configure rhost, lhost, domain, wordlists and more.
+
+Walks the operator through the seven essential configuration values with
+auto-detection (lhost from routing table, wordlist paths from SecLists),
+live ping validation for rhost, and a readiness summary at the end.
+
+Usage:
+    ``wizard``         — start interactive setup
+    ``wizard --check`` — show readiness summary only, no prompts
+
+Both novice and experienced operators can use this:
+- Novices: step-by-step prompts with clear descriptions.
+- Experts: press Enter to accept auto-detected values; Ctrl-C to abort.
+
+## ctx
+Print a single-line operator context: rhost, lhost, domain, phase, os, creds.
+
+No arguments. Reads payload.json and sessions/world_model.json. Fast —
+suitable to run between every command for situational awareness.
+
+Usage:
+    ``ctx``
+
+## tgrep
+Search across all previous command outputs and session logs.
+
+Searches in: sessions/_cli_transcript.jsonl (full outputs),
+sessions/LazyOwn_session_report.csv (command list), and
+sessions/logs/*.txt (tool output files). Useful for recalling
+credentials, open ports, or any string from earlier in the session.
+
+Usage:
+    ``tgrep <pattern>``
+    ``tgrep password``
+    ``tgrep '10\.10\.11'``
+    ``tgrep Administrator``
+
+## phase
+Get or set the current kill-chain phase.
+
+When called without arguments, shows the current phase and the
+full kill-chain progress bar. When called with a phase name,
+updates sessions/world_model.json — the dashboard reflects the
+change on its next refresh (within 5 s).
+
+Valid phases: recon scan enum exploit privesc lateral exfil report
+
+Usage:
+    ``phase``               — show current phase and progress bar
+    ``phase exploit``       — move to exploit phase
+    ``phase privesc``       — advance to privilege escalation
+
+The phase drives the inline hints and the kill-chain panel in the
+operator dashboard. Advancing a phase also marks the previous one
+as completed in the dashboard progress bar.
+
+## complete_phase
+Tab-complete phase names.
+
+## note
+Capture a quick operator note attached to the current target and phase.
+
+Notes land in sessions/notes.jsonl with timestamp, rhost, and phase
+so they survive session restarts and show up in reports.
+
+Usage:
+    ``note``                    — list recent notes for current rhost
+    ``note <text>``             — save a note for current rhost/phase
+    ``note -a``                 — list all notes (all targets)
+    ``note Found admin creds in /etc/shadow``
+    ``note SMB signing disabled on DC01``
+
+## l00t
+Show a unified table of all captured credentials and hashes.
+
+Reads every credentials*.txt and hash*.txt in sessions/ and displays
+them in a single deduplicated table. Duplicates across files are shown
+dimmed. Cleartext passwords in green, hashes in red.
+
+Usage:
+    ``l00t``
+
+## pivot
+Record a newly discovered pivot target or show the pivot chain.
+
+When you compromise a host and discover a new reachable network/IP,
+record it here. The pivot chain is stored in sessions/pivots.jsonl
+and survives session restarts.
+
+Usage:
+    ``pivot``                        — show full pivot chain
+    ``pivot <new-ip>``               — record pivot via current rhost
+    ``pivot <new-ip> <note>``        — record with a free-form note
+    ``pivot 10.10.10.50``
+    ``pivot 10.10.10.50 SMB open, admin share accessible``
+
+## tasks
+View and manage the task queue from sessions/tasks.json.
+
+Tasks are created automatically by world_model_watcher and the
+autonomous daemon, and can also be added manually. Each task has
+an id, title, status (New/Started/Done/Blocked), and operator.
+
+Usage:
+    ``tasks``             — show active tasks (New + Started)
+    ``tasks --all``       — show all tasks including Done
+    ``tasks add <text>``  — create a new task
+    ``tasks done <id>``   — mark task as Done
+    ``tasks start <id>``  — mark task as Started
+
+## scans
+List nmap scan files in sessions/ with age, size, and open ports.
+
+Without arguments shows all scan files. With an IP filters to scans
+for that target only.
+
+Usage:
+    ``scans``              — all scan files
+    ``scans 10.10.11.5``   — scans for that host only
+    ``scans rhost``        — shortcut for current rhost
+
+## sitrep
+Print a unified operational situation report.
+
+Aggregates in one view: target/attacker/domain, current phase and OS,
+nmap scans found for the active target, captured credentials and
+hashes, tasks backlog (New/Started/Done), operator notes, pivot chain,
+and world model host/vuln/cred counts.
+
+Run this at the start of a shift, after pivoting to a new target, or
+whenever you need a quick 'where are we?' during the engagement.
+
+Usage:
+    ``sitrep``
 
 ## assign
 assign a parameter value, persist to payload.json and refresh aliases.
@@ -4707,18 +4851,21 @@ Replace `<target_ip>` with the IP address or hostname of the target server and `
     openssl s_client -connect 10.10.10.10:443
 
 ## ss
-Uses `searchsploit` to search for exploits in the Exploit Database based on the provided search term.
+Search all exploit sources and map findings to the next LazyOwn command.
 
-:param line: The search term or query to find relevant exploits. This must be provided as an argument.
+Without arguments: reads the nmap XML for the current rhost, extracts
+every open service+version, searches all sources for each one, saves
+structured results to sessions/ss_results_<rhost>.json, creates tasks
+for services with hits, and prints a 'what to try next' table.
 
-:returns: None
+With a manual query: runs the full multi-source search (searchsploit,
+NVD, ExploitAlert, PacketStorm, MSF, Sploitus) for that term and shows
+recommended commands for the matching service.
 
-Manual execution:
-To manually search for exploits using `searchsploit`, use the following command:
-    searchsploit <search_term>
-
-Replace `<search_term>` with the term or keyword you want to search for. For example:
-    searchsploit kernel
+Usage:
+    ``ss``                  — auto-scan from nmap XML for current rhost
+    ``ss apache 2.4.49``    — manual query
+    ``ss OpenSSH 8.4``      — manual query
 
 ## wfuzz
 Uses `wfuzz` to perform fuzzing based on provided parameters. This function supports various options for directory and file fuzzing.
@@ -9799,6 +9946,87 @@ it prints a warning message and restarts the script using sudo.
 
 :return: None
 
+## linpeas
+Serve linpeas.sh via HTTP and print the one-liner to run on the target.
+
+Looks for linpeas.sh in /usr/share/peass/linpeas/ and the external/
+directory. Starts a background HTTP server on lhost:lport, then prints
+the exact curl/wget command to paste on the compromised host.
+
+Usage:
+    ``linpeas``          — serve linpeas.sh (full)
+    ``linpeas small``    — serve linpeas_small.sh
+
+## winpeas
+Serve winPEAS via HTTP and print the one-liner to run on the target.
+
+Looks for winPEAS executables in /usr/share/peass/winpeas/. Starts
+a background HTTP server on lhost:lport so the target can download
+and run the binary.
+
+Usage:
+    ``winpeas``          — serve winPEASx64.exe
+    ``winpeas x86``      — serve winPEASx86.exe
+    ``winpeas bat``      — serve winPEAS.bat (no AV evasion)
+    ``winpeas ps1``      — serve winPEAS.ps1
+
+## les
+Run Linux Exploit Suggester against the current target's kernel info.
+
+Reads the kernel version from sessions/os.json or prompts for it,
+then runs les.sh locally to suggest kernel exploits.
+
+Usage:
+    ``les``                   — auto-read kernel from sessions/os.json
+    ``les 5.15.0-91-generic`` — specify kernel version manually
+
+## suid_check
+Print SUID/SGID enumeration commands for the current target OS.
+
+Outputs ready-to-paste shell one-liners for finding SUID binaries.
+After running them on the target, use 'gtfo <binary>' to look up
+GTFOBins for each result.
+
+Usage:
+    ``suid_check``
+
+## pspy
+Serve pspy (process spy without root) via HTTP for the target to download.
+
+pspy monitors processes without requiring root. Useful for catching
+cron jobs, scripts run by root, and credential leaks in process args.
+
+Usage:
+    ``pspy``       — serve pspy64 (default)
+    ``pspy 32``    — serve pspy32
+
+## gtfo
+Look up a binary in GTFOBins / LOLBas and show exploitation techniques.
+
+Uses the local parquet knowledge bases (parquets/detalles.parquet for
+GTFOBins, parquets/lolbas_details.parquet for LOLBas) so results are
+instant and work offline.
+
+Usage:
+    ``gtfo sudo``
+    ``gtfo find``
+    ``gtfo python3``
+    ``gtfo certutil``     (LOLBas — Windows)
+
+## ask
+Ask the AI a question with current session context pre-loaded.
+
+Injects rhost, lhost, phase, OS, latest scan summary, and recent
+commands into the prompt so the AI can give targeted advice without
+you having to copy-paste context manually.
+
+Requires api_key to be set (assign api_key <groq-key>).
+
+Usage:
+    ``ask what are the best privesc paths for this Linux host?``
+    ``ask what services look exploitable on this target?``
+    ``ask how do I exploit SMB signing disabled?``
+
 ## netview
 Executes the Impacket netview tool to list network shares on a specified target.
 
@@ -12140,6 +12368,12 @@ No description available.
 ## show_toastr
 No description available.
 
+## _save
+No description available.
+
+## _run_single_search
+No description available.
+
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 
@@ -12384,6 +12618,13 @@ No description available.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): some improvements in autonomous loop \n\n Version: release/0.2.110 \n\n with love \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: lun 11 may 2026 01:45:03 -04 \n\n Hora: 1778478303
 
 
 ### Nuevas características

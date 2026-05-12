@@ -1,61 +1,44 @@
 name: toposwarm
-description: >
-  TopoSwarm Autonomous Red Team Agent — drives LazyOwn through a full
-  pentest kill-chain using TopoSwarm as the local AI router with ZERO
-  dependency on Groq, Ollama, or Claude Code.
-
-  TopoSwarm is a 2M-parameter quaternionic toroidal model trained specifically
-  on LazyOwn tool traces. It routes operator goals to the correct LazyOwn tool
-  using a neural routing head (d_model→80 classes) or keyword fallback.
-
-  Attack phases (automated end-to-end):
-    0. INIT    — session init, configure rhost/lhost from payload.json
-    1. RECON   — port scan, OS fingerprint, service detection
-    2. ENUM    — service-specific enumeration (SMB, LDAP, web, FTP, ...
-    3. VULN    — searchsploit + CVE analysis on discovered services
-    4. EXPLOIT — attempt exploitation of best candidate vulnerability
-    5. POST    — credential dump, privilege escalation, persistence
-    6. LATERAL — move laterally using captured credentials
-    7. REPORT  — generate final pentest report + MISP export
-
-  Usage inside LazyOwn shell:
-    toposwarm                          # full run from payload.json
-    toposwarm --effort max             # maximum aggression, more steps/phase
-    toposwarm --no-model               # keyword-only mode (no GPU needed)
-    toposwarm --phase 2                # resume from ENUM phase
-    toposwarm --max-phases 4           # stop after VULN phase
-    toposwarm --verbose                # print full tool output
-
-  The agent reads rhost, lhost, domain from payload.json automatically.
-  Results saved to: sessions/toposwarm_state_{rhost}.json
-
-  Requirements:
-    TopoSwarm cloned at ../py/toposwarm/ or TOPOSWARM_DIR env var set.
-
-author: "LazyOwn RedTeam / grisuno"
-version: "1.0"
+description: "TopoSwarm Autonomous Red Team Agent — drives LazyOwn through a full\
+  \ pentest kill-chain using TopoSwarm as the local AI router with ZERO dependency\
+  \ on Groq, Ollama, or Claude Code.\nTopoSwarm is a 2M-parameter quaternionic toroidal\
+  \ model trained specifically on LazyOwn tool traces. It routes operator goals to\
+  \ the correct LazyOwn tool using a neural routing head (d_model→80 classes) or keyword\
+  \ fallback.\nAttack phases (automated end-to-end):\n  0. INIT    — session init,\
+  \ configure rhost/lhost from payload.json\n  1. RECON   — port scan, OS fingerprint,\
+  \ service detection\n  2. ENUM    — service-specific enumeration (SMB, LDAP, web,\
+  \ FTP, ...\n  3. VULN    — searchsploit + CVE analysis on discovered services\n\
+  \  4. EXPLOIT — attempt exploitation of best candidate vulnerability\n  5. POST\
+  \    — credential dump, privilege escalation, persistence\n  6. LATERAL — move laterally\
+  \ using captured credentials\n  7. REPORT  — generate final pentest report + MISP\
+  \ export\n\nUsage inside LazyOwn shell:\n  toposwarm                          #\
+  \ full run from payload.json\n  toposwarm --effort max             # maximum aggression,\
+  \ more steps/phase\n  toposwarm --no-model               # keyword-only mode (no\
+  \ GPU needed)\n  toposwarm --phase 2                # resume from ENUM phase\n \
+  \ toposwarm --max-phases 4           # stop after VULN phase\n  toposwarm --verbose\
+  \                # print full tool output\n\nThe agent reads rhost, lhost, domain\
+  \ from payload.json automatically. Results saved to: sessions/toposwarm_state_{rhost}.json\n\
+  Requirements:\n  TopoSwarm cloned at ../py/toposwarm/ or TOPOSWARM_DIR env var set.\n"
+author: LazyOwn RedTeam / grisuno
+version: '1.0'
 enabled: true
-
 params:
-  - name: rhost
-    type: string
-    required: false
-    description: Target IP address (pulled from payload.json if not set)
-  - name: lhost
-    type: string
-    required: false
-    description: Listener/attacker IP (pulled from payload.json if not set)
-  - name: domain
-    type: string
-    required: false
-    description: Target domain name (optional)
-
+- name: rhost
+  type: string
+  required: false
+  description: Target IP address (pulled from payload.json if not set)
+- name: lhost
+  type: string
+  required: false
+  description: Listener/attacker IP (pulled from payload.json if not set)
+- name: domain
+  type: string
+  required: false
+  description: Target domain name (optional)
 tool:
   name: toposwarm
   repo_url: https://github.com/grisuno/LazyOwn.git
   install_path: .
-  execute_command: >-
-    python3 skills/toposwarm_autonomous.py
-    --rhost {rhost}
-    --lhost {lhost}
-    --domain {domain}
+  execute_command: python3 skills/toposwarm_autonomous.py --rhost {rhost} --lhost
+    {lhost} --domain {domain}
+category: 16. Artificial Intelligence

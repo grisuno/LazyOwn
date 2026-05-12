@@ -28,6 +28,13 @@ from textual.app import App, ComposeResult
 from textual.containers import Horizontal, Vertical
 from textual.widgets import Footer, Header, Static
 
+try:
+    from cli.ops_commands import PHASES as _PHASES, write_phase as _write_phase
+except ImportError:
+    _PHASES = ("recon", "scan", "enum", "exploit", "privesc", "lateral", "exfil", "report")
+    def _write_phase(phase: str) -> bool:  # type: ignore[misc]
+        return False
+
 REFRESH_INTERVAL: float = 5.0
 SESSIONS_DIR: str = "sessions"
 PAYLOAD_PATH: str = "payload.json"
@@ -336,6 +343,8 @@ class LazyOwnDashboard(App):
     BINDINGS = [
         ("q", "quit", "Quit"),
         ("r", "refresh_data", "Refresh"),
+        ("p", "next_phase", "Next phase"),
+        ("shift+p", "prev_phase", "Prev phase"),
         ("?", "help", "Help"),
     ]
     DEFAULT_CSS = """
@@ -403,6 +412,29 @@ class LazyOwnDashboard(App):
 
     def action_refresh_data(self) -> None:
         self._do_refresh()
+
+    def action_next_phase(self) -> None:
+        """Advance to the next kill-chain phase and refresh the display."""
+        self._cycle_phase(direction=1)
+
+    def action_prev_phase(self) -> None:
+        """Step back to the previous kill-chain phase."""
+        self._cycle_phase(direction=-1)
+
+    def _cycle_phase(self, direction: int) -> None:
+        world = _read_json(WORLD_MODEL_PATH)
+        current = (world.get("phase") or world.get("current_phase") or "recon").lower()
+        phases = list(_PHASES)
+        try:
+            idx = phases.index(current)
+        except ValueError:
+            idx = 0
+        new_idx = max(0, min(len(phases) - 1, idx + direction))
+        new_phase = phases[new_idx]
+        if new_phase != current:
+            _write_phase(new_phase)
+            self._do_refresh()
+            self.notify(f"Phase: {new_phase.upper()}", title="Kill chain", timeout=2)
 
     def _do_refresh(self) -> None:
         payload = _read_json(self._payload_path)

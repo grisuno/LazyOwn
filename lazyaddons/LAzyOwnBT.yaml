@@ -1,13 +1,14 @@
 name: lazyownbt
-description: >
- LAzyOwn BlueTeam Framework, Detecta y reacciona a ataques, haredenización, integridad, etc.
-author: "LazyOwn BlueTeam"
-version: "1.0"
-enabled: true
+description: 'LAzyOwn BlueTeam Framework, Detecta y reacciona a ataques, haredenización,
+  integridad, etc.
 
+  '
+author: LazyOwn BlueTeam
+version: '1.0'
+enabled: true
 tool:
   name: lazyownbt
   repo_url: https://github.com/grisuno/LazyOwnBT.git
   install_path: external/.exploit/LazyOwnBT
-  execute_command: |
-    chmod +x app.py ; rlwrap --always-readline ./app.py
+  execute_command: chmod +x app.py ; rlwrap --always-readline ./app.py
+category: 12. Miscellaneous

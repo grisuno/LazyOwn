@@ -1,13 +1,14 @@
 name: gcr
-description: >
- Google Calendar RAT is a PoC of Command&Control over Google Calendar Events
-author: "MrSaighnal"
-version: "0.4.6"
-enabled: true
+description: 'Google Calendar RAT is a PoC of Command&Control over Google Calendar
+  Events
 
+  '
+author: MrSaighnal
+version: 0.4.6
+enabled: true
 tool:
   name: gcr
   repo_url: https://github.com/MrSaighnal/GCR-Google-Calendar-RAT.git
   install_path: external/.exploit/gcr
-  execute_command: |
-    python3 gcr.py
+  execute_command: python3 gcr.py
+category: 04. Post-Exploitation

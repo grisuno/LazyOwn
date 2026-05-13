@@ -1,0 +1,102 @@
+apt_name: Conti
+aliases:
+- WizardSpider
+- TrickBot
+- Ryuk
+source_urls:
+- https://www.cisa.gov/news-events/cybersecurity-advisories/aa21-265a
+- https://www.mandiant.com/resources/blog/evolution-of-conti-and-ryuk
+description: 'Conti was a Russian-speaking cyber-criminal ransomware group attributed
+  to
+
+  WizardSpider. Known for human-operated ransomware, extensive use of TrickBot
+
+  and Cobalt Strike, data exfiltration before encryption, and double-extortion.
+
+  '
+platforms:
+- windows
+phases:
+- name: initial_access
+  technique_id: T1566.001
+  technique_name: Spearphishing Attachment
+  description: Initial access via phishing with malicious attachments or links.
+  atomic_tests:
+  - atomic_id: T1566.001
+    name: Download Phishing Attachment
+    manual: true
+  detection_hints:
+  - Monitor for macro-enabled documents from external sources
+  - Track unusual user-agent strings on email gateways
+- name: execution
+  technique_id: T1059.001
+  technique_name: PowerShell
+  description: Heavy use of PowerShell for enumeration, lateral movement prep, and
+    payload staging.
+  atomic_tests:
+  - atomic_id: T1059.001
+    name: Encoded PowerShell Command
+    manual: false
+  - atomic_id: T1059.001
+    name: Mimikatz Obfuscated
+    manual: true
+  detection_hints:
+  - PowerShell Script Block Logging
+  - Suspicious encoded commands from non-admin processes
+- name: persistence
+  technique_id: T1543.003
+  technique_name: Create or Modify System Process
+  description: Creation of Windows services for persistence (e.g., Cobalt Strike beacons
+    as services).
+  atomic_tests:
+  - atomic_id: T1543.003
+    name: Create System Service
+    manual: false
+  detection_hints:
+  - New services with random names executing from %TEMP%
+  - Service creation events (Event ID 7045)
+- name: credential_access
+  technique_id: T1003.001
+  technique_name: LSASS Memory
+  description: LSASS dumping via Mimikatz or procdump to obtain credentials for lateral
+    movement.
+  atomic_tests:
+  - atomic_id: T1003.001
+    name: Dump LSASS.exe Memory
+    manual: true
+  detection_hints:
+  - Enable Credential Guard and LSA protection
+  - Alert on MiniDumpWriteDump API usage
+- name: lateral_movement
+  technique_id: T1021.002
+  technique_name: SMB/Windows Admin Shares
+  description: Propagation via SMB and PsExec, often using compromised credentials.
+  atomic_tests:
+  - atomic_id: T1021.002
+    name: SMBExec
+    manual: true
+  detection_hints:
+  - SMB authentication from non-admin accounts
+  - PsExec service creation events
+- name: impact
+  technique_id: T1486
+  technique_name: Data Encrypted for Impact
+  description: Ransomware deployment encrypting files across the network.
+  atomic_tests:
+  - atomic_id: T1486
+    name: Encrypt Files Using ransomware
+    manual: true
+  detection_hints:
+  - Mass file extension changes (.conti, .lockbit, etc.)
+  - High entropy file writes in rapid succession
+- name: exfiltration
+  technique_id: T1041
+  technique_name: Exfiltration Over C2 Channel
+  description: 'Double-extortion: exfiltration of sensitive data before encryption.'
+  atomic_tests:
+  - atomic_id: T1041
+    name: Exfiltrate Data Using DNS
+    manual: true
+  detection_hints:
+  - Unusual outbound data volume to cloud storage or FTP
+  - DNS tunneling patterns

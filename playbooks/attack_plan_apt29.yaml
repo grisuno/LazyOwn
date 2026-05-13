@@ -1,0 +1,20 @@
+apt_name: APT29
+description: 'APT29 is a Russian state-sponsored cyber espionage group attributed
+  to the SVR.
+
+  Known for the SolarWinds supply-chain compromise (SUNBURST) and widespread
+
+  targeting of government, diplomatic, think-tank, healthcare and energy entities.
+
+  This playbook emulates the post-compromise TTPs observed in public reporting.
+
+  '
+steps:
+- atomic_id: 114ce500-3b1d-4b0c-86f4-1d2a5dfac5c5
+- atomic_id: a0a10e76-d0fe-4e87-9ce9-4d689463e80e
+- atomic_id: 2f73fe59-1418-4c3e-a74f-656cd09d875b
+- atomic_id: f7fab6cc-8ece-4ca4-97e6-a59c5755a8e9
+- atomic_id: 9c8dcbc5-4a06-49f1-963e-391d8a0f5f01
+- atomic_id: 62f7d19c-427b-45c8-8d1c-64c849416a1c
+- atomic_id: 65f2e338-b00e-43cc-8c55-272a96d8ba3e
+- atomic_id: d3a8e62b-99b8-425c-88b8-0225f6cf0bc5

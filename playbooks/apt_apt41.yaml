@@ -1,0 +1,100 @@
+apt_name: APT41
+aliases:
+- Barium
+- Winnti
+- Wicked Panda
+- Blackfly
+source_urls:
+- https://www.mandiant.com/resources/blog/apt41-initiates-global-intrusion-campaign
+- https://www.cisa.gov/news-events/cybersecurity-advisories/aa20-225a
+description: 'APT41 is a Chinese state-sponsored cyber espionage group that also conducts
+
+  financially motivated activity. Known for targeting healthcare, telecom,
+
+  technology, and video game companies. Uses supply-chain compromises,
+
+  signature-validated malware, and living-off-the-land techniques extensively.
+
+  '
+platforms:
+- windows
+- linux
+- macos
+phases:
+- name: initial_access
+  technique_id: T1190
+  technique_name: Exploit Public-Facing Application
+  description: Exploitation of public-facing applications (Citrix, Exchange, Zoho).
+  atomic_tests:
+  - atomic_id: T1190
+    name: CVE-2023-23397 Outlook Exploit
+    manual: true
+  detection_hints:
+  - Web shell uploads on public-facing apps
+  - Unusual process spawning from web servers
+- name: execution
+  technique_id: T1059.001
+  technique_name: PowerShell
+  description: Heavy PowerShell usage for reconnaissance, staging, and execution.
+  atomic_tests:
+  - atomic_id: T1059.001
+    name: Encoded PowerShell Command
+    manual: false
+  detection_hints:
+  - Encoded PowerShell execution
+  - Invoke-Expression usage patterns
+- name: persistence
+  technique_id: T1547.001
+  technique_name: Registry Run Keys
+  description: Registry Run Keys for malware persistence (Crosswalk, ShadowPad).
+  atomic_tests:
+  - atomic_id: T1547.001
+    name: Reg Key Run
+    manual: false
+  detection_hints:
+  - Monitor Run keys for unusual binaries
+  - Correlate with WMI event subscriptions
+- name: defense_evasion
+  technique_id: T1027
+  technique_name: Obfuscated Files or Information
+  description: Custom packers, steganography, and signature-validated malware.
+  atomic_tests:
+  - atomic_id: T1027
+    name: XOR Shellcode
+    manual: true
+  detection_hints:
+  - High-entropy binaries with valid certificates
+  - Unusual import tables in signed executables
+- name: credential_access
+  technique_id: T1003.001
+  technique_name: LSASS Memory
+  description: Credential dumping to facilitate lateral movement and espionage.
+  atomic_tests:
+  - atomic_id: T1003.001
+    name: Dump LSASS.exe Memory
+    manual: true
+  detection_hints:
+  - Credential Guard enforcement
+  - LSASS access alerts
+- name: lateral_movement
+  technique_id: T1021.002
+  technique_name: SMB/Windows Admin Shares
+  description: Lateral movement via SMB and WMI, often using stolen certs.
+  atomic_tests:
+  - atomic_id: T1021.002
+    name: SMBExec
+    manual: true
+  detection_hints:
+  - SMB authentication anomalies
+  - PsExec and WMI process creation events
+- name: collection
+  technique_id: T1005
+  technique_name: Data from Local System
+  description: Collection of source code, signing keys, and proprietary data.
+  atomic_tests:
+  - atomic_id: T1005
+    name: Screen Capture
+    manual: false
+  detection_hints:
+  - Large archive creation in source directories
+  - Screen capture API usage

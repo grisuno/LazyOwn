@@ -22325,32 +22325,60 @@ class LazyOwnShell(cmd2.Cmd):
         yaml_files = glob.glob(os.path.join(atomic_yaml_path, "**", "*.yaml"), recursive=True)
         selected_test = None
 
+        # Try 1: exact auto_generated_guid match
         for file in yaml_files:
             with open(file, "r") as f:
                 data = yaml.safe_load(f)
-
-                if "atomic_tests" in data:
-                    for test in data["atomic_tests"]:
-                        if test["auto_generated_guid"] == test_id:
-                            selected_test = {
-                                "name": test["name"],
-                                "description": test.get("description", "No description available"),
-                                "platforms": test.get("supported_platforms", []),
-                                "executor": test.get("executor", {}).get("name", "No name available"),
-                                "command": test.get("executor", {}).get("command", "No command available"),
-                                "prereq_command": test.get("dependencies", [{}])[0].get("prereq_command", ""),
-                                "get_prereq_command": test.get("dependencies", [{}])[0].get("get_prereq_command", ""),
-                                "cleanup_command": test.get("executor", {}).get("cleanup_command", ""),
-                                "input_arguments": test.get("input_arguments", {}),
-                                "mitre_id": data.get("attack_technique", "No MITRE ID available")
-
-                            }
-                            break
+            if "atomic_tests" in data:
+                for test in data["atomic_tests"]:
+                    if test.get("auto_generated_guid") == test_id:
+                        selected_test = {
+                            "name": test["name"],
+                            "description": test.get("description", "No description available"),
+                            "platforms": test.get("supported_platforms", []),
+                            "executor": test.get("executor", {}).get("name", "No name available"),
+                            "command": test.get("executor", {}).get("command", "No command available"),
+                            "prereq_command": test.get("dependencies", [{}])[0].get("prereq_command", "") if test.get("dependencies") else "",
+                            "get_prereq_command": test.get("dependencies", [{}])[0].get("get_prereq_command", "") if test.get("dependencies") else "",
+                            "cleanup_command": test.get("executor", {}).get("cleanup_command", ""),
+                            "input_arguments": test.get("input_arguments", {}),
+                            "mitre_id": data.get("attack_technique", "No MITRE ID available")
+                        }
+                        break
             if selected_test:
                 break
 
+        # Try 2: fallback to MITRE technique ID (e.g. T1566.001) — use first available test
+        if not selected_test and test_id.upper().startswith("T"):
+            print_warn(f"GUID not found for {test_id}. Falling back to MITRE technique ID lookup...")
+            for file in yaml_files:
+                with open(file, "r") as f:
+                    data = yaml.safe_load(f)
+                technique = data.get("attack_technique", "")
+                if technique and technique.upper() == test_id.upper() and "atomic_tests" in data:
+                    test = data["atomic_tests"][0]
+                    selected_test = {
+                        "name": test["name"],
+                        "description": test.get("description", "No description available"),
+                        "platforms": test.get("supported_platforms", []),
+                        "executor": test.get("executor", {}).get("name", "No name available"),
+                        "command": test.get("executor", {}).get("command", "No command available"),
+                        "prereq_command": test.get("dependencies", [{}])[0].get("prereq_command", "") if test.get("dependencies") else "",
+                        "get_prereq_command": test.get("dependencies", [{}])[0].get("get_prereq_command", "") if test.get("dependencies") else "",
+                        "cleanup_command": test.get("executor", {}).get("cleanup_command", ""),
+                        "input_arguments": test.get("input_arguments", {}),
+                        "mitre_id": data.get("attack_technique", "No MITRE ID available")
+                    }
+                    print_msg(f"Found fallback test: {test.get('auto_generated_guid', 'N/A')} — {test['name']}")
+                    break
+            if not selected_test:
+                print_warn(f"No Atomic Red Team tests found for technique {test_id}.")
+                print_warn("Run 'atomic_tests <platform>' to browse available tests, then update the playbook with real GUIDs.")
+                return
+
         if not selected_test:
             print_warn(f"Test ID {test_id} not found.")
+            print_warn("This playbook may contain placeholder IDs. Run scripts/update_apt_atomic_ids.py after cloning Atomic Red Team.")
             return
         mitre_url = selected_test['mitre_id'].replace(".","/")
         root = f"{tmp_path}/{atomic}"
@@ -22541,12 +22569,15 @@ class LazyOwnShell(cmd2.Cmd):
         Executes a multi-step APT simulation plan based on Atomic Red Team test IDs.
 
         Parameters:
-        line (str) optional: Path to the YAML plan file.
+        line (str) optional: Path to the YAML plan file. Append --auto to execute
+                              generated scripts immediately instead of just generating.
 
         Returns:
         None
         """
         playbook_dir = "playbooks"
+        auto_mode = "--auto" in line
+        line = line.replace("--auto", "").strip()
 
         if not line.strip():
             yaml_files = [f for f in os.listdir(playbook_dir) if f.endswith(".yaml") or f.endswith(".yml")]
@@ -22568,7 +22599,13 @@ class LazyOwnShell(cmd2.Cmd):
                 print_warn("Invalid input. Please enter a number.")
                 return
         else:
-            plan_file = os.path.join(playbook_dir, line.strip())
+            user_path = line.strip()
+            # If the user provided a path that already exists (relative or absolute), use it directly.
+            # Otherwise fall back to looking inside playbook_dir.
+            if os.path.exists(user_path):
+                plan_file = user_path
+            else:
+                plan_file = os.path.join(playbook_dir, user_path)
 
         if not os.path.exists(plan_file):
             print_warn(f"Plan file not found: {plan_file}")
@@ -22583,6 +22620,8 @@ class LazyOwnShell(cmd2.Cmd):
             return
 
         print_msg(f"Executing APT plan: {plan.get('apt_name', 'Unnamed')}\n{plan.get('description', '')}")
+        if auto_mode:
+            print_warn("AUTO MODE: Generated scripts will be executed immediately. Use with caution.")
 
         for i, step in enumerate(steps):
             atomic_id = step.get("atomic_id")
@@ -22591,6 +22630,20 @@ class LazyOwnShell(cmd2.Cmd):
                 continue
             print_msg(f"Generating step {i+1}: {atomic_id}")
             self.do_atomic_gen(atomic_id)
+            if auto_mode:
+                script_pattern = os.path.join(os.getcwd(), "sessions", f"atomic_test_{atomic_id}*")
+                import fnmatch
+                matches = []
+                for root, _, files in os.walk(os.path.join(os.getcwd(), "sessions")):
+                    for f in files:
+                        if fnmatch.fnmatch(f, f"atomic_test_{atomic_id}*"):
+                            matches.append(os.path.join(root, f))
+                if matches:
+                    latest = max(matches, key=os.path.getmtime)
+                    print_msg(f"[auto] Executing {latest}...")
+                    run_command(f"bash {latest}" if latest.endswith(".sh") else f"powershell -ExecutionPolicy Bypass -File {latest}")
+                else:
+                    print_warn(f"[auto] No generated script found for {atomic_id}")
 
         # After generation, build ordered super-agent
         sessions_path = os.path.join(os.getcwd(), "sessions")
@@ -22634,6 +22687,127 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(f"APT agent created and ready at: {tmp_path}/apt_agent{extension}")
         print_msg(f"Cleanup agent created: {tmp_path}/apt_clean_agent{extension}")
 
+
+    @cmd2.with_category(command_and_control_category)
+    def do_apt_playbook(self, line):
+        """List, validate, and run APT playbooks based on public threat reports.
+
+        Usage:
+            apt_playbook list                  - Show available APT playbooks
+            apt_playbook info <apt_name>       - Show phases and techniques
+            apt_playbook validate <apt_name>   - Check atomic tests availability
+            apt_playbook run <apt_name>        - Generate attack_plan.yaml
+            apt_playbook report <apt_name>     - Write JSON report to sessions/
+
+        Examples:
+            apt_playbook list
+            apt_playbook info apt29
+            apt_playbook run apt28
+        """
+        import json
+        import os
+
+        from modules.apt_playbooks import AptPlaybookEngine
+
+        engine = AptPlaybookEngine(playbook_dir="playbooks")
+        parts = line.strip().split()
+        if not parts:
+            print_msg("Usage: apt_playbook <list|info|validate|run|report> [name]")
+            return
+
+        action = parts[0].lower()
+
+        if action == "list":
+            playbooks = engine.list_playbooks()
+            if not playbooks:
+                print_warn("No APT playbooks found. Add apt_*.yaml files to playbooks/")
+                return
+            print_msg(f"{'APT Name':<20} {'Aliases':<25} {'Platforms':<20} {'Phases':<8} {'Atomic':<8}")
+            print_msg("-" * 85)
+            for pb in playbooks:
+                aliases = ", ".join(pb.get("aliases", [])[:2])
+                platforms = ", ".join(pb.get("platforms", []))
+                print_msg(
+                    f"{pb['apt_name']:<20} {aliases:<25} {platforms:<20} {pb['phases']:<8} {pb['atomic_tests']:<8}"
+                )
+
+        elif action == "info":
+            if len(parts) < 2:
+                print_error("Usage: apt_playbook info <apt_name>")
+                return
+            pb = engine.get(parts[1])
+            if not pb:
+                print_error(f"Playbook '{parts[1]}' not found.")
+                return
+            print_msg(f"APT: {pb.apt_name}")
+            print_msg(f"Aliases: {', '.join(pb.aliases)}")
+            print_msg(f"Platforms: {', '.join(pb.platforms)}")
+            print_msg(f"Sources: {', '.join(pb.source_urls)}")
+            print_msg(f"Description: {pb.description}")
+            print_msg("")
+            for idx, phase in enumerate(pb.phases, 1):
+                print_msg(f"  Phase {idx}: {phase.name}")
+                print_msg(f"    Technique: {phase.technique_id} — {phase.technique_name}")
+                print_msg(f"    Description: {phase.description}")
+                if phase.atomic_tests:
+                    print_msg(f"    Atomic Tests:")
+                    for t in phase.atomic_tests:
+                        mode = "manual" if t.manual else "auto"
+                        print_msg(f"      - {t.atomic_id} ({mode}) {t.name}")
+                if phase.caldera_abilities:
+                    print_msg(f"    CALDERA Abilities:")
+                    for a in phase.caldera_abilities:
+                        print_msg(f"      - {a.ability_id} {a.name}")
+                if phase.detection_hints:
+                    print_msg(f"    Detection Hints:")
+                    for h in phase.detection_hints:
+                        print_msg(f"      > {h}")
+
+        elif action == "validate":
+            if len(parts) < 2:
+                print_error("Usage: apt_playbook validate <apt_name>")
+                return
+            pb = engine.get(parts[1])
+            if not pb:
+                print_error(f"Playbook '{parts[1]}' not found.")
+                return
+            atomic_path = os.path.join("external", ".exploit", "atomic-red-team", "atomics")
+            result = engine.validate(pb, atomic_path=atomic_path)
+            print_msg(f"Validation for {result['apt_name']}:")
+            print_msg(f"  Phases: {result['phases']}")
+            print_msg(f"  Atomic tests found: {result['atomic_tests_found']}")
+            print_msg(f"  Atomic tests missing: {result['atomic_tests_missing']}")
+            if result['missing']:
+                print_warn("Missing tests (clone/update Atomic Red Team):")
+                for m in result['missing']:
+                    print_warn(f"    - {m['atomic_id']} ({m['name']})")
+
+        elif action == "run":
+            if len(parts) < 2:
+                print_error("Usage: apt_playbook run <apt_name>")
+                return
+            pb = engine.get(parts[1])
+            if not pb:
+                print_error(f"Playbook '{parts[1]}' not found.")
+                return
+            plan_name = f"attack_plan_{pb.apt_name.lower().replace(' ', '_')}.yaml"
+            plan_path = os.path.join("playbooks", plan_name)
+            engine.generate_attack_plan(pb, output_path=plan_path)
+            print_msg(f"Playbook generated. Execute with: attack_plan {plan_name}")
+
+        elif action == "report":
+            if len(parts) < 2:
+                print_error("Usage: apt_playbook report <apt_name>")
+                return
+            pb = engine.get(parts[1])
+            if not pb:
+                print_error(f"Playbook '{parts[1]}' not found.")
+                return
+            report_path = os.path.join("sessions", f"apt_report_{pb.apt_name.lower().replace(' ', '_')}.json")
+            engine.report_json(pb, output_path=report_path)
+
+        else:
+            print_error(f"Unknown action: {action}. Use list, info, validate, run, report.")
 
     @cmd2.with_category(command_and_control_category)
     def do_mitre_test(self, line):
@@ -24148,6 +24322,178 @@ class LazyOwnShell(cmd2.Cmd):
             self.logcsv(f"caldera {command}")
         except Exception as e:
             print_error(f"Error: {e}")
+
+    @cmd2.with_category(command_and_control_category)
+    def do_caldera_import(self, line):
+        """Import CALDERA abilities into LazyOwn playbooks.
+
+        Usage:
+            caldera_import <ability_id> [playbook_name]
+            caldera_import all
+
+        Examples:
+            caldera_import 4e97e699-93d7-4046-b5b3-94968bf4ac1e
+            caldera_import all
+        """
+        import json
+        import os
+
+        path = os.getcwd()
+        caldera_path = os.path.join(path, "external", ".exploit", "caldera")
+        abilities_dir = os.path.join(caldera_path, "data", "abilities")
+
+        if not os.path.exists(abilities_dir):
+            print_warn("CALDERA abilities not found. Clone CALDERA first: caldera")
+            return
+
+        playbook_dir = "playbooks"
+        os.makedirs(playbook_dir, exist_ok=True)
+
+        def _load_ability(ability_file: str) -> dict | None:
+            try:
+                with open(ability_file, "r") as f:
+                    return yaml.safe_load(f)
+            except Exception:
+                return None
+
+        def _ability_to_step(ability: dict) -> dict:
+            return {
+                "atomic_id": ability.get("id", "unknown"),
+                "name": ability.get("name", "Unnamed"),
+                "description": ability.get("description", ""),
+                "platforms": list(ability.get("platforms", {}).keys()),
+                "command": "\n".join(
+                    e.get("command", "") for e in ability.get("executors", [])
+                ),
+                "cleanup_command": "",
+                "mitre_info": {
+                    "mitre_id": ability.get("technique_id", "TXXXX"),
+                    "mitre_name": ability.get("tactic", ""),
+                },
+            }
+
+        if line.strip().lower() == "all":
+            imported = 0
+            playbook = {
+                "apt_name": "CALDERA_Import",
+                "description": "Imported CALDERA abilities",
+                "steps": [],
+            }
+            for root, _, files in os.walk(abilities_dir):
+                for fname in files:
+                    if fname.endswith(".yml") or fname.endswith(".yaml"):
+                        ability = _load_ability(os.path.join(root, fname))
+                        if ability:
+                            playbook["steps"].append(_ability_to_step(ability))
+                            imported += 1
+            out_file = os.path.join(playbook_dir, "caldera_import_all.yaml")
+            with open(out_file, "w") as f:
+                yaml.dump(playbook, f, default_flow_style=False)
+            print_succ(f"Imported {imported} abilities to {out_file}")
+        else:
+            parts = line.strip().split()
+            ability_id = parts[0]
+            playbook_name = parts[1] if len(parts) > 1 else "caldera_import"
+            found = False
+            for root, _, files in os.walk(abilities_dir):
+                for fname in files:
+                    if fname.endswith(".yml") or fname.endswith(".yaml"):
+                        ability = _load_ability(os.path.join(root, fname))
+                        if ability and ability.get("id") == ability_id:
+                            found = True
+                            playbook = {
+                                "apt_name": playbook_name,
+                                "description": f"Imported from CALDERA ability {ability_id}",
+                                "steps": [_ability_to_step(ability)],
+                            }
+                            out_file = os.path.join(playbook_dir, f"{playbook_name}.yaml")
+                            with open(out_file, "w") as f:
+                                yaml.dump(playbook, f, default_flow_style=False)
+                            print_succ(f"Imported ability {ability_id} to {out_file}")
+                            break
+                if found:
+                    break
+            if not found:
+                print_error(f"Ability {ability_id} not found in CALDERA.")
+
+    @cmd2.with_category(command_and_control_category)
+    def do_caldera_export(self, line):
+        """Export a LazyOwn playbook to CALDERA ability YAML.
+
+        Usage:
+            caldera_export <playbook_name> [ability_id_prefix]
+
+        Examples:
+            caldera_export apt29
+            caldera_export fin7 lazyown-
+        """
+        import os
+
+        parts = line.strip().split()
+        if not parts:
+            print_error("Usage: caldera_export <playbook_name> [prefix]")
+            return
+
+        playbook_name = parts[0]
+        prefix = parts[1] if len(parts) > 1 else "lazyown"
+        playbook_path = os.path.join("playbooks", f"apt_{playbook_name}.yaml")
+
+        if not os.path.exists(playbook_path):
+            print_error(f"Playbook not found: {playbook_path}")
+            return
+
+        try:
+            with open(playbook_path, "r") as f:
+                data = yaml.safe_load(f)
+        except Exception as e:
+            print_error(f"Failed to read playbook: {e}")
+            return
+
+        caldera_path = os.path.join("external", ".exploit", "caldera", "data", "abilities")
+        os.makedirs(caldera_path, exist_ok=True)
+
+        tactic_dir_map = {
+            "initial_access": "initial-access",
+            "execution": "execution",
+            "persistence": "persistence",
+            "privilege_escalation": "privilege-escalation",
+            "defense_evasion": "defense-evasion",
+            "credential_access": "credential-access",
+            "lateral_movement": "lateral-movement",
+            "collection": "collection",
+            "exfiltration": "exfiltration",
+            "impact": "impact",
+        }
+
+        exported = 0
+        for idx, phase in enumerate(data.get("phases", []), 1):
+            tactic = tactic_dir_map.get(phase.get("name", "").lower(), "unknown")
+            tactic_dir = os.path.join(caldera_path, tactic)
+            os.makedirs(tactic_dir, exist_ok=True)
+
+            ability = {
+                "id": f"{prefix}-{playbook_name}-{idx}",
+                "name": f"{data['apt_name']} — {phase.get('technique_name', 'Step')} ({idx})",
+                "description": phase.get("description", ""),
+                "tactic": tactic,
+                "technique_id": phase.get("technique_id", "TXXXX"),
+                "technique_name": phase.get("technique_name", ""),
+                "executors": [],
+            }
+
+            for test in phase.get("atomic_tests", []):
+                ability["executors"].append({
+                    "name": "sh" if "linux" in data.get("platforms", []) else "psh",
+                    "command": f"# Atomic test {test.get('atomic_id', '')}\n# {test.get('name', '')}",
+                    "cleanup": "",
+                })
+
+            out_file = os.path.join(tactic_dir, f"{ability['id']}.yml")
+            with open(out_file, "w") as f:
+                yaml.dump(ability, f, default_flow_style=False, sort_keys=False)
+            exported += 1
+
+        print_succ(f"Exported {exported} abilities to {caldera_path}")
 
     @cmd2.with_category(exploitation_category)
     def do_ntpdate(self, line):

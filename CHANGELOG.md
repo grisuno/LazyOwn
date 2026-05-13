@@ -6,6 +6,13 @@
 
 ### Otros
 
+  *   * feature(features news): with love \n\n Version: release/0.2.112 \n\n  \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: mar 12 may 2026 23:42:03 -04 \n\n Hora: 1778643723
+
+
+### Otros
+
+### Otros
+
   *   * feature(feat): new wizard and some refactor in LazyAddons \n\n Version: release/0.2.111 \n\n with love \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: mar 12 may 2026 10:26:27 -04 \n\n Hora: 1778595987
 
 

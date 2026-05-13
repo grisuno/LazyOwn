@@ -110,7 +110,7 @@ Claude: [calls lazyown_set_config -> lazyown_auto_loop]
 | `LAZYOWN_C2_USER` | `payload.json c2_user` | C2 username |
 | `LAZYOWN_C2_PASS` | `payload.json c2_pass` | C2 password |
 
-## MCP Tool Groups (78 tools)
+## MCP Tool Groups (81 tools)
 
 | Group | Tools | Description |
 |-------|-------|-------------|
@@ -120,6 +120,7 @@ Claude: [calls lazyown_set_config -> lazyown_auto_loop]
 | C2 / Implant Control | 10 | c2_command, c2_status, get_beacons, run_api, c2_profile, c2_vuln_analysis, c2_redop, c2_search_agent, c2_script, c2_adversary |
 | Session Awareness | 4 | session_status, session_state, list_sessions, read_session_file |
 | Autonomous Loop | 3 | auto_loop, policy_status, recommend_next |
+| **ACI — Autonomous Campaign Intelligence** | **3** | **aci_plan, aci_status, aci_replan** |
 | Reactive Intelligence | 2 | reactive_suggest, bridge_suggest |
 | Objectives & Planning | 4 | inject_objective, next_objective, soul, read_prompt |
 | Knowledge Bases | 9 | parquet_query/annotate, facts_show, cve_search, searchsploit, rag_index/query, threat_model |
@@ -435,6 +436,87 @@ Multi-agent queen+drone architecture with shared memory:
 - **HiveMemory**: ChromaDB semantic + SQLite episodic + Parquet long-term storage
 - **EpisodeReflectionEngine**: post-campaign lesson extraction stored as `sessions/campaign_lessons.jsonl`
 
+### Autonomous Campaign Intelligence (ACI) — `skills/aci_planner.py`
+
+**The first C2 framework that plans, executes, and learns autonomously.**
+
+ACI bridges the gap between a natural-language engagement goal and a fully
+autonomous execution loop. No competitor (Cobalt Strike, Sliver, Havoc,
+Metasploit) does this end-to-end:
+
+```
+Operator: "Compromise the domain controller at corp.internal
+           starting from a phishing foothold on 10.10.11.5"
+         ↓
+ACI Planner ──► MITRE ATT&CK decomposition (LLM-backed, static fallback)
+                 recon → exploit → exec → privesc → cred → lateral → report
+         ↓
+ObjectiveStore ─► 20+ concrete objectives injected into sessions/objectives.jsonl
+         ↓
+auto_loop / autonomous_daemon ─► executes each objective autonomously
+         ↓
+ACIEngine monitors ─► detects stalled phases (blocked_count ≥ 3)
+         ↓
+ACIReplan ──► LLM generates alternative techniques for blocked phases
+         ↓
+ACIReflector ──► appends lessons to sessions/campaign_lessons.jsonl
+                 feeds back into the next engagement
+```
+
+**Three MCP tools:**
+
+| Tool | What it does |
+|------|-------------|
+| `lazyown_aci_plan` | Decompose a goal → ATT&CK plan → inject objectives |
+| `lazyown_aci_status` | Live phase breakdown, completion %, replan recommendation |
+| `lazyown_aci_replan` | Force adaptive replan when stalled; auto-generates lessons |
+
+**Quick-start:**
+
+```python
+# 1. Submit the engagement goal
+lazyown_aci_plan(
+    goal="Compromise the DC at corp.internal",
+    target="10.10.11.5",
+    scope=["10.10.11.0/24"],
+    domain="corp.internal",
+    os_hint="windows",
+)
+
+# 2. Start autonomous execution
+lazyown_auto_loop(target="10.10.11.5", max_steps=20)
+
+# 3. Monitor progress
+lazyown_aci_status()
+
+# 4. When blocked (blocked_count >= 3)
+lazyown_aci_replan(reason="Kerberoasting blocked by AV, try AS-REP roasting")
+```
+
+**What makes ACI unique vs. other tools:**
+
+- Cobalt Strike / Sliver / Havoc are C2 frameworks — the operator plans every step
+- Metasploit has automation but no intelligence
+- CALDERA emulates fixed ATT&CK procedures but can't adapt to novel environments
+- **ACI plans, executes, replans, and learns — continuously, across engagements**
+
+**Persistence:**
+
+| File | Contents |
+|------|----------|
+| `sessions/aci_plan.json` | Active plan: phases, objectives, completion state |
+| `sessions/aci_history.jsonl` | Archived completed/abandoned plans |
+| `sessions/campaign_lessons.jsonl` | Lessons extracted by ACIReflector |
+
+**CLI usage (standalone):**
+
+```bash
+python3 skills/aci_planner.py plan "Compromise DC" --target 10.10.11.5 --os windows
+python3 skills/aci_planner.py status
+python3 skills/aci_planner.py replan "technique blocked"
+python3 skills/aci_planner.py reflect
+```
+
 ### Autonomous Daemon — `skills/autonomous_daemon.py`
 
 Four asyncio roles in a single process — no Claude required between steps:
@@ -448,6 +530,9 @@ Role 4 — DroneCoordinator   : hive drone spawning on recon/cred/service findin
 ```
 
 Enable SWAN in the daemon: `export AUTO_USE_SWAN=1` before starting.
+
+ACI feeds into the daemon: objectives injected by `lazyown_aci_plan` are picked
+up automatically by Role 1 (ObjectiveLoop) — no additional configuration needed.
 
 ### Graph-Based Reasoning — `modules/world_model.py`
 
@@ -12618,6 +12703,13 @@ No description available.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Otros
+
+### Otros
+
+  *   * feature(feat): new wizard and some refactor in LazyAddons \n\n Version: release/0.2.111 \n\n with love \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: mar 12 may 2026 10:26:27 -04 \n\n Hora: 1778595987
 
 
 ### Nuevas características

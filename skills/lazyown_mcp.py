@@ -57,6 +57,7 @@ _AUTOMAPPER_AVAILABLE = None
 _PDB_AVAILABLE        = None
 _HIVE_AVAILABLE       = None
 _AUTO_AVAILABLE       = None
+_ACI_AVAILABLE        = None
 
 # Lazy singletons (populated on first use)
 _policy    = None
@@ -271,6 +272,23 @@ def _ensure_auto():
     return _AUTO_AVAILABLE
 
 
+def _ensure_aci():
+    global _ACI_AVAILABLE
+    if _ACI_AVAILABLE is not None:
+        return _ACI_AVAILABLE
+    try:
+        global _aci_plan, _aci_status, _aci_replan
+        from aci_planner import (
+            mcp_aci_plan   as _aci_plan,
+            mcp_aci_status as _aci_status,
+            mcp_aci_replan as _aci_replan,
+        )
+        _ACI_AVAILABLE = True
+    except Exception:
+        _ACI_AVAILABLE = False
+    return _ACI_AVAILABLE
+
+
 # Stubs for names referenced before lazy init (avoid NameError at parse time)
 _state_load = _state_refresh = None
 _recommend = None
@@ -282,6 +300,7 @@ _get_pdb = lambda _=None: None
 _get_hive = _hive_spawn = _hive_status = _hive_recall = None
 _hive_plan = _hive_result = _hive_collect = _hive_forget = _hive_recover = None
 _auto_start = _auto_stop = _auto_status = _auto_inject = _auto_events = None
+_aci_plan = _aci_status = _aci_replan = None
 process_new_rows = read_events = ack_event = add_rule = load_rules = _hb_is_running = None
 start_agent = get_agent_status = get_agent_result = list_agents = None
 from mcp.server.stdio import stdio_server
@@ -3317,6 +3336,90 @@ async def list_tools() -> list[types.Tool]:
                     },
                 },
                 "required": ["task_type"],
+            },
+        ),
+        # ── ACI — Autonomous Campaign Intelligence ───────────────────────
+        types.Tool(
+            name="lazyown_aci_plan",
+            description=(
+                "AUTONOMOUS CAMPAIGN INTELLIGENCE — decompose a natural-language engagement goal "
+                "into a MITRE ATT&CK-aligned tactical plan. "
+                "Generates phase-by-phase objectives (recon → exploit → privesc → lateral → cred → report), "
+                "injects them into the ObjectiveStore, and persists the plan to sessions/aci_plan.json. "
+                "Uses Groq LLM when api_key is set; falls back to static ATT&CK kill-chain template. "
+                "After calling this, run lazyown_auto_loop() to start autonomous execution. "
+                "Example: goal='Compromise the domain controller at corp.internal starting from a web foothold', target='10.10.11.5'"
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "goal": {
+                        "type": "string",
+                        "description": "Natural-language engagement goal (what you want to accomplish).",
+                    },
+                    "target": {
+                        "type": "string",
+                        "description": "Primary target IP or hostname (default: rhost from payload.json).",
+                        "default": "",
+                    },
+                    "scope": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "CIDR ranges or IPs in scope (e.g. ['10.10.11.0/24']).",
+                        "default": [],
+                    },
+                    "domain": {
+                        "type": "string",
+                        "description": "Target domain (e.g. 'corp.internal'). Optional.",
+                        "default": "",
+                    },
+                    "os_hint": {
+                        "type": "string",
+                        "description": "Target OS hint: 'linux', 'windows', or 'unknown'.",
+                        "enum": ["linux", "windows", "unknown"],
+                        "default": "unknown",
+                    },
+                    "phase_filter": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "Only include these phase slugs (e.g. ['recon','exploit','privesc']). Default: all phases.",
+                        "default": None,
+                    },
+                },
+                "required": ["goal"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_aci_status",
+            description=(
+                "Return live status of the active ACI plan: phase breakdown, completion percentage, "
+                "blocked objective count, replan recommendation, and per-phase technique mapping. "
+                "Syncs phase statuses against the ObjectiveStore before reporting. "
+                "Returns {available: false} if no plan exists — call lazyown_aci_plan first."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {},
+            },
+        ),
+        types.Tool(
+            name="lazyown_aci_replan",
+            description=(
+                "Force adaptive replanning of the active ACI plan when objectives are blocked or stalled. "
+                "Generates new objectives for remaining phases using the LLM (with fallback). "
+                "Appends lessons to sessions/campaign_lessons.jsonl for future campaigns. "
+                "Use this when: blocked_count >= 3, a key technique failed, or the threat model changed. "
+                "Example: reason='Kerberoasting blocked by AV, pivot to AS-REP roasting'"
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "reason": {
+                        "type": "string",
+                        "description": "Why replanning is needed (informs the LLM for better alternatives).",
+                        "default": "",
+                    },
+                },
             },
         ),
         # ── harness / meta tools ─────────────────────────────────────────
@@ -8487,6 +8590,39 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             return text(_swan_route(task_type, goal))
         except Exception as exc:
             return text(f"[swan_route error] {exc}")
+
+    # ── ACI — Autonomous Campaign Intelligence ────────────────────────────────
+    elif name == "lazyown_aci_plan":
+        if not _ensure_aci():
+            return text("[aci_plan] aci_planner module unavailable.")
+        try:
+            result = _aci_plan(
+                goal=arguments.get("goal", ""),
+                target=arguments.get("target", ""),
+                scope=arguments.get("scope") or [],
+                domain=arguments.get("domain", ""),
+                os_hint=arguments.get("os_hint", "unknown"),
+                phase_filter=arguments.get("phase_filter") or None,
+            )
+            return text(result)
+        except Exception as exc:
+            return text(f"[aci_plan error] {exc}")
+
+    elif name == "lazyown_aci_status":
+        if not _ensure_aci():
+            return text("[aci_status] aci_planner module unavailable.")
+        try:
+            return text(_aci_status())
+        except Exception as exc:
+            return text(f"[aci_status error] {exc}")
+
+    elif name == "lazyown_aci_replan":
+        if not _ensure_aci():
+            return text("[aci_replan] aci_planner module unavailable.")
+        try:
+            return text(_aci_replan(reason=arguments.get("reason", "")))
+        except Exception as exc:
+            return text(f"[aci_replan error] {exc}")
 
     # ── dynamic tools (lazyown_addon_*, lazyown_tool_*, lazyown_plugin_*) ────
     if _automapper is not None and (

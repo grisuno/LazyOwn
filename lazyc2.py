@@ -17,6 +17,7 @@ import socket
 import base64
 import select
 import struct
+import html
 import yagmail
 import smtplib
 import secrets
@@ -75,6 +76,7 @@ from flask import Flask, request, render_template, redirect, url_for, jsonify, R
 from cli.palette import CommandIndexError as _PaletteIndexError
 from cli.palette import load_index as _palette_load_index
 from cli.palette_command import build_palette_view as _palette_build_view
+from modules.metrics import REGISTRY
 
 
 anti_debug()
@@ -88,6 +90,35 @@ if config.enable_c2_debug == True:
     logging.basicConfig(filename='sessions/access.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 else:
     logging.basicConfig(filename='sessions/access.log', level=logging.CRITICAL, format='%(asctime)s - %(levelname)s - %(message)s')
+
+
+class _JsonLogFormatter(logging.Formatter):
+    """Optional structured JSON formatter for C2 access logs."""
+
+    def format(self, record):
+        import datetime as _dt
+        payload = {
+            "timestamp": _dt.datetime.utcnow().isoformat() + "Z",
+            "level": record.levelname,
+            "logger": record.name,
+            "message": record.getMessage(),
+            "module": record.module,
+            "function": record.funcName,
+            "line": record.lineno,
+        }
+        if hasattr(record, "request_path"):
+            payload["request_path"] = record.request_path
+        if hasattr(record, "request_method"):
+            payload["request_method"] = record.request_method
+        if hasattr(record, "client_ip"):
+            payload["client_ip"] = record.client_ip
+        return json.dumps(payload)
+
+
+if getattr(config, "enable_structured_logging", False):
+    _json_handler = logging.FileHandler("sessions/access.jsonl")
+    _json_handler.setFormatter(_JsonLogFormatter())
+    logging.getLogger().addHandler(_json_handler)
 
 def ensure_sessions_dir():
     """Ensure the sessions directory exists with safe permissions."""
@@ -696,13 +727,34 @@ def save_note(content):
 def escape_js(s):
     return json.dumps(s)[1:-1]
 
+_ALLOWED_TAGS = ('p', 'br', 'strong', 'em', 'ul', 'ol', 'li', 'code', 'pre',
+                 'blockquote', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'a')
+
+
+def _sanitize_html(raw_html):
+    """Sanitize HTML by stripping dangerous tags and event handlers."""
+    if not raw_html:
+        return ""
+    raw_html = re.sub(r'<(script|style)[^>]*>.*?</\1>', '', raw_html,
+                      flags=re.DOTALL | re.IGNORECASE)
+    raw_html = re.sub(r'on\w+\s*=\s*["\'][^"\']*["\']', '', raw_html,
+                      flags=re.IGNORECASE)
+    raw_html = re.sub(r'javascript:', '', raw_html, flags=re.IGNORECASE)
+    escaped = html.escape(raw_html)
+    for tag in _ALLOWED_TAGS:
+        escaped = re.sub(r'&lt;(' + tag + r')\s*(.*?)&gt;',
+                         r'<\1\2>', escaped, flags=re.IGNORECASE)
+        escaped = re.sub(r'&lt;/(' + tag + r')&gt;',
+                         r'</\1>', escaped, flags=re.IGNORECASE)
+    return escaped
+
+
 def markdown_to_html(text):
     if text:
         text_with_br = text.replace('\n', '<br />')
         html_content = markdown.markdown(text_with_br, extensions=['extra'])
-    else:
-        return escape_js("")
-    return html_content
+        return _sanitize_html(html_content)
+    return escape_js("")
 
 def to_serializable(obj):
     """Convert objects to serializable format."""
@@ -1619,6 +1671,13 @@ limiter = Limiter(
     default_limits=[config.c2_daily_limit, config.c2_hour_limit]
 )
 
+@app.before_request
+def _metrics_before_request():
+    if request.endpoint and not request.path.startswith('/metrics'):
+        REGISTRY.inc('c2_requests_total',
+                     labels={'method': request.method, 'endpoint': request.endpoint})
+
+
 @app.after_request
 def _add_security_headers(response):
     response.headers['X-Content-Type-Options'] = 'nosniff'
@@ -1629,7 +1688,25 @@ def _add_security_headers(response):
 
 SESSION_ID = str(uuid.uuid4())
 
-app.secret_key = os.environ.get('LAZYOWN_SECRET_KEY', 'GrisIsComebackSayKnokKnokSecretlyxDjajajja') + SESSION_ID
+
+def _load_or_create_secret_key():
+    """Load secret key from env, file, or generate a new cryptographically secure one."""
+    secret_path = 'sessions/.secret_key'
+    env_key = os.environ.get('LAZYOWN_SECRET_KEY')
+    if env_key:
+        return env_key
+    if os.path.exists(secret_path):
+        with open(secret_path, 'r') as f:
+            return f.read().strip()
+    raw = secrets.token_hex(32)
+    ensure_sessions_dir()
+    with open(secret_path, 'w') as f:
+        f.write(raw)
+    os.chmod(secret_path, stat.S_IRUSR | stat.S_IWUSR)
+    return raw
+
+
+app.secret_key = _load_or_create_secret_key() + SESSION_ID
 app.config['SECRET_KEY'] = app.secret_key
 app.config['SESSION_COOKIE_SECURE'] = True
 app.config['SESSION_COOKIE_HTTPONLY'] = True
@@ -1720,8 +1797,23 @@ conn.execute('''CREATE TABLE IF NOT EXISTS multivector_tracking (
 conn.commit()
 conn.close()
 
-with open(f"{path}/sessions/key.aes", 'rb') as f:
-    AES_KEY = f.read()
+AES_KEY_SIZE_BYTES = 32
+key_path = f"{path}/sessions/key.aes"
+if os.path.exists(key_path):
+    with open(key_path, 'rb') as f:
+        AES_KEY = f.read()
+    if len(AES_KEY) not in (16, 24, 32):
+        logger.warning(f"Invalid AES key size ({len(AES_KEY)} bytes), regenerating {AES_KEY_SIZE_BYTES}-byte key.")
+        AES_KEY = os.urandom(AES_KEY_SIZE_BYTES)
+        with open(key_path, 'wb') as f:
+            f.write(AES_KEY)
+        os.chmod(key_path, stat.S_IRUSR | stat.S_IWUSR)
+else:
+    AES_KEY = os.urandom(AES_KEY_SIZE_BYTES)
+    ensure_sessions_dir()
+    with open(key_path, 'wb') as f:
+        f.write(AES_KEY)
+    os.chmod(key_path, stat.S_IRUSR | stat.S_IWUSR)
 
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
@@ -3003,7 +3095,10 @@ def send_lcommand(ip, port):
         return jsonify({"error": "Invalid port"}), 400
     try:
         command = request.json.get('command')
-        password = "grisiscomebacksayknokknok"
+        reverse_shell_password = getattr(config, 'c2_reverse_shell_password', None) or config.c2_pass
+        if not reverse_shell_password or len(reverse_shell_password) < 8:
+            reverse_shell_password = "grisiscomebacksayknokknok"
+        password = reverse_shell_password
         if not command:
             return jsonify({"error": "No command provided"}), 400
 
@@ -3704,6 +3799,7 @@ def delete_tool(toolname):
     return redirect(url_for('list_tools'))
 
 @app.route('/register', methods=['GET', 'POST'])
+@limiter.limit(config.c2_login_limit)
 def register():
     response = decoy()
     if response:
@@ -4682,6 +4778,39 @@ def serve_landing_page(campaign_id, short_url):
     conn.commit()
     conn.close()
     return render_template(f'phishing/landing_pages/{template_name}.html', beacon_url=short_urls[short_url]['original_url'])
+
+@app.route('/health', methods=['GET'])
+def health_check():
+    """Basic health and readiness endpoint."""
+    import pathlib
+    import sqlite3 as _sqlite3
+
+    status = {"status": "healthy", "checks": {}}
+    try:
+        ensure_sessions_dir()
+        status["checks"]["sessions_dir"] = "ok"
+    except Exception as e:
+        status["checks"]["sessions_dir"] = f"error: {e}"
+    try:
+        conn = _sqlite3.connect(DB_PATH)
+        conn.execute("SELECT 1")
+        conn.close()
+        status["checks"]["database"] = "ok"
+    except Exception as e:
+        status["checks"]["database"] = f"error: {e}"
+    any_error = any(v != "ok" for v in status["checks"].values())
+    code = 503 if any_error else 200
+    if any_error:
+        status["status"] = "unhealthy"
+    return jsonify(status), code
+
+
+@app.route('/metrics', methods=['GET'])
+def metrics_exposition():
+    """Prometheus-compatible metrics endpoint."""
+    from modules.metrics import REGISTRY
+    return Response(REGISTRY.prometheus_text(), mimetype='text/plain')
+
 
 @app.route('/api/dashboard', methods=['GET'])
 @requires_auth

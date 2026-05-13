@@ -43,6 +43,7 @@
   "c2_port": 4444,
   "c2_user": "LazyOwn",
   "c2_pass": "LazyOwn",
+  "c2_reverse_shell_password": "grisiscomebacksayknokknok",
   "beacon_scan_ports": [
     22,
     53,

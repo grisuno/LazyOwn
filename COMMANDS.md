@@ -5058,6 +5058,32 @@ Notes:
     process.
     - The go artifactory is ofuscated by garble if is installed
 
+## listener
+Manage C2 listeners: list, add, start, stop, remove.
+
+Usage:
+    listener list                  - Show all configured listeners
+    listener add <port> [ssl]      - Add a new listener (ssl: true/false)
+    listener start <id>            - Start a listener
+    listener stop <id>             - Stop a listener
+    listener remove <id>           - Remove a listener
+
+Examples:
+    listener add 4445 true
+    listener start listener-4445
+    listener stop default
+
+## sandbox
+Toggle or query Docker sandbox mode.
+
+When ``sandboxed`` is ``true`` in ``payload.json``, the framework
+automatically runs inside a Docker container on the next launch.
+
+Usage:
+    sandbox         - Show current sandbox status
+    sandbox on      - Enable sandbox mode
+    sandbox off     - Disable sandbox mode
+
 ## kick
 Handles the process of sending a spoofed ARP packet to a specified IP address with a given MAC address.
 
@@ -9647,6 +9673,15 @@ Writes:
     - Sets the RHOST to the target host IP.
     - Sets the payload options including the LHOST, USERNAME, and PASSWORD.
     - Starts the exploit with the `-j -z` options.
+
+## _load
+No description available.
+
+## _save
+No description available.
+
+## _api
+No description available.
 
 ## single_combo
 Generates single character combinations with the target name.

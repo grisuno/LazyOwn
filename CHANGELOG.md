@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new feature sandbox dockerized run and some other love \n\n Version: release/0.2.113 \n\n with much more love \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: mié 13 may 2026 00:06:17 -04 \n\n Hora: 1778645177
+
+
 ### Otros
 
 ### Otros

@@ -1,0 +1,103 @@
+apt_name: APT29
+aliases:
+- CozyBear
+- TheDukes
+- Nobelium
+- SVR
+source_urls:
+- https://www.mandiant.com/resources/blog/apt29-2024
+- https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-038a
+description: 'APT29 is a Russian state-sponsored cyber espionage group attributed
+  to the SVR.
+
+  Known for the SolarWinds supply-chain compromise (SUNBURST) and widespread
+
+  targeting of government, diplomatic, think-tank, healthcare and energy entities.
+
+  This playbook emulates the post-compromise TTPs observed in public reporting.
+
+  '
+platforms:
+- windows
+- office-365
+- azure-ad
+phases:
+- name: initial_access
+  technique_id: T1566.001
+  technique_name: Spearphishing Attachment
+  description: APT29 frequently uses spearphishing with malicious ISO/HTML attachments.
+  atomic_tests:
+  - atomic_id: T1566.001
+    name: Download Phishing Attachment
+    manual: true
+  detection_hints:
+  - Monitor for ISO/IMG mount events from user-download directories
+  - Detect HTML smuggling via user-agent anomalies
+- name: initial_access
+  technique_id: T1195.002
+  technique_name: Supply Chain Compromise
+  description: "SolarWinds SUNBURST \u2014 trojanized legitimate software updates."
+  atomic_tests:
+  - atomic_id: T1195.002
+    name: Replace Binary
+    manual: true
+  detection_hints:
+  - Verify code-signing certificates of updated binaries
+  - Monitor for unexpected outbound connections from IT management tools
+- name: execution
+  technique_id: T1059.001
+  technique_name: PowerShell
+  description: Extensive use of PowerShell for living-off-the-land execution.
+  atomic_tests:
+  - atomic_id: T1059.001
+    name: Mimikatz Obfuscated
+    manual: true
+  - atomic_id: T1059.001
+    name: Encoded PowerShell Command
+    manual: false
+  detection_hints:
+  - Look for -enc or encodedcommand usage from non-admin processes
+  - PowerShell Script Block Logging anomalies
+- name: persistence
+  technique_id: T1547.001
+  technique_name: Registry Run Keys
+  description: Teardrop and other second-stage loaders used Registry Run Keys.
+  atomic_tests:
+  - atomic_id: T1547.001
+    name: Reg Key Run
+    manual: false
+  detection_hints:
+  - Monitor HKCU\Software\Microsoft\Windows\CurrentVersion\Run modifications
+- name: defense_evasion
+  technique_id: T1027
+  technique_name: Obfuscated Files or Information
+  description: SUNBURST used custom steganographic encoding and DGA.
+  atomic_tests:
+  - atomic_id: T1027
+    name: XOR Shellcode
+    manual: true
+  detection_hints:
+  - High-entropy DNS queries
+  - Unusual process image loads from %AppData%
+- name: credential_access
+  technique_id: T1003.001
+  technique_name: LSASS Memory
+  description: Credential dumping via LSASS (Mimikatz or custom tooling).
+  atomic_tests:
+  - atomic_id: T1003.001
+    name: Dump LSASS.exe Memory
+    manual: true
+  detection_hints:
+  - LSASS access from non-system processes
+  - Enable Credential Guard where possible
+- name: exfiltration
+  technique_id: T1041
+  technique_name: Exfiltration Over C2 Channel
+  description: SUNBURST exfiltrated reconnaissance data via DNS and HTTPS.
+  atomic_tests:
+  - atomic_id: T1041
+    name: Exfiltrate Data Using DNS
+    manual: true
+  detection_hints:
+  - Long or high-entropy DNS queries to rare domains
+  - HTTPS beaconing with low frequency and jitter

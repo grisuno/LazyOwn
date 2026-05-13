@@ -8155,10 +8155,26 @@ None
 Executes a multi-step APT simulation plan based on Atomic Red Team test IDs.
 
 Parameters:
-line (str) optional: Path to the YAML plan file.
+line (str) optional: Path to the YAML plan file. Append --auto to execute
+                      generated scripts immediately instead of just generating.
 
 Returns:
 None
+
+## apt_playbook
+List, validate, and run APT playbooks based on public threat reports.
+
+Usage:
+    apt_playbook list                  - Show available APT playbooks
+    apt_playbook info <apt_name>       - Show phases and techniques
+    apt_playbook validate <apt_name>   - Check atomic tests availability
+    apt_playbook run <apt_name>        - Generate attack_plan.yaml
+    apt_playbook report <apt_name>     - Write JSON report to sessions/
+
+Examples:
+    apt_playbook list
+    apt_playbook info apt29
+    apt_playbook run apt28
 
 ## mitre_test
 Interacts with the MITRE ATT&CK framework using the STIX 2.0 format.
@@ -8581,6 +8597,27 @@ Behavior:
 
 Usage:
     caldera
+
+## caldera_import
+Import CALDERA abilities into LazyOwn playbooks.
+
+Usage:
+    caldera_import <ability_id> [playbook_name]
+    caldera_import all
+
+Examples:
+    caldera_import 4e97e699-93d7-4046-b5b3-94968bf4ac1e
+    caldera_import all
+
+## caldera_export
+Export a LazyOwn playbook to CALDERA ability YAML.
+
+Usage:
+    caldera_export <playbook_name> [ability_id_prefix]
+
+Examples:
+    caldera_export apt29
+    caldera_export fin7 lazyown-
 
 ## ntpdate
 Synchronizes the system clock with a specified NTP server.
@@ -9773,6 +9810,12 @@ Expands a regular expression into a list of characters.
 No description available.
 
 ## install_netexec_pipx
+No description available.
+
+## _load_ability
+No description available.
+
+## _ability_to_step
 No description available.
 
 ## load_chameleon

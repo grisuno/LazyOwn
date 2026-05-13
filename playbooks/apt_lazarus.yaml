@@ -1,0 +1,102 @@
+apt_name: LazarusGroup
+aliases:
+- Hidden Cobra
+- APT38
+- Zinc
+- Labyrinth Chollima
+source_urls:
+- https://www.cisa.gov/news-events/cybersecurity-advisories/aa20-239a
+- https://www.mandiant.com/resources/blog/lazarus-group-cryptocurrency
+description: 'Lazarus Group is a North Korean state-sponsored threat actor attributed
+  to
+
+  the Reconnaissance General Bureau. Known for financially motivated attacks
+
+  on banks and cryptocurrency exchanges, as well as destructive operations
+
+  (WannaCry, Sony Pictures). Uses custom malware and supply-chain compromises.
+
+  '
+platforms:
+- windows
+- linux
+- macos
+phases:
+- name: initial_access
+  technique_id: T1566.001
+  technique_name: Spearphishing Attachment
+  description: Highly tailored spearphishing with malicious documents and links.
+  atomic_tests:
+  - atomic_id: T1566.001
+    name: Download Phishing Attachment
+    manual: true
+  detection_hints:
+  - Macro-enabled documents from unexpected senders
+  - DDE field execution in Office documents
+- name: initial_access
+  technique_id: T1195.002
+  technique_name: Supply Chain Compromise
+  description: Supply-chain attacks (e.g. 3CX compromise, CCleaner).
+  atomic_tests:
+  - atomic_id: T1195.002
+    name: Replace Binary
+    manual: true
+  detection_hints:
+  - Unexpected network connections from trusted software
+  - Code-signing certificate validation
+- name: execution
+  technique_id: T1059.001
+  technique_name: PowerShell
+  description: PowerShell-based loaders and in-memory execution.
+  atomic_tests:
+  - atomic_id: T1059.001
+    name: Encoded PowerShell Command
+    manual: false
+  detection_hints:
+  - Encoded PowerShell commands
+  - DownloadString calls to CDNs
+- name: persistence
+  technique_id: T1543.003
+  technique_name: Create or Modify System Process
+  description: Service-based persistence for custom malware families.
+  atomic_tests:
+  - atomic_id: T1543.003
+    name: Create System Service
+    manual: false
+  detection_hints:
+  - New services with random names
+  - Services executing from %ProgramData%
+- name: credential_access
+  technique_id: T1003.001
+  technique_name: LSASS Memory
+  description: Credential dumping for lateral movement and financial theft.
+  atomic_tests:
+  - atomic_id: T1003.001
+    name: Dump LSASS.exe Memory
+    manual: true
+  detection_hints:
+  - Enable Credential Guard
+  - LSASS read alerts
+- name: impact
+  technique_id: T1490
+  technique_name: Inhibit System Recovery
+  description: Deletion of shadow copies and disabling recovery options before encryption.
+  atomic_tests:
+  - atomic_id: T1490
+    name: Delete Volume Shadow Copies
+    manual: false
+  detection_hints:
+  - vssadmin delete shadows commands
+  - wbadmin delete catalog execution
+- name: exfiltration
+  technique_id: T1041
+  technique_name: Exfiltration Over C2 Channel
+  description: Data exfiltration to actor-controlled infrastructure, often before
+    destructive actions.
+  atomic_tests:
+  - atomic_id: T1041
+    name: Exfiltrate Data Using DNS
+    manual: true
+  detection_hints:
+  - Large outbound transfers to rare domains
+  - DNS tunneling indicators

@@ -6151,8 +6151,20 @@ function).</p>
 <h2 id="attack_plan">attack_plan</h2>
 <p>Executes a multi-step APT simulation plan based on Atomic Red Team
 test IDs.</p>
-<p>Parameters: line (str) optional: Path to the YAML plan file.</p>
+<p>Parameters: line (str) optional: Path to the YAML plan file. Append
+–auto to execute generated scripts immediately instead of just
+generating.</p>
 <p>Returns: None</p>
+<h2 id="apt_playbook">apt_playbook</h2>
+<p>List, validate, and run APT playbooks based on public threat
+reports.</p>
+<p>Usage: apt_playbook list - Show available APT playbooks apt_playbook
+info <apt_name> - Show phases and techniques apt_playbook validate
+<apt_name> - Check atomic tests availability apt_playbook run <apt_name>
+- Generate attack_plan.yaml apt_playbook report <apt_name> - Write JSON
+report to sessions/</p>
+<p>Examples: apt_playbook list apt_playbook info apt29 apt_playbook run
+apt28</p>
 <h2 id="mitre_test">mitre_test</h2>
 <p>Interacts with the MITRE ATT&amp;CK framework using the STIX 2.0
 format.</p>
@@ -6479,6 +6491,16 @@ Installs the required dependencies. - Optionally installs GoLang
 <code>pip3</code> to be installed. - Uses parameters from
 <code>self.params</code> for version/release.</p>
 <p>Usage: caldera</p>
+<h2 id="caldera_import">caldera_import</h2>
+<p>Import CALDERA abilities into LazyOwn playbooks.</p>
+<p>Usage: caldera_import <ability_id> [playbook_name] caldera_import
+all</p>
+<p>Examples: caldera_import 4e97e699-93d7-4046-b5b3-94968bf4ac1e
+caldera_import all</p>
+<h2 id="caldera_export">caldera_export</h2>
+<p>Export a LazyOwn playbook to CALDERA ability YAML.</p>
+<p>Usage: caldera_export <playbook_name> [ability_id_prefix]</p>
+<p>Examples: caldera_export apt29 caldera_export fin7 lazyown-</p>
 <h2 id="ntpdate">ntpdate</h2>
 <p>Synchronizes the system clock with a specified NTP server.</p>
 <p>This method constructs the target NTP server address using the domain
@@ -7315,6 +7337,10 @@ characters matching the regular expression.</p>
 <h2 id="install_netexec">install_netexec</h2>
 <p>No description available.</p>
 <h2 id="install_netexec_pipx">install_netexec_pipx</h2>
+<p>No description available.</p>
+<h2 id="load_ability">_load_ability</h2>
+<p>No description available.</p>
+<h2 id="ability_to_step">_ability_to_step</h2>
 <p>No description available.</p>
 <h2 id="load_chameleon">load_chameleon</h2>
 <p>No description available.</p>

@@ -77,6 +77,7 @@ from cli.palette import CommandIndexError as _PaletteIndexError
 from cli.palette import load_index as _palette_load_index
 from cli.palette_command import build_palette_view as _palette_build_view
 from modules.metrics import REGISTRY
+from modules.listener_manager import ListenerManager
 
 
 anti_debug()
@@ -1743,6 +1744,7 @@ events = []
 counter_events = 0
 
 socketio = SocketIO(app, cors_allowed_origins="*", async_mode='threading', transports=['websocket'])
+listener_manager = ListenerManager(app, sessions_dir='sessions')
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 USER_DATA_PATH = 'users.json'
@@ -4808,7 +4810,6 @@ def health_check():
 @app.route('/metrics', methods=['GET'])
 def metrics_exposition():
     """Prometheus-compatible metrics endpoint."""
-    from modules.metrics import REGISTRY
     return Response(REGISTRY.prometheus_text(), mimetype='text/plain')
 
 
@@ -4873,6 +4874,55 @@ def api_dashboard():
     return jsonify(payload)
 
 
+# ── Listener Management API ───────────────────────────────────────────────
+
+@app.route('/api/listeners', methods=['GET'])
+@requires_auth
+def api_listeners():
+    """List all configured C2 listeners and their runtime status."""
+    return jsonify({"listeners": listener_manager.status()})
+
+
+@app.route('/api/listeners', methods=['POST'])
+@requires_auth
+def api_listeners_create():
+    """Create a new listener."""
+    data = request.get_json(silent=True) or {}
+    port = data.get('port')
+    if not port or not isinstance(port, int):
+        return jsonify({"status": "error", "message": "port (int) is required"}), 400
+    ssl_flag = data.get('ssl', False)
+    listener_id = data.get('id')
+    listener = listener_manager.add(port=port, ssl=ssl_flag, listener_id=listener_id)
+    if data.get('start', True):
+        listener_manager.start(listener.id)
+    return jsonify({"status": "ok", "listener": listener.to_dict()})
+
+
+@app.route('/api/listeners/<listener_id>/start', methods=['POST'])
+@requires_auth
+def api_listeners_start(listener_id):
+    """Start an existing listener."""
+    ok = listener_manager.start(listener_id)
+    return jsonify({"status": "ok" if ok else "error"})
+
+
+@app.route('/api/listeners/<listener_id>/stop', methods=['POST'])
+@requires_auth
+def api_listeners_stop(listener_id):
+    """Stop a running listener."""
+    ok = listener_manager.stop(listener_id)
+    return jsonify({"status": "ok" if ok else "error"})
+
+
+@app.route('/api/listeners/<listener_id>', methods=['DELETE'])
+@requires_auth
+def api_listeners_delete(listener_id):
+    """Remove a listener configuration."""
+    ok = listener_manager.remove(listener_id)
+    return jsonify({"status": "ok" if ok else "error"})
+
+
 thread = Thread(target=run_shell)
 thread.daemon = False
 thread.start()
@@ -4906,10 +4956,21 @@ if __name__ == '__main__':
     except Exception as _cbp_err:
         print(f"[collab] Blueprint not loaded: {_cbp_err}")
 
-    if ENV == 'PROD':
-        threading.Thread(target=start_reverse_shell).start()
-        app.run(host='0.0.0.0', port=lport, ssl_context=('cert.pem', 'key.pem'))
-        socketio.run(app, host='0.0.0.0', port=5000, certfile='cert.pem', keyfile='key.pem', server_side=True)
-    else:
-        print("[DEBUG] Iniciando start DEV...")
-        app.run(host='0.0.0.0', port=lport )
+    # ── Multi-listener bootstrap ─────────────────────────────────────────────
+    # Backwards compatibility: if no listeners are configured, create the
+    # legacy default listener on ``lport`` so existing workflows keep working.
+    if not listener_manager.listeners:
+        ssl_default = ENV == 'PROD' and os.path.exists('cert.pem') and os.path.exists('key.pem')
+        listener_manager.add(port=int(lport), ssl=ssl_default, listener_id='default')
+
+    listener_manager.start_all()
+
+    # Keep the main thread alive so daemon threads (DNS, watchers, listeners)
+    # continue running.  Using a simple Event so the process can be interrupted
+    # cleanly with Ctrl-C.
+    try:
+        _main_halt = threading.Event()
+        _main_halt.wait()
+    except KeyboardInterrupt:
+        print("\n[listener] Shutting down all listeners...")
+        listener_manager.stop_all()

@@ -1,0 +1,101 @@
+apt_name: FIN7
+aliases:
+- Carbanak Group
+- Navigator Group
+- Anunak
+source_urls:
+- https://www.mandiant.com/resources/blog/fin7-unmasked
+- https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-086a
+description: 'FIN7 is a financially motivated cyber-criminal group known for sophisticated
+
+  social engineering, custom malware (Carbanak, HALFBAKED, POWERSOURCE), and
+
+  supply-chain targeting of hospitality, retail and restaurant sectors. They
+
+  operate as a pseudo-legitimate penetration-testing business.
+
+  '
+platforms:
+- windows
+- linux
+phases:
+- name: initial_access
+  technique_id: T1566.001
+  technique_name: Spearphishing Attachment
+  description: Highly tailored phishing lures with booby-trapped documents.
+  atomic_tests:
+  - atomic_id: T1566.001
+    name: Download Phishing Attachment
+    manual: true
+  detection_hints:
+  - Documents with embedded VBA or DDE fields
+  - External template retrieval (Remote Template Injection)
+- name: execution
+  technique_id: T1059.001
+  technique_name: PowerShell
+  description: POWERSOURCE and other PowerShell-based loaders.
+  atomic_tests:
+  - atomic_id: T1059.001
+    name: Encoded PowerShell Command
+    manual: false
+  - atomic_id: T1059.001
+    name: Mimikatz Obfuscated
+    manual: true
+  detection_hints:
+  - Obfuscated PowerShell via Invoke-Expression
+  - DownloadString calls to CDN or image-hosting domains
+- name: persistence
+  technique_id: T1543.003
+  technique_name: Create or Modify System Process
+  description: Carbanak service-based persistence and shim databases.
+  atomic_tests:
+  - atomic_id: T1543.003
+    name: Create System Service
+    manual: false
+  detection_hints:
+  - New services with random 6-8 char names
+  - Binary paths in %TEMP% or %PUBLIC%
+- name: defense_evasion
+  technique_id: T1218.011
+  technique_name: Rundll32
+  description: Execution of payloads via rundll32 (JSSLoader, BOOSTWRITE).
+  atomic_tests:
+  - atomic_id: T1218.011
+    name: Rundll32 Execute JavaScript
+    manual: false
+  detection_hints:
+  - rundll32.exe spawning network connections
+  - Command-lines containing .dll,Run or javascript: null
+- name: credential_access
+  technique_id: T1003.001
+  technique_name: LSASS Memory
+  description: Credential harvesting to move laterally within PoS networks.
+  atomic_tests:
+  - atomic_id: T1003.001
+    name: Dump LSASS.exe Memory
+    manual: true
+  detection_hints:
+  - LSASS read access by non-system processes
+  - Use of procdump or custom dumpers
+- name: collection
+  technique_id: T1005
+  technique_name: Data from Local System
+  description: Carbanak scraped PoS memory and screenshots for card data.
+  atomic_tests:
+  - atomic_id: T1005
+    name: Screen Capture
+    manual: false
+  detection_hints:
+  - Unexpected screen-capture API usage
+  - Large memory dumps from PoS processes
+- name: exfiltration
+  technique_id: T1041
+  technique_name: Exfiltration Over C2 Channel
+  description: Exfil via encrypted C2 channels over HTTPS/DNS.
+  atomic_tests:
+  - atomic_id: T1041
+    name: Exfiltrate Data Using DNS
+    manual: true
+  detection_hints:
+  - High-volume DNS queries to DGA-like domains
+  - HTTPS beaconing with unusual JA3 signatures

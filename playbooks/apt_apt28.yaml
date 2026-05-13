@@ -1,0 +1,100 @@
+apt_name: APT28
+aliases:
+- FancyBear
+- Strontium
+- Sofacy
+- PawnStorm
+source_urls:
+- https://www.microsoft.com/en-us/security/blog/2023/10/18/star-blizzard-increases-sophistication-and-evasion-in-ongoing-attacks/
+- https://www.cisa.gov/news-events/cybersecurity-advisories/aa22-011a
+description: 'APT28 is a Russian military intelligence (GRU Unit 26165) cyber threat
+  actor.
+
+  Known for targeting government, military, security organizations and sporting
+
+  entities (Olympic Destroyer). Frequently uses spearphishing, credential
+
+  harvesting, and exploit chains.
+
+  '
+platforms:
+- windows
+- linux
+- office-365
+phases:
+- name: initial_access
+  technique_id: T1566.001
+  technique_name: Spearphishing Attachment
+  description: APT28 heavily relies on credential-harvesting spearphishing docs.
+  atomic_tests:
+  - atomic_id: T1566.001
+    name: Download Phishing Attachment
+    manual: true
+  detection_hints:
+  - Macro-enabled documents from external senders
+  - User-agent strings from unexpected geolocations
+- name: initial_access
+  technique_id: T1190
+  technique_name: Exploit Public-Facing Application
+  description: Exploitation of CVEs in webmail / VPN appliances (e.g. CVE-2023-23397).
+  atomic_tests:
+  - atomic_id: T1190
+    name: CVE-2023-23397 Outlook Exploit
+    manual: true
+  detection_hints:
+  - Unexpected MAPI connections to external SMB shares
+  - NTLMv2 hashes sent to non-domain IPs
+- name: execution
+  technique_id: T1053.005
+  technique_name: Scheduled Task/Job
+  description: Persistence and execution via scheduled tasks (Zebrocy dropper).
+  atomic_tests:
+  - atomic_id: T1053.005
+    name: Scheduled Task Creation
+    manual: false
+  detection_hints:
+  - Tasks executing from %AppData% or %Temp%
+  - WMI Event Subscriptions correlating with new tasks
+- name: persistence
+  technique_id: T1547.001
+  technique_name: Registry Run Keys
+  description: Run keys for Zebrocy and other second-stage components.
+  atomic_tests:
+  - atomic_id: T1547.001
+    name: Reg Key Run
+    manual: false
+  detection_hints:
+  - HKCU Run keys pointing to unusual paths
+- name: credential_access
+  technique_id: T1003.001
+  technique_name: LSASS Memory
+  description: Credential dumping to enable lateral movement.
+  atomic_tests:
+  - atomic_id: T1003.001
+    name: Dump LSASS.exe Memory
+    manual: true
+  detection_hints:
+  - Enable LSA protection and Credential Guard
+  - Alert on MiniDumpWriteDump or similar API calls
+- name: lateral_movement
+  technique_id: T1021.002
+  technique_name: SMB/Windows Admin Shares
+  description: Propagation via SMB and WMI (Olympic Destroyer behavior).
+  atomic_tests:
+  - atomic_id: T1021.002
+    name: SMBExec
+    manual: true
+  detection_hints:
+  - SMB authentication from non-admin accounts
+  - PsExec service creation events (Event ID 7045)
+- name: impact
+  technique_id: T1485
+  technique_name: Data Destruction
+  description: "Olympic Destroyer \u2014 wiper functionality targeting IT services."
+  atomic_tests:
+  - atomic_id: T1485
+    name: Delete Files
+    manual: true
+  detection_hints:
+  - Mass file deletion in system and backup directories
+  - Service stop commands preceding file writes

@@ -10,6 +10,7 @@
   "enable_nc": false,
   "enable_cloudflare": false,
   "run_in_memory": true,
+  "sandboxed": true,
   "enable_c2_implant_debug": "True",
   "enable_c2_debug": true,
   "enable_inline_hints": true,
@@ -44,6 +45,14 @@
   "c2_user": "LazyOwn",
   "c2_pass": "LazyOwn",
   "c2_reverse_shell_password": "grisiscomebacksayknokknok",
+  "listeners": [
+    {
+      "id": "default",
+      "port": 4444,
+      "ssl": false,
+      "active": true
+    }
+  ],
   "beacon_scan_ports": [
     22,
     53,

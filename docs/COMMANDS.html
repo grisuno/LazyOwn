@@ -3737,6 +3737,21 @@ method. - The <code>modules/run</code> file and files in
 <code>modules/backdoor/</code> and <code>modules/rootkit/</code>
 directories must exist for the agent compilation process. - The go
 artifactory is ofuscated by garble if is installed</p>
+<h2 id="listener">listener</h2>
+<p>Manage C2 listeners: list, add, start, stop, remove.</p>
+<p>Usage: listener list - Show all configured listeners listener add
+<port> [ssl] - Add a new listener (ssl: true/false) listener start <id>
+- Start a listener listener stop <id> - Stop a listener listener remove
+<id> - Remove a listener</p>
+<p>Examples: listener add 4445 true listener start listener-4445
+listener stop default</p>
+<h2 id="sandbox">sandbox</h2>
+<p>Toggle or query Docker sandbox mode.</p>
+<p>When <code>sandboxed</code> is <code>true</code> in
+<code>payload.json</code>, the framework automatically runs inside a
+Docker container on the next launch.</p>
+<p>Usage: sandbox - Show current sandbox status sandbox on - Enable
+sandbox mode sandbox off - Disable sandbox mode</p>
 <h2 id="kick">kick</h2>
 <p>Handles the process of sending a spoofed ARP packet to a specified IP
 address with a given MAC address.</p>
@@ -7218,6 +7233,12 @@ address where the Cacti service is running.</p>
 exploit for the Cacti Package Import RCE. - Sets the RHOST to the target
 host IP. - Sets the payload options including the LHOST, USERNAME, and
 PASSWORD. - Starts the exploit with the <code>-j -z</code> options.</p>
+<h2 id="load">_load</h2>
+<p>No description available.</p>
+<h2 id="save-1">_save</h2>
+<p>No description available.</p>
+<h2 id="api">_api</h2>
+<p>No description available.</p>
 <h2 id="single_combo">single_combo</h2>
 <p>Generates single character combinations with the target name.</p>
 <p>:param name: Target name to use in the combinations. :param

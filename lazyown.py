@@ -11613,6 +11613,228 @@ class LazyOwnShell(cmd2.Cmd):
 
         return
 
+    @cmd2.with_category(command_and_control_category)
+    def do_listener(self, line):
+        """Manage C2 listeners: list, add, start, stop, remove.
+
+        Usage:
+            listener list                  - Show all configured listeners
+            listener add <port> [ssl]      - Add a new listener (ssl: true/false)
+            listener start <id>            - Start a listener
+            listener stop <id>             - Stop a listener
+            listener remove <id>           - Remove a listener
+
+        Examples:
+            listener add 4445 true
+            listener start listener-4445
+            listener stop default
+        """
+        import json
+        import os
+        import requests
+        from utils import print_error, print_msg, print_warn, print_succ
+
+        listeners_path = "sessions/listeners.json"
+        parts = line.strip().split()
+        if not parts:
+            print_error("Usage: listener <list|add|start|stop|remove> [...]")
+            return
+
+        action = parts[0].lower()
+
+        # Helper to load listeners config
+        def _load():
+            if not os.path.exists(listeners_path):
+                return {"listeners": []}
+            try:
+                with open(listeners_path, "r") as f:
+                    return json.load(f)
+            except Exception:
+                return {"listeners": []}
+
+        # Helper to save listeners config
+        def _save(data):
+            os.makedirs("sessions", exist_ok=True)
+            with open(listeners_path, "w") as f:
+                json.dump(data, f, indent=2)
+
+        # Helper to call C2 API if available
+        def _api(method, endpoint, payload=None):
+            try:
+                url = f"{self.c2_url}/api/{endpoint}"
+                auth = self.c2_auth
+                if method == "GET":
+                    r = requests.get(url, auth=auth, timeout=3)
+                elif method == "POST":
+                    r = requests.post(url, json=payload, auth=auth, timeout=3)
+                elif method == "DELETE":
+                    r = requests.delete(url, auth=auth, timeout=3)
+                else:
+                    return None
+                return r.json() if r.status_code < 400 else None
+            except Exception:
+                return None
+
+        if action == "list":
+            data = _load()
+            items = data.get("listeners", [])
+            if not items:
+                print_warn("No listeners configured.")
+                return
+            print_msg(f"{'ID':<20} {'Port':<8} {'SSL':<6} {'Active':<8} {'Running'}")
+            print_msg("-" * 55)
+            for lst in items:
+                lid = lst.get("id", "-")
+                port = lst.get("port", "-")
+                ssl = str(lst.get("ssl", False))
+                active = str(lst.get("active", True))
+                running = "?"
+                api_status = _api("GET", "listeners")
+                if api_status and "listeners" in api_status:
+                    for runtime in api_status["listeners"]:
+                        if runtime.get("id") == lid:
+                            running = str(runtime.get("running", False))
+                            break
+                print_msg(f"{lid:<20} {port:<8} {ssl:<6} {active:<8} {running}")
+
+        elif action == "add":
+            if len(parts) < 2:
+                print_error("Usage: listener add <port> [ssl]")
+                return
+            try:
+                port = int(parts[1])
+            except ValueError:
+                print_error("Port must be an integer.")
+                return
+            ssl_flag = parts[2].lower() in ("true", "yes", "1") if len(parts) > 2 else False
+            listener_id = f"listener-{port}"
+
+            data = _load()
+            # Check for duplicates
+            for lst in data.get("listeners", []):
+                if lst.get("port") == port:
+                    print_warn(f"A listener on port {port} already exists ({lst.get('id')}).")
+                    return
+                if lst.get("id") == listener_id:
+                    listener_id = f"listener-{port}-{int(time.time())}"
+
+            new_listener = {
+                "id": listener_id,
+                "port": port,
+                "ssl": ssl_flag,
+                "active": True,
+                "created_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
+            }
+            data.setdefault("listeners", []).append(new_listener)
+            _save(data)
+
+            # Try to notify running C2
+            api_result = _api("POST", "listeners", {
+                "id": listener_id,
+                "port": port,
+                "ssl": ssl_flag,
+                "start": True,
+            })
+            if api_result and api_result.get("status") == "ok":
+                print_succ(f"Listener {listener_id} added and started on port {port}.")
+            else:
+                print_msg(f"Listener {listener_id} added to config. Start lazyc2 to activate.")
+
+        elif action == "start":
+            if len(parts) < 2:
+                print_error("Usage: listener start <id>")
+                return
+            listener_id = parts[1]
+            api_result = _api("POST", f"listeners/{listener_id}/start")
+            if api_result and api_result.get("status") == "ok":
+                print_succ(f"Listener {listener_id} started.")
+            else:
+                print_warn(f"Could not start {listener_id} via API. Restart lazyc2 to apply changes.")
+
+        elif action == "stop":
+            if len(parts) < 2:
+                print_error("Usage: listener stop <id>")
+                return
+            listener_id = parts[1]
+            api_result = _api("POST", f"listeners/{listener_id}/stop")
+            if api_result and api_result.get("status") == "ok":
+                print_succ(f"Listener {listener_id} stopped.")
+            else:
+                print_warn(f"Could not stop {listener_id} via API.")
+
+        elif action == "remove":
+            if len(parts) < 2:
+                print_error("Usage: listener remove <id>")
+                return
+            listener_id = parts[1]
+            data = _load()
+            original_len = len(data.get("listeners", []))
+            data["listeners"] = [l for l in data.get("listeners", []) if l.get("id") != listener_id]
+            if len(data["listeners"]) == original_len:
+                print_error(f"Listener {listener_id} not found.")
+                return
+            _save(data)
+            api_result = _api("DELETE", f"listeners/{listener_id}")
+            if api_result and api_result.get("status") == "ok":
+                print_succ(f"Listener {listener_id} removed.")
+            else:
+                print_msg(f"Listener {listener_id} removed from config.")
+
+        else:
+            print_error(f"Unknown action: {action}. Use list, add, start, stop, remove.")
+
+    @cmd2.with_category(command_and_control_category)
+    def do_sandbox(self, line):
+        """Toggle or query Docker sandbox mode.
+
+        When ``sandboxed`` is ``true`` in ``payload.json``, the framework
+        automatically runs inside a Docker container on the next launch.
+
+        Usage:
+            sandbox         - Show current sandbox status
+            sandbox on      - Enable sandbox mode
+            sandbox off     - Disable sandbox mode
+        """
+        import json
+        import os
+
+        payload_path = "payload.json"
+        if not os.path.exists(payload_path):
+            print_error("payload.json not found.")
+            return
+
+        try:
+            with open(payload_path, "r") as f:
+                data = json.load(f)
+        except Exception as e:
+            print_error(f"Failed to read payload.json: {e}")
+            return
+
+        current = data.get("sandboxed", False)
+
+        if not line:
+            status = "ENABLED" if current else "DISABLED"
+            print_msg(f"Sandbox mode is currently: {status}")
+            print_msg("Usage: sandbox [on|off]")
+            return
+
+        action = line.strip().lower()
+        if action in ("on", "true", "1", "yes"):
+            data["sandboxed"] = True
+        elif action in ("off", "false", "0", "no"):
+            data["sandboxed"] = False
+        else:
+            print_error("Usage: sandbox [on|off]")
+            return
+
+        try:
+            with open(payload_path, "w") as f:
+                json.dump(data, f, indent=2)
+            new_status = "ENABLED" if data["sandboxed"] else "DISABLED"
+            print_succ(f"Sandbox mode {new_status}. Restart LazyOwn to apply.")
+        except Exception as e:
+            print_error(f"Failed to write payload.json: {e}")
+
     @cmd2.with_category(miscellaneous_category)
     def do_kick(self, line):
         """

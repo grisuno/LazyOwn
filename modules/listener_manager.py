@@ -53,9 +53,13 @@ class Listener:
 
 
 class ListenerManager:
-    """Manage multiple C2 listener ports."""
+    """Manage multiple C2 listener ports.
 
-    def __init__(self, app: Any, sessions_dir: str = "sessions"):
+    ``app`` may be ``None`` when used from the CLI for config-only operations
+    (add, remove, list).  Start/stop require a live Flask application instance.
+    """
+
+    def __init__(self, app: Any = None, sessions_dir: str = "sessions"):
         self.app = app
         self.sessions_dir = sessions_dir
         self.listeners: dict[str, Listener] = {}
@@ -117,7 +121,14 @@ class ListenerManager:
         return True
 
     def start(self, listener_id: str) -> bool:
-        """Start a single listener."""
+        """Start a single listener.
+
+        Requires a live Flask ``app`` instance.  Returns ``False`` immediately
+        when called without one (CLI config-only mode).
+        """
+        if self.app is None:
+            print_warn("[listener] No Flask app — start via the C2 API or restart lazyc2.")
+            return False
         listener = self.listeners.get(listener_id)
         if listener is None:
             print_error(f"[listener] {listener_id} not found.")

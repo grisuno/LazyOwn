@@ -6,6 +6,13 @@
 
 ### Otros
 
+  *   * feat(feat): recomended commands and some love \n\n Version: release/0.2.115 \n\n  \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: jue 14 may 2026 01:26:16 -04 \n\n Hora: 1778736376
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): some playbooks \n\n Version: release/0.2.114 \n\n mitre attck \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: mié 13 may 2026 03:54:29 -04 \n\n Hora: 1778658869
 
 

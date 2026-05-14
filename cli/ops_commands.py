@@ -887,8 +887,86 @@ def sitrep(payload: dict[str, Any], sessions_dir: str = "sessions") -> None:
     if plan_snippet:
         _console.print(f"  [bold]Plan[/]          [dim]{plan_snippet}[/]")
 
+    # What's next
+    _console.print()
+    _console.rule("[bold]What to do next[/]")
+    _print_next_steps(
+        rhost=rhost,
+        phase=phase.lower(),
+        has_scan=bool(rhost_scans),
+        cred_count=cred_count,
+        n_tasks_new=n_new,
+        n_hosts=n_hosts,
+    )
     _console.rule()
     _console.print()
+
+
+def _print_next_steps(
+    rhost: str,
+    phase: str,
+    has_scan: bool,
+    cred_count: int,
+    n_tasks_new: int,
+    n_hosts: int,
+) -> None:
+    """Print 2-4 contextual next-step suggestions based on engagement state.
+
+    Args:
+        rhost: Active target IP (or "—" if unset).
+        phase: Current phase string (lowercase).
+        has_scan: True when a nmap scan file exists for rhost.
+        cred_count: Number of credential lines captured.
+        n_tasks_new: Number of tasks in New status.
+        n_hosts: Number of hosts in world model.
+    """
+    steps: list[tuple[str, str]] = []
+
+    if rhost == "—":
+        steps.append(("wizard", "configure rhost, lhost, domain and wordlists"))
+        steps.append(("assign rhost <IP>", "set target IP directly"))
+        _render_steps(steps)
+        return
+
+    if not has_scan:
+        steps.append(("lazynmap", "full port scan — no scan found for this target yet"))
+        steps.append(("ping", "quick host reachability check before scanning"))
+    else:
+        if phase in ("recon", "scan", "enum", "unknown"):
+            steps.append(("recommend_next", "AI-powered next command suggestion"))
+            steps.append(("palette enum", "browse enumeration commands for this phase"))
+            if not cred_count:
+                steps.append(("suggest_next", "graph-based command recommendation"))
+        elif phase == "exploit":
+            steps.append(("recommend_next", "AI next-step from current scan results"))
+            steps.append(("palette exploit", "browse exploitation commands"))
+        elif phase == "privesc":
+            steps.append(("linpeas", "Linux privilege escalation scan (os_id=1)"))
+            steps.append(("winpeas", "Windows privilege escalation scan (os_id=2)"))
+            steps.append(("recommend_next", "AI recommendation based on current state"))
+        elif phase in ("lateral", "cred"):
+            steps.append(("recommend_next", "AI lateral movement or cred-access suggestion"))
+            if cred_count:
+                steps.append(("l00t", f"review {cred_count} captured credential(s)"))
+        elif phase == "report":
+            steps.append(("vulns", "review discovered vulnerabilities"))
+            steps.append(("eyewitness", "screenshot web services for the report"))
+        else:
+            steps.append(("recommend_next", "AI-powered next command suggestion"))
+            steps.append(("palette recon", "browse recon commands"))
+
+    if n_tasks_new:
+        steps.append(("tasks", f"review {n_tasks_new} open task(s) in the backlog"))
+
+    if not steps:
+        steps.append(("sitrep", "re-run to refresh state after next command"))
+
+    _render_steps(steps)
+
+
+def _render_steps(steps: list[tuple[str, str]]) -> None:
+    for cmd, reason in steps:
+        _console.print(f"  [bold cyan]{cmd:<25}[/] [dim]{reason}[/]")
 
 
 def _read_plan() -> str:

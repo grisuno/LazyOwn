@@ -35,6 +35,8 @@ from cli.graph_advisor import format_neighbors as _format_neighbors
 from cli.graph_advisor import format_search_table as _format_search_table
 from cli.graph_advisor import format_suggestions as _format_suggestions
 from cli.reactive_hints import render_inline_hints as _render_inline_hints
+from cli.engagement_hooks import render_engagement_hook as _render_engagement_hook
+from cli.engagement_hooks import reset_session as _reset_engagement_session
 from cli.wizard import run as _run_wizard
 from cli.protips import print_session_tip as _print_session_tip
 from cli.protips import render_contextual_tip as _render_contextual_tip
@@ -214,6 +216,11 @@ class LazyOwnShell(cmd2.Cmd):
             self.register_postcmd_hook(self._inline_hint_hook)
         except Exception as exc:
             print_warn(f"inline hints hook not registered: {exc}")
+        try:
+            self.register_postcmd_hook(self._engagement_hook)
+            _reset_engagement_session()
+        except Exception as exc:
+            print_warn(f"engagement hook not registered: {exc}")
         self.output = ""
         self.custom_prompt = getprompt()
         self.c2_url = f"https://{lhost}:{c2_port}"
@@ -431,6 +438,35 @@ class LazyOwnShell(cmd2.Cmd):
                     "lhost": self.params.get("lhost") or "",
                 }
                 _render_contextual_tip(cmd_str, ctx)
+        except Exception:
+            pass
+        return data
+
+    def _engagement_hook(self, data):
+        """Post-command hook: biological curiosity reveal + VRI reward.
+
+        Registered via ``register_postcmd_hook`` during ``__init__``.
+        Respects ``enable_inline_hints`` so operators can silence all
+        engagement output with ``set enable_inline_hints false``.
+
+        Args:
+            data: cmd2 PostcommandData containing the executed statement.
+
+        Returns:
+            data unchanged.
+        """
+        try:
+            enabled = str(self.params.get("enable_inline_hints", True)).lower() not in ("false", "0", "no")
+            cmd_str = str(getattr(data, "statement", "") or "")
+            cmd = cmd_str.split()[0] if cmd_str.split() else ""
+            phase = ""
+            try:
+                import json as _json
+                wm = _json.loads(open("sessions/world_model.json").read())
+                phase = (wm.get("phase") or wm.get("current_phase") or "").lower()
+            except Exception:
+                pass
+            _render_engagement_hook(cmd=cmd, phase=phase, enabled=enabled)
         except Exception:
             pass
         return data
@@ -1047,6 +1083,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         return '\n'.join(wrapped_lines)
 
+    @cmd2.with_category(miscellaneous_category)
     def do_notify(self, arg):
         """Command to trigger a toastr-like notification.
         Usage: notify <type> <message>
@@ -1066,6 +1103,7 @@ class LazyOwnShell(cmd2.Cmd):
             print_error("Error:")
 
 
+    @cmd2.with_category(miscellaneous_category)
     def do_EOF(self, line):
         """
         Handle the end-of-file (EOF) condition.
@@ -1195,7 +1233,18 @@ class LazyOwnShell(cmd2.Cmd):
             _print_readiness(items)
             return
 
-        _run_wizard(self.params, save=_save)
+        result = _run_wizard(self.params, save=_save)
+        if result and result.saved:
+            from rich.console import Console as _Console
+            _c = _Console(highlight=False, soft_wrap=True)
+            _c.print()
+            _c.rule("[bold green]Setup complete — suggested next steps[/]")
+            _c.print("  [bold cyan]sitrep[/]                    confirm your configuration at a glance")
+            _c.print("  [bold cyan]lazynmap[/]                  full port scan of the target")
+            _c.print("  [bold cyan]palette recon[/]             browse all recon commands")
+            _c.print("  [bold cyan]recommend_next[/]            AI-powered command suggestion")
+            _c.rule()
+            _c.print()
 
     @cmd2.with_category(miscellaneous_category)
     def do_ctx(self, line):
@@ -1580,6 +1629,102 @@ class LazyOwnShell(cmd2.Cmd):
             return
         recent = seeds if seeds else advisor.read_recent_commands()
         print_msg(_format_suggestions(advisor.suggest_next(recent, limit=limit)))
+
+    @cmd2.with_category(miscellaneous_category)
+    def do_recommend_next(self, line):
+        """Recommend the next command using policy engine + graph advisor.
+
+        Runs two complementary recommendation layers and merges their output:
+
+        1. **Policy engine** (``skills/lazyown_policy.py``) — reads historical
+           command transitions from ``sessions/`` and ranks the next action by
+           learned success rates.  Always available; no API key required.
+        2. **Graph advisor** (``cli/graph_advisor.py``) — walks the graphify
+           knowledge graph from your recent commands.  Requires ``/graphify .``
+           to have been run at least once.
+
+        This is the CLI equivalent of the MCP tool ``lazyown_recommend_next``.
+
+        Usage:
+            ``recommend_next``
+        """
+        from rich.console import Console as _RC
+        from rich.rule import Rule
+        c = _RC(highlight=False, soft_wrap=True)
+        rhost = self.params.get("rhost") or "unknown"
+        found_any = False
+
+        # Layer 1 — policy engine
+        try:
+            import sys as _sys
+            _skills = str(__import__("pathlib").Path("skills").resolve())
+            if _skills not in _sys.path:
+                _sys.path.insert(0, _skills)
+            from lazyown_policy import LazyOwnPolicyIntegration
+            policy = LazyOwnPolicyIntegration()
+            recs = policy.get_recommendations(rhost)
+            if recs:
+                found_any = True
+                c.print(Rule("[bold]Policy recommendations[/] (learned from session history)"))
+                for i, r in enumerate(recs, 1):
+                    conf = r.get("confidence", 0)
+                    bar = "█" * int(conf * 10)
+                    cat = r.get("category", "?")
+                    reason = r.get("reason", "")
+                    c.print(f"  [bold cyan]{i}.[/] [{bar:<10}] [bold]{conf:.0%}[/]  {cat}")
+                    if reason:
+                        c.print(f"       [dim]{reason}[/]")
+                c.print()
+        except Exception as _e:
+            print_warn(f"Policy engine unavailable: {_e}")
+
+        # Layer 2 — command index (phase-aware, no external deps)
+        try:
+            import json as _json
+            import csv as _csv
+            _idx = _json.loads(open("cli/command_index.json").read())
+            _ptc = _idx.get("phase_to_commands", {})
+            _cmds_list = _idx.get("commands", [])
+            _summary_map = {
+                e["name"]: e.get("summary", "")
+                for e in _cmds_list if isinstance(e, dict) and "name" in e
+            }
+            _phase_key = self.params.get("phase", "") or ""
+            _phase_aliases = {
+                "recon": "recon", "scan": "recon", "enum": "enum",
+                "exploit": "exploit", "privesc": "privesc",
+                "lateral": "lateral", "cred": "cred",
+                "persist": "persist", "exfil": "exfil",
+                "report": "report", "c2": "c2",
+            }
+            _mapped = _phase_aliases.get(_phase_key.lower(), "") or "enum"
+            _candidates = _ptc.get(_mapped, [])
+            # Read run history from CSV (no graph needed)
+            _seen: set = set()
+            _csv_path = "sessions/LazyOwn_session_report.csv"
+            try:
+                with open(_csv_path, newline="", errors="ignore") as _fh:
+                    for _row in _csv.DictReader(_fh):
+                        _cmd = (_row.get("command") or "").strip()
+                        if _cmd:
+                            _seen.add(_cmd)
+                            _seen.add(f"do_{_cmd}")
+            except OSError:
+                pass
+            _never_run = [c for c in _candidates if c not in _seen][:8]
+            if _never_run:
+                found_any = True
+                print_msg(f"Commands not yet run in phase '{_mapped}':")
+                for _cmd_name in _never_run[:5]:
+                    _label = _cmd_name.replace("do_", "")
+                    _summary = _summary_map.get(_cmd_name, "")[:70]
+                    print_msg(f"  {_label:<28} {_summary}")
+        except Exception as _e:
+            print_warn(f"Command index unavailable: {_e}")
+
+        if not found_any:
+            print_warn("No recommendations yet.")
+            print_msg("Start with 'lazynmap' to generate scan data, then run 'recommend_next' again.")
 
     @cmd2.with_category(miscellaneous_category)
     def do_dashboard(self, line):
@@ -5199,22 +5344,22 @@ class LazyOwnShell(cmd2.Cmd):
                             result.stdout[ttl_index + 4 : ttl_index + 7]
                         )
                         print_msg(f"TTL:{ttl_value}")
-                        if ttl_value <= 60 or ttl_value <= 64:
+                        if ttl_value <= 64:
                             print_msg(
                                 f"{GREEN}Host activo {CYAN}probablemente es {BLUE}Linux{RESET}"
                             )
                             os_json.append({
-                                "id": '2',
+                                "id": '1',
                                 "os": 'Linux',
                                 "ttl": ttl_value,
                                 "state": 'active'
                             })
-                        elif ttl_value <= 120 or ttl_value <= 128:
+                        elif ttl_value <= 128:
                             print_msg(
                                 f"{GREEN}Host activo {CYAN}probablemente es {RED}Windows{RESET}"
                             )
                             os_json.append({
-                                "id": '1',
+                                "id": '2',
                                 "os": 'Windows',
                                 "ttl": ttl_value,
                                 "state": 'active'
@@ -5250,11 +5395,13 @@ class LazyOwnShell(cmd2.Cmd):
             # The autonomous loop and tool selectors read os_id from params.
             if os_json:
                 detected_os_id = os_json[0].get("id", "4")
-                self.params["os_id"] = detected_os_id
-                print_msg(
-                    f"os_id updated to {detected_os_id} "
-                    f"({os_json[0].get('os', 'Unknown')})"
-                )
+                detected_os_name = os_json[0].get("os", "Unknown")
+                _apply_assign(self.params, "os_id", detected_os_id, save=_save_payload)
+                try:
+                    self.aliases.update(_load_aliases(self.params))
+                except Exception:
+                    pass
+                print_msg(f"os_id set to {detected_os_id} ({detected_os_name}) — persisted to payload.json")
         return
 
     @cmd2.with_category(recon_category)
@@ -6454,6 +6601,7 @@ class LazyOwnShell(cmd2.Cmd):
         return
 
 
+    @cmd2.with_category(miscellaneous_category)
     def do_ipp(self, line):
         """
         Displays IP addresses of network interfaces and prints the IP address from the `tun0` interface.
@@ -6568,6 +6716,7 @@ class LazyOwnShell(cmd2.Cmd):
         return
 
 
+    @cmd2.with_category(miscellaneous_category)
     def do_rrhost(self, line):
         """
         Updates the command prompt to include the remote host (rhost) and current working directory.
@@ -11620,8 +11769,8 @@ class LazyOwnShell(cmd2.Cmd):
         Usage:
             listener list                  - Show all configured listeners
             listener add <port> [ssl]      - Add a new listener (ssl: true/false)
-            listener start <id>            - Start a listener
-            listener stop <id>             - Stop a listener
+            listener start <id>            - Start a listener via C2 API
+            listener stop <id>             - Stop a listener via C2 API
             listener remove <id>           - Remove a listener
 
         Examples:
@@ -11629,36 +11778,17 @@ class LazyOwnShell(cmd2.Cmd):
             listener start listener-4445
             listener stop default
         """
-        import json
-        import os
         import requests
-        from utils import print_error, print_msg, print_warn, print_succ
+        from modules.listener_manager import ListenerManager
 
-        listeners_path = "sessions/listeners.json"
         parts = line.strip().split()
         if not parts:
             print_error("Usage: listener <list|add|start|stop|remove> [...]")
             return
 
         action = parts[0].lower()
+        mgr = ListenerManager(app=None, sessions_dir=self.sessions_dir)
 
-        # Helper to load listeners config
-        def _load():
-            if not os.path.exists(listeners_path):
-                return {"listeners": []}
-            try:
-                with open(listeners_path, "r") as f:
-                    return json.load(f)
-            except Exception:
-                return {"listeners": []}
-
-        # Helper to save listeners config
-        def _save(data):
-            os.makedirs("sessions", exist_ok=True)
-            with open(listeners_path, "w") as f:
-                json.dump(data, f, indent=2)
-
-        # Helper to call C2 API if available
         def _api(method, endpoint, payload=None):
             try:
                 url = f"{self.c2_url}/api/{endpoint}"
@@ -11676,26 +11806,24 @@ class LazyOwnShell(cmd2.Cmd):
                 return None
 
         if action == "list":
-            data = _load()
-            items = data.get("listeners", [])
-            if not items:
+            entries = mgr.status()
+            if not entries:
                 print_warn("No listeners configured.")
                 return
+            api_status = _api("GET", "listeners")
+            runtime_map: dict = {}
+            if api_status and "listeners" in api_status:
+                runtime_map = {s["id"]: s.get("running", False) for s in api_status["listeners"]}
             print_msg(f"{'ID':<20} {'Port':<8} {'SSL':<6} {'Active':<8} {'Running'}")
             print_msg("-" * 55)
-            for lst in items:
-                lid = lst.get("id", "-")
-                port = lst.get("port", "-")
-                ssl = str(lst.get("ssl", False))
-                active = str(lst.get("active", True))
-                running = "?"
-                api_status = _api("GET", "listeners")
-                if api_status and "listeners" in api_status:
-                    for runtime in api_status["listeners"]:
-                        if runtime.get("id") == lid:
-                            running = str(runtime.get("running", False))
-                            break
-                print_msg(f"{lid:<20} {port:<8} {ssl:<6} {active:<8} {running}")
+            for entry in entries:
+                lid = entry.get("id", "-")
+                running = str(runtime_map.get(lid, entry.get("running", "?")))
+                print_msg(
+                    f"{lid:<20} {entry.get('port', '-'):<8} "
+                    f"{str(entry.get('ssl', False)):<6} "
+                    f"{str(entry.get('active', True)):<8} {running}"
+                )
 
         elif action == "add":
             if len(parts) < 2:
@@ -11707,38 +11835,21 @@ class LazyOwnShell(cmd2.Cmd):
                 print_error("Port must be an integer.")
                 return
             ssl_flag = parts[2].lower() in ("true", "yes", "1") if len(parts) > 2 else False
-            listener_id = f"listener-{port}"
-
-            data = _load()
-            # Check for duplicates
-            for lst in data.get("listeners", []):
-                if lst.get("port") == port:
-                    print_warn(f"A listener on port {port} already exists ({lst.get('id')}).")
+            for entry in mgr.status():
+                if entry.get("port") == port:
+                    print_warn(f"A listener on port {port} already exists ({entry.get('id')}).")
                     return
-                if lst.get("id") == listener_id:
-                    listener_id = f"listener-{port}-{int(time.time())}"
-
-            new_listener = {
-                "id": listener_id,
-                "port": port,
-                "ssl": ssl_flag,
-                "active": True,
-                "created_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
-            }
-            data.setdefault("listeners", []).append(new_listener)
-            _save(data)
-
-            # Try to notify running C2
+            listener = mgr.add(port=port, ssl=ssl_flag)
             api_result = _api("POST", "listeners", {
-                "id": listener_id,
+                "id": listener.id,
                 "port": port,
                 "ssl": ssl_flag,
                 "start": True,
             })
             if api_result and api_result.get("status") == "ok":
-                print_succ(f"Listener {listener_id} added and started on port {port}.")
+                print_succ(f"Listener {listener.id} added and started on port {port}.")
             else:
-                print_msg(f"Listener {listener_id} added to config. Start lazyc2 to activate.")
+                print_msg(f"Listener {listener.id} added to config. Start lazyc2 to activate.")
 
         elif action == "start":
             if len(parts) < 2:
@@ -11767,13 +11878,8 @@ class LazyOwnShell(cmd2.Cmd):
                 print_error("Usage: listener remove <id>")
                 return
             listener_id = parts[1]
-            data = _load()
-            original_len = len(data.get("listeners", []))
-            data["listeners"] = [l for l in data.get("listeners", []) if l.get("id") != listener_id]
-            if len(data["listeners"]) == original_len:
-                print_error(f"Listener {listener_id} not found.")
+            if not mgr.remove(listener_id):
                 return
-            _save(data)
             api_result = _api("DELETE", f"listeners/{listener_id}")
             if api_result and api_result.get("status") == "ok":
                 print_succ(f"Listener {listener_id} removed.")
@@ -11795,45 +11901,35 @@ class LazyOwnShell(cmd2.Cmd):
             sandbox on      - Enable sandbox mode
             sandbox off     - Disable sandbox mode
         """
-        import json
-        import os
+        action = line.strip().lower() if line else ""
 
-        payload_path = "payload.json"
-        if not os.path.exists(payload_path):
-            print_error("payload.json not found.")
-            return
-
-        try:
-            with open(payload_path, "r") as f:
-                data = json.load(f)
-        except Exception as e:
-            print_error(f"Failed to read payload.json: {e}")
-            return
-
-        current = data.get("sandboxed", False)
-
-        if not line:
+        if not action:
+            current = self.params.get("sandboxed", False)
             status = "ENABLED" if current else "DISABLED"
             print_msg(f"Sandbox mode is currently: {status}")
             print_msg("Usage: sandbox [on|off]")
             return
 
-        action = line.strip().lower()
         if action in ("on", "true", "1", "yes"):
-            data["sandboxed"] = True
+            new_val = True
         elif action in ("off", "false", "0", "no"):
-            data["sandboxed"] = False
+            new_val = False
         else:
             print_error("Usage: sandbox [on|off]")
             return
 
+        updated = _apply_assign(self.params, "sandboxed", new_val, save=_save_payload)
+        if not updated:
+            print_error("'sandboxed' key not found in payload.json. Run 'show' to inspect config.")
+            return
+
         try:
-            with open(payload_path, "w") as f:
-                json.dump(data, f, indent=2)
-            new_status = "ENABLED" if data["sandboxed"] else "DISABLED"
-            print_succ(f"Sandbox mode {new_status}. Restart LazyOwn to apply.")
-        except Exception as e:
-            print_error(f"Failed to write payload.json: {e}")
+            self.aliases.update(_load_aliases(self.params))
+        except Exception as exc:
+            print_warn(f"aliases refresh failed after sandbox toggle: {exc}")
+
+        new_status = "ENABLED" if new_val else "DISABLED"
+        print_succ(f"Sandbox mode {new_status}. Restart LazyOwn to apply.")
 
     @cmd2.with_category(miscellaneous_category)
     def do_kick(self, line):
@@ -28433,6 +28529,7 @@ class LazyOwnShell(cmd2.Cmd):
             self.display_toastr(f"Failed to generate shellcode. Check msfvenom output.", type="error")
 
 
+    @cmd2.with_category(miscellaneous_category)
     def do_pop(self, line):
         """
         Open a centered popup in the current tmux session to execute a shell command.
@@ -28469,6 +28566,7 @@ class LazyOwnShell(cmd2.Cmd):
         self.cmd(cmd)
         return
     
+    @cmd2.with_category(miscellaneous_category)
     @with_argument_list
     def do_addalias(self, arglist):
         """
@@ -28518,6 +28616,7 @@ class LazyOwnShell(cmd2.Cmd):
         except Exception as e:
             self.display_toastr(f"[!] Failed to save alias: {e}", type="error")
 
+    @cmd2.with_category(miscellaneous_category)
     def do_listaliases(self, _):
         """List all available aliases."""
         if not self.aliases:

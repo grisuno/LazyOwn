@@ -46,6 +46,19 @@ Args:
 Returns:
     data unchanged — the hook must return PostcommandData.
 
+## _engagement_hook
+Post-command hook: biological curiosity reveal + VRI reward.
+
+Registered via ``register_postcmd_hook`` during ``__init__``.
+Respects ``enable_inline_hints`` so operators can silence all
+engagement output with ``set enable_inline_hints false``.
+
+Args:
+    data: cmd2 PostcommandData containing the executed statement.
+
+Returns:
+    data unchanged.
+
 ## _did_you_mean
 Return up to ``limit`` close-matching command names.
 
@@ -438,6 +451,23 @@ recent history (``suggest_next lazynmap do_ping 7``).
     a numeric limit.
 :type line: str
 :return: None
+
+## recommend_next
+Recommend the next command using policy engine + graph advisor.
+
+Runs two complementary recommendation layers and merges their output:
+
+1. **Policy engine** (``skills/lazyown_policy.py``) — reads historical
+   command transitions from ``sessions/`` and ranks the next action by
+   learned success rates.  Always available; no API key required.
+2. **Graph advisor** (``cli/graph_advisor.py``) — walks the graphify
+   knowledge graph from your recent commands.  Requires ``/graphify .``
+   to have been run at least once.
+
+This is the CLI equivalent of the MCP tool ``lazyown_recommend_next``.
+
+Usage:
+    ``recommend_next``
 
 ## dashboard
 Launch the full-screen LazyOwn operator dashboard (Textual TUI).
@@ -5064,8 +5094,8 @@ Manage C2 listeners: list, add, start, stop, remove.
 Usage:
     listener list                  - Show all configured listeners
     listener add <port> [ssl]      - Add a new listener (ssl: true/false)
-    listener start <id>            - Start a listener
-    listener stop <id>             - Stop a listener
+    listener start <id>            - Start a listener via C2 API
+    listener stop <id>             - Stop a listener via C2 API
     listener remove <id>           - Remove a listener
 
 Examples:
@@ -9710,12 +9740,6 @@ Writes:
     - Sets the RHOST to the target host IP.
     - Sets the payload options including the LHOST, USERNAME, and PASSWORD.
     - Starts the exploit with the `-j -z` options.
-
-## _load
-No description available.
-
-## _save
-No description available.
 
 ## _api
 No description available.

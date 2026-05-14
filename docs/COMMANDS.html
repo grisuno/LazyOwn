@@ -209,6 +209,15 @@ the shell.</p>
 <p>Args: data: cmd2 PostcommandData containing the executed
 statement.</p>
 <p>Returns: data unchanged — the hook must return PostcommandData.</p>
+<h2 id="engagement_hook">_engagement_hook</h2>
+<p>Post-command hook: biological curiosity reveal + VRI reward.</p>
+<p>Registered via <code>register_postcmd_hook</code> during
+<code>__init__</code>. Respects <code>enable_inline_hints</code> so
+operators can silence all engagement output with
+<code>set enable_inline_hints false</code>.</p>
+<p>Args: data: cmd2 PostcommandData containing the executed
+statement.</p>
+<p>Returns: data unchanged.</p>
 <h2 id="did_you_mean">_did_you_mean</h2>
 <p>Return up to <code>limit</code> close-matching command names.</p>
 <p>Combines the local <code>do_*</code> index with the graphify
@@ -494,6 +503,22 @@ space-separated command names to override the recent history
 (<code>suggest_next lazynmap do_ping 7</code>).</p>
 <p>:param line: optional list of seed commands, optionally followed by a
 numeric limit. :type line: str :return: None</p>
+<h2 id="recommend_next">recommend_next</h2>
+<p>Recommend the next command using policy engine + graph advisor.</p>
+<p>Runs two complementary recommendation layers and merges their
+output:</p>
+<ol type="1">
+<li><strong>Policy engine</strong>
+(<code>skills/lazyown_policy.py</code>) — reads historical command
+transitions from <code>sessions/</code> and ranks the next action by
+learned success rates. Always available; no API key required.</li>
+<li><strong>Graph advisor</strong> (<code>cli/graph_advisor.py</code>) —
+walks the graphify knowledge graph from your recent commands. Requires
+<code>/graphify .</code> to have been run at least once.</li>
+</ol>
+<p>This is the CLI equivalent of the MCP tool
+<code>lazyown_recommend_next</code>.</p>
+<p>Usage: <code>recommend_next</code></p>
 <h2 id="dashboard">dashboard</h2>
 <p>Launch the full-screen LazyOwn operator dashboard (Textual TUI).</p>
 <p>Opens an auto-refreshing terminal dashboard showing the active
@@ -3741,8 +3766,8 @@ artifactory is ofuscated by garble if is installed</p>
 <p>Manage C2 listeners: list, add, start, stop, remove.</p>
 <p>Usage: listener list - Show all configured listeners listener add
 <port> [ssl] - Add a new listener (ssl: true/false) listener start <id>
-- Start a listener listener stop <id> - Stop a listener listener remove
-<id> - Remove a listener</p>
+- Start a listener via C2 API listener stop <id> - Stop a listener via
+C2 API listener remove <id> - Remove a listener</p>
 <p>Examples: listener add 4445 true listener start listener-4445
 listener stop default</p>
 <h2 id="sandbox">sandbox</h2>
@@ -7255,10 +7280,6 @@ address where the Cacti service is running.</p>
 exploit for the Cacti Package Import RCE. - Sets the RHOST to the target
 host IP. - Sets the payload options including the LHOST, USERNAME, and
 PASSWORD. - Starts the exploit with the <code>-j -z</code> options.</p>
-<h2 id="load">_load</h2>
-<p>No description available.</p>
-<h2 id="save-1">_save</h2>
-<p>No description available.</p>
 <h2 id="api">_api</h2>
 <p>No description available.</p>
 <h2 id="single_combo">single_combo</h2>

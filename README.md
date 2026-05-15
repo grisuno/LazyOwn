@@ -12975,6 +12975,13 @@ No description available.
 
 ### Otros
 
+  *   * feat(feat): gap2 team server UI and gap3 onboarding quickstart \n\n Version: release/0.2.118 \n\n add collab.html team dashboard, collab_join CLI cmd, QUICKSTART.md and 67 tests \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: vie 15 may 2026 16:07:58 -04 \n\n Hora: 1778875678
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): blacksandbeacon Linux BOF addon \n\n Version: release/0.2.117 \n\n add blacksandbeacon and blacksandbeacon_bof lazyaddons with 59 tests and README updates \n\n Modified file(s):\n- README.md - lazyaddons/blacksandbeacon.yaml - lazyaddons/blacksandbeacon_bof.yaml - tests/test_blacksandbeacon_addon.py\nCreated file(s):\n- lazyaddons/blacksandbeacon.yaml - lazyaddons/blacksandbeacon_bof.yaml - tests/test_blacksandbeacon_addon.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: vie 15 may 2026 14:02:09 -04 \n\n Hora: 1778868129
 
 

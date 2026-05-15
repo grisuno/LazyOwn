@@ -534,12 +534,19 @@ class ParquetSelector(ICommandSelector):
             rows = self._pdb.query_session(
                 phase=category, target=target, success_only=True, limit=30
             )
+            blacklist = _get_campaign_blacklist()
+            # Commands blacklisted under this category or globally
+            blocked = set(blacklist.get(category, []) + blacklist.get("any", []))
             freq: Dict[str, int] = {}
             for r in rows:
                 cmd = (r.get("command") or "").strip().split()[0]
-                if cmd and not cmd.startswith("/") and not cmd.startswith("echo"):
-                    if self._fail_counts.get(cmd, 0) < MAX_FAILS_PER_CMD:
-                        freq[cmd] = freq.get(cmd, 0) + 1
+                if not cmd or cmd.startswith("/") or cmd.startswith("echo"):
+                    continue
+                if self._fail_counts.get(cmd, 0) >= MAX_FAILS_PER_CMD:
+                    continue
+                if cmd in blocked:
+                    continue
+                freq[cmd] = freq.get(cmd, 0) + 1
             return max(freq, key=lambda c: freq[c]) if freq else None
         except Exception:
             return None
@@ -627,16 +634,37 @@ class LLMSelector(ICommandSelector):
     def _llm_candidate(self, target: str, phase: str, context: Dict) -> Optional[CommandDecision]:
         try:
             from lazyown_llm import LLMBridge
-            payload = _load_payload()
-            api_key = payload.get("api_key", "") or os.environ.get("GROQ_API_KEY", "")
+            payload  = _load_payload()
+            api_key  = payload.get("api_key", "") or os.environ.get("GROQ_API_KEY", "")
             if not api_key:
                 return None
-            bridge = LLMBridge(backend="groq", api_key=api_key)
-            # Build context-rich prompt so the LLM picks a valid LazyOwn abstraction
-            catalog = _get_phase_command_catalog(phase)
+            bridge   = LLMBridge(backend="groq", api_key=api_key)
+            catalog  = _get_phase_command_catalog(phase)
             services = context.get("services", [])
             os_hint  = context.get("os_hint", "unknown")
             has_creds = bool(payload.get("start_pass") or payload.get("start_user"))
+
+            # Recent session history for context
+            recent_cmds = _read_recent_csv_commands(limit=3)
+            recent_line = (
+                f"Recently executed: {', '.join(recent_cmds)}\n" if recent_cmds else ""
+            )
+
+            # World model context
+            wm_line = ""
+            wm_file = SESSIONS_DIR / "world_model.json"
+            if wm_file.exists():
+                try:
+                    wm = json.loads(wm_file.read_text())
+                    wm_hosts = list(wm.get("hosts", {}).keys())[:3]
+                    wm_creds = len(wm.get("credentials", []))
+                    wm_vulns = len(wm.get("vulnerabilities", []))
+                    wm_line = (
+                        f"World model: known_hosts={wm_hosts} creds={wm_creds} vulns={wm_vulns}\n"
+                    )
+                except Exception:
+                    pass
+
             catalog_line = (
                 f"Available LazyOwn commands for phase '{phase}': {catalog}\n"
                 if catalog else ""
@@ -646,7 +674,9 @@ class LLMSelector(ICommandSelector):
                 f"CRITICAL: These are HIGH-LEVEL ABSTRACTIONS. payload.json auto-injects rhost/domain/creds/wordlist. "
                 f"Never write raw tool flags — just the command name.\n"
                 f"Target: {target} | OS: {os_hint} | Services: {services[:5]} | Has-creds: {has_creds}\n"
-                f"Suggest the BEST SINGLE command for phase='{phase}'. "
+                f"{recent_line}"
+                f"{wm_line}"
+                f"Suggest the BEST SINGLE command for phase='{phase}' that has NOT been recently executed. "
                 f"Reply with ONLY the command name (one word). No explanation."
             )
             answer = bridge.ask(goal=goal, max_iterations=1)
@@ -764,6 +794,62 @@ class FallbackSelector(ICommandSelector):
         )
 
 
+class CredentialSpraySelector(ICommandSelector):
+    """
+    When credentials exist in payload.json and open services are known,
+    generates credential-spray commands against those services.
+
+    Only activates in exploit/lateral/privesc/cred phases.
+    Tracks sprayed (command, target, user) tuples to avoid repeating.
+    Single Responsibility: credential reuse selection only.
+    """
+
+    _SERVICE_COMMANDS: Dict[str, str] = {
+        "ssh":    "lazyssh",
+        "smb":    "crackmapexec",
+        "winrm":  "evil-winrm",
+        "ftp":    "lazyftp",
+        "http":   "lazyburp",
+        "https":  "lazyburp",
+        "rdp":    "xfreerdp",
+        "mssql":  "mssqlpwner",
+        "mysql":  "mysqldump",
+        "ldap":   "ldapdomaindump",
+    }
+
+    def __init__(self, fail_counts: Dict[str, int]) -> None:
+        self._fail_counts = fail_counts
+        self._sprayed: set = set()
+
+    def select(self, target: str, phase: str, context: Dict) -> Optional[CommandDecision]:
+        """Return a spray command when credentials + matching service are available."""
+        if phase not in ("exploit", "lateral", "privesc", "cred"):
+            return None
+        payload = _load_payload()
+        user    = payload.get("start_user", "")
+        passwd  = payload.get("start_pass", "") or payload.get("hash", "")
+        if not user or not passwd:
+            return None
+        services = context.get("services", [])
+        for svc in services:
+            cmd = self._SERVICE_COMMANDS.get(svc.lower())
+            if cmd is None:
+                continue
+            if self._fail_counts.get(cmd, 0) >= MAX_FAILS_PER_CMD:
+                continue
+            spray_key = f"{cmd}:{target}:{user}"
+            if spray_key in self._sprayed:
+                continue
+            self._sprayed.add(spray_key)
+            return CommandDecision(
+                command=cmd,
+                source="cred_spray",
+                reason=f"credential reuse — {user}@{target} via {svc}",
+                priority=2,
+            )
+        return None
+
+
 class CascadeStrategy:
     """
     Chains selectors in order and returns the first non-None result.
@@ -826,6 +912,7 @@ class StrategyEngine:
             self._reactive_sel = reactive_sel
             selectors = [
                 reactive_sel,
+                CredentialSpraySelector(self._fail_counts),
                 ParquetSelector(pdb, self._fail_counts),
                 BridgeSelector(dispatcher, self._fail_counts),
                 SWANSelector(),
@@ -1009,6 +1096,140 @@ def _load_payload() -> Dict:
         return {}
 
 
+def _read_recent_csv_commands(limit: int = 3) -> List[str]:
+    """Return the last N command names from the session CSV log."""
+    csv_path = SESSIONS_DIR / "LazyOwn_session_report.csv"
+    if not csv_path.exists():
+        return []
+    try:
+        lines = csv_path.read_text(encoding="utf-8", errors="replace").splitlines()
+        cmds: List[str] = []
+        for line in reversed(lines):
+            parts = line.split(",")
+            if len(parts) >= 2:
+                cmd = parts[1].strip().strip('"').split()[0]
+                if cmd and cmd not in cmds:
+                    cmds.append(cmd)
+            if len(cmds) >= limit:
+                break
+        return cmds
+    except Exception:
+        return []
+
+
+def _load_campaign_blacklist() -> Dict[str, List[str]]:
+    """Load per-context command blacklist from campaign_lessons.jsonl."""
+    blacklist: Dict[str, List[str]] = {}
+    lessons_file = SESSIONS_DIR / "campaign_lessons.jsonl"
+    if not lessons_file.exists():
+        return blacklist
+    try:
+        for line in lessons_file.read_text(encoding="utf-8").splitlines():
+            if not line.strip():
+                continue
+            lesson = json.loads(line)
+            if lesson.get("outcome") != "failed":
+                continue
+            command = lesson.get("command", "").strip().split()[0]
+            if not command:
+                continue
+            ctx = lesson.get("context", "any")
+            if ctx not in blacklist:
+                blacklist[ctx] = []
+            if command not in blacklist[ctx]:
+                blacklist[ctx].append(command)
+    except Exception:
+        pass
+    return blacklist
+
+
+_CAMPAIGN_BLACKLIST: Dict[str, List[str]] = {}
+_BLACKLIST_LOADED: bool = False
+
+
+def _get_campaign_blacklist() -> Dict[str, List[str]]:
+    """Return cached campaign blacklist, reloading if the file changed."""
+    global _CAMPAIGN_BLACKLIST, _BLACKLIST_LOADED
+    lessons_file = SESSIONS_DIR / "campaign_lessons.jsonl"
+    if not _BLACKLIST_LOADED or (lessons_file.exists() and lessons_file.stat().st_mtime > 0):
+        _CAMPAIGN_BLACKLIST = _load_campaign_blacklist()
+        _BLACKLIST_LOADED = True
+    return _CAMPAIGN_BLACKLIST
+
+
+def _compute_step_reward(
+    output: str,
+    command: str,
+    phase: str,
+    success: bool,
+    findings: List[Dict],
+    prev_cmds: List[str],
+) -> float:
+    """Compute multi-dimensional RL reward based on finding quality, novelty, and phase.
+
+    Args:
+        output:    Raw command output text.
+        command:   Command string that was executed.
+        phase:     Current engagement phase.
+        success:   Basic success flag from keyword detection.
+        findings:  Parsed ObsParser findings for this step.
+        prev_cmds: Command names from previous steps (for novelty penalty).
+
+    Returns:
+        Reward scalar in the range [-2.0, 15.0].
+    """
+    if not success:
+        return -2.0
+
+    low = output.lower()
+
+    # Finding-type priority (highest wins)
+    score = 2.0
+    for f in findings:
+        ftype = f.get("type", "")
+        if ftype in ("credential",):
+            score = max(score, 10.0)
+        elif ftype in ("root_shell", "privesc"):
+            score = max(score, 9.0)
+        elif ftype in ("hash",):
+            score = max(score, 8.0)
+        elif ftype in ("cve", "service_version"):
+            score = max(score, 5.0)
+        elif ftype in ("host", "ip", "open_port"):
+            score = max(score, 3.5)
+
+    # Keyword boost when obs_parser is absent
+    if score < 5.0:
+        if any(k in low for k in ("password", "passwd", "credentials found", "login successful")):
+            score = max(score, 10.0)
+        elif any(k in low for k in ("uid=0", "root shell", "nt authority", "system privilege")):
+            score = max(score, 9.0)
+        elif any(k in low for k in ("hash", "ntlm", "lm:", "aad3b435", "krb5tgs")):
+            score = max(score, 8.0)
+        elif any(k in low for k in ("open", "found", "200 ok", "login page")):
+            score = max(score, 3.0)
+
+    # Novelty penalty: repeated command earns less
+    cmd_base = command.strip().split()[0] if command.strip() else ""
+    repeat_count = prev_cmds.count(cmd_base)
+    if repeat_count > 0:
+        score = score * max(0.3, 1.0 - repeat_count * 0.2)
+
+    # Phase multiplier: late-phase successes are worth more
+    _phase_mult: Dict[str, float] = {
+        "recon":   1.0,
+        "enum":    1.2,
+        "exploit": 1.5,
+        "privesc": 1.8,
+        "lateral": 1.6,
+        "cred":    1.7,
+        "exfil":   2.0,
+    }
+    score = score * _phase_mult.get(phase, 1.0)
+
+    return round(min(score, 15.0), 2)
+
+
 async def _detect_target_os(
     target: str,
     loop: asyncio.AbstractEventLoop,
@@ -1080,8 +1301,9 @@ async def _run_objective(
     results: List[StepResult] = []
     phase:   str              = "recon"
     services: List[str]       = []
-    _consecutive_list: int    = 0   # stuck-loop counter
-    _last_command: str        = ""  # tracks repeated command detection
+    _consecutive_list: int    = 0
+    _last_command: str        = ""
+    _prev_cmds: List[str]     = []
 
     if world_model is not None:
         try:
@@ -1157,6 +1379,30 @@ async def _run_objective(
         full_cmd = f"assign rhost {target}\nassign os_id {_detected_os_id}\n{command}"
 
         log.info("  step %d/%d [%s] %s", step_n, max_steps, decision.source, command)
+
+        # Pre-execution detection oracle: swap out critical-risk commands silently
+        try:
+            from detection_oracle import get_oracle as _pre_get_oracle
+            _pre_assess = _pre_get_oracle().assess(
+                command.split()[0], command, phase
+            )
+            if _pre_assess.is_critical_risk:
+                log.info(
+                    "  [oracle] %s critical-risk (%.0f%%) — requesting alternative",
+                    command, _pre_assess.probability * 100,
+                )
+                _alt = strategy.next_command(target, phase, services, os_hint=detected_os)
+                _alt_cmd = _alt.command.replace("{rhost}", target).replace("TARGET", target)
+                if _alt_cmd and _alt_cmd != command:
+                    decision = _alt
+                    command  = _alt_cmd
+                    full_cmd = (
+                        f"assign rhost {target}\nassign os_id {_detected_os_id}\n{command}"
+                    )
+                    log.info("  [oracle] using %s instead", command)
+        except Exception:
+            pass
+
         _emit("STEP_START", {
             "objective_id": objective_id,
             "step":    step_n,
@@ -1300,6 +1546,44 @@ async def _run_objective(
             except Exception as exc:
                 log.debug("obs_parser error: %s", exc)
 
+        # ── Proactive phase advancement based on finding quality ──────────────
+        # Advance immediately when evidence warrants it instead of waiting for
+        # three repeated commands (the stuck-loop recovery is still the safety net).
+        _phase_fwd = [
+            "recon", "enum", "exploit", "postexp", "privesc",
+            "lateral", "cred", "exfil", "c2", "report",
+        ]
+        _has_root    = any(f.get("type") == "root_shell" for f in findings)
+        _has_cred    = any(f.get("type") in ("credential", "hash") for f in findings)
+        _has_service = len(services) > 0
+        try:
+            _cur_idx = _phase_fwd.index(phase)
+        except ValueError:
+            _cur_idx = -1
+
+        if _cur_idx >= 0:
+            if _has_root and phase not in ("exfil", "c2", "report"):
+                _jump = min(_cur_idx + 2, len(_phase_fwd) - 1)
+                phase = _phase_fwd[_jump]
+                log.info("[%s] PHASE JUMP→%s (root shell found)", objective_id, phase)
+                _emit("PHASE_ADVANCE", {
+                    "objective_id": objective_id, "reason": "root_shell", "phase": phase,
+                })
+            elif _has_cred and phase in ("recon", "enum"):
+                phase = "exploit"
+                log.info("[%s] PHASE→exploit (credential found)", objective_id, phase)
+                _emit("PHASE_ADVANCE", {
+                    "objective_id": objective_id, "reason": "credential_found", "phase": phase,
+                })
+            elif _has_service and phase == "recon" and len(services) >= 2:
+                phase = "enum"
+                log.info("[%s] PHASE→enum (%d services discovered)", objective_id, len(services))
+                _emit("PHASE_ADVANCE", {
+                    "objective_id": objective_id,
+                    "reason": f"{len(services)}_services_found",
+                    "phase": phase,
+                })
+
         # ── Stuck-loop recovery ───────────────────────────────────────────────
         # Detect ANY repeated command (not just "list") — if the same command
         # runs 3x in a row with unknown/zero reward, escalate the phase.
@@ -1370,18 +1654,18 @@ async def _run_objective(
                 _detect_prob = _get_oracle().probability(command)
             except Exception:
                 pass
-            _reward_ema  = 5.0 if success else 0.0
+            _reward_ema  = _compute_step_reward(
+                output, command, phase, success, findings, _prev_cmds
+            )
             _rl_state    = _rl.encode_state(phase, phase, _reward_ema)
             _rl_next     = _rl.encode_state(phase, phase, _reward_ema)
-            _raw_reward  = 5.0 if success else -2.0
-            if findings:
-                _raw_reward += min(len(findings) * 1.0, 5.0)
+            _raw_reward  = _reward_ema
             _rl.update(
                 state=_rl_state,
                 action=decision.source,
                 reward=_raw_reward,
                 next_state=_rl_next,
-                candidates=["reactive", "parquet", "bridge", "swan", "llm", "fallback"],
+                candidates=["reactive", "cred_spray", "parquet", "bridge", "swan", "llm", "fallback"],
                 detection_prob=_detect_prob,
             )
             _rl.save()
@@ -1394,6 +1678,7 @@ async def _run_objective(
             findings=findings, phase=phase,
         )
         results.append(sr)
+        _prev_cmds.append(command.strip().split()[0] if command.strip() else "")
 
         _emit("STEP_DONE", {
             "objective_id":   objective_id,
@@ -1522,6 +1807,46 @@ class DroneCoordinator:
                     "value":        str(value)[:40],
                     "objective_id": objective_id,
                 })
+
+        # ── Parallel per-service sweep when multiple open ports on same host ──
+        # Group open-port/service_version findings by host, then spawn one
+        # targeted exploit drone per service (cap: 3 per host per call).
+        if self._hive is not None:
+            _svc_findings = [
+                f for f in findings
+                if f.get("type") in ("open_port", "service_version")
+            ]
+            _host_svcs: Dict[str, List[Dict]] = {}
+            for f in _svc_findings:
+                _h = f.get("host", target) or target
+                if _h not in _host_svcs:
+                    _host_svcs[_h] = []
+                _host_svcs[_h].append(f)
+
+            for _h, _svcs in _host_svcs.items():
+                if len(_svcs) < 2:
+                    continue
+                for _sf in _svcs[:3]:
+                    _svc_name = _sf.get("service", "") or _sf.get("value", "")
+                    if not _svc_name:
+                        continue
+                    _sweep_goal = (
+                        f"Enumerate and exploit {_svc_name} on {_h} "
+                        f"(parallel service sweep — context: {objective_id})"
+                    )
+                    _did = self._hive.spawn(
+                        goal=_sweep_goal, role="exploit",
+                        backend=HIVE_BACKEND, max_iterations=HIVE_MAX_ITER,
+                    )
+                    drone_ids.append(_did)
+                    _emit("DRONE_SPAWNED", {
+                        "drone_id":     _did,
+                        "role":         "exploit",
+                        "trigger":      "parallel_service_sweep",
+                        "service":      _svc_name,
+                        "host":         _h,
+                        "objective_id": objective_id,
+                    })
 
         return drone_ids
 
@@ -1684,11 +2009,14 @@ async def objective_loop(
 
 async def world_model_watcher(loop: asyncio.AbstractEventLoop) -> None:
     """
-    Watch world_model.json. When the phase changes or new hosts appear,
+    Watch world_model.json. When the phase changes, new hosts appear,
+    new service versions are found, or active beacons are detected,
     auto-inject derived objectives.
     """
     wm_file   = SESSIONS_DIR / "world_model.json"
     last_snap: Dict = {}
+    _seen_service_versions: set = set()
+    _seen_beacon_ips: set = set()
 
     if _ObjectiveStore is None:
         return
@@ -1764,6 +2092,75 @@ async def world_model_watcher(loop: asyncio.AbstractEventLoop) -> None:
         if curr_phase and curr_phase != prev_phase:
             _emit("PHASE_CHANGE", {"from": prev_phase, "to": curr_phase})
             _daemon_stats["current_phase"] = curr_phase
+
+        # ── Auto-CVE: inject CVE-search objectives for new service versions ──
+        for host, hdata in snap.get("hosts", {}).items():
+            for port, svc in hdata.get("services", {}).items():
+                version  = svc.get("version", "")
+                svc_name = svc.get("name", "")
+                if not version or not svc_name:
+                    continue
+                ver_key = f"{host}:{port}:{svc_name}:{version}"
+                if ver_key in _seen_service_versions:
+                    continue
+                _seen_service_versions.add(ver_key)
+                text = f"Search CVEs for {svc_name} {version} on {host}:{port}"
+                try:
+                    obj = store.inject(
+                        text=text, priority="medium",
+                        source="world_model_watcher",
+                        context={"target": host, "service": svc_name, "version": version},
+                    )
+                    _inject_to_tasks_json(
+                        title=text,
+                        description=f"Auto CVE search | objective_id={obj.id}",
+                        operator="world_model_watcher",
+                        status="New",
+                    )
+                    _emit("OBJECTIVE_AUTO_INJECTED", {
+                        "text": text, "trigger": "new_service_version",
+                        "host": host, "service": svc_name, "version": version,
+                    })
+                    log.info("WMWatcher: CVE objective injected for %s %s", svc_name, version)
+                except Exception as exc:
+                    log.debug("CVE inject error: %s", exc)
+
+        # ── Beacon integration: inject post-exploit objectives for active beacons ──
+        beacons_file = SESSIONS_DIR / "beacons.json"
+        if beacons_file.exists():
+            try:
+                beacons = json.loads(beacons_file.read_text())
+                if isinstance(beacons, list):
+                    for beacon in beacons:
+                        beacon_ip = (
+                            beacon.get("ip", "")
+                            or beacon.get("host", "")
+                            or beacon.get("client_id", "")
+                        )
+                        if not beacon_ip or beacon_ip in _seen_beacon_ips:
+                            continue
+                        _seen_beacon_ips.add(beacon_ip)
+                        text = f"Post-exploit active C2 beacon on {beacon_ip}"
+                        try:
+                            obj = store.inject(
+                                text=text, priority="high",
+                                source="beacon_watcher",
+                                context={"target": beacon_ip},
+                            )
+                            _inject_to_tasks_json(
+                                title=text,
+                                description=f"Active beacon detected | objective_id={obj.id}",
+                                operator="beacon_watcher",
+                                status="New",
+                            )
+                            _emit("OBJECTIVE_AUTO_INJECTED", {
+                                "text": text, "trigger": "active_beacon", "host": beacon_ip,
+                            }, severity="warning")
+                            log.info("WMWatcher: post-exploit objective for beacon %s", beacon_ip)
+                        except Exception as exc:
+                            log.debug("beacon inject error: %s", exc)
+            except Exception as exc:
+                log.debug("beacons.json read error: %s", exc)
 
         last_snap = snap
 

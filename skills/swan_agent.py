@@ -470,6 +470,10 @@ class OutcomeEvaluator:
         reward = float(self._base_reward(result.status, task_type))
         detection_prob = self._detection_prob(result.goal, task_type)
 
+        # Content-based reward boost when output contains high-value findings
+        if result.is_success and result.output:
+            reward = self._content_boost(result.output, reward)
+
         # Apply detection penalty: high-risk success is worth less
         if detection_prob >= 0.70 and result.is_success:
             reward = 0.0
@@ -488,6 +492,30 @@ class OutcomeEvaluator:
         ):
             base = int(base * 1.5)
         return base
+
+    @staticmethod
+    def _content_boost(output: str, base_reward: float) -> float:
+        """Boost reward when output contains high-value security findings.
+
+        Args:
+            output:      Expert's raw output text.
+            base_reward: Reward computed from status + task_type.
+
+        Returns:
+            Boosted reward, always >= base_reward.
+        """
+        low = output.lower()
+        if any(k in low for k in ("password", "credentials found", "auth success", "login successful")):
+            return max(base_reward, 10.0)
+        if any(k in low for k in ("uid=0", "root shell", "nt authority\\system", "privilege escalation")):
+            return max(base_reward, 9.0)
+        if any(k in low for k in ("hash", "ntlm", "lm:", "aad3b435", "krb5tgs")):
+            return max(base_reward, 8.0)
+        if any(k in low for k in ("token", "kerberos", "ticket granted")):
+            return max(base_reward, 7.0)
+        if any(k in low for k in ("open", "found", "200 ok", "login page", "vulnerability")):
+            return max(base_reward, base_reward * 1.5)
+        return base_reward
 
     @staticmethod
     def _detection_prob(goal: str, task_type: str) -> float:

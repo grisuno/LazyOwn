@@ -200,7 +200,14 @@ Example:
 Fall through to the payload-aware completer for unhandled commands.
 
 ## preloop
-Print a session-start pro tip after the banner, once per session.
+Print a session-start pro tip and handle first-run setup.
+
+If ``sessions/theone`` does not exist this is the operator's first
+launch.  The shell will:
+  1. Run ``config_banner`` so the operator can customise the prompt.
+  2. Run ``wizard`` to populate the essential payload keys.
+  3. Print first-step suggestions (ping → lazynmap).
+  4. Create ``sessions/theone`` so subsequent launches skip setup.
 
 ## postloop
 Handle operations to perform after exiting the command loop.

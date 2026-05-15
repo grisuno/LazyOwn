@@ -271,7 +271,19 @@ def publish_event(type: str, payload: dict, operator: str = "system") -> None:
 # Blueprint
 # ---------------------------------------------------------------------------
 
-collab_bp = Blueprint("collab", __name__)
+collab_bp = Blueprint("collab", __name__, template_folder="../templates")
+
+
+@collab_bp.route("/")
+def collab_ui():
+    """Render the multi-operator collaboration dashboard."""
+    from flask import current_app
+    operator = request.args.get("operator", "anonymous")
+    cfg = current_app.config.get("LAZYOWN_CONFIG", {})
+    lhost   = cfg.get("lhost", "localhost") if hasattr(cfg, "get") else getattr(cfg, "lhost", "localhost")
+    c2_port = cfg.get("c2_port", 4444) if hasattr(cfg, "get") else getattr(cfg, "c2_port", 4444)
+    join_url = f"https://{lhost}:{c2_port}/collab/?operator=<your_handle>"
+    return render_template("collab.html", operator=operator, c2_host=f"{lhost}:{c2_port}", join_url=join_url)
 
 
 @collab_bp.route("/stream")

@@ -545,6 +545,17 @@ next-step hints (requires <code>/graphify .</code>).</p>
 command prints an install hint and returns.</p>
 <p>:param line: Unused. Reserved for future flags. :type line: str
 :return: None</p>
+<h2 id="collab_join">collab_join</h2>
+<p>Print the multi-operator collaboration join URL and SSE endpoint.</p>
+<p>Outputs the URL teammates need to open in a browser to connect to the
+shared operator dashboard at /collab/ and the curl command to consume
+the SSE event stream from a terminal.</p>
+<p>Usage: <code>collab_join</code> — print join URL for current
+lhost/c2_port <code>collab_join alice</code> — print URL with operator
+handle pre-filled <code>collab_join alice --curl</code> — also print the
+curl SSE command</p>
+<p>:param line: Optional operator handle and flags. :type line: str
+:return: None</p>
 <h2 id="complete_palette">complete_palette</h2>
 <p>Tab-complete the palette command using the live command index.</p>
 <p>Position 1 yields phase identifiers and the <code>--search</code> /

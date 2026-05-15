@@ -6,6 +6,20 @@
 
 ### Otros
 
+  *   * feat(feat): blacksandbeacon Linux BOF addon \n\n Version: release/0.2.117 \n\n add blacksandbeacon and blacksandbeacon_bof lazyaddons with 59 tests and README updates \n\n Modified file(s):\n- README.md - lazyaddons/blacksandbeacon.yaml - lazyaddons/blacksandbeacon_bof.yaml - tests/test_blacksandbeacon_addon.py\nCreated file(s):\n- lazyaddons/blacksandbeacon.yaml - lazyaddons/blacksandbeacon_bof.yaml - tests/test_blacksandbeacon_addon.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: vie 15 may 2026 14:02:09 -04 \n\n Hora: 1778868129
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(c2): add blacksandbeacon lazyaddon with Linux BOF support
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): some wizzards and some suggester \n\n Version: release/0.2.116 \n\n with love \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: jue 14 may 2026 21:48:55 -04 \n\n Hora: 1778809735
 
 

@@ -501,6 +501,22 @@ the package is missing the command prints an install hint and returns.
 :type line: str
 :return: None
 
+## collab_join
+Print the multi-operator collaboration join URL and SSE endpoint.
+
+Outputs the URL teammates need to open in a browser to connect to the
+shared operator dashboard at /collab/ and the curl command to consume
+the SSE event stream from a terminal.
+
+Usage:
+    ``collab_join``                    — print join URL for current lhost/c2_port
+    ``collab_join alice``              — print URL with operator handle pre-filled
+    ``collab_join alice --curl``       — also print the curl SSE command
+
+:param line: Optional operator handle and flags.
+:type line: str
+:return: None
+
 ## complete_palette
 Tab-complete the palette command using the live command index.
 

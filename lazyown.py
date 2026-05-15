@@ -1894,6 +1894,39 @@ class LazyOwnShell(cmd2.Cmd):
         sessions_dir = getattr(self, "sessions_dir", "sessions") or "sessions"
         _launch_dashboard(payload_path=payload_path, sessions_dir=sessions_dir)
 
+    @with_category("10. Command & Control")
+    def do_collab_join(self, line):
+        """Print the multi-operator collaboration join URL and SSE endpoint.
+
+        Outputs the URL teammates need to open in a browser to connect to the
+        shared operator dashboard at /collab/ and the curl command to consume
+        the SSE event stream from a terminal.
+
+        Usage:
+            ``collab_join``                    — print join URL for current lhost/c2_port
+            ``collab_join alice``              — print URL with operator handle pre-filled
+            ``collab_join alice --curl``       — also print the curl SSE command
+
+        :param line: Optional operator handle and flags.
+        :type line: str
+        :return: None
+        """
+        parts   = line.split() if line.strip() else []
+        handle  = parts[0] if parts and not parts[0].startswith("-") else "operator"
+        curl    = "--curl" in parts
+        lhost   = self.params.get("lhost") or "localhost"
+        c2_port = self.params.get("c2_port") or 4444
+        base    = f"https://{lhost}:{c2_port}"
+        ui_url  = f"{base}/collab/?operator={handle}"
+        sse_url = f"{base}/collab/stream?operator={handle}"
+        print_msg(f"Team dashboard : {ui_url}")
+        print_msg(f"SSE stream     : {sse_url}")
+        print_msg(f"Publish event  : POST {base}/collab/publish")
+        print_msg(f"Operator list  : GET  {base}/collab/operators")
+        print_msg(f"Target locks   : GET  {base}/collab/locks")
+        if curl:
+            print_msg(f"curl --insecure -N '{sse_url}' | jq .")
+
     def complete_palette(self, text, line, begidx, endidx):
         """Tab-complete the palette command using the live command index.
 

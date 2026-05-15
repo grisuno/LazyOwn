@@ -1,12 +1,24 @@
 # LazyOwn Skills — MCP Integration
 
-Connect Claude Code (and Claude web) to the full LazyOwn framework via the Model Context Protocol.
+Connect Claude Code (and Claude web) to the full LazyOwn framework via the
+Model Context Protocol. The MCP server exposes 95 tools covering the full
+engagement lifecycle: recon, exploitation, C2, autonomous loops, knowledge
+bases, multi-agent orchestration, and campaign reporting.
+
+Register once and all `lazyown_*` tools become available to Claude:
+
+```bash
+claude mcp add lazyown python3 /home/grisuno/LazyOwn/skills/lazyown_mcp.py
+```
+
+After registration, restart with `bash skills/mcp_restart.sh` whenever
+`lazyown_mcp.py` or an imported module changes.
 
 ## Files
 
 | File | Purpose |
 |------|---------|
-| `lazyown_mcp.py` | MCP server — exposes 71 LazyOwn tools to Claude |
+| `lazyown_mcp.py` | MCP server — exposes 95 LazyOwn tools to Claude |
 | `lazyown.md` | Claude Code skill / slash-command documentation |
 | `lazyown_policy.py` | Reward-based policy engine for the auto_loop; detection-aware reward shaping |
 | `lazyown_facts.py` | Structured fact extraction from nmap XML and tool output |
@@ -176,7 +188,7 @@ Tools are grouped by function. All names are prefixed `lazyown_`.
 | `campaign_tasks` | CRUD on `sessions/tasks.json` — list/add/update tasks with status workflow: New → Refined → Started → Review → Qa → Done / Blocked |
 | `generate_report` | Auto-generate a structured Markdown pentest report from facts, events, credentials, objectives, and timeline |
 | `misp_export` | Export session findings as a MISP-compatible event JSON (WorldModel hosts, services, credentials, CVEs) |
-| `collab_publish` | Broadcast a structured event to all connected operators via SSE (shared team awareness) |
+| `collab_publish` | Broadcast a structured event to all connected operators via the SSE bus in `modules/collab_bp.py`. Reaches the browser dashboard at `/collab/` and all `curl` SSE subscribers. |
 | `timeline` | Generate or return the AI-written red-team timeline narrative (Groq reads all session events → prose summary) |
 
 ### Playbooks

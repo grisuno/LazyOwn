@@ -322,7 +322,13 @@ shell.do_EOF(None) LazyOwn say Goodbye! (shell exits)</p>
 <p>Fall through to the payload-aware completer for unhandled
 commands.</p>
 <h2 id="preloop">preloop</h2>
-<p>Print a session-start pro tip after the banner, once per session.</p>
+<p>Print a session-start pro tip and handle first-run setup.</p>
+<p>If <code>sessions/theone</code> does not exist this is the operator’s
+first launch. The shell will: 1. Run <code>config_banner</code> so the
+operator can customise the prompt. 2. Run <code>wizard</code> to
+populate the essential payload keys. 3. Print first-step suggestions
+(ping → lazynmap). 4. Create <code>sessions/theone</code> so subsequent
+launches skip setup.</p>
 <h2 id="postloop">postloop</h2>
 <p>Handle operations to perform after exiting the command loop.</p>
 <p>This method is called after the command loop terminates, typically

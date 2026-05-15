@@ -22,6 +22,7 @@ Description: This file contains the definition of the logic in the LazyOwnShell 
 import cmd2
 
 from cmd2 import CommandSet, with_argparser, with_category, with_argument_list
+from cmd2.plugin import PostcommandData as _PostcommandData
 from utils import *
 from modules.ai_model import OllamaModel
 from cli.aliases import load_aliases as _load_aliases
@@ -35,6 +36,7 @@ from cli.graph_advisor import format_neighbors as _format_neighbors
 from cli.graph_advisor import format_search_table as _format_search_table
 from cli.graph_advisor import format_suggestions as _format_suggestions
 from cli.reactive_hints import render_inline_hints as _render_inline_hints
+from cli.reactive_hints import render_command_hints as _render_command_hints
 from cli.engagement_hooks import render_engagement_hook as _render_engagement_hook
 from cli.engagement_hooks import reset_session as _reset_engagement_session
 from cli.wizard import run as _run_wizard
@@ -407,7 +409,7 @@ class LazyOwnShell(cmd2.Cmd):
             )
         self.display_toastr(f"Not Found {line}", type="warning")
 
-    def _inline_hint_hook(self, data):
+    def _inline_hint_hook(self, data: _PostcommandData) -> _PostcommandData:
         """Post-command hook that prints a dim next-step hint line.
 
         Registered via ``register_postcmd_hook`` during ``__init__``. Reads the
@@ -423,26 +425,31 @@ class LazyOwnShell(cmd2.Cmd):
         """
         try:
             enabled = str(self.params.get("enable_inline_hints", True)).lower() not in ("false", "0", "no")
+            cmd_str = str(getattr(data, "statement", "") or "")
+            phase   = self.params.get("phase") or ""
             if enabled:
-                advisor = _GraphAdvisor.from_path()
-                cmd_str = str(getattr(data, "statement", "") or "")
-                if advisor.is_available():
-                    _render_inline_hints(advisor, cmd_str, limit=3, enabled=True)
+                _render_command_hints(
+                    last_command=cmd_str,
+                    phase=phase,
+                    sessions_dir=getattr(self, "sessions_dir", "sessions") or "sessions",
+                    limit=3,
+                    enabled=True,
+                )
                 ctx = {
                     "last_cmd": cmd_str,
-                    "phase": self.params.get("phase") or "",
-                    "os_id": str(self.params.get("os_id") or ""),
-                    "rhost": self.params.get("rhost") or "",
-                    "domain": self.params.get("domain") or "",
-                    "api_key": self.params.get("api_key") or "",
-                    "lhost": self.params.get("lhost") or "",
+                    "phase":    phase,
+                    "os_id":    str(self.params.get("os_id") or ""),
+                    "rhost":    self.params.get("rhost") or "",
+                    "domain":   self.params.get("domain") or "",
+                    "api_key":  self.params.get("api_key") or "",
+                    "lhost":    self.params.get("lhost") or "",
                 }
                 _render_contextual_tip(cmd_str, ctx)
         except Exception:
             pass
         return data
 
-    def _engagement_hook(self, data):
+    def _engagement_hook(self, data: _PostcommandData) -> _PostcommandData:
         """Post-command hook: biological curiosity reveal + VRI reward.
 
         Registered via ``register_postcmd_hook`` during ``__init__``.
@@ -1160,21 +1167,68 @@ class LazyOwnShell(cmd2.Cmd):
             return []
 
     def preloop(self):
-        """Print a session-start pro tip after the banner, once per session."""
-        try:
-            enabled = str(self.params.get("enable_inline_hints", True)).lower() not in ("false", "0", "no")
-            if enabled:
-                ctx = {
-                    "phase": self.params.get("phase") or "",
-                    "os_id": str(self.params.get("os_id") or ""),
-                    "rhost": self.params.get("rhost") or "",
-                    "domain": self.params.get("domain") or "",
-                    "api_key": self.params.get("api_key") or "",
-                    "lhost": self.params.get("lhost") or "",
-                }
-                _print_session_tip(ctx)
-        except Exception:
-            pass
+        """Print a session-start pro tip and handle first-run setup.
+
+        If ``sessions/theone`` does not exist this is the operator's first
+        launch.  The shell will:
+          1. Run ``config_banner`` so the operator can customise the prompt.
+          2. Run ``wizard`` to populate the essential payload keys.
+          3. Print first-step suggestions (ping → lazynmap).
+          4. Create ``sessions/theone`` so subsequent launches skip setup.
+        """
+        import os as _os
+        _sessions = getattr(self, "sessions_dir", "sessions") or "sessions"
+        _theone   = _os.path.join(_sessions, "theone")
+
+        if not _os.path.exists(_theone):
+            # ── First run ────────────────────────────────────────────────────
+            print_msg(
+                "\n  Welcome to LazyOwn — it looks like this is your first launch.\n"
+                "  We will walk you through two quick setup steps:\n"
+                "    1. config_banner — customise your prompt segments.\n"
+                "    2. wizard        — configure rhost, lhost, wordlists, and more.\n"
+                "  You can press Ctrl-C at any time to skip a step.\n"
+            )
+            try:
+                self.do_config_banner("")
+            except KeyboardInterrupt:
+                print_warn("config_banner skipped.")
+            except Exception:
+                pass
+            try:
+                self.do_wizard("")
+            except KeyboardInterrupt:
+                print_warn("wizard skipped.")
+            except Exception:
+                pass
+            print_msg(
+                "\n  Setup complete. Suggested first commands:\n"
+                "    ping          — verify connectivity to rhost (sets os_id)\n"
+                "    lazynmap      — full port + service scan\n"
+                "  Run  recommend_next  at any time for phase-aware guidance.\n"
+            )
+            # Mark as initialised so this block never runs again
+            try:
+                _os.makedirs(_sessions, exist_ok=True)
+                open(_theone, "w").close()
+            except Exception:
+                pass
+        else:
+            # ── Normal session tip ───────────────────────────────────────────
+            try:
+                enabled = str(self.params.get("enable_inline_hints", True)).lower() not in ("false", "0", "no")
+                if enabled:
+                    ctx = {
+                        "phase":   self.params.get("phase")   or "",
+                        "os_id":   str(self.params.get("os_id") or ""),
+                        "rhost":   self.params.get("rhost")   or "",
+                        "domain":  self.params.get("domain")  or "",
+                        "api_key": self.params.get("api_key") or "",
+                        "lhost":   self.params.get("lhost")   or "",
+                    }
+                    _print_session_tip(ctx)
+            except Exception:
+                pass
 
     def postloop(self):
         """
@@ -1616,19 +1670,96 @@ class LazyOwnShell(cmd2.Cmd):
         :type line: str
         :return: None
         """
+        import json as _j
+        import csv as _csv2
+
         tokens = (line or "").split()
         if tokens and tokens[-1].isdigit():
-            limit = int(tokens[-1])
-            seeds = tokens[:-1]
+            limit  = int(tokens[-1])
+            seeds  = tokens[:-1]
         else:
-            limit = None
-            seeds = tokens
-        advisor = _GraphAdvisor.from_path()
-        if not advisor.is_available():
-            print_warn(advisor.summary().get("reason", "graph unavailable"))
-            return
-        recent = seeds if seeds else advisor.read_recent_commands()
-        print_msg(_format_suggestions(advisor.suggest_next(recent, limit=limit)))
+            limit  = 6
+            seeds  = tokens
+
+        # Determine phase
+        phase     = self.params.get("phase", "") or "recon"
+        _palias   = {
+            "recon": "recon", "scan": "recon",
+            "enum": "enum",
+            "exploit": "exploit",
+            "privesc": "privesc", "postexp": "postexp",
+            "lateral": "lateral",
+            "cred": "cred",
+            "exfil": "exfil",
+            "c2": "c2",
+            "report": "report",
+        }
+        phase_key = _palias.get(phase.lower(), "recon")
+
+        # Commands already run this session
+        _seen2: set = set()
+        try:
+            with open("sessions/LazyOwn_session_report.csv", newline="", errors="ignore") as _fh2:
+                for _row2 in _csv2.DictReader(_fh2):
+                    _v2 = (_row2.get("tool") or _row2.get("command") or "").strip().split()[0]
+                    if _v2:
+                        _seen2.add(_v2)
+                        _seen2.add(f"do_{_v2}")
+        except OSError:
+            pass
+
+        # Load command index
+        try:
+            _idx    = _j.loads(open("cli/command_index.json").read())
+            _ptc    = _idx.get("phase_to_commands", {})
+            _meta   = {
+                e["name"]: e.get("summary", "")
+                for e in _idx.get("commands", []) if isinstance(e, dict) and "name" in e
+            }
+        except Exception:
+            _idx  = {}
+            _ptc  = {}
+            _meta = {}
+
+        # Use seeds as extra priority if provided
+        _shown = 0
+        if seeds:
+            print_msg(f"Suggestions after: {', '.join(seeds)}")
+            from cli.reactive_hints import _KILL_CHAIN_NEXT as _KCN
+            for _seed in seeds:
+                for _next in _KCN.get(_seed, [])[:limit]:
+                    if _next not in _seen2:
+                        _lbl = _next.replace("do_", "")
+                        _sum = _meta.get(f"do_{_next}", _meta.get(_next, ""))[:70]
+                        print_msg(f"  {_lbl:<26} {_sum}")
+                        _shown += 1
+                        if _shown >= limit:
+                            break
+                if _shown >= limit:
+                    break
+
+        if _shown < limit:
+            # Phase-priority suggestions not yet run
+            _candidates = [
+                c for c in _ptc.get(phase_key, [])
+                if c not in _seen2 and c.replace("do_", "") not in _seen2
+            ]
+            if not _candidates:
+                # Always useful basics if index empty
+                _candidates = ["do_ping", "do_lazynmap", "do_gobuster", "do_enum4linux", "do_searchsploit"]
+            if _shown == 0:
+                print_msg(f"Suggested next for phase '{phase_key}':")
+            for _c in _candidates[:limit - _shown]:
+                _lbl = _c.replace("do_", "")
+                _sum = _meta.get(_c, "")[:70]
+                print_msg(f"  {_lbl:<26} {_sum}")
+                _shown += 1
+
+        if _shown == 0:
+            print_msg("  All phase commands have been run. Try: recommend_next")
+
+        if not _seen2:
+            print_msg("  (No session history yet — start with:  ping  →  lazynmap)")
 
     @cmd2.with_category(miscellaneous_category)
     def do_recommend_next(self, line):

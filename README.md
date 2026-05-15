@@ -3083,7 +3083,14 @@ Example:
 Fall through to the payload-aware completer for unhandled commands.
 
 ## preloop
-Print a session-start pro tip after the banner, once per session.
+Print a session-start pro tip and handle first-run setup.
+
+If ``sessions/theone`` does not exist this is the operator's first
+launch.  The shell will:
+  1. Run ``config_banner`` so the operator can customise the prompt.
+  2. Run ``wizard`` to populate the essential payload keys.
+  3. Print first-step suggestions (ping → lazynmap).
+  4. Create ``sessions/theone`` so subsequent launches skip setup.
 
 ## postloop
 Handle operations to perform after exiting the command loop.
@@ -12805,6 +12812,13 @@ No description available.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): recomended commands and some love \n\n Version: release/0.2.115 \n\n  \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: jue 14 may 2026 01:26:16 -04 \n\n Hora: 1778736376
 
 
 ### Nuevas características

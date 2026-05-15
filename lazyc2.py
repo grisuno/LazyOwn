@@ -4951,6 +4951,7 @@ if __name__ == '__main__':
     try:
         sys.path.insert(0, os.path.join(os.path.dirname(__file__), "modules"))
         from collab_bp import collab_bp
+        app.config["LAZYOWN_CONFIG"] = config
         app.register_blueprint(collab_bp, url_prefix="/collab")
         print("[collab] Multi-operator collaboration active at /collab/")
     except Exception as _cbp_err:

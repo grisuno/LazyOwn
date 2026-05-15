@@ -1,0 +1,215 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+  .collab-grid { display: grid; grid-template-columns: 260px 1fr; gap: 1rem; padding: 1rem; height: calc(100vh - 80px); }
+  .panel { background: #1a1a2e; border: 1px solid #00ff41; border-radius: 6px; padding: 1rem; overflow-y: auto; }
+  .panel h5 { color: #00ff41; font-family: monospace; margin-bottom: .75rem; letter-spacing: .05em; }
+  .op-badge { display: inline-flex; align-items: center; gap: .4rem; background: #0d0d1a; border: 1px solid #00ff41; border-radius: 4px; padding: .2rem .5rem; margin: .2rem; font-size: .78rem; font-family: monospace; }
+  .op-dot { width: 8px; height: 8px; border-radius: 50%; background: #00ff41; animation: pulse 1.5s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+  .lock-item { display: flex; justify-content: space-between; align-items: center; background: #0d0d1a; border-left: 3px solid #ff6b35; padding: .4rem .6rem; margin: .3rem 0; font-size: .8rem; font-family: monospace; }
+  .lock-item .mine { border-left-color: #00ff41; }
+  #event-log { display: flex; flex-direction: column-reverse; gap: .3rem; }
+  .ev { padding: .35rem .6rem; border-radius: 3px; font-size: .78rem; font-family: monospace; border-left: 3px solid #555; }
+  .ev.command      { border-left-color: #00bcd4; }
+  .ev.finding      { border-left-color: #ff9800; }
+  .ev.lock_acquired{ border-left-color: #4caf50; }
+  .ev.lock_released{ border-left-color: #9e9e9e; }
+  .ev.operator_joined{ border-left-color: #00ff41; }
+  .ev.operator_left  { border-left-color: #f44336; }
+  .ev.chat           { border-left-color: #9c27b0; }
+  .ev.generic        { border-left-color: #555; }
+  .ev .ts { color: #555; font-size: .7rem; }
+  .ev .op { color: #00ff41; }
+  #chat-input { background: #0d0d1a; border: 1px solid #00ff41; color: #e0e0e0; border-radius: 4px; padding: .4rem .7rem; font-family: monospace; width: 100%; }
+  #chat-input:focus { outline: none; border-color: #00bcd4; }
+  .status-bar { background: #0d0d1a; border-top: 1px solid #00ff41; padding: .3rem 1rem; font-size: .72rem; font-family: monospace; color: #555; position: fixed; bottom: 0; left: 0; right: 0; }
+  .status-bar .connected { color: #00ff41; }
+  .status-bar .disconnected { color: #f44336; }
+  .btn-collab { background: transparent; border: 1px solid #00ff41; color: #00ff41; border-radius: 3px; padding: .3rem .7rem; font-family: monospace; font-size: .78rem; cursor: pointer; }
+  .btn-collab:hover { background: #00ff41; color: #000; }
+  .btn-lock { background: transparent; border: 1px solid #ff6b35; color: #ff6b35; border-radius: 3px; padding: .2rem .5rem; font-family: monospace; font-size: .75rem; cursor: pointer; }
+  .btn-lock:hover { background: #ff6b35; color: #000; }
+  .join-url { background: #0d0d1a; border: 1px solid #333; border-radius: 4px; padding: .5rem; font-family: monospace; font-size: .78rem; color: #00bcd4; word-break: break-all; }
+</style>
+
+<div class="collab-grid">
+
+  <!-- Left sidebar: operators + locks -->
+  <div>
+    <div class="panel" style="margin-bottom:1rem">
+      <h5>Operators Online</h5>
+      <div id="operators-list"><span style="color:#555;font-size:.8rem">connecting...</span></div>
+    </div>
+
+    <div class="panel" style="margin-bottom:1rem">
+      <h5>Target Locks</h5>
+      <div style="display:flex;gap:.4rem;margin-bottom:.6rem">
+        <input id="lock-target" placeholder="target IP" style="background:#0d0d1a;border:1px solid #333;color:#e0e0e0;border-radius:4px;padding:.3rem .5rem;font-family:monospace;font-size:.78rem;flex:1">
+        <button class="btn-lock" onclick="acquireLock()">Lock</button>
+        <button class="btn-lock" style="border-color:#9e9e9e;color:#9e9e9e" onclick="releaseLock()">Unlock</button>
+      </div>
+      <div id="locks-list"><span style="color:#555;font-size:.8rem">no locks</span></div>
+    </div>
+
+    <div class="panel">
+      <h5>Join URL</h5>
+      <div class="join-url" id="join-url">{{ join_url }}</div>
+      <button class="btn-collab" style="margin-top:.5rem;width:100%" onclick="copyJoin()">Copy</button>
+    </div>
+  </div>
+
+  <!-- Main: event feed + chat -->
+  <div class="panel" style="display:flex;flex-direction:column;gap:.6rem">
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <h5 style="margin:0">Event Feed</h5>
+      <div style="display:flex;gap:.5rem">
+        <button class="btn-collab" onclick="publishFinding()">Publish Finding</button>
+        <button class="btn-collab" onclick="clearLog()">Clear</button>
+      </div>
+    </div>
+    <div id="event-log" style="flex:1;overflow-y:auto"></div>
+    <div style="display:flex;gap:.5rem">
+      <input id="chat-input" placeholder="broadcast message to team..." onkeydown="if(event.key==='Enter')sendChat()">
+      <button class="btn-collab" onclick="sendChat()">Send</button>
+    </div>
+  </div>
+</div>
+
+<div class="status-bar">
+  <span id="conn-status" class="disconnected">disconnected</span>
+  &nbsp;|&nbsp; operator: <span id="my-op" style="color:#00bcd4">{{ operator }}</span>
+  &nbsp;|&nbsp; events received: <span id="ev-count">0</span>
+  &nbsp;|&nbsp; /collab/stream &nbsp;/collab/publish &nbsp;/collab/lock &nbsp;/collab/operators
+</div>
+
+<script>
+const MY_OP   = "{{ operator }}";
+const C2_HOST = "{{ c2_host }}";
+let evCount   = 0;
+let es        = null;
+
+function ts(epoch) {
+  const d = new Date(epoch * 1000);
+  return d.toTimeString().slice(0,8);
+}
+
+function addEvent(ev) {
+  const log = document.getElementById("event-log");
+  const div = document.createElement("div");
+  div.className = `ev ${ev.type}`;
+  const payload = JSON.stringify(ev.payload).slice(0, 120);
+  div.innerHTML = `<span class="ts">${ts(ev.ts)}</span> <span class="op">${ev.operator}</span> <strong>${ev.type}</strong> ${payload}`;
+  log.prepend(div);
+  if (log.children.length > 300) log.lastElementChild.remove();
+  evCount++;
+  document.getElementById("ev-count").textContent = evCount;
+}
+
+function connect() {
+  if (es) es.close();
+  const url = `/collab/stream?operator=${encodeURIComponent(MY_OP)}`;
+  es = new EventSource(url);
+  es.onopen = () => {
+    document.getElementById("conn-status").textContent = "connected";
+    document.getElementById("conn-status").className = "connected";
+  };
+  es.onmessage = e => {
+    try { addEvent(JSON.parse(e.data)); } catch(_) {}
+    refreshOperators();
+    refreshLocks();
+  };
+  es.onerror = () => {
+    document.getElementById("conn-status").textContent = "reconnecting...";
+    document.getElementById("conn-status").className = "disconnected";
+  };
+}
+
+function refreshOperators() {
+  fetch("/collab/operators")
+    .then(r => r.json())
+    .then(d => {
+      const el = document.getElementById("operators-list");
+      if (!d.operators || d.operators.length === 0) {
+        el.innerHTML = '<span style="color:#555;font-size:.8rem">none</span>';
+        return;
+      }
+      el.innerHTML = d.operators.map(o =>
+        `<div class="op-badge"><span class="op-dot"></span>${o.name}</div>`
+      ).join("");
+    }).catch(() => {});
+}
+
+function refreshLocks() {
+  fetch("/collab/locks")
+    .then(r => r.json())
+    .then(d => {
+      const el = document.getElementById("locks-list");
+      if (!d.locks || d.locks.length === 0) {
+        el.innerHTML = '<span style="color:#555;font-size:.8rem">no locks</span>';
+        return;
+      }
+      el.innerHTML = d.locks.map(l => {
+        const mine = l.operator === MY_OP ? "mine" : "";
+        return `<div class="lock-item ${mine}"><span>${l.target}</span><span style="color:#aaa">${l.operator}</span></div>`;
+      }).join("");
+    }).catch(() => {});
+}
+
+function sendChat() {
+  const input = document.getElementById("chat-input");
+  const msg   = input.value.trim();
+  if (!msg) return;
+  fetch("/collab/publish", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({type: "chat", operator: MY_OP, payload: {message: msg}})
+  }).then(() => { input.value = ""; }).catch(() => {});
+}
+
+function publishFinding() {
+  const target = prompt("Target IP:");
+  if (!target) return;
+  const detail = prompt("Finding:");
+  if (!detail) return;
+  fetch("/collab/publish", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({type: "finding", operator: MY_OP, payload: {target, detail}})
+  }).catch(() => {});
+}
+
+function acquireLock() {
+  const target = document.getElementById("lock-target").value.trim();
+  if (!target) return;
+  fetch("/collab/lock", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({target, operator: MY_OP, ttl_secs: 300})
+  }).then(r => r.json())
+    .then(d => { if (!d.acquired) alert(`Lock denied — held by another operator`); refreshLocks(); })
+    .catch(() => {});
+}
+
+function releaseLock() {
+  const target = document.getElementById("lock-target").value.trim();
+  if (!target) return;
+  fetch("/collab/unlock", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({target, operator: MY_OP})
+  }).then(() => refreshLocks()).catch(() => {});
+}
+
+function clearLog() { document.getElementById("event-log").innerHTML = ""; evCount = 0; document.getElementById("ev-count").textContent = 0; }
+
+function copyJoin() {
+  navigator.clipboard.writeText(document.getElementById("join-url").textContent).then(() => alert("Copied!"));
+}
+
+connect();
+setInterval(refreshOperators, 10000);
+setInterval(refreshLocks, 5000);
+</script>
+{% endblock %}

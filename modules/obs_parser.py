@@ -440,8 +440,8 @@ class ObsParser:
                 unique.append(f)
 
         log.debug(
-            "ObsParser: tool=%s host=%s findings=%d success=%s",
-            tool, host, len(unique), success,
+            "ObsParser parsed observation: findings=%d success=%s",
+            len(unique), success,
         )
         return Observation(
             findings   = unique,

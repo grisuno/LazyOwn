@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Correcciones
+
+### Otros
+
+  *   * fix(fix): bug fixing \n\n Version: release/0.2.123 \n\n repair security issueswith love \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: sáb 16 may 2026 20:39:11 -04 \n\n Hora: 1778978351
+
+
 ### Nuevas características
 
 ### Otros

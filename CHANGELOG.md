@@ -6,6 +6,13 @@
 
 ### Otros
 
+  *   * fix(security bug fixing in lazybrp): with love \n\n Version: release/0.2.126 \n\n :D \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: sáb 16 may 2026 21:39:23 -04 \n\n Hora: 1778981963
+
+
+### Correcciones
+
+### Otros
+
   *   * fix(fix): security issues fixed \n\n Version: release/0.2.125 \n\n with love \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: sáb 16 may 2026 21:31:11 -04 \n\n Hora: 1778981471
 
 

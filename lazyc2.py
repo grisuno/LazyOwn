@@ -114,6 +114,91 @@ def _listen_address():
     return resolver.resolve()
 
 
+_BIND_PROBE_TIMEOUT_SECONDS = 0.5
+_C2_DNS_PORT = 53
+_LOOPBACK_ADDRESS = "127.0.0.1"
+_UNSPECIFIED_ADDRESS = "0.0.0.0"
+
+
+def _probe_bind(address: str, port: int, sock_type: int = socket.SOCK_STREAM) -> tuple[bool, int | None]:
+    """Probe whether ``(address, port)`` can be bound for ``sock_type``.
+
+    The probe creates a transient socket, attempts the bind and closes
+    immediately. ``SO_REUSEADDR`` is set so that a recent close on the
+    same tuple does not raise a spurious ``EADDRINUSE``.
+
+    Args:
+        address: IPv4 address literal to test.
+        port: Port number to test. ``0`` lets the kernel pick.
+        sock_type: ``socket.SOCK_STREAM`` for TCP services or
+            ``socket.SOCK_DGRAM`` for UDP services such as DNS.
+
+    Returns:
+        Tuple ``(success, errno_value)`` where ``errno_value`` is the
+        ``OSError.errno`` on failure and ``None`` on success.
+    """
+    probe = None
+    try:
+        probe = socket.socket(socket.AF_INET, sock_type)
+        probe.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        probe.settimeout(_BIND_PROBE_TIMEOUT_SECONDS)
+        probe.bind((address, port))
+        return True, None
+    except OSError as exc:
+        return False, exc.errno
+    finally:
+        if probe is not None:
+            try:
+                probe.close()
+            except OSError:
+                pass
+
+
+def _resolve_bind_address(
+    preferred: str | None = None,
+    port: int = 0,
+    sock_type: int = socket.SOCK_STREAM,
+) -> str:
+    """Return an address that can actually be bound to on this host.
+
+    Probes each candidate with :func:`_probe_bind` and returns the first
+    address that succeeds. When none work the unspecified address is
+    returned so that the caller can decide whether to start, fail loud
+    or skip the service. The probe uses the same socket type the caller
+    will use, so UDP services such as DNS are tested with ``SOCK_DGRAM``.
+
+    Args:
+        preferred: Explicit address to try first. When ``None`` the
+            address chosen by :func:`_listen_address` is used.
+        port: Port number for the probe. When ``0`` the kernel assigns
+            an ephemeral port so the test never collides with the real
+            service.
+        sock_type: Socket type matching the eventual server.
+
+    Returns:
+        A bindable IPv4 address literal.
+    """
+    candidates: list[str] = []
+    if preferred is not None:
+        candidates.append(preferred)
+    try:
+        resolved = _listen_address()
+        if resolved not in candidates:
+            candidates.append(resolved)
+    except Exception:
+        logger.debug("Listen address resolution failed during probe", exc_info=True)
+    for fallback in (_UNSPECIFIED_ADDRESS, _LOOPBACK_ADDRESS):
+        if fallback not in candidates:
+            candidates.append(fallback)
+
+    for address in candidates:
+        success, _ = _probe_bind(address, port, sock_type)
+        if success:
+            return address
+
+    return _UNSPECIFIED_ADDRESS
+
+
 phishing_bp = Blueprint('phishing', __name__, template_folder='templates/phishing')
 
 if config.enable_c2_debug == True:
@@ -1241,18 +1326,88 @@ class CustomDNSResolver(BaseResolver):
 
         return reply
 
-def start_dns_server():
-    resolver = CustomDNSResolver()
-    logger.info("Iniciando servidor DNS en el puerto 53...")
-    server = DNSServer(resolver, port=53, address=_listen_address())
-    server.start()
+def _log_dns_bind_failure(address: str, error_number: int | None) -> None:
+    """Emit a single structured log line describing why DNS could not bind.
+
+    Categorising the ``errno`` lets the operator see at a glance whether
+    the problem is privileges, an inactive VPN interface or a port that
+    is already taken. The exception message itself is not logged because
+    it can include host-specific paths on some platforms.
+
+    Args:
+        address: Address that the bind was attempted on.
+        error_number: ``OSError.errno`` returned by the probe, or
+            ``None`` when no errno could be obtained.
+    """
+    if error_number == errno.EACCES:
+        logger.error(
+            "C2 DNS server not started: binding %s:%d requires CAP_NET_BIND_SERVICE or root",
+            address, _C2_DNS_PORT,
+        )
+    elif error_number == errno.EADDRNOTAVAIL:
+        logger.error(
+            "C2 DNS server not started: %s is not assigned to any local interface",
+            address,
+        )
+    elif error_number == errno.EADDRINUSE:
+        logger.error(
+            "C2 DNS server not started: %s:%d already in use",
+            address, _C2_DNS_PORT,
+        )
+    else:
+        logger.error(
+            "C2 DNS server not started: cannot bind %s:%d (errno=%s)",
+            address, _C2_DNS_PORT, error_number,
+        )
+
+
+def start_dns_server() -> None:
+    """Start the C2 DNS server, gracefully degrading when binding is unsafe.
+
+    The DNS server is optional and runs in a daemon thread, so any
+    uncaught exception in this function would be surfaced by the
+    threading runtime onto stderr and pollute the operator's terminal.
+    All errors are therefore funnelled through the logger and the
+    function returns cleanly instead of letting the thread crash.
+
+    Binding is attempted only after a UDP probe confirms the chosen
+    address is available, which avoids the common ``EADDRNOTAVAIL``
+    failure seen when ``lhost`` points to an inactive VPN interface.
+    The server can be disabled entirely via the ``enable_c2_dns``
+    payload flag.
+    """
+    if not getattr(config, "enable_c2_dns", True):
+        logger.info("C2 DNS server disabled via configuration")
+        return
+
+    address = _resolve_bind_address(port=_C2_DNS_PORT, sock_type=socket.SOCK_DGRAM)
+    bindable, error_number = _probe_bind(address, _C2_DNS_PORT, socket.SOCK_DGRAM)
+    if not bindable:
+        _log_dns_bind_failure(address, error_number)
+        return
+
+    try:
+        resolver = CustomDNSResolver()
+        server = DNSServer(resolver, port=_C2_DNS_PORT, address=address)
+        logger.info("C2 DNS server binding to %s:%d", address, _C2_DNS_PORT)
+        server.start()
+    except OSError as exc:
+        _log_dns_bind_failure(address, exc.errno)
+    except Exception:
+        logger.exception("C2 DNS server crashed unexpectedly")
 
 def tcp_bridge(local_port, remote_host, remote_port):
     """Establish a TCP bridge between a local port and a remote host."""
+    address = _resolve_bind_address(port=local_port)
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server_socket.bind((_listen_address(), local_port))
+    server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    try:
+        server_socket.bind((address, local_port))
+    except OSError as exc:
+        logger.error("tcp_bridge failed to bind %s:%d: %s", address, local_port, exc)
+        return
     server_socket.listen(5)
-    logger.info(f"[*] Listening for connections on port {local_port}...")
+    logger.info("[*] Listening for connections on port %d...", local_port)
 
     while True:
         client_socket, addr = server_socket.accept()
@@ -4326,11 +4481,18 @@ def handle_resize(data):
 
 def start_reverse_shell():
     global reverse_shell_socket
+    address = _resolve_bind_address(port=reverse_shell_port)
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server_socket.bind((_listen_address(), reverse_shell_port))
+    server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    try:
+        server_socket.bind((address, reverse_shell_port))
+    except OSError as exc:
+        if config.enable_c2_debug:
+            logger.error("Reverse shell listener failed to bind %s:%d: %s", address, reverse_shell_port, exc)
+        return
     server_socket.listen(1)
-    if config.enable_c2_debug == True:
-        logger.info(f"Listening for reverse shell on port {reverse_shell_port}...")
+    if config.enable_c2_debug:
+        logger.info("Listening for reverse shell on %s:%d", address, reverse_shell_port)
 
     reverse_shell_socket, addr = server_socket.accept()
     if config.enable_c2_debug == True:

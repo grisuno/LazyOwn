@@ -1,0 +1,21 @@
+name: recon-quick
+description: >
+  Fast reconnaissance loop for an unknown target. Useful as a building
+  block called from larger pipelines via nested pipeline composition.
+
+steps:
+  - name: probe
+    command: ping
+    validate: ttl=
+    on_failure: continue
+
+  - name: portscan
+    command: lazynmap
+    args: "-T4 -F"
+    on_success: auto_populate
+    on_failure: continue
+
+  - name: enumerate
+    command: facts_show
+    condition: "{{ previous.has_open_ports }}"
+    on_failure: continue

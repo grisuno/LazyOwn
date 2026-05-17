@@ -1852,6 +1852,703 @@ class DroneCoordinator:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# SECTION 7B — Engage Orchestrator (single-target kill-chain runner)
+# ─────────────────────────────────────────────────────────────────────────────
+#
+# Public entry point: mcp_engage_target("10.10.11.5")
+#
+# Drives one host through the canonical kill-chain in a fixed, observable
+# order: ping/os-detect -> nmap -> auto_populate -> enum -> exploit-search
+# -> initial-access. Each phase has a primary tool, optional confirmation
+# (gated by ApprovalGate), and a built-in fault recovery path that swaps
+# the primary tool for the next bridge-catalog alternative when execution
+# fails. Every action is narrated via EngagementNarrator so engagement.log
+# stays human-readable and teammates connected to /collab/ see the same
+# stream in real time.
+#
+# SOLID:
+#   S — separate classes for the phase plan, the narrator, the shell detector,
+#       the tool-switching fallback and the orchestrator. Each owns one job.
+#   O — new phases plug in via PhaseStep(extension); the orchestrator iterates
+#       the immutable plan tuple.
+#   L — every phase step honours the same execute() contract.
+#   I — the orchestrator depends on the small IApprovalGate / INarrator /
+#       IBridgeCatalog protocols, not on concrete persistence.
+#   D — narrator, gate, runner, bridge are all injected; defaults wire up
+#       production implementations.
+# ─────────────────────────────────────────────────────────────────────────────
+
+
+_ENGAGE_PHASE_ORDER: Tuple[Tuple[str, str, str], ...] = (
+    # (phase_id, primary_command, narrator_label)
+    ("recon",          "ping",          "ping + OS detection"),
+    ("recon",          "lazynmap",      "nmap full scan"),
+    ("recon",          "auto_populate", "auto-populate payload.json"),
+    ("enum",           "facts_show",    "enumerate services and facts"),
+    ("enum",           "searchsploit",  "exploit candidate search"),
+    ("exploit",        "lazymsfvenom",  "initial access — payload stage"),
+)
+
+
+_TOOL_FALLBACK_MAP: Dict[str, Tuple[str, ...]] = {
+    "ping":          ("hostdiscover",),
+    "lazynmap":      ("rustscan", "masscan", "nmap"),
+    "auto_populate": ("facts_show",),
+    "facts_show":    ("auto_populate",),
+    "searchsploit":  ("nvddb", "exploitalert"),
+    "lazymsfvenom":  ("generate_reverse_shell",),
+}
+
+
+@dataclass(frozen=True)
+class EnginePhaseStep:
+    """One step in the EngageOrchestrator plan.
+
+    Attributes:
+        phase: Canonical engagement phase tag (recon, enum, exploit, ...).
+        primary: Preferred LazyOwn shell command for this step.
+        label: Operator-facing short description used by the narrator.
+        timeout_s: Per-step execution timeout. Defaults to STEP_TIMEOUT_S.
+    """
+
+    phase: str
+    primary: str
+    label: str
+    timeout_s: int = STEP_TIMEOUT_S
+
+
+@dataclass(frozen=True)
+class EnginePhaseResult:
+    """Result of one EnginePhaseStep execution."""
+
+    step: EnginePhaseStep
+    command_used: str
+    output: str
+    success: bool
+    switched_from: str = ""
+    skipped_reason: str = ""
+
+    @property
+    def did_switch(self) -> bool:
+        """True when the orchestrator used a fallback tool."""
+        return bool(self.switched_from)
+
+
+class IToolFallbackResolver(ABC):
+    """Contract for choosing a replacement tool after a failure."""
+
+    @abstractmethod
+    def next_tool(
+        self,
+        failed_command: str,
+        phase: str,
+        attempt: int,
+    ) -> Optional[str]:
+        """Return the next candidate command or None when exhausted."""
+
+
+class StaticFallbackResolver(IToolFallbackResolver):
+    """Resolver backed by the static :data:`_TOOL_FALLBACK_MAP`.
+
+    Used when the bridge catalog is unavailable (eg the lazyown_bridge
+    module failed to import). Picks the i-th alternative for the given
+    primary command, returning None once the list is exhausted.
+    """
+
+    def next_tool(
+        self,
+        failed_command: str,
+        phase: str,
+        attempt: int,
+    ) -> Optional[str]:
+        primary = failed_command.strip().split()[0] if failed_command.strip() else ""
+        alternatives = _TOOL_FALLBACK_MAP.get(primary, ())
+        if attempt >= len(alternatives):
+            return None
+        return alternatives[attempt]
+
+
+class BridgeFallbackResolver(IToolFallbackResolver):
+    """Resolver that asks the bridge catalog for phase-appropriate alternatives.
+
+    Falls back to the static map when the bridge cannot answer, so the
+    orchestrator always converges instead of stalling. The internal
+    candidate cache is keyed by (phase, primary) so repeated failures
+    don't re-query the catalog.
+    """
+
+    def __init__(self, dispatcher: Any = None) -> None:
+        self._dispatcher = dispatcher if dispatcher is not None else (
+            _get_dispatcher() if _get_dispatcher else None
+        )
+        self._static = StaticFallbackResolver()
+        self._cache: Dict[Tuple[str, str], List[str]] = {}
+
+    def _candidates(self, primary: str, phase: str) -> List[str]:
+        key = (phase, primary)
+        if key in self._cache:
+            return self._cache[key]
+        ordered: List[str] = []
+        if self._dispatcher is not None:
+            try:
+                catalog = self._dispatcher.list_phase(phase) or []
+                for entry in catalog:
+                    name = getattr(entry, "command", "")
+                    if name and name != primary and name not in ordered:
+                        ordered.append(name)
+            except Exception:
+                pass
+        for fallback in _TOOL_FALLBACK_MAP.get(primary, ()):
+            if fallback not in ordered and fallback != primary:
+                ordered.append(fallback)
+        self._cache[key] = ordered
+        return ordered
+
+    def next_tool(
+        self,
+        failed_command: str,
+        phase: str,
+        attempt: int,
+    ) -> Optional[str]:
+        primary = failed_command.strip().split()[0] if failed_command.strip() else ""
+        candidates = self._candidates(primary, phase)
+        if attempt >= len(candidates):
+            # Last-resort: defer to static map even if catalog answered.
+            return self._static.next_tool(failed_command, phase, attempt - len(candidates))
+        return candidates[attempt]
+
+
+class _ShellDetector:
+    """Watches sessions/beacons.json for new beacons and emits SHELL_OBTAINED.
+
+    Idempotent: only narrates each client_id once. The actual notification
+    fabric (collab/telegram/discord) lives in engagement_hooks; this class
+    is a thin watcher used by the orchestrator between phases. The lazyc2
+    beacon hook publishes immediately on registration so this watcher only
+    matters when beacons appear before EngageOrchestrator is the active
+    process (e.g. during unattended sessions).
+    """
+
+    BEACONS_FILE: Path = SESSIONS_DIR / "beacons.json"
+
+    def __init__(self, narrator: Any) -> None:
+        self._narrator = narrator
+        self._seen_ids: set = set()
+        self._last_size: int = 0
+
+    def poll(self, target: str = "") -> List[str]:
+        """Return the newly-detected client_ids since the previous poll."""
+        new_ids: List[str] = []
+        try:
+            if not self.BEACONS_FILE.exists():
+                return new_ids
+            current_size = self.BEACONS_FILE.stat().st_size
+            if current_size == self._last_size and self._seen_ids:
+                return new_ids
+            self._last_size = current_size
+            try:
+                data = json.loads(self.BEACONS_FILE.read_text(encoding="utf-8"))
+            except Exception:
+                return new_ids
+            beacons = data if isinstance(data, (list, dict)) else []
+            iterable = beacons.values() if isinstance(beacons, dict) else beacons
+            for entry in iterable:
+                if not isinstance(entry, dict):
+                    continue
+                cid = str(entry.get("client_id") or entry.get("id") or "")
+                if not cid or cid in self._seen_ids:
+                    continue
+                self._seen_ids.add(cid)
+                new_ids.append(cid)
+                try:
+                    from engagement_hooks import publish_shell_obtained as _push
+                    _push(
+                        client_id=cid,
+                        primary_ip=str(entry.get("ip") or target or ""),
+                        hostname=str(entry.get("hostname", "")),
+                        user=str(entry.get("user", "")),
+                        platform=str(entry.get("platform", "")),
+                        narrator=self._narrator,
+                    )
+                except Exception as exc:
+                    log.debug("shell publish failed: %s", exc)
+        except Exception as exc:
+            log.debug("shell detector poll error: %s", exc)
+        return new_ids
+
+    def detect_in_output(self, output: str, target: str = "") -> bool:
+        """Return True when a shell/root-shell signal appears in command output."""
+        if not output:
+            return False
+        low = output.lower()
+        markers = (
+            "uid=0", "uid=", "root@", "# whoami", "nt authority\\system",
+            "shell open", "meterpreter >", "successfully spawned a shell",
+            "got shell", "reverse shell connection",
+        )
+        if any(m in low for m in markers):
+            try:
+                self._narrator.narrate(
+                    kind="SHELL_OBTAINED",
+                    target=target or "unknown",
+                    message="shell indicator detected in command output",
+                    payload={"output_snippet": output[-200:]},
+                    severity="critical",
+                )
+            except Exception:
+                pass
+            return True
+        return False
+
+
+class EngageOrchestrator:
+    """Single-target kill-chain orchestrator backing the ``engage`` verb.
+
+    Public usage:
+        orch = EngageOrchestrator(target="10.10.11.5")
+        summary = orch.run()
+
+    The orchestrator never raises. Every error path is logged through the
+    narrator and reflected in the returned summary so the operator (or the
+    MCP caller) sees the full timeline.
+    """
+
+    DEFAULT_MAX_SWITCHES_PER_STEP = 3
+
+    def __init__(
+        self,
+        target: str,
+        runner: Optional[ICommandRunner] = None,
+        narrator: Any = None,
+        approval_gate: Any = None,
+        fallback_resolver: Optional[IToolFallbackResolver] = None,
+        shell_detector: Optional[_ShellDetector] = None,
+        plan: Optional[Tuple[EnginePhaseStep, ...]] = None,
+        max_switches_per_step: int = DEFAULT_MAX_SWITCHES_PER_STEP,
+    ) -> None:
+        from engagement_hooks import EngagementNarrator as _Narrator
+        from engagement_hooks import is_valid_target as _is_valid_target
+        if not _is_valid_target(target):
+            raise ValueError(f"invalid target: {target!r}")
+        self._target = target
+        self._runner = runner or _build_default_runner()
+        self._narrator = narrator or _Narrator()
+        if approval_gate is None:
+            try:
+                from lazyown_policy import ApprovalGate as _Gate
+                approval_gate = _Gate()
+            except Exception:
+                approval_gate = None
+        self._gate = approval_gate
+        self._fallback = fallback_resolver or BridgeFallbackResolver()
+        self._shell = shell_detector or _ShellDetector(self._narrator)
+        self._plan = plan or tuple(
+            EnginePhaseStep(phase=p, primary=c, label=l)
+            for p, c, l in _ENGAGE_PHASE_ORDER
+        )
+        self._max_switches = max(0, int(max_switches_per_step))
+        self._engagement_id = uuid.uuid4().hex[:8]
+
+    @property
+    def engagement_id(self) -> str:
+        """Stable id for this engagement (correlates events in logs)."""
+        return self._engagement_id
+
+    def run(self) -> Dict[str, Any]:
+        """Drive the full plan against the configured target.
+
+        Returns a summary dict with the engagement_id, target, per-step
+        results, switch counts, and the final shell-obtained flag.
+        """
+        self._narrator.narrate(
+            kind="ENGAGE_START",
+            target=self._target,
+            message=f"engagement {self._engagement_id} started — kill-chain run",
+            payload={"engagement_id": self._engagement_id, "plan": [s.primary for s in self._plan]},
+        )
+        # Mirror the engagement to the autonomous_status snapshot so the
+        # existing autonomous_status MCP tool reflects current work.
+        try:
+            _daemon_stats["current_objective"] = f"engage {self._target}"
+            _daemon_stats["current_phase"] = "recon"
+            _write_status()
+        except Exception:
+            pass
+
+        results: List[Dict[str, Any]] = []
+        shell_obtained = False
+
+        for step in self._plan:
+            try:
+                _daemon_stats["current_phase"] = step.phase
+                _write_status()
+            except Exception:
+                pass
+
+            result = self._run_step(step)
+            results.append({
+                "phase":          result.step.phase,
+                "label":          result.step.label,
+                "command":        result.command_used,
+                "switched_from":  result.switched_from,
+                "success":        result.success,
+                "skipped_reason": result.skipped_reason,
+                "output_tail":    (result.output or "")[-400:],
+            })
+
+            self._shell.poll(target=self._target)
+            if self._shell.detect_in_output(result.output, target=self._target):
+                shell_obtained = True
+                break
+
+        try:
+            _daemon_stats["current_objective"] = None
+            _daemon_stats["current_phase"] = "idle"
+            _write_status()
+        except Exception:
+            pass
+
+        self._narrator.narrate(
+            kind="ENGAGE_DONE",
+            target=self._target,
+            message=(
+                f"engagement {self._engagement_id} finished — "
+                f"{len(results)} steps, shell={shell_obtained}"
+            ),
+            payload={
+                "engagement_id":  self._engagement_id,
+                "shell_obtained": shell_obtained,
+                "steps":          len(results),
+            },
+            severity="critical" if shell_obtained else "info",
+        )
+
+        return {
+            "engagement_id":  self._engagement_id,
+            "target":         self._target,
+            "shell_obtained": shell_obtained,
+            "steps":          results,
+        }
+
+    def _run_step(self, step: EnginePhaseStep) -> EnginePhaseResult:
+        """Execute one phase step with approval, fallback, and narration."""
+        approval = self._consult_gate(step)
+        if approval is not None and not approval.is_approved:
+            self._narrator.narrate(
+                kind="STEP_DENIED",
+                target=self._target,
+                message=f"{step.primary} denied at {step.phase} — {approval.rationale}",
+                payload={
+                    "phase":    step.phase,
+                    "command":  step.primary,
+                    "approval": approval.rationale,
+                },
+                severity="warning",
+            )
+            return EnginePhaseResult(
+                step=step,
+                command_used=step.primary,
+                output="",
+                success=False,
+                skipped_reason=f"denied: {approval.rationale}",
+            )
+
+        command = step.primary
+        switched_from = ""
+        attempt = 0
+        last_output = ""
+
+        while True:
+            self._narrator.narrate(
+                kind="STEP_START",
+                target=self._target,
+                message=f"{step.label} via {command}",
+                payload={
+                    "engagement_id": self._engagement_id,
+                    "phase":         step.phase,
+                    "command":       command,
+                    "attempt":       attempt,
+                },
+            )
+            try:
+                output = self._execute(command, step.timeout_s)
+            except Exception as exc:
+                output = f"[runner error] {exc}"
+            last_output = output
+
+            success = self._step_succeeded(command, output)
+            if success:
+                self._narrator.narrate(
+                    kind="STEP_DONE",
+                    target=self._target,
+                    message=f"{command} succeeded ({len(output)} bytes)",
+                    payload={
+                        "phase":         step.phase,
+                        "command":       command,
+                        "switched_from": switched_from,
+                        "output_size":   len(output),
+                    },
+                )
+                return EnginePhaseResult(
+                    step=step,
+                    command_used=command,
+                    output=output,
+                    success=True,
+                    switched_from=switched_from,
+                )
+
+            self._narrator.narrate(
+                kind="STEP_FAILED",
+                target=self._target,
+                message=f"{command} failed — searching fallback",
+                payload={
+                    "phase":   step.phase,
+                    "command": command,
+                    "attempt": attempt,
+                    "tail":    output[-200:],
+                },
+                severity="warning",
+            )
+
+            if attempt >= self._max_switches:
+                self._narrator.narrate(
+                    kind="STEP_EXHAUSTED",
+                    target=self._target,
+                    message=f"{step.phase} fallbacks exhausted after {attempt} switches",
+                    payload={"phase": step.phase, "primary": step.primary},
+                    severity="warning",
+                )
+                return EnginePhaseResult(
+                    step=step,
+                    command_used=command,
+                    output=last_output,
+                    success=False,
+                    switched_from=switched_from,
+                    skipped_reason="fallbacks exhausted",
+                )
+
+            next_cmd = self._fallback.next_tool(command, step.phase, attempt)
+            if not next_cmd:
+                self._narrator.narrate(
+                    kind="STEP_EXHAUSTED",
+                    target=self._target,
+                    message=f"no fallback available for {command}",
+                    payload={"phase": step.phase, "primary": step.primary},
+                    severity="warning",
+                )
+                return EnginePhaseResult(
+                    step=step,
+                    command_used=command,
+                    output=last_output,
+                    success=False,
+                    switched_from=switched_from,
+                    skipped_reason="no fallback",
+                )
+
+            self._narrator.narrate(
+                kind="SWITCH_TOOL",
+                target=self._target,
+                message=f"switching {command} -> {next_cmd}",
+                payload={
+                    "phase":     step.phase,
+                    "from":      command,
+                    "to":        next_cmd,
+                    "attempt":   attempt,
+                },
+                severity="warning",
+            )
+            switched_from = command if not switched_from else switched_from
+            command = next_cmd
+            attempt += 1
+
+    def _consult_gate(self, step: EnginePhaseStep):
+        """Ask the ApprovalGate; return None if no gate is wired."""
+        if self._gate is None:
+            return None
+        try:
+            return self._gate.request(
+                target=self._target,
+                phase=step.phase,
+                command=step.primary,
+                reason=f"engage step: {step.label}",
+            )
+        except Exception as exc:
+            log.debug("approval gate error: %s", exc)
+            return None
+
+    def _execute(self, command: str, timeout_s: int) -> str:
+        """Run command via the shell, injecting target into payload first."""
+        full_cmd = f"assign rhost {self._target}\n{command}"
+        return self._runner.run(full_cmd, timeout=timeout_s)
+
+    @staticmethod
+    def _step_succeeded(command: str, output: str) -> bool:
+        """Heuristic success check — same shape used by _run_objective."""
+        if not output:
+            return False
+        low = output.lower()
+        failure_markers = (
+            "error", "failed", "no such", "command not found",
+            "traceback", "refused", "timeout",
+        )
+        success_markers = (
+            "found", "success", "open", "hash", "discovered",
+            "credential", "uid=", "started", "listening",
+        )
+        if any(m in low for m in success_markers):
+            return True
+        if any(m in low for m in failure_markers):
+            return False
+        return len(output.strip()) > 0
+
+
+def _engage_run_sync(target: str, max_switches_per_step: int = 3) -> Dict[str, Any]:
+    """Synchronous helper used by all engage entry points."""
+    orch = EngageOrchestrator(
+        target=target,
+        max_switches_per_step=max_switches_per_step,
+    )
+    return orch.run()
+
+
+def mcp_engage_target(
+    target: str,
+    max_switches_per_step: int = 3,
+    detach: bool = True,
+) -> str:
+    """Public MCP / CLI entry point for the engage verb.
+
+    Args:
+        target: IPv4 dotted-quad or hostname to engage.
+        max_switches_per_step: Maximum number of fallback tools per phase.
+        detach: When True (default) the orchestrator runs in a background
+                thread and the call returns immediately with the engagement
+                id; the operator polls progress via lazyown_engage_status.
+                When False the call blocks until the kill-chain finishes
+                and returns the full summary JSON.
+
+    Returns:
+        JSON string with ``engagement_id`` and ``status`` (started|done)
+        plus the full result payload when detach is False.
+    """
+    try:
+        from engagement_hooks import is_valid_target as _ivt
+        if not _ivt(target):
+            return json.dumps({
+                "status":  "error",
+                "message": f"invalid target: {target!r}",
+            })
+    except Exception:
+        return json.dumps({
+            "status":  "error",
+            "message": "engagement_hooks module unavailable",
+        })
+
+    if not detach:
+        try:
+            summary = _engage_run_sync(target, max_switches_per_step)
+            return json.dumps({"status": "done", **summary}, indent=2, default=str)
+        except Exception as exc:
+            return json.dumps({"status": "error", "message": str(exc)})
+
+    engagement_id = uuid.uuid4().hex[:8]
+
+    def _worker() -> None:
+        try:
+            _engage_run_sync(target, max_switches_per_step)
+        except Exception as exc:
+            log.error("engage worker error: %s", exc)
+            _emit("ENGAGE_WORKER_ERROR", {
+                "engagement_id": engagement_id,
+                "target":        target,
+                "error":         str(exc),
+            }, severity="critical")
+
+    thread = threading.Thread(
+        target=_worker,
+        name=f"engage-{engagement_id}",
+        daemon=True,
+    )
+    thread.start()
+
+    return json.dumps({
+        "status":         "started",
+        "engagement_id":  engagement_id,
+        "target":         target,
+        "message":        (
+            "Engagement started in background. "
+            "Poll progress with lazyown_engage_status or read sessions/engagement.log."
+        ),
+    }, indent=2)
+
+
+def mcp_engage_status(last_n: int = 20) -> str:
+    """Return the last N lines of sessions/engagement.log plus pending approvals."""
+    try:
+        from engagement_hooks import ENGAGEMENT_LOG, list_pending_approvals
+    except Exception:
+        return json.dumps({"status": "error", "message": "engagement_hooks unavailable"})
+    lines: List[str] = []
+    if ENGAGEMENT_LOG.exists():
+        try:
+            raw = ENGAGEMENT_LOG.read_text(encoding="utf-8", errors="replace").splitlines()
+            lines = raw[-max(1, int(last_n)) :]
+        except Exception as exc:
+            return json.dumps({"status": "error", "message": str(exc)})
+    pending = list_pending_approvals()
+    return json.dumps({
+        "status":           "ok",
+        "lines":            lines,
+        "pending_approvals": pending,
+        "log_path":         str(ENGAGEMENT_LOG),
+    }, indent=2, default=str)
+
+
+def mcp_engage_approve(approval_id: str, decision: str, operator: str = "") -> str:
+    """Resolve a pending approval. decision must be 'approved' or 'denied'."""
+    try:
+        from engagement_hooks import resolve_approval
+    except Exception:
+        return json.dumps({"status": "error", "message": "engagement_hooks unavailable"})
+    ok = resolve_approval(approval_id, decision, operator)
+    if not ok:
+        return json.dumps({
+            "status":  "error",
+            "message": "invalid approval_id or decision (use approved|denied)",
+        })
+    return json.dumps({
+        "status":      "ok",
+        "approval_id": approval_id,
+        "decision":    decision,
+        "operator":    operator or "system",
+    }, indent=2)
+
+
+def mcp_engage_list_pending() -> str:
+    """List every pending approval awaiting an operator decision."""
+    try:
+        from engagement_hooks import list_pending_approvals
+    except Exception:
+        return json.dumps({"status": "error", "message": "engagement_hooks unavailable"})
+    pending = list_pending_approvals()
+    return json.dumps({
+        "status":  "ok",
+        "count":   len(pending),
+        "pending": pending,
+    }, indent=2, default=str)
+
+
+def cmd_engage(target: str, max_switches_per_step: int = 3, detach: bool = False) -> None:
+    """CLI helper bound to the `engage <ip>` daemon subcommand."""
+    result = mcp_engage_target(
+        target=target,
+        max_switches_per_step=max_switches_per_step,
+        detach=detach,
+    )
+    print(result)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # SECTION 8 — Asyncio roles
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -2496,12 +3193,41 @@ def mcp_autonomous_events(last_n: int = 20) -> str:
 # SECTION 12 — CLI entry point
 # ─────────────────────────────────────────────────────────────────────────────
 
+def _dispatch_pipeline(args: "argparse.Namespace") -> None:
+    """Daemon-side pipeline subcommand handler.
+
+    Lazy-imports modules.pipeline_engine so the daemon starts even when
+    PyYAML is missing in non-pipeline workflows.
+    """
+    try:
+        sys.path.insert(0, str(MODULES_DIR))
+        from pipeline_engine import cmd_pipeline as _pl_cmd
+    except Exception as exc:
+        print(json.dumps({
+            "status":  "error",
+            "message": f"pipeline_engine import failed: {exc}",
+        }))
+        return
+    _pl_cmd(
+        action=args.action,
+        name=getattr(args, "name", "") or "",
+        target=getattr(args, "target", "") or "",
+        background=bool(getattr(args, "background", False)),
+    )
+
+
 _COMMANDS = {
     "run":    lambda args: cmd_run(int(args.max_steps)),
     "start":  lambda args: cmd_start(int(args.max_steps)),
     "stop":   lambda _: cmd_stop(),
     "status": lambda _: cmd_status(),
     "inject": lambda args: cmd_inject(args.text, args.priority),
+    "engage": lambda args: cmd_engage(
+        target=args.target,
+        max_switches_per_step=int(args.max_switches),
+        detach=bool(args.background),
+    ),
+    "pipeline": _dispatch_pipeline,
 }
 
 if __name__ == "__main__":
@@ -2525,6 +3251,41 @@ if __name__ == "__main__":
     p_inj.add_argument("text")
     p_inj.add_argument("--priority", default="high",
                        choices=["low", "medium", "high", "critical"])
+
+    p_eng = sub.add_parser(
+        "engage",
+        help="Drive one target through the full kill-chain (ping->nmap->enum->exploit).",
+    )
+    p_eng.add_argument("target", help="Target IPv4 or hostname.")
+    p_eng.add_argument(
+        "--max-switches",
+        default=3,
+        dest="max_switches",
+        help="Maximum fallback tools tried per phase before giving up.",
+    )
+    p_eng.add_argument(
+        "--background",
+        action="store_true",
+        help="Run the engagement in a background thread and return immediately.",
+    )
+
+    p_pl = sub.add_parser(
+        "pipeline",
+        help="Run a declarative YAML pipeline (Pillar 3 composition layer).",
+    )
+    p_pl.add_argument(
+        "action",
+        choices=["list", "validate", "show", "run", "status"],
+        help="Pipeline action.",
+    )
+    p_pl.add_argument("name", nargs="?", default="", help="Pipeline name.")
+    p_pl.add_argument(
+        "--target", default="", help="Optional target override for pipeline run.",
+    )
+    p_pl.add_argument(
+        "--background", action="store_true",
+        help="Detach the pipeline into a background worker thread.",
+    )
 
     parsed = parser.parse_args()
     if parsed.cmd in _COMMANDS:

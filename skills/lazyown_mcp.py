@@ -2715,6 +2715,171 @@ async def list_tools() -> list[types.Tool]:
         ),
         # ── END Autonomous Daemon tools ─────────────────────────────────────
 
+        # ── Engage Orchestrator tools ───────────────────────────────────────
+        types.Tool(
+            name="lazyown_engage_target",
+            description=(
+                "Run the single-command kill-chain orchestrator against one target. "
+                "Executes ping/OS-detect, nmap, auto_populate, enum, exploit "
+                "search, and initial-access in order. Each step consults the "
+                "ApprovalGate (gated by payload.auto_approve), retries via the "
+                "bridge catalog when a tool fails, and narrates progress to "
+                "sessions/engagement.log + collab feed. Returns the engagement "
+                "id when detach=true (default) so callers can poll progress."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "target": {
+                        "type": "string",
+                        "description": "Target IPv4 address or hostname to engage.",
+                    },
+                    "max_switches_per_step": {
+                        "type": "integer",
+                        "description": "Maximum fallback tools tried per phase before giving up.",
+                        "default": 3,
+                    },
+                    "detach": {
+                        "type": "boolean",
+                        "description": "Run the engagement in a background thread (default true).",
+                        "default": True,
+                    },
+                },
+                "required": ["target"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_engage_status",
+            description=(
+                "Read the tail of sessions/engagement.log and the current list "
+                "of approval requests awaiting an operator decision. Use to "
+                "monitor a running engagement started with lazyown_engage_target."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "last_n": {
+                        "type": "integer",
+                        "description": "Number of log lines to return.",
+                        "default": 20,
+                    },
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_engage_approve",
+            description=(
+                "Resolve a pending approval issued by the ApprovalGate. The "
+                "decision must be either 'approved' or 'denied'. Approval ids "
+                "come from lazyown_engage_status or lazyown_engage_list_pending."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "approval_id": {
+                        "type": "string",
+                        "description": "Approval identifier returned when the gate was triggered.",
+                    },
+                    "decision": {
+                        "type": "string",
+                        "enum": ["approved", "denied"],
+                        "description": "Operator decision.",
+                    },
+                    "operator": {
+                        "type": "string",
+                        "description": "Optional operator handle for audit.",
+                        "default": "",
+                    },
+                },
+                "required": ["approval_id", "decision"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_engage_list_pending",
+            description=(
+                "List every approval request currently awaiting an operator "
+                "decision. Useful when running with auto_approve=false to find "
+                "the approval ids that need lazyown_engage_approve."
+            ),
+            inputSchema={"type": "object", "properties": {}, "required": []},
+        ),
+        # ── END Engage Orchestrator tools ───────────────────────────────────
+
+        # ── Pipeline Engine tools (Pillar 3) ────────────────────────────────
+        types.Tool(
+            name="lazyown_pipeline_run",
+            description=(
+                "Run a declarative YAML pipeline from pipelines/<name>.yaml. "
+                "The pipeline engine executes the steps in order, resolves "
+                "{{ previous.X }} / {{ steps.<name>.X }} / {{ payload.X }} "
+                "templates against the typed step context, skips steps whose "
+                "'condition:' renders falsy, and persists every step plus the "
+                "final summary under sessions/pipelines/<name>__<run-id>/. "
+                "Set background=true to detach and poll progress with "
+                "lazyown_pipeline_status."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Pipeline name (matches pipelines/<name>.yaml).",
+                    },
+                    "target": {
+                        "type": "string",
+                        "description": "Optional target override. Defaults to payload.rhost.",
+                        "default": "",
+                    },
+                    "background": {
+                        "type": "boolean",
+                        "description": "Detach into a background worker (default false).",
+                        "default": False,
+                    },
+                },
+                "required": ["name"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_pipeline_list",
+            description="List every available pipeline name under pipelines/.",
+            inputSchema={"type": "object", "properties": {}, "required": []},
+        ),
+        types.Tool(
+            name="lazyown_pipeline_validate",
+            description=(
+                "Parse and validate a pipeline's YAML schema without "
+                "executing it. Returns the resolved step list with index, "
+                "command/pipeline, condition and on_failure metadata."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "name": {"type": "string", "description": "Pipeline name."},
+                },
+                "required": ["name"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_pipeline_status",
+            description=(
+                "Return the N most recent pipeline runs and their "
+                "summary.json contents from sessions/pipelines/."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "last_n": {
+                        "type": "integer",
+                        "description": "Maximum number of runs to return.",
+                        "default": 5,
+                    },
+                },
+                "required": [],
+            },
+        ),
+        # ── END Pipeline Engine tools ───────────────────────────────────────
+
         types.Tool(
             name="lazyown_rag_index",
             description=(
@@ -7827,6 +7992,114 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             return text(_auto_events(last_n=int(arguments.get("last_n", 20))))
         except Exception as exc:
             return text(f"[autonomous_events error] {exc}")
+
+    # ── Engage Orchestrator handlers ──────────────────────────────────────────
+    elif name == "lazyown_engage_target":
+        try:
+            from autonomous_daemon import mcp_engage_target as _engage_call
+        except Exception as exc:
+            return text(f"[engage_target error] autonomous_daemon import failed: {exc}")
+        try:
+            target = str(arguments.get("target", "")).strip()
+            if not target:
+                return text("[engage_target error] target is required")
+            return text(_engage_call(
+                target=target,
+                max_switches_per_step=int(arguments.get("max_switches_per_step", 3)),
+                detach=bool(arguments.get("detach", True)),
+            ))
+        except Exception as exc:
+            return text(f"[engage_target error] {exc}")
+
+    elif name == "lazyown_engage_status":
+        try:
+            from autonomous_daemon import mcp_engage_status as _engage_status_call
+        except Exception as exc:
+            return text(f"[engage_status error] autonomous_daemon import failed: {exc}")
+        try:
+            return text(_engage_status_call(last_n=int(arguments.get("last_n", 20))))
+        except Exception as exc:
+            return text(f"[engage_status error] {exc}")
+
+    elif name == "lazyown_engage_approve":
+        try:
+            from autonomous_daemon import mcp_engage_approve as _engage_approve_call
+        except Exception as exc:
+            return text(f"[engage_approve error] autonomous_daemon import failed: {exc}")
+        try:
+            approval_id = str(arguments.get("approval_id", "")).strip()
+            decision = str(arguments.get("decision", "")).strip().lower()
+            operator = str(arguments.get("operator", "")).strip()
+            if not approval_id or decision not in ("approved", "denied"):
+                return text("[engage_approve error] approval_id and decision='approved|denied' are required")
+            return text(_engage_approve_call(approval_id, decision, operator))
+        except Exception as exc:
+            return text(f"[engage_approve error] {exc}")
+
+    elif name == "lazyown_engage_list_pending":
+        try:
+            from autonomous_daemon import mcp_engage_list_pending as _engage_pending_call
+        except Exception as exc:
+            return text(f"[engage_list_pending error] autonomous_daemon import failed: {exc}")
+        try:
+            return text(_engage_pending_call())
+        except Exception as exc:
+            return text(f"[engage_list_pending error] {exc}")
+
+    # ── Pipeline Engine handlers (Pillar 3) ───────────────────────────────────
+    elif name == "lazyown_pipeline_run":
+        try:
+            sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
+            from pipeline_engine import mcp_pipeline_run as _pl_run
+        except Exception as exc:
+            return text(f"[pipeline_run error] pipeline_engine import failed: {exc}")
+        try:
+            pipeline_name = str(arguments.get("name", "")).strip()
+            if not pipeline_name:
+                return text("[pipeline_run error] name is required")
+            return text(_pl_run(
+                name=pipeline_name,
+                target=str(arguments.get("target", "")).strip(),
+                background=bool(arguments.get("background", False)),
+            ))
+        except Exception as exc:
+            return text(f"[pipeline_run error] {exc}")
+
+    elif name == "lazyown_pipeline_list":
+        try:
+            sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
+            from pipeline_engine import mcp_pipeline_list as _pl_list
+        except Exception as exc:
+            return text(f"[pipeline_list error] pipeline_engine import failed: {exc}")
+        try:
+            return text(_pl_list())
+        except Exception as exc:
+            return text(f"[pipeline_list error] {exc}")
+
+    elif name == "lazyown_pipeline_validate":
+        try:
+            sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
+            from pipeline_engine import mcp_pipeline_validate as _pl_validate
+        except Exception as exc:
+            return text(f"[pipeline_validate error] pipeline_engine import failed: {exc}")
+        try:
+            pipeline_name = str(arguments.get("name", "")).strip()
+            if not pipeline_name:
+                return text("[pipeline_validate error] name is required")
+            return text(_pl_validate(pipeline_name))
+        except Exception as exc:
+            return text(f"[pipeline_validate error] {exc}")
+
+    elif name == "lazyown_pipeline_status":
+        try:
+            sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
+            from pipeline_engine import mcp_pipeline_status as _pl_status
+        except Exception as exc:
+            return text(f"[pipeline_status error] pipeline_engine import failed: {exc}")
+        try:
+            return text(_pl_status(last_n=int(arguments.get("last_n", 5))))
+        except Exception as exc:
+            return text(f"[pipeline_status error] {exc}")
 
     # ── session_status ────────────────────────────────────────────────────────
     elif name == "lazyown_session_status":

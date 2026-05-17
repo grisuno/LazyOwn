@@ -85,6 +85,30 @@ logger = logging.getLogger(__name__)
 
 
 config = Config(load_payload())
+
+DEFAULT_LISTEN_ADDRESS = "0.0.0.0"
+_VALID_LISTEN_PATTERN = re.compile(r'^[0-9a-fA-F:.]+$')
+
+
+def _listen_address():
+    """Return the operator-configured bind address for C2 listeners.
+
+    Reads ``c2_bind_address`` from ``payload.json``. Falls back to the
+    documented default (all interfaces) when the key is missing or the
+    operator-provided value fails a strict syntactic check. The C2 must
+    accept connections on every interface the operator wants reachable;
+    making the value configurable lets a defender restrict it (e.g. to
+    a single VPN address) without code changes.
+    """
+    raw = getattr(config, 'c2_bind_address', None)
+    if not isinstance(raw, str) or not raw.strip():
+        return DEFAULT_LISTEN_ADDRESS
+    candidate = raw.strip()
+    if not _VALID_LISTEN_PATTERN.match(candidate):
+        return DEFAULT_LISTEN_ADDRESS
+    return candidate
+
+
 phishing_bp = Blueprint('phishing', __name__, template_folder='templates/phishing')
 
 if config.enable_c2_debug == True:
@@ -171,32 +195,84 @@ def is_safe_template_path(template_path, template_name):
     expected_path = os.path.normpath(os.path.join(app.template_folder, template_name))
     return normalized_path == expected_path and normalized_path.startswith(os.path.normpath(app.template_folder))
 
-def is_binary(file_path):
-    """Check if a file is a binary file based on its header.
+_NON_SERIALIZABLE_PLACEHOLDER = "[non-serializable output]"
+_EXCEPTION_PLACEHOLDER = "[exception]"
+_MAX_SANITIZED_DEPTH = 8
 
-    The caller is expected to pass a path that has already been validated
-    against ``SESSIONS_DIR``. This function additionally enforces that the
-    resolved path lives inside ``SESSIONS_DIR`` so a stray traversal cannot
-    open arbitrary host files even if a caller forgets to validate.
+
+def _sanitize_command_output(value, depth=0):
+    """Return a JSON-safe projection of ``value`` without exception details.
+
+    Exceptions, traceback objects and any non-trivially-serializable type
+    are replaced with opaque placeholders so the C2 cannot leak stack
+    traces, internal file paths or instance attributes to the HTTP client.
+    Recursion is bounded so a self-referential object cannot exhaust the
+    stack.
     """
-    try:
-        sessions_real = os.path.realpath(SESSIONS_DIR)
-        target_real = os.path.realpath(file_path)
+    if depth >= _MAX_SANITIZED_DEPTH:
+        return _NON_SERIALIZABLE_PLACEHOLDER
+    if isinstance(value, BaseException):
+        return _EXCEPTION_PLACEHOLDER
+    if value is None or isinstance(value, (bool, int, float)):
+        return value
+    if isinstance(value, str):
+        return value
+    if isinstance(value, (bytes, bytearray)):
         try:
-            if os.path.commonpath([sessions_real, target_real]) != sessions_real:
-                return False
-        except ValueError:
-            return False
-        if not os.path.isfile(target_real):
-            return False
-        with open(target_real, 'rb') as f:
-            header = f.read(4)
-            for b_header in BINARY_HEADERS:
-                if header.startswith(b_header):
-                    return True
+            return value.decode("utf-8", errors="replace")
+        except Exception:
+            return _NON_SERIALIZABLE_PLACEHOLDER
+    if isinstance(value, dict):
+        out = {}
+        for k, v in value.items():
+            if not isinstance(k, (str, int, float, bool)) and k is not None:
+                continue
+            out[str(k) if not isinstance(k, str) else k] = _sanitize_command_output(v, depth + 1)
+        return out
+    if isinstance(value, (list, tuple, set, frozenset)):
+        return [_sanitize_command_output(v, depth + 1) for v in value]
+    return _NON_SERIALIZABLE_PLACEHOLDER
+
+
+def is_binary(safe_filename):
+    """Check whether a session file is binary based on its header bytes.
+
+    Accepts a single basename, never a path. Reconstructing the absolute
+    path inside this function prevents a malicious caller from supplying
+    traversal sequences to read host files outside ``SESSIONS_DIR``.
+
+    Args:
+        safe_filename: Basename of a candidate file within ``SESSIONS_DIR``.
+
+    Returns:
+        True only when the resolved file lives inside ``SESSIONS_DIR`` and
+        its leading bytes match a known binary header. Any validation
+        failure or I/O error returns False.
+    """
+    if not safe_filename or not isinstance(safe_filename, str):
         return False
-    except (IOError, OSError):
+    if safe_filename in ('.', '..'):
         return False
+    if '/' in safe_filename or '\\' in safe_filename or '\x00' in safe_filename:
+        return False
+    if os.path.basename(safe_filename) != safe_filename:
+        return False
+    sessions_real = os.path.realpath(SESSIONS_DIR)
+    candidate_real = os.path.realpath(os.path.join(sessions_real, safe_filename))
+    try:
+        if os.path.commonpath([sessions_real, candidate_real]) != sessions_real:
+            return False
+    except ValueError:
+        return False
+    if not os.path.isfile(candidate_real):
+        return False
+    header_max_len = max((len(h) for h in BINARY_HEADERS), default=4)
+    try:
+        with open(candidate_real, 'rb') as f:
+            header = f.read(header_max_len)
+    except OSError:
+        return False
+    return any(header.startswith(b_header) for b_header in BINARY_HEADERS)
 
 def get_request_details():
     """Extract and return request details as a dictionary."""
@@ -1192,13 +1268,13 @@ class CustomDNSResolver(BaseResolver):
 def start_dns_server():
     resolver = CustomDNSResolver()
     logger.info("Iniciando servidor DNS en el puerto 53...")
-    server = DNSServer(resolver, port=53, address="0.0.0.0")  # noqa: S104 - C2 must accept on all interfaces
+    server = DNSServer(resolver, port=53, address=_listen_address())
     server.start()
 
 def tcp_bridge(local_port, remote_host, remote_port):
     """Establish a TCP bridge between a local port and a remote host."""
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server_socket.bind(("0.0.0.0", local_port))  # noqa: S104 - C2 must accept on all interfaces
+    server_socket.bind((_listen_address(), local_port))
     server_socket.listen(5)
     logger.info(f"[*] Listening for connections on port {local_port}...")
 
@@ -2933,11 +3009,29 @@ def redirect_to_file(short_url):
 @requires_auth
 def webserver_report(filename='index2.html'):
     """Serve nmap HTML report and associated assets from the sessions directory over HTTPS."""
-    sessions_real = os.path.realpath(SESSIONS_DIR)
-    safe_name = os.path.normpath(filename).lstrip('/')
+    if not filename or not isinstance(filename, str):
+        abort(403)
+    if '\x00' in filename or '..' in filename.split('/') or '..' in filename.split('\\'):
+        abort(403)
+    if os.path.isabs(filename) or filename.startswith('/') or filename.startswith('\\'):
+        abort(403)
+    safe_name = os.path.normpath(filename).lstrip('/').lstrip('\\')
     if not safe_name or safe_name.startswith('..') or os.path.isabs(safe_name):
         abort(403)
-    candidate_real = os.path.realpath(os.path.join(sessions_real, safe_name))
+    sanitized_parts = []
+    for part in safe_name.replace('\\', '/').split('/'):
+        if not part or part == '.':
+            continue
+        if part == '..':
+            abort(403)
+        if part != secure_filename(part):
+            abort(403)
+        sanitized_parts.append(part)
+    if not sanitized_parts:
+        abort(403)
+    sanitized_rel = '/'.join(sanitized_parts)
+    sessions_real = os.path.realpath(SESSIONS_DIR)
+    candidate_real = os.path.realpath(os.path.join(sessions_real, sanitized_rel))
     try:
         if os.path.commonpath([sessions_real, candidate_real]) != sessions_real:
             abort(403)
@@ -2945,33 +3039,39 @@ def webserver_report(filename='index2.html'):
         abort(403)
     if not os.path.isfile(candidate_real):
         abort(404, description="File not found")
-    return send_from_directory(sessions_real, safe_name)
+    return send_from_directory(sessions_real, sanitized_rel)
 
 @app.route('/s/<filename>')
 def download_files(filename):
     """Serve a session file by name, enforcing strict basename containment."""
-    if not filename or '/' in filename or '\\' in filename or '\x00' in filename:
-        abort(403, description="Acceso denegado o archivo no valido")
+    access_denied = "Access denied or invalid file"
+    if not filename or not isinstance(filename, str):
+        abort(403, description=access_denied)
+    if '/' in filename or '\\' in filename or '\x00' in filename:
+        abort(403, description=access_denied)
     if filename in ('.', '..'):
-        abort(403, description="Acceso denegado o archivo no valido")
+        abort(403, description=access_denied)
 
-    safe_filename = os.path.basename(filename)
-    if safe_filename != filename:
-        abort(403, description="Acceso denegado o archivo no valido")
+    sanitized = secure_filename(filename)
+    if not sanitized or sanitized != filename:
+        abort(403, description=access_denied)
+    if os.path.basename(sanitized) != sanitized:
+        abort(403, description=access_denied)
 
+    safe_filename = sanitized
     sessions_real = os.path.realpath(SESSIONS_DIR)
-    file_path = os.path.realpath(os.path.join(sessions_real, safe_filename))
+    candidate_real = os.path.realpath(os.path.join(sessions_real, safe_filename))
     try:
-        if os.path.commonpath([sessions_real, file_path]) != sessions_real:
-            abort(403, description="Acceso denegado o archivo no valido")
+        if os.path.commonpath([sessions_real, candidate_real]) != sessions_real:
+            abort(403, description=access_denied)
     except ValueError:
-        abort(403, description="Acceso denegado o archivo no valido")
+        abort(403, description=access_denied)
 
     file_extension = safe_filename.rsplit('.', 1)[-1].lower() if '.' in safe_filename else ''
     is_allowed_extension = file_extension in ALLOWED_EXTENSIONS
 
-    is_existing_file = os.path.isfile(file_path)
-    is_binary_file = is_binary(file_path) if is_existing_file else False
+    is_existing_file = os.path.isfile(candidate_real)
+    is_binary_file = is_binary(safe_filename) if is_existing_file else False
 
     short_urls = load_short_urls()
     for _short_url, data in short_urls.items():
@@ -2982,12 +3082,12 @@ def download_files(filename):
         if safe_filename == original_filename:
             if is_existing_file:
                 return send_from_directory(sessions_real, safe_filename)
-            abort(404, description="Error 404: File not Found")
+            abort(404, description="File not found")
 
     if is_existing_file and (is_allowed_extension or is_binary_file):
         return send_from_directory(sessions_real, safe_filename)
 
-    abort(403, description="Acceso denegado o archivo no valido")
+    abort(403, description=access_denied)
 
 @app.route('/view_yaml', methods=['POST'])
 @requires_auth
@@ -3046,21 +3146,9 @@ def run_command():
         logger.info(f"[INFO] Type of output: {type(output)}")
 
     if isinstance(output, BaseException):
-        logger.error(f"Command output was an exception: {output}")
+        logger.error(f"Command output was an exception: {type(output).__name__}")
         return jsonify({"error": "Command execution error"}), 500
-    elif isinstance(output, str):
-        serializable_output = output
-    elif isinstance(output, (int, float, bool, type(None))):
-        serializable_output = str(output)
-    elif isinstance(output, (list, dict)):
-        serializable_output = output
-    else:
-        try:
-            serializable_output = vars(output)
-        except TypeError:
-            logger.warning(f"Unserializable output type: {type(output)}")
-            serializable_output = "[non-serializable output]"
-
+    serializable_output = _sanitize_command_output(output)
     return jsonify({"result": serializable_output}), 200
 
 @app.route('/api/output', methods=['GET'])
@@ -4225,7 +4313,7 @@ def handle_resize(data):
 def start_reverse_shell():
     global reverse_shell_socket
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server_socket.bind(("0.0.0.0", reverse_shell_port))  # noqa: S104 - listener must accept on all interfaces
+    server_socket.bind((_listen_address(), reverse_shell_port))
     server_socket.listen(1)
     if config.enable_c2_debug == True:
         logger.info(f"Listening for reverse shell on port {reverse_shell_port}...")

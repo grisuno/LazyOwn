@@ -78,35 +78,40 @@ from cli.palette import load_index as _palette_load_index
 from cli.palette_command import build_palette_view as _palette_build_view
 from modules.metrics import REGISTRY
 from modules.listener_manager import ListenerManager
+from modules.security_sanitizers import (
+    BindAddressResolver,
+    OutputSanitizer,
+    SessionPathResolver,
+    build_default_config,
+)
 
 
 anti_debug()
 logger = logging.getLogger(__name__)
 
 
-config = Config(load_payload())
-
-DEFAULT_LISTEN_ADDRESS = "0.0.0.0"
-_VALID_LISTEN_PATTERN = re.compile(r'^[0-9a-fA-F:.]+$')
+_payload_snapshot = load_payload()
+config = Config(_payload_snapshot)
+_security_config = build_default_config(_payload_snapshot)
+_output_sanitizer = OutputSanitizer(_security_config)
 
 
 def _listen_address():
-    """Return the operator-configured bind address for C2 listeners.
+    """Return the bind address chosen by :class:`BindAddressResolver`.
 
-    Reads ``c2_bind_address`` from ``payload.json``. Falls back to the
-    documented default (all interfaces) when the key is missing or the
-    operator-provided value fails a strict syntactic check. The C2 must
-    accept connections on every interface the operator wants reachable;
-    making the value configurable lets a defender restrict it (e.g. to
-    a single VPN address) without code changes.
+    The resolver receives the operator-supplied ``c2_bind_address`` and
+    ``lhost`` candidates from ``payload.json`` in priority order. When
+    neither parses as a valid IP literal, the resolver falls back to
+    the loopback address unless the operator has explicitly enabled
+    ``allow_unspecified_bind``, which is the documented opt-in for
+    exposing the C2 on every interface.
     """
-    raw = getattr(config, 'c2_bind_address', None)
-    if not isinstance(raw, str) or not raw.strip():
-        return DEFAULT_LISTEN_ADDRESS
-    candidate = raw.strip()
-    if not _VALID_LISTEN_PATTERN.match(candidate):
-        return DEFAULT_LISTEN_ADDRESS
-    return candidate
+    candidates = (
+        getattr(config, 'c2_bind_address', None),
+        getattr(config, 'lhost', None),
+    )
+    resolver = BindAddressResolver(_security_config, candidates)
+    return resolver.resolve()
 
 
 phishing_bp = Blueprint('phishing', __name__, template_folder='templates/phishing')
@@ -195,43 +200,14 @@ def is_safe_template_path(template_path, template_name):
     expected_path = os.path.normpath(os.path.join(app.template_folder, template_name))
     return normalized_path == expected_path and normalized_path.startswith(os.path.normpath(app.template_folder))
 
-_NON_SERIALIZABLE_PLACEHOLDER = "[non-serializable output]"
-_EXCEPTION_PLACEHOLDER = "[exception]"
-_MAX_SANITIZED_DEPTH = 8
-
-
-def _sanitize_command_output(value, depth=0):
+def _sanitize_command_output(value):
     """Return a JSON-safe projection of ``value`` without exception details.
 
-    Exceptions, traceback objects and any non-trivially-serializable type
-    are replaced with opaque placeholders so the C2 cannot leak stack
-    traces, internal file paths or instance attributes to the HTTP client.
-    Recursion is bounded so a self-referential object cannot exhaust the
-    stack.
+    Delegates to the centralised :class:`OutputSanitizer` so the same
+    bounded-depth, exception-stripping projection is applied across
+    every C2 endpoint that returns shell output.
     """
-    if depth >= _MAX_SANITIZED_DEPTH:
-        return _NON_SERIALIZABLE_PLACEHOLDER
-    if isinstance(value, BaseException):
-        return _EXCEPTION_PLACEHOLDER
-    if value is None or isinstance(value, (bool, int, float)):
-        return value
-    if isinstance(value, str):
-        return value
-    if isinstance(value, (bytes, bytearray)):
-        try:
-            return value.decode("utf-8", errors="replace")
-        except Exception:
-            return _NON_SERIALIZABLE_PLACEHOLDER
-    if isinstance(value, dict):
-        out = {}
-        for k, v in value.items():
-            if not isinstance(k, (str, int, float, bool)) and k is not None:
-                continue
-            out[str(k) if not isinstance(k, str) else k] = _sanitize_command_output(v, depth + 1)
-        return out
-    if isinstance(value, (list, tuple, set, frozenset)):
-        return [_sanitize_command_output(v, depth + 1) for v in value]
-    return _NON_SERIALIZABLE_PLACEHOLDER
+    return _output_sanitizer.sanitize(value)
 
 
 def is_binary(safe_filename):
@@ -3008,38 +2984,22 @@ def redirect_to_file(short_url):
 @app.route('/webserver-report/<path:filename>')
 @requires_auth
 def webserver_report(filename='index2.html'):
-    """Serve nmap HTML report and associated assets from the sessions directory over HTTPS."""
-    if not filename or not isinstance(filename, str):
+    """Serve nmap HTML report assets from the sessions directory over HTTPS.
+
+    All untrusted path components are resolved through
+    :class:`SessionPathResolver`, which encapsulates the allowlist
+    regex, depth limit and realpath containment checks so CodeQL
+    data-flow analysis can prove the path stays under the sessions
+    directory in a single, audited code path.
+    """
+    resolver = SessionPathResolver(SESSIONS_DIR, _security_config)
+    resolved = resolver.resolve(filename)
+    if resolved is None:
         abort(403)
-    if '\x00' in filename or '..' in filename.split('/') or '..' in filename.split('\\'):
-        abort(403)
-    if os.path.isabs(filename) or filename.startswith('/') or filename.startswith('\\'):
-        abort(403)
-    safe_name = os.path.normpath(filename).lstrip('/').lstrip('\\')
-    if not safe_name or safe_name.startswith('..') or os.path.isabs(safe_name):
-        abort(403)
-    sanitized_parts = []
-    for part in safe_name.replace('\\', '/').split('/'):
-        if not part or part == '.':
-            continue
-        if part == '..':
-            abort(403)
-        if part != secure_filename(part):
-            abort(403)
-        sanitized_parts.append(part)
-    if not sanitized_parts:
-        abort(403)
-    sanitized_rel = '/'.join(sanitized_parts)
-    sessions_real = os.path.realpath(SESSIONS_DIR)
-    candidate_real = os.path.realpath(os.path.join(sessions_real, sanitized_rel))
-    try:
-        if os.path.commonpath([sessions_real, candidate_real]) != sessions_real:
-            abort(403)
-    except ValueError:
-        abort(403)
-    if not os.path.isfile(candidate_real):
+    absolute, relative = resolved
+    if not os.path.isfile(absolute):
         abort(404, description="File not found")
-    return send_from_directory(sessions_real, sanitized_rel)
+    return send_from_directory(resolver.base_dir, relative)
 
 @app.route('/s/<filename>')
 def download_files(filename):
@@ -3132,24 +3092,40 @@ def view_yaml():
 @requires_auth
 @limiter.limit("30 per minute")
 def run_command():
+    """Execute one shell command and return a sanitised, JSON-safe result.
 
-    data = request.json
-    command = data.get('command')
-
-    if not command:
-        return jsonify({"error": "No command provided"}), 400
-
-    output = shell.one_cmd(command)
-    if config.enable_c2_debug == True:
-        logger.info(f"[INFO]{output}")
-
-        logger.info(f"[INFO] Type of output: {type(output)}")
-
-    if isinstance(output, BaseException):
-        logger.error(f"Command output was an exception: {type(output).__name__}")
-        return jsonify({"error": "Command execution error"}), 500
-    serializable_output = _sanitize_command_output(output)
-    return jsonify({"result": serializable_output}), 200
+    The handler is wrapped in a defence-in-depth boundary: every code
+    path that could surface exception state to the HTTP client is
+    funnelled through :func:`_sanitize_command_output`, and any
+    exception escaping the shell invocation is converted into a generic
+    error so internal class names, stack traces and file paths never
+    reach the caller.
+    """
+    generic_error = _security_config.generic_command_error_message
+    try:
+        data = request.get_json(silent=True)
+        if not isinstance(data, dict):
+            return jsonify({"error": "Invalid request body"}), 400
+        command = data.get('command')
+        if not isinstance(command, str) or not command.strip():
+            return jsonify({"error": "No command provided"}), 400
+        try:
+            output = shell.one_cmd(command)
+        except BaseException:
+            logger.exception("Shell invocation failed for one_cmd")
+            return jsonify({"error": generic_error}), 500
+        if config.enable_c2_debug == True:
+            logger.info(f"[INFO] Type of output: {type(output).__name__}")
+        if isinstance(output, BaseException):
+            logger.error(
+                "Command output was an exception: %s", type(output).__name__
+            )
+            return jsonify({"error": generic_error}), 500
+        serializable_output = _sanitize_command_output(output)
+        return jsonify({"result": serializable_output}), 200
+    except BaseException:
+        logger.exception("Unhandled error in /api/run")
+        return jsonify({"error": generic_error}), 500
 
 @app.route('/api/output', methods=['GET'])
 @requires_auth

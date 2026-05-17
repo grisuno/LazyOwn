@@ -27,23 +27,30 @@ _SENSITIVE_KEYS = {
 }
 
 
-def _redact_sensitive(value):
-    """Return ``value`` with known-sensitive keys redacted in-place by copy.
+_REDACTED = "[REDACTED]"
 
-    Walks dicts/lists recursively. Strings/bytes for keys listed in
-    ``_SENSITIVE_KEYS`` are replaced with ``"[REDACTED]"``. Non-string values
-    on those keys are also redacted to avoid leaking structured secrets.
+
+def _redact_sensitive(value):
+    """Return ``value`` with known-sensitive keys redacted in a deep copy.
+
+    Walks dicts/lists/tuples recursively. Any value held under a key whose
+    lowercased name appears in ``_SENSITIVE_KEYS`` is replaced with
+    ``[REDACTED]``. Scalars passed at the top level are returned unchanged
+    because there is no key context to evaluate; callers that supply raw
+    secrets should wrap them under a named field instead.
     """
     if isinstance(value, dict):
         out = {}
         for k, v in value.items():
             if isinstance(k, str) and k.lower() in _SENSITIVE_KEYS:
-                out[k] = "[REDACTED]"
+                out[k] = _REDACTED
             else:
                 out[k] = _redact_sensitive(v)
         return out
     if isinstance(value, list):
         return [_redact_sensitive(v) for v in value]
+    if isinstance(value, tuple):
+        return tuple(_redact_sensitive(v) for v in value)
     return value
 
 
@@ -86,25 +93,33 @@ class SessionTranscript:
         """Append a single event. Returns the event UUID.
 
         Sensitive fields (passwords, tokens, hashes) are redacted before the
-        event is written to disk. The transcript file is chmod 600 so it is
-        only readable by the operator that produced it.
+        event is written to disk. The transcript file is created with
+        owner-only permissions (0600) atomically via ``os.open`` so secrets
+        never sit on disk in a world-readable state, even for the very
+        first write.
         """
         event_uuid = uuid.uuid4().hex[:16]
         event = {
             "ts": datetime.now().isoformat(),
             "type": event_type,
             "uuid": event_uuid,
-            "data": _redact_sensitive(data) if isinstance(data, (dict, list)) else data,
+            "data": _redact_sensitive(data),
         }
+        line = (json.dumps(event) + "\n").encode("utf-8")
+        flags = os.O_WRONLY | os.O_CREAT | os.O_APPEND
+        mode = stat.S_IRUSR | stat.S_IWUSR
         try:
-            existed = self.path.exists()
-            with open(self.path, "a") as f:
-                f.write(json.dumps(event) + "\n")
-            if not existed:
-                try:
-                    os.chmod(self.path, stat.S_IRUSR | stat.S_IWUSR)
-                except OSError:
-                    pass
+            fd = os.open(self.path, flags, mode)
+            try:
+                os.write(fd, line)
+            finally:
+                os.close(fd)
+            try:
+                current_mode = stat.S_IMODE(os.stat(self.path).st_mode)
+                if current_mode != mode:
+                    os.chmod(self.path, mode)
+            except OSError:
+                pass
         except OSError:
             pass
         return event_uuid

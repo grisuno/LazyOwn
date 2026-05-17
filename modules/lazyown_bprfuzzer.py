@@ -20,12 +20,16 @@ Descripción: Lazy Burp-Like Fuzzer con Proxy y Repeater
 """
 import argparse
 import json
+import re
 import requests
 import signal
 import subprocess
 import tempfile
 import threading
 import os
+
+_HEADER_NAME_RE = re.compile(r'^[A-Za-z0-9!#$%&\'*+\-.^_`|~]+$')
+_HEADER_FORBIDDEN = ('\r', '\n', '\x00')
 
 # Forzar UTF-8 encoding
 os.environ["PYTHONIOENCODING"] = "utf-8"
@@ -96,9 +100,17 @@ class ProxyHandler(BaseHTTPRequestHandler):
             response = requests.request(method, url, headers=headers, data=body)
             self.send_response(response.status_code)
             for key, value in response.headers.items():
+                if not isinstance(key, str) or not isinstance(value, str):
+                    continue
                 if key.lower() in _HOP_BY_HOP:
                     continue
-                safe_value = value.replace('\r', '').replace('\n', '')
+                if not _HEADER_NAME_RE.match(key):
+                    continue
+                if any(ch in key for ch in _HEADER_FORBIDDEN):
+                    continue
+                safe_value = value
+                for ch in _HEADER_FORBIDDEN:
+                    safe_value = safe_value.replace(ch, '')
                 self.send_header(key, safe_value)
             self.end_headers()
             self.wfile.write(response.content)

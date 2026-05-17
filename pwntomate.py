@@ -68,34 +68,64 @@ adomain = domain.split(".")
 ext = adomain[1] if len(adomain) > 1 else adomain[0]
 nameserver = adomain[0]
 
+REDACTED_PASSWORD_TOKEN = " -p '[REDACTED]' "
+REDACTED_USERNAME_TOKEN = "[REDACTED]"
+
+
+def _substitute(template, host_addr, port, toolname_value, basedir_value, user_value, pass_value):
+    """Return the command template with every placeholder substituted.
+
+    Pulled out so the same substitution can produce both the execution
+    string (real credentials) and the display string (redacted credentials)
+    without diverging by accident.
+    """
+    out = template
+    out = out.replace("{s}", "")
+    out = out.replace("{outputdir}", "{baseoutputdir}/{ip}/{port}/{toolname}")
+    out = out.replace("{ip}", host_addr)
+    out = out.replace("{port}", str(port))
+    out = out.replace("{domain}", domain)
+    out = out.replace("{ext}", ext)
+    out = out.replace("{nameserver}", nameserver)
+    out = out.replace("{baseoutputdir}", basedir_value)
+    out = out.replace("{toolname}", toolname_value)
+    out = out.replace("{username}", user_value)
+    out = out.replace("{password}", pass_value)
+    return out
+
+
 cmds = []
 for host in report.hosts:
     for service in host.services:
         for filename in glob.glob(args.tooldir+"/*.tool"):
             tool = json.load(open(filename, 'r'))
             if tool["active"] and (service.service in tool["trigger"] or 'all' in tool["trigger"]):
-                cmd = tool["command"]
+                cmd_template = tool["command"]
 
                 if service.tunnel == 'ssl':
-                    cmd = cmd.replace("{s}", "s")
+                    cmd = cmd_template.replace("{s}", "s")
                 else:
-                    cmd = cmd.replace("{s}", "")
-                    cmd = cmd.replace("{outputdir}", "{baseoutputdir}/{ip}/{port}/{toolname}") # make this configurable
-                    cmd = cmd.replace("{ip}", host.address)
-                    cmd = cmd.replace("{port}", str(service.port))
-                    cmd = cmd.replace("{domain}", domain)
-                    cmd = cmd.replace("{ext}", ext)
-                    cmd = cmd.replace("{nameserver}", nameserver)
-                    cmd = cmd.replace("{baseoutputdir}", args.basedir.replace(" ", r"\ "))
-                    cmd = cmd.replace("{toolname}", tool["toolname"].replace(" ", r"\ "))
-                    cmd = cmd.replace("{username}", username)
-                    cmd = cmd.replace("{password}", password)
-                    redacted_cmd = cmd
-                    if password:
-                        redacted_cmd = redacted_cmd.replace(password, " -p '[REDACTED]' ")
-                    print(redacted_cmd)
                     base_escaped = args.basedir.replace(" ", r"\ ")
                     tool_escaped = tool["toolname"].replace(" ", r"\ ")
+                    cmd = _substitute(
+                        cmd_template,
+                        host.address,
+                        service.port,
+                        tool_escaped,
+                        base_escaped,
+                        username,
+                        password,
+                    )
+                    display_cmd = _substitute(
+                        cmd_template,
+                        host.address,
+                        service.port,
+                        tool_escaped,
+                        base_escaped,
+                        REDACTED_USERNAME_TOKEN if username and username != "deefbeef" else username,
+                        REDACTED_PASSWORD_TOKEN if password else password,
+                    )
+                    print(display_cmd)
                     mkdir_cmd = f'mkdir -p {base_escaped}/{host.address}/{service.port}/{tool_escaped}'
                     shellscript += mkdir_cmd + '\n'
                     shellscript += f'{cmd}\n'

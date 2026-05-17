@@ -24,12 +24,40 @@ import re
 import requests
 import signal
 import subprocess
+import sys
 import tempfile
 import threading
 import os
 
-_HEADER_NAME_RE = re.compile(r'^[A-Za-z0-9!#$%&\'*+\-.^_`|~]+$')
-_HEADER_FORBIDDEN = ('\r', '\n', '\x00')
+_MODULE_DIR = os.path.dirname(os.path.abspath(__file__))
+_PROJECT_ROOT = os.path.dirname(_MODULE_DIR)
+if _PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, _PROJECT_ROOT)
+
+from modules.security_sanitizers import (
+    HeaderValueSanitizer,
+    build_default_config,
+)
+
+_PAYLOAD_PATH = os.path.join(_PROJECT_ROOT, "payload.json")
+
+
+def _load_security_config():
+    """Return a :class:`SecurityConfig` from ``payload.json`` when present.
+
+    A missing or unreadable payload file falls back to the
+    conservative defaults so the fuzzer can be invoked even before
+    the framework wizard has produced a configuration.
+    """
+    try:
+        with open(_PAYLOAD_PATH, "r") as fh:
+            return build_default_config(json.load(fh))
+    except (OSError, ValueError):
+        return build_default_config(None)
+
+
+_SECURITY_CONFIG = _load_security_config()
+_HEADER_SANITIZER = HeaderValueSanitizer(_SECURITY_CONFIG)
 
 # Forzar UTF-8 encoding
 os.environ["PYTHONIOENCODING"] = "utf-8"
@@ -100,17 +128,13 @@ class ProxyHandler(BaseHTTPRequestHandler):
             response = requests.request(method, url, headers=headers, data=body)
             self.send_response(response.status_code)
             for key, value in response.headers.items():
-                if not isinstance(key, str) or not isinstance(value, str):
-                    continue
                 if key.lower() in _HOP_BY_HOP:
                     continue
-                if not _HEADER_NAME_RE.match(key):
+                if not _HEADER_SANITIZER.is_valid_name(key):
                     continue
-                if any(ch in key for ch in _HEADER_FORBIDDEN):
+                safe_value = _HEADER_SANITIZER.sanitize_value(value)
+                if not safe_value:
                     continue
-                safe_value = value
-                for ch in _HEADER_FORBIDDEN:
-                    safe_value = safe_value.replace(ch, '')
                 self.send_header(key, safe_value)
             self.end_headers()
             self.wfile.write(response.content)

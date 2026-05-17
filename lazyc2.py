@@ -214,7 +214,7 @@ def save_to_log(details):
         return {'status': 'logged', 'id': details['timestamp']}
     except Exception as e:
         logger.error(f"Failed to save log: {e}")
-        return {'error': str(e)}, 500
+        return {'error': 'Log save failed'}, 500
 
 
 def clean_expired_tokens():
@@ -1052,7 +1052,8 @@ def search_database(term, data_path="parquets/techniques.parquet"):
     try:
         df = pd.read_parquet(data_path)
     except Exception as e:
-        return f"\n# Error\n- **File**: `{data_path}`\n- **Error**: `{str(e)}`\n"
+        logger.error(f"Failed to read parquet {data_path}: {e}")
+        return "\n# Error\n- **Detail**: Failed to load knowledge base. Check server logs.\n"
 
     # Normalizar nombres de binarios (quitar .exe, espacios, etc.)
     if 'Binary' in df.columns:
@@ -1195,13 +1196,13 @@ class CustomDNSResolver(BaseResolver):
 def start_dns_server():
     resolver = CustomDNSResolver()
     logger.info("Iniciando servidor DNS en el puerto 53...")
-    server = DNSServer(resolver, port=53, address="0.0.0.0")
+    server = DNSServer(resolver, port=53, address="0.0.0.0")  # noqa: S104 - C2 must accept on all interfaces
     server.start()
 
 def tcp_bridge(local_port, remote_host, remote_port):
     """Establish a TCP bridge between a local port and a remote host."""
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server_socket.bind(('0.0.0.0', local_port))
+    server_socket.bind(("0.0.0.0", local_port))  # noqa: S104 - C2 must accept on all interfaces
     server_socket.listen(5)
     logger.info(f"[*] Listening for connections on port {local_port}...")
 
@@ -1448,7 +1449,7 @@ def save_to_log(data):
         return {'status': 'logged', 'id': data['timestamp']}
     except Exception as e:
         logger.error(f"Failed to save log: {e}")
-        return {'error': f'Failed to save log: {str(e)}'}, 500
+        return {'error': 'Log save failed'}, 500
 
 def parse_access_log_for_short_url(short_url):
     """Parse access.log for entries matching the given short URL."""
@@ -2929,6 +2930,19 @@ def redirect_to_file(short_url):
         logging.error(f"Error in redirect_to_file: {str('')}")
         return jsonify({'error': f"Internal server error: {str('')}"}), 500
 
+@app.route('/webserver-report')
+@app.route('/webserver-report/<path:filename>')
+@requires_auth
+def webserver_report(filename='index2.html'):
+    """Serve nmap HTML report and associated assets from the sessions directory over HTTPS."""
+    safe_name = os.path.normpath(filename)
+    if safe_name.startswith('..') or os.path.isabs(safe_name):
+        abort(403)
+    full_path = os.path.join(SESSIONS_DIR, safe_name)
+    if not os.path.isfile(full_path):
+        abort(404, description=f"File not found in sessions: {safe_name}")
+    return send_from_directory(SESSIONS_DIR, safe_name)
+
 @app.route('/s/<filename>')
 def download_files(filename):
     # Sanitize the filename to prevent directory traversal attacks
@@ -3030,18 +3044,21 @@ def run_command():
 
         logger.info(f"[INFO] Type of output: {type(output)}")
 
-    if isinstance(output, str):
+    if isinstance(output, BaseException):
+        logger.error(f"Command output was an exception: {output}")
+        return jsonify({"error": "Command execution error"}), 500
+    elif isinstance(output, str):
         serializable_output = output
     elif isinstance(output, (int, float, bool, type(None))):
         serializable_output = str(output)
     elif isinstance(output, (list, dict)):
         serializable_output = output
     else:
-
         try:
             serializable_output = vars(output)
         except TypeError:
-            serializable_output = str(output)
+            logger.warning(f"Unserializable output type: {type(output)}")
+            serializable_output = "[non-serializable output]"
 
     return jsonify({"result": serializable_output}), 200
 
@@ -3053,18 +3070,21 @@ def get_output():
     if config.enable_c2_debug == True:
         logger.info(f"[INFO] Type of output: {type(output)}")
 
-    if isinstance(output, str):
+    if isinstance(output, BaseException):
+        logger.error(f"Shell output was an exception: {output}")
+        return jsonify({"error": "Command execution error"}), 500
+    elif isinstance(output, str):
         serializable_output = output
     elif isinstance(output, (int, float, bool, type(None))):
         serializable_output = str(output)
     elif isinstance(output, (list, dict)):
         serializable_output = output
     else:
-
         try:
             serializable_output = vars(output)
         except TypeError:
-            serializable_output = str(output)
+            logger.warning(f"Unserializable output type: {type(output)}")
+            serializable_output = "[non-serializable output]"
 
     return jsonify({"output": serializable_output})
 
@@ -3938,7 +3958,17 @@ def mitre():
     page = int(re.sub(r'\D', '', page_arg) or '1')
     per_page = 10
 
-    mitre_data = load_mitre_data()
+    try:
+        mitre_data = load_mitre_data()
+    except FileNotFoundError:
+        logger.warning("MITRE ATT&CK data not found. Run: bash install.sh to fetch external data.")
+        flash("MITRE ATT&CK data not available. Run install.sh to fetch external data.", "warning")
+        return render_template('mitre.html', title="MITRE ATT&CK Techniques", tactics=[], techniques=[], page=1, pages=0)
+    except Exception as e:
+        logger.error(f"Failed to load MITRE data: {e}")
+        flash("Failed to load MITRE ATT&CK data. Check server logs.", "danger")
+        return render_template('mitre.html', title="MITRE ATT&CK Techniques", tactics=[], techniques=[], page=1, pages=0)
+
     tactics = [t for t in mitre_data['objects'] if t['type'] == 'x-mitre-tactic']
     techniques = [t for t in mitre_data['objects'] if t['type'] == 'attack-pattern']
 
@@ -4194,7 +4224,7 @@ def handle_resize(data):
 def start_reverse_shell():
     global reverse_shell_socket
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server_socket.bind(('0.0.0.0', reverse_shell_port))
+    server_socket.bind(("0.0.0.0", reverse_shell_port))  # noqa: S104 - listener must accept on all interfaces
     server_socket.listen(1)
     if config.enable_c2_debug == True:
         logger.info(f"Listening for reverse shell on port {reverse_shell_port}...")
@@ -4646,8 +4676,8 @@ def create_multivector_campaign():
                 flash('Campaign name and vectors are required.', 'error')
                 return redirect(url_for('phishing.create_multivector_campaign'))
         except yaml.YAMLError as e:
-            logger.error(f"Invalid YAML: {e}")
-            flash(f'Invalid YAML: {e}', 'error')
+            logger.error(f"Invalid YAML input: {e}")
+            flash('Invalid YAML format. Check your syntax and try again.', 'error')
             return redirect(url_for('phishing.create_multivector_campaign'))
 
         campaign_id = str(uuid.uuid4())
@@ -4792,14 +4822,16 @@ def health_check():
         ensure_sessions_dir()
         status["checks"]["sessions_dir"] = "ok"
     except Exception as e:
-        status["checks"]["sessions_dir"] = f"error: {e}"
+        logger.error(f"Health check sessions_dir failed: {e}")
+        status["checks"]["sessions_dir"] = "error"
     try:
         conn = _sqlite3.connect(DB_PATH)
         conn.execute("SELECT 1")
         conn.close()
         status["checks"]["database"] = "ok"
     except Exception as e:
-        status["checks"]["database"] = f"error: {e}"
+        logger.error(f"Health check database failed: {e}")
+        status["checks"]["database"] = "error"
     any_error = any(v != "ok" for v in status["checks"].values())
     code = 503 if any_error else 200
     if any_error:

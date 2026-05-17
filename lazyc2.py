@@ -2233,6 +2233,44 @@ def receive_result(client_id):
             connected_clients.add(sanitized_client_id)
             logging.info(f"Client {sanitized_client_id} registered as connected")
 
+            # ── Engagement hook: publish SHELL_OBTAINED on first sight ───────
+            # Fires once per client_id (idempotent via seen-beacons cache).
+            # Runs in a background thread so it never delays the beacon
+            # response path. All notification fan-out (collab feed, telegram,
+            # discord) lives in modules/engagement_hooks.py; this hook only
+            # forwards the relevant fields.
+            try:
+                import threading as _engage_thr
+                _modules_path = os.path.join(BASE_DIR, "modules")
+
+                def _engage_publish(
+                    _cid=str(sanitized_client_id),
+                    _ip=str(ips).split(",")[0].strip().strip("[]'\""),
+                    _host=str(hostname),
+                    _user=str(user),
+                    _platform=str(client),
+                ):
+                    try:
+                        import sys as _sys_eng
+                        if _modules_path not in _sys_eng.path:
+                            _sys_eng.path.insert(0, _modules_path)
+                        from engagement_hooks import publish_shell_obtained as _push
+                        _push(
+                            client_id=_cid,
+                            primary_ip=_ip,
+                            hostname=_host,
+                            user=_user,
+                            platform=_platform,
+                        )
+                    except Exception as _exc:
+                        logging.debug(f"[engagement] publish_shell_obtained failed: {_exc}")
+
+                _engage_thr.Thread(
+                    target=_engage_publish, daemon=True, name="engage-shell-hook",
+                ).start()
+            except Exception:
+                pass  # engagement hook must never affect beacon response
+
             # ── C2 Bidirectionality: feed beacon output back into knowledge pipeline ──
             # This runs in a background thread so it never delays the beacon response.
             try:

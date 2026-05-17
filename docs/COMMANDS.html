@@ -556,6 +556,41 @@ handle pre-filled <code>collab_join alice --curl</code> — also print the
 curl SSE command</p>
 <p>:param line: Optional operator handle and flags. :type line: str
 :return: None</p>
+<h2 id="engage">engage</h2>
+<p>Drive a single target through the full kill-chain in one command.</p>
+<p>Usage: engage <target> Run synchronously on the target IP engage
+<target> –background Detach into a background worker engage <target>
+–max-switches N Set per-step fallback retry limit engage –status Tail
+the engagement log + show pending approvals engage –pending List
+approval requests awaiting an operator engage –approve <id> [–operator
+name] engage –deny <id> [–operator name]</p>
+<p>The orchestrator runs ping/OS detect -&gt; nmap -&gt; auto_populate
+-&gt; enum -&gt; exploit-search -&gt; initial-access against the target.
+Each phase consults the ApprovalGate when <code>auto_approve</code> is
+false in <code>payload.json</code>; gated phases pause for an operator
+decision before executing. Failures auto-switch to the next
+bridge-catalog alternative. Every action is narrated to
+<code>sessions/engagement.log</code> and broadcast through
+<code>modules.collab_bp</code> so connected teammates see the kill-chain
+in real time.</p>
+<p>:param line: Target IP plus optional flags. :type line: str :return:
+None</p>
+<h2 id="pipeline">pipeline</h2>
+<p>Declarative composition layer: run a YAML pipeline of LazyOwn
+commands.</p>
+<p>Usage: pipeline list List every YAML pipeline in pipelines/ pipeline
+validate <name> Parse and check a pipeline schema pipeline run <name>
+Execute the pipeline synchronously pipeline run <name> –background
+Detach into a worker thread pipeline run <name> –target <ip> Override
+payload.rhost for this run pipeline status Show the N most recent runs
+(summary) pipeline show <name> Print the validated step list</p>
+<p>Pipelines live in pipelines/*.yaml. They compose existing LazyOwn
+commands into ordered, conditional, recoverable plans. Each run is
+persisted under sessions/pipelines/<name>__<run-id>/ with the frozen
+plan, per-step JSON records, and a summary. Live narration is broadcast
+through the same fabric used by <code>engage</code>.</p>
+<p>:param line: Subcommand plus optional positional / flag arguments.
+:type line: str :return: None</p>
 <h2 id="complete_palette">complete_palette</h2>
 <p>Tab-complete the palette command using the live command index.</p>
 <p>Position 1 yields phase identifiers and the <code>--search</code> /
@@ -7237,6 +7272,10 @@ immediately and persist across the web server.</p>
 <h2 id="show_toastr">show_toastr</h2>
 <p>No description available.</p>
 <h2 id="save">_save</h2>
+<p>No description available.</p>
+<h2 id="flag_value">_flag_value</h2>
+<p>No description available.</p>
+<h2 id="flag_value-1">_flag_value</h2>
 <p>No description available.</p>
 <h2 id="run_single_search">_run_single_search</h2>
 <p>No description available.</p>

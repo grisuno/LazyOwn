@@ -1294,6 +1294,411 @@ class LazyOwnPolicyIntegration:
         return self._advisor.advise(target)
 
 
+# ─── Approval gate ────────────────────────────────────────────────────────────
+
+
+class ApprovalDecision(str, Enum):
+    """Outcome of a single ApprovalGate.request call."""
+
+    APPROVED = "approved"
+    DENIED = "denied"
+    PENDING = "pending"
+
+
+@dataclass(frozen=True)
+class ApprovalRequest:
+    """Value object describing one human-in-the-loop request.
+
+    Attributes:
+        approval_id: Stable identifier used to resolve the request later.
+        target: Engagement target the command will run against.
+        phase: Engagement phase that triggered the gate (exploit, privesc...).
+        command: LazyOwn command line about to execute.
+        reason: Short rationale shown to the operator.
+        created_ts: ISO-8601 UTC timestamp of creation.
+    """
+
+    approval_id: str
+    target: str
+    phase: str
+    command: str
+    reason: str
+    created_ts: str
+
+
+@dataclass(frozen=True)
+class ApprovalOutcome:
+    """Result returned by ApprovalGate.request."""
+
+    decision: ApprovalDecision
+    approval_id: str
+    rationale: str
+    operator: str = ""
+
+    @property
+    def is_approved(self) -> bool:
+        """True when the gate authorised execution."""
+        return self.decision == ApprovalDecision.APPROVED
+
+    @property
+    def is_denied(self) -> bool:
+        """True when the gate denied execution."""
+        return self.decision == ApprovalDecision.DENIED
+
+
+class IApprovalSink(abc.ABC):
+    """Persistence/notification contract for approval requests.
+
+    Implementations are responsible for making a request visible to a human
+    (collab UI, stdin prompt, ticketing system, ...) and for retrieving any
+    resolution later via :meth:`resolution_for`.
+    """
+
+    @abc.abstractmethod
+    def announce(self, request: ApprovalRequest) -> None:
+        """Publish the request so operators can see and resolve it."""
+
+    @abc.abstractmethod
+    def resolution_for(self, approval_id: str) -> Optional[ApprovalOutcome]:
+        """Return the latest resolution for the request or None if pending."""
+
+
+class FileApprovalSink(IApprovalSink):
+    """Persist approvals to sessions/engagement_approvals.jsonl.
+
+    Resolutions are appended as additional records with the same approval_id
+    and a non-pending status. resolution_for picks the latest non-pending
+    record for the id so the daemon can poll without holding file handles.
+    """
+
+    def __init__(self, sessions_dir: Optional[Path] = None) -> None:
+        base = sessions_dir or (Path(__file__).resolve().parent.parent / "sessions")
+        self._path = Path(base) / "engagement_approvals.jsonl"
+
+    @property
+    def path(self) -> Path:
+        """Absolute path of the underlying JSONL file."""
+        return self._path
+
+    def announce(self, request: ApprovalRequest) -> None:
+        record = {
+            "approval_id": request.approval_id,
+            "status":      "pending",
+            "target":      request.target,
+            "phase":       request.phase,
+            "command":     request.command,
+            "reason":      request.reason,
+            "created_ts":  request.created_ts,
+        }
+        try:
+            self._path.parent.mkdir(parents=True, exist_ok=True)
+            with self._path.open("a", encoding="utf-8") as fh:
+                fh.write(json.dumps(record, ensure_ascii=False, default=str) + "\n")
+        except Exception:
+            pass
+
+    def resolution_for(self, approval_id: str) -> Optional[ApprovalOutcome]:
+        if not self._path.exists():
+            return None
+        try:
+            latest: Optional[Dict] = None
+            for line in self._path.read_text(encoding="utf-8").splitlines():
+                if not line.strip():
+                    continue
+                try:
+                    rec = json.loads(line)
+                except Exception:
+                    continue
+                if rec.get("approval_id") != approval_id:
+                    continue
+                status = rec.get("status", "pending")
+                if status in ("approved", "denied"):
+                    latest = rec
+            if latest is None:
+                return None
+            return ApprovalOutcome(
+                decision=ApprovalDecision(latest["status"]),
+                approval_id=approval_id,
+                rationale=str(latest.get("rationale", "operator decision")),
+                operator=str(latest.get("operator", "")),
+            )
+        except Exception:
+            return None
+
+
+class BroadcastApprovalSink(IApprovalSink):
+    """Publish approvals through the engagement narrator/collab fabric.
+
+    Delegates persistence to a FileApprovalSink and additionally narrates
+    the request so teammates connected to /collab/ see the pending decision
+    in real time. Resolution is delegated back to the file sink.
+    """
+
+    def __init__(
+        self,
+        narrator: Any = None,
+        file_sink: Optional[FileApprovalSink] = None,
+    ) -> None:
+        self._file = file_sink or FileApprovalSink()
+        self._narrator = narrator
+
+    def announce(self, request: ApprovalRequest) -> None:
+        self._file.announce(request)
+        narrator = self._narrator
+        if narrator is None:
+            try:
+                from engagement_hooks import get_default_narrator as _gdn
+                narrator = _gdn()
+            except Exception:
+                narrator = None
+        if narrator is None:
+            return
+        try:
+            narrator.narrate(
+                kind="APPROVAL_PENDING",
+                target=request.target,
+                message=(
+                    f"awaiting approval for {request.command} "
+                    f"(phase={request.phase}) — {request.reason}"
+                ),
+                payload={
+                    "approval_id": request.approval_id,
+                    "phase":       request.phase,
+                    "command":     request.command,
+                    "reason":      request.reason,
+                },
+                severity="warning",
+            )
+        except Exception:
+            pass
+
+    def resolution_for(self, approval_id: str) -> Optional[ApprovalOutcome]:
+        return self._file.resolution_for(approval_id)
+
+
+class StdinApprovalSink(IApprovalSink):
+    """Interactive sink that asks the operator on stdin when a TTY is attached.
+
+    The sink only triggers when sys.stdin is a TTY. It writes a prompt,
+    reads a single line, and returns the matching ApprovalOutcome.
+    Falls back to a pending state when no TTY is available or input fails.
+    """
+
+    PROMPT = (
+        "[ENGAGE] approval required — type 'y' to approve, 'n' to deny "
+        "(timeout 0 returns pending): "
+    )
+
+    def __init__(self, stream: Any = None) -> None:
+        self._stream = stream
+        self._answers: Dict[str, ApprovalOutcome] = {}
+
+    def _is_interactive(self) -> bool:
+        try:
+            return sys.stdin.isatty()
+        except Exception:
+            return False
+
+    def announce(self, request: ApprovalRequest) -> None:
+        if not self._is_interactive():
+            return
+        sink = self._stream if self._stream is not None else sys.stderr
+        try:
+            sink.write(
+                f"\n[ENGAGE] target={request.target} phase={request.phase} "
+                f"command={request.command}\n[ENGAGE] reason: {request.reason}\n"
+                f"{self.PROMPT}"
+            )
+            sink.flush()
+            answer = sys.stdin.readline().strip().lower()
+            if answer in ("y", "yes"):
+                self._answers[request.approval_id] = ApprovalOutcome(
+                    decision=ApprovalDecision.APPROVED,
+                    approval_id=request.approval_id,
+                    rationale="approved at TTY prompt",
+                    operator="tty",
+                )
+            elif answer in ("n", "no"):
+                self._answers[request.approval_id] = ApprovalOutcome(
+                    decision=ApprovalDecision.DENIED,
+                    approval_id=request.approval_id,
+                    rationale="denied at TTY prompt",
+                    operator="tty",
+                )
+        except Exception:
+            pass
+
+    def resolution_for(self, approval_id: str) -> Optional[ApprovalOutcome]:
+        return self._answers.get(approval_id)
+
+
+class CompositeApprovalSink(IApprovalSink):
+    """Fan-out announces to every sink; resolution picks the first answer.
+
+    Order matters: faster channels (stdin) come first so an operator who
+    answers at the prompt resolves the request before the daemon polls
+    the slow file sink.
+    """
+
+    def __init__(self, sinks: List[IApprovalSink]) -> None:
+        if not sinks:
+            raise ValueError("CompositeApprovalSink requires at least one sink")
+        self._sinks = list(sinks)
+
+    def announce(self, request: ApprovalRequest) -> None:
+        for sink in self._sinks:
+            try:
+                sink.announce(request)
+            except Exception:
+                pass
+
+    def resolution_for(self, approval_id: str) -> Optional[ApprovalOutcome]:
+        for sink in self._sinks:
+            try:
+                outcome = sink.resolution_for(approval_id)
+                if outcome is not None:
+                    return outcome
+            except Exception:
+                continue
+        return None
+
+
+_GATED_CATEGORIES = frozenset({
+    ActionCategory.EXPLOIT.value,
+    ActionCategory.INTRUSION.value,
+    ActionCategory.PRIVESC.value,
+    ActionCategory.LATERAL.value,
+    ActionCategory.CREDENTIAL.value,
+    ActionCategory.PAYLOAD.value,
+    "exploit",
+    "postexp",
+    "post_exploit",
+    "privesc",
+    "lateral",
+    "cred",
+    "exfil",
+})
+
+
+class ApprovalGate:
+    """Human-in-the-loop gate consulted by the EngageOrchestrator.
+
+    Reads ``payload.json[auto_approve]`` at request time (never cached) so
+    operators can flip the value with ``set auto_approve false`` between
+    steps without restarting the daemon.
+
+    - auto_approve truthy (default) : every request returns APPROVED.
+    - auto_approve false            : requests in gated phases announce
+                                      through the sink and poll up to
+                                      ``poll_seconds`` for a decision. When
+                                      the deadline expires the gate returns
+                                      DENIED so the daemon falls back to a
+                                      safer alternative instead of running
+                                      an unsupervised exploit.
+    - phase not in _GATED_CATEGORIES: APPROVED without prompting.
+
+    SOLID:
+      S — owns the policy decision only; persistence and notification live
+          in the injected sink.
+      O — gated categories are pulled from ActionCategory + a small string
+          set; extend via a subclass that overrides ``_is_gated``.
+      D — depends on the IApprovalSink interface, not on file or HTTP code.
+    """
+
+    DEFAULT_POLL_INTERVAL_S = 2.0
+    DEFAULT_POLL_TIMEOUT_S = 300.0
+
+    def __init__(
+        self,
+        sink: Optional[IApprovalSink] = None,
+        payload_path: Optional[Path] = None,
+        poll_interval_s: float = DEFAULT_POLL_INTERVAL_S,
+        poll_timeout_s: float = DEFAULT_POLL_TIMEOUT_S,
+        sleep_fn: Any = None,
+    ) -> None:
+        self._sink = sink or CompositeApprovalSink([
+            StdinApprovalSink(),
+            BroadcastApprovalSink(),
+        ])
+        base = Path(__file__).resolve().parent.parent
+        self._payload_path = payload_path or (base / "payload.json")
+        self._poll_interval_s = max(0.1, float(poll_interval_s))
+        self._poll_timeout_s = max(self._poll_interval_s, float(poll_timeout_s))
+        self._sleep = sleep_fn or _default_sleep
+
+    def _auto_approve_enabled(self) -> bool:
+        try:
+            payload = json.loads(self._payload_path.read_text(encoding="utf-8"))
+        except Exception:
+            return True
+        flag = payload.get("auto_approve", True)
+        if isinstance(flag, bool):
+            return flag
+        return str(flag).strip().lower() in ("1", "true", "yes", "on")
+
+    def _is_gated(self, phase: str) -> bool:
+        return (phase or "").lower() in _GATED_CATEGORIES
+
+    def request(
+        self,
+        target: str,
+        phase: str,
+        command: str,
+        reason: str = "",
+    ) -> ApprovalOutcome:
+        """Return an ApprovalOutcome for the proposed execution.
+
+        Steps:
+          1. If auto_approve is on, immediately return APPROVED.
+          2. If the phase is not in the gated set, return APPROVED.
+          3. Otherwise build an ApprovalRequest, announce it, and poll the
+             sink until a decision or the timeout.
+        """
+        if not self._is_gated(phase):
+            return ApprovalOutcome(
+                decision=ApprovalDecision.APPROVED,
+                approval_id="",
+                rationale="phase not gated",
+            )
+        if self._auto_approve_enabled():
+            return ApprovalOutcome(
+                decision=ApprovalDecision.APPROVED,
+                approval_id="",
+                rationale="auto_approve=true",
+            )
+
+        approval_id = uuid.uuid4().hex[:12]
+        request = ApprovalRequest(
+            approval_id=approval_id,
+            target=target,
+            phase=phase,
+            command=command,
+            reason=reason or "operator approval required for gated phase",
+            created_ts=datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        )
+        self._sink.announce(request)
+
+        elapsed = 0.0
+        while elapsed < self._poll_timeout_s:
+            outcome = self._sink.resolution_for(approval_id)
+            if outcome is not None:
+                return outcome
+            self._sleep(self._poll_interval_s)
+            elapsed += self._poll_interval_s
+
+        return ApprovalOutcome(
+            decision=ApprovalDecision.DENIED,
+            approval_id=approval_id,
+            rationale=f"timeout after {int(self._poll_timeout_s)}s without operator decision",
+        )
+
+
+def _default_sleep(seconds: float) -> None:
+    """Thin wrapper around time.sleep for ApprovalGate injection in tests."""
+    import time as _time
+    _time.sleep(max(0.0, seconds))
+
+
 # ─── History bootstrapper ─────────────────────────────────────────────────────
 
 

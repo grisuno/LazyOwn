@@ -1,0 +1,27 @@
+name: linux-initial-access
+description: >
+  Canonical Linux initial-access kill-chain. Probes the target, runs a
+  service scan, auto-populates payload.json, searches for known exploits,
+  and only attempts an exploit when a candidate was actually found.
+
+steps:
+  - name: probe
+    command: ping
+    validate: ttl=64
+    on_failure: stop
+
+  - name: scan
+    command: lazynmap
+    args: "-sV -sC"
+    on_success: auto_populate
+    on_failure: stop
+
+  - name: search
+    command: searchsploit
+    input_from: "{{ previous.findings.services }}"
+    on_failure: continue
+
+  - name: pwn
+    command: lazypwn
+    condition: "{{ steps.search.has_exploit }}"
+    on_failure: continue

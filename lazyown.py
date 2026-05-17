@@ -1927,6 +1927,197 @@ class LazyOwnShell(cmd2.Cmd):
         if curl:
             print_msg(f"curl --insecure -N '{sse_url}' | jq .")
 
+    @with_category("10. Command & Control")
+    def do_engage(self, line):
+        """Drive a single target through the full kill-chain in one command.
+
+        Usage:
+            engage <target>                  Run synchronously on the target IP
+            engage <target> --background     Detach into a background worker
+            engage <target> --max-switches N Set per-step fallback retry limit
+            engage --status                  Tail the engagement log + show pending approvals
+            engage --pending                 List approval requests awaiting an operator
+            engage --approve <id> [--operator name]
+            engage --deny <id>    [--operator name]
+
+        The orchestrator runs ping/OS detect -> nmap -> auto_populate -> enum
+        -> exploit-search -> initial-access against the target. Each phase
+        consults the ApprovalGate when ``auto_approve`` is false in
+        ``payload.json``; gated phases pause for an operator decision before
+        executing. Failures auto-switch to the next bridge-catalog
+        alternative. Every action is narrated to ``sessions/engagement.log``
+        and broadcast through ``modules.collab_bp`` so connected teammates
+        see the kill-chain in real time.
+
+        :param line: Target IP plus optional flags.
+        :type line: str
+        :return: None
+        """
+        parts = line.split() if line and line.strip() else []
+        flags = {p for p in parts if p.startswith("--")}
+        positional = [p for p in parts if not p.startswith("--")]
+
+        try:
+            sys.path.insert(0, str(Path(__file__).resolve().parent / "skills"))
+            sys.path.insert(0, str(Path(__file__).resolve().parent / "modules"))
+            from autonomous_daemon import (
+                mcp_engage_target as _engage,
+                mcp_engage_status as _engage_status,
+                mcp_engage_approve as _engage_approve,
+                mcp_engage_list_pending as _engage_pending,
+            )
+        except Exception as exc:
+            print_error(f"engage: autonomous_daemon not importable ({exc})")
+            return
+
+        if "--status" in flags:
+            print_msg(_engage_status(last_n=40))
+            return
+        if "--pending" in flags:
+            print_msg(_engage_pending())
+            return
+
+        def _flag_value(flag_name: str) -> str:
+            if flag_name not in parts:
+                return ""
+            try:
+                idx = parts.index(flag_name)
+                return parts[idx + 1] if idx + 1 < len(parts) and not parts[idx + 1].startswith("--") else ""
+            except (ValueError, IndexError):
+                return ""
+
+        operator = _flag_value("--operator") or "cli"
+        if "--approve" in flags:
+            approval_id = _flag_value("--approve")
+            if not approval_id:
+                print_error("engage --approve requires an approval id")
+                return
+            print_msg(_engage_approve(approval_id, "approved", operator))
+            return
+        if "--deny" in flags:
+            approval_id = _flag_value("--deny")
+            if not approval_id:
+                print_error("engage --deny requires an approval id")
+                return
+            print_msg(_engage_approve(approval_id, "denied", operator))
+            return
+
+        if not positional:
+            target = self.params.get("rhost", "")
+            if not target:
+                print_error("engage: provide a target IP or set rhost in payload.json first")
+                return
+        else:
+            target = positional[0]
+
+        max_switches = 3
+        for tok in parts:
+            if tok.startswith("--max-switches="):
+                try:
+                    max_switches = int(tok.split("=", 1)[1])
+                except ValueError:
+                    print_error("engage: --max-switches expects an integer")
+                    return
+            elif tok == "--max-switches":
+                value = _flag_value("--max-switches")
+                if value:
+                    try:
+                        max_switches = int(value)
+                    except ValueError:
+                        print_error("engage: --max-switches expects an integer")
+                        return
+
+        detach = "--background" in flags
+        print_msg(f"engage: target={target} background={detach} max_switches={max_switches}")
+        print_msg(_engage(target=target, max_switches_per_step=max_switches, detach=detach))
+
+    @with_category("10. Command & Control")
+    def do_pipeline(self, line):
+        """Declarative composition layer: run a YAML pipeline of LazyOwn commands.
+
+        Usage:
+            pipeline list                          List every YAML pipeline in pipelines/
+            pipeline validate <name>               Parse and check a pipeline schema
+            pipeline run <name>                    Execute the pipeline synchronously
+            pipeline run <name> --background       Detach into a worker thread
+            pipeline run <name> --target <ip>      Override payload.rhost for this run
+            pipeline status                        Show the N most recent runs (summary)
+            pipeline show <name>                   Print the validated step list
+
+        Pipelines live in pipelines/*.yaml. They compose existing LazyOwn
+        commands into ordered, conditional, recoverable plans. Each run is
+        persisted under sessions/pipelines/<name>__<run-id>/ with the
+        frozen plan, per-step JSON records, and a summary. Live narration
+        is broadcast through the same fabric used by ``engage``.
+
+        :param line: Subcommand plus optional positional / flag arguments.
+        :type line: str
+        :return: None
+        """
+        parts = line.split() if line and line.strip() else []
+        if not parts:
+            print_error(
+                "pipeline: subcommand required (list | validate <name> | run <name> | status | show <name>)"
+            )
+            return
+        try:
+            sys.path.insert(0, str(Path(__file__).resolve().parent / "skills"))
+            sys.path.insert(0, str(Path(__file__).resolve().parent / "modules"))
+            from pipeline_engine import (
+                mcp_pipeline_run as _pl_run,
+                mcp_pipeline_list as _pl_list,
+                mcp_pipeline_validate as _pl_validate,
+                mcp_pipeline_status as _pl_status,
+            )
+        except Exception as exc:
+            print_error(f"pipeline: pipeline_engine not importable ({exc})")
+            return
+
+        action = parts[0].lower()
+        positional = [p for p in parts[1:] if not p.startswith("--")]
+        flags = {p for p in parts if p.startswith("--")}
+
+        def _flag_value(flag_name: str) -> str:
+            if flag_name not in parts:
+                return ""
+            try:
+                idx = parts.index(flag_name)
+                if idx + 1 < len(parts) and not parts[idx + 1].startswith("--"):
+                    return parts[idx + 1]
+            except (ValueError, IndexError):
+                return ""
+            return ""
+
+        if action == "list":
+            print_msg(_pl_list())
+            return
+        if action == "status":
+            print_msg(_pl_status())
+            return
+        if action == "validate":
+            if not positional:
+                print_error("pipeline validate: pipeline name required")
+                return
+            print_msg(_pl_validate(positional[0]))
+            return
+        if action == "show":
+            if not positional:
+                print_error("pipeline show: pipeline name required")
+                return
+            print_msg(_pl_validate(positional[0]))
+            return
+        if action == "run":
+            if not positional:
+                print_error("pipeline run: pipeline name required")
+                return
+            name = positional[0]
+            target = _flag_value("--target") or self.params.get("rhost", "")
+            background = "--background" in flags
+            print_msg(f"pipeline run: name={name} target={target or '(default)'} background={background}")
+            print_msg(_pl_run(name=name, target=target, background=background))
+            return
+        print_error(f"pipeline: unknown subcommand {action!r}")
+
     def complete_palette(self, text, line, begidx, endidx):
         """Tab-complete the palette command using the live command index.
 

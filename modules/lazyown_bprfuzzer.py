@@ -135,7 +135,11 @@ class ProxyHandler(BaseHTTPRequestHandler):
                 safe_value = _HEADER_SANITIZER.sanitize_value(value)
                 if not safe_value:
                     continue
-                self.send_header(key, safe_value)
+                safe_key = key.replace("\r", "").replace("\n", "").replace("\x00", "")
+                safe_value = safe_value.replace("\r", "").replace("\n", "").replace("\x00", "")
+                if not safe_key or not safe_value:
+                    continue
+                self.send_header(safe_key, safe_value)
             self.end_headers()
             self.wfile.write(response.content)
         except requests.RequestException:

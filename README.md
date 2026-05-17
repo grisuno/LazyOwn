@@ -12975,6 +12975,13 @@ No description available.
 
 ### Otros
 
+  *   * fix(fix): security issues fixed \n\n Version: release/0.2.125 \n\n with love \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: sáb 16 may 2026 21:31:11 -04 \n\n Hora: 1778981471
+
+
+### Correcciones
+
+### Otros
+
   *   * fix(fix): security fixes \n\n Version: release/0.2.124 \n\n with love \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: sáb 16 may 2026 21:08:23 -04 \n\n Hora: 1778980103
 
 

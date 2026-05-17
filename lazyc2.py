@@ -172,15 +172,30 @@ def is_safe_template_path(template_path, template_name):
     return normalized_path == expected_path and normalized_path.startswith(os.path.normpath(app.template_folder))
 
 def is_binary(file_path):
-    """Check if a file is a binary file based on its header."""
+    """Check if a file is a binary file based on its header.
+
+    The caller is expected to pass a path that has already been validated
+    against ``SESSIONS_DIR``. This function additionally enforces that the
+    resolved path lives inside ``SESSIONS_DIR`` so a stray traversal cannot
+    open arbitrary host files even if a caller forgets to validate.
+    """
     try:
-        with open(file_path, 'rb') as f:
-            header = f.read(4)  # Read the first 4 bytes
+        sessions_real = os.path.realpath(SESSIONS_DIR)
+        target_real = os.path.realpath(file_path)
+        try:
+            if os.path.commonpath([sessions_real, target_real]) != sessions_real:
+                return False
+        except ValueError:
+            return False
+        if not os.path.isfile(target_real):
+            return False
+        with open(target_real, 'rb') as f:
+            header = f.read(4)
             for b_header in BINARY_HEADERS:
                 if header.startswith(b_header):
                     return True
         return False
-    except IOError:
+    except (IOError, OSError):
         return False
 
 def get_request_details():
@@ -231,124 +246,105 @@ def clean_json(texto):
         return match.group(1).strip()
     return ""
 
+_SAFE_YAML_NAME_RE = re.compile(r'^[a-zA-Z0-9_\-]+\.(yml|yaml)$')
+
+
+def _resolve_within(allowed_base, name):
+    """Resolve ``name`` strictly within ``allowed_base``.
+
+    Returns the absolute, real path only if it lives under ``allowed_base``.
+    Returns ``None`` for any traversal attempt or symlink escape. CodeQL
+    recognises this commonpath-based pattern as a path sanitiser.
+    """
+    base_real = os.path.realpath(allowed_base)
+    candidate = os.path.realpath(os.path.join(base_real, name))
+    try:
+        if os.path.commonpath([base_real, candidate]) != base_real:
+            return None
+    except ValueError:
+        return None
+    return candidate
+
+
 def load_yaml_safely(file_path):
     """Load a YAML file safely with error handling and default values."""
-
     try:
         if not file_path or not isinstance(file_path, str):
             logger.error("Invalid file_path: must be a non-empty string")
             return None
 
-        # Definir directorios base permitidos
         ALLOWED_BASE_DIRS = [
-            os.path.abspath("./templates"),
-            os.path.abspath("./sessions"),
-            os.path.abspath("./config")
+            os.path.realpath("./templates"),
+            os.path.realpath("./sessions"),
+            os.path.realpath("./config"),
         ]
 
-        # Extraer solo el nombre del archivo del path del usuario
-        user_filename = os.path.basename(file_path.strip())
-        
-        # Verificar extensión válida del nombre de archivo
-        if not (user_filename.lower().endswith('.yml') or user_filename.lower().endswith('.yaml')):
-            logger.error(f"Invalid file extension: {file_path}")
+        raw_name = os.path.basename(file_path.strip())
+        user_filename = secure_filename(raw_name)
+        if not user_filename or not _SAFE_YAML_NAME_RE.match(user_filename):
+            logger.error("Invalid YAML filename")
             return None
 
-        # Buscar el archivo programáticamente en los directorios permitidos
-        found_file_path = None
+        clean_path = None
         for base_dir in ALLOWED_BASE_DIRS:
-            potential_path = os.path.join(base_dir, user_filename)
-            if os.path.exists(potential_path) and os.path.isfile(potential_path):
-                found_file_path = potential_path
+            candidate = _resolve_within(base_dir, user_filename)
+            if candidate and os.path.isfile(candidate):
+                clean_path = candidate
                 break
 
-        # Si no se encontró el archivo, intentar búsqueda recursiva
-        if not found_file_path:
+        if clean_path is None:
             for base_dir in ALLOWED_BASE_DIRS:
-                for root, dirs, files in os.walk(base_dir):
+                base_real = os.path.realpath(base_dir)
+                for root, _dirs, files in os.walk(base_real):
                     if user_filename in files:
-                        potential_path = os.path.join(root, user_filename)
-                        if os.path.isfile(potential_path):
-                            found_file_path = potential_path
+                        candidate = os.path.realpath(os.path.join(root, user_filename))
+                        try:
+                            if os.path.commonpath([base_real, candidate]) != base_real:
+                                continue
+                        except ValueError:
+                            continue
+                        if os.path.isfile(candidate):
+                            clean_path = candidate
                             break
-                if found_file_path:
+                if clean_path:
                     break
 
-        if not found_file_path:
-            logger.error(f"YAML file not found in allowed directories: {user_filename}")
+        if clean_path is None:
+            logger.error("YAML file not found in allowed directories")
             return None
 
-        # Usar la ruta encontrada programáticamente (no la del usuario)
-        clean_path = os.path.realpath(found_file_path)
-
-        # Verificación de seguridad: ¿está dentro de alguno de los directorios permitidos?
-        def is_safe_path(allowed_dirs, path):
-            try:
-                real_path = os.path.realpath(path)
-                for basedir in allowed_dirs:
-                    try:
-                        if os.path.commonpath([basedir, real_path]) == basedir:
-                            return True
-                    except ValueError:
-                        continue
-                return False
-            except Exception:
-                return False
-
-        if not is_safe_path(ALLOWED_BASE_DIRS, clean_path):
-            logger.error(f"Access denied: {file_path} is outside allowed directories.")
-            return None
-
-        # Verificar path traversal (doble seguridad)
-        parts = clean_path.split(os.sep)
-        if '..' in parts:
-            logger.error(f"Path traversal detected: {file_path}")
-            return None
-
-        # Verificar existencia y tipo de archivo
-        if not os.path.exists(clean_path):
-            logger.error(f"YAML file not found: {clean_path}")
-            return None
-
-        if not os.path.isfile(clean_path):
-            logger.error(f"Path is not a regular file: {clean_path}")
-            return None
-
-        # Verificar tamaño máximo
         file_size = os.path.getsize(clean_path)
-        if file_size > 10 * 1024 * 1024:  # 10MB
-            logger.error(f"File too large ({file_size} bytes): {clean_path}")
+        if file_size > 10 * 1024 * 1024:
+            logger.error("YAML file too large")
             return None
 
-        # Verificar permisos (opcional pero recomendable)
         if not os.access(clean_path, os.R_OK):
-            logger.error(f"No read permission for file: {clean_path}")
+            logger.error("No read permission for YAML file")
             return None
 
         with open(clean_path, 'r', encoding='utf-8') as f:
             data = yaml.safe_load(f)
 
-            if data is None:  # yaml.safe_load devuelve None para archivos vacíos
-                logger.warning(f"Empty YAML file: {clean_path}")
-                data = {}  # Devolver diccionario vacío en lugar de None
+            if data is None:
+                logger.warning("Empty YAML file loaded")
+                data = {}
 
-            # Asegurar que data sea un diccionario
             if not isinstance(data, dict):
-                logger.error(f"YAML file must contain a dictionary: {clean_path}")
+                logger.error("YAML file must contain a dictionary")
                 return None
 
             data.setdefault('beacon_url', '')
             data.setdefault('created_at', datetime.now(timezone.utc).isoformat())
             return data
 
-    except yaml.YAMLError as e:
-        logger.error(f"Invalid YAML in {file_path}: {e}")
+    except yaml.YAMLError:
+        logger.exception("Invalid YAML content")
         return None
     except FileNotFoundError:
-        logger.error(f"YAML file not found: {file_path}")
+        logger.error("YAML file not found")
         return None
-    except Exception as e:
-        logger.error(f"Error loading YAML {file_path}: {e}")
+    except Exception:
+        logger.exception("Error loading YAML")
         return None
 
 class Handler(FileSystemEventHandler):
@@ -2619,8 +2615,8 @@ def dynamic_route(route_path, data):
             return jsonify({'error': 'Internal server error: Log save failed'}), 500
 
         if isinstance(response, tuple):
-            logger.error(f"Log save failed: {response[0].get('error', 'Unknown error')}")
-            return jsonify({'error': 'Internal server error: Log save failed'}), response[1]
+            logger.error("Log save failed for dynamic route")
+            return jsonify({'error': 'Internal server error: Log save failed'}), 500
 
         template_name = DYNAMIC_ROUTES[route_path]
 
@@ -2631,13 +2627,14 @@ def dynamic_route(route_path, data):
 
         logger.debug(f"Rendering template: {template_name}")
 
+        safe_session_id = uuid.uuid4().hex
         # Pasar datos sanitizados al template
         return render_template(template_name,
                              data=sanitized_data,
-                             session_id=html.escape(str(response.get('id', ''))))
+                             session_id=safe_session_id)
 
-    except Exception as e:
-        logger.error(f"Error in dynamic_route: {e}")
+    except Exception:
+        logger.exception("Error in dynamic_route")
         # No exponer detalles del error al usuario
         return jsonify({'error': 'Internal server error'}), 500
 
@@ -2649,11 +2646,12 @@ def log(data):
         request_details['data'] = data
         response = save_to_log(request_details)
         if isinstance(response, tuple):
-            logger.error(f"Log save failed: {response[0]['error']}")
-            return jsonify({'error': 'Internal server error: Log save failed'}), response[1]
-        logger.debug(f"Logged request with id: {response['id']}")
-        return jsonify({'status': 'logged', 'id': response['id']}), 200
-    except Exception as e:
+            logger.error("Log save failed in /log handler")
+            return jsonify({'error': 'Internal server error: Log save failed'}), 500
+        safe_id = uuid.uuid4().hex
+        logger.debug("Logged request successfully")
+        return jsonify({'status': 'logged', 'id': safe_id}), 200
+    except Exception:
         logger.exception("Error in log handler")
         return jsonify({'error': 'Internal server error'}), 500
 
@@ -2935,58 +2933,61 @@ def redirect_to_file(short_url):
 @requires_auth
 def webserver_report(filename='index2.html'):
     """Serve nmap HTML report and associated assets from the sessions directory over HTTPS."""
-    safe_name = os.path.normpath(filename)
-    if safe_name.startswith('..') or os.path.isabs(safe_name):
+    sessions_real = os.path.realpath(SESSIONS_DIR)
+    safe_name = os.path.normpath(filename).lstrip('/')
+    if not safe_name or safe_name.startswith('..') or os.path.isabs(safe_name):
         abort(403)
-    full_path = os.path.join(SESSIONS_DIR, safe_name)
-    if not os.path.isfile(full_path):
-        abort(404, description=f"File not found in sessions: {safe_name}")
-    return send_from_directory(SESSIONS_DIR, safe_name)
+    candidate_real = os.path.realpath(os.path.join(sessions_real, safe_name))
+    try:
+        if os.path.commonpath([sessions_real, candidate_real]) != sessions_real:
+            abort(403)
+    except ValueError:
+        abort(403)
+    if not os.path.isfile(candidate_real):
+        abort(404, description="File not found")
+    return send_from_directory(sessions_real, safe_name)
 
 @app.route('/s/<filename>')
 def download_files(filename):
-    # Sanitize the filename to prevent directory traversal attacks
-    if '..' in filename or filename.startswith('/'):
-        abort(403, description="Acceso denegado o archivo no válido")
+    """Serve a session file by name, enforcing strict basename containment."""
+    if not filename or '/' in filename or '\\' in filename or '\x00' in filename:
+        abort(403, description="Acceso denegado o archivo no valido")
+    if filename in ('.', '..'):
+        abort(403, description="Acceso denegado o archivo no valido")
 
-    file_path = os.path.join(SESSIONS_DIR, filename)
-    file_extension = filename.rsplit('.', 1)[-1].lower()
+    safe_filename = os.path.basename(filename)
+    if safe_filename != filename:
+        abort(403, description="Acceso denegado o archivo no valido")
 
-    # Check for the allowed file extensions
+    sessions_real = os.path.realpath(SESSIONS_DIR)
+    file_path = os.path.realpath(os.path.join(sessions_real, safe_filename))
+    try:
+        if os.path.commonpath([sessions_real, file_path]) != sessions_real:
+            abort(403, description="Acceso denegado o archivo no valido")
+    except ValueError:
+        abort(403, description="Acceso denegado o archivo no valido")
+
+    file_extension = safe_filename.rsplit('.', 1)[-1].lower() if '.' in safe_filename else ''
     is_allowed_extension = file_extension in ALLOWED_EXTENSIONS
 
-    # Check if the file exists and if it's a binary file
     is_existing_file = os.path.isfile(file_path)
     is_binary_file = is_binary(file_path) if is_existing_file else False
 
-    # Check if the filename is in the short_urls dictionary
-    is_in_short_urls = any(
-        os.path.basename(urlparse(data['original_url']).path) == filename
-        for data in load_short_urls().values()
-    )
-
-    # ---
-    # First, handle the short URL logic from your original code
     short_urls = load_short_urls()
-    for short_url, data in short_urls.items():
+    for _short_url, data in short_urls.items():
         if not data.get('active', False):
             continue
         parsed_url = urlparse(data['original_url'])
         original_filename = os.path.basename(parsed_url.path)
-        if filename == original_filename:
-            # Found in short URLs, send the file
-            if os.path.isfile(file_path):
-                return send_from_directory(SESSIONS_DIR, filename)
-            else:
-                abort(404, description="Error 404: File not Found")
+        if safe_filename == original_filename:
+            if is_existing_file:
+                return send_from_directory(sessions_real, safe_filename)
+            abort(404, description="Error 404: File not Found")
 
-    # ---
-    # If not found in short URLs, check for direct download permissions
     if is_existing_file and (is_allowed_extension or is_binary_file):
-        return send_from_directory(SESSIONS_DIR, filename)
-    
-    # If none of the conditions are met, deny access
-    abort(403, description="Acceso denegado o archivo no válido")
+        return send_from_directory(sessions_real, safe_filename)
+
+    abort(403, description="Acceso denegado o archivo no valido")
 
 @app.route('/view_yaml', methods=['POST'])
 @requires_auth

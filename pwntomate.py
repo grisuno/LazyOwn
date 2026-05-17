@@ -12,6 +12,15 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from libnmap.parser import NmapParser
 
+_PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+if _PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, _PROJECT_ROOT)
+
+from modules.security_sanitizers import (
+    CommandRedactor,
+    build_default_config,
+)
+
 greeter = '''[31m
  ██▓███  █     ████▄    █▄▄▄█████▓▒█████  ███▄ ▄███▓▄▄▄    ▄▄▄█████▓█████
  ▓██░  ██▓█░ █ ░███ ▀█   █▓  ██▒ ▓▒██▒  ██▓██▒▀█▀ ██▒████▄  ▓  ██▒ ▓▓█   ▀
@@ -54,6 +63,9 @@ with open('payload.json', 'r') as file:
     domain = config.get("domain")
     dirworlist = config.get("dirworlist")
 
+_SECURITY_CONFIG = build_default_config(config)
+_REDACTOR = CommandRedactor(_SECURITY_CONFIG)
+
 if os.path.exists(cred_path):
     with open(cred_path, 'r') as file:
         text_cred = file.read().strip()
@@ -61,37 +73,33 @@ if os.path.exists(cred_path):
         username = array_cred[0]
         password = f" -p '{array_cred[1]}' "
 else:
-    username = "deefbeef"
+    username = _SECURITY_CONFIG.placeholder_username_marker
     password = ''
 
 adomain = domain.split(".")
 ext = adomain[1] if len(adomain) > 1 else adomain[0]
 nameserver = adomain[0]
 
-REDACTED_PASSWORD_TOKEN = " -p '[REDACTED]' "
-REDACTED_USERNAME_TOKEN = "[REDACTED]"
 
+def _build_substitutions(host_addr, port, toolname_value, basedir_value):
+    """Return the non-credential substitution map for a tool template.
 
-def _substitute(template, host_addr, port, toolname_value, basedir_value, user_value, pass_value):
-    """Return the command template with every placeholder substituted.
-
-    Pulled out so the same substitution can produce both the execution
-    string (real credentials) and the display string (redacted credentials)
-    without diverging by accident.
+    Credentials are deliberately excluded so they only enter the
+    command string through :class:`CommandRedactor.render`, which
+    guarantees the display copy never contains a real credential
+    byte-for-byte.
     """
-    out = template
-    out = out.replace("{s}", "")
-    out = out.replace("{outputdir}", "{baseoutputdir}/{ip}/{port}/{toolname}")
-    out = out.replace("{ip}", host_addr)
-    out = out.replace("{port}", str(port))
-    out = out.replace("{domain}", domain)
-    out = out.replace("{ext}", ext)
-    out = out.replace("{nameserver}", nameserver)
-    out = out.replace("{baseoutputdir}", basedir_value)
-    out = out.replace("{toolname}", toolname_value)
-    out = out.replace("{username}", user_value)
-    out = out.replace("{password}", pass_value)
-    return out
+    return {
+        "s": "",
+        "outputdir": "{baseoutputdir}/{ip}/{port}/{toolname}",
+        "ip": host_addr,
+        "port": str(port),
+        "domain": domain,
+        "ext": ext,
+        "nameserver": nameserver,
+        "baseoutputdir": basedir_value,
+        "toolname": toolname_value,
+    }
 
 
 cmds = []
@@ -107,23 +115,17 @@ for host in report.hosts:
                 else:
                     base_escaped = args.basedir.replace(" ", r"\ ")
                     tool_escaped = tool["toolname"].replace(" ", r"\ ")
-                    cmd = _substitute(
-                        cmd_template,
+                    substitutions = _build_substitutions(
                         host.address,
                         service.port,
                         tool_escaped,
                         base_escaped,
+                    )
+                    cmd, display_cmd = _REDACTOR.render(
+                        cmd_template,
+                        substitutions,
                         username,
                         password,
-                    )
-                    display_cmd = _substitute(
-                        cmd_template,
-                        host.address,
-                        service.port,
-                        tool_escaped,
-                        base_escaped,
-                        REDACTED_USERNAME_TOKEN if username and username != "deefbeef" else username,
-                        REDACTED_PASSWORD_TOKEN if password else password,
                     )
                     print(display_cmd)
                     mkdir_cmd = f'mkdir -p {base_escaped}/{host.address}/{service.port}/{tool_escaped}'

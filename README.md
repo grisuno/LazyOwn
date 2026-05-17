@@ -3541,6 +3541,53 @@ Usage:
 :type line: str
 :return: None
 
+## engage
+Drive a single target through the full kill-chain in one command.
+
+Usage:
+    engage <target>                  Run synchronously on the target IP
+    engage <target> --background     Detach into a background worker
+    engage <target> --max-switches N Set per-step fallback retry limit
+    engage --status                  Tail the engagement log + show pending approvals
+    engage --pending                 List approval requests awaiting an operator
+    engage --approve <id> [--operator name]
+    engage --deny <id>    [--operator name]
+
+The orchestrator runs ping/OS detect -> nmap -> auto_populate -> enum
+-> exploit-search -> initial-access against the target. Each phase
+consults the ApprovalGate when ``auto_approve`` is false in
+``payload.json``; gated phases pause for an operator decision before
+executing. Failures auto-switch to the next bridge-catalog
+alternative. Every action is narrated to ``sessions/engagement.log``
+and broadcast through ``modules.collab_bp`` so connected teammates
+see the kill-chain in real time.
+
+:param line: Target IP plus optional flags.
+:type line: str
+:return: None
+
+## pipeline
+Declarative composition layer: run a YAML pipeline of LazyOwn commands.
+
+Usage:
+    pipeline list                          List every YAML pipeline in pipelines/
+    pipeline validate <name>               Parse and check a pipeline schema
+    pipeline run <name>                    Execute the pipeline synchronously
+    pipeline run <name> --background       Detach into a worker thread
+    pipeline run <name> --target <ip>      Override payload.rhost for this run
+    pipeline status                        Show the N most recent runs (summary)
+    pipeline show <name>                   Print the validated step list
+
+Pipelines live in pipelines/*.yaml. They compose existing LazyOwn
+commands into ordered, conditional, recoverable plans. Each run is
+persisted under sessions/pipelines/<name>__<run-id>/ with the
+frozen plan, per-step JSON records, and a summary. Live narration
+is broadcast through the same fabric used by ``engage``.
+
+:param line: Subcommand plus optional positional / flag arguments.
+:type line: str
+:return: None
+
 ## complete_palette
 Tab-complete the palette command using the live command index.
 
@@ -12713,6 +12760,12 @@ No description available.
 ## _save
 No description available.
 
+## _flag_value
+No description available.
+
+## _flag_value
+No description available.
+
 ## _run_single_search
 No description available.
 
@@ -12969,6 +13022,13 @@ No description available.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(security bug fixing in lazybrp): with love \n\n Version: release/0.2.126 \n\n :D \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: sáb 16 may 2026 21:39:23 -04 \n\n Hora: 1778981963
 
 
 ### Correcciones

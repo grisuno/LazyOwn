@@ -92,29 +92,14 @@
         <div id="toastr" class="toastr alert alert-success" role="alert">
             Command exec successfully.
         </div>
-        <!-- Google tag (gtag.js) -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-T4VF6JJ095"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-T4VF6JJ095');
-            </script>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
-        <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
+        <script src="/static/js/jquery-3.5.1.slim.min.js"></script>
+        <script src="/static/js/popper-2.5.4.min.js"></script>
+        <script src="/static/js/bootstrap-4.5.2.min.js"></script>
+        <script src="/static/js/vis-network.min.js"></script>
+        <script src="/static/js/showdown-2.1.0.min.js"></script>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 document.querySelector('.loading-container').style.display = 'none';
-                kofiWidgetOverlay.draw('grisuno', {
-                    'type': 'floating-chat',
-                    'floating-chat.donateButton.text': 'Support me',
-                    'floating-chat.donateButton.background-color': '#5cb85c',
-                    'floating-chat.donateButton.text-color': '#fff'
-                });
                 var directory = "{{ directory | e }}";
                 var yamlData = [
                     {% for test in yaml_data %}

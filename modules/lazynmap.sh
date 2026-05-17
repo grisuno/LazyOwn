@@ -147,7 +147,8 @@ cat <<EOL > $OUTPUT_HTML
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>⚠ LazyOwn ⚠ Framwork 👽 WebServer ☠ [;,;] </title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <base href="/webserver-report/">
+    <link rel="stylesheet" href="/static/css/bootstrap-4.5.2.min.css">
     <style>
 		body {
 			display: flex;
@@ -692,7 +693,7 @@ cat <<EOL > $OUTPUT_HTML
 <body>
     <div class="sidebar">
         <h2>Reportes Nmap 👽</h2>
-		<h3><a href="http://127.0.0.1:4444">C&C</h3>
+		<h3><a href="/">C&amp;C</h3>
 
 EOL
 
@@ -889,7 +890,8 @@ cat <<EOL > $OUTPUT_HTML
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>⚠ LazyOwn ⚠ Framwork 👽 WebServer ☠ [;,;] </title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <base href="/webserver-report/">
+    <link rel="stylesheet" href="/static/css/bootstrap-4.5.2.min.css">
     <style>
 		body {
 			display: flex;
@@ -1434,7 +1436,7 @@ cat <<EOL > $OUTPUT_HTML
 <body>
     <div class="sidebar">
         <h2>Nmap Reports 👽</h2>
-		<h3><a href="http://127.0.0.1:4444">C&C</h3>
+		<h3><a href="/">C&amp;C</h3>
 EOL
 
 for file in "$DIRECTORIO"/*.html; do

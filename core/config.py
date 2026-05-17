@@ -38,6 +38,9 @@ class Config:
         for key, value in self.config.items():
             setattr(self, key, value)
 
+    def __getattr__(self, name: str) -> Any:
+        return None
+
     def __getitem__(self, key: str) -> Any:
         return getattr(self, key, None)
 

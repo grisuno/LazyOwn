@@ -86,15 +86,24 @@ class ProxyHandler(BaseHTTPRequestHandler):
         content_length = int(self.headers.get('Content-Length', 0))
         body = self.rfile.read(content_length) if content_length else None
 
+        _HOP_BY_HOP = frozenset({
+            'connection', 'keep-alive', 'proxy-authenticate',
+            'proxy-authorization', 'te', 'trailer',
+            'transfer-encoding', 'upgrade',
+        })
+
         try:
             response = requests.request(method, url, headers=headers, data=body)
             self.send_response(response.status_code)
             for key, value in response.headers.items():
-                self.send_header(key, value)
+                if key.lower() in _HOP_BY_HOP:
+                    continue
+                safe_value = value.replace('\r', '').replace('\n', '')
+                self.send_header(key, safe_value)
             self.end_headers()
             self.wfile.write(response.content)
-        except requests.RequestException as e:
-            self.send_error(500, f'[e] Proxy Error:')
+        except requests.RequestException:
+            self.send_error(500, 'Proxy Error')
 
 def run_proxy(port):
     server_address = ('', port)

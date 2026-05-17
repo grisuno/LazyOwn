@@ -192,19 +192,18 @@
         </div>
         <div id="toastr" onclick="clearToastr();" class="toastr alert alert-success" role="alert">
         </div>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
-        <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
-        <script src="https://unpkg.com/tippy.js@6"></script>
-        <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+        <script src="/static/js/jquery-3.5.1.slim.min.js"></script>
+        <script src="/static/js/popper-2.5.4.min.js"></script>
+        <script src="/static/js/bootstrap-4.5.2.min.js"></script>
+        <script src="/static/js/vis-network.min.js"></script>
+        <script src="/static/js/select2-4.1.0.min.js"></script>
+        <script src="/static/js/showdown-2.1.0.min.js"></script>
+        <script src="/static/js/tippy-6.js"></script>
+        <script src="/static/js/quill-2.0.3.js"></script>
         <script src="/static/js/xterm.js"></script>
-        <script src="https://unpkg.com/xterm-addon-fit@0.7.0/lib/xterm-addon-fit.js"></script>
-        <script src="https://unpkg.com/xterm-addon-web-links@0.5.0/lib/xterm-addon-web-links.js"></script>
-        <script src="https://cdn.socket.io/4.3.2/socket.io.min.js"></script>
+        <script src="/static/js/xterm-addon-fit-0.7.0.js"></script>
+        <script src="/static/js/xterm-addon-web-links-0.5.0.js"></script>
+        <script src="/static/js/socket.io-4.3.2.min.js"></script>
         <script>
             cleanOutputText = "";
             bot = '{{ bot | markdown |  replace("\'", "\\\'") | safe }}';
@@ -219,42 +218,52 @@
             var barra_busqueda = $('.search_bar');
             var bar = $('#bar');
             var icono = $('.icon-search');
-            const term = new Terminal({
-                cursorBlink: true,
-                fontFamily: 'monospace',
-                theme: {
-                    background: '#000000',
-                    foreground: '#00FF00'
-                }
-            });
             var c2_port = '{{ c2_port }}';
-            term.open(document.getElementById('terminal'));
-            term.writeln("Welcome to LazyOwn RedTeam Framework: CRIMEN 👋");
-            const fitAddon = new FitAddon.FitAddon();
-            term.loadAddon(fitAddon);
+            var term = null;
+            var fitAddon = null;
+            var termSocket = null;
+            var termInitialized = false;
 
-            fitAddon.fit();
-
-            const termSocket = io("/pty", { transports: ["websocket"] });
-            termSocket.on("connect", () => {
-                term.writeln("\r\n\x1b[32m[ws] connected to /pty (id=" + termSocket.id + ")\x1b[0m");
-            });
-            termSocket.on("connect_error", (err) => {
-                term.writeln("\r\n\x1b[31m[ws] connect_error: " + err.message + "\x1b[0m");
-            });
-            termSocket.on("disconnect", (reason) => {
-                term.writeln("\r\n\x1b[33m[ws] disconnect: " + reason + "\x1b[0m");
-            });
-            termSocket.on("pty-output", (data) => {
-                term.write(data.output);
-            });
-            term.onData((data) => {
-                termSocket.emit("pty-input", { input: data });
-            });
-            window.addEventListener('resize', () => {
+            function initTerminal() {
+                if (termInitialized) {
+                    fitAddon.fit();
+                    return;
+                }
+                termInitialized = true;
+                term = new Terminal({
+                    cursorBlink: true,
+                    fontFamily: 'monospace',
+                    theme: {
+                        background: '#000000',
+                        foreground: '#00FF00'
+                    }
+                });
+                fitAddon = new FitAddon.FitAddon();
+                term.loadAddon(fitAddon);
+                term.open(document.getElementById('terminal'));
+                term.writeln("Welcome to LazyOwn RedTeam Framework: CRIMEN 👋");
                 fitAddon.fit();
-                termSocket.emit("resize", { rows: term.rows, cols: term.cols });
-            });
+                termSocket = io("/pty", { transports: ["websocket"] });
+                termSocket.on("connect", () => {
+                    term.writeln("\r\n\x1b[32m[ws] connected to /pty (id=" + termSocket.id + ")\x1b[0m");
+                });
+                termSocket.on("connect_error", (err) => {
+                    term.writeln("\r\n\x1b[31m[ws] connect_error: " + err.message + "\x1b[0m");
+                });
+                termSocket.on("disconnect", (reason) => {
+                    term.writeln("\r\n\x1b[33m[ws] disconnect: " + reason + "\x1b[0m");
+                });
+                termSocket.on("pty-output", (data) => {
+                    term.write(data.output);
+                });
+                term.onData((data) => {
+                    termSocket.emit("pty-input", { input: data });
+                });
+                window.addEventListener('resize', () => {
+                    fitAddon.fit();
+                    termSocket.emit("resize", { rows: term.rows, cols: term.cols });
+                });
+            }
             var nodes = new vis.DataSet([]);
             var edges = new vis.DataSet([]);
             var network;
@@ -981,12 +990,6 @@
                     });
                 });
 
-                kofiWidgetOverlay.draw('grisuno', {
-                    'type': 'floating-chat',
-                    'floating-chat.donateButton.text': 'Support me',
-                    'floating-chat.donateButton.background-color': '#5cb85c',
-                    'floating-chat.donateButton.text-color': '#fff'
-                });
 
                 document.getElementById('post-exploit-form').addEventListener('submit', function(event) {
                     event.preventDefault();
@@ -1335,7 +1338,11 @@
                         document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
                         link.classList.add('active');
                         document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
-                        document.getElementById(link.getAttribute('data-target')).classList.add('active');
+                        var target = link.getAttribute('data-target');
+                        document.getElementById(target).classList.add('active');
+                        if (target === 'local-shell') {
+                            setTimeout(initTerminal, 50);
+                        }
                     });
                 });
 

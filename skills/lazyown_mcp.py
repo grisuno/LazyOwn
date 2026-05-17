@@ -6657,14 +6657,8 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             # Annotate parquet knowledge base with the real outcome (rich version)
             if _pdb is not None:
                 try:
-                    import hashlib as _hl
-                    from datetime import datetime as _dt
-                    _ts = _dt.now().strftime("%Y-%m-%d %H:%M:%S")
-                    _payload = f"{_ts}|{resolved_cmd}|{resolved_args}|{target}".encode()
-                    try:
-                        _rid = _hl.sha256(_payload, usedforsecurity=False).hexdigest()[:16]
-                    except TypeError:
-                        _rid = _hl.sha256(_payload).hexdigest()[:16]
+                    import secrets as _secrets
+                    _rid = _secrets.token_hex(8)
                     # Get campaign_id if available
                     _camp_id = ""
                     try:

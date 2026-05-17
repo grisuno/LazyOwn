@@ -198,6 +198,7 @@
         <script src="/static/js/vis-network.min.js"></script>
         <script src="/static/js/select2-4.1.0.min.js"></script>
         <script src="/static/js/showdown-2.1.0.min.js"></script>
+        <script src="/static/js/purify-3.0.9.min.js"></script>
         <script src="/static/js/tippy-6.js"></script>
         <script src="/static/js/quill-2.0.3.js"></script>
         <script src="/static/js/xterm.js"></script>
@@ -807,7 +808,7 @@
             function toastr(command) {
                     var toastr = document.getElementById('toastr');
                     toastr.classList.add('show');
-                    toastr.innerHTML += "<div onclick='closePopup(this);' class='neon-text'> " + command + " </div><br><hr>";
+                    toastr.innerHTML += DOMPurify.sanitize("<div onclick='closePopup(this);' class='neon-text'> " + command + " </div><br><hr>");
                     sendNotification(command)
                     setTimeout(function() {
                         clearToastr();
@@ -840,7 +841,7 @@
                                 var converter = new showdown.Converter();
                                 var responseDiv = document.getElementById('generalResponse');
                                 if (responseDiv) {
-                                    responseDiv.innerHTML = converter.makeHtml(responseDiv.textContent);
+                                    responseDiv.innerHTML = DOMPurify.sanitize(converter.makeHtml(responseDiv.textContent));
                                 }
                             });
                         } else {
@@ -1428,7 +1429,7 @@
                         var converter = new showdown.Converter();
                         var responseDiv = document.getElementById('reportResponse');
                         if (responseDiv) {
-                            responseDiv.innerHTML = converter.makeHtml(responseDiv.textContent);
+                            responseDiv.innerHTML = DOMPurify.sanitize(converter.makeHtml(responseDiv.textContent));
                         }
                     });
                 });
@@ -1578,7 +1579,7 @@
                         var converter = new showdown.Converter();
                         var responseDiv = document.getElementById('lazyResponse');
                         if (responseDiv) {
-                            responseDiv.innerHTML = converter.makeHtml(responseDiv.textContent);
+                            responseDiv.innerHTML = DOMPurify.sanitize(converter.makeHtml(responseDiv.textContent));
                         }
                     });
                 });

@@ -90,7 +90,10 @@ for host in report.hosts:
                     cmd = cmd.replace("{toolname}", tool["toolname"].replace(" ", r"\ "))
                     cmd = cmd.replace("{username}", username)
                     cmd = cmd.replace("{password}", password)
-                    print(cmd)
+                    redacted_cmd = cmd
+                    if password:
+                        redacted_cmd = redacted_cmd.replace(password, " -p '[REDACTED]' ")
+                    print(redacted_cmd)
                     base_escaped = args.basedir.replace(" ", r"\ ")
                     tool_escaped = tool["toolname"].replace(" ", r"\ ")
                     mkdir_cmd = f'mkdir -p {base_escaped}/{host.address}/{service.port}/{tool_escaped}'

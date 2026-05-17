@@ -105,6 +105,7 @@
 </div>  
 <script src="/static/js/jquery-3.5.1.slim.min.js"></script>
 <script src="/static/js/showdown-2.1.0.min.js"></script>
+<script src="/static/js/purify-3.0.9.min.js"></script>
 <script>
 async function lazyphishingaiForm(prompt, id) {
         const responseDiv = document.getElementById(id);
@@ -170,7 +171,7 @@ document.addEventListener('DOMContentLoaded', function() {
             var converter = new showdown.Converter();
             var responseDiv = document.getElementById('lazyResponse');
             if (responseDiv) {
-                responseDiv.innerHTML = converter.makeHtml(responseDiv.textContent);
+                responseDiv.innerHTML = DOMPurify.sanitize(converter.makeHtml(responseDiv.textContent));
             }
         });
     }); 

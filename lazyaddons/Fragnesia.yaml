@@ -1,0 +1,17 @@
+name: fragnesia
+description: fragnesia (CVE-2026-46300) is a universal Linux local privilege escalation exploit, discovered with V12 by William Bowling with the V12 team. fragnesia is a member of the Dirty Frag vulnerability class. This is a separate bug in the ESP/XFRM from dirtyfrag which has received its own patch. However, it is in the same surface and the mitigation is the same as for dirtyfrag. fragnesia received CVSS score of 7.8.
+author: v12-security
+version: '1.0'
+enabled: true
+params:
+- name: lhost
+  type: string
+  required: true
+  description: lhost target.
+tool:
+  name: fragnesia
+  repo_url: https://github.com/v12-security/pocs.git
+  install_path: external/.exploit/fragnesia/fragnesia/fragnesia
+  install_command: gcc -o exp fragnesia.c
+  execute_command: chmod +x exp && ./exp
+category: 03. Exploitation

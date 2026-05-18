@@ -13028,6 +13028,13 @@ No description available.
 
 ### Otros
 
+  *   * feat(feat): new orquestator \n\n Version: release/0.2.128 \n\n with love \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: dom 17 may 2026 00:56:05 -04 \n\n Hora: 1778993765
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): pipeline \n\n Version: release/0.2.127 \n\n Cómo usarlo: \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: dom 17 may 2026 00:33:29 -04 \n\n Hora: 1778992409
 
 

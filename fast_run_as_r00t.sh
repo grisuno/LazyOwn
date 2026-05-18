@@ -21,6 +21,9 @@ VENV_PATH="env"
 JSON_FILE="payload.json"
 NO_ATTACH=0   # set to 1 by --no-attach (MCP mode — skip tmux attach at the end)
 CERTPASS="LazyOwn"
+TARGET_UID=1000
+TARGET_GID=1000
+CHOWN_INTERVAL=30
 
 # ── Read payload.json ─────────────────────────────────────────────────────────
 _jq() { jq -r ".$1" "$JSON_FILE"; }
@@ -116,6 +119,28 @@ t_priv_user() {
     t_send "sleep 5 && sudo -u \#1000 bash -c 'source \"${VENV_PATH}/bin/activate\" && $*'"
 }
 
+# ── Background chown watcher ──────────────────────────────────────────────────
+# Re-chowns the project tree to the operator UID/GID every $CHOWN_INTERVAL
+# seconds while the tmux session is alive, so root-owned writes from the panes
+# do not leave files the unprivileged user cannot read on the next ./run.
+# Survives the parent script exiting (MCP mode --no-attach).
+start_chown_watcher() {
+    local project_root="$PWD"
+    local session_name="$SESSION"
+    local uid="$TARGET_UID"
+    local gid="$TARGET_GID"
+    local interval="$CHOWN_INTERVAL"
+    nohup setsid bash -c "
+        trap 'chown -R ${uid}:${gid} \"${project_root}\" 2>/dev/null; exit 0' TERM INT
+        while tmux has-session -t '${session_name}' 2>/dev/null; do
+            chown -R ${uid}:${gid} '${project_root}' 2>/dev/null
+            sleep ${interval}
+        done
+        chown -R ${uid}:${gid} '${project_root}' 2>/dev/null
+    " >/dev/null 2>&1 &
+    disown
+}
+
 # ── Entry point ───────────────────────────────────────────────────────────────
 ensure_gum
 log "Start the OPSEC."
@@ -139,6 +164,9 @@ spin "Chmod..."
 chmod 777 sessions/sessionLazyOwn.json
 spin "Chown..."
 chown 1000:1000 . -R
+spin "Start chown watcher..."
+start_chown_watcher
+log "Chown watcher armed (interval ${CHOWN_INTERVAL}s)."
 
 # ── Build tmux workspace ──────────────────────────────────────────────────────
 tmux new-session -d -s "$SESSION"

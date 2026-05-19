@@ -14,6 +14,8 @@ params:
   type: string
   required: true
   description: lhost target.
+os: windows
+trigger: []
 tool:
   name: ebird3
   repo_url: https://github.com/grisuno/ebird3.git

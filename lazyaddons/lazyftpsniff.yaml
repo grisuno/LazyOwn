@@ -10,6 +10,8 @@ params:
   type: string
   required: false
   description: device interface to use in the script
+os: network
+trigger: [ftp, ftps]
 tool:
   name: lazyftpsniff
   repo_url: https://github.com/grisuno/LazyOwn.git

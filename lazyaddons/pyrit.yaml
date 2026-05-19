@@ -13,6 +13,8 @@ params:
   type: string
   required: false
   description: OpenAI/Azure API key (can also be set via OPENAI_API_KEY env var)
+os: network
+trigger: []
 tool:
   name: pyrit
   repo_url: https://github.com/Azure/PyRIT.git

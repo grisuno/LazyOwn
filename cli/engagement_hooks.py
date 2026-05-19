@@ -42,9 +42,70 @@ from typing import Any
 
 STATE_PATH = Path("sessions/engagement_state.json")
 INDEX_PATH = Path("cli/command_index.json")
+USERS_PATH = Path("users.json")
+PAYLOAD_PATH = Path("payload.json")
+NOTIFICATIONS_PATH = Path("sessions/notifications.json")
+TASKS_PATH = Path("sessions/tasks.json")
+OBJECTIVES_PATH = Path("sessions/objectives.jsonl")
+NOTES_PATH = Path("sessions/notes.jsonl")
 
 MEAN_INTERVAL: int = 8
 _MAX_CURIOSITY_LABEL = 28
+_NOTIFICATIONS_RING_SIZE: int = 500
+_VRI_RETRY_LIMIT: int = 4
+
+KARMA_THRESHOLDS: tuple[tuple[int, str], ...] = (
+    (1000, "Noob"),
+    (2000, "Rookie"),
+    (3000, "Skidy"),
+    (4000, "Hacker"),
+    (5000, "Pro"),
+    (6000, "Elite"),
+)
+KARMA_TOP: str = "Godlike"
+
+ELO_BASE: int = 5
+ELO_FIRST_TIME_BONUS: int = 25
+ELO_NEW_PHASE_BONUS: int = 50
+
+ELO_HIGH_VALUE_CMDS: dict[str, int] = {
+    "lazynmap": 15, "rustscan": 12, "nmap": 12,
+    "gobuster": 8, "ffuf": 8, "feroxbuster": 8, "nikto": 10, "whatweb": 6,
+    "enum4linux": 12, "kerbrute": 20,
+    "crackmapexec": 25, "secretsdump": 35, "evil-winrm": 30,
+    "hashcat": 30, "john": 25, "responder": 30, "mimikatz": 35,
+    "linpeas": 25, "winpeas": 25, "pspy64": 15, "printspoofer": 20,
+    "searchsploit": 10, "sqlmap": 20, "burpsuite": 15,
+    "psexec": 25, "chisel": 15,
+    "lazyc2": 20, "phase": 10, "note": 5,
+    "tasks": 5, "sitrep": 5, "ctx": 3,
+}
+
+ELO_PHASE_BONUS: dict[str, int] = {
+    "recon": 5,
+    "enum": 8,
+    "exploit": 25,
+    "cred": 20,
+    "privesc": 30,
+    "lateral": 25,
+    "postexp": 15,
+    "exfil": 20,
+    "report": 10,
+    "c2": 12,
+}
+
+_PHASE_TO_NEXT_CMD: dict[str, str] = {
+    "recon": "lazynmap",
+    "enum": "enum4linux",
+    "exploit": "searchsploit",
+    "cred": "crackmapexec",
+    "privesc": "linpeas",
+    "lateral": "evil-winrm",
+    "postexp": "secretsdump",
+    "exfil": "scp",
+    "report": "generate_report",
+    "c2": "lazyc2",
+}
 
 _PHASE_ALIASES: dict[str, str] = {
     "recon": "recon", "scan": "recon", "enum": "enum",
@@ -70,26 +131,14 @@ _PHASE_LABEL: dict[str, str] = {
 }
 
 _VRI_REWARDS: list[dict[str, Any]] = [
-    {
-        "id": "streak",
-        "render": lambda ctx: _render_streak(ctx),
-    },
-    {
-        "id": "exploration_pct",
-        "render": lambda ctx: _render_exploration(ctx),
-    },
-    {
-        "id": "phase_badge",
-        "render": lambda ctx: _render_phase_badge(ctx),
-    },
-    {
-        "id": "hidden_feature",
-        "render": lambda ctx: _render_hidden_feature(ctx),
-    },
-    {
-        "id": "arsenal_tip",
-        "render": lambda ctx: _render_arsenal_tip(ctx),
-    },
+    {"id": "streak",             "weight": 3, "render": lambda ctx: _render_streak(ctx)},
+    {"id": "exploration_pct",    "weight": 2, "render": lambda ctx: _render_exploration(ctx)},
+    {"id": "phase_badge",        "weight": 2, "render": lambda ctx: _render_phase_badge(ctx)},
+    {"id": "hidden_feature",     "weight": 2, "render": lambda ctx: _render_hidden_feature(ctx)},
+    {"id": "arsenal_tip",        "weight": 1, "render": lambda ctx: _render_arsenal_tip(ctx)},
+    {"id": "methodology_task",   "weight": 3, "render": lambda ctx: _render_methodology_task(ctx)},
+    {"id": "methodology_obj",    "weight": 3, "render": lambda ctx: _render_methodology_objective(ctx)},
+    {"id": "methodology_note",   "weight": 2, "render": lambda ctx: _render_methodology_note(ctx)},
 ]
 
 _HIDDEN_FEATURES: list[tuple[str, str]] = [
@@ -151,6 +200,9 @@ class EngagementState:
     next_reward_at: int = 0
     session_start_ts: float = field(default_factory=time.time)
     last_cmd: str = ""
+    elo: int = 0
+    last_karma_name: str = "Noob"
+    elo_session_delta: int = 0
 
 
 def _load_state() -> EngagementState:
@@ -161,6 +213,7 @@ def _load_state() -> EngagementState:
             st.session_commands = 0
             st.session_curiosity_shown = []
             st.session_start_ts = time.time()
+            st.elo_session_delta = 0
             return st
     except Exception:
         pass
@@ -255,7 +308,8 @@ def _run_curiosity(cmd: str, state: EngagementState, index: dict[str, Any]) -> N
 
 # ── VRI rewards ───────────────────────────────────────────────────────────────
 
-def _render_streak(ctx: dict[str, Any]) -> None:
+def _render_streak(ctx: dict[str, Any]) -> bool:
+    """Render the streak reward; always succeeds (always renders)."""
     n = ctx.get("session_commands", 0)
     labels = {
         (1, 3): "warming up",
@@ -270,10 +324,20 @@ def _render_streak(ctx: dict[str, Any]) -> None:
         if lo <= n <= hi:
             label = l
             break
-    print(f"    \033[2m  {n} commands this session \033[0m\033[1;32m{label}\033[0m", flush=True)
+    karma = ctx.get("karma_name", "")
+    elo = ctx.get("elo", 0)
+    karma_tail = f"  \033[2m· \033[0m\033[1;33m{karma}\033[0m\033[2m {elo} ELO\033[0m" if karma else ""
+    line = f"    \033[2m  {n} commands this session \033[0m\033[1;32m{label}\033[0m{karma_tail}"
+    print(line, flush=True)
+    _persist_notification(
+        f"<h3>Streak</h3><p>{n} commands this session — <b>{label}</b>"
+        + (f" · {karma} ({elo} ELO)" if karma else "") + "</p>"
+    )
+    return True
 
 
-def _render_exploration(ctx: dict[str, Any]) -> None:
+def _render_exploration(ctx: dict[str, Any]) -> bool:
+    """Render arsenal exploration progress bar."""
     seen = ctx.get("total_seen", 0)
     total = ctx.get("total_commands_in_index", 1)
     pct = min(100, round(100 * seen / total, 1))
@@ -281,46 +345,377 @@ def _render_exploration(ctx: dict[str, Any]) -> None:
     filled = int(bar_len * pct / 100)
     bar = "█" * filled + "░" * (bar_len - filled)
     print(f"    \033[2m  arsenal explored  \033[0m\033[36m{bar}\033[0m\033[1m  {pct}%\033[0m\033[2m  ({seen}/{total} commands)\033[0m", flush=True)
+    _persist_notification(
+        f"<h3>Arsenal explored</h3><p><b>{pct}%</b> &mdash; {seen} of {total} commands discovered.</p>"
+    )
+    return True
 
 
-def _render_phase_badge(ctx: dict[str, Any]) -> None:
+def _render_phase_badge(ctx: dict[str, Any]) -> bool:
+    """Render the current kill-chain phase badge; skips when phase unknown."""
     phase = ctx.get("current_phase", "")
     if not phase:
-        return
+        return False
     label = _PHASE_LABEL.get(phase, phase.title())
     print(f"    \033[2m  phase \033[0m\033[1;37;41m {label} \033[0m\033[2m  — run \033[0m\033[1;36mpalette {phase}\033[0m\033[2m to see all commands in this stage\033[0m", flush=True)
+    _persist_notification(
+        f"<h3>Phase: {label}</h3><p>Run <code>palette {phase}</code> to see every command in this stage.</p>"
+    )
+    return True
 
 
-def _render_hidden_feature(ctx: dict[str, Any]) -> None:
+def _render_hidden_feature(ctx: dict[str, Any]) -> bool:
+    """Reveal one hidden CLI feature the operator hasn't seen recently."""
     rewards_given = ctx.get("rewards_given", [])
     candidates = [f for f in _HIDDEN_FEATURES if f[0] not in rewards_given]
     if not candidates:
         candidates = _HIDDEN_FEATURES
     cmd_label, description = random.choice(candidates)
     print(f"    \033[2m  hidden feature  \033[0m\033[1;35m{cmd_label:<30}\033[0m\033[2m{description}\033[0m", flush=True)
+    _persist_notification(
+        f"<h3>Hidden feature</h3><p><code>{cmd_label}</code> &mdash; {description}</p>"
+    )
+    return True
 
 
-def _render_arsenal_tip(ctx: dict[str, Any]) -> None:
+def _render_arsenal_tip(ctx: dict[str, Any]) -> bool:
+    """Render a single arsenal usage tip."""
     tip = random.choice(_ARSENAL_TIPS)
     print(f"    \033[2m  tip  {tip}\033[0m", flush=True)
+    _persist_notification(f"<h3>Tip</h3><p>{tip}</p>")
+    return True
+
+
+def _render_methodology_task(ctx: dict[str, Any]) -> bool:
+    """Surface one open task that aligns with the current phase.
+
+    Reads ``sessions/tasks.json`` written by ``tasks add`` / ACI planner.
+    Returns False when no pending task exists so the VRI scheduler can pick
+    another reward instead of rendering an empty line.
+    """
+    try:
+        if not TASKS_PATH.exists():
+            return False
+        tasks = json.loads(TASKS_PATH.read_text(encoding="utf-8"))
+        if not isinstance(tasks, list):
+            return False
+        pending = [
+            t for t in tasks
+            if isinstance(t, dict)
+            and str(t.get("status", "")).lower() not in ("done", "completed")
+        ]
+        if not pending:
+            return False
+        phase = (ctx.get("current_phase") or "").lower()
+        match = [
+            t for t in pending
+            if phase and phase in (
+                (t.get("title") or "") + (t.get("description") or "") + (t.get("text") or "")
+            ).lower()
+        ]
+        pick = random.choice(match) if match else random.choice(pending)
+        title = (pick.get("title") or pick.get("text") or "")[:80]
+        if not title:
+            return False
+        print(
+            f"    \033[2m  open task  \033[0m\033[1;33m▶\033[0m \033[1m{title}\033[0m",
+            flush=True,
+        )
+        _persist_notification(
+            f"<h3>Open task surfaced</h3><p>▶ {title}</p>"
+        )
+        return True
+    except Exception:
+        return False
+
+
+def _render_methodology_objective(ctx: dict[str, Any]) -> bool:
+    """Surface one pending objective and a phase-appropriate next command.
+
+    Reads ``sessions/objectives.jsonl`` (auto-injected objectives from the
+    world model watcher).  Teaches methodology by pairing the objective text
+    with the canonical next command for its phase.
+    """
+    try:
+        if not OBJECTIVES_PATH.exists():
+            return False
+        objs: list[dict[str, Any]] = []
+        for line in OBJECTIVES_PATH.read_text(encoding="utf-8").splitlines():
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                o = json.loads(line)
+            except Exception:
+                continue
+            if not isinstance(o, dict):
+                continue
+            status = str(o.get("status") or "pending").lower()
+            if status in ("pending", "open", "in_progress"):
+                objs.append(o)
+        if not objs:
+            return False
+        pick = random.choice(objs[-20:])
+        text = (pick.get("text") or pick.get("title") or "")[:80]
+        if not text:
+            return False
+        phase = ""
+        ctx_field = pick.get("context")
+        if isinstance(ctx_field, dict):
+            phase = (ctx_field.get("phase") or "").lower()
+        phase = phase or (pick.get("phase") or "").lower()
+        cmd_hint = _PHASE_TO_NEXT_CMD.get(phase, "suggest_next")
+        print(
+            f"    \033[2m  objective  \033[0m\033[1;35m▶\033[0m \033[1m{text}\033[0m  "
+            f"\033[2m→ try \033[0m\033[1;36m{cmd_hint}\033[0m",
+            flush=True,
+        )
+        _persist_notification(
+            f"<h3>Objective</h3><p>▶ {text}<br/><i>Suggested next:</i> <code>{cmd_hint}</code></p>"
+        )
+        return True
+    except Exception:
+        return False
+
+
+def _render_methodology_note(ctx: dict[str, Any]) -> bool:
+    """Recall the latest operator note and suggest a methodology-aligned command.
+
+    Reads ``sessions/notes.jsonl`` written by the ``note`` command and pairs
+    the most-recent note with the canonical next command for its recorded
+    phase.  Teaches the operator to translate observations into actions.
+    """
+    try:
+        if not NOTES_PATH.exists():
+            return False
+        recent = NOTES_PATH.read_text(encoding="utf-8").splitlines()[-10:]
+        notes: list[dict[str, Any]] = []
+        for line in recent:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                n = json.loads(line)
+            except Exception:
+                continue
+            if isinstance(n, dict) and n.get("text"):
+                notes.append(n)
+        if not notes:
+            return False
+        pick = notes[-1]
+        text = str(pick.get("text", ""))[:70]
+        if not text:
+            return False
+        phase = (pick.get("phase") or "").lower()
+        cmd_hint = _PHASE_TO_NEXT_CMD.get(phase, "ctx")
+        print(
+            f"    \033[2m  recall note  \033[0m\033[3m\"{text}\"\033[0m  "
+            f"\033[2m→ \033[0m\033[1;36m{cmd_hint}\033[0m",
+            flush=True,
+        )
+        _persist_notification(
+            f"<h3>Recall note</h3><blockquote>{text}</blockquote>"
+            f"<p><i>Suggested next:</i> <code>{cmd_hint}</code></p>"
+        )
+        return True
+    except Exception:
+        return False
 
 
 def _fire_vri_reward(state: EngagementState, ctx: dict[str, Any]) -> None:
-    """Pick and render one VRI reward, then schedule the next threshold."""
-    weights = [3, 2, 2, 2, 1]
-    reward = random.choices(_VRI_REWARDS, weights=weights, k=1)[0]
+    """Pick one VRI reward and render it; retry on no-op rewards.
 
+    Methodology rewards may return False when their backing artefact is empty
+    (no pending tasks, objectives or notes).  The scheduler then samples a
+    different reward instead of printing an empty divider.  After at most
+    ``_VRI_RETRY_LIMIT`` attempts the streak reward is forced as fallback so
+    the operator always sees something when the schedule fires.
+    """
+    weights = [r.get("weight", 1) for r in _VRI_REWARDS]
     print()
     print("    \033[2m" + "─" * 60 + "\033[0m")
-    try:
-        reward["render"](ctx)
-    except Exception:
-        pass
+    rendered = False
+    chosen_id = ""
+    tried: set[str] = set()
+    for _ in range(_VRI_RETRY_LIMIT):
+        reward = random.choices(_VRI_REWARDS, weights=weights, k=1)[0]
+        if reward["id"] in tried:
+            continue
+        tried.add(reward["id"])
+        try:
+            if reward["render"](ctx):
+                rendered = True
+                chosen_id = reward["id"]
+                break
+        except Exception:
+            continue
+    if not rendered:
+        try:
+            _render_streak(ctx)
+            chosen_id = "streak"
+        except Exception:
+            pass
     print("    \033[2m" + "─" * 60 + "\033[0m")
     print()
 
-    state.rewards_given.append(reward["id"])
+    if chosen_id:
+        state.rewards_given.append(chosen_id)
     state.next_reward_at = _next_threshold(state.total_commands)
+
+
+# ── ELO + karma + persistence ─────────────────────────────────────────────────
+
+def get_karma_name(elo: int) -> str:
+    """Return karma rank for an ELO score.
+
+    Mirrors the bracket function ``get_karma_name`` in ``lazyc2.py`` so the
+    terminal and the C2 web UI display identical ranks for the same operator.
+
+    Args:
+        elo: Non-negative integer score.
+
+    Returns:
+        Human-facing karma label (``Noob`` … ``Godlike``).
+    """
+    for threshold, label in KARMA_THRESHOLDS:
+        if elo < threshold:
+            return label
+    return KARMA_TOP
+
+
+def _award_elo(cmd: str, first_time: bool, new_phase: bool, current_phase: str) -> int:
+    """Compute the ELO delta for executing ``cmd``.
+
+    The reward is the sum of:
+      * ``ELO_BASE`` for any command,
+      * a high-value bonus when ``cmd`` is in ``ELO_HIGH_VALUE_CMDS``,
+      * a phase bonus when ``current_phase`` is in ``ELO_PHASE_BONUS``,
+      * ``ELO_FIRST_TIME_BONUS`` when the operator runs this command for the
+        first time across all sessions,
+      * ``ELO_NEW_PHASE_BONUS`` when the operator enters a phase for the
+        first time across all sessions.
+
+    Returns:
+        Positive integer ELO delta to add to the operator's score.
+    """
+    delta = ELO_BASE
+    key = cmd.replace("do_", "")
+    delta += ELO_HIGH_VALUE_CMDS.get(key, 0)
+    delta += ELO_PHASE_BONUS.get((current_phase or "").lower(), 0)
+    if first_time:
+        delta += ELO_FIRST_TIME_BONUS
+    if new_phase:
+        delta += ELO_NEW_PHASE_BONUS
+    return delta
+
+
+def _sync_user_elo(delta: int) -> bool:
+    """Patch ``users.json`` so the C2 dashboard reflects terminal activity.
+
+    Reads ``payload.json:c2_user`` to know which row to update.  Performs an
+    atomic temp-file rename so a partial write cannot corrupt the user DB the
+    Flask login pipeline depends on.  Silent on any failure (missing payload,
+    missing users.json, user not registered, IO error) so a terminal session
+    on a workstation without the C2 stack never breaks.
+
+    Args:
+        delta: ELO points to add (non-negative).
+
+    Returns:
+        True when the user row was patched and persisted, False otherwise.
+    """
+    if delta <= 0:
+        return False
+    try:
+        if not PAYLOAD_PATH.exists() or not USERS_PATH.exists():
+            return False
+        payload = json.loads(PAYLOAD_PATH.read_text(encoding="utf-8"))
+        target = payload.get("c2_user")
+        if not target:
+            return False
+        users = json.loads(USERS_PATH.read_text(encoding="utf-8"))
+        if not isinstance(users, list):
+            return False
+        modified = False
+        for user in users:
+            if isinstance(user, dict) and user.get("username") == target:
+                user["elo"] = int(user.get("elo", 0)) + int(delta)
+                modified = True
+                break
+        if not modified:
+            return False
+        tmp = USERS_PATH.with_suffix(".tmp")
+        tmp.write_text(json.dumps(users, indent=4), encoding="utf-8")
+        tmp.replace(USERS_PATH)
+        return True
+    except Exception:
+        return False
+
+
+def _persist_notification(html: str) -> bool:
+    """Append a notification entry to ``sessions/notifications.json``.
+
+    The C2 dashboard polls this file to render the in-app notification feed,
+    so terminal-side rewards become visible in the web UI without any extra
+    plumbing.  Writes use a temp-file rename so a concurrent reader never
+    sees a half-written JSON document.  The file is capped at
+    ``_NOTIFICATIONS_RING_SIZE`` entries to prevent unbounded growth.
+
+    Args:
+        html: Sanitized HTML fragment to render inside the dashboard feed.
+
+    Returns:
+        True on successful persistence, False on any IO or decoding error.
+    """
+    try:
+        NOTIFICATIONS_PATH.parent.mkdir(parents=True, exist_ok=True)
+        entries: list[dict[str, Any]] = []
+        if NOTIFICATIONS_PATH.exists():
+            try:
+                raw = json.loads(NOTIFICATIONS_PATH.read_text(encoding="utf-8"))
+                if isinstance(raw, list):
+                    entries = [e for e in raw if isinstance(e, dict)]
+            except Exception:
+                entries = []
+        entries.append({"html": html})
+        if len(entries) > _NOTIFICATIONS_RING_SIZE:
+            entries = entries[-_NOTIFICATIONS_RING_SIZE:]
+        tmp = NOTIFICATIONS_PATH.with_suffix(".tmp")
+        tmp.write_text(json.dumps(entries, indent=4), encoding="utf-8")
+        tmp.replace(NOTIFICATIONS_PATH)
+        return True
+    except Exception:
+        return False
+
+
+def _check_karma_up(state: EngagementState) -> bool:
+    """Fire an out-of-band reward when ELO crosses a karma threshold.
+
+    Karma promotions never consume the VRI schedule so the operator gets a
+    clear signal that effort translated into rank, independent of the
+    variable reinforcement timer.
+
+    Returns:
+        True when a promotion was rendered, False otherwise.
+    """
+    new_karma = get_karma_name(state.elo)
+    if new_karma == state.last_karma_name:
+        return False
+    old = state.last_karma_name
+    state.last_karma_name = new_karma
+    print()
+    print("    \033[2m" + "─" * 60 + "\033[0m")
+    print(
+        f"    \033[1;33m  KARMA UP  \033[0m\033[2m{old}\033[0m\033[1;33m → "
+        f"\033[0m\033[1;32m{new_karma}\033[0m\033[2m  ({state.elo} ELO)\033[0m",
+        flush=True,
+    )
+    print("    \033[2m" + "─" * 60 + "\033[0m")
+    print()
+    _persist_notification(
+        f"<h2>Karma Up: {old} → {new_karma}</h2><p>ELO score: {state.elo}</p>"
+    )
+    return True
 
 
 # ── Public entry point ────────────────────────────────────────────────────────
@@ -334,7 +729,7 @@ def render_engagement_hook(
     phase: str = "",
     enabled: bool = True,
 ) -> None:
-    """Post-command hook: curiosity reveal + VRI reward when due.
+    """Post-command hook: curiosity reveal + ELO + VRI reward when due.
 
     Args:
         cmd: The command name that just executed (e.g. "lazynmap").
@@ -344,7 +739,9 @@ def render_engagement_hook(
             silence all engagement output with one flag.
 
     Returns:
-        None — side effects are at most 2-3 lines written to stdout.
+        None — side effects are at most 2-3 lines written to stdout and one
+        atomic patch each to ``sessions/engagement_state.json``,
+        ``sessions/notifications.json`` and ``users.json``.
     """
     if not enabled or not cmd:
         return
@@ -357,17 +754,25 @@ def render_engagement_hook(
         if _index is None:
             _index = _load_index()
 
+        normalized = f"do_{cmd}" if not cmd.startswith("do_") else cmd
+        first_time = normalized not in _state.commands_seen
+
         _state.total_commands += 1
         _state.session_commands += 1
         _state.last_cmd = cmd
 
-        normalized = f"do_{cmd}" if not cmd.startswith("do_") else cmd
-        if normalized not in _state.commands_seen:
+        if first_time:
             _state.commands_seen.append(normalized)
 
         current_phase = _phase_for_cmd(cmd, _index) or phase
-        if current_phase and current_phase not in _state.phases_entered:
+        new_phase = bool(current_phase) and current_phase not in _state.phases_entered
+        if new_phase:
             _state.phases_entered.append(current_phase)
+
+        elo_delta = _award_elo(cmd, first_time, new_phase, current_phase)
+        _state.elo += elo_delta
+        _state.elo_session_delta += elo_delta
+        _sync_user_elo(elo_delta)
 
         total_in_index = sum(
             len(v) for v in _index.get("phase_to_commands", {}).values()
@@ -379,9 +784,13 @@ def render_engagement_hook(
             "total_commands_in_index": max(total_in_index, 1),
             "current_phase": current_phase,
             "rewards_given": list(_state.rewards_given[-20:]),
+            "elo": _state.elo,
+            "karma_name": get_karma_name(_state.elo),
+            "elo_session_delta": _state.elo_session_delta,
         }
 
         _run_curiosity(cmd, _state, _index)
+        _check_karma_up(_state)
 
         if _state.total_commands >= _state.next_reward_at:
             _fire_vri_reward(_state, ctx)
@@ -390,6 +799,34 @@ def render_engagement_hook(
 
     except Exception:
         pass
+
+
+def get_state_snapshot() -> dict[str, Any]:
+    """Return a read-only snapshot of current engagement state for CLI display.
+
+    Used by ``do_karma`` in ``lazyown.py`` to print the operator's current
+    score without touching the on-disk state file.  When the state has not
+    been loaded yet (e.g. immediately after shell startup) this function
+    loads it lazily so the first call from ``karma`` returns real data.
+
+    Returns:
+        Plain dict with keys ``elo``, ``karma_name``, ``commands_seen``,
+        ``phases_entered``, ``total_commands``, ``session_commands``,
+        ``elo_session_delta``, ``next_reward_at``.
+    """
+    global _state
+    if _state is None:
+        _state = _load_state()
+    return {
+        "elo": _state.elo,
+        "karma_name": get_karma_name(_state.elo),
+        "commands_seen": list(_state.commands_seen),
+        "phases_entered": list(_state.phases_entered),
+        "total_commands": _state.total_commands,
+        "session_commands": _state.session_commands,
+        "elo_session_delta": _state.elo_session_delta,
+        "next_reward_at": _state.next_reward_at,
+    }
 
 
 def reset_session() -> None:

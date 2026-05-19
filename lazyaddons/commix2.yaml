@@ -10,6 +10,8 @@ params:
   type: string
   required: true
   description: URL objetivo.
+os: any
+trigger: [http, https]
 tool:
   name: commix
   repo_url: https://github.com/commixproject/commix.git

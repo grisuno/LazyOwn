@@ -24,6 +24,8 @@ params:
   type: string
   required: true
   description: c2_user objetivo.
+os: network
+trigger: []
 tool:
   name: bbr
   repo_url: https://github.com/codingo/bbr.git

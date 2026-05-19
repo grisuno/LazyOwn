@@ -7,6 +7,8 @@ description: 'Ejecuta el script bot.py que se encuentra en la carpeta modules. c
 author: LazyOwn RedTeam
 version: '1.0'
 enabled: true
+os: any
+trigger: []
 tool:
   name: githubot
   repo_url: https://github.com/grisuno/LazyOwn.git

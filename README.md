@@ -3177,8 +3177,14 @@ to ``"14. Yaml Addon."`` when absent) and sets the cmd2 category
 attribute on the wrapper so the command appears in the correct palette
 section without any hardcoded string in this method.
 
-Also reads the optional ``tags`` list for future palette filtering, and
-performs a lightweight dependency check before first execution.
+Also reads the optional ``tags`` list for future palette filtering,
+the optional ``os`` field (MITRE platform: ``linux``, ``windows``,
+``macos``, ``network``, ``containers``, ``saas``, ``iaas`` or
+``any``) and the optional ``trigger`` list of nmap service names
+consumed by the exploration engine. Both ``os`` and ``trigger``
+default to ``any`` / ``[]`` so legacy addons keep loading.
+
+A lightweight dependency check runs before first execution.
 
 ## register_all_adversary_commands
 No description available.
@@ -3279,6 +3285,18 @@ suitable to run between every command for situational awareness.
 
 Usage:
     ``ctx``
+
+## karma
+Show ELO score, karma rank and exploration progress for this operator.
+
+Reads ``sessions/engagement_state.json`` (curiosity + VRI engine) and
+prints the operator's ELO, karma name (Noob → Godlike), commands
+discovered, phases entered, and steps remaining until the next VRI
+reward.  Useful to gauge progress on the curiosity-driven adoption
+loop without re-running another command.
+
+Usage:
+    ``karma``
 
 ## tgrep
 Search across all previous command outputs and session logs.
@@ -3499,6 +3517,23 @@ This is the CLI equivalent of the MCP tool ``lazyown_recommend_next``.
 
 Usage:
     ``recommend_next``
+
+## explore
+Show exploration coverage and addon/tool suggestions per service.
+
+Reads ``sessions/scan_*.nmap.xml`` for discovered services, joins
+them with the ``trigger`` and ``os`` fields declared in every
+``lazyaddons/*.yaml`` and ``tools/*.tool``, and renders a Rich
+tree alongside a coverage table summarising how much of the
+attack surface has already been touched by previous commands.
+
+Usage:
+    ``explore``                show coverage for the active rhost
+    ``explore <target>``       force a target (defaults to ``rhost``)
+
+The view highlights items whose trigger matches a discovered
+service but have never been run, so the operator can pick the
+next high-value command without manually scanning the YAMLs.
 
 ## dashboard
 Launch the full-screen LazyOwn operator dashboard (Textual TUI).
@@ -13022,6 +13057,13 @@ No description available.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new exploit \n\n Version: release/0.2.129 \n\n with love \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: dom 17 may 2026 23:59:39 -04 \n\n Hora: 1779076779
 
 
 ### Nuevas características

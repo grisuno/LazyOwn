@@ -896,9 +896,22 @@ class LazyOwnShell(cmd2.Cmd):
         attribute on the wrapper so the command appears in the correct palette
         section without any hardcoded string in this method.
 
-        Also reads the optional ``tags`` list for future palette filtering, and
-        performs a lightweight dependency check before first execution.
+        Also reads the optional ``tags`` list for future palette filtering,
+        the optional ``os`` field (MITRE platform: ``linux``, ``windows``,
+        ``macos``, ``network``, ``containers``, ``saas``, ``iaas`` or
+        ``any``) and the optional ``trigger`` list of nmap service names
+        consumed by the exploration engine. Both ``os`` and ``trigger``
+        default to ``any`` / ``[]`` so legacy addons keep loading.
+
+        A lightweight dependency check runs before first execution.
         """
+        from cli.exploration import (
+            ALLOWED_OS_VALUES,
+            ANY_OS,
+            normalise_os,
+            normalise_trigger,
+        )
+
         tool = plugin_data.get('tool', {})
         name = plugin_data['name']
         params = plugin_data.get('params', [])
@@ -906,6 +919,14 @@ class LazyOwnShell(cmd2.Cmd):
         tags = plugin_data.get('tags', [])
         execute_command = tool.get('execute_command', '')
         addon_category = plugin_data.get('category', '14. Yaml Addon.')
+        addon_os = normalise_os(plugin_data.get('os'), default=ANY_OS)
+        addon_trigger = normalise_trigger(plugin_data.get('trigger'))
+        raw_os = plugin_data.get('os')
+        if isinstance(raw_os, str) and raw_os.strip().lower() not in ALLOWED_OS_VALUES:
+            print_warn(
+                f"Addon '{name}' declares unknown os='{raw_os}' "
+                f"(allowed: {sorted(ALLOWED_OS_VALUES)}); falling back to '{ANY_OS}'."
+            )
 
         def wrapper_yaml(arg):
             try:
@@ -982,8 +1003,11 @@ class LazyOwnShell(cmd2.Cmd):
                 self.display_toastr(f"Error in plugin '{name}': {e}", type='error')
                 return
 
+        trigger_label = ", ".join(addon_trigger) if addon_trigger else "(none)"
         wrapper_yaml.__doc__ = (
             f"{description}\n\nCategory: {addon_category}"
+            f"\nOS: {addon_os}"
+            f"\nTrigger: {trigger_label}"
             + (f"\nTags: {', '.join(tags)}" if tags else "")
         )
         cmd2.utils.categorize(wrapper_yaml, addon_category)
@@ -1311,6 +1335,40 @@ class LazyOwnShell(cmd2.Cmd):
             ``ctx``
         """
         _print_ctx(self.params)
+
+    @cmd2.with_category(miscellaneous_category)
+    def do_karma(self, line):
+        """Show ELO score, karma rank and exploration progress for this operator.
+
+        Reads ``sessions/engagement_state.json`` (curiosity + VRI engine) and
+        prints the operator's ELO, karma name (Noob → Godlike), commands
+        discovered, phases entered, and steps remaining until the next VRI
+        reward.  Useful to gauge progress on the curiosity-driven adoption
+        loop without re-running another command.
+
+        Usage:
+            ``karma``
+        """
+        try:
+            from cli.engagement_hooks import get_state_snapshot
+            snap = get_state_snapshot()
+        except Exception as exc:
+            print_error(f"engagement state unavailable: {exc}")
+            return
+        elo = snap.get("elo", 0)
+        karma = snap.get("karma_name", "Noob")
+        seen = len(snap.get("commands_seen", []))
+        phases = snap.get("phases_entered", [])
+        total = snap.get("total_commands", 0)
+        session = snap.get("session_commands", 0)
+        delta = snap.get("elo_session_delta", 0)
+        next_at = snap.get("next_reward_at", 0)
+        gap = max(0, next_at - total)
+        print(f"  \033[1;33mKarma\033[0m   {karma}  \033[2m({elo} ELO, +{delta} this session)\033[0m")
+        print(f"  \033[1;36mUsage\033[0m   {total} total · {session} this session")
+        print(f"  \033[1;35mArsenal\033[0m {seen} commands discovered")
+        print(f"  \033[1;32mPhases\033[0m  {', '.join(phases) if phases else '—'}")
+        print(f"  \033[2mNext reward in ~{gap} command(s)\033[0m")
 
     @cmd2.with_category(miscellaneous_category)
     def do_tgrep(self, line):
@@ -1721,8 +1779,29 @@ class LazyOwnShell(cmd2.Cmd):
             _ptc  = {}
             _meta = {}
 
+        # Trigger-matched addons/tools from the latest nmap scan
+        _trigger_shown = 0
+        try:
+            from cli.exploration import ExplorationEngine, resolve_current_os
+            _rhost_seed = self.params.get("rhost") or None
+            _engine = ExplorationEngine(current_os=resolve_current_os(self.params))
+            _ux_addons = _engine.unexplored_addons(_rhost_seed)
+            _ux_tools = _engine.unexplored_tools(_rhost_seed)
+            _ux_combined: list[tuple[str, str]] = []
+            for _a in _ux_addons:
+                _ux_combined.append((_a.name, "addon"))
+            for _t in _ux_tools:
+                _ux_combined.append((_t.name, "tool"))
+            if _ux_combined:
+                print_msg("Triggered by your scan (never run):")
+                for _entry_name, _kind in _ux_combined[:limit]:
+                    print_msg(f"  {_entry_name:<26} [{_kind}]")
+                    _trigger_shown += 1
+        except Exception as _exc:
+            print_warn(f"Trigger suggestions unavailable: {_exc}")
+
         # Use seeds as extra priority if provided
-        _shown = 0
+        _shown = _trigger_shown
         if seeds:
             print_msg(f"Suggestions after: {', '.join(seeds)}")
             from cli.reactive_hints import _KILL_CHAIN_NEXT as _KCN
@@ -1809,6 +1888,34 @@ class LazyOwnShell(cmd2.Cmd):
         except Exception as _e:
             print_warn(f"Policy engine unavailable: {_e}")
 
+        # Layer 1b — addons/tools triggered by the latest nmap scan
+        try:
+            from cli.exploration import ExplorationEngine, resolve_current_os
+            _scan_engine = ExplorationEngine(
+                current_os=resolve_current_os(self.params)
+            )
+            _scan_target = rhost if rhost and rhost != "unknown" else None
+            _ux_addons = _scan_engine.unexplored_addons(_scan_target)
+            _ux_tools = _scan_engine.unexplored_tools(_scan_target)
+            if _ux_addons or _ux_tools:
+                found_any = True
+                c.print(Rule("[bold]Trigger-matched suggestions[/] (from nmap scan)"))
+                for _addon in _ux_addons[:5]:
+                    _trig = ", ".join(_addon.trigger) or "(any)"
+                    c.print(
+                        f"  [bold green]addon[/] {_addon.name:<24}"
+                        f" [dim]os={_addon.addon_os} trigger={_trig}[/]"
+                    )
+                for _tool in _ux_tools[:5]:
+                    _trig = ", ".join(_tool.trigger) or "(any)"
+                    c.print(
+                        f"  [bold magenta]tool[/]  {_tool.name:<24}"
+                        f" [dim]os={_tool.tool_os} trigger={_trig}[/]"
+                    )
+                c.print()
+        except Exception as _exc:
+            print_warn(f"Trigger suggestions unavailable: {_exc}")
+
         # Layer 2 — command index (phase-aware, no external deps)
         try:
             import json as _json
@@ -1856,6 +1963,37 @@ class LazyOwnShell(cmd2.Cmd):
         if not found_any:
             print_warn("No recommendations yet.")
             print_msg("Start with 'lazynmap' to generate scan data, then run 'recommend_next' again.")
+
+    @cmd2.with_category(miscellaneous_category)
+    def do_explore(self, line):
+        """Show exploration coverage and addon/tool suggestions per service.
+
+        Reads ``sessions/scan_*.nmap.xml`` for discovered services, joins
+        them with the ``trigger`` and ``os`` fields declared in every
+        ``lazyaddons/*.yaml`` and ``tools/*.tool``, and renders a Rich
+        tree alongside a coverage table summarising how much of the
+        attack surface has already been touched by previous commands.
+
+        Usage:
+            ``explore``                show coverage for the active rhost
+            ``explore <target>``       force a target (defaults to ``rhost``)
+
+        The view highlights items whose trigger matches a discovered
+        service but have never been run, so the operator can pick the
+        next high-value command without manually scanning the YAMLs.
+        """
+        from rich.console import Console as _RC
+
+        from cli.exploration import ExplorationEngine, resolve_current_os
+        from cli.exploration_view import render_exploration
+
+        tokens = (line or "").split()
+        target = tokens[0] if tokens else (self.params.get("rhost") or None)
+        current_os = resolve_current_os(self.params)
+        engine = ExplorationEngine(current_os=current_os)
+        console = _RC(highlight=False, soft_wrap=True)
+        history = engine.history()
+        render_exploration(console, engine, target, history)
 
     @cmd2.with_category(miscellaneous_category)
     def do_dashboard(self, line):

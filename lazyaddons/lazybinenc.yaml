@@ -5,6 +5,8 @@ description: 'Ejecuta el script lazybinenc.py que se encuentra en la carpeta mod
 author: LazyOwn RedTeam
 version: '1.0'
 enabled: true
+os: linux
+trigger: []
 tool:
   name: lazybinenc_tool
   repo_url: https://github.com/grisuno/LazyOwn.git

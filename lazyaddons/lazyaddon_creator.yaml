@@ -17,6 +17,8 @@ params:
   type: string
   required: true
   description: URL del repositorio GitHub a analizar
+os: any
+trigger: []
 tool:
   name: lazyaddon_creator
   repo_url: https://github.com/grisuno/LazyOwn.git

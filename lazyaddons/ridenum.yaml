@@ -19,6 +19,8 @@ params:
   type: string
   required: true
   description: Remote host.
+os: windows
+trigger: [microsoft-ds, netbios-ssn]
 tool:
   name: ridenum
   repo_url: https://github.com/trustedsec/ridenum.git

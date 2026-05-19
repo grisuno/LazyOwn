@@ -11,6 +11,8 @@ params:
   type: string
   required: true
   description: lhost target.
+os: windows
+trigger: []
 tool:
   name: PyinMemoryPE
   repo_url: https://github.com/ELMERIKH/PyinMemoryPE.git

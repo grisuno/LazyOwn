@@ -5,6 +5,8 @@ description: '☁️ ⚡ Granular, Actionable Adversary Emulation for the Cloud
 author: DataDog
 version: '1.0'
 enabled: true
+os: iaas
+trigger: []
 tool:
   name: stratus_list
   repo_url: https://github.com/DataDog/stratus-red-team.git

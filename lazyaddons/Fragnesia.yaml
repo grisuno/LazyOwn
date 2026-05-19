@@ -8,6 +8,8 @@ params:
   type: string
   required: true
   description: lhost target.
+os: windows
+trigger: []
 tool:
   name: fragnesia
   repo_url: https://github.com/v12-security/pocs.git

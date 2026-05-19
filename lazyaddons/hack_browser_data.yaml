@@ -6,6 +6,8 @@ description: 'Extract and decrypt browser data, supporting multiple data types, 
 author: moonD4rk
 version: 0.4.6
 enabled: true
+os: windows
+trigger: []
 tool:
   name: hack_browser_data
   repo_url: https://github.com/moonD4rk/HackBrowserData.git

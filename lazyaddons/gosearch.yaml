@@ -10,6 +10,8 @@ params:
   type: string
   required: true
   description: lhost target.
+os: any
+trigger: []
 tool:
   name: gosearch
   repo_url: https://github.com/ibnaleem/gosearch.git

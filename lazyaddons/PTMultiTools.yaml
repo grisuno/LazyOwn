@@ -19,6 +19,8 @@ params:
   type: string
   required: true
   description: rhost objetive.
+os: network
+trigger: []
 tool:
   name: PTMultiTools
   repo_url: https://github.com/juliourena/PTMultiTools.git

@@ -22,6 +22,8 @@ params:
   type: string
   required: true
   description: password to start with.
+os: windows
+trigger: [ldap, microsoft-ds]
 tool:
   name: laps
   repo_url: https://github.com/n00py/LAPSDumper.git

@@ -14,6 +14,8 @@ params:
   type: string
   required: true
   description: lport to operate.
+os: windows
+trigger: []
 tool:
   name: shellcode_custom_win_rev_tcp_xored
   repo_url: git@github.com:grisuno/win_shellcode.git

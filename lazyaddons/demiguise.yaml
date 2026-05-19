@@ -5,6 +5,8 @@ description: 'HTA encryption tool for RedTeams
 author: nccgroup
 version: '1.0'
 enabled: true
+os: windows
+trigger: []
 tool:
   name: demiguise
   repo_url: https://github.com/nccgroup/demiguise.git

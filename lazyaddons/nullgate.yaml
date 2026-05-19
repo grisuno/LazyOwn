@@ -6,6 +6,8 @@ description: 'Library that eases the use of indirect syscalls. Quite interesting
 author: 0xsch1zo
 version: 1.2.0
 enabled: true
+os: windows
+trigger: []
 tool:
   name: NullGate
   repo_url: https://github.com/0xsch1zo/NullGate.git

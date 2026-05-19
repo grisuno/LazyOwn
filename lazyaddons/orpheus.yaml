@@ -6,6 +6,8 @@ description: 'Bypassing Kerberoast Detections with Modified KDC Options and Encr
 author: TrustedSec
 version: '0.1'
 enabled: true
+os: windows
+trigger: []
 tool:
   name: orpheus
   repo_url: https://github.com/trustedsec/orpheus.git

@@ -13,6 +13,8 @@ description: 'ATTPwn is a computer security tool designed to emulate adversaries
 author: Telefonica
 version: '1.0'
 enabled: true
+os: any
+trigger: []
 tool:
   name: ATTPwn
   repo_url: https://github.com/Telefonica/ATTPwn.git

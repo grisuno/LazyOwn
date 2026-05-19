@@ -19,6 +19,8 @@ params:
   type: string
   required: true
   description: rhost target.
+os: any
+trigger: []
 tool:
   name: raven
   repo_url: https://github.com/gh0x0st/raven.git

@@ -12,6 +12,8 @@ description: 'SigPloit a signaling security testing framework dedicated to Telec
 author: SigPloiter
 version: '1.0'
 enabled: true
+os: network
+trigger: [sip, sccp]
 tool:
   name: sigploit
   repo_url: https://github.com/SigPloiter/SigPloit.git

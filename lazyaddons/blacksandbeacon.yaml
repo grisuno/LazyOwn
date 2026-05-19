@@ -32,6 +32,8 @@ params:
   type: string
   required: true
   description: C2 HTTPS port (encrypted command channel).
+os: linux
+trigger: []
 tool:
   name: blacksandbeacon
   repo_url: https://github.com/grisuno/blacksandbeacon.git

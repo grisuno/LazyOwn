@@ -8,6 +8,8 @@ description: 'Some C code to repair corrupt p_info header on UPX! packed malware
 author: akamai
 version: 0.0.1
 enabled: true
+os: any
+trigger: []
 tool:
   name: upxdump
   repo_url: https://github.com/akamai/akamai-security-research.git

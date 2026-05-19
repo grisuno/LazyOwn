@@ -6,6 +6,8 @@ description: 'An open-source AI agent that brings the power of Gemini directly i
 author: google
 version: '1.0'
 enabled: true
+os: any
+trigger: []
 tool:
   name: gemini-cli
   repo_url: https://github.com/google-gemini/gemini-cli.git

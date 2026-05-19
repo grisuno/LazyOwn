@@ -9,6 +9,8 @@ description: 'A personal, organic agentic framework that grows and learns with y
 author: frdel
 version: 0.9.1.1
 enabled: true
+os: any
+trigger: []
 tool:
   name: agentzero
   repo_url: https://github.com/frdel/agent-zero.git

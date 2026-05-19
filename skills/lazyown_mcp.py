@@ -924,13 +924,55 @@ async def list_tools() -> list[types.Tool]:
                         "description": "Whether the addon is active immediately (default: true).",
                         "default": True,
                     },
+                    "os": {
+                        "type": "string",
+                        "description": (
+                            "Target platform the addon hits, taken from the MITRE ATT&CK "
+                            "platform list. Use 'any' (default) when the addon is OS-agnostic "
+                            "(web tools, AI agents, scripts running on the operator host)."
+                        ),
+                        "enum": [
+                            "any",
+                            "linux",
+                            "windows",
+                            "macos",
+                            "network",
+                            "containers",
+                            "saas",
+                            "iaas",
+                        ],
+                        "default": "any",
+                    },
+                    "trigger": {
+                        "type": "array",
+                        "description": (
+                            "Nmap service names that should auto-suggest this addon "
+                            "(e.g. ['microsoft-ds', 'ldap']). Use ['all'] to trigger on any "
+                            "discovered service. Leave empty for addons that are not driven "
+                            "by service discovery (manual / strategic tools)."
+                        ),
+                        "items": {"type": "string"},
+                        "default": [],
+                    },
+                    "category": {
+                        "type": "string",
+                        "description": (
+                            "cmd2 palette category. Defaults to '14. Yaml Addon.' which puts "
+                            "the addon in the catch-all bucket. Match an existing prefix "
+                            "(e.g. '03. Exploitation') to group with related commands."
+                        ),
+                        "default": "14. Yaml Addon.",
+                    },
                 },
                 "required": ["name", "description", "repo_url", "execute_command"],
             },
         ),
         types.Tool(
             name="lazyown_list_addons",
-            description="List all YAML addons in lazyaddons/ with their name, enabled status, description, and repo URL.",
+            description=(
+                "List all YAML addons in lazyaddons/ with their name, enabled status, "
+                "description, repo URL, os platform and trigger services."
+            ),
             inputSchema={"type": "object", "properties": {}},
         ),
         types.Tool(
@@ -4072,6 +4114,27 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         params = arguments.get("params", [])
         author = arguments.get("author", "LazyOwn RedTeam")
         enabled = arguments.get("enabled", True)
+        addon_category = arguments.get("category", "14. Yaml Addon.")
+        addon_os_raw = arguments.get("os", "any")
+        addon_trigger_raw = arguments.get("trigger", [])
+
+        _allowed_os = {
+            "any", "linux", "windows", "macos",
+            "network", "containers", "saas", "iaas",
+        }
+        addon_os = str(addon_os_raw).strip().lower() if isinstance(addon_os_raw, str) else "any"
+        if addon_os not in _allowed_os:
+            addon_os = "any"
+        if isinstance(addon_trigger_raw, str):
+            addon_trigger = [addon_trigger_raw.strip().lower()] if addon_trigger_raw.strip() else []
+        elif isinstance(addon_trigger_raw, list):
+            addon_trigger = [
+                str(item).strip().lower()
+                for item in addon_trigger_raw
+                if isinstance(item, str) and item.strip()
+            ]
+        else:
+            addon_trigger = []
 
         # Build YAML content manually to preserve readable formatting
         lines = [
@@ -4081,6 +4144,8 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             f"author: \"{author}\"",
             f"version: \"1.0\"",
             f"enabled: {'true' if enabled else 'false'}",
+            f"os: {addon_os}",
+            f"trigger: [{', '.join(addon_trigger)}]",
         ]
 
         if params:
@@ -4099,6 +4164,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         if install_command:
             lines.append(f"  install_command: {install_command}")
         lines.append(f"  execute_command: {execute_command}")
+        lines.append(f"category: {addon_category}")
 
         yaml_content = "\n".join(lines) + "\n"
 
@@ -4132,7 +4198,25 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                     enabled_flag = "✓" if data.get("enabled", False) else "✗"
                     desc = (data.get("description") or "").strip().replace("\n", " ")[:60]
                     repo = (data.get("tool") or {}).get("repo_url", "")
-                    lines.append(f"[{enabled_flag}] {data.get('name', f.stem):<30} {desc}")
+                    addon_os_value = str(data.get("os", "any")).strip().lower() or "any"
+                    trigger_raw = data.get("trigger", []) or []
+                    if isinstance(trigger_raw, str):
+                        trigger_list = [trigger_raw.strip()] if trigger_raw.strip() else []
+                    elif isinstance(trigger_raw, list):
+                        trigger_list = [
+                            str(item).strip()
+                            for item in trigger_raw
+                            if isinstance(item, str) and item.strip()
+                        ]
+                    else:
+                        trigger_list = []
+                    trigger_label = ", ".join(trigger_list) if trigger_list else "-"
+                    lines.append(
+                        f"[{enabled_flag}] {data.get('name', f.stem):<30} "
+                        f"os={addon_os_value:<10} trigger={trigger_label}"
+                    )
+                    if desc:
+                        lines.append(f"      desc: {desc}")
                     if repo:
                         lines.append(f"      repo: {repo}")
                 else:

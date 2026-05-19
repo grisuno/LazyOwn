@@ -26,6 +26,8 @@ params:
   required: true
   description: IP/Domain of C2 server (e.g., 192.168.1.100)
 install_type: git
+os: network
+trigger: []
 tool:
   name: peeko
   repo_url: https://github.com/b3rito/peeko.git

@@ -27,6 +27,8 @@ params:
   type: string
   required: false
   description: Port to bind the adapter server (default 9872)
+os: any
+trigger: []
 tool:
   name: opencode_adapter
   repo_url: https://github.com/grisuno/LazyOwnOpenCodeAdapter.git

@@ -8,6 +8,8 @@ description: 'Adaptix is an extensible post-exploitation and adversarial emulati
 author: Adaptix-Framework
 version: v0.6
 enabled: true
+os: any
+trigger: []
 tool:
   name: AdaptixC2
   repo_url: https://github.com/Adaptix-Framework/AdaptixC2.git

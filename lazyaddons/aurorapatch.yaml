@@ -18,6 +18,8 @@ params:
   type: string
   required: true
   description: lport to operate.
+os: windows
+trigger: []
 tool:
   name: AuroraPatch
   repo_url: https://github.com/grisuno/amsi.git

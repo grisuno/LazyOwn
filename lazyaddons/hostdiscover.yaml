@@ -5,6 +5,8 @@ description: 'Ejecuta el script hostdiscover.sh que se encuentra en la carpeta m
 author: LazyOwn RedTeam
 version: '1.0'
 enabled: true
+os: network
+trigger: []
 tool:
   name: hostdiscover
   repo_url: https://github.com/grisuno/LazyOwn.git

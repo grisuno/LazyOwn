@@ -31,7 +31,6 @@
   "sleep": 6,
   "file": "file_to_operate.ext",
   "sleep_start": 333,
-  "auto_approve": true,
   "c2_maleable_route": "/pleasesubscribe/v1/users/",
   "user_agent_win": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
   "user_agent_lin": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",

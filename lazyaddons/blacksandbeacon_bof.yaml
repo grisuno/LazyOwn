@@ -30,6 +30,8 @@ params:
   type: string
   required: true
   description: C2 staging port where the bof_loader binary is served.
+os: linux
+trigger: []
 tool:
   name: blacksandbeacon_bof
   repo_url: https://github.com/grisuno/blacksandbeacon.git

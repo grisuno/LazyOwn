@@ -19,6 +19,8 @@ params:
   type: string
   required: false
   description: file to use in the script
+os: any
+trigger: [http, https]
 tool:
   name: vulnhuntr
   repo_url: https://github.com/protectai/vulnhuntr.git

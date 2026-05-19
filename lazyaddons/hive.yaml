@@ -19,6 +19,8 @@ description: "Invokes Claude Code CLI with the LazyOwn MCP server and executes a
 author: LazyOwn RedTeam
 version: '1.0'
 enabled: true
+os: any
+trigger: []
 tool:
   name: hive
   repo_url: https://github.com/grisuno/LazyOwn.git

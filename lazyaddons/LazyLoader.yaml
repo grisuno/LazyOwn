@@ -12,6 +12,8 @@ params:
   type: string
   required: true
   description: lhost target.
+os: any
+trigger: []
 tool:
   name: LazyLoader
   repo_url: https://github.com/grisuno/LazyLoader.git

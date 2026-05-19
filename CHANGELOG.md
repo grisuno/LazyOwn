@@ -6,6 +6,13 @@
 
 ### Otros
 
+  *   * feat(feat): lazyaddons \n\n Version: release/0.2.130 \n\n mroe granularity to lazyaddosns and triggers ? comming soon \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: mar 19 may 2026 00:55:27 -04 \n\n Hora: 1779166527
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): new exploit \n\n Version: release/0.2.129 \n\n with love \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: dom 17 may 2026 23:59:39 -04 \n\n Hora: 1779076779
 
 

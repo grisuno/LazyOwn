@@ -6,6 +6,8 @@ description: 'Standalone man-in-the-middle attack framework used for phishing lo
 author: kgretzky
 version: 3.3.0
 enabled: true
+os: any
+trigger: [http, https, http-proxy]
 tool:
   name: evilginx2
   repo_url: https://github.com/kgretzky/evilginx2.git

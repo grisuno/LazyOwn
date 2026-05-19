@@ -6,6 +6,8 @@ description: '🛠️ A powerful tool for converting PE files (EXE/DLL) into pos
 author: CBLabresearch
 version: '1.0'
 enabled: true
+os: windows
+trigger: []
 tool:
   name: Clematis
   repo_url: https://github.com/CBLabresearch/Clematis.git

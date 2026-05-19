@@ -15,6 +15,8 @@ params:
   type: string
   required: true
   description: lport target.
+os: any
+trigger: []
 tool:
   name: Get_ReverseShell
   repo_url: https://github.com/gh0x0st/Get-ReverseShell.git

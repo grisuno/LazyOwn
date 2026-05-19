@@ -16,6 +16,8 @@ params:
   type: string
   required: true
   description: Binary name to operate.
+os: linux
+trigger: []
 tool:
   name: oniux
   repo_url: https://gitlab.torproject.org/tpo/core/oniux.git

@@ -287,8 +287,15 @@ and registers enabled plugins as new commands.</p>
 cmd2 category attribute on the wrapper so the command appears in the
 correct palette section without any hardcoded string in this method.</p>
 <p>Also reads the optional <code>tags</code> list for future palette
-filtering, and performs a lightweight dependency check before first
-execution.</p>
+filtering, the optional <code>os</code> field (MITRE platform:
+<code>linux</code>, <code>windows</code>, <code>macos</code>,
+<code>network</code>, <code>containers</code>, <code>saas</code>,
+<code>iaas</code> or <code>any</code>) and the optional
+<code>trigger</code> list of nmap service names consumed by the
+exploration engine. Both <code>os</code> and <code>trigger</code>
+default to <code>any</code> / <code>[]</code> so legacy addons keep
+loading.</p>
+<p>A lightweight dependency check runs before first execution.</p>
 <h2
 id="register_all_adversary_commands">register_all_adversary_commands</h2>
 <p>No description available.</p>
@@ -364,6 +371,15 @@ os, creds.</p>
 <p>No arguments. Reads payload.json and sessions/world_model.json. Fast
 — suitable to run between every command for situational awareness.</p>
 <p>Usage: <code>ctx</code></p>
+<h2 id="karma">karma</h2>
+<p>Show ELO score, karma rank and exploration progress for this
+operator.</p>
+<p>Reads <code>sessions/engagement_state.json</code> (curiosity + VRI
+engine) and prints the operator’s ELO, karma name (Noob → Godlike),
+commands discovered, phases entered, and steps remaining until the next
+VRI reward. Useful to gauge progress on the curiosity-driven adoption
+loop without re-running another command.</p>
+<p>Usage: <code>karma</code></p>
 <h2 id="tgrep">tgrep</h2>
 <p>Search across all previous command outputs and session logs.</p>
 <p>Searches in: sessions/_cli_transcript.jsonl (full outputs),
@@ -525,6 +541,20 @@ walks the graphify knowledge graph from your recent commands. Requires
 <p>This is the CLI equivalent of the MCP tool
 <code>lazyown_recommend_next</code>.</p>
 <p>Usage: <code>recommend_next</code></p>
+<h2 id="explore">explore</h2>
+<p>Show exploration coverage and addon/tool suggestions per service.</p>
+<p>Reads <code>sessions/scan_*.nmap.xml</code> for discovered services,
+joins them with the <code>trigger</code> and <code>os</code> fields
+declared in every <code>lazyaddons/*.yaml</code> and
+<code>tools/*.tool</code>, and renders a Rich tree alongside a coverage
+table summarising how much of the attack surface has already been
+touched by previous commands.</p>
+<p>Usage: <code>explore</code> show coverage for the active rhost
+<code>explore &lt;target&gt;</code> force a target (defaults to
+<code>rhost</code>)</p>
+<p>The view highlights items whose trigger matches a discovered service
+but have never been run, so the operator can pick the next high-value
+command without manually scanning the YAMLs.</p>
 <h2 id="dashboard">dashboard</h2>
 <p>Launch the full-screen LazyOwn operator dashboard (Textual TUI).</p>
 <p>Opens an auto-refreshing terminal dashboard showing the active

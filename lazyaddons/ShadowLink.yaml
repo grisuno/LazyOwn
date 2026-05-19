@@ -18,6 +18,8 @@ params:
   type: string
   required: true
   description: lport to operate.
+os: windows
+trigger: []
 tool:
   name: ShadowLink
   repo_url: https://github.com/grisuno/ShadowLink.git

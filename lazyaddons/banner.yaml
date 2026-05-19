@@ -10,6 +10,8 @@ params:
   type: string
   required: false
   description: file interface to use in the script
+os: any
+trigger: []
 tool:
   name: banner_tool
   repo_url: https://github.com/grisuno/LazyOwn.git

@@ -11,6 +11,8 @@ params:
   type: string
   required: true
   description: Remote host.
+os: network
+trigger: []
 tool:
   name: lazymapd
   repo_url: https://github.com/grisuno/Lazymapd.git

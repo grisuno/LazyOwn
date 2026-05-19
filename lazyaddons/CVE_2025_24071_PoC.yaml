@@ -9,6 +9,8 @@ description: 'CVE-2025-24071: NTLM Hash Leak via RAR/ZIP Extraction and .library
 author: 0x6rss
 version: '1.0'
 enabled: true
+os: windows
+trigger: [microsoft-ds, smb]
 tool:
   name: CVE_2025_24071_PoC
   repo_url: https://github.com/0x6rss/CVE-2025-24071_PoC.git

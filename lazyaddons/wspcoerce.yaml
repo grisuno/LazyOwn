@@ -23,6 +23,8 @@ params:
   type: string
   required: false
   description: rhost to use in the script
+os: windows
+trigger: [microsoft-ds, msrpc]
 tool:
   name: wspcoerce
   repo_url: https://github.com/RedTeamPentesting/wspcoerce.git

@@ -35,6 +35,8 @@ params:
   type: string
   required: false
   description: Target domain name (optional)
+os: any
+trigger: []
 tool:
   name: toposwarm
   repo_url: https://github.com/grisuno/LazyOwn.git

@@ -6,6 +6,8 @@ description: 'Ejecuta el script LazyOwnExplorer.py que se encuentra en la carpet
 author: LazyOwn RedTeam
 version: '1.0'
 enabled: true
+os: any
+trigger: []
 tool:
   name: LazyOwnExplorer
   repo_url: https://github.com/grisuno/LazyOwn.git

@@ -13,6 +13,8 @@ params:
   type: string
   required: true
   description: Remote host.
+os: any
+trigger: []
 tool:
   name: unicorn
   repo_url: https://github.com/trustedsec/unicorn.git

@@ -22,10 +22,18 @@ from flask import Response, stream_with_context
 # ===== IMPORTS DE TUS MODELOS =====
 # Asegúrate de que ai_model.py esté en el mismo directorio o en el PYTHONPATH
 try:
-    from ai_model import AIModel, GroqModel, OllamaModel
+    from ai_model import AIModel
+    from llm_factory import BACKEND_GROQ, BACKEND_OLLAMA, get_llm_backend
 except ImportError:
-    print("❌ Error: No se encontró 'ai_model.py'. Asegúrate de tener tus conectores de modelos.")
+    print("Error: Could not import ai_model or llm_factory. Ensure modules/ are on PYTHONPATH.")
     sys.exit(1)
+
+
+_PROVIDER_ALIAS = {
+    "groq": BACKEND_GROQ,
+    "deepseek": BACKEND_OLLAMA,
+    "ollama": BACKEND_OLLAMA,
+}
 
 BANNER = """
 ╔═══════════════════════════════════════════════════════════╗
@@ -440,14 +448,19 @@ class VulnBotCLI:
         self._setup_agent()
     
     def _load_model(self) -> AIModel:
-        if self.provider == "groq":
-            key = os.environ.get("GROQ_API_KEY")
-            if not key: raise ValueError("Falta GROQ_API_KEY")
-            return GroqModel(api_key=key)
-        elif self.provider == "deepseek":
-            return OllamaModel(model="deepseek-r1:1.5b")
-        else:
-            raise ValueError("Proveedor desconocido")
+        """Instantiate the LLM backend mapped to ``self.provider``.
+
+        Returns:
+            A configured :class:`AIModel` instance.
+
+        Raises:
+            LLMBackendNotSupportedError: When ``self.provider`` does not
+                map to a known backend.
+            LLMBackendUnavailableError: When the resolved backend cannot
+                be constructed from the current environment.
+        """
+        backend = _PROVIDER_ALIAS.get(self.provider, self.provider)
+        return get_llm_backend(backend=backend)
     
     def _setup_agent(self):
         total_cmds = len(self.shell_wrapper.commands)

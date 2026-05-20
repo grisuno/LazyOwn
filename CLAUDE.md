@@ -87,6 +87,10 @@ Critical keys:
 | `sleep`, `sleep_start` | Beacon jitter + auto-loop bootstrap delay |
 | `api_key` | Groq (used by `report.py`, AI agents) |
 | `enable_telegram_c2`/`discord_c2`/`ia`/`deepseek`/`cloudflare`/`run_in_memory`/`c2_implant_debug`/`c2_debug` | Feature flags |
+| `llm_backend` | LLM selection: `"auto"` (Groq when API key is set, else Ollama), `"groq"`, or `"ollama"` |
+| `llm_model_groq` | Model identifier passed to the Groq API (default `llama-3.3-70b-versatile`) |
+| `llm_model_ollama` | Model identifier passed to the Ollama API (default `deepseek-r1:1.5b`) |
+| `ollama_host` | Base URL of the Ollama daemon (default `http://localhost:11434`) |
 | `c2_daily_limit`, `c2_hour_limit`, `c2_login_limit` | flask-limiter strings |
 | `targets` | Multi-target list (status, ports, tags, notes) |
 | `rat_key` | XOR key for stub/beacon |
@@ -166,7 +170,7 @@ CLI and C2 both import `utils.py` + read `payload.json`. MCP reuses `LazyOwnShel
 ### Adding a route — happy path
 1. Decide operator-only (`@requires_auth`) vs beacon-facing (apply both canonical path AND `f'{route_maleable}<...>'` alias).
 2. `render_template('foo.html', ctx=...)` — typed context, not raw request data.
-3. Validate paths/templates with `validate_route_path` + `validate_template_name` + `is_safe_template_path`. Never bypass.
+3. Validate paths/templates with `validate_route_path` + `validate_template_name` + `is_safe_template_path`. Never bypass. The canonical implementations live in `lazyc2/security/validators.py` (return `(bool, str)` tuples). Module-level shims in `lazyc2.py` wrap them as booleans for legacy callers — new code must consume the tuple form so the error string can be surfaced to the operator.
 4. Persist via existing helpers:
    - JSON: `load_routes`/`save_routes`, `load_short_urls`, etc. — atomic (`*.tmp` → `os.rename`, chmod 600).
    - SQLite: `sqlite3.connect(DB_PATH)` inside `with` blocks.
@@ -205,10 +209,14 @@ Only module both CLI and C2 import. Use existing helpers:
 | Input validation | `check_rhost`/`check_lhost`/`check_lport` |
 | Tmux bootstrap | `ensure_tmux_session(name)` |
 | Emails/users/creds | `generate_emails`/`get_users_dic`/`crack_password` |
+| Vulnerability scan + persist | `VulnerabilityScanner().search_cves(service)` → `.persist(service, target, cves)` writes `sessions/vulns_<target>.json` |
+| LLM backend | `from modules.llm_factory import get_llm_backend, try_get_llm_backend` — reads `llm_backend`/`llm_model_*`/`ollama_host` from `payload.json` and returns an `AIModel` that also structurally satisfies `core.protocols.LLMBackend` |
 
 New helpers go here only if shared CLI↔C2. Feature-local helpers → `modules/<feature>.py`.
 
 **Known issue**: two `class Config` defs in `utils.py` (3229, 3328). Second is duplicate — don't add a third; deduplicate first in a separate change before editing.
+
+**LLM backends**: do **not** instantiate `GroqModel`/`OllamaModel` directly. Use `from modules.llm_factory import get_llm_backend` (raises) or `try_get_llm_backend` (returns `None` on failure). The factory reads `llm_backend`, `llm_model_groq`, `llm_model_ollama`, and `ollama_host` from `payload.json`, so swapping providers never requires a code change. Callers that pass an explicit `provider` argument should translate the legacy `groq`/`deepseek` identifiers via the `_PROVIDER_ALIAS` mapping declared next to each call site.
 
 ---
 
@@ -242,6 +250,7 @@ New helpers go here only if shared CLI↔C2. Feature-local helpers → `modules/
 | `logs/command_<tool>output<domain>.txt` | run_command CSV logger | facts_show |
 | `LazyOwn_session_report.csv` | every command | timeline_narrator, threat_model |
 | `credentials*.txt`, `hash*.txt` | reactive_engine, do_responder | later phases |
+| `vulns_<rhost>.json` | `do_vulns` via `utils.VulnerabilityScanner.persist` | `get_target_context`, reactive_engine, report generator |
 | `world_model.json` | autonomous_daemon | session_state, recommend_next |
 | `tasks.json` | campaign_tasks | sitrep, dashboard |
 | `objectives.jsonl` | inject_objective | autonomous_daemon |
@@ -343,6 +352,7 @@ When invoking Claude/Groq/Ollama (`lazyown_llm_ask`, `swan_run`, `hive_spawn`, `
 | New MCP tool | `skills/lazyown_mcp.py` |
 | New autonomous selector | subclass `BaseSelector` in `skills/autonomous_daemon.py` |
 | New AI agent persona | `skills/lazyown_groq_agents.py` registry |
+| New LLM backend | implement `AIModel` in `modules/ai_model.py`, register identifier in `modules/llm_factory.SUPPORTED_BACKENDS`, expose via the `_PROVIDER_ALIAS` mapping when callers need the legacy `groq`/`deepseek` identifiers |
 | New knowledge base | new parquet + `lazyown_parquet_query` mode |
 | New directory | create + `README.md` immediately |
 

@@ -24,7 +24,7 @@ import cmd2
 from cmd2 import CommandSet, with_argparser, with_category, with_argument_list
 from cmd2.plugin import PostcommandData as _PostcommandData
 from utils import *
-from modules.ai_model import OllamaModel
+from modules.llm_factory import try_get_llm_backend as _try_get_llm_backend
 from cli.aliases import load_aliases as _load_aliases
 from cli.assign import apply_assign as _apply_assign
 from cli.banner_config import banner_summary as _banner_summary
@@ -37,6 +37,13 @@ from cli.graph_advisor import format_search_table as _format_search_table
 from cli.graph_advisor import format_suggestions as _format_suggestions
 from cli.reactive_hints import render_inline_hints as _render_inline_hints
 from cli.reactive_hints import render_command_hints as _render_command_hints
+from cli.reactive_hints import _KILL_CHAIN_NEXT as _AUTOSUGGEST_CHAIN
+from cli.reactive_hints import _PHASE_PRIORITY as _AUTOSUGGEST_PHASE_PRIORITY
+from cli.autosuggest import AutoSuggestEngine as _AutoSuggestEngine
+from cli.autosuggest import SuggestionContext as _SuggestionContext
+from cli.autosuggest import build_default_engine as _build_autosuggest_engine
+from cli.autosuggest import render_hint_line as _render_autosuggest_hint
+from cli.autosuggest import SKIP_TRIGGER_COMMANDS as _AUTOSUGGEST_SKIP
 from cli.engagement_hooks import render_engagement_hook as _render_engagement_hook
 from cli.engagement_hooks import reset_session as _reset_engagement_session
 from cli.wizard import run as _run_wizard
@@ -223,6 +230,31 @@ class LazyOwnShell(cmd2.Cmd):
             _reset_engagement_session()
         except Exception as exc:
             print_warn(f"engagement hook not registered: {exc}")
+        self._autosuggest = None
+        self._autosuggest_advisor = None
+        try:
+            self._autosuggest_advisor = _GraphAdvisor.from_path()
+        except Exception as exc:
+            print_warn(f"autosuggest graph advisor unavailable: {exc}")
+            self._autosuggest_advisor = None
+        try:
+            initial_autosuggest_enabled = str(
+                load_payload().get("enable_autosuggest", True)
+            ).lower() not in ("false", "0", "no")
+            self._autosuggest = _build_autosuggest_engine(
+                advisor=self._autosuggest_advisor,
+                chain=_AUTOSUGGEST_CHAIN,
+                phase_priority=_AUTOSUGGEST_PHASE_PRIORITY,
+                enabled=initial_autosuggest_enabled,
+            )
+            self.register_postcmd_hook(self._autosuggest_hook)
+        except Exception as exc:
+            print_warn(f"autosuggest engine not initialised: {exc}")
+            self._autosuggest = None
+        try:
+            self.aliases["."] = "next"
+        except Exception:
+            pass
         self.output = ""
         self.custom_prompt = getprompt()
         self.c2_url = f"https://{lhost}:{c2_port}"
@@ -333,13 +365,12 @@ class LazyOwnShell(cmd2.Cmd):
         user_aliases = load_user_aliases()
         self.aliases.update(user_aliases)
         if self.use_ai:
-            try:
-                self.ai_model = OllamaModel(model="deepseek-r1:1.5b")
-                self.display_toastr("🧠 IA started (DeepSeek in local)")
-            except Exception as e:
-                self.display_toastr(f"⚠️ can't starti IA: {e}", type="error")
+            self.ai_model = _try_get_llm_backend(config=self.params)
+            if self.ai_model is None:
+                self.display_toastr("AI backend unavailable; disabling AI features.", type="error")
                 self.use_ai = False
-                self.ai_model = None
+            else:
+                self.display_toastr("AI backend started.")
         else:
             self.ai_model = None
     def log_command(self, cmd_name, cmd_args):
@@ -445,6 +476,102 @@ class LazyOwnShell(cmd2.Cmd):
                     "lhost":    self.params.get("lhost") or "",
                 }
                 _render_contextual_tip(cmd_str, ctx)
+        except Exception:
+            pass
+        return data
+
+    def _read_recent_commands_for_autosuggest(self, limit: int = 5) -> list:
+        """Return the last ``limit`` first-tokens from the session transcript.
+
+        The transcript lives at ``sessions/LazyOwn_session_report.csv``.
+        Newest entries appear last in the returned list.
+
+        Args:
+            limit: Maximum number of distinct command names to return.
+
+        Returns:
+            A list of command first-tokens. Empty when the file is
+            absent or unreadable.
+        """
+        try:
+            sessions_dir = getattr(self, "sessions_dir", "sessions") or "sessions"
+            path = os.path.join(sessions_dir, "LazyOwn_session_report.csv")
+            if not os.path.isfile(path):
+                return []
+            with open(path, "r", encoding="utf-8", errors="ignore") as fh:
+                reader = csv.DictReader(fh)
+                commands: list = []
+                for row in reader:
+                    for column in ("command", "tool", "name"):
+                        value = (row.get(column) or "").strip().split()
+                        if value:
+                            commands.append(value[0])
+                            break
+                return commands[-limit:]
+        except Exception:
+            return []
+
+    def _refresh_autosuggest(self, executed_command: str) -> None:
+        """Recompute the active suggestion from the engine's provider chain.
+
+        Reads ``enable_autosuggest`` from ``self.params`` so the
+        operator can toggle the feature with ``set enable_autosuggest
+        false`` without restarting the shell. Commands listed in the
+        engine's skip set are passed through unchanged so help/exit
+        do not poison the context.
+
+        Args:
+            executed_command: First-line of the command that just
+                executed. The engine drops it into
+                :class:`cli.autosuggest.SuggestionContext.last_command`.
+        """
+        engine = getattr(self, "_autosuggest", None)
+        if engine is None:
+            return
+        enabled = str(self.params.get("enable_autosuggest", True)).lower() not in (
+            "false",
+            "0",
+            "no",
+        )
+        engine.set_enabled(enabled)
+        if not enabled:
+            return
+        context = _SuggestionContext(
+            last_command=executed_command,
+            phase=self.params.get("phase") or "",
+            recent_commands=self._read_recent_commands_for_autosuggest(),
+            target=self.params.get("rhost") or "",
+            os_hint=str(self.params.get("os_id") or "unknown"),
+        )
+        engine.refresh(context)
+
+    def _autosuggest_hook(self, data: _PostcommandData) -> _PostcommandData:
+        """Refresh the next-command suggestion and print one dim hint line.
+
+        The hint is printed below the command output, never injected
+        into ``self.prompt``, so readline column accounting stays
+        intact and the prompt itself remains clean. Failure inside the
+        hook is swallowed — at worst the operator sees no hint.
+
+        Args:
+            data: cmd2 PostcommandData containing the executed
+                statement.
+
+        Returns:
+            ``data`` unchanged. cmd2 expects the hook to return the
+            same PostcommandData reference.
+        """
+        engine = getattr(self, "_autosuggest", None)
+        if engine is None:
+            return data
+        try:
+            command_text = str(getattr(data, "statement", "") or "")
+            first_token = command_text.strip().split()[:1]
+            first = first_token[0] if first_token else ""
+            if first in _AUTOSUGGEST_SKIP:
+                return data
+            self._refresh_autosuggest(command_text)
+            _render_autosuggest_hint(engine)
         except Exception:
             pass
         return data
@@ -7259,6 +7386,234 @@ class LazyOwnShell(cmd2.Cmd):
             self.prompt = f"{self.custom_prompt}"
 
         return
+
+    @cmd2.with_category(miscellaneous_category)
+    def do_next(self, line):
+        """Execute the active next-command suggestion (alias ``.``).
+
+        The autosuggest engine prints a dim ``press '.' to run: <cmd>``
+        line after every command. ``next`` (or ``.``) pops that
+        suggestion, runs it via ``onecmd_plus_hooks`` so every regular
+        pre/post hook fires, and then forces the engine to recompute
+        using the executed command as ``last_command`` — guaranteeing
+        the next suggestion advances even if cmd2 does not re-fire its
+        postcmd hook for the nested call.
+
+        Args:
+            line: Ignored. Present to satisfy the cmd2 ``do_*``
+                contract.
+
+        Returns:
+            None.
+        """
+        engine = getattr(self, "_autosuggest", None)
+        if engine is None:
+            print_warn("autosuggest engine is not initialised")
+            return
+        command = engine.accept()
+        if not command:
+            print_warn("no active suggestion to execute")
+            return
+        print_msg(f"running suggested command: {command}")
+        try:
+            self.onecmd_plus_hooks(command)
+        finally:
+            try:
+                self._refresh_autosuggest(command)
+                _render_autosuggest_hint(engine)
+            except Exception:
+                pass
+
+    @cmd2.with_category(miscellaneous_category)
+    def do_daemon_mode(self, line):
+        """Switch the autonomous daemon between auto, approval and paused modes.
+
+        Usage:
+            daemon_mode auto       Run without operator gating (default).
+            daemon_mode approval   Require operator approval per command.
+            daemon_mode paused     Block the loop before the next step.
+
+        The selected mode is persisted to
+        ``sessions/daemon_control.json`` and read by the daemon before
+        every step. No daemon restart is required.
+
+        Args:
+            line: Whitespace-stripped mode name.
+
+        Returns:
+            None.
+        """
+        argument = (line or "").strip().lower()
+        if not argument:
+            try:
+                from skills.daemon_control import DaemonControl as _DC
+                state = _DC(self.sessions_dir).load()
+                print_msg(f"daemon mode: {state.mode}")
+            except Exception as exc:
+                print_error(f"daemon_mode read failed: {exc}")
+            return
+        try:
+            from skills.daemon_control import DaemonControl as _DC
+            state = _DC(self.sessions_dir).set_mode(argument)
+            print_msg(f"daemon mode -> {state.mode}")
+        except ValueError as exc:
+            print_error(str(exc))
+        except Exception as exc:
+            print_error(f"daemon_mode failed: {exc}")
+
+    @cmd2.with_category(miscellaneous_category)
+    def do_daemon_pause(self, line):
+        """Pause the autonomous daemon before its next step.
+
+        Equivalent to ``daemon_mode paused``. The daemon polls the
+        control file between steps and resumes once the mode flips back
+        to auto or approval.
+
+        Args:
+            line: Ignored.
+        """
+        try:
+            from skills.daemon_control import DaemonControl as _DC
+            _DC(self.sessions_dir).pause()
+            print_msg("daemon paused")
+        except Exception as exc:
+            print_error(f"daemon_pause failed: {exc}")
+
+    @cmd2.with_category(miscellaneous_category)
+    def do_daemon_resume(self, line):
+        """Resume the autonomous daemon (switch mode to auto).
+
+        Args:
+            line: Ignored.
+        """
+        try:
+            from skills.daemon_control import DaemonControl as _DC
+            _DC(self.sessions_dir).resume()
+            print_msg("daemon resumed (mode=auto)")
+        except Exception as exc:
+            print_error(f"daemon_resume failed: {exc}")
+
+    @cmd2.with_category(miscellaneous_category)
+    def do_daemon_veto(self, line):
+        """Add or clear vetoed command first-tokens for the autonomous daemon.
+
+        Usage:
+            daemon_veto add <command>       Block <command> on future steps.
+            daemon_veto remove <command>    Remove a previously-blocked command.
+            daemon_veto clear               Drop every veto entry.
+            daemon_veto                     List the current vetoes.
+
+        Args:
+            line: Sub-command plus optional command token.
+        """
+        argument = (line or "").strip()
+        try:
+            from skills.daemon_control import DaemonControl as _DC
+            control = _DC(self.sessions_dir)
+            if not argument:
+                state = control.load()
+                if not state.vetoed_commands:
+                    print_msg("no vetoed commands")
+                else:
+                    print_msg("vetoed commands: " + ", ".join(state.vetoed_commands))
+                return
+            parts = argument.split(maxsplit=1)
+            sub = parts[0].lower()
+            target = parts[1].strip() if len(parts) > 1 else ""
+            if sub == "add" and target:
+                state = control.add_veto(target)
+                print_msg("vetoed: " + ", ".join(state.vetoed_commands))
+            elif sub == "remove" and target:
+                state = control.remove_veto(target)
+                print_msg("vetoed: " + (", ".join(state.vetoed_commands) or "(none)"))
+            elif sub == "clear":
+                control.clear_vetoes()
+                print_msg("veto list cleared")
+            else:
+                print_error("usage: daemon_veto add|remove <command> | clear")
+        except ValueError as exc:
+            print_error(str(exc))
+        except Exception as exc:
+            print_error(f"daemon_veto failed: {exc}")
+
+    @cmd2.with_category(miscellaneous_category)
+    def do_daemon_focus(self, line):
+        """Restrict the autonomous daemon to a set of focus targets.
+
+        Usage:
+            daemon_focus <ip_or_host> [<ip_or_host> ...]
+            daemon_focus clear         Drop the focus list (run anywhere).
+            daemon_focus               Print the current focus targets.
+
+        Args:
+            line: Whitespace-separated list of targets or sub-command.
+        """
+        argument = (line or "").strip()
+        try:
+            from skills.daemon_control import DaemonControl as _DC
+            control = _DC(self.sessions_dir)
+            if not argument:
+                state = control.load()
+                if not state.focus_targets:
+                    print_msg("no focus targets (daemon runs anywhere)")
+                else:
+                    print_msg("focus targets: " + ", ".join(state.focus_targets))
+                return
+            if argument.lower() == "clear":
+                control.set_focus([])
+                print_msg("focus targets cleared")
+                return
+            targets = argument.split()
+            state = control.set_focus(targets)
+            print_msg("focus targets: " + ", ".join(state.focus_targets))
+        except Exception as exc:
+            print_error(f"daemon_focus failed: {exc}")
+
+    @cmd2.with_category(miscellaneous_category)
+    def do_daemon_approve(self, line):
+        """Approve or veto the daemon's currently-pending action.
+
+        Usage:
+            daemon_approve                   Approve the active pending action.
+            daemon_approve veto              Veto the active pending action.
+            daemon_approve show              Print the pending action (no decision).
+
+        The active action lives in ``sessions/daemon_control.json``
+        under ``pending`` and is created by the daemon when running in
+        approval mode.
+
+        Args:
+            line: Optional sub-command.
+        """
+        argument = (line or "").strip().lower()
+        try:
+            from skills.daemon_control import (
+                DaemonControl as _DC,
+                DECISION_APPROVED as _APPROVED,
+                DECISION_VETOED as _VETOED,
+            )
+            control = _DC(self.sessions_dir)
+            state = control.load()
+            pending = state.pending
+            if pending is None:
+                print_warn("no pending daemon action")
+                return
+            if argument == "show":
+                print_msg(
+                    f"pending {pending.action_id}: {pending.command} (target={pending.target}, reason={pending.reason})"
+                )
+                return
+            decision = _VETOED if argument == "veto" else _APPROVED
+            operator = self.params.get("start_user") or "operator"
+            final = control.decide(pending.action_id, decision, operator=operator)
+            if final is None:
+                print_warn("action no longer pending")
+                return
+            print_msg(
+                f"action {final.action_id} {final.decision} (command={final.command})"
+            )
+        except Exception as exc:
+            print_error(f"daemon_approve failed: {exc}")
 
     @cmd2.with_category(miscellaneous_category)
     def do_banner(self, line):
@@ -25776,29 +26131,40 @@ class LazyOwnShell(cmd2.Cmd):
 
     @cmd2.with_category(reporting_category)
     def do_vulns(self, line):
-        """
-        Scan for vulnerabilities based on a provided service banner.
+        """Search the NVD for CVEs matching a service banner and persist findings.
 
-        This function initializes a vulnerability scanner and searches for CVEs (Common Vulnerabilities and Exposures)
-        related to the specified service banner. If no service banner is provided, it prompts the user to enter one.
+        The configured ``rhost`` value from ``payload.json`` is used as
+        the target identifier for the persisted JSON report. The scanner
+        respects the operator's ``user_agent_lin`` setting when present
+        so reconnaissance traffic shares the same fingerprint across the
+        framework.
 
         Args:
-            line (str): The service banner to search for vulnerabilities. If not provided, the user will be prompted to enter one.
+            line: Optional service banner. When empty the operator is
+                prompted interactively; the input is stripped of
+                surrounding whitespace before being sent to the NVD.
 
         Returns:
-            None
+            None. Results are printed to the shell and persisted to
+            ``sessions/vulns_<rhost>.json`` so the reactive engine and
+            report generator can consume them without re-scanning.
 
         Example:
             do_vulns "ProFTPD 1.3.5"
         """
-        scanner = VulnerabilityScanner()
-        if line:
-            servicio = line.strip()
-        else:
-            servicio = input("    [!] Enter the banner to search vulnerability: ") or "ProFTPD 1.3.5"
-
-        cves_encontrados = scanner.search_cves(servicio)
-        scanner.pretty_print(cves_encontrados)
+        user_agent = self.params.get("user_agent_lin") or self.params.get("user_agent_1")
+        scanner = VulnerabilityScanner(user_agent=user_agent)
+        service = line.strip() if line else input(
+            "    [!] Enter the banner to search vulnerability: "
+        ).strip()
+        if not service:
+            print_error("No service banner provided.")
+            return
+        target = self.params.get("rhost") or "unknown"
+        cves_found = scanner.search_cves(service)
+        scanner.pretty_print(cves_found)
+        report_path = scanner.persist(service=service, target=target, cves=cves_found)
+        print_msg(f"Vulnerability report saved to {report_path}")
         return
 
     @cmd2.with_category(post_exploitation_category)

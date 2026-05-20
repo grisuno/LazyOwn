@@ -917,20 +917,57 @@ operate.</p>
 <h2 id="as_country">as_country</h2>
 <p>Get the country by ASN.</p>
 <h2 id="init-1"><strong>init</strong></h2>
-<p>Inicializa el escáner con las cabeceras HTTP predefinidas.</p>
+<p>Initialize the scanner with configurable network and storage
+knobs.</p>
+<p>Args: user_agent: HTTP <code>User-Agent</code> header sent to the NVD
+and cvedetails.com. When <code>None</code> the default desktop UA is
+used so every NVD request remains identifiable. max_workers: Upper bound
+on concurrent cvedetails enrichment requests. Higher values shorten
+wall-clock time at the cost of being rate-limited. sessions_dir:
+Directory where JSON reports are persisted. Defaults to
+<code>&lt;cwd&gt;/sessions</code>. description_language: ISO 639-1
+language code used to pick the human-readable CVE description from the
+NVD payload.</p>
 <h2 id="search_cves">search_cves</h2>
-<p>Busca CVEs basados en un servicio específico.</p>
-<p>Args: service (str): El servicio para buscar vulnerabilidades
-relacionadas.</p>
-<p>Returns: list: Lista de diccionarios con información sobre cada CVE o
-mensaje de error.</p>
-<h2 id="search_cve_details">search_cve_details</h2>
-<p>Añade detalles adicionales a la información del CVE.</p>
-<p>Args: cve_info (dict): Información básica del CVE incluyendo id y
-descripción.</p>
+<p>Return CVE records matching the supplied service banner.</p>
+<p>Each record contains <code>cve_id</code>, <code>description</code>,
+<code>cvss</code> and <code>url</code> keys. CVSS data is fetched
+concurrently from cvedetails.com using a bounded thread pool.</p>
+<p>Args: service: The service banner or keyword to query (for example
+<code>"ProFTPD 1.3.5"</code>).</p>
+<p>Returns: A list of CVE dictionaries. Empty when the upstream API is
+unreachable or returns no matches.</p>
+<h2 id="enrich_cve">_enrich_cve</h2>
+<p>Populate <code>cvss</code> for an in-place CVE record from
+cvedetails.com.</p>
+<p>Args: cve_info: A CVE record produced by
+:meth:<code>search_cves</code>. The record is mutated in place. Network
+or parsing errors are swallowed so a single failure does not abort the
+pool.</p>
+<h2 id="persist">persist</h2>
+<p>Persist <code>cves</code> to
+<code>sessions/vulns_&lt;target&gt;.json</code>.</p>
+<p>The schema is intentionally stable so reactive engines and report
+generators can rely on the field names without re-deriving them from CLI
+output. When the file already exists the latest report supersedes the
+previous one — callers that need history should retain the prior file
+out of band.</p>
+<p>Args: service: The original service banner that produced the
+findings. Stored under <code>service</code> so consumers can attribute
+results to a recon step. target: The target identifier (typically
+<code>rhost</code>). Used both as the filename component and the
+<code>target</code> field. cves: The CVE records returned by
+:meth:<code>search_cves</code>.</p>
+<p>Returns: The absolute path of the JSON document written.</p>
 <h2 id="pretty_print">pretty_print</h2>
-<p>Imprime una tabla bonita con detalles de CVEs.</p>
-<p>Args: cves_details (list): Lista de CVEs con toda la información
-recopilada.</p>
+<p>Render <code>cves_details</code> as semicolon-separated rows in the
+shell.</p>
+<p>Sorts the records by ascending CVSS so the operator sees the
+lowest-impact rows first and the most dangerous CVEs sit at the bottom
+of the scroll buffer, closest to the prompt.</p>
+<p>Args: cves_details: CVE records produced by
+:meth:<code>search_cves</code>.</p>
+<h2 id="cvss_sort_key">_cvss_sort_key</h2>
+<p>No description available.</p>
 </body>
 </html>

@@ -3651,6 +3651,26 @@ the package is missing the command prints an install hint and returns.
 :type line: str
 :return: None
 
+## surface
+Render the network surface graph in the terminal.
+
+Mirrors the ``vis.js`` graph at ``http://<lhost>:<c2_port>/`` but
+works entirely from the filesystem: it reads the same artefacts
+``lazyc2.py`` consumes (``sessions/hostsdiscovery.txt``,
+``sessions/scan_discovery*.csv``, per-implant ``sessions/<id>.log``,
+``payload.json``) so the operator can inspect the picture from a
+cmd2 shell with no Flask server attached.
+
+Usage:
+    ``surface``         — print a static Rich tree + stats table.
+    ``surface --tui``   — open the full-screen Textual explorer.
+    ``surface --json``  — emit the graph as JSON.
+    ``surface --help``  — show this message.
+
+:param line: optional flags ``--tui``, ``--json`` or ``--help``.
+:type line: str
+:return: None
+
 ## collab_join
 Print the multi-operator collaboration join URL and SSE endpoint.
 
@@ -13245,6 +13265,13 @@ No description available.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): suggested commands \n\n Version: release/0.2.131 \n\n  \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: mar 19 may 2026 23:05:50 -04 \n\n Hora: 1779246350
 
 
 ### Nuevas características

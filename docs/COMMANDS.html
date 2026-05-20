@@ -605,6 +605,22 @@ next-step hints (requires <code>/graphify .</code>).</p>
 command prints an install hint and returns.</p>
 <p>:param line: Unused. Reserved for future flags. :type line: str
 :return: None</p>
+<h2 id="surface">surface</h2>
+<p>Render the network surface graph in the terminal.</p>
+<p>Mirrors the <code>vis.js</code> graph at
+<code>http://&lt;lhost&gt;:&lt;c2_port&gt;/</code> but works entirely
+from the filesystem: it reads the same artefacts <code>lazyc2.py</code>
+consumes (<code>sessions/hostsdiscovery.txt</code>,
+<code>sessions/scan_discovery*.csv</code>, per-implant
+<code>sessions/&lt;id&gt;.log</code>, <code>payload.json</code>) so the
+operator can inspect the picture from a cmd2 shell with no Flask server
+attached.</p>
+<p>Usage: <code>surface</code> — print a static Rich tree + stats table.
+<code>surface --tui</code> — open the full-screen Textual explorer.
+<code>surface --json</code> — emit the graph as JSON.
+<code>surface --help</code> — show this message.</p>
+<p>:param line: optional flags <code>--tui</code>, <code>--json</code>
+or <code>--help</code>. :type line: str :return: None</p>
 <h2 id="collab_join">collab_join</h2>
 <p>Print the multi-operator collaboration join URL and SSE endpoint.</p>
 <p>Outputs the URL teammates need to open in a browser to connect to the

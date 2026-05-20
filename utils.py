@@ -3060,95 +3060,209 @@ class IP2ASN:
         """Get the country by ASN."""
         return self.as_country.get(asn, "Unknown")
 
-class VulnerabilityScanner:
-    """Escáner de vulnerabilidades que busca y muestra información sobre CVEs.
+VULN_SESSION_FILE_TEMPLATE = "vulns_{target}.json"
+VULN_SCHEMA_VERSION = 1
+VULN_REPORT_PRINT_HEADER = "CVE ID;   Description;   CVSS;  URL"
+VULN_CVSS_UNAVAILABLE = "unavailable"
+VULN_DEFAULT_MAX_WORKERS = 20
+VULN_DEFAULT_DESCRIPTION_LANG = "en"
+VULN_DEFAULT_USER_AGENT = (
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+    "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
+)
+VULN_NVD_URL_TEMPLATE = (
+    "https://services.nvd.nist.gov/rest/json/cves/2.0?keywordSearch={service}"
+)
+VULN_CVE_DETAILS_URL_TEMPLATE = "https://www.cvedetails.com/cve/{cve_id}/"
+VULN_HTTP_OK = 200
 
-    Attributes:
-        headers (dict): Cabeceras de la solicitud HTTP para simular un navegador.
+
+class VulnerabilityScanner:
+    """Search the NVD for CVEs matching a service banner and persist results.
+
+    The scanner exposes three orthogonal capabilities:
+
+    1. :meth:`search_cves` queries the NVD keyword API and enriches each
+       record with CVSS data scraped from cvedetails.com.
+    2. :meth:`persist` writes a JSON document under ``sessions/`` so
+       downstream consumers (reactive_engine, FactStore, the report
+       generator) can read structured findings without re-scanning.
+    3. :meth:`pretty_print` renders a human-readable summary in the
+       operator shell.
+
+    Side-effects are bounded to the configured sessions directory.
+    Network access uses a configurable User-Agent so the framework
+    avoids hardcoded browser strings duplicated across modules.
     """
 
-    def __init__(self):
-        """Inicializa el escáner con las cabeceras HTTP predefinidas."""
-        self.headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
-        }
-
-    def search_cves(self, service):
-        """Busca CVEs basados en un servicio específico.
+    def __init__(
+        self,
+        user_agent: str | None = None,
+        max_workers: int = VULN_DEFAULT_MAX_WORKERS,
+        sessions_dir: str | None = None,
+        description_language: str = VULN_DEFAULT_DESCRIPTION_LANG,
+    ) -> None:
+        """Initialize the scanner with configurable network and storage knobs.
 
         Args:
-            service (str): El servicio para buscar vulnerabilidades relacionadas.
+            user_agent: HTTP ``User-Agent`` header sent to the NVD and
+                cvedetails.com. When ``None`` the default desktop UA is
+                used so every NVD request remains identifiable.
+            max_workers: Upper bound on concurrent cvedetails enrichment
+                requests. Higher values shorten wall-clock time at the
+                cost of being rate-limited.
+            sessions_dir: Directory where JSON reports are persisted.
+                Defaults to ``<cwd>/sessions``.
+            description_language: ISO 639-1 language code used to pick
+                the human-readable CVE description from the NVD payload.
+        """
+        self.headers = {"User-Agent": user_agent or VULN_DEFAULT_USER_AGENT}
+        self._max_workers = max_workers
+        self._sessions_dir = sessions_dir or os.path.join(os.getcwd(), "sessions")
+        self._description_language = description_language
+
+    def search_cves(self, service: str) -> list[dict]:
+        """Return CVE records matching the supplied service banner.
+
+        Each record contains ``cve_id``, ``description``, ``cvss`` and
+        ``url`` keys. CVSS data is fetched concurrently from
+        cvedetails.com using a bounded thread pool.
+
+        Args:
+            service: The service banner or keyword to query (for
+                example ``"ProFTPD 1.3.5"``).
 
         Returns:
-            list: Lista de diccionarios con información sobre cada CVE o mensaje de error.
+            A list of CVE dictionaries. Empty when the upstream API is
+            unreachable or returns no matches.
         """
-        url = f"https://services.nvd.nist.gov/rest/json/cves/2.0?keywordSearch={service}"
-        response = requests.get(url, headers=self.headers)
-
-        if response.status_code != 200:
-            return "No se pudo obtener información de las vulnerabilidades"
-
+        url = VULN_NVD_URL_TEMPLATE.format(service=service)
+        try:
+            response = requests.get(url, headers=self.headers)
+        except requests.RequestException as exc:
+            print_error(f"NVD request failed: {exc}")
+            return []
+        if response.status_code != VULN_HTTP_OK:
+            print_error(
+                f"NVD returned HTTP {response.status_code} while searching '{service}'."
+            )
+            return []
         data_dict = response.json()
-        cves_info = []
-
-        for vulnerability in data_dict['vulnerabilities']:
-            cve_id = vulnerability['cve']['id']
-            descriptions = vulnerability['cve']['descriptions']
-            description = next((desc['value'] for desc in descriptions if desc['lang'] == 'es'), None)
-            cves_info.append({'cve_id': cve_id, 'description': description})
-
-        with ThreadPoolExecutor(max_workers=20) as executor:
-            executor.map(self.search_cve_details, cves_info)
-
+        cves_info: list[dict] = []
+        for vulnerability in data_dict.get("vulnerabilities", []):
+            cve_node = vulnerability.get("cve", {})
+            cve_id = cve_node.get("id")
+            if not cve_id:
+                continue
+            descriptions = cve_node.get("descriptions", [])
+            description = next(
+                (
+                    item.get("value")
+                    for item in descriptions
+                    if item.get("lang") == self._description_language
+                ),
+                None,
+            )
+            cves_info.append(
+                {
+                    "cve_id": cve_id,
+                    "description": description,
+                    "cvss": VULN_CVSS_UNAVAILABLE,
+                    "url": VULN_CVE_DETAILS_URL_TEMPLATE.format(cve_id=cve_id),
+                }
+            )
+        if cves_info:
+            with ThreadPoolExecutor(max_workers=self._max_workers) as executor:
+                executor.map(self._enrich_cve, cves_info)
         return cves_info
 
-    def search_cve_details(self, cve_info):
-        """Añade detalles adicionales a la información del CVE.
+    def _enrich_cve(self, cve_info: dict) -> None:
+        """Populate ``cvss`` for an in-place CVE record from cvedetails.com.
 
         Args:
-            cve_info (dict): Información básica del CVE incluyendo id y descripción.
+            cve_info: A CVE record produced by :meth:`search_cves`. The
+                record is mutated in place. Network or parsing errors
+                are swallowed so a single failure does not abort the
+                pool.
         """
-        cve_details_url = f"https://www.cvedetails.com/cve/{cve_info['cve_id']}/"
-        response = requests.get(cve_details_url, headers=self.headers)
-
-        if response.status_code == 200:
-            soup = BeautifulSoup(response.content, 'html.parser')
-            cvss_info = soup.find('div', {'class': 'cvssbox'})
-            cve_info['cvss'] = cvss_info.get_text().strip() if cvss_info else 'No disponible'
-            cve_info['url'] = cve_details_url
-
-    def pretty_print(self, cves_details):
-        """Imprime una tabla bonita con detalles de CVEs.
-
-        Args:
-            cves_details (list): Lista de CVEs con toda la información recopilada.
-        """
-        path = os.getcwd()
-
-        file_path = f"{path}/sessions/vuln_report_{int(time.time())}.csv"
-        print_msg("Vulnerabilities found.")
-        csv = "CVE ID;   Description;   CVSS;  URL"
-        print_msg(csv)
-
-
-        cves_details_sorted = sorted(
-            cves_details,
-            key=lambda x: float(x['cvss']) if x['cvss'] not in ["No disponible", None] else 0.0,
-            reverse=False
-        )
-
-        for cve in cves_details_sorted:
-            cvss_str = str(cve['cvss']) if cve['cvss'] not in ["No disponible", 0.0] else "No disponible"
-            content = f"{cve['cve_id']};    {cve['description']};   {cvss_str}; {cve['url']} \n"
-            csv += content
-            print_msg(content)
-
+        details_url = VULN_CVE_DETAILS_URL_TEMPLATE.format(cve_id=cve_info["cve_id"])
         try:
-            with open(file_path, 'w') as file:
-                file.write(csv)
-            print_msg(f"Csv file created successfully at {file_path}")
-        except Exception as e:
-            print_error(f"Error creating Csv file: {e}")
+            response = requests.get(details_url, headers=self.headers)
+        except requests.RequestException:
+            return
+        if response.status_code != VULN_HTTP_OK:
+            return
+        soup = BeautifulSoup(response.content, "html.parser")
+        cvss_info = soup.find("div", {"class": "cvssbox"})
+        cve_info["cvss"] = (
+            cvss_info.get_text().strip() if cvss_info else VULN_CVSS_UNAVAILABLE
+        )
+        cve_info["url"] = details_url
+
+    def persist(self, service: str, target: str, cves: list[dict]) -> str:
+        """Persist ``cves`` to ``sessions/vulns_<target>.json``.
+
+        The schema is intentionally stable so reactive engines and
+        report generators can rely on the field names without
+        re-deriving them from CLI output. When the file already exists
+        the latest report supersedes the previous one — callers that
+        need history should retain the prior file out of band.
+
+        Args:
+            service: The original service banner that produced the
+                findings. Stored under ``service`` so consumers can
+                attribute results to a recon step.
+            target: The target identifier (typically ``rhost``). Used
+                both as the filename component and the ``target`` field.
+            cves: The CVE records returned by :meth:`search_cves`.
+
+        Returns:
+            The absolute path of the JSON document written.
+        """
+        os.makedirs(self._sessions_dir, exist_ok=True)
+        safe_target = re.sub(r"[^a-zA-Z0-9._-]", "_", target) or "unknown"
+        file_name = VULN_SESSION_FILE_TEMPLATE.format(target=safe_target)
+        file_path = os.path.join(self._sessions_dir, file_name)
+        document = {
+            "schema_version": VULN_SCHEMA_VERSION,
+            "target": target,
+            "service": service,
+            "scanned_at": datetime.utcnow().isoformat(timespec="seconds") + "Z",
+            "cves": cves,
+        }
+        temp_path = file_path + ".tmp"
+        with open(temp_path, "w", encoding="utf-8") as handle:
+            json.dump(document, handle, indent=2, ensure_ascii=False)
+        os.replace(temp_path, file_path)
+        return file_path
+
+    def pretty_print(self, cves_details: list[dict]) -> None:
+        """Render ``cves_details`` as semicolon-separated rows in the shell.
+
+        Sorts the records by ascending CVSS so the operator sees the
+        lowest-impact rows first and the most dangerous CVEs sit at the
+        bottom of the scroll buffer, closest to the prompt.
+
+        Args:
+            cves_details: CVE records produced by :meth:`search_cves`.
+        """
+        print_msg("Vulnerabilities found.")
+        print_msg(VULN_REPORT_PRINT_HEADER)
+
+        def _cvss_sort_key(record: dict) -> float:
+            value = record.get("cvss")
+            try:
+                return float(value)
+            except (TypeError, ValueError):
+                return 0.0
+
+        for cve in sorted(cves_details, key=_cvss_sort_key):
+            cvss_value = cve.get("cvss") or VULN_CVSS_UNAVAILABLE
+            content = (
+                f"{cve.get('cve_id')};    {cve.get('description')};"
+                f"   {cvss_value}; {cve.get('url')} \n"
+            )
+            print_msg(content)
 
 def _build_startup_parser() -> argparse.ArgumentParser:
     """Build the CLI argument parser for LazyOwn startup flags."""

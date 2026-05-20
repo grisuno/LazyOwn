@@ -257,6 +257,7 @@ _GREP_SCOPES: dict[str, list[str]] = {
     "nmap": [
         "scan_*.nmap",
         "vulns_*.nmap",
+        "vulns_*.json",
         "scan_*.nmap.xml",
         "*/nmap/**/*",
     ],
@@ -414,6 +415,7 @@ def build_target_context(
     nmap_scan = base / f"scan_{host}.nmap"
     nmap_vulns = base / f"vulns_{host}.nmap"
     nmap_xml = base / f"scan_{host}.nmap.xml"
+    cve_report = base / f"vulns_{host}.json"
 
     open_ports: list[dict[str, Any]] = []
     if nmap_scan.exists():
@@ -468,10 +470,30 @@ def build_target_context(
             continue
         vulns.append(v)
 
+    if cve_report.exists():
+        try:
+            with open(cve_report, "r", encoding="utf-8") as handle:
+                cve_doc = json.load(handle)
+            for cve in cve_doc.get("cves", []):
+                vulns.append(
+                    {
+                        "host": host,
+                        "source": str(cve_report.name),
+                        "service": cve_doc.get("service"),
+                        "cve_id": cve.get("cve_id"),
+                        "description": cve.get("description"),
+                        "cvss": cve.get("cvss"),
+                        "url": cve.get("url"),
+                    }
+                )
+        except (OSError, json.JSONDecodeError):
+            pass
+
     nmap_evidence = {
         "scan": evidence_freshness(nmap_scan),
         "vulns": evidence_freshness(nmap_vulns),
         "xml": evidence_freshness(nmap_xml),
+        "cve_report": evidence_freshness(cve_report),
     }
 
     return {
@@ -491,6 +513,7 @@ _DUPE_COMMAND_ARTIFACTS: dict[str, list[str]] = {
     "lazynmap": ["scan_{rhost}.nmap", "scan_{rhost}.nmap.xml"],
     "nmap": ["scan_{rhost}.nmap", "scan_{rhost}.nmap.xml"],
     "vulnscan": ["vulns_{rhost}.nmap"],
+    "vulns": ["vulns_{rhost}.json"],
     "pyautomate": ["{rhost}/"],
     "pwntomate": ["{rhost}/"],
 }

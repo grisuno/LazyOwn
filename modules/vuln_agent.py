@@ -7,9 +7,17 @@ import logging
 import importlib.util
 import importlib.machinery
 from flask import Response, stream_with_context
-from ai_model import AIModel, GroqModel, OllamaModel
+from ai_model import AIModel
 from agent_tool import AgentTool
 from agent_runner import AgentRunner
+from llm_factory import BACKEND_GROQ, BACKEND_OLLAMA, get_llm_backend
+
+
+_PROVIDER_ALIAS = {
+    "groq": BACKEND_GROQ,
+    "deepseek": BACKEND_OLLAMA,
+    "ollama": BACKEND_OLLAMA,
+}
 
 BANNER = """
 [LazyOwn AI Agent]
@@ -131,15 +139,23 @@ class VulnBotCLI:
         configure_logging(debug)
     
     def _load_model(self) -> AIModel:
-        if self.provider == "groq":
-            api_key = os.environ.get("GROQ_API_KEY")
-            if not api_key:
-                raise ValueError("GROQ_API_KEY no está definida en las variables de entorno.")
-            return GroqModel(api_key=api_key)
-        elif self.provider == "deepseek":
-            return OllamaModel(model="deepseek-r1:1.5b")
-        else:
-            raise ValueError(f"Proveedor no soportado: {self.provider}")
+        """Instantiate the LLM backend mapped to ``self.provider``.
+
+        The historical provider identifiers ``"groq"`` and ``"deepseek"``
+        are preserved for backwards compatibility with existing CLI
+        switches and translated to the factory's canonical identifiers.
+
+        Returns:
+            A configured :class:`AIModel` instance.
+
+        Raises:
+            LLMBackendNotSupportedError: When ``self.provider`` does not
+                map to a known backend.
+            LLMBackendUnavailableError: When the resolved backend cannot
+                be constructed from the current environment.
+        """
+        backend = _PROVIDER_ALIAS.get(self.provider, self.provider)
+        return get_llm_backend(backend=backend)
     
     def _setup_agent(self):
         """Configura el agente para EJECUTAR COMANDOS REALES"""

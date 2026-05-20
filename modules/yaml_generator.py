@@ -4,7 +4,15 @@ import os
 import re
 import sys
 from typing import Dict, Optional
-from ai_model import AIModel, GroqModel, OllamaModel
+from ai_model import AIModel
+from llm_factory import BACKEND_GROQ, BACKEND_OLLAMA, get_llm_backend
+
+
+_PROVIDER_ALIAS = {
+    "groq": BACKEND_GROQ,
+    "deepseek": BACKEND_OLLAMA,
+    "ollama": BACKEND_OLLAMA,
+}
 
 
 class YAMLPromptGenerator:
@@ -23,14 +31,26 @@ class YAMLPromptGenerator:
             return json.load(f)
 
     def _load_model(self) -> AIModel:
-        if self.provider == "groq":
-            if not self.api_key:
-                raise ValueError("GROQ_API_KEY no está definida ni en argumento ni en variables de entorno.")
-            return GroqModel(api_key=self.api_key)
-        elif self.provider == "deepseek":
-            return OllamaModel(model="deepseek-r1:1.5b")
-        else:
-            raise ValueError(f"Proveedor no soportado: {self.provider}")
+        """Instantiate the LLM backend mapped to ``self.provider``.
+
+        When ``self.api_key`` is supplied explicitly it is propagated
+        into the payload mapping so the factory's Groq builder honours
+        the caller-provided credential ahead of environment variables.
+
+        Returns:
+            A configured :class:`AIModel` instance.
+
+        Raises:
+            LLMBackendNotSupportedError: When ``self.provider`` does not
+                map to a known backend.
+            LLMBackendUnavailableError: When the resolved backend cannot
+                be constructed from the current environment.
+        """
+        backend = _PROVIDER_ALIAS.get(self.provider, self.provider)
+        config = dict(self.payload_data) if isinstance(self.payload_data, dict) else {}
+        if self.api_key:
+            config["api_key"] = self.api_key
+        return get_llm_backend(config=config, backend=backend)
 
     def generate_prompt(self, user_request: str) -> str:
         """Genera el prompt para la IA en inglés"""

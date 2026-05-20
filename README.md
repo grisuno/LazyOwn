@@ -2996,28 +2996,76 @@ Get the AS name by ASN.
 Get the country by ASN.
 
 ## __init__
-Inicializa el escáner con las cabeceras HTTP predefinidas.
+Initialize the scanner with configurable network and storage knobs.
+
+Args:
+    user_agent: HTTP ``User-Agent`` header sent to the NVD and
+        cvedetails.com. When ``None`` the default desktop UA is
+        used so every NVD request remains identifiable.
+    max_workers: Upper bound on concurrent cvedetails enrichment
+        requests. Higher values shorten wall-clock time at the
+        cost of being rate-limited.
+    sessions_dir: Directory where JSON reports are persisted.
+        Defaults to ``<cwd>/sessions``.
+    description_language: ISO 639-1 language code used to pick
+        the human-readable CVE description from the NVD payload.
 
 ## search_cves
-Busca CVEs basados en un servicio específico.
+Return CVE records matching the supplied service banner.
+
+Each record contains ``cve_id``, ``description``, ``cvss`` and
+``url`` keys. CVSS data is fetched concurrently from
+cvedetails.com using a bounded thread pool.
 
 Args:
-    service (str): El servicio para buscar vulnerabilidades relacionadas.
+    service: The service banner or keyword to query (for
+        example ``"ProFTPD 1.3.5"``).
 
 Returns:
-    list: Lista de diccionarios con información sobre cada CVE o mensaje de error.
+    A list of CVE dictionaries. Empty when the upstream API is
+    unreachable or returns no matches.
 
-## search_cve_details
-Añade detalles adicionales a la información del CVE.
+## _enrich_cve
+Populate ``cvss`` for an in-place CVE record from cvedetails.com.
 
 Args:
-    cve_info (dict): Información básica del CVE incluyendo id y descripción.
+    cve_info: A CVE record produced by :meth:`search_cves`. The
+        record is mutated in place. Network or parsing errors
+        are swallowed so a single failure does not abort the
+        pool.
+
+## persist
+Persist ``cves`` to ``sessions/vulns_<target>.json``.
+
+The schema is intentionally stable so reactive engines and
+report generators can rely on the field names without
+re-deriving them from CLI output. When the file already exists
+the latest report supersedes the previous one — callers that
+need history should retain the prior file out of band.
+
+Args:
+    service: The original service banner that produced the
+        findings. Stored under ``service`` so consumers can
+        attribute results to a recon step.
+    target: The target identifier (typically ``rhost``). Used
+        both as the filename component and the ``target`` field.
+    cves: The CVE records returned by :meth:`search_cves`.
+
+Returns:
+    The absolute path of the JSON document written.
 
 ## pretty_print
-Imprime una tabla bonita con detalles de CVEs.
+Render ``cves_details`` as semicolon-separated rows in the shell.
+
+Sorts the records by ascending CVSS so the operator sees the
+lowest-impact rows first and the most dangerous CVEs sit at the
+bottom of the scroll buffer, closest to the prompt.
 
 Args:
-    cves_details (list): Lista de CVEs con toda la información recopilada.
+    cves_details: CVE records produced by :meth:`search_cves`.
+
+## _cvss_sort_key
+No description available.
 
 <!-- END UTILS -->
 
@@ -3069,6 +3117,49 @@ Args:
 
 Returns:
     data unchanged — the hook must return PostcommandData.
+
+## _read_recent_commands_for_autosuggest
+Return the last ``limit`` first-tokens from the session transcript.
+
+The transcript lives at ``sessions/LazyOwn_session_report.csv``.
+Newest entries appear last in the returned list.
+
+Args:
+    limit: Maximum number of distinct command names to return.
+
+Returns:
+    A list of command first-tokens. Empty when the file is
+    absent or unreadable.
+
+## _refresh_autosuggest
+Recompute the active suggestion from the engine's provider chain.
+
+Reads ``enable_autosuggest`` from ``self.params`` so the
+operator can toggle the feature with ``set enable_autosuggest
+false`` without restarting the shell. Commands listed in the
+engine's skip set are passed through unchanged so help/exit
+do not poison the context.
+
+Args:
+    executed_command: First-line of the command that just
+        executed. The engine drops it into
+        :class:`cli.autosuggest.SuggestionContext.last_command`.
+
+## _autosuggest_hook
+Refresh the next-command suggestion and print one dim hint line.
+
+The hint is printed below the command output, never injected
+into ``self.prompt``, so readline column accounting stays
+intact and the prompt itself remains clean. Failure inside the
+hook is swallowed — at worst the operator sees no hint.
+
+Args:
+    data: cmd2 PostcommandData containing the executed
+        statement.
+
+Returns:
+    ``data`` unchanged. cmd2 expects the hook to return the
+    same PostcommandData reference.
 
 ## _engagement_hook
 Post-command hook: biological curiosity reveal + VRI reward.
@@ -6137,6 +6228,96 @@ Example:
 
 Note:
     Ensure that the `rhost` is valid by checking it with the `check_rhost` function before updating the prompt.
+
+## next
+Execute the active next-command suggestion (alias ``.``).
+
+The autosuggest engine prints a dim ``press '.' to run: <cmd>``
+line after every command. ``next`` (or ``.``) pops that
+suggestion, runs it via ``onecmd_plus_hooks`` so every regular
+pre/post hook fires, and then forces the engine to recompute
+using the executed command as ``last_command`` — guaranteeing
+the next suggestion advances even if cmd2 does not re-fire its
+postcmd hook for the nested call.
+
+Args:
+    line: Ignored. Present to satisfy the cmd2 ``do_*``
+        contract.
+
+Returns:
+    None.
+
+## daemon_mode
+Switch the autonomous daemon between auto, approval and paused modes.
+
+Usage:
+    daemon_mode auto       Run without operator gating (default).
+    daemon_mode approval   Require operator approval per command.
+    daemon_mode paused     Block the loop before the next step.
+
+The selected mode is persisted to
+``sessions/daemon_control.json`` and read by the daemon before
+every step. No daemon restart is required.
+
+Args:
+    line: Whitespace-stripped mode name.
+
+Returns:
+    None.
+
+## daemon_pause
+Pause the autonomous daemon before its next step.
+
+Equivalent to ``daemon_mode paused``. The daemon polls the
+control file between steps and resumes once the mode flips back
+to auto or approval.
+
+Args:
+    line: Ignored.
+
+## daemon_resume
+Resume the autonomous daemon (switch mode to auto).
+
+Args:
+    line: Ignored.
+
+## daemon_veto
+Add or clear vetoed command first-tokens for the autonomous daemon.
+
+Usage:
+    daemon_veto add <command>       Block <command> on future steps.
+    daemon_veto remove <command>    Remove a previously-blocked command.
+    daemon_veto clear               Drop every veto entry.
+    daemon_veto                     List the current vetoes.
+
+Args:
+    line: Sub-command plus optional command token.
+
+## daemon_focus
+Restrict the autonomous daemon to a set of focus targets.
+
+Usage:
+    daemon_focus <ip_or_host> [<ip_or_host> ...]
+    daemon_focus clear         Drop the focus list (run anywhere).
+    daemon_focus               Print the current focus targets.
+
+Args:
+    line: Whitespace-separated list of targets or sub-command.
+
+## daemon_approve
+Approve or veto the daemon's currently-pending action.
+
+Usage:
+    daemon_approve                   Approve the active pending action.
+    daemon_approve veto              Veto the active pending action.
+    daemon_approve show              Print the pending action (no decision).
+
+The active action lives in ``sessions/daemon_control.json``
+under ``pending`` and is created by the daemon when running in
+approval mode.
+
+Args:
+    line: Optional sub-command.
 
 ## banner
 Show the banner
@@ -11979,16 +12160,23 @@ Parameters:
 Return None
 
 ## vulns
-Scan for vulnerabilities based on a provided service banner.
+Search the NVD for CVEs matching a service banner and persist findings.
 
-This function initializes a vulnerability scanner and searches for CVEs (Common Vulnerabilities and Exposures)
-related to the specified service banner. If no service banner is provided, it prompts the user to enter one.
+The configured ``rhost`` value from ``payload.json`` is used as
+the target identifier for the persisted JSON report. The scanner
+respects the operator's ``user_agent_lin`` setting when present
+so reconnaissance traffic shares the same fingerprint across the
+framework.
 
 Args:
-    line (str): The service banner to search for vulnerabilities. If not provided, the user will be prompted to enter one.
+    line: Optional service banner. When empty the operator is
+        prompted interactively; the input is stripped of
+        surrounding whitespace before being sent to the NVD.
 
 Returns:
-    None
+    None. Results are printed to the shell and persisted to
+    ``sessions/vulns_<rhost>.json`` so the reactive engine and
+    report generator can consume them without re-scanning.
 
 Example:
     do_vulns "ProFTPD 1.3.5"
@@ -13057,6 +13245,13 @@ No description available.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): lazyaddons \n\n Version: release/0.2.130 \n\n mroe granularity to lazyaddosns and triggers ? comming soon \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: mar 19 may 2026 00:55:27 -04 \n\n Hora: 1779166527
 
 
 ### Nuevas características

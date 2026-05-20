@@ -106,6 +106,10 @@ HIVE_BACKEND        = os.environ.get("AUTO_HIVE_BACKEND",        "groq")
 HIVE_MAX_ITER       = int(os.environ.get("AUTO_HIVE_MAX_ITER",   "8"))
 HEARTBEAT_S         = float(os.environ.get("AUTO_HEARTBEAT",     "30"))
 BLOCKED_ESCALATE_N  = int(os.environ.get("AUTO_BLOCKED_ESCALATE","2"))
+CONTROL_VETO_MAX_RETRIES = int(os.environ.get("AUTO_VETO_RETRIES", "3"))
+CONTROL_APPROVAL_TTL_S   = float(os.environ.get("AUTO_APPROVAL_TTL", "30"))
+CONTROL_PAUSE_POLL_S     = float(os.environ.get("AUTO_PAUSE_POLL", "1"))
+CONTROL_PAUSE_MAX_S      = float(os.environ.get("AUTO_PAUSE_MAX",  "3600"))
 
 # ── Optional imports ──────────────────────────────────────────────────────────
 
@@ -133,6 +137,22 @@ try:
     from reactive_engine import get_engine as _ReactEngine  # type: ignore[assignment]
 except Exception as _e:
     log.debug("world_model/obs_parser/reactive_engine not available: %s", _e)
+
+try:
+    from daemon_control import (
+        DaemonControl as _DaemonControl,
+        DECISION_APPROVED as _DECISION_APPROVED,
+        MODE_APPROVAL as _MODE_APPROVAL,
+        wait_for_decision as _wait_for_decision,
+        wait_until_unpaused as _wait_until_unpaused,
+    )
+except Exception as _control_exc:
+    log.debug("daemon_control not available: %s", _control_exc)
+    _DaemonControl = None
+    _DECISION_APPROVED = "approved"
+    _MODE_APPROVAL = "approval"
+    _wait_for_decision = None
+    _wait_until_unpaused = None
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -1370,9 +1390,100 @@ async def _run_objective(
     except Exception as _oe:
         log.debug("sessions/os.json write error: %s", _oe)
 
+    control = _DaemonControl(SESSIONS_DIR) if _DaemonControl is not None else None
+
     for step_n in range(1, max_steps + 1):
+        if control is not None:
+            try:
+                if not control.target_in_focus(target):
+                    _emit("TARGET_OUT_OF_FOCUS", {
+                        "objective_id": objective_id,
+                        "target":       target,
+                        "focus":        control.load().focus_targets,
+                    })
+                    log.info(
+                        "  [control] target %s not in focus list — ending objective",
+                        target,
+                    )
+                    break
+                if control.is_paused() and _wait_until_unpaused is not None:
+                    _emit("DAEMON_PAUSED", {
+                        "objective_id": objective_id,
+                        "step":         step_n,
+                    })
+                    resumed = await loop.run_in_executor(
+                        None,
+                        lambda: _wait_until_unpaused(
+                            control,
+                            poll_interval=CONTROL_PAUSE_POLL_S,
+                            max_wait_seconds=CONTROL_PAUSE_MAX_S,
+                        ),
+                    )
+                    if not resumed:
+                        _emit("DAEMON_PAUSE_TIMEOUT", {
+                            "objective_id": objective_id,
+                            "step":         step_n,
+                            "max_wait_s":   CONTROL_PAUSE_MAX_S,
+                        })
+                        log.info(
+                            "  [control] paused beyond AUTO_PAUSE_MAX (%.0fs) — ending objective",
+                            CONTROL_PAUSE_MAX_S,
+                        )
+                        break
+                    _emit("DAEMON_RESUMED", {
+                        "objective_id": objective_id,
+                        "step":         step_n,
+                    })
+            except Exception as _ctl_exc:
+                log.debug("control pre-step error: %s", _ctl_exc)
+
         decision = strategy.next_command(target, phase, services, os_hint=detected_os)
         command  = decision.command.replace("{rhost}", target).replace("TARGET", target)
+
+        if control is not None:
+            try:
+                veto_attempts = 0
+                while (
+                    control.is_vetoed(command)
+                    and veto_attempts < CONTROL_VETO_MAX_RETRIES
+                ):
+                    _emit("COMMAND_VETOED", {
+                        "objective_id": objective_id,
+                        "step":         step_n,
+                        "command":      command,
+                        "attempt":      veto_attempts + 1,
+                    })
+                    log.info(
+                        "  [control] %s vetoed (attempt %d/%d) — requesting alternative",
+                        command, veto_attempts + 1, CONTROL_VETO_MAX_RETRIES,
+                    )
+                    alt = strategy.next_command(
+                        target, phase, services, os_hint=detected_os,
+                    )
+                    alt_cmd = alt.command.replace("{rhost}", target).replace(
+                        "TARGET", target,
+                    )
+                    if not alt_cmd or alt_cmd == command:
+                        veto_attempts += 1
+                        continue
+                    decision = alt
+                    command  = alt_cmd
+                    veto_attempts += 1
+                if control.is_vetoed(command):
+                    _emit("STEP_SKIPPED", {
+                        "objective_id": objective_id,
+                        "step":         step_n,
+                        "command":      command,
+                        "reason":       "all alternatives vetoed",
+                    })
+                    log.info(
+                        "  [control] no non-vetoed alternative for step %d — skipping",
+                        step_n,
+                    )
+                    continue
+            except Exception as _veto_exc:
+                log.debug("control veto loop error: %s", _veto_exc)
+
         # Use 'assign' (the LazyOwn shell command) to set params including
         # rhost and os_id. Both _run_lazyown_command and PTYCommandRunner
         # accept multi-line input; each line is one shell command.
@@ -1410,6 +1521,47 @@ async def _run_objective(
             "source":  decision.source,
             "reason":  decision.reason,
         })
+
+        if (
+            control is not None
+            and _wait_for_decision is not None
+            and control.load().mode == _MODE_APPROVAL
+        ):
+            try:
+                pending = control.propose(
+                    command,
+                    reason=decision.reason,
+                    target=target,
+                    ttl_seconds=CONTROL_APPROVAL_TTL_S,
+                )
+                _emit("APPROVAL_REQUESTED", {
+                    "objective_id": objective_id,
+                    "step":         step_n,
+                    "action_id":    pending.action_id,
+                    "command":      pending.command,
+                    "reason":       pending.reason,
+                    "target":       pending.target,
+                    "ttl_seconds":  pending.ttl_seconds,
+                })
+                final = await loop.run_in_executor(
+                    None, _wait_for_decision, control, pending,
+                )
+                control.consume(pending.action_id)
+                _emit("APPROVAL_DECIDED", {
+                    "objective_id": objective_id,
+                    "step":         step_n,
+                    "action_id":    final.action_id,
+                    "decision":     final.decision,
+                    "operator":     final.operator,
+                })
+                if final.decision != _DECISION_APPROVED:
+                    log.info(
+                        "  [control] step %d %s by operator — skipping",
+                        step_n, final.decision,
+                    )
+                    continue
+            except Exception as _appr_exc:
+                log.debug("control approval gate error: %s", _appr_exc)
 
         output = await loop.run_in_executor(
             None, _run_lazyown, full_cmd, STEP_TIMEOUT_S,

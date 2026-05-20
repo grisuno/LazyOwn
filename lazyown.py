@@ -2159,6 +2159,54 @@ class LazyOwnShell(cmd2.Cmd):
         sessions_dir = getattr(self, "sessions_dir", "sessions") or "sessions"
         _launch_dashboard(payload_path=payload_path, sessions_dir=sessions_dir)
 
+    @cmd2.with_category(recon_category)
+    def do_surface(self, line):
+        """Render the network surface graph in the terminal.
+
+        Mirrors the ``vis.js`` graph at ``http://<lhost>:<c2_port>/`` but
+        works entirely from the filesystem: it reads the same artefacts
+        ``lazyc2.py`` consumes (``sessions/hostsdiscovery.txt``,
+        ``sessions/scan_discovery*.csv``, per-implant ``sessions/<id>.log``,
+        ``payload.json``) so the operator can inspect the picture from a
+        cmd2 shell with no Flask server attached.
+
+        Usage:
+            ``surface``         — print a static Rich tree + stats table.
+            ``surface --tui``   — open the full-screen Textual explorer.
+            ``surface --json``  — emit the graph as JSON.
+            ``surface --help``  — show this message.
+
+        :param line: optional flags ``--tui``, ``--json`` or ``--help``.
+        :type line: str
+        :return: None
+        """
+        tokens = (line or "").split()
+        if "--help" in tokens or "-h" in tokens:
+            print_msg(self.do_surface.__doc__ or "")
+            return
+        sessions_dir = getattr(self, "sessions_dir", "sessions") or "sessions"
+        payload_path = "payload.json"
+        try:
+            from cli.surface_tui import (
+                TextualNotInstalled,
+                launch_tui as _surface_launch_tui,
+                render_json as _surface_render_json,
+                render_static as _surface_render_static,
+            )
+        except ImportError as exc:
+            print_error(f"surface renderer unavailable: {exc}")
+            return
+        if "--json" in tokens:
+            print_msg(_surface_render_json(sessions_dir=sessions_dir, payload_path=payload_path))
+            return
+        if "--tui" in tokens:
+            try:
+                _surface_launch_tui(sessions_dir=sessions_dir, payload_path=payload_path)
+            except TextualNotInstalled as exc:
+                print_error(str(exc))
+            return
+        _surface_render_static(sessions_dir=sessions_dir, payload_path=payload_path)
+
     @with_category("10. Command & Control")
     def do_collab_join(self, line):
         """Print the multi-operator collaboration join URL and SSE endpoint.

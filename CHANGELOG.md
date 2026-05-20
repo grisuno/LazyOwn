@@ -6,6 +6,13 @@
 
 ### Otros
 
+  *   * feat(feat): surface \n\n Version: release/0.2.132 \n\n new command to explore the surface of operation \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: mié 20 may 2026 13:12:50 -04 \n\n Hora: 1779297170
+
+
+### Nuevas características
+
+### Otros
+
   *   * feat(feat): suggested commands \n\n Version: release/0.2.131 \n\n  \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: mar 19 may 2026 23:05:50 -04 \n\n Hora: 1779246350
 
 

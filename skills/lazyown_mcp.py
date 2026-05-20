@@ -2755,6 +2755,119 @@ async def list_tools() -> list[types.Tool]:
                 "required": [],
             },
         ),
+        types.Tool(
+            name="lazyown_daemon_status",
+            description=(
+                "Return the full operator-steering state for the autonomous daemon "
+                "from sessions/daemon_control.json: mode, vetoed_commands, "
+                "focus_targets, and any pending approval request."
+            ),
+            inputSchema={"type": "object", "properties": {}, "required": []},
+        ),
+        types.Tool(
+            name="lazyown_daemon_mode",
+            description=(
+                "Switch the autonomous daemon mode: auto (no gating), approval "
+                "(operator approves every command), or paused (loop halts before "
+                "the next step). Persists to sessions/daemon_control.json so the "
+                "running daemon picks it up before its next step."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "mode": {
+                        "type": "string",
+                        "enum": ["auto", "approval", "paused"],
+                        "description": "Target mode for the daemon control loop.",
+                    },
+                },
+                "required": ["mode"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_daemon_pause",
+            description=(
+                "Convenience wrapper that sets the daemon mode to paused. "
+                "The daemon polls between steps and will block until resume."
+            ),
+            inputSchema={"type": "object", "properties": {}, "required": []},
+        ),
+        types.Tool(
+            name="lazyown_daemon_resume",
+            description=(
+                "Convenience wrapper that sets the daemon mode back to auto. "
+                "Any paused objective continues with its next step."
+            ),
+            inputSchema={"type": "object", "properties": {}, "required": []},
+        ),
+        types.Tool(
+            name="lazyown_daemon_veto",
+            description=(
+                "Manage the command veto list. action=add appends a first-token "
+                "name (e.g. nmap), action=remove drops it, action=clear empties "
+                "the list, action=list returns the current entries."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "action": {
+                        "type": "string",
+                        "enum": ["add", "remove", "clear", "list"],
+                        "default": "list",
+                    },
+                    "command": {
+                        "type": "string",
+                        "description": "Command first-token (required for add and remove).",
+                        "default": "",
+                    },
+                },
+                "required": ["action"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_daemon_focus",
+            description=(
+                "Restrict the daemon to a list of focus targets. Pass targets=[] "
+                "to disable focus (run anywhere). Replaces the existing list on "
+                "every call."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "targets": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "IP addresses or hostnames to focus on.",
+                        "default": [],
+                    },
+                },
+                "required": ["targets"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_daemon_approve",
+            description=(
+                "Approve or veto the daemon's currently-pending command. "
+                "Returns the resolved PendingAction or an error string when no "
+                "action is awaiting a decision."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "decision": {
+                        "type": "string",
+                        "enum": ["approved", "vetoed"],
+                        "default": "approved",
+                    },
+                    "operator": {
+                        "type": "string",
+                        "description": "Identifier of the deciding operator.",
+                        "default": "mcp",
+                    },
+                },
+                "required": ["decision"],
+            },
+        ),
         # ── END Autonomous Daemon tools ─────────────────────────────────────
 
         # ── Engage Orchestrator tools ───────────────────────────────────────
@@ -8076,6 +8189,129 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             return text(_auto_events(last_n=int(arguments.get("last_n", 20))))
         except Exception as exc:
             return text(f"[autonomous_events error] {exc}")
+
+    # ── Daemon Control handlers ──────────────────────────────────────────────
+    elif name == "lazyown_daemon_status":
+        try:
+            from daemon_control import DaemonControl as _DC
+            state = _DC(SESSIONS_DIR).load()
+            return text(json.dumps(state.to_dict(), indent=2, ensure_ascii=False))
+        except Exception as exc:
+            return text(f"[daemon_status error] {exc}")
+
+    elif name == "lazyown_daemon_mode":
+        try:
+            from daemon_control import DaemonControl as _DC
+            mode = str(arguments.get("mode", "")).strip().lower()
+            state = _DC(SESSIONS_DIR).set_mode(mode)
+            return text(json.dumps(
+                {"ok": True, "mode": state.mode}, ensure_ascii=False,
+            ))
+        except ValueError as exc:
+            return text(f"[daemon_mode error] {exc}")
+        except Exception as exc:
+            return text(f"[daemon_mode error] {exc}")
+
+    elif name == "lazyown_daemon_pause":
+        try:
+            from daemon_control import DaemonControl as _DC
+            state = _DC(SESSIONS_DIR).pause()
+            return text(json.dumps(
+                {"ok": True, "mode": state.mode}, ensure_ascii=False,
+            ))
+        except Exception as exc:
+            return text(f"[daemon_pause error] {exc}")
+
+    elif name == "lazyown_daemon_resume":
+        try:
+            from daemon_control import DaemonControl as _DC
+            state = _DC(SESSIONS_DIR).resume()
+            return text(json.dumps(
+                {"ok": True, "mode": state.mode}, ensure_ascii=False,
+            ))
+        except Exception as exc:
+            return text(f"[daemon_resume error] {exc}")
+
+    elif name == "lazyown_daemon_veto":
+        try:
+            from daemon_control import DaemonControl as _DC
+            control = _DC(SESSIONS_DIR)
+            action = str(arguments.get("action", "list")).strip().lower()
+            command = str(arguments.get("command", "")).strip()
+            if action == "add":
+                state = control.add_veto(command)
+            elif action == "remove":
+                state = control.remove_veto(command)
+            elif action == "clear":
+                state = control.clear_vetoes()
+            elif action == "list":
+                state = control.load()
+            else:
+                return text(
+                    f"[daemon_veto error] unknown action '{action}'; expected add|remove|clear|list"
+                )
+            return text(json.dumps(
+                {"ok": True, "vetoed_commands": state.vetoed_commands},
+                ensure_ascii=False,
+            ))
+        except ValueError as exc:
+            return text(f"[daemon_veto error] {exc}")
+        except Exception as exc:
+            return text(f"[daemon_veto error] {exc}")
+
+    elif name == "lazyown_daemon_focus":
+        try:
+            from daemon_control import DaemonControl as _DC
+            targets_raw = arguments.get("targets", [])
+            if not isinstance(targets_raw, list):
+                return text(
+                    "[daemon_focus error] targets must be a list of strings"
+                )
+            targets = [str(t) for t in targets_raw if isinstance(t, (str, int))]
+            state = _DC(SESSIONS_DIR).set_focus(targets)
+            return text(json.dumps(
+                {"ok": True, "focus_targets": state.focus_targets},
+                ensure_ascii=False,
+            ))
+        except Exception as exc:
+            return text(f"[daemon_focus error] {exc}")
+
+    elif name == "lazyown_daemon_approve":
+        try:
+            from daemon_control import DaemonControl as _DC
+            decision = str(arguments.get("decision", "approved")).strip().lower()
+            operator = str(arguments.get("operator", "mcp")).strip()
+            control = _DC(SESSIONS_DIR)
+            pending = control.load().pending
+            if pending is None:
+                return text(json.dumps(
+                    {"ok": False, "error": "no pending action"},
+                    ensure_ascii=False,
+                ))
+            final = control.decide(
+                pending.action_id, decision, operator=operator,
+            )
+            if final is None:
+                return text(json.dumps(
+                    {"ok": False, "error": "pending action lost during decide"},
+                    ensure_ascii=False,
+                ))
+            return text(json.dumps(
+                {
+                    "ok":         True,
+                    "action_id":  final.action_id,
+                    "decision":   final.decision,
+                    "command":    final.command,
+                    "operator":   final.operator,
+                    "decided_at": final.decided_at,
+                },
+                ensure_ascii=False,
+            ))
+        except ValueError as exc:
+            return text(f"[daemon_approve error] {exc}")
+        except Exception as exc:
+            return text(f"[daemon_approve error] {exc}")
+    # ── END Daemon Control handlers ──────────────────────────────────────────
 
     # ── Engage Orchestrator handlers ──────────────────────────────────────────
     elif name == "lazyown_engage_target":

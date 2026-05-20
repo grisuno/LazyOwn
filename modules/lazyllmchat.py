@@ -13,9 +13,10 @@ if _script_dir not in sys.path:
     sys.path.insert(0, _script_dir)
 
 try:
-    from ai_model import AIModel, GroqModel, OllamaModel
+    from ai_model import AIModel
+    from llm_factory import try_get_llm_backend
 except ImportError:
-    print("Failed to import ai_model. Ensure modules/ai_model.py exists.")
+    print("Failed to import ai_model or llm_factory. Ensure modules/ai_model.py exists.")
     sys.exit(1)
 
 
@@ -170,25 +171,13 @@ class LLMEngine:
         self._load_model()
 
     def _load_model(self):
-        payload_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../payload.json"))
-        api_key = None
-        if os.path.exists(payload_path):
-            try:
-                with open(payload_path, "r") as f:
-                    data = json.load(f)
-                    api_key = data.get("api_key")
-            except Exception:
-                pass
-        if api_key:
-            try:
-                self.model = GroqModel(api_key=api_key)
-                return
-            except Exception:
-                pass
-        try:
-            self.model = OllamaModel(model="deepseek-r1:1.5b")
-        except Exception:
-            self.model = None
+        """Load the configured LLM backend through the central factory.
+
+        Returns ``None`` silently when neither Groq nor Ollama is
+        reachable so the chat UI can degrade gracefully instead of
+        crashing the operator shell.
+        """
+        self.model = try_get_llm_backend()
 
     def is_ready(self):
         return self.model is not None

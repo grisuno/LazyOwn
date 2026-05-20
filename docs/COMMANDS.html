@@ -209,6 +209,36 @@ the shell.</p>
 <p>Args: data: cmd2 PostcommandData containing the executed
 statement.</p>
 <p>Returns: data unchanged — the hook must return PostcommandData.</p>
+<h2
+id="read_recent_commands_for_autosuggest">_read_recent_commands_for_autosuggest</h2>
+<p>Return the last <code>limit</code> first-tokens from the session
+transcript.</p>
+<p>The transcript lives at
+<code>sessions/LazyOwn_session_report.csv</code>. Newest entries appear
+last in the returned list.</p>
+<p>Args: limit: Maximum number of distinct command names to return.</p>
+<p>Returns: A list of command first-tokens. Empty when the file is
+absent or unreadable.</p>
+<h2 id="refresh_autosuggest">_refresh_autosuggest</h2>
+<p>Recompute the active suggestion from the engine’s provider chain.</p>
+<p>Reads <code>enable_autosuggest</code> from <code>self.params</code>
+so the operator can toggle the feature with
+<code>set enable_autosuggest false</code> without restarting the shell.
+Commands listed in the engine’s skip set are passed through unchanged so
+help/exit do not poison the context.</p>
+<p>Args: executed_command: First-line of the command that just executed.
+The engine drops it into
+:class:<code>cli.autosuggest.SuggestionContext.last_command</code>.</p>
+<h2 id="autosuggest_hook">_autosuggest_hook</h2>
+<p>Refresh the next-command suggestion and print one dim hint line.</p>
+<p>The hint is printed below the command output, never injected into
+<code>self.prompt</code>, so readline column accounting stays intact and
+the prompt itself remains clean. Failure inside the hook is swallowed —
+at worst the operator sees no hint.</p>
+<p>Args: data: cmd2 PostcommandData containing the executed
+statement.</p>
+<p>Returns: <code>data</code> unchanged. cmd2 expects the hook to return
+the same PostcommandData reference.</p>
 <h2 id="engagement_hook">_engagement_hook</h2>
 <p>Post-command hook: biological curiosity reveal + VRI reward.</p>
 <p>Registered via <code>register_postcmd_hook</code> during
@@ -2999,6 +3029,62 @@ other value: - The command prompt is updated to show the
 format.</p>
 <p>Note: Ensure that the <code>rhost</code> is valid by checking it with
 the <code>check_rhost</code> function before updating the prompt.</p>
+<h2 id="next">next</h2>
+<p>Execute the active next-command suggestion (alias
+<code>.</code>).</p>
+<p>The autosuggest engine prints a dim
+<code>press '.' to run: &lt;cmd&gt;</code> line after every command.
+<code>next</code> (or <code>.</code>) pops that suggestion, runs it via
+<code>onecmd_plus_hooks</code> so every regular pre/post hook fires, and
+then forces the engine to recompute using the executed command as
+<code>last_command</code> — guaranteeing the next suggestion advances
+even if cmd2 does not re-fire its postcmd hook for the nested call.</p>
+<p>Args: line: Ignored. Present to satisfy the cmd2 <code>do_*</code>
+contract.</p>
+<p>Returns: None.</p>
+<h2 id="daemon_mode">daemon_mode</h2>
+<p>Switch the autonomous daemon between auto, approval and paused
+modes.</p>
+<p>Usage: daemon_mode auto Run without operator gating (default).
+daemon_mode approval Require operator approval per command. daemon_mode
+paused Block the loop before the next step.</p>
+<p>The selected mode is persisted to
+<code>sessions/daemon_control.json</code> and read by the daemon before
+every step. No daemon restart is required.</p>
+<p>Args: line: Whitespace-stripped mode name.</p>
+<p>Returns: None.</p>
+<h2 id="daemon_pause">daemon_pause</h2>
+<p>Pause the autonomous daemon before its next step.</p>
+<p>Equivalent to <code>daemon_mode paused</code>. The daemon polls the
+control file between steps and resumes once the mode flips back to auto
+or approval.</p>
+<p>Args: line: Ignored.</p>
+<h2 id="daemon_resume">daemon_resume</h2>
+<p>Resume the autonomous daemon (switch mode to auto).</p>
+<p>Args: line: Ignored.</p>
+<h2 id="daemon_veto">daemon_veto</h2>
+<p>Add or clear vetoed command first-tokens for the autonomous
+daemon.</p>
+<p>Usage: daemon_veto add <command> Block <command> on future steps.
+daemon_veto remove <command> Remove a previously-blocked command.
+daemon_veto clear Drop every veto entry. daemon_veto List the current
+vetoes.</p>
+<p>Args: line: Sub-command plus optional command token.</p>
+<h2 id="daemon_focus">daemon_focus</h2>
+<p>Restrict the autonomous daemon to a set of focus targets.</p>
+<p>Usage: daemon_focus <ip_or_host> [<ip_or_host> …] daemon_focus clear
+Drop the focus list (run anywhere). daemon_focus Print the current focus
+targets.</p>
+<p>Args: line: Whitespace-separated list of targets or sub-command.</p>
+<h2 id="daemon_approve">daemon_approve</h2>
+<p>Approve or veto the daemon’s currently-pending action.</p>
+<p>Usage: daemon_approve Approve the active pending action.
+daemon_approve veto Veto the active pending action. daemon_approve show
+Print the pending action (no decision).</p>
+<p>The active action lives in <code>sessions/daemon_control.json</code>
+under <code>pending</code> and is created by the daemon when running in
+approval mode.</p>
+<p>Args: line: Optional sub-command.</p>
 <h2 id="banner">banner</h2>
 <p>Show the banner</p>
 <h2 id="config_banner">config_banner</h2>
@@ -6749,14 +6835,19 @@ bin2shellcode sessions/shellcode.bin 20 True c</p>
 <p>Show the Hacker News in the terminal.</p>
 <p>Parameters: line (str): optional Return None</p>
 <h2 id="vulns">vulns</h2>
-<p>Scan for vulnerabilities based on a provided service banner.</p>
-<p>This function initializes a vulnerability scanner and searches for
-CVEs (Common Vulnerabilities and Exposures) related to the specified
-service banner. If no service banner is provided, it prompts the user to
-enter one.</p>
-<p>Args: line (str): The service banner to search for vulnerabilities.
-If not provided, the user will be prompted to enter one.</p>
-<p>Returns: None</p>
+<p>Search the NVD for CVEs matching a service banner and persist
+findings.</p>
+<p>The configured <code>rhost</code> value from
+<code>payload.json</code> is used as the target identifier for the
+persisted JSON report. The scanner respects the operator’s
+<code>user_agent_lin</code> setting when present so reconnaissance
+traffic shares the same fingerprint across the framework.</p>
+<p>Args: line: Optional service banner. When empty the operator is
+prompted interactively; the input is stripped of surrounding whitespace
+before being sent to the NVD.</p>
+<p>Returns: None. Results are printed to the shell and persisted to
+<code>sessions/vulns_&lt;rhost&gt;.json</code> so the reactive engine
+and report generator can consume them without re-scanning.</p>
 <p>Example: do_vulns “ProFTPD 1.3.5”</p>
 <h2 id="exe2bin">exe2bin</h2>
 <p>Trasnform file .exe into binary file.</p>

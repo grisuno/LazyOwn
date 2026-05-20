@@ -84,6 +84,18 @@ from modules.security_sanitizers import (
     SessionPathResolver,
     build_default_config,
 )
+from lazyc2.security.validators import (
+    validate_route_path as _validate_route_path,
+    validate_template_name as _validate_template_name,
+    validate_file_path_within_base as _validate_file_path_within_base,
+)
+from lazyc2.security.services import (
+    AESKeyManager as _AESKeyManager,
+    SecretKeyManager as _SecretKeyManager,
+)
+from lazyc2.security.constants import AES_KEY_SIZE_BYTES as _AES_KEY_SIZE_BYTES
+
+_LAZYOWN_SECRET_KEY_ENV = "LAZYOWN_SECRET_KEY"
 
 
 anti_debug()
@@ -268,22 +280,56 @@ def save_routes(routes):
         raise
 
 def validate_route_path(route_path):
-    """Validate route path to ensure it contains only safe characters."""
-    if not route_path:
-        return False
-    return bool(re.match(r'^[a-zA-Z0-9_-]+$', route_path))
+    """Module-level boolean adapter for :func:`lazyc2.security.validators.validate_route_path`.
+
+    Returns ``True`` when ``route_path`` passes the canonical validator
+    and ``False`` otherwise. Existing call sites that only need a
+    boolean signal can keep their current shape; new call sites should
+    prefer the underlying ``(is_valid, error)`` tuple for richer
+    diagnostics.
+    """
+    is_valid, _ = _validate_route_path(route_path)
+    return is_valid
+
 
 def validate_template_name(template_name):
-    """Validate template name to ensure it is a safe HTML file."""
-    if not template_name:
-        return False
-    return bool(re.match(r'^[a-zA-Z0-9_-]+\.html$', template_name))
+    """Module-level boolean adapter for :func:`lazyc2.security.validators.validate_template_name`.
+
+    Returns ``True`` when ``template_name`` passes the canonical
+    validator and ``False`` otherwise.
+    """
+    is_valid, _ = _validate_template_name(template_name)
+    return is_valid
+
 
 def is_safe_template_path(template_path, template_name):
-    """Ensure template path is within the templates folder and matches the input."""
-    normalized_path = os.path.normpath(template_path)
-    expected_path = os.path.normpath(os.path.join(app.template_folder, template_name))
-    return normalized_path == expected_path and normalized_path.startswith(os.path.normpath(app.template_folder))
+    """Verify ``template_path`` resolves inside ``app.template_folder``.
+
+    Delegates to the canonical traversal validator in
+    :mod:`lazyc2.security.validators` so the confinement check stays
+    consistent with every other security-sensitive call site. Retained
+    on the module surface because operators wire it into custom
+    templates from external scripts.
+
+    Args:
+        template_path: Candidate filesystem path produced by the caller.
+        template_name: Expected template basename. The candidate must
+            match this filename exactly, preventing the caller from
+            substituting an unrelated path that happens to live inside
+            the template folder.
+
+    Returns:
+        True when the resolved path is strictly equal to
+        ``app.template_folder / template_name`` and lives inside the
+        template folder; False otherwise.
+    """
+    template_folder = Path(app.template_folder).resolve()
+    candidate = Path(template_path).resolve()
+    expected = (template_folder / template_name).resolve()
+    if candidate != expected:
+        return False
+    is_valid, _ = _validate_file_path_within_base(candidate, template_folder)
+    return is_valid
 
 def _sanitize_command_output(value):
     """Return a JSON-safe projection of ``value`` without exception details.
@@ -1895,20 +1941,24 @@ SESSION_ID = str(uuid.uuid4())
 
 
 def _load_or_create_secret_key():
-    """Load secret key from env, file, or generate a new cryptographically secure one."""
-    secret_path = 'sessions/.secret_key'
-    env_key = os.environ.get('LAZYOWN_SECRET_KEY')
+    """Resolve the Flask secret key from the operator environment or disk.
+
+    The lookup order is:
+
+    1. The ``LAZYOWN_SECRET_KEY`` environment variable, which lets
+       deployments inject a pre-provisioned key without touching disk.
+    2. A persisted hex-encoded key under ``sessions/.secret_key`` managed
+       by :class:`lazyc2.security.services.SecretKeyManager`.
+
+    Returns:
+        The hex-encoded secret key string ready to assign to
+        ``app.secret_key``.
+    """
+    env_key = os.environ.get(_LAZYOWN_SECRET_KEY_ENV)
     if env_key:
         return env_key
-    if os.path.exists(secret_path):
-        with open(secret_path, 'r') as f:
-            return f.read().strip()
-    raw = secrets.token_hex(32)
     ensure_sessions_dir()
-    with open(secret_path, 'w') as f:
-        f.write(raw)
-    os.chmod(secret_path, stat.S_IRUSR | stat.S_IWUSR)
-    return raw
+    return _SecretKeyManager(Path('sessions')).get_or_create()
 
 
 app.secret_key = _load_or_create_secret_key() + SESSION_ID
@@ -2003,23 +2053,17 @@ conn.execute('''CREATE TABLE IF NOT EXISTS multivector_tracking (
 conn.commit()
 conn.close()
 
-AES_KEY_SIZE_BYTES = 32
-key_path = f"{path}/sessions/key.aes"
-if os.path.exists(key_path):
-    with open(key_path, 'rb') as f:
-        AES_KEY = f.read()
-    if len(AES_KEY) not in (16, 24, 32):
-        logger.warning(f"Invalid AES key size ({len(AES_KEY)} bytes), regenerating {AES_KEY_SIZE_BYTES}-byte key.")
-        AES_KEY = os.urandom(AES_KEY_SIZE_BYTES)
-        with open(key_path, 'wb') as f:
-            f.write(AES_KEY)
-        os.chmod(key_path, stat.S_IRUSR | stat.S_IWUSR)
-else:
-    AES_KEY = os.urandom(AES_KEY_SIZE_BYTES)
-    ensure_sessions_dir()
-    with open(key_path, 'wb') as f:
-        f.write(AES_KEY)
-    os.chmod(key_path, stat.S_IRUSR | stat.S_IWUSR)
+AES_KEY_SIZE_BYTES = _AES_KEY_SIZE_BYTES
+_AES_KEY_PATH = Path(path) / 'sessions' / 'key.aes'
+ensure_sessions_dir()
+try:
+    AES_KEY = _AESKeyManager(_AES_KEY_PATH).get_or_generate()
+except ValueError:
+    logger.warning(
+        f"Existing AES key at {_AES_KEY_PATH} has an invalid length; regenerating."
+    )
+    _AES_KEY_PATH.unlink(missing_ok=True)
+    AES_KEY = _AESKeyManager(_AES_KEY_PATH).get_or_generate()
 
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
@@ -2672,119 +2716,97 @@ def serve_file(file_path):
     else:
         return jsonify({"status": "error", "message": "File not found"}), 404
 
+def _resolve_secure_template_path(template_name):
+    """Return an absolute path strictly contained inside the template folder.
+
+    Args:
+        template_name: A template basename already validated by
+            :func:`validate_template_name`.
+
+    Returns:
+        The absolute filesystem path on success; ``None`` when the
+        candidate escapes ``app.template_folder`` or does not exist.
+    """
+    template_folder = Path(app.template_folder).resolve()
+    candidate = (template_folder / template_name).resolve()
+    is_valid, error = _validate_file_path_within_base(candidate, template_folder)
+    if not is_valid:
+        logger.error(f"Template path rejected: {error}")
+        return None
+    if not candidate.exists():
+        logger.error(f"Template file does not exist: {candidate}")
+        return None
+    return str(candidate)
+
+
 @app.route('/mkendpoint', methods=['GET', 'POST'])
 @login_required
 def create_route():
-    """Handle creation of dynamic routes via form submission."""
-    import os
-    import re
-    from flask import request, render_template, redirect, url_for
-    import logging as logger
+    """Register a new operator-supplied dynamic route bound to a template.
 
-    def validate_route_path(route_path):
-        """Validate route path - only alphanumeric, hyphens, underscores, slashes."""
-        if not route_path:
-            return False
-        # No permitir rutas que comiencen con . o /
-        if route_path.startswith('.') or route_path.startswith('/'):
-            return False
-        # Validar caracteres permitidos
-        if not re.match(r'^[a-zA-Z0-9/_\-]+$', route_path):
-            return False
-        # No permitir path traversal
-        if '..' in route_path:
-            return False
-        return True
+    All validation delegates to the canonical validators in
+    :mod:`lazyc2.security.validators` so the regex, length limits, and
+    traversal checks remain single-source-of-truth.
 
-    def validate_template_name(template_name):
-        """Validate template name - only alphanumeric, hyphens, underscores, .html extension."""
-        if not template_name:
-            return False
-        # Validar formato y extensión
-        if not re.match(r'^[a-zA-Z0-9_.\-]+$', template_name):
-            return False
-        # Verificar que tenga extensión .html
-        if not template_name.endswith('.html'):
-            return False
-        # No permitir path traversal en el nombre
-        if '..' in template_name or '/' in template_name or '\\' in template_name:
-            return False
-        return True
+    Returns:
+        A Flask response. On GET the registration form is rendered. On
+        POST the new route is persisted and the operator is redirected
+        back to the form with a success or error message.
+    """
+    if request.method != 'POST':
+        return render_template('create_route.html')
 
-    def get_secure_template_path(template_name):
-        """
-        Construye de forma segura el path del template y verifica que existe.
-        Retorna el path absoluto seguro o None si no es válido/no existe.
-        """
-        try:
-            # Construir path usando solo componentes confiables
-            candidate_path = os.path.join(app.template_folder, template_name)
-            
-            # Normalizar para resolver .. y .
-            candidate_path = os.path.normpath(candidate_path)
-            
-            # Obtener paths absolutos para comparación segura
-            template_folder_abs = os.path.abspath(app.template_folder)
-            candidate_path_abs = os.path.abspath(candidate_path)
-            
-            # Verificar que esté dentro del directorio de templates
-            if not candidate_path_abs.startswith(template_folder_abs + os.sep):
-                logger.error(f"Template path outside templates folder: {candidate_path_abs}")
-                return None
-            
-            # Verificar que el archivo existe
-            if not os.path.exists(candidate_path_abs):
-                logger.error(f"Template file does not exist: {candidate_path_abs}")
-                return None
-                
-            return candidate_path_abs
-            
-        except Exception as e:
-            logger.error(f"Error constructing secure template path: {e}")
-            return None
+    route_path = request.form.get('route_path', '').strip('/')
+    template_name = request.form.get('template_name', '')
 
-    if request.method == 'POST':
-        route_path = request.form.get('route_path', '').strip('/')
-        template_name = request.form.get('template_name', '')
+    logger.debug(f"Creating route: {route_path} with template: {template_name}")
 
-        logger.debug(f"Creating route: {route_path} with template: {template_name}")
+    route_valid, route_error = _validate_route_path(route_path)
+    if not route_valid:
+        logger.warning(f"Invalid route path '{route_path}': {route_error}")
+        return render_template(
+            'create_route.html',
+            error=f"Invalid route path: {route_error}",
+        )
 
-        # Validar ruta
-        if not validate_route_path(route_path):
-            logger.warning(f"Invalid route path: {route_path}")
-            return render_template('create_route.html', error='Invalid route path. Use alphanumeric characters, hyphens, underscores, and slashes only.')
+    template_valid, template_error = _validate_template_name(template_name)
+    if not template_valid:
+        logger.warning(f"Invalid template name '{template_name}': {template_error}")
+        return render_template(
+            'create_route.html',
+            error=f"Invalid template name: {template_error}",
+        )
 
-        # Validar nombre de template
-        if not validate_template_name(template_name):
-            logger.warning(f"Invalid template name: {template_name}")
-            return render_template('create_route.html', error='Invalid template name. Use alphanumeric characters, hyphens, underscores, and .html extension.')
+    secure_template_path = _resolve_secure_template_path(template_name)
+    if not secure_template_path:
+        return render_template(
+            'create_route.html',
+            error=f"Template {template_name} is invalid, does not exist, or is outside the templates folder.",
+        )
 
-        # Obtener path seguro del template (reemplaza toda la lógica anterior vulnerable)
-        secure_template_path = get_secure_template_path(template_name)
-        if not secure_template_path:
-            return render_template('create_route.html', error=f'Template {template_name} is invalid, does not exist, or is outside templates folder.')
-
-        # Cargar y guardar rutas dinámicas
-        try:
-            DYNAMIC_ROUTES = load_routes()
-
-            # Verificar que la ruta no exista
-            if route_path in DYNAMIC_ROUTES:
-                logger.warning(f"Route /{route_path} already exists")
-                return render_template('create_route.html', error=f'Route /{route_path} already exists.')
-
-            # Guardar la nueva ruta
-            DYNAMIC_ROUTES[route_path] = template_name
-            save_routes(DYNAMIC_ROUTES)
-            logger.info(f"Route /{route_path}/log/<data> created with template {template_name}")
-
-            return redirect(url_for('create_route', success=f'Route /{route_path}/log/<data> created with template {template_name}.'))
-
-        except Exception as e:
-            logger.error(f"Error saving routes: {e}")
-            return render_template('create_route.html', error='Error saving route configuration.')
-
-    return render_template('create_route.html')
+    try:
+        dynamic_routes = load_routes()
+        if route_path in dynamic_routes:
+            logger.warning(f"Route /{route_path} already exists")
+            return render_template(
+                'create_route.html',
+                error=f"Route /{route_path} already exists.",
+            )
+        dynamic_routes[route_path] = template_name
+        save_routes(dynamic_routes)
+        logger.info(f"Route /{route_path}/log/<data> created with template {template_name}")
+        return redirect(
+            url_for(
+                'create_route',
+                success=f"Route /{route_path}/log/<data> created with template {template_name}.",
+            )
+        )
+    except Exception as exc:
+        logger.error(f"Error saving routes: {exc}")
+        return render_template(
+            'create_route.html',
+            error='Error saving route configuration.',
+        )
 
 @app.route('/<path:route_path>/log/<path:data>', methods=['GET', 'POST'])
 def dynamic_route(route_path, data):

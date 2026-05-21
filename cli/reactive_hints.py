@@ -231,4 +231,50 @@ def render_command_hints(
         _render(labels)
 
 
-__all__ = ["SKIP_COMMANDS", "render_inline_hints", "render_command_hints"]
+def command_hints(
+    last_command: str,
+    phase: str = "",
+    sessions_dir: str = "sessions",
+    limit: int = 3,
+) -> list[str]:
+    """Return the top next-step command verbs without printing them.
+
+    Mirrors the logic of :func:`render_command_hints` but separates the
+    suggestion engine from the I/O side effect so other UI surfaces (the
+    persistent status bar in :mod:`cli.status_bar`, future TUI widgets)
+    can consume the exact same data the inline hints use.
+
+    Args:
+        last_command: Raw command string that most recently executed.
+            Only the first token is considered.
+        phase: Current engagement phase identifier. Falls back to
+            ``recon`` when empty.
+        sessions_dir: Path to ``sessions/`` used to filter out commands
+            that already appear in the CSV transcript.
+        limit: Maximum number of verbs to return.
+
+    Returns:
+        Ordered list of suggested command verbs, length ``<= limit``.
+        Returns an empty list when ``last_command`` is empty, falls in
+        :data:`SKIP_COMMANDS`, or no candidates remain after filtering.
+    """
+    cmd = _first_token(last_command)
+    if not cmd or cmd in SKIP_COMMANDS:
+        cmd = ""
+    already_run = _read_run_commands(sessions_dir)
+    candidates: list[str] = []
+    if cmd:
+        candidates = [c for c in _KILL_CHAIN_NEXT.get(cmd, []) if c not in already_run]
+    if len(candidates) < limit:
+        phase_key = phase.lower().strip() if phase else "recon"
+        priority = _PHASE_PRIORITY.get(phase_key) or _PHASE_PRIORITY.get("recon", [])
+        for verb in priority:
+            if verb == cmd or verb in already_run or verb in candidates:
+                continue
+            candidates.append(verb)
+            if len(candidates) >= limit:
+                break
+    return candidates[:limit]
+
+
+__all__ = ["SKIP_COMMANDS", "render_inline_hints", "render_command_hints", "command_hints"]

@@ -6,6 +6,13 @@
 
 ### Otros
 
+  *   * refactor(refactor in tools): all green now \n\n Version: release/0.2.135 \n\n :D \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: jue 21 may 2026 17:16:43 -04 \n\n Hora: 1779398203
+
+
+### Refactorización
+
+### Otros
+
   *   * refactor(some refactors in wizards): with love \n\n Version: release/0.2.134 \n\n :D \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: jue 21 may 2026 04:22:24 -04 \n\n Hora: 1779351744
 
 

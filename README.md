@@ -3245,8 +3245,18 @@ Guarda un nuevo comando en user_commands.json
 Lista todos los archivos en un directorio dado.
 
 ## register_tool_commands
-Registra automáticamente todos los comandos .tool en la carpeta 'tools/'
-Usa self.params para reemplazar {ip}, {port}, {domain}, {s}, etc.
+Register every active ``tools/*.tool`` as a ``do_<toolname>`` command.
+
+Placeholders in the tool's ``command`` template are resolved at call
+time against ``self.params`` (so live config changes are honored).
+Optional positional args passed to the command override ``port`` and
+are appended as extra flags. When ``sessions/scan_<rhost>.nmap.xml``
+exists and the tool's triggers match a discovered service, the host
+and port are pre-populated from the scan; otherwise the command falls
+back to ``rhost``/``rport`` from ``payload.json``.
+
+Returns:
+    None
 
 ## _register_lua_command
 Registra un comando nuevo desde Lua.
@@ -13257,6 +13267,9 @@ No description available.
 ## resolve_and_download_dependencies
 Recursively resolve and download package dependencies with enhanced checks
 
+## make_wrapper
+No description available.
+
 ## tool_wrapper
 No description available.
 
@@ -13265,6 +13278,20 @@ No description available.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Correcciones urgentes
+
+### Otros
+
+  *   * hotfix(hotfix in tools): all green now \n\n Version: release/0.2.136 \n\n :D \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: jue 21 may 2026 17:14:20 -04 \n\n Hora: 1779398060
+
+
+### Refactorización
+
+### Otros
+
+  *   * refactor(some refactors in wizards): with love \n\n Version: release/0.2.134 \n\n :D \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: jue 21 may 2026 04:22:24 -04 \n\n Hora: 1779351744
 
 
 ### Correcciones

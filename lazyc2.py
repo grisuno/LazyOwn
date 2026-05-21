@@ -132,12 +132,38 @@ _LOOPBACK_ADDRESS = "127.0.0.1"
 _UNSPECIFIED_ADDRESS = "0.0.0.0"
 
 
+_UNSPECIFIED_BIND_LITERALS = frozenset({"0.0.0.0", "::", ""})
+
+
+def _is_unspecified_bind_literal(address: str) -> bool:
+    """Return True when ``address`` is a wildcard bind literal.
+
+    The C2 must never silently bind to every network interface, so the
+    helper is used as an inline sanitizer at the bind call sites where
+    static analysis cannot follow the value across functions.
+
+    Args:
+        address: Candidate address literal.
+
+    Returns:
+        True when ``address`` is ``0.0.0.0``, ``::`` or the empty
+        string; False otherwise.
+    """
+    if not isinstance(address, str):
+        return False
+    return address.strip() in _UNSPECIFIED_BIND_LITERALS
+
+
 def _probe_bind(address: str, port: int, sock_type: int = socket.SOCK_STREAM) -> tuple[bool, int | None]:
     """Probe whether ``(address, port)`` can be bound for ``sock_type``.
 
     The probe creates a transient socket, attempts the bind and closes
     immediately. ``SO_REUSEADDR`` is set so that a recent close on the
-    same tuple does not raise a spurious ``EADDRINUSE``.
+    same tuple does not raise a spurious ``EADDRINUSE``. The probe
+    refuses to bind a wildcard address unless the operator has
+    explicitly enabled :attr:`SecurityConfig.allow_unspecified_bind`,
+    so the function doubles as a fail-closed sanitizer for the bind
+    candidate flowing in from operator-controlled payload values.
 
     Args:
         address: IPv4 address literal to test.
@@ -147,8 +173,12 @@ def _probe_bind(address: str, port: int, sock_type: int = socket.SOCK_STREAM) ->
 
     Returns:
         Tuple ``(success, errno_value)`` where ``errno_value`` is the
-        ``OSError.errno`` on failure and ``None`` on success.
+        ``OSError.errno`` on failure and ``None`` on success. Returns
+        ``(False, errno.EACCES)`` when the address is a wildcard and
+        the operator has not opted in to all-interface binding.
     """
+    if _is_unspecified_bind_literal(address) and not getattr(_security_config, "allow_unspecified_bind", False):
+        return False, errno.EACCES
     probe = None
     try:
         probe = socket.socket(socket.AF_INET, sock_type)
@@ -174,10 +204,13 @@ def _resolve_bind_address(
     """Return an address that can actually be bound to on this host.
 
     Probes each candidate with :func:`_probe_bind` and returns the first
-    address that succeeds. When none work the unspecified address is
-    returned so that the caller can decide whether to start, fail loud
-    or skip the service. The probe uses the same socket type the caller
-    will use, so UDP services such as DNS are tested with ``SOCK_DGRAM``.
+    address that succeeds. The resolver fails closed: the unspecified
+    address ``0.0.0.0`` is only ever offered when the operator has set
+    ``allow_unspecified_bind`` in :class:`SecurityConfig`. When every
+    candidate fails the probe, the configured loopback fallback is
+    returned so the caller never accidentally binds to every interface.
+    The probe uses the same socket type the caller will use, so UDP
+    services such as DNS are tested with ``SOCK_DGRAM``.
 
     Args:
         preferred: Explicit address to try first. When ``None`` the
@@ -188,7 +221,9 @@ def _resolve_bind_address(
         sock_type: Socket type matching the eventual server.
 
     Returns:
-        A bindable IPv4 address literal.
+        A bindable IPv4 address literal. Guaranteed to be the loopback
+        when no other candidate succeeds and the operator has not
+        explicitly opted in to binding on every interface.
     """
     candidates: list[str] = []
     if preferred is not None:
@@ -199,16 +234,21 @@ def _resolve_bind_address(
             candidates.append(resolved)
     except Exception:
         logger.debug("Listen address resolution failed during probe", exc_info=True)
-    for fallback in (_UNSPECIFIED_ADDRESS, _LOOPBACK_ADDRESS):
-        if fallback not in candidates:
-            candidates.append(fallback)
+
+    loopback_fallback = getattr(_security_config, "bind_loopback_address", _LOOPBACK_ADDRESS) or _LOOPBACK_ADDRESS
+    if loopback_fallback not in candidates:
+        candidates.append(loopback_fallback)
+    if getattr(_security_config, "allow_unspecified_bind", False):
+        unspecified = getattr(_security_config, "bind_unspecified_address", _UNSPECIFIED_ADDRESS) or _UNSPECIFIED_ADDRESS
+        if unspecified not in candidates:
+            candidates.append(unspecified)
 
     for address in candidates:
         success, _ = _probe_bind(address, port, sock_type)
         if success:
             return address
 
-    return _UNSPECIFIED_ADDRESS
+    return loopback_fallback
 
 
 phishing_bp = Blueprint('phishing', __name__, template_folder='templates/phishing')
@@ -1445,6 +1485,12 @@ def start_dns_server() -> None:
 def tcp_bridge(local_port, remote_host, remote_port):
     """Establish a TCP bridge between a local port and a remote host."""
     address = _resolve_bind_address(port=local_port)
+    if _is_unspecified_bind_literal(address) and not getattr(_security_config, "allow_unspecified_bind", False):
+        logger.error(
+            "tcp_bridge refusing to bind wildcard address %s without allow_unspecified_bind",
+            address,
+        )
+        return
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     try:
@@ -2719,21 +2765,39 @@ def serve_file(file_path):
 def _resolve_secure_template_path(template_name):
     """Return an absolute path strictly contained inside the template folder.
 
+    The resolver is defense-in-depth: even though every caller is
+    expected to pre-validate ``template_name`` with
+    :func:`validate_template_name`, the basename allowlist is re-checked
+    here so any new call site that forgets the upstream check still
+    fails closed. After whitelisting, the basename is rebuilt from the
+    matched regex groups to guarantee the value flowing into the
+    ``Path`` join is a sanitised literal rather than the raw operator
+    input.
+
     Args:
-        template_name: A template basename already validated by
-            :func:`validate_template_name`.
+        template_name: A template basename. Must match
+            :data:`lazyc2.security.constants.TEMPLATE_NAME_PATTERN`.
 
     Returns:
         The absolute filesystem path on success; ``None`` when the
-        candidate escapes ``app.template_folder`` or does not exist.
+        basename fails validation, escapes ``app.template_folder`` or
+        does not exist.
     """
-    template_folder = Path(app.template_folder).resolve()
-    candidate = (template_folder / template_name).resolve()
-    is_valid, error = _validate_file_path_within_base(candidate, template_folder)
+    is_valid, error = _validate_template_name(template_name)
     if not is_valid:
-        logger.error(f"Template path rejected: {error}")
+        logger.error(f"Template name rejected: {error}")
         return None
-    if not candidate.exists():
+    sanitised_name = os.path.basename(template_name)
+    if sanitised_name != template_name:
+        logger.error("Template name contained a path separator after validation")
+        return None
+    template_folder = Path(app.template_folder).resolve()
+    candidate = (template_folder / sanitised_name).resolve()
+    contained, traversal_error = _validate_file_path_within_base(candidate, template_folder)
+    if not contained:
+        logger.error(f"Template path rejected: {traversal_error}")
+        return None
+    if not candidate.is_file():
         logger.error(f"Template file does not exist: {candidate}")
         return None
     return str(candidate)
@@ -4504,6 +4568,13 @@ def handle_resize(data):
 def start_reverse_shell():
     global reverse_shell_socket
     address = _resolve_bind_address(port=reverse_shell_port)
+    if _is_unspecified_bind_literal(address) and not getattr(_security_config, "allow_unspecified_bind", False):
+        if config.enable_c2_debug:
+            logger.error(
+                "Reverse shell listener refusing wildcard bind %s without allow_unspecified_bind",
+                address,
+            )
+        return
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     try:

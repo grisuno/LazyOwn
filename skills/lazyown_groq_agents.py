@@ -110,16 +110,58 @@ def _t_bridge_suggest(
         return f"[bridge_suggest error] {exc}"
 
 
-def _t_bridge_catalog() -> str:
+_BRIDGE_CATALOG_PREVIEW_LIMIT = 7
+
+
+def _t_bridge_catalog(phase: str = "", os_hint: str = "any") -> str:
+    """Render the bridge catalog filtered by phase and target OS.
+
+    Args:
+        phase: Optional WorldModel-or-bridge phase identifier. Empty
+            string keeps the previous behaviour and lists every phase.
+        os_hint: Target OS filter (``"any"``, ``"linux"``, ``"windows"``).
+            Defaults to ``"any"`` so callers that omit it receive the
+            unfiltered catalog used by older agent prompts.
+
+    Returns:
+        A multi-line human-readable summary. When ``phase`` is set the
+        header reports the filtered command count, otherwise it reports
+        the dispatcher's total command count.
+    """
     try:
         from lazyown_bridge import get_dispatcher  # noqa: PLC0415
-        d = get_dispatcher()
-        lines = [f"Bridge catalog — {d.catalog_count()} commands", ""]
-        for phase, cmds in d.catalog_summary().items():
-            lines.append(
-                f"  {phase:12s}: {', '.join(cmds[:7])}"
-                + (" ..." if len(cmds) > 7 else "")
+        dispatcher = get_dispatcher()
+        normalized_phase = (phase or "").strip()
+        normalized_os = (os_hint or "any").strip().lower() or "any"
+        if normalized_phase:
+            summary = dispatcher.catalog_summary_filtered(
+                phase=normalized_phase, os_hint=normalized_os
             )
+            filtered_count = sum(len(cmds) for cmds in summary.values())
+            header = (
+                f"Bridge catalog — {filtered_count} commands "
+                f"(phase={normalized_phase}, os={normalized_os})"
+            )
+        elif normalized_os != "any":
+            summary = dispatcher.catalog_summary_filtered(os_hint=normalized_os)
+            filtered_count = sum(len(cmds) for cmds in summary.values())
+            header = (
+                f"Bridge catalog — {filtered_count} commands (os={normalized_os})"
+            )
+        else:
+            summary = dispatcher.catalog_summary()
+            header = f"Bridge catalog — {dispatcher.catalog_count()} commands"
+
+        lines: List[str] = [header, ""]
+        if not summary:
+            lines.append(
+                "  (no commands matched the requested phase/os filter)"
+            )
+            return "\n".join(lines)
+        for phase_name, cmds in summary.items():
+            preview = ", ".join(cmds[:_BRIDGE_CATALOG_PREVIEW_LIMIT])
+            overflow = " ..." if len(cmds) > _BRIDGE_CATALOG_PREVIEW_LIMIT else ""
+            lines.append(f"  {phase_name:12s}: {preview}{overflow}")
         return "\n".join(lines)
     except Exception as exc:
         return f"[bridge_catalog error] {exc}"
@@ -462,8 +504,17 @@ REGISTRY: Dict[str, tuple[str, Dict[str, Any], Callable]] = {
         _t_bridge_suggest,
     ),
     "bridge_catalog": (
-        "Show the full LazyOwn command catalog summary (347 commands, 11 phases).",
-        {},
+        "Show the LazyOwn command catalog summary. Pass 'phase' to restrict "
+        "to a single kill-chain phase and 'os_hint' to filter by target OS "
+        "(linux, windows, any). Both are optional and default to the full "
+        "catalog.",
+        {
+            "phase": {"type": "string",
+                      "description": "Kill-chain phase (recon, enum, exploit, ...) "
+                                     "or empty for all phases"},
+            "os_hint": {"type": "string",
+                        "description": "Target OS filter: linux, windows, or any"},
+        },
         _t_bridge_catalog,
     ),
     "parquet_context": (

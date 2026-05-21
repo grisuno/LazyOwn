@@ -1780,6 +1780,43 @@ class BridgeDispatcher:
                 summary[phase] = [e.command for e in entries]
         return summary
 
+    def catalog_summary_filtered(
+        self,
+        phase: Optional[str] = None,
+        os_hint: str = "any",
+    ) -> Dict[str, List[str]]:
+        """Return a kill-chain summary restricted to a phase and target OS.
+
+        Args:
+            phase: Optional WorldModel-or-bridge phase identifier. When
+                provided the summary contains only that phase (translated
+                through :class:`PhaseMapper`). When ``None`` every phase
+                in the kill-chain order is included.
+            os_hint: Target OS filter (``"any"``, ``"linux"``, ``"windows"``).
+                Entries are kept when :meth:`CatalogEntry.matches_os`
+                returns ``True``. The value ``"any"`` disables the filter.
+
+        Returns:
+            Mapping of phase identifier to the ordered list of command
+            names that survived the filters. Empty phases are omitted so
+            agents do not waste tokens on blank sections.
+        """
+        normalized_os = (os_hint or "any").strip().lower() or "any"
+        if phase:
+            bridge_phase = self._phase_mapper.to_bridge_phase(phase)
+            phases: List[str] = [bridge_phase]
+        else:
+            phases = list(self._phase_mapper.kill_chain_order())
+
+        summary: Dict[str, List[str]] = {}
+        for current_phase in phases:
+            entries = self._catalog.by_phase(current_phase)
+            if normalized_os != "any":
+                entries = [e for e in entries if e.matches_os(normalized_os)]
+            if entries:
+                summary[current_phase] = [e.command for e in entries]
+        return summary
+
     def catalog_count(self) -> int:
         return self._catalog.count()
 

@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Refactorización
+
+### Otros
+
+  *   * refactor(some refactors in wizards): with love \n\n Version: release/0.2.134 \n\n :D \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: jue 21 may 2026 04:22:24 -04 \n\n Hora: 1779351744
+
+
 ### Correcciones
 
 ### Otros

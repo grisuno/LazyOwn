@@ -5,12 +5,21 @@ same Flask application.  Beacons/implants can connect to any listener and
 share the same global state (commands, results, connected_clients).
 
 Persistence: ``sessions/listeners.json`` stores the listener configuration.
+
+Bind address: never hardcoded. The address comes from ``payload.json``
+via ``c2_bind_address`` or ``lhost``. Wildcard literals (``""``,
+``"0.0.0.0"``, ``"::"``) are rejected at the bind site; if the operator
+wants to expose the listener on a network interface they must put that
+interface's specific IP in ``payload.json``.
 """
 
 from __future__ import annotations
 
+import errno
+import ipaddress
 import json
 import os
+import socket
 import ssl as _ssl
 import threading
 import time
@@ -18,6 +27,116 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from utils import print_error, print_msg, print_warn
+
+
+_LOOPBACK_BIND_ADDRESS = "127.0.0.1"
+_WILDCARD_BIND_LITERALS = frozenset({"", "0.0.0.0", "::"})
+_BIND_PROBE_TIMEOUT_SECONDS = 0.5
+
+
+def _collect_listener_bind_candidates(payload: dict[str, Any] | None) -> list[str]:
+    """Return the ordered list of specific IP candidates from payload.json.
+
+    The list contains operator-controlled candidates first
+    (``c2_bind_address`` then ``lhost``) and always ends with the
+    loopback fallback. Wildcard literals are filtered out because the
+    framework must never bind to every interface implicitly.
+
+    Args:
+        payload: Parsed ``payload.json`` mapping or ``None``.
+
+    Returns:
+        A deduplicated list of bindable IPv4/IPv6 literal candidates.
+    """
+    candidates: list[str] = []
+    seen: set[str] = set()
+    if isinstance(payload, dict):
+        for key in ("c2_bind_address", "lhost"):
+            raw = payload.get(key)
+            if not isinstance(raw, str):
+                continue
+            stripped = raw.strip()
+            if stripped == "" or stripped == "0.0.0.0" or stripped == "::":
+                continue
+            try:
+                ipaddress.ip_address(stripped)
+            except ValueError:
+                continue
+            if stripped in seen:
+                continue
+            candidates.append(stripped)
+            seen.add(stripped)
+    if _LOOPBACK_BIND_ADDRESS not in seen:
+        candidates.append(_LOOPBACK_BIND_ADDRESS)
+    return candidates
+
+
+def _probe_listener_bind(address: str, port: int) -> tuple[bool, int | None]:
+    """Probe whether ``(address, port)`` can be bound for TCP.
+
+    Wildcard literals are rejected inline so the helper doubles as a
+    sanitiser. The probe uses ``SO_REUSEADDR`` and an ephemeral
+    timeout to avoid spurious ``EADDRINUSE`` after a recent close.
+
+    Args:
+        address: IPv4/IPv6 literal candidate.
+        port: Port number to test.
+
+    Returns:
+        ``(True, None)`` when the bind succeeds; otherwise
+        ``(False, errno_value)``.
+    """
+    if not isinstance(address, str):
+        return False, errno.EINVAL
+    safe_address = address.strip()
+    if safe_address == "" or safe_address == "0.0.0.0" or safe_address == "::":
+        return False, errno.EACCES
+    family = socket.AF_INET6 if ":" in safe_address else socket.AF_INET
+    probe = None
+    try:
+        probe = socket.socket(family, socket.SOCK_STREAM)
+        probe.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        probe.settimeout(_BIND_PROBE_TIMEOUT_SECONDS)
+        probe.bind((safe_address, port))
+        return True, None
+    except OSError as exc:
+        return False, exc.errno
+    finally:
+        if probe is not None:
+            try:
+                probe.close()
+            except OSError:
+                pass
+
+
+def _resolve_listener_bind_address(payload: dict[str, Any] | None, port: int | None = None) -> str:
+    """Return the specific IP literal listeners must bind to.
+
+    Candidates are taken exclusively from ``payload.json``
+    (``c2_bind_address`` then ``lhost``) with loopback as the final
+    fallback. When ``port`` is supplied each candidate is probed and
+    the first bindable address wins, so a stale VPN IP does not
+    prevent the C2 from starting; the loopback fallback is always
+    bindable.
+
+    Args:
+        payload: Parsed ``payload.json`` mapping or ``None``.
+        port: Optional port for the bind probe. When omitted the
+            first valid candidate is returned without probing.
+
+    Returns:
+        A specific IPv4/IPv6 literal safe to pass to ``make_server``.
+    """
+    candidates = _collect_listener_bind_candidates(payload)
+    if not candidates:
+        return _LOOPBACK_BIND_ADDRESS
+    if port is None:
+        return candidates[0]
+    for candidate in candidates:
+        bindable, _ = _probe_listener_bind(candidate, int(port))
+        if bindable:
+            return candidate
+    return _LOOPBACK_BIND_ADDRESS
 
 
 @dataclass
@@ -59,12 +178,27 @@ class ListenerManager:
     (add, remove, list).  Start/stop require a live Flask application instance.
     """
 
-    def __init__(self, app: Any = None, sessions_dir: str = "sessions"):
+    def __init__(self, app: Any = None, sessions_dir: str = "sessions", payload: dict[str, Any] | None = None):
         self.app = app
         self.sessions_dir = sessions_dir
         self.listeners: dict[str, Listener] = {}
         self._lock = threading.Lock()
+        self._payload = payload if isinstance(payload, dict) else None
         self._load()
+
+    def set_payload(self, payload: dict[str, Any] | None) -> None:
+        """Update the payload mapping used to resolve the bind address."""
+        self._payload = payload if isinstance(payload, dict) else None
+
+    def _bind_address(self, port: int | None = None) -> str:
+        """Return the specific bind address derived from payload.json.
+
+        When ``port`` is supplied the candidates are probed and the
+        first bindable one is returned, so a payload-configured IP
+        belonging to a downed interface does not stop the listener
+        from starting on the loopback fallback.
+        """
+        return _resolve_listener_bind_address(self._payload, port=port)
 
     def _listeners_path(self) -> str:
         return os.path.join(self.sessions_dir, "listeners.json")
@@ -150,11 +284,26 @@ class ListenerManager:
                         f"Starting {listener_id} without SSL."
                     )
 
-            # Lazy import to avoid pulling Werkzeug at module load time
             from werkzeug.serving import make_server
 
+            bind_address = self._bind_address(port=listener.port)
+            if bind_address in _WILDCARD_BIND_LITERALS:
+                print_error(
+                    f"[listener] {listener_id} refused wildcard bind address; "
+                    f"set c2_bind_address or lhost in payload.json"
+                )
+                return False
+
+            if bind_address == _LOOPBACK_BIND_ADDRESS:
+                configured = _collect_listener_bind_candidates(self._payload)
+                if configured != [_LOOPBACK_BIND_ADDRESS]:
+                    print_warn(
+                        f"[listener] {listener_id} falling back to {_LOOPBACK_BIND_ADDRESS}: "
+                        f"configured addresses {configured!r} were not bindable on this host"
+                    )
+
             server = make_server(
-                "0.0.0.0",
+                bind_address,
                 listener.port,
                 self.app,
                 threaded=True,
@@ -169,7 +318,7 @@ class ListenerManager:
             listener._thread = thread
             thread.start()
             print_msg(
-                f"[listener] {listener_id} started on 0.0.0.0:{listener.port} "
+                f"[listener] {listener_id} started on {bind_address}:{listener.port} "
                 f"(ssl={listener.ssl})"
             )
             return True

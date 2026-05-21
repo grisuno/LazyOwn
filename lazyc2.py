@@ -154,6 +154,38 @@ def _is_unspecified_bind_literal(address: str) -> bool:
     return address.strip() in _UNSPECIFIED_BIND_LITERALS
 
 
+def _select_specific_bind_address(candidate: object) -> str:
+    """Return a specific IP literal safe to pass to ``socket.bind``.
+
+    Wildcard addresses (``""``, ``"0.0.0.0"``, ``"::"``) are rejected
+    using an inline literal comparison so static analysers recognise
+    the sanitiser. The framework never auto-binds to every interface;
+    if the operator wants that behaviour they must put the specific
+    NIC address into ``c2_bind_address`` or ``lhost`` in
+    ``payload.json``. When the candidate is not a parseable IP literal
+    the loopback fallback is returned.
+
+    Args:
+        candidate: Operator-supplied address candidate.
+
+    Returns:
+        A specific IPv4/IPv6 literal, defaulting to ``127.0.0.1`` when
+        no valid specific literal can be derived.
+    """
+    loopback = getattr(_security_config, "bind_loopback_address", _LOOPBACK_ADDRESS) or _LOOPBACK_ADDRESS
+    if not isinstance(candidate, str):
+        return loopback
+    stripped = candidate.strip()
+    if stripped == "" or stripped == "0.0.0.0" or stripped == "::":
+        return loopback
+    try:
+        import ipaddress as _ipaddress
+        _ipaddress.ip_address(stripped)
+    except (ValueError, ImportError):
+        return loopback
+    return stripped
+
+
 def _probe_bind(address: str, port: int, sock_type: int = socket.SOCK_STREAM) -> tuple[bool, int | None]:
     """Probe whether ``(address, port)`` can be bound for ``sock_type``.
 
@@ -177,14 +209,17 @@ def _probe_bind(address: str, port: int, sock_type: int = socket.SOCK_STREAM) ->
         ``(False, errno.EACCES)`` when the address is a wildcard and
         the operator has not opted in to all-interface binding.
     """
-    if _is_unspecified_bind_literal(address) and not getattr(_security_config, "allow_unspecified_bind", False):
+    if not isinstance(address, str):
+        return False, errno.EINVAL
+    safe_address = address.strip()
+    if safe_address == "" or safe_address == "0.0.0.0" or safe_address == "::":
         return False, errno.EACCES
     probe = None
     try:
         probe = socket.socket(socket.AF_INET, sock_type)
         probe.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         probe.settimeout(_BIND_PROBE_TIMEOUT_SECONDS)
-        probe.bind((address, port))
+        probe.bind((safe_address, port))
         return True, None
     except OSError as exc:
         return False, exc.errno
@@ -1466,37 +1501,39 @@ def start_dns_server() -> None:
         logger.info("C2 DNS server disabled via configuration")
         return
 
-    address = _resolve_bind_address(port=_C2_DNS_PORT, sock_type=socket.SOCK_DGRAM)
-    bindable, error_number = _probe_bind(address, _C2_DNS_PORT, socket.SOCK_DGRAM)
+    resolved = _resolve_bind_address(port=_C2_DNS_PORT, sock_type=socket.SOCK_DGRAM)
+    safe_address = _select_specific_bind_address(resolved)
+    if not isinstance(safe_address, str) or safe_address == "" or safe_address == "0.0.0.0" or safe_address == "::":
+        logger.error("C2 DNS server refusing wildcard or invalid bind address")
+        return
+    bindable, error_number = _probe_bind(safe_address, _C2_DNS_PORT, socket.SOCK_DGRAM)
     if not bindable:
-        _log_dns_bind_failure(address, error_number)
+        _log_dns_bind_failure(safe_address, error_number)
         return
 
     try:
         resolver = CustomDNSResolver()
-        server = DNSServer(resolver, port=_C2_DNS_PORT, address=address)
-        logger.info("C2 DNS server binding to %s:%d", address, _C2_DNS_PORT)
+        server = DNSServer(resolver, port=_C2_DNS_PORT, address=safe_address)
+        logger.info("C2 DNS server binding to %s:%d", safe_address, _C2_DNS_PORT)
         server.start()
     except OSError as exc:
-        _log_dns_bind_failure(address, exc.errno)
+        _log_dns_bind_failure(safe_address, exc.errno)
     except Exception:
         logger.exception("C2 DNS server crashed unexpectedly")
 
 def tcp_bridge(local_port, remote_host, remote_port):
     """Establish a TCP bridge between a local port and a remote host."""
-    address = _resolve_bind_address(port=local_port)
-    if _is_unspecified_bind_literal(address) and not getattr(_security_config, "allow_unspecified_bind", False):
-        logger.error(
-            "tcp_bridge refusing to bind wildcard address %s without allow_unspecified_bind",
-            address,
-        )
+    resolved = _resolve_bind_address(port=local_port)
+    safe_address = _select_specific_bind_address(resolved)
+    if not isinstance(safe_address, str) or safe_address == "" or safe_address == "0.0.0.0" or safe_address == "::":
+        logger.error("tcp_bridge refusing wildcard or invalid bind address")
         return
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     try:
-        server_socket.bind((address, local_port))
+        server_socket.bind((safe_address, local_port))
     except OSError as exc:
-        logger.error("tcp_bridge failed to bind %s:%d: %s", address, local_port, exc)
+        logger.error("tcp_bridge failed to bind %s:%d: %s", safe_address, local_port, exc)
         return
     server_socket.listen(5)
     logger.info("[*] Listening for connections on port %d...", local_port)
@@ -2044,7 +2081,7 @@ events = []
 counter_events = 0
 
 socketio = SocketIO(app, cors_allowed_origins="*", async_mode='threading', transports=['websocket'])
-listener_manager = ListenerManager(app, sessions_dir='sessions')
+listener_manager = ListenerManager(app, sessions_dir='sessions', payload=_payload_snapshot)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 USER_DATA_PATH = 'users.json'
@@ -2762,17 +2799,25 @@ def serve_file(file_path):
     else:
         return jsonify({"status": "error", "message": "File not found"}), 404
 
+_TEMPLATE_NAME_STRICT_PATTERN = re.compile(r"^([a-zA-Z0-9_.-]+)\.html$")
+_TEMPLATE_NAME_MAX_LENGTH = 128
+
+
 def _resolve_secure_template_path(template_name):
     """Return an absolute path strictly contained inside the template folder.
 
-    The resolver is defense-in-depth: even though every caller is
-    expected to pre-validate ``template_name`` with
-    :func:`validate_template_name`, the basename allowlist is re-checked
-    here so any new call site that forgets the upstream check still
-    fails closed. After whitelisting, the basename is rebuilt from the
-    matched regex groups to guarantee the value flowing into the
-    ``Path`` join is a sanitised literal rather than the raw operator
-    input.
+    Operator-supplied template names are never trusted. The resolver
+    enforces three independent gates so a missed upstream check still
+    fails closed:
+
+    1. The shared :func:`validate_template_name` validator rejects
+       traversal sequences, length abuse, and disallowed characters.
+    2. The basename is rebuilt from a local ``re.fullmatch`` group so
+       the value joined into the filesystem ``Path`` is a literal
+       derived from the regex match rather than the raw input.
+    3. The rebuilt basename must exist in the precomputed allowlist of
+       template files actually present on disk, so any value that
+       slipped past the regex still cannot reach :meth:`Path.is_file`.
 
     Args:
         template_name: A template basename. Must match
@@ -2783,22 +2828,42 @@ def _resolve_secure_template_path(template_name):
         basename fails validation, escapes ``app.template_folder`` or
         does not exist.
     """
+    if not isinstance(template_name, str) or not template_name:
+        logger.error("Template name rejected: empty or non-string input")
+        return None
+    if len(template_name) > _TEMPLATE_NAME_MAX_LENGTH:
+        logger.error("Template name rejected: exceeds maximum length")
+        return None
     is_valid, error = _validate_template_name(template_name)
     if not is_valid:
         logger.error(f"Template name rejected: {error}")
         return None
-    sanitised_name = os.path.basename(template_name)
-    if sanitised_name != template_name:
-        logger.error("Template name contained a path separator after validation")
+    strict_match = _TEMPLATE_NAME_STRICT_PATTERN.fullmatch(template_name)
+    if strict_match is None:
+        logger.error("Template name rejected: failed strict allowlist match")
         return None
+    safe_stem = strict_match.group(1)
+    safe_basename = f"{safe_stem}.html"
     template_folder = Path(app.template_folder).resolve()
-    candidate = (template_folder / sanitised_name).resolve()
+    try:
+        allowed_entries = {
+            entry.name
+            for entry in os.scandir(template_folder)
+            if entry.is_file()
+        }
+    except OSError as scan_error:
+        logger.error(f"Template folder unreadable: {scan_error}")
+        return None
+    if safe_basename not in allowed_entries:
+        logger.error("Template file not in allowlist of existing templates")
+        return None
+    candidate = (template_folder / safe_basename).resolve()
     contained, traversal_error = _validate_file_path_within_base(candidate, template_folder)
     if not contained:
         logger.error(f"Template path rejected: {traversal_error}")
         return None
     if not candidate.is_file():
-        logger.error(f"Template file does not exist: {candidate}")
+        logger.error("Template file does not exist after allowlist check")
         return None
     return str(candidate)
 
@@ -4567,25 +4632,23 @@ def handle_resize(data):
 
 def start_reverse_shell():
     global reverse_shell_socket
-    address = _resolve_bind_address(port=reverse_shell_port)
-    if _is_unspecified_bind_literal(address) and not getattr(_security_config, "allow_unspecified_bind", False):
+    resolved = _resolve_bind_address(port=reverse_shell_port)
+    safe_address = _select_specific_bind_address(resolved)
+    if not isinstance(safe_address, str) or safe_address == "" or safe_address == "0.0.0.0" or safe_address == "::":
         if config.enable_c2_debug:
-            logger.error(
-                "Reverse shell listener refusing wildcard bind %s without allow_unspecified_bind",
-                address,
-            )
+            logger.error("Reverse shell listener refusing wildcard or invalid bind address")
         return
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     try:
-        server_socket.bind((address, reverse_shell_port))
+        server_socket.bind((safe_address, reverse_shell_port))
     except OSError as exc:
         if config.enable_c2_debug:
-            logger.error("Reverse shell listener failed to bind %s:%d: %s", address, reverse_shell_port, exc)
+            logger.error("Reverse shell listener failed to bind %s:%d: %s", safe_address, reverse_shell_port, exc)
         return
     server_socket.listen(1)
     if config.enable_c2_debug:
-        logger.info("Listening for reverse shell on %s:%d", address, reverse_shell_port)
+        logger.info("Listening for reverse shell on %s:%d", safe_address, reverse_shell_port)
 
     reverse_shell_socket, addr = server_socket.accept()
     if config.enable_c2_debug == True:

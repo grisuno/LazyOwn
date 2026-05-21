@@ -73,7 +73,9 @@ from cli.palette_command import PaletteRenderConfig as _PaletteRenderConfig
 from cli.palette_command import render as _render_palette
 from cli.registry import register_command_sets as _register_command_sets
 from cli.show import format_payload as _format_payload
+from cli.status_bar import build_default_manager as _build_status_bar_manager
 from core.config import save_payload as _save_payload
+from skills.unified_orchestrator import build_default_orchestrator as _build_unified_orchestrator
 
 _PALETTE_RENDER_CONFIG = _PaletteRenderConfig()
 _PALETTE_COMPLETER = _PaletteCompleter(_PALETTE_RENDER_CONFIG)
@@ -373,6 +375,26 @@ class LazyOwnShell(cmd2.Cmd):
                 self.display_toastr("AI backend started.")
         else:
             self.ai_model = None
+        self._status_bar_manager = None
+        self._unified_orchestrator = None
+        try:
+            self._status_bar_manager = _build_status_bar_manager(
+                payload=self.params,
+                sessions_dir=self.sessions_dir,
+                advisor_factory=lambda: self._autosuggest_advisor,
+            )
+            self._status_bar_manager.install(self)
+        except Exception as exc:
+            print_warn(f"status bar not installed: {exc}")
+            self._status_bar_manager = None
+        try:
+            self._unified_orchestrator = _build_unified_orchestrator(
+                payload=self.params,
+                sessions_dir=self.sessions_dir,
+            )
+        except Exception as exc:
+            print_warn(f"unified orchestrator not installed: {exc}")
+            self._unified_orchestrator = None
     def log_command(self, cmd_name, cmd_args):
         """
         Logs the command execution details to a CSV file.
@@ -855,87 +877,159 @@ class LazyOwnShell(cmd2.Cmd):
         return [f for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f))]
 
     def register_tool_commands(self):
-        """
-        Registra automáticamente todos los comandos .tool en la carpeta 'tools/'
-        Usa self.params para reemplazar {ip}, {port}, {domain}, {s}, etc.
+        """Register every active ``tools/*.tool`` as a ``do_<toolname>`` command.
+
+        Placeholders in the tool's ``command`` template are resolved at call
+        time against ``self.params`` (so live config changes are honored).
+        Optional positional args passed to the command override ``port`` and
+        are appended as extra flags. When ``sessions/scan_<rhost>.nmap.xml``
+        exists and the tool's triggers match a discovered service, the host
+        and port are pre-populated from the scan; otherwise the command falls
+        back to ``rhost``/``rport`` from ``payload.json``.
+
+        Returns:
+            None
         """
         tool_dir = "tools"
-        config = Config(load_payload())
 
         if not os.path.exists(tool_dir):
             print_error(f"[!] Folder '{tool_dir}' not found.")
             return
-        else:
-            for tool_file in glob.glob(os.path.join(tool_dir, "*.tool")):
-                try:
-                    with open(tool_file, 'r') as f:
-                        tool_data = json.load(f)
 
-                    tool_name = tool_data.get("toolname")
-                    command_template = tool_data.get("command")
-                    triggers = tool_data.get("trigger", [])
-                    active = tool_data.get("active", False)
-                    tool_category = tool_data.get("category", pwntomate_category)
-                    tool_description = tool_data.get("description", "")
+        for tool_file in glob.glob(os.path.join(tool_dir, "*.tool")):
+            try:
+                with open(tool_file, 'r') as f:
+                    tool_data = json.load(f)
 
-                    if not active or not tool_name or not command_template:
-                        continue
+                tool_name = tool_data.get("toolname")
+                command_template = tool_data.get("command")
+                triggers = tool_data.get("trigger", []) or []
+                active = tool_data.get("active", False)
+                tool_category = tool_data.get("category", pwntomate_category)
+                tool_description = tool_data.get("description", "")
 
-                    xmmll = f"sessions/scan_{rhost}.nmap.xml"
-                    if not os.path.exists(xmmll):
-                        print_error("Not scan file please run nmap before")
-                        continue
+                if not active or not tool_name or not command_template:
+                    continue
 
-                    report = NmapParser.parse_fromfile(xmmll)
+                safe_tool_name = re.sub(r'[^A-Za-z0-9_]', '_', str(tool_name))
 
+                matched_target = None
+                current_rhost = rhost or ""
+                xmmll = f"sessions/scan_{current_rhost}.nmap.xml" if current_rhost else ""
+                if xmmll and os.path.exists(xmmll):
+                    try:
+                        report = NmapParser.parse_fromfile(xmmll)
+                        for host in report.hosts:
+                            for service in host.services:
+                                if service.service in triggers or "all" in triggers:
+                                    matched_target = {
+                                        "ip": host.address,
+                                        "port": str(service.port),
+                                        "service": service.service,
+                                        "proto": service.protocol,
+                                        "tunnel": "s" if service.tunnel == "ssl" else "",
+                                    }
+                                    break
+                            if matched_target:
+                                break
+                    except Exception as exc:
+                        print_warn(f"could not parse {xmmll}: {exc}")
 
+                def make_wrapper(cmd_template, tname, default_target):
+                    def tool_wrapper(arg):
+                        extra = str(arg).strip() if arg is not None else ""
+                        port_override = ""
+                        extra_flags = ""
+                        if extra:
+                            parts = extra.split(None, 1)
+                            if parts and parts[0].isdigit():
+                                port_override = parts[0]
+                                extra_flags = parts[1] if len(parts) > 1 else ""
+                            else:
+                                extra_flags = extra
 
-                    for host in report.hosts:
-                        for service in host.services:
-                            if service.service in triggers or "all" in triggers:
+                        params = self.params
+                        target_ip = params.get("rhost") or rhost or ""
+                        target_port = port_override or (default_target or {}).get("port") or str(params.get("rport") or "")
+                        target_service = (default_target or {}).get("service") or ""
+                        target_proto = (default_target or {}).get("proto") or "tcp"
+                        target_tunnel = (default_target or {}).get("tunnel")
+                        if target_tunnel is None:
+                            target_tunnel = "s" if target_port in ("443", "8443") else ""
 
-                                cmd_params = {
-                                    "ip": host.address,
-                                    "port": str(service.port),
-                                    "domain": domain,
-                                    "dnswordlist": dnswordlist,
-                                    "service": service.service,
-                                    "proto": service.protocol,
-                                    "username": start_user,
-                                    "password": start_pass,
-                                    "outputdir": os.path.join(
-                                        f"sessions/{rhost}/{tool_name}/{tool_name}.txt",
-                                        host.address,
-                                        str(service.port),
-                                        tool_name
-                                    ),
-                                    "tunnel": "s" if service.tunnel == "ssl" else "",
+                        outputdir = os.path.join("sessions", target_ip or "unknown", tname)
+                        try:
+                            os.makedirs(outputdir, exist_ok=True)
+                        except OSError as exc:
+                            print_warn(f"could not create {outputdir}: {exc}")
 
-                                }
+                        cmd_params = {
+                            "ip": target_ip,
+                            "port": target_port,
+                            "domain": params.get("domain", "") or "",
+                            "dnswordlist": params.get("dnswordlist", "") or "",
+                            "dirworlist": params.get("dirwordlist", "") or "",
+                            "usrwordlist": params.get("usrwordlist", "") or "",
+                            "nameserver": params.get("nameserver", "") or target_ip,
+                            "service": target_service,
+                            "proto": target_proto,
+                            "username": params.get("start_user", "") or "",
+                            "password": params.get("start_pass", "") or "",
+                            "outputdir": outputdir,
+                            "toolname": tname,
+                            "s": target_tunnel,
+                            "tunnel": target_tunnel,
+                            "ext": params.get("ext", "") or "",
+                        }
 
-                                os.makedirs(cmd_params["outputdir"], exist_ok=True)
+                        final_command = replace_command_placeholders(cmd_template, cmd_params)
+                        if extra_flags:
+                            final_command = f"{final_command} {extra_flags}"
+                        self.cmd(final_command)
 
-                                final_command = replace_command_placeholders(command_template, cmd_params)
+                    return tool_wrapper
 
-                                def tool_wrapper(*args, final_cmd=final_command):
-                                    self.cmd(final_cmd)
-                                outputdir = cmd_params["outputdir"]
-                                docstring = (
-                                    f"{tool_description}\n\n" if tool_description else ""
-                                )
-                                docstring += f"Tool:      {tool_name}\n"
-                                docstring += f"Category:  {tool_category}\n"
-                                docstring += f"Trigger:   {service.service} ({service.protocol}/{service.port})\n"
-                                docstring += f"Target:    {host.address}\n"
-                                docstring += f"Command:   {final_command[:120]}\n"
-                                docstring += f"Logs:      {outputdir}\n"
-                                tool_wrapper.__doc__ = docstring
-                                cmd2.utils.categorize(tool_wrapper, tool_category)
-                                setattr(self.__class__, f"do_{tool_name}", tool_wrapper)
-                                print_msg(f"Command '{tool_name}' registered [{tool_category}] from tools")
+                wrapper = make_wrapper(command_template, tool_name, matched_target)
 
-                except Exception as e:
-                    print_error(f"[ERROR] Fallo al cargar plugin {tool_file}: {e}")
+                trigger_label = ", ".join(triggers) if triggers else "(any)"
+                preview_params = {
+                    "ip": current_rhost or "<rhost>",
+                    "port": (matched_target or {}).get("port", "<port>"),
+                    "domain": domain or "<domain>",
+                    "dnswordlist": dnswordlist or "<dnswordlist>",
+                    "dirworlist": "<dirwordlist>",
+                    "usrwordlist": "<usrwordlist>",
+                    "nameserver": current_rhost or "<nameserver>",
+                    "service": (matched_target or {}).get("service", ""),
+                    "proto": (matched_target or {}).get("proto", "tcp"),
+                    "username": start_user or "<username>",
+                    "password": start_pass or "<password>",
+                    "outputdir": os.path.join("sessions", current_rhost or "<rhost>", safe_tool_name),
+                    "toolname": tool_name,
+                    "s": (matched_target or {}).get("tunnel", ""),
+                    "tunnel": (matched_target or {}).get("tunnel", ""),
+                    "ext": "",
+                }
+                preview_cmd = replace_command_placeholders(command_template, preview_params)
+
+                docstring = (f"{tool_description}\n\n" if tool_description else "")
+                docstring += f"Tool:      {tool_name}\n"
+                docstring += f"Category:  {tool_category}\n"
+                docstring += f"Trigger:   {trigger_label}\n"
+                docstring += f"Usage:     {safe_tool_name} [port] [extra-flags]\n"
+                docstring += f"Example:   {preview_cmd[:160]}\n"
+                if matched_target:
+                    docstring += (
+                        f"Matched:   {matched_target['service']} "
+                        f"({matched_target['proto']}/{matched_target['port']}) on {current_rhost}\n"
+                    )
+                wrapper.__doc__ = docstring
+                cmd2.utils.categorize(wrapper, tool_category)
+                setattr(self, f"do_{safe_tool_name}", wrapper)
+                print_msg(f"Command '{safe_tool_name}' registered [{tool_category}] from tools")
+
+            except Exception as e:
+                print_error(f"[ERROR] Failed to load tool {tool_file}: {e}")
 
     def _register_lua_command(self, command_name, lua_function):
         """Registra un comando nuevo desde Lua."""

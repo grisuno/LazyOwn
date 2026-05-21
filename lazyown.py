@@ -2109,77 +2109,27 @@ class LazyOwnShell(cmd2.Cmd):
         except Exception as _e:
             print_warn(f"Policy engine unavailable: {_e}")
 
-        # Layer 1b — addons/tools triggered by the latest nmap scan
+        # Layer 1b — full recon plan (addons + tools + commands) from the latest scan
         try:
             from cli.exploration import ExplorationEngine, resolve_current_os
+            from cli.recon_plan import build_recon_plan, render_rich
+
             _scan_engine = ExplorationEngine(
                 current_os=resolve_current_os(self.params)
             )
             _scan_target = rhost if rhost and rhost != "unknown" else None
-            _ux_addons = _scan_engine.unexplored_addons(_scan_target)
-            _ux_tools = _scan_engine.unexplored_tools(_scan_target)
-            if _ux_addons or _ux_tools:
+            _plan = build_recon_plan(
+                target=_scan_target,
+                engine=_scan_engine,
+                payload=self.params,
+            )
+            if not _plan.is_empty:
                 found_any = True
-                c.print(Rule("[bold]Trigger-matched suggestions[/] (from nmap scan)"))
-                for _addon in _ux_addons[:5]:
-                    _trig = ", ".join(_addon.trigger) or "(any)"
-                    c.print(
-                        f"  [bold green]addon[/] {_addon.name:<24}"
-                        f" [dim]os={_addon.addon_os} trigger={_trig}[/]"
-                    )
-                for _tool in _ux_tools[:5]:
-                    _trig = ", ".join(_tool.trigger) or "(any)"
-                    c.print(
-                        f"  [bold magenta]tool[/]  {_tool.name:<24}"
-                        f" [dim]os={_tool.tool_os} trigger={_trig}[/]"
-                    )
+                c.print(Rule("[bold]Trigger-matched recon plan[/] (from nmap scan)"))
+                render_rich(_plan, c)
                 c.print()
         except Exception as _exc:
-            print_warn(f"Trigger suggestions unavailable: {_exc}")
-
-        # Layer 2 — command index (phase-aware, no external deps)
-        try:
-            import json as _json
-            import csv as _csv
-            _idx = _json.loads(open("cli/command_index.json").read())
-            _ptc = _idx.get("phase_to_commands", {})
-            _cmds_list = _idx.get("commands", [])
-            _summary_map = {
-                e["name"]: e.get("summary", "")
-                for e in _cmds_list if isinstance(e, dict) and "name" in e
-            }
-            _phase_key = self.params.get("phase", "") or ""
-            _phase_aliases = {
-                "recon": "recon", "scan": "recon", "enum": "enum",
-                "exploit": "exploit", "privesc": "privesc",
-                "lateral": "lateral", "cred": "cred",
-                "persist": "persist", "exfil": "exfil",
-                "report": "report", "c2": "c2",
-            }
-            _mapped = _phase_aliases.get(_phase_key.lower(), "") or "enum"
-            _candidates = _ptc.get(_mapped, [])
-            # Read run history from CSV (no graph needed)
-            _seen: set = set()
-            _csv_path = "sessions/LazyOwn_session_report.csv"
-            try:
-                with open(_csv_path, newline="", errors="ignore") as _fh:
-                    for _row in _csv.DictReader(_fh):
-                        _cmd = (_row.get("command") or "").strip()
-                        if _cmd:
-                            _seen.add(_cmd)
-                            _seen.add(f"do_{_cmd}")
-            except OSError:
-                pass
-            _never_run = [c for c in _candidates if c not in _seen][:8]
-            if _never_run:
-                found_any = True
-                print_msg(f"Commands not yet run in phase '{_mapped}':")
-                for _cmd_name in _never_run[:5]:
-                    _label = _cmd_name.replace("do_", "")
-                    _summary = _summary_map.get(_cmd_name, "")[:70]
-                    print_msg(f"  {_label:<28} {_summary}")
-        except Exception as _e:
-            print_warn(f"Command index unavailable: {_e}")
+            print_warn(f"Recon plan unavailable: {_exc}")
 
         if not found_any:
             print_warn("No recommendations yet.")
@@ -2752,7 +2702,27 @@ class LazyOwnShell(cmd2.Cmd):
             self.onecmd("ping")
 
         self.cmd(f"{path}/modules/lazynmap.sh -t {target_ip}")
-        self.onecmd("vulnbot_groq")
+
+        try:
+            from rich.console import Console as _PostScanConsole
+
+            from cli.lazynmap_post import run_post_scan as _run_post_scan
+
+            _run_post_scan(
+                target=target_ip,
+                payload=self.params,
+                console=_PostScanConsole(highlight=False, soft_wrap=True),
+            )
+        except Exception as _post_exc:
+            print_warn(f"recon plan post-processing failed: {_post_exc}")
+
+        if (self.params.get("api_key") or "").strip():
+            self.onecmd("vulnbot_groq")
+        else:
+            print_warn(
+                "Skipping vulnbot_groq: 'api_key' not set in payload.json "
+                "(use 'assign api_key <token>' to enable Groq-backed analysis)."
+            )
         self.onecmd("report")
         return
 
@@ -2934,7 +2904,27 @@ class LazyOwnShell(cmd2.Cmd):
                 self.params["rhost"] = _prev_rhost
 
         self.cmd(f"{path}/modules/lazynmap.sh -t {line}")
-        self.onecmd("vulnbot_groq")
+
+        try:
+            from rich.console import Console as _PostScanConsole
+
+            from cli.lazynmap_post import run_post_scan as _run_post_scan
+
+            _run_post_scan(
+                target=line,
+                payload=self.params,
+                console=_PostScanConsole(highlight=False, soft_wrap=True),
+            )
+        except Exception as _post_exc:
+            print_warn(f"recon plan post-processing failed: {_post_exc}")
+
+        if (self.params.get("api_key") or "").strip():
+            self.onecmd("vulnbot_groq")
+        else:
+            print_warn(
+                "Skipping vulnbot_groq: 'api_key' not set in payload.json "
+                "(use 'assign api_key <token>' to enable Groq-backed analysis)."
+            )
         self.onecmd("report")
         return
 

@@ -299,9 +299,18 @@ shell.emptyline() You didn’t enter any command.</p>
 <h2 id="list_files_in_directory">list_files_in_directory</h2>
 <p>Lista todos los archivos en un directorio dado.</p>
 <h2 id="register_tool_commands">register_tool_commands</h2>
-<p>Registra automáticamente todos los comandos .tool en la carpeta
-‘tools/’ Usa self.params para reemplazar {ip}, {port}, {domain}, {s},
-etc.</p>
+<p>Register every active <code>tools/*.tool</code> as a
+<code>do_&lt;toolname&gt;</code> command.</p>
+<p>Placeholders in the tool’s <code>command</code> template are resolved
+at call time against <code>self.params</code> (so live config changes
+are honored). Optional positional args passed to the command override
+<code>port</code> and are appended as extra flags. When
+<code>sessions/scan_&lt;rhost&gt;.nmap.xml</code> exists and the tool’s
+triggers match a discovered service, the host and port are pre-populated
+from the scan; otherwise the command falls back to
+<code>rhost</code>/<code>rport</code> from
+<code>payload.json</code>.</p>
+<p>Returns: None</p>
 <h2 id="register_lua_command">_register_lua_command</h2>
 <p>Registra un comando nuevo desde Lua.</p>
 <h2 id="load_plugins">load_plugins</h2>
@@ -7605,6 +7614,8 @@ the scope where this function is used.</p>
 id="resolve_and_download_dependencies">resolve_and_download_dependencies</h2>
 <p>Recursively resolve and download package dependencies with enhanced
 checks</p>
+<h2 id="make_wrapper">make_wrapper</h2>
+<p>No description available.</p>
 <h2 id="tool_wrapper">tool_wrapper</h2>
 <p>No description available.</p>
 </body>

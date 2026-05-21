@@ -173,8 +173,18 @@ Guarda un nuevo comando en user_commands.json
 Lista todos los archivos en un directorio dado.
 
 ## register_tool_commands
-Registra automáticamente todos los comandos .tool en la carpeta 'tools/'
-Usa self.params para reemplazar {ip}, {port}, {domain}, {s}, etc.
+Register every active ``tools/*.tool`` as a ``do_<toolname>`` command.
+
+Placeholders in the tool's ``command`` template are resolved at call
+time against ``self.params`` (so live config changes are honored).
+Optional positional args passed to the command override ``port`` and
+are appended as extra flags. When ``sessions/scan_<rhost>.nmap.xml``
+exists and the tool's triggers match a discovered service, the host
+and port are pre-populated from the scan; otherwise the command falls
+back to ``rhost``/``rport`` from ``payload.json``.
+
+Returns:
+    None
 
 ## _register_lua_command
 Registra un comando nuevo desde Lua.
@@ -10184,6 +10194,9 @@ No description available.
 
 ## resolve_and_download_dependencies
 Recursively resolve and download package dependencies with enhanced checks
+
+## make_wrapper
+No description available.
 
 ## tool_wrapper
 No description available.

@@ -18,10 +18,11 @@ Design contract:
 from __future__ import annotations
 
 import re
+import shutil
 import subprocess
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any, Callable, Iterable, Sequence
 
 from rich.console import Console
 from rich.panel import Panel
@@ -60,6 +61,67 @@ _IP_RE = re.compile(
     r"^((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)$"
 )
 
+_BINARY_NAME_RE = re.compile(r"\A[A-Za-z0-9_.+-]{1,64}\Z")
+
+
+@dataclass(frozen=True)
+class BinarySpec:
+    """Declarative description of an external tool the framework relies on.
+
+    The wizard verifies presence only — it never executes the binary so a
+    malicious shadow ``PATH`` entry cannot be triggered by the readiness
+    check itself.
+
+    Attributes:
+        name: Executable name as it should appear on ``PATH``. Must
+            satisfy :data:`_BINARY_NAME_RE` so logging is safe and the
+            value cannot inject shell metacharacters.
+        category: Human-readable group used to bucket the report
+            (recon, web, smb, ad, exploit, c2).
+        purpose: One-line description of why LazyOwn needs the tool.
+        install_hint: Operator-facing install command shown when the
+            binary is missing. Static string — never interpolated.
+    """
+
+    name: str
+    category: str
+    purpose: str
+    install_hint: str
+
+
+_REQUIRED_BINARIES: tuple[BinarySpec, ...] = (
+    BinarySpec("nmap", "recon", "Port and service discovery", "sudo apt install nmap"),
+    BinarySpec("curl", "recon", "HTTP probing and beacon delivery", "sudo apt install curl"),
+    BinarySpec("ip", "recon", "Routing and interface introspection", "sudo apt install iproute2"),
+    BinarySpec("gobuster", "web", "Directory and DNS brute-forcing", "sudo apt install gobuster"),
+    BinarySpec("ffuf", "web", "Web fuzzing and parameter discovery", "sudo apt install ffuf"),
+    BinarySpec("feroxbuster", "web", "Recursive content discovery", "cargo install feroxbuster"),
+    BinarySpec("nikto", "web", "Web server vulnerability scanner", "sudo apt install nikto"),
+    BinarySpec("hydra", "cred", "Network login cracker", "sudo apt install hydra"),
+    BinarySpec("john", "cred", "Offline password cracker", "sudo apt install john"),
+    BinarySpec("hashcat", "cred", "GPU-accelerated cracker", "sudo apt install hashcat"),
+    BinarySpec("smbclient", "smb", "SMB share enumeration and access", "sudo apt install smbclient"),
+    BinarySpec("enum4linux", "smb", "Linux SMB enumeration", "sudo apt install enum4linux"),
+    BinarySpec("crackmapexec", "ad", "AD/SMB authentication sweeps", "pipx install crackmapexec"),
+    BinarySpec("impacket-secretsdump", "ad", "Impacket suite — DC dump", "pipx install impacket"),
+    BinarySpec("responder", "ad", "LLMNR/NBT-NS poisoning", "sudo apt install responder"),
+    BinarySpec("evil-winrm", "ad", "WinRM shell client", "gem install evil-winrm"),
+    BinarySpec("searchsploit", "exploit", "Offline Exploit-DB index", "sudo apt install exploitdb"),
+    BinarySpec("msfconsole", "exploit", "Metasploit Framework", "sudo apt install metasploit-framework"),
+    BinarySpec("tmux", "c2", "Background session multiplexer", "sudo apt install tmux"),
+    BinarySpec("openssl", "c2", "Self-signed C2 certificate generation", "sudo apt install openssl"),
+    BinarySpec("go", "c2", "Beacon stub compilation", "sudo apt install golang-go"),
+)
+
+
+@dataclass
+class BinaryStatus:
+    """Result of a presence check for a single :class:`BinarySpec`."""
+
+    spec: BinarySpec
+    present: bool
+    resolved_path: str | None = None
+
 
 @dataclass
 class ReadinessItem:
@@ -78,6 +140,7 @@ class WizardResult:
     saved: bool = False
     updates: dict[str, Any] = field(default_factory=dict)
     readiness: list[ReadinessItem] = field(default_factory=list)
+    binaries: list[BinaryStatus] = field(default_factory=list)
 
 
 def run(
@@ -108,6 +171,8 @@ def run(
         _console.print("[dim]  Nothing changed.[/]")
         result.readiness = _build_readiness(params)
         _print_readiness(result.readiness)
+        result.binaries = check_binaries()
+        _print_binary_report(result.binaries)
         return result
 
     for key, value in updates.items():
@@ -121,6 +186,8 @@ def run(
     result.updates = updates
     result.readiness = _build_readiness(params)
     _print_readiness(result.readiness)
+    result.binaries = check_binaries()
+    _print_binary_report(result.binaries)
     _print_next_steps(params)
     return result
 
@@ -393,6 +460,94 @@ def _print_readiness(items: list[ReadinessItem]) -> None:
     _console.print(table)
 
 
+def check_binaries(
+    specs: Sequence[BinarySpec] = _REQUIRED_BINARIES,
+    which: Callable[[str], str | None] = shutil.which,
+) -> list[BinaryStatus]:
+    """Return the presence status of every spec without executing it.
+
+    The check is intentionally side-effect free: it only resolves the
+    binary on ``PATH`` via ``shutil.which`` (or the caller-supplied
+    equivalent in tests) and never spawns the discovered process. That
+    keeps the readiness step deterministic and removes the risk that a
+    poisoned ``PATH`` entry could be triggered just by running ``wizard``.
+
+    Args:
+        specs: Iterable of :class:`BinarySpec` definitions to verify.
+            Defaults to :data:`_REQUIRED_BINARIES`.
+        which: ``shutil.which``-compatible callable. Injected so unit
+            tests can stub presence detection without touching the
+            real ``PATH``.
+
+    Returns:
+        A list of :class:`BinaryStatus` items in the same order as
+        ``specs``. Binaries whose name fails :data:`_BINARY_NAME_RE`
+        are skipped defensively — the module-level constants always
+        match, but this guards against future contributions adding
+        unsafe entries by mistake.
+    """
+    statuses: list[BinaryStatus] = []
+    for spec in specs:
+        if not _BINARY_NAME_RE.match(spec.name):
+            continue
+        resolved = which(spec.name)
+        statuses.append(
+            BinaryStatus(
+                spec=spec,
+                present=bool(resolved),
+                resolved_path=resolved if resolved else None,
+            )
+        )
+    return statuses
+
+
+def _group_by_category(
+    statuses: Iterable[BinaryStatus],
+) -> dict[str, list[BinaryStatus]]:
+    grouped: dict[str, list[BinaryStatus]] = {}
+    for status in statuses:
+        grouped.setdefault(status.spec.category, []).append(status)
+    return grouped
+
+
+def _print_binary_report(statuses: list[BinaryStatus]) -> None:
+    if not statuses:
+        return
+
+    missing = [s for s in statuses if not s.present]
+    present_count = len(statuses) - len(missing)
+
+    table = Table(
+        title=f"External tools  ({present_count}/{len(statuses)} present)",
+        border_style="dim",
+        show_lines=False,
+    )
+    table.add_column("Tool", style="white", no_wrap=True)
+    table.add_column("Category", style="dim cyan", no_wrap=True)
+    table.add_column("Status", no_wrap=True)
+    table.add_column("Purpose / install hint", style="dim")
+
+    for category, items in _group_by_category(statuses).items():
+        for status in items:
+            spec = status.spec
+            if status.present:
+                cell = Text("ok", style="bold green")
+                detail = spec.purpose
+            else:
+                cell = Text("missing", style="bold red")
+                detail = f"{spec.purpose} -- {spec.install_hint}"
+            table.add_row(spec.name, category, cell, detail)
+
+    _console.print()
+    _console.print(table)
+
+    if missing:
+        _console.print(
+            f"[bold yellow]  {len(missing)} tool(s) missing — "
+            "features that depend on them will be skipped at runtime.[/]"
+        )
+
+
 def _print_next_steps(params: dict[str, Any]) -> None:
     rhost = params.get("rhost")
     _console.print()
@@ -483,4 +638,10 @@ def _info(msg: str) -> None:
     _console.print(f"  [dim]--[/]  {msg}")
 
 
-__all__ = ["WizardResult", "run"]
+__all__ = [
+    "BinarySpec",
+    "BinaryStatus",
+    "WizardResult",
+    "check_binaries",
+    "run",
+]

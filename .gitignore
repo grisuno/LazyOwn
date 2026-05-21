@@ -50,3 +50,4 @@ cloudflared
 lazysentinel.db
 parquets/session_knowledge.parquet
 prompt.md
+knowledge_base_vuln.json

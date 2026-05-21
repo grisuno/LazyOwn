@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Correcciones
+
+### Otros
+
+  *   * fix(fix): binding ips \n\n Version: release/0.2.134 \n\n security issue \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: jue 21 may 2026 00:25:14 -04 \n\n Hora: 1779337514
+
+
 ### Refactorización
 
 ### Otros

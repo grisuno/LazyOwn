@@ -18,8 +18,9 @@ After registration, restart with `bash skills/mcp_restart.sh` whenever
 
 | File | Purpose |
 |------|---------|
-| `lazyown_mcp.py` | MCP server — exposes 95 LazyOwn tools to Claude |
+| `lazyown_mcp.py` | MCP server — exposes 95 LazyOwn tools to Claude and Hermes |
 | `lazyown.md` | Claude Code skill / slash-command documentation |
+| `lazyown/` | Hermes Agent skill definition (SKILL.md with frontmatter) |
 | `lazyown_policy.py` | Reward-based policy engine for the auto_loop; detection-aware reward shaping |
 | `lazyown_facts.py` | Structured fact extraction from nmap XML and tool output |
 | `lazyown_objective.py` | Objective queue + soul.md management |
@@ -58,13 +59,26 @@ Or add manually to `~/.claude/claude_desktop_config.json`:
 }
 ```
 
-### 2. Install the slash command (optional)
+### 2. Register the MCP server in Hermes Agent
+
+```bash
+bash scripts/setup_hermes_mcp.sh
+```
+
+Or manually:
+```bash
+hermes mcp add lazyown python3 /home/grisun0/LazyOwn/skills/lazyown_mcp.py
+```
+
+Then restart Hermes or run `/reload-mcp`.
+
+### 3. Install the slash command (optional — Claude Code only)
 
 ```bash
 cp skills/lazyown.md ~/.claude/commands/lazyown.md
 ```
 
-### 3. Use from Claude Code
+### 4. Use from Claude Code
 
 After restarting Claude Code, all `lazyown_*` tools are available.
 Type `/lazyown` to load the full skill prompt.

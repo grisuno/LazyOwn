@@ -24,19 +24,17 @@ from rich.text import Text
 
 _console = Console(highlight=False, soft_wrap=True)
 
-PHASES: tuple[str, ...] = (
-    "recon", "scan", "enum", "exploit", "privesc", "lateral", "exfil", "report"
-)
+PHASES: tuple[str, ...] = ("recon", "scan", "enum", "exploit", "privesc", "lateral", "exfil", "report")
 
 _PHASE_COLORS: dict[str, str] = {
-    "recon":    "cyan",
-    "scan":     "blue",
-    "enum":     "magenta",
-    "exploit":  "bold red",
-    "privesc":  "bold yellow",
-    "lateral":  "orange3",
-    "exfil":    "dark_orange",
-    "report":   "green",
+    "recon": "cyan",
+    "scan": "blue",
+    "enum": "magenta",
+    "exploit": "bold red",
+    "privesc": "bold yellow",
+    "lateral": "orange3",
+    "exfil": "dark_orange",
+    "report": "green",
 }
 
 _WORLD_MODEL = "sessions/world_model.json"
@@ -48,6 +46,7 @@ _HASH_GLOB = "sessions/hash*.txt"
 
 
 # ── ctx ─────────────────────────────────────────────────────────────────────
+
 
 def print_ctx(payload: dict[str, Any], sessions_dir: str = "sessions") -> None:
     """Print a single-line operator context summary.
@@ -88,6 +87,7 @@ def print_ctx(payload: dict[str, Any], sessions_dir: str = "sessions") -> None:
 
 
 # ── tgrep ────────────────────────────────────────────────────────────────────
+
 
 def tgrep(
     pattern: str,
@@ -176,11 +176,13 @@ def _search_transcript_jsonl(
             if len(hits) >= limit:
                 break
             if rx.search(text_line):
-                hits.append({
-                    "source": "transcript",
-                    "context": cmd[:20],
-                    "line": text_line.strip()[:120],
-                })
+                hits.append(
+                    {
+                        "source": "transcript",
+                        "context": cmd[:20],
+                        "line": text_line.strip()[:120],
+                    }
+                )
 
 
 def _search_csv(rx: re.Pattern, hits: list[dict[str, str]], limit: int) -> None:
@@ -198,11 +200,13 @@ def _search_csv(rx: re.Pattern, hits: list[dict[str, str]], limit: int) -> None:
             break
         for col, val in row.items():
             if val and rx.search(val):
-                hits.append({
-                    "source": "session.csv",
-                    "context": col,
-                    "line": str(val).strip()[:120],
-                })
+                hits.append(
+                    {
+                        "source": "session.csv",
+                        "context": col,
+                        "line": str(val).strip()[:120],
+                    }
+                )
                 break
 
 
@@ -226,25 +230,28 @@ def _search_logs(
             if len(hits) >= limit:
                 break
             if rx.search(line):
-                hits.append({
-                    "source": fpath.name[:18],
-                    "context": "",
-                    "line": line.strip()[:120],
-                })
+                hits.append(
+                    {
+                        "source": fpath.name[:18],
+                        "context": "",
+                        "line": line.strip()[:120],
+                    }
+                )
 
 
 def _highlight_match(line: str, rx: re.Pattern) -> Text:
     t = Text()
     last = 0
     for m in rx.finditer(line):
-        t.append(line[last:m.start()])
-        t.append(line[m.start():m.end()], style="bold yellow on dark_goldenrod")
+        t.append(line[last : m.start()])
+        t.append(line[m.start() : m.end()], style="bold yellow on dark_goldenrod")
         last = m.end()
     t.append(line[last:])
     return t
 
 
 # ── phase ────────────────────────────────────────────────────────────────────
+
 
 def read_phase() -> str:
     """Return the current kill-chain phase from world_model.json."""
@@ -312,6 +319,7 @@ def print_phase() -> None:
 
 # ── shared helpers ────────────────────────────────────────────────────────────
 
+
 def _read_json(path: str) -> dict[str, Any]:
     try:
         with open(path, "r", encoding="utf-8") as fh:
@@ -339,6 +347,7 @@ def _write_json_atomic(path: str, data: dict[str, Any]) -> None:
 
 def _count_glob(pattern: str) -> int:
     import glob as _glob
+
     total = 0
     for fpath in _glob.glob(pattern):
         try:
@@ -417,8 +426,7 @@ def note_list(rhost: str = "", limit: int = 20) -> None:
     table.add_column("Target", style="cyan", width=16)
     table.add_column("Note", no_wrap=False)
 
-    for i, entry in enumerate(entries[-limit:], 1):
-        import datetime
+    for _i, entry in enumerate(entries[-limit:], 1):
         ts_str = datetime.datetime.fromtimestamp(entry.get("ts", 0)).strftime("%H:%M")
         phase = (entry.get("phase") or "?").upper()
         target = entry.get("rhost") or "—"
@@ -429,6 +437,7 @@ def note_list(rhost: str = "", limit: int = 20) -> None:
 
 
 # ── loot ──────────────────────────────────────────────────────────────────────
+
 
 def loot_show(sessions_dir: str = "sessions") -> None:
     """Print a unified table of all captured credentials and hashes.
@@ -458,12 +467,14 @@ def loot_show(sessions_dir: str = "sessions") -> None:
                     user, _, secret = stripped.partition(":")
                 else:
                     user, secret = stripped, ""
-                rows.append({
-                    "source": fname,
-                    "kind": kind,
-                    "user": user.strip()[:40],
-                    "secret": secret.strip()[:60],
-                })
+                rows.append(
+                    {
+                        "source": fname,
+                        "kind": kind,
+                        "user": user.strip()[:40],
+                        "secret": secret.strip()[:60],
+                    }
+                )
 
     if not rows:
         _console.print("  [dim]No l00t yet.  Credentials land in sessions/credentials*.txt[/]")
@@ -529,8 +540,7 @@ def pivot_add(new_ip: str, via_ip: str = "", note: str = "") -> None:
 
     _console.print(
         f"  [bold green]pivot recorded[/]  "
-        f"[cyan]{new_ip}[/] via [dim]{via_ip or 'direct'}[/]"
-        + (f"  ({note})" if note else "")
+        f"[cyan]{new_ip}[/] via [dim]{via_ip or 'direct'}[/]" + (f"  ({note})" if note else "")
     )
 
 
@@ -563,7 +573,6 @@ def pivot_list() -> None:
     table.add_column("Note", style="dim white")
 
     for entry in entries:
-        import datetime
         ts = datetime.datetime.fromtimestamp(entry.get("ts", 0)).strftime("%H:%M")
         table.add_row(
             entry.get("ip", "?"),
@@ -573,9 +582,7 @@ def pivot_list() -> None:
         )
 
     _console.print(table)
-    _console.print(
-        "  [dim]To make a pivot target active: [bold]assign rhost <ip>[/][/]"
-    )
+    _console.print("  [dim]To make a pivot target active: [bold]assign rhost <ip>[/][/]")
 
 
 # ── tasks ─────────────────────────────────────────────────────────────────────
@@ -614,6 +621,7 @@ def tasks_list(status_filter: str = "active", limit: int = 30) -> None:
         shown = [t for t in tasks if t.get("status", "") == status_filter]
 
     from collections import Counter
+
     counts = Counter(t.get("status", "?") for t in tasks)
     summary = "  ".join(f"[bold]{v}[/] {k}" for k, v in sorted(counts.items()))
 
@@ -683,7 +691,7 @@ def tasks_done(task_id: int) -> bool:
         if t.get("id") == task_id:
             t["status"] = "Done"
             _save_tasks(tasks)
-            _console.print(f"  [bold green]task #{task_id} marked Done[/]  {t.get('title','')[:60]}")
+            _console.print(f"  [bold green]task #{task_id} marked Done[/]  {t.get('title', '')[:60]}")
             return True
     _console.print(f"  [bold red]task #{task_id} not found[/]")
     return False
@@ -703,13 +711,14 @@ def tasks_start(task_id: int) -> bool:
         if t.get("id") == task_id:
             t["status"] = "Started"
             _save_tasks(tasks)
-            _console.print(f"  [bold yellow]task #{task_id} started[/]  {t.get('title','')[:60]}")
+            _console.print(f"  [bold yellow]task #{task_id} started[/]  {t.get('title', '')[:60]}")
             return True
     _console.print(f"  [bold red]task #{task_id} not found[/]")
     return False
 
 
 # ── scans ─────────────────────────────────────────────────────────────────────
+
 
 def scans_list(rhost: str = "", sessions_dir: str = "sessions") -> None:
     """List nmap scan files in sessions/, optionally filtered by rhost.
@@ -727,10 +736,7 @@ def scans_list(rhost: str = "", sessions_dir: str = "sessions") -> None:
         files = [f for f in files if rhost in os.path.basename(f)]
 
     if not files:
-        _console.print(
-            f"  [dim]No scan files found{' for ' + rhost if rhost else ''}.  "
-            "Run: lazynmap[/]"
-        )
+        _console.print(f"  [dim]No scan files found{' for ' + rhost if rhost else ''}.  Run: lazynmap[/]")
         return
 
     table = Table(
@@ -766,6 +772,7 @@ def scans_list(rhost: str = "", sessions_dir: str = "sessions") -> None:
 
 # ── sitrep ────────────────────────────────────────────────────────────────────
 
+
 def sitrep(payload: dict[str, Any], sessions_dir: str = "sessions") -> None:
     """Print a unified operational situation report.
 
@@ -777,23 +784,23 @@ def sitrep(payload: dict[str, Any], sessions_dir: str = "sessions") -> None:
         payload: Live params dict (from payload.json).
         sessions_dir: Path to the sessions directory.
     """
-    rhost  = payload.get("rhost") or "—"
-    lhost  = payload.get("lhost") or "—"
+    rhost = payload.get("rhost") or "—"
+    lhost = payload.get("lhost") or "—"
     domain = payload.get("domain") or "—"
-    os_id  = str(payload.get("os_id", "?"))
+    os_id = str(payload.get("os_id", "?"))
     os_label = {"1": "Linux", "2": "Windows"}.get(os_id, "?")
 
-    world   = _read_json(_WORLD_MODEL)
-    phase   = (world.get("phase") or world.get("current_phase") or "unknown").upper()
+    world = _read_json(_WORLD_MODEL)
+    phase = (world.get("phase") or world.get("current_phase") or "unknown").upper()
     phase_color = _PHASE_COLORS.get(phase.lower(), "white")
     n_hosts = len(world.get("hosts", {}))
     n_vulns = len(world.get("vulnerabilities", []))
     n_world_creds = len(world.get("credentials", []))
 
-    tasks     = _load_tasks()
-    n_new     = sum(1 for t in tasks if t.get("status") == "New")
+    tasks = _load_tasks()
+    n_new = sum(1 for t in tasks if t.get("status") == "New")
     n_started = sum(1 for t in tasks if t.get("status") == "Started")
-    n_done    = sum(1 for t in tasks if t.get("status") == "Done")
+    n_done = sum(1 for t in tasks if t.get("status") == "Done")
 
     cred_count = _count_glob(f"{sessions_dir}/credentials*.txt")
     hash_count = _count_glob(f"{sessions_dir}/hash*.txt")
@@ -812,7 +819,9 @@ def sitrep(payload: dict[str, Any], sessions_dir: str = "sessions") -> None:
     pivots_path = Path(_PIVOT_FILE)
     n_pivots = 0
     if pivots_path.exists():
-        n_pivots = sum(1 for line in pivots_path.read_text(encoding="utf-8", errors="ignore").splitlines() if line.strip())
+        n_pivots = sum(
+            1 for line in pivots_path.read_text(encoding="utf-8", errors="ignore").splitlines() if line.strip()
+        )
 
     scan_pattern = f"{sessions_dir}/scan_*.nmap"
     scan_files = glob.glob(scan_pattern)
@@ -826,10 +835,7 @@ def sitrep(payload: dict[str, Any], sessions_dir: str = "sessions") -> None:
     plan_snippet = _read_plan()
 
     _console.print()
-    _console.rule(
-        f"[bold]SITREP[/]  [cyan]{rhost}[/]  [bold {phase_color}]{phase}[/]  "
-        f"[dim]{os_label}[/]"
-    )
+    _console.rule(f"[bold]SITREP[/]  [cyan]{rhost}[/]  [bold {phase_color}]{phase}[/]  [dim]{os_label}[/]")
 
     # Target row
     t = Text()
@@ -872,15 +878,13 @@ def sitrep(payload: dict[str, Any], sessions_dir: str = "sessions") -> None:
     # Notes row
     note_style = "bold magenta" if n_notes else "dim"
     _console.print(
-        f"  [bold]Notes[/]         [{note_style}]{n_notes} note(s)[/] for this target  "
-        "— run [bold]note[/] to view"
+        f"  [bold]Notes[/]         [{note_style}]{n_notes} note(s)[/] for this target  — run [bold]note[/] to view"
     )
 
     # Pivots row
     pivot_style = "bold orange3" if n_pivots else "dim"
     _console.print(
-        f"  [bold]Pivots[/]        [{pivot_style}]{n_pivots} hop(s) recorded[/]  "
-        "— run [bold]pivot[/] to view"
+        f"  [bold]Pivots[/]        [{pivot_style}]{n_pivots} hop(s) recorded[/]  — run [bold]pivot[/] to view"
     )
 
     # Plan row
@@ -974,7 +978,9 @@ def _read_plan() -> str:
     if not path.exists():
         return ""
     try:
-        lines = [l.strip() for l in path.read_text(encoding="utf-8", errors="ignore").splitlines() if l.strip()]
+        lines = [
+            line.strip() for line in path.read_text(encoding="utf-8", errors="ignore").splitlines() if line.strip()
+        ]
         if not lines:
             return ""
         first = lines[0]
@@ -987,22 +993,23 @@ def _read_plan() -> str:
 
 # ── shared small helpers ───────────────────────────────────────────────────────
 
+
 def _human_age(seconds: float) -> str:
     if seconds < 60:
         return f"{int(seconds)}s"
     if seconds < 3600:
-        return f"{int(seconds/60)}m"
+        return f"{int(seconds / 60)}m"
     if seconds < 86400:
-        return f"{int(seconds/3600)}h"
-    return f"{int(seconds/86400)}d"
+        return f"{int(seconds / 3600)}h"
+    return f"{int(seconds / 86400)}d"
 
 
 def _human_size(n: int) -> str:
     if n < 1024:
         return f"{n}B"
     if n < 1024 * 1024:
-        return f"{n//1024}K"
-    return f"{n//(1024*1024)}M"
+        return f"{n // 1024}K"
+    return f"{n // (1024 * 1024)}M"
 
 
 __all__ = [

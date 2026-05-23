@@ -115,6 +115,41 @@ def test_advisor_summary_reports_topology(advisor):
     assert summary["nodes"] == 6
     assert summary["edges"] == 4
     assert summary["communities"] == 4
+    assert summary["health"] == "fresh"
+    assert summary["age_days"] is not None and summary["age_days"] >= 0
+    assert "hint" not in summary
+
+
+def test_advisor_summary_flags_empty_graph(tmp_path):
+    GraphLoader.clear_cache()
+    empty = {"nodes": [{"id": "n1", "label": "n1", "community": 1}], "links": []}
+    file_path = tmp_path / "graph.json"
+    file_path.write_text(json.dumps(empty), encoding="utf-8")
+    advisor = GraphAdvisor.from_path(file_path)
+    summary = advisor.summary()
+    assert summary["available"] is True
+    assert summary["edges"] == 0
+    assert summary["health"] == "empty"
+    assert "graphify" in summary["hint"]
+
+
+def test_advisor_summary_flags_stale_graph(tmp_path):
+    import os as _os
+
+    GraphLoader.clear_cache()
+    fresh = {
+        "nodes": [{"id": "a"}, {"id": "b"}],
+        "links": [{"source": "a", "target": "b"}],
+    }
+    file_path = tmp_path / "graph.json"
+    file_path.write_text(json.dumps(fresh), encoding="utf-8")
+    old_ts = file_path.stat().st_mtime - (10 * 86400)
+    _os.utime(file_path, (old_ts, old_ts))
+    advisor = GraphAdvisor.from_path(file_path)
+    summary = advisor.summary()
+    assert summary["health"] == "stale"
+    assert summary["age_days"] >= 10
+    assert "graphify" in summary["hint"]
 
 
 def test_advisor_search_returns_ranked_nodes(advisor):

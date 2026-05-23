@@ -17,16 +17,23 @@ from utils import (
     GREEN,
     RESET,
     UNDERLINE,
+    check_rhost,
+    copy2clip,
+    exploitalert,
+    exploitation_category,
+    find_ea,
+    find_ps,
+    find_ss,
+    get_domain,
+    get_users_dic,
+    is_binary_present,
+    nvddb,
+    packetstormsecurity,
     print_error,
     print_msg,
     print_warn,
     recon_category,
     scanning_category,
-    exploitation_category,
-    check_rhost,
-    is_binary_present,
-    is_package_installed,
-    run_command,
 )
 
 
@@ -48,10 +55,10 @@ class ReconCommandSet(LazyOwnCommandSet):
         :return: None
         """
 
-        file_path = get_users_dic('txt')
+        file_path = get_users_dic("txt")
         path = os.getcwd()
         try:
-            with open(file_path, 'r') as file:
+            with open(file_path, "r") as file:
                 for target in file:
                     target = target.strip()
                     if target:
@@ -61,9 +68,7 @@ class ReconCommandSet(LazyOwnCommandSet):
         except Exception as e:
             self.perror(f"An error occurred: {e}")
 
-
         return
-
 
     @cmd2.with_category(scanning_category)
     def do_lazynmap(self, line):
@@ -96,10 +101,7 @@ class ReconCommandSet(LazyOwnCommandSet):
             pass
 
         if not os_known:
-            print_msg(
-                "OS not yet identified — running ping before nmap "
-                "to select the correct tool chain."
-            )
+            print_msg("OS not yet identified — running ping before nmap to select the correct tool chain.")
             # Temporarily override rhost to the explicit target if different
             _prev_rhost = self.params.get("rhost")
             if line and line != _prev_rhost:
@@ -133,7 +135,6 @@ class ReconCommandSet(LazyOwnCommandSet):
         self.onecmd("report")
         return
 
-
     @cmd2.with_category(recon_category)
     def do_dig(self, line):
         """
@@ -158,16 +159,13 @@ class ReconCommandSet(LazyOwnCommandSet):
 
         rhost = self.params["rhost"]
         if not line or not rhost:
-            print_error(
-                "[-] rhost must be assign or you must pass the dns argument like dig box.htb"
-            )
+            print_error("[-] rhost must be assign or you must pass the dns argument like dig box.htb")
             return
         print_msg(f"Try dig version.bind CHAOS TXT @{line} {RESET}")
         self.cmd(f"dig version.bind CHAOS TXT @{line}")
         print_msg(f"dig any {line} @{rhost}")
         self.cmd(f"dig any {line} @{rhost}")
         return
-
 
     @cmd2.with_category(recon_category)
     def do_dnsenum(self, line):
@@ -202,9 +200,7 @@ class ReconCommandSet(LazyOwnCommandSet):
         print_msg(
             f"Try ... dnsenum --dnsserver {rhost} --enum -p 0 -s 0 -o sessions/subdomains.txt -f {dnswordlist} {line} {RESET}"
         )
-        self.cmd(
-            f"dnsenum --dnsserver {rhost} --enum -p 0 -s 0 -o sessions/subdomains.txt -f {dnswordlist} {line}"
-        )
+        self.cmd(f"dnsenum --dnsserver {rhost} --enum -p 0 -s 0 -o sessions/subdomains.txt -f {dnswordlist} {line}")
         return
 
     @cmd2.with_category(recon_category)
@@ -229,7 +225,7 @@ class ReconCommandSet(LazyOwnCommandSet):
             dnsmap ghost.htb -w /path/to/dnswordlist.txt
         """
 
-        rhost = self.params["rhost"]
+        self.params["rhost"]
         dnswordlist = self.params["dnswordlist"]
         if not line or not dnswordlist:
             print_error(
@@ -239,7 +235,6 @@ class ReconCommandSet(LazyOwnCommandSet):
         print_msg(f"    {GREEN}[+] Try ... dnsmap {line} -w {dnswordlist} {RESET}")
         self.cmd(f"dnsmap {line} -w {dnswordlist}")
         return
-
 
     @cmd2.with_category(recon_category)
     def do_whatweb(self, line):
@@ -267,7 +262,6 @@ class ReconCommandSet(LazyOwnCommandSet):
         if not check_rhost(rhost):
             return
 
-
         if not line:
             print_msg(f"Try... whatweb {rhost}{RESET}")
             self.cmd(f"whatweb {rhost}")
@@ -278,7 +272,6 @@ class ReconCommandSet(LazyOwnCommandSet):
             elif line.startswith("url"):
                 print_msg(f"Try... whatweb {url}{RESET}")
                 self.cmd(f"whatweb {url}")
-
 
     @cmd2.with_category(scanning_category)
     def do_nbtscan(self, line):
@@ -307,7 +300,6 @@ class ReconCommandSet(LazyOwnCommandSet):
         print_msg(f"Try... sudo nbtscan -r {rhost}/24 {RESET}")
         self.cmd(f"sudo nbtscan -r {rhost}/24")
         return
-
 
     @cmd2.with_category(scanning_category)
     def do_nikto(self, line):
@@ -381,7 +373,9 @@ class ReconCommandSet(LazyOwnCommandSet):
             "version": input("    [?] Print plugin and database versions (yes/no): "),
             "vhost": input("    [?] Enter virtual host (for Host header): "),
             "404code": input("    [?] Ignore these HTTP codes as negative responses (always). Format: '302,301': "),
-            "404string": input("    [?] Ignore this string in response body content as negative response (always). Can be a regular expression: ")
+            "404string": input(
+                "    [?] Ignore this string in response body content as negative response (always). Can be a regular expression: "
+            ),
         }
 
         nikto_command = f"nikto -h {options['host']}"
@@ -390,7 +384,24 @@ class ReconCommandSet(LazyOwnCommandSet):
             if value:
                 if key == "host":
                     continue
-                elif key in ["ask", "check6", "dbcheck", "followredirects", "ipv4", "ipv6", "list_plugins", "nointeractive", "nolookup", "nossl", "noslash", "no404", "ssl", "usecookies", "useproxy", "version"]:
+                elif key in [
+                    "ask",
+                    "check6",
+                    "dbcheck",
+                    "followredirects",
+                    "ipv4",
+                    "ipv6",
+                    "list_plugins",
+                    "nointeractive",
+                    "nolookup",
+                    "nossl",
+                    "noslash",
+                    "no404",
+                    "ssl",
+                    "usecookies",
+                    "useproxy",
+                    "version",
+                ]:
                     nikto_command += f" --{key} {value}"
                 else:
                     nikto_command += f" --{key} {value}"
@@ -398,7 +409,6 @@ class ReconCommandSet(LazyOwnCommandSet):
         print_msg(f"Running nikto with the following command: {nikto_command}")
         self.cmd(nikto_command)
         return
-
 
     @cmd2.with_category(recon_category)
     def do_finalrecon(self, line):
@@ -432,7 +442,6 @@ class ReconCommandSet(LazyOwnCommandSet):
         self.cmd(command)
         return
 
-
     @cmd2.with_category(recon_category)
     def do_openssl_sclient(self, line):
         """
@@ -452,9 +461,7 @@ class ReconCommandSet(LazyOwnCommandSet):
         """
 
         if not self.params["rhost"] or not line:
-            print_error(
-                "rhost must be assign and you need pass the port by argument ex: openssl_sckient 443"
-            )
+            print_error("rhost must be assign and you need pass the port by argument ex: openssl_sckient 443")
             return
         rhost = self.params["rhost"]
         domain = self.params["domain"]
@@ -464,7 +471,6 @@ class ReconCommandSet(LazyOwnCommandSet):
         print_msg(command)
         self.cmd(command)
         return
-
 
     @cmd2.with_category(exploitation_category)
     def do_ss(self, line):
@@ -485,9 +491,14 @@ class ReconCommandSet(LazyOwnCommandSet):
             ``ss OpenSSH 8.4``      — manual query
         """
         from cli.exploit_advisor import (
-            ExploitHit, ServiceInfo, ServiceResult,
-            find_nmap_xml, inject_exploit_tasks,
-            parse_nmap_xml, print_exploit_summary, save_ss_results,
+            ExploitHit,
+            ServiceInfo,
+            ServiceResult,
+            find_nmap_xml,
+            inject_exploit_tasks,
+            parse_nmap_xml,
+            print_exploit_summary,
+            save_ss_results,
         )
 
         rhost = self.params.get("rhost") or ""
@@ -495,17 +506,20 @@ class ReconCommandSet(LazyOwnCommandSet):
         def _run_single_search(query: str) -> list[ExploitHit]:
             hits: list[ExploitHit] = []
             import subprocess as _sp
+
             try:
                 out = _sp.run(
                     ["searchsploit", "--disable-colour", query],
-                    capture_output=True, text=True, timeout=15,
+                    capture_output=True,
+                    text=True,
+                    timeout=15,
                 )
                 for ln in (out.stdout or "").splitlines():
                     ln = ln.strip()
                     if ln and not ln.startswith("-") and "|" in ln:
                         parts = ln.split("|")
                         title = parts[0].strip()
-                        ref   = parts[1].strip() if len(parts) > 1 else ""
+                        ref = parts[1].strip() if len(parts) > 1 else ""
                         if title and title.lower() not in ("exploits", "shellcodes", "papers", "title"):
                             hits.append(ExploitHit(source="searchsploit", title=title, ref=ref))
             except Exception:
@@ -519,7 +533,7 @@ class ReconCommandSet(LazyOwnCommandSet):
             xml_files = find_nmap_xml(rhost)
             if not xml_files:
                 print_warn(f"No nmap XML found for {rhost}. Run lazynmap first.")
-                print_msg(f"Or use: ss <service> <version>")
+                print_msg("Or use: ss <service> <version>")
                 return
             xml_path = xml_files[0]
             services = parse_nmap_xml(xml_path)
@@ -547,7 +561,7 @@ class ReconCommandSet(LazyOwnCommandSet):
 
         # ── Manual mode: existing multi-source search + next-step table ───
         query = line.strip()
-        print_msg(f"Searching in searchsploit")
+        print_msg("Searching in searchsploit")
         self.cmd(f"searchsploit {query}")
         getnvd = find_ss(query)
         nvddb(getnvd)
@@ -555,7 +569,7 @@ class ReconCommandSet(LazyOwnCommandSet):
         exploitalert(getnvd)
         getnvd = find_ps(query)
         packetstormsecurity(getnvd)
-        self.cmd(f"msfconsole -q -x \"search {query}; exit\"")
+        self.cmd(f'msfconsole -q -x "search {query}; exit"')
         q_url = query.replace(" ", "+")
         if not is_binary_present("pompem"):
             self.display_toastr("Not Found pompem, installing", type="warning")
@@ -573,7 +587,6 @@ class ReconCommandSet(LazyOwnCommandSet):
         if rhost and dummy_hits:
             inject_exploit_tasks([dummy_result], rhost)
             print_msg("Task created in tasks.json — run 'tasks' to view")
-
 
     @cmd2.with_category(scanning_category)
     def do_wfuzz(self, line):
@@ -610,14 +623,19 @@ class ReconCommandSet(LazyOwnCommandSet):
         """
 
         dirwordlist = self.params["dirwordlist"]
-        choice = input("    [!] Enter the numer 1 to directory-list-2.3-medium.txt 2 to raft-large-words.txt [1/2] (Default 2): ") or '2'
-        if choice == '2':
+        choice = (
+            input(
+                "    [!] Enter the numer 1 to directory-list-2.3-medium.txt 2 to raft-large-words.txt [1/2] (Default 2): "
+            )
+            or "2"
+        )
+        if choice == "2":
             dirwordlist = dirwordlist.replace("directory-list-2.3-medium.txt", "raft-large-words.txt")
         rhost = self.params["rhost"]
         url = self.params["url"]
         url = get_domain(url)
-        choice = input(f"    [?] Use 1 to url or 2 to rhost (default {url})") or '1'
-        if choice == '1':
+        choice = input(f"    [?] Use 1 to url or 2 to rhost (default {url})") or "1"
+        if choice == "1":
             rhost = url
         if not rhost or not dirwordlist:
             print_error(f"dirwordlist and rhost must be assign{RESET}")
@@ -635,35 +653,29 @@ class ReconCommandSet(LazyOwnCommandSet):
                     return
 
                 if count == 1:
-                    print_error(
-                        f"you must pass the dommain like argument ex:{GREEN} wfuzz sub box.htb"
-                    )
+                    print_error(f"you must pass the dommain like argument ex:{GREEN} wfuzz sub box.htb")
                     return
 
-                arg1 = params[0]
+                params[0]
                 domain = params[1]
                 if count > 2:
                     arg3 = params[2]
                 else:
                     arg3 = ""
-                print_msg(
-                    f"Try ...  wfuzz -c {arg3} -t 200 -w {dnswordlist} -H 'Host: FUZZ.{domain}' {domain} {RESET}"
-                )
-                self.cmd(
-                    f"wfuzz -c {arg3} -t 200 -w {dnswordlist} -H 'Host: FUZZ.{domain}' {domain}"
-                )
+                print_msg(f"Try ...  wfuzz -c {arg3} -t 200 -w {dnswordlist} -H 'Host: FUZZ.{domain}' {domain} {RESET}")
+                self.cmd(f"wfuzz -c {arg3} -t 200 -w {dnswordlist} -H 'Host: FUZZ.{domain}' {domain}")
                 return
 
             if line.startswith("iis"):
                 params = line.split(" ")
                 print_msg(params)
                 count = len(params)
-                arg1 = params[0]
+                params[0]
                 iiswordlist = "/usr/share/wordlists/SecLists-master/Discovery/Web-Content/IIS.fuzz.txt"  # dont know why this line dont work ... self.params['iiswordlist']
 
                 if not os.path.exists(iiswordlist):
                     print_error(
-                        f"you must have file iiswordlist use the command: getseclist, use p or payload to load parameters from payload.json, or just assign iiswordlist /pat/to/iiswordlist"
+                        "you must have file iiswordlist use the command: getseclist, use p or payload to load parameters from payload.json, or just assign iiswordlist /pat/to/iiswordlist"
                     )
                     return
                 # Abre el archivo en modo de lectura
@@ -671,21 +683,13 @@ class ReconCommandSet(LazyOwnCommandSet):
                     arg3 = params[1]
                 else:
                     arg3 = ""
-                print_msg(
-                    f"Try ...  wfuzz -c {arg3} -t 200 -w {iiswordlist} http://{rhost}/FUZZ {RESET}"
-                )
-                self.cmd(
-                    f"wfuzz -c {arg3} -t 200 -w {iiswordlist} http://{rhost}/FUZZ"
-                )
+                print_msg(f"Try ...  wfuzz -c {arg3} -t 200 -w {iiswordlist} http://{rhost}/FUZZ {RESET}")
+                self.cmd(f"wfuzz -c {arg3} -t 200 -w {iiswordlist} http://{rhost}/FUZZ")
                 return
 
-        print_msg(
-            f"Try ... wfuzz -c {line} -t 200 -w {dirwordlist} http://{rhost}/FUZZ {RESET}"
-        )
+        print_msg(f"Try ... wfuzz -c {line} -t 200 -w {dirwordlist} http://{rhost}/FUZZ {RESET}")
         self.cmd(f"wfuzz -c {line} -t 200 -w {dirwordlist} http://{rhost}/FUZZ")
         return
-
-
 
 
 __all__ = ["ReconCommandSet"]

@@ -1,0 +1,43 @@
+# graphify-out/
+
+Self-knowledge graph built by the `/graphify` skill over the LazyOwn
+codebase. Consumed by `cli/graph_advisor.py` (the CLI shell uses it for
+`graph_search`, `neighbors`, `god_nodes`, `suggest_next`, and "did you
+mean…?" recovery) and by the four MCP tools `lazyown_graph_summary`,
+`lazyown_graph_search`, `lazyown_graph_neighbors`,
+`lazyown_graph_suggest_next`.
+
+## Files
+
+| File | Producer | Consumer | Notes |
+|------|----------|----------|-------|
+| `graph_lazyown.json` | `/graphify .` | `cli/graph_advisor.py`, MCP `lazyown_graph_*` | Main JSON: `nodes[]` + `links[]` with `relation`, `confidence`, `confidence_score`. |
+| `GRAPH_REPORT_LAZYOWN.md` | `/graphify .` | Operator / docs | Human-readable summary of the graph (community labels, top nodes). |
+| `manifest.json` | `/graphify .` | `/graphify . --update` | mtime cache so incremental rebuilds only re-analyse changed files. |
+| `cache/` | `/graphify .` | `/graphify . --update` | Per-file analysis cache. Safe to delete to force a clean rebuild. |
+| `.graphify_analysis_lazyown.json` | `/graphify .` | `/graphify . --update` | Hidden cache aggregating LLM analysis outputs. |
+
+## How it works
+
+1. `/graphify .` walks the repo, extracts symbols and inferred links, and emits the JSON above.
+2. The CLI advisor caches the parsed graph in-process by `(path, mtime)` — restart only if the file is replaced.
+3. The MCP `lazyown_graph_summary` tool reports `health: fresh | stale | empty` based on edge count and the file's modification time (`stale_after_days = 7`). When health is not `fresh`, regenerate.
+
+## Refreshing
+
+```sh
+/graphify .                # full rebuild (slow, full analysis)
+/graphify . --update       # incremental — re-analyses only changed files
+```
+
+The advisor's per-process cache invalidates automatically on the next call when the file mtime changes; no shell restart needed.
+
+## Health check from the shell
+
+```
+lazyown_graph_summary   # MCP — returns nodes/edges/communities/health/hint
+graph_search nmap       # CLI — empty result also signals the graph is empty
+god_nodes               # CLI — empty when there are no edges
+```
+
+If `health` is `empty` or `stale`, run `/graphify . --update` before relying on `neighbors` or `suggest_next` — those features are useless without edges.

@@ -15,8 +15,7 @@ data structures via constructor injection (Dependency Inversion).
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any, Optional, Protocol, Sequence
-
+from typing import Any, Protocol, Sequence
 
 GHOST_TEXT_LIMIT: int = 48
 HINT_COMMAND_LIMIT: int = 72
@@ -92,8 +91,7 @@ class Suggestion:
 class SuggestionProvider(Protocol):
     """Provider contract: examine context, return one suggestion or ``None``."""
 
-    def suggest(self, context: SuggestionContext) -> Optional[Suggestion]:
-        ...
+    def suggest(self, context: SuggestionContext) -> Suggestion | None: ...
 
 
 class CompositeProvider:
@@ -113,13 +111,13 @@ class CompositeProvider:
         """
         self._providers: tuple[SuggestionProvider, ...] = tuple(providers)
 
-    def suggest(self, context: SuggestionContext) -> Optional[Suggestion]:
+    def suggest(self, context: SuggestionContext) -> Suggestion | None:
         """Return the best suggestion across the chain, or ``None``.
 
         A misbehaving provider that raises is silently skipped so a
         single broken adapter cannot break the prompt.
         """
-        best: Optional[Suggestion] = None
+        best: Suggestion | None = None
         for provider in self._providers:
             try:
                 candidate = provider.suggest(context)
@@ -160,7 +158,7 @@ class KillChainProvider:
         self._phase_priority: dict[str, list[str]] = dict(phase_priority)
         self._base_score: float = float(base_score)
 
-    def suggest(self, context: SuggestionContext) -> Optional[Suggestion]:
+    def suggest(self, context: SuggestionContext) -> Suggestion | None:
         """Return the first unseen adjacency, or phase fallback, or ``None``."""
         already = set(context.recent_commands)
         last_tokens = context.last_command.strip().split()
@@ -219,7 +217,7 @@ class GraphProvider:
         self._base_score: float = float(base_score)
         self._score_weight: float = float(score_weight)
 
-    def suggest(self, context: SuggestionContext) -> Optional[Suggestion]:
+    def suggest(self, context: SuggestionContext) -> Suggestion | None:
         """Query the advisor and adapt the top result to a :class:`Suggestion`."""
         last_tokens = context.last_command.strip().split()
         if not last_tokens:
@@ -264,7 +262,7 @@ class AutoSuggestEngine:
                 can toggle without a restart.
         """
         self._provider: SuggestionProvider = provider
-        self._current: Optional[Suggestion] = None
+        self._current: Suggestion | None = None
         self._enabled: bool = bool(enabled)
 
     @property
@@ -282,7 +280,7 @@ class AutoSuggestEngine:
         if not self._enabled:
             self._current = None
 
-    def current(self) -> Optional[Suggestion]:
+    def current(self) -> Suggestion | None:
         """Return the suggestion last computed, or ``None`` when cleared."""
         return self._current
 
@@ -290,7 +288,7 @@ class AutoSuggestEngine:
         """Drop the active suggestion (called after accept or abort)."""
         self._current = None
 
-    def refresh(self, context: SuggestionContext) -> Optional[Suggestion]:
+    def refresh(self, context: SuggestionContext) -> Suggestion | None:
         """Recompute the suggestion from the provider chain.
 
         Commands listed in :data:`SKIP_TRIGGER_COMMANDS` are ignored so
@@ -307,7 +305,7 @@ class AutoSuggestEngine:
         self._current = self._provider.suggest(context)
         return self._current
 
-    def accept(self) -> Optional[str]:
+    def accept(self) -> str | None:
         """Return the active command string and clear the suggestion."""
         if self._current is None:
             return None
@@ -371,15 +369,12 @@ def format_hint_line(
     command = _truncate(suggestion.command, command_limit)
     reason = (suggestion.reason or suggestion.source or "").strip()
     if reason:
-        return (
-            f"press '{accept_key}' to run: {command}  "
-            f"({_truncate(reason, reason_limit)})"
-        )
+        return f"press '{accept_key}' to run: {command}  ({_truncate(reason, reason_limit)})"
     return f"press '{accept_key}' to run: {command}"
 
 
 def render_hint_line(
-    engine: "AutoSuggestEngine",
+    engine: AutoSuggestEngine,
     *,
     console: Any = None,
     prefix: str = "  >> ",
@@ -431,7 +426,7 @@ def _hint_console() -> Any:
 
 
 def build_default_engine(
-    advisor: Optional[Any],
+    advisor: Any | None,
     chain: dict[str, list[str]],
     phase_priority: dict[str, list[str]],
     *,

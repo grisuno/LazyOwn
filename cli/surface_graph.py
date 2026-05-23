@@ -44,14 +44,11 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Iterable
 
-
 HOSTSDISCOVERY_FILENAME: str = "hostsdiscovery.txt"
 SCAN_DISCOVERY_GLOB: str = "scan_discovery*.csv"
 SCAN_DISCOVERY_DELIMITER: str = ";"
 IMPLANT_LOG_SUFFIX: str = ".log"
-IMPLANT_HEADER_REQUIRED: frozenset[str] = frozenset(
-    {"client_id", "os", "ips", "discovered_ips", "result_portscan"}
-)
+IMPLANT_HEADER_REQUIRED: frozenset[str] = frozenset({"client_id", "os", "ips", "discovered_ips", "result_portscan"})
 LOCAL_IP_FALLBACK: str = "127.0.0.1"
 PRIVATE_LOOPBACK: str = "127.0.0.1"
 PAYLOAD_FILENAME: str = "payload.json"
@@ -359,9 +356,7 @@ class SurfaceGraphBuilder:
     def _discover_local_ips(self) -> list[str]:
         ips: list[str] = []
         try:
-            result = subprocess.run(
-                ["ip", "addr"], capture_output=True, text=True, check=True, timeout=5
-            )
+            result = subprocess.run(["ip", "addr"], capture_output=True, text=True, check=True, timeout=5)
         except (subprocess.SubprocessError, FileNotFoundError, OSError):
             return self._fallback_local_ips()
         for line in result.stdout.splitlines():
@@ -445,9 +440,7 @@ class SurfaceGraphBuilder:
                             headers = [col.strip().lower() for col in row]
                             continue
                         record = {
-                            headers[i]: row[i].strip()
-                            for i in range(min(len(headers), len(row)))
-                            if row[i] is not None
+                            headers[i]: row[i].strip() for i in range(min(len(headers), len(row))) if row[i] is not None
                         }
                         ip = record.get("ip", "")
                         if not ip or ip in local_ips or not self._is_ipv4(ip):

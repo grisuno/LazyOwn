@@ -40,7 +40,7 @@ import os
 import re
 import sys
 from abc import ABC, abstractmethod
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from difflib import SequenceMatcher
 from typing import Callable, Sequence
 
@@ -113,7 +113,7 @@ class PickerConfig:
     activation_threshold: int = 2
 
     @classmethod
-    def from_payload(cls, payload: dict | None) -> "PickerConfig":
+    def from_payload(cls, payload: dict | None) -> PickerConfig:
         """Build a config from a payload.json view, falling back to defaults.
 
         Honours an optional ``fuzzy_picker`` mapping inside ``payload.json``
@@ -177,10 +177,7 @@ class MatchScorer:
         """
         q = (query or "").lower()
         if not q:
-            return [
-                ScoredItem(item=it, score=self._cfg.score_exact, positions=())
-                for it in items
-            ]
+            return [ScoredItem(item=it, score=self._cfg.score_exact, positions=()) for it in items]
         scored: list[ScoredItem] = []
         for it in items:
             score, positions = self._score(it.text.lower(), q)
@@ -260,11 +257,7 @@ class CursesPickerView(PickerView):
 
     @staticmethod
     def _tty_available() -> bool:
-        return (
-            sys.stdin.isatty()
-            and sys.stdout.isatty()
-            and os.environ.get("TERM", "") not in {"", "dumb"}
-        )
+        return sys.stdin.isatty() and sys.stdout.isatty() and os.environ.get("TERM", "") not in {"", "dumb"}
 
     def _init_colors(self) -> None:
         if not curses.has_colors():
@@ -290,7 +283,7 @@ class CursesPickerView(PickerView):
             except curses.error:
                 continue
 
-    def _event_loop(self, stdscr: "curses._CursesWindow", items: list[PickerItem], initial_query: str) -> str | None:
+    def _event_loop(self, stdscr: curses._CursesWindow, items: list[PickerItem], initial_query: str) -> str | None:
         curses.curs_set(0)
         stdscr.keypad(True)
         self._init_colors()
@@ -377,7 +370,7 @@ class CursesPickerView(PickerView):
             return max(0, total - visible)
         return offset
 
-    def _layout(self, stdscr: "curses._CursesWindow", row_count: int) -> tuple[int, int, int, int]:
+    def _layout(self, stdscr: curses._CursesWindow, row_count: int) -> tuple[int, int, int, int]:
         max_h, max_w = stdscr.getmaxyx()
         visible = min(max(self._cfg.min_visible_rows, row_count), self._cfg.max_visible_rows)
         height = visible + self._cfg.header_height + self._cfg.footer_height + 2
@@ -389,7 +382,7 @@ class CursesPickerView(PickerView):
         left = 0
         return top, left, height, width
 
-    def _render_empty(self, stdscr: "curses._CursesWindow", query: str) -> None:
+    def _render_empty(self, stdscr: curses._CursesWindow, query: str) -> None:
         top, left, height, width = self._layout(stdscr, 1)
         stdscr.erase()
         self._draw_box(stdscr, top, left, height, width)
@@ -410,7 +403,7 @@ class CursesPickerView(PickerView):
 
     def _render(
         self,
-        stdscr: "curses._CursesWindow",
+        stdscr: curses._CursesWindow,
         ranked: list[ScoredItem],
         query: str,
         cursor_index: int,
@@ -438,7 +431,7 @@ class CursesPickerView(PickerView):
         self._draw_footer(stdscr, top + height - self._cfg.footer_height - 1, left, width)
         stdscr.refresh()
 
-    def _draw_box(self, stdscr: "curses._CursesWindow", top: int, left: int, height: int, width: int) -> None:
+    def _draw_box(self, stdscr: curses._CursesWindow, top: int, left: int, height: int, width: int) -> None:
         attr = self._color(self._cfg.color_pair_border)
         cfg = self._cfg
         horizontal = cfg.glyph_horizontal * (width - 2)
@@ -447,13 +440,15 @@ class CursesPickerView(PickerView):
             for y in range(top + 1, top + height - 1):
                 stdscr.addnstr(y, left, cfg.glyph_vertical, 1, attr)
                 stdscr.addnstr(y, left + width - 1, cfg.glyph_vertical, 1, attr)
-            stdscr.addnstr(top + height - 1, left, cfg.glyph_bottom_left + horizontal + cfg.glyph_bottom_right, width, attr)
+            stdscr.addnstr(
+                top + height - 1, left, cfg.glyph_bottom_left + horizontal + cfg.glyph_bottom_right, width, attr
+            )
         except curses.error:
             pass
 
     def _draw_header(
         self,
-        stdscr: "curses._CursesWindow",
+        stdscr: curses._CursesWindow,
         top: int,
         left: int,
         width: int,
@@ -464,20 +459,28 @@ class CursesPickerView(PickerView):
         attr = self._color(self._cfg.color_pair_header) | curses.A_BOLD
         label = f"{self._cfg.header_label}  [{selected}/{total}]  query: {query or ''}"
         try:
-            stdscr.addnstr(top + 1, left + self._cfg.box_padding_x + 1, label, width - 2 - self._cfg.box_padding_x, attr)
+            stdscr.addnstr(
+                top + 1, left + self._cfg.box_padding_x + 1, label, width - 2 - self._cfg.box_padding_x, attr
+            )
         except curses.error:
             pass
 
-    def _draw_footer(self, stdscr: "curses._CursesWindow", row_y: int, left: int, width: int) -> None:
+    def _draw_footer(self, stdscr: curses._CursesWindow, row_y: int, left: int, width: int) -> None:
         attr = self._color(self._cfg.color_pair_footer)
         try:
-            stdscr.addnstr(row_y, left + self._cfg.box_padding_x + 1, self._cfg.footer_help, width - 2 - self._cfg.box_padding_x, attr)
+            stdscr.addnstr(
+                row_y,
+                left + self._cfg.box_padding_x + 1,
+                self._cfg.footer_help,
+                width - 2 - self._cfg.box_padding_x,
+                attr,
+            )
         except curses.error:
             pass
 
     def _draw_item(
         self,
-        stdscr: "curses._CursesWindow",
+        stdscr: curses._CursesWindow,
         row_y: int,
         left: int,
         width: int,
@@ -491,9 +494,17 @@ class CursesPickerView(PickerView):
         marker = cfg.glyph_match_marker if selected else " "
         prefix = f"{marker} "
         try:
-            stdscr.addnstr(row_y, left + cfg.box_padding_x + 1, " " * (width - 2 - cfg.box_padding_x), width - 2 - cfg.box_padding_x, base_attr)
+            stdscr.addnstr(
+                row_y,
+                left + cfg.box_padding_x + 1,
+                " " * (width - 2 - cfg.box_padding_x),
+                width - 2 - cfg.box_padding_x,
+                base_attr,
+            )
             stdscr.addnstr(row_y, left + cfg.box_padding_x + 1, prefix, width - 2 - cfg.box_padding_x, base_attr)
-            self._draw_highlighted(stdscr, row_y, left + cfg.box_padding_x + 1 + len(prefix), text, scored.positions, base_attr, selected)
+            self._draw_highlighted(
+                stdscr, row_y, left + cfg.box_padding_x + 1 + len(prefix), text, scored.positions, base_attr, selected
+            )
             if description:
                 desc_x = left + cfg.box_padding_x + 1 + len(prefix) + cfg.name_max_width + cfg.column_gap
                 desc_attr = base_attr if selected else self._color(cfg.color_pair_description)
@@ -503,7 +514,7 @@ class CursesPickerView(PickerView):
 
     def _draw_highlighted(
         self,
-        stdscr: "curses._CursesWindow",
+        stdscr: curses._CursesWindow,
         row_y: int,
         start_x: int,
         text: str,
@@ -515,11 +526,7 @@ class CursesPickerView(PickerView):
         pos_set = set(positions)
         clipped = text[: cfg.name_max_width]
         x = start_x
-        highlight_attr = (
-            base_attr
-            if selected
-            else self._color(cfg.color_pair_highlight) | curses.A_BOLD
-        )
+        highlight_attr = base_attr if selected else self._color(cfg.color_pair_highlight) | curses.A_BOLD
         for index, char in enumerate(clipped):
             attr = highlight_attr if index in pos_set else base_attr
             try:
@@ -540,7 +547,11 @@ class CursesPickerView(PickerView):
 class FuzzyPicker:
     """Top-level orchestrator binding a scorer to a view."""
 
-    def __init__(self, config: PickerConfig | None = None, view_factory: Callable[[PickerConfig, MatchScorer], PickerView] | None = None) -> None:
+    def __init__(
+        self,
+        config: PickerConfig | None = None,
+        view_factory: Callable[[PickerConfig, MatchScorer], PickerView] | None = None,
+    ) -> None:
         self._cfg = config or PickerConfig()
         self._scorer = MatchScorer(self._cfg)
         factory = view_factory or (lambda cfg, scorer: CursesPickerView(cfg, scorer))
@@ -624,6 +635,7 @@ class ReadlineBridge:
     def _redraw_prompt() -> None:
         try:
             import readline
+
             readline.redisplay()
         except Exception:
             pass
@@ -649,8 +661,8 @@ def install_fuzzy_completion(
     picker = FuzzyPicker(config=resolved_config)
     bridge = ReadlineBridge(picker)
     bridge.install()
-    setattr(shell, "_fuzzy_bridge", bridge)
-    setattr(shell, "_fuzzy_picker", picker)
+    shell._fuzzy_bridge = bridge
+    shell._fuzzy_picker = picker
     return bridge
 
 

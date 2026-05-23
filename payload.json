@@ -24,7 +24,7 @@
   "enable_c2_implant_debug": "True",
   "start_user": "j.fleischman",
   "start_pass": "J0elTHEM4n1990!",
-  "rhost": "127.0.0.1",
+  "rhost": "10.0.0.1",
   "lhost": "127.0.0.1",
   "rport": 5555,
   "lport": 5555,

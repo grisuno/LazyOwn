@@ -24,9 +24,19 @@ echo "    ██║     ██╔══██║ ███╔╝    ╚██╔
 echo "    ███████╗██║  ██║███████╗   ██║   ╚██████╔╝╚███╔███╔╝██║ ╚████║"
 echo "    ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝"
 echo "    LazyNmap...:::...::.::......::::....::..::::..:::..:::...:::..:"
+SUDO_KEEPALIVE_PID=""
+
+cleanup() {
+    if [ -n "$SUDO_KEEPALIVE_PID" ] && kill -0 "$SUDO_KEEPALIVE_PID" 2>/dev/null; then
+        kill "$SUDO_KEEPALIVE_PID" 2>/dev/null || true
+        wait "$SUDO_KEEPALIVE_PID" 2>/dev/null || true
+    fi
+}
+trap cleanup EXIT
 trap ctrl_c INT
 
 function ctrl_c() {
+    cleanup
     gum style \
 	--foreground 212 --border-foreground 212 --border double \
 	--align center --width 50 --margin "1 2" --padding "2 4" \
@@ -34,11 +44,27 @@ function ctrl_c() {
 	exit 1
 }
 
+if [ "$(id -u)" -ne 0 ]; then
+    gum style \
+        --foreground 212 --border-foreground 212 --border double \
+        --align center --width 50 --margin "1 2" --padding "2 4" \
+        "    [!] LazyNmap needs sudo. Type your password below (input hidden)."
+    if ! sudo -v; then
+        gum style \
+            --foreground 196 --border-foreground 196 --border double \
+            --align center --width 50 --margin "1 2" --padding "2 4" \
+            "    [x] sudo authentication failed. Aborting."
+        exit 1
+    fi
+    ( while true; do sudo -n -v 2>/dev/null || exit; sleep 60; done ) &
+    SUDO_KEEPALIVE_PID=$!
+fi
+
 DIRECTORIO="./sessions"
 ARCHIVO="$DIRECTORIO/nmap-bootstrap.xsl"
 gum log --time rfc822 --level info "Start LazyNmap"
-gum spin --spinner dot --title "Chown 1000 ..." -- sudo chown 1000:1000 sessions -R
-gum spin --spinner dot --title "Chmod 775 in sessions ..." --  sudo chmod 777 sessions/temp_uploads -R
+gum spin --spinner dot --title "Chown 1000 ..." -- sudo -n chown 1000:1000 sessions -R
+gum spin --spinner dot --title "Chmod 775 in sessions ..." --  sudo -n chmod 777 sessions/temp_uploads -R
 # Verificar si el archivo no existe
 if [ ! -f "$ARCHIVO" ]; then
     gum log --time rfc822 --level info "    [*] The file don't exist. Downloading..."
@@ -101,7 +127,7 @@ gum style \
 	--foreground 212 --border-foreground 212 --border double \
 	--align center --width 50 --margin "1 2" --padding "2 4" \
  '    [+] Updating Nmap NSE Scripts DataBase...'
-gum spin --spinner dot --title "nmap updatedb..." -- sudo nmap --script-updatedb
+gum spin --spinner dot --title "nmap updatedb..." -- sudo -n nmap --script-updatedb
 
 discover_network() {
 	gum log --time rfc822 --level info "    [+] Discovering local network..."
@@ -109,7 +135,7 @@ discover_network() {
 	for net in $subnet; do
 		net_sanitized=$(echo "$net" | tr '/' '_')
 		gum log --time rfc822 --level info "    [-] Scannign subnet $net..."
-		gum spin --spinner dot --title "Nmap Discovering..." -- sudo nmap -sn $net -oG network_discovery -oN "sessions/scan_discovery_${net_sanitized}.nmap" --stylesheet "$ARCHIVO" -oX "sessions/scan_discovery_${net_sanitized}.nmap.xml"
+		gum spin --spinner dot --title "Nmap Discovering..." -- sudo -n nmap -sn $net -oG network_discovery -oN "sessions/scan_discovery_${net_sanitized}.nmap" --stylesheet "$ARCHIVO" -oX "sessions/scan_discovery_${net_sanitized}.nmap.xml"
 		python3 modules/nmap2csv.py -i "sessions/scan_discovery_${net_sanitized}.nmap" -o "sessions/scan_discovery_${net_sanitized}.csv"
 		gum log --time rfc822 --level info "    [+] Active Host in the network $net:"
 		grep "Up" network_discovery | awk '{print $2}' | tee "sessions/hosts_$(echo "$net" | tr '/' '_')_discovery.txt"
@@ -760,7 +786,7 @@ gum style \
 	--foreground 212 --border-foreground 212 --border double \
 	--align center --width 50 --margin "1 2" --padding "2 4" \
     "    [-] Starting Recon LazyOwn RedTeam Framework Nmap Script..."
-gum spin --spinner dot --title "Nmap is doing the magic ..." -- sudo nmap -p- --open -sS --min-rate 5000 -vvv -n -Pn $TARGET -oG puertos -oN "sessions/scan_${TARGET}.nmap" --stylesheet "$ARCHIVO" -oX "sessions/scan_${TARGET}.nmap.xml"
+gum spin --spinner dot --title "Nmap is doing the magic ..." -- sudo -n nmap -p- --open -sS --min-rate 5000 -vvv -n -Pn $TARGET -oG puertos -oN "sessions/scan_${TARGET}.nmap" --stylesheet "$ARCHIVO" -oX "sessions/scan_${TARGET}.nmap.xml"
 gum style \
 	--foreground 212 --border-foreground 212 --border double \
 	--align center --width 50 --margin "1 2" --padding "2 4" \
@@ -770,7 +796,7 @@ gum style \
 	--foreground 212 --border-foreground 212 --border double \
 	--align center --width 50 --margin "1 2" --padding "2 4" \
 	"sudo nmap -sTV -A --script=vulners.nse $TARGET -oN 'sessions/vulns_${TARGET}.nmap' --stylesheet '$ARCHIVO' -oX 'sessions/vulns_${TARGET}.nmap.xml'"
-gum spin --spinner dot --title "Nmap vulns script is doing the magic ..." -- sudo nmap -sTV -A --script=vulners.nse $TARGET -oN "sessions/vulns_${TARGET}.nmap" --stylesheet "$ARCHIVO" -oX "sessions/vulns_${TARGET}.nmap.xml"
+gum spin --spinner dot --title "Nmap vulns script is doing the magic ..." -- sudo -n nmap -sTV -A --script=vulners.nse $TARGET -oN "sessions/vulns_${TARGET}.nmap" --stylesheet "$ARCHIVO" -oX "sessions/vulns_${TARGET}.nmap.xml"
 python3 modules/nmap2csv.py -i "sessions/vulns_${TARGET}.nmap" -o "sessions/vulns_${TARGET}.csv"
 
 extract_ports_info() {
@@ -805,7 +831,7 @@ run_nmap_script() {
 		--foreground 212 --border-foreground 212 --border double \
 		--align center --width 50 --margin "1 2" --padding "2 4" \
 	    "    [;,;] Scanning port: $PORT at the target: $TARGET..."
-	gum spin --spinner dot --title "Nmap is doing the magic ..." -- sudo nmap -p $PORT -sCV $TARGET -oN "sessions/scan_${TARGET}_${PORT}.nmap" --stylesheet "$ARCHIVO" -oX "sessions/scan_${TARGET}_${PORT}.nmap.xml"
+	gum spin --spinner dot --title "Nmap is doing the magic ..." -- sudo -n nmap -p $PORT -sCV $TARGET -oN "sessions/scan_${TARGET}_${PORT}.nmap" --stylesheet "$ARCHIVO" -oX "sessions/scan_${TARGET}_${PORT}.nmap.xml"
 	python3 modules/nmap2csv.py -i "sessions/scan_${TARGET}_${PORT}.nmap" -o "sessions/scan_${TARGET}_${PORT}.csv"
 }
 

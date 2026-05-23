@@ -41,7 +41,6 @@ from cli.surface_graph import (
     build_surface_graph,
 )
 
-
 KIND_STYLE: dict[str, str] = {
     NODE_KIND_C2: "bold magenta",
     NODE_KIND_CLIENT: "bold red",
@@ -126,9 +125,7 @@ def launch_tui(sessions_dir: str = "sessions", payload_path: str = "payload.json
         from textual.widgets import Footer, Header, Static
         from textual.widgets import Tree as TextualTree
     except ImportError as exc:
-        raise TextualNotInstalled(
-            "textual is not installed. Run: pip install textual"
-        ) from exc
+        raise TextualNotInstalled("textual is not installed. Run: pip install textual") from exc
 
     class SurfaceExplorer(App):
         """Two-pane Textual app: surface tree + selected-node metadata."""
@@ -176,7 +173,7 @@ def launch_tui(sessions_dir: str = "sessions", payload_path: str = "payload.json
             tree_widget = self.query_one("#tree-pane", TextualTree)
             tree_widget.root.collapse_all()
 
-        def on_tree_node_selected(self, event: "TextualTree.NodeSelected") -> None:  # type: ignore[name-defined]
+        def on_tree_node_selected(self, event: TextualTree.NodeSelected) -> None:  # type: ignore[name-defined]
             node = event.node
             data = getattr(node, "data", None)
             detail = self.query_one("#detail-pane", Static)

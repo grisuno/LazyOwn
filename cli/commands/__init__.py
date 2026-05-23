@@ -17,4 +17,3 @@ per-phase CommandSets:
 Remaining phases (exploit, postexp, persist, privesc, cred, lateral, c2,
 report) still live in ``lazyown.py`` and will be lifted in subsequent tiers.
 """
-

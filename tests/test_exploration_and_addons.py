@@ -225,6 +225,39 @@ class TestCatalogues:
         assert tool.tool_os == "windows"
         assert tool.trigger == ("microsoft-ds",)
 
+    def test_addon_catalog_reuses_cache_when_mtime_unchanged(self, fake_addons, monkeypatch):
+        monkeypatch.chdir(fake_addons)
+        AddonCatalog.clear_cache()
+        catalog = AddonCatalog()
+        first = {id(e): e for e in catalog.load()}
+        second = catalog.load()
+        for entry in second:
+            assert id(entry) in first, "cached entries must be reused on second load"
+
+    def test_addon_catalog_invalidates_cache_on_change(self, fake_addons, monkeypatch):
+        import os as _os
+        import time as _time
+
+        monkeypatch.chdir(fake_addons)
+        AddonCatalog.clear_cache()
+        catalog = AddonCatalog()
+        first = {e.name: id(e) for e in catalog.load()}
+        target = next(p for p in (fake_addons / "lazyaddons").glob("*.yaml"))
+        new_ts = _time.time() + 5
+        _os.utime(target, (new_ts, new_ts))
+        second = {e.name: id(e) for e in catalog.load()}
+        changed = next(e for e in catalog.load() if str(target.resolve()).endswith(e.source_path.split("/")[-1]))
+        assert first[changed.name] != second[changed.name], "touched file must be re-parsed"
+
+    def test_tool_catalog_reuses_cache_when_mtime_unchanged(self, fake_tools, monkeypatch):
+        monkeypatch.chdir(fake_tools)
+        ToolCatalog.clear_cache()
+        catalog = ToolCatalog()
+        first = {id(e) for e in catalog.load()}
+        second = catalog.load()
+        for entry in second:
+            assert id(entry) in first, "cached tool entries must be reused on second load"
+
 
 class TestTriggerMatcher:
     """Service/OS overlap checks."""

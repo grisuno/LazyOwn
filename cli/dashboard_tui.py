@@ -29,11 +29,14 @@ from textual.containers import Horizontal, Vertical
 from textual.widgets import Footer, Header, Static
 
 try:
-    from cli.ops_commands import PHASES as _PHASES, write_phase as _write_phase
+    from cli.ops_commands import PHASES as _PHASES
+    from cli.ops_commands import write_phase as _write_phase
 except ImportError:
     _PHASES = ("recon", "scan", "enum", "exploit", "privesc", "lateral", "exfil", "report")
+
     def _write_phase(phase: str) -> bool:  # type: ignore[misc]
         return False
+
 
 REFRESH_INTERVAL: float = 5.0
 SESSIONS_DIR: str = "sessions"

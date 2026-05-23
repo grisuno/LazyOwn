@@ -253,8 +253,13 @@ class AddonCatalog:
     """Load every ``lazyaddons/*.yaml`` exposing ``os`` and ``trigger``.
 
     Missing fields default to ``os: any`` and ``trigger: []`` so existing
-    addons continue to load without modification.
+    addons continue to load without modification. Parsed entries are
+    cached per-process by ``(path, mtime)`` so repeated ``load()`` calls
+    inside long-lived sessions (CLI shell, MCP server) re-parse only the
+    YAML files that actually changed on disk.
     """
+
+    _entry_cache: dict[str, tuple[float, AddonEntry]] = {}
 
     def __init__(self, config: ExplorationConfig | None = None) -> None:
         """Store the configuration used to locate the addons directory."""
@@ -269,10 +274,32 @@ class AddonCatalog:
             return []
         entries: list[AddonEntry] = []
         for path_str in sorted(glob.glob(str(addons_dir / "*.yaml"))):
-            entry = self._parse_one(Path(path_str))
+            entry = self._load_with_cache(Path(path_str))
             if entry is not None:
                 entries.append(entry)
         return entries
+
+    def _load_with_cache(self, path: Path) -> AddonEntry | None:
+        """Return the cached entry when the file mtime is unchanged."""
+
+        try:
+            mtime = path.stat().st_mtime
+        except OSError:
+            return None
+        key = str(path.resolve())
+        cached = AddonCatalog._entry_cache.get(key)
+        if cached is not None and cached[0] == mtime:
+            return cached[1]
+        entry = self._parse_one(path)
+        if entry is not None:
+            AddonCatalog._entry_cache[key] = (mtime, entry)
+        return entry
+
+    @classmethod
+    def clear_cache(cls) -> None:
+        """Drop the per-process addon cache (mainly used by tests)."""
+
+        cls._entry_cache.clear()
 
     def _parse_one(self, path: Path) -> AddonEntry | None:
         """Parse a single addon file. Returns ``None`` on parse failure."""
@@ -308,8 +335,11 @@ class ToolCatalog:
 
     The ``.tool`` schema already carries a ``trigger`` list; this catalog
     adds OS awareness with a ``any`` default so the legacy files keep
-    working.
+    working. Parsed entries are cached per-process by ``(path, mtime)``
+    so repeated ``load()`` calls only re-parse changed files.
     """
+
+    _entry_cache: dict[str, tuple[float, ToolEntry]] = {}
 
     def __init__(self, config: ExplorationConfig | None = None) -> None:
         """Store the configuration used to locate the tools directory."""
@@ -324,10 +354,32 @@ class ToolCatalog:
             return []
         entries: list[ToolEntry] = []
         for path_str in sorted(glob.glob(str(tools_dir / "*.tool"))):
-            entry = self._parse_one(Path(path_str))
+            entry = self._load_with_cache(Path(path_str))
             if entry is not None:
                 entries.append(entry)
         return entries
+
+    def _load_with_cache(self, path: Path) -> ToolEntry | None:
+        """Return the cached entry when the file mtime is unchanged."""
+
+        try:
+            mtime = path.stat().st_mtime
+        except OSError:
+            return None
+        key = str(path.resolve())
+        cached = ToolCatalog._entry_cache.get(key)
+        if cached is not None and cached[0] == mtime:
+            return cached[1]
+        entry = self._parse_one(path)
+        if entry is not None:
+            ToolCatalog._entry_cache[key] = (mtime, entry)
+        return entry
+
+    @classmethod
+    def clear_cache(cls) -> None:
+        """Drop the per-process tool cache (mainly used by tests)."""
+
+        cls._entry_cache.clear()
 
     def _parse_one(self, path: Path) -> ToolEntry | None:
         """Parse a single tool file. Returns ``None`` on parse failure."""

@@ -1810,9 +1810,7 @@ class TestPaletteNextMode:
         assert result["phase"] == "exploit"
         assert all(row["phase"] == "exploit" for row in result["results"])
 
-    def test_completer_offers_next_flag_at_first_position(
-        self, synthetic_index: dict[str, Any]
-    ) -> None:
+    def test_completer_offers_next_flag_at_first_position(self, synthetic_index: dict[str, Any]) -> None:
         """The first-position completion list includes ``--next``."""
         from cli.palette_command import PaletteCompleter, PaletteRenderConfig
 
@@ -2046,9 +2044,7 @@ class TestPaletteTelemetryLoader:
 
         target = tmp_path / "session.csv"
         target.write_text(
-            "start,command,args\n"
-            "2026-05-09 09:00:00,lazynmap,\n"
-            "2026-05-09 09:01:00,smbclient,\n",
+            "start,command,args\n2026-05-09 09:00:00,lazynmap,\n2026-05-09 09:01:00,smbclient,\n",
             encoding="utf-8",
         )
         load_telemetry.cache_clear()

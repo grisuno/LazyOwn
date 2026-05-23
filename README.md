@@ -3869,15 +3869,6 @@ If `rhost` is not set, it prints an error message.
 
 :return: None
 
-## batchnmap
-Runs the internal module `modules/lazynmap.sh` for multiple Nmap scans.
-
-This method executes the `lazynmap` script, using the current working directory
-and the `rhost` parameter from the `self.params` dictionary as the target IP.
-If `rhost` is not set, it prints an error message.
-
-:return: None
-
 ## lazywerkzeugdebug
 Run the internal module located at `modules/lazywerkzeug.py` in debug mode.
 
@@ -3952,18 +3943,6 @@ Runs the internal module `modules/lazynmap.sh` with discovery mode.
 
 This method executes the `lazynmap` script in discovery mode. It uses the current
 working directory for locating the script.
-
-:return: None
-
-## lazynmap
-Runs the internal module `modules/lazynmap.sh` with target mode.
-
-OS detection (via ping TTL) is performed automatically before scanning
-when the target OS is not yet known, so that tool selectors downstream
-have a valid platform context.
-
-:param line: The network IP to scan. Defaults to rhost from params.
-:type line: str
 
 :return: None
 
@@ -5010,147 +4989,6 @@ Note:
     - Ensure that you have the necessary permissions to write to the `/usr/share/wordlists/` directory.
     - If `wget` or `unzip` is not installed, the function will fail.
 
-## smbclient
-Interacts with SMB shares using the `smbclient` command to perform the following operations:
-
-1. Checks if `rhost` (remote host) and `lhost` (local host) are assign; if not, an error message is displayed.
-2. If `line` (share name) is provided:
-- Attempts to access the specified SMB share on the remote host using the command: `smbclient -N \\{rhost}\{line}`
-3. If `line` is not provided:
-- Lists available SMB shares on the remote host with the command: `smbclient -N -L \\{rhost}`
-4. Suggests a potential SMB exploit if possible by mounting the share from the local host using: `mount -t cifs "//{lhost}/share" /mnt/smb`
-
-:param line: The name of the SMB share to access on the remote host. If not provided, the function will list all available shares.
-:returns: None
-
-## smbclient_impacket
-Interacts with SMB shares using the `smbclient` command to perform the following operations:
-
-1. Checks if `rhost` (remote host) and `lhost` (local host) are assign; if not, an error message is displayed.
-2. If `line` (share name) is provided:
-- Attempts to access the specified SMB share on the remote host using the command: `smbclient -N \\{rhost}\{line}`
-3. If `line` is not provided:
-- Lists available SMB shares on the remote host with the command: `smbclient -N -L \\{rhost}`
-4. Suggests a potential SMB exploit if possible by mounting the share from the local host using: `mount -t cifs "//{lhost}/share" /mnt/smb`
-
-:param line: The name of the SMB share to access on the remote host. If not provided, the function will list all available shares.
-:returns: None
-
-## smbclient_py
-Interacts with SMB shares using the `smbclient.py` command to perform the following operations:
-
-1. Checks if `rhost` (remote host) and `lhost` (local host) are assign; if not, an error message is displayed.
-2. If `line` (share name) is provided:
-- Attempts to access the specified SMB share on the remote host using the command: `smbclient.py -N \\{rhost}\{line}`
-3. If `line` is not provided:
-- Lists available SMB shares on the remote host with the command: `smbclient.py -N -L \\{rhost}`
-4. Suggests a potential SMB exploit if possible by mounting the share from the local host using: `mount -t cifs "//{lhost}/share" /mnt/smb`
-
-:param line: The name of the SMB share to access on the remote host. If not provided, the function will list all available shares.
-:returns: None
-
-## smbmap
-smbmap -H 10.10.10.3 [OPTIONS]
-Uses the `smbmap` tool to interact with SMB shares on a remote host:
-
-1. Checks if `rhost` (remote host) and `lhost` (local host) are assign; if not, an error message is displayed.
-2. If no `line` (share name or options) is provided:
-- Attempts to access SMB shares on the remote host with a default user `deefbeef` using the command: `smbmap -H {rhost} -u 'deefbeef'`
-3. If `line` is provided:
-- Executes `smbmap` with the specified options or share name using the command: `smbmap -H {rhost} -R {line}`
-4. Suggests a potential SMB exploit if possible by mounting the share from the local host using: `mount -t cifs "//{lhost}/documents" /mnt/smb`
-
-:param line: Options or share name to use with `smbmap`. If not provided, uses a default user to list shares.
-:returns: None
-
-## getnpusers
-sudo impacket-GetNPUsers mist.htb/ -no-pass -usersfile sessions/users.txt
-Executes the `impacket-GetNPUsers` command to enumerate users with Kerberos pre-authentication disabled.
-
-1. Checks if the `line` (domain) argument is provided; if not, an error message is displayed, instructing the user to provide a domain.
-2. Executes `impacket-GetNPUsers` with the following options:
-- `-no-pass`: Skips password prompt.
-- `-usersfile sessions/users.txt`: Specifies the file containing the list of users to check.
-
-:param line: The domain to query. Must be provided in the format `domain.com`. Example usage: `getnpusers domain.com`
-:returns: None
-
-Manual execution:
-To manually run this command, use the following syntax:
-    sudo impacket-GetNPUsers <domain> -no-pass -usersfile sessions/users.txt
-Replace `<domain>` with the actual domain name you want to query.
-
-## psexec
-Executes the Impacket PSExec tool to attempt remote execution on the specified target.
-
-This function performs the following actions:
-1. Checks if the provided target host (`rhost`) is valid.
-2. If the `line` argument is "pass", it searches for credential files with the pattern `credentials*.txt`
-and allows the user to select which file to use for executing the command.
-3. If the `line` argument is not "pass", it assumes execution without a password (using the current credentials).
-4. Copies the `rhost` IP address to the clipboard for ease of use.
-
-Parameters:
-line (str): A command argument to determine the action.
-            If "pass", the function searches for credential files and authenticates using the selected file.
-            Otherwise, it executes PSExec without a password using the `rhost` IP.
-
-Returns:
-None
-
-## psexec_py
-Executes the Impacket PSExec tool to attempt remote execution on the specified target.
-
-This function performs the following actions:
-1. Checks if the provided target host (`rhost`) is valid.
-2. If the `line` argument is "pass", it searches for credential files with the pattern `credentials*.txt`
-and allows the user to select which file to use for executing the command.
-3. If the `line` argument is not "pass", it assumes execution without a password (using the current credentials).
-4. Copies the `rhost` IP address to the clipboard for ease of use.
-
-Parameters:
-line (str): A command argument to determine the action.
-            If "pass", the function searches for credential files and authenticates using the selected file.
-            Otherwise, it executes PSExec without a password using the `rhost` IP.
-
-Returns:
-None
-
-## rpcdump
-Executes the `rpcdump.py` script to dump RPC services from a target host.
-
-1. Retrieves the target host IP from the `rhost` parameter.
-2. Checks if the `rhost` parameter is valid using `check_rhost()`. If invalid, the function returns early.
-3. Executes the `rpcdump.py` script on port 135 and 593 to gather RPC service information from the target host.
-
-:param line: This parameter is not used in this command but is included for consistency with other methods.
-:returns: None
-
-Manual execution:
-To manually run this command, use the following syntax:
-    rpcdump.py -p 135 <target_host>
-    rpcdump.py -p 593 <target_host>
-Replace `<target_host>` with the IP address or hostname of the target machine.
-
-## dig
-Executes the `dig` command to query DNS information.
-
-1. Retrieves the DNS server IP from the `line` parameter and the target host from the `rhost` parameter.
-2. If either the DNS server or `rhost` is not provided, an error message is printed.
-3. Executes the `dig` command to query the version of the DNS server and additional records.
-
-:param line: DNS server IP or hostname. Must be provided for the `dig` command.
-:param rhost: Target host for additional `dig` queries.
-
-:returns: None
-
-Manual execution:
-To manually run these commands, use the following syntax:
-    dig version.bind CHAOS TXT @<dns_server>
-    dig any <domain> @<rhost>
-
-Replace `<dns_server>` with the IP address or hostname of the DNS server, `<domain>` with the target domain, and `<rhost>` with the IP address or hostname of the target machine.
-
 ## cp
 Copies a file from the ExploitDB directory to the sessions directory.
 
@@ -5170,215 +5008,6 @@ Replace `<exploitdb_path>` with the path to your ExploitDB directory, `<file_pat
 
 For example:
     cp /usr/share/exploitdb/exploits/java/remote/51884.py /path/to/sessions/
-
-## dnsenum
-Performs DNS enumeration using `dnsenum` to identify subdomains for a given domain.
-
-1. Executes the `dnsenum` command with parameters to specify the DNS server, output file, and wordlist for enumeration.
-
-:param line: The target domain to perform DNS enumeration on, e.g., `ghost.htb`.
-:param rhost: The DNS server to use for enumeration, e.g., `10.10.11.24`.
-:param dnswordlist: The path to the DNS wordlist file used for subdomain discovery.
-
-:returns: None
-
-Manual execution:
-To manually perform DNS enumeration, use the following command:
-    dnsenum --dnsserver <dns_server> --enum -p 0 -s 0 -o <output_file> -f <dns_wordlist> <target_domain>
-
-Replace `<dns_server>` with the DNS server IP, `<output_file>` with the file path to save the results, `<dns_wordlist>` with the path to your DNS wordlist file, and `<target_domain>` with the domain to be enumerated.
-
-For example:
-    dnsenum --dnsserver 10.10.11.24 --enum -p 0 -s 0 -o sessions/subdomains.txt -f /path/to/dnswordlist.txt ghost.htb
-
-## dnsmap
-Performs DNS enumeration using `dnsmap` to discover subdomains for a specified domain.
-
-1. Executes the `dnsmap` command to scan the given domain with a specified wordlist.
-
-:param line: The target domain to perform DNS enumeration on, e.g., `ghost.htb`.
-:param dnswordlist: The path to the wordlist file used for DNS enumeration.
-
-:returns: None
-
-Manual execution:
-To manually perform DNS enumeration, use the following command:
-    dnsmap <target_domain> -w <dns_wordlist>
-
-Replace `<target_domain>` with the domain you want to scan and `<dns_wordlist>` with the path to your DNS wordlist file.
-
-For example:
-    dnsmap ghost.htb -w /path/to/dnswordlist.txt
-
-## whatweb
-Performs a web technology fingerprinting scan using `whatweb`.
-
-1. Executes the `whatweb` command to identify technologies used by the target web application.
-
-:param line: This parameter is not used in the current implementation but could be used to pass additional options or arguments if needed.
-:param rhost: The target web host to be scanned, specified in the `params` dictionary.
-
-:returns: None
-
-Manual execution:
-To manually perform web technology fingerprinting, use the following command:
-    whatweb <target_host>
-
-Replace `<target_host>` with the URL or IP address of the web application you want to scan.
-
-For example:
-    whatweb example.com
-
-## enum4linux
-Performs enumeration of information from a target Linux/Unix system using `enum4linux`.
-
-1. Executes the `enum4linux` command with the `-a` option to gather extensive information from the specified target.
-
-:param line: This parameter is not used in the current implementation but could be used to pass additional options or arguments if needed.
-:param rhost: The target host for enumeration, specified in the `params` dictionary.
-
-:returns: None
-
-Manual execution:
-To manually enumerate information from a Linux/Unix system, use the following command:
-    enum4linux -a <target_host>
-
-Replace `<target_host>` with the IP address or hostname of the target system.
-
-For example:
-    enum4linux -a 192.168.1.10
-
-## nbtscan
-Performs network scanning using `nbtscan` to discover NetBIOS names and addresses in a specified range.
-
-1. Executes the `nbtscan` command with the `-r` option to scan the specified range of IP addresses for NetBIOS information.
-
-:param line: This parameter is not used in the current implementation but could be used to specify additional options or arguments if needed.
-:param rhost: The target network range for scanning, specified in the `params` dictionary.
-
-:returns: None
-
-Manual execution:
-To manually perform a NetBIOS scan across a network range, use the following command:
-    sudo nbtscan -r <network_range>
-
-Replace `<network_range>` with the IP address range you want to scan. For example:
-    sudo nbtscan -r 192.168.1.0/24
-
-## rpcclient
-Executes the `rpcclient` command to interact with a remote Windows system over RPC (Remote Procedure Call) using anonymous credentials.
-
-1. Runs `rpcclient` with the `-U ''` (empty username) and `-N` (no password) options to connect to the target host specified by `rhost`.
-
-:param line: This parameter is not used in the current implementation but could be used to specify additional options or arguments if needed.
-:param rhost: The IP address of the remote host to connect to, specified in the `params` dictionary.
-
-:returns: None
-
-Manual execution:
-To manually interact with a remote Windows system using RPC, use the following command:
-    rpcclient -U '' -N <target_ip>
-
-Replace `<target_ip>` with the IP address of the target system. For example:
-    rpcclient -U '' -N 10.10.10.10
-
-## nikto
-Runs the `nikto` tool to perform a web server vulnerability scan against the specified target host.
-
-1. Executes `nikto` with the `-h` option to specify the target host IP address.
-2. Installs `nikto` if it is not already installed.
-
-:param line: This parameter is not used in the current implementation but could be used to specify additional options or arguments if needed.
-:param rhost: The IP address of the target web server, specified in the `params` dictionary.
-
-:returns: None
-
-Manual execution:
-To manually perform a web server vulnerability scan using `nikto`, use the following command:
-    nikto -h <target_ip>
-
-Replace `<target_ip>` with the IP address of the target web server. For example:
-    nikto -h 10.10.10.10
-
-## finalrecon
-Runs the `finalrecon` tool to perform a web server vulnerability scan against the specified target host.
-
-1. Executes `finalrecon` with the `-h` option to specify the target host IP address.
-
-:param line: This parameter is not used in the current implementation but could be used to specify additional options or arguments if needed.
-:param rhost: The IP address of the target web server, specified in the `params` dictionary.
-
-:returns: None
-
-Manual execution:
-To manually perform a web server vulnerability scan using `finalrecon`, use the following command:
-    finalrecon --url=http://<target_ip> --full -o txt -cd <directory_reports>
-
-Replace `<target_ip>` with the IP address of the target web server. For example:
-    finalrecon --url=http://192.168.1.92 --full -o txt -cd /home/gris/finalrecon
-
-## openssl_sclient
-Uses `openssl s_client` to connect to a specified host and port, allowing for testing and debugging of SSL/TLS connections.
-
-:param line: The port number to connect to on the target host. This must be provided as an argument.
-:param rhost: The IP address or hostname of the target server, specified in the `params` dictionary.
-
-:returns: None
-
-Manual execution:
-To manually connect to a server using `openssl s_client` and test SSL/TLS, use the following command:
-    openssl s_client -connect <target_ip>:<port>
-
-Replace `<target_ip>` with the IP address or hostname of the target server and `<port>` with the port number. For example:
-    openssl s_client -connect 10.10.10.10:443
-
-## ss
-Search all exploit sources and map findings to the next LazyOwn command.
-
-Without arguments: reads the nmap XML for the current rhost, extracts
-every open service+version, searches all sources for each one, saves
-structured results to sessions/ss_results_<rhost>.json, creates tasks
-for services with hits, and prints a 'what to try next' table.
-
-With a manual query: runs the full multi-source search (searchsploit,
-NVD, ExploitAlert, PacketStorm, MSF, Sploitus) for that term and shows
-recommended commands for the matching service.
-
-Usage:
-    ``ss``                  — auto-scan from nmap XML for current rhost
-    ``ss apache 2.4.49``    — manual query
-    ``ss OpenSSH 8.4``      — manual query
-
-## wfuzz
-Uses `wfuzz` to perform fuzzing based on provided parameters. This function supports various options for directory and file fuzzing.
-
-:param line: The options and arguments for `wfuzz`. The `line` parameter can include the following:
-    - `sub <domain>`: Fuzz DNS subdomains. Requires `dnswordlist` to be assign.
-    - `iis`: Fuzz IIS directories. Uses a default wordlist if `iiswordlist` is not assign.
-    - Any other argument: General directory and file fuzzing.
-
-:returns: None
-
-Manual execution:
-To manually use `wfuzz` for directory and file fuzzing, use the following commands:
-
-1. For fuzzing DNS subdomains:
-    wfuzz -c <extra_options> -t <threads> -w <wordlist> -H 'Host: FUZZ.<domain>' <domain>
-
-Example:
-    wfuzz -c --hl=7 -t 200 -w /path/to/dnswordlist -H 'Host: FUZZ.example.com' example.com
-
-2. For fuzzing IIS directories:
-    wfuzz -c <extra_options> -t <threads> -w /path/to/iiswordlist http://<rhost>/FUZZ
-
-Example:
-    wfuzz -c --hl=7 -t 200 -w /usr/share/wordlists/SecLists-master/Discovery/Web-Content/IIS.fuzz.txt http://10.10.10.10/FUZZ
-
-3. For general directory and file fuzzing:
-    wfuzz -c <extra_options> -t <threads> -w <wordlist> http://<rhost>/FUZZ
-
-Example:
-    wfuzz -c --hl=7 -t 200 -w /path/to/dirwordlist http://10.10.10.10/FUZZ
 
 ## launchpad
 Searches for packages on Launchpad based on the provided search term and extracts codenames from the results. The distribution is extracted from the search term.
@@ -13019,9 +12648,6 @@ No description available.
 ## _flag_value
 No description available.
 
-## _run_single_search
-No description available.
-
 ## find_tgts
 Finds and returns a list of target hosts with port 445 open in the specified subnet.
 
@@ -13280,11 +12906,11 @@ No description available.
 # Changelog
 
 
-### Correcciones urgentes
+### Refactorización
 
 ### Otros
 
-  *   * hotfix(hotfix in tools): all green now \n\n Version: release/0.2.136 \n\n :D \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: jue 21 may 2026 17:14:20 -04 \n\n Hora: 1779398060
+  *   * refactor(refactor in tools): all green now \n\n Version: release/0.2.135 \n\n :D \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: jue 21 may 2026 17:16:43 -04 \n\n Hora: 1779398203
 
 
 ### Refactorización

@@ -1,0 +1,242 @@
+{
+  "nodes": [
+    {"id": "lazypwn_binaryfinder", "label": "BinaryFinder", "file_type": "code", "source_file": "modules/lazypwn.py", "source_location": "line 23", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "lazypwn_find_suid_binaries", "label": "find_suid_binaries", "file_type": "code", "source_file": "modules/lazypwn.py", "source_location": "line 27", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "lazypwn_find_capabilities_binaries", "label": "find_capabilities_binaries", "file_type": "code", "source_file": "modules/lazypwn.py", "source_location": "line 35", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "lazypwn_find_executable_binaries", "label": "find_executable_binaries", "file_type": "code", "source_file": "modules/lazypwn.py", "source_location": "line 43", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "lazypwn_find_specific_name_binaries", "label": "find_specific_name_binaries", "file_type": "code", "source_file": "modules/lazypwn.py", "source_location": "line 51", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "lazypwn_process_output", "label": "process_output", "file_type": "code", "source_file": "modules/lazypwn.py", "source_location": "line 60", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+
+    {"id": "lazypwnkit_rmrf", "label": "rmrf", "file_type": "code", "source_file": "modules/lazypwnkit.py", "source_location": "line 8", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "lazypwnkit_create_exploit_environment", "label": "create_exploit_environment", "file_type": "code", "source_file": "modules/lazypwnkit.py", "source_location": "line 13", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "lazypwnkit_cleanup_exploit_environment", "label": "cleanup_exploit_environment", "file_type": "code", "source_file": "modules/lazypwnkit.py", "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+
+    {"id": "lazypyautogui_module", "label": "lazypyautogui (terminal automation)", "file_type": "code", "source_file": "modules/lazypyautogui.py", "source_location": "line 1", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+
+    {"id": "lazyredopgpt_main", "label": "lazyredopgpt main", "file_type": "code", "source_file": "modules/lazyredopgpt.py", "source_location": "line 22", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "lazyredopgpt_create_complex_prompt", "label": "create_complex_prompt", "file_type": "code", "source_file": "modules/lazyredopgpt.py", "source_location": "line 46", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "lazyredopgpt_truncate_message", "label": "truncate_message", "file_type": "code", "source_file": "modules/lazyredopgpt.py", "source_location": "line 37", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "lazyredopgpt_knowledge_base_redop", "label": "knowledge_base_redop.json", "file_type": "code", "source_file": "modules/lazyredopgpt.py", "source_location": "line 35", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+
+    {"id": "lazyreversentlmv2_parse_hash_file", "label": "parse_hash_file", "file_type": "code", "source_file": "modules/lazyreversentlmv2.py", "source_location": "line 8", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "lazyreversentlmv2_module", "label": "lazyreversentlmv2 (NTLMv2 cracker)", "file_type": "code", "source_file": "modules/lazyreversentlmv2.py", "source_location": "line 1", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+
+    {"id": "lazysearch_search_in_parquet", "label": "search_in_parquet", "file_type": "code", "source_file": "modules/lazysearch.py", "source_location": "line 32", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "lazysearch_highlight_term", "label": "highlight_term", "file_type": "code", "source_file": "modules/lazysearch.py", "source_location": "line 29", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "lazysearch_main", "label": "lazysearch main (GTFOBins parquet)", "file_type": "code", "source_file": "modules/lazysearch.py", "source_location": "line 44", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+
+    {"id": "lazysearchbot_main", "label": "lazysearch_bot main (Groq research)", "file_type": "code", "source_file": "modules/lazysearch_bot.py", "source_location": "line 1", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "lazysearchbot_knowledge_base", "label": "knowledge_base.json", "file_type": "code", "source_file": "modules/lazysearch_bot.py", "source_location": "line 56", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+
+    {"id": "lazyseo_config", "label": "lazyseo Config", "file_type": "code", "source_file": "modules/lazyseo.py", "source_location": "line 12", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "lazyseo_load_payload", "label": "lazyseo load_payload", "file_type": "code", "source_file": "modules/lazyseo.py", "source_location": "line 21", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "lazyseo_make_request", "label": "lazyseo make_request", "file_type": "code", "source_file": "modules/lazyseo.py", "source_location": "line 26", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+
+    {"id": "lazysmbrelay_check_sudo", "label": "lazysmbrelay check_sudo", "file_type": "code", "source_file": "modules/lazysmbrelay.py", "source_location": "line 14", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "lazysmbrelay_start_smb_server", "label": "start_smb_server", "file_type": "code", "source_file": "modules/lazysmbrelay.py", "source_location": "line 26", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "lazysmbrelay_start_smb_relay", "label": "start_smb_relay", "file_type": "code", "source_file": "modules/lazysmbrelay.py", "source_location": "line 34", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "lazysmbrelay_customsmbrelayserver", "label": "CustomSMBRelayServer", "file_type": "code", "source_file": "modules/lazysmbrelay.py", "source_location": "line 40", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+
+    {"id": "lazysniff_main", "label": "lazysniff main (scapy sniffer)", "file_type": "code", "source_file": "modules/lazysniff.py", "source_location": "line 1", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+
+    {"id": "lazysqli_send_payload", "label": "lazysqli send_payload", "file_type": "code", "source_file": "modules/lazysqli.py", "source_location": "line 11", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "lazysqli_dichotomie", "label": "sqli_dichotomie", "file_type": "code", "source_file": "modules/lazysqli.py", "source_location": "line 28", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+
+    {"id": "lazyssh_execute", "label": "lazyssh execute", "file_type": "code", "source_file": "modules/lazyssh.py", "source_location": "line 12", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+
+    {"id": "lazyvsftp_connect", "label": "lazyvsftp connect", "file_type": "code", "source_file": "modules/lazyvsftp.py", "source_location": "line 7", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "lazyvsftp_exploit", "label": "lazyvsftp exploit", "file_type": "code", "source_file": "modules/lazyvsftp.py", "source_location": "line 16", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "lazyvsftp_handle_backdoor", "label": "handle_backdoor", "file_type": "code", "source_file": "modules/lazyvsftp.py", "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+
+    {"id": "lazywerkzeug_exploit", "label": "lazywerkzeug Werkzeug debugger RCE", "file_type": "code", "source_file": "modules/lazywerkzeug.py", "source_location": "line 1", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+
+    {"id": "lilsplunky_main", "label": "lilsplunky main (log monitor + DeepSeek)", "file_type": "code", "source_file": "modules/lilsplunky.py", "source_location": "line 1", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "lilsplunky_filesystemeventhandler", "label": "lilsplunky FileSystemEventHandler", "file_type": "code", "source_file": "modules/lilsplunky.py", "source_location": "line 25", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+
+    {"id": "listenermanager_collect_bind_candidates", "label": "_collect_listener_bind_candidates", "file_type": "code", "source_file": "modules/listener_manager.py", "source_location": "line 37", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "listenermanager_probe_listener_bind", "label": "_probe_listener_bind", "file_type": "code", "source_file": "modules/listener_manager.py", "source_location": "line 74", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "listenermanager_listener_class", "label": "Listener dataclass", "file_type": "code", "source_file": "modules/listener_manager.py", "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "listenermanager_listenermanager", "label": "ListenerManager", "file_type": "code", "source_file": "modules/listener_manager.py", "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "listenermanager_listenersjson", "label": "sessions/listeners.json", "file_type": "code", "source_file": "modules/listener_manager.py", "source_location": "line 7", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+
+    {"id": "llmclient_llmclient", "label": "LLMClient", "file_type": "code", "source_file": "modules/llm_client.py", "source_location": "line 46", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "llmclient_ask", "label": "LLMClient.ask", "file_type": "code", "source_file": "modules/llm_client.py", "source_location": "line 80", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "llmclient_groq_api_url", "label": "GROQ_API_URL", "file_type": "code", "source_file": "modules/llm_client.py", "source_location": "line 33", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "llmclient_ollama_host", "label": "OLLAMA_HOST constants", "file_type": "code", "source_file": "modules/llm_client.py", "source_location": "line 37", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+
+    {"id": "llmevaluator_decisionrecord", "label": "DecisionRecord", "file_type": "code", "source_file": "modules/llm_evaluator.py", "source_location": "line 21", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "llmevaluator_outcomerecorder", "label": "OutcomeRecorder ABC", "file_type": "code", "source_file": "modules/llm_evaluator.py", "source_location": "line 56", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "llmevaluator_jsonl_path", "label": "sessions/llm_decisions.jsonl", "file_type": "code", "source_file": "modules/llm_evaluator.py", "source_location": "line 18", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+
+    {"id": "llmfactory_get_llm_backend", "label": "get_llm_backend", "file_type": "code", "source_file": "modules/llm_factory.py", "source_location": "line 181", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "llmfactory_try_get_llm_backend", "label": "try_get_llm_backend", "file_type": "code", "source_file": "modules/llm_factory.py", "source_location": "line 234", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "llmfactory_load_payload", "label": "llm_factory load_payload", "file_type": "code", "source_file": "modules/llm_factory.py", "source_location": "line 74", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "llmfactory_resolve_api_key", "label": "_resolve_api_key", "file_type": "code", "source_file": "modules/llm_factory.py", "source_location": "line 98", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "llmfactory_build_groq", "label": "_build_groq", "file_type": "code", "source_file": "modules/llm_factory.py", "source_location": "line 145", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "llmfactory_build_ollama", "label": "_build_ollama", "file_type": "code", "source_file": "modules/llm_factory.py", "source_location": "line 167", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "llmfactory_supported_backends", "label": "SUPPORTED_BACKENDS", "file_type": "code", "source_file": "modules/llm_factory.py", "source_location": "line 49", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "llmfactory_llmbackendunavailableerror", "label": "LLMBackendUnavailableError", "file_type": "code", "source_file": "modules/llm_factory.py", "source_location": "line 66", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "llmfactory_llmbackendnotsupportederror", "label": "LLMBackendNotSupportedError", "file_type": "code", "source_file": "modules/llm_factory.py", "source_location": "line 70", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+
+    {"id": "aimodel_groqmodel", "label": "GroqModel (modules/ai_model.py)", "file_type": "code", "source_file": "modules/ai_model.py", "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "aimodel_ollamamodel", "label": "OllamaModel (modules/ai_model.py)", "file_type": "code", "source_file": "modules/ai_model.py", "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "aimodel_aimodel_protocol", "label": "AIModel (modules/ai_model.py)", "file_type": "code", "source_file": "modules/ai_model.py", "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "core_protocols_llmbackend", "label": "core.protocols.LLMBackend", "file_type": "code", "source_file": "core/protocols.py", "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "payload_json", "label": "payload.json", "file_type": "code", "source_file": "payload.json", "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+
+    {"id": "mario_main", "label": "mario game (pygame)", "file_type": "code", "source_file": "modules/mario.py", "source_location": "line 1", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+
+    {"id": "mcpbridge_make_client", "label": "_make_client", "file_type": "code", "source_file": "modules/mcp_agent_bridge.py", "source_location": "line 39", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "mcpbridge_agents_dir", "label": "sessions/agents/", "file_type": "code", "source_file": "modules/mcp_agent_bridge.py", "source_location": "line 31", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "mcpbridge_module", "label": "mcp_agent_bridge module", "file_type": "code", "source_file": "modules/mcp_agent_bridge.py", "source_location": "line 1", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+
+    {"id": "memorystore_db_path", "label": "sessions/memory.db", "file_type": "code", "source_file": "modules/memory_store.py", "source_location": "line 27", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "memorystore_ddl_main", "label": "memories table DDL", "file_type": "code", "source_file": "modules/memory_store.py", "source_location": "line 29", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "memorystore_ddl_fts", "label": "memory_fts FTS5 virtual table", "file_type": "code", "source_file": "modules/memory_store.py", "source_location": "line 45", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "memorystore_module", "label": "memory_store module", "file_type": "code", "source_file": "modules/memory_store.py", "source_location": "line 1", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+
+    {"id": "ext_groq_sdk", "label": "groq (Python SDK)", "file_type": "code", "source_file": null, "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "ext_pwn", "label": "pwntools", "file_type": "code", "source_file": null, "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "ext_impacket", "label": "impacket", "file_type": "code", "source_file": null, "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "ext_scapy", "label": "scapy.all", "file_type": "code", "source_file": null, "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "ext_paramiko", "label": "paramiko", "file_type": "code", "source_file": null, "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "ext_pyautogui", "label": "pyautogui", "file_type": "code", "source_file": null, "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "ext_pandas", "label": "pandas", "file_type": "code", "source_file": null, "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "ext_watchdog", "label": "watchdog", "file_type": "code", "source_file": null, "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "ext_rich", "label": "rich console", "file_type": "code", "source_file": null, "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "ext_werkzeug_serving", "label": "werkzeug.serving", "file_type": "code", "source_file": null, "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "ext_sqlite3", "label": "sqlite3 (stdlib)", "file_type": "code", "source_file": null, "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "ext_pygame", "label": "pygame", "file_type": "code", "source_file": null, "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "ext_requests", "label": "requests", "file_type": "code", "source_file": null, "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "ext_bs4", "label": "bs4 BeautifulSoup", "file_type": "code", "source_file": null, "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "ext_utils", "label": "utils module (LazyOwn)", "file_type": "code", "source_file": "utils.py", "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "ext_modules_colors", "label": "modules.colors", "file_type": "code", "source_file": "modules/colors.py", "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "ext_lazyencoder_decoder", "label": "lazyencoder_decoder", "file_type": "code", "source_file": "modules/lazyencoder_decoder.py", "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null}
+  ],
+  "edges": [
+    {"source": "lazypwn_binaryfinder", "target": "lazypwn_find_suid_binaries", "relation": "implements", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/lazypwn.py", "source_location": "line 27", "weight": 1.0},
+    {"source": "lazypwn_binaryfinder", "target": "lazypwn_find_capabilities_binaries", "relation": "implements", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/lazypwn.py", "source_location": "line 35", "weight": 1.0},
+    {"source": "lazypwn_binaryfinder", "target": "lazypwn_find_executable_binaries", "relation": "implements", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/lazypwn.py", "source_location": "line 43", "weight": 1.0},
+    {"source": "lazypwn_binaryfinder", "target": "lazypwn_find_specific_name_binaries", "relation": "implements", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/lazypwn.py", "source_location": "line 51", "weight": 1.0},
+    {"source": "lazypwn_binaryfinder", "target": "lazypwn_process_output", "relation": "implements", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/lazypwn.py", "source_location": "line 60", "weight": 1.0},
+    {"source": "lazypwn_find_suid_binaries", "target": "lazypwn_process_output", "relation": "calls", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/lazypwn.py", "source_location": "line 31", "weight": 1.0},
+    {"source": "lazypwn_find_capabilities_binaries", "target": "lazypwn_process_output", "relation": "calls", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/lazypwn.py", "source_location": "line 39", "weight": 1.0},
+    {"source": "lazypwn_find_executable_binaries", "target": "lazypwn_process_output", "relation": "calls", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/lazypwn.py", "source_location": "line 47", "weight": 1.0},
+    {"source": "lazypwn_find_specific_name_binaries", "target": "lazypwn_process_output", "relation": "calls", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/lazypwn.py", "source_location": "line 56", "weight": 1.0},
+    {"source": "lazypwn_binaryfinder", "target": "ext_pwn", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 0.9, "source_file": "modules/lazypwn.py", "source_location": "line 2", "weight": 1.0},
+
+    {"source": "lazypwnkit_create_exploit_environment", "target": "lazypwnkit_cleanup_exploit_environment", "relation": "calls", "confidence": "EXTRACTED", "confidence_score": 0.9, "source_file": "modules/lazypwnkit.py", "source_location": "line 29", "weight": 1.0},
+    {"source": "lazypwnkit_cleanup_exploit_environment", "target": "lazypwnkit_rmrf", "relation": "calls", "confidence": "INFERRED", "confidence_score": 0.8, "source_file": "modules/lazypwnkit.py", "source_location": null, "weight": 1.0},
+    {"source": "lazypwnkit_create_exploit_environment", "target": "lazypwnkit_rmrf", "relation": "conceptually_related_to", "confidence": "INFERRED", "confidence_score": 0.7, "source_file": "modules/lazypwnkit.py", "source_location": null, "weight": 0.8},
+
+    {"source": "lazypyautogui_module", "target": "ext_pyautogui", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/lazypyautogui.py", "source_location": "line 2", "weight": 1.0},
+
+    {"source": "lazyredopgpt_main", "target": "ext_groq_sdk", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/lazyredopgpt.py", "source_location": "line 27", "weight": 1.0},
+    {"source": "lazyredopgpt_main", "target": "ext_modules_colors", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/lazyredopgpt.py", "source_location": "line 28", "weight": 1.0},
+    {"source": "lazyredopgpt_main", "target": "lazyredopgpt_create_complex_prompt", "relation": "calls", "confidence": "EXTRACTED", "confidence_score": 0.9, "source_file": "modules/lazyredopgpt.py", "source_location": null, "weight": 1.0},
+    {"source": "lazyredopgpt_main", "target": "lazyredopgpt_knowledge_base_redop", "relation": "shares_data_with", "confidence": "EXTRACTED", "confidence_score": 0.9, "source_file": "modules/lazyredopgpt.py", "source_location": "line 35", "weight": 1.0},
+    {"source": "lazyredopgpt_main", "target": "lazyredopgpt_truncate_message", "relation": "calls", "confidence": "EXTRACTED", "confidence_score": 0.9, "source_file": "modules/lazyredopgpt.py", "source_location": null, "weight": 1.0},
+
+    {"source": "lazyreversentlmv2_module", "target": "lazyreversentlmv2_parse_hash_file", "relation": "implements", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/lazyreversentlmv2.py", "source_location": "line 8", "weight": 1.0},
+    {"source": "lazyreversentlmv2_module", "target": "ext_lazyencoder_decoder", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/lazyreversentlmv2.py", "source_location": "line 3", "weight": 1.0},
+    {"source": "lazyreversentlmv2_module", "target": "ext_impacket", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/lazyreversentlmv2.py", "source_location": "line 6", "weight": 1.0},
+
+    {"source": "lazysearch_main", "target": "lazysearch_search_in_parquet", "relation": "calls", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/lazysearch.py", "source_location": "line 50", "weight": 1.0},
+    {"source": "lazysearch_main", "target": "lazysearch_highlight_term", "relation": "calls", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/lazysearch.py", "source_location": "line 54", "weight": 1.0},
+    {"source": "lazysearch_search_in_parquet", "target": "ext_pandas", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/lazysearch.py", "source_location": "line 21", "weight": 1.0},
+
+    {"source": "lazysearchbot_main", "target": "ext_groq_sdk", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/lazysearch_bot.py", "source_location": "line 29", "weight": 1.0},
+    {"source": "lazysearchbot_main", "target": "lazysearchbot_knowledge_base", "relation": "shares_data_with", "confidence": "EXTRACTED", "confidence_score": 0.9, "source_file": "modules/lazysearch_bot.py", "source_location": "line 56", "weight": 1.0},
+    {"source": "lazysearchbot_main", "target": "lazyredopgpt_main", "relation": "semantically_similar_to", "confidence": "INFERRED", "confidence_score": 0.75, "source_file": "modules/lazysearch_bot.py", "source_location": null, "weight": 0.8},
+
+    {"source": "lazyseo_make_request", "target": "ext_requests", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/lazyseo.py", "source_location": "line 2", "weight": 1.0},
+    {"source": "lazyseo_make_request", "target": "ext_bs4", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/lazyseo.py", "source_location": "line 7", "weight": 1.0},
+    {"source": "lazyseo_load_payload", "target": "payload_json", "relation": "shares_data_with", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/lazyseo.py", "source_location": "line 22", "weight": 1.0},
+    {"source": "lazyseo_config", "target": "lazyseo_load_payload", "relation": "conceptually_related_to", "confidence": "INFERRED", "confidence_score": 0.85, "source_file": "modules/lazyseo.py", "source_location": null, "weight": 0.8},
+
+    {"source": "lazysmbrelay_customsmbrelayserver", "target": "ext_impacket", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/lazysmbrelay.py", "source_location": "line 8", "weight": 1.0},
+    {"source": "lazysmbrelay_start_smb_server", "target": "ext_impacket", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/lazysmbrelay.py", "source_location": "line 7", "weight": 1.0},
+    {"source": "lazysmbrelay_start_smb_relay", "target": "lazysmbrelay_customsmbrelayserver", "relation": "calls", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/lazysmbrelay.py", "source_location": "line 37", "weight": 1.0},
+
+    {"source": "lazysniff_main", "target": "ext_scapy", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/lazysniff.py", "source_location": "line 24", "weight": 1.0},
+
+    {"source": "lazysqli_dichotomie", "target": "lazysqli_send_payload", "relation": "calls", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/lazysqli.py", "source_location": "line 37", "weight": 1.0},
+    {"source": "lazysqli_send_payload", "target": "ext_requests", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/lazysqli.py", "source_location": "line 4", "weight": 1.0},
+
+    {"source": "lazyssh_execute", "target": "ext_paramiko", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/lazyssh.py", "source_location": "line 3", "weight": 1.0},
+
+    {"source": "lazyvsftp_exploit", "target": "lazyvsftp_connect", "relation": "calls", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/lazyvsftp.py", "source_location": "line 17", "weight": 1.0},
+    {"source": "lazyvsftp_exploit", "target": "lazyvsftp_handle_backdoor", "relation": "calls", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/lazyvsftp.py", "source_location": "line 20", "weight": 1.0},
+    {"source": "lazyvsftp_connect", "target": "ext_pwn", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/lazyvsftp.py", "source_location": "line 4", "weight": 1.0},
+
+    {"source": "lazywerkzeug_exploit", "target": "ext_requests", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/lazywerkzeug.py", "source_location": "line 2", "weight": 1.0},
+
+    {"source": "lilsplunky_main", "target": "ext_watchdog", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/lilsplunky.py", "source_location": "line 25", "weight": 1.0},
+    {"source": "lilsplunky_main", "target": "ext_rich", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/lilsplunky.py", "source_location": "line 27", "weight": 1.0},
+    {"source": "lilsplunky_main", "target": "lilsplunky_filesystemeventhandler", "relation": "implements", "confidence": "EXTRACTED", "confidence_score": 0.9, "source_file": "modules/lilsplunky.py", "source_location": "line 25", "weight": 1.0},
+    {"source": "lilsplunky_main", "target": "ext_requests", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/lilsplunky.py", "source_location": "line 20", "weight": 1.0},
+
+    {"source": "listenermanager_listenermanager", "target": "listenermanager_listener_class", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/listener_manager.py", "source_location": null, "weight": 1.0},
+    {"source": "listenermanager_listenermanager", "target": "listenermanager_listenersjson", "relation": "shares_data_with", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/listener_manager.py", "source_location": "line 204", "weight": 1.0},
+    {"source": "listenermanager_listenermanager", "target": "listenermanager_collect_bind_candidates", "relation": "calls", "confidence": "EXTRACTED", "confidence_score": 0.9, "source_file": "modules/listener_manager.py", "source_location": null, "weight": 1.0},
+    {"source": "listenermanager_listenermanager", "target": "listenermanager_probe_listener_bind", "relation": "calls", "confidence": "EXTRACTED", "confidence_score": 0.9, "source_file": "modules/listener_manager.py", "source_location": null, "weight": 1.0},
+    {"source": "listenermanager_listenermanager", "target": "ext_werkzeug_serving", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/listener_manager.py", "source_location": "line 287", "weight": 1.0},
+    {"source": "listenermanager_listenermanager", "target": "ext_utils", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/listener_manager.py", "source_location": "line 29", "weight": 1.0},
+    {"source": "listenermanager_collect_bind_candidates", "target": "payload_json", "relation": "shares_data_with", "confidence": "EXTRACTED", "confidence_score": 0.95, "source_file": "modules/listener_manager.py", "source_location": "line 9", "weight": 1.0},
+    {"source": "listenermanager_listenermanager", "target": "payload_json", "relation": "conceptually_related_to", "confidence": "INFERRED", "confidence_score": 0.85, "source_file": "modules/listener_manager.py", "source_location": null, "weight": 0.8},
+
+    {"source": "llmclient_llmclient", "target": "llmclient_ask", "relation": "implements", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/llm_client.py", "source_location": "line 80", "weight": 1.0},
+    {"source": "llmclient_llmclient", "target": "llmclient_groq_api_url", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/llm_client.py", "source_location": "line 33", "weight": 1.0},
+    {"source": "llmclient_llmclient", "target": "llmclient_ollama_host", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/llm_client.py", "source_location": "line 37", "weight": 1.0},
+    {"source": "llmclient_llmclient", "target": "llmfactory_get_llm_backend", "relation": "semantically_similar_to", "confidence": "INFERRED", "confidence_score": 0.85, "source_file": "modules/llm_client.py", "source_location": null, "weight": 0.9},
+    {"source": "llmclient_llmclient", "target": "aimodel_aimodel_protocol", "relation": "conceptually_related_to", "confidence": "INFERRED", "confidence_score": 0.8, "source_file": "modules/llm_client.py", "source_location": null, "weight": 0.8},
+
+    {"source": "llmevaluator_outcomerecorder", "target": "llmevaluator_decisionrecord", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/llm_evaluator.py", "source_location": "line 58", "weight": 1.0},
+    {"source": "llmevaluator_outcomerecorder", "target": "llmevaluator_jsonl_path", "relation": "shares_data_with", "confidence": "EXTRACTED", "confidence_score": 0.95, "source_file": "modules/llm_evaluator.py", "source_location": "line 18", "weight": 1.0},
+    {"source": "llmevaluator_decisionrecord", "target": "memorystore_module", "relation": "conceptually_related_to", "confidence": "INFERRED", "confidence_score": 0.75, "source_file": "modules/llm_evaluator.py", "source_location": null, "weight": 0.8},
+
+    {"source": "llmfactory_get_llm_backend", "target": "llmfactory_load_payload", "relation": "calls", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/llm_factory.py", "source_location": "line 217", "weight": 1.0},
+    {"source": "llmfactory_get_llm_backend", "target": "llmfactory_resolve_api_key", "relation": "calls", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/llm_factory.py", "source_location": "line 226", "weight": 1.0},
+    {"source": "llmfactory_get_llm_backend", "target": "llmfactory_build_groq", "relation": "calls", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/llm_factory.py", "source_location": "line 222", "weight": 1.0},
+    {"source": "llmfactory_get_llm_backend", "target": "llmfactory_build_ollama", "relation": "calls", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/llm_factory.py", "source_location": "line 224", "weight": 1.0},
+    {"source": "llmfactory_try_get_llm_backend", "target": "llmfactory_get_llm_backend", "relation": "calls", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/llm_factory.py", "source_location": "line 253", "weight": 1.0},
+    {"source": "llmfactory_build_groq", "target": "aimodel_groqmodel", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/llm_factory.py", "source_location": "line 164", "weight": 1.0},
+    {"source": "llmfactory_build_ollama", "target": "aimodel_ollamamodel", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/llm_factory.py", "source_location": "line 178", "weight": 1.0},
+    {"source": "llmfactory_get_llm_backend", "target": "aimodel_aimodel_protocol", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/llm_factory.py", "source_location": "line 184", "weight": 1.0},
+    {"source": "llmfactory_get_llm_backend", "target": "core_protocols_llmbackend", "relation": "implements", "confidence": "EXTRACTED", "confidence_score": 0.95, "source_file": "modules/llm_factory.py", "source_location": "line 33", "weight": 1.0},
+    {"source": "llmfactory_load_payload", "target": "payload_json", "relation": "shares_data_with", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/llm_factory.py", "source_location": "line 88", "weight": 1.0},
+    {"source": "llmfactory_resolve_api_key", "target": "payload_json", "relation": "shares_data_with", "confidence": "EXTRACTED", "confidence_score": 0.95, "source_file": "modules/llm_factory.py", "source_location": "line 98", "weight": 1.0},
+    {"source": "llmfactory_get_llm_backend", "target": "llmfactory_supported_backends", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/llm_factory.py", "source_location": "line 49", "weight": 1.0},
+
+    {"source": "mario_main", "target": "ext_pygame", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/mario.py", "source_location": "line 1", "weight": 1.0},
+
+    {"source": "mcpbridge_module", "target": "mcpbridge_make_client", "relation": "implements", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/mcp_agent_bridge.py", "source_location": "line 39", "weight": 1.0},
+    {"source": "mcpbridge_make_client", "target": "ext_groq_sdk", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/mcp_agent_bridge.py", "source_location": "line 46", "weight": 1.0},
+    {"source": "mcpbridge_make_client", "target": "ext_requests", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 0.95, "source_file": "modules/mcp_agent_bridge.py", "source_location": "line 53", "weight": 1.0},
+    {"source": "mcpbridge_module", "target": "mcpbridge_agents_dir", "relation": "shares_data_with", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/mcp_agent_bridge.py", "source_location": "line 31", "weight": 1.0},
+    {"source": "mcpbridge_make_client", "target": "llmfactory_get_llm_backend", "relation": "semantically_similar_to", "confidence": "INFERRED", "confidence_score": 0.75, "source_file": "modules/mcp_agent_bridge.py", "source_location": null, "weight": 0.8},
+    {"source": "mcpbridge_module", "target": "aimodel_groqmodel", "relation": "conceptually_related_to", "confidence": "INFERRED", "confidence_score": 0.8, "source_file": "modules/mcp_agent_bridge.py", "source_location": "line 15", "weight": 0.8},
+    {"source": "mcpbridge_module", "target": "aimodel_ollamamodel", "relation": "conceptually_related_to", "confidence": "INFERRED", "confidence_score": 0.8, "source_file": "modules/mcp_agent_bridge.py", "source_location": "line 16", "weight": 0.8},
+
+    {"source": "memorystore_module", "target": "memorystore_db_path", "relation": "shares_data_with", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/memory_store.py", "source_location": "line 27", "weight": 1.0},
+    {"source": "memorystore_module", "target": "memorystore_ddl_main", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/memory_store.py", "source_location": "line 29", "weight": 1.0},
+    {"source": "memorystore_module", "target": "memorystore_ddl_fts", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/memory_store.py", "source_location": "line 45", "weight": 1.0},
+    {"source": "memorystore_module", "target": "ext_sqlite3", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "modules/memory_store.py", "source_location": "line 13", "weight": 1.0},
+    {"source": "memorystore_module", "target": "llmevaluator_outcomerecorder", "relation": "conceptually_related_to", "confidence": "INFERRED", "confidence_score": 0.75, "source_file": "modules/memory_store.py", "source_location": null, "weight": 0.8},
+
+    {"source": "llmclient_llmclient", "target": "lazyredopgpt_main", "relation": "semantically_similar_to", "confidence": "INFERRED", "confidence_score": 0.7, "source_file": "modules/llm_client.py", "source_location": null, "weight": 0.7},
+    {"source": "llmclient_llmclient", "target": "lazysearchbot_main", "relation": "semantically_similar_to", "confidence": "INFERRED", "confidence_score": 0.7, "source_file": "modules/llm_client.py", "source_location": null, "weight": 0.7},
+    {"source": "lazyredopgpt_main", "target": "llmfactory_get_llm_backend", "relation": "conceptually_related_to", "confidence": "INFERRED", "confidence_score": 0.7, "source_file": "modules/lazyredopgpt.py", "source_location": null, "weight": 0.7},
+    {"source": "lazysearchbot_main", "target": "llmfactory_get_llm_backend", "relation": "conceptually_related_to", "confidence": "INFERRED", "confidence_score": 0.7, "source_file": "modules/lazysearch_bot.py", "source_location": null, "weight": 0.7},
+
+    {"source": "listenermanager_listenermanager", "target": "lazysmbrelay_start_smb_server", "relation": "conceptually_related_to", "confidence": "INFERRED", "confidence_score": 0.7, "source_file": "modules/listener_manager.py", "source_location": null, "weight": 0.7},
+    {"source": "lazysmbrelay_check_sudo", "target": "lazypwn_binaryfinder", "relation": "conceptually_related_to", "confidence": "INFERRED", "confidence_score": 0.7, "source_file": "modules/lazysmbrelay.py", "source_location": null, "weight": 0.7}
+  ],
+  "hyperedges": [
+    {"id": "llm_factory_dispatch", "members": ["llmfactory_get_llm_backend", "aimodel_groqmodel", "aimodel_ollamamodel"], "relation": "conceptually_related_to", "confidence": "EXTRACTED", "confidence_score": 0.95, "source_file": "modules/llm_factory.py", "weight": 1.0},
+    {"id": "llm_infra_triad", "members": ["llmclient_llmclient", "llmfactory_get_llm_backend", "mcpbridge_make_client"], "relation": "semantically_similar_to", "confidence": "INFERRED", "confidence_score": 0.8, "source_file": null, "weight": 0.9},
+    {"id": "groq_consumers", "members": ["lazyredopgpt_main", "lazysearchbot_main", "mcpbridge_make_client"], "relation": "shares_data_with", "confidence": "INFERRED", "confidence_score": 0.85, "source_file": null, "weight": 0.9}
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

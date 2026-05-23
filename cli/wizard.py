@@ -57,9 +57,7 @@ _WORDLIST_KEYS: dict[str, tuple[str, str]] = {
     ),
 }
 
-_IP_RE = re.compile(
-    r"^((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)$"
-)
+_IP_RE = re.compile(r"^((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)$")
 
 _BINARY_NAME_RE = re.compile(r"\A[A-Za-z0-9_.+-]{1,64}\Z")
 
@@ -241,10 +239,7 @@ def _collect_values(params: dict[str, Any]) -> dict[str, Any]:
 
 def _ask_rhost(current: Any) -> str | None:
     _console.print("[bold white]Step 1 of 7 — Target IP (rhost)[/]")
-    _console.print(
-        "  [dim]The IP address of the machine you are testing.  "
-        "Example: 10.10.11.5 or 192.168.1.100[/]"
-    )
+    _console.print("  [dim]The IP address of the machine you are testing.  Example: 10.10.11.5 or 192.168.1.100[/]")
     prompt = f"  rhost [{current or 'not set'}]: "
     raw = _prompt(prompt)
     if not raw:
@@ -271,9 +266,7 @@ def _ask_lhost(current: Any) -> str | None:
     detected = _detect_lhost()
     effective_default = current or detected
     _console.print("[bold white]Step 2 of 7 — Attacker IP (lhost)[/]")
-    _console.print(
-        "  [dim]Your machine's IP on the VPN or target network (tun0, eth0, etc.)[/]"
-    )
+    _console.print("  [dim]Your machine's IP on the VPN or target network (tun0, eth0, etc.)[/]")
     if detected and detected != current:
         _console.print(f"  [dim cyan]Auto-detected: {detected}[/]")
     prompt = f"  lhost [{effective_default or 'not set'}]: "
@@ -322,10 +315,7 @@ def _ask_device(current: Any) -> str | None:
     detected = _detect_device()
     effective_default = current or detected
     _console.print("[bold white]Step 4 of 7 — Network interface (device)[/]")
-    _console.print(
-        "  [dim]Interface facing the target network.  "
-        "Example: tun0, eth0, ens33[/]"
-    )
+    _console.print("  [dim]Interface facing the target network.  Example: tun0, eth0, ens33[/]")
     if detected and detected != current:
         _console.print(f"  [dim cyan]Auto-detected: {detected}[/]")
     prompt = f"  device [{effective_default or 'not set'}]: "
@@ -347,10 +337,7 @@ def _ask_device(current: Any) -> str | None:
 
 def _ask_os_id(current: Any) -> str | None:
     _console.print("[bold white]Step 5 of 7 — Target OS[/]")
-    _console.print(
-        "  [dim]1 = Linux, 2 = Windows.  "
-        "Affects which commands the framework recommends.[/]"
-    )
+    _console.print("  [dim]1 = Linux, 2 = Windows.  Affects which commands the framework recommends.[/]")
     current_label = "Linux" if str(current) == "1" else "Windows"
     prompt = f"  os_id [{current} = {current_label}]  enter 1 (Linux) or 2 (Windows): "
     raw = _prompt(prompt)
@@ -397,12 +384,14 @@ def _ask_wordlists(params: dict[str, Any]) -> dict[str, Any]:
     else:
         _warn("SecLists not found.  Install with:")
         _console.print("    [bold]sudo apt install seclists[/]  or")
-        _console.print("    [bold]git clone https://github.com/danielmiessler/SecLists /usr/share/wordlists/SecLists-master[/]")
+        _console.print(
+            "    [bold]git clone https://github.com/danielmiessler/SecLists /usr/share/wordlists/SecLists-master[/]"
+        )
         _console.print()
         return {}
 
     updates: dict[str, Any] = {}
-    for key, (rel_path, description) in _WORDLIST_KEYS.items():
+    for key, (rel_path, _description) in _WORDLIST_KEYS.items():
         candidate = Path(base) / rel_path
         current = params.get(key)
         if candidate.exists():
@@ -558,7 +547,7 @@ def _print_next_steps(params: dict[str, Any]) -> None:
     else:
         _console.print(f"    1. [bold]lazynmap[/]          — scan {rhost}")
         _console.print(f"    2. [bold]auto_populate[/]     — populate facts for {rhost}")
-        _console.print(f"    3. [bold]palette recon[/]     — browse recon commands")
+        _console.print("    3. [bold]palette recon[/]     — browse recon commands")
     _console.print("    Run [bold]wizard[/] again at any time to reconfigure.")
     _console.print()
 

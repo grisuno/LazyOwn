@@ -6,6 +6,7 @@ MITRE technique ID fallback.
 """
 
 import glob
+
 import yaml
 
 for path in sorted(glob.glob("playbooks/apt_*.yaml")):

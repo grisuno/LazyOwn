@@ -35,6 +35,7 @@ from typing import Any, Callable, Iterable, Protocol, Sequence
 
 # ── Protocols (Interface Segregation) ────────────────────────────────────────
 
+
 class PayloadProvider(Protocol):
     """Read-only view onto ``payload.json`` style configuration."""
 
@@ -68,6 +69,7 @@ class CommandInfo:
 
 # ── Fuzzy command index (item 4) ─────────────────────────────────────────────
 
+
 @dataclass(frozen=True)
 class FuzzyMatch:
     """A scored fuzzy match against a CommandInfo."""
@@ -93,10 +95,7 @@ class FuzzyCommandIndex:
         q = (query or "").strip().lower()
         commands = self._source.commands()
         if not q:
-            return [
-                FuzzyMatch(info=c, score=1.0, matched_field="name")
-                for c in commands[:limit]
-            ]
+            return [FuzzyMatch(info=c, score=1.0, matched_field="name") for c in commands[:limit]]
         scored: list[FuzzyMatch] = []
         for c in commands:
             best_score, best_field = self._score(c, q)
@@ -132,6 +131,7 @@ class FuzzyCommandIndex:
 
 
 # ── Payload-aware completion (item 5) ────────────────────────────────────────
+
 
 @dataclass(frozen=True)
 class CompletionResult:
@@ -229,6 +229,7 @@ class PayloadAwareCompleter:
 
 # ── Dynamic alias resolution (item 6) ────────────────────────────────────────
 
+
 class AliasResolver(ABC):
     """Resolves alias templates into executable command strings."""
 
@@ -263,6 +264,7 @@ class DynamicAliasResolver(AliasResolver):
 
 
 # ── Hot reload (item 7) ──────────────────────────────────────────────────────
+
 
 class HotReloader(ABC):
     """Notify subscribers when a watched directory changes."""
@@ -301,7 +303,9 @@ class AddonHotReloader(HotReloader):
         self._snapshot = self._scan()
         self._stop.clear()
         self._thread = threading.Thread(
-            target=self._loop, name="lazyown-hotreload", daemon=True,
+            target=self._loop,
+            name="lazyown-hotreload",
+            daemon=True,
         )
         self._thread.start()
 
@@ -351,6 +355,7 @@ class AddonHotReloader(HotReloader):
 
 
 # ── Live status tail (item 8) ────────────────────────────────────────────────
+
 
 @dataclass(frozen=True)
 class StatusUpdate:
@@ -406,6 +411,7 @@ class LiveStatusTail:
 
 
 # ── Transcript grep (item 10) ────────────────────────────────────────────────
+
 
 @dataclass
 class TranscriptEntry:
@@ -475,12 +481,14 @@ class TranscriptStore:
                 continue
             for i, line in enumerate(entry.output.splitlines(), 1):
                 if rx.search(line):
-                    matches.append({
-                        "command": entry.command,
-                        "line_no": i,
-                        "line": line[:240],
-                        "ts": entry.timestamp,
-                    })
+                    matches.append(
+                        {
+                            "command": entry.command,
+                            "line_no": i,
+                            "line": line[:240],
+                            "ts": entry.timestamp,
+                        }
+                    )
                     if len(matches) >= limit:
                         return matches
         return matches
@@ -501,12 +509,17 @@ class TranscriptStore:
         try:
             self._dir.mkdir(parents=True, exist_ok=True)
             with self._path.open("a", encoding="utf-8") as fh:
-                fh.write(json.dumps({
-                    "ts": entry.timestamp,
-                    "command": entry.command,
-                    "output": entry.output,
-                    "artefacts": list(entry.artefacts),
-                }) + "\n")
+                fh.write(
+                    json.dumps(
+                        {
+                            "ts": entry.timestamp,
+                            "command": entry.command,
+                            "output": entry.output,
+                            "artefacts": list(entry.artefacts),
+                        }
+                    )
+                    + "\n"
+                )
         except OSError:
             pass
 
@@ -521,18 +534,21 @@ class TranscriptStore:
         for raw in lines[-self._capacity :]:
             try:
                 d = json.loads(raw)
-                loaded.append(TranscriptEntry(
-                    timestamp=float(d.get("ts", 0)),
-                    command=d.get("command", ""),
-                    output=d.get("output", ""),
-                    artefacts=tuple(d.get("artefacts", []) or ()),
-                ))
+                loaded.append(
+                    TranscriptEntry(
+                        timestamp=float(d.get("ts", 0)),
+                        command=d.get("command", ""),
+                        output=d.get("output", ""),
+                        artefacts=tuple(d.get("artefacts", []) or ()),
+                    )
+                )
             except (json.JSONDecodeError, ValueError):
                 continue
         self._buffer = loaded
 
 
 # ── Interactive forms (item 11) ──────────────────────────────────────────────
+
 
 @dataclass(frozen=True)
 class FormField:
@@ -593,10 +609,7 @@ class InteractiveForm:
                 self._io.emit(f"  [!] {field_spec.name} is required.")
                 value = self._io.prompt(label, "")
             if field_spec.options and value not in field_spec.options:
-                self._io.emit(
-                    f"  [!] {value!r} not in allowed options "
-                    f"{list(field_spec.options)}; using default."
-                )
+                self._io.emit(f"  [!] {value!r} not in allowed options {list(field_spec.options)}; using default.")
                 value = "" if current_default is None else str(current_default)
             merged[field_spec.name] = value if value != "" else current_default
         return merged
@@ -616,6 +629,7 @@ class InteractiveForm:
 
 
 # ── Adaptors (Concrete glue, easy to swap in tests) ──────────────────────────
+
 
 class DictPayloadProvider:
     """Wrap any plain ``dict`` so it satisfies :class:`PayloadProvider`."""

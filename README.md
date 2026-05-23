@@ -12906,6 +12906,34 @@ No description available.
 # Changelog
 
 
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): some new feats \n\n Version: release/0.2.138 \n\n with love \n\n Modified file(s):\n- .gitignore - AGENTS.md - CHEATSHEET.md - ESSENTIALS.md - PLAN_WORLDCLASS.md - QUICKSTART.md - cli/commands/__init__.py - cli/commands/enum.py - cli/commands/recon.py - cli/lazynmap_post.py - cli/recon_plan.py - knowledge_base_vuln.json - lazyown.py - modules/knowledge_base_vuln.json - scripts/setup_hermes_mcp.sh - skills/README.md - skills/lazyown/README.md - skills/lazyown/SKILL.md - soul.md - tests/test_lazynmap_post.py - tests/test_recon_plan.py\nDeleted file(s):\n- knowledge_base_vuln.json - modules/knowledge_base_vuln.json\nCreated file(s):\n- AGENTS.md - CHEATSHEET.md - ESSENTIALS.md - PLAN_WORLDCLASS.md - cli/commands/enum.py - cli/commands/recon.py - cli/lazynmap_post.py - cli/recon_plan.py - scripts/setup_hermes_mcp.sh - skills/lazyown/README.md - skills/lazyown/SKILL.md - soul.md - tests/test_lazynmap_post.py - tests/test_recon_plan.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: vie 22 may 2026 21:52:50 -04 \n\n Hora: 1779501170
+
+
+### Otros
+
+### Otros
+
+  *   * Batch A: migrate 22 do_* methods to phase-scoped CommandSets + Hermes-friendly docs
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(lazynmap): generate recon plan from trigger catalog after scan
+
+
+### Otros
+
+### Otros
+
+  *   * chore(dedup): untrack runtime cache knowledge_base_vuln.json
+
+
 ### Refactorización
 
 ### Otros

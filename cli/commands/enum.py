@@ -7,26 +7,24 @@ impacket tools.
 from __future__ import annotations
 
 import os
-import shlex
 
 import cmd2
 
 from cli.commands._base import LazyOwnCommandSet
+from core.validators import check_lhost
 from utils import (
     GREEN,
     RESET,
-    print_error,
-    print_msg,
-    print_warn,
-    scanning_category,
-    exploitation_category,
     check_rhost,
-    is_binary_present,
-    is_package_installed,
+    copy2clip,
+    exploitation_category,
     get_credentials,
     get_domain,
+    get_hash,
     get_users_dic,
-    run_command,
+    print_error,
+    print_msg,
+    scanning_category,
 )
 
 
@@ -65,7 +63,6 @@ class EnumCommandSet(LazyOwnCommandSet):
 
         if not os.path.exists(path_cred):
             if line:
-
                 nargs = len(line.split(" "))
                 if nargs == 1:
                     print_msg(f"Try .. smbclient -N \\\\{rhost}\\\\{line} {RESET}")
@@ -84,7 +81,9 @@ class EnumCommandSet(LazyOwnCommandSet):
             print_msg(
                 f'Exploit smb if is posible mount -t cifs -o rw,username=guest,password= "//{rhost}/share" /mnt/smb '
             )
-            print_msg('find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \\;')
+            print_msg(
+                'find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \\;'
+            )
 
             return
         else:
@@ -100,7 +99,9 @@ class EnumCommandSet(LazyOwnCommandSet):
                     print_msg(
                         f'Exploit smb if is posible mount -t cifs -o rw,username=guest,password= "//{rhost}/share" /mnt/smb '
                     )
-                    print_msg('find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \\;')
+                    print_msg(
+                        'find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \\;'
+                    )
                     return
 
     @cmd2.with_category(scanning_category)
@@ -123,7 +124,7 @@ class EnumCommandSet(LazyOwnCommandSet):
         lhost = self.params["lhost"]
         path_cred = "sessions/credentials.txt"
         url = self.params["url"]
-        domain = get_domain(url)
+        get_domain(url)
         if not check_rhost(rhost):
             return
 
@@ -132,7 +133,6 @@ class EnumCommandSet(LazyOwnCommandSet):
 
         if not os.path.exists(path_cred):
             if line:
-
                 nargs = len(line.split(" "))
                 if nargs == 1:
                     print_msg(f"Try .. impacket-smbclient -N \\\\{rhost}\\\\{line} {RESET}")
@@ -151,7 +151,9 @@ class EnumCommandSet(LazyOwnCommandSet):
             print_msg(
                 f'Exploit smb if is posible mount -t cifs -o rw,username=guest,password= "//{rhost}/share" /mnt/smb '
             )
-            print_msg('find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \\;')
+            print_msg(
+                'find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \\;'
+            )
 
             return
         else:
@@ -167,7 +169,9 @@ class EnumCommandSet(LazyOwnCommandSet):
                     print_msg(
                         f'Exploit smb if is posible mount -t cifs -o rw,username=guest,password= "//{rhost}/share" /mnt/smb '
                     )
-                    print_msg('find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \\;')
+                    print_msg(
+                        'find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \\;'
+                    )
                     return
 
     @cmd2.with_category(scanning_category)
@@ -190,7 +194,7 @@ class EnumCommandSet(LazyOwnCommandSet):
         lhost = self.params["lhost"]
         path_cred = "sessions/credentials.txt"
         url = self.params["url"]
-        domain = get_domain(url)
+        get_domain(url)
         if not check_rhost(rhost):
             return
 
@@ -212,9 +216,10 @@ class EnumCommandSet(LazyOwnCommandSet):
                     print_msg(
                         f'Exploit smb if is posible mount -t cifs -o rw,username=guest,password= "//{rhost}/share" /mnt/smb '
                     )
-                    print_msg('find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \\;')
+                    print_msg(
+                        'find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \\;'
+                    )
                     return
-
 
     @cmd2.with_category(scanning_category)
     def do_smbmap(self, line):
@@ -248,7 +253,7 @@ class EnumCommandSet(LazyOwnCommandSet):
                 return
             else:
                 if line.startswith("hash"):
-                    username = input("    [!] Enter a valid username (default: henry.vinson): ") or 'henry.vinson'
+                    username = input("    [!] Enter a valid username (default: henry.vinson): ") or "henry.vinson"
                     domain = input(f"    [!] Enter a valid domain (default: {domain}): ") or domain
                     rhost = input(f"    [!] Enter a valid host (default: {rhost}): ") or rhost
                     hashis = get_hash()
@@ -263,7 +268,9 @@ class EnumCommandSet(LazyOwnCommandSet):
                     print_msg(
                         f'exploit smb if is posible mount -t cifs -o rw,username=guest,password= "//{rhost}/documents" /mnt/smb '
                     )
-                    print_msg('find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \\;')
+                    print_msg(
+                        'find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \\;'
+                    )
                     return
         else:
             path_cred = get_credentials(True)
@@ -276,12 +283,16 @@ class EnumCommandSet(LazyOwnCommandSet):
                 command_try = input(f"    {GREEN}[!] Enter the command to try (default: whoami): ") or "whoami"
                 execute += command_try
             else:
-
-                if_search =  input(f"    {GREEN}[?] Do you wanna try search files (y/n)") or "n"
+                if_search = input(f"    {GREEN}[?] Do you wanna try search files (y/n)") or "n"
                 if if_search == "y":
                     execute = " -A "
 
-                    command_try = input(f"    {GREEN}[!] Enter the share for potentially interesting files [default: (xlsx|docx|txt|xml)]: ") or "(xlsx|docx|txt|xml)"
+                    command_try = (
+                        input(
+                            f"    {GREEN}[!] Enter the share for potentially interesting files [default: (xlsx|docx|txt|xml)]: "
+                        )
+                        or "(xlsx|docx|txt|xml)"
+                    )
                     execute += f"'{command_try}' -R"
                 else:
                     execute = ""
@@ -301,7 +312,9 @@ class EnumCommandSet(LazyOwnCommandSet):
                     print_msg(
                         f'Exploit smb if is posible mount -t cifs -o rw,username=guest,password= "//{rhost}/share" /mnt/smb '
                     )
-                    print_msg('find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \\;')
+                    print_msg(
+                        'find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \\;'
+                    )
                     return
                 else:
                     command = f"smbmap -u {user} -p {passwd} -H {rhost}"
@@ -311,7 +324,9 @@ class EnumCommandSet(LazyOwnCommandSet):
                     print_msg(
                         f'Exploit smb if is posible mount -t cifs -o rw,username=guest,password= "//{rhost}/share" /mnt/smb '
                     )
-                    print_msg('find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \\;')
+                    print_msg(
+                        'find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \\;'
+                    )
                     return
             else:
                 command = f"cd sessions && smbmap -u {user} -p {passwd} -d {domain} -H {rhost} {execute}"
@@ -320,10 +335,11 @@ class EnumCommandSet(LazyOwnCommandSet):
                 print_msg(
                     f'Exploit smb if is posible mount -t cifs -o rw,username=guest,password= "//{rhost}/share" /mnt/smb '
                 )
-                print_msg('find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \\;')
+                print_msg(
+                    'find /mnt/smb -type d -exec sh -c \'touch "$0/x" 2>/dev/null && echo "$0 is writable" && rm "$0/x"\' {} \\;'
+                )
                 return
         return
-
 
     @cmd2.with_category(scanning_category)
     def do_getnpusers(self, line):
@@ -356,20 +372,19 @@ class EnumCommandSet(LazyOwnCommandSet):
         else:
             if line.startswith("hashs"):
                 hashes = get_users_dic()
-                username = input("   [!] Enter username to sprayhashes (default: admin) ") or 'admin'
-                with open(hashes, 'r') as file:
+                username = input("   [!] Enter username to sprayhashes (default: admin) ") or "admin"
+                with open(hashes, "r") as file:
                     hashes = file.readlines()
                     for hash_line in hashes:
                         hash_line = hash_line.strip()
                         if hash_line:
-                            command = f'GetNPUsers.py -hashes {hash_line} {domain}/{username} -dc-ip {rhost}'
+                            command = f"GetNPUsers.py -hashes {hash_line} {domain}/{username} -dc-ip {rhost}"
                             print_msg(command)
                             self.cmd(command)
-                            #choice = input("    [!] Continue ? (y/n)") or "n"
-                            #if choice == "n":
+                            # choice = input("    [!] Continue ? (y/n)") or "n"
+                            # if choice == "n":
                             #    return
         return
-
 
     @cmd2.with_category(exploitation_category)
     def do_psexec(self, line):
@@ -392,7 +407,6 @@ class EnumCommandSet(LazyOwnCommandSet):
         None
         """
         rhost = self.params["rhost"]
-
 
         if not check_rhost(rhost):
             return
@@ -417,7 +431,7 @@ class EnumCommandSet(LazyOwnCommandSet):
             else:
                 hashis = f"-hashes :{hash_value}"
 
-            user = input("    [!] Enter Username (default: Administrator): ") or 'Administrator'
+            user = input("    [!] Enter Username (default: Administrator): ") or "Administrator"
             command = f"impacket-psexec {user}@{rhost} {hashis}"
             print_msg(command)
             self.cmd(command)
@@ -427,7 +441,6 @@ class EnumCommandSet(LazyOwnCommandSet):
             print_msg(command)
             self.cmd(command)
         return
-
 
     @cmd2.with_category(exploitation_category)
     def do_psexec_py(self, line):
@@ -450,7 +463,6 @@ class EnumCommandSet(LazyOwnCommandSet):
         None
         """
         rhost = self.params["rhost"]
-
 
         if not check_rhost(rhost):
             return
@@ -475,7 +487,7 @@ class EnumCommandSet(LazyOwnCommandSet):
             else:
                 hashis = f"-hashes :{hash_value}"
 
-            user = input("    [!] Enter Username (default: Administrator): ") or 'Administrator'
+            user = input("    [!] Enter Username (default: Administrator): ") or "Administrator"
             command = f"psexec.py {user}@{rhost} {hashis}"
             print_msg(command)
             self.cmd(command)
@@ -485,7 +497,6 @@ class EnumCommandSet(LazyOwnCommandSet):
             print_msg(command)
             self.cmd(command)
         return
-
 
     @cmd2.with_category(scanning_category)
     def do_rpcdump(self, line):
@@ -512,7 +523,6 @@ class EnumCommandSet(LazyOwnCommandSet):
             print_msg(f"Try... rpcdump.py -p 593 {rhost}{RESET}")
             self.cmd(f"rpcdump.py -p 593 {rhost}")
         return
-
 
     @cmd2.with_category(scanning_category)
     def do_enum4linux(self, line):
@@ -543,7 +553,6 @@ class EnumCommandSet(LazyOwnCommandSet):
         print_msg(f"Try... enum4linux -a {rhost} {RESET}")
         self.cmd(f"enum4linux -a {rhost}")
         return
-
 
     @cmd2.with_category(scanning_category)
     def do_rpcclient(self, line):
@@ -591,13 +600,10 @@ class EnumCommandSet(LazyOwnCommandSet):
                         self.cmd(command)
 
         else:
-
             command = f"rpcclient -U {machine}/{line} {rhost}"
             print_msg(f"Try... {GREEN} {command} {RESET}")
             self.cmd(command)
         return
-
-
 
 
 __all__ = ["EnumCommandSet"]

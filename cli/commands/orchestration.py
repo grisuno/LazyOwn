@@ -18,9 +18,8 @@ from __future__ import annotations
 
 import argparse
 import json
-import shlex
 from dataclasses import dataclass
-from typing import Any, Mapping
+from typing import Any
 
 from cmd2 import with_argparser, with_category
 
@@ -214,7 +213,7 @@ class OrchestrationCommandSet(LazyOwnCommandSet):
         base = getattr(shell, "custom_prompt", None) or getattr(shell, "prompt", "")
         if not isinstance(base, str):
             base = ""
-        setattr(shell, "prompt", manager.render_prompt(base))
+        shell.prompt = manager.render_prompt(base)
         print(manager.render_plain_line(manager.collect_context()))
 
     def _status_bar_toggle(self, manager: Any, enabled: bool) -> None:
@@ -232,10 +231,7 @@ class OrchestrationCommandSet(LazyOwnCommandSet):
         summary = getattr(result, "summary", "") or "(no summary)"
         request_id = getattr(result, "request_id", "") or "-"
         duration = getattr(result, "duration", 0.0)
-        return (
-            f"[{backend}] {status} request={request_id} "
-            f"duration={duration:.3f}s\n  {summary}"
-        )
+        return f"[{backend}] {status} request={request_id} duration={duration:.3f}s\n  {summary}"
 
 
 __all__ = ["OrchestrationCommandSet", "OrchestrationConfig"]

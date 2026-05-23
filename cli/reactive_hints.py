@@ -48,41 +48,41 @@ SKIP_COMMANDS: frozenset[str] = frozenset(
 
 # Ordered kill-chain: after running X, suggest Y (phase-agnostic sensible defaults)
 _KILL_CHAIN_NEXT: dict[str, list[str]] = {
-    "ping":          ["lazynmap", "arpscan", "hosts_discovery"],
-    "lazynmap":      ["gobuster", "ffuf", "enum4linux", "searchsploit"],
-    "rustscan":      ["gobuster", "ffuf", "enum4linux", "searchsploit"],
-    "nmap":          ["gobuster", "ffuf", "enum4linux", "searchsploit"],
-    "gobuster":      ["ffuf", "nikto", "whatweb", "feroxbuster"],
-    "ffuf":          ["nikto", "whatweb", "burpsuite", "sqlmap"],
-    "enum4linux":    ["crackmapexec", "secretsdump", "kerbrute"],
-    "crackmapexec":  ["secretsdump", "evil-winrm", "psexec"],
-    "secretsdump":   ["evil-winrm", "psexec", "hashcat"],
-    "linpeas":       ["pspy64", "find_suid", "sudo_privesc"],
-    "winpeas":       ["printspoofer", "juicypotato", "whoami_priv"],
-    "searchsploit":  ["lazynmap", "gobuster", "exploit_db"],
-    "kerbrute":      ["GetNPUsers", "GetUserSPNs", "crackmapexec"],
-    "nikto":         ["sqlmap", "burpsuite", "ffuf"],
-    "whatweb":       ["gobuster", "nikto", "burpsuite"],
-    "feroxbuster":   ["ffuf", "nikto", "whatweb"],
-    "sqlmap":        ["burpsuite", "ffuf", "wfuzz"],
-    "hashcat":       ["evil-winrm", "ssh", "crackmapexec"],
-    "john":          ["evil-winrm", "ssh", "crackmapexec"],
-    "evil-winrm":    ["winpeas", "secretsdump", "mimikatz"],
-    "ssh":           ["linpeas", "pspy64", "sudo_privesc"],
-    "ftp":           ["gobuster", "enum4linux", "searchsploit"],
-    "smb":           ["enum4linux", "crackmapexec", "secretsdump"],
-    "responder":     ["crackmapexec", "hashcat", "secretsdump"],
+    "ping": ["lazynmap", "arpscan", "hosts_discovery"],
+    "lazynmap": ["gobuster", "ffuf", "enum4linux", "searchsploit"],
+    "rustscan": ["gobuster", "ffuf", "enum4linux", "searchsploit"],
+    "nmap": ["gobuster", "ffuf", "enum4linux", "searchsploit"],
+    "gobuster": ["ffuf", "nikto", "whatweb", "feroxbuster"],
+    "ffuf": ["nikto", "whatweb", "burpsuite", "sqlmap"],
+    "enum4linux": ["crackmapexec", "secretsdump", "kerbrute"],
+    "crackmapexec": ["secretsdump", "evil-winrm", "psexec"],
+    "secretsdump": ["evil-winrm", "psexec", "hashcat"],
+    "linpeas": ["pspy64", "find_suid", "sudo_privesc"],
+    "winpeas": ["printspoofer", "juicypotato", "whoami_priv"],
+    "searchsploit": ["lazynmap", "gobuster", "exploit_db"],
+    "kerbrute": ["GetNPUsers", "GetUserSPNs", "crackmapexec"],
+    "nikto": ["sqlmap", "burpsuite", "ffuf"],
+    "whatweb": ["gobuster", "nikto", "burpsuite"],
+    "feroxbuster": ["ffuf", "nikto", "whatweb"],
+    "sqlmap": ["burpsuite", "ffuf", "wfuzz"],
+    "hashcat": ["evil-winrm", "ssh", "crackmapexec"],
+    "john": ["evil-winrm", "ssh", "crackmapexec"],
+    "evil-winrm": ["winpeas", "secretsdump", "mimikatz"],
+    "ssh": ["linpeas", "pspy64", "sudo_privesc"],
+    "ftp": ["gobuster", "enum4linux", "searchsploit"],
+    "smb": ["enum4linux", "crackmapexec", "secretsdump"],
+    "responder": ["crackmapexec", "hashcat", "secretsdump"],
 }
 
 _PHASE_PRIORITY: dict[str, list[str]] = {
-    "recon":   ["ping", "lazynmap", "rustscan", "arpscan", "whois"],
-    "enum":    ["gobuster", "ffuf", "enum4linux", "nikto", "whatweb", "feroxbuster", "kerbrute"],
+    "recon": ["ping", "lazynmap", "rustscan", "arpscan", "whois"],
+    "enum": ["gobuster", "ffuf", "enum4linux", "nikto", "whatweb", "feroxbuster", "kerbrute"],
     "exploit": ["searchsploit", "crackmapexec", "sqlmap", "burpsuite", "evil-winrm"],
     "privesc": ["linpeas", "winpeas", "pspy64", "sudo_privesc", "printspoofer"],
     "lateral": ["crackmapexec", "evil-winrm", "chisel", "secretsdump", "psexec"],
-    "cred":    ["hashcat", "john", "responder", "kerbrute", "secretsdump"],
+    "cred": ["hashcat", "john", "responder", "kerbrute", "secretsdump"],
     "postexp": ["linpeas", "winpeas", "mimikatz", "secretsdump", "whoami_priv"],
-    "exfil":   ["download_c2", "nc", "curl", "scp", "rsync"],
+    "exfil": ["download_c2", "nc", "curl", "scp", "rsync"],
 }
 
 _MAX_LABEL_LEN: int = 24
@@ -212,10 +212,7 @@ def render_command_hints(
     already_run = _read_run_commands(sessions_dir)
 
     # 1. Kill-chain adjacency: known follow-up for this specific command
-    candidates: list[str] = [
-        c for c in _KILL_CHAIN_NEXT.get(cmd, [])
-        if c not in already_run
-    ]
+    candidates: list[str] = [c for c in _KILL_CHAIN_NEXT.get(cmd, []) if c not in already_run]
 
     # 2. Phase priority fallback
     if len(candidates) < limit:

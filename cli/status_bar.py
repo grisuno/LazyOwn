@@ -29,11 +29,10 @@ from __future__ import annotations
 
 import csv
 import json
-import os
 import re
-from dataclasses import dataclass, field, replace
+from dataclasses import dataclass, replace
 from pathlib import Path
-from typing import Any, Callable, Mapping, Optional, Protocol, Sequence
+from typing import Any, Callable, Mapping, Protocol, Sequence
 
 
 @dataclass(frozen=True)
@@ -85,7 +84,7 @@ class StatusBarConfig:
     falsy_strings: tuple[str, ...] = ("0", "false", "no", "off")
 
     @classmethod
-    def from_payload(cls, payload: Mapping[str, Any] | None) -> "StatusBarConfig":
+    def from_payload(cls, payload: Mapping[str, Any] | None) -> StatusBarConfig:
         """Return a config with overrides applied from a ``payload.json`` mapping.
 
         Args:
@@ -198,7 +197,7 @@ class FileSystemReader:
         except (ValueError, json.JSONDecodeError):
             return None
 
-    def glob_latest(self, pattern: str) -> Optional[Path]:
+    def glob_latest(self, pattern: str) -> Path | None:
         """Return the most recently modified path matching ``pattern``.
 
         Args:
@@ -223,7 +222,7 @@ class FileSystemReader:
             return None
         return chosen
 
-    def _safe_path(self, relative: str) -> Optional[Path]:
+    def _safe_path(self, relative: str) -> Path | None:
         if not relative or self._has_traversal(relative):
             return None
         candidate = (self._root / relative).resolve()
@@ -326,11 +325,7 @@ class SessionFindingSource:
         if candidate is None:
             return ""
         try:
-            payload = json.loads(
-                candidate.read_bytes()[: self._config.max_file_bytes].decode(
-                    "utf-8", errors="ignore"
-                )
-            )
+            payload = json.loads(candidate.read_bytes()[: self._config.max_file_bytes].decode("utf-8", errors="ignore"))
         except (OSError, ValueError, json.JSONDecodeError):
             return ""
         items = self._extract_vuln_items(payload)
@@ -411,7 +406,7 @@ class CommandHintSuggestionSource:
         config: StatusBarConfig,
         reader: FileSystemReader,
         phase_provider: Callable[[], str],
-        hint_provider: Optional[Callable[[str, str, str, int], list[str]]] = None,
+        hint_provider: Callable[[str, str, str, int], list[str]] | None = None,
     ) -> None:
         """Bind to config, reader and the current-phase callable.
 
@@ -480,7 +475,7 @@ class CommandHintSuggestionSource:
         return ""
 
     @staticmethod
-    def _default_provider() -> Optional[Callable[[str, str, str, int], list[str]]]:
+    def _default_provider() -> Callable[[str, str, str, int], list[str]] | None:
         try:
             from cli.reactive_hints import command_hints
         except ImportError:
@@ -701,7 +696,7 @@ class StatusBarManager:
             return base_prompt
         return self._renderer.render_prompt(self.collect_context(), base_prompt)
 
-    def render_plain_line(self, ctx: Optional[StatusContext] = None) -> str:
+    def render_plain_line(self, ctx: StatusContext | None = None) -> str:
         """Return the rendered status line without ANSI / readline markers.
 
         Args:
@@ -747,9 +742,7 @@ class StatusBarManager:
         """
         if shell is None or not hasattr(shell, "register_precmd_hook"):
             return False
-        base_prompt = getattr(shell, base_prompt_attribute, None) or getattr(
-            shell, prompt_attribute, ""
-        )
+        base_prompt = getattr(shell, base_prompt_attribute, None) or getattr(shell, prompt_attribute, "")
         if not isinstance(base_prompt, str):
             base_prompt = ""
         try:
@@ -771,7 +764,7 @@ class StatusBarManager:
         base_prompt: str,
         base_prompt_attribute: str,
         prompt_attribute: str,
-    ) -> Optional[Callable[[Any], Any]]:
+    ) -> Callable[[Any], Any] | None:
         """Return a cmd2-compatible precmd hook or ``None`` when cmd2 is absent.
 
         cmd2 enforces strict type annotations on hook callables — the

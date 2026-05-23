@@ -56,11 +56,13 @@ def update_playbooks(index: dict[str, list[dict]], playbook_dir: str = "playbook
             existing_ids = {t["atomic_id"] for t in phase.get("atomic_tests", [])}
             for cand in candidates:
                 if cand["atomic_id"] and cand["atomic_id"] not in existing_ids:
-                    phase.setdefault("atomic_tests", []).append({
-                        "atomic_id": cand["atomic_id"],
-                        "name": cand["name"],
-                        "manual": True,
-                    })
+                    phase.setdefault("atomic_tests", []).append(
+                        {
+                            "atomic_id": cand["atomic_id"],
+                            "name": cand["name"],
+                            "manual": True,
+                        }
+                    )
                     changed = True
         if changed:
             with open(path, "w") as f:

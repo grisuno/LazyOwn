@@ -16,7 +16,7 @@ Design constraints:
 from __future__ import annotations
 
 import random
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Any, Callable
 
 from rich.console import Console
@@ -25,12 +25,32 @@ from rich.text import Text
 _console = Console(highlight=False, soft_wrap=True)
 
 # Commands after which we NEVER show a tip (noise-free zone)
-_SKIP_COMMANDS: frozenset[str] = frozenset({
-    "help", "?", "exit", "quit", "history", "shell",
-    "dashboard", "sitrep", "ctx", "phase", "note", "l00t",
-    "pivot", "tasks", "scans", "wizard", "palette", "show",
-    "set", "assign", "shortcuts", "_relative_run",
-})
+_SKIP_COMMANDS: frozenset[str] = frozenset(
+    {
+        "help",
+        "?",
+        "exit",
+        "quit",
+        "history",
+        "shell",
+        "dashboard",
+        "sitrep",
+        "ctx",
+        "phase",
+        "note",
+        "l00t",
+        "pivot",
+        "tasks",
+        "scans",
+        "wizard",
+        "palette",
+        "show",
+        "set",
+        "assign",
+        "shortcuts",
+        "_relative_run",
+    }
+)
 
 
 @dataclass(frozen=True)
@@ -46,23 +66,30 @@ class ProTip:
 def _os_linux(ctx: dict) -> bool:
     return str(ctx.get("os_id", "")) == "1"
 
+
 def _os_windows(ctx: dict) -> bool:
     return str(ctx.get("os_id", "")) == "2"
+
 
 def _has_rhost(ctx: dict) -> bool:
     return bool(ctx.get("rhost"))
 
+
 def _has_domain(ctx: dict) -> bool:
     return bool(ctx.get("domain"))
+
 
 def _has_api_key(ctx: dict) -> bool:
     return bool(ctx.get("api_key"))
 
+
 def _phase_in(ctx: dict, *phases: str) -> bool:
     return ctx.get("phase", "").lower() in phases
 
+
 def _last_cmd_is(ctx: dict, *cmds: str) -> bool:
     return ctx.get("last_cmd", "").split()[0] if ctx.get("last_cmd") else "" in cmds
+
 
 def _after(ctx: dict, *cmds: str) -> bool:
     first = (ctx.get("last_cmd") or "").split()

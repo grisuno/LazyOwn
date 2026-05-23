@@ -57,16 +57,16 @@ _FORM_SPECS: dict[str, FormSpec] = {
             FormField("smtp_pass", "SMTP password"),
             FormField("subject", "Email subject", default="Important security update"),
             FormField("from_name", "From display name", default="IT Support"),
-            FormField("track_clicks", "Track link clicks", default="true",
-                      options=("true", "false")),
+            FormField("track_clicks", "Track link clicks", default="true", options=("true", "false")),
         ),
     ),
     "venom": FormSpec(
         command="venom",
         summary="Generate an msfvenom payload.",
         fields=(
-            FormField("payload", "msfvenom payload string", required=True,
-                      default="windows/x64/meterpreter/reverse_tcp"),
+            FormField(
+                "payload", "msfvenom payload string", required=True, default="windows/x64/meterpreter/reverse_tcp"
+            ),
             FormField("lhost", "Listener host"),
             FormField("lport", "Listener port", default="4444"),
             FormField("output", "Output file path", default="sessions/payload.exe"),
@@ -120,10 +120,17 @@ class AuditCommandSet(LazyOwnCommandSet):
             payload = DictPayloadProvider(getattr(shell, "params", {}) or {})
             self._completer = PayloadAwareCompleter(
                 payload,
-                addon_lister=lambda: list((getattr(shell, "lazyaddons_dir", "") and
-                                           [p.stem for p in Path(shell.lazyaddons_dir).glob("*.yaml")]) or []),
-                plugin_lister=lambda: list((getattr(shell, "plugins_dir", "") and
-                                            [p.stem for p in Path(shell.plugins_dir).glob("*.lua")]) or []),
+                addon_lister=lambda: list(
+                    (
+                        getattr(shell, "lazyaddons_dir", "")
+                        and [p.stem for p in Path(shell.lazyaddons_dir).glob("*.yaml")]
+                    )
+                    or []
+                ),
+                plugin_lister=lambda: list(
+                    (getattr(shell, "plugins_dir", "") and [p.stem for p in Path(shell.plugins_dir).glob("*.lua")])
+                    or []
+                ),
                 credential_lister=lambda: _read_credentials(shell),
             )
         return self._completer
@@ -162,13 +169,10 @@ class AuditCommandSet(LazyOwnCommandSet):
             self._cmd.poutput(f"no match for {query!r}")
             return
         self._cmd.poutput(f"  {'score':>5}  {'cmd':<26} {'aliases':<28} summary")
-        self._cmd.poutput(f"  {'-'*5}  {'-'*26} {'-'*28} {'-'*40}")
+        self._cmd.poutput(f"  {'-' * 5}  {'-' * 26} {'-' * 28} {'-' * 40}")
         for m in matches:
             aliases = ",".join(m.info.aliases[:3])
-            self._cmd.poutput(
-                f"  {m.score:>5.2f}  {m.info.name:<26} {aliases:<28} "
-                f"{m.info.summary[:60]}"
-            )
+            self._cmd.poutput(f"  {m.score:>5.2f}  {m.info.name:<26} {aliases:<28} {m.info.summary[:60]}")
 
     @with_category("Audit")
     def do_form(self, statement) -> None:
@@ -180,8 +184,7 @@ class AuditCommandSet(LazyOwnCommandSet):
             return
         spec = _FORM_SPECS.get(argv[0])
         if spec is None:
-            self._cmd.poutput(f"no form for {argv[0]!r}; use one of "
-                              f"{sorted(_FORM_SPECS.keys())}")
+            self._cmd.poutput(f"no form for {argv[0]!r}; use one of {sorted(_FORM_SPECS.keys())}")
             return
         defaults = dict(getattr(self._cmd, "params", {}) or {})
         form = InteractiveForm()

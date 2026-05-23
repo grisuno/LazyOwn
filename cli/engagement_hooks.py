@@ -33,7 +33,6 @@ from __future__ import annotations
 
 import json
 import math
-import os
 import random
 import time
 from dataclasses import asdict, dataclass, field
@@ -69,16 +68,38 @@ ELO_FIRST_TIME_BONUS: int = 25
 ELO_NEW_PHASE_BONUS: int = 50
 
 ELO_HIGH_VALUE_CMDS: dict[str, int] = {
-    "lazynmap": 15, "rustscan": 12, "nmap": 12,
-    "gobuster": 8, "ffuf": 8, "feroxbuster": 8, "nikto": 10, "whatweb": 6,
-    "enum4linux": 12, "kerbrute": 20,
-    "crackmapexec": 25, "secretsdump": 35, "evil-winrm": 30,
-    "hashcat": 30, "john": 25, "responder": 30, "mimikatz": 35,
-    "linpeas": 25, "winpeas": 25, "pspy64": 15, "printspoofer": 20,
-    "searchsploit": 10, "sqlmap": 20, "burpsuite": 15,
-    "psexec": 25, "chisel": 15,
-    "lazyc2": 20, "phase": 10, "note": 5,
-    "tasks": 5, "sitrep": 5, "ctx": 3,
+    "lazynmap": 15,
+    "rustscan": 12,
+    "nmap": 12,
+    "gobuster": 8,
+    "ffuf": 8,
+    "feroxbuster": 8,
+    "nikto": 10,
+    "whatweb": 6,
+    "enum4linux": 12,
+    "kerbrute": 20,
+    "crackmapexec": 25,
+    "secretsdump": 35,
+    "evil-winrm": 30,
+    "hashcat": 30,
+    "john": 25,
+    "responder": 30,
+    "mimikatz": 35,
+    "linpeas": 25,
+    "winpeas": 25,
+    "pspy64": 15,
+    "printspoofer": 20,
+    "searchsploit": 10,
+    "sqlmap": 20,
+    "burpsuite": 15,
+    "psexec": 25,
+    "chisel": 15,
+    "lazyc2": 20,
+    "phase": 10,
+    "note": 5,
+    "tasks": 5,
+    "sitrep": 5,
+    "ctx": 3,
 }
 
 ELO_PHASE_BONUS: dict[str, int] = {
@@ -108,63 +129,72 @@ _PHASE_TO_NEXT_CMD: dict[str, str] = {
 }
 
 _PHASE_ALIASES: dict[str, str] = {
-    "recon": "recon", "scan": "recon", "enum": "enum",
-    "exploit": "exploit", "privesc": "privesc", "postexp": "postexp",
-    "lateral": "lateral", "cred": "cred", "persist": "persist",
-    "exfil": "exfil", "report": "report", "c2": "c2", "ai": "ai",
+    "recon": "recon",
+    "scan": "recon",
+    "enum": "enum",
+    "exploit": "exploit",
+    "privesc": "privesc",
+    "postexp": "postexp",
+    "lateral": "lateral",
+    "cred": "cred",
+    "persist": "persist",
+    "exfil": "exfil",
+    "report": "report",
+    "c2": "c2",
+    "ai": "ai",
 }
 
 _PHASE_LABEL: dict[str, str] = {
-    "recon":   "Reconnaissance",
-    "scan":    "Scanning & Enumeration",
-    "enum":    "Enumeration",
+    "recon": "Reconnaissance",
+    "scan": "Scanning & Enumeration",
+    "enum": "Enumeration",
     "exploit": "Exploitation",
     "privesc": "Privilege Escalation",
     "postexp": "Post-Exploitation",
     "lateral": "Lateral Movement",
-    "cred":    "Credential Access",
+    "cred": "Credential Access",
     "persist": "Persistence",
-    "exfil":   "Exfiltration",
-    "report":  "Reporting",
-    "c2":      "Command & Control",
-    "ai":      "AI Agents",
+    "exfil": "Exfiltration",
+    "report": "Reporting",
+    "c2": "Command & Control",
+    "ai": "AI Agents",
 }
 
 _VRI_REWARDS: list[dict[str, Any]] = [
-    {"id": "streak",             "weight": 3, "render": lambda ctx: _render_streak(ctx)},
-    {"id": "exploration_pct",    "weight": 2, "render": lambda ctx: _render_exploration(ctx)},
-    {"id": "phase_badge",        "weight": 2, "render": lambda ctx: _render_phase_badge(ctx)},
-    {"id": "hidden_feature",     "weight": 2, "render": lambda ctx: _render_hidden_feature(ctx)},
-    {"id": "arsenal_tip",        "weight": 1, "render": lambda ctx: _render_arsenal_tip(ctx)},
-    {"id": "methodology_task",   "weight": 3, "render": lambda ctx: _render_methodology_task(ctx)},
-    {"id": "methodology_obj",    "weight": 3, "render": lambda ctx: _render_methodology_objective(ctx)},
-    {"id": "methodology_note",   "weight": 2, "render": lambda ctx: _render_methodology_note(ctx)},
+    {"id": "streak", "weight": 3, "render": lambda ctx: _render_streak(ctx)},
+    {"id": "exploration_pct", "weight": 2, "render": lambda ctx: _render_exploration(ctx)},
+    {"id": "phase_badge", "weight": 2, "render": lambda ctx: _render_phase_badge(ctx)},
+    {"id": "hidden_feature", "weight": 2, "render": lambda ctx: _render_hidden_feature(ctx)},
+    {"id": "arsenal_tip", "weight": 1, "render": lambda ctx: _render_arsenal_tip(ctx)},
+    {"id": "methodology_task", "weight": 3, "render": lambda ctx: _render_methodology_task(ctx)},
+    {"id": "methodology_obj", "weight": 3, "render": lambda ctx: _render_methodology_objective(ctx)},
+    {"id": "methodology_note", "weight": 2, "render": lambda ctx: _render_methodology_note(ctx)},
 ]
 
 _HIDDEN_FEATURES: list[tuple[str, str]] = [
-    ("palette recon",     "browse every recon command grouped by kill-chain phase"),
-    ("suggest_next",      "graph-powered next-command from your recent activity"),
-    ("recommend_next",    "policy + graph recommendation based on session history"),
-    ("sitrep",            "unified status: scans, creds, tasks, phase, plan"),
-    ("wizard --check",    "instant readiness check without re-running setup"),
-    ("god_nodes",         "find the most-connected commands in the knowledge graph"),
+    ("palette recon", "browse every recon command grouped by kill-chain phase"),
+    ("suggest_next", "graph-powered next-command from your recent activity"),
+    ("recommend_next", "policy + graph recommendation based on session history"),
+    ("sitrep", "unified status: scans, creds, tasks, phase, plan"),
+    ("wizard --check", "instant readiness check without re-running setup"),
+    ("god_nodes", "find the most-connected commands in the knowledge graph"),
     ("apt_playbook list", "list and run public APT emulation playbooks"),
-    ("l00t",              "review all captured credentials and hashes"),
-    ("dashboard",         "full-screen TUI: target, kill-chain, recent commands, hints"),
-    ("sandbox on",        "isolate the next run inside a Docker container"),
-    ("pop <cmd>",         "open a floating tmux pane to run any command"),
-    ("note <text>",       "append a timestamped field note to sessions/notes.jsonl"),
-    ("pivot <host>",      "record a pivot hop and track the network chain"),
-    ("ctx",               "one-line situational context — good to run between commands"),
-    ("scans",             "list every nmap artefact in sessions/ with age and size"),
-    ("tasks add <text>",  "add a task to the backlog; track with 'tasks start/done'"),
-    ("phase <name>",      "advance the kill-chain phase and log the transition"),
-    ("fz <query>",        "fuzzy-find any command by partial name or keyword"),
-    ("form <cmd>",        "interactive guided form for commands with many parameters"),
-    ("tgrep <pattern>",   "grep across all recent command outputs in one shot"),
-    ("graph_search <q>",  "semantic search across the knowledge graph nodes"),
-    ("neighbors <node>",  "walk the knowledge graph outward from any command"),
-    ("apt_playbook run",  "execute a real APT playbook (apt28, apt29, fin7…)"),
+    ("l00t", "review all captured credentials and hashes"),
+    ("dashboard", "full-screen TUI: target, kill-chain, recent commands, hints"),
+    ("sandbox on", "isolate the next run inside a Docker container"),
+    ("pop <cmd>", "open a floating tmux pane to run any command"),
+    ("note <text>", "append a timestamped field note to sessions/notes.jsonl"),
+    ("pivot <host>", "record a pivot hop and track the network chain"),
+    ("ctx", "one-line situational context — good to run between commands"),
+    ("scans", "list every nmap artefact in sessions/ with age and size"),
+    ("tasks add <text>", "add a task to the backlog; track with 'tasks start/done'"),
+    ("phase <name>", "advance the kill-chain phase and log the transition"),
+    ("fz <query>", "fuzzy-find any command by partial name or keyword"),
+    ("form <cmd>", "interactive guided form for commands with many parameters"),
+    ("tgrep <pattern>", "grep across all recent command outputs in one shot"),
+    ("graph_search <q>", "semantic search across the knowledge graph nodes"),
+    ("neighbors <node>", "walk the knowledge graph outward from any command"),
+    ("apt_playbook run", "execute a real APT playbook (apt28, apt29, fin7…)"),
 ]
 
 _ARSENAL_TIPS: list[str] = [
@@ -275,6 +305,7 @@ def _summary_for_cmd(cmd: str, index: dict[str, Any]) -> str:
 
 # ── Curiosity engine ──────────────────────────────────────────────────────────
 
+
 def _run_curiosity(cmd: str, state: EngagementState, index: dict[str, Any]) -> None:
     """Surface one undiscovered command from the same phase as ``cmd``."""
     phase = _phase_for_cmd(cmd, index)
@@ -284,13 +315,7 @@ def _run_curiosity(cmd: str, state: EngagementState, index: dict[str, Any]) -> N
     candidates = _commands_in_phase(phase, index)
     seen_set = set(state.commands_seen)
     shown_set = set(state.session_curiosity_shown)
-    never_run = [
-        c for c in candidates
-        if c not in seen_set
-        and c not in shown_set
-        and c != f"do_{cmd}"
-        and c != cmd
-    ]
+    never_run = [c for c in candidates if c not in seen_set and c not in shown_set and c != f"do_{cmd}" and c != cmd]
     if not never_run:
         return
 
@@ -308,6 +333,7 @@ def _run_curiosity(cmd: str, state: EngagementState, index: dict[str, Any]) -> N
 
 # ── VRI rewards ───────────────────────────────────────────────────────────────
 
+
 def _render_streak(ctx: dict[str, Any]) -> bool:
     """Render the streak reward; always succeeds (always renders)."""
     n = ctx.get("session_commands", 0)
@@ -320,9 +346,9 @@ def _render_streak(ctx: dict[str, Any]) -> bool:
         (100, 10000): "elite operator",
     }
     label = "going strong"
-    for (lo, hi), l in labels.items():
+    for (lo, hi), candidate_label in labels.items():
         if lo <= n <= hi:
-            label = l
+            label = candidate_label
             break
     karma = ctx.get("karma_name", "")
     elo = ctx.get("elo", 0)
@@ -331,7 +357,8 @@ def _render_streak(ctx: dict[str, Any]) -> bool:
     print(line, flush=True)
     _persist_notification(
         f"<h3>Streak</h3><p>{n} commands this session — <b>{label}</b>"
-        + (f" · {karma} ({elo} ELO)" if karma else "") + "</p>"
+        + (f" · {karma} ({elo} ELO)" if karma else "")
+        + "</p>"
     )
     return True
 
@@ -344,7 +371,10 @@ def _render_exploration(ctx: dict[str, Any]) -> bool:
     bar_len = 20
     filled = int(bar_len * pct / 100)
     bar = "█" * filled + "░" * (bar_len - filled)
-    print(f"    \033[2m  arsenal explored  \033[0m\033[36m{bar}\033[0m\033[1m  {pct}%\033[0m\033[2m  ({seen}/{total} commands)\033[0m", flush=True)
+    print(
+        f"    \033[2m  arsenal explored  \033[0m\033[36m{bar}\033[0m\033[1m  {pct}%\033[0m\033[2m  ({seen}/{total} commands)\033[0m",
+        flush=True,
+    )
     _persist_notification(
         f"<h3>Arsenal explored</h3><p><b>{pct}%</b> &mdash; {seen} of {total} commands discovered.</p>"
     )
@@ -357,7 +387,10 @@ def _render_phase_badge(ctx: dict[str, Any]) -> bool:
     if not phase:
         return False
     label = _PHASE_LABEL.get(phase, phase.title())
-    print(f"    \033[2m  phase \033[0m\033[1;37;41m {label} \033[0m\033[2m  — run \033[0m\033[1;36mpalette {phase}\033[0m\033[2m to see all commands in this stage\033[0m", flush=True)
+    print(
+        f"    \033[2m  phase \033[0m\033[1;37;41m {label} \033[0m\033[2m  — run \033[0m\033[1;36mpalette {phase}\033[0m\033[2m to see all commands in this stage\033[0m",
+        flush=True,
+    )
     _persist_notification(
         f"<h3>Phase: {label}</h3><p>Run <code>palette {phase}</code> to see every command in this stage.</p>"
     )
@@ -371,10 +404,10 @@ def _render_hidden_feature(ctx: dict[str, Any]) -> bool:
     if not candidates:
         candidates = _HIDDEN_FEATURES
     cmd_label, description = random.choice(candidates)
-    print(f"    \033[2m  hidden feature  \033[0m\033[1;35m{cmd_label:<30}\033[0m\033[2m{description}\033[0m", flush=True)
-    _persist_notification(
-        f"<h3>Hidden feature</h3><p><code>{cmd_label}</code> &mdash; {description}</p>"
+    print(
+        f"    \033[2m  hidden feature  \033[0m\033[1;35m{cmd_label:<30}\033[0m\033[2m{description}\033[0m", flush=True
     )
+    _persist_notification(f"<h3>Hidden feature</h3><p><code>{cmd_label}</code> &mdash; {description}</p>")
     return True
 
 
@@ -400,18 +433,16 @@ def _render_methodology_task(ctx: dict[str, Any]) -> bool:
         if not isinstance(tasks, list):
             return False
         pending = [
-            t for t in tasks
-            if isinstance(t, dict)
-            and str(t.get("status", "")).lower() not in ("done", "completed")
+            t for t in tasks if isinstance(t, dict) and str(t.get("status", "")).lower() not in ("done", "completed")
         ]
         if not pending:
             return False
         phase = (ctx.get("current_phase") or "").lower()
         match = [
-            t for t in pending
-            if phase and phase in (
-                (t.get("title") or "") + (t.get("description") or "") + (t.get("text") or "")
-            ).lower()
+            t
+            for t in pending
+            if phase
+            and phase in ((t.get("title") or "") + (t.get("description") or "") + (t.get("text") or "")).lower()
         ]
         pick = random.choice(match) if match else random.choice(pending)
         title = (pick.get("title") or pick.get("text") or "")[:80]
@@ -421,9 +452,7 @@ def _render_methodology_task(ctx: dict[str, Any]) -> bool:
             f"    \033[2m  open task  \033[0m\033[1;33m▶\033[0m \033[1m{title}\033[0m",
             flush=True,
         )
-        _persist_notification(
-            f"<h3>Open task surfaced</h3><p>▶ {title}</p>"
-        )
+        _persist_notification(f"<h3>Open task surfaced</h3><p>▶ {title}</p>")
         return True
     except Exception:
         return False
@@ -470,9 +499,7 @@ def _render_methodology_objective(ctx: dict[str, Any]) -> bool:
             f"\033[2m→ try \033[0m\033[1;36m{cmd_hint}\033[0m",
             flush=True,
         )
-        _persist_notification(
-            f"<h3>Objective</h3><p>▶ {text}<br/><i>Suggested next:</i> <code>{cmd_hint}</code></p>"
-        )
+        _persist_notification(f"<h3>Objective</h3><p>▶ {text}<br/><i>Suggested next:</i> <code>{cmd_hint}</code></p>")
         return True
     except Exception:
         return False
@@ -509,13 +536,11 @@ def _render_methodology_note(ctx: dict[str, Any]) -> bool:
         phase = (pick.get("phase") or "").lower()
         cmd_hint = _PHASE_TO_NEXT_CMD.get(phase, "ctx")
         print(
-            f"    \033[2m  recall note  \033[0m\033[3m\"{text}\"\033[0m  "
-            f"\033[2m→ \033[0m\033[1;36m{cmd_hint}\033[0m",
+            f'    \033[2m  recall note  \033[0m\033[3m"{text}"\033[0m  \033[2m→ \033[0m\033[1;36m{cmd_hint}\033[0m',
             flush=True,
         )
         _persist_notification(
-            f"<h3>Recall note</h3><blockquote>{text}</blockquote>"
-            f"<p><i>Suggested next:</i> <code>{cmd_hint}</code></p>"
+            f"<h3>Recall note</h3><blockquote>{text}</blockquote><p><i>Suggested next:</i> <code>{cmd_hint}</code></p>"
         )
         return True
     except Exception:
@@ -564,6 +589,7 @@ def _fire_vri_reward(state: EngagementState, ctx: dict[str, Any]) -> None:
 
 
 # ── ELO + karma + persistence ─────────────────────────────────────────────────
+
 
 def get_karma_name(elo: int) -> str:
     """Return karma rank for an ELO score.
@@ -712,9 +738,7 @@ def _check_karma_up(state: EngagementState) -> bool:
     )
     print("    \033[2m" + "─" * 60 + "\033[0m")
     print()
-    _persist_notification(
-        f"<h2>Karma Up: {old} → {new_karma}</h2><p>ELO score: {state.elo}</p>"
-    )
+    _persist_notification(f"<h2>Karma Up: {old} → {new_karma}</h2><p>ELO score: {state.elo}</p>")
     return True
 
 
@@ -774,9 +798,7 @@ def render_engagement_hook(
         _state.elo_session_delta += elo_delta
         _sync_user_elo(elo_delta)
 
-        total_in_index = sum(
-            len(v) for v in _index.get("phase_to_commands", {}).values()
-        )
+        total_in_index = sum(len(v) for v in _index.get("phase_to_commands", {}).values())
 
         ctx: dict[str, Any] = {
             "session_commands": _state.session_commands,

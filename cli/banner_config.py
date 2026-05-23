@@ -51,7 +51,6 @@ import urllib.request
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Iterable
 
 
 @dataclass(frozen=True)
@@ -86,16 +85,13 @@ class BannerConfig:
     wizard_subtitle: str = "Powerlevel10k-style segment / color / glyph picker"
     wizard_preview_label: str = "Preview:"
     wizard_footer_segments: str = (
-        "[↑/↓] move  [space] toggle  [a/n] all/none  [d] defaults  "
-        "[tab] next tab  [enter] save  [esc] cancel"
+        "[↑/↓] move  [space] toggle  [a/n] all/none  [d] defaults  [tab] next tab  [enter] save  [esc] cancel"
     )
     wizard_footer_colors: str = (
-        "[↑/↓] move  [space/→] next color  [←] prev color  [d] default  "
-        "[tab] next tab  [enter] save  [esc] cancel"
+        "[↑/↓] move  [space/→] next color  [←] prev color  [d] default  [tab] next tab  [enter] save  [esc] cancel"
     )
     wizard_footer_glyphs: str = (
-        "[↑/↓] move  [space/→] next glyph  [←] prev glyph  [d] default  "
-        "[tab] next tab  [enter] save  [esc] cancel"
+        "[↑/↓] move  [space/→] next glyph  [←] prev glyph  [d] default  [tab] next tab  [enter] save  [esc] cancel"
     )
     wizard_padding_x: int = 2
     wizard_min_width: int = 88
@@ -287,7 +283,9 @@ class RenderContext:
     palette: ColorPalette
 
 
-def _bracketed(label: str, value: str, bullet: str, value_color: str, ctx: RenderContext, glyphs: dict[str, str]) -> str:
+def _bracketed(
+    label: str, value: str, bullet: str, value_color: str, ctx: RenderContext, glyphs: dict[str, str]
+) -> str:
     """Render one bracketed top-row segment with the chosen value color."""
     palette = ctx.palette
     label_part = f"{label} " if label else ""
@@ -318,23 +316,49 @@ class SegmentRenderer(ABC):
 
 
 class UserHostSegment(SegmentRenderer):
-    spec = SegmentSpec(id="user_host", label="user@host", description="Operator user and hostname", group="top", default_enabled=True, order=0, default_color="bright_green")
+    spec = SegmentSpec(
+        id="user_host",
+        label="user@host",
+        description="Operator user and hostname",
+        group="top",
+        default_enabled=True,
+        order=0,
+        default_color="bright_green",
+    )
 
     def render(self, ctx, cfg, color, glyphs):
         return _bracketed("", f"{ctx.user}@{ctx.hostname}", glyphs["bullet_primary"], color, ctx, glyphs)
 
 
 class IfaceSegment(SegmentRenderer):
-    spec = SegmentSpec(id="iface", label="iface", description="Local network interface IP (tun0, wlan0, ...)", group="top", default_enabled=True, order=10, default_color="bright_green")
+    spec = SegmentSpec(
+        id="iface",
+        label="iface",
+        description="Local network interface IP (tun0, wlan0, ...)",
+        group="top",
+        default_enabled=True,
+        order=10,
+        default_color="bright_green",
+    )
 
     def render(self, ctx, cfg, color, glyphs):
         if not ctx.iface_ip:
             return ""
-        return _bracketed(ctx.iface_name or cfg.fallback_label_iface, ctx.iface_ip, glyphs["bullet_secondary"], color, ctx, glyphs)
+        return _bracketed(
+            ctx.iface_name or cfg.fallback_label_iface, ctx.iface_ip, glyphs["bullet_secondary"], color, ctx, glyphs
+        )
 
 
 class LhostSegment(SegmentRenderer):
-    spec = SegmentSpec(id="lhost", label="lhost", description="Explicit LHOST from payload.json", group="top", default_enabled=False, order=15, default_color="bright_cyan")
+    spec = SegmentSpec(
+        id="lhost",
+        label="lhost",
+        description="Explicit LHOST from payload.json",
+        group="top",
+        default_enabled=False,
+        order=15,
+        default_color="bright_cyan",
+    )
 
     def render(self, ctx, cfg, color, glyphs):
         if not ctx.lhost:
@@ -343,7 +367,15 @@ class LhostSegment(SegmentRenderer):
 
 
 class RhostSegment(SegmentRenderer):
-    spec = SegmentSpec(id="rhost", label="rhost", description="Target RHOST from payload.json", group="top", default_enabled=True, order=20, default_color="bright_red")
+    spec = SegmentSpec(
+        id="rhost",
+        label="rhost",
+        description="Target RHOST from payload.json",
+        group="top",
+        default_enabled=True,
+        order=20,
+        default_color="bright_red",
+    )
 
     def render(self, ctx, cfg, color, glyphs):
         if not ctx.rhost:
@@ -352,7 +384,15 @@ class RhostSegment(SegmentRenderer):
 
 
 class DomainSegment(SegmentRenderer):
-    spec = SegmentSpec(id="domain", label="domain", description="Target domain from payload.json", group="top", default_enabled=True, order=30, default_color="bright_yellow")
+    spec = SegmentSpec(
+        id="domain",
+        label="domain",
+        description="Target domain from payload.json",
+        group="top",
+        default_enabled=True,
+        order=30,
+        default_color="bright_yellow",
+    )
 
     def render(self, ctx, cfg, color, glyphs):
         if not ctx.domain:
@@ -361,7 +401,15 @@ class DomainSegment(SegmentRenderer):
 
 
 class PublicIpSegment(SegmentRenderer):
-    spec = SegmentSpec(id="public_ip", label="public_ip", description="Egress public IP (cached 60s)", group="top", default_enabled=False, order=40, default_color="bright_magenta")
+    spec = SegmentSpec(
+        id="public_ip",
+        label="public_ip",
+        description="Egress public IP (cached 60s)",
+        group="top",
+        default_enabled=False,
+        order=40,
+        default_color="bright_magenta",
+    )
 
     def render(self, ctx, cfg, color, glyphs):
         if not ctx.public_ip:
@@ -370,7 +418,15 @@ class PublicIpSegment(SegmentRenderer):
 
 
 class CwdSegment(SegmentRenderer):
-    spec = SegmentSpec(id="cwd", label="cwd", description="Current working directory", group="middle", default_enabled=True, order=0, default_color="bright_green")
+    spec = SegmentSpec(
+        id="cwd",
+        label="cwd",
+        description="Current working directory",
+        group="middle",
+        default_enabled=True,
+        order=0,
+        default_color="bright_green",
+    )
 
     def render(self, ctx, cfg, color, glyphs):
         palette = ctx.palette
@@ -378,7 +434,15 @@ class CwdSegment(SegmentRenderer):
 
 
 class GitSegment(SegmentRenderer):
-    spec = SegmentSpec(id="git", label="git", description="Git branch and dirty marker", group="middle", default_enabled=True, order=10, default_color="bright_yellow")
+    spec = SegmentSpec(
+        id="git",
+        label="git",
+        description="Git branch and dirty marker",
+        group="middle",
+        default_enabled=True,
+        order=10,
+        default_color="bright_yellow",
+    )
 
     def render(self, ctx, cfg, color, glyphs):
         if not ctx.git_branch:
@@ -392,7 +456,15 @@ class GitSegment(SegmentRenderer):
 
 
 class VenvSegment(SegmentRenderer):
-    spec = SegmentSpec(id="venv", label="venv", description="Active Python virtualenv", group="middle", default_enabled=True, order=20, default_color="bright_blue")
+    spec = SegmentSpec(
+        id="venv",
+        label="venv",
+        description="Active Python virtualenv",
+        group="middle",
+        default_enabled=True,
+        order=20,
+        default_color="bright_blue",
+    )
 
     def render(self, ctx, cfg, color, glyphs):
         if not ctx.venv_name:
@@ -401,14 +473,30 @@ class VenvSegment(SegmentRenderer):
 
 
 class TimeSegment(SegmentRenderer):
-    spec = SegmentSpec(id="time", label="time", description="Local clock HH:MM:SS", group="middle", default_enabled=True, order=30, default_color="bright_cyan")
+    spec = SegmentSpec(
+        id="time",
+        label="time",
+        description="Local clock HH:MM:SS",
+        group="middle",
+        default_enabled=True,
+        order=30,
+        default_color="bright_cyan",
+    )
 
     def render(self, ctx, cfg, color, glyphs):
         return _middle("", ctx.now_str, color, ctx, glyphs)
 
 
 class KernelSegment(SegmentRenderer):
-    spec = SegmentSpec(id="kernel", label="kernel", description="uname -r kernel release", group="middle", default_enabled=False, order=40, default_color="bright_white")
+    spec = SegmentSpec(
+        id="kernel",
+        label="kernel",
+        description="uname -r kernel release",
+        group="middle",
+        default_enabled=False,
+        order=40,
+        default_color="bright_white",
+    )
 
     def render(self, ctx, cfg, color, glyphs):
         if not ctx.kernel:
@@ -417,7 +505,15 @@ class KernelSegment(SegmentRenderer):
 
 
 class VersionSegment(SegmentRenderer):
-    spec = SegmentSpec(id="version", label="version", description="LazyOwn version from version.json", group="middle", default_enabled=False, order=50, default_color="bright_blue")
+    spec = SegmentSpec(
+        id="version",
+        label="version",
+        description="LazyOwn version from version.json",
+        group="middle",
+        default_enabled=False,
+        order=50,
+        default_color="bright_blue",
+    )
 
     def render(self, ctx, cfg, color, glyphs):
         if not ctx.version:
@@ -426,7 +522,15 @@ class VersionSegment(SegmentRenderer):
 
 
 class BatteryLoadSegment(SegmentRenderer):
-    spec = SegmentSpec(id="battery_load", label="battery/load", description="Battery % or 1m load average", group="middle", default_enabled=False, order=60, default_color="bright_yellow")
+    spec = SegmentSpec(
+        id="battery_load",
+        label="battery/load",
+        description="Battery % or 1m load average",
+        group="middle",
+        default_enabled=False,
+        order=60,
+        default_color="bright_yellow",
+    )
 
     def render(self, ctx, cfg, color, glyphs):
         if not ctx.battery_or_load:
@@ -496,8 +600,8 @@ class BannerSettings:
         registry: SegmentRegistry,
         color_registry: ColorRegistry | None = None,
         glyph_registry: GlyphRegistry | None = None,
-    ) -> "BannerSettings":
-        colors_r = color_registry or ColorRegistry()
+    ) -> BannerSettings:
+        color_registry or ColorRegistry()
         glyphs_r = glyph_registry or GlyphRegistry()
         return cls(
             enabled={s.spec.id for s in registry.all() if s.spec.default_enabled},
@@ -513,7 +617,7 @@ class BannerSettings:
         key: str,
         color_registry: ColorRegistry | None = None,
         glyph_registry: GlyphRegistry | None = None,
-    ) -> "BannerSettings":
+    ) -> BannerSettings:
         colors_r = color_registry or ColorRegistry()
         glyphs_r = glyph_registry or GlyphRegistry()
         defaults = cls.defaults(registry, colors_r, glyphs_r)
@@ -680,8 +784,8 @@ def _read_network_info() -> dict[str, str]:
     """Return ``{interface: ip}`` for every globally-scoped IPv4 link."""
     cmd = (
         "ip a show scope global | "
-        "awk '/^[0-9]+:/ { sub(/:/,\"\",$2); iface=$2 } "
-        "/^[[:space:]]*inet / { split($2, a, \"/\"); print iface \" \" a[1] }'"
+        'awk \'/^[0-9]+:/ { sub(/:/,"",$2); iface=$2 } '
+        '/^[[:space:]]*inet / { split($2, a, "/"); print iface " " a[1] }\''
     )
     try:
         result = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=1.5)
@@ -802,7 +906,9 @@ class BannerRenderer:
                 merged[slot] = char
         return merged
 
-    def _render_group(self, settings: BannerSettings, ctx: RenderContext, group: str, glyphs: dict[str, str]) -> list[str]:
+    def _render_group(
+        self, settings: BannerSettings, ctx: RenderContext, group: str, glyphs: dict[str, str]
+    ) -> list[str]:
         rendered: list[str] = []
         for segment in self._registry.by_group(group):
             if not settings.is_enabled(segment.spec.id):
@@ -891,13 +997,9 @@ class BannerConfigurator:
 
     @staticmethod
     def _tty_available() -> bool:
-        return (
-            sys.stdin.isatty()
-            and sys.stdout.isatty()
-            and os.environ.get("TERM", "") not in {"", "dumb"}
-        )
+        return sys.stdin.isatty() and sys.stdout.isatty() and os.environ.get("TERM", "") not in {"", "dumb"}
 
-    def _loop(self, stdscr: "curses._CursesWindow") -> BannerSettings | None:
+    def _loop(self, stdscr: curses._CursesWindow) -> BannerSettings | None:
         curses.curs_set(0)
         stdscr.keypad(True)
         self._init_colors()
@@ -1002,7 +1104,7 @@ class BannerConfigurator:
             except curses.error:
                 continue
 
-    def _render(self, stdscr: "curses._CursesWindow", rows: list, cursor: int) -> None:
+    def _render(self, stdscr: curses._CursesWindow, rows: list, cursor: int) -> None:
         cfg = self._cfg
         max_y, max_x = stdscr.getmaxyx()
         width = max(cfg.wizard_min_width, min(cfg.wizard_max_width, max_x))
@@ -1046,9 +1148,17 @@ class BannerConfigurator:
         title_attr = self._color(cfg.color_pair_title) | curses.A_BOLD
         sub_attr = self._color(cfg.color_pair_help)
         try:
-            stdscr.addnstr(top + 1, left + cfg.wizard_padding_x, cfg.wizard_title, width - cfg.wizard_padding_x * 2, title_attr)
+            stdscr.addnstr(
+                top + 1, left + cfg.wizard_padding_x, cfg.wizard_title, width - cfg.wizard_padding_x * 2, title_attr
+            )
             subtitle_x = left + width - len(cfg.wizard_subtitle) - cfg.wizard_padding_x
-            stdscr.addnstr(top + 1, max(subtitle_x, left + cfg.wizard_padding_x + len(cfg.wizard_title) + 2), cfg.wizard_subtitle, width - cfg.wizard_padding_x * 2, sub_attr)
+            stdscr.addnstr(
+                top + 1,
+                max(subtitle_x, left + cfg.wizard_padding_x + len(cfg.wizard_title) + 2),
+                cfg.wizard_subtitle,
+                width - cfg.wizard_padding_x * 2,
+                sub_attr,
+            )
         except curses.error:
             pass
 

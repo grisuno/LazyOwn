@@ -137,9 +137,7 @@ def load_graph(path: str | None = None) -> GraphIndex:
     """
     target = Path(path) if path is not None else DEFAULT_GRAPH_PATH
     if not target.exists():
-        raise GraphIndexError(
-            f"Graph artefact not found at {target}. Run 'graphify' to regenerate it."
-        )
+        raise GraphIndexError(f"Graph artefact not found at {target}. Run 'graphify' to regenerate it.")
     try:
         document = json.loads(target.read_text(encoding="utf-8"))
     except json.JSONDecodeError as exc:

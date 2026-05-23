@@ -38,7 +38,7 @@ import json
 import os
 import re
 import time
-from collections import Counter, OrderedDict
+from collections import Counter
 from dataclasses import dataclass, field
 from difflib import SequenceMatcher
 from pathlib import Path
@@ -73,6 +73,11 @@ class GraphAdvisorConfig:
     default_recent_command_window: int = 12
     default_token_budget: int = 1500
     chars_per_token: int = 4
+
+    stale_after_days: float = 7.0
+    health_fresh: str = "fresh"
+    health_stale: str = "stale"
+    health_empty: str = "empty"
 
     score_exact: float = 1.0
     score_prefix: float = 0.9
@@ -149,19 +154,23 @@ class GraphLoader:
 
     def __init__(self, config: GraphAdvisorConfig) -> None:
         self._cfg = config
+        self._sticky_path: Path | None = None
 
     def resolve_path(self, override: str | os.PathLike[str] | None = None) -> Path | None:
         """Resolve which graphify JSON file to load.
 
-        Honours an explicit override; otherwise scans
-        :attr:`GraphAdvisorConfig.graph_candidates` inside
-        :attr:`GraphAdvisorConfig.graphify_dir` for the first file that
-        exists. Returns ``None`` when no graph is available so callers can
-        present a clear "graph missing" message instead of crashing.
+        Honours an explicit override; otherwise returns the last path
+        successfully loaded through this loader, falling back to a scan
+        of :attr:`GraphAdvisorConfig.graph_candidates` inside
+        :attr:`GraphAdvisorConfig.graphify_dir`. Returns ``None`` when no
+        graph is available so callers can present a clear "graph
+        missing" message instead of crashing.
         """
         if override is not None:
             path = Path(override)
             return path if path.exists() else None
+        if self._sticky_path is not None and self._sticky_path.exists():
+            return self._sticky_path
         graphify_dir = Path(self._cfg.graphify_dir)
         if not graphify_dir.exists():
             return None
@@ -182,6 +191,7 @@ class GraphLoader:
         key = str(path.resolve())
         cached = GraphLoader._cache.get(key)
         if cached and cached[0] == mtime:
+            self._sticky_path = path
             return cached[1]
         try:
             with path.open("r", encoding="utf-8") as fh:
@@ -189,6 +199,7 @@ class GraphLoader:
         except (OSError, json.JSONDecodeError):
             return None
         GraphLoader._cache[key] = (mtime, data)
+        self._sticky_path = path
         return data
 
     @classmethod
@@ -272,9 +283,7 @@ class GraphIndex:
         return list(self._adjacency.get(node_id, []))
 
     def edges_between(self, source: str, target: str) -> list[GraphEdge]:
-        return list(self._edges.get((source, target), [])) + list(
-            self._edges.get((target, source), [])
-        )
+        return list(self._edges.get((source, target), [])) + list(self._edges.get((target, source), []))
 
     def community_members(self, community_id: int) -> list[str]:
         return list(self._community_members.get(community_id, []))
@@ -362,7 +371,9 @@ class GraphAdvisor:
         self._index: GraphIndex | None = index
 
     @classmethod
-    def from_path(cls, path: str | os.PathLike[str] | None = None, config: GraphAdvisorConfig | None = None) -> "GraphAdvisor":
+    def from_path(
+        cls, path: str | os.PathLike[str] | None = None, config: GraphAdvisorConfig | None = None
+    ) -> GraphAdvisor:
         cfg = config or GraphAdvisorConfig()
         loader = GraphLoader(cfg)
         data = loader.load(path)
@@ -391,14 +402,44 @@ class GraphAdvisor:
         for node in nodes:
             if node.community is not None:
                 communities[node.community] = communities.get(node.community, 0) + 1
-        return {
+        graph_path = self._loader.resolve_path()
+        age_days = self._graph_age_days(graph_path)
+        health, hint = self._classify_health(edges_count, age_days)
+        payload: dict[str, Any] = {
             "available": True,
             "nodes": len(nodes),
             "edges": edges_count,
             "communities": len(communities),
             "community_sizes": dict(sorted(communities.items())),
-            "graph_path": str(self._loader.resolve_path()),
+            "graph_path": str(graph_path) if graph_path is not None else None,
+            "age_days": round(age_days, 1) if age_days is not None else None,
+            "health": health,
         }
+        if hint:
+            payload["hint"] = hint
+        return payload
+
+    def _graph_age_days(self, path: Path | None) -> float | None:
+        if path is None:
+            return None
+        try:
+            mtime = path.stat().st_mtime
+        except OSError:
+            return None
+        return max(0.0, (time.time() - mtime) / 86400.0)
+
+    def _classify_health(self, edges_count: int, age_days: float | None) -> tuple[str, str | None]:
+        if edges_count == 0:
+            return (
+                self._cfg.health_empty,
+                "graph has zero edges; run '/graphify .' to rebuild",
+            )
+        if age_days is not None and age_days >= self._cfg.stale_after_days:
+            return (
+                self._cfg.health_stale,
+                f"graph is {age_days:.0f} days old; run '/graphify . --update' to refresh",
+            )
+        return self._cfg.health_fresh, None
 
     def search(self, query: str, limit: int | None = None) -> list[dict[str, Any]]:
         index = self._ensure_index()
@@ -434,17 +475,19 @@ class GraphAdvisor:
                     if neighbour is None:
                         continue
                     edges = [edge.to_summary() for edge in index.edges_between(current, neighbour_id)]
-                    layer.append({
-                        "from": current,
-                        "node": neighbour.to_summary(),
-                        "edges": edges,
-                        "degree": index.degree(neighbour_id),
-                    })
+                    layer.append(
+                        {
+                            "from": current,
+                            "node": neighbour.to_summary(),
+                            "edges": edges,
+                            "degree": index.degree(neighbour_id),
+                        }
+                    )
                     next_frontier.add(neighbour_id)
                     visited.add(neighbour_id)
-                    if sum(len(l) for l in layers) + len(layer) >= limit_value:
+                    if sum(len(layer_acc) for layer_acc in layers) + len(layer) >= limit_value:
                         break
-                if sum(len(l) for l in layers) + len(layer) >= limit_value:
+                if sum(len(layer_acc) for layer_acc in layers) + len(layer) >= limit_value:
                     break
             if layer:
                 layers.append(layer)
@@ -626,8 +669,7 @@ class GraphAdvisor:
                 if key in seen:
                     continue
                 seen.add(key)
-                for edge in index.edges_between(node.id, neighbour_id):
-                    yield edge
+                yield from index.edges_between(node.id, neighbour_id)
 
     def _ensure_index(self) -> GraphIndex | None:
         if self._index is not None:
@@ -641,10 +683,7 @@ class GraphAdvisor:
     def _missing_reason(self) -> str:
         resolved = self._loader.resolve_path()
         if resolved is None:
-            return (
-                "no graphify graph found in "
-                f"{self._cfg.graphify_dir}/. Run '/graphify .' to build one."
-            )
+            return f"no graphify graph found in {self._cfg.graphify_dir}/. Run '/graphify .' to build one."
         return f"graphify graph at {resolved} failed to parse"
 
 
@@ -670,21 +709,14 @@ def format_neighbors(result: dict[str, Any]) -> str:
     matched = result.get("matched") or {}
     if not matched:
         return "no node matched"
-    head = (
-        f"match: {matched.get('label')} (id={matched.get('id')}, "
-        f"community={matched.get('community')})"
-    )
+    head = f"match: {matched.get('label')} (id={matched.get('id')}, community={matched.get('community')})"
     rows = []
     for entry in result.get("neighbors", []):
         node = entry.get("node") or {}
         relations = ", ".join(
-            f"{edge.get('relation') or 'related'}:{edge.get('confidence') or '?'}"
-            for edge in entry.get("edges", [])
+            f"{edge.get('relation') or 'related'}:{edge.get('confidence') or '?'}" for edge in entry.get("edges", [])
         )
-        rows.append(
-            f"  {node.get('label')}  [{relations}]  "
-            f"deg={entry.get('degree')}  src={node.get('source_file')}"
-        )
+        rows.append(f"  {node.get('label')}  [{relations}]  deg={entry.get('degree')}  src={node.get('source_file')}")
     return "\n".join([head] + (rows or ["  (no neighbors)"]))
 
 

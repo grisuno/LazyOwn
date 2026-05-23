@@ -674,9 +674,7 @@ def _enrich_commands_for_view(rows: Sequence[Mapping[str, Any]]) -> list[dict[st
         enriched: list[dict[str, Any]] = [dict(row) for row in rows]
     else:
         graph = safe_load_graph()
-        enriched = (
-            graph_enrich_commands(graph, rows) if graph is not None else [dict(row) for row in rows]
-        )
+        enriched = graph_enrich_commands(graph, rows) if graph is not None else [dict(row) for row in rows]
     try:
         from cli.palette_telemetry import enrich_commands as telemetry_enrich_commands
         from cli.palette_telemetry import safe_load_telemetry

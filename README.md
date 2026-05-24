@@ -3371,11 +3371,13 @@ auto-detection (lhost from routing table, wordlist paths from SecLists),
 live ping validation for rhost, and a readiness summary at the end.
 
 Usage:
-    ``wizard``         — start interactive setup
-    ``wizard --check`` — show readiness summary only, no prompts
+    ``wizard``            — start interactive setup
+    ``wizard --tutorial`` — extended help text for first-time operators
+    ``wizard --check``    — show readiness summary only, no prompts
 
 Both novice and experienced operators can use this:
-- Novices: step-by-step prompts with clear descriptions.
+- Novices: step-by-step prompts with clear descriptions; pass
+  ``--tutorial`` for in-depth explanations of every field.
 - Experts: press Enter to accept auto-detected values; Ctrl-C to abort.
 
 ## ctx
@@ -12904,6 +12906,13 @@ No description available.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new graphos \n\n Version: release/0.2.139 \n\n with love \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: sáb 23 may 2026 04:26:06 -04 \n\n Hora: 1779524766
 
 
 ### Nuevas características

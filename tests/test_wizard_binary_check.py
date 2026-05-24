@@ -151,9 +151,10 @@ class TestRunIntegratesBinaryCheck:
             )]
 
         monkeypatch.setattr(wizard, "check_binaries", fake_check)
-        monkeypatch.setattr(wizard, "_collect_values", lambda params: {})
+        monkeypatch.setattr(wizard, "_collect_values", lambda *_a, **_k: {})
         monkeypatch.setattr(wizard, "_print_binary_report", lambda statuses: None)
         monkeypatch.setattr(wizard, "_print_readiness", lambda items: None)
+        monkeypatch.setattr(wizard, "_print_validation_summary", lambda params: [])
 
         params = {"rhost": "10.10.10.10", "lhost": "10.0.0.1"}
         result = wizard.run(params, save=lambda _k, _v: None)
@@ -171,10 +172,11 @@ class TestRunIntegratesBinaryCheck:
             )]
 
         monkeypatch.setattr(wizard, "check_binaries", fake_check)
-        monkeypatch.setattr(wizard, "_collect_values", lambda params: {"rhost": "1.2.3.4"})
+        monkeypatch.setattr(wizard, "_collect_values", lambda *_a, **_k: {"rhost": "1.2.3.4"})
         monkeypatch.setattr(wizard, "_print_binary_report", lambda statuses: None)
         monkeypatch.setattr(wizard, "_print_readiness", lambda items: None)
         monkeypatch.setattr(wizard, "_print_next_steps", lambda params: None)
+        monkeypatch.setattr(wizard, "_print_validation_summary", lambda params: [])
 
         saved: list[tuple] = []
         params: dict = {}

@@ -299,11 +299,13 @@ auto-detection (lhost from routing table, wordlist paths from SecLists),
 live ping validation for rhost, and a readiness summary at the end.
 
 Usage:
-    ``wizard``         — start interactive setup
-    ``wizard --check`` — show readiness summary only, no prompts
+    ``wizard``            — start interactive setup
+    ``wizard --tutorial`` — extended help text for first-time operators
+    ``wizard --check``    — show readiness summary only, no prompts
 
 Both novice and experienced operators can use this:
-- Novices: step-by-step prompts with clear descriptions.
+- Novices: step-by-step prompts with clear descriptions; pass
+  ``--tutorial`` for in-depth explanations of every field.
 - Experts: press Enter to accept auto-detected values; Ctrl-C to abort.
 
 ## ctx

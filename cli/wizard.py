@@ -29,6 +29,15 @@ from rich.panel import Panel
 from rich.table import Table
 from rich.text import Text
 
+from core.payload_schema import (
+    SCHEMA,
+    FieldSpec,
+    Severity,
+    coerce_value,
+    field_for,
+    validate_value,
+)
+
 _console = Console(highlight=False, soft_wrap=True)
 
 _SECLISTS_CANDIDATES = [
@@ -144,6 +153,8 @@ class WizardResult:
 def run(
     params: dict[str, Any],
     save: Callable[[str, Any], None],
+    *,
+    tutorial: bool = False,
 ) -> WizardResult:
     """Run the interactive setup wizard and return a :class:`WizardResult`.
 
@@ -152,15 +163,21 @@ def run(
         save: Callback to persist a single key/value pair.  Signature:
               ``save(key: str, value: Any) -> None``.  Called only for
               values the operator explicitly accepted.
+        tutorial: When ``True`` each step prints the extended help from
+            :data:`core.payload_schema.SCHEMA` so first-time operators
+            understand *why* each value matters. Veterans omit this and
+            just see the auto-detected defaults.
 
     Returns:
         WizardResult with ``saved=True`` when at least one value was written.
     """
     result = WizardResult()
-    _print_header()
+    _print_header(tutorial=tutorial)
+    if tutorial:
+        _print_glossary_panel()
 
     try:
-        updates = _collect_values(params)
+        updates = _collect_values(params, tutorial=tutorial)
     except KeyboardInterrupt:
         _console.print("\n[bold yellow]  Wizard cancelled — no changes saved.[/]")
         return result
@@ -171,12 +188,14 @@ def run(
         _print_readiness(result.readiness)
         result.binaries = check_binaries()
         _print_binary_report(result.binaries)
+        _print_validation_summary(params)
         return result
 
     for key, value in updates.items():
         try:
-            save(key, value)
-            params[key] = value
+            coerced = coerce_value(key, value)
+            save(key, coerced)
+            params[key] = coerced
         except Exception as exc:
             _console.print(f"[bold red]  Could not save {key}: {exc}[/]")
 
@@ -186,17 +205,24 @@ def run(
     _print_readiness(result.readiness)
     result.binaries = check_binaries()
     _print_binary_report(result.binaries)
+    _print_validation_summary(params)
     _print_next_steps(params)
     return result
 
 
-def _print_header() -> None:
+def _print_header(*, tutorial: bool = False) -> None:
     _console.print()
+    subtitle = (
+        "[dim]Press [Enter] to keep the current/detected value.  "
+        "Press [Ctrl-C] to cancel.[/]"
+    )
+    if tutorial:
+        subtitle += (
+            "\n[dim cyan]Tutorial mode is on — extended help shown for every step.[/]"
+        )
     _console.print(
         Panel(
-            "[bold cyan]LazyOwn Setup Wizard[/]\n"
-            "[dim]Press [Enter] to keep the current/detected value.  "
-            "Press [Ctrl-C] to cancel.[/]",
+            "[bold cyan]LazyOwn Setup Wizard[/]\n" + subtitle,
             border_style="cyan",
             padding=(0, 2),
         )
@@ -204,30 +230,69 @@ def _print_header() -> None:
     _console.print()
 
 
-def _collect_values(params: dict[str, Any]) -> dict[str, Any]:
+def _print_glossary_panel() -> None:
+    """Print a short glossary so novices understand the recurring terms."""
+    body = (
+        "[bold]rhost[/] — the target's IP, the box you are attacking.\n"
+        "[bold]lhost[/] — your IP on the network or VPN (tun0/eth0).\n"
+        "[bold]domain[/] — virtual host name; needed for vhost-based webapps.\n"
+        "[bold]device[/] — the interface that reaches the target (tun0, eth0).\n"
+        "[bold]os_id[/]  — target OS (1 = Linux, 2 = Windows).\n"
+        "[bold]api_key[/] — optional Groq key; unlocks the AI assistants.\n"
+        "[bold]wordlists[/] — SecLists paths used by gobuster/ffuf/hydra.\n"
+        "Everything is stored in [bold]payload.json[/]. You can change any "
+        "value later with [bold]assign <key> <value>[/]."
+    )
+    _console.print(
+        Panel(
+            body,
+            title="[bold white]What each setting means[/]",
+            border_style="dim cyan",
+            padding=(0, 2),
+        )
+    )
+    _console.print()
+
+
+def _spec_long_help(key: str) -> str | None:
+    """Return the schema's long_help for ``key`` when it exists."""
+    spec = field_for(key)
+    if spec is None:
+        return None
+    return spec.long_help or None
+
+
+def _print_long_help(key: str) -> None:
+    long_help = _spec_long_help(key)
+    if long_help:
+        for line in long_help.splitlines():
+            _console.print(f"  [dim]> {line}[/]")
+
+
+def _collect_values(params: dict[str, Any], *, tutorial: bool = False) -> dict[str, Any]:
     updates: dict[str, Any] = {}
 
-    rhost = _ask_rhost(params.get("rhost"))
+    rhost = _ask_rhost(params.get("rhost"), tutorial=tutorial)
     if rhost is not None and rhost != params.get("rhost"):
         updates["rhost"] = rhost
 
-    lhost = _ask_lhost(params.get("lhost"))
+    lhost = _ask_lhost(params.get("lhost"), tutorial=tutorial)
     if lhost is not None and lhost != params.get("lhost"):
         updates["lhost"] = lhost
 
-    domain = _ask_domain(params.get("domain"))
+    domain = _ask_domain(params.get("domain"), tutorial=tutorial)
     if domain is not None and domain != params.get("domain"):
         updates["domain"] = domain
 
-    device = _ask_device(params.get("device"))
+    device = _ask_device(params.get("device"), tutorial=tutorial)
     if device is not None and device != params.get("device"):
         updates["device"] = device
 
-    os_id = _ask_os_id(params.get("os_id", "2"))
+    os_id = _ask_os_id(params.get("os_id", "2"), tutorial=tutorial)
     if os_id is not None and str(os_id) != str(params.get("os_id", "2")):
         updates["os_id"] = os_id
 
-    api_key = _ask_api_key(params.get("api_key"))
+    api_key = _ask_api_key(params.get("api_key"), tutorial=tutorial)
     if api_key is not None and api_key != params.get("api_key"):
         updates["api_key"] = api_key
 
@@ -237,9 +302,11 @@ def _collect_values(params: dict[str, Any]) -> dict[str, Any]:
     return updates
 
 
-def _ask_rhost(current: Any) -> str | None:
+def _ask_rhost(current: Any, *, tutorial: bool = False) -> str | None:
     _console.print("[bold white]Step 1 of 7 — Target IP (rhost)[/]")
     _console.print("  [dim]The IP address of the machine you are testing.  Example: 10.10.11.5 or 192.168.1.100[/]")
+    if tutorial:
+        _print_long_help("rhost")
     prompt = f"  rhost [{current or 'not set'}]: "
     raw = _prompt(prompt)
     if not raw:
@@ -262,11 +329,13 @@ def _ask_rhost(current: Any) -> str | None:
     return raw
 
 
-def _ask_lhost(current: Any) -> str | None:
+def _ask_lhost(current: Any, *, tutorial: bool = False) -> str | None:
     detected = _detect_lhost()
     effective_default = current or detected
     _console.print("[bold white]Step 2 of 7 — Attacker IP (lhost)[/]")
     _console.print("  [dim]Your machine's IP on the VPN or target network (tun0, eth0, etc.)[/]")
+    if tutorial:
+        _print_long_help("lhost")
     if detected and detected != current:
         _console.print(f"  [dim cyan]Auto-detected: {detected}[/]")
     prompt = f"  lhost [{effective_default or 'not set'}]: "
@@ -291,12 +360,14 @@ def _ask_lhost(current: Any) -> str | None:
     return raw
 
 
-def _ask_domain(current: Any) -> str | None:
+def _ask_domain(current: Any, *, tutorial: bool = False) -> str | None:
     _console.print("[bold white]Step 3 of 7 — Target domain (optional)[/]")
     _console.print(
         "  [dim]Virtual host or DNS name of the target. Example: target.htb[/]\n"
         "  [dim]Leave blank to skip — needed for vhost-based web apps.[/]"
     )
+    if tutorial:
+        _print_long_help("domain")
     prompt = f"  domain [{current or 'skip'}]: "
     raw = _prompt(prompt)
     if not raw:
@@ -311,11 +382,13 @@ def _ask_domain(current: Any) -> str | None:
     return raw
 
 
-def _ask_device(current: Any) -> str | None:
+def _ask_device(current: Any, *, tutorial: bool = False) -> str | None:
     detected = _detect_device()
     effective_default = current or detected
     _console.print("[bold white]Step 4 of 7 — Network interface (device)[/]")
     _console.print("  [dim]Interface facing the target network.  Example: tun0, eth0, ens33[/]")
+    if tutorial:
+        _print_long_help("device")
     if detected and detected != current:
         _console.print(f"  [dim cyan]Auto-detected: {detected}[/]")
     prompt = f"  device [{effective_default or 'not set'}]: "
@@ -335,9 +408,11 @@ def _ask_device(current: Any) -> str | None:
     return raw
 
 
-def _ask_os_id(current: Any) -> str | None:
+def _ask_os_id(current: Any, *, tutorial: bool = False) -> str | None:
     _console.print("[bold white]Step 5 of 7 — Target OS[/]")
     _console.print("  [dim]1 = Linux, 2 = Windows.  Affects which commands the framework recommends.[/]")
+    if tutorial:
+        _print_long_help("os_id")
     current_label = "Linux" if str(current) == "1" else "Windows"
     prompt = f"  os_id [{current} = {current_label}]  enter 1 (Linux) or 2 (Windows): "
     raw = _prompt(prompt)
@@ -355,12 +430,14 @@ def _ask_os_id(current: Any) -> str | None:
     return raw.strip()
 
 
-def _ask_api_key(current: Any) -> str | None:
+def _ask_api_key(current: Any, *, tutorial: bool = False) -> str | None:
     _console.print("[bold white]Step 6 of 7 — Groq API key (optional)[/]")
     _console.print(
         "  [dim]Used by AI agents, vuln analysis, and the phishing module.\n"
         "  Get a free key at https://console.groq.com — leave blank to skip.[/]"
     )
+    if tutorial:
+        _print_long_help("api_key")
     masked = ("*" * 8 + current[-4:]) if (current and len(current) > 8) else (current or "not set")
     prompt = f"  api_key [{masked}]: "
     raw = _prompt(prompt)
@@ -542,14 +619,59 @@ def _print_next_steps(params: dict[str, Any]) -> None:
     _console.print()
     _console.print("[bold cyan]  Suggested next steps:[/]")
     if not rhost:
-        _console.print("    1. [bold]assign rhost <target-IP>[/]")
-        _console.print("    2. [bold]lazynmap[/]          — full port scan")
+        _console.print("    1. [bold]assign rhost <target-IP>[/]   set your target")
+        _console.print("    2. [bold]lazynmap[/]                  full port + service scan")
+        _console.print("    3. [bold]palette recon[/]             browse recon commands")
     else:
-        _console.print(f"    1. [bold]lazynmap[/]          — scan {rhost}")
-        _console.print(f"    2. [bold]auto_populate[/]     — populate facts for {rhost}")
-        _console.print("    3. [bold]palette recon[/]     — browse recon commands")
-    _console.print("    Run [bold]wizard[/] again at any time to reconfigure.")
+        _console.print(f"    1. [bold]ping[/]                     verify {rhost} is up (auto-detects os_id)")
+        _console.print(f"    2. [bold]lazynmap[/]                  full port + service scan of {rhost}")
+        _console.print(f"    3. [bold]auto_populate[/]             pull HTB/THM target metadata")
+        _console.print(f"    4. [bold]facts_show[/]                show structured findings")
+        _console.print("    5. [bold]recommend_next[/]            phase-aware next command")
     _console.print()
+    _console.print("[dim]    Tip: run [bold]wizard --tutorial[/] for extended help, "
+                   "or [bold]wizard --check[/] for a non-interactive readiness summary.[/]")
+    _console.print("[dim]    Edit any value later with [bold]assign <key> <value>[/].[/]")
+    _console.print()
+
+
+def _print_validation_summary(params: dict[str, Any]) -> list[Any]:
+    """Render schema validation issues for the current payload.
+
+    Iterates the live params dict, asks the schema for each value, and
+    prints a table of problems. The wizard treats errors as blockers and
+    warnings as advisory. The returned list lets the caller decide
+    whether to short-circuit the post-wizard suggestions.
+
+    Args:
+        params: Live params dict after wizard updates have been applied.
+
+    Returns:
+        List of :class:`core.payload_schema.ValidationIssue`. Empty when
+        every value satisfies the schema.
+    """
+    issues = []
+    for key, value in params.items():
+        issue = validate_value(key, value)
+        if issue is not None and issue.severity is not Severity.INFO:
+            issues.append(issue)
+
+    if not issues:
+        return issues
+
+    table = Table(title="Schema warnings", border_style="dim", show_lines=False)
+    table.add_column("Field", style="white", no_wrap=True)
+    table.add_column("Severity", no_wrap=True)
+    table.add_column("Detail", style="dim")
+    for issue in issues:
+        sev_text = Text(
+            issue.severity.value,
+            style="bold red" if issue.severity is Severity.ERROR else "yellow",
+        )
+        table.add_row(issue.key, sev_text, issue.message)
+    _console.print()
+    _console.print(table)
+    return issues
 
 
 def _detect_lhost() -> str | None:

@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Refactorización
+
+### Otros
+
+  *   * refactor(better contract in payload.json): better wizard --tutorial \n\n Version: release/0.2.139 \n\n  \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: dom 24 may 2026 03:54:59 -04 \n\n Hora: 1779609299
+
+
 ### Nuevas características
 
 ### Otros

@@ -18,7 +18,10 @@ import json
 import os
 import tempfile
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    from core.payload_schema import ValidationIssue
 
 PAYLOAD_FILENAME = "payload.json"
 PAYLOAD_PATH = Path(PAYLOAD_FILENAME)
@@ -56,6 +59,33 @@ def load_payload(path: str | os.PathLike[str] = PAYLOAD_FILENAME) -> dict[str, A
         return json.load(fh)
 
 
+def load_and_validate(
+    path: str | os.PathLike[str] = PAYLOAD_FILENAME,
+) -> tuple[dict[str, Any], list["ValidationIssue"]]:
+    """Load ``payload.json`` and return it together with schema issues.
+
+    Validation never raises: a malformed value produces a
+    :class:`core.payload_schema.ValidationIssue` so callers can decide
+    whether to warn the operator, abort, or coerce. The dictionary is
+    returned exactly as loaded so the existing free-form behaviour is
+    preserved.
+
+    Args:
+        path: Filesystem location of the payload (defaults to
+            ``payload.json`` in the current working directory).
+
+    Returns:
+        ``(payload, issues)`` tuple. ``issues`` is empty when the payload
+        matches the schema; otherwise it contains a structured entry per
+        problem detected by :func:`core.payload_schema.validate_payload`.
+    """
+    from core.payload_schema import validate_payload
+
+    payload = load_payload(path)
+    issues = validate_payload(payload)
+    return payload, issues
+
+
 def save_payload(payload: dict[str, Any], path: str | os.PathLike[str] = PAYLOAD_FILENAME) -> None:
     """Atomically write ``payload`` as pretty-printed JSON to ``path``.
 
@@ -83,4 +113,11 @@ def save_payload(payload: dict[str, Any], path: str | os.PathLike[str] = PAYLOAD
         raise
 
 
-__all__ = ["Config", "load_payload", "save_payload", "PAYLOAD_PATH", "PAYLOAD_FILENAME"]
+__all__ = [
+    "Config",
+    "load_payload",
+    "load_and_validate",
+    "save_payload",
+    "PAYLOAD_PATH",
+    "PAYLOAD_FILENAME",
+]

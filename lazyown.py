@@ -1441,7 +1441,7 @@ class LazyOwnShell(cmd2.Cmd):
             except Exception:
                 pass
             try:
-                self.do_wizard("")
+                self.do_wizard("--tutorial")
             except KeyboardInterrupt:
                 print_warn("wizard skipped.")
             except Exception:
@@ -1510,14 +1510,18 @@ class LazyOwnShell(cmd2.Cmd):
         live ping validation for rhost, and a readiness summary at the end.
 
         Usage:
-            ``wizard``         — start interactive setup
-            ``wizard --check`` — show readiness summary only, no prompts
+            ``wizard``            — start interactive setup
+            ``wizard --tutorial`` — extended help text for first-time operators
+            ``wizard --check``    — show readiness summary only, no prompts
 
         Both novice and experienced operators can use this:
-        - Novices: step-by-step prompts with clear descriptions.
+        - Novices: step-by-step prompts with clear descriptions; pass
+          ``--tutorial`` for in-depth explanations of every field.
         - Experts: press Enter to accept auto-detected values; Ctrl-C to abort.
         """
-        check_only = (line or "").strip() == "--check"
+        line_stripped = (line or "").strip()
+        check_only = line_stripped == "--check"
+        tutorial = line_stripped in ("--tutorial", "-t")
 
         def _save(key, value):
             _apply_assign(self.params, key, value, save=_save_payload)
@@ -1527,12 +1531,13 @@ class LazyOwnShell(cmd2.Cmd):
                 pass
 
         if check_only:
-            from cli.wizard import _build_readiness, _print_readiness
+            from cli.wizard import _build_readiness, _print_readiness, _print_validation_summary
             items = _build_readiness(self.params)
             _print_readiness(items)
+            _print_validation_summary(self.params)
             return
 
-        result = _run_wizard(self.params, save=_save)
+        result = _run_wizard(self.params, save=_save, tutorial=tutorial)
         if result and result.saved:
             from rich.console import Console as _Console
             _c = _Console(highlight=False, soft_wrap=True)
@@ -1796,7 +1801,14 @@ class LazyOwnShell(cmd2.Cmd):
             return
 
         param, value = args
-        updated = _apply_assign(self.params, param, value, save=_save_payload)
+        issues: list = []
+        updated = _apply_assign(
+            self.params,
+            param,
+            value,
+            save=_save_payload,
+            on_issue=issues.append,
+        )
         if not updated:
             print_error(f"Unknown parameter: {param}{RESET}")
             return
@@ -1806,7 +1818,10 @@ class LazyOwnShell(cmd2.Cmd):
         except Exception as exc:
             print_warn(f"aliases refresh failed after assign: {exc}")
 
-        print_msg(f"{YELLOW}{param} assign to {GREEN}{value} {RESET}")
+        for issue in issues:
+            print_warn(f"{param}: {issue.message}")
+
+        print_msg(f"{YELLOW}{param} assign to {GREEN}{self.params[param]} {RESET}")
 
     def complete_assign(self, text, line, begidx, endidx):
         """Tab-complete the parameter name from the live payload keys.

@@ -57,6 +57,20 @@ from core.console import (
     print_warn,
 )
 from core.crypto import xor_encrypt_decrypt
+from core.payload_schema import (
+    SCHEMA,
+    FieldKind,
+    FieldSpec,
+    Severity,
+    ValidationIssue,
+    categories,
+    coerce_value,
+    default_payload,
+    field_for,
+    format_issue,
+    validate_payload,
+    validate_value,
+)
 from core.validators import check_lhost, check_lport, check_port, check_rhost
 
 __all__ = [
@@ -117,4 +131,16 @@ __all__ = [
     "check_lhost",
     "check_lport",
     "check_port",
+    "SCHEMA",
+    "FieldKind",
+    "FieldSpec",
+    "Severity",
+    "ValidationIssue",
+    "categories",
+    "coerce_value",
+    "default_payload",
+    "field_for",
+    "format_issue",
+    "validate_payload",
+    "validate_value",
 ]

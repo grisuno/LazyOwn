@@ -8852,7 +8852,7 @@ class LazyOwnShell(cmd2.Cmd):
         echo "Open port scan in progress..."
         echo " "
 
-        # Realiza un bucle a través de todos los puertos y verifica si están abiertos
+        # Loop through all ports and check if they are open
         for port in $(seq 0 65535); do
             (echo >/dev/tcp/$ip/$port) >/dev/null 2>&1 && echo "Port $port open"
         done
@@ -8914,7 +8914,7 @@ class LazyOwnShell(cmd2.Cmd):
         echo "Open port and service scan in progress..."
         echo " "
 
-        # Realiza un bucle a través de todos los puertos y verifica si están abiertos
+        # Loop through all ports and check if they are open
         for port in $(seq 0 65535); do
             (echo >/dev/tcp/$ip/$port) >/dev/null 2>&1 && {
                 service=$(echo "$(sudo lsof -i :$port)" | awk 'NR==2{print $1}')

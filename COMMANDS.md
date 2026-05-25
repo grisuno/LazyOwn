@@ -1,6 +1,24 @@
 # COMMANDS.md Documentation  by readmeneitor.py
 
+## _parse_bool_setting
+Coerce a cmd2 ``set`` argument into a Python ``bool``.
+
+Accepts native booleans, integers, and the canonical truthy/falsy
+strings used elsewhere in the framework (``true``/``false``,
+``yes``/``no``, ``on``/``off``, ``1``/``0``). Anything else raises
+:class:`ValueError` so cmd2 surfaces the error to the operator
+instead of silently coercing to ``False``.
+
 ## main
+No description available.
+
+## __init__
+Bind the proxy to a live ``params`` dictionary.
+
+## __getattr__
+No description available.
+
+## __setattr__
 No description available.
 
 ## __init__
@@ -14,6 +32,18 @@ Attributes:
     params (dict): A dictionary of parameters with their default values.
     scripts (list): A list of script names included in the toolkit.
     output (str): An empty string to store output or results.
+
+## _register_ux_settables
+Expose the new UX flags through cmd2's ``set`` command.
+
+cmd2's ``set`` reads/writes from a target object. The
+:class:`_PayloadSettableProxy` proxies attribute access to
+``self.params`` so ``set <key> <value>`` and ``assign <key> <value>``
+update the same backing store and both persist through
+:func:`core.config.save_payload`. The four keys registered here
+(``tui_theme``, ``enable_operator_presence``, ``enable_toasts``,
+``toast_max_per_tick``) match the schema entries in
+:mod:`core.payload_schema`.
 
 ## log_command
 Logs the command execution details to a CSV file.
@@ -31,6 +61,20 @@ found, it prints an error message.
 :param line: The command or alias to be handled.
 :type line: str
 :return: None
+
+## _toast_hook
+Post-command hook that prints unseen JSONL events as toast lines.
+
+Reads the ``enable_toasts`` flag from ``self.params`` (default
+True) so operators can disable transient notifications with
+``set enable_toasts false`` without restarting. Any failure is
+swallowed — toasts must never block the shell.
+
+Args:
+    data: cmd2 PostcommandData containing the executed statement.
+
+Returns:
+    ``data`` unchanged.
 
 ## _inline_hint_hook
 Post-command hook that prints a dim next-step hint line.
@@ -590,6 +634,77 @@ the package is missing the command prints an install hint and returns.
 :param line: Unused. Reserved for future flags.
 :type line: str
 :return: None
+
+## palette_k
+Open the fuzzy Command-K palette overlay.
+
+Modal Textual overlay that lists every ``do_*`` command, ranks
+recents first, narrows on substring input and returns the
+selected verb back to the shell for execution.
+
+Usage: ``palette_k``
+
+Requires ``textual``. When the package is missing or the command
+index is unavailable, the call prints an install hint and
+returns without raising.
+
+## browse
+Open the sessions/ TUI browser.
+
+Categorised view of ``sessions/`` artefacts (credentials,
+hashes, vulnerabilities, scans, notes, events, world model)
+with a side preview pane and substring filter.
+
+Usage: ``browse``
+
+Requires ``textual``. When the package is missing, the command
+prints an install hint and returns.
+
+## timeline_browser
+Open the timeline scrubber over the session report CSV.
+
+Scrollable, filterable view over
+``sessions/LazyOwn_session_report.csv``. Highlight a row to see
+every recorded column for that command.
+
+Usage: ``timeline_browser``
+
+Requires ``textual``.
+
+## form
+Open the form-mode launcher for a single command.
+
+Pre-fills the relevant ``payload.json`` values (target, port,
+wordlist, ...) and lets the operator review them before running
+the command. The form returns ``set k=v ; verb args`` so any
+divergence is recorded via ``assign``.
+
+Usage: ``form <command>``
+
+Example: ``form lazynmap``
+
+Requires ``textual``.
+
+## graph_overlay
+Open the graph overlay over the graphify knowledge graph.
+
+Shows the top central nodes by default and switches to the
+neighbourhood of a focus node when the operator types one. Esc
+closes; Tab toggles between modes.
+
+Usage: ``graph_overlay``
+
+Requires ``textual`` and a populated ``graphify-out/graph_lazyown.json``
+(produced by ``/graphify .``).
+
+## toast_clear
+Mark every pending toast event as seen without printing them.
+
+Useful after long pauses where the autonomous daemon backlogged
+events the operator no longer cares to read. The state file at
+``sessions/.toast_state.json`` is updated atomically.
+
+Usage: ``toast_clear``
 
 ## surface
 Render the network surface graph in the terminal.
@@ -9556,6 +9671,9 @@ The files key.bin and cipher.bin will be available in 'sessions' immediately and
 
 ## ai_toggle
 Enable or disable the IA assitant (use DeepSeek in local).
+
+## _persist
+No description available.
 
 ## wrapper
 No description available.

@@ -555,6 +555,45 @@ SCHEMA: dict[str, FieldSpec] = {
         _spec("email_password", FieldKind.STRING, "", "SMTP password.", category="email", sensitive=True),
         _spec("smtp_server", FieldKind.HOSTNAME, "smtp.gmail.com", "SMTP server hostname.", category="email"),
         _spec("smtp_port", FieldKind.PORT, 587, "SMTP server port.", category="email"),
+        _spec(
+            "enable_toasts",
+            FieldKind.BOOL,
+            True,
+            "Render unseen events from sessions/*.jsonl as dim toast lines after each command.",
+            long_help=(
+                "Toasts are non-blocking and replay only events emitted since the previous prompt. "
+                "Disable when running scripted batches where additional output noise is unwanted."
+            ),
+            category="misc",
+        ),
+        _spec(
+            "toast_max_per_tick",
+            FieldKind.INT,
+            5,
+            "Maximum number of toast lines shown per command.",
+            min_value=1,
+            max_value=50,
+            category="misc",
+        ),
+        _spec(
+            "enable_operator_presence",
+            FieldKind.BOOL,
+            False,
+            "Show the count of active collaboration operators in the status bar.",
+            long_help=(
+                "Reads sessions/operators.json (written by collab_bp) and appends ops:<n> to the status line. "
+                "Disabled by default so single-operator sessions keep the current bar format."
+            ),
+            category="c2",
+        ),
+        _spec(
+            "tui_theme",
+            FieldKind.STRING,
+            "default",
+            "Colour theme for the TUI overlays (default, dim, bright, colorblind).",
+            allowed=("default", "dim", "bright", "colorblind"),
+            category="misc",
+        ),
     )
 }
 

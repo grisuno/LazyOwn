@@ -1483,12 +1483,12 @@ Discovered at server startup. Run `mcp restart` to refresh.
 | `lazyown_addon_argfuscator` | addon | ArgFuscator is an open-source, stand-alone web application that helps generate o |
 | `lazyown_addon_attpwn` | addon | ATTPwn is a computer security tool designed to emulate adversaries. The tool aim |
 | `lazyown_addon_aurorapatch` | addon | AuroraPatch is a lightweight, offensive Go tool that bypasses Windows AMSI (Anti |
-| `lazyown_addon_banner_tool` | addon | Ejecuta el script banner.py que se encuentra en la carpeta modules. |
+| `lazyown_addon_banner_tool` | addon | Runs the banner.py script located in the modules folder. |
 | `lazyown_addon_bbr` | addon | An open source tool to aid in command line driven generation of bug bounty repor |
 | `lazyown_addon_beacon` | addon | beacon is a next-generation, automated framework for generating, obfuscating, an |
 | `lazyown_addon_cgoblin_windows` | addon | cgoblin shellcode in windows and windows from an url |
-| `lazyown_addon_clematis` | addon | 🛠️ A powerful tool for converting PE files (EXE/DLL) into position-independent s |
-| `lazyown_addon_commix2` | addon | Detecta y explota vulnerabilidades de inyección de comandos. |
+| `lazyown_addon_clematis` | addon | A powerful tool for converting PE files (EXE/DLL) into position-independent s |
+| `lazyown_addon_commix2` | addon | Detects and exploits command injection vulnerabilities. |
 | `lazyown_addon_cve-2022-22077` | addon | CVE-2022-22077 is a high-severity vulnerability (CVSS score 7.8) affecting the R |
 | `lazyown_addon_cve_2025_24071_poc` | addon | CVE-2025-24071: NTLM Hash Leak via RAR/ZIP Extraction and .library-ms File. Wind |
 | `lazyown_addon_demiguise` | addon | HTA encryption tool for RedTeams |
@@ -1498,7 +1498,7 @@ Discovered at server startup. Run `mcp restart` to refresh.
 | `lazyown_addon_gemini-cli` | addon | An open-source AI agent that brings the power of Gemini directly into your termi |
 | `lazyown_addon_gen_dll_rev` | addon | gen_dll_rev is a next-generation, automated framework for generating, obfuscatin |
 | `lazyown_addon_get_reverseshell` | addon | Get-ReverseShell is a project that stems from the Invoke-PSObfuscation framework |
-| `lazyown_addon_githubot` | addon | Ejecuta el script bot.py que se encuentra en la carpeta modules. creando un repo |
+| `lazyown_addon_githubot` | addon | Runs the bot.py script located in the modules folder, creating a repo |
 | `lazyown_addon_gomulti_loader_linux` | addon | gomulti_loader shellcode in windows and linux |
 | `lazyown_addon_gomulti_loader_windows` | addon | gomulti_loader shellcode in windows and windows |
 | `lazyown_addon_gopeinjection` | addon | Golang PE injection on windows |
@@ -1507,16 +1507,16 @@ Discovered at server startup. Run `mcp restart` to refresh.
 | `lazyown_addon_hack_browser_data` | addon | Extract and decrypt browser data, supporting multiple data types, runnable on va |
 | `lazyown_addon_hellbird` | addon | hellbird is a next-generation, automated framework for generating, obfuscating,  |
 | `lazyown_addon_hooka_linux_amd64` | addon | Shellcode loader generator with multiples features |
-| `lazyown_addon_hostdiscover` | addon | Ejecuta el script hostdiscover.sh que se encuentra en la carpeta modules. |
-| `lazyown_addon_kivi_revshell` | addon | Ejecuta el script kivi.py que se encuentra en la carpeta modules. para Reverse s |
+| `lazyown_addon_hostdiscover` | addon | Runs the hostdiscover.sh script located in the modules folder. |
+| `lazyown_addon_kivi_revshell` | addon | Runs the kivi.py script located in the modules folder for reverse shell. |
 | `lazyown_addon_laps` | addon | Dumping LAPS from Python |
-| `lazyown_addon_lazyagentai` | addon | Ejecuta el script lazyagentAi.py que se encuentra en la carpeta modules. |
-| `lazyown_addon_lazybinenc` | addon | Ejecuta el script lazybinenc.py que se encuentra en la carpeta modules. |
-| `lazyown_addon_lazyftpsniff` | addon | Ejecuta el script lazyftpsniff.py que se encuentra en la carpeta modules. |
+| `lazyown_addon_lazyagentai` | addon | Runs the lazyagentAi.py script located in the modules folder. |
+| `lazyown_addon_lazybinenc` | addon | Runs the lazybinenc.py script located in the modules folder. |
+| `lazyown_addon_lazyftpsniff` | addon | Runs the lazyftpsniff.py script located in the modules folder. |
 | `lazyown_addon_lazyloader` | addon | LazyLoader is A stealthy LazyLoader Windows PE loader designed to fetch, decrypt |
-| `lazyown_addon_lazymapd` | addon | LAzyOwn RedTeam Framework, Detecta puertos abiertos y es capaz de guardar en un  |
-| `lazyown_addon_lazyownbt` | addon | LAzyOwn BlueTeam Framework, Detecta y reacciona a ataques, haredenización, integ |
-| `lazyown_addon_lazyownexplorer` | addon | Ejecuta el script LazyOwnExplorer.py que se encuentra en la carpeta modules. |
+| `lazyown_addon_lazymapd` | addon | LazyOwn RedTeam Framework. Detects open ports and can save to a  |
+| `lazyown_addon_lazyownbt` | addon | LazyOwn BlueTeam Framework. Detects and reacts to attacks, hardening, integ |
+| `lazyown_addon_lazyownexplorer` | addon | Runs the LazyOwnExplorer.py script located in the modules folder. |
 | `lazyown_addon_nullgate` | addon | Library that eases the use of indirect syscalls. Quite interesting AV/EDR bypass |
 | `lazyown_addon_oniux` | addon | oniux is a tool that utilizes various Linux namespaces(7) in order to isolate an |
 | `lazyown_addon_orpheus` | addon | Bypassing Kerberoast Detections with Modified KDC Options and Encryption Types |
@@ -1525,7 +1525,7 @@ Discovered at server startup. Run `mcp restart` to refresh.
 | `lazyown_addon_pretender` | addon | Your MitM sidekick for relaying attacks featuring DHCPv6 DNS takeover as well as |
 | `lazyown_addon_ptmultitools` | addon | This repository my public tools that I use in CTF's and real world engagements. |
 | `lazyown_addon_ptmultitools_scan` | addon | This repository my public tools that I use in CTF's and real world engagements. |
-| `lazyown_addon_pyinmemorype` | addon | 🛠️ Execute any PE (dll,exe) in memory filelessly usage pymemory.py < url> < TYPe |
+| `lazyown_addon_pyinmemorype` | addon | Execute any PE (dll,exe) in memory filelessly usage pymemory.py < url> < TYPe |
 | `lazyown_addon_pyrit` | addon | Python Risk Identification Tool for generative AI (PyRIT) by Microsoft/Azure. Em |
 | `lazyown_addon_raven` | addon | raven is a project that stems from the Invoke-PSObfuscation framework, with the  |
 | `lazyown_addon_ridenum` | addon | Bypassing Kerberoast Detections with Modified KDC Options and Encryption Types |
@@ -1534,38 +1534,38 @@ Discovered at server startup. Run `mcp restart` to refresh.
 | `lazyown_addon_shellcode_custom_win_rev_tcp_xored` | addon | win_shellcode shellcode in windows custom (no msfvenom) and xored |
 | `lazyown_addon_sigploit` | addon | SigPloit a signaling security testing framework dedicated to Telecom Security pr |
 | `lazyown_addon_spoonmap` | addon | This script is simply a wrapper for NMAP and Masscan. Install them from your fav |
-| `lazyown_addon_stratus_detonate` | addon | ☁️ ⚡ Granular, Actionable Adversary Emulation for the Cloud. Need an attack like |
-| `lazyown_addon_stratus_list` | addon | ☁️ ⚡ Granular, Actionable Adversary Emulation for the Cloud |
+| `lazyown_addon_stratus_detonate` | addon | Granular, Actionable Adversary Emulation for the Cloud. Need an attack like |
+| `lazyown_addon_stratus_list` | addon | Granular, Actionable Adversary Emulation for the Cloud |
 | `lazyown_addon_unicorn` | addon | Unicorn is a simple tool for using a PowerShell downgrade attack and inject shel |
 | `lazyown_addon_upxdump` | addon | Some C code to repair corrupt p_info header on UPX! packed malware. It fixes two |
-| `lazyown_addon_vulnbot` | addon | Ejecuta el script vuln_bot_cli.py que se encuentra en la carpeta modules. |
-| `lazyown_addon_vulnbot_groq` | addon | Ejecuta el script vuln_bot_cli.py que se encuentra en la carpeta modules. |
+| `lazyown_addon_vulnbot` | addon | Runs the vuln_bot_cli.py script located in the modules folder. |
+| `lazyown_addon_vulnbot_groq` | addon | Runs the vuln_bot_cli.py script located in the modules folder. |
 | `lazyown_addon_vulnhuntr` | addon | Vulnhuntr leverages the power of LLMs to automatically create and analyze entire |
 | `lazyown_addon_watchguard` | addon | Client Implementation for the WatchGuard SSO Agent Protocol used for Security Re |
 | `lazyown_addon_wspcoerce` | addon | wspcoerce coerces a Windows computer account via SMB to an arbitrary target usin |
 | `lazyown_plugin_generate_c_reverse_shell` | plugin | Generates a reverse shell payload written in C, embedding dynamically crafted sh |
 | `lazyown_plugin_generate_cleanup_commands` | plugin | Generates cleanup commands for Windows or Linux systems based on user-specified  |
 | `lazyown_plugin_generate_html_payload` | plugin | Generates an HTML file that delivers a hidden payload file using various encodin |
-| `lazyown_plugin_generate_lateral_command` | plugin | Genera comandos de movimiento lateral usando diferentes técnicas (psexec, smbexe |
-| `lazyown_plugin_generate_linux_asm_reverse_shell` | plugin | Genera código ensamblador NASM para una reverse shell en Linux basada en syscall |
-| `lazyown_plugin_generate_linux_raw_shellcode` | plugin | Genera shellcode en formato raw para una reverse shell TCP en Linux. No crea arc |
+| `lazyown_plugin_generate_lateral_command` | plugin | Generates lateral movement commands using different techniques (psexec, smbexe |
+| `lazyown_plugin_generate_linux_asm_reverse_shell` | plugin | Generates NASM assembly code for a Linux reverse shell based on syscalls |
+| `lazyown_plugin_generate_linux_raw_shellcode` | plugin | Generates raw shellcode for a Linux TCP reverse shell. Does not create files |
 | `lazyown_plugin_generate_lolbird` | plugin | generate shellcode xored using the key 0x33 and craft a oneliner with 3 phases a |
-| `lazyown_plugin_generate_msfvenom_loader` | plugin | Genera shellcode en formato hex para una msfvenom reverse shell TCP en Linux. Cr |
-| `lazyown_plugin_generate_msfvenom_loader_win` | plugin | Genera shellcode en formato hex para una msfvenom reverse shell TCP en Windows.  |
+| `lazyown_plugin_generate_msfvenom_loader` | plugin | Generates hex shellcode for a Linux msfvenom TCP reverse shell. Cr |
+| `lazyown_plugin_generate_msfvenom_loader_win` | plugin | Generates hex shellcode for a Windows msfvenom TCP reverse shell.  |
 | `lazyown_plugin_generate_reverse_shell` | plugin | Generates a Python reverse shell payload that connects back to a specified LHOST |
 | `lazyown_plugin_generate_stub` | plugin | generate stub xored using the key 0x33 and craft a oneliner with 2 phases attack |
 | `lazyown_plugin_kerberos_harvest` | plugin | Harvests Kerberos tickets by querying for Service Principal Names (SPNs) and req |
-| `lazyown_plugin_lolbas_bitsadmin_exe` | plugin | Usa bitsadmin para descargar y ejecutar EXE |
-| `lazyown_plugin_lolbas_certutil_download_exec` | plugin | Usa certutil para descargar una DLL ofuscada con XOR, la decodifica y ejecuta co |
-| `lazyown_plugin_lolbas_certutil_exe` | plugin | Descarga y ejecuta EXE con certutil |
-| `lazyown_plugin_lolbas_mshta_js_lua` | plugin | Descarga y ejecuta js con mshta |
-| `lazyown_plugin_lolbas_mshta_reverse_shell` | plugin | Genera un one-liner con mshta que ejecuta una reverse shell en JavaScript. No re |
-| `lazyown_plugin_lolbas_rundll32_dll` | plugin | Genera un one-liner con mshta que ejecuta una reverse shell en JavaScript. No re |
-| `lazyown_plugin_lolbas_wmic_xsl_execution` | plugin | Usa wmic + archivo XSL remoto para ejecutar comandos. Técnica T1220. Requiere se |
-| `lazyown_plugin_parse_nmap_with_xmlstarlet` | plugin | Usa xmlstarlet para extraer información útil de archivos NMAP (.xml):
- - IPs act |
-| `lazyown_plugin_run_nuclei_on_nmap_files` | plugin | Ejecuta nuclei utilizando direcciones IP extraídas de archivos NMAP .xml
-almacen |
+| `lazyown_plugin_lolbas_bitsadmin_exe` | plugin | Uses bitsadmin to download and execute EXE |
+| `lazyown_plugin_lolbas_certutil_download_exec` | plugin | Uses certutil to download a XOR-obfuscated DLL, decodes it and executes it |
+| `lazyown_plugin_lolbas_certutil_exe` | plugin | Download and execute EXE with certutil |
+| `lazyown_plugin_lolbas_mshta_js_lua` | plugin | Download and execute JS with mshta |
+| `lazyown_plugin_lolbas_mshta_reverse_shell` | plugin | Generates a one-liner with mshta that executes a JavaScript reverse shell. No re |
+| `lazyown_plugin_lolbas_rundll32_dll` | plugin | Generates a one-liner with mshta that executes a JavaScript reverse shell. No re |
+| `lazyown_plugin_lolbas_wmic_xsl_execution` | plugin | Uses wmic + remote XSL file to execute commands. Technique T1220. Requires se |
+| `lazyown_plugin_parse_nmap_with_xmlstarlet` | plugin | Uses xmlstarlet to extract useful information from NMAP files (.xml):
+ - active IPs |
+| `lazyown_plugin_run_nuclei_on_nmap_files` | plugin | Executes nuclei using IP addresses extracted from NMAP .xml files
+stored |
 | `lazyown_plugin_run_python_rev_c2` | plugin | Executes a Python reverse shell payload that connects back to a specified LHOST  |
 | `lazyown_plugin_rundll32_sct_from_url` | plugin | Craft a one-liner using rundll32.exe to execute a remote SCT payload via JavaScr |
 | `lazyown_plugin_validate_shellcode` | plugin | Validates shellcode data by checking for bad bytes and ensuring the payload does |

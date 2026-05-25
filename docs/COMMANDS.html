@@ -177,9 +177,25 @@
 </header>
 <h1 id="commands.md-documentation-by-readmeneitor.py">COMMANDS.md
 Documentation by readmeneitor.py</h1>
+<h2 id="parse_bool_setting">_parse_bool_setting</h2>
+<p>Coerce a cmd2 <code>set</code> argument into a Python
+<code>bool</code>.</p>
+<p>Accepts native booleans, integers, and the canonical truthy/falsy
+strings used elsewhere in the framework
+(<code>true</code>/<code>false</code>, <code>yes</code>/<code>no</code>,
+<code>on</code>/<code>off</code>, <code>1</code>/<code>0</code>).
+Anything else raises :class:<code>ValueError</code> so cmd2 surfaces the
+error to the operator instead of silently coercing to
+<code>False</code>.</p>
 <h2 id="main">main</h2>
 <p>No description available.</p>
 <h2 id="init"><strong>init</strong></h2>
+<p>Bind the proxy to a live <code>params</code> dictionary.</p>
+<h2 id="getattr"><strong>getattr</strong></h2>
+<p>No description available.</p>
+<h2 id="setattr"><strong>setattr</strong></h2>
+<p>No description available.</p>
+<h2 id="init-1"><strong>init</strong></h2>
 <p>Initializer for the LazyOwnShell class.</p>
 <p>This method sets up the initial parameters and scripts for an
 instance of the LazyOwnShell class. It initializes a dictionary of
@@ -188,6 +204,17 @@ of the LazyOwnShell toolkit.</p>
 <p>Attributes: params (dict): A dictionary of parameters with their
 default values. scripts (list): A list of script names included in the
 toolkit. output (str): An empty string to store output or results.</p>
+<h2 id="register_ux_settables">_register_ux_settables</h2>
+<p>Expose the new UX flags through cmd2’s <code>set</code> command.</p>
+<p>cmd2’s <code>set</code> reads/writes from a target object. The
+:class:<code>_PayloadSettableProxy</code> proxies attribute access to
+<code>self.params</code> so <code>set &lt;key&gt; &lt;value&gt;</code>
+and <code>assign &lt;key&gt; &lt;value&gt;</code> update the same
+backing store and both persist through
+:func:<code>core.config.save_payload</code>. The four keys registered
+here (<code>tui_theme</code>, <code>enable_operator_presence</code>,
+<code>enable_toasts</code>, <code>toast_max_per_tick</code>) match the
+schema entries in :mod:<code>core.payload_schema</code>.</p>
 <h2 id="log_command">log_command</h2>
 <p>Logs the command execution details to a CSV file.</p>
 <p>:param cmd_name: The name of the command. :param cmd_args: The
@@ -199,6 +226,16 @@ the class by attempting to find a corresponding method. If the command
 or alias is not found, it prints an error message.</p>
 <p>:param line: The command or alias to be handled. :type line: str
 :return: None</p>
+<h2 id="toast_hook">_toast_hook</h2>
+<p>Post-command hook that prints unseen JSONL events as toast lines.</p>
+<p>Reads the <code>enable_toasts</code> flag from
+<code>self.params</code> (default True) so operators can disable
+transient notifications with <code>set enable_toasts false</code>
+without restarting. Any failure is swallowed — toasts must never block
+the shell.</p>
+<p>Args: data: cmd2 PostcommandData containing the executed
+statement.</p>
+<p>Returns: <code>data</code> unchanged.</p>
 <h2 id="inline_hint_hook">_inline_hint_hook</h2>
 <p>Post-command hook that prints a dim next-step hint line.</p>
 <p>Registered via <code>register_postcmd_hook</code> during
@@ -617,6 +654,54 @@ next-step hints (requires <code>/graphify .</code>).</p>
 command prints an install hint and returns.</p>
 <p>:param line: Unused. Reserved for future flags. :type line: str
 :return: None</p>
+<h2 id="palette_k">palette_k</h2>
+<p>Open the fuzzy Command-K palette overlay.</p>
+<p>Modal Textual overlay that lists every <code>do_*</code> command,
+ranks recents first, narrows on substring input and returns the selected
+verb back to the shell for execution.</p>
+<p>Usage: <code>palette_k</code></p>
+<p>Requires <code>textual</code>. When the package is missing or the
+command index is unavailable, the call prints an install hint and
+returns without raising.</p>
+<h2 id="browse">browse</h2>
+<p>Open the sessions/ TUI browser.</p>
+<p>Categorised view of <code>sessions/</code> artefacts (credentials,
+hashes, vulnerabilities, scans, notes, events, world model) with a side
+preview pane and substring filter.</p>
+<p>Usage: <code>browse</code></p>
+<p>Requires <code>textual</code>. When the package is missing, the
+command prints an install hint and returns.</p>
+<h2 id="timeline_browser">timeline_browser</h2>
+<p>Open the timeline scrubber over the session report CSV.</p>
+<p>Scrollable, filterable view over
+<code>sessions/LazyOwn_session_report.csv</code>. Highlight a row to see
+every recorded column for that command.</p>
+<p>Usage: <code>timeline_browser</code></p>
+<p>Requires <code>textual</code>.</p>
+<h2 id="form">form</h2>
+<p>Open the form-mode launcher for a single command.</p>
+<p>Pre-fills the relevant <code>payload.json</code> values (target,
+port, wordlist, …) and lets the operator review them before running the
+command. The form returns <code>set k=v ; verb args</code> so any
+divergence is recorded via <code>assign</code>.</p>
+<p>Usage: <code>form &lt;command&gt;</code></p>
+<p>Example: <code>form lazynmap</code></p>
+<p>Requires <code>textual</code>.</p>
+<h2 id="graph_overlay">graph_overlay</h2>
+<p>Open the graph overlay over the graphify knowledge graph.</p>
+<p>Shows the top central nodes by default and switches to the
+neighbourhood of a focus node when the operator types one. Esc closes;
+Tab toggles between modes.</p>
+<p>Usage: <code>graph_overlay</code></p>
+<p>Requires <code>textual</code> and a populated
+<code>graphify-out/graph_lazyown.json</code> (produced by
+<code>/graphify .</code>).</p>
+<h2 id="toast_clear">toast_clear</h2>
+<p>Mark every pending toast event as seen without printing them.</p>
+<p>Useful after long pauses where the autonomous daemon backlogged
+events the operator no longer cares to read. The state file at
+<code>sessions/.toast_state.json</code> is updated atomically.</p>
+<p>Usage: <code>toast_clear</code></p>
 <h2 id="surface">surface</h2>
 <p>Render the network surface graph in the terminal.</p>
 <p>Mirrors the <code>vis.js</code> graph at
@@ -6990,6 +7075,8 @@ loaders.</p>
 immediately and persist across the web server.</p>
 <h2 id="ai_toggle">ai_toggle</h2>
 <p>Enable or disable the IA assitant (use DeepSeek in local).</p>
+<h2 id="persist">_persist</h2>
+<p>No description available.</p>
 <h2 id="wrapper">wrapper</h2>
 <p>No description available.</p>
 <h2 id="wrapper_yaml">wrapper_yaml</h2>

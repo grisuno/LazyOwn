@@ -211,10 +211,10 @@ Example:
     copy2clip("Hello, World!")
 
 ## clean_output
-Elimina secuencias de escape de color y otros caracteres no imprimibles.
+Removes color escape sequences and other non-printable characters.
 
 ## teclado_usuario
-Procesa un archivo para extraer y mostrar caracteres desde secuencias de escritura específicas.
+Processes a file to extract and display characters from specific write sequences.
 
 Args:
     filename (str): El nombre del archivo a leer.
@@ -413,7 +413,7 @@ Note:
 - At least two parts of the name are required to generate valid email addresses.
 
 ## clean_url
-Verifica si el último carácter es una barra y, de ser así, la elimina
+Checks if the last character is a slash and removes it if so.
 
 ## random_string
 Generates a random alphanumeric string.
@@ -739,7 +739,7 @@ Returns:
     list: A list of XML filenames found in the specified directory.
 
 ## get_domain_from_xml
-Extrae el primer dominio o dirección IP de un archivo XML de un escaneo Nmap.
+Extracts the first domain or IP address from an Nmap scan XML file.
 
 ## shellcode_to_sylk
 No description available.
@@ -855,18 +855,18 @@ Generate key XOR long specifyed
 :return: Key XOR in hex.
 
 ## scrape_news
-Realiza una solicitud a la página de noticias de Hacker News y extrae los títulos, enlaces y puntuaciones de las noticias.
+Makes a request to the Hacker News page and extracts titles, links, and scores.
 
 Returns:
-    tuple: Tres listas conteniendo los títulos, enlaces y puntuaciones de las noticias respectivamente.
+    tuple: Three lists containing the titles, links and scores of the news items respectively.
 
 ## display_news
-Crea un DataFrame de pandas y lo imprime, mostrando los títulos, enlaces y puntuaciones de las noticias.
+Creates a pandas DataFrame and prints it, showing titles, links, and scores.
 
 Args:
-    titles (list): Lista de títulos de las noticias.
-    links (list): Lista de enlaces de las noticias.
-    scores (list): Lista de puntuaciones de las noticias.
+    titles (list): List of news titles.
+    links (list): List of news links.
+    scores (list): List of news scores.
 
 ## htmlify
 Wrap C2 comms in html and html2 code to make requests look more legitimate
@@ -930,7 +930,7 @@ Returns:
 No description available.
 
 ## query_ollama
-Envía consulta a Ollama y retorna respuesta del modelo
+Sends query to Ollama and returns model response.
 
 ## preprocess_llm_response
 Pre-process LLM response to handle common issues before YAML parsing

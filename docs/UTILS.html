@@ -338,11 +338,11 @@ cmd2.</p>
 <p>Args: text (str): El texto que se desea copiar al portapapeles.</p>
 <p>Example: copy2clip(“Hello, World!”)</p>
 <h2 id="clean_output">clean_output</h2>
-<p>Elimina secuencias de escape de color y otros caracteres no
-imprimibles.</p>
+<p>Removes color escape sequences and other non-printable
+characters.</p>
 <h2 id="teclado_usuario">teclado_usuario</h2>
-<p>Procesa un archivo para extraer y mostrar caracteres desde secuencias
-de escritura específicas.</p>
+<p>Processes a file to extract and display characters from specific
+write sequences.</p>
 <p>Args: filename (str): El nombre del archivo a leer.</p>
 <p>Raises: FileNotFoundError: Si el archivo no se encuentra. Exception:
 Para otros errores que puedan ocurrir.</p>
@@ -482,8 +482,7 @@ first initial of the last name.</p>
 <p>Note: - At least two parts of the name are required to generate valid
 email addresses.</p>
 <h2 id="clean_url">clean_url</h2>
-<p>Verifica si el último carácter es una barra y, de ser así, la
-elimina</p>
+<p>Checks if the last character is a slash and removes it if so.</p>
 <h2 id="random_string">random_string</h2>
 <p>Generates a random alphanumeric string.</p>
 <h2 id="generate_http_req">generate_http_req</h2>
@@ -723,8 +722,8 @@ accessible in the current environment.</p>
 <p>Returns: list: A list of XML filenames found in the specified
 directory.</p>
 <h2 id="get_domain_from_xml">get_domain_from_xml</h2>
-<p>Extrae el primer dominio o dirección IP de un archivo XML de un
-escaneo Nmap.</p>
+<p>Extracts the first domain or IP address from an Nmap scan XML
+file.</p>
 <h2 id="shellcode_to_sylk">shellcode_to_sylk</h2>
 <p>No description available.</p>
 <h2 id="get_banner">get_banner</h2>
@@ -799,16 +798,15 @@ udp). - banner (str): Extra information about the service. - service
 <p>Generate key XOR long specifyed</p>
 <p>:param length: Lenght of XOR key :return: Key XOR in hex.</p>
 <h2 id="scrape_news">scrape_news</h2>
-<p>Realiza una solicitud a la página de noticias de Hacker News y extrae
-los títulos, enlaces y puntuaciones de las noticias.</p>
-<p>Returns: tuple: Tres listas conteniendo los títulos, enlaces y
-puntuaciones de las noticias respectivamente.</p>
+<p>Makes a request to the Hacker News page and extracts titles, links,
+and scores.</p>
+<p>Returns: tuple: Three lists containing the titles, links and scores
+of the news items respectively.</p>
 <h2 id="display_news">display_news</h2>
-<p>Crea un DataFrame de pandas y lo imprime, mostrando los títulos,
-enlaces y puntuaciones de las noticias.</p>
-<p>Args: titles (list): Lista de títulos de las noticias. links (list):
-Lista de enlaces de las noticias. scores (list): Lista de puntuaciones
-de las noticias.</p>
+<p>Creates a pandas DataFrame and prints it, showing titles, links, and
+scores.</p>
+<p>Args: titles (list): List of news titles. links (list): List of news
+links. scores (list): List of news scores.</p>
 <h2 id="htmlify">htmlify</h2>
 <p>Wrap C2 comms in html and html2 code to make requests look more
 legitimate</p>
@@ -853,7 +851,7 @@ corresponding values.</p>
 <h2 id="parse_nmap_csv">parse_nmap_csv</h2>
 <p>No description available.</p>
 <h2 id="query_ollama">query_ollama</h2>
-<p>Envía consulta a Ollama y retorna respuesta del modelo</p>
+<p>Sends query to Ollama and returns model response.</p>
 <h2 id="preprocess_llm_response">preprocess_llm_response</h2>
 <p>Pre-process LLM response to handle common issues before YAML
 parsing</p>

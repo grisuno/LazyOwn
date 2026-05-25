@@ -23,6 +23,7 @@ import cmd2
 
 from cmd2 import CommandSet, with_argparser, with_category, with_argument_list
 from cmd2.plugin import PostcommandData as _PostcommandData
+from typing import Any
 from utils import *
 from modules.llm_factory import try_get_llm_backend as _try_get_llm_backend
 from cli.aliases import load_aliases as _load_aliases
@@ -74,6 +75,7 @@ from cli.palette_command import render as _render_palette
 from cli.registry import register_command_sets as _register_command_sets
 from cli.show import format_payload as _format_payload
 from cli.status_bar import build_default_manager as _build_status_bar_manager
+from cli.toast_bus import render_toasts as _render_toasts
 from core.config import save_payload as _save_payload
 from skills.unified_orchestrator import build_default_orchestrator as _build_unified_orchestrator
 
@@ -101,6 +103,62 @@ with open('payload.json', 'r') as file:
     url_trafic_1 = config.get("url_trafic_1")
     url_trafic_2 = config.get("url_trafic_2")
     url_trafic_3 = config.get("url_trafic_3")
+
+
+_BOOL_TRUE_TOKENS: frozenset[str] = frozenset({"true", "1", "yes", "on"})
+_BOOL_FALSE_TOKENS: frozenset[str] = frozenset({"false", "0", "no", "off"})
+
+
+def _parse_bool_setting(value: Any) -> bool:
+    """Coerce a cmd2 ``set`` argument into a Python ``bool``.
+
+    Accepts native booleans, integers, and the canonical truthy/falsy
+    strings used elsewhere in the framework (``true``/``false``,
+    ``yes``/``no``, ``on``/``off``, ``1``/``0``). Anything else raises
+    :class:`ValueError` so cmd2 surfaces the error to the operator
+    instead of silently coercing to ``False``.
+    """
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, int):
+        return bool(value)
+    if isinstance(value, str):
+        lowered = value.strip().lower()
+        if lowered in _BOOL_TRUE_TOKENS:
+            return True
+        if lowered in _BOOL_FALSE_TOKENS:
+            return False
+    raise ValueError(
+        f"cannot parse {value!r} as boolean; expected one of true/false/yes/no/on/off/1/0"
+    )
+
+
+class _PayloadSettableProxy:
+    """Attribute view over a payload mapping for cmd2 ``Settable`` targets.
+
+    cmd2's ``Settable`` reads and writes its bound attribute on a
+    *target object* (``getattr`` / ``setattr``). LazyOwn keeps its
+    runtime configuration in a plain ``dict`` (``self.params``) so this
+    proxy bridges the two: every attribute read or write is delegated to
+    the underlying dict, which keeps ``set <key> <value>`` and
+    ``assign <key> <value>`` operating on the same backing store with no
+    drift between them.
+    """
+
+    def __init__(self, params: dict) -> None:
+        """Bind the proxy to a live ``params`` dictionary."""
+        object.__setattr__(self, "_params", params)
+
+    def __getattr__(self, name: str) -> Any:
+        params = object.__getattribute__(self, "_params")
+        if name in params:
+            return params[name]
+        raise AttributeError(name)
+
+    def __setattr__(self, name: str, value: Any) -> None:
+        params = object.__getattribute__(self, "_params")
+        params[name] = value
+
 
 class LazyOwnShell(cmd2.Cmd):
     """
@@ -232,6 +290,10 @@ class LazyOwnShell(cmd2.Cmd):
             _reset_engagement_session()
         except Exception as exc:
             print_warn(f"engagement hook not registered: {exc}")
+        try:
+            self.register_postcmd_hook(self._toast_hook)
+        except Exception as exc:
+            print_warn(f"toast hook not registered: {exc}")
         self._autosuggest = None
         self._autosuggest_advisor = None
         try:
@@ -332,6 +394,10 @@ class LazyOwnShell(cmd2.Cmd):
             "dirwordlist": "/usr/share/wordlists/SecLists-master/Discovery/Web-Content/directory-list-2.3-medium.txt",
             "usrwordlist": "/usr/share/wordlists/SecLists-master/Usernames/xato-net-10-million-usernames.txt",
             "dnswordlist": "/usr/share/wordlists/SecLists-master/Discovery/DNS/subdomains-top1million-110000.txt",
+            "enable_toasts": True,
+            "toast_max_per_tick": 5,
+            "enable_operator_presence": False,
+            "tui_theme": "default",
         }
         self.scripts = [
             "lazysearch",
@@ -395,6 +461,72 @@ class LazyOwnShell(cmd2.Cmd):
         except Exception as exc:
             print_warn(f"unified orchestrator not installed: {exc}")
             self._unified_orchestrator = None
+        try:
+            self._register_ux_settables()
+        except Exception as exc:
+            print_warn(f"ux settables not registered: {exc}")
+
+    def _register_ux_settables(self) -> None:
+        """Expose the new UX flags through cmd2's ``set`` command.
+
+        cmd2's ``set`` reads/writes from a target object. The
+        :class:`_PayloadSettableProxy` proxies attribute access to
+        ``self.params`` so ``set <key> <value>`` and ``assign <key> <value>``
+        update the same backing store and both persist through
+        :func:`core.config.save_payload`. The four keys registered here
+        (``tui_theme``, ``enable_operator_presence``, ``enable_toasts``,
+        ``toast_max_per_tick``) match the schema entries in
+        :mod:`core.payload_schema`.
+        """
+        from cmd2 import Settable
+
+        proxy = _PayloadSettableProxy(self.params)
+        self._ux_settables_proxy = proxy
+
+        def _persist(name, _old, _new):
+            try:
+                _save_payload(self.params)
+            except Exception as exc:
+                print_warn(f"failed to persist {name}: {exc}")
+
+        self.add_settable(
+            Settable(
+                "tui_theme",
+                str,
+                "TUI overlay colour theme",
+                proxy,
+                onchange_cb=_persist,
+                choices=("default", "dim", "bright", "colorblind"),
+            )
+        )
+        self.add_settable(
+            Settable(
+                "enable_operator_presence",
+                _parse_bool_setting,
+                "Show collaboration operator count in the status bar",
+                proxy,
+                onchange_cb=_persist,
+            )
+        )
+        self.add_settable(
+            Settable(
+                "enable_toasts",
+                _parse_bool_setting,
+                "Print unseen JSONL events as dim toast lines after each command",
+                proxy,
+                onchange_cb=_persist,
+            )
+        )
+        self.add_settable(
+            Settable(
+                "toast_max_per_tick",
+                int,
+                "Maximum toast lines printed per command (1-50)",
+                proxy,
+                onchange_cb=_persist,
+            )
+        )
+
     def log_command(self, cmd_name, cmd_args):
         """
         Logs the command execution details to a CSV file.
@@ -461,6 +593,27 @@ class LazyOwnShell(cmd2.Cmd):
                 f"unknown command '{cmd_name}'. Did you mean: {', '.join(suggestions)} ?"
             )
         self.display_toastr(f"Not Found {line}", type="warning")
+
+    def _toast_hook(self, data: _PostcommandData) -> _PostcommandData:
+        """Post-command hook that prints unseen JSONL events as toast lines.
+
+        Reads the ``enable_toasts`` flag from ``self.params`` (default
+        True) so operators can disable transient notifications with
+        ``set enable_toasts false`` without restarting. Any failure is
+        swallowed — toasts must never block the shell.
+
+        Args:
+            data: cmd2 PostcommandData containing the executed statement.
+
+        Returns:
+            ``data`` unchanged.
+        """
+        try:
+            sessions_dir = getattr(self, "sessions_dir", "sessions") or "sessions"
+            _render_toasts(payload=self.params, sessions_dir=sessions_dir)
+        except Exception:
+            pass
+        return data
 
     def _inline_hint_hook(self, data: _PostcommandData) -> _PostcommandData:
         """Post-command hook that prints a dim next-step hint line.
@@ -2217,6 +2370,156 @@ class LazyOwnShell(cmd2.Cmd):
         payload_path = "payload.json"
         sessions_dir = getattr(self, "sessions_dir", "sessions") or "sessions"
         _launch_dashboard(payload_path=payload_path, sessions_dir=sessions_dir)
+
+    @cmd2.with_category(miscellaneous_category)
+    def do_palette_k(self, line):
+        """Open the fuzzy Command-K palette overlay.
+
+        Modal Textual overlay that lists every ``do_*`` command, ranks
+        recents first, narrows on substring input and returns the
+        selected verb back to the shell for execution.
+
+        Usage: ``palette_k``
+
+        Requires ``textual``. When the package is missing or the command
+        index is unavailable, the call prints an install hint and
+        returns without raising.
+        """
+        try:
+            from cli.palette_overlay import launch_overlay as _launch_palette_k
+        except ImportError:
+            print_error("palette overlay unavailable. Run: pip install textual")
+            return
+        selected = _launch_palette_k(payload=self.params)
+        if not selected:
+            return
+        verb = selected[3:] if selected.startswith("do_") else selected
+        print_msg(f"selected: {verb}")
+        try:
+            self.onecmd_plus_hooks(verb)
+        except Exception as exc:
+            print_warn(f"command dispatch failed: {exc}")
+
+    @cmd2.with_category(miscellaneous_category)
+    def do_browse(self, line):
+        """Open the sessions/ TUI browser.
+
+        Categorised view of ``sessions/`` artefacts (credentials,
+        hashes, vulnerabilities, scans, notes, events, world model)
+        with a side preview pane and substring filter.
+
+        Usage: ``browse``
+
+        Requires ``textual``. When the package is missing, the command
+        prints an install hint and returns.
+        """
+        try:
+            from cli.sessions_browser import launch_browser as _launch_sessions_browser
+        except ImportError:
+            print_error("sessions browser unavailable. Run: pip install textual")
+            return
+        sessions_dir = getattr(self, "sessions_dir", "sessions") or "sessions"
+        _launch_sessions_browser(payload=self.params, state=None)
+        _ = sessions_dir
+
+    @cmd2.with_category(miscellaneous_category)
+    def do_timeline_browser(self, line):
+        """Open the timeline scrubber over the session report CSV.
+
+        Scrollable, filterable view over
+        ``sessions/LazyOwn_session_report.csv``. Highlight a row to see
+        every recorded column for that command.
+
+        Usage: ``timeline_browser``
+
+        Requires ``textual``.
+        """
+        try:
+            from cli.timeline_browser import launch_scrubber as _launch_timeline_scrubber
+        except ImportError:
+            print_error("timeline scrubber unavailable. Run: pip install textual")
+            return
+        _launch_timeline_scrubber(payload=self.params)
+
+    @cmd2.with_category(miscellaneous_category)
+    def do_form(self, line):
+        """Open the form-mode launcher for a single command.
+
+        Pre-fills the relevant ``payload.json`` values (target, port,
+        wordlist, ...) and lets the operator review them before running
+        the command. The form returns ``set k=v ; verb args`` so any
+        divergence is recorded via ``assign``.
+
+        Usage: ``form <command>``
+
+        Example: ``form lazynmap``
+
+        Requires ``textual``.
+        """
+        argument = (line or "").strip()
+        if not argument:
+            print_warn("usage: form <command>")
+            return
+        try:
+            from cli.command_form import launch_form as _launch_command_form
+        except ImportError:
+            print_error("form launcher unavailable. Run: pip install textual")
+            return
+        result_state = _launch_command_form(argument, payload=self.params)
+        if result_state is None:
+            return
+        for key, value in result_state.overrides():
+            try:
+                self.onecmd_plus_hooks(f"assign {shlex.quote(key)} {shlex.quote(value)}")
+            except Exception as exc:
+                print_warn(f"form assign {key} failed: {exc}")
+        verb_line = result_state.verb_line()
+        if not verb_line:
+            return
+        try:
+            self.onecmd_plus_hooks(verb_line)
+        except Exception as exc:
+            print_warn(f"form dispatch failed: {exc}")
+
+    @cmd2.with_category(miscellaneous_category)
+    def do_graph_overlay(self, line):
+        """Open the graph overlay over the graphify knowledge graph.
+
+        Shows the top central nodes by default and switches to the
+        neighbourhood of a focus node when the operator types one. Esc
+        closes; Tab toggles between modes.
+
+        Usage: ``graph_overlay``
+
+        Requires ``textual`` and a populated ``graphify-out/graph_lazyown.json``
+        (produced by ``/graphify .``).
+        """
+        try:
+            from cli.graph_overlay import launch_overlay as _launch_graph_overlay
+        except ImportError:
+            print_error("graph overlay unavailable. Run: pip install textual")
+            return
+        _launch_graph_overlay(payload=self.params)
+
+    @cmd2.with_category(miscellaneous_category)
+    def do_toast_clear(self, line):
+        """Mark every pending toast event as seen without printing them.
+
+        Useful after long pauses where the autonomous daemon backlogged
+        events the operator no longer cares to read. The state file at
+        ``sessions/.toast_state.json`` is updated atomically.
+
+        Usage: ``toast_clear``
+        """
+        try:
+            from cli.toast_bus import build_default_bus as _build_toast_bus
+        except ImportError:
+            print_error("toast subsystem unavailable.")
+            return
+        sessions_dir = getattr(self, "sessions_dir", "sessions") or "sessions"
+        bus = _build_toast_bus(payload=self.params, sessions_dir=sessions_dir)
+        bus.mark_all_seen()
+        print_msg("toast offsets advanced to current file sizes.")
 
     @cmd2.with_category(recon_category)
     def do_surface(self, line):

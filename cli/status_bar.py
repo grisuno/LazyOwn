@@ -46,10 +46,13 @@ class StatusBarConfig:
 
     enabled_key: str = "enable_status_bar"
     format_key: str = "status_bar_format"
+    operators_enabled_key: str = "enable_operator_presence"
+    operators_format_key: str = "status_bar_format_with_operators"
     sessions_dir: str = "sessions"
     world_model_filename: str = "world_model.json"
     os_filename: str = "os.json"
     session_report_filename: str = "LazyOwn_session_report.csv"
+    operators_filename: str = "operators.json"
     credentials_glob: str = "credentials*.txt"
     hashes_glob: str = "hash*.txt"
     vulns_glob: str = "vulns_*.json"
@@ -58,19 +61,26 @@ class StatusBarConfig:
     phase_payload_key: str = "current_phase"
     phase_world_model_key: str = "phase"
     enabled_default: bool = True
+    operators_enabled_default: bool = False
     default_format: str = "[ {target} | {phase} | found: {finding} | next: {suggestion} ]"
+    default_format_with_operators: str = (
+        "[ {target} | {phase} | found: {finding} | ops: {operators} | next: {suggestion} ]"
+    )
     fallback_target: str = "no-target"
     fallback_phase: str = "recon"
     fallback_finding: str = "-"
     fallback_suggestion: str = "ping"
+    fallback_operators: str = "0"
     max_target_chars: int = 32
     max_phase_chars: int = 12
     max_finding_chars: int = 36
     max_suggestion_chars: int = 24
+    max_operators_chars: int = 24
     max_field_chars: int = 64
     max_file_bytes: int = 524288
     csv_max_rows: int = 2000
     suggestion_limit: int = 1
+    operator_stale_seconds: float = 90.0
     color_enabled: bool = True
     color_open: str = "\033[2;36m"
     color_close: str = "\033[0m"
@@ -99,10 +109,13 @@ class StatusBarConfig:
             return cls()
         base = cls()
         fmt_value = payload.get(base.format_key)
+        ops_fmt_value = payload.get(base.operators_format_key)
         sessions_value = payload.get("sessions_dir")
         updates: dict[str, Any] = {}
         if isinstance(fmt_value, str) and fmt_value.strip():
             updates["default_format"] = fmt_value
+        if isinstance(ops_fmt_value, str) and ops_fmt_value.strip():
+            updates["default_format_with_operators"] = ops_fmt_value
         if isinstance(sessions_value, str) and sessions_value.strip():
             updates["sessions_dir"] = sessions_value
         return replace(base, **updates) if updates else base
@@ -110,12 +123,19 @@ class StatusBarConfig:
 
 @dataclass(frozen=True)
 class StatusContext:
-    """Immutable snapshot of the four pieces the bar renders."""
+    """Immutable snapshot of the pieces the bar renders.
+
+    ``operators`` is an opt-in fifth segment populated by
+    :class:`CollabPresenceSource`. Empty strings are treated as "field
+    disabled" by the renderer so the historical four-segment format remains
+    the default.
+    """
 
     target: str
     phase: str
     last_finding: str
     next_suggestion: str
+    operators: str = ""
 
 
 class IStatusSource(Protocol):
@@ -565,6 +585,72 @@ class GraphSuggestionSource:
         return ""
 
 
+class CollabPresenceSource:
+    """Status source: number of active collaboration operators.
+
+    Reads ``sessions/operators.json`` (a snapshot written by
+    :mod:`modules.collab_bp` or its export hook). The file is expected to
+    contain ``{"operators": [{"name": ..., "last_seen": ..., "active": ...}]}``
+    where ``last_seen`` is a Unix timestamp. Operators older than
+    :attr:`StatusBarConfig.operator_stale_seconds` are filtered out so the
+    count reflects live presence and survives a server restart.
+    """
+
+    def __init__(
+        self,
+        config: StatusBarConfig,
+        reader: FileSystemReader,
+        clock: Callable[[], float] | None = None,
+    ) -> None:
+        """Bind to the active config, reader, and an injectable clock.
+
+        Args:
+            config: Active configuration.
+            reader: Sessions reader (the only filesystem entry point).
+            clock: Zero-argument callable returning the current Unix
+                timestamp. Defaults to :func:`time.time`; tests inject a
+                fixed value for determinism.
+        """
+        import time
+
+        self._config = config
+        self._reader = reader
+        self._clock = clock or time.time
+
+    def collect(self) -> str:
+        """Return the active-operator count formatted as a short string."""
+        payload = self._reader.read_json(self._config.operators_filename)
+        operators = self._extract_entries(payload)
+        if not operators:
+            return self._config.fallback_operators
+        threshold = self._clock() - self._config.operator_stale_seconds
+        active_count = 0
+        for entry in operators:
+            if self._is_active(entry, threshold):
+                active_count += 1
+        return str(active_count)
+
+    @staticmethod
+    def _extract_entries(payload: Any) -> list[Mapping[str, Any]]:
+        if isinstance(payload, dict):
+            candidates = payload.get("operators")
+            if isinstance(candidates, list):
+                return [entry for entry in candidates if isinstance(entry, dict)]
+        if isinstance(payload, list):
+            return [entry for entry in payload if isinstance(entry, dict)]
+        return []
+
+    @staticmethod
+    def _is_active(entry: Mapping[str, Any], threshold: float) -> bool:
+        active_flag = entry.get("active")
+        if active_flag is False:
+            return False
+        last_seen = entry.get("last_seen")
+        if isinstance(last_seen, (int, float)):
+            return float(last_seen) >= threshold
+        return active_flag is True
+
+
 class StatusBarRenderer:
     """Compose a sanitised status line from a :class:`StatusContext`."""
 
@@ -575,20 +661,44 @@ class StatusBarRenderer:
 
     def render_plain(self, ctx: StatusContext) -> str:
         """Return the line without ANSI colour or readline markers."""
-        return self._config.default_format.format(
-            target=self._sanitise(ctx.target, self._config.max_target_chars),
-            phase=self._sanitise(ctx.phase, self._config.max_phase_chars),
-            finding=self._sanitise(ctx.last_finding, self._config.max_finding_chars),
-            suggestion=self._sanitise(ctx.next_suggestion, self._config.max_suggestion_chars),
+        target = self._sanitise(ctx.target, self._config.max_target_chars)
+        phase = self._sanitise(ctx.phase, self._config.max_phase_chars)
+        finding = self._sanitise(ctx.last_finding, self._config.max_finding_chars)
+        suggestion = self._sanitise(ctx.next_suggestion, self._config.max_suggestion_chars)
+        operators_raw = (ctx.operators or "").strip()
+        if not operators_raw:
+            return self._config.default_format.format(
+                target=target,
+                phase=phase,
+                finding=finding,
+                suggestion=suggestion,
+            )
+        operators = self._sanitise(operators_raw, self._config.max_operators_chars)
+        return self._config.default_format_with_operators.format(
+            target=target,
+            phase=phase,
+            finding=finding,
+            suggestion=suggestion,
+            operators=operators,
         )
 
-    def render_prompt(self, ctx: StatusContext, base_prompt: str) -> str:
+    def render_prompt(
+        self,
+        ctx: StatusContext,
+        base_prompt: str,
+        color_open: str | None = None,
+        color_close: str | None = None,
+    ) -> str:
         """Return ``base_prompt`` with the status line prefixed.
 
         Args:
             ctx: The context snapshot to render.
             base_prompt: Existing prompt string (may already contain ANSI
                 wrapped in readline markers).
+            color_open: Optional ANSI prefix override. When ``None`` the
+                renderer falls back to :attr:`StatusBarConfig.color_open`.
+            color_close: Optional ANSI suffix override. When ``None`` the
+                renderer falls back to :attr:`StatusBarConfig.color_close`.
 
         Returns:
             A new prompt string. ANSI sequences inserted here are wrapped
@@ -598,11 +708,13 @@ class StatusBarRenderer:
         body = self.render_plain(ctx)
         if not self._config.color_enabled:
             return f"{body}{self._config.prompt_join}{base_prompt}"
+        open_seq = color_open if color_open is not None else self._config.color_open
+        close_seq = color_close if color_close is not None else self._config.color_close
         coloured = (
-            f"{self._config.readline_open_marker}{self._config.color_open}"
+            f"{self._config.readline_open_marker}{open_seq}"
             f"{self._config.readline_close_marker}"
             f"{body}"
-            f"{self._config.readline_open_marker}{self._config.color_close}"
+            f"{self._config.readline_open_marker}{close_seq}"
             f"{self._config.readline_close_marker}"
         )
         return f"{coloured}{self._config.prompt_join}{base_prompt}"
@@ -683,18 +795,40 @@ class StatusBarManager:
 
     def collect_context(self) -> StatusContext:
         """Return a fresh :class:`StatusContext` by polling every source."""
+        operators = ""
+        if "operators" in self._sources:
+            operators = self._safe_collect("operators")
         return StatusContext(
             target=self._safe_collect("target"),
             phase=self._safe_collect("phase"),
             last_finding=self._safe_collect("finding"),
             next_suggestion=self._safe_collect("suggestion"),
+            operators=operators,
         )
 
     def render_prompt(self, base_prompt: str) -> str:
-        """Return the prompt with the status line prefixed when enabled."""
+        """Return the prompt with the status line prefixed when enabled.
+
+        The active TUI theme is resolved on every call so a live
+        ``set tui_theme bright`` updates the prompt colour on the next
+        prompt without restarting the shell.
+        """
         if not self.enabled:
             return base_prompt
-        return self._renderer.render_prompt(self.collect_context(), base_prompt)
+        color_open, color_close = self._resolve_theme_colors()
+        return self._renderer.render_prompt(
+            self.collect_context(), base_prompt, color_open, color_close
+        )
+
+    def _resolve_theme_colors(self) -> tuple[str | None, str | None]:
+        """Return ``(open, close)`` ANSI sequences from the active theme."""
+        try:
+            from cli.themes import theme_from_payload
+
+            theme = theme_from_payload(self._payload)
+            return theme.bar_open, theme.bar_close
+        except Exception:
+            return None, None
 
     def render_plain_line(self, ctx: StatusContext | None = None) -> str:
         """Return the rendered status line without ANSI / readline markers.
@@ -807,7 +941,29 @@ class StatusBarManager:
             "phase": self._config.fallback_phase,
             "finding": self._config.fallback_finding,
             "suggestion": self._config.fallback_suggestion,
-        }[key]
+            "operators": self._config.fallback_operators,
+        }.get(key, "")
+
+
+def _operator_presence_enabled(
+    payload: Mapping[str, Any] | None,
+    config: StatusBarConfig,
+) -> bool:
+    """Return ``True`` when the operator-presence segment should be wired in."""
+    if not payload:
+        return config.operators_enabled_default
+    raw = payload.get(config.operators_enabled_key, config.operators_enabled_default)
+    if isinstance(raw, bool):
+        return raw
+    if isinstance(raw, (int, float)):
+        return bool(raw)
+    if isinstance(raw, str):
+        lowered = raw.strip().lower()
+        if lowered in config.truthy_strings:
+            return True
+        if lowered in config.falsy_strings:
+            return False
+    return config.operators_enabled_default
 
 
 def build_default_manager(
@@ -816,7 +972,12 @@ def build_default_manager(
     advisor_factory: Callable[[], Any] | None = None,
     config: StatusBarConfig | None = None,
 ) -> StatusBarManager:
-    """Wire the canonical four-source manager used by the live shell.
+    """Wire the canonical multi-source manager used by the live shell.
+
+    When ``payload['enable_operator_presence']`` is truthy the manager is
+    extended with a fifth :class:`CollabPresenceSource` keyed
+    ``operators``. The historical four-segment layout is preserved when
+    that flag is absent so existing operators see no change.
 
     Args:
         payload: Loaded ``payload.json``.
@@ -842,6 +1003,8 @@ def build_default_manager(
         "finding": SessionFindingSource(cfg, reader),
         "suggestion": CommandHintSuggestionSource(cfg, reader, phase_source.collect),
     }
+    if _operator_presence_enabled(payload, cfg):
+        sources["operators"] = CollabPresenceSource(cfg, reader)
     renderer = StatusBarRenderer(cfg)
     return StatusBarManager(cfg, sources, renderer, payload)
 
@@ -856,6 +1019,7 @@ __all__ = [
     "SessionFindingSource",
     "GraphSuggestionSource",
     "CommandHintSuggestionSource",
+    "CollabPresenceSource",
     "StatusBarRenderer",
     "StatusBarManager",
     "build_default_manager",

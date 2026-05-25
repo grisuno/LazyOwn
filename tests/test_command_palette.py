@@ -94,8 +94,8 @@ class PaletteSuiteConfig:
     lazyown_shell_class_name: str = "LazyOwnShell"
     known_duplicate_lines: dict[str, frozenset[int]] = field(
         default_factory=lambda: {
-            "do_shellshock": frozenset({12297, 15775}),
-            "do_download_c2": frozenset({26386, 27853}),
+            "do_shellshock": frozenset({11557, 15035}),
+            "do_download_c2": frozenset({992, 25646, 27113}),
         }
     )
     invalid_index_payload: str = "{not json"
@@ -570,12 +570,21 @@ class TestPaletteLoader:
         assert all(row["duplicate_of"] is None for row in rows)
 
     def test_all_commands_with_duplicates_includes_them(self) -> None:
-        """Explicit opt-in returns the raw method-level list."""
+        """Explicit opt-in returns the raw method-level list.
+
+        The delta between the canonical list and the include-duplicates
+        list equals the number of duplicate occurrences across every
+        duplicate name, not the count of unique duplicate names — a name
+        present in three places contributes two duplicate entries.
+        """
         from cli import palette
 
         with_duplicates = palette.all_commands(include_duplicates=True)
         canonical = palette.all_commands()
-        assert len(with_duplicates) - len(canonical) == len(palette.duplicates())
+        duplicate_occurrence_count = sum(
+            max(0, len(entry["occurrences"]) - 1) for entry in palette.duplicates()
+        )
+        assert len(with_duplicates) - len(canonical) == duplicate_occurrence_count
 
     def test_filter_by_phase_returns_only_matching_phase(self, suite_config: PaletteSuiteConfig) -> None:
         """Filter result rows all carry the requested phase."""

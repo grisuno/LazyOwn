@@ -2,6 +2,48 @@
 # Changelog
 
 
+### Documentación
+
+### Otros
+
+  *   * docs(docs): new docs \n\n Version: release/0.2.141 \n\n with love \n\n Modified file(s):\n- .github/dependabot.yml - .hermes/plans/2026-05-25_lazyown-architecture-improvements.md - AGENTS.md - CLAUDE.md - COMMANDS.md - CONTRIBUTING.md - ESSENTIALS.md - QUICKSTART.md - README.md - SECURITY.md - UTILS.md - docs/COMMANDS.html - docs/UTILS.html - docs/c2.md - docs/cred.md - docs/enum.md - docs/exfil.md - docs/exploit.md - docs/lateral.md - docs/persist.md - docs/postexp.md - docs/privesc.md - docs/recon.md - docs/report.md - lazyc2/security/README.md - lazyown.py - modules/cgi-bin/README.md - modules/modules/README.md - pull_request_template.md - readmeneitor.py - run_telegram_hermes.sh - skills/README.md - skills/hermes-lazyown/README.md - skills/hermes-lazyown/SKILL.md - skills/hermes-lazyown/__init__.py - skills/hermes-lazyown/claudemd_rules.py - skills/hermes-lazyown/config_bridge.py - skills/hermes-lazyown/constants.py - skills/hermes-lazyown/executor.py - skills/hermes-lazyown/hermes_sync.py - skills/hermes-lazyown/mcp_server.py - skills/hermes-lazyown/output_compactor.py - skills/lazyown.md - skills/lazyown/SKILL.md - skills/tests/README.md - telegram_hermes.py - test/README.md - utils.py\nCreated file(s):\n- .github/dependabot.yml - .hermes/plans/2026-05-25_lazyown-architecture-improvements.md - docs/c2.md - docs/cred.md - docs/enum.md - docs/exfil.md - docs/exploit.md - docs/lateral.md - docs/persist.md - docs/postexp.md - docs/privesc.md - docs/recon.md - docs/report.md - lazyc2/security/README.md - modules/cgi-bin/README.md - modules/modules/README.md - run_telegram_hermes.sh - skills/hermes-lazyown/README.md - skills/hermes-lazyown/SKILL.md - skills/hermes-lazyown/__init__.py - skills/hermes-lazyown/claudemd_rules.py - skills/hermes-lazyown/config_bridge.py - skills/hermes-lazyown/constants.py - skills/hermes-lazyown/executor.py - skills/hermes-lazyown/hermes_sync.py - skills/hermes-lazyown/mcp_server.py - skills/hermes-lazyown/output_compactor.py - skills/tests/README.md - telegram_hermes.py - test/README.md\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: lun 25 may 2026 02:27:57 -04 \n\n Hora: 1779690477
+
+
+### Otros
+
+### Otros
+
+  *   * fix: regenerate COMMANDS.md/UTILS.md, fix utils.py banner, translate remaining Spanish comments
+
+
+### Otros
+
+### Otros
+
+  *   * docs: add branching strategy (dev/pp/main) to CLAUDE.md, AGENTS.md, CONTRIBUTING.md, SKILL.md
+
+
+### Otros
+
+### Otros
+
+  *   * docs: translate all Spanish docstrings/UI to English, sync MCP tool count to 131, add phase guides
+
+
+### Otros
+
+### Otros
+
+  *   * feat: add Hermes-native MCP integration layer (hermes-lazyown)
+
+
+### Otros
+
+### Otros
+
+  *   * Create dependabot.yml
+
+
 ### Nuevas características
 
 ### Otros

@@ -526,6 +526,30 @@ Type → bump: `feat/feature/fix/hotfix` = patch; `refactor/docs/test/style` = n
 
 ---
 
+## 15g. Branching strategy
+
+LazyOwn uses a three-branch model to separate development, pre-production and production.
+
+| Branch | Purpose | Who merges into it |
+|--------|---------|-------------------|
+| `dev`  | Active development, feature integration, daily commits. | Feature branches (via PR) |
+| `pp`   | Pre-production / staging. Stable enough for QA and integration tests. | `dev` (fast-forward or merge commit after QA) |
+| `main` | Production releases. Only tested, tagged releases live here. | `pp` (via PR with release notes) |
+
+### Rules
+
+- **Never commit directly to `main` or `pp`.** All work starts in `dev` or a feature branch cut from `dev`.
+- **Release flow**: `feature/*` -> `dev` -> `pp` -> `main`.
+- **Hotfix flow**: branch from `main`, fix, PR to `main`, then back-merge to `pp` and `dev`.
+- **Agent autonomy**: Autonomous agents (Claude, Groq, SWAN) operate on `dev`. Human operator approves promotion to `pp`.
+- **Tagging**: Only `main` receives version tags (`release/0.x.y`).
+
+### CI implications
+
+`DEPLOY.sh` runs against `main`. If you are on `dev` or `pp`, use `--no-test` only after local pytest passes.
+
+---
+
 ## 16. Read next
 
 - `QUICKSTART.md` — start here for a new operator session.

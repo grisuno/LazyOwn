@@ -115,7 +115,7 @@ bash /home/grisun0/LazyOwn/scripts/setup_hermes_mcp.sh
 | `lazyown_facts_show` | After auto_populate — displays discovered ports, services, versions |
 | `lazyown_recommend_next` | When unsure what to do — Groq ranks 3-5 next commands |
 
-For the full 95-tool reference see `skills/lazyown.md`.
+For the full 131-tool reference see `skills/lazyown.md`.
 
 ---
 
@@ -140,6 +140,26 @@ For the full 95-tool reference see `skills/lazyown.md`.
 
 ---
 
+## Branching model for autonomous agents
+
+LazyOwn uses three branches. Autonomous agents (Claude, Groq, SWAN) operate on `dev`.
+
+| Branch | Purpose | Agent role |
+|--------|---------|------------|
+| `dev`  | Active development, daily commits, feature integration. | **Agents work here.** Human operator reviews and merges. |
+| `pp`   | Pre-production / staging. QA and integration tests. | Read-only for agents. Promotion from `dev` is human-approved. |
+| `main` | Production releases. Tagged releases only. | Read-only for agents. `DEPLOY.sh` runs here. |
+
+### Rules for agents
+
+- Start every session on `dev` (`git checkout dev`).
+- Never commit directly to `main` or `pp`.
+- Feature branches: `feature/<description>` cut from `dev`.
+- Hotfix branches: `hotfix/<description>` cut from `main`, then back-merge to `pp` and `dev`.
+- When instructed to release, create a PR from `dev` to `pp` (or `pp` to `main`) and request human approval.
+
+---
+
 ## Documentation hierarchy
 
 | File | Lines | Purpose |
@@ -148,6 +168,6 @@ For the full 95-tool reference see `skills/lazyown.md`.
 | `CHEATSHEET.md` | ~300 | ~40 frequent commands by user goal |
 | `QUICKSTART.md` | ~140 | First-time setup and onboarding |
 | `skills/lazyown/SKILL.md` | ~120 | Hermes skill definition |
-| `skills/lazyown.md` | ~1600 | Complete 95-tool MCP playbook |
+| `skills/lazyown.md` | ~1600 | Complete 131-tool MCP playbook |
 | `COMMANDS.md` | ~5000 | Full 333-command reference (auto-generated) |
 | `CLAUDE.md` | ~540 | Architecture and developer reference |

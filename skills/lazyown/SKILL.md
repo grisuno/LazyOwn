@@ -114,9 +114,29 @@ gobuster dir -u http://10.10.11.5 -w /usr/share/wordlists/dirbuster.txt
 | 1 | `ESSENTIALS.md` | 18 commands that cover 80% of engagements |
 | 2 | `CHEATSHEET.md` | ~40 frequent commands grouped by user goal |
 | 3 | `QUICKSTART.md` | First-time setup and onboarding |
-| 4 | `skills/lazyown.md` | Complete 95-tool MCP playbook |
+| 4 | `skills/lazyown.md` | Complete 131-tool MCP playbook |
 | 5 | `COMMANDS.md` | Full 333-command reference (auto-generated) |
 | 6 | `CLAUDE.md` | Architecture and developer reference |
+
+---
+
+## Branching Model
+
+LazyOwn uses three branches. As an autonomous agent, you operate on `dev`.
+
+| Branch | Purpose | Your role |
+|--------|---------|-----------|
+| `dev`  | Active development, feature integration, daily commits. | **You work here.** |
+| `pp`   | Pre-production / staging. QA and integration tests. | Read-only. Human approves promotion from `dev`. |
+| `main` | Production releases. Tagged releases only. | Read-only. `DEPLOY.sh` runs here. |
+
+### Rules
+
+- Start every session on `dev` (`git checkout dev`).
+- Never commit directly to `main` or `pp`.
+- Feature branches: `feature/<description>` cut from `dev`.
+- Hotfix branches: `hotfix/<description>` cut from `main`, then back-merge to `pp` and `dev`.
+- When asked to release, create a PR and request human approval.
 
 ---
 

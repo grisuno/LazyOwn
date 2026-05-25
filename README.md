@@ -136,7 +136,9 @@ From the CLI: `collab_join <handle>` prints all URLs for a given operator.
 
 ## MCP Quick Start
 
-### 1. Register the MCP server
+LazyOwn exposes its full framework via the Model Context Protocol (MCP). The same server works with Claude Code, Claude Desktop, Hermes Agent, and OpenCode — pick the integration that matches your environment.
+
+### Claude Code
 
 ```bash
 claude mcp add lazyown python3 /home/grisun0/LazyOwn/skills/lazyown_mcp.py
@@ -158,20 +160,46 @@ Or add manually to `~/.claude/claude_desktop_config.json`:
 }
 ```
 
-### 2. Install the slash command (optional)
+Install the slash command (optional):
 
 ```bash
 cp skills/lazyown.md ~/.claude/commands/lazyown.md
 ```
 
-### 3. Use from Claude Code
-
 After restarting Claude Code, all `lazyown_*` tools are available.
 
+### Hermes Agent
+
+LazyOwn is Hermes-native. The `skills/hermes-lazyown/` integration layer provides a compact, namespaced tool surface optimized for Hermes context windows with checkpoint resume, dynamic rule generation, and native delegation planning.
+
+Register in `~/.hermes/config.yaml`:
+
+```yaml
+mcp_servers:
+  hermes-lazyown:
+    command: python3
+    args: ["/home/grisun0/LazyOwn/skills/hermes-lazyown/mcp_server.py"]
+    env:
+      LAZYOWN_DIR: "/home/grisun0/LazyOwn"
 ```
-You: set target to 10.10.11.78 and start the autonomous loop
-Claude: [calls lazyown_set_config -> lazyown_auto_loop]
+
+Then reload MCP tools in Hermes with `/reload-mcp`.
+
+See `skills/hermes-lazyown/README.md` for the full Hermes integration guide.
+
+### OpenCode
+
+LazyOwn is OpenCode-friendly via the **LazyOwnOpenCodeAdapter**:
+
+```bash
+git clone https://github.com/grisuno/LazyOwnOpenCodeAdapter.git
+cd LazyOwnOpenCodeAdapter && npm install
+npm run build
 ```
+
+The adapter bridges LazyOwn's MCP server into the OpenCode CLI, exposing the same `lazyown_*` tool surface with OpenCode-native prompts and workflows.
+
+Full setup: https://github.com/grisuno/LazyOwnOpenCodeAdapter
 
 ## Environment Variables
 

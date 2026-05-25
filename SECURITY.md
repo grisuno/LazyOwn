@@ -1,43 +1,43 @@
-# Política de Seguridad de LazyOwn
+# LazyOwn Security Policy
 
-## Versiones Soportadas
+## Supported Versions
 
-A continuación se presentan las versiones de LazyOwn que actualmente reciben soporte y actualizaciones de seguridad:
+The following LazyOwn versions currently receive support and security updates:
 
-| Versión | Soportada          |
-| ------- | -------------------|
-| 1.x     | :white_check_mark: |
-| 0.x     | :x:                |
+| Version | Supported |
+|---------|-----------|
+| 1.x     | Yes       |
+| 0.x     | No        |
 
-## Reportar una Vulnerabilidad
+## Reporting a Vulnerability
 
-Si encuentras una vulnerabilidad de seguridad en LazyOwn, por favor sigue los siguientes pasos para reportarla de manera responsable:
+If you discover a security vulnerability in LazyOwn, please follow these steps to report it responsibly:
 
-1. **No lo publiques**: No publiques detalles de la vulnerabilidad en foros públicos, issues del repositorio, ni en las redes sociales.
-2. **Envíanos un correo electrónico**: Envía un correo electrónico a nuestro equipo de seguridad en [security@lazyown.com](mailto:security@lazyown.com). Incluye la siguiente información:
-   - Descripción detallada de la vulnerabilidad.
-   - Pasos para reproducir el problema.
-   - Impacto potencial de la vulnerabilidad.
-   - Cualquier otra información relevante que pueda ayudarnos a entender y corregir el problema.
+1. **Do not publish it**: Do not publish vulnerability details on public forums, repository issues, or social media.
+2. **Email us**: Send an email to our security team at [security@lazyown.com](mailto:security@lazyown.com). Include the following information:
+   - Detailed description of the vulnerability.
+   - Steps to reproduce the issue.
+   - Potential impact of the vulnerability.
+   - Any other relevant information that may help us understand and fix the problem.
 
-## Proceso de Gestión de Vulnerabilidades
+## Vulnerability Management Process
 
-Una vez que recibamos tu reporte de vulnerabilidad, seguiremos estos pasos:
+Once we receive your vulnerability report, we will follow these steps:
 
-1. **Confirmación de Recepción**: Te confirmaremos la recepción de tu reporte dentro de los 2 días hábiles.
-2. **Evaluación Inicial**: Evaluaremos la vulnerabilidad para determinar su impacto y la prioridad de la corrección.
-3. **Desarrollo de Solución**: Trabajaremos en una solución para corregir la vulnerabilidad. Te mantendremos informado sobre el progreso.
-4. **Lanzamiento de Parche**: Lanzaremos un parche para corregir la vulnerabilidad. Se te acreditará por el reporte, a menos que prefieras permanecer en el anonimato.
-5. **Divulgación**: Publicaremos un aviso de seguridad detallando la vulnerabilidad y la solución implementada. 
+1. **Acknowledgment**: We will confirm receipt of your report within 2 business days.
+2. **Initial Assessment**: We will assess the vulnerability to determine its impact and correction priority.
+3. **Solution Development**: We will work on a fix for the vulnerability. We will keep you informed about progress.
+4. **Patch Release**: We will release a patch to fix the vulnerability. You will be credited for the report unless you prefer to remain anonymous.
+5. **Disclosure**: We will publish a security advisory detailing the vulnerability and the implemented solution.
 
-## Participación en el GitHub Security Lab
+## GitHub Security Lab Participation
 
-LazyOwn es parte del GitHub Security Lab, donde trabajamos en colaboración con otros proyectos de código abierto para mejorar la seguridad de nuestros productos. Si estás interesado en participar, visita [GitHub Security Lab](https://securitylab.github.com/) para más información.
+LazyOwn is part of the GitHub Security Lab, where we collaborate with other open source projects to improve the security of our products. If you are interested in participating, visit [GitHub Security Lab](https://securitylab.github.com/) for more information.
 
-## Información Adicional
+## Additional Information
 
-Para más información sobre la divulgación coordinada de vulnerabilidades y los avisos de seguridad del repositorio en GitHub, consulta los siguientes recursos:
-- [Acerca de la divulgación coordinada de las vulnerabilidades de seguridad](https://docs.github.com/es/code-security/security-advisories/about-coordinated-disclosure-of-security-vulnerabilities)
-- [Acerca de las asesorías de seguridad de repositorio](https://docs.github.com/es/code-security/security-advisories/about-repository-security-advisories)
+For more information on coordinated vulnerability disclosure and repository security advisories on GitHub, consult the following resources:
+- [About coordinated disclosure of security vulnerabilities](https://docs.github.com/en/code-security/security-advisories/about-coordinated-disclosure-of-security-vulnerabilities)
+- [About repository security advisories](https://docs.github.com/en/code-security/security-advisories/about-repository-security-advisories)
 
-Gracias por ayudar a mantener LazyOwn seguro y protegido.
+Thank you for helping keep LazyOwn safe and secure.

@@ -12,7 +12,7 @@ Professional red-team / pentest framework:
 - **CLI** (`lazyown.py`): cmd2 shell, ~27k LOC, 333+ commands + 200+ aliases, kill-chain coverage.
 - **C2** (`lazyc2.py`): Flask + Jinja2 + Socket.IO, 84+ routes, 55+ templates, malleable HTTP profiles, XOR-stub Go beacon, multi-operator `/collab/`, phishing (SQLite + Groq).
 - **Utils** (`utils.py`): ~138 helpers (config, ANSI, NVD/ExploitAlert/PacketStorm scrapers, ARP, certs).
-- **Skills** (`skills/`): MCP server (~95 tools), autonomous daemon, hive-mind, MoE+RL SWAN, parquet KB, policy engine, Groq/Ollama agents.
+- **Skills** (`skills/`): MCP server (~131 tools), autonomous daemon, hive-mind, MoE+RL SWAN, parquet KB, policy engine, Groq/Ollama agents.
 - **Extensions**: `lazyaddons/*.yaml` (declarative tools), `plugins/*.lua` (lupa), `tools/*.tool` (pwntomate auto-jobs).
 - **lazyaddons**: `lazyaddons/*.yaml` — extendthe framework with yamls.
 
@@ -113,7 +113,7 @@ Cross-process state → must go through `payload.json`. Don't invent JSON files 
 
 ```
 operator/Claude ──► ./run ─► lazyown.py (cmd2)
-                ──► MCP   ─► skills/lazyown_mcp.py (~95 fns) ─► skills/{daemon,hive_mind,swan,policy,parquet_db}
+                ──► MCP   ─► skills/lazyown_mcp.py (~131 fns) ─► skills/{daemon,hive_mind,swan,policy,parquet_db}
                 ──► Web   ─► lazyc2.py (Flask+SocketIO+Jinja2, /pty, DNS)
                                         │
                        all ──► utils.py (Config, run_command, …) ──► payload.json
@@ -224,7 +224,7 @@ New helpers go here only if shared CLI↔C2. Feature-local helpers → `modules/
 
 ## 8. MCP — `skills/lazyown_mcp.py`
 
-~95 tools. **Never re-implements** CLI/C2 — imports `LazyOwnShell` or composes shell + REST + file reads.
+~131 tools. **Never re-implements** CLI/C2 — imports `LazyOwnShell` or composes shell + REST + file reads.
 
 ### Adding a tool — happy path
 1. Functionality must exist as `do_*` / utils helper / C2 endpoint first.

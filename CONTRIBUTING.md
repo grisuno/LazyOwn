@@ -1,47 +1,44 @@
-# Contribuir a LazyOwn
+# Contributing to LazyOwn
 
-¡Gracias por tu interés en contribuir a LazyOwn! Para asegurarnos de que el proceso de contribución sea lo más sencillo y efectivo posible, por favor sigue estas pautas.
+Thank you for your interest in contributing to LazyOwn. To ensure the contribution process is as smooth and effective as possible, please follow these guidelines.
 
-## Cómo Contribuir
+## How to Contribute
 
-### Reportar Problemas
+### Reporting Issues
 
-1. **Verificar Problemas Existentes**: Antes de abrir un nuevo problema, revisa los problemas existentes para evitar duplicados.
-2. **Crear un Nuevo Problema**: Si no encuentras un problema similar, abre uno nuevo. Proporciona tanta información detallada como sea posible, incluyendo pasos para reproducir el problema, el entorno en el que ocurre y cualquier otra información relevante.
+1. **Check existing issues**: Before opening a new issue, review existing issues to avoid duplicates.
+2. **Create a new issue**: If you do not find a similar issue, open a new one. Provide as much detailed information as possible, including steps to reproduce the problem, the environment in which it occurs, and any other relevant information.
 
-### Proponer Nuevas Funcionalidades
+### Proposing New Features
 
-1. **Discusión Previa**: Antes de implementar una nueva funcionalidad, abre un problema para discutir tu idea con los mantenedores y otros colaboradores.
-2. **Especificación**: Describe claramente la funcionalidad propuesta, cómo encaja en el proyecto y cualquier beneficio adicional que podría proporcionar.
+1. **Prior discussion**: Before implementing a new feature, open an issue to discuss your idea with maintainers and other contributors.
+2. **Specification**: Clearly describe the proposed feature, how it fits into the project, and any additional benefits it might provide.
 
-### Hacer Cambios
+### Making Changes
 
-1. **Fork el Repositorio**: Realiza un fork del repositorio a tu propia cuenta de GitHub.
-2. **Crear una Rama**: Crea una nueva rama para tu cambio (`git checkout -b feature/nueva-funcionalidad`).
-3. **Realizar Cambios**: Haz tus cambios en tu rama. Asegúrate de seguir las convenciones de codificación del proyecto.
-4. **Probar**: Asegúrate de que tus cambios no rompan nada y que todo funcione como se espera. Agrega pruebas si es necesario.
-5. **Commit**: Haz commits de tus cambios con mensajes descriptivos (`git commit -m "Descripción del cambio"`).
-6. **Pull Request**: Abre una pull request a la rama principal del repositorio original. Describe detalladamente los cambios que realizaste y por qué.
+1. **Fork the repository**: Fork the repository to your own GitHub account.
+2. **Create a branch**: Create a new branch for your change (`git checkout -b feature/new-feature`).
+3. **Make changes**: Make your changes in your branch. Ensure you follow the project's coding conventions.
+4. **Test**: Ensure your changes do not break anything and that everything works as expected. Add tests if necessary.
+5. **Commit**: Commit your changes with descriptive messages (`git commit -m "Description of change"`).
+6. **Pull Request**: Open a pull request to the main branch of the original repository. Describe in detail the changes you made and why.
 
-## Estándares de Código
+## Coding Standards
 
-- Sigue las convenciones de codificación del proyecto.
-- Mantén tu código limpio y bien documentado.
-- Asegúrate de que tu código pase todas las pruebas existentes y agrega nuevas pruebas si es necesario.
+- Follow the project's coding conventions.
+- Keep your code clean and well documented.
+- Ensure your code passes all existing tests and add new tests if necessary.
 
-## Revisiones de Código
+## Code Reviews
 
-Todas las pull requests serán revisadas por los mantenedores del proyecto. Aquí hay algunas cosas que buscamos en una revisión de código:
+All pull requests will be reviewed by project maintainers. Here are some things we look for in a code review:
 
-- **Calidad del Código**: El código debe ser limpio, legible y seguir las convenciones del proyecto.
-- **Pruebas**: Asegúrate de que todas las pruebas pasen y que se hayan agregado nuevas pruebas para los cambios introducidos.
-- **Documentación**: Los cambios significativos deben estar bien documentados.
+- **Code Quality**: Code must be clean, readable, and follow project conventions.
+- **Tests**: Ensure all tests pass and new tests have been added for introduced changes.
+- **Documentation**: Significant changes must be well documented.
 
-## Comunicación
+## Communication
 
-Mantén una comunicación abierta y respetuosa con otros colaboradores y mantenedores. Si tienes dudas, no dudes en preguntar en las discusiones del proyecto.
+Maintain open and respectful communication with other contributors and maintainers. If you have questions, do not hesitate to ask in the project's discussions.
 
-
-
-¡Gracias por contribuir a LazyOwn! Juntos, podemos hacer que este proyecto sea aún mejor.
-
+Thank you for contributing to LazyOwn. Together, we can make this project even better.

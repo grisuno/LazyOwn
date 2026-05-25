@@ -1,20 +1,20 @@
-## Descripción
+## Description
 
-<-- Agrega una descripción del user story !-->
+<!-- Add a description of the user story -->
 
-## Resumen de los cambios
+## Summary of Changes
 
-<-- Agrega una breve descripción de los cambios !-->
+<!-- Add a brief description of the changes -->
 
 ## Checklist
 
-- [x] Ejecución correcta
-- [x] Documentación actualizada 
-- [x] Se agregaron unit test
-- [x] Unit test estan correctos
+- [x] Correct execution
+- [x] Documentation updated
+- [x] Unit tests added
+- [x] Unit tests are correct
 
-## Notas
+## Notes
 
-<-- Agrega notas adicionales !-->
+<!-- Add additional notes -->
 
-## Screensshots
+## Screenshots

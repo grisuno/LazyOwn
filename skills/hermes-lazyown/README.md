@@ -4,7 +4,7 @@ Hermes-native MCP server and support modules for the LazyOwn red-team framework.
 
 ## Purpose
 
-The main LazyOwn MCP server (`skills/lazyown_mcp.py`) exposes ~95 tools. This integration layer provides a compact, namespaced subset optimized for Hermes agent context windows and production reliability.
+The main LazyOwn MCP server (`skills/lazyown_mcp.py`) exposes ~131 tools. This integration layer provides a compact, namespaced subset optimized for Hermes agent context windows and production reliability.
 
 ## Design Principles
 

@@ -8,6 +8,7 @@
 
 ## Checklist
 
+- [ ] Target branch is `dev` (or `main` for hotfixes)
 - [x] Correct execution
 - [x] Documentation updated
 - [x] Unit tests added

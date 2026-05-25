@@ -1,7 +1,7 @@
 # LazyOwn Skills — MCP Integration
 
 Connect Claude Code (and Claude web) to the full LazyOwn framework via the
-Model Context Protocol. The MCP server exposes 95 tools covering the full
+Model Context Protocol. The MCP server exposes 131 tools covering the full
 engagement lifecycle: recon, exploitation, C2, autonomous loops, knowledge
 bases, multi-agent orchestration, and campaign reporting.
 
@@ -102,7 +102,7 @@ Claude: [calls lazyown_set_config → lazyown_auto_loop]
 
 ---
 
-## All MCP Tools (71)
+## All MCP Tools (131)
 
 Tools are grouped by function. All names are prefixed `lazyown_`.
 
@@ -263,7 +263,7 @@ Tools are grouped by function. All names are prefixed `lazyown_`.
 ```
 Claude (frontier model / Borg Queen)
        |
-       | MCP protocol (71 tools)
+       | MCP protocol (131 tools)
        v
 lazyown_mcp.py  ──────────────────────────────────────────────────────┐
   auto_loop                                                            │

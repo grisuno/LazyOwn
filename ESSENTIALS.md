@@ -98,5 +98,5 @@ ping -> lazynmap -> auto_populate -> facts_show -> recommend_next
 | 40 most frequent commands by goal | `CHEATSHEET.md` |
 | All 333 commands with descriptions | `COMMANDS.md` (auto-generated) |
 | All 200+ aliases | `COMMANDS.md` alias section |
-| Full MCP tool reference (95 tools) | `skills/lazyown.md` |
+| Full MCP tool reference (131 tools) | `skills/lazyown.md` |
 | Architecture and dev reference | `CLAUDE.md` |

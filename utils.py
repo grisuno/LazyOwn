@@ -1,13 +1,13 @@
 """
 utils.py
 
-Autor: Gris Iscomeback
-Correo electrónico: grisiscomeback[at]gmail[dot]com
-Fecha de creación: 09/06/2024
-Licencia: GPL v3
+Author: Gris Iscomeback
+Email: grisiscomeback[at]gmail[dot]com
+Creation date: 09/06/2024
+License: GPL v3
 
-Descripción: Este archivo contiene la definición de la lógica de todas las funciones usadas en la clase LazyOwnShell
-
+Description: This file contains the logic for all functions used in the LazyOwnShell class.
+"""
 ██╗      █████╗ ███████╗██╗   ██╗ ██████╗ ██╗    ██╗███╗   ██╗
 ██║     ██╔══██╗╚══███╔╝╚██╗ ██╔╝██╔═══██╗██║    ██║████╗  ██║
 ██║     ███████║  ███╔╝  ╚████╔╝ ██║   ██║██║ █╗ ██║██╔██╗ ██║
@@ -15,7 +15,6 @@ Descripción: Este archivo contiene la definición de la lógica de todas las fu
 ███████╗██║  ██║███████╗   ██║   ╚██████╔╝╚███╔███╔╝██║ ╚████║
 ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
 
-"""
 import re
 import os
 import io
@@ -436,7 +435,7 @@ def check_sudo():
 
     if os.geteuid() != 0:
         print_warn(
-            "Este script necesita permisos de superusuario. Relanzando con sudo..."
+            "This script requires superuser permissions. Relaunching with sudo..."
         )
         args = ["sudo", sys.executable] + sys.argv
         os.execvpe("sudo", args, os.environ)
@@ -611,7 +610,7 @@ def get_network_info():
             iface, ip = parts
             network_info[iface] = ip
         else:
-            print_error(f"Formato inesperado en la línea: '{line}'")
+            print_error(f"Unexpected format in line: '{line}'")
 
     return network_info
 
@@ -686,7 +685,7 @@ def copy2clip(text):
         print_error("xclip not found `sudo apt-get install xclip`.")
 
 def clean_output(output):
-    """Elimina secuencias de escape de color y otros caracteres no imprimibles."""
+    """Removes color escape sequences and other non-printable characters."""
 
     output = re.sub(r'\x1b\[[0-9;]*[a-zA-Z]', '', output)
     output = re.sub(r'(\x07|\x08|\x0A|\x0D|\x1B|\x7F|\x9B|\033\\|\033\\|\033\[|\033\]|\033\[[\d;]*[a-zA-Z])', '', output)
@@ -699,7 +698,7 @@ def clean_output(output):
 
 def teclado_usuario(filename):
     """
-    Procesa un archivo para extraer y mostrar caracteres desde secuencias de escritura específicas.
+    Processes a file to extract and display characters from specific write sequences.
 
     Args:
         filename (str): El nombre del archivo a leer.
@@ -755,7 +754,7 @@ def salida_strace(filename):
                 match = re.search(r'write\(5, "(.*?)"', line)
                 if match:
                     text = match.group(1)
-                    if len(text) > 1:  # Solo considerar textos con más de un carácter
+                    if len(text) > 1:  # Only consider texts with more than one character
                         output += text
 
         if output:
@@ -1162,7 +1161,7 @@ def generate_emails(full_name, domain):
 
     return permutations
 def clean_url(host):
-    """Verifica si el último carácter es una barra y, de ser así, la elimina"""
+    """Checks if the last character is a slash and removes it if so."""
     if host.endswith('/'):
         host = host.rstrip('/')
     return host
@@ -1933,7 +1932,7 @@ def get_xml(directory):
 
 def get_domain_from_xml(xml_file):
     """
-    Extrae el primer dominio o dirección IP de un archivo XML de un escaneo Nmap.
+    Extracts the first domain or IP address from an Nmap scan XML file.
     """
     domain = None
 
@@ -2395,10 +2394,10 @@ def generate_xor_key(length):
 
 def scrape_news():
     """
-    Realiza una solicitud a la página de noticias de Hacker News y extrae los títulos, enlaces y puntuaciones de las noticias.
+    Makes a request to the Hacker News page and extracts titles, links, and scores.
 
     Returns:
-        tuple: Tres listas conteniendo los títulos, enlaces y puntuaciones de las noticias respectivamente.
+        tuple: Three lists containing the titles, links and scores of the news items respectively.
     """
     url = "https://news.ycombinator.com/"
     response = requests.get(url)
@@ -2423,18 +2422,18 @@ def scrape_news():
             links.append(link)
             scores.append(score)
         else:
-            print_error("No se encontró un título para el elemento, se omite.")
+            print_error("No title found for the element, skipping.")
 
     return titles, links, scores
 
 def display_news(titles, links, scores):
     """
-    Crea un DataFrame de pandas y lo imprime, mostrando los títulos, enlaces y puntuaciones de las noticias.
+    Creates a pandas DataFrame and prints it, showing titles, links, and scores.
 
     Args:
-        titles (list): Lista de títulos de las noticias.
-        links (list): Lista de enlaces de las noticias.
-        scores (list): Lista de puntuaciones de las noticias.
+        titles (list): List of news titles.
+        links (list): List of news links.
+        scores (list): List of news scores.
     """
     df = pd.DataFrame({
         'Title': titles,
@@ -2583,7 +2582,7 @@ def parse_nmap_csv(csv_path):
         })
     return services
 def query_ollama(prompt, model="deepseek-r1:1.5b"):
-    """Envía consulta a Ollama y retorna respuesta del modelo"""
+    """Sends query to Ollama and returns model response."""
     try:
         response = requests.post(
             "http://localhost:11434/api/generate",

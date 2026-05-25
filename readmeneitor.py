@@ -3,11 +3,11 @@
 main.py
 
 Autor: Gris Iscomeback
-Correo electrónico: grisiscomeback[at]gmail[dot]com
-Fecha de creación: 09/06/2024
+Email: grisiscomeback[at]gmail[dot]com
+Creation date: 09/06/2024
 Licencia: GPL v3
 
-Descripción: Este archivo contiene la definición de las rutas y la lógica de la aplicación de readmineitor creador de documentaciòn automatizada
+Description: This file contains route definitions and application logic for the readmeneitor automated documentation generator.
 
 ██╗      █████╗ ███████╗██╗   ██╗ ██████╗ ██╗    ██╗███╗   ██╗
 ██║     ██╔══██╗╚══███╔╝╚██╗ ██╔╝██╔═══██╗██║    ██║████╗  ██║

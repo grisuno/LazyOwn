@@ -2271,10 +2271,10 @@ Example:
     copy2clip("Hello, World!")
 
 ## clean_output
-Elimina secuencias de escape de color y otros caracteres no imprimibles.
+Removes color escape sequences and other non-printable characters.
 
 ## teclado_usuario
-Procesa un archivo para extraer y mostrar caracteres desde secuencias de escritura específicas.
+Processes a file to extract and display characters from specific write sequences.
 
 Args:
     filename (str): El nombre del archivo a leer.
@@ -2473,7 +2473,7 @@ Note:
 - At least two parts of the name are required to generate valid email addresses.
 
 ## clean_url
-Verifica si el último carácter es una barra y, de ser así, la elimina
+Checks if the last character is a slash and removes it if so.
 
 ## random_string
 Generates a random alphanumeric string.
@@ -2799,7 +2799,7 @@ Returns:
     list: A list of XML filenames found in the specified directory.
 
 ## get_domain_from_xml
-Extrae el primer dominio o dirección IP de un archivo XML de un escaneo Nmap.
+Extracts the first domain or IP address from an Nmap scan XML file.
 
 ## shellcode_to_sylk
 No description available.
@@ -2915,18 +2915,18 @@ Generate key XOR long specifyed
 :return: Key XOR in hex.
 
 ## scrape_news
-Realiza una solicitud a la página de noticias de Hacker News y extrae los títulos, enlaces y puntuaciones de las noticias.
+Makes a request to the Hacker News page and extracts titles, links, and scores.
 
 Returns:
-    tuple: Tres listas conteniendo los títulos, enlaces y puntuaciones de las noticias respectivamente.
+    tuple: Three lists containing the titles, links and scores of the news items respectively.
 
 ## display_news
-Crea un DataFrame de pandas y lo imprime, mostrando los títulos, enlaces y puntuaciones de las noticias.
+Creates a pandas DataFrame and prints it, showing titles, links, and scores.
 
 Args:
-    titles (list): Lista de títulos de las noticias.
-    links (list): Lista de enlaces de las noticias.
-    scores (list): Lista de puntuaciones de las noticias.
+    titles (list): List of news titles.
+    links (list): List of news links.
+    scores (list): List of news scores.
 
 ## htmlify
 Wrap C2 comms in html and html2 code to make requests look more legitimate
@@ -2990,7 +2990,7 @@ Returns:
 No description available.
 
 ## query_ollama
-Envía consulta a Ollama y retorna respuesta del modelo
+Sends query to Ollama and returns model response.
 
 ## preprocess_llm_response
 Pre-process LLM response to handle common issues before YAML parsing
@@ -7896,19 +7896,19 @@ Replace `<file_path>` with the path to the encrypted file and `<key>` with the d
 Devuelve la salida acumulada
 
 ## sessionssh
-Ejecuta un comando para listar las conexiones SSH activas.
+Execute a command to list active SSH connections.
 
-Este método utiliza `netstat` para mostrar las conexiones establecidas (`ESTAB`) y filtra los resultados para mostrar solo las conexiones SSH.
+This method uses `netstat` to display established (`ESTAB`) connections and filters the results to show only SSH connections.
 
-Parámetros:
-- line: Parámetro no utilizado en esta función.
+Parameters:
+- line: Unused parameter in this function.
 
 Returns:
 - None
 
-Ejemplos:
+Examples:
 >>> do_sessionssh("")
-(Muestra en consola las conexiones SSH activas)
+(Displays active SSH connections in the console)
 
 ## sessionsshstrace
 Attach strace to a running process and log output to a file.
@@ -7947,24 +7947,22 @@ Example:
     This would execute all commands listed in 'lazyscripts/example_script.ls'.
 
 ## set_proxychains
-Relanza la aplicación actual utilizando `proxychains` para enrutar el tráfico
-a través de los proxies configurados.
+Restart the current application using `proxychains` to route traffic
+through the configured proxies.
 
-Este comando reinicia la aplicación desde el principio utilizando un script
-bash externo llamado `run`, que se encarga de configurar el entorno
-(como activar un entorno virtual) y luego ejecutar la aplicación Python.
-El comando `proxychains` se utiliza para asegurar que cualquier comando
-ejecutado dentro de la aplicación, como `nmap`, sea encaminado a través
-de los proxies especificados en la configuración de `proxychains`.
+This command restarts the application from scratch using an external
+bash script called `run`, which sets up the environment
+(such as activating a virtual environment) and then runs the Python application.
+The `proxychains` command ensures that any command executed within the application,
+such as `nmap`, is routed through the proxies specified in the `proxychains` configuration.
 
-Pasos realizados por esta función:
-1. Obtiene la ruta al script `run`.
-2. Relanza el script `run` bajo `proxychains` utilizando `subprocess.run`.
-3. Sale de la instancia actual de la aplicación para evitar duplicación.
+Steps performed by this function:
+1. Gets the path to the `run` script.
+2. Restarts the `run` script under `proxychains` using `subprocess.run`.
+3. Exits the current application instance to avoid duplication.
 
 Args:
-    line (str): No se utiliza en este comando, pero se incluye como parte
-                de la interfaz estándar de `cmd`.
+    line (str): Not used by this command, but included as part of the standard `cmd` interface.
 
 ## shellcode
 Generates a Python one-liner to execute shellcode from a given URL.
@@ -10686,7 +10684,16 @@ Returns:
 None
 
 ## certipy_ad
-No description available.
+Run certipy-ad against Active Directory Certificate Services.
+
+Supports shadow, vuln, find, account, and auth subcommands.
+Requires rhost, domain, and credentials in payload.json.
+
+Args:
+    line (str): Subcommand to run (shadow | vuln | find | account | auth).
+
+Returns:
+    None
 
 ## certipy
 Executes the Certipy tool to interact with Active Directory Certificate Services.
@@ -12059,10 +12066,10 @@ Args:
 Return shellcode.bin file in sessions directory
 
 ## atomic_lazyown
-Genera y ejecuta pruebas de Atomic Red Team usando el C2.
+Generate and execute Atomic Red Team tests using the C2.
 
 Parameters:
-line (str): Lista de IDs de técnicas separadas por espacios.
+line (str): List of technique IDs separated by spaces.
 
 Returns:
 None
@@ -12619,7 +12626,7 @@ Returns:
 Ofuscate a string into Go code.
 
 ## get_available_actions
-Devuelve una lista de acciones disponibles usando introspección de cmd2.
+Returns a list of available actions using cmd2 introspection.
 
 ## get_avaible_actions
 Get list de supported acctions.
@@ -13109,6 +13116,13 @@ No description available.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(themes to popups :D): with love \n\n Version: release/0.2.141 \n\n :D \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: dom 24 may 2026 23:45:48 -04 \n\n Hora: 1779680748
 
 
 ### Refactorización

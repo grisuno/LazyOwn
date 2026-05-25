@@ -17,11 +17,21 @@ Thank you for your interest in contributing to LazyOwn. To ensure the contributi
 ### Making Changes
 
 1. **Fork the repository**: Fork the repository to your own GitHub account.
-2. **Create a branch**: Create a new branch for your change (`git checkout -b feature/new-feature`).
+2. **Create a branch**: Create a new branch from `dev` for your change (`git checkout dev && git checkout -b feature/new-feature`).
 3. **Make changes**: Make your changes in your branch. Ensure you follow the project's coding conventions.
 4. **Test**: Ensure your changes do not break anything and that everything works as expected. Add tests if necessary.
 5. **Commit**: Commit your changes with descriptive messages (`git commit -m "Description of change"`).
-6. **Pull Request**: Open a pull request to the main branch of the original repository. Describe in detail the changes you made and why.
+6. **Pull Request**: Open a pull request to the `dev` branch of the original repository. Describe in detail the changes you made and why. Promotions from `dev` to `pp` and `main` are handled by maintainers.
+
+## Branching Model
+
+LazyOwn uses three branches:
+
+- `dev` — active development. All feature branches target this branch.
+- `pp` — pre-production / staging. Merged from `dev` after QA.
+- `main` — production releases. Merged from `pp` only for tagged releases.
+
+Never commit directly to `main` or `pp`. If you need to hotfix production, branch from `main`, fix, PR to `main`, then back-merge to `pp` and `dev`.
 
 ## Coding Standards
 

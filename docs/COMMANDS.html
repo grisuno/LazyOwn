@@ -634,6 +634,16 @@ touched by previous commands.</p>
 <p>The view highlights items whose trigger matches a discovered service
 but have never been run, so the operator can pick the next high-value
 command without manually scanning the YAMLs.</p>
+<h2 id="prev">prev</h2>
+<p>Show prerequisite commands for a verb (the chain’s <code>prev</code>
+arrow).</p>
+<p>Usage: <code>prev &lt;command&gt;</code> list ordered prerequisites
+<code>prev</code> use the most recent command from history</p>
+<p>The list reflects the static prerequisite registry declared in
+<code>cli/command_chain.py</code> and is also exposed via the MCP tool
+<code>lazyown_command_prev</code> so the AI loop sees the same view.</p>
+<p>:param line: command verb (with or without the <code>do_</code>
+prefix). :type line: str :return: None</p>
 <h2 id="dashboard">dashboard</h2>
 <p>Launch the full-screen LazyOwn operator dashboard (Textual TUI).</p>
 <p>Opens an auto-refreshing terminal dashboard showing the active
@@ -2721,17 +2731,27 @@ format.</p>
 <p>Note: Ensure that the <code>rhost</code> is valid by checking it with
 the <code>check_rhost</code> function before updating the prompt.</p>
 <h2 id="next">next</h2>
-<p>Execute the active next-command suggestion (alias
-<code>.</code>).</p>
-<p>The autosuggest engine prints a dim
-<code>press '.' to run: &lt;cmd&gt;</code> line after every command.
-<code>next</code> (or <code>.</code>) pops that suggestion, runs it via
-<code>onecmd_plus_hooks</code> so every regular pre/post hook fires, and
-then forces the engine to recompute using the executed command as
-<code>last_command</code> — guaranteeing the next suggestion advances
-even if cmd2 does not re-fire its postcmd hook for the nested call.</p>
-<p>Args: line: Ignored. Present to satisfy the cmd2 <code>do_*</code>
-contract.</p>
+<p>Show next-step recommendations or execute the active autosuggest.</p>
+<p>Two modes share the same verb:</p>
+<ul>
+<li><code>next &lt;command&gt; [N]</code> — show ordered chain
+recommendations for <code>&lt;command&gt;</code> (static kill-chain +
+nmap-discovered services + addon/tool triggers), capped at
+<code>N</code> (default 5). Mirrors the MCP tool
+<code>lazyown_command_next</code> so CLI and AI see the same data. This
+is the chain’s complement to <code>prev</code>.</li>
+<li><code>next</code> (no args) — pop and execute the active autosuggest
+accelerator (the dim <code>press '.' to run: &lt;cmd&gt;</code> line).
+The accelerator alias <code>.</code> keeps working unchanged.</li>
+</ul>
+<p>Args: line: Empty for the accelerator mode, or
+<code>&lt;verb&gt; [limit]</code> for the chain mode.</p>
+<p>Returns: None.</p>
+<h2 id="render_chain_next">_render_chain_next</h2>
+<p>Render the chain’s <code>next</code> view for the supplied verb
+(helper).</p>
+<p>Args: raw_args: The raw argument string passed to
+<code>do_next</code>. Format: <code>&lt;verb&gt; [limit]</code>.</p>
 <p>Returns: None.</p>
 <h2 id="daemon_mode">daemon_mode</h2>
 <p>Switch the autonomous daemon between auto, approval and paused

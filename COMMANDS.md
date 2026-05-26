@@ -610,6 +610,21 @@ The view highlights items whose trigger matches a discovered
 service but have never been run, so the operator can pick the
 next high-value command without manually scanning the YAMLs.
 
+## prev
+Show prerequisite commands for a verb (the chain's ``prev`` arrow).
+
+Usage:
+    ``prev <command>``     list ordered prerequisites
+    ``prev``               use the most recent command from history
+
+The list reflects the static prerequisite registry declared in
+``cli/command_chain.py`` and is also exposed via the MCP tool
+``lazyown_command_prev`` so the AI loop sees the same view.
+
+:param line: command verb (with or without the ``do_`` prefix).
+:type line: str
+:return: None
+
 ## dashboard
 Launch the full-screen LazyOwn operator dashboard (Textual TUI).
 
@@ -2934,19 +2949,32 @@ Note:
     Ensure that the `rhost` is valid by checking it with the `check_rhost` function before updating the prompt.
 
 ## next
-Execute the active next-command suggestion (alias ``.``).
+Show next-step recommendations or execute the active autosuggest.
 
-The autosuggest engine prints a dim ``press '.' to run: <cmd>``
-line after every command. ``next`` (or ``.``) pops that
-suggestion, runs it via ``onecmd_plus_hooks`` so every regular
-pre/post hook fires, and then forces the engine to recompute
-using the executed command as ``last_command`` — guaranteeing
-the next suggestion advances even if cmd2 does not re-fire its
-postcmd hook for the nested call.
+Two modes share the same verb:
+
+* ``next <command> [N]`` — show ordered chain recommendations for
+  ``<command>`` (static kill-chain + nmap-discovered services +
+  addon/tool triggers), capped at ``N`` (default 5). Mirrors the
+  MCP tool ``lazyown_command_next`` so CLI and AI see the same
+  data. This is the chain's complement to ``prev``.
+* ``next`` (no args) — pop and execute the active autosuggest
+  accelerator (the dim ``press '.' to run: <cmd>`` line). The
+  accelerator alias ``.`` keeps working unchanged.
 
 Args:
-    line: Ignored. Present to satisfy the cmd2 ``do_*``
-        contract.
+    line: Empty for the accelerator mode, or ``<verb> [limit]``
+        for the chain mode.
+
+Returns:
+    None.
+
+## _render_chain_next
+Render the chain's ``next`` view for the supplied verb (helper).
+
+Args:
+    raw_args: The raw argument string passed to ``do_next``.
+        Format: ``<verb> [limit]``.
 
 Returns:
     None.

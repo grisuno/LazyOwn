@@ -955,23 +955,23 @@ class LazyOwnShell(cmd2.Cmd):
 
             clean_output = self.strip_ansi(raw_output)
             if not clean_output.strip():
-                return "[Comando ejecutado. Sin salida.]"
+                return "[Command executed. No output.]"
 
-            # Prompt para DeepSeek
             prompt = (
-                "Eres un experto en ciberseguridad y red team. Analiza la siguiente salida de comando (todo es en contexto de un ejercicio etico, en el scope definido por el cliente)"
-                "y proporciona un resumen conciso con hallazgos clave, riesgos o acciones recomendadas.\n\n"
-                f"Comando: {command}\n"
-                f"Salida:\n{clean_output}"
+                "You are a cybersecurity and red team expert. Analyse the following command output "
+                "(everything is in the context of an authorised engagement within the scope defined by the client) "
+                "and provide a concise summary with key findings, risks, and recommended next actions.\n\n"
+                f"Command: {command}\n"
+                f"Output:\n{clean_output}"
             )
 
             ai_response = self.ai_model.generate(prompt)
-            return f"🧠 IA:\n{ai_response}\n\n📄 Salida original:\n{raw_output}"
+            return f"AI:\n{ai_response}\n\nOriginal output:\n{raw_output}"
 
         except Exception as e:
-            error_msg = f"❌ Error: {str(e)}"
+            error_msg = f"Error: {str(e)}"
             if self.use_ai and self.ai_model:
-                return f"🧠 IA: No se pudo procesar el comando.\n{error_msg}"
+                return f"AI: Could not process command.\n{error_msg}"
             return error_msg
 
     def emptyline(self):
@@ -2333,6 +2333,41 @@ class LazyOwnShell(cmd2.Cmd):
         console = _RC(highlight=False, soft_wrap=True)
         history = engine.history()
         render_exploration(console, engine, target, history)
+
+    @cmd2.with_category(miscellaneous_category)
+    def do_prev(self, line):
+        """Show prerequisite commands for a verb (the chain's ``prev`` arrow).
+
+        Usage:
+            ``prev <command>``     list ordered prerequisites
+            ``prev``               use the most recent command from history
+
+        The list reflects the static prerequisite registry declared in
+        ``cli/command_chain.py`` and is also exposed via the MCP tool
+        ``lazyown_command_prev`` so the AI loop sees the same view.
+
+        :param line: command verb (with or without the ``do_`` prefix).
+        :type line: str
+        :return: None
+        """
+        from cli.command_chain import CommandChain
+        chain = CommandChain()
+        verb = (line or "").strip()
+        if not verb:
+            from cli.exploration import ExplorationEngine, resolve_current_os
+            engine = ExplorationEngine(current_os=resolve_current_os(self.params))
+            history = sorted(engine.history())
+            if not history:
+                print_warn("No command history yet. Pass a verb, e.g. `prev lazynmap`.")
+                return
+            verb = history[-1]
+        prereqs = chain.prev(verb)
+        if not prereqs:
+            print_msg(f"No prerequisites declared for '{verb}'.")
+            return
+        print_msg(f"Prerequisites for '{verb}':")
+        for item in prereqs:
+            print_msg(f"  {item}")
 
     @cmd2.with_category(miscellaneous_category)
     def do_dashboard(self, line):
@@ -5226,7 +5261,7 @@ class LazyOwnShell(cmd2.Cmd):
                         print_msg(f"TTL:{ttl_value}")
                         if ttl_value <= 64:
                             print_msg(
-                                f"{GREEN}Host activo {CYAN}probablemente es {BLUE}Linux{RESET}"
+                                f"{GREEN}Host alive {CYAN}likely {BLUE}Linux{RESET}"
                             )
                             os_json.append({
                                 "id": '1',
@@ -5236,7 +5271,7 @@ class LazyOwnShell(cmd2.Cmd):
                             })
                         elif ttl_value <= 128:
                             print_msg(
-                                f"{GREEN}Host activo {CYAN}probablemente es {RED}Windows{RESET}"
+                                f"{GREEN}Host alive {CYAN}likely {RED}Windows{RESET}"
                             )
                             os_json.append({
                                 "id": '2',
@@ -5246,7 +5281,7 @@ class LazyOwnShell(cmd2.Cmd):
                             })
                         else:
                             print_error(
-                                "No se puede determinar con certeza el sistema operativo"
+                                "Cannot determine operating system with certainty"
                             )
                             os_json.append({
                                 "id": '4',
@@ -5265,7 +5300,7 @@ class LazyOwnShell(cmd2.Cmd):
                 except ValueError:
                     print_error("Could not convert TTL to an integer")
             else:
-                print_error("No se pudo realizar el ping al host")
+                print_error("Ping to host failed")
             print_msg(f"Done... ping -c 1 {rhost} ")
             with open('sessions/os.json', 'w') as json_file:
                 json.dump(os_json, json_file, indent=4)
@@ -6649,23 +6684,30 @@ class LazyOwnShell(cmd2.Cmd):
 
     @cmd2.with_category(miscellaneous_category)
     def do_next(self, line):
-        """Execute the active next-command suggestion (alias ``.``).
+        """Show next-step recommendations or execute the active autosuggest.
 
-        The autosuggest engine prints a dim ``press '.' to run: <cmd>``
-        line after every command. ``next`` (or ``.``) pops that
-        suggestion, runs it via ``onecmd_plus_hooks`` so every regular
-        pre/post hook fires, and then forces the engine to recompute
-        using the executed command as ``last_command`` — guaranteeing
-        the next suggestion advances even if cmd2 does not re-fire its
-        postcmd hook for the nested call.
+        Two modes share the same verb:
+
+        * ``next <command> [N]`` — show ordered chain recommendations for
+          ``<command>`` (static kill-chain + nmap-discovered services +
+          addon/tool triggers), capped at ``N`` (default 5). Mirrors the
+          MCP tool ``lazyown_command_next`` so CLI and AI see the same
+          data. This is the chain's complement to ``prev``.
+        * ``next`` (no args) — pop and execute the active autosuggest
+          accelerator (the dim ``press '.' to run: <cmd>`` line). The
+          accelerator alias ``.`` keeps working unchanged.
 
         Args:
-            line: Ignored. Present to satisfy the cmd2 ``do_*``
-                contract.
+            line: Empty for the accelerator mode, or ``<verb> [limit]``
+                for the chain mode.
 
         Returns:
             None.
         """
+        argument = (line or "").strip()
+        if argument:
+            self._render_chain_next(argument)
+            return
         engine = getattr(self, "_autosuggest", None)
         if engine is None:
             print_warn("autosuggest engine is not initialised")
@@ -6683,6 +6725,39 @@ class LazyOwnShell(cmd2.Cmd):
                 _render_autosuggest_hint(engine)
             except Exception:
                 pass
+
+    def _render_chain_next(self, raw_args: str) -> None:
+        """Render the chain's ``next`` view for the supplied verb (helper).
+
+        Args:
+            raw_args: The raw argument string passed to ``do_next``.
+                Format: ``<verb> [limit]``.
+
+        Returns:
+            None.
+        """
+        from cli.command_chain import CommandChain
+        tokens = raw_args.split()
+        limit: int | None = None
+        if tokens and tokens[-1].isdigit():
+            limit = int(tokens[-1])
+            tokens = tokens[:-1]
+        if not tokens:
+            print_warn("Pass a verb, e.g. `next lazynmap`.")
+            return
+        verb = tokens[0]
+        chain = CommandChain()
+        target = self.params.get("rhost") or None
+        phase = (self.params.get("phase") or "").strip()
+        steps = chain.next(
+            cmd=verb, params=self.params, target=target, phase=phase, limit=limit
+        )
+        if not steps:
+            print_warn(f"No next-step recommendations for '{verb}'.")
+            return
+        print_msg(f"Next steps after '{verb}':")
+        for step in steps:
+            print_msg(f"  {step.name:<22} [{step.source}] {step.reason}")
 
     @cmd2.with_category(miscellaneous_category)
     def do_daemon_mode(self, line):

@@ -1669,6 +1669,56 @@ async def list_tools() -> list[types.Tool]:
             },
         ),
         types.Tool(
+            name="lazyown_command_prev",
+            description=(
+                "Return the declared prerequisite commands for a verb (the chain's 'prev' arrow). "
+                "Useful before launching a command to verify the chain is satisfied. "
+                "Mirrors the CLI 'prev <command>' shell command."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "command": {
+                        "type": "string",
+                        "description": "Command verb (with or without the 'do_' prefix).",
+                    }
+                },
+                "required": ["command"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_command_next",
+            description=(
+                "Return ordered next-step recommendations for a verb. Combines the static "
+                "kill-chain map, nmap-discovered services, and exploration engine triggers "
+                "(addons + tools) into one deduplicated list with provenance. Mirrors the "
+                "CLI 'next <command>' shell command."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "command": {
+                        "type": "string",
+                        "description": "Command verb (with or without the 'do_' prefix).",
+                    },
+                    "target": {
+                        "type": "string",
+                        "description": "Optional rhost filter for nmap XML lookups.",
+                    },
+                    "phase": {
+                        "type": "string",
+                        "description": "Optional engagement phase (recon|enum|exploit|...).",
+                    },
+                    "limit": {
+                        "type": "integer",
+                        "description": "Maximum number of recommendations (default 5).",
+                        "default": 5,
+                    },
+                },
+                "required": ["command"],
+            },
+        ),
+        types.Tool(
             name="lazyown_recommend_next",
             description=(
                 "Ask the AI (Groq) to recommend the best 3-5 LazyOwn commands to run next, "
@@ -6138,6 +6188,40 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             f"Generated: {state['generated_at'][:19]}",
         ])
         return text(output)
+
+    # ── command_prev ──────────────────────────────────────────────────────────
+    elif name == "lazyown_command_prev":
+        verb = arguments.get("command", "")
+        if not verb:
+            return text(json.dumps({"error": "command argument is required"}))
+        try:
+            from cli.command_chain import CommandChain
+        except Exception as exc:
+            return text(json.dumps({"error": f"command_chain import failed: {exc}"}))
+        chain = CommandChain()
+        return text(json.dumps({"command": verb, "prev": chain.prev(verb)}))
+
+    # ── command_next ──────────────────────────────────────────────────────────
+    elif name == "lazyown_command_next":
+        verb = arguments.get("command", "")
+        if not verb:
+            return text(json.dumps({"error": "command argument is required"}))
+        try:
+            from cli.command_chain import CommandChain
+        except Exception as exc:
+            return text(json.dumps({"error": f"command_chain import failed: {exc}"}))
+        cfg = _load_payload()
+        target = arguments.get("target") or cfg.get("rhost") or None
+        phase = arguments.get("phase") or cfg.get("phase") or ""
+        limit = arguments.get("limit") or 5
+        chain = CommandChain()
+        steps = chain.next(cmd=verb, params=cfg, target=target, phase=phase, limit=limit)
+        return text(json.dumps({
+            "command": verb,
+            "target": target,
+            "phase": phase,
+            "next": [step.to_dict() for step in steps],
+        }))
 
     # ── recommend_next ────────────────────────────────────────────────────────
     elif name == "lazyown_recommend_next":

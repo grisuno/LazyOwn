@@ -423,14 +423,35 @@ Usage:
     ``note SMB signing disabled on DC01``
 
 ## l00t
-Show a unified table of all captured credentials and hashes.
+Unified loot: show, search, reuse, graph, and mark credentials.
 
-Reads every credentials*.txt and hash*.txt in sessions/ and displays
-them in a single deduplicated table. Duplicates across files are shown
-dimmed. Cleartext passwords in green, hashes in red.
+Aggregates every credentials*.txt and hash*.txt in sessions/ into one
+deduplicated view. Cleartext passwords show green, hashes red.
 
-Usage:
-    ``l00t``
+Subcommands:
+    ``l00t``                              — show all captured loot
+    ``l00t search <user|host|hash>``      — search loot for a substring
+    ``l00t reuse``                        — rank creds to try on the current rhost
+    ``l00t graph``                        — credential graph: harvested / worked / rejected
+    ``l00t mark <user|secret> worked|rejected [host]``
+                                          — record an auth outcome (defaults host to rhost)
+
+Examples:
+    ``l00t search admin``
+    ``l00t reuse``
+    ``l00t mark administrator worked``
+    ``l00t mark svc_sql rejected 10.10.11.5``
+
+## complete_l00t
+Tab-complete l00t subcommands.
+
+## loot
+Alias for ``l00t`` — unified loot (show/search/reuse/graph/mark).
+
+See ``help l00t`` for the full subcommand reference.
+
+## complete_loot
+Tab-complete loot subcommands (delegates to l00t).
 
 ## pivot
 Record a newly discovered pivot target or show the pivot chain.

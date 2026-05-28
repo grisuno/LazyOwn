@@ -59,6 +59,10 @@ from cli.ops_commands import PHASES as _PHASES
 from cli.ops_commands import note_add as _note_add
 from cli.ops_commands import note_list as _note_list
 from cli.ops_commands import loot_show as _loot_show
+from cli.ops_commands import loot_search as _loot_search
+from cli.ops_commands import loot_reuse as _loot_reuse
+from cli.ops_commands import loot_graph as _loot_graph
+from cli.ops_commands import loot_mark as _loot_mark
 from cli.ops_commands import pivot_add as _pivot_add
 from cli.ops_commands import pivot_list as _pivot_list
 from cli.ops_commands import tasks_list as _tasks_list
@@ -1831,16 +1835,71 @@ class LazyOwnShell(cmd2.Cmd):
 
     @cmd2.with_category(miscellaneous_category)
     def do_l00t(self, line):
-        """Show a unified table of all captured credentials and hashes.
+        """Unified loot: show, search, reuse, graph, and mark credentials.
 
-        Reads every credentials*.txt and hash*.txt in sessions/ and displays
-        them in a single deduplicated table. Duplicates across files are shown
-        dimmed. Cleartext passwords in green, hashes in red.
+        Aggregates every credentials*.txt and hash*.txt in sessions/ into one
+        deduplicated view. Cleartext passwords show green, hashes red.
 
-        Usage:
-            ``l00t``
+        Subcommands:
+            ``l00t``                              — show all captured loot
+            ``l00t search <user|host|hash>``      — search loot for a substring
+            ``l00t reuse``                        — rank creds to try on the current rhost
+            ``l00t graph``                        — credential graph: harvested / worked / rejected
+            ``l00t mark <user|secret> worked|rejected [host]``
+                                                  — record an auth outcome (defaults host to rhost)
+
+        Examples:
+            ``l00t search admin``
+            ``l00t reuse``
+            ``l00t mark administrator worked``
+            ``l00t mark svc_sql rejected 10.10.11.5``
         """
-        _loot_show()
+        arg = (line or "").strip()
+        if not arg:
+            _loot_show()
+            return
+
+        parts = arg.split()
+        sub = parts[0].lower()
+
+        if sub == "search":
+            if len(parts) < 2:
+                print_error("Usage: l00t search <user|host|hash>")
+                return
+            _loot_search(" ".join(parts[1:]))
+        elif sub == "reuse":
+            _loot_reuse(self.params.get("rhost") or "")
+        elif sub == "graph":
+            _loot_graph()
+        elif sub == "mark":
+            if len(parts) < 3:
+                print_error("Usage: l00t mark <user|secret> worked|rejected [host]")
+                return
+            selector = parts[1]
+            outcome = parts[2]
+            host = parts[3] if len(parts) > 3 else (self.params.get("rhost") or "")
+            _loot_mark(selector, outcome, host)
+        else:
+            print_error(
+                "Usage: l00t [search <q> | reuse | graph | mark <user> worked|rejected [host]]"
+            )
+
+    def complete_l00t(self, text, line, begidx, endidx):
+        """Tab-complete l00t subcommands."""
+        subs = ("search", "reuse", "graph", "mark")
+        return [s for s in subs if s.startswith(text)]
+
+    @cmd2.with_category(miscellaneous_category)
+    def do_loot(self, line):
+        """Alias for ``l00t`` — unified loot (show/search/reuse/graph/mark).
+
+        See ``help l00t`` for the full subcommand reference.
+        """
+        self.do_l00t(line)
+
+    def complete_loot(self, text, line, begidx, endidx):
+        """Tab-complete loot subcommands (delegates to l00t)."""
+        return self.complete_l00t(text, line, begidx, endidx)
 
     @cmd2.with_category(miscellaneous_category)
     def do_pivot(self, line):

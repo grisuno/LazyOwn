@@ -15,6 +15,7 @@ import os
 import re
 import tempfile
 import time
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
@@ -43,6 +44,36 @@ _TRANSCRIPT_JSONL = "sessions/_cli_transcript.jsonl"
 _LOGS_DIR = "sessions/logs"
 _CRED_GLOB = "sessions/credentials*.txt"
 _HASH_GLOB = "sessions/hash*.txt"
+
+_WORLD_MODEL_NAME = "world_model.json"
+_SESSION_CSV_NAME = "LazyOwn_session_report.csv"
+_OS_FILE_NAME = "os.json"
+_PIVOT_FILE_NAME = "pivots.jsonl"
+
+_LOOT_USER_MAX = 40
+_LOOT_SECRET_MAX = 60
+
+_CRED_REL_HARVESTED = "exposes_credential"
+_CRED_REL_WORKED = "authenticates_to"
+_CRED_REL_REJECTED = "rejected_by"
+_CRED_REL_CANDIDATE = "may_authenticate_to"
+_CRED_NODE_PREFIX = "cred:"
+_HOST_NODE_PREFIX = "host:"
+_CRED_NODE_HASH_LEN = 12
+
+_HOST_STATE_RANK = {
+    "unscanned": 0,
+    "scanned": 1,
+    "enumerated": 2,
+    "exploited": 3,
+    "owned": 4,
+}
+
+_PROGRESS_BAR_WIDTH = 10
+_RECON_HOST_WEIGHT = 0.5
+_RECON_OS_WEIGHT = 0.5
+_ENUM_SERVICE_FLOOR = 0.25
+_REPORT_GLOBS = ("report_*.md", "report_*.docx")
 
 
 # ── ctx ─────────────────────────────────────────────────────────────────────
@@ -316,6 +347,103 @@ def print_phase() -> None:
         f"  — dashboard refreshes in up to {5}s"
     )
 
+    progress = phase_progress(world)
+    for phase in PHASES:
+        ratio = progress.get(phase, 0.0)
+        color = _PHASE_COLORS.get(phase, "white")
+        bar = _render_progress_bar(ratio)
+        _console.print(f"  [bold {color}]{phase:<8}[/] [{color}]{bar}[/] [dim]{int(round(ratio * 100)):3d}%[/]")
+
+
+def _render_progress_bar(ratio: float) -> str:
+    """Return a fixed-width filled/empty block bar for ``ratio`` in [0, 1]."""
+    clamped = max(0.0, min(1.0, ratio))
+    filled = int(round(clamped * _PROGRESS_BAR_WIDTH))
+    return "█" * filled + "░" * (_PROGRESS_BAR_WIDTH - filled)
+
+
+def _os_identified(sessions_dir: str) -> bool:
+    """Return True when sessions/os.json records an active OS fingerprint."""
+    data = _read_json(str(Path(sessions_dir) / _OS_FILE_NAME))
+    if isinstance(data, list):
+        return bool(data) and data[0].get("state") == "active"
+    return False
+
+
+def _glob_count(sessions_dir: str, pattern: str) -> int:
+    """Return the number of files under ``sessions_dir`` matching ``pattern``."""
+    return len(glob.glob(str(Path(sessions_dir) / pattern)))
+
+
+def _report_artifact_exists(sessions_dir: str) -> bool:
+    """Return True when a generated report (report_*.md/.docx) is present."""
+    return any(_glob_count(sessions_dir, pattern) for pattern in _REPORT_GLOBS)
+
+
+def _count_pivots(sessions_dir: str) -> int:
+    """Return the number of recorded pivot entries."""
+    path = Path(sessions_dir) / _PIVOT_FILE_NAME
+    if not path.exists():
+        return 0
+    return sum(1 for line in path.read_text(encoding="utf-8", errors="ignore").splitlines() if line.strip())
+
+
+def phase_progress(world: dict[str, Any], sessions_dir: str = "sessions") -> dict[str, float]:
+    """Estimate per-phase completion in [0, 1] from world-model state.
+
+    Signals are data-driven: host state ranks, nmap scan files, discovered
+    services, captured loot, recorded pivots, and report artefacts. Any phase
+    listed in ``completed_phases`` is forced to 1.0.
+
+    Args:
+        world: Parsed world_model.json document.
+        sessions_dir: Base sessions directory for filesystem signals.
+
+    Returns:
+        A mapping of each :data:`PHASES` value to a completion ratio.
+    """
+    hosts = world.get("hosts", {}) or {}
+    ranks = [_HOST_STATE_RANK.get((h.get("state") or "unscanned"), 0) for h in hosts.values()]
+    n_hosts = len(ranks)
+    n_services = sum(len(h.get("services", {}) or {}) for h in hosts.values())
+    n_loot = _glob_count(sessions_dir, "credentials*.txt") + _glob_count(sessions_dir, "hash*.txt")
+    n_owned = sum(1 for r in ranks if r >= _HOST_STATE_RANK["owned"])
+    n_pivots = _count_pivots(sessions_dir)
+    has_scan_files = _glob_count(sessions_dir, "scan_*.nmap") > 0
+
+    def frac_at_least(min_rank: int) -> float:
+        if n_hosts == 0:
+            return 0.0
+        return sum(1 for r in ranks if r >= min_rank) / n_hosts
+
+    recon = (_RECON_HOST_WEIGHT if n_hosts else 0.0) + (_RECON_OS_WEIGHT if _os_identified(sessions_dir) else 0.0)
+    scan = frac_at_least(_HOST_STATE_RANK["scanned"]) if n_hosts else (0.5 if has_scan_files else 0.0)
+    enum = max(frac_at_least(_HOST_STATE_RANK["enumerated"]), _ENUM_SERVICE_FLOOR if n_services else 0.0)
+    exploit = frac_at_least(_HOST_STATE_RANK["exploited"])
+    privesc = frac_at_least(_HOST_STATE_RANK["owned"])
+    lateral = (
+        0.0 if n_owned == 0 else min(1.0, n_pivots / max(n_hosts - 1, 1)) if n_hosts > 1 else (1.0 if n_pivots else 0.0)
+    )
+    exfil = 1.0 if n_loot else 0.0
+    report = 1.0 if _report_artifact_exists(sessions_dir) else 0.0
+
+    progress = {
+        "recon": recon,
+        "scan": scan,
+        "enum": enum,
+        "exploit": exploit,
+        "privesc": privesc,
+        "lateral": lateral,
+        "exfil": exfil,
+        "report": report,
+    }
+
+    for phase in world.get("completed_phases") or []:
+        if phase in progress:
+            progress[phase] = 1.0
+
+    return {phase: round(progress.get(phase, 0.0), 4) for phase in PHASES}
+
 
 # ── shared helpers ────────────────────────────────────────────────────────────
 
@@ -439,21 +567,52 @@ def note_list(rhost: str = "", limit: int = 20) -> None:
 # ── loot ──────────────────────────────────────────────────────────────────────
 
 
-def loot_show(sessions_dir: str = "sessions") -> None:
-    """Print a unified table of all captured credentials and hashes.
+@dataclass
+class LootEntry:
+    """A single captured credential or hash parsed from a loot file.
 
-    Reads every credentials*.txt and hash*.txt under sessions_dir. Each file
-    is expected to have one ``user:secret`` entry per line.
+    Attributes:
+        source: Basename of the file the entry was read from.
+        kind: ``cleartext`` for credentials*.txt, ``hash`` for hash*.txt.
+        user: Username portion (text before the first colon), full length.
+        secret: Password or hash portion (text after the first colon).
     """
-    import glob as _glob
 
-    rows: list[dict[str, str]] = []
+    source: str
+    kind: str
+    user: str
+    secret: str
 
+    @property
+    def value(self) -> str:
+        """Return the canonical ``user:secret`` credential value.
+
+        Returns:
+            ``user:secret`` when a secret is present, otherwise just ``user``.
+            Matches the value format stored by ``modules.world_model``.
+        """
+        return f"{self.user}:{self.secret}" if self.secret else self.user
+
+
+def gather_loot(sessions_dir: str = "sessions") -> list[LootEntry]:
+    """Parse every credentials*.txt and hash*.txt under ``sessions_dir``.
+
+    Each file is expected to hold one ``user:secret`` entry per line; blank
+    lines and ``#`` comments are skipped. This is the single source of truth
+    for loot parsing reused by show / search / reuse / mark.
+
+    Args:
+        sessions_dir: Base sessions directory.
+
+    Returns:
+        A list of :class:`LootEntry` in file then line order.
+    """
+    entries: list[LootEntry] = []
     for pattern, kind in (
         (f"{sessions_dir}/credentials*.txt", "cleartext"),
         (f"{sessions_dir}/hash*.txt", "hash"),
     ):
-        for fpath in sorted(_glob.glob(pattern)):
+        for fpath in sorted(glob.glob(pattern)):
             fname = Path(fpath).name
             try:
                 content = Path(fpath).read_text(encoding="utf-8", errors="ignore")
@@ -467,21 +626,30 @@ def loot_show(sessions_dir: str = "sessions") -> None:
                     user, _, secret = stripped.partition(":")
                 else:
                     user, secret = stripped, ""
-                rows.append(
-                    {
-                        "source": fname,
-                        "kind": kind,
-                        "user": user.strip()[:40],
-                        "secret": secret.strip()[:60],
-                    }
+                entries.append(
+                    LootEntry(
+                        source=fname,
+                        kind=kind,
+                        user=user.strip(),
+                        secret=secret.strip(),
+                    )
                 )
+    return entries
 
-    if not rows:
+
+def loot_show(sessions_dir: str = "sessions") -> None:
+    """Print a unified table of all captured credentials and hashes.
+
+    Args:
+        sessions_dir: Base sessions directory.
+    """
+    entries = gather_loot(sessions_dir)
+    if not entries:
         _console.print("  [dim]No l00t yet.  Credentials land in sessions/credentials*.txt[/]")
         return
 
     table = Table(
-        title=f"Loot — {len(rows)} credential(s)",
+        title=f"Loot — {len(entries)} credential(s)",
         border_style="dim",
         show_lines=False,
         expand=True,
@@ -492,25 +660,349 @@ def loot_show(sessions_dir: str = "sessions") -> None:
     table.add_column("Secret / Hash", no_wrap=False)
 
     seen: set[tuple[str, str]] = set()
-    for row in rows:
-        key = (row["user"], row["secret"])
+    for entry in entries:
+        user = entry.user[:_LOOT_USER_MAX]
+        secret = entry.secret[:_LOOT_SECRET_MAX]
+        key = (user, secret)
         dup_style = "dim" if key in seen else ""
         seen.add(key)
-        secret_cell = Text(row["secret"])
-        if row["kind"] == "cleartext":
-            secret_cell.stylize("bold green")
-        else:
-            secret_cell.stylize("bold red")
+        secret_cell = Text(secret)
+        secret_cell.stylize("bold green" if entry.kind == "cleartext" else "bold red")
         if dup_style:
             secret_cell.stylize("dim")
         table.add_row(
-            Text(row["source"], style=f"dim cyan {dup_style}"),
-            Text(row["kind"], style=f"dim {dup_style}"),
-            Text(row["user"], style=f"bold white {dup_style}"),
+            Text(entry.source, style=f"dim cyan {dup_style}"),
+            Text(entry.kind, style=f"dim {dup_style}"),
+            Text(user, style=f"bold white {dup_style}"),
             secret_cell,
         )
 
     _console.print(table)
+
+
+def _loot_provenance(query: str, sessions_dir: str) -> dict[str, str] | None:
+    """Find the first session-log row that mentions ``query``.
+
+    Args:
+        query: Case-insensitive needle to search the command CSV for.
+        sessions_dir: Base sessions directory.
+
+    Returns:
+        ``{"command": ..., "ts": ...}`` for the first matching row, or
+        ``None`` when the CSV is absent or holds no match.
+    """
+    csv_path = Path(sessions_dir) / _SESSION_CSV_NAME
+    if not csv_path.exists():
+        return None
+    needle = query.lower()
+    try:
+        with csv_path.open("r", encoding="utf-8", errors="ignore") as fh:
+            for row in csv.DictReader(fh):
+                blob = " ".join(str(v) for v in row.values() if v).lower()
+                if needle in blob:
+                    return {
+                        "command": row.get("command") or row.get("cmd") or "",
+                        "ts": row.get("timestamp") or row.get("ts") or "",
+                    }
+    except (OSError, csv.Error):
+        return None
+    return None
+
+
+def loot_search(query: str, sessions_dir: str = "sessions") -> None:
+    """Search captured loot for ``query`` across users and secrets.
+
+    Args:
+        query: Case-insensitive substring matched against user and secret.
+        sessions_dir: Base sessions directory.
+    """
+    if not query.strip():
+        _console.print("  [bold red]loot search: query required[/]  — l00t search <user|host|hash>")
+        return
+
+    needle = query.strip().lower()
+    entries = gather_loot(sessions_dir)
+    hits = [e for e in entries if needle in e.user.lower() or needle in e.secret.lower()]
+
+    if not hits:
+        _console.print(f"  [dim]loot search: no credentials match [bold]{query}[/][/]")
+        return
+
+    table = Table(
+        title=f"Loot search: {query!r} — {len(hits)} hit(s)",
+        border_style="dim",
+        show_lines=False,
+        expand=True,
+    )
+    table.add_column("Source", style="dim cyan", no_wrap=True, max_width=24)
+    table.add_column("Type", style="dim", width=10)
+    table.add_column("User", style="bold white", no_wrap=True, max_width=30)
+    table.add_column("Secret / Hash", no_wrap=False)
+
+    for entry in hits:
+        secret_cell = Text(entry.secret[:_LOOT_SECRET_MAX])
+        secret_cell.stylize("bold green" if entry.kind == "cleartext" else "bold red")
+        table.add_row(entry.source, entry.kind, entry.user[:_LOOT_USER_MAX], secret_cell)
+
+    _console.print(table)
+
+    prov = _loot_provenance(query, sessions_dir)
+    if prov and (prov["command"] or prov["ts"]):
+        _console.print(
+            f"  [dim]first seen in log:[/] [cyan]{prov['command'][:80]}[/]"
+            + (f"  [dim]{prov['ts']}[/]" if prov["ts"] else "")
+        )
+
+
+def _cred_outcomes_for_host(world: dict[str, Any], host: str) -> tuple[set[str], set[str]]:
+    """Return cred-node prefixes that worked / were rejected for ``host``.
+
+    Args:
+        world: Parsed world_model.json document.
+        host: Target host IP.
+
+    Returns:
+        ``(worked, rejected)`` sets of ``cred:<hash>`` node identifiers that
+        the network graph records as authenticating to / rejected by ``host``.
+    """
+    worked: set[str] = set()
+    rejected: set[str] = set()
+    host_node = f"{_HOST_NODE_PREFIX}{host}"
+    for rel in world.get("network_graph", {}).get("relations", []):
+        if rel.get("target") != host_node:
+            continue
+        src = rel.get("source", "")
+        if not src.startswith(_CRED_NODE_PREFIX):
+            continue
+        if rel.get("relation") == _CRED_REL_WORKED:
+            worked.add(src)
+        elif rel.get("relation") == _CRED_REL_REJECTED:
+            rejected.add(src)
+    return worked, rejected
+
+
+def _cred_node(value: str) -> str:
+    """Return the network-graph node id for a credential value."""
+    return f"{_CRED_NODE_PREFIX}{value[:_CRED_NODE_HASH_LEN]}"
+
+
+def loot_reuse(rhost: str, sessions_dir: str = "sessions") -> None:
+    """Suggest captured credentials worth trying against ``rhost``.
+
+    Ranks credentials that have not yet been rejected by the target, favouring
+    cleartext over hashes and credentials already confirmed elsewhere, and
+    prints ready-to-run authentication hints.
+
+    Args:
+        rhost: Current target IP (from payload ``rhost``).
+        sessions_dir: Base sessions directory.
+    """
+    if not rhost.strip():
+        _console.print("  [bold red]loot reuse: no target[/]  — set one with [bold]assign rhost <ip>[/]")
+        return
+
+    entries = gather_loot(sessions_dir)
+    if not entries:
+        _console.print("  [dim]No l00t to reuse.  Credentials land in sessions/credentials*.txt[/]")
+        return
+
+    world = _read_json(str(Path(sessions_dir) / _WORLD_MODEL_NAME))
+    worked_here, rejected_here = _cred_outcomes_for_host(world, rhost)
+
+    worked_anywhere: set[str] = set()
+    for rel in world.get("network_graph", {}).get("relations", []):
+        if rel.get("relation") == _CRED_REL_WORKED and rel.get("source", "").startswith(_CRED_NODE_PREFIX):
+            worked_anywhere.add(rel["source"])
+
+    ranked: list[tuple[float, LootEntry, str]] = []
+    seen_values: set[str] = set()
+    for entry in entries:
+        if entry.value in seen_values:
+            continue
+        seen_values.add(entry.value)
+        node = _cred_node(entry.value)
+        if node in rejected_here:
+            continue
+        status = ""
+        score = 1.0 if entry.kind == "cleartext" else 0.5
+        if node in worked_here:
+            status = "already works here"
+            score += 2.0
+        elif node in worked_anywhere:
+            status = "confirmed elsewhere"
+            score += 1.0
+        ranked.append((score, entry, status))
+
+    if not ranked:
+        _console.print(f"  [dim]No untried credentials left for {rhost} (all rejected).[/]")
+        return
+
+    ranked.sort(key=lambda t: -t[0])
+
+    table = Table(
+        title=f"Reuse candidates for {rhost} — {len(ranked)}",
+        border_style="dim",
+        show_lines=False,
+        expand=True,
+    )
+    table.add_column("User", style="bold white", no_wrap=True, max_width=30)
+    table.add_column("Secret / Hash", no_wrap=False)
+    table.add_column("Type", style="dim", width=10)
+    table.add_column("Status", style="dim", width=20)
+    table.add_column("Try", no_wrap=False)
+
+    for _score, entry, status in ranked:
+        if entry.kind == "cleartext":
+            secret_style = "bold green"
+            hint = f"nxc smb {rhost} -u '{entry.user}' -p '{entry.secret}'"
+        else:
+            secret_style = "bold red"
+            hint = f"nxc smb {rhost} -u '{entry.user}' -H '{entry.secret}'"
+        table.add_row(
+            entry.user[:_LOOT_USER_MAX],
+            Text(entry.secret[:_LOOT_SECRET_MAX], style=secret_style),
+            entry.kind,
+            status,
+            Text(hint, style="dim cyan"),
+        )
+
+    _console.print(table)
+    _console.print("  [dim]Record an outcome with [bold]l00t mark <user> worked|rejected[/][/]")
+
+
+def loot_graph(sessions_dir: str = "sessions") -> None:
+    """Render the credential-centric view of the network graph.
+
+    Shows, per captured credential, the hosts it was harvested from, the hosts
+    it authenticated to, the hosts that rejected it, and candidate hosts.
+
+    Args:
+        sessions_dir: Base sessions directory.
+    """
+    world = _read_json(str(Path(sessions_dir) / _WORLD_MODEL_NAME))
+    relations = world.get("network_graph", {}).get("relations", [])
+
+    creds: dict[str, dict[str, list[str]]] = {}
+
+    def _bucket(node: str) -> dict[str, list[str]]:
+        return creds.setdefault(node, {"harvested": [], "worked": [], "rejected": [], "candidate": []})
+
+    def _host_label(node: str) -> str:
+        return node[len(_HOST_NODE_PREFIX) :] if node.startswith(_HOST_NODE_PREFIX) else node
+
+    for rel in relations:
+        relation = rel.get("relation", "")
+        source = rel.get("source", "")
+        target = rel.get("target", "")
+        if relation == _CRED_REL_HARVESTED and target.startswith(_CRED_NODE_PREFIX):
+            _bucket(target)["harvested"].append(_host_label(source))
+        elif source.startswith(_CRED_NODE_PREFIX):
+            bucket = _bucket(source)
+            if relation == _CRED_REL_WORKED:
+                bucket["worked"].append(_host_label(target))
+            elif relation == _CRED_REL_REJECTED:
+                bucket["rejected"].append(_host_label(target))
+            elif relation == _CRED_REL_CANDIDATE:
+                bucket["candidate"].append(_host_label(target))
+
+    if not creds:
+        _console.print(
+            "  [dim]No credential graph yet.  Creds appear here once found during "
+            "recon/enum; mark outcomes with [bold]l00t mark[/].[/]"
+        )
+        return
+
+    table = Table(
+        title=f"Credential graph — {len(creds)} credential(s)",
+        border_style="dim",
+        show_lines=True,
+        expand=True,
+    )
+    table.add_column("Credential", style="bold white", no_wrap=True, max_width=20)
+    table.add_column("Harvested from", style="dim cyan", no_wrap=False)
+    table.add_column("Worked on", style="bold green", no_wrap=False)
+    table.add_column("Rejected on", style="bold red", no_wrap=False)
+    table.add_column("Candidate", style="dim yellow", no_wrap=False)
+
+    def _join(items: list[str]) -> str:
+        return ", ".join(sorted(set(items))) if items else "—"
+
+    for node, bucket in creds.items():
+        cred_label = node[len(_CRED_NODE_PREFIX) :]
+        table.add_row(
+            cred_label,
+            _join(bucket["harvested"]),
+            _join(bucket["worked"]),
+            _join(bucket["rejected"]),
+            _join(bucket["candidate"]),
+        )
+
+    _console.print(table)
+
+
+def resolve_cred_value(selector: str, entries: list[LootEntry]) -> str | None:
+    """Resolve a user/secret ``selector`` to a canonical credential value.
+
+    Args:
+        selector: Username, secret, or full ``user:secret`` string.
+        entries: Loot entries to resolve against (from :func:`gather_loot`).
+
+    Returns:
+        The matching ``user:secret`` value, preferring an exact username match,
+        then an exact value match, then the first substring match. ``None`` when
+        nothing matches.
+    """
+    sel = selector.strip()
+    if not sel:
+        return None
+    lowered = sel.lower()
+    for entry in entries:
+        if entry.user == sel:
+            return entry.value
+    for entry in entries:
+        if entry.value == sel:
+            return entry.value
+    for entry in entries:
+        if lowered in entry.user.lower() or lowered in entry.secret.lower():
+            return entry.value
+    return None
+
+
+def loot_mark(selector: str, outcome: str, host: str, sessions_dir: str = "sessions") -> bool:
+    """Record that a credential worked or was rejected against ``host``.
+
+    Args:
+        selector: Username/secret/value identifying the credential.
+        outcome: ``worked`` or ``rejected``.
+        host: Host the credential was tried against.
+        sessions_dir: Base sessions directory.
+
+    Returns:
+        True when an outcome edge was written, False on a usage/resolution error.
+    """
+    outcome = outcome.strip().lower()
+    if outcome not in ("worked", "rejected"):
+        _console.print("  [bold red]loot mark: outcome must be 'worked' or 'rejected'[/]")
+        return False
+    if not host.strip():
+        _console.print("  [bold red]loot mark: no host[/]  — set [bold]assign rhost <ip>[/] or pass a host")
+        return False
+
+    value = resolve_cred_value(selector, gather_loot(sessions_dir))
+    if value is None:
+        _console.print(f"  [bold red]loot mark: no captured credential matches [bold]{selector}[/][/]")
+        return False
+
+    from modules.world_model import get_world_model
+
+    wm = get_world_model(str(Path(sessions_dir) / _WORLD_MODEL_NAME))
+    if outcome == "worked":
+        wm.link_credential_to_success(value, host.strip())
+        _console.print(f"  [bold green]marked[/] {value[:_LOOT_SECRET_MAX]} → worked on [cyan]{host.strip()}[/]")
+    else:
+        wm.link_credential_to_failure(value, host.strip())
+        _console.print(f"  [bold red]marked[/] {value[:_LOOT_SECRET_MAX]} → rejected on [cyan]{host.strip()}[/]")
+    return True
 
 
 # ── pivot ─────────────────────────────────────────────────────────────────────
@@ -1014,14 +1506,22 @@ def _human_size(n: int) -> str:
 
 __all__ = [
     "PHASES",
+    "LootEntry",
+    "gather_loot",
+    "loot_graph",
+    "loot_mark",
+    "loot_reuse",
+    "loot_search",
     "loot_show",
     "note_add",
     "note_list",
+    "phase_progress",
     "pivot_add",
     "pivot_list",
     "print_ctx",
     "print_phase",
     "read_phase",
+    "resolve_cred_value",
     "scans_list",
     "sitrep",
     "tasks_add",

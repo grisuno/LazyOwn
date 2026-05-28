@@ -2,6 +2,20 @@
 # Changelog
 
 
+### Otros
+
+### Otros
+
+  *   * feature(feat): new l00t commands \n\n Version: release/0.2.143 \n\n and some love \n\n Modified file(s):\n- CLAUDE.md - COMMANDS.md - cli/command_chain.py - cli/command_index.json - docs/COMMANDS.html - docs/command_chain.md - lazyown.py - skills/lazyown_mcp.py - tests/test_command_chain.py - tests/test_command_palette.py\nCreated file(s):\n- cli/command_chain.py - docs/command_chain.md - tests/test_command_chain.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: mié 27 may 2026 23:50:28 -04 \n\n Hora: 1779940228
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(chain): add prev/next command-chain primitive + CLAUDE.md tech-debt law
+
+
 ### Documentación
 
 ### Otros

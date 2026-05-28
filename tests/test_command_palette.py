@@ -94,8 +94,8 @@ class PaletteSuiteConfig:
     lazyown_shell_class_name: str = "LazyOwnShell"
     known_duplicate_lines: dict[str, frozenset[int]] = field(
         default_factory=lambda: {
-            "do_shellshock": frozenset({11630, 15108}),
-            "do_download_c2": frozenset({992, 25730, 27197}),
+            "do_shellshock": frozenset({11689, 15167}),
+            "do_download_c2": frozenset({992, 25789, 27256}),
         }
     )
     invalid_index_payload: str = "{not json"
@@ -581,9 +581,7 @@ class TestPaletteLoader:
 
         with_duplicates = palette.all_commands(include_duplicates=True)
         canonical = palette.all_commands()
-        duplicate_occurrence_count = sum(
-            max(0, len(entry["occurrences"]) - 1) for entry in palette.duplicates()
-        )
+        duplicate_occurrence_count = sum(max(0, len(entry["occurrences"]) - 1) for entry in palette.duplicates())
         assert len(with_duplicates) - len(canonical) == duplicate_occurrence_count
 
     def test_filter_by_phase_returns_only_matching_phase(self, suite_config: PaletteSuiteConfig) -> None:

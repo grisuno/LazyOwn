@@ -494,11 +494,28 @@ so they survive session restarts and show up in reports.</p>
 <code>note Found admin creds in /etc/shadow</code>
 <code>note SMB signing disabled on DC01</code></p>
 <h2 id="l00t">l00t</h2>
-<p>Show a unified table of all captured credentials and hashes.</p>
-<p>Reads every credentials<em>.txt and hash</em>.txt in sessions/ and
-displays them in a single deduplicated table. Duplicates across files
-are shown dimmed. Cleartext passwords in green, hashes in red.</p>
-<p>Usage: <code>l00t</code></p>
+<p>Unified loot: show, search, reuse, graph, and mark credentials.</p>
+<p>Aggregates every credentials<em>.txt and hash</em>.txt in sessions/
+into one deduplicated view. Cleartext passwords show green, hashes
+red.</p>
+<p>Subcommands: <code>l00t</code> — show all captured loot
+<code>l00t search &lt;user|host|hash&gt;</code> — search loot for a
+substring <code>l00t reuse</code> — rank creds to try on the current
+rhost <code>l00t graph</code> — credential graph: harvested / worked /
+rejected
+<code>l00t mark &lt;user|secret&gt; worked|rejected [host]</code> —
+record an auth outcome (defaults host to rhost)</p>
+<p>Examples: <code>l00t search admin</code> <code>l00t reuse</code>
+<code>l00t mark administrator worked</code>
+<code>l00t mark svc_sql rejected 10.10.11.5</code></p>
+<h2 id="complete_l00t">complete_l00t</h2>
+<p>Tab-complete l00t subcommands.</p>
+<h2 id="loot">loot</h2>
+<p>Alias for <code>l00t</code> — unified loot
+(show/search/reuse/graph/mark).</p>
+<p>See <code>help l00t</code> for the full subcommand reference.</p>
+<h2 id="complete_loot">complete_loot</h2>
+<p>Tab-complete loot subcommands (delegates to l00t).</p>
 <h2 id="pivot">pivot</h2>
 <p>Record a newly discovered pivot target or show the pivot chain.</p>
 <p>When you compromise a host and discover a new reachable network/IP,

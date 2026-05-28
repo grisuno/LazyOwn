@@ -475,6 +475,34 @@ class WorldModel:
                     c.confirmed = True
             self._save()
 
+    def link_credential_to_failure(self, value: str, host: str) -> None:
+        """Mark a credential as rejected by a specific host in the graph.
+
+        Records the negative outcome of an authentication attempt so the
+        cred-graph view and reuse ranking can skip credentials already
+        proven not to work against a host.
+
+        Args:
+            value: The credential value ("user:pass" or hash) that failed.
+            host: The host that rejected the credential.
+
+        Returns:
+            None.
+        """
+        with self._lock:
+            cred_node = f"cred:{value[:12]}"
+            host_node = f"host:{host}"
+            self._graph.add_relation(NetworkRelation(
+                source=cred_node,
+                target=host_node,
+                relation="rejected_by",
+                weight=0.0,
+            ))
+            for c in self._creds:
+                if c.value == value:
+                    c.confirmed = False
+            self._save()
+
     def add_vulnerability(self, description: str, host: str = "",
                            cve: str = "", severity: str = "UNKNOWN") -> None:
         with self._lock:

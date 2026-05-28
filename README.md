@@ -3580,14 +3580,35 @@ Usage:
     ``note SMB signing disabled on DC01``
 
 ## l00t
-Show a unified table of all captured credentials and hashes.
+Unified loot: show, search, reuse, graph, and mark credentials.
 
-Reads every credentials*.txt and hash*.txt in sessions/ and displays
-them in a single deduplicated table. Duplicates across files are shown
-dimmed. Cleartext passwords in green, hashes in red.
+Aggregates every credentials*.txt and hash*.txt in sessions/ into one
+deduplicated view. Cleartext passwords show green, hashes red.
 
-Usage:
-    ``l00t``
+Subcommands:
+    ``l00t``                              — show all captured loot
+    ``l00t search <user|host|hash>``      — search loot for a substring
+    ``l00t reuse``                        — rank creds to try on the current rhost
+    ``l00t graph``                        — credential graph: harvested / worked / rejected
+    ``l00t mark <user|secret> worked|rejected [host]``
+                                          — record an auth outcome (defaults host to rhost)
+
+Examples:
+    ``l00t search admin``
+    ``l00t reuse``
+    ``l00t mark administrator worked``
+    ``l00t mark svc_sql rejected 10.10.11.5``
+
+## complete_l00t
+Tab-complete l00t subcommands.
+
+## loot
+Alias for ``l00t`` — unified loot (show/search/reuse/graph/mark).
+
+See ``help l00t`` for the full subcommand reference.
+
+## complete_loot
+Tab-complete loot subcommands (delegates to l00t).
 
 ## pivot
 Record a newly discovered pivot target or show the pivot chain.
@@ -3766,6 +3787,21 @@ Usage:
 The view highlights items whose trigger matches a discovered
 service but have never been run, so the operator can pick the
 next high-value command without manually scanning the YAMLs.
+
+## prev
+Show prerequisite commands for a verb (the chain's ``prev`` arrow).
+
+Usage:
+    ``prev <command>``     list ordered prerequisites
+    ``prev``               use the most recent command from history
+
+The list reflects the static prerequisite registry declared in
+``cli/command_chain.py`` and is also exposed via the MCP tool
+``lazyown_command_prev`` so the AI loop sees the same view.
+
+:param line: command verb (with or without the ``do_`` prefix).
+:type line: str
+:return: None
 
 ## dashboard
 Launch the full-screen LazyOwn operator dashboard (Textual TUI).
@@ -6091,19 +6127,32 @@ Note:
     Ensure that the `rhost` is valid by checking it with the `check_rhost` function before updating the prompt.
 
 ## next
-Execute the active next-command suggestion (alias ``.``).
+Show next-step recommendations or execute the active autosuggest.
 
-The autosuggest engine prints a dim ``press '.' to run: <cmd>``
-line after every command. ``next`` (or ``.``) pops that
-suggestion, runs it via ``onecmd_plus_hooks`` so every regular
-pre/post hook fires, and then forces the engine to recompute
-using the executed command as ``last_command`` — guaranteeing
-the next suggestion advances even if cmd2 does not re-fire its
-postcmd hook for the nested call.
+Two modes share the same verb:
+
+* ``next <command> [N]`` — show ordered chain recommendations for
+  ``<command>`` (static kill-chain + nmap-discovered services +
+  addon/tool triggers), capped at ``N`` (default 5). Mirrors the
+  MCP tool ``lazyown_command_next`` so CLI and AI see the same
+  data. This is the chain's complement to ``prev``.
+* ``next`` (no args) — pop and execute the active autosuggest
+  accelerator (the dim ``press '.' to run: <cmd>`` line). The
+  accelerator alias ``.`` keeps working unchanged.
 
 Args:
-    line: Ignored. Present to satisfy the cmd2 ``do_*``
-        contract.
+    line: Empty for the accelerator mode, or ``<verb> [limit]``
+        for the chain mode.
+
+Returns:
+    None.
+
+## _render_chain_next
+Render the chain's ``next`` view for the supplied verb (helper).
+
+Args:
+    raw_args: The raw argument string passed to ``do_next``.
+        Format: ``<verb> [limit]``.
 
 Returns:
     None.
@@ -13116,6 +13165,48 @@ No description available.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Documentación
+
+### Otros
+
+  *   * docs(docs): new docs \n\n Version: release/0.2.141 \n\n with love \n\n Modified file(s):\n- .github/dependabot.yml - .hermes/plans/2026-05-25_lazyown-architecture-improvements.md - AGENTS.md - CLAUDE.md - COMMANDS.md - CONTRIBUTING.md - ESSENTIALS.md - QUICKSTART.md - README.md - SECURITY.md - UTILS.md - docs/COMMANDS.html - docs/UTILS.html - docs/c2.md - docs/cred.md - docs/enum.md - docs/exfil.md - docs/exploit.md - docs/lateral.md - docs/persist.md - docs/postexp.md - docs/privesc.md - docs/recon.md - docs/report.md - lazyc2/security/README.md - lazyown.py - modules/cgi-bin/README.md - modules/modules/README.md - pull_request_template.md - readmeneitor.py - run_telegram_hermes.sh - skills/README.md - skills/hermes-lazyown/README.md - skills/hermes-lazyown/SKILL.md - skills/hermes-lazyown/__init__.py - skills/hermes-lazyown/claudemd_rules.py - skills/hermes-lazyown/config_bridge.py - skills/hermes-lazyown/constants.py - skills/hermes-lazyown/executor.py - skills/hermes-lazyown/hermes_sync.py - skills/hermes-lazyown/mcp_server.py - skills/hermes-lazyown/output_compactor.py - skills/lazyown.md - skills/lazyown/SKILL.md - skills/tests/README.md - telegram_hermes.py - test/README.md - utils.py\nCreated file(s):\n- .github/dependabot.yml - .hermes/plans/2026-05-25_lazyown-architecture-improvements.md - docs/c2.md - docs/cred.md - docs/enum.md - docs/exfil.md - docs/exploit.md - docs/lateral.md - docs/persist.md - docs/postexp.md - docs/privesc.md - docs/recon.md - docs/report.md - lazyc2/security/README.md - modules/cgi-bin/README.md - modules/modules/README.md - run_telegram_hermes.sh - skills/hermes-lazyown/README.md - skills/hermes-lazyown/SKILL.md - skills/hermes-lazyown/__init__.py - skills/hermes-lazyown/claudemd_rules.py - skills/hermes-lazyown/config_bridge.py - skills/hermes-lazyown/constants.py - skills/hermes-lazyown/executor.py - skills/hermes-lazyown/hermes_sync.py - skills/hermes-lazyown/mcp_server.py - skills/hermes-lazyown/output_compactor.py - skills/tests/README.md - telegram_hermes.py - test/README.md\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: lun 25 may 2026 02:27:57 -04 \n\n Hora: 1779690477
+
+
+### Otros
+
+### Otros
+
+  *   * fix: regenerate COMMANDS.md/UTILS.md, fix utils.py banner, translate remaining Spanish comments
+
+
+### Otros
+
+### Otros
+
+  *   * docs: add branching strategy (dev/pp/main) to CLAUDE.md, AGENTS.md, CONTRIBUTING.md, SKILL.md
+
+
+### Otros
+
+### Otros
+
+  *   * docs: translate all Spanish docstrings/UI to English, sync MCP tool count to 131, add phase guides
+
+
+### Otros
+
+### Otros
+
+  *   * feat: add Hermes-native MCP integration layer (hermes-lazyown)
+
+
+### Otros
+
+### Otros
+
+  *   * Create dependabot.yml
 
 
 ### Nuevas características

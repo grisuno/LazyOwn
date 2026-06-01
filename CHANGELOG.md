@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Nuevas características
+
+### Otros
+
+  *   * feat(feature): some love to modularization \n\n Version: release/0.2.145 \n\n esto quizas debo ser un refactor \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: lun 01 jun 2026 19:51:06 -04 \n\n Hora: 1780357866
+
+
 ### Otros
 
 ### Otros

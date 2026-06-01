@@ -2030,40 +2030,6 @@ command would be: curl -s
 <p>Notes: - Ensure that <code>curl</code> is installed and accessible in
 your environment. - The extracted codenames are printed to the
 console.</p>
-<h2 id="gobuster">gobuster</h2>
-<p>Uses <code>gobuster</code> for directory and virtual host fuzzing
-based on provided parameters. Supports directory enumeration and virtual
-host discovery.</p>
-<p>:param line: The options and arguments for <code>gobuster</code>. The
-<code>line</code> parameter can include the following: -
-<code>url</code>: Perform directory fuzzing on a specified URL. Requires
-<code>url</code> and <code>dirwordlist</code> to be assign. -
-<code>vhost</code>: Perform virtual host discovery on a specified URL.
-Requires <code>url</code> and <code>dirwordlist</code> to be assign. -
-Any other argument: General directory fuzzing with additional
-parameters.</p>
-<p>:returns: None</p>
-<p>Manual execution: To manually use <code>gobuster</code>, use the
-following commands:</p>
-<ol type="1">
-<li>For directory fuzzing: gobuster dir –url <url>/ –wordlist
-<wordlist></li>
-</ol>
-<p>Example: gobuster dir –url http://example.com/ –wordlist
-/path/to/dirwordlist</p>
-<ol start="2" type="1">
-<li>For virtual host discovery: gobuster vhost –append-domain -u <url>
--w <wordlist> –random-agent -t 600</li>
-</ol>
-<p>Example: gobuster vhost –append-domain -u http://example.com -w
-/path/to/dirwordlist –random-agent -t 600</p>
-<ol start="3" type="1">
-<li>For general directory fuzzing with additional parameters: gobuster
-dir –url http://<rhost>/ –wordlist <wordlist>
-<additional_parameters></li>
-</ol>
-<p>Example: gobuster dir –url http://10.10.10.10/ –wordlist
-/path/to/dirwordlist -x .php,.html</p>
 <h2 id="addhosts">addhosts</h2>
 <p>Adds an entry to the <code>/etc/hosts</code> file, mapping an IP
 address to a domain name.</p>
@@ -2173,30 +2139,6 @@ scan the remote host: <code>gospider</code></p>
 <p>Note: - If <code>gospider</code> is not installed, the method will
 attempt to install it. - Ensure that the network and tools are
 configured correctly for successful execution.</p>
-<h2 id="arpscan">arpscan</h2>
-<p>Executes an ARP scan using <code>arp-scan</code>.</p>
-<p>This function performs an ARP scan on the local network using the
-<code>arp-scan</code> tool. The network device to be used for scanning
-must be specified.</p>
-<p>Usage: arpscan</p>
-<p>:param line: Command parameters (not used in this function). :type
-line: str</p>
-<ul>
-<li>Executes the <code>arp-scan</code> command with the specified
-network device.</li>
-</ul>
-<p>:returns: None</p>
-<p>Manual execution: 1. Ensure that the network device is assign using
-the appropriate parameter. 2. Run the method to perform an ARP scan.</p>
-<p>Dependencies: - <code>arp-scan</code> must be installed on the
-system. - The <code>sudo</code> command must be available for executing
-<code>arp-scan</code>.</p>
-<p>Examples: 1. assign the device parameter using
-<code>assign device &lt;network_device&gt;</code>. 2. Run
-<code>arpscan</code> to perform the ARP scan.</p>
-<p>Note: - The network device must be configured and available on the
-system for the scan to work. - Ensure that <code>arp-scan</code> is
-installed and accessible from the command line.</p>
 <h2 id="lazypwn">lazypwn</h2>
 <p>Executes the LazyPwn script.</p>
 <p>This function runs the <code>lazypwn.py</code> script located in the
@@ -2537,32 +2479,6 @@ correctly configured and present in the <code>external</code> directory.
 - The HTTP server will be accessible on port 8443. - The function
 assumes the presence of <code>external/.exploit</code> directory and
 serves files from there.</p>
-<h2 id="dirsearch">dirsearch</h2>
-<p>Runs the <code>dirsearch</code> tool to perform directory and file
-enumeration on a specified URL.</p>
-<p>This function executes <code>dirsearch</code> to scan a given URL for
-directories and files, while excluding specific HTTP status codes from
-the results. If <code>dirsearch</code> is not installed, the function
-will attempt to install it before running the scan.</p>
-<p>Usage: dirsearch <url></p>
-<p>:param line: Not used in this function. The URL is provided via the
-<code>url</code> parameter. :type line: str :returns: None</p>
-<p>Manual execution: 1. If <code>dirsearch</code> is present, the
-command <code>dirsearch -u &lt;url&gt; -x 403,404,400</code> is
-executed. 2. If <code>dirsearch</code> is not present, the function
-installs <code>dirsearch</code> using
-<code>sudo apt install dirsearch -y</code> and then runs the
-command.</p>
-<p>Dependencies: - <code>dirsearch</code> must be installed. If not
-present, it will be installed using <code>sudo apt</code>. - Ensure the
-URL is assign via the <code>url</code> parameter before calling this
-function.</p>
-<p>Example: dirsearch http://example.com/</p>
-<p>Note: - Ensure that the <code>url</code> parameter is assign before
-calling this function. - The <code>-x</code> option specifies HTTP
-status codes to exclude from the results (e.g., 403, 404, 400). - The
-function will attempt to install <code>dirsearch</code> if it is not
-already installed.</p>
 <h2 id="john2hash">john2hash</h2>
 <p>Runs John the Ripper with a specified wordlist and options.</p>
 <p>This function executes John the Ripper to crack hashes using the
@@ -3443,30 +3359,6 @@ shellcode from the specified URL. - Decodes the base64-encoded
 shellcode. - Creates a buffer in memory for the shellcode. - Casts the
 buffer to a function pointer. - Executes the shellcode. 5. Copies the
 generated command to the clipboard for easy execution.</p>
-<h2 id="skipfish">skipfish</h2>
-<p>This function executes the web security scanning tool Skipfish using
-the provided configuration and parameters. It allows scanning a
-specified target (rhost) and saves the results in a designated output
-directory.</p>
-<p>Parameters: - self: Refers to the instance of the class in which this
-function is defined. - line: A string that may contain additional
-options to modify the scanning behavior.</p>
-<p>Function Flow: 1. Default values are set for the target IP (rhost),
-port (port), and output directory (outputdir). 2. The validity of the
-target (rhost) is checked using the <code>check_rhost</code> function.
-3. If no argument is provided in <code>line</code>, a
-<code>skipfish</code> command is constructed using the default values.
-4. If <code>line</code> starts with ‘url’, the URL configured in
-<code>self.params['url']</code> is retrieved and used to construct the
-<code>skipfish</code> command. 5. If the URL is not configured and an
-attempt is made to use the ‘url’ option, an error message is printed,
-and the function exits. 6. The constructed <code>skipfish</code> command
-is displayed on the console and executed using
-<code>os.system</code>.</p>
-<p>Note: - The function assumes that the <code>skipfish</code> tool is
-installed on the system. - The output of the scan is saved in the
-directory <code>sessions/{rhost}/skipfish/</code>. - The wordlist used
-by Skipfish is specified in <code>wordlist</code>.</p>
 <h2 id="createdll">createdll</h2>
 <p>Create a Windows DLL file using MinGW-w64 or a Blazor DLL for
 Linux.</p>
@@ -3792,20 +3684,6 @@ the specified parameters and prepares it for execution.</p>
 <p>Expected self.params keys: - url (str): The URL to be used for the
 ‘cewl’ command.</p>
 <p>Example usage: - assign url http://example.com - do_cewl</p>
-<h2 id="dmitry">dmitry</h2>
-<p>This function constructs and executes a command for the ‘dmitry’
-tool. It first checks if the ‘url’ parameter is set. If not, it prints
-an error message. If the ‘url’ is set, it extracts the domain from the
-URL using the get_domain function. Then, it constructs a ‘dmitry’
-command with the specified parameters and prepares it for execution.</p>
-<p>Run a domain whois lookup (w), an IP whois lookup (i), retrieve
-Netcraft info (n), search for subdomains (s), search for email addresses
-(e), do a TCP port scan (p), and save the output to example.txt (o) for
-the domain example.com:</p>
-<p>Parameters: line (str): The command line input for this function.</p>
-<p>Expected self.params keys: - url (str): The URL to be used for the
-‘dmitry’ command.</p>
-<p>Example usage: - assign url http://example.com - do_dmitry</p>
 <h2 id="graudit">graudit</h2>
 <p>Executes the graudit command to perform a static code analysis with
 the specified options.</p>
@@ -3827,12 +3705,6 @@ Metasploit.</p>
 [-S]</p>
 <p>This command will prompt the user for necessary information to
 connect to msfrpcd.</p>
-<h2 id="nuclei">nuclei</h2>
-<p>Executes a Nuclei scan on a specified target URL or host.</p>
-<p>Usage: nuclei -u <URL> [-o ] [other options]</p>
-<p>If a URL is provided as an argument, it will be used as the target
-for the scan. Otherwise, it will use the target specified in
-self.params[“rhost”].</p>
 <h2 id="parsero">parsero</h2>
 <p>Executes a parsero scan on a specified target URL or host.</p>
 <p>Usage: parsero -u <URL> [-o ] [other options]</p>
@@ -4348,16 +4220,6 @@ password spraying, use the following command:</p>
 –continue-on-success</p>
 <p>This function prompts the user for IP address, user file, and
 password.</p>
-<h2 id="vscan">vscan</h2>
-<p>Perform port scanning using vscan with the provided parameters.</p>
-<p>:param line: This parameter is not used in the function but can be
-reserved for future use.</p>
-<p>:returns: None</p>
-<p>Manual execution: To manually run <code>vscan</code> for port
-scanning, use the following command:</p>
-<p>./vscan -host <hosts> -p <ports></p>
-<p>This function prompts the user for the target hosts and ports, and
-executes the vscan command accordingly.</p>
 <h2 id="shellshock-1">shellshock</h2>
 <p>Attempt to exploit the Shellshock vulnerability (CVE-2014-6271,
 CVE-2014-7169).</p>
@@ -5076,19 +4938,6 @@ vulnerabilities.</p>
 payload file, keyword, and concurrency level.</p>
 <p>Returns: None</p>
 <p>Example: openredirex list_of_urls.txt payloads.txt FUZZ 50</p>
-<h2 id="feroxbuster">feroxbuster</h2>
-<p>Command feroxbuster: Installs and runs Feroxbuster for performing
-forced browsing and directory brute-forcing.</p>
-<p>This function performs the following tasks: 1. Installs Feroxbuster
-using a <code>curl</code> command if it’s not already installed. 2.
-Prompts the user for required inputs like the target URL, wordlist, file
-extensions, and additional options. 3. Executes Feroxbuster for
-directory enumeration and brute-force attacks.</p>
-<p>Args: line (str): Optional argument for specifying the target URL,
-wordlist, and other Feroxbuster options.</p>
-<p>Returns: None</p>
-<p>Example: feroxbuster -u http://example.com -w wordlist.txt -x
-php,html</p>
 <h2 id="gowitness">gowitness</h2>
 <p>Command gowitness: Installs and runs Gowitness for screenshotting web
 services or network CIDR blocks.</p>
@@ -5161,21 +5010,6 @@ function attempts to load shellcode from a predefined source.</p>
 prints it out, but does not return any value.</p>
 <p>Raises: FileNotFoundError: If no shellcode is found when trying to
 load it from the default source.</p>
-<h2 id="magicrecon">magicrecon</h2>
-<p>Command magicrecon: Automates the setup and usage of MagicRecon to
-perform various types of reconnaissance and vulnerability scanning on
-specified targets.</p>
-<p>This function performs the following tasks: 1. Clones and installs
-MagicRecon if not already installed. 2. Prompts the user to input the
-target domain, list, or wildcard if not provided. 3. Executes MagicRecon
-with the specified options for target reconnaissance and vulnerability
-analysis. 4. Supports notifications through Discord, Telegram, or Slack
-if configured.</p>
-<p>Args: line (str): Command-line arguments specifying the target and
-recon mode. If not provided, the function prompts the user for required
-inputs.</p>
-<p>Returns: None</p>
-<p>Example: magicrecon -d example.com -a</p>
 <h2 id="cubespraying">cubespraying</h2>
 <p>Command cubespraying: Automates the installation and usage of
 CubeSpraying for performing credential spraying attacks.</p>
@@ -6024,17 +5858,6 @@ with the selected options. 4. Executes darkarmour to generate the output
 file with the desired level of obfuscation.</p>
 <p>Parameters: line (str): Command line arguments for the tool.</p>
 <p>Returns: None</p>
-<h2 id="osmedeus">osmedeus</h2>
-<p>Executes Osmedeus scans with guided input for various scanning
-scenarios.</p>
-<p>This function performs the following actions: 1. Verifies the
-presence of Osmedeus; if not installed, it clones the repository and
-installs the required dependencies. 2. Guides the user through selecting
-the type of scan, target, and any additional parameters needed for the
-scan. 3. Constructs and executes the appropriate Osmedeus command.</p>
-<p>Parameters: line (str): Command-line arguments for the tool. If not
-provided, interactive input will be used.</p>
-<p>Returns: None</p>
 <h2 id="metabigor">metabigor</h2>
 <p>Executes Metabigor commands for OSINT and scanning tasks with guided
 input or predefined arguments.</p>
@@ -6135,26 +5958,6 @@ lateral_movement windows”) This command will generate a playbook named
 <p>Generates a playbook from your custom technique database. Usage:
 my_playbook <name> [filter] Example: my_playbook KerberosAttack password
 spray</p>
-<h2 id="bbot">bbot</h2>
-<p>Executes a BBOT scan to perform various reconnaissance tasks.</p>
-<p>This function leverages BBOT, a reconnaissance tool, to perform tasks
-such as subdomain enumeration, email gathering, web scanning, and more.
-It dynamically determines the operation based on user input and executes
-the appropriate BBOT commands.</p>
-<p>Parameters: line (str): User input specifying the target and optional
-presets or configurations.</p>
-<p>Usage: bbot -t <target> -p <preset></p>
-<p>Examples: bbot -t evilcorp.com -p subdomain-enum bbot -t evilcorp.com
--p email-enum spider web-basic</p>
-<h2 id="amass">amass</h2>
-<p>Executes Amass to perform a passive enumeration on a given
-domain.</p>
-<p>This function performs the following steps: 1. Executes the Amass
-tool with the provided domain for passive enumeration. 2. Saves the
-results to a file named ‘results.txt’ in the current directory.</p>
-<p>Parameters: line (str): The domain to be enumerated, e.g.,
-‘example.com’.</p>
-<p>Returns: None</p>
 <h2 id="filtering">filtering</h2>
 <p>Applies various filtering techniques to the given command line by
 modifying each character or word appropriately.</p>

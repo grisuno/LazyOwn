@@ -5275,37 +5275,6 @@ Notes:
     - Ensure that `curl` is installed and accessible in your environment.
     - The extracted codenames are printed to the console.
 
-## gobuster
-Uses `gobuster` for directory and virtual host fuzzing based on provided parameters. Supports directory enumeration and virtual host discovery.
-
-:param line: The options and arguments for `gobuster`. The `line` parameter can include the following:
-    - `url`: Perform directory fuzzing on a specified URL. Requires `url` and `dirwordlist` to be assign.
-    - `vhost`: Perform virtual host discovery on a specified URL. Requires `url` and `dirwordlist` to be assign.
-    - Any other argument: General directory fuzzing with additional parameters.
-
-:returns: None
-
-Manual execution:
-To manually use `gobuster`, use the following commands:
-
-1. For directory fuzzing:
-    gobuster dir --url <url>/ --wordlist <wordlist>
-
-Example:
-    gobuster dir --url http://example.com/ --wordlist /path/to/dirwordlist
-
-2. For virtual host discovery:
-    gobuster vhost --append-domain -u <url> -w <wordlist> --random-agent -t 600
-
-Example:
-    gobuster vhost --append-domain -u http://example.com -w /path/to/dirwordlist --random-agent -t 600
-
-3. For general directory fuzzing with additional parameters:
-    gobuster dir --url http://<rhost>/ --wordlist <wordlist> <additional_parameters>
-
-Example:
-    gobuster dir --url http://10.10.10.10/ --wordlist /path/to/dirwordlist -x .php,.html
-
 ## addhosts
 Adds an entry to the `/etc/hosts` file, mapping an IP address to a domain name.
 
@@ -5444,37 +5413,6 @@ Examples:
 Note:
     - If `gospider` is not installed, the method will attempt to install it.
     - Ensure that the network and tools are configured correctly for successful execution.
-
-## arpscan
-Executes an ARP scan using `arp-scan`.
-
-This function performs an ARP scan on the local network using the `arp-scan` tool. The network device to be used for scanning must be specified.
-
-Usage:
-    arpscan
-
-:param line: Command parameters (not used in this function).
-:type line: str
-
-- Executes the `arp-scan` command with the specified network device.
-
-:returns: None
-
-Manual execution:
-1. Ensure that the network device is assign using the appropriate parameter.
-2. Run the method to perform an ARP scan.
-
-Dependencies:
-- `arp-scan` must be installed on the system.
-- The `sudo` command must be available for executing `arp-scan`.
-
-Examples:
-    1. assign the device parameter using `assign device <network_device>`.
-    2. Run `arpscan` to perform the ARP scan.
-
-Note:
-    - The network device must be configured and available on the system for the scan to work.
-    - Ensure that `arp-scan` is installed and accessible from the command line.
 
 ## lazypwn
 Executes the LazyPwn script.
@@ -5884,34 +5822,6 @@ Note:
     - Ensure that the `install_external.sh` script is correctly configured and present in the `external` directory.
     - The HTTP server will be accessible on port 8443.
     - The function assumes the presence of `external/.exploit` directory and serves files from there.
-
-## dirsearch
-Runs the `dirsearch` tool to perform directory and file enumeration on a specified URL.
-
-This function executes `dirsearch` to scan a given URL for directories and files, while excluding specific HTTP status codes from the results. If `dirsearch` is not installed, the function will attempt to install it before running the scan.
-
-Usage:
-    dirsearch <url>
-
-:param line: Not used in this function. The URL is provided via the `url` parameter.
-:type line: str
-:returns: None
-
-Manual execution:
-1. If `dirsearch` is present, the command `dirsearch -u <url> -x 403,404,400` is executed.
-2. If `dirsearch` is not present, the function installs `dirsearch` using `sudo apt install dirsearch -y` and then runs the command.
-
-Dependencies:
-- `dirsearch` must be installed. If not present, it will be installed using `sudo apt`.
-- Ensure the URL is assign via the `url` parameter before calling this function.
-
-Example:
-    dirsearch http://example.com/
-
-Note:
-    - Ensure that the `url` parameter is assign before calling this function.
-    - The `-x` option specifies HTTP status codes to exclude from the results (e.g., 403, 404, 400).
-    - The function will attempt to install `dirsearch` if it is not already installed.
 
 ## john2hash
 Runs John the Ripper with a specified wordlist and options.
@@ -7091,118 +7001,6 @@ Note:
 Ensure `xclip` is installed on your system for copying to the clipboard. The function assumes that `xclip` is available
 and correctly configured.
 
-## hostdiscover
-Discover active hosts in a subnet by performing a ping sweep.
-
-This method constructs and executes a bash script that performs a
-ping sweep on the specified subnet to identify active hosts. The
-subnet is determined from the 'rhost' parameter. For each host in
-the subnet, a ping request is sent, and active hosts are reported.
-
-Parameters:
-- line (str): The input line argument is not used in this function.
-
-Behavior:
-- Extracts the first three octets of the 'rhost' parameter to form
-the base IP pattern.
-- Constructs a bash script to ping each IP address in the subnet
-(from .1 to .254) and reports active hosts.
-- The generated bash script is displayed to the user.
-- Prompts the user to confirm whether they want to execute the
-generated command.
-- If the user confirms, executes the command using `self.cmd()`.
-- If the user declines, copies the command to the clipboard using
-`copy2clip()`.
-
-Side Effects:
-- Executes system commands and may affect the system environment.
-- May modify the clipboard content if the user chooses not to execute.
-
-Notes:
-- Ensure that the 'rhost' parameter is a valid IP address and that
-the `check_rhost()` function is implemented to validate the IP.
-- `print_msg()` is used to display the constructed command to the
-user.
-- `copy2clip()` is used to copy the command to the clipboard if
-not executed.
-
-Example:
->>> do_hostdiscover("example_input")
-
-## portdiscover
-Scan all ports on a specified host to identify open ports.
-
-This method constructs and executes a bash script that performs a
-port scan on the specified host to determine which ports are open.
-It scans all ports from 0 to 65535 and reports any that are open.
-
-Parameters:
-- line (str): The input line argument is not used in this function.
-
-Behavior:
-- Extracts the 'rhost' parameter to determine the target IP address.
-- Constructs a bash script to scan all ports on the target IP address
-and report open ports.
-- The generated bash script is displayed to the user.
-- Prompts the user to confirm whether they want to execute the
-generated command.
-- If the user confirms, executes the command using `self.cmd()`.
-- If the user declines, copies the command to the clipboard using
-`copy2clip()`.
-
-Side Effects:
-- Executes system commands and may affect the system environment.
-- May modify the clipboard content if the user chooses not to execute.
-
-Notes:
-- Ensure that the 'rhost' parameter is a valid IP address and that
-the `check_rhost()` function is implemented to validate the IP.
-- `print_msg()` is used to display the constructed command to the
-user.
-- `copy2clip()` is used to copy the command to the clipboard if
-not executed.
-
-Example:
->>> do_portdiscover("example_input")
-
-## portservicediscover
-Scan all ports on a specified host to identify open ports and associated services.
-
-This method constructs and executes a bash script that performs a
-port scan on the specified host to determine which ports are open
-and identifies any services running on those open ports. It scans
-all ports from 0 to 65535.
-
-Parameters:
-- line (str): The input line argument is not used in this function.
-
-Behavior:
-- Extracts the 'rhost' parameter to determine the target IP address.
-- Constructs a bash script to scan all ports on the target IP address
-and report open ports along with any associated services.
-- The generated bash script is displayed to the user.
-- Prompts the user to confirm whether they want to execute the
-generated command.
-- If the user confirms, executes the command using `self.cmd()`.
-- If the user declines, copies the command to the clipboard using
-`copy2clip()`.
-
-Side Effects:
-- Executes system commands and may affect the system environment.
-- Requires `sudo` privileges to use `lsof` for identifying services.
-- May modify the clipboard content if the user chooses not to execute.
-
-Notes:
-- Ensure that the 'rhost' parameter is a valid IP address and that
-the `check_rhost()` function is implemented to validate the IP.
-- `print_msg()` is used to display the constructed command to the
-user.
-- `copy2clip()` is used to copy the command to the clipboard if
-not executed.
-
-Example:
->>> do_portservicediscover("example_input")
-
 ## rot
 Apply a ROT (rotation) substitution cipher to the given string.
 
@@ -7278,25 +7076,6 @@ To manually run this task, you would:
 - Ensure that the user list and wordlist are assign correctly.
 - medusa -h 10.10.10.10 -U sessions/users.txt -P /usr/share/wordlists/rockyou.txt -e ns -M ssh"
 Note: Ensure that the remote host and wordlist parameters are valid, and that the path and port are specified correctly in the `line` argument.
-
-## nmapscript
-Perform an Nmap scan using a specified script and port.
-
-:param line: A string containing the Nmap script and port, separated by a space. Example: "http-enum 80".
-
-:returns: None
-
-Manual execution:
-To manually run an Nmap scan with a script and port, use the following command format:
-
-    nmap --script <script> -p <port> <target> -oN <output-file>
-
-Example:
-If you want to use the script `http-enum` on port `80` for the target `10.10.10.10`, you would run:
-
-    nmap --script http-enum -p 80 10.10.10.10 -oN sessions/webScan_10.10.10.10
-
-Ensure you have the target host (`rhost`) assign in the parameters and provide the script and port as arguments. The results will be saved in the file `sessions/webScan_<rhost>`.
 
 ## encoderpayload
 Applies various obfuscations to a given command line string to create multiple obfuscated versions.
@@ -8028,29 +7807,6 @@ This function:
     - Executes the shellcode.
 5. Copies the generated command to the clipboard for easy execution.
 
-## skipfish
-This function executes the web security scanning tool Skipfish
-using the provided configuration and parameters. It allows
-scanning a specified target (rhost) and saves the results
-in a designated output directory.
-
-Parameters:
-- self: Refers to the instance of the class in which this function is defined.
-- line: A string that may contain additional options to modify the scanning behavior.
-
-Function Flow:
-1. Default values are set for the target IP (rhost), port (port), and output directory (outputdir).
-2. The validity of the target (rhost) is checked using the `check_rhost` function.
-3. If no argument is provided in `line`, a `skipfish` command is constructed using the default values.
-4. If `line` starts with 'url', the URL configured in `self.params['url']` is retrieved and used to construct the `skipfish` command.
-5. If the URL is not configured and an attempt is made to use the 'url' option, an error message is printed, and the function exits.
-6. The constructed `skipfish` command is displayed on the console and executed using `os.system`.
-
-Note:
-- The function assumes that the `skipfish` tool is installed on the system.
-- The output of the scan is saved in the directory `sessions/{rhost}/skipfish/`.
-- The wordlist used by Skipfish is specified in `wordlist`.
-
 ## createdll
 Create a Windows DLL file using MinGW-w64 or a Blazor DLL for Linux.
 
@@ -8489,24 +8245,6 @@ Example usage:
 - assign url http://example.com
 - do_cewl
 
-## dmitry
-This function constructs and executes a command for the 'dmitry' tool.
-It first checks if the 'url' parameter is set. If not, it prints an error message.
-If the 'url' is set, it extracts the domain from the URL using the get_domain function.
-Then, it constructs a 'dmitry' command with the specified parameters and prepares it for execution.
-
-Run a domain whois lookup (w), an IP whois lookup (i), retrieve Netcraft info (n), search for subdomains (s), search for email addresses (e), do a TCP port scan (p), and save the output to example.txt (o) for the domain example.com:
-
-Parameters:
-line (str): The command line input for this function.
-
-Expected self.params keys:
-- url (str): The URL to be used for the 'dmitry' command.
-
-Example usage:
-- assign url http://example.com
-- do_dmitry
-
 ## graudit
 Executes the graudit command to perform a static code analysis with the specified options.
 
@@ -8534,15 +8272,6 @@ Usage:
     msfrpc -a <IP address> -p <port> -U <username> -P <password> [-S]
 
 This command will prompt the user for necessary information to connect to msfrpcd.
-
-## nuclei
-Executes a Nuclei scan on a specified target URL or host.
-
-Usage:
-    nuclei -u <URL> [-o <output file>] [other options]
-
-If a URL is provided as an argument, it will be used as the target for the scan.
-Otherwise, it will use the target specified in self.params["rhost"].
 
 ## parsero
 Executes a parsero scan on a specified target URL or host.
@@ -9195,20 +8924,6 @@ To manually run `crackmapexec` for password spraying, use the following command:
     crackmapexec smb <IP Address> -u <users_file> -p <password> --continue-on-success
 
 This function prompts the user for IP address, user file, and password.
-
-## vscan
-Perform port scanning using vscan with the provided parameters.
-
-:param line: This parameter is not used in the function but can be reserved for future use.
-
-:returns: None
-
-Manual execution:
-To manually run `vscan` for port scanning, use the following command:
-
-    ./vscan -host <hosts> -p <ports>
-
-This function prompts the user for the target hosts and ports, and executes the vscan command accordingly.
 
 ## shellshock
 Attempt to exploit the Shellshock vulnerability (CVE-2014-6271, CVE-2014-7169).
@@ -10083,23 +9798,6 @@ Returns:
 Example:
     openredirex list_of_urls.txt payloads.txt FUZZ 50
 
-## feroxbuster
-Command feroxbuster: Installs and runs Feroxbuster for performing forced browsing and directory brute-forcing.
-
-This function performs the following tasks:
-1. Installs Feroxbuster using a `curl` command if it's not already installed.
-2. Prompts the user for required inputs like the target URL, wordlist, file extensions, and additional options.
-3. Executes Feroxbuster for directory enumeration and brute-force attacks.
-
-Args:
-    line (str): Optional argument for specifying the target URL, wordlist, and other Feroxbuster options.
-
-Returns:
-    None
-
-Example:
-    feroxbuster -u http://example.com -w wordlist.txt -x php,html
-
 ## gowitness
 Command gowitness: Installs and runs Gowitness for screenshotting web services or network CIDR blocks.
 
@@ -10195,24 +9893,6 @@ Returns:
 Raises:
     FileNotFoundError: If no shellcode is found when trying to load it from
                     the default source.
-
-## magicrecon
-Command magicrecon: Automates the setup and usage of MagicRecon to perform various types of reconnaissance and vulnerability scanning on specified targets.
-
-This function performs the following tasks:
-1. Clones and installs MagicRecon if not already installed.
-2. Prompts the user to input the target domain, list, or wildcard if not provided.
-3. Executes MagicRecon with the specified options for target reconnaissance and vulnerability analysis.
-4. Supports notifications through Discord, Telegram, or Slack if configured.
-
-Args:
-    line (str): Command-line arguments specifying the target and recon mode. If not provided, the function prompts the user for required inputs.
-
-Returns:
-    None
-
-Example:
-    magicrecon -d example.com -a
 
 ## cubespraying
 Command cubespraying: Automates the installation and usage of CubeSpraying for performing credential spraying attacks.
@@ -11340,23 +11020,6 @@ line (str): Command line arguments for the tool.
 Returns:
 None
 
-## osmedeus
-Executes Osmedeus scans with guided input for various scanning scenarios.
-
-This function performs the following actions:
-1. Verifies the presence of Osmedeus; if not installed, it clones the repository
-and installs the required dependencies.
-2. Guides the user through selecting the type of scan, target, and any additional
-parameters needed for the scan.
-3. Constructs and executes the appropriate Osmedeus command.
-
-Parameters:
-line (str): Command-line arguments for the tool. If not provided, interactive
-            input will be used.
-
-Returns:
-None
-
 ## metabigor
 Executes Metabigor commands for OSINT and scanning tasks with guided input or predefined arguments.
 
@@ -11484,36 +11147,6 @@ techniques related to "persistence", "lateral_movement", and the "windows" platf
 Generates a playbook from your custom technique database.
 Usage: my_playbook <name> [filter]
 Example: my_playbook KerberosAttack password spray
-
-## bbot
-Executes a BBOT scan to perform various reconnaissance tasks.
-
-This function leverages BBOT, a reconnaissance tool, to perform tasks such as subdomain enumeration,
-email gathering, web scanning, and more. It dynamically determines the operation based on user input
-and executes the appropriate BBOT commands.
-
-Parameters:
-    line (str): User input specifying the target and optional presets or configurations.
-
-Usage:
-    bbot -t <target> -p <preset>
-
-    Examples:
-        bbot -t evilcorp.com -p subdomain-enum
-        bbot -t evilcorp.com -p email-enum spider web-basic
-
-## amass
-Executes Amass to perform a passive enumeration on a given domain.
-
-This function performs the following steps:
-1. Executes the Amass tool with the provided domain for passive enumeration.
-2. Saves the results to a file named 'results.txt' in the current directory.
-
-Parameters:
-line (str): The domain to be enumerated, e.g., 'example.com'.
-
-Returns:
-None
 
 ## filtering
 Applies various filtering techniques to the given command line by modifying each character or word appropriately.
@@ -13165,6 +12798,20 @@ No description available.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Otros
+
+### Otros
+
+  *   * feature(feat): new l00t commands \n\n Version: release/0.2.143 \n\n and some love \n\n Modified file(s):\n- CLAUDE.md - COMMANDS.md - cli/command_chain.py - cli/command_index.json - docs/COMMANDS.html - docs/command_chain.md - lazyown.py - skills/lazyown_mcp.py - tests/test_command_chain.py - tests/test_command_palette.py\nCreated file(s):\n- cli/command_chain.py - docs/command_chain.md - tests/test_command_chain.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: mié 27 may 2026 23:50:28 -04 \n\n Hora: 1779940228
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(chain): add prev/next command-chain primitive + CLAUDE.md tech-debt law
 
 
 ### Documentación

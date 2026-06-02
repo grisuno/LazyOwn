@@ -78,6 +78,7 @@ from cli.palette import load_index as _palette_load_index
 from cli.palette_command import build_palette_view as _palette_build_view
 from modules.metrics import REGISTRY
 from modules.listener_manager import ListenerManager
+from modules.live_surface import build_live_graph
 from modules.security_sanitizers import (
     BindAddressResolver,
     OutputSanitizer,
@@ -4769,6 +4770,44 @@ def capture_audio():
 @app.route('/surface')
 def surface():
     return render_template('surface.html')
+
+
+@app.route('/surface_live')
+def surface_live():
+    """Render the live attack-surface graph page.
+
+    Returns:
+        The decoy response for unauthorized origins, otherwise the
+        ``surface_live.html`` template that polls ``/api/surface_live``.
+    """
+    response = decoy()
+    if response:
+        return response
+    return render_template('surface_live.html')
+
+
+@app.route('/api/surface_live')
+def api_surface_live():
+    """Return the live attack-surface graph derived from the world model.
+
+    Reads ``sessions/world_model.json`` on every request so the topology
+    reflects current campaign state, then projects it to a vis-network payload
+    via :func:`modules.live_surface.build_live_graph`.
+
+    Returns:
+        A JSON object with ``nodes``, ``edges`` and ``stats`` keys. A missing
+        or unreadable world model yields an empty but well-formed graph.
+    """
+    response = decoy()
+    if response:
+        return response
+    world_path = os.path.join(SESSIONS_DIR, 'world_model.json')
+    try:
+        with open(world_path, 'r', encoding='utf-8') as fh:
+            world = json.load(fh)
+    except (OSError, json.JSONDecodeError):
+        world = {}
+    return jsonify(build_live_graph(world))
 
 @app.route('/data')
 def get_data():

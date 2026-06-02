@@ -61,7 +61,7 @@ def load_payload(path: str | os.PathLike[str] = PAYLOAD_FILENAME) -> dict[str, A
 
 def load_and_validate(
     path: str | os.PathLike[str] = PAYLOAD_FILENAME,
-) -> tuple[dict[str, Any], list["ValidationIssue"]]:
+) -> tuple[dict[str, Any], list[ValidationIssue]]:
     """Load ``payload.json`` and return it together with schema issues.
 
     Validation never raises: a malformed value produces a

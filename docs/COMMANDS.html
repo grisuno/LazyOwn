@@ -218,7 +218,12 @@ schema entries in :mod:<code>core.payload_schema</code>.</p>
 <h2 id="log_command">log_command</h2>
 <p>Logs the command execution details to a CSV file.</p>
 <p>:param cmd_name: The name of the command. :param cmd_args: The
-arguments of the command.</p>
+arguments of the command. :param start_time: Optional
+<code>"%Y-%m-%d %H:%M:%S"</code> string captured before execution.
+Defaults to the current time when omitted. :param end_time: Optional
+<code>"%Y-%m-%d %H:%M:%S"</code> string captured after execution.
+Defaults to <code>start_time</code> when omitted. :param duration_ms:
+Measured wall-clock duration in milliseconds.</p>
 <h2 id="default">default</h2>
 <p>Handles undefined commands, including aliases.</p>
 <p>This method checks if a given command (or its alias) exists within
@@ -292,16 +297,23 @@ knowledge graph (when available) so an unknown command is recovered by
 both lexical similarity and graph proximity. Empty result means no
 suggestion is confident enough to surface.</p>
 <h2 id="logcsv">logcsv</h2>
-<p>No description available.</p>
+<p>Forward a command line to :meth:<code>log_command</code> for CSV
+persistence.</p>
+<p>Args: line: Full command line in
+<code>"&lt;verb&gt; &lt;args&gt;"</code> form. start_time: Optional
+pre-execution timestamp string forwarded verbatim to
+:meth:<code>log_command</code>. end_time: Optional post-execution
+timestamp string forwarded verbatim to :meth:<code>log_command</code>.
+duration_ms: Measured wall-clock duration in milliseconds.</p>
 <h2 id="cmd">cmd</h2>
 <p>Internal function to execute commands.</p>
-<p>This method attempts to execute a given command using
-<code>os.system</code> and captures the output. It sets the
-<code>output</code> attribute based on whether the command was executed
-successfully or an exception occurred. And feedback the red operation
-report.</p>
+<p>Executes the given shell command, captures stdout via
+<code>tee</code> so the operator both sees the output and a copy lands
+in <code>sessions/logs/</code>, and forwards a telemetry record to
+:class:<code>modules.metrics.MetricsRecorder</code> so the duration and
+exit code can be analysed later.</p>
 <p>:param command: The command to be executed. :type command: str
-:return: None. :rtype: str</p>
+:return: <code>None</code>. :rtype: NoneType</p>
 <h2 id="onecmd_plus_hooks">onecmd_plus_hooks</h2>
 <p>Intercepta comandos para expandir placeholders en aliases. Maneja
 tanto strings como objetos Statement.</p>

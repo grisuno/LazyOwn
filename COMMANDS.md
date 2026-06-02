@@ -50,6 +50,11 @@ Logs the command execution details to a CSV file.
 
 :param cmd_name: The name of the command.
 :param cmd_args: The arguments of the command.
+:param start_time: Optional ``"%Y-%m-%d %H:%M:%S"`` string captured
+    before execution. Defaults to the current time when omitted.
+:param end_time: Optional ``"%Y-%m-%d %H:%M:%S"`` string captured
+    after execution. Defaults to ``start_time`` when omitted.
+:param duration_ms: Measured wall-clock duration in milliseconds.
 
 ## default
 Handles undefined commands, including aliases.
@@ -155,19 +160,29 @@ similarity and graph proximity. Empty result means no suggestion is
 confident enough to surface.
 
 ## logcsv
-No description available.
+Forward a command line to :meth:`log_command` for CSV persistence.
+
+Args:
+    line: Full command line in ``"<verb> <args>"`` form.
+    start_time: Optional pre-execution timestamp string forwarded
+        verbatim to :meth:`log_command`.
+    end_time: Optional post-execution timestamp string forwarded
+        verbatim to :meth:`log_command`.
+    duration_ms: Measured wall-clock duration in milliseconds.
 
 ## cmd
 Internal function to execute commands.
 
-This method attempts to execute a given command using `os.system` and captures
-the output. It sets the `output` attribute based on whether the command was
-executed successfully or an exception occurred. And feedback the red operation report.
+Executes the given shell command, captures stdout via ``tee`` so the
+operator both sees the output and a copy lands in ``sessions/logs/``,
+and forwards a telemetry record to
+:class:`modules.metrics.MetricsRecorder` so the duration and exit
+code can be analysed later.
 
 :param command: The command to be executed.
 :type command: str
-:return: None.
-:rtype: str
+:return: ``None``.
+:rtype: NoneType
 
 ## onecmd_plus_hooks
 Intercepta comandos para expandir placeholders en aliases.

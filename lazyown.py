@@ -26,6 +26,7 @@ from cmd2.plugin import PostcommandData as _PostcommandData
 from typing import Any
 from utils import *
 from modules.llm_factory import try_get_llm_backend as _try_get_llm_backend
+from modules.metrics import get_recorder as _get_metrics_recorder
 from cli.aliases import load_aliases as _load_aliases
 from cli.assign import apply_assign as _apply_assign
 from cli.banner_config import banner_summary as _banner_summary
@@ -531,19 +532,34 @@ class LazyOwnShell(cmd2.Cmd):
             )
         )
 
-    def log_command(self, cmd_name, cmd_args):
+    def log_command(
+        self,
+        cmd_name,
+        cmd_args,
+        start_time=None,
+        end_time=None,
+        duration_ms=0,
+    ):
         """
         Logs the command execution details to a CSV file.
 
         :param cmd_name: The name of the command.
         :param cmd_args: The arguments of the command.
+        :param start_time: Optional ``"%Y-%m-%d %H:%M:%S"`` string captured
+            before execution. Defaults to the current time when omitted.
+        :param end_time: Optional ``"%Y-%m-%d %H:%M:%S"`` string captured
+            after execution. Defaults to ``start_time`` when omitted.
+        :param duration_ms: Measured wall-clock duration in milliseconds.
         """
-        start_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        end_time = start_time
+        if start_time is None:
+            start_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        if end_time is None:
+            end_time = start_time
 
         log_data = {
             "start": start_time,
             "end": end_time,
+            "duration_ms": int(max(0, duration_ms)),
             "source_ip": self.params.get("lhost", ""),
             "source_port": self.params.get("lport", ""),
             "destination_ip": self.params.get("rhost", ""),
@@ -559,14 +575,25 @@ class LazyOwnShell(cmd2.Cmd):
         file_exists = os.path.isfile(file_path)
 
         with open(file_path, mode='a', newline='') as file:
-            writer = csv.DictWriter(file, fieldnames=log_data.keys())
+            writer = csv.DictWriter(
+                file,
+                fieldnames=log_data.keys(),
+                extrasaction='ignore',
+            )
 
             if not file_exists:
                 writer.writeheader()
 
             writer.writerow(log_data)
-        cmd = f"chown 1000:1000 {file_path}"
-        os.system(cmd)
+        try:
+            subprocess.run(
+                ["chown", "1000:1000", file_path],
+                check=False,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+            )
+        except (OSError, FileNotFoundError):
+            pass
 
     def default(self, line):
         """
@@ -824,26 +851,44 @@ class LazyOwnShell(cmd2.Cmd):
             pass
         return candidates[:limit]
 
-    def logcsv(self, line):
+    def logcsv(self, line, start_time=None, end_time=None, duration_ms=0):
+        """Forward a command line to :meth:`log_command` for CSV persistence.
+
+        Args:
+            line: Full command line in ``"<verb> <args>"`` form.
+            start_time: Optional pre-execution timestamp string forwarded
+                verbatim to :meth:`log_command`.
+            end_time: Optional post-execution timestamp string forwarded
+                verbatim to :meth:`log_command`.
+            duration_ms: Measured wall-clock duration in milliseconds.
+        """
         command = line
         parts = command.split(maxsplit=1)
         cmd_name = parts[0]
         cmd_args = parts[1] if len(parts) > 1 else ""
-        self.log_command(cmd_name, cmd_args)
+        self.log_command(
+            cmd_name,
+            cmd_args,
+            start_time=start_time,
+            end_time=end_time,
+            duration_ms=duration_ms,
+        )
         self.onecmd("rrhost")
 
     def cmd(self, line):
         """
         Internal function to execute commands.
 
-        This method attempts to execute a given command using `os.system` and captures
-        the output. It sets the `output` attribute based on whether the command was
-        executed successfully or an exception occurred. And feedback the red operation report.
+        Executes the given shell command, captures stdout via ``tee`` so the
+        operator both sees the output and a copy lands in ``sessions/logs/``,
+        and forwards a telemetry record to
+        :class:`modules.metrics.MetricsRecorder` so the duration and exit
+        code can be analysed later.
 
         :param command: The command to be executed.
         :type command: str
-        :return: None.
-        :rtype: str
+        :return: ``None``.
+        :rtype: NoneType
         """
         command = line
         path = os.getcwd()
@@ -852,15 +897,40 @@ class LazyOwnShell(cmd2.Cmd):
         cmd_args = parts[1] if len(parts) > 1 else ""
         domain = self.params["domain"]
         self.display_toastr(f"Executing... {command}")
+        start_wall = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        start_monotonic = time.monotonic()
         if NOLOGS:
-            os.system(f" {command}")
+            exit_code = subprocess.call(command, shell=True)
         else:
-            path_command = f"{path}/sessions/logs/command_{cmd_name}output{domain}.txt"
-            os.system(f" {command} | tee {path_command}")
+            path_command = (
+                f"{path}/sessions/logs/command_{cmd_name}output{domain}.txt"
+            )
+            quoted_path = shlex.quote(path_command)
+            exit_code = subprocess.call(
+                f"{command} | tee {quoted_path}", shell=True
+            )
             if os.path.exists(path_command):
                 with open(path_command, "r") as file:
                     self.output = f"{cmd_name} {command} {file.read()}"
-        self.logcsv(f"{cmd_name} {command}")
+        duration_ms = int((time.monotonic() - start_monotonic) * 1000)
+        end_wall = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        self.logcsv(
+            f"{cmd_name} {command}",
+            start_time=start_wall,
+            end_time=end_wall,
+            duration_ms=duration_ms,
+        )
+        try:
+            _get_metrics_recorder().record(
+                command=cmd_name,
+                args=cmd_args,
+                duration_ms=duration_ms,
+                success=(exit_code == 0),
+                exit_code=exit_code,
+                source="cli",
+            )
+        except Exception as exc:
+            print_warn(f"metrics record failed: {exc}")
         return
     
     def onecmd_plus_hooks(self, statement, add_to_history=True, raise_keyboard_interrupt=True, orig_rl_history_length=None):

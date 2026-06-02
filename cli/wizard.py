@@ -30,8 +30,6 @@ from rich.table import Table
 from rich.text import Text
 
 from core.payload_schema import (
-    SCHEMA,
-    FieldSpec,
     Severity,
     coerce_value,
     field_for,
@@ -212,14 +210,9 @@ def run(
 
 def _print_header(*, tutorial: bool = False) -> None:
     _console.print()
-    subtitle = (
-        "[dim]Press [Enter] to keep the current/detected value.  "
-        "Press [Ctrl-C] to cancel.[/]"
-    )
+    subtitle = "[dim]Press [Enter] to keep the current/detected value.  Press [Ctrl-C] to cancel.[/]"
     if tutorial:
-        subtitle += (
-            "\n[dim cyan]Tutorial mode is on — extended help shown for every step.[/]"
-        )
+        subtitle += "\n[dim cyan]Tutorial mode is on — extended help shown for every step.[/]"
     _console.print(
         Panel(
             "[bold cyan]LazyOwn Setup Wizard[/]\n" + subtitle,
@@ -625,12 +618,14 @@ def _print_next_steps(params: dict[str, Any]) -> None:
     else:
         _console.print(f"    1. [bold]ping[/]                     verify {rhost} is up (auto-detects os_id)")
         _console.print(f"    2. [bold]lazynmap[/]                  full port + service scan of {rhost}")
-        _console.print(f"    3. [bold]auto_populate[/]             pull HTB/THM target metadata")
-        _console.print(f"    4. [bold]facts_show[/]                show structured findings")
+        _console.print("    3. [bold]auto_populate[/]             pull HTB/THM target metadata")
+        _console.print("    4. [bold]facts_show[/]                show structured findings")
         _console.print("    5. [bold]recommend_next[/]            phase-aware next command")
     _console.print()
-    _console.print("[dim]    Tip: run [bold]wizard --tutorial[/] for extended help, "
-                   "or [bold]wizard --check[/] for a non-interactive readiness summary.[/]")
+    _console.print(
+        "[dim]    Tip: run [bold]wizard --tutorial[/] for extended help, "
+        "or [bold]wizard --check[/] for a non-interactive readiness summary.[/]"
+    )
     _console.print("[dim]    Edit any value later with [bold]assign <key> <value>[/].[/]")
     _console.print()
 

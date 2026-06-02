@@ -195,7 +195,39 @@ def _collect_string_constants(source: str) -> list[str]:
 
 
 _LAZYOWN_SRC = (_ROOT / "lazyown.py").read_text(encoding="utf-8")
-_LAZYOWN_STRINGS = _collect_string_constants(_LAZYOWN_SRC)
+
+
+def _collect_runtime_strings() -> list[str]:
+    """Aggregate string literals from every CLI source the shell may dispatch.
+
+    Returns:
+        All string constants found in ``lazyown.py`` plus the migrated
+        ``do_*`` modules under ``cli/commands/`` and the C2 builder
+        module that hosts the cloudflare tunnel templates. Files that
+        cannot be parsed are skipped silently so the test runs on
+        partially valid checkouts.
+    """
+
+    sources: list[Path] = [_ROOT / "lazyown.py"]
+    sources.extend(sorted((_ROOT / "cli" / "commands").glob("*.py")))
+    sources.append(_ROOT / "modules" / "c2_builder.py")
+
+    collected: list[str] = []
+    for path in sources:
+        if not path.is_file():
+            continue
+        try:
+            text = path.read_text(encoding="utf-8")
+        except OSError:
+            continue
+        try:
+            collected.extend(_collect_string_constants(text))
+        except SyntaxError:
+            continue
+    return collected
+
+
+_LAZYOWN_STRINGS = _collect_runtime_strings()
 
 
 @pytest.mark.parametrize(

@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): Stream de razonamiento del daemon \n\n Version: release/0.2.147 \n\n Kill-chain que se llena solo \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: mar 02 jun 2026 17:44:35 -04 \n\n Hora: 1780436675
+
+
 ### Correcciones
 
 ### Otros

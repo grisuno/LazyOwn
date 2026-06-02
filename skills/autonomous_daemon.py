@@ -262,6 +262,7 @@ def _emit(event_type: str, payload: Dict[str, Any], severity: str = "info") -> N
 
 
 DECISION_SEED_LENGTH: int = 16
+REWARD_DISPLAY_PRECISION: int = 3
 
 
 def compute_decision_seed(objective_id: str, step_n: int, source: str) -> str:
@@ -2072,6 +2073,8 @@ async def _run_objective(
 
         strategy.register_output(output, command, platform=wm_os, success=success)
 
+        _step_reward: float = 0.0
+
         # ── RL feedback — update Q-table after every step ─────────────────────
         # The RLTrainer learns which sources (reactive/parquet/bridge/swan/llm)
         # produce successful outcomes per (phase, findings_quality) state.
@@ -2091,6 +2094,7 @@ async def _run_objective(
             _rl_state    = _rl.encode_state(phase, phase, _reward_ema)
             _rl_next     = _rl.encode_state(phase, phase, _reward_ema)
             _raw_reward  = _reward_ema
+            _step_reward = _raw_reward
             _rl.update(
                 state=_rl_state,
                 action=decision.source,
@@ -2118,6 +2122,7 @@ async def _run_objective(
             "success":        success,
             "phase":          phase,
             "findings_count": len(findings),
+            "reward":         round(_step_reward, REWARD_DISPLAY_PRECISION),
             "output_snippet": output[:300],
         }, severity="warning" if not success else "info")
 

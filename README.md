@@ -12815,6 +12815,13 @@ No description available.
 # Changelog
 
 
+### Correcciones
+
+### Otros
+
+  *   * fix(fix): ruff fix \n\n Version: release/0.2.146 \n\n with love \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: mar 02 jun 2026 00:56:15 -04 \n\n Hora: 1780376175
+
+
 ### Nuevas características
 
 ### Otros

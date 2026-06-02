@@ -25,6 +25,7 @@ extension point for features that are too large or too specialised to live in
 | `collab_bp.py` | Flask blueprint for multi-operator real-time collaboration: SSE event stream, target locking, operator registry, publish endpoint, team dashboard UI at `/collab/`. |
 | `dashboard_bp.py` | Flask blueprint for the operator web dashboard at `/dashboard/`. |
 | `c2_profile.py` | Malleable C2 profile parser and `BridgeSelector` catalog. Feeds the autonomous daemon with phase-tagged commands. |
+| `live_surface.py` | Pure builder that projects `sessions/world_model.json` into a vis-network payload (nodes/edges/stats) for the live attack-surface graph. Reuses `world_model.NetworkGraph` for degree centrality; flags compromised hosts and high-centrality pivots with `pulse`. Served by the `/surface_live` and `/api/surface_live` routes. |
 | `agent_runner.py` | Groq / Ollama agent execution harness. Manages prompt construction, tool-call loops, and result formatting. |
 | `ai_model.py` | LLM client abstraction. Dispatches to Groq, Ollama, or local DeepSeek depending on `payload.json` flags. |
 | `apt_playbooks.py` | APT playbook engine: list, validate, run, and report on YAML-defined adversary simulations backed by `playbooks/*.yaml`. |

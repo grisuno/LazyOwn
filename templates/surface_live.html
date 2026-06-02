@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid py-3">
+  <div class="d-flex justify-content-between align-items-center mb-2">
+    <h3 class="text-info mb-0">Live Attack Surface</h3>
+    <div id="surface-stats" class="small text-muted">loading…</div>
+  </div>
+  <div id="surface-graph"></div>
+  <div class="small text-muted mt-2">
+    Pulsing nodes are compromised hosts or high-centrality pivot points.
+    Auto-refreshes every <span id="surface-interval"></span>s.
+  </div>
+</div>
+
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css"
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js"
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
+
+<style>
+  #surface-graph {
+    width: 100%;
+    height: 720px;
+    background-color: #11151c;
+    border: 1px solid #2a3340;
+    border-radius: 6px;
+  }
+</style>
+
+<script>
+  (function () {
+    "use strict";
+
+    const ENDPOINT = "/api/surface_live";
+    const REFRESH_MS = 4000;
+    const PULSE_PERIOD_MS = 1400;
+    const PULSE_MIN_OPACITY = 0.45;
+    const PULSE_MAX_OPACITY = 1.0;
+
+    const GROUP_COLORS = {
+      host: { background: "#2d6cdf", border: "#7aa7ff" },
+      service: { background: "#3c8c5a", border: "#74d99a" },
+      node: { background: "#6c757d", border: "#aab2bd" },
+    };
+    const COMPROMISED_COLOR = { background: "#b5322f", border: "#ff8a87" };
+    const COMPROMISED_STATES = ["exploited", "owned"];
+
+    document.getElementById("surface-interval").textContent = String(REFRESH_MS / 1000);
+
+    const nodes = new vis.DataSet([]);
+    const edges = new vis.DataSet([]);
+    const container = document.getElementById("surface-graph");
+    const network = new vis.Network(
+      container,
+      { nodes: nodes, edges: edges },
+      {
+        physics: { stabilization: true, barnesHut: { gravitationalConstant: -8000 } },
+        nodes: { shape: "dot", scaling: { min: 6, max: 40 }, font: { color: "#e6edf3" } },
+        edges: { color: { color: "#3a4654", highlight: "#7aa7ff" }, smooth: true },
+        interaction: { hover: true, tooltipDelay: 120 },
+      }
+    );
+
+    let pulseIds = [];
+
+    function colorFor(node) {
+      if (COMPROMISED_STATES.indexOf(node.state) !== -1) {
+        return Object.assign({}, COMPROMISED_COLOR);
+      }
+      return Object.assign({}, GROUP_COLORS[node.group] || GROUP_COLORS.node);
+    }
+
+    function applyData(payload) {
+      const incoming = payload.nodes || [];
+      const incomingEdges = payload.edges || [];
+      pulseIds = incoming.filter((n) => n.pulse).map((n) => n.id);
+
+      nodes.update(
+        incoming.map((n) => ({
+          id: n.id,
+          label: n.label,
+          title: n.title,
+          value: n.value,
+          color: colorFor(n),
+          borderWidth: n.pulse ? 3 : 1,
+        }))
+      );
+      const incomingIds = incoming.map((n) => n.id);
+      nodes.getIds().forEach((id) => {
+        if (incomingIds.indexOf(id) === -1) {
+          nodes.remove(id);
+        }
+      });
+
+      edges.clear();
+      edges.add(
+        incomingEdges.map((e, idx) => ({
+          id: "e" + idx,
+          from: e.from,
+          to: e.to,
+          title: e.relation,
+          width: Math.max(1, e.value),
+        }))
+      );
+
+      const s = payload.stats || {};
+      document.getElementById("surface-stats").textContent =
+        (s.hosts || 0) + " hosts · " +
+        (s.compromised || 0) + " owned · " +
+        (s.services || 0) + " services · " +
+        (s.credentials || 0) + " creds";
+    }
+
+    function pulse() {
+      if (pulseIds.length === 0) {
+        return;
+      }
+      const phase = (Date.now() % PULSE_PERIOD_MS) / PULSE_PERIOD_MS;
+      const opacity =
+        PULSE_MIN_OPACITY +
+        (PULSE_MAX_OPACITY - PULSE_MIN_OPACITY) * Math.abs(Math.sin(phase * Math.PI));
+      const updates = pulseIds.map((id) => ({ id: id, opacity: opacity }));
+      nodes.update(updates);
+    }
+
+    function refresh() {
+      fetch(ENDPOINT, { headers: { "Accept": "application/json" } })
+        .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+        .then(applyData)
+        .catch(() => {
+          document.getElementById("surface-stats").textContent = "world model unavailable";
+        });
+    }
+
+    refresh();
+    setInterval(refresh, REFRESH_MS);
+    setInterval(pulse, 80);
+  })();
+</script>
+{% endblock %}

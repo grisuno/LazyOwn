@@ -816,9 +816,7 @@ class StatusBarManager:
         if not self.enabled:
             return base_prompt
         color_open, color_close = self._resolve_theme_colors()
-        return self._renderer.render_prompt(
-            self.collect_context(), base_prompt, color_open, color_close
-        )
+        return self._renderer.render_prompt(self.collect_context(), base_prompt, color_open, color_close)
 
     def _resolve_theme_colors(self) -> tuple[str | None, str | None]:
         """Return ``(open, close)`` ANSI sequences from the active theme."""

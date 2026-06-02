@@ -467,16 +467,16 @@ class ExpertAvailabilityChecker:
             except Exception:
                 return False
         if expert.backend == "toposwarm":
-            # TopoSwarm is available if its orchestrator file exists
             try:
                 from toposwarm_bridge import get_bridge
                 return get_bridge().available
             except ImportError:
-                import pathlib, os
-                ts_dir = pathlib.Path(os.environ.get(
-                    "TOPOSWARM_DIR",
-                    pathlib.Path(__file__).parent.parent.parent / "py" / "toposwarm"
-                ))
+                default_ts_dir = (
+                    Path(__file__).parent.parent.parent / "py" / "toposwarm"
+                )
+                ts_dir = Path(
+                    os.environ.get("TOPOSWARM_DIR", str(default_ts_dir))
+                )
                 return (ts_dir / "toposwarm_lazyown_orchestrator.py").exists()
         return False
 

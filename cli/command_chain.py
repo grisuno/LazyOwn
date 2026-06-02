@@ -120,12 +120,8 @@ class ChainConfig:
     """Centralised constants for the command chain module."""
 
     default_limit: int = 5
-    prerequisites: Mapping[str, tuple[str, ...]] = field(
-        default_factory=lambda: dict(_DEFAULT_PREREQUISITES)
-    )
-    service_followups: Mapping[str, tuple[str, ...]] = field(
-        default_factory=lambda: dict(_DEFAULT_SERVICE_FOLLOWUPS)
-    )
+    prerequisites: Mapping[str, tuple[str, ...]] = field(default_factory=lambda: dict(_DEFAULT_PREREQUISITES))
+    service_followups: Mapping[str, tuple[str, ...]] = field(default_factory=lambda: dict(_DEFAULT_SERVICE_FOLLOWUPS))
 
 
 @dataclass(frozen=True)
@@ -299,16 +295,12 @@ class DynamicNextResolver:
 
         return steps
 
-    def _ensure_engine(
-        self, params: Mapping[str, object] | None
-    ) -> ExplorationEngine | None:
+    def _ensure_engine(self, params: Mapping[str, object] | None) -> ExplorationEngine | None:
         if self.exploration_engine is not None:
             return self.exploration_engine
         try:
             current_os = resolve_current_os(params) if params else ANY_OS
-            return ExplorationEngine(
-                config=ExplorationConfig(), current_os=current_os
-            )
+            return ExplorationEngine(config=ExplorationConfig(), current_os=current_os)
         except Exception:
             return None
 
@@ -365,9 +357,7 @@ class CommandChain:
     ) -> list[NextStep]:
         """Return ordered next-step recommendations. See :meth:`DynamicNextResolver.resolve`."""
 
-        return self.next_resolver.resolve(
-            cmd=cmd, params=params, target=target, phase=phase, limit=limit
-        )
+        return self.next_resolver.resolve(cmd=cmd, params=params, target=target, phase=phase, limit=limit)
 
     def chain(
         self,
@@ -379,9 +369,7 @@ class CommandChain:
     ) -> dict[str, object]:
         """Return a serialisable ``{prev, next}`` view for the given command."""
 
-        next_steps = self.next(
-            cmd=cmd, params=params, target=target, phase=phase, limit=limit
-        )
+        next_steps = self.next(cmd=cmd, params=params, target=target, phase=phase, limit=limit)
         return {
             "command": _normalise(cmd),
             "prev": self.prev(cmd),

@@ -25,10 +25,9 @@ from __future__ import annotations
 
 import json
 import os
-import time
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Callable, Iterable, Mapping, Sequence
+from typing import Any, Callable, Mapping
 
 from rich.console import Console
 from rich.text import Text
@@ -237,12 +236,8 @@ class ToastReader:
             return None
         if not isinstance(record, dict):
             return None
-        event_type = self._coerce_str(
-            record.get("type") or record.get("kind") or record.get("event") or ""
-        )
-        severity = self._coerce_str(
-            record.get("severity") or record.get("status") or record.get("level") or "info"
-        )
+        event_type = self._coerce_str(record.get("type") or record.get("kind") or record.get("event") or "")
+        severity = self._coerce_str(record.get("severity") or record.get("status") or record.get("level") or "info")
         timestamp = self._coerce_str(record.get("ts") or record.get("timestamp") or "")
         summary = self._summary(record)
         return ToastEvent(

@@ -18,13 +18,47 @@ Design (SOLID)
 """
 from __future__ import annotations
 
+import logging
 import re
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 _ROOT = Path(__file__).parent.parent
+_log = logging.getLogger(__name__)
+
+SEMANTIC_MIN_SCORE: float = 0.55
+SEMANTIC_QUERY_LIMIT: int = 3
+SEMANTIC_OUTPUT_LIMIT: int = 1000
+SEMANTIC_REASON_LIMIT: int = 140
+SEMANTIC_MITRE_TACTIC: str = "T1595"
+SEMANTIC_PRIORITY: int = 5
+SEMANTIC_FILENAME_PATTERN: re.Pattern = re.compile(
+    r"command_(?P<verb>[A-Za-z0-9_\-]+)output"
+)
+SEMANTIC_PAYLOAD_KEY: str = "reactive_semantic_enabled"
+
+
+def _default_config_loader() -> Dict[str, Any]:
+    """Return the contents of ``payload.json`` as a dictionary.
+
+    Imports are performed lazily so the reactive engine still loads in
+    environments where ``core.config`` is not yet wired (early
+    bootstrap, isolated unit tests). Any failure falls back to an empty
+    dictionary, which behaves as "feature enabled by default" for
+    :class:`SemanticContextAdvisor`.
+    """
+
+    try:
+        from core.config import load_payload
+    except ImportError:
+        return {}
+    try:
+        return load_payload() or {}
+    except Exception as exc:
+        _log.debug("reactive_engine: payload load failed: %s", exc)
+        return {}
 
 
 # ---------------------------------------------------------------------------
@@ -278,8 +312,8 @@ class ParquetAdvisor:
                 self._lolbas = pd.read_parquet(l)
             if t.exists():
                 self._techniques = pd.read_parquet(t)
-        except Exception:
-            pass
+        except Exception as exc:
+            _log.debug("ParquetAdvisor load failed: %s", exc)
 
     def gtfobins_for(self, binary: str) -> List[str]:
         self._load()
@@ -290,7 +324,8 @@ class ParquetAdvisor:
             mask = df["Binary"].astype(str).str.lower() == binary.lower()
             rows = df[mask]
             return [r["Function Name"] for _, r in rows.iterrows()]
-        except Exception:
+        except Exception as exc:
+            _log.debug("ParquetAdvisor.gtfobins_for(%s) failed: %s", binary, exc)
             return []
 
     def lolbas_for(self, binary: str) -> List[Tuple[str, str]]:
@@ -303,7 +338,8 @@ class ParquetAdvisor:
             mask = df["Binary"].astype(str).str.lower().str.contains(binary.lower())
             rows = df[mask].head(5)
             return [(r["Function Name"], r.get("ATT&CK", "")) for _, r in rows.iterrows()]
-        except Exception:
+        except Exception as exc:
+            _log.debug("ParquetAdvisor.lolbas_for(%s) failed: %s", binary, exc)
             return []
 
     def technique_commands_for(self, platform: str, keyword: str) -> List[str]:
@@ -327,7 +363,11 @@ class ParquetAdvisor:
                 if cmd and cmd.lower() != "nan":
                     cmds.append(cmd[:200])
             return cmds
-        except Exception:
+        except Exception as exc:
+            _log.debug(
+                "ParquetAdvisor.technique_commands_for(%s, %s) failed: %s",
+                platform, keyword, exc,
+            )
             return []
 
 
@@ -477,6 +517,183 @@ class PrivescAdvisor:
 
 
 # ---------------------------------------------------------------------------
+# Semantic context advisor
+# ---------------------------------------------------------------------------
+
+class SemanticContextAdvisor:
+    """Suggest follow-up commands by semantic similarity to past sessions.
+
+    Last-resort hint that only fires when the regex-based matchers and
+    advisors produce nothing useful. Relies on
+    :class:`modules.session_rag.SessionRAG` (ChromaDB when available,
+    keyword fallback otherwise) so it carries no extra runtime
+    dependency. When the RAG layer is missing or the operator disabled
+    it via ``payload.json[reactive_semantic_enabled]``, the advisor
+    silently returns an empty list — never breaking the regex pipeline.
+    """
+
+    def __init__(
+        self,
+        rag: Optional[Any] = None,
+        config_loader: Optional[Any] = None,
+        min_score: float = SEMANTIC_MIN_SCORE,
+        query_limit: int = SEMANTIC_QUERY_LIMIT,
+    ) -> None:
+        """Initialise the advisor.
+
+        Args:
+            rag: Optional pre-built RAG instance. Injected in tests; in
+                production the singleton from ``modules.session_rag`` is
+                loaded lazily on first :meth:`suggest` call.
+            config_loader: Callable returning a payload dictionary. Used
+                only to gate the advisor via
+                :data:`SEMANTIC_PAYLOAD_KEY`. Falsy return values disable
+                the advisor for that call.
+            min_score: Minimum cosine similarity score to keep a hit.
+            query_limit: Maximum number of RAG hits to request per call.
+        """
+
+        self._rag = rag
+        self._rag_loaded = rag is not None
+        self._config_loader = config_loader
+        self._min_score = float(min_score)
+        self._query_limit = int(query_limit)
+
+    def _load_rag(self) -> Optional[Any]:
+        """Resolve the RAG singleton on first use.
+
+        Returns:
+            The shared :class:`SessionRAG` instance, or ``None`` when the
+            module cannot be imported.
+        """
+
+        if self._rag_loaded:
+            return self._rag
+        self._rag_loaded = True
+        try:
+            from session_rag import get_rag
+        except ImportError:
+            try:
+                from modules.session_rag import get_rag
+            except ImportError as exc:
+                _log.debug("SemanticContextAdvisor: session_rag unavailable: %s", exc)
+                return None
+        try:
+            self._rag = get_rag()
+        except Exception as exc:
+            _log.debug("SemanticContextAdvisor: get_rag failed: %s", exc)
+            self._rag = None
+        return self._rag
+
+    def _enabled(self) -> bool:
+        """Return whether the operator has the advisor turned on.
+
+        When no config loader is wired, the advisor is assumed enabled.
+        When the loader raises or the key is absent, defaults to
+        enabled to preserve the historical "best-effort hints" UX.
+        """
+
+        if self._config_loader is None:
+            return True
+        try:
+            payload = self._config_loader() or {}
+        except Exception as exc:
+            _log.debug("SemanticContextAdvisor: config load failed: %s", exc)
+            return True
+        return bool(payload.get(SEMANTIC_PAYLOAD_KEY, True))
+
+    @staticmethod
+    def _extract_verb(source: str) -> str:
+        """Pull the originating command verb from a ``command_*`` filename.
+
+        Args:
+            source: Relative path returned by the RAG hit, typically
+                ``logs/command_<verb>output<domain>.txt``.
+
+        Returns:
+            The extracted verb, or the empty string when the path does
+            not follow the expected pattern.
+        """
+
+        if not source:
+            return ""
+        match = SEMANTIC_FILENAME_PATTERN.search(source)
+        if not match:
+            return ""
+        return match.group("verb")
+
+    def suggest(
+        self,
+        output: str,
+        command: str = "",
+        platform: str = "unknown",
+        context: Optional[Dict[str, Any]] = None,
+    ) -> List[ReactiveDecision]:
+        """Return semantic next-step hints derived from past sessions.
+
+        Args:
+            output: Raw stdout+stderr from the executed command.
+            command: The command that produced *output*.
+            platform: Target platform tag (informational; not currently
+                used to filter hits).
+            context: Reserved for future extensions.
+
+        Returns:
+            Zero or more :class:`ReactiveDecision` with action
+            ``"suggest_next"`` and priority
+            :data:`SEMANTIC_PRIORITY` so regex-based decisions always
+            outrank the semantic hint.
+        """
+
+        del platform, context
+
+        if not output or not self._enabled():
+            return []
+
+        rag = self._load_rag()
+        if rag is None or not getattr(rag, "_ready", False):
+            return []
+
+        try:
+            hits = rag.query(
+                output[:SEMANTIC_OUTPUT_LIMIT], n=self._query_limit
+            )
+        except Exception as exc:
+            _log.debug("SemanticContextAdvisor: rag.query failed: %s", exc)
+            return []
+
+        decisions: List[ReactiveDecision] = []
+        seen_verbs: set = set()
+        for hit in hits or []:
+            score = hit.get("score") if isinstance(hit, dict) else None
+            if score is not None and score < self._min_score:
+                continue
+            source = hit.get("source", "") if isinstance(hit, dict) else ""
+            verb = self._extract_verb(source)
+            if not verb or verb == command or verb in seen_verbs:
+                continue
+            snippet = (hit.get("text") or "").strip()
+            snippet = snippet.replace("\n", " ")[:SEMANTIC_REASON_LIMIT]
+            score_label = (
+                f"{score:.2f}" if isinstance(score, (int, float)) else "n/a"
+            )
+            decisions.append(
+                ReactiveDecision(
+                    action="suggest_next",
+                    command=verb,
+                    reason=(
+                        f"Similar past output (score={score_label}): {snippet}"
+                    ),
+                    mitre_tactic=SEMANTIC_MITRE_TACTIC,
+                    priority=SEMANTIC_PRIORITY,
+                    signals=[],
+                )
+            )
+            seen_verbs.add(verb)
+        return decisions
+
+
+# ---------------------------------------------------------------------------
 # Reactive engine
 # ---------------------------------------------------------------------------
 
@@ -492,6 +709,7 @@ class ReactiveEngine:
         evasion: Optional[EvasionAdvisor] = None,
         privesc: Optional[PrivescAdvisor] = None,
         parquet: Optional[ParquetAdvisor] = None,
+        semantic: Optional[SemanticContextAdvisor] = None,
     ) -> None:
         self._matchers = matchers or [
             AVBlockedMatcher(),
@@ -504,6 +722,9 @@ class ReactiveEngine:
         self._evasion = evasion or EvasionAdvisor()
         self._privesc = privesc or PrivescAdvisor()
         self._parquet = parquet or ParquetAdvisor()
+        self._semantic = semantic or SemanticContextAdvisor(
+            config_loader=_default_config_loader,
+        )
 
     def analyse(
         self,
@@ -527,15 +748,17 @@ class ReactiveEngine:
         for matcher in self._matchers:
             try:
                 all_signals.extend(matcher.match(output, ctx))
-            except Exception:
+            except Exception as exc:
+                _log.debug(
+                    "reactive_engine: matcher %s failed: %s",
+                    matcher.__class__.__name__, exc,
+                )
                 continue
 
         decisions: List[ReactiveDecision] = []
 
-        # AV/EDR evasion
         decisions.extend(self._evasion.suggest(all_signals, platform))
 
-        # PrivEsc
         decisions.extend(self._privesc.suggest(all_signals, platform, self._parquet))
 
         # New credentials found
@@ -584,7 +807,10 @@ class ReactiveEngine:
                     signals=[sig],
                 ))
 
-        # Sort by priority (1=most critical)
+        decisions.extend(
+            self._semantic.suggest(output, command, platform, ctx)
+        )
+
         decisions.sort(key=lambda d: d.priority)
         return decisions
 

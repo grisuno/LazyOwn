@@ -38,24 +38,27 @@ except ImportError:
         return False
 
 
+from cli.killchain import DEFAULT_PHASES as KILL_CHAIN_PHASES
+from cli.killchain import (
+    STATE_ACTIVE,
+    STATE_DONE,
+    PhaseProgress,
+    compute_killchain,
+)
+from cli.reasoning_stream import ReasoningEntry, latest_reasoning, read_raw_events
+
+__all__ = ["KILL_CHAIN_PHASES", "LazyOwnDashboard", "launch"]
+
 REFRESH_INTERVAL: float = 5.0
 SESSIONS_DIR: str = "sessions"
 PAYLOAD_PATH: str = "payload.json"
 WORLD_MODEL_PATH: str = "sessions/world_model.json"
 TASKS_PATH: str = "sessions/tasks.json"
 TRANSCRIPT_PATH: str = "sessions/LazyOwn_session_report.csv"
+EVENTS_PATH: str = "sessions/autonomous_events.jsonl"
 RECENT_CMD_WINDOW: int = 10
-
-KILL_CHAIN_PHASES: list[tuple[str, str]] = [
-    ("recon", "Recon"),
-    ("scan", "Scan"),
-    ("enum", "Enum"),
-    ("exploit", "Exploit"),
-    ("privesc", "PrivEsc"),
-    ("lateral", "Lateral"),
-    ("exfil", "Exfil"),
-    ("report", "Report"),
-]
+REASONING_WINDOW: int = 12
+KILLCHAIN_EVENT_WINDOW: int = 400
 
 
 def _read_json(path: str) -> dict[str, Any]:
@@ -185,19 +188,23 @@ class KillChainPanel(Static):
     }
     """
 
-    def update_data(self, world: dict) -> None:
-        completed: list[str] = world.get("completed_phases") or world.get("phases_done") or []
-        current: str = (world.get("phase") or world.get("current_phase") or "").lower()
+    def update_data(self, progress: list[PhaseProgress]) -> None:
+        """Render kill-chain progress derived from the daemon event stream."""
         lines = Text()
         lines.append(" Kill Chain\n", style="bold cyan underline")
-        for key, label in KILL_CHAIN_PHASES:
-            if key in completed:
+        for phase in progress:
+            if phase.state == STATE_DONE:
                 icon, style = "✔", "bold green"
-            elif key == current:
+            elif phase.state == STATE_ACTIVE:
                 icon, style = "▶", "bold yellow"
             else:
                 icon, style = "○", "dim white"
-            lines.append(f"  {icon} {label}\n", style=style)
+            lines.append(f"  {icon} {phase.label}", style=style)
+            if phase.activity:
+                lines.append(f"  ×{phase.activity}", style="dim cyan")
+                if phase.reward:
+                    lines.append(f" r={phase.reward:.2f}", style="dim green")
+            lines.append("\n")
         self.update(lines)
 
 
@@ -262,6 +269,43 @@ class CommandsPanel(Static):
                 t.append(f"  {ts[:16]}", style="dim white")
             if status:
                 t.append(f"  {status[:18]}", style=status_style)
+            t.append("\n")
+        self.update(t)
+
+
+class ReasoningPanel(Static):
+    """Center panel: live autonomous-daemon reasoning stream."""
+
+    DEFAULT_CSS = """
+    ReasoningPanel {
+        height: 1fr;
+        border: round $warning;
+        padding: 1 2;
+        margin: 0 1 1 0;
+    }
+    """
+
+    def update_data(self, entries: list[ReasoningEntry]) -> None:
+        """Render the most recent daemon decisions, newest first."""
+        t = Text()
+        t.append(" Daemon Reasoning\n", style="bold cyan underline")
+        if not entries:
+            t.append("  (daemon idle — start with autonomous_start)\n", style="dim italic")
+            self.update(t)
+            return
+        for entry in reversed(entries):
+            t.append(f"  {entry.icon} ", style=entry.style)
+            if entry.ts:
+                t.append(f"{entry.ts} ", style="dim white")
+            if entry.phase:
+                t.append(f"{entry.phase[:8]:<8} ", style="dim cyan")
+            if entry.command:
+                t.append(f"{entry.command} ", style=entry.style)
+            if entry.reward is not None:
+                reward_style = "bold green" if entry.reward > 0 else "dim white"
+                t.append(f"r={entry.reward:.2f} ", style=reward_style)
+            if entry.summary:
+                t.append(f"{entry.summary}", style="dim white")
             t.append("\n")
         self.update(t)
 
@@ -404,6 +448,7 @@ class LazyOwnDashboard(App):
                 yield ConfigPanel(id="config-panel")
             with Vertical(id="center-col"):
                 yield CommandsPanel(id="commands-panel")
+                yield ReasoningPanel(id="reasoning-panel")
             with Vertical(id="right-col"):
                 yield OpsPanel(id="ops-panel")
         yield HintBar(id="hint-bar")
@@ -449,11 +494,14 @@ class LazyOwnDashboard(App):
         hashes = _count_lines_in_glob(f"{self._sessions_dir}/hash*.txt")
         beacons = _beacon_count()
         hints = _graph_hints()
+        reasoning = latest_reasoning(EVENTS_PATH, REASONING_WINDOW)
+        killchain = compute_killchain(read_raw_events(EVENTS_PATH, KILLCHAIN_EVENT_WINDOW), world)
 
         self.query_one("#top-bar", TargetPanel).update_data(payload, world)
-        self.query_one("#kill-chain", KillChainPanel).update_data(world)
+        self.query_one("#kill-chain", KillChainPanel).update_data(killchain)
         self.query_one("#config-panel", ConfigPanel).update_data(payload)
         self.query_one("#commands-panel", CommandsPanel).update_data(commands)
+        self.query_one("#reasoning-panel", ReasoningPanel).update_data(reasoning)
         self.query_one("#ops-panel", OpsPanel).update_data(world, tasks, creds, hashes, beacons)
         self.query_one("#hint-bar", HintBar).update_data(hints)
 

@@ -22,9 +22,9 @@ Design (SOLID):
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Callable, Mapping, Sequence
+from typing import Any, Callable, Mapping
 
 from cli.themes import Theme, theme_from_payload
 

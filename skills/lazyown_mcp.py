@@ -2806,6 +2806,45 @@ async def list_tools() -> list[types.Tool]:
             },
         ),
         types.Tool(
+            name="lazyown_autonomous_replay",
+            description=(
+                "Replay the recorded autonomous_events.jsonl decision sequence "
+                "between two event ids. In 'trace' mode (default) no command is "
+                "re-executed: the report lists the recorded STEP_START decisions "
+                "and flags any divergence where the recorded decision_seed does "
+                "not match the recomputed one. In 'execute' mode each command is "
+                "rerun through the same ICommandRunner chain the live daemon "
+                "uses, so harness permissions and hooks still apply."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "from_event_id": {
+                        "type": "string",
+                        "description": "Inclusive lower bound on event id; empty replays from the start.",
+                        "default": "",
+                    },
+                    "to_event_id": {
+                        "type": "string",
+                        "description": "Inclusive upper bound on event id; empty replays to the end.",
+                        "default": "",
+                    },
+                    "mode": {
+                        "type": "string",
+                        "description": "Replay mode.",
+                        "enum": ["trace", "execute"],
+                        "default": "trace",
+                    },
+                    "timeout": {
+                        "type": "integer",
+                        "description": "Per-command timeout in seconds, execute mode only.",
+                        "default": 60,
+                    },
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
             name="lazyown_daemon_status",
             description=(
                 "Return the full operator-steering state for the autonomous daemon "
@@ -3248,6 +3287,32 @@ async def list_tools() -> list[types.Tool]:
                         "type": "boolean",
                         "description": "Include latest command outputs per implant (default false).",
                         "default": False,
+                    },
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_metrics_summary",
+            description=(
+                "Aggregate the durable command-execution telemetry log "
+                "(sessions/metrics.jsonl). Returns total count, per-command "
+                "success rate, mean and p95 duration, and the top failing "
+                "commands. Optionally restricted to events from the last "
+                "window_seconds."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "window_seconds": {
+                        "type": "integer",
+                        "description": "Window in seconds; 0 or absent aggregates the whole log.",
+                        "default": 0,
+                    },
+                    "top_n": {
+                        "type": "integer",
+                        "description": "Maximum per-command rows to keep in by_command.",
+                        "default": 10,
                     },
                 },
                 "required": [],
@@ -8274,6 +8339,26 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         except Exception as exc:
             return text(f"[autonomous_events error] {exc}")
 
+    elif name == "lazyown_autonomous_replay":
+        try:
+            sys.path.insert(0, str(LAZYOWN_DIR / "skills"))
+            from autonomous_replay import replay as _replay
+            mode = str(arguments.get("mode", "trace")).strip().lower() or "trace"
+            from_event_id = arguments.get("from_event_id") or None
+            to_event_id = arguments.get("to_event_id") or None
+            timeout = int(arguments.get("timeout", 60))
+            report = _replay(
+                from_event_id=from_event_id,
+                to_event_id=to_event_id,
+                mode=mode,
+                timeout=timeout,
+            )
+            return text(json.dumps(report, indent=2, ensure_ascii=False))
+        except ValueError as exc:
+            return text(f"[autonomous_replay error] {exc}")
+        except Exception as exc:
+            return text(f"[autonomous_replay error] {exc}")
+
     # ── Daemon Control handlers ──────────────────────────────────────────────
     elif name == "lazyown_daemon_status":
         try:
@@ -8570,7 +8655,26 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         except Exception as exc:
             return text(f"[session_status error] {exc}")
 
-    # ── reactive_suggest ──────────────────────────────────────────────────────
+    elif name == "lazyown_metrics_summary":
+        try:
+            sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
+            from metrics import get_recorder as _get_recorder
+            window_raw = int(arguments.get("window_seconds", 0) or 0)
+            window = window_raw if window_raw > 0 else None
+            top_n = max(1, int(arguments.get("top_n", 10)))
+            summary = _get_recorder().summarize(window_seconds=window)
+            by_command = summary.get("by_command", {})
+            if isinstance(by_command, dict) and len(by_command) > top_n:
+                ranked = sorted(
+                    by_command.items(),
+                    key=lambda item: item[1].get("count", 0),
+                    reverse=True,
+                )[:top_n]
+                summary["by_command"] = dict(ranked)
+            return text(json.dumps(summary, indent=2, ensure_ascii=False))
+        except Exception as exc:
+            return text(f"[metrics_summary error] {exc}")
+
     elif name == "lazyown_reactive_suggest":
         raw_output    = arguments.get("output", "")
         command       = arguments.get("command", "")

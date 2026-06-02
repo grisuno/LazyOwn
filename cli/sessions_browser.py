@@ -21,9 +21,9 @@ Design (SOLID):
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Iterable, Mapping, Sequence
+from typing import Any, Iterable, Mapping
 
 from cli.themes import Theme, theme_from_payload
 
@@ -115,9 +115,7 @@ class SessionsIndex:
             grouped[self._config.other_category_identifier] = other
         return grouped
 
-    def _entries_for(
-        self, patterns: Iterable[str], spec: CategorySpec
-    ) -> list[SessionEntry]:
+    def _entries_for(self, patterns: Iterable[str], spec: CategorySpec) -> list[SessionEntry]:
         seen: set[str] = set()
         collected: list[SessionEntry] = []
         for pattern in patterns:
@@ -240,9 +238,7 @@ class SessionsBrowserState:
         filtered: dict[str, list[SessionEntry]] = {}
         for identifier, entries in groups.items():
             matching = [
-                entry
-                for entry in entries
-                if needle in entry.relative_path.lower() or needle in entry.label.lower()
+                entry for entry in entries if needle in entry.relative_path.lower() or needle in entry.label.lower()
             ]
             if matching:
                 filtered[identifier] = matching

@@ -27,7 +27,7 @@ Design (SOLID):
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any, Iterable, Mapping, MutableMapping, Sequence
+from typing import Any, Iterable, Mapping, MutableMapping
 
 from cli.themes import Theme, theme_from_payload
 
@@ -106,9 +106,7 @@ class CommandFormConfig:
         ),
         CommandFieldSet(
             "do_searchsploit",
-            (
-                FormField("target", "Target (rhost)", "rhost"),
-            ),
+            (FormField("target", "Target (rhost)", "rhost"),),
         ),
     )
 

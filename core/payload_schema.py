@@ -38,18 +38,13 @@ Design rules:
 from __future__ import annotations
 
 import re
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from enum import Enum
-from pathlib import Path
 from typing import Any, Callable, Iterable, Mapping
 
-IPV4_REGEX = re.compile(
-    r"\A((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)\Z"
-)
+IPV4_REGEX = re.compile(r"\A((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)\Z")
 INTERFACE_REGEX = re.compile(r"\A[A-Za-z0-9._@:-]{1,32}\Z")
-HOSTNAME_REGEX = re.compile(
-    r"\A(?=.{1,253}\Z)([A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.?)+\Z"
-)
+HOSTNAME_REGEX = re.compile(r"\A(?=.{1,253}\Z)([A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.?)+\Z")
 URL_REGEX = re.compile(r"\Ahttps?://[\w\-.:/?#\[\]@!$&'()*+,;=%]+\Z")
 HEX_REGEX = re.compile(r"\A[0-9a-fA-F]+\Z")
 PORT_MIN = 1
@@ -182,7 +177,14 @@ def _validate_bool(value: Any) -> str | None:
     if isinstance(value, bool):
         return None
     if isinstance(value, str) and value.strip().lower() in {
-        "true", "false", "yes", "no", "1", "0", "on", "off",
+        "true",
+        "false",
+        "yes",
+        "no",
+        "1",
+        "0",
+        "on",
+        "off",
     }:
         return None
     return f"expected boolean-like value, got {value!r}"
@@ -377,15 +379,57 @@ SCHEMA: dict[str, FieldSpec] = {
             category="network",
             required=True,
         ),
-        _spec("rport", FieldKind.PORT, 5555, "Default target port (rare; most commands derive it from scans).", category="network"),
-        _spec("lport", FieldKind.PORT, 5555, "Default listener port for reverse shells.", example="9001", category="network"),
-        _spec("listener", FieldKind.PORT, 7777, "Auxiliary listener port (file delivery, ad-hoc nc).", category="network"),
-        _spec("reverse_shell_port", FieldKind.PORT, 6666, "Default reverse-shell port for payload generators.", category="network"),
+        _spec(
+            "rport",
+            FieldKind.PORT,
+            5555,
+            "Default target port (rare; most commands derive it from scans).",
+            category="network",
+        ),
+        _spec(
+            "lport",
+            FieldKind.PORT,
+            5555,
+            "Default listener port for reverse shells.",
+            example="9001",
+            category="network",
+        ),
+        _spec(
+            "listener", FieldKind.PORT, 7777, "Auxiliary listener port (file delivery, ad-hoc nc).", category="network"
+        ),
+        _spec(
+            "reverse_shell_port",
+            FieldKind.PORT,
+            6666,
+            "Default reverse-shell port for payload generators.",
+            category="network",
+        ),
         _spec("proxy_port", FieldKind.PORT, 8888, "Local HTTP proxy port (Burp/ZAP integration).", category="network"),
-        _spec("device", FieldKind.INTERFACE, "wlan0", "Network interface facing the target.", example="tun0", category="network"),
-        _spec("spoof_ip", FieldKind.IP, "185.199.110.153", "Spoofed source IP for decoy/idle scans.", category="network"),
-        _spec("startip", FieldKind.IP, "10.10.11.1", "Inclusive lower bound of the network discovery range.", category="network"),
-        _spec("endip", FieldKind.IP, "10.10.11.255", "Inclusive upper bound of the network discovery range.", category="network"),
+        _spec(
+            "device",
+            FieldKind.INTERFACE,
+            "wlan0",
+            "Network interface facing the target.",
+            example="tun0",
+            category="network",
+        ),
+        _spec(
+            "spoof_ip", FieldKind.IP, "185.199.110.153", "Spoofed source IP for decoy/idle scans.", category="network"
+        ),
+        _spec(
+            "startip",
+            FieldKind.IP,
+            "10.10.11.1",
+            "Inclusive lower bound of the network discovery range.",
+            category="network",
+        ),
+        _spec(
+            "endip",
+            FieldKind.IP,
+            "10.10.11.255",
+            "Inclusive upper bound of the network discovery range.",
+            category="network",
+        ),
         _spec(
             "domain",
             FieldKind.HOSTNAME,
@@ -399,18 +443,69 @@ SCHEMA: dict[str, FieldSpec] = {
             example="target.htb",
             category="network",
         ),
-        _spec("subdomain", FieldKind.STRING, "dc01", "Target subdomain (DC name or web subdomain).", category="network"),
+        _spec(
+            "subdomain", FieldKind.STRING, "dc01", "Target subdomain (DC name or web subdomain).", category="network"
+        ),
         _spec("url", FieldKind.URL, "http://VariaType.htb", "Base URL for HTTP-centric commands.", category="network"),
-        _spec("method", FieldKind.STRING, "POST", "Default HTTP verb for crafted requests.", allowed=("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS", "HEAD"), category="network"),
-        _spec("headers", FieldKind.JSON_BLOB, '{"Content-Type": "application/json"}', "Default request headers (JSON string).", category="network"),
-        _spec("params", FieldKind.JSON_BLOB, '{"param1": "LAZYFUZZ"}', "Default query-string params (JSON string).", category="network"),
-        _spec("data", FieldKind.JSON_BLOB, '{"key": "LAZYFUZZ"}', "Default form-encoded body (JSON string).", category="network"),
-        _spec("json_data", FieldKind.JSON_BLOB, '{"json_key": "json_value"}', "Default JSON request body (JSON string).", category="network"),
-        _spec("headers_file", FieldKind.PATH, "modules/headers.json", "Optional headers payload file.", category="network"),
+        _spec(
+            "method",
+            FieldKind.STRING,
+            "POST",
+            "Default HTTP verb for crafted requests.",
+            allowed=("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS", "HEAD"),
+            category="network",
+        ),
+        _spec(
+            "headers",
+            FieldKind.JSON_BLOB,
+            '{"Content-Type": "application/json"}',
+            "Default request headers (JSON string).",
+            category="network",
+        ),
+        _spec(
+            "params",
+            FieldKind.JSON_BLOB,
+            '{"param1": "LAZYFUZZ"}',
+            "Default query-string params (JSON string).",
+            category="network",
+        ),
+        _spec(
+            "data",
+            FieldKind.JSON_BLOB,
+            '{"key": "LAZYFUZZ"}',
+            "Default form-encoded body (JSON string).",
+            category="network",
+        ),
+        _spec(
+            "json_data",
+            FieldKind.JSON_BLOB,
+            '{"json_key": "json_value"}',
+            "Default JSON request body (JSON string).",
+            category="network",
+        ),
+        _spec(
+            "headers_file", FieldKind.PATH, "modules/headers.json", "Optional headers payload file.", category="network"
+        ),
         _spec("data_file", FieldKind.PATH, "modules/data.json", "Optional body payload file.", category="network"),
-        _spec("params_file", FieldKind.PATH, "modules/params.json", "Optional params payload file.", category="network"),
-        _spec("json_data_file", FieldKind.PATH, "modules/json_data.json", "Optional JSON body payload file.", category="network"),
-        _spec("hide_code", FieldKind.INT, 404, "HTTP status code to hide in fuzzing output.", min_value=100, max_value=599, category="network"),
+        _spec(
+            "params_file", FieldKind.PATH, "modules/params.json", "Optional params payload file.", category="network"
+        ),
+        _spec(
+            "json_data_file",
+            FieldKind.PATH,
+            "modules/json_data.json",
+            "Optional JSON body payload file.",
+            category="network",
+        ),
+        _spec(
+            "hide_code",
+            FieldKind.INT,
+            404,
+            "HTTP status code to hide in fuzzing output.",
+            min_value=100,
+            max_value=599,
+            category="network",
+        ),
         _spec("field", FieldKind.STRING, "page", "Default form field name for fuzzers.", category="network"),
         _spec(
             "os_id",
@@ -435,8 +530,22 @@ SCHEMA: dict[str, FieldSpec] = {
             example="4444",
             category="c2",
         ),
-        _spec("c2_user", FieldKind.STRING, "LazyOwn", "C2 operator username (HTTP basic auth).", category="c2", sensitive=True),
-        _spec("c2_pass", FieldKind.STRING, "LazyOwn", "C2 operator password (HTTP basic auth).", category="c2", sensitive=True),
+        _spec(
+            "c2_user",
+            FieldKind.STRING,
+            "LazyOwn",
+            "C2 operator username (HTTP basic auth).",
+            category="c2",
+            sensitive=True,
+        ),
+        _spec(
+            "c2_pass",
+            FieldKind.STRING,
+            "LazyOwn",
+            "C2 operator password (HTTP basic auth).",
+            category="c2",
+            sensitive=True,
+        ),
         _spec(
             "c2_maleable_route",
             FieldKind.STRING,
@@ -481,9 +590,18 @@ SCHEMA: dict[str, FieldSpec] = {
             max_value=86400,
             category="c2",
         ),
-        _spec("rat_key", FieldKind.HEX, "82e672ae054aa4de6f042c888111686a", "XOR key used by the Go beacon stub.", category="c2", sensitive=True),
+        _spec(
+            "rat_key",
+            FieldKind.HEX,
+            "82e672ae054aa4de6f042c888111686a",
+            "XOR key used by the Go beacon stub.",
+            category="c2",
+            sensitive=True,
+        ),
         _spec("enable_c2_implant_debug", FieldKind.BOOL, "True", "Verbose beacon logging.", category="c2"),
-        _spec("enable_cloudflare", FieldKind.BOOL, False, "Route C2 traffic through Cloudflare redirector.", category="c2"),
+        _spec(
+            "enable_cloudflare", FieldKind.BOOL, False, "Route C2 traffic through Cloudflare redirector.", category="c2"
+        ),
         _spec("binary_name", FieldKind.STRING, "curl", "Stub binary name produced by build helpers.", category="c2"),
         _spec(
             "api_key",
@@ -499,7 +617,13 @@ SCHEMA: dict[str, FieldSpec] = {
             category="ai",
             sensitive=True,
         ),
-        _spec("prompt", FieldKind.STRING, "Presentate como Lazy OWN OneLiner assistant", "Default system prompt for the LLM agents.", category="ai"),
+        _spec(
+            "prompt",
+            FieldKind.STRING,
+            "Presentate como Lazy OWN OneLiner assistant",
+            "Default system prompt for the LLM agents.",
+            category="ai",
+        ),
         _spec(
             "wordlist",
             FieldKind.PATH,
@@ -530,7 +654,13 @@ SCHEMA: dict[str, FieldSpec] = {
             category="wordlists",
         ),
         _spec("iiswordlist", FieldKind.PATH, "", "IIS-specific content discovery wordlist.", category="wordlists"),
-        _spec("exploitdb", FieldKind.PATH, "/usr/share/exploitdb/exploits/", "Local Exploit-DB exploits/ root.", category="recon"),
+        _spec(
+            "exploitdb",
+            FieldKind.PATH,
+            "/usr/share/exploitdb/exploits/",
+            "Local Exploit-DB exploits/ root.",
+            category="recon",
+        ),
         _spec(
             "start_user",
             FieldKind.STRING,
@@ -545,12 +675,46 @@ SCHEMA: dict[str, FieldSpec] = {
             category="credentials",
             sensitive=True,
         ),
-        _spec("start_pass", FieldKind.STRING, "", "Initial password matching start_user.", category="credentials", sensitive=True),
-        _spec("file", FieldKind.STRING, "file_to_operate.ext", "Default file name used by file-centric commands.", category="misc"),
+        _spec(
+            "start_pass",
+            FieldKind.STRING,
+            "",
+            "Initial password matching start_user.",
+            category="credentials",
+            sensitive=True,
+        ),
+        _spec(
+            "file",
+            FieldKind.STRING,
+            "file_to_operate.ext",
+            "Default file name used by file-centric commands.",
+            category="misc",
+        ),
         _spec("path", FieldKind.STRING, "/home/$USER", "Default working path used by some templates.", category="misc"),
-        _spec("mode", FieldKind.STRING, "attack", "Framework mode (informational; tools may read this).", allowed=("attack", "defense", "audit", "ctf"), category="misc"),
-        _spec("email_from", FieldKind.STRING, "", "Default From: address for phishing campaigns.", category="email", sensitive=True),
-        _spec("email_to", FieldKind.STRING, "", "Default recipient for testing phishing campaigns.", category="email", sensitive=True),
+        _spec(
+            "mode",
+            FieldKind.STRING,
+            "attack",
+            "Framework mode (informational; tools may read this).",
+            allowed=("attack", "defense", "audit", "ctf"),
+            category="misc",
+        ),
+        _spec(
+            "email_from",
+            FieldKind.STRING,
+            "",
+            "Default From: address for phishing campaigns.",
+            category="email",
+            sensitive=True,
+        ),
+        _spec(
+            "email_to",
+            FieldKind.STRING,
+            "",
+            "Default recipient for testing phishing campaigns.",
+            category="email",
+            sensitive=True,
+        ),
         _spec("email_username", FieldKind.STRING, "", "SMTP username.", category="email", sensitive=True),
         _spec("email_password", FieldKind.STRING, "", "SMTP password.", category="email", sensitive=True),
         _spec("smtp_server", FieldKind.HOSTNAME, "smtp.gmail.com", "SMTP server hostname.", category="email"),
@@ -573,6 +737,21 @@ SCHEMA: dict[str, FieldSpec] = {
             "Maximum number of toast lines shown per command.",
             min_value=1,
             max_value=50,
+            category="misc",
+        ),
+        _spec(
+            "reactive_semantic_enabled",
+            FieldKind.BOOL,
+            True,
+            "Allow reactive_engine to emit semantic suggestions from SessionRAG.",
+            long_help=(
+                "When enabled, the reactive engine queries the SessionRAG index "
+                "(ChromaDB or keyword fallback) for past sessions whose output "
+                "resembles the current one and emits a priority-5 suggest_next "
+                "decision pointing at the originating command. Regex-based "
+                "matchers always outrank these hints; disable to keep the "
+                "engine strictly rule-driven."
+            ),
             category="misc",
         ),
         _spec(
@@ -663,7 +842,11 @@ def validate_value(key: str, value: Any) -> ValidationIssue | None:
         severity = Severity.ERROR if spec.required else Severity.WARNING
         return ValidationIssue(key=key, message=message, severity=severity, value=value)
 
-    if spec.allowed is not None and coerced not in spec.allowed and str(coerced) not in {str(item) for item in spec.allowed}:
+    if (
+        spec.allowed is not None
+        and coerced not in spec.allowed
+        and str(coerced) not in {str(item) for item in spec.allowed}
+    ):
         return ValidationIssue(
             key=key,
             message=f"{key!r} must be one of {list(spec.allowed)}, got {value!r}",

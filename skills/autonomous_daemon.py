@@ -51,6 +51,7 @@ from __future__ import annotations
 
 import asyncio
 import datetime
+import hashlib
 import json
 import logging
 import os
@@ -110,6 +111,20 @@ CONTROL_VETO_MAX_RETRIES = int(os.environ.get("AUTO_VETO_RETRIES", "3"))
 CONTROL_APPROVAL_TTL_S   = float(os.environ.get("AUTO_APPROVAL_TTL", "30"))
 CONTROL_PAUSE_POLL_S     = float(os.environ.get("AUTO_PAUSE_POLL", "1"))
 CONTROL_PAUSE_MAX_S      = float(os.environ.get("AUTO_PAUSE_MAX",  "3600"))
+
+METRICS_BIAS_ENABLED     = os.environ.get("AUTO_METRICS_BIAS", "1") not in (
+    "0", "false", "False", "no", "off", ""
+)
+METRICS_BIAS_WINDOW_S    = int(os.environ.get("AUTO_METRICS_WINDOW_S", "1800"))
+METRICS_BIAS_MIN_SUCCESS = float(
+    os.environ.get("AUTO_METRICS_MIN_SUCCESS", "0.25")
+)
+METRICS_BIAS_MIN_ATTEMPTS = int(
+    os.environ.get("AUTO_METRICS_MIN_ATTEMPTS", "3")
+)
+METRICS_BIAS_CACHE_TTL_S = float(
+    os.environ.get("AUTO_METRICS_CACHE_TTL_S", "5")
+)
 
 # ── Optional imports ──────────────────────────────────────────────────────────
 
@@ -244,6 +259,31 @@ def _emit(event_type: str, payload: Dict[str, Any], severity: str = "info") -> N
                 fh.write(line + "\n")
         except Exception as exc:
             log.warning("emit error: %s", exc)
+
+
+DECISION_SEED_LENGTH: int = 16
+
+
+def compute_decision_seed(objective_id: str, step_n: int, source: str) -> str:
+    """Return a deterministic identifier for a daemon decision.
+
+    The seed is the truncated SHA-256 of the tuple
+    ``(objective_id, step_n, source)``. Replay tooling uses it to verify
+    that the recorded selector chain would still produce the recorded
+    command when fed the same objective and step counter. A mismatch on
+    replay is surfaced as a divergence, never as an abort.
+
+    Args:
+        objective_id: Stable identifier of the parent objective.
+        step_n: Zero-indexed step counter inside the objective.
+        source: Name of the selector that produced the decision.
+
+    Returns:
+        Hex digest truncated to :data:`DECISION_SEED_LENGTH` characters.
+    """
+
+    digest_input = f"{objective_id}|{step_n}|{source}".encode("utf-8")
+    return hashlib.sha256(digest_input).hexdigest()[:DECISION_SEED_LENGTH]
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -814,6 +854,240 @@ class FallbackSelector(ICommandSelector):
         )
 
 
+class MetricsAwareSelector(ICommandSelector):
+    """Decorator that demotes commands with a poor recent track record.
+
+    Wraps another :class:`ICommandSelector`. When the wrapped selector
+    proposes a command whose recent ``success_rate`` in
+    :class:`modules.metrics.MetricsRecorder` is below the configured
+    threshold and whose attempt count clears
+    :data:`METRICS_BIAS_MIN_ATTEMPTS`, the decision is dropped (returns
+    ``None``) so the cascade falls through to the next selector. The
+    rejection itself is logged at debug level and broadcast as a
+    ``METRICS_BIAS_SKIP`` event so operators can audit why the daemon
+    sidestepped an otherwise valid recommendation.
+
+    The fallback selector is intentionally left unwrapped at chain
+    composition time: when every other selector has been filtered, the
+    cascade must still converge on *something*.
+    """
+
+    _SUMMARY_KEY: str = "by_command"
+    _SKIP_EVENT_TYPE: str = "METRICS_BIAS_SKIP"
+
+    def __init__(
+        self,
+        wrapped: ICommandSelector,
+        metrics_source: Any = None,
+        min_success_rate: float = METRICS_BIAS_MIN_SUCCESS,
+        min_attempts: int = METRICS_BIAS_MIN_ATTEMPTS,
+        window_seconds: int = METRICS_BIAS_WINDOW_S,
+        cache_ttl_s: float = METRICS_BIAS_CACHE_TTL_S,
+        clock: Optional[Any] = None,
+    ) -> None:
+        """Initialise the decorator.
+
+        Args:
+            wrapped: The selector whose decisions may be filtered.
+            metrics_source: Object exposing ``summarize(window_seconds)``.
+                Defaults to :func:`modules.metrics.get_recorder` resolved
+                lazily on first use so the module remains importable
+                without the metrics package present.
+            min_success_rate: Inclusive lower bound on ``success_rate``;
+                values strictly below this are considered failing.
+            min_attempts: Minimum number of recorded attempts before a
+                command can be filtered. Avoids over-reacting to a
+                single failure.
+            window_seconds: Aggregation window forwarded to
+                ``summarize``. Set to ``0`` or a negative value to
+                aggregate the whole log.
+            cache_ttl_s: Time-to-live for the in-memory summary cache.
+                Repeated calls within the TTL reuse the cached
+                aggregate to avoid re-reading the JSONL log every
+                step.
+            clock: Callable returning the current monotonic time.
+                Injected in tests; defaults to :func:`time.monotonic`.
+        """
+
+        self._wrapped = wrapped
+        self._metrics_source = metrics_source
+        self._metrics_source_loaded = metrics_source is not None
+        self._min_success_rate = float(min_success_rate)
+        self._min_attempts = int(min_attempts)
+        self._window_seconds = (
+            int(window_seconds) if int(window_seconds) > 0 else None
+        )
+        self._cache_ttl_s = float(cache_ttl_s)
+        self._clock = clock or time.monotonic
+        self._cached_summary: Dict[str, Any] = {}
+        self._cache_stamp: float = -1.0
+
+    @property
+    def wrapped(self) -> ICommandSelector:
+        """Return the underlying selector for introspection in tests."""
+
+        return self._wrapped
+
+    def _resolve_source(self) -> Optional[Any]:
+        """Return the metrics source, resolving the singleton on first use.
+
+        Returns:
+            The configured metrics source, or ``None`` when the metrics
+            module cannot be imported (the decorator then degrades to a
+            transparent pass-through).
+        """
+
+        if self._metrics_source_loaded:
+            return self._metrics_source
+        self._metrics_source_loaded = True
+        try:
+            from metrics import get_recorder
+        except ImportError:
+            try:
+                from modules.metrics import get_recorder
+            except ImportError as exc:
+                log.debug("MetricsAwareSelector: metrics unavailable: %s", exc)
+                return None
+        try:
+            self._metrics_source = get_recorder()
+        except Exception as exc:
+            log.debug("MetricsAwareSelector: get_recorder failed: %s", exc)
+            self._metrics_source = None
+        return self._metrics_source
+
+    def _current_summary(self) -> Dict[str, Any]:
+        """Return a fresh or cached summary dictionary.
+
+        Returns:
+            The ``by_command`` section of the summary, or an empty dict
+            when no metrics source is available.
+        """
+
+        now = float(self._clock())
+        if (
+            self._cached_summary
+            and self._cache_stamp >= 0
+            and now - self._cache_stamp < self._cache_ttl_s
+        ):
+            return self._cached_summary
+        source = self._resolve_source()
+        if source is None:
+            self._cached_summary = {}
+            self._cache_stamp = now
+            return self._cached_summary
+        try:
+            summary = source.summarize(window_seconds=self._window_seconds)
+        except Exception as exc:
+            log.debug("MetricsAwareSelector: summarize failed: %s", exc)
+            self._cached_summary = {}
+            self._cache_stamp = now
+            return self._cached_summary
+        by_command = summary.get(self._SUMMARY_KEY)
+        if not isinstance(by_command, dict):
+            by_command = {}
+        self._cached_summary = by_command
+        self._cache_stamp = now
+        return self._cached_summary
+
+    def _should_skip(self, command: str) -> Tuple[bool, Optional[Dict[str, Any]]]:
+        """Decide whether *command* should be filtered out.
+
+        Args:
+            command: First token of the proposed command.
+
+        Returns:
+            ``(skip, stats)`` — ``skip`` is ``True`` when the command
+            should be filtered; ``stats`` carries the underlying
+            count and success rate when available, for telemetry.
+        """
+
+        by_command = self._current_summary()
+        stats = by_command.get(command) if isinstance(by_command, dict) else None
+        if not isinstance(stats, dict):
+            return False, None
+        count = int(stats.get("count", 0) or 0)
+        if count < self._min_attempts:
+            return False, stats
+        success_rate = float(stats.get("success_rate", 0.0) or 0.0)
+        if success_rate >= self._min_success_rate:
+            return False, stats
+        return True, stats
+
+    def select(
+        self,
+        target: str,
+        phase: str,
+        context: Dict,
+    ) -> Optional[CommandDecision]:
+        """Honour the :class:`ICommandSelector` contract.
+
+        Delegates to the wrapped selector. When the proposed command
+        fails the success-rate gate, returns ``None`` and emits a
+        ``METRICS_BIAS_SKIP`` event so the rejection is auditable.
+        """
+
+        decision = self._wrapped.select(target, phase, context)
+        if decision is None or not decision.command:
+            return decision
+        command_token = decision.command.split()[0]
+        skip, stats = self._should_skip(command_token)
+        if not skip:
+            return decision
+        try:
+            _emit(self._SKIP_EVENT_TYPE, {
+                "wrapped":      self._wrapped.__class__.__name__,
+                "command":      decision.command,
+                "phase":        phase,
+                "target":       target,
+                "reason":       decision.reason,
+                "stats":        stats or {},
+                "min_success":  self._min_success_rate,
+                "min_attempts": self._min_attempts,
+                "window_s":     self._window_seconds,
+            })
+        except Exception as exc:
+            log.debug("MetricsAwareSelector emit failed: %s", exc)
+        return None
+
+
+def _wrap_chain_with_metrics_bias(
+    selectors: List[ICommandSelector],
+    enabled: bool = METRICS_BIAS_ENABLED,
+) -> List[ICommandSelector]:
+    """Wrap every non-fallback selector in :class:`MetricsAwareSelector`.
+
+    Args:
+        selectors: Composed selector chain in cascade order. The last
+            selector that ``isinstance(s, FallbackSelector)`` (or the
+            very last entry as a backstop) is left unwrapped so the
+            cascade still converges when every other recommendation
+            has been filtered.
+        enabled: Master switch. When ``False`` the chain is returned
+            unchanged.
+
+    Returns:
+        A new list of selectors with metrics-aware decorators applied
+        in front of every wrapped entry. The original list is not
+        mutated.
+    """
+
+    if not enabled or not selectors:
+        return list(selectors)
+    fallback_index = len(selectors) - 1
+    for index, selector in enumerate(selectors):
+        if isinstance(selector, FallbackSelector):
+            fallback_index = index
+    wrapped: List[ICommandSelector] = []
+    for index, selector in enumerate(selectors):
+        if index == fallback_index:
+            wrapped.append(selector)
+        elif isinstance(selector, MetricsAwareSelector):
+            wrapped.append(selector)
+        else:
+            wrapped.append(MetricsAwareSelector(wrapped=selector))
+    return wrapped
+
+
 class CredentialSpraySelector(ICommandSelector):
     """
     When credentials exist in payload.json and open services are known,
@@ -940,7 +1214,9 @@ class StrategyEngine:
                 FallbackSelector(),
             ]
 
-        self._cascade = CascadeStrategy(selectors)
+        self._cascade = CascadeStrategy(
+            _wrap_chain_with_metrics_bias(selectors)
+        )
 
     def register_output(
         self,
@@ -1515,11 +1791,14 @@ async def _run_objective(
             pass
 
         _emit("STEP_START", {
-            "objective_id": objective_id,
-            "step":    step_n,
-            "command": command,
-            "source":  decision.source,
-            "reason":  decision.reason,
+            "objective_id":  objective_id,
+            "step":          step_n,
+            "command":       command,
+            "source":        decision.source,
+            "reason":        decision.reason,
+            "decision_seed": compute_decision_seed(
+                objective_id, step_n, decision.source,
+            ),
         })
 
         if (

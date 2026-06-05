@@ -1101,6 +1101,9 @@ def aicmd_deepseek(cmd):
     if not command_info:
         return "Command not found"
 
+    if client is None:
+        return "AI features disabled: set 'api_key' in payload.json to enable Groq-backed commands"
+
     messages = [
         {
             "role": "system",
@@ -1224,6 +1227,9 @@ def aicmd(cmd):
 
     if not command_info:
         return "Command not found"
+
+    if client is None:
+        return "AI features disabled: set 'api_key' in payload.json to enable Groq-backed commands"
 
     messages = [
         {
@@ -1949,7 +1955,9 @@ def is_valid_url(url):
 
 def analyze_behavioral_data(behavioral_events):
     """Analyze behavioral events using Groq AI to generate risk scores."""
-    client = Groq(api_key=GROQ_API_KEY)
+    client = _safe_groq_client(GROQ_API_KEY)
+    if client is None:
+        return []
     analysis_results = []
     for event in behavioral_events:
         prompt = f"""
@@ -1976,7 +1984,9 @@ def analyze_behavioral_data(behavioral_events):
 
 def analyze_campaign_progress(campaign_id, events):
     """Analyze campaign progress and suggest adaptations using Grok AI."""
-    client = Groq(api_key=GROQ_API_KEY)
+    client = _safe_groq_client(GROQ_API_KEY)
+    if client is None:
+        return {}
     prompt = f"""
     You are an AI assistant analyzing a ethic phishing campaign simulation. Given the campaign ID {campaign_id} with events: {json.dumps(events)}.
     Suggest adaptations (e.g., change vector, payload, URL) to improve success rate.
@@ -2163,7 +2173,32 @@ lhost = config.lhost
 reverse_shell_port = config.reverse_shell_port
 
 DIRECTORY_TO_WATCH = f"{BASE_DIR}"
-client = Groq(api_key=api_key)
+
+
+def _safe_groq_client(key):
+    """Instantiate a Groq client without aborting on a missing API key.
+
+    A missing or invalid ``api_key`` must never crash C2 startup or a request;
+    AI-backed endpoints degrade to a clear, logged error instead.
+
+    Args:
+        key: Groq API key from ``payload.json`` (``api_key``). May be empty.
+
+    Returns:
+        A ``Groq`` client instance, or ``None`` when no usable key is
+        configured or the SDK rejects the key.
+    """
+    if not key:
+        logger.warning("Groq api_key not configured; AI-backed C2 features are disabled")
+        return None
+    try:
+        return Groq(api_key=key)
+    except Exception as exc:
+        logger.warning("Groq client initialization failed (%s); AI features disabled", exc)
+        return None
+
+
+client = _safe_groq_client(api_key)
 env = Environment(loader=FileSystemLoader('templates'))
 env.filters['markdown'] = markdown_to_html
 

@@ -1778,6 +1778,30 @@ class LazyOwnShell(cmd2.Cmd):
             _c.print()
 
     @cmd2.with_category(miscellaneous_category)
+    def do_doctor(self, line):
+        """Preflight environment health check — verify the install is ready.
+
+        Complements ``wizard``. Where ``wizard --check`` validates your
+        configuration (payload.json values), ``doctor`` validates the
+        installation itself: Python version, active virtual environment,
+        importability of the third-party packages install.sh provisions, the
+        C2 TLS certificates, payload.json, SecLists, and external kill-chain
+        tooling.
+
+        Usage:
+            ``doctor``   — run every check and print a status table
+
+        Blocking failures (missing required packages, payload.json, or an
+        unsupported Python) are highlighted in red; warnings cover optional
+        features that will simply be skipped at runtime.
+        """
+        from pathlib import Path as _Path
+
+        from cli.doctor import run as _run_doctor
+
+        _run_doctor(root=_Path(__file__).resolve().parent)
+
+    @cmd2.with_category(miscellaneous_category)
     def do_ctx(self, line):
         """Print a single-line operator context: rhost, lhost, domain, phase, os, creds.
 
@@ -2360,77 +2384,60 @@ class LazyOwnShell(cmd2.Cmd):
 
     @cmd2.with_category(miscellaneous_category)
     def do_recommend_next(self, line):
-        """Recommend the next command using policy engine + graph advisor.
+        """Recommend the next action via the unified recommendation engine.
 
-        Runs two complementary recommendation layers and merges their output:
+        This is the single source of truth for "what next". The engine in
+        ``cli/recommendation.py`` fuses every available signal into one ranked
+        list with full provenance:
 
-        1. **Policy engine** (``skills/lazyown_policy.py``) — reads historical
-           command transitions from ``sessions/`` and ranks the next action by
-           learned success rates.  Always available; no API key required.
-        2. **Graph advisor** (``cli/graph_advisor.py``) — walks the graphify
-           knowledge graph from your recent commands.  Requires ``/graphify .``
-           to have been run at least once.
+        - **policy** (``skills/lazyown_policy.py``) — learned kill-chain category
+          priors that up-weight matching concrete actions.
+        - **recon plan** (``cli/recon_plan.py``) — addons/tools/commands whose
+          trigger matches services in the latest nmap scan.
+        - **graph** (``cli/graph_advisor.py``) — graphify neighbours of your
+          recent activity. Requires ``/graphify .`` at least once.
+        - **kill-chain** — static adjacency / phase-priority tables.
 
-        This is the CLI equivalent of the MCP tool ``lazyown_recommend_next``.
+        Signals whose backend is absent degrade silently. This is the CLI
+        equivalent of the MCP tool ``lazyown_recommend_next``.
 
         Usage:
-            ``recommend_next``
+            ``recommend_next [N]``
         """
         from rich.console import Console as _RC
         from rich.rule import Rule
+
+        from cli.recommendation import KIND_CATEGORY
+        from cli.recommendation_signals import build_context, build_default_engine
+
         c = _RC(highlight=False, soft_wrap=True)
-        rhost = self.params.get("rhost") or "unknown"
-        found_any = False
+        tokens = (line or "").split()
+        limit = int(tokens[0]) if tokens and tokens[0].isdigit() else 5
 
-        # Layer 1 — policy engine
-        try:
-            import sys as _sys
-            _skills = str(__import__("pathlib").Path("skills").resolve())
-            if _skills not in _sys.path:
-                _sys.path.insert(0, _skills)
-            from lazyown_policy import LazyOwnPolicyIntegration
-            policy = LazyOwnPolicyIntegration()
-            recs = policy.get_recommendations(rhost)
-            if recs:
-                found_any = True
-                c.print(Rule("[bold]Policy recommendations[/] (learned from session history)"))
-                for i, r in enumerate(recs, 1):
-                    conf = r.get("confidence", 0)
-                    bar = "█" * int(conf * 10)
-                    cat = r.get("category", "?")
-                    reason = r.get("reason", "")
-                    c.print(f"  [bold cyan]{i}.[/] [{bar:<10}] [bold]{conf:.0%}[/]  {cat}")
-                    if reason:
-                        c.print(f"       [dim]{reason}[/]")
-                c.print()
-        except Exception as _e:
-            print_warn(f"Policy engine unavailable: {_e}")
+        engine = build_default_engine(payload=self.params)
+        ctx = build_context(self.params, target=self.params.get("rhost") or None, limit=limit)
+        recommendations = engine.recommend(ctx)
 
-        # Layer 1b — full recon plan (addons + tools + commands) from the latest scan
-        try:
-            from cli.exploration import ExplorationEngine, resolve_current_os
-            from cli.recon_plan import build_recon_plan, render_rich
-
-            _scan_engine = ExplorationEngine(
-                current_os=resolve_current_os(self.params)
-            )
-            _scan_target = rhost if rhost and rhost != "unknown" else None
-            _plan = build_recon_plan(
-                target=_scan_target,
-                engine=_scan_engine,
-                payload=self.params,
-            )
-            if not _plan.is_empty:
-                found_any = True
-                c.print(Rule("[bold]Trigger-matched recon plan[/] (from nmap scan)"))
-                render_rich(_plan, c)
-                c.print()
-        except Exception as _exc:
-            print_warn(f"Recon plan unavailable: {_exc}")
-
-        if not found_any:
+        if not recommendations:
             print_warn("No recommendations yet.")
             print_msg("Start with 'lazynmap' to generate scan data, then run 'recommend_next' again.")
+            return
+
+        c.print(Rule("[bold]Next-best actions[/] (fused: policy + recon + graph + kill-chain)"))
+        for i, rec in enumerate(recommendations, 1):
+            normalised = min(rec.score, 1.0)
+            bar = "█" * int(normalised * 10)
+            tag = "category" if rec.kind == KIND_CATEGORY else rec.kind
+            sources = ", ".join(rec.sources)
+            c.print(
+                f"  [bold cyan]{i}.[/] [{bar:<10}] [bold]{rec.action}[/] "
+                f"[dim]({tag} · {sources})[/]"
+            )
+            for reason in rec.reasons:
+                c.print(f"       [dim]{reason}[/]")
+            if rec.command_preview:
+                c.print(f"       [green]$ {rec.command_preview}[/]")
+        c.print()
 
     @cmd2.with_category(miscellaneous_category)
     def do_explore(self, line):
@@ -6118,30 +6125,52 @@ class LazyOwnShell(cmd2.Cmd):
 
         credentials_file_path = 'sessions/credentials.txt'
         if ":" in line:
-
-            if os.path.exists(credentials_file_path):
-                with open(credentials_file_path, 'r') as file:
-                    existing_credentials = file.readline().strip()
-                    existing_username = existing_credentials.split(":")[0]
-                    backup_file_path = f'sessions/credentials_{existing_username}.txt'
-                    os.rename(credentials_file_path, backup_file_path)
-                    print_msg(f"Existent file saved: {backup_file_path}{RESET}")
-
+            self._rotate_existing_credentials(credentials_file_path)
             self.cmd(f"echo '{line}' > {credentials_file_path}")
         else:
             start_user = self.params["start_user"]
             start_pass = self.params["start_pass"]
             line = f"{start_user}:{start_pass}"
-            if os.path.exists(credentials_file_path):
-                with open(credentials_file_path, 'r') as file:
-                    existing_credentials = file.readline().strip()
-                    existing_username = existing_credentials.split(":")[0]
-                    backup_file_path = f'sessions/credentials_{existing_username}.txt'
-                    os.rename(credentials_file_path, backup_file_path)
-                    print_msg(f"Existent file saved: {backup_file_path}{RESET}")
+            self._rotate_existing_credentials(credentials_file_path)
             self.cmd(f"echo '{line}' > {credentials_file_path}")
         self.onecmd("create_session_json")
         return
+
+    def _rotate_existing_credentials(self, credentials_file_path):
+        """Back up an existing credentials file before it is overwritten.
+
+        Renames ``credentials.txt`` to ``credentials_<username>.txt`` so prior
+        creds survive a regeneration. Tolerates a concurrent writer (CLI +
+        daemon) removing the file between the existence check and the rename,
+        and an empty or malformed first line, instead of aborting the command.
+
+        Args:
+            credentials_file_path: Path to the active credentials file.
+
+        Returns:
+            The backup path when a rotation happened, otherwise ``None``.
+        """
+        if not os.path.exists(credentials_file_path):
+            return None
+        try:
+            with open(credentials_file_path, 'r') as file:
+                existing_credentials = file.readline().strip()
+        except FileNotFoundError:
+            return None
+        except OSError as exc:
+            print_warn(f"Could not read existing credentials file: {exc}{RESET}")
+            return None
+        existing_username = existing_credentials.split(":")[0].strip() or "previous"
+        backup_file_path = f'sessions/credentials_{existing_username}.txt'
+        try:
+            os.rename(credentials_file_path, backup_file_path)
+        except FileNotFoundError:
+            return None
+        except OSError as exc:
+            print_warn(f"Could not back up existing credentials file: {exc}{RESET}")
+            return None
+        print_msg(f"Existent file saved: {backup_file_path}{RESET}")
+        return backup_file_path
 
     @cmd2.with_category(exploitation_category)
     def do_createcookie(self, line):

@@ -37,13 +37,25 @@ bash install.sh
 ./run
 ```
 
-On first launch you will be prompted to run `wizard`. Accept. The wizard auto-detects your `lhost` from the routing table, walks you through 7 steps, and writes everything to `payload.json`.
+First, confirm the install is healthy:
+
+```
+(LazyOwn) > doctor
+```
+
+`doctor` checks your Python version, virtual environment, the third-party
+packages `install.sh` provisions, the C2 certificates, SecLists, and the
+external kill-chain tooling. Blocking failures are shown in red with the exact
+`pip install` / `apt install` command to fix them; warnings are optional
+features you can skip.
+
+Then run the setup wizard. On first launch you will be prompted to run `wizard`. Accept. The wizard auto-detects your `lhost` from the routing table, walks you through 7 steps, and writes everything to `payload.json`.
 
 ```
 (LazyOwn) > wizard
 ```
 
-Or run the readiness check without changing anything:
+Or run the config readiness check without changing anything:
 
 ```
 (LazyOwn) > wizard --check

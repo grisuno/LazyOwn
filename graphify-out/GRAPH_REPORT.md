@@ -1,945 +1,740 @@
-# Graph Report - /home/grisun0/LazyOwn  (2026-05-23)
+# Graph Report - modules  (2026-06-03)
 
 ## Corpus Check
-- cluster-only mode — file stats not available
+- 178 files · ~167,525 words
+- Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2498 nodes · 4529 edges · 566 communities (79 shown, 487 thin omitted)
-- Extraction: 68% EXTRACTED · 32% INFERRED · 0% AMBIGUOUS · INFERRED: 1453 edges (avg confidence: 0.65)
+- 2820 nodes · 5908 edges · 109 communities detected
+- Extraction: 73% EXTRACTED · 27% INFERRED · 0% AMBIGUOUS · INFERRED: 1610 edges (avg confidence: 0.77)
 - Token cost: 0 input · 0 output
 
-## Graph Freshness
-- Built from commit: `fa1b61f0`
-- Run `git rev-parse HEAD` and compare to check if the graph is stale.
-- Run `graphify update .` after code changes (no API cost).
-
 ## Community Hubs (Navigation)
-- [[_COMMUNITY_Community 0|Community 0]]
-- [[_COMMUNITY_Community 1|Community 1]]
-- [[_COMMUNITY_Community 2|Community 2]]
-- [[_COMMUNITY_Community 3|Community 3]]
-- [[_COMMUNITY_Community 4|Community 4]]
-- [[_COMMUNITY_Community 5|Community 5]]
-- [[_COMMUNITY_Community 6|Community 6]]
-- [[_COMMUNITY_Community 7|Community 7]]
-- [[_COMMUNITY_Community 8|Community 8]]
-- [[_COMMUNITY_Community 9|Community 9]]
-- [[_COMMUNITY_Community 10|Community 10]]
-- [[_COMMUNITY_Community 11|Community 11]]
-- [[_COMMUNITY_Community 12|Community 12]]
-- [[_COMMUNITY_Community 13|Community 13]]
-- [[_COMMUNITY_Community 14|Community 14]]
-- [[_COMMUNITY_Community 15|Community 15]]
-- [[_COMMUNITY_Community 16|Community 16]]
-- [[_COMMUNITY_Community 17|Community 17]]
-- [[_COMMUNITY_Community 18|Community 18]]
-- [[_COMMUNITY_Community 19|Community 19]]
-- [[_COMMUNITY_Community 20|Community 20]]
-- [[_COMMUNITY_Community 21|Community 21]]
-- [[_COMMUNITY_Community 22|Community 22]]
-- [[_COMMUNITY_Community 23|Community 23]]
-- [[_COMMUNITY_Community 24|Community 24]]
-- [[_COMMUNITY_Community 25|Community 25]]
-- [[_COMMUNITY_Community 26|Community 26]]
-- [[_COMMUNITY_Community 27|Community 27]]
-- [[_COMMUNITY_Community 28|Community 28]]
-- [[_COMMUNITY_Community 29|Community 29]]
-- [[_COMMUNITY_Community 30|Community 30]]
-- [[_COMMUNITY_Community 31|Community 31]]
-- [[_COMMUNITY_Community 32|Community 32]]
-- [[_COMMUNITY_Community 33|Community 33]]
-- [[_COMMUNITY_Community 34|Community 34]]
-- [[_COMMUNITY_Community 35|Community 35]]
-- [[_COMMUNITY_Community 36|Community 36]]
-- [[_COMMUNITY_Community 37|Community 37]]
-- [[_COMMUNITY_Community 38|Community 38]]
-- [[_COMMUNITY_Community 39|Community 39]]
-- [[_COMMUNITY_Community 40|Community 40]]
-- [[_COMMUNITY_Community 41|Community 41]]
-- [[_COMMUNITY_Community 42|Community 42]]
-- [[_COMMUNITY_Community 43|Community 43]]
-- [[_COMMUNITY_Community 44|Community 44]]
-- [[_COMMUNITY_Community 45|Community 45]]
-- [[_COMMUNITY_Community 46|Community 46]]
-- [[_COMMUNITY_Community 47|Community 47]]
-- [[_COMMUNITY_Community 48|Community 48]]
-- [[_COMMUNITY_Community 49|Community 49]]
-- [[_COMMUNITY_Community 50|Community 50]]
-- [[_COMMUNITY_Community 51|Community 51]]
-- [[_COMMUNITY_Community 52|Community 52]]
-- [[_COMMUNITY_Community 53|Community 53]]
-- [[_COMMUNITY_Community 54|Community 54]]
-- [[_COMMUNITY_Community 55|Community 55]]
-- [[_COMMUNITY_Community 56|Community 56]]
-- [[_COMMUNITY_Community 57|Community 57]]
-- [[_COMMUNITY_Community 58|Community 58]]
-- [[_COMMUNITY_Community 59|Community 59]]
-- [[_COMMUNITY_Community 60|Community 60]]
-- [[_COMMUNITY_Community 61|Community 61]]
-- [[_COMMUNITY_Community 62|Community 62]]
-- [[_COMMUNITY_Community 63|Community 63]]
-- [[_COMMUNITY_Community 64|Community 64]]
-- [[_COMMUNITY_Community 65|Community 65]]
-- [[_COMMUNITY_Community 66|Community 66]]
-- [[_COMMUNITY_Community 67|Community 67]]
-- [[_COMMUNITY_Community 68|Community 68]]
-- [[_COMMUNITY_Community 69|Community 69]]
-- [[_COMMUNITY_Community 70|Community 70]]
-- [[_COMMUNITY_Community 71|Community 71]]
-- [[_COMMUNITY_Community 72|Community 72]]
-- [[_COMMUNITY_Community 73|Community 73]]
-- [[_COMMUNITY_Community 74|Community 74]]
-- [[_COMMUNITY_Community 75|Community 75]]
-- [[_COMMUNITY_Community 76|Community 76]]
-- [[_COMMUNITY_Community 77|Community 77]]
-- [[_COMMUNITY_Community 78|Community 78]]
-- [[_COMMUNITY_Community 79|Community 79]]
-- [[_COMMUNITY_Community 80|Community 80]]
-- [[_COMMUNITY_Community 81|Community 81]]
-- [[_COMMUNITY_Community 82|Community 82]]
-- [[_COMMUNITY_Community 83|Community 83]]
-- [[_COMMUNITY_Community 84|Community 84]]
-- [[_COMMUNITY_Community 85|Community 85]]
-- [[_COMMUNITY_Community 86|Community 86]]
-- [[_COMMUNITY_Community 87|Community 87]]
-- [[_COMMUNITY_Community 88|Community 88]]
-- [[_COMMUNITY_Community 89|Community 89]]
-- [[_COMMUNITY_Community 90|Community 90]]
-- [[_COMMUNITY_Community 91|Community 91]]
-- [[_COMMUNITY_Community 92|Community 92]]
-- [[_COMMUNITY_Community 93|Community 93]]
-- [[_COMMUNITY_Community 94|Community 94]]
-- [[_COMMUNITY_Community 95|Community 95]]
-- [[_COMMUNITY_Community 96|Community 96]]
-- [[_COMMUNITY_Community 97|Community 97]]
-- [[_COMMUNITY_Community 98|Community 98]]
-- [[_COMMUNITY_Community 99|Community 99]]
-- [[_COMMUNITY_Community 100|Community 100]]
-- [[_COMMUNITY_Community 101|Community 101]]
-- [[_COMMUNITY_Community 102|Community 102]]
-- [[_COMMUNITY_Community 103|Community 103]]
-- [[_COMMUNITY_Community 104|Community 104]]
-- [[_COMMUNITY_Community 105|Community 105]]
-- [[_COMMUNITY_Community 106|Community 106]]
-- [[_COMMUNITY_Community 107|Community 107]]
-- [[_COMMUNITY_Community 108|Community 108]]
-- [[_COMMUNITY_Community 109|Community 109]]
-- [[_COMMUNITY_Community 110|Community 110]]
-- [[_COMMUNITY_Community 111|Community 111]]
-- [[_COMMUNITY_Community 112|Community 112]]
-- [[_COMMUNITY_Community 113|Community 113]]
-- [[_COMMUNITY_Community 114|Community 114]]
-- [[_COMMUNITY_Community 115|Community 115]]
-- [[_COMMUNITY_Community 116|Community 116]]
-- [[_COMMUNITY_Community 117|Community 117]]
-- [[_COMMUNITY_Community 118|Community 118]]
-- [[_COMMUNITY_Community 119|Community 119]]
-- [[_COMMUNITY_Community 120|Community 120]]
-- [[_COMMUNITY_Community 121|Community 121]]
-- [[_COMMUNITY_Community 122|Community 122]]
-- [[_COMMUNITY_Community 123|Community 123]]
-- [[_COMMUNITY_Community 124|Community 124]]
-- [[_COMMUNITY_Community 125|Community 125]]
-- [[_COMMUNITY_Community 126|Community 126]]
-- [[_COMMUNITY_Community 127|Community 127]]
-- [[_COMMUNITY_Community 128|Community 128]]
-- [[_COMMUNITY_Community 129|Community 129]]
-- [[_COMMUNITY_Community 130|Community 130]]
-- [[_COMMUNITY_Community 131|Community 131]]
-- [[_COMMUNITY_Community 132|Community 132]]
-- [[_COMMUNITY_Community 133|Community 133]]
-- [[_COMMUNITY_Community 134|Community 134]]
-- [[_COMMUNITY_Community 135|Community 135]]
-- [[_COMMUNITY_Community 136|Community 136]]
-- [[_COMMUNITY_Community 137|Community 137]]
-- [[_COMMUNITY_Community 138|Community 138]]
-- [[_COMMUNITY_Community 139|Community 139]]
-- [[_COMMUNITY_Community 140|Community 140]]
-- [[_COMMUNITY_Community 141|Community 141]]
-- [[_COMMUNITY_Community 142|Community 142]]
-- [[_COMMUNITY_Community 143|Community 143]]
-- [[_COMMUNITY_Community 144|Community 144]]
-- [[_COMMUNITY_Community 145|Community 145]]
-- [[_COMMUNITY_Community 146|Community 146]]
-- [[_COMMUNITY_Community 147|Community 147]]
-- [[_COMMUNITY_Community 148|Community 148]]
-- [[_COMMUNITY_Community 149|Community 149]]
-- [[_COMMUNITY_Community 150|Community 150]]
-- [[_COMMUNITY_Community 151|Community 151]]
-- [[_COMMUNITY_Community 152|Community 152]]
-- [[_COMMUNITY_Community 153|Community 153]]
-- [[_COMMUNITY_Community 154|Community 154]]
-- [[_COMMUNITY_Community 155|Community 155]]
-- [[_COMMUNITY_Community 156|Community 156]]
-- [[_COMMUNITY_Community 157|Community 157]]
-- [[_COMMUNITY_Community 158|Community 158]]
-- [[_COMMUNITY_Community 159|Community 159]]
-- [[_COMMUNITY_Community 160|Community 160]]
-- [[_COMMUNITY_Community 161|Community 161]]
-- [[_COMMUNITY_Community 162|Community 162]]
-- [[_COMMUNITY_Community 163|Community 163]]
-- [[_COMMUNITY_Community 164|Community 164]]
-- [[_COMMUNITY_Community 165|Community 165]]
-- [[_COMMUNITY_Community 166|Community 166]]
-- [[_COMMUNITY_Community 167|Community 167]]
-- [[_COMMUNITY_Community 168|Community 168]]
-- [[_COMMUNITY_Community 169|Community 169]]
-- [[_COMMUNITY_Community 170|Community 170]]
-- [[_COMMUNITY_Community 171|Community 171]]
-- [[_COMMUNITY_Community 172|Community 172]]
-- [[_COMMUNITY_Community 173|Community 173]]
-- [[_COMMUNITY_Community 174|Community 174]]
-- [[_COMMUNITY_Community 175|Community 175]]
-- [[_COMMUNITY_Community 176|Community 176]]
-- [[_COMMUNITY_Community 177|Community 177]]
-- [[_COMMUNITY_Community 178|Community 178]]
-- [[_COMMUNITY_Community 179|Community 179]]
-- [[_COMMUNITY_Community 180|Community 180]]
-- [[_COMMUNITY_Community 181|Community 181]]
-- [[_COMMUNITY_Community 182|Community 182]]
-- [[_COMMUNITY_Community 183|Community 183]]
-- [[_COMMUNITY_Community 184|Community 184]]
-- [[_COMMUNITY_Community 185|Community 185]]
-- [[_COMMUNITY_Community 186|Community 186]]
-- [[_COMMUNITY_Community 187|Community 187]]
-- [[_COMMUNITY_Community 188|Community 188]]
-- [[_COMMUNITY_Community 189|Community 189]]
-- [[_COMMUNITY_Community 190|Community 190]]
-- [[_COMMUNITY_Community 191|Community 191]]
-- [[_COMMUNITY_Community 192|Community 192]]
-- [[_COMMUNITY_Community 193|Community 193]]
-- [[_COMMUNITY_Community 194|Community 194]]
-- [[_COMMUNITY_Community 195|Community 195]]
-- [[_COMMUNITY_Community 196|Community 196]]
-- [[_COMMUNITY_Community 197|Community 197]]
-- [[_COMMUNITY_Community 198|Community 198]]
-- [[_COMMUNITY_Community 199|Community 199]]
-- [[_COMMUNITY_Community 200|Community 200]]
-- [[_COMMUNITY_Community 201|Community 201]]
-- [[_COMMUNITY_Community 202|Community 202]]
-- [[_COMMUNITY_Community 203|Community 203]]
-- [[_COMMUNITY_Community 204|Community 204]]
-- [[_COMMUNITY_Community 205|Community 205]]
-- [[_COMMUNITY_Community 206|Community 206]]
-- [[_COMMUNITY_Community 207|Community 207]]
-- [[_COMMUNITY_Community 208|Community 208]]
-- [[_COMMUNITY_Community 209|Community 209]]
-- [[_COMMUNITY_Community 210|Community 210]]
-- [[_COMMUNITY_Community 211|Community 211]]
-- [[_COMMUNITY_Community 212|Community 212]]
-- [[_COMMUNITY_Community 213|Community 213]]
-- [[_COMMUNITY_Community 214|Community 214]]
-- [[_COMMUNITY_Community 215|Community 215]]
-- [[_COMMUNITY_Community 216|Community 216]]
-- [[_COMMUNITY_Community 217|Community 217]]
-- [[_COMMUNITY_Community 218|Community 218]]
-- [[_COMMUNITY_Community 219|Community 219]]
-- [[_COMMUNITY_Community 220|Community 220]]
-- [[_COMMUNITY_Community 221|Community 221]]
-- [[_COMMUNITY_Community 222|Community 222]]
-- [[_COMMUNITY_Community 223|Community 223]]
-- [[_COMMUNITY_Community 224|Community 224]]
-- [[_COMMUNITY_Community 225|Community 225]]
-- [[_COMMUNITY_Community 226|Community 226]]
-- [[_COMMUNITY_Community 227|Community 227]]
-- [[_COMMUNITY_Community 228|Community 228]]
-- [[_COMMUNITY_Community 229|Community 229]]
-- [[_COMMUNITY_Community 230|Community 230]]
-- [[_COMMUNITY_Community 231|Community 231]]
-- [[_COMMUNITY_Community 232|Community 232]]
-- [[_COMMUNITY_Community 233|Community 233]]
-- [[_COMMUNITY_Community 234|Community 234]]
-- [[_COMMUNITY_Community 235|Community 235]]
-- [[_COMMUNITY_Community 236|Community 236]]
-- [[_COMMUNITY_Community 237|Community 237]]
-- [[_COMMUNITY_Community 238|Community 238]]
-- [[_COMMUNITY_Community 239|Community 239]]
-- [[_COMMUNITY_Community 240|Community 240]]
-- [[_COMMUNITY_Community 241|Community 241]]
-- [[_COMMUNITY_Community 242|Community 242]]
-- [[_COMMUNITY_Community 243|Community 243]]
-- [[_COMMUNITY_Community 244|Community 244]]
-- [[_COMMUNITY_Community 245|Community 245]]
-- [[_COMMUNITY_Community 246|Community 246]]
-- [[_COMMUNITY_Community 247|Community 247]]
-- [[_COMMUNITY_Community 248|Community 248]]
-- [[_COMMUNITY_Community 249|Community 249]]
-- [[_COMMUNITY_Community 250|Community 250]]
-- [[_COMMUNITY_Community 251|Community 251]]
-- [[_COMMUNITY_Community 252|Community 252]]
-- [[_COMMUNITY_Community 253|Community 253]]
-- [[_COMMUNITY_Community 254|Community 254]]
-- [[_COMMUNITY_Community 255|Community 255]]
-- [[_COMMUNITY_Community 256|Community 256]]
-- [[_COMMUNITY_Community 257|Community 257]]
-- [[_COMMUNITY_Community 258|Community 258]]
-- [[_COMMUNITY_Community 259|Community 259]]
-- [[_COMMUNITY_Community 260|Community 260]]
-- [[_COMMUNITY_Community 261|Community 261]]
-- [[_COMMUNITY_Community 262|Community 262]]
-- [[_COMMUNITY_Community 263|Community 263]]
-- [[_COMMUNITY_Community 264|Community 264]]
-- [[_COMMUNITY_Community 265|Community 265]]
-- [[_COMMUNITY_Community 266|Community 266]]
-- [[_COMMUNITY_Community 267|Community 267]]
-- [[_COMMUNITY_Community 268|Community 268]]
-- [[_COMMUNITY_Community 269|Community 269]]
-- [[_COMMUNITY_Community 270|Community 270]]
-- [[_COMMUNITY_Community 271|Community 271]]
-- [[_COMMUNITY_Community 272|Community 272]]
-- [[_COMMUNITY_Community 273|Community 273]]
-- [[_COMMUNITY_Community 274|Community 274]]
-- [[_COMMUNITY_Community 275|Community 275]]
-- [[_COMMUNITY_Community 276|Community 276]]
-- [[_COMMUNITY_Community 277|Community 277]]
-- [[_COMMUNITY_Community 278|Community 278]]
-- [[_COMMUNITY_Community 279|Community 279]]
-- [[_COMMUNITY_Community 280|Community 280]]
-- [[_COMMUNITY_Community 281|Community 281]]
-- [[_COMMUNITY_Community 282|Community 282]]
-- [[_COMMUNITY_Community 283|Community 283]]
-- [[_COMMUNITY_Community 284|Community 284]]
-- [[_COMMUNITY_Community 285|Community 285]]
-- [[_COMMUNITY_Community 286|Community 286]]
-- [[_COMMUNITY_Community 287|Community 287]]
-- [[_COMMUNITY_Community 288|Community 288]]
-- [[_COMMUNITY_Community 289|Community 289]]
-- [[_COMMUNITY_Community 290|Community 290]]
-- [[_COMMUNITY_Community 291|Community 291]]
-- [[_COMMUNITY_Community 292|Community 292]]
-- [[_COMMUNITY_Community 293|Community 293]]
-- [[_COMMUNITY_Community 294|Community 294]]
-- [[_COMMUNITY_Community 295|Community 295]]
-- [[_COMMUNITY_Community 296|Community 296]]
-- [[_COMMUNITY_Community 297|Community 297]]
-- [[_COMMUNITY_Community 298|Community 298]]
-- [[_COMMUNITY_Community 299|Community 299]]
-- [[_COMMUNITY_Community 300|Community 300]]
-- [[_COMMUNITY_Community 301|Community 301]]
-- [[_COMMUNITY_Community 302|Community 302]]
-- [[_COMMUNITY_Community 303|Community 303]]
-- [[_COMMUNITY_Community 304|Community 304]]
-- [[_COMMUNITY_Community 305|Community 305]]
-- [[_COMMUNITY_Community 306|Community 306]]
-- [[_COMMUNITY_Community 307|Community 307]]
-- [[_COMMUNITY_Community 308|Community 308]]
-- [[_COMMUNITY_Community 309|Community 309]]
-- [[_COMMUNITY_Community 310|Community 310]]
-- [[_COMMUNITY_Community 311|Community 311]]
-- [[_COMMUNITY_Community 312|Community 312]]
-- [[_COMMUNITY_Community 313|Community 313]]
-- [[_COMMUNITY_Community 314|Community 314]]
-- [[_COMMUNITY_Community 315|Community 315]]
-- [[_COMMUNITY_Community 316|Community 316]]
-- [[_COMMUNITY_Community 317|Community 317]]
-- [[_COMMUNITY_Community 318|Community 318]]
-- [[_COMMUNITY_Community 319|Community 319]]
-- [[_COMMUNITY_Community 320|Community 320]]
-- [[_COMMUNITY_Community 321|Community 321]]
-- [[_COMMUNITY_Community 322|Community 322]]
-- [[_COMMUNITY_Community 323|Community 323]]
-- [[_COMMUNITY_Community 324|Community 324]]
-- [[_COMMUNITY_Community 325|Community 325]]
-- [[_COMMUNITY_Community 326|Community 326]]
-- [[_COMMUNITY_Community 327|Community 327]]
-- [[_COMMUNITY_Community 328|Community 328]]
-- [[_COMMUNITY_Community 329|Community 329]]
-- [[_COMMUNITY_Community 330|Community 330]]
-- [[_COMMUNITY_Community 331|Community 331]]
-- [[_COMMUNITY_Community 332|Community 332]]
-- [[_COMMUNITY_Community 333|Community 333]]
-- [[_COMMUNITY_Community 334|Community 334]]
-- [[_COMMUNITY_Community 335|Community 335]]
-- [[_COMMUNITY_Community 336|Community 336]]
-- [[_COMMUNITY_Community 337|Community 337]]
-- [[_COMMUNITY_Community 338|Community 338]]
-- [[_COMMUNITY_Community 339|Community 339]]
-- [[_COMMUNITY_Community 340|Community 340]]
-- [[_COMMUNITY_Community 341|Community 341]]
-- [[_COMMUNITY_Community 342|Community 342]]
-- [[_COMMUNITY_Community 343|Community 343]]
-- [[_COMMUNITY_Community 344|Community 344]]
-- [[_COMMUNITY_Community 345|Community 345]]
-- [[_COMMUNITY_Community 346|Community 346]]
-- [[_COMMUNITY_Community 347|Community 347]]
-- [[_COMMUNITY_Community 348|Community 348]]
-- [[_COMMUNITY_Community 349|Community 349]]
-- [[_COMMUNITY_Community 350|Community 350]]
-- [[_COMMUNITY_Community 351|Community 351]]
-- [[_COMMUNITY_Community 352|Community 352]]
-- [[_COMMUNITY_Community 353|Community 353]]
-- [[_COMMUNITY_Community 354|Community 354]]
-- [[_COMMUNITY_Community 355|Community 355]]
-- [[_COMMUNITY_Community 356|Community 356]]
-- [[_COMMUNITY_Community 357|Community 357]]
-- [[_COMMUNITY_Community 358|Community 358]]
-- [[_COMMUNITY_Community 359|Community 359]]
-- [[_COMMUNITY_Community 360|Community 360]]
-- [[_COMMUNITY_Community 361|Community 361]]
-- [[_COMMUNITY_Community 362|Community 362]]
-- [[_COMMUNITY_Community 363|Community 363]]
-- [[_COMMUNITY_Community 364|Community 364]]
-- [[_COMMUNITY_Community 365|Community 365]]
-- [[_COMMUNITY_Community 366|Community 366]]
-- [[_COMMUNITY_Community 367|Community 367]]
-- [[_COMMUNITY_Community 368|Community 368]]
-- [[_COMMUNITY_Community 369|Community 369]]
-- [[_COMMUNITY_Community 370|Community 370]]
-- [[_COMMUNITY_Community 371|Community 371]]
-- [[_COMMUNITY_Community 372|Community 372]]
-- [[_COMMUNITY_Community 373|Community 373]]
-- [[_COMMUNITY_Community 374|Community 374]]
-- [[_COMMUNITY_Community 375|Community 375]]
-- [[_COMMUNITY_Community 376|Community 376]]
-- [[_COMMUNITY_Community 377|Community 377]]
-- [[_COMMUNITY_Community 378|Community 378]]
-- [[_COMMUNITY_Community 379|Community 379]]
-- [[_COMMUNITY_Community 380|Community 380]]
-- [[_COMMUNITY_Community 381|Community 381]]
-- [[_COMMUNITY_Community 382|Community 382]]
-- [[_COMMUNITY_Community 383|Community 383]]
-- [[_COMMUNITY_Community 384|Community 384]]
-- [[_COMMUNITY_Community 385|Community 385]]
-- [[_COMMUNITY_Community 386|Community 386]]
-- [[_COMMUNITY_Community 387|Community 387]]
-- [[_COMMUNITY_Community 388|Community 388]]
-- [[_COMMUNITY_Community 389|Community 389]]
-- [[_COMMUNITY_Community 390|Community 390]]
-- [[_COMMUNITY_Community 391|Community 391]]
-- [[_COMMUNITY_Community 392|Community 392]]
-- [[_COMMUNITY_Community 393|Community 393]]
-- [[_COMMUNITY_Community 394|Community 394]]
-- [[_COMMUNITY_Community 395|Community 395]]
-- [[_COMMUNITY_Community 396|Community 396]]
-- [[_COMMUNITY_Community 397|Community 397]]
-- [[_COMMUNITY_Community 398|Community 398]]
-- [[_COMMUNITY_Community 399|Community 399]]
-- [[_COMMUNITY_Community 400|Community 400]]
-- [[_COMMUNITY_Community 401|Community 401]]
-- [[_COMMUNITY_Community 402|Community 402]]
-- [[_COMMUNITY_Community 403|Community 403]]
-- [[_COMMUNITY_Community 404|Community 404]]
-- [[_COMMUNITY_Community 405|Community 405]]
-- [[_COMMUNITY_Community 406|Community 406]]
-- [[_COMMUNITY_Community 407|Community 407]]
-- [[_COMMUNITY_Community 408|Community 408]]
-- [[_COMMUNITY_Community 409|Community 409]]
-- [[_COMMUNITY_Community 410|Community 410]]
-- [[_COMMUNITY_Community 411|Community 411]]
-- [[_COMMUNITY_Community 412|Community 412]]
-- [[_COMMUNITY_Community 413|Community 413]]
-- [[_COMMUNITY_Community 414|Community 414]]
-- [[_COMMUNITY_Community 415|Community 415]]
-- [[_COMMUNITY_Community 416|Community 416]]
-- [[_COMMUNITY_Community 417|Community 417]]
-- [[_COMMUNITY_Community 418|Community 418]]
-- [[_COMMUNITY_Community 419|Community 419]]
-- [[_COMMUNITY_Community 420|Community 420]]
-- [[_COMMUNITY_Community 421|Community 421]]
-- [[_COMMUNITY_Community 422|Community 422]]
-- [[_COMMUNITY_Community 423|Community 423]]
-- [[_COMMUNITY_Community 424|Community 424]]
-- [[_COMMUNITY_Community 425|Community 425]]
-- [[_COMMUNITY_Community 426|Community 426]]
-- [[_COMMUNITY_Community 427|Community 427]]
-- [[_COMMUNITY_Community 428|Community 428]]
-- [[_COMMUNITY_Community 429|Community 429]]
-- [[_COMMUNITY_Community 430|Community 430]]
-- [[_COMMUNITY_Community 431|Community 431]]
-- [[_COMMUNITY_Community 432|Community 432]]
-- [[_COMMUNITY_Community 433|Community 433]]
-- [[_COMMUNITY_Community 434|Community 434]]
-- [[_COMMUNITY_Community 435|Community 435]]
-- [[_COMMUNITY_Community 436|Community 436]]
-- [[_COMMUNITY_Community 437|Community 437]]
-- [[_COMMUNITY_Community 438|Community 438]]
-- [[_COMMUNITY_Community 439|Community 439]]
-- [[_COMMUNITY_Community 440|Community 440]]
-- [[_COMMUNITY_Community 441|Community 441]]
-- [[_COMMUNITY_Community 442|Community 442]]
-- [[_COMMUNITY_Community 443|Community 443]]
-- [[_COMMUNITY_Community 444|Community 444]]
-- [[_COMMUNITY_Community 445|Community 445]]
-- [[_COMMUNITY_Community 446|Community 446]]
-- [[_COMMUNITY_Community 447|Community 447]]
-- [[_COMMUNITY_Community 448|Community 448]]
-- [[_COMMUNITY_Community 449|Community 449]]
-- [[_COMMUNITY_Community 450|Community 450]]
-- [[_COMMUNITY_Community 451|Community 451]]
-- [[_COMMUNITY_Community 452|Community 452]]
-- [[_COMMUNITY_Community 453|Community 453]]
-- [[_COMMUNITY_Community 454|Community 454]]
-- [[_COMMUNITY_Community 455|Community 455]]
-- [[_COMMUNITY_Community 456|Community 456]]
-- [[_COMMUNITY_Community 457|Community 457]]
-- [[_COMMUNITY_Community 458|Community 458]]
-- [[_COMMUNITY_Community 459|Community 459]]
-- [[_COMMUNITY_Community 460|Community 460]]
-- [[_COMMUNITY_Community 461|Community 461]]
-- [[_COMMUNITY_Community 462|Community 462]]
-- [[_COMMUNITY_Community 463|Community 463]]
-- [[_COMMUNITY_Community 464|Community 464]]
-- [[_COMMUNITY_Community 465|Community 465]]
-- [[_COMMUNITY_Community 466|Community 466]]
-- [[_COMMUNITY_Community 467|Community 467]]
-- [[_COMMUNITY_Community 468|Community 468]]
-- [[_COMMUNITY_Community 469|Community 469]]
-- [[_COMMUNITY_Community 470|Community 470]]
-- [[_COMMUNITY_Community 471|Community 471]]
-- [[_COMMUNITY_Community 472|Community 472]]
-- [[_COMMUNITY_Community 473|Community 473]]
-- [[_COMMUNITY_Community 474|Community 474]]
-- [[_COMMUNITY_Community 475|Community 475]]
-- [[_COMMUNITY_Community 476|Community 476]]
-- [[_COMMUNITY_Community 477|Community 477]]
-- [[_COMMUNITY_Community 478|Community 478]]
-- [[_COMMUNITY_Community 479|Community 479]]
-- [[_COMMUNITY_Community 480|Community 480]]
-- [[_COMMUNITY_Community 481|Community 481]]
-- [[_COMMUNITY_Community 482|Community 482]]
-- [[_COMMUNITY_Community 483|Community 483]]
-- [[_COMMUNITY_Community 484|Community 484]]
-- [[_COMMUNITY_Community 485|Community 485]]
-- [[_COMMUNITY_Community 486|Community 486]]
-- [[_COMMUNITY_Community 487|Community 487]]
-- [[_COMMUNITY_Community 488|Community 488]]
-- [[_COMMUNITY_Community 489|Community 489]]
-- [[_COMMUNITY_Community 490|Community 490]]
-- [[_COMMUNITY_Community 491|Community 491]]
-- [[_COMMUNITY_Community 492|Community 492]]
-- [[_COMMUNITY_Community 493|Community 493]]
-- [[_COMMUNITY_Community 494|Community 494]]
-- [[_COMMUNITY_Community 495|Community 495]]
-- [[_COMMUNITY_Community 496|Community 496]]
-- [[_COMMUNITY_Community 497|Community 497]]
-- [[_COMMUNITY_Community 498|Community 498]]
-- [[_COMMUNITY_Community 499|Community 499]]
-- [[_COMMUNITY_Community 500|Community 500]]
-- [[_COMMUNITY_Community 501|Community 501]]
-- [[_COMMUNITY_Community 502|Community 502]]
-- [[_COMMUNITY_Community 503|Community 503]]
-- [[_COMMUNITY_Community 504|Community 504]]
-- [[_COMMUNITY_Community 505|Community 505]]
-- [[_COMMUNITY_Community 506|Community 506]]
-- [[_COMMUNITY_Community 507|Community 507]]
-- [[_COMMUNITY_Community 508|Community 508]]
-- [[_COMMUNITY_Community 509|Community 509]]
-- [[_COMMUNITY_Community 510|Community 510]]
-- [[_COMMUNITY_Community 511|Community 511]]
-- [[_COMMUNITY_Community 512|Community 512]]
-- [[_COMMUNITY_Community 513|Community 513]]
-- [[_COMMUNITY_Community 514|Community 514]]
-- [[_COMMUNITY_Community 515|Community 515]]
-- [[_COMMUNITY_Community 516|Community 516]]
-- [[_COMMUNITY_Community 517|Community 517]]
-- [[_COMMUNITY_Community 518|Community 518]]
-- [[_COMMUNITY_Community 519|Community 519]]
-- [[_COMMUNITY_Community 520|Community 520]]
-- [[_COMMUNITY_Community 521|Community 521]]
-- [[_COMMUNITY_Community 522|Community 522]]
-- [[_COMMUNITY_Community 523|Community 523]]
-- [[_COMMUNITY_Community 524|Community 524]]
-- [[_COMMUNITY_Community 525|Community 525]]
-- [[_COMMUNITY_Community 526|Community 526]]
-- [[_COMMUNITY_Community 527|Community 527]]
-- [[_COMMUNITY_Community 528|Community 528]]
-- [[_COMMUNITY_Community 529|Community 529]]
-- [[_COMMUNITY_Community 530|Community 530]]
-- [[_COMMUNITY_Community 531|Community 531]]
-- [[_COMMUNITY_Community 532|Community 532]]
-- [[_COMMUNITY_Community 533|Community 533]]
-- [[_COMMUNITY_Community 534|Community 534]]
-- [[_COMMUNITY_Community 535|Community 535]]
-- [[_COMMUNITY_Community 536|Community 536]]
-- [[_COMMUNITY_Community 537|Community 537]]
-- [[_COMMUNITY_Community 538|Community 538]]
-- [[_COMMUNITY_Community 539|Community 539]]
-- [[_COMMUNITY_Community 540|Community 540]]
-- [[_COMMUNITY_Community 541|Community 541]]
-- [[_COMMUNITY_Community 542|Community 542]]
-- [[_COMMUNITY_Community 543|Community 543]]
-- [[_COMMUNITY_Community 544|Community 544]]
-- [[_COMMUNITY_Community 545|Community 545]]
-- [[_COMMUNITY_Community 546|Community 546]]
-- [[_COMMUNITY_Community 547|Community 547]]
-- [[_COMMUNITY_Community 548|Community 548]]
-- [[_COMMUNITY_Community 549|Community 549]]
-- [[_COMMUNITY_Community 550|Community 550]]
-- [[_COMMUNITY_Community 551|Community 551]]
-- [[_COMMUNITY_Community 552|Community 552]]
-- [[_COMMUNITY_Community 553|Community 553]]
-- [[_COMMUNITY_Community 554|Community 554]]
-- [[_COMMUNITY_Community 555|Community 555]]
-- [[_COMMUNITY_Community 556|Community 556]]
-- [[_COMMUNITY_Community 557|Community 557]]
-- [[_COMMUNITY_Community 558|Community 558]]
-- [[_COMMUNITY_Community 559|Community 559]]
-- [[_COMMUNITY_Community 560|Community 560]]
-- [[_COMMUNITY_Community 561|Community 561]]
-- [[_COMMUNITY_Community 562|Community 562]]
-- [[_COMMUNITY_Community 563|Community 563]]
-- [[_COMMUNITY_Community 564|Community 564]]
-- [[_COMMUNITY_Community 565|Community 565]]
+- [[_COMMUNITY_Agent Runner & API|Agent Runner & API]]
+- [[_COMMUNITY_Event Engine & Collaboration|Event Engine & Collaboration]]
+- [[_COMMUNITY_Network Sniffing & Capture|Network Sniffing & Capture]]
+- [[_COMMUNITY_Atomic Enrichment & Playbooks|Atomic Enrichment & Playbooks]]
+- [[_COMMUNITY_AI Fallback & Auth|AI Fallback & Auth]]
+- [[_COMMUNITY_Windows AMSI Bypass|Windows AMSI Bypass]]
+- [[_COMMUNITY_Dashboard Blueprint|Dashboard Blueprint]]
+- [[_COMMUNITY_AI Models & ICMP|AI Models & ICMP]]
+- [[_COMMUNITY_Beacon GUI Interface|Beacon GUI Interface]]
+- [[_COMMUNITY_CLI Tool Discovery|CLI Tool Discovery]]
+- [[_COMMUNITY_Backdoor & Implants|Backdoor & Implants]]
+- [[_COMMUNITY_Metrics & Integrations|Metrics & Integrations]]
+- [[_COMMUNITY_Code Analysis & File Watch|Code Analysis & File Watch]]
+- [[_COMMUNITY_Live Surface & MISP|Live Surface & MISP]]
+- [[_COMMUNITY_HTTP Exploit Delivery|HTTP Exploit Delivery]]
+- [[_COMMUNITY_Colors & LazyAgent AI|Colors & LazyAgent AI]]
+- [[_COMMUNITY_Binary Tools & Camera|Binary Tools & Camera]]
+- [[_COMMUNITY_LLM Chat & Memory|LLM Chat & Memory]]
+- [[_COMMUNITY_Network Camera Recon|Network Camera Recon]]
+- [[_COMMUNITY_MITM & WiFi Attack|MITM & WiFi Attack]]
+- [[_COMMUNITY_MoE Router|MoE Router]]
+- [[_COMMUNITY_C2 Profile & Malleable|C2 Profile & Malleable]]
+- [[_COMMUNITY_Collab Blueprint & SSE|Collab Blueprint & SSE]]
+- [[_COMMUNITY_Config Store|Config Store]]
+- [[_COMMUNITY_Hive Invoke & Swarm|Hive Invoke & Swarm]]
+- [[_COMMUNITY_Session Reader|Session Reader]]
+- [[_COMMUNITY_Searchsploit Integration|Searchsploit Integration]]
+- [[_COMMUNITY_TopoSwarm Bridge|TopoSwarm Bridge]]
+- [[_COMMUNITY_MITM AP & Dnsmasq|MITM AP & Dnsmasq]]
+- [[_COMMUNITY_LazyLLM Chat|LazyLLM Chat]]
+- [[_COMMUNITY_LLM Evaluator|LLM Evaluator]]
+- [[_COMMUNITY_Detection Oracle|Detection Oracle]]
+- [[_COMMUNITY_APT Playbook Engine|APT Playbook Engine]]
+- [[_COMMUNITY_LazyOwn Explorer UI|LazyOwn Explorer UI]]
+- [[_COMMUNITY_Disassembler Module|Disassembler Module]]
+- [[_COMMUNITY_DeepSeek CLI|DeepSeek CLI]]
+- [[_COMMUNITY_Morse Code Util|Morse Code Util]]
+- [[_COMMUNITY_SQL Handler|SQL Handler]]
+- [[_COMMUNITY_Backdoor C Implant|Backdoor C Implant]]
+- [[_COMMUNITY_Web Attack Payloads|Web Attack Payloads]]
+- [[_COMMUNITY_Windows RevShell DLL|Windows RevShell DLL]]
+- [[_COMMUNITY_Linux Reverse Shell|Linux Reverse Shell]]
+- [[_COMMUNITY_Linux Rootkit|Linux Rootkit]]
+- [[_COMMUNITY_Windows Rootkit|Windows Rootkit]]
+- [[_COMMUNITY_Categories Module|Categories Module]]
+- [[_COMMUNITY_CVE-2023-28432 PoC|CVE-2023-28432 PoC]]
+- [[_COMMUNITY_Mario Util|Mario Util]]
+- [[_COMMUNITY_DNS & Subdomain Lists|DNS & Subdomain Lists]]
+- [[_COMMUNITY_Modules Ooficesod0Woodo Py|Modules Ooficesod0Woodo Py]]
+- [[_COMMUNITY_Modules Lazypyautogui Py|Modules Lazypyautogui Py]]
+- [[_COMMUNITY_Engagement Hooks Rationale 131|Engagement Hooks Rationale 131]]
+- [[_COMMUNITY_Engagement Hooks Rationale 155|Engagement Hooks Rationale 155]]
+- [[_COMMUNITY_Engagement Hooks Rationale 159|Engagement Hooks Rationale 159]]
+- [[_COMMUNITY_Engagement Hooks Rationale 352|Engagement Hooks Rationale 352]]
+- [[_COMMUNITY_Modules Search Py|Modules Search Py]]
+- [[_COMMUNITY_Toposwarm Bridge Rationale 434|Toposwarm Bridge Rationale 434]]
+- [[_COMMUNITY_Reactive Engine Rationale 607|Reactive Engine Rationale 607]]
+- [[_COMMUNITY_Modules Lazycreate Webshell Py|Modules Lazycreate Webshell Py]]
+- [[_COMMUNITY_Modules Cve 2018 15133 Php|Modules Cve 2018 15133 Php]]
+- [[_COMMUNITY_Moe Router Rationale 259|Moe Router Rationale 259]]
+- [[_COMMUNITY_Modules Lazywerkzeug Py|Modules Lazywerkzeug Py]]
+- [[_COMMUNITY_Security Sanitizers Rationale|Security Sanitizers Rationale ]]
+- [[_COMMUNITY_Security Sanitizers Rationale|Security Sanitizers Rationale ]]
+- [[_COMMUNITY_Detection Oracle Rationale 70|Detection Oracle Rationale 70]]
+- [[_COMMUNITY_Detection Oracle Rationale 75|Detection Oracle Rationale 75]]
+- [[_COMMUNITY_Detection Oracle Rationale 94|Detection Oracle Rationale 94]]
+- [[_COMMUNITY_Detection Oracle Rationale 98|Detection Oracle Rationale 98]]
+- [[_COMMUNITY_Detection Oracle Rationale 385|Detection Oracle Rationale 385]]
+- [[_COMMUNITY_Report Generator Rationale 212|Report Generator Rationale 212]]
+- [[_COMMUNITY_Report Generator Rationale 221|Report Generator Rationale 221]]
+- [[_COMMUNITY_Report Generator Rationale 235|Report Generator Rationale 235]]
+- [[_COMMUNITY_Report Generator Rationale 367|Report Generator Rationale 367]]
+- [[_COMMUNITY_Report Generator Rationale 380|Report Generator Rationale 380]]
+- [[_COMMUNITY_Report Generator Rationale 397|Report Generator Rationale 397]]
+- [[_COMMUNITY_C2 Profile Rationale 204|C2 Profile Rationale 204]]
+- [[_COMMUNITY_C2 Profile Rationale 222|C2 Profile Rationale 222]]
+- [[_COMMUNITY_C2 Profile Rationale 261|C2 Profile Rationale 261]]
+- [[_COMMUNITY_C2 Profile Rationale 289|C2 Profile Rationale 289]]
+- [[_COMMUNITY_C2 Profile Rationale 549|C2 Profile Rationale 549]]
+- [[_COMMUNITY_C2 Profile Rationale 574|C2 Profile Rationale 574]]
+- [[_COMMUNITY_C2 Profile Rationale 587|C2 Profile Rationale 587]]
+- [[_COMMUNITY_Pipeline Engine Rationale 388|Pipeline Engine Rationale 388]]
+- [[_COMMUNITY_Pipeline Engine Rationale 395|Pipeline Engine Rationale 395]]
+- [[_COMMUNITY_Pipeline Engine Rationale 512|Pipeline Engine Rationale 512]]
+- [[_COMMUNITY_Pipeline Engine Rationale 821|Pipeline Engine Rationale 821]]
+- [[_COMMUNITY_Ai Model Rationale 46|Ai Model Rationale 46]]
+- [[_COMMUNITY_Ai Model Rationale 50|Ai Model Rationale 50]]
+- [[_COMMUNITY_Metrics Rationale 207|Metrics Rationale 207]]
+- [[_COMMUNITY_Metrics Rationale 240|Metrics Rationale 240]]
+- [[_COMMUNITY_Metrics Rationale 265|Metrics Rationale 265]]
+- [[_COMMUNITY_Metrics Rationale 365|Metrics Rationale 365]]
+- [[_COMMUNITY_Modules Jwtexploit Py|Modules Jwtexploit Py]]
+- [[_COMMUNITY_Obs Parser Rationale 96|Obs Parser Rationale 96]]
+- [[_COMMUNITY_Modules Test Lazyencoder Decod|Modules Test Lazyencoder Decod]]
+- [[_COMMUNITY_Rl Trainer Rationale 112|Rl Trainer Rationale 112]]
+- [[_COMMUNITY_Searchsploit Rationale 80|Searchsploit Rationale 80]]
+- [[_COMMUNITY_Searchsploit Rationale 84|Searchsploit Rationale 84]]
+- [[_COMMUNITY_Modules Integrations Init Py|Modules Integrations Init Py]]
+- [[_COMMUNITY_Nuclei Bridge Rationale 88|Nuclei Bridge Rationale 88]]
+- [[_COMMUNITY_Misp Export Rationale 86|Misp Export Rationale 86]]
+- [[_COMMUNITY_Misp Export Rationale 399|Misp Export Rationale 399]]
+- [[_COMMUNITY_Modules Cgi Bin Lazywebshell P|Modules Cgi Bin Lazywebshell P]]
+- [[_COMMUNITY_Modules Rootkit Rootkit Mod C|Modules Rootkit Rootkit Mod C]]
+- [[_COMMUNITY_Metrics Registry Singleton|Metrics Registry Singleton]]
+- [[_COMMUNITY_Backdoor Readme Server C|Backdoor Readme Server C]]
+- [[_COMMUNITY_Rootkit Readme Mrhyde2 C|Rootkit Readme Mrhyde2 C]]
+- [[_COMMUNITY_Win Rootkit Readme Win Ring3 R|Win Rootkit Readme Win Ring3 R]]
+- [[_COMMUNITY_Integrations Readme Searchsplo|Integrations Readme Searchsplo]]
+- [[_COMMUNITY_Modules Mac Png Mac Target Ico|Modules Mac Png Mac Target Ico]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `OllamaModel` - 512 edges
-2. `LazyOwnShell` - 211 edges
-3. `is_binary_present()` - 73 edges
-4. `copy2clip()` - 64 edges
-5. `AIModel` - 60 edges
-6. `run()` - 54 edges
-7. `get_credentials()` - 50 edges
-8. `get_users_dic()` - 41 edges
-9. `decode()` - 40 edges
-10. `decoy()` - 35 edges
+1. `info()` - 63 edges
+2. `AIModel` - 60 edges
+3. `LLMClient` - 43 edges
+4. `load()` - 42 edges
+5. `decode()` - 39 edges
+6. `WorldModel` - 37 edges
+7. `now()` - 33 edges
+8. `AgentRunner` - 31 edges
+9. `parse_args()` - 29 edges
+10. `path()` - 28 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `AIModel` --uses--> `Load the configured LLM backend through the central factory.          Returns ```  [INFERRED]
-  /home/grisun0/LazyOwn/modules/ai_model.py → /home/grisun0/LazyOwn/modules/lazyllmchat.py
-- `AIModel` --uses--> `Herramienta ejecutable con validación y truncado`  [INFERRED]
-  /home/grisun0/LazyOwn/modules/ai_model.py → /home/grisun0/LazyOwn/modules/agent_runner.py
-- `AIModel` --uses--> `Mantiene la ventana de contexto limpia`  [INFERRED]
-  /home/grisun0/LazyOwn/modules/ai_model.py → /home/grisun0/LazyOwn/modules/agent_runner.py
-- `AIModel` --uses--> `Wrap a plain function as an AgentTool using its signature and docstring.`  [INFERRED]
-  /home/grisun0/LazyOwn/modules/ai_model.py → /home/grisun0/LazyOwn/modules/agent_runner.py
-- `AIModel` --uses--> `Wrapper que ejecuta comandos en hilos seguros`  [INFERRED]
-  /home/grisun0/LazyOwn/modules/ai_model.py → /home/grisun0/LazyOwn/modules/agent_runner.py
+- `nuclei_bridge integration` --semantically_similar_to--> `ParquetAdvisor`  [INFERRED] [semantically similar]
+  modules/integrations/README.md → modules/reactive_engine.py
+- `SemanticContextAdvisor` --conceptually_related_to--> `obs_parser module`  [INFERRED]
+  modules/reactive_engine.py → modules/README.md
+- `LLM jailbreak prompt examples` --conceptually_related_to--> `SemanticContextAdvisor`  [INFERRED]
+  modules/wordlist/prompt.txt → modules/reactive_engine.py
+- `misp_export integration` --shares_data_with--> `WorldModel`  [INFERRED]
+  modules/integrations/README.md → modules/world_model.py
+- `vulnerability analysis session note` --shares_data_with--> `WorldModel`  [INFERRED]
+  modules/sessions/plan.txt → modules/world_model.py
 
-## Communities (566 total, 487 thin omitted)
+## Hyperedges (group relationships)
+- **Reactive analysis pipeline: matchers produce Signals, advisors produce ReactiveDecisions, ReactiveEngine orchestrates** — reactive_engine_abstractsignalmatcher, reactive_engine_signal, reactive_engine_reactivedecision, reactive_engine_reactiveengine, reactive_engine_evasionadvisor, reactive_engine_privescadvisor [EXTRACTED 0.95]
+- **WorldModel state machine: HostEntry advances through HostState, PhaseDeriver derives EngagementPhase, NetworkGraph tracks topology** — world_model_hostentry, world_model_hoststate, world_model_engagementphase, world_model_phasederiver, world_model_networkgraph, world_model_worldmodel [EXTRACTED 0.93]
+- **MoE expert routing: ExpertProfile scored by ExpertPerformanceStore, selected by SoftmaxSelector, orchestrated by MoERouter** — moe_router_expertprofile, moe_router_expertperformance, moe_router_expertperformancestore, moe_router_softmaxselector, moe_router_moerouter [EXTRACTED 0.92]
 
-### Community 0 - "Community 0"
-Cohesion: 0.00
-Nodes (431): OllamaModel, Ollama-hosted local backend.      Communicates with a local Ollama daemon via it, Attach strace to a running process and log output to a file.          This funct, Executes commands defined in a lazyscript file.          This function reads a s, Relanza la aplicación actual utilizando `proxychains` para enrutar el tráfico, Generates a Python one-liner to execute shellcode from a given URL.          Thi, This function executes the web security scanning tool Skipfish         using the, Create a Windows DLL file using MinGW-w64 or a Blazor DLL for Linux.          Th (+423 more)
+## Communities
 
-### Community 1 - "Community 1"
+### Community 0 - "Agent Runner & API"
+Cohesion: 0.02
+Nodes (99): ABC, AgentRunner, AgentTool, ASTToolExtractor, CommandMetadata, configure_logging(), extract_commands_from_file(), interactive_mode() (+91 more)
+
+### Community 1 - "Event Engine & Collaboration"
+Cohesion: 0.02
+Nodes (111): ack_event(), Mark an event as processed. Returns True if found., build_llm_prompt(), build_yaml(), extract_json_from_response(), fallback_yaml_data(), fetch_readme(), fetch_repo_metadata() (+103 more)
+
+### Community 2 - "Network Sniffing & Capture"
+Cohesion: 0.02
+Nodes (109): analyze_packet(), capture_packets(), main(), main_curses(), parse_arguments(), process_packet(), restore_curses(), setup_curses() (+101 more)
+
+### Community 3 - "Atomic Enrichment & Playbooks"
+Cohesion: 0.03
+Nodes (89): enrich(), load_enriched(), _parse_complexity(), _parse_keyword_tags(), _parse_platforms(), _parse_scope(), query_atomic(), atomic_enricher.py — Enrich techniques.parquet with structured derived columns. (+81 more)
+
+### Community 4 - "AI Fallback & Auth"
+Cohesion: 0.03
+Nodes (95): auth(), connection(), AIResult, _best_ollama_model(), call(), _groq_call(), _is_quota_error(), _ollama_available() (+87 more)
+
+### Community 5 - "Windows AMSI Bypass"
+Cohesion: 0.03
+Nodes (97): AMS1patch_E_ACCESSDENIED(), AMS1patch_E_HANDLE(), AMS1patch_E_OUTOFMEMORY(), AMS1patch_OpenSession_jne(), AMS1patch_OpenSession_ret(), AMS1patch_RastaMouse(), AMS1patch_ScanBuffer_ret(), LoadNtFunctions() (+89 more)
+
+### Community 6 - "Dashboard Blueprint"
+Cohesion: 0.02
+Nodes (102): _aggregate_data(), _count_lines(), dashboard_api_data(), dashboard_index(), Build the full dashboard data snapshot from session files.     Returns a structu, Read a .jsonl file, optionally returning only the last N lines., Render the main SOC dashboard HTML page., JSON snapshot of all dashboard data.      Reads directly from sessions/ files so (+94 more)
+
+### Community 7 - "AI Models & ICMP"
+Cohesion: 0.03
+Nodes (78): Yield streamed completion chunks for ``prompt``.          Args:             prom, checksum(), decrypt_data(), encrypt_data(), main(), receive_icmp_reply(), send_icmp_packet(), checksum() (+70 more)
+
+### Community 8 - "Beacon GUI Interface"
+Cohesion: 0.03
+Nodes (85): create_beacon_tab(), create_intel_tab(), create_modern_menu(), create_modern_ui(), create_section_header(), create_table_view_frame(), create_tool_card(), create_tools_grid() (+77 more)
+
+### Community 9 - "CLI Tool Discovery"
+Cohesion: 0.03
+Nodes (61): Enum, extract_cmd2_tools(), buscar_binarios(), ejecutar_opciones(), highlight_term(), Execute options based on the found data., Highlight the search term in the given text., Search for a term in the given Parquet files and return matching rows. (+53 more)
+
+### Community 10 - "Backdoor & Implants"
+Cohesion: 0.04
+Nodes (72): App, bootRun(), Shell(), str_cut(), WinMain(), Exception, add_key(), awake_partial_keys() (+64 more)
+
+### Community 11 - "Metrics & Integrations"
+Cohesion: 0.03
+Nodes (68): nuclei_bridge integration, get_recorder(), _labels_key(), MetricRecord, MetricsAggregator, MetricsRecorder, MetricsRegistry, MetricsWriter (+60 more)
+
+### Community 12 - "Code Analysis & File Watch"
+Cohesion: 0.04
+Nodes (61): FileSystemEventHandler, analyze_with_deepseek(), CodeAnalyzer, Guarda los resultados del análisis en archivos JSON., Inicia el análisis del directorio de código especificado., Analiza el código fuente en un directorio y sus subdirectorios., Analiza recursivamente todos los archivos de código fuente en el directorio espe, Analiza el contenido del archivo de código fuente. (+53 more)
+
+### Community 13 - "Live Surface & MISP"
 Cohesion: 0.05
-Nodes (107): FileSystemEventHandler, _add_security_headers(), adversary(), aicmd(), aumentar_elo(), aumentar_elo_route(), banners(), capture_audio() (+99 more)
+Nodes (51): misp_export integration, build_live_graph(), _group_for(), _is_compromised(), _label_for(), _node_value(), Live attack-surface graph derived from the world model.  The static ``templates/, Return ``True`` when a host state means a foothold was obtained. (+43 more)
 
-### Community 2 - "Community 2"
-Cohesion: 0.03
-Nodes (101): do_acknowledgearp(), do_acknowledgeicmp(), do_allin(), do_arpscan(), do_asprevbase64(), do_backdoor_factory(), do_clean(), do_clock() (+93 more)
+### Community 14 - "HTTP Exploit Delivery"
+Cohesion: 0.04
+Nodes (47): BaseHTTPRequestHandler, SamsungKnoxExploitServer, edit_file_with_nano(), lazyfuzz(), load_data_from_file(), load_headers_from_file(), _load_security_config(), main() (+39 more)
 
-### Community 3 - "Community 3"
-Cohesion: 0.03
-Nodes (83): analyze_behavioral_data(), api_listeners_delete(), api_listeners_start(), api_listeners_stop(), authenticate(), check_auth(), dynamic_route(), favicon() (+75 more)
+### Community 15 - "Colors & LazyAgent AI"
+Cohesion: 0.05
+Nodes (60): delete_lines(), no_html(), gemma2-9b-it	Google	8,192	-	-	     llama-3.3-70b-versatile	Meta	128k	32,768	-, retModel(), add_to_knowledge_base(), configure_logging(), create_complex_prompt(), get_relevant_knowledge() (+52 more)
 
-### Community 4 - "Community 4"
-Cohesion: 0.03
-Nodes (68): do_apropos(), do_apt_proxy(), do_apt_repo(), do_atomic_gen(), do_atomic_lazyown(), do_attack_plan(), do_automsf(), do_c2() (+60 more)
+### Community 16 - "Binary Tools & Camera"
+Cohesion: 0.04
+Nodes (33): binario_a_imagen(), main(), cla(), main(), RTSPScanner, cla(), main(), RTSPScanner (+25 more)
 
-### Community 5 - "Community 5"
-Cohesion: 0.03
-Nodes (87): do_aclpwn_py(), do_addcli(), do_addhosts(), do_adgetpass(), do_ai_toggle(), do_assign(), do_binarycheck(), do_c2asm() (+79 more)
+### Community 17 - "LLM Chat & Memory"
+Cohesion: 0.05
+Nodes (31): _cli(), get_memory_store(), MemoryEntry, MemoryStore, _print_entries(), memory_store.py — Episodic memory for the LazyOwn auto_loop.  Stores (command, o, recall(), remember() (+23 more)
 
-### Community 6 - "Community 6"
-Cohesion: 0.03
-Nodes (87): do_ad_ldap_enum(), do_addalias(), do_addspn_py(), do_addusers(), do_atomic_agent(), do_autoblody(), do_bin2shellcode(), do_blazy() (+79 more)
+### Community 18 - "Network Camera Recon"
+Cohesion: 0.05
+Nodes (30): daemonize(), get_ip_addresses(), handle_packet(), list_interfaces(), run(), save_image(), AbstractSelector, BridgeDispatcher (+22 more)
 
-### Community 7 - "Community 7"
+### Community 19 - "MITM & WiFi Attack"
+Cohesion: 0.05
+Nodes (39): get_mac(), main(), mitm(), restore(), setup_monitor_mode(), spoof(), start_sslstrip(), start_tcpdump() (+31 more)
+
+### Community 20 - "MoE Router"
+Cohesion: 0.06
+Nodes (34): _check(), _compute_weights(), ExpertAvailabilityChecker, ExpertPerformance, ExpertPerformanceStore, ExpertProfile, get_router(), IExpertSelector (+26 more)
+
+### Community 21 - "C2 Profile & Malleable"
 Cohesion: 0.07
-Nodes (43): campaign_report(), clean_expired_tokens(), connect(), create_campaign(), create_multivector_campaign(), create_short_url(), health_check(), is_valid_url() (+35 more)
+Nodes (39): apply_to_response(), apply_to_session(), C2Profile, from_dict(), from_yaml(), get_profile(), get_registry(), HttpConfig (+31 more)
 
-### Community 8 - "Community 8"
-Cohesion: 0.11
-Nodes (33): ABC, ASTToolExtractor, Extractor inteligente usando AST, Ejecuta con validación de argumentos y formato claro, AIModel, generate(), GroqModel, Concrete language model backends for LazyOwn.  This module exposes the abstract (+25 more)
-
-### Community 9 - "Community 9"
+### Community 22 - "Collab Blueprint & SSE"
 Cohesion: 0.06
-Nodes (35): do_aes_pe(), AESencrypt(), check_go_tool_installed(), create_msfshellcoder_parser(), dropFile(), find_credentials(), generate_emails(), handle_multiple_rhosts() (+27 more)
+Nodes (22): ColabEvent, collab_ui(), EventBus, history(), lock(), LockManager, locks(), OperatorInfo (+14 more)
 
-### Community 10 - "Community 10"
+### Community 23 - "Config Store"
 Cohesion: 0.06
-Nodes (25): Run the internal module GROQ AI located at `modules/lazysearch_bot.py` with the, Run the Metadata extractor internal module located at `modules/lazyown_metaextra, Run the internal module located at `modules/lazyownclient.py` with the specified, Run the internal module located at `modules/lazyownserver.py` with the specified, Run the internal module located at `modules/lazybotnet.py` with the specified pa, Run the internal module located at `modules/lazylfi2rce.py` with the specified p, Run the internal module located at `modules/lazybotcli.py` with the specified pa, Run the internal module located at `modules/lazyown_burpfuzzer.py` with the spec (+17 more)
+Nodes (32): _ensure_loaded(), get_config(), init(), _load(), _persist(), Bulk-update from a dict and persist to disk., Force reload from disk (discards in-memory changes)., Stop the file-watcher background thread (if running). (+24 more)
 
-### Community 11 - "Community 11"
-Cohesion: 0.06
-Nodes (33): do_adsso_spray(), activate_virtualenv(), anti_debug(), _build_startup_parser(), create_caldera_config(), de_htmlify(), generate_certificates(), generate_xor_key() (+25 more)
+### Community 24 - "Hive Invoke & Swarm"
+Cohesion: 0.08
+Nodes (34): _find_claude(), _get_toposwarm(), main(), _parse_argv(), Return the absolute path to the claude binary, or None if not found., Parse argv into (interactive, effort, prompt_words).      Returns     -------, Run Claude Code in non-interactive print mode (-p).     Output streams directly, Start Claude Code in interactive REPL mode with the prompt pre-loaded as     the (+26 more)
 
-### Community 12 - "Community 12"
+### Community 25 - "Session Reader"
 Cohesion: 0.07
-Nodes (33): do_ai_playbook(), do_create_synthetic(), do_extract_yaml(), Create a prompt that strictly enforces YAML response format without any narrativ, Create a prompt that strictly enforces YAML response format without any narrativ, aggressive_yaml_fix(), create_synthetic_yaml(), fix_common_yaml_issues() (+25 more)
+Nodes (22): AbstractReader, active_client_ids(), CampaignTask, CommandOutputReader, DiscoveredHostReader, get_aggregator(), ImplantCSVReader, ImplantRecord (+14 more)
 
-### Community 13 - "Community 13"
-Cohesion: 0.11
-Nodes (12): AgentRunner, AgentTool, Motor del agente con Límite de Uso por Herramienta (Anti-Spam), Mantiene la ventana de contexto limpia, Wrap a plain function as an AgentTool using its signature and docstring., Herramienta ejecutable con validación y truncado, Retorna lista de comandos disponibles, Configura el agente para EJECUTAR COMANDOS REALES (+4 more)
+### Community 26 - "Searchsploit Integration"
+Cohesion: 0.09
+Nodes (22): ExploitDBAPI, ExploitEntry, ExploitSource, _extract_cve(), get_client(), _main(), _rate_limit(), Queries the ExploitDB search endpoint directly.      Disabled gracefully when *r (+14 more)
 
-### Community 14 - "Community 14"
+### Community 27 - "TopoSwarm Bridge"
+Cohesion: 0.07
+Nodes (21): get_bridge(), _keyword_route(), _load_toposwarm_modules(), OnlineFeedbackLoop, Return a RoutedCall from keyword/pattern matching, or None if no match., Dynamically import from the TopoSwarm repo., Collects user feedback on routing decisions and applies it immediately.      Pos, Register a routing result as pending feedback. (+13 more)
+
+### Community 28 - "MITM AP & Dnsmasq"
+Cohesion: 0.08
+Nodes (33): append_file(), backup_file(), cleanup(), configure_dnsmasq(), configure_hostapd(), create_dir(), flush_iptables(), install_dependencies() (+25 more)
+
+### Community 29 - "LazyLLM Chat"
 Cohesion: 0.14
 Nodes (10): for_command_analysis(), for_direct_query(), LazyOwnLLMChat, LazyOwnPromptRenderer, LazyOwnShellBridge, LLMEngine, main(), PromptBuilder (+2 more)
 
-### Community 15 - "Community 15"
-Cohesion: 0.07
-Nodes (28): do_adversary(), do_base64decode(), do_base64encode(), do_img2vid(), do_ip(), do_ipp(), do_rhost(), do_rrhost() (+20 more)
+### Community 30 - "LLM Evaluator"
+Cohesion: 0.12
+Nodes (14): _cli(), DecisionRecord, get_evaluator(), JSONLRecorder, LLMEvaluator, _new_id(), OutcomeRecorder, QualityMetrics (+6 more)
 
-### Community 16 - "Community 16"
-Cohesion: 0.07
-Nodes (29): do_amass(), do_atomic_tests(), do_bbot(), do_bloodhound(), do_caldera(), do_creds_py(), do_darkarmour(), do_filtering() (+21 more)
-
-### Community 17 - "Community 17"
-Cohesion: 0.07
-Nodes (29): do_apache_users(), do_batchnmap(), do_certipy(), do_cubespraying(), do_digdug(), do_dploot(), do_exe2bin(), do_exe2donutbin() (+21 more)
-
-### Community 18 - "Community 18"
-Cohesion: 0.09
-Nodes (19): do_ip2hex(), do_lol(), do_vulns(), preflight_command(), Pre-flight a LazyOwn command without executing it.      Returns a structured ass, Display C and ASM code side by side in a curses-based interface.          This f, Display C and ASM code side by side in a curses-based interface.          This f, Escáner de vulnerabilidades que busca y muestra información sobre CVEs.      Att (+11 more)
-
-### Community 19 - "Community 19"
-Cohesion: 0.09
-Nodes (24): api_dashboard(), api_data(), csv_to_html(), get_connected_clients(), get_discovered_hosts(), get_karma_name(), get_local_ip_addresses(), implants_check() (+16 more)
-
-### Community 20 - "Community 20"
-Cohesion: 0.08
-Nodes (25): do_alterx(), do_arjun(), do_bloodyAD(), do_cewl(), do_createjsonmachine(), do_createmail(), do_createtargets(), do_createusers_and_hashs() (+17 more)
-
-### Community 21 - "Community 21"
+### Community 31 - "Detection Oracle"
 Cohesion: 0.11
-Nodes (14): do_config_banner(), do_wizard(), Print a session-start pro tip and handle first-run setup.          If ``sessions, Initializer for the LazyOwnShell class.          This method sets up the initial, Initializer for the LazyOwnShell class.          This method sets up the initial, Registra automáticamente todos los comandos .tool en la carpeta 'tools/', Registra automáticamente todos los comandos .tool en la carpeta 'tools/', main() (+6 more)
+Nodes (14): _build_recommendation(), DetectionAssessment, DetectionOracle, _effective_probability(), get_oracle(), IDetectionOracle, Maps a (command, args, action_category) triple to a detection probability., A rule matches when EITHER condition holds:         - A keyword from the rule ap (+6 more)
 
-### Community 22 - "Community 22"
-Cohesion: 0.10
-Nodes (15): IP2ASN, Open and parse the IP-to-ASN file., Parse the reader stream, handling both regular and gzipped files., Open and parse the IP-to-ASN file., Parse the TSV data and load it into memory., Parse the reader stream, handling both regular and gzipped files., Parse the TSV data and load it into memory., Return the ASN associated with the given IP address. (+7 more)
+### Community 32 - "APT Playbook Engine"
+Cohesion: 0.13
+Nodes (11): AptPlaybook, AptPlaybookEngine, AtomicTestRef, CalderaAbilityRef, from_dict(), PhaseStep, APT Playbook Engine — map public APT reports to executable Atomic Red Team chain, Load, list, validate and execute APT playbooks. (+3 more)
 
-### Community 23 - "Community 23"
+### Community 33 - "LazyOwn Explorer UI"
 Cohesion: 0.14
-Nodes (7): Return a single completion for ``prompt``.          Args:             prompt: Th, Return a completion conforming to ``core.protocols.LLMBackend``.          The de, configure_logging(), Procesa archivo en modo agente, Versión streaming para web (simplificada), Instantiate the LLM backend mapped to ``self.provider``.          Returns:, VulnBotCLI
+Nodes (2): AutocompleteEntry, LazyOwnGUI
 
-### Community 24 - "Community 24"
-Cohesion: 0.16
-Nodes (12): CommandMetadata, configure_logging(), extract_commands_from_file(), interactive_mode(), LazyOwnShellWrapper, main(), parse_args(), Wrapper que ejecuta comandos en hilos seguros (+4 more)
-
-### Community 25 - "Community 25"
-Cohesion: 0.10
-Nodes (13): do_listaliases(), do_notify(), do_pop(), Command to trigger a toastr-like notification.         Usage: notify <type> <mes, Display a toastr-like notification in the terminal with adaptive sizing., Open a centered popup in the current tmux session to execute a shell command., List all available aliases., Handles undefined commands, including aliases.          This method checks if a (+5 more)
-
-### Community 26 - "Community 26"
-Cohesion: 0.11
-Nodes (19): create_route(), ensure_sessions_dir(), _load_or_create_secret_key(), Save dynamic routes to JSON file with safe permissions., Validate route path to ensure it contains only safe characters., Validate template name to ensure it is a safe HTML file., Resolve the Flask secret key from the operator environment or disk.      The loo, Handle creation of dynamic routes via form submission. (+11 more)
-
-### Community 27 - "Community 27"
-Cohesion: 0.11
-Nodes (19): do_ss(), exploitalert(), find_ea(), find_ps(), find_ss(), nvddb(), packetstormsecurity(), Process and display results from ExploitAlert.      This function checks if the (+11 more)
-
-### Community 28 - "Community 28"
-Cohesion: 0.23
-Nodes (6): configure_logging(), interactive_mode(), main(), parse_args(), Instantiate the LLM backend mapped to ``self.provider``.          The historical, VulnBotCLI
-
-### Community 29 - "Community 29"
-Cohesion: 0.14
-Nodes (16): search(), do_graph_search(), do_sessionsshstrace(), clean_output(), get_domain_from_xml(), get_xml(), Retrieves a list of XML files from the specified directory.      Args:         d, Retrieves a list of XML files from the specified directory.      Args:         d (+8 more)
-
-### Community 30 - "Community 30"
+### Community 34 - "Disassembler Module"
 Cohesion: 0.15
-Nodes (14): BaseResolver, CustomDNSResolver, _listen_address(), _probe_bind(), Return the bind address chosen by :class:`BindAddressResolver`.      The resolve, Establish a TCP bridge between a local port and a remote host., Probe whether ``(address, port)`` can be bound for ``sock_type``.      The probe, Start the C2 DNS server, gracefully degrading when binding is unsafe.      The D (+6 more)
+Nodes (11): main(), disassembler.py  Author: Gris Iscomeback  Email: grisiscomeback[at]gmail[dot]com, Parses the ModR/M byte and extracts mod, reg, and rm fields.          This funct, Parses the SIB byte and extracts scale, index, and base fields.          This fu, Gets the string representation of the operand based on mod/rm.          This fun, A disassembler class for x86-64 architecture.      This class provides methods t, Main disassembler for x86-64 code.          This function disassembles raw machi, Initializes the X64Disassembler instance.          Sets up registers, syscalls, (+3 more)
 
-### Community 31 - "Community 31"
-Cohesion: 0.14
-Nodes (13): Input validators for the LazyOwn C2 web layer.  All validation functions are pur, Validate password meets minimum length requirement.      Args:         password:, Validate upload size against maximum allowed.      Args:         content_length:, Validate a dynamic route path segment.      Args:         route_path: The route, Validate a Jinja2 template filename.      Args:         template_name: The templ, Validate a YAML filename for safe loading.      Args:         filename: The file, Validate request data length to prevent buffer abuse.      Args:         data: T, validate_password_length() (+5 more)
+### Community 35 - "DeepSeek CLI"
+Cohesion: 0.36
+Nodes (9): add_to_knowledge_base(), configure_logging(), create_complex_prompt(), get_relevant_knowledge(), load_knowledge_base(), process_prompt_local(), save_knowledge_base(), transform_knowledge_base() (+1 more)
 
-### Community 32 - "Community 32"
-Cohesion: 0.14
-Nodes (14): do_kick(), do_sudo(), check_sudo(), create_arp_packet(), parse_ip_mac(), Extracts IP and MAC addresses from a formatted input string using a regular expr, Extracts IP and MAC addresses from a formatted input string using a regular expr, Constructs an ARP packet with the given source and destination IP and MAC addres (+6 more)
-
-### Community 33 - "Community 33"
-Cohesion: 0.15
-Nodes (10): BaseHTTPRequestHandler, activate_server(), get_command(), Reads a command from standard input and initiates a thread to send the command t, Reads a command from standard input and initiates a thread to send the command t, Activates the HTTP server and fetches the first command from the user.      Para, Activates the HTTP server and fetches the first command from the user.      Para, Custom HTTP request handler to intercept and decode GET requests from certutil. (+2 more)
-
-### Community 34 - "Community 34"
-Cohesion: 0.18
-Nodes (12): build_target_context(), collect_pwntomate_evidence(), evidence_freshness(), find_credential_provenance(), _format_age(), is_likely_credential(), Return a compact human age string (e.g. '3h12m', '4d')., Locate where a credential was first observed.      Searches sessions/credentials (+4 more)
-
-### Community 35 - "Community 35"
-Cohesion: 0.18
-Nodes (8): api_listeners(), List all configured C2 listeners and their runtime status., do_listener(), JobRecord, JobStore, In-memory record for a backgrounded shell job., Thread-safe in-memory store for run_command_async jobs., Start a runner(command, timeout) in a background thread.
-
-### Community 36 - "Community 36"
-Cohesion: 0.24
-Nodes (6): Read a file as text after path validation.          Args:             relative_p, Write bytes to a file after path validation.          Creates parent directories, Provides safe file read/write operations with path traversal protection.      Al, Resolve a relative path safely within the base directory.          Args:, Read a file as bytes after path validation.          Args:             relative_, SafeFileService
-
-### Community 37 - "Community 37"
-Cohesion: 0.22
-Nodes (6): Intercepta comandos para expandir placeholders en aliases.         Maneja tanto, Intercepta comandos para expandir placeholders en aliases.         Maneja tanto, LazyOwnShellWrapper, Wrapper robusto para integrar lazyown.py, Carga el módulo resolviendo dependencias correctamente, Ejecuta un comando en la CLI y retorna el output
-
-### Community 38 - "Community 38"
-Cohesion: 0.20
-Nodes (6): AESKeyManager, Security services for the LazyOwn C2 web layer.  Services encapsulate stateful s, Manages AES key generation and validation.      Ensures keys are exactly the req, Validates upload size constraints.      Stateless service that checks content le, Validate upload size.          Args:             content_length: The content len, UploadSizeValidator
-
-### Community 39 - "Community 39"
-Cohesion: 0.20
-Nodes (10): do_transform(), detect_delimiter(), handle(), Detects the delimiter used in the input string (e.g., "-", "_", ".").      Param, Detects the delimiter used in the input string (e.g., "-", "_", ".").      Param, Transforms a list of string parts based on the chosen casing style.      Paramet, Transforms a list of string parts based on the chosen casing style.      Paramet, Splits the input string into parts based on delimiters or mixed casing.      Par (+2 more)
-
-### Community 40 - "Community 40"
-Cohesion: 0.20
-Nodes (10): do_shellshock(), clean_url(), generate_http_req(), random_string(), Verifica si el último carácter es una barra y, de ser así, la elimina, Generates a random alphanumeric string., Generates an HTTP request with the Shellshock payload., Verifica si el último carácter es una barra y, de ser así, la elimina (+2 more)
-
-### Community 41 - "Community 41"
-Cohesion: 0.22
-Nodes (9): add_dynamic_data(), get_config(), Elimina datos sensibles del diccionario JSON.     Adaptar esta función según la, Agrega datos dinámicos al diccionario JSON si es necesario,     basándose en el, Elimina datos sensibles del diccionario JSON.     Adaptar esta función según la, Agrega datos dinámicos al diccionario JSON si es necesario,     basándose en el, Lee el archivo payload.json, lo manipula y lo expone como /config.json., Lee el archivo payload.json, lo manipula y lo expone como /config.json. (+1 more)
-
-### Community 42 - "Community 42"
-Cohesion: 0.22
-Nodes (9): extract_attack_vectors(), process_bloodhound_zip(), Handles the file upload, processes the BloodHound ZIP, and prepares data for vis, Analyzes BloodHound nodes and edges to extract critical attack vectors for AD co, Handles the file upload, processes the BloodHound ZIP, and prepares data for vis, Processes a BloodHound ZIP file to extract nodes and edges for graph visualizati, Analyzes BloodHound nodes and edges to extract critical attack vectors for AD co, Processes a BloodHound ZIP file to extract nodes and edges for graph visualizati (+1 more)
-
-### Community 43 - "Community 43"
-Cohesion: 0.25
-Nodes (8): aicmd_deepseek(), aicmd_view(), Execute one shell command and return a sanitised, JSON-safe result.      The han, Return a JSON-safe projection of ``value`` without exception details.      Deleg, run_command(), _sanitize_command_output(), strip_ansi(), Internal function to execute commands.          This method attempts to execute
-
-### Community 44 - "Community 44"
-Cohesion: 0.25
-Nodes (6): do_add2find(), do_rmfromfind(), Internal function to execute commands.          This method attempts to execute, Guarda un nuevo comando en user_commands.json, Carga los comandos personalizados desde user_commands.json, Guarda un nuevo comando en user_commands.json
-
-### Community 45 - "Community 45"
-Cohesion: 0.25
-Nodes (8): api_listeners_create(), Create a new listener., do_suggest_next(), evidence_grep(), Grep through session artefacts.      Args:         pattern: Regex pattern to sea, add(), Adds a delimiter between string parts if it's not the first part.      Parameter, Adds a delimiter between string parts if it's not the first part.      Parameter
-
-### Community 46 - "Community 46"
-Cohesion: 0.25
-Nodes (7): diff_snapshot(), needs_confirmation(), LazyOwn MCP helper functions — pure logic, no MCP server imports.  This module h, Capture a lightweight snapshot of the campaign state.      Stored at sessions/_m, Return what changed since the last snapshot.      If no prior snapshot exists, r, Return True if tool should require an explicit confirm=True flag., take_snapshot()
-
-### Community 47 - "Community 47"
-Cohesion: 0.25
-Nodes (4): Return a chat completion using native role separation.          Overrides the de, Fall through to the payload-aware completer for unhandled commands., Tab-complete the palette command using the live command index.          Position, Run the internal module located at `modules/lazybrutesshuserenum.py` with the sp
-
-### Community 48 - "Community 48"
-Cohesion: 0.25
-Nodes (7): Serve nmap HTML report assets from the sessions directory over HTTPS.      All u, webserver_report(), do_engage(), do_pipeline(), do_recommend_next(), Validate that a resolved file path is within a base directory.      Uses Path.re, validate_file_path_within_base()
-
-### Community 49 - "Community 49"
-Cohesion: 0.29
-Nodes (5): main(), Loads all YAML plugins from the 'lazyaddons/' directory.          This method sc, Registers a YAML plugin as a new command.          This method creates a dynamic, Loads all YAML plugins from the 'lazyaddons/' directory.          This method sc, Register a YAML addon as a shell command.          Reads the optional ``category
-
-### Community 50 - "Community 50"
-Cohesion: 0.29
-Nodes (5): do_process_scans(), Processes a single scan CSV file., Processes a single vulnerability CSV file., Processes a single scan CSV file., Processes a single vulnerability CSV file.
-
-### Community 51 - "Community 51"
-Cohesion: 0.29
-Nodes (7): handle_resize(), Configura el tamaño de la terminal, Configura el tamaño de la terminal, Maneja el redimensionamiento de la terminal, Maneja el redimensionamiento de la terminal, resize(), set_winsize()
-
-### Community 52 - "Community 52"
-Cohesion: 0.29
-Nodes (7): do_ipinfo(), get_org(), query_arin_ip(), Queries ARIN whois API for organization information of an IP address.      Args:, Queries ARIN whois API for organization information of an IP address.      Args:, Extracts organization name from ARIN whois response data.      Args:         dat, Extracts organization name from ARIN whois response data.      Args:         dat
-
-### Community 53 - "Community 53"
-Cohesion: 0.29
-Nodes (7): do_shellcode_search(), clean_html(), extract(), Extracts and processes specific hexadecimal sequences from a string based on a f, Extracts and processes specific hexadecimal sequences from a string based on a f, Remove HTML tags from a string.      This function uses a regular expression to, Remove HTML tags from a string.      This function uses a regular expression to
-
-### Community 54 - "Community 54"
-Cohesion: 0.29
-Nodes (7): do_crack_cisco_7_password(), crack_password(), is_digit(), Check if the given character is a digit.      Args:         the_digit (str): The, Crack a Cisco Type 7 password.      Args:         crypttext (str): The encrypted, Check if the given character is a digit.      Args:         the_digit (str): The, Crack a Cisco Type 7 password.      Args:         crypttext (str): The encrypted
-
-### Community 55 - "Community 55"
-Cohesion: 0.29
-Nodes (7): do_news(), display_news(), Realiza una solicitud a la página de noticias de Hacker News y extrae los título, Realiza una solicitud a la página de noticias de Hacker News y extrae los título, Crea un DataFrame de pandas y lo imprime, mostrando los títulos, enlaces y puntu, Crea un DataFrame de pandas y lo imprime, mostrando los títulos, enlaces y puntu, scrape_news()
-
-### Community 56 - "Community 56"
-Cohesion: 0.33
-Nodes (6): audit_tasks(), parse_task_value(), Extract the embedded JSON-ish payload from a task title.      Tasks created by t, Outcome of evaluating a single task entry., Classify each task as keep/drop with a reason.      Tasks whose embedded credent, TaskAudit
-
-### Community 57 - "Community 57"
-Cohesion: 0.33
-Nodes (6): analyze_campaign_progress(), clean_json(), Analyze campaign progress and suggest adaptations using Grok AI., Analyze campaign progress and suggest adaptations using Grok AI., Extract only the JSON content between ```json and ```, discarding everything els, Extract only the JSON content between ```json and ```, discarding everything els
-
-### Community 58 - "Community 58"
-Cohesion: 0.33
-Nodes (6): get_open_ports(), parse_proc_net_file(), Internal function to parse a /proc/net file and extract network ports.      This, Internal function to parse a /proc/net file and extract network ports.      This, Internal function to get open TCP and UDP ports on the operating system.      Th, Internal function to get open TCP and UDP ports on the operating system.      Th
-
-### Community 59 - "Community 59"
-Cohesion: 0.33
-Nodes (6): inject_payloads(), Reads a file containing payloads and returns a list of properly formatted string, Reads a file containing payloads and returns a list of properly formatted string, Sends HTTP requests to a list of URLs with injected payloads for testing XSS vul, Sends HTTP requests to a list of URLs with injected payloads for testing XSS vul, read_payloads()
-
-### Community 60 - "Community 60"
-Cohesion: 0.40
-Nodes (5): download_files(), is_binary(), Check if a file is a binary file based on its header., Serve a session file by name, enforcing strict basename containment., Check whether a session file is binary based on its header bytes.      Accepts a
-
-### Community 61 - "Community 61"
-Cohesion: 0.40
-Nodes (3): Manages the Flask secret key lifecycle.      Generates a cryptographically secur, Return an existing secret key or generate and persist a new one.          Return, SecretKeyManager
-
-### Community 62 - "Community 62"
-Cohesion: 0.50
-Nodes (3): do_get_avaible_actions(), Devuelve una lista de acciones disponibles usando introspección de cmd2., Devuelve una lista de acciones disponibles usando introspección de cmd2.
-
-### Community 63 - "Community 63"
-Cohesion: 0.50
-Nodes (3): Return an existing AES key or generate a new one.          Returns:, Validate AES key length.      Args:         key: The AES key bytes to validate., validate_aes_key()
-
-### Community 64 - "Community 64"
-Cohesion: 0.50
-Nodes (4): HTTPServer, MyServer, Custom HTTP server to handle incoming connections from certutil., Custom HTTP server to handle incoming connections from certutil.
-
-### Community 65 - "Community 65"
-Cohesion: 0.50
-Nodes (4): do_banners(), extract_banners(), Extract banner information from an XML file.      This function parses an XML fi, Extract banner information from an XML file.      This function parses an XML fi
-
-### Community 66 - "Community 66"
-Cohesion: 0.50
-Nodes (4): do_cve(), generate_random_cve_id(), Generates a random CVE (Common Vulnerabilities and Exposures) ID.      This func, Generates a random CVE (Common Vulnerabilities and Exposures) ID.      This func
-
-### Community 84 - "Community 84"
+### Community 36 - "Morse Code Util"
 Cohesion: 0.67
-Nodes (3): format_openssh_key(), Formats a raw OpenSSH private key string to the correct OpenSSH format.      Thi, Formats a raw OpenSSH private key string to the correct OpenSSH format.      Thi
+Nodes (2): morseToText(), reverseMorseCode()
 
-### Community 85 - "Community 85"
-Cohesion: 0.67
-Nodes (3): format_rsa_key(), Formats a raw RSA private key string to the correct PEM format.      This functi, Formats a raw RSA private key string to the correct PEM format.      This functi
+### Community 37 - "SQL Handler"
+Cohesion: 0.5
+Nodes (0): 
 
-### Community 86 - "Community 86"
-Cohesion: 0.67
-Nodes (3): load_user_aliases(), Carga los aliases del archivo JSON si existe., Carga los aliases del archivo JSON si existe.
+### Community 38 - "Backdoor C Implant"
+Cohesion: 0.5
+Nodes (4): backdoor.c, do_backdoor CLI command, keylogger.h, Generic compromised client icon (ghost on laptop, no OS badge)
 
-### Community 87 - "Community 87"
-Cohesion: 0.67
-Nodes (3): prompt(), Return the prompt in the function do_xss, Return the prompt in the function do_xss
+### Community 39 - "Web Attack Payloads"
+Cohesion: 0.5
+Nodes (4): admin panel path list, do_createwebshell CLI command, CGI web shells (asp, cgi, py, sh), XSS payload list
 
-### Community 88 - "Community 88"
+### Community 40 - "Windows RevShell DLL"
 Cohesion: 0.67
-Nodes (3): obfuscate_payload(), Obfuscates a payload string by converting its characters into hexadecimal format, Obfuscates a payload string by converting its characters into hexadecimal format
+Nodes (0): 
 
-### Community 89 - "Community 89"
+### Community 41 - "Linux Reverse Shell"
 Cohesion: 0.67
-Nodes (3): halp(), Display the help panel for the LazyOwn RedTeam Framework.      This function pri, Display the help panel for the LazyOwn RedTeam Framework.      This function pri
+Nodes (0): 
 
-### Community 90 - "Community 90"
+### Community 42 - "Linux Rootkit"
 Cohesion: 0.67
-Nodes (3): generate_index(), Generates an APT repository structure and index files for proper compatibility., Generates an APT repository structure and index files for proper compatibility.
+Nodes (3): Linux target icon (ghost+Tux hacker on laptop), do_rootkit CLI command, mr.c rootkit module
 
-### Community 91 - "Community 91"
+### Community 43 - "Windows Rootkit"
 Cohesion: 0.67
-Nodes (3): htmlify(), Wrap C2 comms in html and html2 code to make requests look more legitimate, Wrap C2 comms in html and html2 code to make requests look more legitimate
+Nodes (3): Windows target icon (ghost+Windows logo on laptop), do_inject CLI command, mrhyde.c DLL injection rootkit
 
-### Community 92 - "Community 92"
-Cohesion: 0.67
-Nodes (3): Handles signals such as Control + C and shows a message on how to exit.      Thi, Handles signals such as Control + C and shows a message on how to exit.      Thi, signal_handler()
+### Community 44 - "Categories Module"
+Cohesion: 1.0
+Nodes (1): modules/categories.py ===================== cmd2 command category strings for La
 
-### Community 93 - "Community 93"
-Cohesion: 0.67
-Nodes (3): Internal function to rotate characters for ROT cipher.      This function takes, Internal function to rotate characters for ROT cipher.      This function takes, rotate_char()
+### Community 45 - "CVE-2023-28432 PoC"
+Cohesion: 1.0
+Nodes (0): 
 
-### Community 94 - "Community 94"
-Cohesion: 0.67
-Nodes (3): Replace placeholders in a command string with values from a params dictionary,, Replace placeholders in a command string with values from a params dictionary,, replace_command_placeholders()
+### Community 46 - "Mario Util"
+Cohesion: 1.0
+Nodes (0): 
 
-### Community 95 - "Community 95"
-Cohesion: 0.67
-Nodes (3): Replace variables in a command string with their corresponding values.      This, Replace variables in a command string with their corresponding values.      This, replace_variables()
+### Community 47 - "DNS & Subdomain Lists"
+Cohesion: 1.0
+Nodes (2): DNS resolver IP list, subdomain wordlist
+
+### Community 48 - "Modules Ooficesod0Woodo Py"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 49 - "Modules Lazypyautogui Py"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 50 - "Engagement Hooks Rationale 131"
+Cohesion: 1.0
+Nodes (1): Construct an event with a fresh id and current UTC timestamp.
+
+### Community 51 - "Engagement Hooks Rationale 155"
+Cohesion: 1.0
+Nodes (1): Stable channel identifier used for diagnostic logging.
+
+### Community 52 - "Engagement Hooks Rationale 159"
+Cohesion: 1.0
+Nodes (1): Deliver one event. Return True when accepted.          Implementations must neve
+
+### Community 53 - "Engagement Hooks Rationale 352"
+Cohesion: 1.0
+Nodes (1): Return a broadcaster with the standard four-sink configuration.
+
+### Community 54 - "Modules Search Py"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 55 - "Toposwarm Bridge Rationale 434"
+Cohesion: 1.0
+Nodes (1): True if TopoSwarm directory exists (even if model not loaded).
+
+### Community 56 - "Reactive Engine Rationale 607"
+Cohesion: 1.0
+Nodes (1): Pull the originating command verb from a ``command_*`` filename.          Args:
+
+### Community 57 - "Modules Lazycreate Webshell Py"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 58 - "Modules Cve 2018 15133 Php"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 59 - "Moe Router Rationale 259"
+Cohesion: 1.0
+Nodes (1): Return the selected expert from candidates.
+
+### Community 60 - "Modules Lazywerkzeug Py"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 61 - "Security Sanitizers Rationale "
+Cohesion: 1.0
+Nodes (1): Build a configuration object from a ``payload.json`` mapping.          Unknown k
+
+### Community 62 - "Security Sanitizers Rationale "
+Cohesion: 1.0
+Nodes (1): The resolved, absolute base directory.
+
+### Community 63 - "Detection Oracle Rationale 70"
+Cohesion: 1.0
+Nodes (1): Return True when detection probability is 70% or higher.
+
+### Community 64 - "Detection Oracle Rationale 75"
+Cohesion: 1.0
+Nodes (1): Return True when detection probability is 90% or higher.
+
+### Community 65 - "Detection Oracle Rationale 94"
+Cohesion: 1.0
+Nodes (1): Return a full DetectionAssessment for the given action.
+
+### Community 66 - "Detection Oracle Rationale 98"
+Cohesion: 1.0
+Nodes (1): Return only the probability score in [0.0, 1.0].
+
+### Community 67 - "Detection Oracle Rationale 385"
+Cohesion: 1.0
+Nodes (1): Return the effective probability for a matched rule.         Applies a 10% boost
+
+### Community 68 - "Report Generator Rationale 212"
+Cohesion: 1.0
+Nodes (1): CVSS v3.1 Roundup function: round up to nearest 0.1.
+
+### Community 69 - "Report Generator Rationale 221"
+Cohesion: 1.0
+Nodes (1): Return the CVSS v3.1 qualitative severity rating.
+
+### Community 70 - "Report Generator Rationale 235"
+Cohesion: 1.0
+Nodes (1): Parse a CVSS v3.x vector string into a dict of metric abbreviations.          Ha
+
+### Community 71 - "Report Generator Rationale 367"
+Cohesion: 1.0
+Nodes (1): Add a code-block paragraph using the Code style if available.
+
+### Community 72 - "Report Generator Rationale 380"
+Cohesion: 1.0
+Nodes (1): Add a paragraph that renders as a thin horizontal rule.
+
+### Community 73 - "Report Generator Rationale 397"
+Cohesion: 1.0
+Nodes (1): Insert a 'CONFIDENTIAL' header and page-number footer into every         section
+
+### Community 74 - "C2 Profile Rationale 204"
+Cohesion: 1.0
+Nodes (1): Load a C2Profile from a YAML file at *path*.
+
+### Community 75 - "C2 Profile Rationale 222"
+Cohesion: 1.0
+Nodes (1): Construct a C2Profile from a plain Python dictionary.
+
+### Community 76 - "C2 Profile Rationale 261"
+Cohesion: 1.0
+Nodes (1): Convert a C2Profile to a plain Python dictionary.
+
+### Community 77 - "C2 Profile Rationale 289"
+Cohesion: 1.0
+Nodes (1): Serialise *profile* to a YAML file and return the written path.
+
+### Community 78 - "C2 Profile Rationale 549"
+Cohesion: 1.0
+Nodes (1): Patch the headers of a Flask response object to match the profile.          Sets
+
+### Community 79 - "C2 Profile Rationale 574"
+Cohesion: 1.0
+Nodes (1): Configure a requests.Session to mimic the profile's HTTP GET behavior.
+
+### Community 80 - "C2 Profile Rationale 587"
+Cohesion: 1.0
+Nodes (1): Return a JSON-serialisable dict suitable for embedding in a beacon         hands
+
+### Community 81 - "Pipeline Engine Rationale 388"
+Cohesion: 1.0
+Nodes (1): Bind a deriver to a top-level command name (case-insensitive).
+
+### Community 82 - "Pipeline Engine Rationale 395"
+Cohesion: 1.0
+Nodes (1): Run the registered deriver for command on output, defensive.
+
+### Community 83 - "Pipeline Engine Rationale 512"
+Cohesion: 1.0
+Nodes (1): Execute one command. Return (output, success, error_text).
+
+### Community 84 - "Pipeline Engine Rationale 821"
+Cohesion: 1.0
+Nodes (1): Emit one narration event.
+
+### Community 85 - "Ai Model Rationale 46"
+Cohesion: 1.0
+Nodes (1): Return a non-streaming completion for ``prompt``.
+
+### Community 86 - "Ai Model Rationale 50"
+Cohesion: 1.0
+Nodes (1): Yield streaming completion chunks for ``prompt``.
+
+### Community 87 - "Metrics Rationale 207"
+Cohesion: 1.0
+Nodes (1): Return the JSONL destination path.
+
+### Community 88 - "Metrics Rationale 240"
+Cohesion: 1.0
+Nodes (1): Return the nearest-rank percentile of *values* in milliseconds.          Args:
+
+### Community 89 - "Metrics Rationale 265"
+Cohesion: 1.0
+Nodes (1): Compute aggregate statistics over the supplied records.          Args:
+
+### Community 90 - "Metrics Rationale 365"
+Cohesion: 1.0
+Nodes (1): Return the JSONL path used by the underlying writer.
+
+### Community 91 - "Modules Jwtexploit Py"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 92 - "Obs Parser Rationale 96"
+Cohesion: 1.0
+Nodes (1): Return all findings of this type found in *text*.
+
+### Community 93 - "Modules Test Lazyencoder Decod"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 94 - "Rl Trainer Rationale 112"
+Cohesion: 1.0
+Nodes (1): Return a string key representing the current state.
+
+### Community 95 - "Searchsploit Rationale 80"
+Cohesion: 1.0
+Nodes (1): Return exploits matching *cve_id* (e.g. 'CVE-2021-41773').
+
+### Community 96 - "Searchsploit Rationale 84"
+Cohesion: 1.0
+Nodes (1): Return exploits matching the service *name* and optional *version*.
+
+### Community 97 - "Modules Integrations Init Py"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 98 - "Nuclei Bridge Rationale 88"
+Cohesion: 1.0
+Nodes (1): Return templates relevant to the provided *services* and *cves*.          Result
+
+### Community 99 - "Misp Export Rationale 86"
+Cohesion: 1.0
+Nodes (1): Convert *finding* to a MISPAttribute.          Returns None if the finding is no
+
+### Community 100 - "Misp Export Rationale 399"
+Cohesion: 1.0
+Nodes (1): Convert raw dict/list data into lightweight finding-like objects.
+
+### Community 101 - "Modules Cgi Bin Lazywebshell P"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 102 - "Modules Rootkit Rootkit Mod C"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 103 - "Metrics Registry Singleton"
+Cohesion: 1.0
+Nodes (1): REGISTRY
+
+### Community 104 - "Backdoor Readme Server C"
+Cohesion: 1.0
+Nodes (1): server.c
+
+### Community 105 - "Rootkit Readme Mrhyde2 C"
+Cohesion: 1.0
+Nodes (1): mrhyde2.c extended rootkit
+
+### Community 106 - "Win Rootkit Readme Win Ring3 R"
+Cohesion: 1.0
+Nodes (1): win_ring3_rootkit.cs managed assembly
+
+### Community 107 - "Integrations Readme Searchsplo"
+Cohesion: 1.0
+Nodes (1): searchsploit integration
+
+### Community 108 - "Modules Mac Png Mac Target Ico"
+Cohesion: 1.0
+Nodes (1): macOS target icon (Apple logo glowing)
 
 ## Knowledge Gaps
-- **487 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **630 isolated node(s):** `Unified LLM client with automatic fallback.      Parameters     ----------     a`, `Send a prompt and return the text response.          Parameters         --------`, `Short classification prompt. Returns a single word: success / failure / partial.`, `Summarize a block of text (e.g. nmap output, tool output).`, `Return (or create) the module-level singleton LLMClient.` (+625 more)
+  These have ≤1 connection - possible missing edges or undocumented components.
+- **Thin community `Categories Module`** (2 nodes): `modules/categories.py ===================== cmd2 command category strings for La`, `categories.py`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `CVE-2023-28432 PoC`** (2 nodes): `poc()`, `CVE-2023-28432.py`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Mario Util`** (2 nodes): `check_collision()`, `mario.py`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `DNS & Subdomain Lists`** (2 nodes): `DNS resolver IP list`, `subdomain wordlist`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Modules Ooficesod0Woodo Py`** (1 nodes): `ooficesod0woodo.py`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Modules Lazypyautogui Py`** (1 nodes): `lazypyautogui.py`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Engagement Hooks Rationale 131`** (1 nodes): `Construct an event with a fresh id and current UTC timestamp.`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Engagement Hooks Rationale 155`** (1 nodes): `Stable channel identifier used for diagnostic logging.`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Engagement Hooks Rationale 159`** (1 nodes): `Deliver one event. Return True when accepted.          Implementations must neve`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Engagement Hooks Rationale 352`** (1 nodes): `Return a broadcaster with the standard four-sink configuration.`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Modules Search Py`** (1 nodes): `search.py`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Toposwarm Bridge Rationale 434`** (1 nodes): `True if TopoSwarm directory exists (even if model not loaded).`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Reactive Engine Rationale 607`** (1 nodes): `Pull the originating command verb from a ``command_*`` filename.          Args:`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Modules Lazycreate Webshell Py`** (1 nodes): `lazycreate_webshell.py`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Modules Cve 2018 15133 Php`** (1 nodes): `CVE-2018-15133.php`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Moe Router Rationale 259`** (1 nodes): `Return the selected expert from candidates.`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Modules Lazywerkzeug Py`** (1 nodes): `lazywerkzeug.py`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Security Sanitizers Rationale `** (1 nodes): `Build a configuration object from a ``payload.json`` mapping.          Unknown k`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Security Sanitizers Rationale `** (1 nodes): `The resolved, absolute base directory.`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Detection Oracle Rationale 70`** (1 nodes): `Return True when detection probability is 70% or higher.`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Detection Oracle Rationale 75`** (1 nodes): `Return True when detection probability is 90% or higher.`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Detection Oracle Rationale 94`** (1 nodes): `Return a full DetectionAssessment for the given action.`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Detection Oracle Rationale 98`** (1 nodes): `Return only the probability score in [0.0, 1.0].`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Detection Oracle Rationale 385`** (1 nodes): `Return the effective probability for a matched rule.         Applies a 10% boost`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Report Generator Rationale 212`** (1 nodes): `CVSS v3.1 Roundup function: round up to nearest 0.1.`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Report Generator Rationale 221`** (1 nodes): `Return the CVSS v3.1 qualitative severity rating.`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Report Generator Rationale 235`** (1 nodes): `Parse a CVSS v3.x vector string into a dict of metric abbreviations.          Ha`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Report Generator Rationale 367`** (1 nodes): `Add a code-block paragraph using the Code style if available.`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Report Generator Rationale 380`** (1 nodes): `Add a paragraph that renders as a thin horizontal rule.`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Report Generator Rationale 397`** (1 nodes): `Insert a 'CONFIDENTIAL' header and page-number footer into every         section`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `C2 Profile Rationale 204`** (1 nodes): `Load a C2Profile from a YAML file at *path*.`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `C2 Profile Rationale 222`** (1 nodes): `Construct a C2Profile from a plain Python dictionary.`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `C2 Profile Rationale 261`** (1 nodes): `Convert a C2Profile to a plain Python dictionary.`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `C2 Profile Rationale 289`** (1 nodes): `Serialise *profile* to a YAML file and return the written path.`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `C2 Profile Rationale 549`** (1 nodes): `Patch the headers of a Flask response object to match the profile.          Sets`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `C2 Profile Rationale 574`** (1 nodes): `Configure a requests.Session to mimic the profile's HTTP GET behavior.`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `C2 Profile Rationale 587`** (1 nodes): `Return a JSON-serialisable dict suitable for embedding in a beacon         hands`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Pipeline Engine Rationale 388`** (1 nodes): `Bind a deriver to a top-level command name (case-insensitive).`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Pipeline Engine Rationale 395`** (1 nodes): `Run the registered deriver for command on output, defensive.`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Pipeline Engine Rationale 512`** (1 nodes): `Execute one command. Return (output, success, error_text).`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Pipeline Engine Rationale 821`** (1 nodes): `Emit one narration event.`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Ai Model Rationale 46`** (1 nodes): `Return a non-streaming completion for ``prompt``.`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Ai Model Rationale 50`** (1 nodes): `Yield streaming completion chunks for ``prompt``.`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Metrics Rationale 207`** (1 nodes): `Return the JSONL destination path.`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Metrics Rationale 240`** (1 nodes): `Return the nearest-rank percentile of *values* in milliseconds.          Args:`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Metrics Rationale 265`** (1 nodes): `Compute aggregate statistics over the supplied records.          Args:`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Metrics Rationale 365`** (1 nodes): `Return the JSONL path used by the underlying writer.`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Modules Jwtexploit Py`** (1 nodes): `jwtexploit.py`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Obs Parser Rationale 96`** (1 nodes): `Return all findings of this type found in *text*.`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Modules Test Lazyencoder Decod`** (1 nodes): `test_lazyencoder_decoder.py`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Rl Trainer Rationale 112`** (1 nodes): `Return a string key representing the current state.`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Searchsploit Rationale 80`** (1 nodes): `Return exploits matching *cve_id* (e.g. 'CVE-2021-41773').`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Searchsploit Rationale 84`** (1 nodes): `Return exploits matching the service *name* and optional *version*.`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Modules Integrations Init Py`** (1 nodes): `__init__.py`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Nuclei Bridge Rationale 88`** (1 nodes): `Return templates relevant to the provided *services* and *cves*.          Result`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Misp Export Rationale 86`** (1 nodes): `Convert *finding* to a MISPAttribute.          Returns None if the finding is no`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Misp Export Rationale 399`** (1 nodes): `Convert raw dict/list data into lightweight finding-like objects.`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Modules Cgi Bin Lazywebshell P`** (1 nodes): `lazywebshell.py`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Modules Rootkit Rootkit Mod C`** (1 nodes): `rootkit.mod.c`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Metrics Registry Singleton`** (1 nodes): `REGISTRY`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Backdoor Readme Server C`** (1 nodes): `server.c`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Rootkit Readme Mrhyde2 C`** (1 nodes): `mrhyde2.c extended rootkit`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Win Rootkit Readme Win Ring3 R`** (1 nodes): `win_ring3_rootkit.cs managed assembly`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Integrations Readme Searchsplo`** (1 nodes): `searchsploit integration`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Modules Mac Png Mac Target Ico`** (1 nodes): `macOS target icon (Apple logo glowing)`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `OllamaModel` connect `Community 0` to `Community 3`, `Community 7`, `Community 8`, `Community 10`, `Community 12`, `Community 14`, `Community 15`, `Community 18`, `Community 21`, `Community 23`, `Community 25`, `Community 37`, `Community 43`, `Community 44`, `Community 47`, `Community 49`, `Community 50`, `Community 62`, `Community 67`, `Community 68`, `Community 69`, `Community 70`, `Community 71`, `Community 72`, `Community 73`, `Community 74`, `Community 75`, `Community 76`, `Community 77`, `Community 78`, `Community 79`, `Community 80`, `Community 81`, `Community 82`, `Community 83`, `Community 96`, `Community 97`?**
-  _High betweenness centrality (0.325) - this node is a cross-community bridge._
-- **Why does `LazyOwnShell` connect `Community 3` to `Community 0`, `Community 1`, `Community 2`, `Community 4`, `Community 5`, `Community 7`, `Community 10`, `Community 12`, `Community 15`, `Community 16`, `Community 18`, `Community 19`, `Community 21`, `Community 25`, `Community 26`, `Community 30`, `Community 35`, `Community 37`, `Community 41`, `Community 42`, `Community 43`, `Community 44`, `Community 45`, `Community 47`, `Community 48`, `Community 49`, `Community 50`, `Community 51`, `Community 57`, `Community 60`, `Community 62`, `Community 67`, `Community 68`, `Community 69`, `Community 70`, `Community 71`, `Community 72`, `Community 73`, `Community 74`, `Community 75`, `Community 76`, `Community 77`, `Community 78`, `Community 79`, `Community 80`, `Community 81`, `Community 82`, `Community 83`, `Community 97`?**
-  _High betweenness centrality (0.260) - this node is a cross-community bridge._
-- **Why does `AIModel` connect `Community 8` to `Community 0`, `Community 37`, `Community 13`, `Community 14`, `Community 21`, `Community 23`, `Community 24`, `Community 28`?**
-  _High betweenness centrality (0.030) - this node is a cross-community bridge._
-- **Are the 505 inferred relationships involving `OllamaModel` (e.g. with `LazyOwnShellBridge` and `SessionContextProvider`) actually correct?**
-  _`OllamaModel` has 505 INFERRED edges - model-reasoned connections that need verification._
-- **Are the 135 inferred relationships involving `LazyOwnShell` (e.g. with `OllamaModel` and `Handler`) actually correct?**
-  _`LazyOwnShell` has 135 INFERRED edges - model-reasoned connections that need verification._
-- **Are the 69 inferred relationships involving `is_binary_present()` (e.g. with `.run_lazymsfvenom()` and `do_nikto()`) actually correct?**
-  _`is_binary_present()` has 69 INFERRED edges - model-reasoned connections that need verification._
-- **Are the 59 inferred relationships involving `copy2clip()` (e.g. with `do_getcap()` and `do_smbclient()`) actually correct?**
-  _`copy2clip()` has 59 INFERRED edges - model-reasoned connections that need verification._
+- **Why does `run_cmd_write()` connect `MITM AP & Dnsmasq` to `Backdoor & Implants`?**
+  _High betweenness centrality (0.031) - this node is a cross-community bridge._
+- **Why does `info()` connect `Code Analysis & File Watch` to `Agent Runner & API`, `Event Engine & Collaboration`, `Atomic Enrichment & Playbooks`, `AI Fallback & Auth`, `AI Models & ICMP`, `CLI Tool Discovery`, `Live Surface & MISP`, `Colors & LazyAgent AI`, `Binary Tools & Camera`, `LLM Chat & Memory`, `MITM & WiFi Attack`, `MoE Router`, `C2 Profile & Malleable`, `Config Store`, `Hive Invoke & Swarm`, `TopoSwarm Bridge`?**
+  _High betweenness centrality (0.031) - this node is a cross-community bridge._
+- **Why does `process_prompt_search()` connect `Colors & LazyAgent AI` to `Event Engine & Collaboration`, `Atomic Enrichment & Playbooks`?**
+  _High betweenness centrality (0.028) - this node is a cross-community bridge._
+- **Are the 145 inferred relationships involving `str` (e.g. with `process_prompt()` and `save_results_to_json()`) actually correct?**
+  _`str` has 145 INFERRED edges - model-reasoned connections that need verification._
+- **Are the 61 inferred relationships involving `info()` (e.g. with `.analyze_code_file()` and `analyze_with_deepseek()`) actually correct?**
+  _`info()` has 61 INFERRED edges - model-reasoned connections that need verification._
+- **Are the 53 inferred relationships involving `AIModel` (e.g. with `AgentTool` and `CommandMetadata`) actually correct?**
+  _`AIModel` has 53 INFERRED edges - model-reasoned connections that need verification._
+- **Are the 34 inferred relationships involving `LLMClient` (e.g. with `PlaybookStep` and `Playbook`) actually correct?**
+  _`LLMClient` has 34 INFERRED edges - model-reasoned connections that need verification._

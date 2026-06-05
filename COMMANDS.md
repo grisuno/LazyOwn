@@ -367,6 +367,23 @@ Both novice and experienced operators can use this:
   ``--tutorial`` for in-depth explanations of every field.
 - Experts: press Enter to accept auto-detected values; Ctrl-C to abort.
 
+## doctor
+Preflight environment health check — verify the install is ready.
+
+Complements ``wizard``. Where ``wizard --check`` validates your
+configuration (payload.json values), ``doctor`` validates the
+installation itself: Python version, active virtual environment,
+importability of the third-party packages install.sh provisions, the
+C2 TLS certificates, payload.json, SecLists, and external kill-chain
+tooling.
+
+Usage:
+    ``doctor``   — run every check and print a status table
+
+Blocking failures (missing required packages, payload.json, or an
+unsupported Python) are highlighted in red; warnings cover optional
+features that will simply be skipped at runtime.
+
 ## ctx
 Print a single-line operator context: rhost, lhost, domain, phase, os, creds.
 
@@ -613,21 +630,25 @@ recent history (``suggest_next lazynmap do_ping 7``).
 :return: None
 
 ## recommend_next
-Recommend the next command using policy engine + graph advisor.
+Recommend the next action via the unified recommendation engine.
 
-Runs two complementary recommendation layers and merges their output:
+This is the single source of truth for "what next". The engine in
+``cli/recommendation.py`` fuses every available signal into one ranked
+list with full provenance:
 
-1. **Policy engine** (``skills/lazyown_policy.py``) — reads historical
-   command transitions from ``sessions/`` and ranks the next action by
-   learned success rates.  Always available; no API key required.
-2. **Graph advisor** (``cli/graph_advisor.py``) — walks the graphify
-   knowledge graph from your recent commands.  Requires ``/graphify .``
-   to have been run at least once.
+- **policy** (``skills/lazyown_policy.py``) — learned kill-chain category
+  priors that up-weight matching concrete actions.
+- **recon plan** (``cli/recon_plan.py``) — addons/tools/commands whose
+  trigger matches services in the latest nmap scan.
+- **graph** (``cli/graph_advisor.py``) — graphify neighbours of your
+  recent activity. Requires ``/graphify .`` at least once.
+- **kill-chain** — static adjacency / phase-priority tables.
 
-This is the CLI equivalent of the MCP tool ``lazyown_recommend_next``.
+Signals whose backend is absent degrade silently. This is the CLI
+equivalent of the MCP tool ``lazyown_recommend_next``.
 
 Usage:
-    ``recommend_next``
+    ``recommend_next [N]``
 
 ## explore
 Show exploration coverage and addon/tool suggestions per service.
@@ -2592,6 +2613,20 @@ Example:
 Note:
     - Ensure the input format is correct: `user:password`.
     - The credentials should be properly formatted with a colon separating the username and password.
+
+## _rotate_existing_credentials
+Back up an existing credentials file before it is overwritten.
+
+Renames ``credentials.txt`` to ``credentials_<username>.txt`` so prior
+creds survive a regeneration. Tolerates a concurrent writer (CLI +
+daemon) removing the file between the existence check and the rename,
+and an empty or malformed first line, instead of aborting the command.
+
+Args:
+    credentials_file_path: Path to the active credentials file.
+
+Returns:
+    The backup path when a rotation happened, otherwise ``None``.
 
 ## createcookie
 Creates a `cookie.txt` file in the `sessions` directory with the specified cookie value.

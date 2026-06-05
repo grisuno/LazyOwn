@@ -456,6 +456,19 @@ step-by-step prompts with clear descriptions; pass
 <code>--tutorial</code> for in-depth explanations of every field. -
 Experts: press Enter to accept auto-detected values; Ctrl-C to
 abort.</p>
+<h2 id="doctor">doctor</h2>
+<p>Preflight environment health check — verify the install is ready.</p>
+<p>Complements <code>wizard</code>. Where <code>wizard --check</code>
+validates your configuration (payload.json values), <code>doctor</code>
+validates the installation itself: Python version, active virtual
+environment, importability of the third-party packages install.sh
+provisions, the C2 TLS certificates, payload.json, SecLists, and
+external kill-chain tooling.</p>
+<p>Usage: <code>doctor</code> — run every check and print a status
+table</p>
+<p>Blocking failures (missing required packages, payload.json, or an
+unsupported Python) are highlighted in red; warnings cover optional
+features that will simply be skipped at runtime.</p>
 <h2 id="ctx">ctx</h2>
 <p>Print a single-line operator context: rhost, lhost, domain, phase,
 os, creds.</p>
@@ -634,21 +647,26 @@ space-separated command names to override the recent history
 <p>:param line: optional list of seed commands, optionally followed by a
 numeric limit. :type line: str :return: None</p>
 <h2 id="recommend_next">recommend_next</h2>
-<p>Recommend the next command using policy engine + graph advisor.</p>
-<p>Runs two complementary recommendation layers and merges their
-output:</p>
-<ol type="1">
-<li><strong>Policy engine</strong>
-(<code>skills/lazyown_policy.py</code>) — reads historical command
-transitions from <code>sessions/</code> and ranks the next action by
-learned success rates. Always available; no API key required.</li>
-<li><strong>Graph advisor</strong> (<code>cli/graph_advisor.py</code>) —
-walks the graphify knowledge graph from your recent commands. Requires
-<code>/graphify .</code> to have been run at least once.</li>
-</ol>
-<p>This is the CLI equivalent of the MCP tool
-<code>lazyown_recommend_next</code>.</p>
-<p>Usage: <code>recommend_next</code></p>
+<p>Recommend the next action via the unified recommendation engine.</p>
+<p>This is the single source of truth for “what next”. The engine in
+<code>cli/recommendation.py</code> fuses every available signal into one
+ranked list with full provenance:</p>
+<ul>
+<li><strong>policy</strong> (<code>skills/lazyown_policy.py</code>) —
+learned kill-chain category priors that up-weight matching concrete
+actions.</li>
+<li><strong>recon plan</strong> (<code>cli/recon_plan.py</code>) —
+addons/tools/commands whose trigger matches services in the latest nmap
+scan.</li>
+<li><strong>graph</strong> (<code>cli/graph_advisor.py</code>) —
+graphify neighbours of your recent activity. Requires
+<code>/graphify .</code> at least once.</li>
+<li><strong>kill-chain</strong> — static adjacency / phase-priority
+tables.</li>
+</ul>
+<p>Signals whose backend is absent degrade silently. This is the CLI
+equivalent of the MCP tool <code>lazyown_recommend_next</code>.</p>
+<p>Usage: <code>recommend_next [N]</code></p>
 <h2 id="explore">explore</h2>
 <p>Show exploration coverage and addon/tool suggestions per service.</p>
 <p>Reads <code>sessions/scan_*.nmap.xml</code> for discovered services,
@@ -2424,6 +2442,16 @@ administrator:passwordadministrator123&amp;!</p>
 <p>Note: - Ensure the input format is correct:
 <code>user:password</code>. - The credentials should be properly
 formatted with a colon separating the username and password.</p>
+<h2 id="rotate_existing_credentials">_rotate_existing_credentials</h2>
+<p>Back up an existing credentials file before it is overwritten.</p>
+<p>Renames <code>credentials.txt</code> to
+<code>credentials_&lt;username&gt;.txt</code> so prior creds survive a
+regeneration. Tolerates a concurrent writer (CLI + daemon) removing the
+file between the existence check and the rename, and an empty or
+malformed first line, instead of aborting the command.</p>
+<p>Args: credentials_file_path: Path to the active credentials file.</p>
+<p>Returns: The backup path when a rotation happened, otherwise
+<code>None</code>.</p>
 <h2 id="createcookie">createcookie</h2>
 <p>Creates a <code>cookie.txt</code> file in the <code>sessions</code>
 directory with the specified cookie value.</p>

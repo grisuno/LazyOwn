@@ -6294,21 +6294,34 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         target = cfg.get("rhost", "") or cfg.get("lhost", "127.0.0.1")
         lines: list[str] = []
 
-        # Layer 1 — policy engine: strategic category recommendations from learned transitions
-        if _POLICY_AVAILABLE and _policy is not None:
-            policy_recs = await asyncio.get_event_loop().run_in_executor(
-                None, lambda: _policy.get_recommendations(target)
-            )
-            if policy_recs:
-                lines.append(f"[Policy] Strategic recommendations for {target}:")
-                for i, r in enumerate(policy_recs, 1):
-                    bar = "█" * int(r["confidence"] * 10)
-                    lines.append(
-                        f"  {i}. [{bar:<10}] {r['confidence']:.0%}  "
-                        f"category={r['category']}  [{r['source']}]"
+        # Layer 1 — unified engine: fused policy + recon + graph + kill-chain
+        def _fused_recommendations() -> list:
+            from cli.recommendation import KIND_CATEGORY
+            from cli.recommendation_signals import build_context, build_default_engine
+
+            engine = build_default_engine(payload=cfg)
+            ctx = build_context(cfg, target=target, limit=8)
+            out: list[str] = []
+            recs = engine.recommend(ctx)
+            if recs:
+                out.append(f"[Engine] Fused next-best actions for {target}:")
+                for i, rec in enumerate(recs, 1):
+                    bar = "█" * int(min(rec.score, 1.0) * 10)
+                    tag = "category" if rec.kind == KIND_CATEGORY else rec.kind
+                    out.append(
+                        f"  {i}. [{bar:<10}] {rec.action}  "
+                        f"[{tag} · {', '.join(rec.sources)}]"
                     )
-                    lines.append(f"       {r['reason']}")
-                lines.append("")
+                    for reason in rec.reasons:
+                        out.append(f"       {reason}")
+                    if rec.command_preview:
+                        out.append(f"       $ {rec.command_preview}")
+                out.append("")
+            return out
+
+        lines.extend(
+            await asyncio.get_event_loop().run_in_executor(None, _fused_recommendations)
+        )
 
         # Layer 2 — LLM recommender: specific commands with arguments
         if _RECOMMENDER_AVAILABLE:

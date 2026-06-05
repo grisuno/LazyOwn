@@ -33,6 +33,29 @@ See the LICENSE file for details about using this software.
 
 LazyOwn is a professional red team framework for penetration testers and security researchers. It provides over 666 attack techniques for Linux, Unix, BSD, macOS, and Windows environments, and integrates the Atomic Red Team attack library.
 
+## Quickstart in three commands
+
+New here? This is the whole on-ramp. Full walkthrough: [`QUICKSTART.md`](QUICKSTART.md).
+
+```bash
+git clone https://github.com/grisuno/LazyOwn.git && cd LazyOwn
+bash install.sh        # virtualenv + dependencies + C2 certificates
+./run                  # launches the shell; first run offers the setup wizard
+```
+
+Then, inside the `(LazyOwn) >` shell:
+
+```text
+doctor          # preflight: verifies Python, venv, packages, certs, SecLists, tools
+wizard          # guided config (auto-detects lhost, walks 7 steps)
+ping            # confirm the target is up and detect its OS
+lazynmap        # full port + service scan
+```
+
+If `doctor` reports a blocking failure (red), fix it before going further — it
+tells you the exact `pip install` / `apt install` command for whatever is
+missing. Warnings (yellow) are optional features you can ignore for now.
+
 # Core Architecture
 LazyOwn is built around a modular, command-driven architecture that provides flexibility and extensibility for security testing workflows.
 
@@ -69,9 +92,10 @@ Connect Claude Code to the LazyOwn framework via the Model Context Protocol (MCP
 # 1. Clone and install
 git clone https://github.com/grisuno/LazyOwn.git && cd LazyOwn && bash install.sh
 
-# 2. Launch and run the wizard (auto-detects lhost, walks 7 config steps)
+# 2. Launch, verify the install, then run the wizard
 ./run
-(LazyOwn) > wizard
+(LazyOwn) > doctor   # preflight: Python, venv, packages, certs, SecLists, tools
+(LazyOwn) > wizard   # auto-detects lhost, walks 7 config steps
 
 # 3. Recon
 (LazyOwn) > ping && lazynmap && auto_populate && facts_show

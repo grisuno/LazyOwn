@@ -1,0 +1,1 @@
+{"nodes": [{"id": "plugins_lolbas_mshta_reverse_shell_lua", "label": "lolbas_mshta_reverse_shell.lua", "file_type": "code", "source_file": "plugins/lolbas_mshta_reverse_shell.lua", "source_location": "L1"}], "edges": [], "raw_calls": []}

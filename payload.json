@@ -26,6 +26,8 @@
   "start_pass": "grisgrisgris",
   "rhost": "10.0.0.1",
   "lhost": "127.0.0.1",
+  "scope": [],
+  "scope_enforcement": "warn",
   "rport": 1337,
   "lport": 1337,
   "sleep": 6,

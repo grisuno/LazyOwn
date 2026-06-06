@@ -20,17 +20,16 @@ _ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(_ROOT))
 
 from cli.command_chain import (  # noqa: E402
+    SOURCE_ADDON,
+    SOURCE_PHASE,
+    SOURCE_STATIC,
+    SOURCE_TOOL,
     ChainConfig,
     CommandChain,
     DynamicNextResolver,
     NextStep,
     PrerequisiteRegistry,
     ServiceNextResolver,
-    SOURCE_ADDON,
-    SOURCE_PHASE,
-    SOURCE_SERVICE,
-    SOURCE_STATIC,
-    SOURCE_TOOL,
     StaticNextRegistry,
     _normalise,
 )

@@ -121,6 +121,17 @@ class TestPyProjectToml:
         deps = pyproject["project"]["dependencies"]
         assert "flask-wtf" in deps
 
+    def test_does_not_list_broken_docx(self, pyproject):
+        deps = pyproject["project"]["dependencies"]
+        assert "docx" not in deps, "the standalone 'docx' package is broken; python-docx provides the docx module"
+        assert "python-docx" in deps
+
+    def test_has_ml_optional_dependencies(self, pyproject):
+        ml = pyproject["project"].get("optional-dependencies", {}).get("ml", [])
+        joined = " ".join(ml)
+        for tool in ("torch", "scikit-learn"):
+            assert tool in joined, f"ml extra missing tool: {tool}"
+
     def test_has_dev_optional_dependencies(self, pyproject):
         dev = pyproject["project"].get("optional-dependencies", {}).get("dev", [])
         joined = " ".join(dev)
@@ -144,7 +155,12 @@ class TestPyProjectToml:
 
 
 class TestSetupPy:
-    """setup.py must parse, import os, and not contain the previous typos."""
+    """setup.py must be a thin shim delegating to pyproject.toml.
+
+    The dependency list lives only in ``pyproject.toml`` ``[project]``; setup.py
+    must not duplicate it (DRY) and must simply call ``setup()`` so legacy
+    ``python setup.py`` invocations keep working.
+    """
 
     @pytest.fixture(scope="class")
     def setup_tree(self) -> ast.Module:
@@ -157,9 +173,18 @@ class TestSetupPy:
     def test_parses(self, setup_tree):
         assert setup_tree is not None
 
-    def test_imports_os(self, setup_tree):
-        imports = [alias.name for node in ast.walk(setup_tree) if isinstance(node, ast.Import) for alias in node.names]
-        assert "os" in imports, "setup.py must import os because it calls os.path.exists"
+    def test_calls_setup(self, setup_tree):
+        calls = [
+            node
+            for node in ast.walk(setup_tree)
+            if isinstance(node, ast.Call) and getattr(node.func, "id", None) == "setup"
+        ]
+        assert calls, "setup.py must call setup()"
+
+    def test_does_not_duplicate_dependencies(self, setup_text):
+        assert "install_requires" not in setup_text, (
+            "setup.py must not duplicate dependencies; pyproject.toml [project] is the single source of truth"
+        )
 
     def test_no_typo_dep(self, setup_text):
         assert "instal flask-wtf" not in setup_text
@@ -276,6 +301,73 @@ class TestGitIgnore:
     )
     def test_pattern_present(self, patterns, pattern):
         assert pattern in patterns, f"sensitive pattern missing from .gitignore: {pattern}"
+
+
+class TestRequirementsLock:
+    """Pinned runtime locks must exist, be fully pinned, and stay split so the
+    cross-platform core never drags in platform-specific CUDA wheels."""
+
+    @staticmethod
+    def _entries(name: str) -> list[str]:
+        return [
+            line.strip()
+            for line in (REPO_ROOT / name).read_text(encoding="utf-8").splitlines()
+            if line.strip() and not line.strip().startswith("#")
+        ]
+
+    @staticmethod
+    def _names(entries: list[str]) -> list[str]:
+        return [entry.split("==")[0].strip().lower() for entry in entries]
+
+    def test_core_lock_exists_and_pinned(self):
+        entries = self._entries("requirements.txt")
+        assert entries, "requirements.txt must list pinned dependencies"
+        unpinned = [entry for entry in entries if "==" not in entry]
+        assert unpinned == [], f"unpinned core entries: {unpinned}"
+
+    def test_core_lock_has_python_docx_not_broken_docx(self):
+        names = self._names(self._entries("requirements.txt"))
+        assert "python-docx" in names
+        assert "docx" not in names, "the broken standalone 'docx' package must not be pinned"
+
+    def test_core_lock_is_cross_platform(self):
+        names = self._names(self._entries("requirements.txt"))
+        leaked = [n for n in names if n.startswith("nvidia-") or n.startswith("cuda-") or n in {"torch", "triton"}]
+        assert leaked == [], f"platform-specific ML wheels leaked into the core lock: {leaked}"
+
+    def test_ml_lock_exists_pinned_with_torch(self):
+        entries = self._entries("requirements-ml.txt")
+        assert entries, "requirements-ml.txt must list pinned dependencies"
+        unpinned = [entry for entry in entries if "==" not in entry]
+        assert unpinned == [], f"unpinned ml entries: {unpinned}"
+        assert "torch" in self._names(entries)
+
+
+class TestInstallScript:
+    """install.sh must be hardened and free of the historical bugs."""
+
+    @pytest.fixture(scope="class")
+    def text(self) -> str:
+        return (REPO_ROOT / "install.sh").read_text(encoding="utf-8")
+
+    def test_uses_strict_mode(self, text):
+        assert "set -euo pipefail" in text, "install.sh must run under strict bash mode"
+
+    def test_does_not_install_stdlib_ast(self, text):
+        import re
+
+        assert re.search(r"install\s+ast(\s|$)", text) is None, "stdlib 'ast' must not be pip-installed"
+
+    def test_does_not_install_broken_docx(self, text):
+        import re
+
+        assert re.search(r"install\s+docx(\s|$)", text) is None, "the broken standalone 'docx' must not be installed"
+
+    def test_installs_from_pinned_lock(self, text):
+        assert "requirements.txt" in text, "install.sh must install from the pinned requirements lock"
+
+    def test_no_absolute_modules_ext_path(self, text):
+        assert "chmod +x /modules_ext" not in text, "the modules_ext path must be repo-relative, not absolute"
 
 
 class TestSourceFilesParse:

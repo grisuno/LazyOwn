@@ -464,7 +464,9 @@ class TestAutonomousDaemonSWAN:
     def test_cascade_strategy_contains_swan_selector(self):
         """The default StrategyEngine cascade must include a SWANSelector."""
         from autonomous_daemon import (
-            MetricsAwareSelector, PTYCommandRunner, StrategyEngine,
+            MetricsAwareSelector,
+            PTYCommandRunner,
+            StrategyEngine,
         )
         engine = StrategyEngine(runner=PTYCommandRunner())
         names = [
@@ -476,7 +478,9 @@ class TestAutonomousDaemonSWAN:
     def test_cascade_strategy_order(self):
         """SWANSelector must appear before FallbackSelector in the cascade."""
         from autonomous_daemon import (
-            MetricsAwareSelector, PTYCommandRunner, StrategyEngine,
+            MetricsAwareSelector,
+            PTYCommandRunner,
+            StrategyEngine,
         )
         engine = StrategyEngine(runner=PTYCommandRunner())
         names = [

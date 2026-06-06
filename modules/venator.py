@@ -798,7 +798,7 @@ def hmac_sha256(key, data):
 
 
 def amzn_sig(secret_access_key, data, aws_region, aws_service='s3'):
-    today = datetime.datetime.utcnow().strftime('%Y%m%d')
+    today = datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%d')
     date_key = hmac_sha256('AWS4' + secret_access_key, today)
     date_region_key = hmac_sha256(date_key, aws_region)
     date_region_svc_key = hmac_sha256(date_region_key, aws_service)
@@ -828,7 +828,7 @@ def s3_upload(data, content_type, filename_path, access_key_id, secret_access_ke
     put_req = urllib2.Request(s3_upload_url, data=data)
     put_req.get_method = lambda: 'PUT'
 
-    now = datetime.datetime.utcnow()
+    now = datetime.datetime.now(datetime.timezone.utc)
     amzn_ts = now.strftime('%Y%m%dT%H%M%SZ')
     amzn_date = now.strftime('%Y%m%d')
 

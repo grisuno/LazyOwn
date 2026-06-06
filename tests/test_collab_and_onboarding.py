@@ -31,8 +31,8 @@ COLLAB_MODULE = REPO_ROOT / "modules" / "collab_bp.py"
 
 def _make_app():
     """Build a minimal Flask app with collab_bp registered."""
-    from flask import Flask
     from collab_bp import collab_bp
+    from flask import Flask
 
     app = Flask(__name__, template_folder=str(REPO_ROOT / "templates"))
     app.config["TESTING"] = True
@@ -213,9 +213,9 @@ class TestEventBus:
         assert bus.recent(10) == []
 
     def test_full_queue_drops_stale_subscriber(self, bus):
+
         from collab_bp import ColabEvent
-        import queue
-        q = bus.subscribe("stale")
+        bus.subscribe("stale")
         for _ in range(bus._MAX_QUEUE + 10):
             try:
                 bus.publish(ColabEvent(type="flood", payload={}, operator="sys"))
@@ -263,7 +263,7 @@ class TestLockManager:
         lm.acquire("10.10.11.1", "alice")
         lm.acquire("10.10.11.2", "bob")
         locks = lm.all_locks()
-        targets = {l.target for l in locks}
+        targets = {lock.target for lock in locks}
         assert "10.10.11.1" in targets
         assert "10.10.11.2" in targets
 

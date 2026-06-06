@@ -19,7 +19,6 @@ dependencies = [
     "pwn",
     "groq",
     "PyPDF2",
-    "docx",
     "python-docx",
     "olefile",
     "exifread",
@@ -86,6 +85,14 @@ Repository = "https://github.com/grisuno/LazyOwn"
 Documentation = "https://grisuno.github.io/LazyOwn/"
 
 [project.optional-dependencies]
+ml = [
+    "torch",
+    "torchvision",
+    "torchaudio",
+    "scikit-learn",
+    "seaborn",
+    "joblib",
+]
 dev = [
     "ruff>=0.6.0",
     "pytest>=7.0",

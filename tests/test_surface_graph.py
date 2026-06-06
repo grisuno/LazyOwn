@@ -35,7 +35,6 @@ from cli.surface_graph import (  # noqa: E402
     iter_descendants,
 )
 
-
 IMPLANT_COLUMNS = (
     "client_id",
     "os",

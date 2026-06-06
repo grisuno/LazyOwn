@@ -28,30 +28,24 @@ specific requirement.
 
 from __future__ import annotations
 
-import argparse
-import importlib
-import io
 import json
-import os
 import sys
 import tempfile
 import unittest
 from dataclasses import is_dataclass
 from pathlib import Path
 from typing import Any, Mapping
-from unittest.mock import MagicMock
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from cli.commands._dormancy import is_pending
-from cli.commands.orchestration import (
+from cli.commands._dormancy import is_pending  # noqa: E402
+from cli.commands.orchestration import (  # noqa: E402
     OrchestrationCommandSet,
-    OrchestrationConfig,
 )
-from cli.registry import iter_command_sets
-from cli.status_bar import (
+from cli.registry import iter_command_sets  # noqa: E402
+from cli.status_bar import (  # noqa: E402
     FileSystemReader,
     GraphSuggestionSource,
     PayloadTargetSource,
@@ -63,7 +57,7 @@ from cli.status_bar import (
     WorldModelPhaseSource,
     build_default_manager,
 )
-from skills.unified_orchestrator import (
+from skills.unified_orchestrator import (  # noqa: E402
     BackendRegistry,
     DaemonBackend,
     EventBus,
@@ -782,6 +776,7 @@ class CmdIntegrationRegressionSpec(unittest.TestCase):
 
     def test_command_set_resolves_shell_via_cmd_property(self) -> None:
         import cmd2
+
         from cli.commands.orchestration import OrchestrationCommandSet
 
         class _Shell(cmd2.Cmd):
@@ -817,6 +812,7 @@ class CmdIntegrationRegressionSpec(unittest.TestCase):
 
     def test_orchestration_commandset_finds_managers_on_bound_shell(self) -> None:
         import cmd2
+
         from cli.commands.orchestration import OrchestrationCommandSet
 
         class _Shell(cmd2.Cmd):

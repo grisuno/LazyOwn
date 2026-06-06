@@ -15,13 +15,8 @@ from __future__ import annotations
 
 import csv
 import json
-import math
 import sys
-import tempfile
 from pathlib import Path
-from types import SimpleNamespace
-from typing import Any
-from unittest.mock import MagicMock, patch
 
 import pytest
 
@@ -38,8 +33,8 @@ sys.path.insert(0, str(REPO / "skills"))
 
 class TestEngagementState:
     def test_load_fresh_state_has_zero_commands(self, tmp_path):
-        from cli.engagement_hooks import _load_state, STATE_PATH
         import cli.engagement_hooks as eh
+        from cli.engagement_hooks import _load_state
         old = eh.STATE_PATH
         eh.STATE_PATH = tmp_path / "engagement_state.json"
         try:
@@ -52,8 +47,8 @@ class TestEngagementState:
             eh.STATE_PATH = old
 
     def test_save_and_reload_state(self, tmp_path):
-        from cli.engagement_hooks import _load_state, _save_state, EngagementState
         import cli.engagement_hooks as eh
+        from cli.engagement_hooks import EngagementState, _load_state, _save_state
         old = eh.STATE_PATH
         eh.STATE_PATH = tmp_path / "engagement_state.json"
         try:
@@ -67,8 +62,8 @@ class TestEngagementState:
             eh.STATE_PATH = old
 
     def test_atomic_write_leaves_no_tmp_file(self, tmp_path):
-        from cli.engagement_hooks import _save_state, EngagementState
         import cli.engagement_hooks as eh
+        from cli.engagement_hooks import EngagementState, _save_state
         old = eh.STATE_PATH
         eh.STATE_PATH = tmp_path / "engagement_state.json"
         try:
@@ -88,7 +83,7 @@ class TestVRIScheduler:
             assert gap >= 2, f"gap={gap} must be >= 2"
 
     def test_next_threshold_mean_near_target(self):
-        from cli.engagement_hooks import _next_threshold, MEAN_INTERVAL
+        from cli.engagement_hooks import MEAN_INTERVAL, _next_threshold
         gaps = [_next_threshold(0) for _ in range(2000)]
         mean = sum(gaps) / len(gaps)
         assert abs(mean - MEAN_INTERVAL) < 2.5, f"mean={mean:.2f} too far from {MEAN_INTERVAL}"
@@ -99,8 +94,8 @@ class TestVRIScheduler:
         assert len(gaps) > 3, "VRI gaps must vary (not fixed interval)"
 
     def test_vri_fires_when_threshold_reached(self, tmp_path, capsys):
-        from cli.engagement_hooks import render_engagement_hook, reset_session, EngagementState
         import cli.engagement_hooks as eh
+        from cli.engagement_hooks import render_engagement_hook, reset_session
         old_state_path = eh.STATE_PATH
         old_index_path = eh.INDEX_PATH
         eh.STATE_PATH = tmp_path / "state.json"
@@ -124,8 +119,8 @@ class TestVRIScheduler:
             eh._index = None
 
     def test_vri_does_not_fire_before_threshold(self, tmp_path, capsys):
-        from cli.engagement_hooks import render_engagement_hook, reset_session, EngagementState
         import cli.engagement_hooks as eh
+        from cli.engagement_hooks import render_engagement_hook, reset_session
         old_state_path = eh.STATE_PATH
         old_index_path = eh.INDEX_PATH
         eh.STATE_PATH = tmp_path / "state.json"
@@ -174,8 +169,9 @@ class TestCuriosityEngine:
         assert "lazynmap" not in out.split("explore:")[1].split("\n")[0]
 
     def test_curiosity_does_not_repeat_in_session(self, capsys):
-        from cli.engagement_hooks import _run_curiosity
         import re
+
+        from cli.engagement_hooks import _run_curiosity
         cmds = [f"do_cmd{i}" for i in range(10)]
         idx = self._minimal_index({"enum": cmds})
         state = self._make_state()
@@ -198,8 +194,8 @@ class TestCuriosityEngine:
         assert "explore:" not in out
 
     def test_curiosity_silent_when_disabled(self, capsys):
-        from cli.engagement_hooks import render_engagement_hook, reset_session
         import cli.engagement_hooks as eh
+        from cli.engagement_hooks import render_engagement_hook
         old = eh._state
         try:
             from cli.engagement_hooks import EngagementState
@@ -220,8 +216,8 @@ class TestCuriosityEngine:
         assert "explore:" not in out
 
     def test_commands_seen_accumulates_across_calls(self, tmp_path):
-        from cli.engagement_hooks import render_engagement_hook, reset_session
         import cli.engagement_hooks as eh
+        from cli.engagement_hooks import render_engagement_hook, reset_session
         old_state = eh.STATE_PATH
         old_index = eh.INDEX_PATH
         eh.STATE_PATH = tmp_path / "s.json"
@@ -350,18 +346,18 @@ class TestRecommendNextCommandIndex:
         idx_path, all_cmds = self._build_index(tmp_path, "recon", 6)
         csv_path = self._build_csv(tmp_path, ["cmd0", "cmd1"])
 
-        import json as _json, csv as _csv
+        import csv as _csv
+        import json as _json
         idx = _json.loads(idx_path.read_text())
         ptc = idx["phase_to_commands"]
-        cmds_list = idx["commands"]
-        summary_map = {e["name"]: e.get("summary","") for e in cmds_list if "name" in e}
 
         seen: set = set()
         with open(csv_path, newline="") as fh:
             for row in _csv.DictReader(fh):
                 c = (row.get("command") or "").strip()
                 if c:
-                    seen.add(c); seen.add(f"do_{c}")
+                    seen.add(c)
+                    seen.add(f"do_{c}")
 
         candidates = ptc.get("recon", [])
         never_run = [c for c in candidates if c not in seen]
@@ -374,14 +370,16 @@ class TestRecommendNextCommandIndex:
         idx_path, all_cmds = self._build_index(tmp_path, "recon", 3)
         csv_path = self._build_csv(tmp_path, ["cmd0", "cmd1", "cmd2"])
 
-        import json as _json, csv as _csv
+        import csv as _csv
+        import json as _json
         idx = _json.loads(idx_path.read_text())
         seen: set = set()
         with open(csv_path, newline="") as fh:
             for row in _csv.DictReader(fh):
                 c = (row.get("command") or "").strip()
                 if c:
-                    seen.add(c); seen.add(f"do_{c}")
+                    seen.add(c)
+                    seen.add(f"do_{c}")
 
         candidates = idx["phase_to_commands"].get("recon", [])
         never_run = [c for c in candidates if c not in seen]
@@ -390,9 +388,9 @@ class TestRecommendNextCommandIndex:
     def test_no_graph_nodes_in_output(self, tmp_path, capsys):
         """Command-index layer must never show code graph nodes."""
         idx_path, all_cmds = self._build_index(tmp_path, "enum", 5)
-        csv_path = self._build_csv(tmp_path, [])
+        self._build_csv(tmp_path, [])
 
-        import json as _json, csv as _csv
+        import json as _json
         idx = _json.loads(idx_path.read_text())
         candidates = idx["phase_to_commands"].get("enum", [])
 

@@ -17,25 +17,24 @@ from __future__ import annotations
 import json
 import sys
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 import pytest
-
 
 _ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(_ROOT))
 sys.path.insert(0, str(_ROOT / "skills"))
 
+from skills.autonomous_daemon import compute_decision_seed  # noqa: E402
 from skills.autonomous_replay import (  # noqa: E402
-    EventLogReader,
     REPLAY_MODE_EXECUTE,
     REPLAY_MODE_TRACE,
+    SUPPORTED_REPLAY_MODES,
+    EventLogReader,
     ReplayDispatcher,
     ReplayReport,
-    SUPPORTED_REPLAY_MODES,
     replay,
 )
-from skills.autonomous_daemon import compute_decision_seed  # noqa: E402
 
 
 def _event(
@@ -45,7 +44,7 @@ def _event(
     command: str,
     source: str = "fallback",
     seed_override: str = None,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     seed = (
         seed_override
         if seed_override is not None
@@ -67,7 +66,7 @@ def _event(
     }
 
 
-def _write_jsonl(path: Path, events: List[Dict[str, Any]]) -> None:
+def _write_jsonl(path: Path, events: list[dict[str, Any]]) -> None:
     with path.open("w", encoding="utf-8") as handle:
         for event in events:
             handle.write(json.dumps(event) + "\n")
@@ -154,7 +153,7 @@ def test_execute_runs_commands_through_injected_runner(tmp_path: Path) -> None:
 
     class _Runner:
         def __init__(self) -> None:
-            self.calls: List[str] = []
+            self.calls: list[str] = []
 
         def run(self, command: str, timeout: int) -> str:
             self.calls.append(command)

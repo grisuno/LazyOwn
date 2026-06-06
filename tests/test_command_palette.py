@@ -94,8 +94,8 @@ class PaletteSuiteConfig:
     lazyown_shell_class_name: str = "LazyOwnShell"
     known_duplicate_lines: dict[str, frozenset[int]] = field(
         default_factory=lambda: {
-            "do_shellshock": frozenset({11357, 14704}),
-            "do_download_c2": frozenset({992, 25051, 26518}),
+            "do_shellshock": frozenset({11589, 14936}),
+            "do_download_c2": frozenset({992, 25283, 26750}),
         }
     )
     invalid_index_payload: str = "{not json"

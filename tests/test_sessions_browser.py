@@ -14,7 +14,6 @@ _ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(_ROOT))
 
 from cli.sessions_browser import (  # noqa: E402
-    SessionEntry,
     SessionPreview,
     SessionsBrowserConfig,
     SessionsIndex,

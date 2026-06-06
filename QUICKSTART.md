@@ -27,7 +27,16 @@ cd LazyOwn
 bash install.sh
 ```
 
-`install.sh` creates the virtualenv at `env/`, installs all Python deps, and generates `cert.pem` / `key.pem` for the C2.
+`install.sh` creates the virtualenv at `env/`, installs the pinned Python deps from `requirements.txt`, installs the local Ollama runtime, and generates `cert.pem` / `key.pem` for the C2. It is idempotent: re-running it updates in place.
+
+Flags for a lighter install:
+
+```bash
+bash install.sh --no-ml       # skip the 2 GB torch/CUDA + scikit-learn stack (ML features degrade gracefully)
+bash install.sh --no-ollama   # skip the local Ollama runtime
+```
+
+Dependencies are declared once in `pyproject.toml` and pinned in `requirements.txt` (cross-platform core) and `requirements-ml.txt` (optional ML). Developers can instead use `pip install -e .[ml,dev]`.
 
 ---
 

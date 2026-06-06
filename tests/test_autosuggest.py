@@ -17,21 +17,19 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-import pytest
-
 REPO_ROOT = Path(__file__).resolve().parent.parent
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from cli.autosuggest import (
+from cli.autosuggest import (  # noqa: E402
     ACCEPT_KEY_HINT,
     ANSI_DIM_GREY,
     ANSI_RESET,
+    GHOST_TEXT_LIMIT,
+    HINT_COMMAND_LIMIT,
     AutoSuggestEngine,
     CompositeProvider,
-    GHOST_TEXT_LIMIT,
     GraphProvider,
-    HINT_COMMAND_LIMIT,
     KillChainProvider,
     Suggestion,
     SuggestionContext,

@@ -301,7 +301,7 @@ class _JsonLogFormatter(logging.Formatter):
     def format(self, record):
         import datetime as _dt
         payload = {
-            "timestamp": _dt.datetime.utcnow().isoformat() + "Z",
+            "timestamp": _dt.datetime.now(_dt.timezone.utc).replace(tzinfo=None).isoformat() + "Z",
             "level": record.levelname,
             "logger": record.name,
             "message": record.getMessage(),
@@ -5017,7 +5017,7 @@ def track_pixel(campaign_id, email):
     """Píxel de seguimiento para registrar aperturas."""
     conn = sqlite3.connect(DB_PATH)
     conn.execute('INSERT INTO tracking VALUES (?, ?, ?, ?, ?)',
-                 (campaign_id, email, 'opened', request.remote_addr, datetime.utcnow().isoformat()))
+                 (campaign_id, email, 'opened', request.remote_addr, datetime.now(timezone.utc).replace(tzinfo=None).isoformat()))
     conn.commit()
     conn.close()
 

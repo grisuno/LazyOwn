@@ -20,7 +20,6 @@ from __future__ import annotations
 import json
 import sys
 from pathlib import Path
-from typing import Any
 
 import pytest
 
@@ -98,33 +97,37 @@ class TestGetKarmaName:
 
 class TestAwardElo:
     def test_base_only_for_unknown_command_and_phase(self):
-        from cli.engagement_hooks import _award_elo, ELO_BASE
+        from cli.engagement_hooks import ELO_BASE, _award_elo
         assert _award_elo("totally_unknown_cmd", False, False, "") == ELO_BASE
 
     def test_high_value_bonus_applied(self):
-        from cli.engagement_hooks import _award_elo, ELO_BASE, ELO_HIGH_VALUE_CMDS
+        from cli.engagement_hooks import ELO_BASE, ELO_HIGH_VALUE_CMDS, _award_elo
         delta = _award_elo("secretsdump", False, False, "")
         assert delta == ELO_BASE + ELO_HIGH_VALUE_CMDS["secretsdump"]
 
     def test_phase_bonus_applied(self):
-        from cli.engagement_hooks import _award_elo, ELO_BASE, ELO_PHASE_BONUS
+        from cli.engagement_hooks import ELO_BASE, ELO_PHASE_BONUS, _award_elo
         delta = _award_elo("unknown_cmd", False, False, "exploit")
         assert delta == ELO_BASE + ELO_PHASE_BONUS["exploit"]
 
     def test_first_time_bonus(self):
-        from cli.engagement_hooks import _award_elo, ELO_BASE, ELO_FIRST_TIME_BONUS
+        from cli.engagement_hooks import ELO_BASE, ELO_FIRST_TIME_BONUS, _award_elo
         delta = _award_elo("unknown_cmd", True, False, "")
         assert delta == ELO_BASE + ELO_FIRST_TIME_BONUS
 
     def test_new_phase_bonus(self):
-        from cli.engagement_hooks import _award_elo, ELO_BASE, ELO_NEW_PHASE_BONUS
+        from cli.engagement_hooks import ELO_BASE, ELO_NEW_PHASE_BONUS, _award_elo
         delta = _award_elo("unknown_cmd", False, True, "")
         assert delta == ELO_BASE + ELO_NEW_PHASE_BONUS
 
     def test_all_bonuses_stack(self):
         from cli.engagement_hooks import (
-            _award_elo, ELO_BASE, ELO_HIGH_VALUE_CMDS,
-            ELO_PHASE_BONUS, ELO_FIRST_TIME_BONUS, ELO_NEW_PHASE_BONUS,
+            ELO_BASE,
+            ELO_FIRST_TIME_BONUS,
+            ELO_HIGH_VALUE_CMDS,
+            ELO_NEW_PHASE_BONUS,
+            ELO_PHASE_BONUS,
+            _award_elo,
         )
         delta = _award_elo("crackmapexec", True, True, "cred")
         expected = (
@@ -137,7 +140,7 @@ class TestAwardElo:
         assert delta == expected
 
     def test_do_prefix_is_stripped(self):
-        from cli.engagement_hooks import _award_elo, ELO_BASE, ELO_HIGH_VALUE_CMDS
+        from cli.engagement_hooks import ELO_BASE, ELO_HIGH_VALUE_CMDS, _award_elo
         delta = _award_elo("do_lazynmap", False, False, "")
         assert delta == ELO_BASE + ELO_HIGH_VALUE_CMDS["lazynmap"]
 
@@ -215,7 +218,7 @@ class TestPersistNotification:
     def test_creates_file_on_first_call(self, tmp_path):
         saved = _redirect_paths(tmp_path)
         try:
-            from cli.engagement_hooks import _persist_notification, NOTIFICATIONS_PATH
+            from cli.engagement_hooks import _persist_notification
             assert _persist_notification("<p>hi</p>") is True
             data = json.loads((tmp_path / "sessions" / "notifications.json").read_text())
             assert data == [{"html": "<p>hi</p>"}]
@@ -364,7 +367,7 @@ class TestKarmaUp:
     def test_fires_on_threshold_crossing(self, tmp_path, capsys):
         saved = _redirect_paths(tmp_path)
         try:
-            from cli.engagement_hooks import _check_karma_up, EngagementState
+            from cli.engagement_hooks import EngagementState, _check_karma_up
             state = EngagementState(elo=1500, last_karma_name="Noob")
             assert _check_karma_up(state) is True
             assert state.last_karma_name == "Rookie"
@@ -375,7 +378,7 @@ class TestKarmaUp:
             _restore_paths(saved)
 
     def test_idempotent_when_no_threshold_cross(self, capsys):
-        from cli.engagement_hooks import _check_karma_up, EngagementState
+        from cli.engagement_hooks import EngagementState, _check_karma_up
         state = EngagementState(elo=500, last_karma_name="Noob")
         assert _check_karma_up(state) is False
         assert capsys.readouterr().out == ""
@@ -383,7 +386,7 @@ class TestKarmaUp:
     def test_persists_notification(self, tmp_path):
         saved = _redirect_paths(tmp_path)
         try:
-            from cli.engagement_hooks import _check_karma_up, EngagementState
+            from cli.engagement_hooks import EngagementState, _check_karma_up
             state = EngagementState(elo=3000, last_karma_name="Rookie")
             _check_karma_up(state)
             data = json.loads((tmp_path / "sessions" / "notifications.json").read_text())
@@ -399,7 +402,7 @@ class TestRenderEngagementHookIntegration:
     def test_elo_accumulates_across_commands(self, tmp_path):
         saved = _redirect_paths(tmp_path)
         try:
-            from cli.engagement_hooks import render_engagement_hook, get_state_snapshot
+            from cli.engagement_hooks import get_state_snapshot, render_engagement_hook
             render_engagement_hook(cmd="lazynmap", phase="recon", enabled=True)
             render_engagement_hook(cmd="enum4linux", phase="enum", enabled=True)
             snap = get_state_snapshot()
@@ -413,7 +416,7 @@ class TestRenderEngagementHookIntegration:
     def test_first_time_bonus_only_once_per_command(self, tmp_path):
         saved = _redirect_paths(tmp_path)
         try:
-            from cli.engagement_hooks import render_engagement_hook, get_state_snapshot
+            from cli.engagement_hooks import get_state_snapshot, render_engagement_hook
             render_engagement_hook(cmd="lazynmap", phase="recon", enabled=True)
             first_elo = get_state_snapshot()["elo"]
             render_engagement_hook(cmd="lazynmap", phase="recon", enabled=True)
@@ -442,7 +445,7 @@ class TestRenderEngagementHookIntegration:
     def test_disabled_flag_is_noop(self, tmp_path, capsys):
         saved = _redirect_paths(tmp_path)
         try:
-            from cli.engagement_hooks import render_engagement_hook, get_state_snapshot
+            from cli.engagement_hooks import get_state_snapshot, render_engagement_hook
             render_engagement_hook(cmd="lazynmap", phase="recon", enabled=False)
             snap = get_state_snapshot()
             assert snap["total_commands"] == 0

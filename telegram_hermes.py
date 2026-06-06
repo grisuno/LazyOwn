@@ -23,25 +23,23 @@ Configuration (payload.json keys):
 """
 
 import asyncio
-import csv
 import fcntl
 import json
 import os
 import pty
 import re
 import select
+import ssl
 import struct
 import subprocess
 import sys
 import termios
 import time
-import urllib.request
 import urllib.error
-import ssl
+import urllib.request
 from pathlib import Path
 
 import nest_asyncio
-import requests
 from telegram import Update
 from telegram.ext import (
     Application,
@@ -813,7 +811,7 @@ if __name__ == "__main__":
         print("  python3 -c \"import json; p=json.load(open('payload.json')); p['telegram_token']='YOUR_TOKEN'; json.dump(p,open('payload.json','w'),indent=2)\"")
         sys.exit(1)
 
-    print(f"[INFO] LazyOwn Hermes Bot starting...")
+    print("[INFO] LazyOwn Hermes Bot starting...")
     print(f"[INFO] C2 auth secret: {c2_pass[:2]}***")
     print(f"[INFO] IA enabled: {enable_ia}")
     print(f"[INFO] Sessions dir: {SESSIONS_DIR}")

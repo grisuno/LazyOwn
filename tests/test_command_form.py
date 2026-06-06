@@ -13,10 +13,8 @@ _ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(_ROOT))
 
 from cli.command_form import (  # noqa: E402
-    CommandFieldSet,
     CommandFormConfig,
     CommandFormState,
-    FormField,
     build_state,
     launch_form,
 )

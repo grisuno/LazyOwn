@@ -17,7 +17,6 @@ from cli.timeline_browser import (  # noqa: E402
     TimelineColumn,
     TimelineConfig,
     TimelineReader,
-    TimelineState,
     build_state,
 )
 

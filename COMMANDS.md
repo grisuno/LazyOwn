@@ -185,8 +185,73 @@ code can be analysed later.
 :rtype: NoneType
 
 ## onecmd_plus_hooks
-Intercepta comandos para expandir placeholders en aliases.
-Maneja tanto strings como objetos Statement.
+Dispatch a command, expanding payload placeholders in custom aliases.
+
+This is the single chokepoint through which every interactive command
+flows, so it also enforces the authorization scope guard before the
+command runs. Accepts both raw strings and parsed cmd2 ``Statement``
+objects.
+
+Args:
+    statement: The command to run, as a string or ``Statement``.
+    add_to_history: Whether cmd2 should record the command in history.
+    raise_keyboard_interrupt: Whether to propagate Ctrl-C.
+    orig_rl_history_length: Readline bookkeeping passed through to cmd2.
+
+Returns:
+    The ``stop`` flag from cmd2 (``True`` ends the loop). A scope block
+    returns ``False`` so the offending command is skipped without
+    terminating the session.
+
+## _build_scope_offensive
+Compute the set of offensive command names from cmd2 categories.
+
+Reads each command's help category via cmd2 introspection and delegates
+the offensive/benign decision to
+:func:`cli.scope_guard.build_offensive_commands`, so the classification
+policy lives in one tested place.
+
+Returns:
+    The frozenset of offensive command names.
+
+## _resolve_offensive
+Return whether a command (or custom alias) is offensive.
+
+Args:
+    name: The command name or custom alias typed by the operator.
+
+Returns:
+    ``True`` when the command, or the command a custom alias expands to,
+    belongs to an offensive kill-chain category.
+
+## _scope_check
+Authorize a command against the configured engagement scope.
+
+Builds a fresh :class:`cli.scope_guard.ScopeGuard` from the live payload
+values so mid-session changes to ``scope`` / ``scope_enforcement`` take
+effect immediately, then renders the decision. The guard fails open: any
+unexpected error allows the command so a defect here never blocks the
+operator.
+
+Args:
+    cmd_name: The command name about to run.
+
+Returns:
+    ``True`` when the command may proceed, ``False`` when it must be
+    skipped (enforce mode, out of scope, confirmation declined).
+
+## _scope_confirm
+Ask the operator to confirm an out-of-scope offensive command.
+
+Non-interactive sessions (piped input, ``-c`` execution, scripted runs)
+cannot answer a prompt, so they are treated as a refusal: the safer
+default for an enforce-mode block.
+
+Args:
+    decision: The blocking :class:`cli.scope_guard.ScopeDecision`.
+
+Returns:
+    ``True`` only when an interactive operator explicitly confirms.
 
 ## one_cmd
 Internal function to execute commands.
@@ -557,6 +622,49 @@ Tab-complete the parameter name from the live payload keys.
 Driven entirely by ``self.params`` so the framework never has to
 maintain a parallel list of completion targets — adding a new key to
 ``payload.json`` makes it tab-completable for free.
+
+## scope
+Manage the authorized engagement scope and the scope-guard posture.
+
+The scope guard checks every offensive command against this list before
+it runs. While the scope is empty the guard is dormant, so defining a
+scope is opt-in and never disrupts an existing campaign. Entries may be
+CIDR networks, bare IP addresses or hostnames (a leading ``*.`` matches
+subdomains).
+
+Usage:
+    ``scope``                          show the scope and the mode
+    ``scope add <cidr|ip|host>``       authorize an entry
+    ``scope rm <cidr|ip|host>``        remove an entry
+    ``scope clear``                    remove every entry
+    ``scope mode <off|warn|enforce>``  set the enforcement posture
+
+Modes:
+    ``off``      guard disabled.
+    ``warn``     out-of-scope offensive commands run but warn (default).
+    ``enforce``  out-of-scope offensive commands are blocked pending
+                 interactive confirmation.
+
+## complete_scope
+Tab-complete the scope subcommands.
+
+## _scope_entries
+Return the current scope as a fresh mutable list of entry strings.
+
+## _scope_save
+Persist scope and/or mode changes to ``payload.json``.
+
+Mutates ``self.params`` in place and writes through the same atomic
+``save_payload`` path used by ``assign``, keeping a single writer for
+the config file.
+
+Args:
+    entries: Replacement scope list, or ``None`` to leave it unchanged.
+    mode: Replacement enforcement mode, or ``None`` to leave it
+        unchanged.
+
+## _scope_render
+Print the current scope and enforcement mode.
 
 ## show
 Show the current parameter values, sorted and aligned.

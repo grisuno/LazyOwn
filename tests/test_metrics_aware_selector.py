@@ -18,10 +18,7 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path
-from typing import Any, Dict, Optional
-
-import pytest
-
+from typing import Any
 
 _ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(_ROOT))
@@ -40,7 +37,7 @@ from skills.autonomous_daemon import (  # noqa: E402
 class _StubSelector(ICommandSelector):
     """Selector double that returns a hard-coded decision or ``None``."""
 
-    def __init__(self, decision: Optional[CommandDecision]) -> None:
+    def __init__(self, decision: CommandDecision | None) -> None:
         self._decision = decision
         self.calls: int = 0
 
@@ -48,8 +45,8 @@ class _StubSelector(ICommandSelector):
         self,
         target: str,
         phase: str,
-        context: Dict[str, Any],
-    ) -> Optional[CommandDecision]:
+        context: dict[str, Any],
+    ) -> CommandDecision | None:
         self.calls += 1
         return self._decision
 
@@ -57,12 +54,12 @@ class _StubSelector(ICommandSelector):
 class _StubMetrics:
     """Stand-in for ``MetricsRecorder`` exposing only ``summarize``."""
 
-    def __init__(self, by_command: Dict[str, Dict[str, Any]]) -> None:
+    def __init__(self, by_command: dict[str, dict[str, Any]]) -> None:
         self._by_command = by_command
         self.summarize_calls: int = 0
-        self.last_window: Optional[int] = None
+        self.last_window: int | None = None
 
-    def summarize(self, window_seconds: Optional[int] = None) -> Dict[str, Any]:
+    def summarize(self, window_seconds: int | None = None) -> dict[str, Any]:
         self.summarize_calls += 1
         self.last_window = window_seconds
         return {
@@ -207,7 +204,7 @@ def test_decorator_degrades_when_metrics_source_unavailable() -> None:
     """A ``None`` metrics source disables filtering, never raises."""
 
     class _BrokenSource:
-        def summarize(self, window_seconds: Optional[int] = None) -> Dict[str, Any]:
+        def summarize(self, window_seconds: int | None = None) -> dict[str, Any]:
             raise RuntimeError("disk full")
 
     decorator = MetricsAwareSelector(

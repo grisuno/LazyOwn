@@ -16,7 +16,6 @@ sys.path.insert(0, str(_ROOT))
 from cli.palette_overlay import (  # noqa: E402
     PaletteOverlayConfig,
     PaletteOverlayState,
-    PaletteRow,
     build_state,
     launch_overlay,
 )

@@ -27,10 +27,9 @@ import ast
 import io
 import json
 import sys
-import threading
 import time
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 import pytest
 
@@ -55,6 +54,7 @@ def temp_sessions(tmp_path, monkeypatch):
     monkeypatch.setenv("LAZYOWN_DIR", str(tmp_path))
 
     import importlib
+
     import engagement_hooks
     importlib.reload(engagement_hooks)
     engagement_hooks.ENGAGEMENT_LOG = sessions_dir / "engagement.log"
@@ -141,7 +141,7 @@ class TestNotificationBroadcaster:
     def test_fans_out_to_every_sink(self, temp_sessions):
         from engagement_hooks import EngagementEvent, INotificationSink, NotificationBroadcaster
 
-        deliveries: List[str] = []
+        deliveries: list[str] = []
 
         class _CountingSink(INotificationSink):
             def __init__(self, name: str) -> None:
@@ -271,6 +271,7 @@ class TestIsValidTarget:
 def policy_module(temp_sessions, monkeypatch):
     """Reload lazyown_policy so its module-level paths see the temp dir."""
     import importlib
+
     import lazyown_policy
     importlib.reload(lazyown_policy)
     return lazyown_policy
@@ -280,8 +281,8 @@ class _RecordingSink:
     """Test double satisfying IApprovalSink."""
 
     def __init__(self) -> None:
-        self.announced: List[Any] = []
-        self.resolutions: Dict[str, Any] = {}
+        self.announced: list[Any] = []
+        self.resolutions: dict[str, Any] = {}
 
     def announce(self, request) -> None:
         self.announced.append(request)
@@ -450,7 +451,7 @@ class TestStdinApprovalSink:
 
 class TestStaticFallbackResolver:
     def test_returns_alternatives_in_order(self):
-        from autonomous_daemon import StaticFallbackResolver, _TOOL_FALLBACK_MAP
+        from autonomous_daemon import _TOOL_FALLBACK_MAP, StaticFallbackResolver
 
         r = StaticFallbackResolver()
         assert _TOOL_FALLBACK_MAP["lazynmap"] == ("rustscan", "masscan", "nmap")
@@ -478,9 +479,9 @@ class _ScriptedRunner:
     composed command (so 'lazynmap' matches 'assign rhost ...\nlazynmap').
     """
 
-    def __init__(self, scripted: Dict[str, str]) -> None:
+    def __init__(self, scripted: dict[str, str]) -> None:
         self._scripted = scripted
-        self.calls: List[str] = []
+        self.calls: list[str] = []
 
     def run(self, command: str, timeout: int) -> str:
         self.calls.append(command)

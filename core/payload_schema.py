@@ -773,6 +773,37 @@ SCHEMA: dict[str, FieldSpec] = {
             allowed=("default", "dim", "bright", "colorblind"),
             category="misc",
         ),
+        _spec(
+            "scope",
+            FieldKind.OPAQUE,
+            [],
+            "Authorized engagement scope as a list of CIDR/IP/hostname entries.",
+            long_help=(
+                "The scope guard blocks (in enforce mode) or warns (in warn mode) "
+                "when an offensive command targets a host outside this list. "
+                "Entries may be CIDR networks (10.10.11.0/24), bare addresses "
+                "(10.10.11.5) or hostnames (corp.local, *.corp.local). An empty "
+                "scope disables the guard, so existing campaigns are unaffected "
+                "until a scope is defined. Manage it with the scope command."
+            ),
+            example='["10.10.11.0/24", "dc.corp.local"]',
+            category="security",
+        ),
+        _spec(
+            "scope_enforcement",
+            FieldKind.STRING,
+            "warn",
+            "Scope guard posture: off (disabled), warn (annotate), enforce (block).",
+            long_help=(
+                "off disables the guard entirely. warn allows out-of-scope "
+                "offensive commands but prints a warning. enforce blocks them "
+                "pending interactive confirmation; in non-interactive sessions "
+                "enforce blocks outright. The guard only ever acts when a scope "
+                "is defined, so warn is a safe default."
+            ),
+            allowed=("off", "warn", "enforce"),
+            category="security",
+        ),
     )
 }
 

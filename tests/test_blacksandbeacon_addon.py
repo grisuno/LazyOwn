@@ -182,7 +182,6 @@ class TestBeaconCommandTemplates:
         assert "sessions/blacksandbeacon" in cmd
 
     def test_bof_execute_stages_to_sessions(self, bof):
-        cmd = bof["tool"]["execute_command"]
         assert "sessions/bof_loader" in bof["tool"]["execute_command"]
 
     def test_beacon_execute_resets_before_pull(self, beacon):

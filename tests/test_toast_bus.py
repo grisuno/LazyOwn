@@ -17,6 +17,7 @@ from rich.console import Console
 _ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(_ROOT))
 
+from cli.themes import THEMES  # noqa: E402
 from cli.toast_bus import (  # noqa: E402
     ToastBus,
     ToastConfig,
@@ -28,7 +29,6 @@ from cli.toast_bus import (  # noqa: E402
     render_toasts,
     toasts_enabled,
 )
-from cli.themes import THEMES  # noqa: E402
 
 
 def _write_jsonl(path: Path, records: list[dict]) -> None:

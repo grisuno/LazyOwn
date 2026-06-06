@@ -16,18 +16,17 @@ from pathlib import Path
 
 import pytest
 
-
 _ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(_ROOT))
 
 from modules.metrics import (  # noqa: E402
+    P95_PERCENTILE,
+    REGISTRY,
     MetricRecord,
     MetricsAggregator,
     MetricsRecorder,
     MetricsRegistry,
     MetricsWriter,
-    P95_PERCENTILE,
-    REGISTRY,
     get_recorder,
     reset_recorder_for_tests,
 )

@@ -16,7 +16,7 @@ _PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 if _PROJECT_ROOT not in sys.path:
     sys.path.insert(0, _PROJECT_ROOT)
 
-from modules.security_sanitizers import (
+from modules.security_sanitizers import (  # noqa: E402
     CommandRedactor,
     build_default_config,
 )

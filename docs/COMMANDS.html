@@ -315,8 +315,53 @@ exit code can be analysed later.</p>
 <p>:param command: The command to be executed. :type command: str
 :return: <code>None</code>. :rtype: NoneType</p>
 <h2 id="onecmd_plus_hooks">onecmd_plus_hooks</h2>
-<p>Intercepta comandos para expandir placeholders en aliases. Maneja
-tanto strings como objetos Statement.</p>
+<p>Dispatch a command, expanding payload placeholders in custom
+aliases.</p>
+<p>This is the single chokepoint through which every interactive command
+flows, so it also enforces the authorization scope guard before the
+command runs. Accepts both raw strings and parsed cmd2
+<code>Statement</code> objects.</p>
+<p>Args: statement: The command to run, as a string or
+<code>Statement</code>. add_to_history: Whether cmd2 should record the
+command in history. raise_keyboard_interrupt: Whether to propagate
+Ctrl-C. orig_rl_history_length: Readline bookkeeping passed through to
+cmd2.</p>
+<p>Returns: The <code>stop</code> flag from cmd2 (<code>True</code> ends
+the loop). A scope block returns <code>False</code> so the offending
+command is skipped without terminating the session.</p>
+<h2 id="build_scope_offensive">_build_scope_offensive</h2>
+<p>Compute the set of offensive command names from cmd2 categories.</p>
+<p>Reads each command’s help category via cmd2 introspection and
+delegates the offensive/benign decision to
+:func:<code>cli.scope_guard.build_offensive_commands</code>, so the
+classification policy lives in one tested place.</p>
+<p>Returns: The frozenset of offensive command names.</p>
+<h2 id="resolve_offensive">_resolve_offensive</h2>
+<p>Return whether a command (or custom alias) is offensive.</p>
+<p>Args: name: The command name or custom alias typed by the
+operator.</p>
+<p>Returns: <code>True</code> when the command, or the command a custom
+alias expands to, belongs to an offensive kill-chain category.</p>
+<h2 id="scope_check">_scope_check</h2>
+<p>Authorize a command against the configured engagement scope.</p>
+<p>Builds a fresh :class:<code>cli.scope_guard.ScopeGuard</code> from
+the live payload values so mid-session changes to <code>scope</code> /
+<code>scope_enforcement</code> take effect immediately, then renders the
+decision. The guard fails open: any unexpected error allows the command
+so a defect here never blocks the operator.</p>
+<p>Args: cmd_name: The command name about to run.</p>
+<p>Returns: <code>True</code> when the command may proceed,
+<code>False</code> when it must be skipped (enforce mode, out of scope,
+confirmation declined).</p>
+<h2 id="scope_confirm">_scope_confirm</h2>
+<p>Ask the operator to confirm an out-of-scope offensive command.</p>
+<p>Non-interactive sessions (piped input, <code>-c</code> execution,
+scripted runs) cannot answer a prompt, so they are treated as a refusal:
+the safer default for an enforce-mode block.</p>
+<p>Args: decision: The blocking
+:class:<code>cli.scope_guard.ScopeDecision</code>.</p>
+<p>Returns: <code>True</code> only when an interactive operator
+explicitly confirms.</p>
 <h2 id="one_cmd">one_cmd</h2>
 <p>Internal function to execute commands.</p>
 <p>This method attempts to execute a given command using
@@ -593,6 +638,39 @@ the new value without a shell restart.</p>
 <p>Driven entirely by <code>self.params</code> so the framework never
 has to maintain a parallel list of completion targets — adding a new key
 to <code>payload.json</code> makes it tab-completable for free.</p>
+<h2 id="scope">scope</h2>
+<p>Manage the authorized engagement scope and the scope-guard
+posture.</p>
+<p>The scope guard checks every offensive command against this list
+before it runs. While the scope is empty the guard is dormant, so
+defining a scope is opt-in and never disrupts an existing campaign.
+Entries may be CIDR networks, bare IP addresses or hostnames (a leading
+<code>*.</code> matches subdomains).</p>
+<p>Usage: <code>scope</code> show the scope and the mode
+<code>scope add &lt;cidr|ip|host&gt;</code> authorize an entry
+<code>scope rm &lt;cidr|ip|host&gt;</code> remove an entry
+<code>scope clear</code> remove every entry
+<code>scope mode &lt;off|warn|enforce&gt;</code> set the enforcement
+posture</p>
+<p>Modes: <code>off</code> guard disabled. <code>warn</code>
+out-of-scope offensive commands run but warn (default).
+<code>enforce</code> out-of-scope offensive commands are blocked pending
+interactive confirmation.</p>
+<h2 id="complete_scope">complete_scope</h2>
+<p>Tab-complete the scope subcommands.</p>
+<h2 id="scope_entries">_scope_entries</h2>
+<p>Return the current scope as a fresh mutable list of entry
+strings.</p>
+<h2 id="scope_save">_scope_save</h2>
+<p>Persist scope and/or mode changes to <code>payload.json</code>.</p>
+<p>Mutates <code>self.params</code> in place and writes through the same
+atomic <code>save_payload</code> path used by <code>assign</code>,
+keeping a single writer for the config file.</p>
+<p>Args: entries: Replacement scope list, or <code>None</code> to leave
+it unchanged. mode: Replacement enforcement mode, or <code>None</code>
+to leave it unchanged.</p>
+<h2 id="scope_render">_scope_render</h2>
+<p>Print the current scope and enforcement mode.</p>
 <h2 id="show">show</h2>
 <p>Show the current parameter values, sorted and aligned.</p>
 <p>Rendering is delegated to :func:<code>cli.show.format_payload</code>

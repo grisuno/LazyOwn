@@ -26,18 +26,16 @@ SKILLS_DIR = REPO_ROOT / "skills"
 if str(SKILLS_DIR) not in sys.path:
     sys.path.insert(0, str(SKILLS_DIR))
 
-from daemon_control import (
+from daemon_control import (  # noqa: E402
     CONTROL_FILE_NAME,
-    ControlState,
     DECISION_APPROVED,
     DECISION_EXPIRED,
     DECISION_PENDING,
     DECISION_VETOED,
-    DaemonControl,
     MODE_APPROVAL,
     MODE_AUTO,
-    MODE_PAUSED,
-    PENDING_TTL_DEFAULT_S,
+    ControlState,
+    DaemonControl,
     PendingAction,
     wait_for_decision,
     wait_until_unpaused,

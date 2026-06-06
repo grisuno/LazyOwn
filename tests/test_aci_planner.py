@@ -14,22 +14,22 @@ from __future__ import annotations
 import json
 import secrets
 import sys
-import tempfile
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import TYPE_CHECKING
 from unittest.mock import MagicMock, patch
-
-import pytest
 
 # ─── Make skills/ importable ──────────────────────────────────────────────────
 _SKILLS_DIR = Path(__file__).parent.parent / "skills"
 if str(_SKILLS_DIR) not in sys.path:
     sys.path.insert(0, str(_SKILLS_DIR))
 
+if TYPE_CHECKING:
+    from aci_planner import ACIEngine, ACIGoal, ACIPlan, ACIPlanner
+
 
 # ─── Helpers ─────────────────────────────────────────────────────────────────
 
-def _make_goal(**kwargs) -> "ACIGoal":
+def _make_goal(**kwargs) -> ACIGoal:
     from aci_planner import ACIGoal
     defaults = dict(text="Compromise the DC at corp.internal", target="10.10.11.5",
                     scope=["10.10.11.0/24"], domain="corp.internal", os_hint="windows")
@@ -39,7 +39,6 @@ def _make_goal(**kwargs) -> "ACIGoal":
 
 def _patched_paths(tmp_path: Path):
     """Return a dict of patch targets → tmp_path values for aci_planner globals."""
-    import aci_planner as _m
     sess = tmp_path / "sessions"
     sess.mkdir(parents=True, exist_ok=True)
     return {
@@ -72,7 +71,7 @@ def _stop_patches(patchers):
         p.stop()
 
 
-def _make_planner(tmp_path: Path, api_key: str = "") -> "ACIPlanner":
+def _make_planner(tmp_path: Path, api_key: str = "") -> ACIPlanner:
     from aci_planner import ACIPlanner
     sess = tmp_path / "sessions"
     sess.mkdir(parents=True, exist_ok=True)
@@ -83,7 +82,7 @@ def _make_planner(tmp_path: Path, api_key: str = "") -> "ACIPlanner":
     )
 
 
-def _make_engine(tmp_path: Path, api_key: str = "") -> "ACIEngine":
+def _make_engine(tmp_path: Path, api_key: str = "") -> ACIEngine:
     from aci_planner import ACIEngine
     sess = tmp_path / "sessions"
     sess.mkdir(parents=True, exist_ok=True)
@@ -161,7 +160,7 @@ class TestAttackPhase:
 # ─── ACIPlan ─────────────────────────────────────────────────────────────────
 
 class TestACIPlan:
-    def _make_plan(self, phase_statuses: List[str]) -> "ACIPlan":
+    def _make_plan(self, phase_statuses: list[str]) -> ACIPlan:
         from aci_planner import ACIPlan, AttackPhase
         phases = [
             AttackPhase(
@@ -228,7 +227,7 @@ class TestACIPlannerStatic:
     def test_plan_creates_file(self, tmp_path):
         planner = _make_planner(tmp_path)
         goal = _make_goal()
-        plan = planner.plan(goal)
+        planner.plan(goal)
         plan_file = tmp_path / "sessions" / "aci_plan.json"
         assert plan_file.exists(), "aci_plan.json should be written"
 
@@ -250,10 +249,10 @@ class TestACIPlannerStatic:
 
     def test_objectives_injected_into_file(self, tmp_path):
         planner = _make_planner(tmp_path)
-        plan = planner.plan(_make_goal())
+        planner.plan(_make_goal())
         obj_file = tmp_path / "sessions" / "objectives.jsonl"
         assert obj_file.exists()
-        lines = [l for l in obj_file.read_text().splitlines() if l.strip()]
+        lines = [line for line in obj_file.read_text().splitlines() if line.strip()]
         assert len(lines) > 0, "Expected at least one objective in objectives.jsonl"
 
     def test_objectives_ids_match_phase_objectives(self, tmp_path):
@@ -307,7 +306,7 @@ class TestACIPlannerStatic:
         planner = _make_planner(tmp_path)
         planner.plan(_make_goal(target="10.10.11.99"))
         obj_file = tmp_path / "sessions" / "objectives.jsonl"
-        texts = [json.loads(l)["text"] for l in obj_file.read_text().splitlines() if l.strip()]
+        texts = [json.loads(line)["text"] for line in obj_file.read_text().splitlines() if line.strip()]
         assert any("10.10.11.99" in t for t in texts), "At least one objective should mention the target"
 
     def test_plan_roundtrip_from_disk(self, tmp_path):
@@ -324,8 +323,7 @@ class TestACIPlannerStatic:
 # ─── ACIPlanner — LLM path (mocked) ──────────────────────────────────────────
 
 class TestACIPlannerLLM:
-    def _llm_response(self, phases: List[dict]) -> MagicMock:
-        body = json.dumps({"phases": phases}).encode()
+    def _llm_response(self, phases: list[dict]) -> MagicMock:
         resp = MagicMock()
         resp.read.return_value = json.dumps({
             "choices": [{"message": {"content": json.dumps({"phases": phases})}}]
@@ -372,9 +370,9 @@ class TestACIPlannerLLM:
         resp = self._llm_response(llm_phases)
         with patch("urllib.request.urlopen", return_value=resp):
             planner = _make_planner(tmp_path, api_key="fake-key")
-            plan = planner.plan(_make_goal())
+            planner.plan(_make_goal())
         obj_file = tmp_path / "sessions" / "objectives.jsonl"
-        texts = [json.loads(l)["text"] for l in obj_file.read_text().splitlines() if l.strip()]
+        texts = [json.loads(line)["text"] for line in obj_file.read_text().splitlines() if line.strip()]
         assert "Enumerate sudo permissions" in texts
         assert "Try kernel exploit" in texts
 
@@ -440,7 +438,7 @@ class TestACIEngineStatus:
 # ─── ACIEngine.should_replan ──────────────────────────────────────────────────
 
 class TestACIEngineShouldReplan:
-    def _write_objectives_blocked(self, obj_file: Path, obj_ids: List[str]) -> None:
+    def _write_objectives_blocked(self, obj_file: Path, obj_ids: list[str]) -> None:
         with open(obj_file, "w") as fh:
             for oid in obj_ids:
                 fh.write(json.dumps({
@@ -475,7 +473,7 @@ class TestACIEngineShouldReplan:
             assert result is True
 
     def test_should_replan_false_for_completed_plan(self, tmp_path):
-        from aci_planner import _load_plan, _save_plan
+        from aci_planner import _save_plan
         planner = _make_planner(tmp_path)
         plan = planner.plan(_make_goal())
         plan.status = "completed"
@@ -512,10 +510,10 @@ class TestACIEngineReplan:
         planner = _make_planner(tmp_path)
         planner.plan(_make_goal())
         obj_file = tmp_path / "sessions" / "objectives.jsonl"
-        count_before = len([l for l in obj_file.read_text().splitlines() if l.strip()])
+        count_before = len([line for line in obj_file.read_text().splitlines() if line.strip()])
         engine = _make_engine(tmp_path)
         engine.replan("manual replan")
-        count_after = len([l for l in obj_file.read_text().splitlines() if l.strip()])
+        count_after = len([line for line in obj_file.read_text().splitlines() if line.strip()])
         assert count_after >= count_before
 
     def test_replan_status_returns_to_active(self, tmp_path):
@@ -568,7 +566,7 @@ class TestACIEngineComplete:
         engine.complete()
         history = tmp_path / "sessions" / "aci_history.jsonl"
         assert history.exists()
-        lines = [l for l in history.read_text().splitlines() if l.strip()]
+        lines = [line for line in history.read_text().splitlines() if line.strip()]
         assert len(lines) == 1
 
     def test_complete_marks_plan_as_completed(self, tmp_path):
@@ -589,7 +587,7 @@ class TestACIEngineComplete:
 # ─── ACIReflector ─────────────────────────────────────────────────────────────
 
 class TestACIReflector:
-    def _make_plan_with_statuses(self, phase_statuses: List[str], replan_count: int = 0) -> "ACIPlan":
+    def _make_plan_with_statuses(self, phase_statuses: list[str], replan_count: int = 0) -> ACIPlan:
         from aci_planner import ACIPlan, AttackPhase
         phases = [
             AttackPhase(
@@ -631,7 +629,7 @@ class TestACIReflector:
         rf = ACIReflector(lessons_file=tmp_path / "sessions" / "campaign_lessons.jsonl")
         (tmp_path / "sessions").mkdir(parents=True, exist_ok=True)
         lessons = rf.reflect(plan)
-        assert any(l["outcome"] == "succeeded_after_replan" for l in lessons)
+        assert any(entry["outcome"] == "succeeded_after_replan" for entry in lessons)
 
     def test_reflect_no_lessons_clean_plan(self, tmp_path):
         from aci_planner import ACIReflector
@@ -649,7 +647,7 @@ class TestACIReflector:
         rf = ACIReflector(lessons_file=lessons_file)
         rf.reflect(plan)
         assert lessons_file.exists()
-        lines = [l for l in lessons_file.read_text().splitlines() if l.strip()]
+        lines = [line for line in lessons_file.read_text().splitlines() if line.strip()]
         assert len(lines) == 1
         lesson = json.loads(lines[0])
         assert lesson["source"] == "aci_reflector"
@@ -765,7 +763,7 @@ class TestMCPBridges:
 
 class TestPersistenceHelpers:
     def test_save_load_plan_roundtrip(self, tmp_path):
-        from aci_planner import ACIPlanner, ACIGoal, _load_plan, _save_plan
+        from aci_planner import ACIGoal, ACIPlanner, _load_plan
         sess = tmp_path / "sessions"
         sess.mkdir(parents=True, exist_ok=True)
         plan_file = sess / "aci_plan.json"
@@ -791,7 +789,7 @@ class TestPersistenceHelpers:
         assert result is None
 
     def test_archive_plan_appends(self, tmp_path):
-        from aci_planner import ACIPlanner, ACIGoal, _archive_plan, _load_plan
+        from aci_planner import ACIGoal, ACIPlanner, _archive_plan
         sess = tmp_path / "sessions"
         sess.mkdir()
         planner = ACIPlanner(
@@ -803,7 +801,7 @@ class TestPersistenceHelpers:
         history = sess / "aci_history.jsonl"
         _archive_plan(plan1, history)
         _archive_plan(plan2, history)
-        lines = [l for l in history.read_text().splitlines() if l.strip()]
+        lines = [line for line in history.read_text().splitlines() if line.strip()]
         assert len(lines) == 2
 
     def test_count_objectives_by_status(self, tmp_path):

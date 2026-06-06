@@ -13,7 +13,6 @@ Two concerns are covered here:
 
 from __future__ import annotations
 
-import io
 import sys
 from pathlib import Path
 from typing import Sequence
@@ -30,7 +29,6 @@ from cli.fuzzy_picker import (  # noqa: E402
     PickerItem,
     PickerView,
     ReadlineBridge,
-    ScoredItem,
 )
 
 
@@ -170,7 +168,7 @@ def test_strip_ansi_passes_through_plain_text():
 
 # --- Lint-regression: lazyown.py shell strings ---------------------------
 
-import ast
+import ast  # noqa: E402
 
 
 def _collect_string_constants(source: str) -> list[str]:
@@ -286,6 +284,7 @@ def test_lazyown_source_has_no_invalid_escape_warning():
 
 def test_getprompt_renders_three_lines_and_includes_payload_segments():
     import re
+
     from cli.banner_config import GlyphRegistry
     from utils import getprompt
     raw = getprompt()

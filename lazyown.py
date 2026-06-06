@@ -39,6 +39,9 @@ from cli.graph_advisor import format_search_table as _format_search_table
 from cli.graph_advisor import format_suggestions as _format_suggestions
 from cli.reactive_hints import render_inline_hints as _render_inline_hints
 from cli.reactive_hints import render_command_hints as _render_command_hints
+from cli.scope_guard import ScopeGuard as _ScopeGuard
+from cli.scope_guard import ScopeMode as _ScopeMode
+from cli.scope_guard import build_offensive_commands as _build_offensive_commands
 from cli.reactive_hints import _KILL_CHAIN_NEXT as _AUTOSUGGEST_CHAIN
 from cli.reactive_hints import _PHASE_PRIORITY as _AUTOSUGGEST_PHASE_PRIORITY
 from cli.autosuggest import AutoSuggestEngine as _AutoSuggestEngine
@@ -235,6 +238,8 @@ class LazyOwnShell(cmd2.Cmd):
     device = config.device
     api_key = config.api_key
     domain = config.domain
+    scope = config.scope if config.scope is not None else []
+    scope_enforcement = config.scope_enforcement or "warn"
 
     aliases: dict = {}
     """Populated at runtime in __init__ from cli/aliases.yaml."""
@@ -299,6 +304,11 @@ class LazyOwnShell(cmd2.Cmd):
             self.register_postcmd_hook(self._toast_hook)
         except Exception as exc:
             print_warn(f"toast hook not registered: {exc}")
+        self._scope_offensive = frozenset()
+        try:
+            self._scope_offensive = self._build_scope_offensive()
+        except Exception as exc:
+            print_warn(f"scope guard classification unavailable: {exc}")
         self._autosuggest = None
         self._autosuggest_advisor = None
         try:
@@ -364,6 +374,8 @@ class LazyOwnShell(cmd2.Cmd):
             "start_pass": "grisgrisgris",
             "rhost": rhost,
             "lhost": lhost,
+            "scope": LazyOwnShell.scope,
+            "scope_enforcement": LazyOwnShell.scope_enforcement,
             "rport": 1337,
             "lport": 1337,
             "sleep": 6,
@@ -934,31 +946,40 @@ class LazyOwnShell(cmd2.Cmd):
         return
     
     def onecmd_plus_hooks(self, statement, add_to_history=True, raise_keyboard_interrupt=True, orig_rl_history_length=None):
-        """
-        Intercepta comandos para expandir placeholders en aliases.
-        Maneja tanto strings como objetos Statement.
-        """
-        import cmd2
+        """Dispatch a command, expanding payload placeholders in custom aliases.
 
-        # Si es un string, convertirlo temporalmente o procesarlo con cuidado
+        This is the single chokepoint through which every interactive command
+        flows, so it also enforces the authorization scope guard before the
+        command runs. Accepts both raw strings and parsed cmd2 ``Statement``
+        objects.
+
+        Args:
+            statement: The command to run, as a string or ``Statement``.
+            add_to_history: Whether cmd2 should record the command in history.
+            raise_keyboard_interrupt: Whether to propagate Ctrl-C.
+            orig_rl_history_length: Readline bookkeeping passed through to cmd2.
+
+        Returns:
+            The ``stop`` flag from cmd2 (``True`` ends the loop). A scope block
+            returns ``False`` so the offending command is skipped without
+            terminating the session.
+        """
         if isinstance(statement, str):
             raw_input = statement.strip()
             if not raw_input or raw_input.startswith('#'):
                 return super().onecmd_plus_hooks(statement, add_to_history=add_to_history,
                                             raise_keyboard_interrupt=raise_keyboard_interrupt)
-
-            # Extraer el nombre del comando (primera palabra)
             cmd_name = raw_input.split()[0]
         else:
-            # Es un objeto Statement
             cmd_name = statement.command
             raw_input = statement.raw
 
-        # Verificar si es un alias
+        if not self._scope_check(cmd_name):
+            return False
+
         if cmd_name in self.aliases:
             raw_command = self.aliases[cmd_name]
 
-            # Contexto para reemplazar placeholders
             context = {
                 **self.params,
                 'version': self.version,
@@ -971,7 +992,6 @@ class LazyOwnShell(cmd2.Cmd):
                 'c2_pass': self.params.get('c2_pass', ''),
                 'start_user': self.params.get('start_user', ''),
                 'start_pass': self.params.get('start_pass', ''),
-                # Add more as needed
             }
 
             try:
@@ -980,16 +1000,12 @@ class LazyOwnShell(cmd2.Cmd):
                     cmd_name, raw_command, DictPayloadProvider(context),
                 )
             except Exception as e:
-                self.perror(f"[!] Error al expandir alias '{cmd_name}': {e}")
+                self.perror(f"[!] Error expanding alias '{cmd_name}': {e}")
                 return True
 
-            # Ahora, si `statement` es un string → devolvemos el comando expandido como string
             if isinstance(statement, str):
-                # Llamar al original con el string expandido
                 return super().onecmd_plus_hooks(expanded_command, add_to_history=add_to_history,
                                             raise_keyboard_interrupt=raise_keyboard_interrupt)
-
-            # Si es un Statement, modificamos sus campos
             else:
                 statement.raw = expanded_command
                 statement.command = expanded_command.split()[0]
@@ -997,10 +1013,110 @@ class LazyOwnShell(cmd2.Cmd):
                 return super().onecmd_plus_hooks(statement, add_to_history=add_to_history,
                                             raise_keyboard_interrupt=raise_keyboard_interrupt)
 
-        # Si no es un alias, continuar normalmente
         return super().onecmd_plus_hooks(statement, add_to_history=add_to_history,
                                     raise_keyboard_interrupt=raise_keyboard_interrupt)
-        
+
+    def _build_scope_offensive(self) -> frozenset:
+        """Compute the set of offensive command names from cmd2 categories.
+
+        Reads each command's help category via cmd2 introspection and delegates
+        the offensive/benign decision to
+        :func:`cli.scope_guard.build_offensive_commands`, so the classification
+        policy lives in one tested place.
+
+        Returns:
+            The frozenset of offensive command names.
+        """
+        import cmd2
+
+        categories: dict = {}
+        for name in self.get_all_commands():
+            func = getattr(self, f"do_{name}", None)
+            categories[name] = getattr(
+                func, cmd2.constants.CMD_ATTR_HELP_CATEGORY, None
+            )
+        return _build_offensive_commands(categories)
+
+    def _resolve_offensive(self, name: str) -> bool:
+        """Return whether a command (or custom alias) is offensive.
+
+        Args:
+            name: The command name or custom alias typed by the operator.
+
+        Returns:
+            ``True`` when the command, or the command a custom alias expands to,
+            belongs to an offensive kill-chain category.
+        """
+        if name in self._scope_offensive:
+            return True
+        expansion = self.aliases.get(name)
+        if expansion:
+            tokens = expansion.split()
+            if tokens and tokens[0] in self._scope_offensive:
+                return True
+        return False
+
+    def _scope_check(self, cmd_name: str) -> bool:
+        """Authorize a command against the configured engagement scope.
+
+        Builds a fresh :class:`cli.scope_guard.ScopeGuard` from the live payload
+        values so mid-session changes to ``scope`` / ``scope_enforcement`` take
+        effect immediately, then renders the decision. The guard fails open: any
+        unexpected error allows the command so a defect here never blocks the
+        operator.
+
+        Args:
+            cmd_name: The command name about to run.
+
+        Returns:
+            ``True`` when the command may proceed, ``False`` when it must be
+            skipped (enforce mode, out of scope, confirmation declined).
+        """
+        try:
+            guard = _ScopeGuard(
+                scope_entries=self.params.get("scope"),
+                mode=self.params.get("scope_enforcement"),
+                is_offensive=self._resolve_offensive,
+            )
+            target = str(self.params.get("rhost") or "").strip()
+            decision = guard.evaluate(cmd_name, target)
+            if not decision.reason:
+                return True
+            if decision.mode is _ScopeMode.WARN:
+                print_warn(decision.reason)
+                return True
+            print_error(decision.reason)
+            if self._scope_confirm(decision):
+                return True
+            print_warn("Command blocked: target is outside the authorized scope.")
+            return False
+        except Exception:
+            return True
+
+    def _scope_confirm(self, decision) -> bool:
+        """Ask the operator to confirm an out-of-scope offensive command.
+
+        Non-interactive sessions (piped input, ``-c`` execution, scripted runs)
+        cannot answer a prompt, so they are treated as a refusal: the safer
+        default for an enforce-mode block.
+
+        Args:
+            decision: The blocking :class:`cli.scope_guard.ScopeDecision`.
+
+        Returns:
+            ``True`` only when an interactive operator explicitly confirms.
+        """
+        if not sys.stdin.isatty():
+            return False
+        try:
+            answer = input(
+                "    [?] Run anyway against the out-of-scope target? [y/N]: "
+            )
+        except (EOFError, KeyboardInterrupt):
+            return False
+        return answer.strip().lower() in ("y", "yes")
+
+
     def one_cmd(self, command):
         """
         Internal function to execute commands.
@@ -2144,6 +2260,122 @@ class LazyOwnShell(cmd2.Cmd):
         if index != 1:
             return []
         return sorted(key for key in self.params if key.startswith(text))
+
+    @cmd2.with_category(miscellaneous_category)
+    def do_scope(self, line):
+        """Manage the authorized engagement scope and the scope-guard posture.
+
+        The scope guard checks every offensive command against this list before
+        it runs. While the scope is empty the guard is dormant, so defining a
+        scope is opt-in and never disrupts an existing campaign. Entries may be
+        CIDR networks, bare IP addresses or hostnames (a leading ``*.`` matches
+        subdomains).
+
+        Usage:
+            ``scope``                          show the scope and the mode
+            ``scope add <cidr|ip|host>``       authorize an entry
+            ``scope rm <cidr|ip|host>``        remove an entry
+            ``scope clear``                    remove every entry
+            ``scope mode <off|warn|enforce>``  set the enforcement posture
+
+        Modes:
+            ``off``      guard disabled.
+            ``warn``     out-of-scope offensive commands run but warn (default).
+            ``enforce``  out-of-scope offensive commands are blocked pending
+                         interactive confirmation.
+        """
+        args = shlex.split(line or "")
+        entries = self._scope_entries()
+        mode = str(self.params.get("scope_enforcement") or "warn").lower()
+
+        if not args:
+            self._scope_render(entries, mode)
+            return
+
+        action = args[0].lower()
+        if action == "add":
+            if len(args) != 2:
+                print_error("Usage: scope add <cidr|ip|host>")
+                return
+            entry = args[1].strip()
+            if entry in entries:
+                print_warn(f"Already in scope: {entry}")
+                return
+            entries.append(entry)
+            self._scope_save(entries=entries)
+            print_msg(f"Added to scope: {GREEN}{entry}{RESET}")
+        elif action in ("rm", "remove", "del"):
+            if len(args) != 2:
+                print_error("Usage: scope rm <cidr|ip|host>")
+                return
+            entry = args[1].strip()
+            if entry not in entries:
+                print_warn(f"Not in scope: {entry}")
+                return
+            entries.remove(entry)
+            self._scope_save(entries=entries)
+            print_msg(f"Removed from scope: {entry}")
+        elif action == "clear":
+            self._scope_save(entries=[])
+            print_msg("Scope cleared.")
+        elif action == "mode":
+            if len(args) != 2 or args[1].lower() not in ("off", "warn", "enforce"):
+                print_error("Usage: scope mode <off|warn|enforce>")
+                return
+            self._scope_save(mode=args[1].lower())
+            print_msg(f"Scope enforcement mode set to {GREEN}{args[1].lower()}{RESET}")
+        else:
+            print_error(f"Unknown scope action: {action!r}. See 'help scope'.")
+
+    def complete_scope(self, text, line, begidx, endidx):
+        """Tab-complete the scope subcommands."""
+        try:
+            tokens = shlex.split(line[:endidx]) if line else []
+        except ValueError:
+            tokens = line[:endidx].split()
+        index = len(tokens) - (0 if line[:endidx].endswith(" ") else 1)
+        if index == 1:
+            return [a for a in ("add", "rm", "clear", "mode") if a.startswith(text)]
+        if index == 2 and tokens[1].lower() == "mode":
+            return [m for m in ("off", "warn", "enforce") if m.startswith(text)]
+        return []
+
+    def _scope_entries(self) -> list:
+        """Return the current scope as a fresh mutable list of entry strings."""
+        from cli.scope_guard import normalize_scope
+
+        return list(normalize_scope(self.params.get("scope")))
+
+    def _scope_save(self, entries: "list | None" = None, mode: "str | None" = None) -> None:
+        """Persist scope and/or mode changes to ``payload.json``.
+
+        Mutates ``self.params`` in place and writes through the same atomic
+        ``save_payload`` path used by ``assign``, keeping a single writer for
+        the config file.
+
+        Args:
+            entries: Replacement scope list, or ``None`` to leave it unchanged.
+            mode: Replacement enforcement mode, or ``None`` to leave it
+                unchanged.
+        """
+        if entries is not None:
+            self.params["scope"] = entries
+        if mode is not None:
+            self.params["scope_enforcement"] = mode
+        _save_payload(self.params)
+
+    def _scope_render(self, entries: list, mode: str) -> None:
+        """Print the current scope and enforcement mode."""
+        print_msg(f"{YELLOW}Scope enforcement mode:{RESET} {GREEN}{mode}{RESET}")
+        if not entries:
+            print_msg(
+                f"{YELLOW}Authorized scope is empty — the guard is dormant. "
+                f"Add entries with {GREEN}scope add <cidr|ip|host>{RESET}"
+            )
+            return
+        print_msg(f"{YELLOW}Authorized scope ({len(entries)}):{RESET}")
+        for entry in entries:
+            print_msg(f"    {GREEN}{entry}{RESET}")
 
     @cmd2.with_category(miscellaneous_category)
     def do_show(self, line):
@@ -23237,7 +23469,7 @@ class LazyOwnShell(cmd2.Cmd):
             subprocess.run(command, shell=True, check=True)
 
             print_msg("Generating Release file...")
-            current_time = datetime.utcnow()
+            current_time = datetime.now(timezone.utc)
             release_content = f"""Origin: Local Repository
             Label: Local Repository
             Suite: {ubuntu_version}

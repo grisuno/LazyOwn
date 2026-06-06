@@ -3227,7 +3227,7 @@ class VulnerabilityScanner:
             "schema_version": VULN_SCHEMA_VERSION,
             "target": target,
             "service": service,
-            "scanned_at": datetime.utcnow().isoformat(timespec="seconds") + "Z",
+            "scanned_at": datetime.now(timezone.utc).replace(tzinfo=None).isoformat(timespec="seconds") + "Z",
             "cves": cves,
         }
         temp_path = file_path + ".tmp"

@@ -21,10 +21,8 @@ from __future__ import annotations
 
 import ast
 import json
-import os
 import sys
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
 
 import pytest
 import yaml
@@ -47,6 +45,7 @@ def temp_lazyown(tmp_path, monkeypatch):
     monkeypatch.setenv("LAZYOWN_DIR", str(tmp_path))
 
     import importlib
+
     import pipeline_engine
     importlib.reload(pipeline_engine)
     pipeline_engine.PIPELINES_DIR = pipelines_dir
@@ -69,12 +68,12 @@ class _ScriptedRunner:
 
     def __init__(
         self,
-        outputs: Dict[str, str],
-        successes: Dict[str, bool] = None,
+        outputs: dict[str, str],
+        successes: dict[str, bool] = None,
     ) -> None:
         self._outputs = outputs
         self._successes = successes or {}
-        self.calls: List[Tuple[str, str, str]] = []
+        self.calls: list[tuple[str, str, str]] = []
 
     def run(self, command, args, target, timeout_s):
         self.calls.append((command, args, target))
@@ -248,7 +247,7 @@ class TestStepDerivers:
 # ---------------------------------------------------------------------------
 
 
-def _write_pipeline(pipelines_dir: Path, name: str, data: Dict) -> Path:
+def _write_pipeline(pipelines_dir: Path, name: str, data: dict) -> Path:
     path = pipelines_dir / f"{name}.yaml"
     path.write_text(yaml.safe_dump(data, sort_keys=False))
     return path
@@ -343,12 +342,14 @@ class TestPipelineLoader:
 def silent_engine_kwargs(temp_lazyown):
     """Return engine constructor kwargs with a silent narrator + temp dirs."""
     from pipeline_engine import (
-        PipelineLoader, RunArtifactStore, INarratorAdapter,
+        INarratorAdapter,
+        PipelineLoader,
+        RunArtifactStore,
     )
 
     class _SilentNarrator(INarratorAdapter):
         def __init__(self):
-            self.events: List[Dict] = []
+            self.events: list[dict] = []
 
         def narrate(self, kind, target, message, payload=None, severity="info"):
             self.events.append({"kind": kind, "message": message})
@@ -494,7 +495,7 @@ class TestPipelineEngineExecution:
             "lazynmap":     "22/tcp open",
         })
         engine = PipelineEngine(runner=runner, **silent_engine_kwargs)
-        run = engine.run("p", target="10.0.0.1")
+        engine.run("p", target="10.0.0.1")
         # Second step still ran
         invoked = [c[0] for c in runner.calls]
         assert invoked == ["searchsploit", "lazynmap"]
@@ -686,6 +687,7 @@ class TestWiring:
 
     def test_example_pipelines_validate(self):
         import importlib
+
         import pipeline_engine
         importlib.reload(pipeline_engine)
         # Re-point to the actual repo pipelines/ directory (not tmp).

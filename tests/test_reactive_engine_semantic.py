@@ -14,34 +14,31 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path
-from typing import Any, Dict, List
-
-import pytest
-
+from typing import Any
 
 _ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(_ROOT))
 
 from modules.reactive_engine import (  # noqa: E402
-    ReactiveDecision,
-    ReactiveEngine,
     SEMANTIC_MIN_SCORE,
     SEMANTIC_MITRE_TACTIC,
-    SEMANTIC_PRIORITY,
-    SemanticContextAdvisor,
     SEMANTIC_PAYLOAD_KEY,
+    SEMANTIC_PRIORITY,
+    ReactiveDecision,
+    ReactiveEngine,
+    SemanticContextAdvisor,
 )
 
 
 class _FakeRAG:
     """Stand-in for :class:`modules.session_rag.SessionRAG`."""
 
-    def __init__(self, hits: List[Dict[str, Any]], ready: bool = True) -> None:
+    def __init__(self, hits: list[dict[str, Any]], ready: bool = True) -> None:
         self._hits = hits
         self._ready = ready
-        self.queries: List[Dict[str, Any]] = []
+        self.queries: list[dict[str, Any]] = []
 
-    def query(self, text: str, n: int = 5) -> List[Dict[str, Any]]:
+    def query(self, text: str, n: int = 5) -> list[dict[str, Any]]:
         self.queries.append({"text": text, "n": n})
         return list(self._hits)
 
@@ -169,7 +166,7 @@ def test_advisor_swallows_rag_query_errors() -> None:
     class _ExplodingRAG:
         _ready = True
 
-        def query(self, text: str, n: int = 5) -> List[Dict[str, Any]]:
+        def query(self, text: str, n: int = 5) -> list[dict[str, Any]]:
             raise RuntimeError("boom")
 
     advisor = SemanticContextAdvisor(rag=_ExplodingRAG())

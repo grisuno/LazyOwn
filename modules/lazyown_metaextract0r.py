@@ -19,7 +19,7 @@ Descripción: Extractor de metadata inspirado en la FOCA
 
 """
 import os
-import PyPDF2
+import pypdf
 import docx
 import olefile
 import exifread
@@ -48,7 +48,7 @@ def extract_pdf_metadata(file_path):
     metadata = {}
     try:
         with open(file_path, 'rb') as f:
-            reader = PyPDF2.PdfReader(f)
+            reader = pypdf.PdfReader(f)
             metadata = reader.metadata
     except Exception as e:
         metadata['error'] = str(e)

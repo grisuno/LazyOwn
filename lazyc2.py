@@ -2881,19 +2881,19 @@ def _resolve_secure_template_path(template_name):
     safe_stem = strict_match.group(1)
     safe_basename = f"{safe_stem}.html"
     template_folder = Path(app.template_folder).resolve()
+    matched_path = None
     try:
-        allowed_entries = {
-            entry.name
-            for entry in os.scandir(template_folder)
-            if entry.is_file()
-        }
+        for entry in os.scandir(template_folder):
+            if entry.is_file() and entry.name == safe_basename:
+                matched_path = entry.path
+                break
     except OSError as scan_error:
         logger.error(f"Template folder unreadable: {scan_error}")
         return None
-    if safe_basename not in allowed_entries:
+    if matched_path is None:
         logger.error("Template file not in allowlist of existing templates")
         return None
-    candidate = (template_folder / safe_basename).resolve()
+    candidate = Path(matched_path).resolve()
     contained, traversal_error = _validate_file_path_within_base(candidate, template_folder)
     if not contained:
         logger.error(f"Template path rejected: {traversal_error}")

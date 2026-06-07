@@ -717,15 +717,18 @@ class DocstringDisciplineSpec(unittest.TestCase):
         self.assertEqual(offenders, [])
 
     def test_modules_avoid_emoji_in_source(self) -> None:
-        import re
-        emoji_pattern = re.compile(
-            "["
-            "\U0001F300-\U0001FAFF"
-            "\U0001F600-\U0001F64F"
-            "\U0001F680-\U0001F6FF"
-            "☀-➿"
-            "]"
+        emoji_ranges = (
+            (0x1F300, 0x1FAFF),
+            (0x2600, 0x27BF),
         )
+
+        def contains_emoji(text: str) -> bool:
+            return any(
+                low <= code_point <= high
+                for code_point in map(ord, text)
+                for low, high in emoji_ranges
+            )
+
         offenders: list[str] = []
         for relative in (
             "cli/status_bar.py",
@@ -733,7 +736,7 @@ class DocstringDisciplineSpec(unittest.TestCase):
             "cli/commands/orchestration.py",
         ):
             text = (REPO_ROOT / relative).read_text(encoding="utf-8")
-            if emoji_pattern.search(text):
+            if contains_emoji(text):
                 offenders.append(relative)
         self.assertEqual(offenders, [])
 

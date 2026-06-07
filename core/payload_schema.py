@@ -44,7 +44,12 @@ from typing import Any, Callable, Iterable, Mapping
 
 IPV4_REGEX = re.compile(r"\A((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)\Z")
 INTERFACE_REGEX = re.compile(r"\A[A-Za-z0-9._@:-]{1,32}\Z")
-HOSTNAME_REGEX = re.compile(r"\A(?=.{1,253}\Z)([A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.?)+\Z")
+HOSTNAME_REGEX = re.compile(
+    r"\A(?=.{1,253}\Z)"
+    r"[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?"
+    r"(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*"
+    r"\.?\Z"
+)
 URL_REGEX = re.compile(r"\Ahttps?://[\w\-.:/?#\[\]@!$&'()*+,;=%]+\Z")
 HEX_REGEX = re.compile(r"\A[0-9a-fA-F]+\Z")
 PORT_MIN = 1

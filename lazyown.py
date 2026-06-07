@@ -23327,7 +23327,7 @@ class LazyOwnShell(cmd2.Cmd):
             self.cmd("pip3 install pip-tools")
 
         packages = [
-            "requests", "python-libnmap", "pwncat-cs", "pwn", "groq", "PyPDF2", "docx", "python-docx", "olefile",
+            "requests", "python-libnmap", "pwncat-cs", "pwn", "groq", "pypdf", "docx", "python-docx", "olefile",
             "exifread", "pycryptodome", "impacket", "pandas", "colorama", "tabulate", "pyarrow", "keyboard",
             "flask-unsign", "name-that-hash", "certipy-ad", "ast", "pykeepass", "cmd2", "Pillow", "netaddr", "stix2"
         ]

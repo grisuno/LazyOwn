@@ -2,6 +2,13 @@
 # Changelog
 
 
+### Correcciones urgentes
+
+### Otros
+
+  *   * hotfix(hotfix): in recon command ss now work propertly \n\n Version: release/0.2.151 \n\n with lvoe \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: dom 07 jun 2026 23:12:51 -04 \n\n Hora: 1780888371
+
+
 ### Refactorización
 
 ### Otros

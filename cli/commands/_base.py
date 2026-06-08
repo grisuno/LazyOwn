@@ -24,6 +24,7 @@ from __future__ import annotations
 from typing import Any
 
 from cmd2 import CommandSet
+from cmd2.exceptions import CommandSetRegistrationError
 
 SHELL_INJECTION_ATTRIBUTE = "_cmd"
 
@@ -42,6 +43,26 @@ class LazyOwnCommandSet(CommandSet):
     phase: str = ""
     category: str = ""
 
+    def _resolve_shell(self) -> Any:
+        """Return the bound parent shell, or ``None`` before registration.
+
+        ``cmd2`` stores the parent shell in a name-mangled private attribute
+        and exposes it through the :attr:`cmd2.CommandSet._cmd` property, which
+        raises :class:`CommandSetRegistrationError` until the set is
+        registered. This helper centralises that access so the migrated
+        ``do_*`` methods can forward attribute reads without leaking the cmd2
+        registration exception or depending on cmd2 internals.
+
+        Returns:
+            The parent ``LazyOwnShell`` instance once the set is registered,
+            otherwise ``None``.
+        """
+        try:
+            shell = self._cmd
+        except CommandSetRegistrationError:
+            return None
+        return shell if shell is not self else None
+
     @property
     def params(self) -> dict[str, Any]:
         """Return the live ``params`` dict owned by the parent shell.
@@ -50,7 +71,7 @@ class LazyOwnCommandSet(CommandSet):
             The same dict object that ``LazyOwnShell.params`` exposes when
             the set is registered, or an empty dict when it is not.
         """
-        shell = self.__dict__.get(SHELL_INJECTION_ATTRIBUTE)
+        shell = self._resolve_shell()
         return getattr(shell, "params", {}) if shell is not None else {}
 
     @property
@@ -62,7 +83,7 @@ class LazyOwnCommandSet(CommandSet):
             ``LazyOwnShell.params`` so callers always receive a mapping-
             like object. Falls back to an empty dict before registration.
         """
-        shell = self.__dict__.get(SHELL_INJECTION_ATTRIBUTE)
+        shell = self._resolve_shell()
         if shell is None:
             return {}
         return getattr(shell, "config", None) or getattr(shell, "params", {})
@@ -88,8 +109,8 @@ class LazyOwnCommandSet(CommandSet):
         """
         if name.startswith("_"):
             raise AttributeError(name)
-        shell = self.__dict__.get(SHELL_INJECTION_ATTRIBUTE)
-        if shell is None or shell is self:
+        shell = self._resolve_shell()
+        if shell is None:
             raise AttributeError(name)
         return getattr(shell, name)
 

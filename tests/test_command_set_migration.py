@@ -189,6 +189,66 @@ class TestDormancyMechanism:
             assert class_name not in registered, f"{class_name} should not register while pending"
 
 
+class TestShellForwarding:
+    """Pin the ``_base`` forwarding contract used by every migrated ``do_*``.
+
+    cmd2 keeps the parent shell in a name-mangled private attribute and exposes
+    it through the :attr:`cmd2.CommandSet._cmd` property. A regression that
+    reads ``self.__dict__`` instead of that property silently turns
+    ``self.params`` into an empty dict and every forwarded call (such as
+    ``self.cmd(...)``) into ``AttributeError``.
+    """
+
+    def _make_set(self):
+        from cli.commands._base import LazyOwnCommandSet
+
+        class _Probe(LazyOwnCommandSet):
+            phase = "probe"
+
+        return _Probe
+
+    def test_unregistered_params_default_empty(self) -> None:
+        probe = self._make_set()()
+        assert probe.params == {}
+
+    def test_unregistered_forwarding_raises_attribute_error(self) -> None:
+        probe = self._make_set()()
+        with pytest.raises(AttributeError):
+            probe.cmd
+
+    def test_registered_params_reflect_shell(self) -> None:
+        import cmd2
+
+        class _Shell(cmd2.Cmd):
+            def __init__(self) -> None:
+                super().__init__(auto_load_commands=False)
+                self.params = {"rhost": "10.10.11.5"}
+
+        shell = _Shell()
+        probe = self._make_set()()
+        shell.register_command_set(probe)
+        assert probe.params == {"rhost": "10.10.11.5"}
+
+    def test_registered_forwards_shell_methods(self) -> None:
+        import cmd2
+
+        captured: list[str] = []
+
+        class _Shell(cmd2.Cmd):
+            def __init__(self) -> None:
+                super().__init__(auto_load_commands=False)
+                self.params = {}
+
+            def cmd(self, line: str) -> None:
+                captured.append(line)
+
+        shell = _Shell()
+        probe = self._make_set()()
+        shell.register_command_set(probe)
+        probe.cmd("searchsploit openssh")
+        assert captured == ["searchsploit openssh"]
+
+
 class TestMigratedSetsStructure:
     @pytest.mark.parametrize(
         "module_name, class_name",

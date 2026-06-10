@@ -57,6 +57,11 @@ from core.console import (
     print_warn,
 )
 from core.crypto import xor_encrypt_decrypt
+from core.dependencies import (
+    MissingDependencyError,
+    optional_attr,
+    optional_import,
+)
 from core.payload_schema import (
     SCHEMA,
     FieldKind,
@@ -131,6 +136,9 @@ __all__ = [
     "check_lhost",
     "check_lport",
     "check_port",
+    "MissingDependencyError",
+    "optional_import",
+    "optional_attr",
     "SCHEMA",
     "FieldKind",
     "FieldSpec",

@@ -183,3 +183,14 @@ bash gen_cert.sh
 ```
 (LazyOwn) > assign dirwordlist /path/to/wordlist.txt
 ```
+
+**A command fails with `MissingDependencyError`** — a heavy optional package (for
+example `pycryptodome`, `python-libnmap`, `impacket`) is not installed. The shell
+itself keeps running; only the dependent feature is affected. The error names the
+exact `pip install` command. To list every optional dependency and its status
+without launching the shell (useful when the install is so broken that `rich` or
+`cmd2` will not import):
+```bash
+python3 -m core.dependencies
+```
+Then reinstall everything with `pip install -r requirements.txt`.

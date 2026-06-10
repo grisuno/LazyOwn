@@ -236,6 +236,11 @@ system.</p>
 <p>This function checks if a specified binary is available in the
 system’s PATH by using the <code>which</code> command. It returns True
 if the binary is found and False otherwise.</p>
+<p>The lookup is performed with :func:<code>shutil.which</code>, which
+resolves the name against <code>PATH</code> without spawning a shell.
+This avoids the command-injection surface of interpolating
+<code>binary_name</code> into a shell string and works on platforms that
+do not ship the <code>which</code> utility.</p>
 <p>:param binary_name: The name of the binary to be checked. :type
 binary_name: str :return: True if the binary is present, False
 otherwise. :rtype: bool</p>

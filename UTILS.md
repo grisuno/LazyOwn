@@ -75,6 +75,11 @@ This function checks if a specified binary is available in the system's PATH
 by using the `which` command. It returns True if the binary is found and False
 otherwise.
 
+The lookup is performed with :func:`shutil.which`, which resolves the name
+against ``PATH`` without spawning a shell. This avoids the command-injection
+surface of interpolating ``binary_name`` into a shell string and works on
+platforms that do not ship the ``which`` utility.
+
 :param binary_name: The name of the binary to be checked.
 :type binary_name: str
 :return: True if the binary is present, False otherwise.

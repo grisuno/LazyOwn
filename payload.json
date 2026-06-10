@@ -24,7 +24,7 @@
   "enable_c2_implant_debug": true,
   "start_user": "grisun0",
   "start_pass": "grisgrisgris",
-  "rhost": "10.0.0.1",
+  "rhost": "127.0.0.1",
   "lhost": "127.0.0.1",
   "scope": [],
   "scope_enforcement": "warn",

@@ -132,7 +132,7 @@ def lol():
 
     if os.path.exists(filepath):
         # 1. Cargar y limpiar (como tú lo haces)
-        df = pd.read_csv(filepath)
+        df = pd.read_csv(filepath, on_bad_lines='skip')
 
         # Simulo tus flags para que el código funcione standalone
         # En tu script real, estas columnas ya existen

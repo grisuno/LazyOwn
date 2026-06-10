@@ -2204,6 +2204,11 @@ This function checks if a specified binary is available in the system's PATH
 by using the `which` command. It returns True if the binary is found and False
 otherwise.
 
+The lookup is performed with :func:`shutil.which`, which resolves the name
+against ``PATH`` without spawning a shell. This avoids the command-injection
+surface of interpolating ``binary_name`` into a shell string and works on
+platforms that do not ship the ``which`` utility.
+
 :param binary_name: The name of the binary to be checked.
 :type binary_name: str
 :return: True if the binary is present, False otherwise.
@@ -13025,6 +13030,13 @@ No description available.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Correcciones urgentes
+
+### Otros
+
+  *   * hotfix(hotfix): in recon command ss now work propertly \n\n Version: release/0.2.151 \n\n with lvoe \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: dom 07 jun 2026 23:12:51 -04 \n\n Hora: 1780888371
 
 
 ### Refactorización

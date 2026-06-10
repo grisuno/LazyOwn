@@ -14,7 +14,7 @@
     "cli/commands/scan.py"
   ],
   "source_sha256": {
-    "lazyown.py": "d397fbe579e6a613002b44776b2e11003ee488d2c69cfdfde8816c37cdf9a0fa",
+    "lazyown.py": "dcd2fd4b9d584aae9637a81dec3c2eb16a51534efd478789886a2d987a25ffa9",
     "cli/commands/ai.py": "f21c625015834ceff49ebc5bde7a1c56f05217556513868350d477f290da3c00",
     "cli/commands/audit.py": "f374f86060903ce1ca64333f191ee9a68f05588aa064e8fe02c18e2e5240d47b",
     "cli/commands/command_and_control.py": "35fdf900504dbedbec9c514249693d9d5122cd7cbba8cfc5ed18ed6404ac12f2",

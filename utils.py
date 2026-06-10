@@ -28,7 +28,6 @@ import time
 import yaml
 import uuid
 import glob
-import donut
 import shlex
 import shutil
 import bisect
@@ -41,7 +40,6 @@ import ctypes
 import socket
 import struct
 import random
-import libnmap
 import hashlib
 import argparse
 import binascii
@@ -52,37 +50,24 @@ import itertools
 import threading
 import subprocess
 import urllib.parse
-import pandas as pd
 import urllib.request
 import importlib.util
-from PIL import Image
 from os import urandom
 from io import StringIO
 from pathlib import Path
 from rich.text import Text
-from lupa import LuaRuntime
 from threading import Timer
 from rich.panel import Panel
 from bs4 import BeautifulSoup
 from itertools import product
-from Crypto.Cipher import AES
-from pykeepass import PyKeePass
 from rich.console import Console
 import xml.etree.ElementTree as ET
 from html.parser import HTMLParser
-from Crypto.Util.Padding import pad
-from stix2 import MemoryStore, Filter
-from libnmap.parser import NmapParser
-from netaddr import IPAddress, IPRange
-from libnmap.process import NmapProcess
-from impacket.dcerpc.v5 import transport
 from concurrent.futures import ThreadPoolExecutor
-from impacket.dcerpc.v5.dcomrt import IObjectExporter
 from modules.lazyencoder_decoder import encode, decode
 from datetime import datetime, timedelta, date, timezone
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib.parse import quote, unquote, urlparse, urljoin
-from impacket.dcerpc.v5.rpcrt import RPC_C_AUTHN_LEVEL_NONE
 from requests.exceptions import ConnectionError, RequestException
 
 from core.config import Config, PAYLOAD_FILENAME, PAYLOAD_PATH, load_payload, save_payload
@@ -98,6 +83,28 @@ from core.console import (
 )
 from core.crypto import xor_encrypt_decrypt
 from core.validators import check_lhost, check_lport, check_port, check_rhost
+from core.dependencies import optional_attr, optional_import
+
+# Optional heavy dependencies are bound lazily (see core/dependencies.py) and re-exported to lazyown.py via star import.
+AES = optional_attr("Crypto.Cipher", "AES")
+pad = optional_attr("Crypto.Util.Padding", "pad")
+pd = optional_import("pandas")
+donut = optional_import("donut")
+libnmap = optional_import("libnmap")
+Image = optional_attr("PIL", "Image")
+LuaRuntime = optional_attr("lupa", "LuaRuntime")
+PyKeePass = optional_attr("pykeepass", "PyKeePass")
+MemoryStore = optional_attr("stix2", "MemoryStore")
+Filter = optional_attr("stix2", "Filter")
+NmapParser = optional_attr("libnmap.parser", "NmapParser")
+NmapProcess = optional_attr("libnmap.process", "NmapProcess")
+IPAddress = optional_attr("netaddr", "IPAddress")
+IPRange = optional_attr("netaddr", "IPRange")
+transport = optional_attr("impacket.dcerpc.v5", "transport")
+IObjectExporter = optional_attr("impacket.dcerpc.v5.dcomrt", "IObjectExporter")
+RPC_C_AUTHN_LEVEL_NONE = optional_attr(
+    "impacket.dcerpc.v5.rpcrt", "RPC_C_AUTHN_LEVEL_NONE"
+)
 
 
 query_id = 0
@@ -379,13 +386,17 @@ def is_binary_present(binary_name):
     by using the `which` command. It returns True if the binary is found and False
     otherwise.
 
+    The lookup is performed with :func:`shutil.which`, which resolves the name
+    against ``PATH`` without spawning a shell. This avoids the command-injection
+    surface of interpolating ``binary_name`` into a shell string and works on
+    platforms that do not ship the ``which`` utility.
+
     :param binary_name: The name of the binary to be checked.
     :type binary_name: str
     :return: True if the binary is present, False otherwise.
     :rtype: bool
     """
-    result = os.system(f"which {binary_name} > /dev/null 2>&1")
-    return result == 0
+    return shutil.which(binary_name) is not None
 
 
 def handle_multiple_rhosts(func):

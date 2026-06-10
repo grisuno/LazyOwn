@@ -99,6 +99,12 @@ git clone https://github.com/grisuno/LazyOwn.git && cd LazyOwn && bash install.s
 (LazyOwn) > doctor   # preflight: Python, venv, packages, certs, SecLists, tools
 (LazyOwn) > wizard   # auto-detects lhost, walks 7 config steps
 
+# Heavy optional dependencies (pycryptodome, python-libnmap, impacket, ...) are
+# imported lazily: a missing package degrades only its feature instead of
+# crashing the shell, and the dependent command raises a clear "pip install ..."
+# error when used. To audit them without launching the shell (works even if rich
+# or cmd2 are broken):  python3 -m core.dependencies
+
 # 3. Define your authorized scope, then recon
 (LazyOwn) > scope add 10.10.11.0/24 && scope mode enforce
 (LazyOwn) > ping && lazynmap && auto_populate && facts_show

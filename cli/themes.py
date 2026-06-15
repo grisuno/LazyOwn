@@ -130,11 +130,83 @@ _COLORBLIND: Theme = Theme(
 )
 
 
+_SOLARIZED_BAR_OPEN: str = "\033[1;38;5;136;48;5;234m"
+_SOLARIZED: Theme = Theme(
+    name="solarized",
+    title="bold #b58900",
+    subtitle="bold #93a1a1",
+    accent="bold #268bd2",
+    muted="#586e75",
+    border="#586e75",
+    success="bold #859900",
+    warning="bold #b58900",
+    danger="bold #dc322f",
+    hint="#93a1a1 italic",
+    bar_open=_SOLARIZED_BAR_OPEN,
+    bar_close=_RESET,
+)
+
+
+_MONOKAI_BAR_OPEN: str = "\033[1;38;5;197;48;5;235m"
+_MONOKAI: Theme = Theme(
+    name="monokai",
+    title="bold #f92672",
+    subtitle="bold #f8f8f2",
+    accent="bold #fd971f",
+    muted="#75715e",
+    border="#75715e",
+    success="bold #a6e22e",
+    warning="bold #e6db74",
+    danger="bold #f92672",
+    hint="#75715e italic",
+    bar_open=_MONOKAI_BAR_OPEN,
+    bar_close=_RESET,
+)
+
+
+_GRUVBOX_BAR_OPEN: str = "\033[1;38;5;208;48;5;235m"
+_GRUVBOX: Theme = Theme(
+    name="gruvbox",
+    title="bold #fabd2f",
+    subtitle="bold #ebdbb2",
+    accent="bold #83a598",
+    muted="#928374",
+    border="#928374",
+    success="bold #b8bb26",
+    warning="bold #fabd2f",
+    danger="bold #fb4934",
+    hint="#928374 italic",
+    bar_open=_GRUVBOX_BAR_OPEN,
+    bar_close=_RESET,
+)
+
+
+_HIGH_CONTRAST_BAR_OPEN: str = "\033[1;97;48;5;16m"
+_HIGH_CONTRAST: Theme = Theme(
+    name="high_contrast",
+    title="bold bright_white",
+    subtitle="bold bright_white",
+    accent="bold bright_yellow",
+    muted="bright_white",
+    border="bright_white",
+    success="bold bright_green",
+    warning="bold bright_yellow",
+    danger="bold bright_white on red",
+    hint="bright_white italic",
+    bar_open=_HIGH_CONTRAST_BAR_OPEN,
+    bar_close=_RESET,
+)
+
+
 THEMES: Mapping[str, Theme] = {
     _DEFAULT.name: _DEFAULT,
     _DIM.name: _DIM,
     _BRIGHT.name: _BRIGHT,
     _COLORBLIND.name: _COLORBLIND,
+    _SOLARIZED.name: _SOLARIZED,
+    _MONOKAI.name: _MONOKAI,
+    _GRUVBOX.name: _GRUVBOX,
+    _HIGH_CONTRAST.name: _HIGH_CONTRAST,
 }
 
 

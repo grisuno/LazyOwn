@@ -432,6 +432,21 @@ Both novice and experienced operators can use this:
   ``--tutorial`` for in-depth explanations of every field.
 - Experts: press Enter to accept auto-detected values; Ctrl-C to abort.
 
+## tui_theme
+Switch the TUI colour theme used by the splash and styled output.
+
+Themes change the accent palette of LazyOwn's rich output (the
+first-run splash overlay and any semantic styled panels). The
+selection persists to ``payload.json`` under ``tui_theme`` so it
+survives shell restarts.
+
+Usage:
+    ``tui_theme``          — list available themes, mark the active one
+    ``tui_theme <name>``   — switch to a named theme (case-insensitive)
+    ``tui_theme cycle``    — advance to the next theme in order
+    ``tui_theme prev``     — step back to the previous theme
+    ``tui_theme reset``    — return to the default theme
+
 ## doctor
 Preflight environment health check — verify the install is ready.
 

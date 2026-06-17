@@ -501,6 +501,17 @@ step-by-step prompts with clear descriptions; pass
 <code>--tutorial</code> for in-depth explanations of every field. -
 Experts: press Enter to accept auto-detected values; Ctrl-C to
 abort.</p>
+<h2 id="tui_theme">tui_theme</h2>
+<p>Switch the TUI colour theme used by the splash and styled output.</p>
+<p>Themes change the accent palette of LazyOwn’s rich output (the
+first-run splash overlay and any semantic styled panels). The selection
+persists to <code>payload.json</code> under <code>tui_theme</code> so it
+survives shell restarts.</p>
+<p>Usage: <code>tui_theme</code> — list available themes, mark the
+active one <code>tui_theme &lt;name&gt;</code> — switch to a named theme
+(case-insensitive) <code>tui_theme cycle</code> — advance to the next
+theme in order <code>tui_theme prev</code> — step back to the previous
+theme <code>tui_theme reset</code> — return to the default theme</p>
 <h2 id="doctor">doctor</h2>
 <p>Preflight environment health check — verify the install is ready.</p>
 <p>Complements <code>wizard</code>. Where <code>wizard --check</code>

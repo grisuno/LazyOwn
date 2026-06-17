@@ -83,6 +83,20 @@ Or run the config readiness check without changing anything:
 
 That is the core loop. Everything else is built on top of it.
 
+### Or run it all in one command
+
+```bash
+(LazyOwn) > engage         # uses rhost, or: engage 10.10.11.5
+```
+
+`engage` drives the same chain automatically — ping/OS detect → nmap →
+auto_populate → enum → exploit-search → initial access — auto-switching to the
+next tool when a step fails and narrating progress to `sessions/engagement.log`.
+With `auto_approve` false in `payload.json` it pauses for your approval before
+each gated phase (`engage --status` to watch, `engage --approve <id>` to
+release). Use the four manual steps above when you want to inspect each result;
+reach for `engage` when you just want a shell.
+
 ---
 
 ## Step 4 — Start the C2

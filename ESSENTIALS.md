@@ -22,6 +22,31 @@ ping -> lazynmap -> auto_populate -> facts_show -> recommend_next
 
 ---
 
+## One command — `engage`
+
+When you just want a shell, `engage` runs the whole golden path for you:
+
+```
+engage 10.10.11.5
+```
+
+It chains `ping` → `lazynmap` → `auto_populate` → enum → exploit-search →
+initial-access on the target, auto-switching to the next tool when a step
+fails. With `auto_approve` false in `payload.json` it pauses at gated phases
+for your go-ahead, so you stay in control. Useful flags:
+
+| Flag | Effect |
+|------|--------|
+| `engage <ip> --background` | Detach into a worker; tail it with `engage --status` |
+| `engage --pending` | List phases awaiting your approval |
+| `engage --approve <id>` / `engage --deny <id>` | Resolve a pending gate |
+
+Every action is narrated to `sessions/engagement.log` and broadcast to
+connected teammates. Run the manual seven-step path above when you want to
+understand or control each step; reach for `engage` when you want speed.
+
+---
+
 ## By Goal — not by phase
 
 ### I found a web service

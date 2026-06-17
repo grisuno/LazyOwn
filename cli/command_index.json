@@ -14,7 +14,7 @@
     "cli/commands/scan.py"
   ],
   "source_sha256": {
-    "lazyown.py": "587b2b6bbfa5e3530529a5568c7380289db986469a6a096f773c15a2601d7f09",
+    "lazyown.py": "c75034ad931dfe451c685411b9023db1297bad1b692f7bd5324e64dc543d3f13",
     "cli/commands/ai.py": "f21c625015834ceff49ebc5bde7a1c56f05217556513868350d477f290da3c00",
     "cli/commands/audit.py": "f374f86060903ce1ca64333f191ee9a68f05588aa064e8fe02c18e2e5240d47b",
     "cli/commands/command_and_control.py": "35fdf900504dbedbec9c514249693d9d5122cd7cbba8cfc5ed18ed6404ac12f2",
@@ -1074,7 +1074,7 @@
           "class_name": "ExfiltrationCommandSet"
         },
         {
-          "line": 18090,
+          "line": 18089,
           "source_file": "lazyown.py",
           "class_name": "LazyOwnShell"
         }
@@ -1089,7 +1089,7 @@
           "class_name": "AiCommandSet"
         },
         {
-          "line": 27510,
+          "line": 27504,
           "source_file": "lazyown.py",
           "class_name": "LazyOwnShell"
         }
@@ -1104,7 +1104,7 @@
           "class_name": "AiCommandSet"
         },
         {
-          "line": 28505,
+          "line": 28499,
           "source_file": "lazyown.py",
           "class_name": "LazyOwnShell"
         }
@@ -1119,7 +1119,7 @@
           "class_name": "AiCommandSet"
         },
         {
-          "line": 19442,
+          "line": 19441,
           "source_file": "lazyown.py",
           "class_name": "LazyOwnShell"
         }
@@ -1134,7 +1134,7 @@
           "class_name": "ExfiltrationCommandSet"
         },
         {
-          "line": 10942,
+          "line": 10941,
           "source_file": "lazyown.py",
           "class_name": "LazyOwnShell"
         }
@@ -1149,12 +1149,12 @@
           "class_name": "ExfiltrationCommandSet"
         },
         {
-          "line": 25318,
+          "line": 25317,
           "source_file": "lazyown.py",
           "class_name": "LazyOwnShell"
         },
         {
-          "line": 26785,
+          "line": 26780,
           "source_file": "lazyown.py",
           "class_name": "LazyOwnShell"
         }
@@ -1169,7 +1169,7 @@
           "class_name": "ExfiltrationCommandSet"
         },
         {
-          "line": 24760,
+          "line": 24759,
           "source_file": "lazyown.py",
           "class_name": "LazyOwnShell"
         }
@@ -1184,7 +1184,7 @@
           "class_name": "ExfiltrationCommandSet"
         },
         {
-          "line": 10901,
+          "line": 10900,
           "source_file": "lazyown.py",
           "class_name": "LazyOwnShell"
         }
@@ -1199,7 +1199,7 @@
           "class_name": "ExfiltrationCommandSet"
         },
         {
-          "line": 16032,
+          "line": 16031,
           "source_file": "lazyown.py",
           "class_name": "LazyOwnShell"
         }
@@ -1214,7 +1214,7 @@
           "class_name": "ExfiltrationCommandSet"
         },
         {
-          "line": 13244,
+          "line": 13243,
           "source_file": "lazyown.py",
           "class_name": "LazyOwnShell"
         }
@@ -1244,7 +1244,7 @@
           "class_name": "ExfiltrationCommandSet"
         },
         {
-          "line": 17518,
+          "line": 17517,
           "source_file": "lazyown.py",
           "class_name": "LazyOwnShell"
         }
@@ -1259,7 +1259,7 @@
           "class_name": "ExfiltrationCommandSet"
         },
         {
-          "line": 20930,
+          "line": 20929,
           "source_file": "lazyown.py",
           "class_name": "LazyOwnShell"
         }
@@ -1274,7 +1274,7 @@
           "class_name": "ExfiltrationCommandSet"
         },
         {
-          "line": 14890,
+          "line": 14889,
           "source_file": "lazyown.py",
           "class_name": "LazyOwnShell"
         }
@@ -1289,7 +1289,7 @@
           "class_name": "ExfiltrationCommandSet"
         },
         {
-          "line": 15274,
+          "line": 15273,
           "source_file": "lazyown.py",
           "class_name": "LazyOwnShell"
         }
@@ -1304,7 +1304,7 @@
           "class_name": "ExfiltrationCommandSet"
         },
         {
-          "line": 24668,
+          "line": 24667,
           "source_file": "lazyown.py",
           "class_name": "LazyOwnShell"
         }
@@ -1319,7 +1319,7 @@
           "class_name": "AiCommandSet"
         },
         {
-          "line": 26804,
+          "line": 26799,
           "source_file": "lazyown.py",
           "class_name": "LazyOwnShell"
         }
@@ -1334,7 +1334,7 @@
           "class_name": "PrivilegeEscalationCommandSet"
         },
         {
-          "line": 19388,
+          "line": 19387,
           "source_file": "lazyown.py",
           "class_name": "LazyOwnShell"
         }
@@ -1349,7 +1349,7 @@
           "class_name": "PrivilegeEscalationCommandSet"
         },
         {
-          "line": 19292,
+          "line": 19291,
           "source_file": "lazyown.py",
           "class_name": "LazyOwnShell"
         }
@@ -1364,7 +1364,7 @@
           "class_name": "PrivilegeEscalationCommandSet"
         },
         {
-          "line": 19209,
+          "line": 19208,
           "source_file": "lazyown.py",
           "class_name": "LazyOwnShell"
         }
@@ -1379,7 +1379,7 @@
           "class_name": "PrivilegeEscalationCommandSet"
         },
         {
-          "line": 19349,
+          "line": 19348,
           "source_file": "lazyown.py",
           "class_name": "LazyOwnShell"
         }
@@ -1394,7 +1394,7 @@
           "class_name": "ExfiltrationCommandSet"
         },
         {
-          "line": 19086,
+          "line": 19085,
           "source_file": "lazyown.py",
           "class_name": "LazyOwnShell"
         }
@@ -1424,7 +1424,7 @@
           "class_name": "ExfiltrationCommandSet"
         },
         {
-          "line": 24505,
+          "line": 24504,
           "source_file": "lazyown.py",
           "class_name": "LazyOwnShell"
         }
@@ -1439,7 +1439,7 @@
           "class_name": "ExfiltrationCommandSet"
         },
         {
-          "line": 18655,
+          "line": 18654,
           "source_file": "lazyown.py",
           "class_name": "LazyOwnShell"
         }
@@ -1454,7 +1454,7 @@
           "class_name": "ExfiltrationCommandSet"
         },
         {
-          "line": 14812,
+          "line": 14811,
           "source_file": "lazyown.py",
           "class_name": "LazyOwnShell"
         }
@@ -1464,12 +1464,12 @@
       "name": "do_shellshock",
       "occurrences": [
         {
-          "line": 11624,
+          "line": 11623,
           "source_file": "lazyown.py",
           "class_name": "LazyOwnShell"
         },
         {
-          "line": 14971,
+          "line": 14970,
           "source_file": "lazyown.py",
           "class_name": "LazyOwnShell"
         }
@@ -1499,7 +1499,7 @@
           "class_name": "PrivilegeEscalationCommandSet"
         },
         {
-          "line": 19195,
+          "line": 19194,
           "source_file": "lazyown.py",
           "class_name": "LazyOwnShell"
         }
@@ -1514,7 +1514,7 @@
           "class_name": "PrivilegeEscalationCommandSet"
         },
         {
-          "line": 19330,
+          "line": 19329,
           "source_file": "lazyown.py",
           "class_name": "LazyOwnShell"
         }
@@ -1529,7 +1529,7 @@
           "class_name": "ExfiltrationCommandSet"
         },
         {
-          "line": 20577,
+          "line": 20576,
           "source_file": "lazyown.py",
           "class_name": "LazyOwnShell"
         }
@@ -1544,7 +1544,7 @@
           "class_name": "ExfiltrationCommandSet"
         },
         {
-          "line": 21307,
+          "line": 21306,
           "source_file": "lazyown.py",
           "class_name": "LazyOwnShell"
         }
@@ -1559,7 +1559,7 @@
           "class_name": "PrivilegeEscalationCommandSet"
         },
         {
-          "line": 19248,
+          "line": 19247,
           "source_file": "lazyown.py",
           "class_name": "LazyOwnShell"
         }
@@ -3769,7 +3769,7 @@
     },
     {
       "name": "do_hydra",
-      "line": 9175,
+      "line": 9174,
       "summary": "Uses Hydra to perform a brute force attack on a specified HTTP service with a user and password list.",
       "category": "07. Credential Access",
       "phase": "cred",
@@ -3780,7 +3780,7 @@
     },
     {
       "name": "do_medusa",
-      "line": 9254,
+      "line": 9253,
       "summary": "Uses medusa to perform a brute force attack on a specified ssh service with a user and password list.",
       "category": "07. Credential Access",
       "phase": "cred",
@@ -3791,7 +3791,7 @@
     },
     {
       "name": "do_encoderpayload",
-      "line": 9320,
+      "line": 9319,
       "summary": "Applies various obfuscations to a given command line string to create multiple obfuscated versions.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -3802,7 +3802,7 @@
     },
     {
       "name": "do_smtpuserenum",
-      "line": 9421,
+      "line": 9420,
       "summary": "Enumerates SMTP users using the `smtp-user-enum` tool with the VRFY method.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -3813,7 +3813,7 @@
     },
     {
       "name": "do_sshd",
-      "line": 9460,
+      "line": 9459,
       "summary": "Starts the SSH service and displays its status.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -3824,7 +3824,7 @@
     },
     {
       "name": "do_nmapscripthelp",
-      "line": 9487,
+      "line": 9486,
       "summary": "Provides help to find and display information about Nmap scripts.",
       "category": "11. Reporting",
       "phase": "report",
@@ -3835,7 +3835,7 @@
     },
     {
       "name": "do_apropos",
-      "line": 9525,
+      "line": 9524,
       "summary": "Search for commands matching the given parameter in the cmd interface and optionally extend the search using the system's `apropos` command.",
       "category": "11. Reporting",
       "phase": "report",
@@ -3846,7 +3846,7 @@
     },
     {
       "name": "do_searchhash",
-      "line": 9566,
+      "line": 9565,
       "summary": "Helps to find hash types in Hashcat by searching through its help output.",
       "category": "07. Credential Access",
       "phase": "cred",
@@ -3857,7 +3857,7 @@
     },
     {
       "name": "do_clean",
-      "line": 9602,
+      "line": 9601,
       "summary": "Deletes files and directories in the `sessions` directory, excluding specified files and directories.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -3868,7 +3868,7 @@
     },
     {
       "name": "do_pyautomate",
-      "line": 9689,
+      "line": 9688,
       "summary": "Automates the execution of pwntomate tools on XML configuration files.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -3879,7 +3879,7 @@
     },
     {
       "name": "do_aliass",
-      "line": 9730,
+      "line": 9729,
       "summary": "Prints all configured aliases and their associated commands.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -3890,7 +3890,7 @@
     },
     {
       "name": "do_tcpdump_icmp",
-      "line": 9760,
+      "line": 9759,
       "summary": "Starts `tcpdump` to capture ICMP traffic on the specified interface.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -3901,7 +3901,7 @@
     },
     {
       "name": "do_tcpdump_capture",
-      "line": 9793,
+      "line": 9792,
       "summary": "Starts packet capture using `tcpdump` on the specified interface.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -3912,7 +3912,7 @@
     },
     {
       "name": "do_tshark_analyze",
-      "line": 9834,
+      "line": 9833,
       "summary": "Analyzes a packet capture file using `tshark` based on the provided remote host IP.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -3923,7 +3923,7 @@
     },
     {
       "name": "do_rdp",
-      "line": 9900,
+      "line": 9899,
       "summary": "Reads credentials from a file, encrypts the password, and executes the RDP connection command.",
       "category": "05. Persistence",
       "phase": "persist",
@@ -3934,7 +3934,7 @@
     },
     {
       "name": "do_base64encode",
-      "line": 9965,
+      "line": 9964,
       "summary": "Encodes a given string into Base64 format.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -3945,7 +3945,7 @@
     },
     {
       "name": "do_base64decode",
-      "line": 9993,
+      "line": 9992,
       "summary": "Decodes a Base64 encoded string.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -3956,7 +3956,7 @@
     },
     {
       "name": "do_grisun0",
-      "line": 10024,
+      "line": 10023,
       "summary": "Creates and copies a shell command to add a new user `grisun0`, assign a password, add the user to the sudo group, and switch to the user.",
       "category": "05. Persistence",
       "phase": "persist",
@@ -3967,7 +3967,7 @@
     },
     {
       "name": "do_grisun0w",
-      "line": 10051,
+      "line": 10050,
       "summary": "Creates and copies a PowerShell command to add a new user `grisun0`, assign a password, add the user to the Administrators group, and switch to the user.",
       "category": "05. Persistence",
       "phase": "persist",
@@ -3978,7 +3978,7 @@
     },
     {
       "name": "do_encodewinbase64",
-      "line": 10085,
+      "line": 10084,
       "summary": "Encodes a given payload into a Base64 encoded string suitable for Windows PowerShell execution.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -3989,7 +3989,7 @@
     },
     {
       "name": "do_winbase64payload",
-      "line": 10144,
+      "line": 10143,
       "summary": "Creates a base64 encoded payload specifically for Windows to execute a PowerShell command or download a file using `lhost`.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -4000,7 +4000,7 @@
     },
     {
       "name": "do_revwin",
-      "line": 10273,
+      "line": 10272,
       "summary": "Creates a base64 encoded PowerShell reverse shell payload specifically for Windows to execute a `.ps1` script from `lhost`.",
       "category": "05. Persistence",
       "phase": "persist",
@@ -4011,7 +4011,7 @@
     },
     {
       "name": "do_asprevbase64",
-      "line": 10331,
+      "line": 10330,
       "summary": "Creates a base64 encoded ASP reverse shell payload and copies it to the clipboard.",
       "category": "05. Persistence",
       "phase": "persist",
@@ -4022,7 +4022,7 @@
     },
     {
       "name": "do_rubeus",
-      "line": 10369,
+      "line": 10368,
       "summary": "Copies a command to the clipboard for downloading and running Rubeus.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -4033,7 +4033,7 @@
     },
     {
       "name": "do_socat",
-      "line": 10409,
+      "line": 10408,
       "summary": "Sets up and runs a `socat` tunnel with SOCKS4A proxy support.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -4044,7 +4044,7 @@
     },
     {
       "name": "do_chisel",
-      "line": 10465,
+      "line": 10464,
       "summary": "Automates the setup and execution of Chisel server and client for tunneling and port forwarding.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -4055,7 +4055,7 @@
     },
     {
       "name": "do_msf",
-      "line": 10573,
+      "line": 10572,
       "summary": "Automates various Metasploit tasks including scanning for vulnerabilities, setting up reverse shells, and creating payloads.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -4066,7 +4066,7 @@
     },
     {
       "name": "do_encrypt",
-      "line": 10901,
+      "line": 10900,
       "summary": "Encrypts a file using XOR encryption.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -4077,7 +4077,7 @@
     },
     {
       "name": "do_decrypt",
-      "line": 10942,
+      "line": 10941,
       "summary": "Decrypts a file using XOR encryption.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -4088,7 +4088,7 @@
     },
     {
       "name": "do_sessionssh",
-      "line": 10987,
+      "line": 10986,
       "summary": "Execute a command to list active SSH connections.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -4099,7 +4099,7 @@
     },
     {
       "name": "do_sessionsshstrace",
-      "line": 11011,
+      "line": 11010,
       "summary": "Attach strace to a running process and log output to a file.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -4110,7 +4110,7 @@
     },
     {
       "name": "do_lazyscript",
-      "line": 11062,
+      "line": 11061,
       "summary": "Executes commands defined in a lazyscript file.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -4121,7 +4121,7 @@
     },
     {
       "name": "do_set_proxychains",
-      "line": 11094,
+      "line": 11093,
       "summary": "Restart the current application using `proxychains` to route traffic",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -4132,7 +4132,7 @@
     },
     {
       "name": "do_shellcode",
-      "line": 11119,
+      "line": 11118,
       "summary": "Generates a Python one-liner to execute shellcode from a given URL.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -4143,7 +4143,7 @@
     },
     {
       "name": "do_createdll",
-      "line": 11155,
+      "line": 11154,
       "summary": "Create a Windows DLL file using MinGW-w64 or a Blazor DLL for Linux.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -4154,7 +4154,7 @@
     },
     {
       "name": "do_seo",
-      "line": 11211,
+      "line": 11210,
       "summary": "Performs a web seo fingerprinting scan using `lazyseo.py`.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -4165,7 +4165,7 @@
     },
     {
       "name": "do_padbuster",
-      "line": 11246,
+      "line": 11245,
       "summary": "Execute the PadBuster command for padding oracle attacks.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -4176,7 +4176,7 @@
     },
     {
       "name": "do_smbattack",
-      "line": 11290,
+      "line": 11289,
       "summary": "Scans for hosts with SMB service open on port 445 in the specified target network.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -4187,7 +4187,7 @@
     },
     {
       "name": "do_cacti_exploit",
-      "line": 11421,
+      "line": 11420,
       "summary": "Automates the exploitation of the Cacti version 1.2.26 vulnerability",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -4198,7 +4198,7 @@
     },
     {
       "name": "do_smalldic",
-      "line": 11506,
+      "line": 11505,
       "summary": "Handles the creation of temporary files for users and passwords based on a small dictionary.",
       "category": "07. Credential Access",
       "phase": "cred",
@@ -4209,7 +4209,7 @@
     },
     {
       "name": "do_ngrok",
-      "line": 11544,
+      "line": 11543,
       "summary": "Set up and run ngrok on a specified local port. If ngrok is not installed, it will",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -4220,7 +4220,7 @@
     },
     {
       "name": "do_wifipass",
-      "line": 11594,
+      "line": 11593,
       "summary": "This function generates a PowerShell script that retrieves saved Wi-Fi passwords on a Windows system.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -4231,7 +4231,7 @@
     },
     {
       "name": "do_shellshock",
-      "line": 11624,
+      "line": 11623,
       "summary": "Executes a Shellshock attack against a target.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -4242,7 +4242,7 @@
     },
     {
       "name": "do_powerserver",
-      "line": 11687,
+      "line": 11686,
       "summary": "This function generates a PowerShell script that retrieves reverse shell over http on a Windows system.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -4253,7 +4253,7 @@
     },
     {
       "name": "do_morse",
-      "line": 11750,
+      "line": 11749,
       "summary": "Interactive Morse Code Converter.",
       "category": "11. Reporting",
       "phase": "report",
@@ -4264,7 +4264,7 @@
     },
     {
       "name": "do_waybackmachine",
-      "line": 11786,
+      "line": 11785,
       "summary": "Fetch URLs from the Wayback Machine for a given website.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -4275,7 +4275,7 @@
     },
     {
       "name": "do_c2",
-      "line": 11826,
+      "line": 11825,
       "summary": "Handle C2 server setup and agent compilation.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -4286,7 +4286,7 @@
     },
     {
       "name": "do_listener",
-      "line": 11941,
+      "line": 11940,
       "summary": "Manage C2 listeners: list, add, start, stop, remove.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -4297,7 +4297,7 @@
     },
     {
       "name": "do_sandbox",
-      "line": 12068,
+      "line": 12067,
       "summary": "Toggle or query Docker sandbox mode.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -4308,7 +4308,7 @@
     },
     {
       "name": "do_kick",
-      "line": 12110,
+      "line": 12109,
       "summary": "Handles the process of sending a spoofed ARP packet to a specified IP address with a given MAC address.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -4319,7 +4319,7 @@
     },
     {
       "name": "do_sqli",
-      "line": 12157,
+      "line": 12156,
       "summary": "Asks the user for the URL, database, table, and columns, and then executes the Python script",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -4330,7 +4330,7 @@
     },
     {
       "name": "do_sshkey",
-      "line": 12194,
+      "line": 12193,
       "summary": "Generates an SSH key pair with RSA 4096-bit encryption. If no name is provided, it uses 'lazyown' by default.",
       "category": "07. Credential Access",
       "phase": "cred",
@@ -4341,7 +4341,7 @@
     },
     {
       "name": "do_crunch",
-      "line": 12215,
+      "line": 12214,
       "summary": "Generate a custom dictionary using the `crunch` tool.",
       "category": "07. Credential Access",
       "phase": "cred",
@@ -4352,7 +4352,7 @@
     },
     {
       "name": "do_malwarebazar",
-      "line": 12257,
+      "line": 12256,
       "summary": "Fetches and displays malware information from the MalwareBazaar API based on the given tag.",
       "category": "11. Reporting",
       "phase": "report",
@@ -4363,7 +4363,7 @@
     },
     {
       "name": "do_download_malwarebazar",
-      "line": 12324,
+      "line": 12323,
       "summary": "Download a malware sample from MalwareBazaar using its SHA256 hash.",
       "category": "11. Reporting",
       "phase": "report",
@@ -4374,7 +4374,7 @@
     },
     {
       "name": "do_sslscan",
-      "line": 12362,
+      "line": 12361,
       "summary": "Run an SSL scan on the specified remote host.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -4385,7 +4385,7 @@
     },
     {
       "name": "do_cewl",
-      "line": 12403,
+      "line": 12402,
       "summary": "This function constructs and executes a command for the 'cewl' tool.",
       "category": "07. Credential Access",
       "phase": "cred",
@@ -4396,7 +4396,7 @@
     },
     {
       "name": "do_graudit",
-      "line": 12459,
+      "line": 12458,
       "summary": "Executes the graudit command to perform a static code analysis with the specified options.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -4407,7 +4407,7 @@
     },
     {
       "name": "do_msfrpc",
-      "line": 12490,
+      "line": 12489,
       "summary": "Connects to the msfrpcd daemon and allows remote control of Metasploit.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -4418,7 +4418,7 @@
     },
     {
       "name": "do_parsero",
-      "line": 12514,
+      "line": 12513,
       "summary": "Executes a parsero scan on a specified target URL or host.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -4429,7 +4429,7 @@
     },
     {
       "name": "do_sherlock",
-      "line": 12546,
+      "line": 12545,
       "summary": "Executes the Sherlock tool to find usernames across social networks.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -4440,7 +4440,7 @@
     },
     {
       "name": "do_trufflehog",
-      "line": 12587,
+      "line": 12586,
       "summary": "Executes trufflehog to search for secrets in a given Git repository URL.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -4451,7 +4451,7 @@
     },
     {
       "name": "do_weevelygen",
-      "line": 12625,
+      "line": 12624,
       "summary": "Generate a PHP backdoor using Weevely, protected with the given password.",
       "category": "05. Persistence",
       "phase": "persist",
@@ -4462,7 +4462,7 @@
     },
     {
       "name": "do_weevely",
-      "line": 12665,
+      "line": 12664,
       "summary": "Connect to PHP backdoor using Weevely, protected with the given password.",
       "category": "05. Persistence",
       "phase": "persist",
@@ -4473,7 +4473,7 @@
     },
     {
       "name": "do_changeme",
-      "line": 12711,
+      "line": 12710,
       "summary": "Executes a changeme scan on a specified target URL or host.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -4484,7 +4484,7 @@
     },
     {
       "name": "do_enum4linux_ng",
-      "line": 12742,
+      "line": 12741,
       "summary": "Performs enumeration of information from a target system using `enum4linux-ng`.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -4495,7 +4495,7 @@
     },
     {
       "name": "do_fuzz",
-      "line": 12780,
+      "line": 12779,
       "summary": "Executes a web server fuzzing script with user-provided parameters.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -4506,7 +4506,7 @@
     },
     {
       "name": "do_sharpshooter",
-      "line": 12825,
+      "line": 12824,
       "summary": "Executes a payload creation framework for the retrieval and execution of arbitrary CSharp source code.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -4517,7 +4517,7 @@
     },
     {
       "name": "do_sliver_server",
-      "line": 12867,
+      "line": 12866,
       "summary": "Starts the Sliver server and generates a client configuration file for connecting clients.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -4528,7 +4528,7 @@
     },
     {
       "name": "do_gencert",
-      "line": 12984,
+      "line": 12983,
       "summary": "Generates a certificate authority (CA), client certificate, and client key.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -4539,7 +4539,7 @@
     },
     {
       "name": "do_kerbrute",
-      "line": 12996,
+      "line": 12995,
       "summary": "Executes the Kerbrute tool to enumerate user accounts against a specified target domain controller.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -4550,7 +4550,7 @@
     },
     {
       "name": "do_dacledit",
-      "line": 13082,
+      "line": 13081,
       "summary": "Execute the dacledit.py command for a specific user or all users listed in the users.txt file.",
       "category": "07. Credential Access",
       "phase": "cred",
@@ -4561,7 +4561,7 @@
     },
     {
       "name": "do_bloodyAD",
-      "line": 13152,
+      "line": 13151,
       "summary": "Execute the bloodyAD.py command for a specific user or all users listed in the users.txt file.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -4572,7 +4572,7 @@
     },
     {
       "name": "do_evilwinrm",
-      "line": 13244,
+      "line": 13243,
       "summary": "Execute the Evil-WinRM tool for authentication attempts on a specified target using either password or hash.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -4583,7 +4583,7 @@
     },
     {
       "name": "do_getTGT",
-      "line": 13333,
+      "line": 13332,
       "summary": "Requests a Ticket Granting Ticket (TGT) using the Impacket tool with provided credentials.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -4594,7 +4594,7 @@
     },
     {
       "name": "do_apache_users",
-      "line": 13382,
+      "line": 13381,
       "summary": "Performs enumeration of users from a target system using `apache-users`.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -4605,7 +4605,7 @@
     },
     {
       "name": "do_backdoor_factory",
-      "line": 13429,
+      "line": 13428,
       "summary": "Creates a backdoored executable using `backdoor-factory`.",
       "category": "05. Persistence",
       "phase": "persist",
@@ -4616,7 +4616,7 @@
     },
     {
       "name": "do_davtest",
-      "line": 13475,
+      "line": 13474,
       "summary": "Tests WebDAV server configurations using `davtest`.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -4627,7 +4627,7 @@
     },
     {
       "name": "do_msfpc",
-      "line": 13517,
+      "line": 13516,
       "summary": "Generates payloads using MSFvenom Payload Creator (MSFPC).",
       "category": "05. Persistence",
       "phase": "persist",
@@ -4638,7 +4638,7 @@
     },
     {
       "name": "do_ivy",
-      "line": 13598,
+      "line": 13597,
       "summary": "Generates payloads using Ivy with various options. Ivy is a payload creation framework for the execution of arbitrary VBA (macro) source code directly in memor…",
       "category": "05. Persistence",
       "phase": "persist",
@@ -4649,7 +4649,7 @@
     },
     {
       "name": "do_tord",
-      "line": 13698,
+      "line": 13697,
       "summary": "Execute the tor.sh script with the specified port or default to port 80 if no port is provided.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -4660,7 +4660,7 @@
     },
     {
       "name": "do_generatedic",
-      "line": 13733,
+      "line": 13732,
       "summary": "Generates a wordlist based on a target name and a list of characters, with various combinations.",
       "category": "07. Credential Access",
       "phase": "cred",
@@ -4671,7 +4671,7 @@
     },
     {
       "name": "do_trace",
-      "line": 13998,
+      "line": 13997,
       "summary": "Traces the DNS information for a given domain using the FreeDNS service. (using freedns IP Not your IP)",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -4682,7 +4682,7 @@
     },
     {
       "name": "do_veil",
-      "line": 14041,
+      "line": 14040,
       "summary": "Generates payloads using Veil-Evasion with various options. Veil-Evasion is a payload creation framework",
       "category": "05. Persistence",
       "phase": "persist",
@@ -4693,7 +4693,7 @@
     },
     {
       "name": "do_empire",
-      "line": 14115,
+      "line": 14114,
       "summary": "Generates payloads using PowerShell Empire with various options.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -4704,7 +4704,7 @@
     },
     {
       "name": "do_evil_ssdp",
-      "line": 14165,
+      "line": 14164,
       "summary": "Runs evil-ssdp with various options and user-selected templates.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -4715,7 +4715,7 @@
     },
     {
       "name": "do_shellfire",
-      "line": 14211,
+      "line": 14210,
       "summary": "Runs Shellfire with various options and allows generating payloads.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -4726,7 +4726,7 @@
     },
     {
       "name": "do_graph",
-      "line": 14315,
+      "line": 14314,
       "summary": "Generates a graph from JSON payload files containing URL, RHOST, and RPORT.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -4737,7 +4737,7 @@
     },
     {
       "name": "do_netexec",
-      "line": 14370,
+      "line": 14369,
       "summary": "Executes netexec with various options for network protocol operations.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -4748,7 +4748,7 @@
     },
     {
       "name": "do_scarecrow",
-      "line": 14591,
+      "line": 14590,
       "summary": "Executes ScareCrow with various options for bypassing EDR solutions and executing shellcode.",
       "category": "05. Persistence",
       "phase": "persist",
@@ -4759,7 +4759,7 @@
     },
     {
       "name": "do_createmail",
-      "line": 14709,
+      "line": 14708,
       "summary": "Generate email permutations based on a full name and domain, then save them to a file.",
       "category": "07. Credential Access",
       "phase": "cred",
@@ -4770,7 +4770,7 @@
     },
     {
       "name": "do_eyewitness",
-      "line": 14757,
+      "line": 14756,
       "summary": "Executes EyeWitness to capture screenshots from a list of URLs.",
       "category": "11. Reporting",
       "phase": "report",
@@ -4781,7 +4781,7 @@
     },
     {
       "name": "do_secretsdump",
-      "line": 14812,
+      "line": 14811,
       "summary": "Run secretsdump.py with the provided domain, username, password, and IP address.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -4792,7 +4792,7 @@
     },
     {
       "name": "do_getuserspns",
-      "line": 14890,
+      "line": 14889,
       "summary": "Run GetUserSPNs.py with the provided domain, username, password, and IP address.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -4803,7 +4803,7 @@
     },
     {
       "name": "do_passwordspray",
-      "line": 14939,
+      "line": 14938,
       "summary": "Perform password spraying using crackmapexec with the provided parameters.",
       "category": "07. Credential Access",
       "phase": "cred",
@@ -4814,7 +4814,7 @@
     },
     {
       "name": "do_shellshock",
-      "line": 14971,
+      "line": 14970,
       "summary": "Attempt to exploit the Shellshock vulnerability (CVE-2014-6271, CVE-2014-7169).",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -4825,7 +4825,7 @@
     },
     {
       "name": "do_generate_revshell",
-      "line": 15002,
+      "line": 15001,
       "summary": "Generate a reverse shell in various programming languages.",
       "category": "05. Persistence",
       "phase": "persist",
@@ -4836,7 +4836,7 @@
     },
     {
       "name": "do_alterx",
-      "line": 15068,
+      "line": 15067,
       "summary": "Executes the 'alterx' command for subdomain enumeration on the provided domain. If 'alterx'",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -4847,7 +4847,7 @@
     },
     {
       "name": "do_allin",
-      "line": 15138,
+      "line": 15137,
       "summary": "Execute the AlliN.py tool with various scan modes and parameters.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -4858,7 +4858,7 @@
     },
     {
       "name": "do_dr0p1t",
-      "line": 15211,
+      "line": 15210,
       "summary": "Execute the Dr0p1t tool to create a stealthy malware dropper.",
       "category": "05. Persistence",
       "phase": "persist",
@@ -4869,7 +4869,7 @@
     },
     {
       "name": "do_gitdumper",
-      "line": 15274,
+      "line": 15273,
       "summary": "Install and execute the git-dumper tool to download Git repository content.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -4880,7 +4880,7 @@
     },
     {
       "name": "do_powershell_cmd_stager",
-      "line": 15307,
+      "line": 15306,
       "summary": "Generate and execute a PowerShell command stager to run a .ps1 script.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -4891,7 +4891,7 @@
     },
     {
       "name": "do_shellcode_search",
-      "line": 15344,
+      "line": 15343,
       "summary": "Search the shell-storm API for shellcodes using the provided keywords.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -4902,7 +4902,7 @@
     },
     {
       "name": "do_ligolo",
-      "line": 15392,
+      "line": 15391,
       "summary": "Automates the setup and execution of Ligolo server and client for tunneling and port forwarding.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -4913,7 +4913,7 @@
     },
     {
       "name": "do_addusers",
-      "line": 15437,
+      "line": 15436,
       "summary": "Opens or creates the users.txt file in the sessions directory for editing using nano.",
       "category": "07. Credential Access",
       "phase": "cred",
@@ -4924,7 +4924,7 @@
     },
     {
       "name": "do_windapsearch",
-      "line": 15458,
+      "line": 15457,
       "summary": "Execute the windapsearch tool to perform Active Directory Domain enumeration through LDAP queries.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -4935,7 +4935,7 @@
     },
     {
       "name": "do_passtightvnc",
-      "line": 15572,
+      "line": 15571,
       "summary": "Decrypts TightVNC passwords using Metasploit.",
       "category": "07. Credential Access",
       "phase": "cred",
@@ -4946,7 +4946,7 @@
     },
     {
       "name": "do_shadowsocks",
-      "line": 15619,
+      "line": 15618,
       "summary": "Execute the Shadowsocks tool to create a secure tunnel for network traffic.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -4957,7 +4957,7 @@
     },
     {
       "name": "do_kusa",
-      "line": 15692,
+      "line": 15691,
       "summary": "Execute Kusanagi to generate payloads for command, code, or file injection.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -4968,7 +4968,7 @@
     },
     {
       "name": "do_windapsearchscrapeusers",
-      "line": 15765,
+      "line": 15764,
       "summary": "Extracts usernames from a JSON output generated by go-windapsearch and appends them",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -4979,7 +4979,7 @@
     },
     {
       "name": "do_downloader",
-      "line": 15801,
+      "line": 15800,
       "summary": "Generate a downloader command for files in the sessions directory.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -4990,7 +4990,7 @@
     },
     {
       "name": "do_ldapsearch",
-      "line": 15888,
+      "line": 15887,
       "summary": "Executes an LDAP search against a target remote host (rhost) and saves the results.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -5001,7 +5001,7 @@
     },
     {
       "name": "do_eternal",
-      "line": 15938,
+      "line": 15937,
       "summary": "Automates the EternalBlue (MS17-010) exploitation process using Metasploit.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -5012,7 +5012,7 @@
     },
     {
       "name": "do_cve",
-      "line": 15983,
+      "line": 15982,
       "summary": "Search for a CVE using the CIRCL API.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -5023,7 +5023,7 @@
     },
     {
       "name": "do_evidence",
-      "line": 16032,
+      "line": 16031,
       "summary": "Compresses the 'sessions' folder and encodes it into a video using the lazyown_infinitestorage.py script.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -5034,7 +5034,7 @@
     },
     {
       "name": "do_rejetto_hfs_exec",
-      "line": 16150,
+      "line": 16149,
       "summary": "HttpFileServer version 2.3. Vulnerable using the module rejetto_hfs_exec of metasploit",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -5045,7 +5045,7 @@
     },
     {
       "name": "do_ms08_067_netapi",
-      "line": 16185,
+      "line": 16184,
       "summary": "SMB CVE-2008-4250. Vulnerable using the module ms08_067_netapi of metasploit",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -5056,7 +5056,7 @@
     },
     {
       "name": "do_automsf",
-      "line": 16220,
+      "line": 16219,
       "summary": "Try to check if Vulnerable using the module passed by argument of lazyown example automsf exploit/windows/iis/iis_webdav_upload_asp to use in metasploit",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -5067,7 +5067,7 @@
     },
     {
       "name": "do_iis_webdav_upload_asp",
-      "line": 16256,
+      "line": 16255,
       "summary": "(CVE-2017-7269). Vulnerable using the module iis_webdav_upload_asp of metasploit",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -5078,7 +5078,7 @@
     },
     {
       "name": "do_nano",
-      "line": 16291,
+      "line": 16290,
       "summary": "Opens or creates the file using line in the sessions directory for editing using nano.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -5089,7 +5089,7 @@
     },
     {
       "name": "do_nc",
-      "line": 16315,
+      "line": 16314,
       "summary": "Runs `nc` with the specified port for listening.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -5100,7 +5100,7 @@
     },
     {
       "name": "do_rnc",
-      "line": 16381,
+      "line": 16380,
       "summary": "Runs `nc` with rlwrap  the specified port for listening.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -5111,7 +5111,7 @@
     },
     {
       "name": "do_createjsonmachine",
-      "line": 16447,
+      "line": 16446,
       "summary": "Create a new JSON payload file based on the template provided in payload.json.",
       "category": "11. Reporting",
       "phase": "report",
@@ -5122,7 +5122,7 @@
     },
     {
       "name": "do_xss",
-      "line": 16519,
+      "line": 16518,
       "summary": "Executes the XSS (Cross-Site Scripting) vulnerability testing procedure",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -5133,7 +5133,7 @@
     },
     {
       "name": "do_arjun",
-      "line": 16561,
+      "line": 16560,
       "summary": "Executes an Arjun scan on the specified URL for parameter discovery.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -5144,7 +5144,7 @@
     },
     {
       "name": "do_transform",
-      "line": 16626,
+      "line": 16625,
       "summary": "Transforms the input string based on user-defined casing style.",
       "category": "07. Credential Access",
       "phase": "cred",
@@ -5155,7 +5155,7 @@
     },
     {
       "name": "do_finger_user_enum",
-      "line": 16654,
+      "line": 16653,
       "summary": "Executes the `finger-user-enum` tool for enumerating users on the target host.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -5166,7 +5166,7 @@
     },
     {
       "name": "do_duckyspark",
-      "line": 16702,
+      "line": 16701,
       "summary": "duckyspark Compiles and uploads an .ino sketch to a Digispark device using Arduino CLI and Micronucleus.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -5177,7 +5177,7 @@
     },
     {
       "name": "do_username_anarchy",
-      "line": 16903,
+      "line": 16902,
       "summary": "Generate usernames using the username-anarchy tool based on user input.",
       "category": "07. Credential Access",
       "phase": "cred",
@@ -5188,7 +5188,7 @@
     },
     {
       "name": "do_emp3r0r",
-      "line": 17004,
+      "line": 17003,
       "summary": "Command emp3r0r Downloads and sets up the Emperor server for local exploitation.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -5199,7 +5199,7 @@
     },
     {
       "name": "do_template_helper_serializer",
-      "line": 17068,
+      "line": 17067,
       "summary": "Handles the creation and serialization of a template helper.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -5210,7 +5210,7 @@
     },
     {
       "name": "do_gospherus",
-      "line": 17113,
+      "line": 17112,
       "summary": "Command gospherus: Clones and uses the Gopherus tool to generate gopher payloads for various services.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -5221,7 +5221,7 @@
     },
     {
       "name": "do_wpscan",
-      "line": 17183,
+      "line": 17182,
       "summary": "Command wpscan: Installs and runs WPScan to perform WordPress vulnerability scanning.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -5232,7 +5232,7 @@
     },
     {
       "name": "do_createjsonmachine_batch",
-      "line": 17239,
+      "line": 17238,
       "summary": "Create multiple JSON payload files based on a CSV input file from HackerOne.",
       "category": "11. Reporting",
       "phase": "report",
@@ -5243,7 +5243,7 @@
     },
     {
       "name": "do_ip2hex",
-      "line": 17326,
+      "line": 17325,
       "summary": "Convert an IPv4 address into its hexadecimal representation.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -5254,7 +5254,7 @@
     },
     {
       "name": "do_john2keepas",
-      "line": 17352,
+      "line": 17351,
       "summary": "List all .kdbx files in the 'sessions' directory, let the user select one, and run the",
       "category": "07. Credential Access",
       "phase": "cred",
@@ -5265,7 +5265,7 @@
     },
     {
       "name": "do_keepass",
-      "line": 17401,
+      "line": 17400,
       "summary": "Open a .kdbx file and print the titles and contents of all entries. The password can be provided through",
       "category": "07. Credential Access",
       "phase": "cred",
@@ -5276,7 +5276,7 @@
     },
     {
       "name": "do_mssqlcli",
-      "line": 17465,
+      "line": 17464,
       "summary": "Attempts to connect to an MSSQL server using the mssqlclient.py tool with Windows authentication.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -5287,7 +5287,7 @@
     },
     {
       "name": "do_getadusers",
-      "line": 17518,
+      "line": 17517,
       "summary": "Executes the GetADUsers.py script to retrieve Active Directory users.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -5298,7 +5298,7 @@
     },
     {
       "name": "do_crack_cisco_7_password",
-      "line": 17594,
+      "line": 17593,
       "summary": "Crack a Cisco Type 7 password hash and display the plaintext.",
       "category": "07. Credential Access",
       "phase": "cred",
@@ -5309,7 +5309,7 @@
     },
     {
       "name": "do_loxs",
-      "line": 17616,
+      "line": 17615,
       "summary": "Command loxs: Installs and runs Loxs for multi-vulnerability web application scanning.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -5320,7 +5320,7 @@
     },
     {
       "name": "do_blazy",
-      "line": 17660,
+      "line": 17659,
       "summary": "Command blazy: Installs and runs blazy for multi-vulnerability web application scanning.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -5331,7 +5331,7 @@
     },
     {
       "name": "do_parth",
-      "line": 17710,
+      "line": 17709,
       "summary": "Command parth: Installs and runs Parth for discovering vulnerable URLs and parameters.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -5342,7 +5342,7 @@
     },
     {
       "name": "do_breacher",
-      "line": 17769,
+      "line": 17768,
       "summary": "Command breacher: Installs and runs Breacher for finding admin login pages and EAR vulnerabilities.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -5353,7 +5353,7 @@
     },
     {
       "name": "do_xsstrike",
-      "line": 17831,
+      "line": 17830,
       "summary": "Command xsstrike: Installs and runs XSStrike for finding XSS vulnerabilities.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -5364,7 +5364,7 @@
     },
     {
       "name": "do_penelope",
-      "line": 17901,
+      "line": 17900,
       "summary": "Command penelope: Installs and runs Penelope for handling reverse and bind shells.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -5375,7 +5375,7 @@
     },
     {
       "name": "do_h",
-      "line": 18012,
+      "line": 18011,
       "summary": "Open a new window within a tmux session using the LazyOwn RedTeam Framework.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -5386,7 +5386,7 @@
     },
     {
       "name": "do_v",
-      "line": 18051,
+      "line": 18050,
       "summary": "Open a new window within a tmux session using the LazyOwn RedTeam Framework.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -5397,7 +5397,7 @@
     },
     {
       "name": "do_adgetpass",
-      "line": 18090,
+      "line": 18089,
       "summary": "Command adgetpass: Generates a PowerShell script to extract credentials from Azure AD Connect Sync.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -5408,7 +5408,7 @@
     },
     {
       "name": "do_openredirex",
-      "line": 18156,
+      "line": 18155,
       "summary": "Command openredirex: Clones, installs, and runs OpenRedirex for testing open redirection vulnerabilities.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -5419,7 +5419,7 @@
     },
     {
       "name": "do_gowitness",
-      "line": 18219,
+      "line": 18218,
       "summary": "Command gowitness: Installs and runs Gowitness for screenshotting web services or network CIDR blocks.",
       "category": "11. Reporting",
       "phase": "report",
@@ -5430,7 +5430,7 @@
     },
     {
       "name": "do_odat",
-      "line": 18258,
+      "line": 18257,
       "summary": "Command odat: Runs the ODAT sidguesser module to guess Oracle SIDs on a target Oracle database.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -5441,7 +5441,7 @@
     },
     {
       "name": "do_sireprat",
-      "line": 18371,
+      "line": 18370,
       "summary": "Command sireprat: Automates the setup and usage of SirepRAT to perform various attacks on a Windows IoT Core device.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -5452,7 +5452,7 @@
     },
     {
       "name": "do_createtargets",
-      "line": 18483,
+      "line": 18482,
       "summary": "Generates hosts.txt, urls.txt, domains.txt, and targets.txt from multiple JSON payload files.",
       "category": "11. Reporting",
       "phase": "report",
@@ -5463,7 +5463,7 @@
     },
     {
       "name": "do_shellcode2sylk",
-      "line": 18548,
+      "line": 18547,
       "summary": "Converts shellcode to SYLK format and saves the result to a file.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -5474,7 +5474,7 @@
     },
     {
       "name": "do_cubespraying",
-      "line": 18593,
+      "line": 18592,
       "summary": "Command cubespraying: Automates the installation and usage of CubeSpraying for performing credential spraying attacks.",
       "category": "07. Credential Access",
       "phase": "cred",
@@ -5485,7 +5485,7 @@
     },
     {
       "name": "do_samdump2",
-      "line": 18655,
+      "line": 18654,
       "summary": "Run samdump2 with the SAM and SYSTEM file",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -5496,7 +5496,7 @@
     },
     {
       "name": "do_stormbreaker",
-      "line": 18689,
+      "line": 18688,
       "summary": "Command stormbreaker: Automates the installation and usage of Storm-Breaker for performing various network attacks.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -5507,7 +5507,7 @@
     },
     {
       "name": "do_upload_bypass",
-      "line": 18735,
+      "line": 18734,
       "summary": "Command upload_bypass: Automates the installation and execution of Upload_Bypass for performing file upload bypass tests.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -5518,7 +5518,7 @@
     },
     {
       "name": "do_hex_to_plaintext",
-      "line": 18796,
+      "line": 18795,
       "summary": "Converts hexadecimal data from a file to plain text.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -5529,7 +5529,7 @@
     },
     {
       "name": "do_rpcmap_py",
-      "line": 18839,
+      "line": 18838,
       "summary": "Command rpcmap_py: Executes rpcmap.py commands to enumerate MSRPC interfaces.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -5540,7 +5540,7 @@
     },
     {
       "name": "do_serveralive2",
-      "line": 18883,
+      "line": 18882,
       "summary": "Command serveralive2: Uses Impacket to connect to a remote MSRPC interface and retrieves the server bindings.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -5551,7 +5551,7 @@
     },
     {
       "name": "do_john2zip",
-      "line": 18917,
+      "line": 18916,
       "summary": "List all .zip files in the 'sessions' directory, let the user select one, and run the command",
       "category": "07. Credential Access",
       "phase": "cred",
@@ -5562,7 +5562,7 @@
     },
     {
       "name": "do_createusers_and_hashs",
-      "line": 18978,
+      "line": 18977,
       "summary": "Command createusers_and_hashs: Extracts usernames and hashes from a dump file.",
       "category": "07. Credential Access",
       "phase": "cred",
@@ -5573,7 +5573,7 @@
     },
     {
       "name": "do_pykerbrute",
-      "line": 19021,
+      "line": 19020,
       "summary": "Command pykerbrute: Automates the installation and execution of PyKerbrute for bruteforcing Active Directory accounts using Kerberos pre-authentication.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -5584,7 +5584,7 @@
     },
     {
       "name": "do_reg_py",
-      "line": 19086,
+      "line": 19085,
       "summary": "Run reg.py with specified parameters to query the registry.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -5595,7 +5595,7 @@
     },
     {
       "name": "do_name_the_hash",
-      "line": 19125,
+      "line": 19124,
       "summary": "Identify hash type using nth after retrieving it with get_hash().",
       "category": "11. Reporting",
       "phase": "report",
@@ -5606,7 +5606,7 @@
     },
     {
       "name": "do_refill_password",
-      "line": 19159,
+      "line": 19158,
       "summary": "Generate a list of possible passwords by filling each asterisk in the input with user-specified characters.",
       "category": "07. Credential Access",
       "phase": "cred",
@@ -5617,7 +5617,7 @@
     },
     {
       "name": "do_sudo",
-      "line": 19195,
+      "line": 19194,
       "summary": "Checks if the script is running with superuser (sudo) privileges, and if not,",
       "category": "06. Privilege Escalation",
       "phase": "privesc",
@@ -5628,7 +5628,7 @@
     },
     {
       "name": "do_linpeas",
-      "line": 19209,
+      "line": 19208,
       "summary": "Serve linpeas.sh via HTTP and print the one-liner to run on the target.",
       "category": "06. Privilege Escalation",
       "phase": "privesc",
@@ -5639,7 +5639,7 @@
     },
     {
       "name": "do_winpeas",
-      "line": 19248,
+      "line": 19247,
       "summary": "Serve winPEAS via HTTP and print the one-liner to run on the target.",
       "category": "06. Privilege Escalation",
       "phase": "privesc",
@@ -5650,7 +5650,7 @@
     },
     {
       "name": "do_les",
-      "line": 19292,
+      "line": 19291,
       "summary": "Run Linux Exploit Suggester against the current target's kernel info.",
       "category": "06. Privilege Escalation",
       "phase": "privesc",
@@ -5661,7 +5661,7 @@
     },
     {
       "name": "do_suid_check",
-      "line": 19330,
+      "line": 19329,
       "summary": "Print SUID/SGID enumeration commands for the current target OS.",
       "category": "06. Privilege Escalation",
       "phase": "privesc",
@@ -5672,7 +5672,7 @@
     },
     {
       "name": "do_pspy",
-      "line": 19349,
+      "line": 19348,
       "summary": "Serve pspy (process spy without root) via HTTP for the target to download.",
       "category": "06. Privilege Escalation",
       "phase": "privesc",
@@ -5683,7 +5683,7 @@
     },
     {
       "name": "do_gtfo",
-      "line": 19388,
+      "line": 19387,
       "summary": "Look up a binary in GTFOBins / LOLBas and show exploitation techniques.",
       "category": "06. Privilege Escalation",
       "phase": "privesc",
@@ -5694,7 +5694,7 @@
     },
     {
       "name": "do_ask",
-      "line": 19442,
+      "line": 19441,
       "summary": "Ask the AI a question with current session context pre-loaded.",
       "category": null,
       "phase": "uncategorized",
@@ -5705,7 +5705,7 @@
     },
     {
       "name": "do_netview",
-      "line": 19504,
+      "line": 19503,
       "summary": "Executes the Impacket netview tool to list network shares on a specified target.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -5716,7 +5716,7 @@
     },
     {
       "name": "do_wmiexec",
-      "line": 19569,
+      "line": 19568,
       "summary": "Executes the Impacket WMIExec tool to run commands on a target system using WMI.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -5727,7 +5727,7 @@
     },
     {
       "name": "do_extract_ports",
-      "line": 19635,
+      "line": 19634,
       "summary": "Extracts open ports and IP address information from a specified file.",
       "category": "11. Reporting",
       "phase": "report",
@@ -5738,7 +5738,7 @@
     },
     {
       "name": "do_cron",
-      "line": 19702,
+      "line": 19701,
       "summary": "Schedules a command to run at a specified time.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -5749,7 +5749,7 @@
     },
     {
       "name": "do_pezorsh",
-      "line": 19748,
+      "line": 19747,
       "summary": "Executes the PEzor tool to pack executables or shellcode with custom configurations.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -5760,7 +5760,7 @@
     },
     {
       "name": "do_mimikatzpy",
-      "line": 19819,
+      "line": 19818,
       "summary": "Executes the Impacket Mimikatz tool to interact with a target system for credential-related operations.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -5771,7 +5771,7 @@
     },
     {
       "name": "do_rdp_check_py",
-      "line": 19886,
+      "line": 19885,
       "summary": "Executes the RDP check tool to verify credentials or hash-based authentication on a target system.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -5782,7 +5782,7 @@
     },
     {
       "name": "do_mqtt_check_py",
-      "line": 19952,
+      "line": 19951,
       "summary": "Executes the MQTT check tool to verify credentials on a target system with optional SSL.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -5793,7 +5793,7 @@
     },
     {
       "name": "do_lookupsid_py",
-      "line": 20008,
+      "line": 20007,
       "summary": "Executes the LookupSID tool to perform SID enumeration on a target system.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -5804,7 +5804,7 @@
     },
     {
       "name": "do_scavenger",
-      "line": 20080,
+      "line": 20079,
       "summary": "Executes the Scavenger tool for multi-threaded post-exploitation scanning on target systems with SMB credentials.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -5815,7 +5815,7 @@
     },
     {
       "name": "do_binarycheck",
-      "line": 20147,
+      "line": 20146,
       "summary": "Performs various checks on a selected binary to gather information and protections.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -5826,7 +5826,7 @@
     },
     {
       "name": "do_lookupsid",
-      "line": 20192,
+      "line": 20191,
       "summary": "Executes the Impacket lookupsid tool to enumerate SIDs on a target system.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -5837,7 +5837,7 @@
     },
     {
       "name": "do_certipy_ad",
-      "line": 20254,
+      "line": 20253,
       "summary": "Run certipy-ad against Active Directory Certificate Services.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -5848,7 +5848,7 @@
     },
     {
       "name": "do_certipy",
-      "line": 20318,
+      "line": 20317,
       "summary": "Executes the Certipy tool to interact with Active Directory Certificate Services.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -5859,7 +5859,7 @@
     },
     {
       "name": "do_follina",
-      "line": 20401,
+      "line": 20400,
       "summary": "Executes the MSDT Follina exploit tool to create malicious documents for exploitation.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -5870,7 +5870,7 @@
     },
     {
       "name": "do_sawks",
-      "line": 20486,
+      "line": 20485,
       "summary": "Executes the Swaks (Swiss Army Knife for SMTP) tool to send test emails for phishing simulations.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -5881,7 +5881,7 @@
     },
     {
       "name": "do_ad_ldap_enum",
-      "line": 20523,
+      "line": 20522,
       "summary": "Executes ad-ldap-enum to enumerate Active Directory objects (users, groups, computers)",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -5892,7 +5892,7 @@
     },
     {
       "name": "do_unzip",
-      "line": 20577,
+      "line": 20576,
       "summary": "Unzips a specified file from the sessions directory.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -5903,7 +5903,7 @@
     },
     {
       "name": "do_regeorg",
-      "line": 20616,
+      "line": 20615,
       "summary": "Executes the reGeorg tool for HTTP(s) tunneling through a SOCKS proxy.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -5914,7 +5914,7 @@
     },
     {
       "name": "do_rocky",
-      "line": 20664,
+      "line": 20663,
       "summary": "Reduces a wordlist based on the specified password length.",
       "category": "07. Credential Access",
       "phase": "cred",
@@ -5925,7 +5925,7 @@
     },
     {
       "name": "do_pywhisker",
-      "line": 20700,
+      "line": 20699,
       "summary": "Executes the pyWhisker tool for manipulating the msDS-KeyCredentialLink attribute of a target user or computer.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -5936,7 +5936,7 @@
     },
     {
       "name": "do_owneredit",
-      "line": 20750,
+      "line": 20749,
       "summary": "Executes the Impacket owneredit tool for manipulating ownership of Active Directory objects.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -5947,7 +5947,7 @@
     },
     {
       "name": "do_net_rpc_addmem",
-      "line": 20796,
+      "line": 20795,
       "summary": "Executes the net rpc group addmem command to add a user to a specified group in Active Directory.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -5958,7 +5958,7 @@
     },
     {
       "name": "do_pth_net",
-      "line": 20842,
+      "line": 20841,
       "summary": "Executes the Pass-the-Hash (PTH) Net tool to change the password of an Active Directory account.",
       "category": "11. Reporting",
       "phase": "report",
@@ -5969,7 +5969,7 @@
     },
     {
       "name": "do_gettgtpkinit_py",
-      "line": 20879,
+      "line": 20878,
       "summary": "Executes the gettgtpkinit.py tool from PKINITtools to request a TGT using Kerberos PKINIT with a PFX or PEM certificate.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -5980,7 +5980,7 @@
     },
     {
       "name": "do_getnthash_py",
-      "line": 20930,
+      "line": 20929,
       "summary": "Executes the getnthash.py tool from PKINITtools to retrieve the NT hash using a Kerberos U2U TGS request.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -5991,7 +5991,7 @@
     },
     {
       "name": "do_gets4uticket_py",
-      "line": 20977,
+      "line": 20976,
       "summary": "Executes the gets4uticket.py tool from PKINITtools to request an S4U2Self service ticket using Kerberos.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -6002,7 +6002,7 @@
     },
     {
       "name": "do_aclpwn_py",
-      "line": 21024,
+      "line": 21023,
       "summary": "Executes the aclpwn.py tool to find and exploit ACL paths for privilege escalation in an Active Directory environment.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -6013,7 +6013,7 @@
     },
     {
       "name": "do_addspn_py",
-      "line": 21074,
+      "line": 21073,
       "summary": "Executes the addspn.py tool to manage Service Principal Names (SPNs) on Active Directory accounts via LDAP.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -6024,7 +6024,7 @@
     },
     {
       "name": "do_dnstool_py",
-      "line": 21118,
+      "line": 21117,
       "summary": "Executes the dnstool.py tool to modify Active Directory-integrated DNS records.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -6035,7 +6035,7 @@
     },
     {
       "name": "do_printerbug_py",
-      "line": 21164,
+      "line": 21163,
       "summary": "Executes the printerbug.py tool to trigger the SpoolService bug via RPC backconnect.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -6046,7 +6046,7 @@
     },
     {
       "name": "do_krbrelayx_py",
-      "line": 21211,
+      "line": 21210,
       "summary": "Executes the krbrelayx.py tool for Kerberos relaying or unconstrained delegation abuse.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -6057,7 +6057,7 @@
     },
     {
       "name": "do_autoblody",
-      "line": 21255,
+      "line": 21254,
       "summary": "Executes the autobloody tool for automating Active Directory privilege escalation paths.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -6068,7 +6068,7 @@
     },
     {
       "name": "do_upload_gofile",
-      "line": 21307,
+      "line": 21306,
       "summary": "Uploads a file to Gofile storage.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -6079,7 +6079,7 @@
     },
     {
       "name": "do_unicode_WAFbypass",
-      "line": 21390,
+      "line": 21389,
       "summary": "We open a Netcat listener on port 443 and attempt to exploit NodeJS deserialization by sending the",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -6090,7 +6090,7 @@
     },
     {
       "name": "do_sqli_mssql_test",
-      "line": 21443,
+      "line": 21442,
       "summary": "Initiates a reverse MSSQL shell by starting an HTTP server to handle incoming connections and exfiltrate data.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -6101,7 +6101,7 @@
     },
     {
       "name": "do_targetedKerberoas",
-      "line": 21479,
+      "line": 21478,
       "summary": "Executes the targetedKerberoast tool for extracting Kerberos service tickets.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -6112,7 +6112,7 @@
     },
     {
       "name": "do_pyoracle2",
-      "line": 21539,
+      "line": 21538,
       "summary": "Executes the pyOracle2 tool for performing padding oracle attacks.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -6123,7 +6123,7 @@
     },
     {
       "name": "do_paranoid_meterpreter",
-      "line": 21621,
+      "line": 21620,
       "summary": "Creates and deploys a paranoid Meterpreter payload and listener with SSL/TLS pinning and UUID tracking.",
       "category": "05. Persistence",
       "phase": "persist",
@@ -6134,7 +6134,7 @@
     },
     {
       "name": "do_lfi",
-      "line": 21709,
+      "line": 21708,
       "summary": "Exploits a potential Local File Inclusion (LFI) vulnerability by crafting",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -6145,7 +6145,7 @@
     },
     {
       "name": "do_greatSCT",
-      "line": 21751,
+      "line": 21750,
       "summary": "Executes the GreatSCT tool for generating payloads that bypass antivirus and application whitelisting solutions.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -6156,7 +6156,7 @@
     },
     {
       "name": "do_sqsh",
-      "line": 21796,
+      "line": 21795,
       "summary": "Executes the Impacket sqsh tool for manipulating ownership of Active Directory objects.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -6167,7 +6167,7 @@
     },
     {
       "name": "do_setoolKits",
-      "line": 21841,
+      "line": 21840,
       "summary": "Executes the SEToolKit workflow to generate a Meterpreter payload",
       "category": "05. Persistence",
       "phase": "persist",
@@ -6178,7 +6178,7 @@
     },
     {
       "name": "do_jwt_tool",
-      "line": 21874,
+      "line": 21873,
       "summary": "Uses the jwt_tool to analyze, tamper, or exploit JSON Web Tokens (JWTs).",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -6189,7 +6189,7 @@
     },
     {
       "name": "do_darkarmour",
-      "line": 21916,
+      "line": 21915,
       "summary": "Uses the darkarmour tool to generate an undetectable version of a PE executable.",
       "category": "05. Persistence",
       "phase": "persist",
@@ -6200,7 +6200,7 @@
     },
     {
       "name": "do_metabigor",
-      "line": 21984,
+      "line": 21983,
       "summary": "Executes Metabigor commands for OSINT and scanning tasks with guided input or predefined arguments.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -6211,7 +6211,7 @@
     },
     {
       "name": "do_ip2asn",
-      "line": 22060,
+      "line": 22059,
       "summary": "Command to get ASN for a given IP address.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6222,7 +6222,7 @@
     },
     {
       "name": "do_atomic_tests",
-      "line": 22090,
+      "line": 22089,
       "summary": "Executes Atomic Red Team tests based on user-selected platform and test.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -6233,7 +6233,7 @@
     },
     {
       "name": "do_atomic_gen",
-      "line": 22248,
+      "line": 22247,
       "summary": "Generates test and cleanup scripts for a given Atomic Red Team technique ID.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -6244,7 +6244,7 @@
     },
     {
       "name": "do_atomic_agent",
-      "line": 22432,
+      "line": 22431,
       "summary": "Generates and synchronizes atomic agent scripts.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -6255,7 +6255,7 @@
     },
     {
       "name": "do_attack_plan",
-      "line": 22522,
+      "line": 22521,
       "summary": "Executes a multi-step APT simulation plan based on Atomic Red Team test IDs.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -6266,7 +6266,7 @@
     },
     {
       "name": "do_apt_playbook",
-      "line": 22647,
+      "line": 22646,
       "summary": "List, validate, and run APT playbooks based on public threat reports.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -6277,7 +6277,7 @@
     },
     {
       "name": "do_mitre_test",
-      "line": 22768,
+      "line": 22767,
       "summary": "Interacts with the MITRE ATT&CK framework using the STIX 2.0 format.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -6288,7 +6288,7 @@
     },
     {
       "name": "do_generate_playbook",
-      "line": 22871,
+      "line": 22870,
       "summary": "Generates a playbook that integrates Atomic Red Team tests and MITRE ATT&CK techniques.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -6299,7 +6299,7 @@
     },
     {
       "name": "do_my_playbook",
-      "line": 23050,
+      "line": 23049,
       "summary": "Generates a playbook from your custom technique database.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -6310,7 +6310,7 @@
     },
     {
       "name": "do_filtering",
-      "line": 23107,
+      "line": 23106,
       "summary": "Applies various filtering techniques to the given command line by modifying each character or word appropriately.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -6321,7 +6321,7 @@
     },
     {
       "name": "do_lol",
-      "line": 23133,
+      "line": 23132,
       "summary": "Exploits a target by injecting a malicious payload and collecting admin information.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -6332,7 +6332,7 @@
     },
     {
       "name": "do_utf",
-      "line": 23220,
+      "line": 23219,
       "summary": "Encode a given payload into UTF-16 escape sequences.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -6343,7 +6343,7 @@
     },
     {
       "name": "do_dcomexec",
-      "line": 23259,
+      "line": 23258,
       "summary": "Executes the Impacket dcomexec tool to run commands on a remote system using DCOM.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -6354,7 +6354,7 @@
     },
     {
       "name": "do_pip_repo",
-      "line": 23329,
+      "line": 23328,
       "summary": "Sets up a local pip repository to serve Python packages for installation on a compromised machine without internet access.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -6365,7 +6365,7 @@
     },
     {
       "name": "do_apt_repo",
-      "line": 23414,
+      "line": 23413,
       "summary": "Creates a comprehensive local APT repository with enhanced dependency resolution.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -6376,7 +6376,7 @@
     },
     {
       "name": "do_httprobe",
-      "line": 23600,
+      "line": 23599,
       "summary": "Executes the httprobe tool to probe domains for working HTTP and HTTPS servers.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -6387,7 +6387,7 @@
     },
     {
       "name": "do_eyewitness_py",
-      "line": 23643,
+      "line": 23642,
       "summary": "Automates EyeWitness installation and execution without requiring user input.",
       "category": "11. Reporting",
       "phase": "report",
@@ -6398,7 +6398,7 @@
     },
     {
       "name": "do_pup",
-      "line": 23691,
+      "line": 23690,
       "summary": "Processes HTML content from a specified URL using the pup utility and a default CSS selector.",
       "category": "11. Reporting",
       "phase": "report",
@@ -6409,7 +6409,7 @@
     },
     {
       "name": "do_recon",
-      "line": 23738,
+      "line": 23737,
       "summary": "Performs reconnaissance on a specified domain using crt.sh (the target must be visible on internet), pup, httprobe, and EyeWitness.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -6420,7 +6420,7 @@
     },
     {
       "name": "do_digdug",
-      "line": 23792,
+      "line": 23791,
       "summary": "Executes Dig Dug to inflate the size of an executable file, leveraging pre-configured settings",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -6431,7 +6431,7 @@
     },
     {
       "name": "do_adsso_spray",
-      "line": 23850,
+      "line": 23849,
       "summary": "Performs a password spray attack on Azure Active Directory Seamless Single Sign-On (SSO) using a specified list of users.",
       "category": "07. Credential Access",
       "phase": "cred",
@@ -6442,7 +6442,7 @@
     },
     {
       "name": "do_creds_py",
-      "line": 23896,
+      "line": 23895,
       "summary": "Searches for default credentials associated with a specific product or vendor, using the Default Credentials Cheat Sheet.",
       "category": "07. Credential Access",
       "phase": "cred",
@@ -6453,7 +6453,7 @@
     },
     {
       "name": "do_sshexploit",
-      "line": 23947,
+      "line": 23946,
       "summary": "Exploits OpenSSH vulnerability CVE-2023-38408 via the PKCS#11 feature of the ssh-agent.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -6464,7 +6464,7 @@
     },
     {
       "name": "do_tab",
-      "line": 24017,
+      "line": 24016,
       "summary": "Executes the `lazypyautogui.py` script with optional arguments.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6475,7 +6475,7 @@
     },
     {
       "name": "do_excelntdonut",
-      "line": 24041,
+      "line": 24040,
       "summary": "Generates an Excel 4.0 (XLM) macro from a provided C# source file using EXCELntDonut.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -6486,7 +6486,7 @@
     },
     {
       "name": "do_spraykatz",
-      "line": 24097,
+      "line": 24096,
       "summary": "Executes the Spraykatz tool to retrieve credentials on Windows machines and large Active Directory environments.",
       "category": "07. Credential Access",
       "phase": "cred",
@@ -6497,7 +6497,7 @@
     },
     {
       "name": "do_caldera",
-      "line": 24153,
+      "line": 24152,
       "summary": "Installs and starts the Caldera server.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -6508,7 +6508,7 @@
     },
     {
       "name": "do_caldera_import",
-      "line": 24203,
+      "line": 24202,
       "summary": "Import CALDERA abilities into LazyOwn playbooks.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -6519,7 +6519,7 @@
     },
     {
       "name": "do_caldera_export",
-      "line": 24296,
+      "line": 24295,
       "summary": "Export a LazyOwn playbook to CALDERA ability YAML.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -6530,7 +6530,7 @@
     },
     {
       "name": "do_ntpdate",
-      "line": 24375,
+      "line": 24374,
       "summary": "Synchronizes the system clock with a specified NTP server.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -6541,7 +6541,7 @@
     },
     {
       "name": "do_ticketer",
-      "line": 24399,
+      "line": 24398,
       "summary": "Executes the Impacket ticketer tool to create a golden ticket.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -6552,7 +6552,7 @@
     },
     {
       "name": "do_links",
-      "line": 24442,
+      "line": 24441,
       "summary": "Displays a list of useful links and allows the user to select and copy a link to the clipboard.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6563,7 +6563,7 @@
     },
     {
       "name": "do_rsync",
-      "line": 24505,
+      "line": 24504,
       "summary": "Synchronizes the local \"sessions\" directory to a remote host using rsync, leveraging sshpass for automated authentication.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -6574,7 +6574,7 @@
     },
     {
       "name": "do_pre2k",
-      "line": 24572,
+      "line": 24571,
       "summary": "Executes the pre2k tool to query the domain for pre-Windows 2000 machine accounts or to pass a list of hostnames to test authentication.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -6585,7 +6585,7 @@
     },
     {
       "name": "do_gmsadumper",
-      "line": 24668,
+      "line": 24667,
       "summary": "Executes the gMSADumper tool to read and parse gMSA password blobs accessible by the user.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -6596,7 +6596,7 @@
     },
     {
       "name": "do_dnschef",
-      "line": 24725,
+      "line": 24724,
       "summary": "Executes the DNSChef tool to monitor DNS queries and intercept responses.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -6607,7 +6607,7 @@
     },
     {
       "name": "do_dploot",
-      "line": 24760,
+      "line": 24759,
       "summary": "Executes the dploot tool to loot DPAPI related secrets from local or remote targets.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -6618,7 +6618,7 @@
     },
     {
       "name": "do_banners",
-      "line": 24864,
+      "line": 24863,
       "summary": "Extract and display banners from XML files in the 'sessions' directory.",
       "category": "11. Reporting",
       "phase": "report",
@@ -6629,7 +6629,7 @@
     },
     {
       "name": "do_createpayload",
-      "line": 24911,
+      "line": 24910,
       "summary": "Generates an obfuscated payload to evade AV detection using the payloadGenerator tool. thanks to smokeme",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -6640,7 +6640,7 @@
     },
     {
       "name": "do_bin2shellcode",
-      "line": 24961,
+      "line": 24960,
       "summary": "Converts a binary file to a shellcode string in C or Nim format.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -6651,7 +6651,7 @@
     },
     {
       "name": "do_news",
-      "line": 25052,
+      "line": 25051,
       "summary": "Show the Hacker News in the terminal.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6662,7 +6662,7 @@
     },
     {
       "name": "do_vulns",
-      "line": 25065,
+      "line": 25064,
       "summary": "Search the NVD for CVEs matching a service banner and persist findings.",
       "category": "11. Reporting",
       "phase": "report",
@@ -6673,7 +6673,7 @@
     },
     {
       "name": "do_exe2bin",
-      "line": 25103,
+      "line": 25102,
       "summary": "Trasnform file .exe into binary file.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -6684,7 +6684,7 @@
     },
     {
       "name": "do_exe2donutbin",
-      "line": 25130,
+      "line": 25129,
       "summary": "Trasnform file .exe into donut binary file.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -6695,7 +6695,7 @@
     },
     {
       "name": "do_atomic_lazyown",
-      "line": 25154,
+      "line": 25153,
       "summary": "Generate and execute Atomic Red Team tests using the C2.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -6706,7 +6706,7 @@
     },
     {
       "name": "do_upload_c2",
-      "line": 25230,
+      "line": 25229,
       "summary": "upload command in the client using the C2 to upload a file",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -6717,7 +6717,7 @@
     },
     {
       "name": "do_download_c2",
-      "line": 25318,
+      "line": 25317,
       "summary": "Download a file from the C2.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -6728,7 +6728,7 @@
     },
     {
       "name": "do_issue_command_to_c2",
-      "line": 25414,
+      "line": 25409,
       "summary": "Exec command in the client using the C2. download: command you must put the file in sessions/temp_upload or use download_c2 command",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -6739,7 +6739,7 @@
     },
     {
       "name": "do_ofuscatorps1",
-      "line": 25504,
+      "line": 25499,
       "summary": "Obfuscates a PowerShell script using various techniques.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -6750,7 +6750,7 @@
     },
     {
       "name": "do_d3monizedshell",
-      "line": 25615,
+      "line": 25610,
       "summary": "Executes the D3m0n1z3dShell tool for persistence in Linux.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -6761,7 +6761,7 @@
     },
     {
       "name": "do_scp",
-      "line": 25648,
+      "line": 25643,
       "summary": "Copies the local \"sessions\" directory to a remote host using scp, leveraging sshpass for automated authentication.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -6772,7 +6772,7 @@
     },
     {
       "name": "do_apt_proxy",
-      "line": 25730,
+      "line": 25725,
       "summary": "Configures the local machine with internet access to act as an APT proxy for a machine without internet access.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -6783,7 +6783,7 @@
     },
     {
       "name": "do_pip_proxy",
-      "line": 25787,
+      "line": 25782,
       "summary": "Configures the local machine with internet access to act as a pip proxy for a machine without internet access.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -6794,7 +6794,7 @@
     },
     {
       "name": "do_internet_proxy",
-      "line": 25843,
+      "line": 25838,
       "summary": "Configures the local machine with internet access to act as a proxy for a machine without internet access.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -6805,7 +6805,7 @@
     },
     {
       "name": "do_check_update",
-      "line": 25909,
+      "line": 25904,
       "summary": "Checks for updates by comparing the local version with the remote version.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6816,7 +6816,7 @@
     },
     {
       "name": "do_wmiexecpro",
-      "line": 25954,
+      "line": 25949,
       "summary": "Executes wmiexec-pro with various options for WMI operations.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -6827,7 +6827,7 @@
     },
     {
       "name": "do_create_session_json",
-      "line": 26169,
+      "line": 26164,
       "summary": "Generates or updates a JSON file to be used as a database.",
       "category": "11. Reporting",
       "phase": "report",
@@ -6838,7 +6838,7 @@
     },
     {
       "name": "do_shellcode2elf",
-      "line": 26256,
+      "line": 26251,
       "summary": "Convert shellcode into an ELF file and infect it.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -6849,7 +6849,7 @@
     },
     {
       "name": "do_ssh_cmd",
-      "line": 26339,
+      "line": 26334,
       "summary": "Perform Remote Execution Command trow ssh using grisun0 user, see help grisun0",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -6860,7 +6860,7 @@
     },
     {
       "name": "do_clone_site",
-      "line": 26360,
+      "line": 26355,
       "summary": "Clone a website and serve the files in sessions/{url_cloned}.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6871,7 +6871,7 @@
     },
     {
       "name": "do_knokknok",
-      "line": 26404,
+      "line": 26399,
       "summary": "Send special string to trigger a reverse shell, with the command 'c2 client_name'",
       "category": "05. Persistence",
       "phase": "persist",
@@ -6882,7 +6882,7 @@
     },
     {
       "name": "do_listener_go",
-      "line": 26431,
+      "line": 26426,
       "summary": "Configures and starts a listener for a specified victim.",
       "category": "05. Persistence",
       "phase": "persist",
@@ -6893,7 +6893,7 @@
     },
     {
       "name": "do_listener_py",
-      "line": 26498,
+      "line": 26493,
       "summary": "Configures and starts a listener for a specified victim.",
       "category": "05. Persistence",
       "phase": "persist",
@@ -6904,7 +6904,7 @@
     },
     {
       "name": "do_ipinfo",
-      "line": 26565,
+      "line": 26560,
       "summary": "Retrieves detailed information about an IP address using the ARIN API.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -6915,7 +6915,7 @@
     },
     {
       "name": "do_service_ssh",
-      "line": 26623,
+      "line": 26618,
       "summary": "Creates a systemd service file for a specified binary and generates a script to enable and start the service.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -6926,7 +6926,7 @@
     },
     {
       "name": "do_service",
-      "line": 26693,
+      "line": 26688,
       "summary": "Creates a systemd service file for a specified binary and generates a script to enable and start the service.",
       "category": "05. Persistence",
       "phase": "persist",
@@ -6937,7 +6937,7 @@
     },
     {
       "name": "do_toctoc",
-      "line": 26762,
+      "line": 26757,
       "summary": "Sends a magic packet to the Chinese malware.",
       "category": "05. Persistence",
       "phase": "persist",
@@ -6948,7 +6948,7 @@
     },
     {
       "name": "do_download_c2",
-      "line": 26785,
+      "line": 26780,
       "summary": "Download a file from the command and control (C2) server.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -6959,7 +6959,7 @@
     },
     {
       "name": "do_groq",
-      "line": 26804,
+      "line": 26799,
       "summary": "Execute a command to interact with the GROQ API using the provided API key.",
       "category": null,
       "phase": "uncategorized",
@@ -6970,7 +6970,7 @@
     },
     {
       "name": "do_c2asm",
-      "line": 26828,
+      "line": 26823,
       "summary": "Display C and ASM code side by side in a curses-based interface.",
       "category": "11. Reporting",
       "phase": "report",
@@ -6981,7 +6981,7 @@
     },
     {
       "name": "do_camphish",
-      "line": 26957,
+      "line": 26952,
       "summary": "Executes the camphish tool for Grab cam shots from target's phone front camera or PC webcam just sending a link.",
       "category": "11. Reporting",
       "phase": "report",
@@ -6992,7 +6992,7 @@
     },
     {
       "name": "do_hound",
-      "line": 26990,
+      "line": 26985,
       "summary": "Executes the hound tool for Hound is a simple and light tool for information gathering and capture exact GPS coordinates",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -7003,7 +7003,7 @@
     },
     {
       "name": "do_ofuscatesh",
-      "line": 27023,
+      "line": 27018,
       "summary": "Obfuscates a shell script by encoding it in Base64 and prepares a command to decode and execute it.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -7014,7 +7014,7 @@
     },
     {
       "name": "do_load_session",
-      "line": 27053,
+      "line": 27048,
       "summary": "Load the session from the sessionLazyOwn.json file and display the status of various parameters.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -7025,7 +7025,7 @@
     },
     {
       "name": "do_lateral_mov_lin",
-      "line": 27104,
+      "line": 27099,
       "summary": "Perform lateral movement by downloading and installing LazyOwn on a remote Linux machine.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -7036,7 +7036,7 @@
     },
     {
       "name": "do_commix",
-      "line": 27151,
+      "line": 27146,
       "summary": "Executes the Commix tool for detecting and exploiting command injection vulnerabilities.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -7047,7 +7047,7 @@
     },
     {
       "name": "do_addcli",
-      "line": 27194,
+      "line": 27189,
       "summary": "Add a client to execute c2 commands",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -7058,7 +7058,7 @@
     },
     {
       "name": "do_adversary",
-      "line": 27209,
+      "line": 27204,
       "summary": "LazyOwn RedTeam Adversary Emulator, you can configure your own adversaries in adversary.json",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -7069,7 +7069,7 @@
     },
     {
       "name": "do_ofuscate_string",
-      "line": 27352,
+      "line": 27346,
       "summary": "Ofuscate a string into Go code.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -7080,7 +7080,7 @@
     },
     {
       "name": "do_get_avaible_actions",
-      "line": 27400,
+      "line": 27394,
       "summary": "Get list de supported acctions.",
       "category": "11. Reporting",
       "phase": "report",
@@ -7091,7 +7091,7 @@
     },
     {
       "name": "do_path2hex",
-      "line": 27406,
+      "line": 27400,
       "summary": "Convert a binary path to x64 little-endian hex code for shellcode injection.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -7102,7 +7102,7 @@
     },
     {
       "name": "do_hex2shellcode",
-      "line": 27453,
+      "line": 27447,
       "summary": "Convert raw hex payload from msfvenom into NASM-compatible shellcode format.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -7113,7 +7113,7 @@
     },
     {
       "name": "do_ai_playbook",
-      "line": 27510,
+      "line": 27504,
       "summary": "Generates an offensive playbook using:",
       "category": null,
       "phase": "uncategorized",
@@ -7124,7 +7124,7 @@
     },
     {
       "name": "do_create_synthetic",
-      "line": 27726,
+      "line": 27720,
       "summary": "Create a basic synthetic playbook from Nmap CSV when LLM fails.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -7135,7 +7135,7 @@
     },
     {
       "name": "do_extract_yaml",
-      "line": 27777,
+      "line": 27771,
       "summary": "Extract YAML from an existing debug file and try to create a playbook.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -7146,7 +7146,7 @@
     },
     {
       "name": "do_img2vid",
-      "line": 27838,
+      "line": 27832,
       "summary": "Generates an MP4 video from PNG images found in the sessions/captured_images directory.",
       "category": "11. Reporting",
       "phase": "report",
@@ -7157,7 +7157,7 @@
     },
     {
       "name": "do_convert_remcomsvc_from_file",
-      "line": 27886,
+      "line": 27880,
       "summary": "Converts the Python REMCOMSVC byte string from remcomsvc.py to Golang byte slice format, prints a sample, and saves it to sessions/remcomsvc.go. see lazyaddon …",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -7168,7 +7168,7 @@
     },
     {
       "name": "do_process_scans",
-      "line": 27918,
+      "line": 27912,
       "summary": "Processes CSV files with scan results and vulnerability data to generate a Shodan-like JSON database.",
       "category": "11. Reporting",
       "phase": "report",
@@ -7179,7 +7179,7 @@
     },
     {
       "name": "do_adversary_yaml",
-      "line": 28042,
+      "line": 28036,
       "summary": "Execute adversary from YAML in lazyadversaries/*.yaml",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -7190,7 +7190,7 @@
     },
     {
       "name": "do_msfshellcoder",
-      "line": 28197,
+      "line": 28191,
       "summary": "Generate shellcode in C format using msfvenom for either a custom command or a reverse shell payload.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -7201,7 +7201,7 @@
     },
     {
       "name": "do_pop",
-      "line": 28324,
+      "line": 28318,
       "summary": "Open a centered popup in the current tmux session to execute a shell command.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -7212,7 +7212,7 @@
     },
     {
       "name": "do_addalias",
-      "line": 28361,
+      "line": 28355,
       "summary": "Add a new alias with support for placeholders like {rhost}, {lhost}, {lport}, etc.",
       "category": null,
       "phase": "uncategorized",
@@ -7223,7 +7223,7 @@
     },
     {
       "name": "do_listaliases",
-      "line": 28410,
+      "line": 28404,
       "summary": "List all available aliases.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -7234,7 +7234,7 @@
     },
     {
       "name": "do_add2find",
-      "line": 28421,
+      "line": 28415,
       "summary": "Add a new custom command to the 'find' system, saved in user_commands.json.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -7245,7 +7245,7 @@
     },
     {
       "name": "do_rmfromfind",
-      "line": 28449,
+      "line": 28443,
       "summary": "Remove a custom command by index (as shown in 'find').",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -7256,7 +7256,7 @@
     },
     {
       "name": "do_aes_pe",
-      "line": 28478,
+      "line": 28472,
       "summary": "Encrypt with AES and random key to PE EXE file, to usage with loaders.",
       "category": "04. Post-Exploitation",
       "phase": "postexp",
@@ -7267,7 +7267,7 @@
     },
     {
       "name": "do_ai_toggle",
-      "line": 28505,
+      "line": 28499,
       "summary": "Enable or disable the IA assitant (use DeepSeek in local).",
       "category": "16. Artificial Intelligence",
       "phase": "ai",

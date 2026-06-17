@@ -314,7 +314,7 @@ Returns:
 Registra un comando nuevo desde Lua.
 
 ## load_plugins
-Carga todos los plugins Lua desde el directorio 'plugins/'.
+Load every Lua plugin from the 'plugins/' directory.
 
 ## load_yaml_plugins
 Loads all YAML plugins from the 'lazyaddons/' directory.

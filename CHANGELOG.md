@@ -2,6 +2,83 @@
 # Changelog
 
 
+### Pruebas
+
+### Otros
+
+  *   * test(test): test pipe line deply \n\n Version: release/0.2.152 \n\n with love \n\n Modified file(s):\n- CLAUDE.md - COMMANDS.md - ESSENTIALS.md - QUICKSTART.md - cli/command_index.json - cli/splash.py - cli/style.py - cli/themes.py - cli/tui_theme.py - docs/COMMANDS.html - lazyown.py - tests/test_command_palette.py - tests/test_tui_splash.py - tests/test_tui_style.py - tests/test_tui_theme_command.py - tests/test_tui_themes.py\nCreated file(s):\n- cli/splash.py - cli/style.py - cli/tui_theme.py - tests/test_tui_splash.py - tests/test_tui_style.py - tests/test_tui_theme_command.py - tests/test_tui_themes.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: mar 16 jun 2026 23:11:29 -04 \n\n Hora: 1781665889
+
+
+### Otros
+
+### Otros
+
+  *   * Merge branch 'pp' into dev
+
+
+### Otros
+
+### Otros
+
+  *   * Merge branch 'docs/engage-fastpath' into dev
+
+
+### Otros
+
+### Otros
+
+  *   * Merge branch 'chore/cli-print-hygiene' into dev
+
+
+### Documentación
+
+### Otros
+
+  *   * docs(onboarding): surface the engage one-command fast-path
+
+
+### Otros
+
+### Otros
+
+  *   * chore(cli): print hygiene + remove C2 credential leak in lazyown.py
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(tui): wire tui_theme command and first-run splash into the shell
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(tui): add animated splash overlay for first-run experience
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(tui): add tui_theme command logic with cycle/prev/reset
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(tui): add solarized, monokai, gruvbox, high_contrast themes
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(tui): add cli/style semantic token layer over themes
+
+
 ### Refactorización
 
 ### Otros

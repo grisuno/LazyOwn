@@ -16,6 +16,6 @@ tool:
   name: estorides
   repo_url: https://github.com/grisuno/estorides.git
   install_path: external/.exploit/estorides
-  install_command: git pull && python3 -m pip install flask networkx requests pyyaml 
+  install_command: git pull && python3 -m pip install flask networkx requests pyyaml aiohttp
   execute_command: python3 estorides_cli.py serve --port 5050  
 category: 01. Reconnaissance

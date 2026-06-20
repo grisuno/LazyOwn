@@ -1,0 +1,21 @@
+name: estorides
+description: 'estorides is a next-generation osint palantir tool like.
+
+  '
+author: LazyOwn RedTeam
+version: '1.0'
+enabled: true
+params:
+- name: lhost
+  type: string
+  required: true
+  description: lhost target.
+os: any
+trigger: []
+tool:
+  name: estorides
+  repo_url: https://github.com/grisuno/estorides.git
+  install_path: external/.exploit/estorides
+  install_command: git pull && python3 -m pip install flask networkx requests pyyaml 
+  execute_command: python3 estorides_cli.py serve --port 5050  
+category: 01. Reconnaissance

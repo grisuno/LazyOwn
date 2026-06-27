@@ -1,0 +1,20 @@
+name: FreeDom
+description: 'From the creators of LazyOwn Redteam Framework comes a free and open-source minimal web browser written in C, focused on Zero Trust and Zero Knowledge principles.
+  '
+author: LazyOwn RedTeam
+version: '1.0'
+enabled: true
+params:
+- name: lhost
+  type: string
+  required: true
+  description: lhost target.
+os: any
+trigger: []
+tool:
+  name: FreeDom
+  repo_url: https://github.com/grisuno/FreeDom.git
+  install_path: external/.exploit/FreeDom
+  install_command: sudo ./install.sh ; ./configure ; make clean ; make all ; sudo make install
+  execute_command: git restore . ; git pull ; chmod +x *.sh && ./run_freedom.sh
+category: 12. Miscellaneous

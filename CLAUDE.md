@@ -561,6 +561,46 @@ LazyOwn uses a three-branch model to separate development, pre-production and pr
 
 ---
 
+## 15h. claude_md_orchestrator skill
+
+`skills/claude_md_orchestrator/` is the production implementation of
+the SDD plus TDD plus BDD plus Boy Scout cycle the methodology
+section declares. The skill reads a CLAUDE.md, lifts every
+actionable contract, and walks each one through six stages:
+
+1. Spec-Driven Development — `sdd_agent.py` writes `specs/<id>.yaml`.
+2. Test-Driven Development — `tdd_agent.py` writes
+   `tests/test_<id>.py` and the cycle halts at red.
+3. Behavior-Driven Development — `bdd_agent.py` writes `src/<id>.py`
+   and the cycle halts at green.
+4. Code Reviewer — `reviewer_agent.py` runs ruff, mypy, bandit, and
+   the in house DoD validators.
+5. Documentation — `documentation_agent.py` emits first person
+   scientific English inside a markdown fence, signed by `grisun0`.
+6. CI and CD — `cicd_agent.py` cuts a feature branch from `dev`,
+   writes the GitHub Actions workflow, and prepares the PR body.
+   The deploy gate is closed by default and only opens when the
+   operator passes the `LAZYOWN_DEPLOY_GATE_TOKEN` environment value.
+
+The orchestrator persists the cycle state to `state.json` after every
+stage so a crash resumes from the last green stage. The orchestrator
+is invoked through:
+
+```bash
+PYTHONPATH=skills python3 -m claude_md_orchestrator.orchestrator \
+  --no-parse --seed C-002
+```
+
+Tests live in `skills/claude_md_orchestrator/tests/`. The first flank
+the skill closed is the CI hardening gap. The legacy `test.yml` and
+`ci.yml` workflows no longer swallow failures through the
+`|| true` shim or the `continue-on-error: true` flag. The new
+`test_strict.yml` workflow runs ruff, mypy, bandit, and pytest on
+every push to `main` and on every pull request targeting `main`. The
+contract is pinned by `tests/test_ci_strict.py`.
+
+---
+
 ## 16. Read next
 
 - `QUICKSTART.md` — start here for a new operator session.

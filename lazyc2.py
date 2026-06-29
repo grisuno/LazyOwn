@@ -2061,12 +2061,36 @@ app.config['SESSION_COOKIE_SECURE'] = True
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['REMEMBER_COOKIE_SECURE'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
+app.config['PROPAGATE_EXCEPTIONS'] = False
+app.config['TRAP_HTTP_EXCEPTIONS'] = True
 app.config["fd"] = None
 app.config["child_pid"] = None
 app.jinja_env.filters['fromjson'] = fromjson
 app.jinja_env.filters['markdown'] = markdown_to_html
 BASE_DIR = os.getcwd()
 TOOLS_DIR = f'{BASE_DIR}/tools'
+
+
+@app.errorhandler(404)
+def _handle_404(_error):
+    return jsonify({"error": "not found"}), 404
+
+
+@app.errorhandler(405)
+def _handle_405(_error):
+    return jsonify({"error": "method not allowed"}), 405
+
+
+@app.errorhandler(Exception)
+def _handle_exception(error):
+    """Generic error handler that never leaks stack traces or exception messages.
+
+    Even when ``config.enable_c2_debug`` is on, the response body stays
+    generic. Verbose details are still logged server-side for operators.
+    """
+    if config.enable_c2_debug:
+        logger.exception("[c2] unhandled exception: %s", error)
+    return jsonify({"error": "internal server error"}), 500
 BASE_DIR += "/sessions/"
 UPLOAD_FOLDER = BASE_DIR + 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER

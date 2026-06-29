@@ -283,5 +283,55 @@ class AiCommandSet(PendingCommandSet):
         status = AI_TOGGLE_ONLINE if self.use_ai else AI_TOGGLE_OFFLINE
         self.poutput(f"AI status {status}.")
 
+    @cmd2.with_category(ai_category)
+    def do_llm_budget(self, line):
+        """Show the LLM daily cost budget, per call token cap, and current spend.
+
+        The framework wraps every LLM call with a budget proxy that
+        enforces a daily cost cap and a per call token cap. The cap
+        values live in ``payload.json`` and the proxy persists the
+        spend to ``sessions/llm_budget.json``.
+
+        Subcommands:
+
+        - ``llm_budget``            Show the structured status block.
+        - ``llm_budget json``       Emit the status as a JSON object.
+        - ``llm_budget reset``      Clear the ledger for the current day.
+
+        Args:
+            line: Optional subcommand string.
+
+        Returns:
+            None. Output is written to stdout through ``print_msg`` so
+            the LazyOwn history capture picks the result up.
+        """
+        from core.llm_budget import (
+            BudgetLedger,
+            format_budget_status,
+            load_budget_config,
+            read_budget_status,
+        )
+
+        subcommand = (line or "").strip().lower()
+        payload = dict(self.params)
+        sessions_dir = os.path.join(self.path, SESSIONS_DIRECTORY_NAME)
+        if subcommand == "json":
+            status = read_budget_status(payload=payload, sessions_dir=sessions_dir)
+            print_msg(json.dumps(status, indent=2))
+            return
+        if subcommand == "reset":
+            confirm = input("Reset LLM budget ledger for today? Type 'yes' to confirm: ")
+            if confirm.strip().lower() != "yes":
+                print_warn("Reset cancelled.")
+                return
+            config = load_budget_config(payload=payload, sessions_dir=sessions_dir)
+            ledger = BudgetLedger(path=config.ledger_path)
+            ledger.reset()
+            print_msg(f"Ledger reset at {config.ledger_path}")
+            return
+        config = load_budget_config(payload=payload, sessions_dir=sessions_dir)
+        ledger = BudgetLedger(path=config.ledger_path)
+        print_msg(format_budget_status(config=config, ledger=ledger))
+
 
 __all__ = ["AiCommandSet"]

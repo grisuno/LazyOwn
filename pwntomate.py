@@ -41,6 +41,7 @@ parser.add_argument("xml", help="path to Nmap XML file")
 parser.add_argument("-b", help="path to base directory for tool output (default: ~/.pwntomate)", default="~/.pwntomate", dest="basedir")
 parser.add_argument("-t", help="path to custom tool directory (default: ./tools)", default="./tools", dest="tooldir")
 parser.add_argument("-x", help="Executes the generated script automatically. (Be careful!)", action="store_true", dest="execute")
+parser.add_argument("--strict-domain", help="Preserve legacy behaviour: crash when 'domain' is missing from payload.json. Disabled by default.", action="store_true", dest="strict_domain")
 if len(sys.argv) == 1: # If no arguments are specified, print greeter, help and exit.
     print(greeter)
     parser.print_help()
@@ -76,9 +77,18 @@ else:
     username = _SECURITY_CONFIG.placeholder_username_marker
     password = ''
 
-adomain = domain.split(".")
-ext = adomain[1] if len(adomain) > 1 else adomain[0]
-nameserver = adomain[0]
+if domain:
+    adomain = domain.split(".")
+    ext = adomain[1] if len(adomain) > 1 else adomain[0]
+    nameserver = adomain[0]
+else:
+    if args.strict_domain:
+        raise AttributeError(
+            "'domain' is missing from payload.json. Legacy mode (--strict-domain) "
+            "requires it to be set; either provide a domain or drop --strict-domain."
+        )
+    ext = ""
+    nameserver = ""
 
 
 def _build_substitutions(host_addr, port, toolname_value, basedir_value):

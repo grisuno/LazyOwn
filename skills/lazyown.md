@@ -228,6 +228,7 @@ lazyown_command_help(command='secretsdump')
 | `lazyown_get_config` | Read current payload.json settings |
 | `lazyown_set_config` | Write a key-value pair to payload.json |
 | `lazyown_list_modules` | List modules/ contents |
+| `lazyown_get_llm_budget` | Read LLM daily cost budget, per call token cap, and current spend |
 | `lazyown_phase_guide` | **FULL PHASE GUIDE** — commands + payload keys + aliases + kill-chain for a phase. Use at phase start. |
 | `lazyown_discover_commands` | List commands by pentest phase (use `phase='recon'`/`'enum'`/etc) OR all shell commands |
 | `lazyown_command_help` | Get full docs for any command: `help <command>` |

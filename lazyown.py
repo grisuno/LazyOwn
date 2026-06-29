@@ -914,8 +914,10 @@ class LazyOwnShell(cmd2.Cmd):
         if NOLOGS:
             exit_code = subprocess.call(command, shell=True)
         else:
+            safe_cmd_name = os.path.basename(cmd_name)
+            safe_domain = re.sub(r"[^A-Za-z0-9._-]", "_", domain) if domain else "unknown"
             path_command = (
-                f"{path}/sessions/logs/command_{cmd_name}output{domain}.txt"
+                f"{path}/sessions/logs/command_{safe_cmd_name}output{safe_domain}.txt"
             )
             quoted_path = shlex.quote(path_command)
             exit_code = subprocess.call(

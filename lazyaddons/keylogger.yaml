@@ -18,4 +18,4 @@ tool:
   install_command: ./install.sh ; ./configure ; make ; make install
   execute_command: git restore . ; git pull ; chmod +x *.sh && make run
   download_file: /tmp/keylogger.pid
-category: 10. Command & Control
+category: 04. Post-Exploitation

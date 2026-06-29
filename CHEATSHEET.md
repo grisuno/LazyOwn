@@ -155,6 +155,9 @@ This is the second-level reference. Start with `ESSENTIALS.md` first. Use this w
 | Query knowledge base | `parquet_query` |
 | Semantic search sessions | `rag_query` |
 | Threat model | `threat_model` |
+| LLM daily cost cap and per call token cap | `llm_budget` |
+| LLM budget as JSON for scripts | `llm_budget json` |
+| Reset LLM ledger after confirmation | `llm_budget reset` |
 
 ---
 

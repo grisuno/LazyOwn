@@ -95,7 +95,7 @@ class PaletteSuiteConfig:
     known_duplicate_lines: dict[str, frozenset[int]] = field(
         default_factory=lambda: {
             "do_shellshock": frozenset({11623, 14970}),
-            "do_download_c2": frozenset({992, 25317, 26780}),
+            "do_download_c2": frozenset({992, 25378, 26841}),
         }
     )
     invalid_index_payload: str = "{not json"

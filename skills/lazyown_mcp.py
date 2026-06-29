@@ -677,6 +677,18 @@ async def list_tools() -> list[types.Tool]:
             },
         ),
         types.Tool(
+            name="lazyown_get_llm_budget",
+            description=(
+                "Read the LLM daily cost budget, per call token cap, and "
+                "current spend the proxy recorded. Returns a structured "
+                "JSON object with limit_usd, spent_usd, remaining_usd, "
+                "calls_today, per_call_token_cap, model_prices, and "
+                "ledger_path. Use this to surface a daily cap to the "
+                "operator before scheduling an LLM heavy autonomous loop."
+            ),
+            inputSchema={"type": "object", "properties": {}},
+        ),
+        types.Tool(
             name="lazyown_list_modules",
             description="List all available LazyOwn modules and scripts in the modules/ directory.",
             inputSchema={"type": "object", "properties": {}},
@@ -4143,6 +4155,37 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
     elif name == "lazyown_get_config":
         cfg = _load_payload()
         return text(json.dumps(cfg, indent=2))
+
+    # ── get_llm_budget ───────────────────────────────────────────────────────
+    elif name == "lazyown_get_llm_budget":
+        try:
+            from core.llm_budget import read_budget_status
+        except Exception as error:
+            return text(
+                json.dumps(
+                    {
+                        "available": False,
+                        "reason": f"llm_budget module not importable: {error}",
+                    },
+                    indent=2,
+                )
+            )
+        payload = _load_payload()
+        repo_root = Path(__file__).resolve().parents[1]
+        sessions_dir = repo_root / "sessions"
+        try:
+            status = read_budget_status(payload=payload, sessions_dir=sessions_dir)
+        except Exception as error:
+            return text(
+                json.dumps(
+                    {
+                        "available": False,
+                        "reason": f"failed to read budget: {error}",
+                    },
+                    indent=2,
+                )
+            )
+        return text(json.dumps({"available": True, "status": status}, indent=2))
 
     # ── set_config ───────────────────────────────────────────────────────────
     elif name == "lazyown_set_config":

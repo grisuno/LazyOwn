@@ -609,6 +609,127 @@ SCHEMA: dict[str, FieldSpec] = {
         ),
         _spec("binary_name", FieldKind.STRING, "curl", "Stub binary name produced by build helpers.", category="c2"),
         _spec(
+            "aes_key",
+            FieldKind.HEX,
+            "",
+            "AES-256 key used to encrypt C2 traffic and beacon payloads.",
+            long_help=(
+                "Must be exactly 64 hex characters (32 bytes after decode). "
+                "When empty, the framework loads or generates one under "
+                "sessions/key.aes. The resolved value is exposed as "
+                "self.params['aes_key'] and self.aes_key for use throughout "
+                "the framework (CLI, C2, MCP, and lazyaddons via {{aes_key}} "
+                "template substitution)."
+            ),
+            example="82e672ae054aa4de6f042c888111686a82e672ae054aa4de6f042c888111686a",
+            category="c2",
+            sensitive=True,
+            min_value=0,
+            max_value=0,
+            custom_validator=lambda v: (
+                None
+                if (
+                    isinstance(v, str)
+                    and (v == "" or (len(v) == 64 and all(c in "0123456789abcdefABCDEF" for c in v)))
+                )
+                else "aes_key must be 64 hex characters (32 bytes) or empty"
+            ),
+        ),
+        _spec(
+            "c2_allowed_origins",
+            FieldKind.STRING,
+            "",
+            "Comma-separated list of origins allowed to talk to the C2 web layer.",
+            long_help=(
+                "In PROD, the C2 web layer refuses to start when this is empty. "
+                "In DEV, the framework falls back to https://{lhost}. The "
+                "wildcard '*' is never accepted; the token is dropped from "
+                "any CSV value before resolution."
+            ),
+            example="https://c2.example,https://ops.example",
+            category="c2",
+        ),
+        _spec(
+            "c2_csrf_enabled",
+            FieldKind.BOOL,
+            "True",
+            "Require a CSRF token on every mutating operator request.",
+            category="c2",
+        ),
+        _spec(
+            "c2_register_limit",
+            FieldKind.STRING,
+            "5 per minute",
+            "Flask-Limiter rate applied to the /register endpoint.",
+            category="c2",
+        ),
+        _spec(
+            "c2_api_command_allowlist",
+            FieldKind.STRING,
+            "ping,set,show,help,status,sessions,sitrep,gets,get,downloader,getosession,osession,setar,getar,session,clean",
+            "Comma-separated first-token allowlist for /api/run.",
+            long_help=(
+                "Every command reaching the LazyOwn shell through /api/run "
+                "must start with one of these tokens; shell metacharacters "
+                "are always rejected regardless of the allowlist."
+            ),
+            example="ping,set,show,status",
+            category="c2",
+        ),
+        _spec(
+            "c2_trusted_proxy_count",
+            FieldKind.INT,
+            0,
+            "Number of trusted reverse proxies in front of the C2.",
+            long_help=(
+                "When greater than zero, the C2 parses X-Forwarded-For "
+                "right-to-left and skips this many hops before trusting the "
+                "leftmost address. Zero disables header parsing entirely."
+            ),
+            min_value=0,
+            max_value=8,
+            category="c2",
+        ),
+        _spec(
+            "c2_operator_ip_allowlist",
+            FieldKind.STRING,
+            "127.0.0.1",
+            "Comma-separated IPs allowed to access operator-only routes.",
+            category="c2",
+        ),
+        _spec(
+            "c2_reverse_shell_password",
+            FieldKind.STRING,
+            "",
+            "Password required to trigger the /lazyos reverse shell.",
+            long_help=(
+                "Must be at least 12 characters when set. When empty, the "
+                "framework logs a WARNING and falls back to the legacy "
+                "string 'grisiscomebacksayknokknok' for backwards "
+                "compatibility. Set this in payload.json to silence the "
+                "warning and replace the legacy hardcoded value."
+            ),
+            example="please-change-me-12+chars",
+            category="c2",
+            sensitive=True,
+        ),
+        _spec(
+            "c2_max_upload_size_mb",
+            FieldKind.INT,
+            10,
+            "Maximum upload size in megabytes enforced by the C2 web layer.",
+            min_value=1,
+            max_value=1024,
+            category="c2",
+        ),
+        _spec(
+            "c2_https_redirect",
+            FieldKind.BOOL,
+            "True",
+            "Force HTTP -> HTTPS redirect in PROD (no-op in DEV).",
+            category="c2",
+        ),
+        _spec(
             "api_key",
             FieldKind.STRING,
             "your_api_key_here",

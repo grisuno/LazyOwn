@@ -1011,8 +1011,16 @@ def run(command):
     """
     try:
         print_msg(f"Attempting to execute: {command}")
-        result = subprocess.run(command, shell=True, check=True, capture_output=True, text=True)
-        print_msg(result)
+        from core.safe_subprocess import SafeRunner
+        result = SafeRunner().run_shell(
+            command,
+            allow=True,
+            reason="legacy utils.run call site; requires opt-in at every invocation",
+        )
+        if result.returncode != 0:
+            print_error(f"Command failed with exit code {result.returncode}: {command}")
+            return result.stderr or f"exit={result.returncode}"
+        print_msg(result.stdout)
         return result.stdout.strip()
     except FileNotFoundError as fnf_error:
         print_error(f"Command not found: {command}")

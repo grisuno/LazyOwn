@@ -89,12 +89,20 @@ from lazyc2.security.validators import (
     validate_route_path as _validate_route_path,
     validate_template_name as _validate_template_name,
     validate_file_path_within_base as _validate_file_path_within_base,
+    validate_password_length as _validate_password_length,
 )
 from lazyc2.security.services import (
     AESKeyManager as _AESKeyManager,
     SecretKeyManager as _SecretKeyManager,
+    SafeFileService as _SafeFileService,
 )
 from lazyc2.security.constants import AES_KEY_SIZE_BYTES as _AES_KEY_SIZE_BYTES
+from lazyc2.security.cors import CorsPolicy
+from lazyc2.security.csrf import CSRFPolicy
+from lazyc2.security.command_allowlist import CommandAllowlist
+from lazyc2.security.https_redirect import HTTPSRedirect
+from lazyc2.security.trusted_proxy import TrustedProxyResolver
+from lazyc2.security.html_sanitizer import sanitize_html as _lazyc2_sanitize_html
 
 _LAZYOWN_SECRET_KEY_ENV = "LAZYOWN_SECRET_KEY"
 
@@ -107,6 +115,55 @@ _payload_snapshot = load_payload()
 config = Config(_payload_snapshot)
 _security_config = build_default_config(_payload_snapshot)
 _output_sanitizer = OutputSanitizer(_security_config)
+
+
+def _env_tag() -> str:
+    """Return the runtime environment tag from ``payload.json``.
+
+    Returns:
+        The value of ``env`` in the payload, uppercased and defaulted
+        to ``"DEV"``. The :class:`CorsPolicy` and :class:`HTTPSRedirect`
+        both branch on this value.
+    """
+    raw = getattr(config, "env", "DEV")
+    return str(raw or "DEV").upper()
+
+
+_cors_policy = CorsPolicy(
+    env=_env_tag(),
+    lhost=str(getattr(config, "lhost", "127.0.0.1")),
+    allowed_origins=getattr(config, "c2_allowed_origins", "") or "",
+    c2_port=int(getattr(config, "c2_port", 5000) or 5000),
+)
+_csrf_policy = CSRFPolicy(
+    exempt_paths=("/login", "/logout", "/register", "/api/beacon"),
+)
+_https_redirect_policy = HTTPSRedirect(
+    env=_env_tag(),
+    enabled=bool(getattr(config, "c2_https_redirect", True)),
+)
+_trusted_proxy_resolver = TrustedProxyResolver(
+    trusted_count=int(getattr(config, "c2_trusted_proxy_count", 0) or 0),
+    operator_allowlist=(
+        str(getattr(config, "c2_operator_ip_allowlist", "127.0.0.1") or "127.0.0.1")
+        .replace("{lhost}", str(getattr(config, "lhost", "127.0.0.1")))
+        .split(",")
+    ),
+)
+_audit_log_path = os.path.join(os.getcwd(), "sessions", "api_command_audit.jsonl")
+_command_allowlist = CommandAllowlist(
+    allowed=(
+        str(
+            getattr(
+                config,
+                "c2_api_command_allowlist",
+                "ping,set,show,help,status,sessions,sitrep",
+            )
+        )
+        .split(",")
+    ),
+    audit_log_path=_audit_log_path,
+)
 
 
 def _listen_address():
@@ -988,21 +1045,15 @@ _ALLOWED_TAGS = ('p', 'br', 'strong', 'em', 'ul', 'ol', 'li', 'code', 'pre',
 
 
 def _sanitize_html(raw_html):
-    """Sanitize HTML by stripping dangerous tags and event handlers."""
-    if not raw_html:
-        return ""
-    raw_html = re.sub(r'<(script|style)[^>]*>.*?</\1>', '', raw_html,
-                      flags=re.DOTALL | re.IGNORECASE)
-    raw_html = re.sub(r'on\w+\s*=\s*["\'][^"\']*["\']', '', raw_html,
-                      flags=re.IGNORECASE)
-    raw_html = re.sub(r'javascript:', '', raw_html, flags=re.IGNORECASE)
-    escaped = html.escape(raw_html)
-    for tag in _ALLOWED_TAGS:
-        escaped = re.sub(r'&lt;(' + tag + r')\s*(.*?)&gt;',
-                         r'<\1\2>', escaped, flags=re.IGNORECASE)
-        escaped = re.sub(r'&lt;/(' + tag + r')&gt;',
-                         r'</\1>', escaped, flags=re.IGNORECASE)
-    return escaped
+    """Sanitize HTML by stripping dangerous tags and event handlers.
+
+    The implementation delegates to
+    :func:`lazyc2.security.html_sanitizer.sanitize_html`, which is
+    backed by ``bleach`` and the constants in
+    :mod:`lazyc2.security.constants`. The legacy regex-based
+    implementation lived in this module but is no longer used.
+    """
+    return _lazyc2_sanitize_html(raw_html)
 
 
 def markdown_to_html(text):
@@ -1066,6 +1117,25 @@ def requires_auth(f):
             return authenticate()
         return f(*args, **kwargs)
     return decorated
+
+
+def csrf_protect(view):
+    """Decorator that enforces the per-session CSRF token.
+
+    The CSRF policy is the module-level :data:`_csrf_policy`. When the
+    payload key ``c2_csrf_enabled`` is ``False`` the decorator is a
+    no-op so existing operators can disable the gate without touching
+    the codebase.
+    """
+    @wraps(view)
+    def wrapper(*args, **kwargs):
+        if not bool(getattr(config, "c2_csrf_enabled", True)):
+            return view(*args, **kwargs)
+        session_id = request.cookies.get(_csrf_policy.cookie_name) or request.headers.get("X-Session-Id", "")
+        if not _csrf_policy.check_request(session_id, request):
+            return jsonify({"error": "csrf token missing or invalid"}), 403
+        return view(*args, **kwargs)
+    return wrapper
 
 def aicmd_deepseek(cmd):
     if cmd == 'ping':
@@ -2023,6 +2093,17 @@ def _metrics_before_request():
                      labels={'method': request.method, 'endpoint': request.endpoint})
 
 
+@app.before_request
+def _enforce_https_redirect():
+    """Force HTTP -> HTTPS in PROD when the policy says so.
+
+    Returns:
+        A redirect response when the policy decides the request must be
+        upgraded; otherwise ``None`` so Flask continues handling it.
+    """
+    return _https_redirect_policy.evaluate(request)
+
+
 @app.after_request
 def _add_security_headers(response):
     response.headers['X-Content-Type-Options'] = 'nosniff'
@@ -2094,6 +2175,9 @@ def _handle_exception(error):
 BASE_DIR += "/sessions/"
 UPLOAD_FOLDER = BASE_DIR + 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = (
+    int(getattr(config, "c2_max_upload_size_mb", 10) or 10) * 1024 * 1024
+)
 ALLOWED_DIRECTORY = BASE_DIR
 MODEL = retModel()
 
@@ -2115,12 +2199,12 @@ atomic_framework_path = f'{path}/external/.exploit/atomic-red-team/atomics'
 events = []
 counter_events = 0
 
-socketio = SocketIO(app, cors_allowed_origins="*", async_mode='threading', transports=['websocket'])
+socketio = SocketIO(app, cors_allowed_origins=_cors_policy.origins_for_socketio(), async_mode='threading', transports=['websocket'])
 listener_manager = ListenerManager(app, sessions_dir='sessions', payload=_payload_snapshot)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 USER_DATA_PATH = 'users.json'
-ENV = "PROD"
+ENV = _env_tag()
 DATA_FILE = BASE_DIR + 'surface_attack.json'
 LOG_DIR = os.path.join('sessions', 'logs', 'c2')
 LOG_FILE = os.path.join(LOG_DIR, 'log_c2.txt')
@@ -2749,6 +2833,7 @@ def receive_result(client_id):
 
 @app.route('/issue_command', methods=['POST'])
 @requires_auth
+@csrf_protect
 @limiter.limit("20 per minute")
 def issue_command():
     client_id = request.form['client_id']
@@ -2827,37 +2912,42 @@ def download_file():
 import os
 from flask import Flask, Response, jsonify
 
+_DOWNLOAD_SAFE_SERVICE = _SafeFileService(
+    Path(os.path.join(os.getcwd(), 'sessions', 'temp_uploads'))
+)
+
+
 @app.route('/download/<path:file_path>', methods=['GET'])
 @app.route(f'{route_maleable}download/<path:file_path>', methods=['GET'])
 def serve_file(file_path):
-    temp_dir = os.path.join(os.getcwd(), 'sessions/temp_uploads')
-   ## file_path = secure_filename(file_path) this broken the implant downloads #TODO see what happends
+    """Serve a file from ``sessions/temp_uploads`` through :class:`SafeFileService`.
 
-    requested_path = os.path.join(temp_dir, file_path)
+    Args:
+        file_path: Operator-supplied path component. The :class:`SafeFileService`
+            is responsible for resolving it canonically and rejecting any
+            attempt to escape the base directory (including Windows-style
+            ``..\\`` traversal and null-byte injection).
 
-
-    normalized_temp_dir = os.path.normpath(temp_dir)
-    normalized_requested_path = os.path.normpath(requested_path)
-
-
-    if not normalized_requested_path.startswith(normalized_temp_dir + os.sep):
+    Returns:
+        A Flask response with the AES-encrypted payload, or a 403/404
+        error JSON when the path is unsafe or missing.
+    """
+    try:
+        file_data = _DOWNLOAD_SAFE_SERVICE.read_bytes(file_path)
+    except PermissionError:
         return jsonify({"status": "error", "message": "Access denied"}), 403
-
-    if os.path.exists(normalized_requested_path):
-        try:
-            with open(normalized_requested_path, 'rb') as f:
-                file_data = f.read()
-            encrypted_data = encrypt_data(file_data)
-            safe_dl_name = os.path.basename(file_path).replace('"', '').replace('\n', '').replace('\r', '')
-            return Response(
-                encrypted_data,
-                mimetype='application/octet-stream',
-                headers={'Content-Disposition': f'attachment; filename="{safe_dl_name}"'}
-            )
-        except Exception as e:
-            return str("audio"), 500
-    else:
+    except FileNotFoundError:
         return jsonify({"status": "error", "message": "File not found"}), 404
+    try:
+        encrypted_data = encrypt_data(file_data)
+        safe_dl_name = os.path.basename(file_path).replace('"', '').replace('\n', '').replace('\r', '')
+        return Response(
+            encrypted_data,
+            mimetype='application/octet-stream',
+            headers={'Content-Disposition': f'attachment; filename="{safe_dl_name}"'}
+        )
+    except Exception as e:
+        return jsonify({"status": "error", "message": "Encryption failure"}), 500
 
 _TEMPLATE_NAME_STRICT_PATTERN = re.compile(r"^([a-zA-Z0-9_.-]+)\.html$")
 _TEMPLATE_NAME_MAX_LENGTH = 128
@@ -3494,6 +3584,7 @@ def view_yaml():
 
 @app.route('/api/run', methods=['POST'])
 @requires_auth
+@csrf_protect
 @limiter.limit("30 per minute")
 def run_command():
     """Execute one shell command and return a sanitised, JSON-safe result.
@@ -3504,6 +3595,11 @@ def run_command():
     exception escaping the shell invocation is converted into a generic
     error so internal class names, stack traces and file paths never
     reach the caller.
+
+    In addition the command must clear :class:`CommandAllowlist`; the
+    first whitespace-delimited token must be on the configured list and
+    no shell metacharacter is permitted anywhere in the payload. The
+    decision (allowed or denied) is appended to the audit log.
     """
     generic_error = _security_config.generic_command_error_message
     try:
@@ -3513,6 +3609,14 @@ def run_command():
         command = data.get('command')
         if not isinstance(command, str) or not command.strip():
             return jsonify({"error": "No command provided"}), 400
+        decision = _command_allowlist.check(command)
+        if not decision.allowed:
+            return jsonify(
+                {
+                    "error": "command not allowed",
+                    "reason": decision.reason.value if decision.reason else "unknown",
+                }
+            ), 403
         try:
             output = shell.one_cmd(command)
         except BaseException:
@@ -3570,6 +3674,30 @@ def run_shellcode():
 def get_results():
     return jsonify(results)
 
+_LEGACY_REVERSE_SHELL_PASSWORD = "grisiscomebacksayknokknok"
+
+
+def _resolve_reverse_shell_password() -> str:
+    """Return the password used to authenticate to the /lazyos reverse shell.
+
+    Returns:
+        The configured ``c2_reverse_shell_password`` when it meets the
+        minimum length (12 chars); otherwise a WARNING is logged and the
+        legacy hardcoded string is returned for backwards compatibility.
+    """
+    candidate = str(getattr(config, "c2_reverse_shell_password", "") or "").strip()
+    is_valid, _ = _validate_password_length(candidate)
+    if candidate and is_valid:
+        return candidate
+    logger.warning(
+        "[c2] c2_reverse_shell_password missing or too short "
+        "(minimum %d chars). Falling back to legacy default. "
+        "Set c2_reverse_shell_password in payload.json to silence this warning.",
+        12,
+    )
+    return _LEGACY_REVERSE_SHELL_PASSWORD
+
+
 @app.route('/lazyos/<ip>/<port>', methods=['POST'])
 @requires_auth
 def send_lcommand(ip, port):
@@ -3586,10 +3714,7 @@ def send_lcommand(ip, port):
         return jsonify({"error": "Invalid port"}), 400
     try:
         command = request.json.get('command')
-        reverse_shell_password = getattr(config, 'c2_reverse_shell_password', None) or config.c2_pass
-        if not reverse_shell_password or len(reverse_shell_password) < 8:
-            reverse_shell_password = "grisiscomebacksayknokknok"
-        password = reverse_shell_password
+        password = _resolve_reverse_shell_password()
         if not command:
             return jsonify({"error": "No command provided"}), 400
 
@@ -4290,7 +4415,7 @@ def delete_tool(toolname):
     return redirect(url_for('list_tools'))
 
 @app.route('/register', methods=['GET', 'POST'])
-@limiter.limit(config.c2_login_limit)
+@limiter.limit(getattr(config, "c2_register_limit", "5 per minute"))
 def register():
     response = decoy()
     if response:

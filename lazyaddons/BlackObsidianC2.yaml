@@ -1,0 +1,24 @@
+name: BlackObsidianC2
+description: 'Black Obsidian is a next-generation C2 (Command & Control) server designed for professional Red Team operations. Built with Go and PocketBase, it offers a modern and specialized alternative to complex C2 servers while maintaining agility, security, and customization ease.
+  '
+author: LazyOwn RedTeam
+version: '1.0'
+enabled: true
+params:
+- name: lhost
+  type: string
+  required: true
+  description: lhost target.
+- name: lport
+  type: string
+  required: true
+  description: lport target.
+os: any
+trigger: []
+tool:
+  name: BlackObsidianC2
+  repo_url: https://github.com/grisuno/BlackObsidianC2.git
+  install_path: external/.exploit/BlackObsidianC2
+  install_command: go get github.com/pocketbase/pocketbase ; openssl genpkey -algorithm RSA -out key.pem -pkeyopt rsa_keygen_bits:2048 ; openssl req -new -x509 -key key.pem -out cert.pem -days 365 -subj "/C=CL/ST=Hack/L=World/O=C2/CN=127.0.0.1" ; openssl pkcs8 -topk8 -nocrypt -in key.pem -out key_go.pem ; go build -o c2-server
+  execute_command: export TLS_CERT=./cert.pem ; export TLS_KEY=./key_go.pem ; export C2_AES_KEY=18547a9428b62fdf2ba11cebc786bccbca8a941748d3acf4aad100ac65d0477f ; ./c2-server serve --https={lhost}:{lport}
+category: 04. Post-Exploitation

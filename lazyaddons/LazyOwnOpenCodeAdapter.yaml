@@ -1,0 +1,20 @@
+name: LazyOwnOpenCodeAdapter
+description: 'From the creators of LazyOwn Redteam Framework comes a free and open-source minimal production‑grade, low‑level LazyOwnOpenCodeAdapter for Linux systems that captures keystrokes directly from the kernel’s input subsystem (evdev). It operates as a daemon, logs every key press with microsecond precision, and supports keyboard modifiers (Shift, Ctrl, Alt, CapsLock). Designed for authorized security audits, penetration testing, system monitoring, and debugging input pipelines. This implementation is written in standard C, uses no external libraries beyond the GNU C library, and runs on any Linux kernel ≥ 2.6.
+  '
+author: LazyOwn RedTeam
+version: '1.0'
+enabled: true
+params:
+- name: lhost
+  type: string
+  required: true
+  description: lhost target.
+os: any
+trigger: []
+tool:
+  name: LazyOwnOpenCodeAdapter
+  repo_url: https://github.com/grisuno/LazyOwnOpenCodeAdapter.git
+  install_path: external/.exploit/LazyOwnOpenCodeAdapter
+  install_command: pip install -r requirements.txt
+  execute_command: python3 adapter.py --lazyown-dir ~/LazyOwn --host {lhost} --port 8080
+category: 10. Command & Control

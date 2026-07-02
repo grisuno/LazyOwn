@@ -1,0 +1,20 @@
+name: packet_edit_meme
+description: 'net/sched act_pedit partial-COW page-cache corruption (culprit 899ee91156e5, present v5.18 .. fixed v7.1-rc7). packet_edit_meme.c turns it into unprivileged local root: a userns CAP_NET_ADMIN child overwrites the cached ELF entry of setuid-root /bin/su with setgid(0)+setuid(0)+execve("/bin/sh") shellcode.
+  '
+author: sgkdev
+version: '1.0'
+enabled: true
+params:
+- name: lhost
+  type: string
+  required: true
+  description: lhost target.
+os: any
+trigger: []
+tool:
+  name: packet_edit_meme
+  repo_url: https://github.com/sgkdev/packet_edit_meme.git
+  install_path: external/.exploit/packet_edit_meme
+  install_command: git pull ; make
+  execute_command: chmod +x packet_edit_meme && ./packet_edit_meme
+category: 03. Exploitation

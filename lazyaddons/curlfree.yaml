@@ -1,0 +1,22 @@
+name: curlfree
+description: 'curlfree provides a minimal HTTP/1.1 client implementation that supports both HTTP and HTTPS (via OpenSSL). The library is designed to be portable, easy to integrate, and suitable for embedded systems or environments where a full-featured HTTP client is not required. It also includes an HTML filter that strips tags and converts HTML entities to plain text.
+  '
+author: LazyOwn RedTeam
+version: '1.0'
+enabled: true
+params:
+- name: domain
+  type: string
+  required: true
+  description: domain target.
+
+os: linux
+trigger: []
+tool:
+  name: curlfree
+  repo_url: https://github.com/grisuno/curlfree.git
+  install_path: external/.exploit/curlfree
+  install_command: chmod +x *.sh ; ./build.sh
+  execute_command: git restore . ; git pull ;  chmod +x curlfree && ./curlfree https://{domain} 
+  
+category: 02. Scanning & Enumeration

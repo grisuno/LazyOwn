@@ -7,6 +7,7 @@ import ssl
 import json
 import yaml
 import glob
+import html
 import stat
 import time
 import uuid
@@ -17,7 +18,8 @@ import socket
 import base64
 import select
 import struct
-import html
+import string
+import hashlib
 import yagmail
 import smtplib
 import secrets
@@ -128,6 +130,16 @@ def _env_tag() -> str:
     raw = getattr(config, "env", "DEV")
     return str(raw or "DEV").upper()
 
+def is_insecure_credential(user: str, pwd: str) -> bool:
+    """Check for weak or default credentials"""
+    weak_users = {"LazyOwn", "admin", "root", "user", ""}
+    weak_passes = {"LazyOwn", "password", "123456", "admin", ""}
+    
+    if user in weak_users or pwd in weak_passes:
+        return True
+    if len(pwd) < 12:
+        return True
+    return False
 
 _cors_policy = CorsPolicy(
     env=_env_tag(),
@@ -1097,8 +1109,10 @@ def strip_ansi(s):
     ansi_regex = re.compile(r'[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]')
     return ansi_regex.sub('', s)
 
-def check_auth(username, password):
-    """Verifica si el usuario y contraseña son correctos"""
+def check_auth(username: str, password: str) -> bool:
+    """Verify credentials. Rejects empty or obviously weak ones."""
+    if not username or not password:
+        return False
     return username == USERNAME and password == PASSWORD
 
 def authenticate():
@@ -2320,8 +2334,37 @@ local_ips = get_local_ip_addresses()
 if len(sys.argv) > 3:
 
     lport = sys.argv[1]
-    USERNAME = sys.argv[2]
-    PASSWORD = sys.argv[3]
+    USERNAME = sys.argv[2].strip()
+    PASSWORD = sys.argv[3].strip()
+
+    if is_insecure_credential(USERNAME, PASSWORD):
+        print(f"[{datetime.now()}] [!] SECURITY WARNING: Insecure or default credentials detected!")
+        
+        # Generate strong credentials automatically
+        alphabet = string.ascii_letters + string.digits + "!@#$%^&*()-_+="
+        strong_user = "operator_" + ''.join(secrets.choice(string.ascii_lowercase + string.digits) for _ in range(8))
+        strong_pass = ''.join(secrets.choice(alphabet) for _ in range(20))
+        
+        print("[+] Generated strong credentials automatically:")
+        print(f"    Username: {strong_user}")
+        print(f"    Password: {strong_pass}")
+        print("[!] Please save these credentials securely!")
+        
+        # Save to file for operator
+        try:
+            with open(".c2_credentials.txt", "w") as f:
+                f.write(f"# LazyOwn C2 Credentials - Generated {datetime.now()}\n")
+                f.write(f"USERNAME={strong_user}\n")
+                f.write(f"PASSWORD={strong_pass}\n")
+            print("[+] Credentials saved to .c2_credentials.txt")
+        except Exception as e:
+            print(f"[!] Could not save credentials file: {e}")
+        
+        # Use the new strong credentials
+        USERNAME = strong_user
+        PASSWORD = strong_pass
+    else:
+        print(f"[+] C2 started with custom credentials (user: {USERNAME})")
 
     if config.enable_c2_debug == True:
         logger.info(f"    [!] Launch C2 at: {local_ips}")
@@ -4494,6 +4537,7 @@ def logout():
     return redirect(url_for('index'))
 
 @app.route('/aumentar_elo/<int:user_id>', methods=['POST'])
+@login_required
 def aumentar_elo_route(user_id):
     response = decoy()
     if response:
@@ -4508,6 +4552,7 @@ def aumentar_elo_route(user_id):
     return jsonify({"message": f"The Elo {user_id} increased in {cantidad} points."}), 200
 
 @app.route('/banners')
+@login_required
 def banners():
     response = decoy()
     if response:
@@ -4544,6 +4589,7 @@ def banners():
 
 
 @app.route('/mitre')
+@login_required
 def mitre():
     response = decoy()
     if response:
@@ -4576,6 +4622,7 @@ def mitre():
     return render_template('mitre.html', title="MITRE ATT&CK Techniques", tactics=tactics, techniques=paginated_techniques, page=page, pages=pages)
 
 @app.route('/get_connected_clients', methods=['GET'])
+@login_required
 def get_connected_clients():
     response = decoy()
     if response:
@@ -4585,6 +4632,7 @@ def get_connected_clients():
     return jsonify({"connected_clients": connected_clients_list})
 
 @app.route('/lazybot', methods=['POST'])
+@login_required
 def lazybot():
     data = request.json
     prompt = data.get('prompt')
@@ -4599,6 +4647,7 @@ def lazybot():
     return response
 
 @app.route('/lazyreport', methods=['POST'])
+@login_required
 def lazyreport():
     if not request.is_json:
         return jsonify({"error": "Content-Type must be application/json"}), 400
@@ -4616,6 +4665,7 @@ def lazyreport():
     return response
 
 @app.route('/teamserver', methods=['GET', 'POST'])
+@login_required
 def teamserver():
     if request.method == 'POST':
         form_data = {
@@ -4643,6 +4693,7 @@ def teamserver():
         return render_template('teamserver.html', form_data=form_data)
 
 @app.route('/report', methods=['GET'])
+@login_required
 def report():
     json_path = f"sessions/sessionLazyOwn.json"
     with open(JSON_FILE_PATH_REPORT, 'r') as json_file:
@@ -4670,26 +4721,46 @@ def report():
     return render_template('report.html', report_data=report_data, tools=tools, tasks=tasks, cves=cves, session_data=session_data, implants=implants)
 
 @app.route('/connect')
+@login_required
 def connect():
+    if not current_user.is_authenticated:
+        print(f"[!] Error. {request.remote_addr}")
+        return False 
     return render_template('connect.html')
 
 @app.route('/listener')
+@login_required
 def listener():
+    if not current_user.is_authenticated:
+        print(f"[!] Error. {request.remote_addr}")
+        return False 
     return f"WebSocket listener is running on port {reverse_shell_port}."
 
 @socketio.on('connect', namespace='/listener')
+@login_required
 def handle_connect():
+    if not current_user.is_authenticated:
+        print(f"[!] Error. {request.remote_addr}")
+        return False 
     if config.enable_c2_debug == True:
         logger.info('Client connected to /listener')
     emit('output', 'Welcome to LazyOwn RedTeam Framework: CRIMEN 👋\r\n$ ')
 
 @socketio.on('disconnect', namespace='/listener')
+@login_required
 def handle_disconnect():
+    if not current_user.is_authenticated:
+        print(f"[!] Error. {request.remote_addr}")
+        return False 
     if config.enable_c2_debug == True:
         logger.info('Client disconnected from /listener')
 
 @socketio.on("pty-input", namespace="/pty")
+@login_required
 def pty_input(data):
+    if not current_user.is_authenticated:
+        print(f"[!] Error. {request.remote_addr}")
+        return False 
     """Recibe entrada del terminal web y la escribe al PTY"""
     if app.config["fd"]:
         try:
@@ -4698,7 +4769,11 @@ def pty_input(data):
             logger.error(f"Error escribiendo entrada:")
 
 @socketio.on("resize", namespace="/pty")
+@login_required
 def resize(data):
+    if not current_user.is_authenticated:
+        print(f"[!] Error. {request.remote_addr}")
+        return False     
     """Maneja el redimensionamiento de la terminal"""
     if app.config["fd"]:
         if config.enable_c2_debug == True:
@@ -4706,7 +4781,11 @@ def resize(data):
         set_winsize(app.config["fd"], data["rows"], data["cols"])
 
 @socketio.on("connect", namespace="/pty")
+@login_required
 def connect():
+    if not current_user.is_authenticated:
+        print(f"[!] Error. {request.remote_addr}")
+        return False     
     """Maneja nueva conexión de cliente"""
     if config.enable_c2_debug == True:
         logger.info("Nuevo cliente conectado")
@@ -4740,7 +4819,12 @@ def connect():
         logger.error(f"Error iniciando shell:")
 
 @socketio.on('input')
+@login_required
 def handle_input(data):
+    if not current_user.is_authenticated:
+        print("[!] Error Unauthorized.", request.remote_addr)
+        return {"error": "Unauthorized"}, 401 
+
     command = data.get('value')
     if not command:
         return
@@ -4760,7 +4844,11 @@ def handle_input(data):
     emit('output', command_out + '$ ')
 
 @socketio.on('command', namespace='/listener')
+@login_required
 def handle_command(msg):
+    if not current_user.is_authenticated:
+        print(f"[!] Error. {request.remote_addr}")
+        return False     
     if config.enable_c2_debug == True:
         logger.info('Received command: ' + msg)
     try:
@@ -4771,11 +4859,16 @@ def handle_command(msg):
 
 
 @app.route('/terminal')
+@login_required
 def terminal():
+    if not current_user.is_authenticated:
+        print(f"[!] Error. {request.remote_addr}")
+        return False     
     return render_template('terminal.html')
 
 
 @socketio.on('connect', namespace='/terminal')
+@login_required
 def handle_connect():
     if not current_user.is_authenticated:
         disconnect()
@@ -4785,12 +4878,20 @@ def handle_connect():
 
 
 @socketio.on('disconnect', namespace='/terminal')
+@login_required
 def handle_disconnect():
+    if not current_user.is_authenticated:
+        print(f"[!] Error. {request.remote_addr}")
+        return False     
     if config.enable_c2_debug == True:
         logger.info("Cliente desconectado de /terminal")
 
 @socketio.on('input', namespace='/terminal')
+@login_required
 def handle_input(data):
+    if not current_user.is_authenticated:
+        print(f"[!] Error. {request.remote_addr}")
+        return False     
     command = data.get("command")
     client_id = data.get("client_id")
     if command and client_id:
@@ -4801,7 +4902,11 @@ def handle_input(data):
         }, namespace='/terminal')
 
 @socketio.on('command', namespace='/terminal')
+@login_required
 def handle_command(data):
+    if not current_user.is_authenticated:
+        print(f"[!] Error. {request.remote_addr}")
+        return False     
     cmd = data.get('cmd')
     if not cmd:
         return
@@ -4811,11 +4916,15 @@ def handle_command(data):
     emit('response', {'output': output})
 
 @socketio.on('resize', namespace='/terminal')
+@login_required
 def handle_resize(data):
+    if not current_user.is_authenticated:
+        print(f"[!] Error. {request.remote_addr}")
+        return False     
     if app.config["fd"]:
         set_winsize(app.config["fd"], data["rows"], data["cols"])
-
-def start_reverse_shell():
+@login_required
+def start_reverse_shell():    
     global reverse_shell_socket
     resolved = _resolve_bind_address(port=reverse_shell_port)
     safe_address = _select_specific_bind_address(resolved)

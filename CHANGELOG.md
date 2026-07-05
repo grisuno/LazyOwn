@@ -1,7 +1,10 @@
 
 # Changelog
 
-
+## [Next Version] - Security
+- Fixed default C2 credentials vulnerability (GHSA-38jf-j9x7-jf6f)
+- Improved credential validation and strong password generation
+- thanks you very much to EQSTLab to provide the advisory :D thanks you bro
 ### Pruebas
 
 ### Otros

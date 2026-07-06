@@ -1,0 +1,19 @@
+name: clean_local_history
+description: 'Clean all history files a cross the shells Bash, Zsh, Tcsh, Fish, Ksh, Ash, Crosh.
+  '
+author: LazyOwn RedTeam
+version: '1.0'
+enabled: true
+params:
+- name: file
+  type: string
+  required: false
+  description: file interface to use in the script
+os: any
+trigger: []
+tool:
+  name: clean_local_history
+  repo_url: https://github.com/grisuno/LazyOwn.git
+  install_path: .
+  execute_command: bash modules/scripts/clean_history.sh
+category: 12. Miscellaneous

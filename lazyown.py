@@ -2882,46 +2882,6 @@ class LazyOwnShell(cmd2.Cmd):
         _launch_timeline_scrubber(payload=self.params)
 
     @cmd2.with_category(miscellaneous_category)
-    def do_form(self, line):
-        """Open the form-mode launcher for a single command.
-
-        Pre-fills the relevant ``payload.json`` values (target, port,
-        wordlist, ...) and lets the operator review them before running
-        the command. The form returns ``set k=v ; verb args`` so any
-        divergence is recorded via ``assign``.
-
-        Usage: ``form <command>``
-
-        Example: ``form lazynmap``
-
-        Requires ``textual``.
-        """
-        argument = (line or "").strip()
-        if not argument:
-            print_warn("usage: form <command>")
-            return
-        try:
-            from cli.command_form import launch_form as _launch_command_form
-        except ImportError:
-            print_error("form launcher unavailable. Run: pip install textual")
-            return
-        result_state = _launch_command_form(argument, payload=self.params)
-        if result_state is None:
-            return
-        for key, value in result_state.overrides():
-            try:
-                self.onecmd_plus_hooks(f"assign {shlex.quote(key)} {shlex.quote(value)}")
-            except Exception as exc:
-                print_warn(f"form assign {key} failed: {exc}")
-        verb_line = result_state.verb_line()
-        if not verb_line:
-            return
-        try:
-            self.onecmd_plus_hooks(verb_line)
-        except Exception as exc:
-            print_warn(f"form dispatch failed: {exc}")
-
-    @cmd2.with_category(miscellaneous_category)
     def do_graph_overlay(self, line):
         """Open the graph overlay over the graphify knowledge graph.
 

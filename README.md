@@ -2,7 +2,7 @@
 
 ![LazyOwn_Redteam_framework](https://github.com/user-attachments/assets/d713f163-5f4d-433f-befd-6776d43051da)
 
-
+[![release](https://img.shields.io/github/v/release/grisuno/LazyOwn?include_prereleases&logo=github)](https://img.shields.io/github/v/release/grisuno/LazyOwn?include_prereleases&logo=github)
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) ![Shell Script](https://img.shields.io/badge/shell_script-%23121011.svg?style=for-the-badge&logo=gnu-bash&logoColor=white) ![image](https://github.com/user-attachments/assets/961783c2-cd57-4cc2-ab4c-53fde581db79)
  ![image](https://github.com/user-attachments/assets/79052f87-f87c-4b32-a4a2-854113ca3a4c)
   [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) ![image](https://github.com/user-attachments/assets/b69f1d31-c075-4713-a44e-a40a034a7407) ![image](https://github.com/user-attachments/assets/df82a669-be0c-4a03-bd98-842a67baaef6) [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/grisuno/LazyOwn)

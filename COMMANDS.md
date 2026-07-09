@@ -866,20 +866,6 @@ Usage: ``timeline_browser``
 
 Requires ``textual``.
 
-## form
-Open the form-mode launcher for a single command.
-
-Pre-fills the relevant ``payload.json`` values (target, port,
-wordlist, ...) and lets the operator review them before running
-the command. The form returns ``set k=v ; verb args`` so any
-divergence is recorded via ``assign``.
-
-Usage: ``form <command>``
-
-Example: ``form lazynmap``
-
-Requires ``textual``.
-
 ## graph_overlay
 Open the graph overlay over the graphify knowledge graph.
 
@@ -7198,6 +7184,32 @@ Usage:
     ``ask what are the best privesc paths for this Linux host?``
     ``ask what services look exploitable on this target?``
     ``ask how do I exploit SMB signing disabled?``
+
+## llm_budget
+Show the LLM daily cost budget, per call token cap, and current spend.
+
+The framework wraps every LLM call with a budget proxy that enforces
+a daily cost cap and a per call token cap. The cap values live in
+``payload.json`` and the proxy persists the spend to
+``sessions/llm_budget.json``.
+
+Subcommands:
+
+- ``llm_budget``            Show the structured status block.
+- ``llm_budget json``       Emit the status as a JSON object.
+- ``llm_budget reset``      Clear the ledger for the current day.
+
+Without arguments the command prints a human readable block the
+operator can read at a glance. The ``json`` flag is the contract
+the operator feeds to scripts. The ``reset`` flag wipes the
+ledger only after the operator confirms the action.
+
+Args:
+    line: Optional subcommand string.
+
+Returns:
+    None. Output is written to stdout through ``print_msg`` so
+    the LazyOwn history capture picks the result up.
 
 ## netview
 Executes the Impacket netview tool to list network shares on a specified target.

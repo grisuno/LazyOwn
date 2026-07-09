@@ -824,15 +824,6 @@ command prints an install hint and returns.</p>
 every recorded column for that command.</p>
 <p>Usage: <code>timeline_browser</code></p>
 <p>Requires <code>textual</code>.</p>
-<h2 id="form">form</h2>
-<p>Open the form-mode launcher for a single command.</p>
-<p>Pre-fills the relevant <code>payload.json</code> values (target,
-port, wordlist, …) and lets the operator review them before running the
-command. The form returns <code>set k=v ; verb args</code> so any
-divergence is recorded via <code>assign</code>.</p>
-<p>Usage: <code>form &lt;command&gt;</code></p>
-<p>Example: <code>form lazynmap</code></p>
-<p>Requires <code>textual</code>.</p>
 <h2 id="graph_overlay">graph_overlay</h2>
 <p>Open the graph overlay over the graphify knowledge graph.</p>
 <p>Shows the top central nodes by default and switches to the
@@ -5351,6 +5342,28 @@ having to copy-paste context manually.</p>
 <code>ask what are the best privesc paths for this Linux host?</code>
 <code>ask what services look exploitable on this target?</code>
 <code>ask how do I exploit SMB signing disabled?</code></p>
+<h2 id="llm_budget">llm_budget</h2>
+<p>Show the LLM daily cost budget, per call token cap, and current
+spend.</p>
+<p>The framework wraps every LLM call with a budget proxy that enforces
+a daily cost cap and a per call token cap. The cap values live in
+<code>payload.json</code> and the proxy persists the spend to
+<code>sessions/llm_budget.json</code>.</p>
+<p>Subcommands:</p>
+<ul>
+<li><code>llm_budget</code> Show the structured status block.</li>
+<li><code>llm_budget json</code> Emit the status as a JSON object.</li>
+<li><code>llm_budget reset</code> Clear the ledger for the current
+day.</li>
+</ul>
+<p>Without arguments the command prints a human readable block the
+operator can read at a glance. The <code>json</code> flag is the
+contract the operator feeds to scripts. The <code>reset</code> flag
+wipes the ledger only after the operator confirms the action.</p>
+<p>Args: line: Optional subcommand string.</p>
+<p>Returns: None. Output is written to stdout through
+<code>print_msg</code> so the LazyOwn history capture picks the result
+up.</p>
 <h2 id="netview">netview</h2>
 <p>Executes the Impacket netview tool to list network shares on a
 specified target.</p>

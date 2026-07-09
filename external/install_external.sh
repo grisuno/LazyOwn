@@ -217,7 +217,7 @@ download() {
         "git clone https://github.com/MorDavid/vCenterHound.git .exploit/vCenterHound"
         "git clone https://github.com/x64dbg/snowman.git .exploit/snowman"
         "git clone https://github.com/tpn/winsdk-10.git .exploit/winsdk-10"
-        #"git clone .exploit/"
+        "git clone https://github.com/runZeroInc/vulns-2026-fatfs-chance.git .exploit/vulns-2026-fatfs-chance"
         #"git clone .exploit/"    
         #"git clone .exploit/"     
         #"git clone .exploit/"

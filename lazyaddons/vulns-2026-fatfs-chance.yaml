@@ -1,0 +1,20 @@
+name: vulns-2026-fatfs-chance
+description: 'FatFs is a portable, royalty-free FAT/exFAT filesystem library written in C by ChaN (elm-chan.org). It is designed for resource-constrained embedded systems with no OS dependency and is typically compiled directly into firmware. It supports FAT12, FAT16, FAT32, and exFAT, as well as optional LFN (Long File Name) and GPT partition support. Because FatFs is small, self-contained, and permissively licensed, it has become the de-facto standard FAT implementation for microcontroller firmware. The library is vendored verbatim into official SDKs, RTOSes, bootloaders, and application frameworks - meaning a single upstream vulnerability propagates to every downstream project that copied
+  '
+author: runZeroInc
+version: '1.0'
+enabled: true
+params:
+- name: lhost
+  type: string
+  required: true
+  description: lhost target.
+os: any
+trigger: []
+tool:
+  name: vulns-2026-fatfs-chance
+  repo_url: https://github.com/runZeroInc/vulns-2026-fatfs-chance.git
+  install_path: external/.exploit/vulns-2026-fatfs-chance
+  install_command: git pull ; cd harness && make ; make rce_demo ; make exploit_disks 
+  execute_command: git pull ; cd harness && make ; make rce_demo ; make exploit_disks 
+category: 03. Exploitation

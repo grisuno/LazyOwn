@@ -1,0 +1,20 @@
+name: shad0w
+description: 'read shadow without trace
+  '
+author: LazyOwn
+version: '1.0'
+enabled: true
+params:
+- name: lhost
+  type: string
+  required: true
+  description: lhost target.
+os: any
+trigger: []
+tool:
+  name: shad0w
+  repo_url: https://github.com/grisuno/shad0w.git
+  install_path: external/.exploit/shad0w
+  install_command: git restore . ; git pull ; chmod +x *.sh shadow ; ./compile.sh ; sudo ./shadow
+  execute_command: git restore . ; git pull ; chmod +x *.sh shadow ; ./compile.sh ; sudo ./shadow
+category: 03. Exploitation

@@ -216,7 +216,7 @@ download() {
         "git clone https://github.com/winsiderss/phnt.git .exploit/phnt"
         "git clone https://github.com/MorDavid/vCenterHound.git .exploit/vCenterHound"
         "git clone https://github.com/x64dbg/snowman.git .exploit/snowman"
-        #"git clone .exploit/"      
+        "git clone https://github.com/tpn/winsdk-10.git .exploit/winsdk-10"
         #"git clone .exploit/"
         #"git clone .exploit/"    
         #"git clone .exploit/"     

@@ -11,7 +11,8 @@ CONTAINER_NAME="lazyown-container"
 REPO_URL="https://github.com/grisuno/LazyOwn.git"
 REPO_COMMIT="main"  # Cambia a un commit específico si lo prefieres
 CURRENT_DIR=$(pwd)
-PAYLOAD_JSON="${CURRENT_DIR}/payload.json"
+PARENT_DIR=$(dirname "$CURRENT_DIR")
+PAYLOAD_JSON="${PARENT_DIR}/payload.json"
 DOCKERFILE="${CURRENT_DIR}/Dockerfile"
 LOG_FILE="${CURRENT_DIR}/lazyown_docker.log"
 
@@ -33,7 +34,7 @@ usage() {
 
 # Log function
 log() {
-    echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a "$LOG_FILE"
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a "$LOG_FILE" >&2
 }
 
 # Check if Docker is running
@@ -104,6 +105,14 @@ build_image() {
     fi
 }
 
+# Validate payload.json exists
+validate_payload() {
+    if [ ! -f "$PAYLOAD_JSON" ]; then
+        log "Error: payload.json not found at $PAYLOAD_JSON."
+        exit 1
+    fi
+}
+
 # Run container
 run_container() {
     local vpn_mode="$1"
@@ -138,20 +147,23 @@ run_container() {
     if container_exists "$CONTAINER_NAME"; then
         log "Container '$CONTAINER_NAME' already exists. Starting it..."
         docker start "$CONTAINER_NAME"
-        docker exec -it "$CONTAINER_NAME" /home/lazyown/entrypoint.sh --vpn "$vpn_mode"
+        log "Attaching to tmux session..."
+        docker exec -it "$CONTAINER_NAME" tmux attach -t lazyown_sessions
     else
         if ! image_exists "$IMAGE_NAME"; then
             build_image
         fi
         log "Creating and running container '$CONTAINER_NAME'..."
-        docker run -d --name "$CONTAINER_NAME" \
+        docker run -dt --name "$CONTAINER_NAME" \
             --cap-add=NET_ADMIN \
             --security-opt=no-new-privileges=false \
             --tmpfs /tmp \
             --tmpfs /var/log \
             --tmpfs /run \
             $PORT_MAPPINGS \
-            -v "$CURRENT_DIR/payload.json:/home/lazyown/payload.json:ro" \
+            -v "$PAYLOAD_JSON:/home/lazyown/payload.json:ro" \
+            -e TERM=xterm \
+            -e VPN="$vpn_mode" \
             -e C2_PORT="$C2_PORT" \
             -e RHOST="$RHOST" \
             -e DOMAIN="$DOMAIN" \
@@ -165,7 +177,9 @@ run_container() {
             -e ENABLE_NC="$ENABLE_NC" \
             -e ENABLE_CF="$ENABLE_CF" \
             "$IMAGE_NAME"
-        docker exec -it "$CONTAINER_NAME" /home/lazyown/entrypoint.sh --vpn "$vpn_mode"
+        sleep 3
+        log "Attaching to tmux session..."
+        docker exec -it "$CONTAINER_NAME" tmux attach -t lazyown_sessions
     fi
 }
 

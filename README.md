@@ -4116,20 +4116,6 @@ Usage: ``timeline_browser``
 
 Requires ``textual``.
 
-## form
-Open the form-mode launcher for a single command.
-
-Pre-fills the relevant ``payload.json`` values (target, port,
-wordlist, ...) and lets the operator review them before running
-the command. The form returns ``set k=v ; verb args`` so any
-divergence is recorded via ``assign``.
-
-Usage: ``form <command>``
-
-Example: ``form lazynmap``
-
-Requires ``textual``.
-
 ## graph_overlay
 Open the graph overlay over the graphify knowledge graph.
 
@@ -10449,6 +10435,32 @@ Usage:
     ``ask what services look exploitable on this target?``
     ``ask how do I exploit SMB signing disabled?``
 
+## llm_budget
+Show the LLM daily cost budget, per call token cap, and current spend.
+
+The framework wraps every LLM call with a budget proxy that enforces
+a daily cost cap and a per call token cap. The cap values live in
+``payload.json`` and the proxy persists the spend to
+``sessions/llm_budget.json``.
+
+Subcommands:
+
+- ``llm_budget``            Show the structured status block.
+- ``llm_budget json``       Emit the status as a JSON object.
+- ``llm_budget reset``      Clear the ledger for the current day.
+
+Without arguments the command prints a human readable block the
+operator can read at a glance. The ``json`` flag is the contract
+the operator feeds to scripts. The ``reset`` flag wipes the
+ledger only after the operator confirms the action.
+
+Args:
+    line: Optional subcommand string.
+
+Returns:
+    None. Output is written to stdout through ``print_msg`` so
+    the LazyOwn history capture picks the result up.
+
 ## netview
 Executes the Impacket netview tool to list network shares on a specified target.
 
@@ -13064,6 +13076,86 @@ No description available.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+## [Next Version] - Security
+- Fixed default C2 credentials vulnerability (GHSA-38jf-j9x7-jf6f)
+- Improved credential validation and strong password generation
+- thanks you very much to EQSTLab to provide the advisory :D thanks you bro
+### Pruebas
+
+### Otros
+
+  *   * test(test): test pipe line deply \n\n Version: release/0.2.152 \n\n with love \n\n Modified file(s):\n- CLAUDE.md - COMMANDS.md - ESSENTIALS.md - QUICKSTART.md - cli/command_index.json - cli/splash.py - cli/style.py - cli/themes.py - cli/tui_theme.py - docs/COMMANDS.html - lazyown.py - tests/test_command_palette.py - tests/test_tui_splash.py - tests/test_tui_style.py - tests/test_tui_theme_command.py - tests/test_tui_themes.py\nCreated file(s):\n- cli/splash.py - cli/style.py - cli/tui_theme.py - tests/test_tui_splash.py - tests/test_tui_style.py - tests/test_tui_theme_command.py - tests/test_tui_themes.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: mar 16 jun 2026 23:11:29 -04 \n\n Hora: 1781665889
+
+
+### Otros
+
+### Otros
+
+  *   * Merge branch 'pp' into dev
+
+
+### Otros
+
+### Otros
+
+  *   * Merge branch 'docs/engage-fastpath' into dev
+
+
+### Otros
+
+### Otros
+
+  *   * Merge branch 'chore/cli-print-hygiene' into dev
+
+
+### Documentación
+
+### Otros
+
+  *   * docs(onboarding): surface the engage one-command fast-path
+
+
+### Otros
+
+### Otros
+
+  *   * chore(cli): print hygiene + remove C2 credential leak in lazyown.py
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(tui): wire tui_theme command and first-run splash into the shell
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(tui): add animated splash overlay for first-run experience
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(tui): add tui_theme command logic with cycle/prev/reset
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(tui): add solarized, monokai, gruvbox, high_contrast themes
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(tui): add cli/style semantic token layer over themes
 
 
 ### Refactorización

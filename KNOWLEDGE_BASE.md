@@ -1,7 +1,7 @@
 # Polyglot Codebase Knowledge Graph
 
-> Generated offline by **readmeneitor**. Supports C, C++, Python, Go, Rust, JS/TS, Java, C#, Shell, PHP, Dart, GDScript, Nim, ASM.
-> No LLMs. No tokens. Pure static analysis.
+> Generated offline by **readmenator**. Supports C, C++, Python, Go, Rust, JS/TS, Java, C#, Shell, PHP, Dart, GDScript, Nim, ASM.
+> No LLMs. No tokens. Pure static analysis. See more [here](https://github.com/grisuno/ReadMenator) 
 
 **Total Files Parsed:** 1700 | **Total Symbols Extracted:** 26287 | **Total Imports:** 13892
 

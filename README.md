@@ -2142,6 +2142,10 @@ LazyOwn is a framework that streamlines its workflow and automates many tasks an
 
 Documentation automatically created by the script `readmeneitor.py` created for this project; maybe one day it will have its own repo, but for now, I don't see it as necessary.
 
+## ReadMenator now have a repository
+
+[https://github.com/grisuno/ReadMenator](https://github.com/grisuno/ReadMenator)
+
 # Legal disclaimer:
 Usage of LazyOwn RedTeam Framework for attacking targets without prior mutual consent is illegal. It's the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program. Only use for educational purposes.
 

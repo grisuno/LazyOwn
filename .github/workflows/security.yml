@@ -1,0 +1,63 @@
+name: security
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+  schedule:
+    - cron: '0 6 * * 1'
+
+permissions:
+  contents: read
+
+jobs:
+  bandit:
+    name: bandit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - name: Install bandit
+        run: pip install --upgrade pip && pip install -r requirements-dev.txt
+      - name: Run bandit
+        run: bandit -c pyproject.toml -r skills modules -ll
+        continue-on-error: true
+
+  detect-secrets:
+    name: detect-secrets
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - name: Install detect-secrets
+        run: pip install --upgrade pip && pip install -r requirements-dev.txt
+      - name: Scan for secrets
+        run: |
+          if [ -f .secrets.baseline ]; then
+            detect-secrets scan --baseline .secrets.baseline
+          else
+            detect-secrets scan --exclude-files 'graphify-out/.*|sessions/.*|external/.*|modules_ext/.*|payload\.json'
+          fi
+        continue-on-error: true
+
+  pip-audit:
+    name: pip-audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - name: Install pip-audit
+        run: pip install --upgrade pip && pip install -r requirements-dev.txt
+      - name: Audit dependencies
+        run: pip-audit --strict --skip-editable || true
+        continue-on-error: true

@@ -28599,14 +28599,42 @@ class LazyOwnShell(cmd2.Cmd):
         self.poutput(f"🧠 AI status {status}.")
 
 def main():
+    if HEADLESS:
+        from cli.headless import HeadlessRunner, EXIT_OK, EXIT_CONFIG
+
+        p = LazyOwnShell()
+        p.load_yaml_plugins()
+        try:
+            p.onecmd("graph")
+        except Exception:
+            pass
+
+        runner = HeadlessRunner(
+            p,
+            json_output=startup_ns.json_output,
+            profile_path=startup_ns.profile,
+        )
+
+        if startup_ns.run_chain:
+            commands = [c.strip() for c in startup_ns.run_chain.split(";") if c.strip()]
+            if not commands:
+                print_error("Empty command chain.")
+                sys.exit(EXIT_CONFIG)
+            runner.run_chain(commands)
+        elif startup_ns.command:
+            runner.run_command(startup_ns.command)
+        else:
+            print_error("Headless mode requires --command or --run-chain.")
+            sys.exit(EXIT_CONFIG)
+
+        sys.exit(runner.exit_code)
+
     p = LazyOwnShell()
     p.load_yaml_plugins()
     try:
-        #p.onecmd("check_update")
         p.onecmd("graph")
     except Exception as e:
         print_error(f"Error: {e}")
-   
 
     old = startup_ns.old_banner
     if startup_ns.command:

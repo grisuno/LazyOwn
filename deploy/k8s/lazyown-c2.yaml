@@ -1,0 +1,200 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: lazyown
+  labels:
+    app.kubernetes.io/name: lazyown
+    app.kubernetes.io/part-of: lazyown-redteam
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: lazyown-secrets
+  namespace: lazyown
+type: Opaque
+stringData:
+  secret-key: "CHANGE_ME_64_BYTE_SECRET"
+  admin-user: "admin"
+  admin-pass: "CHANGE_ME_ADMIN_PASSWORD"
+  aes-key: "CHANGE_ME_32_BYTE_HEX_AES_KEY"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: lazyown-config
+  namespace: lazyown
+data:
+  payload.json: |
+    {
+      "binary_name": "gzip",
+      "api_key": null,
+      "domain": null,
+      "rhost": "10.0.0.1",
+      "lhost": "0.0.0.0",
+      "lport": 1337,
+      "c2_port": 4444,
+      "c2_register_limit": "5 per minute",
+      "c2_api_command_allowlist": "ping,set,show,help,status,sessions,sitrep,gets,get,downloader,getosession,osession,setar,getar,session,clean",
+      "c2_trusted_proxy_count": 1,
+      "c2_operator_ip_allowlist": "10.0.0.0/8,172.16.0.0/12,192.168.0.0/16",
+      "c2_max_upload_size_mb": 10,
+      "c2_https_redirect": true,
+      "c2_allowed_origins": "",
+      "c2_csrf_enabled": true,
+      "c2_maleable_route": "/gmail/v1/users/",
+      "aes_key": "CHANGE_ME_32_BYTE_HEX_AES_KEY",
+      "scope": [],
+      "scope_enforcement": "enforce",
+      "enable_operator_presence": true,
+      "enable_toasts": true,
+      "toast_max_per_tick": 5
+    }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lazyown-c2
+  namespace: lazyown
+  labels:
+    app: lazyown-c2
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: lazyown-c2
+  template:
+    metadata:
+      labels:
+        app: lazyown-c2
+    spec:
+      serviceAccountName: lazyown
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 1000
+      containers:
+        - name: c2
+          image: lazyown:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: https
+              containerPort: 4444
+              protocol: TCP
+            - name: beacon
+              containerPort: 1337
+              protocol: TCP
+            - name: dns
+              containerPort: 53
+              protocol: UDP
+          env:
+            - name: LAZYOWN_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: lazyown-secrets
+                  key: secret-key
+            - name: LAZYOWN_ADMIN_USER
+              valueFrom:
+                secretKeyRef:
+                  name: lazyown-secrets
+                  key: admin-user
+            - name: LAZYOWN_ADMIN_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: lazyown-secrets
+                  key: admin-pass
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "2Gi"
+              cpu: "2000m"
+          volumeMounts:
+            - name: payload
+              mountPath: /home/lazyown/payload.json
+              subPath: payload.json
+              readOnly: true
+            - name: sessions
+              mountPath: /home/lazyown/sessions
+            - name: payloads
+              mountPath: /home/lazyown/payloads
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: https
+              scheme: HTTPS
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: https
+              scheme: HTTPS
+            initialDelaySeconds: 5
+            periodSeconds: 10
+      volumes:
+        - name: payload
+          configMap:
+            name: lazyown-config
+            items:
+              - key: payload.json
+                path: payload.json
+        - name: sessions
+          persistentVolumeClaim:
+            claimName: lazyown-sessions
+        - name: payloads
+          persistentVolumeClaim:
+            claimName: lazyown-payloads
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: lazyown-sessions
+  namespace: lazyown
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: lazyown-payloads
+  namespace: lazyown
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: lazyown-c2
+  namespace: lazyown
+  labels:
+    app: lazyown-c2
+spec:
+  type: ClusterIP
+  ports:
+    - name: https
+      port: 4444
+      targetPort: https
+      protocol: TCP
+    - name: beacon
+      port: 1337
+      targetPort: beacon
+      protocol: TCP
+  selector:
+    app: lazyown-c2
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: lazyown
+  namespace: lazyown

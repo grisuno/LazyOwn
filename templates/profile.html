@@ -3,10 +3,25 @@
 {% block content %}
 <div class="container mt-5">
     <div class="card bg-secondary text-light p-4 mb-4">
-        <h2 class="text-center mb-4">Profile operator: {{ user.username }}</h2>
+        <h2 class="text-center mb-4">Profile: {{ user.username }}</h2>
         <div>
-            <p><h3>ELO:</h3> {{ user.elo }}</p>
-            <p><h3>KARMA:</h3> {{ karma_name }}</p>
+            <p><strong>Role:</strong> <span class="badge bg-info">{{ user_role }}</span></p>
+            <p><strong>ELO:</strong> {{ user.elo }}</p>
+            <p><strong>Karma:</strong> {{ karma_name }}</p>
+            <p><strong>MFA:</strong>
+                {% if mfa_enabled %}
+                <span class="badge bg-success">Enabled</span>
+                {% else %}
+                <span class="badge bg-warning">Disabled</span>
+                {% endif %}
+            </p>
+        </div>
+        <div class="mt-3">
+            <a href="{{ url_for('mfa_setup') }}" class="btn btn-outline-light">Manage MFA</a>
+            {% if user_role == 'admin' %}
+            <a href="{{ url_for('admin_users') }}" class="btn btn-outline-warning">Manage Users</a>
+            <a href="{{ url_for('admin_tenants') }}" class="btn btn-outline-info">Manage Tenants</a>
+            {% endif %}
         </div>
     </div>
 </div>

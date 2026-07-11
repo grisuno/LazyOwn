@@ -638,11 +638,8 @@ def _award_elo(cmd: str, first_time: bool, new_phase: bool, current_phase: str) 
 def _sync_user_elo(delta: int) -> bool:
     """Patch ``users.json`` so the C2 dashboard reflects terminal activity.
 
-    Reads ``payload.json:c2_user`` to know which row to update.  Performs an
-    atomic temp-file rename so a partial write cannot corrupt the user DB the
-    Flask login pipeline depends on.  Silent on any failure (missing payload,
-    missing users.json, user not registered, IO error) so a terminal session
-    on a workstation without the C2 stack never breaks.
+    When RBAC is available, uses the RBACStore for atomic writes. Otherwise
+    falls back to direct JSON manipulation. Silent on any failure.
 
     Args:
         delta: ELO points to add (non-negative).
@@ -659,6 +656,18 @@ def _sync_user_elo(delta: int) -> bool:
         target = payload.get("c2_user")
         if not target:
             return False
+
+        try:
+            from modules.lazy_rbac import get_rbac_store
+            store = get_rbac_store()
+            user = store.find_by_username(target)
+            if user:
+                user.elo = int(user.elo or 0) + int(delta)
+                store.save(user)
+                return True
+        except ImportError:
+            pass
+
         users = json.loads(USERS_PATH.read_text(encoding="utf-8"))
         if not isinstance(users, list):
             return False

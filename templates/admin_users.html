@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card bg-secondary text-light p-4 mb-4">
+        <h2 class="text-center mb-4">User Management</h2>
+
+        <table class="table table-dark table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Role</th>
+                    <th>MFA</th>
+                    <th>ELO</th>
+                    <th>Tenant</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>
+                        <form method="POST" action="{{ url_for('admin_set_role', user_id=user.id) }}" class="d-flex">
+                            <select name="role" class="form-select form-select-sm me-2">
+                                {% for role in roles %}
+                                <option value="{{ role.value }}" {% if user.role == role.value %}selected{% endif %}>
+                                    {{ role.value }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                            <button type="submit" class="btn btn-sm btn-primary">Set</button>
+                        </form>
+                    </td>
+                    <td>
+                        {% if user.mfa_enabled %}
+                        <span class="badge bg-success">Enabled</span>
+                        {% else %}
+                        <span class="badge bg-secondary">Disabled</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ user.elo }}</td>
+                    <td>{{ user.tenant_id }}</td>
+                    <td>
+                        {% if user.id != current_user.id %}
+                        <form method="POST" action="{{ url_for('admin_reset_mfa', user_id=user.id) }}" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-warning" title="Reset MFA">MFA</button>
+                        </form>
+                        {% endif %}
+                        {% if user.id != current_user.id and user.role != 'admin' %}
+                        <form method="POST" action="{{ url_for('admin_delete_user', user_id=user.id) }}" class="d-inline"
+                              onsubmit="return confirm('Delete user {{ user.username }}?')">
+                            <button type="submit" class="btn btn-sm btn-danger">X</button>
+                        </form>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

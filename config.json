@@ -1,0 +1,13 @@
+{
+    "active_tenant": "default_engagement",
+    "tenants": [
+        {
+            "tenant_id": "default_engagement",
+            "name": "Default Engagement",
+            "payload_path": "payloads/default_engagement.json",
+            "sessions_dir": "sessions/default_engagement",
+            "created_at": 1783807287.9483626,
+            "metadata": {}
+        }
+    ]
+}

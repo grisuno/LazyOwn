@@ -26,7 +26,6 @@ pwntools/
 __pycache__/
 build/
 .git/
-.github/
 modules/env
 include/
 report

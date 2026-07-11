@@ -1,0 +1,25 @@
+include payload.json
+include soul.md
+include AGENTS.md
+include requirements.txt
+include requirements-ml.txt
+include requirements-dev.txt
+include users.json
+recursive-include lazyscripts *.ls
+recursive-include lazyaddons *.yml *.yaml
+recursive-include plugins *.lua
+recursive-include profiles *.yaml
+recursive-include cli *.yaml
+recursive-include docs *.md *.yaml
+recursive-include templates *.html
+prune sessions
+prune graphify-out
+prune parquets
+prune external
+prune modules_ext
+prune env
+prune build
+prune __pycache__
+prune *.pyc
+global-exclude *.pyc
+global-exclude __pycache__

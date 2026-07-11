@@ -3892,6 +3892,21 @@ Driven entirely by ``self.params`` so the framework never has to
 maintain a parallel list of completion targets — adding a new key to
 ``payload.json`` makes it tab-completable for free.
 
+## tenant
+Manage multi-tenancy: list, switch, or create engagement tenants.
+
+Each tenant has its own payload profile and session directory,
+providing isolated environments for parallel engagements.
+
+Usage:
+    ``tenant``                           list all tenants
+    ``tenant switch <id>``               activate a tenant
+    ``tenant create <name>``             create a new tenant from current payload
+    ``tenant info``                      show active tenant details
+
+Tenant payloads are stored in ``payloads/<id>.json`` and sessions
+in ``sessions/<id>/``. The default tenant always exists.
+
 ## scope
 Manage the authorized engagement scope and the scope-guard posture.
 
@@ -13081,10 +13096,245 @@ No description available.
 
 # Changelog
 
-## [Next Version] - Security
-- Fixed default C2 credentials vulnerability (GHSA-38jf-j9x7-jf6f)
-- Improved credential validation and strong password generation
-- thanks you very much to EQSTLab to provide the advisory :D thanks you bro
+
+### Correcciones
+
+### Otros
+
+  *   * fix(fix): docker \n\n Version: release/0.2.154 \n\n some love in docker files \n\n Modified file(s):\n- .gitignore - CHANGELOG.md - CHEATSHEET.md - CLAUDE.md - README.md - cli/command_index.json - cli/commands/ai.py - cli/commands/recon.py - core/config.py - core/llm_budget.py - core/payload_schema.py - core/safe_subprocess.py - docs/SECURITY_CONTRACTS.md - external/install_external.sh - lazyaddons/BlackObsidianC2.yaml - lazyaddons/FreeDom.yaml - lazyaddons/Januscape.yaml - lazyaddons/LazyOwnOpenCodeAdapter.yaml - lazyaddons/beacon.yaml - lazyaddons/clean_local_history.yaml - lazyaddons/curlfree.yaml - lazyaddons/estorides.yaml - lazyaddons/keylogger.yaml - lazyaddons/packet_edit_meme.yaml - lazyaddons/pytbackdoorch.yaml - lazyaddons/shad0w.yaml - lazyaddons/vulns-2026-fatfs-chance.yaml - lazyc2.py - lazyc2/README.md - lazyc2/security/command_allowlist.py - lazyc2/security/cors.py - lazyc2/security/csrf.py - lazyc2/security/html_sanitizer.py - lazyc2/security/https_redirect.py - lazyc2/security/trusted_proxy.py - lazyown-docker/Dockerfile - lazyown-docker/README.md - lazyown-docker/docker-compose.yml - lazyown-docker/hostdiscover.sh - lazyown-docker/mkdocker.sh - lazyown.py - modules/hostdiscover.sh - modules/lazybotnet.py - modules/lazyhoneypot.py - modules/lazyownserver.py - modules/llm_factory.py - modules/rootkit/mrhyde3.c - modules/scripts/clean_history.sh.sh - modules/sessions/llm_budget.json - modules/wordlist/prompt.txt - payload.json - pwntomate.py - requirements-ml.txt - requirements.txt - skills/claude_md_orchestrator/README.md - skills/claude_md_orchestrator/SKILL.md - skills/claude_md_orchestrator/SPECS.md - skills/claude_md_orchestrator/__init__.py - skills/claude_md_orchestrator/bdd_agent.py - skills/claude_md_orchestrator/boy_scout.py - skills/claude_md_orchestrator/cicd_agent.py - skills/claude_md_orchestrator/config.py - skills/claude_md_orchestrator/contracts/ci_strict_mode.md - skills/claude_md_orchestrator/contracts/llm_budget_cap.md - skills/claude_md_orchestrator/documentation_agent.py - skills/claude_md_orchestrator/models.py - skills/claude_md_orchestrator/orchestrator.py - skills/claude_md_orchestrator/parser.py - skills/claude_md_orchestrator/reviewer_agent.py - skills/claude_md_orchestrator/sdd_agent.py - skills/claude_md_orchestrator/tdd_agent.py - skills/claude_md_orchestrator/tests/conftest.py - skills/claude_md_orchestrator/tests/test_orchestrator.py - skills/claude_md_orchestrator/validators.py - skills/lazyown.md - skills/lazyown_mcp.py - tests/test_aes_key_propagation.py - tests/test_ci_strict.py - tests/test_command_allowlist.py - tests/test_command_allowlist_behavior.py - tests/test_command_palette.py - tests/test_cors_behavior.py - tests/test_cors_policy.py - tests/test_cors_socketio_regression.py - tests/test_csrf_behavior.py - tests/test_csrf_policy.py - tests/test_html_sanitizer.py - tests/test_https_redirect.py - tests/test_llm_budget.py - tests/test_safe_subprocess.py - tests/test_safe_subprocess_behavior.py - tests/test_trusted_proxy.py - utils.py\nCreated file(s):\n- core/llm_budget.py - core/safe_subprocess.py - docs/SECURITY_CONTRACTS.md - lazyaddons/BlackObsidianC2.yaml - lazyaddons/FreeDom.yaml - lazyaddons/Januscape.yaml - lazyaddons/LazyOwnOpenCodeAdapter.yaml - lazyaddons/clean_local_history.yaml - lazyaddons/curlfree.yaml - lazyaddons/estorides.yaml - lazyaddons/keylogger.yaml - lazyaddons/packet_edit_meme.yaml - lazyaddons/pytbackdoorch.yaml - lazyaddons/shad0w.yaml - lazyaddons/vulns-2026-fatfs-chance.yaml - lazyc2/security/command_allowlist.py - lazyc2/security/cors.py - lazyc2/security/csrf.py - lazyc2/security/html_sanitizer.py - lazyc2/security/https_redirect.py - lazyc2/security/trusted_proxy.py - lazyown-docker/hostdiscover.sh - modules/rootkit/mrhyde3.c - modules/scripts/clean_history.sh.sh - modules/sessions/llm_budget.json - skills/claude_md_orchestrator/README.md - skills/claude_md_orchestrator/SKILL.md - skills/claude_md_orchestrator/SPECS.md - skills/claude_md_orchestrator/__init__.py - skills/claude_md_orchestrator/bdd_agent.py - skills/claude_md_orchestrator/boy_scout.py - skills/claude_md_orchestrator/cicd_agent.py - skills/claude_md_orchestrator/config.py - skills/claude_md_orchestrator/contracts/ci_strict_mode.md - skills/claude_md_orchestrator/contracts/llm_budget_cap.md - skills/claude_md_orchestrator/documentation_agent.py - skills/claude_md_orchestrator/models.py - skills/claude_md_orchestrator/orchestrator.py - skills/claude_md_orchestrator/parser.py - skills/claude_md_orchestrator/reviewer_agent.py - skills/claude_md_orchestrator/sdd_agent.py - skills/claude_md_orchestrator/tdd_agent.py - skills/claude_md_orchestrator/tests/conftest.py - skills/claude_md_orchestrator/tests/test_orchestrator.py - skills/claude_md_orchestrator/validators.py - tests/test_aes_key_propagation.py - tests/test_ci_strict.py - tests/test_command_allowlist.py - tests/test_command_allowlist_behavior.py - tests/test_cors_behavior.py - tests/test_cors_policy.py - tests/test_cors_socketio_regression.py - tests/test_csrf_behavior.py - tests/test_csrf_policy.py - tests/test_html_sanitizer.py - tests/test_https_redirect.py - tests/test_llm_budget.py - tests/test_safe_subprocess.py - tests/test_safe_subprocess_behavior.py - tests/test_trusted_proxy.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: jue 09 jul 2026 15:34:38 -04 \n\n Hora: 1783625678
+
+
+### Otros
+
+### Otros
+
+  *   * hotfix in dockerfile, docker compose, docker sccript to build image, and more love :D
+
+
+### Otros
+
+### Otros
+
+  *   * shadow read the shadow file without trace
+
+
+### Otros
+
+### Otros
+
+  *   * vulns-2026-fatfs-chance
+
+
+### Otros
+
+### Otros
+
+  *   * windows sdk headers
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * junuscape :O
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #163 from grisuno/dependabot/pip/python-engineio-4.13.2
+
+
+### Otros
+
+### Otros
+
+  *   * chore(deps): bump python-engineio from 4.13.1 to 4.13.2
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #162 from grisuno/dependabot/pip/python-socketio-5.16.2
+
+
+### Otros
+
+### Otros
+
+  *   * chore(deps): bump python-socketio from 5.16.1 to 5.16.2
+
+
+### Otros
+
+### Otros
+
+  *   * updating lazyown.py do_form duplicated
+
+
+### Otros
+
+### Otros
+
+  *   * clean history command: clean_local_history
+
+
+### Otros
+
+### Otros
+
+  *   * thanks you very much to EQSTLab to provide the advisory :D thanks you bro changelog updated
+
+
+### Otros
+
+### Otros
+
+  *   * some warnings urlib deleted :D
+
+
+### Otros
+
+### Otros
+
+  *   * some security advisory patched thanks you very much to EQSTLab to provide the advisory :D thanks you bro
+
+
+### Otros
+
+### Otros
+
+  *   * lazyaddons PACKET_EDIT_MEME - aka CVE-2026-46331 net/sched act_pedit partial-COW page-cache corruption (culprit 899ee91156e5, present v5.18 .. fixed v7.1-rc7). packet_edit_meme.c turns it into unprivileged local root: a userns CAP_NET_ADMIN child overwrites the cached ELF entry of setuid-root /bin/su with setgid(0)+setuid(0)+execve(/bin/sh) shellcode.
+
+
+### Otros
+
+### Otros
+
+  *   * some love now we support curlfree command :D
+
+
+### Otros
+
+### Otros
+
+  *   * some love now we support mcp to opencode
+
+
+### Otros
+
+### Otros
+
+  *   * some love, aes_key in payload.json and some love to c2
+
+
+### Otros
+
+### Otros
+
+  *   * some love Black Obsidian is a next-generation C2 (Command & Control) server designed for professional Red Team operations. Built with Go and PocketBase, it offers a modern and specialized alternative to complex C2 servers while maintaining agility, security, and customization ease.
+
+
+### Otros
+
+### Otros
+
+  *   * hotfixing
+
+
+### Otros
+
+### Otros
+
+  *   * hotfixing
+
+
+### Otros
+
+### Otros
+
+  *   * bug fixing
+
+
+### Otros
+
+### Otros
+
+  *   * new skills, test, and new pytorch backdoor :D
+
+
+### Otros
+
+### Otros
+
+  *   * new rookit io_uring is a poc
+
+
+### Otros
+
+### Otros
+
+  *   * some tests of integration FreeDom in lazyown
+
+
+### Otros
+
+### Otros
+
+  *   * a brand new c keylogger :D
+
+
+### Otros
+
+### Otros
+
+  *   * update deepseek prompts wink wink
+
+
+### Otros
+
+### Otros
+
+  *   * update prompts wink wink
+
+
+### Otros
+
+### Otros
+
+  *   * Estorides comes to LazyOwn RedTeam to Reconnaissance like a nation state level
+
+
+### Otros
+
+### Otros
+
+  *   * Estorides comes to LazyOwn RedTeam to Reconnaissance like a nation state level
+
+
+### Otros
+
+### Otros
+
+  *   * add pompem in ss pipeline
+
+
 ### Pruebas
 
 ### Otros

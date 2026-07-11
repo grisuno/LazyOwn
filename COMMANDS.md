@@ -638,6 +638,21 @@ Driven entirely by ``self.params`` so the framework never has to
 maintain a parallel list of completion targets — adding a new key to
 ``payload.json`` makes it tab-completable for free.
 
+## tenant
+Manage multi-tenancy: list, switch, or create engagement tenants.
+
+Each tenant has its own payload profile and session directory,
+providing isolated environments for parallel engagements.
+
+Usage:
+    ``tenant``                           list all tenants
+    ``tenant switch <id>``               activate a tenant
+    ``tenant create <name>``             create a new tenant from current payload
+    ``tenant info``                      show active tenant details
+
+Tenant payloads are stored in ``payloads/<id>.json`` and sessions
+in ``sessions/<id>/``. The default tenant always exists.
+
 ## scope
 Manage the authorized engagement scope and the scope-guard posture.
 

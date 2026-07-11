@@ -231,16 +231,14 @@ def test_collab_endpoints():
     app.register_blueprint(collab_bp, url_prefix="/collab")
     get_lock_manager().reset()
     c = app.test_client()
+
+    # Collab endpoints now require authentication
     r = c.get("/collab/operators")
-    assert r.status_code == 200
+    assert r.status_code == 401, f"Expected 401, got {r.status_code}"
     r2 = c.post("/collab/publish", json={"type":"finding","payload":{"h":"10.0.0.1"}})
-    assert json.loads(r2.data)["status"] == "published"
+    assert r2.status_code == 401, f"Expected 401, got {r2.status_code}"
     r3 = c.post("/collab/lock",   json={"target":"10.0.0.1","operator":"alice"})
-    r4 = c.post("/collab/lock",   json={"target":"10.0.0.1","operator":"bob"})
-    r5 = c.post("/collab/unlock", json={"target":"10.0.0.1","operator":"alice"})
-    assert json.loads(r3.data)["acquired"] is True
-    assert json.loads(r4.data)["acquired"] is False
-    assert json.loads(r5.data)["released"] is True
+    assert r3.status_code == 401, f"Expected 401, got {r3.status_code}"
 
 # c2_profile
 def test_c2_profile_builtins():

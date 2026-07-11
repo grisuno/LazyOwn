@@ -1,0 +1,61 @@
+name: lint
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+
+permissions:
+  contents: read
+
+jobs:
+  ruff:
+    name: ruff (strict on tier-touched paths)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - name: Install ruff
+        run: pip install --upgrade pip && pip install -r requirements-dev.txt
+      - name: ruff check (strict on touched paths)
+        run: |
+          ruff check \
+            setup.py core cli scripts utils.py \
+            tests/test_packaging.py \
+            tests/test_core.py \
+            tests/test_cli_command_sets.py \
+            tests/test_cli_assign.py \
+            tests/test_command_palette.py \
+            tests/test_lint_quality.py
+      - name: ruff format --check (strict on touched paths)
+        run: |
+          ruff format --check \
+            setup.py core cli scripts \
+            tests/test_packaging.py \
+            tests/test_core.py \
+            tests/test_cli_command_sets.py \
+            tests/test_cli_assign.py \
+            tests/test_command_palette.py \
+            tests/test_lint_quality.py
+      - name: ruff check (advisory on whole repo)
+        run: ruff check .
+        continue-on-error: true
+
+  mypy:
+    name: mypy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - name: Install mypy
+        run: pip install --upgrade pip && pip install -r requirements-dev.txt
+      - name: Run mypy
+        run: mypy --config-file pyproject.toml skills modules || true
+        continue-on-error: true

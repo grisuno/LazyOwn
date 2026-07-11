@@ -103,8 +103,9 @@ dev = [
     "pip-audit>=2.7",
 ]
 
-[tool.setuptools]
-py-modules = ["lazyown", "lazyc2", "utils"]
+[tool.setuptools.packages.find]
+include = ["lazyown*", "lazyc2*", "utils", "cli*", "core*", "modules*", "skills*", "plugins*", "lazyaddons*", "lazyscripts*", "profiles*"]
+exclude = ["tests*", "env*", "build*", "external*", "modules_ext*", "parquets*", "sessions*", "graphify-out*", "deploy*"]
 
 [tool.ruff]
 line-length = 120

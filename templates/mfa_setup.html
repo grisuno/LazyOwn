@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card bg-secondary text-light p-4 mb-4">
+        <h2 class="text-center mb-4">Multi-Factor Authentication</h2>
+
+        <h5>Status:
+            {% if mfa_enabled %}
+            <span class="badge bg-success">Enabled</span>
+            {% else %}
+            <span class="badge bg-warning">Disabled</span>
+            {% endif %}
+        </h5>
+
+        <hr>
+
+        {% if not mfa_enabled %}
+        <div class="mb-4">
+            <h5>Enable MFA</h5>
+            <p>Set up time-based one-time password (TOTP) authentication. You will need an authenticator app like Google Authenticator, Authy, or similar.</p>
+            <form method="POST">
+                <input type="hidden" name="action" value="enable">
+                <button type="submit" class="btn btn-success">Enable MFA</button>
+            </form>
+        </div>
+        {% endif %}
+
+        {% if mfa_secret %}
+        <div class="mb-4">
+            <h5>Setup Instructions</h5>
+            <div class="row">
+                <div class="col-md-6">
+                    <p>Scan this QR code with your authenticator app:</p>
+                    <img src="{{ url_for('mfa_qr', username=user.username) }}" alt="MFA QR Code"
+                         class="img-fluid mb-3" style="max-width: 250px; border-radius: 8px;">
+                </div>
+                <div class="col-md-6">
+                    <p>Manual entry secret:</p>
+                    <div class="alert alert-dark">
+                        <code>{{ mfa_secret }}</code>
+                    </div>
+                </div>
+            </div>
+
+            {% if recovery_codes %}
+            <div class="mt-3">
+                <h5>Recovery Codes</h5>
+                <p class="text-danger">Save these codes in a safe place. Each code can be used once to bypass MFA.</p>
+                <div class="alert alert-dark">
+                    {% for code in recovery_codes %}
+                    <code>{{ code }}</code><br>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            {% if not mfa_enabled %}
+            <div class="mt-3">
+                <h5>Verify Setup</h5>
+                <p>Enter a TOTP code from your authenticator app to confirm setup:</p>
+                <form method="POST" class="row g-3">
+                    <input type="hidden" name="action" value="verify_setup">
+                    <div class="col-auto">
+                        <input type="text" name="mfa_code" class="form-control" placeholder="000000"
+                               maxlength="6" pattern="[0-9]{6}" inputmode="numeric" required>
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary">Verify</button>
+                    </div>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        {% if mfa_enabled %}
+        <div class="row">
+            <div class="col-md-6">
+                <h5>Disable MFA with TOTP Code</h5>
+                <p>Enter a code from your authenticator app:</p>
+                <form method="POST" class="row g-3">
+                    <input type="hidden" name="action" value="disable">
+                    <div class="col-auto">
+                        <input type="text" name="mfa_code" class="form-control" placeholder="000000"
+                               maxlength="6" pattern="[0-9]{6}" inputmode="numeric" required>
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-danger btn-sm">Disable</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-6">
+                <h5>Disable MFA with Recovery Code</h5>
+                <p class="text-warning">Use this if you lost access to your authenticator app:</p>
+                <form method="POST" class="row g-3">
+                    <input type="hidden" name="action" value="disable_recovery">
+                    <div class="col-auto">
+                        <input type="text" name="mfa_code" class="form-control" placeholder="XXXX-XXXX"
+                               maxlength="15" required>
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-warning btn-sm">Use Recovery</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

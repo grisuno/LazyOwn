@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+  lazyown:
+    image: ghcr.io/grisuno/lazyown:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: lazyown
+    stdin_open: true
+    tty: true
+    environment:
+      - HEADLESS=${HEADLESS:-false}
+      - C2_PORT=${C2_PORT:-4444}
+      - RHOST=${RHOST:-}
+      - LHOST=${LHOST:-0.0.0.0}
+    volumes:
+      - ./payload.json:/app/payload.json:ro
+      - ./sessions:/app/sessions
+      - ./profiles:/app/profiles:ro
+    ports:
+      - "${C2_PORT:-4444}:${C2_PORT:-4444}"
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped

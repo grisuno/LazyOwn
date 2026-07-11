@@ -131,6 +131,7 @@ COMMAND = None
 NOLOGS = False
 RUN_AS_ROOT = False
 USER_ALIASES_FILE = "user_aliases.json"
+HEADLESS = False
 
 os.environ['OPENSSL_CONF'] = '/usr/lib/ssl/openssl.cnf'
 REQUIRED_KEYS = [
@@ -1896,7 +1897,15 @@ def halp():
     print(f"    {GREEN}  --no-banner        No Banner{RESET}")
     print(f"    {GREEN}  -s                 Run as root {RESET}")
     print(f"    {GREEN}  --old-banner       Show old Banner{RESET}")
-    print(f"    {GREEN}  --no-logs          Turn of logs of commands in sessions directory. {RESET}")
+    print(f"    {GREEN}  --no-logs          Turn off logs of commands in sessions directory. {RESET}")
+    print(f"    {GREEN}  --headless         Non-interactive mode for CI/CD pipelines.{RESET}")
+    print(f"    {GREEN}  --json-output      Emit structured JSON per command (use with --headless).{RESET}")
+    print(f"    {GREEN}  --profile <file>   YAML profile overriding payload.json keys.{RESET}")
+    print(f"    {GREEN}  --run-chain <cmds> Semicolon-separated command chain (e.g. \"scan; enum\").{RESET}")
+    print(f"")
+    print(f"    {CYAN}Headless examples:{RESET}")
+    print(f"    {WHITE}  ./run --headless --json-output -c \"nmap_scan\"{RESET}")
+    print(f"    {WHITE}  ./run --headless --profile ops.yaml --run-chain \"recon; enum; exploit\"{RESET}")
     sys.exit(0)
 
 
@@ -3298,6 +3307,14 @@ def _build_startup_parser() -> argparse.ArgumentParser:
     parser.add_argument("-s", "--sudo", action="store_true", default=False)
     parser.add_argument("--old-banner", action="store_true", dest="old_banner", default=False)
     parser.add_argument("--no-logs", action="store_true", dest="no_logs", default=False)
+    parser.add_argument("--headless", action="store_true", default=False,
+                        help="Non-interactive mode with structured output (JSON).")
+    parser.add_argument("--json-output", action="store_true", default=False,
+                        help="Emit JSON results for every command.")
+    parser.add_argument("--profile", metavar="profile.yaml", default=None,
+                        help="YAML profile to override payload.json keys.")
+    parser.add_argument("--run-chain", metavar='"cmd1; cmd2; cmd3"', default=None,
+                        help="Semicolon-separated command chain (must be quoted).")
     return parser
 
 
@@ -3319,10 +3336,20 @@ if startup_ns.no_logs:
     NOLOGS = True
 if startup_ns.old_banner:
     BANNER = OLD_BANNER
+if startup_ns.headless:
+    HEADLESS = True
+    NOBANNER = True
 if startup_ns.command:
-    print_msg(f"Exec: option -c {startup_ns.command}")
+    if not HEADLESS:
+        print_msg(f"Exec: option -c {startup_ns.command}")
 if startup_ns.payload:
     print_msg(f"Load Payload: option -p {startup_ns.payload}")
+if startup_ns.run_chain:
+    if not HEADLESS:
+        print_msg(f"Exec: chain {startup_ns.run_chain}")
+if startup_ns.profile:
+    if not HEADLESS:
+        print_msg(f"Profile: {startup_ns.profile}")
 for u_arg in unknown_args:
     if u_arg.startswith("-"):
         print_error(f"Error: Wrong argument: {u_arg}")

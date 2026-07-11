@@ -18,20 +18,12 @@ Design (SOLID)
 - ISP : consumers only import the blueprint; internal classes are not exposed
 - DIP : Blueprint depends on injected EventBus / LockManager instances (testable)
 
-Usage
------
-In lazyc2.py:
-
-    try:
-        from collab_bp import collab_bp
-        app.register_blueprint(collab_bp, url_prefix="/collab")
-    except Exception as err:
-        print(f"[collab] Blueprint not loaded: {err}")
-
-JavaScript (operator dashboard):
-
-    const es = new EventSource("/collab/stream?operator=alice");
-    es.onmessage = e => console.log(JSON.parse(e.data));
+Authentication
+--------------
+All endpoints require authentication (login_required + require_permission).
+Operators are identified from their authenticated session, not from self-reported
+query parameters.  The ``operator`` field in events is derived from the
+``current_user`` identity.
 """
 from __future__ import annotations
 
@@ -43,11 +35,107 @@ import time
 import uuid
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field, asdict
+from functools import wraps
 from typing import Dict, List, Optional
 
-from flask import Blueprint, Response, jsonify, request, stream_with_context
+from flask import (
+    Blueprint, Response, jsonify, request, stream_with_context, redirect, url_for,
+    render_template,
+)
 
 log = logging.getLogger("collab_bp")
+
+# ── Import RBAC module (graceful degradation) ─────────────────────────────────
+_RBAC_AVAILABLE = False
+_require_permission_deco = None
+_get_rbac_store_fn = None
+
+try:
+    from modules.lazy_rbac import (
+        require_permission as _rbac_require_permission,
+        Permission as _RBACPermission,
+        get_rbac_store as _rbac_get_store,
+    )
+    _RBAC_AVAILABLE = True
+    _require_permission_deco = _rbac_require_permission
+    _get_rbac_store_fn = _rbac_get_store
+except ImportError:
+    pass
+
+try:
+    from flask_login import login_required, current_user
+    _AUTH_AVAILABLE = True
+except ImportError:
+    _AUTH_AVAILABLE = False
+
+    def login_required(f):  # type: ignore[no-redef]
+        """No-op decorator when Flask-Login is unavailable."""
+        @wraps(f)
+        def decorated(*args, **kwargs):
+            return f(*args, **kwargs)
+        return decorated
+
+
+def _authenticated_operator():
+    """Return the authenticated operator handle, or 'anonymous' if not logged in."""
+    try:
+        if _AUTH_AVAILABLE and current_user.is_authenticated:
+            return current_user.username
+    except Exception:
+        pass
+    return "anonymous"
+
+
+def _check_collab_permission(perm_name: str) -> bool:
+    """Check if the current user has a specific collaboration permission."""
+    if not _AUTH_AVAILABLE:
+        return True
+    try:
+        if not current_user.is_authenticated:
+            return False
+        if _RBAC_AVAILABLE and _get_rbac_store_fn:
+            store = _get_rbac_store_fn()
+            user = store.find_by_id(int(current_user.id))
+            if user:
+                try:
+                    return user.has_permission(_RBACPermission(perm_name))
+                except ValueError:
+                    return True
+        return True
+    except Exception:
+        return True
+
+
+def _collab_login_required(f):
+    """Authentication decorator that also verifies collaboration permission."""
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        if _AUTH_AVAILABLE:
+            try:
+                if not current_user.is_authenticated:
+                    return jsonify({"error": "authentication required"}), 401
+            except Exception:
+                return jsonify({"error": "authentication required"}), 401
+        return f(*args, **kwargs)
+    return decorated
+
+
+def _collab_permission_required(perm_name: str):
+    """Decorator that checks both auth and specific collab permission."""
+    def decorator(f):
+        @wraps(f)
+        def decorated(*args, **kwargs):
+            if _AUTH_AVAILABLE:
+                try:
+                    if not current_user.is_authenticated:
+                        return jsonify({"error": "authentication required"}), 401
+                except Exception:
+                    return jsonify({"error": "authentication required"}), 401
+            if not _check_collab_permission(perm_name):
+                return jsonify({"error": f"permission denied: missing {perm_name}"}), 403
+            return f(*args, **kwargs)
+        return decorated
+    return decorator
 
 # ---------------------------------------------------------------------------
 # Value objects
@@ -275,21 +363,23 @@ collab_bp = Blueprint("collab", __name__, template_folder="../templates")
 
 
 @collab_bp.route("/")
+@login_required
 def collab_ui():
-    """Render the multi-operator collaboration dashboard."""
-    from flask import current_app
-    operator = request.args.get("operator", "anonymous")
-    cfg = current_app.config.get("LAZYOWN_CONFIG", {})
-    lhost   = cfg.get("lhost", "localhost") if hasattr(cfg, "get") else getattr(cfg, "lhost", "localhost")
-    c2_port = cfg.get("c2_port", 4444) if hasattr(cfg, "get") else getattr(cfg, "c2_port", 4444)
+    from flask import current_app as _current_app
+    operator = _authenticated_operator()
+    cfg = _current_app.config.get("LAZYOWN_CONFIG")
+    if cfg is None:
+        cfg = {}
+    lhost   = cfg.get("lhost", "localhost") if isinstance(cfg, dict) else getattr(cfg, "lhost", "localhost")
+    c2_port = cfg.get("c2_port", 4444) if isinstance(cfg, dict) else getattr(cfg, "c2_port", 4444)
     join_url = f"https://{lhost}:{c2_port}/collab/?operator=<your_handle>"
     return render_template("collab.html", operator=operator, c2_host=f"{lhost}:{c2_port}", join_url=join_url)
 
 
 @collab_bp.route("/stream")
+@_collab_login_required
 def stream():
-    """SSE endpoint. Each connected operator subscribes here."""
-    operator = request.args.get("operator", "anonymous")
+    operator = _authenticated_operator()
     _registry.join(operator)
     _bus.publish(ColabEvent(
         type="operator_joined",
@@ -330,6 +420,7 @@ def stream():
 
 
 @collab_bp.route("/operators")
+@_collab_login_required
 def operators():
     active = _registry.active_operators()
     return jsonify({
@@ -340,12 +431,12 @@ def operators():
 
 
 @collab_bp.route("/publish", methods=["POST"])
+@_collab_permission_required("collab_publish")
 def publish():
-    """Any operator or module can push a structured event."""
     data     = request.get_json(force=True, silent=True) or {}
     etype    = str(data.get("type", "generic"))[:64]
     payload  = data.get("payload", {})
-    operator = str(data.get("operator", "anonymous"))[:64]
+    operator = _authenticated_operator()
     if not isinstance(payload, dict):
         return jsonify({"error": "payload must be a JSON object"}), 400
     _bus.publish(ColabEvent(type=etype, payload=payload, operator=operator))
@@ -353,10 +444,11 @@ def publish():
 
 
 @collab_bp.route("/lock", methods=["POST"])
+@_collab_permission_required("collab_lock")
 def lock():
     data     = request.get_json(force=True, silent=True) or {}
     target   = str(data.get("target", "")).strip()
-    operator = str(data.get("operator", "anonymous")).strip()
+    operator = _authenticated_operator()
     ttl      = int(data.get("ttl_secs", 300))
     if not target:
         return jsonify({"error": "target is required"}), 400
@@ -371,10 +463,11 @@ def lock():
 
 
 @collab_bp.route("/unlock", methods=["POST"])
+@_collab_permission_required("collab_lock")
 def unlock():
     data     = request.get_json(force=True, silent=True) or {}
     target   = str(data.get("target", "")).strip()
-    operator = str(data.get("operator", "anonymous")).strip()
+    operator = _authenticated_operator()
     released = _locks.release(target, operator)
     if released:
         _bus.publish(ColabEvent(
@@ -386,6 +479,7 @@ def unlock():
 
 
 @collab_bp.route("/locks")
+@_collab_login_required
 def locks():
     all_locks = _locks.all_locks()
     return jsonify({
@@ -397,6 +491,7 @@ def locks():
 
 
 @collab_bp.route("/history")
+@_collab_login_required
 def history():
     n      = min(int(request.args.get("n", 100)), 500)
     events = _bus.recent(n)

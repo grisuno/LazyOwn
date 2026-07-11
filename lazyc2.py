@@ -73,7 +73,7 @@ from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from dnslib import DNSRecord, DNSHeader, RR, QTYPE, A, TXT, CNAME, MX, NS, SOA, CAA, TLSA, SSHFP
 from dnslib.dns import RR, QTYPE, A, NS, SOA, TXT, CNAME, MX, AAAA, PTR, SRV, NAPTR, CAA, TLSA, SSHFP
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-from flask import Flask, request, render_template, redirect, url_for, jsonify, Response, send_from_directory, render_template_string, flash, abort, jsonify, Response, stream_with_context, Blueprint, send_file, current_app
+from flask import Flask, request, render_template, redirect, url_for, jsonify, Response, send_from_directory, render_template_string, flash, abort, jsonify, Response, stream_with_context, Blueprint, send_file, current_app, session
 
 from cli.palette import CommandIndexError as _PaletteIndexError
 from cli.palette import load_index as _palette_load_index
@@ -111,6 +111,21 @@ _LAZYOWN_SECRET_KEY_ENV = "LAZYOWN_SECRET_KEY"
 
 anti_debug()
 logger = logging.getLogger(__name__)
+
+try:
+    from modules.lazy_rbac import (
+        RBACStore, RBACUser, Role, Permission, TenantManager,
+        require_role, require_permission, require_mfa,
+        get_rbac_store, get_tenant_manager,
+        set_rbac_store, set_tenant_manager,
+        ROLE_DEFAULT, MFA_ISSUER, generate_mfa_qr_url,
+        check_cli_permission, get_user_role,
+    )
+    import pyotp
+    _RBAC_AVAILABLE = True
+except ImportError:
+    _RBAC_AVAILABLE = False
+    logging.getLogger(__name__).warning("[rbac] lazy_rbac.py not available; RBAC disabled")
 
 
 _payload_snapshot = load_payload()
@@ -1026,6 +1041,17 @@ def load_note():
         return {"content": ""}
 
 def aumentar_elo(user_id, cantidad):
+    if _RBAC_AVAILABLE:
+        store = get_rbac_store()
+        user = store.find_by_id(user_id)
+        if user:
+            user.elo += cantidad
+            store.save(user)
+            logger.info(f"The Elo of user {user.username} Increased in {user.elo}.")
+        else:
+            logger.info(f"User ID {user_id} not found.")
+        return
+
     if os.path.exists(USER_DATA_PATH):
         with open(USER_DATA_PATH, 'r') as file:
             users = json.load(file)
@@ -1110,8 +1136,16 @@ def strip_ansi(s):
     return ansi_regex.sub('', s)
 
 def check_auth(username: str, password: str) -> bool:
-    """Verify credentials. Rejects empty or obviously weak ones."""
+    """Verify credentials. Checks RBACStore first, falls back to CLI creds."""
     if not username or not password:
+        return False
+    if _RBAC_AVAILABLE:
+        store = get_rbac_store()
+        user = store.find_by_username(username)
+        if user and check_password_hash(user.password_hash, password):
+            return True
+        if username == USERNAME and password == PASSWORD:
+            return True
         return False
     return username == USERNAME and password == PASSWORD
 
@@ -2219,6 +2253,32 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 USER_DATA_PATH = 'users.json'
 ENV = _env_tag()
+
+if _RBAC_AVAILABLE:
+    _rbac_store = RBACStore(USER_DATA_PATH)
+    set_rbac_store(_rbac_store)
+    _tenant_mgr = TenantManager()
+    set_tenant_manager(_tenant_mgr)
+    _tenant_mgr.ensure_default_tenant()
+    if not _rbac_store.load_all():
+        logger.info("[rbac] No users found; creating initial admin account")
+        _rbac_store.ensure_admin(
+            username="admin",
+            password_hash=generate_password_hash("LazyOwnAdmin2024!"),
+        )
+        print("[rbac] Initial admin created: admin / LazyOwnAdmin2024!")
+        print("[rbac] Change this password immediately via 'profile' page.")
+    else:
+        _migrated = False
+        for u in _rbac_store.load_all():
+            if not u.role or u.role not in Role.valid_roles():
+                u.role = ROLE_DEFAULT
+                _rbac_store.save(u)
+                _migrated = True
+        if _migrated:
+            logger.info("[rbac] Migrated existing users to RBAC schema")
+        _rbac_store.ensure_admin("admin", generate_password_hash("LazyOwnAdmin2024!"))
+
 DATA_FILE = BASE_DIR + 'surface_attack.json'
 LOG_DIR = os.path.join('sessions', 'logs', 'c2')
 LOG_FILE = os.path.join(LOG_DIR, 'log_c2.txt')
@@ -2230,6 +2290,12 @@ GMAIL_APP_PASSWORD = config.email_password
 SESSIONS_PHISHING_DIR = os.path.join(os.getcwd(), 'sessions', 'phishing', 'campaigns')
 SHORT_URLS_FILE = SESSIONS_PHISHING_DIR + '/short_urls.json'
 SESSIONS_DIR = os.path.join(os.getcwd(), 'sessions')
+if _RBAC_AVAILABLE:
+    _tm = get_tenant_manager()
+    _active_tenant_sessions = _tm.get_active_sessions_dir()
+    if _active_tenant_sessions and _active_tenant_sessions != 'sessions':
+        SESSIONS_DIR = os.path.join(os.getcwd(), _active_tenant_sessions)
+        os.makedirs(SESSIONS_DIR, exist_ok=True)
 GROQ_API_KEY = config.api_key
 ALLOWED_EXTENSIONS = {'txt', 'enc', 'exe'}
 BINARY_HEADERS = [
@@ -2366,6 +2432,22 @@ if len(sys.argv) > 3:
     else:
         print(f"[+] C2 started with custom credentials (user: {USERNAME})")
 
+    if _RBAC_AVAILABLE:
+        store = get_rbac_store()
+        existing = store.find_by_username(USERNAME)
+        if existing:
+            existing.password_hash = generate_password_hash(PASSWORD)
+            store.save(existing)
+            logger.info("[rbac] Updated CLI user password in RBAC store")
+        else:
+            store.create_user(
+                username=USERNAME,
+                password_hash=generate_password_hash(PASSWORD),
+                role=Role.ADMIN.value,
+            )
+            logger.info("[rbac] Registered CLI user in RBAC store as admin")
+            print(f"[rbac] CLI user '{USERNAME}' registered in RBAC store")
+
     if config.enable_c2_debug == True:
         logger.info(f"    [!] Launch C2 at: {local_ips}")
         logger.info(f"    [!] Launch C2 at: {lport}")
@@ -2394,15 +2476,38 @@ class User(UserMixin):
         self.id = user_data['id']
         self.username = user_data['username']
         self.password_hash = user_data['password_hash']
-        self.elo = user_data['elo']
+        self.elo = user_data.get('elo', 0)
+        self.role = user_data.get('role', ROLE_DEFAULT if _RBAC_AVAILABLE else 'operator')
+        self.mfa_enabled = user_data.get('mfa_enabled', False)
+        self.mfa_secret = user_data.get('mfa_secret', '')
+        self.recovery_codes = user_data.get('recovery_codes', [])
+        self.tenant_id = user_data.get('tenant_id', 'default')
+
+def _get_rbac_user_obj(flask_user):
+    if not _RBAC_AVAILABLE:
+        return None
+    try:
+        store = get_rbac_store()
+        return store.find_by_id(int(flask_user.id))
+    except Exception:
+        return None
 
 def load_users():
+    if _RBAC_AVAILABLE:
+        store = get_rbac_store()
+        return [u.to_dict() for u in store.load_all()]
     if os.path.exists(USER_DATA_PATH):
         with open(USER_DATA_PATH, 'r') as file:
             return json.load(file)
     return []
 
 def save_users(users):
+    if _RBAC_AVAILABLE:
+        store = get_rbac_store()
+        for u_dict in users:
+            user = RBACUser.from_dict(u_dict)
+            store.save(user)
+        return
     with open(USER_DATA_PATH, 'w') as file:
         json.dump(users, file, indent=4)
 
@@ -2423,6 +2528,12 @@ def load_data():
 
 @login_manager.user_loader
 def load_user(user_id):
+    if _RBAC_AVAILABLE:
+        store = get_rbac_store()
+        rbac_user = store.find_by_id(int(user_id))
+        if rbac_user:
+            return User(rbac_user.to_dict())
+        return None
     users = load_users()
     for user_data in users:
         if user_data['id'] == int(user_id):
@@ -4468,34 +4579,54 @@ def register():
         password = request.form.get('password', '').strip()
 
         if not username or not password:
-            flash('Uername and password is mandatory.', 'error')
+            flash('Username and password are mandatory.', 'error')
             return redirect(url_for('register'))
 
-        if len(password) < 8:
-            flash('Password at least 8 chars.', 'error')
+        if len(password) < 12:
+            flash('Password must be at least 12 chars.', 'error')
             return redirect(url_for('register'))
+
+        if _RBAC_AVAILABLE:
+            store = get_rbac_store()
+            if store.find_by_username(username):
+                flash('Username already exists.', 'error')
+                return redirect(url_for('register'))
+            role = Role.ADMIN.value if not any(
+                u.role == Role.ADMIN.value for u in store.load_all()
+            ) else ROLE_DEFAULT
+            store.create_user(
+                username=username,
+                password_hash=generate_password_hash(password),
+                role=role,
+            )
+            flash('Registration successful. Please login.', 'success')
+            return redirect(url_for('login'))
 
         users = load_users()
-
         if any(user['username'] == username for user in users):
-            flash('Username Exist.', 'error')
+            flash('Username already exists.', 'error')
             return redirect(url_for('register'))
+
         new_user = {
             'id': len(users) + 1,
             'username': username,
             'password_hash': generate_password_hash(password),
-            'elo': 0
+            'elo': 0,
+            'role': ROLE_DEFAULT,
+            'mfa_enabled': False,
+            'mfa_secret': '',
+            'recovery_codes': [],
+            'tenant_id': 'default',
         }
         users.append(new_user)
         save_users(users)
-
-        flash('Success, Please Login.', 'success')
+        flash('Registration successful. Please login.', 'success')
         return redirect(url_for('login'))
 
     return render_template('register.html')
 
 @app.route('/login', methods=['GET', 'POST'])
-@limiter.limit(config.c2_login_limit)
+@limiter.limit(getattr(config, 'c2_login_limit', "10 per minute") or "10 per minute")
 def login():
     response = decoy()
     if response:
@@ -4504,18 +4635,301 @@ def login():
         username = request.form.get('username', '').strip()
         password = request.form.get('password', '').strip()
 
+        if _RBAC_AVAILABLE:
+            store = get_rbac_store()
+            rbac_user = store.find_by_username(username)
+            if rbac_user and check_password_hash(rbac_user.password_hash, password):
+                user = User(rbac_user.to_dict())
+                login_user(user)
+                if rbac_user.mfa_enabled:
+                    session['mfa_user_id'] = user.id
+                    return redirect(url_for('mfa_verify'))
+                session.pop('mfa_user_id', None)
+                session['mfa_verified'] = True
+                flash('Welcome to LazyOwn.', 'success')
+                return redirect(url_for('profile'))
+            else:
+                flash('Invalid login credentials.', 'error')
+                return render_template('login.html')
+
         users = load_users()
         user_data = next((user for user in users if user['username'] == username), None)
 
         if user_data and check_password_hash(user_data['password_hash'], password):
             user = User(user_data)
             login_user(user)
-            flash('Wellcome to LazyOwn .', 'success')
+            flash('Welcome to LazyOwn.', 'success')
             return redirect(url_for('profile'))
         else:
-            flash('Error Login incorrect .', 'error')
+            flash('Invalid login credentials.', 'error')
 
     return render_template('login.html')
+
+
+@app.route('/mfa/setup', methods=['GET', 'POST'])
+@login_required
+def mfa_setup():
+    if not _RBAC_AVAILABLE:
+        flash('RBAC module not available.', 'error')
+        return redirect(url_for('profile'))
+    response = decoy()
+    if response:
+        return response
+    store = get_rbac_store()
+    rbac_user = _get_rbac_user_obj(current_user)
+    if not rbac_user:
+        flash('User not found.', 'error')
+        return redirect(url_for('login'))
+
+    if request.method == 'POST':
+        action = request.form.get('action', '')
+        if action == 'enable':
+            updated = store.enable_mfa(rbac_user.id)
+            if updated:
+                session['mfa_setup_secret'] = updated.mfa_secret
+                session['mfa_setup_username'] = updated.username
+                flash('MFA enabled. Scan the QR code with your authenticator app.', 'success')
+                return redirect(url_for('mfa_setup'))
+            flash('Failed to enable MFA.', 'error')
+        elif action == 'disable':
+            token = request.form.get('mfa_code', '').strip()
+            if rbac_user and rbac_user.verify_totp(token):
+                store.disable_mfa(rbac_user.id)
+                session.pop('mfa_setup_secret', None)
+                flash('MFA disabled.', 'success')
+                return redirect(url_for('profile'))
+            else:
+                flash('Invalid TOTP code. MFA not disabled.', 'error')
+        elif action == 'disable_recovery':
+            code = request.form.get('mfa_code', '').strip()
+            if rbac_user and rbac_user.verify_recovery_code(code):
+                store.consume_recovery_code(rbac_user.id, code)
+                store.disable_mfa(rbac_user.id)
+                session.pop('mfa_setup_secret', None)
+                flash('MFA disabled via recovery code. That recovery code has been consumed.', 'success')
+                return redirect(url_for('profile'))
+            else:
+                flash('Invalid recovery code.', 'error')
+        elif action == 'verify_setup':
+            token = request.form.get('mfa_code', '').strip()
+            secret = session.get('mfa_setup_secret', '')
+            if secret and pyotp.TOTP(secret).verify(token, valid_window=1):
+                session.pop('mfa_setup_secret', None)
+                flash('MFA setup verified successfully!', 'success')
+                return redirect(url_for('profile'))
+            else:
+                flash('Invalid TOTP code. Please try again.', 'error')
+
+    secret = session.get('mfa_setup_secret', '') or rbac_user.mfa_secret
+    recovery_codes = rbac_user.recovery_codes if rbac_user.recovery_codes else []
+
+    qr_url = ""
+    if secret:
+        try:
+            qr_url = generate_mfa_qr_url(secret, rbac_user.username)
+        except Exception:
+            pass
+
+    return render_template(
+        'mfa_setup.html',
+        user=current_user,
+        mfa_enabled=rbac_user.mfa_enabled,
+        mfa_secret=secret,
+        qr_url=qr_url,
+        recovery_codes=recovery_codes,
+    )
+
+
+@app.route('/mfa/qr/<username>')
+@login_required
+def mfa_qr(username):
+    """Serve a locally-generated QR code SVG for MFA setup.
+
+    Zero external API calls. The QR code is generated server-side using
+    pure Python (no external dependencies beyond pyotp). Works offline.
+    """
+    try:
+        from modules.lazy_rbac import generate_qr_svg, RBACStore
+        store = get_rbac_store() if _RBAC_AVAILABLE else RBACStore(USER_DATA_PATH)
+        user = store.find_by_username(username)
+        if not user or not user.mfa_secret:
+            return Response("User or MFA secret not found", status=404)
+        uri = pyotp.totp.TOTP(user.mfa_secret).provisioning_uri(
+            name=user.username, issuer_name=MFA_ISSUER
+        )
+        svg = generate_qr_svg(uri)
+        return Response(svg, mimetype="image/svg+xml")
+    except Exception as e:
+        logger.error("QR generation failed: %s", e)
+        return Response("QR generation failed", status=500)
+
+
+@app.route('/mfa/verify', methods=['GET', 'POST'])
+def mfa_verify():
+    if not _RBAC_AVAILABLE:
+        return redirect(url_for('login'))
+    response = decoy()
+    if response:
+        return response
+
+    user_id = session.get('mfa_user_id')
+    if not user_id:
+        return redirect(url_for('login'))
+
+    store = get_rbac_store()
+    rbac_user = store.find_by_id(int(user_id))
+    if not rbac_user:
+        session.pop('mfa_user_id', None)
+        flash('Session expired. Please login again.', 'error')
+        return redirect(url_for('login'))
+
+    if request.method == 'POST':
+        code = request.form.get('mfa_code', '').strip()
+        use_recovery = request.form.get('use_recovery') == '1'
+
+        if use_recovery:
+            if rbac_user.verify_recovery_code(code):
+                store.consume_recovery_code(rbac_user.id, code)
+                session['mfa_verified'] = True
+                session.pop('mfa_user_id', None)
+                pending = session.pop('mfa_pending_route', url_for('profile'))
+                flash('Authenticated via recovery code. Generate new codes in MFA settings.', 'success')
+                return redirect(pending)
+            else:
+                flash('Invalid recovery code.', 'error')
+        else:
+            if rbac_user.verify_totp(code):
+                session['mfa_verified'] = True
+                session.pop('mfa_user_id', None)
+                pending = session.pop('mfa_pending_route', url_for('profile'))
+                flash('MFA verified successfully.', 'success')
+                return redirect(pending)
+            else:
+                flash('Invalid TOTP code.', 'error')
+
+    return render_template('mfa_verify.html', has_recovery=bool(rbac_user.recovery_codes))
+
+
+@app.route('/admin/users', methods=['GET'])
+@login_required
+@require_role(Role.ADMIN.value)
+def admin_users():
+    if not _RBAC_AVAILABLE:
+        flash('RBAC module not available.', 'error')
+        return redirect(url_for('profile'))
+    response = decoy()
+    if response:
+        return response
+    store = get_rbac_store()
+    users_list = store.load_all()
+    return render_template('admin_users.html', users=users_list, roles=Role, current_user=current_user)
+
+
+@app.route('/admin/users/<int:user_id>/role', methods=['POST'])
+@login_required
+@require_role(Role.ADMIN.value)
+def admin_set_role(user_id):
+    if not _RBAC_AVAILABLE:
+        return jsonify({"error": "RBAC not available"}), 500
+    new_role = request.form.get('role', '').strip()
+    if new_role not in Role.valid_roles():
+        flash('Invalid role.', 'error')
+        return redirect(url_for('admin_users'))
+
+    store = get_rbac_store()
+    admin_user = _get_rbac_user_obj(current_user)
+    if not admin_user or not admin_user.can_manage_role(new_role):
+        flash('You cannot assign this role.', 'error')
+        return redirect(url_for('admin_users'))
+
+    store.update_role(user_id, new_role)
+    flash(f'User role updated to {new_role}.', 'success')
+    return redirect(url_for('admin_users'))
+
+
+@app.route('/admin/users/<int:user_id>/mfa/reset', methods=['POST'])
+@login_required
+@require_role(Role.ADMIN.value)
+def admin_reset_mfa(user_id):
+    if not _RBAC_AVAILABLE:
+        return jsonify({"error": "RBAC not available"}), 500
+    store = get_rbac_store()
+    store.disable_mfa(user_id)
+    flash('MFA reset for user.', 'success')
+    return redirect(url_for('admin_users'))
+
+
+@app.route('/admin/users/<int:user_id>/delete', methods=['POST'])
+@login_required
+@require_role(Role.ADMIN.value)
+def admin_delete_user(user_id):
+    if not _RBAC_AVAILABLE:
+        return jsonify({"error": "RBAC not available"}), 500
+
+    admin_user = _get_rbac_user_obj(current_user)
+    if admin_user and admin_user.id == user_id:
+        flash('Cannot delete your own account.', 'error')
+        return redirect(url_for('admin_users'))
+
+    store = get_rbac_store()
+    store.delete_user(user_id)
+    flash('User deleted.', 'success')
+    return redirect(url_for('admin_users'))
+
+
+@app.route('/admin/tenants', methods=['GET'])
+@login_required
+@require_role(Role.ADMIN.value)
+def admin_tenants():
+    if not _RBAC_AVAILABLE:
+        flash('RBAC module not available.', 'error')
+        return redirect(url_for('profile'))
+    response = decoy()
+    if response:
+        return response
+    tm = get_tenant_manager()
+    tenants = tm.list_tenants()
+    active = tm.get_active()
+    return render_template(
+        'admin_tenants.html',
+        tenants=tenants,
+        active=active,
+        current_user=current_user,
+    )
+
+
+@app.route('/admin/tenants/create', methods=['POST'])
+@login_required
+@require_role(Role.ADMIN.value)
+def admin_create_tenant():
+    if not _RBAC_AVAILABLE:
+        return jsonify({"error": "RBAC not available"}), 500
+    name = request.form.get('name', '').strip()
+    if not name:
+        flash('Tenant name is required.', 'error')
+        return redirect(url_for('admin_tenants'))
+    tm = get_tenant_manager()
+    try:
+        tc = tm.create_tenant(name)
+        flash(f'Tenant "{tc.name}" created.', 'success')
+    except ValueError as e:
+        flash(str(e), 'error')
+    return redirect(url_for('admin_tenants'))
+
+
+@app.route('/admin/tenants/<tenant_id>/switch', methods=['POST'])
+@login_required
+@require_role(Role.ADMIN.value)
+def admin_switch_tenant(tenant_id):
+    if not _RBAC_AVAILABLE:
+        return jsonify({"error": "RBAC not available"}), 500
+    tm = get_tenant_manager()
+    try:
+        tc = tm.switch_tenant(tenant_id)
+        flash(f'Switched to tenant "{tc.name}". Sessions: {tc.sessions_dir}', 'success')
+    except ValueError as e:
+        flash(str(e), 'error')
+    return redirect(url_for('admin_tenants'))
 
 @app.route('/profile')
 @login_required
@@ -4524,7 +4938,21 @@ def profile():
     if response:
         return response
     karma_name = get_karma_name(current_user.elo)
-    return render_template('profile.html', user=current_user, karma_name=karma_name)
+    user_role = getattr(current_user, 'role', ROLE_DEFAULT)
+    mfa_enabled = getattr(current_user, 'mfa_enabled', False)
+
+    rbac_user = _get_rbac_user_obj(current_user) if _RBAC_AVAILABLE else None
+    if rbac_user:
+        user_role = rbac_user.role
+        mfa_enabled = rbac_user.mfa_enabled
+
+    return render_template(
+        'profile.html',
+        user=current_user,
+        karma_name=karma_name,
+        user_role=user_role,
+        mfa_enabled=mfa_enabled,
+    )
 
 @app.route('/logout')
 @login_required
@@ -4532,8 +4960,12 @@ def logout():
     response = decoy()
     if response:
         return response
+    session.pop('mfa_verified', None)
+    session.pop('mfa_user_id', None)
+    session.pop('mfa_setup_secret', None)
+    session.pop('mfa_pending_route', None)
     logout_user()
-    flash('Successfully Logout...', 'success')
+    flash('Successfully logged out.', 'success')
     return redirect(url_for('index'))
 
 @app.route('/aumentar_elo/<int:user_id>', methods=['POST'])
@@ -4645,6 +5077,117 @@ def lazybot():
 
     response = process_prompt_local(prompt, False, "web")
     return response
+
+@app.route('/compliance', methods=['GET'])
+@login_required
+@require_permission(Permission.AUDIT_VIEW.value)
+def compliance_dashboard():
+    response = decoy()
+    if response:
+        return response
+    try:
+        from modules.compliance import ComplianceEngine, ComplianceFinding
+        engine = ComplianceEngine("sessions")
+        report = engine.generate_compliance_report(include_evidence_chain=True)
+        return render_template(
+            'compliance.html',
+            report=report,
+            current_user=current_user,
+        )
+    except ImportError:
+        flash('Compliance module not available.', 'error')
+        return redirect(url_for('report'))
+
+
+@app.route('/compliance/report', methods=['GET'])
+@login_required
+@require_permission(Permission.REPORT_GENERATE.value)
+def compliance_report():
+    response = decoy()
+    if response:
+        return response
+    try:
+        from modules.compliance import ComplianceEngine, ComplianceFinding, export_pdf
+        engine = ComplianceEngine("sessions")
+        report = engine.generate_compliance_report(
+            include_evidence_chain=True,
+            include_siem_formats=True,
+        )
+        ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+        md_path = f"sessions/compliance_report_{ts}.md"
+        md_content = engine._format_compliance_report_md(report)
+        Path(md_path).write_text(md_content, encoding="utf-8")
+
+        pdf_path = engine.export_pdf(report, f"sessions/compliance_report_{ts}.pdf")
+        flash(f'Compliance report generated: {md_path}' + (f', {pdf_path}' if pdf_path else ''), 'success')
+    except ImportError:
+        flash('Compliance module not available.', 'error')
+    except Exception as e:
+        flash(f'Error generating compliance report: {e}', 'error')
+    return redirect(url_for('compliance_dashboard'))
+
+
+@app.route('/compliance/evidence/add', methods=['POST'])
+@login_required
+@require_permission(Permission.CMD_RUN.value)
+def compliance_add_evidence():
+    try:
+        from modules.compliance import ComplianceEngine
+        engine = ComplianceEngine("sessions")
+        filepath = request.form.get('filepath', '').strip()
+        operator = current_user.username
+        description = request.form.get('description', '').strip()
+        if not filepath or not os.path.exists(filepath):
+            return jsonify({"error": "File not found"}), 400
+        entry = engine.add_evidence(filepath, operator, description)
+        return jsonify({
+            "status": "added",
+            "sha256": entry.sha256,
+            "filename": entry.filename,
+        })
+    except ImportError:
+        return jsonify({"error": "Compliance module not available"}), 500
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+
+
+@app.route('/compliance/evidence/verify', methods=['GET'])
+@login_required
+@require_permission(Permission.AUDIT_VIEW.value)
+def compliance_verify_evidence():
+    try:
+        from modules.compliance import ComplianceEngine
+        engine = ComplianceEngine("sessions")
+        valid, issues = engine.verify_evidence_chain()
+        return jsonify({"valid": valid, "issues": issues})
+    except ImportError:
+        return jsonify({"error": "Compliance module not available"}), 500
+
+
+@app.route('/compliance/export/<format>', methods=['GET'])
+@login_required
+@require_permission(Permission.REPORT_GENERATE.value)
+def compliance_export(format):
+    try:
+        from modules.compliance import ComplianceEngine, ComplianceFinding, export_to_elastic_ndjson, export_to_cef
+        engine = ComplianceEngine("sessions")
+        findings = engine._load_findings()
+        finding_dicts = [asdict(f) for f in findings]
+        ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+        if format == "elastic":
+            path = f"sessions/siem_export_bulk_{ts}.ndjson"
+            export_to_elastic_ndjson(finding_dicts, path)
+            return send_file(path, as_attachment=True, download_name=f"lazyown_findings_{ts}.ndjson")
+        elif format == "cef":
+            path = f"sessions/siem_export_cef_{ts}.log"
+            export_to_cef(finding_dicts, path)
+            return send_file(path, as_attachment=True, download_name=f"lazyown_findings_{ts}.cef")
+        else:
+            return jsonify({"error": f"Unknown format: {format}. Use 'elastic' or 'cef'"}), 400
+    except ImportError:
+        return jsonify({"error": "Compliance module not available"}), 500
+
 
 @app.route('/lazyreport', methods=['POST'])
 @login_required

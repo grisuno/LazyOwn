@@ -2299,6 +2299,79 @@ class LazyOwnShell(cmd2.Cmd):
         return sorted(key for key in self.params if key.startswith(text))
 
     @cmd2.with_category(miscellaneous_category)
+    def do_tenant(self, line):
+        """Manage multi-tenancy: list, switch, or create engagement tenants.
+
+        Each tenant has its own payload profile and session directory,
+        providing isolated environments for parallel engagements.
+
+        Usage:
+            ``tenant``                           list all tenants
+            ``tenant switch <id>``               activate a tenant
+            ``tenant create <name>``             create a new tenant from current payload
+            ``tenant info``                      show active tenant details
+
+        Tenant payloads are stored in ``payloads/<id>.json`` and sessions
+        in ``sessions/<id>/``. The default tenant always exists.
+        """
+        try:
+            from modules.lazy_rbac import TenantManager, get_tenant_manager
+        except ImportError:
+            print_error("Multi-tenancy module not available.")
+            return
+
+        tm = get_tenant_manager()
+        args = shlex.split(line or "")
+
+        if not args:
+            tenants = tm.list_tenants()
+            active = tm.get_active()
+            print_info(f"{BOLD}Tenants:{RESET}")
+            for t in tenants:
+                marker = f"{GREEN}* {RESET}" if active and active.tenant_id == t.tenant_id else "  "
+                print_msg(f"  {marker}{t.tenant_id:<20} {t.name:<30} {t.sessions_dir}")
+            return
+
+        action = args[0].lower()
+        if action == "switch":
+            if len(args) < 2:
+                print_error("Usage: tenant switch <id>")
+                return
+            try:
+                tc = tm.switch_tenant(args[1])
+                print_msg(f"{GREEN}Switched to tenant: {tc.name}{RESET}")
+                print_msg(f"  Payload: {tc.payload_path}")
+                print_msg(f"  Sessions: {tc.sessions_dir}")
+                print_info("Reload the shell or run 'load_payload' to apply the new configuration.")
+            except ValueError as e:
+                print_error(str(e))
+        elif action == "create":
+            if len(args) < 2:
+                print_error("Usage: tenant create <name>")
+                return
+            try:
+                name = " ".join(args[1:])
+                tc = tm.create_tenant(name)
+                print_msg(f"{GREEN}Tenant created: {tc.name} ({tc.tenant_id}){RESET}")
+                print_msg(f"  Payload: {tc.payload_path}")
+                print_msg(f"  Sessions: {tc.sessions_dir}")
+            except ValueError as e:
+                print_error(str(e))
+        elif action == "info":
+            active = tm.get_active()
+            if active:
+                print_msg(f"{BOLD}Active tenant:{RESET}")
+                print_msg(f"  Name: {active.name}")
+                print_msg(f"  ID: {active.tenant_id}")
+                print_msg(f"  Payload: {active.payload_path}")
+                print_msg(f"  Sessions: {active.sessions_dir}")
+            else:
+                print_warn("No active tenant.")
+        else:
+            print_error(f"Unknown action: {action}")
+            print_info("Available: switch, create, info")
+
+    @cmd2.with_category(miscellaneous_category)
     def do_scope(self, line):
         """Manage the authorized engagement scope and the scope-guard posture.
 

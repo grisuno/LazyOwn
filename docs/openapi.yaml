@@ -1,0 +1,382 @@
+openapi: "3.0.3"
+info:
+  title: LazyOwn RedTeam C2 API
+  description: |
+    REST API for the LazyOwn RedTeam Framework C2 server.
+    Supports multi-tenant engagements with RBAC, MFA, compliance reporting,
+    and SIEM export capabilities.
+
+    ## Authentication
+    - **Web UI**: Flask-Login session cookies (via `/login`)
+    - **API / Beacons**: HTTP Basic Auth against RBAC store
+    - **MFA**: TOTP-based (required if enabled on account)
+
+    ## Roles
+    | Role | Access |
+    |------|--------|
+    | admin | Full access: users, tenants, config, all commands |
+    | operator | Run attacks, manage sessions, collaborate, generate reports |
+    | viewer | Read-only: reports, sessions, status |
+    | auditor | Read-only + audit logs (compliance) |
+
+  version: "1.0.0"
+  contact:
+    name: LazyOwn RedTeam
+    url: https://github.com/grisuno/LazyOwn
+
+servers:
+  - url: https://{lhost}:{c2_port}
+    description: LazyOwn C2 server
+    variables:
+      lhost:
+        default: "127.0.0.1"
+      c2_port:
+        default: "4444"
+
+security:
+  - basicAuth: []
+
+paths:
+  /health:
+    get:
+      summary: Health check endpoint
+      operationId: health
+      tags: [System]
+      responses:
+        "200":
+          description: C2 is running
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "ok"
+
+  /api/run:
+    post:
+      summary: Execute a shell command
+      description: |
+        Executes a LazyOwn CLI command. The first token must be in the
+        configured command allowlist. No shell metacharacters are permitted.
+        All executions are audited to `api_command_audit.jsonl`.
+      operationId: runCommand
+      tags: [Commands]
+      security:
+        - basicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [command]
+              properties:
+                command:
+                  type: string
+                  description: CLI command to execute
+                  example: "sitrep"
+      responses:
+        "200":
+          description: Command executed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+        "400":
+          description: Invalid request
+        "403":
+          description: Command not allowed by allowlist
+
+  /api/output:
+    get:
+      summary: Retrieve last command output
+      operationId: getOutput
+      tags: [Commands]
+      security:
+        - basicAuth: []
+      responses:
+        "200":
+          description: Last command output
+
+  /api/data:
+    get:
+      summary: Get session data snapshot
+      operationId: getData
+      tags: [Sessions]
+      responses:
+        "200":
+          description: Session data JSON
+
+  /api/listeners:
+    get:
+      summary: List active C2 listeners
+      operationId: listListeners
+      tags: [Management]
+      responses:
+        "200":
+          description: Listener information
+    post:
+      summary: Create a new C2 listener
+      operationId: createListener
+      tags: [Management]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                port:
+                  type: integer
+                ssl:
+                  type: boolean
+      responses:
+        "200":
+          description: Listener created
+
+  /api/listeners/{listener_id}/start:
+    post:
+      summary: Start a listener
+      operationId: startListener
+      tags: [Management]
+      parameters:
+        - name: listener_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Listener started
+
+  /api/listeners/{listener_id}/stop:
+    post:
+      summary: Stop a listener
+      operationId: stopListener
+      tags: [Management]
+      parameters:
+        - name: listener_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Listener stopped
+
+  /api/dashboard:
+    get:
+      summary: Get dashboard metrics
+      operationId: dashboardMetrics
+      tags: [Management]
+      responses:
+        "200":
+          description: Dashboard data
+
+  /login:
+    post:
+      summary: Web UI login
+      description: Authenticates operator and creates Flask-Login session.
+      operationId: webLogin
+      tags: [Authentication]
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required: [username, password]
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "302":
+          description: Redirect to profile or MFA verification
+
+  /register:
+    post:
+      summary: Register new operator account
+      description: Rate-limited by `c2_register_limit` in payload.json.
+      operationId: register
+      tags: [Authentication]
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required: [username, password]
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+                  minLength: 12
+      responses:
+        "302":
+          description: Redirect to login on success
+
+  /mfa/verify:
+    post:
+      summary: Verify MFA TOTP code
+      operationId: mfaVerify
+      tags: [Authentication]
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                mfa_code:
+                  type: string
+                  description: 6-digit TOTP code
+                  pattern: "^[0-9]{6}$"
+                use_recovery:
+                  type: string
+                  description: Set to "1" to use recovery code
+      responses:
+        "302":
+          description: Redirect to target page on success
+
+  /mfa/setup:
+    get:
+      summary: MFA setup page with QR code
+      operationId: mfaSetup
+      tags: [Authentication]
+    post:
+      summary: Enable/disable/verify MFA
+      operationId: mfaSetupAction
+      tags: [Authentication]
+
+  /profile:
+    get:
+      summary: Operator profile
+      operationId: profile
+      tags: [Users]
+      responses:
+        "200":
+          description: Profile page with role, ELO, MFA status
+
+  /admin/users:
+    get:
+      summary: User management panel (admin only)
+      operationId: adminUsers
+      tags: [Admin]
+
+  /admin/users/{user_id}/role:
+    post:
+      summary: Update user role (admin only)
+      operationId: adminSetRole
+      tags: [Admin]
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: integer
+
+  /admin/tenants:
+    get:
+      summary: Tenant management panel (admin only)
+      operationId: adminTenants
+      tags: [Admin]
+
+  /admin/tenants/create:
+    post:
+      summary: Create new engagement tenant
+      operationId: adminCreateTenant
+      tags: [Admin]
+
+  /compliance:
+    get:
+      summary: Compliance dashboard
+      operationId: complianceDashboard
+      tags: [Compliance]
+
+  /compliance/report:
+    get:
+      summary: Generate compliance report (PDF + Markdown + SIEM)
+      operationId: complianceReport
+      tags: [Compliance]
+
+  /compliance/evidence/add:
+    post:
+      summary: Add file to cryptographic evidence chain
+      operationId: complianceAddEvidence
+      tags: [Compliance]
+
+  /compliance/evidence/verify:
+    get:
+      summary: Verify evidence chain integrity
+      operationId: complianceVerifyEvidence
+      tags: [Compliance]
+
+  /compliance/export/{format}:
+    get:
+      summary: Export findings to SIEM format
+      operationId: complianceExport
+      tags: [Compliance]
+      parameters:
+        - name: format
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [elastic, cef]
+
+  /report:
+    get:
+      summary: Pentest report dashboard
+      operationId: report
+      tags: [Reporting]
+
+  /collab:
+    get:
+      summary: Multi-operator collaboration dashboard
+      operationId: collabDashboard
+      tags: [Collaboration]
+
+  /collab/stream:
+    get:
+      summary: SSE event stream for real-time collaboration
+      operationId: collabStream
+      tags: [Collaboration]
+
+  /collab/operators:
+    get:
+      summary: List active operators
+      operationId: collabOperators
+      tags: [Collaboration]
+
+  /collab/publish:
+    post:
+      summary: Publish collaboration event
+      operationId: collabPublish
+      tags: [Collaboration]
+
+  /collab/lock:
+    post:
+      summary: Acquire target lock
+      operationId: collabLock
+      tags: [Collaboration]
+
+  /collab/unlock:
+    post:
+      summary: Release target lock
+      operationId: collabUnlock
+      tags: [Collaboration]
+
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic Auth for API/beacon endpoints. Uses RBAC store for credential validation.

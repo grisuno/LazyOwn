@@ -498,6 +498,7 @@ class ReportGenerator:
             self._header(),
             self._section_scope(),
             self._section_findings(),
+            self._section_compliance(),
             self._section_credentials(),
             self._section_timeline(),
             self._section_objectives(),
@@ -651,6 +652,85 @@ class ReportGenerator:
             if evidence:
                 lines.append(f"\n```\n{str(evidence)[:400]}\n```")
             lines.append("")
+        return "\n".join(lines)
+
+    def _section_compliance(self) -> str:
+        try:
+            from modules.compliance import ComplianceEngine, ComplianceFinding
+        except ImportError:
+            return ""
+
+        engine = ComplianceEngine(str(self.sdir))
+        facts = self._load_facts()
+
+        findings: list = []
+        hosts_dict = facts.get("hosts", {})
+        if isinstance(hosts_dict, dict):
+            for ip, host_data in hosts_dict.items():
+                if not isinstance(host_data, dict):
+                    continue
+                services = host_data.get("services", [])
+                if isinstance(services, list):
+                    for svc in services:
+                        name = svc.get("name", "")
+                        port = svc.get("port", "")
+                        findings.append(ComplianceFinding(
+                            category="open_port",
+                            host=ip,
+                            port=str(port),
+                            service=name,
+                            description=f"Service {name} detected on {ip}:{port}",
+                            severity="INFO",
+                            operator="system",
+                        ))
+
+        events = self._load_jsonl(self.sdir / "events.jsonl")
+        for ev in events[-100:]:
+            findings.append(ComplianceFinding(
+                category=ev.get("type", ev.get("event_type", "event")),
+                host=ev.get("host", ev.get("target", "")),
+                port=str(ev.get("port", "")),
+                service=ev.get("service", ""),
+                description=ev.get("message", ev.get("detail", ""))[:120],
+                severity=ev.get("severity", "INFO"),
+                operator=ev.get("operator", "system"),
+            ))
+
+        report = engine.generate_compliance_report(
+            findings=findings,
+            include_evidence_chain=True,
+        )
+
+        lines = ["## 2.5 Compliance Coverage", ""]
+        compliance = report.get("compliance", {})
+        frameworks = compliance.get("frameworks", {})
+
+        if not frameworks:
+            return ""
+
+        for fw_key, fw_data in frameworks.items():
+            lines.append(f"### {fw_data['name']}")
+            lines.append(f"- Coverage: **{fw_data.get('coverage_pct', 0)}%**")
+            lines.append(f"- Controls mapped: {fw_data.get('controls_covered', 0)}/{fw_data.get('total_controls', 0)}")
+            controls = fw_data.get("controls_mapped", [])[:20]
+            if controls:
+                lines.append("")
+                lines.append("| Control | Title | Evidence |")
+                lines.append("|---------|-------|----------|")
+                for c in controls:
+                    ev = c.get("finding_evidence", {})
+                    ev_desc = f"{ev.get('host', '')}:{ev.get('service', '')}"[:60]
+                    lines.append(f"| {c['control_id']} | {c['title']} | {ev_desc} |")
+            lines.append("")
+
+        ev = report.get("evidence_chain", {})
+        if ev:
+            lines.append("### Evidence Chain of Custody")
+            lines.append(f"- Integrity: **{'VERIFIED' if ev.get('integrity_verified') else 'BROKEN'}**")
+            lines.append(f"- Entries: {ev.get('entries_count', 0)}")
+            lines.append(f"- Digest: `{ev.get('chain_digest', 'N/A')}`")
+            lines.append("")
+
         return "\n".join(lines)
 
     def _section_credentials(self) -> str:

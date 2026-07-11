@@ -649,6 +649,17 @@ the new value without a shell restart.</p>
 <p>Driven entirely by <code>self.params</code> so the framework never
 has to maintain a parallel list of completion targets — adding a new key
 to <code>payload.json</code> makes it tab-completable for free.</p>
+<h2 id="tenant">tenant</h2>
+<p>Manage multi-tenancy: list, switch, or create engagement tenants.</p>
+<p>Each tenant has its own payload profile and session directory,
+providing isolated environments for parallel engagements.</p>
+<p>Usage: <code>tenant</code> list all tenants
+<code>tenant switch &lt;id&gt;</code> activate a tenant
+<code>tenant create &lt;name&gt;</code> create a new tenant from current
+payload <code>tenant info</code> show active tenant details</p>
+<p>Tenant payloads are stored in <code>payloads/&lt;id&gt;.json</code>
+and sessions in <code>sessions/&lt;id&gt;/</code>. The default tenant
+always exists.</p>
 <h2 id="scope">scope</h2>
 <p>Manage the authorized engagement scope and the scope-guard
 posture.</p>

@@ -1,0 +1,12 @@
+# LazyOwn Headless Profile
+# Overrides payload.json keys for automated pipelines.
+# Usage: ./run --headless --profile profiles/example.yaml --run-chain "cmd1; cmd2"
+
+rhost: "10.0.0.1"
+lhost: "127.0.0.1"
+domain: "example.local"
+c2_port: 4444
+c2_user: "operator"
+c2_pass: "changeme"
+scope_enforcement: "enforce"
+enable_c2_implant_debug: false

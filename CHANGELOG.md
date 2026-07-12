@@ -2,6 +2,34 @@
 # Changelog
 
 
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): multinenant, extended params, cloud native attacks, junescape and much much love more \n\n Version: release/0.2.156 \n\n lazyown redteam red love \n\n Modified file(s):\n- .c2_credentials.txt - .github/workflows/agent-contract.yml - .github/workflows/attack_surface_scan.yml - .github/workflows/ci.yml - .github/workflows/codacy.yml - .github/workflows/docker-build.yml - .github/workflows/lint.yml - .github/workflows/pre-commit.yml - .github/workflows/publish-pypi.yml - .github/workflows/security.yml - .github/workflows/test.yml - .github/workflows/test_strict.yml - .gitignore - .secrets.baseline - Dockerfile - KNOWLEDGE_BASE.md - MANIFEST.in - cli/headless.py - docker-compose.yml - lazyaddons/Januscape.yaml - lazyaddons/cloudsploit.yaml - lazyaddons/grype.yaml - lazyaddons/prowler.yaml - lazyaddons/report_full.yaml - lazyaddons/scoutsuite.yaml - lazyaddons/trivy.yaml - lazyown.py - lazyscripts/attack_surface.ls - lazyscripts/cloud_enum.ls - lazyscripts/supply_chain.ls - modules/pipeline_engine.py - params/README.md - params/extended.yaml - payload.json - pipelines/attack_surface.yaml - pipelines/cloud_assessment.yaml - pipelines/supply_chain.yaml - profiles/attack_surface.yaml - profiles/cloud_scan.yaml - profiles/example.yaml - profiles/supply_chain_scan.yaml - pyproject.toml - scripts/validate_agent_contract.sh - tests/test_attack_surface_addons.py - users.json - utils.py\nCreated file(s):\n- .c2_credentials.txt - .github/workflows/agent-contract.yml - .github/workflows/attack_surface_scan.yml - .github/workflows/ci.yml - .github/workflows/docker-build.yml - .github/workflows/lint.yml - .github/workflows/pre-commit.yml - .github/workflows/publish-pypi.yml - .github/workflows/security.yml - .github/workflows/test.yml - .github/workflows/test_strict.yml - .secrets.baseline - Dockerfile - MANIFEST.in - cli/headless.py - docker-compose.yml - lazyaddons/cloudsploit.yaml - lazyaddons/grype.yaml - lazyaddons/prowler.yaml - lazyaddons/report_full.yaml - lazyaddons/scoutsuite.yaml - lazyaddons/trivy.yaml - lazyscripts/attack_surface.ls - lazyscripts/cloud_enum.ls - lazyscripts/supply_chain.ls - params/README.md - params/extended.yaml - pipelines/attack_surface.yaml - pipelines/cloud_assessment.yaml - pipelines/supply_chain.yaml - profiles/attack_surface.yaml - profiles/cloud_scan.yaml - profiles/example.yaml - profiles/supply_chain_scan.yaml - scripts/validate_agent_contract.sh - tests/test_attack_surface_addons.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: dom 12 jul 2026 01:17:06 -04 \n\n Hora: 1783833426
+
+
+### Otros
+
+### Otros
+
+  *   * cloud boost with grype prowler trivy scoutsuite cloudsploit stratus, a brand new params extender yaml awesome, pipelines, profiles, some bugfixing, and much much more
+
+
+### Otros
+
+### Otros
+
+  *   * Doc(creation documentation) a brand new KNOWLEDGE_BASE.md
+
+
+### Otros
+
+### Otros
+
+  *   * headless :D
+
+
 ### Otros
 
 ### Otros

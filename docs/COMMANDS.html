@@ -215,6 +215,16 @@ backing store and both persist through
 here (<code>tui_theme</code>, <code>enable_operator_presence</code>,
 <code>enable_toasts</code>, <code>toast_max_per_tick</code>) match the
 schema entries in :mod:<code>core.payload_schema</code>.</p>
+<h2 id="load_extended_params">_load_extended_params</h2>
+<p>Load extra parameters from <code>params/*.yaml</code> into
+<code>self.params</code>.</p>
+<p>Every YAML file in the <code>params/</code> directory is loaded as a
+flat key-value dict and merged into <code>self.params</code> at startup.
+This allows operators to add new configuration keys for lazyaddons,
+aliases, and pipelines without modifying <code>payload.json</code> or
+Python source.</p>
+<p>Files are loaded in alphabetical order; later files override earlier
+ones. <code>payload.json</code> keys are <em>not</em> overwritten.</p>
 <h2 id="log_command">log_command</h2>
 <p>Logs the command execution details to a CSV file.</p>
 <p>:param cmd_name: The name of the command. :param cmd_args: The

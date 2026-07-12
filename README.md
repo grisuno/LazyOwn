@@ -3299,6 +3299,18 @@ update the same backing store and both persist through
 ``toast_max_per_tick``) match the schema entries in
 :mod:`core.payload_schema`.
 
+## _load_extended_params
+Load extra parameters from ``params/*.yaml`` into ``self.params``.
+
+Every YAML file in the ``params/`` directory is loaded as a flat
+key-value dict and merged into ``self.params`` at startup. This
+allows operators to add new configuration keys for lazyaddons,
+aliases, and pipelines without modifying ``payload.json`` or
+Python source.
+
+Files are loaded in alphabetical order; later files override
+earlier ones. ``payload.json`` keys are *not* overwritten.
+
 ## log_command
 Logs the command execution details to a CSV file.
 
@@ -13095,6 +13107,41 @@ No description available.
 <!-- START CHANGELOG -->
 
 # Changelog
+
+
+### Otros
+
+### Otros
+
+  *   * feature(feat): Multitentant, MFA, TOTP Generator, Multiusers, Colab and much much more. \n\n Version: release/0.2.155 \n\n with love \n\n Modified file(s):\n- KNOWLEDGE_BASE.md - README.md - cli/engagement_hooks.py - config.json - deploy/docker-compose.logging.yml - deploy/fluent-bit.conf - deploy/k8s/lazyown-c2.yaml - docs/openapi.yaml - lazyc2.py - lazyown.py - modules/collab_bp.py - modules/compliance.py - modules/lazy_rbac.py - modules/report_generator.py - modules/sessions/llm_budget.json - payloads/default_engagement.json - requirements.txt - templates/admin_tenants.html - templates/admin_users.html - templates/compliance.html - templates/mfa_setup.html - templates/mfa_verify.html - templates/profile.html - tests/test_core_modules.py - users.json\nCreated file(s):\n- KNOWLEDGE_BASE.md - config.json - deploy/docker-compose.logging.yml - deploy/fluent-bit.conf - deploy/k8s/lazyown-c2.yaml - docs/openapi.yaml - modules/compliance.py - modules/lazy_rbac.py - payloads/default_engagement.json - templates/admin_tenants.html - templates/admin_users.html - templates/compliance.html - templates/mfa_setup.html - templates/mfa_verify.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: sáb 11 jul 2026 18:49:54 -04 \n\n Hora: 1783810194
+
+
+### Otros
+
+### Otros
+
+  *   * Multitentant, MFA, TOTP Generator, Multiusers, Colab and much much more.
+
+
+### Otros
+
+### Otros
+
+  *   * Doc(creation documentation) a brand new KNOWLEDGE_BASE.md
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Doc(creation documentation) a brand new KNOWLEDGE_BASE.md
 
 
 ### Correcciones

@@ -45,6 +45,18 @@ update the same backing store and both persist through
 ``toast_max_per_tick``) match the schema entries in
 :mod:`core.payload_schema`.
 
+## _load_extended_params
+Load extra parameters from ``params/*.yaml`` into ``self.params``.
+
+Every YAML file in the ``params/`` directory is loaded as a flat
+key-value dict and merged into ``self.params`` at startup. This
+allows operators to add new configuration keys for lazyaddons,
+aliases, and pipelines without modifying ``payload.json`` or
+Python source.
+
+Files are loaded in alphabetical order; later files override
+earlier ones. ``payload.json`` keys are *not* overwritten.
+
 ## log_command
 Logs the command execution details to a CSV file.
 

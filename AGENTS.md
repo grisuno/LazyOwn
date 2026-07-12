@@ -11,9 +11,13 @@ Domain: penetration testing, red teaming, C2 operations
 
 LazyOwn is a professional pentest/red-team framework:
 
-- **CLI** (`lazyown.py`): cmd2 shell with 333+ commands and 200+ aliases covering the full kill chain.
+- **CLI** (`lazyown.py`): cmd2 shell with 360+ commands and 200+ aliases covering the full kill chain.
 - **C2** (`lazyc2.py`): Flask + Socket.IO web dashboard, beacon protocol, phishing, multi-operator collaboration.
 - **MCP** (`skills/lazyown_mcp.py`): ~131 tools exposing the framework to AI agents.
+- **DB** (`modules/db.py`): SQLite database layer — workspaces, hosts, services, vulns, creds, loot, notes, nmap import.
+- **Module Registry** (`modules/module_registry.py`): Catalog of 120+ modules from lazyaddons, plugins, tools, playbooks — search, use, run workflow.
+- **Payload Factory** (`modules/payload_factory.py`): Native payload generation (reverse shells, PowerShell, shellcode) with format conversion.
+- **Resource Scripting** (`modules/resource_script.py`): Enhanced `.ls` scripts with variables, if/while/for, macros, spool.
 
 All configuration lives in `payload.json`. All campaign state lives in `sessions/` (gitignored, never delete without confirmation).
 
@@ -31,9 +35,10 @@ Hermes Agent -> MCP -> skills/lazyown_mcp.py -> lazyown.py (CLI) / lazyc2.py (C2
 
 - `utils.py`: shared helpers, Config class, run_command wrapper. Imported by both CLI and C2.
 - `skills/`: MCP server, autonomous daemon, hive mind, SWAN (MoE+RL), policy engine, parquet DB.
-- `modules/`: LLM clients, blueprints, world model, playbook engine.
+- `modules/`: LLM clients, blueprints, world model, playbook engine, **db (SQLite)**, **module_registry (120+ modules)**, **payload_factory (native payloads)**.
 - `parquets/`: columnar knowledge bases (GTFOBins, LOLBas, MITRE ATT&CK).
 - `lazyaddons/`: 76 YAML tool integrations. `plugins/`: Lua plugins. `tools/`: pwntomate auto-jobs.
+- `cli/commands/`: CommandSets for **db_***, **search/use/back**, **generate**, **resource** — auto-registered at boot.
 
 ---
 

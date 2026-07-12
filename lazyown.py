@@ -86,6 +86,12 @@ from cli.status_bar import build_default_manager as _build_status_bar_manager
 from cli.toast_bus import render_toasts as _render_toasts
 from core.config import save_payload as _save_payload
 from skills.unified_orchestrator import build_default_orchestrator as _build_unified_orchestrator
+from modules.db import LazyOwnDB as _LazyOwnDB
+from modules.module_registry import ModuleRegistry as _ModuleRegistry
+from modules.module_registry import format_module_table as _format_module_table
+from modules.module_registry import format_module_detail as _format_module_detail
+from modules.payload_factory import PayloadFactory as _PayloadFactory
+from modules.payload_factory import format_payload_table as _format_payload_table
 
 _PALETTE_RENDER_CONFIG = _PaletteRenderConfig()
 _PALETTE_COMPLETER = _PaletteCompleter(_PALETTE_RENDER_CONFIG)
@@ -297,6 +303,7 @@ class LazyOwnShell(cmd2.Cmd):
             print_warn(f"inline hints hook not registered: {exc}")
         try:
             self.register_postcmd_hook(self._engagement_hook)
+            self.register_postcmd_hook(self._recording_hook)
             _reset_engagement_session()
         except Exception as exc:
             print_warn(f"engagement hook not registered: {exc}")
@@ -417,6 +424,16 @@ class LazyOwnShell(cmd2.Cmd):
             "tui_theme": "default",
         }
         self._load_extended_params()
+        self._lazyown_db: _LazyOwnDB | None = None
+        self._module_registry: _ModuleRegistry | None = None
+        self._payload_factory = _PayloadFactory()
+        self._active_module = None
+        self._active_module_options: dict = {}
+        self._db_workspace: str = "default"
+        self._spool_file: str | None = None
+        self._spool_handle = None
+        self._resource_recording: str | None = None
+        self._resource_recording_lines: list = []
         self.scripts = [
             "lazysearch",
             "lazysearch_gui",
@@ -852,6 +869,19 @@ class LazyOwnShell(cmd2.Cmd):
             except Exception:
                 pass
             _render_engagement_hook(cmd=cmd, phase=phase, enabled=enabled)
+        except Exception:
+            pass
+        return data
+
+    def _recording_hook(self, data: _PostcommandData) -> _PostcommandData:
+        """Post-command hook: record commands when ``makerc`` is active."""
+        try:
+            if self._resource_recording:
+                cmd_str = str(getattr(data, "statement", "") or "")
+                if cmd_str.strip():
+                    self._resource_recording_lines.append(cmd_str)
+                    with open(self._resource_recording, "a") as f:
+                        f.write(cmd_str + "\n")
         except Exception:
             pass
         return data
@@ -2522,12 +2552,74 @@ class LazyOwnShell(cmd2.Cmd):
 
     @cmd2.with_category(miscellaneous_category)
     def do_show(self, line):
-        """Show the current parameter values, sorted and aligned.
+        """Show params, modules, payloads, or active module options.
 
-        Rendering is delegated to :func:`cli.show.format_payload` so the same
-        formatter can be reused by reports, the dashboard or shift-handoff
-        artefacts.
+        Usage:
+            show                       — show all params (default)
+            show exploits              — list all exploit modules
+            show auxiliary             — list auxiliary modules
+            show scanners              — list scanner modules
+            show post                  — list post-exploitation modules
+            show payloads              — list registered payloads
+            show options               — show active module options
+            show modules               — list all modules
+            show all                   — list all modules by type
         """
+        arg = line.strip().lower()
+        if not arg:
+            rendered = _format_payload(self.params)
+            if rendered:
+                print_msg(rendered)
+            return
+
+        # Module type filters
+        type_map = {
+            "exploits": "exploit",
+            "auxiliary": "auxiliary",
+            "scanners": "scanner",
+            "scanner": "scanner",
+            "post": "post",
+            "payloads_modules": "payload",
+        }
+
+        if arg in type_map or arg in ("all", "modules"):
+            if self._module_registry is None:
+                self._module_registry = _ModuleRegistry()
+            reg = self._module_registry
+            reg.scan()
+
+            if arg == "all" or arg == "modules":
+                summary = reg.summary()
+                print_msg(f"Module summary ({len(reg)} total):")
+                for mtype, count in sorted(summary.items()):
+                    print_msg(f"  {mtype.capitalize():<12}: {count}")
+                print_msg(f"\nUse 'show {GREEN}<type>{RESET}' to list by type, or 'search {GREEN}<query>{RESET}' to find modules.")
+            else:
+                mtype = type_map[arg]
+                results = reg.by_type(mtype)
+                if not results:
+                    print_msg(f"No {arg} modules found.")
+                else:
+                    print_msg(f"{arg.capitalize()} ({len(results)}):")
+                    print(_format_module_table(results, cols=("name", "version", "description")))
+            return
+
+        if arg == "payloads":
+            payloads = self._payload_factory.list()
+            if not payloads:
+                print_msg("No payloads registered.")
+            else:
+                print_msg(f"Payloads ({len(payloads)}):")
+                print(_format_payload_table(payloads))
+            return
+
+        if arg == "options":
+            if self._active_module is None:
+                print_msg("No active module. Use 'use <module>' first.")
+                return
+            print(_format_module_detail(self._active_module))
+            return
+
         rendered = _format_payload(self.params)
         if rendered:
             print_msg(rendered)
@@ -3354,16 +3446,30 @@ class LazyOwnShell(cmd2.Cmd):
     @cmd2.with_category(miscellaneous_category)
     def do_run(self, line):
         """
-        Runs a specific LazyOwn script.
+        Runs a specific LazyOwn script or active module.
 
-        This method executes a script from the LazyOwn toolkit based on the provided
-        script name. If the script is not recognized, it prints an error message.
-        To see available scripts, use the `list` or `help list` commands.
+        If a module is active (via ``use <module>``), ``run`` executes it.
+        Otherwise it runs a script from the toolkit by name.
 
         :param line: The command line input containing the script name.
         :type line: str
         :return: None
         """
+
+        # Active module execution
+        if not line.strip() and self._active_module is not None:
+            module = self._active_module
+            if module.source == "yaml":
+                cmd_name = module.name
+                print_msg(f"Running module '{cmd_name}'...")
+                self.onecmd(cmd_name)
+            else:
+                print_msg(f"Running module '{module.name}' (source: {module.source})...")
+                if module.source in ("lua",):
+                    self.onecmd(module.name)
+                else:
+                    print_msg(f"Use '{GREEN}{module.name}{RESET}' directly to run.")
+            return
 
         args = shlex.split(line)
         if not args:

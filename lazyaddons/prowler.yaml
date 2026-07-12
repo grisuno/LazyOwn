@@ -1,0 +1,45 @@
+name: prowler
+description: >
+  Multi-cloud security assessment tool for AWS, Azure, and GCP.
+
+  Prowler executes hundreds of checks against cloud provider APIs following
+  CIS benchmarks, PCI-DSS controls, and custom security policies. It covers
+  IAM, storage, networking, logging, monitoring, encryption, and more.
+
+  Usage:
+    prowler aws --region us-east-1
+    prowler azure --az-cli-auth
+    prowler gcp --project-id my-project
+
+  Output is written to sessions/prowler_output/ as HTML + JSON + CSV.
+
+  Note: Requires valid cloud credentials configured via env vars or
+  cloud provider CLI (aws-cli, az-cli, gcloud) before running.
+
+author: Prowler Cloud / Toni de la Fuente
+version: 4.0.0
+enabled: true
+os: iaas
+trigger: []
+params:
+  - name: cloud_provider
+    type: string
+    required: false
+    default: aws
+    description: Cloud provider (aws, azure, gcp).
+  - name: cloud_region
+    type: string
+    required: false
+    default: us-east-1
+    description: AWS region to target.
+tool:
+  name: Prowler
+  repo_url: https://github.com/prowler-cloud/prowler.git
+  install_path: external/.exploit/prowler
+  install_command: pip install -e . --quiet 2>/dev/null || pip install alive-progress azure-identity boto3 --quiet 2>/dev/null
+  execute_command: >
+    python3 -m prowler {cloud_provider}
+    --region {cloud_region}
+    --output-filename ../../../sessions/prowler_output/prowler
+    --output-modes html json csv
+category: 02. Scanning & Enumeration

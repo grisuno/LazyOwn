@@ -1,0 +1,45 @@
+name: scoutsuite
+description: >
+  Multi-cloud security auditing tool for AWS, Azure, and GCP.
+
+  ScoutSuite probes cloud provider APIs to identify misconfigurations,
+  overly-permissive IAM policies, unencrypted data at rest, publicly
+  accessible storage buckets, and other cloud-specific security risks.
+
+  Usage:
+    scoutsuite --provider aws --region us-east-1
+    scoutsuite --provider azure
+    scoutsuite --provider gcp --project-id my-project
+
+  Output is written to sessions/scoutsuite_report/ as a static HTML report.
+
+  Note: Requires valid cloud credentials (AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY
+  or equivalent) configured in the environment before running.
+
+author: NCC Group
+version: 5.14.0
+enabled: true
+os: iaas
+trigger: []
+params:
+  - name: cloud_provider
+    type: string
+    required: false
+    default: aws
+    description: Cloud provider to scan (aws, azure, gcp).
+  - name: region
+    type: string
+    required: false
+    default: us-east-1
+    description: AWS region to target (only used for AWS provider).
+tool:
+  name: ScoutSuite
+  repo_url: https://github.com/nccgroup/ScoutSuite.git
+  install_path: external/.exploit/scoutsuite
+  install_command: pip install -r requirements.txt
+  execute_command: >
+    python3 scout.py {cloud_provider}
+    --report-dir ../../../sessions/scoutsuite_report
+    --region {region}
+    --no-browser
+category: 02. Scanning & Enumeration

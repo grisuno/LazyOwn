@@ -1,0 +1,44 @@
+name: report_full
+description: >
+  Generates a comprehensive engagement report from all session data.
+
+  Produces Markdown and DOCX reports in sessions/reports/ with findings
+  from network scans, cloud assessment, supply chain analysis, and all
+  other commands executed during the session.
+
+  The report includes:
+    - Scope & discovery summary
+    - CVSS v3.1 scored findings
+    - Compliance coverage (PCI-DSS, ISO 27001, NIST 800-53)
+    - Credential inventory
+    - Engagement timeline
+    - Attack plan
+    - Service-specific recommendations
+
+  Usage:
+    report_full [--output /path/to/report] [--sessions /path/to/sessions]
+
+author: LazyOwn RedTeam
+version: 1.0
+enabled: true
+os: any
+trigger: []
+params:
+  - name: report_output_path
+    type: string
+    required: false
+    default: ""
+    description: File path for generated report (empty = auto-name in sessions/).
+  - name: rhost
+    type: string
+    required: false
+    description: Target host (used for scope in report).
+tool:
+  name: report_full
+  repo_url: https://github.com/grisuno/LazyOwn.git
+  install_path: .
+  execute_command: >
+    python3 modules/report_generator.py
+    --sessions sessions/
+    --quiet
+category: 11. Reporting

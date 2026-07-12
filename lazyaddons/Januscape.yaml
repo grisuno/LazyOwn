@@ -1,6 +1,5 @@
 name: Januscape
-description: 'Januscape is a use-after-free vulnerability in the shadow MMU emulation of KVM/x86. It can trigger the bug with guest-side actions alone to corrupt the host kernel's shadow page, and it can threaten the guest-host isolation of KVM/x86 hosts that accept untrusted guests and expose nested virtualization, particularly multi-tenant x86 public clouds (GCP, AWS, etc.).
-  '
+description: "Januscape is a use-after-free vulnerability in the shadow MMU emulation of KVM/x86. It can trigger the bug with guest-side actions alone to corrupt the host kernel's shadow page, and it can threaten the guest-host isolation of KVM/x86 hosts that accept untrusted guests and expose nested virtualization, particularly multi-tenant x86 public clouds (GCP, AWS, etc.)."
 author: V4bel
 version: '1.0'
 enabled: true
@@ -16,5 +15,8 @@ tool:
   repo_url: https://github.com/V4bel/Januscape.git
   install_path: external/.exploit/Januscape
   install_command: git pull ; sudo apt-get install -y build-essential linux-headers-$(uname -r) ; make
-  execute_command: read -p "Choose Intel (1) or Amd (2): " input; [[ "$input" == "1" ]] && sudo rmmod kvm_intel; sudo insmod poc.ko || echo "sudo rmmod kvm_amd; sudo insmod poc.ko amd=1"
+  execute_command: >
+    read -p "Choose Intel (1) or Amd (2): " input;
+    [[ "$input" == "1" ]] && sudo rmmod kvm_intel; sudo insmod poc.ko
+    || echo "sudo rmmod kvm_amd; sudo insmod poc.ko amd=1"
 category: 03. Exploitation

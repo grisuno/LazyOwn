@@ -1,0 +1,33 @@
+# LazyOwn Attack Surface Profile
+# Overrides payload.json keys for automated CI/CD attack surface scanning.
+# Usage:
+#   ./run --headless --json-output \
+#         --profile profiles/attack_surface.yaml \
+#         --run-chain "pipeline run attack_surface"
+#
+# Override any key via --profile profiles/custom.yaml with your own values.
+
+# --- Target ---
+rhost: ""
+domain: ""
+lhost: "127.0.0.1"
+
+# --- Cloud credentials (set via env vars or profile override) ---
+# AWS: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_SESSION_TOKEN
+# Azure: AZURE_CLIENT_ID, AZURE_CLIENT_SECRET, AZURE_TENANT_ID
+# GCP: GOOGLE_APPLICATION_CREDENTIALS
+
+# --- Cloud assessment ---
+cloud_provider: aws
+cloud_region: us-east-1
+
+# --- Supply chain scanning ---
+trivy_target: "."
+trivy_scan_type: fs
+grype_target: "."
+
+# --- Output ---
+scope_enforcement: "report"
+auto_approve: true
+enable_c2_implant_debug: false
+c2_enabled: false

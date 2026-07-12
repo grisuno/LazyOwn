@@ -1,0 +1,18 @@
+# LazyOwn Cloud Assessment Profile
+# Headless profile for scheduled cloud infrastructure scanning.
+# Usage:
+#   ./run --headless --json-output \
+#         --profile profiles/cloud_scan.yaml \
+#         --run-chain "pipeline run cloud_assessment"
+#
+# Set cloud credentials via environment variables before running:
+#   AWS: export AWS_ACCESS_KEY_ID=... AWS_SECRET_ACCESS_KEY=...
+#   Azure: export AZURE_CLIENT_ID=... AZURE_CLIENT_SECRET=...
+#   GCP: export GOOGLE_APPLICATION_CREDENTIALS=/path/to/creds.json
+
+cloud_provider: aws
+cloud_region: us-east-1
+lhost: "127.0.0.1"
+scope_enforcement: "report"
+auto_approve: true
+c2_enabled: false

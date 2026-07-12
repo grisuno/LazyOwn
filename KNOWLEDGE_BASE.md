@@ -3,10 +3,10 @@
 > Generated offline by **readmenator**. Supports C, C++, Python, Go, Rust, JS/TS, Java, C#, Shell, PHP, Dart, GDScript, Nim, ASM.
 > No LLMs. No tokens. Pure static analysis. See more [here](https://github.com/grisuno/ReadMenator)
 
-**Total Files Parsed:** 15824 | **Total Symbols Extracted:** 76305 | **Total Imports:** 67311
+**Total Files Parsed:** 15828 | **Total Symbols Extracted:** 76376 | **Total Imports:** 67360
 
 ## Structural Knowledge Map
-> **Note:** The visual graph below has been intelligently pruned to the top 300 most relevant nodes to prevent rendering crashes. Full details of all 15824 files are documented below.
+> **Note:** The visual graph below has been intelligently pruned to the top 300 most relevant nodes to prevent rendering crashes. Full details of all 15828 files are documented below.
 
 ```mermaid
 graph TD
@@ -50543,7 +50543,7 @@ MyVectoredExceptionHandler1(
 **Functions:**
 - `login` (line 4)
 
-### PY (8693 files)
+### PY (8697 files)
 
 #### `__init__.py`
 **Path:** `__init__.py`
@@ -51352,6 +51352,70 @@ Phase: ``audit`` (cross-cutting; not tied to a kill-chain stage).*
 - `do_grep_log` (line 234) `def do_grep_log(self, statement)` - *Grep recent command outputs. Usage: grep_log <pattern> [--cmd <name>].*
 - `do_reload_addons` (line 263) `def do_reload_addons(self, _statement)` - *Re-scan lazyaddons/ and plugins/ for changes; reloads what's new.*
 - `do_audit_complete_keys` (line 288) `def do_audit_complete_keys(self, statement)` - *Print payload-aware completion suggestions for a partial command.*
+
+#### `caldera.py`
+**Path:** `cli/commands/caldera.py`
+
+**Classes:**
+- `CalderaCommandSet` (line 77) `class CalderaCommandSet(LazyOwnCommandSet)` - *Operation lifecycle, TTP coverage, and fact-based planner.*
+
+**Functions:**
+- `_resolve_manager` (line 60) `def _resolve_manager()`
+- `_resolve_coverage` (line 64) `def _resolve_coverage()`
+- `_resolve_planner` (line 70) `def _resolve_planner(shell)`
+- `_shell` (line 83) `def _shell(self)`
+- `do_op_list` (line 91) `def do_op_list(self, line)` - *List all operations.
+
+Usage: op_list*
+- `do_op_create` (line 110) `def do_op_create(self, line)` - *Create a new planned operation.
+
+Usage: op_create <name> <target> [apt_name] [description]*
+- `do_op_plan` (line 128) `def do_op_plan(self, line)` - *Populate operation steps from a playbook YAML or via MITRE derive.
+
+Usage: op_plan <op_id> [path/to/playbook.yaml]*
+- `do_op_start` (line 155) `def do_op_start(self, line)` - *Start (or resume) an operation.
+
+Usage: op_start <op_id>
+Steps with empty commands run as no-ops. Wire the
+``executor(callable)`` from outside the shell to actually
+execute payloads (see ``modules/operation.py``).*
+- `do_op_pause` (line 180) `def do_op_pause(self, line)` - *Pause a running operation.
+
+Usage: op_pause <op_id>*
+- `do_op_resume` (line 197) `def do_op_resume(self, line)` - *Resume a paused operation.
+
+Usage: op_resume <op_id>*
+- `do_op_stop` (line 214) `def do_op_stop(self, line)` - *Stop a running operation.
+
+Usage: op_stop <op_id>*
+- `do_op_status` (line 231) `def do_op_status(self, line)` - *Show the status of an operation.
+
+Usage: op_status <op_id>*
+- `do_op_timeline` (line 264) `def do_op_timeline(self, line)` - *Show the event timeline of an operation.
+
+Usage: op_timeline <op_id>*
+- `do_op_report` (line 287) `def do_op_report(self, line)` - *Generate a full report for an operation.
+
+Usage: op_report <op_id>*
+- `do_ttp_matrix` (line 305) `def do_ttp_matrix(self, line)` - *Render the MITRE ATT&CK coverage matrix across all operations.
+
+Usage: ttp_matrix*
+- `do_ttp_rebuild` (line 314) `def do_ttp_rebuild(self, line)` - *Re-walk the operations directory to refresh the coverage matrix.
+
+Usage: ttp_rebuild*
+- `do_ttp_show` (line 324) `def do_ttp_show(self, line)` - *Show details for a single MITRE technique.
+
+Usage: ttp_show <T1234.001>*
+- `do_plan` (line 351) `def do_plan(self, line)` - *Pick the next best technique to run for a target.
+
+Usage: plan <target>
+Shows the chosen technique, its score, and a one-line rationale.*
+- `do_plan_detail` (line 379) `def do_plan_detail(self, line)` - *Show the full ranked plan (all candidates) for a target.
+
+Usage: plan_detail <target>*
+- `do_plan_apply` (line 405) `def do_plan_apply(self, line)` - *Run the planner, then auto-create and start an operation.
+
+Usage: plan_apply <target> [op_name] [apt_name]*
 
 #### `command_and_control.py`
 **Path:** `cli/commands/command_and_control.py`
@@ -167489,6 +167553,46 @@ tool   : tool name (for context only — does not affect extraction)*
 
 *No symbols extracted*
 
+#### `operation.py`
+**Path:** `modules/operation.py`
+
+**Classes:**
+- `OperationStatus` (line 43) `class OperationStatus(str, Enum)`
+- `OpEvent` (line 53) `class OpEvent`
+- `OperationStep` (line 64) `class OperationStep`
+- `Operation` (line 80) `class Operation`
+- `OperationManager` (line 178) `class OperationManager` - *Persistent store and executor for Operation objects.*
+
+**Functions:**
+- `get_manager` (line 460) `def get_manager()` - *Return a fresh :class:`OperationManager`.*
+- `to_dict` (line 99) `def to_dict(self)`
+- `from_dict` (line 117) `def from_dict(cls, d)`
+- `save` (line 135) `def save(self)`
+- `log_event` (line 144) `def log_event(self, step_index, step_name, status, summary, findings_count, error)`
+- `record_facts` (line 165) `def record_facts(self, findings)`
+- `__init__` (line 181) `def __init__(self)`
+- `list` (line 185) `def list(self)` - *List all persisted operations.*
+- `get` (line 197) `def get(self, op_id)`
+- `create` (line 204) `def create(self, name, target, apt_name, description)` - *Create a new planned operation.*
+- `plan_from_apt` (line 223) `def plan_from_apt(self, op, playbook_yaml_path)` - *Populate steps from an APT playbook YAML (or fall back to a derived MITRE playbook).
+
+Args:
+    op: The operation to populate.
+    playbook_yaml_path: Path to a playbook YAML. If ``None``,
+        derives a playbook from the MITRE STIX2 store.*
+- `start` (line 282) `def start(self, op_id, executor)` - *Start or resume a planned operation.
+
+Args:
+    op_id: The operation ID.
+    executor: Optional callable ``(command, host) -> output``.
+        Defaults to a no-op for safe dry-runs.*
+- `pause` (line 357) `def pause(self, op_id)`
+- `resume` (line 366) `def resume(self, op_id, executor)`
+- `stop` (line 374) `def stop(self, op_id)`
+- `status` (line 384) `def status(self, op_id)` - *Return a structured status dict for an operation.*
+- `timeline` (line 413) `def timeline(self, op_id)`
+- `report` (line 419) `def report(self, op_id)`
+
 #### `payload_factory.py`
 **Path:** `modules/payload_factory.py`
 
@@ -167729,6 +167833,39 @@ response (when ``background=True``).*
 - `_narrate_step` (line 1247) `def _narrate_step(self, result, target)`
 - `_worker` (line 1333) `def _worker()`
 - `_replace` (line 278) `def _replace(match)`
+
+#### `planner.py`
+**Path:** `modules/planner.py`
+
+**Classes:**
+- `PlanCandidate` (line 43) `class PlanCandidate`
+- `PlanResult` (line 56) `class PlanResult`
+- `Planner` (line 224) `class Planner` - *Fact-based next-ability selector.
+
+Args:
+    world_model: Lazy-initialised callable returning a WorldModel.
+    obs_parser:  Lazy-initialised callable returning an ObsParser.
+    api_key:     Optional LLM key for tie-breaking only.*
+
+**Functions:**
+- `_gather_facts` (line 64) `def _gather_facts(world_model, obs_parser)` - *Collect a flat list of fact-type strings from world model + obs parser.*
+- `_risk_for` (line 160) `def _risk_for(technique_id)`
+- `_score_step` (line 189) `def _score_step(step, facts)`
+- `get_planner` (line 408) `def get_planner(api_key)`
+- `__init__` (line 233) `def __init__(self, world_model, obs_parser, api_key)`
+- `_wm` (line 243) `def _wm(self)`
+- `_parser` (line 257) `def _parser(self)`
+- `plan` (line 275) `def plan(self, target, max_candidates)` - *Return a ranked list of next-step candidates for *target*.
+
+Args:
+    target: The IP/hostname being engaged.
+    max_candidates: How many candidates to return.
+
+Returns:
+    :class:`PlanResult` with ranked candidates and the chosen one.*
+- `_build_rationale` (line 336) `def _build_rationale(chosen, facts, target)`
+- `_llm_tiebreak` (line 349) `def _llm_tiebreak(self, target, facts, candidates)`
+- `to_dict` (line 375) `def to_dict(self, result)`
 
 #### `playbook_engine.py`
 **Path:** `modules/playbook_engine.py`
@@ -168545,6 +168682,35 @@ Each result has a `result_id` you can pass to bridge.feedback().*
 - `execute_via_orchestrator` (line 595) `def execute_via_orchestrator(self, prompt, no_model)` - *Execute a prompt through the full TopoSwarm orchestrator (subprocess).
 Returns the output string. Used by the autonomous loop.*
 - `_hook` (line 494) `def _hook(m, i, o)`
+
+#### `ttp_coverage.py`
+**Path:** `modules/ttp_coverage.py`
+
+**Classes:**
+- `TTPRow` (line 57) `class TTPRow`
+- `TTPCoverage` (line 67) `class TTPCoverage` - *Aggregate TTP execution data across all operations.*
+
+**Functions:**
+- `get_coverage` (line 262) `def get_coverage()` - *Return a fresh :class:`TTPCoverage`.*
+- `__init__` (line 70) `def __init__(self)`
+- `rebuild_from_operations` (line 78) `def rebuild_from_operations(self)` - *Re-walk every operation on disk and refresh the matrix.
+
+Returns the number of techniques covered.*
+- `add` (line 127) `def add(self, technique_id, name, tactic, status, operation_id)`
+- `compute_ready` (line 148) `def compute_ready(self, available_facts)` - *Return the techniques that could run given available facts.
+
+A technique is ``ready`` if no blocking fact is missing. The
+rule used here is conservative — the technique is considered
+ready if it is ``untested`` and at least one fact matches the
+technique's tactic (e.g. ``service.found`` is enough for
+``T1021.*``). Operators should refine this with their own
+ability dependency data when available.*
+- `_blocking_facts` (line 167) `def _blocking_facts(self, tactic)`
+- `matrix` (line 189) `def matrix(self)` - *Render a coloured-by-tactic table of all techniques.*
+- `status_by_id` (line 233) `def status_by_id(self, technique_id)`
+- `to_dict` (line 236) `def to_dict(self)`
+- `_save_state` (line 243) `def _save_state(self)`
+- `_load_state` (line 250) `def _load_state(self)`
 
 #### `venator.py`
 **Path:** `modules/venator.py`

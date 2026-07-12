@@ -519,10 +519,16 @@ class LazyOwnStepRunner(IStepRunner):
     line so steps that read payload.json[rhost] always see the pipeline's
     target value, mirroring the autonomous daemon and EngageOrchestrator
     contract.
+
+    When *onecmd* is provided (a ``LazyOwnShell.onecmd`` bound method),
+    commands execute directly inside the calling shell instead of spawning
+    a new PTY subprocess.  This is significantly faster in headless/CI
+    contexts and avoids the startup overhead of the daemon runner.
     """
 
-    def __init__(self, runner: Any = None) -> None:
-        if runner is None:
+    def __init__(self, runner: Any = None, onecmd: Any = None) -> None:
+        self._onecmd = onecmd
+        if runner is None and onecmd is None:
             try:
                 from autonomous_daemon import _build_default_runner
                 runner = _build_default_runner()
@@ -535,12 +541,35 @@ class LazyOwnStepRunner(IStepRunner):
     def run(
         self, command: str, args: str, target: str, timeout_s: int,
     ) -> Tuple[str, bool, str]:
+        if self._onecmd is not None:
+            return self._run_via_onecmd(command, args, target, timeout_s)
         line = command if not args else f"{command} {args}"
         prelude = f"assign rhost {target}\n" if target else ""
         try:
             output = self._runner.run(prelude + line, timeout=timeout_s)
         except Exception as exc:
             return "", False, str(exc)
+        success = _heuristic_success(line, output)
+        return output, success, ""
+
+    def _run_via_onecmd(
+        self, command: str, args: str, target: str, timeout_s: int,
+    ) -> Tuple[str, bool, str]:
+        import io
+        import sys
+
+        line = command if not args else f"{command} {args}"
+        if target:
+            self._onecmd(f"assign rhost {target}")
+        old_stdout = sys.stdout
+        try:
+            sys.stdout = io.StringIO()
+            self._onecmd(line)
+            output = sys.stdout.getvalue()
+        except Exception as exc:
+            return "", False, str(exc)
+        finally:
+            sys.stdout = old_stdout
         success = _heuristic_success(line, output)
         return output, success, ""
 
@@ -1259,19 +1288,30 @@ _default_engine_lock = threading.Lock()
 _default_engine: Optional[PipelineEngine] = None
 
 
-def get_default_engine() -> PipelineEngine:
-    """Process-wide default engine for production callers."""
+def get_default_engine(onecmd: Any = None) -> PipelineEngine:
+    """Process-wide default engine for production callers.
+
+    When *onecmd* is given, the engine's step runner will execute commands
+    directly through the caller's shell instead of spawning a new PTY.
+    """
     global _default_engine
     with _default_engine_lock:
-        if _default_engine is None:
-            _default_engine = PipelineEngine()
+        if _default_engine is None or onecmd is not None:
+            runner = LazyOwnStepRunner(onecmd=onecmd)
+            return PipelineEngine(runner=runner)
         return _default_engine
 
 
 def mcp_pipeline_run(
     name: str, target: str = "", background: bool = False,
+    onecmd: Any = None,
 ) -> str:
     """Public MCP / CLI entry: run a pipeline.
+
+    When *onecmd* is provided (a ``LazyOwnShell.onecmd`` bound method),
+    commands execute directly inside the caller's shell instead of spawning
+    a new PTY subprocess.  This is the recommended path when running from
+    inside an interactive shell or headless runner.
 
     Returns a JSON string with either the full PipelineRun dict (when
     ``background=False``) or an immediate ``{status: started, run_id}``
@@ -1282,7 +1322,7 @@ def mcp_pipeline_run(
 
     if not background:
         try:
-            engine = get_default_engine()
+            engine = get_default_engine(onecmd=onecmd)
             run = engine.run(name=name, target=target)
             return json.dumps({"status": "ok", "run": run.to_dict()}, indent=2, default=str)
         except PipelineError as exc:
@@ -1292,7 +1332,7 @@ def mcp_pipeline_run(
 
     def _worker() -> None:
         try:
-            engine = get_default_engine()
+            engine = get_default_engine(onecmd=onecmd)
             engine.run(name=name, target=target)
         except Exception as exc:
             _log.error("pipeline background run failed: %s", exc)

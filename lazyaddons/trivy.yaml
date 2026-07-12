@@ -1,0 +1,52 @@
+name: trivy
+description: >
+  Comprehensive vulnerability scanner for containers, filesystems,
+  git repositories, and Kubernetes.
+
+  Trivy detects CVEs in OS packages (Alpine, Debian, Ubuntu, CentOS, etc.),
+  application dependencies (Python, Node, Java, Go, Ruby, Rust), IaC
+  misconfigurations (Terraform, CloudFormation, K8s, Dockerfile), and
+  exposed secrets in source code.
+
+  Usage:
+    trivy image nginx:latest
+    trivy fs /path/to/project
+    trivy repo https://github.com/org/repo
+    trivy config ./terraform/
+
+  Output is written to sessions/trivy_output.json and displayed in console.
+
+  No cloud credentials required — runs entirely offline with local DB.
+
+author: Aqua Security
+version: 0.52.0
+enabled: true
+os: any
+trigger: []
+params:
+  - name: trivy_target
+    type: string
+    required: false
+    default: "."
+    description: Target to scan (image name, filesystem path, repo URL, or config dir).
+  - name: trivy_scan_type
+    type: string
+    required: false
+    default: fs
+    description: Scan type (image, fs, repo, config, sbom).
+tool:
+  name: Trivy
+  repo_url: https://github.com/aquasecurity/trivy.git
+  install_path: external/.exploit/trivy
+  install_command: >
+    rm -f trivy 2>/dev/null;
+    curl -sSfL https://github.com/aquasecurity/trivy/releases/download/v0.72.0/trivy_0.72.0_Linux-64bit.tar.gz
+    | tar xz -C . trivy && chmod +x trivy
+  execute_command: >
+    ./trivy {trivy_scan_type}
+    --format json
+    --output ../../../sessions/trivy_{trivy_scan_type}_{trivy_target}.json
+    --severity CRITICAL,HIGH,MEDIUM,LOW
+    --exit-code 0
+    {trivy_target}
+category: 02. Scanning & Enumeration

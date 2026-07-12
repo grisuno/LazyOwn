@@ -416,6 +416,7 @@ class LazyOwnShell(cmd2.Cmd):
             "enable_operator_presence": False,
             "tui_theme": "default",
         }
+        self._load_extended_params()
         self.scripts = [
             "lazysearch",
             "lazysearch_gui",
@@ -543,6 +544,38 @@ class LazyOwnShell(cmd2.Cmd):
                 onchange_cb=_persist,
             )
         )
+
+    def _load_extended_params(self) -> None:
+        """Load extra parameters from ``params/*.yaml`` into ``self.params``.
+
+        Every YAML file in the ``params/`` directory is loaded as a flat
+        key-value dict and merged into ``self.params`` at startup. This
+        allows operators to add new configuration keys for lazyaddons,
+        aliases, and pipelines without modifying ``payload.json`` or
+        Python source.
+
+        Files are loaded in alphabetical order; later files override
+        earlier ones. ``payload.json`` keys are *not* overwritten.
+        """
+        import glob
+        import yaml as _yaml
+        from pathlib import Path as _Path
+
+        params_dir = _Path(__file__).resolve().parent / "params"
+        if not params_dir.is_dir():
+            return
+
+        for yaml_path in sorted(glob.glob(str(params_dir / "*.yaml"))):
+            try:
+                with open(yaml_path, "r", encoding="utf-8") as fh:
+                    overrides = _yaml.safe_load(fh)
+                if not isinstance(overrides, dict):
+                    continue
+                for key, value in overrides.items():
+                    if key not in self.params:
+                        self.params[key] = value
+            except Exception as exc:
+                print_warn(f"params/{_Path(yaml_path).name}: {exc}")
 
     def log_command(
         self,
@@ -3262,7 +3295,7 @@ class LazyOwnShell(cmd2.Cmd):
             target = _flag_value("--target") or self.params.get("rhost", "")
             background = "--background" in flags
             print_msg(f"pipeline run: name={name} target={target or '(default)'} background={background}")
-            print_msg(_pl_run(name=name, target=target, background=background))
+            print_msg(_pl_run(name=name, target=target, background=background, onecmd=self.onecmd))
             return
         print_error(f"pipeline: unknown subcommand {action!r}")
 

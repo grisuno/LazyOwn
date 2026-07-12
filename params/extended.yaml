@@ -1,0 +1,18 @@
+# Extended parameters for lazyaddons and pipelines.
+# Add any new parameter here to make it available in the shell
+# without modifying payload.json or Python code.
+#
+# Usage:
+#   params:
+#     my_param: "value"
+#   Then reference as {my_param} in any lazyaddon YAML or alias.
+#
+# Add more files under params/*.yaml to extend further.
+# All files are loaded alphabetically at shell startup.
+
+target: ""
+cloud_provider: "aws"
+cloud_region: "us-east-1"
+region: "us-east-1"
+scan_type: "fs"
+report_output_path: ""

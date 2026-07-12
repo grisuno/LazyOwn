@@ -1,0 +1,16 @@
+# LazyOwn Supply Chain Assessment Profile
+# Headless profile for scheduled supply chain / dependency scanning.
+# Usage:
+#   ./run --headless --json-output \
+#         --profile profiles/supply_chain_scan.yaml \
+#         --run-chain "pipeline run supply_chain"
+#
+# Set trivy_target and grype_target to the path or image to scan.
+
+trivy_target: "."
+trivy_scan_type: fs
+grype_target: "."
+lhost: "127.0.0.1"
+scope_enforcement: "report"
+auto_approve: true
+c2_enabled: false

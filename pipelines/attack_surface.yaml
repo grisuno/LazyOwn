@@ -1,0 +1,36 @@
+name: attack_surface
+description: >
+  Comprehensive attack surface assessment pipeline.
+
+  Chains network recon, cloud infrastructure assessment, and supply
+  chain vulnerability scanning into a single automated run suitable
+  for CI/CD integration or scheduled scanning.
+
+  Phases:
+    1. Network recon (ping, nmap, enumeration)
+    2. Cloud infrastructure assessment (ScoutSuite, Prowler, CloudSploit)
+    3. Supply chain / dependency scanning (Trivy, Grype)
+    4. Report generation
+
+  Usage:
+    pipeline run attack_surface --target <ip>
+    ./run --headless --profile profiles/attack_surface.yaml --run-chain "pipeline run attack_surface"
+
+steps:
+  - name: network_recon
+    command: lazynmap
+    args: ""
+    on_failure: continue
+
+  - name: cloud_assessment
+    pipeline: cloud_assessment
+    on_failure: continue
+
+  - name: supply_chain_assessment
+    pipeline: supply_chain
+    on_failure: continue
+
+  - name: generate_report
+    command: report_full
+    args: ""
+    on_failure: continue

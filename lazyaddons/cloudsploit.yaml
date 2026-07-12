@@ -1,0 +1,47 @@
+name: cloudsploit
+description: >
+  Cloud security configuration scanner for AWS, Azure, GCP, and Oracle Cloud.
+
+  CloudSploit (aka aqua64/scans) detects misconfigured cloud resources:
+  publicly exposed storage, overly permissive security groups, unencrypted
+  data, logging gaps, and identity risks. Results are written to
+  sessions/cloudsploit_output.json for ingestion into the world model.
+
+  Usage:
+    cloudsploit aws us-east-1
+    cloudsploit azure
+    cloudsploit gcp my-project
+
+  Note: Requires cloud credentials configured via environment variables
+  (AWS_ACCESS_KEY_ID, AZURE_CLIENT_SECRET, GOOGLE_APPLICATION_CREDENTIALS).
+
+author: Aqua Security
+version: 1.0.0
+enabled: true
+os: iaas
+trigger: []
+params:
+  - name: cloud_provider
+    type: string
+    required: false
+    default: aws
+    description: Cloud provider (aws, azure, gcp, oracle).
+  - name: cloud_region
+    type: string
+    required: false
+    default: us-east-1
+    description: Region to scan (provider-specific identifier).
+tool:
+  name: CloudSploit
+  repo_url: https://github.com/aquasecurity/cloudsploit.git
+  install_path: external/.exploit/cloudsploit
+  install_command: npm install --production
+  execute_command: >
+    node index.js
+    --config ./config.js
+    --csv ../../../sessions/cloudsploit_{cloud_provider}_{cloud_region}.csv
+    --json ../../../sessions/cloudsploit_{cloud_provider}_{cloud_region}.json
+    --console none
+    --cloud {cloud_provider}
+    --region {cloud_region}
+category: 02. Scanning & Enumeration

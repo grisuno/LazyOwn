@@ -52,3 +52,28 @@ All pull requests will be reviewed by project maintainers. Here are some things 
 Maintain open and respectful communication with other contributors and maintainers. If you have questions, do not hesitate to ask in the project's discussions.
 
 Thank you for contributing to LazyOwn. Together, we can make this project even better.
+
+
+### Reporting Issues / Security Advisories
+- Use the [Issues tab](https://github.com/grisuno/LazyOwn/issues) for bugs and feature requests.
+- For **security vulnerabilities**, please report them responsibly (contact the maintainer privately if possible).
+
+### Submitting Pull Requests
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Make your changes
+4. Ensure the code follows the existing style
+5. Test your changes thoroughly
+6. Submit a Pull Request with a clear description
+
+### Development Setup
+- Follow the instructions in `README.md` and `KNOWLEDGE_BASE.md`
+- Docker is highly recommended for development
+
+### Special Thanks
+We want to thank **EQSTLab** for their valuable security advisories that help us make LazyOwn more robust.
+
+## Code of Conduct
+Be respectful, constructive, and open-minded. We value high-quality, secure, and well-documented contributions.
+
+Happy hacking!

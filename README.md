@@ -81,6 +81,8 @@ LazyOwn integrates a command-line interface (CLI) built on cmd2 and a web-based 
 
 ![image](https://github.com/user-attachments/assets/5ee8be8b-b3be-4e6e-9a96-9e6a546fb047)
 
+# See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
+
 # LazyOwn Skills — MCP Integration
 
 Connect Claude Code to the LazyOwn framework via the Model Context Protocol (MCP). The MCP server exposes 67 tools covering the full engagement lifecycle.

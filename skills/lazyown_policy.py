@@ -1212,10 +1212,15 @@ class SessionClassificationPipeline:
         self._store.append_step(step)
         if prev_state:
             self._transitions.record(prev_state, step.category, step.outcome)
+        safe_args = re.sub(
+            r"(?i)(-p|--password|--token|--api-key|--secret|--key|--pw)\s+\S+",
+            r"\1 ****",
+            args[:80],
+        )
         self._logger.info(
             "Classified %s %s -> %s/%s (reward=%+d conf=%.2f tier=%s detect=%.0f%%)",
             command,
-            args[:40],
+            safe_args,
             result.category.value,
             result.outcome.value,
             reward,

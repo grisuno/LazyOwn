@@ -92,5 +92,27 @@
         "recovery_codes": [],
         "elo": 0,
         "tenant_id": "default"
+    },
+    {
+        "id": 10,
+        "username": "operator_p2la237g",
+        "password_hash": "scrypt:32768:8:1$Oy8n0oE7ZQSYJbFl$126e6d71b2346eb86db9ba24c78424b08d943e6f8513db26343a054ad144aa144794a65e86a59bf06e60f60bb9cd89150b9a4e9e07a17a3efbd7419a72f3854b",
+        "role": "admin",
+        "mfa_enabled": false,
+        "mfa_secret": "",
+        "recovery_codes": [],
+        "elo": 0,
+        "tenant_id": "default"
+    },
+    {
+        "id": 11,
+        "username": "operator_he32jeea",
+        "password_hash": "scrypt:32768:8:1$rNFjObb36eDD1FGy$2859f47e2109dcc2da3eb192d9c7464871ea6fbb94eb5ce44f1cf2e9cc9086c3ec8138b53c343866edb17f313b7d3393a44fd26a98314dd0443a3df0bbc67171",
+        "role": "admin",
+        "mfa_enabled": false,
+        "mfa_secret": "",
+        "recovery_codes": [],
+        "elo": 0,
+        "tenant_id": "default"
     }
 ]

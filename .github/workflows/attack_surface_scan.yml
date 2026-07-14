@@ -19,6 +19,9 @@ on:
         required: false
         default: full
 
+permissions:
+  contents: read
+
 jobs:
   attack_surface_scan:
     runs-on: ubuntu-latest

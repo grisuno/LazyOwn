@@ -1,6 +1,6 @@
 {
   "binary_name": "gzip",
-  "api_key": null,
+  "api_key": "null",
   "prompt": null,
   "url": null,
   "os_id": "2",
@@ -72,10 +72,5 @@
   "cloud_region": "us-east-1",
   "region": "us-east-1",
   "scan_type": "fs",
-  "report_output_path": "",
-  "trivy_target": ".",
-  "trivy_scan_type": "fs",
-  "grype_target": ".",
-  "auto_approve": true,
-  "c2_enabled": false
+  "report_output_path": ""
 }

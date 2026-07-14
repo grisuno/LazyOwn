@@ -5137,9 +5137,15 @@ def compliance_add_evidence():
         filepath = request.form.get('filepath', '').strip()
         operator = current_user.username
         description = request.form.get('description', '').strip()
-        if not filepath or not os.path.exists(filepath):
+        if not filepath:
             return jsonify({"error": "File not found"}), 400
-        entry = engine.add_evidence(filepath, operator, description)
+        sessions_base = Path("sessions").resolve()
+        requested = (sessions_base / filepath).resolve()
+        if not str(requested).startswith(str(sessions_base)):
+            return jsonify({"error": "Invalid path"}), 400
+        if not requested.exists():
+            return jsonify({"error": "File not found"}), 400
+        entry = engine.add_evidence(str(requested), operator, description)
         return jsonify({
             "status": "added",
             "sha256": entry.sha256,
@@ -5147,8 +5153,9 @@ def compliance_add_evidence():
         })
     except ImportError:
         return jsonify({"error": "Compliance module not available"}), 500
-    except Exception as e:
-        return jsonify({"error": str(e)}), 400
+    except Exception:
+        app.logger.error("Evidence add failed", exc_info=True)
+        return jsonify({"error": "Internal error"}), 500
 
 
 @app.route('/compliance/evidence/verify', methods=['GET'])

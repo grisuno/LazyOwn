@@ -376,6 +376,7 @@ class SoulUpdater:
         else:
             new_text = text.rstrip() + f"\n\n## {header}\n{new_body.rstrip()}\n"
         self._path.write_text(new_text)
+        self._path.chmod(0o600)
 
     def _patch_line(self, key: str, value: str) -> None:
         """Replace `key: <old>` with `key: value` anywhere in the file."""
@@ -386,6 +387,7 @@ class SoulUpdater:
         else:
             new_text = text.rstrip() + f"\n{key}: {value}\n"
         self._path.write_text(new_text)
+        self._path.chmod(0o600)
 
     # ── public API ────────────────────────────────────────────────────────────
 
@@ -423,7 +425,7 @@ class SoulUpdater:
                 continue
             seen.add(user)
             if passwd:
-                lines.append(f"- {user}:{passwd}")
+                lines.append(f"- {user}:{passwd[:4]}****")
             elif hv:
                 lines.append(f"- {user}:{hv[:16]}… (NTLM)")
             else:

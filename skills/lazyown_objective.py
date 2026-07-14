@@ -425,7 +425,7 @@ class SoulUpdater:
                 continue
             seen.add(user)
             if passwd:
-                lines.append(f"- {user}:{passwd[:4]}****")
+                lines.append(f"- {user}:****")
             elif hv:
                 lines.append(f"- {user}:{hv[:16]}… (NTLM)")
             else:

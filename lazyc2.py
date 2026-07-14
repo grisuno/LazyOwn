@@ -5139,13 +5139,13 @@ def compliance_add_evidence():
         description = request.form.get('description', '').strip()
         if not filepath:
             return jsonify({"error": "File not found"}), 400
-        sessions_base = Path("sessions").resolve()
-        requested = (sessions_base / filepath).resolve()
-        if not str(requested).startswith(str(sessions_base)):
+        safe_parts = [p for p in filepath.replace('\\', '/').split('/') if p and p not in ('.', '..')]
+        if not safe_parts:
             return jsonify({"error": "Invalid path"}), 400
-        if not requested.exists():
+        safe_path = os.path.join("sessions", *safe_parts)
+        if not os.path.exists(safe_path):
             return jsonify({"error": "File not found"}), 400
-        entry = engine.add_evidence(str(requested), operator, description)
+        entry = engine.add_evidence(safe_path, operator, description)
         return jsonify({
             "status": "added",
             "sha256": entry.sha256,

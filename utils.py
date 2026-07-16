@@ -1927,9 +1927,10 @@ def ensure_tmux_session(session_name):
     )
 
     if result.returncode != 0:
-        command = f"tmux has-session -t '{session_name}' 2>/dev/null || tmux new-session -d -s '{session_name}' './run --no-banner' && tmux attach -t '{session_name}'"
+        q = shlex.quote(session_name)
+        command = f"tmux has-session -t {q} 2>/dev/null || tmux new-session -d -s {q} './run --no-banner' && tmux attach -t {q}"
         print_msg(command)
-        os.system(command)
+        subprocess.run(command, shell=True, check=False)
 
 def get_xml(directory):
     """
@@ -2201,18 +2202,21 @@ def generate_index(repo_dir):
         if package.endswith('.deb'):
             shutil.move(os.path.join(repo_dir, package), os.path.join(pool_dir, package))
 
-    subprocess.run(
-        f"dpkg-scanpackages {pool_dir} /dev/null > {dists_dir}/Packages",
-        shell=True, check=True
-    )
-    subprocess.run(
-        f"gzip -9c {dists_dir}/Packages > {dists_dir}/Packages.gz",
-        shell=True, check=True
-    )
-    subprocess.run(
-        f"xz -9c {dists_dir}/Packages > {dists_dir}/Packages.xz",
-        shell=True, check=True
-    )
+    with open(os.path.join(dists_dir, "Packages"), "w") as fh:
+        subprocess.run(
+            ["dpkg-scanpackages", pool_dir, "/dev/null"],
+            stdout=fh, check=True
+        )
+    with open(os.path.join(dists_dir, "Packages.gz"), "wb") as fh:
+        subprocess.run(
+            ["gzip", "-9c", os.path.join(dists_dir, "Packages")],
+            stdout=fh, check=True
+        )
+    with open(os.path.join(dists_dir, "Packages.xz"), "wb") as fh:
+        subprocess.run(
+            ["xz", "-9c", os.path.join(dists_dir, "Packages")],
+            stdout=fh, check=True
+        )
 
     release_file = os.path.join(repo_dir, 'dists/kali-rolling/Release')
     with open(release_file, 'w') as release:

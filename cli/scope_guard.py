@@ -40,9 +40,9 @@ from __future__ import annotations
 
 import ipaddress
 import json
+from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass
-from enum import Enum
-from typing import Callable, Mapping, Sequence
+from enum import StrEnum
 
 OFFENSIVE_CATEGORIES: frozenset[str] = frozenset(
     {
@@ -66,7 +66,7 @@ the guard never interferes with payload generation, report writing or
 configuration."""
 
 
-class ScopeMode(str, Enum):
+class ScopeMode(StrEnum):
     """Enforcement posture for the scope guard.
 
     Attributes:

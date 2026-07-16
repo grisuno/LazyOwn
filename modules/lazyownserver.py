@@ -1,9 +1,8 @@
-#!/usr/bin/env python3 
-#_*_ coding: utf8 _*_
+#!/usr/bin/env python3
 """
 main.py
 
-Autor: Gris Iscomeback 
+Autor: Gris Iscomeback
 Correo electrónico: grisiscomeback[at]gmail[dot]com
 Fecha de creación: 09/06/2024
 Licencia: GPL v3
@@ -18,16 +17,18 @@ Descripción: Servidor LazyOwn RAT
 ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
 
 """
-import os
-import socket
-import signal
-import sys
 import argparse
+import binascii
+import os
+import signal
+import socket
+import subprocess
+import sys
 import threading
+
 from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
-import binascii
-import subprocess
+
 
 def signal_handler(sig, frame):
     print("\n [<-] Saliendo...")
@@ -95,7 +96,7 @@ def main():
     ███████╗██║  ██║███████╗   ██║   ╚██████╔╝╚███╔███╔╝██║ ╚████║
     ╚══════╝╚═╝  ╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
     [*] Iniciando: LazyOwn RAT Tool [;,;]
-    """    
+    """
     print(BANNER)
 
     parser = argparse.ArgumentParser(description='LazyOwnRAT Server')

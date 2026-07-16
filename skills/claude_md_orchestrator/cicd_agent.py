@@ -18,11 +18,9 @@ import re
 import subprocess
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional
 
 from .config import Config
 from .models import Contract, ReviewReport, Spec
-
 
 SAFE_BRANCH = re.compile(r"[^a-z0-9-]+")
 
@@ -142,7 +140,7 @@ def _render_pipeline(contract: Contract, spec: Spec, config: Config) -> str:
     )
 
 
-def _render_pr_body(contract: Contract, spec: Spec, report: Optional[ReviewReport]) -> str:
+def _render_pr_body(contract: Contract, spec: Spec, report: ReviewReport | None) -> str:
     """Render the PR body the agent writes to disk."""
     lines = [
         f"# Contract {contract.contract_id}",
@@ -178,11 +176,11 @@ def _render_pr_body(contract: Contract, spec: Spec, report: Optional[ReviewRepor
 def run(
     contract: Contract,
     spec: Spec,
-    report: Optional[ReviewReport],
+    report: ReviewReport | None,
     config: Config,
     *,
     auto_commit: bool = False,
-    deploy_token: Optional[str] = None,
+    deploy_token: str | None = None,
 ) -> CicdResult:
     """Run the CI and CD agent for one contract.
 

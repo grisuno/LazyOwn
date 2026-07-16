@@ -1,9 +1,8 @@
-#!/usr/bin/env python3 
-#_*_ coding: utf8 _*_
+#!/usr/bin/env python3
 """
 main.py
 
-Autor: Gris Iscomeback 
+Autor: Gris Iscomeback
 Correo electrónico: grisiscomeback[at]gmail[dot]com
 Fecha de creación: 09/06/2024
 Licencia: GPL v3
@@ -19,17 +18,20 @@ Descripción: Assistente de consola
 
 """
 
-import os
 import argparse
-import logging
-import signal
-import sys
-import time
-import subprocess
 import json
+import logging
+import os
+import signal
+import subprocess
+import sys
 import tempfile
+import time
+
 from groq import Groq
+
 from modules.colors import retModel
+
 BANNER = """
 ██╗      █████╗ ███████╗██╗   ██╗ ██████╗ ██╗    ██╗███╗   ██╗
 ██║     ██╔══██╗╚══███╔╝╚██╗ ██╔╝██╔═══██╗██║    ██║████╗  ██║
@@ -62,7 +64,7 @@ KNOWLEDGE_BASE_FILE = f"{script_dir}/knowledge_base.json"
 IMPROVED_KNOWLEDGE_BASE_FILE = f"{script_dir}/knowledge_base_improved.json"
 
 def signal_handler(sig: int, frame: any) -> None:
-    print(f'\n[*] Interrupción recibida, saliendo del programa.')
+    print('\n[*] Interrupción recibida, saliendo del programa.')
     cleanup_temp_files()
     sys.exit(0)
 
@@ -174,7 +176,7 @@ def cleanup_temp_files():
 
 def main() -> None:
     print(BANNER)
-    
+
     args = parse_args()
     configure_logging(args.debug)
 
@@ -210,7 +212,7 @@ def main() -> None:
 
             print(f"[$] Ejecutando el comando: > {message}")
             result = execute_command(message)
-            
+
             if result.returncode != 0:
                 error_message = result.stderr.strip()
                 logging.error(f"[E] Error al ejecutar el comando: {error_message}")

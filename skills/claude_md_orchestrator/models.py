@@ -10,10 +10,10 @@ from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-from datetime import datetime, timezone
-from enum import Enum
+from datetime import UTC, datetime
+from enum import StrEnum
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 
 def _now_iso() -> str:
@@ -22,10 +22,10 @@ def _now_iso() -> str:
     The helper centralises timestamp formatting so the JSONL log stays
     consistent across agents and runs.
     """
-    return datetime.now(timezone.utc).isoformat()
+    return datetime.now(UTC).isoformat()
 
 
-class Stage(str, Enum):
+class Stage(StrEnum):
     """Pipeline stages the orchestrator walks through in order.
 
     Members:
@@ -47,7 +47,7 @@ class Stage(str, Enum):
     DONE = "done"
 
 
-class Severity(str, Enum):
+class Severity(StrEnum):
     """Severity levels the reviewer emits.
 
     Members:
@@ -93,7 +93,7 @@ class Contract:
         return asdict(self)
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> "Contract":
+    def from_dict(cls, data: dict[str, Any]) -> Contract:
         """Build a Contract from a JSON friendly dictionary."""
         return cls(
             contract_id=str(data.get("contract_id", "")),
@@ -122,7 +122,7 @@ class SadPath:
         return asdict(self)
 
     @classmethod
-    def from_dict(cls, data: dict[str, str]) -> "SadPath":
+    def from_dict(cls, data: dict[str, str]) -> SadPath:
         """Build a SadPath from a JSON friendly dictionary."""
         return cls(
             condition=str(data.get("condition", "")),
@@ -170,7 +170,7 @@ class Spec:
         return data
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> "Spec":
+    def from_dict(cls, data: dict[str, Any]) -> Spec:
         """Build a Spec from a JSON friendly dictionary."""
         return cls(
             contract_id=str(data.get("contract_id", "")),
@@ -242,7 +242,7 @@ class TestSuite:
         return data
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> "TestSuite":
+    def from_dict(cls, data: dict[str, Any]) -> TestSuite:
         """Build a TestSuite from a JSON friendly dictionary."""
         return cls(
             contract_id=str(data.get("contract_id", "")),
@@ -279,7 +279,7 @@ class Finding:
         }
 
     @classmethod
-    def from_dict(cls, data: dict[str, str]) -> "Finding":
+    def from_dict(cls, data: dict[str, str]) -> Finding:
         """Build a Finding from a JSON friendly dictionary."""
         return cls(
             severity=Severity(str(data.get("severity", "info"))),
@@ -332,7 +332,7 @@ class ReviewReport:
         }
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> "ReviewReport":
+    def from_dict(cls, data: dict[str, Any]) -> ReviewReport:
         """Build a ReviewReport from a JSON friendly dictionary."""
         return cls(
             contract_id=str(data.get("contract_id", "")),
@@ -369,14 +369,14 @@ class CicleState:
 
     contract: Contract
     stage: Stage = Stage.PENDING
-    spec_path: Optional[Path] = None
-    test_path: Optional[Path] = None
-    src_path: Optional[Path] = None
-    review_path: Optional[Path] = None
-    doc_path: Optional[Path] = None
+    spec_path: Path | None = None
+    test_path: Path | None = None
+    src_path: Path | None = None
+    review_path: Path | None = None
+    doc_path: Path | None = None
     branch_name: str = ""
-    pipeline_path: Optional[Path] = None
-    pr_body_path: Optional[Path] = None
+    pipeline_path: Path | None = None
+    pr_body_path: Path | None = None
     approved: bool = False
     deployed: bool = False
     started_at: str = field(default_factory=_now_iso)
@@ -401,7 +401,7 @@ class CicleState:
         return data
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> "CicleState":
+    def from_dict(cls, data: dict[str, Any]) -> CicleState:
         """Build a CicleState from a JSON friendly dictionary."""
         contract_data = data.get("contract") or {}
         return cls(
@@ -449,7 +449,7 @@ class CicleStateFile:
         }
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> "CicleStateFile":
+    def from_dict(cls, data: dict[str, Any]) -> CicleStateFile:
         """Build a CicleStateFile from a JSON friendly dictionary."""
         return cls(
             run_id=str(data.get("run_id", "current")),
@@ -469,7 +469,7 @@ class CicleStateFile:
         tmp.replace(path)
 
     @classmethod
-    def load(cls, path: Path) -> "CicleStateFile":
+    def load(cls, path: Path) -> CicleStateFile:
         """Read the state from disk.
 
         Args:

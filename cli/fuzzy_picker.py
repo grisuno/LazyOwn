@@ -40,9 +40,9 @@ import os
 import re
 import sys
 from abc import ABC, abstractmethod
+from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 from difflib import SequenceMatcher
-from typing import Callable, Sequence
 
 
 @dataclass(frozen=True)

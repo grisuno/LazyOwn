@@ -24,7 +24,6 @@ import logging
 import os
 import urllib.error
 import urllib.request
-from typing import Optional
 
 log = logging.getLogger("llm_client")
 
@@ -82,7 +81,7 @@ class LLMClient:
         prompt: str,
         *,
         provider: str = "auto",
-        model: Optional[str] = None,
+        model: str | None = None,
         system: str = "You are a helpful penetration testing assistant.",
         temperature: float = 0.7,
     ) -> str:
@@ -129,7 +128,7 @@ class LLMClient:
         *,
         question: str = "Did this command succeed? Answer only: success, failure, or partial.",
         provider: str = "auto",
-        model: Optional[str] = None,
+        model: str | None = None,
     ) -> str:
         """
         Short classification prompt. Returns a single word: success / failure / partial.
@@ -158,7 +157,7 @@ class LLMClient:
         *,
         max_chars: int = 6000,
         provider: str = "auto",
-        model: Optional[str] = None,
+        model: str | None = None,
     ) -> str:
         """
         Summarize a block of text (e.g. nmap output, tool output).
@@ -234,7 +233,7 @@ class LLMClient:
 
 # ── Module-level singleton (lazy init) ────────────────────────────────────────
 
-_default_client: Optional[LLMClient] = None
+_default_client: LLMClient | None = None
 
 
 def get_client(api_key: str = "") -> LLMClient:
@@ -249,7 +248,7 @@ def ask(
     prompt: str,
     *,
     provider: str = "auto",
-    model: Optional[str] = None,
+    model: str | None = None,
     api_key: str = "",
     system: str = "You are a helpful penetration testing assistant.",
 ) -> str:
@@ -270,7 +269,8 @@ def summarize(text: str, *, provider: str = "auto", api_key: str = "") -> str:
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
-    import argparse, sys
+    import argparse
+    import sys
 
     p = argparse.ArgumentParser(description="LazyOwn LLM Client CLI")
     p.add_argument("prompt", nargs="?", default="", help="Prompt text (or pipe via stdin)")

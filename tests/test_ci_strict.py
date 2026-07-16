@@ -13,8 +13,6 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
-import pytest
-
 REPO_ROOT = Path(__file__).resolve().parents[1]
 STRICT_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "test_strict.yml"
 
@@ -61,9 +59,9 @@ def test_strict_workflow_runs_pytest() -> None:
 
 
 def test_strict_workflow_targets_main_branch() -> None:
-    """The strict workflow targets the main branch on push and pull request."""
+    """The strict workflow targets main and dev branches on push and pull request."""
     text = STRICT_WORKFLOW.read_text(encoding="utf-8")
-    assert re.search(r"branches:\s*\[main\]", text), "main branch trigger is missing"
+    assert re.search(r"branches:\s*\[main,\s*dev\]", text), "main and dev branch trigger is missing"
 
 
 def test_old_swallow_workflow_is_removed() -> None:

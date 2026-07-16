@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-#_*_ coding: utf8 _*_
 """
 main.py
 
@@ -19,11 +18,14 @@ Descripción: Asistente de consola
 
 """
 
-import os
-import logging
 import json
+import logging
+import os
+
 from groq import Groq
+
 from modules.colors import retModel
+
 BANNER = """
 [*] Iniciando: LazyOwn GPT One Liner Cli Assistant [;,;]
 """
@@ -44,7 +46,7 @@ def configure_logging(debug: bool) -> None:
 def process_prompt_deepseek(prompt: str) -> str:
     """
     Envía el prompt al modelo de DeepSeek y devuelve la respuesta.
-    
+
     :param prompt: El prompt que se enviará al modelo de DeepSeek.
     :return: La respuesta del modelo de DeepSeek.
     """
@@ -186,7 +188,7 @@ def process_prompt_general(client, prompt: str, debug: bool) -> str:
         # En caso de error, enviar el prompt a DeepSeek
         deepseek_response = process_prompt_deepseek(complex_prompt)
         return f"Error en Groq. Respuesta de DeepSeek: {deepseek_response}"
-    
+
 if __name__ == "__main__":
     import argparse
     import sys

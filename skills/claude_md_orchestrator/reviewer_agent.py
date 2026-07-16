@@ -15,14 +15,13 @@ from __future__ import annotations
 import shutil
 import subprocess
 import sys
+from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Iterable, Optional
 
 from .config import Config
-from .models import Contract, Finding, ReviewReport, Severity, Spec
+from .models import Finding, ReviewReport, Severity
 from .validators import check_markdown, check_source
-
 
 REVIEWABLE_SUFFIXES = (".py", ".md", ".yaml", ".yml")
 
@@ -119,7 +118,7 @@ def _parse_tool_findings(result: AnalyzerResult, path_prefix: str) -> list[Findi
     return findings
 
 
-def _run_ruff(targets: list[Path], cwd: Path) -> Optional[AnalyzerResult]:
+def _run_ruff(targets: list[Path], cwd: Path) -> AnalyzerResult | None:
     """Run ruff when the binary is available."""
     if not shutil.which("ruff"):
         return None
@@ -132,7 +131,7 @@ def _run_ruff(targets: list[Path], cwd: Path) -> Optional[AnalyzerResult]:
     )
 
 
-def _run_mypy(targets: list[Path], cwd: Path) -> Optional[AnalyzerResult]:
+def _run_mypy(targets: list[Path], cwd: Path) -> AnalyzerResult | None:
     """Run mypy when the binary is available."""
     if not shutil.which("mypy"):
         return None
@@ -145,7 +144,7 @@ def _run_mypy(targets: list[Path], cwd: Path) -> Optional[AnalyzerResult]:
     )
 
 
-def _run_bandit(targets: list[Path], cwd: Path) -> Optional[AnalyzerResult]:
+def _run_bandit(targets: list[Path], cwd: Path) -> AnalyzerResult | None:
     """Run bandit when the binary is available."""
     if not shutil.which("bandit"):
         return None
@@ -158,7 +157,7 @@ def _run_bandit(targets: list[Path], cwd: Path) -> Optional[AnalyzerResult]:
     )
 
 
-def _run_pytest(targets: list[Path], cwd: Path) -> Optional[AnalyzerResult]:
+def _run_pytest(targets: list[Path], cwd: Path) -> AnalyzerResult | None:
     """Run pytest against the test module to confirm green."""
     test_path = next((t for t in targets if t.name.startswith("test_")), None)
     if test_path is None:

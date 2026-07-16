@@ -1,14 +1,13 @@
-#!/usr/bin/env python3 
-#_*_ coding: utf8 _*_
+#!/usr/bin/env python3
 """
 main.py
 
-Autor: Gris Iscomeback 
+Autor: Gris Iscomeback
 Correo electrónico: grisiscomeback[at]gmail[dot]com
 Fecha de creación: 09/06/2024
 Licencia: GPL v3
 
-Descripción: Gui to search in gtfobins db 
+Descripción: Gui to search in gtfobins db
 
 ██╗      █████╗ ███████╗██╗   ██╗ ██████╗ ██╗    ██╗███╗   ██╗
 ██║     ██╔══██╗╚══███╔╝╚██╗ ██╔╝██╔═══██╗██║    ██║████╗  ██║
@@ -18,12 +17,14 @@ Descripción: Gui to search in gtfobins db
 ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
 
 """
-import tkinter as tk
-from tkinter import ttk, filedialog, messagebox, Text
-import pandas as pd
 import os
-import numpy as np
 import subprocess
+import tkinter as tk
+from tkinter import Text, filedialog, messagebox, ttk
+
+import numpy as np
+import pandas as pd
+
 
 class AutocompleteEntry(tk.Entry):
     def __init__(self, get_suggestions_func, *args, **kwargs):
@@ -102,7 +103,7 @@ class LazyOwnGUI(tk.Tk):
         super().__init__()
         self.title("LazyOwn - Análisis de Binarios")
         self.geometry("1366x768")  # Establecer la resolución de la ventana
-        
+
         self.parquet_files = [
             "../parquets/binarios.parquet",           # GTFOBins - lista básica
             "../parquets/detalles.parquet",          # GTFOBins - detalles
@@ -129,7 +130,7 @@ class LazyOwnGUI(tk.Tk):
 
         self.search_button = tk.Button(self, text="Buscar", command=self.search)
         self.search_button.pack(pady=10)
-        
+
         # Botón para agregar nuevo vector de ataque
         self.new_attack_button = tk.Button(self, text="Nuevo Vector de Ataque", command=self.add_new_attack_vector)
         self.new_attack_button.pack(pady=10)
@@ -145,26 +146,26 @@ class LazyOwnGUI(tk.Tk):
         # Crear el marco para Treeview y Scrollbars
         self.result_frame = tk.Frame(self)
         self.result_frame.pack(pady=10, fill=tk.BOTH, expand=True)
-        
+
         # Crear Treeview
         self.result_tree = ttk.Treeview(self.result_frame, columns=("Binary", "Function Name", "Description", "Example"), show='headings')
         self.result_tree.heading("Binary", text="Binary")
         self.result_tree.heading("Function Name", text="Function Name")
         self.result_tree.heading("Description", text="Description")
         self.result_tree.heading("Example", text="Example")
-        
+
         self.result_tree.column("Binary", width=100, anchor=tk.W)
         self.result_tree.column("Function Name", width=150, anchor=tk.W)
         self.result_tree.column("Description", width=500, anchor=tk.W)
         self.result_tree.column("Example", width=500, anchor=tk.W)
-        
+
         self.result_tree.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
-        
+
         # Scrollbars
         self.scrollbar_y = ttk.Scrollbar(self.result_frame, orient=tk.VERTICAL, command=self.result_tree.yview)
         self.scrollbar_y.pack(side=tk.RIGHT, fill=tk.Y)
         self.result_tree.config(yscrollcommand=self.scrollbar_y.set)
-        
+
         self.scrollbar_x = ttk.Scrollbar(self, orient=tk.HORIZONTAL, command=self.result_tree.xview)
         self.scrollbar_x.pack(side=tk.BOTTOM, fill=tk.X)
         self.result_tree.config(xscrollcommand=self.scrollbar_x.set)
@@ -243,25 +244,25 @@ class LazyOwnGUI(tk.Tk):
         if not search_term:
             messagebox.showwarning("Advertencia", "Por favor, ingrese un término de búsqueda.")
             return
-        
+
         # Realizar la búsqueda en el DataFrame
         result = self.search_in_parquet(search_term)
-        
+
         # Limpiar Treeview
         for i in self.result_tree.get_children():
             self.result_tree.delete(i)
-        
+
         # Insertar resultados en el Treeview
-        for idx, row in result.iterrows():
+        for _idx, row in result.iterrows():
             self.result_tree.insert("", "end", values=(row["Binary"], row["Function Name"], row["Description"], row["Example"]))
-    
+
     def search_in_parquet(self, term):
         if self.dataframe.empty:
             return pd.DataFrame()
 
         result = self.dataframe[self.dataframe.apply(lambda row: row.astype(str).str.contains(term, case=False).any(), axis=1)]
         result = result.dropna(subset=["Example"])  # Filtrar las filas donde 'Example' es NaN
-        
+
         return result
 
     def on_row_double_click(self, event):
@@ -320,7 +321,7 @@ class LazyOwnGUI(tk.Tk):
             if not binary or not function_name or not description or not example:
                 messagebox.showerror("Error", "Todos los campos son obligatorios.")
                 return
-            
+
             new_data = pd.DataFrame({
                 "Binary": [binary],
                 "Function Name": [function_name],
@@ -342,18 +343,18 @@ class LazyOwnGUI(tk.Tk):
     def scan_system_for_binaries(self):
         def is_binary(file_path):
             try:
-                result = subprocess.run(['file', '--mime', file_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                result = subprocess.run(['file', '--mime', file_path], capture_output=True)
                 return b'application/x-executable' in result.stdout
-            except Exception as e:
+            except Exception:
                 return False
 
         binaries = []
-        for root, dirs, files in os.walk('/'):
+        for root, _dirs, files in os.walk('/'):
             for file in files:
                 file_path = os.path.join(root, file)
                 if is_binary(file_path):
                     binaries.append(file_path)
-        
+
         self.show_scan_results(binaries)
 
     def show_scan_results(self, binaries):
@@ -363,7 +364,7 @@ class LazyOwnGUI(tk.Tk):
         tk.Label(result_window, text="Binarios encontrados:").pack(pady=10)
         listbox = tk.Listbox(result_window, width=100, height=20)
         listbox.pack(pady=10)
-        
+
         for binary in binaries:
             listbox.insert(tk.END, binary)
 

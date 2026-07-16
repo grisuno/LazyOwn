@@ -9,16 +9,12 @@ from __future__ import annotations
 
 import csv
 import io
-import json
-import os
-import re
 import sqlite3
 import xml.etree.ElementTree as ET
+from collections.abc import Iterator
 from contextlib import contextmanager
-from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, Iterator, List, Optional, Tuple
-
+from typing import Any
 
 SCHEMA_SQL = """
 CREATE TABLE IF NOT EXISTS schema_version (
@@ -181,13 +177,13 @@ class LazyOwnDB:
             except sqlite3.IntegrityError:
                 return -1
 
-    def workspace_list(self) -> List[Dict[str, Any]]:
+    def workspace_list(self) -> list[dict[str, Any]]:
         """Return all workspaces as dicts."""
         with self._cursor() as cur:
             cur.execute("SELECT * FROM workspaces ORDER BY name")
             return [dict(r) for r in cur.fetchall()]
 
-    def workspace_get(self, name: str) -> Dict[str, Any] | None:
+    def workspace_get(self, name: str) -> dict[str, Any] | None:
         """Get a workspace by name, or None."""
         with self._cursor() as cur:
             cur.execute("SELECT * FROM workspaces WHERE name = ?", (name,))
@@ -267,7 +263,7 @@ class LazyOwnDB:
             cur.execute("DELETE FROM hosts WHERE id = ?", (host_id,))
         return True
 
-    def host_list(self, workspace_id: int) -> List[Dict[str, Any]]:
+    def host_list(self, workspace_id: int) -> list[dict[str, Any]]:
         """List all hosts in a workspace."""
         with self._cursor() as cur:
             cur.execute(
@@ -276,7 +272,7 @@ class LazyOwnDB:
             )
             return [dict(r) for r in cur.fetchall()]
 
-    def host_find(self, workspace_id: int, query: str) -> List[Dict[str, Any]]:
+    def host_find(self, workspace_id: int, query: str) -> list[dict[str, Any]]:
         """Search hosts by address, hostname, or os."""
         like = f"%{query}%"
         with self._cursor() as cur:
@@ -312,7 +308,7 @@ class LazyOwnDB:
             )
             return cur.lastrowid
 
-    def service_list(self, host_id: int) -> List[Dict[str, Any]]:
+    def service_list(self, host_id: int) -> list[dict[str, Any]]:
         """List all services on a host."""
         with self._cursor() as cur:
             cur.execute(
@@ -347,7 +343,7 @@ class LazyOwnDB:
         self,
         workspace_id: int,
         severity: str | None = None,
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """List vulns in workspace, optionally filtered by severity."""
         with self._cursor() as cur:
             if severity:
@@ -391,7 +387,7 @@ class LazyOwnDB:
             )
             return cur.lastrowid
 
-    def cred_list(self, workspace_id: int) -> List[Dict[str, Any]]:
+    def cred_list(self, workspace_id: int) -> list[dict[str, Any]]:
         """List all creds in workspace."""
         with self._cursor() as cur:
             cur.execute(
@@ -426,7 +422,7 @@ class LazyOwnDB:
             )
             return cur.lastrowid
 
-    def loot_list(self, workspace_id: int) -> List[Dict[str, Any]]:
+    def loot_list(self, workspace_id: int) -> list[dict[str, Any]]:
         """List all loot in workspace."""
         with self._cursor() as cur:
             cur.execute(
@@ -459,7 +455,7 @@ class LazyOwnDB:
             )
             return cur.lastrowid
 
-    def note_list(self, workspace_id: int) -> List[Dict[str, Any]]:
+    def note_list(self, workspace_id: int) -> list[dict[str, Any]]:
         """List all notes in workspace."""
         with self._cursor() as cur:
             cur.execute(
@@ -475,13 +471,13 @@ class LazyOwnDB:
     # Import
     # ------------------------------------------------------------------
 
-    def import_nmap_xml(self, workspace_id: int, xml_path: str) -> Dict[str, int]:
+    def import_nmap_xml(self, workspace_id: int, xml_path: str) -> dict[str, int]:
         """Import an Nmap XML file into the database.
 
         Returns a dict with counts of imported hosts, services, and os
         fingerprints.
         """
-        counts: Dict[str, int] = {"hosts": 0, "services": 0, "os": 0}
+        counts: dict[str, int] = {"hosts": 0, "services": 0, "os": 0}
         root = ET.parse(xml_path).getroot()
 
         for host_elem in root.findall("host"):
@@ -556,7 +552,6 @@ class LazyOwnDB:
         Returns:
             CSV-formatted string with header row.
         """
-        import csv
 
         with self._cursor() as cur:
             if table == "hosts":
@@ -575,7 +570,7 @@ class LazyOwnDB:
             writer.writerows(rows.fetchall())
             return out.getvalue()
 
-    def status(self, workspace_id: int) -> Dict[str, int]:
+    def status(self, workspace_id: int) -> dict[str, int]:
         """Return counts for every entity type in a workspace."""
         with self._cursor() as cur:
             counts = {}

@@ -40,9 +40,10 @@ import os
 import re
 import socket
 import subprocess
+from collections.abc import Iterable
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any
 
 HOSTSDISCOVERY_FILENAME: str = "hostsdiscovery.txt"
 SCAN_DISCOVERY_GLOB: str = "scan_discovery*.csv"

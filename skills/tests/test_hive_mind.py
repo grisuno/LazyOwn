@@ -11,11 +11,9 @@ from __future__ import annotations
 import json
 import sys
 import tempfile
-import threading
 import time
 import uuid
 from pathlib import Path
-from typing import Any, Dict, List, Optional
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -38,7 +36,7 @@ def _make_episodic(tmp_path: Path):
 
 def _make_semantic(tmp_path: Path, episodic=None):
     """Return a fresh SemanticStore (ChromaDB mocked or real if available)."""
-    from hive_mind import SemanticStore, _CHROMA_OK
+    from hive_mind import SemanticStore
     return SemanticStore(
         chroma_dir=tmp_path / "chroma",
         episodic_fallback=episodic,
@@ -47,9 +45,7 @@ def _make_semantic(tmp_path: Path, episodic=None):
 
 def _make_hive_memory(tmp_path: Path):
     """Return a HiveMemory with real EpisodicStore and mocked SemanticStore."""
-    from hive_mind import (
-        EpisodicStore, SemanticStore, LongtermStore, HiveMemory
-    )
+    from hive_mind import EpisodicStore, HiveMemory, LongtermStore, SemanticStore
     episodic = EpisodicStore(db_path=tmp_path / "hive_mem.db")
     semantic = SemanticStore(
         chroma_dir=tmp_path / "chroma",
@@ -119,7 +115,6 @@ class TestEpisodicStore:
 
     def test_forget_old_events(self):
         """forget() removes rows older than the cutoff."""
-        import sqlite3
         store = _make_episodic(self.tmp)
         store.store("old event", agent_id="test")
         # Manually push ts back 48 hours
@@ -168,7 +163,7 @@ class TestSemanticStore:
 
     def test_store_returns_id(self):
         """store() returns a non-empty string."""
-        from hive_mind import SemanticStore, EpisodicStore
+        from hive_mind import SemanticStore
         ep    = _make_episodic(self.tmp)
         store = SemanticStore(chroma_dir=self.tmp / "chroma", episodic_fallback=ep)
         eid   = store.store("test content", agent_id="queen")
@@ -177,7 +172,7 @@ class TestSemanticStore:
 
     def test_fallback_to_episodic_when_chroma_unavailable(self):
         """When ChromaDB collection is None, recall() delegates to episodic store."""
-        from hive_mind import SemanticStore, EpisodicStore
+        from hive_mind import SemanticStore
         ep    = _make_episodic(self.tmp)
         ep.store("lateral movement via psexec", agent_id="x")
 
@@ -239,7 +234,7 @@ class TestHiveMemory:
 
     def test_recall_deduplication(self):
         """The same content stored twice appears only once in unified recall."""
-        from hive_mind import EpisodicStore, SemanticStore, LongtermStore, HiveMemory
+        from hive_mind import HiveMemory, LongtermStore, SemanticStore
 
         ep = _make_episodic(self.tmp)
         content = "duplicate content for testing deduplication"
@@ -402,7 +397,7 @@ class TestDronePool:
             self_inner.state.finished = time.time()
 
         with patch("hive_mind.DroneAgent._run", _instant_run):
-            did = pool.spawn(role="recon", goal="quick test", backend="groq")
+            pool.spawn(role="recon", goal="quick test", backend="groq")
 
         # Wait up to 2 seconds for the thread to finish
         deadline = time.time() + 2.0
@@ -427,7 +422,7 @@ class TestQueenBrain:
         self._tmp.cleanup()
 
     def _make_queen(self):
-        from hive_mind import QueenBrain, HiveBus, DronePool
+        from hive_mind import DronePool, HiveBus, QueenBrain
         mem  = _make_hive_memory(self.tmp)
         bus  = HiveBus()
         pool = DronePool(mem, bus)
@@ -507,7 +502,7 @@ class TestHiveMind:
 
     def _make_hive(self):
         """Build a fresh HiveMind with isolated storage."""
-        from hive_mind import HiveMind, build_default_hive_memory, HiveBus, DronePool, QueenBrain
+        from hive_mind import DronePool, HiveBus, HiveMind, QueenBrain
         mem   = _make_hive_memory(self.tmp)
         bus   = HiveBus()
         pool  = DronePool(mem, bus)
@@ -574,7 +569,10 @@ class TestMCPHandlers:
 
     def _build_hive_and_patch(self):
         from hive_mind import (
-            HiveMind, HiveBus, DronePool, QueenBrain,
+            DronePool,
+            HiveBus,
+            HiveMind,
+            QueenBrain,
         )
         mem   = _make_hive_memory(self.tmp)
         bus   = HiveBus()
@@ -658,7 +656,7 @@ class TestDroneStateStore:
         from hive_mind import DroneStateStore
         return DroneStateStore(db_path=self.tmp / "test_drone_states.db")
 
-    def _make_state(self, status: str = "queued") -> "DroneState":
+    def _make_state(self, status: str = "queued") -> DroneState:
         from hive_mind import DroneState
         return DroneState(
             drone_id=f"test-{uuid.uuid4().hex[:6]}",

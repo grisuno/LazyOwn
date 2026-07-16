@@ -1,9 +1,8 @@
-#!/usr/bin/env python3 
-#_*_ coding: utf8 _*_ 
+#!/usr/bin/env python3
 """
 main.py
 
-Autor: Gris Iscomeback 
+Autor: Gris Iscomeback
 Correo electrónico: grisiscomeback[at]gmail[dot]com
 Fecha de creación: 09/06/2024
 Licencia: GPL v3
@@ -20,14 +19,14 @@ Descripción: Lazy Burp-Like Fuzzer con Proxy y Repeater
 """
 import argparse
 import json
-import re
-import requests
+import os
 import signal
 import subprocess
 import sys
 import tempfile
 import threading
-import os
+
+import requests
 
 _MODULE_DIR = os.path.dirname(os.path.abspath(__file__))
 _PROJECT_ROOT = os.path.dirname(_MODULE_DIR)
@@ -67,24 +66,24 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 # Global flag for graceful shutdown
 should_exit = False
 BANNER = """
- _                           _____                                   
-(_)            _____        (_____)             _                    
-(_)      ____ (_____)_   _ (_)   (_) _   _   _ (_)__                 
-(_)     (____)  _(_)(_) (_)(_)   (_)(_) ( ) (_)(____)                
-(_)____( )_( ) (_)__(_)_(_)(_)___(_)(_)_(_)_(_)(_) (_)               
-(______)(__)_)(_____)(____) (_____)  (__) (__) (_) (_)               
-                      __(_)                                          
-                     (___)                                           
-                                                                     
- _____                          ______                               
-(_____)         _              (______)     _____  _____  ____  _    
-(_)__(_) _   _ (_)__  ____     (_)__  _   _(_____)(_____)(____)(_)__ 
+ _                           _____
+(_)            _____        (_____)             _
+(_)      ____ (_____)_   _ (_)   (_) _   _   _ (_)__
+(_)     (____)  _(_)(_) (_)(_)   (_)(_) ( ) (_)(____)
+(_)____( )_( ) (_)__(_)_(_)(_)___(_)(_)_(_)_(_)(_) (_)
+(______)(__)_)(_____)(____) (_____)  (__) (__) (_) (_)
+                      __(_)
+                     (___)
+
+ _____                          ______
+(_____)         _              (______)     _____  _____  ____  _
+(_)__(_) _   _ (_)__  ____     (_)__  _   _(_____)(_____)(____)(_)__
 (_____) (_) (_)(____)(____)    (____)(_) (_) _(_)   _(_)(_)_(_)(____)
-(_)__(_)(_)_(_)(_)   (_)_(_)   (_)   (_)_(_)(_)__  (_)__(__)__ (_)   
-(_____)  (___) (_)   (____)    (_)    (___)(_____)(_____)(____)(_)   
-                     (_)                                             
-                     (_) 
-                                                 
+(_)__(_)(_)_(_)(_)   (_)_(_)   (_)   (_)_(_)(_)__  (_)__(__)__ (_)
+(_____)  (___) (_)   (____)    (_)    (___)(_____)(_____)(____)(_)
+                     (_)
+                     (_)
+
 [*] Iniciando: LazyOwn Fuzzer and Repeater Cli Assistent [;,;]
 """
 print(BANNER)
@@ -166,10 +165,10 @@ def send_request(url, method='GET', headers=None, params=None, data=None, json_d
     """
     try:
         response = requests.request(method, url, headers=headers, params=params, data=data, json=json_data, proxies=proxies)
-        
+
         if hide_code and response.status_code == hide_code:
             return None
-        
+
         print(f"[S] Solicitud {method} a {url} enviada.")
         print(f"[C] Código de estado: {response.status_code}")
         print("[H] Encabezados de la respuesta:")
@@ -186,9 +185,9 @@ def repeater(url, method, headers, params, data, json_data, proxies, hide_code):
     Funcionalidad de Repeater que permite enviar solicitudes múltiples veces con posibilidad de modificación.
     """
     while not should_exit:
-        
+
         print("[*] \n--- Nueva iteración del Repeater ---")
-        
+
         headers_json = json.dumps(headers, indent=4)
         edited_headers = edit_file_with_nano(headers_json)
         headers = json.loads(edited_headers)
@@ -205,7 +204,7 @@ def repeater(url, method, headers, params, data, json_data, proxies, hide_code):
                 print(json.dumps(response_json, indent=4))
             except ValueError:
                 print("[e] La respuesta no es un JSON válido")
-        
+
         repeat = input("[?] ¿Quieres repetir la solicitud? (s/n): ").strip().lower()
         if repeat != 's':
             print("[R] Finalizando el Repeater.")
@@ -217,11 +216,11 @@ def lazyfuzz(url, method, headers, params, data, json_data, proxies, wordlist_pa
     """
     with open(wordlist_path, 'r') as f:
         words = f.read().splitlines()
-    
+
     for word in words:
         if should_exit:
             break
-        
+
         # Convertir los encabezados, datos y parámetros a cadenas JSON
         headers_json = json.dumps(headers)
         data_json = json.dumps(data)
@@ -242,12 +241,12 @@ def lazyfuzz(url, method, headers, params, data, json_data, proxies, wordlist_pa
 
         # Reemplazar LAZYFUZZ en la URL
         fuzzed_url = url.replace("LAZYFUZZ", word)
-        
+
         response = send_request(fuzzed_url, method, headers, params, data, json_data, proxies, hide_code)
         if response is not None:
-           
+
             print(f"\n--- [*] Nueva iteración del Fuzzing con {word} ---")
-            
+
             if response.headers.get('Content-Type') == 'application/json':
                 try:
                     response_json = response.json()

@@ -18,14 +18,13 @@ import json
 import re
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 import yaml
 
 from .config import Config
 from .models import Contract, Finding, SadPath, Severity, Spec
-from .validators import check_markdown, check_spec, check_source
-
+from .validators import check_markdown, check_source, check_spec
 
 SAD_PATH_TEMPLATES = (
     ("missing input", "the agent reports a missing input and exits without writing the spec"),
@@ -152,7 +151,7 @@ def _render_yaml(spec: Spec) -> str:
     return yaml.safe_dump(payload, sort_keys=False, allow_unicode=True)
 
 
-def _ask_llm(contract: Contract, backend: str) -> Optional[Spec]:
+def _ask_llm(contract: Contract, backend: str) -> Spec | None:
     """Ask the LazyOwn LLM factory to enrich the spec.
 
     Args:

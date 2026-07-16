@@ -1,11 +1,12 @@
-import socket
-import tempfile
-import subprocess
-import keyboard
-import threading
 import os
-import sys
 import signal
+import socket
+import subprocess
+import sys
+import tempfile
+import threading
+
+import keyboard
 from colors import *
 
 BANNER = f"""{GREEN}{BG_BLACK}
@@ -104,7 +105,7 @@ def handle_request(client_socket, address):
     print(f"[C->] Conexión entrante de {address}")
 
     request = receive_from(client_socket)
-    print(f"[R] Solicitud recibida:")
+    print("[R] Solicitud recibida:")
     hexdump(request)
     temp_req = request.decode("utf-8")
     method = temp_req.split(" ")

@@ -1,17 +1,17 @@
-#!/usr/bin/env python3 
-#_*_ coding: utf8 _*_
+#!/usr/bin/env python3
+import argparse
 import os
-import sys
-import threading
-import time
 import random
 import subprocess
-import argparse
+import threading
+import time
+
 from scapy.all import *
+
 
 def get_mac(ip):
     ans, _ = arping(ip)
-    for s, r in ans:
+    for _s, r in ans:
         return r[Ether].src
     return None
 
@@ -57,7 +57,7 @@ def start_tcpdump(interface, output_file):
 
 def setup_monitor_mode(interface):
     print(f"[*] Configurando {interface} en modo monitor")
-    os.system(f'sudo airmon-ng check kill')
+    os.system('sudo airmon-ng check kill')
     os.system(f'sudo airmon-ng start {interface}')
     new_interface = f'{interface}mon'
     return new_interface

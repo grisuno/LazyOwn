@@ -16,7 +16,6 @@ import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import List, Optional
 
 try:
     import numpy as np
@@ -87,8 +86,8 @@ class MemoryEntry:
     findings_json: str
     success: bool
     ts: float
-    embedding: Optional[bytes] = field(default=None, repr=False)
-    id: Optional[int] = field(default=None, repr=False)
+    embedding: bytes | None = field(default=None, repr=False)
+    id: int | None = field(default=None, repr=False)
 
 
 class StorageBackend(ABC):
@@ -96,16 +95,16 @@ class StorageBackend(ABC):
     def save(self, entry: MemoryEntry) -> None: ...
 
     @abstractmethod
-    def search(self, query: str, top_k: int) -> List[MemoryEntry]: ...
+    def search(self, query: str, top_k: int) -> list[MemoryEntry]: ...
 
     @abstractmethod
-    def by_host(self, host: str, top_k: int) -> List[MemoryEntry]: ...
+    def by_host(self, host: str, top_k: int) -> list[MemoryEntry]: ...
 
     @abstractmethod
-    def by_service(self, service: str, top_k: int) -> List[MemoryEntry]: ...
+    def by_service(self, service: str, top_k: int) -> list[MemoryEntry]: ...
 
     @abstractmethod
-    def all_entries(self, limit: int) -> List[MemoryEntry]: ...
+    def all_entries(self, limit: int) -> list[MemoryEntry]: ...
 
     @abstractmethod
     def close(self) -> None: ...
@@ -170,12 +169,12 @@ class SQLiteBackend(StorageBackend):
                 self._conn.rollback()
                 raise
 
-    def _fetch(self, sql: str, params: tuple) -> List[MemoryEntry]:
+    def _fetch(self, sql: str, params: tuple) -> list[MemoryEntry]:
         with self._lock:
             cur = self._conn.execute(sql, params)
             return [_row_to_entry(r) for r in cur.fetchall()]
 
-    def search(self, query: str, top_k: int) -> List[MemoryEntry]:
+    def search(self, query: str, top_k: int) -> list[MemoryEntry]:
         sql = """
             SELECT m.id, m.session_id, m.host, m.tool, m.command,
                    m.output_snippet, m.findings_json, m.success, m.ts, m.embedding
@@ -187,7 +186,7 @@ class SQLiteBackend(StorageBackend):
         """
         return self._fetch(sql, (query, top_k))
 
-    def by_host(self, host: str, top_k: int) -> List[MemoryEntry]:
+    def by_host(self, host: str, top_k: int) -> list[MemoryEntry]:
         sql = """
             SELECT id, session_id, host, tool, command, output_snippet,
                    findings_json, success, ts, embedding
@@ -198,7 +197,7 @@ class SQLiteBackend(StorageBackend):
         """
         return self._fetch(sql, (host, top_k))
 
-    def by_service(self, service: str, top_k: int) -> List[MemoryEntry]:
+    def by_service(self, service: str, top_k: int) -> list[MemoryEntry]:
         pattern = f"%{service}%"
         sql = """
             SELECT id, session_id, host, tool, command, output_snippet,
@@ -210,7 +209,7 @@ class SQLiteBackend(StorageBackend):
         """
         return self._fetch(sql, (pattern, pattern, top_k))
 
-    def all_entries(self, limit: int) -> List[MemoryEntry]:
+    def all_entries(self, limit: int) -> list[MemoryEntry]:
         sql = """
             SELECT id, session_id, host, tool, command, output_snippet,
                    findings_json, success, ts, embedding
@@ -269,13 +268,13 @@ class MemoryStore:
         )
         self._backend.save(entry)
 
-    def recall(self, query: str, top_k: int = 5) -> List[MemoryEntry]:
+    def recall(self, query: str, top_k: int = 5) -> list[MemoryEntry]:
         return self._backend.search(query, top_k)
 
-    def recall_by_host(self, host: str, top_k: int = 10) -> List[MemoryEntry]:
+    def recall_by_host(self, host: str, top_k: int = 10) -> list[MemoryEntry]:
         return self._backend.by_host(host, top_k)
 
-    def recall_for_service(self, service_name: str, top_k: int = 5) -> List[MemoryEntry]:
+    def recall_for_service(self, service_name: str, top_k: int = 5) -> list[MemoryEntry]:
         return self._backend.by_service(service_name, top_k)
 
     def stats(self) -> dict:
@@ -305,7 +304,7 @@ class MemoryStore:
         return path
 
 
-_store_instance: Optional[MemoryStore] = None
+_store_instance: MemoryStore | None = None
 _store_lock = threading.Lock()
 
 
@@ -330,11 +329,11 @@ def remember(
     get_memory_store().remember(session_id, host, tool, command, output, findings, success)
 
 
-def recall(query: str, top_k: int = 5) -> List[MemoryEntry]:
+def recall(query: str, top_k: int = 5) -> list[MemoryEntry]:
     return get_memory_store().recall(query, top_k)
 
 
-def _print_entries(entries: List[MemoryEntry]) -> None:
+def _print_entries(entries: list[MemoryEntry]) -> None:
     if not entries:
         print("No results.")
         return

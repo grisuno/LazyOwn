@@ -8,8 +8,9 @@ import io
 import json
 import sys
 import time
+from typing import Any
+
 import yaml
-from typing import Any, Dict, List, Optional
 
 EXIT_OK = 0
 EXIT_ERROR = 1
@@ -26,7 +27,7 @@ EXIT_LABELS = {
 }
 
 
-def load_profile(path: str) -> Dict[str, Any]:
+def load_profile(path: str) -> dict[str, Any]:
     """Load a YAML profile that overrides payload.json keys.
 
     Args:
@@ -43,7 +44,7 @@ def load_profile(path: str) -> Dict[str, Any]:
         return yaml.safe_load(f)
 
 
-def apply_profile(config: Dict[str, Any], profile: Dict[str, Any]) -> Dict[str, Any]:
+def apply_profile(config: dict[str, Any], profile: dict[str, Any]) -> dict[str, Any]:
     """Merge profile values into config (shallow overlay).
 
     Args:
@@ -71,18 +72,18 @@ class HeadlessRunner:
         self,
         shell,
         json_output: bool = False,
-        profile_path: Optional[str] = None,
+        profile_path: str | None = None,
     ):
         self.shell = shell
         self.json_output = json_output
         self.exit_code = EXIT_OK
-        self.results: List[Dict[str, Any]] = []
+        self.results: list[dict[str, Any]] = []
 
         if profile_path:
             profile = load_profile(profile_path)
             apply_profile(shell.params, profile)
 
-    def run_command(self, cmd: str, timeout: Optional[int] = None) -> Dict[str, Any]:
+    def run_command(self, cmd: str, timeout: int | None = None) -> dict[str, Any]:
         """Execute a single command, capture output, return structured result.
 
         Args:
@@ -94,7 +95,7 @@ class HeadlessRunner:
         """
         start = time.time()
         exit_label = EXIT_LABELS[EXIT_OK]
-        result: Dict[str, Any] = {
+        result: dict[str, Any] = {
             "command": cmd,
             "success": False,
             "output": "",
@@ -130,7 +131,7 @@ class HeadlessRunner:
         self.results.append(result)
         return result
 
-    def run_chain(self, commands: List[str]) -> List[Dict[str, Any]]:
+    def run_chain(self, commands: list[str]) -> list[dict[str, Any]]:
         """Execute multiple commands and emit final summary.
 
         Args:

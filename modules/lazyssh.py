@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-import sys
-import paramiko
-import socket
 import logging
+import socket
+import sys
+
+import paramiko
 
 # pip3 install paramiko==2.0.8
 
@@ -41,7 +42,7 @@ def execute(hostname, port, command):
     except paramiko.SSHException as e:
         logging.exception("SSHException: %s", e)
         logging.debug("TCPForwarding disabled on remote server or other SSH error. Not Vulnerable.")
-    except socket.error as e:
+    except OSError as e:
         logging.exception("Socket error: %s", e)
         logging.debug("Unable to connect.")
     finally:

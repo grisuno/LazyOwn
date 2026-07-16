@@ -170,7 +170,7 @@ class DelegationPlanner:
             })
             plans.append({
                 "goal": f"Search known exploits for SMB service on {rhost}:{port}",
-                "context": f"Search exploitdb and CVE databases for SMB-related vulnerabilities.",
+                "context": "Search exploitdb and CVE databases for SMB-related vulnerabilities.",
                 "toolsets": ["web", "terminal"],
             })
 
@@ -182,28 +182,28 @@ class DelegationPlanner:
             })
             plans.append({
                 "goal": f"Search known web exploits for {rhost}:{port}",
-                "context": f"Identify framework/version and search for CVEs and exploits.",
+                "context": "Identify framework/version and search for CVEs and exploits.",
                 "toolsets": ["web", "terminal"],
             })
 
         if "ssh" in normalized or port == 22:
             plans.append({
                 "goal": f"Enumerate SSH on {rhost}:{port}",
-                "context": f"Check banner, version, and test key-based or credential auth.",
+                "context": "Check banner, version, and test key-based or credential auth.",
                 "toolsets": ["terminal", "file"],
             })
 
         if "ldap" in normalized or port == 389:
             plans.append({
                 "goal": f"Enumerate LDAP on {rhost}:{port}",
-                "context": f"Run ldapdomaindump, search for naming contexts and users.",
+                "context": "Run ldapdomaindump, search for naming contexts and users.",
                 "toolsets": ["terminal", "file"],
             })
 
         if "kerberos" in normalized or port == 88:
             plans.append({
                 "goal": f"Enumerate Kerberos on {rhost}:{port}",
-                "context": f"Run GetNPUsers, kerbrute, and search for AS-REP roastable accounts.",
+                "context": "Run GetNPUsers, kerbrute, and search for AS-REP roastable accounts.",
                 "toolsets": ["terminal", "file"],
             })
 
@@ -230,7 +230,7 @@ class DelegationPlanner:
 
         plans.append({
             "goal": f"Assess lateral movement potential with new {cred_type}",
-            "context": f"Check where else this credential works across the target scope.",
+            "context": "Check where else this credential works across the target scope.",
             "toolsets": ["terminal", "web"],
         })
 

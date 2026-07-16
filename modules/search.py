@@ -1,9 +1,8 @@
-#!/usr/bin/env python3 
-#_*_ coding: utf8 _*_
+#!/usr/bin/env python3
 """
 main.py
 
-Autor: Gris Iscomeback 
+Autor: Gris Iscomeback
 Correo electrónico: grisiscomeback[at]gmail[dot]com
 Fecha de creación: 09/06/2024
 Licencia: GPL v3
@@ -18,9 +17,10 @@ Descripción: webscrapper gtofbins
 ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
 
 """
+import csv
+
 import requests
 from bs4 import BeautifulSoup
-import csv
 
 # URL del servidor que contiene el HTML
 url = "https://gtfobins.github.io/index.html"
@@ -56,7 +56,7 @@ for row in table_wrapper.find_all('tr'):
                 function_href = function_link.get('href').strip()
                 function_name = function_link.text.strip()
                 functions.append({'name': function_name, 'href': function_href})
-        
+
         # Añadir la información a la lista de datos
         data.append({'binary': bin_name_text, 'functions': functions})
 

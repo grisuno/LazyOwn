@@ -13,8 +13,9 @@ from __future__ import annotations
 
 import json
 import logging
+from collections.abc import Mapping
 from dataclasses import dataclass
-from typing import Any, Mapping
+from typing import Any
 
 from lazygui.config.constants import AppConstants
 from lazygui.config.paths import AppPaths

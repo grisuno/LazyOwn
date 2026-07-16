@@ -20,14 +20,14 @@ import json
 import os
 import pty
 import select
+import ssl
 import struct
 import subprocess
 import sys
 import termios
 import time
-import urllib.request
 import urllib.error
-import ssl
+import urllib.request
 from pathlib import Path
 from typing import Any
 
@@ -73,8 +73,14 @@ def _ensure_engine():
     try:
         global process_new_rows, read_events, ack_event, add_rule, load_rules, _hb_is_running
         from event_engine import (
-            process_new_rows, read_events, ack_event,
-            add_rule, load_rules, is_running as _hb_is_running,
+            ack_event,
+            add_rule,
+            load_rules,
+            process_new_rows,
+            read_events,
+        )
+        from event_engine import (
+            is_running as _hb_is_running,
         )
         _ENGINE_AVAILABLE = True
     except ImportError:
@@ -89,7 +95,10 @@ def _ensure_bridge():
     try:
         global start_agent, get_agent_status, get_agent_result, list_agents
         from mcp_agent_bridge import (
-            start_agent, get_agent_status, get_agent_result, list_agents,
+            get_agent_result,
+            get_agent_status,
+            list_agents,
+            start_agent,
         )
         _BRIDGE_AVAILABLE = True
     except ImportError:
@@ -103,7 +112,8 @@ def _ensure_state():
         return _STATE_AVAILABLE
     try:
         global _state_load, _state_refresh
-        from session_state import load as _state_load, refresh as _state_refresh
+        from session_state import load as _state_load
+        from session_state import refresh as _state_refresh
         _STATE_AVAILABLE = True
     except ImportError:
         _STATE_AVAILABLE = False
@@ -129,7 +139,8 @@ def _ensure_narrator():
         return _NARRATOR_AVAILABLE
     try:
         global _narrate, _load_timeline
-        from timeline_narrator import narrate as _narrate, load_timeline as _load_timeline
+        from timeline_narrator import load_timeline as _load_timeline
+        from timeline_narrator import narrate as _narrate
         _NARRATOR_AVAILABLE = True
     except ImportError:
         _NARRATOR_AVAILABLE = False
@@ -154,7 +165,8 @@ def _ensure_facts():
     if _FACTS_AVAILABLE is not None:
         return _FACTS_AVAILABLE
     try:
-        from lazyown_facts import FactStore as _FS, create_tool_file as _ctf
+        from lazyown_facts import FactStore as _FS
+        from lazyown_facts import create_tool_file as _ctf
         global _create_tool_file
         _facts = _FS()
         _create_tool_file = _ctf
@@ -173,9 +185,18 @@ def _ensure_objectives():
     try:
         from lazyown_objective import (
             ObjectiveStore as _OS,
-            read_soul as _rs, write_soul as _ws,
+        )
+        from lazyown_objective import (
             current_plan as _cp,
+        )
+        from lazyown_objective import (
             full_context_for_claude as _fc,
+        )
+        from lazyown_objective import (
+            read_soul as _rs,
+        )
+        from lazyown_objective import (
+            write_soul as _ws,
         )
         global _read_soul, _write_soul, _current_plan, _full_context_for_claude
         _objectives       = _OS()
@@ -195,7 +216,8 @@ def _ensure_llm():
         return _LLM_AVAILABLE
     try:
         global _llm_ask, _build_bridge
-        from lazyown_llm import llm_ask as _llm_ask, build_bridge as _build_bridge
+        from lazyown_llm import build_bridge as _build_bridge
+        from lazyown_llm import llm_ask as _llm_ask
         _LLM_AVAILABLE = True
     except Exception:
         _LLM_AVAILABLE = False
@@ -220,12 +242,13 @@ def _ensure_pdb():
     if _PDB_AVAILABLE is not None:
         return _PDB_AVAILABLE
     try:
-        from lazyown_parquet_db import ParquetDB as _ParquetDB, get_pdb as _gpdb
+        from lazyown_parquet_db import get_pdb as _gpdb
         _get_pdb = _gpdb
         _PDB_AVAILABLE = True
     except Exception:
         _PDB_AVAILABLE = False
-        _get_pdb = lambda _=None: None
+        def _get_pdb(_=None):
+            return None
     return _PDB_AVAILABLE
 
 
@@ -238,14 +261,30 @@ def _ensure_hive():
         global _hive_plan, _hive_result, _hive_collect, _hive_forget, _hive_recover
         from hive_mind import (
             get_hive as _get_hive,
-            mcp_hive_spawn    as _hive_spawn,
-            mcp_hive_status   as _hive_status,
-            mcp_hive_recall   as _hive_recall,
-            mcp_hive_plan     as _hive_plan,
-            mcp_hive_result   as _hive_result,
-            mcp_hive_collect  as _hive_collect,
-            mcp_hive_forget   as _hive_forget,
-            mcp_hive_recover  as _hive_recover,
+        )
+        from hive_mind import (
+            mcp_hive_collect as _hive_collect,
+        )
+        from hive_mind import (
+            mcp_hive_forget as _hive_forget,
+        )
+        from hive_mind import (
+            mcp_hive_plan as _hive_plan,
+        )
+        from hive_mind import (
+            mcp_hive_recall as _hive_recall,
+        )
+        from hive_mind import (
+            mcp_hive_recover as _hive_recover,
+        )
+        from hive_mind import (
+            mcp_hive_result as _hive_result,
+        )
+        from hive_mind import (
+            mcp_hive_spawn as _hive_spawn,
+        )
+        from hive_mind import (
+            mcp_hive_status as _hive_status,
         )
         _HIVE_AVAILABLE = True
     except Exception:
@@ -260,11 +299,19 @@ def _ensure_auto():
     try:
         global _auto_start, _auto_stop, _auto_status, _auto_inject, _auto_events
         from autonomous_daemon import (
-            mcp_autonomous_start   as _auto_start,
-            mcp_autonomous_stop    as _auto_stop,
-            mcp_autonomous_status  as _auto_status,
-            mcp_autonomous_inject  as _auto_inject,
-            mcp_autonomous_events  as _auto_events,
+            mcp_autonomous_events as _auto_events,
+        )
+        from autonomous_daemon import (
+            mcp_autonomous_inject as _auto_inject,
+        )
+        from autonomous_daemon import (
+            mcp_autonomous_start as _auto_start,
+        )
+        from autonomous_daemon import (
+            mcp_autonomous_status as _auto_status,
+        )
+        from autonomous_daemon import (
+            mcp_autonomous_stop as _auto_stop,
         )
         _AUTO_AVAILABLE = True
     except Exception:
@@ -279,9 +326,13 @@ def _ensure_aci():
     try:
         global _aci_plan, _aci_status, _aci_replan
         from aci_planner import (
-            mcp_aci_plan   as _aci_plan,
-            mcp_aci_status as _aci_status,
+            mcp_aci_plan as _aci_plan,
+        )
+        from aci_planner import (
             mcp_aci_replan as _aci_replan,
+        )
+        from aci_planner import (
+            mcp_aci_status as _aci_status,
         )
         _ACI_AVAILABLE = True
     except Exception:
@@ -296,15 +347,16 @@ _narrate = _load_timeline = None
 _create_tool_file = None
 _read_soul = _write_soul = _current_plan = _full_context_for_claude = None
 _llm_ask = _build_bridge = None
-_get_pdb = lambda _=None: None
+def _get_pdb(_=None):
+    return None
 _get_hive = _hive_spawn = _hive_status = _hive_recall = None
 _hive_plan = _hive_result = _hive_collect = _hive_forget = _hive_recover = None
 _auto_start = _auto_stop = _auto_status = _auto_inject = _auto_events = None
 _aci_plan = _aci_status = _aci_replan = None
 process_new_rows = read_events = ack_event = add_rule = load_rules = _hb_is_running = None
 start_agent = get_agent_status = get_agent_result = list_agents = None
-from mcp.server.stdio import stdio_server
 from mcp import types
+from mcp.server.stdio import stdio_server
 
 # ── Harness layer singletons (lazy — depend on SESSIONS_DIR set below) ────────
 _perm_system        = None   # PermissionSystem
@@ -358,7 +410,8 @@ def _compact(content: str, tool_name: str = "_default") -> str:
             from lazyown_context import compact_output
             _compact_output_fn = compact_output
         except Exception:
-            _compact_output_fn = lambda c, t="_default": c
+            def _compact_output_fn(c, t="_default"):
+                return c
     return _compact_output_fn(content, tool_name)
 
 
@@ -381,17 +434,17 @@ SESSIONS_DIR = LAZYOWN_DIR / "sessions"
 
 # ── Helper module (pure-function logic for new high-impact tools) ─────────────
 from lazyown_mcp_helpers import (
+    DEFAULT_FRESHNESS_THRESHOLD_SECONDS,
+    JobStore,
     audit_tasks,
     build_target_context,
     diff_snapshot,
     evidence_freshness,
     evidence_grep,
     is_likely_credential,
-    JobStore,
     needs_confirmation,
     preflight_command,
     take_snapshot,
-    DEFAULT_FRESHNESS_THRESHOLD_SECONDS,
 )
 
 _job_store = JobStore()
@@ -4410,10 +4463,10 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         # Build YAML content manually to preserve readable formatting
         lines = [
             f"name: {addon_name}",
-            f"description: >",
+            "description: >",
             f"  {description}",
             f"author: \"{author}\"",
-            f"version: \"1.0\"",
+            "version: \"1.0\"",
             f"enabled: {'true' if enabled else 'false'}",
             f"os: {addon_os}",
             f"trigger: [{', '.join(addon_trigger)}]",
@@ -4423,7 +4476,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             lines.append("params:")
             for p in params:
                 lines.append(f"  - name: {p.get('name', '')}")
-                lines.append(f"    type: string")
+                lines.append("    type: string")
                 lines.append(f"    required: {'true' if p.get('required', False) else 'false'}")
                 if p.get("description"):
                     lines.append(f"    description: {p['description']}")
@@ -4644,8 +4697,8 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
     # ── session_init ──────────────────────────────────────────────────────────
     elif name == "lazyown_session_init":
-        import json as _json
         import glob as _glob
+        import json as _json
         from pathlib import Path as _Path
 
         out_format = (arguments.get("format") or "pretty").lower()
@@ -4861,7 +4914,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 next_steps = [
                     f"  A. lazyown_read_session_file('scan_{rhost}.nmap')    — analyse scan",
                     f"  B. lazyown_discover_commands(phase='{phase}')         — phase commands",
-                    f"  C. lazyown_facts_show()                               — structured findings",
+                    "  C. lazyown_facts_show()                               — structured findings",
                     f"  D. lazyown_auto_loop(objective='exploit {rhost}')     — autonomous run",
                 ]
 
@@ -5276,24 +5329,24 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             f"{'='*60}",
             f"PHASE GUIDE: {pg_phase.upper()}  (OS: {pg_os}  Services: {pg_services or 'any'})",
             f"{'='*60}",
-            f"",
-            f"▶ ABSTRACTION MODEL",
-            f"  LazyOwn commands are HIGH-LEVEL ABSTRACTIONS over real tools.",
-            f"  payload.json auto-injects ALL parameters — NEVER write raw flags.",
-            f"  Examples:",
-            f"    lazynmap          → nmap -sC -sV -p- -T4 -Pn --script vuln {{rhost}}",
-            f"    gobuster          → gobuster dir -u http://{{rhost}} -w {{dirwordlist}} ...",
-            f"    bloodhound        → bloodhound-python -d {{domain}} -u {{user}} -p {{pass}} -c All",
-            f"    evil              → evil-winrm -i {{rhost}} -u {{user}} -p {{pass}}",
-            f"    ww                → whatweb http://{{domain}} -a 3",
-            f"    dig               → dig @{{rhost}} {{domain}} axfr",
-            f"",
-            f"▶ PAYLOAD.JSON KEYS FOR THIS PHASE",
+            "",
+            "▶ ABSTRACTION MODEL",
+            "  LazyOwn commands are HIGH-LEVEL ABSTRACTIONS over real tools.",
+            "  payload.json auto-injects ALL parameters — NEVER write raw flags.",
+            "  Examples:",
+            "    lazynmap          → nmap -sC -sV -p- -T4 -Pn --script vuln {rhost}",
+            "    gobuster          → gobuster dir -u http://{rhost} -w {dirwordlist} ...",
+            "    bloodhound        → bloodhound-python -d {domain} -u {user} -p {pass} -c All",
+            "    evil              → evil-winrm -i {rhost} -u {user} -p {pass}",
+            "    ww                → whatweb http://{domain} -a 3",
+            "    dig               → dig @{rhost} {domain} axfr",
+            "",
+            "▶ PAYLOAD.JSON KEYS FOR THIS PHASE",
         ] + [f"  {s}" for s in key_status] + [
-            f"",
+            "",
             f"▶ KEY ALIASES FOR PHASE '{pg_phase}'",
         ] + [f"  {k:<20} → {v}" for k, v in _PHASE_ALIASES.get(pg_phase, {}).items()] + [
-            f"",
+            "",
             f"▶ AVAILABLE COMMANDS ({len(all_entries)} from bridge catalog)",
             f"  {'Command':<24} {'MITRE':<10} {'OS':<8} {'Creds?':<7} {'Services':<18} Description",
             f"  {'-'*24} {'-'*10} {'-'*8} {'-'*7} {'-'*18} {'-'*40}",
@@ -5312,8 +5365,8 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             idx = kc.index(pg_phase) if pg_phase in kc else -1
             next_phase = kc[idx+1] if idx >= 0 and idx+1 < len(kc) else "(end)"
             out += [
-                f"",
-                f"▶ KILL-CHAIN POSITION",
+                "",
+                "▶ KILL-CHAIN POSITION",
                 f"  Current: {pg_phase}  →  Next: {next_phase}",
                 f"  Full chain: {' → '.join(kc)}",
             ]
@@ -5321,12 +5374,12 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             pass
 
         out += [
-            f"",
-            f"▶ QUICK START FOR THIS PHASE",
-            f"  1. Verify payload keys above are set (lazyown_get_config / lazyown_set_config)",
-            f"  2. Run first command: lazyown_run_command('<command_name>')",
-            f"  3. Parse output: lazyown_reactive_suggest(output=..., command=...)",
-            f"  4. Loop: lazyown_auto_loop(target=rhost, max_steps=10)",
+            "",
+            "▶ QUICK START FOR THIS PHASE",
+            "  1. Verify payload keys above are set (lazyown_get_config / lazyown_set_config)",
+            "  2. Run first command: lazyown_run_command('<command_name>')",
+            "  3. Parse output: lazyown_reactive_suggest(output=..., command=...)",
+            "  4. Loop: lazyown_auto_loop(target=rhost, max_steps=10)",
             f"{'='*60}",
         ]
         return text("\n".join(out))
@@ -5349,7 +5402,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                     )
                 out = [
                     f"LazyOwn commands for phase: {phase_filter.upper()} ({len(entries)} commands)",
-                    f"",
+                    "",
                     f"  {'Command':<22} {'MITRE':<9} {'OS':<8} {'Services':<16} Description",
                     f"  {'-'*22} {'-'*9} {'-'*8} {'-'*16} {'-'*40}",
                 ]
@@ -5359,7 +5412,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                     mit  = getattr(e, "mitre_tactic", "") or ""
                     desc = getattr(e, "description", "") or ""
                     out.append(f"  {e.command:<22} [{mit:<7}] {os_t:<8} {svc:<16} {desc[:50]}")
-                out.append(f"\nUse lazyown_command_help(command='<name>') for full docs.")
+                out.append("\nUse lazyown_command_help(command='<name>') for full docs.")
                 return text("\n".join(out))
             except Exception as _ex_dc:
                 return text(f"[discover_commands] Bridge error: {_ex_dc}\nFalling back to shell help...")
@@ -5417,7 +5470,9 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
     # ── command_help ──────────────────────────────────────────────────────────
     elif name == "lazyown_command_help":
-        import ast as _ast_help, textwrap as _tw, warnings as _warn
+        import ast as _ast_help
+        import textwrap as _tw
+        import warnings as _warn
         _warn.filterwarnings("ignore")
         cmd = arguments["command"].strip()
         if cmd.startswith("do_"):
@@ -5442,7 +5497,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                     for t in node.targets:
                         if isinstance(t, _ast_help.Name) and t.id == "aliases":
                             if isinstance(node.value, _ast_help.Dict):
-                                for k, v in zip(node.value.keys, node.value.values):
+                                for k, v in zip(node.value.keys, node.value.values, strict=False):
                                     if isinstance(k, _ast_help.Constant) and isinstance(v, _ast_help.Constant):
                                         alias_map[str(k.value)] = str(v.value)
 
@@ -5601,7 +5656,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         summary = (
             f"Active target set to {ip}"
             + (f" ({target['domain']})" if target.get("domain") else "")
-            + f"\nrhost and domain updated in payload.json."
+            + "\nrhost and domain updated in payload.json."
             + (f"\nStatus → {arguments['status']}" if "status" in arguments else "")
             + f"\nKnown ports: {target.get('ports', [])}"
             + (f"\nNotes: {target['notes']}" if target.get("notes") else "")
@@ -5702,7 +5757,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             f"Heartbeat: {'RUNNING (pid=' + str(pid) + ')' if running else 'STOPPED'}",
             f"Events total: {total_count}  |  pending: {pending_count}",
             f"Rules loaded: {len(load_rules())}",
-            f"To start: python3 skills/heartbeat.py --interval 5 &",
+            "To start: python3 skills/heartbeat.py --interval 5 &",
         ]
         return text("\n".join(status_lines))
 
@@ -6082,7 +6137,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         ]
         try:
             body = json.loads(report_file.read_text()) if report_file.exists() else {}
-        except Exception as e:
+        except Exception:
             body = {}
 
         if action == "read":
@@ -6283,16 +6338,16 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             f"Active target:  {state['active_target']}  (os: {state['os_target']})",
             f"Domain:         {state['domain'] or 'unknown'}",
             f"Lhost:          {state['lhost']}",
-            f"",
+            "",
             f"Hosts ({len(state['hosts'])}):",
         ] + (hosts_lines or ["  (none)"]) + [
-            f"",
+            "",
             f"Credentials:    {state['credentials'] or ['none']}",
             f"Last commands:  {', '.join(state['last_commands'][-6:]) or 'none'}",
-            f"",
+            "",
             f"Pending events ({state['open_event_count']}):",
         ] + (ev_lines or ["  (none)"]) + [
-            f"",
+            "",
             f"Generated: {state['generated_at'][:19]}",
         ])
         return text(output)
@@ -6522,8 +6577,8 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         _obs_parser = None
         try:
             sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
-            from world_model import WorldModel, EngagementPhase
             from obs_parser import ObsParser
+            from world_model import WorldModel
             _wm = WorldModel()
             _obs_parser = ObsParser()
         except Exception:
@@ -6596,7 +6651,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             if vuln_path.exists():
                 try:
                     evidence_parts.append(
-                        f"=== VULN SCRIPTS ===\n"
+                        "=== VULN SCRIPTS ===\n"
                         + vuln_path.read_text(errors="replace")[:2000]
                     )
                 except Exception:
@@ -6751,7 +6806,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
             # Step 1 — ping
             print(f"[bootstrap] Step 1/4: ping {target}", flush=True)
-            ping_out = _run_lazyown_command("ping", step_timeout)
+            _run_lazyown_command("ping", step_timeout)
             os_info = _read_os_json()
             platform = os_info.get("os", "Unknown")
             steps.append({
@@ -6776,7 +6831,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             steps.append({"bootstrap_step": "pwntomate", "status": pwn_status})
 
             # Step 4 — LLM task generation
-            print(f"[bootstrap] Step 4/4: generating tasks.json from sessions", flush=True)
+            print("[bootstrap] Step 4/4: generating tasks.json from sessions", flush=True)
             new_tasks = _generate_tasks_from_sessions(target, platform, _api_key)
             steps.append({
                 "bootstrap_step": "task_generation",
@@ -6894,7 +6949,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 task_parts = task_cmd.split(None, 1)
                 t_cmd  = task_parts[0] if task_parts else task_cmd
                 t_args = task_parts[1] if len(task_parts) > 1 else ""
-                t_phase = pending_task.get("phase", "enum")
+                pending_task.get("phase", "enum")
 
                 full_cmd = f"{t_cmd} {t_args}".strip()
                 print(f"[auto_loop] task '{pending_task.get('title','?')}' → {full_cmd}", flush=True)
@@ -7694,8 +7749,9 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             return text("[memory_store] host, tool, command are required.")
         try:
             sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
-            from memory_store import get_memory_store
             import uuid as _uuid
+
+            from memory_store import get_memory_store
             ms = get_memory_store()
             ms.remember(
                 session_id=_uuid.uuid4().hex[:8],
@@ -7998,7 +8054,8 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             )
         try:
             sys.path.insert(0, str(MODULES_DIR))
-            from atomic_enricher import query_atomic as _qa, enrich as _enrich_atomic
+            from atomic_enricher import enrich as _enrich_atomic
+            from atomic_enricher import query_atomic as _qa
             # Build enriched parquet on first use
             _enrich_atomic()
             rows = _qa(
@@ -8130,7 +8187,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                         f"{t['technique_name']}  (x{t['occurrences']})"
                     )
                 lines.append("")
-                lines.append(f"Full model: sessions/reports/threat_model.json")
+                lines.append("Full model: sessions/reports/threat_model.json")
                 return text("\n".join(lines))
             elif tm_action == "ttps":
                 ttps = model.get("ttps", [])
@@ -8776,7 +8833,8 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         filter_status = arguments.get("filter_status", "").strip()
         try:
             sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
-            from session_reader import TaskReader as _TaskReader, TaskWriter as _TaskWriter
+            from session_reader import TaskReader as _TaskReader
+            from session_reader import TaskWriter as _TaskWriter
 
             if action == "list":
                 tasks = _TaskReader().read(SESSIONS_DIR)
@@ -9226,7 +9284,8 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         action = arguments.get("action", "status")
 
         def _run_daemon() -> str:
-            import subprocess, sys
+            import subprocess
+            import sys
             daemon_script = str(SKILLS_DIR / "lazyown_daemon.py")
 
             if action == "start":
@@ -9306,7 +9365,9 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             return text("\n".join(plan_lines))
 
         def _launch() -> str:
-            import subprocess, os, shutil, time
+            import os
+            import subprocess
+            import time
 
             askpass_script = str(LAZYOWN_DIR / "modules" / "gui_askpass.sh")
             fast_run       = str(LAZYOWN_DIR / "fast_run_as_r00t.sh")
@@ -9355,7 +9416,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             try:
                 out, err = proc.communicate(timeout=0.1)
             except subprocess.TimeoutExpired:
-                out, err = b"", b""
+                _out, err = b"", b""
 
             lines = ["\n".join(plan_lines), ""]
             if session_up:
@@ -9630,8 +9691,8 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         # Layer 5: Compaction (best-effort metrics — last result if any)
         lines += [
             "▼ CONTEXT COMPACTION",
-            f"  status: active (5-layer pipeline applied to every tool result)",
-            f"  layers: microcompact → snip → collapse → budget",
+            "  status: active (5-layer pipeline applied to every tool result)",
+            "  layers: microcompact → snip → collapse → budget",
             "",
         ]
 
@@ -9824,6 +9885,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
 import signal
 
+
 def _handle_sighup(signum, frame):
     """Clean exit on SIGHUP — Claude Code will restart the server automatically."""
     sys.exit(0)
@@ -9843,10 +9905,10 @@ async def main():
             _port = int(_sys.argv[_idx + 1]) if _idx + 1 < len(_sys.argv) else 9871
         except (ValueError, IndexError):
             _port = 9871
+        import uvicorn
         from mcp.server.sse import SseServerTransport
         from starlette.applications import Starlette
-        from starlette.routing import Route, Mount
-        import uvicorn
+        from starlette.routing import Mount, Route
 
         _sse_transport = SseServerTransport("/messages/")
 

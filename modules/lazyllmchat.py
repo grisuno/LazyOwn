@@ -1,12 +1,10 @@
-import os
-import sys
-import io
-import csv
-import json
-import subprocess
 import importlib.util
-import threading
+import io
+import os
 import queue
+import subprocess
+import sys
+import threading
 
 _script_dir = os.path.dirname(os.path.abspath(__file__))
 if _script_dir not in sys.path:
@@ -211,7 +209,7 @@ class LazyOwnPromptRenderer:
     def render(self):
         import random
         import socket
-        user = "root" if os.geteuid() == 0 else os.getenv("USER", "user")
+        "root" if os.geteuid() == 0 else os.getenv("USER", "user")
         hostname = socket.gethostname()
         prompt_char = f"{self.RED}#" if os.geteuid() == 0 else f"{self.GREEN}$"
         r = random.randint(0, 255)
@@ -269,7 +267,7 @@ class LazyOwnLLMChat:
         prompt = PromptBuilder.for_command_analysis(command, output, ctx, history)
         analysis = self.engine.ask(prompt)
         print(f"\n{'='*60}")
-        print(f"[LLM Analysis]")
+        print("[LLM Analysis]")
         print(analysis)
         print(f"{'='*60}\n")
 

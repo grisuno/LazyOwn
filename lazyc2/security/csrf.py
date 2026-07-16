@@ -29,8 +29,7 @@ from __future__ import annotations
 
 import hmac
 import secrets
-from typing import Mapping
-
+from collections.abc import Mapping
 
 _SAFE_METHODS = frozenset({"GET", "HEAD", "OPTIONS", "TRACE"})
 

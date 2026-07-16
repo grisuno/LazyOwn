@@ -1,6 +1,7 @@
+import re
 import socket
 import sys
-import re
+
 
 def genHeader(raw):
     header = '''

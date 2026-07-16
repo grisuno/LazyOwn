@@ -54,7 +54,6 @@ Usage
 
 from __future__ import annotations
 
-import asyncio
 import hashlib
 import json
 import logging
@@ -64,10 +63,10 @@ import threading
 import time
 import uuid
 from abc import ABC, abstractmethod
+from collections.abc import Callable
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from typing import Any
 
 # ── Paths ──────────────────────────────────────────────────────────────────────
 # Mirror lazyown_mcp.py: respect LAZYOWN_DIR env override for consistency.
@@ -142,7 +141,7 @@ class IReadableMemory(ABC):
     """Read-only contract for memory stores."""
 
     @abstractmethod
-    def recall(self, query: str, top_k: int = 10) -> List[Dict]:
+    def recall(self, query: str, top_k: int = 10) -> list[dict]:
         """Return top_k items matching query."""
 
 
@@ -207,8 +206,7 @@ class EpisodicStore(IMemoryStore):
         END""",
     ]
 
-    def __init__(self, db_path: Optional[Path] = None) -> None:
-        import sqlite3
+    def __init__(self, db_path: Path | None = None) -> None:
         self._db_path = db_path or (HIVE_DIR / "hive_memory.db")
         self._lock    = threading.RLock()
         self._conn    = self._connect()
@@ -233,7 +231,7 @@ class EpisodicStore(IMemoryStore):
         agent_id: str = "queen",
         role: str = "generic",
         event_type: str = "observation",
-        meta: Optional[Dict] = None,
+        meta: dict | None = None,
         session_tag: str = "",
         **_ignored: Any,
     ) -> str:
@@ -270,14 +268,14 @@ class EpisodicStore(IMemoryStore):
         self,
         query: str,
         top_k: int = 10,
-        role: Optional[str] = None,
-        event_type: Optional[str] = None,
-    ) -> List[Dict]:
+        role: str | None = None,
+        event_type: str | None = None,
+    ) -> list[dict]:
         """Keyword search via FTS5. Optionally filter by role or event_type."""
         with self._lock:
             try:
-                extra_filters: List[str] = []
-                params: List[Any] = [self._sanitize_fts(query)]
+                extra_filters: list[str] = []
+                params: list[Any] = [self._sanitize_fts(query)]
                 if role:
                     extra_filters.append("e.role = ?")
                     params.append(role)
@@ -310,7 +308,7 @@ class EpisodicStore(IMemoryStore):
 
     # Additional helpers ------------------------------------------------------
 
-    def stats(self) -> Dict[str, Any]:
+    def stats(self) -> dict[str, Any]:
         """Return row counts for status reporting."""
         with self._lock:
             total = self._conn.execute(
@@ -353,8 +351,8 @@ class SemanticStore(IMemoryStore):
 
     def __init__(
         self,
-        chroma_dir: Optional[Path] = None,
-        episodic_fallback: Optional[EpisodicStore] = None,
+        chroma_dir: Path | None = None,
+        episodic_fallback: EpisodicStore | None = None,
     ) -> None:
         self._episodic  = episodic_fallback
         self._collection = self._init_chroma(chroma_dir or (HIVE_DIR / "chroma"))
@@ -385,9 +383,9 @@ class SemanticStore(IMemoryStore):
         agent_id: str = "queen",
         role: str = "generic",
         event_type: str = "observation",
-        meta: Optional[Dict] = None,
+        meta: dict | None = None,
         session_tag: str = "",
-        event_id: Optional[str] = None,
+        event_id: str | None = None,
         **_ignored: Any,
     ) -> str:
         """Add a document to ChromaDB. Returns the event_id used."""
@@ -425,8 +423,8 @@ class SemanticStore(IMemoryStore):
         self,
         query: str,
         top_k: int = 8,
-        where: Optional[Dict] = None,
-    ) -> List[Dict]:
+        where: dict | None = None,
+    ) -> list[dict]:
         """Vector similarity search. Falls back to episodic FTS if unavailable."""
         if self._collection is None:
             if self._episodic is not None:
@@ -434,7 +432,7 @@ class SemanticStore(IMemoryStore):
             return []
         try:
             embedding = self._embed(query)
-            kw: Dict[str, Any] = {
+            kw: dict[str, Any] = {
                 "n_results": top_k,
                 "include": ["documents", "metadatas", "distances"],
             }
@@ -475,7 +473,7 @@ class SemanticStore(IMemoryStore):
 
     # Internal ----------------------------------------------------------------
 
-    def _embed(self, text: str) -> Optional[List[float]]:
+    def _embed(self, text: str) -> list[float] | None:
         model = _get_embed_model()
         if model is None:
             return None
@@ -505,7 +503,7 @@ class LongtermStore(IMemoryStore):
         """Parquet store is read-only from here. Returns empty string."""
         return ""
 
-    def recall(self, query: str, top_k: int = 10) -> List[Dict]:
+    def recall(self, query: str, top_k: int = 10) -> list[dict]:
         """Keyword search across Parquet knowledge files."""
         try:
             from lazyown_parquet_db import get_pdb
@@ -543,7 +541,7 @@ class LongtermStore(IMemoryStore):
 # SECTION 1D — HiveMemory  (D — Dependency Inversion: injects IMemoryStore list)
 # ─────────────────────────────────────────────────────────────────────────────
 
-def build_default_hive_memory(db_path: Optional[Path] = None) -> "HiveMemory":
+def build_default_hive_memory(db_path: Path | None = None) -> HiveMemory:
     """
     Factory that creates HiveMemory with the default three-layer backend.
 
@@ -570,10 +568,10 @@ class HiveMemory:
 
     def __init__(
         self,
-        stores: List[IMemoryStore],
-        episodic: Optional[EpisodicStore] = None,
-        semantic: Optional[SemanticStore] = None,
-        longterm: Optional[LongtermStore] = None,
+        stores: list[IMemoryStore],
+        episodic: EpisodicStore | None = None,
+        semantic: SemanticStore | None = None,
+        longterm: LongtermStore | None = None,
     ) -> None:
         self._stores   = stores
         self._episodic = episodic
@@ -588,7 +586,7 @@ class HiveMemory:
         agent_id: str = "queen",
         role: str = "generic",
         event_type: str = "observation",
-        meta: Optional[Dict] = None,
+        meta: dict | None = None,
         session_tag: str = "",
     ) -> str:
         """
@@ -597,7 +595,7 @@ class HiveMemory:
         Returns the event_id from the first store (episodic).
         The same id is forwarded to semantic so ChromaDB and SQLite stay aligned.
         """
-        event_id: Optional[str] = None
+        event_id: str | None = None
         kwargs = dict(
             agent_id=agent_id, role=role, event_type=event_type,
             meta=meta, session_tag=session_tag,
@@ -620,9 +618,9 @@ class HiveMemory:
         self,
         query: str,
         top_k: int = 10,
-        role: Optional[str] = None,
-        event_type: Optional[str] = None,
-    ) -> List[Dict]:
+        role: str | None = None,
+        event_type: str | None = None,
+    ) -> list[dict]:
         """Keyword search across hive episodic memory."""
         if self._episodic is None:
             return []
@@ -634,8 +632,8 @@ class HiveMemory:
         self,
         query: str,
         top_k: int = 8,
-        where: Optional[Dict] = None,
-    ) -> List[Dict]:
+        where: dict | None = None,
+    ) -> list[dict]:
         """Vector similarity search in ChromaDB."""
         if self._semantic is None:
             return self.recall_episodic(query, top_k)
@@ -643,7 +641,7 @@ class HiveMemory:
 
     # ── Recall — long-term (Parquet) ─────────────────────────────────────────
 
-    def recall_longterm(self, query: str, top_k: int = 10) -> List[Dict]:
+    def recall_longterm(self, query: str, top_k: int = 10) -> list[dict]:
         """Keyword search across Parquet knowledge files."""
         if self._longterm is None:
             return []
@@ -651,13 +649,13 @@ class HiveMemory:
 
     # ── Unified recall (all layers) ──────────────────────────────────────────
 
-    def recall(self, query: str, top_k: int = 10) -> List[Dict]:
+    def recall(self, query: str, top_k: int = 10) -> list[dict]:
         """
         Unified recall: semantic (ChromaDB) + episodic (SQLite) + longterm (Parquet).
         Deduplicates by content hash.
         """
         seen: set = set()
-        results: List[Dict] = []
+        results: list[dict] = []
 
         for item in self.recall_semantic(query, top_k=top_k):
             key = hashlib.md5(item["content"][:200].encode()).hexdigest()
@@ -677,9 +675,9 @@ class HiveMemory:
 
     # ── Stats ─────────────────────────────────────────────────────────────────
 
-    def stats(self) -> Dict[str, Any]:
+    def stats(self) -> dict[str, Any]:
         """Return combined statistics from all layers."""
-        result: Dict[str, Any] = {"chroma_enabled": _CHROMA_OK, "embed_enabled": _EMBED_OK}
+        result: dict[str, Any] = {"chroma_enabled": _CHROMA_OK, "embed_enabled": _EMBED_OK}
         if self._episodic is not None:
             result.update(self._episodic.stats())
         result["chroma_vectors"] = self._semantic.count() if self._semantic else 0
@@ -706,7 +704,7 @@ class HiveMessage:
     sender:    str = "queen"
     recipient: str = "*"          # "*" = broadcast
     kind:      str = "task"       # task | result | signal | heartbeat
-    payload:   Dict = field(default_factory=dict)
+    payload:   dict = field(default_factory=dict)
     ts:        float = field(default_factory=time.time)
 
 
@@ -720,7 +718,7 @@ class HiveBus:
 
     def __init__(self) -> None:
         self._lock    = threading.Lock()
-        self._mailbox: Dict[str, List[HiveMessage]] = {}   # recipient -> [msgs]
+        self._mailbox: dict[str, list[HiveMessage]] = {}   # recipient -> [msgs]
 
     def publish(self, msg: HiveMessage) -> None:
         """Deliver msg to recipient mailbox (and to "*" broadcast)."""
@@ -728,7 +726,7 @@ class HiveBus:
             for recipient in (msg.recipient, "*"):
                 self._mailbox.setdefault(recipient, []).append(msg)
 
-    def receive(self, agent_id: str, max_msgs: int = 10) -> List[HiveMessage]:
+    def receive(self, agent_id: str, max_msgs: int = 10) -> list[HiveMessage]:
         """Drain mailbox for agent_id (includes broadcast)."""
         with self._lock:
             direct    = self._mailbox.pop(agent_id, [])
@@ -751,7 +749,7 @@ class HiveBus:
 # ─────────────────────────────────────────────────────────────────────────────
 
 # Role -> system prompt focus
-_ROLE_FOCUS: Dict[str, str] = {
+_ROLE_FOCUS: dict[str, str] = {
     "recon":             "You specialise in host discovery, port scanning, and service fingerprinting.",
     "exploit":           "You specialise in vulnerability analysis, CVE research, and exploitation.",
     "analyze":           "You specialise in log analysis, output parsing, and pattern detection.",
@@ -784,7 +782,7 @@ _ROLE_FOCUS: Dict[str, str] = {
 }
 
 # Role -> preferred tool subset
-_ROLE_TOOLS: Dict[str, List[str]] = {
+_ROLE_TOOLS: dict[str, list[str]] = {
     "recon":   ["run_command", "facts_show", "bridge_suggest", "rag_query", "cve_lookup",
                 "parquet_context", "memory_search", "session_status"],
     "exploit": ["run_command", "cve_lookup", "searchsploit", "bridge_suggest",
@@ -855,7 +853,7 @@ class ConsensusProtocol:
     - Dependency Inversion  : DetectionRiskAssessor injected, not constructed here
     """
 
-    _DETECTION_RISK_BY_ROLE: Dict[str, float] = {
+    _DETECTION_RISK_BY_ROLE: dict[str, float] = {
         "exploit":        0.82,
         "lateral":        0.75,
         "cred":           0.88,
@@ -863,10 +861,10 @@ class ConsensusProtocol:
     }
     _APPROVAL_QUORUM: float = 0.51   # fraction of weighted votes required
 
-    def __init__(self, risk_assessor: Optional[Any] = None) -> None:
+    def __init__(self, risk_assessor: Any | None = None) -> None:
         self._risk_assessor = risk_assessor  # Optional DetectionRiskAssessor
 
-    def evaluate(self, role: str, goal: str) -> Tuple[bool, List[ConsensusVote], str]:
+    def evaluate(self, role: str, goal: str) -> tuple[bool, list[ConsensusVote], str]:
         """
         Run the consensus vote for the given (role, goal) pair.
 
@@ -952,7 +950,7 @@ class ConsensusProtocol:
         return self._DETECTION_RISK_BY_ROLE.get(role, 0.50)
 
     @staticmethod
-    def _weighted_approval(votes: List[ConsensusVote]) -> float:
+    def _weighted_approval(votes: list[ConsensusVote]) -> float:
         """
         Weight votes by role importance:
           stealth_specialist : 0.40 (detection risk is paramount)
@@ -1010,10 +1008,10 @@ class DroneAgent:
         memory: HiveMemory,
         bus: HiveBus,
         max_iterations: int = 10,
-        api_key: Optional[str] = None,
-        model: Optional[str] = None,
-        runner: Optional[ICommandRunner] = None,
-        on_state_change: Optional[Callable[["DroneState"], None]] = None,
+        api_key: str | None = None,
+        model: str | None = None,
+        runner: ICommandRunner | None = None,
+        on_state_change: Callable[[DroneState], None] | None = None,
     ) -> None:
         self.state    = DroneState(
             drone_id=drone_id, role=role, goal=goal, backend=backend,
@@ -1025,7 +1023,7 @@ class DroneAgent:
         self._model            = model
         self._runner           = runner
         self._on_state_change  = on_state_change
-        self._thread: Optional[threading.Thread] = None
+        self._thread: threading.Thread | None = None
 
     def _persist(self) -> None:
         """Fire the on_state_change callback if registered."""
@@ -1044,7 +1042,7 @@ class DroneAgent:
         )
         self._thread.start()
 
-    def join(self, timeout: Optional[float] = None) -> None:
+    def join(self, timeout: float | None = None) -> None:
         """Block until the drone thread finishes."""
         if self._thread:
             self._thread.join(timeout=timeout)
@@ -1063,8 +1061,8 @@ class DroneAgent:
         )
 
         try:
-            from lazyown_llm import LLMBridge
             from lazyown_groq_agents import REGISTRY
+            from lazyown_llm import LLMBridge
 
             key = (
                 self._api_key
@@ -1132,7 +1130,7 @@ class DroneAgent:
             lines.append(f"[{layer}] {item['content'][:300]}")
         return "\n".join(lines)
 
-    def _build_system_prompt(self, tool_names: List[str], hive_ctx: str) -> str:
+    def _build_system_prompt(self, tool_names: list[str], hive_ctx: str) -> str:
         role_focus = _ROLE_FOCUS.get(self.state.role, _ROLE_FOCUS["generic"])
         base = (
             f"You are a LazyOwn hive-mind drone. Role: {self.state.role.upper()}.\n"
@@ -1161,7 +1159,7 @@ class DroneAgent:
 # SECTION 4 — QueenBrain  (S — orchestration only; D — all deps injected)
 # ─────────────────────────────────────────────────────────────────────────────
 
-_DECOMPOSITION_TEMPLATES: Dict[str, List[Dict]] = {
+_DECOMPOSITION_TEMPLATES: dict[str, list[dict]] = {
     "enum": [
         {"role": "recon",   "goal_suffix": "— host discovery and port scanning"},
         {"role": "analyze", "goal_suffix": "— service version fingerprinting"},
@@ -1214,15 +1212,15 @@ class QueenBrain:
         self,
         memory: HiveMemory,
         bus: HiveBus,
-        pool: "DronePool",
-        consensus: Optional["ConsensusProtocol"] = None,
+        pool: DronePool,
+        consensus: ConsensusProtocol | None = None,
     ) -> None:
         self._memory    = memory
         self._bus       = bus
         self._pool      = pool
         self._consensus = consensus or ConsensusProtocol()
 
-    def plan(self, goal: str, n_drones: int = 0) -> List[Dict]:
+    def plan(self, goal: str, n_drones: int = 0) -> list[dict]:
         """
         Decompose a high-level goal into per-drone task specs.
         Returns list of {role, goal} dicts.
@@ -1243,11 +1241,11 @@ class QueenBrain:
 
     def dispatch(
         self,
-        tasks: List[Dict],
+        tasks: list[dict],
         backend: str = "groq",
-        api_key: Optional[str] = None,
+        api_key: str | None = None,
         max_iterations: int = 10,
-    ) -> List[str]:
+    ) -> list[str]:
         """
         Spawn one drone per task in parallel.
 
@@ -1257,8 +1255,8 @@ class QueenBrain:
 
         Returns list of drone_ids for approved and spawned drones.
         """
-        drone_ids: List[str] = []
-        blocked:   List[str] = []
+        drone_ids: list[str] = []
+        blocked:   list[str] = []
 
         for task in tasks:
             role = task.get("role", "generic")
@@ -1319,9 +1317,9 @@ class QueenBrain:
         goal: str,
         n_drones: int = 0,
         backend: str = "groq",
-        api_key: Optional[str] = None,
+        api_key: str | None = None,
         max_iterations: int = 10,
-    ) -> List[str]:
+    ) -> list[str]:
         """Convenience: plan + dispatch in one call."""
         tasks = self.plan(goal, n_drones=n_drones)
         return self.dispatch(tasks, backend=backend, api_key=api_key,
@@ -1329,10 +1327,10 @@ class QueenBrain:
 
     def collect(
         self,
-        drone_ids: List[str],
+        drone_ids: list[str],
         timeout: float = 300.0,
         poll_interval: float = 2.0,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Wait for all drones to finish (up to timeout seconds).
         Returns aggregated results dict.
@@ -1357,7 +1355,7 @@ class QueenBrain:
                 }
         return results
 
-    def synthesize(self, drone_ids: List[str], original_goal: str) -> str:
+    def synthesize(self, drone_ids: list[str], original_goal: str) -> str:
         """
         Read hive memory results for these drones and produce a synthesis summary.
         Written back to hive memory by the queen.
@@ -1381,7 +1379,7 @@ class QueenBrain:
         )
         return summary
 
-    def read_bus(self) -> List[HiveMessage]:
+    def read_bus(self) -> list[HiveMessage]:
         """Drain queen's mailbox from drone result messages."""
         return self._bus.receive("queen")
 
@@ -1423,7 +1421,7 @@ class DroneStateStore:
     )
     """
 
-    def __init__(self, db_path: Optional[Path] = None) -> None:
+    def __init__(self, db_path: Path | None = None) -> None:
         import sqlite3
         self._db_path = db_path or (HIVE_DIR / "hive_memory.db")
         self._lock    = threading.RLock()
@@ -1456,7 +1454,7 @@ class DroneStateStore:
             except Exception as exc:
                 log.warning("DroneStateStore.upsert error: %s", exc)
 
-    def load_all(self, limit: int = 500) -> List[DroneState]:
+    def load_all(self, limit: int = 500) -> list[DroneState]:
         """Load all persisted drone states ordered by most recently updated."""
         with self._lock:
             try:
@@ -1504,7 +1502,7 @@ class DroneStateStore:
                 log.warning("DroneStateStore.mark_interrupted error: %s", exc)
                 return 0
 
-    def load_interrupted(self) -> List[DroneState]:
+    def load_interrupted(self) -> list[DroneState]:
         """Return all drones currently in 'interrupted' state."""
         with self._lock:
             try:
@@ -1566,14 +1564,14 @@ class DronePool:
         self,
         memory: HiveMemory,
         bus: HiveBus,
-        state_store: Optional[DroneStateStore] = None,
+        state_store: DroneStateStore | None = None,
     ) -> None:
         self._memory      = memory
         self._bus         = bus
         self._state_store = state_store
-        self._drones: Dict[str, DroneAgent] = {}
+        self._drones: dict[str, DroneAgent] = {}
         # Recovered states from previous runs (read-only, no live thread)
-        self._history: Dict[str, DroneState] = {}
+        self._history: dict[str, DroneState] = {}
         self._lock = threading.Lock()
 
     def recover_from_store(self) -> int:
@@ -1602,10 +1600,10 @@ class DronePool:
         role: str,
         goal: str,
         backend: str = "groq",
-        api_key: Optional[str] = None,
-        model: Optional[str] = None,
+        api_key: str | None = None,
+        model: str | None = None,
         max_iterations: int = 10,
-        runner: Optional[ICommandRunner] = None,
+        runner: ICommandRunner | None = None,
     ) -> str:
         """Create and start a DroneAgent. Returns drone_id."""
         drone_id = f"{role[:4]}-{uuid.uuid4().hex[:6]}"
@@ -1633,9 +1631,9 @@ class DronePool:
     def requeue_interrupted(
         self,
         backend: str = "groq",
-        api_key: Optional[str] = None,
+        api_key: str | None = None,
         max_iterations: int = 10,
-    ) -> List[str]:
+    ) -> list[str]:
         """
         Re-spawn all drones previously marked 'interrupted'.
         Returns list of new drone_ids.
@@ -1656,7 +1654,7 @@ class DronePool:
         log.info("DronePool: re-queued %d interrupted drone(s)", len(new_ids))
         return new_ids
 
-    def get_state(self, drone_id: str) -> Optional[DroneState]:
+    def get_state(self, drone_id: str) -> DroneState | None:
         """Return the current state snapshot for a drone, or None if unknown."""
         with self._lock:
             d = self._drones.get(drone_id)
@@ -1665,7 +1663,7 @@ class DronePool:
             # Fall back to persisted history (previous runs)
             return self._history.get(drone_id)
 
-    def list_all(self, limit: int = 30) -> List[Dict]:
+    def list_all(self, limit: int = 30) -> list[dict]:
         """
         Return a sorted list of drone summary dicts (most recent first).
         Includes live drones and recovered history from previous runs.
@@ -1726,7 +1724,7 @@ class HiveMind:
         goal: str,
         role: str = "generic",
         backend: str = "groq",
-        api_key: Optional[str] = None,
+        api_key: str | None = None,
         max_iterations: int = 10,
     ) -> str:
         """Spawn a single drone. Returns drone_id."""
@@ -1740,16 +1738,16 @@ class HiveMind:
         goal: str,
         n_drones: int = 0,
         backend: str = "groq",
-        api_key: Optional[str] = None,
+        api_key: str | None = None,
         max_iterations: int = 10,
-    ) -> List[str]:
+    ) -> list[str]:
         """Queen plans and dispatches multiple drones in parallel."""
         return self.queen.plan_and_dispatch(
             goal=goal, n_drones=n_drones, backend=backend,
             api_key=api_key, max_iterations=max_iterations,
         )
 
-    def status(self) -> Dict[str, Any]:
+    def status(self) -> dict[str, Any]:
         """Return hive-wide status dict including historical drones from previous runs."""
         drone_list   = self._pool.list_all()
         mem_stats    = self.memory.stats()
@@ -1766,11 +1764,11 @@ class HiveMind:
             "queen_mailbox":      bus_msgs,
         }
 
-    def recall(self, query: str, top_k: int = 10) -> List[Dict]:
+    def recall(self, query: str, top_k: int = 10) -> list[dict]:
         """Unified recall from all memory layers."""
         return self.memory.recall(query, top_k=top_k)
 
-    def drone_result(self, drone_id: str) -> Dict[str, Any]:
+    def drone_result(self, drone_id: str) -> dict[str, Any]:
         """Return result dict for a specific drone."""
         s = self._pool.get_state(drone_id)
         if s is None:
@@ -1784,7 +1782,7 @@ class HiveMind:
             "duration": round(s.finished - s.started, 2) if s.finished else None,
         }
 
-    def collect_and_synthesize(self, drone_ids: List[str], goal: str) -> str:
+    def collect_and_synthesize(self, drone_ids: list[str], goal: str) -> str:
         """Synthesize results from multiple drones."""
         return self.queen.synthesize(drone_ids, goal)
 
@@ -1795,7 +1793,7 @@ class HiveMind:
 
 # ── Singleton ──────────────────────────────────────────────────────────────────
 
-_hive_instance: Optional[HiveMind] = None
+_hive_instance: HiveMind | None = None
 _hive_lock = threading.Lock()
 
 

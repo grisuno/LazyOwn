@@ -28,9 +28,8 @@ Config keys owned:
 
 from __future__ import annotations
 
-from typing import Iterable
+from collections.abc import Iterable
 from urllib.parse import urlsplit
-
 
 _DEFAULT_SOCKETIO_PORTS: tuple[int, ...] = (
     443,

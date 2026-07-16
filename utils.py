@@ -71,6 +71,21 @@ from urllib.parse import quote, unquote, urlparse, urljoin
 from requests.exceptions import ConnectionError, RequestException
 
 from core.config import Config, PAYLOAD_FILENAME, PAYLOAD_PATH, load_payload, save_payload
+from core.credentials import (
+    crack_password,
+    find_ea,
+    find_ps,
+    find_ss,
+    format_openssh_key,
+    format_rsa_key,
+    generate_emails,
+    get_credentials,
+    get_domain,
+    get_hash,
+    get_users_dic,
+    return_creds,
+    Spray,
+)
 from core.console import (
     BG_BLACK, BG_BLUE, BG_BRIGHT_BLACK, BG_BRIGHT_BLUE, BG_BRIGHT_CYAN,
     BG_BRIGHT_GREEN, BG_BRIGHT_MAGENTA, BG_BRIGHT_RED, BG_BRIGHT_WHITE,

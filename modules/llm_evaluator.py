@@ -11,9 +11,8 @@ import threading
 import time
 import uuid
 from abc import ABC, abstractmethod
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Dict, List, Optional
 
 _JSONL_PATH = Path(__file__).parent.parent / "sessions" / "llm_decisions.jsonl"
 
@@ -67,10 +66,10 @@ class OutcomeRecorder(ABC):
     ) -> None: ...
 
     @abstractmethod
-    def load_all(self) -> List[DecisionRecord]: ...
+    def load_all(self) -> list[DecisionRecord]: ...
 
     @abstractmethod
-    def load_by_session(self, session_id: str) -> List[DecisionRecord]: ...
+    def load_by_session(self, session_id: str) -> list[DecisionRecord]: ...
 
 
 class JSONLRecorder(OutcomeRecorder):
@@ -96,7 +95,7 @@ class JSONLRecorder(OutcomeRecorder):
                 return
             lines = self._path.read_text(encoding="utf-8").splitlines(keepends=True)
             updated = False
-            new_lines: List[str] = []
+            new_lines: list[str] = []
             for line in lines:
                 line_stripped = line.strip()
                 if not line_stripped:
@@ -118,11 +117,11 @@ class JSONLRecorder(OutcomeRecorder):
             if updated:
                 self._path.write_text("".join(new_lines), encoding="utf-8")
 
-    def load_all(self) -> List[DecisionRecord]:
+    def load_all(self) -> list[DecisionRecord]:
         with self._lock:
             if not self._path.exists():
                 return []
-            records: List[DecisionRecord] = []
+            records: list[DecisionRecord] = []
             for line in self._path.read_text(encoding="utf-8").splitlines():
                 line = line.strip()
                 if not line:
@@ -133,7 +132,7 @@ class JSONLRecorder(OutcomeRecorder):
                     continue
             return records
 
-    def load_by_session(self, session_id: str) -> List[DecisionRecord]:
+    def load_by_session(self, session_id: str) -> list[DecisionRecord]:
         return [r for r in self.load_all() if r.session_id == session_id]
 
 
@@ -142,18 +141,18 @@ class QualityMetrics:
     total_decisions: int
     success_rate: float
     avg_findings_per_decision: float
-    top_tactics: List[str]
-    worst_tactics: List[str]
+    top_tactics: list[str]
+    worst_tactics: list[str]
     avg_confidence_when_correct: float
     avg_confidence_when_wrong: float
 
 
-def _safe_mean(values: List[float]) -> float:
+def _safe_mean(values: list[float]) -> float:
     return sum(values) / len(values) if values else 0.0
 
 
-def _tactic_success_rates(records: List[DecisionRecord]) -> Dict[str, float]:
-    tactic_success: Dict[str, List[bool]] = {}
+def _tactic_success_rates(records: list[DecisionRecord]) -> dict[str, float]:
+    tactic_success: dict[str, list[bool]] = {}
     for r in records:
         tactic_success.setdefault(r.mitre_tactic, []).append(r.success)
     return {t: sum(v) / len(v) for t, v in tactic_success.items()}
@@ -198,7 +197,7 @@ class LLMEvaluator:
     ) -> None:
         self._recorder.update_outcome(decision_id, actual_outcome, findings_count, success)
 
-    def compute_metrics(self, session_id: Optional[str] = None) -> QualityMetrics:
+    def compute_metrics(self, session_id: str | None = None) -> QualityMetrics:
         if session_id:
             records = self._recorder.load_by_session(session_id)
         else:
@@ -239,7 +238,7 @@ class LLMEvaluator:
             avg_confidence_when_wrong=avg_conf_wrong,
         )
 
-    def quality_report(self, session_id: Optional[str] = None) -> str:
+    def quality_report(self, session_id: str | None = None) -> str:
         m = self.compute_metrics(session_id)
         scope = f"session={session_id}" if session_id else "all sessions"
         lines = [
@@ -254,7 +253,7 @@ class LLMEvaluator:
         ]
         return "\n".join(lines)
 
-    def export_finetuning_dataset(self, path: Optional[Path] = None) -> Path:
+    def export_finetuning_dataset(self, path: Path | None = None) -> Path:
         if path is None:
             path = Path(__file__).parent.parent / "sessions" / "llm_finetuning.jsonl"
         path = Path(path)
@@ -287,7 +286,7 @@ class LLMEvaluator:
         return path
 
 
-_evaluator_instance: Optional[LLMEvaluator] = None
+_evaluator_instance: LLMEvaluator | None = None
 _evaluator_lock = threading.Lock()
 
 

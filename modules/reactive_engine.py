@@ -23,7 +23,7 @@ import re
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 _ROOT = Path(__file__).parent.parent
 _log = logging.getLogger(__name__)
@@ -40,7 +40,7 @@ SEMANTIC_FILENAME_PATTERN: re.Pattern = re.compile(
 SEMANTIC_PAYLOAD_KEY: str = "reactive_semantic_enabled"
 
 
-def _default_config_loader() -> Dict[str, Any]:
+def _default_config_loader() -> dict[str, Any]:
     """Return the contents of ``payload.json`` as a dictionary.
 
     Imports are performed lazily so the reactive engine still loads in
@@ -84,7 +84,7 @@ class ReactiveDecision:
     reason: str
     mitre_tactic: str = ""
     priority: int = 5      # 1=critical, 10=low
-    signals: List[Signal] = field(default_factory=list)
+    signals: list[Signal] = field(default_factory=list)
 
 
 # ---------------------------------------------------------------------------
@@ -94,7 +94,7 @@ class ReactiveDecision:
 class AbstractSignalMatcher(ABC):
 
     @abstractmethod
-    def match(self, output: str, context: Dict) -> List[Signal]:
+    def match(self, output: str, context: dict) -> list[Signal]:
         ...
 
 
@@ -122,14 +122,14 @@ class AVBlockedMatcher(AbstractSignalMatcher):
         "[+] command '",
     )
 
-    def match(self, output: str, context: Dict) -> List[Signal]:
+    def match(self, output: str, context: dict) -> list[Signal]:
         # Strip LazyOwn framework registration noise before matching
         clean_lines = [
             ln for ln in output.splitlines()
             if not any(np in ln.lower() for np in self._NOISE_PATTERNS)
         ]
         lower = "\n".join(clean_lines).lower()
-        signals: List[Signal] = []
+        signals: list[Signal] = []
         for pattern, kind in self._PATTERNS:
             m = re.search(pattern, lower)
             if m:
@@ -154,8 +154,8 @@ class CredentialFoundMatcher(AbstractSignalMatcher):
         r"(aad3b435b51404eeaad3b435b51404ee:[a-fA-F0-9]{32})",  # empty LM
     ]
 
-    def match(self, output: str, context: Dict) -> List[Signal]:
-        signals: List[Signal] = []
+    def match(self, output: str, context: dict) -> list[Signal]:
+        signals: list[Signal] = []
         for pattern in self._PATTERNS:
             for m in re.finditer(pattern, output, re.IGNORECASE):
                 signals.append(Signal(
@@ -185,9 +185,9 @@ class PrivescHintMatcher(AbstractSignalMatcher):
         (r"alwaysinstallelevated", "always_install_elevated"),
     ]
 
-    def match(self, output: str, context: Dict) -> List[Signal]:
+    def match(self, output: str, context: dict) -> list[Signal]:
         lower = output.lower()
-        signals: List[Signal] = []
+        signals: list[Signal] = []
         for pattern, hint in self._PATTERNS:
             m = re.search(pattern, lower)
             if m:
@@ -207,9 +207,9 @@ class NewHostMatcher(AbstractSignalMatcher):
         r"\b(?:10|172\.(?:1[6-9]|2\d|3[01])|192\.168)\.\d{1,3}\.\d{1,3}\b"
     )
 
-    def match(self, output: str, context: Dict) -> List[Signal]:
+    def match(self, output: str, context: dict) -> list[Signal]:
         known = set(context.get("known_hosts", []))
-        signals: List[Signal] = []
+        signals: list[Signal] = []
         for m in self._IP_RE.finditer(output):
             ip = m.group()
             if ip not in known:
@@ -238,8 +238,8 @@ class ServiceVersionMatcher(AbstractSignalMatcher):
         r"(Debian \w+)",
     ]
 
-    def match(self, output: str, context: Dict) -> List[Signal]:
-        signals: List[Signal] = []
+    def match(self, output: str, context: dict) -> list[Signal]:
+        signals: list[Signal] = []
         for pattern in self._PATTERNS:
             for m in re.finditer(pattern, output, re.IGNORECASE):
                 signals.append(Signal(
@@ -265,9 +265,9 @@ class ShellErrorMatcher(AbstractSignalMatcher):
         (r"invalid\s+password|wrong\s+password", "bad_cred"),
     ]
 
-    def match(self, output: str, context: Dict) -> List[Signal]:
+    def match(self, output: str, context: dict) -> list[Signal]:
         lower = output.lower()
-        signals: List[Signal] = []
+        signals: list[Signal] = []
         for pattern, kind in self._PATTERNS:
             m = re.search(pattern, lower)
             if m:
@@ -292,9 +292,9 @@ class ParquetAdvisor:
 
     def __init__(self, root: Path = _ROOT) -> None:
         self._root = root
-        self._binarios: Optional[object] = None   # DataFrame
-        self._lolbas: Optional[object] = None
-        self._techniques: Optional[object] = None
+        self._binarios: object | None = None   # DataFrame
+        self._lolbas: object | None = None
+        self._techniques: object | None = None
         self._loaded = False
 
     def _load(self) -> None:
@@ -315,7 +315,7 @@ class ParquetAdvisor:
         except Exception as exc:
             _log.debug("ParquetAdvisor load failed: %s", exc)
 
-    def gtfobins_for(self, binary: str) -> List[str]:
+    def gtfobins_for(self, binary: str) -> list[str]:
         self._load()
         if self._binarios is None:
             return []
@@ -328,7 +328,7 @@ class ParquetAdvisor:
             _log.debug("ParquetAdvisor.gtfobins_for(%s) failed: %s", binary, exc)
             return []
 
-    def lolbas_for(self, binary: str) -> List[Tuple[str, str]]:
+    def lolbas_for(self, binary: str) -> list[tuple[str, str]]:
         """Returns [(function_name, att&ck_technique), ...]."""
         self._load()
         if self._lolbas is None:
@@ -342,7 +342,7 @@ class ParquetAdvisor:
             _log.debug("ParquetAdvisor.lolbas_for(%s) failed: %s", binary, exc)
             return []
 
-    def technique_commands_for(self, platform: str, keyword: str) -> List[str]:
+    def technique_commands_for(self, platform: str, keyword: str) -> list[str]:
         """Return atomic test commands for platform matching keyword."""
         self._load()
         if self._techniques is None:
@@ -357,7 +357,7 @@ class ParquetAdvisor:
                 df["description"].astype(str).str.lower().str.contains(keyword.lower())
             )
             rows = df[p_mask & k_mask].head(3)
-            cmds: List[str] = []
+            cmds: list[str] = []
             for _, r in rows.iterrows():
                 cmd = str(r.get("command", "")).strip()
                 if cmd and cmd.lower() != "nan":
@@ -398,7 +398,7 @@ class EvasionAdvisor:
     # ACL-only signals (kernel permission errors, not AV) — never trigger evasion
     _ACL_ONLY_KINDS: frozenset = frozenset({"linux_acl", "windows_acl"})
 
-    def suggest(self, signals: List[Signal], platform: str) -> List[ReactiveDecision]:
+    def suggest(self, signals: list[Signal], platform: str) -> list[ReactiveDecision]:
         # Only real AV/EDR blocks trigger evasion — not generic kernel ACL errors
         # ("operation not permitted" / "access is denied" are normal scan noise)
         av_signals = [
@@ -408,7 +408,7 @@ class EvasionAdvisor:
         if not av_signals:
             return []
 
-        decisions: List[ReactiveDecision] = []
+        decisions: list[ReactiveDecision] = []
         evasion_map = self._WINDOWS_EVASION if platform == "windows" else self._LINUX_EVASION
 
         for sig in av_signals:
@@ -461,12 +461,12 @@ class PrivescAdvisor:
 
     def suggest(
         self,
-        signals: List[Signal],
+        signals: list[Signal],
         platform: str,
-        parquet: Optional[ParquetAdvisor] = None,
-    ) -> List[ReactiveDecision]:
+        parquet: ParquetAdvisor | None = None,
+    ) -> list[ReactiveDecision]:
         priv_signals = [s for s in signals if s.kind == "privesc_hint"]
-        decisions: List[ReactiveDecision] = []
+        decisions: list[ReactiveDecision] = []
 
         quick_map = self._LINUX_QUICK if platform != "windows" else self._WINDOWS_QUICK
         matched: set = set()
@@ -534,8 +534,8 @@ class SemanticContextAdvisor:
 
     def __init__(
         self,
-        rag: Optional[Any] = None,
-        config_loader: Optional[Any] = None,
+        rag: Any | None = None,
+        config_loader: Any | None = None,
         min_score: float = SEMANTIC_MIN_SCORE,
         query_limit: int = SEMANTIC_QUERY_LIMIT,
     ) -> None:
@@ -559,7 +559,7 @@ class SemanticContextAdvisor:
         self._min_score = float(min_score)
         self._query_limit = int(query_limit)
 
-    def _load_rag(self) -> Optional[Any]:
+    def _load_rag(self) -> Any | None:
         """Resolve the RAG singleton on first use.
 
         Returns:
@@ -627,8 +627,8 @@ class SemanticContextAdvisor:
         output: str,
         command: str = "",
         platform: str = "unknown",
-        context: Optional[Dict[str, Any]] = None,
-    ) -> List[ReactiveDecision]:
+        context: dict[str, Any] | None = None,
+    ) -> list[ReactiveDecision]:
         """Return semantic next-step hints derived from past sessions.
 
         Args:
@@ -662,7 +662,7 @@ class SemanticContextAdvisor:
             _log.debug("SemanticContextAdvisor: rag.query failed: %s", exc)
             return []
 
-        decisions: List[ReactiveDecision] = []
+        decisions: list[ReactiveDecision] = []
         seen_verbs: set = set()
         for hit in hits or []:
             score = hit.get("score") if isinstance(hit, dict) else None
@@ -705,11 +705,11 @@ class ReactiveEngine:
 
     def __init__(
         self,
-        matchers: Optional[List[AbstractSignalMatcher]] = None,
-        evasion: Optional[EvasionAdvisor] = None,
-        privesc: Optional[PrivescAdvisor] = None,
-        parquet: Optional[ParquetAdvisor] = None,
-        semantic: Optional[SemanticContextAdvisor] = None,
+        matchers: list[AbstractSignalMatcher] | None = None,
+        evasion: EvasionAdvisor | None = None,
+        privesc: PrivescAdvisor | None = None,
+        parquet: ParquetAdvisor | None = None,
+        semantic: SemanticContextAdvisor | None = None,
     ) -> None:
         self._matchers = matchers or [
             AVBlockedMatcher(),
@@ -731,8 +731,8 @@ class ReactiveEngine:
         output: str,
         command: str = "",
         platform: str = "unknown",
-        context: Optional[Dict] = None,
-    ) -> List[ReactiveDecision]:
+        context: dict | None = None,
+    ) -> list[ReactiveDecision]:
         """
         Parse *output* and return prioritised ReactiveDecisions.
 
@@ -744,7 +744,7 @@ class ReactiveEngine:
         context  : dict with optional keys: known_hosts, credentials, phase
         """
         ctx = context or {}
-        all_signals: List[Signal] = []
+        all_signals: list[Signal] = []
         for matcher in self._matchers:
             try:
                 all_signals.extend(matcher.match(output, ctx))
@@ -755,7 +755,7 @@ class ReactiveEngine:
                 )
                 continue
 
-        decisions: List[ReactiveDecision] = []
+        decisions: list[ReactiveDecision] = []
 
         decisions.extend(self._evasion.suggest(all_signals, platform))
 
@@ -819,8 +819,8 @@ class ReactiveEngine:
         output: str,
         command: str = "",
         platform: str = "unknown",
-        context: Optional[Dict] = None,
-    ) -> Optional[ReactiveDecision]:
+        context: dict | None = None,
+    ) -> ReactiveDecision | None:
         """Return only the single highest-priority decision, or None."""
         decisions = self.analyse(output, command, platform, context)
         return decisions[0] if decisions else None
@@ -830,7 +830,7 @@ class ReactiveEngine:
 # Module singleton
 # ---------------------------------------------------------------------------
 
-_engine: Optional[ReactiveEngine] = None
+_engine: ReactiveEngine | None = None
 
 
 def get_engine() -> ReactiveEngine:

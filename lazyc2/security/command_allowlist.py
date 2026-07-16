@@ -26,14 +26,14 @@ Config keys owned:
 from __future__ import annotations
 
 import json
+from collections.abc import Iterable
 from dataclasses import dataclass
-from datetime import datetime, timezone
-from enum import Enum
+from datetime import UTC, datetime
+from enum import StrEnum
 from pathlib import Path
-from typing import Iterable
 
 
-class CommandRejectionReason(str, Enum):
+class CommandRejectionReason(StrEnum):
     """Why a command was rejected by :class:`CommandAllowlist`."""
 
     EMPTY = "empty"
@@ -128,7 +128,7 @@ class CommandAllowlist:
             return
         record = decision.to_dict()
         record["command"] = command if isinstance(command, str) else str(command)
-        record["timestamp"] = datetime.now(timezone.utc).isoformat()
+        record["timestamp"] = datetime.now(UTC).isoformat()
         self._audit_log_path.parent.mkdir(parents=True, exist_ok=True)
         with self._audit_log_path.open("a", encoding="utf-8") as fh:
             fh.write(json.dumps(record, ensure_ascii=False) + "\n")

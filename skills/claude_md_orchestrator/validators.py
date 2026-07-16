@@ -11,13 +11,11 @@ from __future__ import annotations
 import ast
 import re
 import tokenize
+from collections.abc import Iterable
 from dataclasses import dataclass
 from io import StringIO
-from pathlib import Path
-from typing import Iterable, Optional
 
 from .models import Finding, Severity, Spec
-
 
 SPANISH_HINTS = (
     "captura",
@@ -298,7 +296,7 @@ def check_no_hardcoded_paths_or_ips(source: str, path: str) -> list[Finding]:
     return findings
 
 
-def check_magic_numbers(source: str, path: str, allow: Optional[Iterable[int]] = None) -> list[Finding]:
+def check_magic_numbers(source: str, path: str, allow: Iterable[int] | None = None) -> list[Finding]:
     """Return a finding for every numeric literal that is not in the allow list.
 
     Args:
@@ -333,7 +331,7 @@ def check_magic_numbers(source: str, path: str, allow: Optional[Iterable[int]] =
     return findings
 
 
-def check_source(source: str, path: str, allow_numbers: Optional[Iterable[int]] = None) -> list[Finding]:
+def check_source(source: str, path: str, allow_numbers: Iterable[int] | None = None) -> list[Finding]:
     """Run every source level DoD check and return the findings."""
     findings: list[Finding] = []
     findings.extend(check_no_comments(source, path))

@@ -38,9 +38,10 @@ import json
 import os
 import tempfile
 import time
+from collections.abc import Callable, Iterable, Mapping, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Callable, Iterable, Mapping, Sequence
+from typing import Any
 
 from cli.exploration import (
     AddonEntry,

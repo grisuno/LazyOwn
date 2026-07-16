@@ -23,12 +23,11 @@ Config keys owned: none (the defaults live in
 from __future__ import annotations
 
 import re
-from typing import Iterable
+from collections.abc import Iterable
 
 import bleach
 
 from lazyc2.security.constants import ALLOWED_HTML_ATTRIBUTES, ALLOWED_HTML_TAGS
-
 
 _DEFAULT_PROTOCOL_ALLOWLIST = frozenset({"http", "https", "mailto"})
 

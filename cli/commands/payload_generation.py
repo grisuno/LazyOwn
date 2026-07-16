@@ -7,20 +7,13 @@ Provides:
 
 from __future__ import annotations
 
-import os
 import shlex
 
 import cmd2
 
 from cli.commands._base import LazyOwnCommandSet
-from modules.payload_factory import PayloadFactory, format_payload_table
+from modules.payload_factory import PayloadFactory
 from utils import (
-    BLUE,
-    CYAN,
-    GREEN,
-    RED,
-    RESET,
-    YELLOW,
     miscellaneous_category,
     print_error,
     print_msg,
@@ -65,7 +58,7 @@ class PayloadCommandSet(LazyOwnCommandSet):
         template = factory.get(name)
         if template is None:
             print_error(f"Unknown payload: {name}")
-            print_msg(f"Use 'show payloads' to list available payloads.")
+            print_msg("Use 'show payloads' to list available payloads.")
             return
 
         kwargs: dict = {}
@@ -99,7 +92,6 @@ class PayloadCommandSet(LazyOwnCommandSet):
         try:
             raw = factory.generate(name, format=fmt, output=output, **kwargs)
             out_size = len(raw)
-            out_loc = output or "<stdout>"
             print_msg(f"Generated payload: {name}")
             print_msg(f"  Format : {fmt}")
             print_msg(f"  Size   : {out_size} bytes")

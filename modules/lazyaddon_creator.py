@@ -25,7 +25,7 @@ import sys
 import textwrap
 import urllib.parse
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 import requests
 import yaml
@@ -81,7 +81,7 @@ def fetch_readme(owner: str, repo: str) -> str:
     return ""
 
 
-def fetch_root_files(owner: str, repo: str) -> List[str]:
+def fetch_root_files(owner: str, repo: str) -> list[str]:
     """Lista nombres de archivos en el directorio raíz."""
     try:
         data = github_api_get(owner, repo, "contents")
@@ -94,7 +94,7 @@ def fetch_root_files(owner: str, repo: str) -> List[str]:
 
 # ── Prompt engineering ─────────────────────────────────────────────────────────
 
-def build_llm_prompt(meta: dict, readme: str, root_files: List[str]) -> str:
+def build_llm_prompt(meta: dict, readme: str, root_files: list[str]) -> str:
     """Construye el prompt para el LLM."""
     name = meta.get("name", "unknown")
     owner = meta.get("owner", {}).get("login", "unknown")
@@ -160,7 +160,7 @@ def build_llm_prompt(meta: dict, readme: str, root_files: List[str]) -> str:
     return prompt
 
 
-def extract_json_from_response(text: str) -> Optional[dict]:
+def extract_json_from_response(text: str) -> dict | None:
     """Extrae el primer bloque JSON de una respuesta de LLM."""
     text = text.strip()
     if text.startswith("{") and text.endswith("}"):
@@ -188,7 +188,7 @@ def extract_json_from_response(text: str) -> Optional[dict]:
 
 # ── Heurísticas locales (fallback si no hay LLM) ───────────────────────────────
 
-def heuristic_install_command(root_files: List[str], language: str) -> str:
+def heuristic_install_command(root_files: list[str], language: str) -> str:
     """Infiere un install_command básico a partir de los archivos raíz."""
     if "Makefile" in root_files or "makefile" in root_files:
         return "make"
@@ -207,7 +207,7 @@ def heuristic_install_command(root_files: List[str], language: str) -> str:
     return ""
 
 
-def heuristic_execute_command(name: str, root_files: List[str], language: str) -> str:
+def heuristic_execute_command(name: str, root_files: list[str], language: str) -> str:
     """Infiere un execute_command básico."""
     # Buscar binario con el nombre del repo
     if name in root_files:
@@ -241,7 +241,7 @@ def heuristic_execute_command(name: str, root_files: List[str], language: str) -
     return f"./{name}"
 
 
-def heuristic_params(name: str, readme: str, root_files: List[str]) -> List[dict]:
+def heuristic_params(name: str, readme: str, root_files: list[str]) -> list[dict]:
     """Infiere parámetros comunes basándose en el nombre y README."""
     params = []
     readme_lower = readme.lower()
@@ -272,7 +272,7 @@ def heuristic_params(name: str, readme: str, root_files: List[str]) -> List[dict
     return params
 
 
-def fallback_yaml_data(meta: dict, readme: str, root_files: List[str]) -> dict:
+def fallback_yaml_data(meta: dict, readme: str, root_files: list[str]) -> dict:
     """Genera datos de addon usando solo heurísticas locales (sin LLM)."""
     name = meta.get("name", "unknown")
     owner = meta.get("owner", {}).get("login", "unknown")
@@ -302,7 +302,7 @@ def build_yaml(data: dict, repo_url: str) -> dict:
     if not name:
         name = "unnamed"
 
-    tool_block: Dict[str, Any] = {
+    tool_block: dict[str, Any] = {
         "name": data.get("name", name),
         "repo_url": repo_url,
         "install_path": f"external/.exploit/{name}",
@@ -442,7 +442,7 @@ def main() -> None:
                 print("[*] Usando heurísticas locales como fallback ...")
                 parsed = fallback_yaml_data(meta, readme, root_files)
 
-    print(f"[*] JSON recibido del LLM:")
+    print("[*] JSON recibido del LLM:")
     print(json.dumps(parsed, indent=2, ensure_ascii=False))
 
     # 5. Construir YAML

@@ -31,11 +31,10 @@ import argparse
 import json
 import logging
 import re
-import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Type
+from typing import Any
 
 log = logging.getLogger("misp_export")
 
@@ -70,8 +69,8 @@ class MISPEvent:
     threat_level_id: int = 2          # 1=High, 2=Medium, 3=Low, 4=Undefined
     analysis: int = 0                  # 0=Initial, 1=Ongoing, 2=Completed
     distribution: int = 0             # 0=Organisation only
-    attributes: List[MISPAttribute] = field(default_factory=list)
-    tags: List[str] = field(default_factory=list)
+    attributes: list[MISPAttribute] = field(default_factory=list)
+    tags: list[str] = field(default_factory=list)
 
 
 # ---------------------------------------------------------------------------
@@ -82,7 +81,7 @@ class FindingMapper(ABC):
     """Maps a single Finding to a MISPAttribute (or None when not applicable)."""
 
     @abstractmethod
-    def map(self, finding: Any) -> Optional[MISPAttribute]:
+    def map(self, finding: Any) -> MISPAttribute | None:
         """
         Convert *finding* to a MISPAttribute.
 
@@ -97,7 +96,7 @@ class FindingMapper(ABC):
 class IPMapper(FindingMapper):
     """Maps IP findings to MISP ip-dst attributes."""
 
-    def map(self, finding: Any) -> Optional[MISPAttribute]:
+    def map(self, finding: Any) -> MISPAttribute | None:
         if not self._is_ip(finding):
             return None
         return MISPAttribute(
@@ -117,7 +116,7 @@ class IPMapper(FindingMapper):
 class CredentialMapper(FindingMapper):
     """Maps credential findings to MISP text attributes."""
 
-    def map(self, finding: Any) -> Optional[MISPAttribute]:
+    def map(self, finding: Any) -> MISPAttribute | None:
         if not self._is_credential(finding):
             return None
         return MISPAttribute(
@@ -137,7 +136,7 @@ class CredentialMapper(FindingMapper):
 class CVEMapper(FindingMapper):
     """Maps CVE findings to MISP vulnerability attributes."""
 
-    def map(self, finding: Any) -> Optional[MISPAttribute]:
+    def map(self, finding: Any) -> MISPAttribute | None:
         if not self._is_cve(finding):
             return None
         return MISPAttribute(
@@ -157,7 +156,7 @@ class CVEMapper(FindingMapper):
 class DomainMapper(FindingMapper):
     """Maps domain findings to MISP domain attributes."""
 
-    def map(self, finding: Any) -> Optional[MISPAttribute]:
+    def map(self, finding: Any) -> MISPAttribute | None:
         if not self._is_domain(finding):
             return None
         return MISPAttribute(
@@ -183,7 +182,7 @@ class HashMapper(FindingMapper):
       64 chars -> sha256
     """
 
-    def map(self, finding: Any) -> Optional[MISPAttribute]:
+    def map(self, finding: Any) -> MISPAttribute | None:
         if not self._is_hash(finding):
             return None
         value = str(finding.value).strip()
@@ -212,7 +211,7 @@ class HashMapper(FindingMapper):
 class ServiceMapper(FindingMapper):
     """Maps service_version findings to MISP text attributes."""
 
-    def map(self, finding: Any) -> Optional[MISPAttribute]:
+    def map(self, finding: Any) -> MISPAttribute | None:
         if not self._is_service(finding):
             return None
         return MISPAttribute(
@@ -230,7 +229,7 @@ class ServiceMapper(FindingMapper):
 
 
 # Registry of all concrete mappers (order matters: first match wins)
-_DEFAULT_MAPPERS: List[FindingMapper] = [
+_DEFAULT_MAPPERS: list[FindingMapper] = [
     IPMapper(),
     CredentialMapper(),
     CVEMapper(),
@@ -253,15 +252,15 @@ class MISPExporter:
     mappers : list of FindingMapper instances (injected for testability)
     """
 
-    def __init__(self, mappers: Optional[List[FindingMapper]] = None) -> None:
-        self._mappers: List[FindingMapper] = mappers if mappers is not None else _DEFAULT_MAPPERS
+    def __init__(self, mappers: list[FindingMapper] | None = None) -> None:
+        self._mappers: list[FindingMapper] = mappers if mappers is not None else _DEFAULT_MAPPERS
 
     # -- Public API ------------------------------------------------------------
 
     def export_session(
         self,
         sessions_dir: str | Path = _SESSIONS_DIR,
-        target: Optional[str] = None,
+        target: str | None = None,
     ) -> MISPEvent:
         """
         Read policy_facts.json and events.jsonl from *sessions_dir*,
@@ -270,7 +269,7 @@ class MISPExporter:
         sdir = Path(sessions_dir)
         findings = self._load_findings(sdir)
 
-        info = f"LazyOwn engagement"
+        info = "LazyOwn engagement"
         if target:
             info += f" — {target}"
 
@@ -435,7 +434,7 @@ class MISPExporter:
 
         return findings
 
-    def _map_finding(self, finding: Any) -> Optional[MISPAttribute]:
+    def _map_finding(self, finding: Any) -> MISPAttribute | None:
         for mapper in self._mappers:
             result = mapper.map(finding)
             if result is not None:
@@ -458,7 +457,7 @@ class _DictFinding:
 # Module singleton
 # ---------------------------------------------------------------------------
 
-_exporter: Optional[MISPExporter] = None
+_exporter: MISPExporter | None = None
 
 
 def get_exporter() -> MISPExporter:

@@ -9,20 +9,17 @@ the MCP server thin and the logic unit-testable in isolation.
 from __future__ import annotations
 
 import csv
-import fnmatch
-import glob
 import json
 import os
 import re
 import shutil
-import subprocess
 import threading
 import time
 import uuid
 from dataclasses import asdict, dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any
 
 DEFAULT_FRESHNESS_THRESHOLD_SECONDS = 7 * 24 * 3600
 
@@ -104,7 +101,7 @@ def evidence_freshness(
         "exists": True,
         "size": st.st_size,
         "mtime": int(st.st_mtime),
-        "mtime_iso": datetime.fromtimestamp(st.st_mtime, tz=timezone.utc).isoformat(),
+        "mtime_iso": datetime.fromtimestamp(st.st_mtime, tz=UTC).isoformat(),
         "age_seconds": age,
         "age_human": _format_age(age),
         "stale": age > threshold_seconds,
@@ -221,7 +218,7 @@ def find_credential_provenance(
                             "source_file": str(fp),
                             "line_no": i,
                             "captured_at": datetime.fromtimestamp(
-                                st.st_mtime, tz=timezone.utc
+                                st.st_mtime, tz=UTC
                             ).isoformat(),
                             "command": "",
                         }
@@ -737,7 +734,7 @@ def take_snapshot(
 
     snap = {
         "taken_at": int(time.time()),
-        "taken_at_iso": datetime.now(tz=timezone.utc).isoformat(),
+        "taken_at_iso": datetime.now(tz=UTC).isoformat(),
         "payload_keys": sorted(list((payload or {}).keys())),
         "rhost": (payload or {}).get("rhost", ""),
         "credentials": [

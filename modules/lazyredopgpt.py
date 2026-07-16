@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-#* coding: utf8 *
 """
 main.py
 
@@ -19,12 +18,14 @@ Descripción: Asistente de consola
 
 """
 
-import os
-import sys
+import argparse
 import json
 import logging
-import argparse
+import os
+import sys
+
 from groq import Groq
+
 from modules.colors import retModel
 
 BANNER = """
@@ -134,7 +135,7 @@ if __name__ == "__main__":
         parser = argparse.ArgumentParser(description='[+] LazyGPT Asistente de Tareas de Programación.')
         parser.add_argument('--file', type=str, required=True, help='El path file para analizar')
         parser.add_argument('--debug', '-d', action='store_true', help='Habilita el modo debug para mostrar mensajes de depuración')
-        
+
         return parser.parse_args()
 
     args = parse_args()

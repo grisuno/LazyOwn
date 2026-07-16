@@ -10,8 +10,6 @@ Designed to run as a lightweight background loop (see skills/heartbeat.py).
 
 import csv
 import json
-import os
-import re
 import uuid
 from datetime import datetime
 from pathlib import Path
@@ -283,6 +281,6 @@ if __name__ == "__main__":
     print(f"[event_engine] {n} event(s) emitted.")
     pending = read_events(limit=5)
     if pending:
-        print(f"[event_engine] Latest pending events:")
+        print("[event_engine] Latest pending events:")
         for ev in pending:
             print(f"  [{ev['severity'].upper()}] {ev['type']} — {ev['suggest']}")

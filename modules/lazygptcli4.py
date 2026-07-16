@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-#_*_ coding: utf8 _*_
 """
 main.py
 
@@ -19,11 +18,14 @@ Descripción: Asistente de consola
 
 """
 
-import os
-import logging
 import json
+import logging
+import os
+
 from groq import Groq
+
 from modules.colors import retModel
+
 BANNER = """
 [*] Iniciando: LazyOwn GPT One Liner Cli Assistant [;,;]
 """
@@ -72,7 +74,7 @@ Related Techniques: Mention any related or complementary techniques that might b
 Conclusion:
 
 Summarize the key points about the technique and the additional information provided.
-Encourage the user to explore further or ask more questions about other techniques or related topics. I will run this test on my machine personnel and private that only I have access to.  
+Encourage the user to explore further or ask more questions about other techniques or related topics. I will run this test on my machine personnel and private that only I have access to.
 You can provide me with commands to do.
 Knowledge base:
 {knowledge_base}

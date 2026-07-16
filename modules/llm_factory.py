@@ -23,7 +23,8 @@ from __future__ import annotations
 import json
 import os
 import sys
-from typing import Any, Mapping
+from collections.abc import Mapping
+from typing import Any
 
 _MODULE_DIR = os.path.dirname(os.path.abspath(__file__))
 _PROJECT_ROOT = os.path.abspath(os.path.join(_MODULE_DIR, os.pardir))
@@ -36,7 +37,6 @@ try:
 except ModuleNotFoundError:
     from ai_model import AIModel, GroqModel, OllamaModel  # type: ignore[no-redef]
 
-from core.protocols import LLMBackend
 
 _REQUIRED_LLM_BACKEND_METHODS = ("complete",)
 for _backend_class in (GroqModel, OllamaModel):

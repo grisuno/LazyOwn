@@ -13,8 +13,9 @@ from __future__ import annotations
 
 import logging
 import threading
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Any, Mapping, Sequence
+from typing import TYPE_CHECKING, Any
 
 from PySide6.QtCore import QObject, QTimer
 

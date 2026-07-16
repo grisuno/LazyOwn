@@ -1,12 +1,13 @@
-import os
-import sys
-import subprocess
 import argparse
 import ipaddress
+import os
+import subprocess
+import sys
 from datetime import datetime
-import numpy as np
+
 import cv2
-from scapy.all import sniff, Raw, IP, get_if_list
+import numpy as np
+from scapy.all import IP, Raw, sniff
 
 # Variables para almacenar datos de imágenes
 image_data = {}
@@ -108,7 +109,7 @@ elif args.all:
 
 def handle_packet(packet):
     global image_data, is_receiving_image, image_format
-    
+
     if IP in packet and Raw in packet:
         src_ip = packet[IP].src
         payload = packet[Raw].load
@@ -118,7 +119,7 @@ def handle_packet(packet):
             subnet = ipaddress.ip_network(f"{iface[1]}/{iface[2]}", strict=False)
             if ipaddress.ip_address(src_ip) not in subnet:
                 return
-        
+
         if src_ip not in image_data:
             image_data[src_ip] = b''
             is_receiving_image[src_ip] = False

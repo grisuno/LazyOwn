@@ -15,7 +15,7 @@ import pty
 import signal
 import struct
 import termios
-from typing import Sequence
+from collections.abc import Sequence
 
 from PySide6.QtCore import QObject, QSocketNotifier, QTimer
 

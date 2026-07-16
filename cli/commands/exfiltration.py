@@ -37,8 +37,8 @@ from utils import (
     print_error,
     print_msg,
     print_warn,
-    xor_encrypt_decrypt,
 )
+from core.crypto import xor_encrypt_decrypt
 
 SESSIONS_DIRECTORY_NAME = "sessions"
 CREDENTIALS_FILENAME = "credentials.txt"

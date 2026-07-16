@@ -2,6 +2,7 @@
 import ast
 import json
 
+
 def extract_cmd2_tools(script_path="lazyown.py"):
     with open(script_path, "r", encoding="utf-8") as file:
         tree = ast.parse(file.read())

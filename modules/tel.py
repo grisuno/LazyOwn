@@ -1,9 +1,11 @@
-import requests
+import json
 import re
 import uuid
-import json
-from Crypto.Cipher import AES
 from datetime import datetime
+
+import requests
+from Crypto.Cipher import AES
+
 
 def get_machine_id():
     try:
@@ -27,7 +29,7 @@ def get_version():
     except Exception as e:
         print(f"Error leyendo version.json: {e}")
         return "no version found"
-    
+
 def to_numbers(hex_str):
     """Simula la función toNumbers de JavaScript"""
     return [int(hex_str[i:i+2], 16) for i in range(0, len(hex_str), 2)]

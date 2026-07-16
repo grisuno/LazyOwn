@@ -3,10 +3,9 @@ import json
 import os
 import re
 import sys
-from typing import Dict, Optional
+
 from ai_model import AIModel
 from llm_factory import BACKEND_GROQ, BACKEND_OLLAMA, get_llm_backend
-
 
 _PROVIDER_ALIAS = {
     "groq": BACKEND_GROQ,
@@ -16,14 +15,14 @@ _PROVIDER_ALIAS = {
 
 
 class YAMLPromptGenerator:
-    def __init__(self, provider: str = "groq", api_key: Optional[str] = None):
+    def __init__(self, provider: str = "groq", api_key: str | None = None):
         self.provider = provider
         self.api_key = api_key or os.getenv("GROQ_API_KEY")
         self.payload_file = "../payload.json"
         self.payload_data = self.load_payload()
         self.model = self._load_model()
 
-    def load_payload(self) -> Dict:
+    def load_payload(self) -> dict:
         """Carga las variables desde payload.json"""
         if not os.path.exists(self.payload_file):
             raise FileNotFoundError(f"No se encontró {self.payload_file} en la raíz del proyecto.")

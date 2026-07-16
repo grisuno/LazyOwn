@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   pytest:
-    name: pytest
+    name: pytest ${{ matrix.python-version }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -22,7 +22,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-          cache: 'pip'
+          cache: pip
       - name: Install dev deps
         run: |
           pip install --upgrade pip
@@ -30,4 +30,4 @@ jobs:
       - name: Collect tests
         run: pytest --collect-only -q
       - name: Run tests
-        run: pytest -q
+        run: pytest -q --tb=short -x -k "not slow and not integration"

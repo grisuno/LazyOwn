@@ -1,8 +1,8 @@
-import requests
-from bs4 import BeautifulSoup
-import urllib.parse
 import logging
-from requests.exceptions import RequestException, Timeout
+import urllib.parse
+
+import requests
+from requests.exceptions import RequestException
 
 # Configuración de logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -55,7 +55,7 @@ def main():
     for endpoint in ENDPOINTS:
         url = urllib.parse.urljoin(TARGET_URL, endpoint)
         logging.info(f'Testando {url}')
-        
+
         if test_injection(url, PAYLOADS['xss'], 'q', ['<script>alert(1)</script>', '<img src=x onerror=alert(1)>']):
             continue
         if test_injection(url, PAYLOADS['command_injection'], 'cmd', ['bin', 'root']):

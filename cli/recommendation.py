@@ -41,9 +41,10 @@ Design contract:
 from __future__ import annotations
 
 import json
+from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Callable, Mapping, Protocol, Sequence, runtime_checkable
+from typing import Any, Protocol, runtime_checkable
 
 SOURCE_GRAPH = "graph"
 SOURCE_POLICY = "policy"

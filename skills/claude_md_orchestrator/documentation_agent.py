@@ -16,11 +16,9 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional
 
 from .config import Config
 from .models import Contract, ReviewReport, Spec
-
 
 SIGNATURE = "grisun0"
 FENCE = "```markdown"
@@ -56,7 +54,7 @@ def _format_sad_paths(spec: Spec) -> str:
     )
 
 
-def _format_review(report: Optional[ReviewReport]) -> str:
+def _format_review(report: ReviewReport | None) -> str:
     """Render the review summary as a bullet list."""
     if report is None:
         return "- review not yet executed"
@@ -70,7 +68,7 @@ def _format_review(report: Optional[ReviewReport]) -> str:
     )
 
 
-def _render(contract: Contract, spec: Spec, report: Optional[ReviewReport]) -> str:
+def _render(contract: Contract, spec: Spec, report: ReviewReport | None) -> str:
     """Render the markdown body inside the fence."""
     lines = [
         f"# Contract {contract.contract_id}",
@@ -125,7 +123,7 @@ def _wrap(body: str) -> str:
     return f"{FENCE}\n{body}\n```\n"
 
 
-def run(contract: Contract, spec: Spec, report: Optional[ReviewReport], config: Config) -> DocResult:
+def run(contract: Contract, spec: Spec, report: ReviewReport | None, config: Config) -> DocResult:
     """Run the documentation agent for one contract.
 
     Args:

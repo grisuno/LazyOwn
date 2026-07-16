@@ -33,11 +33,9 @@ from __future__ import annotations
 import copy
 import json
 import logging
-import os
 import threading
-import time
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 log = logging.getLogger("config_store")
 
@@ -49,7 +47,7 @@ _lock: threading.RLock = threading.RLock()
 _data: dict[str, Any] = {}
 _payload_path: Path = _DEFAULT_PATH
 _last_mtime: float = 0.0
-_watcher_thread: Optional[threading.Thread] = None
+_watcher_thread: threading.Thread | None = None
 _watcher_stop: threading.Event = threading.Event()
 
 

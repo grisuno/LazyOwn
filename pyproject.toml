@@ -10,7 +10,7 @@ description = "LazyOwn Framework - Red Team & Post-Exploitation Tool"
 authors = [{ name = "Gris Iscomeback", email = "grisiscomeback@gmail.com" }]
 license = { text = "GPL-3.0-only" }
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 dependencies = [
     "requests>=2.33.0",
     "cmd2",
@@ -109,7 +109,7 @@ exclude = ["tests*", "env*", "build*", "external*", "modules_ext*", "parquets*",
 
 [tool.ruff]
 line-length = 120
-target-version = "py38"
+target-version = "py311"
 extend-exclude = [
     "env",
     "build",
@@ -124,41 +124,32 @@ extend-exclude = [
 select = ["E", "F", "W", "I", "B", "UP", "S"]
 ignore = [
     "E501",
-    "S101",
-    "S105",
-    "S106",
-    "S107",
-    "S108",
-    "S110",
-    "S112",
-    "S113",
-    "S301",
-    "S307",
-    "S310",
-    "S311",
-    "S324",
-    "S404",
-    "S602",
-    "S603",
-    "S605",
-    "S607",
-    "B008",
-    "B904",
-    "B905",
-    "UP007",
-    "UP008",
-    "UP015",
-    "UP032",
+    # Security rules we accept for a pentest framework (many intentional)
+    "S101", "S105", "S106", "S107", "S108",
+    "S110", "S112", "S113",
+    "S301", "S310", "S311", "S324",
+    "S404", "S602", "S603", "S605", "S607",
+    "B008", "B904",
+    # Wildcard import — required for from utils import * re-export pattern
+    "F405",
+    # Unused variable — too aggressive with auto-fix, can break side-effect assignments
+    "F841",
+    # Gradual typing — will fix file by file
+    "UP007", "UP008", "UP015", "UP032",
 ]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["S", "B"]
-"lazyown.py" = ["E", "F", "W", "B", "UP", "I", "S"]
-"lazyc2.py" = ["E", "F", "W", "B", "UP", "I", "S"]
-"utils.py" = ["E", "F", "W", "B", "UP", "I", "S"]
-"modules/*" = ["E", "F", "W", "B", "UP", "I", "S"]
-"skills/*" = ["E", "F", "W", "B", "UP", "I", "S"]
-"plugins/*" = ["E", "F", "W", "B", "UP", "I", "S"]
+# Legacy monoliths — gradual cleanup in progress
+# Tier 1: core/ and cli/ have full linting enabled
+# Tier 2: modules/, skills/, plugins/ get security-only ignores
+"modules/*" = ["S"]
+"skills/*" = ["S"]
+"plugins/*" = ["S"]
+# Tier 3: god classes still need broad ignores during refactor
+"lazyown.py" = ["S", "B", "UP", "F841"]
+"lazyc2.py" = ["S", "B", "UP", "F841"]
+"utils.py" = ["S", "B", "UP", "F841"]
 
 [tool.pytest.ini_options]
 minversion = "7.0"
@@ -177,7 +168,7 @@ markers = [
 ]
 
 [tool.mypy]
-python_version = "3.8"
+python_version = "3.11"
 ignore_missing_imports = true
 warn_unused_configs = true
 warn_redundant_casts = true

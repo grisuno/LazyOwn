@@ -40,9 +40,10 @@ import re
 import sys
 import urllib.error
 import urllib.request
-from dataclasses import dataclass, field
+from collections.abc import Callable
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from typing import Any
 
 # ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -72,10 +73,10 @@ class LLMTool:
 
     name: str
     description: str
-    parameters: Dict[str, Any]
+    parameters: dict[str, Any]
     func: Callable
 
-    def openai_schema(self) -> Dict:
+    def openai_schema(self) -> dict:
         return {
             "type": "function",
             "function": {
@@ -103,8 +104,8 @@ class LLMBridge:
     def __init__(
         self,
         backend: str = "groq",
-        model: Optional[str] = None,
-        api_key: Optional[str] = None,
+        model: str | None = None,
+        api_key: str | None = None,
     ) -> None:
         self._backend = backend.lower()
         self._api_key = api_key or os.environ.get("GROQ_API_KEY", "")
@@ -112,13 +113,13 @@ class LLMBridge:
             self._model = model or GROQ_DEFAULT_MODEL
         else:
             self._model = model or OLLAMA_DEFAULT_MODEL
-        self._tools: Dict[str, LLMTool] = {}
+        self._tools: dict[str, LLMTool] = {}
 
     def register_tool(
         self,
         name: str,
         description: str,
-        parameters: Dict[str, Any],
+        parameters: dict[str, Any],
         func: Callable,
     ) -> None:
         self._tools[name] = LLMTool(name=name, description=description,
@@ -148,7 +149,7 @@ class LLMBridge:
             return "[groq] No API key — set GROQ_API_KEY or api_key in payload.json"
 
         sys_content = system_prompt or _default_system_prompt(list(self._tools.keys()))
-        messages: List[Dict] = [
+        messages: list[dict] = [
             {"role": "system", "content": sys_content},
         ]
         if context:
@@ -157,7 +158,7 @@ class LLMBridge:
 
         tools = [t.openai_schema() for t in self._tools.values()] or None
 
-        for iteration in range(max_iterations):
+        for _iteration in range(max_iterations):
             response = self._groq_request(messages, tools)
             if "error" in response:
                 return f"[groq error] {response['error']}"
@@ -198,8 +199,8 @@ class LLMBridge:
         )
         return final_msg
 
-    def _groq_request(self, messages: List[Dict], tools: Optional[List]) -> Dict:
-        body: Dict[str, Any] = {
+    def _groq_request(self, messages: list[dict], tools: list | None) -> dict:
+        body: dict[str, Any] = {
             "model": self._model,
             "messages": messages,
             "temperature": 0.1,
@@ -318,7 +319,7 @@ Rules:
 
     # ── Tool executor ─────────────────────────────────────────────────────────
 
-    def _call_tool(self, name: str, args: Dict) -> str:
+    def _call_tool(self, name: str, args: dict) -> str:
         if name not in self._tools:
             return f"[tool error] unknown tool '{name}'. Available: {list(self._tools.keys())}"
         try:
@@ -439,8 +440,8 @@ def _make_default_tools(bridge: LLMBridge) -> None:
 
 def build_bridge(
     backend: str = "groq",
-    model: Optional[str] = None,
-    api_key: Optional[str] = None,
+    model: str | None = None,
+    api_key: str | None = None,
     with_default_tools: bool = True,
 ) -> LLMBridge:
     """
@@ -454,7 +455,7 @@ def build_bridge(
     return bridge
 
 
-def _default_system_prompt(tool_names: List[str]) -> str:
+def _default_system_prompt(tool_names: list[str]) -> str:
     return (
         "You are LazyOwn, an expert autonomous penetration testing AI.\n"
         "You have access to tools to execute commands and read session data.\n"
@@ -471,11 +472,11 @@ def llm_ask(
     goal: str,
     context: str = "",
     backend: str = "groq",
-    model: Optional[str] = None,
-    api_key: Optional[str] = None,
+    model: str | None = None,
+    api_key: str | None = None,
     max_iterations: int = MAX_ITERATIONS,
     system_prompt: str = "",
-    extra_tools: Optional[Dict[str, Callable]] = None,
+    extra_tools: dict[str, Callable] | None = None,
 ) -> str:
     """
     Single-call entry point for lazyown_mcp.py.
@@ -511,7 +512,7 @@ def main() -> None:
     p_ask.add_argument("--no-tools", action="store_true",
                        help="Disable default tools (pure reasoning only)")
 
-    p_info = sub.add_parser("info", help="Show configured backends and models")
+    sub.add_parser("info", help="Show configured backends and models")
 
     args = parser.parse_args()
 

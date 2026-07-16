@@ -20,13 +20,15 @@
 #    adds them to or removes them from rtsp-simple-server via its API
 
 
-from os import getenv,path,system
-import subprocess
-import requests
 import json
+import subprocess
+from os import getenv, path, system
+
+import requests
 from PIL import Image
 from portscan import PortScan
-    
+
+
 class RTSPScanner:
     def __init__(self,verbose=False,wspace="-"):
         # GET ENVIRONMENT VARIABLES
@@ -43,7 +45,7 @@ class RTSPScanner:
         self.paths = self.splitCSV(getenv("RTSP_PATHS","/Streaming/Channels/101,/live,live2"))
         self.address = getenv("RTSP_ADDRESS","192.168.2.0/24")
         self.cameras = []
-            
+
     def run(self):
         self.scanner()
         if self.mode == "rem":
@@ -59,7 +61,7 @@ class RTSPScanner:
         else:
             for c in range(0,len(self.cameras)):
                 self.cameras[c][0] = self.cameras[c][0].replace('.',self.whitespace)
-            
+
         if not self.mode != "add":
             return self.cameras
 
@@ -100,8 +102,8 @@ class RTSPScanner:
                         status = f"Checking {rtsp}... "
                         if self.verbose:
                             print(status)
-                        snapshot = f"/tmp/test.png"
-                        thumbnail = f"/tmp/test.webp"
+                        snapshot = "/tmp/test.png"
+                        thumbnail = "/tmp/test.webp"
                         flaky = []
                         command = ['ffmpeg', '-y', '-frames', '1', snapshot, '-rtsp_transport', 'tcp', '-i', rtsp]
                         for x in range(0,self.retries):
@@ -189,7 +191,7 @@ class RTSPScanner:
                         print(e)
                         print()
                     print(f"Cannot reach rtsp-simple-server at {apiHost}.")
-                    print(f"Possible Causes: API not enabled")
+                    print("Possible Causes: API not enabled")
                     print(f"                 transport (http/https) not correct: {self.apitransport}")
                     print(f"                 ip/fqdn not correct: {self.apiaddress}")
                     print(f"                 port number not correct: {self.apiport}")
@@ -215,40 +217,40 @@ if __name__ == "__main__":
                             help="Whitespace Replacement can be - _ or #")
         parser.add_argument('-a','--address',type=str,required=False,default='192.168.2.0/24',
                             help="Single ipv4 address or ipv4 network in CIDR notation ex: 192.168.0.100 or 192.168.0/24")
-        
+
         parser.add_argument('-n','--name',required=False,default=None,
                             help="Camera Name | only used if single address given")
-        
+
         parser.add_argument('-p','--ports',type=str,required=False,default='554,8554',
                             help="csv format: 554,8554")
-        
+
         parser.add_argument('-pp','--paths',type=str,required=False,default="/Streaming/Channels/101,/live,/live2",
                             help="csv format: '/Streaming/Channels/101,/live,/live2'")
-        
+
         parser.add_argument('-c','--creds',required=False,default="none",
                             help="csv formatted user:password pairs: username:password,user:pass")
-        
+
         parser.add_argument('-m','--mode',type=str,required=True,
                             help="add - add cameras found / rem - remove cameras found")
-        
+
         parser.add_argument('-A','--apiaddr',type=str,required=False,default="192.168.0.100",
                             help="rtsp-simple-server API IP Address/FQDN")
-        
+
         parser.add_argument('-P','--apiport',type=str,required=False,default="9997",
                             help="rtsp-simple-server API Port")
-        
+
         parser.add_argument('-t','--apitransport',type=str,required=False,default="http",
                             help='rtsp-simple-server API transport (http/https)')
-        
+
         parser.add_argument('-T','--timeout',type=int,required=False,default=10,
                             help="Timeout for ffmpeg command to determine if rtsp stream exists")
-        
+
         parser.add_argument('-R','--timeoutretries',type=int,required=False,default=3,
                             help="Number of retries on timeout for ffmpeg command to determine if rtsp stream exists")
-        
+
         parser.add_argument('-v','--verbose',action='store_true',default=False,
                             help="Set verbosity to true")
-        
+
         args = parser.parse_args()
         return args
 
@@ -310,15 +312,14 @@ if __name__ == "__main__":
                 print(f"  {camera[0]}: {camera[1]}")
 
         # Credentials Used
-        print(f"\nCredentials Used:")
+        print("\nCredentials Used:")
         for cred in scanner.creds:
             print(f"  {cred}")
 
         #Paths Used
-        print(f"\nPaths Used:")
+        print("\nPaths Used:")
         for path in scanner.paths:
             print(f"  {path}")
         system('stty sane')
-        
+
     main()
-    

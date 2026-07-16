@@ -9,14 +9,10 @@ category, description, params) for ``show exploits`` / ``search`` /
 
 from __future__ import annotations
 
-import csv
-import io
 import json
-import os
-import re
-from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
 from collections import OrderedDict
+from pathlib import Path
+from typing import Any
 
 try:
     import yaml
@@ -81,7 +77,7 @@ class ModuleInfo:
         category: str = "",
         path: str = "",
         source: str = "yaml",
-        params: List[Dict[str, Any]] | None = None,
+        params: list[dict[str, Any]] | None = None,
         enabled: bool = True,
     ) -> None:
         self.name = name
@@ -95,7 +91,7 @@ class ModuleInfo:
         self.params = params or []
         self.enabled = enabled
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "name": self.name,
             "type": self.module_type,
@@ -127,7 +123,7 @@ class ModuleRegistry:
 
     def __init__(self, base_dir: str | Path | None = None) -> None:
         self._base = Path(base_dir) if base_dir else BASE_DIR
-        self._modules: Dict[str, ModuleInfo] = OrderedDict()
+        self._modules: dict[str, ModuleInfo] = OrderedDict()
         self._scanned = False
 
     @classmethod
@@ -137,7 +133,7 @@ class ModuleRegistry:
             cls._instance = cls(base_dir)
         return cls._instance
 
-    def scan(self) -> List[ModuleInfo]:
+    def scan(self) -> list[ModuleInfo]:
         """Scan all module directories and return the full list."""
         if self._scanned:
             return list(self._modules.values())
@@ -149,7 +145,7 @@ class ModuleRegistry:
         self._scanned = True
         return list(self._modules.values())
 
-    def rescan(self) -> List[ModuleInfo]:
+    def rescan(self) -> list[ModuleInfo]:
         """Force a full rescan and return modules."""
         self._scanned = False
         return self.scan()
@@ -170,7 +166,7 @@ class ModuleRegistry:
         module_type: str | None = None,
         category: str | None = None,
         enabled_only: bool = True,
-    ) -> List[ModuleInfo]:
+    ) -> list[ModuleInfo]:
         """Search indexed modules.
 
         Args:
@@ -185,7 +181,7 @@ class ModuleRegistry:
         if not self._scanned:
             self.scan()
         q = query.lower().strip()
-        results: List[ModuleInfo] = []
+        results: list[ModuleInfo] = []
         for m in self._modules.values():
             if enabled_only and not m.enabled:
                 continue
@@ -204,15 +200,15 @@ class ModuleRegistry:
                 results.append(m)
         return results
 
-    def by_type(self, module_type: str) -> List[ModuleInfo]:
+    def by_type(self, module_type: str) -> list[ModuleInfo]:
         """Shorthand for ``search(module_type=module_type)``."""
         return self.search(module_type=module_type)
 
-    def summary(self) -> Dict[str, int]:
+    def summary(self) -> dict[str, int]:
         """Return counts by module type."""
         if not self._scanned:
             self.scan()
-        counts: Dict[str, int] = {}
+        counts: dict[str, int] = {}
         for m in self._modules.values():
             counts[m.module_type] = counts.get(m.module_type, 0) + 1
         return counts
@@ -233,7 +229,7 @@ class ModuleRegistry:
                 name = data.get("name", fpath.stem)
                 cat = data.get("category", "12. Miscellaneous")
                 mtype = _classify(cat)
-                tool = data.get("tool", {})
+                data.get("tool", {})
                 self._modules[name] = ModuleInfo(
                     name=name,
                     module_type=mtype,
@@ -357,8 +353,8 @@ class ModuleRegistry:
 
 
 def format_module_table(
-    modules: List[ModuleInfo],
-    cols: Tuple[str, ...] = ("name", "type", "author", "description"),
+    modules: list[ModuleInfo],
+    cols: tuple[str, ...] = ("name", "type", "author", "description"),
 ) -> str:
     """Format a list of modules as an aligned text table.
 
@@ -373,7 +369,7 @@ def format_module_table(
     if not modules:
         return "No modules found."
 
-    rows: List[List[str]] = []
+    rows: list[list[str]] = []
     for i, m in enumerate(modules, 1):
         row = []
         for col in cols:
@@ -395,11 +391,11 @@ def format_module_table(
         rows.append(row)
 
     widths = [max(len(r[i]) for r in rows + [[c for c in cols]]) for i in range(len(cols))]
-    header = "  ".join(c.ljust(w) for c, w in zip(cols, widths))
+    header = "  ".join(c.ljust(w) for c, w in zip(cols, widths, strict=False))
     sep = "  ".join("-" * w for w in widths)
     lines = [header, sep]
     for row in rows:
-        lines.append("  ".join(v.ljust(w) for v, w in zip(row, widths)))
+        lines.append("  ".join(v.ljust(w) for v, w in zip(row, widths, strict=False)))
     return "\n".join(lines)
 
 

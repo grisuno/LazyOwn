@@ -26,17 +26,15 @@ working until they are deprecated.
 
 from __future__ import annotations
 
-import errno
 import json
 import os
-import tempfile
 import threading
 import time
 import uuid
-from dataclasses import asdict, dataclass, field, replace
+from collections.abc import Callable, Mapping, Sequence
+from dataclasses import dataclass, field, replace
 from pathlib import Path
-from typing import Any, Callable, Mapping, Optional, Protocol, Sequence
-
+from typing import Any, Protocol
 
 _BACKEND_DAEMON = "daemon"
 _BACKEND_HIVE = "hive"
@@ -110,7 +108,7 @@ class OrchestratorConfig:
     backend_missing_message: str = "no backend available for the requested mode"
 
     @classmethod
-    def from_payload(cls, payload: Mapping[str, Any] | None) -> "OrchestratorConfig":
+    def from_payload(cls, payload: Mapping[str, Any] | None) -> OrchestratorConfig:
         """Return a config with ``payload.json`` overrides applied.
 
         Args:
@@ -155,7 +153,7 @@ class OrchestratorGoal:
     api_key: str = ""
     metadata: Mapping[str, Any] = field(default_factory=dict)
 
-    def with_defaults(self, config: OrchestratorConfig) -> "OrchestratorGoal":
+    def with_defaults(self, config: OrchestratorConfig) -> OrchestratorGoal:
         """Return a copy with empty fields populated from ``config``.
 
         Only fields whose absence is unambiguous are populated here.
@@ -330,7 +328,7 @@ class BackendRegistry:
         """Return the registered backend names in declaration order."""
         return self._order
 
-    def get(self, name: str) -> Optional[IOrchestratorBackend]:
+    def get(self, name: str) -> IOrchestratorBackend | None:
         """Return the backend registered as ``name`` or ``None``."""
         return self._by_name.get(name)
 
@@ -351,7 +349,7 @@ class RouterPolicy:
         self._config = config
         self._registry = registry
 
-    def choose(self, goal: OrchestratorGoal) -> Optional[IOrchestratorBackend]:
+    def choose(self, goal: OrchestratorGoal) -> IOrchestratorBackend | None:
         """Return the backend that should execute ``goal``."""
         if goal.mode != _MODE_AUTO:
             backend = self._registry.get(goal.mode)
@@ -415,7 +413,7 @@ class DaemonBackend:
     def __init__(
         self,
         config: OrchestratorConfig,
-        factory: Optional[Callable[[OrchestratorGoal], Any]] = None,
+        factory: Callable[[OrchestratorGoal], Any] | None = None,
         payload: Mapping[str, Any] | None = None,
     ) -> None:
         """Bind to config, optional engine factory and payload mapping.
@@ -549,7 +547,7 @@ class HiveBackend:
     def __init__(
         self,
         config: OrchestratorConfig,
-        factory: Optional[Callable[[], Any]] = None,
+        factory: Callable[[], Any] | None = None,
     ) -> None:
         """Bind to config and an optional queen factory."""
         self._config = config
@@ -649,7 +647,7 @@ class SwanBackend:
     def __init__(
         self,
         config: OrchestratorConfig,
-        factory: Optional[Callable[[str], Any]] = None,
+        factory: Callable[[str], Any] | None = None,
     ) -> None:
         """Bind to config and an optional orchestrator factory."""
         self._config = config

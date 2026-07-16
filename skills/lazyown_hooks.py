@@ -18,10 +18,10 @@ Events:
 
 import json
 import re
+from collections.abc import Callable
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
-from typing import Callable, Optional
 
 
 class HookEvent(Enum):
@@ -103,14 +103,13 @@ def sandbox_hook(context: dict) -> dict:
     PRE_TOOL_USE: block catastrophic shell commands before permission evaluation.
     Acts as a last-resort safety net independent of the permission system.
     """
-    import time
-    tool = context.get("tool_name", "")
+    context.get("tool_name", "")
     args = context.get("arguments", {})
     cmd  = args.get("command", "") + args.get("script", "")
 
     if cmd and _DESTRUCTIVE_RE.search(cmd):
         context["_block"] = True
-        context["_block_reason"] = f"Sandbox: destructive pattern in command"
+        context["_block_reason"] = "Sandbox: destructive pattern in command"
     return context
 
 
@@ -136,7 +135,7 @@ def rate_limit_hook(context: dict, window: float = 2.0, limit: int = 5) -> dict:
     return context
 
 
-def audit_hook(context: dict, audit_path: Optional[Path] = None) -> dict:
+def audit_hook(context: dict, audit_path: Path | None = None) -> dict:
     """
     AUDIT: append a one-line JSON record of every tool call to the audit log.
     Non-blocking — errors are silently swallowed.
@@ -181,7 +180,7 @@ def start_timer_hook(context: dict) -> dict:
 
 # ── Registry factory ──────────────────────────────────────────────────────────
 
-def build_default_registry(sessions_dir: Optional[Path] = None) -> HookRegistry:
+def build_default_registry(sessions_dir: Path | None = None) -> HookRegistry:
     """
     Create a HookRegistry with the built-in safety hooks wired up.
     Call this once and keep the singleton.
@@ -213,10 +212,10 @@ def build_default_registry(sessions_dir: Optional[Path] = None) -> HookRegistry:
 
 
 # Module-level singleton (initialized by MCP on startup)
-_registry: Optional[HookRegistry] = None
+_registry: HookRegistry | None = None
 
 
-def get_registry(sessions_dir: Optional[Path] = None) -> HookRegistry:
+def get_registry(sessions_dir: Path | None = None) -> HookRegistry:
     global _registry
     if _registry is None:
         _registry = build_default_registry(sessions_dir)

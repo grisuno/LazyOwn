@@ -29,9 +29,9 @@ import re
 import shlex
 import subprocess
 import time as _time
+from collections.abc import Callable
 from datetime import datetime
-from typing import Any, Callable, Dict, List, Optional, Tuple
-
+from typing import Any
 
 _VAR_RE = re.compile(r"\$\{([^}]+)\}|\$([a-zA-Z_][a-zA-Z0-9_.]*)")
 _COMMENT_RE = re.compile(r"^\s*(#|//|comment\b)", re.IGNORECASE)
@@ -67,23 +67,23 @@ class ScriptContext:
 
     def __init__(
         self,
-        shell_params: Dict[str, Any] | None = None,
+        shell_params: dict[str, Any] | None = None,
         on_command: Callable[[str], None] | None = None,
         on_print: Callable[[str], None] | None = None,
     ) -> None:
-        self.vars: Dict[str, str] = {}
-        self.globals: Dict[str, str] = {}
-        self.macros: Dict[str, Tuple[List[str], List[str]]] = {}
-        self.spool_file: Optional[str] = None
+        self.vars: dict[str, str] = {}
+        self.globals: dict[str, str] = {}
+        self.macros: dict[str, tuple[list[str], list[str]]] = {}
+        self.spool_file: str | None = None
         self.spool_handle = None
         self._command_cb = on_command
         self._print_cb = on_print
-        self._if_stack: List[bool] = []
-        self._while_stack: List[Tuple[str, int]] = []
-        self._for_stack: List[Tuple[str, List[str], int]] = []
+        self._if_stack: list[bool] = []
+        self._while_stack: list[tuple[str, int]] = []
+        self._for_stack: list[tuple[str, list[str], int]] = []
         self._skip_depth: int = 0
         self._line_number: int = 0
-        self._lines: List[str] = []
+        self._lines: list[str] = []
         self._pos: int = 0
 
         if shell_params:
@@ -93,7 +93,7 @@ class ScriptContext:
                 else:
                     self.globals[k] = str(v)
 
-        self._builtins: Dict[str, str] = {
+        self._builtins: dict[str, str] = {
             "timestamp": datetime.now().strftime("%Y%m%d_%H%M%S"),
             "date": datetime.now().strftime("%Y-%m-%d"),
         }
@@ -157,7 +157,7 @@ class ResourceScriptEngine:
         self.execute_lines(lines, source=script_path)
 
     def execute_lines(
-        self, lines: List[str], source: str = "<inline>"
+        self, lines: list[str], source: str = "<inline>"
     ) -> None:
         """Execute a list of script lines.
 
@@ -198,7 +198,7 @@ class ResourceScriptEngine:
         """Execute a script string (split on newlines)."""
         self.execute_lines(script.splitlines(), source="<string>")
 
-    def _extract_macros(self, lines: List[str]) -> None:
+    def _extract_macros(self, lines: list[str]) -> None:
         i = 0
         while i < len(lines):
             m = _MACRO_DEF_RE.match(lines[i])
@@ -206,7 +206,7 @@ class ResourceScriptEngine:
                 name = m.group(1)
                 args_raw = m.group(2).strip()
                 args = shlex.split(args_raw) if args_raw else []
-                body: List[str] = []
+                body: list[str] = []
                 i += 1
                 while i < len(lines) and not _ENDMACRO_RE.match(lines[i]):
                     body.append(lines[i])
@@ -369,13 +369,13 @@ class ResourceScriptEngine:
         if not self.ctx._skip():
             self.ctx.run_command(text)
 
-    def _call_macro(self, name: str, args: List[str]) -> None:
+    def _call_macro(self, name: str, args: list[str]) -> None:
         entry = self.ctx.macros.get(name)
         if entry is None:
             raise ScriptError(f"undefined macro: {name}")
         param_names, body = entry
         saved_vars = dict(self.ctx.vars)
-        for pname, pval in zip(param_names, args):
+        for pname, pval in zip(param_names, args, strict=False):
             self.ctx.vars[pname] = pval
         try:
             saved_pos = self.ctx._pos

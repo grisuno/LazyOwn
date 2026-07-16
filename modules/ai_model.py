@@ -17,11 +17,11 @@ from __future__ import annotations
 
 import json
 from abc import ABC, abstractmethod
-from typing import Generator, Union
+from collections.abc import Generator
+from typing import Union
 
 import requests
 from groq import Groq
-
 
 DEFAULT_GROQ_MODEL = "llama-3.3-70b-versatile"
 DEFAULT_OLLAMA_MODEL = "deepseek-r1:1.5b"

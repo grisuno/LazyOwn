@@ -44,7 +44,6 @@ import signal
 import sys
 import time
 from pathlib import Path
-from typing import Optional
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
 
@@ -94,7 +93,7 @@ except ImportError:
 
 # event_engine process_new_rows
 try:
-    from event_engine import process_new_rows, _append_event
+    from event_engine import _append_event, process_new_rows
     _ENGINE_AVAILABLE = True
 except ImportError:
     _ENGINE_AVAILABLE = False
@@ -185,7 +184,6 @@ async def _poll_watcher_loop(queue: asyncio.Queue) -> None:
 
 async def _watchdog_async(queue: asyncio.Queue) -> None:
     """Run watchdog Observer in a thread, push events to queue."""
-    import threading
     loop = asyncio.get_event_loop()
 
     class _Handler(FileSystemEventHandler):  # type: ignore[misc]
@@ -280,7 +278,7 @@ async def heartbeat_loop() -> None:
 
         started = _stats["started_at"]
         uptime  = (
-            (datetime.datetime.now(datetime.timezone.utc) - started).total_seconds()
+            (datetime.datetime.now(datetime.UTC) - started).total_seconds()
             if started else 0
         )
 
@@ -290,7 +288,7 @@ async def heartbeat_loop() -> None:
             "started_at":      started.isoformat() if started else None,
             "files_processed": _stats["files_processed"],
             "events_emitted":  _stats["events_emitted"],
-            "updated_at":      datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            "updated_at":      datetime.datetime.now(datetime.UTC).isoformat(),
         }
 
         try:
@@ -300,7 +298,7 @@ async def heartbeat_loop() -> None:
 
         hb_event = {
             "id":        _uuid.uuid4().hex[:8],
-            "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            "timestamp": datetime.datetime.now(datetime.UTC).isoformat(),
             "type":      "HEARTBEAT",
             "severity":  "info",
             "rule_id":   "daemon_heartbeat",
@@ -322,7 +320,7 @@ async def heartbeat_loop() -> None:
 
 _TOPOSWARM_DIR = BASE_DIR.parent / "py" / "toposwarm"
 _TOPOSWARM_PID_FILE = SESSIONS_DIR / "toposwarm.pid"
-_toposwarm_proc: Optional[asyncio.subprocess.Process] = None
+_toposwarm_proc: asyncio.subprocess.Process | None = None
 
 
 async def toposwarm_keepalive_loop() -> None:
@@ -381,7 +379,7 @@ async def toposwarm_keepalive_loop() -> None:
 # ── Main asyncio entrypoint ───────────────────────────────────────────────────
 
 async def _main_async() -> None:
-    _stats["started_at"] = datetime.datetime.now(datetime.timezone.utc)
+    _stats["started_at"] = datetime.datetime.now(datetime.UTC)
     SESSIONS_DIR.mkdir(parents=True, exist_ok=True)
 
     queue: asyncio.Queue = asyncio.Queue()
@@ -421,7 +419,7 @@ def _clear_pid() -> None:
         PID_FILE.unlink()
 
 
-def _read_pid() -> Optional[int]:
+def _read_pid() -> int | None:
     try:
         return int(PID_FILE.read_text().strip())
     except Exception:

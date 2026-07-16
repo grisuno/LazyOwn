@@ -16,8 +16,9 @@ CLI verb, the inline push hints, the MCP tool) should call.
 from __future__ import annotations
 
 import csv
+from collections.abc import Mapping, Sequence
 from pathlib import Path
-from typing import Any, Mapping, Sequence
+from typing import Any
 
 from cli.recommendation import (
     KIND_ADDON,

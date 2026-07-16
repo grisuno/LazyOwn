@@ -61,9 +61,9 @@ import random
 import threading
 import time
 from abc import ABC, abstractmethod
-from dataclasses import asdict, dataclass, field
+from collections.abc import Sequence
+from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Dict, List, Optional, Sequence, Tuple
 
 log = logging.getLogger("moe_router")
 
@@ -85,7 +85,7 @@ class ExpertProfile:
     expert_id:   str
     backend:     str            # groq | ollama
     model:       str
-    capabilities: List[str]    # task types this expert handles
+    capabilities: list[str]    # task types this expert handles
     base_weight: float         # prior weight in [0.0, 1.0]
     cost_tier:   int           # 0=free/local, 1=cheap, 2=normal, 3=expensive
     latency_ms:  int           # expected median latency
@@ -136,7 +136,7 @@ class ExpertPerformance:
 # Extend this list to add new experts — no other code changes required.
 # ---------------------------------------------------------------------------
 
-_DEFAULT_EXPERTS: List[ExpertProfile] = [
+_DEFAULT_EXPERTS: list[ExpertProfile] = [
     ExpertProfile(
         expert_id="groq_fast",
         backend="groq",
@@ -251,9 +251,9 @@ class IExpertSelector(ABC):
     @abstractmethod
     def select(
         self,
-        candidates: List[ExpertProfile],
+        candidates: list[ExpertProfile],
         task_type: str,
-        performance_store: "ExpertPerformanceStore",
+        performance_store: ExpertPerformanceStore,
         deterministic: bool = False,
     ) -> ExpertProfile:
         """Return the selected expert from candidates."""
@@ -274,7 +274,7 @@ class ExpertPerformanceStore:
     def __init__(self, path: Path = _PERF_FILE) -> None:
         self._path  = path
         self._lock  = threading.RLock()
-        self._data: Dict[str, ExpertPerformance] = {}
+        self._data: dict[str, ExpertPerformance] = {}
         self._path.parent.mkdir(parents=True, exist_ok=True)
         self._load()
 
@@ -306,12 +306,12 @@ class ExpertPerformanceStore:
 
     # ── Read ──────────────────────────────────────────────────────────────────
 
-    def get(self, expert_id: str, task_type: str) -> Optional[ExpertPerformance]:
+    def get(self, expert_id: str, task_type: str) -> ExpertPerformance | None:
         key = self._key(expert_id, task_type)
         with self._lock:
             return self._data.get(key)
 
-    def all_for_task(self, task_type: str) -> List[ExpertPerformance]:
+    def all_for_task(self, task_type: str) -> list[ExpertPerformance]:
         with self._lock:
             return [v for v in self._data.values() if v.task_type == task_type]
 
@@ -383,7 +383,7 @@ class SoftmaxSelector(IExpertSelector):
 
     def select(
         self,
-        candidates: List[ExpertProfile],
+        candidates: list[ExpertProfile],
         task_type: str,
         performance_store: ExpertPerformanceStore,
         deterministic: bool = False,
@@ -404,11 +404,11 @@ class SoftmaxSelector(IExpertSelector):
 
     @staticmethod
     def _compute_weights(
-        candidates: List[ExpertProfile],
+        candidates: list[ExpertProfile],
         task_type: str,
         store: ExpertPerformanceStore,
-    ) -> List[float]:
-        weights: List[float] = []
+    ) -> list[float]:
+        weights: list[float] = []
         for expert in candidates:
             bonus  = store.performance_bonus(expert.expert_id, task_type)
             weight = expert.base_weight * (1.0 + bonus)
@@ -416,7 +416,7 @@ class SoftmaxSelector(IExpertSelector):
         return weights
 
 
-def _softmax(values: Sequence[float], temperature: float = 1.0) -> List[float]:
+def _softmax(values: Sequence[float], temperature: float = 1.0) -> list[float]:
     """Numerically stable temperature-scaled softmax."""
     scaled = [v / temperature for v in values]
     max_v  = max(scaled)
@@ -437,7 +437,7 @@ class ExpertAvailabilityChecker:
     """
 
     def __init__(self) -> None:
-        self._cache: Dict[str, Tuple[bool, float]] = {}  # backend → (available, ts)
+        self._cache: dict[str, tuple[bool, float]] = {}  # backend → (available, ts)
         self._lock  = threading.Lock()
 
     def is_available(self, expert: ExpertProfile, api_key: str = "") -> bool:
@@ -499,9 +499,9 @@ class MoERouter:
 
     def __init__(
         self,
-        experts: Optional[List[ExpertProfile]] = None,
-        selector: Optional[IExpertSelector] = None,
-        performance_store: Optional[ExpertPerformanceStore] = None,
+        experts: list[ExpertProfile] | None = None,
+        selector: IExpertSelector | None = None,
+        performance_store: ExpertPerformanceStore | None = None,
         api_key: str = "",
     ) -> None:
         self._experts   = experts if experts is not None else list(_DEFAULT_EXPERTS)
@@ -550,7 +550,7 @@ class MoERouter:
         task_type: str,
         goal: str = "",
         n: int = 2,
-    ) -> List[ExpertProfile]:
+    ) -> list[ExpertProfile]:
         """
         Return up to *n* distinct experts for ensemble execution.
         Experts are sorted by adjusted weight (best first).
@@ -591,11 +591,11 @@ class MoERouter:
         self,
         task_type: str,
         top_k: int = 3,
-    ) -> List[Tuple[ExpertProfile, float]]:
+    ) -> list[tuple[ExpertProfile, float]]:
         """
         Return (expert, adjusted_weight) sorted descending for diagnostics.
         """
-        result: List[Tuple[ExpertProfile, float]] = []
+        result: list[tuple[ExpertProfile, float]] = []
         for ep in self._experts:
             if task_type in ep.capabilities or task_type == "other":
                 bonus = self._store.performance_bonus(ep.expert_id, task_type)
@@ -603,7 +603,7 @@ class MoERouter:
                 result.append((ep, round(w, 4)))
         return sorted(result, key=lambda t: -t[1])[:top_k]
 
-    def get_expert(self, expert_id: str) -> Optional[ExpertProfile]:
+    def get_expert(self, expert_id: str) -> ExpertProfile | None:
         """Return expert by ID, or None."""
         return next((e for e in self._experts if e.expert_id == expert_id), None)
 
@@ -612,7 +612,7 @@ class MoERouter:
         rows = []
         for ep in self._experts:
             available = self._avail.is_available(ep, self._api_key)
-            all_tasks: List[ExpertPerformance] = []
+            all_tasks: list[ExpertPerformance] = []
             for cap in ep.capabilities:
                 p = self._store.get(ep.expert_id, cap)
                 if p:
@@ -637,7 +637,7 @@ class MoERouter:
 
     # ── Internal helpers ──────────────────────────────────────────────────────
 
-    def _available_for_task(self, task_type: str) -> List[ExpertProfile]:
+    def _available_for_task(self, task_type: str) -> list[ExpertProfile]:
         return [
             ep for ep in self._experts
             if task_type in ep.capabilities
@@ -682,7 +682,7 @@ def _load_groq_key() -> str:
 # Module-level singleton
 # ---------------------------------------------------------------------------
 
-_default_router: Optional[MoERouter] = None
+_default_router: MoERouter | None = None
 _router_lock = threading.Lock()
 
 
@@ -701,7 +701,7 @@ def get_router(api_key: str = "") -> MoERouter:
 # ---------------------------------------------------------------------------
 
 if __name__ == "__main__":
-    import argparse, sys
+    import argparse
 
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
 

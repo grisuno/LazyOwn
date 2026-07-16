@@ -1,0 +1,25 @@
+name: gitleaks
+description: 'An open source tool to aid in command line driven generation of bug
+  bounty reports based on user provided templates. Useful for piping reporting from
+  one application to another (such as an automatic submission tool).
+  
+  USAGE: gitleaks path_to_git_repo
+  '
+author: gitleaks
+version: '1.0'
+enabled: true
+params:
+- name: url
+  type: string
+  required: true
+  description: URL objetivo.
+
+os: network
+trigger: []
+tool:
+  name: gitleaks
+  repo_url: https://github.com/gitleaks/gitleaks.git
+  install_path: external/.exploit/gitleaks
+  install_command: make build
+  execute_command: ./gitleaks git
+category: 01. Reconnaissance

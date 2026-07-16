@@ -1,9 +1,8 @@
-#!/usr/bin/env python3 
-#_*_ coding: utf8 _*_
+#!/usr/bin/env python3
 """
 main.py
 
-Autor: Gris Iscomeback 
+Autor: Gris Iscomeback
 Correo electrónico: grisiscomeback[at]gmail[dot]com
 Fecha de creación: 09/06/2024
 Licencia: GPL v3
@@ -18,12 +17,13 @@ Descripción: webscrapper gtofbins
 ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
 
 """
+import csv
+import os
+import time
+from urllib.parse import urljoin
+
 import requests
 from bs4 import BeautifulSoup
-import csv
-from urllib.parse import urljoin
-import time
-import os
 
 # URL base del servidor
 base_url = "https://gtfobins.github.io/"
@@ -40,7 +40,7 @@ def obtener_informacion(url):
     if response.status_code != 200:
         print(f"Error al obtener la URL: {url}")
         return []
-    
+
     soup = BeautifulSoup(response.text, 'html.parser')
     data = []
 
@@ -96,7 +96,7 @@ for binary, url in binarios_funciones.items():
         else:
             resume = False
     full_url = urljoin(base_url, url)
-    
+
     informacion = obtener_informacion(full_url)
     for item in informacion:
         informacion_binarios.append({

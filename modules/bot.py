@@ -1,7 +1,9 @@
-import requests
-import time
-import sys
 import os
+import sys
+import time
+
+import requests
+
 # === CONFIGURACIÓN ===
 # Usa tu token si lo tienes (opcional, pero recomendado)
 TOKEN = ""  # Deja vacío si no quieres autenticarte

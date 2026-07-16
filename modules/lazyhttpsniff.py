@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-# _*_ coding: utf8 _*_
 
-import os
-import sys
-import signal
 import argparse
+import os
+import signal
+import sys
+
 from scapy.all import *
 
 BANNER = """

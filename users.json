@@ -158,5 +158,16 @@
         "recovery_codes": [],
         "elo": 0,
         "tenant_id": "default"
+    },
+    {
+        "id": 16,
+        "username": "operator_4cvcd4c6",
+        "password_hash": "scrypt:32768:8:1$vjZUYXJR6NI2IZeh$3bd7c781f1813773f4c8029277331a3b869f0230d65fa2ee5707118a4f81e231a3ab276d6c7aeaabd58a9066a6bbe8611ed52e7e2e955ce3c74b254f0f19503a",
+        "role": "admin",
+        "mfa_enabled": false,
+        "mfa_secret": "",
+        "recovery_codes": [],
+        "elo": 0,
+        "tenant_id": "default"
     }
 ]

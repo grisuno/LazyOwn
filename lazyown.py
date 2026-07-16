@@ -79,7 +79,7 @@ from cli.show import format_payload as _format_payload
 from cli.status_bar import build_default_manager as _build_status_bar_manager
 from cli.toast_bus import render_toasts as _render_toasts
 from cli.wizard import run as _run_wizard
-from core.config import save_payload as _save_payload
+from core.config import load_payload as _load_payload, save_payload as _save_payload
 from modules.db import LazyOwnDB as _LazyOwnDB
 from modules.llm_factory import try_get_llm_backend as _try_get_llm_backend
 from modules.metrics import get_recorder as _get_metrics_recorder
@@ -94,27 +94,26 @@ from utils import *
 _PALETTE_RENDER_CONFIG = _PaletteRenderConfig()
 _PALETTE_COMPLETER = _PaletteCompleter(_PALETTE_RENDER_CONFIG)
 
-with open('payload.json', 'r') as file:
-    config = json.load(file)
-    api_key = config.get("api_key")
-    route_maleable = config.get("c2_maleable_route")
-    win_useragent_maleable = config.get("user_agent_win")
-    lin_useragent_maleable = config.get("user_agent_lin")
-    rhost = config.get("rhost")
-    lhost = config.get("lhost")
-    c2_user = config.get("c2_user")
-    c2_pass = config.get("c2_pass")
-    c2_port = config.get("c2_port")
-    start_user = config.get("start_user")
-    start_pass = config.get("start_pass")
-    domain = config.get("domain")
-    dnswordlist = config.get("dnswordlist")
-    user_agent_1 = config.get("user_agent_1")
-    user_agent_2 = config.get("user_agent_2")
-    user_agent_3 = config.get("user_agent_3")
-    url_trafic_1 = config.get("url_trafic_1")
-    url_trafic_2 = config.get("url_trafic_2")
-    url_trafic_3 = config.get("url_trafic_3")
+config = _load_payload()
+api_key = config.get("api_key")
+route_maleable = config.get("c2_maleable_route")
+win_useragent_maleable = config.get("user_agent_win")
+lin_useragent_maleable = config.get("user_agent_lin")
+rhost = config.get("rhost")
+lhost = config.get("lhost")
+c2_user = config.get("c2_user")
+c2_pass = config.get("c2_pass")
+c2_port = config.get("c2_port")
+start_user = config.get("start_user")
+start_pass = config.get("start_pass")
+domain = config.get("domain")
+dnswordlist = config.get("dnswordlist")
+user_agent_1 = config.get("user_agent_1")
+user_agent_2 = config.get("user_agent_2")
+user_agent_3 = config.get("user_agent_3")
+url_trafic_1 = config.get("url_trafic_1")
+url_trafic_2 = config.get("url_trafic_2")
+url_trafic_3 = config.get("url_trafic_3")
 
 
 _BOOL_TRUE_TOKENS: frozenset[str] = frozenset({"true", "1", "yes", "on"})
@@ -5358,9 +5357,15 @@ class LazyOwnShell(cmd2.Cmd):
                 "exploitdb must be assign, assign assign exploitdb /usr/share/exploitdb/exploits/ or pass the relative directory path show in the ss alias of command searchsploit, like cp java/remote/51884.py to see the ralive path use ex: ss TeamCity -x java/remote/51884.py"
             )
             return
-        print_msg(f"Try cp {exploitdb}{line} {path}/sessions/{RESET}")
-        os.system(f"cp {exploitdb}{line} {path}/sessions/")
-        os.system(f"searchsploit {line} -p")
+        dest = os.path.join(path, "sessions", os.path.basename(line))
+        src = os.path.join(exploitdb, line)
+        print_msg(f"Try cp {src} {dest}{RESET}")
+        try:
+            shutil.copy(src, dest)
+        except FileNotFoundError:
+            print_error(f"Source not found: {src}")
+            return
+        subprocess.run(["searchsploit", line, "-p"], check=False)
         return
 
     @cmd2.with_category(recon_category)
@@ -6125,7 +6130,7 @@ class LazyOwnShell(cmd2.Cmd):
             - After running this command, you can use the `www` command as indicated by the printed message.
         """
 
-        os.system("cd sessions && ./download_resources.sh ")
+        subprocess.run(["./download_resources.sh"], cwd="sessions", check=False)
         print_msg(f"Resources downloaded now you can run command {MAGENTA}www {RESET}")
         return
 

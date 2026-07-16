@@ -1,0 +1,217 @@
+#!/usr/bin/env python3
+"""Staged migration script: extract do_* methods from lazyown.py into cli/commands/.
+
+Usage:
+    python3 scripts/migrate_lazyown.py
+
+What it does:
+1. Parses lazyown.py with the ast module.
+2. Groups every ``do_*`` method by its ``@cmd2.with_category(...)`` decorator.
+3. For methods that reference module-level globals (api_key, rhost, …) it
+   rewrites those references to ``self.params[...]``.
+4. Writes a ``cli/commands/<phase>.py`` file per category that does NOT
+   already exist.
+5. Prints a diff-ready report so the operator can review before deleting
+   the originals from ``lazyown.py``.
+
+This script is **read-only** — it never edits ``lazyown.py``.
+"""
+
+from __future__ import annotations
+
+import ast
+import re
+import sys
+from pathlib import Path
+
+LAZYOWN_PATH = Path("lazyown.py")
+OUTPUT_DIR = Path("cli/commands")
+
+MODULE_GLOBALS = [
+    "api_key",
+    "route_maleable",
+    "win_useragent_maleable",
+    "lin_useragent_maleable",
+    "rhost",
+    "lhost",
+    "c2_user",
+    "c2_pass",
+    "c2_port",
+    "start_user",
+    "start_pass",
+    "domain",
+    "dnswordlist",
+    "user_agent_1",
+    "user_agent_2",
+    "user_agent_3",
+    "url_trafic_1",
+    "url_trafic_2",
+    "url_trafic_3",
+]
+
+CATEGORY_TO_PHASE: dict[str, str] = {
+    "recon_category": "recon",
+    "scanning_category": "scan",
+    "exploitation_category": "exploit",
+    "post_exploitation_category": "postexp",
+    "credential_access_category": "cred",
+    "persistence_category": "persist",
+    "lateral_movement_category": "lateral",
+    "command_and_control_category": "command_and_control",
+    "reporting_category": "report",
+    "miscellaneous_category": "misc",
+    "exfiltration_category": "exfiltration",
+    '"10. Command & Control"': "c2",
+    '"15. Adversary YAML."': "adversary",
+    '"13. Lua Plugin"': "plugin",
+}
+
+
+def _category_from_decorator(decorator: ast.expr) -> str | None:
+    """Return the category name from a ``with_category(...)`` decorator."""
+    if isinstance(decorator, ast.Call):
+        fn = decorator.func
+        if isinstance(fn, ast.Attribute) and fn.attr == "with_category":
+            if decorator.args:
+                arg = decorator.args[0]
+                if isinstance(arg, ast.Name):
+                    return arg.id
+                elif isinstance(arg, ast.Constant) and isinstance(arg.value, str):
+                    return repr(arg.value)
+    return None
+
+
+def _indent_level(line: str) -> int:
+    return len(line) - len(line.lstrip())
+
+
+def extract_method(source: str, node: ast.FunctionDef) -> str:
+    """Return the raw source text of a function definition."""
+    start_line = node.lineno - 1
+    end_line = node.end_lineno
+    lines = source.splitlines()[start_line:end_line]
+    return "\n".join(lines)
+
+
+def rewrite_globals(method_source: str) -> str:
+    """Replace bare module-global names with ``self.params[...]``.
+
+    Uses a two-pass approach: first mask existing ``self.params["X"]``
+    calls with placeholders so the bare-variable regex does not double-
+    wrap string values, then restore the placeholders.
+    """
+    markers: dict[str, str] = {}
+    for var in MODULE_GLOBALS:
+        marker = f"__GLOBAL_MARKER_{var.upper()}__"
+        for quote in ('"', "'"):
+            markers[f"self.params[{quote}{var}{quote}]"] = marker
+            markers[f"self.params.get({quote}{var}{quote}"] = marker
+            markers[f"self.params.get({quote}{var}{quote},"] = marker
+
+    for old, new in markers.items():
+        method_source = method_source.replace(old, new)
+
+    for var in MODULE_GLOBALS:
+        pattern = rf"(?<!\w)\b{re.escape(var)}\b(?!\s*=)"
+        method_source = re.sub(pattern, rf'self.params["{var}"]', method_source)
+
+    for old, new in markers.items():
+        method_source = method_source.replace(new, old)
+
+    return method_source
+
+
+def main() -> int:
+    if not LAZYOWN_PATH.exists():
+        print(f"ERROR: {LAZYOWN_PATH} not found")
+        return 1
+
+    source = LAZYOWN_PATH.read_text(encoding="utf-8")
+    tree = ast.parse(source)
+
+    methods_by_category: dict[str, list[tuple[str, str]]] = {}
+    methods_using_globals: list[str] = []
+
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.FunctionDef):
+            continue
+        if not node.name.startswith("do_"):
+            continue
+
+        category = None
+        for dec in node.decorator_list:
+            category = _category_from_decorator(dec)
+            if category:
+                break
+
+        if category is None:
+            category = "miscellaneous_category"
+
+        raw = extract_method(source, node)
+
+        # Detect globals usage
+        uses_globals = False
+        for child in ast.walk(node):
+            if isinstance(child, ast.Name) and child.id in MODULE_GLOBALS:
+                uses_globals = True
+                break
+
+        if uses_globals:
+            methods_using_globals.append(node.name)
+            raw = rewrite_globals(raw)
+
+        methods_by_category.setdefault(category, []).append((node.name, raw))
+
+    print(f"Parsed {LAZYOWN_PATH}: {sum(len(v) for v in methods_by_category.values())} do_* methods")
+    print(f"  {len(methods_using_globals)} methods reference module globals (will be rewritten)")
+
+    for cat, methods in sorted(methods_by_category.items(), key=lambda x: -len(x[1])):
+        phase = CATEGORY_TO_PHASE.get(cat, "misc")
+        out_file = OUTPUT_DIR / f"{phase}_migrated.py"
+
+        if out_file.exists():
+            print(f"  SKIP {cat} -> {out_file} (already exists)")
+            continue
+
+        # Build the module
+        lines: list[str] = [
+            f'"""{phase} commands migrated from lazyown.py.\n\nAuto-generated by scripts/migrate_lazyown.py.\n"""',
+            "from __future__ import annotations",
+            "",
+            "import cmd2",
+            "",
+            "from cli.commands._base import LazyOwnCommandSet",
+            "from utils import (",
+            "    print_msg, print_error, print_warn, print_succ,",
+            "    check_rhost, check_lhost, check_lport, check_port,",
+            "    GREEN, RED, BLUE, MAGENTA, CYAN, YELLOW, WHITE, RESET,",
+            "    UNDERLINE, BOLD,",
+            ")",
+            "",
+            f"class {phase.title()}CommandSet(LazyOwnCommandSet):",
+            f'    phase = "{phase}"',
+            f'    category = "{cat}"',
+            "",
+        ]
+
+        for _name, body in methods:
+            lines.append(body)
+            lines.append("")
+
+        lines.append('__all__ = [f"{phase.title()}CommandSet"]')
+
+        out_file.write_text("\n".join(lines), encoding="utf-8")
+        print(f"  WROTE {cat} ({len(methods)} methods) -> {out_file}")
+
+    print("\nNext steps:")
+    print("1. Review the generated files under cli/commands/")
+    print("2. Fix any broken imports or self.params rewrites manually")
+    print("3. Change the base class from LazyOwnCommandSet to PendingCommandSet")
+    print("   if you want them to coexist with legacy methods during testing")
+    print("4. Once verified, delete the corresponding methods from lazyown.py")
+
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

@@ -22,7 +22,7 @@ import traceback
 
 import cmd2
 
-from cli.commands._dormancy import PendingCommandSet
+from cli.commands._base import LazyOwnCommandSet
 from utils import (
     ai_category,
     load_knowledge_base,
@@ -64,7 +64,7 @@ AI_TOGGLE_ONLINE = "Online"
 AI_TOGGLE_OFFLINE = "Offline"
 
 
-class AiCommandSet(PendingCommandSet):
+class AiCommandSet(LazyOwnCommandSet):
     """Pending phase module for the Artificial Intelligence commands."""
 
     phase = "ai"

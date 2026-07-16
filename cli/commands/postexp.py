@@ -14,7 +14,7 @@ import os
 
 import cmd2
 
-from cli.commands._dormancy import PendingCommandSet
+from cli.commands._base import LazyOwnCommandSet
 from modules.categories import post_exploitation_category
 from utils import (
     GREEN,
@@ -27,7 +27,7 @@ from utils import (
 )
 
 
-class PostExploitationCommandSet(PendingCommandSet):
+class PostExploitationCommandSet(LazyOwnCommandSet):
     """Post-Exploitation phase commands (pending)."""
 
     phase = "postexp"

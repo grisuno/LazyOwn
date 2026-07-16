@@ -13,7 +13,7 @@ import os
 
 import cmd2
 
-from cli.commands._dormancy import PendingCommandSet
+from cli.commands._base import LazyOwnCommandSet
 from modules.categories import reporting_category
 from utils import (
     GREEN,
@@ -26,7 +26,7 @@ from utils import (
 )
 
 
-class ReportingCommandSet(PendingCommandSet):
+class ReportingCommandSet(LazyOwnCommandSet):
     """Reporting phase commands (pending)."""
 
     phase = "report"

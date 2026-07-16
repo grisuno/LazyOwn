@@ -13,7 +13,7 @@ import os
 
 import cmd2
 
-from cli.commands._dormancy import PendingCommandSet
+from cli.commands._base import LazyOwnCommandSet
 from modules.categories import credential_access_category
 from utils import (
     GREEN,
@@ -27,7 +27,7 @@ from utils import (
 )
 
 
-class CredentialAccessCommandSet(PendingCommandSet):
+class CredentialAccessCommandSet(LazyOwnCommandSet):
     """Credential Access phase commands (pending)."""
 
     phase = "cred"

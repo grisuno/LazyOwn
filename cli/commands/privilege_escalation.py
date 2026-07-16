@@ -21,7 +21,7 @@ import shutil
 
 import cmd2
 
-from cli.commands._dormancy import PendingCommandSet
+from cli.commands._base import LazyOwnCommandSet
 from utils import (
     GREEN,
     WHITE,
@@ -122,7 +122,7 @@ def _serve_via_http(shell, binary_name: str, sessions_path: str, lport: int) -> 
     shell.cmd(f"python3 -m http.server {lport} --directory {sessions_path} &")
 
 
-class PrivilegeEscalationCommandSet(PendingCommandSet):
+class PrivilegeEscalationCommandSet(LazyOwnCommandSet):
     """Pending phase module for the Privilege Escalation commands."""
 
     phase = "privesc"

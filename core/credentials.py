@@ -327,7 +327,7 @@ def Spray(
             if verbose or more_verbose:
                 print(f"    [+] Tried user: {user} | Status: {r.status_code}")
             if r.status_code == 200 and "RequestSecurityTokenResponse" in r.text:
-                print(f"\n  [SUCCESS] Valid credentials found: {domain}\\{user}:{password}\n")
+                print(f"\n  [SUCCESS] Valid credentials found: {domain}\\{user}:****\n")
             elif more_verbose:
                 print(f"    Response: {r.text[:200]}")
             time.sleep(wait)

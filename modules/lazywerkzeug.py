@@ -35,7 +35,7 @@ if len(secret) != 1:
     sys.exit(-1)
 else:
     secret = secret[0]
-    print("[+] SECRET is: " + str(secret))
+    print("[+] SECRET extracted successfully (hidden from logs)")
 
 # shell
 print(

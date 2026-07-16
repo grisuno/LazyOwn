@@ -193,7 +193,7 @@ t_lazyown h "$SLEEP_START" "" "auto"
 
 # [4] lazyc2 — Flask C2 server (runs as unprivileged user 1000)
 tmux split-window -h
-t_send "sudo -u \#1000 bash -c \"sleep 5 && /bin/bash -c \
+t_send "chmod 665 payload.json && sudo -u \#1000 bash -c \"sleep 5 && /bin/bash -c \
 'source \\\"${VENV_PATH}/bin/activate\\\" && \
 python3 -W ignore lazyc2.py ${C2_PORT} ${C2_USER} ${C2_PASS}'\"" \
     "$CERTPASS"

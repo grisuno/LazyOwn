@@ -2222,6 +2222,12 @@ app.config['PROPAGATE_EXCEPTIONS'] = False
 app.config['TRAP_HTTP_EXCEPTIONS'] = True
 app.config["fd"] = None
 app.config["child_pid"] = None
+try:
+    app.config["RBAC_AVAILABLE"] = _RBAC_AVAILABLE
+    app.config["ROLE_DEFAULT"] = ROLE_DEFAULT
+    app.config["MFA_ISSUER"] = MFA_ISSUER
+except NameError:
+    pass
 app.jinja_env.filters['fromjson'] = fromjson
 app.jinja_env.filters['markdown'] = markdown_to_html
 BASE_DIR = os.getcwd()
@@ -6292,10 +6298,11 @@ def api_listeners_delete(listener_id):
 
 
 try:
-    from lazyc2.blueprints import operations_bp
+    from lazyc2.blueprints import operations_bp, auth_bp
     app.register_blueprint(operations_bp)
+    app.register_blueprint(auth_bp)
 except Exception as _obp_err:
-    print(f"[c2] Operations blueprint not loaded: {_obp_err}")
+    print(f"[c2] Blueprint not loaded: {_obp_err}")
 
 thread = Thread(target=run_shell)
 thread.daemon = False

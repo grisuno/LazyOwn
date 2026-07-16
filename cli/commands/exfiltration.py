@@ -24,7 +24,7 @@ import subprocess
 import cmd2
 import requests
 
-from cli.commands._dormancy import PendingCommandSet
+from cli.commands._base import LazyOwnCommandSet
 from utils import (
     GREEN,
     exfiltration_category,
@@ -156,7 +156,7 @@ def _read_first_credential(credentials_file: str) -> tuple[str, str] | None:
     return username, password
 
 
-class ExfiltrationCommandSet(PendingCommandSet):
+class ExfiltrationCommandSet(LazyOwnCommandSet):
     """Pending phase module for the Data Exfiltration commands."""
 
     phase = "exfil"

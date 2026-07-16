@@ -48,7 +48,7 @@ colored-traceback==0.4.2
 commonmark==0.9.1
 construct==2.10.70
 contourpy==1.3.3
-coverage==7.13.5
+coverage==7.15.2
 cryptography==49.0.0
 cssselect==1.4.0
 cssutils==2.15.0

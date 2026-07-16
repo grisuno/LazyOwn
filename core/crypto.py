@@ -1,17 +1,19 @@
 """Symmetric primitives used by the framework.
 
-XOR (legacy), AES-CBC, key generation, and file-dropping utilities
+XOR (legacy), AES-256-GCM, key generation, and file-dropping utilities
 extracted from ``utils.py``.
 """
 
 from __future__ import annotations
 
-import hashlib
 import os
 import random
 from typing import Union
 
 ByteLike = Union[bytes, bytearray]
+
+_AES_GCM_NONCE_LENGTH = 12
+_AES_GCM_TAG_LENGTH = 16
 
 
 def xor_encrypt_decrypt(data: ByteLike, key: str) -> bytearray:
@@ -45,29 +47,60 @@ def generate_xor_key(length: int) -> str:
     return "".join(f"{byte:02X}" for byte in key_bytes)
 
 
-def _get_aes_cipher(key: bytes):
-    """Lazy-import AES from pycryptodome and return a CIPHER=key pair."""
-    from Crypto.Cipher import AES as _AES
-    from Crypto.Util.Padding import pad as _pad
-    iv = 16 * b"\x00"
-    k = hashlib.sha256(key).digest()
-    cipher = _AES.new(k, _AES.MODE_CBC, iv)
-    return cipher, _pad
-
-
 def AESencrypt(plaintext: bytes, key: bytes) -> tuple[bytes, bytes]:
-    """Encrypt ``plaintext`` with AES-256-CBC using a SHA-256 derived key.
+    """Encrypt ``plaintext`` with AES-256-GCM using a random nonce.
+
+    Output format is ``nonce (12 bytes) || ciphertext || tag (16 bytes)``
+    so that ``AESdecrypt`` can extract all three components.
 
     Args:
         plaintext: Data to encrypt.
         key: Raw key material (SHA-256 hashed before use).
 
     Returns:
-        ``(ciphertext, key)`` tuple.
+        ``(ciphertext, key)`` tuple where ``ciphertext`` includes the
+        nonce and authentication tag prepended/appended.
     """
-    cipher, pad = _get_aes_cipher(key)
-    padded = pad(plaintext, 16)
-    return cipher.encrypt(padded), key
+    import hashlib
+
+    from Crypto.Cipher import AES as _AES
+
+    k = hashlib.sha256(key).digest()
+    nonce = os.urandom(_AES_GCM_NONCE_LENGTH)
+    cipher = _AES.new(k, _AES.MODE_GCM, nonce=nonce)
+    ct, tag = cipher.encrypt_and_digest(plaintext)
+    return nonce + ct + tag, key
+
+
+def AESdecrypt(data: bytes, key: bytes) -> bytes:
+    """Decrypt data produced by ``AESencrypt``.
+
+    Expects ``nonce (12 bytes) || ciphertext || tag (16 bytes)``.
+
+    Args:
+        data: Encrypted payload with embedded nonce and tag.
+        key: The same key used during encryption.
+
+    Returns:
+        Decrypted plaintext.
+
+    Raises:
+        ValueError: If the authentication tag does not verify (data
+            tampered or wrong key).
+    """
+    import hashlib
+
+    from Crypto.Cipher import AES as _AES
+
+    if len(data) < _AES_GCM_NONCE_LENGTH + _AES_GCM_TAG_LENGTH:
+        raise ValueError("ciphertext too short to contain nonce and tag")
+    nonce = data[:_AES_GCM_NONCE_LENGTH]
+    tag = data[-_AES_GCM_TAG_LENGTH:]
+    ct = data[_AES_GCM_NONCE_LENGTH:-_AES_GCM_TAG_LENGTH]
+    k = hashlib.sha256(key).digest()
+    cipher = _AES.new(k, _AES.MODE_GCM, nonce=nonce)
+    plaintext = cipher.decrypt_and_verify(ct, tag)
+    return plaintext
 
 
 def dropFile(key: bytes, ciphertext: bytes) -> None:
@@ -75,7 +108,7 @@ def dropFile(key: bytes, ciphertext: bytes) -> None:
 
     Args:
         key: AES key bytes.
-        ciphertext: Encrypted payload bytes.
+        ciphertext: Encrypted payload bytes (includes nonce + tag).
     """
     os.makedirs("sessions", exist_ok=True)
     with open("sessions/cipher.bin", "wb") as fc:
@@ -88,5 +121,6 @@ __all__ = [
     "xor_encrypt_decrypt",
     "generate_xor_key",
     "AESencrypt",
+    "AESdecrypt",
     "dropFile",
 ]

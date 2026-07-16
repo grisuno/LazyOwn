@@ -931,6 +931,50 @@ SCHEMA: dict[str, FieldSpec] = {
             allowed=("off", "warn", "enforce"),
             category="security",
         ),
+        _spec(
+            "target",
+            FieldKind.STRING,
+            "",
+            "Free-form target label (e.g. company name or hostname).",
+            category="metadata",
+        ),
+        _spec(
+            "cloud_provider",
+            FieldKind.STRING,
+            "aws",
+            "Cloud provider for cloud-specific commands (aws, azure, gcp).",
+            category="infrastructure",
+            allowed=("aws", "azure", "gcp"),
+        ),
+        _spec(
+            "cloud_region",
+            FieldKind.STRING,
+            "us-east-1",
+            "Cloud region for cloud-specific commands.",
+            category="infrastructure",
+        ),
+        _spec(
+            "region",
+            FieldKind.STRING,
+            "us-east-1",
+            "Geographic region identifier.",
+            category="infrastructure",
+        ),
+        _spec(
+            "scan_type",
+            FieldKind.STRING,
+            "fs",
+            "Nmap scan profile: fs (full scan), qs (quick scan), vs (vuln scan).",
+            category="network",
+            allowed=("fs", "qs", "vs"),
+        ),
+        _spec(
+            "report_output_path",
+            FieldKind.STRING,
+            "",
+            "Path for the generated report file.",
+            category="reporting",
+        ),
     )
 }
 

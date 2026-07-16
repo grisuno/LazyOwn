@@ -81,8 +81,62 @@ from core.console import (
     MAGENTA, RED, RESET, SURROGATE_CHARS, TRANSLATION_TABLE, TRUE_COLOR,
     UNDERLINE, WHITE, YELLOW, print_error, print_msg, print_succ, print_warn,
 )
-from core.crypto import xor_encrypt_decrypt
+from core.crypto import AESencrypt, dropFile, generate_xor_key, xor_encrypt_decrypt
+from core.process import (
+    activate_server,
+    check_go_tool_installed,
+    check_sudo,
+    ensure_tmux_session,
+    handle_multiple_rhosts,
+    is_binary_present,
+    is_package_installed,
+    run,
+    run_command,
+)
 from core.validators import check_lhost, check_lport, check_port, check_rhost
+from core.http import (
+    display_news,
+    exploitalert,
+    generate_http_req,
+    get_command,
+    inject_payloads,
+    nvddb,
+    packetstormsecurity,
+    scrape_news,
+    send_command,
+)
+from core.network import (
+    create_arp_packet,
+    get_banner,
+    get_network_info,
+    get_open_ports,
+    is_port_in_use,
+    parse_ip_mac,
+    parse_proc_net_file,
+    send_packet,
+)
+from core.parsers import (
+    aggressive_yaml_fix,
+    clean_html,
+    clean_output,
+    clean_url,
+    create_synthetic_yaml,
+    de_htmlify,
+    extract_banners,
+    fix_common_yaml_issues,
+    get_domain_from_xml,
+    get_xml,
+    htmlify,
+    is_exist,
+    list_binaries,
+    load_adversary,
+    load_knowledge_base,
+    load_user_aliases,
+    manual_yaml_extraction,
+    parse_nmap_csv,
+    parse_yaml_response,
+    select_binary,
+)
 from core.dependencies import optional_attr, optional_import
 
 # Optional heavy dependencies are bound lazily (see core/dependencies.py) and re-exported to lazyown.py via star import.
@@ -241,16 +295,6 @@ xml_body = string.Template("""<?xml version="1.0" encoding="UTF-8"?>
     </trust:RequestSecurityToken>
   </s:Body>
 </s:Envelope>""")
-def check_go_tool_installed(tool_name):
-    try:
-        process = subprocess.run([tool_name, "help"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
-        if process.returncode == 0:
-            return True
-        else:
-            return False
-    except FileNotFoundError:
-        return False
-
 def parse_ip_mac(input_string):
     """
     Extracts IP and MAC addresses from a formatted input string using a regular expression.
@@ -377,81 +421,6 @@ def signal_handler(sig, frame):
 
 
 signal.signal(signal.SIGINT, signal_handler)
-
-
-def is_binary_present(binary_name):
-    """
-    Internal function to verify if a binary is present on the operating system.
-
-    This function checks if a specified binary is available in the system's PATH
-    by using the `which` command. It returns True if the binary is found and False
-    otherwise.
-
-    The lookup is performed with :func:`shutil.which`, which resolves the name
-    against ``PATH`` without spawning a shell. This avoids the command-injection
-    surface of interpolating ``binary_name`` into a shell string and works on
-    platforms that do not ship the ``which`` utility.
-
-    :param binary_name: The name of the binary to be checked.
-    :type binary_name: str
-    :return: True if the binary is present, False otherwise.
-    :rtype: bool
-    """
-    return shutil.which(binary_name) is not None
-
-
-def handle_multiple_rhosts(func):
-    """
-    Internal function to handle multiple remote hosts (rhost) for operations.
-
-    This function is a decorator that allows an operation to be performed across
-    multiple remote hosts specified in `self.params["rhost"]`. It converts a single
-    remote host into a list if necessary, and then iterates over each host,
-    performing the given function with each host. After the operation, it restores
-    the original remote host value.
-
-    :param func: The function to be decorated and executed for each remote host.
-    :type func: function
-    :return: The decorated function.
-    :rtype: function
-    """
-
-    def wrapper(self, *args, **kwargs):
-        """internal wrapper of internal function to implement multiples rhost to operate. """
-        rhosts = self.params["rhost"]
-        if isinstance(rhosts, str):
-            rhosts = [rhosts]
-
-        for rhost in rhosts:
-            if not check_rhost(rhost):
-                continue
-            original_rhost = self.params["rhost"]
-            self.params["rhost"] = rhost
-            func(self, *args, **kwargs)
-            self.params["rhost"] = original_rhost
-
-    return wrapper
-
-
-
-def check_sudo():
-    """
-    Checks if the script is running with superuser (sudo) privileges, and if not,
-    restarts the script with sudo privileges.
-
-    This function verifies if the script is being executed with root privileges
-    by checking the effective user ID. If the script is not running as root,
-    it prints a warning message and restarts the script using sudo.
-
-    :return: None
-    """
-
-    if os.geteuid() != 0:
-        print_warn(
-            "This script requires superuser permissions. Relaunching with sudo..."
-        )
-        args = ["sudo", sys.executable] + sys.argv
-        os.execvpe("sudo", args, os.environ)
 
 
 def activate_virtualenv(venv_path):
@@ -2407,20 +2376,6 @@ def extract_banners(xml_file):
 
     return banners
 
-def generate_xor_key(length):
-    """
-    Generate key XOR long specifyed
-
-    :param length: Lenght of XOR key
-    :return: Key XOR in hex.
-    """
-    if length <= 0:
-        raise ValueError("The lenght must be logg than 0")
-    key_bytes = [random.randint(0, 255) for _ in range(length)]
-    key_hex = ''.join(f'{byte:02X}' for byte in key_bytes)
-
-    return key_hex
-
 def scrape_news():
     """
     Makes a request to the Hacker News page and extracts titles, links, and scores.
@@ -2964,22 +2919,6 @@ def load_user_aliases():
             return {}
     return {}
 
-def AESencrypt(plaintext, key):
-    k = hashlib.sha256(key).digest()
-    iv = 16 * b'\x00'
-    plaintext = pad(plaintext, AES.block_size)
-    cipher = AES.new(k, AES.MODE_CBC, iv)
-    ciphertext = cipher.encrypt(plaintext)
-    return ciphertext,key
-  
-def dropFile(key, ciphertext):
-  with open("sessions/cipher.bin", "wb") as fc:
-    fc.write(ciphertext)
-  with open("sessions/key.bin", "wb") as fk:
-    fk.write(key)
-  #print('char AESkey[] = { 0x' + ', 0x'.join(hex(x)[2:] for x in KEY) + ' };')
-  #print('unsigned char AESshellcode[] = { 0x' + ', 0x'.join(hex(x)[2:] for x in ciphertext) + ' };')
- 
 
 
 class MyServer(HTTPServer):

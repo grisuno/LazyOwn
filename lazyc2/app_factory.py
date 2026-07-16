@@ -27,7 +27,7 @@ from flask_limiter.util import get_remote_address
 from flask_login import LoginManager
 from flask_socketio import SocketIO
 
-from lazyc2.blueprints import api_bp, phishing_bp
+from lazyc2.blueprints import api_bp, redirect_bp
 from lazyc2.extensions import short_urls as short_urls_ext
 
 
@@ -73,7 +73,8 @@ def create_app() -> Flask:
     Returns:
         A :class:`Flask` instance ready to run or serve via WSGI.
     """
-    app = Flask(__name__, static_folder="static")
+    _root = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+    app = Flask(__name__, static_folder="static", root_path=_root)
 
     payload = _load_payload_config()
     security = _make_security_config(payload)
@@ -123,7 +124,7 @@ def create_app() -> Flask:
 
     # ── Blueprints ────────────────────────────────────────────────────────
     app.register_blueprint(api_bp, url_prefix="/api")
-    app.register_blueprint(phishing_bp)
+    app.register_blueprint(redirect_bp)
 
     # ── Error handlers ────────────────────────────────────────────────────
     @app.errorhandler(404)

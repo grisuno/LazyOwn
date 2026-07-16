@@ -5,6 +5,7 @@ Registered in :func:`lazyc2.app_factory.create_app`.
 """
 
 from lazyc2.blueprints.api import api_bp
-from lazyc2.blueprints.phishing import phishing_bp
+from lazyc2.blueprints.operations import operations_bp
+from lazyc2.blueprints.phishing import redirect_bp
 
-__all__ = ["api_bp", "phishing_bp"]
+__all__ = ["api_bp", "operations_bp", "redirect_bp"]

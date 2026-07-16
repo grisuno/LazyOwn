@@ -7,6 +7,12 @@ compatibility with legacy import paths.
 """
 
 from core.config import PAYLOAD_FILENAME, PAYLOAD_PATH, Config, load_payload, save_payload
+from core.credentials import (
+    crack_password, find_ea, find_ps, find_ss,
+    format_openssh_key, format_rsa_key, generate_emails,
+    get_credentials, get_domain, get_hash, get_users_dic,
+    return_creds, Spray,
+)
 from core.console import (
     BG_BLACK, BG_BLUE, BG_BRIGHT_BLACK, BG_BRIGHT_BLUE, BG_BRIGHT_CYAN,
     BG_BRIGHT_GREEN, BG_BRIGHT_MAGENTA, BG_BRIGHT_RED, BG_BRIGHT_WHITE,
@@ -80,4 +86,8 @@ __all__ = [
     "generate_http_req", "get_banner", "get_command", "send_command",
     "exploitalert", "packetstormsecurity", "nvddb", "scrape_news",
     "display_news", "inject_payloads",
+    "get_credentials", "get_domain", "get_hash", "get_users_dic",
+    "return_creds", "generate_emails", "crack_password",
+    "find_ea", "find_ps", "find_ss", "Spray",
+    "format_openssh_key", "format_rsa_key",
 ]

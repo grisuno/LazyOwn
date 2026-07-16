@@ -125,5 +125,16 @@
         "recovery_codes": [],
         "elo": 0,
         "tenant_id": "default"
+    },
+    {
+        "id": 13,
+        "username": "operator_lsu10urv",
+        "password_hash": "scrypt:32768:8:1$A4KhNul2RksXXJBg$be9ac03be5ea1df264087afde698de56a7860ef8c82e91b1a8c89238e6b4c9aa0e29a01dae3ac433551afad828797dfc45ef9f72812a8adb8ed7bc0e0b9f9a6b",
+        "role": "admin",
+        "mfa_enabled": false,
+        "mfa_secret": "",
+        "recovery_codes": [],
+        "elo": 0,
+        "tenant_id": "default"
     }
 ]

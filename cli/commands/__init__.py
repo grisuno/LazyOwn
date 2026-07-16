@@ -17,7 +17,21 @@ per-phase CommandSets:
   download_exploit, img2cookie, wrapper, kusa, ticketer, www)
   *Pending — switch to LazyOwnCommandSet after deleting originals from
   lazyown.py.*
+- ``cli.commands.postexp`` — 8 commands (lazywebshell, disableav, mimikatzpy,
+  scavenger, follina, shellcode, ofuscatorps1, atomic_lazyown) *Pending.*
+- ``cli.commands.persist`` — 7 commands (createwebshell, createrevshell,
+  createwinrevshell, conptyshell, pwncatcs, ssh, revwin) *Pending.*
+- ``cli.commands.cred`` — 9 commands (hashcat, john2hash, hydra, medusa,
+  crunch, cewl, sshkey, creds_py, spraykatz) *Pending.*
+- ``cli.commands.lateral`` — 8 commands (socat, chisel, set_proxychains,
+  ngrok, ligolo, nc, wmiexec, ssh) *Pending.*
+- ``cli.commands.report`` — 8 commands (gpt, eyewitness, gowitness,
+  createtargets, banners, vulns, create_session_json, malwarebazar) *Pending.*
 
-Remaining phases (postexp, persist, privesc, cred, lateral, c2,
-report) still live in ``lazyown.py`` and will be lifted in subsequent tiers.
+Previously migrated (active): ``cli.commands.privilege_escalation`` (9
+commands) and ``cli.commands.exfiltration`` (19 commands) are already active
+as ``PendingCommandSet`` subclasses.
+
+Empty scaffold (active, ``LazyOwnCommandSet``):
+``cli.commands.command_and_control`` — ready for one-at-a-time migration.
 """

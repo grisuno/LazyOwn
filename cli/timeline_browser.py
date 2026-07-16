@@ -21,9 +21,10 @@ Design (SOLID):
 from __future__ import annotations
 
 import csv
+from collections.abc import Mapping
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Mapping
+from typing import Any
 
 from cli.themes import Theme, theme_from_payload
 

@@ -15,7 +15,6 @@ Suitable for cron / post-op automation:
 from __future__ import annotations
 
 import argparse
-import json
 import logging
 import sys
 from pathlib import Path
@@ -48,7 +47,7 @@ def main(argv: list[str] | None = None) -> int:
         logging.disable(logging.WARNING)
 
     try:
-        from lazyown_parquet_db import ParquetDB, _PANDAS_OK
+        from lazyown_parquet_db import _PANDAS_OK, ParquetDB
     except ImportError as exc:
         log.error(f"Cannot import ParquetDB: {exc}. Install: pip install pandas pyarrow")
         return 1

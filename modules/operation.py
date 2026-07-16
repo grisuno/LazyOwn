@@ -19,17 +19,16 @@ shell restarts and can be resumed across shifts.
 
 from __future__ import annotations
 
+import builtins
 import json
 import logging
-import os
-import re
-import time
 import uuid
+from collections.abc import Callable
 from dataclasses import asdict, dataclass, field
 from datetime import datetime
-from enum import Enum
+from enum import StrEnum
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any
 
 import yaml
 
@@ -40,7 +39,7 @@ _OPS_DIR      = _BASE_DIR / "sessions" / "operations"
 _OPS_DIR.mkdir(parents=True, exist_ok=True)
 
 
-class OperationStatus(str, Enum):
+class OperationStatus(StrEnum):
     PLANNED   = "planned"
     RUNNING   = "running"
     PAUSED    = "paused"
@@ -86,10 +85,10 @@ class Operation:
     created_at: str = field(default_factory=lambda: datetime.now().isoformat())
     started_at: str = ""
     finished_at: str = ""
-    steps: List[OperationStep] = field(default_factory=list)
-    events: List[OpEvent] = field(default_factory=list)
-    facts_produced: List[Dict[str, Any]] = field(default_factory=list)
-    ttp_coverage: Dict[str, str] = field(default_factory=dict)
+    steps: list[OperationStep] = field(default_factory=list)
+    events: list[OpEvent] = field(default_factory=list)
+    facts_produced: list[dict[str, Any]] = field(default_factory=list)
+    ttp_coverage: dict[str, str] = field(default_factory=dict)
     description: str = ""
 
     # ------------------------------------------------------------------
@@ -114,7 +113,7 @@ class Operation:
         }
 
     @classmethod
-    def from_dict(cls, d: dict) -> "Operation":
+    def from_dict(cls, d: dict) -> Operation:
         op = cls(
             id=d.get("id", str(uuid.uuid4())[:8]),
             name=d.get("name", ""),
@@ -162,7 +161,7 @@ class Operation:
         self.events.append(ev)
         log.info("op=%s step=%d %s: %s", self.id, step_index, status, summary)
 
-    def record_facts(self, findings: List[Dict[str, Any]]) -> None:
+    def record_facts(self, findings: list[dict[str, Any]]) -> None:
         for f in findings:
             self.facts_produced.append({
                 "produced_at": datetime.now().isoformat(timespec="seconds"),
@@ -179,12 +178,12 @@ class OperationManager:
     """Persistent store and executor for Operation objects."""
 
     def __init__(self) -> None:
-        self._cache: Dict[str, Operation] = {}
-        self._current_id: Optional[str] = None
+        self._cache: dict[str, Operation] = {}
+        self._current_id: str | None = None
 
-    def list(self) -> List[Operation]:
+    def list(self) -> builtins.list[Operation]:
         """List all persisted operations."""
-        ops: List[Operation] = []
+        ops: list[Operation] = []
         for f in sorted(_OPS_DIR.glob("*.json")):
             try:
                 with open(f) as fh:
@@ -194,7 +193,7 @@ class OperationManager:
                 log.warning("failed to load %s: %s", f, exc)
         return ops
 
-    def get(self, op_id: str) -> Optional[Operation]:
+    def get(self, op_id: str) -> Operation | None:
         path = _OPS_DIR / f"{op_id}.json"
         if not path.exists():
             return None
@@ -223,7 +222,7 @@ class OperationManager:
     def plan_from_apt(
         self,
         op: Operation,
-        playbook_yaml_path: Optional[str] = None,
+        playbook_yaml_path: str | None = None,
     ) -> Operation:
         """Populate steps from an APT playbook YAML (or fall back to a derived MITRE playbook).
 
@@ -232,10 +231,10 @@ class OperationManager:
             playbook_yaml_path: Path to a playbook YAML. If ``None``,
                 derives a playbook from the MITRE STIX2 store.
         """
-        from modules.apt_playbooks import AptPlaybook, AptPlaybookEngine
+        from modules.apt_playbooks import AptPlaybook
         from modules.playbook_engine import PlaybookEngine
 
-        steps: List[OperationStep] = []
+        steps: list[OperationStep] = []
 
         if playbook_yaml_path and Path(playbook_yaml_path).is_file():
             try:
@@ -279,7 +278,7 @@ class OperationManager:
         op.save()
         return op
 
-    def start(self, op_id: str, executor: Optional[Callable[[str, str], str]] = None) -> Operation:
+    def start(self, op_id: str, executor: Callable[[str, str], str] | None = None) -> Operation:
         """Start or resume a planned operation.
 
         Args:
@@ -363,7 +362,7 @@ class OperationManager:
         op.save()
         return op
 
-    def resume(self, op_id: str, executor: Optional[Callable[[str, str], str]] = None) -> Operation:
+    def resume(self, op_id: str, executor: Callable[[str, str], str] | None = None) -> Operation:
         op = self.get(op_id)
         if op is None:
             raise ValueError(f"operation {op_id} not found")
@@ -381,7 +380,7 @@ class OperationManager:
         op.save()
         return op
 
-    def status(self, op_id: str) -> Dict[str, Any]:
+    def status(self, op_id: str) -> dict[str, Any]:
         """Return a structured status dict for an operation."""
         op = self.get(op_id)
         if op is None:
@@ -410,7 +409,7 @@ class OperationManager:
             "ttp_coverage": op.ttp_coverage,
         }
 
-    def timeline(self, op_id: str) -> List[Dict[str, Any]]:
+    def timeline(self, op_id: str) -> builtins.list[dict[str, Any]]:
         op = self.get(op_id)
         if op is None:
             return []

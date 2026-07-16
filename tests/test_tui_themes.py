@@ -17,7 +17,6 @@ from rich.text import Text
 
 from cli.themes import DEFAULT_THEME_NAME, THEMES, get_theme, theme_from_payload
 
-
 NEW_THEME_NAMES: tuple[str, ...] = (
     "solarized",
     "monokai",

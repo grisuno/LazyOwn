@@ -82,9 +82,9 @@ import time
 import uuid
 from abc import ABC, abstractmethod
 from concurrent.futures import Future, ThreadPoolExecutor, as_completed
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 # ── Path setup ────────────────────────────────────────────────────────────────
 
@@ -102,7 +102,7 @@ log = logging.getLogger("swan_agent")
 # ── Optional lazy imports ─────────────────────────────────────────────────────
 
 def _import_router():
-    from modules.moe_router import get_router, ExpertProfile  # noqa: PLC0415
+    from modules.moe_router import ExpertProfile, get_router  # noqa: PLC0415
     return get_router(), ExpertProfile
 
 
@@ -122,7 +122,9 @@ def _import_detection_oracle():
 def _import_policy():
     try:
         from skills.lazyown_policy import (  # noqa: PLC0415
-            ActionCategory, OutcomeType, infer_category,
+            ActionCategory,
+            OutcomeType,
+            infer_category,
         )
         return ActionCategory, OutcomeType, infer_category
     except Exception:
@@ -177,7 +179,7 @@ class EnsembleResult:
     task_id:               str
     task_type:             str
     goal:                  str
-    votes:                 List[ExpertVote]
+    votes:                 list[ExpertVote]
     synthesis:             str        # combined output from synthesizer
     consensus_confidence:  float      # fraction of experts that agree
     best_expert_id:        str        # expert with highest weight
@@ -199,8 +201,8 @@ class IResultAggregator(ABC):
         self,
         task_type: str,
         goal: str,
-        votes: List[ExpertVote],
-    ) -> Tuple[str, float]:
+        votes: list[ExpertVote],
+    ) -> tuple[str, float]:
         """
         Return (synthesis_text, consensus_confidence).
 
@@ -254,8 +256,8 @@ class WeightedTextAggregator(IResultAggregator):
         self,
         task_type: str,
         goal: str,
-        votes: List[ExpertVote],
-    ) -> Tuple[str, float]:
+        votes: list[ExpertVote],
+    ) -> tuple[str, float]:
         successful = [v for v in votes if v.status == "completed"]
         if not successful:
             return "[ENSEMBLE] All experts failed.", 0.0
@@ -273,7 +275,7 @@ class WeightedTextAggregator(IResultAggregator):
     def _build_synthesis(
         task_type: str,
         goal: str,
-        experts: List[ExpertVote],
+        experts: list[ExpertVote],
     ) -> str:
         lines = [
             f"[SWAN ENSEMBLE SYNTHESIS — {task_type.upper()}]",
@@ -296,7 +298,7 @@ class WeightedTextAggregator(IResultAggregator):
         )
 
         # Simple consensus: find sentences repeated across outputs (>1 expert)
-        all_lines: Dict[str, int] = {}
+        all_lines: dict[str, int] = {}
         for ev in experts:
             for sent in ev.output.split(". "):
                 sent = sent.strip()
@@ -391,7 +393,7 @@ class ExpertExecutor:
         api_key: str,
         timeout: float,
     ) -> str:
-        from lazyown_groq_agents import spawn_agent, agent_result  # noqa: PLC0415
+        from lazyown_groq_agents import agent_result, spawn_agent  # noqa: PLC0415
 
         key = api_key or os.environ.get("GROQ_API_KEY", "") or self._load_payload_key()
         agent_id = spawn_agent(
@@ -405,8 +407,8 @@ class ExpertExecutor:
         return agent_result(agent_id)
 
     @staticmethod
-    def _tools_for_task(task_type: str) -> List[str]:
-        task_tools: Dict[str, List[str]] = {
+    def _tools_for_task(task_type: str) -> list[str]:
+        task_tools: dict[str, list[str]] = {
             "recon":       ["run_command", "facts_show", "bridge_suggest",
                             "rag_query", "session_status"],
             "enum":        ["run_command", "facts_show", "bridge_suggest",
@@ -450,7 +452,7 @@ class OutcomeEvaluator:
     Fails gracefully when optional modules are unavailable.
     """
 
-    _OUTCOME_REWARD_MAP: Dict[str, int] = {
+    _OUTCOME_REWARD_MAP: dict[str, int] = {
         "completed": 5,
         "timeout":   -2,
         "failed":    -3,
@@ -460,7 +462,7 @@ class OutcomeEvaluator:
         self,
         result: SwanResult,
         task_type: str,
-    ) -> Tuple[float, float]:
+    ) -> tuple[float, float]:
         """
         Return (reward, detection_prob).
 
@@ -552,9 +554,9 @@ class SwanOrchestrator(ISwanOrchestrator):
 
     def __init__(
         self,
-        executor:   Optional[ExpertExecutor]   = None,
-        evaluator:  Optional[OutcomeEvaluator] = None,
-        aggregator: Optional[IResultAggregator] = None,
+        executor:   ExpertExecutor | None   = None,
+        evaluator:  OutcomeEvaluator | None = None,
+        aggregator: IResultAggregator | None = None,
         api_key:    str = "",
     ) -> None:
         self._executor   = executor  or ExpertExecutor()
@@ -756,14 +758,14 @@ class SwanOrchestrator(ISwanOrchestrator):
 
     def _parallel_execute(
         self,
-        experts: List[Any],
+        experts: list[Any],
         goal: str,
         task_type: str,
         timeout: float,
-    ) -> List[ExpertVote]:
-        votes: List[ExpertVote] = []
+    ) -> list[ExpertVote]:
+        votes: list[ExpertVote] = []
         with ThreadPoolExecutor(max_workers=len(experts)) as pool:
-            future_map: Dict[Future, Any] = {}
+            future_map: dict[Future, Any] = {}
             for expert in experts:
                 f = pool.submit(
                     self._executor.execute,
@@ -807,8 +809,8 @@ class SwanOrchestrator(ISwanOrchestrator):
         detection_prob: float,
         state_key: str,
         next_state: str,
-        candidate_ids: List[str],
-        result: Optional[SwanResult],
+        candidate_ids: list[str],
+        result: SwanResult | None,
     ) -> None:
         """Update MoE performance store, RL Q-table, and hive memory."""
         router  = self._get_router()
@@ -867,7 +869,7 @@ class SwanOrchestrator(ISwanOrchestrator):
     @staticmethod
     def _next_task_type(task_type: str) -> str:
         """Simple kill-chain progression for next-state encoding."""
-        _chain: Dict[str, str] = {
+        _chain: dict[str, str] = {
             "recon":       "enum",
             "enum":        "exploit",
             "exploit":     "intrusion",
@@ -891,7 +893,7 @@ class SwanOrchestrator(ISwanOrchestrator):
             self._trainer = _import_trainer()
         return self._trainer
 
-    def _get_hive_memory(self) -> Optional[Any]:
+    def _get_hive_memory(self) -> Any | None:
         if self._memory is None:
             try:
                 from hive_mind import get_hive  # noqa: PLC0415
@@ -998,7 +1000,7 @@ def mcp_swan_route(task_type: str, goal: str = "") -> str:
 # Module-level singleton
 # ---------------------------------------------------------------------------
 
-_default_swan: Optional[SwanOrchestrator] = None
+_default_swan: SwanOrchestrator | None = None
 _swan_lock = threading.Lock()
 
 

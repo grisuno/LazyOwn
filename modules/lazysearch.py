@@ -1,9 +1,8 @@
-#!/usr/bin/env python3 
-#_*_ coding: utf8 _*_
+#!/usr/bin/env python3
 """
 main.py
 
-Autor: Gris Iscomeback 
+Autor: Gris Iscomeback
 Correo electrónico: grisiscomeback[at]gmail[dot]com
 Fecha de creación: 09/06/2024
 Licencia: GPL v3
@@ -18,8 +17,9 @@ Descripción: search in gtofbins db
 ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
 
 """
-import pandas as pd
 import argparse
+
+import pandas as pd
 from colorama import Fore, Style, init
 from tabulate import tabulate
 

@@ -11,7 +11,7 @@ from __future__ import annotations
 import json
 import sys
 import threading
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 import pytest
@@ -124,7 +124,7 @@ def test_summarize_aggregates_by_command(tmp_path: Path) -> None:
 def test_summarize_window_filters_old_records(tmp_path: Path) -> None:
     """Window in seconds drops events older than the cutoff."""
 
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     fresh = now - timedelta(seconds=30)
     old = now - timedelta(hours=2)
 

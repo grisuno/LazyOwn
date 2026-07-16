@@ -12,12 +12,9 @@ import asyncio
 import json
 import sys
 import tempfile
-import threading
-import time
 import uuid
 from pathlib import Path
-from typing import Any, Dict, List, Optional
-from unittest.mock import AsyncMock, MagicMock, patch, call
+from unittest.mock import MagicMock, patch
 
 import pytest
 
@@ -73,7 +70,7 @@ class TestPTYCommandRunner:
 
     def test_implements_icommand_runner(self):
         """PTYCommandRunner is a subclass of ICommandRunner."""
-        from autonomous_daemon import PTYCommandRunner, ICommandRunner
+        from autonomous_daemon import ICommandRunner, PTYCommandRunner
         assert issubclass(PTYCommandRunner, ICommandRunner)
 
 
@@ -197,7 +194,7 @@ class TestFallbackSelector:
 
     def test_returns_command_decision_type(self):
         """select() returns a CommandDecision instance."""
-        from autonomous_daemon import FallbackSelector, CommandDecision
+        from autonomous_daemon import CommandDecision, FallbackSelector
         sel    = FallbackSelector()
         result = sel.select(target="10.0.0.1", phase="exploit", context={})
         assert isinstance(result, CommandDecision)
@@ -235,7 +232,7 @@ class TestParquetSelector:
 
     def test_returns_candidate_when_pdb_has_history(self):
         """When pdb returns session rows, select() returns a CommandDecision."""
-        from autonomous_daemon import ParquetSelector, CommandDecision
+        from autonomous_daemon import CommandDecision, ParquetSelector
 
         mock_pdb = MagicMock()
         mock_pdb.query_session.return_value = [
@@ -251,7 +248,7 @@ class TestParquetSelector:
 
     def test_respects_fail_counts(self):
         """Commands that have hit the fail threshold are skipped."""
-        from autonomous_daemon import ParquetSelector, MAX_FAILS_PER_CMD
+        from autonomous_daemon import MAX_FAILS_PER_CMD, ParquetSelector
 
         mock_pdb = MagicMock()
         mock_pdb.query_session.return_value = [
@@ -310,9 +307,9 @@ class TestCascadeStrategy:
 
     def test_passes_context_to_selectors(self):
         """CascadeStrategy passes the context dict to selectors."""
-        from autonomous_daemon import ICommandSelector, CascadeStrategy
+        from autonomous_daemon import CascadeStrategy, ICommandSelector
 
-        captured: Dict = {}
+        captured: dict = {}
 
         class CapturingSelector(ICommandSelector):
             def select(self, target, phase, context):

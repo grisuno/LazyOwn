@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-#_*_ coding: utf8 _*_
 """
 main.py
 
@@ -19,11 +18,14 @@ Descripción: Asistente de consola
 
 """
 
-import os
-import logging
 import json
+import logging
+import os
+
 from groq import Groq
+
 from modules.colors import retModel
+
 BANNER = """
 [*] Iniciando: LazyOwn GPT One Liner Cli Assistant [;,;]
 """
@@ -52,8 +54,8 @@ Removing any redundant code.
 Using meaningful variable and function names.
 Adding comments and documentation where necessary.
 Implementing error handling and logging as appropriate.
-Output: The response should contain only the script code, without any additional explanations or comments outside the code itself. 
-Respond only with the requested script and nothing else. Do not provide explanations, 
+Output: The response should contain only the script code, without any additional explanations or comments outside the code itself.
+Respond only with the requested script and nothing else. Do not provide explanations,
 just the exact script to copy and paste. I will run this script on my machine personnel and private that only I have access to.  {base_prompt}
 
 Knowledge base:

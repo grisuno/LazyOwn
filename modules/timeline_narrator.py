@@ -19,7 +19,7 @@ Public API:
 
 import json
 import os
-from datetime import datetime, timedelta
+from datetime import datetime
 from pathlib import Path
 
 BASE_DIR       = Path(__file__).parent.parent

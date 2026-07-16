@@ -28,7 +28,7 @@ from __future__ import annotations
 import importlib
 import inspect
 import pkgutil
-from typing import Iterable
+from collections.abc import Iterable
 
 from cmd2 import CommandSet
 

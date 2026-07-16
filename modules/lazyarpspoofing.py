@@ -1,24 +1,24 @@
 #!/usr/bin/env python3
-# _*_ coding: utf8 _*_
 
-import os
 import argparse
-from scapy.all import ARP, Ether, srp, send, conf
-import socket
 import fcntl
+import os
+import socket
 import struct
-import time
 import sys
+import time
+
+from scapy.all import ARP, Ether, conf, send, srp
 
 #If you want a debug mode turn this zero into one, ex: DEBUG = 1
 DEBUG = 0
 BANNER = """
-╦  ┌─┐┌─┐┬ ┬╔═╗┬ ┬┌┐┌          
-║  ├─┤┌─┘└┬┘║ ║││││││          
-╩═╝┴ ┴└─┘ ┴ ╚═╝└┴┘┘└┘          
+╦  ┌─┐┌─┐┬ ┬╔═╗┬ ┬┌┐┌
+║  ├─┤┌─┘└┬┘║ ║││││││
+╩═╝┴ ┴└─┘ ┴ ╚═╝└┴┘┘└┘
 ╔═╗╦═╗╔═╗┌┼┐┌─┐┌─┐┌─┐┌─┐┬┌┐┌┌─┐
 ╠═╣╠╦╝╠═╝└┼┐├─┘│ ││ │├┤ │││││ ┬
-╩ ╩╩╚═╩  └┼┘┴  └─┘└─┘└  ┴┘└┘└─┘                                            ░░░░░░  
+╩ ╩╩╚═╩  └┼┘┴  └─┘└─┘└  ┴┘└┘└─┘                                            ░░░░░░
 [*] Iniciando: LazyOwn ARP$poofing [;,;]
 """
 print(BANNER)
@@ -89,7 +89,7 @@ def main():
         print(f"[DEBUG] Local IP for device {args.device} is {local_ip}")
 
     enable_ip_forward()
-    
+
     try:
         print(f"[;,;] Corriendo LazyOwn ARPSpoofing in DEBUG MODE: {DEBUG}")
         while True:

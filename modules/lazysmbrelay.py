@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
-#_*_ coding: utf8 _*_
 
+import logging
 import os
 import sys
-import logging
+
 from impacket import smbserver
 from impacket.examples.ntlmrelayx.servers import SMBRelayServer
-from impacket.examples.ntlmrelayx.utils.targetsutils import TargetsProcessor
 from impacket.examples.ntlmrelayx.utils import getGlobalSettings
+from impacket.examples.ntlmrelayx.utils.targetsutils import TargetsProcessor
 from impacket.smbconnection import SMBConnection
+
 
 # Verificar y relanzar con sudo si es necesario
 def check_sudo():

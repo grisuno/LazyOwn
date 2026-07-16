@@ -1,5 +1,7 @@
 import random
+
 from bs4 import BeautifulSoup
+
 RESET = "\033[0m"
 BOLD = "\033[1m"
 UNDERLINE = "\033[4m"
@@ -35,12 +37,12 @@ TRUE_COLOR = "\033[38;2;{};{};{}m"
 BG_TRUE_COLOR = "\033[48;2;{};{};{}m"
 def retModel():
     """
-    gemma2-9b-it	Google	8,192	-	-	
-    llama-3.3-70b-versatile	Meta	128k	32,768	-	
-    llama-3.1-8b-instant	Meta	128k	8,192	-	
-    gemma2-9b-it	Meta	8,192	-	-	
-    llama3-70b-8192	Meta	8,192	-	-	
-    llama3-8b-8192	Meta	8,192	-	-	
+    gemma2-9b-it	Google	8,192	-	-
+    llama-3.3-70b-versatile	Meta	128k	32,768	-
+    llama-3.1-8b-instant	Meta	128k	8,192	-
+    gemma2-9b-it	Meta	8,192	-	-
+    llama3-70b-8192	Meta	8,192	-	-
+    llama3-8b-8192	Meta	8,192	-	-
     mixtral-8x7b-32768	Mistral	32,768
     """
     models = [

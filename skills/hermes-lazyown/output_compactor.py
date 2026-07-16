@@ -10,7 +10,6 @@ Follows the Strategy pattern: each phase implements a CompactionStrategy.
 
 import re
 from abc import ABC, abstractmethod
-from typing import Any
 
 from constants import Defaults, PhaseNames
 

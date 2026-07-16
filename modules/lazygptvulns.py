@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-#* coding: utf8 *
 """
 main.py
 
@@ -18,14 +17,15 @@ Descripción: Asistente de consola
 ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
 
 """
-import re
-import os
-import sys
+import argparse
 import json
 import logging
-import argparse
+import os
+import sys
+
 from groq import Groq
-from modules.colors import retModel, GREEN, delete_lines, no_html
+
+from modules.colors import GREEN, delete_lines, no_html, retModel
 
 BANNER = f"""{GREEN}
 [*] Iniciando: LazyOwn GPT One Liner Cli Assistant [;,;]
@@ -94,14 +94,14 @@ def get_relevant_knowledge(prompt: str) -> str:
 def process_prompt_vuln(client, prompt: str, debug: bool, event: str) -> str:
     configure_logging(debug)
 
-    
+
     event_config = load_event_config()
     response = {
         "events": event
     }
     global BASE_DIR
 
- 
+
     for config_event in event_config["events"]:
         if config_event["name"] == event:
             event_key = event
@@ -115,11 +115,11 @@ def process_prompt_vuln(client, prompt: str, debug: bool, event: str) -> str:
                 e for e in event_config["events"]
                 if "src_path" in e and "size" in e and e["src_path"].format(BASE_DIR=BASE_DIR, rhost=rhost) == formatted_src_path and e["size"] > size
             ]
-    
+
             if matching_events:
                 if event_key not in response:
                     response[event_key] = {}
- 
+
             break
 
     with open(prompt, "r") as f:
@@ -186,7 +186,7 @@ def process_prompt_vuln(client, prompt: str, debug: bool, event: str) -> str:
         return message
 
     except Exception as ex:
-        e = ex 
+        e = ex
         if e:
             return f"Error API: {e}"
         else:
@@ -196,7 +196,7 @@ if __name__ == "__main__":
         parser = argparse.ArgumentParser(description='[+] LazyGPT Asistente de Tareas de Programación.')
         parser.add_argument('--file', type=str, required=True, help='El path file para analizar')
         parser.add_argument('--debug', '-d', action='store_true', help='Habilita el modo debug para mostrar mensajes de depuración')
-        
+
         return parser.parse_args()
 
     args = parse_args()

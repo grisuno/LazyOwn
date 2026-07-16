@@ -65,7 +65,7 @@ import uuid
 from abc import ABC, abstractmethod
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 # ── Paths ──────────────────────────────────────────────────────────────────────
 
@@ -147,18 +147,26 @@ _WorldModel     = None
 _ObsParser      = None
 _ReactEngine    = None
 try:
-    from world_model import WorldModel as _WorldModel       # type: ignore[assignment]
-    from obs_parser  import ObsParser  as _ObsParser        # type: ignore[assignment]
+    from obs_parser import ObsParser as _ObsParser  # type: ignore[assignment]
     from reactive_engine import get_engine as _ReactEngine  # type: ignore[assignment]
+    from world_model import WorldModel as _WorldModel  # type: ignore[assignment]
 except Exception as _e:
     log.debug("world_model/obs_parser/reactive_engine not available: %s", _e)
 
 try:
     from daemon_control import (
-        DaemonControl as _DaemonControl,
         DECISION_APPROVED as _DECISION_APPROVED,
+    )
+    from daemon_control import (
         MODE_APPROVAL as _MODE_APPROVAL,
+    )
+    from daemon_control import (
+        DaemonControl as _DaemonControl,
+    )
+    from daemon_control import (
         wait_for_decision as _wait_for_decision,
+    )
+    from daemon_control import (
         wait_until_unpaused as _wait_until_unpaused,
     )
 except Exception as _control_exc:
@@ -242,11 +250,11 @@ def _inject_to_tasks_json(
             return -1
 
 
-def _emit(event_type: str, payload: Dict[str, Any], severity: str = "info") -> None:
+def _emit(event_type: str, payload: dict[str, Any], severity: str = "info") -> None:
     """Write an event to the JSONL stream. Thread-safe."""
     event = {
         "id":       uuid.uuid4().hex[:8],
-        "ts":       datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        "ts":       datetime.datetime.now(datetime.UTC).isoformat(),
         "type":     event_type,
         "severity": severity,
         "payload":  payload,
@@ -283,7 +291,7 @@ def compute_decision_seed(objective_id: str, step_n: int, source: str) -> str:
         Hex digest truncated to :data:`DECISION_SEED_LENGTH` characters.
     """
 
-    digest_input = f"{objective_id}|{step_n}|{source}".encode("utf-8")
+    digest_input = f"{objective_id}|{step_n}|{source}".encode()
     return hashlib.sha256(digest_input).hexdigest()[:DECISION_SEED_LENGTH]
 
 
@@ -416,7 +424,7 @@ class CommandRunnerChain(ICommandRunner):
     Open/Closed: add new runners without modifying this class.
     """
 
-    def __init__(self, runners: List[ICommandRunner]) -> None:
+    def __init__(self, runners: list[ICommandRunner]) -> None:
         if not runners:
             raise ValueError("CommandRunnerChain requires at least one runner")
         self._runners = runners
@@ -427,7 +435,7 @@ class CommandRunnerChain(ICommandRunner):
 
     def run(self, command: str, timeout: int = STEP_TIMEOUT_S) -> str:
         """Try each runner in sequence. Return first successful output."""
-        last_exc: Optional[Exception] = None
+        last_exc: Exception | None = None
         for runner in self._runners:
             try:
                 return runner.run(command, timeout)
@@ -461,7 +469,7 @@ def _run_lazyown(command: str, timeout: int = STEP_TIMEOUT_S) -> str:
 
 # Static fallback maps: category -> command name, split by OS platform.
 # The OS-specific maps are consulted first; _FALLBACK_MAP is the baseline.
-_FALLBACK_MAP: Dict[str, str] = {
+_FALLBACK_MAP: dict[str, str] = {
     "recon":       "lazynmap",
     "enum":        "enum_smb",
     "brute_force": "crackmapexec",
@@ -473,13 +481,13 @@ _FALLBACK_MAP: Dict[str, str] = {
     "other":       "list",
 }
 
-_FALLBACK_MAP_LINUX: Dict[str, str] = {
+_FALLBACK_MAP_LINUX: dict[str, str] = {
     "privesc":    "linpeas",
     "intrusion":  "ssh",
     "credential": "secretsdump",
 }
 
-_FALLBACK_MAP_WINDOWS: Dict[str, str] = {
+_FALLBACK_MAP_WINDOWS: dict[str, str] = {
     "privesc":    "winpeas",
     "intrusion":  "evil-winrm",
     "credential": "secretsdump",
@@ -487,7 +495,7 @@ _FALLBACK_MAP_WINDOWS: Dict[str, str] = {
 }
 
 # Phase -> applicable categories in priority order
-_PHASE_CATEGORIES: Dict[str, List[str]] = {
+_PHASE_CATEGORIES: dict[str, list[str]] = {
     "recon":   ["recon"],
     "enum":    ["enum", "recon"],
     "exploit": ["exploit", "intrusion", "brute_force"],
@@ -516,8 +524,8 @@ class ICommandSelector(ABC):
         self,
         target: str,
         phase: str,
-        context: Dict,
-    ) -> Optional[CommandDecision]:
+        context: dict,
+    ) -> CommandDecision | None:
         """Return a CommandDecision or None if this selector has no suggestion."""
 
 
@@ -529,7 +537,7 @@ class ReactiveSelector(ICommandSelector):
 
     def __init__(self, reactive_engine: Any) -> None:
         self._engine  = reactive_engine
-        self._pending: Optional[CommandDecision] = None
+        self._pending: CommandDecision | None = None
 
     def register_output(
         self,
@@ -556,7 +564,7 @@ class ReactiveSelector(ICommandSelector):
         except Exception as exc:
             log.debug("reactive engine error: %s", exc)
 
-    def select(self, target: str, phase: str, context: Dict) -> Optional[CommandDecision]:
+    def select(self, target: str, phase: str, context: dict) -> CommandDecision | None:
         """Pop and return the pending reactive decision if present."""
         if self._pending:
             dec           = self._pending
@@ -571,11 +579,11 @@ class ParquetSelector(ICommandSelector):
     Single Responsibility: Parquet history lookup only.
     """
 
-    def __init__(self, pdb: Any, fail_counts: Dict[str, int]) -> None:
+    def __init__(self, pdb: Any, fail_counts: dict[str, int]) -> None:
         self._pdb         = pdb
         self._fail_counts = fail_counts
 
-    def select(self, target: str, phase: str, context: Dict) -> Optional[CommandDecision]:
+    def select(self, target: str, phase: str, context: dict) -> CommandDecision | None:
         """Return the most-frequent successful command for this phase."""
         categories = _PHASE_CATEGORIES.get(phase, ["other"])
         for cat in categories:
@@ -588,7 +596,7 @@ class ParquetSelector(ICommandSelector):
                 )
         return None
 
-    def _parquet_candidate(self, category: str, target: str) -> Optional[str]:
+    def _parquet_candidate(self, category: str, target: str) -> str | None:
         if self._pdb is None:
             return None
         try:
@@ -598,7 +606,7 @@ class ParquetSelector(ICommandSelector):
             blacklist = _get_campaign_blacklist()
             # Commands blacklisted under this category or globally
             blocked = set(blacklist.get(category, []) + blacklist.get("any", []))
-            freq: Dict[str, int] = {}
+            freq: dict[str, int] = {}
             for r in rows:
                 cmd = (r.get("command") or "").strip().split()[0]
                 if not cmd or cmd.startswith("/") or cmd.startswith("echo"):
@@ -619,11 +627,11 @@ class BridgeSelector(ICommandSelector):
     Single Responsibility: bridge catalog lookup only.
     """
 
-    def __init__(self, dispatcher: Any, fail_counts: Dict[str, int]) -> None:
+    def __init__(self, dispatcher: Any, fail_counts: dict[str, int]) -> None:
         self._dispatcher  = dispatcher
         self._fail_counts = fail_counts
 
-    def select(self, target: str, phase: str, context: Dict) -> Optional[CommandDecision]:
+    def select(self, target: str, phase: str, context: dict) -> CommandDecision | None:
         """Return a bridge catalog suggestion for this phase."""
         categories = _PHASE_CATEGORIES.get(phase, ["other"])
         services   = context.get("services", [])
@@ -635,8 +643,8 @@ class BridgeSelector(ICommandSelector):
         return None
 
     def _bridge_candidate(
-        self, phase: str, services: List[str], tag: str = "", os_hint: str = "any"
-    ) -> Optional[CommandDecision]:
+        self, phase: str, services: list[str], tag: str = "", os_hint: str = "any"
+    ) -> CommandDecision | None:
         if self._dispatcher is None:
             return None
         try:
@@ -686,13 +694,13 @@ class LLMSelector(ICommandSelector):
     Single Responsibility: LLM command recommendation only.
     """
 
-    def select(self, target: str, phase: str, context: Dict) -> Optional[CommandDecision]:
+    def select(self, target: str, phase: str, context: dict) -> CommandDecision | None:
         """Return an LLM-suggested command with catalog context, or None if disabled."""
         if os.environ.get("AUTO_USE_LLM", "0") != "1":
             return None
         return self._llm_candidate(target, phase, context)
 
-    def _llm_candidate(self, target: str, phase: str, context: Dict) -> Optional[CommandDecision]:
+    def _llm_candidate(self, target: str, phase: str, context: dict) -> CommandDecision | None:
         try:
             from lazyown_llm import LLMBridge
             payload  = _load_payload()
@@ -768,7 +776,7 @@ class SWANSelector(ICommandSelector):
     """
 
     # Mapping from LazyOwn daemon phase names → SWAN task_type strings
-    _PHASE_TO_TASK: Dict[str, str] = {
+    _PHASE_TO_TASK: dict[str, str] = {
         "recon":          "recon",
         "enum":           "recon",
         "exploit":        "exploit",
@@ -783,15 +791,15 @@ class SWANSelector(ICommandSelector):
         "report":         "analyze",
     }
 
-    def select(self, target: str, phase: str, context: Dict) -> Optional[CommandDecision]:
+    def select(self, target: str, phase: str, context: dict) -> CommandDecision | None:
         """Ask the best MoE expert for a command recommendation. Returns None if disabled."""
         if os.environ.get("AUTO_USE_SWAN", "0") != "1":
             return None
         return self._swan_candidate(target, phase, context)
 
     def _swan_candidate(
-        self, target: str, phase: str, context: Dict
-    ) -> Optional[CommandDecision]:
+        self, target: str, phase: str, context: dict
+    ) -> CommandDecision | None:
         try:
             from swan_agent import mcp_swan_run as _swan_run  # lazy import
             services  = context.get("services", [])
@@ -836,7 +844,7 @@ class FallbackSelector(ICommandSelector):
     Single Responsibility: static fallback map only.
     """
 
-    def select(self, target: str, phase: str, context: Dict) -> Optional[CommandDecision]:
+    def select(self, target: str, phase: str, context: dict) -> CommandDecision | None:
         """Return the static fallback command for this phase. Never returns None."""
         categories = _PHASE_CATEGORIES.get(phase, ["other"])
         category   = categories[0]
@@ -884,7 +892,7 @@ class MetricsAwareSelector(ICommandSelector):
         min_attempts: int = METRICS_BIAS_MIN_ATTEMPTS,
         window_seconds: int = METRICS_BIAS_WINDOW_S,
         cache_ttl_s: float = METRICS_BIAS_CACHE_TTL_S,
-        clock: Optional[Any] = None,
+        clock: Any | None = None,
     ) -> None:
         """Initialise the decorator.
 
@@ -920,7 +928,7 @@ class MetricsAwareSelector(ICommandSelector):
         )
         self._cache_ttl_s = float(cache_ttl_s)
         self._clock = clock or time.monotonic
-        self._cached_summary: Dict[str, Any] = {}
+        self._cached_summary: dict[str, Any] = {}
         self._cache_stamp: float = -1.0
 
     @property
@@ -929,7 +937,7 @@ class MetricsAwareSelector(ICommandSelector):
 
         return self._wrapped
 
-    def _resolve_source(self) -> Optional[Any]:
+    def _resolve_source(self) -> Any | None:
         """Return the metrics source, resolving the singleton on first use.
 
         Returns:
@@ -956,7 +964,7 @@ class MetricsAwareSelector(ICommandSelector):
             self._metrics_source = None
         return self._metrics_source
 
-    def _current_summary(self) -> Dict[str, Any]:
+    def _current_summary(self) -> dict[str, Any]:
         """Return a fresh or cached summary dictionary.
 
         Returns:
@@ -990,7 +998,7 @@ class MetricsAwareSelector(ICommandSelector):
         self._cache_stamp = now
         return self._cached_summary
 
-    def _should_skip(self, command: str) -> Tuple[bool, Optional[Dict[str, Any]]]:
+    def _should_skip(self, command: str) -> tuple[bool, dict[str, Any] | None]:
         """Decide whether *command* should be filtered out.
 
         Args:
@@ -1018,8 +1026,8 @@ class MetricsAwareSelector(ICommandSelector):
         self,
         target: str,
         phase: str,
-        context: Dict,
-    ) -> Optional[CommandDecision]:
+        context: dict,
+    ) -> CommandDecision | None:
         """Honour the :class:`ICommandSelector` contract.
 
         Delegates to the wrapped selector. When the proposed command
@@ -1052,9 +1060,9 @@ class MetricsAwareSelector(ICommandSelector):
 
 
 def _wrap_chain_with_metrics_bias(
-    selectors: List[ICommandSelector],
+    selectors: list[ICommandSelector],
     enabled: bool = METRICS_BIAS_ENABLED,
-) -> List[ICommandSelector]:
+) -> list[ICommandSelector]:
     """Wrap every non-fallback selector in :class:`MetricsAwareSelector`.
 
     Args:
@@ -1078,7 +1086,7 @@ def _wrap_chain_with_metrics_bias(
     for index, selector in enumerate(selectors):
         if isinstance(selector, FallbackSelector):
             fallback_index = index
-    wrapped: List[ICommandSelector] = []
+    wrapped: list[ICommandSelector] = []
     for index, selector in enumerate(selectors):
         if index == fallback_index:
             wrapped.append(selector)
@@ -1099,7 +1107,7 @@ class CredentialSpraySelector(ICommandSelector):
     Single Responsibility: credential reuse selection only.
     """
 
-    _SERVICE_COMMANDS: Dict[str, str] = {
+    _SERVICE_COMMANDS: dict[str, str] = {
         "ssh":    "lazyssh",
         "smb":    "crackmapexec",
         "winrm":  "evil-winrm",
@@ -1112,11 +1120,11 @@ class CredentialSpraySelector(ICommandSelector):
         "ldap":   "ldapdomaindump",
     }
 
-    def __init__(self, fail_counts: Dict[str, int]) -> None:
+    def __init__(self, fail_counts: dict[str, int]) -> None:
         self._fail_counts = fail_counts
         self._sprayed: set = set()
 
-    def select(self, target: str, phase: str, context: Dict) -> Optional[CommandDecision]:
+    def select(self, target: str, phase: str, context: dict) -> CommandDecision | None:
         """Return a spray command when credentials + matching service are available."""
         if phase not in ("exploit", "lateral", "privesc", "cred"):
             return None
@@ -1152,14 +1160,14 @@ class CascadeStrategy:
     Open/Closed: extend by adding selectors without modifying existing ones.
     """
 
-    def __init__(self, selectors: List[ICommandSelector]) -> None:
+    def __init__(self, selectors: list[ICommandSelector]) -> None:
         self._selectors = selectors
 
     def next_command(
         self,
         target: str,
         phase: str,
-        context: Optional[Dict] = None,
+        context: dict | None = None,
     ) -> CommandDecision:
         """Try each selector in order. The FallbackSelector ensures a result."""
         ctx = context or {}
@@ -1193,11 +1201,11 @@ class StrategyEngine:
     def __init__(
         self,
         runner: ICommandRunner,
-        selectors: Optional[List[ICommandSelector]] = None,
+        selectors: list[ICommandSelector] | None = None,
     ) -> None:
         self._runner      = runner
-        self._fail_counts: Dict[str, int] = {}
-        self._reactive_sel: Optional[ReactiveSelector] = None
+        self._fail_counts: dict[str, int] = {}
+        self._reactive_sel: ReactiveSelector | None = None
 
         if selectors is None:
             pdb        = _get_pdb() if _get_pdb else None
@@ -1237,7 +1245,7 @@ class StrategyEngine:
         self,
         target: str,
         phase: str,
-        services: Optional[List[str]] = None,
+        services: list[str] | None = None,
         os_hint: str = "unknown",
     ) -> CommandDecision:
         """Select the next command for target/phase using the cascade."""
@@ -1259,7 +1267,7 @@ class StepResult:
     output:   str
     success:  bool
     source:   str
-    findings: List[Dict] = field(default_factory=list)
+    findings: list[dict] = field(default_factory=list)
     phase:    str = ""
 
 
@@ -1272,8 +1280,8 @@ class IObjectiveHandler(ABC):
         objective_id: str,
         objective_text: str,
         target: str,
-        context: Dict,
-    ) -> List[StepResult]:
+        context: dict,
+    ) -> list[StepResult]:
         """Execute objective and return a list of step results."""
 
 
@@ -1296,7 +1304,7 @@ class ExecutionEngine(IObjectiveHandler):
         world_model: Any = None,
         obs_parser: Any = None,
         facts: Any = None,
-        loop: Optional[asyncio.AbstractEventLoop] = None,
+        loop: asyncio.AbstractEventLoop | None = None,
     ) -> None:
         self._strategy    = strategy
         self._max_steps   = max_steps
@@ -1310,8 +1318,8 @@ class ExecutionEngine(IObjectiveHandler):
         objective_id: str,
         objective_text: str,
         target: str,
-        context: Optional[Dict] = None,  # type: ignore[override]
-    ) -> List[StepResult]:
+        context: dict | None = None,  # type: ignore[override]
+    ) -> list[StepResult]:
         """Synchronous entry point. Delegates to _run_sync."""
         return self._run_sync(objective_id, objective_text, target)
 
@@ -1320,7 +1328,7 @@ class ExecutionEngine(IObjectiveHandler):
         objective_id: str,
         objective_text: str,
         target: str,
-    ) -> List[StepResult]:
+    ) -> list[StepResult]:
         """Asyncio entry point used by objective_loop."""
         loop = self._loop or asyncio.get_event_loop()
         return await _run_objective(
@@ -1340,7 +1348,7 @@ class ExecutionEngine(IObjectiveHandler):
         objective_id: str,
         objective_text: str,
         target: str,
-    ) -> List[StepResult]:
+    ) -> list[StepResult]:
         """Run the async coroutine synchronously (for testing / non-async callers)."""
         try:
             loop = asyncio.get_event_loop()
@@ -1385,7 +1393,7 @@ class ExecutionEngine(IObjectiveHandler):
 # SECTION 6 — _run_objective coroutine (kept as module-level for asyncio.gather)
 # ─────────────────────────────────────────────────────────────────────────────
 
-def _load_payload() -> Dict:
+def _load_payload() -> dict:
     """Load payload.json, returning empty dict on any error."""
     try:
         return json.loads(PAYLOAD_FILE.read_text())
@@ -1393,14 +1401,14 @@ def _load_payload() -> Dict:
         return {}
 
 
-def _read_recent_csv_commands(limit: int = 3) -> List[str]:
+def _read_recent_csv_commands(limit: int = 3) -> list[str]:
     """Return the last N command names from the session CSV log."""
     csv_path = SESSIONS_DIR / "LazyOwn_session_report.csv"
     if not csv_path.exists():
         return []
     try:
         lines = csv_path.read_text(encoding="utf-8", errors="replace").splitlines()
-        cmds: List[str] = []
+        cmds: list[str] = []
         for line in reversed(lines):
             parts = line.split(",")
             if len(parts) >= 2:
@@ -1414,9 +1422,9 @@ def _read_recent_csv_commands(limit: int = 3) -> List[str]:
         return []
 
 
-def _load_campaign_blacklist() -> Dict[str, List[str]]:
+def _load_campaign_blacklist() -> dict[str, list[str]]:
     """Load per-context command blacklist from campaign_lessons.jsonl."""
-    blacklist: Dict[str, List[str]] = {}
+    blacklist: dict[str, list[str]] = {}
     lessons_file = SESSIONS_DIR / "campaign_lessons.jsonl"
     if not lessons_file.exists():
         return blacklist
@@ -1440,11 +1448,11 @@ def _load_campaign_blacklist() -> Dict[str, List[str]]:
     return blacklist
 
 
-_CAMPAIGN_BLACKLIST: Dict[str, List[str]] = {}
+_CAMPAIGN_BLACKLIST: dict[str, list[str]] = {}
 _BLACKLIST_LOADED: bool = False
 
 
-def _get_campaign_blacklist() -> Dict[str, List[str]]:
+def _get_campaign_blacklist() -> dict[str, list[str]]:
     """Return cached campaign blacklist, reloading if the file changed."""
     global _CAMPAIGN_BLACKLIST, _BLACKLIST_LOADED
     lessons_file = SESSIONS_DIR / "campaign_lessons.jsonl"
@@ -1459,8 +1467,8 @@ def _compute_step_reward(
     command: str,
     phase: str,
     success: bool,
-    findings: List[Dict],
-    prev_cmds: List[str],
+    findings: list[dict],
+    prev_cmds: list[str],
 ) -> float:
     """Compute multi-dimensional RL reward based on finding quality, novelty, and phase.
 
@@ -1513,7 +1521,7 @@ def _compute_step_reward(
         score = score * max(0.3, 1.0 - repeat_count * 0.2)
 
     # Phase multiplier: late-phase successes are worth more
-    _phase_mult: Dict[str, float] = {
+    _phase_mult: dict[str, float] = {
         "recon":   1.0,
         "enum":    1.2,
         "exploit": 1.5,
@@ -1566,7 +1574,7 @@ async def _detect_target_os(
         if ttl <= 128:
             return "windows"
         return "unknown"
-    except asyncio.TimeoutError:
+    except TimeoutError:
         log.debug("OS detection: ping timed out for %s", target)
         return "unknown"
     except Exception as exc:
@@ -1584,7 +1592,7 @@ async def _run_objective(
     obs_parser: Any,
     facts: Any,
     loop: asyncio.AbstractEventLoop,
-) -> List[StepResult]:
+) -> list[StepResult]:
     """
     Execute an objective autonomously: select commands, run them,
     parse output, update world model, and emit events.
@@ -1595,12 +1603,12 @@ async def _run_objective(
         "id": objective_id, "text": objective_text[:200], "target": target,
     })
 
-    results: List[StepResult] = []
+    results: list[StepResult] = []
     phase:   str              = "recon"
-    services: List[str]       = []
+    services: list[str]       = []
     _consecutive_list: int    = 0
     _last_command: str        = ""
-    _prev_cmds: List[str]     = []
+    _prev_cmds: list[str]     = []
 
     if world_model is not None:
         try:
@@ -1854,7 +1862,7 @@ async def _run_objective(
         )) and not any(k in low for k in ("found", "success", "open", "hash"))
         success = not failed
 
-        findings: List[Dict] = []
+        findings: list[dict] = []
         if obs_parser is not None:
             try:
                 obs = obs_parser.parse(output, host=target, tool=command.split()[0])
@@ -2173,16 +2181,16 @@ class DroneCoordinator:
 
     def process_findings(
         self,
-        findings: List[Dict],
+        findings: list[dict],
         target: str,
         objective_id: str,
         payload_key: str = "",
-    ) -> List[str]:
+    ) -> list[str]:
         """Launch drones for relevant findings. Returns list of drone_ids."""
         if self._hive is None:
             return []
 
-        drone_ids: List[str] = []
+        drone_ids: list[str] = []
 
         for f in findings:
             ftype   = f.get("type", "")
@@ -2252,7 +2260,7 @@ class DroneCoordinator:
                 f for f in findings
                 if f.get("type") in ("open_port", "service_version")
             ]
-            _host_svcs: Dict[str, List[Dict]] = {}
+            _host_svcs: dict[str, list[dict]] = {}
             for f in _svc_findings:
                 _h = f.get("host", target) or target
                 if _h not in _host_svcs:
@@ -2315,7 +2323,7 @@ class DroneCoordinator:
 # ─────────────────────────────────────────────────────────────────────────────
 
 
-_ENGAGE_PHASE_ORDER: Tuple[Tuple[str, str, str], ...] = (
+_ENGAGE_PHASE_ORDER: tuple[tuple[str, str, str], ...] = (
     # (phase_id, primary_command, narrator_label)
     ("recon",          "ping",          "ping + OS detection"),
     ("recon",          "lazynmap",      "nmap full scan"),
@@ -2326,7 +2334,7 @@ _ENGAGE_PHASE_ORDER: Tuple[Tuple[str, str, str], ...] = (
 )
 
 
-_TOOL_FALLBACK_MAP: Dict[str, Tuple[str, ...]] = {
+_TOOL_FALLBACK_MAP: dict[str, tuple[str, ...]] = {
     "ping":          ("hostdiscover",),
     "lazynmap":      ("rustscan", "masscan", "nmap"),
     "auto_populate": ("facts_show",),
@@ -2379,7 +2387,7 @@ class IToolFallbackResolver(ABC):
         failed_command: str,
         phase: str,
         attempt: int,
-    ) -> Optional[str]:
+    ) -> str | None:
         """Return the next candidate command or None when exhausted."""
 
 
@@ -2396,7 +2404,7 @@ class StaticFallbackResolver(IToolFallbackResolver):
         failed_command: str,
         phase: str,
         attempt: int,
-    ) -> Optional[str]:
+    ) -> str | None:
         primary = failed_command.strip().split()[0] if failed_command.strip() else ""
         alternatives = _TOOL_FALLBACK_MAP.get(primary, ())
         if attempt >= len(alternatives):
@@ -2418,13 +2426,13 @@ class BridgeFallbackResolver(IToolFallbackResolver):
             _get_dispatcher() if _get_dispatcher else None
         )
         self._static = StaticFallbackResolver()
-        self._cache: Dict[Tuple[str, str], List[str]] = {}
+        self._cache: dict[tuple[str, str], list[str]] = {}
 
-    def _candidates(self, primary: str, phase: str) -> List[str]:
+    def _candidates(self, primary: str, phase: str) -> list[str]:
         key = (phase, primary)
         if key in self._cache:
             return self._cache[key]
-        ordered: List[str] = []
+        ordered: list[str] = []
         if self._dispatcher is not None:
             try:
                 catalog = self._dispatcher.list_phase(phase) or []
@@ -2445,7 +2453,7 @@ class BridgeFallbackResolver(IToolFallbackResolver):
         failed_command: str,
         phase: str,
         attempt: int,
-    ) -> Optional[str]:
+    ) -> str | None:
         primary = failed_command.strip().split()[0] if failed_command.strip() else ""
         candidates = self._candidates(primary, phase)
         if attempt >= len(candidates):
@@ -2472,9 +2480,9 @@ class _ShellDetector:
         self._seen_ids: set = set()
         self._last_size: int = 0
 
-    def poll(self, target: str = "") -> List[str]:
+    def poll(self, target: str = "") -> list[str]:
         """Return the newly-detected client_ids since the previous poll."""
-        new_ids: List[str] = []
+        new_ids: list[str] = []
         try:
             if not self.BEACONS_FILE.exists():
                 return new_ids
@@ -2554,12 +2562,12 @@ class EngageOrchestrator:
     def __init__(
         self,
         target: str,
-        runner: Optional[ICommandRunner] = None,
+        runner: ICommandRunner | None = None,
         narrator: Any = None,
         approval_gate: Any = None,
-        fallback_resolver: Optional[IToolFallbackResolver] = None,
-        shell_detector: Optional[_ShellDetector] = None,
-        plan: Optional[Tuple[EnginePhaseStep, ...]] = None,
+        fallback_resolver: IToolFallbackResolver | None = None,
+        shell_detector: _ShellDetector | None = None,
+        plan: tuple[EnginePhaseStep, ...] | None = None,
         max_switches_per_step: int = DEFAULT_MAX_SWITCHES_PER_STEP,
     ) -> None:
         from engagement_hooks import EngagementNarrator as _Narrator
@@ -2590,7 +2598,7 @@ class EngageOrchestrator:
         """Stable id for this engagement (correlates events in logs)."""
         return self._engagement_id
 
-    def run(self) -> Dict[str, Any]:
+    def run(self) -> dict[str, Any]:
         """Drive the full plan against the configured target.
 
         Returns a summary dict with the engagement_id, target, per-step
@@ -2611,7 +2619,7 @@ class EngageOrchestrator:
         except Exception:
             pass
 
-        results: List[Dict[str, Any]] = []
+        results: list[dict[str, Any]] = []
         shell_obtained = False
 
         for step in self._plan:
@@ -2838,7 +2846,7 @@ class EngageOrchestrator:
         return len(output.strip()) > 0
 
 
-def _engage_run_sync(target: str, max_switches_per_step: int = 3) -> Dict[str, Any]:
+def _engage_run_sync(target: str, max_switches_per_step: int = 3) -> dict[str, Any]:
     """Synchronous helper used by all engage entry points."""
     orch = EngageOrchestrator(
         target=target,
@@ -2924,7 +2932,7 @@ def mcp_engage_status(last_n: int = 20) -> str:
         from engagement_hooks import ENGAGEMENT_LOG, list_pending_approvals
     except Exception:
         return json.dumps({"status": "error", "message": "engagement_hooks unavailable"})
-    lines: List[str] = []
+    lines: list[str] = []
     if ENGAGEMENT_LOG.exists():
         try:
             raw = ENGAGEMENT_LOG.read_text(encoding="utf-8", errors="replace").splitlines()
@@ -2988,7 +2996,7 @@ def cmd_engage(target: str, max_switches_per_step: int = 3, detach: bool = False
 # SECTION 8 — Asyncio roles
 # ─────────────────────────────────────────────────────────────────────────────
 
-_daemon_stats: Dict[str, Any] = {
+_daemon_stats: dict[str, Any] = {
     "started_at":        None,
     "objectives_done":   0,
     "objectives_failed": 0,
@@ -3034,7 +3042,6 @@ async def objective_loop(
     world_model = _WorldModel() if _WorldModel else None
     obs_parser  = _ObsParser()  if _ObsParser  else None
     facts       = _FactStore()  if _FactStore   else None
-    blocked_counts: Dict[str, int] = {}
 
     engine = ExecutionEngine(
         strategy=strategy,
@@ -3069,7 +3076,7 @@ async def objective_loop(
         _daemon_stats["current_objective"] = obj.id
         _daemon_stats["current_phase"]     = "running"
         _daemon_stats["last_objective_ts"] = datetime.datetime.now(
-            datetime.timezone.utc
+            datetime.UTC
         ).isoformat()
         _write_status()
 
@@ -3147,7 +3154,7 @@ async def world_model_watcher(loop: asyncio.AbstractEventLoop) -> None:
     auto-inject derived objectives.
     """
     wm_file   = SESSIONS_DIR / "world_model.json"
-    last_snap: Dict = {}
+    last_snap: dict = {}
     _seen_service_versions: set = set()
     _seen_beacon_ips: set = set()
 
@@ -3327,7 +3334,7 @@ async def heartbeat_loop() -> None:
 async def _main_async(max_steps: int = MAX_STEPS_DEFAULT) -> None:
     SESSIONS_DIR.mkdir(parents=True, exist_ok=True)
     _daemon_stats["started_at"] = datetime.datetime.now(
-        datetime.timezone.utc
+        datetime.UTC
     ).isoformat()
     _write_status()
 
@@ -3380,14 +3387,14 @@ def _clear_pid() -> None:
         PID_FILE.unlink()
 
 
-def _read_pid() -> Optional[int]:
+def _read_pid() -> int | None:
     try:
         return int(PID_FILE.read_text().strip())
     except Exception:
         return None
 
 
-def _is_running() -> Tuple[bool, int]:
+def _is_running() -> tuple[bool, int]:
     pid = _read_pid()
     if pid is None:
         return False, 0
@@ -3491,8 +3498,8 @@ def cmd_inject(text: str, priority: str = "high") -> None:
 # SECTION 11 — Public API for lazyown_mcp.py
 # ─────────────────────────────────────────────────────────────────────────────
 
-_daemon_thread: Optional[threading.Thread] = None
-_daemon_loop:   Optional[asyncio.AbstractEventLoop] = None
+_daemon_thread: threading.Thread | None = None
+_daemon_loop:   asyncio.AbstractEventLoop | None = None
 
 
 def mcp_autonomous_start(
@@ -3629,7 +3636,7 @@ def mcp_autonomous_events(last_n: int = 20) -> str:
 # SECTION 12 — CLI entry point
 # ─────────────────────────────────────────────────────────────────────────────
 
-def _dispatch_pipeline(args: "argparse.Namespace") -> None:
+def _dispatch_pipeline(args: argparse.Namespace) -> None:
     """Daemon-side pipeline subcommand handler.
 
     Lazy-imports modules.pipeline_engine so the daemon starts even when

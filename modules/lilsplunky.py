@@ -5,7 +5,7 @@ log_monitor_bot_v2_monolithic.py
 
 Author: Your Name
 Email: youremail@example.com
-Creation Date: 14/04/2025 
+Creation Date: 14/04/2025
 License: GPL v3
 
 Description: Real-time log monitoring bot for Linux systems (Monolithic Test Version).
@@ -13,20 +13,20 @@ Description: Real-time log monitoring bot for Linux systems (Monolithic Test Ver
              and stores structured results locally.
 """
 
-import time
+import argparse
 import json
 import logging
 import os
-import requests
-import argparse
 import re
 import socket
+import time
 from datetime import datetime
-from watchdog.observers import Observer
-from watchdog.events import FileSystemEventHandler
+
+import requests
 from rich.console import Console
-from rich.syntax import Syntax
 from rich.panel import Panel
+from watchdog.events import FileSystemEventHandler
+from watchdog.observers import Observer
 
 # --- Configuration ---
 LOG_FILE = 'log_monitor_bot.log'
@@ -162,7 +162,7 @@ def analyze_with_deepseek(log_entry_data):
                    analysis_result = json.loads(analysis_result['response'])
                 except json.JSONDecodeError:
                    logging.error(f"Failed to decode JSON string within 'response': {analysis_result['response']}")
-                   console.print(f"[bold red]Error:[/bold red] DeepSeek response format unexpected (JSON string decode).")
+                   console.print("[bold red]Error:[/bold red] DeepSeek response format unexpected (JSON string decode).")
                    return None
 
         except json.JSONDecodeError:
@@ -173,11 +173,11 @@ def analyze_with_deepseek(log_entry_data):
                      analysis_result = json.loads(match.group(0))
                  except json.JSONDecodeError as e:
                      logging.error(f"Failed to decode JSON extracted from text: {match.group(0)} - Error: {e}")
-                     console.print(f"[bold red]Error:[/bold red] Could not decode JSON from DeepSeek response.")
+                     console.print("[bold red]Error:[/bold red] Could not decode JSON from DeepSeek response.")
                      return None
              else:
                 logging.error(f"No valid JSON found in DeepSeek response: {response_text}")
-                console.print(f"[bold red]Error:[/bold red] DeepSeek response was not valid JSON.")
+                console.print("[bold red]Error:[/bold red] DeepSeek response was not valid JSON.")
                 return None
 
 
@@ -358,7 +358,7 @@ def display_record(record):
 
      panel_content = f"[dim]{timestamp} | Host: {record.get('hostname')} | Source: {log_source}[/dim]\n"
      panel_content += f"[bold]Raw Log:[/bold]\n{log_line}\n\n"
-     panel_content += f"[bold]LLM Analysis:[/bold]\n"
+     panel_content += "[bold]LLM Analysis:[/bold]\n"
      panel_content += f"  Suspicious: [bold {'red' if is_suspicious else 'green'}]{is_suspicious}[/]\n"
      if is_suspicious:
          panel_content += f"  Reason: {reason}\n"

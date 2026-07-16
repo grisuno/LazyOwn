@@ -37,8 +37,6 @@ from __future__ import annotations
 import re
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Set, Tuple
-
 
 # ---------------------------------------------------------------------------
 # Value objects
@@ -50,14 +48,14 @@ class CatalogEntry:
     command: str
     phase: str
     mitre_tactic: str
-    services: List[str] = field(default_factory=list)
+    services: list[str] = field(default_factory=list)
     requires_creds: bool = False
     requires_port: bool = False
     description: str = ""
     priority: int = 5
     arg_template: str = ""
     os_target: str = "any"  # "linux", "windows", "any"
-    tags: List[str] = field(default_factory=list)  # e.g. ["ad", "kerberos", "web"]
+    tags: list[str] = field(default_factory=list)  # e.g. ["ad", "kerberos", "web"]
 
     def build_command(
         self,
@@ -90,7 +88,7 @@ class CatalogEntry:
         args = re.sub(r"\{[^}]+\}", "", args).strip()
         return f"{self.command} {args}".strip() if args else self.command
 
-    def matches_service(self, services: List[str]) -> bool:
+    def matches_service(self, services: list[str]) -> bool:
         if not self.services:
             return True
         for svc in services:
@@ -114,7 +112,7 @@ class CommandCatalog:
     """Full registry of CatalogEntry objects for all LazyOwn phases."""
 
     def __init__(self) -> None:
-        self._entries: List[CatalogEntry] = []
+        self._entries: list[CatalogEntry] = []
         self._populate()
 
     def _populate(self) -> None:
@@ -1398,32 +1396,32 @@ class CommandCatalog:
             description="List all available LazyOwn actions for current state",
             priority=5))
 
-    def by_phase(self, phase: str) -> List[CatalogEntry]:
+    def by_phase(self, phase: str) -> list[CatalogEntry]:
         return sorted(
             [e for e in self._entries if e.phase == phase],
             key=lambda e: e.priority,
         )
 
-    def by_mitre(self, technique_id: str) -> List[CatalogEntry]:
+    def by_mitre(self, technique_id: str) -> list[CatalogEntry]:
         tid = technique_id.upper()
         return [e for e in self._entries if tid in e.mitre_tactic.upper()]
 
-    def by_service(self, service_name: str) -> List[CatalogEntry]:
+    def by_service(self, service_name: str) -> list[CatalogEntry]:
         svc = service_name.lower()
         return [e for e in self._entries if any(
             s.lower() in svc or svc in s.lower() for s in e.services
         )]
 
-    def by_tag(self, tag: str) -> List[CatalogEntry]:
+    def by_tag(self, tag: str) -> list[CatalogEntry]:
         return [e for e in self._entries if tag.lower() in e.tags]
 
-    def by_os(self, os_hint: str) -> List[CatalogEntry]:
+    def by_os(self, os_hint: str) -> list[CatalogEntry]:
         return [e for e in self._entries if e.matches_os(os_hint)]
 
-    def all_phases(self) -> Set[str]:
+    def all_phases(self) -> set[str]:
         return {e.phase for e in self._entries}
 
-    def get(self, command: str) -> Optional[CatalogEntry]:
+    def get(self, command: str) -> CatalogEntry | None:
         for e in self._entries:
             if e.command == command:
                 return e
@@ -1444,11 +1442,11 @@ class AbstractSelector(ABC):
         self,
         catalog: CommandCatalog,
         phase: str,
-        services: List[str],
+        services: list[str],
         has_creds: bool,
-        excluded: Set[str],
+        excluded: set[str],
         os_hint: str = "any",
-    ) -> Optional[CatalogEntry]:
+    ) -> CatalogEntry | None:
         ...
 
 
@@ -1463,11 +1461,11 @@ class ServiceAwareSelector(AbstractSelector):
         self,
         catalog: CommandCatalog,
         phase: str,
-        services: List[str],
+        services: list[str],
         has_creds: bool,
-        excluded: Set[str],
+        excluded: set[str],
         os_hint: str = "any",
-    ) -> Optional[CatalogEntry]:
+    ) -> CatalogEntry | None:
         candidates = catalog.by_phase(phase)
         # Pass 1: strict match — service + os + creds
         for entry in candidates:
@@ -1507,11 +1505,11 @@ class MitreAlignedSelector(AbstractSelector):
         self,
         catalog: CommandCatalog,
         phase: str,
-        services: List[str],
+        services: list[str],
         has_creds: bool,
-        excluded: Set[str],
+        excluded: set[str],
         os_hint: str = "any",
-    ) -> Optional[CatalogEntry]:
+    ) -> CatalogEntry | None:
         for entry in catalog.by_mitre(self._tid):
             if entry.command in excluded:
                 continue
@@ -1536,11 +1534,11 @@ class TagSelector(AbstractSelector):
         self,
         catalog: CommandCatalog,
         phase: str,
-        services: List[str],
+        services: list[str],
         has_creds: bool,
-        excluded: Set[str],
+        excluded: set[str],
         os_hint: str = "any",
-    ) -> Optional[CatalogEntry]:
+    ) -> CatalogEntry | None:
         candidates = [
             e for e in catalog.by_tag(self._tag)
             if e.phase == phase
@@ -1564,7 +1562,7 @@ class ContextEnricher:
         self,
         entry: CatalogEntry,
         target: str,
-        world_snapshot: Optional[Dict] = None,
+        world_snapshot: dict | None = None,
     ) -> str:
         snapshot = world_snapshot or {}
         hosts = snapshot.get("hosts", {})
@@ -1610,10 +1608,10 @@ class PhaseMapper:
     """Maps WorldModel EngagementPhase values to bridge phase strings."""
 
     # Bridge-native phase names (pass-through)
-    _NATIVE: Set[str] = {"recon", "enum", "exploit", "postexp", "cred",
+    _NATIVE: set[str] = {"recon", "enum", "exploit", "postexp", "cred",
                          "lateral", "privesc", "persist", "exfil", "c2", "report"}
 
-    _MAP: Dict[str, str] = {
+    _MAP: dict[str, str] = {
         "recon":             "recon",
         "scanning":          "recon",
         "enumeration":       "enum",
@@ -1644,7 +1642,7 @@ class PhaseMapper:
             return lower
         return self._MAP.get(lower, "recon")
 
-    def kill_chain_order(self) -> List[str]:
+    def kill_chain_order(self) -> list[str]:
         """Ordered list of bridge phases following the kill chain."""
         return ["recon", "enum", "exploit", "postexp", "cred",
                 "lateral", "privesc", "persist", "exfil", "c2", "report"]
@@ -1662,10 +1660,10 @@ class BridgeDispatcher:
 
     def __init__(
         self,
-        catalog: Optional[CommandCatalog] = None,
-        selector: Optional[AbstractSelector] = None,
-        enricher: Optional[ContextEnricher] = None,
-        phase_mapper: Optional[PhaseMapper] = None,
+        catalog: CommandCatalog | None = None,
+        selector: AbstractSelector | None = None,
+        enricher: ContextEnricher | None = None,
+        phase_mapper: PhaseMapper | None = None,
     ) -> None:
         self._catalog = catalog or CommandCatalog()
         self._selector = selector or ServiceAwareSelector()
@@ -1676,14 +1674,14 @@ class BridgeDispatcher:
         self,
         phase: str,
         target: str = "",
-        services: Optional[List[str]] = None,
+        services: list[str] | None = None,
         has_creds: bool = False,
-        excluded: Optional[Set[str]] = None,
-        world_snapshot: Optional[Dict] = None,
+        excluded: set[str] | None = None,
+        world_snapshot: dict | None = None,
         mitre_hint: str = "",
         tag_hint: str = "",
         os_hint: str = "any",
-    ) -> Optional[Tuple[str, CatalogEntry]]:
+    ) -> tuple[str, CatalogEntry] | None:
         """
         Return (command_string, entry) or None.
 
@@ -1722,18 +1720,18 @@ class BridgeDispatcher:
         self,
         phase: str,
         target: str = "",
-        services: Optional[List[str]] = None,
+        services: list[str] | None = None,
         has_creds: bool = False,
-        excluded: Optional[Set[str]] = None,
-        world_snapshot: Optional[Dict] = None,
+        excluded: set[str] | None = None,
+        world_snapshot: dict | None = None,
         limit: int = 5,
-    ) -> List[Tuple[str, CatalogEntry]]:
+    ) -> list[tuple[str, CatalogEntry]]:
         """Return up to `limit` non-excluded suggestions for the phase."""
         bridge_phase = self._phase_mapper.to_bridge_phase(phase)
         candidates = self._catalog.by_phase(bridge_phase)
         svc_list = services or []
         excl = excluded or set()
-        results: List[Tuple[str, CatalogEntry]] = []
+        results: list[tuple[str, CatalogEntry]] = []
         for entry in candidates:
             if len(results) >= limit:
                 break
@@ -1751,11 +1749,11 @@ class BridgeDispatcher:
         self,
         wm_phase_value: str,
         target: str = "",
-        services: Optional[List[str]] = None,
+        services: list[str] | None = None,
         has_creds: bool = False,
-        excluded: Optional[Set[str]] = None,
-        world_snapshot: Optional[Dict] = None,
-    ) -> Optional[Tuple[str, CatalogEntry]]:
+        excluded: set[str] | None = None,
+        world_snapshot: dict | None = None,
+    ) -> tuple[str, CatalogEntry] | None:
         return self.suggest(
             phase=wm_phase_value,
             target=target,
@@ -1765,15 +1763,15 @@ class BridgeDispatcher:
             world_snapshot=world_snapshot,
         )
 
-    def list_phase(self, phase: str) -> List[CatalogEntry]:
+    def list_phase(self, phase: str) -> list[CatalogEntry]:
         bridge_phase = self._phase_mapper.to_bridge_phase(phase)
         return self._catalog.by_phase(bridge_phase)
 
-    def all_phases(self) -> Set[str]:
+    def all_phases(self) -> set[str]:
         return self._catalog.all_phases()
 
-    def catalog_summary(self) -> Dict[str, List[str]]:
-        summary: Dict[str, List[str]] = {}
+    def catalog_summary(self) -> dict[str, list[str]]:
+        summary: dict[str, list[str]] = {}
         for phase in self._phase_mapper.kill_chain_order():
             entries = self._catalog.by_phase(phase)
             if entries:
@@ -1782,9 +1780,9 @@ class BridgeDispatcher:
 
     def catalog_summary_filtered(
         self,
-        phase: Optional[str] = None,
+        phase: str | None = None,
         os_hint: str = "any",
-    ) -> Dict[str, List[str]]:
+    ) -> dict[str, list[str]]:
         """Return a kill-chain summary restricted to a phase and target OS.
 
         Args:
@@ -1804,11 +1802,11 @@ class BridgeDispatcher:
         normalized_os = (os_hint or "any").strip().lower() or "any"
         if phase:
             bridge_phase = self._phase_mapper.to_bridge_phase(phase)
-            phases: List[str] = [bridge_phase]
+            phases: list[str] = [bridge_phase]
         else:
             phases = list(self._phase_mapper.kill_chain_order())
 
-        summary: Dict[str, List[str]] = {}
+        summary: dict[str, list[str]] = {}
         for current_phase in phases:
             entries = self._catalog.by_phase(current_phase)
             if normalized_os != "any":
@@ -1820,7 +1818,7 @@ class BridgeDispatcher:
     def catalog_count(self) -> int:
         return self._catalog.count()
 
-    def phase_kill_chain(self) -> List[str]:
+    def phase_kill_chain(self) -> list[str]:
         return self._phase_mapper.kill_chain_order()
 
 
@@ -1828,7 +1826,7 @@ class BridgeDispatcher:
 # Module singleton
 # ---------------------------------------------------------------------------
 
-_dispatcher: Optional[BridgeDispatcher] = None
+_dispatcher: BridgeDispatcher | None = None
 
 
 def get_dispatcher() -> BridgeDispatcher:

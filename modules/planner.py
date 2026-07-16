@@ -28,11 +28,9 @@ as a tie-breaker only.
 from __future__ import annotations
 
 import logging
-import os
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, List, Optional
 
 log = logging.getLogger("planner")
 
@@ -47,23 +45,23 @@ class PlanCandidate:
     command: str
     description: str = ""
     score: float = 0.0
-    matched_facts: List[str] = field(default_factory=list)
-    missing_facts: List[str] = field(default_factory=list)
+    matched_facts: list[str] = field(default_factory=list)
+    missing_facts: list[str] = field(default_factory=list)
     risk: str = "low"
 
 
 @dataclass
 class PlanResult:
     target: str
-    candidates: List[PlanCandidate]
-    chosen: Optional[PlanCandidate]
+    candidates: list[PlanCandidate]
+    chosen: PlanCandidate | None
     rationale: str
-    facts_observed: List[str] = field(default_factory=list)
+    facts_observed: list[str] = field(default_factory=list)
 
 
-def _gather_facts(world_model=None, obs_parser=None) -> List[str]:
+def _gather_facts(world_model=None, obs_parser=None) -> list[str]:
     """Collect a flat list of fact-type strings from world model + obs parser."""
-    facts: List[str] = []
+    facts: list[str] = []
 
     if world_model is not None:
         try:
@@ -186,7 +184,7 @@ _FALLBACK_TECHNIQUES = [
 ]
 
 
-def _score_step(step, facts: List[str]) -> PlanCandidate:
+def _score_step(step, facts: list[str]) -> PlanCandidate:
     tid = getattr(step, "technique_id", "") or ""
     name = getattr(step, "name", "") or ""
     tactic = getattr(step, "tactic", "") or ""
@@ -287,7 +285,7 @@ class Planner:
         facts = _gather_facts(self._wm, self._parser_factory)
         log.info("planner: %d facts observed: %s", len(facts), facts)
 
-        candidates: List[PlanCandidate] = []
+        candidates: list[PlanCandidate] = []
         engine = PlaybookEngine()
         try:
             playbook = engine.derive(target, phase=None, apt_name="LazyOwn_auto")
@@ -333,7 +331,7 @@ class Planner:
         )
 
     @staticmethod
-    def _build_rationale(chosen: Optional[PlanCandidate], facts: List[str], target: str) -> str:
+    def _build_rationale(chosen: PlanCandidate | None, facts: list[str], target: str) -> str:
         if chosen is None:
             return (
                 f"no candidates for {target} — run scan/atomic first to populate facts "
@@ -347,8 +345,8 @@ class Planner:
         )
 
     def _llm_tiebreak(
-        self, target: str, facts: List[str], candidates: List[PlanCandidate]
-    ) -> Optional[List[PlanCandidate]]:
+        self, target: str, facts: list[str], candidates: list[PlanCandidate]
+    ) -> list[PlanCandidate] | None:
         try:
             from llm_client import LLMClient
             client = LLMClient(api_key=self._api_key)

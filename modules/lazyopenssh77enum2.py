@@ -3,7 +3,12 @@
 # Credits: Matthew Daley, Justin Gardner, Lee David Painter
 
 
-import argparse, logging, paramiko, socket, sys, os
+import argparse
+import logging
+import socket
+import sys
+
+import paramiko
 
 
 class InvalidUsername(Exception):

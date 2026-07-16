@@ -28,10 +28,11 @@ import re
 import threading
 import time
 from abc import ABC, abstractmethod
+from collections.abc import Callable, Iterable, Sequence
 from dataclasses import dataclass
 from difflib import SequenceMatcher
 from pathlib import Path
-from typing import Any, Callable, Iterable, Protocol, Sequence
+from typing import Any, Protocol
 
 # ── Protocols (Interface Segregation) ────────────────────────────────────────
 

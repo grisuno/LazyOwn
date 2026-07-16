@@ -25,15 +25,14 @@ SessionRAG.stats()               -> dict
 
 from __future__ import annotations
 
+import hashlib
 import json
+import logging
 import os
 import re
-import time
-import hashlib
-import logging
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import List, Dict, Optional, Any
+from typing import Any
 
 log = logging.getLogger(__name__)
 
@@ -78,10 +77,10 @@ SKIP_PATTERNS = re.compile(
 # ---------------------------------------------------------------------------
 # Chunking
 # ---------------------------------------------------------------------------
-def _chunk_text(text: str, size: int = CHUNK_SIZE, overlap: int = CHUNK_OVERLAP) -> List[str]:
+def _chunk_text(text: str, size: int = CHUNK_SIZE, overlap: int = CHUNK_OVERLAP) -> list[str]:
     if len(text) <= size:
         return [text]
-    chunks: List[str] = []
+    chunks: list[str] = []
     start = 0
     while start < len(text):
         end = start + size
@@ -102,7 +101,7 @@ class _KeywordFallback:
     """
 
     def __init__(self) -> None:
-        self._docs: List[Dict[str, Any]] = []
+        self._docs: list[dict[str, Any]] = []
         self._ids: set = set()    # for deduplication
 
     def load(self, path: Path) -> None:
@@ -126,7 +125,7 @@ class _KeywordFallback:
         except Exception:
             pass
 
-    def add(self, doc_id: str, text: str, meta: Dict[str, Any]) -> None:
+    def add(self, doc_id: str, text: str, meta: dict[str, Any]) -> None:
         if doc_id in self._ids:
             return  # deduplication
         self._docs.append({"id": doc_id, "text": text, "meta": meta})
@@ -136,9 +135,9 @@ class _KeywordFallback:
             evicted = self._docs.pop(0)
             self._ids.discard(evicted["id"])
 
-    def query(self, query_text: str, n: int = 5) -> List[Dict[str, Any]]:
+    def query(self, query_text: str, n: int = 5) -> list[dict[str, Any]]:
         words = set(query_text.lower().split())
-        scored: List[tuple[int, Dict[str, Any]]] = []
+        scored: list[tuple[int, dict[str, Any]]] = []
         for doc in self._docs:
             hits = sum(1 for w in words if w in doc["text"].lower())
             if hits:
@@ -159,10 +158,10 @@ class _KeywordFallback:
 # ---------------------------------------------------------------------------
 @dataclass
 class _RagState:
-    mtimes: Dict[str, float] = field(default_factory=dict)
+    mtimes: dict[str, float] = field(default_factory=dict)
 
     @classmethod
-    def load(cls) -> "_RagState":
+    def load(cls) -> _RagState:
         if RAG_STATE_FILE.exists():
             try:
                 data = json.loads(RAG_STATE_FILE.read_text())
@@ -184,8 +183,8 @@ class SessionRAG:
     def __init__(self) -> None:
         self._state = _RagState.load()
         self._fallback = _KeywordFallback()
-        self._collections: Dict[str, Any] = {}
-        self._client: Optional[Any] = None
+        self._collections: dict[str, Any] = {}
+        self._client: Any | None = None
         self._ready = False
         self._init_backend()
 
@@ -221,8 +220,8 @@ class SessionRAG:
     # ------------------------------------------------------------------
     # File discovery
     # ------------------------------------------------------------------
-    def _iter_artefacts(self) -> List[Path]:
-        files: List[Path] = []
+    def _iter_artefacts(self) -> list[Path]:
+        files: list[Path] = []
         for p in SESSIONS_DIR.rglob("*"):
             if not p.is_file():
                 continue
@@ -274,7 +273,7 @@ class SessionRAG:
                 added += 1
         return added
 
-    def index_new(self) -> Dict[str, int]:
+    def index_new(self) -> dict[str, int]:
         """Incrementally index only new or changed files."""
         files = self._iter_artefacts()
         indexed_files = 0
@@ -295,7 +294,7 @@ class SessionRAG:
                 self._fallback.save(FALLBACK_INDEX_FILE)
         return {"files": indexed_files, "chunks": indexed_chunks}
 
-    def index_parquet_sources(self, force: bool = False) -> Dict[str, int]:
+    def index_parquet_sources(self, force: bool = False) -> dict[str, int]:
         """
         Index knowledge-base parquets (techniques_enriched, binarios, lolbas_index)
         into the RAG store.
@@ -384,7 +383,7 @@ class SessionRAG:
 
         return {"files": indexed_files, "chunks": indexed_chunks}
 
-    def index_all(self) -> Dict[str, int]:
+    def index_all(self) -> dict[str, int]:
         """Full re-index from scratch."""
         if self._client is not None:
             for key, name in COLLECTIONS.items():
@@ -412,7 +411,7 @@ class SessionRAG:
     # ------------------------------------------------------------------
     # Query
     # ------------------------------------------------------------------
-    def query(self, query_text: str, n: int = 5, collection: str = "all") -> List[Dict[str, Any]]:
+    def query(self, query_text: str, n: int = 5, collection: str = "all") -> list[dict[str, Any]]:
         """Return top-n relevant chunks as dicts with keys: text, source, chunk, score."""
         if self._collections:
             target_cols = []
@@ -434,7 +433,7 @@ class SessionRAG:
                     docs      = results.get("documents", [[]])[0]
                     metas     = results.get("metadatas", [[]])[0]
                     distances = results.get("distances", [[]])[0]
-                    for doc, meta, dist in zip(docs, metas, distances):
+                    for doc, meta, dist in zip(docs, metas, distances, strict=False):
                         all_results.append({
                             "text":   doc,
                             "source": meta.get("source", ""),
@@ -480,7 +479,7 @@ class SessionRAG:
     # ------------------------------------------------------------------
     # Stats
     # ------------------------------------------------------------------
-    def stats(self) -> Dict[str, Any]:
+    def stats(self) -> dict[str, Any]:
         indexed = len(self._state.mtimes)
         if self._collections:
             total_chunks = sum(c.count() for c in self._collections.values())
@@ -503,7 +502,7 @@ class SessionRAG:
 # ---------------------------------------------------------------------------
 # Singleton
 # ---------------------------------------------------------------------------
-_rag_instance: Optional[SessionRAG] = None
+_rag_instance: SessionRAG | None = None
 
 
 def get_rag() -> SessionRAG:
@@ -517,7 +516,6 @@ def get_rag() -> SessionRAG:
 # CLI
 # ---------------------------------------------------------------------------
 if __name__ == "__main__":
-    import sys
     import argparse
 
     parser = argparse.ArgumentParser(description="LazyOwn Session RAG")

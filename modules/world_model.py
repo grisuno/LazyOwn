@@ -36,13 +36,11 @@ from __future__ import annotations
 
 import json
 import logging
-import os
 import threading
 from dataclasses import dataclass, field
 from datetime import datetime
-from enum import Enum
+from enum import StrEnum
 from pathlib import Path
-from typing import Any, Dict, List, Optional
 
 log = logging.getLogger("world_model")
 
@@ -55,7 +53,7 @@ _DEFAULT_PATH = _SESSIONS_DIR / "world_model.json"
 # Value objects
 # ---------------------------------------------------------------------------
 
-class HostState(str, Enum):
+class HostState(StrEnum):
     """Ordered engagement states for a single host."""
     UNSCANNED   = "unscanned"
     SCANNED     = "scanned"       # nmap completed
@@ -66,11 +64,11 @@ class HostState(str, Enum):
     def rank(self) -> int:
         return list(HostState).index(self)
 
-    def can_advance_to(self, next_state: "HostState") -> bool:
+    def can_advance_to(self, next_state: HostState) -> bool:
         return next_state.rank() == self.rank() + 1
 
 
-class EngagementPhase(str, Enum):
+class EngagementPhase(StrEnum):
     """Derived from the aggregate host state across all targets."""
     RECON            = "recon"
     SCANNING         = "scanning"
@@ -121,7 +119,7 @@ class NetworkRelation:
     target:     str
     relation:   str             # e.g. has_session, runs_service, shares_cred_with
     weight:     float = 1.0
-    attributes: Dict[str, str] = field(default_factory=dict)
+    attributes: dict[str, str] = field(default_factory=dict)
 
 
 # ---------------------------------------------------------------------------
@@ -154,7 +152,7 @@ class NetworkGraph:
 
     def __init__(self) -> None:
         # adjacency[source][target] = [NetworkRelation, ...]
-        self._adjacency: Dict[str, Dict[str, List[NetworkRelation]]] = {}
+        self._adjacency: dict[str, dict[str, list[NetworkRelation]]] = {}
         self._nodes: set = set()
 
     # ── Mutations ─────────────────────────────────────────────────────────────
@@ -170,7 +168,7 @@ class NetworkGraph:
 
     # ── Queries ───────────────────────────────────────────────────────────────
 
-    def neighbors(self, node: str) -> List[str]:
+    def neighbors(self, node: str) -> list[str]:
         """Return nodes reachable from *node* in one outbound hop."""
         return list(self._adjacency.get(node, {}).keys())
 
@@ -184,7 +182,7 @@ class NetworkGraph:
         """Count edges leaving *node*."""
         return len(self._adjacency.get(node, {}))
 
-    def degree_centrality(self) -> List[tuple]:
+    def degree_centrality(self) -> list[tuple]:
         """
         Return (node, centrality_score) pairs sorted descending by score.
         Score is normalized to [0.0, 1.0] over all discovered nodes.
@@ -193,20 +191,20 @@ class NetworkGraph:
         if n <= 1:
             return [(node, 0.0) for node in self._nodes]
         denominator = 2.0 * (n - 1)
-        scores: Dict[str, float] = {}
+        scores: dict[str, float] = {}
         for node in self._nodes:
             total = self.in_degree(node) + self.out_degree(node)
             scores[node] = round(total / denominator, 4)
         return sorted(scores.items(), key=lambda kv: -kv[1])
 
-    def pivot_candidates(self, top_k: int = 5) -> List[Dict]:
+    def pivot_candidates(self, top_k: int = 5) -> list[dict]:
         """
         Return the *top_k* highest-centrality nodes as pivot candidates.
         The returned list is suitable for injection into an LLM prompt as
         strategic network context.
         """
         centrality = dict(self.degree_centrality())
-        candidates: List[Dict] = []
+        candidates: list[dict] = []
         for node, score in sorted(
             centrality.items(), key=lambda kv: -kv[1]
         )[:top_k]:
@@ -222,9 +220,9 @@ class NetworkGraph:
     # ── Serialization ─────────────────────────────────────────────────────────
 
     def to_dict(self) -> dict:
-        relations: List[dict] = []
-        for src, targets in self._adjacency.items():
-            for tgt, rels in targets.items():
+        relations: list[dict] = []
+        for _src, targets in self._adjacency.items():
+            for _tgt, rels in targets.items():
                 for r in rels:
                     relations.append({
                         "source":     r.source,
@@ -236,7 +234,7 @@ class NetworkGraph:
         return {"nodes": list(self._nodes), "relations": relations}
 
     @classmethod
-    def from_dict(cls, data: dict) -> "NetworkGraph":
+    def from_dict(cls, data: dict) -> NetworkGraph:
         g = cls()
         for r in data.get("relations", []):
             g.add_relation(NetworkRelation(
@@ -254,9 +252,9 @@ class HostEntry:
     ip:              str
     state:           HostState              = HostState.UNSCANNED
     os_hint:         str                    = ""
-    services:        Dict[int, ServiceInfo] = field(default_factory=dict)
-    notes:           List[str]              = field(default_factory=list)
-    cloud_metadata:  Dict[str, str]         = field(default_factory=dict)
+    services:        dict[int, ServiceInfo] = field(default_factory=dict)
+    notes:           list[str]              = field(default_factory=list)
+    cloud_metadata:  dict[str, str]         = field(default_factory=dict)
     last_updated:    str                    = field(default_factory=lambda: datetime.now().isoformat())
 
     def add_service(self, svc: ServiceInfo) -> None:
@@ -283,7 +281,7 @@ class HostEntry:
         }
 
     @classmethod
-    def from_dict(cls, d: dict) -> "HostEntry":
+    def from_dict(cls, d: dict) -> HostEntry:
         h = cls(
             ip             = d["ip"],
             state          = HostState(d.get("state", HostState.UNSCANNED.value)),
@@ -307,7 +305,7 @@ class _PhaseDeriver:
     Keeps the derivation logic isolated so it can be swapped or extended.
     """
 
-    _STATE_TO_PHASE: Dict[str, EngagementPhase] = {
+    _STATE_TO_PHASE: dict[str, EngagementPhase] = {
         HostState.UNSCANNED.value:  EngagementPhase.RECON,
         HostState.SCANNED.value:    EngagementPhase.SCANNING,
         HostState.ENUMERATED.value: EngagementPhase.ENUMERATION,
@@ -315,7 +313,7 @@ class _PhaseDeriver:
         HostState.OWNED.value:      EngagementPhase.POST_EXPLOITATION,
     }
 
-    def derive(self, hosts: Dict[str, HostEntry]) -> EngagementPhase:
+    def derive(self, hosts: dict[str, HostEntry]) -> EngagementPhase:
         if not hosts:
             return EngagementPhase.RECON
         if all(h.state == HostState.OWNED for h in hosts.values()):
@@ -328,7 +326,7 @@ class _PhaseDeriver:
 # MITRE tactic → phase mapping
 # ---------------------------------------------------------------------------
 
-PHASE_TO_MITRE_TACTICS: Dict[EngagementPhase, List[str]] = {
+PHASE_TO_MITRE_TACTICS: dict[EngagementPhase, list[str]] = {
     EngagementPhase.RECON:             ["TA0043 - Reconnaissance"],
     EngagementPhase.SCANNING:          ["TA0007 - Discovery"],
     EngagementPhase.ENUMERATION:       ["TA0007 - Discovery", "TA0006 - Credential Access"],
@@ -339,7 +337,7 @@ PHASE_TO_MITRE_TACTICS: Dict[EngagementPhase, List[str]] = {
 }
 
 # Phase → MCP tool names that are most relevant
-PHASE_TO_TOOLS: Dict[EngagementPhase, List[str]] = {
+PHASE_TO_TOOLS: dict[EngagementPhase, list[str]] = {
     EngagementPhase.RECON: [
         "lazyown_tool_dig_any", "lazyown_tool_dig_reverse",
         "lazyown_tool_gobuster_dns", "lazyown_tool_dnsrecon_axfr",
@@ -381,9 +379,9 @@ class WorldModel:
     def __init__(self, path: str | Path = _DEFAULT_PATH) -> None:
         self._path:    Path                       = Path(path)
         self._lock:    threading.RLock             = threading.RLock()
-        self._hosts:   Dict[str, HostEntry]       = {}
-        self._creds:   List[CredentialEntry]      = []
-        self._vulns:   List[VulnerabilityEntry]   = []
+        self._hosts:   dict[str, HostEntry]       = {}
+        self._creds:   list[CredentialEntry]      = []
+        self._vulns:   list[VulnerabilityEntry]   = []
         self._graph:   NetworkGraph               = NetworkGraph()
         self._deriver: _PhaseDeriver              = _PhaseDeriver()
         self._load()
@@ -531,8 +529,8 @@ class WorldModel:
                 elif ftype == "service_version":
                     if host:
                         parts = value.split(" ", 1)
-                        name    = parts[0]
-                        version = parts[1] if len(parts) > 1 else ""
+                        parts[0]
+                        parts[1] if len(parts) > 1 else ""
                         self.add_note(host, f"service: {value}")
                 elif ftype == "cve":
                     self.add_vulnerability(value, host=host, cve=value)
@@ -581,7 +579,7 @@ class WorldModel:
             ))
             self._save()
 
-    def pivot_candidates(self, top_k: int = 5) -> List[Dict]:
+    def pivot_candidates(self, top_k: int = 5) -> list[dict]:
         """
         Return the top_k highest-centrality nodes as pivot candidates.
         Uses normalized degree centrality over the full network graph.
@@ -600,7 +598,7 @@ class WorldModel:
         with self._lock:
             return self._deriver.derive(self._hosts)
 
-    def get_suggested_tools(self) -> List[str]:
+    def get_suggested_tools(self) -> list[str]:
         return PHASE_TO_TOOLS.get(self.get_phase(), [])
 
     def to_context_string(self) -> str:
@@ -610,7 +608,7 @@ class WorldModel:
         """
         with self._lock:
             phase = self._deriver.derive(self._hosts)
-            lines: List[str] = [
+            lines: list[str] = [
                 f"Phase: {phase.value}",
                 f"Hosts: {len(self._hosts)}  "
                 f"Credentials: {len(self._creds)}  "
@@ -713,7 +711,7 @@ class WorldModel:
 # Module-level singleton
 # ---------------------------------------------------------------------------
 
-_default_wm: Optional[WorldModel] = None
+_default_wm: WorldModel | None = None
 
 
 def get_world_model(path: str | Path = _DEFAULT_PATH) -> WorldModel:
@@ -729,7 +727,7 @@ def get_world_model(path: str | Path = _DEFAULT_PATH) -> WorldModel:
 # ---------------------------------------------------------------------------
 
 if __name__ == "__main__":
-    import argparse, sys
+    import argparse
 
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
 

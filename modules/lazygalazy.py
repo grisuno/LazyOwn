@@ -1,11 +1,9 @@
-#!/usr/bin/env python3 
-#_*_ coding: utf8 _*_
+#!/usr/bin/env python3
 import hashlib
 import random
 import string
-import time
-
 from http.server import BaseHTTPRequestHandler, HTTPServer
+
 
 class SamsungKnoxExploitServer(BaseHTTPRequestHandler):
     served_payloads = {}

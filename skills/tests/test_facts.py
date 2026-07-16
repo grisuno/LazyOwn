@@ -8,14 +8,9 @@ No writes to the real sessions/ directory.
 
 from __future__ import annotations
 
-import json
 import sys
-import tempfile
 import textwrap
 from pathlib import Path
-from unittest.mock import patch
-
-import pytest
 
 # Make skills/ importable
 _SKILLS_DIR = Path(__file__).parent.parent
@@ -24,8 +19,9 @@ if str(_SKILLS_DIR) not in sys.path:
 
 from lazyown_facts import (
     Config,
+    CrackMapExecParser,
     CredentialFact,
-    DiscoveredPath,
+    Enum4linuxParser,
     FactStore,
     GobusterFfufParser,
     INmapXmlParser,
@@ -36,11 +32,7 @@ from lazyown_facts import (
     SecretsdumpParser,
     ServiceFact,
     SslscanParser,
-    CrackMapExecParser,
-    Enum4linuxParser,
-    VulnerabilityFact,
 )
-
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Helpers

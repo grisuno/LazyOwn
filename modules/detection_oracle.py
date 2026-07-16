@@ -31,9 +31,7 @@ Usage
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Tuple
-
+from dataclasses import dataclass
 
 # ---------------------------------------------------------------------------
 # Value objects
@@ -49,8 +47,8 @@ class SigmaRule:
     log_source: str           # e.g. "windows/security", "network/firewall"
     mitre_technique: str      # e.g. "T1003.001"
     base_probability: float   # inherent detection probability in [0.0, 1.0]
-    keywords: Tuple[str, ...]
-    category_tags: Tuple[str, ...]  # action category labels that trigger this rule
+    keywords: tuple[str, ...]
+    category_tags: tuple[str, ...]  # action category labels that trigger this rule
 
 
 @dataclass
@@ -60,9 +58,9 @@ class DetectionAssessment:
     command: str
     action_category: str
     probability: float               # final score in [0.0, 1.0]
-    triggered_rules: List[str]       # matched rule_ids
-    predicted_log_sources: List[str] # log sources where evidence would appear
-    sigma_names: List[str]           # human-readable rule names
+    triggered_rules: list[str]       # matched rule_ids
+    predicted_log_sources: list[str] # log sources where evidence would appear
+    sigma_names: list[str]           # human-readable rule names
     recommendation: str              # operator-facing mitigation advice
 
     @property
@@ -102,7 +100,7 @@ class IDetectionOracle(ABC):
 # Sigma-lite rule catalog (O — Open/Closed: extend this list, not the class)
 # ---------------------------------------------------------------------------
 
-_SIGMA_RULES: List[SigmaRule] = [
+_SIGMA_RULES: list[SigmaRule] = [
     # ── Credential Access ────────────────────────────────────────────────────
     SigmaRule(
         rule_id="LAZ-001",
@@ -273,7 +271,7 @@ _SIGMA_RULES: List[SigmaRule] = [
 # Category-level fallback probabilities (used when no rule keyword matches)
 # ---------------------------------------------------------------------------
 
-_CATEGORY_BASE_PROBABILITY: Dict[str, float] = {
+_CATEGORY_BASE_PROBABILITY: dict[str, float] = {
     "recon":       0.20,
     "enum":        0.30,
     "brute_force": 0.70,
@@ -290,7 +288,7 @@ _CATEGORY_BASE_PROBABILITY: Dict[str, float] = {
 # Mitigation advice per risk tier
 # ---------------------------------------------------------------------------
 
-_STEALTH_ADVICE: Dict[str, str] = {
+_STEALTH_ADVICE: dict[str, str] = {
     "credential":  "Consider using DCSync over LDAP instead of direct LSASS access.",
     "lateral":     "Use native LOLBas tools (e.g. msiexec, regsvr32) to blend with "
                    "legitimate traffic.",
@@ -330,8 +328,8 @@ class DetectionOracle(IDetectionOracle):
     6. Fall back to _CATEGORY_BASE_PROBABILITY when no rules matched.
     """
 
-    def __init__(self, rules: Optional[List[SigmaRule]] = None) -> None:
-        self._rules: List[SigmaRule] = rules if rules is not None else _SIGMA_RULES
+    def __init__(self, rules: list[SigmaRule] | None = None) -> None:
+        self._rules: list[SigmaRule] = rules if rules is not None else _SIGMA_RULES
 
     # IDetectionOracle --------------------------------------------------------
 
@@ -361,7 +359,7 @@ class DetectionOracle(IDetectionOracle):
 
     # Internal helpers --------------------------------------------------------
 
-    def _match_rules(self, text: str, action_category: str) -> List[SigmaRule]:
+    def _match_rules(self, text: str, action_category: str) -> list[SigmaRule]:
         """
         A rule matches when EITHER condition holds:
         - A keyword from the rule appears in the command text (direct evidence), OR
@@ -373,7 +371,7 @@ class DetectionOracle(IDetectionOracle):
         The category tag is used exclusively to boost the probability of already-
         matched rules via _effective_probability().
         """
-        matched: List[SigmaRule] = []
+        matched: list[SigmaRule] = []
         for rule in self._rules:
             keyword_hit = any(kw.lower() in text for kw in rule.keywords)
             if keyword_hit:
@@ -393,7 +391,7 @@ class DetectionOracle(IDetectionOracle):
 
     def _aggregate_probability(
         self,
-        matched: List[SigmaRule],
+        matched: list[SigmaRule],
         action_category: str,
     ) -> float:
         """
@@ -410,7 +408,7 @@ class DetectionOracle(IDetectionOracle):
     @staticmethod
     def _build_recommendation(
         probability: float,
-        matched: List[SigmaRule],
+        matched: list[SigmaRule],
         action_category: str,
     ) -> str:
         if probability < 0.40:
@@ -442,7 +440,7 @@ class DetectionOracle(IDetectionOracle):
 # Module-level singleton
 # ---------------------------------------------------------------------------
 
-_default_oracle: Optional[DetectionOracle] = None
+_default_oracle: DetectionOracle | None = None
 
 
 def get_oracle() -> DetectionOracle:

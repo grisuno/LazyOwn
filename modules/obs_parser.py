@@ -35,8 +35,7 @@ import logging
 import re
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from enum import Enum
-from typing import List, Optional
+from enum import StrEnum
 
 log = logging.getLogger("obs_parser")
 
@@ -45,7 +44,7 @@ log = logging.getLogger("obs_parser")
 # Value objects
 # ---------------------------------------------------------------------------
 
-class FindingType(str, Enum):
+class FindingType(StrEnum):
     IP              = "ip"
     CREDENTIAL      = "credential"
     SERVICE_VERSION = "service_version"
@@ -71,13 +70,13 @@ class Finding:
 
 @dataclass
 class Observation:
-    findings:   List[Finding] = field(default_factory=list)
+    findings:   list[Finding] = field(default_factory=list)
     tool:       str           = ""
     host:       str           = ""
     raw_output: str           = ""
     success:    bool          = True
 
-    def by_type(self, ftype: FindingType) -> List[Finding]:
+    def by_type(self, ftype: FindingType) -> list[Finding]:
         return [f for f in self.findings if f.type == ftype]
 
     def has(self, ftype: FindingType) -> bool:
@@ -92,7 +91,7 @@ class Extractor(ABC):
     """Base class for a single finding-type extractor."""
 
     @abstractmethod
-    def extract(self, text: str, host: str) -> List[Finding]:
+    def extract(self, text: str, host: str) -> list[Finding]:
         """Return all findings of this type found in *text*."""
 
 
@@ -100,13 +99,13 @@ class _ExtractorRegistry:
     """Holds the ordered list of active Extractor instances."""
 
     def __init__(self) -> None:
-        self._extractors: List[Extractor] = []
+        self._extractors: list[Extractor] = []
 
     def register(self, extractor: Extractor) -> None:
         self._extractors.append(extractor)
 
-    def run_all(self, text: str, host: str) -> List[Finding]:
-        findings: List[Finding] = []
+    def run_all(self, text: str, host: str) -> list[Finding]:
+        findings: list[Finding] = []
         for ext in self._extractors:
             try:
                 findings.extend(ext.extract(text, host))
@@ -126,9 +125,9 @@ class _IPExtractor(Extractor):
     )
     _EXCLUDE = {"0.0.0.0", "255.255.255.255", "127.0.0.1"}
 
-    def extract(self, text: str, host: str) -> List[Finding]:
+    def extract(self, text: str, host: str) -> list[Finding]:
         seen: set = set()
-        results: List[Finding] = []
+        results: list[Finding] = []
         for m in self._PATTERN.finditer(text):
             ip = m.group()
             if ip not in seen and ip not in self._EXCLUDE and ip != host:
@@ -151,9 +150,9 @@ class _CredentialExtractor(Extractor):
     _SKIP_WORDS = {"etc", "passwd", "shadow", "group", "var", "tmp", "usr",
                    "bin", "lib", "sys", "dev", "proc", "run", "opt", "srv"}
 
-    def extract(self, text: str, host: str) -> List[Finding]:
+    def extract(self, text: str, host: str) -> list[Finding]:
         seen: set = set()
-        results: List[Finding] = []
+        results: list[Finding] = []
         for pat in self._PATTERNS:
             for m in pat.finditer(text):
                 username = m.group(1)
@@ -178,8 +177,8 @@ class _ServiceVersionExtractor(Extractor):
         r'(\d+)/(?:tcp|udp)\s+open\s+([\w/-]+)(?:\s+([\w/. -]+))?'
     )
 
-    def extract(self, text: str, host: str) -> List[Finding]:
-        results: List[Finding] = []
+    def extract(self, text: str, host: str) -> list[Finding]:
+        results: list[Finding] = []
         for m in self._PATTERN.finditer(text):
             name    = m.group(2).strip()
             version = (m.group(3) or "").strip()
@@ -195,9 +194,9 @@ class _PathExtractor(Extractor):
     """Extracts URL paths from gobuster / ffuf / nikto output."""
     _PATTERN = re.compile(r'(?:Found|Status).*?(\/[\w/._-]{2,100})')
 
-    def extract(self, text: str, host: str) -> List[Finding]:
+    def extract(self, text: str, host: str) -> list[Finding]:
         seen: set = set()
-        results: List[Finding] = []
+        results: list[Finding] = []
         for m in self._PATTERN.finditer(text):
             path = m.group(1)
             if path not in seen:
@@ -215,9 +214,9 @@ class _UsernameExtractor(Extractor):
         re.compile(r'RID\s+\d+.*?\\([\w.@-]+)'),
     ]
 
-    def extract(self, text: str, host: str) -> List[Finding]:
+    def extract(self, text: str, host: str) -> list[Finding]:
         seen: set = set()
-        results: List[Finding] = []
+        results: list[Finding] = []
         for pat in self._PATTERNS:
             for m in pat.finditer(text):
                 user = m.group(1).strip()
@@ -243,9 +242,9 @@ class _HashExtractor(Extractor):
         re.compile(r'(\$2[aby]?\$\d+\$[\w./+]{53})'),
     ]
 
-    def extract(self, text: str, host: str) -> List[Finding]:
+    def extract(self, text: str, host: str) -> list[Finding]:
         seen: set = set()
-        results: List[Finding] = []
+        results: list[Finding] = []
         for pat in self._PATTERNS:
             for m in pat.finditer(text):
                 h = m.group(1) if m.lastindex == 1 else m.group(2)
@@ -262,9 +261,9 @@ class _CVEExtractor(Extractor):
     """Extracts CVE identifiers from any output."""
     _PATTERN = re.compile(r'\bCVE-\d{4}-\d{4,7}\b', re.IGNORECASE)
 
-    def extract(self, text: str, host: str) -> List[Finding]:
+    def extract(self, text: str, host: str) -> list[Finding]:
         seen: set = set()
-        results: List[Finding] = []
+        results: list[Finding] = []
         for m in self._PATTERN.finditer(text):
             cve = m.group().upper()
             if cve not in seen:
@@ -280,9 +279,9 @@ class _DomainExtractor(Extractor):
     )
     _SKIP_TLDS = {".py", ".txt", ".log", ".xml", ".json", ".sh", ".md"}
 
-    def extract(self, text: str, host: str) -> List[Finding]:
+    def extract(self, text: str, host: str) -> list[Finding]:
         seen: set = set()
-        results: List[Finding] = []
+        results: list[Finding] = []
         for m in self._PATTERN.finditer(text):
             domain = m.group(1).lower()
             if any(domain.endswith(t) for t in self._SKIP_TLDS):
@@ -304,8 +303,8 @@ class _ErrorExtractor(Extractor):
                    r'host unreachable)'),
     ]
 
-    def extract(self, text: str, host: str) -> List[Finding]:
-        results: List[Finding] = []
+    def extract(self, text: str, host: str) -> list[Finding]:
+        results: list[Finding] = []
         for pat in self._PATTERNS:
             m = pat.search(text)
             if m:
@@ -328,9 +327,9 @@ class _CloudIdentityExtractor(Extractor):
         re.compile(r'\b(pod|deployment|service|namespace|secret)/[a-z0-9-]{1,63}\b'),
     ]
 
-    def extract(self, text: str, host: str) -> List[Finding]:
+    def extract(self, text: str, host: str) -> list[Finding]:
         seen: set = set()
-        results: List[Finding] = []
+        results: list[Finding] = []
         for pat in self._PATTERNS:
             for m in pat.finditer(text):
                 val = m.group()
@@ -432,7 +431,7 @@ class ObsParser:
 
         # Dedup: same type + value combination
         seen:   set          = set()
-        unique: List[Finding] = []
+        unique: list[Finding] = []
         for f in findings:
             key = (f.type, f.value)
             if key not in seen:
@@ -456,7 +455,7 @@ class ObsParser:
 # Module-level singleton
 # ---------------------------------------------------------------------------
 
-_default_parser: Optional[ObsParser] = None
+_default_parser: ObsParser | None = None
 
 
 def get_parser() -> ObsParser:

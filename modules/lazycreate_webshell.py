@@ -1,4 +1,5 @@
 import os
+
 import lazyencoder_decoder as ed
 
 shift_value = 3

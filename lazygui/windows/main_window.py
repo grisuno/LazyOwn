@@ -8,7 +8,7 @@ business logic of its own — every interaction either mutates the active
 
 from __future__ import annotations
 
-from typing import Iterable
+from collections.abc import Iterable
 
 from PySide6.QtCore import QByteArray, QSize, Qt, QTimer
 from PySide6.QtGui import QAction, QKeySequence

@@ -24,12 +24,11 @@ from __future__ import annotations
 import hashlib
 import json
 import logging
-import os
 import time
-from datetime import datetime, timezone
-from dataclasses import dataclass, field, asdict
+from dataclasses import asdict, dataclass, field
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any
 
 log = logging.getLogger("compliance")
 
@@ -38,7 +37,7 @@ log = logging.getLogger("compliance")
 # Compliance Framework Mappings
 # ═══════════════════════════════════════════════════════════════════════════════
 
-COMPLIANCE_FRAMEWORKS: Dict[str, Dict[str, Any]] = {
+COMPLIANCE_FRAMEWORKS: dict[str, dict[str, Any]] = {
     "pci_dss": {
         "name": "PCI-DSS 4.0",
         "url": "https://www.pcisecuritystandards.org/",
@@ -159,7 +158,7 @@ COMPLIANCE_FRAMEWORKS: Dict[str, Dict[str, Any]] = {
     },
 }
 
-FINDING_CATEGORY_TO_COMPLIANCE_MAP: Dict[str, List[str]] = {
+FINDING_CATEGORY_TO_COMPLIANCE_MAP: dict[str, list[str]] = {
     "open_port": ["reconnaissance"],
     "outdated_service": ["enumeration"],
     "vulnerable_service": ["exploitation", "enumeration"],
@@ -201,7 +200,7 @@ class EvidenceChain:
     def __init__(self, sessions_dir: str = "sessions") -> None:
         self._sessions_dir = Path(sessions_dir)
         self._chain_file = self._sessions_dir / "evidence_chain.jsonl"
-        self._chain: List[EvidenceEntry] = []
+        self._chain: list[EvidenceEntry] = []
         self._prev_hash: str = "0" * 64
         self._load()
 
@@ -234,7 +233,7 @@ class EvidenceChain:
             filename=str(path),
             sha256=sha256,
             size_bytes=path.stat().st_size,
-            timestamp=datetime.now(timezone.utc).isoformat(),
+            timestamp=datetime.now(UTC).isoformat(),
             operator=operator,
             description=description,
         )
@@ -251,8 +250,8 @@ class EvidenceChain:
             record = {**asdict(entry), "chain_hash": chain_hash}
             f.write(json.dumps(record) + "\n")
 
-    def verify(self) -> Tuple[bool, List[str]]:
-        issues: List[str] = []
+    def verify(self) -> tuple[bool, list[str]]:
+        issues: list[str] = []
         prev = "0" * 64
         for i, entry in enumerate(self._chain):
             data = f"{prev}:{entry.filename}:{entry.sha256}:{entry.timestamp}"
@@ -273,7 +272,7 @@ class EvidenceChain:
     def get_chain_digest(self) -> str:
         return self._prev_hash[-16:] if self._chain else "EMPTY_CHAIN"
 
-    def to_report(self) -> List[Dict[str, str]]:
+    def to_report(self) -> list[dict[str, str]]:
         return [asdict(e) for e in self._chain]
 
 
@@ -290,7 +289,7 @@ except ImportError:
 
 
 def export_pdf(report_md: str, output_path: str, title: str = "LazyOwn RedTeam Report",
-               classification: str = "CONFIDENTIAL") -> Optional[str]:
+               classification: str = "CONFIDENTIAL") -> str | None:
     """Export a Markdown report to PDF using fpdf2.
 
     Zero external dependencies beyond fpdf2 (no pandoc, no weasyprint).
@@ -371,7 +370,7 @@ def export_pdf(report_md: str, output_path: str, title: str = "LazyOwn RedTeam R
 # SIEM / Elastic Export
 # ═══════════════════════════════════════════════════════════════════════════════
 
-def export_to_elastic_ndjson(findings: List[Dict[str, Any]], output_path: str,
+def export_to_elastic_ndjson(findings: list[dict[str, Any]], output_path: str,
                               index_prefix: str = "lazyown") -> str:
     """Export findings as Elasticsearch NDJSON bulk format.
 
@@ -380,7 +379,7 @@ def export_to_elastic_ndjson(findings: List[Dict[str, Any]], output_path: str,
     out = Path(output_path)
     out.parent.mkdir(parents=True, exist_ok=True)
 
-    ts = datetime.now(timezone.utc).isoformat()
+    ts = datetime.now(UTC).isoformat()
     with open(out, "w", encoding="utf-8") as f:
         for i, finding in enumerate(findings):
             action = {
@@ -411,7 +410,7 @@ def export_to_elastic_ndjson(findings: List[Dict[str, Any]], output_path: str,
     return str(out)
 
 
-def export_to_cef(findings: List[Dict[str, Any]], output_path: str,
+def export_to_cef(findings: list[dict[str, Any]], output_path: str,
                    vendor: str = "LazyOwn", product: str = "RedTeam",
                    version: str = "1.0") -> str:
     """Export findings in CEF (Common Event Format) for ArcSight/QRadar/Splunk.
@@ -441,7 +440,7 @@ def export_to_cef(findings: List[Dict[str, Any]], output_path: str,
             if finding.get("operator"):
                 extensions.append(f"suser={finding['operator']}")
             extensions.append(f"cat={finding.get('category', 'unknown')}")
-            extensions.append(f"rt={datetime.now(timezone.utc).strftime('%b %d %Y %H:%M:%S')} UTC")
+            extensions.append(f"rt={datetime.now(UTC).strftime('%b %d %Y %H:%M:%S')} UTC")
 
             f.write(cef_prefix + " ".join(extensions) + "\n")
 
@@ -462,7 +461,7 @@ class ComplianceFinding:
     description: str
     severity: str
     operator: str
-    timestamp: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+    timestamp: str = field(default_factory=lambda: datetime.now(UTC).isoformat())
     evidence_sha256: str = ""
 
 
@@ -474,9 +473,9 @@ class ComplianceEngine:
         self._evidence_chain = EvidenceChain(str(sessions_dir))
 
     def map_findings_to_compliance(
-        self, findings: List[ComplianceFinding],
-        frameworks: Optional[List[str]] = None,
-    ) -> Dict[str, Any]:
+        self, findings: list[ComplianceFinding],
+        frameworks: list[str] | None = None,
+    ) -> dict[str, Any]:
         """Map findings to compliance framework controls.
 
         Args:
@@ -490,8 +489,8 @@ class ComplianceEngine:
         if frameworks is None:
             frameworks = list(COMPLIANCE_FRAMEWORKS.keys())
 
-        report: Dict[str, Any] = {
-            "generated_at": datetime.now(timezone.utc).isoformat(),
+        report: dict[str, Any] = {
+            "generated_at": datetime.now(UTC).isoformat(),
             "total_findings": len(findings),
             "frameworks": {},
             "coverage_summary": {},
@@ -502,7 +501,7 @@ class ComplianceEngine:
             if not fw:
                 continue
 
-            framework_report: Dict[str, Any] = {
+            framework_report: dict[str, Any] = {
                 "name": fw["name"],
                 "url": fw["url"],
                 "controls_mapped": [],
@@ -551,10 +550,10 @@ class ComplianceEngine:
 
     def generate_compliance_report(
         self,
-        findings: Optional[List[ComplianceFinding]] = None,
+        findings: list[ComplianceFinding] | None = None,
         include_evidence_chain: bool = True,
         include_siem_formats: bool = False,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate a full compliance report with evidence chain and optional SIEM export.
 
         Args:
@@ -570,7 +569,7 @@ class ComplianceEngine:
 
         compliance_map = self.map_findings_to_compliance(findings)
 
-        evidence_info: Dict[str, Any] = {}
+        evidence_info: dict[str, Any] = {}
         if include_evidence_chain:
             valid, issues = self._evidence_chain.verify()
             evidence_info = {
@@ -580,7 +579,7 @@ class ComplianceEngine:
                 "integrity_issues": issues,
             }
 
-        siem_files: Dict[str, str] = {}
+        siem_files: dict[str, str] = {}
         if include_siem_formats and findings:
             finding_dicts = [asdict(f) for f in findings]
             ndjson_path = self._sessions_dir / "siem_export_bulk.ndjson"
@@ -590,7 +589,7 @@ class ComplianceEngine:
 
         report = {
             "report_type": "compliance",
-            "generated_at": datetime.now(timezone.utc).isoformat(),
+            "generated_at": datetime.now(UTC).isoformat(),
             "compliance": compliance_map,
             "evidence_chain": evidence_info,
             "siem_exports": siem_files,
@@ -604,22 +603,22 @@ class ComplianceEngine:
 
         return report
 
-    def _count_by_severity(self, findings: List[ComplianceFinding]) -> Dict[str, int]:
-        counts: Dict[str, int] = {}
+    def _count_by_severity(self, findings: list[ComplianceFinding]) -> dict[str, int]:
+        counts: dict[str, int] = {}
         for f in findings:
             sev = f.severity.upper() or "INFO"
             counts[sev] = counts.get(sev, 0) + 1
         return counts
 
-    def _count_by_category(self, findings: List[ComplianceFinding]) -> Dict[str, int]:
-        counts: Dict[str, int] = {}
+    def _count_by_category(self, findings: list[ComplianceFinding]) -> dict[str, int]:
+        counts: dict[str, int] = {}
         for f in findings:
             cat = f.category or "unknown"
             counts[cat] = counts.get(cat, 0) + 1
         return counts
 
-    def _load_findings(self) -> List[ComplianceFinding]:
-        findings: List[ComplianceFinding] = []
+    def _load_findings(self) -> list[ComplianceFinding]:
+        findings: list[ComplianceFinding] = []
         facts_path = self._sessions_dir / "policy_facts.json"
         if facts_path.exists():
             try:
@@ -666,12 +665,12 @@ class ComplianceEngine:
 
         return findings
 
-    def export_pdf(self, report: Dict[str, Any], output_path: str) -> Optional[str]:
+    def export_pdf(self, report: dict[str, Any], output_path: str) -> str | None:
         md = self._format_compliance_report_md(report)
         return export_pdf(md, output_path)
 
-    def _format_compliance_report_md(self, report: Dict[str, Any]) -> str:
-        lines: List[str] = []
+    def _format_compliance_report_md(self, report: dict[str, Any]) -> str:
+        lines: list[str] = []
         lines.append("# LazyOwn Compliance Report")
         lines.append(f"**Generated:** {report['generated_at']}")
         lines.append("")
@@ -713,12 +712,12 @@ class ComplianceEngine:
         frameworks = compliance.get("frameworks", {})
         if frameworks:
             lines.append("## Compliance Framework Coverage")
-            for fw_key, fw_data in frameworks.items():
+            for _fw_key, fw_data in frameworks.items():
                 lines.append(f"### {fw_data['name']}")
                 lines.append(f"- Coverage: **{fw_data.get('coverage_pct', 0)}%** ({fw_data.get('controls_covered', 0)}/{fw_data.get('total_controls', 0)} controls)")
                 controls = fw_data.get("controls_mapped", [])
                 if controls:
-                    lines.append(f"  Mapped controls:")
+                    lines.append("  Mapped controls:")
                     for c in controls[:30]:
                         lines.append(f"  - {c['control_id']}: {c['title']}")
                 lines.append("")
@@ -737,5 +736,5 @@ class ComplianceEngine:
     def add_evidence(self, filepath: str, operator: str, description: str = "") -> EvidenceEntry:
         return self._evidence_chain.add_file(filepath, operator, description)
 
-    def verify_evidence_chain(self) -> Tuple[bool, List[str]]:
+    def verify_evidence_chain(self) -> tuple[bool, list[str]]:
         return self._evidence_chain.verify()

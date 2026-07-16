@@ -11,7 +11,6 @@ from __future__ import annotations
 import csv
 import sys
 from pathlib import Path
-from typing import Any, Dict, List
 
 import pytest
 
@@ -47,7 +46,7 @@ _CSV_FIELDNAMES = [
 ]
 
 
-def _write_csv(path: Path, rows: List[Dict[str, str]]) -> None:
+def _write_csv(path: Path, rows: list[dict[str, str]]) -> None:
     """Write a minimal session CSV file compatible with ParquetDB.sync()."""
     with path.open("w", newline="", encoding="utf-8") as fh:
         writer = csv.DictWriter(fh, fieldnames=_CSV_FIELDNAMES, extrasaction="ignore")
@@ -248,7 +247,7 @@ class TestParquetDBAnnotate:
 
 
 class TestParquetDBQuerySession:
-    def _setup_two_phases(self, tmp_path) -> "ParquetDB":
+    def _setup_two_phases(self, tmp_path) -> ParquetDB:
         db = _make_db(tmp_path)
         csv_path = tmp_path / "LazyOwn_session_report.csv"
         _write_csv(csv_path, [

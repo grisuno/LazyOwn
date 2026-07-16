@@ -1,12 +1,12 @@
-import pygame
 import os
 
+import pygame
 
 pygame.init()
 
 
 SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 480  
+SCREEN_HEIGHT = 480
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Mario Bros 1-1 Clone")
 clock = pygame.time.Clock()
@@ -18,7 +18,7 @@ if not os.path.exists(FONT_PATH):
     print("1. Descarga la fuente desde: https://fonts.google.com/noto/specimen/Noto+Emoji")
     print("2. Guarda 'NotoEmoji-Regular.ttf' en el mismo directorio que este script.")
     print("Usando fuente predeterminada como fallback (emojis no se mostrarán correctamente).")
-    FONT = pygame.font.SysFont("arial", 32)  
+    FONT = pygame.font.SysFont("arial", 32)
 else:
     FONT = pygame.font.Font(FONT_PATH, 32)
 
@@ -82,7 +82,7 @@ FOREGROUND[12][135] = CASTLE
 
 
 mario_x = 2 * TILE_SIZE
-mario_y = (LEVEL_HEIGHT // TILE_SIZE - 2) * TILE_SIZE  
+mario_y = (LEVEL_HEIGHT // TILE_SIZE - 2) * TILE_SIZE
 mario_vx = 0.0
 mario_vy = 0.0
 GRAVITY = 500.0
@@ -126,7 +126,7 @@ while running:
         if event.type == pygame.KEYDOWN and event.key == pygame.K_q:
             running = False
 
-    
+
     keys = pygame.key.get_pressed()
     if keys[pygame.K_RIGHT]:
         mario_vx = min(mario_vx + ACCEL * dt, MAX_VX * (2 if keys[pygame.K_LALT] else 1))
@@ -140,12 +140,12 @@ while running:
     if keys[pygame.K_SPACE] and abs(mario_y - (LEVEL_HEIGHT // TILE_SIZE - 2) * TILE_SIZE) < 5:
         mario_vy = JUMP_SPEED
 
-    
+
     mario_vy += GRAVITY * dt
     next_x = mario_x + mario_vx * dt
     next_y = mario_y + mario_vy * dt
 
-    
+
     collision = check_collision(next_x, mario_y)
     if collision == "solid":
         mario_vx = 0
@@ -153,7 +153,7 @@ while running:
     elif collision != "out":
         mario_x = next_x
 
-    
+
     collision = check_collision(mario_x, next_y)
     if collision == "solid":
         if mario_vy > 0:
@@ -165,7 +165,7 @@ while running:
     elif collision != "out":
         mario_y = next_y
 
-    
+
     ground_level = (LEVEL_HEIGHT // TILE_SIZE - 2) * TILE_SIZE
     if mario_y >= ground_level:
         mario_y = ground_level
@@ -173,17 +173,17 @@ while running:
     if mario_x < 0:
         mario_x = 0
 
-    
+
     camera_x = max(0, min(mario_x - SCREEN_WIDTH // 2, LEVEL_WIDTH - SCREEN_WIDTH))
 
-    
+
     for enemy in enemies:
         enemy["x"] += enemy["vx"] * dt
         if check_collision(enemy["x"], ground_level / TILE_SIZE) == "solid" or enemy["x"] < 0 or enemy["x"] >= LEVEL_WIDTH:
             enemy["vx"] *= -1
 
-    
-    screen.fill((135, 206, 235))  
+
+    screen.fill((135, 206, 235))
     for y in range(LEVEL_HEIGHT // TILE_SIZE):
         for x in range(LEVEL_WIDTH // TILE_SIZE):
             bg_x = x * TILE_SIZE - int(camera_x * 0.2)
@@ -196,16 +196,16 @@ while running:
                         text = FONT.render(tile, True, (0, 0, 0))
                         screen.blit(text, (scroll_x, y * TILE_SIZE))
 
-    
+
     screen.blit(FONT.render(MARIO, True, (0, 0, 0)), (mario_x - camera_x, mario_y))
     for enemy in enemies:
         screen.blit(FONT.render(enemy["type"], True, (0, 0, 0)), (enemy["x"] - camera_x, ground_level))
 
-    
+
     score_text = FONT.render(f"Score: {score}  Coins: {coins}", True, (255, 255, 255))
     screen.blit(score_text, (10, 10))
 
-    
+
     for enemy in enemies:
         if abs(mario_x - enemy["x"]) < TILE_SIZE and abs(mario_y - ground_level) < TILE_SIZE:
             running = False

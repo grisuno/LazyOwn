@@ -16,8 +16,9 @@ Design constraints:
 from __future__ import annotations
 
 import random
+from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Any, Callable
+from typing import Any
 
 from rich.console import Console
 from rich.text import Text

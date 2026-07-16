@@ -22,7 +22,6 @@ import pytest
 
 from lazyc2.security.command_allowlist import (
     CommandAllowlist,
-    CommandDecision,
     CommandRejectionReason,
 )
 

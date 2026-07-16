@@ -87,7 +87,7 @@ class TuiThemeCycleTests(unittest.TestCase):
     def test_cycle_wraps_around(self) -> None:
         save = RecordingSave()
         payload = _payload(tui_theme=tui_theme.THEME_ORDER[-1])
-        result = tui_theme.run(["cycle"], payload, save)
+        tui_theme.run(["cycle"], payload, save)
         self.assertEqual(payload["tui_theme"], tui_theme.THEME_ORDER[0])
         self.assertEqual(len(save.calls), 1)
 

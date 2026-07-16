@@ -1,9 +1,10 @@
-import os
-import json
-import time
-import logging
-import requests
 import argparse
+import json
+import logging
+import os
+import time
+
+import requests
 from rich.console import Console
 from rich.markdown import Markdown
 

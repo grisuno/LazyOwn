@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-#_*_ coding: utf8 _*_
 """
 main.py
 
@@ -11,12 +10,13 @@ Licencia: GPL v3
 Descripción: Asistente de consola
 """
 
-import os
-import logging
-import json
-import requests
 import argparse
-from flask import jsonify, Response, stream_with_context
+import json
+import logging
+import os
+
+import requests
+from flask import Response, jsonify, stream_with_context
 
 BANNER = """
 [*] Iniciando: LazyOwn GPT One Liner Cli Assistant [;,;]
@@ -182,8 +182,8 @@ def process_prompt_local(prompt: str, debug: bool, mode: str) -> Response:
         else:
             return jsonify({"error": f"Error en la solicitud: {response.status_code}"}), 500
 
-    except Exception as ex:
-        return jsonify({"error": str("")}), 500
+    except Exception:
+        return jsonify({"error": ""}), 500
 
 
 def parse_args() -> argparse.Namespace:

@@ -19,10 +19,7 @@ import yaml
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
-if sys.version_info >= (3, 11):
-    import tomllib
-else:
-    import tomli as tomllib
+import tomllib
 
 
 def _read_text(path: Path) -> str:

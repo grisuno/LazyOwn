@@ -24,9 +24,10 @@ Design constraints driving the shape of this module:
 from __future__ import annotations
 
 import shlex
+from collections.abc import Iterable, Mapping, Sequence
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Iterable, Mapping, Sequence
+from typing import Any
 
 
 class PaletteMode(Enum):
@@ -386,7 +387,7 @@ class PaletteRenderer:
         names = [str(r.get("name", "")) for r in rows]
         summaries = [cfg.truncate_summary(r.get("summary")) for r in rows]
         name_width = max(cfg.name_column_min_width, max(len(n) for n in names))
-        body = [f"{name.ljust(name_width)}{cfg.column_separator}{summary}" for name, summary in zip(names, summaries)]
+        body = [f"{name.ljust(name_width)}{cfg.column_separator}{summary}" for name, summary in zip(names, summaries, strict=False)]
         return cfg.line_separator.join([header, *body])
 
 

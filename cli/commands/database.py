@@ -14,12 +14,6 @@ import cmd2
 from cli.commands._base import LazyOwnCommandSet
 from modules.db import LazyOwnDB
 from utils import (
-    BLUE,
-    CYAN,
-    GREEN,
-    RED,
-    RESET,
-    YELLOW,
     miscellaneous_category,
     print_error,
     print_msg,
@@ -344,10 +338,10 @@ class DatabaseCommandSet(LazyOwnCommandSet):
             else:
                 print_msg(f"{'ID':<4} {'Name':<25} {'Type':<12} {'Path':<40} {'Notes'}")
                 print_msg("-" * 90)
-                for l in loot:
+                for item in loot:
                     print_msg(
-                        f"{l['id']:<4} {l['name']:<25} {l['loot_type']:<12} "
-                        f"{l['path']:<40} {l.get('notes','')[:20]}"
+                        f"{item['id']:<4} {item['name']:<25} {item['loot_type']:<12} "
+                        f"{item['path']:<40} {item.get('notes','')[:20]}"
                     )
             return
 

@@ -45,7 +45,6 @@ import time
 import urllib.error
 import urllib.request
 from pathlib import Path
-from typing import Optional
 
 # Optional watchdog import (install with: pip install watchdog)
 try:
@@ -65,7 +64,7 @@ if str(SKILLS_DIR) not in sys.path:
     sys.path.insert(0, str(SKILLS_DIR))
 
 try:
-    from lazyown_objective import ObjectiveStore, PLAN_FILE, SoulUpdater
+    from lazyown_objective import PLAN_FILE, ObjectiveStore, SoulUpdater
     _OBJECTIVES_AVAILABLE = True
     _soul = SoulUpdater()
 except ImportError:
@@ -110,14 +109,14 @@ log = logging.getLogger("sessions_watcher")
 
 # ── Event helper ──────────────────────────────────────────────────────────────
 
-import uuid as _uuid
 import datetime as _datetime
+import uuid as _uuid
 
 
 def _emit(event_type: str, severity: str, suggest: str, source: dict) -> None:
     ev = {
         "id":        _uuid.uuid4().hex[:8],
-        "timestamp": _datetime.datetime.now(_datetime.timezone.utc).isoformat(),
+        "timestamp": _datetime.datetime.now(_datetime.UTC).isoformat(),
         "type":      event_type,
         "severity":  severity,
         "rule_id":   f"watcher_{event_type.lower()}",
@@ -132,7 +131,7 @@ def _emit(event_type: str, severity: str, suggest: str, source: dict) -> None:
 # ── Plan generation ───────────────────────────────────────────────────────────
 
 
-def _call_ollama(prompt: str) -> Optional[str]:
+def _call_ollama(prompt: str) -> str | None:
     url = f"http://{OLLAMA_HOST}:{OLLAMA_PORT}/api/generate"
     body = json.dumps({"model": OLLAMA_MODEL, "prompt": prompt, "stream": False}).encode()
     req = urllib.request.Request(url, data=body, headers={"Content-Type": "application/json"})
@@ -332,6 +331,7 @@ def _extract_target_from_filename(name: str) -> str:
 # ── Watchdog handler ─────────────────────────────────────────────────────────
 
 from collections import OrderedDict as _OrderedDict
+
 _SEEN: _OrderedDict = _OrderedDict()  # debounce LRU — max 500 entries
 _SEEN_MAX = 500
 

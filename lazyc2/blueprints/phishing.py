@@ -35,7 +35,7 @@ from lazyc2.extensions.short_urls import (
     save_short_urls,
 )
 
-phishing_bp = Blueprint("phishing", __name__)
+redirect_bp = Blueprint("redirect", __name__)
 
 
 def _get_config(key: str, default=None):
@@ -43,7 +43,7 @@ def _get_config(key: str, default=None):
     return current_app.config.get(key, default)
 
 
-@phishing_bp.route("/create_short_url", methods=["POST"])
+@redirect_bp.route("/create_short_url", methods=["POST"])
 def create_short_url():
     """Create one or more short URLs for a single original URL.
 
@@ -83,7 +83,7 @@ def create_short_url():
     return jsonify({"short_urls": generated})
 
 
-@phishing_bp.route("/track/<short_url>")
+@redirect_bp.route("/track/<short_url>")
 def track_interaction(short_url):
     """Serve a tracking page and log behavioural data.
 
@@ -117,7 +117,7 @@ def track_interaction(short_url):
     return render_template("tracking_page.html", short_url=short_url, original_url=short_urls[short_url]["original_url"])
 
 
-@phishing_bp.route("/update_short_url/<short_url>", methods=["PUT"])
+@redirect_bp.route("/update_short_url/<short_url>", methods=["PUT"])
 def update_short_url(short_url):
     """Update an existing short URL's target or active status.
 
@@ -143,7 +143,7 @@ def update_short_url(short_url):
     return jsonify({"message": "Updated successfully"})
 
 
-@phishing_bp.route("/<short_url>")
+@redirect_bp.route("/<short_url>")
 def redirect_to_file(short_url):
     """Resolve a short URL and redirect (or serve a local file).
 
@@ -165,8 +165,8 @@ def redirect_to_file(short_url):
     return redirect(original_url)
 
 
-@phishing_bp.route("/webserver-report")
-@phishing_bp.route("/webserver-report/<path:filename>")
+@redirect_bp.route("/webserver-report")
+@redirect_bp.route("/webserver-report/<path:filename>")
 def webserver_report(filename="index2.html"):
     """Serve nmap HTML report assets from the sessions directory.
 
@@ -184,7 +184,7 @@ def webserver_report(filename="index2.html"):
     return send_from_directory(resolver.base_dir, relative)
 
 
-@phishing_bp.route("/s/<filename>")
+@redirect_bp.route("/s/<filename>")
 def download_files(filename):
     """Serve a session file by name with path-traversal protection.
 

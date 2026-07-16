@@ -169,5 +169,16 @@
         "recovery_codes": [],
         "elo": 0,
         "tenant_id": "default"
+    },
+    {
+        "id": 17,
+        "username": "operator_bmv863f3",
+        "password_hash": "scrypt:32768:8:1$RxoIThWCJQ4a0UGe$fea1407e83ad93ea9b2a61bc3d7e784c64ae4aa557cd0dcaddb94af8dd86605628bf2d283caa724fad2a14fa033e0a4eb9b370d00b5ccb807cf365f85129198f",
+        "role": "admin",
+        "mfa_enabled": false,
+        "mfa_secret": "",
+        "recovery_codes": [],
+        "elo": 0,
+        "tenant_id": "default"
     }
 ]

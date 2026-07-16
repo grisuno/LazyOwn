@@ -94,9 +94,7 @@ def resolve_aes_key(
     raw = (config_dict or {}).get("aes_key")
     if isinstance(raw, str) and raw:
         if len(raw) != _AES_KEY_HEX_LEN:
-            raise ValueError(
-                f"aes_key must be {_AES_KEY_HEX_LEN} hex characters when set, got {len(raw)}"
-            )
+            raise ValueError(f"aes_key must be {_AES_KEY_HEX_LEN} hex characters when set, got {len(raw)}")
         try:
             return bytes.fromhex(raw)
         except ValueError as exc:
@@ -107,9 +105,7 @@ def resolve_aes_key(
     if key_file.exists():
         existing = key_file.read_bytes()
         if len(existing) != _AES_KEY_BYTES:
-            raise ValueError(
-                f"On-disk AES key at {key_file} has length {len(existing)}, expected {_AES_KEY_BYTES}"
-            )
+            raise ValueError(f"On-disk AES key at {key_file} has length {len(existing)}, expected {_AES_KEY_BYTES}")
         return existing
     fresh = os.urandom(_AES_KEY_BYTES)
     key_file.write_bytes(fresh)
@@ -117,14 +113,28 @@ def resolve_aes_key(
     return fresh
 
 
+_EXAMPLE_FILENAME = "payload.example.json"
+
+
 def load_payload(path: str | os.PathLike[str] = PAYLOAD_FILENAME) -> dict[str, Any]:
     """Load and return the JSON payload at ``path``.
 
+    If the payload does not exist but ``payload.example.json`` does, the
+    example file is copied to ``path`` automatically so a fresh clone never
+    leaves the operator without a starting configuration.
+
     Raises:
-        FileNotFoundError: if the payload does not exist.
+        FileNotFoundError: if neither the payload nor the example exists.
         json.JSONDecodeError: if the payload is not valid JSON.
     """
-    with open(path, "r", encoding="utf-8") as fh:
+    target = Path(path)
+    if not target.exists():
+        example = target.parent / _EXAMPLE_FILENAME
+        if example.exists():
+            import shutil
+
+            shutil.copy(str(example), str(target))
+    with open(target, "r", encoding="utf-8") as fh:
         return json.load(fh)
 
 

@@ -4,20 +4,19 @@ LazyOwn AI Agent - Ultimate Edition
 Mejoras: Anti-Hang (Timeout), Gestión de Memoria, Validación de Argumentos y Anti-Loop.
 """
 
-import json
-import ast
-import os
-import sys
-import logging
 import argparse
+import ast
 import importlib.util
-import threading
-import queue
 import inspect
-from typing import Dict, List, Any, Optional, Callable
-from time import sleep
+import json
+import logging
+import os
+import queue
+import sys
+import threading
+from collections.abc import Callable
 from dataclasses import dataclass
-from flask import Response, stream_with_context
+from typing import Any
 
 # ===== IMPORTS DE TUS MODELOS =====
 # Asegúrate de que ai_model.py esté en el mismo directorio o en el PYTHONPATH
@@ -60,9 +59,9 @@ def configure_logging(debug: bool = False):
 # ===== AGENT TOOL ROBUSTO =====
 class AgentTool:
     """Herramienta ejecutable con validación y truncado"""
-    
-    def __init__(self, name: str, description: str, func: Callable, 
-                 parameters: Dict[str, Any], required: List[str] = None):
+
+    def __init__(self, name: str, description: str, func: Callable,
+                 parameters: dict[str, Any], required: list[str] = None):
         self.name = name
         self.description = description
         self.func = func
@@ -71,8 +70,8 @@ class AgentTool:
             "properties": parameters,
             "required": required or list(parameters.keys())
         }
-    
-    def to_api_format(self) -> Dict[str, Any]:
+
+    def to_api_format(self) -> dict[str, Any]:
         return {
             "type": "function",
             "function": {
@@ -81,7 +80,7 @@ class AgentTool:
                 "parameters": self.parameters
             }
         }
-    
+
     def execute(self, **kwargs) -> str:
         """Ejecuta con validación de argumentos y formato claro"""
         # 1. Validación de Argumentos
@@ -100,7 +99,7 @@ class AgentTool:
         try:
             result = self.func(**kwargs)
             result_str = str(result)
-            
+
             # 3. Truncado de Salida (Gestión de Contexto)
             if len(result_str) > MAX_OUTPUT_LENGTH:
                 cut_len = len(result_str) - MAX_OUTPUT_LENGTH
@@ -112,10 +111,10 @@ RESULTADO:
 {result_str}
 
 [FIN DEL RESULTADO]"""
-            
+
             logging.debug(f"✅ {self.name} ejecutado correctamente")
             return output
-            
+
         except Exception as e:
             error_msg = f"❌ ERROR DE EJECUCIÓN en {self.name}: {str(e)}"
             logging.error(error_msg)
@@ -127,31 +126,31 @@ RESULTADO:
 class CommandMetadata:
     name: str
     docstring: str
-    params: List[str]
+    params: list[str]
     has_args: bool
 
 class ASTToolExtractor:
     """Extractor inteligente usando AST"""
-    
+
     @staticmethod
-    def extract_commands_from_file(file_path: str, prefix: str = "do_") -> List[CommandMetadata]:
+    def extract_commands_from_file(file_path: str, prefix: str = "do_") -> list[CommandMetadata]:
         if not os.path.exists(file_path):
             logging.warning(f"⚠️ Archivo no encontrado: {file_path}")
             return []
-        
+
         try:
             with open(file_path, "r", encoding="utf-8") as f:
                 tree = ast.parse(f.read(), filename=file_path)
         except SyntaxError as e:
             logging.error(f"❌ Error de sintaxis en script objetivo: {e}")
             return []
-        
+
         commands = []
         for node in ast.walk(tree):
             if isinstance(node, ast.FunctionDef) and node.name.startswith(prefix):
                 cmd_name = node.name[len(prefix):]
                 docstring = ast.get_docstring(node) or f"Ejecuta comando {cmd_name}"
-                
+
                 params = []
                 has_args = False
                 for arg in node.args.args:
@@ -159,14 +158,14 @@ class ASTToolExtractor:
                         params.append(arg.arg)
                         if arg.arg in ('line', 'args', 'statement'):
                             has_args = True
-                
+
                 commands.append(CommandMetadata(
                     name=cmd_name,
                     docstring=docstring.strip()[:500],
                     params=params,
                     has_args=has_args
                 ))
-        
+
         logging.info(f"✅ Extraídos {len(commands)} comandos del shell.")
         return commands
 
@@ -174,24 +173,24 @@ class ASTToolExtractor:
 # ===== AGENT RUNNER =====
 class AgentRunner:
     """Motor del agente con Límite de Uso por Herramienta (Anti-Spam)"""
-    
+
     def __init__(self, model: Any, system_prompt: str = None, max_iterations: int = 10):
         self.model = model
         self.max_iterations = max_iterations
-        self.tools: Dict[str, AgentTool] = {}
-        self.conversation_history: List[Dict[str, Any]] = []
+        self.tools: dict[str, AgentTool] = {}
+        self.conversation_history: list[dict[str, Any]] = []
         self.last_tool_calls = []
-        
+
         # --- NUEVO: Control de uso por tipo de herramienta ---
-        self.tool_usage_count: Dict[str, int] = {} 
+        self.tool_usage_count: dict[str, int] = {}
         self.executed_commands = set()
-        
+
         self.system_prompt = system_prompt or "Eres un asistente útil."
         self._reset_history()
-    
+
     def _reset_history(self):
         self.conversation_history = [{
-            "role": "system", 
+            "role": "system",
             "content": self.system_prompt
         }]
 
@@ -223,8 +222,8 @@ class AgentRunner:
             required=required,
         )
         self.register_tool(tool)
-    
-    def register_tools_from_metadata(self, commands: List[CommandMetadata], executor: Callable[[str], str]):
+
+    def register_tools_from_metadata(self, commands: list[CommandMetadata], executor: Callable[[str], str]):
         # (Esta parte se mantiene igual que en tu código anterior)
         for cmd in commands:
             def make_executor(cmd_name):
@@ -232,14 +231,14 @@ class AgentRunner:
                     full_cmd = f"{cmd_name} {command}".strip()
                     return executor(full_cmd)
                 return wrapper
-            
+
             if cmd.has_args or not cmd.params:
                 parameters = {"command": {"type": "string", "description": f"Args para {cmd.name}"}}
                 required = ["command"]
             else:
                 parameters = {p: {"type": "string", "description": f"Param {p}"} for p in cmd.params}
                 required = cmd.params
-            
+
             tool = AgentTool(
                 name=f"cmd_{cmd.name}",
                 description=cmd.docstring,
@@ -248,39 +247,39 @@ class AgentRunner:
                 required=required
             )
             self.register_tool(tool)
-    
-    def get_tools_for_api(self) -> Optional[List[Dict[str, Any]]]:
+
+    def get_tools_for_api(self) -> list[dict[str, Any]] | None:
         if not self.tools: return None
         return [tool.to_api_format() for tool in self.tools.values()]
-    
+
     def run(self, user_input: str) -> str:
         # Reiniciar contadores en cada nueva instrucción principal
         self.conversation_history.append({"role": "user", "content": user_input})
-        
+
         iteration = 0
-        
+
         while iteration < self.max_iterations:
             iteration += 1
             self._manage_memory()
             logging.info(f"🔄 PASO {iteration}/{self.max_iterations}")
-            
+
             response = self._call_model()
             tool_calls = getattr(response.choices[0].message, 'tool_calls', None)
-            
+
             if not tool_calls:
                 return response.choices[0].message.content
-            
+
             # Procesar herramientas
             for tool_call in tool_calls:
                 # Inyectar el resultado de vuelta al historial
                 self._process_tool_call(tool_call)
 
         return f"⏱️ Límite de pasos alcanzado ({self.max_iterations}). Revisa lo encontrado."
-    
+
     def _call_model(self):
         # Inyectar recordatorio anti-loop dinámicamente si ya se ejecutaron comandos
         current_context = list(self.conversation_history)
-        
+
         # Si ya hemos ejecutado nmap, añadir recordatorio fuerte
         if self.tool_usage_count.get('cmd_nmap', 0) > 0:
             current_context.append({
@@ -299,18 +298,18 @@ class AgentRunner:
         except Exception as e:
             logging.error(f"Error API: {e}")
             raise
-    
+
     def _process_tool_call(self, tool_call):
         tool_name = tool_call.function.name
-        
+
         # --- LÓGICA ANTI-LOOP MEJORADA ---
         # 1. Incrementar contador global de esa herramienta
         usage = self.tool_usage_count.get(tool_name, 0) + 1
         self.tool_usage_count[tool_name] = usage
-        
+
         # 2. Verificar límite duro (Máximo 2 veces por herramienta, Nmap máximo 1)
         limit = 1 if "nmap" in tool_name else 2
-        
+
         if usage > limit:
             logging.warning(f"⛔ BLOQUEANDO {tool_name} (Uso excesivo: {usage})")
             result = f"""⛔ SISTEMA: PROHIBIDO EJECUTAR {tool_name} DE NUEVO.
@@ -323,7 +322,7 @@ Si ya tienes la info, responde al usuario."""
                 args = json.loads(tool_call.function.arguments)
             except:
                 args = {}
-            
+
             # Verificar duplicado exacto
             cmd_key = f"{tool_name}:{json.dumps(args, sort_keys=True)}"
             if cmd_key in self.executed_commands:
@@ -352,23 +351,23 @@ Si ya tienes la info, responde al usuario."""
 # ===== SHELL WRAPPER CON TIMEOUT =====
 class LazyOwnShellWrapper:
     """Wrapper que ejecuta comandos en hilos seguros"""
-    
+
     def __init__(self, script_path: str):
         self.script_path = os.path.abspath(script_path)
         self.script_dir = os.path.dirname(self.script_path)
         self.shell = None
-        self.commands: List[CommandMetadata] = []
+        self.commands: list[CommandMetadata] = []
         self._load_shell()
-    
+
     def _load_shell(self):
         self.commands = ASTToolExtractor.extract_commands_from_file(self.script_path)
-        
+
         try:
             sys.path.insert(0, self.script_dir)
             spec = importlib.util.spec_from_file_location("lazyown", self.script_path)
             module = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(module)
-            
+
             # Buscar la clase shell dinámicamente
             for attr_name in dir(module):
                 attr = getattr(module, attr_name)
@@ -382,14 +381,14 @@ class LazyOwnShellWrapper:
         finally:
             if self.script_dir in sys.path:
                 sys.path.remove(self.script_dir)
-    
+
     def execute_command(self, command: str) -> str:
         """Ejecuta comando con timeout usando threading"""
         if not self.shell:
             return "❌ Shell no disponible"
-        
+
         result_queue = queue.Queue()
-        
+
         def target():
             # Capturar stdout dentro del hilo
             import io
@@ -403,7 +402,7 @@ class LazyOwnShellWrapper:
                     self.shell.onecmd(command)
                 else:
                     print("Error: Shell no tiene método onecmd")
-                
+
                 result_queue.put(capture.getvalue())
             except Exception as e:
                 result_queue.put(f"❌ Error en ejecución: {str(e)}")
@@ -413,14 +412,14 @@ class LazyOwnShellWrapper:
         # Lanzar hilo
         t = threading.Thread(target=target)
         t.start()
-        
+
         # Esperar con timeout
         t.join(timeout=COMMAND_TIMEOUT)
-        
+
         if t.is_alive():
             logging.error(f"⏱️ TIMEOUT en comando: {command}")
             return f"⏱️ TIMEOUT: El comando '{command}' excedió los {COMMAND_TIMEOUT} segundos. Posiblemente está esperando input o se colgó."
-        
+
         try:
             return result_queue.get_nowait() or "✓ Comando ejecutado (sin salida visual)"
         except queue.Empty:
@@ -434,19 +433,19 @@ class LazyOwnShellWrapper:
 
 # ===== VULNBOT CLI =====
 class VulnBotCLI:
-    
+
     def __init__(self, provider: str, mode: str, debug: bool, script_path: str):
         self.provider = provider
         self.script_dir = os.getcwd()
         self.knowledge_base_file = "knowledge_base.json"
-        
+
         configure_logging(debug)
-        
+
         self.model = self._load_model()
         self.shell_wrapper = LazyOwnShellWrapper(script_path)
         self.agent = None
         self._setup_agent()
-    
+
     def _load_model(self) -> AIModel:
         """Instantiate the LLM backend mapped to ``self.provider``.
 
@@ -461,11 +460,11 @@ class VulnBotCLI:
         """
         backend = _PROVIDER_ALIAS.get(self.provider, self.provider)
         return get_llm_backend(backend=backend)
-    
+
     def _setup_agent(self):
         total_cmds = len(self.shell_wrapper.commands)
         summary = self.shell_wrapper.get_commands_summary()
-        
+
         # Prompt mejorado con lógica ReAct (Pensar antes de actuar)
         system_prompt = f"""Eres LazyOwn, un Pentester AI experto y autónomo.
 
@@ -484,7 +483,7 @@ REGLAS DE ORO:
 Si el resultado es muy largo, céntrate en los puertos abiertos o vulnerabilidades críticas.
 """
         self.agent = AgentRunner(self.model, system_prompt, max_iterations=8)
-        
+
         if self.shell_wrapper.commands:
             self.agent.register_tools_from_metadata(
                 self.shell_wrapper.commands,
@@ -502,17 +501,17 @@ def interactive_mode(bot: VulnBotCLI):
     print("\n[💻 Modo Interactivo LazyOwn]")
     print("Escribe tu objetivo (ej: 'Escanea 10.10.10.5 y busca SMB')")
     print("Escribe 'salir' para terminar.\n")
-    
+
     while True:
         try:
             u_input = input("LazyOwn > ").strip()
             if u_input.lower() in ('salir', 'exit'): break
             if not u_input: continue
-            
+
             response = bot.process_request(u_input)
             print(f"\n🤖 AGENTE:\n{response}\n")
             print("-" * 60)
-            
+
         except KeyboardInterrupt:
             break
         except Exception as e:
@@ -531,21 +530,21 @@ def parse_args():
 def main():
     print(BANNER)
     args = parse_args()
-    
+
     if not os.path.exists(args.script):
         print(f"❌ Error: No existe el archivo {args.script}")
         sys.exit(1)
-        
+
     try:
         bot = VulnBotCLI(args.provider, "console", args.debug, args.script)
-        
+
         if args.instruction:
             print(f"[*] Ejecutando instrucción: {args.instruction}")
             res = bot.process_request(args.instruction)
             print("\nRESULTADO FINAL:\n", res)
         else:
             interactive_mode(bot)
-            
+
     except Exception as e:
         logging.critical(f"Error Fatal: {e}")
         sys.exit(1)

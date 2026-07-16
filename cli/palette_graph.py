@@ -26,10 +26,11 @@ from __future__ import annotations
 
 import json
 from collections import defaultdict
+from collections.abc import Iterable, Mapping, Sequence
 from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
-from typing import Any, Iterable, Mapping, Sequence
+from typing import Any
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_GRAPH_PATH = REPO_ROOT / "graphify-out" / "graph_lazyown.json"

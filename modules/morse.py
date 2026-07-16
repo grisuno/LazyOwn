@@ -1,4 +1,5 @@
 import os
+
 MORSE_CODE = {
     "A": ".-",
     "B": "-...",

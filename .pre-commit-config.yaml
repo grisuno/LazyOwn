@@ -17,11 +17,22 @@ repos:
         exclude: '^(graphify-out/|sessions/|external/|tests/|modules_ext/)'
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.6.9
+    rev: v0.15.12
     hooks:
       - id: ruff
         args: ['--fix', '--exit-non-zero-on-fix']
         exclude: '^(graphify-out/|sessions/|parquets/|external/|modules_ext/)'
+      - id: ruff-format
+        exclude: '^(graphify-out/|sessions/|parquets/|external/|modules_ext/)'
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.15.0
+    hooks:
+      - id: mypy
+        args: ['--config-file', 'pyproject.toml', '--no-strict-optional']
+        additional_dependencies: ['types-requests', 'types-PyYAML']
+        exclude: '^(graphify-out/|sessions/|parquets/|external/|modules_ext/|env/|lazyown\.py|lazyc2\.py|utils\.py)'
+        pass_filenames: false
 
   - repo: https://github.com/Yelp/detect-secrets
     rev: v1.5.0

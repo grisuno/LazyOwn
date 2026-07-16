@@ -13,7 +13,6 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
-from typing import Optional
 
 
 class PermissionMode(Enum):
@@ -30,7 +29,7 @@ class PermissionMode(Enum):
 class PermissionRule:
     tool_pattern: str          # glob: "lazyown_c2_command", "lazyown_run_*"
     action: str                # "allow" | "deny" | "ask"
-    condition: Optional[str] = None  # "contains:rm -rf", "target:10.10.11.*"
+    condition: str | None = None  # "contains:rm -rf", "target:10.10.11.*"
     description: str = ""
     created_at: str = field(default_factory=lambda: datetime.now().isoformat())
 
@@ -142,7 +141,7 @@ class PermissionSystem:
     # ── rule management ───────────────────────────────────────────────────────
 
     def add_rule(self, tool_pattern: str, action: str,
-                 condition: Optional[str] = None, description: str = "") -> str:
+                 condition: str | None = None, description: str = "") -> str:
         rule = PermissionRule(tool_pattern, action, condition, description)
         self.rules.append(rule)
         self._save()

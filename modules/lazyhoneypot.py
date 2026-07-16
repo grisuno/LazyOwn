@@ -1,9 +1,8 @@
-#!/usr/bin/env python3 
-#_*_ coding: utf8 _*_
+#!/usr/bin/env python3
 """
 main.py
 
-Autor: Gris Iscomeback 
+Autor: Gris Iscomeback
 Correo electrónico: grisiscomeback[at]gmail[dot]com
 Fecha de creación: 09/06/2024
 Licencia: GPL v3
@@ -18,17 +17,18 @@ Descripción: LazyOwn HoneyPot
 ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
 
 """
-import socket
-import paramiko
-import threading
+import argparse
 import logging
 import os
-import time
-import json
-import argparse
-from scapy.all import sniff, IP, TCP
 import smtplib
+import socket
+import threading
+import time
 from email.mime.text import MIMEText
+
+import paramiko
+from scapy.all import IP, TCP, sniff
+
 
 def parse_args():
     parser = argparse.ArgumentParser(description='SSH Honeypot')
@@ -59,7 +59,7 @@ def generate_rsa_key(key_filename):
 class Server(paramiko.ServerInterface):
     def __init__(self):
         self.event = threading.Event()
-    
+
     def check_channel_request(self, kind, chanid):
         if kind == 'session':
             return paramiko.OPEN_SUCCEEDED
@@ -74,21 +74,21 @@ def handle_connection(client_socket, host_key, commands_log, downloads_log, down
     try:
         transport = paramiko.Transport(client_socket)
         transport.add_server_key(host_key)
-        
+
         server = Server()
         try:
             transport.start_server(server=server)
         except paramiko.SSHException:
             logging.error("SSH negotiation failed")
             return
-        
+
         chan = transport.accept(20)
         if chan is None:
             logging.error("No channel")
             return
 
         chan.send("Welcome to the SSH honeypot!\n")
-        
+
         while True:
             command = chan.recv(1024).decode('utf-8')
             if not command:
@@ -96,10 +96,10 @@ def handle_connection(client_socket, host_key, commands_log, downloads_log, down
             logging.info(f"Command received: {command}")
             log_command(command, commands_log)
             chan.send(f"Command '{command}' received.\n")
-            
+
             if command.startswith('wget') or command.startswith('curl'):
                 handle_file_download(command, downloads_dir, downloads_log)
-            
+
         chan.close()
     except Exception as e:
         logging.error(f"Exception: {str(e)}")
@@ -112,7 +112,7 @@ def handle_file_download(command, downloads_dir, downloads_log):
             url = command.split(' ')[1]
         elif 'curl' in command:
             url = command.split(' ')[2]
-        
+
         filename = url.split('/')[-1]
         os.system(f"wget {url} -O {downloads_dir}/{filename}")
         logging.info(f"File downloaded: {filename}")
@@ -136,7 +136,7 @@ def analyze_traffic():
             tcp_sport = packet[TCP].sport
             tcp_dport = packet[TCP].dport
             logging.info(f"Traffic - SRC: {ip_src}:{tcp_sport} DST: {ip_dst}:{tcp_dport}")
-    
+
     sniff(prn=process_packet, filter="tcp", store=0)
 
 def alert_admin(message):
@@ -146,13 +146,13 @@ def alert_admin(message):
         msg['Subject'] = args.email_subject
         msg['From'] = args.email_from
         msg['To'] = args.email_to
-        
+
         server = smtplib.SMTP(args.smtp_server, args.smtp_port)
         server.starttls()
         server.login(args.email_username, args.email_password)
         server.sendmail(args.email_from, [args.email_to], msg.as_string())
         server.quit()
-        
+
         logging.info(f"Alert sent: {message}")
     except Exception as e:
         logging.error(f"Failed to send alert: {str(e)}")
@@ -177,11 +177,11 @@ def main():
     server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     server.bind((args.host, args.port))
     server.listen(100)
-    
+
     logging.info("Honeypot started and listening for connections...")
-    
+
     threading.Thread(target=analyze_traffic, daemon=True).start()
-    
+
     while True:
         client_socket, addr = server.accept()
         logging.info(f"Connection from {addr}")
@@ -197,5 +197,5 @@ if __name__ == "__main__":
     ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
     [*] Iniciando: LazyOwn Honeypot [;,;]
     """
-    print(BANNER)    
+    print(BANNER)
     main()

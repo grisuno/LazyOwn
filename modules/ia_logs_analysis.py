@@ -12,16 +12,17 @@ Description: Real-time log monitoring bot for Linux systems.
              Monitors logs in /var/log (e.g., SSH, Apache2, Nginx) and uses DeepSeek to detect suspicious activity.
 """
 
-import time
+import argparse
 import json
 import logging
 import os
+import time
+
 import requests
-import argparse
-from watchdog.observers import Observer
-from watchdog.events import FileSystemEventHandler
 from rich.console import Console
 from rich.markdown import Markdown
+from watchdog.events import FileSystemEventHandler
+from watchdog.observers import Observer
 
 # Logging configuration
 logging.basicConfig(filename='log_monitor.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -103,7 +104,7 @@ def analyze_with_deepseek(log_content, mode='console'):
                 Log entries:
                 {log_content}
                 """,
-                "stream": True  
+                "stream": True
             },
             timeout=60,
             stream=True

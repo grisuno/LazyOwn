@@ -64,14 +64,13 @@ from __future__ import annotations
 import argparse
 import json
 import logging
-import os
 import re
 import sys
 import time
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 # ── Paths ──────────────────────────────────────────────────────────────────────
 
@@ -138,14 +137,14 @@ class PentestState:
     lhost:        str  = ""
     domain:       str  = ""
     target_os:    str  = "unknown"
-    open_ports:   List[str] = field(default_factory=list)
-    services:     List[str] = field(default_factory=list)
-    credentials:  List[str] = field(default_factory=list)
-    shells:       List[str] = field(default_factory=list)
-    vulns:        List[str] = field(default_factory=list)
-    findings:     List[str] = field(default_factory=list)
-    phase_log:    Dict[str, List[str]] = field(default_factory=dict)
-    start_time:   str  = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+    open_ports:   list[str] = field(default_factory=list)
+    services:     list[str] = field(default_factory=list)
+    credentials:  list[str] = field(default_factory=list)
+    shells:       list[str] = field(default_factory=list)
+    vulns:        list[str] = field(default_factory=list)
+    findings:     list[str] = field(default_factory=list)
+    phase_log:    dict[str, list[str]] = field(default_factory=dict)
+    start_time:   str  = field(default_factory=lambda: datetime.now(UTC).isoformat())
     phase:        int  = 0
     goal_achieved: bool = False
 
@@ -164,7 +163,7 @@ class PentestState:
         ]
         return "\n".join(lines)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "rhost": self.rhost, "lhost": self.lhost,
             "target_os": self.target_os,
@@ -175,7 +174,7 @@ class PentestState:
             "vulns": self.vulns,
             "findings": self.findings,
             "start_time": self.start_time,
-            "end_time": datetime.now(timezone.utc).isoformat(),
+            "end_time": datetime.now(UTC).isoformat(),
             "phases_completed": self.phase,
             "goal_achieved": self.goal_achieved,
         }
@@ -231,11 +230,11 @@ def _parse_output(output: str, state: PentestState, phase_name: str) -> None:
 
 # ── Phase goals ────────────────────────────────────────────────────────────────
 
-def _phase_goals(phase_idx: int, state: PentestState, effort: str) -> List[str]:
+def _phase_goals(phase_idx: int, state: PentestState, effort: str) -> list[str]:
     """Return ordered list of NL goals to attempt in this phase."""
     rhost  = state.rhost
     domain = state.domain or rhost
-    ports  = ", ".join(state.open_ports[:6]) or "unknown"
+    ", ".join(state.open_ports[:6]) or "unknown"
     svcs   = ", ".join(state.services[:6]) or "unknown services"
     creds  = state.credentials[0] if state.credentials else ""
 
@@ -263,13 +262,13 @@ def _phase_goals(phase_idx: int, state: PentestState, effort: str) -> List[str]:
         ],
         5: [
             f"Dump all credentials from {rhost}",
-            f"Show captured credentials",
+            "Show captured credentials",
             f"Escalate privileges on {rhost}",
             f"Establish persistence on {rhost}",
         ],
         6: [
             f"Move laterally using credentials: {creds or 'captured creds'}",
-            f"Spawn hive drones to enumerate adjacent hosts",
+            "Spawn hive drones to enumerate adjacent hosts",
             f"Use captured credentials to expand access in {domain}",
         ],
         7: [
@@ -284,7 +283,7 @@ def _phase_goals(phase_idx: int, state: PentestState, effort: str) -> List[str]:
     return g[:max_g]
 
 
-def _enum_goals(state: PentestState) -> List[str]:
+def _enum_goals(state: PentestState) -> list[str]:
     """Build enumeration goals based on discovered services."""
     goals = []
     svc_lower = [s.lower() for s in state.services]
@@ -314,7 +313,7 @@ class AutonomousAgent:
         verbose:    bool = False,
         effort:     str  = "high",
         max_phases: int  = 8,
-        json_out:   Optional[Path] = None,
+        json_out:   Path | None = None,
     ) -> None:
         self.state      = state
         self.no_model   = no_model
@@ -478,7 +477,7 @@ class AutonomousAgent:
 
 # ── CLI ────────────────────────────────────────────────────────────────────────
 
-def _load_payload() -> Dict[str, Any]:
+def _load_payload() -> dict[str, Any]:
     """Load payload.json from LazyOwn root."""
     if _PAYLOAD_FILE.exists():
         try:
@@ -488,7 +487,7 @@ def _load_payload() -> Dict[str, Any]:
     return {}
 
 
-def main(argv: Optional[List[str]] = None) -> int:
+def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description="TopoSwarm Autonomous Red Team Agent",
         formatter_class=argparse.RawDescriptionHelpFormatter,

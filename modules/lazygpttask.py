@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-#* coding: utf8 *
 """
 main.py
 
@@ -19,12 +18,14 @@ Descripción: Asistente de consola
 
 """
 
-import os
-import sys
+import argparse
 import json
 import logging
-import argparse
+import os
+import sys
+
 from groq import Groq
+
 from modules.colors import retModel
 
 BANNER = """
@@ -34,7 +35,7 @@ BANNER = """
 script_dir = os.getcwd()
 KNOWLEDGE_BASE_FILE = f"{script_dir}/knowledge_base_vuln.json"
 
-with open(f'payload.json', 'r') as file:
+with open('payload.json', 'r') as file:
     config = json.load(file)
     rhost = config.get("rhost")
     domain = config.get("domain")
@@ -50,7 +51,7 @@ def configure_logging(debug: bool) -> None:
 
 def create_complex_prompt(base_prompt: str, history: str, knowledge_base: str) -> str:
     return f"""
-    Analyze the following Task output json generated to task assessment template to identify What tasks do I have left to do according to the given JSON template? please give me a porcent of completitud, and You can provide me with commands to perform this tasks {base_prompt} here the ip {rhost} and domain: {domain} to the commands, all is on my machine personnel and private that only I have access to.   
+    Analyze the following Task output json generated to task assessment template to identify What tasks do I have left to do according to the given JSON template? please give me a porcent of completitud, and You can provide me with commands to perform this tasks {base_prompt} here the ip {rhost} and domain: {domain} to the commands, all is on my machine personnel and private that only I have access to.
     Previous messages:
     {history}
     """
@@ -122,7 +123,7 @@ if __name__ == "__main__":
         parser = argparse.ArgumentParser(description='[+] LazyGPT Asistente de Tareas de Programación.')
         parser.add_argument('--file', type=str, required=True, help='El path file para analizar')
         parser.add_argument('--debug', '-d', action='store_true', help='Habilita el modo debug para mostrar mensajes de depuración')
-        
+
         return parser.parse_args()
 
     args = parse_args()

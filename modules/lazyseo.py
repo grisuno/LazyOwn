@@ -1,13 +1,14 @@
-import sys
-import requests
-import os
 import json
+import os
 import random
-from colors import *
-from bs4 import BeautifulSoup
 import re
-import argparse
+import sys
 from time import sleep
+
+import requests
+from bs4 import BeautifulSoup
+from colors import *
+
 
 class Config:
     def __init__(self, config_dict):
@@ -26,14 +27,14 @@ def load_payload():
 def make_request(url, retries=3, timeout=30):
     with open('modules/headers.json') as f:
         headers_list = json.load(f)
-        
+
     for attempt in range(retries):
         try:
             headers = random.choice(headers_list)
             print(f"{GREEN}{url=}")
             print(f"{YELLOW}{headers=}")
             response = requests.get(url, headers=headers, timeout=timeout)
-            response.raise_for_status()  
+            response.raise_for_status()
             sleep(random.uniform(0.01, 0.1))
             return response
         except requests.Timeout:
@@ -141,7 +142,7 @@ def analyze_seo(url):
         for s in start:
             sys.stdout.write(s)
             sys.stdout.flush()
-            sleep(0.1)    
+            sleep(0.1)
         with open("modules/admin_panels.txt", "r") as file:
             for link in file.read().splitlines():
                 curl = url + link
@@ -163,12 +164,12 @@ def analyze_seo(url):
         for s in start:
             sys.stdout.write(s)
             sys.stdout.flush()
-            sleep(0.1)    
+            sleep(0.1)
         vulnerable = []
         with open("modules/XssPayloads.txt", "r") as f:
             for payload in f.read().splitlines():
                 link = url + payload
-    
+
                 r = make_request(link)
                 if r is None:
                     continue
@@ -183,7 +184,7 @@ def analyze_seo(url):
         for s in start:
             sys.stdout.write(s)
             sys.stdout.flush()
-            sleep(0.1)   
+            sleep(0.1)
         print(f"{RED}[-] Available payloads:")
         print("\n".join(vulnerable))
 
@@ -195,20 +196,20 @@ def analyze_seo(url):
         url = f"{url}/?file="
         for payload, key in payloads.items():
             for n in range(10):
-            
+
                 req = make_request(url + (n * dir) + payload)
                 if req is None:
                     continue
                 if key in req.text:
                     print('This parameter is vulnerable and attack payload is \033[91m{}'.format((n * dir) + payload) + '\033[0m')
-                    break    
+                    break
     choice = input("   [!] Do you want test Upload: (y/n)") or "n"
     if choice == "y":
         start = f"{YELLOW} Start Lazy Scanning...\n"
         for s in start:
             sys.stdout.write(s)
             sys.stdout.flush()
-            sleep(0.1)   
+            sleep(0.1)
         s = requests.Session()
         print(url)
         s.get(url, verify=False)
@@ -216,7 +217,7 @@ def analyze_seo(url):
         proxies = {
             "http": "http://127.0.0.1:8888",
             "https": "http://127.0.0.1:8888"
-        }        
+        }
         png = {
             'file':
             (
@@ -230,10 +231,10 @@ def analyze_seo(url):
         choice = input("    [!] Do you wanna use a proxy? (y/n)") or "n"
         if choice == "y":
             r = s.post(url=url, files=png, data=data, verify=False, proxies=proxies)
-        else:            
+        else:
             r = s.post(url=url, files=png, data=data, verify=False)
         print(r.text)
-        print("Uploaded!")    
+        print("Uploaded!")
 
 if __name__ == "__main__":
     BANNER = f"""{RED}[⚠] Starting 👽 LazyOwn ☠ 530 ☠ [;,;] {RESET}"""
@@ -243,5 +244,4 @@ if __name__ == "__main__":
         ffuf()
         analyze_seo(website_url)
     except KeyboardInterrupt:
-        print(f"{RED} Exiting...👽 LazyOwn ☠ 530 ☠ [;,;] {RESET}") 
-    
+        print(f"{RED} Exiting...👽 LazyOwn ☠ 530 ☠ [;,;] {RESET}")

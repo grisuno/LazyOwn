@@ -27,10 +27,10 @@ import json
 import shlex
 import subprocess
 import time
+from collections.abc import Sequence
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Sequence
 
 
 class ShellNotAllowedError(PermissionError):
@@ -174,7 +174,7 @@ class SafeRunner:
         if self._audit_log_path is None:
             return
         record = dict(record)
-        record["timestamp"] = datetime.now(timezone.utc).isoformat()
+        record["timestamp"] = datetime.now(UTC).isoformat()
         self._audit_log_path.parent.mkdir(parents=True, exist_ok=True)
         with self._audit_log_path.open("a", encoding="utf-8") as fh:
             fh.write(json.dumps(record, ensure_ascii=False) + "\n")

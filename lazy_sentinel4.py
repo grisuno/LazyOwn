@@ -8,7 +8,6 @@ import re
 import sqlite3
 import time
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
 
 import cmd2
 import requests
@@ -200,7 +199,7 @@ class RAGManager:
         except Exception as e:
             logging.error(f"Error invalidating cache for {file_path}: {e}")
 
-    def get_knowledge_base_stats(self) -> Dict:
+    def get_knowledge_base_stats(self) -> dict:
         if self.vectorstore is None:
             return {
                 "status": "No knowledge base",
@@ -251,7 +250,7 @@ class Database:
         except OSError as e:
             logging.error(f"Error de OS al crear directorio para la base de datos {self.db_path}: {e}")
 
-    def execute(self, query: str, params: Tuple = ()) -> List[sqlite3.Row]:
+    def execute(self, query: str, params: tuple = ()) -> list[sqlite3.Row]:
         try:
             with sqlite3.connect(self.db_path) as conn:
                 conn.row_factory = sqlite3.Row
@@ -263,7 +262,7 @@ class Database:
             logging.error(f"Error en consulta SQL: {e}, Query: {query}, Params: {params}")
             return []
 
-    def insert(self, query: str, params: Tuple = ()) -> Optional[int]:
+    def insert(self, query: str, params: tuple = ()) -> int | None:
         try:
             with sqlite3.connect(self.db_path) as conn:
                 cursor = conn.cursor()
@@ -281,13 +280,13 @@ class Database:
 class Alert:
     SEVERITY_LEVELS = ["info", "low", "medium", "high", "critical"]
 
-    def __init__(self, alert_type: str, details: Dict, severity: str = "medium"):
+    def __init__(self, alert_type: str, details: dict, severity: str = "medium"):
         self.alert_type = alert_type
         self.details = details
         self.severity = severity if severity in self.SEVERITY_LEVELS else "medium"
         self.timestamp = datetime.datetime.now().isoformat()
 
-    def to_dict(self) -> Dict:
+    def to_dict(self) -> dict:
         return {
             "type": self.alert_type,
             "details": self.details,
@@ -295,7 +294,7 @@ class Alert:
             "timestamp": self.timestamp
         }
 
-    def save_to_db(self, db: Database) -> Optional[int]:
+    def save_to_db(self, db: Database) -> int | None:
         details_json = json.dumps(self.details)
         query = """
             INSERT INTO alerts (type, details, severity, timestamp)
@@ -383,7 +382,7 @@ class LazySentinel:
                 best_chunk = chunk
         return best_chunk
 
-    def parse_deepseek_response(self, response_text: str) -> Dict:
+    def parse_deepseek_response(self, response_text: str) -> dict:
         result = {
             "relevant_info": "No info extracted.",
             "commands": [],
@@ -407,7 +406,7 @@ class LazySentinel:
             result["details"] = details_match.group(1).strip()
         return result
 
-    def show_popup(self, file_name: str, relevant_info: str, commands: List[str], details: str):
+    def show_popup(self, file_name: str, relevant_info: str, commands: list[str], details: str):
         try:
             file_name = sanitize_content(file_name)
             relevant_info = sanitize_content(relevant_info)

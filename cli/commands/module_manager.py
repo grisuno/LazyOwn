@@ -20,20 +20,15 @@ import cmd2
 from cli.commands._base import LazyOwnCommandSet
 from modules.module_registry import (
     ModuleRegistry,
-    format_module_table,
     format_module_detail,
+    format_module_table,
 )
 from utils import (
-    BLUE,
-    CYAN,
     GREEN,
-    RED,
     RESET,
-    YELLOW,
     miscellaneous_category,
     print_error,
     print_msg,
-    print_warn,
 )
 
 

@@ -1,39 +1,29 @@
 #!/usr/bin/python
-import os
-import datetime
-import logging
-import math
-import sys
-import plistlib
-import string
-import struct
-import xml.parsers.expat
-import subprocess
-import json
-import socket
-import Foundation
-import Quartz
 import argparse
+import base64
+import binascii
 import ctypes
 import ctypes.util
-import objc
-import platform
-import time
+import datetime
 import hashlib
-import sqlite3
-import tempfile
-import shutil
-import binascii
-import urllib2
-import urllib
-import base64
 import hmac
-import httplib
-import urllib
+import json
+import os
+import platform
+import plistlib
+import shutil
+import socket
+import sqlite3
+import subprocess
+import sys
+import tempfile
 import time
-import random
-import threading
 
+import Foundation
+import httplib
+import objc
+import Quartz
+import urllib2
 
 # send the hash to VirusTotal for checking
 vtResultRequested = False
@@ -53,17 +43,17 @@ def getUUID():
             ]
   objc.loadBundleFunctions(IOKit_bundle, globals(), functions)
   def io_key(keyname):
-    return IORegistryEntryCreateCFProperty(IOServiceGetMatchingService(0, IOServiceMatching("IOPlatformExpertDevice".encode("utf-8"))), keyname, None, 0)
+    return IORegistryEntryCreateCFProperty(IOServiceGetMatchingService(0, IOServiceMatching(b"IOPlatformExpertDevice")), keyname, None, 0)
 
   #return the system's unique identifier
-  return str(io_key("IOPlatformUUID".encode("utf-8")))
+  return str(io_key(b"IOPlatformUUID"))
 
 #uuid saved to variable
 UUID = getUUID()
 
 #get system information from the os
 def getSystemInfo(output_file):
-  print("%s" % "[+] Getting system information.")
+  print("{}".format("[+] Getting system information."))
   system_data = {}
   uname = os.uname()
   macos_version = platform.mac_ver()[0]
@@ -118,7 +108,7 @@ def getHash(file, ignoreVFlag):
         fileHash = "File is a directory or doesn't exist"
 
     # send hash to Virustotal if requested. Doing it here will help with the 4 queries/minute rate limit
-    if ignoreVFlag == True:
+    if ignoreVFlag:
       vt_res = "Ignored"
     else:
       vt_res = getVTResult(fileHash)
@@ -129,16 +119,8 @@ def getHash(file, ignoreVFlag):
 def checkSignature(file, bundle=None):
   SECURITY_FRAMEWORK = '/System/Library/Frameworks/Security.framework/Versions/Current/Security'
   kSecCSDefaultFlags = 0x0
-  kSecCSDoNotValidateResources = 0x4
-  kSecCSCheckAllArchitectures = 0x1
-  kSecCSCheckNestedCode = 0x8
-  kSecCSStrictValidate = 0x16
-  kSecCSStrictValidate_kSecCSCheckAllArchitectures = 0x17
   kSecCSStrictValidate_kSecCSCheckAllArchitectures_kSecCSCheckNestedCode = 0x1f
   errSecSuccess = 0x0
-  SecCSSignatureOK = errSecSuccess
-  errSecCSUnsigned = -67062
-  kPOSIXErrorEACCES = 100013
   kSecCSSigningInformation = 0x2
   kSecCodeInfoCertificates = 'certificates'
 
@@ -149,7 +131,6 @@ def checkSignature(file, bundle=None):
   objcRuntime = ctypes.cdll.LoadLibrary(ctypes.util.find_library('objc'))
   objcRuntime.objc_getClass.restype = ctypes.c_void_p
   objcRuntime.sel_registerName.restype = ctypes.c_void_p
-  status = not errSecSuccess
   signedStatus = None
   isApple = False
   authorities = []
@@ -194,7 +175,6 @@ def checkSignature(file, bundle=None):
         objcRuntime.objc_msgSend.argtypes = [ctypes.c_void_p, ctypes.c_void_p]
         authorities.append(objcRuntime.objc_msgSend(certName, objcRuntime.sel_registerName('UTF8String')))
 
-  status = errSecSuccess
   if signedStatus == 0:
     signingInfo['status'] = "signed"
   else:
@@ -235,7 +215,7 @@ def parseAgentsDaemons(item,path):
     else:
       plist = plistlib.readPlist(plist_file)
   except:
-      parsedPlist.update({'plist_format_error': ("Error parsing %s with hash %s" % (plist_file,getHash(plist_file)))})
+      parsedPlist.update({'plist_format_error': ("Error parsing {} with hash {}".format(plist_file,getHash(plist_file)))})
       return parsedPlist
 
   progExecutableHash = ""
@@ -281,7 +261,7 @@ def parseAgentsDaemons(item,path):
 
 def getLaunchAgents(path,output_file,ignoreVFlag):
     #get all of the launch agents at a specififc location returned into a list
-    print("%s" % "[+] Gathering Launch Agent data.")
+    print("{}".format("[+] Gathering Launch Agent data."))
     launchAgents = os.listdir(path)
     #for each of the launchAgents, parse the contents into a dictionary, add the name of the plist and the location to the dictionary
     for agent in launchAgents:
@@ -294,7 +274,7 @@ def getLaunchAgents(path,output_file,ignoreVFlag):
       outfile.write("\n")
 
 def getLaunchDaemons(path,output_file,ignoreVFlag):
-    print("%s" % "[+] Gathering Launch Daemon data.")
+    print("{}".format("[+] Gathering Launch Daemon data."))
     launchDaemons = os.listdir(path)
     #for each of the launchAgents, parse the contents into a dictionary, add the name of the plist and the location to the dictionary
     for daemon in launchDaemons:
@@ -308,7 +288,7 @@ def getLaunchDaemons(path,output_file,ignoreVFlag):
 
 #get a list of users on the system
 def getUsers(output_file):
-    print("%s" % "[+] Gathering users on the system.")
+    print("{}".format("[+] Gathering users on the system."))
     users_dict = {}
     all_users = []
     #run command to get a list of all the users
@@ -316,7 +296,7 @@ def getUsers(output_file):
     users = users[0].split("\n")
     #if the user is a normal system account, add to the all users array/list
     for user in users:
-        if user.startswith('_') == False:
+        if not user.startswith('_'):
              all_users.append(user)
     users_dict.update({'users': all_users})
     users_dict.update({"module":"users"})
@@ -328,8 +308,7 @@ def getUsers(output_file):
 
 #get all the safari extensions on the system
 def getSafariExtensions(path,output_file):
-  print("%s" % "[+] Gathering Safari Extensions data.")
-  extension = []
+  print("{}".format("[+] Gathering Safari Extensions data."))
   plist_file = path+'/Extensions.plist'
   plist = Foundation.NSDictionary.dictionaryWithContentsOfFile_(plist_file)
   if plist:
@@ -347,12 +326,12 @@ def getSafariExtensions(path,output_file):
 
 #get all chrome extensions on the system
 def getChromeExtensions(path,output_file):
-  print("%s" % "[+] Gathering Chrome Extensions data.")
+  print("{}".format("[+] Gathering Chrome Extensions data."))
   if os.path.exists(path):
     extensions_directories = os.listdir(path)
     for directory in extensions_directories:
       full_path = path+directory
-      for root, dirs, files in os.walk(full_path, topdown=False):
+      for root, _dirs, files in os.walk(full_path, topdown=False):
         for name in files:
           if name == "manifest.json":
             with open(os.path.join(root,name),'r') as manifest:
@@ -361,7 +340,7 @@ def getChromeExtensions(path,output_file):
             for field in manifest_json:
               extensions = {}
               if field == "name":
-                if manifest_json.get("name").startswith('__') == False:
+                if not manifest_json.get("name").startswith('__'):
                   extensions.update({"extension_directory_name":directory})
                   update_url = manifest_json.get("update_url")
                   if update_url:
@@ -377,7 +356,7 @@ def getChromeExtensions(path,output_file):
 
 # get chrome downloads and visit history
 def getChromeDownloads(chromeHistoryDbPath,output_file):
-  print("%s" % "[+] Gathering Chrome Downloads history.")
+  print("{}".format("[+] Gathering Chrome Downloads history."))
 
   # database is locked
   _,historyCopyPath = tempfile.mkstemp()
@@ -391,7 +370,7 @@ def getChromeDownloads(chromeHistoryDbPath,output_file):
     dangerTypeEnum = ("none", "file", "url", "content", "uncommon", "host", "unwanted", "safe", "accepted")
     statusEnum = ("in_progress", "interrupted", "complete")
     for row in results:
-      download = dict((k, row[k]) for k in ("total_bytes", "opened","referrer", "by_ext_id", 
+      download = dict((k, row[k]) for k in ("total_bytes", "opened","referrer", "by_ext_id",
       "by_ext_name", "mime_type", "original_mime_type", "site_url", "tab_url", "tab_referrer_url"))
       start_time = chrome_epoch_start + datetime.timedelta(microseconds=int(row['start_time']))
       download.update({
@@ -405,7 +384,7 @@ def getChromeDownloads(chromeHistoryDbPath,output_file):
         "danger_type": dangerTypeEnum[row["danger_type"]],
         "state": statusEnum[row["state"]]
       })
-      
+
       json.dump(download,output_file)
       output_file.write("\n")
   except sqlite3.OperationalError:
@@ -414,13 +393,13 @@ def getChromeDownloads(chromeHistoryDbPath,output_file):
     print("[-] Error parsing chrome history database")
   finally:
     os.remove(historyCopyPath)
-  
+
 
 
 
 #get all firefox extensions on the system
 def getFirefoxExtensions(path,output_file):
-  print("%s" % "[+] Gathering Firefox Extensions data.")
+  print("{}".format("[+] Gathering Firefox Extensions data."))
   try:
     with open(path+"profiles.ini",'r') as profile_data:
       profile_dump = profile_data.read()
@@ -453,7 +432,7 @@ def getFirefoxExtensions(path,output_file):
     outfile.write("\n")
 
 def getInstallHistory(output_file):
-  print("%s" % "[+] Gathering Install History data.")
+  print("{}".format("[+] Gathering Install History data."))
   path = '/Library/Receipts/InstallHistory.plist'
   history = plistlib.readPlist(path)
   for item in history:
@@ -471,7 +450,7 @@ def getInstallHistory(output_file):
 
 def getCronJobs(users,output_file):
   #get all of the current users
-  print("%s" % "[+] Gathering current cron jobs.")
+  print("{}".format("[+] Gathering current cron jobs."))
   usercrons = {}
   for user in users:
     #results in a tuple
@@ -486,10 +465,10 @@ def getCronJobs(users,output_file):
     output_file.write("\n")
 
 def getEmond(output_file):
-  print("%s" % "[+] Gathering Emond Rules.")
+  print("{}".format("[+] Gathering Emond Rules."))
   emondRules = []
   allRules = {}
-  for root, dirs, files in os.walk('/etc/emond.d/rules/', topdown=False):
+  for root, _dirs, files in os.walk('/etc/emond.d/rules/', topdown=False):
     for name in files:
       emondRules.append(os.path.join(root, name))
   for rule in emondRules:
@@ -502,10 +481,10 @@ def getEmond(output_file):
     output_file.write("\n")
 
 def getKext(sipStatus,kextPath,output_file,ignoreVFlag):
-  print("%s" % "[+] Gathering Kernel Extensions data.")
+  print("{}".format("[+] Gathering Kernel Extensions data."))
   kexts = os.listdir(kextPath)
   for kext in kexts:
-    for root, dirs, files in os.walk(kextPath+"/"+kext, topdown=False):
+    for root, _dirs, files in os.walk(kextPath+"/"+kext, topdown=False):
       for name in files:
         kextDict = {}
         if name == ("Info.plist"):
@@ -548,7 +527,7 @@ def getKext(sipStatus,kextPath,output_file,ignoreVFlag):
           output_file.write("\n")
 
 def getEnv(output_file):
-  print("%s" % "[+] Gathering Environment Variables.")
+  print("{}".format("[+] Gathering Environment Variables."))
   envVars = subprocess.Popen(["env"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT).communicate()[0].split('\n')
   for var in envVars:
     env = {}
@@ -562,12 +541,12 @@ def getEnv(output_file):
       output_file.write("\n")
 
 def getPeriodicScripts(output_file):
-  print("%s" % "[+] Gathering Periodic Scripts.")
+  print("{}".format("[+] Gathering Periodic Scripts."))
   periodic = {}
   periodicDirs = ['/etc/periodic/daily/','/etc/periodic/weekly/','/etc/periodic/monthly/']
   for item in periodicDirs:
     periodicLst = []
-    for root, dirs, files in os.walk(item, topdown=False):
+    for _root, _dirs, files in os.walk(item, topdown=False):
       for name in files:
         periodicLst.append(name)
       periodic.update({item:periodicLst})
@@ -578,7 +557,7 @@ def getPeriodicScripts(output_file):
       output_file.write("\n")
 
 def getConnections(output_file):
-  print("%s" % "[+] Gathering current network connections.")
+  print("{}".format("[+] Gathering current network connections."))
   #get process listing with connections
   processes = subprocess.Popen(["lsof","-i"], stdout=subprocess.PIPE).communicate()[0].split('\n')
   lstofprcs = []
@@ -605,7 +584,7 @@ def getConnections(output_file):
     output_file.write("\n")
 
 def SIPStatus(output_file):
-  print("%s" % "[+] Gathering System Intergrity Protection status.")
+  print("{}".format("[+] Gathering System Intergrity Protection status."))
   sip = {}
   status = subprocess.Popen(["csrutil","status"], stdout=subprocess.PIPE).communicate()[0]
   status = status.strip('\n').strip(".").split(":")[1].strip(" ")
@@ -619,7 +598,7 @@ def SIPStatus(output_file):
 
 
 def GatekeeperStatus(output_file):
-  print("%s" % "[+] Gathering Gatekeeper status.")
+  print("{}".format("[+] Gathering Gatekeeper status."))
   gatekeeper = {}
   status = subprocess.Popen(["spctl","--status"], stdout=subprocess.PIPE).communicate()[0]
   gatekeeper.update({"gatekeeper_status":status})
@@ -664,18 +643,18 @@ def parseApp(app,ignoreVFlag):
   return appInfo
 
 def getLoginItems(path,output_file,ignoreVFlag):
-  print("%s" % "[+] Gathering Login Items for each user.")
+  print("{}".format("[+] Gathering Login Items for each user."))
   #Parsing - Library/Application\ Support/com.apple.backgroundtaskmanagementagent/backgrounditems.btm
   plist_file = path
   loginApps = []
   plist = Foundation.NSDictionary.dictionaryWithContentsOfFile_(plist_file)
   objects = plist.get("$objects")
   for item in objects:
-    if item.isKindOfClass_(Foundation.NSClassFromString("NSData")) == True:
+    if item.isKindOfClass_(Foundation.NSClassFromString("NSData")):
       bookmark = item
       properties = Foundation.NSURL.resourceValuesForKeys_fromBookmarkData_(['NSURLBookmarkAllPropertiesKey'],bookmark)
       loginApps.append(properties.get("NSURLBookmarkAllPropertiesKey").get("_NSURLPathKey"))
-    elif item.isKindOfClass_(Foundation.NSClassFromString("NSDictionary")) == True:
+    elif item.isKindOfClass_(Foundation.NSClassFromString("NSDictionary")):
       if item.has_key("NS.data"):
         bookmark = item.get("NS.data")
         properties = Foundation.NSURL.resourceValuesForKeys_fromBookmarkData_(['NSURLBookmarkAllPropertiesKey'],bookmark)
@@ -694,9 +673,9 @@ def getLoginItems(path,output_file,ignoreVFlag):
       outfile.write("\n")
 
 def getApps(path,output_file,ignoreVFlag):
-  print("%s" % "[+] Gathering Applications for each user.")
+  print("{}".format("[+] Gathering Applications for each user."))
   if vtResultRequested:
-    print("%s" % "[++] Querying VirusTotal as we go.")
+    print("{}".format("[++] Querying VirusTotal as we go."))
 
   app_lst = os.listdir(path)
   for app in app_lst:
@@ -717,7 +696,7 @@ def getApps(path,output_file,ignoreVFlag):
 
 
 def getEventTaps(output_file):
-  print("%s" % "[+] Gathering installed Event Taps.")
+  print("{}".format("[+] Gathering installed Event Taps."))
   evInfo = Quartz.CGGetEventTapList(10,None,None)
   for item in evInfo[1]:
     eventTap = {}
@@ -737,7 +716,7 @@ def getEventTaps(output_file):
     outfile.write("\n")
 
 def getBashHistory(output_file, users):
-  print("%s" % "[+] Gathering Bash History data.")
+  print("{}".format("[+] Gathering Bash History data."))
   userBashHistory = {}
   for user in users:
     history_file = '/Users/'+user+'/.bash_history'
@@ -798,7 +777,7 @@ def hmac_sha256(key, data):
 
 
 def amzn_sig(secret_access_key, data, aws_region, aws_service='s3'):
-    today = datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%d')
+    today = datetime.datetime.now(datetime.UTC).strftime('%Y%m%d')
     date_key = hmac_sha256('AWS4' + secret_access_key, today)
     date_region_key = hmac_sha256(date_key, aws_region)
     date_region_svc_key = hmac_sha256(date_region_key, aws_service)
@@ -828,7 +807,7 @@ def s3_upload(data, content_type, filename_path, access_key_id, secret_access_ke
     put_req = urllib2.Request(s3_upload_url, data=data)
     put_req.get_method = lambda: 'PUT'
 
-    now = datetime.datetime.now(datetime.timezone.utc)
+    now = datetime.datetime.now(datetime.UTC)
     amzn_ts = now.strftime('%Y%m%dT%H%M%SZ')
     amzn_date = now.strftime('%Y%m%d')
 
@@ -860,7 +839,7 @@ def s3_upload(data, content_type, filename_path, access_key_id, secret_access_ke
     opener = urllib2.build_opener(urllib2.HTTPHandler())
     try:
         conn = opener.open(put_req)
-    except urllib2.HTTPError as e:
+    except urllib2.HTTPError:
         return False
 
     return conn.code == 200
@@ -873,13 +852,13 @@ if __name__ == '__main__':
 
   outputFile = hostname
   outputDirectory = os.getcwd()
-  print("%s" % """
+  print("{}".format(r"""
 __     __               _
 \ \   / /__ _ __   __ _| |_ ___  _ __
  \ \ / / _ \ '_ \ / _` | __/ _ \| '__|
   \ V /  __/ | | | (_| | || (_) | |
    \_/ \___|_| |_|\__,_|\__\___/|_|
-          """)
+          """))
 
 
 
@@ -889,7 +868,7 @@ __     __               _
   parser.add_argument('-a', metavar='<BUCKET_NAME>:<AWS_KEY_ID>:<AWS_KEY_SECRET>:<AWS_REGION>', help='Your AWS Key if you want to upload to S3 bucket.')
   parser.add_argument('-v',  action="store_true",dest="vtResultRequested", help='If present, hashes will be sent to VirusTotal for checking (severely slows down performance)')
   args = parser.parse_args()
-  
+
   outputFilename = args.f + '.json'
   outputPath = os.path.join(args.d, outputFilename)
 
@@ -952,8 +931,8 @@ __     __               _
       sipStatus = False
 
     #if SIP is disabled, check for items in /System directory
-    if sipStatus == False:
-      print("%s" % "[!!!!!] System Integrity Protection is disabled. Gathering additional data launch agent/daemon data.")
+    if not sipStatus:
+      print("{}".format("[!!!!!] System Integrity Protection is disabled. Gathering additional data launch agent/daemon data."))
       output_list.append(getLaunchAgents('/System/Library/LaunchAgents',outfile))
       output_list.append(getLaunchDaemons('/System/Library/LaunchDaemons',outfile,ignoreVT))
       output_list.append(getKext(sipStatus,'/System/Library/Extensions',outfile,ignoreVT))
@@ -966,19 +945,19 @@ __     __               _
       with open(outputPath, 'r') as oh:
         didUpload = s3_upload(oh.read(), 'application/json', '/uploads/' + outputFilename,
               aws_key, aws_secret, bucket_name, aws_region)
-        if didUpload == True:
-          print("[+] results uploaded to S3 (%s)" % outputFilename)
+        if didUpload:
+          print("[+] results uploaded to S3 ({})".format(outputFilename))
           try:
             os.remove(outputPath)
           except:
             pass
         else:
-          print("[+] results were not uploaded to S3 (%s)" % outputFilename)
-      
-      
+          print("[+] results were not uploaded to S3 ({})".format(outputFilename))
+
+
 
     script_end = time.time()
     total_time = script_end - script_start
 
-    print("[***] Venator collection completed in %s seconds. Location of your output file:%s" %  (str(total_time),outputPath))
-    print("[***] Venator collection completed in %s seconds with %s records. Location of your output file:%s" %  (str(total_time),str(records_count),outputPath))
+    print("[***] Venator collection completed in {} seconds. Location of your output file:{}".format(str(total_time),outputPath))
+    print("[***] Venator collection completed in {} seconds with {} records. Location of your output file:{}".format(str(total_time),str(records_count),outputPath))

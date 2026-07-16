@@ -33,12 +33,11 @@ import math
 import os
 import threading
 from collections import defaultdict
+from collections.abc import Iterable
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from threading import Lock
-from typing import Dict, Iterable, List, Optional
-
 
 LAZYOWN_DIR: Path = Path(
     os.environ.get("LAZYOWN_DIR", str(Path(__file__).resolve().parent.parent))
@@ -66,7 +65,7 @@ class MetricsRegistry:
     def __init__(self) -> None:
         """Create an empty registry with its own lock."""
 
-        self._counters: Dict[str, Dict[str, int]] = defaultdict(
+        self._counters: dict[str, dict[str, int]] = defaultdict(
             lambda: defaultdict(int)
         )
         self._lock = Lock()
@@ -74,7 +73,7 @@ class MetricsRegistry:
     def inc(
         self,
         name: str,
-        labels: Optional[Dict[str, str]] = None,
+        labels: dict[str, str] | None = None,
         value: int = 1,
     ) -> None:
         """Increment the named counter for the given labels.
@@ -92,7 +91,7 @@ class MetricsRegistry:
     def get(
         self,
         name: str,
-        labels: Optional[Dict[str, str]] = None,
+        labels: dict[str, str] | None = None,
     ) -> int:
         """Return the current value of a counter.
 
@@ -117,7 +116,7 @@ class MetricsRegistry:
             ``text/plain``.
         """
 
-        lines: List[str] = []
+        lines: list[str] = []
         for name, series in self._counters.items():
             lines.append(f"# TYPE {name} counter")
             for label_key, value in series.items():
@@ -128,7 +127,7 @@ class MetricsRegistry:
         return "\n".join(lines)
 
 
-def _labels_key(labels: Dict[str, str]) -> str:
+def _labels_key(labels: dict[str, str]) -> str:
     """Render a label dictionary as a deterministic Prometheus key fragment.
 
     Args:
@@ -166,10 +165,10 @@ class MetricRecord:
     args: str
     duration_ms: int
     success: bool
-    exit_code: Optional[int]
+    exit_code: int | None
     source: str
 
-    def to_dict(self) -> Dict[str, object]:
+    def to_dict(self) -> dict[str, object]:
         """Return the record as a JSON-serialisable dictionary."""
 
         return {
@@ -236,7 +235,7 @@ class MetricsAggregator:
     """
 
     @staticmethod
-    def _percentile(values: List[int], percentile: float) -> int:
+    def _percentile(values: list[int], percentile: float) -> int:
         """Return the nearest-rank percentile of *values* in milliseconds.
 
         Args:
@@ -258,10 +257,10 @@ class MetricsAggregator:
     @classmethod
     def summarize(
         cls,
-        records: Iterable[Dict[str, object]],
-        window_seconds: Optional[int] = None,
-        now_utc: Optional[datetime] = None,
-    ) -> Dict[str, object]:
+        records: Iterable[dict[str, object]],
+        window_seconds: int | None = None,
+        now_utc: datetime | None = None,
+    ) -> dict[str, object]:
         """Compute aggregate statistics over the supplied records.
 
         Args:
@@ -276,17 +275,17 @@ class MetricsAggregator:
             ``by_command`` and ``top_failures``.
         """
 
-        reference = now_utc or datetime.now(timezone.utc)
+        reference = now_utc or datetime.now(UTC)
         cutoff_epoch = (
             reference.timestamp() - window_seconds
             if window_seconds is not None and window_seconds > 0
             else None
         )
 
-        per_command_durations: Dict[str, List[int]] = {}
-        per_command_total: Dict[str, int] = {}
-        per_command_success: Dict[str, int] = {}
-        failure_counter: Dict[str, int] = {}
+        per_command_durations: dict[str, list[int]] = {}
+        per_command_total: dict[str, int] = {}
+        per_command_success: dict[str, int] = {}
+        failure_counter: dict[str, int] = {}
         total = 0
 
         for record in records:
@@ -294,7 +293,7 @@ class MetricsAggregator:
                 continue
             ts_raw = record.get("ts")
             if cutoff_epoch is not None and isinstance(ts_raw, str):
-                record_epoch: Optional[float] = None
+                record_epoch: float | None = None
                 try:
                     record_epoch = datetime.fromisoformat(ts_raw).timestamp()
                 except ValueError:
@@ -316,7 +315,7 @@ class MetricsAggregator:
                 failure_counter[command] = failure_counter.get(command, 0) + 1
             total += 1
 
-        by_command: Dict[str, Dict[str, float]] = {}
+        by_command: dict[str, dict[str, float]] = {}
         for command, durations in per_command_durations.items():
             durations.sort()
             count = per_command_total[command]
@@ -350,7 +349,7 @@ class MetricsRecorder:
     singleton returned by :func:`get_recorder`.
     """
 
-    def __init__(self, writer: Optional[MetricsWriter] = None) -> None:
+    def __init__(self, writer: MetricsWriter | None = None) -> None:
         """Initialise the recorder.
 
         Args:
@@ -372,7 +371,7 @@ class MetricsRecorder:
         args: str = "",
         duration_ms: int = 0,
         success: bool = True,
-        exit_code: Optional[int] = None,
+        exit_code: int | None = None,
         source: str = "cli",
     ) -> None:
         """Persist a single command-execution telemetry record.
@@ -389,7 +388,7 @@ class MetricsRecorder:
 
         clean_duration = max(0, int(duration_ms))
         record = MetricRecord(
-            ts=datetime.now(timezone.utc).isoformat(),
+            ts=datetime.now(UTC).isoformat(),
             command=str(command),
             args=str(args),
             duration_ms=clean_duration,
@@ -399,7 +398,7 @@ class MetricsRecorder:
         )
         self._writer.append(record)
 
-    def _read_all(self) -> List[Dict[str, object]]:
+    def _read_all(self) -> list[dict[str, object]]:
         """Return every record currently present in the JSONL file.
 
         Lines that fail to decode are skipped with a debug log entry.
@@ -410,7 +409,7 @@ class MetricsRecorder:
         """
 
         path = self._writer.path
-        records: List[Dict[str, object]] = []
+        records: list[dict[str, object]] = []
         if not path.exists():
             return records
         try:
@@ -428,8 +427,8 @@ class MetricsRecorder:
         return records
 
     def summarize(
-        self, window_seconds: Optional[int] = None
-    ) -> Dict[str, object]:
+        self, window_seconds: int | None = None
+    ) -> dict[str, object]:
         """Return aggregate statistics over recorded events.
 
         Args:
@@ -443,7 +442,7 @@ class MetricsRecorder:
 
         return MetricsAggregator.summarize(self._read_all(), window_seconds)
 
-    def tail(self, n: int = DEFAULT_TAIL) -> List[Dict[str, object]]:
+    def tail(self, n: int = DEFAULT_TAIL) -> list[dict[str, object]]:
         """Return the most recent *n* records, newest first.
 
         Args:
@@ -462,7 +461,7 @@ class MetricsRecorder:
 
 
 _recorder_lock = threading.Lock()
-_recorder: Optional[MetricsRecorder] = None
+_recorder: MetricsRecorder | None = None
 
 
 def get_recorder() -> MetricsRecorder:
@@ -480,7 +479,7 @@ def get_recorder() -> MetricsRecorder:
 
 
 def reset_recorder_for_tests(
-    writer: Optional[MetricsWriter] = None,
+    writer: MetricsWriter | None = None,
 ) -> MetricsRecorder:
     """Replace the module-level recorder with a fresh instance.
 

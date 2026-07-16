@@ -8,7 +8,7 @@ widgets that draw with custom painters can refresh their cached colours.
 from __future__ import annotations
 
 import logging
-from typing import Iterable, Mapping
+from collections.abc import Iterable, Mapping
 
 from PySide6.QtCore import QObject, Signal
 from PySide6.QtGui import QColor, QPalette

@@ -12,8 +12,6 @@ from __future__ import annotations
 import os
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Optional
-
 
 REPO_ROOT_ENV = "LAZYOWN_REPO_ROOT"
 RUN_DIR_ENV = "LAZYOWN_ORCH_RUN_DIR"
@@ -165,7 +163,7 @@ def load_config() -> Config:
     return Config()
 
 
-def resolve_optional(config: Config, key: str) -> Optional[str]:
+def resolve_optional(config: Config, key: str) -> str | None:
     """Return the environment value for a key or None when missing.
 
     The helper keeps the call sites free of repeated os.environ lookups

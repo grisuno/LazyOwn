@@ -1,29 +1,28 @@
-# coding=utf-8
 
-import os
-import time
-import subprocess
 import argparse
+import os
 import signal
+import subprocess
 import sys
+import time
 
 header = """
-888                                  .d88888b.                         
-888                                 d88P" "Y88b                        
-888                                 888     888                        
-888       8888b.  88888888 888  888 888     888 888  888  888 88888b.  
-888          "88b    d88P  888  888 888     888 888  888  888 888 "88b 
-888      .d888888   d88P   888  888 888     888 888  888  888 888  888 
-888      888  888  d88P    Y88b 888 Y88b. .d88P Y88b 888 d88P 888  888 
-88888888 "Y888888 88888888  "Y88888  "Y88888P"   "Y8888888P"  888  888 
-888b     d888 d8b 888           888                d8888 8888888b.     
-8888b   d8888 Y8P 888      Y8b d88P               d88888 888   Y88b    
-88888b.d88888     888       "Y88P"               d88P888 888    888    
-888Y88888P888 888 888888 88888b.d88b.           d88P 888 888   d88P    
-888 Y888P 888 888 888    888 "888 "88b         d88P  888 8888888P"     
-888  Y8P  888 888 888    888  888  888        d88P   888 888           
-888   "   888 888 Y88b.  888  888  888       d8888888888 888           
-888       888 888  "Y888 888  888  888      d88P     888 888           
+888                                  .d88888b.
+888                                 d88P" "Y88b
+888                                 888     888
+888       8888b.  88888888 888  888 888     888 888  888  888 88888b.
+888          "88b    d88P  888  888 888     888 888  888  888 888 "88b
+888      .d888888   d88P   888  888 888     888 888  888  888 888  888
+888      888  888  d88P    Y88b 888 Y88b. .d88P Y88b 888 d88P 888  888
+88888888 "Y888888 88888888  "Y88888  "Y88888P"   "Y8888888P"  888  888
+888b     d888 d8b 888           888                d8888 8888888b.
+8888b   d8888 Y8P 888      Y8b d88P               d88888 888   Y88b
+88888b.d88888     888       "Y88P"               d88P888 888    888
+888Y88888P888 888 888888 88888b.d88b.           d88P 888 888   d88P
+888 Y888P 888 888 888    888 "888 "88b         d88P  888 8888888P"
+888  Y8P  888 888 888    888  888  888        d88P   888 888
+888   "   888 888 Y88b.  888  888  888       d8888888888 888
+888       888 888  "Y888 888  888  888      d88P     888 888
 """
 
 
@@ -228,8 +227,8 @@ def start_services(ap_iface, script_path, sslstrip, wireshark, driftnet, tshark)
             f"sudo screen -S mitmap-dns2proxy -m -d sh -c 'cd {script_path}/src/dns2proxy && python dns2proxy.py'"
         )
     else:
-        os.system(f"sudo sysctl -w net.ipv4.ip_forward=1 > /dev/null 2>&1")
-        os.system(f"sudo screen -S mitmap-dnsmasq -m -d dnsmasq -C /etc/dnsmasq.conf")
+        os.system("sudo sysctl -w net.ipv4.ip_forward=1 > /dev/null 2>&1")
+        os.system("sudo screen -S mitmap-dnsmasq -m -d dnsmasq -C /etc/dnsmasq.conf")
     if wireshark:
         os.system(f"sudo screen -S mitmap-wireshark -m -d wireshark -i {ap_iface}")
     if driftnet:

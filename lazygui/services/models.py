@@ -7,20 +7,20 @@ touching the GUI loop. Widgets adapt them at the edge.
 
 from __future__ import annotations
 
+from collections.abc import Mapping
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
-from enum import Enum
-from typing import Mapping
+from datetime import UTC, datetime
+from enum import StrEnum
 
 
-class BackendKind(str, Enum):
+class BackendKind(StrEnum):
     """Stable identifiers for the backend implementations."""
 
     LOCAL = "local"
     TEAMSERVER = "teamserver"
 
 
-class EventLevel(str, Enum):
+class EventLevel(StrEnum):
     """Severity levels for :class:`EventRecord`. Order matters for filtering."""
 
     DEBUG = "debug"
@@ -94,4 +94,4 @@ class EventRecord:
     @classmethod
     def now(cls, level: EventLevel, source: str, message: str) -> EventRecord:
         """Construct a record stamped with the current UTC time."""
-        return cls(timestamp=datetime.now(tz=timezone.utc), level=level, source=source, message=message)
+        return cls(timestamp=datetime.now(tz=UTC), level=level, source=source, message=message)

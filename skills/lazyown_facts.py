@@ -23,12 +23,9 @@ import argparse
 import json
 import logging
 import re
-import sys
 import xml.etree.ElementTree as ET
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Dict, List, Optional
-
 
 # ─── Config ──────────────────────────────────────────────────────────────────
 
@@ -45,7 +42,7 @@ class Config:
     log_level: str
 
     @classmethod
-    def default(cls) -> "Config":
+    def default(cls) -> Config:
         base = Path(__file__).parent.parent
         sessions = base / "sessions"
         return cls(
@@ -134,13 +131,13 @@ class HostFacts:
     """All known facts for a single target IP."""
 
     host: str
-    services: List[ServiceFact] = field(default_factory=list)
-    credentials: List[CredentialFact] = field(default_factory=list)
-    shares: List[ShareFact] = field(default_factory=list)
-    access: List[AccessFact] = field(default_factory=list)
-    raw_files: List[str] = field(default_factory=list)
-    vulnerabilities: List[VulnerabilityFact] = field(default_factory=list)
-    paths: List[DiscoveredPath] = field(default_factory=list)
+    services: list[ServiceFact] = field(default_factory=list)
+    credentials: list[CredentialFact] = field(default_factory=list)
+    shares: list[ShareFact] = field(default_factory=list)
+    access: list[AccessFact] = field(default_factory=list)
+    raw_files: list[str] = field(default_factory=list)
+    vulnerabilities: list[VulnerabilityFact] = field(default_factory=list)
+    paths: list[DiscoveredPath] = field(default_factory=list)
     os_hint: str = ""
 
     def highest_access(self) -> str:
@@ -154,10 +151,10 @@ class HostFacts:
                 best = lvl
         return best
 
-    def open_ports(self) -> List[int]:
+    def open_ports(self) -> list[int]:
         return sorted({s.port for s in self.services if s.state == "open"})
 
-    def services_by_name(self, name: str) -> List[ServiceFact]:
+    def services_by_name(self, name: str) -> list[ServiceFact]:
         return [s for s in self.services if name.lower() in s.service.lower()]
 
 
@@ -167,8 +164,8 @@ class HostFacts:
 class INmapXmlParser:
     """Parse a single nmap XML file into ServiceFact objects."""
 
-    def parse(self, xml_path: Path) -> List[ServiceFact]:
-        facts: List[ServiceFact] = []
+    def parse(self, xml_path: Path) -> list[ServiceFact]:
+        facts: list[ServiceFact] = []
         try:
             tree = ET.parse(str(xml_path))
         except ET.ParseError:
@@ -223,7 +220,7 @@ class ITextOutputParser:
         host: str,
         content: str,
         source_file: str,
-    ) -> tuple[List[CredentialFact], List[ShareFact], List[AccessFact]]:
+    ) -> tuple[list[CredentialFact], list[ShareFact], list[AccessFact]]:
         raise NotImplementedError
 
     def parse_extended(
@@ -232,7 +229,7 @@ class ITextOutputParser:
         content: str,
         source_file: str,
         port: int = 80,
-    ) -> "tuple[List[CredentialFact], List[ShareFact], List[AccessFact], List[VulnerabilityFact], List[DiscoveredPath]]":
+    ) -> tuple[list[CredentialFact], list[ShareFact], list[AccessFact], list[VulnerabilityFact], list[DiscoveredPath]]:
         """Extended parse including vulnerabilities and web paths. Override in subclasses."""
         creds, shares, access = self.parse(host, content, source_file)
         return creds, shares, access, [], []
@@ -260,9 +257,9 @@ class CrackMapExecParser(ITextOutputParser):
         )
 
     def parse(self, host: str, content: str, source_file: str):
-        creds: List[CredentialFact] = []
-        shares: List[ShareFact] = []
-        access: List[AccessFact] = []
+        creds: list[CredentialFact] = []
+        shares: list[ShareFact] = []
+        access: list[AccessFact] = []
         for m in self._CRED_RE.finditer(content):
             creds.append(CredentialFact(
                 host=m.group("host") or host,
@@ -303,9 +300,9 @@ class Enum4linuxParser(ITextOutputParser):
         return "enum4linux" in filename.lower() or "enum_smb" in filename.lower()
 
     def parse(self, host: str, content: str, source_file: str):
-        creds: List[CredentialFact] = []
-        shares: List[ShareFact] = []
-        access: List[AccessFact] = []
+        creds: list[CredentialFact] = []
+        shares: list[ShareFact] = []
+        access: list[AccessFact] = []
         for m in self._USER_RE.finditer(content):
             creds.append(CredentialFact(
                 host=host,
@@ -345,9 +342,9 @@ class SecretsdumpParser(ITextOutputParser):
         )
 
     def parse(self, host: str, content: str, source_file: str):
-        creds: List[CredentialFact] = []
-        shares: List[ShareFact] = []
-        access: List[AccessFact] = []
+        creds: list[CredentialFact] = []
+        shares: list[ShareFact] = []
+        access: list[AccessFact] = []
         for m in self._NTLM_RE.finditer(content):
             creds.append(CredentialFact(
                 host=host,
@@ -376,9 +373,9 @@ class LdapParser(ITextOutputParser):
         return any(k in filename.lower() for k in ("ldap", "ldapdomaindump"))
 
     def parse(self, host: str, content: str, source_file: str):
-        creds: List[CredentialFact] = []
-        shares: List[ShareFact] = []
-        access: List[AccessFact] = []
+        creds: list[CredentialFact] = []
+        shares: list[ShareFact] = []
+        access: list[AccessFact] = []
         for m in self._SAM_RE.finditer(content):
             creds.append(CredentialFact(
                 host=host,
@@ -405,7 +402,7 @@ class KerbruteParser(ITextOutputParser):
         return "kerbrute" in filename.lower() or "VALID USERNAME" in content
 
     def parse(self, host: str, content: str, source_file: str):
-        creds: List[CredentialFact] = []
+        creds: list[CredentialFact] = []
         for m in self._VALID_RE.finditer(content):
             creds.append(CredentialFact(
                 host=host, username=m.group(1), password="", source_file=source_file
@@ -433,7 +430,7 @@ class RpcclientParser(ITextOutputParser):
         return "rpcclient" in filename.lower() or "enumdomusers" in content
 
     def parse(self, host: str, content: str, source_file: str):
-        creds: List[CredentialFact] = []
+        creds: list[CredentialFact] = []
         for m in self._USER_RE.finditer(content):
             creds.append(CredentialFact(
                 host=host, username=m.group(1).strip(), password="", source_file=source_file
@@ -467,7 +464,7 @@ class GobusterFfufParser(ITextOutputParser):
         return [], [], []
 
     def parse_extended(self, host: str, content: str, source_file: str, port: int = 80):
-        paths: List[DiscoveredPath] = []
+        paths: list[DiscoveredPath] = []
         for m in self._GB_RE.finditer(content):
             paths.append(DiscoveredPath(
                 host=host, port=port, path=m.group(1),
@@ -509,8 +506,8 @@ class NiktoParser(ITextOutputParser):
         return [], [], []
 
     def parse_extended(self, host: str, content: str, source_file: str, port: int = 80):
-        vulns: List[VulnerabilityFact] = []
-        paths: List[DiscoveredPath] = []
+        vulns: list[VulnerabilityFact] = []
+        paths: list[DiscoveredPath] = []
         for m in self._VULN_RE.finditer(content):
             vulns.append(VulnerabilityFact(
                 host=host,
@@ -547,7 +544,7 @@ class NucleiParser(ITextOutputParser):
         return [], [], []
 
     def parse_extended(self, host: str, content: str, source_file: str, port: int = 80):
-        vulns: List[VulnerabilityFact] = []
+        vulns: list[VulnerabilityFact] = []
         sev_order = {"critical": 0, "high": 1, "medium": 2, "low": 3, "info": 4}
         for m in self._RE.finditer(content):
             severity, tmpl_id, proto, target = m.groups()
@@ -581,7 +578,7 @@ class SslscanParser(ITextOutputParser):
         return [], [], []
 
     def parse_extended(self, host: str, content: str, source_file: str, port: int = 443):
-        vulns: List[VulnerabilityFact] = []
+        vulns: list[VulnerabilityFact] = []
         seen: set = set()
         for m in self._WEAK_TLS_RE.finditer(content):
             proto = m.group(1)
@@ -631,9 +628,9 @@ class GenericOutputParser(ITextOutputParser):
         return True
 
     def parse(self, host: str, content: str, source_file: str):
-        creds: List[CredentialFact] = []
-        shares: List[ShareFact] = []
-        access: List[AccessFact] = []
+        creds: list[CredentialFact] = []
+        shares: list[ShareFact] = []
+        access: list[AccessFact] = []
         users = {m.group("user") for m in self._USER_RE.finditer(content)}
         passwords = {m.group("pass") for m in self._CRED_RE.finditer(content)}
         hashes = {m.group("hash") for m in self._HASH_RE.finditer(content)}
@@ -667,12 +664,12 @@ class FactStore:
     The file is keyed by host IP: { "10.10.11.78": { ... } }
     """
 
-    def __init__(self, cfg: Optional[Config] = None) -> None:
+    def __init__(self, cfg: Config | None = None) -> None:
         self._cfg = cfg or Config.default()
         logging.basicConfig(level=getattr(logging, self._cfg.log_level, logging.WARNING))
         self._log = logging.getLogger(self.__class__.__name__)
         self._xml_parser = INmapXmlParser()
-        self._text_parsers: List[ITextOutputParser] = [
+        self._text_parsers: list[ITextOutputParser] = [
             CrackMapExecParser(),
             Enum4linuxParser(),
             SecretsdumpParser(),
@@ -685,7 +682,7 @@ class FactStore:
             SslscanParser(),
             GenericOutputParser(),
         ]
-        self._data: Dict[str, HostFacts] = {}
+        self._data: dict[str, HostFacts] = {}
         self._load()
 
     # ── persistence ──────────────────────────────────────────────────────────
@@ -716,7 +713,7 @@ class FactStore:
             self._data[host] = hf
 
     def save(self) -> None:
-        out: Dict[str, dict] = {}
+        out: dict[str, dict] = {}
         for host, hf in self._data.items():
             out[host] = {
                 "services":        [asdict(s) for s in hf.services],
@@ -739,7 +736,7 @@ class FactStore:
 
     def _dedup_services(self, hf: HostFacts) -> None:
         seen: set = set()
-        unique: List[ServiceFact] = []
+        unique: list[ServiceFact] = []
         for s in hf.services:
             key = (s.host, s.port, s.protocol)
             if key not in seen:
@@ -749,7 +746,7 @@ class FactStore:
 
     def _dedup_creds(self, hf: HostFacts) -> None:
         seen: set = set()
-        unique: List[CredentialFact] = []
+        unique: list[CredentialFact] = []
         for c in hf.credentials:
             key = (c.host, c.username, c.password, c.hash_value)
             if key not in seen:
@@ -759,7 +756,7 @@ class FactStore:
 
     def _dedup_vulns(self, hf: HostFacts) -> None:
         seen: set = set()
-        unique: List[VulnerabilityFact] = []
+        unique: list[VulnerabilityFact] = []
         for v in hf.vulnerabilities:
             key = (v.host, v.vuln_id, v.url)
             if key not in seen:
@@ -769,7 +766,7 @@ class FactStore:
 
     def _dedup_paths(self, hf: HostFacts) -> None:
         seen: set = set()
-        unique: List[DiscoveredPath] = []
+        unique: list[DiscoveredPath] = []
         for p in hf.paths:
             key = (p.host, p.port, p.path, p.status_code)
             if key not in seen:
@@ -847,14 +844,14 @@ class FactStore:
 
     # ── full scan ─────────────────────────────────────────────────────────────
 
-    def parse_all(self, target: Optional[str] = None) -> Dict[str, int]:
+    def parse_all(self, target: str | None = None) -> dict[str, int]:
         """
         Scan sessions/ for all nmap XML and txt files.
 
         If target is given only process files that appear to belong to that IP.
         Returns a dict of {host: new_facts_count}.
         """
-        counts: Dict[str, int] = {}
+        counts: dict[str, int] = {}
 
         for xml_path in self._cfg.sessions_dir.glob(self._cfg.xml_glob):
             if target and target not in xml_path.name:
@@ -878,13 +875,13 @@ class FactStore:
 
     # ── query API ─────────────────────────────────────────────────────────────
 
-    def get_host(self, host: str) -> Optional[HostFacts]:
+    def get_host(self, host: str) -> HostFacts | None:
         return self._data.get(host)
 
-    def all_hosts(self) -> List[str]:
+    def all_hosts(self) -> list[str]:
         return sorted(self._data.keys())
 
-    def context_for_command(self, host: str, category: str) -> Dict[str, object]:
+    def context_for_command(self, host: str, category: str) -> dict[str, object]:
         """
         Return a dict of substitution parameters for a command in the given
         attack category.  The auto_loop uses these to build concrete commands.
@@ -896,10 +893,10 @@ class FactStore:
         if hf is None:
             return {}
 
-        ctx: Dict[str, object] = {"host": host}
+        ctx: dict[str, object] = {"host": host}
 
         # Pick best port/service for the category
-        port_pref: Dict[str, List[str]] = {
+        port_pref: dict[str, list[str]] = {
             "enum":       ["smb", "microsoft-ds", "netbios-ssn", "ldap", "http", "ftp"],
             "brute_force":["ssh", "rdp", "ftp", "telnet", "smb", "microsoft-ds"],
             "exploit":    ["http", "https", "smb", "microsoft-ds", "ftp", "ssh"],
@@ -909,7 +906,7 @@ class FactStore:
             "lateral":    ["smb", "microsoft-ds", "winrm", "rdp"],
         }
         preferred = port_pref.get(category, [])
-        chosen_svc: Optional[ServiceFact] = None
+        chosen_svc: ServiceFact | None = None
         for svc_name in preferred:
             matches = hf.services_by_name(svc_name)
             if matches:
@@ -977,12 +974,12 @@ class FactStore:
 
         return ctx
 
-    def summary(self, host: Optional[str] = None) -> str:
+    def summary(self, host: str | None = None) -> str:
         """Return a human-readable summary of stored facts."""
         hosts = [host] if host else self.all_hosts()
         if not hosts:
             return "No facts stored yet. Run parse_all() first."
-        lines: List[str] = []
+        lines: list[str] = []
         for h in hosts:
             hf = self._data.get(h)
             if not hf:
@@ -1012,16 +1009,16 @@ class ToolDefinition:
 
     toolname: str
     command: str
-    trigger: List[str]
+    trigger: list[str]
     active: bool = True
 
 
 def create_tool_file(
     toolname: str,
     command: str,
-    trigger: List[str],
+    trigger: list[str],
     active: bool = True,
-    tools_dir: Optional[Path] = None,
+    tools_dir: Path | None = None,
 ) -> Path:
     """
     Write a new pwntomate .tool JSON file.

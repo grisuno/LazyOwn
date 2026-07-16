@@ -16,12 +16,10 @@ from __future__ import annotations
 
 import json
 import logging
-import os
 from collections import defaultdict
 from dataclasses import asdict, dataclass, field
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
 
 log = logging.getLogger("ttp_coverage")
 
@@ -60,7 +58,7 @@ class TTPRow:
     tactic: str
     status: str = "untested"
     last_run: str = ""
-    operations: List[str] = field(default_factory=list)
+    operations: list[str] = field(default_factory=list)
     findings_count: int = 0
 
 
@@ -68,7 +66,7 @@ class TTPCoverage:
     """Aggregate TTP execution data across all operations."""
 
     def __init__(self) -> None:
-        self.rows: Dict[str, TTPRow] = {}
+        self.rows: dict[str, TTPRow] = {}
         self._load_state()
 
     # ------------------------------------------------------------------
@@ -145,7 +143,7 @@ class TTPCoverage:
     # Planning
     # ------------------------------------------------------------------
 
-    def compute_ready(self, available_facts: List[str]) -> List[TTPRow]:
+    def compute_ready(self, available_facts: list[str]) -> list[TTPRow]:
         """Return the techniques that could run given available facts.
 
         A technique is ``ready`` if no blocking fact is missing. The
@@ -155,7 +153,7 @@ class TTPCoverage:
         ``T1021.*``). Operators should refine this with their own
         ability dependency data when available.
         """
-        ready: List[TTPRow] = []
+        ready: list[TTPRow] = []
         for row in self.rows.values():
             if row.status not in ("untested", "blocked"):
                 continue
@@ -164,7 +162,7 @@ class TTPCoverage:
                 ready.append(row)
         return ready
 
-    def _blocking_facts(self, tactic: str) -> List[str]:
+    def _blocking_facts(self, tactic: str) -> list[str]:
         if not tactic:
             return ["host.found"]
         m = {
@@ -200,7 +198,7 @@ class TTPCoverage:
             "untested": "[ ]",
         }
 
-        groups: Dict[str, List[TTPRow]] = defaultdict(list)
+        groups: dict[str, list[TTPRow]] = defaultdict(list)
         for row in self.rows.values():
             tac = row.tactic or "unmapped"
             groups[tac].append(row)
@@ -230,7 +228,7 @@ class TTPCoverage:
                 lines.append(f"  {mark} {row.technique_id:<10} {row.name}")
         return "\n".join(lines)
 
-    def status_by_id(self, technique_id: str) -> Optional[TTPRow]:
+    def status_by_id(self, technique_id: str) -> TTPRow | None:
         return self.rows.get(technique_id)
 
     def to_dict(self) -> dict:

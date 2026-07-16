@@ -1,8 +1,9 @@
 import subprocess
+
 from pwn import *
 
 BANNER = """
-                                                                                              L.            
+                                                                                              L.
              i                                                   t                            EW:        ,ft
             LE              ..                        f.     ;WE.ED.                 ;        E##;       t#E
            L#E             ;W,      ,##############Wf.E#,   i#G  E#K:              .DL        E###t      t#E
@@ -107,7 +108,7 @@ class BinaryAttacker:
             r'\bstrcspn\b', r'\bstrcoll\b', r'\bstrxfrm\b', r'\bstrechr\b', r'\bstrnrchr\b',
             r'\bstrecoll\b', r'\bstrend\b', r'\bstrnend\b', r'\bstrnext\b', r'\bstrnnext\b',
             r'\bstrnicmp\b', r'\bstrchrnul\b', r'\bstrcasestr\b', r'\bstrlcpy\b', r'\bstrlcat\b',
-            r'\bmemcpy\b', r'\bmemmove\b', r'\bmemset\b', r'\bmemcmp\b', r'\bbcopy\b', 
+            r'\bmemcpy\b', r'\bmemmove\b', r'\bmemset\b', r'\bmemcmp\b', r'\bbcopy\b',
             r'\bbcmp\b', r'\bbzero\b', r'\bmemccpy\b', r'\bmemchr\b', r'\bmemrchr\b',
             r'\bmemfrob\b', r'\bmempcpy\b', r'\bmemmem\b', r'\bmemalign\b', r'\bposix_memalign\b',
             r'\baligned_alloc\b', r'\bvalloc\b', r'\bpvalloc\b', r'\bmcheck\b', r'\bmprobe\b',
@@ -134,7 +135,7 @@ class BinaryAttacker:
             "strcspn", "strcoll", "strxfrm", "strechr", "strnrchr",
             "strecoll", "strend", "strnend", "strnext", "strnnext",
             "strnicmp", "strchrnul", "strcasestr", "strlcpy", "strlcat",
-            "memcpy", "memmove", "memset", "memcmp", "bcopy", 
+            "memcpy", "memmove", "memset", "memcmp", "bcopy",
             "bcmp", "bzero", "memccpy", "memchr", "memrchr",
             "memfrob", "mempcpy", "memmem", "memalign", "posix_memalign",
             "aligned_alloc", "valloc", "pvalloc", "mcheck", "mprobe",

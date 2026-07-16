@@ -34,8 +34,7 @@ from typing import Any
 
 import yaml
 
-from core.console import print_error, print_msg, print_succ, print_warn
-from utils import copy2clip, is_binary_present, run_command
+from core.console import print_succ, print_warn
 
 
 @dataclass
@@ -72,7 +71,7 @@ class AptPlaybook:
     phases: list[PhaseStep] = field(default_factory=list)
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> "AptPlaybook":
+    def from_dict(cls, data: dict[str, Any]) -> AptPlaybook:
         phases = []
         for ph in data.get("phases", []):
             atomic_tests = [

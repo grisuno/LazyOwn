@@ -12,16 +12,16 @@ from :mod:`lazygui.services.models`.
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from dataclasses import dataclass
-from enum import Enum
-from typing import Sequence
+from enum import StrEnum
 
 from PySide6.QtCore import QObject, Signal
 
 from lazygui.services.models import EventRecord, Listener, Operator, Session
 
 
-class BackendStatus(str, Enum):
+class BackendStatus(StrEnum):
     """Lifecycle state of a backend connection."""
 
     DISCONNECTED = "disconnected"

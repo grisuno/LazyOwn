@@ -9,7 +9,7 @@ backend can never starve memory.
 from __future__ import annotations
 
 from collections import deque
-from typing import Iterable
+from collections.abc import Iterable
 
 from PySide6.QtCore import QObject, Signal
 

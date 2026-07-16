@@ -18,9 +18,9 @@ from __future__ import annotations
 
 import ast
 import re
+from collections.abc import Iterable
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Iterable
 
 import pytest
 

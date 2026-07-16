@@ -32,10 +32,11 @@ import subprocess
 import sys
 import threading
 import uuid
+from collections.abc import Callable
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
 
@@ -71,7 +72,7 @@ def _run_cmd(command: str, timeout: int = 60) -> str:
         return (result.stdout + result.stderr).strip()
 
 
-def _c2_req(path: str, method: str = "GET", body: Optional[dict] = None) -> dict:
+def _c2_req(path: str, method: str = "GET", body: dict | None = None) -> dict:
     """Forward a request to the LazyOwn C2 REST API (lazy import)."""
     try:
         from lazyown_mcp import _c2_request  # noqa: PLC0415
@@ -152,7 +153,7 @@ def _t_bridge_catalog(phase: str = "", os_hint: str = "any") -> str:
             summary = dispatcher.catalog_summary()
             header = f"Bridge catalog — {dispatcher.catalog_count()} commands"
 
-        lines: List[str] = [header, ""]
+        lines: list[str] = [header, ""]
         if not summary:
             lines.append(
                 "  (no commands matched the requested phase/os filter)"
@@ -450,9 +451,10 @@ def _t_atomic_search(
     """Structured search over 1690 Atomic Red Team technique tests."""
     try:
         sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
-        from atomic_enricher import query_atomic as _qa, enrich as _enrich
+        from atomic_enricher import enrich as _enrich
+        from atomic_enricher import query_atomic as _qa
         _enrich()
-        prereqs: Optional[bool] = None
+        prereqs: bool | None = None
         if str(has_prereqs).lower() in ("true", "1", "yes"):
             prereqs = True
         elif str(has_prereqs).lower() in ("false", "0", "no"):
@@ -480,7 +482,7 @@ def _t_atomic_search(
 # ── Tool registry ─────────────────────────────────────────────────────────────
 # Each entry: (description, groq_parameters_schema, callable)
 
-REGISTRY: Dict[str, tuple[str, Dict[str, Any], Callable]] = {
+REGISTRY: dict[str, tuple[str, dict[str, Any], Callable]] = {
     "run_command": (
         "Execute any LazyOwn shell command and return its output. "
         "Examples: 'lazynmap', 'set rhost 10.0.0.1', 'linpeas', 'adversary_yaml amsi'.",
@@ -680,7 +682,7 @@ class _AgentState:
     agent_id: str
     goal: str
     backend: str
-    tools_used: List[str]
+    tools_used: list[str]
     status: str = "queued"       # queued | running | completed | failed
     started_at: str = ""
     completed_at: str = ""
@@ -689,10 +691,10 @@ class _AgentState:
 
 
 def _now_utc() -> str:
-    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    return datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
-def _agent_system_prompt(tool_names: List[str]) -> str:
+def _agent_system_prompt(tool_names: list[str]) -> str:
     return (
         "You are an autonomous red-team agent operating the LazyOwn framework.\n"
         "Use the available tools to pursue the goal. Rules:\n"
@@ -712,14 +714,14 @@ class GroqAgentPool:
     """Thread-pool-based manager for concurrent Groq/Ollama agents."""
 
     def __init__(self) -> None:
-        self._agents: Dict[str, _AgentState] = {}
+        self._agents: dict[str, _AgentState] = {}
         self._lock   = threading.Lock()
 
     def spawn(
         self,
         goal: str,
-        tools_filter: Optional[List[str]] = None,
-        api_key: Optional[str] = None,
+        tools_filter: list[str] | None = None,
+        api_key: str | None = None,
         backend: str = "groq",
         max_iterations: int = 8,
         system_prompt: str = "",
@@ -751,8 +753,8 @@ class GroqAgentPool:
     def _run(
         self,
         state: _AgentState,
-        tools: List[str],
-        api_key: Optional[str],
+        tools: list[str],
+        api_key: str | None,
         max_iterations: int,
         system_prompt: str,
     ) -> None:
@@ -787,7 +789,7 @@ class GroqAgentPool:
 
     # ── Query methods ─────────────────────────────────────────────────────────
 
-    def status(self, agent_id: str) -> Dict[str, Any]:
+    def status(self, agent_id: str) -> dict[str, Any]:
         with self._lock:
             s = self._agents.get(agent_id)
         if s is None:
@@ -816,7 +818,7 @@ class GroqAgentPool:
             return f"Agent {agent_id} is queued — not started yet."
         return s.result or "(no result)"
 
-    def list_all(self, limit: int = 20) -> List[Dict[str, Any]]:
+    def list_all(self, limit: int = 20) -> list[dict[str, Any]]:
         with self._lock:
             items = list(self._agents.values())
         items.sort(key=lambda s: s.started_at or "", reverse=True)
@@ -834,7 +836,7 @@ class GroqAgentPool:
 
 # ── Singleton + public API ────────────────────────────────────────────────────
 
-_pool: Optional[GroqAgentPool] = None
+_pool: GroqAgentPool | None = None
 _pool_lock = threading.Lock()
 
 
@@ -849,8 +851,8 @@ def get_pool() -> GroqAgentPool:
 
 def spawn_agent(
     goal: str,
-    tools_filter: Optional[List[str]] = None,
-    api_key: Optional[str] = None,
+    tools_filter: list[str] | None = None,
+    api_key: str | None = None,
     backend: str = "groq",
     max_iterations: int = 8,
     block: bool = False,
@@ -862,7 +864,7 @@ def spawn_agent(
     )
 
 
-def agent_status(agent_id: str) -> Dict[str, Any]:
+def agent_status(agent_id: str) -> dict[str, Any]:
     return get_pool().status(agent_id)
 
 
@@ -870,7 +872,7 @@ def agent_result(agent_id: str) -> str:
     return get_pool().result(agent_id)
 
 
-def list_agents(limit: int = 20) -> List[Dict[str, Any]]:
+def list_agents(limit: int = 20) -> list[dict[str, Any]]:
     return get_pool().list_all(limit)
 
 

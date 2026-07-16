@@ -21,16 +21,16 @@ load_enriched() -> pd.DataFrame   load existing enriched parquet (build if missi
 
 from __future__ import annotations
 
-import re
 import logging
+import re
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 log = logging.getLogger(__name__)
 
 try:
-    import pandas as pd
     import numpy as np
+    import pandas as pd
     _PANDAS_OK = True
 except ImportError:
     _PANDAS_OK = False
@@ -42,7 +42,7 @@ DST_PARQUET  = PARQUETS_DIR / "techniques_enriched.parquet"
 # Words to strip when building keyword_tags
 _STOP = {
     "a","an","the","and","or","for","with","from","on","in","to","of","by",
-    "using","via","via","as","at","is","are","be","use","uses","run","runs",
+    "using","via","as","at","is","are","be","use","uses","run","runs",
     "create","creates","set","sets","local","remote","elevated","windows",
     "linux","macos","freebsd","cloud","aws","azure","gcp","test","atomic",
     "technique","techniques","method","methods","powershell","cmd","bash","sh",
@@ -60,7 +60,7 @@ _COMPLEXITY_MED  = 4
 
 # ── helpers ───────────────────────────────────────────────────────────────────
 
-def _parse_platforms(raw: Any) -> List[str]:
+def _parse_platforms(raw: Any) -> list[str]:
     """Convert numpy array / list / string platform field → sorted list."""
     if raw is None:
         return []
@@ -90,7 +90,7 @@ def _parse_complexity(command: str) -> str:
     return "low"
 
 
-def _parse_keyword_tags(name: str, description: str = "") -> List[str]:
+def _parse_keyword_tags(name: str, description: str = "") -> list[str]:
     text = f"{name} {description[:200]}"
     tokens = re.findall(r"[a-zA-Z][a-zA-Z0-9_-]{2,}", text)
     seen: dict = {}
@@ -110,7 +110,7 @@ def _tactic_prefix(mitre_id: str) -> str:
 
 # ── main enrichment ───────────────────────────────────────────────────────────
 
-def enrich(force: bool = False) -> "pd.DataFrame":
+def enrich(force: bool = False) -> pd.DataFrame:
     """
     Build enriched parquet.  Skips if DST_PARQUET already exists (use force=True to rebuild).
     Returns the enriched DataFrame.
@@ -145,7 +145,7 @@ def enrich(force: bool = False) -> "pd.DataFrame":
     return df
 
 
-def _to_pylist(val: Any) -> List[str]:
+def _to_pylist(val: Any) -> list[str]:
     """Normalise numpy array / list / None → plain Python list of strings."""
     if val is None:
         return []
@@ -156,7 +156,7 @@ def _to_pylist(val: Any) -> List[str]:
     return []
 
 
-def load_enriched() -> "pd.DataFrame":
+def load_enriched() -> pd.DataFrame:
     """Load enriched parquet, building it first if it doesn't exist.
     Normalises list columns to plain Python lists after loading."""
     if not DST_PARQUET.exists():
@@ -177,11 +177,11 @@ def query_atomic(
     mitre_id: str = "",
     platform: str = "",
     scope: str = "",
-    has_prereqs: Optional[bool] = None,
+    has_prereqs: bool | None = None,
     complexity: str = "",
     limit: int = 10,
     include_command: bool = False,
-) -> List[Dict[str, Any]]:
+) -> list[dict[str, Any]]:
     """
     Structured query over the enriched Atomic Red Team technique catalogue.
 
@@ -242,9 +242,9 @@ def query_atomic(
     filtered = df[mask].head(limit)
 
     # ── serialise ─────────────────────────────────────────────────────────────
-    results: List[Dict[str, Any]] = []
+    results: list[dict[str, Any]] = []
     for _, row in filtered.iterrows():
-        entry: Dict[str, Any] = {
+        entry: dict[str, Any] = {
             "id":                  row["id"],
             "name":                row["name"],
             "mitre_id":            row["mitre_id"],
@@ -266,7 +266,8 @@ def query_atomic(
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
-    import argparse, json, sys
+    import argparse
+    import sys
     sys.path.insert(0, str(Path(__file__).parent))
 
     parser = argparse.ArgumentParser(description="Atomic Red Team technique enricher")
@@ -319,11 +320,11 @@ if __name__ == "__main__":
         df = load_enriched()
         print(f"Rows: {len(df)}")
         print(f"Columns: {list(df.columns)}")
-        print(f"\nComplexity distribution:")
+        print("\nComplexity distribution:")
         print(df["complexity"].value_counts().to_string())
-        print(f"\nScope distribution:")
+        print("\nScope distribution:")
         print(df["scope"].value_counts().to_string())
-        print(f"\nTop platforms:")
+        print("\nTop platforms:")
         from collections import Counter
         plat_ctr: Counter = Counter()
         for lst in df["platform_list"]:

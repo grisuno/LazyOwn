@@ -50,8 +50,7 @@ import uuid
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, List, Optional
-
+from typing import Any
 
 _LAZYOWN_DIR = Path(os.environ.get(
     "LAZYOWN_DIR",
@@ -84,7 +83,7 @@ def _safe_str(value: Any, maxlen: int = 200) -> str:
     return "".join(ch for ch in text if ch.isprintable() or ch in "\t\n")
 
 
-def _load_payload() -> Dict[str, Any]:
+def _load_payload() -> dict[str, Any]:
     """Return payload.json as a dict, empty on any error.
 
     The engagement layer never raises on payload errors — it simply falls
@@ -116,7 +115,7 @@ class EngagementEvent:
     kind: str
     target: str
     message: str
-    payload: Dict[str, Any] = field(default_factory=dict)
+    payload: dict[str, Any] = field(default_factory=dict)
     severity: str = "info"
 
     @classmethod
@@ -125,13 +124,13 @@ class EngagementEvent:
         kind: str,
         target: str,
         message: str,
-        payload: Optional[Dict[str, Any]] = None,
+        payload: dict[str, Any] | None = None,
         severity: str = "info",
-    ) -> "EngagementEvent":
+    ) -> EngagementEvent:
         """Construct an event with a fresh id and current UTC timestamp."""
         return cls(
             event_id=uuid.uuid4().hex[:8],
-            ts=datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            ts=datetime.datetime.now(datetime.UTC).isoformat(),
             kind=_safe_str(kind, 40) or "INFO",
             target=_safe_str(target, 64),
             message=_safe_str(message, 500),
@@ -251,7 +250,7 @@ class _OutboundHTTPSink(INotificationSink):
     def name(self) -> str:
         raise NotImplementedError
 
-    def _build_request(self, event: EngagementEvent) -> Optional[tuple]:
+    def _build_request(self, event: EngagementEvent) -> tuple | None:
         raise NotImplementedError
 
     def deliver(self, event: EngagementEvent) -> bool:
@@ -287,9 +286,9 @@ class TelegramNotificationSink(_OutboundHTTPSink):
     def name(self) -> str:
         return "telegram"
 
-    def _build_request(self, event: EngagementEvent) -> Optional[tuple]:
+    def _build_request(self, event: EngagementEvent) -> tuple | None:
         cfg = _load_payload()
-        if not str(cfg.get("enable_telegram_c2", "")).lower() in ("true", "1", "yes"):
+        if str(cfg.get("enable_telegram_c2", "")).lower() not in ("true", "1", "yes"):
             return None
         token = str(cfg.get("telegram_token", "") or "").strip()
         chat_id = str(cfg.get("telegram_chat_id", "") or "").strip()
@@ -317,9 +316,9 @@ class DiscordNotificationSink(_OutboundHTTPSink):
     def name(self) -> str:
         return "discord"
 
-    def _build_request(self, event: EngagementEvent) -> Optional[tuple]:
+    def _build_request(self, event: EngagementEvent) -> tuple | None:
         cfg = _load_payload()
-        if not str(cfg.get("enable_discord_c2", "")).lower() in ("true", "1", "yes"):
+        if str(cfg.get("enable_discord_c2", "")).lower() not in ("true", "1", "yes"):
             return None
         webhook = str(cfg.get("discord_webhook", "") or "").strip()
         if not webhook:
@@ -343,12 +342,12 @@ class NotificationBroadcaster:
     No exception escapes; sink failures are silent at info level.
     """
 
-    def __init__(self, sinks: List[INotificationSink]) -> None:
+    def __init__(self, sinks: list[INotificationSink]) -> None:
         self._sinks = list(sinks)
         self._lock = threading.Lock()
 
     @classmethod
-    def default(cls) -> "NotificationBroadcaster":
+    def default(cls) -> NotificationBroadcaster:
         """Return a broadcaster with the standard four-sink configuration."""
         return cls([
             StreamEventSink(),
@@ -362,9 +361,9 @@ class NotificationBroadcaster:
         with self._lock:
             self._sinks.append(sink)
 
-    def deliver(self, event: EngagementEvent) -> List[str]:
+    def deliver(self, event: EngagementEvent) -> list[str]:
         """Push event to all sinks. Return the names of accepting sinks."""
-        accepted: List[str] = []
+        accepted: list[str] = []
         for sink in list(self._sinks):
             try:
                 if sink.deliver(event):
@@ -387,7 +386,7 @@ class EngagementNarrator:
 
     def __init__(
         self,
-        broadcaster: Optional[NotificationBroadcaster] = None,
+        broadcaster: NotificationBroadcaster | None = None,
     ) -> None:
         self._broadcaster = broadcaster or NotificationBroadcaster.default()
         self._lock = threading.Lock()
@@ -397,7 +396,7 @@ class EngagementNarrator:
         kind: str,
         target: str,
         message: str,
-        payload: Optional[Dict[str, Any]] = None,
+        payload: dict[str, Any] | None = None,
         severity: str = "info",
     ) -> EngagementEvent:
         """Write one line + audit record and dispatch to every sink.
@@ -436,7 +435,7 @@ class EngagementNarrator:
 # ─────────────────────────────────────────────────────────────────────────────
 
 
-def _load_seen_beacons() -> Dict[str, Dict[str, Any]]:
+def _load_seen_beacons() -> dict[str, dict[str, Any]]:
     """Return the persisted set of beacons we have already narrated."""
     if not SHELL_SEEN_FILE.exists():
         return {}
@@ -447,7 +446,7 @@ def _load_seen_beacons() -> Dict[str, Dict[str, Any]]:
         return {}
 
 
-def _save_seen_beacons(seen: Dict[str, Dict[str, Any]]) -> None:
+def _save_seen_beacons(seen: dict[str, dict[str, Any]]) -> None:
     """Persist the seen-beacons map atomically."""
     try:
         SHELL_SEEN_FILE.parent.mkdir(parents=True, exist_ok=True)
@@ -470,7 +469,7 @@ def _sanitize_client_id(client_id: str) -> str:
     return cleaned[:64]
 
 
-_default_narrator_singleton: Optional[EngagementNarrator] = None
+_default_narrator_singleton: EngagementNarrator | None = None
 _default_narrator_lock = threading.Lock()
 
 
@@ -489,8 +488,8 @@ def publish_shell_obtained(
     hostname: str = "",
     user: str = "",
     platform: str = "",
-    narrator: Optional[EngagementNarrator] = None,
-) -> Optional[EngagementEvent]:
+    narrator: EngagementNarrator | None = None,
+) -> EngagementEvent | None:
     """Single entry point called by lazyc2.py on every beacon check-in.
 
     Idempotent: only narrates the first time a client_id is seen. Subsequent
@@ -520,7 +519,7 @@ def publish_shell_obtained(
     user_clean = _safe_str(user, 50)
     plat_clean = _safe_str(platform, 60)
 
-    now_iso = datetime.datetime.now(datetime.timezone.utc).isoformat()
+    now_iso = datetime.datetime.now(datetime.UTC).isoformat()
     seen[cid] = {
         "first_seen": now_iso,
         "ip":         ip_clean,
@@ -556,7 +555,7 @@ def publish_shell_obtained(
 # ─────────────────────────────────────────────────────────────────────────────
 
 
-def append_approval_record(record: Dict[str, Any]) -> None:
+def append_approval_record(record: dict[str, Any]) -> None:
     """Append one approval-pending record to sessions/engagement_approvals.jsonl."""
     try:
         with _IO_LOCK:
@@ -567,11 +566,11 @@ def append_approval_record(record: Dict[str, Any]) -> None:
         _log.debug("approval append failed: %s", exc)
 
 
-def list_pending_approvals() -> List[Dict[str, Any]]:
+def list_pending_approvals() -> list[dict[str, Any]]:
     """Return every approval record whose status is still 'pending'."""
     if not APPROVALS_FILE.exists():
         return []
-    pending: List[Dict[str, Any]] = []
+    pending: list[dict[str, Any]] = []
     try:
         for line in APPROVALS_FILE.read_text(encoding="utf-8").splitlines():
             if not line.strip():
@@ -583,7 +582,7 @@ def list_pending_approvals() -> List[Dict[str, Any]]:
             if rec.get("status") == "pending":
                 pending.append(rec)
         # Filter by latest status per approval_id
-        latest: Dict[str, Dict[str, Any]] = {}
+        latest: dict[str, dict[str, Any]] = {}
         for rec in pending:
             aid = rec.get("approval_id", "")
             if aid:
@@ -612,7 +611,7 @@ def resolve_approval(approval_id: str, decision: str, operator: str = "") -> boo
         "approval_id": _safe_str(approval_id, 64),
         "status":      decision,
         "operator":    _safe_str(operator, 64) or "system",
-        "resolved_ts": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        "resolved_ts": datetime.datetime.now(datetime.UTC).isoformat(),
     }
     append_approval_record(record)
     return True

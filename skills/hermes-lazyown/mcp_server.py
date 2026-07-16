@@ -17,21 +17,21 @@ import asyncio
 import json
 import os
 import sys
-from pathlib import Path
 from typing import Any
+
+from claudemd_rules import generate_rules
+from config_bridge import ConfigBridge
+
+# ── Local integration modules ────────────────────────────────────────────────
+from constants import Defaults, EnvKeys, Paths, PhaseNames
+from executor import ExecutionResult, LazyOwnExecutor
+from hermes_sync import CheckpointSerializer, DelegationPlanner, HermesSyncError, ObjectiveTodoSync
+from mcp import types
 
 # ── MCP SDK (required) ────────────────────────────────────────────────────────
 from mcp.server import Server
 from mcp.server.stdio import stdio_server
-from mcp import types
-
-# ── Local integration modules ────────────────────────────────────────────────
-from constants import Defaults, EnvKeys, Paths, PhaseNames
-from config_bridge import ConfigBridge, ConfigBridgeError
 from output_compactor import OutputCompactor
-from hermes_sync import CheckpointSerializer, ObjectiveTodoSync, DelegationPlanner, HermesSyncError
-from claudemd_rules import generate_rules
-from executor import LazyOwnExecutor, ExecutionResult
 
 # ── Lazy singletons ─────────────────────────────────────────────────────────────
 _config: ConfigBridge | None = None
@@ -708,8 +708,8 @@ def _c2_status() -> str:
     c2_host = cfg.get_str("lhost", "127.0.0.1")
     c2_port = cfg.get_int("c2_port", 4444)
 
-    import urllib.request
     import urllib.error
+    import urllib.request
 
     url = f"http://{c2_host}:{c2_port}/api/status"
     try:
@@ -729,8 +729,8 @@ def _c2_get_beacons() -> str:
     c2_host = cfg.get_str("lhost", "127.0.0.1")
     c2_port = cfg.get_int("c2_port", 4444)
 
-    import urllib.request
     import urllib.error
+    import urllib.request
 
     url = f"http://{c2_host}:{c2_port}/api/beacons"
     try:

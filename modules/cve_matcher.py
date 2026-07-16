@@ -32,7 +32,6 @@ import urllib.parse
 import urllib.request
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import List, Optional
 
 log = logging.getLogger("cve_matcher")
 
@@ -54,7 +53,7 @@ class CVEResult:
     severity: str
     description: str
     published: str
-    references: List[str] = field(default_factory=list)
+    references: list[str] = field(default_factory=list)
 
 
 class CVEMatcher:
@@ -70,7 +69,7 @@ class CVEMatcher:
     def __init__(
         self,
         api_key: str = "",
-        cache_dir: Optional[str | Path] = None,
+        cache_dir: str | Path | None = None,
     ) -> None:
         self.api_key   = api_key or os.environ.get("NVD_API_KEY", "")
         self.rate_delay = _RATE_WITH_KEY if self.api_key else _RATE_NO_KEY
@@ -79,14 +78,14 @@ class CVEMatcher:
 
     # ── Public API ────────────────────────────────────────────────────────────
 
-    def search(self, *keywords: str, max_results: int = 10) -> List[CVEResult]:
+    def search(self, *keywords: str, max_results: int = 10) -> list[CVEResult]:
         """Search CVEs by product / version keywords."""
         query = " ".join(k for k in keywords if k and k.strip())
         if not query.strip():
             return []
         return self._query(keywordSearch=query, resultsPerPage=max_results)
 
-    def search_by_cpe(self, cpe_name: str, max_results: int = 10) -> List[CVEResult]:
+    def search_by_cpe(self, cpe_name: str, max_results: int = 10) -> list[CVEResult]:
         """Search CVEs by CPE 2.3 string."""
         return self._query(cpeName=cpe_name, resultsPerPage=max_results)
 
@@ -97,7 +96,7 @@ class CVEMatcher:
         digest = hashlib.md5(key.encode()).hexdigest()
         return self.cache_dir / f"{digest}.json"
 
-    def _load_cache(self, params: dict) -> Optional[List[CVEResult]]:
+    def _load_cache(self, params: dict) -> list[CVEResult] | None:
         p = self._cache_path(params)
         if not p.exists():
             return None
@@ -109,7 +108,7 @@ class CVEMatcher:
         except Exception:
             return None
 
-    def _save_cache(self, params: dict, results: List[CVEResult]) -> None:
+    def _save_cache(self, params: dict, results: list[CVEResult]) -> None:
         try:
             self._cache_path(params).write_text(
                 json.dumps([vars(r) for r in results], indent=2),
@@ -125,7 +124,7 @@ class CVEMatcher:
             time.sleep(self.rate_delay - elapsed)
         _last_request_time = time.time()
 
-    def _query(self, **params) -> List[CVEResult]:
+    def _query(self, **params) -> list[CVEResult]:
         cached = self._load_cache(params)
         if cached is not None:
             log.debug("CVE cache hit for %s", params)
@@ -149,7 +148,7 @@ class CVEMatcher:
             log.warning("NVD API error: %s", exc)
             return []
 
-        results: List[CVEResult] = []
+        results: list[CVEResult] = []
         for item in data.get("vulnerabilities", []):
             cve      = item.get("cve", {})
             cve_id   = cve.get("id", "")
@@ -190,7 +189,7 @@ class CVEMatcher:
 
 # ── Module-level singleton ────────────────────────────────────────────────────
 
-_default: Optional[CVEMatcher] = None
+_default: CVEMatcher | None = None
 
 
 def get_matcher() -> CVEMatcher:
@@ -201,7 +200,7 @@ def get_matcher() -> CVEMatcher:
     return _default
 
 
-def search(product: str, version: str = "", max_results: int = 10) -> List[CVEResult]:
+def search(product: str, version: str = "", max_results: int = 10) -> list[CVEResult]:
     """Module-level convenience wrapper."""
     return get_matcher().search(product, version, max_results=max_results)
 

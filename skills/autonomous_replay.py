@@ -24,10 +24,10 @@ from __future__ import annotations
 import json
 import logging
 import os
+from collections.abc import Callable
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Literal, Optional
-
+from typing import Any, Literal
 
 REPLAY_MODE_TRACE: str = "trace"
 REPLAY_MODE_EXECUTE: str = "execute"
@@ -73,9 +73,9 @@ class ReplayStep:
     command: str
     source: str
     reason: str
-    recorded_decision_seed: Optional[str]
-    replayed_success: Optional[bool] = None
-    replayed_output_snippet: Optional[str] = None
+    recorded_decision_seed: str | None
+    replayed_success: bool | None = None
+    replayed_output_snippet: str | None = None
 
 
 @dataclass(frozen=True)
@@ -106,12 +106,12 @@ class ReplayReport:
 
     mode: str
     events_seen: int
-    from_event_id: Optional[str]
-    to_event_id: Optional[str]
-    steps: List[ReplayStep] = field(default_factory=list)
-    divergences: List[ReplayDivergence] = field(default_factory=list)
+    from_event_id: str | None
+    to_event_id: str | None
+    steps: list[ReplayStep] = field(default_factory=list)
+    divergences: list[ReplayDivergence] = field(default_factory=list)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return the report as a JSON-serialisable dictionary."""
 
         return {
@@ -149,7 +149,7 @@ class EventLogReader:
 
         return self._path
 
-    def read(self) -> List[Dict[str, Any]]:
+    def read(self) -> list[dict[str, Any]]:
         """Return every event in the log, oldest first.
 
         Returns:
@@ -157,7 +157,7 @@ class EventLogReader:
             exist or cannot be read.
         """
 
-        events: List[Dict[str, Any]] = []
+        events: list[dict[str, Any]] = []
         if not self._path.exists():
             return events
         try:
@@ -176,10 +176,10 @@ class EventLogReader:
 
     def slice(
         self,
-        events: List[Dict[str, Any]],
-        from_event_id: Optional[str] = None,
-        to_event_id: Optional[str] = None,
-    ) -> List[Dict[str, Any]]:
+        events: list[dict[str, Any]],
+        from_event_id: str | None = None,
+        to_event_id: str | None = None,
+    ) -> list[dict[str, Any]]:
         """Return the inclusive subrange of *events* by ``id``.
 
         Args:
@@ -197,7 +197,7 @@ class EventLogReader:
         if from_event_id is None and to_event_id is None:
             return list(events)
         started = from_event_id is None
-        sliced: List[Dict[str, Any]] = []
+        sliced: list[dict[str, Any]] = []
         for event in events:
             event_id = event.get("id")
             if not started and event_id == from_event_id:
@@ -220,8 +220,8 @@ class ReplayDispatcher:
 
     def __init__(
         self,
-        reader: Optional[EventLogReader] = None,
-        seed_fn: Optional[Callable[[str, int, str], str]] = None,
+        reader: EventLogReader | None = None,
+        seed_fn: Callable[[str, int, str], str] | None = None,
     ) -> None:
         """Initialise the dispatcher.
 
@@ -260,8 +260,8 @@ class ReplayDispatcher:
 
     def _collect_step_events(
         self,
-        from_event_id: Optional[str],
-        to_event_id: Optional[str],
+        from_event_id: str | None,
+        to_event_id: str | None,
     ) -> tuple:
         """Return ``(events_seen, step_events_in_range)``.
 
@@ -280,9 +280,9 @@ class ReplayDispatcher:
 
     def _build_step(
         self,
-        event: Dict[str, Any],
-        divergences: List[ReplayDivergence],
-    ) -> Optional[ReplayStep]:
+        event: dict[str, Any],
+        divergences: list[ReplayDivergence],
+    ) -> ReplayStep | None:
         """Convert a ``STEP_START`` event into a :class:`ReplayStep`.
 
         Args:
@@ -337,8 +337,8 @@ class ReplayDispatcher:
 
     def trace(
         self,
-        from_event_id: Optional[str] = None,
-        to_event_id: Optional[str] = None,
+        from_event_id: str | None = None,
+        to_event_id: str | None = None,
     ) -> ReplayReport:
         """Replay the recorded decision sequence without executing it.
 
@@ -354,8 +354,8 @@ class ReplayDispatcher:
         events_seen, step_events = self._collect_step_events(
             from_event_id, to_event_id
         )
-        divergences: List[ReplayDivergence] = []
-        steps: List[ReplayStep] = []
+        divergences: list[ReplayDivergence] = []
+        steps: list[ReplayStep] = []
         for event in step_events:
             step = self._build_step(event, divergences)
             if step is not None:
@@ -371,9 +371,9 @@ class ReplayDispatcher:
 
     def execute(
         self,
-        from_event_id: Optional[str] = None,
-        to_event_id: Optional[str] = None,
-        runner: Optional[Any] = None,
+        from_event_id: str | None = None,
+        to_event_id: str | None = None,
+        runner: Any | None = None,
         timeout: int = 60,
     ) -> ReplayReport:
         """Replay the recorded sequence and re-run each command.
@@ -396,9 +396,9 @@ class ReplayDispatcher:
         events_seen, step_events = self._collect_step_events(
             from_event_id, to_event_id
         )
-        divergences: List[ReplayDivergence] = []
+        divergences: list[ReplayDivergence] = []
         resolved_runner = runner or self._default_runner()
-        steps: List[ReplayStep] = []
+        steps: list[ReplayStep] = []
         for event in step_events:
             step = self._build_step(event, divergences)
             if step is None:
@@ -490,13 +490,13 @@ class ReplayDispatcher:
 
 
 def replay(
-    from_event_id: Optional[str] = None,
-    to_event_id: Optional[str] = None,
+    from_event_id: str | None = None,
+    to_event_id: str | None = None,
     mode: Literal["trace", "execute"] = REPLAY_MODE_TRACE,
-    events_path: Optional[Path] = None,
-    runner: Optional[Any] = None,
+    events_path: Path | None = None,
+    runner: Any | None = None,
     timeout: int = 60,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Convenience entry point used by the MCP tool layer.
 
     Args:

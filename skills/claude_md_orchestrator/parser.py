@@ -15,13 +15,12 @@ documentation agent can quote the source verbatim.
 from __future__ import annotations
 
 import re
+from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Iterable, Optional
 
 from .config import Config
 from .models import Contract
-
 
 CONTRACT_HEADING_PATTERN = re.compile(
     r"^(?P<hashes>#{1,6})\s+(?P<title>.+)$", re.MULTILINE
@@ -49,7 +48,7 @@ class _Section:
     depth: int
     title: str
     body: str = ""
-    children: list["_Section"] = None  # type: ignore[assignment]
+    children: list[_Section] = None  # type: ignore[assignment]
 
     def __post_init__(self) -> None:
         if self.children is None:
@@ -227,7 +226,7 @@ def _coerce_seed_contract(seed: dict[str, str]) -> Contract:
     )
 
 
-def load_contracts(config: Config, seeds: Optional[list[dict[str, str]]] = None) -> list[Contract]:
+def load_contracts(config: Config, seeds: list[dict[str, str]] | None = None) -> list[Contract]:
     """Return the contracts the orchestrator should process.
 
     Args:

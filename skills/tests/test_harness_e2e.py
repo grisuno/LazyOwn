@@ -17,7 +17,6 @@ Run:
 
 from __future__ import annotations
 
-import json
 import sys
 import tempfile
 from pathlib import Path
@@ -46,7 +45,7 @@ def check(label: str, cond: bool, hint: str = "") -> None:
 
 def test_permissions(tmp: Path) -> None:
     print("\n[1] PermissionSystem — deny-first evaluation")
-    from lazyown_permissions import PermissionSystem, PermissionMode
+    from lazyown_permissions import PermissionSystem
 
     ps = PermissionSystem(tmp)
 
@@ -96,7 +95,7 @@ def test_permissions(tmp: Path) -> None:
 
 def test_compaction() -> None:
     print("\n[2] ContextCompactor — 5-layer pipeline")
-    from lazyown_context import ContextCompactor, compact_output
+    from lazyown_context import ContextCompactor
 
     cc = ContextCompactor()
 
@@ -179,7 +178,7 @@ def test_transcript(tmp: Path) -> None:
 
 def test_hooks(tmp: Path) -> None:
     print("\n[4] HookRegistry — pre/post pipeline")
-    from lazyown_hooks import build_default_registry, HookEvent
+    from lazyown_hooks import HookEvent, build_default_registry
 
     reg = build_default_registry(tmp)
 
@@ -290,8 +289,8 @@ def test_auto_compact(tmp: Path) -> None:
 
 def test_metrics(tmp: Path) -> None:
     print("\n[7] Defense-in-depth metrics aggregation")
+    from lazyown_hooks import HookEvent, build_default_registry
     from lazyown_permissions import PermissionSystem
-    from lazyown_hooks import build_default_registry, HookEvent
 
     ps = PermissionSystem(tmp / "metrics_test")
 
@@ -321,11 +320,11 @@ def test_metrics(tmp: Path) -> None:
 
 def test_integration(tmp: Path) -> None:
     print("\n[8] Integration — all 7 systems working together")
-    from lazyown_permissions import PermissionSystem
-    from lazyown_context import compact_output
-    from lazyown_session import SessionTranscript
-    from lazyown_hooks import build_default_registry, HookEvent
     from lazyown_claudemd import ClaudeMdLoader
+    from lazyown_context import compact_output
+    from lazyown_hooks import HookEvent, build_default_registry
+    from lazyown_permissions import PermissionSystem
+    from lazyown_session import SessionTranscript
 
     sessions = tmp / "integration"
     sessions.mkdir()
@@ -333,7 +332,7 @@ def test_integration(tmp: Path) -> None:
     ps = PermissionSystem(sessions)
     reg = build_default_registry(sessions)
     ts = SessionTranscript(sessions, "integration")
-    cmd = ClaudeMdLoader(tmp)
+    ClaudeMdLoader(tmp)
 
     # Simulate a tool call going through all layers
     tool_name = "lazyown_run_command"

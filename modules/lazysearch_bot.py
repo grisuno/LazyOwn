@@ -1,9 +1,8 @@
-#!/usr/bin/env python3 
-#_*_ coding: utf8 _*_
+#!/usr/bin/env python3
 """
 main.py
 
-Autor: Gris Iscomeback 
+Autor: Gris Iscomeback
 Correo electrónico: grisiscomeback[at]gmail[dot]com
 Fecha de creación: 09/06/2024
 Licencia: GPL v3
@@ -18,14 +17,15 @@ Descripción: Asistente de investigacion por consola estilo GPT con Groq
 ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
 
 """
-import os
 import argparse
+import json
 import logging
+import os
 import signal
+import subprocess
 import sys
 import time
-import subprocess
-import json
+
 from groq import Groq
 
 BANNER = """
@@ -57,7 +57,7 @@ KNOWLEDGE_BASE_FILE = "knowledge_base.json"
 IMPROVED_KNOWLEDGE_BASE_FILE = "knowledge_base_improved.json"
 
 def signal_handler(sig: int, frame: any) -> None:
-    print(f'\n[*] Interrupción recibida, saliendo del programa.')
+    print('\n[*] Interrupción recibida, saliendo del programa.')
     sys.exit(0)
 
 signal.signal(signal.SIGINT, signal_handler)
@@ -157,7 +157,7 @@ def transform_knowledge_base(client) -> None:
 
 def main() -> None:
     print(BANNER)
-    
+
     args = parse_args()
     configure_logging(args.debug)
 
@@ -202,12 +202,12 @@ def main() -> None:
 
         user_input = input("[?] ¿Deseas agregar a la base de conocimientos? (si/no): ").strip().lower()
         if user_input == 'si':
-            print(f"[+] agregando a la base de conocimiento")
+            print("[+] agregando a la base de conocimiento")
             add_to_knowledge_base(base_prompt, message, KNOWLEDGE_BASE_FILE)
         else:
             base_prompt = input("[*] Por favor ingrese un nuevo prompt: ")
             logging.error(f"[E] nuevo prompt: {base_prompt}")
-        
+
         time.sleep(3)
 
 if __name__ == "__main__":

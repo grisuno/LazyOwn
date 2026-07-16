@@ -1,9 +1,8 @@
-#!/usr/bin/env python3 
-#_*_ coding: utf8 _*_
+#!/usr/bin/env python3
 """
 main.py
 
-Autor: Gris Iscomeback 
+Autor: Gris Iscomeback
 Correo electrónico: grisiscomeback[at]gmail[dot]com
 Fecha de creación: 09/06/2024
 Licencia: GPL v3
@@ -18,13 +17,14 @@ Descripción: Extractor de metadata inspirado en la FOCA
 ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
 
 """
-import os
-import pypdf
-import docx
-import olefile
-import exifread
-import signal
 import argparse
+import os
+import signal
+
+import docx
+import exifread
+import olefile
+import pypdf
 
 BANNER = """
 ██╗      █████╗ ███████╗██╗   ██╗ ██████╗ ██╗    ██╗███╗   ██╗
@@ -100,7 +100,7 @@ def extract_metadata(file_path):
 def find_and_extract_metadata(directory, output_file):
     supported_extensions = ('.pdf', '.docx', '.doc', '.xls', '.jpg', '.jpeg', '.tiff')
     metadata_content = ""
-    
+
     for root, _, files in os.walk(directory):
         for file in files:
             if file.lower().endswith(supported_extensions):
@@ -113,7 +113,7 @@ def find_and_extract_metadata(directory, output_file):
                     metadata_content += f"{key}: {value}\n"
                     print("___________________________________________________")
                     print(f"{key}: {value}")
-    
+
     with open(output_file, 'w') as f:
         f.write(metadata_content)
 
@@ -123,7 +123,7 @@ def parse_arguments():
     """
     parser = argparse.ArgumentParser(description='Script Meta Extract0r [;,;]')
     parser.add_argument('--path', required=True, help='Path para realizar la búsqueda')
-   
+
     return parser.parse_args()
 
 def main():

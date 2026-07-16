@@ -1,13 +1,14 @@
-from typing import Callable, Dict, Any, List
-import inspect
 import json
 import logging
+from collections.abc import Callable
+from typing import Any
+
 
 class AgentTool:
     """Representa una herramienta ejecutable por el agente"""
-    
-    def __init__(self, name: str, description: str, func: Callable, 
-                 parameters: Dict[str, Any], required: List[str] = None):
+
+    def __init__(self, name: str, description: str, func: Callable,
+                 parameters: dict[str, Any], required: list[str] = None):
         self.name = name
         self.description = description
         self.func = func
@@ -16,8 +17,8 @@ class AgentTool:
             "properties": parameters,
             "required": required or list(parameters.keys())
         }
-    
-    def to_api_format(self) -> Dict[str, Any]:
+
+    def to_api_format(self) -> dict[str, Any]:
         """Convierte al formato API de LLM (Groq/Ollama)"""
         return {
             "type": "function",
@@ -27,7 +28,7 @@ class AgentTool:
                 "parameters": self.parameters
             }
         }
-    
+
     def execute(self, **kwargs) -> str:
         """Ejecuta la herramienta con manejo de errores robusto"""
         try:

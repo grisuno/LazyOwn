@@ -26,8 +26,9 @@ Design (SOLID):
 
 from __future__ import annotations
 
+from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass, field
-from typing import Any, Callable, Mapping, Sequence
+from typing import Any
 
 from cli.palette_command import PaletteIndexQuery
 from cli.themes import Theme, theme_from_payload

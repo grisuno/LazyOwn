@@ -27,8 +27,7 @@ import os
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, List, Optional
-
+from typing import Any
 
 # ---------------------------------------------------------------------------
 # Value objects
@@ -64,7 +63,7 @@ class ImplantRecord:
         return "unknown"
 
     @property
-    def ip_list(self) -> List[str]:
+    def ip_list(self) -> list[str]:
         return [ip.strip() for ip in self.ips.split(",") if ip.strip()]
 
 
@@ -81,37 +80,37 @@ class CampaignTask:
 @dataclass
 class SessionSummary:
     """Aggregated view of all active sessions."""
-    implants: List[ImplantRecord] = field(default_factory=list)
-    tasks: List[CampaignTask] = field(default_factory=list)
-    discovered_hosts: List[str] = field(default_factory=list)
-    command_outputs: Dict[str, str] = field(default_factory=dict)
+    implants: list[ImplantRecord] = field(default_factory=list)
+    tasks: list[CampaignTask] = field(default_factory=list)
+    discovered_hosts: list[str] = field(default_factory=list)
+    command_outputs: dict[str, str] = field(default_factory=dict)
 
     @property
-    def active_client_ids(self) -> List[str]:
-        seen: Dict[str, ImplantRecord] = {}
+    def active_client_ids(self) -> list[str]:
+        seen: dict[str, ImplantRecord] = {}
         for r in self.implants:
             seen[r.client_id] = r
         return list(seen.keys())
 
     @property
-    def privileged_sessions(self) -> List[ImplantRecord]:
-        seen: Dict[str, ImplantRecord] = {}
+    def privileged_sessions(self) -> list[ImplantRecord]:
+        seen: dict[str, ImplantRecord] = {}
         for r in self.implants:
             seen[r.client_id] = r
         return [r for r in seen.values() if r.is_privileged]
 
     @property
-    def unprivileged_sessions(self) -> List[ImplantRecord]:
-        seen: Dict[str, ImplantRecord] = {}
+    def unprivileged_sessions(self) -> list[ImplantRecord]:
+        seen: dict[str, ImplantRecord] = {}
         for r in self.implants:
             seen[r.client_id] = r
         return [r for r in seen.values() if not r.is_privileged]
 
-    def latest_for(self, client_id: str) -> Optional[ImplantRecord]:
+    def latest_for(self, client_id: str) -> ImplantRecord | None:
         matches = [r for r in self.implants if r.client_id == client_id]
         return matches[-1] if matches else None
 
-    def task_by_status(self, status: str) -> List[CampaignTask]:
+    def task_by_status(self, status: str) -> list[CampaignTask]:
         return [t for t in self.tasks if t.status.lower() == status.lower()]
 
 
@@ -141,8 +140,8 @@ class ImplantCSVReader(AbstractReader):
         "discovered_ips", "result_portscan", "result_pwd", "command", "output",
     ]
 
-    def read(self, sessions_dir: Path) -> List[ImplantRecord]:
-        records: List[ImplantRecord] = []
+    def read(self, sessions_dir: Path) -> list[ImplantRecord]:
+        records: list[ImplantRecord] = []
         pattern = str(sessions_dir / "*.log")
         for log_path in sorted(glob.glob(pattern)):
             # Skip non-implant logs (access.log, searchsploit.log, etc.)
@@ -181,9 +180,9 @@ class CommandOutputReader(AbstractReader):
     Returns Dict[str, str]: {filename_stem -> content}
     """
 
-    def read(self, sessions_dir: Path) -> Dict[str, str]:
+    def read(self, sessions_dir: Path) -> dict[str, str]:
         log_dir = sessions_dir / "logs" / "c2"
-        outputs: Dict[str, str] = {}
+        outputs: dict[str, str] = {}
         if not log_dir.exists():
             return outputs
         for txt in sorted(log_dir.glob("command_*output*.txt"))[-200:]:
@@ -199,11 +198,11 @@ class CommandOutputReader(AbstractReader):
 class DiscoveredHostReader(AbstractReader):
     """Reads sessions/hostsdiscovery.txt."""
 
-    def read(self, sessions_dir: Path) -> List[str]:
+    def read(self, sessions_dir: Path) -> list[str]:
         path = sessions_dir / "hostsdiscovery.txt"
         if not path.exists():
             return []
-        hosts: List[str] = []
+        hosts: list[str] = []
         try:
             for line in path.read_text(encoding="utf-8", errors="replace").splitlines():
                 h = line.strip()
@@ -217,13 +216,13 @@ class DiscoveredHostReader(AbstractReader):
 class TaskReader(AbstractReader):
     """Reads sessions/tasks.json."""
 
-    def read(self, sessions_dir: Path) -> List[CampaignTask]:
+    def read(self, sessions_dir: Path) -> list[CampaignTask]:
         path = sessions_dir / "tasks.json"
         if not path.exists():
             return []
         try:
             raw = json.loads(path.read_text(encoding="utf-8"))
-            tasks: List[CampaignTask] = []
+            tasks: list[CampaignTask] = []
             for item in raw if isinstance(raw, list) else []:
                 tasks.append(CampaignTask(
                     id=int(item.get("id", 0)),
@@ -295,10 +294,10 @@ class SessionAggregator:
 
     def __init__(
         self,
-        implant_reader: Optional[AbstractReader] = None,
-        output_reader: Optional[AbstractReader] = None,
-        host_reader: Optional[AbstractReader] = None,
-        task_reader: Optional[AbstractReader] = None,
+        implant_reader: AbstractReader | None = None,
+        output_reader: AbstractReader | None = None,
+        host_reader: AbstractReader | None = None,
+        task_reader: AbstractReader | None = None,
     ) -> None:
         self._implant_reader = implant_reader or ImplantCSVReader()
         self._output_reader = output_reader or CommandOutputReader()
@@ -318,7 +317,7 @@ class SessionAggregator:
 # Module singleton
 # ---------------------------------------------------------------------------
 
-_aggregator: Optional[SessionAggregator] = None
+_aggregator: SessionAggregator | None = None
 
 
 def get_aggregator() -> SessionAggregator:

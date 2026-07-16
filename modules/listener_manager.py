@@ -20,14 +20,12 @@ import ipaddress
 import json
 import os
 import socket
-import ssl as _ssl
 import threading
 import time
 from dataclasses import dataclass, field
 from typing import Any
 
 from utils import print_error, print_msg, print_warn
-
 
 _LOOPBACK_BIND_ADDRESS = "127.0.0.1"
 _WILDCARD_BIND_LITERALS = frozenset({"", "0.0.0.0", "::"})
@@ -161,7 +159,7 @@ class Listener:
         }
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> "Listener":
+    def from_dict(cls, data: dict[str, Any]) -> Listener:
         return cls(
             id=data["id"],
             port=data["port"],
@@ -355,7 +353,7 @@ class ListenerManager:
 
     def stop_all(self) -> None:
         """Stop every running listener."""
-        for listener_id, listener in list(self.listeners.items()):
+        for listener_id, _listener in list(self.listeners.items()):
             self.stop(listener_id)
 
     def status(self) -> list[dict[str, Any]]:

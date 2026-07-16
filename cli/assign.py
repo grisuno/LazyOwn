@@ -24,7 +24,8 @@ Schema integration (additive, backwards compatible):
 
 from __future__ import annotations
 
-from typing import Any, Callable
+from collections.abc import Callable
+from typing import Any
 
 from core.payload_schema import ValidationIssue, coerce_value, validate_value
 

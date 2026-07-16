@@ -72,13 +72,12 @@ from __future__ import annotations
 
 import csv
 import json
+import logging
 import os
 import re
-import logging
-from collections import defaultdict
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 log = logging.getLogger(__name__)
 
@@ -94,7 +93,7 @@ OUTPUT_FILE     = REPORTS_DIR / "threat_model.json"
 # MITRE ATT&CK command → (technique_id, tactic, technique_name) mapping
 # This covers the most common LazyOwn + pentest commands.
 # ---------------------------------------------------------------------------
-COMMAND_TTP_MAP: Dict[str, Tuple[str, str, str]] = {
+COMMAND_TTP_MAP: dict[str, tuple[str, str, str]] = {
     # Recon
     "lazynmap":          ("T1046",     "Discovery",          "Network Service Discovery"),
     "nmap":              ("T1046",     "Discovery",          "Network Service Discovery"),
@@ -153,7 +152,7 @@ COMMAND_TTP_MAP: Dict[str, Tuple[str, str, str]] = {
     "set":               ("T1059",     "Execution",          "Command and Scripting Interpreter"),
 }
 
-SEVERITY_TACTIC: Dict[str, str] = {
+SEVERITY_TACTIC: dict[str, str] = {
     "Exfiltration":          "critical",
     "Credential Access":     "critical",
     "Privilege Escalation":  "high",
@@ -169,7 +168,7 @@ SEVERITY_TACTIC: Dict[str, str] = {
 }
 
 # Sigma-lite detection rule templates per technique
-DETECTION_TEMPLATES: Dict[str, Dict[str, Any]] = {
+DETECTION_TEMPLATES: dict[str, dict[str, Any]] = {
     "T1046": {
         "name": "Network Port Scan Detected",
         "log_source": "network_traffic",
@@ -243,8 +242,8 @@ _RE_PATH   = re.compile(r'(?:/[a-zA-Z0-9_./-]{4,}|[A-Z]:\\[a-zA-Z0-9_.\\-]{4,})'
 _RE_HASH   = re.compile(r'\b[a-fA-F0-9]{32,64}\b')
 
 
-def _extract_iocs(text: str, first_seen: str) -> List[Dict[str, str]]:
-    iocs: List[Dict[str, str]] = []
+def _extract_iocs(text: str, first_seen: str) -> list[dict[str, str]]:
+    iocs: list[dict[str, str]] = []
     for m in _RE_IP.finditer(text):
         ip = m.group()
         octets = ip.split(".")
@@ -268,7 +267,7 @@ def _extract_iocs(text: str, first_seen: str) -> List[Dict[str, str]]:
 class ThreatModelBuilder:
     """Builds and serialises the blue team threat model."""
 
-    def build(self) -> Dict[str, Any]:
+    def build(self) -> dict[str, Any]:
         rows = self._load_csv()
         assets       = self._build_assets(rows)
         ttps         = self._build_ttps(rows)
@@ -277,8 +276,8 @@ class ThreatModelBuilder:
         purple_team  = self._build_purple_team(ttps, det_rules)
         summary      = self._build_summary(rows, assets, ttps)
 
-        model: Dict[str, Any] = {
-            "generated_at":    datetime.now(timezone.utc).isoformat(),
+        model: dict[str, Any] = {
+            "generated_at":    datetime.now(UTC).isoformat(),
             "assets":          assets,
             "ttps":            ttps,
             "ioc_registry":    ioc_registry,
@@ -291,7 +290,7 @@ class ThreatModelBuilder:
 
     # ------------------------------------------------------------------
 
-    def load(self) -> Optional[Dict[str, Any]]:
+    def load(self) -> dict[str, Any] | None:
         if OUTPUT_FILE.exists():
             try:
                 return json.loads(OUTPUT_FILE.read_text())
@@ -303,10 +302,10 @@ class ThreatModelBuilder:
     # Internal builders
     # ------------------------------------------------------------------
 
-    def _load_csv(self) -> List[Dict[str, str]]:
+    def _load_csv(self) -> list[dict[str, str]]:
         if not REPORT_CSV.exists():
             return []
-        rows: List[Dict[str, str]] = []
+        rows: list[dict[str, str]] = []
         try:
             with REPORT_CSV.open(newline="", errors="replace") as fh:
                 reader = csv.DictReader(fh)
@@ -316,8 +315,8 @@ class ThreatModelBuilder:
             log.warning("threat_model: CSV read error: %s", exc)
         return rows
 
-    def _build_assets(self, rows: List[Dict[str, str]]) -> List[Dict[str, Any]]:
-        asset_map: Dict[str, Dict[str, Any]] = {}
+    def _build_assets(self, rows: list[dict[str, str]]) -> list[dict[str, Any]]:
+        asset_map: dict[str, dict[str, Any]] = {}
         for row in rows:
             ip = row.get("destination_ip", "").strip()
             if not ip:
@@ -350,7 +349,7 @@ class ThreatModelBuilder:
         assets.sort(key=lambda a: a["risk_score"], reverse=True)
         return assets
 
-    def _risk_score(self, commands: List[str], ports: set) -> int:
+    def _risk_score(self, commands: list[str], ports: set) -> int:
         score = 0
         high_risk_cmds = {
             "exfil", "beacon", "payload", "venom", "lazypwn",
@@ -373,8 +372,8 @@ class ThreatModelBuilder:
             score += 15
         return min(score, 100)
 
-    def _compromise_indicators(self, commands: List[str]) -> List[str]:
-        indicators: List[str] = []
+    def _compromise_indicators(self, commands: list[str]) -> list[str]:
+        indicators: list[str] = []
         if any(c in commands for c in ("beacon", "lazync2")):
             indicators.append("C2 implant activity observed")
         if any(c in commands for c in ("kerberoasting", "asreproasting")):
@@ -389,8 +388,8 @@ class ThreatModelBuilder:
             indicators.append("Persistence mechanism installed")
         return indicators
 
-    def _build_ttps(self, rows: List[Dict[str, str]]) -> List[Dict[str, Any]]:
-        ttp_map: Dict[str, Dict[str, Any]] = {}
+    def _build_ttps(self, rows: list[dict[str, str]]) -> list[dict[str, Any]]:
+        ttp_map: dict[str, dict[str, Any]] = {}
         for row in rows:
             cmd = row.get("command", "").strip().lower()
             if not cmd:
@@ -429,11 +428,11 @@ class ThreatModelBuilder:
         ttps.sort(key=lambda t: t["occurrences"], reverse=True)
         return ttps
 
-    def _build_iocs(self, rows: List[Dict[str, str]]) -> List[Dict[str, str]]:
+    def _build_iocs(self, rows: list[dict[str, str]]) -> list[dict[str, str]]:
         seen: set = set()
-        iocs: List[Dict[str, str]] = []
+        iocs: list[dict[str, str]] = []
 
-        def _add(ioc: Dict[str, str]) -> None:
+        def _add(ioc: dict[str, str]) -> None:
             key = (ioc["type"], ioc["value"])
             if key not in seen:
                 seen.add(key)
@@ -460,8 +459,8 @@ class ThreatModelBuilder:
 
         return iocs
 
-    def _build_detection_rules(self, ttps: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-        rules: List[Dict[str, Any]] = []
+    def _build_detection_rules(self, ttps: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        rules: list[dict[str, Any]] = []
         rule_id = 1
         seen_tids: set = set()
 
@@ -490,9 +489,9 @@ class ThreatModelBuilder:
 
     def _build_purple_team(
         self,
-        ttps: List[Dict[str, Any]],
-        detection_rules: List[Dict[str, Any]],
-    ) -> List[Dict[str, Any]]:
+        ttps: list[dict[str, Any]],
+        detection_rules: list[dict[str, Any]],
+    ) -> list[dict[str, Any]]:
         """
         Purple team mapping: pair each observed TTP with its detection rule.
 
@@ -502,18 +501,18 @@ class ThreatModelBuilder:
           gap:   True when no detection rule covers this technique
         """
         # Build lookup: technique_id -> detection rule
-        rules_by_tid: Dict[str, Dict[str, Any]] = {}
+        rules_by_tid: dict[str, dict[str, Any]] = {}
         for rule in detection_rules:
             rules_by_tid[rule["technique_id"]] = rule
 
-        purple: List[Dict[str, Any]] = []
+        purple: list[dict[str, Any]] = []
         for ttp in ttps:
             tid        = ttp["technique_id"]
             parent_tid = tid.split(".")[0]
             rule = rules_by_tid.get(tid) or rules_by_tid.get(parent_tid)
             gap  = rule is None
 
-            entry: Dict[str, Any] = {
+            entry: dict[str, Any] = {
                 "technique_id":   tid,
                 "technique_name": ttp["technique_name"],
                 "tactic":         ttp["tactic"],
@@ -545,10 +544,10 @@ class ThreatModelBuilder:
 
     def _build_summary(
         self,
-        rows: List[Dict[str, str]],
-        assets: List[Dict[str, Any]],
-        ttps: List[Dict[str, Any]],
-    ) -> Dict[str, Any]:
+        rows: list[dict[str, str]],
+        assets: list[dict[str, Any]],
+        ttps: list[dict[str, Any]],
+    ) -> dict[str, Any]:
         targets     = {r.get("destination_ip") for r in rows if r.get("destination_ip")}
         commands    = {r.get("command", "").split()[0] for r in rows if r.get("command")}
         top_asset   = assets[0]["ip"] if assets else "N/A"
@@ -561,7 +560,7 @@ class ThreatModelBuilder:
             "dominant_tactic":    dom_tactic,
         }
 
-    def _save(self, model: Dict[str, Any]) -> None:
+    def _save(self, model: dict[str, Any]) -> None:
         REPORTS_DIR.mkdir(parents=True, exist_ok=True)
         tmp = OUTPUT_FILE.with_suffix(".tmp")
         tmp.write_text(json.dumps(model, indent=2, default=str))
@@ -572,7 +571,7 @@ class ThreatModelBuilder:
 # ---------------------------------------------------------------------------
 # Singleton
 # ---------------------------------------------------------------------------
-_builder_instance: Optional[ThreatModelBuilder] = None
+_builder_instance: ThreatModelBuilder | None = None
 
 
 def get_builder() -> ThreatModelBuilder:

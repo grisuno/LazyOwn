@@ -17,12 +17,10 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Iterable, Optional
 
 from .config import Config
 from .models import Contract, Finding, Severity
 from .validators import check_source
-
 
 UNUSED_IMPORT_PATTERN = re.compile(r"^\s*import\s+([\w.]+)|^\s*from\s+([\w.]+)\s+import", re.MULTILINE)
 DEAD_CODE_HINT = re.compile(r"\b(pass\s*$|\.\.\.\s*$|TODO|FIXME)", re.MULTILINE)

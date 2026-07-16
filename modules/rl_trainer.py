@@ -58,15 +58,13 @@ from __future__ import annotations
 
 import json
 import logging
-import math
-import os
 import random
 import threading
 import time
 from abc import ABC, abstractmethod
-from dataclasses import asdict, dataclass, field
+from collections.abc import Sequence
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, List, Optional, Sequence, Tuple
 
 log = logging.getLogger("rl_trainer")
 
@@ -123,7 +121,7 @@ class BucketedStateEncoder(IStateEncoder):
         excellent EMA >= 10
     """
 
-    _REWARD_BINS: List[Tuple[float, str]] = [
+    _REWARD_BINS: list[tuple[float, str]] = [
         (0.0,  "low"),
         (5.0,  "medium"),
         (10.0, "high"),
@@ -162,7 +160,7 @@ class QValueStore:
         self._path           = path
         self._lock           = threading.RLock()
         self._optimistic     = optimistic_init
-        self._q: Dict[str, Dict[str, float]] = {}  # state_key → {expert_id → q_value}
+        self._q: dict[str, dict[str, float]] = {}  # state_key → {expert_id → q_value}
         self._path.parent.mkdir(parents=True, exist_ok=True)
         self._load()
 
@@ -284,10 +282,10 @@ class RLTrainer:
 
     def __init__(
         self,
-        config: Optional[RLConfig] = None,
-        state_encoder: Optional[IStateEncoder] = None,
-        q_store: Optional[QValueStore] = None,
-        epsilon_tracker: Optional[EpsilonTracker] = None,
+        config: RLConfig | None = None,
+        state_encoder: IStateEncoder | None = None,
+        q_store: QValueStore | None = None,
+        epsilon_tracker: EpsilonTracker | None = None,
     ) -> None:
         cfg                  = config or RLConfig()
         self._cfg            = cfg
@@ -314,7 +312,7 @@ class RLTrainer:
     def select_action(
         self,
         state: str,
-        candidates: List[str],
+        candidates: list[str],
         force_exploit: bool = False,
     ) -> str:
         """
@@ -351,7 +349,7 @@ class RLTrainer:
         action: str,
         reward: float,
         next_state: str,
-        candidates: List[str],
+        candidates: list[str],
         detection_prob: float = 0.0,
     ) -> None:
         """
@@ -386,11 +384,11 @@ class RLTrainer:
             old_q, new_q, self._eps.epsilon,
         )
 
-    def best_expert_for_state(self, state: str, candidates: List[str]) -> str:
+    def best_expert_for_state(self, state: str, candidates: list[str]) -> str:
         """Return the highest Q-value expert for the given state (greedy)."""
         return self._q.argmax(state, candidates)
 
-    def q_values_for_state(self, state: str, candidates: List[str]) -> Dict[str, float]:
+    def q_values_for_state(self, state: str, candidates: list[str]) -> dict[str, float]:
         """Return {expert_id: q_value} for diagnostics."""
         return {a: self._q.get(state, a) for a in candidates}
 
@@ -418,11 +416,11 @@ class RLTrainer:
 # Module-level singleton
 # ---------------------------------------------------------------------------
 
-_default_trainer: Optional[RLTrainer] = None
+_default_trainer: RLTrainer | None = None
 _trainer_lock = threading.Lock()
 
 
-def get_trainer(config: Optional[RLConfig] = None) -> RLTrainer:
+def get_trainer(config: RLConfig | None = None) -> RLTrainer:
     """Return (or create) the module-level singleton RLTrainer."""
     global _default_trainer
     if _default_trainer is None:
@@ -437,7 +435,7 @@ def get_trainer(config: Optional[RLConfig] = None) -> RLTrainer:
 # ---------------------------------------------------------------------------
 
 if __name__ == "__main__":
-    import argparse, sys
+    import argparse
 
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
 

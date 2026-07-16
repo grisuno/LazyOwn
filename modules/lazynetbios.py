@@ -1,9 +1,8 @@
-#!/usr/bin/env python3 
-#_*_ coding: utf8 _*_
+#!/usr/bin/env python3
 """
 main.py
 
-Autor: Gris Iscomeback 
+Autor: Gris Iscomeback
 Correo electrónico: grisiscomeback[at]gmail[dot]com
 Fecha de creación: 09/06/2024
 Licencia: GPL v3
@@ -19,12 +18,14 @@ Descripción: exploit netbios
 
 """
 import os
+import signal
 import sys
 import time
-import signal
-from scapy.all import *
+
 from impacket.nmb import NetBIOS, NetBIOSError
+from scapy.all import *
 from scapy.layers.netbios import NBNSQueryRequest, NBNSQueryResponse
+
 
 def check_sudo():
     if os.geteuid() != 0:
@@ -137,8 +138,8 @@ if __name__ == "__main__":
     ███████╗██║  ██║███████╗   ██║   ╚██████╔╝╚███╔███╔╝██║ ╚████║
     ╚══════╝╚═╝  ╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
     [*] Iniciando: LazyNetBios Atack [;,;]
-    """    
-    print(BANNER)       
+    """
+    print(BANNER)
     time.sleep(2)
     if len(sys.argv) != 4:
         print("Usage: python script.py <start_ip> <end_ip> <spoof_ip>")

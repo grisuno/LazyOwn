@@ -14,11 +14,9 @@ import json
 import sys
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional
 
-from . import bdd_agent, boy_scout, cicd_agent, documentation_agent
+from . import bdd_agent, boy_scout, cicd_agent, documentation_agent, reviewer_agent, sdd_agent, tdd_agent
 from . import parser as parser_mod
-from . import reviewer_agent, sdd_agent, tdd_agent
 from .config import Config, load_config
 from .models import (
     CicleState,
@@ -46,7 +44,7 @@ class CycleSummary:
 
     run_id: str
     contracts: dict[str, CicleState]
-    halted_at: Optional[str] = None
+    halted_at: str | None = None
     halt_reason: str = ""
 
 
@@ -69,7 +67,7 @@ def _persist(state: CicleStateFile, config: Config) -> None:
     state.updated_at = state.updated_at or ""
     import datetime as _dt
 
-    state.updated_at = _dt.datetime.now(_dt.timezone.utc).isoformat()
+    state.updated_at = _dt.datetime.now(_dt.UTC).isoformat()
     state.save(config.state_path())
     write_jsonl(
         config.log_path(),
@@ -119,7 +117,6 @@ def _run_spec(state: CicleState, config: Config) -> CicleState:
 
 def _run_test(state: CicleState, config: Config) -> CicleState:
     """Run the test agent and update the state."""
-    from .models import Spec
 
     _banner(f"test red: {state.contract.contract_id}", config)
     if state.spec_path is None:
@@ -137,7 +134,7 @@ def _run_test(state: CicleState, config: Config) -> CicleState:
 
 def _run_implementation(state: CicleState, config: Config) -> CicleState:
     """Run the implementation agent and update the state."""
-    from .models import Spec, TestSuite
+    from .models import TestSuite
 
     _banner(f"implementation green: {state.contract.contract_id}", config)
     if state.spec_path is None or state.test_path is None:
@@ -181,7 +178,7 @@ def _run_documentation(state: CicleState, config: Config) -> CicleState:
     if state.spec_path is None:
         raise RuntimeError("spec path missing; cannot document")
     spec = _load_spec(state.spec_path)
-    report: Optional[ReviewReport] = None
+    report: ReviewReport | None = None
     if state.review_path is not None and state.review_path.exists():
         report = ReviewReport.from_dict(
             json.loads(state.review_path.read_text(encoding="utf-8"))
@@ -204,7 +201,7 @@ def _run_cicd(
     config: Config,
     *,
     auto_commit: bool,
-    deploy_token: Optional[str],
+    deploy_token: str | None,
 ) -> CicleState:
     """Run the cicd agent and update the state."""
     from .models import ReviewReport
@@ -239,7 +236,7 @@ def _run_cicd(
     return state
 
 
-def _load_spec(path) -> "Spec":
+def _load_spec(path) -> Spec:
     """Load a spec file as YAML and return a Spec dataclass.
 
     Args:
@@ -410,12 +407,12 @@ def _load_seed_contracts(args, options: dict) -> list[Contract]:
     for path_str in args.contract_file:
         path = Path(path_str).expanduser().resolve()
         if path.exists():
-            text = path.read_text(encoding="utf-8")
+            path.read_text(encoding="utf-8")
             seeds.extend(parser_mod.parse_claude_md(path))
     return seeds
 
 
-def main(argv: Optional[list[str]] = None) -> int:
+def main(argv: list[str] | None = None) -> int:
     """Run the orchestrator CLI and return the process exit code."""
     parser = _build_parser()
     args = parser.parse_args(argv)

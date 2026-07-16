@@ -34,8 +34,7 @@ import shutil
 import subprocess
 import time
 from abc import ABC, abstractmethod
-from dataclasses import dataclass, field
-from typing import Dict, List, Optional
+from dataclasses import dataclass
 
 log = logging.getLogger("searchsploit")
 
@@ -76,11 +75,11 @@ class ExploitSource(ABC):
     """Interface for any exploit lookup back-end."""
 
     @abstractmethod
-    def search_cve(self, cve_id: str) -> List[ExploitEntry]:
+    def search_cve(self, cve_id: str) -> list[ExploitEntry]:
         """Return exploits matching *cve_id* (e.g. 'CVE-2021-41773')."""
 
     @abstractmethod
-    def search_service(self, name: str, version: str = "") -> List[ExploitEntry]:
+    def search_service(self, name: str, version: str = "") -> list[ExploitEntry]:
         """Return exploits matching the service *name* and optional *version*."""
 
 
@@ -98,7 +97,7 @@ class SearchsploitCLI(ExploitSource):
     """
 
     def __init__(self) -> None:
-        self._binary: Optional[str] = shutil.which("searchsploit")
+        self._binary: str | None = shutil.which("searchsploit")
         if not self._binary:
             log.warning(
                 "searchsploit not found in PATH; SearchsploitCLI will return empty lists"
@@ -106,16 +105,16 @@ class SearchsploitCLI(ExploitSource):
 
     # -- ExploitSource ---------------------------------------------------------
 
-    def search_cve(self, cve_id: str) -> List[ExploitEntry]:
+    def search_cve(self, cve_id: str) -> list[ExploitEntry]:
         return self._run(cve_id)
 
-    def search_service(self, name: str, version: str = "") -> List[ExploitEntry]:
+    def search_service(self, name: str, version: str = "") -> list[ExploitEntry]:
         query = f"{name} {version}".strip()
         return self._run(query)
 
     # -- Internal --------------------------------------------------------------
 
-    def _run(self, query: str) -> List[ExploitEntry]:
+    def _run(self, query: str) -> list[ExploitEntry]:
         if not self._binary:
             return []
         try:
@@ -130,7 +129,7 @@ class SearchsploitCLI(ExploitSource):
             log.warning("searchsploit execution failed: %s", exc)
             return []
 
-    def _parse(self, raw: str) -> List[ExploitEntry]:
+    def _parse(self, raw: str) -> list[ExploitEntry]:
         if not raw.strip():
             return []
         try:
@@ -140,7 +139,7 @@ class SearchsploitCLI(ExploitSource):
             return []
 
         # Support multiple output formats
-        rows: List[dict] = []
+        rows: list[dict] = []
         if "RESULTS_EXPLOIT" in data:
             rows = data.get("RESULTS_EXPLOIT", []) + data.get("RESULTS_SHELLCODE", [])
         elif "data" in data:
@@ -152,14 +151,14 @@ class SearchsploitCLI(ExploitSource):
                     rows = val
                     break
 
-        entries: List[ExploitEntry] = []
+        entries: list[ExploitEntry] = []
         for row in rows:
             entry = self._row_to_entry(row)
             if entry:
                 entries.append(entry)
         return entries
 
-    def _row_to_entry(self, row: dict) -> Optional[ExploitEntry]:
+    def _row_to_entry(self, row: dict) -> ExploitEntry | None:
         # Normalise field names between old and new formats
         eid = str(row.get("EDB-ID") or row.get("id") or row.get("edb_id") or "")
         title = str(row.get("Title") or row.get("title") or row.get("description") or "")
@@ -205,10 +204,10 @@ class ExploitDBAPI(ExploitSource):
 
     # -- ExploitSource ---------------------------------------------------------
 
-    def search_cve(self, cve_id: str) -> List[ExploitEntry]:
+    def search_cve(self, cve_id: str) -> list[ExploitEntry]:
         return self._query(cve_id=cve_id)
 
-    def search_service(self, name: str, version: str = "") -> List[ExploitEntry]:
+    def search_service(self, name: str, version: str = "") -> list[ExploitEntry]:
         # ExploitDB search endpoint does not have a direct service parameter;
         # use the CVE field empty and rely on the title search (best-effort).
         query = f"{name} {version}".strip()
@@ -216,7 +215,7 @@ class ExploitDBAPI(ExploitSource):
 
     # -- Internal --------------------------------------------------------------
 
-    def _query(self, cve_id: str) -> List[ExploitEntry]:
+    def _query(self, cve_id: str) -> list[ExploitEntry]:
         if not _REQUESTS_AVAILABLE:
             return []
         self._rate_limit()
@@ -230,7 +229,7 @@ class ExploitDBAPI(ExploitSource):
             return []
 
         rows = data if isinstance(data, list) else data.get("data", [])
-        entries: List[ExploitEntry] = []
+        entries: list[ExploitEntry] = []
         for row in rows:
             eid = str(row.get("id") or "")
             title = str(row.get("description") or row.get("title") or "")
@@ -269,32 +268,32 @@ class SearchsploitClient:
 
     def __init__(
         self,
-        primary: Optional[ExploitSource] = None,
-        fallback: Optional[ExploitSource] = None,
+        primary: ExploitSource | None = None,
+        fallback: ExploitSource | None = None,
     ) -> None:
         self._primary: ExploitSource = primary or SearchsploitCLI()
         self._fallback: ExploitSource = fallback or ExploitDBAPI()
 
-    def search_cve(self, cve_id: str) -> List[ExploitEntry]:
+    def search_cve(self, cve_id: str) -> list[ExploitEntry]:
         """Return exploits for *cve_id*, trying CLI then API."""
         results = self._primary.search_cve(cve_id)
         if not results:
             results = self._fallback.search_cve(cve_id)
         return results
 
-    def search_service(self, name: str, version: str = "") -> List[ExploitEntry]:
+    def search_service(self, name: str, version: str = "") -> list[ExploitEntry]:
         """Return exploits for *name*/*version*, trying CLI then API."""
         results = self._primary.search_service(name, version)
         if not results:
             results = self._fallback.search_service(name, version)
         return results
 
-    def enrich_findings(self, findings: list) -> Dict[str, List[ExploitEntry]]:
+    def enrich_findings(self, findings: list) -> dict[str, list[ExploitEntry]]:
         """
         Takes an ObsParser Finding list, extracts CVEs and service_versions,
         returns ``{cve_or_service: [ExploitEntry, ...]}``.
         """
-        result: Dict[str, List[ExploitEntry]] = {}
+        result: dict[str, list[ExploitEntry]] = {}
         for finding in findings:
             ftype = str(getattr(finding, "type", "")).lower()
             value = str(getattr(finding, "value", ""))
@@ -319,7 +318,7 @@ class SearchsploitClient:
 # Module-level singleton and convenience functions
 # ---------------------------------------------------------------------------
 
-_client: Optional[SearchsploitClient] = None
+_client: SearchsploitClient | None = None
 
 
 def get_client() -> SearchsploitClient:
@@ -330,12 +329,12 @@ def get_client() -> SearchsploitClient:
     return _client
 
 
-def search_cve(cve_id: str) -> List[ExploitEntry]:
+def search_cve(cve_id: str) -> list[ExploitEntry]:
     """Module-level convenience: search by CVE id."""
     return get_client().search_cve(cve_id)
 
 
-def search_service(name: str, version: str = "") -> List[ExploitEntry]:
+def search_service(name: str, version: str = "") -> list[ExploitEntry]:
     """Module-level convenience: search by service name and version."""
     return get_client().search_service(name, version)
 
@@ -356,7 +355,7 @@ def _main() -> None:
     args = parser.parse_args()
 
     client = get_client()
-    entries: List[ExploitEntry] = []
+    entries: list[ExploitEntry] = []
 
     if args.cve:
         entries = client.search_cve(args.cve)

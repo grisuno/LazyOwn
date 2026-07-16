@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 main.py
 
@@ -10,13 +9,14 @@ License: GPL v3
 
 Description: Console assistant for generating dynamic YAML phishing templates using AI
 """
-import re
-import os
-import logging
-import json
-import requests
 import argparse
-from flask import jsonify, Response, stream_with_context
+import json
+import logging
+import os
+import re
+
+import requests
+from flask import Response, jsonify, stream_with_context
 
 BANNER = """
 [*] Starting: LazyOwn GPT Phishing Template Generator [;,;]
@@ -47,10 +47,10 @@ def create_complex_prompt(base_prompt: str, history: str, knowledge_base: str) -
     try:
         with open('payload.json', 'r') as file:
             config = json.load(file)
-    except (IOError, json.JSONDecodeError) as e:
+    except (OSError, json.JSONDecodeError) as e:
         logging.error(f"Error reading payload.json: {e}")
         config = {}
-    
+
     start_user = config.get("start_user", "")
     start_pass = config.get("start_pass", "")
     rhost = config.get("rhost", "")
@@ -103,7 +103,7 @@ def load_knowledge_base(file_path: str) -> dict:
         try:
             with open(file_path, "r") as f:
                 return json.load(f)
-        except (IOError, json.JSONDecodeError) as e:
+        except (OSError, json.JSONDecodeError) as e:
             logging.error(f"Error reading knowledge base: {e}")
     return {}
 
@@ -111,7 +111,7 @@ def save_knowledge_base(knowledge_base: dict, file_path: str) -> None:
     try:
         with open(file_path, "w") as f:
             json.dump(knowledge_base, f, indent=4)
-    except (IOError, json.JSONDecodeError) as e:
+    except (OSError, json.JSONDecodeError) as e:
         logging.error(f"Error saving knowledge base: {e}")
 
 def add_to_knowledge_base(prompt: str, command: str, file_path: str) -> None:
@@ -177,7 +177,7 @@ def process_prompt_local_yaml(prompt: str, debug: bool, mode: str, output_file: 
                         with open(output_file, 'w', encoding='utf-8') as f:
                             f.write(clean_think(clean_yaml(full_response)))
                         logging.info(f"Phishing YAML template saved to {output_file}")
-                    except (IOError, OSError) as e:
+                    except OSError as e:
                         logging.error(f"Error writing YAML file: {e}")
 
             return Response(stream_with_context(generate()), mimetype='text/event-stream' if mode == 'web' else 'text/plain')
@@ -185,7 +185,7 @@ def process_prompt_local_yaml(prompt: str, debug: bool, mode: str, output_file: 
             logging.error(f"API request failed: {response.status_code}")
             return jsonify({"error": f"Request error: {response.status_code}"}), 500
 
-    except requests.RequestException as ex:
+    except requests.RequestException:
         logging.exception("API communication error")
         return jsonify({"error": "Upstream API communication error"}), 500
 

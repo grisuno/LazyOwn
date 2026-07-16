@@ -39,10 +39,11 @@ import os
 import re
 import time
 from collections import Counter
+from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
 from difflib import SequenceMatcher
 from pathlib import Path
-from typing import Any, Iterable, Sequence
+from typing import Any
 
 
 @dataclass(frozen=True)

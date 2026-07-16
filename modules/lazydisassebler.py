@@ -1,7 +1,7 @@
 """
 disassembler.py
 
-Author: Gris Iscomeback 
+Author: Gris Iscomeback
 Email: grisiscomeback[at]gmail[dot]com
 Date: 14/04/2025
 Licencia: GPL v3
@@ -17,8 +17,9 @@ Description: This file contain a rudimentary disassembler with no warranty
 
 """
 
-import sys
 import struct
+import sys
+
 
 class X64Disassembler:
     """
@@ -36,7 +37,7 @@ class X64Disassembler:
 
         Sets up registers, syscalls, and other necessary attributes for disassembly.
         """
-        
+
         # Registers of 64 bits
         # Registros de 64 bits
         self.registers = {
@@ -45,7 +46,7 @@ class X64Disassembler:
             8: "r8",  9: "r9",  10: "r10", 11: "r11",
             12: "r12", 13: "r13", 14: "r14", 15: "r15"
         }
-        
+
         # Registers of 8 bits
         # Registros de 8 bits
         self.registers8 = {
@@ -54,7 +55,7 @@ class X64Disassembler:
             8: "r8b", 9: "r9b", 10: "r10b", 11: "r11b",
             12: "r12b", 13: "r13b", 14: "r14b", 15: "r15b"
         }
-        
+
         # Registers of 32 bits
         # Registros de 32 bits
         self.registers32 = {
@@ -63,7 +64,7 @@ class X64Disassembler:
             8: "r8d", 9: "r9d", 10: "r10d", 11: "r11d",
             12: "r12d", 13: "r13d", 14: "r14d", 15: "r15d"
         }
-        
+
         # Table of syscalls to Linux x86_64
         # Tabla de syscalls en Linux x86_64
         self.syscalls = {
@@ -80,13 +81,13 @@ class X64Disassembler:
         Reads the ELF header and finds the code section.
 
         This function parses the ELF file header to locate the executable segment (TEXT).
-        It checks for 64-bit ELF files and extracts the program headers to find the 
-        first executable segment. Returns the offset, virtual address, size and entry point 
+        It checks for 64-bit ELF files and extracts the program headers to find the
+        first executable segment. Returns the offset, virtual address, size and entry point
         of the TEXT segment if found.
 
         Parameters:
             data (bytes): The raw bytes of the ELF file
-        
+
         Returns:
             tuple: (offset, virtual_address, size, entry_point) or (None, None, None, None) if not found
 
@@ -120,7 +121,7 @@ class X64Disassembler:
             p_offset = struct.unpack("<Q", ph_entry[0x8:0x10])[0]
             p_vaddr = struct.unpack("<Q", ph_entry[0x10:0x18])[0]
             p_filesz = struct.unpack("<Q", ph_entry[0x20:0x28])[0]
-            p_memsz = struct.unpack("<Q", ph_entry[0x28:0x30])[0]
+            struct.unpack("<Q", ph_entry[0x28:0x30])[0]
 
             # Verificar si es un segmento ejecutable
             # Check if it's an executable segment
@@ -135,7 +136,7 @@ class X64Disassembler:
         """
         Parses the ModR/M byte and extracts mod, reg, and rm fields.
 
-        This function decodes the ModR/M byte used in x86/x64 instructions to determine 
+        This function decodes the ModR/M byte used in x86/x64 instructions to determine
         how operands are addressed. It also applies REX prefix extensions if present.
 
         Parameters:
@@ -173,8 +174,8 @@ class X64Disassembler:
         """
         Parses the SIB byte and extracts scale, index, and base fields.
 
-        This function decodes the Scale/Index/Base (SIB) byte used in x86/x64 addressing modes 
-        to determine how memory operands are addressed. It also applies REX prefix extensions 
+        This function decodes the Scale/Index/Base (SIB) byte used in x86/x64 addressing modes
+        to determine how memory operands are addressed. It also applies REX prefix extensions
         if present.
 
         Parameters:
@@ -212,8 +213,8 @@ class X64Disassembler:
         """
         Gets the string representation of the operand based on mod/rm.
 
-        This function decodes the addressing mode specified by the `mod` and `rm` fields 
-        in x86/x64 instructions. It handles different cases such as RIP-relative, SIB, 
+        This function decodes the addressing mode specified by the `mod` and `rm` fields
+        in x86/x64 instructions. It handles different cases such as RIP-relative, SIB,
         and direct register addressing, applying REX prefix extensions if present.
 
         Parameters:
@@ -224,7 +225,7 @@ class X64Disassembler:
             offset (int): Current offset in the instruction bytes.
 
         Returns:
-            tuple: A tuple containing the operand string representation and the number 
+            tuple: A tuple containing the operand string representation and the number
                 of additional bytes consumed during parsing.
 
         License: GPL v3
@@ -319,7 +320,6 @@ class X64Disassembler:
         License: GPL v3
         """
 
-        results = []
         offset = 0
 
         # Imprimir información del punto de entrada

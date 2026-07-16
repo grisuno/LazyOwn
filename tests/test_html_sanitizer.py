@@ -19,8 +19,6 @@ Invariants:
 
 from __future__ import annotations
 
-import pytest
-
 from lazyc2.security.html_sanitizer import sanitize_html
 
 

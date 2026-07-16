@@ -25,10 +25,10 @@ from __future__ import annotations
 
 import csv
 from collections import defaultdict
+from collections.abc import Iterable, Mapping
 from dataclasses import dataclass, field
 from functools import lru_cache
 from pathlib import Path
-from typing import Iterable, Mapping
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_TELEMETRY_PATH = REPO_ROOT / "sessions" / "LazyOwn_session_report.csv"

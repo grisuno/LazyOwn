@@ -13,7 +13,7 @@ Then visit: http://localhost:4444/dashboard/
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from flask import Blueprint, jsonify, render_template_string
@@ -185,7 +185,7 @@ def _aggregate_data() -> dict:
 
     # -- Assemble -------------------------------------------------------------
     return {
-        "generated_at":    datetime.now(tz=timezone.utc).isoformat(),
+        "generated_at":    datetime.now(tz=UTC).isoformat(),
         "beacon_count":    beacon_count,
         "active_beacons":  active_beacons,
         "hosts_discovered": len(hosts),

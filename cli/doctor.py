@@ -24,9 +24,9 @@ from __future__ import annotations
 
 import importlib.util
 import sys
+from collections.abc import Callable, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Callable, Sequence
 
 from rich.console import Console
 from rich.panel import Panel

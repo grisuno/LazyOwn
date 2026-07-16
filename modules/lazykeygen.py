@@ -1,7 +1,9 @@
 import argparse
 import binascii
+
 from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
+
 
 def pad(s):
     return s + b'\0' * (AES.block_size - len(s) % AES.block_size)

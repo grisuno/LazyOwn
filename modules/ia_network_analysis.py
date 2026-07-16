@@ -11,16 +11,17 @@ Descripción: Bot de monitoreo de tráfico de red en tiempo real.
              Informa todo el tráfico (IPs, puertos, protocolos) y usa DeepSeek para detectar actividad sospechosa.
 """
 
-import time
+import argparse
 import json
 import logging
 import os
+import time
+
 import requests
-import argparse
-from scapy.all import sniff, IP, TCP, UDP, ICMP, Raw
-from scapy.layers.tls.record import TLS
 from rich.console import Console
 from rich.markdown import Markdown
+from scapy.all import ICMP, IP, TCP, UDP, Raw, sniff
+from scapy.layers.tls.record import TLS
 
 # Configuración de logging
 logging.basicConfig(filename='network_monitor.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -50,7 +51,7 @@ def analyze_with_deepseek(packet_info, mode='console'):
                 Network traffic:
                 {packet_info}
                 """,
-                "stream": True  
+                "stream": True
             },
             timeout=60,
             stream=True
@@ -108,7 +109,7 @@ def packet_callback(packet, mode='console'):
 
         if TCP in packet and Raw in packet:
             raw_data = packet[Raw].load
-            if raw_data.startswith(b'\x16\x03'):  
+            if raw_data.startswith(b'\x16\x03'):
                 try:
                     tls = TLS(raw_data)
                     if hasattr(tls, 'handshake') and hasattr(tls.handshake, 'server_name'):

@@ -9,11 +9,8 @@ No writes to the real sessions/ directory.
 from __future__ import annotations
 
 import datetime
-import json
 import sys
 from pathlib import Path
-
-import pytest
 
 _SKILLS_DIR = Path(__file__).parent.parent
 if str(_SKILLS_DIR) not in sys.path:
@@ -25,7 +22,6 @@ from lazyown_objective import (
     ObjectiveStore,
     SoulUpdater,
 )
-
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Helpers
@@ -39,7 +35,6 @@ def _store(tmp_path: Path) -> ObjectiveStore:
 
 def _soul_updater(tmp_path: Path) -> SoulUpdater:
     """Return a SoulUpdater whose soul file lives in tmp_path."""
-    import lazyown_objective as _mod
     soul_file = tmp_path / "soul.md"
     # Write the default soul so it exists before patching
     soul_file.write_text(DEFAULT_SOUL)
@@ -84,7 +79,7 @@ class TestObjectiveStore:
         # Manually backdate the created_at to 48 hours ago
         objs = store._load_all()
         past = (
-            datetime.datetime.now(datetime.timezone.utc)
+            datetime.datetime.now(datetime.UTC)
             - datetime.timedelta(hours=48)
         ).isoformat()
         for o in objs:
@@ -107,7 +102,7 @@ class TestObjectiveStore:
     def test_next_pending_priority(self, tmp_path):
         """Inject low + critical → next_pending() returns critical."""
         store = _store(tmp_path)
-        low_obj = store.inject("Low importance task", priority="low")
+        store.inject("Low importance task", priority="low")
         critical_obj = store.inject("CRITICAL: exploit CVE-2021-41773 NOW", priority="critical")
         nxt = store.next_pending()
         assert nxt is not None
@@ -118,7 +113,7 @@ class TestObjectiveStore:
         """Two medium objectives → next_pending() returns the earlier one (FIFO)."""
         store = _store(tmp_path)
         o1 = store.inject("First medium task", priority="medium")
-        o2 = store.inject("Second medium task", priority="medium")
+        store.inject("Second medium task", priority="medium")
         nxt = store.next_pending()
         assert nxt is not None
         # Should return first injected (FIFO within same priority)
@@ -177,7 +172,7 @@ class TestObjectiveStore:
         obj = store.inject("Medium old task", priority="medium")
         objs = store._load_all()
         past = (
-            datetime.datetime.now(datetime.timezone.utc)
+            datetime.datetime.now(datetime.UTC)
             - datetime.timedelta(hours=80)
         ).isoformat()
         for o in objs:
@@ -196,7 +191,7 @@ class TestObjectiveStore:
         obj = store.inject("Ancient critical task", priority="critical")
         objs = store._load_all()
         past = (
-            datetime.datetime.now(datetime.timezone.utc)
+            datetime.datetime.now(datetime.UTC)
             - datetime.timedelta(hours=1000)
         ).isoformat()
         for o in objs:

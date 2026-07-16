@@ -29,13 +29,12 @@ import argparse
 import ipaddress
 import json
 import logging
-import os
 import secrets
 import sys
 from dataclasses import asdict, dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 # ─── Logging ──────────────────────────────────────────────────────────────────
 
@@ -58,10 +57,10 @@ CAMPAIGN_FILE = SESSIONS_DIR / "campaign.json"
 
 def _now_iso() -> str:
     """Return current UTC time as an ISO-8601 string (no microseconds)."""
-    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    return datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
-def is_ip_in_scope(ip: str, scope: List[str]) -> bool:
+def is_ip_in_scope(ip: str, scope: list[str]) -> bool:
     """Return True if *ip* belongs to any entry in *scope*.
 
     Each scope entry is tried as an ipaddress network first; if that fails
@@ -136,11 +135,11 @@ class Campaign:
 
     campaign_id: str
     name: str
-    scope: List[str]
+    scope: list[str]
     started_at: str
     ended_at: str
-    phase_per_host: Dict[str, str]
-    milestones: List[Dict]
+    phase_per_host: dict[str, str]
+    milestones: list[dict]
     notes: str
 
     # ── convenience ──────────────────────────────────────────────────────────
@@ -154,7 +153,7 @@ class Campaign:
         return asdict(self)
 
     @classmethod
-    def from_dict(cls, data: dict) -> "Campaign":
+    def from_dict(cls, data: dict) -> Campaign:
         """Deserialise from a dict loaded out of JSON."""
         return cls(
             campaign_id=data["campaign_id"],
@@ -213,7 +212,7 @@ class EpisodeReflectionEngine:
     _LESSONS_FILE = BASE_DIR / "sessions" / "campaign_lessons.jsonl"
 
     # Maps milestone type to a lesson topic and template function
-    _MILESTONE_LESSONS: Dict[str, tuple] = {
+    _MILESTONE_LESSONS: dict[str, tuple] = {
         "initial_foothold": (
             "intrusion",
             lambda m: (
@@ -253,7 +252,7 @@ class EpisodeReflectionEngine:
         ),
     }
 
-    def __init__(self, hive_memory: Optional[Any] = None) -> None:
+    def __init__(self, hive_memory: Any | None = None) -> None:
         """
         Parameters
         ----------
@@ -265,13 +264,13 @@ class EpisodeReflectionEngine:
         self._lessons_file = self._LESSONS_FILE
         self._lessons_file.parent.mkdir(parents=True, exist_ok=True)
 
-    def reflect(self, campaign: "Campaign") -> List[LessonLearned]:
+    def reflect(self, campaign: Campaign) -> list[LessonLearned]:
         """
         Extract lessons from *campaign* and persist them.
 
         Returns the list of LessonLearned records produced.
         """
-        lessons: List[LessonLearned] = []
+        lessons: list[LessonLearned] = []
 
         # Lesson per concrete milestone
         for milestone in campaign.milestones:
@@ -326,7 +325,7 @@ class EpisodeReflectionEngine:
         self._persist_lessons(lessons)
         return lessons
 
-    def _persist_lessons(self, lessons: List[LessonLearned]) -> None:
+    def _persist_lessons(self, lessons: list[LessonLearned]) -> None:
         """Write lessons to the flat JSONL file and to hive memory."""
         with self._lessons_file.open("a", encoding="utf-8") as fh:
             for lesson in lessons:
@@ -378,7 +377,7 @@ class CampaignStore:
         tmp.replace(self._file)
         log.debug("Campaign saved → %s", self._file)
 
-    def load(self) -> Optional[Campaign]:
+    def load(self) -> Campaign | None:
         """Load the current campaign from disk.
 
         Returns
@@ -397,7 +396,7 @@ class CampaignStore:
 
     # ── Lifecycle ────────────────────────────────────────────────────────────
 
-    def create(self, name: str, scope: List[str], notes: str = "") -> Campaign:
+    def create(self, name: str, scope: list[str], notes: str = "") -> Campaign:
         """Create and persist a brand-new campaign.
 
         Parameters
@@ -432,8 +431,8 @@ class CampaignStore:
         self,
         notes: str = "",
         run_reflection: bool = True,
-        hive_memory: Optional[Any] = None,
-    ) -> List[LessonLearned]:
+        hive_memory: Any | None = None,
+    ) -> list[LessonLearned]:
         """Mark the active campaign as completed and optionally run reflection.
 
         Parameters
@@ -515,7 +514,7 @@ class CampaignStore:
             Optional freeform description of how the milestone was reached.
         """
         campaign = self._require()
-        milestone: Dict = {
+        milestone: dict = {
             "host": host,
             "type": milestone_type,
             "timestamp": _now_iso(),
@@ -602,8 +601,8 @@ class CampaignStore:
         campaign = self.load()
         if campaign is None:
             raise FileNotFoundError(
-                "No campaign file found at %s.  "
-                "Create one with: lazyown_campaign.py new <name>" % self._file
+                "No campaign file found at {}.  "
+                "Create one with: lazyown_campaign.py new <name>".format(self._file)
             )
         return campaign
 
@@ -655,7 +654,7 @@ def _build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def main(argv: Optional[List[str]] = None) -> int:
+def main(argv: list[str] | None = None) -> int:
     parser = _build_parser()
     args = parser.parse_args(argv)
     store = CampaignStore()

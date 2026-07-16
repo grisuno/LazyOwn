@@ -20,7 +20,7 @@ invalid input is reported to the operator without mutating state.
 
 from __future__ import annotations
 
-from typing import Callable, MutableMapping, Sequence
+from collections.abc import Callable, MutableMapping, Sequence
 
 from cli.themes import DEFAULT_THEME_NAME, THEMES, get_theme
 

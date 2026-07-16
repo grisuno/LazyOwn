@@ -9,10 +9,8 @@ The tests start red until the implementation in
 from __future__ import annotations
 
 import json
-import os
 import sys
 from pathlib import Path
-from typing import Any
 
 import pytest
 
@@ -100,7 +98,7 @@ def test_token_estimator_is_deterministic() -> None:
 
 def test_budget_ledger_records_a_charge(tmp_path: Path) -> None:
     """The ledger appends a record and persists the cumulative cost."""
-    from core.llm_budget import BudgetLedger, LedgerEntry, ModelPrice
+    from core.llm_budget import BudgetLedger, LedgerEntry
 
     ledger = BudgetLedger(path=tmp_path / "ledger.json")
     entry = LedgerEntry(
@@ -137,7 +135,7 @@ def test_budget_ledger_persists_to_disk(tmp_sessions: Path) -> None:
 
 def test_budget_ledger_rolls_over_at_midnight(tmp_sessions: Path) -> None:
     """The ledger zeroes the spend when the day boundary passes."""
-    from core.llm_budget import BudgetLedger, LedgerEntry
+    from core.llm_budget import BudgetLedger
 
     path = tmp_sessions / "llm_budget.json"
     path.write_text(

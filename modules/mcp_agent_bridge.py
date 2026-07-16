@@ -24,7 +24,6 @@ import threading
 import uuid
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, Optional
 
 BASE_DIR    = Path(__file__).parent.parent
 SESSIONS    = BASE_DIR / "sessions"
@@ -89,7 +88,9 @@ def _ollama_chat(model: str, messages: list, max_tokens: int = 2000, timeout: in
     message.content or the top-level 'thinking' field.
     Uses non-streaming for simplicity with generous timeout.
     """
-    import requests as _req, re as _re
+    import re as _re
+
+    import requests as _req
     payload = {
         "model":    model,
         "messages": messages,

@@ -27,10 +27,11 @@ from __future__ import annotations
 
 import json
 import os
+from collections.abc import Mapping
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Mapping, Protocol
+from typing import Any, Protocol
 
 DEFAULT_DAILY_BUDGET_USD = 1.0
 DEFAULT_PER_CALL_TOKEN_CAP = 8000
@@ -155,7 +156,7 @@ def _today_utc(now: datetime | None = None) -> str:
     Returns:
         The calendar day as a YYYY-MM-DD string.
     """
-    moment = now or datetime.now(timezone.utc)
+    moment = now or datetime.now(UTC)
     return moment.date().isoformat()
 
 
@@ -167,7 +168,7 @@ def _now_iso(now: datetime | None = None) -> str:
     Returns:
         The timestamp in ISO 8601 format with explicit UTC offset.
     """
-    moment = now or datetime.now(timezone.utc)
+    moment = now or datetime.now(UTC)
     return moment.isoformat()
 
 

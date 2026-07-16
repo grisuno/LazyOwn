@@ -29,13 +29,11 @@ CLI:
 from __future__ import annotations
 
 import logging
-import math
-import os
 import random
 import uuid
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 log = logging.getLogger("c2_profile")
 
@@ -64,8 +62,8 @@ class HttpConfig:
     """HTTP request configuration for one direction (GET or POST)."""
 
     method: str
-    uri_paths: List[str]
-    headers: Dict[str, str]
+    uri_paths: list[str]
+    headers: dict[str, str]
     user_agent: str
 
 
@@ -93,7 +91,7 @@ class C2Profile:
     http_get: HttpConfig
     http_post: HttpConfig
     stager: StagerConfig
-    metadata: Dict[str, str] = field(default_factory=dict)
+    metadata: dict[str, str] = field(default_factory=dict)
 
     # ------------------------------------------------------------------
     # Behavioral helpers
@@ -126,7 +124,7 @@ class C2Profile:
         cfg = self._config_for(method)
         return random.choice(cfg.uri_paths)
 
-    def build_headers(self, method: str = "GET") -> Dict[str, str]:
+    def build_headers(self, method: str = "GET") -> dict[str, str]:
         """
         Return the headers dict for the given HTTP method.
 
@@ -160,8 +158,8 @@ class ProfileValidator:
     Returns a list of error strings; an empty list means the profile is valid.
     """
 
-    def validate(self, profile: C2Profile) -> List[str]:
-        errors: List[str] = []
+    def validate(self, profile: C2Profile) -> list[str]:
+        errors: list[str] = []
 
         # SleepConfig checks
         if profile.sleep.interval_ms <= 0:
@@ -218,7 +216,7 @@ class ProfileLoader:
         return ProfileLoader.from_dict(raw)
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> C2Profile:
+    def from_dict(d: dict[str, Any]) -> C2Profile:
         """Construct a C2Profile from a plain Python dictionary."""
         sleep_raw   = d.get("sleep", {})
         get_raw     = d.get("http_get", {})
@@ -257,7 +255,7 @@ class ProfileLoader:
         )
 
     @staticmethod
-    def to_dict(profile: C2Profile) -> Dict[str, Any]:
+    def to_dict(profile: C2Profile) -> dict[str, Any]:
         """Convert a C2Profile to a plain Python dictionary."""
         return {
             "name": profile.name,
@@ -472,7 +470,7 @@ class ProfileRegistry:
     """
 
     def __init__(self) -> None:
-        self._profiles: Dict[str, C2Profile] = {}
+        self._profiles: dict[str, C2Profile] = {}
 
     # ------------------------------------------------------------------
     # Mutation
@@ -501,7 +499,7 @@ class ProfileRegistry:
                 f"Profile '{name}' not found. Available profiles: {available}"
             )
 
-    def list_names(self) -> List[str]:
+    def list_names(self) -> list[str]:
         """Return a sorted list of all registered profile names."""
         return sorted(self._profiles.keys())
 
@@ -583,7 +581,7 @@ class ProfileApplier:
         return session
 
     @staticmethod
-    def get_beacon_config(profile: C2Profile) -> Dict[str, Any]:
+    def get_beacon_config(profile: C2Profile) -> dict[str, Any]:
         """
         Return a JSON-serialisable dict suitable for embedding in a beacon
         handshake response.
@@ -608,7 +606,7 @@ class ProfileApplier:
 # Module-level singleton and convenience API
 # ---------------------------------------------------------------------------
 
-_registry: Optional[ProfileRegistry] = None
+_registry: ProfileRegistry | None = None
 
 
 def get_registry() -> ProfileRegistry:
@@ -641,7 +639,7 @@ def get_profile(name: str) -> C2Profile:
     return get_registry().get(name)
 
 
-def list_profiles() -> List[str]:
+def list_profiles() -> list[str]:
     """Return a sorted list of all registered profile names."""
     return get_registry().list_names()
 

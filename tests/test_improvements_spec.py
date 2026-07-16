@@ -32,9 +32,10 @@ import json
 import sys
 import tempfile
 import unittest
+from collections.abc import Mapping
 from dataclasses import is_dataclass
 from pathlib import Path
-from typing import Any, Mapping
+from typing import Any
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 if str(REPO_ROOT) not in sys.path:

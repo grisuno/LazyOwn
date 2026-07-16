@@ -22,10 +22,10 @@ import tempfile
 import threading
 import time
 import uuid
+from collections.abc import Callable
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Any, Callable, Optional
-
+from typing import Any
 
 CONTROL_FILE_NAME: str = "daemon_control.json"
 PENDING_TTL_DEFAULT_S: float = 30.0
@@ -78,7 +78,7 @@ class PendingAction:
     decided_at: float = 0.0
     operator: str = ""
 
-    def is_expired(self, now: Optional[float] = None) -> bool:
+    def is_expired(self, now: float | None = None) -> bool:
         """Return ``True`` when a still-pending action has exceeded its TTL."""
         if self.decision != DECISION_PENDING:
             return False
@@ -106,7 +106,7 @@ class ControlState:
     mode: str = MODE_AUTO
     vetoed_commands: list[str] = field(default_factory=list)
     focus_targets: list[str] = field(default_factory=list)
-    pending: Optional[PendingAction] = None
+    pending: PendingAction | None = None
     updated_at: float = 0.0
 
     def to_dict(self) -> dict[str, Any]:
@@ -120,13 +120,13 @@ class ControlState:
         }
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> "ControlState":
+    def from_dict(cls, data: dict[str, Any]) -> ControlState:
         """Build a state from JSON data, sanitising malformed input."""
         mode = str(data.get("mode") or MODE_AUTO)
         if mode not in VALID_MODES:
             mode = MODE_AUTO
         pending_raw = data.get("pending")
-        pending: Optional[PendingAction] = None
+        pending: PendingAction | None = None
         if isinstance(pending_raw, dict):
             decision = str(pending_raw.get("decision") or DECISION_PENDING)
             if decision not in VALID_DECISIONS:
@@ -301,7 +301,7 @@ class DaemonControl:
         *,
         reason: str = "",
         target: str = "",
-        ttl_seconds: Optional[float] = None,
+        ttl_seconds: float | None = None,
     ) -> PendingAction:
         """Daemon-side: register a pending action awaiting approval.
 
@@ -330,7 +330,7 @@ class DaemonControl:
         decision: str,
         *,
         operator: str = "",
-    ) -> Optional[PendingAction]:
+    ) -> PendingAction | None:
         """Operator-side: approve or veto the pending action.
 
         Returns the updated :class:`PendingAction` or ``None`` when
@@ -356,8 +356,8 @@ class DaemonControl:
         self,
         action_id: str,
         *,
-        now: Optional[float] = None,
-    ) -> Optional[PendingAction]:
+        now: float | None = None,
+    ) -> PendingAction | None:
         """Daemon-side: read the final decision and clear the slot.
 
         When the action is still pending but has exceeded its TTL the
@@ -463,7 +463,7 @@ def wait_until_unpaused(
     *,
     poll_interval: float = PAUSE_POLL_INTERVAL_S,
     sleep_fn: Callable[[float], None] = time.sleep,
-    max_wait_seconds: Optional[float] = None,
+    max_wait_seconds: float | None = None,
     now_fn: Callable[[], float] = time.time,
 ) -> bool:
     """Block while the daemon is paused, returning when it resumes.

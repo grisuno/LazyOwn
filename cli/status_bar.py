@@ -30,9 +30,10 @@ from __future__ import annotations
 import csv
 import json
 import re
+from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass, replace
 from pathlib import Path
-from typing import Any, Callable, Mapping, Protocol, Sequence
+from typing import Any, Protocol
 
 
 @dataclass(frozen=True)

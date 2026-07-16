@@ -29,8 +29,8 @@ Zero coupling to ``cmd2``, ``flask``, ``rich`` or ``lazyown.py``.
 
 from __future__ import annotations
 
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
-from typing import Mapping, Sequence
 
 from cli.exploration import (
     ANY_OS,

@@ -1,14 +1,13 @@
-#!/usr/bin/env python3 
-#_*_ coding: utf8 _*_
+#!/usr/bin/env python3
 """
 main.py
 
-Autor: Gris Iscomeback 
+Autor: Gris Iscomeback
 Correo electrónico: grisiscomeback[at]gmail[dot]com
 Fecha de creación: 09/06/2024
 Licencia: GPL v3
 
-Descripción: LazyOwnSniffer 
+Descripción: LazyOwnSniffer
 
 ██╗      █████╗ ███████╗██╗   ██╗ ██████╗ ██╗    ██╗███╗   ██╗
 ██║     ██╔══██╗╚══███╔╝╚██╗ ██╔╝██╔═══██╗██║    ██║████╗  ██║
@@ -18,14 +17,15 @@ Descripción: LazyOwnSniffer
 ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
 
 """
-import os
-import sys
-import curses
-from scapy.all import sniff, wrpcap, hexdump, Ether, IP, UDP, TCP
 import argparse
+import curses
+import os
 import signal
+import sys
 import threading
 import time
+
+from scapy.all import IP, TCP, UDP, Ether, hexdump, sniff, wrpcap
 
 BANNER = """
 ██╗      █████╗ ███████╗██╗   ██╗ ██████╗ ██╗    ██╗███╗   ██╗
@@ -133,7 +133,7 @@ def main_curses(stdscr, packets, interface, count, filter, pcap_file):
         win_bottom.clear()
         win_top.box()
         win_bottom.box()
-        
+
         max_y_top, max_x_top = win_top.getmaxyx()
         max_y_bottom, max_x_bottom = win_bottom.getmaxyx()
 

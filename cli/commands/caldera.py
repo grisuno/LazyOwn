@@ -25,31 +25,20 @@ Commands:
 
 from __future__ import annotations
 
-import json
 import shlex
 import time
-from pathlib import Path
 
 import cmd2
 
 from cli.commands._base import LazyOwnCommandSet
 from modules.operation import (
-    OpEvent,
-    Operation,
     OperationManager,
-    OperationStatus,
     OperationStep,
     get_manager,
 )
-from modules.planner import PlanCandidate, PlanResult, Planner, get_planner
-from modules.ttp_coverage import TACTIC_ORDER, TTPCoverage, get_coverage
+from modules.planner import Planner, get_planner
+from modules.ttp_coverage import TTPCoverage, get_coverage
 from utils import (
-    BLUE,
-    CYAN,
-    GREEN,
-    RED,
-    RESET,
-    YELLOW,
     miscellaneous_category,
     print_error,
     print_msg,

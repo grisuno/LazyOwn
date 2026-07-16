@@ -21,23 +21,21 @@ Architecture
 
 from __future__ import annotations
 
-import base64
 import enum
-import hashlib
 import hmac
 import json
 import logging
 import os
 import secrets
-import struct
 import time
-from dataclasses import dataclass, field, asdict
+from collections.abc import Callable
+from dataclasses import asdict, dataclass, field
 from functools import wraps
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional, Set, Union
+from typing import Any
 
 import pyotp
-from flask import abort, flash, jsonify, redirect, request, session, url_for
+from flask import abort, flash, redirect, request, session, url_for
 
 log = logging.getLogger("lazy_rbac")
 
@@ -61,7 +59,7 @@ class Role(enum.Enum):
     AUDITOR = "auditor"
 
     @classmethod
-    def valid_roles(cls) -> Set[str]:
+    def valid_roles(cls) -> set[str]:
         return {r.value for r in cls}
 
 
@@ -81,7 +79,7 @@ class Permission(enum.Enum):
     TENANT_MANAGE = "tenant_manage"
 
 
-ROLE_PERMISSIONS: Dict[Role, Set[Permission]] = {
+ROLE_PERMISSIONS: dict[Role, set[Permission]] = {
     Role.ADMIN: set(Permission),
     Role.OPERATOR: {
         Permission.CMD_RUN,
@@ -106,7 +104,7 @@ ROLE_PERMISSIONS: Dict[Role, Set[Permission]] = {
     },
 }
 
-_ROLE_HIERARCHY: Dict[Role, List[Role]] = {
+_ROLE_HIERARCHY: dict[Role, list[Role]] = {
     Role.ADMIN: [Role.ADMIN, Role.OPERATOR, Role.VIEWER, Role.AUDITOR],
     Role.OPERATOR: [Role.OPERATOR, Role.VIEWER, Role.AUDITOR],
     Role.VIEWER: [Role.VIEWER],
@@ -122,7 +120,7 @@ class RBACUser:
     role: str = ROLE_DEFAULT
     mfa_enabled: bool = False
     mfa_secret: str = ""
-    recovery_codes: List[str] = field(default_factory=list)
+    recovery_codes: list[str] = field(default_factory=list)
     elo: int = 0
     tenant_id: str = "default"
 
@@ -130,7 +128,7 @@ class RBACUser:
         return asdict(self)
 
     @classmethod
-    def from_dict(cls, data: dict) -> "RBACUser":
+    def from_dict(cls, data: dict) -> RBACUser:
         defaults = {
             "role": ROLE_DEFAULT,
             "mfa_enabled": False,
@@ -212,7 +210,7 @@ class RBACStore:
             return []
         try:
             return json.loads(self._users_path.read_text(encoding="utf-8"))
-        except (json.JSONDecodeError, IOError) as exc:
+        except (OSError, json.JSONDecodeError) as exc:
             log.warning("Failed to read users.json: %s", exc)
             return []
 
@@ -222,17 +220,17 @@ class RBACStore:
         tmp.write_text(json.dumps(users, indent=4, default=str), encoding="utf-8")
         tmp.replace(self._users_path)
 
-    def load_all(self) -> List[RBACUser]:
+    def load_all(self) -> list[RBACUser]:
         with self._lock:
             return [RBACUser.from_dict(u) for u in self._read_users()]
 
-    def find_by_id(self, user_id: int) -> Optional[RBACUser]:
+    def find_by_id(self, user_id: int) -> RBACUser | None:
         for user in self.load_all():
             if user.id == user_id:
                 return user
         return None
 
-    def find_by_username(self, username: str) -> Optional[RBACUser]:
+    def find_by_username(self, username: str) -> RBACUser | None:
         for user in self.load_all():
             if user.username == username:
                 return user
@@ -281,7 +279,7 @@ class RBACStore:
             self._write_users(new_users)
             return True
 
-    def update_role(self, user_id: int, new_role: str) -> Optional[RBACUser]:
+    def update_role(self, user_id: int, new_role: str) -> RBACUser | None:
         if new_role not in Role.valid_roles():
             return None
         user = self.find_by_id(user_id)
@@ -291,7 +289,7 @@ class RBACStore:
         self.save(user)
         return user
 
-    def enable_mfa(self, user_id: int) -> Optional[RBACUser]:
+    def enable_mfa(self, user_id: int) -> RBACUser | None:
         user = self.find_by_id(user_id)
         if not user:
             return None
@@ -301,7 +299,7 @@ class RBACStore:
         self.save(user)
         return user
 
-    def disable_mfa(self, user_id: int) -> Optional[RBACUser]:
+    def disable_mfa(self, user_id: int) -> RBACUser | None:
         user = self.find_by_id(user_id)
         if not user:
             return None
@@ -333,7 +331,7 @@ class RBACStore:
         )
 
 
-def _generate_recovery_codes(count: int = RECOVERY_CODES_COUNT) -> List[str]:
+def _generate_recovery_codes(count: int = RECOVERY_CODES_COUNT) -> list[str]:
     codes = []
     for _ in range(count):
         code = "-".join(
@@ -344,7 +342,7 @@ def _generate_recovery_codes(count: int = RECOVERY_CODES_COUNT) -> List[str]:
     return codes
 
 
-_TENANCY_STORE: Dict[str, "TenantConfig"] = {}
+_TENANCY_STORE: dict[str, TenantConfig] = {}
 
 
 @dataclass
@@ -354,10 +352,10 @@ class TenantConfig:
     payload_path: str
     sessions_dir: str
     created_at: float = field(default_factory=time.time)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     @classmethod
-    def from_payload(cls, tenant_id: str, name: str, payload_path: str) -> "TenantConfig":
+    def from_payload(cls, tenant_id: str, name: str, payload_path: str) -> TenantConfig:
         sessions_dir = os.path.join("sessions", tenant_id)
         return cls(
             tenant_id=tenant_id,
@@ -370,7 +368,7 @@ class TenantConfig:
         return asdict(self)
 
     @classmethod
-    def from_dict(cls, data: dict) -> "TenantConfig":
+    def from_dict(cls, data: dict) -> TenantConfig:
         return cls(**{k: v for k, v in data.items() if k in cls.__dataclass_fields__})
 
 
@@ -386,8 +384,8 @@ class TenantManager:
         self._payloads_dir = Path(payloads_dir)
         self._config_path = Path(config_path)
         self._default_payload = default_payload
-        self._active_tenant: Optional[str] = None
-        self._tenants: Dict[str, TenantConfig] = {}
+        self._active_tenant: str | None = None
+        self._tenants: dict[str, TenantConfig] = {}
         self._load_config()
 
     def _load_config(self) -> None:
@@ -398,7 +396,7 @@ class TenantManager:
                 for t in data.get("tenants", []):
                     tc = TenantConfig.from_dict(t)
                     self._tenants[tc.tenant_id] = tc
-            except (json.JSONDecodeError, IOError) as exc:
+            except (OSError, json.JSONDecodeError) as exc:
                 log.warning("Failed to load tenancy config: %s", exc)
 
     def _save_config(self) -> None:
@@ -411,10 +409,10 @@ class TenantManager:
         tmp.write_text(json.dumps(data, indent=4), encoding="utf-8")
         tmp.replace(self._config_path)
 
-    def list_tenants(self) -> List[TenantConfig]:
+    def list_tenants(self) -> list[TenantConfig]:
         return list(self._tenants.values())
 
-    def get_active(self) -> Optional[TenantConfig]:
+    def get_active(self) -> TenantConfig | None:
         if self._active_tenant:
             return self._tenants.get(self._active_tenant)
         return None
@@ -437,7 +435,7 @@ class TenantManager:
             return tc.payload_path
         return self._default_payload
 
-    def create_tenant(self, name: str, base_payload: Optional[str] = None) -> TenantConfig:
+    def create_tenant(self, name: str, base_payload: str | None = None) -> TenantConfig:
         tenant_id = _slugify(name)
         if tenant_id in self._tenants:
             raise ValueError(f"Tenant '{tenant_id}' already exists")
@@ -598,7 +596,7 @@ def require_mfa(f: Callable) -> Callable:
     return decorated
 
 
-def _get_rbac_user(flask_user: Any) -> Optional[RBACUser]:
+def _get_rbac_user(flask_user: Any) -> RBACUser | None:
     """Extract RBACUser from Flask-Login current_user."""
     try:
         store = _get_rbac_store()
@@ -607,8 +605,8 @@ def _get_rbac_user(flask_user: Any) -> Optional[RBACUser]:
         return None
 
 
-_rbac_store: Optional[RBACStore] = None
-_tenant_manager: Optional[TenantManager] = None
+_rbac_store: RBACStore | None = None
+_tenant_manager: TenantManager | None = None
 
 
 def _get_rbac_store() -> RBACStore:
@@ -685,7 +683,7 @@ def generate_qr_svg(data: str) -> str:
 
     total_data_bits = len(data_positions)
     ec_words = _qr_ec_codewords(version)
-    data_bytes = total_data_bits // 8
+    total_data_bits // 8
 
     bit_idx = 0
     for pos in data_positions:
@@ -735,7 +733,7 @@ def _qr_ec_codewords(version: int) -> int:
 
 def _qr_encode_alphanumeric(data: str, version: int) -> list:
     ALPHANUMERIC = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+-./:"
-    capacity = _QR_CAPACITY_ALPHANUM_L.get(version, 47)
+    _QR_CAPACITY_ALPHANUM_L.get(version, 47)
 
     chars = list(data.upper())
     bits = []
@@ -780,7 +778,6 @@ def _qr_encode_alphanumeric(data: str, version: int) -> list:
         elif (len(bits) % 8) != 0:
             bits.append(0)
         else:
-            pad = 0
             bits.append((0xEC >> (7 - (len(bits) % 8))) & 1)
             if (len(bits) + 1) % 8 == 0 and len(bits) + 8 <= data_bits:
                 for _ in range(8):

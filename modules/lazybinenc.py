@@ -1,13 +1,11 @@
-import os
-from pwn import *
-from Crypto.Cipher import AES
-from Crypto.Util import Counter
-from Crypto.Util.Padding import pad
 import argparse
+import binascii
+import os
+
+from Crypto.Cipher import AES
+from pwn import *
 from rich.console import Console
 from rich.prompt import Confirm
-from rich.spinner import Spinner
-import binascii
 
 console = Console()
 
@@ -63,24 +61,24 @@ def main():
     key_file, iv_file = generate_key_iv(sessions_path)
 
     try:
-    
+
         with open(key_file, "rb") as f:
             key = f.read()
         with open(iv_file, "rb") as f:
             iv = f.read()
 
-    
+
         elf = ELF(args.input)
         text_section = elf.section(b'.text')
 
         if text_section:
             shellcode = text_section.data
 
-        
+
             cipher = AES.new(key, AES.MODE_CFB, iv)
             encrypted_shellcode = iv + cipher.encrypt(shellcode)
 
-        
+
             with open(args.output, "wb") as f:
                 f.write(encrypted_shellcode)
 

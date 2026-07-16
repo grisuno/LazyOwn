@@ -10,10 +10,8 @@ ExecutionResult with metadata.
 
 import os
 import select
-import struct
 import subprocess
 import sys
-import termios
 from pathlib import Path
 from typing import Any
 

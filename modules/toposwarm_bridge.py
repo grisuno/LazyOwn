@@ -46,7 +46,7 @@ import uuid
 from collections import deque
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any
 
 log = logging.getLogger("toposwarm_bridge")
 
@@ -195,7 +195,7 @@ _KEYWORD_MAP: dict[str, tuple[str, str]] = {
 }
 
 
-def _keyword_route(prompt: str) -> Optional[RoutedCall]:
+def _keyword_route(prompt: str) -> RoutedCall | None:
     """Return a RoutedCall from keyword/pattern matching, or None if no match."""
     import re as _re
     low = prompt.lower()
@@ -287,7 +287,7 @@ class OnlineFeedbackLoop:
     """
 
     def __init__(self, maxsize: int = 1000) -> None:
-        self._pending:   Dict[str, Dict[str, Any]] = {}   # result_id → pending entry
+        self._pending:   dict[str, dict[str, Any]] = {}   # result_id → pending entry
         self._positives: deque = deque(maxlen=maxsize)
         self._negatives: deque = deque(maxlen=maxsize)
         self._feedback_file = _FEEDBACK_FILE
@@ -296,7 +296,7 @@ class OnlineFeedbackLoop:
     def register(
         self,
         result:      RoutedCall,
-        hidden:      Optional[Any] = None,   # torch.Tensor hidden state (optional)
+        hidden:      Any | None = None,   # torch.Tensor hidden state (optional)
     ) -> None:
         """Register a routing result as pending feedback."""
         self._pending[result.result_id] = {
@@ -373,7 +373,7 @@ class OnlineFeedbackLoop:
     def pending_count(self) -> int:
         return len(self._pending)
 
-    def stats(self) -> Dict[str, int]:
+    def stats(self) -> dict[str, int]:
         return {
             "pending":   len(self._pending),
             "positives": len(self._positives),
@@ -478,7 +478,7 @@ class TopoSwarmBridge:
             self._load_failed = True
             return False
 
-    def _neural_route(self, prompt: str) -> Optional[RoutedCall]:
+    def _neural_route(self, prompt: str) -> RoutedCall | None:
         """Use the neural model to route a prompt. Returns None on failure."""
         if not self._try_load():
             return None
@@ -620,7 +620,7 @@ class TopoSwarmBridge:
 
 # ── Module-level singleton ─────────────────────────────────────────────────────
 
-_bridge: Optional[TopoSwarmBridge] = None
+_bridge: TopoSwarmBridge | None = None
 
 
 def get_bridge() -> TopoSwarmBridge:

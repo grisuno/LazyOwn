@@ -1,12 +1,14 @@
+import hashlib
 import os
-import sys
 import socket
 import struct
+import sys
 import time
-import hashlib
 import zlib
+
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
+
 
 # Verificar y relanzar con sudo si es necesario
 def check_sudo():
@@ -52,20 +54,20 @@ def send_icmp_packet(dest_addr, data, key):
         return
 
     packet_id = os.getpid() & 0xFFFF
-    
+
     # Compress and encrypt data
     compressed_data = zlib.compress(data.encode())
     encrypted_data = encrypt_data(compressed_data.decode('latin-1'), key)
-    
+
     header = struct.pack('bbHHh', ICMP_ECHO_REQUEST, 0, 0, packet_id, 1)
     my_checksum = checksum(header + encrypted_data)
     header = struct.pack('bbHHh', ICMP_ECHO_REQUEST, 0, socket.htons(my_checksum), packet_id, 1)
     packet = header + encrypted_data
-    
+
     try:
         sock.sendto(packet, (dest_addr, 1))
         print(f"Comando enviado a {dest_addr}: {data}")
-        
+
         # Recibir respuesta
         encrypted_reply = receive_icmp_reply(sock)
         if encrypted_reply:
@@ -73,7 +75,7 @@ def send_icmp_packet(dest_addr, data, key):
             decompressed_reply = zlib.decompress(decrypted_reply)
             print(f"Respuesta del servidor: {decompressed_reply.decode()}")
         return
-    except socket.error as e:
+    except OSError as e:
         print(f"Error al enviar el paquete: {e}")
     finally:
         sock.close()

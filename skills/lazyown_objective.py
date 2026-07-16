@@ -40,13 +40,10 @@ import argparse
 import datetime
 import hashlib
 import json
-import os
 import re
 import secrets
-import sys
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Dict, List, Optional
 
 # ─── Config ──────────────────────────────────────────────────────────────────
 
@@ -62,7 +59,7 @@ VALID_PRIORITIES = set(PRIORITY_ORDER.keys())
 
 # TTL in hours for pending objectives before they are auto-expired.
 # None = never expire.
-OBJECTIVE_TTL_HOURS: Dict[str, Optional[float]] = {
+OBJECTIVE_TTL_HOURS: dict[str, float | None] = {
     "critical": None,
     "high":     None,
     "medium":   72.0,
@@ -111,7 +108,7 @@ class Objective:
     priority: str
     status: str
     source: str
-    context: Dict
+    context: dict
     created_at: str
     updated_at: str
     notes: str = ""
@@ -131,17 +128,17 @@ class ObjectiveStore:
     objectives).  Thread safety is handled by atomic rename on write.
     """
 
-    def __init__(self, path: Optional[Path] = None) -> None:
+    def __init__(self, path: Path | None = None) -> None:
         self._path = path or OBJECTIVES_FILE
         self._path.parent.mkdir(parents=True, exist_ok=True)
 
     def _now(self) -> str:
-        return datetime.datetime.now(datetime.timezone.utc).isoformat()
+        return datetime.datetime.now(datetime.UTC).isoformat()
 
-    def _load_all(self) -> List[Objective]:
+    def _load_all(self) -> list[Objective]:
         if not self._path.exists():
             return []
-        objs: List[Objective] = []
+        objs: list[Objective] = []
         for line in self._path.read_text().splitlines():
             line = line.strip()
             if not line:
@@ -153,7 +150,7 @@ class ObjectiveStore:
                 continue
         return objs
 
-    def _save_all(self, objs: List[Objective]) -> None:
+    def _save_all(self, objs: list[Objective]) -> None:
         tmp = self._path.with_suffix(".tmp")
         tmp.write_text("\n".join(json.dumps(asdict(o)) for o in objs) + "\n")
         tmp.replace(self._path)
@@ -169,7 +166,7 @@ class ObjectiveStore:
         Returns the number of objectives marked skipped.
         """
         objs = self._load_all()
-        now = datetime.datetime.now(datetime.timezone.utc)
+        now = datetime.datetime.now(datetime.UTC)
         expired = 0
         for o in objs:
             if o.status != "pending":
@@ -180,7 +177,7 @@ class ObjectiveStore:
             try:
                 created = datetime.datetime.fromisoformat(o.created_at)
                 if created.tzinfo is None:
-                    created = created.replace(tzinfo=datetime.timezone.utc)
+                    created = created.replace(tzinfo=datetime.UTC)
                 age_h = (now - created).total_seconds() / 3600
                 if age_h > ttl:
                     o.status = "skipped"
@@ -198,7 +195,7 @@ class ObjectiveStore:
         text: str,
         priority: str = "medium",
         source: str = "claude",
-        context: Optional[Dict] = None,
+        context: dict | None = None,
         notes: str = "",
     ) -> Objective:
         if priority not in VALID_PRIORITIES:
@@ -255,17 +252,17 @@ class ObjectiveStore:
     def start(self, obj_id: str) -> bool:
         return self._update_status(obj_id, "in_progress")
 
-    def next_pending(self) -> Optional[Objective]:
+    def next_pending(self) -> Objective | None:
         pending = [o for o in self._load_all() if o.status == "pending"]
         if not pending:
             return None
         return sorted(pending, key=lambda o: o.sort_key())[0]
 
-    def list_pending(self, limit: int = 10) -> List[Objective]:
+    def list_pending(self, limit: int = 10) -> list[Objective]:
         pending = [o for o in self._load_all() if o.status == "pending"]
         return sorted(pending, key=lambda o: o.sort_key())[:limit]
 
-    def list_all(self, status: str = "all", limit: int = 20) -> List[Objective]:
+    def list_all(self, status: str = "all", limit: int = 20) -> list[Objective]:
         objs = self._load_all()
         if status != "all":
             objs = [o for o in objs if o.status == status]
@@ -273,7 +270,7 @@ class ObjectiveStore:
 
     def summary(self) -> str:
         objs = self._load_all()
-        counts: Dict[str, int] = {}
+        counts: dict[str, int] = {}
         for o in objs:
             counts[o.status] = counts.get(o.status, 0) + 1
         total = len(objs)
@@ -307,7 +304,7 @@ def current_plan() -> str:
     return PLAN_FILE.read_text().strip()
 
 
-def full_context_for_claude(target: Optional[str] = None) -> Dict:
+def full_context_for_claude(target: str | None = None) -> dict:
     """
     Return a single dict with everything Claude Code needs to reason about
     the next objective:  soul + pending objectives + current plan + soul.
@@ -406,7 +403,7 @@ class SoulUpdater:
             f"- {target}: {os_name}",
         )
 
-    def update_credentials(self, creds: List[dict]) -> None:
+    def update_credentials(self, creds: list[dict]) -> None:
         """
         Replace the ## Known Credentials section with discovered credentials.
         Accepts list of dicts with keys: username, password, hash_value (optional).
@@ -414,7 +411,7 @@ class SoulUpdater:
         if not creds:
             return
         seen: set = set()
-        lines: List[str] = []
+        lines: list[str] = []
         for c in creds[:15]:
             user   = (c.get("username") or "").strip()
             passwd = (c.get("password") or "").strip()
@@ -440,13 +437,13 @@ class SoulUpdater:
             note += f" via {method}"
         self._patch_section("Achieved Access", note)
 
-    def update_vulnerabilities(self, vulns: List[dict]) -> None:
+    def update_vulnerabilities(self, vulns: list[dict]) -> None:
         """Replace ## Key Vulnerabilities with the most severe findings."""
         if not vulns:
             return
         sev_order = {"critical": 0, "high": 1, "medium": 2, "low": 3, "info": 4}
         sorted_v = sorted(vulns, key=lambda v: sev_order.get(v.get("severity", "info"), 5))
-        lines: List[str] = []
+        lines: list[str] = []
         for v in sorted_v[:15]:
             sev = (v.get("severity") or "info").upper()
             vid = v.get("vuln_id") or "?"

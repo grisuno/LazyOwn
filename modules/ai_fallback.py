@@ -27,7 +27,7 @@ from __future__ import annotations
 
 import json
 import re
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
 
 import requests
@@ -199,7 +199,7 @@ def _groq_call(
 
 # ── Public API ────────────────────────────────────────────────────────────────
 
-def _toposwarm_call(prompt: str, system: str) -> Optional["AIResult"]:
+def _toposwarm_call(prompt: str, system: str) -> Optional[AIResult]:
     """
     Try TopoSwarm local brain as a last-resort fallback.
     Returns an AIResult if TopoSwarm is available, else None.
@@ -221,7 +221,7 @@ def _toposwarm_call(prompt: str, system: str) -> Optional["AIResult"]:
             model   = "toposwarm-2M" + ("-neural" if bridge.model_loaded else "-keyword"),
             error   = "",
         )
-    except Exception as exc:
+    except Exception:
         return None
 
 
@@ -303,7 +303,7 @@ def call(
 
             return AIResult(
                 text = (
-                    f"⚠️  Ollama is running but has no compatible chat model.\n"
+                    "⚠️  Ollama is running but has no compatible chat model.\n"
                     + installed_hint + "\n\n"
                     + _HELP_MESSAGE
                 ),

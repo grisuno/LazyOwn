@@ -22,14 +22,15 @@ Design (SOLID):
 
 from __future__ import annotations
 
+from collections.abc import Callable, Mapping
 from dataclasses import dataclass
-from enum import Enum
-from typing import Any, Callable, Mapping
+from enum import StrEnum
+from typing import Any
 
 from cli.themes import Theme, theme_from_payload
 
 
-class GraphOverlayView(str, Enum):
+class GraphOverlayView(StrEnum):
     """Two view modes the overlay toggles between."""
 
     GOD_NODES = "god_nodes"

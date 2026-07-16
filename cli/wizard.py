@@ -20,9 +20,10 @@ from __future__ import annotations
 import re
 import shutil
 import subprocess
+from collections.abc import Callable, Iterable, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Callable, Iterable, Sequence
+from typing import Any
 
 from rich.console import Console
 from rich.panel import Panel

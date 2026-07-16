@@ -38,9 +38,10 @@ Design rules:
 from __future__ import annotations
 
 import re
+from collections.abc import Callable, Iterable, Mapping
 from dataclasses import dataclass
-from enum import Enum
-from typing import Any, Callable, Iterable, Mapping
+from enum import StrEnum
+from typing import Any
 
 IPV4_REGEX = re.compile(r"\A((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)\Z")
 INTERFACE_REGEX = re.compile(r"\A[A-Za-z0-9._@:-]{1,32}\Z")
@@ -56,7 +57,7 @@ PORT_MIN = 1
 PORT_MAX = 65535
 
 
-class FieldKind(str, Enum):
+class FieldKind(StrEnum):
     """Categorical type of a payload field used by validators and the wizard."""
 
     STRING = "string"
@@ -74,7 +75,7 @@ class FieldKind(str, Enum):
     OPAQUE = "opaque"
 
 
-class Severity(str, Enum):
+class Severity(StrEnum):
     """Severity of a :class:`ValidationIssue`."""
 
     ERROR = "error"

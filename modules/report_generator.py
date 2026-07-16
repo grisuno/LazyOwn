@@ -42,11 +42,10 @@ from __future__ import annotations
 import json
 import logging
 import math
-import os
 import re
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Union
 
 log = logging.getLogger("report_generator")
 
@@ -109,7 +108,7 @@ class CVSSv3Calculator:
     # Public interface
     # ------------------------------------------------------------------
 
-    def calculate(self, vector_string: str) -> Tuple[float, str]:
+    def calculate(self, vector_string: str) -> tuple[float, str]:
         """
         Compute the CVSS v3.1 base score from a vector string.
 
@@ -142,7 +141,7 @@ class CVSSv3Calculator:
         confidentialityImpact: str,
         integrityImpact: str,
         availabilityImpact: str,
-    ) -> Tuple[float, str]:
+    ) -> tuple[float, str]:
         """
         Compute the CVSS v3.1 base score from individual NVD metric names.
 
@@ -172,7 +171,7 @@ class CVSSv3Calculator:
         self,
         av: str, ac: str, pr: str, ui: str,
         s: str, c: str, i: str, a: str,
-    ) -> Tuple[float, str]:
+    ) -> tuple[float, str]:
         """Apply the CVSS v3.1 base score formula."""
         scope_changed = s == "C"
 
@@ -231,7 +230,7 @@ class CVSSv3Calculator:
             return "Critical"
 
     @staticmethod
-    def _parse_vector(vector_string: str) -> Dict[str, str]:
+    def _parse_vector(vector_string: str) -> dict[str, str]:
         """
         Parse a CVSS v3.x vector string into a dict of metric abbreviations.
 
@@ -241,7 +240,7 @@ class CVSSv3Calculator:
         # Strip the CVSS:3.x/ prefix if present
         s = re.sub(r"^CVSS:[0-9.]+/", "", s, flags=re.IGNORECASE)
 
-        metrics: Dict[str, str] = {}
+        metrics: dict[str, str] = {}
         for part in s.split("/"):
             if ":" not in part:
                 continue
@@ -287,7 +286,7 @@ class DOCXExporter:
         self,
         markdown_text: str,
         output_path: Union[str, Path],
-    ) -> Optional[Path]:
+    ) -> Path | None:
         """
         Convert *markdown_text* to a DOCX file at *output_path*.
 
@@ -295,11 +294,11 @@ class DOCXExporter:
         unavailable or an error occurs.
         """
         try:
-            from docx import Document                          # type: ignore
-            from docx.shared import Pt, RGBColor              # type: ignore
-            from docx.enum.text import WD_ALIGN_PARAGRAPH     # type: ignore
-            from docx.oxml.ns import qn                       # type: ignore
-            from docx.oxml import OxmlElement                 # type: ignore
+            from docx import Document  # type: ignore
+            from docx.enum.text import WD_ALIGN_PARAGRAPH  # type: ignore
+            from docx.oxml import OxmlElement  # type: ignore
+            from docx.oxml.ns import qn  # type: ignore
+            from docx.shared import Pt, RGBColor  # type: ignore
         except ImportError:
             log.warning(
                 "python-docx is not installed; DOCX export skipped. "
@@ -312,7 +311,7 @@ class DOCXExporter:
             self._add_header_footer(doc)
 
             in_code_block = False
-            code_lines: List[str] = []
+            code_lines: list[str] = []
 
             for line in markdown_text.splitlines():
                 # Code block fence detection
@@ -336,7 +335,7 @@ class DOCXExporter:
                 elif line.startswith("## "):
                     doc.add_heading(line[3:].strip(), level=1)
                 elif line.startswith("# "):
-                    p = doc.add_paragraph(line[2:].strip(), style="Title")
+                    doc.add_paragraph(line[2:].strip(), style="Title")
                 elif line.strip() == "---":
                     self._add_horizontal_rule(doc)
                 elif line.strip() == "":
@@ -378,8 +377,8 @@ class DOCXExporter:
     @staticmethod
     def _add_horizontal_rule(doc: Any) -> None:
         """Add a paragraph that renders as a thin horizontal rule."""
-        from docx.oxml.ns import qn   # type: ignore
         from docx.oxml import OxmlElement  # type: ignore
+        from docx.oxml.ns import qn  # type: ignore
 
         p = doc.add_paragraph()
         pPr = p._p.get_or_add_pPr()
@@ -398,10 +397,10 @@ class DOCXExporter:
         Insert a 'CONFIDENTIAL' header and page-number footer into every
         section of the document.
         """
-        from docx.shared import Pt, RGBColor          # type: ignore
         from docx.enum.text import WD_ALIGN_PARAGRAPH  # type: ignore
-        from docx.oxml.ns import qn                    # type: ignore
-        from docx.oxml import OxmlElement              # type: ignore
+        from docx.oxml import OxmlElement  # type: ignore
+        from docx.oxml.ns import qn  # type: ignore
+        from docx.shared import Pt, RGBColor  # type: ignore
 
         section = doc.sections[0]
 
@@ -464,9 +463,9 @@ class ReportGenerator:
 
     def generate(
         self,
-        output_path: Optional[Union[str, Path]] = None,
-        formats: Optional[List[str]] = None,
-    ) -> Union[Path, List[Path]]:
+        output_path: Union[str, Path] | None = None,
+        formats: list[str] | None = None,
+    ) -> Union[Path, list[Path]]:
         """
         Generate the penetration test report.
 
@@ -510,7 +509,7 @@ class ReportGenerator:
 
         # --- Multi-format mode ---
         if formats is not None:
-            results: List[Optional[Path]] = []
+            results: list[Path | None] = []
             base_stem = f"report_{ts}"
             for fmt in formats:
                 fmt_lower = fmt.lower().strip()
@@ -603,7 +602,7 @@ class ReportGenerator:
         if not facts:
             return ""
 
-        vulns: List[dict] = []
+        vulns: list[dict] = []
         for ip, info in facts.get("hosts", {}).items():
             for v in info.get("vulnerabilities", []):
                 vulns.append({"host": ip, **v})
@@ -708,7 +707,7 @@ class ReportGenerator:
         if not frameworks:
             return ""
 
-        for fw_key, fw_data in frameworks.items():
+        for _fw_key, fw_data in frameworks.items():
             lines.append(f"### {fw_data['name']}")
             lines.append(f"- Coverage: **{fw_data.get('coverage_pct', 0)}%**")
             lines.append(f"- Controls mapped: {fw_data.get('controls_covered', 0)}/{fw_data.get('total_controls', 0)}")
@@ -807,7 +806,7 @@ class ReportGenerator:
             lines.append("_Complete the engagement to generate recommendations._")
             return "\n".join(lines)
 
-        SERVICE_RECS: Dict[str, str] = {
+        SERVICE_RECS: dict[str, str] = {
             "http":  "Perform web application assessment: directory brute-force, auth bypass, injection, misconfigurations.",
             "https": "Perform web application assessment over TLS: cert validity, HSTS, injection, auth bypass.",
             "smb":   "Test for null session, EternalBlue (MS17-010), SMB relay, credential brute-force.",
@@ -849,7 +848,7 @@ class ReportGenerator:
 
     # ── Data loaders ──────────────────────────────────────────────────────────
 
-    def _load_facts(self) -> Dict[str, Any]:
+    def _load_facts(self) -> dict[str, Any]:
         for fname in ("policy_facts.json", "facts.json"):
             p = self.sdir / fname
             if p.exists():
@@ -867,7 +866,7 @@ class ReportGenerator:
                     log.warning("Could not load %s: %s", p, exc)
         return {}
 
-    def _load_jsonl(self, path: Path) -> List[Dict]:
+    def _load_jsonl(self, path: Path) -> list[dict]:
         if not path.exists():
             return []
         results = []
@@ -886,7 +885,6 @@ class ReportGenerator:
 
 if __name__ == "__main__":
     import argparse
-    import sys
 
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
 

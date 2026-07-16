@@ -14,8 +14,9 @@ data structures via constructor injection (Dependency Inversion).
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from dataclasses import dataclass
-from typing import Any, Protocol, Sequence
+from typing import Any, Protocol
 
 GHOST_TEXT_LIMIT: int = 48
 HINT_COMMAND_LIMIT: int = 72

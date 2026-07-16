@@ -12,9 +12,6 @@ Layers:
 
 import re
 from dataclasses import dataclass
-from pathlib import Path
-from typing import Optional
-
 
 # ── Budget caps per tool category ────────────────────────────────────────────
 
@@ -73,7 +70,7 @@ class ContextCompactor:
 
     def __init__(
         self,
-        budget_override: Optional[dict[str, int]] = None,
+        budget_override: dict[str, int] | None = None,
         snip_threshold: int = 6_000,
         collapse_threshold: int = 9_000,
     ):

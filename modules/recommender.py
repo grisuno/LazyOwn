@@ -190,7 +190,7 @@ def recommend_and_save(api_key: str | None = None) -> list[dict]:
 
 if __name__ == "__main__":
     recs = recommend_and_save()
-    print(f"\nRecommended next actions (phase: see next_actions.json):\n")
+    print("\nRecommended next actions (phase: see next_actions.json):\n")
     for i, r in enumerate(recs, 1):
         bar = "█" * int(r["confidence"] * 10)
         print(f"  {i}. [{bar:<10}] {r['confidence']:.0%}  {r['command']} {r['args']}")

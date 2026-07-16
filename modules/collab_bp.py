@@ -33,14 +33,16 @@ import queue
 import threading
 import time
 import uuid
-from abc import ABC, abstractmethod
-from dataclasses import dataclass, field, asdict
+from dataclasses import asdict, dataclass, field
 from functools import wraps
-from typing import Dict, List, Optional
 
 from flask import (
-    Blueprint, Response, jsonify, request, stream_with_context, redirect, url_for,
+    Blueprint,
+    Response,
+    jsonify,
     render_template,
+    request,
+    stream_with_context,
 )
 
 log = logging.getLogger("collab_bp")
@@ -52,9 +54,13 @@ _get_rbac_store_fn = None
 
 try:
     from modules.lazy_rbac import (
-        require_permission as _rbac_require_permission,
         Permission as _RBACPermission,
+    )
+    from modules.lazy_rbac import (
         get_rbac_store as _rbac_get_store,
+    )
+    from modules.lazy_rbac import (
+        require_permission as _rbac_require_permission,
     )
     _RBAC_AVAILABLE = True
     _require_permission_deco = _rbac_require_permission
@@ -63,7 +69,7 @@ except ImportError:
     pass
 
 try:
-    from flask_login import login_required, current_user
+    from flask_login import current_user, login_required
     _AUTH_AVAILABLE = True
 except ImportError:
     _AUTH_AVAILABLE = False
@@ -177,8 +183,8 @@ class EventBus:
 
     def __init__(self) -> None:
         self._lock:   threading.RLock                = threading.RLock()
-        self._queues: Dict[str, queue.Queue]          = {}
-        self._history: List[ColabEvent]              = []
+        self._queues: dict[str, queue.Queue]          = {}
+        self._history: list[ColabEvent]              = []
 
     def subscribe(self, subscriber_id: str) -> queue.Queue:
         q: queue.Queue = queue.Queue(maxsize=self._MAX_QUEUE)
@@ -211,7 +217,7 @@ class EventBus:
                 log.debug("Dropping stale subscriber %s", sid)
                 self._queues.pop(sid, None)
 
-    def recent(self, n: int = 50) -> List[ColabEvent]:
+    def recent(self, n: int = 50) -> list[ColabEvent]:
         with self._lock:
             return list(self._history[-n:])
 
@@ -241,7 +247,7 @@ class LockManager:
 
     def __init__(self) -> None:
         self._lock:  threading.RLock           = threading.RLock()
-        self._locks: Dict[str, TargetLock]     = {}
+        self._locks: dict[str, TargetLock]     = {}
 
     def acquire(self, target: str, operator: str, ttl_secs: int = 300) -> bool:
         with self._lock:
@@ -263,12 +269,12 @@ class LockManager:
                 return True
             return False
 
-    def status(self, target: str) -> Optional[TargetLock]:
+    def status(self, target: str) -> TargetLock | None:
         with self._lock:
             self._expire()
             return self._locks.get(target)
 
-    def all_locks(self) -> List[TargetLock]:
+    def all_locks(self) -> list[TargetLock]:
         with self._lock:
             self._expire()
             return list(self._locks.values())
@@ -296,7 +302,7 @@ class OperatorRegistry:
 
     def __init__(self) -> None:
         self._lock:      threading.RLock              = threading.RLock()
-        self._operators: Dict[str, OperatorInfo]      = {}
+        self._operators: dict[str, OperatorInfo]      = {}
 
     def join(self, name: str) -> OperatorInfo:
         with self._lock:
@@ -320,7 +326,7 @@ class OperatorRegistry:
             if name in self._operators:
                 self._operators[name].active = False
 
-    def active_operators(self) -> List[OperatorInfo]:
+    def active_operators(self) -> list[OperatorInfo]:
         with self._lock:
             self._expire()
             return [o for o in self._operators.values() if o.active]

@@ -9,17 +9,16 @@ from __future__ import annotations
 import base64
 import json
 import os
-import re
 import shutil
 import tempfile
 import time
+from collections.abc import Callable
 from contextlib import contextmanager
 from dataclasses import dataclass, field
 from datetime import datetime
 from string import Template
-from typing import Any, Callable
+from typing import Any
 
-from core.console import CYAN, RED, RESET
 from core.validators import check_lhost, check_lport
 from modules.metrics import REGISTRY
 from utils import (
@@ -399,7 +398,7 @@ chmod +x /tmp/stub && \
         bcontent = _render_template(_read(bfile), ctx)
         cwcontent = _render_template(_read(cwfiles), ctx)
         content_mon = _render_template(_read(cfiles), ctx)
-        evil_content = _render_template(_read(file_evil), ctx)
+        _render_template(_read(file_evil), ctx)
         payload_content = _render_template(_read(payload_sh), ctx)
         rootkit_content = _render_template(_read(rootkit_c), ctx)
         mrhyde_content = _render_template(_read(mrhyde), ctx)

@@ -1,9 +1,9 @@
-#!/usr/bin/env python3 
+#!/usr/bin/env python3
 #_*_ coding: utf8 _*_
 """
 main.py
 
-Autor: Gris Iscomeback 
+Autor: Gris Iscomeback
 Correo electrónico: grisiscomeback[at]gmail[dot]com
 Fecha de creación: 09/06/2024
 Licencia: GPL v3
@@ -18,11 +18,12 @@ Descripción: LazyOwn Binary find in gtofbins db
 ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
 
 """
+import argparse
 import os
 import platform
 import subprocess
+
 import pandas as pd
-import argparse
 from colorama import Fore, Style, init
 from tabulate import tabulate
 
@@ -49,18 +50,18 @@ def search_in_parquet(term, parquet_files):
 def buscar_binarios(args):
     """Search for binaries with special permissions and generate a results CSV."""
     binarios_encontrados = set()
-    
+
     # Detect the operating system
     sistema_operativo = platform.system()
     print(f"[+] Sistema operativo detectado: {sistema_operativo}")
-    
+
     if sistema_operativo == 'Linux':
         print("[+] Ejecutando búsqueda de binarios con permisos especiales en Linux...")
         try:
             # Execute the find command for Linux
             result = subprocess.run(['find', '/', '-perm', '4000', '-ls'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
             output = result.stdout
-            
+
             # Extract found binaries
             for line in output.split('\n'):
                 if line:
@@ -70,7 +71,7 @@ def buscar_binarios(args):
                         binarios_encontrados.add(binario)
         except Exception as e:
             print(f"[-] Error ejecutando el comando find: {e}")
-                
+
     elif sistema_operativo == 'Windows':
         print("[+] Ejecutando búsqueda de binarios con permisos especiales en Windows...")
         try:
@@ -78,7 +79,7 @@ def buscar_binarios(args):
             powershell_script = """
             $directories = @("C:\\Windows\\System32", "C:\\", "C:\\Program Files", "C:\\Program Files (x86)")
             foreach ($dir in $directories) {
-                Get-ChildItem -Path $dir -Recurse -Filter *.exe -ErrorAction SilentlyContinue | 
+                Get-ChildItem -Path $dir -Recurse -Filter *.exe -ErrorAction SilentlyContinue |
                 ForEach-Object {
                     $acl = Get-Acl $_.FullName
                     $privileges = $acl.Access | Where-Object { $_.FileSystemRights -match "FullControl" }
@@ -88,11 +89,11 @@ def buscar_binarios(args):
                 }
             }
             """
-            
+
             # Execute the PowerShell script
             result = subprocess.run(['powershell', '-Command', powershell_script], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
             output = result.stdout
-            
+
             # Extract found binaries
             for line in output.split('\n'):
                 if line:
@@ -100,13 +101,13 @@ def buscar_binarios(args):
                     binarios_encontrados.add(binario)
         except Exception as e:
             print(f"[-] Error ejecutando el script de PowerShell: {e}")
-    
+
     if binarios_encontrados:
         print(f"[+] Binarios encontrados: {binarios_encontrados}")
-        
+
         # Filter the main DataFrame with the found binaries
-        df_binarios_encontrados = df1[df1['Binary'].isin(binarios_encontrados)]
-        
+        df1[df1['Binary'].isin(binarios_encontrados)]
+
         # Generate a CSV with details of the found binaries
         with open('csv/resultado.csv', 'w') as f:
             for binario in binarios_encontrados:
@@ -115,7 +116,7 @@ def buscar_binarios(args):
                 if not result.empty:
                     result_str = result.astype(str)
                     highlighted_result = result_str.applymap(lambda x: highlight_term(x, binario))
-    
+
                     print(f"Resultados encontrados para '{binario}':")
                     print(tabulate(highlighted_result, headers='keys', tablefmt='psql', showindex=False))
                 else:
@@ -133,10 +134,10 @@ def ejecutar_opciones():
     if not os.path.exists('csv/resultado.csv'):
         print("[-] No se encontró el archivo 'resultado.csv'. Asegúrese de que la búsqueda de binarios se haya realizado correctamente.")
         return
-    
+
     print("[+] Leyendo resultado de búsqueda de binarios...")
     df_resultado = pd.read_csv('csv/resultado.csv', header=None, names=['Binary', 'Function Name', 'Function URL', 'Description', 'Example'])
-    
+
     for binario in df_resultado['Binary'].unique():
         print(f"[*] Binario encontrado: {binario}")
         detalles = df_resultado[df_resultado['Binary'] == binario]
@@ -145,16 +146,16 @@ def ejecutar_opciones():
         for i, (_, row) in enumerate(detalles.iterrows(), start=1):
             print(f"{i}. {row['Function Name']} - {row['Description']}")
         print(f"{i+1}. No hacer nada y salir")
-        
+
         while True:
             opcion = input("Seleccione una opción: ")
             if opcion.isdigit() and 1 <= int(opcion) <= len(detalles) + 1:
                 break
             else:
                 print("Opción no válida. Por favor, intente de nuevo.")
-        
+
         opcion = int(opcion)
-        
+
         if opcion <= len(detalles):
             print(f"[+] Ejecutando opción {opcion} para {binario}")
             # Execute the corresponding option
@@ -172,7 +173,7 @@ if __name__ == '__main__':
     print("██║     ██╔══██║ ███╔╝    ╚██╔╝  ██║   ██║██║███╗██║██║╚██╗██║")
     print("███████╗██║  ██║███████╗   ██║   ╚██████╔╝╚███╔███╔╝██║ ╚████║")
     print("╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝")
-    print(f"[*] Iniciando: LazyOwn [;,;]")
+    print("[*] Iniciando: LazyOwn [;,;]")
 
     parser = argparse.ArgumentParser(description="Buscar en archivos Parquet")
     parser.add_argument("--parquet_files", nargs='+', default=["binarios.parquet", "detalles.parquet"], help="Lista de archivos Parquet a buscar")

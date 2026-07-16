@@ -1,7 +1,9 @@
 # main.py
 import argparse
 import sys
+
 from vulnbot import VulnBotCLI
+
 BANNER = "Vuln Bot LazyOwn RedTeam Technology"
 def parse_args():
     parser = argparse.ArgumentParser(description='VulnBot: Asistente de Pentesting con Groq o DeepSeek')

@@ -523,6 +523,7 @@ def _save_payload(data: dict) -> str:
     try:
         with open(PAYLOAD_FILE, "w") as f:
             json.dump(data, f, indent=2)
+        os.chmod(PAYLOAD_FILE, 0o644)
         return "ok"
     except Exception as e:
         return f"error: {e}"

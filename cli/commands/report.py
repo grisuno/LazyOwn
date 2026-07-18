@@ -88,7 +88,7 @@ class ReportingCommandSet(LazyOwnCommandSet):
     @cmd2.with_category(reporting_category)
     def do_create_session_json(self, line):
         """Create the session JSON report file."""
-        self.cmd("python3 modules/create_session_json.py")
+        self.cmd("python3 modules/session_state.py")
 
     @cmd2.with_category(reporting_category)
     def do_malwarebazar(self, line):

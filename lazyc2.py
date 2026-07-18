@@ -2495,6 +2495,7 @@ else:
 if not api_key:
     logging.error("Error: La API key no está configurada en el archivo payload.json")
     print("Error: La API key no está configurada en el archivo payload.json")
+    shell.onecmd('BlackObsidianC2')
     exit(1)
 
 if not route_maleable:

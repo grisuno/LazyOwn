@@ -95,6 +95,7 @@ _PALETTE_RENDER_CONFIG = _PaletteRenderConfig()
 _PALETTE_COMPLETER = _PaletteCompleter(_PALETTE_RENDER_CONFIG)
 
 config = _load_payload()
+aes_key = config.get("aes_key")
 api_key = config.get("api_key")
 route_maleable = config.get("c2_maleable_route")
 win_useragent_maleable = config.get("user_agent_win")
@@ -370,6 +371,7 @@ class LazyOwnShell(cmd2.Cmd):
             "path": "/",
             "reverse_shell_port": 7777,
             "listener": 7878,
+            "aes_key": aes_key,
             "c2_port": 4444,
             "c2_user": c2_user,
             "c2_pass": c2_pass,
@@ -1572,7 +1574,6 @@ class LazyOwnShell(cmd2.Cmd):
                     else:
                         self.display_toastr(f"Error: Parameter '{param_name}' is missing and no default value is provided.", type='warning')
                         return
-
                 try:
                     install_path = os.path.join(os.getcwd(), tool['install_path'])
                     if not os.path.exists(install_path):
@@ -1589,8 +1590,7 @@ class LazyOwnShell(cmd2.Cmd):
                             install_hint = tool.get('install_command', f"git clone {tool.get('repo_url','')}")
                             print_warn(f"'{binary}' not found in PATH.")
                             print_warn(f"Install: {install_hint[:120]}")
-                        command = execute_command.format(**param_values)
-                        command_replaced = replace_command_placeholders(command, self.params)
+                        command_replaced = replace_command_placeholders(execute_command, self.params)
                         if args:
                             final_command = f"cd {install_path} && {command_replaced} {' '.join(args)}"
                         else:

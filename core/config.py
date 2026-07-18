@@ -183,6 +183,7 @@ def save_payload(payload: dict[str, Any], path: str | os.PathLike[str] = PAYLOAD
             json.dump(payload, fh, indent=2, ensure_ascii=False)
             fh.write("\n")
         os.replace(tmp_name, target)
+        os.chmod(target, 0o644)
     except Exception:
         if os.path.exists(tmp_name):
             try:

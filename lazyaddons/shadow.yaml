@@ -1,0 +1,27 @@
+name: shadow
+description: 'Shadow is a remote administration tool consisting of a C-based client and a Python-based server component. The project includes the shadow executable (compiled from shadow.c) and server.py for handling connections.
+  USAGE: 
+  ./shadow <server_ip> <port>
+
+  '
+author: LazyOwn RedTeam
+version: '1.0'
+enabled: true
+params:
+- name: lhost
+  type: string
+  required: true
+  description: lhost target.
+- name: lport
+  type: string
+  required: true
+  description: lport target.  
+os: any
+trigger: []
+tool:
+  name: shadow
+  repo_url: https://github.com/grisuno/shadow.git
+  install_path: external/.exploit/shadow
+  install_command: make all
+  execute_command: make run ARGS="{lhost} {lport}"
+category: 10. Command & Control

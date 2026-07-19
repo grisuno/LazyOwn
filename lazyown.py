@@ -80,16 +80,10 @@ from cli.status_bar import build_default_manager as _build_status_bar_manager
 from cli.toast_bus import render_toasts as _render_toasts
 from cli.wizard import run as _run_wizard
 from core.config import load_payload as _load_payload, save_payload as _save_payload
-from modules.db import LazyOwnDB as _LazyOwnDB
-from modules.llm_factory import try_get_llm_backend as _try_get_llm_backend
-from modules.metrics import get_recorder as _get_metrics_recorder
-from modules.module_registry import ModuleRegistry as _ModuleRegistry
-from modules.module_registry import format_module_detail as _format_module_detail
-from modules.module_registry import format_module_table as _format_module_table
-from modules.payload_factory import PayloadFactory as _PayloadFactory
-from modules.payload_factory import format_payload_table as _format_payload_table
-from skills.unified_orchestrator import build_default_orchestrator as _build_unified_orchestrator
 from utils import *  # TODO: migrate to explicit imports (see pyproject.toml F405)
+
+
+
 
 _PALETTE_RENDER_CONFIG = _PaletteRenderConfig()
 _PALETTE_COMPLETER = _PaletteCompleter(_PALETTE_RENDER_CONFIG)
@@ -423,9 +417,10 @@ class LazyOwnShell(cmd2.Cmd):
             "tui_theme": "default",
         }
         self._load_extended_params()
-        self._lazyown_db: _LazyOwnDB | None = None
-        self._module_registry: _ModuleRegistry | None = None
-        self._payload_factory = _PayloadFactory()
+        from modules.payload_factory import PayloadFactory as _PF
+        self._lazyown_db: Any = None
+        self._module_registry: Any = None
+        self._payload_factory = _PF()
         self._active_module = None
         self._active_module_options: dict = {}
         self._db_workspace: str = "default"
@@ -467,7 +462,8 @@ class LazyOwnShell(cmd2.Cmd):
         user_aliases = load_user_aliases()
         self.aliases.update(user_aliases)
         if self.use_ai:
-            self.ai_model = _try_get_llm_backend(config=self.params)
+            from modules.llm_factory import try_get_llm_backend as _try_llm
+            self.ai_model = _try_llm(config=self.params)
             if self.ai_model is None:
                 self.display_toastr("AI backend unavailable; disabling AI features.", type="error")
                 self.use_ai = False
@@ -488,7 +484,8 @@ class LazyOwnShell(cmd2.Cmd):
             print_warn(f"status bar not installed: {exc}")
             self._status_bar_manager = None
         try:
-            self._unified_orchestrator = _build_unified_orchestrator(
+            from skills.unified_orchestrator import build_default_orchestrator as _build_orch
+            self._unified_orchestrator = _build_orch(
                 payload=self.params,
                 sessions_dir=self.sessions_dir,
             )
@@ -998,7 +995,8 @@ class LazyOwnShell(cmd2.Cmd):
             duration_ms=duration_ms,
         )
         try:
-            _get_metrics_recorder().record(
+            from modules.metrics import get_recorder as _get_recorder
+            _get_recorder().record(
                 command=cmd_name,
                 args=cmd_args,
                 duration_ms=duration_ms,
@@ -2582,8 +2580,12 @@ class LazyOwnShell(cmd2.Cmd):
         }
 
         if arg in type_map or arg in ("all", "modules"):
+            from modules.module_registry import ModuleRegistry as _MReg
+            from modules.module_registry import format_module_table as _fmt_mod_table
+            from modules.payload_factory import format_payload_table as _fmt_pay_table
+            from modules.module_registry import format_module_detail as _fmt_mod_detail
             if self._module_registry is None:
-                self._module_registry = _ModuleRegistry()
+                self._module_registry = _MReg()
             reg = self._module_registry
             reg.scan()
 
@@ -2600,7 +2602,7 @@ class LazyOwnShell(cmd2.Cmd):
                     print_msg(f"No {arg} modules found.")
                 else:
                     print_msg(f"{arg.capitalize()} ({len(results)}):")
-                    print(_format_module_table(results, cols=("name", "version", "description")))
+                    print(_fmt_mod_table(results, cols=("name", "version", "description")))
             return
 
         if arg == "payloads":
@@ -2609,14 +2611,14 @@ class LazyOwnShell(cmd2.Cmd):
                 print_msg("No payloads registered.")
             else:
                 print_msg(f"Payloads ({len(payloads)}):")
-                print(_format_payload_table(payloads))
+                print(_fmt_pay_table(payloads))
             return
 
         if arg == "options":
             if self._active_module is None:
                 print_msg("No active module. Use 'use <module>' first.")
                 return
-            print(_format_module_detail(self._active_module))
+            print(_fmt_mod_detail(self._active_module))
             return
 
         rendered = _format_payload(self.params)

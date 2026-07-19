@@ -72,6 +72,22 @@ notes: Optional additional usage notes.
 | `generate_lateral_command` | Suggests lateral movement commands based on discovered credentials and OS. |
 | `generate_linux_asm_reverse_shell` | Generates an x86-64 Linux assembly reverse shell stub. |
 
+## `app` API (Lua global)
+
+The Lua runtime exposes a single global `app` with these properties:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `app.params` | table | Read/write access to `payload.json` config |
+| `app.params["rhost"]` | string | Current target IP/hostname |
+| `app.params["lhost"]` | string | Local attacker IP |
+| `app.params["lport"]` | number | Local port |
+| `app.params["domain"]` | string | Target domain |
+| `app.params["start_user"]` | string | Credential username |
+| `app.params["start_pass"]` | string | Credential password |
+
+All keys from `payload.json` are available via `app.params["<key>"]`.
+
 ## Running a plugin
 
 ```

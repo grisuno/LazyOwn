@@ -39,10 +39,11 @@ from mcp.server import Server
 # Each _*_AVAILABLE flag starts as None (unchecked) and is set True/False
 # on first use by the _ensure_* helpers below.
 
-sys.path.insert(0, str(Path(__file__).parent.parent / "modules"))
-_skills_path = str(Path(__file__).parent)
-if _skills_path not in sys.path:
-    sys.path.insert(0, _skills_path)
+_mcp_root = Path(__file__).parent
+_mcp_lazyown = _mcp_root.parent
+for _p in [str(_mcp_lazyown / "modules"), str(_mcp_root)]:
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
 
 _ENGINE_AVAILABLE     = None
 _BRIDGE_AVAILABLE     = None

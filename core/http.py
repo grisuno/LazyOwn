@@ -6,23 +6,21 @@ scrapers, news feeds, and web interaction helpers.
 
 from __future__ import annotations
 
-import re
-import time
-from typing import Any, Optional
+from typing import Any
 
 import requests
 from bs4 import BeautifulSoup
-from requests.exceptions import ConnectionError, RequestException
+from requests.exceptions import RequestException
 
-from core.console import print_error, print_msg, print_warn
+from core.console import print_error, print_msg
 
 
 def generate_http_req(
     host: str,
     port: int,
     uri: str,
-    custom_header: Optional[dict[str, str]] = None,
-    cmd: Optional[str] = None,
+    custom_header: dict[str, str] | None = None,
+    cmd: str | None = None,
 ) -> str:
     """Build and send an HTTP GET request.
 
@@ -68,7 +66,7 @@ def get_banner(host: str, port: int) -> str:
         return ""
 
 
-def get_command(url: str, lhost: str) -> Optional[str]:
+def get_command(url: str, lhost: str) -> str | None:
     """Fetch a command payload from a remote URL.
 
     Args:
@@ -86,7 +84,7 @@ def get_command(url: str, lhost: str) -> Optional[str]:
         return None
 
 
-def send_command(cmd: str, url: str, lhost: str) -> Optional[str]:
+def send_command(cmd: str, url: str, lhost: str) -> str | None:
     """Send a command via HTTP POST.
 
     Args:

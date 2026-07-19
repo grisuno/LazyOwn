@@ -134,7 +134,7 @@ def load_payload(path: str | os.PathLike[str] = PAYLOAD_FILENAME) -> dict[str, A
             import shutil
 
             shutil.copy(str(example), str(target))
-    with open(target, "r", encoding="utf-8") as fh:
+    with open(target, encoding="utf-8") as fh:
         return json.load(fh)
 
 

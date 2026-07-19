@@ -7,12 +7,11 @@ used throughout the framework.
 from __future__ import annotations
 
 import csv
-import io
 import json
 import os
 import re
 import xml.etree.ElementTree as ET
-from typing import Any, Optional
+from typing import Any
 
 import yaml
 
@@ -187,7 +186,7 @@ def parse_nmap_csv(csv_path: str) -> list[dict[str, Any]]:
     """
     results: list[dict[str, Any]] = []
     try:
-        with open(csv_path, "r", encoding="utf-8") as f:
+        with open(csv_path, encoding="utf-8") as f:
             reader = csv.DictReader(f)
             for row in reader:
                 results.append(row)
@@ -227,7 +226,7 @@ def fix_common_yaml_issues(yaml_content: str) -> str:
         Cleaned YAML string.
     """
     fixed_lines: list[str] = []
-    expected_indent: Optional[int] = None
+    expected_indent: int | None = None
     for line in yaml_content.split("\n"):
         stripped = line.lstrip()
         if not stripped or stripped.startswith("#"):
@@ -253,7 +252,7 @@ def aggressive_yaml_fix(yaml_content: str) -> str:
     """
     lines = yaml_content.split("\n")
     fixed = []
-    base_indent: Optional[int] = None
+    base_indent: int | None = None
     for line in lines:
         stripped = line.lstrip()
         if not stripped or stripped.startswith("#"):
@@ -291,7 +290,7 @@ def create_synthetic_yaml(nmap_services: list[dict[str, Any]]) -> str:
     return yaml.dump(doc, default_flow_style=False)
 
 
-def parse_yaml_response(content: str) -> Optional[dict[str, Any]]:
+def parse_yaml_response(content: str) -> dict[str, Any] | None:
     """Parse a YAML string, trying multiple strategies.
 
     Args:
@@ -317,7 +316,7 @@ def load_adversary() -> dict[str, Any]:
         Adversary config dict.
     """
     try:
-        with open("adversary.json", "r") as f:
+        with open("adversary.json") as f:
             return json.load(f)
     except (FileNotFoundError, json.JSONDecodeError):
         return {}
@@ -333,7 +332,7 @@ def load_knowledge_base(knowledge_file: str = "my_techniques.json") -> dict[str,
         Knowledge base dict.
     """
     try:
-        with open(knowledge_file, "r") as f:
+        with open(knowledge_file) as f:
             return json.load(f)
     except (FileNotFoundError, json.JSONDecodeError):
         return {}
@@ -347,7 +346,7 @@ def load_user_aliases() -> dict[str, Any]:
     """
     path = "user_aliases.json"
     try:
-        with open(path, "r") as f:
+        with open(path) as f:
             return json.load(f)
     except (FileNotFoundError, json.JSONDecodeError):
         return {}
@@ -368,7 +367,7 @@ def list_binaries(directory: str = "sessions") -> list[str]:
         return []
 
 
-def select_binary(binaries: list[str]) -> Optional[str]:
+def select_binary(binaries: list[str]) -> str | None:
     """Interactive binary selector (fallback).
 
     Args:

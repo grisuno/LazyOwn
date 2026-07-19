@@ -130,8 +130,8 @@ ignore = [
     "S301", "S310", "S311", "S324",
     "S404", "S602", "S603", "S605", "S607",
     "B008", "B904",
-    # Wildcard import — required for from utils import * re-export pattern
-    "F405",
+    # Wildcard import — eliminated from lazyown.py (Fase 1.5 complete)
+    # "F405",
     # Unused variable — too aggressive with auto-fix, can break side-effect assignments
     "F841",
     # Gradual typing — will fix file by file

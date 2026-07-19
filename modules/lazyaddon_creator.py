@@ -33,7 +33,8 @@ import yaml
 # ── Ajustar sys.path para importar llm_client desde modules/ ───────────────────
 SCRIPT_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = SCRIPT_DIR.parent
-sys.path.insert(0, str(PROJECT_ROOT))
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 from modules.llm_client import LLMClient  # noqa: E402
 

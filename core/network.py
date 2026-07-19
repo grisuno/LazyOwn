@@ -7,16 +7,15 @@ detection, and network parsing utilities.
 from __future__ import annotations
 
 import binascii
-import os
 import re
 import socket
 import struct
-from typing import Any, Optional
+from typing import Any
 
-from core.console import print_error, print_msg
+from core.console import print_error
 
 
-def parse_ip_mac(input_string: str) -> tuple[Optional[str], Optional[str]]:
+def parse_ip_mac(input_string: str) -> tuple[str | None, str | None]:
     """Extract IP and MAC from a formatted string.
 
     Expected format: ``IP: (192.168.1.222) MAC: ec:c3:02:b0:4c:96``
@@ -96,7 +95,7 @@ def parse_proc_net_file(file_path: str) -> list[tuple[str, int]]:
     """
     entries: list[tuple[str, int]] = []
     try:
-        with open(file_path, "r", encoding="utf-8") as f:
+        with open(file_path, encoding="utf-8") as f:
             for line in f.readlines()[1:]:
                 parts = line.strip().split()
                 if len(parts) < 2:
@@ -160,7 +159,7 @@ def get_banner(ip: str, port: int) -> str:
             s.connect((ip, port))
             banner = s.recv(1024).decode("utf-8", errors="ignore").strip()
             return banner
-    except (socket.timeout, ConnectionRefusedError, OSError):
+    except (TimeoutError, ConnectionRefusedError, OSError):
         return ""
 
 

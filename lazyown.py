@@ -89,7 +89,25 @@ from modules.module_registry import format_module_table as _format_module_table
 from modules.payload_factory import PayloadFactory as _PayloadFactory
 from modules.payload_factory import format_payload_table as _format_payload_table
 from skills.unified_orchestrator import build_default_orchestrator as _build_unified_orchestrator
-from utils import *
+from utils import (
+    BANNER, Config, HEADLESS, IP2ASN, MyServer, NOBANNER, NOLOGS,
+    ProcessResults, Spray, activate_server, activate_virtualenv,
+    clean_html, clean_url, copy2clip, crack_password, create_arp_packet,
+    create_caldera_config, create_msfshellcoder_parser,
+    create_synthetic_yaml, decode, detect_delimiter, display_news,
+    ensure_tmux_session, extract, format_openssh_key, format_rsa_key,
+    generate_certificates, generate_emails, generate_http_req,
+    generate_index, generate_random_cve_id, get_banner, get_credentials,
+    get_domain, get_hash, get_open_ports, get_org, get_users_dic,
+    getprompt, handle, inject_payloads, is_exist, list_binaries,
+    load_adversary, load_user_aliases, manual_yaml_extraction,
+    parse_ip_mac, parse_nmap_csv, parse_yaml_response,
+    preprocess_llm_response, prompt, query_arin_ip,
+    replace_command_placeholders, replace_placeholders, replace_variables,
+    rotate_char, run, run_command, salida_strace, save_playbook,
+    scrape_news, select_binary, send_packet, shellcode_to_sylk,
+    teclado_usuario, transform,
+)
 
 _PALETTE_RENDER_CONFIG = _PaletteRenderConfig()
 _PALETTE_COMPLETER = _PaletteCompleter(_PALETTE_RENDER_CONFIG)

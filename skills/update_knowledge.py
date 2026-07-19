@@ -29,8 +29,9 @@ log = logging.getLogger("update_knowledge")
 SKILLS_DIR = Path(__file__).parent
 BASE_DIR   = SKILLS_DIR.parent
 
-if str(SKILLS_DIR) not in sys.path:
-    sys.path.insert(0, str(SKILLS_DIR))
+for _p in [str(SKILLS_DIR), str(LAZYOWN_DIR / "modules")]:
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
 
 
 def main(argv: list[str] | None = None) -> int:

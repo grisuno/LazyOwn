@@ -25,6 +25,7 @@ import cmd2
 import requests
 
 from cli.commands._base import LazyOwnCommandSet
+from core.crypto import xor_encrypt_decrypt
 from utils import (
     GREEN,
     exfiltration_category,
@@ -38,7 +39,6 @@ from utils import (
     print_msg,
     print_warn,
 )
-from core.crypto import xor_encrypt_decrypt
 
 SESSIONS_DIRECTORY_NAME = "sessions"
 CREDENTIALS_FILENAME = "credentials.txt"
@@ -145,7 +145,7 @@ def _read_first_credential(credentials_file: str) -> tuple[str, str] | None:
     """
     if not os.path.exists(credentials_file):
         return None
-    with open(credentials_file, "r", encoding="utf-8") as handle:
+    with open(credentials_file, encoding="utf-8") as handle:
         text = handle.read().strip()
     if not text:
         return None
@@ -336,7 +336,7 @@ class ExfiltrationCommandSet(LazyOwnCommandSet):
             self.cmd(f"sudo john {hashs}.sam --show")
             return
         if line.startswith("creds"):
-            with open(credentials_path, "r", encoding="utf-8") as handle:
+            with open(credentials_path, encoding="utf-8") as handle:
                 for file_line in handle:
                     parts = file_line.split(":")
                     username = parts[0]
@@ -386,7 +386,7 @@ class ExfiltrationCommandSet(LazyOwnCommandSet):
             username = input("    [!] Username: ").strip()
             password = input("    [!] Password: ").strip()
         else:
-            with open(credentials_path, "r", encoding="utf-8") as handle:
+            with open(credentials_path, encoding="utf-8") as handle:
                 for file_line in handle:
                     parts = file_line.split(":")
                     username = line if line else parts[0]
@@ -551,7 +551,7 @@ class ExfiltrationCommandSet(LazyOwnCommandSet):
             return
         selected_file_path = os.path.join(sessions_dir, selected_file)
         try:
-            with open(selected_file_path, "r", encoding="utf-8") as handle:
+            with open(selected_file_path, encoding="utf-8") as handle:
                 for entry in handle:
                     username = entry.strip()
                     if not username:

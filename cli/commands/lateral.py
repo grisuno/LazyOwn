@@ -9,21 +9,15 @@ Pending status: inherits from :class:`PendingCommandSet`. Promote to
 
 from __future__ import annotations
 
-import os
-
 import cmd2
 
 from cli.commands._base import LazyOwnCommandSet
 from modules.categories import lateral_movement_category
 from utils import (
-    GREEN,
-    RESET,
     check_lhost,
     check_rhost,
-    copy2clip,
     print_error,
     print_msg,
-    run_command,
 )
 
 
@@ -53,11 +47,11 @@ class LateralMovementCommandSet(LazyOwnCommandSet):
             return
         mode = input("[?] Server or client mode? (s/c, default c): ") or "c"
         if mode == "s":
-            port = input(f"[?] Listen port (default: 1080): ") or "1080"
+            port = input("[?] Listen port (default: 1080): ") or "1080"
             print_msg(f"[+] Starting chisel server on port {port}")
             self.cmd(f"chisel server -p {port} --socks5")
         else:
-            port = input(f"[?] Server port (default: 1080): ") or "1080"
+            port = input("[?] Server port (default: 1080): ") or "1080"
             print_msg(f"[+] Connecting to chisel server at {lhost}:{port}")
             self.cmd(f"chisel client {lhost}:{port} socks")
 

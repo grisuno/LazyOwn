@@ -12,7 +12,8 @@ import shlex
 import shutil
 import subprocess
 import sys
-from typing import Any, Callable
+from collections.abc import Callable
+from typing import Any
 
 from core.console import print_error, print_msg, print_warn
 from core.safe_subprocess import SafeRunner

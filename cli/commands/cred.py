@@ -9,21 +9,14 @@ Pending status: inherits from :class:`PendingCommandSet`. Promote to
 
 from __future__ import annotations
 
-import os
-
 import cmd2
 
 from cli.commands._base import LazyOwnCommandSet
 from modules.categories import credential_access_category
 from utils import (
-    GREEN,
-    RESET,
-    check_lhost,
     check_rhost,
-    copy2clip,
     print_error,
     print_msg,
-    run_command,
 )
 
 

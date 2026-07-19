@@ -9,12 +9,12 @@ from __future__ import annotations
 import glob
 import os
 import re
-from typing import Any, Optional
+from typing import Any
 
 from core.console import print_error, print_msg
 
 
-def get_credentials(file: Optional[bool] = None, ncred: Optional[int] = None) -> Any:
+def get_credentials(file: bool | None = None, ncred: int | None = None) -> Any:
     """Search for credential files and return parsed (user, pass) tuples.
 
     Args:
@@ -63,7 +63,7 @@ def get_credentials(file: Optional[bool] = None, ncred: Optional[int] = None) ->
         return selected_file
 
     credentials: list[tuple[str, str]] = []
-    with open(selected_file, "r") as f:
+    with open(selected_file) as f:
         for line in f:
             parts = line.strip().split(":", 1)
             if len(parts) == 2:
@@ -86,7 +86,7 @@ def get_domain(url: str) -> str:
     return match.group(1) if match else url
 
 
-def get_hash(dir: Optional[str] = None) -> Any:
+def get_hash(dir: str | None = None) -> Any:
     """Read and return hash file content from the sessions directory.
 
     Args:
@@ -116,11 +116,11 @@ def get_hash(dir: Optional[str] = None) -> Any:
     if dir:
         return selected_file
 
-    with open(selected_file, "r") as f:
+    with open(selected_file) as f:
         return f.read().strip()
 
 
-def get_users_dic(txt: Optional[str] = None) -> list[str]:
+def get_users_dic(txt: str | None = None) -> list[str]:
     """Read a user list file.
 
     Args:
@@ -147,11 +147,11 @@ def get_users_dic(txt: Optional[str] = None) -> list[str]:
             print_error("Invalid selection.")
             return []
 
-    with open(path, "r") as f:
+    with open(path) as f:
         return [line.strip() for line in f if line.strip()]
 
 
-def return_creds() -> Optional[list[tuple[str, str]]]:
+def return_creds() -> list[tuple[str, str]] | None:
     """Interactive credential retriever.
 
     Returns:
@@ -188,7 +188,7 @@ def generate_emails(full_name: str, domain: str) -> list[str]:
     ]
 
 
-def crack_password(crypttext: str) -> Optional[str]:
+def crack_password(crypttext: str) -> str | None:
     """Attempt to crack a Unix crypt-style password using common formats.
 
     Args:
@@ -289,6 +289,7 @@ def Spray(
         more_verbose: Print full request/response details.
     """
     import time
+
     import requests as req
 
     if verbose or more_verbose:

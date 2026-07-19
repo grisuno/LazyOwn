@@ -16,13 +16,8 @@ import cmd2
 from cli.commands._base import LazyOwnCommandSet
 from modules.categories import reporting_category
 from utils import (
-    GREEN,
-    RESET,
-    check_lhost,
     check_rhost,
     print_msg,
-    print_warn,
-    run_command,
 )
 
 

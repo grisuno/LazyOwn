@@ -58,7 +58,7 @@ class ReconCommandSet(LazyOwnCommandSet):
         file_path = get_users_dic("txt")
         path = os.getcwd()
         try:
-            with open(file_path, "r") as file:
+            with open(file_path) as file:
                 for target in file:
                     target = target.strip()
                     if target:

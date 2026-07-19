@@ -450,7 +450,7 @@ def phase_progress(world: dict[str, Any], sessions_dir: str = "sessions") -> dic
 
 def _read_json(path: str) -> dict[str, Any]:
     try:
-        with open(path, "r", encoding="utf-8") as fh:
+        with open(path, encoding="utf-8") as fh:
             return json.load(fh)
     except (OSError, json.JSONDecodeError):
         return {}
@@ -479,7 +479,7 @@ def _count_glob(pattern: str) -> int:
     total = 0
     for fpath in _glob.glob(pattern):
         try:
-            with open(fpath, "r", encoding="utf-8", errors="ignore") as fh:
+            with open(fpath, encoding="utf-8", errors="ignore") as fh:
                 total += sum(1 for line in fh if line.strip())
         except OSError:
             pass

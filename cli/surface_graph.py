@@ -431,7 +431,7 @@ class SurfaceGraphBuilder:
         records: list[dict[str, str]] = []
         for csv_path in sorted(glob.glob(pattern)):
             try:
-                with open(csv_path, "r", encoding="utf-8", errors="ignore") as fh:
+                with open(csv_path, encoding="utf-8", errors="ignore") as fh:
                     reader = csv.reader(fh, delimiter=SCAN_DISCOVERY_DELIMITER, quotechar='"')
                     headers: list[str] = []
                     for row in reader:

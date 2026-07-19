@@ -17,13 +17,8 @@ import cmd2
 from cli.commands._base import LazyOwnCommandSet
 from modules.categories import post_exploitation_category
 from utils import (
-    GREEN,
-    RESET,
-    check_lhost,
-    copy2clip,
     print_error,
     print_msg,
-    run_command,
 )
 
 

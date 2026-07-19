@@ -848,7 +848,7 @@ def _battery_or_load() -> str:
         except (OSError, ValueError):
             continue
     try:
-        with open("/proc/loadavg", "r", encoding="utf-8") as fh:
+        with open("/proc/loadavg", encoding="utf-8") as fh:
             first = fh.read().split()[0]
             return first
     except (OSError, IndexError):

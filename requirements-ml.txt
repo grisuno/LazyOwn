@@ -4,7 +4,7 @@
 # when absent. Mirrors the pyproject.toml [project.optional-dependencies] ml extra.
 # Install: pip install -r requirements-ml.txt   (or: pip install -e .[ml])
 
-cuda-bindings==13.2.0
+cuda-bindings==13.3.1
 cuda-pathfinder==1.5.4
 cuda-toolkit==13.0.2
 joblib==1.5.3

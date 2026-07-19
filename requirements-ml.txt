@@ -30,4 +30,4 @@ threadpoolctl==3.6.0
 torch==2.12.1
 torchaudio==2.12.1
 torchvision==0.27.1
-triton==3.6.0
+triton==3.7.1

@@ -45,8 +45,9 @@ LAZYOWN_DIR  = SKILLS_DIR.parent
 SESSIONS_DIR = LAZYOWN_DIR / "sessions"
 PAYLOAD_FILE = LAZYOWN_DIR / "payload.json"
 
-sys.path.insert(0, str(SKILLS_DIR))
-sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
+for _p in [str(SKILLS_DIR), str(LAZYOWN_DIR / "modules")]:
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
 
 # ── Lazy imports (avoid circular dependency with lazyown_mcp.py) ──────────────
 

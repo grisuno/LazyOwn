@@ -6,14 +6,17 @@ from __future__ import annotations
 
 import cmd2
 
-from cli.commands._base import LazyOwnCommandSet
 from cli.commands._dormancy import PendingCommandSet
 from utils import (
-    print_msg, print_error, print_warn, print_succ,
-    check_rhost, check_lhost, check_lport, check_port,
-    GREEN, RED, BLUE, MAGENTA, CYAN, YELLOW, WHITE, RESET,
-    UNDERLINE, BOLD,
+    GREEN,
+    RESET,
+    YELLOW,
+    check_lhost,
+    print_error,
+    print_msg,
+    print_warn,
 )
+
 
 class PostexpMigratedCommandSet(PendingCommandSet):
     phase = "postexp"
@@ -438,12 +441,12 @@ class PostexpMigratedCommandSet(PendingCommandSet):
         script_file = line.strip()
         fullpath_script_file = f"{sessions}{script_file}"
         try:
-            with open(fullpath_script_file, 'r') as file:
+            with open(fullpath_script_file) as file:
                 script_content = file.read()
         except FileNotFoundError:
             print_error(f"File not found: {fullpath_script_file}")
             return
-        except IOError as e:
+        except OSError as e:
             print_error(f"Error reading file {fullpath_script_file}: {str(e)}")
             return
 
@@ -1178,7 +1181,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
             username = self.params.get("username") or input("    [!] Enter the username: ")
             password = self.params.get("password") or input("    [!] Enter the password: ")
         else:
-            with open(credentials_path, "r"):
+            with open(credentials_path):
                 credentials = get_credentials()
                 if not credentials:
                     return
@@ -1417,16 +1420,16 @@ class PostexpMigratedCommandSet(PendingCommandSet):
         name_clean = name.replace(".c","")
         elf = f"{sessions}/{name_clean}"
         final_infect = f"{sessions}/{nameinfect}"
-        with open(shellcode, 'r') as f:
+        with open(shellcode) as f:
             content_shellcode = f.read().strip()
 
-        with open(shell, 'r') as f:
+        with open(shell) as f:
             content_c = f.read().strip()
 
             content_c = content_c.replace("{shellcode}", content_shellcode)
 
 
-        with open(infect_pid, 'r') as f:
+        with open(infect_pid) as f:
             infect = f.read().strip()
             infect = infect.replace("{shellcode}", content_shellcode)
 
@@ -1572,7 +1575,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
         if not line:
             line = get_users_dic('sh')
 
-        with open(line, 'r') as f:
+        with open(line) as f:
             content = f.read().strip()
 
         utf8_encoded = content.encode("utf-8")
@@ -1658,7 +1661,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
 
             if adversary.id == 5:
                 print_warn(f"{path}/{adversary.output_path}/{adversary.name}")
-                with open(f"{path}/{adversary.output_path}/{adversary.name}", 'r') as f:
+                with open(f"{path}/{adversary.output_path}/{adversary.name}") as f:
                     content = f.read()
                     content = content.replace("{lport}", str(lport)).replace("{line}", line).replace("{self.params['lhost']}", self.params['lhost']).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", adversary.target_os).replace("{sleep}", str(adversary.sleep)).replace("{maleable}",maleable).replace("{useragent}",user_agent).replace('{key}', AES_KEY_hex)
 
@@ -1939,7 +1942,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
             print_msg(f"[*] Attempting to extract YAML from {debug_file}...")
 
             # Read the debug file
-            with open(debug_file, 'r') as f:
+            with open(debug_file) as f:
                 content = f.read()
 
             # Try to extract useful YAML content

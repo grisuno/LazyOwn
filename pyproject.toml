@@ -72,7 +72,8 @@ dependencies = [
     "ua_parser",
     "pdf2image",
     "python-magic",
-    "packaging"
+    "packaging",
+    "mcp>=1.0.0"
 ]
 
 

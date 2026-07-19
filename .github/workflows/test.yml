@@ -30,4 +30,4 @@ jobs:
       - name: Collect tests
         run: pytest --collect-only -q
       - name: Run tests
-        run: pytest -q --tb=short -x -k "not slow and not integration"
+        run: pytest -q --tb=short -x -k "not slow and not integration" --cov=lazyown --cov=cli --cov=core --cov=lazyc2 --cov=modules --cov=skills --cov-report=term --cov-fail-under=1

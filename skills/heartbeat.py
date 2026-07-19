@@ -23,7 +23,9 @@ from pathlib import Path
 # Resolve project root
 SKILLS_DIR  = Path(__file__).parent
 LAZYOWN_DIR = SKILLS_DIR.parent
-sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
+_hp = str(LAZYOWN_DIR / "modules")
+if _hp not in sys.path:
+    sys.path.insert(0, _hp)
 
 from event_engine import process_new_rows, read_events
 

@@ -78,8 +78,9 @@ PARQUETS_DIR = LAZYOWN_DIR / "parquets"
 HIVE_DIR     = SESSIONS_DIR / "hive"
 HIVE_DIR.mkdir(parents=True, exist_ok=True)
 
-sys.path.insert(0, str(SKILLS_DIR))
-sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
+for _p in [str(SKILLS_DIR), str(LAZYOWN_DIR / "modules")]:
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
 
 log = logging.getLogger("hive_mind")
 

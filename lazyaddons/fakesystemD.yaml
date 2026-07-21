@@ -17,5 +17,5 @@ tool:
   repo_url: https://github.com/grisuno/fakesystemD.git
   install_path: external/.exploit/fakesystemD
   install_command: chmod +x *.sh ; ./isntall.sh
-  execute_command: sudo ./fakesystemd.py --verbose
+  execute_command: cd fakesystemD && sudo ./fakesystemd.py --verbose
 category: 12. Miscellaneous

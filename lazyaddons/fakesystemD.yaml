@@ -1,0 +1,21 @@
+name: fakesystemD
+description: 'This project provides a complete, self-contained emulation of systemd’s D-Bus interface (org.freedesktop.systemd1) and sd_notify socket. It allows modern services that expect a full systemd environment to run without modification, even when systemd is not present (e.g., containers, lightweight VMs, or development environments).
+  The emulator implements all critical D-Bus methods and properties, correctly handles sd_notify messages (including WATCHDOG=1, FDSTORE=1, FDSTOREREMOVE=1), and responds to property queries so that services remain stable and do not enter restart loops.
+  '
+author: lazyown
+version: '1.0'
+enabled: true
+params:
+- name: domain
+  type: string
+  required: true
+  description: Domain objetive.
+os: network
+trigger: []
+tool:
+  name: fakesystemD
+  repo_url: https://github.com/grisuno/fakesystemD.git
+  install_path: external/.exploit/fakesystemD
+  install_command: chmod +x *.sh ; ./isntall.sh
+  execute_command: sudo ./fakesystemd.py --verbose
+category: 12. Miscellaneous

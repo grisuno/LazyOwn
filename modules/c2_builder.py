@@ -251,15 +251,15 @@ echo "Cloudflare Tunnel URL: $link"
         rport = str(self.params["rport"])
         listener = str(self.params["listener"])
         sleep = str(self.params["sleep"])
-        maleable = self.params["c2_maleable_route"]
+        malleable = self.params["c2_malleable_route"]
         user_agent_win = self.params["user_agent_win"]
         user_agent_lin = self.params["user_agent_lin"]
         user_agent_1 = self.params["user_agent_1"]
         user_agent_2 = self.params["user_agent_2"]
         user_agent_3 = self.params["user_agent_3"]
-        url_trafic_1 = self.params["url_trafic_1"]
-        url_trafic_2 = self.params["url_trafic_2"]
-        url_trafic_3 = self.params["url_trafic_3"]
+        url_traffic_1 = self.params["url_traffic_1"]
+        url_traffic_2 = self.params["url_traffic_2"]
+        url_traffic_3 = self.params["url_traffic_3"]
         random_bytes = os.urandom(100)
         random_string = base64.b64encode(random_bytes).decode("utf-8")[:12]
         working_dir = f"{path}/sessions/"
@@ -372,16 +372,16 @@ chmod +x /tmp/stub && \
             "password": self.c2_pass,
             "platform": platform,
             "sleep": sleep,
-            "maleable": maleable,
+            "malleable": malleable,
             "useragent": user_agent,
             "key": aes_key_hex,
             "stealth": "True",
             "user_agent_1": user_agent_1,
             "user_agent_2": user_agent_2,
             "user_agent_3": user_agent_3,
-            "url_trafic_1": url_trafic_1,
-            "url_trafic_2": url_trafic_2,
-            "url_trafic_3": url_trafic_3,
+            "url_traffic_1": url_traffic_1,
+            "url_traffic_2": url_traffic_2,
+            "url_traffic_3": url_traffic_3,
             "listener": listener,
         }
 
@@ -591,7 +591,7 @@ with open('sessions/beacon.enc', 'wb') as f:
             "rhost": self.params["rhost"],
             "log": f"{line}.log",
             "user_agent": user_agent,
-            "maleable_route": maleable,
+            "malleable_route": malleable,
             "url": f"https://{lhost}:{lport}",
             "sleep": sleep,
             "username": self.c2_user,

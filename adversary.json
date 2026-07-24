@@ -113,7 +113,7 @@
     },
     {
         "id": 5,
-        "category": "implant maleable",
+        "category": "implant malleable",
         "technique_name":"Maleable Beacon",
         "technique_id":"LAE05",
         "target_os": "linux",

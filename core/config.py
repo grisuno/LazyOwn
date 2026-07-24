@@ -18,6 +18,7 @@ leaves the operator with a corrupt payload file.
 from __future__ import annotations
 
 import json
+import logging
 import os
 import tempfile
 from pathlib import Path
@@ -34,6 +35,15 @@ _AES_KEY_BYTES = 32
 _AES_KEY_HEX_LEN = 64
 _AES_KEY_FILE_MODE = 0o600
 
+logger = logging.getLogger(__name__)
+
+_KEY_MIGRATIONS = {
+    "c2_maleable_route": "c2_malleable_route",
+    "url_trafic_1": "url_traffic_1",
+    "url_trafic_2": "url_traffic_2",
+    "url_trafic_3": "url_traffic_3",
+}
+
 
 class Config:
     """Attribute-style wrapper around a configuration dictionary.
@@ -49,6 +59,7 @@ class Config:
     """
 
     def __init__(self, config_dict: dict[str, Any], sessions_dir: str | os.PathLike[str] | None = None) -> None:
+        _migrate_keys(config_dict)
         self.config: dict[str, Any] = config_dict
         resolved_aes = resolve_aes_key(config_dict, sessions_dir=sessions_dir or Path("sessions"))
         self.config["aes_key"] = resolved_aes.hex()
@@ -71,6 +82,18 @@ class Config:
             consumed by lazyaddon template substitution.
         """
         return dict(self.config)
+
+
+def _migrate_keys(config_dict: dict[str, Any]) -> None:
+    """Migrate legacy misspelled config keys to corrected names.
+
+    Copies values from old keys to new, canonical keys without
+    removing the old ones so existing payload files continue to work.
+    """
+    for old_key, new_key in _KEY_MIGRATIONS.items():
+        if new_key not in config_dict and old_key in config_dict:
+            config_dict[new_key] = config_dict[old_key]
+            logger.debug("Migrated config key %s -> %s", old_key, new_key)
 
 
 def resolve_aes_key(

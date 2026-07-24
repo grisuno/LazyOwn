@@ -3927,4 +3927,4 @@ class MiscMigratedCommandSet(PendingCommandSet):
         for name, cmd in sorted(self.aliases.items()):
             print_msg(f"  {name:20} → {cmd}")
 
-__all__ = [f"{phase.title()}CommandSet"]
+__all__ = ["MiscMigratedCommandSet"]

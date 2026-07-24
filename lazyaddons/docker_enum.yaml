@@ -1,0 +1,19 @@
+name: docker_enum
+description: >
+  Enumerate Docker host: containers, images, privileges, mounts.
+  Detects privileged containers, Docker socket mounts (escape vector),
+  sensitive host path mounts, and dangerous Linux capabilities.
+
+  Usage:
+    docker_enum
+
+  MITRE ATT&CK: T1610, T1611
+author: LazyOwn Team
+version: 1.0.0
+enabled: true
+os: linux
+trigger: []
+tool:
+  name: Docker Enumerator
+  lazycommand: docker_enum
+category: 18. Container & Kubernetes

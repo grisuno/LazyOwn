@@ -142,7 +142,7 @@ pathspec==1.1.1
 pdf2image==1.17.0
 persistent==6.5
 pexpect==4.9.0
-pillow==12.2.0
+pillow==12.3.0
 pip-api==0.0.34
 pip-requirements-parser==32.0.1
 pip_audit==2.10.0

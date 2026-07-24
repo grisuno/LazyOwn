@@ -1,0 +1,25 @@
+name: cloud_bucket_enum
+description: >
+  Enumerate cloud storage buckets for public accessibility.
+  Checks AWS S3, Azure Blob Storage, and GCP Storage buckets derived
+  from a company prefix. Identifies open buckets that may leak data.
+
+  Usage:
+    cloud_buckets <prefix>
+
+  MITRE ATT&CK: T1526, T1530
+author: LazyOwn Team
+version: 1.0.0
+enabled: true
+os: any
+trigger: []
+params:
+  - name: cloud_prefix
+    type: string
+    required: false
+    default: ""
+    description: Company prefix for bucket name generation.
+tool:
+  name: Cloud Bucket Enumerator
+  lazycommand: cloud_buckets {cloud_prefix}
+category: 17. Cloud Attacks

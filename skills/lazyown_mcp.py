@@ -566,6 +566,208 @@ def _c2_request(path: str, method: str = "GET", body: dict | None = None) -> dic
         return {"error": str(e)}
 
 
+# ── Tool handler dispatch table ────────────────────────────────────────────────
+# The decorator-based registry replaces the giant ``if / elif`` chain with
+# O(1) dispatch.  Handlers not yet migrated still work via the fallback path
+# inside ``call_tool``.  Add new handlers with ``@register_handler("name")``.
+
+_TOOL_HANDLERS: dict[str, Any] = {}
+
+
+def register_handler(tool_name: str):
+    """Decorator that registers an async handler for *tool_name*.
+
+    The decorated function receives ``(arguments: dict, tool_name: str)``
+    and must return ``list[types.TextContent]``.
+    """
+
+    def _decorator(func):
+        _TOOL_HANDLERS[tool_name] = func
+        return func
+
+    return _decorator
+
+
+def _make_text(tool_name: str, content: str) -> list[types.TextContent]:
+    """Return a ``TextContent`` list after compacting *content*."""
+    compacted = _compact(content, tool_name)
+    try:
+        t = _get_transcript()
+        if t is not None:
+            t.append("tool_result", {"tool_name": tool_name, "content": compacted[:800]})
+    except Exception:
+        pass
+    return [types.TextContent(type="text", text=compacted)]
+
+
+def _dispatch_perm_check(name: str, arguments: dict) -> list[types.TextContent] | None:
+    """Return a denial response if the permission system blocks *name*."""
+    perm = _get_perm_system()
+    if perm is None:
+        return None
+    decision, reason = perm.evaluate(name, arguments)
+    if decision == "deny":
+        try:
+            hooks = _get_hooks()
+            if hooks is not None:
+                from lazyown_hooks import HookEvent
+                hooks.run(HookEvent.PERMISSION_DENIED, {
+                    "tool_name": name, "arguments": arguments, "_event": "permission_denied",
+                })
+        except Exception:
+            pass
+        return _make_text(
+            name,
+            f"PERMISSION DENIED\n"
+            f"Tool:   {name}\n"
+            f"Reason: {reason}\n\n"
+            f"To allow this tool, use:\n"
+            f"  lazyown_manage_permissions(action='add_rule', "
+            f"tool_pattern='{name}', rule_action='allow')\n\n"
+            f"Or change mode to 'bypass_permissions' for unrestricted access:\n"
+            f"  lazyown_manage_permissions(action='set_mode', mode='bypass_permissions')",
+        )
+    return None
+
+
+# ── Registered handlers (migrated from the call_tool elif chain) ───────────────
+
+
+@register_handler("lazyown_get_config")
+def _h_get_config(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    cfg = _load_payload()
+    return _make_text(tool_name, json.dumps(cfg, indent=2))
+
+
+@register_handler("lazyown_get_llm_budget")
+def _h_get_llm_budget(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    try:
+        from core.llm_budget import read_budget_status
+    except Exception as error:
+        return _make_text(
+            tool_name,
+            json.dumps(
+                {
+                    "available": False,
+                    "reason": f"llm_budget module not importable: {error}",
+                }
+            ),
+        )
+    try:
+        budget = read_budget_status(LAZYOWN_DIR)
+        return _make_text(
+            tool_name,
+            json.dumps(
+                {
+                    "available": True,
+                    "budget": budget.to_dict() if hasattr(budget, "to_dict") else budget,
+                }
+            ),
+        )
+    except Exception as error:
+        return _make_text(
+            tool_name,
+            json.dumps(
+                {
+                    "available": False,
+                    "reason": f"Budget read failed: {error}",
+                }
+            ),
+        )
+
+
+@register_handler("lazyown_set_config")
+def _h_set_config(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    key = arguments.get("key")
+    value = arguments.get("value")
+    if not key:
+        return _make_text(tool_name, "key and value are required")
+    try:
+        from core.payload_schema import coerce_value
+    except ImportError:
+        def coerce_value(k, v):
+            return v
+    cfg = _load_payload()
+    coerced = coerce_value(key, value)
+    cfg[key] = coerced
+    result = _save_payload(cfg)
+    return _make_text(
+        tool_name,
+        json.dumps({"key": key, "value": coerced, "result": result}),
+    )
+
+
+@register_handler("lazyown_list_modules")
+def _h_list_modules(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    from modules.module_registry import ModuleRegistry
+    registry = ModuleRegistry.get_instance(LAZYOWN_DIR)
+    filter_type = arguments.get("type")
+    modules = registry.search("", filter_type=filter_type)
+    return _make_text(
+        tool_name,
+        json.dumps(
+            [
+                {
+                    "name": m.get("name", m.get("type", "")),
+                    "type": m.get("type", ""),
+                    "description": m.get("description", ""),
+                }
+                for m in modules[:200]
+            ]
+        ),
+    )
+
+
+@register_handler("lazyown_run_command")
+async def _h_run_command(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    command = arguments["command"]
+    timeout = int(arguments.get("timeout", 30))
+    dry_run = bool(arguments.get("dry_run", False))
+
+    if dry_run:
+        preflight = preflight_command(command, _load_payload(), SESSIONS_DIR)
+        return _make_text(tool_name, json.dumps(preflight, indent=2))
+
+    if needs_confirmation(tool_name, arguments):
+        return _make_text(
+            tool_name,
+            f"CONFIRMATION REQUIRED for command: {command}\n"
+            f"Re-call with confirm=true to execute. "
+            f"This command appears destructive (rm -rf, exfil, wipe, encrypt-file).",
+        )
+
+    def _run_with_fallback(cmd: str, to: int) -> str:
+        c2_result = _c2_request("/api/run", method="POST", body={"command": cmd})
+        if "_error" in c2_result or "error" in c2_result:
+            return f"[via subprocess]\n{_run_lazyown_command(cmd, to)}"
+        output = c2_result.get("output", c2_result.get("result", ""))
+        if not output:
+            return f"[via subprocess]\n{_run_lazyown_command(cmd, to)}"
+        return f"[via C2 /api/run]\n{output}"
+
+    output = await asyncio.get_event_loop().run_in_executor(
+        None, lambda: _run_with_fallback(command, timeout)
+    )
+
+    if _POLICY_AVAILABLE and _policy is not None:
+        _cfg = _load_payload()
+        _target = _cfg.get("rhost", "") or _cfg.get("lhost", "127.0.0.1")
+        _parts = command.strip().split(None, 1)
+        _cmd_name = _parts[0] if _parts else command
+        _cmd_args = _parts[1] if len(_parts) > 1 else ""
+        try:
+            await asyncio.get_event_loop().run_in_executor(
+                None,
+                lambda: _policy.on_command_complete(
+                    _target, _cmd_name, _cmd_args, output, None
+                ),
+            )
+        except Exception:
+            pass
+
+    return _make_text(tool_name, output)
+
+
 def _run_lazyown_command(command: str, timeout: int = 30) -> str:
     """
     Execute one or more LazyOwn shell commands non-interactively.
@@ -4093,17 +4295,16 @@ async def list_tools() -> list[types.Tool]:
 @server.call_tool()
 async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextContent]:
 
+    # ── Check dispatch-table handlers first (O(1) lookup) ──────────────────
+    dispatched = _TOOL_HANDLERS.get(name)
+    if dispatched is not None:
+        denial = _dispatch_perm_check(name, arguments)
+        if denial is not None:
+            return denial
+        return await dispatched(arguments, name) if asyncio.iscoroutinefunction(dispatched) else dispatched(arguments, name)
+
     def text(content: str) -> list[types.TextContent]:
-        # Layer 1–4 context compaction on every tool result
-        compacted = _compact(content, name)
-        # Append-only transcript logging (non-blocking)
-        try:
-            t = _get_transcript()
-            if t is not None:
-                t.append("tool_result", {"tool_name": name, "content": compacted[:800]})
-        except Exception:
-            pass
-        return [types.TextContent(type="text", text=compacted)]
+        return _make_text(name, content)
 
     # ── Permission Gate (deny-first, Claude Code style) ──────────────────────
     perm = _get_perm_system()

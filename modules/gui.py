@@ -16,8 +16,8 @@ from watchdog.observers import Observer
 
 # === CONFIGURACIÓN ===
 API_BASE = "https://127.0.0.1:4444"
-USERNAME = "grisun0@lazyown.rt"
-PASSWORD = "grisgrisgris"
+USERNAME = "CHANGE_ME@lazyown.rt"
+PASSWORD = "CHANGE_ME"
 SESSIONS_DIR = "/home/grisun0/LazyOwn/sessions"
 LOG_DIR = SESSIONS_DIR
 

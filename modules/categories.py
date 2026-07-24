@@ -22,6 +22,8 @@ exfiltration_category         = "09. Data Exfiltration"
 command_and_control_category  = "10. Command & Control"
 reporting_category            = "11. Reporting"
 miscellaneous_category        = "12. Miscellaneous"
+cloud_attack_category         = "17. Cloud Attacks"
+container_k8s_category        = "18. Container & Kubernetes"
 ai_category                   = "16. Artificial Intelligence"
 
 # Lua/Addon/Adversary categories (string literals used in lazyown.py)
@@ -46,6 +48,8 @@ ALL_CATEGORIES = [
     yaml_addon_category,
     adversary_category,
     ai_category,
+    cloud_attack_category,
+    container_k8s_category,
 ]
 
 # Mapping from short name (used in policy engine) to full category string

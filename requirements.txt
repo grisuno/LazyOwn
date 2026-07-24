@@ -208,7 +208,7 @@ ROPGadget==7.7
 rpyc==6.0.2
 ruff==0.15.12
 scapy==2.7.0
-setuptools==81.0.0
+setuptools==83.0.0
 simple-websocket==1.1.0
 simplejson==4.1.1
 six==1.17.0

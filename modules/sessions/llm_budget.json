@@ -1,19 +1,12 @@
 {
-  "day": "2026-07-16",
+  "day": "2026-07-24",
   "entries": [
     {
       "model": "llama-3.3-70b-versatile",
-      "input_tokens": 241,
+      "input_tokens": 198,
       "output_tokens": 0,
-      "cost_usd": 0.00014219,
-      "timestamp": "2026-07-16T20:07:18.024830+00:00"
-    },
-    {
-      "model": "llama-3.3-70b-versatile",
-      "input_tokens": 254,
-      "output_tokens": 0,
-      "cost_usd": 0.00014985999999999998,
-      "timestamp": "2026-07-16T21:45:50.534634+00:00"
+      "cost_usd": 0.00011682,
+      "timestamp": "2026-07-24T02:43:54.902799+00:00"
     }
   ]
 }

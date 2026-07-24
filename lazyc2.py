@@ -40,7 +40,6 @@ import yaml
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from dnslib import CAA, CNAME, MX, NS, QTYPE, RR, SOA, SSHFP, TLSA, TXT, A
-from dnslib.dns import CAA, CNAME, MX, NS, QTYPE, RR, SOA, SSHFP, TLSA, TXT, A
 from dnslib.server import BaseResolver, DNSServer
 from flask import (
     Blueprint,

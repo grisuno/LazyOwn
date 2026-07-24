@@ -1,0 +1,23 @@
+name: websocket_beacon
+description: "WebSocket beacon transport for modern C2 channels. Client + server handler with AES encryption and TLS support."
+author: LazyOwn
+version: "1.0.0"
+category: "10. Command & Control"
+module_type: payload
+enabled: true
+params:
+  - name: server_url
+    description: WebSocket server URL (ws:// or wss://)
+    type: string
+    required: true
+    default: ws://127.0.0.1:9443
+  - name: sleep_seconds
+    description: Base sleep time between check-ins
+    type: integer
+    required: false
+    default: 10
+  - name: jitter_percent
+    description: Random jitter added to sleep time
+    type: string
+    required: false
+    default: "0.2"

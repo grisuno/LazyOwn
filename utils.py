@@ -2287,8 +2287,8 @@ app.contact.slack.channel_id: SLACK_CHANNEL_ID
 app.contact.tunnel.ssh.host_key_file: REPLACE_WITH_KEY_FILE_PATH
 app.contact.tunnel.ssh.host_key_passphrase: REPLACE_WITH_KEY_FILE_PASSPHRASE
 app.contact.tunnel.ssh.socket: 0.0.0.0:8022
-app.contact.tunnel.ssh.user_name: grisun0
-app.contact.tunnel.ssh.user_password: grisgrisgris
+app.contact.tunnel.ssh.user_name: CHANGE_ME
+app.contact.tunnel.ssh.user_password: CHANGE_ME
 app.contact.ftp.host: 0.0.0.0
 app.contact.ftp.port: 2222
 app.contact.ftp.pword: lazyown

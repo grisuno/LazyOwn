@@ -1,0 +1,32 @@
+name: adcs_attacks
+description: "Active Directory Certificate Services ESC1-ESC8 attacks via Certipy. Enumerate vulnerable templates and exploit misconfigurations."
+author: LazyOwn
+version: "1.0.0"
+category: "06. Privilege Escalation"
+module_type: exploit
+enabled: true
+params:
+  - name: username
+    description: Domain username for authentication
+    type: string
+    required: true
+  - name: password
+    description: Domain password for authentication
+    type: string
+    required: true
+  - name: domain
+    description: Domain FQDN (e.g., corp.local)
+    type: string
+    required: true
+  - name: dc_ip
+    description: Domain controller IP address
+    type: string
+    required: true
+  - name: ca_name
+    description: Target certificate authority name
+    type: string
+    required: false
+  - name: template_name
+    description: Vulnerable template name
+    type: string
+    required: false

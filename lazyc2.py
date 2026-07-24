@@ -1011,7 +1011,9 @@ def start_watching():
     try:
         while True:
             time.sleep(1)
-    except:
+    except (KeyboardInterrupt, SystemExit):
+        observer.stop()
+    except Exception:
         observer.stop()
     observer.join()
 

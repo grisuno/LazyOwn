@@ -79,7 +79,9 @@ from cli.show import format_payload as _format_payload
 from cli.status_bar import build_default_manager as _build_status_bar_manager
 from cli.toast_bus import render_toasts as _render_toasts
 from cli.wizard import run as _run_wizard
-from core.config import load_and_validate as _load_and_validate, load_payload as _load_payload, save_payload as _save_payload
+from core.config import load_and_validate as _load_and_validate
+from core.config import load_payload as _load_payload
+from core.config import save_payload as _save_payload
 from modules.db import LazyOwnDB as _LazyOwnDB
 from modules.llm_factory import try_get_llm_backend as _try_get_llm_backend
 from modules.metrics import get_recorder as _get_metrics_recorder
@@ -89,7 +91,172 @@ from modules.module_registry import format_module_table as _format_module_table
 from modules.payload_factory import PayloadFactory as _PayloadFactory
 from modules.payload_factory import format_payload_table as _format_payload_table
 from skills.unified_orchestrator import build_default_orchestrator as _build_unified_orchestrator
-from utils import *
+from utils import (  # noqa: E402
+    BANNER,
+    BG_BLACK,
+    BG_RED,
+    BLUE,
+    BOLD,
+    BRIGHT_BLUE,
+    BRIGHT_RED,
+    BRIGHT_YELLOW,
+    CYAN,
+    GREEN,
+    HEADLESS,
+    IP2ASN,
+    MAGENTA,
+    NOBANNER,
+    NOLOGS,
+    RED,
+    REQUIRED_KEYS,
+    RESET,
+    RPC_C_AUTHN_LEVEL_NONE,
+    UNDERLINE,
+    USER_ALIASES_FILE,
+    WHITE,
+    YELLOW,
+    AESencrypt,
+    Config,
+    ConnectionError,
+    Console,
+    Filter,
+    IObjectExporter,
+    LuaRuntime,
+    MemoryStore,
+    MyServer,
+    NmapParser,
+    NmapProcess,
+    Panel,
+    Path,
+    ProcessResults,
+    PyKeePass,
+    RequestException,
+    SimpleHTTPRequestHandler,
+    Spray,
+    Text,
+    Timer,
+    activate_server,
+    activate_virtualenv,
+    argparse,
+    base64,
+    check_lhost,
+    check_lport,
+    check_rhost,
+    check_sudo,
+    clean_html,
+    clean_output,
+    clean_url,
+    command_and_control_category,
+    copy2clip,
+    crack_password,
+    create_arp_packet,
+    create_caldera_config,
+    create_msfshellcoder_parser,
+    create_synthetic_yaml,
+    credential_access_category,
+    csv,
+    curses,
+    date,
+    datetime,
+    decode,
+    detect_delimiter,
+    display_news,
+    donut,
+    dropFile,
+    encode,
+    ensure_tmux_session,
+    exfiltration_category,
+    exploitation_category,
+    extract,
+    format_openssh_key,
+    format_rsa_key,
+    generate_certificates,
+    generate_emails,
+    generate_http_req,
+    generate_index,
+    generate_random_cve_id,
+    generate_xor_key,
+    get_banner,
+    get_credentials,
+    get_domain,
+    get_hash,
+    get_open_ports,
+    get_org,
+    get_users_dic,
+    getprompt,
+    glob,
+    handle,
+    inject_payloads,
+    io,
+    is_binary_present,
+    is_exist,
+    itertools,
+    json,
+    lateral_movement_category,
+    list_binaries,
+    load_adversary,
+    load_payload,
+    load_user_aliases,
+    manual_yaml_extraction,
+    miscellaneous_category,
+    os,
+    parse_ip_mac,
+    parse_nmap_csv,
+    parse_yaml_response,
+    persistence_category,
+    post_exploitation_category,
+    preprocess_llm_response,
+    print_error,
+    print_msg,
+    print_succ,
+    print_warn,
+    privilege_escalation_category,
+    product,
+    prompt,
+    pwntomate_category,
+    query_arin_ip,
+    quote,
+    random_string,
+    re,
+    recon_category,
+    replace_command_placeholders,
+    replace_placeholders,
+    replace_variables,
+    reporting_category,
+    requests,
+    rotate_char,
+    run,
+    run_command,
+    salida_strace,
+    save_playbook,
+    scanning_category,
+    scrape_news,
+    select_binary,
+    send_packet,
+    session_name,
+    shellcode_to_sylk,
+    shlex,
+    shutil,
+    socket,
+    startup_ns,
+    string,
+    struct,
+    subprocess,
+    sys,
+    teclado_usuario,
+    tempfile,
+    threading,
+    time,
+    timedelta,
+    timezone,
+    transform,
+    transport,
+    unquote,
+    urandom,
+    url_download,
+    version,
+    yaml,
+)
 
 _PALETTE_RENDER_CONFIG = _PaletteRenderConfig()
 _PALETTE_COMPLETER = _PaletteCompleter(_PALETTE_RENDER_CONFIG)
@@ -2607,9 +2774,9 @@ class LazyOwnShell(cmd2.Cmd):
 
         if arg in type_map or arg in ("all", "modules"):
             from modules.module_registry import ModuleRegistry as _MReg
+            from modules.module_registry import format_module_detail as _fmt_mod_detail
             from modules.module_registry import format_module_table as _fmt_mod_table
             from modules.payload_factory import format_payload_table as _fmt_pay_table
-            from modules.module_registry import format_module_detail as _fmt_mod_detail
             if self._module_registry is None:
                 self._module_registry = _MReg()
             reg = self._module_registry
@@ -24255,7 +24422,7 @@ class LazyOwnShell(cmd2.Cmd):
                 self.display_toastr("certipy-ad installation failed. Aborting.", type="error")
                 return
 
-        from modules.adcs_attacks import ADCSCertipyWrapper, _ESC_DESCRIPTIONS, _ESC_EXPLOITATION
+        from modules.adcs_attacks import _ESC_DESCRIPTIONS, _ESC_EXPLOITATION, ADCSCertipyWrapper
 
         wrapper = ADCSCertipyWrapper()
         print_msg(f"Assessing AD CS for domain: {domain}")

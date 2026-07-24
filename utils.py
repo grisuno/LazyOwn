@@ -331,10 +331,7 @@ def parse_ip_mac(input_string):
         print_error("Error: Input must be in the format 'IP: (192.168.1.222) MAC: ec:c3:02:b0:4c:96'.")
         return None, None
 
-def strip_ansi(self, text: str) -> str:
-    import re
-    ansi_escape = re.compile(r'\x1B[@-_][0-?]*[ -/]*[@-~]')
-    return ansi_escape.sub('', text)
+from core.parsers import strip_ansi
 
 def create_arp_packet(src_mac, src_ip, dst_ip, dst_mac):
     """

@@ -47,7 +47,7 @@ class CommandAndControlCommandSet(LazyOwnCommandSet):
         c2_host = self.params.get("lhost", "127.0.0.1")
         c2_port = self.params.get("c2_port", 4444)
         c2_user = self.params.get("c2_user", "?")
-        c2_route = self.params.get("c2_maleable_route", "/")
+        c2_route = self.params.get("c2_malleable_route", "/")
 
         print_msg(f"{'='*60}")
         print_msg(f"  C2 STATUS")
@@ -171,7 +171,7 @@ class CommandAndControlCommandSet(LazyOwnCommandSet):
 
         lhost = self.params.get("lhost", "127.0.0.1")
         c2_port = self.params.get("c2_port", 4444)
-        route = self.params.get("c2_maleable_route", "/")
+        route = self.params.get("c2_malleable_route", "/")
         aes_key = self.params.get("aes_key", "")
 
         print_msg(f"\n{'='*60}")
@@ -237,7 +237,7 @@ class CommandAndControlCommandSet(LazyOwnCommandSet):
 
         lhost = self.params.get("lhost", "127.0.0.1")
         c2_port = self.params.get("c2_port", 4444)
-        route = self.params.get("c2_maleable_route", "/")
+        route = self.params.get("c2_malleable_route", "/")
         aes_key_hex = self.params.get("aes_key", "")
 
         sessions_dir = self.params.get("sessions_dir") or os.path.join(

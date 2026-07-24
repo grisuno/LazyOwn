@@ -86,14 +86,9 @@ class SecureSessionManager:
     def get_client(self, user_id: str) -> str:
         session = self.sessions.get(user_id)
         return session['target_client'] if session else None
+from core.parsers import strip_ansi
 
 session_manager = SecureSessionManager()
-
-# === AUXILIARES ===
-# ANSI regex corregido
-ansi_escape = re.compile(r'\x1B\[[0-?]*[ -/]*[@-~]')
-def strip_ansi(s):
-    return ansi_escape.sub('', s)
 
 # Capturar output del shell
 def capture_shell_output(cmd: str) -> str:

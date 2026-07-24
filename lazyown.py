@@ -79,7 +79,7 @@ from cli.show import format_payload as _format_payload
 from cli.status_bar import build_default_manager as _build_status_bar_manager
 from cli.toast_bus import render_toasts as _render_toasts
 from cli.wizard import run as _run_wizard
-from core.config import load_payload as _load_payload, save_payload as _save_payload
+from core.config import load_and_validate as _load_and_validate, load_payload as _load_payload, save_payload as _save_payload
 from modules.db import LazyOwnDB as _LazyOwnDB
 from modules.llm_factory import try_get_llm_backend as _try_get_llm_backend
 from modules.metrics import get_recorder as _get_metrics_recorder
@@ -95,6 +95,21 @@ _PALETTE_RENDER_CONFIG = _PaletteRenderConfig()
 _PALETTE_COMPLETER = _PaletteCompleter(_PALETTE_RENDER_CONFIG)
 
 config = _load_payload()
+
+try:
+    _validated, _issues = _load_and_validate()
+    _errs = [i for i in _issues if getattr(i, "severity", None) and str(i.severity) == "error"]
+    _warns = [i for i in _issues if getattr(i, "severity", None) and str(i.severity) == "warning"]
+    if _errs:
+        import sys as _sys
+        for _e in _errs:
+            _sys.stderr.write(f"[payload] ERROR: {_e.key}: {_e.message}\n")
+    if _warns:
+        import sys as _sys
+        for _w in _warns:
+            _sys.stderr.write(f"[payload] WARNING: {_w.key}: {_w.message}\n")
+except Exception:
+    pass
 aes_key = config.get("aes_key")
 api_key = config.get("api_key")
 route_maleable = config.get("c2_maleable_route")

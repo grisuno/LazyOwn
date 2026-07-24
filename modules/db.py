@@ -110,6 +110,33 @@ CREATE TABLE IF NOT EXISTS notes (
 INSERT OR IGNORE INTO schema_version (version) VALUES (1);
 """
 
+MIGRATIONS: list[tuple[int, str]] = [
+    (
+        2,
+        """
+        CREATE INDEX IF NOT EXISTS idx_hosts_address ON hosts(address);
+        CREATE INDEX IF NOT EXISTS idx_hosts_workspace ON hosts(workspace_id);
+        CREATE INDEX IF NOT EXISTS idx_services_host ON services(host_id);
+        CREATE INDEX IF NOT EXISTS idx_services_port ON services(port);
+        """,
+    ),
+    (
+        3,
+        """
+        ALTER TABLE creds ADD COLUMN cracked_at TEXT DEFAULT '';
+        """,
+    ),
+    (
+        4,
+        """
+        CREATE INDEX IF NOT EXISTS idx_loot_workspace ON loot(workspace_id);
+        CREATE INDEX IF NOT EXISTS idx_notes_workspace ON notes(workspace_id);
+        CREATE INDEX IF NOT EXISTS idx_vulns_host ON vulns(host_id);
+        CREATE INDEX IF NOT EXISTS idx_creds_host ON creds(host_id);
+        """,
+    ),
+]
+
 
 class LazyOwnDB:
     """SQLite database for LazyOwn campaign state.
@@ -145,6 +172,50 @@ class LazyOwnDB:
     def _init_schema(self) -> None:
         self._conn.executescript(SCHEMA_SQL)
         self._conn.commit()
+        self._run_migrations()
+
+    def _current_version(self) -> int:
+        cur = self._conn.execute(
+            "SELECT MAX(version) FROM schema_version"
+        )
+        row = cur.fetchone()
+        return row[0] if row and row[0] is not None else 0
+
+    def _run_migrations(self) -> list[int]:
+        """Apply any pending incremental migrations.
+
+        Returns the list of version numbers that were applied during
+        this call (empty when the database is already up to date).
+        """
+        current = self._current_version()
+        applied: list[int] = []
+        for version, sql in MIGRATIONS:
+            if version <= current:
+                continue
+            try:
+                self._conn.executescript(sql)
+                self._conn.execute(
+                    "INSERT OR REPLACE INTO schema_version (version) VALUES (?)",
+                    (version,),
+                )
+                self._conn.commit()
+                applied.append(version)
+            except Exception:
+                self._conn.rollback()
+                raise
+        return applied
+
+    def migration_status(self) -> dict[str, Any]:
+        """Return the current and latest migration versions.
+
+        Returns:
+            Dict with keys ``current`` (int), ``latest`` (int), and
+            ``pending`` (list[int] of versions not yet applied).
+        """
+        current = self._current_version()
+        latest = max((v for v, _ in MIGRATIONS), default=0)
+        pending = [v for v, _ in MIGRATIONS if v > current]
+        return {"current": current, "latest": latest, "pending": pending}
 
     @contextmanager
     def _cursor(self) -> Iterator[sqlite3.Cursor]:
@@ -618,4 +689,4 @@ def get_db(db_path: str | None = None) -> LazyOwnDB:
     return LazyOwnDB(db_path)
 
 
-__all__ = ["LazyOwnDB", "get_db"]
+__all__ = ["LazyOwnDB", "get_db", "MIGRATIONS"]

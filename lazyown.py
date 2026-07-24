@@ -24282,6 +24282,272 @@ class LazyOwnShell(cmd2.Cmd):
         else:
             print_msg(f"\nTotal vulnerable configurations: {total_vulnerabilities}")
 
+    @cmd2.with_category(lateral_movement_category)
+    def do_dominion(self, line):
+        """Execute a fully automated Active Directory domain takeover.
+
+        Runs the complete AD kill-chain: domain enumeration, user discovery,
+        credential extraction (AS-REP roasting, Kerberoasting), lateral movement
+        via PsExec/WMIExec/Pass-the-Hash, DCSync privilege escalation, and
+        persistence mechanisms.
+
+        Usage:
+            dominion <domain> <dc_ip> [username] [password]
+            dominion corp.local 10.10.11.5
+            dominion corp.local 10.10.11.5 admin Password123!
+            dominion corp.local 10.10.11.5 admin :ntlm_hash
+
+        All credentials, sessions, and findings are persisted under
+        ``sessions/``. Use ``creds`` to view captured credentials afterwards.
+
+        :param line: Domain, DC IP, optional credentials.
+        :type line: str
+        :return: None
+        """
+        parts = line.strip().split()
+        if len(parts) < 2:
+            print_error("Usage: dominion <domain> <dc_ip> [username] [password]")
+            return
+
+        domain = parts[0]
+        dc_ip = parts[1]
+        username = parts[2] if len(parts) > 2 else ""
+        password = parts[3] if len(parts) > 3 else ""
+        ntlm_hash = parts[4] if len(parts) > 4 else ""
+
+        try:
+            from modules.domain_dominance import DomainDominance
+
+            dd = DomainDominance()
+            print_msg(f"Starting domain dominance operation against {domain} (DC: {dc_ip})")
+            print_msg("Phases: domain_recon -> user_enum -> credential_extraction -> lateral_movement -> privilege_escalation -> persistence")
+            result = dd.dominate(
+                domain=domain,
+                dc_ip=dc_ip,
+                username=username,
+                password=password,
+                ntlm_hash=ntlm_hash,
+            )
+            print_msg(f"Dominance complete for {result.domain}")
+            print_msg(f"  Compromised: {result.compromised}")
+            print_msg(f"  Domain Admin obtained: {result.domain_admin_obtained}")
+            print_msg(f"  DCSync performed: {result.dcsynced}")
+            print_msg(f"  Users enumerated: {result.users_extracted}")
+            print_msg(f"  Credentials stolen: {result.creds_stolen}")
+            print_msg(f"  Sessions obtained: {result.sessions_obtained}")
+            for phase, status in result.phase_results.items():
+                print_msg(f"  Phase [{phase}]: {status}")
+            if result.errors:
+                for err in result.errors:
+                    print_error(f"  Error: {err}")
+            self.display_toastr(f"Domain {domain} dominated: {result.domain_admin_obtained}", type="success")
+        except ImportError as exc:
+            print_error(f"domain_dominance module not available: {exc}")
+        except Exception as exc:
+            print_error(f"Dominion operation failed: {exc}")
+
+    @cmd2.with_category(exploitation_category)
+    def do_hunt(self, line):
+        """Run an autonomous exploitation chain against a target.
+
+        Profiles the target's attack surface, ranks exploit candidates by
+        confidence, and executes them in order until a shell is obtained or
+        the exploit limit is reached. Adapts strategy based on results.
+
+        The engine reads from ``sessions/world_model.json`` to understand
+        what services, versions, and vulnerabilities exist. No re-scanning.
+
+        Usage:
+            hunt <target_ip> [max_exploits]
+            hunt 10.10.11.5
+            hunt 10.10.11.5 10
+
+        :param line: Target IP and optional max exploit count.
+        :type line: str
+        :return: None
+        """
+        parts = line.strip().split()
+        if not parts or not parts[0]:
+            print_error("Usage: hunt <target_ip> [max_exploits]")
+            return
+
+        target = parts[0]
+        max_exploits = int(parts[1]) if len(parts) > 1 and parts[1].isdigit() else 5
+
+        try:
+            from modules.autonomous_exploit_engine import AutonomousExploitEngine
+
+            engine = AutonomousExploitEngine()
+            print_msg(f"Profiling target: {target}")
+            profile = engine.profile(target)
+            print_msg(f"  OS: {profile.os_type} {profile.os_version}")
+            print_msg(f"  Ports: {profile.open_ports}")
+            print_msg(f"  Services: {len(profile.services)}")
+            print_msg(f"  Credentials available: {len(profile.credentials)}")
+            print_msg(f"  Access level: {profile.access_level}")
+
+            print_msg(f"Ranking exploit candidates...")
+            candidates = engine.rank_exploits(profile)
+            candidates = candidates[:max_exploits]
+            for i, c in enumerate(candidates):
+                print_msg(f"  [{i+1}] {c.service}:{c.product} {c.version} "
+                          f"strategy={c.strategy} confidence={c.confidence:.2f} "
+                          f"{'CVE-'+c.cve_id if c.cve_id else ''}")
+
+            if not candidates:
+                print_msg("No exploit candidates found.")
+                return
+
+            print_msg(f"Executing up to {max_exploits} exploits...")
+            results = engine.hunt(target, max_exploits=max_exploits)
+
+            for r in results:
+                status = "SUCCESS" if r.success else "FAILED"
+                shell = " [SHELL OBTAINED]" if r.shell_obtained else ""
+                print_msg(f"  {status}: {r.candidate.service} "
+                          f"({r.candidate.strategy}) in {r.duration_ms:.0f}ms{shell}")
+                if r.shell_obtained:
+                    print_msg(f"    Session: {r.session_id}")
+                    self.display_toastr(f"Shell on {target} via {r.candidate.strategy}", type="success")
+                if r.error:
+                    print_error(f"    Error: {r.error}")
+
+            successes = sum(1 for r in results if r.success)
+            shells = sum(1 for r in results if r.shell_obtained)
+            print_msg(f"Hunt complete: {successes}/{len(results)} successful, {shells} shells")
+        except ImportError as exc:
+            print_error(f"autonomous_exploit_engine module not available: {exc}")
+        except Exception as exc:
+            print_error(f"Hunt operation failed: {exc}")
+
+    @cmd2.with_category(command_and_control_category)
+    def do_phisher(self, line):
+        """Launch a phishing campaign against a target domain.
+
+        Profiles targets, generates email templates, clones landing pages,
+        and tracks clicks and credential harvesting. Supports built-in
+        templates (microsoft_365_login, sharepoint_share, password_reset,
+        voicemail_notification, hr_policy_update) and custom templates.
+
+        Modes:
+            credential_harvest  - Clone login pages and collect credentials.
+            payload_delivery    - Send weaponized attachments.
+            callback_beacon     - Embed C2 callback URLs for initial access.
+
+        Usage:
+            phisher <domain> <template> [mode]
+            phisher target.com microsoft_365_login
+            phisher target.com password_reset credential_harvest
+            phisher target.com custom_template.json
+
+        Harvested credentials are saved to ``sessions/phishing_credentials.txt``.
+
+        :param line: Domain, template name, and optional mode.
+        :type line: str
+        :return: None
+        """
+        parts = line.strip().split()
+        if len(parts) < 2:
+            print_error("Usage: phisher <domain> <template> [mode]")
+            print_msg("Available templates: microsoft_365_login, sharepoint_share, password_reset, voicemail_notification, hr_policy_update")
+            return
+
+        target_domain = parts[0]
+        template_name = parts[1]
+        mode = parts[2] if len(parts) > 2 else "credential_harvest"
+
+        try:
+            from modules.phishing_orchestrator import PhishingOrchestrator
+
+            phish = PhishingOrchestrator()
+            print_msg(f"Launching phishing campaign against {target_domain}")
+            print_msg(f"  Template: {template_name}")
+            print_msg(f"  Mode: {mode}")
+
+            targets = phish.profile_targets(target_domain)
+            print_msg(f"  Targets profiled: {len(targets)}")
+            for t in targets[:10]:
+                print_msg(f"    {t.email} ({t.department})")
+
+            campaign_id = phish.launch(
+                target_domain=target_domain,
+                template=template_name,
+                mode=mode,
+            )
+            print_msg(f"Campaign launched: {campaign_id}")
+            print_msg(f"Campaign data: sessions/phishing_{campaign_id}/")
+            print_msg(f"Use the C2 dashboard to monitor clicks and credential captures.")
+            self.display_toastr(f"Phishing campaign {campaign_id} launched against {target_domain}", type="info")
+        except ImportError as exc:
+            print_error(f"phishing_orchestrator module not available: {exc}")
+        except Exception as exc:
+            print_error(f"Phisher operation failed: {exc}")
+
+    @cmd2.with_category(reporting_category)
+    def do_lazyreport(self, line):
+        """Generate a professional red team report from session data.
+
+        Reads the world model, scan results, credentials, and session data
+        from ``sessions/`` and produces a client-ready report in HTML, PDF,
+        Markdown, or JSON format.
+
+        Usage:
+            lazyreport [format] [output_dir] [client_name]
+            lazyreport
+            lazyreport html reports/ AcmeCorp
+            lazyreport md reports/ "Client Inc"
+            lazyreport pdf
+
+        Formats: html (default), pdf, md, json.
+        Output: reports/lazyown_report_<timestamp>.<format>
+
+        :param line: Format, output directory, and optional client name.
+        :type line: str
+        :return: None
+        """
+        parts = line.strip().split()
+        fmt = parts[0] if parts else "html"
+        output_dir = parts[1] if len(parts) > 1 else "reports"
+        client = " ".join(parts[2:]) if len(parts) > 2 else ""
+
+        if fmt not in ("html", "pdf", "md", "json"):
+            print_error(f"Unsupported format: {fmt}. Use: html, pdf, md, json")
+            return
+
+        try:
+            from modules.professional_report import RedTeamReportGenerator
+
+            gen = RedTeamReportGenerator()
+            print_msg("Collecting engagement data...")
+            data = gen.collect_data()
+            hosts = data.get("hosts", [])
+            print_msg(f"  Hosts: {len(hosts)}")
+            print_msg(f"  Credentials files: {len(data.get('credentials', []))}")
+            print_msg(f"  Sessions: {len(data.get('sessions', []))}")
+            print_msg(f"  Scan files: {len(data.get('scan_files', []))}")
+
+            print_msg("Classifying findings...")
+            findings = gen.classify_findings(data)
+            print_msg(f"  Findings: {len(findings)}")
+            for f in findings:
+                print_msg(f"    [{f.severity.upper():8s}] {f.title}")
+
+            print_msg(f"Generating {fmt.upper()} report...")
+            report_path = gen.generate(
+                output_dir=output_dir,
+                output_format=fmt,
+                client_name=client or "REDACTED",
+            )
+            if report_path:
+                print_msg(f"Report generated: {report_path}")
+                self.display_toastr(f"Report saved to {report_path}", type="success")
+            else:
+                print_error("Report generation failed.")
+        except ImportError as exc:
+            print_error(f"professional_report module not available: {exc}")
+        except Exception as exc:
+            print_error(f"Report generation failed: {exc}")
+
 
 def main():
     if HEADLESS:

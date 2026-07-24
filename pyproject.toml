@@ -12,7 +12,7 @@ license = { text = "GPL-3.0-only" }
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-    "requests>=2.33.0",
+    "requests>=2.28.0",
     "cmd2",
     "python-libnmap",
     "pwncat-cs",

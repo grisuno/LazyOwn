@@ -55,11 +55,7 @@ SESSIONS_DIR = LAZYOWN_DIR / "sessions"
 PAYLOAD_FILE = LAZYOWN_DIR / "payload.json"
 
 # ── Helper: strip ANSI escape codes ───────────────────────────────────────────
-def strip_ansi(s: str) -> str:
-    ansi_regex = re.compile(
-        r'[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]'
-    )
-    return ansi_regex.sub('', s)
+from core.parsers import strip_ansi
 
 # ── Helper: run LazyOwn shell command via PTY (from MCP _run_lazyown_command) ──
 def run_lazyown_command(command: str, timeout: int = 30) -> str:

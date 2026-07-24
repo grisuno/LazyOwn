@@ -1364,4 +1364,4 @@ class ReconMigratedCommandSet(PendingCommandSet):
         print_msg(f" \\_ {range}")
         return
 
-__all__ = [f"{phase.title()}CommandSet"]
+__all__ = ["ReconMigratedCommandSet"]

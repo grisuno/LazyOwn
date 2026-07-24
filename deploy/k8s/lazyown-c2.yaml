@@ -41,7 +41,7 @@ data:
       "c2_https_redirect": true,
       "c2_allowed_origins": "",
       "c2_csrf_enabled": true,
-      "c2_maleable_route": "/gmail/v1/users/",
+      "c2_malleable_route": "/gmail/v1/users/",
       "aes_key": "CHANGE_ME_32_BYTE_HEX_AES_KEY",
       "scope": [],
       "scope_enforcement": "enforce",

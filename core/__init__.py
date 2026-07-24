@@ -115,6 +115,7 @@ from core.parsers import (
     parse_nmap_csv,
     parse_yaml_response,
     select_binary,
+    strip_ansi,
 )
 from core.payload_schema import (
     SCHEMA,
@@ -239,6 +240,7 @@ __all__ = [
     "clean_output",
     "clean_html",
     "clean_url",
+    "strip_ansi",
     "htmlify",
     "de_htmlify",
     "is_exist",

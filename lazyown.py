@@ -279,9 +279,9 @@ except Exception:
     pass
 aes_key = config.get("aes_key")
 api_key = config.get("api_key")
-route_maleable = config.get("c2_maleable_route")
-win_useragent_maleable = config.get("user_agent_win")
-lin_useragent_maleable = config.get("user_agent_lin")
+route_malleable = config.get("c2_malleable_route")
+win_useragent_malleable = config.get("user_agent_win")
+lin_useragent_malleable = config.get("user_agent_lin")
 rhost = config.get("rhost")
 lhost = config.get("lhost")
 c2_user = config.get("c2_user")
@@ -294,9 +294,9 @@ dnswordlist = config.get("dnswordlist")
 user_agent_1 = config.get("user_agent_1")
 user_agent_2 = config.get("user_agent_2")
 user_agent_3 = config.get("user_agent_3")
-url_trafic_1 = config.get("url_trafic_1")
-url_trafic_2 = config.get("url_trafic_2")
-url_trafic_3 = config.get("url_trafic_3")
+url_traffic_1 = config.get("url_traffic_1")
+url_traffic_2 = config.get("url_traffic_2")
+url_traffic_3 = config.get("url_traffic_3")
 
 
 _BOOL_TRUE_TOKENS: frozenset[str] = frozenset({"true", "1", "yes", "on"})
@@ -574,15 +574,15 @@ class LazyOwnShell(cmd2.Cmd):
             "sleep": 6,
             "file": "file.ext",
             "sleep_start": 207,
-            "c2_maleable_route": "/gmail/v1/users/",
+            "c2_malleable_route": "/gmail/v1/users/",
             "user_agent_win": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
             "user_agent_lin": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
             "user_agent_1" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36",
             "user_agent_2" : "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Safari/605.1.15",
             "user_agent_3" : "Mozilla/5.0 (Linux; LAzyOwnRedTeam 66_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Safari/605.1.15",
-            "url_trafic_1" : "https://www.google-analytics.com/collect?v=1&_v=j81&a=123456789&t=pageview&_s=1&dl=https%3A%2F%2Fexample.com%2F&ul=en-us&de=UTF-8&dt=Example%20Page",
-            "url_trafic_2" : "https://api.azure.com/v1/status?client_id=123456789&region=us-east-1",
-            "url_trafic_3" : "https://www.youtube.com/watch?v=1i0shWLFfuI&list=PLW9Qe5HJK5CFXyIsF9b0NB6n9EY8Am3YZ",
+            "url_traffic_1" : "https://www.google-analytics.com/collect?v=1&_v=j81&a=123456789&t=pageview&_s=1&dl=https%3A%2F%2Fexample.com%2F&ul=en-us&de=UTF-8&dt=Example%20Page",
+            "url_traffic_2" : "https://api.azure.com/v1/status?client_id=123456789&region=us-east-1",
+            "url_traffic_3" : "https://www.youtube.com/watch?v=1i0shWLFfuI&list=PLW9Qe5HJK5CFXyIsF9b0NB6n9EY8Am3YZ",
             "rat_key": "CHANGE_ME",
             "startip": "192.168.1.1",
             "endip": "192.168.1.254",
@@ -1399,7 +1399,7 @@ class LazyOwnShell(cmd2.Cmd):
             if not self.use_ai or not self.ai_model:
                 return raw_output
 
-            clean_output = self.strip_ansi(raw_output)
+            clean_output = strip_ansi(raw_output)
             if not clean_output.strip():
                 return "[Command executed. No output.]"
 
@@ -10742,7 +10742,7 @@ class LazyOwnShell(cmd2.Cmd):
             target_ip, target_mac = parse_ip_mac(choice)
             if target_ip and target_mac:
                 print_msg(f"IP: {target_ip}, MAC: {target_mac}")
-            gateway_ip = "192.168.1.1"
+            gateway_ip = self.params.get("lhost", "127.0.0.1")
             my_mac = "00:11:22:33:44:55"
             print_msg("Available Interfaces: ")
             command = "ip link show | grep -E '^[0-9]+: ' | awk -F': ' '{print $2}'"
@@ -23095,7 +23095,7 @@ class LazyOwnShell(cmd2.Cmd):
         lport = self.params["lport"]
         USER = self.params["c2_user"]
         PASS = self.params["c2_pass"]
-        maleable = self.params["c2_maleable_route"]
+        malleable = self.params["c2_malleable_route"]
         path = self.path
         adversaries = load_adversary()
 
@@ -23164,7 +23164,7 @@ class LazyOwnShell(cmd2.Cmd):
                 print_warn(f"{path}/{adversary.output_path}/{adversary.name}")
                 with open(f"{path}/{adversary.output_path}/{adversary.name}", 'r') as f:
                     content = f.read()
-                    content = content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", adversary.target_os).replace("{sleep}", str(adversary.sleep)).replace("{maleable}",maleable).replace("{useragent}",user_agent).replace('{key}', AES_KEY_hex)
+                    content = content.replace("{lport}", str(lport)).replace("{line}", line).replace("{lhost}", lhost).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", adversary.target_os).replace("{sleep}", str(adversary.sleep)).replace("{malleable}",malleable).replace("{useragent}",user_agent).replace('{key}', AES_KEY_hex)
 
                 with open(f"{path}/{adversary.output_path}/{adversary.name}", 'w+') as f:
                     f.write(content)
@@ -23832,9 +23832,9 @@ class LazyOwnShell(cmd2.Cmd):
             "user_agent_1": f"{user_agent_1}",
             "user_agent_2": f"{user_agent_2}",
             "user_agent_3": f"{user_agent_3}",
-            "url_trafic_1": f"{url_trafic_1}",
-            "url_trafic_2": f"{url_trafic_2}",
-            "url_trafic_3": f"{url_trafic_3}",
+            "url_traffic_1": f"{url_traffic_1}",
+            "url_traffic_2": f"{url_traffic_2}",
+            "url_traffic_3": f"{url_traffic_3}",
             "{stealth}": "True",
         }
         replacements.update({
@@ -23843,7 +23843,7 @@ class LazyOwnShell(cmd2.Cmd):
             "password": self.params["c2_pass"],
             "platform": adversary["target_os"],
             "sleep": str(adversary["sleep"]),
-            "maleable": self.params["c2_maleable_route"],
+            "malleable": self.params["c2_malleable_route"],
             "useragent": self.params["user_agent_lin"] if adversary["target_os"] == "linux" else self.params["user_agent_win"],
             "key": AES_KEY_hex
         })

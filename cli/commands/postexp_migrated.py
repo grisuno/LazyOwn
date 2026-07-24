@@ -1606,7 +1606,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
         lport = self.params['lport']
         USER = self.params['c2_user']
         PASS = self.params['c2_pass']
-        maleable = self.params['c2_maleable_route']
+        malleable = self.params['c2_malleable_route']
         path = self.path
         adversaries = load_adversary()
 
@@ -1666,7 +1666,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
                 print_warn(f"{path}/{adversary.output_path}/{adversary.name}")
                 with open(f"{path}/{adversary.output_path}/{adversary.name}") as f:
                     content = f.read()
-                    content = content.replace("{lport}", str(lport)).replace("{line}", line).replace("{self.params['lhost']}", self.params['lhost']).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", adversary.target_os).replace("{sleep}", str(adversary.sleep)).replace("{maleable}",maleable).replace("{useragent}",user_agent).replace('{key}', AES_KEY_hex)
+                    content = content.replace("{lport}", str(lport)).replace("{line}", line).replace("{self.params['lhost']}", self.params['lhost']).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", adversary.target_os).replace("{sleep}", str(adversary.sleep)).replace("{malleable}",malleable).replace("{useragent}",user_agent).replace('{key}', AES_KEY_hex)
 
                 with open(f"{path}/{adversary.output_path}/{adversary.name}", 'w+') as f:
                     f.write(content)
@@ -2044,9 +2044,9 @@ class PostexpMigratedCommandSet(PendingCommandSet):
             "self.params['user_agent_1']": f"{self.params['user_agent_1']}",
             "self.params['user_agent_2']": f"{self.params['user_agent_2']}",
             "self.params['user_agent_3']": f"{self.params['user_agent_3']}",
-            "self.params['url_trafic_1']": f"{self.params['url_trafic_1']}",
-            "self.params['url_trafic_2']": f"{self.params['url_trafic_2']}",
-            "self.params['url_trafic_3']": f"{self.params['url_trafic_3']}",
+            "self.params['url_traffic_1']": f"{self.params['url_traffic_1']}",
+            "self.params['url_traffic_2']": f"{self.params['url_traffic_2']}",
+            "self.params['url_traffic_3']": f"{self.params['url_traffic_3']}",
             "{stealth}": "True",
         }
         replacements.update({
@@ -2055,7 +2055,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
             "password": self.params['c2_pass'],
             "platform": adversary["target_os"],
             "sleep": str(adversary["sleep"]),
-            "maleable": self.params['c2_maleable_route'],
+            "malleable": self.params['c2_malleable_route'],
             "useragent": self.params['user_agent_lin'] if adversary['target_os'] == "linux" else self.params['user_agent_win'],
             "key": AES_KEY_hex
         })
@@ -2173,4 +2173,4 @@ class PostexpMigratedCommandSet(PendingCommandSet):
         self.display_toastr(f"The files cipher.bin and key.bin are witchcrafted in sessions directory for the file: {exe}", type="info")
         return
 
-__all__ = [f"{phase.title()}CommandSet"]
+__all__ = ["PostexpMigratedCommandSet"]

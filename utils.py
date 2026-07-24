@@ -805,7 +805,7 @@ def exploitalert(content):
             data.append({"exploitalert" : predata})
         else:
             print_error(f"|{RED}- No result in ExploitAlert!{WHITE}")
-    except:
+    except Exception:
         print_error(f"|{RED}- Internal Error - No result in ExploitAlert!{WHITE}")
     return
 
@@ -847,7 +847,7 @@ def packetstormsecurity(content):
             data.append({"packetstormsecurity" : predata})
         else:
             print_error(f"|{RED}- No result in PacketStorm!{WHITE}")
-    except:
+    except Exception:
         print_error(f"|{RED}- Internal Error - No result in PacketStorm!{WHITE}")
     return
 
@@ -890,7 +890,7 @@ def nvddb(content):
         else:
             print_error("|")
             print_error(f"|{RED}- No result in National Vulnearbility Database!{WHITE}")
-    except:
+    except Exception:
         print_error(f"|{RED}- Internal Error - No result in National Vulnearbility Database!{WHITE}")
     return
 
@@ -943,7 +943,7 @@ def find_ea(keyword=""):
             return resp.json()
         else:
             return False
-    except:
+    except Exception:
         return False
 
 def find_ps(keyword=""):
@@ -2070,7 +2070,7 @@ def decode(data):
     parser = HTMLParser()
     try:
         decoded_data = base64.b64decode(data)
-    except:
+    except Exception:
         return '[-] Decoding error'
     return decoded_data.decode('utf-8', errors='ignore')
 
@@ -2081,7 +2081,7 @@ def get_command(url, lhost):
     try:
         cmd = input('    :\\> ')
         threading.Thread(target=send_command, args=(cmd,url,lhost)).start()
-    except:
+    except (EOFError, KeyboardInterrupt):
         sys.exit(0)
 
 def send_command(cmd, url, lhost):

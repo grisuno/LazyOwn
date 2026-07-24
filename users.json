@@ -202,5 +202,16 @@
         "recovery_codes": [],
         "elo": 0,
         "tenant_id": "default"
+    },
+    {
+        "id": 20,
+        "username": "operator_ivic7f3h",
+        "password_hash": "scrypt:32768:8:1$pn1KdtmdIz7CI33d$142cd96d80440114a11498af86efaf1445a92acb8a1c18ca15c0b2d4f9c235b85b3a94e3b9cfb04683a7c94022cb1b8e79ae580562a78c442dcc715e03f26f99",
+        "role": "admin",
+        "mfa_enabled": false,
+        "mfa_secret": "",
+        "recovery_codes": [],
+        "elo": 0,
+        "tenant_id": "default"
     }
 ]

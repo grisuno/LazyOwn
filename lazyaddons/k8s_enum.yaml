@@ -1,0 +1,19 @@
+name: k8s_enum
+description: >
+  Enumerate Kubernetes cluster: pods, secrets, service accounts, RBAC.
+  Detects pod escape vectors (hostPID, privileged, sensitive mounts),
+  extracts service account tokens, and lists all secrets across namespaces.
+
+  Usage:
+    k8s_enum
+
+  MITRE ATT&CK: T1528, T1610, T1611, T1613
+author: LazyOwn Team
+version: 1.0.0
+enabled: true
+os: any
+trigger: ["kubernetes"]
+tool:
+  name: Kubernetes Enumerator
+  lazycommand: k8s_enum
+category: 18. Container & Kubernetes

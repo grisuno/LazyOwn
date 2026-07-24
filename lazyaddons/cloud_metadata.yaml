@@ -1,0 +1,25 @@
+name: cloud_metadata_harvester
+description: >
+  Harvests cloud instance metadata from AWS (IMDSv2), Azure, and GCP.
+  Discovers IAM credentials, SSH keys, user-data scripts, and managed
+  identity tokens through the instance metadata service.
+
+  Usage:
+    cloud_metadata
+
+  MITRE ATT&CK: T1526, T1552.005
+author: LazyOwn Team
+version: 1.0.0
+enabled: true
+os: any
+trigger: []
+params:
+  - name: cloud_check
+    type: bool
+    required: false
+    default: true
+    description: Automatically check for cloud metadata on session start.
+tool:
+  name: Cloud Metadata Harvester
+  lazycommand: cloud_metadata
+category: 17. Cloud Attacks

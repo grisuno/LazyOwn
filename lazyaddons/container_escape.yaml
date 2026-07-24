@@ -1,0 +1,20 @@
+name: container_escape_check
+description: >
+  Check current container environment for known escape vectors.
+  Detects Docker socket access, privileged mode, host PID namespace sharing,
+  dangerous capabilities (SYS_ADMIN, SYS_PTRACE), and K8s service account tokens.
+  Recommends specific escape techniques based on detected conditions.
+
+  Usage:
+    container_escape
+
+  MITRE ATT&CK: T1610, T1611, T1055, T1528
+author: LazyOwn Team
+version: 1.0.0
+enabled: true
+os: linux
+trigger: []
+tool:
+  name: Container Escape Check
+  lazycommand: container_escape
+category: 18. Container & Kubernetes

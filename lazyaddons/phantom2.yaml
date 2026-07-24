@@ -1,0 +1,23 @@
+name: phantom2
+description: 'Phantom2 is a stealthy implant written in C that utilizes io_uring for asynchronous I/O, encrypted command and control (C2) communication, persistence mechanisms, and a keylogger. It is intended for educational and authorized penetration testing purposes only.
+  USAGE: 
+  ./c2-server serve --https=0.0.0.0:4444
+  '
+author: LazyOwn RedTeam
+version: '1.0'
+enabled: true
+params:
+- name: lhost
+  type: string
+  required: true
+  description: lhost target.
+os: any
+trigger: []
+tool:
+  name: phantom2
+  repo_url: https://github.com/grisuno/phantom2.git
+  install_path: external/.exploit/phantom2
+  install_command: git restore . ; git pull origin main
+  execute_command: ./compile_run.sh
+  
+category: 10. Command & Control

@@ -48,6 +48,64 @@ def _classify(category: str) -> str:
     return "auxiliary"
 
 
+_MODULE_TYPE_CATEGORY: dict[str, str] = {
+    "scanner": "02. Scanning & Enumeration",
+    "exploit": "03. Exploitation",
+    "post": "04. Post-Exploitation",
+    "payload": "10. Command & Control",
+    "auxiliary": "12. Miscellaneous",
+}
+
+
+_SCANNER_KEYWORDS = [
+    "scan", "nmap", "enum", "discover", "recon", "fingerprint",
+    "gobuster", "ffuf", "dirb", "nikto", "nuclei", "whatweb",
+]
+_EXPLOIT_KEYWORDS = [
+    "exploit", "cve", "poc", "rce", "overflow", "injection",
+    "bypass", "shell", "code_exec", "cmd_exec", "sqli", "xss",
+]
+_POST_KEYWORDS = [
+    "privesc", "persist", "lateral", "exfil", "pivot", "creds",
+    "impacket", "mimikatz", "bloodhound", "kerberoast", "asreproast",
+]
+_PAYLOAD_KEYWORDS = [
+    "payload", "shellcode", "stager", "beacon", "implant", "dropper",
+    "loader", "c2", "reverse", "bind",
+]
+
+
+def _classify_module_source(name: str, source: str) -> str:
+    """Classify a Python module by its name and source content."""
+    combined = f"{name} {source}".lower()
+    for kw in _EXPLOIT_KEYWORDS:
+        if kw in combined:
+            return "exploit"
+    for kw in _POST_KEYWORDS:
+        if kw in combined:
+            return "post"
+    for kw in _PAYLOAD_KEYWORDS:
+        if kw in combined:
+            return "payload"
+    for kw in _SCANNER_KEYWORDS:
+        if kw in combined:
+            return "scanner"
+    return "auxiliary"
+
+
+def _extract_docstring_summary(source: str) -> str:
+    """Extract the first line of a module's docstring."""
+    import ast
+    try:
+        tree = ast.parse(source)
+        doc = ast.get_docstring(tree)
+        if doc:
+            return doc.split("\n")[0].strip()[:120]
+    except SyntaxError:
+        pass
+    return ""
+
+
 class ModuleInfo:
     """Metadata for a single discoverable module.
 
@@ -140,6 +198,7 @@ class ModuleRegistry:
         self._modules.clear()
         self._scan_yaml_addons()
         self._scan_plugins()
+        self._scan_python_modules()
         self._scan_tools()
         self._scan_playbooks()
         self._scanned = True
@@ -326,6 +385,47 @@ class ModuleRegistry:
             except Exception:
                 continue
 
+    def _scan_python_modules(self) -> None:
+        """Scan ``modules/`` for Python files with discoverable entry points."""
+        modules_dir = self._base / "modules"
+        if not modules_dir.is_dir():
+            return
+        for fpath in sorted(modules_dir.glob("*.py")):
+            if fpath.stem.startswith("_") or fpath.stem in ("cli", "gui"):
+                continue
+            try:
+                source = fpath.read_text(errors="replace")
+            except OSError:
+                continue
+            name = fpath.stem
+            mtype = _classify_module_source(name, source)
+            if not self._looks_discoverable(source):
+                continue
+            desc = _extract_docstring_summary(source) or f"Python module: {name}"
+            self._modules[name] = ModuleInfo(
+                name=name,
+                module_type=mtype,
+                author="LazyOwn",
+                version="",
+                description=desc,
+                category=_MODULE_TYPE_CATEGORY.get(mtype, "12. Miscellaneous"),
+                path=str(fpath),
+                source="python",
+                enabled=True,
+            )
+
+    @staticmethod
+    def _looks_discoverable(source: str) -> bool:
+        """Heuristic: a module is discoverable if it defines a runnable entry point."""
+        import re
+        markers = [
+            r"def\s+main\s*\(.*\)\s*(?:->.*)?\s*:",
+            r"def\s+run\s*\(.*\)\s*(?:->.*)?\s*:",
+            r"def\s+execute\s*\(.*\)\s*(?:->.*)?\s*:",
+            r"class\s+\w+\(.*\)\s*:",
+        ]
+        return any(re.search(m, source, re.MULTILINE) for m in markers)
+
     @staticmethod
     def _load_yaml(path: Path) -> dict | None:
         if yaml is None:
@@ -431,4 +531,7 @@ __all__ = [
     "ModuleInfo",
     "format_module_table",
     "format_module_detail",
+    "_classify",
+    "_classify_module_source",
+    "_extract_docstring_summary",
 ]

@@ -685,3 +685,56 @@ def main():
     lol()
 if __name__ == "__main__":
     main()
+
+
+def generate_security_report(csv_path: str | None = None, output_dir: str | None = None) -> dict:
+    """Generate a security intelligence report from a LazyOwn session CSV.
+
+    This is the framework integration entry point for ``report.py``.
+    Can be called from the CLI, MCP tools, or the autonomous loop.
+
+    Args:
+        csv_path: Path to the session CSV file. Defaults to
+            ``sessions/LazyOwn_session_report.csv``.
+        output_dir: Directory for report artifacts. Defaults to
+            ``sessions/report_ai/``.
+
+    Returns:
+        Dict with ``status``, ``csv_path``, ``output_dir``, ``kpis``,
+        and ``error`` keys.
+    """
+    try:
+        _csv_path = Path(csv_path) if csv_path else Path("sessions/LazyOwn_session_report.csv")
+        _output_dir = Path(output_dir) if output_dir else _csv_path.parent / "report_ai"
+        _output_dir.mkdir(parents=True, exist_ok=True)
+
+        if not _csv_path.exists():
+            return {"status": "error", "error": f"CSV not found: {_csv_path}", "csv_path": str(_csv_path)}
+
+        global OUTPUT_DIR
+        OUTPUT_DIR = str(_output_dir)
+
+        df = load_and_clean_data_robust(str(_csv_path))
+        if df.empty:
+            return {"status": "error", "error": "Empty dataset after cleaning", "csv_path": str(_csv_path)}
+
+        model, vectorizer = load_or_train_model(df)
+        if model is None or vectorizer is None:
+            return {"status": "error", "error": "Model training failed", "csv_path": str(_csv_path)}
+
+        df = apply_ai_predictions(df, model, vectorizer)
+        kpis = executive_kpis(df)
+        okrs = strategic_okrs(df, kpis)
+        ia_analysis = analyze_ia_vs_rules(df)
+        generate_visualizations(df, kpis)
+        export_report(df, kpis, okrs, ia_analysis)
+
+        return {
+            "status": "ok",
+            "csv_path": str(_csv_path),
+            "output_dir": str(_output_dir),
+            "kpis": kpis,
+            "okrs": okrs,
+        }
+    except Exception as exc:
+        return {"status": "error", "error": str(exc), "csv_path": str(csv_path) if csv_path else ""}

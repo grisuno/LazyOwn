@@ -127,3 +127,6 @@ word: 'sh msfconsole -x ''use exploit/multi/fileformat/office_word_macro ; set p
 wps: 'sh sudo bash modules/lazywps.sh'
 ww: 'whatweb'
 zrc: 'sh nano ~/.zshrc'
+dd: 'dominion'
+ae: 'hunt'
+lr: 'lazyreport'

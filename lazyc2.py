@@ -2425,7 +2425,7 @@ env = Environment(loader=FileSystemLoader('templates'))
 env.filters['markdown'] = markdown_to_html
 
 if config.enable_c2_debug:
-    logger.info(f"[DEBUG] Clave AES (hex): {AES_KEY.hex()}")
+    logger.info("[DEBUG] C2 debug mode enabled")
 
 implants_check()
 create_report()

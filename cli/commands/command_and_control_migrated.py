@@ -1550,11 +1550,14 @@ class CommandAndControlMigratedCommandSet(PendingCommandSet):
                     password = self.params.get("password") or input("    [!] Enter the password: ")
 
         rhost = self.params['rhost']
+        sudo_pass = self.params.get("start_pass", "CHANGE_ME")
+        win_drop_path = self.params.get("backdoor_win_service_path", "C:/Users/lazyown/Documents")
+        win_atomic_path = f"{win_drop_path}/lazyown_atomic_test"
         print_msg("Deploying agent.")
         if extension == ".sh":
-            rsync_command = f"sshpass -p '{password}' scp -r {tmp_path}/ {username}@{self.params['rhost']}:/tmp/lazyown_atomic_test && sshpass -p '{password}' ssh {username}@{self.params['rhost']} 'cd /tmp/lazyown_atomic_test/ && chmod +x /tmp/lazyown_atomic_test/* && echo \"grisgrisgris\" | sudo -S /tmp/lazyown_atomic_test/atomic_agent.sh'"
+            rsync_command = f"sshpass -p '{password}' scp -r {tmp_path}/ {username}@{self.params['rhost']}:/tmp/lazyown_atomic_test && sshpass -p '{password}' ssh {username}@{self.params['rhost']} 'cd /tmp/lazyown_atomic_test/ && chmod +x /tmp/lazyown_atomic_test/* && echo \"{sudo_pass}\" | sudo -S /tmp/lazyown_atomic_test/atomic_agent.sh'"
         else:
-            rsync_command = f"sshpass -p '{password}' scp -r {tmp_path}/ {username}@{self.params['rhost']}:C:/Users/grisun0/Documents/ && sshpass -p '{password}' ssh {username}@{self.params['rhost']} powershell.exe -Command \"Start-Process powershell.exe -ArgumentList '-File', 'C:/Users/grisun0/Documents/lazyown_atomic_test/atomic_agent.ps1' -Verb RunAs\""
+            rsync_command = f"sshpass -p '{password}' scp -r {tmp_path}/ {username}@{self.params['rhost']}:{win_drop_path}/ && sshpass -p '{password}' ssh {username}@{self.params['rhost']} powershell.exe -Command \"Start-Process powershell.exe -ArgumentList '-File', '{win_atomic_path}/atomic_agent.ps1' -Verb RunAs\""
 
         exit_code = self.cmd(rsync_command)
         if line.startswith("web"):
@@ -1562,9 +1565,9 @@ class CommandAndControlMigratedCommandSet(PendingCommandSet):
         else:
             input("    [!] Press enter to clean Red Operation: ")
         if extension == ".sh":
-            rsync_command = f"sshpass -p '{password}' scp -r {tmp_path}/ {username}@{self.params['rhost']}:/tmp/lazyown_atomic_test && sshpass -p '{password}' ssh {username}@{self.params['rhost']} 'cd /tmp/lazyown_atomic_test/ && chmod +x /tmp/lazyown_atomic_test/* && echo \"grisgrisgris\" | sudo -S /tmp/lazyown_atomic_test/atomic_clean_agent.sh'"
+            rsync_command = f"sshpass -p '{password}' scp -r {tmp_path}/ {username}@{self.params['rhost']}:/tmp/lazyown_atomic_test && sshpass -p '{password}' ssh {username}@{self.params['rhost']} 'cd /tmp/lazyown_atomic_test/ && chmod +x /tmp/lazyown_atomic_test/* && echo \"{sudo_pass}\" | sudo -S /tmp/lazyown_atomic_test/atomic_clean_agent.sh'"
         else:
-            rsync_command = f"sshpass -p '{password}' scp -r {tmp_path}/ {username}@{self.params['rhost']}:C:/Users/grisun0/Documents/ && sshpass -p '{password}' ssh {username}@{self.params['rhost']} powershell.exe -Command \"Start-Process powershell.exe -ArgumentList '-File', 'C:/Users/grisun0/Documents/lazyown_atomic_test/atomic_clean_agent.ps1' -Verb RunAs\""
+            rsync_command = f"sshpass -p '{password}' scp -r {tmp_path}/ {username}@{self.params['rhost']}:{win_drop_path}/ && sshpass -p '{password}' ssh {username}@{self.params['rhost']} powershell.exe -Command \"Start-Process powershell.exe -ArgumentList '-File', '{win_atomic_path}/atomic_clean_agent.ps1' -Verb RunAs\""
 
 
         exit_code = self.cmd(rsync_command)
@@ -1574,7 +1577,7 @@ class CommandAndControlMigratedCommandSet(PendingCommandSet):
         if extension == ".sh":
             scp_command = f"sshpass -p '{password}' scp {username}@{self.params['rhost']}:{log_path} {sessions_path}/"
         else:
-            scp_command = f"sshpass -p '{password}' scp {username}@{self.params['rhost']}:C:/Users/grisun0/Documents/lazyown_atomic_test/*.log {sessions_path}/"
+            scp_command = f"sshpass -p '{password}' scp {username}@{self.params['rhost']}:{win_atomic_path}/*.log {sessions_path}/"
         self.cmd(scp_command)
 
         if exit_code == 0:

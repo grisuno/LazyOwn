@@ -3869,28 +3869,37 @@ def run_shellcode():
 def get_results():
     return jsonify(results)
 
-_LEGACY_REVERSE_SHELL_PASSWORD = "grisiscomebacksayknokknok"
+_REVERSE_SHELL_PASSWORD_CACHE: str = ""
 
 
 def _resolve_reverse_shell_password() -> str:
     """Return the password used to authenticate to the /lazyos reverse shell.
 
+    When ``c2_reverse_shell_password`` is configured and meets the minimum
+    length (12 chars), that value is used. Otherwise a cryptographically
+    random 32-character hex token is generated once per process lifetime,
+    logged prominently, and used as a fallback.
+
     Returns:
-        The configured ``c2_reverse_shell_password`` when it meets the
-        minimum length (12 chars); otherwise a WARNING is logged and the
-        legacy hardcoded string is returned for backwards compatibility.
+        The active reverse-shell authentication password.
     """
+    global _REVERSE_SHELL_PASSWORD_CACHE
     candidate = str(getattr(config, "c2_reverse_shell_password", "") or "").strip()
     is_valid, _ = _validate_password_length(candidate)
     if candidate and is_valid:
         return candidate
+    if _REVERSE_SHELL_PASSWORD_CACHE:
+        return _REVERSE_SHELL_PASSWORD_CACHE
+    import secrets as _secrets
+    _REVERSE_SHELL_PASSWORD_CACHE = _secrets.token_hex(32)
     logger.warning(
         "[c2] c2_reverse_shell_password missing or too short "
-        "(minimum %d chars). Falling back to legacy default. "
+        "(minimum %d chars). Auto-generated fallback: %s. "
         "Set c2_reverse_shell_password in payload.json to silence this warning.",
         12,
+        _REVERSE_SHELL_PASSWORD_CACHE,
     )
-    return _LEGACY_REVERSE_SHELL_PASSWORD
+    return _REVERSE_SHELL_PASSWORD_CACHE
 
 
 @app.route('/lazyos/<ip>/<port>', methods=['POST'])

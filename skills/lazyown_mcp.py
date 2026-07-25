@@ -768,6 +768,200 @@ async def _h_run_command(arguments: dict, tool_name: str) -> list[types.TextCont
     return _make_text(tool_name, output)
 
 
+# ── New module handlers (ExploitRecommender, EvasionEngine, AutoPivot, Dashboard) ──
+
+@register_handler("lazyown_exploit_recommend")
+async def _h_exploit_recommend(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    top_n = int(arguments.get("top_n", 10))
+    try:
+        from modules.exploit_recommender import ExploitRecommender
+        from modules.world_model import WorldModel
+        wm = WorldModel(SESSIONS_DIR)
+        if _has_data(SESSIONS_DIR / "world_model.json"):
+            wm.load()
+        er = ExploitRecommender(wm)
+        matches = er.recommend(top_n=top_n)
+        er.persist_recommendations(matches)
+        llm_context = er.format_for_llm(matches, max_items=5)
+        result = {
+            "count": len(matches),
+            "recommendations": matches,
+            "llm_context": llm_context,
+        }
+        return _make_text(tool_name, json.dumps(result, indent=2, ensure_ascii=False))
+    except Exception as exc:
+        return _make_text(tool_name, json.dumps({"error": str(exc)}, indent=2))
+
+@register_handler("lazyown_evasion_generate")
+async def _h_evasion_generate(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    os_family = str(arguments.get("os_family", "windows"))
+    try:
+        from modules.evasion_engine import EvasionEngine
+        cfg = _load_payload()
+        engine = EvasionEngine(cfg)
+        profile = engine.generate_profile(os_family)
+        profile_json = engine.profile_to_json(profile)
+        return _make_text(tool_name, profile_json)
+    except Exception as exc:
+        return _make_text(tool_name, json.dumps({"error": str(exc)}, indent=2))
+
+@register_handler("lazyown_evasion_rotate")
+async def _h_evasion_rotate(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    try:
+        from modules.evasion_engine import EvasionEngine
+        cfg = _load_payload()
+        engine = EvasionEngine(cfg)
+        profile = engine.rotate_profile()
+        profile_json = engine.profile_to_json(profile)
+        return _make_text(tool_name, profile_json)
+    except Exception as exc:
+        return _make_text(tool_name, json.dumps({"error": str(exc)}, indent=2))
+
+@register_handler("lazyown_pivot_status")
+async def _h_pivot_status(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    try:
+        from modules.auto_pivot import AutoPivotEngine
+        cfg = _load_payload()
+        engine = AutoPivotEngine(cfg)
+        routes = engine.get_active_routes()
+        proxychains = engine.generate_proxychains_config()
+        suggestion = engine.suggest_next_pivot()
+        result = {
+            "active_routes": routes,
+            "proxychains_config": proxychains,
+            "suggested_next_pivot": suggestion,
+        }
+        return _make_text(tool_name, json.dumps(result, indent=2, ensure_ascii=False))
+    except Exception as exc:
+        return _make_text(tool_name, json.dumps({"error": str(exc)}, indent=2))
+
+@register_handler("lazyown_dashboard_snapshot")
+async def _h_dashboard_snapshot(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    try:
+        from modules.dashboard_engine import DashboardEngine
+        from modules.exploit_recommender import ExploitRecommender
+        from modules.world_model import WorldModel
+        wm = WorldModel(SESSIONS_DIR)
+        if _has_data(SESSIONS_DIR / "world_model.json"):
+            wm.load()
+        er = ExploitRecommender(wm)
+        de = DashboardEngine(wm)
+        de.set_exploit_recommender(er)
+        snapshot = de.build_snapshot()
+        text_map = de.render_text_map(snapshot)
+        topology = de.render_ascii_topology(snapshot)
+        de.persist_snapshot(snapshot)
+        return _make_text(tool_name, text_map + "\n\n" + topology)
+    except Exception as exc:
+        return _make_text(tool_name, json.dumps({"error": str(exc)}, indent=2))
+
+
+@register_handler("lazyown_get_beacons")
+async def _h_get_beacons(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    result = await asyncio.get_event_loop().run_in_executor(
+        None, lambda: _c2_request("/get_connected_clients")
+    )
+    return _make_text(tool_name, json.dumps(result, indent=2))
+
+
+@register_handler("lazyown_inject_objective")
+async def _h_inject_objective(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    if not _OBJECTIVES_AVAILABLE or _objectives is None:
+        return _make_text(tool_name, "Objective store unavailable. Check skills/lazyown_objective.py.")
+    obj_text = arguments["text"]
+    priority = arguments.get("priority", "high")
+    notes = arguments.get("notes", "")
+    obj = await asyncio.get_event_loop().run_in_executor(
+        None,
+        lambda: _objectives.inject(obj_text, priority=priority, source="claude", notes=notes),
+    )
+    return _make_text(
+        tool_name,
+        f"Objective injected [{obj.id}] priority={obj.priority}\n"
+        f"  {obj.text}\n\n"
+        f"Queue now has {len(_objectives.list_pending(limit=100))} pending objective(s).\n"
+        f"Use lazyown_auto_loop or lazyown_run_command to act on it.",
+    )
+
+
+@register_handler("lazyown_credentials")
+async def _h_credentials(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    import glob as _glob
+    rows: list[dict] = []
+    seen: set[str] = set()
+
+    def _add(user: str, secret: str, host: str, source: str, confirmed: bool = False):
+        key = f"{user}:{secret}:{host}"
+        if key not in seen:
+            seen.add(key)
+            rows.append({"user": user, "secret": secret, "host": host, "source": source, "confirmed": confirmed})
+
+    for cf in _glob.glob(str(SESSIONS_DIR / "credentials*.txt")):
+        try:
+            for line in Path(cf).read_text().splitlines():
+                line = line.strip()
+                if ":" in line:
+                    u, _, p = line.partition(":")
+                    _add(u.strip(), p.strip(), "?", Path(cf).name, True)
+        except Exception:
+            pass
+
+    sj_file = SESSIONS_DIR / "sessionLazyOwn.json"
+    if sj_file.exists():
+        try:
+            sj = json.loads(sj_file.read_text())
+            for c in sj.get("credentials", []):
+                _add(c.get("username", "?"), c.get("contraseña", "?"), "?", "session_json", True)
+            for h in sj.get("hashes", []):
+                _add("?", str(h), "?", "session_json_hash", False)
+            for k in sj.get("id_rsa", []):
+                _add("id_rsa", str(k)[:40], "?", "session_json_key", True)
+        except Exception:
+            pass
+
+    wm_file = SESSIONS_DIR / "world_model.json"
+    if wm_file.exists():
+        try:
+            wm = json.loads(wm_file.read_text())
+            for c in wm.get("credentials", []):
+                val = c.get("value", "?")
+                if ":" in val:
+                    u, _, p = val.partition(":")
+                    _add(u, p, c.get("host", "?"), "world_model", c.get("confirmed", False))
+                else:
+                    _add("?", val, c.get("host", "?"), "world_model_hash", False)
+        except Exception:
+            pass
+
+    if not rows:
+        return _make_text(tool_name, "No credentials found in session files.")
+    lines = [f"Captured credentials ({len(rows)} unique):", ""]
+    for r in rows:
+        conf = "[✓]" if r["confirmed"] else "[?]"
+        lines.append(f"{conf} {r['user']}:{r['secret']}  host={r['host']}  src={r['source']}")
+    return _make_text(tool_name, "\n".join(lines))
+
+
+@register_handler("lazyown_facts_show")
+async def _h_facts_show(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    if not _FACTS_AVAILABLE or _facts is None:
+        return _make_text(
+            tool_name,
+            "FactStore unavailable. Run: python3 skills/lazyown_facts.py parse",
+        )
+    cfg = _load_payload()
+    target = arguments.get("target") or cfg.get("rhost") or None
+    refresh = bool(arguments.get("refresh", False))
+
+    def _do_facts() -> str:
+        if refresh:
+            _facts.parse_all(target=target)
+        return _facts.summary(target)
+
+    summary = await asyncio.get_event_loop().run_in_executor(None, _do_facts)
+    return _make_text(tool_name, summary or "No facts found. Run with refresh=true to ingest sessions/ files.")
+
+
 def _run_lazyown_command(command: str, timeout: int = 30) -> str:
     """
     Execute one or more LazyOwn shell commands non-interactively.
@@ -4287,6 +4481,85 @@ async def list_tools() -> list[types.Tool]:
                 "required": ["action"],
             },
         ),
+        types.Tool(
+            name="lazyown_exploit_recommend",
+            description=(
+                "AI-powered exploit recommendation engine. Analyzes discovered "
+                "services against CVE databases and Exploit-DB, ranks exploits "
+                "by severity and confidence, and generates LazyOwn commands. "
+                "Consumes WorldModel to match services to known vulnerabilities."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "top_n": {
+                        "type": "integer",
+                        "description": "Maximum number of recommendations (default 10).",
+                        "default": 10,
+                    },
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_evasion_generate",
+            description=(
+                "Generate a new C2 malleable profile with randomized user-agent, "
+                "JA4 fingerprint, TLS ciphers, domain front, and jitter. "
+                "Profiles are persisted to sessions/evasion_profiles.jsonl."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "os_family": {
+                        "type": "string",
+                        "description": "Target OS family: windows, linux, or mac.",
+                        "enum": ["windows", "linux", "mac"],
+                        "default": "windows",
+                    },
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_evasion_rotate",
+            description=(
+                "Rotate to a new evasion profile — generates a fresh random "
+                "profile and makes it active. Useful for long-running beacons "
+                "to avoid pattern detection."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {},
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_pivot_status",
+            description=(
+                "View active pivot routes, generate proxychains config, and "
+                "get suggested next pivot targets based on discovered subnets "
+                "from compromised hosts."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {},
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_dashboard_snapshot",
+            description=(
+                "Generate a live network map dashboard showing all discovered "
+                "hosts with phase status, exploit recommendations, active pivots, "
+                "and beacon health. Returns both text map and ASCII topology."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {},
+                "required": [],
+            },
+        ),
     ] + (_automapper.mcp_tools() if _automapper is not None else [])
 
 
@@ -4407,85 +4680,6 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
         return text(output)
 
-    # ── get_config ───────────────────────────────────────────────────────────
-    elif name == "lazyown_get_config":
-        cfg = _load_payload()
-        return text(json.dumps(cfg, indent=2))
-
-    # ── get_llm_budget ───────────────────────────────────────────────────────
-    elif name == "lazyown_get_llm_budget":
-        try:
-            from core.llm_budget import read_budget_status
-        except Exception as error:
-            return text(
-                json.dumps(
-                    {
-                        "available": False,
-                        "reason": f"llm_budget module not importable: {error}",
-                    },
-                    indent=2,
-                )
-            )
-        payload = _load_payload()
-        repo_root = Path(__file__).resolve().parents[1]
-        sessions_dir = repo_root / "sessions"
-        try:
-            status = read_budget_status(payload=payload, sessions_dir=sessions_dir)
-        except Exception as error:
-            return text(
-                json.dumps(
-                    {
-                        "available": False,
-                        "reason": f"failed to read budget: {error}",
-                    },
-                    indent=2,
-                )
-            )
-        return text(json.dumps({"available": True, "status": status}, indent=2))
-
-    # ── set_config ───────────────────────────────────────────────────────────
-    elif name == "lazyown_set_config":
-        key = arguments["key"].strip()
-        raw_value = arguments["value"]
-        # Auto-convert numeric strings and booleans
-        value: Any = raw_value
-        if isinstance(raw_value, str):
-            if raw_value.lower() == "true":
-                value = True
-            elif raw_value.lower() == "false":
-                value = False
-            else:
-                try:
-                    value = int(raw_value)
-                except ValueError:
-                    try:
-                        value = float(raw_value)
-                    except ValueError:
-                        value = raw_value
-        cfg = _load_payload()
-        if "_error" in cfg:
-            return text(f"Cannot load payload.json: {cfg['_error']}")
-        cfg[key] = value
-        result = _save_payload(cfg)
-        if result == "ok":
-            return text(f"Set {key} = {value!r}")
-        return text(result)
-
-    # ── list_modules ─────────────────────────────────────────────────────────
-    elif name == "lazyown_list_modules":
-        modules_dir = LAZYOWN_DIR / "modules"
-        try:
-            files = sorted(modules_dir.iterdir())
-            lines = []
-            for f in files:
-                if f.is_file():
-                    lines.append(f"  {f.name} ({f.stat().st_size:,} bytes)")
-                elif f.is_dir():
-                    lines.append(f"  {f.name}/  [dir]")
-            return text("\n".join(lines))
-        except Exception as e:
-            return text(f"error: {e}")
-
     # ── palette ──────────────────────────────────────────────────────────────
     elif name == "lazyown_palette":
         from cli.palette import CommandIndexError as _PaletteIndexError
@@ -4563,13 +4757,6 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         }
         payload = advisor.truncate_to_budget(payload, budget)
         return text(json.dumps(payload, indent=2))
-
-    # ── get_beacons ──────────────────────────────────────────────────────────
-    elif name == "lazyown_get_beacons":
-        result = await asyncio.get_event_loop().run_in_executor(
-            None, lambda: _c2_request("/get_connected_clients")
-        )
-        return text(json.dumps(result, indent=2))
 
     # ── c2_command ───────────────────────────────────────────────────────────
     elif name == "lazyown_c2_command":
@@ -6268,66 +6455,6 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             return text("Notes cleared.")
         return text(f"Unknown action: {action}")
 
-    # ── credentials ───────────────────────────────────────────────────────────
-    elif name == "lazyown_credentials":
-        import glob as _glob
-        rows = []
-        seen: set = set()
-
-        def _add(user: str, secret: str, host: str, source: str, confirmed: bool = False):
-            key = f"{user}:{secret}:{host}"
-            if key not in seen:
-                seen.add(key)
-                rows.append({"user": user, "secret": secret, "host": host, "source": source, "confirmed": confirmed})
-
-        # 1. credential txt files
-        for cf in _glob.glob(str(SESSIONS_DIR / "credentials*.txt")):
-            try:
-                for line in Path(cf).read_text().splitlines():
-                    line = line.strip()
-                    if ":" in line:
-                        u, _, p = line.partition(":")
-                        _add(u.strip(), p.strip(), "?", Path(cf).name, True)
-            except Exception:
-                pass
-
-        # 2. sessionLazyOwn.json
-        sj_file = SESSIONS_DIR / "sessionLazyOwn.json"
-        if sj_file.exists():
-            try:
-                sj = json.loads(sj_file.read_text())
-                for c in sj.get("credentials", []):
-                    _add(c.get("username","?"), c.get("contraseña","?"), "?", "session_json", True)
-                for h in sj.get("hashes", []):
-                    _add("?", str(h), "?", "session_json_hash", False)
-                for k in sj.get("id_rsa", []):
-                    _add("id_rsa", str(k)[:40], "?", "session_json_key", True)
-            except Exception:
-                pass
-
-        # 3. world_model credentials
-        wm_file = SESSIONS_DIR / "world_model.json"
-        if wm_file.exists():
-            try:
-                wm = json.loads(wm_file.read_text())
-                for c in wm.get("credentials", []):
-                    val = c.get("value","?")
-                    if ":" in val:
-                        u, _, p = val.partition(":")
-                        _add(u, p, c.get("host","?"), "world_model", c.get("confirmed", False))
-                    else:
-                        _add("?", val, c.get("host","?"), "world_model_hash", False)
-            except Exception:
-                pass
-
-        if not rows:
-            return text("No credentials found in session files.")
-        lines = [f"Captured credentials ({len(rows)} unique):", ""]
-        for r in rows:
-            conf = "[✓]" if r["confirmed"] else "[?]"
-            lines.append(f"{conf} {r['user']}:{r['secret']}  host={r['host']}  src={r['source']}")
-        return text("\n".join(lines))
-
     # ── report_update ─────────────────────────────────────────────────────────
     elif name == "lazyown_report_update":
         report_file = LAZYOWN_DIR / "static" / "body_report.json"
@@ -7699,24 +7826,6 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             ),
         )
         return text(result)
-
-    # ── inject_objective ──────────────────────────────────────────────────────
-    elif name == "lazyown_inject_objective":
-        if not _OBJECTIVES_AVAILABLE or _objectives is None:
-            return text("Objective store unavailable. Check skills/lazyown_objective.py.")
-        obj_text = arguments["text"]
-        priority = arguments.get("priority", "high")
-        notes    = arguments.get("notes", "")
-        obj = await asyncio.get_event_loop().run_in_executor(
-            None,
-            lambda: _objectives.inject(obj_text, priority=priority, source="claude", notes=notes),
-        )
-        return text(
-            f"Objective injected [{obj.id}] priority={obj.priority}\n"
-            f"  {obj.text}\n\n"
-            f"Queue now has {len(_objectives.list_pending(limit=100))} pending objective(s).\n"
-            f"Use lazyown_auto_loop or lazyown_run_command to act on it."
-        )
 
     # ── next_objective ────────────────────────────────────────────────────────
     elif name == "lazyown_next_objective":
@@ -9316,25 +9425,6 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             )
         except Exception as exc:
             return text(f"Failed to create tool file: {exc}")
-
-    # ── facts_show ────────────────────────────────────────────────────────────
-    elif name == "lazyown_facts_show":
-        if not _FACTS_AVAILABLE or _facts is None:
-            return text(
-                "FactStore unavailable. "
-                "Run: python3 skills/lazyown_facts.py parse"
-            )
-        cfg    = _load_payload()
-        target = arguments.get("target") or cfg.get("rhost") or None
-        refresh = bool(arguments.get("refresh", False))
-
-        def _do_facts() -> str:
-            if refresh:
-                _facts.parse_all(target=target)
-            return _facts.summary(target)
-
-        summary = await asyncio.get_event_loop().run_in_executor(None, _do_facts)
-        return text(summary or "No facts found. Run with refresh=true to ingest sessions/ files.")
 
     # ── parquet_query ─────────────────────────────────────────────────────────
     elif name == "lazyown_parquet_query":

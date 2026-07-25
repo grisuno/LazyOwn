@@ -191,32 +191,31 @@ def parseAgentsDaemons(item,path):
   parsedPlist = {}
   plist_file = path+"/"+item
   try:
-    plist_type = subprocess.Popen(["file", plist_file], stdout=subprocess.PIPE).communicate()
-  except:
-    parsedPlist.update({"Plist_file_error":"File does not exist or can not be accessed."})
+    plist_type_result = subprocess.Popen(
+        ["file", plist_file],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    ).communicate()
+    plist_type = plist_type_result[0].split(b":")[1].strip().decode("utf-8", errors="replace")
+  except (OSError, subprocess.SubprocessError, IndexError, UnicodeDecodeError) as exc:
+    parsedPlist.update({"Plist_file_error": f"File does not exist or cannot be accessed: {exc}"})
     return parsedPlist
-  #get the plist type
-  plist_type = plist_type[0].split(":")[1].strip("\n").strip(" ")
-  #if else the file is a binary plist, then we have to use external library to parse
   try:
     if plist_type == 'Apple binary property list':
         plist = Foundation.NSDictionary.dictionaryWithContentsOfFile_(plist_file)
-    #elif plist_type == 'XML 1.0 document text, ASCII text':
-      #plist = plistlib.readPlist(plist_file)
     elif plist_type == 'exported SGML document text, ASCII text':
-      plist_text = subprocess.Popen(["cat", plist_file], stdout=subprocess.PIPE).communicate()
-      #plist_text = plist_text[0].split("\n")
-      if plist_text[0].split("\n")[0].startswith("<?xml"):
-        plist = plistlib.readPlistFromString(plist_text)
-      else:
-        xml_start = plist_text[0].find('<?xml')
-        plist_string = plist_text[0][xml_start:]
-        plist = plistlib.readPlistFromString(plist_string)
+        plist_text = subprocess.Popen(["cat", plist_file], stdout=subprocess.PIPE).communicate()
+        if plist_text[0].split("\n")[0].startswith("<?xml"):
+            plist = plistlib.readPlistFromString(plist_text)
+        else:
+            xml_start = plist_text[0].find('<?xml')
+            plist_string = plist_text[0][xml_start:]
+            plist = plistlib.readPlistFromString(plist_string)
     else:
-      plist = plistlib.readPlist(plist_file)
-  except:
-      parsedPlist.update({'plist_format_error': ("Error parsing {} with hash {}".format(plist_file,getHash(plist_file)))})
-      return parsedPlist
+        plist = plistlib.readPlist(plist_file)
+  except (ValueError, TypeError, KeyError, IOError, OSError) as exc:
+    parsedPlist.update({'plist_format_error': f"Error parsing {plist_file}: {exc}"})
+    return parsedPlist
 
   progExecutableHash = ""
   progExecutable = ""
@@ -227,8 +226,8 @@ def parseAgentsDaemons(item,path):
       if os.path.exists(progExecutable):
         try:
           progExecutableHash, progVTResult = getHash(progExecutable)
-        except:
-          progExecutableHash = "Error hashing "+progExecutable
+        except (IOError, OSError, ValueError) as exc:
+          progExecutableHash = f"Error hashing {progExecutable}: {exc}"
           progVTResult = "No VT result"
     elif plist.get("Program"):
       progExecutable = plist.get("Program")
@@ -237,8 +236,8 @@ def parseAgentsDaemons(item,path):
         findHomeStart = plist_file.find("/Library")
         progExecutable = progExecutable.replace('REPLACE_HOME',plist_file[:findHomeStart])
         progExecutableHash, progVTResult = getHash(progExecutable)
-  except:
-    progExecutable = "Error parsing or no associated executable"
+  except (KeyError, AttributeError, TypeError, IndexError) as exc:
+    progExecutable = f"Error parsing or no associated executable: {exc}"
     progExecutableHash = "No executable to parse"
     progVTResult = "No VT result"
 
@@ -389,8 +388,8 @@ def getChromeDownloads(chromeHistoryDbPath,output_file):
       output_file.write("\n")
   except sqlite3.OperationalError:
     print("[-] Unable to connect to the chrome history database")
-  except:
-    print("[-] Error parsing chrome history database")
+  except (sqlite3.OperationalError, sqlite3.DatabaseError, IndexError, KeyError, binascii.Error) as exc:
+    print(f"[-] Error parsing chrome history database: {exc}")
   finally:
     os.remove(historyCopyPath)
 
@@ -403,7 +402,8 @@ def getFirefoxExtensions(path,output_file):
   try:
     with open(path+"profiles.ini",'r') as profile_data:
       profile_dump = profile_data.read()
-  except:
+  except (IOError, OSError) as exc:
+    print(f"[-] Could not read Firefox profiles: {exc}")
     return
 
   extensions_path = profile_dump[profile_dump.find("Path="):profile_dump.find("\\n")].split('\n')[0]
@@ -490,8 +490,8 @@ def getKext(sipStatus,kextPath,output_file,ignoreVFlag):
         if name == ("Info.plist"):
           try:
             kextPlist = plistlib.readPlist(os.path.join(root, name))
-          except:
-            kextDict.update({"Plist_parsing_error":"Unable to parse plist for "+kextPath})
+          except (ValueError, TypeError, IOError, OSError) as exc:
+            kextDict.update({"Plist_parsing_error": f"Unable to parse plist for {kextPath}: {exc}"})
 
           if (kextPlist):
             executable = kextPlist.get("CFBundleExecutable")
@@ -612,8 +612,16 @@ def parseApp(app,ignoreVFlag):
   appInfo = {}
   appPlist = app+"/Contents/Info.plist"
   if os.path.exists(appPlist):
-    plist_type = subprocess.Popen(["file", appPlist], stdout=subprocess.PIPE).communicate()
-    plist_type = plist_type[0].split(":")[1].strip("\n").strip(" ")
+    try:
+      plist_type_result = subprocess.Popen(
+        ["file", appPlist],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+      ).communicate()
+      plist_type = plist_type_result[0].split(b":")[1].strip().decode("utf-8", errors="replace")
+    except (OSError, subprocess.SubprocessError, IndexError, UnicodeDecodeError) as exc:
+      appInfo.update({"application": app, "error": f"Could not identify file type: {exc}"})
+      return appInfo
     plist = None
     if plist_type == 'Apple binary property list':
       plist = Foundation.NSDictionary.dictionaryWithContentsOfFile_(appPlist)
@@ -683,8 +691,8 @@ def getApps(path,output_file,ignoreVFlag):
     app = path+"/"+app
     try:
       apps = parseApp(app,ignoreVT)
-    except:
-      apps.update({"app error":"issue parsing application information for app"+str(app)})
+    except (KeyError, AttributeError, TypeError, ValueError) as exc:
+      apps.update({"app error": f"issue parsing application information for app {app}: {exc}"})
       continue
 
     apps.update({"module":"applications"})
@@ -949,7 +957,7 @@ __     __               _
           print("[+] results uploaded to S3 ({})".format(outputFilename))
           try:
             os.remove(outputPath)
-          except:
+          except OSError:
             pass
         else:
           print("[+] results were not uploaded to S3 ({})".format(outputFilename))

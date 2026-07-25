@@ -22365,11 +22365,19 @@ class LazyOwnShell(cmd2.Cmd):
         else:
             PORT = self.params["rport"]
         print_msg(f"KnokKnok backdoor on {HOST} {PORT}")
-        especial_cadena = "grisiscomebacksayknokknok"
+        cadena = str(self.params.get("c2_reverse_shell_password", "") or "").strip()
+        if not cadena or len(cadena) < 12:
+            import secrets
+            cadena = secrets.token_hex(32)
+            print_error(
+                f"c2_reverse_shell_password not configured (minimum 12 chars). "
+                f"Using random fallback: {cadena}. "
+                f"Set it in payload.json to persist this value."
+            )
         try:
             client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             client_socket.connect((HOST, int(PORT)))
-            client_socket.sendall(especial_cadena.encode('utf-8'))
+            client_socket.sendall(cadena.encode('utf-8'))
             client_socket.close()
             print_msg("Who is ?")
         except Exception:
@@ -24958,6 +24966,228 @@ class LazyOwnShell(cmd2.Cmd):
 
         else:
             print_error(f"Unknown subcommand: {subcmd}")
+
+    @cmd2.with_category(exploitation_category)
+    def do_exploit_recommend(self, line):
+        """AI-powered exploit recommendation — matches discovered services to CVEs.
+
+        Usage:
+            exploit_recommend               Show top 10 recommendations
+            exploit_recommend <N>           Show top N recommendations
+            exploit_recommend json          Output as JSON
+        """
+        import json as _json
+        from modules.exploit_recommender import ExploitRecommender
+        from modules.world_model import WorldModel
+
+        wm = WorldModel("sessions/world_model.json")
+
+        args = line.strip().split()
+        top_n = 10
+        as_json = False
+        for a in args:
+            if a.isdigit():
+                top_n = int(a)
+            elif a.lower() == "json":
+                as_json = True
+
+        wm = WorldModel("sessions/world_model.json")
+        er = ExploitRecommender(wm)
+        matches = er.recommend(top_n=top_n)
+        er.persist_recommendations(matches)
+
+        if as_json:
+            print_msg(_json.dumps(matches, indent=2))
+            return
+
+        if not matches:
+            print_msg("No exploit matches found. Run lazynmap first to discover services.")
+            return
+
+        print_msg(f"{'='*60}")
+        print_msg(f"  EXPLOIT RECOMMENDATIONS ({len(matches)} matches)")
+        print_msg(f"{'='*60}")
+        for i, m in enumerate(matches, 1):
+            print_msg(
+                f"  {i}. [{m.get('severity', 'MEDIUM'):<8}] "
+                f"{m['cve']} conf={m['confidence']:.0%} exploit={'Y' if m['exploit_available'] else 'N'}"
+            )
+            print_msg(f"     {m['description'][:100]}")
+            for cmd in m.get("commands", [])[:2]:
+                print_msg(f"     $ {cmd}")
+            print_msg("")
+
+    @cmd2.with_category(command_and_control_category)
+    def do_evasion(self, line):
+        """Generate and manage C2 evasion profiles.
+
+        Usage:
+            evasion generate [windows|linux|mac]   Generate a new evasion profile
+            evasion rotate                          Rotate to a fresh profile
+            evasion status                          Show active profile
+            evasion history                         Show profile history
+        """
+        from modules.evasion_engine import EvasionEngine
+
+        ee = EvasionEngine(self.params)
+        parts = line.strip().split()
+        subcmd = parts[0].lower() if parts else "status"
+
+        if subcmd == "generate":
+            os_family = parts[1] if len(parts) > 1 else "windows"
+            profile = ee.generate_profile(os_family)
+            print_msg(ee.profile_to_json(profile))
+
+        elif subcmd == "rotate":
+            profile = ee.rotate_profile()
+            print_msg(f"Rotated to new profile: {profile.profile_id}")
+            print_msg(ee.profile_to_json(profile))
+
+        elif subcmd == "history":
+            records = ee.get_history()
+            if not records:
+                print_msg("No profile history.")
+                return
+            for r in records[-10:]:
+                print_msg(
+                    f"  {r.get('profile_id', '?')[:16]} "
+                    f"created={r.get('created_at', '?')[:19]} "
+                    f"front={r.get('domain_front', '?')}"
+                )
+
+        elif subcmd == "status":
+            profile = ee.get_active_profile()
+            if profile is None:
+                profile = ee.generate_profile()
+            beer = ee.get_beacon_config()
+            print_msg(f"Active profile: {profile.profile_id}")
+            print_msg(f"  User-Agent:  {profile.user_agent[:60]}")
+            print_msg(f"  JA4 hash:    {profile.ja4_hash}")
+            print_msg(f"  Sleep/Jitter: {beer['sleep']}s / {beer['jitter_ms']}ms")
+            print_msg(f"  Domain front: {profile.domain_front}")
+            print_msg(f"  Method:       {profile.http_method}")
+
+        else:
+            print_error(f"Unknown subcommand: {subcmd}. Use: generate | rotate | status | history")
+
+    @cmd2.with_category(lateral_movement_category)
+    def do_pivot(self, line):
+        """Manage pivot routes through compromised hosts.
+
+        Usage:
+            pivot add <ip> [ssh|chisel|ligolo]    Add a pivot node
+            pivot remove <ip>                      Remove a pivot node
+            pivot status                           Show all active routes
+            pivot proxychains                      Generate proxychains config
+            pivot health                           Health-check all routes
+            pivot suggest                          Suggest next pivot target
+        """
+        from modules.auto_pivot import AutoPivotEngine
+
+        ape = AutoPivotEngine(self.params)
+        parts = line.strip().split()
+        if not parts:
+            print_error("Usage: pivot <add|remove|status|proxychains|health|suggest> [args...]")
+            return
+
+        subcmd = parts[0].lower()
+
+        if subcmd == "add":
+            if len(parts) < 2:
+                print_error("Usage: pivot add <ip> [ssh|chisel|ligolo]")
+                return
+            ip = parts[1]
+            access = parts[2] if len(parts) > 2 else "ssh"
+            node = ape.add_pivot_node(ip, access_type=access)
+            print_msg(f"Pivot node added: {node.ip} port={node.pivot_port} type={node.socket_type}")
+
+        elif subcmd == "remove":
+            if len(parts) < 2:
+                print_error("Usage: pivot remove <ip>")
+                return
+            ape.remove_pivot_node(parts[1])
+            print_msg(f"Pivot node removed: {parts[1]}")
+
+        elif subcmd == "status":
+            routes = ape.get_active_routes()
+            if not routes:
+                print_msg("No active pivot routes.")
+                return
+            print_msg(f"Active pivot routes ({len(routes)}):")
+            for r in routes:
+                print_msg(
+                    f"  {r['type']:<8} -> {r['ip']}:{r['port']} "
+                    f"access={r['access']} priority={r['route_priority']} "
+                    f"subnets={r['subnets'][:2]}"
+                )
+
+        elif subcmd == "proxychains":
+            cfg = ape.generate_proxychains_config()
+            if not cfg:
+                print_msg("No pivot routes configured.")
+                return
+            print_msg(cfg)
+            path = "sessions/proxychains.conf"
+            with open(path, "w") as fh:
+                fh.write(cfg)
+            print_msg(f"Config saved to {path}")
+
+        elif subcmd == "health":
+            results = ape.health_check_all()
+            for ip, status in results.items():
+                color = Colors.GREEN if status == "active" else Colors.YELLOW if status == "stale" else Colors.RED
+                print_msg(f"  {ip}: {color}{status}{Colors.RESET}")
+
+        elif subcmd == "suggest":
+            suggestion = ape.suggest_next_pivot()
+            if suggestion:
+                print_msg(f"Suggested next pivot: {suggestion}")
+            else:
+                print_msg("No pivot suggestions available — add pivot nodes first.")
+
+        else:
+            print_error(f"Unknown subcommand: {subcmd}. Use: add | remove | status | proxychains | health | suggest")
+
+    @cmd2.with_category(reporting_category)
+    def do_dashboard(self, line):
+        """Display a live network map dashboard.
+
+        Usage:
+            dashboard               Show full network map
+            dashboard topology      Show ASCII topology tree
+            dashboard json          Export as JSON
+            dashboard status        Show compact status line
+        """
+        from modules.dashboard_engine import DashboardEngine
+        from modules.exploit_recommender import ExploitRecommender
+        from modules.world_model import WorldModel
+
+        wm = WorldModel("sessions/world_model.json")
+        er = ExploitRecommender(wm)
+        de = DashboardEngine(wm)
+        de.set_exploit_recommender(er)
+
+        subcmd = line.strip().lower() if line.strip() else "full"
+
+        if subcmd == "topology":
+            snap = de.build_snapshot()
+            print_msg(de.render_ascii_topology(snap))
+
+        elif subcmd == "json":
+            snap = de.build_snapshot()
+            print_msg(de.export_json(snap))
+
+        elif subcmd == "status":
+            snap = de.build_snapshot()
+            print_msg(de.format_for_cli(snap))
+
+        elif subcmd == "full":
+            snap = de.build_snapshot()
+            print_msg(de.render_text_map(snap))
+
+        else:
+            print_msg("Usage: dashboard [topology|json|status|full]")
+            de.persist_snapshot()
 
 
 def main():

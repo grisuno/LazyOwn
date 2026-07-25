@@ -712,10 +712,10 @@ SCHEMA: dict[str, FieldSpec] = {
             "Password required to trigger the /lazyos reverse shell.",
             long_help=(
                 "Must be at least 12 characters when set. When empty, the "
-                "framework logs a WARNING and falls back to the legacy "
-                "string 'grisiscomebacksayknokknok' for backwards "
-                "compatibility. Set this in payload.json to silence the "
-                "warning and replace the legacy hardcoded value."
+                "framework generates a cryptographically random 32-char hex "
+                "token at startup and logs a WARNING. "
+                "Set this in payload.json to silence the warning and use a "
+                "persistent password."
             ),
             example="please-change-me-12+chars",
             category="c2",

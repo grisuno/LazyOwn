@@ -841,9 +841,7 @@ async def _h_dashboard_snapshot(arguments: dict, tool_name: str) -> list[types.T
         from modules.dashboard_engine import DashboardEngine
         from modules.exploit_recommender import ExploitRecommender
         from modules.world_model import WorldModel
-        wm = WorldModel(SESSIONS_DIR)
-        if _has_data(SESSIONS_DIR / "world_model.json"):
-            wm.load()
+        wm = WorldModel(SESSIONS_DIR / "world_model.json")
         er = ExploitRecommender(wm)
         de = DashboardEngine(wm)
         de.set_exploit_recommender(er)
@@ -862,6 +860,223 @@ async def _h_get_beacons(arguments: dict, tool_name: str) -> list[types.TextCont
         None, lambda: _c2_request("/get_connected_clients")
     )
     return _make_text(tool_name, json.dumps(result, indent=2))
+
+
+@register_handler("lazyown_auto_pwn")
+async def _h_auto_pwn(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    target = arguments.get("target") or _load_payload().get("rhost", "")
+    enable_pivot = bool(arguments.get("enable_pivot", False))
+    enable_privesc = bool(arguments.get("enable_privesc", False))
+    stealth = str(arguments.get("stealth", "low"))
+    try:
+        from modules.autonomous_exploit_engine import AutonomousExploitEngine
+        engine = AutonomousExploitEngine()
+        engine.enable_stealth(stealth)
+        result = engine.full_auto_pwn(
+            target,
+            enable_pivot=enable_pivot,
+            enable_privesc=enable_privesc,
+            stealth=stealth,
+        )
+        exploits = result.get("exploit_results", [])
+        result["summary"] = {
+            "target": target,
+            "vulnerabilities_found": len(result.get("vulnerabilities", [])),
+            "exploits_attempted": len(exploits),
+            "exploits_succeeded": len([e for e in exploits if e.get("success")]),
+            "shells_obtained": len([e for e in exploits if e.get("shell_obtained")]),
+            "privesc_attempts": len(result.get("privesc_results", [])),
+            "pivot_chains": len(result.get("pivot_info", {}).get("chains", [])),
+            "stealth_level": stealth,
+        }
+        return _make_text(tool_name, json.dumps(result, indent=2, ensure_ascii=False, default=str))
+    except Exception as exc:
+        return _make_text(tool_name, json.dumps({"error": str(exc)}, indent=2))
+
+
+@register_handler("lazyown_exploit_chain")
+async def _h_exploit_chain(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    target = arguments.get("target") or _load_payload().get("rhost", "")
+    max_exploits = int(arguments.get("max_exploits", 8))
+    try:
+        from modules.ai_exploit_chain import AIExploitChainer, ExploitChainContext
+        from modules.autonomous_exploit_engine import AutonomousExploitEngine
+        engine = AutonomousExploitEngine()
+        profile = engine.profile(target)
+        chainer = AIExploitChainer()
+        ctx = ExploitChainContext(
+            target=target,
+            profile=profile,
+            attempted=[],
+            available_strategies=[],
+            failed_strategies=[],
+            success_strategies=[],
+            current_phase="recon",
+            chain_score=0.0,
+        )
+        plan = chainer.build_chain_plan(ctx)
+        results: list[dict] = []
+        for i, step in enumerate(plan[:max_exploits]):
+            strategy = step.get("strategy", "direct")
+            candidate = chainer.reason(ctx)
+            if candidate is None:
+                break
+            result = engine.execute_candidate(candidate, profile)
+            ctx.attempted.append(result)
+            entry = {
+                "step": i + 1,
+                "strategy": strategy,
+                "success": result.success,
+                "shell_obtained": result.shell_obtained,
+                "error": result.error,
+                "output": result.output[:500],
+            }
+            if result.success:
+                ctx.success_strategies.append(strategy)
+                if result.shell_obtained:
+                    break
+            else:
+                ctx.failed_strategies.append(strategy)
+                new_info = {"last_error": result.error or result.output[:200]}
+                plan = chainer.adapt_chain(ctx, new_info)
+            results.append(entry)
+        summary = {
+            "target": target,
+            "chain_plan": plan,
+            "results": results,
+            "successful": len(ctx.success_strategies),
+            "total": len(ctx.attempted),
+            "shell_obtained": any(r.get("shell_obtained") for r in results),
+        }
+        return _make_text(tool_name, json.dumps(summary, indent=2, ensure_ascii=False, default=str))
+    except Exception as exc:
+        return _make_text(tool_name, json.dumps({"error": str(exc)}, indent=2))
+
+
+@register_handler("lazyown_lolbas_list")
+async def _h_lolbas_list(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    filter_cat = str(arguments.get("category", "all")).lower()
+    plugins_dir = Path(BASE_DIR) / "plugins"
+    techniques: list[dict] = []
+    try:
+        import yaml
+    except ImportError:
+        return _make_text(tool_name, json.dumps({"error": "PyYAML not installed"}, indent=2))
+    for plugin_file in sorted(plugins_dir.glob("*.yaml")):
+        if "bypass" not in plugin_file.stem and "obfuscation" not in plugin_file.stem and "reflection" not in plugin_file.stem:
+            continue
+        try:
+            data = yaml.safe_load(plugin_file.read_text())
+        except Exception:
+            continue
+        cat = data.get("category", "")
+        if filter_cat != "all" and filter_cat not in cat.lower() and filter_cat not in plugin_file.stem.lower():
+            continue
+        for tech in data.get("techniques", []):
+            techniques.append({
+                "plugin": plugin_file.stem,
+                "name": tech.get("name", ""),
+                "description": tech.get("description", ""),
+                "requires_admin": tech.get("requires_admin", False),
+                "platforms": data.get("platforms", []),
+                "command": tech.get("command", ""),
+            })
+    return _make_text(
+        tool_name,
+        json.dumps({"count": len(techniques), "techniques": techniques}, indent=2, ensure_ascii=False),
+    )
+
+
+@register_handler("lazyown_lolbas_use")
+async def _h_lolbas_use(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    plugin_name = arguments.get("plugin", "")
+    technique_name = arguments.get("technique", "")
+    if not plugin_name or not technique_name:
+        combined = str(arguments.get("technique_ref", "")).split("/")
+        if len(combined) == 2:
+            plugin_name, technique_name = combined
+    if not plugin_name or not technique_name:
+        return _make_text(tool_name, json.dumps({"error": "plugin and technique are required"}, indent=2))
+    plugins_dir = Path(BASE_DIR) / "plugins"
+    plugin_path = plugins_dir / f"{plugin_name}.yaml"
+    if not plugin_path.exists():
+        return _make_text(tool_name, json.dumps({"error": f"Plugin not found: {plugin_name}"}, indent=2))
+    try:
+        import yaml
+        data = yaml.safe_load(plugin_path.read_text())
+    except Exception as exc:
+        return _make_text(tool_name, json.dumps({"error": f"Failed to load plugin: {exc}"}, indent=2))
+    technique = None
+    for t in data.get("techniques", []):
+        if t.get("name") == technique_name:
+            technique = t
+            break
+    if technique is None:
+        return _make_text(tool_name, json.dumps({"error": f"Technique '{technique_name}' not found"}, indent=2))
+    cfg = _load_payload()
+    command = technique.get("command", "")
+    resolved = command.replace("{rhost}", cfg.get("rhost", "")).replace("{lhost}", cfg.get("lhost", "")).replace("{lport}", str(cfg.get("lport", "")))
+    output = _run_cmd(resolved, timeout=30, cwd=str(BASE_DIR))
+    return _make_text(
+        tool_name,
+        json.dumps({
+            "plugin": plugin_name,
+            "technique": technique_name,
+            "resolved_command": resolved[:300],
+            "output": output[:3000],
+        }, indent=2, ensure_ascii=False),
+    )
+
+
+@register_handler("lazyown_stealth")
+async def _h_stealth(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    level = str(arguments.get("level", "medium")).lower()
+    if level not in ("low", "medium", "high", "paranoid", "off"):
+        return _make_text(tool_name, json.dumps({"error": f"Invalid level: {level}"}, indent=2))
+    try:
+        from modules.autonomous_exploit_engine import AutonomousExploitEngine
+        engine = AutonomousExploitEngine.get_instance()
+        if level == "off":
+            engine.enable_stealth("low")
+            cfg = _load_payload()
+            cfg["stealth_mode"] = "off"
+            _save_payload(cfg)
+            return _make_text(tool_name, json.dumps({"stealth": "off"}, indent=2))
+        config = engine.enable_stealth(level)
+        cfg = _load_payload()
+        cfg["stealth_mode"] = level
+        _save_payload(cfg)
+        return _make_text(tool_name, json.dumps({"stealth": level, "config": config}, indent=2, default=str))
+    except Exception as exc:
+        return _make_text(tool_name, json.dumps({"error": str(exc)}, indent=2))
+
+
+@register_handler("lazyown_rich_tui_snapshot")
+async def _h_rich_tui_snapshot(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    try:
+        from modules.dashboard_engine import DashboardEngine
+        from modules.exploit_recommender import ExploitRecommender
+        from modules.world_model import WorldModel
+        wm = WorldModel(SESSIONS_DIR / "world_model.json")
+        er = ExploitRecommender(wm)
+        de = DashboardEngine(wm)
+        de.set_exploit_recommender(er)
+        snapshot = de.build_snapshot()
+        text_map = de.render_text_map(snapshot)
+        topology = de.render_ascii_topology(snapshot)
+        cli_status = de.format_for_cli(snapshot)
+        return _make_text(
+            tool_name,
+            json.dumps({
+                "cli_status": cli_status,
+                "stats": snapshot.get("stats", {}),
+                "text_map": text_map,
+                "topology": topology,
+                "recommendations": snapshot.get("recommendations", [])[:10],
+            }, indent=2, ensure_ascii=False, default=str),
+        )
+    except Exception as exc:
+        return _make_text(tool_name, json.dumps({"error": str(exc)}, indent=2))
 
 
 @register_handler("lazyown_inject_objective")
@@ -4553,6 +4768,137 @@ async def list_tools() -> list[types.Tool]:
                 "Generate a live network map dashboard showing all discovered "
                 "hosts with phase status, exploit recommendations, active pivots, "
                 "and beacon health. Returns both text map and ASCII topology."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {},
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_auto_pwn",
+            description=(
+                "Execute the full autonomous exploitation chain against a target. "
+                "Runs recon, vulnerability scanning, exploit selection, exploitation, "
+                "and optionally privilege escalation and auto-pivoting. "
+                "Returns comprehensive results with summary."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "target": {
+                        "type": "string",
+                        "description": "Target IP or hostname (defaults to payload.json rhost)",
+                    },
+                    "enable_pivot": {
+                        "type": "boolean",
+                        "description": "Enable automatic pivoting after exploitation",
+                    },
+                    "enable_privesc": {
+                        "type": "boolean",
+                        "description": "Enable automatic privilege escalation after getting shell",
+                    },
+                    "stealth": {
+                        "type": "string",
+                        "description": "Stealth level: low, medium, high, or paranoid",
+                    },
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_exploit_chain",
+            description=(
+                "AI-driven multi-step exploit chaining with fallback strategies. "
+                "Uses heuristic reasoning to chain exploits: if one fails, the engine "
+                "analyzes the failure and pivots to an alternative strategy automatically. "
+                "Returns chain plan, results per step, and summary."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "target": {
+                        "type": "string",
+                        "description": "Target IP or hostname",
+                    },
+                    "max_exploits": {
+                        "type": "integer",
+                        "description": "Maximum exploit attempts (default 8)",
+                    },
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_lolbas_list",
+            description=(
+                "List available LOLBAS (Living Off The Land Binaries and Scripts) "
+                "techniques from plugins. Categories: amsi bypass, etw bypass, "
+                "powershell obfuscation, dotnet reflection loading."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "category": {
+                        "type": "string",
+                        "description": "Filter by category: amsi, etw, powershell, dotnet, all",
+                    },
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_lolbas_use",
+            description=(
+                "Execute a specific LOLBAS technique by plugin and technique name. "
+                "Resolves variables from payload.json automatically. "
+                "Use lazyown_lolbas_list first to discover available techniques."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "plugin": {
+                        "type": "string",
+                        "description": "Plugin name (e.g. amsi_bypass, etw_bypass)",
+                    },
+                    "technique": {
+                        "type": "string",
+                        "description": "Technique name within the plugin",
+                    },
+                    "technique_ref": {
+                        "type": "string",
+                        "description": "Shorthand: plugin/technique (e.g. amsi_bypass/amsiInitFailed)",
+                    },
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_stealth",
+            description=(
+                "Enable or disable stealth mode for subsequent operations. "
+                "Stealth levels: low (normal), medium (2-8s delays, limited concurrency), "
+                "high (10-30s delays, single-threaded), paranoid (30-120s delays, minimal traffic), "
+                "off (disable stealth)."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "level": {
+                        "type": "string",
+                        "description": "Stealth level: low, medium, high, paranoid, or off",
+                    },
+                },
+                "required": ["level"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_rich_tui_snapshot",
+            description=(
+                "Generate a Rich TUI dashboard snapshot with network topology, "
+                "host phases, exploit recommendations, active pivots, and beacons. "
+                "Returns CLI status string, stats, text map, and ASCII topology. "
+                "Non-blocking — does not launch the interactive TUI."
             ),
             inputSchema={
                 "type": "object",

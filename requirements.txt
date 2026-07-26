@@ -226,7 +226,7 @@ textual==8.2.5
 tinydb==4.8.2
 tomli==2.4.1
 tomli_w==1.2.0
-tqdm==4.67.3
+tqdm==4.69.1
 traitlets==5.14.3
 transaction==5.1
 typing-inspection==0.4.2

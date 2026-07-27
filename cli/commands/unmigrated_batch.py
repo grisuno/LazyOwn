@@ -8,7 +8,9 @@ deleted from lazyown.py.
 
 from __future__ import annotations
 
-from cli.commands._dormancy import PendingCommandSet
+import cmd2
+
+from cli.commands._base import LazyOwnCommandSet
 from utils import (
     copy2clip,
     is_binary_present,
@@ -21,14 +23,15 @@ from utils import (
 )
 
 
-class UnmigratedBatchCommandSet(PendingCommandSet):
+class UnmigratedBatchCommandSet(LazyOwnCommandSet):
 
     phase = "late"
-    category = "miscellaneous_category"
+    category = "12. Miscellaneous"
 
     # ------------------------------------------------------------------
     # do_yara_scan  (post_exploitation_category)
     # ------------------------------------------------------------------
+    @cmd2.with_category("12. Miscellaneous")
     def do_yara_scan(self, line):
         """Scan files or directories with YARA rules for malware/IOCs.
 
@@ -103,6 +106,7 @@ class UnmigratedBatchCommandSet(PendingCommandSet):
     # ------------------------------------------------------------------
     # do_cloud_enum  (scanning_category)
     # ------------------------------------------------------------------
+    @cmd2.with_category("12. Miscellaneous")
     def do_cloud_enum(self, line):
         """Enumerate cloud provider metadata, storage, and IAM.
 
@@ -163,6 +167,7 @@ class UnmigratedBatchCommandSet(PendingCommandSet):
     # ------------------------------------------------------------------
     # do_adcs_check  (privilege_escalation_category)
     # ------------------------------------------------------------------
+    @cmd2.with_category("12. Miscellaneous")
     def do_adcs_check(self, line):
         """Check Active Directory Certificate Services for ESC1-ESC8 vulnerabilities.
 
@@ -221,6 +226,7 @@ class UnmigratedBatchCommandSet(PendingCommandSet):
     # ------------------------------------------------------------------
     # do_dominion  (lateral_movement_category)
     # ------------------------------------------------------------------
+    @cmd2.with_category("12. Miscellaneous")
     def do_dominion(self, line):
         """Execute a fully automated Active Directory domain takeover.
 
@@ -287,6 +293,7 @@ class UnmigratedBatchCommandSet(PendingCommandSet):
     # ------------------------------------------------------------------
     # do_hunt  (exploitation_category)
     # ------------------------------------------------------------------
+    @cmd2.with_category("12. Miscellaneous")
     def do_hunt(self, line):
         """Run an autonomous exploitation chain against a target.
 
@@ -363,6 +370,7 @@ class UnmigratedBatchCommandSet(PendingCommandSet):
     # ------------------------------------------------------------------
     # do_phisher  (command_and_control_category)
     # ------------------------------------------------------------------
+    @cmd2.with_category("12. Miscellaneous")
     def do_phisher(self, line):
         """Launch a phishing campaign against a target domain.
 
@@ -428,6 +436,7 @@ class UnmigratedBatchCommandSet(PendingCommandSet):
     # ------------------------------------------------------------------
     # do_lazyreport  (reporting_category)
     # ------------------------------------------------------------------
+    @cmd2.with_category("12. Miscellaneous")
     def do_lazyreport(self, line):
         """Generate a professional red team report from session data.
 
@@ -495,6 +504,7 @@ class UnmigratedBatchCommandSet(PendingCommandSet):
     # ------------------------------------------------------------------
     # do_evasive  (exploitation_category / misc)
     # ------------------------------------------------------------------
+    @cmd2.with_category("12. Miscellaneous")
     def do_evasive(self, line: str) -> None:
         """Generate detection-evading payloads with multiple obfuscation strategies.
 
@@ -597,6 +607,7 @@ class UnmigratedBatchCommandSet(PendingCommandSet):
     # ------------------------------------------------------------------
     # do_chain  (exploitation_category)
     # ------------------------------------------------------------------
+    @cmd2.with_category("12. Miscellaneous")
     def do_chain(self, line: str) -> None:
         """Run autonomous exploitation chain: recon -> vuln -> exploit -> post-exploit.
 
@@ -682,6 +693,7 @@ class UnmigratedBatchCommandSet(PendingCommandSet):
     # ------------------------------------------------------------------
     # do_beaconcfg  (command_and_control_category)
     # ------------------------------------------------------------------
+    @cmd2.with_category("12. Miscellaneous")
     def do_beaconcfg(self, line: str) -> None:
         """Generate a C2 beacon profile with traffic morphing and domain fronting.
 
@@ -747,5 +759,12 @@ class UnmigratedBatchCommandSet(PendingCommandSet):
         else:
             print_error(f"Unknown subcommand: {subcmd}")
 
+
+
+import utils as _lazy_utils
+for _lazy_name in dir(_lazy_utils):
+    if not _lazy_name.startswith('_'):
+        globals().setdefault(_lazy_name, getattr(_lazy_utils, _lazy_name))
+del _lazy_utils, _lazy_name
 
 __all__ = ["UnmigratedBatchCommandSet"]

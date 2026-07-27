@@ -89,30 +89,42 @@ class LazyOwnCommandSet(CommandSet):
         return getattr(shell, "config", None) or getattr(shell, "params", {})
 
     def __getattr__(self, name: str) -> Any:
-        """Forward unknown attribute access to the bound shell.
+        """Forward unknown attribute access to the bound shell or utils.
 
         ``cmd2`` binds the parent shell to ``self._cmd`` when the
         ``CommandSet`` is registered. Migrated methods reference shell
         state directly (``self.run_script``, ``self.c2_url``, ...) so this
         forwarder lets them execute unmodified once they are wired in.
 
+        When the shell does not expose the requested name, the forwarder
+        falls back to the ``utils`` module namespace, giving migrated
+        CommandSets access to every re-exported symbol (``os``, ``json``,
+        ``glob``, ``getprompt``, category constants, etc.) without
+        requiring per-file import boilerplate.
+
         Args:
             name: Attribute name requested by the caller.
 
         Returns:
-            The attribute value resolved on the bound shell.
+            The attribute value resolved on the bound shell or utils.
 
         Raises:
             AttributeError: When ``name`` starts with an underscore, when
-                the shell is not yet bound, or when the shell itself does
-                not expose ``name``.
+                the shell is not yet bound / utils does not expose it.
         """
-        if name.startswith("_"):
+        if name.startswith("_") or name.startswith("complete_"):
             raise AttributeError(name)
         shell = self._resolve_shell()
-        if shell is None:
+        if shell is not None:
+            try:
+                return getattr(shell, name)
+            except AttributeError:
+                pass
+        try:
+            import utils as _utils
+            return getattr(_utils, name)
+        except AttributeError:
             raise AttributeError(name)
-        return getattr(shell, name)
 
 
 __all__ = ["LazyOwnCommandSet", "SHELL_INJECTION_ATTRIBUTE"]

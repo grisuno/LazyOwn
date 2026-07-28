@@ -871,6 +871,8 @@ class PostexpMigratedCommandSet(LazyOwnCommandSet):
             touch {repo}/dists/kali-rolling/main/cnf/Commands-amd64.xz
             """.replace('            ',''), shell=True, check=True)
             os.chdir(path)
+            username = ""
+            password = ""
             if not os.path.exists(credentials):
                 if not username:
                     print_error("Username not defined.")

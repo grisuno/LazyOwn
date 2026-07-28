@@ -17,6 +17,8 @@ import time
 import requests
 
 from cli.commands._base import LazyOwnCommandSet
+from core.config import save_payload as _save_payload
+from cli.aliases import load_aliases as _load_aliases
 from utils import (
     BLUE,
     CYAN,

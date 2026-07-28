@@ -1438,13 +1438,13 @@ sequenceDiagram
     Note over Implant,LazyOwn C2 Server: Implant running and configured
 
     loop Beaconing Loop
-        Implant->LazyOwn C2 Server: HTTP GET /<maleable>/<client_id> (Checking for command)
+        Implant->LazyOwn C2 Server: HTTP GET /<malleable>/<client_id> (Checking for command)
         LazyOwn C2 Server-->Implant: HTTP 200 OK (Response with command or empty)
         Note over Implant: Process response
         opt If command received
             Implant->Implant: Execute command locally
             Implant->Implant: Capture output, system info
-            Implant->LazyOwn C2 Server: HTTP POST /<maleable>/<client_id> (Sending result JSON)
+            Implant->LazyOwn C2 Server: HTTP POST /<malleable>/<client_id> (Sending result JSON)
             LazyOwn C2 Server-->Implant: HTTP 200 OK (Acknowledgement)
             LazyOwn C2 Server->LazyOwn C2 Server: Save result to sessions/<client_id>.log
         end
@@ -1458,11 +1458,11 @@ sequenceDiagram
     Note over LazyOwn C2 Server: Command is now waiting for next beacon
 
     Note over Implant,LazyOwn C2 Server: ... next beacon ...
-    Implant->LazyOwn C2 Server: HTTP GET /<maleable>/<client_id>
+    Implant->LazyOwn C2 Server: HTTP GET /<malleable>/<client_id>
     LazyOwn C2 Server-->Implant: HTTP 200 OK (Response contains the command)
     Implant->Implant: Execute the command
     Note over Implant: ... execution happens ...
-    Implant->LazyOwn C2 Server: HTTP POST /<maleable>/<client_id> (Sending result)
+    Implant->LazyOwn C2 Server: HTTP POST /<malleable>/<client_id> (Sending result)
     LazyOwn C2 Server->LazyOwn C2 Server: Save result
     LazyOwn C2 Server->You: Make result available (CLI output / Web interface update)
     You-->You: View result
@@ -1581,8 +1581,8 @@ import base64
 
 app = Flask(__name__)
 
-# Define the base maleable route
-route_maleable = "/gmail/v1/users/" # Example route from config
+# Define the base malleable route
+route_malleable = "/gmail/v1/users/" # Example route from config
 
 # Dictionary to hold commands waiting for implants {client_id: command_string}
 commands = {}
@@ -1592,7 +1592,7 @@ results = {}
 connected_clients = set()
 # Assume ALLOWED_DIRECTORY is configured for saving logs
 
-@app.route(f'{route_maleable}<client_id>', methods=['GET'])
+@app.route(f'{route_malleable}<client_id>', methods=['GET'])
 def send_command(client_id):
     """Handles implant beacon (GET request to fetch commands)."""
     connected_clients.add(client_id) # Mark client as connected
@@ -1609,7 +1609,7 @@ def send_command(client_id):
         encrypted_response = encrypt_data(b'') # Empty byte string encrypted
         return Response(encrypted_response, mimetype='application/octet-stream')
 
-@app.route(f'{route_maleable}<client_id>', methods=['POST'])
+@app.route(f'{route_malleable}<client_id>', methods=['POST'])
 def receive_result(client_id):
     """Handles implant sending results (POST request)."""
     try:
@@ -1706,7 +1706,7 @@ def receive_result(client_id):
 #        self.poutput(f"Command '{command_to_send}' queued for client {client_id}")
 # --- End Simplified Conceptual Command ---
 ```
-*Explanation:* The C2 server code defines Flask routes that match the URL structure the implant uses (`/<maleable route>/<client_id>`). The `GET` handler checks the `commands` dictionary for any commands queued for that `client_id`, encrypts one if found, and returns it. The `POST` handler receives encrypted data, decrypts it, parses the JSON containing the command output and implant details, saves it to a client-specific log file in the `sessions/` directory, and updates the `results` dictionary which is used by the web interface (`/`) to display the latest implant data. The conceptual CLI command `issue_command_to_c2` demonstrates how a user interaction queues a command for an implant by adding it to the `commands` dictionary.
+*Explanation:* The C2 server code defines Flask routes that match the URL structure the implant uses (`/<malleable route>/<client_id>`). The `GET` handler checks the `commands` dictionary for any commands queued for that `client_id`, encrypts one if found, and returns it. The `POST` handler receives encrypted data, decrypts it, parses the JSON containing the command output and implant details, saves it to a client-specific log file in the `sessions/` directory, and updates the `results` dictionary which is used by the web interface (`/`) to display the latest implant data. The conceptual CLI command `issue_command_to_c2` demonstrates how a user interaction queues a command for an implant by adding it to the `commands` dictionary.
 
 ## Configuring the C2
 
@@ -1715,7 +1715,7 @@ Setting up the C2 requires configuring both the server (`lazyc2.py`) and the imp
 1.  **Server Configuration (`payload.json`):** The `lazyc2.py` script loads its configuration from `payload.json` using `load_payload()`. This file specifies:
     *   `lhost`: Your LazyOwn server's IP address (the IP the implant will connect *to*).
     *   `c2_port`: The port `lazyc2.py` listens on for implants.
-    *   `c2_maleable_route`: The obscure URL path implants will use (e.g., `/gmail/v1/users/`).
+    *   `c2_malleable_route`: The obscure URL path implants will use (e.g., `/gmail/v1/users/`).
     *   `user_agent_win`, `user_agent_lin`: User agents implants might use.
     *   `reverse_shell_port`: The port used for reverse shells initiated by implants.
     *   `beacon_scan_ports`: Ports the implant should scan during initial discovery.

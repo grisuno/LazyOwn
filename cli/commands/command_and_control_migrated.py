@@ -14,6 +14,8 @@ import subprocess
 import time
 
 from cli.commands._base import LazyOwnCommandSet
+from core.config import save_payload as _save_payload
+from cli.aliases import load_aliases as _load_aliases
 from utils import (
     CYAN,
     GREEN,
@@ -1272,6 +1274,8 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
         domain = self.params['domain']
         rport = self.params['rport']
         input_arguments = selected_test['input_arguments']
+        username = ""
+        password = ""
         if not os.path.exists(credentials):
             if not username:
                 print_error("Username not defined.")

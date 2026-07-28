@@ -165,6 +165,15 @@ class TestLazyOwnAssignWiring:
     def src(self) -> str:
         return LAZYOWN_PATH.read_text(encoding="utf-8")
 
+    @pytest.fixture(scope="class")
+    def migrated_src(self) -> str:
+        """Text of the module that now defines ``do_assign``/``do_show``/``do_payload``.
+
+        The monolith split moved these verbs into a phase ``CommandSet``
+        while ``complete_assign`` stayed on ``LazyOwnShell``.
+        """
+        return (REPO_ROOT / "cli" / "commands" / "misc_migrated.py").read_text(encoding="utf-8")
+
     def test_imports_apply_assign(self, src):
         assert "from cli.assign import apply_assign" in src
 
@@ -174,18 +183,18 @@ class TestLazyOwnAssignWiring:
     def test_imports_format_payload(self, src):
         assert "from cli.show import format_payload" in src
 
-    def test_do_assign_calls_apply_assign(self, src):
-        body = self._extract_method_body(src, "do_assign")
+    def test_do_assign_calls_apply_assign(self, migrated_src):
+        body = self._extract_method_body(migrated_src, "do_assign")
         assert "_apply_assign(" in body
         assert "save=_save_payload" in body
 
-    def test_do_assign_refreshes_aliases(self, src):
-        body = self._extract_method_body(src, "do_assign")
+    def test_do_assign_refreshes_aliases(self, migrated_src):
+        body = self._extract_method_body(migrated_src, "do_assign")
         assert "self.aliases.update(" in body
         assert "_load_aliases(self.params)" in body
 
-    def test_do_assign_no_longer_directly_mutates_params(self, src):
-        body = self._extract_method_body(src, "do_assign")
+    def test_do_assign_no_longer_directly_mutates_params(self, migrated_src):
+        body = self._extract_method_body(migrated_src, "do_assign")
         assert "self.params[param] = value" not in body, (
             "do_assign should delegate mutation to apply_assign, not assign self.params directly"
         )
@@ -197,12 +206,12 @@ class TestLazyOwnAssignWiring:
         body = self._extract_method_body(src, "complete_assign")
         assert "self.params" in body, "completion must be data-driven from self.params"
 
-    def test_do_show_uses_format_payload(self, src):
-        body = self._extract_method_body(src, "do_show")
+    def test_do_show_uses_format_payload(self, migrated_src):
+        body = self._extract_method_body(migrated_src, "do_show")
         assert "_format_payload(self.params)" in body
 
-    def test_do_payload_refreshes_aliases(self, src):
-        body = self._extract_method_body(src, "do_payload")
+    def test_do_payload_refreshes_aliases(self, migrated_src):
+        body = self._extract_method_body(migrated_src, "do_payload")
         assert "self.aliases.update(" in body
         assert "_load_aliases(self.params)" in body
 

@@ -30,15 +30,52 @@ COLLAB_MODULE = REPO_ROOT / "modules" / "collab_bp.py"
 # ---------------------------------------------------------------------------
 
 def _make_app():
-    """Build a minimal Flask app with collab_bp registered."""
+    """Build a minimal Flask app with collab_bp registered.
+
+    The collab endpoints were hardened with ``flask-login`` auth
+    (``_collab_login_required`` / ``_collab_permission_required``), so the
+    test app installs a login manager that auto-authenticates a test
+    operator on every request. This exercises the real authenticated code
+    path instead of bypassing the guard.
+    """
     from collab_bp import collab_bp
     from flask import Flask
 
     app = Flask(__name__, template_folder=str(REPO_ROOT / "templates"))
     app.config["TESTING"] = True
+    app.secret_key = "collab-test-secret"
     app.config["LAZYOWN_CONFIG"] = {"lhost": "127.0.0.1", "c2_port": 4444}
     app.register_blueprint(collab_bp, url_prefix="/collab")
+    _install_test_login(app)
     return app
+
+
+def _install_test_login(app):
+    """Attach ``flask-login`` with an always-authenticated test operator.
+
+    A no-op when ``flask-login`` is unavailable, mirroring the collab
+    blueprint's own ``_AUTH_AVAILABLE`` fallback so the tests match runtime
+    behaviour on either configuration.
+    """
+    try:
+        from flask_login import LoginManager, UserMixin, login_user
+    except Exception:
+        return
+
+    class _TestOperator(UserMixin):
+        id = "tester"
+        username = "tester"
+
+    login_manager = LoginManager()
+    login_manager.init_app(app)
+
+    @login_manager.user_loader
+    def _load_user(user_id):
+        return _TestOperator()
+
+    @app.before_request
+    def _auto_login():
+        login_user(_TestOperator())
 
 
 # ---------------------------------------------------------------------------
@@ -409,27 +446,32 @@ class TestCollabTemplate:
 
 
 # ---------------------------------------------------------------------------
-# Gap #3 — collab_join CLI command presence in lazyown.py
+# Gap #3 — collab_join CLI command presence in the migrated command set
 # ---------------------------------------------------------------------------
 
 class TestCollabJoinCLICommand:
     @pytest.fixture(scope="class")
-    def lazyown_text(self) -> str:
-        return (REPO_ROOT / "lazyown.py").read_text(encoding="utf-8")
+    def command_src(self) -> str:
+        """Text of the module that defines ``do_collab_join``.
 
-    def test_collab_join_defined(self, lazyown_text):
-        assert "def do_collab_join" in lazyown_text
+        The monolith split moved ``do_collab_join`` from ``lazyown.py`` into
+        ``cli/commands/misc_migrated.py``.
+        """
+        return (REPO_ROOT / "cli" / "commands" / "misc_migrated.py").read_text(encoding="utf-8")
 
-    def test_collab_join_uses_lhost(self, lazyown_text):
-        assert 'params.get("lhost")' in lazyown_text
+    def test_collab_join_defined(self, command_src):
+        assert "def do_collab_join" in command_src
 
-    def test_collab_join_uses_c2_port(self, lazyown_text):
-        assert 'params.get("c2_port")' in lazyown_text
+    def test_collab_join_uses_lhost(self, command_src):
+        assert "params['lhost']" in command_src or 'params.get("lhost")' in command_src
 
-    def test_collab_join_prints_ui_url(self, lazyown_text):
-        assert "/collab/" in lazyown_text
+    def test_collab_join_uses_c2_port(self, command_src):
+        assert "params['c2_port']" in command_src or 'params.get("c2_port")' in command_src
 
-    def test_collab_join_has_docstring(self, lazyown_text):
-        idx = lazyown_text.index("def do_collab_join")
-        snippet = lazyown_text[idx: idx + 600]
+    def test_collab_join_prints_ui_url(self, command_src):
+        assert "/collab/" in command_src
+
+    def test_collab_join_has_docstring(self, command_src):
+        idx = command_src.index("def do_collab_join")
+        snippet = command_src[idx: idx + 600]
         assert '"""' in snippet

@@ -231,5 +231,24 @@ def main() -> None:
 
     cleanup_temp_files()
 
+
+from modules.lazygptcli2 import process_prompt
+from modules.lazygptcli3 import process_prompt_script
+from modules.lazygptcli4 import process_prompt_adversary
+from modules.lazygptcli5 import process_prompt_deepseek, process_prompt_general
+
+__all__ = [
+    "process_prompt",
+    "process_prompt_script",
+    "process_prompt_adversary",
+    "process_prompt_deepseek",
+    "process_prompt_general",
+    "load_knowledge_base",
+    "save_knowledge_base",
+    "add_to_knowledge_base",
+    "get_relevant_knowledge",
+    "transform_knowledge_base",
+]
+
 if __name__ == "__main__":
     main()

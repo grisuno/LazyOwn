@@ -1395,6 +1395,21 @@ class CommandCatalog:
         add(CatalogEntry("get_avaible_actions", "report", "T0000",
             description="List all available LazyOwn actions for current state",
             priority=5))
+        add(CatalogEntry("exploit_recommend", "exploit", "T1203",
+            description="AI exploit recommendation engine — matches services to CVEs",
+            priority=1, tags=["ai", "exploit", "cve"]))
+        add(CatalogEntry("evasion_generate", "c2", "T1573",
+            description="Generate C2 malleable evasion profile",
+            priority=2, tags=["evasion", "c2", "profile"]))
+        add(CatalogEntry("evasion_rotate", "c2", "T1573",
+            description="Rotate to a new evasion profile",
+            priority=3, tags=["evasion", "c2"]))
+        add(CatalogEntry("pivot_status", "lateral", "T1090",
+            description="View active pivot routes and proxychains config",
+            priority=2, tags=["pivot", "proxy"]))
+        add(CatalogEntry("dashboard", "report", "T0000",
+            description="Live network map dashboard with phase progress",
+            priority=3, tags=["dashboard", "visualization"]))
 
     def by_phase(self, phase: str) -> list[CatalogEntry]:
         return sorted(

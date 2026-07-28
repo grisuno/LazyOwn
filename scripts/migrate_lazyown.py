@@ -29,9 +29,9 @@ OUTPUT_DIR = Path("cli/commands")
 
 MODULE_GLOBALS = [
     "api_key",
-    "route_maleable",
-    "win_useragent_maleable",
-    "lin_useragent_maleable",
+    "route_malleable",
+    "win_useragent_malleable",
+    "lin_useragent_malleable",
     "rhost",
     "lhost",
     "c2_user",
@@ -44,9 +44,9 @@ MODULE_GLOBALS = [
     "user_agent_1",
     "user_agent_2",
     "user_agent_3",
-    "url_trafic_1",
-    "url_trafic_2",
-    "url_trafic_3",
+    "url_traffic_1",
+    "url_traffic_2",
+    "url_traffic_3",
 ]
 
 CATEGORY_TO_PHASE: dict[str, str] = {

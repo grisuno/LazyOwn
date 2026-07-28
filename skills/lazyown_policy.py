@@ -1697,6 +1697,199 @@ def _default_sleep(seconds: float) -> None:
     _time.sleep(max(0.0, seconds))
 
 
+SCOPE_KEY = "scope"
+SCOPE_ENFORCEMENT_KEY = "scope_enforcement"
+ENFORCEMENT_OFF = "off"
+ENFORCEMENT_WARN = "warn"
+ENFORCEMENT_ENFORCE = "enforce"
+
+
+_SCOPE_GUARD_MODULE_NAME = "_lazyown_scope_guard_isolated"
+_scope_guard_cache: Any = None
+
+
+def _load_scope_guard() -> Any:
+    """Load ``cli/scope_guard.py`` directly from its file path (cached).
+
+    The scope guard is pure standard library, but importing it through the
+    ``cli`` package triggers ``cli/__init__.py`` which pulls the full cmd2
+    command stack. Loading the module file in isolation keeps this gate
+    dependency-light and side-effect free. The loaded module is registered
+    in ``sys.modules`` before execution so ``@dataclass`` under
+    ``from __future__ import annotations`` can resolve its own type
+    namespace, and the result is cached across calls.
+
+    Returns:
+        The loaded ``scope_guard`` module.
+
+    Raises:
+        ImportError: When the module spec or loader cannot be built.
+        OSError: When the module file cannot be read.
+    """
+    global _scope_guard_cache
+    if _scope_guard_cache is not None:
+        return _scope_guard_cache
+
+    import importlib.util
+
+    base = Path(__file__).resolve().parent.parent
+    module_path = base / "cli" / "scope_guard.py"
+    spec = importlib.util.spec_from_file_location(_SCOPE_GUARD_MODULE_NAME, module_path)
+    if spec is None or spec.loader is None:
+        raise ImportError(f"cannot build spec for {module_path}")
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[_SCOPE_GUARD_MODULE_NAME] = module
+    try:
+        spec.loader.exec_module(module)
+    except Exception:
+        sys.modules.pop(_SCOPE_GUARD_MODULE_NAME, None)
+        raise
+    _scope_guard_cache = module
+    return module
+
+
+def _default_in_scope(target: str, entries: Sequence[str]) -> bool:
+    """Return whether *target* is inside *entries*, failing closed on error.
+
+    Backed by ``cli.scope_guard.target_in_scope`` loaded in isolation. When
+    the scope guard cannot be loaded the predicate returns ``False`` so an
+    unverifiable scope check denies an out-of-scope step under ``enforce``
+    rather than attacking an unauthorized host.
+
+    Args:
+        target: The active target (IP address or hostname).
+        entries: Normalized authorized scope entries.
+
+    Returns:
+        ``True`` when the target is authorized by at least one entry.
+    """
+    try:
+        return bool(_load_scope_guard().target_in_scope(target, entries))
+    except Exception:
+        return False
+
+
+def _normalize_scope(entries: object) -> tuple[str, ...]:
+    """Normalize raw payload scope entries into a clean tuple.
+
+    Delegates to ``cli.scope_guard.normalize_scope`` and falls back to a
+    conservative string strip when the guard cannot be loaded.
+
+    Args:
+        entries: Raw ``payload.json[scope]`` value (typically a list).
+
+    Returns:
+        A tuple of non-empty, stripped scope entries.
+    """
+    try:
+        return tuple(_load_scope_guard().normalize_scope(entries))
+    except Exception:
+        if isinstance(entries, (list, tuple)):
+            return tuple(str(item).strip() for item in entries if str(item).strip())
+        return ()
+
+
+class ScopeBoundAutoGate:
+    """Headless approval gate backing the fully autonomous engage mode.
+
+    Drop-in replacement for :class:`ApprovalGate` that never blocks on a
+    human decision. Every request resolves immediately from the authorized
+    scope declared in ``payload.json``:
+
+    - scope empty OR ``scope_enforcement`` is ``off`` : APPROVED. The scope
+      guard is dormant, so unattended autonomy runs unconstrained.
+    - target inside scope                             : APPROVED.
+    - target outside scope, enforcement ``warn``      : APPROVED, with a
+      rationale flagging the out-of-scope target for the narrator/audit log.
+    - target outside scope, enforcement ``enforce``   : DENIED. This is the
+      single fail-closed boundary unattended autonomy must keep — the
+      engagement's legal authorization limit.
+
+    The payload is read at request time (never cached) so an operator can
+    tighten scope with ``scope enforce`` mid-run and have the next step
+    honour it.
+
+    SOLID:
+      S — owns only the scope-versus-target decision; no I/O beyond reading
+          the payload it is configured with.
+      L — honours the same ``request`` signature and ``ApprovalOutcome``
+          return type as :class:`ApprovalGate`, so ``EngageOrchestrator``
+          consumes either interchangeably.
+      D — the scope predicate is injected via ``in_scope_fn`` so the gate is
+          unit-testable without loading ``cli.scope_guard``.
+    """
+
+    def __init__(
+        self,
+        payload_path: Path | None = None,
+        in_scope_fn: Any = None,
+    ) -> None:
+        base = Path(__file__).resolve().parent.parent
+        self._payload_path = payload_path or (base / "payload.json")
+        self._in_scope = in_scope_fn or _default_in_scope
+
+    def _read_payload(self) -> dict:
+        """Return the parsed payload, or an empty dict on any read error."""
+        try:
+            return json.loads(self._payload_path.read_text(encoding="utf-8"))
+        except Exception:
+            return {}
+
+    def request(
+        self,
+        target: str,
+        phase: str,
+        command: str,
+        reason: str = "",
+    ) -> ApprovalOutcome:
+        """Return an ApprovalOutcome without ever prompting a human.
+
+        Args:
+            target: Target the step will run against.
+            phase: Engagement phase tag (recon, enum, exploit, ...).
+            command: LazyOwn command line about to execute.
+            reason: Optional caller rationale, retained for interface parity
+                with :class:`ApprovalGate`.
+
+        Returns:
+            APPROVED for every in-scope step and for every step when the
+            scope guard is dormant; DENIED only for an out-of-scope target
+            under ``enforce``.
+        """
+        payload = self._read_payload()
+        entries = _normalize_scope(payload.get(SCOPE_KEY, []))
+        enforcement = str(
+            payload.get(SCOPE_ENFORCEMENT_KEY, ENFORCEMENT_WARN)
+        ).strip().lower()
+
+        if not entries or enforcement == ENFORCEMENT_OFF:
+            return ApprovalOutcome(
+                decision=ApprovalDecision.APPROVED,
+                approval_id="",
+                rationale="scope guard dormant",
+            )
+
+        if self._in_scope(target, entries):
+            return ApprovalOutcome(
+                decision=ApprovalDecision.APPROVED,
+                approval_id="",
+                rationale="target in scope",
+            )
+
+        if enforcement == ENFORCEMENT_ENFORCE:
+            return ApprovalOutcome(
+                decision=ApprovalDecision.DENIED,
+                approval_id="",
+                rationale=f"out of scope: {target} not in authorized scope (enforce)",
+            )
+
+        return ApprovalOutcome(
+            decision=ApprovalDecision.APPROVED,
+            approval_id="",
+            rationale=f"out of scope: {target} (warn — executed and flagged)",
+        )
+
+
 # ─── History bootstrapper ─────────────────────────────────────────────────────
 
 

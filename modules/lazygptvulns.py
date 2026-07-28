@@ -40,9 +40,9 @@ BASE_DIR += "/sessions/"
 with open('payload.json', 'r') as file:
     config = json.load(file)
     api_key = config.get("api_key")
-    route_maleable = config.get("c2_maleable_route")
-    win_useragent_maleable = config.get("user_agent_win")
-    lin_useragent_maleable = config.get("user_agent_lin")
+    route_malleable = config.get("c2_malleable_route")
+    win_useragent_malleable = config.get("user_agent_win")
+    lin_useragent_malleable = config.get("user_agent_lin")
     rhost = config.get("rhost")
 
 def load_event_config():

@@ -3647,7 +3647,11 @@ async def list_tools() -> list[types.Tool]:
                 "ApprovalGate (gated by payload.auto_approve), retries via the "
                 "bridge catalog when a tool fails, and narrates progress to "
                 "sessions/engagement.log + collab feed. Returns the engagement "
-                "id when detach=true (default) so callers can poll progress."
+                "id when detach=true (default) so callers can poll progress. "
+                "With auto=true the run is fully unattended: a ScopeBoundAutoGate "
+                "replaces the ApprovalGate (approves in-scope steps, denies "
+                "out-of-scope targets under scope_enforcement=enforce, never "
+                "prompts) and a client-ready report is written to sessions/."
             ),
             inputSchema={
                 "type": "object",
@@ -3665,6 +3669,15 @@ async def list_tools() -> list[types.Tool]:
                         "type": "boolean",
                         "description": "Run the engagement in a background thread (default true).",
                         "default": True,
+                    },
+                    "auto": {
+                        "type": "boolean",
+                        "description": (
+                            "Full auto mode with no human in the loop. Scope acts as "
+                            "the fail-closed safety boundary and a report is generated "
+                            "on completion. Default false."
+                        ),
+                        "default": False,
                     },
                 },
                 "required": ["target"],
@@ -9267,6 +9280,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 target=target,
                 max_switches_per_step=int(arguments.get("max_switches_per_step", 3)),
                 detach=bool(arguments.get("detach", True)),
+                auto=bool(arguments.get("auto", False)),
             ))
         except Exception as exc:
             return text(f"[engage_target error] {exc}")

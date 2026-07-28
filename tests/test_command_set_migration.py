@@ -1,18 +1,21 @@
-"""Tests for the incremental migration of ``LazyOwnShell`` commands.
+"""Tests for the completed migration of ``LazyOwnShell`` commands.
 
-The migration moves ``do_*`` methods out of ``lazyown.py`` into phase-
-scoped :class:`cmd2.CommandSet` subclasses under ``cli/commands/``. While
-the originals still live in ``LazyOwnShell`` the new modules inherit from
-:class:`cli.commands._dormancy.PendingCommandSet`, so they coexist
-without collisions.
+The migration moved ``do_*`` methods out of ``lazyown.py`` into phase-
+scoped :class:`cmd2.CommandSet` subclasses under ``cli/commands/``. The
+monolith split finished that work: the migrated modules now inherit from
+the active :class:`cli.commands._base.LazyOwnCommandSet`, the duplicated
+originals were removed from ``LazyOwnShell``, and no set remains dormant.
 
 These tests pin down three invariants:
 
-1. The dormancy mechanism: pending sets are discovered (so they are
-   testable) but excluded from :func:`cli.registry.register_command_sets`.
-2. Coverage parity: every legacy ``do_*`` method targeted by a migrated
-   set still appears on :class:`LazyOwnShell` (no premature deletion)
-   and is mirrored on the migrated set (no missing migrations).
+1. Activation: migrated sets subclass the active base (not the dormant
+   :class:`cli.commands._dormancy.PendingCommandSet`), survive
+   ``include_pending=False`` discovery, and register on the shell. The
+   dormancy primitives are still unit-tested with synthetic classes so the
+   mechanism stays available for any future staged migration.
+2. Deduplication: every migrated ``do_*`` method is gone from
+   :class:`LazyOwnShell` (no lingering duplicate) while the migrated set
+   still exposes its ``do_*`` commands.
 3. Production hygiene: migrated module bodies do not contain emoji or
    ``TODO``/``FIXME`` comment markers, in line with the project coding
    standards.
@@ -168,14 +171,24 @@ class TestDormancyMechanism:
         for class_name in MIGRATED_MODULES.values():
             assert class_name in discovered, f"{class_name} should be discovered"
 
-    def test_iter_command_sets_excludes_pending_when_requested(self) -> None:
+    def test_migrated_sets_active_when_pending_excluded(self) -> None:
         from cli.registry import iter_command_sets
 
         active = {c.__name__ for c in iter_command_sets(include_pending=False)}
         for class_name in MIGRATED_MODULES.values():
-            assert class_name not in active, f"{class_name} should be filtered out when include_pending=False"
+            assert class_name in active, (
+                f"{class_name} completed migration and is active; it must survive "
+                "include_pending=False"
+            )
 
-    def test_register_skips_pending_sets(self) -> None:
+    def test_no_command_sets_remain_dormant(self) -> None:
+        from cli.commands._dormancy import is_pending
+        from cli.registry import iter_command_sets
+
+        pending = sorted(c.__name__ for c in iter_command_sets(include_pending=True) if is_pending(c))
+        assert pending == [], f"migration is complete; no set should remain dormant, found {pending}"
+
+    def test_register_includes_migrated_sets(self) -> None:
         import cmd2
 
         from cli.registry import register_command_sets
@@ -186,7 +199,7 @@ class TestDormancyMechanism:
         shell = _Bare()
         registered = {c.__class__.__name__ for c in register_command_sets(shell)}
         for class_name in MIGRATED_MODULES.values():
-            assert class_name not in registered, f"{class_name} should not register while pending"
+            assert class_name in registered, f"{class_name} is active and must register on the shell"
 
 
 class TestShellForwarding:
@@ -254,12 +267,14 @@ class TestMigratedSetsStructure:
         "module_name, class_name",
         sorted(MIGRATED_MODULES.items()),
     )
-    def test_class_imports_and_subclasses_pending(self, module_name: str, class_name: str) -> None:
-        from cli.commands._dormancy import PendingCommandSet
+    def test_class_imports_and_subclasses_active(self, module_name: str, class_name: str) -> None:
+        from cli.commands._base import LazyOwnCommandSet
+        from cli.commands._dormancy import is_pending
 
         module = __import__(f"cli.commands.{module_name}", fromlist=[class_name])
         cls = getattr(module, class_name)
-        assert issubclass(cls, PendingCommandSet)
+        assert issubclass(cls, LazyOwnCommandSet)
+        assert not is_pending(cls), f"{class_name} migration is complete; it must not stay dormant"
         assert cls.phase == EXPECTED_PHASES[class_name]
         assert cls.category, f"{class_name} must declare a non-empty category"
 
@@ -286,17 +301,14 @@ class TestParityWithLegacyShell:
         "module_name, class_name",
         sorted(MIGRATED_MODULES.items()),
     )
-    def test_every_legacy_method_is_mirrored(self, module_name: str, class_name: str) -> None:
-        legacy = _legacy_methods_by_category(EXPECTED_CATEGORY_DECORATORS[class_name])
-        legacy_names: set[str] = set().union(*legacy.values())
+    def test_migrated_set_exposes_do_methods(self, module_name: str, class_name: str) -> None:
         class_node = _parse_class(_module_path(module_name), class_name)
         migrated_names = {
             item.name for item in class_node.body if isinstance(item, ast.FunctionDef) and item.name.startswith("do_")
         }
-        missing = legacy_names - migrated_names
-        assert not missing, f"{class_name} is missing migrated copies of: {sorted(missing)}"
+        assert migrated_names, f"{class_name} must define at least one migrated do_* command"
 
-    def test_legacy_originals_still_present(self) -> None:
+    def test_migrated_originals_removed_from_shell(self) -> None:
         shell = _parse_class(LAZYOWN_PATH, LEGACY_SHELL_CLASS_NAME)
         legacy_do_methods = {
             item.name for item in shell.body if isinstance(item, ast.FunctionDef) and item.name.startswith("do_")
@@ -308,11 +320,10 @@ class TestParityWithLegacyShell:
                 for item in class_node.body
                 if isinstance(item, ast.FunctionDef) and item.name.startswith("do_")
             }
-            missing_in_shell = migrated_names - legacy_do_methods
-            assert not missing_in_shell, (
-                f"{class_name} migrated do_* methods absent from "
-                f"LazyOwnShell (originals must remain until deletion "
-                f"phase): {sorted(missing_in_shell)}"
+            still_duplicated = migrated_names & legacy_do_methods
+            assert not still_duplicated, (
+                f"{class_name} migrated do_* methods are still duplicated on "
+                f"LazyOwnShell after the monolith split: {sorted(still_duplicated)}"
             )
 
 

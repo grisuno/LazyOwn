@@ -34,6 +34,49 @@ from utils import (
     print_warn,
 )
 
+from core.config import save_payload as _save_payload
+from cli.aliases import load_aliases as _load_aliases
+from cli.autosuggest import render_hint_line as _render_autosuggest_hint
+from cli.banner_config import banner_summary as _banner_summary
+from cli.banner_config import configure_banner_interactive as _configure_banner_interactive
+from cli.graph_advisor import GraphAdvisor as _GraphAdvisor
+from cli.graph_advisor import format_god_nodes as _format_god_nodes
+from cli.graph_advisor import format_neighbors as _format_neighbors
+from cli.graph_advisor import format_search_table as _format_search_table
+from cli.ops_commands import PHASES as _PHASES
+from cli.ops_commands import loot_graph as _loot_graph
+from cli.ops_commands import loot_mark as _loot_mark
+from cli.ops_commands import loot_reuse as _loot_reuse
+from cli.ops_commands import loot_search as _loot_search
+from cli.ops_commands import loot_show as _loot_show
+from cli.ops_commands import note_add as _note_add
+from cli.ops_commands import note_list as _note_list
+from cli.ops_commands import pivot_add as _pivot_add
+from cli.ops_commands import pivot_list as _pivot_list
+from cli.ops_commands import print_ctx as _print_ctx
+from cli.ops_commands import print_phase as _print_phase
+from cli.ops_commands import read_phase as _read_phase
+from cli.ops_commands import scans_list as _scans_list
+from cli.ops_commands import sitrep as _sitrep
+from cli.ops_commands import tasks_add as _tasks_add
+from cli.ops_commands import tasks_done as _tasks_done
+from cli.ops_commands import tasks_list as _tasks_list
+from cli.ops_commands import tasks_start as _tasks_start
+from cli.ops_commands import tgrep as _tgrep
+from cli.ops_commands import write_phase as _write_phase
+from cli.palette import CommandIndexError as _CommandIndexError
+from cli.palette import load_index as _load_command_index
+from cli.palette_command import PaletteRenderConfig as _PaletteRenderConfig
+from cli.palette_command import render as _render_palette
+from cli.show import format_payload as _format_payload
+from cli.wizard import run as _run_wizard
+from modules.module_registry import ModuleRegistry as _ModuleRegistry
+from modules.module_registry import format_module_detail as _format_module_detail
+from modules.module_registry import format_module_table as _format_module_table
+from modules.payload_factory import format_payload_table as _format_payload_table
+
+_PALETTE_RENDER_CONFIG = _PaletteRenderConfig()
+
 
 class MiscMigratedCommandSet(LazyOwnCommandSet):
     phase = "misc"
@@ -527,7 +570,7 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
         if not args:
             tenants = tm.list_tenants()
             active = tm.get_active()
-            print_info(f"{BOLD}Tenants:{RESET}")
+            print_msg(f"{BOLD}Tenants:{RESET}")
             for t in tenants:
                 marker = f"{GREEN}* {RESET}" if active and active.tenant_id == t.tenant_id else "  "
                 print_msg(f"  {marker}{t.tenant_id:<20} {t.name:<30} {t.sessions_dir}")
@@ -543,7 +586,7 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
                 print_msg(f"{GREEN}Switched to tenant: {tc.name}{RESET}")
                 print_msg(f"  Payload: {tc.payload_path}")
                 print_msg(f"  Sessions: {tc.sessions_dir}")
-                print_info("Reload the shell or run 'load_payload' to apply the new configuration.")
+                print_msg("Reload the shell or run 'load_payload' to apply the new configuration.")
             except ValueError as e:
                 print_error(str(e))
         elif action == "create":
@@ -570,7 +613,7 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
                 print_warn("No active tenant.")
         else:
             print_error(f"Unknown action: {action}")
-            print_info("Available: switch, create, info")
+            print_msg("Available: switch, create, info")
 
     @cmd2.with_category("12. Miscellaneous")
     def do_scope(self, line):
@@ -1246,6 +1289,7 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
 
         Usage:
             engage <target>                  Run synchronously on the target IP
+            engage <target> --auto           Full auto mode: no human in the loop
             engage <target> --background     Detach into a background worker
             engage <target> --max-switches N Set per-step fallback retry limit
             engage --status                  Tail the engagement log + show pending approvals
@@ -1261,6 +1305,14 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
         alternative. Every action is narrated to ``sessions/engagement.log``
         and broadcast through ``modules.collab_bp`` so connected teammates
         see the kill-chain in real time.
+
+        With ``--auto`` the engagement runs with no human in the loop. The
+        ApprovalGate is replaced by a ``ScopeBoundAutoGate`` that never
+        prompts: it approves every step whose target is inside the authorized
+        ``scope`` (or when the scope guard is dormant) and denies any
+        out-of-scope target while ``scope_enforcement`` is ``enforce`` — the
+        single fail-closed boundary unattended autonomy keeps. When the
+        kill-chain finishes a client-ready report is written to ``sessions/``.
 
         :param line: Target IP plus optional flags.
         :type line: str
@@ -1347,8 +1399,17 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
                         return
 
         detach = "--background" in flags
-        print_msg(f"engage: target={target} background={detach} max_switches={max_switches}")
-        print_msg(_engage(target=target, max_switches_per_step=max_switches, detach=detach))
+        auto = "--auto" in flags
+        print_msg(
+            f"engage: target={target} background={detach} "
+            f"auto={auto} max_switches={max_switches}"
+        )
+        print_msg(_engage(
+            target=target,
+            max_switches_per_step=max_switches,
+            detach=detach,
+            auto=auto,
+        ))
 
     @cmd2.with_category("12. Miscellaneous")
     def do_pipeline(self, line):
@@ -2240,7 +2301,7 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
                 f"    {BG_BLACK}{RED}{BANNER}{MAGENTA}Autor: {CYAN}grisUN0{RESET}"
             )
 
-            print_msg(LazyOwnShell().intro)
+            print_msg(self.intro)
         return
 
     @cmd2.with_category("12. Miscellaneous")
@@ -3060,7 +3121,7 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
         Note: This function assumes that aliases are managed by the `LazyOwnShell` instance and are available for retrieval.
         """
 
-        aliases = LazyOwnShell().aliases
+        aliases = self.aliases
         for alias, command in aliases.items():
             print_msg(
                 f"{WHITE} Alias {GREEN} {alias}{WHITE} : Full command: {CYAN}{command}{RESET} "
